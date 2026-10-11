@@ -24,6 +24,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'farmer, mental, stamina, intellect, cognitive, expertise'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Farmer

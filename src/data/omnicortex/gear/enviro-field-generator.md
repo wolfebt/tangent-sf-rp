@@ -30,6 +30,8 @@ sockets:
   allocated: []
 tech_level: 3
 meta_level: 0
+keywords: 'enviro field generator, gear, personal-property, tl-3, deployable, projecting'
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Deployable pylon projecting a 20ft atmospheric protection dome.
 

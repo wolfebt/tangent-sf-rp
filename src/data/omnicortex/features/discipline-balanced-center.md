@@ -13,6 +13,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  balanced center, discipline, special-feature, focused-training, mastery,
+  balanced
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Balanced Center

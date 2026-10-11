@@ -30,6 +30,10 @@ sockets:
   allocated: []
 tech_level: 3
 meta_level: 0
+keywords: >-
+  multi-tool (pocket utility), gear, personal-property, tl-3, foldable,
+  precision
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Foldable precision alloy multi-tool with wire-strippers, blades, and sensors.
 

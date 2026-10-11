@@ -22,6 +22,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'physics, mental, intellect, cognitive, expertise, astrophysics'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Physics

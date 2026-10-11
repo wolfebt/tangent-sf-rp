@@ -11,6 +11,10 @@ description: 'Superb Reflexes is a Ability Feature: Roll Reflex checks with Adva
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  superb reflexes, ability, special-feature, innate-talent, passive-prowess,
+  superb
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Superb Reflexes

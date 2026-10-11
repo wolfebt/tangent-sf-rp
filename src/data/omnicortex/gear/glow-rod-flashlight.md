@@ -30,6 +30,10 @@ sockets:
   allocated: []
 tech_level: 2
 meta_level: 0
+keywords: >-
+  glow-rod / high-beam flashlight, gear, personal-property, tl-2, chemical,
+  high-luminescence
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Chemical or LED high-luminescence torch providing bright illumination.
 

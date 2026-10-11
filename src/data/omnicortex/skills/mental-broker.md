@@ -23,6 +23,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'broker, mental, intellect, cognitive, expertise, information'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Broker

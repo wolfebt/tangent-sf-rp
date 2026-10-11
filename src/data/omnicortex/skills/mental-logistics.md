@@ -23,6 +23,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'logistics, mental, intellect, cognitive, expertise, supply'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Logistics

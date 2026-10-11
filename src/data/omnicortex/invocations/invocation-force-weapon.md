@@ -7,6 +7,28 @@ description: FORCE WEAPON invocation for Energy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Celestine (Alterian)
+  - Eidolon (Aetherion Specialist)
+  - Janissary (Gen-E)
+  - Draconian (Scaled Aeld)
+recommended_factions:
+  - The Alterian Enclave
+  - The Ascendancy
+  - Military Faction Template
+  - Dracon Dynasty
+recommended_origins:
+  - Militaristic
+  - Enlightened
+  - Urban
+recommended_occupations:
+  - Soldier
+  - Adept
+  - Scout
+keywords: >-
+  force weapon, hard-light blade, kinetic edge, psionic weapon, energy sword,
+  vector spear, unyielding edge
+negative_keywords: 'blunt club, rusted iron, dull machete, projectile slug'
 ---
 
 # FORCE WEAPON Invocation

@@ -36,6 +36,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'maintenance chief, sentinel, defender, stability, order, support, repair'
+negative_keywords: 'mindless-brute, reckless, illiterate, chaotic-anarchist, unreliable'
 ---
 
 # The Maintenance Chief

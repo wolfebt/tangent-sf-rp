@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'devout, karma, special-feature, feature:, ability, reroll'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Devout

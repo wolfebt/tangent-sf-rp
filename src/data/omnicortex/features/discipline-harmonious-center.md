@@ -13,6 +13,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  harmonious center, discipline, special-feature, focused-training, mastery,
+  harmonious
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Harmonious Center

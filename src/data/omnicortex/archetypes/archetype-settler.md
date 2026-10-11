@@ -31,6 +31,8 @@ description: A hardy individual who builds and maintains settlements in untamed 
 costs:
   bp: 80
 modifiers: []
+keywords: 'settler, sentinel, defender, stability, order, builder, survivor'
+negative_keywords: 'chaotic-anarchist, unreliable, reckless-gambler'
 ---
 
 # The Settler

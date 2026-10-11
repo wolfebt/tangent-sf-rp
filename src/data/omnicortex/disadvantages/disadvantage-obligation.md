@@ -10,6 +10,8 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+keywords: 'obligation, hindrance, penalty, general, contractual, feudal'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Obligation

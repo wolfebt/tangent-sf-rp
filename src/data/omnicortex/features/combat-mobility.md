@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'mobility, combat, special-feature, combat-maneuver, tactical-edge, feature:'
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Mobility

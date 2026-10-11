@@ -32,6 +32,8 @@ description: Uses charm and bluff to swindle and exploit others for personal gai
 costs:
   bp: 80
 modifiers: []
+keywords: 'grifter, operative, artisan, adaptable, specialist, social stealth, deceiver'
+negative_keywords: 'mindless-brute, reckless, illiterate'
 ---
 
 # The Grifter

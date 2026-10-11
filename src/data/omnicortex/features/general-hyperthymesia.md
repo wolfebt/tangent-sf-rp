@@ -6,7 +6,7 @@ feature_category: General
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: Eidetic Memory, Wisdom 2
+prerequisites: 'Eidetic Memory, Wisdom 2'
 description: >-
   Highly Superior Autobiographical Memory (HSAM). The character involuntarily
   and flawlessly records every moment of their life, immune to the standard
@@ -14,6 +14,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'hyperthymesia, general, special-feature, highly, superior, autobiographical'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Hyperthymesia

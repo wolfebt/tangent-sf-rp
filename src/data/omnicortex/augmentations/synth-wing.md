@@ -31,6 +31,8 @@ sockets:
 tech_level: 0
 meta_level: 0
 stage: Negligible
+keywords: 'synth wing, augmentation, cybernetic, negligible, tl-3, general'
+negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
 ---
 Category: **4.4 Exotic Limbs (TL 4\)**
 

@@ -14,6 +14,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  great fortitude, ability, special-feature, innate-talent, passive-prowess,
+  through
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Great Fortitude

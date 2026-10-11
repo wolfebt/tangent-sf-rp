@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'acrobatic steps, general, special-feature, acrobatic, feature:, ignore'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Acrobatic Steps

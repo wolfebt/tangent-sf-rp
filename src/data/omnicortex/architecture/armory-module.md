@@ -42,6 +42,8 @@ sockets:
   allocated: []
 tech_level: 3
 meta_level: 0
+keywords: 'armory facility module, architecture, structure, standard, tl-3, reinforced'
+negative_keywords: 'mobile-infantry, personal-weapon, portable-trinket'
 ---
 Reinforced security vault fitted with Grade 3 biometric locks and specialized weapon racks.
 

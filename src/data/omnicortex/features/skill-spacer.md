@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'spacer, skill, special-feature, raised, zero-g, vacuum'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Spacer

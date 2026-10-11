@@ -22,6 +22,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'ballistic, combat, agility, tactical, offensive, defense'
+negative_keywords: 'pacifist, unarmed-civilian, helpless'
 ---
 
 # Ballistic

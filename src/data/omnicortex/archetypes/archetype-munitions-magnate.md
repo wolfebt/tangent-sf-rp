@@ -36,6 +36,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'munitions magnate, sentinel, defender, stability, order, merchant, tech'
+negative_keywords: 'mindless-brute, reckless, illiterate, chaotic-anarchist, unreliable'
 ---
 
 # The Munitions Magnate

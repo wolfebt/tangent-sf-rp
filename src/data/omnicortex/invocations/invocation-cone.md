@@ -7,6 +7,27 @@ description: CONE invocation for Energy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Draconian (Scaled Aeld)
+  - Draconic Human
+  - Janissary (Gen-E)
+  - Impyrium Regi (Gen-E)
+recommended_factions:
+  - Dracon Dynasty
+  - Radiant Impyrium
+  - Military Faction Template
+recommended_origins:
+  - Militaristic
+  - Hostile
+  - Colony
+recommended_occupations:
+  - Soldier
+  - Adept
+  - Scout
+keywords: >-
+  cone, breath weapon, flamethrower arc, frontal sweep, arc lightning spray,
+  widespread incineration, dragon breath
+negative_keywords: 'pinpoint sniper, rear defense, non-violent suppression'
 ---
 
 # CONE Invocation

@@ -22,6 +22,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'demolitionist, mental, intellect, cognitive, expertise, explosives'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Demolitionist

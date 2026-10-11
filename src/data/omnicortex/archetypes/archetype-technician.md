@@ -32,6 +32,8 @@ description: A skilled worker who maintains and repairs complex machinery.
 costs:
   bp: 80
 modifiers: []
+keywords: 'technician, savant, rational, intellect, strategist, support, utility'
+negative_keywords: 'mindless-brute, reckless, illiterate'
 ---
 
 # The Technician

@@ -36,6 +36,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'beast-handler, sentinel, defender, stability, order, pet master, utility'
+negative_keywords: 'chaotic-anarchist, unreliable, reckless-gambler'
 ---
 
 # The Beast-handler

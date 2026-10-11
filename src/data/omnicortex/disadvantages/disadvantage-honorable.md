@@ -10,6 +10,8 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+keywords: 'honorable, hindrance, penalty, general, inflexible, chivalry'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Honorable

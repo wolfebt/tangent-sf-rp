@@ -13,6 +13,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  combat reflexes, combat, special-feature, combat-maneuver, tactical-edge,
+  exceptional
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Combat Reflexes

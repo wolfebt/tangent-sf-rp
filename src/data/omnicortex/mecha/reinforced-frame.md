@@ -30,6 +30,8 @@ sockets:
   allocated: []
 tech_level: 0
 meta_level: 0
+keywords: 'reinforced frame, mecha, vehicle, large, humanoid, tl-3'
+negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
 ---
 Category: **4.3 Limb Upgrades (1 BP Per Upgrade)**
 

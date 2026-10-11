@@ -6,13 +6,18 @@ feature_category: General
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: Lightning Calculator, Intellect 4
+prerequisites: 'Lightning Calculator, Intellect 4'
 description: >-
   The character's brain bypasses standard working memory bottlenecks, allowing
-  them to perform hypercalculia and extreme high-speed mental arithmetic natively.
+  them to perform hypercalculia and extreme high-speed mental arithmetic
+  natively.
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  algorithmic cognition, general, special-feature, character's, bypasses,
+  standard
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Algorithmic Cognition

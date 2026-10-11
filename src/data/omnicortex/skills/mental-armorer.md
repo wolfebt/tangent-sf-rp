@@ -24,6 +24,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'armorer, mental, intellect, cognitive, expertise, fabricating'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Armorer

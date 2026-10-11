@@ -11,6 +11,8 @@ description: The character is a shadow.
 costs:
   bp: 3
 modifiers: []
+keywords: 'stealthy, skill, special-feature, shadow'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Stealthy

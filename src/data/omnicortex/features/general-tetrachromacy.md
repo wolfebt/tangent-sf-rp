@@ -6,13 +6,15 @@ feature_category: General
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: Awareness 2, Special (Genetically Female, or engineered variant)
+prerequisites: 'Awareness 2, Special (Genetically Female, or engineered variant)'
 description: >-
   The presence of a fourth class of cone cell in the retina allows the character
   to perceive millions of hues invisible to a standard trichromatic human.
 costs:
   bp: 3
 modifiers: []
+keywords: 'tetrachromacy, general, special-feature, presence, fourth, retina'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Tetrachromacy

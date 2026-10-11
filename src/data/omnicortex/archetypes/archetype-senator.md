@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'senator, visionary, idealist, leadership, charisma, face, leader'
+negative_keywords: 'anti-social, mute, solitary-hermit'
 ---
 
 # The Senator

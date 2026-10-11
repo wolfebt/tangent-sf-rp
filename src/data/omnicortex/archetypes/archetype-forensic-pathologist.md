@@ -31,6 +31,10 @@ description: An expert in determining cause of death and analyzing biological ev
 costs:
   bp: 80
 modifiers: []
+keywords: >-
+  forensic pathologist, savant, rational, intellect, strategist, investigation,
+  science
+negative_keywords: 'mindless-brute, reckless, illiterate'
 ---
 
 # The Forensic Pathologist

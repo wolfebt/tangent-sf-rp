@@ -11,6 +11,8 @@ description: 'Quickest is a General Feature: +30 to Movement Speed and +3 Initia
 costs:
   bp: 3
 modifiers: []
+keywords: 'quickest, general, special-feature, feature:, movement, initiative'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Quickest

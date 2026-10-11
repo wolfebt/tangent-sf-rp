@@ -11,6 +11,10 @@ description: The character can knock aside projectiles with a weapon or free han
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  deflect arrows, combat, special-feature, combat-maneuver, tactical-edge,
+  projectiles
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Deflect Arrows

@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'vital strike, combat, special-feature, combat-maneuver, tactical-edge, single'
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Vital Strike

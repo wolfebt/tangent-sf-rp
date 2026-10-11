@@ -36,6 +36,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'armorer, sentinel, defender, stability, order, crafter, support'
+negative_keywords: 'fragile, unarmored, timid, evasive-sniper, mindless-brute'
 ---
 
 # The Armorer

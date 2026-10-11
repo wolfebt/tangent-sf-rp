@@ -43,6 +43,8 @@ critical_details:
   failure_effect: []
 tech_level: 3
 meta_level: 0
+keywords: 'battle suit (standard power armor), armor, defense, dr-35, heavy-armor, tl-3'
+negative_keywords: 'unarmored, fragile, naked, high-acrobatics'
 ---
 Fully motorized military battle suit combining thick ceramic-titanium armor with servo-assisted musculature and life support.
 

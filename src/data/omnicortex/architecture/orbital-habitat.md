@@ -45,6 +45,8 @@ sockets:
   allocated: []
 tech_level: 5
 meta_level: 0
+keywords: 'orbital habitat, architecture, structure, macro-structuralism, tl-5, massive'
+negative_keywords: 'mobile-infantry, personal-weapon, portable-trinket'
 ---
 Massive rotating O'Neill cylinder generating artificial gravity, containing self-sustaining biomes, residential districts, and industrial sectors in space.
 

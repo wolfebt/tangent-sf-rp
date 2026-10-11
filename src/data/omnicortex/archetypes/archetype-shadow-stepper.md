@@ -34,6 +34,10 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: >-
+  shadow-stepper, operative, artisan, adaptable, specialist, stealth,
+  infiltration
+negative_keywords: 'heavy-plating, blunt-assault, loud, clumsy, mindless-brute'
 ---
 
 # The Shadow-stepper

@@ -44,6 +44,8 @@ critical_details:
   failure_effect: []
 tech_level: 4
 meta_level: 0
+keywords: 'composite combat shell, armor, defense, dr-20, heavy-armor, tl-4'
+negative_keywords: 'unarmored, fragile, naked, high-acrobatics'
 ---
 Advanced molded ceramics that offer superior deflection. Sleek, sealed, and favored by Entari and Syndicate shock troops.
 

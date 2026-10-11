@@ -29,6 +29,8 @@ sockets:
   allocated: []
 tech_level: 0
 meta_level: 0
+keywords: 'battle suit (bulwark), armor, defense, dr-30, heavy-armor, tl-3'
+negative_keywords: 'unarmored, fragile, naked, high-acrobatics'
 ---
 Category: HEAVY Armor
 Penalty: -2 Mobility / -10 Move

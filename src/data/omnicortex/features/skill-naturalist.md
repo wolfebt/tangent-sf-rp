@@ -11,6 +11,8 @@ description: The character is at home in the wild.
 costs:
   bp: 3
 modifiers: []
+keywords: 'naturalist, skill, special-feature'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Naturalist

@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'seize initiative, karma, special-feature, reacts, blazing, erupts'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Seize Initiative

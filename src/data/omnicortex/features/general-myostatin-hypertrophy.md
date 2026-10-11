@@ -6,7 +6,7 @@ feature_category: General
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: Strength 3, Stamina 2
+prerequisites: 'Strength 3, Stamina 2'
 description: >-
   A homozygous mutation in the MSTN gene renders the myostatin protein
   non-functional, removing biological brakes on muscle fiber proliferation. The
@@ -14,6 +14,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'myostatin hypertrophy, general, special-feature, homozygous, mutation, renders'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Myostatin Hypertrophy

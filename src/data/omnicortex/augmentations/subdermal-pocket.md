@@ -31,6 +31,8 @@ sockets:
 tech_level: 0
 meta_level: 0
 stage: Negligible
+keywords: 'subdermal pocket, augmentation, fashionware, negligible, tl-3, general'
+negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
 ---
 Category: **3\. The Civilian Standard (Fashionware & Utilities)**
 

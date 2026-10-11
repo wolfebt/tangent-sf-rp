@@ -11,6 +11,8 @@ description: The character is a social butterfly.
 costs:
   bp: 3
 modifiers: []
+keywords: 'social, skill, special-feature, butterfly'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Social

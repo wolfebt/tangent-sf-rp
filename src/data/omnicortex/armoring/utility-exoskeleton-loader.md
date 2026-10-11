@@ -43,6 +43,8 @@ critical_details:
   failure_effect: []
 tech_level: 3
 meta_level: 0
+keywords: 'utility exoskeleton (loader), armor, defense, dr-40, heavy-armor, tl-3'
+negative_keywords: 'unarmored, fragile, naked, high-acrobatics'
 ---
 An open-frame hydraulic skeleton used for heavy cargo loading and industrial assembly, amplifying physical strength.
 

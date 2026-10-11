@@ -11,6 +11,10 @@ description: The character has specialized in shaping a specific type of energy 
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  discipline focus, discipline, special-feature, focused-training, mastery,
+  specialized
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Discipline Focus

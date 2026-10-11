@@ -29,6 +29,8 @@ sockets:
   allocated: []
 tech_level: 0
 meta_level: 0
+keywords: 'clothing (diminutive), armor, defense, dr-4, light-armor, tl-3'
+negative_keywords: 'unarmored, fragile, naked'
 ---
 Category: LIGHT Armor
 Penalty: None

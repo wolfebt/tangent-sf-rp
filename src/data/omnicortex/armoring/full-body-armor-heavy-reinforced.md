@@ -29,6 +29,8 @@ sockets:
   allocated: []
 tech_level: 0
 meta_level: 0
+keywords: 'full body armor, heavy (reinforced), armor, defense, dr-20, heavy-armor, tl-3'
+negative_keywords: 'unarmored, fragile, naked, high-acrobatics'
 ---
 Category: HEAVY Armor
 Penalty: -1 Mobility / -5 Move

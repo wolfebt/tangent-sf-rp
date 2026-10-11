@@ -11,6 +11,8 @@ description: 'Quicker is a General Feature: +20 to Movement Speed and +2 Initiat
 costs:
   bp: 3
 modifiers: []
+keywords: 'quicker, general, special-feature, feature:, movement, initiative'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Quicker

@@ -22,6 +22,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'nobility, mental, intellect, cognitive, expertise, heraldry'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Nobility

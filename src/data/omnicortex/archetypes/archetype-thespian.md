@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'thespian, operative, artisan, adaptable, specialist, face, infiltrator'
+negative_keywords: 'heavy-plating, blunt-assault, loud, clumsy'
 ---
 
 # The Thespian

@@ -36,6 +36,8 @@ sockets:
   tier: Socket
   allocated: []
 tech_level: 1
+keywords: 'standard skateboard / longboard, mecha, vehicle, tiny, personal, tl-1'
+negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
 ---
 Urban deck for quick transit on paved surfaces. Grants increased movement on smooth, flat terrain.
 

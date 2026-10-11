@@ -11,6 +11,8 @@ description: The character is an academic with a broad base of learning.
 costs:
   bp: 3
 modifiers: []
+keywords: 'scholar, skill, special-feature, academic, learning'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Scholar

@@ -10,6 +10,8 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+keywords: 'dependent, hindrance, penalty, general, responsible, continuous'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Dependent

@@ -11,6 +11,8 @@ description: The character has excellent balance and steady hands.
 costs:
   bp: 3
 modifiers: []
+keywords: 'steady, skill, special-feature, excellent, balance'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Steady

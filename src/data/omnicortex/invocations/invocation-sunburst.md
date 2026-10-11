@@ -7,6 +7,27 @@ description: SUNBURST invocation for Energy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Impyrium Regi (Gen-E)
+  - Celestine (Alterian)
+  - Draconian (Scaled Aeld)
+  - Ila (Progenitor Archon)
+recommended_factions:
+  - Radiant Impyrium
+  - The Alterian Enclave
+  - Elven Providence
+recommended_origins:
+  - Enlightened
+  - Militaristic
+  - Research
+recommended_occupations:
+  - Adept
+  - Soldier
+  - Scholar
+keywords: >-
+  sunburst, solar radiance, blinding daylight, undead bane, radiant flash,
+  thermonuclear flare, blinding nova, solar strike
+negative_keywords: 'pitch darkness, shadowy deceit, nocturnal stealth, void rot'
 ---
 
 # SUNBURST Invocation

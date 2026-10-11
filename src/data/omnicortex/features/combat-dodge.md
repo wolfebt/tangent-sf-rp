@@ -11,6 +11,8 @@ description: The character is adept at dodging blows.
 costs:
   bp: 3
 modifiers: []
+keywords: 'dodge, combat, special-feature, combat-maneuver, tactical-edge, dodging'
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Dodge

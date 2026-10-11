@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'uncanny sense, special, special-feature, uncanny, feature:, awareness'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Uncanny Sense

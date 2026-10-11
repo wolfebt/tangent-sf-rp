@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'computer specialist, skill, special-feature, digital, navigating, easily'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Computer Specialist

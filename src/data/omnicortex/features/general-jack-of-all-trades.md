@@ -11,6 +11,8 @@ description: The character has picked up a little bit of everything in their tra
 costs:
   bp: 3
 modifiers: []
+keywords: 'jack-of-all-trades, general, special-feature, picked, little, everything'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Jack-of-all-trades

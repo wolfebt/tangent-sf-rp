@@ -10,6 +10,8 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+keywords: 'unlucky, hindrance, penalty, general, profound, cosmic'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Unlucky

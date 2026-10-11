@@ -44,6 +44,10 @@ sockets:
   allocated: []
 tech_level: 3
 meta_level: 0
+keywords: >-
+  cyber-clinic / street doc, architecture, structure, medical / underground,
+  tl-3, compact
+negative_keywords: 'mobile-infantry, personal-weapon, portable-trinket'
 ---
 Compact medical clinic tailored for rapid cybernetic surgery, trauma repair, and illicit biological modifications.
 

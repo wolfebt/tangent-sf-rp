@@ -11,6 +11,27 @@ costs:
   bp: 0
 modifiers: []
 discipline: Entropy + Dimension
+recommended_species:
+  - Ila (Progenitor Archon)
+  - Whisper
+  - Celestine (Alterian)
+  - Varen (Gatekeeper)
+recommended_factions:
+  - The Ascendancy
+  - The Alterian Enclave
+  - Kovian Tribunal
+recommended_origins:
+  - Research
+  - Enlightened
+  - Spacer
+recommended_occupations:
+  - Adept
+  - Scholar
+  - Specialist
+keywords: >-
+  temporal stasis, time freeze, preservation bubble, chronological lock,
+  entropic halt, dimensional suspension, absolute stasis
+negative_keywords: 'rushed haste, rapid fire, kinetic burst, unstable chaos'
 ---
 # Temporal Stasis (Composite Invocation)
 

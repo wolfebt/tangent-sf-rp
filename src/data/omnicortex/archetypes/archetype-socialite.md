@@ -35,6 +35,8 @@ description: A charismatic individual who thrives in social settings and network
 costs:
   bp: 80
 modifiers: []
+keywords: 'socialite, visionary, idealist, leadership, charisma, face, info gatherer'
+negative_keywords: 'anti-social, mute, solitary-hermit'
 ---
 
 # The Socialite

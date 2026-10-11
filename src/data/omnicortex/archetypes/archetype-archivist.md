@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'archivist, savant, rational, intellect, strategist, knowledge, utility'
+negative_keywords: 'mindless-brute, reckless, illiterate'
 ---
 
 # The Archivist

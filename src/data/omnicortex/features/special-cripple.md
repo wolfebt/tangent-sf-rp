@@ -11,6 +11,8 @@ description: 'Cripple is a Special Feature: Cause severe damage to a target''s l
 costs:
   bp: 3
 modifiers: []
+keywords: 'cripple, special, special-feature, feature:, severe, damage'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Cripple

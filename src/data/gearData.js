@@ -23,7 +23,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "State-of-the-art neuro-synthetic crystalline processor designed to host True AI agents.",
-    "mechanic": "PR 4. Capable of running full True AI and advanced intrusion suites."
+    "mechanic": "PR 4. Capable of running full True AI and advanced intrusion suites.",
+    "keywords": "advanced ai cyberdeck processor, gear, personal-property, tl-5, state-of-the-art, neuro-synthetic",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "auto-doc-unit",
@@ -43,7 +45,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Automated surgical and trauma treatment station with micro-manipulator arms.",
-    "mechanic": "Runs Operation Software (Medicine Rank 10). Stabilizes dying patients and performs surgery autonomously."
+    "mechanic": "Runs Operation Software (Medicine Rank 10). Stabilizes dying patients and performs surgery autonomously.",
+    "keywords": "auto-doc unit (robotic pod), gear, personal-property, tl-4, automated, surgical",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "backpack-storage-unit",
@@ -63,7 +67,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Ruggedized canvas and polymer pack for carrying personal supplies and expedition gear.",
-    "mechanic": "Increases personal carrying capacity by +2 Slots / Sockets."
+    "mechanic": "Increases personal carrying capacity by +2 Slots / Sockets.",
+    "keywords": "backpack / tactical storage unit, gear, personal-property, tl-1, ruggedized, canvas",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "basic-processor",
@@ -83,7 +89,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Entry-level processing unit capable of running basic software scripts.",
-    "mechanic": "PR 0. Can run standard automated operations scripts."
+    "mechanic": "PR 0. Can run standard automated operations scripts.",
+    "keywords": "basic cyberdeck processor, gear, personal-property, tl-3, entry-level, processing",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "basic-tool-kit",
@@ -103,7 +111,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Wrenches, screwdrivers, soldering iron, and manual fabrication tools.",
-    "mechanic": "Required to make Engineering and Repair checks without penalty."
+    "mechanic": "Required to make Engineering and Repair checks without penalty.",
+    "keywords": "basic tool kit, gear, personal-property, tl-2, wrenches, screwdrivers",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "biotech-device-generic",
@@ -123,7 +133,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Grown rather than manufactured device with organic neural pathways.",
-    "mechanic": "Regeneration trait (Regenerates 1 HP/hour). Feeding organic matter repairs 1d4 HP instantly (requires Trained Xenobiology)."
+    "mechanic": "Regeneration trait (Regenerates 1 HP/hour). Feeding organic matter repairs 1d4 HP instantly (requires Trained Xenobiology).",
+    "keywords": "biotech device (generic chassis), gear, personal-property, tl-4, rather, manufactured",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "clothing-high-fashion",
@@ -143,7 +155,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Designer social attire woven from luminescent and tailored prestige fabrics.",
-    "mechanic": "Prestige status symbol. Grants +1 to Social & Etiquette checks in elite society."
+    "mechanic": "Prestige status symbol. Grants +1 to Social & Etiquette checks in elite society.",
+    "keywords": "clothing (high fashion), gear, personal-property, tl-3, designer, social",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "comm-unit-telepathic",
@@ -163,7 +177,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Organic psycho-resonant crystal allowing silent psychic transmission across space.",
-    "mechanic": "Silent, un-jammable communication. Requires Trained Telepathy or Metafocus."
+    "mechanic": "Silent, un-jammable communication. Requires Trained Telepathy or Metafocus.",
+    "keywords": "comm unit (telepathic bio-node), gear, personal-property, tl-5, organic, psycho-resonant",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "comm-link-audio",
@@ -183,7 +199,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Short-range encrypted audio transceiver.",
-    "mechanic": "1-mile tactical line-of-sight range; global when linked to satellite or planetary grid."
+    "mechanic": "1-mile tactical line-of-sight range; global when linked to satellite or planetary grid.",
+    "keywords": "comm-link (subdermal / ear-piece), gear, personal-property, tl-2, short-range, encrypted",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "enviro-field-generator",
@@ -203,7 +221,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Deployable pylon projecting a 20ft atmospheric protection dome.",
-    "mechanic": "Projects 20ft radius dome. EPR 1. Provides DR 1 against ranged kinetic fire."
+    "mechanic": "Projects 20ft radius dome. EPR 1. Provides DR 1 against ranged kinetic fire.",
+    "keywords": "enviro field generator, gear, personal-property, tl-3, deployable, projecting",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "enviro-suit",
@@ -223,7 +243,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Full body containment suit protecting against vacuum and radiation hazards.",
-    "mechanic": "Provides EPR 3 (Vacuum/Radiation). Uses Supply Die (d10) for Oxygen and Power."
+    "mechanic": "Provides EPR 3 (Vacuum/Radiation). Uses Supply Die (d10) for Oxygen and Power.",
+    "keywords": "enviro suit, gear, personal-property, tl-3, containment, protecting",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "enviro-tent",
@@ -243,7 +265,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Inflatable hermetically sealed shelter with air scrubbers sheltering 4 operatives.",
-    "mechanic": "Provides full life support and atmospheric seal against hostile biospheres for 4 occupants."
+    "mechanic": "Provides full life support and atmospheric seal against hostile biospheres for 4 occupants.",
+    "keywords": "enviro-tent (hermetic shelter), gear, personal-property, tl-3, inflatable, hermetically",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "first-aid-kit",
@@ -263,7 +287,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Bandages, antiseptics, tourniquets, and basic splints.",
-    "mechanic": "Allows Medicine checks to be made without Improvised Tool penalties."
+    "mechanic": "Allows Medicine checks to be made without Improvised Tool penalties.",
+    "keywords": "first aid kit, gear, personal-property, tl-2, bandages, antiseptics",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "fusion-cutter",
@@ -283,7 +309,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Industrial high-temperature plasma arc cutter slicing through hardened hull plating.",
-    "mechanic": "Deals 1d10 Structure Points of damage per round to barriers and armor."
+    "mechanic": "Deals 1d10 Structure Points of damage per round to barriers and armor.",
+    "keywords": "fusion cutter (heavy torch), gear, personal-property, tl-3, industrial, high-temperature",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "glow-rod-flashlight",
@@ -303,7 +331,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Chemical or LED high-luminescence torch providing bright illumination.",
-    "mechanic": "Illuminates a 20ft radius cone/sphere for 12 hours."
+    "mechanic": "Illuminates a 20ft radius cone/sphere for 12 hours.",
+    "keywords": "glow-rod / high-beam flashlight, gear, personal-property, tl-2, chemical, high-luminescence",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "grav-chute",
@@ -323,7 +353,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Backpack anti-gravity emitter arresting terminal velocity for orbital or high-altitude drops.",
-    "mechanic": "Completely negates falling damage upon deployment."
+    "mechanic": "Completely negates falling damage upon deployment.",
+    "keywords": "grav-chute (drop harness), gear, personal-property, tl-4, backpack, anti-gravity",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "hand-scanner-tricorder",
@@ -343,7 +375,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Handheld active sensor array analyzing biological, radiation, and geological signatures.",
-    "mechanic": "Active sensor scanning within 50ft radius. Identifies atmospheric toxicity and life signs."
+    "mechanic": "Active sensor scanning within 50ft radius. Identifies atmospheric toxicity and life signs.",
+    "keywords": "hand scanner (multispectral), gear, personal-property, tl-3, handheld, active",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "holo-emitter",
@@ -363,7 +397,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Projects high-fidelity 3D holographic illusions and binaural directional audio.",
-    "mechanic": "Projects volumetric image within Close (10m) range. Grants +2 to Deception checks for distractions."
+    "mechanic": "Projects volumetric image within Close (10m) range. Grants +2 to Deception checks for distractions.",
+    "keywords": "holo emitter (volumetric), gear, personal-property, tl-3, projects, high-fidelity",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "holophotonic-projector",
@@ -383,7 +419,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Creates tactile, solid hard-light matter with physical mass and rigid durability.",
-    "mechanic": "Creates temporary physical cover (20 HP), furniture, or bridges. Dissolves if powered down."
+    "mechanic": "Creates temporary physical cover (20 HP), furniture, or bridges. Dissolves if powered down.",
+    "keywords": "holophotonic projector (hard light), gear, personal-property, tl-5, creates, tactile",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "image-projector",
@@ -403,7 +441,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Projects a static or looped 2D image and basic audio onto flat surfaces.",
-    "mechanic": "Visual projection up to 10m. Easily detected as artificial (Perception DC 10)."
+    "mechanic": "Visual projection up to 10m. Easily detected as artificial (Perception DC 10).",
+    "keywords": "image projector (analog/digital), gear, personal-property, tl-2, projects, static",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "restraints-mag",
@@ -423,7 +463,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Biometric magnetic lock cuffs for high-security prisoner containment.",
-    "mechanic": "Reusable. Requires Strength DC 25 to break or Hack / Electronics DC 20 to open."
+    "mechanic": "Reusable. Requires Strength DC 25 to break or Hack / Electronics DC 20 to open.",
+    "keywords": "mag restraints (electronic), gear, personal-property, tl-3, biometric, magnetic",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "mag-boots",
@@ -443,7 +485,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Electromagnetic clamp boots securing feet to ferrous hull surfaces.",
-    "mechanic": "Enables walking on metal hulls in Zero-G at half standard movement speed."
+    "mechanic": "Enables walking on metal hulls in Zero-G at half standard movement speed.",
+    "keywords": "mag-boots, gear, personal-property, tl-3, electromagnetic, securing",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "mechanics-kit-powered",
@@ -463,7 +507,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Pneumatic drivers, laser calibrators, and sonic torque wrenches.",
-    "mechanic": "+1 Bonus to Engineering and Repair checks."
+    "mechanic": "+1 Bonus to Engineering and Repair checks.",
+    "keywords": "mechanics kit (powered), gear, personal-property, tl-3, pneumatic, drivers",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "med-gel",
@@ -483,7 +529,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Aerosol antiseptic bio-foam that seals puncture wounds and knits torn flesh.",
-    "mechanic": "Restores 1d6 HP instantly on application. 1 Single Use."
+    "mechanic": "Restores 1d6 HP instantly on application. 1 Single Use.",
+    "keywords": "med-gel (bio-foam sealant), gear, personal-property, tl-3, aerosol, antiseptic",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "medkit-full",
@@ -503,7 +551,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Comprehensive paramedic field kit with diagnostic wand, cauterizer, and stims.",
-    "mechanic": "+1 Bonus to Medicine checks. Contains 5 clinical uses."
+    "mechanic": "+1 Bonus to Medicine checks. Contains 5 clinical uses.",
+    "keywords": "medkit (full field kit), gear, personal-property, tl-3, comprehensive, paramedic",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "multi-tool",
@@ -523,7 +573,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Foldable precision alloy multi-tool with wire-strippers, blades, and sensors.",
-    "mechanic": "Replicates any non-powered hand tool."
+    "mechanic": "Replicates any non-powered hand tool.",
+    "keywords": "multi-tool (pocket utility), gear, personal-property, tl-3, foldable, precision",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "omni-tool-programmable",
@@ -543,7 +595,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Forearm-mounted holographic and micro-fabrication apparatus replicating power tools.",
-    "mechanic": "Replicates powered hand tools. Grants +2 Bonus to Engineering checks."
+    "mechanic": "Replicates powered hand tools. Grants +2 Bonus to Engineering checks.",
+    "keywords": "omni-tool (programmable holographic), gear, personal-property, tl-4, forearm-mounted, holographic",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "polymorphic-liquid-metal-tool",
@@ -563,7 +617,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Smart matter tool flowing instantaneously into any custom scanner, key, or precision instrument.",
-    "mechanic": "Can transform into any scanner or mechanical tool. Grants +4 Bonus to Engineering/Repair checks."
+    "mechanic": "Can transform into any scanner or mechanical tool. Grants +4 Bonus to Engineering/Repair checks.",
+    "keywords": "polymorphic liquid metal tool, gear, personal-property, tl-5, matter, flowing",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "portable-nurse-drone",
@@ -583,7 +639,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Hovering triage assistant equipped with diagnostic sensors and surgical supply dispensers.",
-    "mechanic": "Runs Expert Software (Medicine). Grants +2 Aid Bonus to a character making a Medicine check."
+    "mechanic": "Runs Expert Software (Medicine). Grants +2 Aid Bonus to a character making a Medicine check.",
+    "keywords": "portable nurse drone, gear, personal-property, tl-4, hovering, triage",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "programmable-matter-device",
@@ -603,7 +661,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "A canister of \"smart sand\" or fluid picotech metal capable of taking structural form.",
-    "mechanic": "Reshapes into any Simple tool of Tiny size with Electronics check. [Morphic]: Stores up to 3 Blueprints to switch between as Free Action."
+    "mechanic": "Reshapes into any Simple tool of Tiny size with Electronics check. [Morphic]: Stores up to 3 Blueprints to switch between as Free Action.",
+    "keywords": "programmable matter device (picotech), gear, personal-property, tl-4, canister, \"smart",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "rations-dehydrated",
@@ -623,7 +683,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Nutrient-dense synthetic ration blocks sustaining an operative for 1 day.",
-    "mechanic": "Restores Supply Die for 1 day of survival."
+    "mechanic": "Restores Supply Die for 1 day of survival.",
+    "keywords": "rations (dehydrated pack), gear, personal-property, tl-2, nutrient-dense, synthetic",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "rebreather-air-mask",
@@ -643,7 +705,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Facial mask recycling exhaled carbon dioxide and filtering atmospheric toxins.",
-    "mechanic": "Filters toxins (EPR 2). Contains 2 hours of internal emergency oxygen."
+    "mechanic": "Filters toxins (EPR 2). Contains 2 hours of internal emergency oxygen.",
+    "keywords": "rebreather / air mask, gear, personal-property, tl-3, facial, recycling",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "regen-tank",
@@ -663,7 +727,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Medical submersion vat filled with accelerated nutrient fluid for deep cellular regeneration.",
-    "mechanic": "Heals 1 HP per hour; fully regrows lost limbs or synthetic tissues during extended rest."
+    "mechanic": "Heals 1 HP per hour; fully regrows lost limbs or synthetic tissues during extended rest.",
+    "keywords": "regen-tank (bacta submersion), gear, personal-property, tl-4, medical, submersion",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "smart-suit",
@@ -683,7 +749,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Nanotech weave that dynamically identifies and adapts to environmental hazards.",
-    "mechanic": "As a Reaction, adapts resistance to provide EPR 4 against specific environmental threats (Heat, Cold, Acid)."
+    "mechanic": "As a Reaction, adapts resistance to provide EPR 4 against specific environmental threats (Heat, Cold, Acid).",
+    "keywords": "smart suit (adaptive nanotech), gear, personal-property, tl-4, nanotech, dynamically",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "datapad",
@@ -703,7 +771,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Personal touchscreen computing tablet for accessing maps, local data networks, and files.",
-    "mechanic": "Processor Rating 0. Stores local files and connects to planetary nets."
+    "mechanic": "Processor Rating 0. Stores local files and connects to planetary nets.",
+    "keywords": "standard datapad, gear, personal-property, tl-3, personal, touchscreen",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "stim-shot",
@@ -723,7 +793,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Neural stimulant injector purging fatigue and trauma shock.",
-    "mechanic": "Removes Exhausted or Dazed conditions for 1 hour. Character suffers crash (-2 to checks) afterwards."
+    "mechanic": "Removes Exhausted or Dazed conditions for 1 hour. Character suffers crash (-2 to checks) afterwards.",
+    "keywords": "stim-shot (combat adrenaline), gear, personal-property, tl-3, neural, stimulant",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "thermal-blanket",
@@ -743,7 +815,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "High-efficiency thermal retention foil reflecting 98% of radiated body heat.",
-    "mechanic": "Grants Advantage on Survival checks vs. Extreme Cold."
+    "mechanic": "Grants Advantage on Survival checks vs. Extreme Cold.",
+    "keywords": "thermal blanket (reflective), gear, personal-property, tl-2, high-efficiency, thermal",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "trauma-patch",
@@ -763,7 +837,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Emergency adhesive dermal patch releasing clotting enzymes and stabilizers.",
-    "mechanic": "Instantly stabilizes a Dying character and stops Bleeding. 1 Single Use."
+    "mechanic": "Instantly stabilizes a Dying character and stops Bleeding. 1 Single Use.",
+    "keywords": "trauma patch (slap-patch), gear, personal-property, tl-3, emergency, adhesive",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "upgraded-processor",
@@ -783,7 +859,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "High-speed quantum co-processing unit capable of executing expert software programs.",
-    "mechanic": "PR 2. Capable of hosting and running Expert Software algorithms."
+    "mechanic": "PR 2. Capable of hosting and running Expert Software algorithms.",
+    "keywords": "upgraded cyberdeck processor, gear, personal-property, tl-4, high-speed, quantum",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "utility-harness",
@@ -803,7 +881,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Penalty: None\r\nLocations: None\r\nSockets: 1",
-    "mechanic": ""
+    "mechanic": "",
+    "keywords": "utility harness, gear, personal-property, tl-3, penalty:, none\r\nlocations:",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "water-purifier",
@@ -823,7 +903,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "Micro-filter and UV sterilizer converting irradiated or stagnant water to potable water.",
-    "mechanic": "Filters 10 liters per hour of toxic water into safe drinking water."
+    "mechanic": "Filters 10 liters per hour of toxic water into safe drinking water.",
+    "keywords": "water purifier (portable), gear, personal-property, tl-2, micro-filter, sterilizer",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   },
   {
     "id": "restraints-zip",
@@ -843,7 +925,9 @@ export const DEFAULT_GEAR = [
       "ap": 0
     },
     "description": "High-tensile nylon locking ties for securing prisoners.",
-    "mechanic": "Single use. Requires Strength DC 20 to break."
+    "mechanic": "Single use. Requires Strength DC 20 to break.",
+    "keywords": "zip restraints (pack of 10), gear, personal-property, tl-2, high-tensile, locking",
+    "negative_keywords": "primitive-stone, immaterial, intangible"
   }
 ];
 export const getGearById = (id) => DEFAULT_GEAR.find(g => g.id === id);

@@ -1,6 +1,6 @@
 ---
 id: disadvantage-species-light-blindness
-name: "Light Blindness"
+name: Light Blindness
 category: disadvantages
 disadvantage_type: Species Disadvantage
 classification: Sensory
@@ -8,9 +8,13 @@ type: Sensory
 bp_granted: 4
 costs:
   bp: -4
-description: "Abrupt exposure to bright light blinds for 1 round; then dazzled. Req: Darkvision."
-prerequisite: "Darkvision / Dark Sight"
+description: >-
+  Abrupt exposure to bright light blinds for 1 round; then dazzled. Req:
+  Darkvision.
+prerequisite: Darkvision / Dark Sight
 modifiers: []
+keywords: 'light blindness, hindrance, penalty, sensory, abrupt, exposure'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Light Blindness

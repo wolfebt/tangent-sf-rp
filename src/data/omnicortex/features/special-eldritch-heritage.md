@@ -11,6 +11,8 @@ description: 'The character carries the blood of dragons, demons, fey, or gods.'
 costs:
   bp: 3
 modifiers: []
+keywords: 'eldritch heritage, special, special-feature, carries, dragons, demons'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Eldritch Heritage

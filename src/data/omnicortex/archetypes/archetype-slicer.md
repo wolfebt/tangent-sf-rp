@@ -32,6 +32,8 @@ description: 'A master of cyberspace, skilled in infiltrating networks and steal
 costs:
   bp: 80
 modifiers: []
+keywords: 'slicer, operative, artisan, adaptable, specialist, hacking, intel'
+negative_keywords: 'mindless-brute, reckless, illiterate'
 ---
 
 # The Slicer

@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'trance, general, special-feature, meditative, conserve, energy'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Trance

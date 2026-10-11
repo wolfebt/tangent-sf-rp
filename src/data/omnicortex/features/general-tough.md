@@ -11,6 +11,8 @@ description: The character has a high threshold for pain and minor trauma.
 costs:
   bp: 3
 modifiers: []
+keywords: 'tough, general, special-feature, threshold, trauma'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Tough

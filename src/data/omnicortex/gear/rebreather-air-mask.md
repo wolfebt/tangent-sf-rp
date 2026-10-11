@@ -30,6 +30,8 @@ sockets:
   allocated: []
 tech_level: 3
 meta_level: 0
+keywords: 'rebreather / air mask, gear, personal-property, tl-3, facial, recycling'
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Facial mask recycling exhaled carbon dioxide and filtering atmospheric toxins.
 

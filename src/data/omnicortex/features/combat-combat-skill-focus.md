@@ -13,6 +13,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  combat skill focus, combat, special-feature, combat-maneuver, tactical-edge,
+  feature:
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Combat Skill Focus

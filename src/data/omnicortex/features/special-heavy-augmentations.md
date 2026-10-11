@@ -6,7 +6,7 @@ feature_category: Special
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: Augmented, Stamina 2
+prerequisites: 'Augmented, Stamina 2'
 description: >-
   The character has replaced significant portions of their body with industrial
   or military-grade hardware. These modifications are often bulky, obvious, and
@@ -14,6 +14,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'heavy augmentations, special, special-feature, replaced, significant, portions'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Heavy Augmentations

@@ -44,6 +44,10 @@ sockets:
   allocated: []
 tech_level: 3
 meta_level: 0
+keywords: >-
+  transit hub / spaceport terminal, architecture, structure, commercial /
+  transit, tl-3, sprawling
+negative_keywords: 'mobile-infantry, personal-weapon, portable-trinket'
 ---
 Sprawling transit hub featuring central vaulted atrium, landing pads, hangars, customs gates, duty-free shopping, and automated cargo storage.
 

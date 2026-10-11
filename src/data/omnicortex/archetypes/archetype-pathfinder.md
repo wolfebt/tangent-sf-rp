@@ -32,6 +32,8 @@ description: 'Ventures into the unknown, charting territories and assessing thre
 costs:
   bp: 80
 modifiers: []
+keywords: 'pathfinder, operative, artisan, adaptable, specialist, stealth, recon'
+negative_keywords: 'heavy-plating, blunt-assault, loud, clumsy'
 ---
 
 # The Pathfinder

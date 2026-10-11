@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'bureaucrat, sentinel, defender, stability, order, logistics, support'
+negative_keywords: 'mindless-brute, reckless, illiterate, chaotic-anarchist, unreliable'
 ---
 
 # The Bureaucrat

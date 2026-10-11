@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'linguist, savant, rational, intellect, strategist, intel, face'
+negative_keywords: 'mindless-brute, reckless, illiterate'
 ---
 
 # The Linguist

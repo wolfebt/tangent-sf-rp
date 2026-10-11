@@ -160,6 +160,68 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
   let items = (docsList || []).filter(i => !isOmnicortexDeleted(i, currentTombstones));
   const fallbackSeeds = getFallbackSeedForCategory(catKey);
   if (fallbackSeeds && fallbackSeeds.length > 0) {
+    const seedMap = new Map();
+    fallbackSeeds.forEach(seed => {
+      if (seed.id) seedMap.set(seed.id.toString().toLowerCase().trim(), seed);
+      if (seed.name) seedMap.set(seed.name.toString().toLowerCase().trim(), seed);
+      if (seed.title) seedMap.set(seed.title.toString().toLowerCase().trim(), seed);
+    });
+
+    // Hydrate existing docs with newly added schema fields and recommendations if missing or empty in Firestore/local storage
+    items = items.map(doc => {
+      if (!doc || typeof doc !== 'object') return doc;
+      const docId = (doc.id || '').toString().toLowerCase().trim();
+      const docName = (doc.name || '').toString().toLowerCase().trim();
+      const docTitle = (doc.title || '').toString().toLowerCase().trim();
+      const matchingSeed = seedMap.get(docId) || (docName ? seedMap.get(docName) : null) || (docTitle ? seedMap.get(docTitle) : null);
+      if (!matchingSeed) return doc;
+
+      let enriched = { ...doc };
+
+      // Array fields to backfill if empty or missing in the doc
+      const arrayFields = [
+        'recommended_factions',
+        'recommended_origins',
+        'recommended_occupations',
+        'recommended_species',
+        'recommended_skills',
+        'recommended_features',
+        'recommended_tl',
+        'recommended_ml'
+      ];
+
+      for (const field of arrayFields) {
+        const docVal = doc[field];
+        const seedVal = matchingSeed[field];
+        const hasDocVal = Array.isArray(docVal) ? docVal.length > 0 : Boolean(docVal);
+        const hasSeedVal = Array.isArray(seedVal) ? seedVal.length > 0 : Boolean(seedVal);
+        if (!hasDocVal && hasSeedVal) {
+          enriched[field] = seedVal;
+        }
+      }
+
+      // String fields to backfill if empty or missing in the doc
+      const stringFields = [
+        'keywords',
+        'negative_keywords',
+        'discipline',
+        'sphere',
+        'subdiscipline',
+        'stigma',
+        'homeworld'
+      ];
+
+      for (const field of stringFields) {
+        const docVal = (doc[field] !== undefined && doc[field] !== null) ? String(doc[field]).trim() : '';
+        const seedVal = (matchingSeed[field] !== undefined && matchingSeed[field] !== null) ? String(matchingSeed[field]).trim() : '';
+        if (!docVal && seedVal) {
+          enriched[field] = matchingSeed[field];
+        }
+      }
+
+      return enriched;
+    });
+
     const existingIds = new Set(items.map(i => (i.id || '').toString().toLowerCase().trim()));
     const missingSeeds = fallbackSeeds.filter(seed => {
       if (isOmnicortexDeleted(seed, currentTombstones)) return false;
@@ -492,6 +554,125 @@ export const DBMProvider = ({ children }) => {
       return false;
     }
   }, [showToast]);
+
+  // Sync all Canonical Origins to Firestore Cloud
+  const syncCanonicalOrigins = useCallback(async () => {
+    try {
+      showToast({ type: 'info', title: 'Syncing...', text: `Syncing ${DEFAULT_ORIGINS.length} canonical origins to cloud...` });
+      const operations = DEFAULT_ORIGINS.map(item => ({
+        ref: doc(db, 'origins', item.id),
+        data: {
+          ...item,
+          updatedAt: new Date().toISOString()
+        },
+        merge: true
+      }));
+
+      await commitChunkedBatches(operations, 450);
+      showToast({
+        type: 'success',
+        title: 'Origins Synced',
+        text: `All ${DEFAULT_ORIGINS.length} canonical origins successfully synced to Firestore.`
+      });
+      return true;
+    } catch (err) {
+      console.error('[DBMContext] syncCanonicalOrigins failed:', err);
+      showToast({
+        type: 'error',
+        title: 'Sync Failed',
+        text: err.message || 'Could not sync origins to Firestore.'
+      });
+      return false;
+    }
+  }, [showToast]);
+
+  // Sync all Canonical Occupations to Firestore Cloud
+  const syncCanonicalOccupations = useCallback(async () => {
+    try {
+      showToast({ type: 'info', title: 'Syncing...', text: `Syncing ${DEFAULT_OCCUPATIONS.length} canonical occupations to cloud...` });
+      const operations = DEFAULT_OCCUPATIONS.map(item => ({
+        ref: doc(db, 'occupations', item.id),
+        data: {
+          ...item,
+          updatedAt: new Date().toISOString()
+        },
+        merge: true
+      }));
+
+      await commitChunkedBatches(operations, 450);
+      showToast({
+        type: 'success',
+        title: 'Occupations Synced',
+        text: `All ${DEFAULT_OCCUPATIONS.length} canonical occupations successfully synced to Firestore.`
+      });
+      return true;
+    } catch (err) {
+      console.error('[DBMContext] syncCanonicalOccupations failed:', err);
+      showToast({
+        type: 'error',
+        title: 'Sync Failed',
+        text: err.message || 'Could not sync occupations to Firestore.'
+      });
+      return false;
+    }
+  }, [showToast]);
+
+  // Sync all Canonical Invocations to Firestore Cloud
+  const syncCanonicalInvocations = useCallback(async () => {
+    try {
+      showToast({ type: 'info', title: 'Syncing...', text: `Syncing ${DEFAULT_INVOCATIONS.length} canonical invocations to cloud...` });
+      const operations = DEFAULT_INVOCATIONS.map(item => ({
+        ref: doc(db, 'invocations', item.id),
+        data: {
+          ...item,
+          updatedAt: new Date().toISOString()
+        },
+        merge: true
+      }));
+
+      await commitChunkedBatches(operations, 450);
+      showToast({
+        type: 'success',
+        title: 'Invocations Synced',
+        text: `All ${DEFAULT_INVOCATIONS.length} canonical invocations successfully synced to Firestore.`
+      });
+      return true;
+    } catch (err) {
+      console.error('[DBMContext] syncCanonicalInvocations failed:', err);
+      showToast({
+        type: 'error',
+        title: 'Sync Failed',
+        text: err.message || 'Could not sync invocations to Firestore.'
+      });
+      return false;
+    }
+  }, [showToast]);
+
+  // Sync all 5 foundational recommendation datasets to Firestore Cloud
+  const syncCanonicalAllRecommendations = useCallback(async () => {
+    try {
+      showToast({ type: 'info', title: 'Syncing All Recommendations...', text: 'Syncing species, factions, origins, occupations, and invocations...' });
+      await syncCanonicalSpecies();
+      await syncCanonicalFactions();
+      await syncCanonicalOrigins();
+      await syncCanonicalOccupations();
+      await syncCanonicalInvocations();
+      showToast({
+        type: 'success',
+        title: 'Full Recommendations Synced',
+        text: 'All canonical recommendation and guidance directives successfully synced to Firestore.'
+      });
+      return true;
+    } catch (err) {
+      console.error('[DBMContext] syncCanonicalAllRecommendations failed:', err);
+      showToast({
+        type: 'error',
+        title: 'Sync Failed',
+        text: err.message || 'Could not complete full recommendations sync.'
+      });
+      return false;
+    }
+  }, [showToast, syncCanonicalSpecies, syncCanonicalFactions, syncCanonicalOrigins, syncCanonicalOccupations, syncCanonicalInvocations]);
 
   // Sync Master Species Matrix (Types, Sizes, Movements, Traits, Disadvantages, Species) to Firestore Cloud
   const syncMasterSpeciesMatrix = useCallback(async () => {
@@ -977,6 +1158,10 @@ export const DBMProvider = ({ children }) => {
       loadCompendiumCatalog,
       syncCanonicalSpecies,
       syncCanonicalFactions,
+      syncCanonicalOrigins,
+      syncCanonicalOccupations,
+      syncCanonicalInvocations,
+      syncCanonicalAllRecommendations,
       syncMasterSpeciesMatrix,
       removeOmnicortexTombstones,
       clearOmnicortexTombstones,

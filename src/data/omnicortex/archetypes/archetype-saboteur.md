@@ -31,6 +31,8 @@ description: A skilled operative who infiltrates to destroy or disrupt.
 costs:
   bp: 80
 modifiers: []
+keywords: 'saboteur, operative, artisan, adaptable, specialist, stealth, tech'
+negative_keywords: 'heavy-plating, blunt-assault, loud, clumsy, mindless-brute'
 ---
 
 # The Saboteur

@@ -10,6 +10,8 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+keywords: 'extreme morality, hindrance, penalty, general, unshakeable, aligned'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Extreme Morality

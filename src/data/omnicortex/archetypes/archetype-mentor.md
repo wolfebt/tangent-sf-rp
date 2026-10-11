@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'mentor, visionary, idealist, leadership, charisma, buffer, support'
+negative_keywords: 'mindless-brute, reckless, illiterate, anti-social, mute'
 ---
 
 # The Mentor

@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'benefit (authority), general, special-feature, recognized, within, enforcement'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Benefit (Authority)

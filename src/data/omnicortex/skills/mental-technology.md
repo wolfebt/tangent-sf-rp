@@ -24,6 +24,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'technology, mental, intellect, cognitive, expertise, hardware'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Technology

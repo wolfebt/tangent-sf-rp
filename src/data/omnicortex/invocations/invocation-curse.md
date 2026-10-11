@@ -7,6 +7,28 @@ description: CURSE invocation for Entropy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Whisper
+  - Tenen (Sha’nor Spectral)
+  - Nocturne (Kovian)
+  - Rautha Human
+recommended_factions:
+  - The Outworlds
+  - Religious Cult Faction Template
+  - Kovian Tribunal
+  - Supernatural Faction Template
+recommended_origins:
+  - Hostile
+  - Enlightened
+  - Urban
+recommended_occupations:
+  - Adept
+  - Criminal
+  - Agent
+keywords: >-
+  curse, malediction, hex, misfortune aura, doom mark, karmic unraveling, fatal
+  hex, lingering blight
+negative_keywords: 'divine blessing, fortune boost, clean aura, joyful celebration'
 ---
 
 # CURSE Invocation

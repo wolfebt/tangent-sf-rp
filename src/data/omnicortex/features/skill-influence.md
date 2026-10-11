@@ -11,6 +11,8 @@ description: The character has significant social pull within their faction or c
 costs:
   bp: 3
 modifiers: []
+keywords: 'influence, skill, special-feature, significant, social, within'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Influence

@@ -11,6 +11,10 @@ description: 'Greater Two-Weapon Fighting is a Combat Feature: Gain a third off-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  greater two-weapon fighting, combat, special-feature, combat-maneuver,
+  tactical-edge, greater
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Greater Two-Weapon Fighting

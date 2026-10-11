@@ -11,6 +11,8 @@ description: The character can detect creatures and objects by smell alone.
 costs:
   bp: 3
 modifiers: []
+keywords: 'scent, special, special-feature, detect, creatures, objects'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Scent

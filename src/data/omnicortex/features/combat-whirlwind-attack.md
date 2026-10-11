@@ -13,6 +13,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  whirlwind attack, combat, special-feature, combat-maneuver, tactical-edge,
+  whirlwind
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Whirlwind Attack

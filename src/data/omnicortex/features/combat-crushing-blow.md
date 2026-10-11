@@ -11,6 +11,10 @@ description: 'Crushing Blow is a Combat Feature: Reduce opponent''s AC.'
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  crushing blow, combat, special-feature, combat-maneuver, tactical-edge,
+  crushing
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Crushing Blow

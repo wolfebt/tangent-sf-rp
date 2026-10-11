@@ -29,6 +29,8 @@ sockets:
   allocated: []
 tech_level: 0
 meta_level: 0
+keywords: 'exoskeleton battlesuit, armor, defense, dr-40, heavy-armor, tl-3'
+negative_keywords: 'unarmored, fragile, naked, high-acrobatics'
 ---
 Category: HEAVY Armor
 Penalty: Varies (Powered)

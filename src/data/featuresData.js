@@ -50,7 +50,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] This feature acts as a **\\[Multiple\\]** selection. You must purchase it separately for Reflex, Forti...",
       "[Prerequisite] Must possess the base Feature for the chosen Save (Lightning Reflexes, Great Fortitude, or Iron Will)."
-    ]
+    ],
+    "keywords": "evasiveness, ability, special-feature, innate-talent, passive-prowess, avoiding",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "ability-great-fortitude",
@@ -101,7 +103,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...",
       "[Prerequisite] Stamina 1"
-    ]
+    ],
+    "keywords": "great fortitude, ability, special-feature, innate-talent, passive-prowess, through",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "ability-improved-evasiveness",
@@ -132,7 +136,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Prerequisite: Evasiveness.",
       "[Prerequisite] Evasiveness"
-    ]
+    ],
+    "keywords": "improved evasiveness, ability, special-feature, innate-talent, passive-prowess, improved",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "ability-improved-tolerance",
@@ -163,7 +169,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Prerequisite: Tolerance.",
       "[Prerequisite] Tolerance"
-    ]
+    ],
+    "keywords": "improved tolerance, ability, special-feature, innate-talent, passive-prowess, improved",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "ability-incredible-fortitude",
@@ -203,7 +211,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] Advantage on Fortitude Checks",
       "[Rule] Prerequisite: Great Fortitude.",
       "[Prerequisite] Great Fortitude"
-    ]
+    ],
+    "keywords": "incredible fortitude, ability, special-feature, innate-talent, passive-prowess, incredible",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "ability-indomitable-will",
@@ -243,7 +253,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] Advantage on Will Checks",
       "[Rule] Prerequisite: Iron Will.",
       "[Prerequisite] Iron Will"
-    ]
+    ],
+    "keywords": "indomitable will, ability, special-feature, innate-talent, passive-prowess, indomitable",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "ability-insightful-reason",
@@ -286,7 +298,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...",
       "[Prerequisite] Intellect 1"
-    ]
+    ],
+    "keywords": "insightful reason, ability, special-feature, innate-talent, passive-prowess, analytical",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "ability-inspired-reason",
@@ -326,7 +340,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] Advantage on Logic Checks",
       "[Rule] Prerequisite: Insightful Reason.",
       "[Prerequisite] Insightful Reason"
-    ]
+    ],
+    "keywords": "inspired reason, ability, special-feature, innate-talent, passive-prowess, inspired",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "ability-inspiring-personality",
@@ -369,7 +385,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...",
       "[Prerequisite] Charisma 1"
-    ]
+    ],
+    "keywords": "inspiring personality, ability, special-feature, innate-talent, passive-prowess, possesses",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "ability-iron-will",
@@ -412,7 +430,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...",
       "[Prerequisite] Wisdom 1"
-    ]
+    ],
+    "keywords": "iron will, ability, special-feature, innate-talent, passive-prowess, possesses",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "ability-lightning-reflexes",
@@ -455,7 +475,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...",
       "[Prerequisite] Agility 1"
-    ]
+    ],
+    "keywords": "lightning reflexes, ability, special-feature, innate-talent, passive-prowess, reacts",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "ability-mighty-surge",
@@ -486,7 +508,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Prerequisite: Potent Might.",
       "[Prerequisite] Potent Might"
-    ]
+    ],
+    "keywords": "mighty surge, ability, special-feature, innate-talent, passive-prowess, mighty",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "ability-motivating-persona",
@@ -517,7 +541,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Prerequisite: Inspiring Personality.",
       "[Prerequisite] Inspiring Personality"
-    ]
+    ],
+    "keywords": "motivating persona, ability, special-feature, innate-talent, passive-prowess, motivating",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "ability-potent-might",
@@ -560,7 +586,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...",
       "[Prerequisite] Strength 1"
-    ]
+    ],
+    "keywords": "potent might, ability, special-feature, innate-talent, passive-prowess, strength",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "ability-superb-reflexes",
@@ -600,7 +628,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] Advantage on Reflex Checks",
       "[Rule] Prerequisite: Lightning Reflexes.",
       "[Prerequisite] Lightning Reflexes"
-    ]
+    ],
+    "keywords": "superb reflexes, ability, special-feature, innate-talent, passive-prowess, superb",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "ability-tolerance",
@@ -632,7 +662,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] This feature acts as a **\\[Multiple\\]** selection. You must choose Physical Tolerance (Fortitude) or...",
       "[Prerequisite] Stamina 1 (for Physical) or Wisdom 1 (for Mental)."
-    ]
+    ],
+    "keywords": "tolerance, ability, special-feature, innate-talent, passive-prowess, character's",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "combat-agile-wrestling",
@@ -663,7 +695,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] This applies to the grapple check only; damage dealt while grappling is still calculated using Stren...",
       "[Prerequisite] Agility 1, Unarmed Combat 1"
-    ]
+    ],
+    "keywords": "agile wrestling, combat, special-feature, combat-maneuver, tactical-edge, utilizes",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-ambidextrous",
@@ -694,7 +728,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Prerequisite: Agility 2.",
       "[Prerequisite] Agility 2"
-    ]
+    ],
+    "keywords": "ambidextrous, combat, special-feature, combat-maneuver, tactical-edge, naturally",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-blind-fight",
@@ -725,7 +761,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] You do not lose your Agility bonus to Defense when attacked by an invisible attacker in melee.",
       "[Prerequisite] Awareness 1"
-    ]
+    ],
+    "keywords": "blind-fight, combat, special-feature, combat-maneuver, tactical-edge, learned",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-blockade",
@@ -756,7 +794,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Prerequisite: Strength 2.",
       "[Prerequisite] Strength 2"
-    ]
+    ],
+    "keywords": "blockade, combat, special-feature, combat-maneuver, tactical-edge, dominates",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-burst-attack",
@@ -787,7 +827,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Ballistic, Energy, or Heavy Weapon 22",
       "[Prerequisite] Ballistic, Energy, or Heavy Weapon Skill Rank 2"
-    ]
+    ],
+    "keywords": "burst attack, combat, special-feature, combat-maneuver, tactical-edge, trained",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-channel-smite",
@@ -818,7 +860,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] If the attack misses, the Invocation energy is dissipated and lost.",
       "[Prerequisite] Awakened (Energy), Attune 1"
-    ]
+    ],
+    "keywords": "channel smite, combat, special-feature, combat-maneuver, tactical-edge, technique",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-combat-casting",
@@ -866,7 +910,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +4 to Concentration",
       "[Rule] 24",
       "[Prerequisite] Attune 1"
-    ]
+    ],
+    "keywords": "combat casting, combat, special-feature, combat-maneuver, tactical-edge, trained",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-combat-expertise",
@@ -897,7 +943,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] You forfeit any bonus attacks from high skill or other features when using this action; you make one...",
       "[Prerequisite] Intellect 2"
-    ]
+    ],
+    "keywords": "combat expertise, combat, special-feature, combat-maneuver, tactical-edge, fights",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-combat-reflexes",
@@ -928,7 +976,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 33",
       "[Prerequisite] Agility 1"
-    ]
+    ],
+    "keywords": "combat reflexes, combat, special-feature, combat-maneuver, tactical-edge, exceptional",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-combat-skill-focus",
@@ -960,7 +1010,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] Multiple 34",
       "[Prerequisite] Chosen Skill 1"
-    ]
+    ],
+    "keywords": "combat skill focus, combat, special-feature, combat-maneuver, tactical-edge, feature:",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-combat-specialist",
@@ -992,7 +1044,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] \\[Multiple\\] May be taken for different weapon groups.",
       "[Prerequisite] Combat Skill 6 (Trained)"
-    ]
+    ],
+    "keywords": "combat specialist, combat, special-feature, combat-maneuver, tactical-edge, inflict",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-crushing-blow",
@@ -1023,7 +1077,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 36",
       "[Prerequisite] -"
-    ]
+    ],
+    "keywords": "crushing blow, combat, special-feature, combat-maneuver, tactical-edge, crushing",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-dead-aim",
@@ -1063,7 +1119,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Strike with Ranged Weapons",
       "[Rule] 37",
       "[Prerequisite] Wisdom 3, Ranged 6"
-    ]
+    ],
+    "keywords": "dead aim, combat, special-feature, combat-maneuver, tactical-edge, trades",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-defensive-combat-training",
@@ -1127,7 +1185,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +4 to Bull Rush",
       "[Rule] 38",
       "[Prerequisite] Combat Skill 1"
-    ]
+    ],
+    "keywords": "defensive combat training, combat, special-feature, combat-maneuver, tactical-edge, trained",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-deflect-arrows",
@@ -1158,7 +1218,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 39",
       "[Prerequisite] Agility 2, Unarmed 1"
-    ]
+    ],
+    "keywords": "deflect arrows, combat, special-feature, combat-maneuver, tactical-edge, projectiles",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-dodge",
@@ -1189,7 +1251,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Dodge bonuses stack with other Dodge bonuses (but not with themselves). This bonus is lost if you ar...",
       "[Prerequisite] Agility 1"
-    ]
+    ],
+    "keywords": "dodge, combat, special-feature, combat-maneuver, tactical-edge, dodging",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-double-slice",
@@ -1220,7 +1284,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 43",
       "[Prerequisite] Two-Weapon Fighting"
-    ]
+    ],
+    "keywords": "double slice, combat, special-feature, combat-maneuver, tactical-edge, double",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-greater-disarm",
@@ -1251,7 +1317,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 27",
       "[Prerequisite] Improved Disarm"
-    ]
+    ],
+    "keywords": "greater disarm, combat, special-feature, combat-maneuver, tactical-edge, greater",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-greater-feint",
@@ -1282,7 +1350,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 29",
       "[Prerequisite] Improved Feint"
-    ]
+    ],
+    "keywords": "greater feint, combat, special-feature, combat-maneuver, tactical-edge, greater",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-greater-trip",
@@ -1313,7 +1383,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 31",
       "[Prerequisite] Improved Trip"
-    ]
+    ],
+    "keywords": "greater trip, combat, special-feature, combat-maneuver, tactical-edge, greater",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-greater-two-weapon-defense",
@@ -1344,7 +1416,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 49",
       "[Prerequisite] Grtr. Two-Weapon Fighting"
-    ]
+    ],
+    "keywords": "greater two-weapon defense, combat, special-feature, combat-maneuver, tactical-edge, greater",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-greater-two-weapon-fighting",
@@ -1375,7 +1449,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 45",
       "[Prerequisite] Agi 4, Skill 11"
-    ]
+    ],
+    "keywords": "greater two-weapon fighting, combat, special-feature, combat-maneuver, tactical-edge, greater",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-greater-vital-strike",
@@ -1406,7 +1482,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 54",
       "[Prerequisite] Improved Vital Strike, Skill 16"
-    ]
+    ],
+    "keywords": "greater vital strike, combat, special-feature, combat-maneuver, tactical-edge, greater",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-grtr-weapon-specialization",
@@ -1437,7 +1515,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 59",
       "[Prerequisite] Imp. Weapon Spec, Skill 16"
-    ]
+    ],
+    "keywords": "grtr. weapon specialization, combat, special-feature, combat-maneuver, tactical-edge, weapon",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-imp-weapon-specialization",
@@ -1468,7 +1548,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 58",
       "[Prerequisite] Weapon Spec, Skill 11"
-    ]
+    ],
+    "keywords": "imp. weapon specialization, combat, special-feature, combat-maneuver, tactical-edge, weapon",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-improved-disarm",
@@ -1516,7 +1598,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to No attack of opportunity",
       "[Rule] 26",
       "[Prerequisite] Combat Expertise"
-    ]
+    ],
+    "keywords": "improved disarm, combat, special-feature, combat-maneuver, tactical-edge, improved",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-improved-feint",
@@ -1547,7 +1631,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 28",
       "[Prerequisite] Combat Expertise"
-    ]
+    ],
+    "keywords": "improved feint, combat, special-feature, combat-maneuver, tactical-edge, improved",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-improved-trip",
@@ -1595,7 +1681,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to No attack of opportunity",
       "[Rule] 30",
       "[Prerequisite] Combat Expertise"
-    ]
+    ],
+    "keywords": "improved trip, combat, special-feature, combat-maneuver, tactical-edge, improved",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-improved-two-weapon-defense",
@@ -1626,7 +1714,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 48",
       "[Prerequisite] Imp. Two-Weapon Fighting"
-    ]
+    ],
+    "keywords": "improved two-weapon defense, combat, special-feature, combat-maneuver, tactical-edge, improved",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-improved-two-weapon-fighting",
@@ -1657,7 +1747,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 44",
       "[Prerequisite] Agi 3, Skill 6"
-    ]
+    ],
+    "keywords": "improved two-weapon fighting, combat, special-feature, combat-maneuver, tactical-edge, improved",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-improved-vital-strike",
@@ -1688,7 +1780,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 53",
       "[Prerequisite] Vital Strike, Skill 11"
-    ]
+    ],
+    "keywords": "improved vital strike, combat, special-feature, combat-maneuver, tactical-edge, improved",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-mobility",
@@ -1728,7 +1822,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +4 defense",
       "[Rule] 42",
       "[Prerequisite] Agi 2, Dodge"
-    ]
+    ],
+    "keywords": "mobility, combat, special-feature, combat-maneuver, tactical-edge, feature:",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-multidextrous",
@@ -1759,7 +1855,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Prerequisite: Ambidextrous or Agi 4.",
       "[Prerequisite] Ambidextrous or Agi 4"
-    ]
+    ],
+    "keywords": "multidextrous, combat, special-feature, combat-maneuver, tactical-edge, feature:",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-natural-leader",
@@ -1807,7 +1905,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Administration",
       "[Rule] Prerequisite: Charisma 3, Diplomacy 6.",
       "[Prerequisite] Charisma 3, Diplomacy 6"
-    ]
+    ],
+    "keywords": "natural leader, combat, special-feature, combat-maneuver, tactical-edge, attracts",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-perfect-two-weapon-defense",
@@ -1838,7 +1938,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 50",
       "[Prerequisite] Perfect Two-Weapon Fighting"
-    ]
+    ],
+    "keywords": "perfect two-weapon defense, combat, special-feature, combat-maneuver, tactical-edge, perfect",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-perfect-two-weapon-fighting",
@@ -1869,7 +1971,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 46",
       "[Prerequisite] Agi 5, Skill 16"
-    ]
+    ],
+    "keywords": "perfect two-weapon fighting, combat, special-feature, combat-maneuver, tactical-edge, perfect",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-snatch-arrows",
@@ -1900,7 +2004,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 40",
       "[Prerequisite] Agi 4, Deflect Arrows"
-    ]
+    ],
+    "keywords": "snatch arrows, combat, special-feature, combat-maneuver, tactical-edge, snatch",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-tech-interface",
@@ -1931,7 +2037,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] Multiple selections allowed."
-    ]
+    ],
+    "keywords": "tech interface, combat, special-feature, combat-maneuver, tactical-edge, possesses",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-two-weapon-defense",
@@ -1962,7 +2070,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 47",
       "[Prerequisite] Two-Weapon Fighting"
-    ]
+    ],
+    "keywords": "two-weapon defense, combat, special-feature, combat-maneuver, tactical-edge, off-hand",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-uncanny-dodge",
@@ -1993,7 +2103,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] This does not negate the advantage an attacker gets from Feinting (see Greater Feint).",
       "[Prerequisite] Agility 4"
-    ]
+    ],
+    "keywords": "uncanny dodge, combat, special-feature, combat-maneuver, tactical-edge, reacts",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-vital-strike",
@@ -2024,7 +2136,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 52",
       "[Prerequisite] Combat Skill 6"
-    ]
+    ],
+    "keywords": "vital strike, combat, special-feature, combat-maneuver, tactical-edge, single",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-weapon-focus",
@@ -2065,7 +2179,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] \\[Multiple\\] May be taken for different weapons.",
       "[Prerequisite] Combat Skill 1"
-    ]
+    ],
+    "keywords": "weapon focus, combat, special-feature, combat-maneuver, tactical-edge, extensive",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-weapon-improvisation",
@@ -2095,7 +2211,9 @@ export const DEFAULT_FEATURES = [
     "notes": "[Rule] 56",
     "notesList": [
       "[Rule] 56"
-    ]
+    ],
+    "keywords": "weapon improvisation, combat, special-feature, combat-maneuver, tactical-edge, dangerous",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-weapon-specialization",
@@ -2127,7 +2245,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] Multiple 57",
       "[Prerequisite] Weapon Focus, Skill 6"
-    ]
+    ],
+    "keywords": "weapon specialization, combat, special-feature, combat-maneuver, tactical-edge, weapon",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "combat-whirlwind-attack",
@@ -2158,7 +2278,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 32",
       "[Prerequisite] Agi 2, Combat Expertise, Blitz Attack"
-    ]
+    ],
+    "keywords": "whirlwind attack, combat, special-feature, combat-maneuver, tactical-edge, whirlwind",
+    "negative_keywords": "pacifist, feeble, untrained-civilian"
   },
   {
     "id": "discipline-aptitude",
@@ -2199,7 +2321,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] This feature is **\\[Multiple\\]**. It may be selected again to apply to two different Discipline skil...",
       "[Prerequisite] Key Ability Score (Intellect, Wisdom, or Charisma) 1+"
-    ]
+    ],
+    "keywords": "aptitude, discipline, special-feature, focused-training, mastery, possesses",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "discipline-awakened",
@@ -2231,7 +2355,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] This feature is **\\[Multiple\\]**. Taking it a second time allows you to awaken a different Metafocus...",
       "[Prerequisite] None (often taken at Character Creation)."
-    ]
+    ],
+    "keywords": "awakened, discipline, special-feature, focused-training, mastery, opened",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "discipline-balanced-center",
@@ -2262,7 +2388,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 71",
       "[Prerequisite] Centering Exp, Discipline Exp"
-    ]
+    ],
+    "keywords": "balanced center, discipline, special-feature, focused-training, mastery, balanced",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "discipline-centering",
@@ -2302,7 +2430,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Attune",
       "[Rule] This replaces the bonus from *Centering*, it does not stack (it is an upgrade).\n\n  ### \n\n  ## **Cent...",
       "[Prerequisite] Attune 6 (Trained), Key Ability Score 2"
-    ]
+    ],
+    "keywords": "centering, discipline, special-feature, focused-training, mastery, learned",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "discipline-centering-expert",
@@ -2333,7 +2463,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 63",
       "[Prerequisite] Attune 11, Key Ability 4"
-    ]
+    ],
+    "keywords": "centering expert, discipline, special-feature, focused-training, mastery, centering",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "discipline-centering-master",
@@ -2364,7 +2496,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 64",
       "[Prerequisite] Attune 16, Key Ability 6"
-    ]
+    ],
+    "keywords": "centering master, discipline, special-feature, focused-training, mastery, centering",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "discipline-discipline-empower",
@@ -2395,7 +2529,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 68",
       "[Prerequisite] Discipline Focus, Attune 6"
-    ]
+    ],
+    "keywords": "discipline empower, discipline, special-feature, focused-training, mastery, empower",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "discipline-discipline-expertise",
@@ -2426,7 +2562,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 66",
       "[Prerequisite] Discipline Focus, Skill 11"
-    ]
+    ],
+    "keywords": "discipline expertise, discipline, special-feature, focused-training, mastery, expertise",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "discipline-discipline-focus",
@@ -2467,7 +2605,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] This feature is **\\[Multiple\\]**; you may take it for different Discipline skills.",
       "[Prerequisite] Chosen Discipline Skill 6 (Trained)"
-    ]
+    ],
+    "keywords": "discipline focus, discipline, special-feature, focused-training, mastery, specialized",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "discipline-discipline-mastery",
@@ -2498,7 +2638,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 67",
       "[Prerequisite] Discipline Expertise, Skill 16"
-    ]
+    ],
+    "keywords": "discipline mastery, discipline, special-feature, focused-training, mastery, feature:",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "discipline-empowered-strike",
@@ -2541,7 +2683,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] This feature is **\\[Ranked\\]**. You may take it multiple times (up to your Attune rank limit). Rank ...",
       "[Prerequisite] Attune 6"
-    ]
+    ],
+    "keywords": "empowered strike, discipline, special-feature, focused-training, mastery, infuse",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "discipline-focused-center",
@@ -2572,7 +2716,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 70",
       "[Prerequisite] Centering, Discipline Focus (in all currently used Disciplines)"
-    ]
+    ],
+    "keywords": "focused center, discipline, special-feature, focused-training, mastery, character's",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "discipline-harmonious-center",
@@ -2603,7 +2749,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 72",
       "[Prerequisite] Centering Mst, Discipline Mst"
-    ]
+    ],
+    "keywords": "harmonious center, discipline, special-feature, focused-training, mastery, harmonious",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "discipline-special-ability",
@@ -2635,7 +2783,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] This feature is **\\[Multiple\\]**. You can take it multiple times to gain different isolated powers.",
       "[Prerequisite] None (though usually tied to Species or Origin)."
-    ]
+    ],
+    "keywords": "special ability, discipline, special-feature, focused-training, mastery, possesses",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "discipline-versatile-source",
@@ -2666,7 +2816,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 74",
       "[Prerequisite] Attune 6"
-    ]
+    ],
+    "keywords": "versatile source, discipline, special-feature, focused-training, mastery, character's",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-absolute-pitch",
@@ -2722,7 +2874,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +4 to Acoustic security bypass",
       "[Rule] None",
       "[Prerequisite] Awareness 1, Perform 1"
-    ]
+    ],
+    "keywords": "absolute pitch, general, special-feature, possesses, exaggerated, structural",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-acrobatic-steps",
@@ -2753,7 +2907,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 105",
       "[Prerequisite] Agi 3, Nimble Moves"
-    ]
+    ],
+    "keywords": "acrobatic steps, general, special-feature, acrobatic, feature:, ignore",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-algorithmic-cognition",
@@ -2793,7 +2949,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] Advantage on Logic Checks",
       "[Rule] Prerequisite: Lightning Calculator, Intellect 4.",
       "[Prerequisite] Lightning Calculator, Intellect 4"
-    ]
+    ],
+    "keywords": "algorithmic cognition, general, special-feature, character's, bypasses, standard",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-analyze-weakness",
@@ -2824,7 +2982,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 76",
       "[Prerequisite] Assessment"
-    ]
+    ],
+    "keywords": "analyze weakness, general, special-feature, analyze, weakness, feature:",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-assessment",
@@ -2855,7 +3015,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] This bonus lasts for the duration of the encounter or until the target successfully leaves your line...",
       "[Prerequisite] Awareness 6, Sense Motive 6"
-    ]
+    ],
+    "keywords": "assessment, general, special-feature, practiced, sizing, opposition",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-benefit-authority",
@@ -2888,7 +3050,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Ranked: Bonus stacks with additional purchases",
       "[Rule] Ranked: Higher ranks grant wider planetary and interstellar jurisdiction.",
       "[Prerequisite] Special (Law Enforcement background)"
-    ]
+    ],
+    "keywords": "benefit (authority), general, special-feature, enforcement, authority, granted",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-benefit",
@@ -2919,7 +3083,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 77",
       "[Prerequisite] Associated Occupation (Soldier, Constable, Agent)"
-    ]
+    ],
+    "keywords": "benefit (authority), general, special-feature, recognized, within, enforcement",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-benefit-clearance",
@@ -2952,7 +3118,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Ranked: Bonus stacks with additional purchases",
       "[Rule] Ranked: Higher ranks unlock access to military compartmentalized programs.",
       "[Prerequisite] Special (Military or Corporate standing)"
-    ]
+    ],
+    "keywords": "benefit (clearance), general, special-feature, official, security, clearance",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-benefit-equipment",
@@ -2986,7 +3154,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] Ranked: Rank 1 grants personal gear kits, Rank 3 grants tactical combat vehicles, Rank 5 grants a sc...",
       "[Prerequisite] Special (Organizational sponsorship)"
-    ]
+    ],
+    "keywords": "benefit (equipment), general, special-feature, issued, subsidized, organizational",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-benefit-identity",
@@ -3018,7 +3188,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Ranked: Bonus stacks with additional purchases",
       "[Rule] Ranked: Each purchase adds an additional established cover identity."
-    ]
+    ],
+    "keywords": "benefit (identity), general, special-feature, established, legally, recognized",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-benefit-immunity",
@@ -3051,7 +3223,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Ranked: Bonus stacks with additional purchases",
       "[Rule] Special: Requires sovereign or diplomatic faction affiliation.",
       "[Prerequisite] Special (Diplomatic or Imperial decree)"
-    ]
+    ],
+    "keywords": "benefit (immunity), general, special-feature, immunity, prosecution, planetary",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-benefit-status",
@@ -3093,7 +3267,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Ranked: Bonus stacks with additional purchases",
       "[Rule] Ranked: Higher ranks represent titles from Baron/Director to Archon/Grand Duke.",
       "[Prerequisite] Special (Aristocratic or Corporate lineage)"
-    ]
+    ],
+    "keywords": "benefit (status), general, special-feature, social, standing, aristocratic",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-benefit-wealth",
@@ -3125,7 +3301,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Ranked: Bonus stacks with additional purchases",
       "[Rule] Ranked: May be purchased multiple times to represent vast commercial fortunes."
-    ]
+    ],
+    "keywords": "benefit (wealth), general, special-feature, substantial, personal, financial",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-born-leader",
@@ -3156,7 +3334,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 99",
       "[Prerequisite] Special"
-    ]
+    ],
+    "keywords": "born leader, general, special-feature, leader, feature:, followers",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-climber",
@@ -3196,7 +3376,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Athletics Climbing",
       "[Rule] Prerequisite: Agility 1, Athletics 1.",
       "[Prerequisite] Agility 1, Athletics 1"
-    ]
+    ],
+    "keywords": "climber, general, special-feature, master, mountaineer, vertical",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-connected",
@@ -3229,7 +3411,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Ranked: Bonus stacks with additional purchases",
       "[Rule] This feature is Ranked (up to Rank 4). Each additional rank purchased expands the reach, authority, ...",
       "[Prerequisite] Charisma 1"
-    ]
+    ],
+    "keywords": "connected, general, special-feature, friends, places, favors",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-contacts",
@@ -3260,7 +3444,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 85",
       "[Prerequisite] Charisma 1"
-    ]
+    ],
+    "keywords": "contacts, general, special-feature, necessarily, favors, information",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-coordinated-assist",
@@ -3293,7 +3479,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Ranked: Bonus stacks with additional purchases",
       "[Rule] This feature is \\[Ranked\\] by Intellect. (Rank 2 grants \\+2, etc.).",
       "[Prerequisite] Intellect 1"
-    ]
+    ],
+    "keywords": "coordinated assist, general, special-feature, natural, player, leader",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-diehard",
@@ -3324,7 +3512,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 93",
       "[Prerequisite] Endurance"
-    ]
+    ],
+    "keywords": "diehard, general, special-feature, feature:, automatically, stabilize",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-distract",
@@ -3355,7 +3545,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 88",
       "[Prerequisite] Charisma 1 or Intellect 1"
-    ]
+    ],
+    "keywords": "distract, general, special-feature, diversion, potent, leaves",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-double-jointed",
@@ -3395,7 +3587,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +4 to Escape Artist",
       "[Rule] 89",
       "[Prerequisite] Agility 1"
-    ]
+    ],
+    "keywords": "double jointed, general, special-feature, possesses, extreme, flexibility",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-dual-hemispheric-processing",
@@ -3426,7 +3620,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Special: Congenital Trait.",
       "[Prerequisite] Intellect 3, Special (Congenital Trait)"
-    ]
+    ],
+    "keywords": "dual-hemispheric processing, general, special-feature, congenital, anomaly, agenesis",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-echolocation",
@@ -3457,7 +3653,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Prerequisite: Awareness 3, Blindness flaw or visual deprivation.",
       "[Prerequisite] Awareness 3, Must possess the Blindness flaw (or be visually deprived)"
-    ]
+    ],
+    "keywords": "echolocation, general, special-feature, through, extreme, cross-modal",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-eidetic-constructor",
@@ -3513,7 +3711,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +4 to Tactical",
       "[Rule] Prerequisite: Eidetic Memory, Awareness 2.",
       "[Prerequisite] Eidetic Memory, Awareness 2"
-    ]
+    ],
+    "keywords": "eidetic constructor, general, special-feature, possesses, unparalleled, visual-spatial",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-eidetic-memory",
@@ -3553,7 +3753,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +4 to Memory",
       "[Rule] 90",
       "[Prerequisite] Intellect 2"
-    ]
+    ],
+    "keywords": "eidetic memory, general, special-feature, remembers, everything, accuracy",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-endurance",
@@ -3584,7 +3786,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 92",
       "[Prerequisite] Stamina 1"
-    ]
+    ],
+    "keywords": "endurance, general, special-feature, exceptional, cardiovascular, health",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-extreme-endurance",
@@ -3624,7 +3828,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +4 to Stamina",
       "[Rule] Prerequisite: Stamina 3.",
       "[Prerequisite] Stamina 3"
-    ]
+    ],
+    "keywords": "extreme endurance, general, special-feature, mutation, causes, character's",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-fast-heal",
@@ -3657,7 +3863,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Ranked: Bonus stacks with additional purchases",
       "[Rule] This feature is \\[Ranked\\]. Rank 2 \\= 3x healing, Rank 3 \\= 4x healing.",
       "[Prerequisite] Stamina 2"
-    ]
+    ],
+    "keywords": "fast heal, general, special-feature, character's, metabolism, repairs",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-favored-enemy",
@@ -3732,7 +3940,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] \\[Multiple\\] Can be taken for different creature types.",
       "[Prerequisite] Awareness 1"
-    ]
+    ],
+    "keywords": "favored enemy, general, special-feature, studied, specific, creature",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-fearless",
@@ -3763,7 +3973,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 97",
       "[Prerequisite] Will 3+"
-    ]
+    ],
+    "keywords": "fearless, general, special-feature, whether, through, madness",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-hyperthymesia",
@@ -3794,7 +4006,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Prerequisite: Eidetic Memory, Wisdom 2.",
       "[Prerequisite] Eidetic Memory, Wisdom 2"
-    ]
+    ],
+    "keywords": "hyperthymesia, general, special-feature, highly, superior, autobiographical",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-hypoxia-tolerance",
@@ -3825,7 +4039,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Prerequisite: Stamina 1.",
       "[Prerequisite] Stamina 1"
-    ]
+    ],
+    "keywords": "hypoxia tolerance, general, special-feature, genetic, variants, epas1/egln1",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-jack-of-all-trades",
@@ -3856,7 +4072,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 98",
       "[Prerequisite] Intellect 2"
-    ]
+    ],
+    "keywords": "jack-of-all-trades, general, special-feature, picked, little, everything",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-lactate-immunity",
@@ -3887,7 +4105,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Prerequisite: Endurance, Stamina 4.",
       "[Prerequisite] Endurance, Stamina 4"
-    ]
+    ],
+    "keywords": "lactate immunity, general, special-feature, character's, physiology, clears",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-lightning-calculator",
@@ -3920,7 +4140,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Ranked: Bonus stacks with additional purchases",
       "[Rule] \\[Ranked\\] Limited by Intellect modifier.",
       "[Prerequisite] Intellect 1"
-    ]
+    ],
+    "keywords": "lightning calculator, general, special-feature, living, computer, perform",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-master-plan",
@@ -3951,7 +4173,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 103",
       "[Prerequisite] Logic 6, Intellect 3"
-    ]
+    ],
+    "keywords": "master plan, general, special-feature, tactical, genius, prepares",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-mental-alacrity",
@@ -3982,7 +4206,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 101",
       "[Prerequisite] Lightning Calc, Trance, Int 2"
-    ]
+    ],
+    "keywords": "mental alacrity, general, special-feature, mental, alacrity, feature:",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-multiplexing",
@@ -4015,7 +4241,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Ranked: Bonus stacks with additional purchases",
       "[Rule] Ranked (Int) 102",
       "[Prerequisite] Mental Alacrity, Int 3"
-    ]
+    ],
+    "keywords": "multiplexing, general, special-feature, feature:, mental, action",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-myostatin-hypertrophy",
@@ -4063,7 +4291,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Athletics",
       "[Rule] Prerequisite: Strength 3, Stamina 2.",
       "[Prerequisite] Strength 3, Stamina 2"
-    ]
+    ],
+    "keywords": "myostatin hypertrophy, general, special-feature, homozygous, mutation, renders",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-nimble-moves",
@@ -4094,7 +4324,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 104",
       "[Prerequisite] Agility 2"
-    ]
+    ],
+    "keywords": "nimble moves, general, special-feature, dances, around, obstacles",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-nociceptor-dampening",
@@ -4125,7 +4357,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Prerequisite: Pain Tolerance, Stamina 2.",
       "[Prerequisite] Pain Tolerance, Stamina 2"
-    ]
+    ],
+    "keywords": "nociceptor dampening, general, special-feature, mutation, transcription, factors",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-pain-tolerance",
@@ -4156,7 +4390,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 108",
       "[Prerequisite] Tough, Sta 2"
-    ]
+    ],
+    "keywords": "pain tolerance, general, special-feature, tolerance, feature:, advantage",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-perfect-balance",
@@ -4187,7 +4423,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 106",
       "[Prerequisite] Agi 4, Acrobatic Steps"
-    ]
+    ],
+    "keywords": "perfect balance, general, special-feature, perfect, balance, feature:",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-photographic-memory",
@@ -4218,7 +4456,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 91",
       "[Prerequisite] Eidetic Memory, Int 4"
-    ]
+    ],
+    "keywords": "photographic memory, general, special-feature, photographic, memory, feature:",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-quick",
@@ -4266,7 +4506,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +1 Initiative",
       "[Rule] 114",
       "[Prerequisite] Agility 1"
-    ]
+    ],
+    "keywords": "quick, general, special-feature, naturally",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-quicker",
@@ -4314,7 +4556,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 Initiative",
       "[Rule] 115",
       "[Prerequisite] Quick, Agi 2"
-    ]
+    ],
+    "keywords": "quicker, general, special-feature, feature:, movement, initiative",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-quickest",
@@ -4362,7 +4606,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +3 Initiative",
       "[Rule] 116",
       "[Prerequisite] Quicker, Agi 3"
-    ]
+    ],
+    "keywords": "quickest, general, special-feature, feature:, movement, initiative",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-regeneration",
@@ -4393,7 +4639,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 95",
       "[Prerequisite] Fast Heal, Sta 4"
-    ]
+    ],
+    "keywords": "regeneration, general, special-feature, feature:, regrow",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-runner",
@@ -4433,7 +4681,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Athletics",
       "[Rule] Prerequisite: Strength 1, Agility 1, Stamina 1.",
       "[Prerequisite] Strength 1, Agility 1, Stamina 1"
-    ]
+    ],
+    "keywords": "runner, general, special-feature, trained, exceptional, endurance",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-short-sleeper",
@@ -4464,7 +4714,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Prerequisite: Stamina 1.",
       "[Prerequisite] Stamina 1"
-    ]
+    ],
+    "keywords": "short sleeper, general, special-feature, mutation, alters, character's",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-soar",
@@ -4504,7 +4756,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Acrobatics",
       "[Rule] Prerequisite: Flight capability (Species trait, cybernetic thrusters, or invocation), Acrobatics 1.",
       "[Prerequisite] Flight capability (Species trait, cybernetic thrusters, or invocation), Acrobatics 1"
-    ]
+    ],
+    "keywords": "soar, general, special-feature, mastered, aerial, dynamics",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-swimmer",
@@ -4544,7 +4798,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Athletics Swimming",
       "[Rule] Prerequisite: Athletics 1.",
       "[Prerequisite] Athletics 1"
-    ]
+    ],
+    "keywords": "swimmer, general, special-feature, aquatic, capable, sustained",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-synesthetic-savant",
@@ -4592,7 +4848,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Disbelieve fake stimuli",
       "[Rule] Prerequisite: Intellect 2.",
       "[Prerequisite] Intellect 2"
-    ]
+    ],
+    "keywords": "synesthetic savant, general, special-feature, experiences, profound, cross-modal",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-tetrachromacy",
@@ -4648,7 +4906,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +4 to Tracking",
       "[Rule] Special: Genetically Female, or engineered variant.",
       "[Prerequisite] Awareness 2, Special (Genetically Female, or engineered variant)"
-    ]
+    ],
+    "keywords": "tetrachromacy, general, special-feature, presence, fourth, retina",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-tough",
@@ -4679,7 +4939,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 107",
       "[Prerequisite] Stamina 1"
-    ]
+    ],
+    "keywords": "tough, general, special-feature, threshold, trauma",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-tracker",
@@ -4710,7 +4972,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 112",
       "[Prerequisite] Wisdom 1"
-    ]
+    ],
+    "keywords": "tracker, general, special-feature, expert, hunter",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-trance",
@@ -4741,7 +5005,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 110",
       "[Prerequisite] Wisdom 1"
-    ]
+    ],
+    "keywords": "trance, general, special-feature, meditative, conserve, energy",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-unbreakable-skeleton",
@@ -4772,7 +5038,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Prerequisite: Tough, Stamina 3.",
       "[Prerequisite] Tough, Stamina 3"
-    ]
+    ],
+    "keywords": "unbreakable skeleton, general, special-feature, gain-of-function, mutation, blocks",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-underworld-connections",
@@ -4803,7 +5071,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Characters with this feature ignore black market availability markups by 10% and gain Advantage on S...",
       "[Prerequisite] Streetwise 3"
-    ]
+    ],
+    "keywords": "underworld connections, general, special-feature, access, illicit, market",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-well-informed",
@@ -4833,7 +5103,9 @@ export const DEFAULT_FEATURES = [
     "notes": "[Rule] 113",
     "notesList": [
       "[Rule] 113"
-    ]
+    ],
+    "keywords": "well informed, general, special-feature, ground, little",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "general-zero-g-training",
@@ -4873,7 +5145,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Acrobatics when maneuvering in Zero-G",
       "[Rule] 117",
       "[Prerequisite] Agility 1"
-    ]
+    ],
+    "keywords": "zero g training, general, special-feature, trained, operate, microgravity",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "karma-beginner-s-luck",
@@ -4913,7 +5187,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +1 to Karma Pool",
       "[Rule] 118",
       "[Prerequisite] The Skill being attempted must be at **Rank 5 (Novice) or lower**."
-    ]
+    ],
+    "keywords": "beginner's luck, karma, special-feature, uncanny, succeeding, things",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "karma-believer",
@@ -4946,7 +5222,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Ranked: Bonus stacks with additional purchases",
       "[Rule] This feature is **\\[Ranked\\]**. Each additional rank allows an additional use per day. The maximum r...",
       "[Prerequisite] Wisdom 1"
-    ]
+    ],
+    "keywords": "believer, karma, special-feature, possesses, profound, higher",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "karma-charmed",
@@ -4977,7 +5255,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 122",
       "[Prerequisite] Maximum Karma Pool of 4+"
-    ]
+    ],
+    "keywords": "charmed, karma, special-feature, disasters, others, inches",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "karma-devout",
@@ -5010,7 +5290,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Ranked: Bonus stacks with additional purchases",
       "[Rule] Ranked (Cha) 120",
       "[Prerequisite] Believer"
-    ]
+    ],
+    "keywords": "devout, karma, special-feature, feature:, ability, reroll",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "karma-inspiration",
@@ -5041,7 +5323,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 123",
       "[Prerequisite] Charisma 2"
-    ]
+    ],
+    "keywords": "inspiration, karma, special-feature, determination, allies, spurring",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "karma-karmic-blessing",
@@ -5072,7 +5356,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] This feature is **[Ranked / Multiple]**. You may take it multiple times to keep expanding your pool ..."
-    ]
+    ],
+    "keywords": "karmic blessing, karma, special-feature, larger, destiny, stockpiled",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "karma-seize-initiative",
@@ -5103,7 +5389,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 125",
       "[Prerequisite] -"
-    ]
+    ],
+    "keywords": "seize initiative, karma, special-feature, reacts, blazing, erupts",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "karma-surge",
@@ -5134,7 +5422,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 126",
       "[Prerequisite] -"
-    ]
+    ],
+    "keywords": "surge, karma, special-feature, pushes, beyond, standard",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "karma-true-faith",
@@ -5165,7 +5455,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 121",
       "[Prerequisite] Believer, Devout"
-    ]
+    ],
+    "keywords": "true faith, karma, special-feature, feature:, double, effects",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "karma-ultimate-effort",
@@ -5240,7 +5532,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] This feature is **\\[Multiple\\]**. You must select which trait it applies to when purchased (e.g., *U...",
       "[Prerequisite] None (Must be assigned to a specific Trait/Skill/Attribute)."
-    ]
+    ],
+    "keywords": "ultimate effort, karma, special-feature, savant, master, specific",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-ace-pilot",
@@ -5271,7 +5565,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 143",
       "[Prerequisite] Crack Pilot, Pilot 16"
-    ]
+    ],
+    "keywords": "ace pilot, skill, special-feature, feature:, piloting, maximum",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-aeronaut",
@@ -5302,7 +5598,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 128",
       "[Prerequisite] Pilot (Unpowered) 1"
-    ]
+    ],
+    "keywords": "aeronaut, skill, special-feature, specialist, unpowered, nature-assisted",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-animal-affinity",
@@ -5341,7 +5639,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Modifier] +2 to Survival",
       "[Rule] 129"
-    ]
+    ],
+    "keywords": "animal affinity, skill, special-feature, natural, beasts, understanding",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-artificer",
@@ -5372,7 +5672,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 130",
       "[Prerequisite] Attune 11, Any Discipline 11, Any Crafting 11"
-    ]
+    ],
+    "keywords": "artificer, skill, special-feature, combines, engineering, metaphysics",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-artistic",
@@ -5411,7 +5713,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Modifier] +2 to Both",
       "[Rule] 131"
-    ]
+    ],
+    "keywords": "artistic, skill, special-feature, possesses, creative",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-attractive",
@@ -5453,7 +5757,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Ranked: Bonus stacks with additional purchases",
       "[Rule] This feature is **\\[Ranked\\]** (Limited by Charisma score). Rank 2 grants \\+4, etc.",
       "[Prerequisite] Charisma 2"
-    ]
+    ],
+    "keywords": "attractive, skill, special-feature, possesses, striking, physical",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-biotechnologist",
@@ -5484,7 +5790,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 133",
       "[Prerequisite] Biology, Botany, or Medicine Rank 11"
-    ]
+    ],
+    "keywords": "biotechnologist, skill, special-feature, expert, manipulation, living",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-coding-master",
@@ -5515,7 +5823,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 136",
       "[Prerequisite] Computer Specialist"
-    ]
+    ],
+    "keywords": "coding master, skill, special-feature, coding, master, feature:",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-computer-specialist",
@@ -5571,7 +5881,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Hardware Repair",
       "[Rule] 134",
       "[Prerequisite] Computers 1"
-    ]
+    ],
+    "keywords": "computer specialist, skill, special-feature, digital, navigating, easily",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-crack-pilot",
@@ -5602,7 +5914,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 142",
       "[Prerequisite] Gifted Pilot, Pilot 11"
-    ]
+    ],
+    "keywords": "crack pilot, skill, special-feature, feature:, piloting, maximum",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-deceitful",
@@ -5649,7 +5963,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Manipulation",
       "[Modifier] +1 to Etiquette",
       "[Rule] 137"
-    ]
+    ],
+    "keywords": "deceitful, skill, special-feature, pathological, professional, skilled",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-digital-expert",
@@ -5680,7 +5996,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 135",
       "[Prerequisite] Computer Specialist"
-    ]
+    ],
+    "keywords": "digital expert, skill, special-feature, digital, expert, feature:",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-educated",
@@ -5720,7 +6038,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +1 to Knowledge",
       "[Rule] 138",
       "[Prerequisite] Academics 5, Any Knowledge 5"
-    ]
+    ],
+    "keywords": "educated, skill, special-feature, received, extensive, formal",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-entertaining",
@@ -5794,7 +6114,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Ranked: Bonus stacks with additional purchases",
       "[Rule] This feature is **\\[Ranked\\]** (Limited by Charisma). Rank 3 would grant a \\+3 to all Performance ty...",
       "[Prerequisite] Charisma 1"
-    ]
+    ],
+    "keywords": "entertaining, skill, special-feature, performer, capable, holding",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-gearhead",
@@ -5850,7 +6172,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Repair",
       "[Rule] 140",
       "[Prerequisite] Engineering 1 or Mechanics 1"
-    ]
+    ],
+    "keywords": "gearhead, skill, special-feature, intuitive, understanding, machinery",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-gifted-pilot",
@@ -5890,7 +6214,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Piloting",
       "[Rule] 141",
       "[Prerequisite] Pilot 6"
-    ]
+    ],
+    "keywords": "gifted pilot, skill, special-feature, vehicle, extension",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-golden-smile",
@@ -5921,7 +6247,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 162",
       "[Prerequisite] Silver Tongue, Cha 2, Dip/Bluff 6"
-    ]
+    ],
+    "keywords": "golden smile, skill, special-feature, golden, feature:, diplomacy",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-graceful",
@@ -5960,7 +6288,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Modifier] +1 to Agility-based Non-Attack",
       "[Rule] 144"
-    ]
+    ],
+    "keywords": "graceful, skill, special-feature, elegance, precision",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-headstrong",
@@ -6015,7 +6345,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Bluff",
       "[Modifier] +2 to Intimidate",
       "[Rule] 145"
-    ]
+    ],
+    "keywords": "headstrong, skill, special-feature, stubborn, forceful",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-influence",
@@ -6063,7 +6395,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +4 to Favor",
       "[Rule] 146",
       "[Prerequisite] Charisma 2"
-    ]
+    ],
+    "keywords": "influence, skill, special-feature, significant, social, within",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-investigator",
@@ -6110,7 +6444,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Investigation",
       "[Modifier] +2 to Gather Information",
       "[Rule] 147"
-    ]
+    ],
+    "keywords": "investigator, skill, special-feature, trained, notice, details",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-linguist",
@@ -6150,7 +6486,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Language",
       "[Rule] 148",
       "[Prerequisite] Linguistics 1"
-    ]
+    ],
+    "keywords": "linguist, skill, special-feature, dialects, syntax",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-logical",
@@ -6189,7 +6527,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Modifier] +2 to Logic",
       "[Rule] 149"
-    ]
+    ],
+    "keywords": "logical, skill, special-feature, approaches, problems, rationality",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-magical-aptitude",
@@ -6236,7 +6576,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Attune",
       "[Modifier] +1 to Knowledge Metaphysics",
       "[Rule] 150"
-    ]
+    ],
+    "keywords": "magical aptitude, skill, special-feature, arcane, theory, aren't",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-master-craftsman",
@@ -6284,7 +6626,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to The DC limit of what you can create allowing for more complex modifications",
       "[Rule] 151",
       "[Prerequisite] Crafting 6"
-    ]
+    ],
+    "keywords": "master craftsman, skill, special-feature, creates, superior, quality",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-medic",
@@ -6324,7 +6668,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Medicine",
       "[Rule] You may perform **First Aid** (stabilize a dying character) as a **Standard Action** rather than a F...",
       "[Prerequisite] Medicine 1"
-    ]
+    ],
+    "keywords": "medic, skill, special-feature, trained, emergency, triage",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-meticulous",
@@ -6354,7 +6700,9 @@ export const DEFAULT_FEATURES = [
     "notes": "[Rule] 153",
     "notesList": [
       "[Rule] 153"
-    ]
+    ],
+    "keywords": "meticulous, skill, special-feature, exceptionally, thorough, rarely",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-naturalist",
@@ -6401,7 +6749,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Nature Knowledge",
       "[Modifier] +2 to Survival",
       "[Rule] 154"
-    ]
+    ],
+    "keywords": "naturalist, skill, special-feature",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-nimble-fingers",
@@ -6456,7 +6806,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Disable Device Security",
       "[Modifier] +2 to Mechanics",
       "[Rule] 155"
-    ]
+    ],
+    "keywords": "nimble fingers, skill, special-feature, excellent, manual, dexterity",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-perceptive",
@@ -6503,7 +6855,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Perception",
       "[Modifier] +1 to Insight",
       "[Rule] 157"
-    ]
+    ],
+    "keywords": "perceptive, skill, special-feature, notices, things, others",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-persuasive",
@@ -6550,7 +6904,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Diplomacy",
       "[Modifier] +2 to Intimidate",
       "[Rule] 156"
-    ]
+    ],
+    "keywords": "persuasive, skill, special-feature, convincing, compelling",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-platinum-personality",
@@ -6581,7 +6937,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 163",
       "[Prerequisite] Golden Smile, Cha 4, Dip/Bluff 11"
-    ]
+    ],
+    "keywords": "platinum personality, skill, special-feature, platinum, personality, feature:",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-power-attack",
@@ -6612,7 +6970,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] This bonus to damage is considered a \"Power\" bonus, which may not stack with other features that gra...",
       "[Prerequisite] Strength 2, Unarmed or Melee 6"
-    ]
+    ],
+    "keywords": "power attack, skill, special-feature, sacrifices, precision, trading",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-researcher",
@@ -6659,7 +7019,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Academics",
       "[Modifier] +2 to Library Use",
       "[Rule] 158"
-    ]
+    ],
+    "keywords": "researcher, skill, special-feature, navigate, archives, libraries",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-scholar",
@@ -6698,7 +7060,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Modifier] +2 to Knowledge",
       "[Rule] 159"
-    ]
+    ],
+    "keywords": "scholar, skill, special-feature, academic, learning",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-self-sufficient",
@@ -6745,7 +7109,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +1 on Fortitude Checks",
       "[Modifier] +2 to Survival",
       "[Rule] 160"
-    ]
+    ],
+    "keywords": "self sufficient, skill, special-feature, themselves, without, support",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-silver-tongue",
@@ -6776,7 +7142,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 161",
       "[Prerequisite] Charisma 1, Diplomacy 1"
-    ]
+    ],
+    "keywords": "silver tongue, skill, special-feature, exactly, defuse, situation",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-skill-focus",
@@ -6819,7 +7187,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] This feature is **\\[Multiple\\]** and **\\[Ranked\\]**. You may purchase it again for the *same* skill ...",
       "[Prerequisite] Chosen Skill Rank 1"
-    ]
+    ],
+    "keywords": "skill focus, skill, special-feature, dedicated, significant, effort",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-skill-mastery",
@@ -6850,7 +7220,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 165",
       "[Prerequisite] Skill Focus (2), Rank 11+"
-    ]
+    ],
+    "keywords": "skill mastery, skill, special-feature, mastery, feature:, skills",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-skill-specialization",
@@ -6882,7 +7254,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] \\[Multiple\\] Can be taken for different skills or different sub-categories.",
       "[Prerequisite] Chosen Skill Rank 6 (Trained)"
-    ]
+    ],
+    "keywords": "skill specialization, skill, special-feature, drills, specific",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-social",
@@ -6921,7 +7295,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Modifier] +1 to Charisma",
       "[Rule] 167"
-    ]
+    ],
+    "keywords": "social, skill, special-feature, butterfly",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-spacer",
@@ -6976,7 +7352,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Pilot",
       "[Modifier] +2 to Any Space Survival",
       "[Rule] 168"
-    ]
+    ],
+    "keywords": "spacer, skill, special-feature, raised, zero-g, vacuum",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-steady",
@@ -7015,7 +7393,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Modifier] +1 on Reflex Checks",
       "[Rule] 169"
-    ]
+    ],
+    "keywords": "steady, skill, special-feature, excellent, balance",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-stealthy",
@@ -7055,7 +7435,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +4 to Stealth",
       "[Rule] 170",
       "[Prerequisite] Agility 2"
-    ]
+    ],
+    "keywords": "stealthy, skill, special-feature, shadow",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-stout",
@@ -7094,7 +7476,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Modifier] +1 to Stamina & Constitution",
       "[Rule] 171"
-    ]
+    ],
+    "keywords": "stout, skill, special-feature, sturdy",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-trustworthy",
@@ -7141,7 +7525,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Manipulation",
       "[Modifier] +1 to Culture",
       "[Rule] 172"
-    ]
+    ],
+    "keywords": "trustworthy, skill, special-feature, honest, reliable, demeanor",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-veiled-threat",
@@ -7172,7 +7558,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 173",
       "[Prerequisite] Intimidate 6"
-    ]
+    ],
+    "keywords": "veiled threat, skill, special-feature, menace, someone, subtly",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-versatile-curator",
@@ -7203,7 +7591,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 174",
       "[Prerequisite] Knowledge 6, Intellect 2"
-    ]
+    ],
+    "keywords": "versatile curator, skill, special-feature, trivia",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-versatile-performer",
@@ -7234,7 +7624,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 175",
       "[Prerequisite] Perform 6, Intellect 2"
-    ]
+    ],
+    "keywords": "versatile performer, skill, special-feature, multi-talented, artist",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "skill-versatile-professional",
@@ -7274,7 +7666,9 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Awareness",
       "[Rule] 176",
       "[Prerequisite] Vocation 6, Intellect 2"
-    ]
+    ],
+    "keywords": "versatile professional, skill, special-feature",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-acute-sense",
@@ -7315,7 +7709,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] \\[Multiple\\] You may take this feature multiple times, applying it to a different sense each time.",
       "[Prerequisite] Awareness 1"
-    ]
+    ],
+    "keywords": "acute sense, special, special-feature, possesses, specific, sensory",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-analytical-sense",
@@ -7346,7 +7742,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 178",
       "[Prerequisite] Acute Sense"
-    ]
+    ],
+    "keywords": "analytical sense, special, special-feature, analytical, feature:, specific",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-augmented",
@@ -7377,7 +7775,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Upon taking this feature, you gain a \"credit\" of **6 Build Points (BP)** worth of Augmentations effe...",
       "[Prerequisite] Available Technology Level (TL 3+)"
-    ]
+    ],
+    "keywords": "augmented, special, special-feature, undergone, invasive, surgery",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-biotechnology",
@@ -7408,7 +7808,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 183",
       "[Prerequisite] Awakened (Psychic) OR Tech Level 4+ society."
-    ]
+    ],
+    "keywords": "biotechnology, special, special-feature, trained, naturally, adapted",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-bleed",
@@ -7439,7 +7841,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 207",
       "[Prerequisite] Sneak Attack"
-    ]
+    ],
+    "keywords": "bleed, special, special-feature, feature:, damage, attack",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-blind",
@@ -7470,7 +7874,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 208",
       "[Prerequisite] Sneak Attack"
-    ]
+    ],
+    "keywords": "blind, special, special-feature, feature:, direct, attack",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-bonded",
@@ -7501,7 +7907,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 184",
       "[Prerequisite] Charisma 2"
-    ]
+    ],
+    "keywords": "bonded, special, special-feature, shares, profound, supernatural",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-companion",
@@ -7535,7 +7943,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] **[Ranked / Multiple Purchases]**: You may purchase this feature multiple times:\n- **Additional Comp...",
       "[Prerequisite] Charisma 1"
-    ]
+    ],
+    "keywords": "companion, special, special-feature, unlocked, access, bio-construct",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-cripple",
@@ -7566,7 +7976,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 209",
       "[Prerequisite] Sneak Attack"
-    ]
+    ],
+    "keywords": "cripple, special, special-feature, feature:, severe, damage",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-danger-sense",
@@ -7597,7 +8009,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 189",
       "[Prerequisite] Wisdom 1"
-    ]
+    ],
+    "keywords": "danger sense, special, special-feature, \"sixth, sense\", spidey-sense",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-darksight",
@@ -7627,7 +8041,9 @@ export const DEFAULT_FEATURES = [
     "notes": "[Rule] 196",
     "notesList": [
       "[Rule] 196"
-    ]
+    ],
+    "keywords": "darksight, special, special-feature, thermal, non-visible, spectrums",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-dwarfism",
@@ -7658,7 +8074,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 190",
       "[Prerequisite] Species Trait or Flaw"
-    ]
+    ],
+    "keywords": "dwarfism, special, special-feature, significantly, smaller, average",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-eldritch-heritage",
@@ -7689,7 +8107,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 191",
       "[Prerequisite] None (Background)"
-    ]
+    ],
+    "keywords": "eldritch heritage, special, special-feature, carries, dragons, demons",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-energy-resistance",
@@ -7721,7 +8141,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Ranked: Bonus stacks with additional purchases",
       "[Rule] \\[Ranked\\] Stacks to Resistance 10, 15, etc., eventually becoming Immunity."
-    ]
+    ],
+    "keywords": "energy resistance, special, special-feature, character's, physiology, resistant",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-extreme-augmentations",
@@ -7752,7 +8174,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Grants an additional 6 BP worth of Augmentations for free (+18 BP cumulative credit). Permits Full B...",
       "[Prerequisite] Heavy Augmentations, Stamina 4"
-    ]
+    ],
+    "keywords": "extreme augmentations, special, special-feature, machine, bio-construct, original",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-familiar",
@@ -7783,7 +8207,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 186",
       "[Prerequisite] Companion"
-    ]
+    ],
+    "keywords": "familiar, special, special-feature, feature:, empathically, linked",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-giant",
@@ -7814,7 +8240,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 193",
       "[Prerequisite] Species Trait"
-    ]
+    ],
+    "keywords": "giant, special, special-feature, significantly, larger, average",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-heavy-augmentations",
@@ -7845,7 +8273,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Grants an additional 6 BP worth of Augmentations for free (+12 BP cumulative credit). Unlocks compat...",
       "[Prerequisite] Augmented, Stamina 2"
-    ]
+    ],
+    "keywords": "heavy augmentations, special, special-feature, replaced, significant, portions",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-hobble",
@@ -7876,7 +8306,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 210",
       "[Prerequisite] Sneak Attack"
-    ]
+    ],
+    "keywords": "hobble, special, special-feature, feature:, reduce, target’s",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-life-support",
@@ -7907,7 +8339,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] Multiple 194"
-    ]
+    ],
+    "keywords": "life support, special, special-feature, survive, environments, hostile",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-low-light-vision",
@@ -7937,7 +8371,9 @@ export const DEFAULT_FEATURES = [
     "notes": "[Rule] 195",
     "notesList": [
       "[Rule] 195"
-    ]
+    ],
+    "keywords": "low light vision, special, special-feature, character's, magnify, ambient",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-mind-link",
@@ -7968,7 +8404,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 187",
       "[Prerequisite] Companion"
-    ]
+    ],
+    "keywords": "mind link, special, special-feature, feature:, telepathic, skills/knowledge",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-natural-weapons",
@@ -8000,7 +8438,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Ranked: Bonus stacks with additional purchases",
       "[Rule] \\[Ranked\\] Can be taken to increase the damage die size."
-    ]
+    ],
+    "keywords": "natural weapons, special, special-feature, possesses, striker",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-non-lethal-immunity",
@@ -8031,7 +8471,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 198",
       "[Prerequisite] -"
-    ]
+    ],
+    "keywords": "non-lethal immunity, special, special-feature, non-lethal, immunity, feature:",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-rage",
@@ -8072,7 +8514,9 @@ export const DEFAULT_FEATURES = [
       "[Penalty] -2 Defense",
       "[Rule] Ranked: Bonus stacks with additional purchases",
       "[Rule] Ranked 199"
-    ]
+    ],
+    "keywords": "rage, special, special-feature, primal, ignoring, safety",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-resistance",
@@ -8104,7 +8548,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] \\[Multiple\\] Can be taken for different hazards.",
       "[Prerequisite] Stamina 1"
-    ]
+    ],
+    "keywords": "resistance, special, special-feature, fortified, immune, system",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-scent",
@@ -8135,7 +8581,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 201",
       "[Prerequisite] Wisdom 1"
-    ]
+    ],
+    "keywords": "scent, special, special-feature, detect, creatures, objects",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-self-sustaining",
@@ -8166,7 +8614,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 202",
       "[Prerequisite] Synthetic, Plant, or Undead traits"
-    ]
+    ],
+    "keywords": "self-sustaining, special, special-feature, require, standard, biological",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-sense",
@@ -8198,7 +8648,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] Multiple 204",
       "[Prerequisite] Awakened or Species Trait"
-    ]
+    ],
+    "keywords": "sense, special, special-feature, specific, energy, presence",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-sense-uncontrolled",
@@ -8230,7 +8682,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] Multiple 205",
       "[Prerequisite] Special"
-    ]
+    ],
+    "keywords": "sense, uncontrolled, special, special-feature, constantly, bombarded, sensory",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-shared-senses",
@@ -8261,7 +8715,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 188",
       "[Prerequisite] Companion"
-    ]
+    ],
+    "keywords": "shared senses, special, special-feature, shared, senses, feature:",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-sleepless",
@@ -8292,7 +8748,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 203",
       "[Prerequisite] Synthetic, Elf, or Special"
-    ]
+    ],
+    "keywords": "sleepless, special, special-feature, require, cycles, though",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-sneak-attack",
@@ -8325,7 +8783,9 @@ export const DEFAULT_FEATURES = [
       "[Rule] Ranked: Bonus stacks with additional purchases",
       "[Rule] \\[Ranked\\] Each additional rank adds \\+1d6 to the damage.",
       "[Prerequisite] Agility 2, Stealth 1"
-    ]
+    ],
+    "keywords": "sneak attack, special, special-feature, exactly, strike, maximum",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-technologist",
@@ -8356,7 +8816,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 211",
       "[Prerequisite] Intellect 3, Technology (Knowledge) 11"
-    ]
+    ],
+    "keywords": "technologist, special, special-feature, understanding, technology, shouldn't",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-telepathy",
@@ -8387,7 +8849,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 212",
       "[Prerequisite] Awakened (Mental) or Species Trait"
-    ]
+    ],
+    "keywords": "telepathy, special, special-feature, communicate, mind-to-mind",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-uncanny-sense",
@@ -8418,7 +8882,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 179",
       "[Prerequisite] Acute Sense"
-    ]
+    ],
+    "keywords": "uncanny sense, special, special-feature, uncanny, feature:, awareness",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   },
   {
     "id": "special-wild-speech",
@@ -8449,7 +8915,9 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 213",
       "[Prerequisite] Nature Affinity, Fey, or Druidic training"
-    ]
+    ],
+    "keywords": "wild speech, special, special-feature, beasts",
+    "negative_keywords": "incompetent, untrained, vulnerable"
   }
 ];
 

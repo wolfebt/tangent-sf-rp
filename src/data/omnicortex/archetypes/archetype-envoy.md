@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'envoy, visionary, idealist, leadership, charisma, face, shield'
+negative_keywords: 'anti-social, mute, solitary-hermit'
 ---
 
 # The Envoy

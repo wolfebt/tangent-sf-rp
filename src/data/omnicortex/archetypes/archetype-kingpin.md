@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'kingpin, visionary, idealist, leadership, charisma, leader, minion master'
+negative_keywords: 'anti-social, mute, solitary-hermit'
 ---
 
 # The Kingpin

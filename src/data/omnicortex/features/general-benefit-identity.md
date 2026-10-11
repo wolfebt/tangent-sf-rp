@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'benefit (identity), general, special-feature, established, legally, recognized'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Benefit (Identity)

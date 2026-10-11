@@ -45,6 +45,10 @@ sockets:
   allocated: []
 tech_level: 5
 meta_level: 3
+keywords: >-
+  crystal sanctum / floating spire, architecture, structure, alterian /
+  resonance, tl-5, towering
+negative_keywords: 'mobile-infantry, personal-weapon, portable-trinket'
 ---
 Towering spire of psycho-reactive crystal floating weightlessly above ground via psionic resonance fields, housing metaphysical research sanctums.
 

@@ -7,6 +7,27 @@ description: BURST invocation for Energy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Draconian (Scaled Aeld)
+  - Janissary (Gen-E)
+  - Risakin (Giant Folk)
+  - Impyrium Regi (Gen-E)
+recommended_factions:
+  - Dracon Dynasty
+  - Radiant Impyrium
+  - Military Faction Template
+recommended_origins:
+  - Militaristic
+  - Hostile
+  - Colony
+recommended_occupations:
+  - Soldier
+  - Adept
+  - Specialist
+keywords: >-
+  burst, explosive detonation, radial plasma nova, concussive fireburst,
+  shockwave radius, wide blast, thermal eruption
+negative_keywords: 'single point acupuncture, silent assassination, stealth probe'
 ---
 
 # BURST Invocation

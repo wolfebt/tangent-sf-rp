@@ -36,6 +36,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'icon, visionary, idealist, leadership, charisma, social influence, leader'
+negative_keywords: 'anti-social, mute, solitary-hermit'
 ---
 
 # The Icon

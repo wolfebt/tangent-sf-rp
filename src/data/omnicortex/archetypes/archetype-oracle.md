@@ -33,6 +33,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'oracle, visionary, idealist, leadership, charisma, caster, sensor'
+negative_keywords: 'anti-social, mute, solitary-hermit'
 ---
 
 # The Oracle

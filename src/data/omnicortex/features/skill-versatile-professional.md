@@ -11,6 +11,8 @@ description: The character knows every job on the crew.
 costs:
   bp: 3
 modifiers: []
+keywords: 'versatile professional, skill, special-feature'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Versatile Professional

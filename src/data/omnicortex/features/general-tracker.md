@@ -11,6 +11,8 @@ description: The character is an expert hunter.
 costs:
   bp: 3
 modifiers: []
+keywords: 'tracker, general, special-feature, expert, hunter'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Tracker

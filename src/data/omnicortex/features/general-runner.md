@@ -11,6 +11,8 @@ description: The character is trained for exceptional land speed and endurance.
 costs:
   bp: 3
 modifiers: []
+keywords: 'runner, general, special-feature, trained, exceptional, endurance'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Runner

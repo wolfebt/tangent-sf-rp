@@ -34,6 +34,8 @@ sockets:
   tier: Socket
   allocated: []
 tech_level: 3
+keywords: 'subcompact electric commuter, mecha, vehicle, medium, personal, tl-3'
+negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
 ---
 The ubiquitous automated pod car of futuristic metropolitan arcologies.
 

@@ -14,6 +14,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  potent might, ability, special-feature, innate-talent, passive-prowess,
+  strength
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Potent Might

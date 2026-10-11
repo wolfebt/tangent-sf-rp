@@ -30,6 +30,10 @@ sockets:
   allocated: []
 tech_level: 3
 meta_level: 0
+keywords: >-
+  medkit (full field kit), gear, personal-property, tl-3, comprehensive,
+  paramedic
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Comprehensive paramedic field kit with diagnostic wand, cauterizer, and stims.
 

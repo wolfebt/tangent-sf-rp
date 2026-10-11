@@ -14,6 +14,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'beginner''s luck, karma, special-feature, uncanny, succeeding, things'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Beginner's Luck

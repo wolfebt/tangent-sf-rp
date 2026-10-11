@@ -33,6 +33,8 @@ description: A charismatic leader who inspires and unites the rebellion.
 costs:
   bp: 80
 modifiers: []
+keywords: 'revolutionary, visionary, idealist, leadership, charisma, leader, agitator'
+negative_keywords: 'anti-social, mute, solitary-hermit'
 ---
 
 # The Revolutionary

@@ -11,6 +11,8 @@ description: The character is a tactical genius who prepares for every eventuali
 costs:
   bp: 3
 modifiers: []
+keywords: 'master plan, general, special-feature, tactical, genius, prepares'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Master Plan

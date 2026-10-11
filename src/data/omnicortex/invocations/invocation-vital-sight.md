@@ -7,6 +7,28 @@ description: VITAL SIGHT invocation for Entropy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Celestine (Alterian)
+  - Whisper
+  - Prokos (Auluran Biform)
+  - Ila (Progenitor Archon)
+recommended_factions:
+  - The Alterian Enclave
+  - Elven Providence
+  - The Ascendancy
+recommended_origins:
+  - Enlightened
+  - Research
+  - Spacer
+recommended_occupations:
+  - Specialist
+  - Adept
+  - Scholar
+  - Scout
+keywords: >-
+  vital sight, aura diagnostics, metabolic scanning, health detection, heartbeat
+  aura, biological vision, cellular resonance scan
+negative_keywords: 'blind scan, technological thermal optic, mechanical sonar, blind spot'
 ---
 
 # VITAL SIGHT Invocation

@@ -7,6 +7,27 @@ description: ANALYZE ENERGY invocation for Energy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Draconian (Scaled Aeld)
+  - Cyberform Human
+  - Intellect Construct (Pure AI)
+  - Celestine (Alterian)
+recommended_factions:
+  - The Alterian Enclave
+  - Technological Faction Template
+  - Dracon Dynasty
+recommended_origins:
+  - Research
+  - Industrial
+  - Enlightened
+recommended_occupations:
+  - Scholar
+  - Specialist
+  - Builder
+keywords: >-
+  analyze energy, radiation spectrometer, thermal scan, plasma analysis,
+  electromagnetic reading, energy signature
+negative_keywords: 'blind guess, uncalibrated instrument, dark matter'
 ---
 
 # ANALYZE ENERGY Invocation

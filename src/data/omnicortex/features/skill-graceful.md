@@ -11,6 +11,8 @@ description: The character moves with elegance and precision.
 costs:
   bp: 3
 modifiers: []
+keywords: 'graceful, skill, special-feature, elegance, precision'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Graceful

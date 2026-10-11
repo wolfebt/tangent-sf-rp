@@ -41,6 +41,8 @@ critical_details:
   failure_effect: []
 tech_level: 4
 meta_level: 2
+keywords: 'runeguard plate, armor, defense, dr-22, heavy-armor, tl-4'
+negative_keywords: 'unarmored, fragile, naked, high-acrobatics'
 ---
 Forged arcanosteel plate suit etched with warding glyphs that deflect both physical ordinance and psionic assaults.
 

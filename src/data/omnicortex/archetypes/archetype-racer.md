@@ -33,6 +33,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'racer, operative, artisan, adaptable, specialist, speed, transport'
+negative_keywords: 'incompetent, untrained, undisciplined'
 ---
 
 # The Racer

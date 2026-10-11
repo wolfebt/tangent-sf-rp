@@ -46,6 +46,10 @@ sockets:
   allocated: []
 tech_level: 0
 meta_level: 0
+keywords: >-
+  native longhouse / communal shelter, architecture, structure, native /
+  survivalist, tl-3, elongated
+negative_keywords: 'mobile-infantry, personal-weapon, portable-trinket'
 ---
 A large, elongated single-story structure constructed from heavy timber ribs and tightly woven thatch or treated animal hides. Serves as the central hub for a clan or extended family unit.
 

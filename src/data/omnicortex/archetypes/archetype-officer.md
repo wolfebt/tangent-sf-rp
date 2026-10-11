@@ -32,6 +32,8 @@ description: A strategic leader who commands troops and coordinates military ope
 costs:
   bp: 80
 modifiers: []
+keywords: 'officer, visionary, idealist, leadership, charisma, leader, tactician'
+negative_keywords: 'mindless-brute, reckless, illiterate, anti-social, mute'
 ---
 
 # The Officer

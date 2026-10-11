@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'burst attack, combat, special-feature, combat-maneuver, tactical-edge, trained'
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Burst Attack

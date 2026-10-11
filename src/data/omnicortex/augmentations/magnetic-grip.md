@@ -32,6 +32,8 @@ sockets:
 tech_level: 0
 meta_level: 0
 stage: Standard
+keywords: 'magnetic grip, augmentation, prosthetic, standard, tl-3, general'
+negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
 ---
 Category: **4.3 Limb Upgrades (1 BP Per Upgrade)**
 

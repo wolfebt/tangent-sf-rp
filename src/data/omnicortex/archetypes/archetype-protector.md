@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'protector, sentinel, defender, stability, order, tank, interceptor'
+negative_keywords: 'fragile, unarmored, timid, evasive-sniper, chaotic-anarchist'
 ---
 
 # The Protector

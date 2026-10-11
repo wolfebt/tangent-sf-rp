@@ -11,6 +11,8 @@ description: 'The character can tap into a primal fury, ignoring safety for raw 
 costs:
   bp: 3
 modifiers: []
+keywords: 'rage, special, special-feature, primal, ignoring, safety'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Rage

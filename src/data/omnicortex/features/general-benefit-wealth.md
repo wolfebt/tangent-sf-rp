@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'benefit (wealth), general, special-feature, substantial, personal, financial'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Benefit (Wealth)

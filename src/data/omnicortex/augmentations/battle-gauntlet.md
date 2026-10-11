@@ -32,6 +32,8 @@ sockets:
 tech_level: 0
 meta_level: 0
 stage: Negligible
+keywords: 'battle gauntlet, augmentation, cybernetic, negligible, tl-3, general'
+negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
 ---
 Category: **12.1 Mechanics of the Wearable**
 

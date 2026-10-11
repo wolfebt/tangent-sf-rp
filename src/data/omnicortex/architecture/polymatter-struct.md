@@ -33,6 +33,8 @@ sockets:
   allocated: []
 tech_level: 0
 meta_level: 0
+keywords: 'polymatter struct, architecture, structure, standard, tl-3, morphic'
+negative_keywords: 'mobile-infantry, personal-weapon, portable-trinket'
 ---
 Category: **9\. TL5 Advanced Augmentations**
 

@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'commander, visionary, idealist, leadership, charisma, leader, buffer'
+negative_keywords: 'mindless-brute, reckless, illiterate, anti-social, mute'
 ---
 
 # The Commander

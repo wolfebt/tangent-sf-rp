@@ -10,6 +10,8 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+keywords: 'covetous, hindrance, penalty, general, overwhelming, compulsion'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Covetous

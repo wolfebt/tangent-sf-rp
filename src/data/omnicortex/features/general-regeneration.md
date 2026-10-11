@@ -11,6 +11,8 @@ description: 'Regeneration is a General Feature: Heal 1 HP / Hour. Regrow lost l
 costs:
   bp: 3
 modifiers: []
+keywords: 'regeneration, general, special-feature, feature:, regrow'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Regeneration

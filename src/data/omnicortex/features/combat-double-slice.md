@@ -11,6 +11,8 @@ description: 'Double Slice is a Combat Feature: Add your Str bonus to off-hand d
 costs:
   bp: 3
 modifiers: []
+keywords: 'double slice, combat, special-feature, combat-maneuver, tactical-edge, double'
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Double Slice

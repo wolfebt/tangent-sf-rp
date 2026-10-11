@@ -10,6 +10,8 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+keywords: 'addiction, hindrance, penalty, general, chemical, biological'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Addiction

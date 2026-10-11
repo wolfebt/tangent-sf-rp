@@ -13,6 +13,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  discipline expertise, discipline, special-feature, focused-training, mastery,
+  expertise
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Discipline Expertise

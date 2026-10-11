@@ -11,6 +11,8 @@ description: The character can communicate mind-to-mind.
 costs:
   bp: 3
 modifiers: []
+keywords: 'telepathy, special, special-feature, communicate, mind-to-mind'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Telepathy

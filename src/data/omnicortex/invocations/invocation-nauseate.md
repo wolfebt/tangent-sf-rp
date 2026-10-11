@@ -7,6 +7,26 @@ description: NAUSEATE invocation for Entropy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Eakren (Corrupted Aberration)
+  - Tenen (Sha’nor Spectral)
+  - Rautha Human
+recommended_factions:
+  - The Outworlds
+  - Criminal Faction Template
+  - Mutant Faction Template
+recommended_origins:
+  - Hostile
+  - Industrial
+  - Urban
+recommended_occupations:
+  - Adept
+  - Criminal
+  - Drifter
+keywords: >-
+  nauseate, bio-toxin, visceral revulsion, bile sickness, biological debuff,
+  cellular disruption, debilitating vertigo
+negative_keywords: 'athletic vigor, iron stomach, clean oxygen, vital health'
 ---
 
 # NAUSEATE Invocation

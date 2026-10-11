@@ -10,6 +10,8 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+keywords: 'bodily age, hindrance, penalty, general, outside, physical'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Bodily Age

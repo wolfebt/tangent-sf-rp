@@ -6,7 +6,7 @@ feature_category: General
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: Tough, Stamina 3
+prerequisites: 'Tough, Stamina 3'
 description: >-
   A gain-of-function mutation in the LRP5 gene blocks inhibitory proteins,
   causing continuous, hyperactive bone formation. The character possesses a
@@ -14,6 +14,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  unbreakable skeleton, general, special-feature, gain-of-function, mutation,
+  blocks
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Unbreakable Skeleton

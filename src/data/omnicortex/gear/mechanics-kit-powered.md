@@ -30,6 +30,8 @@ sockets:
   allocated: []
 tech_level: 3
 meta_level: 0
+keywords: 'mechanics kit (powered), gear, personal-property, tl-3, pneumatic, drivers'
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Pneumatic drivers, laser calibrators, and sonic torque wrenches.
 

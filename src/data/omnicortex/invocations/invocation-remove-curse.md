@@ -7,6 +7,29 @@ description: REMOVE CURSE invocation for Entropy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Celestine (Alterian)
+  - Whisper
+  - Ila (Progenitor Archon)
+  - Nocturne (Kovian)
+recommended_factions:
+  - The Alterian Enclave
+  - Elven Providence
+  - The Ascendancy
+  - Kovian Tribunal
+recommended_origins:
+  - Enlightened
+  - Research
+  - Urban
+recommended_occupations:
+  - Adept
+  - Scholar
+  - Specialist
+  - Agent
+keywords: >-
+  remove curse, hex breaking, jinx purge, malevolent bond severance, spiritual
+  purification, counter-malediction, clean aura
+negative_keywords: 'curse weaving, malevolent retribution, dark pact, necrotic infection'
 ---
 
 # REMOVE CURSE Invocation

@@ -32,6 +32,10 @@ sockets:
   allocated: []
 tech_level: 2
 meta_level: 0
+keywords: >-
+  comm-link (subdermal / ear-piece), gear, personal-property, tl-2, short-range,
+  encrypted
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Short-range encrypted audio transceiver.
 

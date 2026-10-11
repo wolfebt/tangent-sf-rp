@@ -23,6 +23,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'survival, mental, wisdom, intellect, cognitive, expertise'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Survival

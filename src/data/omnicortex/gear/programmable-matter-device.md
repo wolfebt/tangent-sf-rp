@@ -34,6 +34,10 @@ sockets:
   allocated: []
 tech_level: 4
 meta_level: 0
+keywords: >-
+  programmable matter device (picotech), gear, personal-property, tl-4,
+  canister, "smart
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 A canister of "smart sand" or fluid picotech metal capable of taking structural form.
 

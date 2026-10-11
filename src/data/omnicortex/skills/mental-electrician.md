@@ -23,6 +23,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'electrician, mental, intellect, cognitive, expertise, power'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Electrician

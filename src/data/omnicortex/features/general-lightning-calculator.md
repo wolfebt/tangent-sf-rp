@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'lightning calculator, general, special-feature, living, computer, perform'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Lightning Calculator

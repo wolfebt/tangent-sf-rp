@@ -11,6 +11,8 @@ description: The character can take care of themselves in the wild without suppo
 costs:
   bp: 3
 modifiers: []
+keywords: 'self sufficient, skill, special-feature, themselves, without, support'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Self Sufficient

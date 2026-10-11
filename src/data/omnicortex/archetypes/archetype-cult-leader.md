@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'cult leader, visionary, idealist, leadership, charisma, leader, buffer'
+negative_keywords: 'anti-social, mute, solitary-hermit'
 ---
 
 # The Cult Leader

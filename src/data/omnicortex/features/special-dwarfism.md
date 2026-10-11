@@ -11,6 +11,8 @@ description: The character is significantly smaller than the average for their s
 costs:
   bp: 3
 modifiers: []
+keywords: 'dwarfism, special, special-feature, significantly, smaller, average'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Dwarfism

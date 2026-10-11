@@ -24,6 +24,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'investigation, mental, intellect, cognitive, expertise, forensics'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Investigation

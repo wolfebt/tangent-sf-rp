@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'mental alacrity, general, special-feature, mental, alacrity, feature:'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Mental Alacrity

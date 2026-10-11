@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'foreman, sentinel, defender, stability, order, leadership, logistics'
+negative_keywords: 'chaotic-anarchist, unreliable, reckless-gambler, anti-social, mute'
 ---
 
 # The Foreman

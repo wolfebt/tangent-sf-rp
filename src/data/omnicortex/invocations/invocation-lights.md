@@ -7,6 +7,28 @@ description: LIGHTS invocation for Energy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Celestine (Alterian)
+  - Fey (Base)
+  - Ila (Progenitor Archon)
+  - Whisper
+recommended_factions:
+  - The Alterian Enclave
+  - Elven Providence
+  - Interstellar Diplomats Faction Template
+recommended_origins:
+  - Enlightened
+  - Leisure
+  - Colony
+recommended_occupations:
+  - Adept
+  - Entertainer
+  - Scholar
+  - Scout
+keywords: >-
+  lights, dancing globes, luminous orbs, ambient illumination, radiant beacon,
+  dark dispeller, festive glow
+negative_keywords: 'pitch blackness, shadow veil, flashbang blinding'
 ---
 
 # LIGHTS Invocation

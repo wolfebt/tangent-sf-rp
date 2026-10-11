@@ -31,6 +31,8 @@ description: 'A scholar who specializes in the study, design, and development of
 costs:
   bp: 80
 modifiers: []
+keywords: 'roboticist, savant, rational, intellect, strategist, crafter, minion master'
+negative_keywords: 'fragile, unarmored, timid, evasive-sniper, mindless-brute'
 ---
 
 # The Roboticist

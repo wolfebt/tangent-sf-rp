@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'blockade, combat, special-feature, combat-maneuver, tactical-edge, dominates'
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Blockade

@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'greater trip, combat, special-feature, combat-maneuver, tactical-edge, greater'
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Greater Trip

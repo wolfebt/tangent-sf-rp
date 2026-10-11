@@ -7,6 +7,27 @@ description: CORROSION invocation for Entropy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Tenen (Sha’nor Spectral)
+  - Eakren (Corrupted Aberration)
+  - Rautha Human
+  - Mekan (Assimilation Unit)
+recommended_factions:
+  - The Outworlds
+  - Criminal Faction Template
+  - Incorporated Planetary Syndication (The Syndicate)
+recommended_origins:
+  - Industrial
+  - Hostile
+  - Urban
+recommended_occupations:
+  - Adept
+  - Specialist
+  - Criminal
+keywords: >-
+  corrosion, hyper-acid, molecular dissolution, armor eating, industrial sludge,
+  caustic liquefaction, metal etching, acid spray
+negative_keywords: 'acid proof, pristine chrome, non-reactive polymer, restorative mending'
 ---
 
 # CORROSION Invocation

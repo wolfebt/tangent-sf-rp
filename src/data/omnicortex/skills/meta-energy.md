@@ -9,7 +9,8 @@ governing_attributes:
   - Wisdom
   - Charisma
 description: >-
-  The metaphysical discipline governing the manipulation of raw energy states, kinetic force, elemental plasma, electricity, acoustic waves, and telekinesis.
+  The metaphysical discipline governing the manipulation of raw energy states,
+  kinetic force, elemental plasma, electricity, acoustic waves, and telekinesis.
 trained_only: true
 specialties:
   - 'Elemental Focus (Pyro, Cryo, Voltic, Sonic, Corrosive)'
@@ -20,6 +21,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'energy, combat, agility, tactical, offensive, defense'
+negative_keywords: 'pacifist, unarmed-civilian, helpless'
 ---
 
 # Energy

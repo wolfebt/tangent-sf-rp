@@ -44,6 +44,8 @@ sockets:
   allocated: []
 tech_level: 3
 meta_level: 0
+keywords: 'fusion power plant, architecture, structure, utility, tl-3, massive'
+negative_keywords: 'mobile-infantry, personal-weapon, portable-trinket'
 ---
 Massive toroidal magnetic confinement fusion reactor flanked by cooling hypertowers delivering high-yield electrical and plasma power.
 

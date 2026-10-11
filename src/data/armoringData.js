@@ -26,7 +26,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Penalty: None\r\nLocations: T, A\r\nSockets: 4",
-    "body": "Category: MEDIUM Armor\r\nPenalty: None\r\nLocations: T, A\r\nSockets: 4"
+    "body": "Category: MEDIUM Armor\r\nPenalty: None\r\nLocations: T, A\r\nSockets: 4",
+    "keywords": "armored jacket (standard), armor, defense, dr-10, medium-armor, tl-3",
+    "negative_keywords": "unarmored, fragile, naked"
   },
   {
     "id": "armored-jacket-heavy",
@@ -49,7 +51,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Penalty: -1 Mobility\r\nLocations: T, A\r\nSockets: 8",
-    "body": "Category: HEAVY Armor\r\nPenalty: -1 Mobility\r\nLocations: T, A\r\nSockets: 8"
+    "body": "Category: HEAVY Armor\r\nPenalty: -1 Mobility\r\nLocations: T, A\r\nSockets: 8",
+    "keywords": "armored jacket, heavy, armor, defense, dr-15, medium-armor, tl-3",
+    "negative_keywords": "unarmored, fragile, naked, high-acrobatics"
   },
   {
     "id": "armored-long-coat-reinforced",
@@ -72,7 +76,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Penalty: -1 Mobility\r\nLocations: T, A, L\r\nSockets: 4",
-    "body": "Category: MEDIUM Armor\r\nPenalty: -1 Mobility\r\nLocations: T, A, L\r\nSockets: 4"
+    "body": "Category: MEDIUM Armor\r\nPenalty: -1 Mobility\r\nLocations: T, A, L\r\nSockets: 4",
+    "keywords": "armored long coat (reinforced), armor, defense, dr-10, medium-armor, tl-3",
+    "negative_keywords": "unarmored, fragile, naked"
   },
   {
     "id": "armored-pants-partial",
@@ -95,7 +101,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Penalty: None\r\nLocations: L\r\nSockets: 2",
-    "body": "Category: MEDIUM Armor\r\nPenalty: None\r\nLocations: L\r\nSockets: 2"
+    "body": "Category: MEDIUM Armor\r\nPenalty: None\r\nLocations: L\r\nSockets: 2",
+    "keywords": "armored pants (partial), armor, defense, dr-10, medium-armor, tl-3",
+    "negative_keywords": "unarmored, fragile, naked"
   },
   {
     "id": "armored-pants-heavy",
@@ -118,7 +126,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Penalty: -5 Movement\r\nLocations: L\r\nSockets: 4",
-    "body": "Category: HEAVY Armor\r\nPenalty: -5 Movement\r\nLocations: L\r\nSockets: 4"
+    "body": "Category: HEAVY Armor\r\nPenalty: -5 Movement\r\nLocations: L\r\nSockets: 4",
+    "keywords": "armored pants, heavy, armor, defense, dr-15, medium-armor, tl-3",
+    "negative_keywords": "unarmored, fragile, naked, high-acrobatics"
   },
   {
     "id": "armored-vest-partial",
@@ -141,7 +151,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Penalty: None\r\nLocations: T\r\nSockets: 2",
-    "body": "Category: MEDIUM Armor\r\nPenalty: None\r\nLocations: T\r\nSockets: 2"
+    "body": "Category: MEDIUM Armor\r\nPenalty: None\r\nLocations: T\r\nSockets: 2",
+    "keywords": "armored vest (partial), armor, defense, dr-10, medium-armor, tl-3",
+    "negative_keywords": "unarmored, fragile, naked"
   },
   {
     "id": "ballistic-mesh",
@@ -164,7 +176,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Standard street-wear lined with a flexible network of plastic or metal alloys. Stops small arms fire while appearing as normal clothing.",
-    "body": "Standard street-wear lined with a flexible network of plastic or metal alloys. Stops small arms fire while appearing as normal clothing.\n\n**Mechanics:** Concealable (Detectable only with physical inspection). DR 5, SP 10."
+    "body": "Standard street-wear lined with a flexible network of plastic or metal alloys. Stops small arms fire while appearing as normal clothing.\n\n**Mechanics:** Concealable (Detectable only with physical inspection). DR 5, SP 10.",
+    "keywords": "ballistic mesh suit, armor, defense, dr-5, light-armor, tl-3",
+    "negative_keywords": "unarmored, fragile, naked"
   },
   {
     "id": "battle-suit-bulwark",
@@ -187,7 +201,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Penalty: -2 Mobility / -10 Move\r\nLocations: All\r\nSockets: 6",
-    "body": "Category: HEAVY Armor\r\nPenalty: -2 Mobility / -10 Move\r\nLocations: All\r\nSockets: 6"
+    "body": "Category: HEAVY Armor\r\nPenalty: -2 Mobility / -10 Move\r\nLocations: All\r\nSockets: 6",
+    "keywords": "battle suit (bulwark), armor, defense, dr-30, heavy-armor, tl-3",
+    "negative_keywords": "unarmored, fragile, naked, high-acrobatics"
   },
   {
     "id": "battle-suit-standard-pa",
@@ -210,7 +226,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Fully motorized military battle suit combining thick ceramic-titanium armor with servo-assisted musculature and life support.",
-    "body": "Fully motorized military battle suit combining thick ceramic-titanium armor with servo-assisted musculature and life support.\n\n**Mechanics:** Motorized Strength (+2 Might), Sealed Life Support (24h), Integrated HUD. DR 35, SP 100."
+    "body": "Fully motorized military battle suit combining thick ceramic-titanium armor with servo-assisted musculature and life support.\n\n**Mechanics:** Motorized Strength (+2 Might), Sealed Life Support (24h), Integrated HUD. DR 35, SP 100.",
+    "keywords": "battle suit (standard power armor), armor, defense, dr-35, heavy-armor, tl-3",
+    "negative_keywords": "unarmored, fragile, naked, high-acrobatics"
   },
   {
     "id": "chitinous-carapace",
@@ -233,7 +251,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Dense, multilayered insectoid carapace grown by Kitin warriors, offering high deflection against kinetic and acid attacks.",
-    "body": "Dense, multilayered insectoid carapace grown by Kitin warriors, offering high deflection against kinetic and acid attacks.\n\n**Mechanics:** Acid & Kinetic Resistance (Ignore 5 Acid/Corrosive damage). DR 18, SP 45."
+    "body": "Dense, multilayered insectoid carapace grown by Kitin warriors, offering high deflection against kinetic and acid attacks.\n\n**Mechanics:** Acid & Kinetic Resistance (Ignore 5 Acid/Corrosive damage). DR 18, SP 45.",
+    "keywords": "chitinous carapace (warrior strain), armor, defense, dr-18, medium-armor, tl-3",
+    "negative_keywords": "unarmored, fragile, naked"
   },
   {
     "id": "clothing-diminutive",
@@ -256,7 +276,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Penalty: None\r\nLocations: T, A, L\r\nSockets: 1",
-    "body": "Category: LIGHT Armor\r\nPenalty: None\r\nLocations: T, A, L\r\nSockets: 1"
+    "body": "Category: LIGHT Armor\r\nPenalty: None\r\nLocations: T, A, L\r\nSockets: 1",
+    "keywords": "clothing (diminutive), armor, defense, dr-4, light-armor, tl-3",
+    "negative_keywords": "unarmored, fragile, naked"
   },
   {
     "id": "clothing-reinforced",
@@ -279,7 +301,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Penalty: None\r\nLocations: T, A, L\r\nSockets: 1",
-    "body": "Category: LIGHT Armor\r\nPenalty: None\r\nLocations: T, A, L\r\nSockets: 1"
+    "body": "Category: LIGHT Armor\r\nPenalty: None\r\nLocations: T, A, L\r\nSockets: 1",
+    "keywords": "clothing, reinforced, armor, defense, dr-5, light-armor, tl-3",
+    "negative_keywords": "unarmored, fragile, naked"
   },
   {
     "id": "composite-combat-shell",
@@ -302,7 +326,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Advanced molded ceramics that offer superior deflection. Sleek, sealed, and favored by Entari and Syndicate shock troops.",
-    "body": "Advanced molded ceramics that offer superior deflection. Sleek, sealed, and favored by Entari and Syndicate shock troops.\n\n**Mechanics:** Refractive Coating (+2 Defense vs Lasers/Beams). -1 Mobility, -5 Movement. DR 20, SP 50."
+    "body": "Advanced molded ceramics that offer superior deflection. Sleek, sealed, and favored by Entari and Syndicate shock troops.\n\n**Mechanics:** Refractive Coating (+2 Defense vs Lasers/Beams). -1 Mobility, -5 Movement. DR 20, SP 50.",
+    "keywords": "composite combat shell, armor, defense, dr-20, heavy-armor, tl-4",
+    "negative_keywords": "unarmored, fragile, naked, high-acrobatics"
   },
   {
     "id": "crystalline-body-glove",
@@ -325,7 +351,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Alterian flexible crystal suit that hardens instantaneously upon kinetic or thermal impact, dispersing shockwaves.",
-    "body": "Alterian flexible crystal suit that hardens instantaneously upon kinetic or thermal impact, dispersing shockwaves.\n\n**Mechanics:** Impact Hardening (Gain DR 20 against single highest damage attack per round). DR 14, SP 35."
+    "body": "Alterian flexible crystal suit that hardens instantaneously upon kinetic or thermal impact, dispersing shockwaves.\n\n**Mechanics:** Impact Hardening (Gain DR 20 against single highest damage attack per round). DR 14, SP 35.",
+    "keywords": "crystalline body-glove, armor, defense, dr-14, medium-armor, tl-4",
+    "negative_keywords": "unarmored, fragile, naked"
   },
   {
     "id": "eod-hazard-shell",
@@ -348,7 +376,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Bulky specialized armor designed for bomb disposal, plasma containment, and extreme radiation environments.",
-    "body": "Bulky specialized armor designed for bomb disposal, plasma containment, and extreme radiation environments.\n\n**Mechanics:** Blast Shielding (Explosive/Area damage reduced by 50%). -2 Mobility, -10 Movement. DR 30, SP 80."
+    "body": "Bulky specialized armor designed for bomb disposal, plasma containment, and extreme radiation environments.\n\n**Mechanics:** Blast Shielding (Explosive/Area damage reduced by 50%). -2 Mobility, -10 Movement. DR 30, SP 80.",
+    "keywords": "eod / hazard shell, armor, defense, dr-30, heavy-armor, tl-3",
+    "negative_keywords": "unarmored, fragile, naked, high-acrobatics"
   },
   {
     "id": "exoskeleton-battlesuit",
@@ -371,7 +401,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Penalty: Varies (Powered)\r\nLocations: All\r\nSockets: 1 Mount (10)",
-    "body": "Category: HEAVY Armor\r\nPenalty: Varies (Powered)\r\nLocations: All\r\nSockets: 1 Mount (10)"
+    "body": "Category: HEAVY Armor\r\nPenalty: Varies (Powered)\r\nLocations: All\r\nSockets: 1 Mount (10)",
+    "keywords": "exoskeleton battlesuit, armor, defense, dr-40, heavy-armor, tl-3",
+    "negative_keywords": "unarmored, fragile, naked, high-acrobatics"
   },
   {
     "id": "full-body-armor-sealed",
@@ -394,7 +426,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Penalty: None\r\nLocations: All\r\nSockets: 8",
-    "body": "Category: HEAVY Armor\r\nPenalty: None\r\nLocations: All\r\nSockets: 8"
+    "body": "Category: HEAVY Armor\r\nPenalty: None\r\nLocations: All\r\nSockets: 8",
+    "keywords": "full body armor (sealed), armor, defense, dr-15, medium-armor, tl-3",
+    "negative_keywords": "unarmored, fragile, naked, high-acrobatics"
   },
   {
     "id": "full-body-armor-heavy-reinforced",
@@ -417,7 +451,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Penalty: -1 Mobility / -5 Move\r\nLocations: All\r\nSockets: 8",
-    "body": "Category: HEAVY Armor\r\nPenalty: -1 Mobility / -5 Move\r\nLocations: All\r\nSockets: 8"
+    "body": "Category: HEAVY Armor\r\nPenalty: -1 Mobility / -5 Move\r\nLocations: All\r\nSockets: 8",
+    "keywords": "full body armor, heavy (reinforced), armor, defense, dr-20, heavy-armor, tl-3",
+    "negative_keywords": "unarmored, fragile, naked, high-acrobatics"
   },
   {
     "id": "heavy-assault-plate-juggernaut",
@@ -440,7 +476,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Thick slabs of ablative armor and plasteel turning the wearer into a walking fortress.",
-    "body": "Thick slabs of ablative armor and plasteel turning the wearer into a walking fortress.\n\n**Mechanics:** Anchor (Advantage on checks to resist being knocked down). -2 Mobility, -10 Movement. DR 30, SP 80."
+    "body": "Thick slabs of ablative armor and plasteel turning the wearer into a walking fortress.\n\n**Mechanics:** Anchor (Advantage on checks to resist being knocked down). -2 Mobility, -10 Movement. DR 30, SP 80.",
+    "keywords": "heavy assault plate (juggernaut), armor, defense, dr-30, heavy-armor, tl-3",
+    "negative_keywords": "unarmored, fragile, naked, high-acrobatics"
   },
   {
     "id": "heavy-tactical-helmet",
@@ -463,7 +501,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Full-face protection with integrated comms and sensor housing.",
-    "body": "Full-face protection with integrated comms and sensor housing.\n\n**Mechanics:** Sensor Suite (Can house HUD/Comms). -2 Sight/Hearing without sensor link. DR 15, SP 15."
+    "body": "Full-face protection with integrated comms and sensor housing.\n\n**Mechanics:** Sensor Suite (Can house HUD/Comms). -2 Sight/Hearing without sensor link. DR 15, SP 15.",
+    "keywords": "heavy tactical helmet, armor, defense, dr-15, medium-armor, tl-3",
+    "negative_keywords": "unarmored, fragile, naked"
   },
   {
     "id": "helmet-heavy",
@@ -486,7 +526,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Penalty: -2 Sight/Hearing\r\nLocations: H\r\nSockets: 2",
-    "body": "Category: MEDIUM Armor\r\nPenalty: -2 Sight/Hearing\r\nLocations: H\r\nSockets: 2"
+    "body": "Category: MEDIUM Armor\r\nPenalty: -2 Sight/Hearing\r\nLocations: H\r\nSockets: 2",
+    "keywords": "helmet, heavy, armor, defense, dr-15, medium-armor, tl-3",
+    "negative_keywords": "unarmored, fragile, naked"
   },
   {
     "id": "holophotonic-emitter-harness",
@@ -509,7 +551,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Lightweight wearable harness projecting a rigid barrier of solid hard-light around the user, absorbing high-caliber projectiles and energy beams.",
-    "body": "Lightweight wearable harness projecting a rigid barrier of solid hard-light around the user, absorbing high-caliber projectiles and energy beams.\n\n**Mechanics:** Hard-Light Barrier (Regenerates 10 SP per minute when powered). DR 30, SP 60."
+    "body": "Lightweight wearable harness projecting a rigid barrier of solid hard-light around the user, absorbing high-caliber projectiles and energy beams.\n\n**Mechanics:** Hard-Light Barrier (Regenerates 10 SP per minute when powered). DR 30, SP 60.",
+    "keywords": "holophotonic emitter harness, armor, defense, dr-30, heavy-armor, tl-5",
+    "negative_keywords": "unarmored, fragile, naked, high-acrobatics"
   },
   {
     "id": "infantry-plate-trooper-armor",
@@ -532,7 +576,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Rigid composite plating covering the entire body, mounted on a sealed bodysuit. Standard military armor for Coalition and Dynasty forces.",
-    "body": "Rigid composite plating covering the entire body, mounted on a sealed bodysuit. Standard military armor for Coalition and Dynasty forces.\n\n**Mechanics:** Environmental Seal (6 hours air). DR 15, SP 40. No mobility penalties."
+    "body": "Rigid composite plating covering the entire body, mounted on a sealed bodysuit. Standard military armor for Coalition and Dynasty forces.\n\n**Mechanics:** Environmental Seal (6 hours air). DR 15, SP 40. No mobility penalties.",
+    "keywords": "infantry plate (trooper armor), armor, defense, dr-15, medium-armor, tl-3",
+    "negative_keywords": "unarmored, fragile, naked"
   },
   {
     "id": "inquisitor-mind-plate",
@@ -555,7 +601,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Heavy armor worn by Ascendancy Inquisitors with built-in psi-amplifiers and anti-telepathic dampeners.",
-    "body": "Heavy armor worn by Ascendancy Inquisitors with built-in psi-amplifiers and anti-telepathic dampeners.\n\n**Mechanics:** Telepathic Immunity (Wearer is immune to telepathic detection and mind-reading). DR 25, SP 70."
+    "body": "Heavy armor worn by Ascendancy Inquisitors with built-in psi-amplifiers and anti-telepathic dampeners.\n\n**Mechanics:** Telepathic Immunity (Wearer is immune to telepathic detection and mind-reading). DR 25, SP 70.",
+    "keywords": "inquisitor's mind-plate, armor, defense, dr-25, heavy-armor, tl-4",
+    "negative_keywords": "unarmored, fragile, naked, high-acrobatics"
   },
   {
     "id": "jewelry-fine",
@@ -578,7 +626,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Penalty: None\r\nLocations: None\r\nSockets: 2 Nodes",
-    "body": "Category: LIGHT Armor\r\nPenalty: None\r\nLocations: None\r\nSockets: 2 Nodes"
+    "body": "Category: LIGHT Armor\r\nPenalty: None\r\nLocations: None\r\nSockets: 2 Nodes",
+    "keywords": "jewelry (fine), armor, defense, dr-4, light-armor, tl-3",
+    "negative_keywords": "unarmored, fragile, naked"
   },
   {
     "id": "nanofiber-cloth-suit",
@@ -601,7 +651,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Tailored from advanced ballistic cloth (TL 4). Absorbs kinetic energy and spreads impact. Indistinguishable from high-end business wear.",
-    "body": "Tailored from advanced ballistic cloth (TL 4). Absorbs kinetic energy and spreads impact. Indistinguishable from high-end business wear.\n\n**Mechanics:** High Fashion (+1 to Etiquette/Style checks); Concealable. DR 5, SP 10."
+    "body": "Tailored from advanced ballistic cloth (TL 4). Absorbs kinetic energy and spreads impact. Indistinguishable from high-end business wear.\n\n**Mechanics:** High Fashion (+1 to Etiquette/Style checks); Concealable. DR 5, SP 10.",
+    "keywords": "nanofiber \"cloth\" suit, armor, defense, dr-5, light-armor, tl-4",
+    "negative_keywords": "unarmored, fragile, naked"
   },
   {
     "id": "polymatter-liquid-suit",
@@ -624,7 +676,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Nanofabricated morphic fluid suit that flows over the user's body in seconds, adapting to any environmental or combat threat.",
-    "body": "Nanofabricated morphic fluid suit that flows over the user's body in seconds, adapting to any environmental or combat threat.\n\n**Mechanics:** Adaptive Resistance (Switch damage type resistance as a Free Action). DR 20, SP 50."
+    "body": "Nanofabricated morphic fluid suit that flows over the user's body in seconds, adapting to any environmental or combat threat.\n\n**Mechanics:** Adaptive Resistance (Switch damage type resistance as a Free Action). DR 20, SP 50.",
+    "keywords": "polymatter \"liquid\" suit, armor, defense, dr-20, heavy-armor, tl-5",
+    "negative_keywords": "unarmored, fragile, naked, high-acrobatics"
   },
   {
     "id": "runeguard-plate",
@@ -647,7 +701,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Forged arcanosteel plate suit etched with warding glyphs that deflect both physical ordinance and psionic assaults.",
-    "body": "Forged arcanosteel plate suit etched with warding glyphs that deflect both physical ordinance and psionic assaults.\n\n**Mechanics:** Psionic Warding (+3 Will Defense against Mental Disciplines). DR 22, SP 60."
+    "body": "Forged arcanosteel plate suit etched with warding glyphs that deflect both physical ordinance and psionic assaults.\n\n**Mechanics:** Psionic Warding (+3 Will Defense against Mental Disciplines). DR 22, SP 60.",
+    "keywords": "runeguard plate, armor, defense, dr-22, heavy-armor, tl-4",
+    "negative_keywords": "unarmored, fragile, naked, high-acrobatics"
   },
   {
     "id": "sabatons",
@@ -670,7 +726,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Reinforced Boots. 2d6 Blunt. DR 10\\. Paired.",
-    "body": "Category: **12.1 Mechanics of the Wearable**\r\n\r\n**Location:** Legs\r\n**Nodes:** 10 (Each)\r\n**Description:** Reinforced Boots. 2d6 Blunt. DR 10\\. Paired."
+    "body": "Category: **12.1 Mechanics of the Wearable**\r\n\r\n**Location:** Legs\r\n**Nodes:** 10 (Each)\r\n**Description:** Reinforced Boots. 2d6 Blunt. DR 10\\. Paired.",
+    "keywords": "sabatons, armor, defense, dr-10, medium-armor, tl-3",
+    "negative_keywords": "unarmored, fragile, naked"
   },
   {
     "id": "scout-suit-infiltration-coat",
@@ -693,7 +751,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "A matte-black armored long coat or bodysuit using sound-dampening polymers. Covers vital areas while allowing free movement.",
-    "body": "A matte-black armored long coat or bodysuit using sound-dampening polymers. Covers vital areas while allowing free movement.\n\n**Mechanics:** Stealthy (+2 to Stealth checks). DR 10, SP 20."
+    "body": "A matte-black armored long coat or bodysuit using sound-dampening polymers. Covers vital areas while allowing free movement.\n\n**Mechanics:** Stealthy (+2 to Stealth checks). DR 10, SP 20.",
+    "keywords": "scout suit / infiltration coat, armor, defense, dr-10, medium-armor, tl-3",
+    "negative_keywords": "unarmored, fragile, naked"
   },
   {
     "id": "security-vest-standard",
@@ -716,7 +776,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "A semi-rigid vest made of ceramic plates over a kevlar weave. Standard issue for police and private security.",
-    "body": "A semi-rigid vest made of ceramic plates over a kevlar weave. Standard issue for police and private security.\n\n**Mechanics:** Hardened (Immune to Critical Hits from small arms). DR 10, SP 20."
+    "body": "A semi-rigid vest made of ceramic plates over a kevlar weave. Standard issue for police and private security.\n\n**Mechanics:** Hardened (Immune to Critical Hits from small arms). DR 10, SP 20.",
+    "keywords": "security vest (standard), armor, defense, dr-10, medium-armor, tl-3",
+    "negative_keywords": "unarmored, fragile, naked"
   },
   {
     "id": "stealth-suit",
@@ -739,7 +801,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Penalty: None\r\nLocations: All\r\nSockets: 2",
-    "body": "Category: LIGHT Armor\r\nPenalty: None\r\nLocations: All\r\nSockets: 2"
+    "body": "Category: LIGHT Armor\r\nPenalty: None\r\nLocations: All\r\nSockets: 2",
+    "keywords": "stealth suit, armor, defense, dr-5, light-armor, tl-3",
+    "negative_keywords": "unarmored, fragile, naked"
   },
   {
     "id": "survival-hard-suit",
@@ -762,7 +826,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Ruggedized plating over a pressurized under-suit, designed for hostile environments (vacuum, radiation, toxic atmosphere).",
-    "body": "Ruggedized plating over a pressurized under-suit, designed for hostile environments (vacuum, radiation, toxic atmosphere).\n\n**Mechanics:** Full Environmental (Immune to gas/vacuum, 24hr Life Support). DR 15, SP 40."
+    "body": "Ruggedized plating over a pressurized under-suit, designed for hostile environments (vacuum, radiation, toxic atmosphere).\n\n**Mechanics:** Full Environmental (Immune to gas/vacuum, 24hr Life Support). DR 15, SP 40.",
+    "keywords": "survival \"hard-suit\", armor, defense, dr-15, medium-armor, tl-3",
+    "negative_keywords": "unarmored, fragile, naked"
   },
   {
     "id": "symbiotic-second-skin",
@@ -785,7 +851,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Living Auluran bioweave suit that bonds to the wearer's epidermis, flexing naturally and regenerating cellular tears.",
-    "body": "Living Auluran bioweave suit that bonds to the wearer's epidermis, flexing naturally and regenerating cellular tears.\n\n**Mechanics:** Regenerating Bio-Armor (Regains 5 SP per hour), Zero Mobility Penalty. DR 12, SP 30."
+    "body": "Living Auluran bioweave suit that bonds to the wearer's epidermis, flexing naturally and regenerating cellular tears.\n\n**Mechanics:** Regenerating Bio-Armor (Regains 5 SP per hour), Zero Mobility Penalty. DR 12, SP 30.",
+    "keywords": "symbiotic \"second skin\", armor, defense, dr-12, medium-armor, tl-4",
+    "negative_keywords": "unarmored, fragile, naked"
   },
   {
     "id": "synth-leather-jack",
@@ -808,7 +876,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "A textured bodysuit or jacket made from chemically treated synthetic leather. Common among spacers and urban youth.",
-    "body": "A textured bodysuit or jacket made from chemically treated synthetic leather. Common among spacers and urban youth.\n\n**Mechanics:** Civilian Grade (Legal in all jurisdictions). DR 5, SP 10. No mobility penalties."
+    "body": "A textured bodysuit or jacket made from chemically treated synthetic leather. Common among spacers and urban youth.\n\n**Mechanics:** Civilian Grade (Legal in all jurisdictions). DR 5, SP 10. No mobility penalties.",
+    "keywords": "synth-leather \"jack\", armor, defense, dr-5, light-armor, tl-2",
+    "negative_keywords": "unarmored, fragile, naked"
   },
   {
     "id": "utility-exoskeleton-loader",
@@ -831,7 +901,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "An open-frame hydraulic skeleton used for heavy cargo loading and industrial assembly, amplifying physical strength.",
-    "body": "An open-frame hydraulic skeleton used for heavy cargo loading and industrial assembly, amplifying physical strength.\n\n**Mechanics:** Hydraulic Strength (Set Strength to 18/+4, Lifting Capacity x2). DR 40, SP 120."
+    "body": "An open-frame hydraulic skeleton used for heavy cargo loading and industrial assembly, amplifying physical strength.\n\n**Mechanics:** Hydraulic Strength (Set Strength to 18/+4, Lifting Capacity x2). DR 40, SP 120.",
+    "keywords": "utility exoskeleton (loader), armor, defense, dr-40, heavy-armor, tl-3",
+    "negative_keywords": "unarmored, fragile, naked, high-acrobatics"
   },
   {
     "id": "warded-weave-robes",
@@ -854,7 +926,9 @@ export const DEFAULT_ARMORING = [
     "modifiers": [],
     "modifications": [],
     "description": "Silken robes embroidered with conductive resonant sigils designed to disperse metaphysical and thermal energy.",
-    "body": "Silken robes embroidered with conductive resonant sigils designed to disperse metaphysical and thermal energy.\n\n**Mechanics:** Resonance Dispersion (+2 to saves vs Metaphysical and Energy attacks). DR 8, SP 20."
+    "body": "Silken robes embroidered with conductive resonant sigils designed to disperse metaphysical and thermal energy.\n\n**Mechanics:** Resonance Dispersion (+2 to saves vs Metaphysical and Energy attacks). DR 8, SP 20.",
+    "keywords": "warded weave robes, armor, defense, dr-8, light-armor, tl-3",
+    "negative_keywords": "unarmored, fragile, naked"
   }
 ];
 export const getArmorById = (id) => DEFAULT_ARMORING.find(a => a.id === id);

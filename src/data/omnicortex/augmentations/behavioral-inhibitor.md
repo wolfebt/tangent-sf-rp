@@ -31,6 +31,8 @@ sockets:
 tech_level: 0
 meta_level: 0
 stage: Negligible
+keywords: 'behavioral inhibitor, augmentation, neural, negligible, tl-3, general'
+negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
 ---
 Category: **7\. Brain Modifications (TL 3\)**
 

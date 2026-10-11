@@ -29,6 +29,8 @@ sockets:
 tech_level: 1
 meta_level: 0
 stage: Standard
+keywords: 'feet, augmentation, cybernetic, standard, tl-1, general'
+negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
 ---
 **Special:** Non-Lethal
 

@@ -7,6 +7,28 @@ description: NUDGE invocation for Energy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Celestine (Alterian)
+  - Whisper
+  - Sigal
+  - Human (Base)
+recommended_factions:
+  - The Alterian Enclave
+  - The Ascendancy
+  - Incorporated Planetary Syndication (The Syndicate)
+recommended_origins:
+  - Enlightened
+  - Urban
+  - Leisure
+recommended_occupations:
+  - Adept
+  - Agent
+  - Entertainer
+  - Scout
+keywords: >-
+  nudge, minor telekinesis, sleight of force, invisible push, small vector
+  flick, subtle manipulation
+negative_keywords: 'massive explosion, crushing hydraulic weight, earth shattering'
 ---
 
 # NUDGE Invocation

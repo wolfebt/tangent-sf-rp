@@ -25,7 +25,9 @@ import {
   ChevronRight,
   ArrowRight,
   AlertCircle,
-  Lock
+  Lock,
+  Compass,
+  Tag
 } from 'lucide-react';
 import { useFolio } from '../../../context/FolioContext';
 import { useDice } from '../../../context/DiceContext';
@@ -246,7 +248,13 @@ const ALL_CATALOG_INVOCATIONS = (() => {
         description: inv.description || (inv.body ? (inv.body.split('\n\n')[1] || inv.body.slice(0, 140)) : 'Omnicortex reality manipulation formula.'),
         scaling: inv.scaling || '+1d6 per Invocation level.',
         cp: 1,
-        powerType: 'invocation'
+        powerType: 'invocation',
+        recommended_species: Array.isArray(inv.recommended_species) ? inv.recommended_species : [],
+        recommended_factions: Array.isArray(inv.recommended_factions) ? inv.recommended_factions : [],
+        recommended_origins: Array.isArray(inv.recommended_origins) ? inv.recommended_origins : [],
+        recommended_occupations: Array.isArray(inv.recommended_occupations) ? inv.recommended_occupations : [],
+        keywords: inv.keywords || '',
+        negative_keywords: inv.negative_keywords || ''
       });
     }
   });
@@ -301,12 +309,24 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
     scaling: '',
     rank: 1,
     cp: 1,
-    isInherent: false
+    isInherent: false,
+    recommended_species: [],
+    recommended_factions: [],
+    recommended_origins: [],
+    recommended_occupations: [],
+    keywords: '',
+    negative_keywords: ''
   });
 
   if (!isOpen) return null;
 
   const getNum = (id, defaultVal = 0) => parseInt(characterData[id] || defaultVal, 10);
+
+  // Character cultural & career identity for synergy highlighting
+  const charSpecies = String(characterData['char-species'] || characterData.species || '').toLowerCase();
+  const charFaction = String(characterData['char-faction'] || characterData.faction || '').toLowerCase();
+  const charOrigin = String(characterData['char-origin'] || characterData.origin || '').toLowerCase();
+  const charOccupation = String(characterData['char-career'] || characterData['char-occupation'] || characterData.occupation || '').toLowerCase();
 
   // Character awakened disciplines list
   const awakenedList = Array.isArray(characterData.awakened) ? characterData.awakened : [];
@@ -661,7 +681,13 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
       scaling: inv.scaling || '',
       rank: inv.rank || 1,
       cp: inv.cp || 1,
-      isInherent: isSpecial
+      isInherent: isSpecial,
+      recommended_species: Array.isArray(inv.recommended_species) ? inv.recommended_species : [],
+      recommended_factions: Array.isArray(inv.recommended_factions) ? inv.recommended_factions : [],
+      recommended_origins: Array.isArray(inv.recommended_origins) ? inv.recommended_origins : [],
+      recommended_occupations: Array.isArray(inv.recommended_occupations) ? inv.recommended_occupations : [],
+      keywords: inv.keywords || '',
+      negative_keywords: inv.negative_keywords || ''
     });
     setEditingTargetIndex(idx);
     setBuildModalMode('edit_invocation');
@@ -687,7 +713,13 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
       scaling: abil.scaling || '',
       rank: abil.rank || 1,
       cp: abil.cp || 5,
-      isInherent: true
+      isInherent: true,
+      recommended_species: Array.isArray(abil.recommended_species) ? abil.recommended_species : [],
+      recommended_factions: Array.isArray(abil.recommended_factions) ? abil.recommended_factions : [],
+      recommended_origins: Array.isArray(abil.recommended_origins) ? abil.recommended_origins : [],
+      recommended_occupations: Array.isArray(abil.recommended_occupations) ? abil.recommended_occupations : [],
+      keywords: abil.keywords || '',
+      negative_keywords: abil.negative_keywords || ''
     });
     setEditingTargetIndex(idx);
     setBuildModalMode('edit_special_ability');
@@ -1287,7 +1319,13 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                       scaling: '',
                       rank: 1,
                       cp: 1,
-                      isInherent: false
+                      isInherent: false,
+                      recommended_species: [],
+                      recommended_factions: [],
+                      recommended_origins: [],
+                      recommended_occupations: [],
+                      keywords: '',
+                      negative_keywords: ''
                     });
                     setBuildModalMode('create_invocation');
                     setIsBuildModalOpen(true);
@@ -1316,7 +1354,13 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                       scaling: '',
                       rank: 1,
                       cp: 5,
-                      isInherent: true
+                      isInherent: true,
+                      recommended_species: [],
+                      recommended_factions: [],
+                      recommended_origins: [],
+                      recommended_occupations: [],
+                      keywords: '',
+                      negative_keywords: ''
                     });
                     setBuildModalMode('create_special_ability');
                     setIsBuildModalOpen(true);
@@ -1630,6 +1674,53 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                           {power.damage && <div className="col-span-2">Damage: <span className="text-emerald-300 font-bold">{power.damage}</span></div>}
                           {power.scaling && <div className="col-span-2 text-purple-300">Scaling: <span>{power.scaling}</span></div>}
                         </div>
+
+                        {/* Cultural Synergies & Keywords */}
+                        {((power.recommended_species?.length > 0) ||
+                          (power.recommended_factions?.length > 0) ||
+                          (power.recommended_origins?.length > 0) ||
+                          (power.recommended_occupations?.length > 0) ||
+                          power.keywords) && (
+                          <div className="flex flex-wrap items-center gap-1 mt-2 pt-2 border-t border-slate-800/80">
+                            {power.recommended_species?.map(sp => {
+                              const isMatch = charSpecies && sp.toLowerCase().includes(charSpecies);
+                              return (
+                                <span key={sp} className={`px-1.5 py-0.5 rounded text-[9px] font-mono border ${isMatch ? 'bg-emerald-950/80 border-emerald-500 text-emerald-200 font-bold' : 'bg-slate-900 border-slate-800 text-slate-400'}`}>
+                                  {isMatch && '✓ '}Sp: {sp}
+                                </span>
+                              );
+                            })}
+                            {power.recommended_factions?.map(fac => {
+                              const isMatch = charFaction && fac.toLowerCase().includes(charFaction);
+                              return (
+                                <span key={fac} className={`px-1.5 py-0.5 rounded text-[9px] font-mono border ${isMatch ? 'bg-blue-950/80 border-blue-500 text-blue-200 font-bold' : 'bg-slate-900 border-slate-800 text-slate-400'}`}>
+                                  {isMatch && '✓ '}Fac: {fac}
+                                </span>
+                              );
+                            })}
+                            {power.recommended_origins?.map(orig => {
+                              const isMatch = charOrigin && orig.toLowerCase().includes(charOrigin);
+                              return (
+                                <span key={orig} className={`px-1.5 py-0.5 rounded text-[9px] font-mono border ${isMatch ? 'bg-emerald-950/80 border-emerald-500 text-emerald-200 font-bold' : 'bg-slate-900 border-slate-800 text-slate-400'}`}>
+                                  {isMatch && '✓ '}Orig: {orig}
+                                </span>
+                              );
+                            })}
+                            {power.recommended_occupations?.map(occ => {
+                              const isMatch = charOccupation && occ.toLowerCase().includes(charOccupation);
+                              return (
+                                <span key={occ} className={`px-1.5 py-0.5 rounded text-[9px] font-mono border ${isMatch ? 'bg-amber-950/80 border-amber-500 text-amber-200 font-bold' : 'bg-slate-900 border-slate-800 text-slate-400'}`}>
+                                  {isMatch && '✓ '}Occ: {occ}
+                                </span>
+                              );
+                            })}
+                            {power.keywords && (
+                              <span className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-purple-950/60 border border-purple-800/60 text-purple-300" title={`Directives: ${power.keywords}`}>
+                                ✨ {power.keywords}
+                              </span>
+                            )}
+                          </div>
+                        )}
                       </div>
 
                       {/* Footer Actions */}
@@ -1866,6 +1957,53 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                           </div>
                         )}
                       </div>
+
+                      {/* Cultural Synergies & Keywords */}
+                      {((item.recommended_species?.length > 0) ||
+                        (item.recommended_factions?.length > 0) ||
+                        (item.recommended_origins?.length > 0) ||
+                        (item.recommended_occupations?.length > 0) ||
+                        item.keywords) && (
+                        <div className="flex flex-wrap items-center gap-1 mt-2 pt-2 border-t border-slate-800/80">
+                          {item.recommended_species?.map(sp => {
+                            const isMatch = charSpecies && sp.toLowerCase().includes(charSpecies);
+                            return (
+                              <span key={sp} className={`px-1.5 py-0.5 rounded text-[9px] font-mono border ${isMatch ? 'bg-emerald-950/80 border-emerald-500 text-emerald-200 font-bold' : 'bg-slate-900 border-slate-800 text-slate-400'}`}>
+                                {isMatch && '✓ '}Sp: {sp}
+                              </span>
+                            );
+                          })}
+                          {item.recommended_factions?.map(fac => {
+                            const isMatch = charFaction && fac.toLowerCase().includes(charFaction);
+                            return (
+                              <span key={fac} className={`px-1.5 py-0.5 rounded text-[9px] font-mono border ${isMatch ? 'bg-blue-950/80 border-blue-500 text-blue-200 font-bold' : 'bg-slate-900 border-slate-800 text-slate-400'}`}>
+                                {isMatch && '✓ '}Fac: {fac}
+                              </span>
+                            );
+                          })}
+                          {item.recommended_origins?.map(orig => {
+                            const isMatch = charOrigin && orig.toLowerCase().includes(charOrigin);
+                            return (
+                              <span key={orig} className={`px-1.5 py-0.5 rounded text-[9px] font-mono border ${isMatch ? 'bg-emerald-950/80 border-emerald-500 text-emerald-200 font-bold' : 'bg-slate-900 border-slate-800 text-slate-400'}`}>
+                                {isMatch && '✓ '}Orig: {orig}
+                              </span>
+                            );
+                          })}
+                          {item.recommended_occupations?.map(occ => {
+                            const isMatch = charOccupation && occ.toLowerCase().includes(charOccupation);
+                            return (
+                              <span key={occ} className={`px-1.5 py-0.5 rounded text-[9px] font-mono border ${isMatch ? 'bg-amber-950/80 border-amber-500 text-amber-200 font-bold' : 'bg-slate-900 border-slate-800 text-slate-400'}`}>
+                                {isMatch && '✓ '}Occ: {occ}
+                              </span>
+                            );
+                          })}
+                          {item.keywords && (
+                            <span className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-purple-950/60 border border-purple-800/60 text-purple-300" title={`Directives: ${item.keywords}`}>
+                              ✨ {item.keywords}
+                            </span>
+                          )}
+                        </div>
+                      )}
                     </div>
 
                     <div className="pt-2 mt-2 border-t border-slate-850 flex items-center justify-between">
@@ -2156,6 +2294,88 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                     placeholder="+1d6 damage per rank..."
                     className="w-full bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-slate-100 outline-none"
                   />
+                </div>
+
+                {/* Cultural Pathways & AI Directives */}
+                <div className="col-span-2 p-3 bg-slate-950/80 border border-purple-900/50 rounded-xl space-y-2.5">
+                  <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-purple-300">
+                    <Compass size={13} />
+                    <span>Cultural Pathways &amp; AI Directives</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 text-[10px]">
+                    <div>
+                      <label className="block uppercase font-bold text-slate-400 mb-1">Recommended Species</label>
+                      <input
+                        type="text"
+                        value={Array.isArray(customForm.recommended_species) ? customForm.recommended_species.join(', ') : (customForm.recommended_species || '')}
+                        onChange={(e) => setCustomForm({
+                          ...customForm,
+                          recommended_species: e.target.value.split(',').map(s => s.trim()).filter(Boolean)
+                        })}
+                        placeholder="e.g. Aethelgard, Human"
+                        className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-slate-200 outline-none focus:border-purple-500/50"
+                      />
+                    </div>
+                    <div>
+                      <label className="block uppercase font-bold text-slate-400 mb-1">Recommended Factions</label>
+                      <input
+                        type="text"
+                        value={Array.isArray(customForm.recommended_factions) ? customForm.recommended_factions.join(', ') : (customForm.recommended_factions || '')}
+                        onChange={(e) => setCustomForm({
+                          ...customForm,
+                          recommended_factions: e.target.value.split(',').map(s => s.trim()).filter(Boolean)
+                        })}
+                        placeholder="e.g. Astratech Syndicate, The Accord"
+                        className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-slate-200 outline-none focus:border-purple-500/50"
+                      />
+                    </div>
+                    <div>
+                      <label className="block uppercase font-bold text-slate-400 mb-1">Recommended Origins</label>
+                      <input
+                        type="text"
+                        value={Array.isArray(customForm.recommended_origins) ? customForm.recommended_origins.join(', ') : (customForm.recommended_origins || '')}
+                        onChange={(e) => setCustomForm({
+                          ...customForm,
+                          recommended_origins: e.target.value.split(',').map(s => s.trim()).filter(Boolean)
+                        })}
+                        placeholder="e.g. Deep Void Station, Sanctuary World"
+                        className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-slate-200 outline-none focus:border-purple-500/50"
+                      />
+                    </div>
+                    <div>
+                      <label className="block uppercase font-bold text-slate-400 mb-1">Recommended Occupations</label>
+                      <input
+                        type="text"
+                        value={Array.isArray(customForm.recommended_occupations) ? customForm.recommended_occupations.join(', ') : (customForm.recommended_occupations || '')}
+                        onChange={(e) => setCustomForm({
+                          ...customForm,
+                          recommended_occupations: e.target.value.split(',').map(s => s.trim()).filter(Boolean)
+                        })}
+                        placeholder="e.g. Psionicist, Occult Scholar"
+                        className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-slate-200 outline-none focus:border-purple-500/50"
+                      />
+                    </div>
+                    <div className="col-span-2">
+                      <label className="block uppercase font-bold text-emerald-400 mb-1">Positive Thematic Keywords (Prompt Cues)</label>
+                      <input
+                        type="text"
+                        value={customForm.keywords || ''}
+                        onChange={(e) => setCustomForm({ ...customForm, keywords: e.target.value })}
+                        placeholder="e.g. psionic warp, void barrier, cognitive disruption"
+                        className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-slate-200 outline-none focus:border-emerald-500/50"
+                      />
+                    </div>
+                    <div className="col-span-2">
+                      <label className="block uppercase font-bold text-rose-400 mb-1">Negative Railguards (Anti-Synergies)</label>
+                      <input
+                        type="text"
+                        value={customForm.negative_keywords || ''}
+                        onChange={(e) => setCustomForm({ ...customForm, negative_keywords: e.target.value })}
+                        placeholder="e.g. mundane tech, physical firearm, mechanical armor"
+                        className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-slate-200 outline-none focus:border-rose-500/50"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
 

@@ -11,6 +11,27 @@ costs:
   bp: 0
 modifiers: []
 discipline: Matter + Entropy
+recommended_species:
+  - Tenen (Sha’nor Spectral)
+  - Sha'nor
+  - Celestine (Alterian)
+  - Rautha Human
+recommended_factions:
+  - The Outworlds
+  - The Alterian Enclave
+  - Religious Cult Faction Template
+recommended_origins:
+  - Hostile
+  - Enlightened
+  - Colony
+recommended_occupations:
+  - Adept
+  - Criminal
+  - Specialist
+keywords: >-
+  vitality drain, blood transfer, metabolic siphon, necrotic heal, life tether,
+  sacrificial mending, siphon vitality
+negative_keywords: 'mechanical repair, robotic reboot, battery recharge'
 ---
 # Life Transfer (Composite Invocation)
 

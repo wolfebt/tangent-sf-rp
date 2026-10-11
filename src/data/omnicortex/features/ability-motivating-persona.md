@@ -11,6 +11,10 @@ description: 'Motivating Persona is a Ability Feature: Roll Etiquette checks wit
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  motivating persona, ability, special-feature, innate-talent, passive-prowess,
+  motivating
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Motivating Persona

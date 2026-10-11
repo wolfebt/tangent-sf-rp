@@ -7,19 +7,22 @@ category: skills
 governing_attributes:
   - Wisdom
 description: >-
-  Energy discipline: Kinetic barriers, gravimetric pulses, concussive waves, and physical repulsors.
+  Energy discipline: Kinetic barriers, gravimetric pulses, concussive waves, and
+  physical repulsors.
 trained_only: true
 specialties:
-  - 'Deflective Barriers'
-  - 'Kinetic Concussion'
-  - 'Gravimetric Compression'
-  - 'Repulsor Fields'
-  - 'Shockwave Emitters'
+  - Deflective Barriers
+  - Kinetic Concussion
+  - Gravimetric Compression
+  - Repulsor Fields
+  - Shockwave Emitters
 synergy_links:
   - meta-attune
 costs:
   bp: 0
 modifiers: []
+keywords: 'force, meta, wisdom, metafocus, psionic, resonance'
+negative_keywords: 'mundane, anti-magic-field, unattuned'
 ---
 
 # Force

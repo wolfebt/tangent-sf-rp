@@ -11,6 +11,8 @@ description: The character has excellent manual dexterity for fine manipulation.
 costs:
   bp: 3
 modifiers: []
+keywords: 'nimble fingers, skill, special-feature, excellent, manual, dexterity'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Nimble Fingers

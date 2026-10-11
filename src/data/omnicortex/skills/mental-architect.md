@@ -22,6 +22,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'architect, mental, intellect, cognitive, expertise, designing'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Architect

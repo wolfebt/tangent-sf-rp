@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'demagogue, visionary, idealist, leadership, charisma, debuffer, chaos agent'
+negative_keywords: 'mindless-brute, reckless, illiterate, anti-social, mute'
 ---
 
 # The Demagogue

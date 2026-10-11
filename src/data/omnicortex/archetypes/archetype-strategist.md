@@ -35,6 +35,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'strategist, savant, rational, intellect, utility, investigation, puzzle solver'
+negative_keywords: 'mindless-brute, reckless, illiterate'
 ---
 
 # The Strategist

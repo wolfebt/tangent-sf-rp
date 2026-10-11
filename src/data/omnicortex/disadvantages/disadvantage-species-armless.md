@@ -1,6 +1,6 @@
 ---
 id: disadvantage-species-armless
-name: "Armless"
+name: Armless
 category: disadvantages
 disadvantage_type: Species Disadvantage
 classification: Physical
@@ -8,9 +8,11 @@ type: Physical
 bp_granted: 4
 costs:
   bp: -4
-description: "Without Arms."
-prerequisite: ""
+description: Without Arms.
+prerequisite: ''
 modifiers: []
+keywords: 'armless, hindrance, penalty, physical, without'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Armless

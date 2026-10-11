@@ -11,6 +11,8 @@ description: The character possesses a flare for the creative arts.
 costs:
   bp: 3
 modifiers: []
+keywords: 'artistic, skill, special-feature, possesses, creative'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Artistic

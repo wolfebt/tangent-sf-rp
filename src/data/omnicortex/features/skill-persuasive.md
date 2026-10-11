@@ -11,6 +11,8 @@ description: The character is convincing and compelling.
 costs:
   bp: 3
 modifiers: []
+keywords: 'persuasive, skill, special-feature, convincing, compelling'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Persuasive

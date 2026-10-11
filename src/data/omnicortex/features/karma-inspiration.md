@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'inspiration, karma, special-feature, determination, allies, spurring'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Inspiration

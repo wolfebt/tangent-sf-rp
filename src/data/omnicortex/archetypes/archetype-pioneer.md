@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'pioneer, operative, artisan, adaptable, specialist, scout, knowledge'
+negative_keywords: 'incompetent, untrained, undisciplined'
 ---
 
 # The Pioneer

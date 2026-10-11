@@ -241,10 +241,22 @@ export const DBMTableView = ({
   const columnsDropdownRef = useRef(null);
   const filtersDropdownRef = useRef(null);
   const fileMenuRef = useRef(null);
-  const { syncCanonicalSpecies, syncCanonicalFactions, clearTombstonesForCategory } = useDBM() || {};
+  const { 
+    syncCanonicalSpecies, 
+    syncCanonicalFactions, 
+    syncCanonicalOrigins, 
+    syncCanonicalOccupations, 
+    syncCanonicalInvocations, 
+    syncCanonicalAllRecommendations, 
+    clearTombstonesForCategory 
+  } = useDBM() || {};
   const confirm = useConfirm();
   const [isSyncingSpecies, setIsSyncingSpecies] = useState(false);
   const [isSyncingFactions, setIsSyncingFactions] = useState(false);
+  const [isSyncingOrigins, setIsSyncingOrigins] = useState(false);
+  const [isSyncingOccupations, setIsSyncingOccupations] = useState(false);
+  const [isSyncingInvocations, setIsSyncingInvocations] = useState(false);
+  const [isSyncingAll, setIsSyncingAll] = useState(false);
 
   // Dropdown states
   const [isColumnsMenuOpen, setIsColumnsMenuOpen] = useState(false);
@@ -1248,6 +1260,114 @@ export const DBMTableView = ({
                   >
                     <span>🔄</span>
                     <span>Restore All 40 Factions</span>
+                  </button>
+                )}
+
+                {isAdmin && currentKey === 'origins' && syncCanonicalOrigins && (
+                  <button
+                    onClick={async () => {
+                      setIsFileMenuOpen(false);
+                      const ok = await confirm({
+                        title: 'Sync Cloud Origins',
+                        message: 'Sync all 11 canonical origins from local definitions to Firestore cloud collection? This will overwrite or update cloud origins documents.',
+                        danger: true,
+                        confirmLabel: 'Sync Origins'
+                      });
+                      if (ok) {
+                        setIsSyncingOrigins(true);
+                        try {
+                          await syncCanonicalOrigins();
+                        } finally {
+                          setIsSyncingOrigins(false);
+                        }
+                      }
+                    }}
+                    disabled={isSyncingOrigins}
+                    className="w-full text-left px-2.5 py-1.5 bg-emerald-950/40 hover:bg-emerald-900/60 text-emerald-300 rounded flex items-center gap-2 transition-colors font-medium border border-emerald-500/30"
+                  >
+                    <span>🌐</span>
+                    <span>{isSyncingOrigins ? 'Syncing...' : 'Sync Cloud Origins (11)'}</span>
+                  </button>
+                )}
+
+                {isAdmin && currentKey === 'occupations' && syncCanonicalOccupations && (
+                  <button
+                    onClick={async () => {
+                      setIsFileMenuOpen(false);
+                      const ok = await confirm({
+                        title: 'Sync Cloud Occupations',
+                        message: 'Sync all 13 canonical occupations from local definitions to Firestore cloud collection? This will overwrite or update cloud occupations documents.',
+                        danger: true,
+                        confirmLabel: 'Sync Occupations'
+                      });
+                      if (ok) {
+                        setIsSyncingOccupations(true);
+                        try {
+                          await syncCanonicalOccupations();
+                        } finally {
+                          setIsSyncingOccupations(false);
+                        }
+                      }
+                    }}
+                    disabled={isSyncingOccupations}
+                    className="w-full text-left px-2.5 py-1.5 bg-sky-950/40 hover:bg-sky-900/60 text-sky-300 rounded flex items-center gap-2 transition-colors font-medium border border-sky-500/30"
+                  >
+                    <span>💼</span>
+                    <span>{isSyncingOccupations ? 'Syncing...' : 'Sync Cloud Occupations (13)'}</span>
+                  </button>
+                )}
+
+                {isAdmin && (currentKey === 'invocations' || currentKey === 'magic') && syncCanonicalInvocations && (
+                  <button
+                    onClick={async () => {
+                      setIsFileMenuOpen(false);
+                      const ok = await confirm({
+                        title: 'Sync Cloud Invocations',
+                        message: 'Sync all 137 canonical invocations from local definitions to Firestore cloud collection? This will overwrite or update cloud invocations documents.',
+                        danger: true,
+                        confirmLabel: 'Sync Invocations'
+                      });
+                      if (ok) {
+                        setIsSyncingInvocations(true);
+                        try {
+                          await syncCanonicalInvocations();
+                        } finally {
+                          setIsSyncingInvocations(false);
+                        }
+                      }
+                    }}
+                    disabled={isSyncingInvocations}
+                    className="w-full text-left px-2.5 py-1.5 bg-indigo-950/40 hover:bg-indigo-900/60 text-indigo-300 rounded flex items-center gap-2 transition-colors font-medium border border-indigo-500/30"
+                  >
+                    <span>✨</span>
+                    <span>{isSyncingInvocations ? 'Syncing...' : 'Sync Cloud Invocations (137)'}</span>
+                  </button>
+                )}
+
+                {isAdmin && syncCanonicalAllRecommendations && (
+                  <button
+                    onClick={async () => {
+                      setIsFileMenuOpen(false);
+                      const ok = await confirm({
+                        title: 'Sync All Recommendations to Cloud',
+                        message: 'Sync all canonical recommendation directives and keywords across Species, Factions, Origins, Occupations, and Invocations to Firestore?',
+                        danger: true,
+                        confirmLabel: 'Sync All Recommendations'
+                      });
+                      if (ok) {
+                        setIsSyncingAll(true);
+                        try {
+                          await syncCanonicalAllRecommendations();
+                        } finally {
+                          setIsSyncingAll(false);
+                        }
+                      }
+                    }}
+                    disabled={isSyncingAll}
+                    className="w-full text-left px-2.5 py-1.5 bg-emerald-950/60 hover:bg-emerald-900/80 text-emerald-200 rounded flex items-center gap-2 transition-colors font-medium border border-emerald-400/40"
+                  >
+                    <span>⚡</span>
+                    <span>{isSyncingAll ? 'Syncing All...' : 'Sync All Recommendations to Cloud'}</span>
                   </button>
                 )}
 

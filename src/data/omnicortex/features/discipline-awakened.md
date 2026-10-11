@@ -14,6 +14,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'awakened, discipline, special-feature, focused-training, mastery, opened'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Awakened

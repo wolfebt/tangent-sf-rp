@@ -7,6 +7,27 @@ description: BOLT invocation for Energy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Draconian (Scaled Aeld)
+  - Janissary (Gen-E)
+  - Impyrium Regi (Gen-E)
+  - Cyberform Human
+recommended_factions:
+  - Dracon Dynasty
+  - Radiant Impyrium
+  - Military Faction Template
+recommended_origins:
+  - Militaristic
+  - Industrial
+  - Hostile
+recommended_occupations:
+  - Soldier
+  - Adept
+  - Scout
+keywords: >-
+  bolt, line strike, piercing lightning, linear plasma beam, laser bore,
+  penetrating ray, coherent beam
+negative_keywords: 'curved arc, wide cloud, gentle illumination'
 ---
 
 # BOLT Invocation

@@ -11,6 +11,8 @@ description: 'Pain Tolerance is a General Feature: Make Stun checks at Advantage
 costs:
   bp: 3
 modifiers: []
+keywords: 'pain tolerance, general, special-feature, tolerance, feature:, advantage'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Pain Tolerance

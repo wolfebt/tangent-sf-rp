@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'artificer, skill, special-feature, combines, engineering, metaphysics'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Artificer

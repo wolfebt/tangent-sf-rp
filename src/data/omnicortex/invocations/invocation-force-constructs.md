@@ -7,6 +7,27 @@ description: FORCE CONSTRUCTS invocation for Energy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Celestine (Alterian)
+  - Eidolon (Aetherion Specialist)
+  - Biomechanical Synthetic
+  - Golem (Arcane Construct)
+recommended_factions:
+  - The Alterian Enclave
+  - The Ascendancy
+  - Technological Faction Template
+recommended_origins:
+  - Enlightened
+  - Research
+  - Industrial
+recommended_occupations:
+  - Builder
+  - Adept
+  - Specialist
+keywords: >-
+  force constructs, hard-light architecture, shaped energy, temporary bridges,
+  solid light fabrication, construct forging
+negative_keywords: 'crude timber, brick and mortar, heavy masonry, fragile paper'
 ---
 
 # FORCE CONSTRUCTS Invocation

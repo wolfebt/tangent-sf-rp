@@ -217,17 +217,6 @@ export const DBMLandingView = ({ parentKey, onNavigateToSubItem, dbData = {} }) 
                   {meta.tagline || subConfig.description || `Manage ${subConfig.label.toLowerCase()} entries, TL/ML requirements, and mechanics.`}
                 </p>
               </div>
-
-              {/* Card Footer Bar */}
-              <div className="mt-2.5 pt-2 border-t border-slate-850 flex items-center justify-between text-[10px] font-mono">
-                <span className="text-slate-500 uppercase tracking-wider font-semibold text-[9.5px]">
-                  DIR: {subKey}
-                </span>
-                <span className="text-cyan-400 group-hover:text-cyan-300 font-bold uppercase tracking-wider flex items-center gap-1 group-hover:translate-x-0.5 transition-transform text-[10px]">
-                  <span>Explore</span>
-                  <span>➔</span>
-                </span>
-              </div>
             </div>
           );
         })}

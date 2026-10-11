@@ -7,19 +7,22 @@ category: skills
 governing_attributes:
   - Wisdom
 description: >-
-  Dimension discipline: Instantaneous spatial relocation, portal anchors, and trans-dimensional folding.
+  Dimension discipline: Instantaneous spatial relocation, portal anchors, and
+  trans-dimensional folding.
 trained_only: true
 specialties:
-  - 'Blink Relocation'
-  - 'Gateway Creation'
-  - 'Spatial Anchors'
-  - 'Trans-dimensional Folding'
-  - 'Slipstream Evacuation'
+  - Blink Relocation
+  - Gateway Creation
+  - Spatial Anchors
+  - Trans-dimensional Folding
+  - Slipstream Evacuation
 synergy_links:
   - meta-attune
 costs:
   bp: 0
 modifiers: []
+keywords: 'teleport, meta, wisdom, metafocus, psionic, resonance'
+negative_keywords: 'mundane, anti-magic-field, unattuned'
 ---
 
 # Teleport

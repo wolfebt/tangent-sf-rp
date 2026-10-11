@@ -33,6 +33,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'doomsayer, visionary, idealist, leadership, charisma, debuffer, intimidator'
+negative_keywords: 'anti-social, mute, solitary-hermit, null-zone, anti-magic-fanatic'
 ---
 
 # The Doomsayer

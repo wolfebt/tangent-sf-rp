@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'centering, discipline, special-feature, focused-training, mastery, learned'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Centering

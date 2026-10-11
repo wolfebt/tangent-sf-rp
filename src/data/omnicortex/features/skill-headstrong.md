@@ -11,6 +11,8 @@ description: 'The character is stubborn, loud, and forceful.'
 costs:
   bp: 3
 modifiers: []
+keywords: 'headstrong, skill, special-feature, stubborn, forceful'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Headstrong

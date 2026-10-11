@@ -140,6 +140,12 @@ export const LOREBOOK_TRIGGER_SCHEMA_FIELDS = [
   { tab: 'Lorebook & Triggers', key: 'loreRequireCondition', label: 'Story Flag Requirement (e.g. reputation >= 10)', type: 'text', placeholder: 'infiltrated_citadel == true' }
 ];
 
+// ── GUIDANCE & DIRECTIVES SCHEMA FIELDS ──
+export const GUIDANCE_DIRECTIVE_SCHEMA_FIELDS = [
+  { tab: 'Guidance & Directives', key: 'keywords', label: 'Guidance Keywords & Positive Directives', type: 'text', placeholder: 'Comma-separated positive tags (e.g. desert, stealth, high-tech, kinetic)...' },
+  { tab: 'Guidance & Directives', key: 'negative_keywords', label: 'Negative Keywords & Railguards', type: 'text', placeholder: 'Comma-separated exclusion tags (e.g. magic, aquatic, peaceful, low-tech)...' }
+];
+
 // ── 7 CORE AIME ELEMENT SCHEMAS ──
 
 const WORLD_ANVIL_SCHEMA = [
@@ -153,7 +159,8 @@ const WORLD_ANVIL_SCHEMA = [
   { tab: 'Geography & Astronomy', key: 'starSystem', label: 'Star System & Planetary Bodies', type: 'textarea', placeholder: 'Star system, celestial bodies, orbital coordinates...' },
   { tab: 'Geography & Astronomy', key: 'continents', label: 'Continents, Oceans & Climate', type: 'textarea', placeholder: 'Physical geography, major regions, biomes...' },
   { tab: 'Culture & Themes', key: 'themes', label: 'Themes & Aesthetic Inspirations', type: 'textarea', placeholder: 'Central philosophical themes, motifs, visual styles...' },
-  ...LOREBOOK_TRIGGER_SCHEMA_FIELDS
+  ...LOREBOOK_TRIGGER_SCHEMA_FIELDS,
+  ...GUIDANCE_DIRECTIVE_SCHEMA_FIELDS
 ];
 
 const PERSONA_MAKER_SCHEMA = [
@@ -196,7 +203,8 @@ const PERSONA_MAKER_SCHEMA = [
   { tab: 'Mechanics: JSON', key: 'armor', label: 'Armor (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
   { tab: 'Mechanics: JSON', key: 'gear', label: 'Gear (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
   { tab: 'Mechanics: JSON', key: 'weapons', label: 'Weapons (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
-  ...LOREBOOK_TRIGGER_SCHEMA_FIELDS
+  ...LOREBOOK_TRIGGER_SCHEMA_FIELDS,
+  ...GUIDANCE_DIRECTIVE_SCHEMA_FIELDS
 ];
 
 const SETTING_ARCHITECT_SCHEMA = [
@@ -210,7 +218,8 @@ const SETTING_ARCHITECT_SCHEMA = [
   { tab: 'Atmosphere & Hazards', key: 'climateWeather', aliasKeys: ['climate', 'weather'], label: 'Climate & Weather Patterns', type: 'textarea', placeholder: 'Atmospheric pressure, radiation, seasonal storms...' },
   { tab: 'Atmosphere & Hazards', key: 'sensoryDetails', aliasKeys: ['soundsSmells', 'dominantSights'], label: 'Sensory Acoustics & Smells', type: 'textarea', placeholder: 'Industrial hum, ozone odor, void echoes...' },
   { tab: 'Atmosphere & Hazards', key: 'landmarksSecrets', aliasKeys: ['majorLandmarks', 'hiddenLocations'], label: 'Landmarks & Hidden Locations', type: 'textarea', placeholder: 'Key points of interest, smuggler caches, safehouses...' },
-  ...LOREBOOK_TRIGGER_SCHEMA_FIELDS
+  ...LOREBOOK_TRIGGER_SCHEMA_FIELDS,
+  ...GUIDANCE_DIRECTIVE_SCHEMA_FIELDS
 ];
 
 const SPECIES_CREATOR_SCHEMA = [
@@ -225,7 +234,8 @@ const SPECIES_CREATOR_SCHEMA = [
   // Extended Cloud DBM Links
   { tab: 'Cloud DBM Links', key: 'dbmSpeciesRef', label: 'Species Record (Cloud DB)', type: 'relational', dbSource: 'species', placeholder: 'Link Cloud DBM Species...' },
   { tab: 'Cloud DBM Links', key: 'speciesTypeRef', label: 'Species Type (Cloud DB)', type: 'relational', dbSource: 'species_type', placeholder: 'Select Species Type...' },
-  ...LOREBOOK_TRIGGER_SCHEMA_FIELDS
+  ...LOREBOOK_TRIGGER_SCHEMA_FIELDS,
+  ...GUIDANCE_DIRECTIVE_SCHEMA_FIELDS
 ];
 
 const TECHNOLOGY_FORGE_SCHEMA = [
@@ -238,7 +248,8 @@ const TECHNOLOGY_FORGE_SCHEMA = [
   // Extended Engineering & Lore
   { tab: 'Engineering & Drawbacks', key: 'weaknesses', label: 'Drawbacks & Vulnerabilities', type: 'textarea', placeholder: 'Overheating risks, EMP sensitivity, rare resource requirements...' },
   { tab: 'Engineering & Drawbacks', key: 'originContext', label: 'Inventor & Historical Context', type: 'textarea', placeholder: 'Who created it, when, and under what circumstances...' },
-  ...LOREBOOK_TRIGGER_SCHEMA_FIELDS
+  ...LOREBOOK_TRIGGER_SCHEMA_FIELDS,
+  ...GUIDANCE_DIRECTIVE_SCHEMA_FIELDS
 ];
 
 const PHILOSOPHY_SCRIBE_SCHEMA = [
@@ -251,7 +262,8 @@ const PHILOSOPHY_SCRIBE_SCHEMA = [
   // Extended Ethics & Metaphysics
   { tab: 'Ethics & Cosmogony', key: 'ethics', label: 'Moral Compass & Virtues/Vices', type: 'textarea', placeholder: 'Virtues rewarded, sins condemned, handling of outsiders...' },
   { tab: 'Ethics & Cosmogony', key: 'cosmology', label: 'Deity, Origin & Afterlife', type: 'textarea', placeholder: 'Divine entities, cosmic creation, fate of the soul...' },
-  ...LOREBOOK_TRIGGER_SCHEMA_FIELDS
+  ...LOREBOOK_TRIGGER_SCHEMA_FIELDS,
+  ...GUIDANCE_DIRECTIVE_SCHEMA_FIELDS
 ];
 
 const SCENE_BUILDER_SCHEMA = [
@@ -264,7 +276,8 @@ const SCENE_BUILDER_SCHEMA = [
   // Extended Tactical & Beats
   { tab: 'Tactical & Beats', key: 'sceneBeats', label: 'Tactical Scene Beats', type: 'textarea', placeholder: 'Sequential beats: 1. Infiltration, 2. Confrontation, 3. Climax, 4. Extraction...' },
   { tab: 'Tactical & Beats', key: 'readAloud', label: 'GM Read-Aloud Narration', type: 'textarea', placeholder: 'Sensory immersion text to read aloud to players...' },
-  ...LOREBOOK_TRIGGER_SCHEMA_FIELDS
+  ...LOREBOOK_TRIGGER_SCHEMA_FIELDS,
+  ...GUIDANCE_DIRECTIVE_SCHEMA_FIELDS
 ];
 
 export const CUSTOM_ELEMENT_SCHEMA = [
@@ -282,7 +295,8 @@ export const CUSTOM_ELEMENT_SCHEMA = [
   { tab: 'User Data & Mechanics', key: 'gmNotes', label: 'GM / Architect Confidential Notes', type: 'textarea', placeholder: 'Private GM-only notes hidden from players...' },
 
   // Dynamic Lorebook & Trigger Scanning
-  ...LOREBOOK_TRIGGER_SCHEMA_FIELDS
+  ...LOREBOOK_TRIGGER_SCHEMA_FIELDS,
+  ...GUIDANCE_DIRECTIVE_SCHEMA_FIELDS
 ];
 
 export const ELEMENT_SCHEMAS = {
@@ -366,7 +380,8 @@ export const ELEMENT_SCHEMAS = {
   'Universe': [
     { tab: 'Core Concept & Metaphysics', key: 'designation', label: 'Universe Designation & Pitch', type: 'textarea', placeholder: 'Designation...' },
     { tab: 'Core Concept & Metaphysics', key: 'ontological', label: 'Ontological Premise & The Source', type: 'textarea', placeholder: 'Premise...' },
-    { tab: 'Universal Laws & Structure', key: 'lawsPhysics', label: 'Laws of Physics & Metaphysics', type: 'textarea', placeholder: 'Laws...' }
+    { tab: 'Universal Laws & Structure', key: 'lawsPhysics', label: 'Laws of Physics & Metaphysics', type: 'textarea', placeholder: 'Laws...' },
+    ...GUIDANCE_DIRECTIVE_SCHEMA_FIELDS
   ]
 };
 

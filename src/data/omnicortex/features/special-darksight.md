@@ -11,6 +11,8 @@ description: The character sees using thermal or other non-visible spectrums.
 costs:
   bp: 3
 modifiers: []
+keywords: 'darksight, special, special-feature, thermal, non-visible, spectrums'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Darksight

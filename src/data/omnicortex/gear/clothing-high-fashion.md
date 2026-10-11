@@ -32,6 +32,8 @@ sockets:
   allocated: []
 tech_level: 3
 meta_level: 0
+keywords: 'clothing (high fashion), gear, personal-property, tl-3, designer, social'
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Designer social attire woven from luminescent and tailored prestige fabrics.
 

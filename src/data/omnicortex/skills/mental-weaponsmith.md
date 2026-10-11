@@ -23,6 +23,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'weaponsmith, mental, intellect, cognitive, expertise, forging'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Weaponsmith

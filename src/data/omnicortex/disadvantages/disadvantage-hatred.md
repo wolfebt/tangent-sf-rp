@@ -10,6 +10,8 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+keywords: 'hatred, hindrance, penalty, general, prejudice, visceral'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Hatred

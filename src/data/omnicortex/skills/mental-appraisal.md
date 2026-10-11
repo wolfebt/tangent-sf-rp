@@ -23,6 +23,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'appraisal, mental, intellect, cognitive, expertise, assessing'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Appraisal

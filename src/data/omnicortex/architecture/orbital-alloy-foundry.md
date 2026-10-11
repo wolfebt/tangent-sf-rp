@@ -44,6 +44,10 @@ sockets:
   allocated: []
 tech_level: 4
 meta_level: 0
+keywords: >-
+  orbital alloy foundry, architecture, structure, heavy industry, tl-4,
+  zero-gravity
+negative_keywords: 'mobile-infantry, personal-weapon, portable-trinket'
 ---
 Zero-gravity industrial orbital station equipped with magnetic containment crucibles, nano-lathes, and heavy cargo airlocks for smelting asteroid ore.
 

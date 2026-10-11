@@ -36,6 +36,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'chronicler, visionary, idealist, leadership, charisma, bard, historian'
+negative_keywords: 'mindless-brute, reckless, illiterate, anti-social, mute'
 ---
 
 # The Chronicler

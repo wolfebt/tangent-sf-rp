@@ -7,6 +7,27 @@ description: TOUCH OF DEATH invocation for Entropy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Tenen (Sha’nor Spectral)
+  - Sha'nor
+  - Eakren (Corrupted Aberration)
+  - Rautha Human
+recommended_factions:
+  - The Outworlds
+  - Religious Cult Faction Template
+  - Criminal Faction Template
+recommended_origins:
+  - Hostile
+  - Militaristic
+  - Spacer
+recommended_occupations:
+  - Criminal
+  - Adept
+  - Agent
+keywords: >-
+  touch of death, lethal necrosis, death touch, instant cellular collapse,
+  necrotic execution, marrow death, black touch
+negative_keywords: 'touch of life, healing warmth, vital spark, defibrillation'
 ---
 # TOUCH OF DEATH Invocation
 

@@ -45,6 +45,10 @@ sockets:
   allocated: []
 tech_level: 3
 meta_level: 0
+keywords: >-
+  colonial prefab module, architecture, structure, frontier / modular, tl-3,
+  standardized
+negative_keywords: 'mobile-infantry, personal-weapon, portable-trinket'
 ---
 Standardized mass-produced habitat module designed for rapid frontier deployment. Walls are made of multi-layered insulating composites.
 

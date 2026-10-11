@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'veiled threat, skill, special-feature, menace, someone, subtly'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Veiled Threat

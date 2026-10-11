@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'gearhead, skill, special-feature, intuitive, understanding, machinery'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Gearhead

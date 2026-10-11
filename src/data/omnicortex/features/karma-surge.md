@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'surge, karma, special-feature, pushes, beyond, standard'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Surge

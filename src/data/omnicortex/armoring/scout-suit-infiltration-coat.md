@@ -40,6 +40,8 @@ critical_details:
   failure_effect: []
 tech_level: 3
 meta_level: 0
+keywords: 'scout suit / infiltration coat, armor, defense, dr-10, medium-armor, tl-3'
+negative_keywords: 'unarmored, fragile, naked'
 ---
 A matte-black armored long coat or bodysuit using sound-dampening polymers. Covers vital areas while allowing free movement.
 

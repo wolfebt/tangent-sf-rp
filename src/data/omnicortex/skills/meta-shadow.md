@@ -7,19 +7,22 @@ category: skills
 governing_attributes:
   - Wisdom
 description: >-
-  Illusion discipline: Weaving darkness, shadow-stuff, optical refraction, and umbral constructs.
+  Illusion discipline: Weaving darkness, shadow-stuff, optical refraction, and
+  umbral constructs.
 trained_only: true
 specialties:
-  - 'Umbral Weaving'
-  - 'Light Nullification'
-  - 'Shadow Tendrils'
-  - 'Optical Refraction'
-  - 'Shade Cloaks'
+  - Umbral Weaving
+  - Light Nullification
+  - Shadow Tendrils
+  - Optical Refraction
+  - Shade Cloaks
 synergy_links:
   - meta-attune
 costs:
   bp: 0
 modifiers: []
+keywords: 'shadow, meta, wisdom, metafocus, psionic, resonance'
+negative_keywords: 'mundane, anti-magic-field, unattuned'
 ---
 
 # Shadow

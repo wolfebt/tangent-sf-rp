@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'blind-fight, combat, special-feature, combat-maneuver, tactical-edge, learned'
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Blind-Fight

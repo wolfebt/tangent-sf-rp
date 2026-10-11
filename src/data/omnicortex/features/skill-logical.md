@@ -11,6 +11,8 @@ description: 'The character approaches problems with cold, hard rationality.'
 costs:
   bp: 3
 modifiers: []
+keywords: 'logical, skill, special-feature, approaches, problems, rationality'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Logical

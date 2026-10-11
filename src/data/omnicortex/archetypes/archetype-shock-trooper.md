@@ -34,6 +34,10 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: >-
+  shock trooper, sentinel, defender, stability, order, combat, environmental
+  specialist
+negative_keywords: 'chaotic-anarchist, unreliable, reckless-gambler'
 ---
 
 # The Shock Trooper

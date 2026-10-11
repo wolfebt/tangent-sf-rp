@@ -22,6 +22,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'stealth, physical, agility, mobility, athletics, bodily-coordination'
+negative_keywords: 'sedentary, paralyzed, clumsy'
 ---
 
 # Stealth

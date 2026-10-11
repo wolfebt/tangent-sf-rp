@@ -11,6 +11,8 @@ description: The character is a master mountaineer and vertical surface scaler.
 costs:
   bp: 3
 modifiers: []
+keywords: 'climber, general, special-feature, master, mountaineer, vertical'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Climber

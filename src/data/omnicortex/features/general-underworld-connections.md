@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'underworld connections, general, special-feature, access, illicit, market'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Underworld Connections

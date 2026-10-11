@@ -11,6 +11,8 @@ description: The character feels the vehicle as an extension of their own body.
 costs:
   bp: 3
 modifiers: []
+keywords: 'gifted pilot, skill, special-feature, vehicle, extension'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Gifted Pilot

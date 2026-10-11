@@ -11,6 +11,8 @@ description: 'Diehard is a General Feature: Automatically stabilize when dying.'
 costs:
   bp: 3
 modifiers: []
+keywords: 'diehard, general, special-feature, feature:, automatically, stabilize'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Diehard

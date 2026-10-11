@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'platinum personality, skill, special-feature, platinum, personality, feature:'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Platinum Personality

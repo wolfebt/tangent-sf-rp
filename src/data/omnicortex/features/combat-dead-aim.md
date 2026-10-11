@@ -11,6 +11,8 @@ description: The character trades mobility for extreme precision.
 costs:
   bp: 3
 modifiers: []
+keywords: 'dead aim, combat, special-feature, combat-maneuver, tactical-edge, trades'
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Dead Aim

@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'double jointed, general, special-feature, possesses, extreme, flexibility'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Double Jointed

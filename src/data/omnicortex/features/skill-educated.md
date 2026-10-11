@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'educated, skill, special-feature, received, extensive, formal'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Educated

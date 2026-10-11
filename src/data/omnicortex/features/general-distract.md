@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'distract, general, special-feature, diversion, potent, leaves'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Distract

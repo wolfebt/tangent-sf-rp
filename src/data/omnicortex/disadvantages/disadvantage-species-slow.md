@@ -1,6 +1,6 @@
 ---
 id: disadvantage-species-slow
-name: "Slow (Disadvantage)"
+name: Slow (Disadvantage)
 category: disadvantages
 disadvantage_type: Species Disadvantage
 classification: Movement
@@ -8,9 +8,11 @@ type: Movement
 bp_granted: 2
 costs:
   bp: -2
-description: "Base Speed -10 feet. (BP Gain) *"
-prerequisite: ""
+description: Base Speed -10 feet. (BP Gain) *
+prerequisite: ''
 modifiers: []
+keywords: 'slow (disadvantage), hindrance, penalty, movement'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Slow (Disadvantage)

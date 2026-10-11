@@ -24,6 +24,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'piloting, physical, agility, mobility, athletics, bodily-coordination'
+negative_keywords: 'sedentary, paralyzed, clumsy'
 ---
 
 # Piloting

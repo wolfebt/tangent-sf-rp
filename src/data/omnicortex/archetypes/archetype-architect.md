@@ -31,6 +31,8 @@ description: Skilled in the design and upkeep of infrastructure.
 costs:
   bp: 80
 modifiers: []
+keywords: 'architect, savant, rational, intellect, strategist, builder, support'
+negative_keywords: 'mindless-brute, reckless, illiterate'
 ---
 
 # The Architect

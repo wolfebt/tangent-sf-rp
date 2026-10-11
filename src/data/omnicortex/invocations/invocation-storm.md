@@ -7,6 +7,27 @@ description: STORM invocation for Energy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Draconian (Scaled Aeld)
+  - Impyrium Regi (Gen-E)
+  - Janissary (Gen-E)
+  - Risakin (Giant Folk)
+recommended_factions:
+  - Dracon Dynasty
+  - Radiant Impyrium
+  - Military Faction Template
+recommended_origins:
+  - Militaristic
+  - Hostile
+  - Colony
+recommended_occupations:
+  - Soldier
+  - Adept
+  - Specialist
+keywords: >-
+  storm, lightning tempest, plasma storm, hurricane ionization, atmospheric
+  catastrophe, sustained fury, scorched tempest
+negative_keywords: 'mild breeze, clear sky, peaceful lullaby'
 ---
 
 # STORM Invocation

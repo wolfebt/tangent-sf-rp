@@ -7,6 +7,27 @@ description: NULLIFY invocation for Entropy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Tenen (Sha’nor Spectral)
+  - Whisper
+  - Varen (Gatekeeper)
+  - Nocturne (Kovian)
+recommended_factions:
+  - The Outworlds
+  - The Ascendancy
+  - Kovian Tribunal
+recommended_origins:
+  - Hostile
+  - Spacer
+  - Research
+recommended_occupations:
+  - Adept
+  - Specialist
+  - Agent
+keywords: >-
+  nullify, energy extinction, magic void, metaphysical dampening, active
+  neutralization, entropy sink, dampening field
+negative_keywords: 'energy amplification, spell surge, luminous flare, hyper-charge'
 ---
 # NULLIFY Invocation
 

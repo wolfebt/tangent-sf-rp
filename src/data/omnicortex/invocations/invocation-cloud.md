@@ -7,6 +7,27 @@ description: CLOUD invocation for Energy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Draconian (Scaled Aeld)
+  - Eakren (Corrupted Aberration)
+  - Rautha Human
+  - Janissary (Gen-E)
+recommended_factions:
+  - Dracon Dynasty
+  - The Outworlds
+  - Military Faction Template
+recommended_origins:
+  - Hostile
+  - Industrial
+  - Colony
+recommended_occupations:
+  - Soldier
+  - Specialist
+  - Adept
+keywords: >-
+  cloud, persistent thermal fog, burning plasma cloud, smoke obscuration, mobile
+  hazard, choking heat, area ignition
+negative_keywords: 'clear visibility, air purifier, vacuum cleanroom'
 ---
 
 # CLOUD Invocation

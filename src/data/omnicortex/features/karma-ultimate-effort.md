@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'ultimate effort, karma, special-feature, savant, master, specific'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Ultimate Effort

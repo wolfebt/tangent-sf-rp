@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'relic hunter, savant, rational, intellect, strategist, explorer, lore expert'
+negative_keywords: 'mindless-brute, reckless, illiterate, null-zone, anti-magic-fanatic'
 ---
 
 # The Relic Hunter

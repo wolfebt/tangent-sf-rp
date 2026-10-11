@@ -34,6 +34,10 @@ sockets:
   allocated: []
 tech_level: 3
 meta_level: 0
+keywords: >-
+  holo emitter (volumetric), gear, personal-property, tl-3, projects,
+  high-fidelity
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Projects high-fidelity 3D holographic illusions and binaural directional audio.
 

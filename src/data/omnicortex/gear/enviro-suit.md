@@ -30,6 +30,8 @@ sockets:
   allocated: []
 tech_level: 3
 meta_level: 0
+keywords: 'enviro suit, gear, personal-property, tl-3, containment, protecting'
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Full body containment suit protecting against vacuum and radiation hazards.
 

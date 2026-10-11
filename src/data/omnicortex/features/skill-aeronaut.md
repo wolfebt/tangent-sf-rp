@@ -14,6 +14,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'aeronaut, skill, special-feature, specialist, unpowered, nature-assisted'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Aeronaut

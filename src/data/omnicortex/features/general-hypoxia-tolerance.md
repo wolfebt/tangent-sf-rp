@@ -9,11 +9,13 @@ is_multiple: false
 prerequisites: Stamina 1
 description: >-
   Genetic variants (such as EPAS1/EGLN1) allow the character to thrive in
-  environments with severely depleted oxygen without suffering altitude
-  sickness or cardiovascular strain.
+  environments with severely depleted oxygen without suffering altitude sickness
+  or cardiovascular strain.
 costs:
   bp: 3
 modifiers: []
+keywords: 'hypoxia tolerance, general, special-feature, genetic, variants, epas1/egln1'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Hypoxia Tolerance

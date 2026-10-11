@@ -10,6 +10,8 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+keywords: 'distinctive features, hindrance, penalty, general, unmistakable, physical'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Distinctive Features

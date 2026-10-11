@@ -13,6 +13,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  combat specialist, combat, special-feature, combat-maneuver, tactical-edge,
+  inflict
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Combat Specialist

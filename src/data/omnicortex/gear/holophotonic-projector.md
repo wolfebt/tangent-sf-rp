@@ -34,6 +34,10 @@ sockets:
   allocated: []
 tech_level: 5
 meta_level: 0
+keywords: >-
+  holophotonic projector (hard light), gear, personal-property, tl-5, creates,
+  tactile
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Creates tactile, solid hard-light matter with physical mass and rigid durability.
 

@@ -11,6 +11,8 @@ description: The character has an honest face and a reliable demeanor.
 costs:
   bp: 3
 modifiers: []
+keywords: 'trustworthy, skill, special-feature, honest, reliable, demeanor'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Trustworthy

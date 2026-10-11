@@ -30,6 +30,8 @@ sockets:
   allocated: []
 tech_level: 0
 meta_level: 0
+keywords: 'reinforced chassis, mecha, vehicle, large, humanoid, tl-3'
+negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
 ---
 Category: **5.1 Integrated Cybernetic Armor**
 

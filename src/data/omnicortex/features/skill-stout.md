@@ -11,6 +11,8 @@ description: 'The character is built like a tank, broad and sturdy.'
 costs:
   bp: 3
 modifiers: []
+keywords: 'stout, skill, special-feature, sturdy'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Stout

@@ -10,6 +10,8 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+keywords: 'lost sense, hindrance, penalty, general, complete, biological'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Lost Sense

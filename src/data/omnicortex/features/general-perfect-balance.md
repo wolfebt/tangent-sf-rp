@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'perfect balance, general, special-feature, perfect, balance, feature:'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Perfect Balance

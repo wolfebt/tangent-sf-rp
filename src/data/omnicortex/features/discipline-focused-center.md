@@ -13,6 +13,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  focused center, discipline, special-feature, focused-training, mastery,
+  character's
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Focused Center

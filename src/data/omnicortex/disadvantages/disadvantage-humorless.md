@@ -10,6 +10,8 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+keywords: 'humorless, hindrance, penalty, general, statement, literally'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Humorless

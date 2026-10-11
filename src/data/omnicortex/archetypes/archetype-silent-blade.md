@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'silent blade, operative, artisan, adaptable, specialist, stealth, burst damage'
+negative_keywords: 'heavy-plating, blunt-assault, loud, clumsy'
 ---
 
 # The Silent Blade

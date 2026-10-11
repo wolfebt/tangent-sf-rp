@@ -11,6 +11,8 @@ description: The character is a font of trivia and data.
 costs:
   bp: 3
 modifiers: []
+keywords: 'versatile curator, skill, special-feature, trivia'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Versatile Curator

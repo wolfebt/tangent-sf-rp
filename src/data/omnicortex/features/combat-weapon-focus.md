@@ -13,6 +13,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  weapon focus, combat, special-feature, combat-maneuver, tactical-edge,
+  extensive
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Weapon Focus

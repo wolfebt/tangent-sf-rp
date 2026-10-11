@@ -7,19 +7,22 @@ category: skills
 governing_attributes:
   - Wisdom
 description: >-
-  Mental discipline: Psionic projections, telekinesis, telepathic speech, and cognitive thrusts.
+  Mental discipline: Psionic projections, telekinesis, telepathic speech, and
+  cognitive thrusts.
 trained_only: true
 specialties:
-  - 'Telekinetic Thrust'
-  - 'Psionic Blasts'
-  - 'Cognitive Overload'
-  - 'Kinetic Levitation'
-  - 'Thought Constructs'
+  - Telekinetic Thrust
+  - Psionic Blasts
+  - Cognitive Overload
+  - Kinetic Levitation
+  - Thought Constructs
 synergy_links:
   - meta-attune
 costs:
   bp: 0
 modifiers: []
+keywords: 'projection, meta, wisdom, metafocus, psionic, resonance'
+negative_keywords: 'mundane, anti-magic-field, unattuned'
 ---
 
 # Projection

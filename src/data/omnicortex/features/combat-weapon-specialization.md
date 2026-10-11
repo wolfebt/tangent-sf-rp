@@ -11,6 +11,10 @@ description: 'Weapon Specialization is a Combat Feature: +1d damage with one wea
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  weapon specialization, combat, special-feature, combat-maneuver,
+  tactical-edge, weapon
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Weapon Specialization

@@ -23,6 +23,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'trade, mental, intellect, cognitive, expertise, merchant'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Trade

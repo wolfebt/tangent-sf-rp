@@ -9,7 +9,9 @@ export const DEFAULT_ARCHITECTURE = [
     "dr": 18,
     "tech_level": 4,
     "description": "A self-contained city-in-a-building designed to house millions of citizens with internal weather control, hydroponics, transit, and security.",
-    "mechanic": "SP: 7,500,000. DR: 18 (Nanocarbon). Modules: 250,000+. Residential Grid (10,000 Coffin + 5,000 Family), Hydroponics, Law Enforcement, Mag-lev transit, Commercial concourse."
+    "mechanic": "SP: 7,500,000. DR: 18 (Nanocarbon). Modules: 250,000+. Residential Grid (10,000 Coffin + 5,000 Family), Hydroponics, Law Enforcement, Mag-lev transit, Commercial concourse.",
+    "keywords": "arcology hab-block / megastructure, architecture, structure, urban / megastructure, tl-4, self-contained",
+    "negative_keywords": "mobile-infantry, personal-weapon, portable-trinket"
   },
   {
     "id": "armory-module",
@@ -21,7 +23,9 @@ export const DEFAULT_ARCHITECTURE = [
     "dr": 15,
     "tech_level": 3,
     "description": "Reinforced security vault fitted with Grade 3 biometric locks and specialized weapon racks.",
-    "mechanic": "Secure storage holding 50 Slots of gear. Security Grade 3 locks."
+    "mechanic": "Secure storage holding 50 Slots of gear. Security Grade 3 locks.",
+    "keywords": "armory facility module, architecture, structure, standard, tl-3, reinforced",
+    "negative_keywords": "mobile-infantry, personal-weapon, portable-trinket"
   },
   {
     "id": "black-market-bazaar",
@@ -33,7 +37,9 @@ export const DEFAULT_ARCHITECTURE = [
     "dr": 8,
     "tech_level": 2,
     "description": "A chaotic labyrinth of narrow passages, shipping container stalls, and hidden compartments under floorboards for illicit trade.",
-    "mechanic": "SP: 1,200. DR: 8 (Patchwork Metal). Modules: 25. Vendor Stalls (15), Hidden Storage (4), Gambling Den (2), Armored Safe Room (4)."
+    "mechanic": "SP: 1,200. DR: 8 (Patchwork Metal). Modules: 25. Vendor Stalls (15), Hidden Storage (4), Gambling Den (2), Armored Safe Room (4).",
+    "keywords": "black market / bazaar, architecture, structure, outlaw / scavenger, tl-2, chaotic",
+    "negative_keywords": "mobile-infantry, personal-weapon, portable-trinket"
   },
   {
     "id": "brig-module",
@@ -45,7 +51,9 @@ export const DEFAULT_ARCHITECTURE = [
     "dr": 20,
     "tech_level": 3,
     "description": "Heavy containment cell with forcefield bars and anti-tamper locks.",
-    "mechanic": "Holding cell with Structure 30 Forcefield walls."
+    "mechanic": "Holding cell with Structure 30 Forcefield walls.",
+    "keywords": "brig detention module, architecture, structure, standard, tl-3, containment",
+    "negative_keywords": "mobile-infantry, personal-weapon, portable-trinket"
   },
   {
     "id": "colonial-prefab-module",
@@ -57,7 +65,9 @@ export const DEFAULT_ARCHITECTURE = [
     "dr": 12,
     "tech_level": 3,
     "description": "Standardized mass-produced habitat module designed for rapid frontier deployment. Walls are made of multi-layered insulating composites.",
-    "mechanic": "Structure Points: 500 SP. DR: 12 (Plasteel/Composite). Modules: 10. Life Support (2), Bunks (2), Galley/Mess (2), Comms Array (1), Airlock (1), Storage (2)."
+    "mechanic": "Structure Points: 500 SP. DR: 12 (Plasteel/Composite). Modules: 10. Life Support (2), Bunks (2), Galley/Mess (2), Comms Array (1), Airlock (1), Storage (2).",
+    "keywords": "colonial prefab module, architecture, structure, frontier / modular, tl-3, standardized",
+    "negative_keywords": "mobile-infantry, personal-weapon, portable-trinket"
   },
   {
     "id": "crystal-sanctum-floating-spire",
@@ -69,7 +79,9 @@ export const DEFAULT_ARCHITECTURE = [
     "dr": 25,
     "tech_level": 5,
     "description": "Towering spire of psycho-reactive crystal floating weightlessly above ground via psionic resonance fields, housing metaphysical research sanctums.",
-    "mechanic": "SP: 62,500. DR: 25 (Adaptive). Modules: 1,000. Focus Chamber (100, +4 Meta Skills), Archives (400), Training Halls (200), Levitation Core (100), Psionic Defenses (100)."
+    "mechanic": "SP: 62,500. DR: 25 (Adaptive). Modules: 1,000. Focus Chamber (100, +4 Meta Skills), Archives (400), Training Halls (200), Levitation Core (100), Psionic Defenses (100).",
+    "keywords": "crystal sanctum / floating spire, architecture, structure, alterian / resonance, tl-5, towering",
+    "negative_keywords": "mobile-infantry, personal-weapon, portable-trinket"
   },
   {
     "id": "cyber-clinic-street-doc",
@@ -81,7 +93,9 @@ export const DEFAULT_ARCHITECTURE = [
     "dr": 12,
     "tech_level": 3,
     "description": "Compact medical clinic tailored for rapid cybernetic surgery, trauma repair, and illicit biological modifications.",
-    "mechanic": "SP: 200. DR: 12. Modules: 4. Surgical Chair, Autodoc Arm, Sterilization Chamber, Storage."
+    "mechanic": "SP: 200. DR: 12. Modules: 4. Surgical Chair, Autodoc Arm, Sterilization Chamber, Storage.",
+    "keywords": "cyber-clinic / street doc, architecture, structure, medical / underground, tl-3, compact",
+    "negative_keywords": "mobile-infantry, personal-weapon, portable-trinket"
   },
   {
     "id": "deep-core-mine-drill-site",
@@ -93,7 +107,9 @@ export const DEFAULT_ARCHITECTURE = [
     "dr": 12,
     "tech_level": 3,
     "description": "Inverted subterranean mining architecture spiraling deep into planetary strata with a central plasma drill vaporizing rock.",
-    "mechanic": "SP: 5,000. DR: 12. Modules: 100. Drilling Rig (40), Mineral Processing (30), Material Elevators (10), Power Plant (20)."
+    "mechanic": "SP: 5,000. DR: 12. Modules: 100. Drilling Rig (40), Mineral Processing (30), Material Elevators (10), Power Plant (20).",
+    "keywords": "deep core mine / drill site, architecture, structure, extraction, tl-3, inverted",
+    "negative_keywords": "mobile-infantry, personal-weapon, portable-trinket"
   },
   {
     "id": "forward-operating-base",
@@ -105,7 +121,9 @@ export const DEFAULT_ARCHITECTURE = [
     "dr": 17,
     "tech_level": 3,
     "description": "Heavily fortified military outpost with ferro-concrete walls, hardened armor plating, automated turret nests, and garrison barracks for 100 troops.",
-    "mechanic": "SP: 6,000 (+20% Bulwark). DR: 17 (Hardened). Modules: 90. Command/CIC (10), Garrison & Armory (30), Support & Vehicle Bay (20), Defenses & Shields (30)."
+    "mechanic": "SP: 6,000 (+20% Bulwark). DR: 17 (Hardened). Modules: 90. Command/CIC (10), Garrison & Armory (30), Support & Vehicle Bay (20), Defenses & Shields (30).",
+    "keywords": "forward operating base (fob), architecture, structure, militaristic / colony, tl-3, heavily",
+    "negative_keywords": "mobile-infantry, personal-weapon, portable-trinket"
   },
   {
     "id": "fusion-power-plant",
@@ -117,7 +135,9 @@ export const DEFAULT_ARCHITECTURE = [
     "dr": 12,
     "tech_level": 3,
     "description": "Massive toroidal magnetic confinement fusion reactor flanked by cooling hypertowers delivering high-yield electrical and plasma power.",
-    "mechanic": "SP: 15,000. DR: 12 (Radiation Shielded). Modules: 400. Reactor Core (200), Turbines (100), Control Room (50), Cooling Systems (50)."
+    "mechanic": "SP: 15,000. DR: 12 (Radiation Shielded). Modules: 400. Reactor Core (200), Turbines (100), Control Room (50), Cooling Systems (50).",
+    "keywords": "fusion power plant, architecture, structure, utility, tl-3, massive",
+    "negative_keywords": "mobile-infantry, personal-weapon, portable-trinket"
   },
   {
     "id": "holo-deck-module",
@@ -129,7 +149,9 @@ export const DEFAULT_ARCHITECTURE = [
     "dr": 10,
     "tech_level": 4,
     "description": "Volumetric hard-light and sensory simulation chamber for training and recreation.",
-    "mechanic": "Simulates any planetary environment. XP / Mastery gain from training here is +10%."
+    "mechanic": "Simulates any planetary environment. XP / Mastery gain from training here is +10%.",
+    "keywords": "holo-deck simulation module, architecture, structure, standard, tl-4, volumetric",
+    "negative_keywords": "mobile-infantry, personal-weapon, portable-trinket"
   },
   {
     "id": "med-bay-module",
@@ -141,7 +163,9 @@ export const DEFAULT_ARCHITECTURE = [
     "dr": 10,
     "tech_level": 3,
     "description": "Standardized medical facility module providing sterile triage and treatment bays.",
-    "mechanic": "Counts as Sterile Environment. Grants +2 to Medical checks."
+    "mechanic": "Counts as Sterile Environment. Grants +2 to Medical checks.",
+    "keywords": "med-bay facility module, architecture, structure, standard, tl-3, standardized",
+    "negative_keywords": "mobile-infantry, personal-weapon, portable-trinket"
   },
   {
     "id": "native-longhouse-communal-shelter",
@@ -153,7 +177,9 @@ export const DEFAULT_ARCHITECTURE = [
     "dr": 2,
     "tech_level": 3,
     "description": "A large, elongated single-story structure constructed from heavy timber ribs and tightly woven thatch or treated animal hides. Serves as the central hub for a clan or extended family unit.",
-    "mechanic": "Structure Points: 400 SP. Damage Resist: 2 (Flammable). Total Modules: 25. Module Configuration: Communal Living (10), Central Hearth (5), Storage (5), Shrine (2), Elder's Quarters (3)."
+    "mechanic": "Structure Points: 400 SP. Damage Resist: 2 (Flammable). Total Modules: 25. Module Configuration: Communal Living (10), Central Hearth (5), Storage (5), Shrine (2), Elder's Quarters (3).",
+    "keywords": "native longhouse / communal shelter, architecture, structure, native / survivalist, tl-3, elongated",
+    "negative_keywords": "mobile-infantry, personal-weapon, portable-trinket"
   },
   {
     "id": "orbital-alloy-foundry",
@@ -165,7 +191,9 @@ export const DEFAULT_ARCHITECTURE = [
     "dr": 18,
     "tech_level": 4,
     "description": "Zero-gravity industrial orbital station equipped with magnetic containment crucibles, nano-lathes, and heavy cargo airlocks for smelting asteroid ore.",
-    "mechanic": "SP: 11,250. DR: 18 (Heat Shielding). Modules: 200. Smelting Floor (100), Fabrication (50), Docking (20), Power (20), Cooling (10)."
+    "mechanic": "SP: 11,250. DR: 18 (Heat Shielding). Modules: 200. Smelting Floor (100), Fabrication (50), Docking (20), Power (20), Cooling (10).",
+    "keywords": "orbital alloy foundry, architecture, structure, heavy industry, tl-4, zero-gravity",
+    "negative_keywords": "mobile-infantry, personal-weapon, portable-trinket"
   },
   {
     "id": "orbital-habitat",
@@ -177,7 +205,9 @@ export const DEFAULT_ARCHITECTURE = [
     "dr": 30,
     "tech_level": 5,
     "description": "Massive rotating O'Neill cylinder generating artificial gravity, containing self-sustaining biomes, residential districts, and industrial sectors in space.",
-    "mechanic": "SP: 1,000,000+. Modules: 100,000+. Internal centrifugal gravity, atmosphere cyclers, agricultural bands, and dock collars."
+    "mechanic": "SP: 1,000,000+. Modules: 100,000+. Internal centrifugal gravity, atmosphere cyclers, agricultural bands, and dock collars.",
+    "keywords": "orbital habitat, architecture, structure, macro-structuralism, tl-5, massive",
+    "negative_keywords": "mobile-infantry, personal-weapon, portable-trinket"
   },
   {
     "id": "orbital-research-station",
@@ -189,7 +219,9 @@ export const DEFAULT_ARCHITECTURE = [
     "dr": 18,
     "tech_level": 4,
     "description": "Central vertical core with radiating horizontal research pods isolating hazardous experiments, containing bio-labs, AI servers, and crew quarters.",
-    "mechanic": "SP: 2,250. DR: 18. Modules: 40. Labs (20), Containment (10), Server Core (5), Living Quarters (5)."
+    "mechanic": "SP: 2,250. DR: 18. Modules: 40. Labs (20), Containment (10), Server Core (5), Living Quarters (5).",
+    "keywords": "orbital research station, architecture, structure, scientific / high-tech, tl-4, central",
+    "negative_keywords": "mobile-infantry, personal-weapon, portable-trinket"
   },
   {
     "id": "planetary-shield-generator",
@@ -201,7 +233,9 @@ export const DEFAULT_ARCHITECTURE = [
     "dr": 50,
     "tech_level": 4,
     "description": "Geodesic emitter spire supported by heavy pylons projecting an energy barrier capable of deflecting planetary bombardment.",
-    "mechanic": "SP: 19,200. DR: 50 (Active Shielding). Modules: 250. Emitter Array (150), Reactor Core (80), Cryo Cooling (20)."
+    "mechanic": "SP: 19,200. DR: 50 (Active Shielding). Modules: 250. Emitter Array (150), Reactor Core (80), Cryo Cooling (20).",
+    "keywords": "planetary shield generator, architecture, structure, defensive, tl-4, geodesic",
+    "negative_keywords": "mobile-infantry, personal-weapon, portable-trinket"
   },
   {
     "id": "polymatter-struct",
@@ -213,7 +247,9 @@ export const DEFAULT_ARCHITECTURE = [
     "dr": 15,
     "tech_level": 3,
     "description": "Morphic Implant or Replacement (limited).",
-    "mechanic": ""
+    "mechanic": "",
+    "keywords": "polymatter struct, architecture, structure, standard, tl-3, morphic",
+    "negative_keywords": "mobile-infantry, personal-weapon, portable-trinket"
   },
   {
     "id": "transit-hub-spaceport-terminal",
@@ -225,7 +261,9 @@ export const DEFAULT_ARCHITECTURE = [
     "dr": 12,
     "tech_level": 3,
     "description": "Sprawling transit hub featuring central vaulted atrium, landing pads, hangars, customs gates, duty-free shopping, and automated cargo storage.",
-    "mechanic": "SP: 60,000. DR: 12. Modules: 2,000. Hangar Bays (1,000), Cargo Warehousing (500), Commercial Concourse (300), Admin/Control (100), Fueling Systems (100)."
+    "mechanic": "SP: 60,000. DR: 12. Modules: 2,000. Hangar Bays (1,000), Cargo Warehousing (500), Commercial Concourse (300), Admin/Control (100), Fueling Systems (100).",
+    "keywords": "transit hub / spaceport terminal, architecture, structure, commercial / transit, tl-3, sprawling",
+    "negative_keywords": "mobile-infantry, personal-weapon, portable-trinket"
   },
   {
     "id": "workshop-module",
@@ -237,6 +275,8 @@ export const DEFAULT_ARCHITECTURE = [
     "dr": 10,
     "tech_level": 3,
     "description": "Equipped with heavy tooling benches, diagnostic computers, and repair suites.",
-    "mechanic": "Contains Engineering Tools. Reduces Crafting Time by 25%."
+    "mechanic": "Contains Engineering Tools. Reduces Crafting Time by 25%.",
+    "keywords": "workshop facility module, architecture, structure, standard, tl-3, equipped",
+    "negative_keywords": "mobile-infantry, personal-weapon, portable-trinket"
   }
 ];

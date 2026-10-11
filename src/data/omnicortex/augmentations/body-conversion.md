@@ -31,6 +31,8 @@ sockets:
 tech_level: 0
 meta_level: 0
 stage: Extreme
+keywords: 'body conversion, augmentation, cybernetic, extreme, tl-3, general'
+negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
 ---
 Category: **8\. TL4 Enhanced Augmentations**
 

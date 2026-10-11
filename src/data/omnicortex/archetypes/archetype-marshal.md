@@ -33,6 +33,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'marshal, sentinel, defender, stability, order, social, combat'
+negative_keywords: 'chaotic-anarchist, unreliable, reckless-gambler'
 ---
 
 # The Marshal

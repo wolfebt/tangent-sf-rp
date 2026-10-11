@@ -6,7 +6,7 @@ feature_category: General
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: Endurance, Stamina 4
+prerequisites: 'Endurance, Stamina 4'
 description: >-
   The character's physiology clears lactic acid so efficiently that they
   effectively never hit a lactate threshold. Their muscles do not burn or fail
@@ -14,6 +14,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'lactate immunity, general, special-feature, character''s, physiology, clears'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Lactate Immunity

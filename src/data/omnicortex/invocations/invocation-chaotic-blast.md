@@ -7,6 +7,27 @@ description: CHAOTIC BLAST invocation for Entropy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Tenen (Sha’nor Spectral)
+  - Eakren (Corrupted Aberration)
+  - Rautha Human
+  - Sha'nor
+recommended_factions:
+  - The Outworlds
+  - Religious Cult Faction Template
+  - Criminal Faction Template
+recommended_origins:
+  - Hostile
+  - Spacer
+  - Industrial
+recommended_occupations:
+  - Adept
+  - Soldier
+  - Criminal
+keywords: >-
+  chaotic blast, entropic disruption, raw chaos, unpredictable resonance,
+  reality tear, matter unmaking, volatile blast
+negative_keywords: 'ordered shielding, precision calibration, sterile cleanroom, lawful restraint'
 ---
 # CHAOTIC BLAST Invocation
 

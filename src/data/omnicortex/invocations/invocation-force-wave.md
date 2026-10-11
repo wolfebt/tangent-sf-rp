@@ -7,6 +7,27 @@ description: FORCE WAVE invocation for Energy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Celestine (Alterian)
+  - Eidolon (Aetherion Specialist)
+  - Risakin (Giant Folk)
+  - Janissary (Gen-E)
+recommended_factions:
+  - The Alterian Enclave
+  - The Ascendancy
+  - Military Faction Template
+recommended_origins:
+  - Militaristic
+  - Enlightened
+  - Hostile
+recommended_occupations:
+  - Soldier
+  - Adept
+  - Specialist
+keywords: >-
+  force wave, kinetic shockwave, telekinetic repulse, crowd clearing push,
+  concussive wave, mass knockdown
+negative_keywords: 'pinpoint needle, single target precision, gentle nudge'
 ---
 
 # FORCE WAVE Invocation

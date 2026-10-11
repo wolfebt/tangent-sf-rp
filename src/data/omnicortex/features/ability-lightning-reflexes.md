@@ -14,6 +14,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  lightning reflexes, ability, special-feature, innate-talent, passive-prowess,
+  reacts
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Lightning Reflexes

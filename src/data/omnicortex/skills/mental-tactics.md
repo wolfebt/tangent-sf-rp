@@ -23,6 +23,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'tactics, mental, intellect, cognitive, expertise, squad'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Tactics

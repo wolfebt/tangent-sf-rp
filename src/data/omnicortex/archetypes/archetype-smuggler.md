@@ -32,6 +32,8 @@ description: Specializes in transporting illegal goods across borders.
 costs:
   bp: 80
 modifiers: []
+keywords: 'smuggler, operative, artisan, adaptable, specialist, transport, stealth'
+negative_keywords: 'heavy-plating, blunt-assault, loud, clumsy'
 ---
 
 # The Smuggler

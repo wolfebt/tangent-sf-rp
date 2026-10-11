@@ -10,6 +10,8 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+keywords: 'impaired sense, hindrance, penalty, general, primary, sensory'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Impaired Sense

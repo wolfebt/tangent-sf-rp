@@ -44,6 +44,10 @@ sockets:
   allocated: []
 tech_level: 4
 meta_level: 0
+keywords: >-
+  holo-deck simulation module, architecture, structure, standard, tl-4,
+  volumetric
+negative_keywords: 'mobile-infantry, personal-weapon, portable-trinket'
 ---
 Volumetric hard-light and sensory simulation chamber for training and recreation.
 

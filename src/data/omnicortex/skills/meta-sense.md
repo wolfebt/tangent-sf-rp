@@ -7,19 +7,22 @@ category: skills
 governing_attributes:
   - Wisdom
 description: >-
-  Mental discipline: Remote viewing, psionic detection, empathy, telepathic probing, and clairvoyance.
+  Mental discipline: Remote viewing, psionic detection, empathy, telepathic
+  probing, and clairvoyance.
 trained_only: true
 specialties:
-  - 'Empathic Resonance'
-  - 'Remote Viewing'
-  - 'Aura Perception'
-  - 'Telepathic Scanning'
-  - 'Premonitory Intuition'
+  - Empathic Resonance
+  - Remote Viewing
+  - Aura Perception
+  - Telepathic Scanning
+  - Premonitory Intuition
 synergy_links:
   - meta-attune
 costs:
   bp: 0
 modifiers: []
+keywords: 'sense, meta, wisdom, metafocus, psionic, resonance'
+negative_keywords: 'mundane, anti-magic-field, unattuned'
 ---
 
 # Sense

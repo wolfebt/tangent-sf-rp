@@ -7,6 +7,27 @@ description: FORCE FIELD invocation for Energy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Celestine (Alterian)
+  - Eidolon (Aetherion Specialist)
+  - Whisper
+  - Janissary (Gen-E)
+recommended_factions:
+  - The Alterian Enclave
+  - The Ascendancy
+  - Military Faction Template
+recommended_origins:
+  - Enlightened
+  - Spacer
+  - Militaristic
+recommended_occupations:
+  - Adept
+  - Specialist
+  - Soldier
+keywords: >-
+  force field, energy bubble, 360 shield, perimeter dome, kinetic sphere,
+  hard-light dome, total containment
+negative_keywords: 'flanking opening, unshielded flank, localized weak spot'
 ---
 
 # FORCE FIELD Invocation

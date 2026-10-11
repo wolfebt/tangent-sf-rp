@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'short sleeper, general, special-feature, mutation, alters, character''s'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Short Sleeper

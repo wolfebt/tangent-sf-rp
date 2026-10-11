@@ -7,6 +7,28 @@ description: SPARK invocation for Energy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Cyberform Human
+  - Draconian (Scaled Aeld)
+  - Dwerg Human
+  - Human (Base)
+recommended_factions:
+  - The Mekan Collective
+  - Dracon Dynasty
+  - Technological Faction Template
+recommended_origins:
+  - Industrial
+  - Colony
+  - Urban
+recommended_occupations:
+  - Builder
+  - Specialist
+  - Adept
+  - Drifter
+keywords: >-
+  spark, electrical discharge, fire starter, ignition arc, micro capacitor,
+  campfire kindle, static zap
+negative_keywords: 'megaton blast, flood, freezing blizzard'
 ---
 
 # SPARK Invocation

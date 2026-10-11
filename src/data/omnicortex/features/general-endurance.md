@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'endurance, general, special-feature, exceptional, cardiovascular, health'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Endurance

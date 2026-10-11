@@ -227,6 +227,12 @@ function syncInvocations() {
         ap: 2
       },
       modifiers: Array.isArray(data.modifiers) ? data.modifiers : [],
+      recommended_species: Array.isArray(data.recommended_species) ? data.recommended_species : [],
+      recommended_factions: Array.isArray(data.recommended_factions) ? data.recommended_factions : [],
+      recommended_origins: Array.isArray(data.recommended_origins) ? data.recommended_origins : [],
+      recommended_occupations: Array.isArray(data.recommended_occupations) ? data.recommended_occupations : [],
+      keywords: typeof data.keywords === 'string' ? data.keywords.trim() : (Array.isArray(data.keywords) ? data.keywords.join(', ') : ''),
+      negative_keywords: typeof data.negative_keywords === 'string' ? data.negative_keywords.trim() : (Array.isArray(data.negative_keywords) ? data.negative_keywords.join(', ') : ''),
       description: data.description || '',
       body
     };

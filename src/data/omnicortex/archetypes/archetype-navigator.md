@@ -31,6 +31,8 @@ description: A skilled pilot and navigator who charts the course for ships.
 costs:
   bp: 80
 modifiers: []
+keywords: 'navigator, savant, rational, intellect, strategist, transport, support'
+negative_keywords: 'mindless-brute, reckless, illiterate'
 ---
 
 # The Navigator

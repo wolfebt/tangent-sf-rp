@@ -11,6 +11,8 @@ description: 'The character is a born performer, capable of holding an audience'
 costs:
   bp: 3
 modifiers: []
+keywords: 'entertaining, skill, special-feature, performer, capable, holding'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Entertaining

@@ -33,6 +33,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'mystic, visionary, idealist, leadership, charisma, diviner, support'
+negative_keywords: 'anti-social, mute, solitary-hermit'
 ---
 
 # The Mystic

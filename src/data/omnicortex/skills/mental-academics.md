@@ -22,6 +22,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'academics, mental, intellect, cognitive, expertise, higher'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Academics

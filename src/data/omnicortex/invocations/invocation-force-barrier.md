@@ -7,6 +7,28 @@ description: FORCE BARRIER invocation for Energy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Celestine (Alterian)
+  - Eidolon (Aetherion Specialist)
+  - Golem (Arcane Construct)
+  - Biomechanical Synthetic
+recommended_factions:
+  - The Alterian Enclave
+  - The Ascendancy
+  - Military Faction Template
+recommended_origins:
+  - Enlightened
+  - Militaristic
+  - Urban
+  - Colony
+recommended_occupations:
+  - Soldier
+  - Adept
+  - Builder
+keywords: >-
+  force barrier, impassable energy wall, hard-light fortification, blast
+  bulkhead, perimeter shield, kinetic wall
+negative_keywords: 'porous wire fence, open terrain, unfortified gap, flimsy wood'
 ---
 
 # FORCE BARRIER Invocation

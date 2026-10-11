@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'contacts, general, special-feature, necessarily, favors, information'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Contacts

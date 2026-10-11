@@ -33,6 +33,8 @@ sockets:
   allocated: []
 tech_level: 3
 meta_level: 0
+keywords: 'standard datapad, gear, personal-property, tl-3, personal, touchscreen'
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Personal touchscreen computing tablet for accessing maps, local data networks, and files.
 

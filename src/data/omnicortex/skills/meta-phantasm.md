@@ -7,19 +7,22 @@ category: skills
 governing_attributes:
   - Wisdom
 description: >-
-  Illusion discipline: Sensory phantasms, holographic weaves, auditory deception, and mirages.
+  Illusion discipline: Sensory phantasms, holographic weaves, auditory
+  deception, and mirages.
 trained_only: true
 specialties:
-  - 'Visual Mirages'
-  - 'Auditory Deception'
-  - 'Sensory Hallucination'
-  - 'Camouflage Fields'
-  - 'Ghost Formations'
+  - Visual Mirages
+  - Auditory Deception
+  - Sensory Hallucination
+  - Camouflage Fields
+  - Ghost Formations
 synergy_links:
   - meta-attune
 costs:
   bp: 0
 modifiers: []
+keywords: 'phantasm, meta, wisdom, metafocus, psionic, resonance'
+negative_keywords: 'mundane, anti-magic-field, unattuned'
 ---
 
 # Phantasm

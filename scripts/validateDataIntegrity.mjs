@@ -236,6 +236,57 @@ assert(occupationsWithKeywords === DEFAULT_OCCUPATIONS.length, `Occupation -> Gu
 const occupationsWithNegKeywords = DEFAULT_OCCUPATIONS.filter(o => typeof o.negative_keywords === 'string' && o.negative_keywords.trim().length > 0).length;
 assert(occupationsWithNegKeywords === DEFAULT_OCCUPATIONS.length, `Occupation -> Negative Railguards coverage: ${occupationsWithNegKeywords}/${DEFAULT_OCCUPATIONS.length}`);
 
+// Invocation Recommendations & Guidance Directives
+let invSpTotal = 0, invSpMatched = 0;
+DEFAULT_INVOCATIONS.forEach(inv => {
+  (inv.recommended_species || []).forEach(sp => {
+    invSpTotal++;
+    if (knownSpeciesNames.has(String(sp).toLowerCase().trim())) invSpMatched++;
+    else console.warn(`Unmatched Invocation species: "${sp}" in ${inv.id}`);
+  });
+});
+const invSpRate = invSpTotal > 0 ? (invSpMatched / invSpTotal) * 100 : 0;
+assert(invSpRate === 100, `Invocation -> Recommended Species resolution: ${invSpMatched}/${invSpTotal} (${invSpRate.toFixed(1)}%)`);
+
+let invFacTotal = 0, invFacMatched = 0;
+DEFAULT_INVOCATIONS.forEach(inv => {
+  (inv.recommended_factions || []).forEach(f => {
+    invFacTotal++;
+    if (knownFactionNames.has(String(f).toLowerCase().trim())) invFacMatched++;
+    else console.warn(`Unmatched Invocation faction: "${f}" in ${inv.id}`);
+  });
+});
+const invFacRate = invFacTotal > 0 ? (invFacMatched / invFacTotal) * 100 : 0;
+assert(invFacRate === 100, `Invocation -> Recommended Factions resolution: ${invFacMatched}/${invFacTotal} (${invFacRate.toFixed(1)}%)`);
+
+let invOrigTotal = 0, invOrigMatched = 0;
+DEFAULT_INVOCATIONS.forEach(inv => {
+  (inv.recommended_origins || []).forEach(o => {
+    invOrigTotal++;
+    if (knownOriginNames.has(String(o).toLowerCase().trim())) invOrigMatched++;
+    else console.warn(`Unmatched Invocation origin: "${o}" in ${inv.id}`);
+  });
+});
+const invOrigRate = invOrigTotal > 0 ? (invOrigMatched / invOrigTotal) * 100 : 0;
+assert(invOrigRate === 100, `Invocation -> Recommended Origins resolution: ${invOrigMatched}/${invOrigTotal} (${invOrigRate.toFixed(1)}%)`);
+
+let invOccTotal = 0, invOccMatched = 0;
+DEFAULT_INVOCATIONS.forEach(inv => {
+  (inv.recommended_occupations || []).forEach(occ => {
+    invOccTotal++;
+    if (knownOccuNames.has(String(occ).toLowerCase().trim())) invOccMatched++;
+    else console.warn(`Unmatched Invocation occupation: "${occ}" in ${inv.id}`);
+  });
+});
+const invOccRate = invOccTotal > 0 ? (invOccMatched / invOccTotal) * 100 : 0;
+assert(invOccRate === 100, `Invocation -> Recommended Occupations resolution: ${invOccMatched}/${invOccTotal} (${invOccRate.toFixed(1)}%)`);
+
+const invocationsWithKeywords = DEFAULT_INVOCATIONS.filter(i => typeof i.keywords === 'string' && i.keywords.trim().length > 0).length;
+assert(invocationsWithKeywords === DEFAULT_INVOCATIONS.length, `Invocation -> Guidance Keywords coverage: ${invocationsWithKeywords}/${DEFAULT_INVOCATIONS.length}`);
+
+const invocationsWithNegKeywords = DEFAULT_INVOCATIONS.filter(i => typeof i.negative_keywords === 'string' && i.negative_keywords.trim().length > 0).length;
+assert(invocationsWithNegKeywords === DEFAULT_INVOCATIONS.length, `Invocation -> Negative Railguards coverage: ${invocationsWithNegKeywords}/${DEFAULT_INVOCATIONS.length}`);
+
 // Archetype essential skills
 const SKILL_ALIASES = {
   'intimidation': 'Intimidate', 'pilot': 'Piloting', 'linguistics': 'Language', 'languages': 'Language',

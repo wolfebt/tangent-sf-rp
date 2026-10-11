@@ -36,6 +36,8 @@ sockets:
   tier: Socket
   allocated: []
 tech_level: 3
+keywords: 'jet-powered hoverboard (skimmer), mecha, vehicle, small, personal, tl-3'
+negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
 ---
 Repulsor hover-board skimming 1 foot above terrain using directed micro-turbines.
 

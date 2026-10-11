@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'geneticist, savant, rational, intellect, strategist, healer, crafter'
+negative_keywords: 'mindless-brute, reckless, illiterate'
 ---
 
 # The Geneticist

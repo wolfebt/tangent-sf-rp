@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'homesteader, sentinel, defender, stability, order, survival, crafter'
+negative_keywords: 'chaotic-anarchist, unreliable, reckless-gambler'
 ---
 
 # The Homesteader

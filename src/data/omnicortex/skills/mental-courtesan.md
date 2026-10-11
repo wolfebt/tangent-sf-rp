@@ -22,6 +22,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'courtesan, mental, charisma, intellect, cognitive, expertise'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Courtesan

@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'karmic blessing, karma, special-feature, larger, destiny, stockpiled'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Karmic Blessing

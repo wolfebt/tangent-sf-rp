@@ -34,6 +34,10 @@ sockets:
   allocated: []
 tech_level: 4
 meta_level: 0
+keywords: >-
+  smart suit (adaptive nanotech), gear, personal-property, tl-4, nanotech,
+  dynamically
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Nanotech weave that dynamically identifies and adapts to environmental hazards.
 

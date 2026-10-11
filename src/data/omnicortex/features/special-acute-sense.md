@@ -14,6 +14,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'acute sense, special, special-feature, possesses, specific, sensory'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Acute Sense

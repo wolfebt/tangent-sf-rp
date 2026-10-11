@@ -10,6 +10,8 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+keywords: 'technologically impaired, hindrance, penalty, general, baffled, modern'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Technologically Impaired

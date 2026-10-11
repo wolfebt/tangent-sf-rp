@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'familiar, special, special-feature, feature:, empathically, linked'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Familiar

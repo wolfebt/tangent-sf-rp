@@ -38,6 +38,8 @@ sockets:
   tier: Socket
   allocated: []
 tech_level: 4
+keywords: 'super-heavy assault mech (100-ton), mecha, vehicle, gargantuan, walker, tl-4'
+negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
 ---
 100-ton walking juggernaut designed to anchor front lines and shatter fortified garrisons.
 

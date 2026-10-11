@@ -11,6 +11,8 @@ description: 'Born Leader is a General Feature: Gain Followers.'
 costs:
   bp: 3
 modifiers: []
+keywords: 'born leader, general, special-feature, leader, feature:, followers'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Born Leader

@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'bailiff, sentinel, defender, stability, order, law enforcement, control'
+negative_keywords: 'fragile, unarmored, timid, evasive-sniper, chaotic-anarchist'
 ---
 
 # The Bailiff

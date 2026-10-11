@@ -32,6 +32,10 @@ sockets:
   allocated: []
 tech_level: 1
 meta_level: 0
+keywords: >-
+  backpack / tactical storage unit, gear, personal-property, tl-1, ruggedized,
+  canvas
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Ruggedized canvas and polymer pack for carrying personal supplies and expedition gear.
 

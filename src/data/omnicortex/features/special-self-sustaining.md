@@ -11,6 +11,8 @@ description: The character does not require standard biological fuel.
 costs:
   bp: 3
 modifiers: []
+keywords: 'self-sustaining, special, special-feature, require, standard, biological'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Self-Sustaining

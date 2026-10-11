@@ -23,6 +23,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'mechanic, mental, intellect, cognitive, expertise, vehicle'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Mechanic

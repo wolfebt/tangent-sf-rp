@@ -13,6 +13,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  defensive combat training, combat, special-feature, combat-maneuver,
+  tactical-edge, trained
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Defensive Combat Training

@@ -30,6 +30,8 @@ sockets:
   allocated: []
 tech_level: 3
 meta_level: 0
+keywords: 'trauma patch (slap-patch), gear, personal-property, tl-3, emergency, adhesive'
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Emergency adhesive dermal patch releasing clotting enzymes and stabilizers.
 

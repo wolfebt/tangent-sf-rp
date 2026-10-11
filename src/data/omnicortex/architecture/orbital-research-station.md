@@ -44,6 +44,10 @@ sockets:
   allocated: []
 tech_level: 4
 meta_level: 0
+keywords: >-
+  orbital research station, architecture, structure, scientific / high-tech,
+  tl-4, central
+negative_keywords: 'mobile-infantry, personal-weapon, portable-trinket'
 ---
 Central vertical core with radiating horizontal research pods isolating hazardous experiments, containing bio-labs, AI servers, and crew quarters.
 

@@ -7,6 +7,28 @@ description: FEAR invocation for Entropy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Tenen (Sha’nor Spectral)
+  - Whisper
+  - Sha'nor
+  - Nocturne (Kovian)
+recommended_factions:
+  - The Outworlds
+  - The Ascendancy
+  - Incorporated Planetary Syndication (The Syndicate)
+  - Kovian Tribunal
+recommended_origins:
+  - Hostile
+  - Urban
+  - Spacer
+recommended_occupations:
+  - Adept
+  - Agent
+  - Criminal
+keywords: >-
+  fear, terror pulse, eldritch dread, nightmare panic, adrenaline paralysis,
+  psychological horror, primal fear aura
+negative_keywords: 'unshakable courage, morale boost, fearless inspiration, peaceful calm'
 ---
 
 # FEAR Invocation

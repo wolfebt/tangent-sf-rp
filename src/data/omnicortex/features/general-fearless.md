@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'fearless, general, special-feature, whether, through, madness'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Fearless

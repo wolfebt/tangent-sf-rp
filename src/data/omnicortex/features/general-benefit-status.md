@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'benefit (status), general, special-feature, social, standing, aristocratic'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Benefit (Status)

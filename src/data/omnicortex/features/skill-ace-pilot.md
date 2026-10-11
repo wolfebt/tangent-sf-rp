@@ -11,6 +11,8 @@ description: 'Ace Pilot is a Skill Feature: +6 Piloting, +30% to Maximum Vehicle
 costs:
   bp: 3
 modifiers: []
+keywords: 'ace pilot, skill, special-feature, feature:, piloting, maximum'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Ace Pilot

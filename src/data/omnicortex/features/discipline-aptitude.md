@@ -14,6 +14,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'aptitude, discipline, special-feature, focused-training, mastery, possesses'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Aptitude

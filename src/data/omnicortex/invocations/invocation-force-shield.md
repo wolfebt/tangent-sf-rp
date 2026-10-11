@@ -7,6 +7,27 @@ description: FORCE SHIELD invocation for Energy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Celestine (Alterian)
+  - Eidolon (Aetherion Specialist)
+  - Janissary (Gen-E)
+  - Whisper
+recommended_factions:
+  - The Alterian Enclave
+  - The Ascendancy
+  - Military Faction Template
+recommended_origins:
+  - Enlightened
+  - Militaristic
+  - Urban
+recommended_occupations:
+  - Soldier
+  - Adept
+  - Specialist
+keywords: >-
+  force shield, reaction parry, hard-light buckler, impact deflection, kinetic
+  intercept, instantaneous shield
+negative_keywords: 'slow parry, heavy tower shield, encumbered defense'
 ---
 
 # FORCE SHIELD Invocation

@@ -8,6 +8,8 @@ description: Lacking vocal cords or biological capacity for verbal speech.
 costs:
   bp: 0
 modifiers: []
+keywords: 'mute, hindrance, penalty, general, lacking, biological'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Mute

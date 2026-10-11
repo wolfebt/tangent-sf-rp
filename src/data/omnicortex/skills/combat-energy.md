@@ -24,6 +24,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'energy, combat, agility, tactical, offensive, defense'
+negative_keywords: 'pacifist, unarmed-civilian, helpless'
 ---
 
 # Energy

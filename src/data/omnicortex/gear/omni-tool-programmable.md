@@ -32,6 +32,10 @@ sockets:
   allocated: []
 tech_level: 4
 meta_level: 0
+keywords: >-
+  omni-tool (programmable holographic), gear, personal-property, tl-4,
+  forearm-mounted, holographic
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Forearm-mounted holographic and micro-fabrication apparatus replicating power tools.
 

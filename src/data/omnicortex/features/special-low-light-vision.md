@@ -11,6 +11,8 @@ description: The character's eyes magnify ambient light.
 costs:
   bp: 3
 modifiers: []
+keywords: 'low light vision, special, special-feature, character''s, magnify, ambient'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Low Light Vision

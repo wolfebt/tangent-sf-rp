@@ -11,6 +11,8 @@ description: The character's metabolism repairs tissue at an accelerated rate.
 costs:
   bp: 3
 modifiers: []
+keywords: 'fast heal, general, special-feature, character''s, metabolism, repairs'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Fast Heal

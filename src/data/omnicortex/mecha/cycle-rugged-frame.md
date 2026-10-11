@@ -36,6 +36,8 @@ sockets:
   tier: Socket
   allocated: []
 tech_level: 1
+keywords: 'cycle (rugged wilderness), mecha, vehicle, medium, personal, tl-1'
+negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
 ---
 Ruggedized bicycle frame with suspension and cargo rack for wilderness traversal.
 

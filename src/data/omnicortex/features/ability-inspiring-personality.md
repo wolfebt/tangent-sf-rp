@@ -14,6 +14,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  inspiring personality, ability, special-feature, innate-talent,
+  passive-prowess, possesses
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Inspiring Personality

@@ -32,6 +32,8 @@ sockets:
 tech_level: 0
 meta_level: 0
 stage: Heavy
+keywords: 'fortified skeleton, augmentation, cybernetic armor, heavy, tl-3, general'
+negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
 ---
 Category: **5.1 Integrated Cybernetic Armor**
 

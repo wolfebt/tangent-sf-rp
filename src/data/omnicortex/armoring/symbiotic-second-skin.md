@@ -43,6 +43,8 @@ critical_details:
   failure_effect: []
 tech_level: 4
 meta_level: 0
+keywords: 'symbiotic "second skin", armor, defense, dr-12, medium-armor, tl-4'
+negative_keywords: 'unarmored, fragile, naked'
 ---
 Living Auluran bioweave suit that bonds to the wearer's epidermis, flexing naturally and regenerating cellular tears.
 

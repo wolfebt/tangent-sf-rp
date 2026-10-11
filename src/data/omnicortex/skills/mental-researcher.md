@@ -22,6 +22,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'researcher, mental, intellect, cognitive, expertise, academic'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Researcher

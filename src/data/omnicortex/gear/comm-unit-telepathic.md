@@ -32,6 +32,10 @@ sockets:
   allocated: []
 tech_level: 5
 meta_level: 2
+keywords: >-
+  comm unit (telepathic bio-node), gear, personal-property, tl-5, organic,
+  psycho-resonant
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Organic psycho-resonant crystal allowing silent psychic transmission across space.
 

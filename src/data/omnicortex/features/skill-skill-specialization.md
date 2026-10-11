@@ -11,6 +11,8 @@ description: The character drills deep into a specific niche of a broad skill.
 costs:
   bp: 3
 modifiers: []
+keywords: 'skill specialization, skill, special-feature, drills, specific'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Skill Specialization

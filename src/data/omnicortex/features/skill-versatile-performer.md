@@ -11,6 +11,8 @@ description: The character is a multi-talented artist.
 costs:
   bp: 3
 modifiers: []
+keywords: 'versatile performer, skill, special-feature, multi-talented, artist'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Versatile Performer

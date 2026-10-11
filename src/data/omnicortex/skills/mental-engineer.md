@@ -23,6 +23,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'engineer, mental, intellect, cognitive, expertise, heavy'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Engineer

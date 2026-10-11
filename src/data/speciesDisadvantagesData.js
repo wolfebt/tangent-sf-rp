@@ -54,7 +54,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
       "[Penalty] Disadvantage on all checks",
       "[Penalty] Inflicts Sickened condition (-2 to all checks)",
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ]
+    ],
+    "keywords": "addiction, hindrance, penalty, general, chemical, biological",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-adversary",
@@ -80,7 +82,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ]
+    ],
+    "keywords": "adversary, hindrance, penalty, general, individual, powerful",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-species-armless",
@@ -106,7 +110,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 4 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 4 CP refund upon selection."
-    ]
+    ],
+    "keywords": "armless, hindrance, penalty, physical, without",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-bodily-age",
@@ -132,7 +138,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ]
+    ],
+    "keywords": "bodily age, hindrance, penalty, general, outside, physical",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-clown",
@@ -158,7 +166,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ]
+    ],
+    "keywords": "clown, hindrance, penalty, general, compulsive, jokester",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-covetous",
@@ -184,7 +194,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ]
+    ],
+    "keywords": "covetous, hindrance, penalty, general, overwhelming, compulsion",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-dependent",
@@ -210,7 +222,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ]
+    ],
+    "keywords": "dependent, hindrance, penalty, general, responsible, continuous",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-disability",
@@ -236,7 +250,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ]
+    ],
+    "keywords": "disability, hindrance, penalty, general, missing, paralysis",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-distinctive-features",
@@ -262,7 +278,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ]
+    ],
+    "keywords": "distinctive features, hindrance, penalty, general, unmistakable, physical",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-species-elemental-vulnerability",
@@ -288,7 +306,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 4 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 4 CP refund upon selection."
-    ]
+    ],
+    "keywords": "elemental vulnerability, hindrance, penalty, physical, vulnerability, electricity",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-emotional-issues",
@@ -331,7 +351,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
       "[Penalty] -2 on Will Checks",
       "[Penalty] -2 to Social inter",
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ]
+    ],
+    "keywords": "emotional issues, hindrance, penalty, general, severe, emotional",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-extreme-morality",
@@ -357,7 +379,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ]
+    ],
+    "keywords": "extreme morality, hindrance, penalty, general, unshakeable, aligned",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-hatred",
@@ -392,7 +416,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notesList": [
       "[Penalty] -2 to Social",
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ]
+    ],
+    "keywords": "hatred, hindrance, penalty, general, prejudice, visceral",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-honorable",
@@ -418,7 +444,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ]
+    ],
+    "keywords": "honorable, hindrance, penalty, general, inflexible, chivalry",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-humorless",
@@ -461,7 +489,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
       "[Penalty] -2 to Insight",
       "[Penalty] -2 to Social",
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ]
+    ],
+    "keywords": "humorless, hindrance, penalty, general, statement, literally",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-impaired-sense",
@@ -487,7 +517,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ]
+    ],
+    "keywords": "impaired sense, hindrance, penalty, general, primary, sensory",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-species-light-blindness",
@@ -514,7 +546,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notesList": [
       "[Rule] Hindrance: Grants 4 CP refund upon selection.",
       "[Prerequisite] Darkvision / Dark Sight"
-    ]
+    ],
+    "keywords": "light blindness, hindrance, penalty, sensory, abrupt, exposure",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-species-light-sensitivity",
@@ -541,7 +575,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notesList": [
       "[Rule] Hindrance: Grants 2 CP refund upon selection.",
       "[Prerequisite] Darkvision / Dark Sight"
-    ]
+    ],
+    "keywords": "light sensitivity, hindrance, penalty, sensory, dazzled, bright",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-lost-sense",
@@ -567,7 +603,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ]
+    ],
+    "keywords": "lost sense, hindrance, penalty, general, complete, biological",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-mental-issues",
@@ -618,7 +656,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
       "[Penalty] -2 to Concentration",
       "[Penalty] -2 to Mental",
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ]
+    ],
+    "keywords": "mental issues, hindrance, penalty, general, neurodivergence, chronic",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-minority",
@@ -644,7 +684,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ]
+    ],
+    "keywords": "minority, hindrance, penalty, general, belonging, oppressed",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-mute",
@@ -670,7 +712,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ]
+    ],
+    "keywords": "mute, hindrance, penalty, general, lacking, biological",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-species-negative-energy-affinity",
@@ -696,7 +740,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 4 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 4 CP refund upon selection."
-    ]
+    ],
+    "keywords": "negative energy affinity, hindrance, penalty, meta, harmed, positive/healed",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-nightmares",
@@ -731,7 +777,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notesList": [
       "[Penalty] Inflicts Fatigued condition (-2 to all actions)",
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ]
+    ],
+    "keywords": "nightmares, hindrance, penalty, general, plagued, psychic",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-obligation",
@@ -757,7 +805,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ]
+    ],
+    "keywords": "obligation, hindrance, penalty, general, contractual, feudal",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-species-ponderous",
@@ -783,7 +833,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 4 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 4 CP refund upon selection."
-    ]
+    ],
+    "keywords": "ponderous (disadvantage), hindrance, penalty, movement",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-poor",
@@ -842,7 +894,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
       "[Penalty] -12 to Wealth Score",
       "[Penalty] -4 Wealth Score",
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ]
+    ],
+    "keywords": "poor, hindrance, penalty, general, starting, severe",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-secret",
@@ -868,7 +922,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ]
+    ],
+    "keywords": "secret, hindrance, penalty, general, hiding, dangerous",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-species-slow",
@@ -894,7 +950,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 2 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 2 CP refund upon selection."
-    ]
+    ],
+    "keywords": "slow (disadvantage), hindrance, penalty, movement",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-social-issues",
@@ -937,7 +995,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
       "[Penalty] -2 to Persuasion",
       "[Penalty] -2 to Charisma",
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ]
+    ],
+    "keywords": "social issues, hindrance, penalty, general, severe, social",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-species-sunlight-powerlessness",
@@ -964,7 +1024,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notesList": [
       "[Rule] Hindrance: Grants 6 CP refund upon selection.",
       "[Prerequisite] Undead / Half-Undead / Non-Living"
-    ]
+    ],
+    "keywords": "sunlight powerlessness, hindrance, penalty, meta, staggered/helpless, direct",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-technologically-impaired",
@@ -999,7 +1061,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notesList": [
       "[Penalty] -1 Tech Level",
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ]
+    ],
+    "keywords": "technologically impaired, hindrance, penalty, general, baffled, modern",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-unlucky",
@@ -1058,7 +1122,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
       "[Penalty] -6 to Karma Pool maximum",
       "[Penalty] -2 to Karma Pool",
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ]
+    ],
+    "keywords": "unlucky, hindrance, penalty, general, profound, cosmic",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   },
   {
     "id": "disadvantage-species-vulnerable-to-sunlight",
@@ -1085,7 +1151,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notesList": [
       "[Rule] Hindrance: Grants 4 CP refund upon selection.",
       "[Prerequisite] Native to Darklands / Shadow Realms"
-    ]
+    ],
+    "keywords": "vulnerable to sunlight, hindrance, penalty, meta, damage, sunlight",
+    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
   }
 ];
 

@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'activist, visionary, idealist, leadership, charisma, buffer, leader'
+negative_keywords: 'anti-social, mute, solitary-hermit'
 ---
 
 # The Activist

@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'biotechnologist, skill, special-feature, expert, manipulation, living'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Biotechnologist

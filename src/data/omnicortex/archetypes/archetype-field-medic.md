@@ -33,6 +33,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'field medic, sentinel, defender, stability, order, healer, light infantry'
+negative_keywords: 'fragile, unarmored, timid, evasive-sniper, chaotic-anarchist'
 ---
 
 # The Field Medic

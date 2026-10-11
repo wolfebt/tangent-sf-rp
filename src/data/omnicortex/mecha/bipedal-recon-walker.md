@@ -36,6 +36,8 @@ sockets:
   tier: Socket
   allocated: []
 tech_level: 3
+keywords: 'bipedal recon walker, mecha, vehicle, large, walker, tl-3'
+negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
 ---
 Fast, agile scout walker with reverse chicken-leg joints and high-gain sensory mast.
 

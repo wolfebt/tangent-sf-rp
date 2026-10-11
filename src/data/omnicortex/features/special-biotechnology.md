@@ -14,6 +14,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'biotechnology, special, special-feature, trained, naturally, adapted'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Biotechnology

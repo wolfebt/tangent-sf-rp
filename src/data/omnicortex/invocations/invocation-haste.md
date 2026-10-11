@@ -7,6 +7,33 @@ description: HASTE invocation for Dimension reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Whisper
+  - Fey (Base)
+  - Ila (Progenitor Archon)
+  - Sigal
+  - Celestine (Alterian)
+recommended_factions:
+  - Elven Providence
+  - Supernatural Faction Template
+  - The Alterian Enclave
+  - Alien Faction Template
+recommended_origins:
+  - Enlightened
+  - Spacer
+  - Hostile
+  - Agricultural
+recommended_occupations:
+  - Adept
+  - Scholar
+  - Drifter
+  - Citizen
+keywords: >-
+  haste, planar binding, minion summoning, temporal acceleration, dimensional
+  tether, creature conjuration, banishment, extradimensional fabrication
+negative_keywords: >-
+  pure mundane, assembly line manufacturing, heavy cybernetics, terrestrial
+  isolation
 ---
 
 # HASTE Invocation

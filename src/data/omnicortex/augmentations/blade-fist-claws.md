@@ -32,6 +32,8 @@ sockets:
 tech_level: 0
 meta_level: 0
 stage: Standard
+keywords: 'blade fist / claws, augmentation, prosthetic, standard, tl-3, general'
+negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
 ---
 Category: **4.2 Hand & Foot Options (1 BP Per Option)**
 

@@ -6,20 +6,21 @@ subtype: universal arcana
 category: skills
 governing_attributes:
   - Intellect
-description: >-
-  Arcane theory, esoteric lore, magical traditions, runes, and occult phenomena.
+description: 'Arcane theory, esoteric lore, magical traditions, runes, and occult phenomena.'
 trained_only: true
 specialties:
-  - 'Runic Inscriptions'
-  - 'Planar Cosmology'
-  - 'Esoteric Relics'
-  - 'Magical Traditions'
-  - 'Aetheric Sigils'
+  - Runic Inscriptions
+  - Planar Cosmology
+  - Esoteric Relics
+  - Magical Traditions
+  - Aetheric Sigils
 synergy_links:
   - meta-attune
 costs:
   bp: 0
 modifiers: []
+keywords: 'arcane, mental, intellect, cognitive, expertise, theory'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Arcane

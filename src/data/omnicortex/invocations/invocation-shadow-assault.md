@@ -7,6 +7,31 @@ description: SHADOW ASSAULT invocation for Illusion reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Tenen (Sha’nor Spectral)
+  - Sha'nor
+  - Whisper
+  - Rautha Human
+  - Nocturne (Kovian)
+recommended_factions:
+  - The Outworlds
+  - Incorporated Planetary Syndication (The Syndicate)
+  - Supernatural Faction Template
+  - Criminal Faction Template
+recommended_origins:
+  - Hostile
+  - Urban
+  - Spacer
+  - Enlightened
+recommended_occupations:
+  - Adept
+  - Agent
+  - Criminal
+  - Scout
+keywords: >-
+  shadow assault, umbral shadow, shadow weapon, absolute darkness, quasi-real
+  matter, cold chill, shadow step, nether shroud, void strike, shadow conjuring
+negative_keywords: 'solar radiance, high noon flare, sterile laboratory, holy temple, open honesty'
 ---
 # SHADOW ASSAULT Invocation
 

@@ -11,6 +11,8 @@ description: The character can survive in environments hostile to their biology.
 costs:
   bp: 3
 modifiers: []
+keywords: 'life support, special, special-feature, survive, environments, hostile'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Life Support

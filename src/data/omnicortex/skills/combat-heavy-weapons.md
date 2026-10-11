@@ -24,6 +24,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'heavy weapons, combat, strength, tactical, offensive, defense'
+negative_keywords: 'pacifist, unarmed-civilian, helpless'
 ---
 
 # Heavy Weapons

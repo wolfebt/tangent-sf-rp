@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'coordinated assist, general, special-feature, natural, player, leader'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Coordinated Assist

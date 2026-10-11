@@ -42,6 +42,8 @@ sockets:
   allocated: []
 tech_level: 3
 meta_level: 0
+keywords: 'med-bay facility module, architecture, structure, standard, tl-3, standardized'
+negative_keywords: 'mobile-infantry, personal-weapon, portable-trinket'
 ---
 Standardized medical facility module providing sterile triage and treatment bays.
 

@@ -38,6 +38,8 @@ sockets:
   tier: Socket
   allocated: []
 tech_level: 4
+keywords: 'advanced grav-tank, mecha, vehicle, huge, industrial, tl-4'
+negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
 ---
 Floating armored fortress moving effortlessly across water, mud, and minefields armed with particle beams.
 

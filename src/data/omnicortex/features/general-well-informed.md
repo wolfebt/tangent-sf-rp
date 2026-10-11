@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'well informed, general, special-feature, ground, little'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Well Informed

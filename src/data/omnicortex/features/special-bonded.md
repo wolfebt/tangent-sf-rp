@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'bonded, special, special-feature, shares, profound, supernatural'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Bonded

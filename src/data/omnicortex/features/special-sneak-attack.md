@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'sneak attack, special, special-feature, exactly, strike, maximum'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Sneak Attack

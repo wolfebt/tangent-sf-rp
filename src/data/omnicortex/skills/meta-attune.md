@@ -9,8 +9,9 @@ governing_attributes:
   - Wisdom
   - Charisma
 description: >-
-  The universal conduit skill for drawing and channeling energy. Required for all Disciplines.
-  Sets Resistance/Evasion DC, resolves Attack Rolls and Opposed Countering, and expands Essence capacity.
+  The universal conduit skill for drawing and channeling energy. Required for
+  all Disciplines. Sets Resistance/Evasion DC, resolves Attack Rolls and Opposed
+  Countering, and expands Essence capacity.
 trained_only: true
 specialties:
   - Channeling & Conduit Regulation
@@ -29,6 +30,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'attune, meta, wisdom, metafocus, psionic, resonance'
+negative_keywords: 'mundane, anti-magic-field, unattuned'
 ---
 
 # Attune

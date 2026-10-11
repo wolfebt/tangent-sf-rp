@@ -7,6 +7,27 @@ description: CULL invocation for Entropy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Tenen (Sha’nor Spectral)
+  - Sha'nor
+  - Rautha Human
+  - Nocturne (Kovian)
+recommended_factions:
+  - The Outworlds
+  - Religious Cult Faction Template
+  - Kovian Tribunal
+recommended_origins:
+  - Hostile
+  - Militaristic
+  - Spacer
+recommended_occupations:
+  - Adept
+  - Criminal
+  - Soldier
+keywords: >-
+  cull, execution strike, weakling purge, necrotic harvest, executioner touch,
+  vitality drain, final strike
+negative_keywords: 'mercy, protective sanctuary, non-lethal surrender, universal medical aid'
 ---
 # CULL Invocation
 

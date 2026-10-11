@@ -1,6 +1,6 @@
 ---
 id: disadvantage-species-light-sensitivity
-name: "Light Sensitivity"
+name: Light Sensitivity
 category: disadvantages
 disadvantage_type: Species Disadvantage
 classification: Sensory
@@ -8,9 +8,11 @@ type: Sensory
 bp_granted: 2
 costs:
   bp: -2
-description: "Dazzled in bright sunlight. Req: Darkvision."
-prerequisite: "Darkvision / Dark Sight"
+description: 'Dazzled in bright sunlight. Req: Darkvision.'
+prerequisite: Darkvision / Dark Sight
 modifiers: []
+keywords: 'light sensitivity, hindrance, penalty, sensory, dazzled, bright'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Light Sensitivity

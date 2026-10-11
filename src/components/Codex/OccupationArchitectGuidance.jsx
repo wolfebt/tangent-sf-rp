@@ -14,6 +14,7 @@ import {
   Zap,
   Globe
 } from 'lucide-react';
+import { DEFAULT_OCCUPATIONS } from '../../data/occupationsData.js';
 
 /**
  * Normalizes input list into an array of clean string labels.
@@ -47,11 +48,62 @@ export const OccupationArchitectGuidance = ({
   const [newSkillInput, setNewSkillInput] = useState('');
   const [newFeatureInput, setNewFeatureInput] = useState('');
 
-  const recommendedSpecies = useMemo(() => normalizeList(formData.recommended_species), [formData.recommended_species]);
-  const recommendedFactions = useMemo(() => normalizeList(formData.recommended_factions), [formData.recommended_factions]);
-  const recommendedOrigins = useMemo(() => normalizeList(formData.recommended_origins), [formData.recommended_origins]);
-  const recommendedSkills = useMemo(() => normalizeList(formData.recommended_skills), [formData.recommended_skills]);
-  const recommendedFeatures = useMemo(() => normalizeList(formData.recommended_features), [formData.recommended_features]);
+  // Resilient canonical seed lookup
+  const canonicalSeed = useMemo(() => {
+    if (!formData.name && !formData.id && !formData.title) return null;
+    const matchId = (formData.id || '').toString().toLowerCase().trim();
+    const matchName = (formData.name || '').toString().toLowerCase().trim();
+    const matchTitle = (formData.title || '').toString().toLowerCase().trim();
+
+    const pool = (Array.isArray(dbData?.occupations) && dbData.occupations.length > 0) ? dbData.occupations : DEFAULT_OCCUPATIONS;
+    const found = pool.find(o => {
+      const oId = (o.id || '').toString().toLowerCase().trim();
+      const oName = (o.name || '').toString().toLowerCase().trim();
+      const oTitle = (o.title || '').toString().toLowerCase().trim();
+      return (oId && oId === matchId) ||
+             (oName && (oName === matchName || oName === matchTitle)) ||
+             (oTitle && (oTitle === matchName || oTitle === matchTitle));
+    });
+    if (found) return found;
+    return DEFAULT_OCCUPATIONS.find(o => {
+      const oId = (o.id || '').toString().toLowerCase().trim();
+      const oName = (o.name || '').toString().toLowerCase().trim();
+      const oTitle = (o.title || '').toString().toLowerCase().trim();
+      return (oId && oId === matchId) ||
+             (oName && (oName === matchName || oName === matchTitle)) ||
+             (oTitle && (oTitle === matchName || oTitle === matchTitle));
+    }) || null;
+  }, [formData.id, formData.name, formData.title, dbData?.occupations]);
+
+  const rawRecSpecies = normalizeList(formData.recommended_species);
+  const recommendedSpecies = useMemo(() => {
+    if (rawRecSpecies.length > 0) return rawRecSpecies;
+    return normalizeList(canonicalSeed?.recommended_species);
+  }, [rawRecSpecies, canonicalSeed]);
+
+  const rawRecFactions = normalizeList(formData.recommended_factions);
+  const recommendedFactions = useMemo(() => {
+    if (rawRecFactions.length > 0) return rawRecFactions;
+    return normalizeList(canonicalSeed?.recommended_factions);
+  }, [rawRecFactions, canonicalSeed]);
+
+  const rawRecOrigins = normalizeList(formData.recommended_origins);
+  const recommendedOrigins = useMemo(() => {
+    if (rawRecOrigins.length > 0) return rawRecOrigins;
+    return normalizeList(canonicalSeed?.recommended_origins);
+  }, [rawRecOrigins, canonicalSeed]);
+
+  const rawRecSkills = normalizeList(formData.recommended_skills);
+  const recommendedSkills = useMemo(() => {
+    if (rawRecSkills.length > 0) return rawRecSkills;
+    return normalizeList(canonicalSeed?.recommended_skills);
+  }, [rawRecSkills, canonicalSeed]);
+
+  const rawRecFeatures = normalizeList(formData.recommended_features);
+  const recommendedFeatures = useMemo(() => {
+    if (rawRecFeatures.length > 0) return rawRecFeatures;
+    return normalizeList(canonicalSeed?.recommended_features);
+  }, [rawRecFeatures, canonicalSeed]);
 
   const handleAddSpecies = (e) => {
     if (e) e.preventDefault();
@@ -145,16 +197,22 @@ export const OccupationArchitectGuidance = ({
 
   // Keywords & Negative Keywords (Directives / Railguards)
   const keywordsList = useMemo(() => {
-    if (!formData.keywords) return [];
-    if (Array.isArray(formData.keywords)) return formData.keywords;
-    return String(formData.keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean);
-  }, [formData.keywords]);
+    const raw = (formData.keywords && ((typeof formData.keywords === 'string' && formData.keywords.trim()) || Array.isArray(formData.keywords)))
+      ? formData.keywords
+      : (canonicalSeed?.keywords || []);
+    if (!raw) return [];
+    if (Array.isArray(raw)) return raw;
+    return String(raw).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean);
+  }, [formData.keywords, canonicalSeed]);
 
   const negativeKeywordsList = useMemo(() => {
-    if (!formData.negative_keywords) return [];
-    if (Array.isArray(formData.negative_keywords)) return formData.negative_keywords;
-    return String(formData.negative_keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean);
-  }, [formData.negative_keywords]);
+    const raw = (formData.negative_keywords && ((typeof formData.negative_keywords === 'string' && formData.negative_keywords.trim()) || Array.isArray(formData.negative_keywords)))
+      ? formData.negative_keywords
+      : (canonicalSeed?.negative_keywords || []);
+    if (!raw) return [];
+    if (Array.isArray(raw)) return raw;
+    return String(raw).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean);
+  }, [formData.negative_keywords, canonicalSeed]);
 
   const [newKeywordInput, setNewKeywordInput] = useState('');
   const [newNegativeInput, setNewNegativeInput] = useState('');

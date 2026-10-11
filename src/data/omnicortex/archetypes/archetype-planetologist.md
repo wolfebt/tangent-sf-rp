@@ -34,6 +34,8 @@ description: 'A scholar who studies the geology, climate, and ecosystems of plan
 costs:
   bp: 80
 modifiers: []
+keywords: 'planetologist, savant, rational, intellect, strategist, science, survival'
+negative_keywords: 'mindless-brute, reckless, illiterate'
 ---
 
 # The Planetologist

@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'power attack, skill, special-feature, sacrifices, precision, trading'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Power Attack

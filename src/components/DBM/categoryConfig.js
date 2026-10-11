@@ -335,7 +335,9 @@ export const categoryConfig = {
             bp_chassis: { type: 'number', label: 'Chassis Allocation Budget (BP)', default: 80 },
             description: { type: 'textarea', aiEnabled: true, label: 'Full Description & Flavor' },
             full_text: { type: 'textarea', label: 'Full Rules Text & Lore (1.02 Archetypes.md)' },
-            note: { type: 'textarea', label: 'Architect Notes' }
+            note: { type: 'textarea', label: 'Architect Notes' },
+            keywords: { type: 'text', label: 'Guidance Keywords & Positive Directives' },
+            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' }
         }
     },
     skills: {
@@ -431,7 +433,9 @@ export const categoryConfig = {
             modifier: { type: 'multiselect', source: 'modifier', manageable: true },
             cp: { type: 'number'},
             mechanic: { type: 'textarea' },
-            note: { type: 'textarea' }
+            note: { type: 'textarea' },
+            keywords: { type: 'text', label: 'Guidance Keywords & Positive Directives' },
+            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' }
         }
     },
     modular_characters: {
@@ -456,7 +460,9 @@ export const categoryConfig = {
             craft_dc: { type: 'number', label: 'Encounter / Threat DC' },
             description: { type: 'textarea', aiEnabled: true, label: 'Appearance, Behavioral AI & Motives' },
             mechanic: { type: 'textarea', label: 'Combat Behaviors, Special Traits & Loot' },
-            note: { type: 'textarea', label: 'Architect Notes' }
+            note: { type: 'textarea', label: 'Architect Notes' },
+            keywords: { type: 'text', label: 'Guidance Keywords & Positive Directives' },
+            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' }
         }
     },
     world_design: {
@@ -503,7 +509,9 @@ export const categoryConfig = {
             description: { type: 'textarea', aiEnabled: true, label: 'Overview / History' },
             quirks: { type: 'textarea', label: 'Planetary Quirks / Hazards' },
             adventureHooks: { type: 'textarea', label: 'Adventure Hooks' },
-            note: { type: 'textarea', label: 'GM Notes' }
+            note: { type: 'textarea', label: 'GM Notes' },
+            keywords: { type: 'text', label: 'Guidance Keywords & Positive Directives' },
+            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' }
         }
     },
     technology: {
@@ -518,7 +526,9 @@ export const categoryConfig = {
             craft_dc: { type: 'number', label: 'Technological Complexity DC' },
             description: { type: 'textarea', aiEnabled: true, label: 'Technical Specifications & Domain Capabilities' },
             mechanic: { type: 'textarea' },
-            note: { type: 'textarea' }
+            note: { type: 'textarea' },
+            keywords: { type: 'text', label: 'Guidance Keywords & Positive Directives' },
+            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' }
         }
     },
     economatrix: {
@@ -558,6 +568,12 @@ export const categoryConfig = {
             critical_details: { type: 'critical_details', label: 'Critical Details' },
             costs: { type: 'costs_map', label: 'Resource Expenditures & AP' },
             design_dc: { type: 'readonlytext', label: 'DESIGN DC' },
+            recommended_species: { type: 'multiselect', source: 'species', label: 'Recommended Species', manageable: true },
+            recommended_factions: { type: 'multiselect', source: 'factions', label: 'Recommended Factions', manageable: true },
+            recommended_origins: { type: 'multiselect', source: 'origins', label: 'Recommended Origins', manageable: true },
+            recommended_occupations: { type: 'multiselect', source: 'occupations', label: 'Recommended Occupations', manageable: true },
+            keywords: { type: 'tags', label: 'Positive Directives / Keywords', placeholder: 'e.g. psionic, warp, dimensional, entropy' },
+            negative_keywords: { type: 'tags', label: 'Negative Directives / Railguards', placeholder: 'e.g. kinetic, brute, tech' },
             mechanic: { type: 'textarea' },
             tech_level: { type: 'select', label: 'Tech Level', options: [0, 1, 2, 3, 4, 5] },
             meta_level: { type: 'select', label: 'Meta Level', options: [0, 1, 2, 3, 4, 5] },
@@ -584,6 +600,12 @@ export const categoryConfig = {
             critical_details: { type: 'critical_details', label: 'Critical Details' },
             costs: { type: 'costs_map', label: 'Resource Expenditures & AP' },
             design_dc: { type: 'readonlytext', label: 'DESIGN DC' },
+            recommended_species: { type: 'multiselect', source: 'species', label: 'Recommended Species', manageable: true },
+            recommended_factions: { type: 'multiselect', source: 'factions', label: 'Recommended Factions', manageable: true },
+            recommended_origins: { type: 'multiselect', source: 'origins', label: 'Recommended Origins', manageable: true },
+            recommended_occupations: { type: 'multiselect', source: 'occupations', label: 'Recommended Occupations', manageable: true },
+            keywords: { type: 'tags', label: 'Positive Directives / Keywords', placeholder: 'e.g. innate, biometabolism, natural weapon' },
+            negative_keywords: { type: 'tags', label: 'Negative Directives / Railguards', placeholder: 'e.g. synthetic, spell-focus' },
             mechanic: { type: 'textarea' },
             tech_level: { type: 'select', label: 'Tech Level', options: [0, 1, 2, 3, 4, 5] },
             meta_level: { type: 'select', label: 'Meta Level', options: [0, 1, 2, 3, 4, 5] },
@@ -1096,7 +1118,9 @@ export const categoryConfig = {
             scale: { type: 'select', options: ['Multiverse', 'Galaxy', 'Solar System', 'Single Planet', 'Microcosm'] },
             laws_of_physics: { type: 'textarea', label: 'Physical Laws & Magic Systems' },
             history: { type: 'textarea', label: 'Cosmic History' },
-            note: { type: 'textarea' }
+            note: { type: 'textarea' },
+            keywords: { type: 'text', label: 'Guidance Keywords & Positive Directives' },
+            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' }
         }
     },
     world: {
@@ -1112,7 +1136,9 @@ export const categoryConfig = {
             geography: { type: 'textarea', label: 'Geography & Climate' },
             biosphere: { type: 'textarea', label: 'Flora & Fauna' },
             culture: { type: 'textarea', label: 'Dominant Cultures' },
-            note: { type: 'textarea' }
+            note: { type: 'textarea' },
+            keywords: { type: 'text', label: 'Guidance Keywords & Positive Directives' },
+            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' }
         }
     },
     setting: {
@@ -1126,7 +1152,9 @@ export const categoryConfig = {
             description: { type: 'textarea', aiEnabled: true, label: 'Atmosphere & Vibe' },
             points_of_interest: { type: 'textarea', label: 'Points of Interest' },
             inhabitants: { type: 'textarea', label: 'Notable Inhabitants' },
-            note: { type: 'textarea' }
+            note: { type: 'textarea' },
+            keywords: { type: 'text', label: 'Guidance Keywords & Positive Directives' },
+            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' }
         }
     },
     philosophy: {
@@ -1139,7 +1167,9 @@ export const categoryConfig = {
             description: { type: 'textarea', aiEnabled: true, label: 'Core Tenets' },
             origin: { type: 'textarea', label: 'Origin & Founders' },
             practices: { type: 'textarea', label: 'Practices & Rituals' },
-            note: { type: 'textarea' }
+            note: { type: 'textarea' },
+            keywords: { type: 'text', label: 'Guidance Keywords & Positive Directives' },
+            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' }
         }
     },
     scene: {
@@ -1156,7 +1186,9 @@ export const categoryConfig = {
             description: { type: 'textarea', aiEnabled: true, label: 'Scene Beats & Narrative Flow' },
             rewards_loot: { type: 'textarea', label: 'Rewards, Clues & Loot Cache' },
             mechanic: { type: 'textarea', label: 'Tactical Rules & DC Checks' },
-            note: { type: 'textarea', label: 'GM Secrets & Architect Notes' }
+            note: { type: 'textarea', label: 'GM Secrets & Architect Notes' },
+            keywords: { type: 'text', label: 'Guidance Keywords & Positive Directives' },
+            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' }
         }
     },
     // --- Auxiliary & Subcategory Reference Collections (Top-Level Mapped) ---

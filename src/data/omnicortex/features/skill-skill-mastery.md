@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'skill mastery, skill, special-feature, mastery, feature:, skills'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Skill Mastery

@@ -33,6 +33,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'decker, savant, rational, intellect, strategist, tech, stealth'
+negative_keywords: 'fragile, unarmored, timid, evasive-sniper, heavy-plating'
 ---
 
 # The Decker

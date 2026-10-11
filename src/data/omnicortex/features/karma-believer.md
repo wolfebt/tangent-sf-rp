@@ -14,6 +14,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'believer, karma, special-feature, possesses, profound, higher'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Believer

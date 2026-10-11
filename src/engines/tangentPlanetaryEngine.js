@@ -436,6 +436,73 @@ export const evaluateCivilizationArchetype = (domains = {}) => {
 };
 
 /**
+ * Derives content-grounded guidance directives and negative railguards for planetary profiles.
+ */
+export const derivePlanetaryKeywords = (uwpData = {}, tradeCodes = [], dominantFaction = '') => {
+  const pos = new Set();
+  const neg = new Set();
+
+  pos.add('planetary');
+  if (dominantFaction && dominantFaction !== 'Independent') {
+    pos.add(dominantFaction.toLowerCase());
+  }
+
+  const atmos = Number(uwpData.atmosphere ?? 4);
+  const hydro = Number(uwpData.hydrography ?? 6);
+  const pop = Number(uwpData.population ?? 7);
+  const tl = Number(uwpData.techLevel ?? 3);
+
+  if (atmos === 0) {
+    pos.add('vacuum'); pos.add('airless'); pos.add('sealed-habitats');
+    neg.add('verdant-biosphere'); neg.add('open-air-breathing'); neg.add('rainstorms');
+  } else if (atmos <= 3) {
+    pos.add('thin-atmosphere'); pos.add('respirator-required');
+  } else if (atmos >= 6) {
+    pos.add('corrosive-atmosphere'); pos.add('hazmat-scrubbers'); pos.add('acid-rain');
+    neg.add('paradise-resort'); neg.add('open-canopy');
+  }
+
+  if (hydro >= 9) {
+    pos.add('oceanic'); pos.add('water-world'); pos.add('pelagic'); pos.add('submersibles');
+    neg.add('arid-desert'); neg.add('sand-dunes'); neg.add('drought');
+  } else if (hydro <= 1) {
+    pos.add('desert-world'); pos.add('arid'); pos.add('barren-crags');
+    neg.add('open-oceans'); neg.add('abundant-rainfall');
+  }
+
+  if (pop >= 9) {
+    pos.add('ecumenopolis'); pos.add('dense-arcologies'); pos.add('megacity');
+    neg.add('isolated-wilderness'); neg.add('untamed-nature');
+  } else if (pop <= 2) {
+    pos.add('frontier-outpost'); pos.add('sparse-settlement'); pos.add('uncharted');
+    neg.add('megacity-sprawl'); neg.add('overpopulated-concourse');
+  }
+
+  pos.add(`tl-${tl}`);
+
+  tradeCodes.forEach(tc => {
+    if (tc === 'Ag') {
+      pos.add('agricultural'); pos.add('fertile-biomes'); pos.add('food-exporter');
+      neg.add('blighted-wasteland');
+    } else if (tc === 'In') {
+      pos.add('industrial'); pos.add('manufactory-spires'); pos.add('foundries');
+      neg.add('pastoral'); neg.add('unspoiled-nature');
+    } else if (tc === 'Ri') {
+      pos.add('wealthy'); pos.add('trade-hub'); pos.add('high-liquidity');
+      neg.add('destitute-slums');
+    } else if (tc === 'Po') {
+      pos.add('impoverished'); pos.add('austere'); pos.add('resource-starved');
+      neg.add('opulent-luxury');
+    }
+  });
+
+  return {
+    keywords: [...pos].slice(0, 7).join(', '),
+    negative_keywords: [...neg].slice(0, 5).join(', ')
+  };
+};
+
+/**
  * Master Compute-On-Save handler for Planetary Design Forge (`planetary-design`).
  * Generates complete computed metadata.
  */
@@ -466,6 +533,10 @@ export const computePlanetaryStats = (formData = {}) => {
   const craftDC = Number(formData.craft_dc ?? 20);
   const surveyCreditValue = calculateCreditValue(craftDC);
 
+  const derivedDirectives = derivePlanetaryKeywords(uwpData, tradeCodes, formData.dominant_faction);
+  const keywords = formData.keywords && String(formData.keywords).trim() ? formData.keywords : derivedDirectives.keywords;
+  const negative_keywords = formData.negative_keywords && String(formData.negative_keywords).trim() ? formData.negative_keywords : derivedDirectives.negative_keywords;
+
   return {
     uwp: uwpString,
     uwp_breakdown: uwpData,
@@ -491,6 +562,8 @@ export const computePlanetaryStats = (formData = {}) => {
     civilization_archetype: archetype.name,
     civilization_archetype_desc: archetype.description,
     survey_credit_value: surveyCreditValue,
+    keywords,
+    negative_keywords,
     computed_at: new Date().toISOString()
   };
 };

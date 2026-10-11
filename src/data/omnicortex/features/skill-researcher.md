@@ -11,6 +11,8 @@ description: The character knows how to navigate data archives and libraries.
 costs:
   bp: 3
 modifiers: []
+keywords: 'researcher, skill, special-feature, navigate, archives, libraries'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Researcher

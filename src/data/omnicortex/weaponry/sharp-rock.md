@@ -29,5 +29,7 @@ sockets:
   allocated: []
 tech_level: 1
 meta_level: 0
+keywords: 'sharp rock, weapon, melee, kinetic, tl-1, close-quarters'
+negative_keywords: 'extreme-range, optical-laser-sniper, pacifist'
 ---
 Category: MELEE

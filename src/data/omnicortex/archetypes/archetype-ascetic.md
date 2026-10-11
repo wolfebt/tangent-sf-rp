@@ -32,6 +32,8 @@ description: 'A devout individual dedicated to prayer and meditation, seeking en
 costs:
   bp: 80
 modifiers: []
+keywords: 'ascetic, visionary, idealist, leadership, charisma, monk, buffer'
+negative_keywords: 'anti-social, mute, solitary-hermit'
 ---
 
 # The Ascetic

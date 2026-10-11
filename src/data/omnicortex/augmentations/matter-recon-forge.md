@@ -31,6 +31,8 @@ sockets:
 tech_level: 0
 meta_level: 0
 stage: Extreme
+keywords: 'matter recon forge, augmentation, esoteric, extreme, tl-3, general'
+negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
 ---
 Category: **9\. TL5 Advanced Augmentations**
 

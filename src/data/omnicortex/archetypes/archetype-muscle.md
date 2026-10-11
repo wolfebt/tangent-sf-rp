@@ -32,6 +32,8 @@ description: A hardworking individual contributing through physical labor and en
 costs:
   bp: 80
 modifiers: []
+keywords: 'muscle, sentinel, defender, stability, order, utility, strength'
+negative_keywords: 'chaotic-anarchist, unreliable, reckless-gambler'
 ---
 
 # The Muscle

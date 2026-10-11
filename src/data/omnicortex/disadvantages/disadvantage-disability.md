@@ -10,6 +10,8 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+keywords: 'disability, hindrance, penalty, general, missing, paralysis'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Disability

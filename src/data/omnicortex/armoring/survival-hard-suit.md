@@ -41,6 +41,8 @@ critical_details:
   failure_effect: []
 tech_level: 3
 meta_level: 0
+keywords: 'survival "hard-suit", armor, defense, dr-15, medium-armor, tl-3'
+negative_keywords: 'unarmored, fragile, naked'
 ---
 Ruggedized plating over a pressurized under-suit, designed for hostile environments (vacuum, radiation, toxic atmosphere).
 

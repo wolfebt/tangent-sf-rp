@@ -7,19 +7,22 @@ category: skills
 governing_attributes:
   - Wisdom
 description: >-
-  Dimension discipline: Drawing entities, matter, and energetic constructs across dimensional boundaries.
+  Dimension discipline: Drawing entities, matter, and energetic constructs
+  across dimensional boundaries.
 trained_only: true
 specialties:
-  - 'Planar Minions'
-  - 'Aetheric Servitors'
-  - 'Ephemeral Constructs'
-  - 'Extradimensional Storage'
-  - 'Planar Invocations'
+  - Planar Minions
+  - Aetheric Servitors
+  - Ephemeral Constructs
+  - Extradimensional Storage
+  - Planar Invocations
 synergy_links:
   - meta-attune
 costs:
   bp: 0
 modifiers: []
+keywords: 'summoning, meta, wisdom, metafocus, psionic, resonance'
+negative_keywords: 'mundane, anti-magic-field, unattuned'
 ---
 
 # Summoning

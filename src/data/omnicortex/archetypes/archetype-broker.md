@@ -31,6 +31,8 @@ description: Travels space lanes buying and selling. Keen eye for value and nego
 costs:
   bp: 80
 modifiers: []
+keywords: 'broker, sentinel, defender, stability, order, economy, logistics'
+negative_keywords: 'mindless-brute, reckless, illiterate, chaotic-anarchist, unreliable'
 ---
 
 # The Broker

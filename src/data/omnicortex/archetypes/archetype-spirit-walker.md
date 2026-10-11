@@ -36,6 +36,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'spirit-walker, visionary, idealist, leadership, charisma, medium, scout'
+negative_keywords: 'anti-social, mute, solitary-hermit'
 ---
 
 # The Spirit-walker

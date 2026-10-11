@@ -7,6 +7,30 @@ description: DISPEL MAGIC invocation for Entropy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Celestine (Alterian)
+  - Whisper
+  - Ila (Progenitor Archon)
+  - Nocturne (Kovian)
+recommended_factions:
+  - The Alterian Enclave
+  - The Ascendancy
+  - Kovian Tribunal
+  - Supernatural Faction Template
+recommended_origins:
+  - Enlightened
+  - Research
+  - Urban
+  - Spacer
+recommended_occupations:
+  - Adept
+  - Scholar
+  - Specialist
+  - Agent
+keywords: >-
+  dispel magic, unbind enchantment, counter-arcana, metaphysical purge,
+  anti-magic ward, spell unraveling, resonance severance
+negative_keywords: 'dark curse, necromancy, chaotic corruption, brute force, crude mechanics'
 ---
 
 # DISPEL MAGIC Invocation

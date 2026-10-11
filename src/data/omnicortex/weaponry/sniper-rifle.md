@@ -30,5 +30,7 @@ sockets:
   allocated: []
 tech_level: 2
 meta_level: 0
+keywords: 'sniper rifle, weapon, ranged, kinetic, tl-2, firearms'
+negative_keywords: 'grappling, clinch, unarmed'
 ---
 Category: BALLISTIC RIFLES

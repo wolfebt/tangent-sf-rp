@@ -23,6 +23,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'science, mental, intellect, cognitive, expertise, scientific'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Science

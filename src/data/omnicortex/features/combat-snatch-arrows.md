@@ -11,6 +11,8 @@ description: 'Snatch Arrows is a Combat Feature: Catch a ranged attack.'
 costs:
   bp: 3
 modifiers: []
+keywords: 'snatch arrows, combat, special-feature, combat-maneuver, tactical-edge, snatch'
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Snatch Arrows

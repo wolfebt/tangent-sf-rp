@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'manhunter, operative, artisan, adaptable, specialist, hybrid (combat, skill)'
+negative_keywords: 'incompetent, untrained, undisciplined'
 ---
 
 # The Manhunter

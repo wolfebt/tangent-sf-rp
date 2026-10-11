@@ -6,7 +6,7 @@ feature_category: General
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: Eidetic Memory, Awareness 2
+prerequisites: 'Eidetic Memory, Awareness 2'
 description: >-
   The character possesses unparalleled visual-spatial memory. They retain
   "frozen frames" of complex visual stimuli and can perfectly recreate them in
@@ -14,6 +14,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  eidetic constructor, general, special-feature, possesses, unparalleled,
+  visual-spatial
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Eidetic Constructor

@@ -24,6 +24,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'constable, mental, wisdom, intellect, cognitive, expertise'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Constable

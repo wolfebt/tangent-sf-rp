@@ -44,6 +44,10 @@ sockets:
   allocated: []
 tech_level: 3
 meta_level: 0
+keywords: >-
+  forward operating base (fob), architecture, structure, militaristic / colony,
+  tl-3, heavily
+negative_keywords: 'mobile-infantry, personal-weapon, portable-trinket'
 ---
 Heavily fortified military outpost with ferro-concrete walls, hardened armor plating, automated turret nests, and garrison barracks for 100 troops.
 

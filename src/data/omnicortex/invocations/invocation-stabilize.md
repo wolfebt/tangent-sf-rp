@@ -7,6 +7,30 @@ description: STABILIZE invocation for Entropy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Celestine (Alterian)
+  - Prokos (Auluran Biform)
+  - Human (Base)
+  - Dar (Auluran Hunter)
+recommended_factions:
+  - The Alterian Enclave
+  - Elven Providence
+  - Interstellar Diplomats Faction Template
+  - Military Faction Template
+recommended_origins:
+  - Colony
+  - Militaristic
+  - Enlightened
+  - Agricultural
+recommended_occupations:
+  - Specialist
+  - Soldier
+  - Adept
+  - Citizen
+keywords: >-
+  stabilize, trauma triage, hemorrhage halt, mortality halt, emergency
+  stabilization, vital stasis, combat medic surge
+negative_keywords: 'fatal bleed, blood loss, decapitation, fatal shock, lethal poison'
 ---
 
 # STABILIZE Invocation

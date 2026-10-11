@@ -32,6 +32,8 @@ description: A skilled combatant who excels in boarding actions and close-quarte
 costs:
   bp: 80
 modifiers: []
+keywords: 'swashbuckler, operative, artisan, adaptable, specialist, melee dps, mobility'
+negative_keywords: 'incompetent, untrained, undisciplined'
 ---
 
 # The Swashbuckler

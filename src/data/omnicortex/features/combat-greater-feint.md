@@ -13,6 +13,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  greater feint, combat, special-feature, combat-maneuver, tactical-edge,
+  greater
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Greater Feint

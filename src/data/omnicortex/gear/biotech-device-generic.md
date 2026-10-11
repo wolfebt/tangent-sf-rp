@@ -32,6 +32,10 @@ sockets:
   allocated: []
 tech_level: 4
 meta_level: 0
+keywords: >-
+  biotech device (generic chassis), gear, personal-property, tl-4, rather,
+  manufactured
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Grown rather than manufactured device with organic neural pathways.
 

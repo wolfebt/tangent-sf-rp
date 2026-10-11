@@ -11,6 +11,27 @@ costs:
   bp: 0
 modifiers: []
 discipline: Illusion + Dimension
+recommended_species:
+  - Whisper
+  - Varen (Gatekeeper)
+  - Ila (Progenitor Archon)
+  - Celestine (Alterian)
+recommended_factions:
+  - The Ascendancy
+  - The Alterian Enclave
+  - Elven Providence
+recommended_origins:
+  - Enlightened
+  - Research
+  - Spacer
+recommended_occupations:
+  - Adept
+  - Scholar
+  - Agent
+keywords: >-
+  non-euclidean maze, spatial loop, mirror labyrinth, dimensional trap, endless
+  hallway, reality puzzle, folded corridors
+negative_keywords: 'straight corridor, open plain, simple direct charge'
 ---
 # Spatial Labyrinth (Composite Invocation)
 

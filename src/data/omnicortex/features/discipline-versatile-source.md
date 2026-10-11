@@ -14,6 +14,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  versatile source, discipline, special-feature, focused-training, mastery,
+  character's
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Versatile Source

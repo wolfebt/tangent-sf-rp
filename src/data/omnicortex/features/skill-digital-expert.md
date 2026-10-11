@@ -11,6 +11,8 @@ description: 'Digital Expert is a Skill Feature: Perform Computer Tasks in 1/2 t
 costs:
   bp: 3
 modifiers: []
+keywords: 'digital expert, skill, special-feature, digital, expert, feature:'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Digital Expert

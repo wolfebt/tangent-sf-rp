@@ -38,6 +38,8 @@ critical_details:
   failure_effect: []
 tech_level: 3
 meta_level: 0
+keywords: 'heavy tactical helmet, armor, defense, dr-15, medium-armor, tl-3'
+negative_keywords: 'unarmored, fragile, naked'
 ---
 Full-face protection with integrated comms and sensor housing.
 

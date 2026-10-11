@@ -7,6 +7,28 @@ description: BLESSING invocation for Entropy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Celestine (Alterian)
+  - Fey (Base)
+  - Ila (Progenitor Archon)
+  - Human (Base)
+recommended_factions:
+  - The Alterian Enclave
+  - Elven Providence
+  - Interstellar Diplomats Faction Template
+recommended_origins:
+  - Enlightened
+  - Colony
+  - Leisure
+recommended_occupations:
+  - Adept
+  - Scholar
+  - Representative
+  - Citizen
+keywords: >-
+  blessing, fortune surge, aura enhancement, metaphysical favor, alignment
+  bonus, harmonic resonance, morale grace
+negative_keywords: 'hex, misfortune curse, dark omen, bio-toxin, ruthless slaughter'
 ---
 
 # BLESSING Invocation

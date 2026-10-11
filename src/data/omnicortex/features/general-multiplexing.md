@@ -11,6 +11,8 @@ description: 'Multiplexing is a General Feature: +1 Mental Action to Mental Alac
 costs:
   bp: 3
 modifiers: []
+keywords: 'multiplexing, general, special-feature, feature:, mental, action'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Multiplexing

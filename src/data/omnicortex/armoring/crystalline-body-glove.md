@@ -43,6 +43,8 @@ critical_details:
   failure_effect: []
 tech_level: 4
 meta_level: 1
+keywords: 'crystalline body-glove, armor, defense, dr-14, medium-armor, tl-4'
+negative_keywords: 'unarmored, fragile, naked'
 ---
 Alterian flexible crystal suit that hardens instantaneously upon kinetic or thermal impact, dispersing shockwaves.
 

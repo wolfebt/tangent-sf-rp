@@ -36,6 +36,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'company man, sentinel, defender, stability, order, resource access, face'
+negative_keywords: 'mindless-brute, reckless, illiterate, chaotic-anarchist, unreliable'
 ---
 
 # The Company Man

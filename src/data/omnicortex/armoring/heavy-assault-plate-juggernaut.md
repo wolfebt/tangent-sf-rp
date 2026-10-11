@@ -44,6 +44,8 @@ critical_details:
   failure_effect: []
 tech_level: 3
 meta_level: 0
+keywords: 'heavy assault plate (juggernaut), armor, defense, dr-30, heavy-armor, tl-3'
+negative_keywords: 'unarmored, fragile, naked, high-acrobatics'
 ---
 Thick slabs of ablative armor and plasteel turning the wearer into a walking fortress.
 

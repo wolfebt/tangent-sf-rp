@@ -6,14 +6,19 @@ feature_category: General
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: Intellect 3, Special (Congenital Trait)
+prerequisites: 'Intellect 3, Special (Congenital Trait)'
 description: >-
-  Due to a congenital anomaly (such as the agenesis of the corpus callosum),
-  the character's brain hemispheres operate with extreme independence. They can
-  read two pages simultaneously and process localized data without global interference.
+  Due to a congenital anomaly (such as the agenesis of the corpus callosum), the
+  character's brain hemispheres operate with extreme independence. They can read
+  two pages simultaneously and process localized data without global
+  interference.
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  dual-hemispheric processing, general, special-feature, congenital, anomaly,
+  agenesis
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Dual-Hemispheric Processing

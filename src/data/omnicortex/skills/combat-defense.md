@@ -20,6 +20,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'defense, combat, agility, tactical, offensive, parrying'
+negative_keywords: 'pacifist, unarmed-civilian, helpless'
 ---
 
 # Defense

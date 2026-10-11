@@ -29,6 +29,8 @@ sockets:
   allocated: []
 tech_level: 0
 meta_level: 0
+keywords: 'helmet, heavy, armor, defense, dr-15, medium-armor, tl-3'
+negative_keywords: 'unarmored, fragile, naked'
 ---
 Category: MEDIUM Armor
 Penalty: -2 Sight/Hearing

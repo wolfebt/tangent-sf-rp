@@ -10,6 +10,8 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+keywords: 'adversary, hindrance, penalty, general, individual, powerful'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Adversary

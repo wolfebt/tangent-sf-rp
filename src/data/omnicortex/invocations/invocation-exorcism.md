@@ -7,6 +7,29 @@ description: EXORCISM invocation for Entropy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Celestine (Alterian)
+  - Whisper
+  - Nocturne (Kovian)
+  - Ila (Progenitor Archon)
+recommended_factions:
+  - The Alterian Enclave
+  - The Ascendancy
+  - Kovian Tribunal
+  - Supernatural Faction Template
+recommended_origins:
+  - Enlightened
+  - Research
+  - Hostile
+recommended_occupations:
+  - Adept
+  - Scholar
+  - Specialist
+  - Scout
+keywords: >-
+  exorcism, entity banishment, spiritual purge, metaphysical severance, ethereal
+  cleansing, unbind possession, alien entity eviction
+negative_keywords: 'demonic pact, void corruption, biological grafting, cybernetic override'
 ---
 # EXORCISM Invocation
 

@@ -14,6 +14,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'connected, general, special-feature, friends, places, favors'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Connected

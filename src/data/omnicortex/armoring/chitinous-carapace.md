@@ -41,6 +41,8 @@ critical_details:
   failure_effect: []
 tech_level: 3
 meta_level: 0
+keywords: 'chitinous carapace (warrior strain), armor, defense, dr-18, medium-armor, tl-3'
+negative_keywords: 'unarmored, fragile, naked'
 ---
 Dense, multilayered insectoid carapace grown by Kitin warriors, offering high deflection against kinetic and acid attacks.
 

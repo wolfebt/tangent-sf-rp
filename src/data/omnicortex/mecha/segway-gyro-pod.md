@@ -34,6 +34,8 @@ sockets:
   tier: Socket
   allocated: []
 tech_level: 3
+keywords: 'segway / gyro-pod, mecha, vehicle, small, personal, tl-3'
+negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
 ---
 Self-balancing personal mover for arcology station or city concourse transit.
 

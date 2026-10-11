@@ -11,6 +11,8 @@ description: The character is naturally fleet of foot.
 costs:
   bp: 3
 modifiers: []
+keywords: 'quick, general, special-feature, naturally'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Quick

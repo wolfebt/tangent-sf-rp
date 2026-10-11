@@ -44,6 +44,8 @@ sockets:
   allocated: []
 tech_level: 4
 meta_level: 0
+keywords: 'planetary shield generator, architecture, structure, defensive, tl-4, geodesic'
+negative_keywords: 'mobile-infantry, personal-weapon, portable-trinket'
 ---
 Geodesic emitter spire supported by heavy pylons projecting an energy barrier capable of deflecting planetary bombardment.
 

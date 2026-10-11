@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'meticulous, skill, special-feature, exceptionally, thorough, rarely'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Meticulous

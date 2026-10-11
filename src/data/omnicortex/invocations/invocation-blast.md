@@ -7,6 +7,27 @@ description: BLAST invocation for Energy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Draconian (Scaled Aeld)
+  - Draconic Human
+  - Janissary (Gen-E)
+  - Impyrium Regi (Gen-E)
+recommended_factions:
+  - Dracon Dynasty
+  - Radiant Impyrium
+  - Military Faction Template
+recommended_origins:
+  - Militaristic
+  - Industrial
+  - Hostile
+recommended_occupations:
+  - Soldier
+  - Adept
+  - Specialist
+keywords: >-
+  blast, plasma shot, fire blast, lightning bolt, single target devastation,
+  thermal incinerator, concentrated energy
+negative_keywords: 'non-lethal stun, stealth dart, peaceful dialogue'
 ---
 
 # BLAST Invocation

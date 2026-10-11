@@ -30,6 +30,8 @@ sockets:
   allocated: []
 tech_level: 2
 meta_level: 0
+keywords: 'first aid kit, gear, personal-property, tl-2, bandages, antiseptics'
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Bandages, antiseptics, tourniquets, and basic splints.
 

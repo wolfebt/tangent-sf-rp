@@ -32,6 +32,10 @@ sockets:
   allocated: []
 tech_level: 2
 meta_level: 0
+keywords: >-
+  water purifier (portable), gear, personal-property, tl-2, micro-filter,
+  sterilizer
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Micro-filter and UV sterilizer converting irradiated or stagnant water to potable water.
 

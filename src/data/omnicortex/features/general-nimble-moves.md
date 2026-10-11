@@ -11,6 +11,8 @@ description: The character dances around obstacles that would slow others down.
 costs:
   bp: 3
 modifiers: []
+keywords: 'nimble moves, general, special-feature, dances, around, obstacles'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Nimble Moves

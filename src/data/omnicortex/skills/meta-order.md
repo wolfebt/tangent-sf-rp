@@ -7,19 +7,22 @@ category: skills
 governing_attributes:
   - Wisdom
 description: >-
-  Entropy discipline: Probability stabilization, cellular regeneration, biological healing, and preservation.
+  Entropy discipline: Probability stabilization, cellular regeneration,
+  biological healing, and preservation.
 trained_only: true
 specialties:
-  - 'Cellular Regeneration'
-  - 'Metabolic Stabilization'
-  - 'Cohesion Fields'
-  - 'Systemic Preservation'
-  - 'Probability Anchoring'
+  - Cellular Regeneration
+  - Metabolic Stabilization
+  - Cohesion Fields
+  - Systemic Preservation
+  - Probability Anchoring
 synergy_links:
   - meta-attune
 costs:
   bp: 0
 modifiers: []
+keywords: 'order, meta, wisdom, metafocus, psionic, resonance'
+negative_keywords: 'mundane, anti-magic-field, unattuned'
 ---
 
 # Order

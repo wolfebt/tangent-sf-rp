@@ -30,6 +30,8 @@ description: A high-ranking military commander who leads legions into battle.
 costs:
   bp: 80
 modifiers: []
+keywords: 'high commander, sentinel, defender, stability, order, leadership, strategy'
+negative_keywords: 'mindless-brute, reckless, illiterate, chaotic-anarchist, unreliable'
 ---
 
 # The High Commander

@@ -8,10 +8,14 @@ cost_bp: 3
 is_ranked: true
 is_multiple: true
 prerequisites: Charisma 1
-description: 'The character has unlocked access to a loyal companion, bio-construct, tactical drone, or metaphysical cohort.'
+description: >-
+  The character has unlocked access to a loyal companion, bio-construct,
+  tactical drone, or metaphysical cohort.
 costs:
   bp: 3
 modifiers: []
+keywords: 'companion, special, special-feature, unlocked, access, bio-construct'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Companion

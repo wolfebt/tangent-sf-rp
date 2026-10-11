@@ -1,6 +1,6 @@
 ---
 id: disadvantage-species-ponderous
-name: "Ponderous (Disadvantage)"
+name: Ponderous (Disadvantage)
 category: disadvantages
 disadvantage_type: Species Disadvantage
 classification: Movement
@@ -8,9 +8,11 @@ type: Movement
 bp_granted: 4
 costs:
   bp: -4
-description: "Base Speed -20 feet. (BP Gain) *"
-prerequisite: ""
+description: Base Speed -20 feet. (BP Gain) *
+prerequisite: ''
 modifiers: []
+keywords: 'ponderous (disadvantage), hindrance, penalty, movement'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Ponderous (Disadvantage)

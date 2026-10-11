@@ -15,6 +15,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  evasiveness, ability, special-feature, innate-talent, passive-prowess,
+  avoiding
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Evasiveness

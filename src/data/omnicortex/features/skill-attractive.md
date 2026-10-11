@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'attractive, skill, special-feature, possesses, striking, physical'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Attractive

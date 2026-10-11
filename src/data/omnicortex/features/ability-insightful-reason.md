@@ -13,6 +13,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  insightful reason, ability, special-feature, innate-talent, passive-prowess,
+  analytical
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Insightful Reason

@@ -7,19 +7,22 @@ category: skills
 governing_attributes:
   - Wisdom
 description: >-
-  Entropy discipline: Accelerating decay, breaking molecular bonds, curses, and destructive negative energy.
+  Entropy discipline: Accelerating decay, breaking molecular bonds, curses, and
+  destructive negative energy.
 trained_only: true
 specialties:
-  - 'Molecular Breakdown'
-  - 'Curse Invocations'
-  - 'Decay Acceleration'
-  - 'Structural Disruption'
-  - 'Entropy Beams'
+  - Molecular Breakdown
+  - Curse Invocations
+  - Decay Acceleration
+  - Structural Disruption
+  - Entropy Beams
 synergy_links:
   - meta-attune
 costs:
   bp: 0
 modifiers: []
+keywords: 'chaos, meta, wisdom, metafocus, psionic, resonance'
+negative_keywords: 'mundane, anti-magic-field, unattuned'
 ---
 
 # Chaos

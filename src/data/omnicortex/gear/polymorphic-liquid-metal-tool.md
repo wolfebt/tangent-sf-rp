@@ -34,6 +34,8 @@ sockets:
   allocated: []
 tech_level: 5
 meta_level: 0
+keywords: 'polymorphic liquid metal tool, gear, personal-property, tl-5, matter, flowing'
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Smart matter tool flowing instantaneously into any custom scanner, key, or precision instrument.
 

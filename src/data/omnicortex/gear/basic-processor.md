@@ -31,6 +31,10 @@ sockets:
   allocated: []
 tech_level: 3
 meta_level: 0
+keywords: >-
+  basic cyberdeck processor, gear, personal-property, tl-3, entry-level,
+  processing
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Entry-level processing unit capable of running basic software scripts.
 

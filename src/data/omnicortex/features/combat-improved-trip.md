@@ -13,6 +13,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  improved trip, combat, special-feature, combat-maneuver, tactical-edge,
+  improved
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Improved Trip

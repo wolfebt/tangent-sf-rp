@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'analytical sense, special, special-feature, analytical, feature:, specific'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Analytical Sense

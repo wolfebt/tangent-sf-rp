@@ -11,6 +11,8 @@ description: The character has dedicated significant effort to mastering a speci
 costs:
   bp: 3
 modifiers: []
+keywords: 'skill focus, skill, special-feature, dedicated, significant, effort'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Skill Focus

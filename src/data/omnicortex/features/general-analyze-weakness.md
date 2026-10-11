@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'analyze weakness, general, special-feature, analyze, weakness, feature:'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Analyze Weakness

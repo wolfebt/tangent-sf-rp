@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'mind link, special, special-feature, feature:, telepathic, skills/knowledge'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Mind Link

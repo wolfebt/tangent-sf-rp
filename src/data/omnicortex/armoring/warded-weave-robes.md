@@ -42,6 +42,8 @@ critical_details:
   failure_effect: []
 tech_level: 3
 meta_level: 2
+keywords: 'warded weave robes, armor, defense, dr-8, light-armor, tl-3'
+negative_keywords: 'unarmored, fragile, naked'
 ---
 Silken robes embroidered with conductive resonant sigils designed to disperse metaphysical and thermal energy.
 

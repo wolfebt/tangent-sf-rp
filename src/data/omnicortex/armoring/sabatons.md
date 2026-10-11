@@ -30,6 +30,8 @@ sockets:
   allocated: []
 tech_level: 0
 meta_level: 0
+keywords: 'sabatons, armor, defense, dr-10, medium-armor, tl-3'
+negative_keywords: 'unarmored, fragile, naked'
 ---
 Category: **12.1 Mechanics of the Wearable**
 

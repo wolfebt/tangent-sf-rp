@@ -7,6 +7,27 @@ description: SUFFOCATE invocation for Entropy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Tenen (Sha’nor Spectral)
+  - Sha'nor
+  - Eakren (Corrupted Aberration)
+  - Whisper
+recommended_factions:
+  - The Outworlds
+  - Criminal Faction Template
+  - Incorporated Planetary Syndication (The Syndicate)
+recommended_origins:
+  - Spacer
+  - Hostile
+  - Urban
+recommended_occupations:
+  - Adept
+  - Criminal
+  - Agent
+keywords: >-
+  suffocate, oxygen deprivation, vacuum choke, respiratory crushing,
+  asphyxiation, lung collapse, silent strangulation
+negative_keywords: 'fresh air, hyperbaric oxygen, scuba life support, deep breathing'
 ---
 
 # SUFFOCATE Invocation

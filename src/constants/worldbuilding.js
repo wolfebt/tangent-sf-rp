@@ -27,18 +27,138 @@ export const THREAT_TIER_CHASSIS = {
 };
 
 export const COMPETENCY_ROLES = {
-  Tank: { id: 'Tank', name: 'The Tank (Frontline Vanguard)', group: 'Combat', primaryAttrs: ['Stamina', 'Strength'], keySkills: ['Defense', 'Intimidate', 'Athletics'], feature: 'Guard (Intercept attacks meant for allies)', description: 'Impenetrable vanguard holding vitals and absorbing heavy trauma' },
-  Brute: { id: 'Brute', name: 'The Brute (Heavy Assault)', group: 'Combat', primaryAttrs: ['Strength', 'Stamina'], keySkills: ['Melee Combat', 'Athletics'], feature: 'Rage (Take damage to deal +2 damage)', description: 'Raw kinetic force to shatter defensive lines in close quarters' },
-  MeleeDPS: { id: 'MeleeDPS', name: 'Melee DPS (Close Striker)', group: 'Combat', primaryAttrs: ['Agility', 'Strength'], keySkills: ['Melee Combat', 'Acrobatics', 'Evasion'], feature: 'Sneak Attack (+1d6 damage on advantage)', description: 'High precision close-quarters executioner weaving through defenses' },
-  RangedDPS: { id: 'RangedDPS', name: 'Ranged DPS (Fire Support)', group: 'Combat', primaryAttrs: ['Agility', 'Precision'], keySkills: ['Ranged Combat', 'Alertness'], feature: 'Burst Attack (Reduces auto-fire penalty)', description: 'Sustained suppressive and lethal mid-range fire' },
-  Sniper: { id: 'Sniper', name: 'The Sniper (Long-Range Assassin)', group: 'Combat', primaryAttrs: ['Precision', 'Agility'], keySkills: ['Ranged Combat', 'Stealth', 'Alertness'], feature: 'Sniper (Ignore cover penalties)', description: 'Surgical elimination of high-value targets from extreme distance' },
-  MobilitySpecialist: { id: 'MobilitySpecialist', name: 'Mobility Specialist (Skirmisher)', group: 'Combat', primaryAttrs: ['Agility', 'Stamina'], keySkills: ['Acrobatics', 'Piloting', 'Athletics'], feature: 'Nimble Moves (Ignore difficult terrain)', description: 'Master of traversal exploiting gaps in enemy formations' },
-  Flank: { id: 'Flank', name: 'The Flank (Asymmetric Striker)', group: 'Combat', primaryAttrs: ['Agility', 'Precision'], keySkills: ['Stealth', 'Melee Combat', 'Evasion'], feature: 'Hit & Run (Move without provoking reactions)', description: 'Collapses defensive lines from flank using hit-and-run tactics' },
-  CombativeMetaUser: { id: 'CombativeMetaUser', name: 'Combative Meta-User (Reality Warper)', group: 'Metaphysics', primaryAttrs: ['Intellect', 'Wisdom'], keySkills: ['Attune', 'Discipline'], feature: 'Awakened (Access to Invocations)', description: 'Esoteric artillery providing area denial and bypassing physical armor' },
-  Buffer: { id: 'Buffer', name: 'The Buffer (Team Enhancer)', group: 'Support', primaryAttrs: ['Charisma', 'Wisdom'], keySkills: ['Diplomacy', 'Attune'], feature: 'Aura of Command (+1 Hit/Save in 30ft)', description: 'Elevates cohesion and resilience of allies through projected auras' },
-  Leader: { id: 'Leader', name: 'The Leader (Tactical Commander)', group: 'Support', primaryAttrs: ['Intellect', 'Charisma'], keySkills: ['Tactics', 'Leadership', 'Insight'], feature: 'Master Plan (Bonus pool via planning)', description: 'Coordinates complex maneuvers to turn chaotic skirmishes into methodical victories' },
-  Debuffer: { id: 'Debuffer', name: 'The Debuffer (Saboteur)', group: 'Controller', primaryAttrs: ['Wisdom', 'Intellect'], keySkills: ['Intimidate', 'Discipline'], feature: 'Suppressing Fire / Analyze Weakness', description: 'Systematically neutralizes enemy advantages through status conditions' },
-  Technician: { id: 'Technician', name: 'The Technician (Electronic Warfare)', group: 'Controller', primaryAttrs: ['Intellect', 'Agility'], keySkills: ['Computers', 'Engineering', 'Mechanics'], feature: 'Jamming / Hack (Disable tech)', description: 'Controls digital/mechanical battlefield, hacking security and jamming comms' }
+  Tank: { 
+    id: 'Tank', 
+    name: 'The Tank (Frontline Vanguard)', 
+    group: 'Combat', 
+    primaryAttrs: ['Stamina', 'Strength'], 
+    keySkills: ['Defense', 'Intimidate', 'Athletics'], 
+    feature: 'Guard (Intercept attacks meant for allies)', 
+    description: 'Impenetrable vanguard holding vitals and absorbing heavy trauma',
+    keywords: 'frontline, armor, damage resistance, interception, defense, bodyguard, heavy plating',
+    negative_keywords: 'fragile, stealth, unarmored, sniper, cowardly'
+  },
+  Brute: { 
+    id: 'Brute', 
+    name: 'The Brute (Heavy Assault)', 
+    group: 'Combat', 
+    primaryAttrs: ['Strength', 'Stamina'], 
+    keySkills: ['Melee Combat', 'Athletics'], 
+    feature: 'Rage (Take damage to deal +2 damage)', 
+    description: 'Raw kinetic force to shatter defensive lines in close quarters',
+    keywords: 'heavy assault, rage, brute force, melee smash, shock trooper, kinetic trauma',
+    negative_keywords: 'delicate, diplomatic, cowardly, subtle, pacifist'
+  },
+  MeleeDPS: { 
+    id: 'MeleeDPS', 
+    name: 'Melee DPS (Close Striker)', 
+    group: 'Combat', 
+    primaryAttrs: ['Agility', 'Strength'], 
+    keySkills: ['Melee Combat', 'Acrobatics', 'Evasion'], 
+    feature: 'Sneak Attack (+1d6 damage on advantage)', 
+    description: 'High precision close-quarters executioner weaving through defenses',
+    keywords: 'close striker, sneak attack, agility, lethal blades, evasion, flurry',
+    negative_keywords: 'heavy armor, artillery, slow, clumsy'
+  },
+  RangedDPS: { 
+    id: 'RangedDPS', 
+    name: 'Ranged DPS (Fire Support)', 
+    group: 'Combat', 
+    primaryAttrs: ['Agility', 'Precision'], 
+    keySkills: ['Ranged Combat', 'Alertness'], 
+    feature: 'Burst Attack (Reduces auto-fire penalty)', 
+    description: 'Sustained suppressive and lethal mid-range fire',
+    keywords: 'fire support, burst attack, suppressive fire, marksman, rapid fire, ballistic',
+    negative_keywords: 'melee lock, unarmed, pacifist, grappling'
+  },
+  Sniper: { 
+    id: 'Sniper', 
+    name: 'The Sniper (Long-Range Assassin)', 
+    group: 'Combat', 
+    primaryAttrs: ['Precision', 'Agility'], 
+    keySkills: ['Ranged Combat', 'Stealth', 'Alertness'], 
+    feature: 'Sniper (Ignore cover penalties)', 
+    description: 'Surgical elimination of high-value targets from extreme distance',
+    keywords: 'long-range assassin, precision, sniper, camouflage, single-shot kill, extreme distance',
+    negative_keywords: 'melee brawler, loud, frontline tank, chaotic'
+  },
+  MobilitySpecialist: { 
+    id: 'MobilitySpecialist', 
+    name: 'Mobility Specialist (Skirmisher)', 
+    group: 'Combat', 
+    primaryAttrs: ['Agility', 'Stamina'], 
+    keySkills: ['Acrobatics', 'Piloting', 'Athletics'], 
+    feature: 'Nimble Moves (Ignore difficult terrain)', 
+    description: 'Master of traversal exploiting gaps in enemy formations',
+    keywords: 'skirmisher, high mobility, traversal, jump-jets, flanker, agile, hit-and-run',
+    negative_keywords: 'stationary, heavy plodder, rooted, immobilized'
+  },
+  Flank: { 
+    id: 'Flank', 
+    name: 'The Flank (Asymmetric Striker)', 
+    group: 'Combat', 
+    primaryAttrs: ['Agility', 'Precision'], 
+    keySkills: ['Stealth', 'Melee Combat', 'Evasion'], 
+    feature: 'Hit & Run (Move without provoking reactions)', 
+    description: 'Collapses defensive lines from flank using hit-and-run tactics',
+    keywords: 'asymmetric striker, hit and run, ambush, blindside, evasion, stealth strike',
+    negative_keywords: 'head-on charge, immobile tank, visible, loud'
+  },
+  CombativeMetaUser: { 
+    id: 'CombativeMetaUser', 
+    name: 'Combative Meta-User (Reality Warper)', 
+    group: 'Metaphysics', 
+    primaryAttrs: ['Intellect', 'Wisdom'], 
+    keySkills: ['Attune', 'Discipline'], 
+    feature: 'Awakened (Access to Invocations)', 
+    description: 'Esoteric artillery providing area denial and bypassing physical armor',
+    keywords: 'reality warper, psionic, area denial, esoteric artillery, invocations, dimension warp',
+    negative_keywords: 'mundane tech, magic-dead, pure kinetic, anti-psionic'
+  },
+  Buffer: { 
+    id: 'Buffer', 
+    name: 'The Buffer (Team Enhancer)', 
+    group: 'Support', 
+    primaryAttrs: ['Charisma', 'Wisdom'], 
+    keySkills: ['Diplomacy', 'Attune'], 
+    feature: 'Aura of Command (+1 Hit/Save in 30ft)', 
+    description: 'Elevates cohesion and resilience of allies through projected auras',
+    keywords: 'team enhancer, aura of command, morale, coordination, protective wards, inspiration',
+    negative_keywords: 'lone wolf, selfish, anti-social, mute'
+  },
+  Leader: { 
+    id: 'Leader', 
+    name: 'The Leader (Tactical Commander)', 
+    group: 'Support', 
+    primaryAttrs: ['Intellect', 'Charisma'], 
+    keySkills: ['Tactics', 'Leadership', 'Insight'], 
+    feature: 'Master Plan (Bonus pool via planning)', 
+    description: 'Coordinates complex maneuvers to turn chaotic skirmishes into methodical victories',
+    keywords: 'tactical commander, master plan, battlefield strategy, order, rally, squad tactics',
+    negative_keywords: 'disorganized, panic, chaotic, solitary hermit'
+  },
+  Debuffer: { 
+    id: 'Debuffer', 
+    name: 'The Debuffer (Saboteur)', 
+    group: 'Controller', 
+    primaryAttrs: ['Wisdom', 'Intellect'], 
+    keySkills: ['Intimidate', 'Discipline'], 
+    feature: 'Suppressing Fire / Analyze Weakness', 
+    description: 'Systematically neutralizes enemy advantages through status conditions',
+    keywords: 'saboteur, status infliction, suppressive fire, analyze weakness, tactical disruption',
+    negative_keywords: 'direct brute, healing, straightforward, predictable'
+  },
+  Technician: { 
+    id: 'Technician', 
+    name: 'The Technician (Electronic Warfare)', 
+    group: 'Controller', 
+    primaryAttrs: ['Intellect', 'Agility'], 
+    keySkills: ['Computers', 'Engineering', 'Mechanics'], 
+    feature: 'Jamming / Hack (Disable tech)', 
+    description: 'Controls digital/mechanical battlefield, hacking security and jamming comms',
+    keywords: 'electronic warfare, cyber warfare, drone override, hacking, jamming, security breach',
+    negative_keywords: 'primitive, technophobe, magic-only, non-technical'
+  }
 };
 
 export const DESIGNATIONS = {
@@ -403,13 +523,62 @@ export const CIVILIZATION_DOMAINS_DETAILED = {
 };
 
 export const CIVILIZATION_ARCHETYPES = [
-  { id: 'post_scarcity_utopia', name: 'Post-Scarcity Utopia', threshold: { energy: 5, society: 5, manufacturing: 5 }, description: 'Transformed by limitless energy and matter synthesis, focused on self-actualization.' },
-  { id: 'militarized_technocracy', name: 'Militarized Technocracy', threshold: { weaponry: 4, transportation: 4, energy: 4 }, description: 'High defense readiness with kinetic force projectors and formidable star fleets.' },
-  { id: 'bio_synthesist_collective', name: 'Bio-Synthesist Collective', threshold: { biotechnology: 4, medicine: 4, agriculture: 4 }, description: 'Living chitin cities, viral weapons, and genetic symbiosis.' },
-  { id: 'cyber_corporate_grid', name: 'Cyber-Corporate Grid', threshold: { devices: 3, communication: 3, commerce: 3 }, description: 'Neon arcologies governed by automated market terms of service.' },
-  { id: 'hyper_intellect_matrix', name: 'Hyper-Intellect Matrix', threshold: { synthetic_intelligence: 4, devices: 4, science: 4 }, description: 'Governed by gestalted superintelligences optimizing all civic operations.' },
-  { id: 'arcane_resonant_enclave', name: 'Resonant Meta-Enclave', threshold: { meta_sciences: 3, science: 3 }, description: 'Societal infrastructure fused with psionic crystals and dimensional ether conduits.' },
-  { id: 'frontier_salvage_world', name: 'Frontier Industrial Colony', threshold: {}, description: 'Rugged modular construction, industrial foundries, and utilitarian expansion.' }
+  { 
+    id: 'post_scarcity_utopia', 
+    name: 'Post-Scarcity Utopia', 
+    threshold: { energy: 5, society: 5, manufacturing: 5 }, 
+    description: 'Transformed by limitless energy and matter synthesis, focused on self-actualization.',
+    keywords: 'post-scarcity, limitless energy, matter synthesis, self-actualization, paradise, enlightened, zero-poverty',
+    negative_keywords: 'famine, industrial smog, dystopia, brutalist slave colony, sweatshop'
+  },
+  { 
+    id: 'militarized_technocracy', 
+    name: 'Militarized Technocracy', 
+    threshold: { weaponry: 4, transportation: 4, energy: 4 }, 
+    description: 'High defense readiness with kinetic force projectors and formidable star fleets.',
+    keywords: 'militarized, kinetic force, star fleets, high defense, martial law, fortification, naval armada',
+    negative_keywords: 'pacifist, disarmed, anarchic, defenseless, agrarian commune'
+  },
+  { 
+    id: 'bio_synthesist_collective', 
+    name: 'Bio-Synthesist Collective', 
+    threshold: { biotechnology: 4, medicine: 4, agriculture: 4 }, 
+    description: 'Living chitin cities, viral weapons, and genetic symbiosis.',
+    keywords: 'biotechnology, living chitin, viral weapons, genetic symbiosis, bio-arcology, organic hulls, mutagen',
+    negative_keywords: 'pure metal, inorganic synthetic, sterile cybernetics, rust'
+  },
+  { 
+    id: 'cyber_corporate_grid', 
+    name: 'Cyber-Corporate Grid', 
+    threshold: { devices: 3, communication: 3, commerce: 3 }, 
+    description: 'Neon arcologies governed by automated market terms of service.',
+    keywords: 'cyberpunk, neon arcologies, corporate governance, automated terms of service, high-tech low-life, syndicate',
+    negative_keywords: 'pastoral, pristine nature, anti-corporate commune, feudal agrarian'
+  },
+  { 
+    id: 'hyper_intellect_matrix', 
+    name: 'Hyper-Intellect Matrix', 
+    threshold: { synthetic_intelligence: 4, devices: 4, science: 4 }, 
+    description: 'Governed by gestalted superintelligences optimizing all civic operations.',
+    keywords: 'superintelligence, AGI, ASI, synthetic governance, optimized logistics, quantum grid, data hub',
+    negative_keywords: 'primitive, anti-AI luddite, emotional irrationality, superstition'
+  },
+  { 
+    id: 'arcane_resonant_enclave', 
+    name: 'Resonant Meta-Enclave', 
+    threshold: { meta_sciences: 3, science: 3 }, 
+    description: 'Societal infrastructure fused with psionic crystals and dimensional ether conduits.',
+    keywords: 'psionic crystals, dimensional ether, meta-sciences, mystical enclaves, warp conduits, attunement',
+    negative_keywords: 'magic-dead, pure mundane physics, null-field, anti-metaphysical'
+  },
+  { 
+    id: 'frontier_salvage_world', 
+    name: 'Frontier Industrial Colony', 
+    threshold: {}, 
+    description: 'Rugged modular construction, industrial foundries, and utilitarian expansion.',
+    keywords: 'frontier, salvage, industrial colony, rugged modular, utilitarian foundries, asteroid miners, scrap',
+    negative_keywords: 'gilded palace, pristine high-court, luxury resort, decadent aristocracy'
+  }
 ];
 
 export const ADAPTIVE_TECH_RECONFIG_TIMES = {

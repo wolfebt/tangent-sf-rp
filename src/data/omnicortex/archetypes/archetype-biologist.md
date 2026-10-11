@@ -36,6 +36,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'biologist, savant, rational, intellect, strategist, science, utility'
+negative_keywords: 'mindless-brute, reckless, illiterate'
 ---
 
 # The Biologist

@@ -30,6 +30,10 @@ sockets:
   allocated: []
 tech_level: 2
 meta_level: 0
+keywords: >-
+  thermal blanket (reflective), gear, personal-property, tl-2, high-efficiency,
+  thermal
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 High-efficiency thermal retention foil reflecting 98% of radiated body heat.
 

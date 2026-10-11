@@ -32,6 +32,10 @@ sockets:
   allocated: []
 tech_level: 3
 meta_level: 0
+keywords: >-
+  stim-shot (combat adrenaline), gear, personal-property, tl-3, neural,
+  stimulant
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Neural stimulant injector purging fatigue and trauma shock.
 

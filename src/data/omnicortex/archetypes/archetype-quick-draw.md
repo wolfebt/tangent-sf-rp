@@ -36,6 +36,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'quick-draw, operative, artisan, adaptable, specialist, burst dps, initiative'
+negative_keywords: 'incompetent, untrained, undisciplined'
 ---
 
 # The Quick-draw

@@ -11,6 +11,8 @@ description: 'The character possesses claws, fangs, horns, or a tail striker.'
 costs:
   bp: 3
 modifiers: []
+keywords: 'natural weapons, special, special-feature, possesses, striker'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Natural Weapons

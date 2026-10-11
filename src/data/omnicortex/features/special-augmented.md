@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'augmented, special, special-feature, undergone, invasive, surgery'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Augmented

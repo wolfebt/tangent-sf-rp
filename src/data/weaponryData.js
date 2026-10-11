@@ -29,7 +29,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: MELEE"
+    "body": "Category: MELEE",
+    "keywords": "axe, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "bladed-gauntlet",
@@ -55,7 +57,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Armored Fist with Blades",
-    "body": "**Special:** Armored Fist with Blades\r\n\r\nCategory: MELEE"
+    "body": "**Special:** Armored Fist with Blades\r\n\r\nCategory: MELEE",
+    "keywords": "bladed gauntlet, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "bow",
@@ -81,7 +85,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: RANGED"
+    "body": "Category: RANGED",
+    "keywords": "bow, weapon, ranged, kinetic, tl-1, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "chain",
@@ -107,7 +113,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Reach, Entangle",
-    "body": "**Special:** Reach, Entangle\r\n\r\nCategory: MELEE"
+    "body": "**Special:** Reach, Entangle\r\n\r\nCategory: MELEE",
+    "keywords": "chain, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "club",
@@ -133,7 +141,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: MELEE"
+    "body": "Category: MELEE",
+    "keywords": "club, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "crossbow",
@@ -159,7 +169,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: RANGED"
+    "body": "Category: RANGED",
+    "keywords": "crossbow, weapon, ranged, kinetic, tl-1, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "dagger",
@@ -185,7 +197,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: MELEE"
+    "body": "Category: MELEE",
+    "keywords": "dagger, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "disintegrator",
@@ -211,7 +225,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** 5ft Blast, Dissolve, TL5",
-    "body": "**Special:** 5ft Blast, Dissolve, TL5\r\n\r\nCategory: HEAVY ENERGY"
+    "body": "**Special:** 5ft Blast, Dissolve, TL5\r\n\r\nCategory: HEAVY ENERGY",
+    "keywords": "disintegrator, weapon, ranged, kinetic, tl-4, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "disrupter",
@@ -237,7 +253,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Penetrating 10, TL4",
-    "body": "**Special:** Penetrating 10, TL4\r\n\r\nCategory: ENERGY RIFLES"
+    "body": "**Special:** Penetrating 10, TL4\r\n\r\nCategory: ENERGY RIFLES",
+    "keywords": "disrupter, weapon, ranged, kinetic, tl-4, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "disruptor",
@@ -263,7 +281,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Penetrating 20, TL4",
-    "body": "**Special:** Penetrating 20, TL4\r\n\r\nCategory: HEAVY ENERGY"
+    "body": "**Special:** Penetrating 20, TL4\r\n\r\nCategory: HEAVY ENERGY",
+    "keywords": "disruptor, weapon, ranged, kinetic, tl-4, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "e-gun",
@@ -289,7 +309,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Lethal/Non-Lethal, Stun",
-    "body": "**Special:** Lethal/Non-Lethal, Stun\r\n\r\nCategory: ENERGY PISTOLS"
+    "body": "**Special:** Lethal/Non-Lethal, Stun\r\n\r\nCategory: ENERGY PISTOLS",
+    "keywords": "e-gun, weapon, ranged, kinetic, tl-4, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "flamer",
@@ -315,7 +337,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Burn, Ignites Flammables",
-    "body": "**Special:** Burn, Ignites Flammables\r\n\r\nCategory: HEAVY WEAPONS"
+    "body": "**Special:** Burn, Ignites Flammables\r\n\r\nCategory: HEAVY WEAPONS",
+    "keywords": "flamer, weapon, ranged, kinetic, tl-2, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "gauntlet",
@@ -341,7 +365,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Armored Gloves",
-    "body": "**Special:** Armored Gloves\r\n\r\nCategory: MELEE"
+    "body": "**Special:** Armored Gloves\r\n\r\nCategory: MELEE",
+    "keywords": "gauntlet, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "grav-pulse",
@@ -367,7 +393,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** 5ft Blast, Impact, TL5",
-    "body": "**Special:** 5ft Blast, Impact, TL5\r\n\r\nCategory: HEAVY ENERGY"
+    "body": "**Special:** 5ft Blast, Impact, TL5\r\n\r\nCategory: HEAVY ENERGY",
+    "keywords": "grav pulse, weapon, ranged, kinetic, tl-4, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "great-axe",
@@ -393,7 +421,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Str 2",
-    "body": "**Special:** Str 2\r\n\r\nCategory: MELEE"
+    "body": "**Special:** Str 2\r\n\r\nCategory: MELEE",
+    "keywords": "great axe, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "great-sword",
@@ -419,7 +449,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Str 2",
-    "body": "**Special:** Str 2\r\n\r\nCategory: MELEE"
+    "body": "**Special:** Str 2\r\n\r\nCategory: MELEE",
+    "keywords": "great sword, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "grenade-launcher",
@@ -445,7 +477,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: HEAVY WEAPONS"
+    "body": "Category: HEAVY WEAPONS",
+    "keywords": "grenade launcher, weapon, ranged, kinetic, tl-2, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "hammer",
@@ -471,7 +505,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: MELEE"
+    "body": "Category: MELEE",
+    "keywords": "hammer, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "hatchet",
@@ -497,7 +533,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: MELEE"
+    "body": "Category: MELEE",
+    "keywords": "hatchet, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "heavy-cannon",
@@ -523,7 +561,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: HEAVY WEAPONS"
+    "body": "Category: HEAVY WEAPONS",
+    "keywords": "heavy cannon, weapon, ranged, kinetic, tl-2, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "heavy-e-gun",
@@ -549,7 +589,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Non-Lethal, Stun, TL3",
-    "body": "**Special:** Non-Lethal, Stun, TL3\r\n\r\nCategory: ENERGY RIFLES"
+    "body": "**Special:** Non-Lethal, Stun, TL3\r\n\r\nCategory: ENERGY RIFLES",
+    "keywords": "heavy e-gun, weapon, ranged, kinetic, tl-4, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "heavy-flamethrower",
@@ -575,7 +617,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Burn, Ignites Flammables",
-    "body": "**Special:** Burn, Ignites Flammables\r\n\r\nCategory: HEAVY WEAPONS"
+    "body": "**Special:** Burn, Ignites Flammables\r\n\r\nCategory: HEAVY WEAPONS",
+    "keywords": "heavy flamethrower, weapon, ranged, kinetic, tl-2, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "heavy-icer",
@@ -601,7 +645,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Freeze, TL3",
-    "body": "**Special:** Freeze, TL3\r\n\r\nCategory: ENERGY RIFLES"
+    "body": "**Special:** Freeze, TL3\r\n\r\nCategory: ENERGY RIFLES",
+    "keywords": "heavy icer, weapon, ranged, kinetic, tl-4, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "heavy-laser",
@@ -627,7 +673,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Penetrating 10, TL3",
-    "body": "**Special:** Penetrating 10, TL3\r\n\r\nCategory: HEAVY ENERGY"
+    "body": "**Special:** Penetrating 10, TL3\r\n\r\nCategory: HEAVY ENERGY",
+    "keywords": "heavy laser, weapon, ranged, kinetic, tl-4, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "heavy-machinegun",
@@ -653,7 +701,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Autofire",
-    "body": "**Special:** Autofire\r\n\r\nCategory: HEAVY WEAPONS"
+    "body": "**Special:** Autofire\r\n\r\nCategory: HEAVY WEAPONS",
+    "keywords": "heavy machinegun, weapon, ranged, kinetic, tl-2, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "holophotonic",
@@ -679,7 +729,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Ballistic Emulator, TL5",
-    "body": "**Special:** Ballistic Emulator, TL5\r\n\r\nCategory: HEAVY ENERGY"
+    "body": "**Special:** Ballistic Emulator, TL5\r\n\r\nCategory: HEAVY ENERGY",
+    "keywords": "holophotonic, weapon, ranged, kinetic, tl-4, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "icer",
@@ -705,7 +757,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** 10ft Blast, Freeze, TL3",
-    "body": "**Special:** 10ft Blast, Freeze, TL3\r\n\r\nCategory: HEAVY ENERGY"
+    "body": "**Special:** 10ft Blast, Freeze, TL3\r\n\r\nCategory: HEAVY ENERGY",
+    "keywords": "icer, weapon, ranged, kinetic, tl-4, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "knife",
@@ -731,7 +785,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: MELEE"
+    "body": "Category: MELEE",
+    "keywords": "knife, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "light-cannon",
@@ -757,7 +813,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: HEAVY WEAPONS"
+    "body": "Category: HEAVY WEAPONS",
+    "keywords": "light cannon, weapon, ranged, kinetic, tl-2, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "light-laser",
@@ -783,7 +841,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Penetrating 10, TL3",
-    "body": "**Special:** Penetrating 10, TL3\r\n\r\nCategory: HEAVY ENERGY"
+    "body": "**Special:** Penetrating 10, TL3\r\n\r\nCategory: HEAVY ENERGY",
+    "keywords": "light laser, weapon, ranged, kinetic, tl-4, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "light-machinegun",
@@ -809,7 +869,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Autofire",
-    "body": "**Special:** Autofire\r\n\r\nCategory: HEAVY WEAPONS"
+    "body": "**Special:** Autofire\r\n\r\nCategory: HEAVY WEAPONS",
+    "keywords": "light machinegun, weapon, ranged, kinetic, tl-2, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "lightning-gun",
@@ -835,7 +897,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** 10ft Blast, Stun, TL3",
-    "body": "**Special:** 10ft Blast, Stun, TL3\r\n\r\nCategory: HEAVY ENERGY"
+    "body": "**Special:** 10ft Blast, Stun, TL3\r\n\r\nCategory: HEAVY ENERGY",
+    "keywords": "lightning gun, weapon, ranged, kinetic, tl-4, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "long-spear",
@@ -861,7 +925,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Reach, Trip",
-    "body": "**Special:** Reach, Trip\r\n\r\nCategory: MELEE"
+    "body": "**Special:** Reach, Trip\r\n\r\nCategory: MELEE",
+    "keywords": "long spear, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "long-staff",
@@ -887,7 +953,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Str 1, Reach, Trip",
-    "body": "**Special:** Str 1, Reach, Trip\r\n\r\nCategory: MELEE"
+    "body": "**Special:** Str 1, Reach, Trip\r\n\r\nCategory: MELEE",
+    "keywords": "long staff, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "mace",
@@ -913,7 +981,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: MELEE"
+    "body": "Category: MELEE",
+    "keywords": "mace, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "machete",
@@ -939,7 +1009,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: MELEE"
+    "body": "Category: MELEE",
+    "keywords": "machete, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "maul-great-hammer",
@@ -965,7 +1037,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Str 2",
-    "body": "**Special:** Str 2\r\n\r\nCategory: MELEE"
+    "body": "**Special:** Str 2\r\n\r\nCategory: MELEE",
+    "keywords": "maul / great hammer, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "medium-cannon",
@@ -991,7 +1065,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: HEAVY WEAPONS"
+    "body": "Category: HEAVY WEAPONS",
+    "keywords": "medium cannon, weapon, ranged, kinetic, tl-2, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "medium-laser",
@@ -1017,7 +1093,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Penetrating 10, TL3",
-    "body": "**Special:** Penetrating 10, TL3\r\n\r\nCategory: HEAVY ENERGY"
+    "body": "**Special:** Penetrating 10, TL3\r\n\r\nCategory: HEAVY ENERGY",
+    "keywords": "medium laser, weapon, ranged, kinetic, tl-4, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "medium-machinegun",
@@ -1043,7 +1121,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Autofire",
-    "body": "**Special:** Autofire\r\n\r\nCategory: HEAVY WEAPONS"
+    "body": "**Special:** Autofire\r\n\r\nCategory: HEAVY WEAPONS",
+    "keywords": "medium machinegun, weapon, ranged, kinetic, tl-2, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "mini-missile-launcher",
@@ -1069,7 +1149,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Rocket or Smart",
-    "body": "**Special:** Rocket or Smart\r\n\r\nCategory: HEAVY WEAPONS"
+    "body": "**Special:** Rocket or Smart\r\n\r\nCategory: HEAVY WEAPONS",
+    "keywords": "mini-missile launcher, weapon, ranged, kinetic, tl-2, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "net",
@@ -1095,7 +1177,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Non-Lethal, Entangle",
-    "body": "**Special:** Non-Lethal, Entangle\r\n\r\nCategory: RANGED"
+    "body": "**Special:** Non-Lethal, Entangle\r\n\r\nCategory: RANGED",
+    "keywords": "net, weapon, ranged, kinetic, tl-1, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "net-barbed",
@@ -1121,7 +1205,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Entangle, Hooked",
-    "body": "**Special:** Entangle, Hooked\r\n\r\nCategory: RANGED"
+    "body": "**Special:** Entangle, Hooked\r\n\r\nCategory: RANGED",
+    "keywords": "net, barbed, weapon, ranged, kinetic, tl-1, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "particle-beam",
@@ -1147,7 +1233,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** 5ft Line, Ra-D, TL3",
-    "body": "**Special:** 5ft Line, Ra-D, TL3\r\n\r\nCategory: HEAVY ENERGY"
+    "body": "**Special:** 5ft Line, Ra-D, TL3\r\n\r\nCategory: HEAVY ENERGY",
+    "keywords": "particle beam, weapon, ranged, kinetic, tl-4, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "pick",
@@ -1173,7 +1261,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: MELEE"
+    "body": "Category: MELEE",
+    "keywords": "pick, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "pistol-heavy",
@@ -1199,7 +1289,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: BALLISTIC PISTOLS"
+    "body": "Category: BALLISTIC PISTOLS",
+    "keywords": "pistol, heavy, weapon, ranged, kinetic, tl-2, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "pistol-hold-out",
@@ -1225,7 +1317,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Pocket Sized",
-    "body": "**Special:** Pocket Sized\r\n\r\nCategory: BALLISTIC PISTOLS"
+    "body": "**Special:** Pocket Sized\r\n\r\nCategory: BALLISTIC PISTOLS",
+    "keywords": "pistol, hold-out, weapon, ranged, kinetic, tl-2, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "pistol-light",
@@ -1251,7 +1345,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: BALLISTIC PISTOLS"
+    "body": "Category: BALLISTIC PISTOLS",
+    "keywords": "pistol, light, weapon, ranged, kinetic, tl-2, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "pistol-medium",
@@ -1277,7 +1373,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: BALLISTIC PISTOLS"
+    "body": "Category: BALLISTIC PISTOLS",
+    "keywords": "pistol, medium, weapon, ranged, kinetic, tl-2, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "plasma",
@@ -1303,7 +1401,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** 10ft Blast, Burn, TL3",
-    "body": "**Special:** 10ft Blast, Burn, TL3\r\n\r\nCategory: HEAVY ENERGY"
+    "body": "**Special:** 10ft Blast, Burn, TL3\r\n\r\nCategory: HEAVY ENERGY",
+    "keywords": "plasma, weapon, ranged, kinetic, tl-4, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "polearm",
@@ -1329,7 +1429,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Reach, Trip",
-    "body": "**Special:** Reach, Trip\r\n\r\nCategory: MELEE"
+    "body": "**Special:** Reach, Trip\r\n\r\nCategory: MELEE",
+    "keywords": "polearm, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "rapier",
@@ -1355,7 +1457,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: MELEE"
+    "body": "Category: MELEE",
+    "keywords": "rapier, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "resonator",
@@ -1381,7 +1485,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** 10ft Blast, Stun, TL3",
-    "body": "**Special:** 10ft Blast, Stun, TL3\r\n\r\nCategory: HEAVY ENERGY"
+    "body": "**Special:** 10ft Blast, Stun, TL3\r\n\r\nCategory: HEAVY ENERGY",
+    "keywords": "resonator, weapon, ranged, kinetic, tl-4, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "rifle-heavy",
@@ -1407,7 +1513,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: BALLISTIC RIFLES"
+    "body": "Category: BALLISTIC RIFLES",
+    "keywords": "rifle, heavy, weapon, ranged, kinetic, tl-2, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "rifle-light",
@@ -1433,7 +1541,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: BALLISTIC RIFLES"
+    "body": "Category: BALLISTIC RIFLES",
+    "keywords": "rifle, light, weapon, ranged, kinetic, tl-2, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "rifle-medium",
@@ -1459,7 +1569,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: BALLISTIC RIFLES"
+    "body": "Category: BALLISTIC RIFLES",
+    "keywords": "rifle, medium, weapon, ranged, kinetic, tl-2, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "rock",
@@ -1485,7 +1597,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: MELEE"
+    "body": "Category: MELEE",
+    "keywords": "rock, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "sabaton",
@@ -1511,7 +1625,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Armored Boots",
-    "body": "**Special:** Armored Boots\r\n\r\nCategory: MELEE"
+    "body": "**Special:** Armored Boots\r\n\r\nCategory: MELEE",
+    "keywords": "sabaton, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "scattergun-blunderbus",
@@ -1537,7 +1653,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** +10ft spread, -1d damage",
-    "body": "**Special:** +10ft spread, -1d damage\r\n\r\nCategory: BALLISTIC RIFLES"
+    "body": "**Special:** +10ft spread, -1d damage\r\n\r\nCategory: BALLISTIC RIFLES",
+    "keywords": "scattergun, blunderbus, weapon, ranged, kinetic, tl-2, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "scattergun-shot",
@@ -1563,7 +1681,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** +5ft spread, -1d damage",
-    "body": "**Special:** +5ft spread, -1d damage\r\n\r\nCategory: BALLISTIC RIFLES"
+    "body": "**Special:** +5ft spread, -1d damage\r\n\r\nCategory: BALLISTIC RIFLES",
+    "keywords": "scattergun, shot, weapon, ranged, kinetic, tl-2, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "scattergun-slug",
@@ -1589,7 +1709,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: BALLISTIC RIFLES"
+    "body": "Category: BALLISTIC RIFLES",
+    "keywords": "scattergun, slug, weapon, ranged, kinetic, tl-2, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "sharp-rock",
@@ -1615,7 +1737,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: MELEE"
+    "body": "Category: MELEE",
+    "keywords": "sharp rock, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "sharp-stick",
@@ -1641,7 +1765,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: MELEE"
+    "body": "Category: MELEE",
+    "keywords": "sharp stick, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "short-sword",
@@ -1667,7 +1793,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: MELEE"
+    "body": "Category: MELEE",
+    "keywords": "short sword, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "sniper-rifle",
@@ -1693,7 +1821,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: BALLISTIC RIFLES"
+    "body": "Category: BALLISTIC RIFLES",
+    "keywords": "sniper rifle, weapon, ranged, kinetic, tl-2, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "sniper-rifle-heavy",
@@ -1719,7 +1849,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: BALLISTIC RIFLES"
+    "body": "Category: BALLISTIC RIFLES",
+    "keywords": "sniper rifle, heavy, weapon, ranged, kinetic, tl-2, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "sonic-resonator",
@@ -1745,7 +1877,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Lethal/Non-Lethal, Stun",
-    "body": "**Special:** Lethal/Non-Lethal, Stun\r\n\r\nCategory: ENERGY PISTOLS"
+    "body": "**Special:** Lethal/Non-Lethal, Stun\r\n\r\nCategory: ENERGY PISTOLS",
+    "keywords": "sonic resonator, weapon, ranged, kinetic, tl-4, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "spear",
@@ -1771,7 +1905,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: MELEE"
+    "body": "Category: MELEE",
+    "keywords": "spear, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "spiked-gauntlet",
@@ -1797,7 +1933,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Armored Gloves with Spikes",
-    "body": "**Special:** Armored Gloves with Spikes\r\n\r\nCategory: MELEE"
+    "body": "**Special:** Armored Gloves with Spikes\r\n\r\nCategory: MELEE",
+    "keywords": "spiked gauntlet, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "spiked-sabaton",
@@ -1823,7 +1961,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Armored Boots with Spikes",
-    "body": "**Special:** Armored Boots with Spikes\r\n\r\nCategory: MELEE"
+    "body": "**Special:** Armored Boots with Spikes\r\n\r\nCategory: MELEE",
+    "keywords": "spiked sabaton, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "staff",
@@ -1849,7 +1989,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: MELEE"
+    "body": "Category: MELEE",
+    "keywords": "staff, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "sword",
@@ -1875,7 +2017,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "",
-    "body": "Category: MELEE"
+    "body": "Category: MELEE",
+    "keywords": "sword, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   },
   {
     "id": "throwing-knife",
@@ -1901,7 +2045,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** (Piercing)",
-    "body": "**Special:** (Piercing)\r\n\r\nCategory: RANGED"
+    "body": "**Special:** (Piercing)\r\n\r\nCategory: RANGED",
+    "keywords": "throwing knife, weapon, ranged, kinetic, tl-1, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "throwing-stick",
@@ -1927,7 +2073,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** (Blunt), Returning option",
-    "body": "**Special:** (Blunt), Returning option\r\n\r\nCategory: RANGED"
+    "body": "**Special:** (Blunt), Returning option\r\n\r\nCategory: RANGED",
+    "keywords": "throwing stick, weapon, ranged, kinetic, tl-1, firearms",
+    "negative_keywords": "grappling, clinch, unarmed"
   },
   {
     "id": "whip",
@@ -1953,7 +2101,9 @@ export const DEFAULT_WEAPONRY = [
     "modifiers": [],
     "modifications": [],
     "description": "**Special:** Reach, Entangle, Non-Lethal",
-    "body": "**Special:** Reach, Entangle, Non-Lethal\r\n\r\nCategory: MELEE"
+    "body": "**Special:** Reach, Entangle, Non-Lethal\r\n\r\nCategory: MELEE",
+    "keywords": "whip, weapon, melee, kinetic, tl-1, close-quarters",
+    "negative_keywords": "extreme-range, optical-laser-sniper, pacifist"
   }
 ];
 export const getWeaponById = (id) => DEFAULT_WEAPONRY.find(w => w.id === id);

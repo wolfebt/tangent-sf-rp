@@ -11,6 +11,27 @@ costs:
   bp: 0
 modifiers: []
 discipline: Matter + Energy
+recommended_species:
+  - Golem (Arcane Construct)
+  - Celestine (Alterian)
+  - Draconian (Scaled Aeld)
+  - Biomechanical Synthetic
+recommended_factions:
+  - The Alterian Enclave
+  - Dracon Dynasty
+  - Radiant Impyrium
+recommended_origins:
+  - Enlightened
+  - Research
+  - Industrial
+recommended_occupations:
+  - Adept
+  - Builder
+  - Scholar
+keywords: >-
+  living spell, arcane homunculus, matter energy fusion, autonomous construct,
+  magical elemental, animated plasma, spell organism
+negative_keywords: 'fragile mortal, organic infection, mundane metal'
 ---
 # Living Spell Construct (Composite Invocation)
 

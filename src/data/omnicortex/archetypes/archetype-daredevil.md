@@ -32,6 +32,8 @@ description: Excels in extreme sports and high-risk maneuvers.
 costs:
   bp: 80
 modifiers: []
+keywords: 'daredevil, operative, artisan, adaptable, specialist, mobility, risk'
+negative_keywords: 'incompetent, untrained, undisciplined'
 ---
 
 # The Daredevil

@@ -40,6 +40,8 @@ sockets:
   allocated: []
 tech_level: 3
 meta_level: 0
+keywords: 'brig detention module, architecture, structure, standard, tl-3, containment'
+negative_keywords: 'mobile-infantry, personal-weapon, portable-trinket'
 ---
 Heavy containment cell with forcefield bars and anti-tamper locks.
 

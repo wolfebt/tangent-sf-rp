@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'magical aptitude, skill, special-feature, arcane, theory, aren''t'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Magical Aptitude

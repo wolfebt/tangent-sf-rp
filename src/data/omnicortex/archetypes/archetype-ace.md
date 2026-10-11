@@ -32,6 +32,8 @@ description: Navigates starships through asteroids and blockades. Master of the 
 costs:
   bp: 80
 modifiers: []
+keywords: 'ace, operative, artisan, adaptable, specialist, vehicle specialist, transport'
+negative_keywords: 'mindless-brute, reckless, illiterate'
 ---
 
 # The Ace

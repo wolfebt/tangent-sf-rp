@@ -31,6 +31,8 @@ description: 'A performer specializing in agility and stunts, often in zero-grav
 costs:
   bp: 80
 modifiers: []
+keywords: 'acrobat, operative, artisan, adaptable, specialist, mobility, evasion'
+negative_keywords: 'incompetent, untrained, undisciplined'
 ---
 
 # The Acrobat

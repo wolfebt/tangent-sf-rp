@@ -11,6 +11,8 @@ description: The character creates items of superior quality and durability.
 costs:
   bp: 3
 modifiers: []
+keywords: 'master craftsman, skill, special-feature, creates, superior, quality'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Master Craftsman

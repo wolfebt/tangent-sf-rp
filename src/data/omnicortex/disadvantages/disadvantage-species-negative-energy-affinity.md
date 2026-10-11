@@ -1,6 +1,6 @@
 ---
 id: disadvantage-species-negative-energy-affinity
-name: "Negative Energy Affinity"
+name: Negative Energy Affinity
 category: disadvantages
 disadvantage_type: Species Disadvantage
 classification: Meta
@@ -8,9 +8,11 @@ type: Meta
 bp_granted: 4
 costs:
   bp: -4
-description: "Alive, but harmed by positive/healed by negative energy (like undead)."
-prerequisite: ""
+description: 'Alive, but harmed by positive/healed by negative energy (like undead).'
+prerequisite: ''
 modifiers: []
+keywords: 'negative energy affinity, hindrance, penalty, meta, harmed, positive/healed'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Negative Energy Affinity

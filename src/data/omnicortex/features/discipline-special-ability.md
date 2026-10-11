@@ -15,6 +15,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  special ability, discipline, special-feature, focused-training, mastery,
+  possesses
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Special Ability

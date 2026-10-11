@@ -41,6 +41,8 @@ critical_details:
   failure_effect: []
 tech_level: 2
 meta_level: 0
+keywords: 'synth-leather "jack", armor, defense, dr-5, light-armor, tl-2'
+negative_keywords: 'unarmored, fragile, naked'
 ---
 A textured bodysuit or jacket made from chemically treated synthetic leather. Common among spacers and urban youth.
 

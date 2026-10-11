@@ -21,6 +21,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'ranged, combat, agility, tactical, offensive, defense'
+negative_keywords: 'pacifist, unarmed-civilian, helpless'
 ---
 
 # Ranged

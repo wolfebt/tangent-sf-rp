@@ -11,6 +11,8 @@ description: 'Blind is a Special Feature: Direct attack to a target''s Sense.'
 costs:
   bp: 3
 modifiers: []
+keywords: 'blind, special, special-feature, feature:, direct, attack'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Blind

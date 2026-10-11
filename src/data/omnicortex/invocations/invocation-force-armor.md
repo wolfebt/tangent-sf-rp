@@ -7,6 +7,27 @@ description: FORCE ARMOR invocation for Energy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Celestine (Alterian)
+  - Eidolon (Aetherion Specialist)
+  - Biomechanical Synthetic
+  - Janissary (Gen-E)
+recommended_factions:
+  - The Alterian Enclave
+  - The Ascendancy
+  - Military Faction Template
+recommended_origins:
+  - Enlightened
+  - Militaristic
+  - Urban
+recommended_occupations:
+  - Soldier
+  - Adept
+  - Specialist
+keywords: >-
+  force armor, hard-light carapace, kinetic deflection suit, energy armor,
+  personal ward, barrier skin
+negative_keywords: 'heavy steel plate, rusting iron, unarmored fragility, flesh exposure'
 ---
 
 # FORCE ARMOR Invocation

@@ -23,6 +23,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'wind, social, stamina, interaction, diplomacy, influence'
+negative_keywords: 'isolated, anti-social, inarticulate'
 ---
 
 # Wind

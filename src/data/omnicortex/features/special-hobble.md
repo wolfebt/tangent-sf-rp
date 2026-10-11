@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'hobble, special, special-feature, feature:, reduce, target’s'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Hobble

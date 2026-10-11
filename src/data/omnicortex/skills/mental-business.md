@@ -23,6 +23,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'business, mental, intellect, cognitive, expertise, commerce'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Business

@@ -14,6 +14,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  synesthetic savant, general, special-feature, experiences, profound,
+  cross-modal
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Synesthetic Savant

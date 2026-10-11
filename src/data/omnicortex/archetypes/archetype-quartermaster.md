@@ -32,6 +32,8 @@ description: 'A resourceful individual who manages supplies, equipment, and fina
 costs:
   bp: 80
 modifiers: []
+keywords: 'quartermaster, sentinel, defender, stability, order, economy, support'
+negative_keywords: 'mindless-brute, reckless, illiterate, chaotic-anarchist, unreliable'
 ---
 
 # The Quartermaster

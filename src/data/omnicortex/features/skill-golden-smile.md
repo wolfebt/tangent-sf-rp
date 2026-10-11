@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'golden smile, skill, special-feature, golden, feature:, diplomacy'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Golden Smile

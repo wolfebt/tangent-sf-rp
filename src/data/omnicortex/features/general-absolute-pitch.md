@@ -6,7 +6,7 @@ feature_category: General
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: Awareness 1, Perform 1
+prerequisites: 'Awareness 1, Perform 1'
 description: >-
   The character possesses an exaggerated structural asymmetry in the planum
   temporale, allowing them to instantly identify, categorize, and perfectly
@@ -14,6 +14,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'absolute pitch, general, special-feature, possesses, exaggerated, structural'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Absolute Pitch

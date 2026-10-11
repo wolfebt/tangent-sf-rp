@@ -29,6 +29,8 @@ sockets:
   allocated: []
 tech_level: 0
 meta_level: 0
+keywords: 'armored jacket (standard), armor, defense, dr-10, medium-armor, tl-3'
+negative_keywords: 'unarmored, fragile, naked'
 ---
 Category: MEDIUM Armor
 Penalty: None

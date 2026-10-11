@@ -6,14 +6,16 @@ feature_category: General
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: Awareness 3, Must possess the Blindness flaw (or be visually deprived)
+prerequisites: 'Awareness 3, Must possess the Blindness flaw (or be visually deprived)'
 description: >-
-  Through extreme cross-modal neuroplasticity, the character's visual cortex
-  has been repurposed to process auditory data, acting as a high-resolution
+  Through extreme cross-modal neuroplasticity, the character's visual cortex has
+  been repurposed to process auditory data, acting as a high-resolution
   biological sonar.
 costs:
   bp: 3
 modifiers: []
+keywords: 'echolocation, general, special-feature, through, extreme, cross-modal'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Echolocation

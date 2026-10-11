@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'operative, artisan, adaptable, specialist, stealth, sabotage, utility'
+negative_keywords: 'heavy-plating, blunt-assault, loud, clumsy, mindless-brute'
 ---
 
 # The Operative

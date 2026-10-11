@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'zealot, visionary, idealist, leadership, charisma, social combat, anti-meta'
+negative_keywords: 'anti-social, mute, solitary-hermit'
 ---
 
 # The Zealot

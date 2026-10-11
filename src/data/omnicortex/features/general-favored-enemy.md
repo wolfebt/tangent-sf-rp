@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'favored enemy, general, special-feature, studied, specific, creature'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Favored Enemy

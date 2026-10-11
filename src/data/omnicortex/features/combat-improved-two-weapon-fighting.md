@@ -11,6 +11,10 @@ description: 'Improved Two-Weapon Fighting is a Combat Feature: Gain second off-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  improved two-weapon fighting, combat, special-feature, combat-maneuver,
+  tactical-edge, improved
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Improved Two-Weapon Fighting

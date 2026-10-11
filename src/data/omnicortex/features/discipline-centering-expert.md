@@ -11,6 +11,10 @@ description: 'Centering Expert is a Discipline Feature: +4 Attune Checks (Affect
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  centering expert, discipline, special-feature, focused-training, mastery,
+  centering
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Centering Expert

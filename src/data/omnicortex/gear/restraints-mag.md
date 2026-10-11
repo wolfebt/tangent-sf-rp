@@ -32,6 +32,10 @@ sockets:
   allocated: []
 tech_level: 3
 meta_level: 0
+keywords: >-
+  mag restraints (electronic), gear, personal-property, tl-3, biometric,
+  magnetic
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Biometric magnetic lock cuffs for high-security prisoner containment.
 

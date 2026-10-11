@@ -10,6 +10,8 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+keywords: 'secret, hindrance, penalty, general, hiding, dangerous'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Secret

@@ -33,6 +33,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'priest, visionary, idealist, leadership, charisma, support, leader'
+negative_keywords: 'anti-social, mute, solitary-hermit'
 ---
 
 # The Priest

@@ -7,19 +7,22 @@ category: skills
 governing_attributes:
   - Wisdom
 description: >-
-  Energy discipline: Thermal, electrical, fire, frost, and plasma generation and channeling.
+  Energy discipline: Thermal, electrical, fire, frost, and plasma generation and
+  channeling.
 trained_only: true
 specialties:
-  - 'Thermal / Pyrokinesis'
-  - 'Cryokinesis / Frost'
-  - 'Electro-kinesis'
-  - 'Plasma Jets'
-  - 'Atmospheric Discharge'
+  - Thermal / Pyrokinesis
+  - Cryokinesis / Frost
+  - Electro-kinesis
+  - Plasma Jets
+  - Atmospheric Discharge
 synergy_links:
   - meta-attune
 costs:
   bp: 0
 modifiers: []
+keywords: 'elemental, meta, wisdom, metafocus, psionic, resonance'
+negative_keywords: 'mundane, anti-magic-field, unattuned'
 ---
 
 # Elemental

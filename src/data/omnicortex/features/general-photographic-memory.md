@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'photographic memory, general, special-feature, photographic, memory, feature:'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Photographic Memory

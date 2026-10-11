@@ -32,6 +32,8 @@ sockets:
 tech_level: 0
 meta_level: 0
 stage: Heavy
+keywords: 'prosthetic skull, augmentation, prosthetic, heavy, tl-3, general'
+negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
 ---
 Category: **4.1 Synth Limbs & Structural Integrity (TL 3\)**
 

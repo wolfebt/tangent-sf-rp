@@ -10,6 +10,8 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+keywords: 'minority, hindrance, penalty, general, belonging, oppressed'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Minority

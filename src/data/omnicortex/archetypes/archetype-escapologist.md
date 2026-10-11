@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'escapologist, operative, artisan, adaptable, specialist, evasion, utility'
+negative_keywords: 'incompetent, untrained, undisciplined'
 ---
 
 # The Escapologist

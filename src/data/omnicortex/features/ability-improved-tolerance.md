@@ -13,6 +13,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  improved tolerance, ability, special-feature, innate-talent, passive-prowess,
+  improved
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Improved Tolerance

@@ -23,6 +23,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'endurance, physical, stamina, mobility, athletics, bodily-coordination'
+negative_keywords: 'sedentary, paralyzed, clumsy'
 ---
 
 # Endurance

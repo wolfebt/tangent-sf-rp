@@ -7,6 +7,28 @@ description: AID invocation for Entropy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Celestine (Alterian)
+  - Fey (Base)
+  - Human (Base)
+  - Prokos (Auluran Biform)
+recommended_factions:
+  - The Alterian Enclave
+  - Elven Providence
+  - Supernatural Faction Template
+recommended_origins:
+  - Enlightened
+  - Colony
+  - Agricultural
+recommended_occupations:
+  - Adept
+  - Scholar
+  - Specialist
+  - Citizen
+keywords: >-
+  aid, vitality boost, temporary fortitude, moral ward, metabolic surge,
+  cellular resilience, protective aura
+negative_keywords: 'necrotic rot, cellular decay, acid damage, curse infliction, brutal violence'
 ---
 
 # AID Invocation

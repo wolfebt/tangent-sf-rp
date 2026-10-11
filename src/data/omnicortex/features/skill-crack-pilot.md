@@ -11,6 +11,8 @@ description: 'Crack Pilot is a Skill Feature: +4 Piloting, +20% to Maximum Vehic
 costs:
   bp: 3
 modifiers: []
+keywords: 'crack pilot, skill, special-feature, feature:, piloting, maximum'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Crack Pilot

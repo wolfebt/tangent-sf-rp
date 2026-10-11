@@ -14,6 +14,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  tech interface, combat, special-feature, combat-maneuver, tactical-edge,
+  possesses
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Tech Interface

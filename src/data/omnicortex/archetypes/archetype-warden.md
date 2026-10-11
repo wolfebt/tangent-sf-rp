@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'warden, sentinel, defender, stability, order, hybrid (magic, melee)'
+negative_keywords: 'fragile, unarmored, timid, evasive-sniper, chaotic-anarchist'
 ---
 
 # The Warden

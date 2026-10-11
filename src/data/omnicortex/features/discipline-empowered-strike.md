@@ -14,6 +14,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  empowered strike, discipline, special-feature, focused-training, mastery,
+  infuse
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Empowered Strike

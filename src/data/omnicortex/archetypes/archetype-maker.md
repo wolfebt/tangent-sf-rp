@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'maker, savant, rational, intellect, strategist, utility, support'
+negative_keywords: 'mindless-brute, reckless, illiterate'
 ---
 
 # The Maker

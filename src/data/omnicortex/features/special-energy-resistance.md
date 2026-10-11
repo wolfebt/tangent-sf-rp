@@ -13,6 +13,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  energy resistance, special, special-feature, character's, physiology,
+  resistant
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Energy Resistance

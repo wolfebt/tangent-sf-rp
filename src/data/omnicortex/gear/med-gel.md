@@ -30,6 +30,8 @@ sockets:
   allocated: []
 tech_level: 3
 meta_level: 0
+keywords: 'med-gel (bio-foam sealant), gear, personal-property, tl-3, aerosol, antiseptic'
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Aerosol antiseptic bio-foam that seals puncture wounds and knits torn flesh.
 

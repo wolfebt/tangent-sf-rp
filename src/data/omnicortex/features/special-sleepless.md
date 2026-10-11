@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'sleepless, special, special-feature, require, cycles, though'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Sleepless

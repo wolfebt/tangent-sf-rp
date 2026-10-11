@@ -22,6 +22,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'archivist, mental, intellect, cognitive, expertise, cataloging'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Archivist

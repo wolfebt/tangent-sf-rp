@@ -11,6 +11,10 @@ description: 'Multidextrous is a Combat Feature: No Off-Handed Penalty with Mult
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  multidextrous, combat, special-feature, combat-maneuver, tactical-edge,
+  feature:
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Multidextrous

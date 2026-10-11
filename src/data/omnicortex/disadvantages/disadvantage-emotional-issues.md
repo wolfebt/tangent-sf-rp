@@ -10,6 +10,8 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+keywords: 'emotional issues, hindrance, penalty, general, severe, emotional'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Emotional Issues

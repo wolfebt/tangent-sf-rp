@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'academic, savant, rational, intellect, strategist, intelligence, utility'
+negative_keywords: 'mindless-brute, reckless, illiterate'
 ---
 
 # The Academic

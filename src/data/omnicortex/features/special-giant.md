@@ -11,6 +11,8 @@ description: The character is significantly larger than the average for their sp
 costs:
   bp: 3
 modifiers: []
+keywords: 'giant, special, special-feature, significantly, larger, average'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Giant

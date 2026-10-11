@@ -32,6 +32,8 @@ description: 'An expert in alien cultures, biology, and languages.'
 costs:
   bp: 80
 modifiers: []
+keywords: 'xenologist, savant, rational, intellect, strategist, face, knowledge'
+negative_keywords: 'mindless-brute, reckless, illiterate'
 ---
 
 # The Xenologist

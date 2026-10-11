@@ -42,7 +42,9 @@ import {
   Edit3,
   Maximize2,
   Package,
-  Building2
+  Building2,
+  Wand2,
+  Users
 } from 'lucide-react';
 
 // Specialized DBM Sub-Widgets
@@ -74,6 +76,12 @@ import { AugmentationArchitectGuidance } from './AugmentationArchitectGuidance';
 import { MechaArchitectGuidance } from './MechaArchitectGuidance';
 import { ArchitectureArchitectGuidance } from './ArchitectureArchitectGuidance';
 import { OtherArchitectGuidance } from './OtherArchitectGuidance';
+import { InvocationArchitectGuidance } from './InvocationArchitectGuidance';
+import { ArchetypeArchitectGuidance } from './ArchetypeArchitectGuidance';
+import { DisadvantageArchitectGuidance } from './DisadvantageArchitectGuidance';
+import { ThreatArchitectGuidance } from './ThreatArchitectGuidance';
+import { PlanetaryArchitectGuidance } from './PlanetaryArchitectGuidance';
+import { WorldElementArchitectGuidance } from './WorldElementArchitectGuidance';
 
 // Contexts & Services
 import { useDBM } from '../../context/DBMContext';
@@ -746,9 +754,6 @@ export const AssetStudio = ({
   };
 
   useEffect(() => {
-    if (isSpeciesStudio && activeStudioTab === 'relational') {
-      setActiveStudioTab('specs');
-    }
     if (!isProperty && activeStudioTab === 'economatrix') {
       setActiveStudioTab('specs');
     }
@@ -758,7 +763,7 @@ export const AssetStudio = ({
     if (!isProperty && !['invocation', 'meta-tech'].includes(matrix?.id) && activeStudioTab === 'scaling') {
       setActiveStudioTab('specs');
     }
-  }, [isProperty, matrix?.id, isSpeciesStudio, activeStudioTab]);
+  }, [isProperty, matrix?.id, activeStudioTab]);
 
   useEffect(() => {
     return () => {
@@ -1224,30 +1229,36 @@ export const AssetStudio = ({
       activeBorder: (isOrigin ? 'border-emerald-500/60' : isOccu ? 'border-amber-500/60' : isArch ? 'border-purple-500/60' : 'border-purple-500/60')
     });
 
-    if (matrix.id !== 'species') {
-      const isOriginsRel = matrix.id === 'origins';
-      const isFactionsRel = matrix.id === 'factions';
-      const isOccuRel = matrix.id === 'occupations';
-      const isSkillRel = matrix.id === 'skills';
-      const isFeatureRel = matrix.id === 'features';
-      const isOtherRel = matrix.id === 'other' || matrix.id === 'other_property' || formData.category === 'other' || resolvedKey === 'other';
-      const isGearRel = matrix.id === 'gear' || matrix.id === 'equipment';
-      const isWeaponryRel = matrix.id === 'weaponry';
-      const isArmorRel = matrix.id === 'armor' || matrix.id === 'armoring';
-      const isMechaRel = matrix.id === 'mecha' || matrix.id === 'vehicles';
-      const isArchitectureRel = matrix.id === 'architecture';
-      const isAugmentationsRel = matrix.id === 'augmentations' || matrix.id === 'augmentation' || matrix.id === 'cybernetics';
-      items.push({
-        id: 'relational',
-        label: isOtherRel ? 'Other Property Relations' : isArchitectureRel ? 'Architecture Relations' : isMechaRel ? 'Mecha Relations' : isAugmentationsRel ? 'Augmentation Relations' : isArmorRel ? 'Armor Relations' : isWeaponryRel ? 'Weapon Relations' : isGearRel ? 'Gear Relations' : isFeatureRel ? 'Feature Relations' : isSkillRel ? 'Skill Relations' : isOccuRel ? 'Career Relations' : isOriginsRel ? 'Origin Relations' : isFactionsRel ? 'Faction Relations' : 'Relational Links',
-        shortLabel: 'RELATIONS',
-        sublabel: (isOtherRel || isArchitectureRel || isMechaRel || isAugmentationsRel || isArmorRel || isWeaponryRel || isGearRel || isSkillRel || isFeatureRel) ? 'TL, ML & Guidance' : (isOccuRel || isOriginsRel || isFactionsRel) ? 'Synergies & Guidance' : 'Entity Connections',
-        icon: isOtherRel ? HelpCircle : isArchitectureRel ? Building2 : isMechaRel ? Bot : isAugmentationsRel ? Cpu : isArmorRel ? Shield : isWeaponryRel ? Crosshair : isGearRel ? Package : isFeatureRel ? Sparkles : isSkillRel ? BookOpen : isOccuRel ? Briefcase : isOriginsRel ? Globe : Compass,
-        color: isOtherRel ? '#94a3b8' : isArchitectureRel ? '#f59e0b' : isMechaRel ? '#f59e0b' : isAugmentationsRel ? '#ec4899' : isArmorRel ? '#f59e0b' : isWeaponryRel ? '#dc2626' : isGearRel ? '#64748b' : isFeatureRel ? '#a855f7' : isSkillRel ? '#3b82f6' : isOccuRel ? '#f59e0b' : isOriginsRel ? '#10b981' : '#3b82f6',
-        activeBg: isOtherRel ? 'bg-slate-900/90' : isArchitectureRel ? 'bg-amber-950/80' : isMechaRel ? 'bg-amber-950/80' : isAugmentationsRel ? 'bg-pink-950/80' : isArmorRel ? 'bg-amber-950/80' : isWeaponryRel ? 'bg-red-950/80' : isGearRel ? 'bg-slate-900/90' : isFeatureRel ? 'bg-purple-950/80' : isSkillRel ? 'bg-blue-950/80' : isOccuRel ? 'bg-amber-950/80' : isOriginsRel ? 'bg-emerald-950/80' : 'bg-blue-950/80',
-        activeBorder: isOtherRel ? 'border-slate-500/60' : isArchitectureRel ? 'border-amber-500/60' : isMechaRel ? 'border-amber-500/60' : isAugmentationsRel ? 'border-pink-500/60' : isArmorRel ? 'border-amber-500/60' : isWeaponryRel ? 'border-red-500/60' : isGearRel ? 'border-slate-500/60' : isFeatureRel ? 'border-purple-500/60' : isSkillRel ? 'border-blue-500/60' : isOccuRel ? 'border-amber-500/60' : isOriginsRel ? 'border-emerald-500/60' : 'border-blue-500/60'
-      });
-    }
+    const isSpeciesRel = matrix.id === 'species' || isSpeciesStudio;
+    const isInvocationRel = matrix.id === 'invocation' || matrix.id === 'invocations';
+    const isOriginsRel = matrix.id === 'origins';
+    const isFactionsRel = matrix.id === 'factions';
+    const isOccuRel = matrix.id === 'occupations';
+    const isSkillRel = matrix.id === 'skills';
+    const isFeatureRel = matrix.id === 'features';
+    const isOtherRel = matrix.id === 'other' || matrix.id === 'other_property' || formData.category === 'other' || resolvedKey === 'other';
+    const isGearRel = matrix.id === 'gear' || matrix.id === 'equipment';
+    const isWeaponryRel = matrix.id === 'weaponry';
+    const isArmorRel = matrix.id === 'armor' || matrix.id === 'armoring';
+    const isMechaRel = matrix.id === 'mecha' || matrix.id === 'vehicles';
+    const isArchitectureRel = matrix.id === 'architecture';
+    const isAugmentationsRel = matrix.id === 'augmentations' || matrix.id === 'augmentation' || matrix.id === 'cybernetics';
+    const isArchRel = matrix.id === 'archetypes';
+    const isDisadvRel = matrix.id === 'disadvantages';
+    const isThreatRel = matrix.id === 'modular-characters' || matrix.id === 'modular_characters';
+    const isPlanetRel = matrix.id === 'planetary-design' || matrix.id === 'planetary_design';
+    const isWorldElemRel = ['universe', 'philosophy', 'technology', 'setting', 'scene'].includes(matrix.id);
+
+    items.push({
+      id: 'relational',
+      label: isSpeciesRel ? 'Species Relations' : isInvocationRel ? 'Invocation Relations' : isArchRel ? 'Archetype Relations' : isDisadvRel ? 'Disadvantage Relations' : isThreatRel ? 'Threat Profile & AI' : isPlanetRel ? 'Planetary Relations' : isWorldElemRel ? 'World Design Relations' : isOtherRel ? 'Other Property Relations' : isArchitectureRel ? 'Architecture Relations' : isMechaRel ? 'Mecha Relations' : isAugmentationsRel ? 'Augmentation Relations' : isArmorRel ? 'Armor Relations' : isWeaponryRel ? 'Weapon Relations' : isGearRel ? 'Gear Relations' : isFeatureRel ? 'Feature Relations' : isSkillRel ? 'Skill Relations' : isOccuRel ? 'Career Relations' : isOriginsRel ? 'Origin Relations' : isFactionsRel ? 'Faction Relations' : 'Relational Links',
+      shortLabel: 'RELATIONS',
+      sublabel: isSpeciesRel ? 'Demographics & Directives' : isInvocationRel ? 'Synergies & Directives' : isArchRel ? 'Synergies & Directives' : isDisadvRel ? 'Debuffs & Railguards' : isThreatRel ? 'Combat AI & Directives' : isPlanetRel ? 'UWP & Directives' : isWorldElemRel ? 'Cosmology & Directives' : (isOtherRel || isArchitectureRel || isMechaRel || isAugmentationsRel || isArmorRel || isWeaponryRel || isGearRel || isSkillRel || isFeatureRel) ? 'TL, ML & Guidance' : (isOccuRel || isOriginsRel || isFactionsRel) ? 'Synergies & Guidance' : 'Entity Connections',
+      icon: isSpeciesRel ? Users : isInvocationRel ? Wand2 : isArchRel ? Compass : isDisadvRel ? ShieldAlert : isThreatRel ? Bot : isPlanetRel ? Globe : isWorldElemRel ? Sparkles : isOtherRel ? HelpCircle : isArchitectureRel ? Building2 : isMechaRel ? Bot : isAugmentationsRel ? Cpu : isArmorRel ? Shield : isWeaponryRel ? Crosshair : isGearRel ? Package : isFeatureRel ? Sparkles : isSkillRel ? BookOpen : isOccuRel ? Briefcase : isOriginsRel ? Globe : Compass,
+      color: isSpeciesRel ? '#38bdf8' : isInvocationRel ? '#a855f7' : isArchRel ? '#8b5cf6' : isDisadvRel ? '#f43f5e' : isThreatRel ? '#ef4444' : isPlanetRel ? '#14b8a6' : isWorldElemRel ? '#a855f7' : isOtherRel ? '#94a3b8' : isArchitectureRel ? '#f59e0b' : isMechaRel ? '#f59e0b' : isAugmentationsRel ? '#ec4899' : isArmorRel ? '#f59e0b' : isWeaponryRel ? '#dc2626' : isGearRel ? '#64748b' : isFeatureRel ? '#a855f7' : isSkillRel ? '#3b82f6' : isOccuRel ? '#f59e0b' : isOriginsRel ? '#10b981' : '#3b82f6',
+      activeBg: isSpeciesRel ? 'bg-sky-950/80' : isInvocationRel ? 'bg-purple-950/80' : isArchRel ? 'bg-purple-950/80' : isDisadvRel ? 'bg-rose-950/80' : isThreatRel ? 'bg-red-950/80' : isPlanetRel ? 'bg-teal-950/80' : isWorldElemRel ? 'bg-purple-950/80' : isOtherRel ? 'bg-slate-900/90' : isArchitectureRel ? 'bg-amber-950/80' : isMechaRel ? 'bg-amber-950/80' : isAugmentationsRel ? 'bg-pink-950/80' : isArmorRel ? 'bg-amber-950/80' : isWeaponryRel ? 'bg-red-950/80' : isGearRel ? 'bg-slate-900/90' : isFeatureRel ? 'bg-purple-950/80' : isSkillRel ? 'bg-blue-950/80' : isOccuRel ? 'bg-amber-950/80' : isOriginsRel ? 'bg-emerald-950/80' : 'bg-blue-950/80',
+      activeBorder: isSpeciesRel ? 'border-sky-500/60' : isInvocationRel ? 'border-purple-500/60' : isArchRel ? 'border-purple-500/60' : isDisadvRel ? 'border-rose-500/60' : isThreatRel ? 'border-red-500/60' : isPlanetRel ? 'border-teal-500/60' : isWorldElemRel ? 'border-purple-500/60' : isOtherRel ? 'border-slate-500/60' : isArchitectureRel ? 'border-amber-500/60' : isMechaRel ? 'border-amber-500/60' : isAugmentationsRel ? 'border-pink-500/60' : isArmorRel ? 'border-amber-500/60' : isWeaponryRel ? 'border-red-500/60' : isGearRel ? 'border-slate-500/60' : isFeatureRel ? 'border-purple-500/60' : isSkillRel ? 'border-blue-500/60' : isOccuRel ? 'border-amber-500/60' : isOriginsRel ? 'border-emerald-500/60' : 'border-blue-500/60'
+    });
 
     if (devMode) {
       items.push({
@@ -2428,9 +2439,13 @@ export const AssetStudio = ({
                   </div>
                 )}
               </div>
+            </div>
+          )}
 
-              {/* Species Studio: Architect Guidance & Recommendations for Factions, Origins, Occupations, and Keywords */}
-              {(isSpeciesStudio || matrix?.id === 'species') && (
+          {/* ── TAB 4: RELATIONAL LINKS ── */}
+          {activeStudioTab === 'relational' && (
+            <div className="space-y-4 animate-fade-in">
+              {matrix.id === 'species' || isSpeciesStudio ? (
                 <SpeciesArchitectGuidance
                   formData={formData}
                   handleFieldChange={handleFieldChange}
@@ -2438,14 +2453,15 @@ export const AssetStudio = ({
                   onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
                   dbData={dbData}
                 />
-              )}
-            </div>
-          )}
-
-          {/* ── TAB 4: RELATIONAL LINKS ── */}
-          {activeStudioTab === 'relational' && (
-            <div className="space-y-4 animate-fade-in">
-              {matrix.id === 'features' ? (
+              ) : matrix.id === 'invocation' || matrix.id === 'invocations' ? (
+                <InvocationArchitectGuidance
+                  formData={formData}
+                  handleFieldChange={handleFieldChange}
+                  isEditMode={isEditMode}
+                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
+                  dbData={dbData}
+                />
+              ) : matrix.id === 'features' ? (
                 <FeatureArchitectGuidance
                   formData={formData}
                   handleFieldChange={handleFieldChange}
@@ -2540,6 +2556,47 @@ export const AssetStudio = ({
                   isEditMode={isEditMode}
                   onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
                   dbData={dbData}
+                />
+              ) : (matrix.id === 'archetypes' || matrix.id === 'archetype') ? (
+                <ArchetypeArchitectGuidance
+                  formData={formData}
+                  handleFieldChange={handleFieldChange}
+                  isEditMode={isEditMode}
+                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
+                  dbData={dbData}
+                />
+              ) : (matrix.id === 'disadvantages' || matrix.id === 'disadvantage') ? (
+                <DisadvantageArchitectGuidance
+                  formData={formData}
+                  handleFieldChange={handleFieldChange}
+                  isEditMode={isEditMode}
+                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
+                  dbData={dbData}
+                />
+              ) : (matrix.id === 'modular-characters' || matrix.id === 'modular_characters' || matrix.id === 'threats' || matrix.id === 'threat' || matrix.id === 'bestiary') ? (
+                <ThreatArchitectGuidance
+                  formData={formData}
+                  handleFieldChange={handleFieldChange}
+                  isEditMode={isEditMode}
+                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
+                  dbData={dbData}
+                />
+              ) : (matrix.id === 'planetary-design' || matrix.id === 'planetary_design' || matrix.id === 'world' || matrix.id === 'planets') ? (
+                <PlanetaryArchitectGuidance
+                  formData={formData}
+                  handleFieldChange={handleFieldChange}
+                  isEditMode={isEditMode}
+                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
+                  dbData={dbData}
+                />
+              ) : (['universe', 'philosophy', 'technology', 'setting', 'scene', 'world_design'].includes(matrix.id) || ['universe', 'philosophy', 'technology', 'setting', 'scene'].includes(formData.category)) ? (
+                <WorldElementArchitectGuidance
+                  formData={formData}
+                  handleFieldChange={handleFieldChange}
+                  isEditMode={isEditMode}
+                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
+                  dbData={dbData}
+                  matrix={matrix}
                 />
               ) : (
                 <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-xl">

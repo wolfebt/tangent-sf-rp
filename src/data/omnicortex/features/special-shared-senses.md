@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'shared senses, special, special-feature, shared, senses, feature:'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Shared Senses

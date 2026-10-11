@@ -11,6 +11,8 @@ description: The character reacts to danger before their senses fully process it
 costs:
   bp: 3
 modifiers: []
+keywords: 'uncanny dodge, combat, special-feature, combat-maneuver, tactical-edge, reacts'
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Uncanny Dodge

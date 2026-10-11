@@ -36,6 +36,10 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: >-
+  salvage-specialist, operative, artisan, adaptable, specialist, scavenging,
+  utility
+negative_keywords: 'mindless-brute, reckless, illiterate'
 ---
 
 # The Salvage-specialist

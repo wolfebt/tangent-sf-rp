@@ -13,6 +13,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  discipline empower, discipline, special-feature, focused-training, mastery,
+  empower
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Discipline Empower

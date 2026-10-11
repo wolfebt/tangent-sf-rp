@@ -7,6 +7,27 @@ description: WOUND invocation for Entropy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Tenen (Sha’nor Spectral)
+  - Eakren (Corrupted Aberration)
+  - Rautha Human
+  - Sha'nor
+recommended_factions:
+  - The Outworlds
+  - Criminal Faction Template
+  - Military Faction Template
+recommended_origins:
+  - Hostile
+  - Militaristic
+  - Industrial
+recommended_occupations:
+  - Adept
+  - Soldier
+  - Criminal
+keywords: >-
+  wound, necrotic laceration, flesh tearing, bio-degradation, deep hemorrhage,
+  blood rot, lingering trauma
+negative_keywords: 'wound closure, surgical suture, first aid bandage, cellular regeneration'
 ---
 # WOUND Invocation
 

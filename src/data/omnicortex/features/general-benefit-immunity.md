@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'benefit (immunity), general, special-feature, immunity, prosecution, planetary'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Benefit (Immunity)

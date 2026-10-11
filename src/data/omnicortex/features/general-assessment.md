@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'assessment, general, special-feature, practiced, sizing, opposition'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Assessment

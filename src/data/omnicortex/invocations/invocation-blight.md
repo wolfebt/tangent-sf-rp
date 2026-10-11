@@ -7,6 +7,27 @@ description: BLIGHT invocation for Entropy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Tenen (Sha’nor Spectral)
+  - Sha'nor
+  - Eakren (Corrupted Aberration)
+  - Rautha Human
+recommended_factions:
+  - The Outworlds
+  - Religious Cult Faction Template
+  - Criminal Faction Template
+recommended_origins:
+  - Hostile
+  - Industrial
+  - Spacer
+recommended_occupations:
+  - Adept
+  - Criminal
+  - Drifter
+keywords: >-
+  blight, ecological rot, flora desolation, harvest decay, bio-withering,
+  virulent necrosis, soil corruption, ecological ruin
+negative_keywords: 'agricultural bloom, hydroponic harvest, verdant forest, vital healing'
 ---
 
 # BLIGHT Invocation

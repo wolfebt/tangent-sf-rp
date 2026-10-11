@@ -1,6 +1,6 @@
 ---
 id: disadvantage-species-sunlight-powerlessness
-name: "Sunlight Powerlessness"
+name: Sunlight Powerlessness
 category: disadvantages
 disadvantage_type: Species Disadvantage
 classification: Meta
@@ -8,9 +8,11 @@ type: Meta
 bp_granted: 6
 costs:
   bp: -6
-description: "Staggered/Helpless in direct sunlight. Req: Undead/Half-Undead."
-prerequisite: "Undead / Half-Undead / Non-Living"
+description: 'Staggered/Helpless in direct sunlight. Req: Undead/Half-Undead.'
+prerequisite: Undead / Half-Undead / Non-Living
 modifiers: []
+keywords: 'sunlight powerlessness, hindrance, penalty, meta, staggered/helpless, direct'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Sunlight Powerlessness

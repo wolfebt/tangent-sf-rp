@@ -11,6 +11,10 @@ description: 'The character is dangerous with anything—a bottle, a chair, or a
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  weapon improvisation, combat, special-feature, combat-maneuver, tactical-edge,
+  dangerous
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Weapon Improvisation

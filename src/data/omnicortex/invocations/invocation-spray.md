@@ -7,6 +7,27 @@ description: SPRAY invocation for Energy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Draconian (Scaled Aeld)
+  - Janissary (Gen-E)
+  - Impyrium Regi (Gen-E)
+  - Draconic Human
+recommended_factions:
+  - Dracon Dynasty
+  - Radiant Impyrium
+  - Military Faction Template
+recommended_origins:
+  - Militaristic
+  - Industrial
+  - Hostile
+recommended_occupations:
+  - Soldier
+  - Adept
+  - Specialist
+keywords: >-
+  spray, wide arc discharge, sweeping plasma spray, close quarters ignition,
+  suppressing fire, multi-target burn
+negative_keywords: 'distant sniper, single target focus, gentle warmth'
 ---
 
 # SPRAY Invocation

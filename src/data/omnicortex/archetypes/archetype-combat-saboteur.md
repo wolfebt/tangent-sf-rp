@@ -34,6 +34,10 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: >-
+  combat-saboteur, operative, artisan, adaptable, specialist, area damage,
+  demolition
+negative_keywords: 'mindless-brute, reckless, illiterate'
 ---
 
 # The Combat-saboteur

@@ -30,6 +30,10 @@ sockets:
   allocated: []
 tech_level: 2
 meta_level: 0
+keywords: >-
+  image projector (analog/digital), gear, personal-property, tl-2, projects,
+  static
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Projects a static or looped 2D image and basic audio onto flat surfaces.
 

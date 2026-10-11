@@ -13,6 +13,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  improved disarm, combat, special-feature, combat-maneuver, tactical-edge,
+  improved
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Improved Disarm

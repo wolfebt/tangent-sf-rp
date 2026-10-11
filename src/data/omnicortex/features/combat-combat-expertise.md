@@ -13,6 +13,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  combat expertise, combat, special-feature, combat-maneuver, tactical-edge,
+  fights
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Combat Expertise

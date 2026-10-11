@@ -36,6 +36,8 @@ sockets:
   tier: Socket
   allocated: []
 tech_level: 4
+keywords: 'multi-role starfighter, mecha, vehicle, large, winged, tl-4'
+negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
 ---
 Single-seat space superiority fighter capable of atmospheric dogfighting and void strikes.
 

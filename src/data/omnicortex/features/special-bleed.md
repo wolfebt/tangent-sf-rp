@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'bleed, special, special-feature, feature:, damage, attack'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Bleed

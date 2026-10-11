@@ -36,6 +36,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'theoretician, savant, rational, intellect, strategist, research, utility'
+negative_keywords: 'mindless-brute, reckless, illiterate'
 ---
 
 # The Theoretician

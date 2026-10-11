@@ -10,6 +10,8 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+keywords: 'social issues, hindrance, penalty, general, severe, social'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Social Issues

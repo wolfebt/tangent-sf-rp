@@ -35,6 +35,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'magus, savant, rational, intellect, strategist, artillery, utility'
+negative_keywords: 'mindless-brute, reckless, illiterate'
 ---
 
 # The Magus

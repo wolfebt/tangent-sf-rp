@@ -10,7 +10,9 @@ export const DEFAULT_MECHA = [
     "dr": 45,
     "tech_level": 4,
     "description": "Floating armored fortress moving effortlessly across water, mud, and minefields armed with particle beams.",
-    "mechanic": "Particle Beam Cannon (5d10), High Mobility Strafing, Active Energy Shields (DR 45)."
+    "mechanic": "Particle Beam Cannon (5d10), High Mobility Strafing, Active Energy Shields (DR 45).",
+    "keywords": "advanced grav-tank, mecha, vehicle, huge, industrial, tl-4",
+    "negative_keywords": "infantry-on-foot, unarmored-civilian, sub-microscopic"
   },
   {
     "id": "bipedal-recon-walker",
@@ -23,7 +25,9 @@ export const DEFAULT_MECHA = [
     "dr": 20,
     "tech_level": 3,
     "description": "Fast, agile scout walker with reverse chicken-leg joints and high-gain sensory mast.",
-    "mechanic": "High-speed scouting, jump-jets, chin-mounted twin light lasers (2d6)."
+    "mechanic": "High-speed scouting, jump-jets, chin-mounted twin light lasers (2d6).",
+    "keywords": "bipedal recon walker, mecha, vehicle, large, walker, tl-3",
+    "negative_keywords": "infantry-on-foot, unarmored-civilian, sub-microscopic"
   },
   {
     "id": "cyber-mecha-shell",
@@ -36,7 +40,9 @@ export const DEFAULT_MECHA = [
     "dr": 10,
     "tech_level": 3,
     "description": "Superheavy wearable shell. Provides DR 80\\.",
-    "mechanic": ""
+    "mechanic": "",
+    "keywords": "cyber-mecha shell, mecha, vehicle, large, humanoid, tl-3",
+    "negative_keywords": "infantry-on-foot, unarmored-civilian, sub-microscopic"
   },
   {
     "id": "cycle-rugged-frame",
@@ -49,7 +55,9 @@ export const DEFAULT_MECHA = [
     "dr": 4,
     "tech_level": 1,
     "description": "Ruggedized bicycle frame with suspension and cargo rack for wilderness traversal.",
-    "mechanic": "Movement x2 on roads/trails. Includes cargo rack (holds 2 Slots)."
+    "mechanic": "Movement x2 on roads/trails. Includes cargo rack (holds 2 Slots).",
+    "keywords": "cycle (rugged wilderness), mecha, vehicle, medium, personal, tl-1",
+    "negative_keywords": "infantry-on-foot, unarmored-civilian, sub-microscopic"
   },
   {
     "id": "exo-harness",
@@ -62,7 +70,9 @@ export const DEFAULT_MECHA = [
     "dr": 10,
     "tech_level": 3,
     "description": "Strength & Armor frame. +1 Strength, DR 10\\.",
-    "mechanic": ""
+    "mechanic": "",
+    "keywords": "exo-harness, mecha, vehicle, large, humanoid, tl-3",
+    "negative_keywords": "infantry-on-foot, unarmored-civilian, sub-microscopic"
   },
   {
     "id": "fast-tramp-freighter",
@@ -75,7 +85,9 @@ export const DEFAULT_MECHA = [
     "dr": 30,
     "tech_level": 3,
     "description": "Modified light cargo ship with oversized sublight engines, shielded smuggling compartments, and defensive turrets.",
-    "mechanic": "Holds 20 Modules of cargo. Shielded smuggler bays (Disadvantage to authority scans)."
+    "mechanic": "Holds 20 Modules of cargo. Shielded smuggler bays (Disadvantage to authority scans).",
+    "keywords": "fast tramp freighter, mecha, vehicle, gargantuan, platform, tl-3",
+    "negative_keywords": "infantry-on-foot, unarmored-civilian, sub-microscopic"
   },
   {
     "id": "jet-hoverboard-skimmer",
@@ -88,7 +100,9 @@ export const DEFAULT_MECHA = [
     "dr": 6,
     "tech_level": 3,
     "description": "Repulsor hover-board skimming 1 foot above terrain using directed micro-turbines.",
-    "mechanic": "Skims over water/ground at high speed. Pilot Agility +2."
+    "mechanic": "Skims over water/ground at high speed. Pilot Agility +2.",
+    "keywords": "jet-powered hoverboard (skimmer), mecha, vehicle, small, personal, tl-3",
+    "negative_keywords": "infantry-on-foot, unarmored-civilian, sub-microscopic"
   },
   {
     "id": "load-lifter-rig",
@@ -101,7 +115,9 @@ export const DEFAULT_MECHA = [
     "dr": 10,
     "tech_level": 3,
     "description": "Industrial. +4 Strength for lifting only.",
-    "mechanic": ""
+    "mechanic": "",
+    "keywords": "load-lifter rig, mecha, vehicle, large, industrial, tl-3",
+    "negative_keywords": "infantry-on-foot, unarmored-civilian, sub-microscopic"
   },
   {
     "id": "main-battle-tank-standard",
@@ -114,7 +130,9 @@ export const DEFAULT_MECHA = [
     "dr": 40,
     "tech_level": 3,
     "description": "Tracked armored combat vehicle mounting a massive kinetic cannon and heavy frontal composite plating.",
-    "mechanic": "Heavy Kinetic Cannon (4d10), Coaxial Autocannon (2d8), Heavy Frontal Armor (DR 40)."
+    "mechanic": "Heavy Kinetic Cannon (4d10), Coaxial Autocannon (2d8), Heavy Frontal Armor (DR 40).",
+    "keywords": "main battle tank (standard), mecha, vehicle, huge, industrial, tl-3",
+    "negative_keywords": "infantry-on-foot, unarmored-civilian, sub-microscopic"
   },
   {
     "id": "modular-heavy-battle-walker",
@@ -127,7 +145,9 @@ export const DEFAULT_MECHA = [
     "dr": 35,
     "tech_level": 3,
     "description": "10-meter tall bipedal war machine with modular weapon hardpoints for missiles, autocannons, and lasers.",
-    "mechanic": "Hydraulic stride, modular weapon pods, cockpit jump-jets."
+    "mechanic": "Hydraulic stride, modular weapon pods, cockpit jump-jets.",
+    "keywords": "modular heavy battle walker (mech), mecha, vehicle, huge, walker, tl-3",
+    "negative_keywords": "infantry-on-foot, unarmored-civilian, sub-microscopic"
   },
   {
     "id": "multi-role-starfighter",
@@ -140,7 +160,9 @@ export const DEFAULT_MECHA = [
     "dr": 25,
     "tech_level": 4,
     "description": "Single-seat space superiority fighter capable of atmospheric dogfighting and void strikes.",
-    "mechanic": "Twin Lasers (3d8), Proton Torpedo Launcher, Atmospheric Flight & Void Shields."
+    "mechanic": "Twin Lasers (3d8), Proton Torpedo Launcher, Atmospheric Flight & Void Shields.",
+    "keywords": "multi-role starfighter, mecha, vehicle, large, winged, tl-4",
+    "negative_keywords": "infantry-on-foot, unarmored-civilian, sub-microscopic"
   },
   {
     "id": "officers-hover-platform",
@@ -153,7 +175,9 @@ export const DEFAULT_MECHA = [
     "dr": 12,
     "tech_level": 4,
     "description": "Floating armored command disk keeping overseers elevated above the fray.",
-    "mechanic": "Silent anti-gravity platform with tactical shield and comms array."
+    "mechanic": "Silent anti-gravity platform with tactical shield and comms array.",
+    "keywords": "officer's hover platform, mecha, vehicle, small, platform, tl-4",
+    "negative_keywords": "infantry-on-foot, unarmored-civilian, sub-microscopic"
   },
   {
     "id": "personal-hover-pod-bubble",
@@ -166,7 +190,9 @@ export const DEFAULT_MECHA = [
     "dr": 10,
     "tech_level": 4,
     "description": "Enclosed glass-sphere transport for comfortable city or atmospheric flight.",
-    "mechanic": "Full Grav-Drive flight, life support seal, autopilot, holds 50kg stowage."
+    "mechanic": "Full Grav-Drive flight, life support seal, autopilot, holds 50kg stowage.",
+    "keywords": "personal hover pod (the \"bubble\"), mecha, vehicle, medium, personal, tl-4",
+    "negative_keywords": "infantry-on-foot, unarmored-civilian, sub-microscopic"
   },
   {
     "id": "reinforced-chassis",
@@ -179,7 +205,9 @@ export const DEFAULT_MECHA = [
     "dr": 10,
     "tech_level": 3,
     "description": "Heavy: Synth Limbs (all), Str 3, Sta 3, DR 40\\.",
-    "mechanic": ""
+    "mechanic": "",
+    "keywords": "reinforced chassis, mecha, vehicle, large, humanoid, tl-3",
+    "negative_keywords": "infantry-on-foot, unarmored-civilian, sub-microscopic"
   },
   {
     "id": "reinforced-frame",
@@ -192,7 +220,9 @@ export const DEFAULT_MECHA = [
     "dr": 10,
     "tech_level": 3,
     "description": "+25% Structure Points to limb.",
-    "mechanic": ""
+    "mechanic": "",
+    "keywords": "reinforced frame, mecha, vehicle, large, humanoid, tl-3",
+    "negative_keywords": "infantry-on-foot, unarmored-civilian, sub-microscopic"
   },
   {
     "id": "segway-gyro-pod",
@@ -205,7 +235,9 @@ export const DEFAULT_MECHA = [
     "dr": 5,
     "tech_level": 3,
     "description": "Self-balancing personal mover for arcology station or city concourse transit.",
-    "mechanic": "Micro-motor with gyro-stabilizer. 8 hours continuous electric range."
+    "mechanic": "Micro-motor with gyro-stabilizer. 8 hours continuous electric range.",
+    "keywords": "segway / gyro-pod, mecha, vehicle, small, personal, tl-3",
+    "negative_keywords": "infantry-on-foot, unarmored-civilian, sub-microscopic"
   },
   {
     "id": "standard-skateboard-longboard",
@@ -218,7 +250,9 @@ export const DEFAULT_MECHA = [
     "dr": 2,
     "tech_level": 1,
     "description": "Urban deck for quick transit on paved surfaces. Grants increased movement on smooth, flat terrain.",
-    "mechanic": "Movement x1.5 on paved streets. Manual propulsion."
+    "mechanic": "Movement x1.5 on paved streets. Manual propulsion.",
+    "keywords": "standard skateboard / longboard, mecha, vehicle, tiny, personal, tl-1",
+    "negative_keywords": "infantry-on-foot, unarmored-civilian, sub-microscopic"
   },
   {
     "id": "subcompact-commuter",
@@ -231,7 +265,9 @@ export const DEFAULT_MECHA = [
     "dr": 8,
     "tech_level": 3,
     "description": "The ubiquitous automated pod car of futuristic metropolitan arcologies.",
-    "mechanic": "Seats 2. Automated traffic grid autopilot. Printable composite hull."
+    "mechanic": "Seats 2. Automated traffic grid autopilot. Printable composite hull.",
+    "keywords": "subcompact electric commuter, mecha, vehicle, medium, personal, tl-3",
+    "negative_keywords": "infantry-on-foot, unarmored-civilian, sub-microscopic"
   },
   {
     "id": "super-heavy-assault-mech",
@@ -244,7 +280,9 @@ export const DEFAULT_MECHA = [
     "dr": 50,
     "tech_level": 4,
     "description": "100-ton walking juggernaut designed to anchor front lines and shatter fortified garrisons.",
-    "mechanic": "Ablative composite plating (DR 50), dual Heavy Plasma Cannons (6d10), missile batteries."
+    "mechanic": "Ablative composite plating (DR 50), dual Heavy Plasma Cannons (6d10), missile batteries.",
+    "keywords": "super-heavy assault mech (100-ton), mecha, vehicle, gargantuan, walker, tl-4",
+    "negative_keywords": "infantry-on-foot, unarmored-civilian, sub-microscopic"
   },
   {
     "id": "surfboard-wave-rider",
@@ -257,7 +295,9 @@ export const DEFAULT_MECHA = [
     "dr": 2,
     "tech_level": 1,
     "description": "Composite hydrodynamic board for riding wave energy and coastal currents.",
-    "mechanic": "Speed equal to current speed. Requires Athletics (Swim) to maneuver."
+    "mechanic": "Speed equal to current speed. Requires Athletics (Swim) to maneuver.",
+    "keywords": "surfboard / wave-rider, mecha, vehicle, medium, personal, tl-1",
+    "negative_keywords": "infantry-on-foot, unarmored-civilian, sub-microscopic"
   },
   {
     "id": "weapon-servo-rig",
@@ -270,6 +310,8 @@ export const DEFAULT_MECHA = [
     "dr": 10,
     "tech_level": 3,
     "description": "Side/back harness for 2H heavy weapons.",
-    "mechanic": ""
+    "mechanic": "",
+    "keywords": "weapon servo rig, mecha, vehicle, large, humanoid, tl-3",
+    "negative_keywords": "infantry-on-foot, unarmored-civilian, sub-microscopic"
   }
 ];

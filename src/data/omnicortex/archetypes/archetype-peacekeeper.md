@@ -32,6 +32,8 @@ description: 'A protector of the innocent and champion of peace, using force and
 costs:
   bp: 80
 modifiers: []
+keywords: 'peacekeeper, visionary, idealist, leadership, charisma, tank, diplomat'
+negative_keywords: 'fragile, unarmored, timid, evasive-sniper, anti-social'
 ---
 
 # The Peacekeeper

@@ -34,6 +34,8 @@ description: A strategic mastermind who analyzes the battlefield and coordinates
 costs:
   bp: 80
 modifiers: []
+keywords: 'tactician, savant, rational, intellect, strategist, leader, support'
+negative_keywords: 'mindless-brute, reckless, illiterate'
 ---
 
 # The Tactician

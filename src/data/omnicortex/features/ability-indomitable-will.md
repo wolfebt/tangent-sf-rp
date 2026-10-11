@@ -11,6 +11,10 @@ description: 'Indomitable Will is a Ability Feature: Roll Will checks with Advan
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  indomitable will, ability, special-feature, innate-talent, passive-prowess,
+  indomitable
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Indomitable Will

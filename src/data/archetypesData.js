@@ -109,7 +109,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Repairing armor in the field, identifying equipment vulnerabilities, maximizing party DR.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "The specialist who crafts and maintains the protective shells that preserve life in high-threat zones.\n\n*You provide the safety that makes heroism possible. You know every weak point in a chest plate and every bypass in a shield generator. Without your craft, the team is just target practice.*\n\n_\"Flesh is soft. Let me give you something harder.\"_"
+    "description": "The specialist who crafts and maintains the protective shells that preserve life in high-threat zones.\n\n*You provide the safety that makes heroism possible. You know every weak point in a chest plate and every bypass in a shield generator. Without your craft, the team is just target practice.*\n\n_\"Flesh is soft. Let me give you something harder.\"_",
+    "keywords": "armorer, sentinel, defender, stability, order, crafter, support",
+    "negative_keywords": "fragile, unarmored, timid, evasive-sniper, mindless-brute"
   },
   {
     "id": "archetype-bailiff",
@@ -149,7 +151,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Grappling and subduing targets, protecting VIPs, enforcing social order.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "The officer of the court and enforcer of civil law, ensuring that order is maintained within the halls of justice.\n\n*You are the shadow of the judge. You maintain the dignity of the law through physical presence and unwavering authority. You ensure that even the most chaotic elements respect the proceedings.*\n\n_\"The Court will have order. One way or another.\"_"
+    "description": "The officer of the court and enforcer of civil law, ensuring that order is maintained within the halls of justice.\n\n*You are the shadow of the judge. You maintain the dignity of the law through physical presence and unwavering authority. You ensure that even the most chaotic elements respect the proceedings.*\n\n_\"The Court will have order. One way or another.\"_",
+    "keywords": "bailiff, sentinel, defender, stability, order, law enforcement, control",
+    "negative_keywords": "fragile, unarmored, timid, evasive-sniper, chaotic-anarchist"
   },
   {
     "id": "archetype-beast-handler",
@@ -189,7 +193,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Directing animal allies in combat, tracking with biological aids, navigating wilderness.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "The rugged specialist who trains and directs animals and xeno-fauna for work and war.\n\n*You understand the wild mind. You forge bonds with creatures that others view as monsters, turning their primal instincts into tactical assets. Your pack is your family and your weapon.*\n\n_\"They aren't pets. They're partners.\"_"
+    "description": "The rugged specialist who trains and directs animals and xeno-fauna for work and war.\n\n*You understand the wild mind. You forge bonds with creatures that others view as monsters, turning their primal instincts into tactical assets. Your pack is your family and your weapon.*\n\n_\"They aren't pets. They're partners.\"_",
+    "keywords": "beast-handler, sentinel, defender, stability, order, pet master, utility",
+    "negative_keywords": "chaotic-anarchist, unreliable, reckless-gambler"
   },
   {
     "id": "archetype-broker",
@@ -228,7 +234,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Funding the party, acquiring rare gear, transport logistics.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Travels space lanes buying and selling. Keen eye for value and negotiation.\n\n*You keep the galaxy moving. You know the value of everything, from a crate of ore to a secret. You turn risks into rewards, navigating trade routes and social circles to ensure your crew always turns a profit.*\n\n_\"Everything is negotiable. Even loyalty.\"_"
+    "description": "Travels space lanes buying and selling. Keen eye for value and negotiation.\n\n*You keep the galaxy moving. You know the value of everything, from a crate of ore to a secret. You turn risks into rewards, navigating trade routes and social circles to ensure your crew always turns a profit.*\n\n_\"Everything is negotiable. Even loyalty.\"_",
+    "keywords": "broker, sentinel, defender, stability, order, economy, logistics",
+    "negative_keywords": "mindless-brute, reckless, illiterate, chaotic-anarchist, unreliable"
   },
   {
     "id": "archetype-bureaucrat",
@@ -268,7 +276,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Secure resources, bypass legal hurdles, manage team logistics.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "The skilled administrator who ensures the smooth operation of departments or territories. They navigate red tape like a labyrinth runner.\n\n*You are the grease in the gears of civilization. While others fight with guns or magic, you fight with logistics, ensuring the team has funding, permits, and a safe harbor. Without you, they are just vagrants; with you, they are an organization.*\n\n_\"Amateurs talk strategy. Professionals talk logistics. Now sign here.\"_"
+    "description": "The skilled administrator who ensures the smooth operation of departments or territories. They navigate red tape like a labyrinth runner.\n\n*You are the grease in the gears of civilization. While others fight with guns or magic, you fight with logistics, ensuring the team has funding, permits, and a safe harbor. Without you, they are just vagrants; with you, they are an organization.*\n\n_\"Amateurs talk strategy. Professionals talk logistics. Now sign here.\"_",
+    "keywords": "bureaucrat, sentinel, defender, stability, order, logistics, support",
+    "negative_keywords": "mindless-brute, reckless, illiterate, chaotic-anarchist, unreliable"
   },
   {
     "id": "archetype-company-man",
@@ -308,7 +318,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Funding the mission, legal defense, accessing corporate restricted zones.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Represents the company's interests, securing deals and resolving disputes. Backed by corporate resources.\n\n*You are the avatar of the megacorp. You walk into rooms and buy the building. You wield wealth and legal precedent like a cudgel, ensuring that no matter who wins the fight, your side wins the profit.*\n\n_\"My client is willing to offer a generous settlement. I suggest you take it before my security team settles it for you.\"_"
+    "description": "Represents the company's interests, securing deals and resolving disputes. Backed by corporate resources.\n\n*You are the avatar of the megacorp. You walk into rooms and buy the building. You wield wealth and legal precedent like a cudgel, ensuring that no matter who wins the fight, your side wins the profit.*\n\n_\"My client is willing to offer a generous settlement. I suggest you take it before my security team settles it for you.\"_",
+    "keywords": "company man, sentinel, defender, stability, order, resource access, face",
+    "negative_keywords": "mindless-brute, reckless, illiterate, chaotic-anarchist, unreliable"
   },
   {
     "id": "archetype-culinarian",
@@ -348,7 +360,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Buffing party recovery during rest, identifying safe/toxic flora, boosting team morale.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "The essential provider of nutrition and morale, transforming scarce resources into sustaining banquets.\n\n*You are the heart of the camp. You understand that a soldier fights on their stomach and a diplomat speaks with their palate. You can find sustenance on a dead moon and hope in a warm meal.*\n\n_\"A good meal can stop a war. A bad one can start it.\"_"
+    "description": "The essential provider of nutrition and morale, transforming scarce resources into sustaining banquets.\n\n*You are the heart of the camp. You understand that a soldier fights on their stomach and a diplomat speaks with their palate. You can find sustenance on a dead moon and hope in a warm meal.*\n\n_\"A good meal can stop a war. A bad one can start it.\"_",
+    "keywords": "culinarian, sentinel, defender, stability, order, support, morale",
+    "negative_keywords": "chaotic-anarchist, unreliable, reckless-gambler"
   },
   {
     "id": "archetype-demolisher",
@@ -387,7 +401,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Suppressive fire, destroying vehicles, crowd control.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Expert in operating heavy weaponry like machine guns and rocket launchers. Provides overwhelming firepower.\n\n*You believe there is no problem that cannot be solved by the proper application of high explosives. You control the battlefield through sheer volume of fire, turning cover into concealment and enemies into memories.*\n\n_\"Suppressive fire? No, I'm just clearing the room.\"_"
+    "description": "Expert in operating heavy weaponry like machine guns and rocket launchers. Provides overwhelming firepower.\n\n*You believe there is no problem that cannot be solved by the proper application of high explosives. You control the battlefield through sheer volume of fire, turning cover into concealment and enemies into memories.*\n\n_\"Suppressive fire? No, I'm just clearing the room.\"_",
+    "keywords": "demolisher, sentinel, defender, stability, order, dps, area denial",
+    "negative_keywords": "chaotic-anarchist, unreliable, reckless-gambler"
   },
   {
     "id": "archetype-field-medic",
@@ -426,7 +442,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Keep the tank alive, revive downed allies, provide light fire support.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Provides emergency medical care under fire. Proficient in both combat and medicine.\n\n*You hold the line between life and death. When the armor fails and the screaming starts, you are the calm in the chaos. You possess the steady hands to stitch a wound while dodging plasma fire.*\n\n_\"I decide who walks away from this. Don't make me regret choosing you.\"_"
+    "description": "Provides emergency medical care under fire. Proficient in both combat and medicine.\n\n*You hold the line between life and death. When the armor fails and the screaming starts, you are the calm in the chaos. You possess the steady hands to stitch a wound while dodging plasma fire.*\n\n_\"I decide who walks away from this. Don't make me regret choosing you.\"_",
+    "keywords": "field medic, sentinel, defender, stability, order, healer, light infantry",
+    "negative_keywords": "fragile, unarmored, timid, evasive-sniper, chaotic-anarchist"
   },
   {
     "id": "archetype-foreman",
@@ -466,7 +484,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Organizing NPC labor, intimidating local workers, managing base construction.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A stern and authoritative leader who oversees the workforce and ensures that production targets are met.\n\n*You are the iron fist of industry. You manage personnel and resources with ruthless efficiency, ensuring the job gets done regardless of the obstacles. Your word is law on the factory floor.*\n\n_\"The schedule is not a suggestion. Get back to work.\"_"
+    "description": "A stern and authoritative leader who oversees the workforce and ensures that production targets are met.\n\n*You are the iron fist of industry. You manage personnel and resources with ruthless efficiency, ensuring the job gets done regardless of the obstacles. Your word is law on the factory floor.*\n\n_\"The schedule is not a suggestion. Get back to work.\"_",
+    "keywords": "foreman, sentinel, defender, stability, order, leadership, logistics",
+    "negative_keywords": "chaotic-anarchist, unreliable, reckless-gambler, anti-social, mute"
   },
   {
     "id": "archetype-high-commander",
@@ -504,7 +524,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Mass buffing allies, coordinating large-scale battles, strategic planning.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A high-ranking military commander who leads legions into battle.\n\n*You are the architect of victory. You see the battlefield as a chessboard, moving units with precision and foresight. Your presence inspires discipline and courage in the face of overwhelming odds.*\n\n_\"Victory is not an accident. It is engineered.\"_"
+    "description": "A high-ranking military commander who leads legions into battle.\n\n*You are the architect of victory. You see the battlefield as a chessboard, moving units with precision and foresight. Your presence inspires discipline and courage in the face of overwhelming odds.*\n\n_\"Victory is not an accident. It is engineered.\"_",
+    "keywords": "high commander, sentinel, defender, stability, order, leadership, strategy",
+    "negative_keywords": "mindless-brute, reckless, illiterate, chaotic-anarchist, unreliable"
   },
   {
     "id": "archetype-homesteader",
@@ -544,7 +566,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Generating food/water, building fortifications, animal taming.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A hardworking and resourceful individual determined to build a life on the frontier.\n\n*You tame the land. You don't need a replicator or a supermarket; you build what you need from the dirt up. You are the foundation upon which colonies are built, enduring where others would starve.*\n\n_\"This land is hard, but I am harder.\"_"
+    "description": "A hardworking and resourceful individual determined to build a life on the frontier.\n\n*You tame the land. You don't need a replicator or a supermarket; you build what you need from the dirt up. You are the foundation upon which colonies are built, enduring where others would starve.*\n\n_\"This land is hard, but I am harder.\"_",
+    "keywords": "homesteader, sentinel, defender, stability, order, survival, crafter",
+    "negative_keywords": "chaotic-anarchist, unreliable, reckless-gambler"
   },
   {
     "id": "archetype-legionnaire",
@@ -582,7 +606,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Holding choke points, soaking damage, providing cover bonuses to allies.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A disciplined and loyal soldier who serves in the Impyrium's legions. Expert in formation warfare.\n\n*You are a brick in the wall of the Empire. You fight not as an individual, but as a unit, locking shields and advancing with the inexorable weight of history behind you.*\n\n_\"Strength in unity. Victory in discipline.\"_"
+    "description": "A disciplined and loyal soldier who serves in the Impyrium's legions. Expert in formation warfare.\n\n*You are a brick in the wall of the Empire. You fight not as an individual, but as a unit, locking shields and advancing with the inexorable weight of history behind you.*\n\n_\"Strength in unity. Victory in discipline.\"_",
+    "keywords": "legionnaire, sentinel, defender, stability, order, tank, formation fighter",
+    "negative_keywords": "fragile, unarmored, timid, evasive-sniper, chaotic-anarchist"
   },
   {
     "id": "archetype-maintenance-chief",
@@ -622,7 +648,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Maintaining base infrastructure, rapid field repair of vehicles, bypassing industrial locks.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "The veteran technician who keeps massive infrastructure systems online under impossible conditions.\n\n*You are the caretaker of the megastructure. You know the vibrations of the gravity core and the scent of a failing oxygen scrubber. You speak the language of the machine and it answers.*\n\n_\"She's a bit cranky today, but I've got her settled.\"_"
+    "description": "The veteran technician who keeps massive infrastructure systems online under impossible conditions.\n\n*You are the caretaker of the megastructure. You know the vibrations of the gravity core and the scent of a failing oxygen scrubber. You speak the language of the machine and it answers.*\n\n_\"She's a bit cranky today, but I've got her settled.\"_",
+    "keywords": "maintenance chief, sentinel, defender, stability, order, support, repair",
+    "negative_keywords": "mindless-brute, reckless, illiterate, chaotic-anarchist, unreliable"
   },
   {
     "id": "archetype-marshal",
@@ -661,7 +689,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "De-escalating conflicts, arresting targets, tracking fugitives.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A law enforcement officer who maintains order and protects settlements in the lawless territories.\n\n*You are the law where there is no law. You carry authority in your bearing and justice in your holster. You stand between the town and the chaos, enforcing order through reputation and resolve.*\n\n_\"The law doesn't stop at the city limits. It stops where I say it stops.\"_"
+    "description": "A law enforcement officer who maintains order and protects settlements in the lawless territories.\n\n*You are the law where there is no law. You carry authority in your bearing and justice in your holster. You stand between the town and the chaos, enforcing order through reputation and resolve.*\n\n_\"The law doesn't stop at the city limits. It stops where I say it stops.\"_",
+    "keywords": "marshal, sentinel, defender, stability, order, social, combat",
+    "negative_keywords": "chaotic-anarchist, unreliable, reckless-gambler"
   },
   {
     "id": "archetype-munitions-magnate",
@@ -701,7 +731,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Supply the team with top-tier gear, identify enemy weaponry, negotiate with warlords.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Focuses on the trade of weapons and military equipment. They have access to cutting-edge technology and sell it at a premium.\n\n*You understand that peace is expensive, but war is profitable. You are the ultimate enabler, providing the tools of destruction that topple regimes. You are never outgunned because you supply the guns.*\n\n_\"I don't pull the trigger. I just ensure it works when you do.\"_"
+    "description": "Focuses on the trade of weapons and military equipment. They have access to cutting-edge technology and sell it at a premium.\n\n*You understand that peace is expensive, but war is profitable. You are the ultimate enabler, providing the tools of destruction that topple regimes. You are never outgunned because you supply the guns.*\n\n_\"I don't pull the trigger. I just ensure it works when you do.\"_",
+    "keywords": "munitions magnate, sentinel, defender, stability, order, merchant, tech",
+    "negative_keywords": "mindless-brute, reckless, illiterate, chaotic-anarchist, unreliable"
   },
   {
     "id": "archetype-muscle",
@@ -741,7 +773,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Clearing debris, carrying heavy gear, grappling enemies.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A hardworking individual contributing through physical labor and endurance.\n\n*You are the strength that builds empires. You lift, carry, and endure. When machines fail or finesse is not enough, you provide the raw power to move the world.*\n\n_\"Heavy lifting? That's just a warm-up.\"_"
+    "description": "A hardworking individual contributing through physical labor and endurance.\n\n*You are the strength that builds empires. You lift, carry, and endure. When machines fail or finesse is not enough, you provide the raw power to move the world.*\n\n_\"Heavy lifting? That's just a warm-up.\"_",
+    "keywords": "muscle, sentinel, defender, stability, order, utility, strength",
+    "negative_keywords": "chaotic-anarchist, unreliable, reckless-gambler"
   },
   {
     "id": "archetype-protector",
@@ -781,7 +815,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Take damage for the team, control melee engagement zones.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Protects high-profile individuals or cargo. Experienced in personal security and close-quarters combat.\n\n*You are the wall that refuses to break. Your job isn't to kill the enemy; it's to make sure your charge survives to see tomorrow. In a universe of assassins and snipers, your vigilance is the only thing keeping the mission alive.*\n\n_\"Get behind me.\"_"
+    "description": "Protects high-profile individuals or cargo. Experienced in personal security and close-quarters combat.\n\n*You are the wall that refuses to break. Your job isn't to kill the enemy; it's to make sure your charge survives to see tomorrow. In a universe of assassins and snipers, your vigilance is the only thing keeping the mission alive.*\n\n_\"Get behind me.\"_",
+    "keywords": "protector, sentinel, defender, stability, order, tank, interceptor",
+    "negative_keywords": "fragile, unarmored, timid, evasive-sniper, chaotic-anarchist"
   },
   {
     "id": "archetype-quartermaster",
@@ -821,7 +857,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Managing party inventory, sourcing specific gear, identifying loot value.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A resourceful individual who manages supplies, equipment, and finances.\n\n*You make sure the guns have ammo and the engines have fuel. You are the master of inventory, finding value in scrap and ensuring the team is never caught empty-handed.*\n\n_\"A soldier without bullets is just a target. I make sure you aren't targets.\"_"
+    "description": "A resourceful individual who manages supplies, equipment, and finances.\n\n*You make sure the guns have ammo and the engines have fuel. You are the master of inventory, finding value in scrap and ensuring the team is never caught empty-handed.*\n\n_\"A soldier without bullets is just a target. I make sure you aren't targets.\"_",
+    "keywords": "quartermaster, sentinel, defender, stability, order, economy, support",
+    "negative_keywords": "mindless-brute, reckless, illiterate, chaotic-anarchist, unreliable"
   },
   {
     "id": "archetype-security-officer",
@@ -860,7 +898,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Preventing ambushes, spotting hidden enemies, locking down areas.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A vigilant and disciplined individual who ensures the safety and security of their post.\n\n*You see what others miss. While they relax, you watch the exits. You are the first line of defense against infiltration and sabotage, securing the perimeter with professional detachment.*\n\n_\"Secure. For now.\"_"
+    "description": "A vigilant and disciplined individual who ensures the safety and security of their post.\n\n*You see what others miss. While they relax, you watch the exits. You are the first line of defense against infiltration and sabotage, securing the perimeter with professional detachment.*\n\n_\"Secure. For now.\"_",
+    "keywords": "security officer, sentinel, defender, stability, order, perception, defense",
+    "negative_keywords": "chaotic-anarchist, unreliable, reckless-gambler"
   },
   {
     "id": "archetype-settler",
@@ -899,7 +939,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Building cover, repairing structures, environmental survival.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A hardy individual who builds and maintains settlements in untamed worlds.\n\n*You turn wilderness into home. You are skilled in the practical arts of construction and defense, creating safe havens in the most hostile environments.*\n\n_\"We built this town with our own hands. We'll defend it the same way.\"_"
+    "description": "A hardy individual who builds and maintains settlements in untamed worlds.\n\n*You turn wilderness into home. You are skilled in the practical arts of construction and defense, creating safe havens in the most hostile environments.*\n\n_\"We built this town with our own hands. We'll defend it the same way.\"_",
+    "keywords": "settler, sentinel, defender, stability, order, builder, survivor",
+    "negative_keywords": "chaotic-anarchist, unreliable, reckless-gambler"
   },
   {
     "id": "archetype-shipmaster",
@@ -939,7 +981,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Managing ship operations, negotiating docking fees, avoiding piracy.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A seasoned starship captain who commands a vessel and crew with expertise in trade and safety.\n\n*You are the master of the trade lanes. You navigate the complex web of commerce and law, ensuring your ship and cargo arrive intact and on time. You are a steady hand on the tiller of enterprise.*\n\n_\"Time is money, and we are ahead of schedule.\"_"
+    "description": "A seasoned starship captain who commands a vessel and crew with expertise in trade and safety.\n\n*You are the master of the trade lanes. You navigate the complex web of commerce and law, ensuring your ship and cargo arrive intact and on time. You are a steady hand on the tiller of enterprise.*\n\n_\"Time is money, and we are ahead of schedule.\"_",
+    "keywords": "shipmaster, sentinel, defender, stability, order, logistics, transport",
+    "negative_keywords": "mindless-brute, reckless, illiterate, chaotic-anarchist, unreliable"
   },
   {
     "id": "archetype-shock-trooper",
@@ -979,7 +1023,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Fighting in hazardous environments/vacuum, breaching ships.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Disciplined soldier serving on navy vessels. Expert in boarding actions and zero-g combat.\n\n*You fight where others freeze. Vacuum, zero-g, tight corridors—this is your home. You are the tip of the spear in ship-to-ship actions, breaching hulls and taking bridges while the universe tries to kill you.*\n\n_\"Gravity is a crutch. Mag-lock and load.\"_"
+    "description": "Disciplined soldier serving on navy vessels. Expert in boarding actions and zero-g combat.\n\n*You fight where others freeze. Vacuum, zero-g, tight corridors—this is your home. You are the tip of the spear in ship-to-ship actions, breaching hulls and taking bridges while the universe tries to kill you.*\n\n_\"Gravity is a crutch. Mag-lock and load.\"_",
+    "keywords": "shock trooper, sentinel, defender, stability, order, combat, environmental specialist",
+    "negative_keywords": "chaotic-anarchist, unreliable, reckless-gambler"
   },
   {
     "id": "archetype-veteran",
@@ -1019,7 +1065,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Frontline combat, holding ground, reliable damage output.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Brave and disciplined, skilled in combat and tactics. The backbone of any fighting force.\n\n*You are the professional. You don't fight for glory or gold, but for the mission and the person next to you. You bring discipline, tactics, and unwavering resolve to a chaotic universe.*\n\n_\"Check your corners. Stay sharp. We move on my mark.\"_"
+    "description": "Brave and disciplined, skilled in combat and tactics. The backbone of any fighting force.\n\n*You are the professional. You don't fight for glory or gold, but for the mission and the person next to you. You bring discipline, tactics, and unwavering resolve to a chaotic universe.*\n\n_\"Check your corners. Stay sharp. We move on my mark.\"_",
+    "keywords": "veteran, sentinel, defender, stability, order, dps, tank",
+    "negative_keywords": "fragile, unarmored, timid, evasive-sniper, chaotic-anarchist"
   },
   {
     "id": "archetype-warden",
@@ -1059,7 +1107,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Off-tank, terrain manipulation, healing support.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A protector of forests and natural habitats, skilled in both magic and combat to defend the wild.\n\n*You are the immunity of the living world. You stand between the encroaching machine and the sacred grove, wielding the raw power of nature to crush those who would despoil it. You don't just fight for a cause; you fight for existence itself.*\n\n_\"The forest is not empty. It is merely holding its breath.\"_"
+    "description": "A protector of forests and natural habitats, skilled in both magic and combat to defend the wild.\n\n*You are the immunity of the living world. You stand between the encroaching machine and the sacred grove, wielding the raw power of nature to crush those who would despoil it. You don't just fight for a cause; you fight for existence itself.*\n\n_\"The forest is not empty. It is merely holding its breath.\"_",
+    "keywords": "warden, sentinel, defender, stability, order, hybrid (magic, melee)",
+    "negative_keywords": "fragile, unarmored, timid, evasive-sniper, chaotic-anarchist"
   },
   {
     "id": "archetype-ace",
@@ -1099,7 +1149,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Ship combat, extraction, high-speed chases.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Navigates starships through asteroids and blockades. Master of the stick.\n\n*You are the god of velocity. On the ground, you're just another grunt, but behind a yoke, you are untouchable. You weave through debris fields and dogfights with a grin, delivering the team exactly where they need to be.*\n\n_\"Hold on back there. I'm gonna try something stupid.\"_"
+    "description": "Navigates starships through asteroids and blockades. Master of the stick.\n\n*You are the god of velocity. On the ground, you're just another grunt, but behind a yoke, you are untouchable. You weave through debris fields and dogfights with a grin, delivering the team exactly where they need to be.*\n\n_\"Hold on back there. I'm gonna try something stupid.\"_",
+    "keywords": "ace, operative, artisan, adaptable, specialist, vehicle specialist, transport",
+    "negative_keywords": "mindless-brute, reckless, illiterate"
   },
   {
     "id": "archetype-acrobat",
@@ -1138,7 +1190,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Traversing difficult terrain, dodging attacks, distracting enemies.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A performer specializing in agility and stunts, often in zero-gravity.\n\n*You laugh at gravity. You move in ways that should be impossible, turning the battlefield into your stage. Whether swinging from rigging or dodging laser fire, your grace is your defense.*\n\n_\"Catch me if you can.\"_"
+    "description": "A performer specializing in agility and stunts, often in zero-gravity.\n\n*You laugh at gravity. You move in ways that should be impossible, turning the battlefield into your stage. Whether swinging from rigging or dodging laser fire, your grace is your defense.*\n\n_\"Catch me if you can.\"_",
+    "keywords": "acrobat, operative, artisan, adaptable, specialist, mobility, evasion",
+    "negative_keywords": "incompetent, untrained, undisciplined"
   },
   {
     "id": "archetype-combat-saboteur",
@@ -1178,7 +1232,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Breaching structures, area denial, destroying heavy enemy units.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "The frontline demolitionist who uses chaos and high explosives to restructure the battlefield in real-time.\n\n*You are the architect of rubble. You don't just clear rooms; you remove them from the blueprint. You use the environment as a weapon, turning the enemy's cover into their coffin.*\n\n_\"Plan A involves explosives. Plan B is more explosives.\"_"
+    "description": "The frontline demolitionist who uses chaos and high explosives to restructure the battlefield in real-time.\n\n*You are the architect of rubble. You don't just clear rooms; you remove them from the blueprint. You use the environment as a weapon, turning the enemy's cover into their coffin.*\n\n_\"Plan A involves explosives. Plan B is more explosives.\"_",
+    "keywords": "combat-saboteur, operative, artisan, adaptable, specialist, area damage, demolition",
+    "negative_keywords": "mindless-brute, reckless, illiterate"
   },
   {
     "id": "archetype-daredevil",
@@ -1218,7 +1274,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Reaching inaccessible areas, performing stunts, surviving falls.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Excels in extreme sports and high-risk maneuvers.\n\n*You live for the rush. The higher the risk, the better the performance. You take leaps of faith that others would call suicide, relying on skill and sheer nerve to survive.*\n\n_\"It's not a fall; it's a very fast descent with style.\"_"
+    "description": "Excels in extreme sports and high-risk maneuvers.\n\n*You live for the rush. The higher the risk, the better the performance. You take leaps of faith that others would call suicide, relying on skill and sheer nerve to survive.*\n\n_\"It's not a fall; it's a very fast descent with style.\"_",
+    "keywords": "daredevil, operative, artisan, adaptable, specialist, mobility, risk",
+    "negative_keywords": "incompetent, untrained, undisciplined"
   },
   {
     "id": "archetype-escapologist",
@@ -1258,7 +1316,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Extraction specialist, bypassing traps, navigating high-security exits.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "The master of extraction and evasion who specializes in getting out of \"impossible\" situations.\n\n*You are the loose thread. No cage can hold you, and no perimeter is absolute. You turn the enemy's own protocols into your exit strategy, proving that the best defense is simply not being there when the hammer falls.*\n\n_\"I'm not trapped in here with you. I'm already halfway to the hangar.\"_"
+    "description": "The master of extraction and evasion who specializes in getting out of \"impossible\" situations.\n\n*You are the loose thread. No cage can hold you, and no perimeter is absolute. You turn the enemy's own protocols into your exit strategy, proving that the best defense is simply not being there when the hammer falls.*\n\n_\"I'm not trapped in here with you. I'm already halfway to the hangar.\"_",
+    "keywords": "escapologist, operative, artisan, adaptable, specialist, evasion, utility",
+    "negative_keywords": "incompetent, untrained, undisciplined"
   },
   {
     "id": "archetype-ghost",
@@ -1298,7 +1358,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Bypassing laser grids, hacking turrets, stealth takedowns.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Equipped with advanced enhancements to blend in and infiltrate high-security areas. Hack, cloak, and kill.\n\n*You are the ghost in the machine. Your body is a weapon, upgraded for speed and stealth. You bypass laser grids and hack turrets before the enemy even knows their perimeter is breached.*\n\n_\"Security offline. Target acquired. Exfiltrating now.\"_"
+    "description": "Equipped with advanced enhancements to blend in and infiltrate high-security areas. Hack, cloak, and kill.\n\n*You are the ghost in the machine. Your body is a weapon, upgraded for speed and stealth. You bypass laser grids and hack turrets before the enemy even knows their perimeter is breached.*\n\n_\"Security offline. Target acquired. Exfiltrating now.\"_",
+    "keywords": "ghost, operative, artisan, adaptable, specialist, stealth, tech",
+    "negative_keywords": "heavy-plating, blunt-assault, loud, clumsy"
   },
   {
     "id": "archetype-grifter",
@@ -1338,7 +1400,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Talk the way into secure areas, trick enemies, gather intel via deception.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Uses charm and bluff to swindle and exploit others for personal gain.\n\n*You exploit the bugs in human nature. You see greed, pride, and fear as levers to be pulled. You can walk into a fortress with nothing but a smile and walk out with the keys.*\n\n_\"Trust me. I'm exactly who you want me to be.\"_"
+    "description": "Uses charm and bluff to swindle and exploit others for personal gain.\n\n*You exploit the bugs in human nature. You see greed, pride, and fear as levers to be pulled. You can walk into a fortress with nothing but a smile and walk out with the keys.*\n\n_\"Trust me. I'm exactly who you want me to be.\"_",
+    "keywords": "grifter, operative, artisan, adaptable, specialist, social stealth, deceiver",
+    "negative_keywords": "mindless-brute, reckless, illiterate"
   },
   {
     "id": "archetype-manhunter",
@@ -1378,7 +1442,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Tracking enemies, capturing targets alive, wilderness survival.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Uses tracking and combat skills to pursue criminals for a reward. Skilled in investigation and apprehension.\n\n*You always get your mark. No moon is distant enough, no hole deep enough. You combine the skills of a detective with the grit of a soldier, pursuing targets that others fear to name.*\n\n_\"I can bring you in warm, or I can bring you in cold.\"_"
+    "description": "Uses tracking and combat skills to pursue criminals for a reward. Skilled in investigation and apprehension.\n\n*You always get your mark. No moon is distant enough, no hole deep enough. You combine the skills of a detective with the grit of a soldier, pursuing targets that others fear to name.*\n\n_\"I can bring you in warm, or I can bring you in cold.\"_",
+    "keywords": "manhunter, operative, artisan, adaptable, specialist, hybrid (combat, skill)",
+    "negative_keywords": "incompetent, untrained, undisciplined"
   },
   {
     "id": "archetype-operative",
@@ -1418,7 +1484,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Infiltration, sabotage, covert surveillance.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A skilled agent who carries out dirty work. Expert in infiltration and sabotage.\n\n*You are the shadow in the corner. You slip past defenses, disable systems, and extract targets without leaving a trace. You are the tool that fixes problems quietly.*\n\n_\"I was never here.\"_"
+    "description": "A skilled agent who carries out dirty work. Expert in infiltration and sabotage.\n\n*You are the shadow in the corner. You slip past defenses, disable systems, and extract targets without leaving a trace. You are the tool that fixes problems quietly.*\n\n_\"I was never here.\"_",
+    "keywords": "operative, artisan, adaptable, specialist, stealth, sabotage, utility",
+    "negative_keywords": "heavy-plating, blunt-assault, loud, clumsy, mindless-brute"
   },
   {
     "id": "archetype-pathfinder",
@@ -1458,7 +1526,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Reconnaissance, initiating ambushes, guiding the party.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Ventures into the unknown, charting territories and assessing threats.\n\n*You are the eyes of the operation. You move ahead, unseen and unheard, painting targets and identifying traps. Knowledge is power, and you ensure your team always has the advantage of knowing what's coming.*\n\n_\"Three guards, two turrets, and a back door they forgot to lock. Easy.\"_"
+    "description": "Ventures into the unknown, charting territories and assessing threats.\n\n*You are the eyes of the operation. You move ahead, unseen and unheard, painting targets and identifying traps. Knowledge is power, and you ensure your team always has the advantage of knowing what's coming.*\n\n_\"Three guards, two turrets, and a back door they forgot to lock. Easy.\"_",
+    "keywords": "pathfinder, operative, artisan, adaptable, specialist, stealth, recon",
+    "negative_keywords": "heavy-plating, blunt-assault, loud, clumsy"
   },
   {
     "id": "archetype-pioneer",
@@ -1498,7 +1568,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Leading the party through wilderness, spotting hazards, mapping.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Charts new territories and uncovers the mysteries of the universe. Thirsts for discovery.\n\n*You go where the maps end. You are driven by the need to see the unseen and name the unnamed. You navigate the hazards of alien worlds so that others may follow in your footsteps.*\n\n_\"Second star to the right, and straight on 'til morning.\"_"
+    "description": "Charts new territories and uncovers the mysteries of the universe. Thirsts for discovery.\n\n*You go where the maps end. You are driven by the need to see the unseen and name the unnamed. You navigate the hazards of alien worlds so that others may follow in your footsteps.*\n\n_\"Second star to the right, and straight on 'til morning.\"_",
+    "keywords": "pioneer, operative, artisan, adaptable, specialist, scout, knowledge",
+    "negative_keywords": "incompetent, untrained, undisciplined"
   },
   {
     "id": "archetype-privateer",
@@ -1538,7 +1610,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Space combat, boarding actions, high-speed interdiction.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A skilled starship captain who operates independently on behalf of a faction.\n\n*You are a pirate with a badge. You hunt the enemies of the state for profit, blending the freedom of the outlaw with the legitimacy of the law.*\n\n_\"It's not piracy if you have a permit.\"_"
+    "description": "A skilled starship captain who operates independently on behalf of a faction.\n\n*You are a pirate with a badge. You hunt the enemies of the state for profit, blending the freedom of the outlaw with the legitimacy of the law.*\n\n_\"It's not piracy if you have a permit.\"_",
+    "keywords": "privateer, operative, artisan, adaptable, specialist, combat pilot, skirmisher",
+    "negative_keywords": "incompetent, untrained, undisciplined"
   },
   {
     "id": "archetype-quick-draw",
@@ -1578,7 +1652,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Winning initiative, eliminating high-threat targets first, high-mobility combat.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "The gunslinger of the future, whose survival depends on being the first to fire in any confrontation.\n\n*You are the fastest hand in the sector. You live in the split second between intent and action, drawing and firing before the enemy can even process the threat. You don't start the fight, but you always end it.*\n\n_\"I already pulled the trigger. You just haven't fallen yet.\"_"
+    "description": "The gunslinger of the future, whose survival depends on being the first to fire in any confrontation.\n\n*You are the fastest hand in the sector. You live in the split second between intent and action, drawing and firing before the enemy can even process the threat. You don't start the fight, but you always end it.*\n\n_\"I already pulled the trigger. You just haven't fallen yet.\"_",
+    "keywords": "quick-draw, operative, artisan, adaptable, specialist, burst dps, initiative",
+    "negative_keywords": "incompetent, untrained, undisciplined"
   },
   {
     "id": "archetype-racer",
@@ -1617,7 +1693,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Chase scenes, extraction, outrunning threats.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Skilled in piloting high-speed vehicles in competitive or dangerous environments.\n\n*You are the fastest thing alive. You push machines past their breaking point, threading the needle at supersonic speeds. Victory is measured in milliseconds.*\n\n_\"If you aren't first, you're last.\"_"
+    "description": "Skilled in piloting high-speed vehicles in competitive or dangerous environments.\n\n*You are the fastest thing alive. You push machines past their breaking point, threading the needle at supersonic speeds. Victory is measured in milliseconds.*\n\n_\"If you aren't first, you're last.\"_",
+    "keywords": "racer, operative, artisan, adaptable, specialist, speed, transport",
+    "negative_keywords": "incompetent, untrained, undisciplined"
   },
   {
     "id": "archetype-raider",
@@ -1656,7 +1734,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Shock assault, intimidation, scavenging.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A hardened survivor who uses force to secure resources.\n\n*You take what you need. In the lawless wastes, strength is the only currency. You strike hard and fast, seizing resources before the dust settles.*\n\n_\"Weakness is a choice. I chose strength.\"_"
+    "description": "A hardened survivor who uses force to secure resources.\n\n*You take what you need. In the lawless wastes, strength is the only currency. You strike hard and fast, seizing resources before the dust settles.*\n\n_\"Weakness is a choice. I chose strength.\"_",
+    "keywords": "raider, operative, artisan, adaptable, specialist, aggression, survival",
+    "negative_keywords": "incompetent, untrained, undisciplined"
   },
   {
     "id": "archetype-saboteur",
@@ -1695,7 +1775,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Disabling enemy infrastructure, setting traps, causing distractions.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A skilled operative who infiltrates to destroy or disrupt.\n\n*You break things. Not randomly, but surgically. You know exactly where to place the charge or cut the wire to bring the whole system crashing down.*\n\n_\"A little chaos goes a long way.\"_"
+    "description": "A skilled operative who infiltrates to destroy or disrupt.\n\n*You break things. Not randomly, but surgically. You know exactly where to place the charge or cut the wire to bring the whole system crashing down.*\n\n_\"A little chaos goes a long way.\"_",
+    "keywords": "saboteur, operative, artisan, adaptable, specialist, stealth, tech",
+    "negative_keywords": "heavy-plating, blunt-assault, loud, clumsy, mindless-brute"
   },
   {
     "id": "archetype-salvage-specialist",
@@ -1735,7 +1817,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Extracting materials from environment, bypassing mechanical hurdles, locating hidden loot.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "The high-risk recovery expert who ventures into derelict hulls and unstable ruins to pull riches from the wreckage.\n\n*You find treasure in trash. You know that the most valuable tech is often buried under tons of radioactive scrap or hidden in the heart of a failing starbase. You are the scavenger-king of the void.*\n\n_\"One man's debris is my next month's salary.\"_"
+    "description": "The high-risk recovery expert who ventures into derelict hulls and unstable ruins to pull riches from the wreckage.\n\n*You find treasure in trash. You know that the most valuable tech is often buried under tons of radioactive scrap or hidden in the heart of a failing starbase. You are the scavenger-king of the void.*\n\n_\"One man's debris is my next month's salary.\"_",
+    "keywords": "salvage-specialist, operative, artisan, adaptable, specialist, scavenging, utility",
+    "negative_keywords": "mindless-brute, reckless, illiterate"
   },
   {
     "id": "archetype-shadow-stepper",
@@ -1775,7 +1859,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Stealth scouting, planting explosives, silent elimination.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A master of optical camouflage and tactical misdirection who treats reality as an obstacle to be bypassed.\n\n*You aren't there. Even when they look right at you, their eyes slide away. You move through fortified lines like a ghost, leaving nothing behind but an empty vault or a neutralized leader.*\n\n_\"Did you hear that? Probably just the wind.\"_"
+    "description": "A master of optical camouflage and tactical misdirection who treats reality as an obstacle to be bypassed.\n\n*You aren't there. Even when they look right at you, their eyes slide away. You move through fortified lines like a ghost, leaving nothing behind but an empty vault or a neutralized leader.*\n\n_\"Did you hear that? Probably just the wind.\"_",
+    "keywords": "shadow-stepper, operative, artisan, adaptable, specialist, stealth, infiltration",
+    "negative_keywords": "heavy-plating, blunt-assault, loud, clumsy, mindless-brute"
   },
   {
     "id": "archetype-silent-blade",
@@ -1815,7 +1901,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Elimination of High Value Targets, scouting, alpha strikes.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A professional killer taking contracts to eliminate specific targets via long-range sniping or close-quarters execution.\n\n*You are the surgeon of warfare. You don't fight battles; you end them. With a single shot or a blade in the dark, you remove the pieces that hold the enemy together.*\n\n_\"One shot. One clean timeline.\"_"
+    "description": "A professional killer taking contracts to eliminate specific targets via long-range sniping or close-quarters execution.\n\n*You are the surgeon of warfare. You don't fight battles; you end them. With a single shot or a blade in the dark, you remove the pieces that hold the enemy together.*\n\n_\"One shot. One clean timeline.\"_",
+    "keywords": "silent blade, operative, artisan, adaptable, specialist, stealth, burst damage",
+    "negative_keywords": "heavy-plating, blunt-assault, loud, clumsy"
   },
   {
     "id": "archetype-slicer",
@@ -1855,7 +1943,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Electronic warfare, data theft, bypassing security.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A master of cyberspace, skilled in infiltrating networks and stealing data.\n\n*You are the knife in the digital dark. You carve through firewalls and dissect data streams, extracting the secrets that power empires.*\n\n_\"Information wants to be free. I'm just the liberator.\"_"
+    "description": "A master of cyberspace, skilled in infiltrating networks and stealing data.\n\n*You are the knife in the digital dark. You carve through firewalls and dissect data streams, extracting the secrets that power empires.*\n\n_\"Information wants to be free. I'm just the liberator.\"_",
+    "keywords": "slicer, operative, artisan, adaptable, specialist, hacking, intel",
+    "negative_keywords": "mindless-brute, reckless, illiterate"
   },
   {
     "id": "archetype-smuggler",
@@ -1895,7 +1985,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Transporting illicit cargo, bypassing blockades, fast talk.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Specializes in transporting illegal goods across borders.\n\n*You move the unmovable. You know the secret routes and the bribe-friendly guards. You deliver the goods, no questions asked, right under the noses of authority.*\n\n_\"I run a clean ship. Mostly.\"_"
+    "description": "Specializes in transporting illegal goods across borders.\n\n*You move the unmovable. You know the secret routes and the bribe-friendly guards. You deliver the goods, no questions asked, right under the noses of authority.*\n\n_\"I run a clean ship. Mostly.\"_",
+    "keywords": "smuggler, operative, artisan, adaptable, specialist, transport, stealth",
+    "negative_keywords": "heavy-plating, blunt-assault, loud, clumsy"
   },
   {
     "id": "archetype-swashbuckler",
@@ -1935,7 +2027,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Engaging enemy leaders, mobile melee damage, flamboyant distraction.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A skilled combatant who excels in boarding actions and close-quarters flair.\n\n*You fight with panache. You treat combat as a dance, outmaneuvering foes with wit and blade. You are the hero of your own story, and you make sure everyone knows it.*\n\n_\"En garde! Try not to bore me.\"_"
+    "description": "A skilled combatant who excels in boarding actions and close-quarters flair.\n\n*You fight with panache. You treat combat as a dance, outmaneuvering foes with wit and blade. You are the hero of your own story, and you make sure everyone knows it.*\n\n_\"En garde! Try not to bore me.\"_",
+    "keywords": "swashbuckler, operative, artisan, adaptable, specialist, melee dps, mobility",
+    "negative_keywords": "incompetent, untrained, undisciplined"
   },
   {
     "id": "archetype-thespian",
@@ -1975,7 +2069,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Create diversions, infiltrate social circles, impersonate key personnel.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "The master of the dramatic arts, captivating audiences with powerful performances.\n\n*You can be anyone. To the guard, you are a general; to the noble, a lost heir. You wield identity as a tool, slipping into social circles and extracting secrets before the curtain falls.*\n\n_\"All the world's a stage, and I am the only one who knows the script.\"_"
+    "description": "The master of the dramatic arts, captivating audiences with powerful performances.\n\n*You can be anyone. To the guard, you are a general; to the noble, a lost heir. You wield identity as a tool, slipping into social circles and extracting secrets before the curtain falls.*\n\n_\"All the world's a stage, and I am the only one who knows the script.\"_",
+    "keywords": "thespian, operative, artisan, adaptable, specialist, face, infiltrator",
+    "negative_keywords": "heavy-plating, blunt-assault, loud, clumsy"
   },
   {
     "id": "archetype-vagabond",
@@ -2015,7 +2111,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Fills gaps in the party, transport, urban survival.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Travels from place to place without a fixed home. Characterized by freedom, adaptability, and adventure.\n\n*You are the ultimate survivor. You have no home, but you have a skill for every situation. You fix what's broken, find what's lost, and disappear before the trouble starts.*\n\n_\"I've been everywhere, man. And I know the quickest way out of here.\"_"
+    "description": "Travels from place to place without a fixed home. Characterized by freedom, adaptability, and adventure.\n\n*You are the ultimate survivor. You have no home, but you have a skill for every situation. You fix what's broken, find what's lost, and disappear before the trouble starts.*\n\n_\"I've been everywhere, man. And I know the quickest way out of here.\"_",
+    "keywords": "vagabond, operative, artisan, adaptable, specialist, jack-of-all-trades, survivor",
+    "negative_keywords": "incompetent, untrained, undisciplined"
   },
   {
     "id": "archetype-virtuoso",
@@ -2055,7 +2153,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Distracting guards, earning money, gaining access to exclusive events.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Captivates audiences with skills in music, dance, or acting. Thrives in the spotlight.\n\n*You control the mood of the room. You can turn a hostile crowd into a cheering mob or distract a guard with a song. Your art is your weapon, and fame is your shield.*\n\n_\"Eyes on me, everyone. You won't want to miss this.\"_"
+    "description": "Captivates audiences with skills in music, dance, or acting. Thrives in the spotlight.\n\n*You control the mood of the room. You can turn a hostile crowd into a cheering mob or distract a guard with a song. Your art is your weapon, and fame is your shield.*\n\n_\"Eyes on me, everyone. You won't want to miss this.\"_",
+    "keywords": "virtuoso, operative, artisan, adaptable, specialist, social, distraction",
+    "negative_keywords": "incompetent, untrained, undisciplined"
   },
   {
     "id": "archetype-activist",
@@ -2095,7 +2195,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Rally NPCs to the party's cause, de-escalate riots, negotiate with locals.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A passionate individual who fights for social justice and equality. They utilize their voice to raise awareness and effect change.\n\n*You are the conscience of the galaxy. You speak for the voiceless and stand against the corrupt. Your power comes not from weapons, but from the unshakeable belief that things can be better.*\n\n_\"We do not beg for freedom. We demand it.\"_"
+    "description": "A passionate individual who fights for social justice and equality. They utilize their voice to raise awareness and effect change.\n\n*You are the conscience of the galaxy. You speak for the voiceless and stand against the corrupt. Your power comes not from weapons, but from the unshakeable belief that things can be better.*\n\n_\"We do not beg for freedom. We demand it.\"_",
+    "keywords": "activist, visionary, idealist, leadership, charisma, buffer, leader",
+    "negative_keywords": "anti-social, mute, solitary-hermit"
   },
   {
     "id": "archetype-arbitrator",
@@ -2135,7 +2237,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Preventing conflict escalation, identifying lies, securing diplomatic safety.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "The neutral mediator who resolves disputes with absolute impartiality and a deep understanding of universal justice.\n\n*You are the middle ground. In a galaxy of competing interests and violent factions, you provide the calm center where words replace weapons. You don't take sides; you find the truth.*\n\n_\"Justice is a scale. It must be balanced, not broken.\"_"
+    "description": "The neutral mediator who resolves disputes with absolute impartiality and a deep understanding of universal justice.\n\n*You are the middle ground. In a galaxy of competing interests and violent factions, you provide the calm center where words replace weapons. You don't take sides; you find the truth.*\n\n_\"Justice is a scale. It must be balanced, not broken.\"_",
+    "keywords": "arbitrator, visionary, idealist, leadership, charisma, mediator, social",
+    "negative_keywords": "anti-social, mute, solitary-hermit"
   },
   {
     "id": "archetype-aristocrat",
@@ -2175,7 +2279,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Gaining access to high-security areas via status, funding, legal immunity.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A member of the aristocracy, born into a position of privilege and power. They wield status as a weapon.\n\n*You were born to rule. Your name opens doors that are locked to commoners, and your wealth solves problems before they begin. You navigate the deadly game of courts and kings with practiced ease.*\n\n_\"Do you know who I am? That was a rhetorical question.\"_"
+    "description": "A member of the aristocracy, born into a position of privilege and power. They wield status as a weapon.\n\n*You were born to rule. Your name opens doors that are locked to commoners, and your wealth solves problems before they begin. You navigate the deadly game of courts and kings with practiced ease.*\n\n_\"Do you know who I am? That was a rhetorical question.\"_",
+    "keywords": "aristocrat, visionary, idealist, leadership, charisma, resource access, face",
+    "negative_keywords": "anti-social, mute, solitary-hermit"
   },
   {
     "id": "archetype-ascetic",
@@ -2215,7 +2321,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Resisting mental attacks, calming emotions, spiritual guidance.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A devout individual dedicated to prayer and meditation, seeking enlightenment.\n\n*You have mastered the self. While others seek power in the world, you find it within. Your mind is a fortress, and your spirit is a weapon honed by discipline and silence.*\n\n_\"Peace is not the absence of conflict, but the ability to handle it.\"_"
+    "description": "A devout individual dedicated to prayer and meditation, seeking enlightenment.\n\n*You have mastered the self. While others seek power in the world, you find it within. Your mind is a fortress, and your spirit is a weapon honed by discipline and silence.*\n\n_\"Peace is not the absence of conflict, but the ability to handle it.\"_",
+    "keywords": "ascetic, visionary, idealist, leadership, charisma, monk, buffer",
+    "negative_keywords": "anti-social, mute, solitary-hermit"
   },
   {
     "id": "archetype-chronicler",
@@ -2255,7 +2363,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Buffing allies with inspiration, gathering local lore, engaging social encounters.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Weaver of words and tales, captivating audiences with immersive narratives and transporting them to fantastical realms.\n\n*You keep the history alive. You know that a story can inspire a revolution or calm a beast. You carry the memory of your people, ensuring that their deeds—and your team's deeds—are never forgotten.*\n\n_\"Let me tell you how this ends.\"_"
+    "description": "Weaver of words and tales, captivating audiences with immersive narratives and transporting them to fantastical realms.\n\n*You keep the history alive. You know that a story can inspire a revolution or calm a beast. You carry the memory of your people, ensuring that their deeds—and your team's deeds—are never forgotten.*\n\n_\"Let me tell you how this ends.\"_",
+    "keywords": "chronicler, visionary, idealist, leadership, charisma, bard, historian",
+    "negative_keywords": "mindless-brute, reckless, illiterate, anti-social, mute"
   },
   {
     "id": "archetype-commander",
@@ -2295,7 +2405,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Buffing the party (Orders), piloting/commanding vehicles, face of the group.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A charismatic and cunning leader who commands a starship, charting courses and leading crew in dangerous adventures.\n\n*You are the one they look to when the alarms scream. You make the hard calls, hold the crew together, and steer the ship through the storm. You are the undisputed master of your vessel.*\n\n_\"On my deck, my word is law. Prepare for hard burn.\"_"
+    "description": "A charismatic and cunning leader who commands a starship, charting courses and leading crew in dangerous adventures.\n\n*You are the one they look to when the alarms scream. You make the hard calls, hold the crew together, and steer the ship through the storm. You are the undisputed master of your vessel.*\n\n_\"On my deck, my word is law. Prepare for hard burn.\"_",
+    "keywords": "commander, visionary, idealist, leadership, charisma, leader, buffer",
+    "negative_keywords": "mindless-brute, reckless, illiterate, anti-social, mute"
   },
   {
     "id": "archetype-cult-leader",
@@ -2335,7 +2447,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Controlling minions, inspiring allies, social manipulation.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A charismatic leader who inspires and guides followers, delivering divine pronouncements.\n\n*You speak the divine truth. Your followers look to you for salvation, and you lead them with absolute conviction. You channel the power of belief to shape the world around you.*\n\n_\"Have faith, for the path is clear.\"_"
+    "description": "A charismatic leader who inspires and guides followers, delivering divine pronouncements.\n\n*You speak the divine truth. Your followers look to you for salvation, and you lead them with absolute conviction. You channel the power of belief to shape the world around you.*\n\n_\"Have faith, for the path is clear.\"_",
+    "keywords": "cult leader, visionary, idealist, leadership, charisma, leader, buffer",
+    "negative_keywords": "anti-social, mute, solitary-hermit"
   },
   {
     "id": "archetype-demagogue",
@@ -2375,7 +2489,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Incite distractions, turn enemy minions against leaders, sow confusion.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A skilled propagandist who spreads dissent and undermines authority through persuasive speeches and subversive media.\n\n*You are the spark that starts the fire. You know that information is a virus, and you infect the masses with ideas that topple empires. You turn the enemy's own populace against them.*\n\n_\"The truth is whatever I say it is loud enough.\"_"
+    "description": "A skilled propagandist who spreads dissent and undermines authority through persuasive speeches and subversive media.\n\n*You are the spark that starts the fire. You know that information is a virus, and you infect the masses with ideas that topple empires. You turn the enemy's own populace against them.*\n\n_\"The truth is whatever I say it is loud enough.\"_",
+    "keywords": "demagogue, visionary, idealist, leadership, charisma, debuffer, chaos agent",
+    "negative_keywords": "mindless-brute, reckless, illiterate, anti-social, mute"
   },
   {
     "id": "archetype-doomsayer",
@@ -2414,7 +2530,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Demoralizing enemies, inflicting fear, wielding entropic magic.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A nihilistic prophet who believes the end is inevitable and seeks to hasten or warn of it.\n\n*You see the darkness coming. You are the harbinger of entropy, speaking truths that others fear to hear. Your presence instills dread, for you walk hand in hand with the inevitable end.*\n\n_\"The void calls, and I am its voice.\"_"
+    "description": "A nihilistic prophet who believes the end is inevitable and seeks to hasten or warn of it.\n\n*You see the darkness coming. You are the harbinger of entropy, speaking truths that others fear to hear. Your presence instills dread, for you walk hand in hand with the inevitable end.*\n\n_\"The void calls, and I am its voice.\"_",
+    "keywords": "doomsayer, visionary, idealist, leadership, charisma, debuffer, intimidator",
+    "negative_keywords": "anti-social, mute, solitary-hermit, null-zone, anti-magic-fanatic"
   },
   {
     "id": "archetype-envoy",
@@ -2454,7 +2572,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Prevent combat before it starts, call in faction favors, secure safe houses.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "An adept negotiator entrusted with representing their faction. They navigate diplomatic channels to ensure peace.\n\n*You hold the weight of nations. You navigate the complex web of galactic politics, turning potential wars into alliances with a handshake. You ensure your team has friends in high places.*\n\n_\"A treaty is just a pause between wars. Let's make it a long one.\"_"
+    "description": "An adept negotiator entrusted with representing their faction. They navigate diplomatic channels to ensure peace.\n\n*You hold the weight of nations. You navigate the complex web of galactic politics, turning potential wars into alliances with a handshake. You ensure your team has friends in high places.*\n\n_\"A treaty is just a pause between wars. Let's make it a long one.\"_",
+    "keywords": "envoy, visionary, idealist, leadership, charisma, face, shield",
+    "negative_keywords": "anti-social, mute, solitary-hermit"
   },
   {
     "id": "archetype-icon",
@@ -2494,7 +2614,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Rallying public support, demoralizing opposition through reputation, high-stakes negotiation.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "The public figure who embodies a concept or cause, wielding their fame as a source of inspiration and pressure.\n\n*You are more than a person; you are a symbol. Your every action is scrutinized and celebrated, and your voice carries the weight of millions. You use your status to shape the cultural landscape.*\n\n_\"I don't just represent the cause. I am the cause.\"_"
+    "description": "The public figure who embodies a concept or cause, wielding their fame as a source of inspiration and pressure.\n\n*You are more than a person; you are a symbol. Your every action is scrutinized and celebrated, and your voice carries the weight of millions. You use your status to shape the cultural landscape.*\n\n_\"I don't just represent the cause. I am the cause.\"_",
+    "keywords": "icon, visionary, idealist, leadership, charisma, social influence, leader",
+    "negative_keywords": "anti-social, mute, solitary-hermit"
   },
   {
     "id": "archetype-kingpin",
@@ -2534,7 +2656,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Controlling NPC minions, sourcing illegal gear, intimidation.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Leader of a criminal organization, overseeing illegal activities and managing a network of underlings.\n\n*You built an empire from the gutter. You command loyalty through fear and respect, leveraging a network of criminals to get things done. You don't ask for permission; you take what is yours.*\n\n_\"It's just business. But for you, it's personal.\"_"
+    "description": "Leader of a criminal organization, overseeing illegal activities and managing a network of underlings.\n\n*You built an empire from the gutter. You command loyalty through fear and respect, leveraging a network of criminals to get things done. You don't ask for permission; you take what is yours.*\n\n_\"It's just business. But for you, it's personal.\"_",
+    "keywords": "kingpin, visionary, idealist, leadership, charisma, leader, minion master",
+    "negative_keywords": "anti-social, mute, solitary-hermit"
   },
   {
     "id": "archetype-mentor",
@@ -2574,7 +2698,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Granting bonuses to allies' learning and skill checks, tactical instruction.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "The experienced instructor who guides the growth of others, identifying potential and refining raw talent.\n\n*You see the future in your pupils. You understand that the survival of your legacy depends on the success of the next generation. You don't just provide answers; you teach how to find them.*\n\n_\"You have the spark. Let me show you how to start the fire.\"_"
+    "description": "The experienced instructor who guides the growth of others, identifying potential and refining raw talent.\n\n*You see the future in your pupils. You understand that the survival of your legacy depends on the success of the next generation. You don't just provide answers; you teach how to find them.*\n\n_\"You have the spark. Let me show you how to start the fire.\"_",
+    "keywords": "mentor, visionary, idealist, leadership, charisma, buffer, support",
+    "negative_keywords": "mindless-brute, reckless, illiterate, anti-social, mute"
   },
   {
     "id": "archetype-missionary",
@@ -2614,7 +2740,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Converting NPCs, providing healing/support, navigating cultural/religious encounters.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A zealous preacher who travels the galaxy to spread their faith.\n\n*You carry the light into the darkness. You travel to the farthest reaches of the galaxy to share your truth, bringing hope and conviction to the lost and the forgotten.*\n\n_\"There is no place too dark for the light to reach.\"_"
+    "description": "A zealous preacher who travels the galaxy to spread their faith.\n\n*You carry the light into the darkness. You travel to the farthest reaches of the galaxy to share your truth, bringing hope and conviction to the lost and the forgotten.*\n\n_\"There is no place too dark for the light to reach.\"_",
+    "keywords": "missionary, visionary, idealist, leadership, charisma, face, healer",
+    "negative_keywords": "anti-social, mute, solitary-hermit"
   },
   {
     "id": "archetype-mystic",
@@ -2653,7 +2781,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Gaining initiative bonuses, avoiding traps, gathering info via divination.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A wise and insightful individual who perceives glimpses of the future and offers guidance.\n\n*You see what will be. Time is a river, and you stand on the bank, watching the currents. You guide others away from disaster and towards their destiny with cryptic wisdom.*\n\n_\"The future is written, but the ink is not yet dry.\"_"
+    "description": "A wise and insightful individual who perceives glimpses of the future and offers guidance.\n\n*You see what will be. Time is a river, and you stand on the bank, watching the currents. You guide others away from disaster and towards their destiny with cryptic wisdom.*\n\n_\"The future is written, but the ink is not yet dry.\"_",
+    "keywords": "mystic, visionary, idealist, leadership, charisma, diviner, support",
+    "negative_keywords": "anti-social, mute, solitary-hermit"
   },
   {
     "id": "archetype-officer",
@@ -2693,7 +2823,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Granting bonuses to allies, organizing attacks, managing NPC troops.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A strategic leader who commands troops and coordinates military operations.\n\n*You lead from the front. You are the mind of the army, directing the flow of battle with precision. Your orders save lives and win wars.*\n\n_\"Form up! Hold the line!\"_"
+    "description": "A strategic leader who commands troops and coordinates military operations.\n\n*You lead from the front. You are the mind of the army, directing the flow of battle with precision. Your orders save lives and win wars.*\n\n_\"Form up! Hold the line!\"_",
+    "keywords": "officer, visionary, idealist, leadership, charisma, leader, tactician",
+    "negative_keywords": "mindless-brute, reckless, illiterate, anti-social, mute"
   },
   {
     "id": "archetype-oracle",
@@ -2732,7 +2864,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Scouting (Clairvoyance), Crowd Control (Telepathy), Buffing.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Possesses innate mental powers or spiritual connection. Seers, telepaths, and prophets.\n\n*You see the strings of the universe. While others rely on their eyes, you sense the thoughts, the futures, and the connections that bind all things. You are the guide to the unseen.*\n\n_\"Your thoughts are so... loud.\"_"
+    "description": "Possesses innate mental powers or spiritual connection. Seers, telepaths, and prophets.\n\n*You see the strings of the universe. While others rely on their eyes, you sense the thoughts, the futures, and the connections that bind all things. You are the guide to the unseen.*\n\n_\"Your thoughts are so... loud.\"_",
+    "keywords": "oracle, visionary, idealist, leadership, charisma, caster, sensor",
+    "negative_keywords": "anti-social, mute, solitary-hermit"
   },
   {
     "id": "archetype-peacekeeper",
@@ -2772,7 +2906,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "De-escalating combat, protecting allies, subduing enemies non-lethally.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A protector of the innocent and champion of peace, using force and words.\n\n*You fight for peace. You are the shield of the defenseless, using violence only as a last resort. You walk the line between warrior and diplomat, resolving conflicts before they begin.*\n\n_\"Stand down. There is no need for bloodshed today.\"_"
+    "description": "A protector of the innocent and champion of peace, using force and words.\n\n*You fight for peace. You are the shield of the defenseless, using violence only as a last resort. You walk the line between warrior and diplomat, resolving conflicts before they begin.*\n\n_\"Stand down. There is no need for bloodshed today.\"_",
+    "keywords": "peacekeeper, visionary, idealist, leadership, charisma, tank, diplomat",
+    "negative_keywords": "fragile, unarmored, timid, evasive-sniper, anti-social"
   },
   {
     "id": "archetype-philosopher",
@@ -2812,7 +2948,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Resisting mental intrusion, providing ethical guidance, identifying historical/philosophical context.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "The seeker of deeper meaning who challenges the assumptions of society and explores the fundamental nature of existence.\n\n*You think where others merely act. You analyze the moral and existential implications of every decision, providing the ethical framework that keeps the group—and civilization—from losing its soul.*\n\n_\"To know the universe, one must first know the silence between the thoughts.\"_"
+    "description": "The seeker of deeper meaning who challenges the assumptions of society and explores the fundamental nature of existence.\n\n*You think where others merely act. You analyze the moral and existential implications of every decision, providing the ethical framework that keeps the group—and civilization—from losing its soul.*\n\n_\"To know the universe, one must first know the silence between the thoughts.\"_",
+    "keywords": "philosopher, visionary, idealist, leadership, charisma, support, lore",
+    "negative_keywords": "mindless-brute, reckless, illiterate, anti-social, mute"
   },
   {
     "id": "archetype-priest",
@@ -2851,7 +2989,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Social influence via religious rank, buffing morale, healing.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A devout servant of a state religion, maintaining morale and conducting ceremonies.\n\n*You are the pillar of the community. You hold the spiritual authority of an institution, guiding the faithful and ensuring the stability of society through ritual and tradition.*\n\n_\"By the authority vested in me, I command you to cease.\"_"
+    "description": "A devout servant of a state religion, maintaining morale and conducting ceremonies.\n\n*You are the pillar of the community. You hold the spiritual authority of an institution, guiding the faithful and ensuring the stability of society through ritual and tradition.*\n\n_\"By the authority vested in me, I command you to cease.\"_",
+    "keywords": "priest, visionary, idealist, leadership, charisma, support, leader",
+    "negative_keywords": "anti-social, mute, solitary-hermit"
   },
   {
     "id": "archetype-revolutionary",
@@ -2892,7 +3032,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Inspiring NPCs to fight, leading riots/raids, boosting ally morale.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A charismatic leader who inspires and unites the rebellion.\n\n*You are the voice of change. You rally the oppressed against the tyrant, turning despair into action. You lead the charge against the established order, fighting for a better tomorrow.*\n\n_\"Break the chains! Rise up!\"_"
+    "description": "A charismatic leader who inspires and unites the rebellion.\n\n*You are the voice of change. You rally the oppressed against the tyrant, turning despair into action. You lead the charge against the established order, fighting for a better tomorrow.*\n\n_\"Break the chains! Rise up!\"_",
+    "keywords": "revolutionary, visionary, idealist, leadership, charisma, leader, agitator",
+    "negative_keywords": "anti-social, mute, solitary-hermit"
   },
   {
     "id": "archetype-senator",
@@ -2932,7 +3074,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Dealing with authorities, securing funding, changing laws.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Charismatic figure who navigates the political landscape, builds alliances, and sways public opinion.\n\n*You play the great game. You know that laws are just suggestions and power is just perception. You manipulate the system to serve your ends, ensuring that public opinion is always on your side.*\n\n_\"I don't need a weapon. I have a mandate.\"_"
+    "description": "Charismatic figure who navigates the political landscape, builds alliances, and sways public opinion.\n\n*You play the great game. You know that laws are just suggestions and power is just perception. You manipulate the system to serve your ends, ensuring that public opinion is always on your side.*\n\n_\"I don't need a weapon. I have a mandate.\"_",
+    "keywords": "senator, visionary, idealist, leadership, charisma, face, leader",
+    "negative_keywords": "anti-social, mute, solitary-hermit"
   },
   {
     "id": "archetype-socialite",
@@ -2973,7 +3117,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Gathering rumors, gaining access to restricted social areas, manipulating NPCs.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A charismatic individual who thrives in social settings and networking.\n\n*You are the center of attention. You navigate the treacherous waters of high society with a smile and a drink. Information is your currency, and connections are your weapons.*\n\n_\"Oh, darling, you simply must tell me everything.\"_"
+    "description": "A charismatic individual who thrives in social settings and networking.\n\n*You are the center of attention. You navigate the treacherous waters of high society with a smile and a drink. Information is your currency, and connections are your weapons.*\n\n_\"Oh, darling, you simply must tell me everything.\"_",
+    "keywords": "socialite, visionary, idealist, leadership, charisma, face, info gatherer",
+    "negative_keywords": "anti-social, mute, solitary-hermit"
   },
   {
     "id": "archetype-spirit-walker",
@@ -3013,7 +3159,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Detecting other-dimensional threats, communing with local spirits, planar navigation.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "The conduit between the material plane and the spiritual realms, interpreting the will of the unseen.\n\n*You are the bridge. You walk between realities, speaking for the entities that exist in the spaces between the stars. You find balance where others see only chaos or silence.*\n\n_\"The veil is thin here. Can you hear the ancestors?\"_"
+    "description": "The conduit between the material plane and the spiritual realms, interpreting the will of the unseen.\n\n*You are the bridge. You walk between realities, speaking for the entities that exist in the spaces between the stars. You find balance where others see only chaos or silence.*\n\n_\"The veil is thin here. Can you hear the ancestors?\"_",
+    "keywords": "spirit-walker, visionary, idealist, leadership, charisma, medium, scout",
+    "negative_keywords": "anti-social, mute, solitary-hermit"
   },
   {
     "id": "archetype-zealot",
@@ -3053,7 +3201,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Breaking enemy morale, uncovering spies, resisting psychic attacks.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Roots out heresy and dissent. Skilled in interrogation and intimidation to enforce dogma.\n\n*You are the purity of the cause. You see the corruption that hides in the hearts of men and burn it out. You are feared not for your strength, but for your absolute, terrifying certainty.*\n\n_\"Innocence proves nothing.\"_"
+    "description": "Roots out heresy and dissent. Skilled in interrogation and intimidation to enforce dogma.\n\n*You are the purity of the cause. You see the corruption that hides in the hearts of men and burn it out. You are feared not for your strength, but for your absolute, terrifying certainty.*\n\n_\"Innocence proves nothing.\"_",
+    "keywords": "zealot, visionary, idealist, leadership, charisma, social combat, anti-meta",
+    "negative_keywords": "anti-social, mute, solitary-hermit"
   },
   {
     "id": "archetype-academic",
@@ -3093,7 +3243,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Analyzing anomalies, solving environmental puzzles, crafting items.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Conducts research to further knowledge. Systematically gathers evidence and tests hypotheses.\n\n*You question everything. You are driven by the need to understand the fundamental laws of reality. You bring the light of reason to the darkest corners of the galaxy.*\n\n_\"Hypothesis: This might explode. Experiment: Let's find out.\"_"
+    "description": "Conducts research to further knowledge. Systematically gathers evidence and tests hypotheses.\n\n*You question everything. You are driven by the need to understand the fundamental laws of reality. You bring the light of reason to the darkest corners of the galaxy.*\n\n_\"Hypothesis: This might explode. Experiment: Let's find out.\"_",
+    "keywords": "academic, savant, rational, intellect, strategist, intelligence, utility",
+    "negative_keywords": "mindless-brute, reckless, illiterate"
   },
   {
     "id": "archetype-architect",
@@ -3132,7 +3284,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Designing bases, identifying structural weaknesses, overseeing construction.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Skilled in the design and upkeep of infrastructure.\n\n*You design the world. From skyscrapers to space stations, you understand the structures that house civilization. You see the stress points and the hidden flows of energy and people.*\n\n_\"Form follows function, but strength is non-negotiable.\"_"
+    "description": "Skilled in the design and upkeep of infrastructure.\n\n*You design the world. From skyscrapers to space stations, you understand the structures that house civilization. You see the stress points and the hidden flows of energy and people.*\n\n_\"Form follows function, but strength is non-negotiable.\"_",
+    "keywords": "architect, savant, rational, intellect, strategist, builder, support",
+    "negative_keywords": "mindless-brute, reckless, illiterate"
   },
   {
     "id": "archetype-archivist",
@@ -3172,7 +3326,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Solving puzzles, identifying enemy origins, diplomatic context.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Studies history and culture. Provides context and insight into societies and ancient technologies.\n\n*You remember what the world forgot. You know that history repeats itself, and you know how to break the cycle. Your knowledge of the past is the key to surviving the future.*\n\n_\"Those who do not learn from the past are doomed to be eaten by it.\"_"
+    "description": "Studies history and culture. Provides context and insight into societies and ancient technologies.\n\n*You remember what the world forgot. You know that history repeats itself, and you know how to break the cycle. Your knowledge of the past is the key to surviving the future.*\n\n_\"Those who do not learn from the past are doomed to be eaten by it.\"_",
+    "keywords": "archivist, savant, rational, intellect, strategist, knowledge, utility",
+    "negative_keywords": "mindless-brute, reckless, illiterate"
   },
   {
     "id": "archetype-astromancer",
@@ -3212,7 +3368,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Navigation through anomalies, identifying cosmic threats, operating ship sensors.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Specializes in the study of celestial objects and phenomena. They provide navigation data and understand the cosmos.\n\n*You read the stars like a map. You understand the terrifying scale of the cosmos and how to navigate its dangers. When the nav-computer fails, you are the one who guides the ship home.*\n\n_\"We are all just stardust. Some of us are just moving faster than others.\"_"
+    "description": "Specializes in the study of celestial objects and phenomena. They provide navigation data and understand the cosmos.\n\n*You read the stars like a map. You understand the terrifying scale of the cosmos and how to navigate its dangers. When the nav-computer fails, you are the one who guides the ship home.*\n\n_\"We are all just stardust. Some of us are just moving faster than others.\"_",
+    "keywords": "astromancer, savant, rational, intellect, strategist, expert, navigator",
+    "negative_keywords": "mindless-brute, reckless, illiterate"
   },
   {
     "id": "archetype-biologist",
@@ -3252,7 +3410,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Identifying alien fauna/flora, treating organic toxins, analyzing biological samples.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "The expert on living systems who studies the interaction between species and their environments.\n\n*You understand the spark of life. You see the connections between the smallest microbe and the largest apex predator. You find solutions where nature provides the blueprint.*\n\n_\"Life always finds a way. I'm just here to watch it happen.\"_"
+    "description": "The expert on living systems who studies the interaction between species and their environments.\n\n*You understand the spark of life. You see the connections between the smallest microbe and the largest apex predator. You find solutions where nature provides the blueprint.*\n\n_\"Life always finds a way. I'm just here to watch it happen.\"_",
+    "keywords": "biologist, savant, rational, intellect, strategist, science, utility",
+    "negative_keywords": "mindless-brute, reckless, illiterate"
   },
   {
     "id": "archetype-cryptographer",
@@ -3291,7 +3451,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Decrypting comms, translating alien languages, solving logic puzzles.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "An expert in deciphering codes, languages, and hidden messages.\n\n*You unlock the secrets. No code is unbreakable, no language untranslatable. You find meaning in the chaos, revealing the hidden messages that others cannot see.*\n\n_\"Everything is a pattern. I just need to find the key.\"_"
+    "description": "An expert in deciphering codes, languages, and hidden messages.\n\n*You unlock the secrets. No code is unbreakable, no language untranslatable. You find meaning in the chaos, revealing the hidden messages that others cannot see.*\n\n_\"Everything is a pattern. I just need to find the key.\"_",
+    "keywords": "cryptographer, savant, rational, intellect, strategist, intel, support",
+    "negative_keywords": "mindless-brute, reckless, illiterate"
   },
   {
     "id": "archetype-cyberneticist",
@@ -3331,7 +3493,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Installing/repairing cybernetics, hacking enemy augments, buffing allies.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Specialist in creating, repairing, and modifying cybernetic enhancements.\n\n*You build better humans. You merge flesh and machine to create something greater than the sum of its parts. You understand the interface between the biological and the technological.*\n\n_\"Flesh is weak. Steel is strong. I provide the upgrade.\"_"
+    "description": "Specialist in creating, repairing, and modifying cybernetic enhancements.\n\n*You build better humans. You merge flesh and machine to create something greater than the sum of its parts. You understand the interface between the biological and the technological.*\n\n_\"Flesh is weak. Steel is strong. I provide the upgrade.\"_",
+    "keywords": "cyberneticist, savant, rational, intellect, strategist, healer, crafter",
+    "negative_keywords": "mindless-brute, reckless, illiterate"
   },
   {
     "id": "archetype-decker",
@@ -3370,7 +3534,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Disabling alarms, stealing data, controlling enemy drones/turrets.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A master of cyberspace who infiltrates networks, manipulates data, and exploits vulnerabilities.\n\n*You own the network. While they lock the physical doors, you walk through the digital walls. You steal secrets, crash systems, and turn their own security against them without ever drawing a weapon.*\n\n_\"Access granted. Now, let's see what you're hiding.\"_"
+    "description": "A master of cyberspace who infiltrates networks, manipulates data, and exploits vulnerabilities.\n\n*You own the network. While they lock the physical doors, you walk through the digital walls. You steal secrets, crash systems, and turn their own security against them without ever drawing a weapon.*\n\n_\"Access granted. Now, let's see what you're hiding.\"_",
+    "keywords": "decker, savant, rational, intellect, strategist, tech, stealth",
+    "negative_keywords": "fragile, unarmored, timid, evasive-sniper, heavy-plating"
   },
   {
     "id": "archetype-detective",
@@ -3410,7 +3576,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Finding plot hooks, solving mysteries, tracking targets in cities.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Relentless detective who uncovers conspiracies and brings criminals to justice.\n\n*You find the truth. You don't stop until the puzzle is solved and the guilty are exposed. You notice the details that others miss, following the trail wherever it leads.*\n\n_\"Everyone has a secret. I just have to find the loose thread.\"_"
+    "description": "Relentless detective who uncovers conspiracies and brings criminals to justice.\n\n*You find the truth. You don't stop until the puzzle is solved and the guilty are exposed. You notice the details that others miss, following the trail wherever it leads.*\n\n_\"Everyone has a secret. I just have to find the loose thread.\"_",
+    "keywords": "detective, savant, rational, intellect, strategist, investigation, perception",
+    "negative_keywords": "mindless-brute, reckless, illiterate"
   },
   {
     "id": "archetype-forensic-pathologist",
@@ -3449,7 +3617,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Solving murders, identifying toxins/diseases, analyzing biological threats.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "An expert in determining cause of death and analyzing biological evidence.\n\n*The dead speak to you. You read the story of their final moments in their wounds and chemistry. You find the truth that the living try to hide.*\n\n_\"The body never lies.\"_"
+    "description": "An expert in determining cause of death and analyzing biological evidence.\n\n*The dead speak to you. You read the story of their final moments in their wounds and chemistry. You find the truth that the living try to hide.*\n\n_\"The body never lies.\"_",
+    "keywords": "forensic pathologist, savant, rational, intellect, strategist, investigation, science",
+    "negative_keywords": "mindless-brute, reckless, illiterate"
   },
   {
     "id": "archetype-geneticist",
@@ -3489,7 +3659,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Healing, creating buffs/mutations, identifying xeno-threats.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Applies genetic engineering and biotechnology to create innovative tools, medicines, and biological constructs.\n\n*You design life. You see biology not as destiny, but as a canvas. You cure the incurable, enhance the weak, and grow solutions to problems that machines cannot solve.*\n\n_\"Evolution is too slow. I prefer immediate results.\"_"
+    "description": "Applies genetic engineering and biotechnology to create innovative tools, medicines, and biological constructs.\n\n*You design life. You see biology not as destiny, but as a canvas. You cure the incurable, enhance the weak, and grow solutions to problems that machines cannot solve.*\n\n_\"Evolution is too slow. I prefer immediate results.\"_",
+    "keywords": "geneticist, savant, rational, intellect, strategist, healer, crafter",
+    "negative_keywords": "mindless-brute, reckless, illiterate"
   },
   {
     "id": "archetype-linguist",
@@ -3529,7 +3701,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Translating alien documents/comms, mediating first contact, deciphering codes.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "The master of communication who deciphers the languages of the galaxy to enable cooperation or manipulation.\n\n*You are the key to understanding. You translate the inscrutable and find the meaning hidden in alien noise. You know that the right word is often more powerful than the largest railgun.*\n\n_\"Language is the first weapon. And the first shield.\"_"
+    "description": "The master of communication who deciphers the languages of the galaxy to enable cooperation or manipulation.\n\n*You are the key to understanding. You translate the inscrutable and find the meaning hidden in alien noise. You know that the right word is often more powerful than the largest railgun.*\n\n_\"Language is the first weapon. And the first shield.\"_",
+    "keywords": "linguist, savant, rational, intellect, strategist, intel, face",
+    "negative_keywords": "mindless-brute, reckless, illiterate"
   },
   {
     "id": "archetype-magus",
@@ -3570,7 +3744,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Area damage, battlefield control, utility casting.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A master of arcane magic, manipulating subtle energies to cast powerful spells through intricate gestures and rituals.\n\n*You hack reality. You have studied the underlying code of the universe and learned to rewrite it with a gesture. Fire, gravity, and time are just variables for you to manipulate.*\n\n_\"Physics is just a suggestion I choose to ignore.\"_"
+    "description": "A master of arcane magic, manipulating subtle energies to cast powerful spells through intricate gestures and rituals.\n\n*You hack reality. You have studied the underlying code of the universe and learned to rewrite it with a gesture. Fire, gravity, and time are just variables for you to manipulate.*\n\n_\"Physics is just a suggestion I choose to ignore.\"_",
+    "keywords": "magus, savant, rational, intellect, strategist, artillery, utility",
+    "negative_keywords": "mindless-brute, reckless, illiterate"
   },
   {
     "id": "archetype-maker",
@@ -3610,7 +3786,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Fixing the ship/vehicle, building defenses, analyzing enemy tech.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A brilliant inventor and technician who develops and maintains advanced technology. Skilled in hardware and software.\n\n*You build the future. If it's broken, you fix it; if it doesn't exist, you invent it. You keep the ship flying, the guns firing, and the lights on when the universe tries to turn them off.*\n\n_\"Give me a wrench and five minutes. I'll make it work.\"_"
+    "description": "A brilliant inventor and technician who develops and maintains advanced technology. Skilled in hardware and software.\n\n*You build the future. If it's broken, you fix it; if it doesn't exist, you invent it. You keep the ship flying, the guns firing, and the lights on when the universe tries to turn them off.*\n\n_\"Give me a wrench and five minutes. I'll make it work.\"_",
+    "keywords": "maker, savant, rational, intellect, strategist, utility, support",
+    "negative_keywords": "mindless-brute, reckless, illiterate"
   },
   {
     "id": "archetype-navigator",
@@ -3649,7 +3827,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Plotting FTL jumps, navigating hazards, mapping sectors.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A skilled pilot and navigator who charts the course for ships.\n\n*You know the way. The void is vast and trackless, but you never lose your way. You guide the ship through the dark, avoiding hazards and finding the fastest route to your destination.*\n\n_\"Trust my headings. I've never lost a ship yet.\"_"
+    "description": "A skilled pilot and navigator who charts the course for ships.\n\n*You know the way. The void is vast and trackless, but you never lose your way. You guide the ship through the dark, avoiding hazards and finding the fastest route to your destination.*\n\n_\"Trust my headings. I've never lost a ship yet.\"_",
+    "keywords": "navigator, savant, rational, intellect, strategist, transport, support",
+    "negative_keywords": "mindless-brute, reckless, illiterate"
   },
   {
     "id": "archetype-net-architect",
@@ -3688,7 +3868,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Hardening party networks, creating tactical data-links, identifying digital infrastructure weaknesses.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "The high-level systems engineer who designs and manages the data infrastructures that link civilizations.\n\n*You build the digital world. You don't just hack systems; you create the foundations they sit on. You understand the flow of information as a physical force that must be harnessed.*\n\n_\"The Grid is my masterpiece. Every packet of data is where I intended it to be.\"_"
+    "description": "The high-level systems engineer who designs and manages the data infrastructures that link civilizations.\n\n*You build the digital world. You don't just hack systems; you create the foundations they sit on. You understand the flow of information as a physical force that must be harnessed.*\n\n_\"The Grid is my masterpiece. Every packet of data is where I intended it to be.\"_",
+    "keywords": "net-architect, savant, rational, intellect, strategist, tech, logistics",
+    "negative_keywords": "mindless-brute, reckless, illiterate"
   },
   {
     "id": "archetype-planetologist",
@@ -3728,7 +3910,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Identifying environmental hazards, finding resources, surviving planetary conditions.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A scholar who studies the geology, climate, and ecosystems of planets.\n\n*You read the world. You understand the forces that shape planets, from tectonics to weather. You know where to find resources and how to survive the elements.*\n\n_\"This planet is alive, and right now, it's angry.\"_"
+    "description": "A scholar who studies the geology, climate, and ecosystems of planets.\n\n*You read the world. You understand the forces that shape planets, from tectonics to weather. You know where to find resources and how to survive the elements.*\n\n_\"This planet is alive, and right now, it's angry.\"_",
+    "keywords": "planetologist, savant, rational, intellect, strategist, science, survival",
+    "negative_keywords": "mindless-brute, reckless, illiterate"
   },
   {
     "id": "archetype-relic-hunter",
@@ -3768,7 +3952,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Navigate dungeons, identify magical/tech loot, bypass ancient defenses.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "Unveils the secrets of ancient ruins and artifacts, reconstructing chronicles of civilizations long gone.\n\n*You dig up the past to save the future. You are fearless in the face of ancient traps and curses, driven by the need to uncover the truth buried beneath the dust of ages.*\n\n_\"It belongs in a museum! Or at least, in my cargo hold.\"_"
+    "description": "Unveils the secrets of ancient ruins and artifacts, reconstructing chronicles of civilizations long gone.\n\n*You dig up the past to save the future. You are fearless in the face of ancient traps and curses, driven by the need to uncover the truth buried beneath the dust of ages.*\n\n_\"It belongs in a museum! Or at least, in my cargo hold.\"_",
+    "keywords": "relic hunter, savant, rational, intellect, strategist, explorer, lore expert",
+    "negative_keywords": "mindless-brute, reckless, illiterate, null-zone, anti-magic-fanatic"
   },
   {
     "id": "archetype-roboticist",
@@ -3807,7 +3993,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Building/repairing drones, commanding robot minions, hacking enemy bots.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A scholar who specializes in the study, design, and development of robots.\n\n*You breathe life into metal. You design and build the machines that serve, fight, and explore. You understand the artificial mind better than the organic one.*\n\n_\"It's not just a machine. It's a masterpiece.\"_"
+    "description": "A scholar who specializes in the study, design, and development of robots.\n\n*You breathe life into metal. You design and build the machines that serve, fight, and explore. You understand the artificial mind better than the organic one.*\n\n_\"It's not just a machine. It's a masterpiece.\"_",
+    "keywords": "roboticist, savant, rational, intellect, strategist, crafter, minion master",
+    "negative_keywords": "fragile, unarmored, timid, evasive-sniper, mindless-brute"
   },
   {
     "id": "archetype-strategist",
@@ -3848,7 +4036,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Identify enemy weaknesses, crack codes, reconstruct crime scenes.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A proficient analytical thinker adept at processing data and solving problems. They see the patterns others miss.\n\n*You are the logic engine. You take the chaotic noise of the world and distill it into actionable data. You find the needle in the haystack, the flaw in the plan, and the weakness in the armor.*\n\n_\"The probability of success increases by 40% if you stop screaming.\"_"
+    "description": "A proficient analytical thinker adept at processing data and solving problems. They see the patterns others miss.\n\n*You are the logic engine. You take the chaotic noise of the world and distill it into actionable data. You find the needle in the haystack, the flaw in the plan, and the weakness in the armor.*\n\n_\"The probability of success increases by 40% if you stop screaming.\"_",
+    "keywords": "strategist, savant, rational, intellect, utility, investigation, puzzle solver",
+    "negative_keywords": "mindless-brute, reckless, illiterate"
   },
   {
     "id": "archetype-tactician",
@@ -3888,7 +4078,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Boosting ally initiative/attacks, countering enemy tactics, controlling the battlefield.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A strategic mastermind who analyzes the battlefield and coordinates actions.\n\n*You win the battle before it starts. You see the flow of combat, anticipating enemy moves and positioning your allies for maximum effect. You turn chaos into order.*\n\n_\"They are moving to flank. Suppress the left and advance on my signal.\"_"
+    "description": "A strategic mastermind who analyzes the battlefield and coordinates actions.\n\n*You win the battle before it starts. You see the flow of combat, anticipating enemy moves and positioning your allies for maximum effect. You turn chaos into order.*\n\n_\"They are moving to flank. Suppress the left and advance on my signal.\"_",
+    "keywords": "tactician, savant, rational, intellect, strategist, leader, support",
+    "negative_keywords": "mindless-brute, reckless, illiterate"
   },
   {
     "id": "archetype-technician",
@@ -3928,7 +4120,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Rapid repair of gear/vehicles, bypassing locks/panels, technical support.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "A skilled worker who maintains and repairs complex machinery.\n\n*You keep the lights on. You are the hands-on expert who keeps the complex systems of the future running. You fix the engines, the power grids, and the life support.*\n\n_\"It's a bypass of the bypass. It'll hold... probably.\"_"
+    "description": "A skilled worker who maintains and repairs complex machinery.\n\n*You keep the lights on. You are the hands-on expert who keeps the complex systems of the future running. You fix the engines, the power grids, and the life support.*\n\n_\"It's a bypass of the bypass. It'll hold... probably.\"_",
+    "keywords": "technician, savant, rational, intellect, strategist, support, utility",
+    "negative_keywords": "mindless-brute, reckless, illiterate"
   },
   {
     "id": "archetype-theoretician",
@@ -3968,7 +4162,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Solving complex puzzles, predicting dimensional anomalies, theoretical tech analysis.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "THE visionary scientist who pushes the boundaries of standard physics to unlock the secrets of the multiverse.\n\n*You explore the \"why\" behind the \"how.\" While others use Knowledge (Technology), you define the laws that make it possible. You see the universe as a series of equations waiting to be balanced.*\n\n_\"The math doesn't lie. It just tells truths we aren't ready to hear.\"_"
+    "description": "THE visionary scientist who pushes the boundaries of standard physics to unlock the secrets of the multiverse.\n\n*You explore the \"why\" behind the \"how.\" While others use Knowledge (Technology), you define the laws that make it possible. You see the universe as a series of equations waiting to be balanced.*\n\n_\"The math doesn't lie. It just tells truths we aren't ready to hear.\"_",
+    "keywords": "theoretician, savant, rational, intellect, strategist, research, utility",
+    "negative_keywords": "mindless-brute, reckless, illiterate"
   },
   {
     "id": "archetype-xeno-surveyor",
@@ -4008,7 +4204,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Identifying environmental resources, plotting safe paths, planetary analysis.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "The meticulous researcher who maps the biological and geological variables of alien worlds to assess their value and danger.\n\n*You read the planet's history in its soil and its future in its atmosphere. You are the vanguard of colonization, ensuring that those who follow know exactly what they are walking into.*\n\n_\"This world has potential. And at least three ways to kill you by sunset.\"_"
+    "description": "The meticulous researcher who maps the biological and geological variables of alien worlds to assess their value and danger.\n\n*You read the planet's history in its soil and its future in its atmosphere. You are the vanguard of colonization, ensuring that those who follow know exactly what they are walking into.*\n\n_\"This world has potential. And at least three ways to kill you by sunset.\"_",
+    "keywords": "xeno-surveyor, savant, rational, intellect, strategist, exploration, science",
+    "negative_keywords": "mindless-brute, reckless, illiterate"
   },
   {
     "id": "archetype-xenologist",
@@ -4048,7 +4246,9 @@ export const DEFAULT_ARCHETYPES = [
     "tactical_role": "Communicating with aliens, identifying xeno-threats, cultural navigation.",
     "category": "archetypes",
     "bp_chassis": 80,
-    "description": "An expert in alien cultures, biology, and languages.\n\n*You bridge the gap between worlds. You understand the strange and the alien, decoding their languages and customs to foster understanding or gain an advantage.*\n\n_\"They aren't monsters. They're just... different.\"_"
+    "description": "An expert in alien cultures, biology, and languages.\n\n*You bridge the gap between worlds. You understand the strange and the alien, decoding their languages and customs to foster understanding or gain an advantage.*\n\n_\"They aren't monsters. They're just... different.\"_",
+    "keywords": "xenologist, savant, rational, intellect, strategist, face, knowledge",
+    "negative_keywords": "mindless-brute, reckless, illiterate"
   }
 ];
 

@@ -34,6 +34,8 @@ description: A zealous preacher who travels the galaxy to spread their faith.
 costs:
   bp: 80
 modifiers: []
+keywords: 'missionary, visionary, idealist, leadership, charisma, face, healer'
+negative_keywords: 'anti-social, mute, solitary-hermit'
 ---
 
 # The Missionary

@@ -7,6 +7,30 @@ description: REGENERATE invocation for Entropy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Celestine (Alterian)
+  - Prokos (Auluran Biform)
+  - Fey (Base)
+  - Ila (Progenitor Archon)
+recommended_factions:
+  - The Alterian Enclave
+  - Elven Providence
+  - Supernatural Faction Template
+  - Genetic Engineering Faction Template
+recommended_origins:
+  - Enlightened
+  - Research
+  - Agricultural
+recommended_occupations:
+  - Specialist
+  - Adept
+  - Scholar
+keywords: >-
+  regenerate, rapid organ regrowth, limb restoration, sustained cellular
+  knitting, continuous healing, bio-regrowth, cellular renaissance
+negative_keywords: >-
+  amputation, permanent necrosis, irreversible decay, cybernetic limb
+  replacement
 ---
 
 # REGENERATE Invocation

@@ -13,6 +13,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  ambidextrous, combat, special-feature, combat-maneuver, tactical-edge,
+  naturally
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Ambidextrous

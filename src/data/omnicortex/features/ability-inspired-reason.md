@@ -11,6 +11,10 @@ description: 'Inspired Reason is a Ability Feature: Roll Logic checks with Advan
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  inspired reason, ability, special-feature, innate-talent, passive-prowess,
+  inspired
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Inspired Reason

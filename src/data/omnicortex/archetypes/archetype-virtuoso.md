@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'virtuoso, operative, artisan, adaptable, specialist, social, distraction'
+negative_keywords: 'incompetent, untrained, undisciplined'
 ---
 
 # The Virtuoso

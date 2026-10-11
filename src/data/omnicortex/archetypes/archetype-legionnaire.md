@@ -32,6 +32,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'legionnaire, sentinel, defender, stability, order, tank, formation fighter'
+negative_keywords: 'fragile, unarmored, timid, evasive-sniper, chaotic-anarchist'
 ---
 
 # The Legionnaire

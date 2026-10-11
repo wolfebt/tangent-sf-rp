@@ -30,6 +30,8 @@ sockets:
   allocated: []
 tech_level: 2
 meta_level: 0
+keywords: 'basic tool kit, gear, personal-property, tl-2, wrenches, screwdrivers'
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Wrenches, screwdrivers, soldering iron, and manual fabrication tools.
 

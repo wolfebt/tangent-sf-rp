@@ -11,6 +11,8 @@ description: The character notices things others miss.
 costs:
   bp: 3
 modifiers: []
+keywords: 'perceptive, skill, special-feature, notices, things, others'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Perceptive

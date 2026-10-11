@@ -11,6 +11,8 @@ description: The character can speak with the beasts of the wild.
 costs:
   bp: 3
 modifiers: []
+keywords: 'wild speech, special, special-feature, beasts'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Wild Speech

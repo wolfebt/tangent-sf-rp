@@ -34,6 +34,8 @@ sockets:
   tier: Socket
   allocated: []
 tech_level: 1
+keywords: 'surfboard / wave-rider, mecha, vehicle, medium, personal, tl-1'
+negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
 ---
 Composite hydrodynamic board for riding wave energy and coastal currents.
 

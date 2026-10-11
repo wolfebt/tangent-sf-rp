@@ -34,6 +34,8 @@ sockets:
   tier: Socket
   allocated: []
 tech_level: 4
+keywords: 'officer''s hover platform, mecha, vehicle, small, platform, tl-4'
+negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
 ---
 Floating armored command disk keeping overseers elevated above the fray.
 

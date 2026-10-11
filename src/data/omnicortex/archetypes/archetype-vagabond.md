@@ -34,6 +34,10 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: >-
+  vagabond, operative, artisan, adaptable, specialist, jack-of-all-trades,
+  survivor
+negative_keywords: 'incompetent, untrained, undisciplined'
 ---
 
 # The Vagabond

@@ -22,6 +22,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'culture, mental, intellect, cognitive, expertise, customs'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Culture

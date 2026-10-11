@@ -14,6 +14,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'extreme endurance, general, special-feature, mutation, causes, character''s'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Extreme Endurance

@@ -13,6 +13,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  channel smite, combat, special-feature, combat-maneuver, tactical-edge,
+  technique
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Channel Smite

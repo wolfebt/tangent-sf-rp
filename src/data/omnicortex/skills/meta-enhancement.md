@@ -7,19 +7,22 @@ category: skills
 governing_attributes:
   - Wisdom
 description: >-
-  Matter discipline: Strengthening material bonds, hardening objects, and physical reinforcement.
+  Matter discipline: Strengthening material bonds, hardening objects, and
+  physical reinforcement.
 trained_only: true
 specialties:
-  - 'Material Hardening'
-  - 'Weapon Tempering'
-  - 'Armor Reinforcement'
-  - 'Density Augmentation'
-  - 'Tensile Boosting'
+  - Material Hardening
+  - Weapon Tempering
+  - Armor Reinforcement
+  - Density Augmentation
+  - Tensile Boosting
 synergy_links:
   - meta-attune
 costs:
   bp: 0
 modifiers: []
+keywords: 'enhancement, meta, wisdom, metafocus, psionic, resonance'
+negative_keywords: 'mundane, anti-magic-field, unattuned'
 ---
 
 # Enhancement

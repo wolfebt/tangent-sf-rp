@@ -45,6 +45,10 @@ sockets:
   allocated: []
 tech_level: 4
 meta_level: 0
+keywords: >-
+  arcology hab-block / megastructure, architecture, structure, urban /
+  megastructure, tl-4, self-contained
+negative_keywords: 'mobile-infantry, personal-weapon, portable-trinket'
 ---
 A self-contained city-in-a-building designed to house millions of citizens with internal weather control, hydroponics, transit, and security.
 

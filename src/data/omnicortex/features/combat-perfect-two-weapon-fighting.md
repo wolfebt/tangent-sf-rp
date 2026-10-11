@@ -13,6 +13,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  perfect two-weapon fighting, combat, special-feature, combat-maneuver,
+  tactical-edge, perfect
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Perfect Two-Weapon Fighting

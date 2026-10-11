@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'deceitful, skill, special-feature, pathological, professional, skilled'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Deceitful

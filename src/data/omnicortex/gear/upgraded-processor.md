@@ -33,6 +33,10 @@ sockets:
   allocated: []
 tech_level: 4
 meta_level: 0
+keywords: >-
+  upgraded cyberdeck processor, gear, personal-property, tl-4, high-speed,
+  quantum
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 High-speed quantum co-processing unit capable of executing expert software programs.
 

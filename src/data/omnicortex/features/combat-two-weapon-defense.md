@@ -11,6 +11,10 @@ description: The character uses their off-hand weapon to parry and block.
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  two-weapon defense, combat, special-feature, combat-maneuver, tactical-edge,
+  off-hand
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Two-Weapon Defense

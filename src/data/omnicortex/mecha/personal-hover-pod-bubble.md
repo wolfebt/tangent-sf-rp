@@ -34,6 +34,8 @@ sockets:
   tier: Socket
   allocated: []
 tech_level: 4
+keywords: 'personal hover pod (the "bubble"), mecha, vehicle, medium, personal, tl-4'
+negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
 ---
 Enclosed glass-sphere transport for comfortable city or atmospheric flight.
 

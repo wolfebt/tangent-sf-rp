@@ -31,6 +31,8 @@ sockets:
   allocated: []
 tech_level: 2
 meta_level: 0
+keywords: 'scattergun, shot, weapon, ranged, kinetic, tl-2, firearms'
+negative_keywords: 'grappling, clinch, unarmed'
 ---
 **Special:** +5ft spread, -1d damage
 

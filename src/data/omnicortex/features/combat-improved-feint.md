@@ -11,6 +11,10 @@ description: 'Improved Feint is a Combat Feature: Feint as a move action.'
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  improved feint, combat, special-feature, combat-maneuver, tactical-edge,
+  improved
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Improved Feint

@@ -13,6 +13,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  agile wrestling, combat, special-feature, combat-maneuver, tactical-edge,
+  utilizes
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Agile Wrestling

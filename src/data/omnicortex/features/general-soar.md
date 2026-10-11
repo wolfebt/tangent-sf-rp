@@ -6,11 +6,17 @@ feature_category: General
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: 'Flight capability (Species trait, cybernetic thrusters, or invocation), Acrobatics 1'
-description: The character has mastered aerial dynamics, thermals, and high-velocity flight maneuvers.
+prerequisites: >-
+  Flight capability (Species trait, cybernetic thrusters, or invocation),
+  Acrobatics 1
+description: >-
+  The character has mastered aerial dynamics, thermals, and high-velocity flight
+  maneuvers.
 costs:
   bp: 3
 modifiers: []
+keywords: 'soar, general, special-feature, mastered, aerial, dynamics'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Soar

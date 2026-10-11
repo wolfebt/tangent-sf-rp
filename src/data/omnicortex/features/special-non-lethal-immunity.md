@@ -11,6 +11,8 @@ description: 'Non-Lethal Immunity is a Special Feature: Immune to Non-Lethal Dam
 costs:
   bp: 3
 modifiers: []
+keywords: 'non-lethal immunity, special, special-feature, non-lethal, immunity, feature:'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Non-Lethal Immunity

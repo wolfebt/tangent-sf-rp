@@ -7,6 +7,28 @@ description: TELEKINESIS invocation for Energy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Celestine (Alterian)
+  - Eidolon (Aetherion Specialist)
+  - Whisper
+  - Impyrium Psion (Gen-E)
+recommended_factions:
+  - The Alterian Enclave
+  - The Ascendancy
+  - Technological Faction Template
+recommended_origins:
+  - Enlightened
+  - Research
+  - Urban
+recommended_occupations:
+  - Adept
+  - Specialist
+  - Scholar
+  - Soldier
+keywords: >-
+  telekinesis, psychokinesis, mass levitation, remote manipulation, telekinetic
+  flight, object hurling, kinetic grasp
+negative_keywords: 'physical manual labor, rope and pulley, heavy lifting harness'
 ---
 
 # TELEKINESIS Invocation

@@ -10,6 +10,8 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+keywords: 'mental issues, hindrance, penalty, general, neurodivergence, chronic'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Mental Issues

@@ -41,6 +41,8 @@ critical_details:
   failure_effect: []
 tech_level: 3
 meta_level: 0
+keywords: 'infantry plate (trooper armor), armor, defense, dr-15, medium-armor, tl-3'
+negative_keywords: 'unarmored, fragile, naked'
 ---
 Rigid composite plating covering the entire body, mounted on a sealed bodysuit. Standard military armor for Coalition and Dynasty forces.
 

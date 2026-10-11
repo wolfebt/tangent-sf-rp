@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'charmed, karma, special-feature, disasters, others, inches'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Charmed

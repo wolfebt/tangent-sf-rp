@@ -29,5 +29,7 @@ sockets:
   allocated: []
 tech_level: 1
 meta_level: 0
+keywords: 'bow, weapon, ranged, kinetic, tl-1, firearms'
+negative_keywords: 'grappling, clinch, unarmed'
 ---
 Category: RANGED

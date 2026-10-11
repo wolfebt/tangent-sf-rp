@@ -22,6 +22,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'diplomacy, social, charisma, interaction, influence, persuasion'
+negative_keywords: 'isolated, anti-social, inarticulate'
 ---
 
 # Diplomacy

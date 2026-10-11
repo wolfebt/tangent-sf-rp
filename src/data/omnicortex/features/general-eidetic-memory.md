@@ -11,6 +11,8 @@ description: The character remembers everything they see or read with fair accur
 costs:
   bp: 3
 modifiers: []
+keywords: 'eidetic memory, general, special-feature, remembers, everything, accuracy'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Eidetic Memory

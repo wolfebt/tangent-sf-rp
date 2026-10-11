@@ -11,6 +11,8 @@ description: A "sixth sense" or spidey-sense that warns of immediate peril.
 costs:
   bp: 3
 modifiers: []
+keywords: 'danger sense, special, special-feature, "sixth, sense", spidey-sense'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Danger Sense

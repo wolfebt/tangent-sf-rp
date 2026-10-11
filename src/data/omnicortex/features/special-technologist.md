@@ -15,6 +15,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'technologist, special, special-feature, understanding, technology, shouldn''t'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Technologist

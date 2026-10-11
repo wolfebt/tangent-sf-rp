@@ -23,6 +23,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'athletics, physical, strength, mobility, bodily-coordination, running'
+negative_keywords: 'sedentary, paralyzed, clumsy'
 ---
 
 # Athletics

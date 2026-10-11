@@ -32,6 +32,8 @@ description: 'Specialist in creating, repairing, and modifying cybernetic enhanc
 costs:
   bp: 80
 modifiers: []
+keywords: 'cyberneticist, savant, rational, intellect, strategist, healer, crafter'
+negative_keywords: 'mindless-brute, reckless, illiterate'
 ---
 
 # The Cyberneticist

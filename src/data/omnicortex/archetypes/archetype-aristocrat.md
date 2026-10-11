@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'aristocrat, visionary, idealist, leadership, charisma, resource access, face'
+negative_keywords: 'anti-social, mute, solitary-hermit'
 ---
 
 # The Aristocrat

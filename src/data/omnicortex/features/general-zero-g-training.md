@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'zero g training, general, special-feature, trained, operate, microgravity'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Zero G Training

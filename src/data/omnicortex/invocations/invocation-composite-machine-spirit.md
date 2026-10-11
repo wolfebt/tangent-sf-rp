@@ -11,6 +11,27 @@ costs:
   bp: 0
 modifiers: []
 discipline: Mental + Energy
+recommended_species:
+  - Cyberform Human
+  - Mekan (Assimilation Unit)
+  - Intellect Construct (Pure AI)
+  - Celestine (Alterian)
+recommended_factions:
+  - The Mekan Collective
+  - Incorporated Planetary Syndication (The Syndicate)
+  - Technological Faction Template
+recommended_origins:
+  - Industrial
+  - Urban
+  - Research
+recommended_occupations:
+  - Specialist
+  - Builder
+  - Agent
+keywords: >-
+  neural jack, machine interface, cyber communion, datastream communion,
+  electronic control, technopathic link, mainframe whisper
+negative_keywords: 'low tech wasteland, illiterate nomad, organic exclusive'
 ---
 # Machine Spirit Interface (Composite Invocation)
 

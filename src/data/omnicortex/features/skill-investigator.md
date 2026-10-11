@@ -11,6 +11,8 @@ description: The character is trained to notice details and follow leads.
 costs:
   bp: 3
 modifiers: []
+keywords: 'investigator, skill, special-feature, trained, notice, details'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Investigator

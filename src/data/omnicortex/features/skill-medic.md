@@ -11,6 +11,8 @@ description: The character is trained in emergency triage and trauma care.
 costs:
   bp: 3
 modifiers: []
+keywords: 'medic, skill, special-feature, trained, emergency, triage'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Medic

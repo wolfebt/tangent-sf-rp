@@ -13,6 +13,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  benefit (equipment), general, special-feature, issued, subsidized,
+  organizational
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Benefit (Equipment)

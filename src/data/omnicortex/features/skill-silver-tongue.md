@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'silver tongue, skill, special-feature, exactly, defuse, situation'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Silver Tongue

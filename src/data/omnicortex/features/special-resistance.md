@@ -11,6 +11,8 @@ description: The character has a fortified immune system or supernatural resilie
 costs:
   bp: 3
 modifiers: []
+keywords: 'resistance, special, special-feature, fortified, immune, system'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Resistance

@@ -32,6 +32,8 @@ description: A skilled starship captain who operates independently on behalf of 
 costs:
   bp: 80
 modifiers: []
+keywords: 'privateer, operative, artisan, adaptable, specialist, combat pilot, skirmisher'
+negative_keywords: 'incompetent, untrained, undisciplined'
 ---
 
 # The Privateer

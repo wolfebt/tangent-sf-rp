@@ -11,6 +11,8 @@ description: The character can sense a specific type of energy or presence.
 costs:
   bp: 3
 modifiers: []
+keywords: 'sense, special, special-feature, specific, energy, presence'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Sense

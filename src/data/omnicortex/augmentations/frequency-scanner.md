@@ -31,6 +31,8 @@ sockets:
 tech_level: 0
 meta_level: 0
 stage: Standard
+keywords: 'frequency scanner, augmentation, sensory, standard, tl-3, general'
+negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
 ---
 Category: **6\. Sensory Modifications (TL 3\)**
 

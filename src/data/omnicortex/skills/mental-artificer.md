@@ -23,6 +23,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'artificer, mental, intellect, cognitive, expertise, crafting'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Artificer

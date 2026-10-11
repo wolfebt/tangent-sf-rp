@@ -13,6 +13,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  natural leader, combat, special-feature, combat-maneuver, tactical-edge,
+  attracts
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Natural Leader

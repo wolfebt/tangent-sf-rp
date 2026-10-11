@@ -29,6 +29,8 @@ sockets:
   allocated: []
 tech_level: 0
 meta_level: 0
+keywords: "utility harness, gear, personal-property, tl-3, penalty:, none\r\nlocations:"
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Category: LIGHT Armor
 Penalty: None

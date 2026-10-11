@@ -31,6 +31,8 @@ description: A hardened survivor who uses force to secure resources.
 costs:
   bp: 80
 modifiers: []
+keywords: 'raider, operative, artisan, adaptable, specialist, aggression, survival'
+negative_keywords: 'incompetent, untrained, undisciplined'
 ---
 
 # The Raider

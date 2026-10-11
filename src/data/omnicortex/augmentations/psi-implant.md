@@ -31,6 +31,8 @@ sockets:
 tech_level: 0
 meta_level: 0
 stage: Standard
+keywords: 'psi implant, augmentation, esoteric, standard, tl-3, general'
+negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
 ---
 Category: **9\. TL5 Advanced Augmentations**
 

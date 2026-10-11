@@ -13,6 +13,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  imp. weapon specialization, combat, special-feature, combat-maneuver,
+  tactical-edge, weapon
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 ---
 
 # Imp. Weapon Specialization

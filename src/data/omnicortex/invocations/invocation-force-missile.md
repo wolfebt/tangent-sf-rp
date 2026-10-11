@@ -7,6 +7,27 @@ description: FORCE MISSILE invocation for Energy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Celestine (Alterian)
+  - Eidolon (Aetherion Specialist)
+  - Whisper
+  - Impyrium Psion (Gen-E)
+recommended_factions:
+  - The Alterian Enclave
+  - The Ascendancy
+  - Military Faction Template
+recommended_origins:
+  - Enlightened
+  - Militaristic
+  - Urban
+recommended_occupations:
+  - Adept
+  - Soldier
+  - Agent
+keywords: >-
+  force missile, kinetic dart, homing projectile, unerring strike, force bolt,
+  vector dart, kinetic tracking dart
+negative_keywords: 'missed spray, inaccurate scatter, heavy ballistic artillery, physical arrow'
 ---
 
 # FORCE MISSILE Invocation

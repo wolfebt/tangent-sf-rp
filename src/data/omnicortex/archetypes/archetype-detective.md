@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'detective, savant, rational, intellect, strategist, investigation, perception'
+negative_keywords: 'mindless-brute, reckless, illiterate'
 ---
 
 # The Detective

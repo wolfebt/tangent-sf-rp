@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'iron will, ability, special-feature, innate-talent, passive-prowess, possesses'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Iron Will

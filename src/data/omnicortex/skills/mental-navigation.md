@@ -23,6 +23,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'navigation, mental, intellect, cognitive, expertise, astrogation'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Navigation

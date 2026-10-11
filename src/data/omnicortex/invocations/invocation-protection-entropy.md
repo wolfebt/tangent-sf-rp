@@ -1,12 +1,35 @@
 ---
 id: invocation-protection-entropy
-name: 'PROTECTION (Entropy)'
+name: PROTECTION (Entropy)
 category: invocations
 discipline: Entropy
 description: PROTECTION invocation for Entropy reality manipulation.
 costs:
   bp: 2
 modifiers: []
+recommended_species:
+  - Celestine (Alterian)
+  - Whisper
+  - Nocturne (Kovian)
+  - Tenen (Sha’nor Spectral)
+recommended_factions:
+  - The Alterian Enclave
+  - The Ascendancy
+  - Kovian Tribunal
+  - Supernatural Faction Template
+recommended_origins:
+  - Enlightened
+  - Hostile
+  - Spacer
+recommended_occupations:
+  - Adept
+  - Soldier
+  - Specialist
+  - Scout
+keywords: >-
+  protection against entropy, decay resistance, anti-necrotic ward, corruption
+  shield, void barrier, entropic insulation
+negative_keywords: 'vulnerability, biological rot, infectious plague, acid vulnerability'
 ---
 
 # PROTECTION (Entropy) Invocation

@@ -11,6 +11,8 @@ description: The character has an ear for dialects and syntax.
 costs:
   bp: 3
 modifiers: []
+keywords: 'linguist, skill, special-feature, dialects, syntax'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Linguist

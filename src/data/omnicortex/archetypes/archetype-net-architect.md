@@ -37,6 +37,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'net-architect, savant, rational, intellect, strategist, tech, logistics'
+negative_keywords: 'mindless-brute, reckless, illiterate'
 ---
 
 # The Net-architect

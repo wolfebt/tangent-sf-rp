@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'benefit (clearance), general, special-feature, official, security, clearance'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Benefit (Clearance)

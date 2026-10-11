@@ -44,6 +44,8 @@ critical_details:
   failure_effect: []
 tech_level: 3
 meta_level: 0
+keywords: 'eod / hazard shell, armor, defense, dr-30, heavy-armor, tl-3'
+negative_keywords: 'unarmored, fragile, naked, high-acrobatics'
 ---
 Bulky specialized armor designed for bomb disposal, plasma containment, and extreme radiation environments.
 

@@ -6,7 +6,7 @@ feature_category: General
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: Pain Tolerance, Stamina 2
+prerequisites: 'Pain Tolerance, Stamina 2'
 description: >-
   A mutation in the transcription factors regulating peripheral pain signaling
   (such as ZFHX2) renders the character profoundly insensitive to noxious pain
@@ -14,6 +14,10 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  nociceptor dampening, general, special-feature, mutation, transcription,
+  factors
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Nociceptor Dampening

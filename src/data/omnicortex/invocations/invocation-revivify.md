@@ -7,6 +7,27 @@ description: REVIVIFY invocation for Entropy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Celestine (Alterian)
+  - Ila (Progenitor Archon)
+  - Prokos (Auluran Biform)
+  - Fey (Base)
+recommended_factions:
+  - The Alterian Enclave
+  - Elven Providence
+  - Supernatural Faction Template
+recommended_origins:
+  - Enlightened
+  - Research
+  - Colony
+recommended_occupations:
+  - Specialist
+  - Adept
+  - Scholar
+keywords: >-
+  revivify, cardiac defibrillation, soul recall, resuscitation, cellular
+  revival, shock-revive, biological restart, spark of life
+negative_keywords: 'irreversible death, rigor mortis, body disintegration, organ harvesting'
 ---
 
 # REVIVIFY Invocation

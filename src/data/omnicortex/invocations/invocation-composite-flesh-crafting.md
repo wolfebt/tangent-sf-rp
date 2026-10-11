@@ -11,6 +11,27 @@ costs:
   bp: 0
 modifiers: []
 discipline: Matter + Entropy
+recommended_species:
+  - Eakren (Corrupted Aberration)
+  - Biomechanical Synthetic
+  - Janissary (Gen-E)
+  - Doppelganger (Shifter)
+recommended_factions:
+  - Genetic Engineering Faction Template
+  - The Outworlds
+  - Supernatural Faction Template
+recommended_origins:
+  - Hostile
+  - Research
+  - Industrial
+recommended_occupations:
+  - Specialist
+  - Adept
+  - Criminal
+keywords: >-
+  flesh sculpting, biomancy, biological graft, anatomical mutation, marrow
+  forging, cellular carving, living graft
+negative_keywords: 'pure synthetic, clean cleanroom, natural perfection, inorganic metal'
 ---
 # Flesh Crafting (Composite Invocation)
 

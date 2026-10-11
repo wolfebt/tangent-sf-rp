@@ -31,6 +31,8 @@ sockets:
   allocated: []
 tech_level: 4
 meta_level: 0
+keywords: 'icer, weapon, ranged, kinetic, tl-4, firearms'
+negative_keywords: 'grappling, clinch, unarmed'
 ---
 **Special:** 10ft Blast, Freeze, TL3
 

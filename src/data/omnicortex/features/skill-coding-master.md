@@ -11,6 +11,8 @@ description: 'Coding Master is a Skill Feature: Perform Computer Tasks at Advant
 costs:
   bp: 3
 modifiers: []
+keywords: 'coding master, skill, special-feature, coding, master, feature:'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Coding Master

@@ -22,6 +22,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'religion, mental, wisdom, intellect, cognitive, expertise'
+negative_keywords: 'mindless, instinct-only, illiterate'
 ---
 
 # Religion

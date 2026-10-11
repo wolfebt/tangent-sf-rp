@@ -6,13 +6,17 @@ feature_category: Special
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: Heavy Augmentations, Stamina 4
+prerequisites: 'Heavy Augmentations, Stamina 4'
 description: >-
   The character is more machine (or bio-construct) than original being. They
   have replaced the majority of their biological functions.
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  extreme augmentations, special, special-feature, machine, bio-construct,
+  original
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Extreme Augmentations

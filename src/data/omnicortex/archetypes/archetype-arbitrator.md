@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'arbitrator, visionary, idealist, leadership, charisma, mediator, social'
+negative_keywords: 'anti-social, mute, solitary-hermit'
 ---
 
 # The Arbitrator

@@ -11,6 +11,8 @@ description: The character is constantly bombarded by sensory input.
 costs:
   bp: 3
 modifiers: []
+keywords: 'sense, uncontrolled, special, special-feature, constantly, bombarded, sensory'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Sense, Uncontrolled

@@ -11,6 +11,8 @@ description: 'Mighty Surge is a Ability Feature: Roll Might checks with Advantag
 costs:
   bp: 3
 modifiers: []
+keywords: 'mighty surge, ability, special-feature, innate-talent, passive-prowess, mighty'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Mighty Surge

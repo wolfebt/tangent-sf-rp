@@ -7,19 +7,22 @@ category: skills
 governing_attributes:
   - Wisdom
 description: >-
-  Matter discipline: Reshaping physical matter, molecular conversion, and phase state changes.
+  Matter discipline: Reshaping physical matter, molecular conversion, and phase
+  state changes.
 trained_only: true
 specialties:
-  - 'Phase State Alteration'
-  - 'Elemental Conversion'
-  - 'Architectural Sculpting'
-  - 'Density Shifting'
-  - 'Liquid-to-Solid Solidification'
+  - Phase State Alteration
+  - Elemental Conversion
+  - Architectural Sculpting
+  - Density Shifting
+  - Liquid-to-Solid Solidification
 synergy_links:
   - meta-attune
 costs:
   bp: 0
 modifiers: []
+keywords: 'transmutation, meta, wisdom, metafocus, psionic, resonance'
+negative_keywords: 'mundane, anti-magic-field, unattuned'
 ---
 
 # Transmutation

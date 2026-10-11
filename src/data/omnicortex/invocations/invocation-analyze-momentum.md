@@ -7,6 +7,27 @@ description: ANALYZE MOMENTUM invocation for Energy reality manipulation.
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Celestine (Alterian)
+  - Whisper
+  - Intellect Construct (Pure AI)
+  - Eidolon (Aetherion Specialist)
+recommended_factions:
+  - The Alterian Enclave
+  - The Ascendancy
+  - Technological Faction Template
+recommended_origins:
+  - Research
+  - Spacer
+  - Enlightened
+recommended_occupations:
+  - Scholar
+  - Specialist
+  - Adept
+keywords: >-
+  analyze momentum, inertial tracking, vector calculus, kinetic trajectory,
+  projectile prediction, velocity scanning
+negative_keywords: 'erratic blind fire, random chaos, uncalculated brawling'
 ---
 
 # ANALYZE MOMENTUM Invocation

@@ -32,6 +32,10 @@ sockets:
   allocated: []
 tech_level: 4
 meta_level: 0
+keywords: >-
+  grav-chute (drop harness), gear, personal-property, tl-4, backpack,
+  anti-gravity
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Backpack anti-gravity emitter arresting terminal velocity for orbital or high-altitude drops.
 

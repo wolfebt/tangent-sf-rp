@@ -30,6 +30,10 @@ sockets:
   allocated: []
 tech_level: 2
 meta_level: 0
+keywords: >-
+  rations (dehydrated pack), gear, personal-property, tl-2, nutrient-dense,
+  synthetic
+negative_keywords: 'primitive-stone, immaterial, intangible'
 ---
 Nutrient-dense synthetic ration blocks sustaining an operative for 1 day.
 

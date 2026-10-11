@@ -13,6 +13,8 @@ description: >-
 costs:
   bp: 3
 modifiers: []
+keywords: 'true faith, karma, special-feature, feature:, double, effects'
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # True Faith

@@ -22,6 +22,8 @@ synergy_links:
 costs:
   bp: 0
 modifiers: []
+keywords: 'leadership, social, charisma, interaction, diplomacy, influence'
+negative_keywords: 'isolated, anti-social, inarticulate'
 ---
 
 # Leadership

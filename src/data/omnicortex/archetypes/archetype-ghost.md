@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'ghost, operative, artisan, adaptable, specialist, stealth, tech'
+negative_keywords: 'heavy-plating, blunt-assault, loud, clumsy'
 ---
 
 # The Ghost

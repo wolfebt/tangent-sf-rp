@@ -183,32 +183,6 @@ export const OMNICORTEX_SECTIONS = [
     sublabel: 'Combat, General, Meta & Exotic'
   },
   {
-    id: 'disadvantages',
-    label: 'Disadvantages & Quirks',
-    shortLabel: 'DISADV',
-    icon: AlertTriangle,
-    colorTheme: 'amber',
-    sublabel: 'Biological Stigmas & Complications'
-  },
-  {
-    id: 'modular_characters',
-    label: 'Modular Characters & Threats',
-    shortLabel: 'THREATS',
-    icon: Bot,
-    colorTheme: 'red',
-    sublabel: 'Bestiary Statblocks & NPCs'
-  },
-  {
-    id: 'world_design',
-    label: 'World Design & Cosmology',
-    shortLabel: 'WORLD',
-    icon: Landmark,
-    colorTheme: 'indigo',
-    isParent: true,
-    subItems: ['planetary_design', 'universe', 'setting', 'philosophy', 'scene'],
-    sublabel: 'Planetary Specs, Universe & Settings'
-  },
-  {
     id: 'invocations',
     label: 'Invocations (Spells)',
     shortLabel: 'MAGIC',
@@ -233,6 +207,32 @@ export const OMNICORTEX_SECTIONS = [
     isParent: true,
     subItems: ['gear', 'weaponry', 'armoring', 'augmentations', 'mecha', 'architecture', 'other'],
     sublabel: 'Gear, Weapons, Armor, Augmentations'
+  },
+  {
+    id: 'disadvantages',
+    label: 'Disadvantages & Quirks',
+    shortLabel: 'DISADV',
+    icon: AlertTriangle,
+    colorTheme: 'amber',
+    sublabel: 'Biological Stigmas & Complications'
+  },
+  {
+    id: 'modular_characters',
+    label: 'Modular Characters & Threats',
+    shortLabel: 'THREATS',
+    icon: Bot,
+    colorTheme: 'red',
+    sublabel: 'Bestiary Statblocks & NPCs'
+  },
+  {
+    id: 'world_design',
+    label: 'World Design & Cosmology',
+    shortLabel: 'WORLD',
+    icon: Landmark,
+    colorTheme: 'indigo',
+    isParent: true,
+    subItems: ['planetary_design', 'universe', 'setting', 'philosophy', 'scene'],
+    sublabel: 'Planetary Specs, Universe & Settings'
   }
 ];
 

@@ -40,6 +40,8 @@ sockets:
   allocated: []
 tech_level: 3
 meta_level: 0
+keywords: 'workshop facility module, architecture, structure, standard, tl-3, equipped'
+negative_keywords: 'mobile-infantry, personal-weapon, portable-trinket'
 ---
 Equipped with heavy tooling benches, diagnostic computers, and repair suites.
 

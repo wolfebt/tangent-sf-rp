@@ -10,6 +10,8 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+keywords: 'clown, hindrance, penalty, general, compulsive, jokester'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Clown

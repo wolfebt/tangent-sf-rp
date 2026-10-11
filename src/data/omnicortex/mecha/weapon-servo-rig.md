@@ -30,6 +30,8 @@ sockets:
   allocated: []
 tech_level: 0
 meta_level: 0
+keywords: 'weapon servo rig, mecha, vehicle, large, humanoid, tl-3'
+negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
 ---
 Category: **12.1 Mechanics of the Wearable**
 

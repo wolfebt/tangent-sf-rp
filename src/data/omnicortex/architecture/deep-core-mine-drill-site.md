@@ -44,6 +44,10 @@ sockets:
   allocated: []
 tech_level: 3
 meta_level: 0
+keywords: >-
+  deep core mine / drill site, architecture, structure, extraction, tl-3,
+  inverted
+negative_keywords: 'mobile-infantry, personal-weapon, portable-trinket'
 ---
 Inverted subterranean mining architecture spiraling deep into planetary strata with a central plasma drill vaporizing rock.
 

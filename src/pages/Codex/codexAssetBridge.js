@@ -8,6 +8,26 @@
 
 import { getMatrixById } from './codexConfig.js';
 import { normalizeOmnicortexItem, exportOmnicortexItem } from '../../utils/tangentSchemaAdapters.js';
+import { DEFAULT_SPECIES } from '../../data/speciesData.js';
+import { DEFAULT_FACTIONS } from '../../data/factionsData.js';
+import { DEFAULT_ORIGINS } from '../../data/originsData.js';
+import { DEFAULT_OCCUPATIONS } from '../../data/occupationsData.js';
+import { DEFAULT_INVOCATIONS } from '../../data/invocationsData.js';
+
+const findCanonicalSeed = (item, dataset) => {
+  if (!item || !Array.isArray(dataset)) return null;
+  const matchId = (item.id || '').toString().toLowerCase().trim();
+  const matchName = (item.name || '').toString().toLowerCase().trim();
+  const matchTitle = (item.title || '').toString().toLowerCase().trim();
+  return dataset.find(d => {
+    const sId = (d.id || '').toString().toLowerCase().trim();
+    const sName = (d.name || '').toString().toLowerCase().trim();
+    const sTitle = (d.title || '').toString().toLowerCase().trim();
+    return (sId && sId === matchId) ||
+           (sName && (sName === matchName || sName === matchTitle)) ||
+           (sTitle && (sTitle === matchName || sTitle === matchTitle));
+  }) || null;
+};
 
 /**
  * Authoritative mapping from Folio tab keys and Omnicortex collections to Codex Matrix IDs.
@@ -204,52 +224,146 @@ export const adaptItemToCodexFormData = (item, matrix) => {
     base.species_size = cleanSize || 'Medium';
 
     // Recommendations & AI Guidance Keywords
-    base.recommended_factions = parseListField(item.recommended_factions || base.recommended_factions);
-    base.recommended_origins = parseListField(item.recommended_origins || base.recommended_origins);
-    base.recommended_occupations = parseListField(item.recommended_occupations || base.recommended_occupations);
-    base.recommended_skills = parseListField(item.recommended_skills || base.recommended_skills);
-    base.recommended_features = parseListField(item.recommended_features || base.recommended_features);
-    base.keywords = typeof item.keywords === 'string' ? item.keywords : (base.keywords || '');
-    base.negative_keywords = typeof item.negative_keywords === 'string' ? item.negative_keywords : (base.negative_keywords || '');
+    const seed = findCanonicalSeed(item, DEFAULT_SPECIES);
+    const itemRecFactions = parseListField(item.recommended_factions);
+    base.recommended_factions = itemRecFactions.length > 0 ? itemRecFactions : parseListField(seed?.recommended_factions || base.recommended_factions);
+
+    const itemRecOrigins = parseListField(item.recommended_origins);
+    base.recommended_origins = itemRecOrigins.length > 0 ? itemRecOrigins : parseListField(seed?.recommended_origins || base.recommended_origins);
+
+    const itemRecOccus = parseListField(item.recommended_occupations);
+    base.recommended_occupations = itemRecOccus.length > 0 ? itemRecOccus : parseListField(seed?.recommended_occupations || base.recommended_occupations);
+
+    const itemRecSkills = parseListField(item.recommended_skills);
+    base.recommended_skills = itemRecSkills.length > 0 ? itemRecSkills : parseListField(seed?.recommended_skills || base.recommended_skills);
+
+    const itemRecFeatures = parseListField(item.recommended_features);
+    base.recommended_features = itemRecFeatures.length > 0 ? itemRecFeatures : parseListField(seed?.recommended_features || base.recommended_features);
+
+    base.keywords = (typeof item.keywords === 'string' && item.keywords.trim())
+      ? item.keywords
+      : (seed?.keywords || base.keywords || '');
+    base.negative_keywords = (typeof item.negative_keywords === 'string' && item.negative_keywords.trim())
+      ? item.negative_keywords
+      : (seed?.negative_keywords || base.negative_keywords || '');
   }
 
   // Harmonize Factions Fields
   if (resolvedMatrix.id === 'factions') {
-    base.recommended_species = parseListField(item.recommended_species || base.recommended_species);
-    base.recommended_origins = parseListField(item.recommended_origins || base.recommended_origins);
-    base.recommended_occupations = parseListField(item.recommended_occupations || base.recommended_occupations);
-    base.recommended_skills = parseListField(item.recommended_skills || base.recommended_skills);
-    base.recommended_features = parseListField(item.recommended_features || base.recommended_features);
-    base.keywords = typeof item.keywords === 'string' ? item.keywords : (base.keywords || '');
-    base.negative_keywords = typeof item.negative_keywords === 'string' ? item.negative_keywords : (base.negative_keywords || '');
+    const seed = findCanonicalSeed(item, DEFAULT_FACTIONS);
+    const itemRecSpecies = parseListField(item.recommended_species);
+    base.recommended_species = itemRecSpecies.length > 0 ? itemRecSpecies : parseListField(seed?.recommended_species || base.recommended_species);
+
+    const itemRecOrigins = parseListField(item.recommended_origins);
+    base.recommended_origins = itemRecOrigins.length > 0 ? itemRecOrigins : parseListField(seed?.recommended_origins || base.recommended_origins);
+
+    const itemRecOccus = parseListField(item.recommended_occupations);
+    base.recommended_occupations = itemRecOccus.length > 0 ? itemRecOccus : parseListField(seed?.recommended_occupations || base.recommended_occupations);
+
+    const itemRecSkills = parseListField(item.recommended_skills);
+    base.recommended_skills = itemRecSkills.length > 0 ? itemRecSkills : parseListField(seed?.recommended_skills || base.recommended_skills);
+
+    const itemRecFeatures = parseListField(item.recommended_features);
+    base.recommended_features = itemRecFeatures.length > 0 ? itemRecFeatures : parseListField(seed?.recommended_features || base.recommended_features);
+
+    base.keywords = (typeof item.keywords === 'string' && item.keywords.trim())
+      ? item.keywords
+      : (seed?.keywords || base.keywords || '');
+    base.negative_keywords = (typeof item.negative_keywords === 'string' && item.negative_keywords.trim())
+      ? item.negative_keywords
+      : (seed?.negative_keywords || base.negative_keywords || '');
   }
 
   // Harmonize Origins Fields
   if (resolvedMatrix.id === 'origins') {
-    base.recommended_species = parseListField(item.recommended_species || base.recommended_species);
-    base.recommended_factions = parseListField(item.recommended_factions || base.recommended_factions);
-    base.recommended_occupations = parseListField(item.recommended_occupations || base.recommended_occupations);
-    base.recommended_skills = parseListField(item.recommended_skills || base.recommended_skills);
-    base.recommended_features = parseListField(item.recommended_features || base.recommended_features);
-    base.keywords = typeof item.keywords === 'string' ? item.keywords : (base.keywords || '');
-    base.negative_keywords = typeof item.negative_keywords === 'string' ? item.negative_keywords : (base.negative_keywords || '');
+    const seed = findCanonicalSeed(item, DEFAULT_ORIGINS);
+    const itemRecSpecies = parseListField(item.recommended_species);
+    base.recommended_species = itemRecSpecies.length > 0 ? itemRecSpecies : parseListField(seed?.recommended_species || base.recommended_species);
+
+    const itemRecFactions = parseListField(item.recommended_factions);
+    base.recommended_factions = itemRecFactions.length > 0 ? itemRecFactions : parseListField(seed?.recommended_factions || base.recommended_factions);
+
+    const itemRecOccus = parseListField(item.recommended_occupations);
+    base.recommended_occupations = itemRecOccus.length > 0 ? itemRecOccus : parseListField(seed?.recommended_occupations || base.recommended_occupations);
+
+    const itemRecSkills = parseListField(item.recommended_skills);
+    base.recommended_skills = itemRecSkills.length > 0 ? itemRecSkills : parseListField(seed?.recommended_skills || base.recommended_skills);
+
+    const itemRecFeatures = parseListField(item.recommended_features);
+    base.recommended_features = itemRecFeatures.length > 0 ? itemRecFeatures : parseListField(seed?.recommended_features || base.recommended_features);
+
+    base.keywords = (typeof item.keywords === 'string' && item.keywords.trim())
+      ? item.keywords
+      : (seed?.keywords || base.keywords || '');
+    base.negative_keywords = (typeof item.negative_keywords === 'string' && item.negative_keywords.trim())
+      ? item.negative_keywords
+      : (seed?.negative_keywords || base.negative_keywords || '');
   }
 
   // Harmonize Occupations Fields
   if (resolvedMatrix.id === 'occupations') {
-    base.recommended_species = parseListField(item.recommended_species || base.recommended_species);
-    base.recommended_factions = parseListField(item.recommended_factions || base.recommended_factions);
-    base.recommended_origins = parseListField(item.recommended_origins || base.recommended_origins);
-    base.recommended_skills = parseListField(item.recommended_skills || base.recommended_skills);
-    base.recommended_features = parseListField(item.recommended_features || item.features || base.recommended_features);
+    const seed = findCanonicalSeed(item, DEFAULT_OCCUPATIONS);
+    const itemRecSpecies = parseListField(item.recommended_species);
+    base.recommended_species = itemRecSpecies.length > 0 ? itemRecSpecies : parseListField(seed?.recommended_species || base.recommended_species);
+
+    const itemRecFactions = parseListField(item.recommended_factions);
+    base.recommended_factions = itemRecFactions.length > 0 ? itemRecFactions : parseListField(seed?.recommended_factions || base.recommended_factions);
+
+    const itemRecOrigins = parseListField(item.recommended_origins);
+    base.recommended_origins = itemRecOrigins.length > 0 ? itemRecOrigins : parseListField(seed?.recommended_origins || base.recommended_origins);
+
+    const itemRecSkills = parseListField(item.recommended_skills);
+    base.recommended_skills = itemRecSkills.length > 0 ? itemRecSkills : parseListField(seed?.recommended_skills || base.recommended_skills);
+
+    const itemRecFeatures = parseListField(item.recommended_features || item.features);
+    base.recommended_features = itemRecFeatures.length > 0 ? itemRecFeatures : parseListField(seed?.recommended_features || base.recommended_features);
     base.features = base.recommended_features;
-    base.keywords = typeof item.keywords === 'string' ? item.keywords : (base.keywords || '');
-    base.negative_keywords = typeof item.negative_keywords === 'string' ? item.negative_keywords : (base.negative_keywords || '');
-    base.professional_skills = item.professional_skills || base.professional_skills || [];
-    base.traits = item.traits || base.traits || [];
-    base.archetypes = item.archetypes || base.archetypes || [];
-    base.field = item.field || base.field || 'General / Other';
-    base.skill_points = Number(item.skill_points || base.skill_points || 20);
+
+    base.keywords = (typeof item.keywords === 'string' && item.keywords.trim())
+      ? item.keywords
+      : (seed?.keywords || base.keywords || '');
+    base.negative_keywords = (typeof item.negative_keywords === 'string' && item.negative_keywords.trim())
+      ? item.negative_keywords
+      : (seed?.negative_keywords || base.negative_keywords || '');
+
+    base.professional_skills = item.professional_skills || seed?.professional_skills || base.professional_skills || [];
+    base.traits = item.traits || seed?.traits || base.traits || [];
+    base.archetypes = item.archetypes || seed?.archetypes || base.archetypes || [];
+    base.field = item.field || seed?.field || base.field || 'General / Other';
+    base.skill_points = Number(item.skill_points || seed?.skill_points || base.skill_points || 20);
+  }
+
+  // Harmonize Invocations / Magic Fields
+  if (resolvedMatrix.id === 'invocation' || resolvedMatrix.id === 'invocations') {
+    const seed = findCanonicalSeed(item, DEFAULT_INVOCATIONS);
+    const itemRecSpecies = parseListField(item.recommended_species);
+    base.recommended_species = itemRecSpecies.length > 0 ? itemRecSpecies : parseListField(seed?.recommended_species || base.recommended_species);
+
+    const itemRecFactions = parseListField(item.recommended_factions);
+    base.recommended_factions = itemRecFactions.length > 0 ? itemRecFactions : parseListField(seed?.recommended_factions || base.recommended_factions);
+
+    const itemRecOrigins = parseListField(item.recommended_origins);
+    base.recommended_origins = itemRecOrigins.length > 0 ? itemRecOrigins : parseListField(seed?.recommended_origins || base.recommended_origins);
+
+    const itemRecOccus = parseListField(item.recommended_occupations);
+    base.recommended_occupations = itemRecOccus.length > 0 ? itemRecOccus : parseListField(seed?.recommended_occupations || base.recommended_occupations);
+
+    const itemRecSkills = parseListField(item.recommended_skills);
+    base.recommended_skills = itemRecSkills.length > 0 ? itemRecSkills : parseListField(seed?.recommended_skills || base.recommended_skills);
+
+    const itemRecFeatures = parseListField(item.recommended_features);
+    base.recommended_features = itemRecFeatures.length > 0 ? itemRecFeatures : parseListField(seed?.recommended_features || base.recommended_features);
+
+    base.keywords = (typeof item.keywords === 'string' && item.keywords.trim())
+      ? item.keywords
+      : (seed?.keywords || base.keywords || '');
+    base.negative_keywords = (typeof item.negative_keywords === 'string' && item.negative_keywords.trim())
+      ? item.negative_keywords
+      : (seed?.negative_keywords || base.negative_keywords || '');
+
+    base.discipline = item.discipline || seed?.discipline || base.discipline || 'Universal';
+    base.sphere = item.sphere || seed?.sphere || base.sphere || 'General';
+    base.subdiscipline = item.subdiscipline || seed?.subdiscipline || base.subdiscipline || '';
   }
 
   // Harmonize Skills Fields
@@ -378,10 +492,19 @@ export const adaptItemToCodexFormData = (item, matrix) => {
     base.recommended_occupations = item.recommended_occupations || base.recommended_occupations || [];
     base.recommended_origins = item.recommended_origins || base.recommended_origins || [];
     base.recommended_factions = item.recommended_factions || base.recommended_factions || [];
+    base.recommended_species = item.recommended_species || base.recommended_species || [];
     base.bp_chassis = Number(item.bp_chassis || base.bp_chassis || 80);
     base.quote = item.quote || base.quote || '';
     base.core_concept = item.core_concept || base.core_concept || '';
     base.tactical_role = item.tactical_role || base.tactical_role || '';
+  }
+
+  // Universal fallback harmonization of keywords & negative railguards
+  if (base.keywords === undefined || base.keywords === '') {
+    base.keywords = typeof item.keywords === 'string' ? item.keywords : (Array.isArray(item.keywords) ? item.keywords.join(', ') : '');
+  }
+  if (base.negative_keywords === undefined || base.negative_keywords === '') {
+    base.negative_keywords = typeof item.negative_keywords === 'string' ? item.negative_keywords : (Array.isArray(item.negative_keywords) ? item.negative_keywords.join(', ') : '');
   }
 
   return base;
@@ -420,6 +543,8 @@ export const adaptCodexToOmnicortexItem = (formData, computedValues, matrix) => 
     matrix_id: resolvedMatrix.id,
     matrix_type: resolvedMatrix.id,
     category: resolvedMatrix.name || resolvedMatrix.id,
+    keywords: typeof formData.keywords === 'string' ? formData.keywords.trim() : (Array.isArray(formData.keywords) ? formData.keywords.join(', ') : ''),
+    negative_keywords: typeof formData.negative_keywords === 'string' ? formData.negative_keywords.trim() : (Array.isArray(formData.negative_keywords) ? formData.negative_keywords.join(', ') : ''),
     _computed: resolvedMatrix.isProperty ? {
       ...(actualComputed || {}),
       ...(formData._computed || {}),
@@ -427,6 +552,16 @@ export const adaptCodexToOmnicortexItem = (formData, computedValues, matrix) => 
     } : { computed_at: new Date().toISOString() },
     updatedAt: new Date().toISOString()
   };
+
+  // Ensure archetypes relational recommendations and allocations are synchronized
+  if (resolvedMatrix.id === 'archetypes') {
+    payload.recommended_species = Array.isArray(formData.recommended_species) ? formData.recommended_species : [];
+    payload.recommended_factions = Array.isArray(formData.recommended_factions) ? formData.recommended_factions : [];
+    payload.recommended_origins = Array.isArray(formData.recommended_origins) ? formData.recommended_origins : [];
+    payload.recommended_occupations = Array.isArray(formData.recommended_occupations) ? formData.recommended_occupations : [];
+    payload.essential_skills = Array.isArray(formData.essential_skills) ? formData.essential_skills : [];
+    payload.signature_features = Array.isArray(formData.signature_features) ? formData.signature_features : [];
+  }
 
   // Ensure species chassis type and size are synchronized
   if (resolvedMatrix.id === 'species') {
@@ -478,6 +613,21 @@ export const adaptCodexToOmnicortexItem = (formData, computedValues, matrix) => 
     payload.recommended_features = Array.isArray(formData.recommended_features) ? formData.recommended_features : [];
     payload.keywords = typeof formData.keywords === 'string' ? formData.keywords.trim() : (formData.keywords || '');
     payload.negative_keywords = typeof formData.negative_keywords === 'string' ? formData.negative_keywords.trim() : (formData.negative_keywords || '');
+  }
+
+  // Ensure invocation recommendations, directives, and railguards are synchronized
+  if (resolvedMatrix.id === 'invocation' || resolvedMatrix.id === 'invocations') {
+    payload.recommended_species = Array.isArray(formData.recommended_species) ? formData.recommended_species : [];
+    payload.recommended_factions = Array.isArray(formData.recommended_factions) ? formData.recommended_factions : [];
+    payload.recommended_origins = Array.isArray(formData.recommended_origins) ? formData.recommended_origins : [];
+    payload.recommended_occupations = Array.isArray(formData.recommended_occupations) ? formData.recommended_occupations : [];
+    payload.recommended_skills = Array.isArray(formData.recommended_skills) ? formData.recommended_skills : [];
+    payload.recommended_features = Array.isArray(formData.recommended_features) ? formData.recommended_features : [];
+    payload.keywords = typeof formData.keywords === 'string' ? formData.keywords.trim() : (formData.keywords || '');
+    payload.negative_keywords = typeof formData.negative_keywords === 'string' ? formData.negative_keywords.trim() : (formData.negative_keywords || '');
+    payload.discipline = formData.discipline || 'Universal';
+    payload.sphere = formData.sphere || 'General';
+    payload.subdiscipline = formData.subdiscipline || '';
   }
 
   // Ensure skill recommendations, directives, and railguards are synchronized

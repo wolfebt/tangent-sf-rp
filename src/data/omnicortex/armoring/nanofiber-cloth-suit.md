@@ -40,6 +40,8 @@ critical_details:
   failure_effect: []
 tech_level: 4
 meta_level: 0
+keywords: 'nanofiber "cloth" suit, armor, defense, dr-5, light-armor, tl-4'
+negative_keywords: 'unarmored, fragile, naked'
 ---
 Tailored from advanced ballistic cloth (TL 4). Absorbs kinetic energy and spreads impact. Indistinguishable from high-end business wear.
 

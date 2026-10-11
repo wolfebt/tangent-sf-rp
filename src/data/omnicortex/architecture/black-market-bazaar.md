@@ -44,6 +44,10 @@ sockets:
   allocated: []
 tech_level: 2
 meta_level: 0
+keywords: >-
+  black market / bazaar, architecture, structure, outlaw / scavenger, tl-2,
+  chaotic
+negative_keywords: 'mobile-infantry, personal-weapon, portable-trinket'
 ---
 A chaotic labyrinth of narrow passages, shipping container stalls, and hidden compartments under floorboards for illicit trade.
 

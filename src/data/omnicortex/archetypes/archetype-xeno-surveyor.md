@@ -34,6 +34,8 @@ description: >-
 costs:
   bp: 80
 modifiers: []
+keywords: 'xeno-surveyor, savant, rational, intellect, strategist, exploration, science'
+negative_keywords: 'mindless-brute, reckless, illiterate'
 ---
 
 # The Xeno-surveyor

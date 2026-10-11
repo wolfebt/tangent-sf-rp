@@ -11,6 +11,10 @@ description: 'Centering Master is a Discipline Feature: +6 Attune Checks (Affect
 costs:
   bp: 3
 modifiers: []
+keywords: >-
+  centering master, discipline, special-feature, focused-training, mastery,
+  centering
+negative_keywords: 'incompetent, untrained, vulnerable'
 ---
 
 # Centering Master

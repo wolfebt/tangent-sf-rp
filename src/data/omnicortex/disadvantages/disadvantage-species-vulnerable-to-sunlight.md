@@ -1,6 +1,6 @@
 ---
 id: disadvantage-species-vulnerable-to-sunlight
-name: "Vulnerable to Sunlight"
+name: Vulnerable to Sunlight
 category: disadvantages
 disadvantage_type: Species Disadvantage
 classification: Meta
@@ -8,9 +8,11 @@ type: Meta
 bp_granted: 4
 costs:
   bp: -4
-description: "Take 1 Con damage per hour in sunlight. Req: Native to Darklands/Shadow."
-prerequisite: "Native to Darklands / Shadow Realms"
+description: 'Take 1 Con damage per hour in sunlight. Req: Native to Darklands/Shadow.'
+prerequisite: Native to Darklands / Shadow Realms
 modifiers: []
+keywords: 'vulnerable to sunlight, hindrance, penalty, meta, damage, sunlight'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Vulnerable to Sunlight

@@ -10,6 +10,8 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+keywords: 'poor, hindrance, penalty, general, starting, severe'
+negative_keywords: 'perfection, flawless, unyielding, invulnerable'
 ---
 
 # Poor

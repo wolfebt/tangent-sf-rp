@@ -640,6 +640,12 @@ export const CODEX_MATRICES = [
       meta_level: 2,
       manifestation_dc: 15,
       focus_cost: 2,
+      recommended_species: [],
+      recommended_factions: [],
+      recommended_origins: [],
+      recommended_occupations: [],
+      keywords: '',
+      negative_keywords: '',
       description: '',
       mechanic: '',
       note: ''
@@ -653,6 +659,12 @@ export const CODEX_MATRICES = [
       { name: 'tech_level', label: 'Tech Level Requirement (TL 0-5)', type: 'number', min: 0, max: 5 },
       { name: 'manifestation_dc', label: 'Manifestation DC / Check', type: 'number', min: 0, max: 80, helpText: 'Psionic difficulty target for manifestation check' },
       { name: 'focus_cost', label: 'Focus Expenditure (FP)', type: 'number', min: 1, max: 20 },
+      { name: 'recommended_species', label: 'Recommended Species', type: 'array', placeholder: 'Select or add species (from cortex)' },
+      { name: 'recommended_factions', label: 'Recommended Factions', type: 'array', placeholder: 'Select or add factions (from cortex)' },
+      { name: 'recommended_origins', label: 'Recommended Origins', type: 'array', placeholder: 'Select or add origins (from cortex)' },
+      { name: 'recommended_occupations', label: 'Recommended Occupations', type: 'array', placeholder: 'Select or add occupations (from cortex)' },
+      { name: 'keywords', label: 'Positive Directives / Keywords', type: 'text', placeholder: 'e.g. psionic, warp, dimensional, entropy' },
+      { name: 'negative_keywords', label: 'Negative Directives / Railguards', type: 'text', placeholder: 'e.g. kinetic, brute, tech' },
       { name: 'description', label: 'Sensory & Manifestation Description', type: 'textarea', aiEnabled: true },
       { name: 'mechanic', label: 'Damage, Duration, Strain & Save Rules', type: 'textarea' },
       { name: 'note', label: 'Architect Notes', type: 'textarea' }
@@ -848,7 +860,9 @@ export const CODEX_MATRICES = [
       bp_chassis: 80,
       description: '',
       full_text: '',
-      note: ''
+      note: '',
+      keywords: '',
+      negative_keywords: ''
     },
     fields: [
       { name: 'name', label: 'Archetype Designation / Name', type: 'text', required: true, placeholder: 'E.g., The Bureaucrat' },
@@ -887,7 +901,9 @@ export const CODEX_MATRICES = [
       { name: 'bp_chassis', label: 'Chassis Allocation Budget (BP)', type: 'number', min: 0, max: 150, default: 80 },
       { name: 'description', label: 'Archetype Profile & Narrative Lore', type: 'textarea', aiEnabled: true },
       { name: 'full_text', label: 'Full Rules Text & Lore (1.02 Archetypes.md)', type: 'textarea', aiEnabled: true },
-      { name: 'note', label: 'Architect Notes', type: 'textarea' }
+      { name: 'note', label: 'Architect Notes', type: 'textarea' },
+      { name: 'keywords', label: 'Guidance Keywords & Positive Directives', type: 'text' },
+      { name: 'negative_keywords', label: 'Negative Keywords & Railguards', type: 'text' }
     ],
     computedOutputs: [],
     computeOnSave: (formData) => ({
@@ -935,7 +951,9 @@ export const CODEX_MATRICES = [
       threat_rating: 15,
       description: '',
       mechanic: '',
-      note: ''
+      note: '',
+      keywords: '',
+      negative_keywords: ''
     },
     fields: [
       { name: 'name', label: 'Operative / Archetype Name', type: 'text', required: true, placeholder: 'E.g., Syndicate Ghost Infiltrator' },
@@ -948,7 +966,9 @@ export const CODEX_MATRICES = [
       { name: 'threat_rating', label: 'Encounter Threat Rating', type: 'number', min: 0, max: 80, helpText: 'Baseline Challenge Rating for combat encounters' },
       { name: 'description', label: 'Appearance, Behavioral AI & Motives', type: 'textarea', aiEnabled: true },
       { name: 'mechanic', label: 'Combat Behaviors, Special Traits & Loot', type: 'textarea' },
-      { name: 'note', label: 'Architect Notes', type: 'textarea' }
+      { name: 'note', label: 'Architect Notes', type: 'textarea' },
+      { name: 'keywords', label: 'Guidance Keywords & Positive Directives', type: 'text' },
+      { name: 'negative_keywords', label: 'Negative Keywords & Railguards', type: 'text' }
     ],
     computedOutputs: [],
     computeOnSave: (formData, engines) => {
@@ -1294,7 +1314,9 @@ export const CODEX_MATRICES = [
       hazards: 'Corrosive Dust Storms, Solar Flares',
       description: '',
       mechanic: '',
-      note: ''
+      note: '',
+      keywords: '',
+      negative_keywords: ''
     },
     fields: [
       { name: 'name', label: 'Planet / Celestial Body Name', type: 'text', required: true, placeholder: 'E.g., Valerius-9 Arcology Prime' },
@@ -1305,7 +1327,9 @@ export const CODEX_MATRICES = [
       { name: 'hazards', label: 'Planetary Hazards & Flora/Fauna', type: 'text', placeholder: 'E.g., Bioluminescent predators, tectonic rifts' },
       { name: 'description', label: 'Planetary Panorama & Climate Lore', type: 'textarea', aiEnabled: true },
       { name: 'mechanic', label: 'Environmental Survival Rules & DC Modifiers', type: 'textarea' },
-      { name: 'note', label: 'Architect Notes', type: 'textarea' }
+      { name: 'note', label: 'Architect Notes', type: 'textarea' },
+      { name: 'keywords', label: 'Guidance Keywords & Positive Directives', type: 'text' },
+      { name: 'negative_keywords', label: 'Negative Keywords & Railguards', type: 'text' }
     ],
     computedOutputs: [],
     computeOnSave: (formData, engines) => {
@@ -1607,7 +1631,9 @@ export const CODEX_MATRICES = [
       prerequisite: 'None',
       description: '',
       mechanic: '',
-      note: ''
+      note: '',
+      keywords: '',
+      negative_keywords: ''
     },
     fields: [
       { name: 'name', label: 'Disadvantage Name', type: 'text', required: true, placeholder: 'E.g., Addiction' },
@@ -1617,7 +1643,9 @@ export const CODEX_MATRICES = [
       { name: 'prerequisite', label: 'Prerequisites', type: 'text', placeholder: 'E.g., None' },
       { name: 'description', label: 'Flaw Overview', type: 'textarea' },
       { name: 'mechanic', label: 'Mechanics & Severity Tiers', type: 'textarea' },
-      { name: 'note', label: 'Architect Notes', type: 'textarea' }
+      { name: 'note', label: 'Architect Notes', type: 'textarea' },
+      { name: 'keywords', label: 'Guidance Keywords & Positive Directives', type: 'text' },
+      { name: 'negative_keywords', label: 'Negative Keywords & Railguards', type: 'text' }
     ],
     computedOutputs: [],
     computeOnSave: (formData) => ({
@@ -1956,12 +1984,16 @@ export const CODEX_MATRICES = [
     defaultValues: {
       name: 'Technological Domain Reference Profile',
       tl: 3,
-      description: 'Technological Domain Reference Profile and civilization capabilities.'
+      description: 'Technological Domain Reference Profile and civilization capabilities.',
+      keywords: '',
+      negative_keywords: ''
     },
     fields: [
       { name: 'name', label: 'Technology Profile Designation', type: 'text', required: true, placeholder: 'E.g., Singularity Era Materials Matrix' },
       { name: 'tl', label: 'Tech Level (TL 0-5)', type: 'number', min: 0, max: 5 },
-      { name: 'description', label: 'Technical Specifications & Domain Capabilities', type: 'textarea' }
+      { name: 'description', label: 'Technical Specifications & Domain Capabilities', type: 'textarea' },
+      { name: 'keywords', label: 'Guidance Keywords & Positive Directives', type: 'text' },
+      { name: 'negative_keywords', label: 'Negative Keywords & Railguards', type: 'text' }
     ],
     computedOutputs: [],
     computeOnSave: (formData) => ({

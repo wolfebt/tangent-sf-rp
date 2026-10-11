@@ -31,6 +31,8 @@ description: 'An expert in deciphering codes, languages, and hidden messages.'
 costs:
   bp: 80
 modifiers: []
+keywords: 'cryptographer, savant, rational, intellect, strategist, intel, support'
+negative_keywords: 'mindless-brute, reckless, illiterate'
 ---
 
 # The Cryptographer
