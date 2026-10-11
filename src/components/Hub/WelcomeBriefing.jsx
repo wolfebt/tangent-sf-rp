@@ -8,7 +8,6 @@ import {
   Radio, 
   Database, 
   Layers, 
-  ChevronRight, 
   BookOpen
 } from 'lucide-react';
 import { AudioService } from '../../services/audioService';
@@ -378,18 +377,6 @@ export const WelcomeBriefing = ({ onDismiss, isMobile = false }) => {
                     </button>
                   ))}
                 </div>
-              </div>
-
-              {/* Card Footer: Guide Rail Tab Action */}
-              <div className="flex items-center justify-between pt-2 border-t border-slate-800/80 mt-1">
-                <span className="text-[9.5px] font-mono text-slate-500 uppercase flex items-center gap-1.5">
-                  <span className={`w-1.5 h-1.5 rounded-full ${section.dotColor}`} />
-                  <span>GUIDE RAIL TAB</span>
-                </span>
-                <span className={`px-2.5 py-0.5 rounded-md text-[10px] font-mono font-bold uppercase tracking-wider flex items-center gap-1 ${section.btnColor} shadow-sm group-hover:translate-x-0.5 transition-transform`}>
-                  <span>Deploy</span>
-                  <ChevronRight size={11} />
-                </span>
               </div>
             </div>
           );

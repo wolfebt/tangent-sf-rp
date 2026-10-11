@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { LandingDrawerArea } from '../components/Hub/LandingDrawerArea';
-import { UserSettingsModal } from '../components/UserSettingsModal';
 import { WelcomeBriefing } from '../components/Hub/WelcomeBriefing';
 import { HomeMessageBanner } from '../components/Hub/HomeMessageBanner';
 import { 
@@ -27,7 +26,6 @@ const Home = () => {
   });
 
   const [activeDrawer, setActiveDrawer] = useState(null);
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [showWelcomeBriefing, setShowWelcomeBriefing] = useState(() => {
     return !briefingDismissedUntilRefresh;
   });
@@ -88,7 +86,7 @@ const Home = () => {
         {/* Center Workspace Area */}
         <div className="flex-1 min-h-0 w-full p-2.5 sm:p-4 lg:p-5 flex flex-col gap-2 sm:gap-3 overflow-hidden">
           {/* ── Top Admin Broadcast Banner ── */}
-          <HomeMessageBanner className="shrink-0" />
+          <HomeMessageBanner position="top" className="shrink-0" />
 
           {/* Mobile: active drawer dismiss bar */}
           {isMobile && activeDrawer && (
@@ -235,14 +233,13 @@ const Home = () => {
               </div>
             )
           )}
+
+          {/* ── Bottom Admin Broadcast Banner ── */}
+          <HomeMessageBanner position="bottom" className="shrink-0 mt-auto" />
         </div>
       </div>
 
-      {/* Global Settings Modal */}
-      <UserSettingsModal
-        isOpen={isSettingsOpen}
-        onClose={() => setIsSettingsOpen(false)}
-      />
+
 
       {/* Footer */}
       <footer className="w-full shrink-0 pt-2 pb-2.5 border-t border-slate-900/60 flex items-center justify-between text-[10px] font-mono text-slate-500 gap-2 px-4 relative z-10">

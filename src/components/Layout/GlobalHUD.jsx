@@ -125,20 +125,29 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
   
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [settingsInitialTab, setSettingsInitialTab] = useState('identity');
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [guideInitialTab, setGuideInitialTab] = useState('hub');
   const { isMuted: isAudioMuted, toggleMute: toggleAudio } = useAudio();
   const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
   const dbmFileInputRef = useRef(null);
 
-  // Global custom event listeners for Team Management
+  // Global custom event listeners for Team Management & Settings
   useEffect(() => {
     const handleOpenTeamModal = () => setIsTeamModalOpen(true);
+    const handleOpenSettingsModal = (e) => {
+      const tab = e?.detail?.tab || 'identity';
+      setSettingsInitialTab(tab);
+      setIsSettingsOpen(true);
+    };
+
     window.addEventListener('open-team-management', handleOpenTeamModal);
     window.addEventListener('open-squad-modal', handleOpenTeamModal);
+    window.addEventListener('open-settings', handleOpenSettingsModal);
     return () => {
       window.removeEventListener('open-team-management', handleOpenTeamModal);
       window.removeEventListener('open-squad-modal', handleOpenTeamModal);
+      window.removeEventListener('open-settings', handleOpenSettingsModal);
     };
   }, []);
 
@@ -509,6 +518,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
               type="button"
               onClick={() => {
                 AudioService.playTerminalBeep(1000, 0.02);
+                setSettingsInitialTab('identity');
                 setIsSettingsOpen(true);
               }}
               className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-[#12161f] hover:bg-[#181d28] border border-cyan-500/50 hover:border-cyan-400 text-slate-200 text-xs font-mono transition-colors cursor-pointer group shadow-[0_0_10px_rgba(34,211,238,0.15)]"
@@ -821,7 +831,11 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
       {/* Global Settings Modal */}
       <UserSettingsModal
         isOpen={isSettingsOpen}
-        onClose={() => setIsSettingsOpen(false)}
+        initialTab={settingsInitialTab}
+        onClose={() => {
+          setIsSettingsOpen(false);
+          setSettingsInitialTab('identity');
+        }}
       />
 
       {/* Comprehensive System User Guide Modal */}

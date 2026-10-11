@@ -155,7 +155,7 @@ export const AdminBannerModal = ({ isOpen, onClose, initialConfig, onSaved }) =>
                 </span>
               </div>
               <p className="text-[11px] font-mono text-slate-400">
-                Configure up to 3 lines of text, character ticker effect with speed adjust, and 12 sci-fi color themes.
+                Configure up to 3 lines of text, character ticker effect with speed adjust, and {AVAILABLE_BANNER_COLORS.length} sci-fi color themes.
               </p>
             </div>
           </div>
@@ -187,55 +187,74 @@ export const AdminBannerModal = ({ isOpen, onClose, initialConfig, onSaved }) =>
             </div>
 
             {/* Simulated Banner Container */}
-            <div className={`relative overflow-hidden rounded-lg sm:rounded-xl border ${currentTheme.border} ${currentTheme.bg} ${currentTheme.boxGlow} backdrop-blur-xl px-3 flex items-center justify-between gap-3 transition-all duration-300 w-full ${
-              previewLines.length === 3
-                ? 'min-h-[64px] sm:min-h-[72px] py-2'
-                : previewLines.length === 2
-                  ? 'min-h-[48px] sm:min-h-[54px] py-1.5'
-                  : 'min-h-[38px] sm:min-h-[42px] py-1'
-            }`}>
-              {/* Top Accent Line */}
-              <div className={`absolute top-0 left-4 right-4 h-[1px] opacity-60 ${currentTheme.accentLine}`} />
+            {(() => {
+              const hasBg = form.showBackground !== false;
+              return (
+                <div className={`relative overflow-hidden rounded-lg sm:rounded-xl transition-all duration-300 w-full flex items-center justify-between gap-3 ${
+                  hasBg
+                    ? `border ${currentTheme.border} ${currentTheme.bg} ${currentTheme.boxGlow} backdrop-blur-xl px-3`
+                    : 'border border-dashed border-slate-800/80 bg-transparent shadow-none px-2'
+                } ${
+                  previewLines.length === 3
+                    ? 'min-h-[64px] sm:min-h-[72px] py-2'
+                    : previewLines.length === 2
+                      ? 'min-h-[48px] sm:min-h-[54px] py-1.5'
+                      : 'min-h-[38px] sm:min-h-[42px] py-1'
+                }`}>
+                  {/* Top Accent Line */}
+                  {hasBg && (
+                    <div className={`absolute top-0 left-4 right-4 h-[1px] opacity-60 ${currentTheme.accentLine}`} />
+                  )}
 
-              {/* Left Beacon & Badge */}
-              <div className="flex items-center gap-2 shrink-0 z-10">
-                <div className="relative flex items-center justify-center">
-                  <span className={`w-2 h-2 rounded-full ${currentTheme.beacon}`} />
-                  <span className={`absolute w-3.5 h-3.5 rounded-full ${currentTheme.beacon} opacity-75 animate-ping`} />
-                </div>
+                  {/* Left Beacon & Badge */}
+                  <div className="flex items-center gap-2 shrink-0 z-10">
+                    {hasBg && (
+                      <div className="relative flex items-center justify-center">
+                        <span className={`w-2 h-2 rounded-full ${currentTheme.beacon}`} />
+                        <span className={`absolute w-3.5 h-3.5 rounded-full ${currentTheme.beacon} opacity-75 animate-ping`} />
+                      </div>
+                    )}
 
-                {form.badge && (
-                  <div className={`hidden sm:flex px-2 py-0.5 rounded text-[9.5px] font-mono font-bold tracking-wider items-center gap-1.5 uppercase ${currentTheme.badgeBg}`}>
-                    <SelectedIcon size={12} className="shrink-0" />
-                    <span className="whitespace-nowrap">{form.badge}</span>
+                    {form.badge && (
+                      <div className={`hidden sm:flex px-2 py-0.5 rounded text-[9.5px] font-mono font-bold tracking-wider items-center gap-1.5 uppercase ${
+                        hasBg
+                          ? currentTheme.badgeBg
+                          : 'text-slate-400 bg-transparent border border-slate-700/60'
+                      }`}>
+                        <SelectedIcon size={12} className="shrink-0" />
+                        <span className="whitespace-nowrap">{form.badge}</span>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
 
-              {/* Center Transmission Display */}
-              <div className="flex-1 overflow-hidden relative mx-1 sm:mx-2 min-w-0">
-                <BannerMessageDisplay
-                  lines={previewLines}
-                  mode={form.mode}
-                  speed={form.speed}
-                  tickerSpeed={form.tickerSpeed}
-                  theme={currentTheme}
-                />
-              </div>
+                  {/* Center Transmission Display */}
+                  <div className="flex-1 overflow-hidden relative mx-1 sm:mx-2 min-w-0">
+                    <BannerMessageDisplay
+                      lines={previewLines}
+                      mode={form.mode}
+                      speed={form.speed}
+                      tickerSpeed={form.tickerSpeed}
+                      theme={currentTheme}
+                    />
+                  </div>
 
-              {/* Right CTA + Beacon */}
-              <div className="flex items-center gap-2 shrink-0 z-10">
-                {form.linkLabel && (
-                  <span className={`px-2 py-0.5 rounded text-[10px] uppercase font-bold border border-current opacity-90 whitespace-nowrap ${currentTheme.text} bg-black/40`}>
-                    {form.linkLabel}
-                  </span>
-                )}
-                <div className="relative flex items-center justify-center w-4 shrink-0">
-                  <span className={`w-2 h-2 rounded-full ${currentTheme.beacon}`} />
-                  <span className={`absolute w-3.5 h-3.5 rounded-full ${currentTheme.beacon} opacity-75 animate-ping`} />
+                  {/* Right CTA + Beacon */}
+                  <div className="flex items-center gap-2 shrink-0 z-10">
+                    {form.linkLabel && (
+                      <span className={`px-2 py-0.5 rounded text-[10px] uppercase font-bold border border-current opacity-90 whitespace-nowrap ${currentTheme.text} bg-black/40`}>
+                        {form.linkLabel}
+                      </span>
+                    )}
+                    {hasBg && (
+                      <div className="relative flex items-center justify-center w-4 shrink-0">
+                        <span className={`w-2 h-2 rounded-full ${currentTheme.beacon}`} />
+                        <span className={`absolute w-3.5 h-3.5 rounded-full ${currentTheme.beacon} opacity-75 animate-ping`} />
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </div>
+              );
+            })()}
           </div>
 
           {/* Quick Presets */}
@@ -452,11 +471,62 @@ export const AdminBannerModal = ({ isOpen, onClose, initialConfig, onSaved }) =>
             </div>
           </div>
 
-          {/* 12 Colors Palette */}
+          {/* Frame & Background Style (Cyber-Gel Frame vs. Clean Text Only) */}
+          <div className="space-y-1.5 p-3 rounded-xl bg-slate-950/80 border border-slate-800">
+            <div className="flex items-center justify-between">
+              <label className="text-[10.5px] font-mono text-cyan-400 uppercase tracking-widest block font-bold flex items-center gap-1.5">
+                <Layers size={13} />
+                <span>Frame &amp; Background Style</span>
+              </label>
+              <span className="text-[10px] font-mono text-slate-400 uppercase font-bold">
+                {form.showBackground !== false ? 'Cyber-Gel Frame' : 'Clean Text Only'}
+              </span>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1000, 0.02);
+                  setForm(prev => ({ ...prev, showBackground: true }));
+                }}
+                className={`py-2 px-3 rounded-lg font-mono font-bold text-xs transition-all flex items-center justify-center gap-2 cursor-pointer ${
+                  form.showBackground !== false
+                    ? 'bg-cyan-500/25 border border-cyan-500/60 text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.25)]'
+                    : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-slate-700'
+                }`}
+              >
+                <Shield size={14} />
+                <span>Cyber-Gel Frame</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1000, 0.02);
+                  setForm(prev => ({ ...prev, showBackground: false }));
+                }}
+                className={`py-2 px-3 rounded-lg font-mono font-bold text-xs transition-all flex items-center justify-center gap-2 cursor-pointer ${
+                  form.showBackground === false
+                    ? 'bg-cyan-500/25 border border-cyan-500/60 text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.25)]'
+                    : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-slate-700'
+                }`}
+              >
+                <Sparkles size={14} />
+                <span>Clean Text Only</span>
+              </button>
+            </div>
+            <p className="text-[10px] text-slate-500 font-mono">
+              {form.showBackground !== false
+                ? 'Framed: Full cyber-gel backdrop, glowing border, accent line, and beacon pulsing dots.'
+                : 'Clean: No frame, no pulsing dots, no gel background — displays colored text directly.'}
+            </p>
+          </div>
+
+          {/* Sci-Fi Colors Palette */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <label className="text-[10.5px] text-slate-400 uppercase tracking-widest block font-bold">
-                Sci-Fi Color Palette (12 Available Colors)
+                Sci-Fi Color Palette ({AVAILABLE_BANNER_COLORS.length} Available Colors)
               </label>
               <span className="text-[10px] text-cyan-400 uppercase font-bold">
                 {currentTheme.label}

@@ -264,6 +264,48 @@ h1, h2, h3, h4, h5, h6 {
   animation-play-state: paused;
 }
 
+/* Static Marquee Fade & Pulse Animations */
+@keyframes marquee-static-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes marquee-static-slow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+.animate-static-fade-pulse {
+  animation: marquee-static-pulse 3s ease-in-out infinite;
+}
+
+.animate-static-fade-slow {
+  animation: marquee-static-slow 6s ease-in-out infinite;
+}
+
+/* Static Marquee Phosphor Bloom Glow */
+.static-glow-bloom {
+  text-shadow: 0 0 6px currentColor, 0 0 14px currentColor, 0 0 24px currentColor !important;
+  filter: drop-shadow(0 0 8px currentColor);
+}
+
+/* Silver Marquee Theme Black Shadow Utilities */
+.silver-black-text-shadow {
+  text-shadow: 0 1px 2px #000, 0 2px 6px rgba(0, 0, 0, 0.95), 0 0 12px rgba(0, 0, 0, 0.9) !important;
+}
+
+.silver-black-box-shadow {
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.95), 0 0 15px rgba(226, 232, 240, 0.15) !important;
+}
+
 /* Shifting White & Black Shadow Animations */
 @keyframes shiftWBShadowText {
   0%, 100% {

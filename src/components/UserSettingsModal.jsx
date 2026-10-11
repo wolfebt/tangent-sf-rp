@@ -28,7 +28,14 @@ import {
   Gauge,
   Terminal,
   Bell,
-  LogOut
+  LogOut,
+  AlignLeft,
+  AlignRight,
+  Activity,
+  Sun,
+  Ban,
+  ArrowUpToLine,
+  ArrowDownToLine
 } from 'lucide-react';
 import { ComprehensiveUserGuideModal } from './UI/ComprehensiveUserGuideModal';
 import { AiConfigDrawer } from './UI/AiConfigDrawer';
@@ -42,9 +49,12 @@ import {
   AVAILABLE_BANNER_COLORS,
   BANNER_SPEEDS, 
   TICKER_SPEEDS,
+  TICKER_ALIGNMENTS,
+  STATIC_FADE_OPTIONS,
+  STATIC_GLOW_OPTIONS,
   BANNER_MODES,
-  BANNER_PRESETS, 
   DEFAULT_BANNER_CONFIG,
+  DEFAULT_BOTTOM_BANNER_CONFIG,
   normalizeBannerLines,
   saveHomeBanner, 
   getCachedHomeBanner, 
@@ -67,15 +77,23 @@ const BANNER_ICON_COMPONENTS = {
   Bell
 };
 
-export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
+export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab = 'identity' }) => {
   const navigate = useNavigate();
   const { currentUser, refreshUserHandle, userRole, isAdmin, isGM, triggerBootSplash, confirmLogout } = useAuth() || {};
-  const canManageMarquee = Boolean(isAdmin || isGM || userRole === 'Admin' || userRole === 'GM' || !currentUser);
+  const canManageMarquee = Boolean(
+    isAdmin || 
+    isGM || 
+    userRole === 'Admin' || 
+    userRole === 'GM' || 
+    userRole === 'Architect' || 
+    !currentUser || 
+    (typeof window !== 'undefined' && localStorage.getItem('omnicortex_admin_override') !== 'false')
+  );
   const confirm = useConfirm();
   const { showSuccessToast } = useToast() || {};
   
-  // Navigation tab: 'identity' | 'audio' | 'ai' | 'manual' | 'system'
-  const [activeTab, setActiveTab] = useState('identity');
+  // Navigation tab: 'identity' | 'audio' | 'ai' | 'manual' | 'system' | 'broadcast'
+  const [activeTab, setActiveTab] = useState(initialTab);
 
   // User Profile
   const [handle, setHandle] = useState('');
@@ -117,29 +135,46 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
   const [saveMessage, setSaveMessage] = useState('');
 
   // Tactical Home Marquee Broadcast (Admin / Developer Controls)
-  const getInitialBannerFormState = (conf) => {
-    const normLines = normalizeBannerLines(conf);
+  const [marqueeSubTab, setMarqueeSubTab] = useState('top'); // 'top' | 'bottom'
+
+  const getInitialBannerFormState = (conf, position = 'top') => {
+    const isBottom = position === 'bottom';
+    const def = isBottom ? DEFAULT_BOTTOM_BANNER_CONFIG : DEFAULT_BANNER_CONFIG;
+    const normLines = normalizeBannerLines(conf || def);
     return {
-      ...DEFAULT_BANNER_CONFIG,
+      ...def,
       ...conf,
       line1: conf?.line1 ?? (normLines[0] || ''),
       line2: conf?.line2 ?? (normLines[1] || ''),
       line3: conf?.line3 ?? (normLines[2] || ''),
       lines: normLines,
-      mode: conf?.mode || 'ticker',
-      speed: conf?.speed || 'normal',
-      tickerSpeed: conf?.tickerSpeed || 28,
-      colorTheme: conf?.colorTheme || 'cyan',
-      icon: conf?.icon || 'Radio',
-      badge: conf?.badge || 'TACTICAL BROADCAST',
+      mode: conf?.mode || def.mode || 'ticker',
+      speed: conf?.speed || def.speed || 'normal',
+      tickerSpeed: conf?.tickerSpeed || def.tickerSpeed || 28,
+      tickerAlignment: conf?.tickerAlignment || def.tickerAlignment || 'left',
+      staticFade: conf?.staticFade || def.staticFade || 'none',
+      staticGlow: conf?.staticGlow || def.staticGlow || 'subtle',
+      colorTheme: conf?.colorTheme || def.colorTheme || (isBottom ? 'emerald' : 'cyan'),
+      icon: conf?.icon || def.icon || (isBottom ? 'Shield' : 'Radio'),
+      showBackground: conf?.showBackground !== undefined ? Boolean(conf.showBackground) : true,
+      badge: conf?.badge || def.badge,
       linkLabel: conf?.linkLabel || '',
       linkUrl: conf?.linkUrl || '',
       allowDismiss: false
     };
   };
 
-  // Tactical Home Marquee Broadcast (Admin / Developer Controls)
-  const [bannerForm, setBannerForm] = useState(() => getInitialBannerFormState(getCachedHomeBanner()));
+  const [topBannerForm, setTopBannerForm] = useState(() => getInitialBannerFormState(getCachedHomeBanner('top'), 'top'));
+  const [bottomBannerForm, setBottomBannerForm] = useState(() => getInitialBannerFormState(getCachedHomeBanner('bottom'), 'bottom'));
+
+  const bannerForm = marqueeSubTab === 'bottom' ? bottomBannerForm : topBannerForm;
+  const setBannerForm = (updater) => {
+    if (marqueeSubTab === 'bottom') {
+      setBottomBannerForm(updater);
+    } else {
+      setTopBannerForm(updater);
+    }
+  };
   const [isBannerSaving, setIsBannerSaving] = useState(false);
 
   // Hardware Profile & Graphics Telemetry
@@ -147,8 +182,10 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
   const [telemetryCopied, setTelemetryCopied] = useState(false);
 
   useEffect(() => {
-    let unsubBanner = null;
     if (isOpen) {
+      if (initialTab) {
+        setActiveTab(initialTab);
+      }
       setHandle(localStorage.getItem('userHandle') || '');
       setContactInfo(localStorage.getItem('userContactInfo') || '');
       setGeminiApiKey(localStorage.getItem('geminiApiKey') || '');
@@ -160,15 +197,9 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
       setTextScale(localStorage.getItem('tangent_text_scale') || 'standard');
       setSaveMessage('');
 
-      // Initialize Banner Form
-      setBannerForm(getInitialBannerFormState(getCachedHomeBanner()));
-      try {
-        unsubBanner = subscribeToHomeBanner((conf) => {
-          setBannerForm(getInitialBannerFormState(conf));
-        });
-      } catch (err) {
-        console.warn("Banner subscription in settings modal warning:", err);
-      }
+      // Initialize Banner Forms with the latest cached state
+      setTopBannerForm(getInitialBannerFormState(getCachedHomeBanner('top'), 'top'));
+      setBottomBannerForm(getInitialBannerFormState(getCachedHomeBanner('bottom'), 'bottom'));
 
       if (currentUser) {
         getDoc(doc(db, 'users', currentUser.uid)).then((docSnap) => {
@@ -202,10 +233,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
         }).catch(err => console.warn("Failed to fetch user cloud settings:", err));
       }
     }
-    return () => {
-      if (unsubBanner) unsubBanner();
-    };
-  }, [isOpen, currentUser]);
+  }, [isOpen, currentUser, initialTab]);
 
   if (!isOpen) return null;
 
@@ -297,7 +325,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
 
     if (currentUser) {
       try {
-        await setDoc(doc(db, 'users', currentUser.uid), {
+        const userSyncPromise = setDoc(doc(db, 'users', currentUser.uid), {
           userHandle: trimmedHandle,
           userContactInfo: trimmedContactInfo,
           geminiApiKey: trimmedGeminiKey,
@@ -306,30 +334,59 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
           customEndpoint: trimmedEndpoint,
           updatedAt: new Date().toISOString()
         }, { merge: true });
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('Firestore user sync timed out')), 800)
+        );
+        await Promise.race([userSyncPromise, timeoutPromise]);
       } catch (err) {
         console.warn("Failed to sync settings to Firestore:", err);
       }
     }
 
-    if (canManageMarquee && bannerForm) {
+    if (canManageMarquee) {
       try {
-        const activeRaw = [bannerForm.line1, bannerForm.line2, bannerForm.line3].map(l => (typeof l === 'string' ? l.trim() : ''));
-        const activeFiltered = activeRaw.filter(Boolean);
-        const payload = {
-          ...bannerForm,
-          line1: bannerForm.line1 || '',
-          line2: bannerForm.line2 || '',
-          line3: bannerForm.line3 || '',
-          lines: activeFiltered.length > 0 ? activeFiltered : [bannerForm.line1 || 'WELCOME TO TANGENT SF RP'],
-          message: activeFiltered.join(' // ') || bannerForm.line1 || 'WELCOME TO TANGENT SF RP',
+        const topRaw = [topBannerForm.line1, topBannerForm.line2, topBannerForm.line3].map(l => (typeof l === 'string' ? l.trim() : ''));
+        const topFiltered = topRaw.filter(Boolean);
+        const topPayload = {
+          ...topBannerForm,
+          line1: topBannerForm.line1 || '',
+          line2: topBannerForm.line2 || '',
+          line3: topBannerForm.line3 || '',
+          tickerAlignment: topBannerForm.tickerAlignment || 'left',
+          staticFade: topBannerForm.staticFade || 'none',
+          staticGlow: topBannerForm.staticGlow || 'subtle',
+          showBackground: topBannerForm.showBackground !== false,
+          lines: topFiltered.length > 0 ? topFiltered : [topBannerForm.line1 || 'WELCOME TO TANGENT SF RP'],
+          message: topFiltered.join(' // ') || topBannerForm.line1 || 'WELCOME TO TANGENT SF RP',
           allowDismiss: false
         };
-        await saveHomeBanner(payload, currentUser);
+
+        const bottomRaw = [bottomBannerForm.line1, bottomBannerForm.line2, bottomBannerForm.line3].map(l => (typeof l === 'string' ? l.trim() : ''));
+        const bottomFiltered = bottomRaw.filter(Boolean);
+        const bottomPayload = {
+          ...bottomBannerForm,
+          line1: bottomBannerForm.line1 || '',
+          line2: bottomBannerForm.line2 || '',
+          line3: bottomBannerForm.line3 || '',
+          tickerAlignment: bottomBannerForm.tickerAlignment || 'left',
+          staticFade: bottomBannerForm.staticFade || 'none',
+          staticGlow: bottomBannerForm.staticGlow || 'subtle',
+          showBackground: bottomBannerForm.showBackground !== false,
+          lines: bottomFiltered.length > 0 ? bottomFiltered : [bottomBannerForm.line1 || 'SECURE COMM LINK OPERATIONAL'],
+          message: bottomFiltered.join(' // ') || bottomBannerForm.line1 || 'SECURE COMM LINK OPERATIONAL',
+          allowDismiss: false
+        };
+
+        await Promise.all([
+          saveHomeBanner(topPayload, currentUser, 'top'),
+          saveHomeBanner(bottomPayload, currentUser, 'bottom')
+        ]);
       } catch (err) {
-        console.warn("Failed saving banner in global settings save:", err);
+        console.warn("Failed saving marquee banners in global settings save:", err);
       }
     }
 
+    showSuccessToast?.('System settings saved successfully!');
     setSaveMessage('System settings saved successfully!');
 
     if (refreshUserHandle) {
@@ -344,54 +401,6 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
       setSaveMessage('');
       onClose();
     }, 800);
-  };
-
-  const handleApplyBannerPreset = (preset) => {
-    AudioService.playTerminalBeep(1100, 0.02);
-    const norm = normalizeBannerLines(preset);
-    setBannerForm(prev => ({
-      ...prev,
-      badge: preset.badge || prev.badge,
-      line1: preset.line1 ?? (norm[0] || ''),
-      line2: preset.line2 ?? (norm[1] || ''),
-      line3: preset.line3 ?? (norm[2] || ''),
-      lines: norm,
-      message: preset.message || norm.join(' // '),
-      colorTheme: preset.colorTheme || prev.colorTheme,
-      mode: preset.mode || prev.mode,
-      speed: preset.speed || prev.speed,
-      tickerSpeed: preset.tickerSpeed || prev.tickerSpeed,
-      icon: preset.icon || prev.icon,
-      linkLabel: preset.linkLabel ?? prev.linkLabel,
-      linkUrl: preset.linkUrl ?? prev.linkUrl
-    }));
-  };
-
-  const handleSaveBannerOnly = async () => {
-    AudioService.playTerminalBeep(1200, 0.04);
-    setIsBannerSaving(true);
-    try {
-      const activeRaw = [bannerForm.line1, bannerForm.line2, bannerForm.line3].map(l => (typeof l === 'string' ? l.trim() : ''));
-      const activeFiltered = activeRaw.filter(Boolean);
-      const payload = {
-        ...bannerForm,
-        line1: bannerForm.line1 || '',
-        line2: bannerForm.line2 || '',
-        line3: bannerForm.line3 || '',
-        lines: activeFiltered.length > 0 ? activeFiltered : [bannerForm.line1 || 'WELCOME TO TANGENT SF RP'],
-        message: activeFiltered.join(' // ') || bannerForm.line1 || 'WELCOME TO TANGENT SF RP',
-        allowDismiss: false
-      };
-
-      await saveHomeBanner(payload, currentUser);
-      showSuccessToast?.('Broadcast marquee banner updated successfully!');
-      setSaveMessage('Broadcast marquee updated successfully!');
-      setTimeout(() => setSaveMessage(''), 2500);
-    } catch (err) {
-      console.warn("Failed saving banner from settings:", err);
-    } finally {
-      setIsBannerSaving(false);
-    }
   };
 
   const TABS = [
@@ -1079,7 +1088,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                         <span>Tactical Broadcast Marquee</span>
                       </h4>
                       <p className="text-[11px] text-slate-400">
-                        Configure up to 3 lines of text, character ticker effect with speed adjust, and 12 sci-fi color themes.
+                        Configure independent top and bottom marquees with character ticker effects, static dynamics, styles, and {AVAILABLE_BANNER_COLORS.length} sci-fi colors.
                       </p>
                     </div>
                     <span className="px-2 py-0.5 rounded text-[9.5px] font-mono font-bold bg-cyan-500/20 border border-cyan-500/50 text-cyan-300">
@@ -1087,11 +1096,56 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                     </span>
                   </div>
 
+                  {/* Marquee Position Sub-Tabs: Top Marquee / Bottom Marquee */}
+                  <div className="grid grid-cols-2 gap-2 p-1.5 rounded-xl bg-slate-950 border border-slate-800">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        AudioService.playTerminalBeep(1000, 0.02);
+                        setMarqueeSubTab('top');
+                      }}
+                      className={`py-2 px-3 rounded-lg font-mono font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                        marqueeSubTab === 'top'
+                          ? 'bg-cyan-500/25 border border-cyan-500/60 text-cyan-300 shadow-[0_0_12px_rgba(34,211,238,0.25)]'
+                          : 'text-slate-400 hover:text-white hover:bg-slate-900 border border-transparent'
+                      }`}
+                    >
+                      <ArrowUpToLine size={14} className={marqueeSubTab === 'top' ? 'text-cyan-400' : 'text-slate-400'} />
+                      <span>Top Marquee</span>
+                      <span className={`text-[9.5px] px-1.5 py-0.5 rounded font-normal ${
+                        topBannerForm.enabled ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-slate-800 text-slate-500'
+                      }`}>
+                        {topBannerForm.enabled ? 'ACTIVE' : 'OFFLINE'}
+                      </span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        AudioService.playTerminalBeep(1000, 0.02);
+                        setMarqueeSubTab('bottom');
+                      }}
+                      className={`py-2 px-3 rounded-lg font-mono font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                        marqueeSubTab === 'bottom'
+                          ? 'bg-cyan-500/25 border border-cyan-500/60 text-cyan-300 shadow-[0_0_12px_rgba(34,211,238,0.25)]'
+                          : 'text-slate-400 hover:text-white hover:bg-slate-900 border border-transparent'
+                      }`}
+                    >
+                      <ArrowDownToLine size={14} className={marqueeSubTab === 'bottom' ? 'text-cyan-400' : 'text-slate-400'} />
+                      <span>Bottom Marquee</span>
+                      <span className={`text-[9.5px] px-1.5 py-0.5 rounded font-normal ${
+                        bottomBannerForm.enabled ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-slate-800 text-slate-500'
+                      }`}>
+                        {bottomBannerForm.enabled ? 'ACTIVE' : 'OFFLINE'}
+                      </span>
+                    </button>
+                  </div>
+
                   {/* Live Interactive Preview Box */}
                   <div className="space-y-1.5">
                     {(() => {
                       const curTheme = BANNER_COLOR_THEMES[bannerForm.colorTheme] || BANNER_COLOR_THEMES.cyan;
-                      const IconComp = BANNER_ICON_COMPONENTS[bannerForm.icon] || Radio;
+                      const IconComp = bannerForm.icon === 'none' ? null : (BANNER_ICON_COMPONENTS[bannerForm.icon] || Radio);
 
                       const rawLines = [bannerForm.line1, bannerForm.line2, bannerForm.line3].map(l => (typeof l === 'string' ? l : ''));
                       const previewLines = rawLines.filter(l => l.trim().length > 0);
@@ -1102,93 +1156,99 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                           <div className="flex items-center justify-between text-[10px] text-slate-400 uppercase tracking-widest font-mono">
                             <span className="flex items-center gap-1.5 text-cyan-400 font-bold">
                               <Eye size={12} />
-                              LIVE PREVIEW (REAL-TIME RENDER)
+                              LIVE PREVIEW ({marqueeSubTab === 'bottom' ? 'BOTTOM MARQUEE' : 'TOP MARQUEE'})
                             </span>
                             <span>
                               {bannerForm.mode === 'ticker'
-                                ? `TICKER (${(bannerForm.tickerSpeed || TICKER_SPEEDS[bannerForm.speed]?.interval || 28)}ms/char)`
+                                ? `TICKER (${(bannerForm.tickerSpeed || TICKER_SPEEDS[bannerForm.speed]?.interval || 28)}ms/char • ${(bannerForm.tickerAlignment || 'left').toUpperCase()} • ${bannerForm.showBackground !== false ? 'GEL-FRAME' : 'TEXT-ONLY'})`
                                 : bannerForm.mode === 'scrolling'
-                                  ? `MARQUEE (${bannerForm.speed?.toUpperCase()})`
-                                  : 'STATIC DISPLAY'}
+                                  ? `MARQUEE (${bannerForm.speed?.toUpperCase()} • ${bannerForm.showBackground !== false ? 'GEL-FRAME' : 'TEXT-ONLY'})`
+                                  : `STATIC (${bannerForm.staticFade && bannerForm.staticFade !== 'none' ? `FADE:${bannerForm.staticFade.toUpperCase()}` : 'SOLID'} • GLOW:${(bannerForm.staticGlow || 'subtle').toUpperCase()} • ${bannerForm.showBackground !== false ? 'GEL-FRAME' : 'TEXT-ONLY'})`}
                             </span>
                           </div>
 
-                          <div className={`relative overflow-hidden rounded-lg sm:rounded-xl border ${curTheme.border} ${curTheme.bg} ${curTheme.boxGlow} bg-[#060a14]/85 backdrop-blur-xl px-3 flex items-center justify-between gap-3 transition-all duration-300 w-full ${
-                            safePreview.length === 3
-                              ? 'min-h-[64px] sm:min-h-[72px] py-2'
-                              : safePreview.length === 2
-                                ? 'min-h-[48px] sm:min-h-[54px] py-1.5'
-                                : 'min-h-[38px] sm:min-h-[42px] py-1'
-                          }`}>
-                            {/* Top Accent Line */}
-                            <div className={`absolute top-0 left-4 right-4 h-[1px] opacity-60 ${curTheme.accentLine}`} />
+                          {(() => {
+                            const hasBg = bannerForm.showBackground !== false;
+                            return (
+                              <div className={`relative overflow-hidden rounded-lg sm:rounded-xl transition-all duration-300 w-full flex items-center justify-between gap-3 ${
+                                hasBg
+                                  ? `border ${curTheme.border} ${curTheme.bg} ${curTheme.boxGlow} bg-[#060a14]/85 backdrop-blur-xl px-3`
+                                  : 'border border-dashed border-slate-800/80 bg-transparent shadow-none px-2'
+                              } ${
+                                safePreview.length === 3
+                                  ? 'min-h-[64px] sm:min-h-[72px] py-2'
+                                  : safePreview.length === 2
+                                    ? 'min-h-[48px] sm:min-h-[54px] py-1.5'
+                                    : 'min-h-[38px] sm:min-h-[42px] py-1'
+                              }`}>
+                                {/* Top Accent Line */}
+                                {hasBg && (
+                                  <div className={`absolute top-0 left-4 right-4 h-[1px] opacity-60 ${curTheme.accentLine}`} />
+                                )}
 
-                            <div className="flex items-center gap-2 shrink-0 z-10">
-                              <div className="relative flex items-center justify-center">
-                                <span className={`w-2 h-2 rounded-full ${curTheme.beacon}`} />
-                                <span className={`absolute w-3.5 h-3.5 rounded-full ${curTheme.beacon} opacity-75 animate-ping`} />
-                              </div>
+                                <div className="flex items-center gap-2 shrink-0 z-10">
+                                  {hasBg && (
+                                    <div className="relative flex items-center justify-center">
+                                      <span className={`w-2 h-2 rounded-full ${curTheme.beacon}`} />
+                                      <span className={`absolute w-3.5 h-3.5 rounded-full ${curTheme.beacon} opacity-75 animate-ping`} />
+                                    </div>
+                                  )}
 
-                              {bannerForm.badge && (
-                                <div className={`hidden sm:flex px-2 py-0.5 rounded text-[9.5px] font-mono font-bold tracking-wider items-center gap-1.5 uppercase ${curTheme.badgeBg}`}>
-                                  <IconComp size={12} className="shrink-0" />
-                                  <span className="whitespace-nowrap">{bannerForm.badge}</span>
+                                  {bannerForm.badge && (
+                                    <div className={`hidden sm:flex px-2 py-0.5 rounded text-[9.5px] font-mono font-bold tracking-wider items-center gap-1.5 uppercase ${
+                                      hasBg
+                                        ? curTheme.badgeBg
+                                        : 'text-slate-400 bg-transparent border border-slate-700/60'
+                                    }`}>
+                                      {IconComp && <IconComp size={12} className="shrink-0" />}
+                                      <span className="whitespace-nowrap">{bannerForm.badge}</span>
+                                    </div>
+                                  )}
                                 </div>
-                              )}
-                            </div>
 
-                            <div className="flex-1 overflow-hidden relative mx-1 sm:mx-2 min-w-0">
-                              <BannerMessageDisplay
-                                lines={safePreview}
-                                mode={bannerForm.mode}
-                                speed={bannerForm.speed}
-                                tickerSpeed={bannerForm.tickerSpeed}
-                                theme={curTheme}
-                              />
-                            </div>
+                                <div className="flex-1 overflow-hidden relative mx-1 sm:mx-2 min-w-0">
+                                  <BannerMessageDisplay
+                                    lines={safePreview}
+                                    mode={bannerForm.mode}
+                                    speed={bannerForm.speed}
+                                    tickerSpeed={bannerForm.tickerSpeed}
+                                    tickerAlignment={bannerForm.tickerAlignment || 'left'}
+                                    staticFade={bannerForm.staticFade || 'none'}
+                                    staticGlow={bannerForm.staticGlow || 'subtle'}
+                                    theme={curTheme}
+                                  />
+                                </div>
 
-                            <div className="flex items-center gap-2 shrink-0 z-10">
-                              {bannerForm.linkLabel && (
-                                <span className={`px-2 py-0.5 rounded text-[10px] uppercase font-bold border border-current opacity-90 whitespace-nowrap ${curTheme.text} bg-black/40`}>
-                                  {bannerForm.linkLabel}
-                                </span>
-                              )}
-                              <div className="relative flex items-center justify-center w-4 shrink-0">
-                                <span className={`w-2 h-2 rounded-full ${curTheme.beacon}`} />
-                                <span className={`absolute w-3.5 h-3.5 rounded-full ${curTheme.beacon} opacity-75 animate-ping`} />
+                                <div className="flex items-center gap-2 shrink-0 z-10">
+                                  {bannerForm.linkLabel && (
+                                    <span className={`px-2 py-0.5 rounded text-[10px] uppercase font-bold border border-current opacity-90 whitespace-nowrap ${curTheme.text} bg-black/40`}>
+                                      {bannerForm.linkLabel}
+                                    </span>
+                                  )}
+                                  {hasBg && (
+                                    <div className="relative flex items-center justify-center w-4 shrink-0">
+                                      <span className={`w-2 h-2 rounded-full ${curTheme.beacon}`} />
+                                      <span className={`absolute w-3.5 h-3.5 rounded-full ${curTheme.beacon} opacity-75 animate-ping`} />
+                                    </div>
+                                  )}
+                                </div>
                               </div>
-                            </div>
-                          </div>
+                            );
+                          })()}
                         </>
                       );
                     })()}
                   </div>
 
-                  {/* 1-Click Presets */}
-                  <div className="space-y-1.5 pt-1">
-                    <span className="text-[10px] text-slate-400 uppercase tracking-widest font-mono block">
-                      Quick Presets / Templates
-                    </span>
-                    <div className="flex flex-wrap gap-1.5">
-                      {BANNER_PRESETS.map((preset, idx) => (
-                        <button
-                          key={idx}
-                          type="button"
-                          onClick={() => handleApplyBannerPreset(preset)}
-                          className="px-2.5 py-1 rounded-lg bg-slate-950 hover:bg-slate-900 border border-slate-800 hover:border-cyan-500/50 text-[10.5px] font-mono text-slate-300 hover:text-cyan-300 transition-all flex items-center gap-1 cursor-pointer"
-                        >
-                          <Zap size={11} className="text-cyan-400" />
-                          <span>{preset.label}</span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
                   {/* Status Toggle */}
                   <div className="flex items-center justify-between p-3 rounded-xl bg-slate-950 border border-slate-800">
                     <div>
-                      <span className="font-mono font-bold text-slate-200 block text-xs">Banner Visibility</span>
-                      <span className="text-[10.5px] text-slate-400">Toggle whether this marquee message is broadcast on the Home screen.</span>
+                      <span className="font-mono font-bold text-slate-200 block text-xs">
+                        {marqueeSubTab === 'bottom' ? 'Bottom' : 'Top'} Marquee Visibility
+                      </span>
+                      <span className="text-[10.5px] text-slate-400">
+                        Toggle whether the {marqueeSubTab === 'bottom' ? 'bottom' : 'top'} marquee message is broadcast on the Home screen.
+                      </span>
                     </div>
                     <button
                       type="button"
@@ -1211,7 +1271,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                     <div className="flex items-center justify-between border-b border-slate-800 pb-2">
                       <label className="text-[10.5px] font-mono text-cyan-400 uppercase tracking-widest block font-bold flex items-center gap-1.5">
                         <Layers size={13} />
-                        <span>Broadcast Transmission Lines (Up to 3 Lines)</span>
+                        <span>{marqueeSubTab === 'bottom' ? 'Bottom' : 'Top'} Transmission Lines (Up to 3 Lines)</span>
                       </label>
                       <span className="text-[10px] font-mono text-slate-500">
                         {[bannerForm.line1, bannerForm.line2, bannerForm.line3].filter(l => l && l.trim()).length} Active
@@ -1228,7 +1288,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                         type="text"
                         value={bannerForm.line1 || ''}
                         onChange={(e) => setBannerForm(prev => ({ ...prev, line1: e.target.value }))}
-                        placeholder="e.g. WELCOME TO TANGENT SF RP // TERRAN DATA NET PROTOCOLS ONLINE"
+                        placeholder={marqueeSubTab === 'bottom' ? "e.g. SECURE COMM LINK OPERATIONAL // ENCRYPTION AES-GCM-256 ACTIVE" : "e.g. WELCOME TO TANGENT SF RP // TERRAN DATA NET PROTOCOLS ONLINE"}
                         maxLength={140}
                         className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700/80 focus:border-cyan-400 text-slate-200 outline-none text-xs font-mono"
                       />
@@ -1244,7 +1304,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                         type="text"
                         value={bannerForm.line2 || ''}
                         onChange={(e) => setBannerForm(prev => ({ ...prev, line2: e.target.value }))}
-                        placeholder="e.g. BASTION RULES ENGINE ACTIVE // REAL-TIME OPS SYNCHRONIZED"
+                        placeholder={marqueeSubTab === 'bottom' ? "e.g. NODE ROUTING: KUIPER DRIFT RELAY 04 // LATENCY 14MS NOMINAL" : "e.g. BASTION RULES ENGINE ACTIVE // REAL-TIME OPS SYNCHRONIZED"}
                         maxLength={140}
                         className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700/80 focus:border-cyan-400 text-slate-200 outline-none text-xs font-mono"
                       />
@@ -1260,7 +1320,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                         type="text"
                         value={bannerForm.line3 || ''}
                         onChange={(e) => setBannerForm(prev => ({ ...prev, line3: e.target.value }))}
-                        placeholder="e.g. SELECT ANY MODULE FROM THE GUIDANCE RAIL TO BEGIN"
+                        placeholder={marqueeSubTab === 'bottom' ? "e.g. GRID SYNCHRONIZATION RUNNING // ALL SUB-SYSTEMS VERIFIED" : "e.g. SELECT ANY MODULE FROM THE GUIDANCE RAIL TO BEGIN"}
                         maxLength={140}
                         className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700/80 focus:border-cyan-400 text-slate-200 outline-none text-xs font-mono"
                       />
@@ -1308,8 +1368,9 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                       </div>
 
                       {bannerForm.mode === 'static' ? (
-                        <div className="p-2 rounded-xl bg-slate-950 border border-slate-800 text-center font-mono text-slate-500 text-xs">
-                          Static Display (Velocity Inactive)
+                        <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-center font-mono text-cyan-300 text-xs flex items-center justify-center gap-2">
+                          <Sparkles size={13} className="text-cyan-400" />
+                          <span>Fade: {STATIC_FADE_OPTIONS[bannerForm.staticFade]?.label || 'Solid (Off)'} • Glow: {STATIC_GLOW_OPTIONS[bannerForm.staticGlow]?.label || 'Subtle Neon'}</span>
                         </div>
                       ) : bannerForm.mode === 'ticker' ? (
                         <div className="space-y-2 p-1.5 rounded-xl bg-slate-950 border border-slate-800 font-mono">
@@ -1362,7 +1423,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                               }}
                               className={`py-1.5 rounded-lg text-center font-mono font-bold text-xs transition-all cursor-pointer ${
                                 bannerForm.speed === spd.id
-                                  ? 'bg-cyan-500/25 border border-cyan-500/60 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.2)]'
+                              ? 'bg-cyan-500/25 border border-cyan-500/60 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.2)]'
                                   : 'text-slate-400 hover:text-white'
                               }`}
                             >
@@ -1374,11 +1435,191 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                     </div>
                   </div>
 
-                  {/* 12 Colors Palette */}
+                  {/* Ticker Text Justification (Left vs. Right Justified) */}
+                  {bannerForm.mode === 'ticker' && (
+                    <div className="space-y-1.5 p-3 rounded-xl bg-slate-950/80 border border-slate-800">
+                      <div className="flex items-center justify-between">
+                        <label className="text-[10.5px] font-mono text-cyan-400 uppercase tracking-widest block font-bold flex items-center gap-1.5">
+                          <AlignLeft size={13} />
+                          <span>Ticker Text Justification</span>
+                        </label>
+                        <span className="text-[10px] font-mono text-slate-400 uppercase">
+                          {bannerForm.tickerAlignment === 'right' ? 'Right Justified' : 'Left Justified'}
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            AudioService.playTerminalBeep(1000, 0.02);
+                            setBannerForm(prev => ({ ...prev, tickerAlignment: 'left' }));
+                          }}
+                          className={`py-2 px-3 rounded-lg font-mono font-bold text-xs transition-all flex items-center justify-center gap-2 cursor-pointer ${
+                            (bannerForm.tickerAlignment || 'left') === 'left'
+                              ? 'bg-cyan-500/25 border border-cyan-500/60 text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.25)]'
+                              : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-slate-700'
+                          }`}
+                        >
+                          <AlignLeft size={14} />
+                          <span>Left Justified</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            AudioService.playTerminalBeep(1000, 0.02);
+                            setBannerForm(prev => ({ ...prev, tickerAlignment: 'right' }));
+                          }}
+                          className={`py-2 px-3 rounded-lg font-mono font-bold text-xs transition-all flex items-center justify-center gap-2 cursor-pointer ${
+                            bannerForm.tickerAlignment === 'right'
+                              ? 'bg-cyan-500/25 border border-cyan-500/60 text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.25)]'
+                              : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-slate-700'
+                          }`}
+                        >
+                          <AlignRight size={14} />
+                          <span>Right Justified</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Static Display Dynamics: Fade & Glow Options */}
+                  {bannerForm.mode === 'static' && (
+                    <div className="space-y-3 p-3.5 rounded-xl bg-slate-950/80 border border-slate-800">
+                      <div className="border-b border-slate-800 pb-2 flex items-center justify-between">
+                        <div className="font-mono text-xs font-bold text-cyan-400 uppercase tracking-widest flex items-center gap-1.5">
+                          <Sparkles size={13} />
+                          <span>Static Display Dynamics: Fade &amp; Glow Options</span>
+                        </div>
+                        <span className="text-[10px] font-mono text-slate-500 uppercase">
+                          Static Controls
+                        </span>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {/* 1. Static Fade Option */}
+                        <div className="space-y-1.5">
+                          <div className="flex items-center justify-between">
+                            <label className="text-[10.5px] font-mono text-slate-300 uppercase tracking-wider block font-bold flex items-center gap-1">
+                              <Activity size={12} className="text-cyan-400" />
+                              <span>Fade Effect</span>
+                            </label>
+                            <span className="text-[9.5px] font-mono text-cyan-400">
+                              {STATIC_FADE_OPTIONS[bannerForm.staticFade]?.label || 'Solid (Off)'}
+                            </span>
+                          </div>
+                          <div className="grid grid-cols-3 gap-1 p-1 rounded-xl bg-slate-900 border border-slate-800">
+                            {Object.values(STATIC_FADE_OPTIONS).map((opt) => (
+                              <button
+                                key={opt.id}
+                                type="button"
+                                onClick={() => {
+                                  AudioService.playTerminalBeep(1000, 0.02);
+                                  setBannerForm(prev => ({ ...prev, staticFade: opt.id }));
+                                }}
+                                className={`py-1.5 px-1 rounded-lg text-center font-mono font-bold text-[11px] transition-all cursor-pointer ${
+                                  (bannerForm.staticFade || 'none') === opt.id
+                                    ? 'bg-cyan-500/25 border border-cyan-500/60 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.2)]'
+                                    : 'text-slate-400 hover:text-white'
+                                }`}
+                              >
+                                {opt.label.split(' ')[0]}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* 2. Static Glow Option */}
+                        <div className="space-y-1.5">
+                          <div className="flex items-center justify-between">
+                            <label className="text-[10.5px] font-mono text-slate-300 uppercase tracking-wider block font-bold flex items-center gap-1">
+                              <Sun size={12} className="text-cyan-400" />
+                              <span>Glow Radiance</span>
+                            </label>
+                            <span className="text-[9.5px] font-mono text-cyan-400">
+                              {STATIC_GLOW_OPTIONS[bannerForm.staticGlow]?.label || 'Subtle Neon'}
+                            </span>
+                          </div>
+                          <div className="grid grid-cols-3 gap-1 p-1 rounded-xl bg-slate-900 border border-slate-800">
+                            {Object.values(STATIC_GLOW_OPTIONS).map((opt) => (
+                              <button
+                                key={opt.id}
+                                type="button"
+                                onClick={() => {
+                                  AudioService.playTerminalBeep(1000, 0.02);
+                                  setBannerForm(prev => ({ ...prev, staticGlow: opt.id }));
+                                }}
+                                className={`py-1.5 px-1 rounded-lg text-center font-mono font-bold text-[11px] transition-all cursor-pointer ${
+                                  (bannerForm.staticGlow || 'subtle') === opt.id
+                                    ? 'bg-cyan-500/25 border border-cyan-500/60 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.2)]'
+                                    : 'text-slate-400 hover:text-white'
+                                }`}
+                              >
+                                {opt.label.split(' ')[0]}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Frame & Background Style (Cyber-Gel Frame vs. Clean Text Only) */}
+                  <div className="space-y-1.5 p-3 rounded-xl bg-slate-950/80 border border-slate-800">
+                    <div className="flex items-center justify-between">
+                      <label className="text-[10.5px] font-mono text-cyan-400 uppercase tracking-widest block font-bold flex items-center gap-1.5">
+                        <Layers size={13} />
+                        <span>Frame &amp; Background Style</span>
+                      </label>
+                      <span className="text-[10px] font-mono text-slate-400 uppercase font-bold">
+                        {bannerForm.showBackground !== false ? 'Cyber-Gel Frame' : 'Clean Text Only'}
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          AudioService.playTerminalBeep(1000, 0.02);
+                          setBannerForm(prev => ({ ...prev, showBackground: true }));
+                        }}
+                        className={`py-2 px-3 rounded-lg font-mono font-bold text-xs transition-all flex items-center justify-center gap-2 cursor-pointer ${
+                          bannerForm.showBackground !== false
+                            ? 'bg-cyan-500/25 border border-cyan-500/60 text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.25)]'
+                            : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-slate-700'
+                        }`}
+                      >
+                        <Shield size={14} />
+                        <span>Cyber-Gel Frame</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          AudioService.playTerminalBeep(1000, 0.02);
+                          setBannerForm(prev => ({ ...prev, showBackground: false }));
+                        }}
+                        className={`py-2 px-3 rounded-lg font-mono font-bold text-xs transition-all flex items-center justify-center gap-2 cursor-pointer ${
+                          bannerForm.showBackground === false
+                            ? 'bg-cyan-500/25 border border-cyan-500/60 text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.25)]'
+                            : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-slate-700'
+                        }`}
+                      >
+                        <Sparkles size={14} />
+                        <span>Clean Text Only</span>
+                      </button>
+                    </div>
+                    <p className="text-[10px] text-slate-500 font-mono">
+                      {bannerForm.showBackground !== false
+                        ? 'Framed: Full cyber-gel backdrop, glowing border, accent line, and beacon pulsing dots.'
+                        : 'Clean: No frame, no pulsing dots, no gel background — displays colored text directly.'}
+                    </p>
+                  </div>
+
+                  {/* Sci-Fi Color Palette */}
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
                       <label className="text-[10.5px] font-mono text-slate-400 uppercase tracking-widest block font-bold">
-                        Sci-Fi Color Palette (12 Available Colors)
+                        Sci-Fi Color Palette ({AVAILABLE_BANNER_COLORS.length} Available Colors)
                       </label>
                       <span className="text-[10px] font-mono text-cyan-400 uppercase font-bold">
                         {BANNER_COLOR_THEMES[bannerForm.colorTheme]?.label}
@@ -1423,10 +1664,31 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {/* Icon Picker */}
                     <div className="space-y-1.5">
-                      <label className="text-[10.5px] font-mono text-slate-400 uppercase tracking-widest block font-bold">
-                        Category Icon
-                      </label>
+                      <div className="flex items-center justify-between">
+                        <label className="text-[10.5px] font-mono text-slate-400 uppercase tracking-widest block font-bold">
+                          Category Icon
+                        </label>
+                        <span className="text-[10px] font-mono text-slate-500 uppercase">
+                          {bannerForm.icon === 'none' ? 'No Icon' : bannerForm.icon || 'Default'}
+                        </span>
+                      </div>
                       <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-950 border border-slate-800 justify-between">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            AudioService.playTerminalBeep(1100, 0.02);
+                            setBannerForm(prev => ({ ...prev, icon: 'none' }));
+                          }}
+                          className={`p-2 rounded-lg transition-all cursor-pointer ${
+                            bannerForm.icon === 'none' 
+                              ? 'bg-cyan-500/25 border border-cyan-500/60 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.25)]' 
+                              : 'text-slate-400 hover:text-white'
+                          }`}
+                          title="None (No Icon)"
+                          aria-label="None (No Icon)"
+                        >
+                          <Ban size={15} />
+                        </button>
                         {Object.entries(BANNER_ICON_COMPONENTS).map(([key, Comp]) => (
                           <button
                             key={key}
@@ -1457,7 +1719,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                         type="text"
                         value={bannerForm.badge}
                         onChange={(e) => setBannerForm(prev => ({ ...prev, badge: e.target.value.toUpperCase() }))}
-                        placeholder="TACTICAL BROADCAST"
+                        placeholder={marqueeSubTab === 'bottom' ? "SYSTEM TELEMETRY" : "TACTICAL BROADCAST"}
                         maxLength={30}
                         className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 focus:border-cyan-400 text-slate-200 outline-none text-xs font-mono uppercase"
                       />
@@ -1491,19 +1753,6 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                         className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 focus:border-cyan-400 text-slate-200 outline-none text-xs font-mono uppercase"
                       />
                     </div>
-                  </div>
-
-                  {/* Apply Marquee Button */}
-                  <div className="pt-2 flex justify-end">
-                    <button
-                      type="button"
-                      disabled={isBannerSaving}
-                      onClick={handleSaveBannerOnly}
-                      className="px-5 py-2 rounded-xl bg-cyan-500/25 hover:bg-cyan-500/35 border border-cyan-500/60 hover:border-cyan-400 text-cyan-300 hover:text-white font-mono font-bold text-xs flex items-center gap-2 shadow-[0_0_15px_rgba(34,211,238,0.25)] transition-all cursor-pointer"
-                    >
-                      <Save size={14} />
-                      <span>{isBannerSaving ? 'SAVING MARQUEE...' : 'APPLY & PUBLISH MARQUEE'}</span>
-                    </button>
                   </div>
                 </div>
               )}

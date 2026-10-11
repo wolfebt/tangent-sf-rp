@@ -7,11 +7,13 @@ import {
   TICKER_SPEEDS, 
   BANNER_MODES, 
   normalizeBannerLines,
-  DEFAULT_BANNER_CONFIG
+  DEFAULT_BANNER_CONFIG,
+  DEFAULT_BOTTOM_BANNER_CONFIG,
+  getCachedHomeBanner
 } from './bannerService.js';
 
 describe('Admin Marquee & Banner Service', () => {
-  it('includes all 12 requested colors', () => {
+  it('includes all requested colors including silver with black shadow', () => {
     const requiredColors = [
       'amber',
       'amethyst',
@@ -22,6 +24,7 @@ describe('Admin Marquee & Banner Service', () => {
       'rose',
       'ruby',
       'saphire',
+      'silver',
       'teal',
       'topaz',
       'violet'
@@ -35,12 +38,18 @@ describe('Admin Marquee & Banner Service', () => {
       assert.ok(BANNER_COLOR_THEMES[color].border, `Missing border class for ${color}`);
       assert.ok(AVAILABLE_BANNER_COLORS.includes(color), `Color ${color} not in AVAILABLE_BANNER_COLORS`);
     }
+
+    // Verify silver theme has black shadow properties
+    assert.match(BANNER_COLOR_THEMES.silver.textGlow, /black|shadow/i);
+    assert.match(BANNER_COLOR_THEMES.silver.boxGlow, /black|shadow/i);
   });
 
-  it('supports alias lookups for sapphire, crimson, and gold', () => {
+  it('supports alias lookups for sapphire, crimson, gold, chrome, and platinum', () => {
     assert.equal(BANNER_COLOR_THEMES.sapphire.id, 'saphire');
     assert.equal(BANNER_COLOR_THEMES.crimson.id, 'ruby');
     assert.equal(BANNER_COLOR_THEMES.gold.id, 'topaz');
+    assert.equal(BANNER_COLOR_THEMES.chrome.id, 'silver');
+    assert.equal(BANNER_COLOR_THEMES.platinum.id, 'silver');
   });
 
   it('provides ticker, scrolling, and static banner modes', () => {
@@ -92,5 +101,22 @@ describe('Admin Marquee & Banner Service', () => {
     assert.equal(DEFAULT_BANNER_CONFIG.mode, 'ticker');
     assert.ok(Array.isArray(DEFAULT_BANNER_CONFIG.lines));
     assert.equal(DEFAULT_BANNER_CONFIG.lines.length, 3);
+  });
+
+  it('provides independent DEFAULT_BOTTOM_BANNER_CONFIG with 3 lines and telemetry badge', () => {
+    assert.equal(DEFAULT_BOTTOM_BANNER_CONFIG.mode, 'ticker');
+    assert.ok(Array.isArray(DEFAULT_BOTTOM_BANNER_CONFIG.lines));
+    assert.equal(DEFAULT_BOTTOM_BANNER_CONFIG.lines.length, 3);
+    assert.equal(DEFAULT_BOTTOM_BANNER_CONFIG.badge, 'SYSTEM TELEMETRY');
+    assert.notEqual(DEFAULT_BOTTOM_BANNER_CONFIG.badge, DEFAULT_BANNER_CONFIG.badge);
+    assert.notEqual(DEFAULT_BOTTOM_BANNER_CONFIG.line1, DEFAULT_BANNER_CONFIG.line1);
+  });
+
+  it('getCachedHomeBanner differentiates top and bottom positions', () => {
+    const top = getCachedHomeBanner('top');
+    const bottom = getCachedHomeBanner('bottom');
+    assert.equal(top.badge, 'TACTICAL BROADCAST');
+    assert.equal(bottom.badge, 'SYSTEM TELEMETRY');
+    assert.notEqual(top.line1, bottom.line1);
   });
 });

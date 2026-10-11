@@ -14,6 +14,9 @@ export const BannerMessageDisplay = ({
   mode = 'ticker',
   speed = 'normal',
   tickerSpeed,
+  tickerAlignment = 'left',
+  staticFade = 'none',
+  staticGlow = 'subtle',
   theme,
   className = '',
   interactive = true
@@ -61,15 +64,17 @@ export const BannerMessageDisplay = ({
     activeLinesRef.current = activeLines;
   }, [activeLines]);
 
-  // Reset progression whenever lines or display mode change
+  const activeLinesKey = useMemo(() => activeLines.join('\n'), [activeLines]);
+
+  // Reset progression only when lines content or display mode actually change
   useEffect(() => {
     setLineIdx(0);
     setCharIdx(0);
     setPhase('typing');
-  }, [activeLines, mode]);
+  }, [activeLinesKey, mode]);
 
   // Ticker progression effect loop:
-  // Builds from the left, one line finishes before the next starts, holds, then clears to restart cycle.
+  // Builds from the left or right, one line finishes before the next starts, holds, then clears to restart cycle.
   useEffect(() => {
     if (mode !== 'ticker') return;
     if (interactive && isHovered) return; // Pause on hover
@@ -120,11 +125,13 @@ export const BannerMessageDisplay = ({
   const textColor = currentTheme.text || 'text-cyan-300';
   const textGlow = currentTheme.textGlow || '';
 
-  // 1. Ticker Mode: Builds from the left, one line before next to finish, clears to restart cycle
+  // 1. Ticker Mode: Builds one line before next to finish, clears to restart cycle (Left or Right Justified)
   if (mode === 'ticker') {
+    const isRightAligned = tickerAlignment === 'right';
+
     return (
       <div 
-        className={`w-full flex flex-col justify-center items-start text-left min-w-0 ${activeLines.length > 1 ? 'py-0.5 space-y-0.5' : ''} ${className}`}
+        className={`w-full flex flex-col justify-center ${isRightAligned ? 'items-end text-right' : 'items-start text-left'} min-w-0 ${activeLines.length > 1 ? 'py-0.5 space-y-0.5' : ''} ${className}`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -157,10 +164,10 @@ export const BannerMessageDisplay = ({
           return (
             <div 
               key={idx} 
-              className={`w-full font-mono font-semibold tracking-wide flex items-center justify-start text-left min-h-[17px] leading-tight overflow-hidden text-ellipsis whitespace-nowrap ${textColor} ${textGlow} ${fontSizeClass}`}
+              className={`w-full font-mono font-semibold tracking-wide flex items-center ${isRightAligned ? 'justify-end text-right' : 'justify-start text-left'} min-h-[17px] leading-tight overflow-hidden text-ellipsis whitespace-nowrap ${textColor} ${textGlow} ${fontSizeClass}`}
             >
               {displayedText ? (
-                <span className="truncate">{displayedText}</span>
+                <span className={`truncate ${isRightAligned ? 'text-right' : 'text-left'}`}>{displayedText}</span>
               ) : (
                 <span className="invisible select-none opacity-0 pointer-events-none">&nbsp;</span>
               )}
@@ -226,9 +233,21 @@ export const BannerMessageDisplay = ({
     );
   }
 
-  // 3. Static Display Mode: Text horizontally centered across all lines
+  // 3. Static Display Mode: Text horizontally centered across all lines (with Fade & Glow options)
+  const fadeClass = staticFade === 'pulse' || staticFade === true
+    ? 'animate-static-fade-pulse'
+    : staticFade === 'slow'
+      ? 'animate-static-fade-slow'
+      : '';
+
+  const resolvedGlow = staticGlow === 'none' || staticGlow === false
+    ? ''
+    : staticGlow === 'bloom' || staticGlow === 'intense'
+      ? `static-glow-bloom ${textGlow}`
+      : textGlow;
+
   return (
-    <div className={`w-full flex flex-col justify-center items-center text-center py-0.5 space-y-0.5 min-w-0 ${className}`}>
+    <div className={`w-full flex flex-col justify-center items-center text-center py-0.5 space-y-0.5 min-w-0 transition-opacity duration-300 ${fadeClass} ${className}`}>
       {activeLines.map((lineText, idx) => {
         const fontSizeClass = activeLines.length === 1 
           ? 'text-[11px] sm:text-[12.5px]' 
@@ -239,7 +258,7 @@ export const BannerMessageDisplay = ({
         return (
           <div 
             key={idx} 
-            className={`w-full text-center flex items-center justify-center font-mono font-semibold whitespace-normal break-words leading-relaxed ${textColor} ${textGlow} ${fontSizeClass}`}
+            className={`w-full text-center flex items-center justify-center font-mono font-semibold whitespace-normal break-words leading-relaxed transition-all duration-300 ${textColor} ${resolvedGlow} ${fontSizeClass}`}
           >
             {lineText}
           </div>
