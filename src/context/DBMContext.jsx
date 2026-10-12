@@ -3,7 +3,7 @@ import { db, auth } from '../firebase';
 import { collection, onSnapshot, doc, setDoc, deleteDoc, getDocs } from 'firebase/firestore';
 import { categoryConfig } from '../components/DBM/categoryConfig';
 import { onAuthStateChanged } from 'firebase/auth';
-import { commitChunkedBatches } from '../utils/firestoreUtils';
+import { commitChunkedBatches, sanitizeFirestoreData } from '../utils/firestoreUtils';
 import { validateDbmEntry } from '../utils/dbmValidators';
 
 let cachedCompendiumSeed = null;
@@ -71,285 +71,81 @@ const DBMContext = createContext(null);
 
 export const useDBM = () => useContext(DBMContext);
 
-const TOMBSTONES_KEY = 'omnicortex_deleted_entries';
+export {
+  TOMBSTONES_KEY,
+  CUSTOM_ENTRIES_KEY,
+  getOmnicortexCustomEntries,
+  saveOmnicortexCustomEntry,
+  removeOmnicortexCustomEntry,
+  getOmnicortexTombstones,
+  addOmnicortexTombstone,
+  removeOmnicortexTombstones,
+  clearOmnicortexTombstones,
+  isOmnicortexDeleted,
+  filterInitialData,
+  mergeSeedsWithDocs,
+  getFallbackSeedForCategory
+} from '../utils/omnicortexPersistence.js';
 
-export const getOmnicortexTombstones = () => {
-  try {
-    const raw = localStorage.getItem(TOMBSTONES_KEY);
-    if (!raw) return [];
-    let list = JSON.parse(raw);
-    if (!Array.isArray(list)) return [];
-    // Auto-heal: Purge any accidental tombstone for Coalition of Independent Worlds or canonical names
-    const purged = list.filter(item => {
-      const lower = (item || '').toString().toLowerCase().trim();
-      return lower !== 'coalition of independent worlds' && lower !== 'faction-coalition';
-    });
-    if (purged.length !== list.length) {
-      localStorage.setItem(TOMBSTONES_KEY, JSON.stringify(purged));
-      if (typeof StorageService !== 'undefined' && StorageService?.setItem) {
-        StorageService.setItem(TOMBSTONES_KEY, purged);
-      }
-    }
-    return purged;
-  } catch (e) {
-    return [];
-  }
-};
+import {
+  TOMBSTONES_KEY,
+  CUSTOM_ENTRIES_KEY,
+  getOmnicortexCustomEntries,
+  saveOmnicortexCustomEntry,
+  removeOmnicortexCustomEntry,
+  getOmnicortexTombstones,
+  addOmnicortexTombstone,
+  removeOmnicortexTombstones,
+  clearOmnicortexTombstones,
+  isOmnicortexDeleted,
+  filterInitialData,
+  mergeSeedsWithDocs,
+  getFallbackSeedForCategory
+} from '../utils/omnicortexPersistence.js';
 
-export const addOmnicortexTombstone = (docId) => {
-  try {
-    if (!docId) return;
-    const current = getOmnicortexTombstones();
-    const set = new Set(current);
-    set.add(docId.toString().toLowerCase().trim());
-    const updated = Array.from(set);
-    localStorage.setItem(TOMBSTONES_KEY, JSON.stringify(updated));
-    if (typeof StorageService !== 'undefined' && StorageService?.setItem) {
-      StorageService.setItem(TOMBSTONES_KEY, updated);
-    }
-  } catch (e) {}
-};
-
-export const removeOmnicortexTombstones = (identifiers) => {
-  try {
-    const toRemove = Array.isArray(identifiers) ? identifiers : [identifiers];
-    const toRemoveSet = new Set(toRemove.map(x => (x || '').toString().toLowerCase().trim()).filter(Boolean));
-    if (toRemoveSet.size === 0) return;
-    const current = getOmnicortexTombstones();
-    const updated = current.filter(item => !toRemoveSet.has((item || '').toString().toLowerCase().trim()));
-    localStorage.setItem(TOMBSTONES_KEY, JSON.stringify(updated));
-    if (typeof StorageService !== 'undefined' && StorageService?.setItem) {
-      StorageService.setItem(TOMBSTONES_KEY, updated);
-    }
-  } catch (e) {}
-};
-
-export const clearOmnicortexTombstones = (catKey = null) => {
-  try {
-    if (!catKey) {
-      localStorage.removeItem(TOMBSTONES_KEY);
-      if (typeof StorageService !== 'undefined' && StorageService?.removeItem) {
-        StorageService.removeItem(TOMBSTONES_KEY);
-      }
-    } else {
-      const seeds = getFallbackSeedForCategory(catKey);
-      if (seeds && seeds.length > 0) {
-        const identifiers = seeds.flatMap(s => [s.id, s.name, s.title]).filter(Boolean);
-        removeOmnicortexTombstones(identifiers);
-      }
-    }
-  } catch (e) {}
-};
-
-export const isOmnicortexDeleted = (item, tombstones = null) => {
-  if (!item) return false;
-  const list = tombstones || getOmnicortexTombstones();
-  if (!list || list.length === 0) return false;
-  const set = new Set(list);
-  const id = (item.id || '').toString().toLowerCase().trim();
-  return Boolean(id && set.has(id));
-};
-
-export const filterInitialData = (dataList) => {
-  const tombstones = getOmnicortexTombstones();
-  return (dataList || []).filter(item => !isOmnicortexDeleted(item, tombstones));
-};
-
-export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
-  const currentTombstones = tombstones || getOmnicortexTombstones();
-  let items = (docsList || []).filter(i => !isOmnicortexDeleted(i, currentTombstones));
-  const fallbackSeeds = getFallbackSeedForCategory(catKey);
-  if (fallbackSeeds && fallbackSeeds.length > 0) {
-    const seedMap = new Map();
-    fallbackSeeds.forEach(seed => {
-      if (seed.id) seedMap.set(seed.id.toString().toLowerCase().trim(), seed);
-      if (seed.name) seedMap.set(seed.name.toString().toLowerCase().trim(), seed);
-      if (seed.title) seedMap.set(seed.title.toString().toLowerCase().trim(), seed);
-    });
-
-    // Hydrate existing docs with newly added schema fields and recommendations if missing or empty in Firestore/local storage
-    items = items.map(doc => {
-      if (!doc || typeof doc !== 'object') return doc;
-      const docId = (doc.id || '').toString().toLowerCase().trim();
-      const docName = (doc.name || '').toString().toLowerCase().trim();
-      const docTitle = (doc.title || '').toString().toLowerCase().trim();
-      const matchingSeed = seedMap.get(docId) || (docName ? seedMap.get(docName) : null) || (docTitle ? seedMap.get(docTitle) : null);
-      if (!matchingSeed) return doc;
-
-      let enriched = { ...doc };
-
-      // Array fields to backfill if empty or missing in the doc
-      const arrayFields = [
-        'recommended_factions',
-        'recommended_origins',
-        'recommended_occupations',
-        'recommended_species',
-        'recommended_skills',
-        'recommended_features',
-        'recommended_tl',
-        'recommended_ml'
-      ];
-
-      for (const field of arrayFields) {
-        const docVal = doc[field];
-        const seedVal = matchingSeed[field];
-        const hasDocVal = Array.isArray(docVal) ? docVal.length > 0 : Boolean(docVal);
-        const hasSeedVal = Array.isArray(seedVal) ? seedVal.length > 0 : Boolean(seedVal);
-        if (!hasDocVal && hasSeedVal) {
-          enriched[field] = seedVal;
-        }
-      }
-
-      // String fields to backfill if empty or missing in the doc
-      const stringFields = [
-        'keywords',
-        'negative_keywords',
-        'discipline',
-        'sphere',
-        'subdiscipline',
-        'stigma',
-        'homeworld'
-      ];
-
-      for (const field of stringFields) {
-        const docVal = (doc[field] !== undefined && doc[field] !== null) ? String(doc[field]).trim() : '';
-        const seedVal = (matchingSeed[field] !== undefined && matchingSeed[field] !== null) ? String(matchingSeed[field]).trim() : '';
-        if (!docVal && seedVal) {
-          enriched[field] = matchingSeed[field];
-        }
-      }
-
-      if (catKey === 'compendium' && matchingSeed) {
-        // Canonical rulebook markdown is the Source of Truth: update core content and metadata
-        enriched.description = matchingSeed.description;
-        enriched.name = matchingSeed.name || enriched.name;
-        enriched.parent = matchingSeed.parent || enriched.parent;
-        enriched.order = matchingSeed.order ?? enriched.order;
-        enriched.mechanic = matchingSeed.mechanic || enriched.mechanic;
-        enriched.guide = matchingSeed.guide || enriched.guide;
-        enriched.note = matchingSeed.note || enriched.note;
-        enriched.tags = matchingSeed.tags || enriched.tags;
-        enriched.updatedAt = matchingSeed.updatedAt || enriched.updatedAt;
-      }
-
-      return enriched;
-    });
-
-    if (catKey === 'compendium' && fallbackSeeds.length > 0) {
-      const allowedSeedIds = new Set(fallbackSeeds.map(s => (s.id || '').toString().toLowerCase().trim()));
-      // STRICT FILTER: Exclusively retain canonical source of truth articles
-      items = items.filter(item => {
-        const id = (item.id || '').toString().toLowerCase().trim();
-        return allowedSeedIds.has(id);
-      });
-    }
-
-    const existingIds = new Set(items.map(i => (i.id || '').toString().toLowerCase().trim()));
-    const missingSeeds = fallbackSeeds.filter(seed => {
-      if (isOmnicortexDeleted(seed, currentTombstones)) return false;
-      const sId = (seed.id || '').toString().toLowerCase().trim();
-      if (sId && existingIds.has(sId)) return false;
-      return true;
-    });
-
-    if (missingSeeds.length > 0) {
-      items = [...items, ...missingSeeds];
-    }
-  }
-  return items;
-};
-
-export const getFallbackSeedForCategory = (catK) => {
-  if (catK === 'compendium' || catK === 'rules_codex') return cachedCompendiumSeed || [];
-  if (catK === 'archetypes') return DEFAULT_ARCHETYPES;
-  if (catK === 'species') return DEFAULT_SPECIES;
-  if (catK === 'species_type') return DEFAULT_SPECIES_TYPES;
-  if (catK === 'species_size') return DEFAULT_SPECIES_SIZES;
-  if (catK === 'species_movement') return DEFAULT_SPECIES_MOVEMENT;
-  if (catK === 'occupations') return DEFAULT_OCCUPATIONS;
-  if (catK === 'origins') return DEFAULT_ORIGINS;
-  if (catK === 'factions') return DEFAULT_FACTIONS;
-  if (catK === 'features') return DEFAULT_FEATURES;
-  if (catK === 'traits' || catK === 'trait') return ALL_CANONICAL_TRAITS;
-  if (catK === 'skills') return ALL_CANONICAL_SKILLS;
-  if (catK === 'disadvantages') return DEFAULT_SPECIES_DISADVANTAGES;
-  if (catK === 'weaponry') return DEFAULT_WEAPONRY;
-  if (catK === 'armoring') return DEFAULT_ARMORING;
-  if (catK === 'augmentations') return DEFAULT_AUGMENTATIONS;
-  if (catK === 'invocations') return DEFAULT_INVOCATIONS;
-
-  // Supporting & Developer Reference Categories
-  if (catK === 'augmentation_type') return DEFAULT_AUGMENTATION_TYPES;
-  if (catK === 'body_location') return DEFAULT_BODY_LOCATIONS;
-  if (catK === 'area') return DEFAULT_AREA_PATTERNS;
-  if (catK === 'effect') return DEFAULT_EFFECT_TYPES;
-  if (catK === 'range') return DEFAULT_RANGES;
-  if (catK === 'target') return DEFAULT_TARGET_SPECIFICATIONS;
-  if (catK === 'critical_effect') return DEFAULT_CRITICAL_EFFECTS;
-  if (catK === 'critical_success_effect') return DEFAULT_CRITICAL_SUCCESS_EFFECTS;
-  if (catK === 'critical_failure_effect') return DEFAULT_CRITICAL_FAILURE_EFFECTS;
-  if (catK === 'material') return DEFAULT_MATERIALS;
-  if (catK === 'resistance') return DEFAULT_RESISTANCES;
-  if (catK === 'mode') return DEFAULT_MODES;
-  if (catK === 'special') return DEFAULT_SPECIALS;
-  if (catK === 'availability') return DEFAULT_AVAILABILITY;
-  if (catK === 'gear_category') return DEFAULT_GEAR_CATEGORIES;
-  if (catK === 'classification') return DEFAULT_CLASSIFICATIONS;
-  if (catK === 'creator') return DEFAULT_CREATORS;
-  if (catK === 'design') return DEFAULT_DESIGNS;
-  if (catK === 'component') return DEFAULT_COMPONENTS;
-  if (catK === 'prerequisite' || catK === 'prerequisites') return DEFAULT_PREREQUISITES;
-  if (catK === 'modifier' || catK === 'modifiers') return DEFAULT_MODIFIERS;
-  if (catK.startsWith('society_')) {
-    return DEFAULT_SOCIETAL_ENTRIES.filter(e => e.category === catK || e.sphere_key === catK);
-  }
-  if (catK === 'societies') return DEFAULT_SOCIETAL_ENTRIES;
-
-  return [];
-};
 
 export const DBMProvider = ({ children }) => {
   const [dbData, setDbData] = useState(() => ({
-    compendium: cachedCompendiumSeed ? filterInitialData(cachedCompendiumSeed) : [],
-    archetypes: filterInitialData(DEFAULT_ARCHETYPES),
-    species: filterInitialData(DEFAULT_SPECIES),
-    species_type: filterInitialData(DEFAULT_SPECIES_TYPES),
-    species_size: filterInitialData(DEFAULT_SPECIES_SIZES),
-    species_movement: filterInitialData(DEFAULT_SPECIES_MOVEMENT),
-    occupations: filterInitialData(DEFAULT_OCCUPATIONS),
-    origins: filterInitialData(DEFAULT_ORIGINS),
-    factions: filterInitialData(DEFAULT_FACTIONS),
-    features: filterInitialData(DEFAULT_FEATURES),
-    trait: filterInitialData(ALL_CANONICAL_TRAITS),
-    traits: filterInitialData(ALL_CANONICAL_TRAITS),
-    skills: filterInitialData(ALL_CANONICAL_SKILLS),
-    disadvantages: filterInitialData(DEFAULT_SPECIES_DISADVANTAGES),
-    weaponry: filterInitialData(DEFAULT_WEAPONRY),
-    armoring: filterInitialData(DEFAULT_ARMORING),
-    augmentations: filterInitialData(DEFAULT_AUGMENTATIONS),
-    invocations: filterInitialData(DEFAULT_INVOCATIONS),
-    augmentation_type: filterInitialData(DEFAULT_AUGMENTATION_TYPES),
-    body_location: filterInitialData(DEFAULT_BODY_LOCATIONS),
-    area: filterInitialData(DEFAULT_AREA_PATTERNS),
-    effect: filterInitialData(DEFAULT_EFFECT_TYPES),
-    range: filterInitialData(DEFAULT_RANGES),
-    target: filterInitialData(DEFAULT_TARGET_SPECIFICATIONS),
-    critical_effect: filterInitialData(DEFAULT_CRITICAL_EFFECTS),
-    critical_success_effect: filterInitialData(DEFAULT_CRITICAL_SUCCESS_EFFECTS),
-    critical_failure_effect: filterInitialData(DEFAULT_CRITICAL_FAILURE_EFFECTS),
-    material: filterInitialData(DEFAULT_MATERIALS),
-    resistance: filterInitialData(DEFAULT_RESISTANCES),
-    mode: filterInitialData(DEFAULT_MODES),
-    special: filterInitialData(DEFAULT_SPECIALS),
-    availability: filterInitialData(DEFAULT_AVAILABILITY),
-    gear_category: filterInitialData(DEFAULT_GEAR_CATEGORIES),
-    classification: filterInitialData(DEFAULT_CLASSIFICATIONS),
-    creator: filterInitialData(DEFAULT_CREATORS),
-    design: filterInitialData(DEFAULT_DESIGNS),
-    component: filterInitialData(DEFAULT_COMPONENTS),
-    prerequisite: filterInitialData(DEFAULT_PREREQUISITES),
-    modifier: filterInitialData(DEFAULT_MODIFIERS),
-    societies: filterInitialData(DEFAULT_SOCIETAL_ENTRIES)
+    compendium: cachedCompendiumSeed ? filterInitialData(cachedCompendiumSeed, 'compendium') : [],
+    archetypes: filterInitialData(DEFAULT_ARCHETYPES, 'archetypes'),
+    species: filterInitialData(DEFAULT_SPECIES, 'species'),
+    species_type: filterInitialData(DEFAULT_SPECIES_TYPES, 'species_type'),
+    species_size: filterInitialData(DEFAULT_SPECIES_SIZES, 'species_size'),
+    species_movement: filterInitialData(DEFAULT_SPECIES_MOVEMENT, 'species_movement'),
+    occupations: filterInitialData(DEFAULT_OCCUPATIONS, 'occupations'),
+    origins: filterInitialData(DEFAULT_ORIGINS, 'origins'),
+    factions: filterInitialData(DEFAULT_FACTIONS, 'factions'),
+    features: filterInitialData(DEFAULT_FEATURES, 'features'),
+    trait: filterInitialData(ALL_CANONICAL_TRAITS, 'trait'),
+    traits: filterInitialData(ALL_CANONICAL_TRAITS, 'traits'),
+    skills: filterInitialData(ALL_CANONICAL_SKILLS, 'skills'),
+    disadvantages: filterInitialData(DEFAULT_SPECIES_DISADVANTAGES, 'disadvantages'),
+    weaponry: filterInitialData(DEFAULT_WEAPONRY, 'weaponry'),
+    armoring: filterInitialData(DEFAULT_ARMORING, 'armoring'),
+    augmentations: filterInitialData(DEFAULT_AUGMENTATIONS, 'augmentations'),
+    invocations: filterInitialData(DEFAULT_INVOCATIONS, 'invocations'),
+    augmentation_type: filterInitialData(DEFAULT_AUGMENTATION_TYPES, 'augmentation_type'),
+    body_location: filterInitialData(DEFAULT_BODY_LOCATIONS, 'body_location'),
+    area: filterInitialData(DEFAULT_AREA_PATTERNS, 'area'),
+    effect: filterInitialData(DEFAULT_EFFECT_TYPES, 'effect'),
+    range: filterInitialData(DEFAULT_RANGES, 'range'),
+    target: filterInitialData(DEFAULT_TARGET_SPECIFICATIONS, 'target'),
+    critical_effect: filterInitialData(DEFAULT_CRITICAL_EFFECTS, 'critical_effect'),
+    critical_success_effect: filterInitialData(DEFAULT_CRITICAL_SUCCESS_EFFECTS, 'critical_success_effect'),
+    critical_failure_effect: filterInitialData(DEFAULT_CRITICAL_FAILURE_EFFECTS, 'critical_failure_effect'),
+    material: filterInitialData(DEFAULT_MATERIALS, 'material'),
+    resistance: filterInitialData(DEFAULT_RESISTANCES, 'resistance'),
+    mode: filterInitialData(DEFAULT_MODES, 'mode'),
+    special: filterInitialData(DEFAULT_SPECIALS, 'special'),
+    availability: filterInitialData(DEFAULT_AVAILABILITY, 'availability'),
+    gear_category: filterInitialData(DEFAULT_GEAR_CATEGORIES, 'gear_category'),
+    classification: filterInitialData(DEFAULT_CLASSIFICATIONS, 'classification'),
+    creator: filterInitialData(DEFAULT_CREATORS, 'creator'),
+    design: filterInitialData(DEFAULT_DESIGNS, 'design'),
+    component: filterInitialData(DEFAULT_COMPONENTS, 'component'),
+    prerequisite: filterInitialData(DEFAULT_PREREQUISITES, 'prerequisite'),
+    modifier: filterInitialData(DEFAULT_MODIFIERS, 'modifier'),
+    societies: filterInitialData(DEFAULT_SOCIETAL_ENTRIES, 'societies')
   }));
   const [currentUser, setCurrentUser] = useState(auth?.currentUser || null);
   const [isLoading, setIsLoading] = useState(true);
@@ -784,7 +580,7 @@ export const DBMProvider = ({ children }) => {
     }
   }, [showToast]);
 
-  // Safe Save Entry with Schema Validation & Ref Snapshot Rollback
+  // Safe Save Entry with Local Persistence, Schema Validation & Cloud Sync
   const saveEntry = useCallback(async (rawPayload, key) => {
     if (!rawPayload || !key) {
       const errorMsg = 'Cannot save DBM entry: missing payload or category key.';
@@ -810,44 +606,37 @@ export const DBMProvider = ({ children }) => {
       return false;
     }
 
-    // 2. Snapshot current state from resilient ref before local update
-    const previousSnapshot = latestDbDataRef.current;
     const sanitizedEntry = {
       ...payload,
       updatedAt: new Date().toISOString()
     };
 
+    // 2. Persist locally to storage immediately so edits are NEVER lost
+    saveOmnicortexCustomEntry(key, sanitizedEntry);
+
     // 3. Optimistic UI update
     setDbData(prev => {
       const existing = prev[key] || [];
-      const idx = existing.findIndex(i => i.id === docId);
+      const idx = existing.findIndex(i => (i.id || '').toString().toLowerCase() === docId.toString().toLowerCase());
       const updated = idx >= 0
-        ? existing.map(i => i.id === docId ? sanitizedEntry : i)
+        ? existing.map(i => (i.id || '').toString().toLowerCase() === docId.toString().toLowerCase() ? sanitizedEntry : i)
         : [...existing, sanitizedEntry];
       return { ...prev, [key]: updated };
     });
 
-    // If no authenticated user, keep optimistic local state and succeed
-    if (!auth.currentUser && !currentUser) {
-      return true;
+    // 4. Firestore persistence if authenticated
+    if (auth.currentUser || currentUser) {
+      try {
+        const docRef = doc(db, key, docId);
+        const cleanPayload = sanitizeFirestoreData(sanitizedEntry);
+        await setDoc(docRef, cleanPayload, { merge: true });
+      } catch (err) {
+        console.warn(`[DBMContext] Cloud sync notice for document "${docId}" in "${key}":`, err.message);
+        // Do NOT rollback local state! Local storage and state have preserved the changes.
+      }
     }
 
-    // 4. Firestore persistence with precision rollback
-    try {
-      const docRef = doc(db, key, docId);
-      await setDoc(docRef, sanitizedEntry, { merge: true });
-      return true;
-    } catch (err) {
-      console.error(`[DBMContext] saveEntry failed for document "${docId}" in "${key}":`, err);
-      // Precision rollback to ref snapshot
-      setDbData(previousSnapshot);
-      setToastMessage({
-        type: 'error',
-        title: 'Save Failed',
-        text: `Failed to save "${sanitizedEntry.name || sanitizedEntry.title || docId}". Changes reverted.`
-      });
-      return false;
-    }
+    return true;
   }, [currentUser]);
 
   // Safe Delete Entry with Multi-Collection Scan & Tombstone Persistence
@@ -878,6 +667,7 @@ export const DBMProvider = ({ children }) => {
 
     // Persist tombstone by docId so seed arrays and caches never resurrect this specific deleted entry
     addOmnicortexTombstone(docId);
+    removeOmnicortexCustomEntry(key, docId);
 
     // 3. Optimistic local removal across collections (by docId ONLY)
     setDbData(prev => {
@@ -894,63 +684,55 @@ export const DBMProvider = ({ children }) => {
     });
 
     // 4. Cloud delete execution across related reference collections (by docId ONLY)
-    try {
-      const collectionsToScan = Array.from(new Set([
-        key,
-        'rules_codex',
-        'rules',
-        'lore',
-        'compendium',
-        'compendium_rules',
-        'omnicortex',
-        'articles',
-        'wiki'
-      ])).filter(Boolean);
+    if (auth.currentUser || currentUser) {
+      try {
+        const collectionsToScan = Array.from(new Set([
+          key,
+          'rules_codex',
+          'rules',
+          'lore',
+          'compendium',
+          'compendium_rules',
+          'omnicortex',
+          'articles',
+          'wiki'
+        ])).filter(Boolean);
 
-      let deletedCount = 0;
+        for (const scanKey of collectionsToScan) {
+          try {
+            const colRef = collection(db, scanKey);
+            const allDocs = await getDocs(colRef);
 
-      for (const scanKey of collectionsToScan) {
-        try {
-          const colRef = collection(db, scanKey);
-          const allDocs = await getDocs(colRef);
+            for (const d of allDocs.docs) {
+              const data = d.data() || {};
+              const dId = (d.id || '').toString().toLowerCase();
+              const payloadId = (data.id || '').toString().toLowerCase();
 
-          for (const d of allDocs.docs) {
-            const data = d.data() || {};
-            const dId = (d.id || '').toString().toLowerCase();
-            const payloadId = (data.id || '').toString().toLowerCase();
+              // Match ONLY by document ID to avoid deleting separate records that share a name!
+              const isMatch =
+                dId === docId.toString().toLowerCase() ||
+                payloadId === docId.toString().toLowerCase();
 
-            // Match ONLY by document ID to avoid deleting separate records that share a name!
-            const isMatch =
-              dId === docId.toString().toLowerCase() ||
-              payloadId === docId.toString().toLowerCase();
-
-            if (isMatch) {
-              await deleteDoc(d.ref);
-              deletedCount++;
+              if (isMatch) {
+                await deleteDoc(d.ref);
+              }
             }
+          } catch (scanErr) {
+            console.warn(`[DBMContext deleteEntry] Scan error on collection "${scanKey}":`, scanErr.message);
           }
-        } catch (scanErr) {
-          console.warn(`[DBMContext deleteEntry] Scan error on collection "${scanKey}":`, scanErr.message);
         }
+      } catch (err) {
+        console.warn(`[DBMContext] Cloud delete notice for "${docId}":`, err.message);
       }
-
-      setToastMessage({
-        type: 'success',
-        title: 'Deleted',
-        text: `"${displayName}" successfully removed.`
-      });
-      return true;
-    } catch (err) {
-      console.warn(`[DBMContext] Cloud delete notice for "${docId}":`, err.message);
-      // Even if Firestore fails (e.g., offline or unauthenticated), local tombstone and removal succeed
-      setToastMessage({
-        type: 'info',
-        title: 'Removed Locally',
-        text: `"${displayName}" removed locally.`
-      });
-      return true;
     }
-  }, []);
+
+    setToastMessage({
+      type: 'success',
+      title: 'Deleted',
+      text: `"${displayName}" successfully removed.`
+    });
+    return true;
+  }, [currentUser]);
 
   // Safe Batch JSON Import with Schema Validation & Chunking
   const importJSON = useCallback(async (list, key) => {
@@ -987,15 +769,18 @@ export const DBMProvider = ({ children }) => {
       return false;
     }
 
-    const previousSnapshot = latestDbDataRef.current;
+    // 2. Persist locally to storage immediately
+    preparedList.forEach(item => {
+      saveOmnicortexCustomEntry(key, item);
+    });
 
-    // 2. Optimistic UI update
+    // 3. Optimistic UI update
     setDbData(prev => {
       const existing = prev[key] || [];
-      const existingIds = new Set(existing.map(i => i.id));
-      const newItems = preparedList.filter(i => !existingIds.has(i.id));
+      const existingIds = new Set(existing.map(i => (i.id || '').toString().toLowerCase()));
+      const newItems = preparedList.filter(i => !existingIds.has((i.id || '').toString().toLowerCase()));
       const updatedExisting = existing.map(item => {
-        const match = preparedList.find(p => p.id === item.id);
+        const match = preparedList.find(p => (p.id || '').toString().toLowerCase() === (item.id || '').toString().toLowerCase());
         return match || item;
       });
       return { ...prev, [key]: [...updatedExisting, ...newItems] };
@@ -1010,11 +795,11 @@ export const DBMProvider = ({ children }) => {
       return true;
     }
 
-    // 3. Chunked cloud commit
+    // 4. Chunked cloud commit
     try {
       const operations = preparedList.map(item => ({
         ref: doc(db, key, item.id),
-        data: item,
+        data: sanitizeFirestoreData(item),
         merge: true
       }));
       await commitChunkedBatches(operations, 450);
@@ -1025,15 +810,13 @@ export const DBMProvider = ({ children }) => {
       });
       return true;
     } catch (err) {
-      console.error('[DBMContext] importJSON batch write failed:', err);
-      // Precision rollback to ref snapshot
-      setDbData(previousSnapshot);
+      console.warn('[DBMContext] importJSON batch write failed:', err);
       setToastMessage({
-        type: 'error',
-        title: 'Import Failed',
-        text: `Failed to save imported entries to cloud: ${err.message}. Changes reverted.`
+        type: 'info',
+        title: 'Import Complete (Local)',
+        text: `Imported ${preparedList.length} entries locally (cloud sync offline).`
       });
-      return false;
+      return true;
     }
   }, [currentUser]);
 

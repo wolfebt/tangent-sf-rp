@@ -1,129 +1,169 @@
 ---
 id: species-kitin-riezen
-name: Riezen (Kitin Swarm Entity)
-title: Riezen (Kitin Swarm Colossus)
+name: Riezen (Divergent Swarm)
+title: Riezen (Kitin Divergent Swarm / Insect Ooze)
 category: species
 parent_species: Kitin
 type:
+  - species_type-ooze
   - species_type-aberration
 size:
   - species_size-large
 movement:
-  - species_movement-bipedal
-speeds: Ground 30 ft
-reach: 10 ft
-senses: 'Darkvision out to 60 feet. [1]'
-immunities: None
+  - species_movement-flight
+speeds: 'Flight 30 ft'
+reach: '5 ft (Fine individual) / 10 ft (Manifested Swarm)'
+senses: 'Blind Sight 30 ft (Acoustic, chemical, and EM resonance), Darkvision out to 60 ft.'
+immunities: 'Sleep effects, single-target precision strikes, paralysis, and stunning'
 inherent_attribute_modifiers:
   - attribute: Agility
     bonus: 2
+  - attribute: Charisma
+    bonus: -2
 bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Perception
-    bonus: 2
+specific_skill_bonuses: []
 bonus_skills: 0
 bonus_skill_choices:
   - Perception
-  - Intimidation
+  - Stealth
+  - Survival
   - Combat
-inherent_features: []
-bonus_features: []
+  - Attune
+inherent_features:
+  - special-hive-mind-swarm
+  - special-telepathy
+  - special-host-zombification
+  - meta-psionic-interference-static
+  - physical-swarm-fast-heal-regeneration
+  - special-honey-paper-manufacture
+  - special-sleepless
+  - meta-adaptive-aspects
+  - sensory-blind-sight
+  - defensive-exoskeleton-light
+bonus_features: 0
 bonus_feature_choices: []
-recommended_features: []
-stigma: 'Monstrous (-4), Xeno (-2)'
-tech_level: 3 (Swarm Bio-Mass)
-meta_level: 4 (Collective Psionic Core)
-homeworld: Kitin Deep Nests
+recommended_features:
+  - sensory-acute-senses
+  - meta-adaptive-aspects
+  - discipline-awakened
+  - defensive-poison-immunity
+  - physical-toxic-blood
+  - combat-venomous-saliva
+  - combat-venom-spit
+stigma: 'Severe Xeno, Monstrous (when inhabiting hosts)'
+tech_level: '— (Utilizes biological zombification of host technology)'
+meta_level: '3 (Resonant / Chaotic)'
+homeworld: 'NBC War-Scorched Kitin Waste Worlds'
 costs:
-  bp: 15
+  bp: 24
 modifiers:
   - target: Agility
     value: 2
     type: attribute
     mode: inherent
-  - target: Strength
-    value: 2
-    type: attribute
-    mode: size_modifier
-  - target: Combat / Defense
+  - target: Charisma
     value: -2
-    type: combat
-    mode: size_modifier
-  - target: Stealth
-    value: -4
-    type: skill
-    mode: size_modifier
-cp_cost: 15
-cp: 15
-bp: 15
+    type: attribute
+    mode: inherent
+cp_cost: 24
+cp: 24
+bp: 24
 description: >-
-  Riezen are colossal aggregate swarm entities composed of millions of
-  synchronized micro-arthropods behaving as a unified conscious giant.
+  The Riezen are a divergent swarm of thousands of fine-sized insects acting as a singular psionic
+  entity. Born of planetary NBC fallout, they exist outside the Kitin Collective as a biological heresy,
+  emitting disruptive psionic static and zombifying host corpses as armored shells.
 traits:
-  - trait-kitin-base-traits
-  - trait-blindsight-60ft
-  - trait-exoskeleton-dr-4
-  - trait-fast-healing-regeneration
-  - trait-telepathic-hive-node
-  - trait-swarm-entity-resistant-to-single-target-attacks
+  - trait-hive-mind-swarm
+  - trait-telepathic
+  - trait-host-zombification
+  - trait-psionic-interference-static
+  - trait-swarm-fast-heal-regeneration
+  - trait-honey-paper-manufacture
+  - trait-sleepless
+  - trait-adaptive-features
+  - trait-blind-sight-swarm
+  - trait-exoskeleton-light
 recommended_factions:
   - Hive Mind Faction Template
   - Alien Faction Template
+  - Criminal Faction Template
 recommended_origins:
   - Hostile
   - Colony
+  - Spacer
 recommended_occupations:
-  - Soldier
   - Drifter
+  - Soldier
   - Adept
-keywords: 'swarm-aggregate, micro-arthropod-colossus, hive-mind-colony, distributed-mass'
-negative_keywords: 'fine-jewelry, solitary-individual, tiny-cockpit'
+  - Agent
+keywords: >-
+  divergent-swarm, insect-ooze, psionic-static, counter-chorus, host-zombification,
+  honey-paper-manufacture, blindsight, fast-heal-regeneration, nbc-survivor, toxic-cloud
+negative_keywords: 'orderly-chorus, solitary-humanoid, rigid-endoskeleton'
 ---
 
-# Riezen (Kitin Swarm Colossus)
+# Riezen (Kitin Divergent Swarm / Insect Ooze)
 
-**BP Cost:**   
-**Description:** The Kizin are a fascinating race of medium-sized, vulpine humanoids distantly related to the Kannid but distinguished by several key physical traits and a defining, complex temperament. Their silhouette is immediately recognizable due to their digitigrade legs, giving them a perpetual sense of motion and contributing to their famed nimbleness and speed. Complementing this, a bushy tail provides essential balance and expresses a range of subtle emotions.
+**BP Cost:** 24 BP  
+**Classification:** Insect Ooze (Swarm)  
+**Size:** Fine (Individual insects) / Large (Manifested Swarm)  
+**Movement:** 30ft Flightspeed  
 
-Physically, they possess the cunning and sharp features often associated with foxes, though rendered in a bipedal form. Their bodies are typically lean and agile, built for swift movement and quick reflexes. Their coat colors can vary widely, ranging from earthy reds and browns to more exotic whites, blacks, and dappled patterns, often with lighter fur marking their chests and the tips of their tails.
+**Tech Level:** — (Utilizes biological zombification of host technology)  
+**Meta Level:** 3 (Resonant / Chaotic)  
+**Stigma:** Severe Xeno, Monstrous (when inhabiting hosts)  
 
-Beyond their physical characteristics, Kizin are renowned for their high intelligence. They possess sharp minds, a knack for puzzles, and a rapid ability to learn and adapt, making them excellent strategists, engineers, and scholars in their own right. This mental acuity, however, is often closely linked to their most defining trait: an insatiable, overwhelming over-curiosity.
+## Description
+The Riezen are close relations of the original insectoid genome. While the Kitin Collective followed a path of steered evolution under the Manelli, the Riezen are the result of raw, unmanaged survival following a planetary-scale NBC (Nuclear, Biological, Chemical) warfare event on their homeworld.
+They do not possess a singular body; instead, a "Riezen" is a collective swarm of thousands of fine-sized insects acting as a singular psionic entity.
 
-While they are frequently perceived as mischievous, this reputation stems less from an inclination toward deliberate harm or villainy, and more from their profound need to investigate, disassemble, and understand the world around them. A Kizin's "prank" is rarely malicious; it is far more likely a poorly considered experiment, a consequence of wanting to know *what happens if* they tamper with a mechanism, unlock a door, or simply follow a fascinating secret down a troublesome path. Their nature, therefore, is fundamentally one of discovery and exploration, often prioritizing new knowledge or experiences above social etiquette or personal safety.
+They are not part of the Kitin Collective and are considered a biological "heresy" by the Manelli. Their very presence creates "Psionic Static," a discordant frequency that physically and mentally disrupts the Manelli’s ability to coordinate their own hive.
 
-**Classification:** Humanoid  
-**Size:** Medium  
-**Movement:** 40ft Groundspeed
+## Technical Profile
+* **Size:** Fine (Individual insects) / Large (Manifested Swarm)
+* **Movement:** 30ft Flightspeed
+* **Tech Level:** — (Utilizes biological zombification of host technology)
+* **Meta Level:** 3 (Resonant / Chaotic)
+* **Stigma:** Severe Xeno, Monstrous (when inhabiting hosts)
 
-**Tech Level:** 3  
-**Meta Level:** 2
+## Ability Modifiers
+* **+2 Agility** (8 BP)
+* **-2 Charisma** (-8 BP; except with other Riezen)
 
-**Homeworld:**   
-**Stigma:** Xeno
+## Species Features
+* **Hive Mind:** The swarm is a single consciousness. It cannot be "killed" unless the majority of the swarm is destroyed. (2 BP)
+* **Telepathic:** Innate psychic communication within the swarm and with external minds. (2 BP)
+* **Host Zombification:** The Riezen can inhabit and "pilot" the corpses of other species or damaged biomorphic husks, utilizing them as armored shells. (2 BP)
+* **Psionic Interference (The Static):** Their psionic frequency is "out of tune" with the Manelli. Any Manelli within psychic range of a Riezen swarm suffers a -2 penalty to all Psionic and Wisdom checks due to mental feedback. If the Riezen are in the immediate vicinity then any communications between Kitin will be severely disrupted with the Chorus will be manipulated or used at a Disadvantage. (1 BP)
+* **Fast Heal & Regeneration:** The swarm constantly births new members to replace those lost, allowing it to "heal" rapidly. (2 BP)
+* **Honey & Paper Manufacture:** Ability to produce biological adhesives and pulp for nest building and restraint. (1 BP)
+* **Sleepless:** Does not require rest; the swarm operates in constant rotation. (2 BP)
+* **Adapted Features:** (2 BP)
+* **Blind Sight:** (2 BP)
+* **Exoskeleton (Light):** (2 BP)
 
-**Ability Modifiers:**   
-\+1 Int  
-\+1 Agi
+## Recommended Features
+* **Acute Senses:** (any, especially Scent)
+* **Adaptive Aspects:** (Hive Memories)
+* **Adaptive Skill Set:** (Hive Memories)
+* **Awakened:** (Psychic, Wis)
+* **Bodyform Features**
+* **Great Fortitude**
+* **Low Light Vision**
+* **Mutation**
+* **Poison Immunity:** (Automatically Save versus any Poisonous Substances)
+* **Reduced Sustenance**
+* **Toxic Blood:** Ingested, DC 11 + 2xSta, Pain Incapacitation 1hr (Severe Nausea on Success): Sta 1, Poison Immunity
+* **Venomous Saliva:** Injected (Bite), DC 11 + 2xSta, Paralytic 1hr (Drugged on Success): Toxic Blood, Sta 2
+* **Venom Spit:** Contact, DC 11+ 2xSta, Blind for 10+ minutes: Toxic Blood, Sta 2
 
-**Skills:**   
-\+5 Skills
+## The Great Disruption: Riezen vs. Manelli
+The Manelli view the Riezen as a "cancer" on their genetic legacy. Because the Riezen share the same original genome but lack the "Chorus" protocols, they act as a void in the Kitin network.
+* **The Counter-Chorus:** Riezen can instinctively sense the Manelli's steering signals and "jam" them. In combat, a Riezen swarm will cause any “Chorus” communications to be disharmonized, checks at disadvantage and ranges reduced with erratic static waves.
+* **Interaction:** While the Kitin Collective is orderly and "glossy obsidian," the Riezen are chaotic, often appearing as a pulsating, multicolored cloud of toxic greens, deep violets, and amber oozes.
 
-**Species Features:**   
-Digitigrade Legs  
-Low-Light Vision  
-Scent  
-Stigma (Xeno)
-
-**Recommended Features:**   
-Acrobatic  
-Athletic  
-Blindsense  
-Danger Sense  
-Darksight  
-Nimble  
-Obfuscate  
-Sneak Attack  
-Stealthy  
-Quick  
-Uncanny Sense (Scent)  
-Uncanny Sense (Hearing)
+## Aesthetics (CRISP)
+* **Context:** A pulsating infestation that has overtaken a derelict facility; wet, sickly, and hyper-active.
+* **Style:** Infestation Noir, Pulsating Symmetry, Macro-Focus.
+* **Palette:** Dominant: Toxic Green / Sickly Yellow. Accent: Deep Violet (Psychic Static), Amber (Ooze/Honey), Bone White (From zombified hosts).
+* **Visuals:** A swirling cloud of iridescent flying insects that occasionally forms the crude shape of a humanoid to communicate or "wear" a host's armor.

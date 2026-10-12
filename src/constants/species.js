@@ -385,7 +385,9 @@ export const SPECIES_TRAITS_BASIC = [
   { id: 'water_sense', name: 'Water-Sense', bp: 1, type: 'Sensory', description: 'Blindsense 30 feet against creatures touching the same body of water.' },
   { id: 'synthetic_base_traits', name: 'Synthetic Base Traits', bp: 1, type: 'Physical', description: 'Immune to biological needs, poison, disease, asphyxiation, starvation, and sleep. Uses Structure Points instead of Vitality/Health; must be repaired.' },
   { id: 'sub_routine_matrix', name: 'Sub-Routine Matrix', bp: 1, type: 'Mental', description: 'Dedicated parallel sub-routine co-processors allow concurrent execution of system analyses and technical directives.' },
-  { id: 'logic_engine', name: 'Logic Engine', bp: 1, type: 'Mental', description: 'High-speed algorithmic evaluation engine granting +2 bonus on Computation, Logic, and Tactical Evaluation checks.' }
+  { id: 'logic_engine', name: 'Logic Engine', bp: 1, type: 'Mental', description: 'High-speed algorithmic evaluation engine granting +2 bonus on Computation, Logic, and Tactical Evaluation checks.' },
+  { id: 'psionic_interference_static', name: 'Psionic Interference (The Static)', bp: 1, type: 'Meta', description: 'Discordant psychic frequency imposes -2 on Manelli Psionic/Wisdom checks; Kitin Chorus communication in immediate vicinity is disrupted and rolled at Disadvantage.' },
+  { id: 'honey_paper_manufacture', name: 'Honey & Paper Manufacture', bp: 1, type: 'Special', description: 'Ability to produce biological adhesives, sticky amber ooze, and cellulose pulp for nest building, barricades, and restraint.' }
 ];
 
 export const SPECIES_TRAITS_ADVANCED = [
@@ -449,10 +451,51 @@ export const SPECIES_TRAITS_ADVANCED = [
   { id: 'venom', name: 'Venom', bp: 2, type: 'Physical', description: 'Hemotoxic (Str/Sta) / Neurotoxic (Agility/Sensory) / Cytotoxic (Tissue Corrosive)' },
   { id: 'digitized_mind', name: 'Digitized Mind', bp: 2, type: 'Defensive', description: 'Optronic cognitive shielding grants Advantage on all resistance rolls and checks against mental, psionic, and mind-affecting effects.' },
   { id: 'robotic_strength', name: 'Robotic Strength', bp: 2, type: 'Physical', description: 'Reinforced high-torque servo actuators consider the synthetic one category larger for lifting, grappling, and carrying capacity.' },
-  { id: 'resilient_design', name: 'Resilient Design', bp: 2, type: 'Defensive', description: 'Dense shock-absorptive synthetic armature provides DR 5/- natural damage reduction.' }
+  { id: 'resilient_design', name: 'Resilient Design', bp: 2, type: 'Defensive', description: 'Dense shock-absorptive synthetic armature provides DR 5/- natural damage reduction.' },
+  { id: 'mimetic_form', name: 'Mimetic Form', bp: 2, type: 'Physical', description: 'Gain +2 to Disguise or Deception checks to pass as human (antennae concealed).' },
+  { id: 'genetic_memory', name: 'Genetic Memory', bp: 2, type: 'Mental', description: 'Inheritance of ancestral knowledge, cultural memory, and Genomatrix blueprints.' },
+  { id: 'hive_link', name: 'Hive-Link', bp: 2, type: 'Meta', description: 'Constant telepathic connection to the Kitin Collective and all Kitin Strains.' },
+  { id: 'torpor_universal', name: 'Torpor (Universal)', bp: 2, type: 'Physical', description: 'Requires only 4 hours of conscious inactivity; immune to sleep effects.' },
+  { id: 'blind_sense_scent_em', name: 'Blind Sense (Scent/EM)', bp: 2, type: 'Sensory', description: 'Delicate antennae perceive bio-energetic and EM fields in 30 ft radius.' },
+  { id: 'enhanced_biotechnology', name: 'Enhanced Biotechnology', bp: 2, type: 'Physical', description: 'Advanced physiological compatibility and control over living technology.' },
+  { id: 'toxic_blood', name: 'Toxic Blood', bp: 2, type: 'Defensive', description: 'Ingested, DC 11 + 2xSta, Pain Incapacitation 1hr (Severe Nausea on Success).' },
+  { id: 'venomous_saliva', name: 'Venomous Saliva', bp: 2, type: 'Combat', description: 'Injected (Bite), DC 11 + 2xSta, Paralytic 1hr (Drugged on Success).' },
+  { id: 'venom_spit', name: 'Venom Spit', bp: 2, type: 'Combat', description: 'Contact ranged spit, DC 11 + 2xSta, Blind for 10+ minutes.' },
+  { id: 'poison_immunity', name: 'Poison Immunity', bp: 2, type: 'Defensive', description: 'Automatically Save versus any poisonous substances and toxins.' },
+  { id: 'climber', name: 'Climber', bp: 2, type: 'Movement', description: 'Traverse vertical and inverted surfaces at full speed (40 ft/rd); +2 bonus on Climbing checks.' },
+  { id: 'dual_skeletal_structure', name: 'Dual Skeletal Structure', bp: 2, type: 'Defensive', description: 'Combined endoskeleton and exoskeleton providing natural Damage Reduction (DR +5).' },
+  { id: 'chitinous_shell_armor', name: 'Armor (Chitinous Shell)', bp: 2, type: 'Defensive', description: 'Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10].' },
+  { id: 'enhanced_strength', name: 'Enhanced Strength', bp: 2, type: 'Physical', description: 'Count as 1 size larger for lifting and carrying capacity.' },
+  { id: 'resin_secretion', name: 'Resin Secretion', bp: 2, type: 'Physical', description: 'Creation of Hive-Resin for field-patching mecha, vehicle hulls, and hive structures.' },
+  { id: 'weaver', name: 'Weaver', bp: 2, type: 'Physical', description: 'Can produce and manipulate natural webbing made from high-tensile Hive-Resin.' },
+  { id: 'uncanny_senses_vibration', name: 'Uncanny Senses (Vibration)', bp: 2, type: 'Sensory', description: 'Detection of motion, vibrations, and tremors through surfaces and the hive-mesh out to 60 ft.' },
+  { id: 'quick', name: 'Quick', bp: 2, type: 'Movement', description: '+10 feet to Base Movement Speed and +1 to Initiative.' },
+  { id: 'leaper', name: 'Leaper', bp: 2, type: 'Movement', description: 'Always counts as a running start, all checks for jumping, leaping and dropping at advantage.' },
+  { id: 'quadruped_leaping', name: 'Quadruped (Leaping)', bp: 2, type: 'Movement', description: 'Specialized legs for high-impact jumping; +4 Stability against trips/shoves.' },
+  { id: 'awakened_psychic', name: 'Awakened (Psychic)', bp: 2, type: 'Meta', description: 'Conductor of the Hive’s psionic Chorus; grants access to Attune and mental psionic metaphysics.' },
+  { id: 'limited_flight', name: 'Limited Flight', bp: 2, type: 'Movement', description: 'Flight speed of 2x Land Speed for 1 round of movement, 2x Jump distance and Slow Fall.' },
+  { id: 'hive_mind_swarm', name: 'Hive Mind (Swarm)', bp: 2, type: 'Meta', description: 'The swarm is a single distributed consciousness. It cannot be killed unless the majority of the swarm is destroyed.' },
+  { id: 'telepathic', name: 'Telepathic', bp: 2, type: 'Meta', description: 'Innate psychic communication within the swarm and with external sentient minds out to 100 ft.' },
+  { id: 'host_zombification', name: 'Host Zombification', bp: 2, type: 'Special', description: 'The swarm can inhabit and pilot the corpses of other species or damaged biomorphic husks as armored shells.' },
+  { id: 'swarm_fast_heal_regeneration', name: 'Fast Heal & Regeneration (Swarm)', bp: 2, type: 'Physical', description: 'The swarm constantly births new members to replace those lost, allowing it to heal and regenerate rapidly.' },
+  { id: 'blind_sight_swarm', name: 'Blind Sight (Swarm)', bp: 2, type: 'Sensory', description: 'Accurately sense and target unseen objects and creatures in a 30 ft radius or 60 ft cone without optical sight.' },
+  { id: 'synaptic_integration', name: 'Synaptic Integration', bp: 2, type: 'Special', description: 'Can slot into Kitin mecha Synaptic Node; uses own Int/Agi for all vehicle checks and ignores G-force penalties.' },
+  { id: 'multidextrous_many_limbed', name: 'Multidextrous (Many-Limbed)', bp: 2, type: 'Physical', description: 'Possesses 30+ micro-limbs for fine repairs, fluid management, and concurrent subsystem multitasking.' },
+  { id: 'g_force_immunity', name: 'G-Force Immunity', bp: 2, type: 'Physical', description: 'Internal fluid dampening allows survival through extreme accelerations and supersonic vector shifts that would liquefy humanoids.' },
+  { id: 'blind_sense_em_vibration', name: 'Blind Sense (EM/Vibration)', bp: 2, type: 'Sensory', description: 'Perceives surroundings via mecha sensors and external bio-arrays via electromagnetic and vibration resonance.' },
+  { id: 'property_boon', name: 'Property Boon', bp: 2, type: 'Special', description: 'Special equipment allocation granting personal vehicle or biomorphic docking privileges; +4 Wealth for personal property.' },
+  { id: 'fatigue_resistance', name: 'Fatigue Resistance', bp: 2, type: 'Physical', description: 'All Fatigue checks are made at Advantage and at twice the interval time.' },
+  { id: 'pheromonal_synthesis', name: 'Pheromonal Synthesis', bp: 2, type: 'Special', description: 'Biological scent-marking for hive coordination, trail navigation, and silent aerosol alarms.' },
+  { id: 'hive_link_minor', name: 'Hive-Link (Minor)', bp: 2, type: 'Special', description: 'Basic telepathic receptivity to follow Collective commands and synchronize with hive leadership.' },
+  { id: 'radiation_advantage', name: 'Radiation Advantage', bp: 2, type: 'Defensive', description: 'All checks against ionizing radiation, cosmic rays, and fallout are made with Advantage, and radiation damage is halved.' },
+  { id: 'biological_continuity', name: 'Biological Continuity', bp: 2, type: 'Special', description: 'Monogenetic stabilization grants immunity to clone decay and allows effortless interface with biomorphic wetware.' },
+  { id: 'psionic_gating', name: 'Psionic Gating', bp: 2, type: 'Meta', description: 'The mind is harmonized with the cryptographic frequency filters of the Chorus, imposing Disadvantage on foreign psionic intrusions.' }
 ];
 
 export const SPECIES_TRAITS_ELITE = [
+  { id: 'active_camouflage', name: 'Camouflage (Active)', bp: 4, type: 'Physical', description: 'Chitin can shift texture and hue to blend into environment, including light-absorbing vanta-black and visual transparency.' },
+  { id: 'multidextrous_4_arms', name: 'Multidextrous (4 Arms)', bp: 4, type: 'Combat', description: 'Four articulated arms ending in sharp clawed digits with zero off-hand penalties for combat and engineering.' },
+  { id: 'kitin_base_traits', name: 'Kitin Base Traits', bp: 8, type: 'Meta', description: 'Awakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].' },
   { id: 'alter_form_elite', name: 'Alter Form (Elite)', bp: 4, type: 'Physical', description: 'Base Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.' },
   { id: 'blind_sight', name: 'Blind Sight', bp: 4, type: 'Sensory', description: 'Accurately target unseen objects in a 30 ft Radius or 60 ft Cone.' },
   { id: 'bodyform_heavy_armor', name: 'Bodyform Heavy Armor', bp: 4, type: 'Physical', description: 'Shapechange to gain a heavy protective layer (Doubles Bodyform Armor bonus to DR).' },
@@ -488,7 +531,10 @@ export const SPECIES_DISADVANTAGES = [
   { id: 'slow', name: 'Slow (Disadvantage)', refundBP: 2, costBP: -2, type: 'Movement', description: 'Base Speed -10 feet (+2 CP Gain) *' },
   { id: 'ponderous', name: 'Ponderous (Disadvantage)', refundBP: 4, costBP: -4, type: 'Movement', description: 'Base Speed -20 feet (+4 CP Gain) *' },
   { id: 'sunlight_powerlessness', name: 'Sunlight Powerlessness', refundBP: 6, costBP: -6, type: 'Meta', description: 'Staggered/Helpless in direct sunlight. Req: Undead/Half-Undead.' },
-  { id: 'vulnerable_to_sunlight', name: 'Vulnerable to Sunlight', refundBP: 4, costBP: -4, type: 'Meta', description: 'Take 1 Con damage per hour in sunlight. Req: Native to Darklands/Shadow.' }
+  { id: 'vulnerable_to_sunlight', name: 'Vulnerable to Sunlight', refundBP: 4, costBP: -4, type: 'Meta', description: 'Take 1 Con damage per hour in sunlight. Req: Native to Darklands/Shadow.' },
+  { id: 'stigma_xeno_mimetic', name: 'Stigma: Minor Xeno (Hidden) / Severe Xeno (Revealed)', refundBP: 2, costBP: -2, type: 'Social', description: 'Minor Xeno stigma when concealed; escalates to Severe Xeno (-4) when revealed.' },
+  { id: 'stigma_severe_xeno_monstrous', name: 'Stigma: Severe Xeno / Monstrous', refundBP: 4, costBP: -4, type: 'Social', description: 'Terrifying arachno-tauric alien anatomy inflicts Severe Xeno / Monstrous social penalties (-4).' },
+  { id: 'fragile_frame', name: 'Fragile Frame', refundBP: 2, costBP: -2, type: 'Physical', description: 'Outside of a mecha or containment pod, fragile physiology imposes a -2 penalty to all physical saving throws.' }
 ];
 
 export const SPECIES_ATTRIBUTE_MODIFIERS = [

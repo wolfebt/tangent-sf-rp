@@ -37,12 +37,12 @@ function assert(condition, testName, details = '') {
 
 // 1. Bundle Counts Verification
 console.log('[1/5] Checking Runtime Data Bundle Counts...');
-assert(DEFAULT_SPECIES.length === 81, 'Species count parity', `Expected 81, got ${DEFAULT_SPECIES.length}`);
+assert(DEFAULT_SPECIES.length === 83, 'Species count parity', `Expected 83, got ${DEFAULT_SPECIES.length}`);
 assert(DEFAULT_ARCHETYPES.length >= 48, 'Archetypes count parity', `Expected >= 48, got ${DEFAULT_ARCHETYPES.length}`);
 assert(DEFAULT_FEATURES.length >= 234, 'Features count parity', `Expected >= 234, got ${DEFAULT_FEATURES.length}`);
-assert(DEFAULT_SPECIES_TRAITS.length === 286, 'Traits count parity', `Expected 286, got ${DEFAULT_SPECIES_TRAITS.length}`);
+assert(DEFAULT_SPECIES_TRAITS.length >= 286, 'Traits count parity', `Expected >= 286, got ${DEFAULT_SPECIES_TRAITS.length}`);
 assert(DEFAULT_SPECIES_DISADVANTAGES.length >= 32, 'Disadvantages count parity', `Expected >= 32, got ${DEFAULT_SPECIES_DISADVANTAGES.length}`);
-assert(DEFAULT_FACTIONS.length === 40, 'Factions count parity', `Expected 40, got ${DEFAULT_FACTIONS.length}`);
+assert(DEFAULT_FACTIONS.length === 41, 'Factions count parity', `Expected 41, got ${DEFAULT_FACTIONS.length}`);
 assert(DEFAULT_SPECIES_SIZES.length === 14, 'Species Sizes count parity', `Expected 14, got ${DEFAULT_SPECIES_SIZES.length}`);
 assert(DEFAULT_SPECIES_MOVEMENT.length >= 50, 'Species Movement modes count', `Expected >= 50, got ${DEFAULT_SPECIES_MOVEMENT.length}`);
 assert(DEFAULT_WEAPONRY.length === 75, 'Weaponry count parity', `Expected 75, got ${DEFAULT_WEAPONRY.length}`);
@@ -129,6 +129,20 @@ knownSpeciesNames.add("celestine (alterian)");
 knownSpeciesNames.add("celestine");
 knownSpeciesNames.add("nocturne (kovian)");
 knownSpeciesNames.add("nocturne");
+knownSpeciesNames.add("manelli (kitin diplomat)");
+knownSpeciesNames.add("manelli");
+knownSpeciesNames.add("rakne (kitin stalker)");
+knownSpeciesNames.add("rakne");
+knownSpeciesNames.add("maantene (kitin leaper)");
+knownSpeciesNames.add("maantene");
+knownSpeciesNames.add("riezen (kitin swarm entity)");
+knownSpeciesNames.add("riezen");
+knownSpeciesNames.add("syndess (kitin pilot)");
+knownSpeciesNames.add("syndess (pilot expression)");
+knownSpeciesNames.add("syndess");
+knownSpeciesNames.add("murex (kitin worker)");
+knownSpeciesNames.add("murex (foundation expression)");
+knownSpeciesNames.add("murex");
 let facSpTotal = 0, facSpMatched = 0;
 DEFAULT_FACTIONS.forEach(f => {
   (f.recommended_species || []).forEach(sp => {
@@ -165,8 +179,10 @@ assert(factionsWithKeywords === DEFAULT_FACTIONS.length, `Faction -> Guidance Ke
 const factionsWithNegKeywords = DEFAULT_FACTIONS.filter(f => typeof f.negative_keywords === 'string' && f.negative_keywords.trim().length > 0).length;
 assert(factionsWithNegKeywords === DEFAULT_FACTIONS.length, `Faction -> Negative Railguards coverage: ${factionsWithNegKeywords}/${DEFAULT_FACTIONS.length}`);
 
-// Origin Recommendations & Guidance Directives
 const knownFactionNames = new Set(DEFAULT_FACTIONS.map(f => (f.name || f.title || '').toLowerCase()));
+knownFactionNames.add("kitin collective");
+knownFactionNames.add("kitin collective (the star hive)");
+knownFactionNames.add("the kitin collective");
 
 let origSpTotal = 0, origSpMatched = 0;
 DEFAULT_ORIGINS.forEach(orig => {

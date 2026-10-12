@@ -1,32 +1,31 @@
 ---
 id: general-jack-of-all-trades
-name: Jack-of-all-trades
+name: Jack of all trades
 category: features
 feature_category: General
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: Intellect 2
-description: The character has picked up a little bit of everything in their travels.
+prerequisites: Intellect 1 or Wisdom 1
+description: >-
+  Broad, eclectic practical exposure allowing the character to attempt any untrained
+  skill check without suffering severe unfamiliarity penalties.
 costs:
   bp: 3
 modifiers: []
-keywords: 'jack-of-all-trades, general, special-feature, picked, little, everything'
-negative_keywords: 'incompetent, untrained, vulnerable'
+keywords: 'jack-of-all-trades, versatile, untrained-skills, generalist, adaptable'
+negative_keywords: 'hyper-specialist, rigid, incompetent'
 ---
 
-# Jack-of-all-trades
+# Jack of all trades
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
-**Prerequisite**: Intellect 2
+**Cost**: 3 BP  
+**Prerequisite**: Intellect 1 or Wisdom 1  
 
 ## Description
-The character has picked up a little bit of everything in their travels.
+Whether through wide travel, fragmented ancestral memories, or restless curiosity, the character has picked up a functional grounding in nearly every field of endeavor.
 
 ## Mechanics & Benefit
-You may attempt **any Skill check Untrained**, even those normally requiring training (like Medicine, Engineering, or Piloting).
-
-## Special Rules
-98
-
+* The character may attempt skill checks in any skill even if they possess 0 trained skill ranks, without suffering standard untrained penalties.
+* Gain a **+1 Competence Bonus** on all skill checks for skills with 0 purchased ranks.

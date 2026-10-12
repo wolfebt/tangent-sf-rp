@@ -2,21 +2,28 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { db, auth } from '../../../firebase';
 import { collection, onSnapshot, doc, setDoc, deleteDoc, getDocs } from 'firebase/firestore';
 import { categoryConfig } from '../categoryConfig';
-import { commitChunkedBatches } from '../../../utils/firestoreUtils';
+import { commitChunkedBatches, sanitizeFirestoreData } from '../../../utils/firestoreUtils';
 import { validateDbmEntry } from '../../../utils/dbmValidators';
 import compendiumSeedData from '../../../data/compendiumSeed.json';
 import { DEFAULT_ARCHETYPES } from '../../../data/archetypesData';
 import { DEFAULT_SPECIES } from '../../../data/speciesData';
-import { getOmnicortexTombstones, addOmnicortexTombstone, isOmnicortexDeleted, getFallbackSeedForCategory, mergeSeedsWithDocs } from '../../../context/DBMContext';
+import { 
+  getOmnicortexTombstones, 
+  addOmnicortexTombstone, 
+  isOmnicortexDeleted, 
+  getFallbackSeedForCategory, 
+  mergeSeedsWithDocs,
+  saveOmnicortexCustomEntry,
+  removeOmnicortexCustomEntry
+} from '../../../utils/omnicortexPersistence.js';
 
 export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) => {
   const [dbData, setDbData] = useState(() => {
     const tombstones = getOmnicortexTombstones();
-    const currentSeeds = currentKey ? getFallbackSeedForCategory(currentKey) : [];
     return {
-      compendium: compendiumSeedData.filter(s => !isOmnicortexDeleted(s, tombstones)),
-      archetypes: DEFAULT_ARCHETYPES.filter(s => !isOmnicortexDeleted(s, tombstones)),
-      species: DEFAULT_SPECIES.filter(s => !isOmnicortexDeleted(s, tombstones)),
+      compendium: mergeSeedsWithDocs([], 'compendium', tombstones),
+      archetypes: mergeSeedsWithDocs([], 'archetypes', tombstones),
+      species: mergeSeedsWithDocs([], 'species', tombstones),
       factions: mergeSeedsWithDocs([], 'factions', tombstones),
       ...(currentKey ? { [currentKey]: mergeSeedsWithDocs([], currentKey, tombstones) } : {})
     };
@@ -155,12 +162,14 @@ export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) =>
       return false;
     }
 
-    // 2. Snapshot current state using ref for rollback
-    const previousState = { ...dbDataRef.current };
-    const sanitizedEntry = {
+    // 2. Prepare sanitized entry with updated timestamp
+    const sanitizedEntry = sanitizeFirestoreData({
       ...payload,
       updatedAt: new Date().toISOString()
-    };
+    });
+
+    // 2.5 Persist custom entry to local storage so user modifications are never lost
+    saveOmnicortexCustomEntry(key, sanitizedEntry);
 
     // 3. Update Local State Optimistically
     setDbData(prev => {
@@ -172,25 +181,34 @@ export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) =>
       return { ...prev, [key]: updated };
     });
 
-    if (!auth.currentUser && !currentUser) {
+    if (!auth?.currentUser && !currentUser) {
+      setToastMessage({
+        type: 'success',
+        title: 'Saved Locally',
+        text: `"${sanitizedEntry.name || sanitizedEntry.title || docId}" saved locally.`
+      });
       return true;
     }
 
-    // 4. Sync to Firestore with precision rollback
+    // 4. Sync to Firestore (do not roll back local state or storage if cloud write fails)
     try {
       const docRef = doc(db, key, docId);
       await setDoc(docRef, sanitizedEntry, { merge: true });
+      setToastMessage({
+        type: 'success',
+        title: 'Saved',
+        text: `"${sanitizedEntry.name || sanitizedEntry.title || docId}" successfully saved.`
+      });
       return true;
     } catch (err) {
-      console.error(`Firestore saveEntry failed for document ${docId}:`, err.message);
-      // Precision rollback to ref snapshot
-      setDbData(previousState);
+      console.warn(`Firestore saveEntry failed for document ${docId} (preserved in local storage):`, err.message);
+      // DO NOT ROLL BACK! Local storage and state already have the user's edits!
       setToastMessage({
-        type: 'error',
-        title: 'Save Failed',
-        text: `Failed to save "${sanitizedEntry.name || sanitizedEntry.title || docId}". Changes reverted.`
+        type: 'info',
+        title: 'Saved Locally',
+        text: `"${sanitizedEntry.name || sanitizedEntry.title || docId}" saved locally (cloud sync unavailable: ${err.message}).`
       });
-      return false;
+      return true;
     }
   }, [currentKey, currentUser]);
 
@@ -221,6 +239,7 @@ export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) =>
 
     // Persist tombstone by docId so seed arrays and caches never resurrect this specific deleted entry
     addOmnicortexTombstone(docId);
+    removeOmnicortexCustomEntry(key, docId);
 
     // 2. Optimistically remove from all local categories (by docId ONLY)
     setDbData(prev => {
@@ -343,7 +362,12 @@ export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) =>
       return { ...prev, [key]: [...updatedExisting, ...newItems] };
     });
 
-    if (!auth.currentUser && !currentUser) {
+    // Persist imported items to local storage
+    preparedList.forEach(item => {
+      saveOmnicortexCustomEntry(key, item);
+    });
+
+    if (!auth?.currentUser && !currentUser) {
       setToastMessage({
         type: 'success',
         text: `Imported ${preparedList.length} item(s) locally.`
@@ -354,7 +378,7 @@ export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) =>
     try {
       const operations = preparedList.map(item => ({
         ref: doc(db, key, item.id),
-        data: item,
+        data: sanitizeFirestoreData(item),
         merge: true
       }));
       await commitChunkedBatches(operations, 450);
@@ -365,15 +389,13 @@ export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) =>
       });
       return true;
     } catch (err) {
-      console.error('Firestore importJSON batch write failed:', err.message);
-      // Precision rollback to ref snapshot
-      setDbData(previousState);
+      console.warn('Firestore importJSON batch write failed (preserved in local storage):', err.message);
       setToastMessage({
-        type: 'error',
-        title: 'Import Failed',
-        text: `Batch import failed: ${err.message}. Changes reverted.`
+        type: 'info',
+        title: 'Imported Locally',
+        text: `Imported ${preparedList.length} entry/entries locally (cloud sync unavailable: ${err.message}).`
       });
-      return false;
+      return true;
     }
   }, [currentKey, currentUser]);
 

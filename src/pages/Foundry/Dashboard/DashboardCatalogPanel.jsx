@@ -814,7 +814,7 @@ export const DashboardCatalogPanel = () => {
                               if (await confirmTypedDeletion(charName, 'operative persona')) {
                                 AudioService.playTerminalBeep(900, 0.03);
                                 if (folio.deleteRosterCharacter) {
-                                  folio.deleteRosterCharacter(docId);
+                                  folio.deleteRosterCharacter(persona || docId);
                                 }
                               }
                             }}

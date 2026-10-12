@@ -456,7 +456,7 @@ export const RosterCatalogView = ({
                             type="button"
                             onClick={async () => {
                               if (await confirmTypedDeletion(charName, 'persona dossier')) {
-                                onDeleteCharacter(docId);
+                                onDeleteCharacter(char || docId);
                               }
                             }}
                             className="p-1.5 rounded-lg bg-slate-900 hover:bg-red-950/80 border border-slate-700 hover:border-red-500 text-slate-400 hover:text-red-400 transition-colors cursor-pointer"
@@ -604,7 +604,7 @@ export const RosterCatalogView = ({
                                   type="button"
                                   onClick={async () => {
                                     if (await confirmTypedDeletion(charName, 'persona dossier')) {
-                                      onDeleteCharacter(docId);
+                                      onDeleteCharacter(char || docId);
                                     }
                                   }}
                                   className="p-1 rounded bg-slate-900 hover:bg-red-950 text-slate-400 hover:text-red-400"

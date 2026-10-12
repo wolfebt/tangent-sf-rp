@@ -404,7 +404,7 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
                               e.stopPropagation();
                               const targetName = name || 'Unnamed Operative';
                               if (await confirmTypedDeletion(targetName, 'operative persona')) {
-                                deleteRosterCharacter(docId);
+                                deleteRosterCharacter(char || docId);
                               }
                             }}
                             className="p-1.5 bg-red-950/30 hover:bg-red-900 text-red-400 rounded border border-red-800/40 cursor-pointer"

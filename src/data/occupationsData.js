@@ -814,7 +814,7 @@ export const DEFAULT_OCCUPATIONS = [
     ],
     "recommended_species": [
       "Celestine (Alterian)",
-      "Manelli (Kitin Diplomat)",
+      "Manelli (Cerebral Expression)",
       "Human (Base)",
       "Argynt Human",
       "Draconian (Scaled Aeld)",
@@ -917,7 +917,7 @@ export const DEFAULT_OCCUPATIONS = [
       "Tozen",
       "Human (Base)",
       "Eidolon (Aetherion Specialist)",
-      "Manelli (Kitin Diplomat)"
+      "Manelli (Cerebral Expression)"
     ],
     "recommended_factions": [
       "The Ascendancy",

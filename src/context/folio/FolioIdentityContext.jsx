@@ -209,9 +209,9 @@ export const FolioIdentitySliceProvider = ({ children }) => {
       const saved = localStorage.getItem('personaFolioData') || sessionStorage.getItem('personaFolioData') || localStorage.getItem('tangent_folio_character');
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (parsed && !isFolioPersonaDeleted(parsed['character-doc-id'], tombstones) && !isPersonaEmptyTemplate(parsed)) {
+        if (parsed && !isFolioPersonaDeleted(parsed, tombstones) && !isPersonaEmptyTemplate(parsed)) {
           if (!parsed['character-doc-id']) {
-            parsed['character-doc-id'] = `char_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+            parsed['character-doc-id'] = parsed.id || `char_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
           }
           return sanitizeSubAttributes(sanitizeCharacterSkills(parsed));
         }
@@ -220,7 +220,7 @@ export const FolioIdentitySliceProvider = ({ children }) => {
       if (savedRoster) {
         const parsedRoster = JSON.parse(savedRoster);
         if (Array.isArray(parsedRoster)) {
-          const firstValid = parsedRoster.find(c => !isFolioPersonaDeleted(c['character-doc-id'], tombstones) && !isPersonaEmptyTemplate(c));
+          const firstValid = parsedRoster.find(c => !isFolioPersonaDeleted(c, tombstones) && !isPersonaEmptyTemplate(c));
           if (firstValid) {
             return sanitizeSubAttributes(sanitizeCharacterSkills(firstValid));
           }
@@ -242,9 +242,15 @@ export const FolioIdentitySliceProvider = ({ children }) => {
       if (savedRoster) {
         const parsed = JSON.parse(savedRoster);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          return parsed
-            .filter(c => !isFolioPersonaDeleted(c['character-doc-id'], tombstones) && !isPersonaEmptyTemplate(c))
+          const filtered = parsed
+            .filter(c => !isFolioPersonaDeleted(c, tombstones) && !isPersonaEmptyTemplate(c))
             .map(c => sanitizeSubAttributes(sanitizeCharacterSkills(c)));
+          if (filtered.length !== parsed.length) {
+            localStorage.setItem('personaRoster', JSON.stringify(filtered));
+            localStorage.setItem('tangent_folio_roster', JSON.stringify(filtered));
+            StorageService.setItem('personaRoster', filtered);
+          }
+          return filtered;
         }
       }
     } catch (e) {
@@ -272,6 +278,15 @@ export const FolioIdentitySliceProvider = ({ children }) => {
     const target = (!isEvent && overrideData && typeof overrideData === 'object') ? overrideData : characterData;
     if (!target || typeof target !== 'object' || isEvent) return;
 
+    const docId = target['character-doc-id'] || target.id;
+    if (!docId) return;
+
+    // CRITICAL: Block save if target persona is tombstoned / deleted or an empty template
+    const tombstones = getFolioTombstones();
+    if (isFolioPersonaDeleted(target, tombstones) || isFolioPersonaDeleted(docId, tombstones)) {
+      return;
+    }
+
     try {
       StorageService.setItem('personaFolioData', target);
       localStorage.setItem('personaFolioData', JSON.stringify(target));
@@ -282,27 +297,25 @@ export const FolioIdentitySliceProvider = ({ children }) => {
     }
 
     // Maintain & synchronize persona identity pillars and allocations in personaRoster
-    const docId = target['character-doc-id'] || target.id;
-    if (docId) {
-      setPersonaRoster(prev => {
-        const idx = prev.findIndex(p => (p['character-doc-id'] === docId || (p.id && p.id === docId)));
-        let next;
-        if (idx >= 0) {
-          next = [...prev];
-          next[idx] = { ...prev[idx], ...target };
-        } else {
-          const hasContent = Boolean(target['char-name'] || target['char-species'] || target['char-archetype'] || target['char-occu']);
-          if (!hasContent) return prev;
-          next = [...prev, target];
-        }
-        StorageService.setItem('personaRoster', next);
-        try {
-          localStorage.setItem('personaRoster', JSON.stringify(next));
-          localStorage.setItem('tangent_folio_roster', JSON.stringify(next));
-        } catch (e) {}
-        return next;
-      });
-    }
+    setPersonaRoster(prev => {
+      const cleanPrev = prev.filter(p => !isFolioPersonaDeleted(p, tombstones));
+      const idx = cleanPrev.findIndex(p => (p['character-doc-id'] === docId || (p.id && p.id === docId)));
+      let next;
+      if (idx >= 0) {
+        next = [...cleanPrev];
+        next[idx] = { ...cleanPrev[idx], ...target };
+      } else {
+        const hasContent = Boolean(target['char-name'] || target['char-species'] || target['char-archetype'] || target['char-occu']);
+        if (!hasContent || isPersonaEmptyTemplate(target)) return cleanPrev;
+        next = [...cleanPrev, target];
+      }
+      StorageService.setItem('personaRoster', next);
+      try {
+        localStorage.setItem('personaRoster', JSON.stringify(next));
+        localStorage.setItem('tangent_folio_roster', JSON.stringify(next));
+      } catch (e) {}
+      return next;
+    });
   }, [characterData]);
 
   const updateField = useCallback((field, value) => {
@@ -395,7 +408,12 @@ export const FolioIdentitySliceProvider = ({ children }) => {
   // Roster methods
   const saveCurrentToRoster = useCallback(async (charToSave = null) => {
     const target = charToSave || characterData;
-    const docId = target['character-doc-id'] || `char_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+    const docId = target['character-doc-id'] || target.id || `char_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+    const tombstones = getFolioTombstones();
+    if (isFolioPersonaDeleted(target, tombstones) || isFolioPersonaDeleted(docId, tombstones)) {
+      console.warn('[FolioIdentity] Save aborted: Persona is deleted/tombstoned:', docId);
+      return null;
+    }
     const user = auth.currentUser;
     const rawData = {
       ...target,
@@ -412,13 +430,14 @@ export const FolioIdentitySliceProvider = ({ children }) => {
     } catch (e) {}
 
     setPersonaRoster(prev => {
-      const idx = prev.findIndex(p => (p['character-doc-id'] === docId || (p.id && p.id === docId)));
+      const cleanPrev = prev.filter(p => !isFolioPersonaDeleted(p, tombstones));
+      const idx = cleanPrev.findIndex(p => (p['character-doc-id'] === docId || (p.id && p.id === docId)));
       let next;
       if (idx >= 0) {
-        next = [...prev];
+        next = [...cleanPrev];
         next[idx] = finalized;
       } else {
-        next = [...prev, finalized];
+        next = [...cleanPrev, finalized];
       }
       StorageService.setItem('personaRoster', next);
       try {
@@ -448,36 +467,45 @@ export const FolioIdentitySliceProvider = ({ children }) => {
   }, [characterData]);
 
   const switchRosterCharacter = useCallback((docId) => {
+    const tombstones = getFolioTombstones();
+    if (isFolioPersonaDeleted(docId, tombstones)) {
+      console.warn('[FolioIdentity] Cannot switch to deleted persona:', docId);
+      return;
+    }
+
     if (characterData && (characterData['character-doc-id'] || characterData.id)) {
       const curDocId = characterData['character-doc-id'] || characterData.id;
       if (curDocId === docId) {
         setActiveTab(prev => (prev === 'catalog' ? 'identity' : prev));
         return;
       }
-      setPersonaRoster(prev => {
-        const idx = prev.findIndex(p => (p['character-doc-id'] === curDocId || p.id === curDocId));
-        let next;
-        if (idx >= 0) {
-          next = [...prev];
-          next[idx] = { ...prev[idx], ...characterData };
-        } else {
-          next = [...prev, characterData];
-        }
-        StorageService.setItem('personaRoster', next);
-        try {
-          localStorage.setItem('personaRoster', JSON.stringify(next));
-          localStorage.setItem('tangent_folio_roster', JSON.stringify(next));
-        } catch (e) {}
-        return next;
-      });
+      if (!isFolioPersonaDeleted(characterData, tombstones) && !isFolioPersonaDeleted(curDocId, tombstones) && !isPersonaEmptyTemplate(characterData)) {
+        setPersonaRoster(prev => {
+          const cleanPrev = prev.filter(p => !isFolioPersonaDeleted(p, tombstones));
+          const idx = cleanPrev.findIndex(p => (p['character-doc-id'] === curDocId || p.id === curDocId));
+          let next;
+          if (idx >= 0) {
+            next = [...cleanPrev];
+            next[idx] = { ...cleanPrev[idx], ...characterData };
+          } else {
+            next = [...cleanPrev, characterData];
+          }
+          StorageService.setItem('personaRoster', next);
+          try {
+            localStorage.setItem('personaRoster', JSON.stringify(next));
+            localStorage.setItem('tangent_folio_roster', JSON.stringify(next));
+          } catch (e) {}
+          return next;
+        });
+      }
     }
 
-    let found = personaRoster.find(p => p['character-doc-id'] === docId || p.id === docId);
+    let found = personaRoster.find(p => (p['character-doc-id'] === docId || p.id === docId) && !isFolioPersonaDeleted(p, tombstones));
     if (!found) {
       try {
         const saved = JSON.parse(localStorage.getItem('personaRoster') || '[]');
         if (Array.isArray(saved)) {
-          found = saved.find(p => p['character-doc-id'] === docId || p.id === docId);
+          found = saved.find(p => (p['character-doc-id'] === docId || p.id === docId) && !isFolioPersonaDeleted(p, tombstones));
         }
       } catch (e) {}
     }
@@ -493,9 +521,31 @@ export const FolioIdentitySliceProvider = ({ children }) => {
     AudioService.playTerminalBeep(1200, 0.02);
   }, [personaRoster, characterData]);
 
-  const deleteRosterCharacter = useCallback((docId) => {
+  const deleteRosterCharacter = useCallback((docIdOrChar) => {
+    if (!docIdOrChar) return;
+    const targetObj = typeof docIdOrChar === 'object' ? docIdOrChar : null;
+    const docId = targetObj ? (targetObj['character-doc-id'] || targetObj.id || targetObj['char-id']) : docIdOrChar.toString().trim();
+    if (!docId) return;
+
+    // 1. Tombstone all known IDs for this persona
+    addFolioTombstone(targetObj || docId);
+    if (targetObj) {
+      if (targetObj['character-doc-id']) addFolioTombstone(targetObj['character-doc-id']);
+      if (targetObj.id) addFolioTombstone(targetObj.id);
+      if (targetObj['char-id']) addFolioTombstone(targetObj['char-id']);
+    }
+
+    // 2. Remove from roster and persist immediately
+    let remainingRoster = [];
     setPersonaRoster(prev => {
-      const next = prev.filter(p => p['character-doc-id'] !== docId && p.id !== docId);
+      const match = prev.find(p => p['character-doc-id'] === docId || p.id === docId);
+      if (match) {
+        if (match['character-doc-id']) addFolioTombstone(match['character-doc-id']);
+        if (match.id) addFolioTombstone(match.id);
+      }
+      const currentTombstones = getFolioTombstones();
+      const next = prev.filter(p => !isFolioPersonaDeleted(p, currentTombstones) && p['character-doc-id'] !== docId && p.id !== docId);
+      remainingRoster = next;
       StorageService.setItem('personaRoster', next);
       try {
         localStorage.setItem('personaRoster', JSON.stringify(next));
@@ -503,11 +553,55 @@ export const FolioIdentitySliceProvider = ({ children }) => {
       } catch (e) {}
       return next;
     });
+
+    // 3. Clear active characterData if the deleted persona is currently loaded!
+    setCharacterData(cur => {
+      const curDocId = cur ? (cur['character-doc-id'] || cur.id) : null;
+      const currentTombstones = getFolioTombstones();
+      const isCurDeleted = !cur || isFolioPersonaDeleted(cur, currentTombstones) || curDocId === docId || (targetObj && (curDocId === targetObj['character-doc-id'] || curDocId === targetObj.id));
+
+      if (isCurDeleted) {
+        const validRemaining = remainingRoster.filter(c => !isFolioPersonaDeleted(c, currentTombstones) && !isPersonaEmptyTemplate(c));
+        const replacement = validRemaining.length > 0
+          ? sanitizeSubAttributes(sanitizeCharacterSkills(validRemaining[0]))
+          : sanitizeSubAttributes({
+              ...DEFAULT_CHARACTER,
+              'character-doc-id': `char_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`
+            });
+
+        try {
+          localStorage.setItem('personaFolioData', JSON.stringify(replacement));
+          localStorage.setItem('tangent_folio_character', JSON.stringify(replacement));
+          if (typeof sessionStorage !== 'undefined') {
+            sessionStorage.removeItem('personaFolioData');
+          }
+          StorageService.setItem('personaFolioData', replacement);
+        } catch (e) {}
+
+        return replacement;
+      }
+
+      return cur;
+    });
+
+    // 4. Delete from Firestore if authenticated
     const user = auth.currentUser;
     if (user?.uid) {
       deleteDoc(doc(db, 'users', user.uid, 'personas', docId)).catch(() => {});
+      if (targetObj?.id && targetObj.id !== docId) {
+        deleteDoc(doc(db, 'users', user.uid, 'personas', targetObj.id)).catch(() => {});
+      }
+      if (targetObj?.['character-doc-id'] && targetObj['character-doc-id'] !== docId) {
+        deleteDoc(doc(db, 'users', user.uid, 'personas', targetObj['character-doc-id'])).catch(() => {});
+      }
+      deleteDoc(doc(db, 'lft_personas', `lft_${docId}`)).catch(() => {});
     }
-    addFolioTombstone(docId);
+
+    // 5. Broadcast deletion event across tabs & windows
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('persona-deleted', { detail: { docId } }));
+    }
+
     showToast({ type: 'info', title: 'Persona Removed', message: 'Persona deleted from roster.' });
   }, []);
 
@@ -655,19 +749,35 @@ export const FolioIdentitySliceProvider = ({ children }) => {
     try {
       setCloudSaveStatus('loading');
       const snap = await getDocs(collection(db, 'users', user.uid, 'personas'));
-      const docs = snap.docs.map(d => ({ ...d.data(), 'character-doc-id': d.id }));
-      if (docs.length > 0) {
-        setPersonaRoster(docs);
-        StorageService.setItem('personaRoster', docs);
-        try {
-          localStorage.setItem('personaRoster', JSON.stringify(docs));
-          localStorage.setItem('tangent_folio_roster', JSON.stringify(docs));
-        } catch (e) {}
-      }
+      const tombstones = getFolioTombstones();
+      const docs = snap.docs
+        .map(d => ({ ...d.data(), 'character-doc-id': d.id }))
+        .filter(c => !isFolioPersonaDeleted(c, tombstones) && !isPersonaEmptyTemplate(c))
+        .map(c => sanitizeSubAttributes(sanitizeCharacterSkills(c)));
+
+      setPersonaRoster(docs);
+      StorageService.setItem('personaRoster', docs);
+      try {
+        localStorage.setItem('personaRoster', JSON.stringify(docs));
+        localStorage.setItem('tangent_folio_roster', JSON.stringify(docs));
+      } catch (e) {}
       setCloudSaveStatus('saved');
     } catch (e) {
       setCloudSaveStatus('error');
     }
+  }, []);
+
+  // Listen for persona-deleted events across the app
+  useEffect(() => {
+    const handlePersonaDeleted = (e) => {
+      const deletedId = e?.detail?.docId;
+      if (!deletedId) return;
+      const tombstones = getFolioTombstones();
+      setPersonaRoster(prev => prev.filter(p => !isFolioPersonaDeleted(p, tombstones) && p['character-doc-id'] !== deletedId && p.id !== deletedId));
+    };
+
+    window.addEventListener('persona-deleted', handlePersonaDeleted);
+    return () => window.removeEventListener('persona-deleted', handlePersonaDeleted);
   }, []);
 
   const handleExportAsStoryElement = useCallback(() => {

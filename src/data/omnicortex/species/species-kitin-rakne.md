@@ -1,7 +1,7 @@
 ---
 id: species-kitin-rakne
-name: Rakne (Kitin Stalker)
-title: Rakne (Kitin Arachnoid Aberration)
+name: Rakne (Infiltration Expression)
+title: Rakne (Kitin Infiltration Expression / Arachno-Tauric)
 category: species
 parent_species: Kitin
 type:
@@ -9,50 +9,71 @@ type:
 size:
   - species_size-medium
 movement:
-  - species_movement-bipedal
+  - species_movement-quadruped
   - species_movement-climbing
-speeds: 'Ground 30 ft, Climb 30 ft'
+speeds: 'Ground 40 ft, Climb 40 ft'
 reach: 5 ft
-senses: 'Darkvision out to 60 feet. [1]'
-immunities: None
+senses: 'Uncanny Senses (Vibration detection through surface and hive-mesh out to 60 ft), Multi-eye wide-field vision out to 60 ft.'
+immunities: 'Sleep effects and involuntary unconsciousness (Torpor)'
 inherent_attribute_modifiers:
   - attribute: Strength
-    bonus: 1
+    bonus: 2
   - attribute: Agility
-    bonus: 1
+    bonus: 2
   - attribute: Stamina
     bonus: -1
   - attribute: Charisma
     bonus: -1
 bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Stealth
-    bonus: 2
-  - skill: Climbing
-    bonus: 1
-bonus_skills: 0
+specific_skill_bonuses: []
+bonus_skills: 10
 bonus_skill_choices:
-  - Stealth
   - Athletics
+  - Combat
+  - Engineering
+  - Medicine
+  - Perception
+  - Pilot
+  - Science
+  - Stealth
   - Survival
-  - Combat (Ambush)
-inherent_features: []
-bonus_features: []
+  - Tech
+inherent_features:
+  - combat-multidextrous-4-arms
+  - general-climber
+  - defensive-dual-skeletal-structure
+  - defensive-chitinous-shell-armor
+  - physical-enhanced-strength
+  - special-resin-secretion
+  - special-weaver
+  - special-torpor-universal
+  - sensory-uncanny-senses-vibration
+  - general-camouflage
+  - general-quick
+  - physical-quadruped
+bonus_features: 0
 bonus_feature_choices: []
-recommended_features: []
-stigma: Severe Xeno (-4)
-tech_level: 3 (Silk Weaves & Neurotoxin Darts)
-meta_level: 2 (Vibrational Sense)
-homeworld: Kitin Tunnels
+recommended_features:
+  - sensory-acute-senses
+  - general-double-jointed
+  - general-fearless
+  - general-runner
+  - skill-self-sufficient
+  - general-quicker
+  - special-weaver
+stigma: 'Severe Xeno / Monstrous'
+tech_level: '3 (Tactical)'
+meta_level: '3 (Instinctual)'
+homeworld: 'Kitin Hive Worlds / Subterranean Spire-Warren'
 costs:
-  bp: 22
+  bp: 40
 modifiers:
   - target: Strength
-    value: 1
+    value: 2
     type: attribute
     mode: inherent
   - target: Agility
-    value: 1
+    value: 2
     type: attribute
     mode: inherent
   - target: Stamina
@@ -63,76 +84,107 @@ modifiers:
     value: -1
     type: attribute
     mode: inherent
-cp_cost: 22
-cp: 22
-bp: 22
+cp_cost: 40
+cp: 40
+bp: 40
 description: >-
-  Rakne are multi-limbed, arachnid-like Kitin predators capable of scaling
-  walls, spinning high-tensile silk webs, and delivering paralytic venom.
+  The Rakne are an intimidating Arachno-tauric species classified as an Insectoid Aberration.
+  Serving as the "Hands of the Collective," their multi-armed upper torso and quadrupedal spider body
+  weave high-tensile resin webbing, scale vertical surfaces, and infiltrate hostile installations.
 traits:
-  - trait-kitin-base-traits
-  - trait-climber-ceiling-walk
-  - trait-multidextrous-6-limbs
-  - trait-quick-movement
-  - trait-venomous-bite
+  - trait-multidextrous-4-arms
+  - trait-climber
+  - trait-dual-skeletal-structure
+  - trait-chitinous-shell-armor
+  - trait-enhanced-strength
+  - trait-resin-secretion
+  - trait-weaver
+  - trait-torpor-universal
+  - trait-uncanny-senses-vibration
+  - trait-camouflage
+  - trait-quick
+  - trait-quadruped
 recommended_factions:
+  - Kitin Collective (The Star Hive)
   - Hive Mind Faction Template
   - Criminal Faction Template
+  - Coalition of Independent Worlds
 recommended_origins:
   - Hostile
   - Spacer
+  - Colony
 recommended_occupations:
   - Scout
   - Agent
   - Soldier
-keywords: 'arachnid-kitin, silk-spinner, wall-climber, neurotoxin-ambush, multi-limbed'
-negative_keywords: 'open-plains, diplomatic-court, conspicuous'
+  - Specialist
+keywords: >-
+  arachnid-kitin, infiltration-expression, arachno-tauric, four-arms, dual-skeletal,
+  resin-weaver, climber, tremorsense, high-tensile-webbing, obsidian-chitin, collective-hands
+negative_keywords: 'diplomatic-court, baseline-humanoid, fragile, open-plains'
 ---
 
-# Rakne (Kitin Arachnoid Aberration)
+# Rakne (Kitin Infiltration Expression / Arachno-Tauric)
 
-**BP Cost:**   
-**Description:** The Kizin are a fascinating race of medium-sized, vulpine humanoids distantly related to the Kannid but distinguished by several key physical traits and a defining, complex temperament. Their silhouette is immediately recognizable due to their digitigrade legs, giving them a perpetual sense of motion and contributing to their famed nimbleness and speed. Complementing this, a bushy tail provides essential balance and expresses a range of subtle emotions.
-
-Physically, they possess the cunning and sharp features often associated with foxes, though rendered in a bipedal form. Their bodies are typically lean and agile, built for swift movement and quick reflexes. Their coat colors can vary widely, ranging from earthy reds and browns to more exotic whites, blacks, and dappled patterns, often with lighter fur marking their chests and the tips of their tails.
-
-Beyond their physical characteristics, Kizin are renowned for their high intelligence. They possess sharp minds, a knack for puzzles, and a rapid ability to learn and adapt, making them excellent strategists, engineers, and scholars in their own right. This mental acuity, however, is often closely linked to their most defining trait: an insatiable, overwhelming over-curiosity.
-
-While they are frequently perceived as mischievous, this reputation stems less from an inclination toward deliberate harm or villainy, and more from their profound need to investigate, disassemble, and understand the world around them. A Kizin's "prank" is rarely malicious; it is far more likely a poorly considered experiment, a consequence of wanting to know *what happens if* they tamper with a mechanism, unlock a door, or simply follow a fascinating secret down a troublesome path. Their nature, therefore, is fundamentally one of discovery and exploration, often prioritizing new knowledge or experiences above social etiquette or personal safety.
-
-**Classification:** Humanoid  
+**BP Cost:** 40 BP  
+**Classification:** Insectoid Aberration (Arachno-Tauric)  
 **Size:** Medium  
-**Movement:** 40ft Groundspeed
+**Movement:** 40ft Groundspeed, 40ft Climbspeed  
 
-**Tech Level:** 3  
-**Meta Level:** 2
+**Tech Level:** 3 (Tactical)  
+**Meta Level:** 3 (Instinctual)  
+**Stigma:** Severe Xeno / Monstrous  
 
-**Homeworld:**   
-**Stigma:** Xeno
+## Description
+The Rakne are an intimidating Arachno-tauric species, classified as an Insectoid Aberration. Their form is a composite of a powerful lower spider body supporting a humanoid upper torso, with the species exhibiting a wide range of variation comparable to the diversity found in spider forms across their home world.
 
-**Ability Modifiers:**   
-\+1 Int  
-\+1 Agi
+The Rakne possess the massive, multi-legged abdomen of a spider, granting them their Quadruped nature and a base 40ft Groundspeed for rapid movement. Their upper, humanoid half is not fully human, retaining strong arachnid characteristics: Multiple eye sets provide a wide field of vision, complemented by powerful, clicking mandibles that hint at their predatory nature. Their upper body is Multidextrous with 4 Arms, allowing for complex manipulation and combat. All limbs end in sharp, clawed digits. Many Rakne have a Light or Heavy Exoskeleton protecting them.
 
-**Skills:**   
-\+5 Skills
+The Rakne are the "Hands of the Collective." Arachno-tauric with a dual-skeletal system, their glossy obsidian shells are perpetually slick with adhesive secretions. They are the primary weavers, reinforcing Hive-Spires with high-tensile resin webbing.
 
-**Species Features:**   
-Digitigrade Legs  
-Low-Light Vision  
-Scent  
-Stigma (Xeno)
+## Technical Profile
+* **Size:** Medium
+* **Movement:** 40ft Groundspeed, 40ft Climbspeed
+* **Tech Level:** 3 (Tactical)
+* **Meta Level:** 3 (Instinctual)
+* **Stigma:** Severe Xeno / Monstrous
 
-**Recommended Features:**   
-Acrobatic  
-Athletic  
-Blindsense  
-Danger Sense  
-Darksight  
-Nimble  
-Obfuscate  
-Sneak Attack  
-Stealthy  
-Quick  
-Uncanny Sense (Scent)  
-Uncanny Sense (Hearing)
+## Ability Modifiers
+* **+2 Strength** (4 BP)
+* **+2 Agility** (4 BP)
+* **-1 Stamina** (-4 BP)
+* **-1 Charisma** (-4 BP)
+
+## Skills
+* **+10 Skill Ranks to ANY skills** (8 BP)
+
+## Species Features
+* **Multidextrous (4 Arms):** Sharp digits for combat and engineering. (4 BP)
+* **Climber:** Traverse vertical or inverted surfaces at full speed. (2 BP)
+* **Dual Skeletal Structure:** Combined endo/exo-skeleton (DR +5). (2 BP)
+* **Armor:** Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10] (2 BP)
+* **Enhanced Strength:** Count as 1 size larger for lifting and carrying. (2 BP)
+* **Resin Secretion:** Creation of Hive-Resin for patching mecha and structures. (2 BP)
+* **Weaver:** Can produce webbing made from high-tensile Hive-Resin. (2 BP)
+* **Torpor (Universal):** 4 hours of conscious rest; often hangs inverted. (2 BP)
+* **Uncanny Senses (Vibration):** Detection through the hive-mesh. (2 BP)
+* **Camouflage:** Blending into darkness and favored terrain. (2 BP)
+* **Quick:** +10ft speed / reaction agility. (2 BP)
+* **Quadruped:** Spider abdomen lower chassis; stability & base speed. (2 BP)
+
+## Recommended Features
+* **Alertness:** Heightened environmental and situational awareness
+* **Bodyform Features:** Specialized physiological adaptations
+* **Double Jointed:** Extreme skeletal flexibility in tight crawlspaces
+* **Exoskeleton (Light and Heavy):** Reinforced bio-carapace plating
+* **Fearless:** Unshakable morale and cold predatory composure
+* **Mutation:** Strain mutations and gland differentiations
+* **Runner:** Enduring long-distance pursuit locomotion
+* **Self Sufficient:** Minimal dependency on civilization supplies
+* **Quicker line:** Escalated sprint and reaction velocity
+* **Weaver:** (able to create and manipulate Natural Webbing)
+
+## Aesthetics (CRISP)
+* **Style:** Bio-horror meets Tactical Hunter; wet, oily, multi-limbed.
+* **Palette:** Dominant: Glossy Obsidian / Glossy Black. Accent: Emerald Green.
+* **Visuals:** Arachno-tauric silhouette with glistening black plates, four sharp-clawed humanoid arms, and a powerful multi-legged spider chassis.

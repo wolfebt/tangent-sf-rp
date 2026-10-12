@@ -4,6 +4,7 @@ export const FOLIO_TOMBSTONES_KEY = 'folio_deleted_personas';
 
 export const getFolioTombstones = () => {
   try {
+    if (typeof localStorage === 'undefined') return [];
     const raw = localStorage.getItem(FOLIO_TOMBSTONES_KEY);
     return raw ? JSON.parse(raw) : [];
   } catch (e) {
@@ -11,23 +12,76 @@ export const getFolioTombstones = () => {
   }
 };
 
-export const addFolioTombstone = (docId) => {
-  if (!docId) return;
+export const addFolioTombstone = (docIdOrChar) => {
+  if (!docIdOrChar) return;
   try {
     const current = getFolioTombstones();
-    const set = new Set(current);
-    set.add(docId.toString().trim());
+    const set = new Set(current.map(id => (id ? id.toString().trim() : '')).filter(Boolean));
+
+    if (Array.isArray(docIdOrChar)) {
+      docIdOrChar.forEach(item => {
+        if (!item) return;
+        if (typeof item === 'object') {
+          const id1 = item['character-doc-id']?.toString()?.trim();
+          const id2 = item.id?.toString()?.trim();
+          const id3 = item['char-id']?.toString()?.trim();
+          const id4 = item['doc-id']?.toString()?.trim();
+          const id5 = item.character_doc_id?.toString()?.trim();
+          if (id1) set.add(id1);
+          if (id2) set.add(id2);
+          if (id3) set.add(id3);
+          if (id4) set.add(id4);
+          if (id5) set.add(id5);
+        } else {
+          set.add(item.toString().trim());
+        }
+      });
+    } else if (typeof docIdOrChar === 'object') {
+      const id1 = docIdOrChar['character-doc-id']?.toString()?.trim();
+      const id2 = docIdOrChar.id?.toString()?.trim();
+      const id3 = docIdOrChar['char-id']?.toString()?.trim();
+      const id4 = docIdOrChar['doc-id']?.toString()?.trim();
+      const id5 = docIdOrChar.character_doc_id?.toString()?.trim();
+      if (id1) set.add(id1);
+      if (id2) set.add(id2);
+      if (id3) set.add(id3);
+      if (id4) set.add(id4);
+      if (id5) set.add(id5);
+    } else {
+      set.add(docIdOrChar.toString().trim());
+    }
+
     const updated = Array.from(set);
-    localStorage.setItem(FOLIO_TOMBSTONES_KEY, JSON.stringify(updated));
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(FOLIO_TOMBSTONES_KEY, JSON.stringify(updated));
+    }
     StorageService.setItem(FOLIO_TOMBSTONES_KEY, updated);
   } catch (e) {}
 };
 
-export const isFolioPersonaDeleted = (docId, tombstones = null) => {
-  if (!docId) return false;
+export const isFolioPersonaDeleted = (docIdOrChar, tombstones = null) => {
+  if (!docIdOrChar) return false;
+  if (typeof docIdOrChar === 'object' && docIdOrChar.isDeleted === true) return true;
+
   const list = tombstones || getFolioTombstones();
   if (!list || list.length === 0) return false;
-  return new Set(list).has(docId.toString().trim());
+  const set = new Set(list.map(id => (id ? id.toString().trim() : '')).filter(Boolean));
+
+  if (typeof docIdOrChar === 'object') {
+    const id1 = docIdOrChar['character-doc-id']?.toString()?.trim();
+    const id2 = docIdOrChar.id?.toString()?.trim();
+    const id3 = docIdOrChar['char-id']?.toString()?.trim();
+    const id4 = docIdOrChar['doc-id']?.toString()?.trim();
+    const id5 = docIdOrChar.character_doc_id?.toString()?.trim();
+    if (id1 && set.has(id1)) return true;
+    if (id2 && set.has(id2)) return true;
+    if (id3 && set.has(id3)) return true;
+    if (id4 && set.has(id4)) return true;
+    if (id5 && set.has(id5)) return true;
+    return false;
+  }
+
+  return set.has(docIdOrChar.toString().trim());
 };
 
 /**

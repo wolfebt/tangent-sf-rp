@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","1.03 species (work)","mechanics"]
-updatedAt: "2026-09-14T19:35:00.907Z"
+updatedAt: "2026-10-12T13:51:00.483Z"
 costs:
   bp: 0
   credits: 0
@@ -101,11 +101,13 @@ Features suggested for a species receive a 1 BP discount (minimum 1 BP).
 | **\- RISAKIN** | Humanoid (0) | \+2 Str \[8\] \+2 Sta \[8\] | \+10 \[8\] | Large \[2\] \+2 Features \[6\] | Xeno (-2) Giant (-2) |  |
 | **\- VAREN  (Gatekeepers)** | Humanoid (0) | \+1 Int \[4\] \+1 Ability \[4\] | \+10 \[8\] | Awakened (Dimension/Psychic) \[2\] Indomitable Will \[2\] Teleportal (Special Ability) \[3\] Homing (Special Ability) \[3\] | \- |  |
 | **JORNI** | Reptile (0) | \+1 Str \[4\] \+1 Sta \[4\] | \- | Climber \[2\] Digitigrade \[1\] Fast Heal \[2\] Long Prehensile Tail \[2\] Regeneration \[4\] Swimmer \[2\] | Xeno (-2) |  |
-| **KITIN** | *Awakened (Psychic) \[2\], Biotechnology \[2\], Hive Connection \[2\], Sleepless \[2\] {8* base*}* |  |  |  |  |  |
-| **\- MAANTENE** | Insectoid Aberration (1) | \- | \+5 \[4\] | Kitin \[8\] Exoskeleton \[2\] Multidextrous \[2\] Leaper \[1\] Quadruped \[2\] Quick \[2\] | Severe Xeno (-4) |  |
-| **\- MANELLI** | Insectoid Humanoid (0) | \+1 Wis \[4\] \+1 Ability \[4\] | \- | Kitin \[8\]&nbsp; | Xeno (-2) |  |
-| **\- RAKNE** | Insectoid Aberration (1) | \+1 Str \[4\] \+1 Agi \[4\] \-1 Sta \[-5\] \-1 Cha \[-5\] | \- | Kitin \[8\] Climber \[2\] Multidextrous \[2\] Quick \[2\] Quadruped \[2\] Quick \[2\] | Severe Xeno (-4) |  |
-| **\- RIEZEN** | Insectoid Swarm (4) | \+2 Agi \[8\] | \- | Kitin \[8\] Adapted \[1\] Blind Sight \[4\] Exoskeleton \[1\] Fast Heal/Regen \[6\] Telepathic \[2\] Swarm Entity \[6\] Large / Huge Size \[4\] | Monstrous (-4), Xeno (-2) |  |
+| **KITIN** | *Awakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless [2] {8 base}* |  |  |  |  |  |
+| **- MAANTENE (Recon Expression)** | Insectoid Aberration (Quadruped) (1) | +2 Agi [4] +1 Sta [4] -1 Cha [-4] | +10 Any [8] | Awakened (Psychic) [2] Leaper [2] Dual Skeletal Structure [2] Armor (DR 10) [2] Enhanced Strength [2] Camouflage (Active) [4] Quadruped (Leaping) [2] Multidextrous (4 Arms) [4] Torpor [2] Uncanny Senses (Vibration) [2] | Severe Xeno (-4) | 40 BP |
+| **- MANELLI (Cerebral Expression)** | Humanoid (Mimetic Mimicry) (0) | +2 Int [8] +2 Wis [8] +1 Cha [4] | +10 Any [8] | Mimetic Form [2] Awakened (Psionic) [2] Genetic Memory [2] Hive-Link [2] Torpor [2] Blind Sense (Scent/EM) [2] Enhanced Biotechnology [0] | Minor Xeno (hidden) (-2) / Severe Xeno (revealed) (-4) | 39 BP |
+| **- RAKNE (Infiltration Expression)** | Insectoid Aberration (Arachno-Tauric) (1) | +2 Str [4] +2 Agi [4] -1 Sta [-4] -1 Cha [-4] | +10 Any [8] | Multidextrous (4 Arms) [4] Climber [2] Dual Skeletal Structure [2] Armor (DR 10) [2] Enhanced Strength [2] Resin Secretion [2] Weaver [2] Torpor [2] Uncanny Senses (Vibration) [2] Camouflage [2] Quick [2] Quadruped [2] | Severe Xeno / Monstrous (-4) | 40 BP |
+| **- RIEZEN (Divergent Swarm)** | Insect Ooze (Swarm) (4) | +2 Agi [8] -2 Cha [-8] | - | Hive Mind [2] Telepathic [2] Host Zombification [2] Psionic Interference [1] Fast Heal & Regeneration [2] Honey & Paper Manufacture [1] Sleepless [2] Adapted Features [2] Blind Sight [2] Exoskeleton (Light) [2] | Severe Xeno, Monstrous | 24 BP |
+| **- SYNDESS (Pilot Expression)** | Insectoid Larva (Integration Strain) (1) | +2 Int [10] +2 Agi [10] -2 Str [-10] -2 Sta [-10] | +10 Any [10] | Synaptic Integration [2] Multidextrous (Many-Limbed) [2] G-Force Immunity [2] Torpor [2] Blind Sense (EM/Vibration) [2] Dual Skeletal Structure [2] Armor (DR 10) [2] Climber [2] Awakened (Psionic) [2] Genetic Memory [2] Hive-Link [2] Enhanced Biotechnology [0] Property Boon [2] | Fragile Frame (-2), Minor Xeno (hidden) / Severe Xeno (exposed) | 39 BP |
+| **- MUREX (Foundation Expression)** | Insectoid Aberration (Humanoid) (1) | +2 Str [8] +2 Sta [8] -1 Wis [-4] -1 Cha [-4] | +10 Any [8] | Multidextrous (4 Arms) [4] Dual Skeletal Structure [2] Armor (DR 10) [2] Enhanced Strength [2] Fatigue Resistance [2] Pheromonal Synthesis [2] Quick [2] Climber [2] Hive-Link (Minor) [2] Resin Secretion [2] Torpor [2] | Severe Xeno (-4) | 34 BP |
 | **KANNID** | Humanoid (0) | \+1 Agi \[4\] \+1 Sta \[4\] | \- | Digitigrade \[1\] Quick \[2\] Uncanny Senses (Scent/Hearing) \[8\] | Xeno (-2) |  |
 | **KIZIN** | Humanoid (0) | \+1 Int \[4\] \+1 Agi \[4\] | \+5 \[4\] | Digitigrade \[1\] Low Light Vision \[1\] Scent \[1\] | Xeno (-2) |  |
 | **KONGI** | Humanoid (0) | \+2 Str \[8\] \+1 Agi \[4\] | \- | Climber \[2\] Low Light \[1\] Mighty Surge \[2\] Prehensile Tail/Feet \[3\] Scent \[1\] Climb Speed \[2\] | Minor Xeno (-1) |  |
@@ -4934,7 +4936,404 @@ Tracker
 
 &nbsp;
 
-# **Kitin \---**
+# **Kitin ---**
+
+The Kitin are a vast, multifaceted insectoid lineage unified through a deep psionic hive network known as the Chorus. Possessing innate biological biotechnology, telepathic communion, and sleepless vigilance, they range from covert humanoid envoys to specialized subterranean hunters and colossal aggregate swarms.
+
+**Kitin Base Heritage (8 BP base):**
+* **Awakened (Psychic) [2 BP]:** Conductors and receptors of the Hive’s psionic Chorus.
+* **Biotechnology [2 BP]:** Natural affinity and interface with living technology and bio-grafts.
+* **Hive Connection / Hive-Link [2 BP]:** Constant telepathic connection to all Kitin Strains.
+* **Torpor / Sleepless [2 BP]:** Requires only 4 hours of conscious torpor; immune to sleep effects.
+
+---
+
+### **MANELLI**
+**Cerebral Expression**  
+**Classification:** Humanoid (Mimetic Mimicry)  
+**BP Cost:** 39 BP  
+
+**Description:**
+The Manelli are a striking and enigmatic humanoid species, distinguished by several unique biological and sensory characteristics. Their appearance is notably human-like, yet their physiology speaks to an ancient, divergent evolutionary path.
+
+They possess a fundamentally humanoid structure but carry evidence of deep Insectoid Ancestry, which manifests subtly in their physical resilience and certain biological functions. A most defining characteristic is their green-blooded circulatory system, indicative of a copper-based hemocyanin instead of the iron-based hemoglobin found in humans.
+
+The Manelli are highly sophisticated psychically. This ability is directly linked to prominent sensory antennae that crown their heads. These delicate organs are the primary conduits for their innate Psychic abilities, allowing them to perceive, and often influence, the world through subtle electromagnetic and bio-energetic fields, granting them forms of telepathy and heightened spatial awareness.
+
+A remarkable and fundamental aspect of the Manelli is the presence of Genetic Memories. Each new generation inherits a cumulative, albeit fragmented, memory bank of their ancestors, shaping their societal norms, skill sets, and instinctive reactions. This direct link to their past profoundly influences their culture and resistance to historical revision.
+
+The Manelli are, by biological predisposition, Primarily Insectivorous. This diet is a direct echo of their distant insectoid ancestors, supplying them with the necessary specialized proteins and nutrients. While insect-based sustenance is preferred, their digestive system is remarkably versatile. Technically, they are Omnivorous and Scavengers, allowing them to survive and thrive in diverse ecosystems. Their adaptability extends to nearly all biological matter. They are capable of safely consuming nearly any Fungi, Plant or Meat, a trait that has proven invaluable for their species' survival across different planets and environments. Reflecting their initial insectivorous specialization and later omnivorous expansion, their mouths contain distinctive rows of sharp, needle-like teeth. These finely pointed teeth are optimally designed for piercing tough insect exoskeletons but are also highly effective for tearing and processing fibrous plant matter or raw meat.
+
+The Manelli are the "Face of the Collective" and the primary Brood-Masters. Unlike their sibling Strains, the Manelli have been psionically steered into a Mimetic Humanoid Form. They are the only members of the Collective who lack an exoskeletal shell, possessing instead a thin, human-mimetic dermis. Beneath this skin, emerald copper-based blood flows through an internal endoskeletal framework.
+
+As the "Cerebral Expression," they maintain the Chorus and steer the development of all other Strains. They do not sleep, instead entering a 4-hour state of conscious Torpor. They view the dreaming minds of other species with profound distrust.
+
+**Technical Profile:**
+* **Size:** Medium
+* **Movement:** 30ft Groundspeed
+* **Tech Level:** 4 (Advanced Psionic/Biomorphic) (5 BP)
+* **Meta Level:** 4 (Psionic)
+* **Stigma:** Minor Xeno (hidden) / Severe Xeno (revealed)
+
+**Ability Modifiers:**
+* +2 Intellect (8 BP)
+* +2 Wisdom (8 BP)
+* +1 Charisma (4 BP)
+
+**Skills:**
+* +10 Skill Ranks to ANY skills (8 BP)
+
+**Species Features:**
+* **Mimetic Form:** Gain a +2 Bonus to Disguise or Deception checks to pass as human (antennae must be concealed). (2 BP)
+* **Awakened (Psionic - Intellect or Wisdom):** Conductors of the Hive’s psionic Chorus. (2 BP)
+* **Genetic Memory:** Inheritance of ancestral knowledge and Genomatrix blueprints. (2 BP)
+* **Hive-Link:** Constant telepathic connection to all Kitin Strains. (2 BP)
+* **Torpor (Universal):** Requires only 4 hours of conscious inactivity; immune to sleep effects. (2 BP)
+* **Blind Sense (Scent/EM):** Delicate antennae perceive bio-energetic and EM fields. (2 BP)
+* **Enhanced Biotechnology:** Advanced living technology affinity and manipulation.
+
+**Recommended Features:**
+* Acute Senses (any, especially Scent)
+* Adaptive Aspects (Hive Memories)
+* Adaptive Skill Set (Hive Memories)
+* Alter Form
+* Assessment
+* Blind Sense - using Scent, Hearing and feeling Air Motion 30 ft Radius: Wis 2, Insight 6
+* Bodyform Features
+* Bonded or Companion
+* Jack of all trades
+* Low Light Vision
+* Mutation
+* Poison Immunity (Automatically Save versus any Poisonous Substances)
+* Sense (Psychic)
+* Silver Tongue Line
+* Reduced Sustenance
+* Toxic Blood - Ingested, DC 11 + 2xSta, Pain Incapacitation 1hr (Severe Nausea on Success): Sta 1, Poison Immunity
+* Venomous Saliva - Injected (Bite), DC 11 + 2xSta, Paralytic 1hr (Drugged on Success): Toxic Blood, Sta 2
+* Venom Spit - Contact, DC 11+ 2xSta, Blind for 10+ minutes: Toxic Blood, Sta 2
+
+**Aesthetics (CRISP):**
+* **Style:** Neo-Biomorphic, Mimetic Noir, Psionic Sci-Fi.
+* **Palette:** Dominant: Humanoid Skin Tones. Accent: Emerald Green, Pulsating Cyan.
+* **Visuals:** Humanoid silhouette with unnaturally smooth, damp skin. Twitching, delicate antennae.
+
+---
+
+### **MAANTENE**
+**Recon Expression**  
+**Classification:** Insectoid Aberration (Quadruped)  
+**BP Cost:** 40 BP  
+
+**Description:**  
+The Manteene are quadrupedal insectoids that stand roughly the same height as humans but appear much larger due to their length and limb span. They are covered in a tough, chitinous armor, typically sandy-yellow or golden-brown to blend with desert environments. This carapace can often shift in color and texture (similar to a chameleon) to match their surroundings. They are quadruped with legs designed for leaping. Above these, they have four arms: a smaller upper pair for fine manipulation and a larger lower pair for heavy lifting and combat. Their heads are distinctly mantis-like, featuring large, multi-faceted black compound eyes, twitching antennae used for sensing vibrations and communication, and complex mandible mechanism.
+
+Mantene biology is radically different from mammals, leading to a psychology that many other races find difficult to understand. Mantene do not sleep. Instead, they enter a fully conscious but inactive state called torpor for about 4 hours a day to rest their bodies. Because they are always awake, they have no concept of dreams and often view sleep as a waste of time or a dangerous vulnerability. They are strict carnivores. While they can survive on little water, they require fresh meat.
+
+The Maantene represent the "Recon Expression," specialized for survival in hostile frontiers. They are quadrupedal with mantis-like heads and a sandy-black glossy obsidian shell. Their active camouflage allows their wet chitin to vanish into shadows.
+
+**Technical Profile:**  
+* **Size:** Medium  
+* **Movement:** 40ft Groundspeed (Leaping)  
+* **Tech Level:** 3 (Environmental)  
+* **Meta Level:** 3 (Awakened)  
+* **Stigma:** Severe Xeno  
+
+**Ability Modifiers:**  
+* +2 Agility (4 BP)  
+* +1 Stamina (4 BP)  
+* -1 Charisma (-4 BP)  
+
+**Skills:**  
+* +10 Skill Ranks to ANY skills (8 BP)  
+
+**Species Features:**  
+* **Awakened (Psychic, Int or Wis):** Conductor of the Hive’s psionic Chorus. (2 BP)  
+* **Leaper:** Always counts as a running start, all checks for jumping, leaping and dropping at advantage. (2 BP)  
+* **Dual Skeletal Structure:** Combined endo/exo-skeleton (DR +5). (2 BP)  
+* **Armor:** Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10] (2 BP)  
+* **Enhanced Strength:** Count as 1 size larger for lifting and carrying. (2 BP)  
+* **Camouflage (Active):** Chitin can shift texture and hue to blend into their environment, shifting to a variety of colors as desired - including light absorbing vanta-black and can visually camo so well they seem to fade away into transparency. (4 BP)  
+* **Quadruped (Leaping):** Specialized legs for high-impact jumping. (2 BP)  
+* **Multidextrous (4 Arms):** Two combat arms, two manipulation arms. (4 BP)  
+* **Torpor (Universal):** 4 hours of conscious rest; no loss of awareness. (2 BP)  
+* **Uncanny Senses (Vibration):** Sensitive to atmospheric and ground ripples. (2 BP)  
+
+**Recommended Features:**  
+* Ability Check Feature  
+* Alertness  
+* Awakened (Psychic)  
+* Bodyform Features  
+* Camouflage  
+* Climbing  
+* Headstrong  
+* Limited Flight (2x Land Speed for 1 round of movement, 2x Jump distance and Slow Fall)  
+* Mutation  
+* Social  
+
+**Aesthetics (CRISP):**  
+* **Style:** Painterly Realism, Segmented Armor, Arid Predator.  
+* **Palette:** Dominant: Glossy Obsidian / Gunmetal. Accent: Cyan.  
+* **Visuals:** Quadrupedal silhouette with segmented chitin plates, four articulated humanoid arms, a distinct mantis-like head with faceted compound eyes, and twitching vibrational antennae.
+
+---
+
+### **RAKNE**
+**Infiltration Expression**  
+**Classification:** Insectoid Aberration (Arachno-Tauric)  
+**BP Cost:** 40 BP  
+
+**Description:**  
+The Rakne are an intimidating Arachno-tauric species, classified as an Insectoid Aberration. Their form is a composite of a powerful lower spider body supporting a humanoid upper torso, with the species exhibiting a wide range of variation comparable to the diversity found in spider forms across their home world.
+
+The Rakne possess the massive, multi-legged abdomen of a spider, granting them their Quadruped nature and a base 40ft Groundspeed for rapid movement. Their upper, humanoid half is not fully human, retaining strong arachnid characteristics: Multiple eye sets provide a wide field of vision, complemented by powerful, clicking mandibles that hint at their predatory nature. Their upper body is Multidextrous with 4 Arms, allowing for complex manipulation and combat. All limbs end in sharp, clawed digits. Many Rakne have a Light or Heavy Exoskeleton protecting them.
+
+The Rakne are the "Hands of the Collective." Arachno-tauric with a dual-skeletal system, their glossy obsidian shells are perpetually slick with adhesive secretions. They are the primary weavers, reinforcing Hive-Spires with high-tensile resin webbing.
+
+**Technical Profile:**  
+* **Size:** Medium  
+* **Movement:** 40ft Groundspeed, 40ft Climbspeed  
+* **Tech Level:** 3 (Tactical)  
+* **Meta Level:** 3 (Instinctual)  
+* **Stigma:** Severe Xeno / Monstrous  
+
+**Ability Modifiers:**  
+* +2 Strength (4 BP)  
+* +2 Agility (4 BP)  
+* -1 Stamina (-4 BP)  
+* -1 Charisma (-4 BP)  
+
+**Skills:**  
+* +10 Skill Ranks to ANY skills (8 BP)  
+
+**Species Features:**  
+* **Multidextrous (4 Arms):** Sharp digits for combat and engineering. (4 BP)  
+* **Climber:** Traverse vertical or inverted surfaces at full speed. (2 BP)  
+* **Dual Skeletal Structure:** Combined endo/exo-skeleton (DR +5). (2 BP)  
+* **Armor:** Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10] (2 BP)  
+* **Enhanced Strength:** Count as 1 size larger for lifting and carrying. (2 BP)  
+* **Resin Secretion:** Creation of Hive-Resin for patching mecha and structures. (2 BP)  
+* **Weaver:** Can produce webbing made from high-tensile Hive-Resin. (2 BP)  
+* **Torpor (Universal):** 4 hours of conscious rest; often hangs inverted. (2 BP)  
+* **Uncanny Senses (Vibration):** Detection through the hive-mesh. (2 BP)  
+* **Camouflage:** Blending into darkness and favored terrain. (2 BP)  
+* **Quick:** +10ft speed / reaction agility. (2 BP)  
+* **Quadruped:** Spider abdomen lower chassis; stability & base speed. (2 BP)  
+
+**Recommended Features:**  
+* Alertness  
+* Bodyform Features  
+* Double Jointed  
+* Exoskeleton (Light and Heavy)  
+* Fearless  
+* Mutation  
+* Runner  
+* Self Sufficient  
+* Quicker line  
+* Weaver (able to create and manipulate Natural Webbing)  
+
+**Aesthetics (CRISP):**  
+* **Style:** Bio-horror meets Tactical Hunter; wet, oily, multi-limbed.  
+* **Palette:** Dominant: Glossy Obsidian / Glossy Black. Accent: Emerald Green.  
+* **Visuals:** Arachno-tauric silhouette with glistening black plates, four sharp-clawed humanoid arms, and a powerful multi-legged spider chassis.
+
+---
+
+### **RIEZEN**
+**Divergent Swarm**  
+**Classification:** Insect Ooze (Swarm)  
+**BP Cost:** 24 BP  
+
+**Description:**  
+The Riezen are close relations of the original insectoid genome. While the Kitin Collective followed a path of steered evolution under the Manelli, the Riezen are the result of raw, unmanaged survival following a planetary-scale NBC (Nuclear, Biological, Chemical) warfare event on their homeworld.
+They do not possess a singular body; instead, a "Riezen" is a collective swarm of thousands of fine-sized insects acting as a singular psionic entity. 
+
+They are not part of the Kitin Collective and are considered a biological "heresy" by the Manelli. Their very presence creates "Psionic Static," a discordant frequency that physically and mentally disrupts the Manelli’s ability to coordinate their own hive.
+
+**Technical Profile:**  
+* **Size:** Fine (Individual insects) / Large (Manifested Swarm)  
+* **Movement:** 30ft Flightspeed  
+* **Tech Level:** — (Utilizes biological zombification of host technology)  
+* **Meta Level:** 3 (Resonant / Chaotic)  
+* **Stigma:** Severe Xeno, Monstrous (when inhabiting hosts)  
+
+**Ability Modifiers:**  
+* +2 Agility (8 BP)  
+* -2 Charisma (-8 BP; except with other Riezen)  
+
+**Species Features:**  
+* **Hive Mind:** The swarm is a single consciousness. It cannot be "killed" unless the majority of the swarm is destroyed. (2 BP)  
+* **Telepathic:** Innate psychic communication within the swarm and with external minds. (2 BP)  
+* **Host Zombification:** The Riezen can inhabit and "pilot" the corpses of other species or damaged biomorphic husks, utilizing them as armored shells. (2 BP)  
+* **Psionic Interference (The Static):** Their psionic frequency is "out of tune" with the Manelli. Any Manelli within psychic range of a Riezen swarm suffers a -2 penalty to all Psionic and Wisdom checks due to mental feedback. If the Riezen are in the immediate vicinity then any communications between Kitin will be severely disrupted with the Chorus will be manipulated or used at a Disadvantage. (1 BP)  
+* **Fast Heal & Regeneration:** The swarm constantly births new members to replace those lost, allowing it to "heal" rapidly. (2 BP)  
+* **Honey & Paper Manufacture:** Ability to produce biological adhesives and pulp for nest building and restraint. (1 BP)  
+* **Sleepless:** Does not require rest; the swarm operates in constant rotation. (2 BP)  
+* **Adapted Features:** (2 BP)  
+* **Blind Sight:** (2 BP)  
+* **Exoskeleton (Light):** (2 BP)  
+
+**Recommended Features:**  
+* Acute Senses (any, especially Scent)  
+* Adaptive Aspects (Hive Memories)  
+* Adaptive Skill Set (Hive Memories)  
+* Awakened (Psychic, Wis)  
+* Bodyform Features  
+* Great Fortitude  
+* Low Light Vision  
+* Mutation  
+* Poison Immunity (Automatically Save versus any Poisonous Substances)  
+* Reduced Sustenance  
+* Toxic Blood - Ingested, DC 11 + 2xSta, Pain Incapacitation 1hr (Severe Nausea on Success): Sta 1, Poison Immunity  
+* Venomous Saliva - Injected (Bite), DC 11 + 2xSta, Paralytic 1hr (Drugged on Success): Toxic Blood, Sta 2  
+* Venom Spit - Contact, DC 11+ 2xSta, Blind for 10+ minutes: Toxic Blood, Sta 2  
+
+**The Great Disruption: Riezen vs. Manelli**  
+The Manelli view the Riezen as a "cancer" on their genetic legacy. Because the Riezen share the same original genome but lack the "Chorus" protocols, they act as a void in the Kitin network.  
+* **The Counter-Chorus:** Riezen can instinctively sense the Manelli's steering signals and "jam" them. In combat, a Riezen swarm will cause any “Chorus” communications to be disharmonized, checks at disadvantage and ranges reduced with erratic static waves.  
+* **Interaction:** While the Kitin Collective is orderly and "glossy obsidian," the Riezen are chaotic, often appearing as a pulsating, multicolored cloud of toxic greens, deep violets, and amber oozes.  
+
+**Aesthetics (CRISP):**  
+* **Context:** A pulsating infestation that has overtaken a derelict facility; wet, sickly, and hyper-active.  
+* **Style:** Infestation Noir, Pulsating Symmetry, Macro-Focus.  
+* **Palette:** Dominant: Toxic Green / Sickly Yellow. Accent: Deep Violet (Psychic Static), Amber (Ooze/Honey), Bone White (From zombified hosts).  
+* **Visuals:** A swirling cloud of iridescent flying insects that occasionally forms the crude shape of a humanoid to communicate or "wear" a host's armor.
+
+&nbsp;
+
+### **SYNDESS**
+**Pilot Expression**  
+**Classification:** Insectoid Larva (Multi-segmented Integration Strain)  
+**BP Cost:** 39 BP  
+
+**Description:**  
+The Syndess is the "Integration Expression," a specialized strain that has traded physical autonomy for cognitive and reactive supremacy. In their natural state, they resemble elongated, multi-segmented insectoids roughly 3 feet in length. A true xeno-insect form with combined features of the shrimp, caterpillar and centipede. Their bodies are composed of soft, translucent emerald-green dermis protected by thin, flexible rings of glossy obsidian chitin.
+
+They possess dozens of fine, hair-like limbs along their underside, each ending in a hyper-sensitive synaptic filament. Instead of traditional eyes, their heads are dominated by a massive, wrap-around sensory array and multiple rows of antennae that function as "living cables."
+
+The Syndess is the "Ghost in the Machine." While the Kitin mecha and structures are biologically advanced, they are Hollow Expressions—they possess no independent consciousness, motor control, or "Ego." They are grown from the Genomatrix as functional shells. Without a Syndess "Core," a mecha is a silent, breathing husk of obsidian and muscle - able to function at a basic level with very simple actions and requiring psychic direction.
+
+**Technical Profile:**  
+* **Size:** Small
+* **Movement:** 30ft Groundspeed (Crawling & Climbing)
+* **Tech Level:** 4 (Integration) (5 BP)
+* **Meta Level:** 4 (Resonant with the Manelli) (2 BP)
+* **Stigma:** Minor Xeno (hidden in mecha) / Severe Xeno (exposed)
+
+**Ability Modifiers:**  
+* +2 Intellect (10 BP)
+* +2 Agility (10 BP)
+* -2 Strength (-10 BP)
+* -2 Stamina (-10 BP)  
+*(Net Ability Modifier: 0 BP)*
+
+**Skills:**  
+* +10 Skill Ranks to ANY skills (10 BP)
+
+**Species Features:**  
+* **Synaptic Integration:** The Syndess can "slot" into any Kitin mecha’s Synaptic Node. While integrated, they use their own Intellect and Agility for all vehicle checks and ignore all G-force or high-velocity penalties. (2 BP)
+* **Multidextrous (Many-Limbed):** Possess 30+ micro-limbs for fine internal repairs, fluid management, and multitasking across the mecha’s biological subsystems. (2 BP)
+* **G-Force Immunity:** Internal fluid dampening allows them to survive maneuvers and turns that would turn a humanoid to jelly. (2 BP)
+* **Torpor (Universal):** Enter a 4-hour dormant state while docked in a mecha, during which the mecha can regenerate and refuel. (2 BP)
+* **Blind Sense (EM/Vibration):** Can perceive their surroundings via the mecha’s external sensors, feeling the environment as if it were their own skin. (2 BP)
+* **Dual Skeletal Structure:** Combined endo/exo-skeleton (DR +5). (2 BP)
+* **Armor:** Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10] (2 BP)
+* **Climber:** Traverse vertical or inverted surfaces at full speed. (2 BP)
+* **Awakened (Psionic - Intellect):** Facilitators of the Chorus. (2 BP)
+* **Genetic Memory:** Inherited ancestral blueprints and instincts for piloting any Kitin construct. (2 BP)
+* **Hive-Link:** Telepathic link to the Kitin Collective and other Syndess pilots. (2 BP)
+* **Enhanced Biotechnology:** Natural mastery over organic technology and living systems. (Inherent)
+* **Property Boon:** Special Equipment consideration for integrated mecha body / gear; +4 wealth for personal property acquisition. (2 BP)
+
+**Species Hindrances / Disadvantages:**  
+* **Fragile Frame:** Outside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves. (-2 BP)
+
+**The Integration Protocol:**  
+1. **Minimum Crew Scaling Requirements:**
+   * **Medium to Huge Mecha:** 1 Syndess Core
+   * **Gargantuan Mecha:** 2 Syndess Cores (Dual-link)
+   * **Colossal Mecha:** 4 Syndess Cores (Cluster-link)
+   * **Titanic Platforms / Spire Nodes:** 8+ Syndess Cores (Hive-array)
+2. **The Chorus Effect (Synchronization):**
+   When multiple Syndess integrate into larger constructs, they achieve synchronized reaction times, gaining +1 to Initiative and Reflex/Evasion saves per additional Syndess in the cluster (up to +4).
+3. **The Handshake:**
+   Integration requires 1 full round to establish bio-neural sync with a dormant mecha shell.
+4. **The Shedding (Emergency Ejection):**
+   When a mecha suffers catastrophic destruction, the Syndess core can eject via a high-velocity fluid pod, retaining 1 HP and attempting escape.
+5. **Crew Efficiency & Distributed Processing:**
+   A single Syndess pilot can manage sub-systems equivalent to 4 standard humanoid crew members (pilot, gunner, engineer, sensor operator).
+
+**Biomorphic Mecha Suite:**  
+* **Combat Expressions:**
+  * **Vespae-Mk.II (Aerial Interceptor):** Rapid striker with bio-plasma stingers and translucent wings.
+  * **Apex-Cutter (Land-Stalker):** Mantis-derived assault frame with scissor-blades and acid spray.
+  * **Mako-Seeker (Aquatic Striker):** Streamlined deep-sea torpedo frame with sonic pulse emitters.
+* **Logistics & Heavy:**
+  * **Koleo-Prime (Heavy Crawler):** Beetle-armored siege platform with crushing mandibles and siege mortar carapace.
+  * **Ichor-Barge (System Freighter):** Multi-chambered transport entity carrying organic supplies and embryonic genomatrix clones.
+
+**Biomorphic Structures:**  
+* **Spire-Sentry (Anti-Air & Orbital Defense):** Static living tower firing chitin-encased bio-slugs.
+* **Genomatrix Vault (Sector Command):** Living cerebral node where collective memories and blueprints are synthesized.
+* **Hatchery-Foundry (Mecha Production):** Nutrient vat pools where new mecha husks and bio-armor are grown.
+
+**Aesthetics (CRISP):**  
+* **Context:** Suspended in a translucent bio-gel amniotic cylinder within the cockpit node of an obsidian mecha.
+* **Style:** Organic Tech-Noir, Biomechanical Symmetry, Micro-Filament Focus.
+* **Palette:** Dominant: Translucent Emerald Green (Dermis), Glossy Obsidian Black (Chitin Rings). Accent: Bioluminescent Amber (Sensory Nodes), Copper-Green (Hemolymph).
+* **Visuals:** An elongated, segmented xeno-insect form with shimmering emerald skin, dozens of micro-cables trailing from ventral nodes into nutrient sockets, and glowing sensory eyes wrap-around the head.
+
+&nbsp;
+
+### **MUREX**
+**Foundation Expression**  
+**Classification:** Insectoid Aberration (Humanoid)  
+**BP Cost:** 34 BP  
+
+**Description:**  
+The Murex are the "General Purpose" expression. They are the builders and infantry that form the backbone of the Hive’s infrastructure. They possess a standard dual-skeletal structure: an internal endoskeleton encased in smooth, matte-black glossy obsidian chitin.  
+Murex are the primary audience for the psionic Chorus, moving in perfect synchronization. During their 4-hour Torpor, they remain alert in rigid formations.
+
+**Technical Profile:**  
+* **Size:** Medium
+* **Movement:** 40ft Groundspeed (Crawling & Climbing)
+* **Tech Level:** 3 (Industrial)
+* **Meta Level:** 2 (Resonant)
+* **Stigma:** Severe Xeno
+
+**Ability Modifiers:**  
+* +2 Strength (8 BP)
+* +2 Stamina (8 BP)
+* -1 Wisdom (-4 BP)
+* -1 Charisma (-4 BP)
+
+**Skills:**  
+* +10 Skill Ranks to ANY skills (8 BP)
+
+**Species Features:**  
+* **Multidextrous (4 Arms):** Full manipulation capability ending with dextrous 4 digit hands. (4 BP)
+* **Dual Skeletal Structure:** Combined endo/exo-skeleton (DR +5). (2 BP)
+* **Armor:** Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10] (2 BP)
+* **Enhanced Strength:** Count as 1 size larger for lifting and carrying. (2 BP)
+* **Fatigue Resistance:** All Fatigue checks are made at Advantage and at twice the interval time. (2 BP)
+* **Pheromonal Synthesis:** Biological scent-marking for hive coordination. (2 BP)
+* **Quick:** Naturally efficient movement and reaction times. (2 BP)
+* **Climber:** Traverse vertical or inverted surfaces at full speed. (2 BP)
+* **Hive-Link (Minor):** Basic telepathic receptivity to follow Collective commands. (2 BP)
+* **Resin Secretion:** Creation of Hive-Resin for patching mecha and structures. (2 BP)
+* **Torpor (Universal):** 4 hours of conscious rest; no loss of awareness. (2 BP)
+
+**Recommended Features:**  
+* **Acute Senses:** (Hearing, Scent)
+* **Fearless**
+* **Poison Immunity**
+* **Runner**
+* **Self-Sufficient**
+
+**Aesthetics (CRISP):**  
+* **Context:** Marching in disciplined columns through industrial hive galleries or constructing colossal resin scaffolding along spire flanks.
+* **Style:** Industrial Unity, Symmetrical Design, Slick Obsidian.
+* **Palette:** Dominant: Glossy Obsidian (Matte-Black Finish). Accent: Emerald Green (Hemolymph Gaskets), Cyan dots (Sensory Pheromone Pores).
+* **Visuals:** A towering bipedal insectoid humanoid with four articulated arms ending in sturdy 4-digit manipulation hands, crowned with low-profile sensory ridges and smooth matte-black carapace plates.
 
 &nbsp;
 

@@ -101,7 +101,7 @@ export const DBMItemModal = ({
 
   const handleSaveComplete = (savedPayload) => {
     if (setEditFormData) setEditFormData(savedPayload);
-    if (onSave) onSave(true, savedPayload);
+    if (onSave) onSave(false, savedPayload);
   };
 
   const handleDeleteComplete = (item) => {

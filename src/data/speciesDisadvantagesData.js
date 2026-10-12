@@ -1,7 +1,7 @@
 /**
  * Canonical Disadvantages Database for Tangent SF RP (Species & General Disadvantages)
  * Auto-generated from src/data/omnicortex/disadvantages/
- * Total Disadvantages: 34
+ * Total Disadvantages: 38
  */
 
 export const DEFAULT_SPECIES_DISADVANTAGES = [
@@ -54,9 +54,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
       "[Penalty] Disadvantage on all checks",
       "[Penalty] Inflicts Sickened condition (-2 to all checks)",
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ],
-    "keywords": "addiction, hindrance, penalty, general, chemical, biological",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-adversary",
@@ -82,9 +80,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ],
-    "keywords": "adversary, hindrance, penalty, general, individual, powerful",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-species-armless",
@@ -110,9 +106,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 4 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 4 CP refund upon selection."
-    ],
-    "keywords": "armless, hindrance, penalty, physical, without",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-bodily-age",
@@ -138,9 +132,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ],
-    "keywords": "bodily age, hindrance, penalty, general, outside, physical",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-clown",
@@ -166,9 +158,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ],
-    "keywords": "clown, hindrance, penalty, general, compulsive, jokester",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-covetous",
@@ -194,9 +184,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ],
-    "keywords": "covetous, hindrance, penalty, general, overwhelming, compulsion",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-dependent",
@@ -222,9 +210,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ],
-    "keywords": "dependent, hindrance, penalty, general, responsible, continuous",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-disability",
@@ -250,9 +236,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ],
-    "keywords": "disability, hindrance, penalty, general, missing, paralysis",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-distinctive-features",
@@ -278,9 +262,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ],
-    "keywords": "distinctive features, hindrance, penalty, general, unmistakable, physical",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-species-elemental-vulnerability",
@@ -306,9 +288,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 4 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 4 CP refund upon selection."
-    ],
-    "keywords": "elemental vulnerability, hindrance, penalty, physical, vulnerability, electricity",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-emotional-issues",
@@ -351,9 +331,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
       "[Penalty] -2 on Will Checks",
       "[Penalty] -2 to Social inter",
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ],
-    "keywords": "emotional issues, hindrance, penalty, general, severe, emotional",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-extreme-morality",
@@ -379,9 +357,42 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
+    ]
+  },
+  {
+    "id": "disadvantage-fragile-frame",
+    "code": "fragile-frame",
+    "name": "Fragile Frame",
+    "category": "disadvantages",
+    "disadvantage_type": "Disadvantage",
+    "classification": "General",
+    "type": "General",
+    "refundBP": 2,
+    "costs": {
+      "bp": -2
+    },
+    "prerequisite": "None",
+    "desc": "Outside of a mecha or protective containment pod, the organism has an extremely fragile physiology and suffers a -2 penalty to all physical saving throws.",
+    "description": "Outside of a mecha or protective containment pod, the organism has an extremely fragile physiology and suffers a -2 penalty to all physical saving throws.",
+    "mechanics": "* **Physical Save Penalty:** Outside of a mecha cockpit or armored containment pod, the character suffers a **-2 penalty to all physical saving throws** (Fortitude, Reflex, and Stamina-based endurance checks).\n* **Vulnerable to Trauma:** When exposed directly to kinetic explosions or bludgeoning attacks, any knockdown or stagger condition applied to the character increases in duration by 1 round.",
+    "mechanic": "* **Physical Save Penalty:** Outside of a mecha cockpit or armored containment pod, the character suffers a **-2 penalty to all physical saving throws** (Fortitude, Reflex, and Stamina-based endurance checks).\n* **Vulnerable to Trauma:** When exposed directly to kinetic explosions or bludgeoning attacks, any knockdown or stagger condition applied to the character increases in duration by 1 round.",
+    "rules": "Hindrance: Grants 2 CP refund upon selection.",
+    "modifiers": [
+      {
+        "target": "Physical",
+        "type": "skill",
+        "value": -2,
+        "mode": "penalty",
+        "description": "-2 to Physical"
+      }
     ],
-    "keywords": "extreme morality, hindrance, penalty, general, unshakeable, aligned",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    "body": "# Fragile Frame\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted / Refund**: 2 BP  \n**Type**: Physical  \n\n## Description\nThe Syndess has evolved strictly for symbiotic cybernetic integration. In their exposed larval state outside a biomorphic mecha chassis or sealed nutrient tube, their soft translucent dermis and slender segmental frame lack structural reinforcement against concussive forces, environmental shocks, and atmospheric pressures.\n\n## Mechanics & Severity\n* **Physical Save Penalty:** Outside of a mecha cockpit or armored containment pod, the character suffers a **-2 penalty to all physical saving throws** (Fortitude, Reflex, and Stamina-based endurance checks).\n* **Vulnerable to Trauma:** When exposed directly to kinetic explosions or bludgeoning attacks, any knockdown or stagger condition applied to the character increases in duration by 1 round.",
+    "special_rules": "Hindrance: Grants 2 CP refund upon selection.",
+    "notes": "[Penalty] -2 to Physical\n[Rule] Hindrance: Grants 2 CP refund upon selection.",
+    "notesList": [
+      "[Penalty] -2 to Physical",
+      "[Rule] Hindrance: Grants 2 CP refund upon selection."
+    ]
   },
   {
     "id": "disadvantage-hatred",
@@ -416,9 +427,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notesList": [
       "[Penalty] -2 to Social",
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ],
-    "keywords": "hatred, hindrance, penalty, general, prejudice, visceral",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-honorable",
@@ -444,9 +453,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ],
-    "keywords": "honorable, hindrance, penalty, general, inflexible, chivalry",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-humorless",
@@ -489,9 +496,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
       "[Penalty] -2 to Insight",
       "[Penalty] -2 to Social",
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ],
-    "keywords": "humorless, hindrance, penalty, general, statement, literally",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-impaired-sense",
@@ -517,9 +522,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ],
-    "keywords": "impaired sense, hindrance, penalty, general, primary, sensory",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-species-light-blindness",
@@ -546,9 +549,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notesList": [
       "[Rule] Hindrance: Grants 4 CP refund upon selection.",
       "[Prerequisite] Darkvision / Dark Sight"
-    ],
-    "keywords": "light blindness, hindrance, penalty, sensory, abrupt, exposure",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-species-light-sensitivity",
@@ -575,9 +576,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notesList": [
       "[Rule] Hindrance: Grants 2 CP refund upon selection.",
       "[Prerequisite] Darkvision / Dark Sight"
-    ],
-    "keywords": "light sensitivity, hindrance, penalty, sensory, dazzled, bright",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-lost-sense",
@@ -597,15 +596,30 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "mechanics": "### Tiers & Effects\n- **3 BP**: Total loss of **Taste or Smell**. Immune to scent-based nausea/gas sickness, but cannot smell toxins or smoke.\n- **6 BP**: Total loss of **Touch (Numbness)** or **Hearing (Deafness)**. `-4` to fine Dexterity (if Numb) or auto-fail all acoustic checks (if Deaf).\n- **9 BP**: Total loss of **Sight (Blindness)**. Automatically fails visual checks; 50% miss chance in combat unless using blind-fight/meta senses.",
     "mechanic": "### Tiers & Effects\n- **3 BP**: Total loss of **Taste or Smell**. Immune to scent-based nausea/gas sickness, but cannot smell toxins or smoke.\n- **6 BP**: Total loss of **Touch (Numbness)** or **Hearing (Deafness)**. `-4` to fine Dexterity (if Numb) or auto-fail all acoustic checks (if Deaf).\n- **9 BP**: Total loss of **Sight (Blindness)**. Automatically fails visual checks; 50% miss chance in combat unless using blind-fight/meta senses.",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Fine Dexterity if Numb",
+        "type": "skill",
+        "value": -4,
+        "mode": "penalty",
+        "description": "-4 to Fine Dexterity if Numb"
+      },
+      {
+        "target": "Auto-fail all acoustic",
+        "type": "skill",
+        "value": -4,
+        "mode": "penalty",
+        "description": "-4 to Auto-fail all acoustic"
+      }
+    ],
     "body": "# Lost Sense\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 BP  \n**Type**: Physical\n\n## Description\nComplete biological absence or destruction of one of the character's primary sensory channels.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **3 BP**: Total loss of **Taste or Smell**. Immune to scent-based nausea/gas sickness, but cannot smell toxins or smoke.\n- **6 BP**: Total loss of **Touch (Numbness)** or **Hearing (Deafness)**. `-4` to fine Dexterity (if Numb) or auto-fail all acoustic checks (if Deaf).\n- **9 BP**: Total loss of **Sight (Blindness)**. Automatically fails visual checks; 50% miss chance in combat unless using blind-fight/meta senses.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
-    "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
+    "notes": "[Penalty] -4 to Fine Dexterity if Numb\n[Penalty] -4 to Auto-fail all acoustic\n[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
+      "[Penalty] -4 to Fine Dexterity if Numb",
+      "[Penalty] -4 to Auto-fail all acoustic",
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ],
-    "keywords": "lost sense, hindrance, penalty, general, complete, biological",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-mental-issues",
@@ -656,9 +670,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
       "[Penalty] -2 to Concentration",
       "[Penalty] -2 to Mental",
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ],
-    "keywords": "mental issues, hindrance, penalty, general, neurodivergence, chronic",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-minority",
@@ -684,9 +696,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ],
-    "keywords": "minority, hindrance, penalty, general, belonging, oppressed",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-mute",
@@ -712,9 +722,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ],
-    "keywords": "mute, hindrance, penalty, general, lacking, biological",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-species-negative-energy-affinity",
@@ -740,9 +748,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 4 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 4 CP refund upon selection."
-    ],
-    "keywords": "negative energy affinity, hindrance, penalty, meta, harmed, positive/healed",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-nightmares",
@@ -777,9 +783,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notesList": [
       "[Penalty] Inflicts Fatigued condition (-2 to all actions)",
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ],
-    "keywords": "nightmares, hindrance, penalty, general, plagued, psychic",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-obligation",
@@ -805,9 +809,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ],
-    "keywords": "obligation, hindrance, penalty, general, contractual, feudal",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-species-ponderous",
@@ -833,9 +835,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 4 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 4 CP refund upon selection."
-    ],
-    "keywords": "ponderous (disadvantage), hindrance, penalty, movement",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-poor",
@@ -894,9 +894,33 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
       "[Penalty] -12 to Wealth Score",
       "[Penalty] -4 Wealth Score",
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ],
-    "keywords": "poor, hindrance, penalty, general, starting, severe",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
+  },
+  {
+    "id": "disadvantage-psionic-static-susceptibility",
+    "code": "psionic-static-susceptibility",
+    "name": "Psionic Static Susceptibility",
+    "category": "disadvantages",
+    "disadvantage_type": "Disadvantage",
+    "classification": "General",
+    "type": "General",
+    "refundBP": 4,
+    "costs": {
+      "bp": -4
+    },
+    "prerequisite": "None",
+    "desc": "Severe psionic disruption and physical pain caused by Riezen frequency static or chaotic dissonant telepathic noise, imposing Disadvantage on Concentration and Metaphysics.",
+    "description": "Severe psionic disruption and physical pain caused by Riezen frequency static or chaotic dissonant telepathic noise, imposing Disadvantage on Concentration and Metaphysics.",
+    "mechanics": "* **Psionic Disruption:** While within telepathic broadcast proximity (typically within line of sight or within 100 meters) of an active Riezen swarm or an artificial psionic scrambler, the character suffers **Disadvantage** on all Concentration, Metaphysics, Insight, and Initiative checks.\n* **Neuro-Sensory Agony:** Each round the character begins their turn within active Riezen static, they must make a **DC 12 Willpower / Stamina check** or suffer 1 point of non-lethal Mental Strain / bio-neural headache and lose their Minor Action.\n* **Chorus Disconnect:** Direct exposure to concentrated static temporarily suppresses Hive-Link communication until the source is neutralized or out of range.",
+    "mechanic": "* **Psionic Disruption:** While within telepathic broadcast proximity (typically within line of sight or within 100 meters) of an active Riezen swarm or an artificial psionic scrambler, the character suffers **Disadvantage** on all Concentration, Metaphysics, Insight, and Initiative checks.\n* **Neuro-Sensory Agony:** Each round the character begins their turn within active Riezen static, they must make a **DC 12 Willpower / Stamina check** or suffer 1 point of non-lethal Mental Strain / bio-neural headache and lose their Minor Action.\n* **Chorus Disconnect:** Direct exposure to concentrated static temporarily suppresses Hive-Link communication until the source is neutralized or out of range.",
+    "rules": "Hindrance: Grants 4 CP refund upon selection.",
+    "modifiers": [],
+    "body": "# Psionic Static Susceptibility (Riezen Disruption)\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted / Refund**: 4 BP  \n**Type**: Metaphysical / Neural  \n\n## Description\nBecause the character's nervous system is tightly calibrated to the structured carrier wave of the Chorus, chaotic or discordant psionic broadcasts inflict acute neuro-biological shock. The discordant frequency emitted by Riezen swarms or unaligned psychic turbulence violently clashes with the character's mental pathways, triggering intense cranial agony and cognitive disorientation.\n\n## Mechanics & Severity\n* **Psionic Disruption:** While within telepathic broadcast proximity (typically within line of sight or within 100 meters) of an active Riezen swarm or an artificial psionic scrambler, the character suffers **Disadvantage** on all Concentration, Metaphysics, Insight, and Initiative checks.\n* **Neuro-Sensory Agony:** Each round the character begins their turn within active Riezen static, they must make a **DC 12 Willpower / Stamina check** or suffer 1 point of non-lethal Mental Strain / bio-neural headache and lose their Minor Action.\n* **Chorus Disconnect:** Direct exposure to concentrated static temporarily suppresses Hive-Link communication until the source is neutralized or out of range.",
+    "special_rules": "Hindrance: Grants 4 CP refund upon selection.",
+    "notes": "[Rule] Hindrance: Grants 4 CP refund upon selection.",
+    "notesList": [
+      "[Rule] Hindrance: Grants 4 CP refund upon selection."
+    ]
   },
   {
     "id": "disadvantage-secret",
@@ -922,9 +946,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ],
-    "keywords": "secret, hindrance, penalty, general, hiding, dangerous",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-species-slow",
@@ -950,9 +972,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notes": "[Rule] Hindrance: Grants 2 CP refund upon selection.",
     "notesList": [
       "[Rule] Hindrance: Grants 2 CP refund upon selection."
-    ],
-    "keywords": "slow (disadvantage), hindrance, penalty, movement",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-social-issues",
@@ -995,9 +1015,101 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
       "[Penalty] -2 to Persuasion",
       "[Penalty] -2 to Charisma",
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
+    ]
+  },
+  {
+    "id": "disadvantage-stigma-xeno-mimetic",
+    "code": "stigma-xeno-mimetic",
+    "name": "Stigma: Minor Xeno (Hidden) / Severe Xeno (Revealed)",
+    "category": "disadvantages",
+    "disadvantage_type": "Disadvantage",
+    "classification": "General",
+    "type": "General",
+    "refundBP": 2,
+    "costs": {
+      "bp": -2
+    },
+    "prerequisite": "None",
+    "desc": "The character carries a latent alien physiology. When disguised and antennae are concealed, they suffer Minor Xeno stigma; when revealed, society reacts with Severe Xeno revulsion.",
+    "description": "The character carries a latent alien physiology. When disguised and antennae are concealed, they suffer Minor Xeno stigma; when revealed, society reacts with Severe Xeno revulsion.",
+    "mechanics": "* **Concealed State (Minor Xeno -2):** As long as antennae, sharp needle teeth, and green blood remain concealed, the character incurs only a **Minor Xeno penalty (-1 to -2)** on social negotiations with suspicious outsiders or xenophobic factions.\n* **Revealed State (Severe Xeno -4):** If the character's antennae are exposed, green blood is spilled in public, or their insectoid nature is discovered, their social penalty worsens immediately to **Severe Xeno (-4)**. Prices increase by 50–100%, authorities are notified, and initial NPC reactions become automatically Unfriendly or Hostile.",
+    "mechanic": "* **Concealed State (Minor Xeno -2):** As long as antennae, sharp needle teeth, and green blood remain concealed, the character incurs only a **Minor Xeno penalty (-1 to -2)** on social negotiations with suspicious outsiders or xenophobic factions.\n* **Revealed State (Severe Xeno -4):** If the character's antennae are exposed, green blood is spilled in public, or their insectoid nature is discovered, their social penalty worsens immediately to **Severe Xeno (-4)**. Prices increase by 50–100%, authorities are notified, and initial NPC reactions become automatically Unfriendly or Hostile.",
+    "rules": "Hindrance: Grants 2 CP refund upon selection.",
+    "modifiers": [
+      {
+        "target": "Social negotiations with suspicious outsiders",
+        "type": "skill",
+        "value": -2,
+        "mode": "penalty",
+        "description": "-2 to Social negotiations with suspicious outsiders"
+      },
+      {
+        "target": "Xenophobic f",
+        "type": "skill",
+        "value": -2,
+        "mode": "penalty",
+        "description": "-2 to Xenophobic f"
+      }
     ],
-    "keywords": "social issues, hindrance, penalty, general, severe, social",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    "body": "# Stigma: Minor Xeno (Hidden) / Severe Xeno (Revealed)\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted / Refund**: 2 BP (Minor Hidden) / 4 BP (Severe Revealed)  \n**Type**: Social  \n\n## Description\nThe character is an insectoid mimetic organism operating within predominantly human or conventional carbon-based societies. While superficially humanoid, unnatural biological traits (emerald copper blood, needle-like teeth, cranial antennae) mark them as an alien outsider.\n\n## Mechanics & Severity\n* **Concealed State (Minor Xeno -2):** As long as antennae, sharp needle teeth, and green blood remain concealed, the character incurs only a **Minor Xeno penalty (-1 to -2)** on social negotiations with suspicious outsiders or xenophobic factions.\n* **Revealed State (Severe Xeno -4):** If the character's antennae are exposed, green blood is spilled in public, or their insectoid nature is discovered, their social penalty worsens immediately to **Severe Xeno (-4)**. Prices increase by 50–100%, authorities are notified, and initial NPC reactions become automatically Unfriendly or Hostile.",
+    "special_rules": "Hindrance: Grants 2 CP refund upon selection.",
+    "notes": "[Penalty] -2 to Social negotiations with suspicious outsiders\n[Penalty] -2 to Xenophobic f\n[Rule] Hindrance: Grants 2 CP refund upon selection.",
+    "notesList": [
+      "[Penalty] -2 to Social negotiations with suspicious outsiders",
+      "[Penalty] -2 to Xenophobic f",
+      "[Rule] Hindrance: Grants 2 CP refund upon selection."
+    ]
+  },
+  {
+    "id": "disadvantage-stigma-monstrous",
+    "code": "stigma-monstrous",
+    "name": "Stigma: Severe Xeno / Monstrous",
+    "category": "disadvantages",
+    "disadvantage_type": "Disadvantage",
+    "classification": "General",
+    "type": "General",
+    "refundBP": 4,
+    "costs": {
+      "bp": -4
+    },
+    "prerequisite": "None",
+    "desc": "The character possesses an overtly monstrous, alien, or arachno-tauric physiology that elicits visceral terror and hostility from standard civil societies (-4 social penalty).",
+    "description": "The character possesses an overtly monstrous, alien, or arachno-tauric physiology that elicits visceral terror and hostility from standard civil societies (-4 social penalty).",
+    "mechanics": "- **Severe Social Penalty (-4)**: The character suffers a **-4 penalty** on all social negotiation, diplomacy, and persuasion checks with standard civil populations and non-hive factions.\n- **Immediate Hostility**: Non-allied civilian NPCs generally react with terror or hostile defensiveness upon sight unless pacified through overwhelming psionic presence or diplomatic intermediaries.\n- **Surcharges & Confinement**: Commercial vendors charge 50–100% surcharges, and municipal planetary laws often restrict monstrous aberrations from free transit without armed chaperones or permits.",
+    "mechanic": "- **Severe Social Penalty (-4)**: The character suffers a **-4 penalty** on all social negotiation, diplomacy, and persuasion checks with standard civil populations and non-hive factions.\n- **Immediate Hostility**: Non-allied civilian NPCs generally react with terror or hostile defensiveness upon sight unless pacified through overwhelming psionic presence or diplomatic intermediaries.\n- **Surcharges & Confinement**: Commercial vendors charge 50–100% surcharges, and municipal planetary laws often restrict monstrous aberrations from free transit without armed chaperones or permits.",
+    "rules": "Hindrance: Grants 4 CP refund upon selection.",
+    "modifiers": [
+      {
+        "target": "Social negotiation",
+        "type": "skill",
+        "value": -4,
+        "mode": "penalty",
+        "description": "-4 to Social negotiation"
+      },
+      {
+        "target": "Diplomacy",
+        "type": "skill",
+        "value": -4,
+        "mode": "penalty",
+        "description": "-4 to Diplomacy"
+      },
+      {
+        "target": "Persuasion",
+        "type": "skill",
+        "value": -4,
+        "mode": "penalty",
+        "description": "-4 to Persuasion"
+      }
+    ],
+    "body": "# Stigma: Severe Xeno / Monstrous\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted / Refund**: 4 BP  \n**Type**: Social  \n\n## Description\nThe character is an overt alien aberration—such as an intimidating arachno-tauric organism with multi-jointed limbs, clicking mandibles, and an obsidian chitinous lower abdomen. Their appearance triggers immediate fear, revulsion, and instinctive panic in standard humanoid societies.\n\n## Mechanics & Severity\n- **Severe Social Penalty (-4)**: The character suffers a **-4 penalty** on all social negotiation, diplomacy, and persuasion checks with standard civil populations and non-hive factions.\n- **Immediate Hostility**: Non-allied civilian NPCs generally react with terror or hostile defensiveness upon sight unless pacified through overwhelming psionic presence or diplomatic intermediaries.\n- **Surcharges & Confinement**: Commercial vendors charge 50–100% surcharges, and municipal planetary laws often restrict monstrous aberrations from free transit without armed chaperones or permits.",
+    "special_rules": "Hindrance: Grants 4 CP refund upon selection.",
+    "notes": "[Penalty] -4 to Social negotiation\n[Penalty] -4 to Diplomacy\n[Penalty] -4 to Persuasion\n[Rule] Hindrance: Grants 4 CP refund upon selection.",
+    "notesList": [
+      "[Penalty] -4 to Social negotiation",
+      "[Penalty] -4 to Diplomacy",
+      "[Penalty] -4 to Persuasion",
+      "[Rule] Hindrance: Grants 4 CP refund upon selection."
+    ]
   },
   {
     "id": "disadvantage-species-sunlight-powerlessness",
@@ -1024,9 +1136,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notesList": [
       "[Rule] Hindrance: Grants 6 CP refund upon selection.",
       "[Prerequisite] Undead / Half-Undead / Non-Living"
-    ],
-    "keywords": "sunlight powerlessness, hindrance, penalty, meta, staggered/helpless, direct",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-technologically-impaired",
@@ -1061,9 +1171,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notesList": [
       "[Penalty] -1 Tech Level",
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ],
-    "keywords": "technologically impaired, hindrance, penalty, general, baffled, modern",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-unlucky",
@@ -1122,9 +1230,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
       "[Penalty] -6 to Karma Pool maximum",
       "[Penalty] -2 to Karma Pool",
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
-    ],
-    "keywords": "unlucky, hindrance, penalty, general, profound, cosmic",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   },
   {
     "id": "disadvantage-species-vulnerable-to-sunlight",
@@ -1151,9 +1257,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "notesList": [
       "[Rule] Hindrance: Grants 4 CP refund upon selection.",
       "[Prerequisite] Native to Darklands / Shadow Realms"
-    ],
-    "keywords": "vulnerable to sunlight, hindrance, penalty, meta, damage, sunlight",
-    "negative_keywords": "perfection, flawless, unyielding, invulnerable"
+    ]
   }
 ];
 

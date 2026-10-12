@@ -14,6 +14,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { characterSchema, trackedModificationSchema } from '../../src/components/Folio/schema.js';
+import { 
+  addFolioTombstone, 
+  isFolioPersonaDeleted, 
+  getFolioTombstones, 
+  isPersonaEmptyTemplate 
+} from '../../src/utils/personaValidationUtils.js';
 
 test('Persona Lifecycle: Schema defaults to Development Phase', () => {
   const defaultChar = characterSchema.parse({
@@ -207,5 +213,64 @@ test('Persona Lifecycle: GM Option to Allow or Disallow Player Override in VTT &
     allow_player_override: true
   });
   assert.equal(gmReallowed.allow_player_override, true);
+});
+
+test('Persona Lifecycle: Tombstone Deletion across String IDs and Object Aliases', () => {
+  const charA = {
+    'character-doc-id': 'char-test-alpha-001',
+    id: 'alpha-alias-001',
+    'char-name': 'Operative Alpha',
+    'char-species': 'Alterian',
+    'char-archetype': 'Operative'
+  };
+
+  const charB = {
+    'character-doc-id': 'char-test-beta-002',
+    id: 'beta-alias-002',
+    'char-name': 'Operative Beta',
+    'char-species': 'Human',
+    'char-archetype': 'Specialist'
+  };
+
+  // Initially neither is deleted
+  assert.equal(isFolioPersonaDeleted(charA, ['char-other-999']), false);
+  assert.equal(isFolioPersonaDeleted(charB, ['char-other-999']), false);
+
+  // Tombstone charA by its character-doc-id
+  const tombstones1 = ['char-test-alpha-001'];
+  assert.equal(isFolioPersonaDeleted(charA, tombstones1), true);
+  assert.equal(isFolioPersonaDeleted('char-test-alpha-001', tombstones1), true);
+  assert.equal(isFolioPersonaDeleted(charB, tombstones1), false);
+
+  // Tombstone charA by its secondary id alias
+  const tombstones2 = ['alpha-alias-001'];
+  assert.equal(isFolioPersonaDeleted(charA, tombstones2), true);
+  assert.equal(isFolioPersonaDeleted('alpha-alias-001', tombstones2), true);
+
+  // Tombstone with explicit isDeleted flag
+  assert.equal(isFolioPersonaDeleted({ ...charB, isDeleted: true }, []), true);
+});
+
+test('Persona Lifecycle: Ghost / Empty Template Detection', () => {
+  // Empty template with default name
+  assert.equal(isPersonaEmptyTemplate({ 'char-name': 'Unnamed Persona' }), true);
+  assert.equal(isPersonaEmptyTemplate({ 'char-name': 'Unnamed Operative' }), true);
+  assert.equal(isPersonaEmptyTemplate({}), true);
+  assert.equal(isPersonaEmptyTemplate(null), true);
+
+  // Valid persona with customized concept or stats
+  assert.equal(isPersonaEmptyTemplate({
+    'char-name': 'Unnamed Persona',
+    'char-species': 'Alterian'
+  }), false);
+
+  assert.equal(isPersonaEmptyTemplate({
+    'char-name': 'Commander Shepard'
+  }), false);
+
+  assert.equal(isPersonaEmptyTemplate({
+    'char-name': 'Unnamed Persona',
+    'attr-strength': 2
+  }), false);
 });
 

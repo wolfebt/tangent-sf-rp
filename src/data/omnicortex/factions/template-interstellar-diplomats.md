@@ -57,7 +57,7 @@ modifiers: []
 faction_classification: Faction Template
 recommended_species:
   - Celestine (Alterian)
-  - Manelli (Kitin Diplomat)
+  - Manelli (Cerebral Expression)
   - Lin Human
   - Human (Base)
 recommended_origins:

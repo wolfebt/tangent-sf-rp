@@ -69,6 +69,288 @@ export const KNOWN_SPECIES_TRAIT_DESCRIPTIONS = {
     description: 'Chitinous insectoid collective traits: Awakened (Psychic), Biotechnology, Hive Connection mesh, Sleepless.',
     rules: 'Sub-dermal chitin, shared hive telepathy mesh, and sleepless vigilance.'
   },
+  'trait-kitin-base-traits': {
+    name: 'Kitin Base Traits',
+    category: 'Trait',
+    description: 'The fundamental heritage of all Kitin Strains: Awakened (Psychic) [2], Biotechnology [2], Hive Connection / Hive-Link [2], Sleepless / Torpor [2].',
+    rules: 'Awakened (Psychic), Biotechnology, Hive-Link telepathy, and Torpor conscious rest.'
+  },
+  'trait-mimetic-form': {
+    name: 'Mimetic Form',
+    category: 'Trait',
+    description: 'Thin human-mimetic dermis and endoskeleton allowing disguise as human when antennae are concealed (+2 Disguise/Deception).',
+    rules: '+2 Bonus to Disguise or Deception checks to pass as human (antennae must be concealed).'
+  },
+  'trait-genetic-memory': {
+    name: 'Genetic Memory',
+    category: 'Trait',
+    description: 'Inheritance of ancestral knowledge, cultural memory, and Genomatrix blueprints passed through biological lineage.',
+    rules: 'Grants ancestral recall on Lore/History/Science and intuitive comprehension of biotech blueprints.'
+  },
+  'trait-hive-link': {
+    name: 'Hive-Link',
+    category: 'Trait',
+    description: 'Constant telepathic link to the Collective and all Kitin Strains, synchronizing thoughts with the psionic Chorus.',
+    rules: 'Uninterrupted telepathic mesh with hive members; prevents surprise when allies are vigilant.'
+  },
+  'trait-torpor-universal': {
+    name: 'Torpor (Universal)',
+    category: 'Trait',
+    description: 'Requires only 4 hours of conscious inactivity to rest; immune to involuntary sleep, stupor, and sleep-inducing magic.',
+    rules: '4-hour conscious rest; complete immunity to sleep effects while maintaining situational awareness.'
+  },
+  'trait-blind-sense-scent-em': {
+    name: 'Blind Sense (Scent/EM)',
+    category: 'Trait',
+    description: 'Delicate sensory antennae detect bio-energetic, electromagnetic, and olfactory plumes within 30 ft radius.',
+    rules: '30 ft radius blindsense sensing movement, electrical signals, and scent plumes.'
+  },
+  'trait-enhanced-biotechnology': {
+    name: 'Enhanced Biotechnology',
+    category: 'Trait',
+    description: 'Direct physiological compatibility and neural control over living technology, bio-grafts, and biomorphic carapaces.',
+    rules: 'Instant integration with living items; Advantage on biotech calibration and commands.'
+  },
+  'trait-toxic-blood': {
+    name: 'Toxic Blood',
+    category: 'Trait',
+    description: 'Copper-based hemocyanin blood contains defensive xenotoxins (Ingested DC 11 + 2xSta, Pain Incapacitation 1hr).',
+    rules: 'Ingested toxin: DC 11 + 2xSta Fortitude save or suffer Pain Incapacitation for 1 hour (Severe Nausea on save).'
+  },
+  'trait-venomous-saliva': {
+    name: 'Venomous Saliva',
+    category: 'Trait',
+    description: 'Needle-like teeth deliver injected paralytic neurotoxin on bite (Injected DC 11 + 2xSta, Paralytic 1hr).',
+    rules: 'Injected bite venom: DC 11 + 2xSta Fortitude save or suffer Paralytic condition for 1 hour (Drugged on save).'
+  },
+  'trait-venom-spit': {
+    name: 'Venom Spit',
+    category: 'Trait',
+    description: 'Contact ranged spit attack that blinds targets with ocular neurotoxin (Contact DC 11 + 2xSta, Blind for 10+ minutes).',
+    rules: 'Contact ranged spit: DC 11 + 2xSta save or suffer Blindness for 10+ minutes.'
+  },
+  'trait-poison-immunity': {
+    name: 'Poison Immunity',
+    category: 'Trait',
+    description: 'Impervious to all poisonous substances, environmental toxins, and chemical irritants.',
+    rules: 'Automatically succeed on all saves versus any poisonous substances.'
+  },
+  'trait-multidextrous-4-arms': {
+    name: 'Multidextrous (4 Arms)',
+    category: 'Trait',
+    description: 'Four articulate upper limbs terminating in sharp clawed digits with zero off-hand penalties.',
+    rules: 'Zero off-hand attack or interaction penalty; can perform simultaneous multi-arm tasks; claw attacks deal 1d6 + Str.'
+  },
+  'trait-climber': {
+    name: 'Climber',
+    category: 'Trait',
+    description: 'Mastery over vertical and inverted surface navigation without speed degradation.',
+    rules: 'Traverse vertical walls and inverted ceilings at full ground speed (40 ft/rd); +2 on Athletics (Climbing) checks.'
+  },
+  'trait-dual-skeletal-structure': {
+    name: 'Dual Skeletal Structure',
+    category: 'Trait',
+    description: 'Hybrid internal endoskeleton and external chitinous framework granting natural DR +5.',
+    rules: '+5 Damage Reduction (DR 5) against all physical and kinetic trauma; immune to bone fractures from falls.'
+  },
+  'trait-chitinous-shell-armor': {
+    name: 'Armor (Chitinous Shell)',
+    category: 'Trait',
+    description: 'Dense obsidian chitinous shell providing natural base DR 10 against physical, energy, and chemical trauma.',
+    rules: 'Base 10 Damage Reduction (DR 10) against physical, direct energy, and chemical damage.'
+  },
+  'trait-enhanced-strength': {
+    name: 'Enhanced Strength',
+    category: 'Trait',
+    description: 'Biomechanical musculature treating the creature as one size category larger for lift and carry.',
+    rules: 'Counts as 1 size category larger (Medium counts as Large) for lifting capacity, dragging limit, and grappling.'
+  },
+  'trait-resin-secretion': {
+    name: 'Resin Secretion',
+    category: 'Trait',
+    description: 'Fast-curing Hive-Resin glands for field repairs, patching vehicle/mecha breaches, and airtight seals.',
+    rules: 'Restores 2d6 Structure Points or seals hull breaches in 1 round; cures to titanium-grade tensile strength.'
+  },
+  'trait-weaver': {
+    name: 'Weaver',
+    category: 'Trait',
+    description: 'Spinnerets produce and manipulate high-tensile natural webbing made from specialized Hive-Resin.',
+    rules: 'Ranged web snare out to 40 ft (entangles target; DC 15 + Sta to break); weave 200 ft rappels and safety nets.'
+  },
+  'trait-uncanny-senses-vibration': {
+    name: 'Uncanny Senses (Vibration)',
+    category: 'Trait',
+    description: 'Sensory trichobothria detect surface micro-vibrations and structural stress through ground and hive-mesh.',
+    rules: '60 ft tremorsense along surfaces (150 ft across web meshes); cannot be caught flat-footed or surprised by ground foes.'
+  },
+  'trait-quick': {
+    name: 'Quick',
+    category: 'Trait',
+    description: 'Naturally swift locomotion and rapid reflex reaction times.',
+    rules: '+10 feet to Base Movement Speed and +1 bonus to Initiative checks.'
+  },
+  'trait-leaper': {
+    name: 'Leaper',
+    category: 'Trait',
+    description: 'Specialized legs for explosive horizontal and vertical leaps with running start velocity.',
+    rules: 'Always counts as having a running start; all checks for jumping, leaping, and dropping made with Advantage.'
+  },
+  'trait-active-camouflage': {
+    name: 'Camouflage (Active)',
+    category: 'Trait',
+    description: 'Chitin shifts texture and hue dynamically, including light-absorbing vanta-black and near-transparency.',
+    rules: '+8 bonus to Stealth motionless, +4 moving; thermal and standard optical sensors suffer Disadvantage.'
+  },
+  'trait-quadruped-leaping': {
+    name: 'Quadruped (Leaping)',
+    category: 'Trait',
+    description: 'Four specialized legs engineered for high-impact jumping, +4 Stability, and +10 ft Groundspeed.',
+    rules: '+4 racial Stability against trips and knockdowns; +10 ft horizontal leap and +5 ft vertical jump bonus.'
+  },
+  'trait-awakened-psychic': {
+    name: 'Awakened (Psychic)',
+    category: 'Trait',
+    description: 'Conductor of the Hive’s psionic Chorus, granting access to Attune and mental focus disciplines.',
+    rules: 'Gains Attune skill and 2 mental discipline skills (Intellect or Wisdom focused).'
+  },
+  'trait-limited-flight': {
+    name: 'Limited Flight',
+    category: 'Trait',
+    description: 'Elytra wing-bursts granting 2x Land Speed for 1 round of movement, 2x Jump distance, and Slow Fall.',
+    rules: 'Fly at 2x Land Speed for 1 round; double jump distance; immune to falling damage via Slow Fall.'
+  },
+  'trait-hive-mind-swarm': {
+    name: 'Hive Mind (Swarm)',
+    category: 'Trait',
+    description: 'Distributed swarm consciousness immune to single-target precision trauma and critical hits.',
+    rules: 'Cannot be killed unless >75% of swarm biomass is destroyed by area-of-effect damage.'
+  },
+  'trait-telepathic': {
+    name: 'Telepathic',
+    category: 'Trait',
+    description: 'Innate psychic mind-to-mind communication within the swarm and with external minds out to 100 ft.',
+    rules: 'Communicate mentally with any sentient lifeform within 100 ft without speech.'
+  },
+  'trait-host-zombification': {
+    name: 'Host Zombification',
+    category: 'Trait',
+    description: 'Swarm inhabits and mechanically puppets corpses or damaged biomorphic husks as armored shells.',
+    rules: 'Adopts host size, base Strength, and native DR; husk absorbs damage first as an ablative shell.'
+  },
+  'trait-psionic-interference-static': {
+    name: 'Psionic Interference (The Static)',
+    category: 'Trait',
+    description: 'Discordant psionic static causing mental feedback in orderly telepathic networks.',
+    rules: 'Manelli within range suffer -2 on Psionic/Wisdom checks; Kitin Chorus communications within 30 ft rolled at Disadvantage.'
+  },
+  'trait-swarm-fast-heal-regeneration': {
+    name: 'Fast Heal & Regeneration (Swarm)',
+    category: 'Trait',
+    description: 'Continuous internal birth cycle rapidly replenishes fallen insects and lost swarm mass.',
+    rules: 'Recovers 2 Health/Vitality per round in combat; fully restores mass over a Light Rest.'
+  },
+  'trait-honey-paper-manufacture': {
+    name: 'Honey & Paper Manufacture',
+    category: 'Trait',
+    description: 'Excretes biological adhesives, pulp, and amber ooze for nest building and restraint.',
+    rules: 'Construct reinforced nests/barricades (DR 5, 30 SP); coat 10 ft areas in sticky amber ooze (DC 14 save).'
+  },
+  'trait-blind-sight-swarm': {
+    name: 'Blind Sight (Swarm)',
+    category: 'Trait',
+    description: 'Distributed resonance allows precise non-visual targeting in a 30 ft radius or 60 ft cone.',
+    rules: 'Accurately target unseen objects within 30 ft; completely immune to darkness and blinding effects.'
+  },
+
+  // Kitin Syndess (Pilot Expression)
+  'trait-synaptic-integration': {
+    name: 'Synaptic Integration',
+    category: 'Trait',
+    description: 'Can slot into Kitin mecha Synaptic Node, using own Intellect and Agility for vehicle checks and ignoring G-force penalties.',
+    rules: '1-round bio-neural sync; use own Int/Agi for all vehicle checks; immune to G-force and high-velocity inertia.'
+  },
+  'trait-multidextrous-many-limbed': {
+    name: 'Multidextrous (Many-Limbed)',
+    category: 'Trait',
+    description: '30+ micro-limbs for fine repairs, fluid nutrient routing, and concurrent subsystem multitasking.',
+    rules: 'Manage 4 humanoid crew roles concurrently (pilot, gunner, engineer, sensor operator); fine internal maintenance.'
+  },
+  'trait-g-force-immunity': {
+    name: 'G-Force Immunity',
+    category: 'Trait',
+    description: 'Internal fluid dampening allows survival through extreme supersonic turns and decelerations.',
+    rules: 'Total physiological immunity to blackout, redout, vertigo, and high-G crushing forces.'
+  },
+  'trait-blind-sense-em-vibration': {
+    name: 'Blind Sense (EM/Vibration)',
+    category: 'Trait',
+    description: 'Perceives environment through mecha sensors and external bio-arrays via electromagnetic and vibration resonance.',
+    rules: '30 ft blindsense sensing subtle EM fields, hull stresses, and vibrations through mecha surface as personal skin.'
+  },
+  'trait-property-boon': {
+    name: 'Property Boon',
+    category: 'Trait',
+    description: 'Special equipment allocation granting personal vehicle or biomorphic docking privileges; +4 Wealth for personal property.',
+    rules: '+4 bonus to Wealth score dedicated specifically to acquiring or maintaining personal biomorphic mecha or gear.'
+  },
+  'trait-fragile-frame': {
+    name: 'Fragile Frame',
+    category: 'Disadvantage',
+    description: 'Outside of a mecha or containment tube, the organism has a fragile physiology and suffers a -2 penalty to physical saves.',
+    rules: '-2 penalty to all physical saving throws (Fortitude/Reflex/Stamina) when exposed outside of mecha or protective pod.'
+  },
+  'disadvantage-fragile-frame': {
+    name: 'Fragile Frame',
+    category: 'Disadvantage',
+    description: 'Outside of a mecha or containment tube, the organism has a fragile physiology and suffers a -2 penalty to physical saves.',
+    rules: '-2 penalty to all physical saving throws (Fortitude/Reflex/Stamina) when exposed outside of mecha or protective pod.'
+  },
+
+  // Kitin Murex (Foundation Expression)
+  'trait-fatigue-resistance': {
+    name: 'Fatigue Resistance',
+    category: 'Trait',
+    description: 'All Fatigue checks are made at Advantage and at twice the interval time.',
+    rules: 'Advantage on all saves/checks against fatigue, exhaustion, and prolonged exertion; interval duration is doubled.'
+  },
+  'trait-pheromonal-synthesis': {
+    name: 'Pheromonal Synthesis',
+    category: 'Trait',
+    description: 'Biological scent-marking for hive coordination, trail navigation, and silent aerosol alarms.',
+    rules: 'Persistent chemical trails lasting 72 hours (+2 Navigation/Survival to allies); silent 60 ft aerosol alarm.'
+  },
+  'trait-hive-link-minor': {
+    name: 'Hive-Link (Minor)',
+    category: 'Trait',
+    description: 'Basic telepathic receptivity to follow Collective commands and synchronize with hive leadership.',
+    rules: 'Receives telepathic broadcasts within 5 miles; syncs Initiative with commanders; +2 saves vs non-collective mental effects.'
+  },
+
+  // Kitin Collective Faction Traits & Vulnerabilities
+  'trait-radiation-advantage': {
+    name: 'Radiation Advantage',
+    category: 'Trait',
+    description: 'Heavy-element chitin and cellular stability grant Advantage on all radiation checks and half radiation damage.',
+    rules: 'Advantage on Stamina/Survival saves vs ionizing radiation/fallout; 50% damage reduction against radiation.'
+  },
+  'trait-biological-continuity': {
+    name: 'Biological Continuity',
+    category: 'Trait',
+    description: 'Monogenetic genomic stabilization grants immunity to clone decay and allows effortless interface with biomorphic wetware.',
+    rules: 'Immune to cellular senescence/retroviruses; ignores cellular rejection checks for organic sockets and mecha.'
+  },
+  'trait-psionic-gating': {
+    name: 'Psionic Gating',
+    category: 'Trait',
+    description: 'Cryptographic Chorus filtering grants +2 Mental DR and imposes Disadvantage on foreign psionic intrusions.',
+    rules: '+2 Mental DR; hostile telepathic scans and mind-control effects roll at Disadvantage.'
+  },
+  'disadvantage-psionic-static-susceptibility': {
+    name: 'Psionic Static Susceptibility',
+    category: 'Disadvantage',
+    description: 'Acute neuro-sensory disruption and pain caused by Riezen frequency static or unaligned psychic turbulence.',
+    rules: 'Disadvantage on Concentration and Metaphysics within Riezen broadcast range; DC 12 check or lose Minor Action.'
+  },
 
   // Synthetic
   'trait-synthetic-base-traits': {

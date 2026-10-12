@@ -1,7 +1,7 @@
 /**
  * Canonical Factions Database for Tangent SF RP
  * Auto-generated from src/data/omnicortex/factions/
- * Total Factions: 40
+ * Total Factions: 41
  */
 
 export const DEFAULT_FACTIONS = [
@@ -1220,9 +1220,11 @@ export const DEFAULT_FACTIONS = [
     ],
     "recommended_species": [
       "Maantene (Kitin Leaper)",
-      "Manelli (Kitin Diplomat)",
+      "Manelli (Cerebral Expression)",
       "Rakne (Kitin Stalker)",
-      "Riezen (Kitin Swarm Entity)"
+      "Riezen (Kitin Swarm Entity)",
+      "Syndess (Pilot Expression)",
+      "Murex (Foundation Expression)"
     ],
     "recommended_origins": [
       "Colony",
@@ -1529,7 +1531,7 @@ export const DEFAULT_FACTIONS = [
     ],
     "recommended_species": [
       "Celestine (Alterian)",
-      "Manelli (Kitin Diplomat)",
+      "Manelli (Cerebral Expression)",
       "Lin Human",
       "Human (Base)"
     ],
@@ -1593,6 +1595,117 @@ export const DEFAULT_FACTIONS = [
     },
     "faction_classification": "Faction Template",
     "body": "## **10\\. INTERSTELLAR DIPLOMATS**\n\n### **I. Detailed Faction Description**\n\n* **Overview:** Independent coalitions and neutral mediators who specialize in maintaining the fragile galactic peace. Operating out of neutral sectors, they forge treaties, mediate trade disputes, and oversee the rules of war.  \n* **Key Themes:** Peacemakers, Soft Power, Espionage, High Society, Neutral Ground.  \n* **Relationship to Others:** Officially welcomed by all; secretly spied upon by everyone. Allowed to cross borders freely during wartime.\n\n### **II. Core Identity**\n\n* **Official Designation:** The Galactic Assembly / The Concordat  \n* **Colloquialisms:** The Talkers / The Middlemen / The White Flags  \n* **Archetype:** Peacemakers  \n* **Capital/Key World:** A neutral, heavily defended space station or garden world.  \n* **Driving Mandate:** Maintain stability, forge alliances, prevent galactic war.  \n* **Motto:** \"Words build what weapons destroy.\"\n\n### **III. Sociological Profile**\n\n* **Ideology & Culture:** Refined, patient, intellectual, outwardly peaceful, secretly calculating.  \n* **Social Structure:** A meritocracy based on charisma, intellect, and political lineage.  \n* **View on Outsiders:** Everyone is a client, a threat, or a piece on the diplomatic board.  \n* **Law & Order:** Exceedingly polite but ruthless. Crimes are handled quietly to avoid political scandal.\n\n### **IV. Strategic Assets**\n\n* **Tech Level (TL):** 4  \n* **Strengths:** High resources, unparalleled access to information, diplomatic immunity, highly advanced defensive technology.  \n* **Weaknesses:** Vulnerability to direct, overwhelming military force; internal corruption; reliance on soft power.  \n* **Military Doctrine:** Total avoidance of combat. Rely on elite bodyguards and impenetrable deflector shields to extract personnel.\n\n### **V. Mechanics (Game Data)**\n\n* **Prominent Species:** Cosmopolitan (A mix of all species).  \n* **Faction Skill Package (20 Points):**  \n  * Diplomacy (+5)  \n  * Insight (+5)  \n  * Academics (+4)  \n  * History (+3)  \n  * Language (+3)  \n* **Typical Archetypes:** The Ambassador, The Peacekeeper, The Analyst, The Bodyguard, The Spy.  \n* **Recommended Features (1 BP Discount):** Silver Tongue, Trustworthy, Golden Smile, Connected, Linguist, Scholar, Inspiring Personality, Benefit (Immunity), Educated, Insightful Reason.\n\n### **VI. Visual Semiotics (Aesthetics)**\n\n* **Design Directive:** Pristine, elegant, and secure.  \n* **Atmosphere Tokens:** Pristine embassy halls, flowing ceremonial robes, high-end defensive shields, polished marble, holographic treaties.  \n* **HI-FI INK Guidance:** Diplomatic Elite, Clean Sci-Fi. Grand assembly halls, polished marble floors, pristine white uniforms, subtle high-tech security fields. Serene, tense, wealthy."
+  },
+  {
+    "id": "faction-kitin-collective",
+    "name": "Kitin Collective (The Star Hive)",
+    "category": "factions",
+    "faction_type": "Major Polity",
+    "archetype": "Monogenetic Psionic Hive-State / Biomorphic Technocracy",
+    "driving_mandate": "One Genome, Infinite Expressions; Real-Time Biomorphic Adaptation",
+    "symbol_sigil": "The Star Hive (Interlocking Obsidian Mandibles around a Pulsating Cyan Core)",
+    "capital_world": "The Primary Hive-Spire (Homeworld Genomatrix)",
+    "tech_level": "4",
+    "meta_level": "4",
+    "wealth_modifier": "+2 (Biological cultivation monopolies and pharmaceutical yields)",
+    "prominent_species": "Kitin (Manelli, Murex, Rakne, Maantene, Syndess)",
+    "typical_archetypes": [
+      "The Brood-Master",
+      "The Hive Weaver",
+      "The Synaptic Pilot",
+      "The Biomorphic Shaper",
+      "The Swarm Guardian",
+      "The Infiltrator",
+      "The Scout",
+      "The Drone Overseer",
+      "The Geneticist",
+      "The Living Engine"
+    ],
+    "skill_package": [
+      "Awareness (+4)",
+      "Survival (+4)",
+      "Science (Biotechnology) (+3)",
+      "Athletics (+3)",
+      "Metaphysics (+3)",
+      "Combat (+3)"
+    ],
+    "recommended_species": [
+      "Manelli (Cerebral Expression)",
+      "Murex (Foundation Expression)",
+      "Rakne (Kitin Stalker)",
+      "Maantene (Kitin Leaper)",
+      "Syndess (Pilot Expression)"
+    ],
+    "recommended_origins": [
+      "Colony",
+      "Hostile",
+      "Research",
+      "Industrial",
+      "Agricultural"
+    ],
+    "recommended_occupations": [
+      "Specialist",
+      "Soldier",
+      "Scout",
+      "Adept",
+      "Builder",
+      "Representative",
+      "Scholar"
+    ],
+    "recommended_features": [
+      "Radiation Advantage",
+      "Torpor (Universal)",
+      "Biological Continuity",
+      "Psionic Gating",
+      "Biotechnology",
+      "Mind Link",
+      "Telepathy",
+      "Fast Heal",
+      "Wall-Crawler",
+      "Scent",
+      "Endurance",
+      "Swarm Tactics (Coordinated Assist)"
+    ],
+    "features": [
+      "Radiation Advantage",
+      "Torpor (Universal)",
+      "Biological Continuity",
+      "Psionic Gating",
+      "Biotechnology",
+      "Mind Link",
+      "Telepathy",
+      "Fast Heal",
+      "Wall-Crawler",
+      "Scent",
+      "Endurance",
+      "Swarm Tactics (Coordinated Assist)"
+    ],
+    "bonus_features": [
+      "Psionic Gating",
+      "Biological Continuity"
+    ],
+    "keywords": "monogenetic-hive-state, the-star-hive, psionic-biocracy, the-chorus, biomorphic-adaptation, genomatrix-proto-flux, hive-resin, syndess-core-interface, void-terror-dreadnought, green-vein-piping",
+    "negative_keywords": "individual-ego, democratic-pluralism, dissenting-static, riezen-heresy, corporate-greed, mechanical-stagnation, sleep-dependency",
+    "description": "A monogenetic psionic hive-state operating via real-time biomorphic adaptation and continuous psionic networking through the 24/7 Chorus. Directed by Manelli Brood-Masters and powered by the Genomatrix, the Collective fields specialized biological expressions linked in seamless, sleepless coordination.",
+    "costs": {
+      "bp": 0
+    },
+    "modifiers": [],
+    "modifications": [],
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "faction_classification": "Major Galactic Power",
+    "body": "## **KITIN COLLECTIVE (THE STAR HIVE)**\n\n### **I. Detailed Faction Description**\n\n* **Overview:** The Kitin Collective (known across star-lanes as \"The Star Hive\") is a colossal Monogenetic Psionic Hive-State operating via real-time biomorphic adaptation and unbroken telepathic networking through the 24/7 Chorus. Unlike mechanical empires that rely on cold alloys and stagnant silicon, the Collective grows its entire civilization from the **Genomatrix**—a vast reservoir of living proto-flux that translates genetic instructions into specialized functional organisms, towering spires, and apex starships. Every citizen is a specialized Expression of a single shared genome, engineered for peak efficiency and total synchronization.\n* **Key Themes:** Monogenetic Hive-State, Real-Time Biomorphic Adaptation, The 24/7 Chorus, Universal Torpor, Absolute Pragmatism, Seamless Organic Engineering.\n* **Relationship to Others:** \n  * *Auluran Clans:* Terrified of the Kitin Collective; while the Aulurans emulate biology, the Kitin embody unrelenting apex evolutionary conquest.\n  * *The Impyrium:* Condemns the Collective as an existential insectoid abomination; the Collective views the Impyrium as stagnant, decaying biomass clinging to metal husks.\n  * *The Syndicate:* Maintains uneasy cold trade, purchasing rare Kitin bio-resins and pharmaceutical secretions at exorbitant rates while guarding against psychic infiltration.\n  * *Riezen Swarms:* Declared an unforgivable biological heresy. The discordant psionic static of the Riezen violently disrupts the Chorus, and any encountering swarms are purged with extreme prejudice.\n\n---\n\n### **II. Core Identity**\n\n* **Official Designation:** The Kitin Collective  \n* **Colloquialisms:** The Star Hive / The Chitin Host / The Obsidian Swarm  \n* **Archetype:** Monogenetic Psionic Hive-State / Biomorphic Technocracy  \n* **Capital/Key World:** The Primary Hive-Spire (Homeworld Genomatrix)  \n* **Symbol/Sigil:** The Star Hive (Interlocking Obsidian Mandibles around a Pulsating Cyan Core)  \n* **Driving Mandate:** \"One Genome, Infinite Expressions.\"  \n* **Motto:** \"Adaptation is eternal. Static metal is rot.\"\n\n---\n\n### **III. Sociological Profile**\n\n#### **Ideology & Culture**\n* **Core Philosophy:** Absolute pragmatic rationalism. Personal ego and individual vanity are non-existent; all action serves the preservation, optimization, and expansion of the Collective.\n* **Universal Torpor:** The vulnerability of unconscious sleep has been engineered out of the species. Citizens cycle through 4 hours of conscious Torpor, maintaining unbroken situational and telepathic awareness.\n* **Intolerance for Cognitive Static:** The hive mind operates with zero tolerance for ideological divergence or psionic noise. Any individual frequency drifting from the Chorus is promptly harmonized or recycled into the Genomatrix.\n\n#### **Governance**\n* **Government Type:** Psionic Biocracy.  \n* **Leadership:** Directed by Manelli Brood-Masters who weave individual thoughts into the harmonious directives of the 24/7 Chorus.  \n* **Succession:** Unbroken genetic continuity; memories and imperatives pass down through genetic memory and psychic engrams.\n\n---\n\n### **IV. Strategic Assets**\n\n#### **Economy & Biomorphic Tech**\n* **Tech Level (TL):** Cerebral Level 4 / Functional Level 3 (Living Biomorphic Technology)  \n* **Meta Level (ML):** 4 (The Chorus \\- Continuous Psionic Carrier Web)  \n* **Wealth Modifier:** +2 (Biological cultivation monopolies, high-tensile Hive-Resins, and pharmaceutical yields)  \n* **Primary Production:** Cultivation of Genomatrix Proto-Flux, structural bio-polymers, high-tensile Hive-Resin, and organic wetware sockets.  \n* **Interface Technology:** Circulatory green vein-piping routing copper-rich hemolymph, bio-luminescent fiber nodes, and Syndess synaptic integration cores.\n\n#### **Military Profile**\n* **Doctrine:** Biomorphic Swarm Superiority, Coordinated Telepathic Assault, Real-Time Carapace Hardening.  \n* **Key Units:** Murex Infantry Phalanxes, Rakne Infiltrator Clades, Maantene Recon Vanguard, Syndess-Piloted Living War-Frames.  \n* **Capital Assets:** **Void-Terror Apex Dreadnoughts**—massive living biomorphic leviathans grown in orbital bio-crannies, armed with devastating **Spinal Bio-Lances** that project high-velocity corrosive particle arcs.  \n* **Unique Tech/Materials:** Hive-Resin bio-polymers, Synaptic Pod Sockets, Regenerative Chitin Plating, Copper-Hemocyanin Fluid Dampers.\n\n---\n\n### **V. Mechanics (Game Data)**\n\n* **Prominent Species:** Kitin (Manelli, Murex, Rakne, Maantene, Syndess).  \n* **Faction Traits:**\n  * **Radiation Advantage:** Natural heavy-element chitin layers and copper-based hemocyanin provide Advantage on all checks against ionizing radiation and fallout, and halve radiation damage.\n  * **Universal Torpor Cycle:** Replaces sleep with 4 hours of conscious rest, preventing surprise while resting and eliminating dream vulnerabilities.\n  * **Biological Continuity:** Complete immunity to clone decay, cellular senescence, and non-hive retroviruses; effortless interfacing with biomorphic wetware and organic sockets.\n  * **Psionic Gating:** Harmonized mental frequency filters grant +2 Mental DR and impose Disadvantage on hostile telepathic scans and psychic intrusions.\n* **Faction Vulnerability:**\n  * **Psionic Static Susceptibility (Riezen Disruption):** The discordant psychic frequency of Riezen swarms inflicts acute neuro-sensory agony and imposes Disadvantage on all Concentration and Metaphysics checks within broadcast range.\n* **Faction Skill Package (20 Points):**  \n  * Awareness (+4): Heightened sensory pit arrays and continuous hive situational awareness.  \n  * Survival (+4): Evolutionary resilience across hostile planetary biomes.  \n  * Science (Biotechnology) (+3): Organic shaping, resin cultivation, and tissue grafting.  \n  * Athletics (+3): Multidextrous climbing, leaping, and sustained physical exertion.  \n  * Metaphysics (+3): Attunement to the Chorus and psionic command synchronization.  \n  * Combat (+3): Natural weapons, bio-lances, and coordinated swarm combat.  \n* **Typical Archetypes:** The Brood-Master, The Hive Weaver, The Synaptic Pilot, The Biomorphic Shaper, The Swarm Guardian, The Infiltrator, The Scout, The Drone Overseer, The Geneticist, The Living Engine.  \n* **Recommended Features (1 BP Discount):**  \n  * Radiation Advantage, Torpor (Universal), Biological Continuity, Psionic Gating, Biotechnology, Mind Link, Telepathy, Fast Heal, Wall-Crawler, Scent, Endurance, Swarm Tactics (Coordinated Assist).\n\n---\n\n### **VI. Visual Synthesis Protocols (Aesthetics)**\n\n#### **HI-FI INK Prompt Framework**\n* **SETTING STYLE:** Predatory Biomorphic Organic, Seamlessly Grown Chitin Spires, Advanced Bio-Technocracy.  \n* **CONTEXT:** Colossal hive spires grown from living resin, glistening walkways slick with translucent secretions, pulsing circulatory green vein-piping, sensory pit arrays, zero right angles or cold metal bolts.  \n* **PALETTE:** Glossy Obsidian Black (carapaces and bulkheads), Emerald Green (copper-rich hemolymph veins), Pulsating Cyan (psionic nodes and Chorus conductors), Hive-Amber (structural resin seals).  \n* **ATMOSPHERE:** Humid, hyper-synchronized, quiet efficiency broken only by rhythmic hydraulic pulses of living veins and the faint chittering of disciplined columns.\n\n---\n\n### **VII. Expansion Modules (Optional)**\n\n#### **Capital Asset: The Void-Terror Apex Dreadnought**\n* Grown over decades within deep space proto-flux nursery crannies.\n* Measures over two kilometers of monolithic obsidian armor plating.\n* Features a spinal bio-lance cavity running the ship's length that superheats reactive enzyme plasma into relativistic beams capable of bisecting battlecruisers.\n* Entire navigation, firing solutions, and propulsion arrays are slaved to a central Syndess Synaptic Cocoon.\n\n#### **Infrastructure: The Genomatrix Spire**\n* The beating heart of every Kitin hive-world: a towering mountain of calcified resin surrounding a geothermal caldera of emerald proto-flux.\n* Brood-Masters stand upon high sensory balconies, telepathically commanding the gestation vats to birth new specialized expressions in response to galactic threats."
   },
   {
     "id": "faction-kovian-tribunal",

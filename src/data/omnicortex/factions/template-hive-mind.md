@@ -58,9 +58,11 @@ modifiers: []
 faction_classification: Faction Template
 recommended_species:
   - Maantene (Kitin Leaper)
-  - Manelli (Kitin Diplomat)
+  - Manelli (Cerebral Expression)
   - Rakne (Kitin Stalker)
   - Riezen (Kitin Swarm Entity)
+  - Syndess (Pilot Expression)
+  - Murex (Foundation Expression)
 recommended_origins:
   - Colony
   - Hostile

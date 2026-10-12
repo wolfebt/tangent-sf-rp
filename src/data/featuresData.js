@@ -1,7 +1,7 @@
 /**
  * Canonical Features & Traits Database for Tangent SF RP
- * Auto-generated from src/data/omnicortex/features/ and 1.08 FEATURES.md
- * Total Features: 235
+ * Auto-generated from src/data/omnicortex/features/
+ * Total Features: 278
  */
 
 export const FEATURE_CATEGORIES = [
@@ -21,134 +21,10 @@ export const FEATURE_CATEGORIES = [
 
 export const DEFAULT_FEATURES = [
   {
-    "id": "general-absolute-pitch",
-    "name": "Absolute Pitch",
-    "category": "General",
-    "type": "general",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Awareness 1, Perform 1",
-    "modifiers": [
-      {
-        "target": "Auditory matching",
-        "type": "skill",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 to Auditory matching"
-      },
-      {
-        "target": "Impersonation vocal",
-        "type": "skill",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 to Impersonation vocal"
-      },
-      {
-        "target": "Acoustic security bypass",
-        "type": "skill",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 to Acoustic security bypass"
-      }
-    ],
-    "description": "The character possesses an exaggerated structural asymmetry in the planum temporale, allowing them to instantly identify, categorize, and perfectly recreate auditory frequencies without a reference tone.",
-    "mechanic": "You can perfectly memorize and mimic voices, musical notes, or mechanical frequencies. You gain a **+4 Bonus** on checks involving auditory matching, impersonation (vocal), or acoustic security bypass.",
-    "rules": "None",
-    "special_rules": "None",
-    "body": "# Absolute Pitch\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Awareness 1, Perform 1\n\n## Description\nThe character possesses an exaggerated structural asymmetry in the planum temporale, allowing them to instantly identify, categorize, and perfectly recreate auditory frequencies without a reference tone.\n\n## Mechanics & Benefit\nYou can perfectly memorize and mimic voices, musical notes, or mechanical frequencies. You gain a **+4 Bonus** on checks involving auditory matching, impersonation (vocal), or acoustic security bypass.\n\n## Special Rules\nNone",
-    "mechanics": "You can perfectly memorize and mimic voices, musical notes, or mechanical frequencies. You gain a **+4 Bonus** on checks involving auditory matching, impersonation (vocal), or acoustic security bypass.",
-    "notes": "[Modifier] +4 to Auditory matching\n[Modifier] +4 to Impersonation vocal\n[Modifier] +4 to Acoustic security bypass\n[Rule] None\n[Prerequisite] Awareness 1, Perform 1",
-    "notesList": [
-      "[Modifier] +4 to Auditory matching",
-      "[Modifier] +4 to Impersonation vocal",
-      "[Modifier] +4 to Acoustic security bypass",
-      "[Rule] None",
-      "[Prerequisite] Awareness 1, Perform 1"
-    ],
-    "keywords": "absolute pitch, general, special-feature, possesses, exaggerated, structural",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-ace-pilot",
-    "name": "Ace Pilot",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Crack Pilot, Pilot 16",
-    "modifiers": [],
-    "description": "Ace Pilot is a Skill Feature: +6 Piloting, +30% to Maximum Vehicle Speed.",
-    "mechanic": "\\+6 Piloting, \\+30% to Maximum Vehicle Speed.",
-    "rules": "143",
-    "special_rules": "143",
-    "body": "# Ace Pilot\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Crack Pilot, Pilot 16\n\n## Description\nAce Pilot is a Skill Feature: \\+6 Piloting, \\+30% to Maximum Vehicle Speed.\n\n## Mechanics & Benefit\n\\+6 Piloting, \\+30% to Maximum Vehicle Speed.\n\n## Special Rules\n143",
-    "mechanics": "\\+6 Piloting, \\+30% to Maximum Vehicle Speed.",
-    "notes": "[Rule] 143\n[Prerequisite] Crack Pilot, Pilot 16",
-    "notesList": [
-      "[Rule] 143",
-      "[Prerequisite] Crack Pilot, Pilot 16"
-    ],
-    "keywords": "ace pilot, skill, special-feature, feature:, piloting, maximum",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "general-acrobatic-steps",
-    "name": "Acrobatic Steps",
-    "category": "General",
-    "type": "general",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Agi 3, Nimble Moves",
-    "modifiers": [],
-    "description": "Acrobatic Steps is a General Feature: Ignore 30 feet of difficult terrain when you move.",
-    "mechanic": "Ignore 30 feet of difficult terrain when you move.",
-    "rules": "105",
-    "special_rules": "105",
-    "body": "# Acrobatic Steps\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Agi 3, Nimble Moves\n\n## Description\nAcrobatic Steps is a General Feature: Ignore 30 feet of difficult terrain when you move.\n\n## Mechanics & Benefit\nIgnore 30 feet of difficult terrain when you move.\n\n## Special Rules\n105",
-    "mechanics": "Ignore 30 feet of difficult terrain when you move.",
-    "notes": "[Rule] 105\n[Prerequisite] Agi 3, Nimble Moves",
-    "notesList": [
-      "[Rule] 105",
-      "[Prerequisite] Agi 3, Nimble Moves"
-    ],
-    "keywords": "acrobatic steps, general, special-feature, acrobatic, feature:, ignore",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "special-acute-sense",
-    "name": "Acute Sense",
-    "category": "Special",
-    "type": "special",
+    "id": "ability-evasiveness",
+    "name": "Evasiveness",
+    "category": "Ability",
+    "type": "ability",
     "cp": 3,
     "costs": {
       "bp": 3,
@@ -161,37 +37,77 @@ export const DEFAULT_FEATURES = [
     },
     "is_ranked": false,
     "is_multiple": true,
-    "prerequisites": "Awareness 1",
-    "modifiers": [
-      {
-        "target": "Awareness",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Awareness"
-      }
-    ],
-    "description": "The character possesses a specific sensory organ that is highly developed, far exceeding the baseline for their species. This could be eagle eyes, a bloodhound’s nose, or sensitive auditory receptors.",
-    "mechanic": "Choose one sense (Vision, Hearing, Smell, Taste, or Touch). You gain a **\\+2 Bonus** to **Awareness Checks** utilizing that sense.",
-    "rules": "\\[Multiple\\] You may take this feature multiple times, applying it to a different sense each time.",
-    "special_rules": "\\[Multiple\\] You may take this feature multiple times, applying it to a different sense each time.",
-    "body": "# Acute Sense\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Awareness 1\n\n## Description\nThe character possesses a specific sensory organ that is highly developed, far exceeding the baseline for their species. This could be eagle eyes, a bloodhound’s nose, or sensitive auditory receptors.\n\n## Mechanics & Benefit\nChoose one sense (Vision, Hearing, Smell, Taste, or Touch). You gain a **\\+2 Bonus** to **Awareness Checks** utilizing that sense.\n\n## Special Rules\n\\[Multiple\\] You may take this feature multiple times, applying it to a different sense each time.",
-    "mechanics": "Choose one sense (Vision, Hearing, Smell, Taste, or Touch). You gain a **\\+2 Bonus** to **Awareness Checks** utilizing that sense.",
-    "notes": "[Modifier] +2 to Awareness\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] \\[Multiple\\] You may take this feature multiple times, applying it to a different sense each time.\n[Prerequisite] Awareness 1",
+    "prerequisites": "Must possess the base Feature for the chosen Save (Lightning Reflexes, Great Fortitude, or Iron Will).",
+    "modifiers": [],
+    "description": "The character is adept at avoiding the brunt of area attacks or resisting the full efficacy of potent effects.",
+    "mechanic": "When subjected to an effect that allows a **Resistance Check** for **Partial Effect** (commonly taking half damage on a success), a successful check instead results in **No Effect** (or zero damage).  \n  * *Usage:* If a dragon breathes fire (Reflex for half), a character with Evasiveness (Reflex) takes *no damage* if they succeed on the roll.",
+    "rules": "This feature acts as a **\\[Multiple\\]** selection. You must purchase it separately for Reflex, Fortitude, or Will.",
+    "special_rules": "This feature acts as a **\\[Multiple\\]** selection. You must purchase it separately for Reflex, Fortitude, or Will.",
+    "body": "# Evasiveness\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Must possess the base Feature for the chosen Save (Lightning Reflexes, Great Fortitude, or Iron Will).\n\n## Description\nThe character is adept at avoiding the brunt of area attacks or resisting the full efficacy of potent effects.\n\n## Mechanics & Benefit\nWhen subjected to an effect that allows a **Resistance Check** for **Partial Effect** (commonly taking half damage on a success), a successful check instead results in **No Effect** (or zero damage).  \n  * *Usage:* If a dragon breathes fire (Reflex for half), a character with Evasiveness (Reflex) takes *no damage* if they succeed on the roll.\n\n## Special Rules\nThis feature acts as a **\\[Multiple\\]** selection. You must purchase it separately for Reflex, Fortitude, or Will.",
+    "mechanics": "When subjected to an effect that allows a **Resistance Check** for **Partial Effect** (commonly taking half damage on a success), a successful check instead results in **No Effect** (or zero damage).  \n  * *Usage:* If a dragon breathes fire (Reflex for half), a character with Evasiveness (Reflex) takes *no damage* if they succeed on the roll.",
+    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature acts as a **\\[Multiple\\]** selection. You must purchase it separately for Reflex, Forti...\n[Prerequisite] Must possess the base Feature for the chosen Save (Lightning Reflexes, Great Fortitude, or Iron Will).",
     "notesList": [
-      "[Modifier] +2 to Awareness",
       "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] \\[Multiple\\] You may take this feature multiple times, applying it to a different sense each time.",
-      "[Prerequisite] Awareness 1"
-    ],
-    "keywords": "acute sense, special, special-feature, possesses, specific, sensory",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+      "[Rule] This feature acts as a **\\[Multiple\\]** selection. You must purchase it separately for Reflex, Forti...",
+      "[Prerequisite] Must possess the base Feature for the chosen Save (Lightning Reflexes, Great Fortitude, or Iron Will)."
+    ]
   },
   {
-    "id": "skill-aeronaut",
-    "name": "Aeronaut",
-    "category": "Skill",
-    "type": "skill",
+    "id": "ability-great-fortitude",
+    "name": "Great Fortitude",
+    "category": "Ability",
+    "type": "ability",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": true,
+    "max_rank": 4,
+    "is_multiple": true,
+    "prerequisites": "Stamina 1",
+    "modifiers": [
+      {
+        "target": "Fortitude",
+        "type": "save",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 on Fortitude Checks"
+      },
+      {
+        "target": "Tal bonus",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Tal bonus"
+      }
+    ],
+    "description": "Through vigorous conditioning or natural hardiness, the character has developed a profound resistance to physical ailments. Their body fights off toxins and trauma with exceptional efficiency.",
+    "mechanic": "Gain a **\\+2 bonus** on all **Fortitude Checks**.  \n  * *Usage:* This applies to resisting poisons, diseases, radiation, physical fatigue, and metabolic hazards.",
+    "rules": "This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Stamina score. The bonuses stack (e.g., Rank 2 grants a \\+4 total bonus).",
+    "special_rules": "This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Stamina score. The bonuses stack (e.g., Rank 2 grants a \\+4 total bonus).",
+    "body": "# Great Fortitude\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Stamina 1\n\n## Description\nThrough vigorous conditioning or natural hardiness, the character has developed a profound resistance to physical ailments. Their body fights off toxins and trauma with exceptional efficiency.\n\n## Mechanics & Benefit\nGain a **\\+2 bonus** on all **Fortitude Checks**.  \n  * *Usage:* This applies to resisting poisons, diseases, radiation, physical fatigue, and metabolic hazards.\n\n## Special Rules\nThis feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Stamina score. The bonuses stack (e.g., Rank 2 grants a \\+4 total bonus).",
+    "mechanics": "Gain a **\\+2 bonus** on all **Fortitude Checks**.  \n  * *Usage:* This applies to resisting poisons, diseases, radiation, physical fatigue, and metabolic hazards.",
+    "notes": "[Modifier] +2 on Fortitude Checks\n[Modifier] +4 to Tal bonus\n[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...\n[Prerequisite] Stamina 1",
+    "notesList": [
+      "[Modifier] +2 on Fortitude Checks",
+      "[Modifier] +4 to Tal bonus",
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] Multiple: May be purchased separately for different categories/types",
+      "[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...",
+      "[Prerequisite] Stamina 1"
+    ]
+  },
+  {
+    "id": "ability-improved-evasiveness",
+    "name": "Improved Evasiveness",
+    "category": "Ability",
+    "type": "ability",
     "cp": 3,
     "costs": {
       "bp": 3,
@@ -204,21 +120,550 @@ export const DEFAULT_FEATURES = [
     },
     "is_ranked": false,
     "is_multiple": false,
-    "prerequisites": "Pilot (Unpowered) 1",
+    "prerequisites": "Evasiveness",
     "modifiers": [],
-    "description": "The character is a specialist in unpowered or nature-assisted flight. They understand wind shears, thermals, and aerodynamics intuitively, whether using a glider, wingsuit, or natural wings.",
-    "mechanic": "You may make all **Pilot (Unpowered)** checks with **Advantage**.",
-    "rules": "128",
-    "special_rules": "128",
-    "body": "# Aeronaut\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Pilot (Unpowered) 1\n\n## Description\nThe character is a specialist in unpowered or nature-assisted flight. They understand wind shears, thermals, and aerodynamics intuitively, whether using a glider, wingsuit, or natural wings.\n\n## Mechanics & Benefit\nYou may make all **Pilot (Unpowered)** checks with **Advantage**.\n\n## Special Rules\n128",
-    "mechanics": "You may make all **Pilot (Unpowered)** checks with **Advantage**.",
-    "notes": "[Rule] 128\n[Prerequisite] Pilot (Unpowered) 1",
+    "description": "Improved Evasiveness is a Ability Feature: Failed check is still a partial success (resulting in less effect, generally 1/2).",
+    "mechanic": "Failed check is still a partial success (resulting in less effect, generally 1/2).",
+    "rules": "Prerequisite: Evasiveness.",
+    "special_rules": "Prerequisite: Evasiveness.",
+    "body": "# Improved Evasiveness\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Evasiveness\n\n## Description\nImproved Evasiveness is a Ability Feature: Failed check is still a partial success (resulting in less effect, generally 1/2).\n\n## Mechanics & Benefit\nFailed check is still a partial success (resulting in less effect, generally 1/2).",
+    "mechanics": "Failed check is still a partial success (resulting in less effect, generally 1/2).",
+    "notes": "[Rule] Prerequisite: Evasiveness.\n[Prerequisite] Evasiveness",
     "notesList": [
-      "[Rule] 128",
-      "[Prerequisite] Pilot (Unpowered) 1"
+      "[Rule] Prerequisite: Evasiveness.",
+      "[Prerequisite] Evasiveness"
+    ]
+  },
+  {
+    "id": "ability-improved-tolerance",
+    "name": "Improved Tolerance",
+    "category": "Ability",
+    "type": "ability",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Tolerance",
+    "modifiers": [],
+    "description": "Improved Tolerance is a Ability Feature: Additional Resistance Checks made in 1/4 typical time for most effects.",
+    "mechanic": "Additional Resistance Checks made in 1/4 typical time for most effects.",
+    "rules": "Prerequisite: Tolerance.",
+    "special_rules": "Prerequisite: Tolerance.",
+    "body": "# Improved Tolerance\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Tolerance\n\n## Description\nImproved Tolerance is a Ability Feature: Additional Resistance Checks made in 1/4 typical time for most effects.\n\n## Mechanics & Benefit\nAdditional Resistance Checks made in 1/4 typical time for most effects.",
+    "mechanics": "Additional Resistance Checks made in 1/4 typical time for most effects.",
+    "notes": "[Rule] Prerequisite: Tolerance.\n[Prerequisite] Tolerance",
+    "notesList": [
+      "[Rule] Prerequisite: Tolerance.",
+      "[Prerequisite] Tolerance"
+    ]
+  },
+  {
+    "id": "ability-incredible-fortitude",
+    "name": "Incredible Fortitude",
+    "category": "Ability",
+    "type": "ability",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Great Fortitude",
+    "modifiers": [
+      {
+        "target": "Fortitude",
+        "type": "save_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Fortitude Checks"
+      }
     ],
-    "keywords": "aeronaut, skill, special-feature, specialist, unpowered, nature-assisted",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    "description": "Incredible Fortitude is a Ability Feature: Roll Fortitude checks with Advantage",
+    "mechanic": "Roll Fortitude checks with Advantage",
+    "rules": "Prerequisite: Great Fortitude.",
+    "special_rules": "Prerequisite: Great Fortitude.",
+    "body": "# Incredible Fortitude\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Great Fortitude\n\n## Description\nIncredible Fortitude is a Ability Feature: Roll Fortitude checks with Advantage\n\n## Mechanics & Benefit\nRoll Fortitude checks with Advantage",
+    "mechanics": "Roll Fortitude checks with Advantage",
+    "notes": "[Modifier] Advantage on Fortitude Checks\n[Rule] Prerequisite: Great Fortitude.\n[Prerequisite] Great Fortitude",
+    "notesList": [
+      "[Modifier] Advantage on Fortitude Checks",
+      "[Rule] Prerequisite: Great Fortitude.",
+      "[Prerequisite] Great Fortitude"
+    ]
+  },
+  {
+    "id": "ability-indomitable-will",
+    "name": "Indomitable Will",
+    "category": "Ability",
+    "type": "ability",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Iron Will",
+    "modifiers": [
+      {
+        "target": "Will",
+        "type": "save_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Will Checks"
+      }
+    ],
+    "description": "Indomitable Will is a Ability Feature: Roll Will checks with Advantage",
+    "mechanic": "Roll Will checks with Advantage",
+    "rules": "Prerequisite: Iron Will.",
+    "special_rules": "Prerequisite: Iron Will.",
+    "body": "# Indomitable Will\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Iron Will\n\n## Description\nIndomitable Will is a Ability Feature: Roll Will checks with Advantage\n\n## Mechanics & Benefit\nRoll Will checks with Advantage",
+    "mechanics": "Roll Will checks with Advantage",
+    "notes": "[Modifier] Advantage on Will Checks\n[Rule] Prerequisite: Iron Will.\n[Prerequisite] Iron Will",
+    "notesList": [
+      "[Modifier] Advantage on Will Checks",
+      "[Rule] Prerequisite: Iron Will.",
+      "[Prerequisite] Iron Will"
+    ]
+  },
+  {
+    "id": "ability-insightful-reason",
+    "name": "Insightful Reason",
+    "category": "Ability",
+    "type": "ability",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": true,
+    "max_rank": 4,
+    "is_multiple": true,
+    "prerequisites": "Intellect 1",
+    "modifiers": [
+      {
+        "target": "Logic",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Logic"
+      }
+    ],
+    "description": "The character has a sharp, analytical mind capable of making rapid deductions and seeing through complex deceptions or puzzles.",
+    "mechanic": "Gain a **\\+2 bonus** on all **Logic Checks**.  \n  * *Usage:* This applies to solving puzzles, cryptanalysis, deduction, resisting illusions (disbelieving), and navigating complex bureaucratic or logical labyrinths.",
+    "rules": "This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Intellect score.",
+    "special_rules": "This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Intellect score.",
+    "body": "# Insightful Reason\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Intellect 1\n\n## Description\nThe character has a sharp, analytical mind capable of making rapid deductions and seeing through complex deceptions or puzzles.\n\n## Mechanics & Benefit\nGain a **\\+2 bonus** on all **Logic Checks**.  \n  * *Usage:* This applies to solving puzzles, cryptanalysis, deduction, resisting illusions (disbelieving), and navigating complex bureaucratic or logical labyrinths.\n\n## Special Rules\nThis feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Intellect score.",
+    "mechanics": "Gain a **\\+2 bonus** on all **Logic Checks**.  \n  * *Usage:* This applies to solving puzzles, cryptanalysis, deduction, resisting illusions (disbelieving), and navigating complex bureaucratic or logical labyrinths.",
+    "notes": "[Modifier] +2 to Logic\n[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...\n[Prerequisite] Intellect 1",
+    "notesList": [
+      "[Modifier] +2 to Logic",
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] Multiple: May be purchased separately for different categories/types",
+      "[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...",
+      "[Prerequisite] Intellect 1"
+    ]
+  },
+  {
+    "id": "ability-inspired-reason",
+    "name": "Inspired Reason",
+    "category": "Ability",
+    "type": "ability",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Insightful Reason",
+    "modifiers": [
+      {
+        "target": "Logic",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Logic Checks"
+      }
+    ],
+    "description": "Inspired Reason is a Ability Feature: Roll Logic checks with Advantage",
+    "mechanic": "Roll Logic checks with Advantage",
+    "rules": "Prerequisite: Insightful Reason.",
+    "special_rules": "Prerequisite: Insightful Reason.",
+    "body": "# Inspired Reason\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Insightful Reason\n\n## Description\nInspired Reason is a Ability Feature: Roll Logic checks with Advantage\n\n## Mechanics & Benefit\nRoll Logic checks with Advantage",
+    "mechanics": "Roll Logic checks with Advantage",
+    "notes": "[Modifier] Advantage on Logic Checks\n[Rule] Prerequisite: Insightful Reason.\n[Prerequisite] Insightful Reason",
+    "notesList": [
+      "[Modifier] Advantage on Logic Checks",
+      "[Rule] Prerequisite: Insightful Reason.",
+      "[Prerequisite] Insightful Reason"
+    ]
+  },
+  {
+    "id": "ability-inspiring-personality",
+    "name": "Inspiring Personality",
+    "category": "Ability",
+    "type": "ability",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": true,
+    "max_rank": 4,
+    "is_multiple": true,
+    "prerequisites": "Charisma 1",
+    "modifiers": [
+      {
+        "target": "Etiquette",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Etiquette"
+      }
+    ],
+    "description": "The character possesses a magnetic presence or an innate understanding of social dynamics. They navigate social hierarchies and interactions with practiced ease.",
+    "mechanic": "Gain a **\\+2 bonus** on all **Etiquette Checks**.  \n  * *Usage:* This applies to making first impressions, avoiding social faux pas, navigating formal gatherings, and interacting with high-status NPCs without causing offense.",
+    "rules": "This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Charisma score.",
+    "special_rules": "This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Charisma score.",
+    "body": "# Inspiring Personality\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Charisma 1\n\n## Description\nThe character possesses a magnetic presence or an innate understanding of social dynamics. They navigate social hierarchies and interactions with practiced ease.\n\n## Mechanics & Benefit\nGain a **\\+2 bonus** on all **Etiquette Checks**.  \n  * *Usage:* This applies to making first impressions, avoiding social faux pas, navigating formal gatherings, and interacting with high-status NPCs without causing offense.\n\n## Special Rules\nThis feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Charisma score.",
+    "mechanics": "Gain a **\\+2 bonus** on all **Etiquette Checks**.  \n  * *Usage:* This applies to making first impressions, avoiding social faux pas, navigating formal gatherings, and interacting with high-status NPCs without causing offense.",
+    "notes": "[Modifier] +2 to Etiquette\n[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...\n[Prerequisite] Charisma 1",
+    "notesList": [
+      "[Modifier] +2 to Etiquette",
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] Multiple: May be purchased separately for different categories/types",
+      "[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...",
+      "[Prerequisite] Charisma 1"
+    ]
+  },
+  {
+    "id": "ability-iron-will",
+    "name": "Iron Will",
+    "category": "Ability",
+    "type": "ability",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": true,
+    "max_rank": 4,
+    "is_multiple": true,
+    "prerequisites": "Wisdom 1",
+    "modifiers": [
+      {
+        "target": "Will",
+        "type": "save",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 on Will Checks"
+      }
+    ],
+    "description": "The character possesses a mind like a fortress. They are stubborn, focused, and resistant to fear, manipulation, or psychological trauma.",
+    "mechanic": "Gain a **\\+2 bonus** on all **Will Checks**.  \n  * *Usage:* This applies to resisting Fear effects, Mind Control, Charm, Domination, and psychological torture or intimidation.",
+    "rules": "This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Wisdom score.",
+    "special_rules": "This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Wisdom score.",
+    "body": "# Iron Will\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Wisdom 1\n\n## Description\nThe character possesses a mind like a fortress. They are stubborn, focused, and resistant to fear, manipulation, or psychological trauma.\n\n## Mechanics & Benefit\nGain a **\\+2 bonus** on all **Will Checks**.  \n  * *Usage:* This applies to resisting Fear effects, Mind Control, Charm, Domination, and psychological torture or intimidation.\n\n## Special Rules\nThis feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Wisdom score.",
+    "mechanics": "Gain a **\\+2 bonus** on all **Will Checks**.  \n  * *Usage:* This applies to resisting Fear effects, Mind Control, Charm, Domination, and psychological torture or intimidation.",
+    "notes": "[Modifier] +2 on Will Checks\n[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...\n[Prerequisite] Wisdom 1",
+    "notesList": [
+      "[Modifier] +2 on Will Checks",
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] Multiple: May be purchased separately for different categories/types",
+      "[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...",
+      "[Prerequisite] Wisdom 1"
+    ]
+  },
+  {
+    "id": "ability-lightning-reflexes",
+    "name": "Lightning Reflexes",
+    "category": "Ability",
+    "type": "ability",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": true,
+    "max_rank": 4,
+    "is_multiple": true,
+    "prerequisites": "Agility 1",
+    "modifiers": [
+      {
+        "target": "Reflex",
+        "type": "save",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 on Reflex Checks"
+      }
+    ],
+    "description": "The character reacts to danger before they are consciously aware of it. Their nerves are wire-taut, allowing them to dodge blasts, catch falling objects, or keep their footing on shifting ground.",
+    "mechanic": "Gain a **\\+2 bonus** on all **Reflex Checks**.  \n  * *Usage:* This applies to dodging Area of Effect (AoE) attacks (explosions, breath weapons), maintaining balance, and avoiding sudden traps.",
+    "rules": "This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Agility score.",
+    "special_rules": "This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Agility score.",
+    "body": "# Lightning Reflexes\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Agility 1\n\n## Description\nThe character reacts to danger before they are consciously aware of it. Their nerves are wire-taut, allowing them to dodge blasts, catch falling objects, or keep their footing on shifting ground.\n\n## Mechanics & Benefit\nGain a **\\+2 bonus** on all **Reflex Checks**.  \n  * *Usage:* This applies to dodging Area of Effect (AoE) attacks (explosions, breath weapons), maintaining balance, and avoiding sudden traps.\n\n## Special Rules\nThis feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Agility score.",
+    "mechanics": "Gain a **\\+2 bonus** on all **Reflex Checks**.  \n  * *Usage:* This applies to dodging Area of Effect (AoE) attacks (explosions, breath weapons), maintaining balance, and avoiding sudden traps.",
+    "notes": "[Modifier] +2 on Reflex Checks\n[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...\n[Prerequisite] Agility 1",
+    "notesList": [
+      "[Modifier] +2 on Reflex Checks",
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] Multiple: May be purchased separately for different categories/types",
+      "[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...",
+      "[Prerequisite] Agility 1"
+    ]
+  },
+  {
+    "id": "ability-mighty-surge",
+    "name": "Mighty Surge",
+    "category": "Ability",
+    "type": "ability",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Potent Might",
+    "modifiers": [],
+    "description": "Mighty Surge is a Ability Feature: Roll Might checks with Advantage",
+    "mechanic": "Roll Might checks with Advantage",
+    "rules": "Prerequisite: Potent Might.",
+    "special_rules": "Prerequisite: Potent Might.",
+    "body": "# Mighty Surge\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Potent Might\n\n## Description\nMighty Surge is a Ability Feature: Roll Might checks with Advantage\n\n## Mechanics & Benefit\nRoll Might checks with Advantage",
+    "mechanics": "Roll Might checks with Advantage",
+    "notes": "[Rule] Prerequisite: Potent Might.\n[Prerequisite] Potent Might",
+    "notesList": [
+      "[Rule] Prerequisite: Potent Might.",
+      "[Prerequisite] Potent Might"
+    ]
+  },
+  {
+    "id": "ability-motivating-persona",
+    "name": "Motivating Persona",
+    "category": "Ability",
+    "type": "ability",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Inspiring Personality",
+    "modifiers": [],
+    "description": "Motivating Persona is a Ability Feature: Roll Etiquette checks with Advantage",
+    "mechanic": "Roll Etiquette checks with Advantage",
+    "rules": "Prerequisite: Inspiring Personality.",
+    "special_rules": "Prerequisite: Inspiring Personality.",
+    "body": "# Motivating Persona\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Inspiring Personality\n\n## Description\nMotivating Persona is a Ability Feature: Roll Etiquette checks with Advantage\n\n## Mechanics & Benefit\nRoll Etiquette checks with Advantage",
+    "mechanics": "Roll Etiquette checks with Advantage",
+    "notes": "[Rule] Prerequisite: Inspiring Personality.\n[Prerequisite] Inspiring Personality",
+    "notesList": [
+      "[Rule] Prerequisite: Inspiring Personality.",
+      "[Prerequisite] Inspiring Personality"
+    ]
+  },
+  {
+    "id": "ability-potent-might",
+    "name": "Potent Might",
+    "category": "Ability",
+    "type": "ability",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": true,
+    "max_rank": 4,
+    "is_multiple": true,
+    "prerequisites": "Strength 1",
+    "modifiers": [
+      {
+        "target": "Might",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Might"
+      }
+    ],
+    "description": "The character knows how to apply their strength for maximum leverage and impact. Whether forcing open a blast door or holding back a crushing weight, they are far more effective than their muscle mass alone suggests.",
+    "mechanic": "Gain a **\\+2 bonus** on all **Might Checks**.  \n  * *Usage:* This applies to breaking objects, lifting heavy loads, forcing doors, and resisting physical containment (such as grappling or webs). *Note: This does not apply to Attack or Damage rolls.*",
+    "rules": "This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Strength score.",
+    "special_rules": "This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Strength score.",
+    "body": "# Potent Might\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Strength 1\n\n## Description\nThe character knows how to apply their strength for maximum leverage and impact. Whether forcing open a blast door or holding back a crushing weight, they are far more effective than their muscle mass alone suggests.\n\n## Mechanics & Benefit\nGain a **\\+2 bonus** on all **Might Checks**.  \n  * *Usage:* This applies to breaking objects, lifting heavy loads, forcing doors, and resisting physical containment (such as grappling or webs). *Note: This does not apply to Attack or Damage rolls.*\n\n## Special Rules\nThis feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Strength score.",
+    "mechanics": "Gain a **\\+2 bonus** on all **Might Checks**.  \n  * *Usage:* This applies to breaking objects, lifting heavy loads, forcing doors, and resisting physical containment (such as grappling or webs). *Note: This does not apply to Attack or Damage rolls.*",
+    "notes": "[Modifier] +2 to Might\n[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...\n[Prerequisite] Strength 1",
+    "notesList": [
+      "[Modifier] +2 to Might",
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] Multiple: May be purchased separately for different categories/types",
+      "[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...",
+      "[Prerequisite] Strength 1"
+    ]
+  },
+  {
+    "id": "ability-superb-reflexes",
+    "name": "Superb Reflexes",
+    "category": "Ability",
+    "type": "ability",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Lightning Reflexes",
+    "modifiers": [
+      {
+        "target": "Reflex",
+        "type": "save_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Reflex Checks"
+      }
+    ],
+    "description": "Superb Reflexes is a Ability Feature: Roll Reflex checks with Advantage",
+    "mechanic": "Roll Reflex checks with Advantage",
+    "rules": "Prerequisite: Lightning Reflexes.",
+    "special_rules": "Prerequisite: Lightning Reflexes.",
+    "body": "# Superb Reflexes\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Lightning Reflexes\n\n## Description\nSuperb Reflexes is a Ability Feature: Roll Reflex checks with Advantage\n\n## Mechanics & Benefit\nRoll Reflex checks with Advantage",
+    "mechanics": "Roll Reflex checks with Advantage",
+    "notes": "[Modifier] Advantage on Reflex Checks\n[Rule] Prerequisite: Lightning Reflexes.\n[Prerequisite] Lightning Reflexes",
+    "notesList": [
+      "[Modifier] Advantage on Reflex Checks",
+      "[Rule] Prerequisite: Lightning Reflexes.",
+      "[Prerequisite] Lightning Reflexes"
+    ]
+  },
+  {
+    "id": "ability-tolerance",
+    "name": "Tolerance",
+    "category": "Ability",
+    "type": "ability",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": true,
+    "prerequisites": "Stamina 1 (for Physical) or Wisdom 1 (for Mental).",
+    "modifiers": [],
+    "description": "The character's metabolism or psyche processes ongoing trauma much faster than the average being.",
+    "mechanic": "When suffering from an ongoing effect (such as poison, disease, paralysis, or mental domination) that allows periodic Resistance Checks to end the effect (e.g., \"save every minute\"), the time interval between checks is reduced to **1/2 the typical time**.  \n  * *Usage:* A poison that normally allows a save once per hour allows this character to save every 30 minutes.",
+    "rules": "This feature acts as a **\\[Multiple\\]** selection. You must choose Physical Tolerance (Fortitude) or Mental Tolerance (Will).",
+    "special_rules": "This feature acts as a **\\[Multiple\\]** selection. You must choose Physical Tolerance (Fortitude) or Mental Tolerance (Will).",
+    "body": "# Tolerance\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Stamina 1 (for Physical) or Wisdom 1 (for Mental).\n\n## Description\nThe character's metabolism or psyche processes ongoing trauma much faster than the average being.\n\n## Mechanics & Benefit\nWhen suffering from an ongoing effect (such as poison, disease, paralysis, or mental domination) that allows periodic Resistance Checks to end the effect (e.g., \"save every minute\"), the time interval between checks is reduced to **1/2 the typical time**.  \n  * *Usage:* A poison that normally allows a save once per hour allows this character to save every 30 minutes.\n\n## Special Rules\nThis feature acts as a **\\[Multiple\\]** selection. You must choose Physical Tolerance (Fortitude) or Mental Tolerance (Will).",
+    "mechanics": "When suffering from an ongoing effect (such as poison, disease, paralysis, or mental domination) that allows periodic Resistance Checks to end the effect (e.g., \"save every minute\"), the time interval between checks is reduced to **1/2 the typical time**.  \n  * *Usage:* A poison that normally allows a save once per hour allows this character to save every 30 minutes.",
+    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature acts as a **\\[Multiple\\]** selection. You must choose Physical Tolerance (Fortitude) or...\n[Prerequisite] Stamina 1 (for Physical) or Wisdom 1 (for Mental).",
+    "notesList": [
+      "[Rule] Multiple: May be purchased separately for different categories/types",
+      "[Rule] This feature acts as a **\\[Multiple\\]** selection. You must choose Physical Tolerance (Fortitude) or...",
+      "[Prerequisite] Stamina 1 (for Physical) or Wisdom 1 (for Mental)."
+    ]
+  },
+  {
+    "id": "general-enhanced-biotechnology",
+    "name": "Enhanced Biotechnology",
+    "category": "Augmentation",
+    "type": "augmentation",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Kitin Lineage, Awakened, or Tech Level 4+",
+    "modifiers": [],
+    "description": "Innate cellular affinity and neurological interface with living technology, bio-grafts, and biomorphic constructs.",
+    "mechanic": "* **Symbiotic Attunement:** Living equipment, symbiotic armor, and bio-grafted weaponry integrate instantaneously without surgical rejection checks or biological acclimation penalties.\n* **Living Technology Synergy:** Gain Advantage on checks made to calibrate, heal, or command biomorphic constructs, hive-resin structures, and bio-organic items.\n* **Reduced Biomass Maintenance:** Biotech symbiotes and living gear draw sustenance directly and efficiently from the host's metabolic waste without causing fatigue or stamina drain.",
+    "rules": "Prerequisite: Kitin Lineage, Awakened, or Tech Level 4+.",
+    "special_rules": "Prerequisite: Kitin Lineage, Awakened, or Tech Level 4+.",
+    "body": "# Enhanced Biotechnology\n\n**Category**: Augmentation / General Features  \n**Cost**: 2 BP  \n**Prerequisite**: Kitin Lineage, Awakened, or Tech Level 4+  \n\n## Description\nThe character possesses advanced physiological and neural compatibility with living technology, symbiotic carapace enhancements, and vat-grown biomorphic tools.\n\n## Mechanics & Benefit\n* **Symbiotic Attunement:** Living equipment, symbiotic armor, and bio-grafted weaponry integrate instantaneously without surgical rejection checks or biological acclimation penalties.\n* **Living Technology Synergy:** Gain Advantage on checks made to calibrate, heal, or command biomorphic constructs, hive-resin structures, and bio-organic items.\n* **Reduced Biomass Maintenance:** Biotech symbiotes and living gear draw sustenance directly and efficiently from the host's metabolic waste without causing fatigue or stamina drain.",
+    "mechanics": "* **Symbiotic Attunement:** Living equipment, symbiotic armor, and bio-grafted weaponry integrate instantaneously without surgical rejection checks or biological acclimation penalties.\n* **Living Technology Synergy:** Gain Advantage on checks made to calibrate, heal, or command biomorphic constructs, hive-resin structures, and bio-organic items.\n* **Reduced Biomass Maintenance:** Biotech symbiotes and living gear draw sustenance directly and efficiently from the host's metabolic waste without causing fatigue or stamina drain.",
+    "notes": "[Rule] Prerequisite: Kitin Lineage, Awakened, or Tech Level 4+.\n[Prerequisite] Kitin Lineage, Awakened, or Tech Level 4+",
+    "notesList": [
+      "[Rule] Prerequisite: Kitin Lineage, Awakened, or Tech Level 4+.",
+      "[Prerequisite] Kitin Lineage, Awakened, or Tech Level 4+"
+    ]
   },
   {
     "id": "combat-agile-wrestling",
@@ -249,51 +694,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] This applies to the grapple check only; damage dealt while grappling is still calculated using Stren...",
       "[Prerequisite] Agility 1, Unarmed Combat 1"
-    ],
-    "keywords": "agile wrestling, combat, special-feature, combat-maneuver, tactical-edge, utilizes",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "general-algorithmic-cognition",
-    "name": "Algorithmic Cognition",
-    "category": "General",
-    "type": "general",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Lightning Calculator, Intellect 4",
-    "modifiers": [
-      {
-        "target": "Logic",
-        "type": "check_advantage",
-        "value": 1,
-        "mode": "inherent",
-        "description": "Advantage on Logic Checks"
-      }
-    ],
-    "description": "The character's brain bypasses standard working memory bottlenecks, allowing them to perform hypercalculia and extreme high-speed mental arithmetic natively.",
-    "mechanic": "You may perform complex mathematical calculations, cryptanalysis, and algorithmic decryption as a **Free Action** instead of a Standard or Full Round Action. You gain **Advantage** on all Logic checks involving mathematics or codebreaking.",
-    "rules": "Prerequisite: Lightning Calculator, Intellect 4.",
-    "special_rules": "Prerequisite: Lightning Calculator, Intellect 4.",
-    "body": "# Algorithmic Cognition\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Lightning Calculator, Intellect 4\n\n## Description\nThe character's brain bypasses standard working memory bottlenecks, allowing them to perform hypercalculia and extreme high-speed mental arithmetic natively.\n\n## Mechanics & Benefit\nYou may perform complex mathematical calculations, cryptanalysis, and algorithmic decryption as a **Free Action** instead of a Standard or Full Round Action. You gain **Advantage** on all Logic checks involving mathematics or codebreaking.\n\n## Special Rules\nPrerequisite: Lightning Calculator, Intellect 4.",
-    "mechanics": "You may perform complex mathematical calculations, cryptanalysis, and algorithmic decryption as a **Free Action** instead of a Standard or Full Round Action. You gain **Advantage** on all Logic checks involving mathematics or codebreaking.",
-    "notes": "[Modifier] Advantage on Logic Checks\n[Rule] Prerequisite: Lightning Calculator, Intellect 4.\n[Prerequisite] Lightning Calculator, Intellect 4",
-    "notesList": [
-      "[Modifier] Advantage on Logic Checks",
-      "[Rule] Prerequisite: Lightning Calculator, Intellect 4.",
-      "[Prerequisite] Lightning Calculator, Intellect 4"
-    ],
-    "keywords": "algorithmic cognition, general, special-feature, character's, bypasses, standard",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "combat-ambidextrous",
@@ -324,905 +725,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Prerequisite: Agility 2.",
       "[Prerequisite] Agility 2"
-    ],
-    "keywords": "ambidextrous, combat, special-feature, combat-maneuver, tactical-edge, naturally",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "special-analytical-sense",
-    "name": "Analytical Sense",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Acute Sense",
-    "modifiers": [],
-    "description": "Analytical Sense is a Special Feature: Gain specific and detailed information from sense.",
-    "mechanic": "Gain specific and detailed information from sense.",
-    "rules": "178",
-    "special_rules": "178",
-    "body": "# Analytical Sense\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Acute Sense\n\n## Description\nAnalytical Sense is a Special Feature: Gain specific and detailed information from sense.\n\n## Mechanics & Benefit\nGain specific and detailed information from sense.\n\n## Special Rules\n178",
-    "mechanics": "Gain specific and detailed information from sense.",
-    "notes": "[Rule] 178\n[Prerequisite] Acute Sense",
-    "notesList": [
-      "[Rule] 178",
-      "[Prerequisite] Acute Sense"
-    ],
-    "keywords": "analytical sense, special, special-feature, analytical, feature:, specific",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "general-analyze-weakness",
-    "name": "Analyze Weakness",
-    "category": "General",
-    "type": "general",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Assessment",
-    "modifiers": [],
-    "description": "Analyze Weakness is a General Feature: +1 bonus vs target per 5 points of success (Assessment vs Bluff).",
-    "mechanic": "\\+1 bonus vs target per 5 points of success (Assessment vs Bluff).",
-    "rules": "76",
-    "special_rules": "76",
-    "body": "# Analyze Weakness\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Assessment\n\n## Description\nAnalyze Weakness is a General Feature: \\+1 bonus vs target per 5 points of success (Assessment vs Bluff).\n\n## Mechanics & Benefit\n\\+1 bonus vs target per 5 points of success (Assessment vs Bluff).\n\n## Special Rules\n76",
-    "mechanics": "\\+1 bonus vs target per 5 points of success (Assessment vs Bluff).",
-    "notes": "[Rule] 76\n[Prerequisite] Assessment",
-    "notesList": [
-      "[Rule] 76",
-      "[Prerequisite] Assessment"
-    ],
-    "keywords": "analyze weakness, general, special-feature, analyze, weakness, feature:",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-animal-affinity",
-    "name": "Animal Affinity",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "None",
-    "modifiers": [
-      {
-        "target": "Survival",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Survival"
-      }
-    ],
-    "description": "The character has a natural bond with beasts, understanding their body language and instincts.",
-    "mechanic": "Gain a **\\+2 Bonus** to **Survival** checks regarding Animal Handling, Riding, or Taming. You can alter an animal's attitude one step faster than normal.",
-    "rules": "129",
-    "special_rules": "129",
-    "body": "# Animal Affinity\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character has a natural bond with beasts, understanding their body language and instincts.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Survival** checks regarding Animal Handling, Riding, or Taming. You can alter an animal's attitude one step faster than normal.\n\n## Special Rules\n129",
-    "mechanics": "Gain a **\\+2 Bonus** to **Survival** checks regarding Animal Handling, Riding, or Taming. You can alter an animal's attitude one step faster than normal.",
-    "notes": "[Modifier] +2 to Survival\n[Rule] 129",
-    "notesList": [
-      "[Modifier] +2 to Survival",
-      "[Rule] 129"
-    ],
-    "keywords": "animal affinity, skill, special-feature, natural, beasts, understanding",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "discipline-aptitude",
-    "name": "Aptitude",
-    "category": "Discipline",
-    "type": "discipline",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": true,
-    "prerequisites": "Key Ability Score (Intellect, Wisdom, or Charisma) 1+",
-    "modifiers": [
-      {
-        "target": "Checks with those specific",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Checks with those specific"
-      }
-    ],
-    "description": "The character possesses a natural affinity for specific metaphysical interactions, grasping the nuance of shaping energy more intuitively than others.",
-    "mechanic": "Choose two specific **Discipline Skills** (e.g., *Thermal* and *Telekinetic*, or *Biomancy* and *Necromancy*). You gain a **\\+2 Bonus** to checks with those specific skills.",
-    "rules": "This feature is **\\[Multiple\\]**. It may be selected again to apply to two different Discipline skills.",
-    "special_rules": "This feature is **\\[Multiple\\]**. It may be selected again to apply to two different Discipline skills.",
-    "body": "# Aptitude\n\n**Category**: Discipline Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Key Ability Score (Intellect, Wisdom, or Charisma) 1+\n\n## Description\nThe character possesses a natural affinity for specific metaphysical interactions, grasping the nuance of shaping energy more intuitively than others.\n\n## Mechanics & Benefit\nChoose two specific **Discipline Skills** (e.g., *Thermal* and *Telekinetic*, or *Biomancy* and *Necromancy*). You gain a **\\+2 Bonus** to checks with those specific skills.\n\n## Special Rules\nThis feature is **\\[Multiple\\]**. It may be selected again to apply to two different Discipline skills.",
-    "mechanics": "Choose two specific **Discipline Skills** (e.g., *Thermal* and *Telekinetic*, or *Biomancy* and *Necromancy*). You gain a **\\+2 Bonus** to checks with those specific skills.",
-    "notes": "[Modifier] +2 to Checks with those specific\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature is **\\[Multiple\\]**. It may be selected again to apply to two different Discipline skil...\n[Prerequisite] Key Ability Score (Intellect, Wisdom, or Charisma) 1+",
-    "notesList": [
-      "[Modifier] +2 to Checks with those specific",
-      "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] This feature is **\\[Multiple\\]**. It may be selected again to apply to two different Discipline skil...",
-      "[Prerequisite] Key Ability Score (Intellect, Wisdom, or Charisma) 1+"
-    ],
-    "keywords": "aptitude, discipline, special-feature, focused-training, mastery, possesses",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-artificer",
-    "name": "Artificer",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Attune 11, Any Discipline 11, Any Crafting 11",
-    "modifiers": [],
-    "description": "The character combines engineering with metaphysics, capable of creating items that blur the line between technology and magic.",
-    "mechanic": "All **Metacrafting** and **Prototyping** checks to create magical or psionic items are made with **Advantage**.",
-    "rules": "130",
-    "special_rules": "130",
-    "body": "# Artificer\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Attune 11, Any Discipline 11, Any Crafting 11\n\n## Description\nThe character combines engineering with metaphysics, capable of creating items that blur the line between technology and magic.\n\n## Mechanics & Benefit\nAll **Metacrafting** and **Prototyping** checks to create magical or psionic items are made with **Advantage**.\n\n## Special Rules\n130",
-    "mechanics": "All **Metacrafting** and **Prototyping** checks to create magical or psionic items are made with **Advantage**.",
-    "notes": "[Rule] 130\n[Prerequisite] Attune 11, Any Discipline 11, Any Crafting 11",
-    "notesList": [
-      "[Rule] 130",
-      "[Prerequisite] Attune 11, Any Discipline 11, Any Crafting 11"
-    ],
-    "keywords": "artificer, skill, special-feature, combines, engineering, metaphysics",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-artistic",
-    "name": "Artistic",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "None",
-    "modifiers": [
-      {
-        "target": "Both",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Both"
-      }
-    ],
-    "description": "The character possesses a flare for the creative arts.",
-    "mechanic": "Choose two **Performance** or **Vocation (Art/Craft)** sub-skills. Gain a **\\+2 Bonus** to both.",
-    "rules": "131",
-    "special_rules": "131",
-    "body": "# Artistic\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character possesses a flare for the creative arts.\n\n## Mechanics & Benefit\nChoose two **Performance** or **Vocation (Art/Craft)** sub-skills. Gain a **\\+2 Bonus** to both.\n\n## Special Rules\n131",
-    "mechanics": "Choose two **Performance** or **Vocation (Art/Craft)** sub-skills. Gain a **\\+2 Bonus** to both.",
-    "notes": "[Modifier] +2 to Both\n[Rule] 131",
-    "notesList": [
-      "[Modifier] +2 to Both",
-      "[Rule] 131"
-    ],
-    "keywords": "artistic, skill, special-feature, possesses, creative",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "general-assessment",
-    "name": "Assessment",
-    "category": "General",
-    "type": "general",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Awareness 6, Sense Motive 6",
-    "modifiers": [],
-    "description": "The character has a practiced eye for sizing up opposition. By observing a target's stance, equipment, and demeanor, they can gauge the threat level.",
-    "mechanic": "By observing a target for 1 full round, you can determine their relative threat level compared to yourself (Inferior, Equal, or Superior) and estimate their highest Skill Rank category (Novice, Trained, Expert, Master, Pinnacle).",
-    "rules": "This bonus lasts for the duration of the encounter or until the target successfully leaves your line of sight for more than 1 minute.",
-    "special_rules": "This bonus lasts for the duration of the encounter or until the target successfully leaves your line of sight for more than 1 minute.",
-    "body": "# Assessment\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Awareness 6, Sense Motive 6\n\n## Description\nThe character has a practiced eye for sizing up opposition. By observing a target's stance, equipment, and demeanor, they can gauge the threat level.\n\n## Mechanics & Benefit\nBy observing a target for 1 full round, you can determine their relative threat level compared to yourself (Inferior, Equal, or Superior) and estimate their highest Skill Rank category (Novice, Trained, Expert, Master, Pinnacle).\n\n## Special Rules\nThis bonus lasts for the duration of the encounter or until the target successfully leaves your line of sight for more than 1 minute.",
-    "mechanics": "By observing a target for 1 full round, you can determine their relative threat level compared to yourself (Inferior, Equal, or Superior) and estimate their highest Skill Rank category (Novice, Trained, Expert, Master, Pinnacle).",
-    "notes": "[Rule] This bonus lasts for the duration of the encounter or until the target successfully leaves your line...\n[Prerequisite] Awareness 6, Sense Motive 6",
-    "notesList": [
-      "[Rule] This bonus lasts for the duration of the encounter or until the target successfully leaves your line...",
-      "[Prerequisite] Awareness 6, Sense Motive 6"
-    ],
-    "keywords": "assessment, general, special-feature, practiced, sizing, opposition",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-attractive",
-    "name": "Attractive",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": true,
-    "max_rank": 4,
-    "is_multiple": false,
-    "prerequisites": "Charisma 2",
-    "modifiers": [
-      {
-        "target": "Social",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Social"
-      }
-    ],
-    "description": "The character possesses striking physical beauty or magnetic appeal that captures attention.",
-    "mechanic": "Gain a **\\+2 Bonus** to all Social checks where physical appearance is a factor (e.g., Seduction, First Impressions).",
-    "rules": "This feature is **\\[Ranked\\]** (Limited by Charisma score). Rank 2 grants \\+4, etc.",
-    "special_rules": "This feature is **\\[Ranked\\]** (Limited by Charisma score). Rank 2 grants \\+4, etc.",
-    "body": "# Attractive\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Charisma 2\n\n## Description\nThe character possesses striking physical beauty or magnetic appeal that captures attention.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to all Social checks where physical appearance is a factor (e.g., Seduction, First Impressions).\n\n## Special Rules\nThis feature is **\\[Ranked\\]** (Limited by Charisma score). Rank 2 grants \\+4, etc.",
-    "mechanics": "Gain a **\\+2 Bonus** to all Social checks where physical appearance is a factor (e.g., Seduction, First Impressions).",
-    "notes": "[Modifier] +2 to Social\n[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] This feature is **\\[Ranked\\]** (Limited by Charisma score). Rank 2 grants \\+4, etc.\n[Prerequisite] Charisma 2",
-    "notesList": [
-      "[Modifier] +2 to Social",
-      "[Rule] Ranked: Bonus stacks with additional purchases",
-      "[Rule] This feature is **\\[Ranked\\]** (Limited by Charisma score). Rank 2 grants \\+4, etc.",
-      "[Prerequisite] Charisma 2"
-    ],
-    "keywords": "attractive, skill, special-feature, possesses, striking, physical",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "special-augmented",
-    "name": "Augmented",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Available Technology Level (TL 3+)",
-    "modifiers": [],
-    "description": "The character has undergone invasive surgery to replace or enhance biological systems with cybernetics, biotechnology, or magical prosthetics.",
-    "mechanic": "You are compatible with **Standard Augmentations**.",
-    "rules": "Upon taking this feature, you gain a \"credit\" of **6 Build Points (BP)** worth of Augmentations effectively for free (representing the initial suite of upgrades). Any cost beyond this must be paid with BP or Credits.",
-    "special_rules": "Upon taking this feature, you gain a \"credit\" of **6 Build Points (BP)** worth of Augmentations effectively for free (representing the initial suite of upgrades). Any cost beyond this must be paid with BP or Credits.",
-    "body": "# Augmented\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Available Technology Level (TL 3+)\n\n## Description\nThe character has undergone invasive surgery to replace or enhance biological systems with cybernetics, biotechnology, or magical prosthetics.\n\n## Mechanics & Benefit\nYou are compatible with **Standard Augmentations**.\n\n## Special Rules\nUpon taking this feature, you gain a \"credit\" of **6 Build Points (BP)** worth of Augmentations effectively for free (representing the initial suite of upgrades). Any cost beyond this must be paid with BP or Credits.",
-    "mechanics": "You are compatible with **Standard Augmentations**.",
-    "notes": "[Rule] Upon taking this feature, you gain a \"credit\" of **6 Build Points (BP)** worth of Augmentations effe...\n[Prerequisite] Available Technology Level (TL 3+)",
-    "notesList": [
-      "[Rule] Upon taking this feature, you gain a \"credit\" of **6 Build Points (BP)** worth of Augmentations effe...",
-      "[Prerequisite] Available Technology Level (TL 3+)"
-    ],
-    "keywords": "augmented, special, special-feature, undergone, invasive, surgery",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "discipline-awakened",
-    "name": "Awakened",
-    "category": "Discipline",
-    "type": "discipline",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": true,
-    "prerequisites": "None (often taken at Character Creation).",
-    "modifiers": [],
-    "description": "The character has opened their mind or soul to a greater reality. This is the fundamental \"spark\" required to use any form of metaphysics. Without this feature, a character cannot manipulate supernatural forces.",
-    "mechanic": "You gain access to the **Attune** skill (the universal skill for channeling power) and **2 Discipline Skills** belonging to a specific **Metafocus Discipline** (e.g., Dimension, Energy, Entropy, Illusion, Matter, or Mental).  \n  * *Example:* Selecting *Awakened (Energy)* might grant access to *Attune*, *Elemental Focus*, and *Force Focus*.",
-    "rules": "This feature is **\\[Multiple\\]**. Taking it a second time allows you to awaken a different Metafocus (e.g., adding *Entropy* to a character who already has *Energy*), granting access to that discipline's specific skills.",
-    "special_rules": "This feature is **\\[Multiple\\]**. Taking it a second time allows you to awaken a different Metafocus (e.g., adding *Entropy* to a character who already has *Energy*), granting access to that discipline's specific skills.",
-    "body": "# Awakened\n\n**Category**: Discipline Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None (often taken at Character Creation).\n\n## Description\nThe character has opened their mind or soul to a greater reality. This is the fundamental \"spark\" required to use any form of metaphysics. Without this feature, a character cannot manipulate supernatural forces.\n\n## Mechanics & Benefit\nYou gain access to the **Attune** skill (the universal skill for channeling power) and **2 Discipline Skills** belonging to a specific **Metafocus Discipline** (e.g., Dimension, Energy, Entropy, Illusion, Matter, or Mental).  \n  * *Example:* Selecting *Awakened (Energy)* might grant access to *Attune*, *Elemental Focus*, and *Force Focus*.\n\n## Special Rules\nThis feature is **\\[Multiple\\]**. Taking it a second time allows you to awaken a different Metafocus (e.g., adding *Entropy* to a character who already has *Energy*), granting access to that discipline's specific skills.",
-    "mechanics": "You gain access to the **Attune** skill (the universal skill for channeling power) and **2 Discipline Skills** belonging to a specific **Metafocus Discipline** (e.g., Dimension, Energy, Entropy, Illusion, Matter, or Mental).  \n  * *Example:* Selecting *Awakened (Energy)* might grant access to *Attune*, *Elemental Focus*, and *Force Focus*.",
-    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature is **\\[Multiple\\]**. Taking it a second time allows you to awaken a different Metafocus...\n[Prerequisite] None (often taken at Character Creation).",
-    "notesList": [
-      "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] This feature is **\\[Multiple\\]**. Taking it a second time allows you to awaken a different Metafocus...",
-      "[Prerequisite] None (often taken at Character Creation)."
-    ],
-    "keywords": "awakened, discipline, special-feature, focused-training, mastery, opened",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "discipline-balanced-center",
-    "name": "Balanced Center",
-    "category": "Discipline",
-    "type": "discipline",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Centering Exp, Discipline Exp",
-    "modifiers": [],
-    "description": "Balanced Center is a Discipline Feature: May take 10 with all Discipline Checks Expertised.",
-    "mechanic": "May take 10 with all Discipline Checks Expertised.",
-    "rules": "71",
-    "special_rules": "71",
-    "body": "# Balanced Center\n\n**Category**: Discipline Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Centering Exp, Discipline Exp\n\n## Description\nBalanced Center is a Discipline Feature: May take 10 with all Discipline Checks Expertised.\n\n## Mechanics & Benefit\nMay take 10 with all Discipline Checks Expertised.\n\n## Special Rules\n71",
-    "mechanics": "May take 10 with all Discipline Checks Expertised.",
-    "notes": "[Rule] 71\n[Prerequisite] Centering Exp, Discipline Exp",
-    "notesList": [
-      "[Rule] 71",
-      "[Prerequisite] Centering Exp, Discipline Exp"
-    ],
-    "keywords": "balanced center, discipline, special-feature, focused-training, mastery, balanced",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "karma-beginner-s-luck",
-    "name": "Beginner's Luck",
-    "category": "Karma",
-    "type": "karma",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "The Skill being attempted must be at **Rank 5 (Novice) or lower**.",
-    "modifiers": [
-      {
-        "target": "Karma",
-        "type": "karma",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Karma Pool"
-      }
-    ],
-    "description": "The character has an uncanny knack for succeeding at things they have no business doing. When inexperienced, they rely on instinct and fortune rather than training.",
-    "mechanic": "You may spend **1 Karma Point** to gain **\\+5 Temporary Ranks** in a specific skill for the duration of the current scene or encounter.  \n  * *Mechanics:* This effectively treats an Untrained (Rank 0\\) character as a Novice (Rank 5), or a Novice as a Professional (Rank 6-10) for a short time.",
-    "rules": "118",
-    "special_rules": "118",
-    "body": "# Beginner's Luck\n\n**Category**: Karma Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: The Skill being attempted must be at **Rank 5 (Novice) or lower**.\n\n## Description\nThe character has an uncanny knack for succeeding at things they have no business doing. When inexperienced, they rely on instinct and fortune rather than training.\n\n## Mechanics & Benefit\nYou may spend **1 Karma Point** to gain **\\+5 Temporary Ranks** in a specific skill for the duration of the current scene or encounter.  \n  * *Mechanics:* This effectively treats an Untrained (Rank 0\\) character as a Novice (Rank 5), or a Novice as a Professional (Rank 6-10) for a short time.\n\n## Special Rules\n118",
-    "mechanics": "You may spend **1 Karma Point** to gain **\\+5 Temporary Ranks** in a specific skill for the duration of the current scene or encounter.  \n  * *Mechanics:* This effectively treats an Untrained (Rank 0\\) character as a Novice (Rank 5), or a Novice as a Professional (Rank 6-10) for a short time.",
-    "notes": "[Modifier] +1 to Karma Pool\n[Rule] 118\n[Prerequisite] The Skill being attempted must be at **Rank 5 (Novice) or lower**.",
-    "notesList": [
-      "[Modifier] +1 to Karma Pool",
-      "[Rule] 118",
-      "[Prerequisite] The Skill being attempted must be at **Rank 5 (Novice) or lower**."
-    ],
-    "keywords": "beginner's luck, karma, special-feature, uncanny, succeeding, things",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "karma-believer",
-    "name": "Believer",
-    "category": "Karma",
-    "type": "karma",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": true,
-    "max_rank": 4,
-    "is_multiple": false,
-    "prerequisites": "Wisdom 1",
-    "modifiers": [],
-    "description": "The character possesses a profound faith in a higher power, a philosophy, or a cosmic order. In times of need, they can draw upon this faith to guide their hand.",
-    "mechanic": "**Once per day**, you may re-roll any single failed **Skill Check**.  \n  * *Mechanics:* This does **not** cost Karma Points. It is a daily ability refreshed after a Full Rest. You must accept the result of the second roll.",
-    "rules": "This feature is **\\[Ranked\\]**. Each additional rank allows an additional use per day. The maximum rank is limited by your **Wisdom** score.",
-    "special_rules": "This feature is **\\[Ranked\\]**. Each additional rank allows an additional use per day. The maximum rank is limited by your **Wisdom** score.",
-    "body": "# Believer\n\n**Category**: Karma Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Wisdom 1\n\n## Description\nThe character possesses a profound faith in a higher power, a philosophy, or a cosmic order. In times of need, they can draw upon this faith to guide their hand.\n\n## Mechanics & Benefit\n**Once per day**, you may re-roll any single failed **Skill Check**.  \n  * *Mechanics:* This does **not** cost Karma Points. It is a daily ability refreshed after a Full Rest. You must accept the result of the second roll.\n\n## Special Rules\nThis feature is **\\[Ranked\\]**. Each additional rank allows an additional use per day. The maximum rank is limited by your **Wisdom** score.",
-    "mechanics": "**Once per day**, you may re-roll any single failed **Skill Check**.  \n  * *Mechanics:* This does **not** cost Karma Points. It is a daily ability refreshed after a Full Rest. You must accept the result of the second roll.",
-    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] This feature is **\\[Ranked\\]**. Each additional rank allows an additional use per day. The maximum r...\n[Prerequisite] Wisdom 1",
-    "notesList": [
-      "[Rule] Ranked: Bonus stacks with additional purchases",
-      "[Rule] This feature is **\\[Ranked\\]**. Each additional rank allows an additional use per day. The maximum r...",
-      "[Prerequisite] Wisdom 1"
-    ],
-    "keywords": "believer, karma, special-feature, possesses, profound, higher",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "general-benefit-authority",
-    "name": "Benefit (Authority)",
-    "category": "General",
-    "type": "general",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": true,
-    "max_rank": 4,
-    "is_multiple": false,
-    "prerequisites": "Special (Law Enforcement background)",
-    "modifiers": [],
-    "description": "Legal enforcement authority granted by a governing body, planetary militia, or sector law enforcement agency.",
-    "mechanic": "Grants legal authority, jurisdictional powers, and arrest rights within designated sectors (from Deputy to Sector Marshal / Special Agent).",
-    "rules": "Ranked: Higher ranks grant wider planetary and interstellar jurisdiction.",
-    "special_rules": "Ranked: Higher ranks grant wider planetary and interstellar jurisdiction.",
-    "body": "# Benefit (Authority)\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Special (Law Enforcement background)\n\n## Description\nLegal enforcement authority granted by a governing body, planetary militia, or sector law enforcement agency.\n\n## Mechanics & Benefit\nGrants legal authority, jurisdictional powers, and arrest rights within designated sectors (from Deputy to Sector Marshal / Special Agent).\n\n## Special Rules\nRanked: Higher ranks grant wider planetary and interstellar jurisdiction.",
-    "mechanics": "Grants legal authority, jurisdictional powers, and arrest rights within designated sectors (from Deputy to Sector Marshal / Special Agent).",
-    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Ranked: Higher ranks grant wider planetary and interstellar jurisdiction.\n[Prerequisite] Special (Law Enforcement background)",
-    "notesList": [
-      "[Rule] Ranked: Bonus stacks with additional purchases",
-      "[Rule] Ranked: Higher ranks grant wider planetary and interstellar jurisdiction.",
-      "[Prerequisite] Special (Law Enforcement background)"
-    ],
-    "keywords": "benefit (authority), general, special-feature, enforcement, authority, granted",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "general-benefit",
-    "name": "Benefit (Authority)",
-    "category": "General",
-    "type": "general",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Associated Occupation (Soldier, Constable, Agent)",
-    "modifiers": [],
-    "description": "The character holds a recognized rank within a law enforcement or military organization, granting them legal power and jurisdiction.",
-    "mechanic": "You hold a specific rank.  \n  * *Rank 1:* Deputy / Corporal (Local jurisdiction).  \n  * *Rank 2:* Officer / Sergeant (Regional jurisdiction).  \n  * *Rank 3:* Marshal / Lieutenant (Planet-wide jurisdiction).  \n  * *Rank 4:* Agent / Commander (Interstellar/System-wide jurisdiction).",
-    "rules": "77",
-    "special_rules": "77",
-    "body": "# Benefit (Authority)\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Associated Occupation (Soldier, Constable, Agent)\n\n## Description\nThe character holds a recognized rank within a law enforcement or military organization, granting them legal power and jurisdiction.\n\n## Mechanics & Benefit\nYou hold a specific rank.  \n  * *Rank 1:* Deputy / Corporal (Local jurisdiction).  \n  * *Rank 2:* Officer / Sergeant (Regional jurisdiction).  \n  * *Rank 3:* Marshal / Lieutenant (Planet-wide jurisdiction).  \n  * *Rank 4:* Agent / Commander (Interstellar/System-wide jurisdiction).\n\n## Special Rules\n77",
-    "mechanics": "You hold a specific rank.  \n  * *Rank 1:* Deputy / Corporal (Local jurisdiction).  \n  * *Rank 2:* Officer / Sergeant (Regional jurisdiction).  \n  * *Rank 3:* Marshal / Lieutenant (Planet-wide jurisdiction).  \n  * *Rank 4:* Agent / Commander (Interstellar/System-wide jurisdiction).",
-    "notes": "[Rule] 77\n[Prerequisite] Associated Occupation (Soldier, Constable, Agent)",
-    "notesList": [
-      "[Rule] 77",
-      "[Prerequisite] Associated Occupation (Soldier, Constable, Agent)"
-    ],
-    "keywords": "benefit (authority), general, special-feature, recognized, within, enforcement",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "general-benefit-clearance",
-    "name": "Benefit (Clearance)",
-    "category": "General",
-    "type": "general",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": true,
-    "max_rank": 4,
-    "is_multiple": false,
-    "prerequisites": "Special (Military or Corporate standing)",
-    "modifiers": [],
-    "description": "Official security clearance granting access to classified databases, restricted orbital facilities, and top-secret projects.",
-    "mechanic": "Access to classified intelligence and restricted facilities (Classified -> Secret -> Top Secret -> Black Badge).",
-    "rules": "Ranked: Higher ranks unlock access to military compartmentalized programs.",
-    "special_rules": "Ranked: Higher ranks unlock access to military compartmentalized programs.",
-    "body": "# Benefit (Clearance)\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Special (Military or Corporate standing)\n\n## Description\nOfficial security clearance granting access to classified databases, restricted orbital facilities, and top-secret projects.\n\n## Mechanics & Benefit\nAccess to classified intelligence and restricted facilities (Classified -> Secret -> Top Secret -> Black Badge).\n\n## Special Rules\nRanked: Higher ranks unlock access to military compartmentalized programs.",
-    "mechanics": "Access to classified intelligence and restricted facilities (Classified -> Secret -> Top Secret -> Black Badge).",
-    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Ranked: Higher ranks unlock access to military compartmentalized programs.\n[Prerequisite] Special (Military or Corporate standing)",
-    "notesList": [
-      "[Rule] Ranked: Bonus stacks with additional purchases",
-      "[Rule] Ranked: Higher ranks unlock access to military compartmentalized programs.",
-      "[Prerequisite] Special (Military or Corporate standing)"
-    ],
-    "keywords": "benefit (clearance), general, special-feature, official, security, clearance",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "general-benefit-equipment",
-    "name": "Benefit (Equipment)",
-    "category": "General",
-    "type": "general",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": true,
-    "max_rank": 4,
-    "is_multiple": true,
-    "prerequisites": "Special (Organizational sponsorship)",
-    "modifiers": [],
-    "description": "Issued or subsidized organizational hardware, specialized field kits, armored vehicles, or scout starships.",
-    "mechanic": "Character receives supplied gear, military ordnance, or access to an organization-owned vehicle/vessel.",
-    "rules": "Ranked: Rank 1 grants personal gear kits, Rank 3 grants tactical combat vehicles, Rank 5 grants a scout starship.",
-    "special_rules": "Ranked: Rank 1 grants personal gear kits, Rank 3 grants tactical combat vehicles, Rank 5 grants a scout starship.",
-    "body": "# Benefit (Equipment)\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Special (Organizational sponsorship)\n\n## Description\nIssued or subsidized organizational hardware, specialized field kits, armored vehicles, or scout starships.\n\n## Mechanics & Benefit\nCharacter receives supplied gear, military ordnance, or access to an organization-owned vehicle/vessel.\n\n## Special Rules\nRanked: Rank 1 grants personal gear kits, Rank 3 grants tactical combat vehicles, Rank 5 grants a scout starship.",
-    "mechanics": "Character receives supplied gear, military ordnance, or access to an organization-owned vehicle/vessel.",
-    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] Ranked: Rank 1 grants personal gear kits, Rank 3 grants tactical combat vehicles, Rank 5 grants a sc...\n[Prerequisite] Special (Organizational sponsorship)",
-    "notesList": [
-      "[Rule] Ranked: Bonus stacks with additional purchases",
-      "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] Ranked: Rank 1 grants personal gear kits, Rank 3 grants tactical combat vehicles, Rank 5 grants a sc...",
-      "[Prerequisite] Special (Organizational sponsorship)"
-    ],
-    "keywords": "benefit (equipment), general, special-feature, issued, subsidized, organizational",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "general-benefit-identity",
-    "name": "Benefit (Identity)",
-    "category": "General",
-    "type": "general",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": true,
-    "max_rank": 4,
-    "is_multiple": false,
-    "prerequisites": "None",
-    "modifiers": [],
-    "description": "A fully established, legally recognized alternate identity complete with planetary biometric records and credit histories.",
-    "mechanic": "Grants 1 complete, legally verifiable cover identity per rank, bypassing basic biometric and customs scrutiny.",
-    "rules": "Ranked: Each purchase adds an additional established cover identity.",
-    "special_rules": "Ranked: Each purchase adds an additional established cover identity.",
-    "body": "# Benefit (Identity)\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nA fully established, legally recognized alternate identity complete with planetary biometric records and credit histories.\n\n## Mechanics & Benefit\nGrants 1 complete, legally verifiable cover identity per rank, bypassing basic biometric and customs scrutiny.\n\n## Special Rules\nRanked: Each purchase adds an additional established cover identity.",
-    "mechanics": "Grants 1 complete, legally verifiable cover identity per rank, bypassing basic biometric and customs scrutiny.",
-    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Ranked: Each purchase adds an additional established cover identity.",
-    "notesList": [
-      "[Rule] Ranked: Bonus stacks with additional purchases",
-      "[Rule] Ranked: Each purchase adds an additional established cover identity."
-    ],
-    "keywords": "benefit (identity), general, special-feature, established, legally, recognized",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "general-benefit-immunity",
-    "name": "Benefit (Immunity)",
-    "category": "General",
-    "type": "general",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": true,
-    "max_rank": 4,
-    "is_multiple": false,
-    "prerequisites": "Special (Diplomatic or Imperial decree)",
-    "modifiers": [],
-    "description": "Legal immunity from prosecution under local planetary laws, customs tariffs, or extraterritorial arrest warrants.",
-    "mechanic": "Grants legal immunity (from Diplomatic Immunity to Inquisitorial License to Kill).",
-    "rules": "Special: Requires sovereign or diplomatic faction affiliation.",
-    "special_rules": "Special: Requires sovereign or diplomatic faction affiliation.",
-    "body": "# Benefit (Immunity)\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Special (Diplomatic or Imperial decree)\n\n## Description\nLegal immunity from prosecution under local planetary laws, customs tariffs, or extraterritorial arrest warrants.\n\n## Mechanics & Benefit\nGrants legal immunity (from Diplomatic Immunity to Inquisitorial License to Kill).\n\n## Special Rules\nSpecial: Requires sovereign or diplomatic faction affiliation.",
-    "mechanics": "Grants legal immunity (from Diplomatic Immunity to Inquisitorial License to Kill).",
-    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Special: Requires sovereign or diplomatic faction affiliation.\n[Prerequisite] Special (Diplomatic or Imperial decree)",
-    "notesList": [
-      "[Rule] Ranked: Bonus stacks with additional purchases",
-      "[Rule] Special: Requires sovereign or diplomatic faction affiliation.",
-      "[Prerequisite] Special (Diplomatic or Imperial decree)"
-    ],
-    "keywords": "benefit (immunity), general, special-feature, immunity, prosecution, planetary",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "general-benefit-status",
-    "name": "Benefit (Status)",
-    "category": "General",
-    "type": "general",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": true,
-    "max_rank": 4,
-    "is_multiple": false,
-    "prerequisites": "Special (Aristocratic or Corporate lineage)",
-    "modifiers": [
-      {
-        "target": "Wealth",
-        "type": "wealth",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 Wealth Score"
-      }
-    ],
-    "description": "High social standing, aristocratic titles, noble rank, executive board standing, and associated wealth stipends.",
-    "mechanic": "Grants significant social influence, aristocratic privilege, and +2 Wealth score per rank.",
-    "rules": "Ranked: Higher ranks represent titles from Baron/Director to Archon/Grand Duke.",
-    "special_rules": "Ranked: Higher ranks represent titles from Baron/Director to Archon/Grand Duke.",
-    "body": "# Benefit (Status)\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Special (Aristocratic or Corporate lineage)\n\n## Description\nHigh social standing, aristocratic titles, noble rank, executive board standing, and associated wealth stipends.\n\n## Mechanics & Benefit\nGrants significant social influence, aristocratic privilege, and +2 Wealth score per rank.\n\n## Special Rules\nRanked: Higher ranks represent titles from Baron/Director to Archon/Grand Duke.",
-    "mechanics": "Grants significant social influence, aristocratic privilege, and +2 Wealth score per rank.",
-    "notes": "[Modifier] +2 Wealth Score\n[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Ranked: Higher ranks represent titles from Baron/Director to Archon/Grand Duke.\n[Prerequisite] Special (Aristocratic or Corporate lineage)",
-    "notesList": [
-      "[Modifier] +2 Wealth Score",
-      "[Rule] Ranked: Bonus stacks with additional purchases",
-      "[Rule] Ranked: Higher ranks represent titles from Baron/Director to Archon/Grand Duke.",
-      "[Prerequisite] Special (Aristocratic or Corporate lineage)"
-    ],
-    "keywords": "benefit (status), general, special-feature, social, standing, aristocratic",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "general-benefit-wealth",
-    "name": "Benefit (Wealth)",
-    "category": "General",
-    "type": "general",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": true,
-    "max_rank": 4,
-    "is_multiple": false,
-    "prerequisites": "None",
-    "modifiers": [],
-    "description": "Substantial personal financial reserves, passive dividend income, and liquid capital assets.",
-    "mechanic": "Permanently increases character's Wealth score by +3 per purchase.",
-    "rules": "Ranked: May be purchased multiple times to represent vast commercial fortunes.",
-    "special_rules": "Ranked: May be purchased multiple times to represent vast commercial fortunes.",
-    "body": "# Benefit (Wealth)\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nSubstantial personal financial reserves, passive dividend income, and liquid capital assets.\n\n## Mechanics & Benefit\nPermanently increases character's Wealth score by +3 per purchase.\n\n## Special Rules\nRanked: May be purchased multiple times to represent vast commercial fortunes.",
-    "mechanics": "Permanently increases character's Wealth score by +3 per purchase.",
-    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Ranked: May be purchased multiple times to represent vast commercial fortunes.",
-    "notesList": [
-      "[Rule] Ranked: Bonus stacks with additional purchases",
-      "[Rule] Ranked: May be purchased multiple times to represent vast commercial fortunes."
-    ],
-    "keywords": "benefit (wealth), general, special-feature, substantial, personal, financial",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-biotechnologist",
-    "name": "Biotechnologist",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Biology, Botany, or Medicine Rank 11",
-    "modifiers": [],
-    "description": "The character is an expert in the manipulation of living tissue and organic technology.",
-    "mechanic": "All **Biotechnology Prototyping** and **Grafting** checks are made with **Advantage**.",
-    "rules": "133",
-    "special_rules": "133",
-    "body": "# Biotechnologist\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Biology, Botany, or Medicine Rank 11\n\n## Description\nThe character is an expert in the manipulation of living tissue and organic technology.\n\n## Mechanics & Benefit\nAll **Biotechnology Prototyping** and **Grafting** checks are made with **Advantage**.\n\n## Special Rules\n133",
-    "mechanics": "All **Biotechnology Prototyping** and **Grafting** checks are made with **Advantage**.",
-    "notes": "[Rule] 133\n[Prerequisite] Biology, Botany, or Medicine Rank 11",
-    "notesList": [
-      "[Rule] 133",
-      "[Prerequisite] Biology, Botany, or Medicine Rank 11"
-    ],
-    "keywords": "biotechnologist, skill, special-feature, expert, manipulation, living",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "special-biotechnology",
-    "name": "Biotechnology",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Awakened (Psychic) OR Tech Level 4+ society.",
-    "modifiers": [],
-    "description": "The character is trained or naturally adapted to use \"Living Technology\"—grown items, symbiotic armor, and genetically engineered tools (common among Aulurans and Tyranid-like factions).",
-    "mechanic": "You can imprint, operate, and heal Living Technology. Without this feature, Biotech items treat the user as a foreign body and may not function or may even attack the user.",
-    "rules": "183",
-    "special_rules": "183",
-    "body": "# Biotechnology\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Awakened (Psychic) OR Tech Level 4+ society.\n\n## Description\nThe character is trained or naturally adapted to use \"Living Technology\"—grown items, symbiotic armor, and genetically engineered tools (common among Aulurans and Tyranid-like factions).\n\n## Mechanics & Benefit\nYou can imprint, operate, and heal Living Technology. Without this feature, Biotech items treat the user as a foreign body and may not function or may even attack the user.\n\n## Special Rules\n183",
-    "mechanics": "You can imprint, operate, and heal Living Technology. Without this feature, Biotech items treat the user as a foreign body and may not function or may even attack the user.",
-    "notes": "[Rule] 183\n[Prerequisite] Awakened (Psychic) OR Tech Level 4+ society.",
-    "notesList": [
-      "[Rule] 183",
-      "[Prerequisite] Awakened (Psychic) OR Tech Level 4+ society."
-    ],
-    "keywords": "biotechnology, special, special-feature, trained, naturally, adapted",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "special-bleed",
-    "name": "Bleed",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Sneak Attack",
-    "modifiers": [],
-    "description": "Bleed is a Special Feature: Cause 1 point Bleed Damage per die of Sneak Attack.",
-    "mechanic": "Cause 1 point Bleed Damage per die of Sneak Attack.",
-    "rules": "207",
-    "special_rules": "207",
-    "body": "# Bleed\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Sneak Attack\n\n## Description\nBleed is a Special Feature: Cause 1 point Bleed Damage per die of Sneak Attack.\n\n## Mechanics & Benefit\nCause 1 point Bleed Damage per die of Sneak Attack.\n\n## Special Rules\n207",
-    "mechanics": "Cause 1 point Bleed Damage per die of Sneak Attack.",
-    "notes": "[Rule] 207\n[Prerequisite] Sneak Attack",
-    "notesList": [
-      "[Rule] 207",
-      "[Prerequisite] Sneak Attack"
-    ],
-    "keywords": "bleed, special, special-feature, feature:, damage, attack",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "special-blind",
-    "name": "Blind",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Sneak Attack",
-    "modifiers": [],
-    "description": "Blind is a Special Feature: Direct attack to a target's Sense.",
-    "mechanic": "Direct attack to a target's Sense.",
-    "rules": "208",
-    "special_rules": "208",
-    "body": "# Blind\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Sneak Attack\n\n## Description\nBlind is a Special Feature: Direct attack to a target's Sense.\n\n## Mechanics & Benefit\nDirect attack to a target's Sense.\n\n## Special Rules\n208",
-    "mechanics": "Direct attack to a target's Sense.",
-    "notes": "[Rule] 208\n[Prerequisite] Sneak Attack",
-    "notesList": [
-      "[Rule] 208",
-      "[Prerequisite] Sneak Attack"
-    ],
-    "keywords": "blind, special, special-feature, feature:, direct, attack",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "combat-blind-fight",
@@ -1253,9 +756,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] You do not lose your Agility bonus to Defense when attacked by an invisible attacker in melee.",
       "[Prerequisite] Awareness 1"
-    ],
-    "keywords": "blind-fight, combat, special-feature, combat-maneuver, tactical-edge, learned",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
+    ]
   },
   {
     "id": "combat-blockade",
@@ -1286,75 +787,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Prerequisite: Strength 2.",
       "[Prerequisite] Strength 2"
-    ],
-    "keywords": "blockade, combat, special-feature, combat-maneuver, tactical-edge, dominates",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "special-bonded",
-    "name": "Bonded",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Charisma 2",
-    "modifiers": [],
-    "description": "The character shares a profound, supernatural connection with another specific being.",
-    "mechanic": "You possess a **Tele-Empathic** link with another character (PC or NPC) who also possesses this feature. You can sense their strong emotions and general physical state (pain, unconsciousness) regardless of distance.",
-    "rules": "184",
-    "special_rules": "184",
-    "body": "# Bonded\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Charisma 2\n\n## Description\nThe character shares a profound, supernatural connection with another specific being.\n\n## Mechanics & Benefit\nYou possess a **Tele-Empathic** link with another character (PC or NPC) who also possesses this feature. You can sense their strong emotions and general physical state (pain, unconsciousness) regardless of distance.\n\n## Special Rules\n184",
-    "mechanics": "You possess a **Tele-Empathic** link with another character (PC or NPC) who also possesses this feature. You can sense their strong emotions and general physical state (pain, unconsciousness) regardless of distance.",
-    "notes": "[Rule] 184\n[Prerequisite] Charisma 2",
-    "notesList": [
-      "[Rule] 184",
-      "[Prerequisite] Charisma 2"
-    ],
-    "keywords": "bonded, special, special-feature, shares, profound, supernatural",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "general-born-leader",
-    "name": "Born Leader",
-    "category": "General",
-    "type": "general",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Special",
-    "modifiers": [],
-    "description": "Born Leader is a General Feature: Gain Followers.",
-    "mechanic": "Gain Followers.",
-    "rules": "99",
-    "special_rules": "99",
-    "body": "# Born Leader\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Special\n\n## Description\nBorn Leader is a General Feature: Gain Followers.\n\n## Mechanics & Benefit\nGain Followers.\n\n## Special Rules\n99",
-    "mechanics": "Gain Followers.",
-    "notes": "[Rule] 99\n[Prerequisite] Special",
-    "notesList": [
-      "[Rule] 99",
-      "[Prerequisite] Special"
-    ],
-    "keywords": "born leader, general, special-feature, leader, feature:, followers",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "combat-burst-attack",
@@ -1385,117 +818,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Ballistic, Energy, or Heavy Weapon 22",
       "[Prerequisite] Ballistic, Energy, or Heavy Weapon Skill Rank 2"
-    ],
-    "keywords": "burst attack, combat, special-feature, combat-maneuver, tactical-edge, trained",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "discipline-centering",
-    "name": "Centering",
-    "category": "Discipline",
-    "type": "discipline",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Attune 6 (Trained), Key Ability Score 2",
-    "modifiers": [
-      {
-        "target": "Attune",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Attune"
-      }
-    ],
-    "description": "The character has learned to stabilize their internal flow of energy, allowing them to channel power with greater control and intensity.",
-    "mechanic": "You gain a **\\+2 Bonus** to all **Attune Checks**.",
-    "rules": "This replaces the bonus from *Centering*, it does not stack (it is an upgrade).\n\n  ### \n\n  ## **Centering Master**\n\n  **Description:** The character's control over their metaphysical connection is absolute; they are a conduit through which power flows without resistance.",
-    "special_rules": "This replaces the bonus from *Centering*, it does not stack (it is an upgrade).\n\n  ### \n\n  ## **Centering Master**\n\n  **Description:** The character's control over their metaphysical connection is absolute; they are a conduit through which power flows without resistance.",
-    "body": "# Centering\n\n**Category**: Discipline Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Attune 6 (Trained), Key Ability Score 2\n\n## Description\nThe character has learned to stabilize their internal flow of energy, allowing them to channel power with greater control and intensity.\n\n## Mechanics & Benefit\nYou gain a **\\+2 Bonus** to all **Attune Checks**.\n\n## Special Rules\nThis replaces the bonus from *Centering*, it does not stack (it is an upgrade).\n\n  ### \n\n  ## **Centering Master**\n\n  **Description:** The character's control over their metaphysical connection is absolute; they are a conduit through which power flows without resistance.",
-    "mechanics": "You gain a **\\+2 Bonus** to all **Attune Checks**.",
-    "notes": "[Modifier] +2 to Attune\n[Rule] This replaces the bonus from *Centering*, it does not stack (it is an upgrade).\n\n  ### \n\n  ## **Cent...\n[Prerequisite] Attune 6 (Trained), Key Ability Score 2",
-    "notesList": [
-      "[Modifier] +2 to Attune",
-      "[Rule] This replaces the bonus from *Centering*, it does not stack (it is an upgrade).\n\n  ### \n\n  ## **Cent...",
-      "[Prerequisite] Attune 6 (Trained), Key Ability Score 2"
-    ],
-    "keywords": "centering, discipline, special-feature, focused-training, mastery, learned",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "discipline-centering-expert",
-    "name": "Centering Expert",
-    "category": "Discipline",
-    "type": "discipline",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Attune 11, Key Ability 4",
-    "modifiers": [],
-    "description": "Centering Expert is a Discipline Feature: +4 Attune Checks (Affecting DCs).",
-    "mechanic": "\\+4 Attune Checks (Affecting DCs).",
-    "rules": "63",
-    "special_rules": "63",
-    "body": "# Centering Expert\n\n**Category**: Discipline Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Attune 11, Key Ability 4\n\n## Description\nCentering Expert is a Discipline Feature: \\+4 Attune Checks (Affecting DCs).\n\n## Mechanics & Benefit\n\\+4 Attune Checks (Affecting DCs).\n\n## Special Rules\n63",
-    "mechanics": "\\+4 Attune Checks (Affecting DCs).",
-    "notes": "[Rule] 63\n[Prerequisite] Attune 11, Key Ability 4",
-    "notesList": [
-      "[Rule] 63",
-      "[Prerequisite] Attune 11, Key Ability 4"
-    ],
-    "keywords": "centering expert, discipline, special-feature, focused-training, mastery, centering",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "discipline-centering-master",
-    "name": "Centering Master",
-    "category": "Discipline",
-    "type": "discipline",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Attune 16, Key Ability 6",
-    "modifiers": [],
-    "description": "Centering Master is a Discipline Feature: +6 Attune Checks (Affecting DCs).",
-    "mechanic": "\\+6 Attune Checks (Affecting DCs).",
-    "rules": "64",
-    "special_rules": "64",
-    "body": "# Centering Master\n\n**Category**: Discipline Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Attune 16, Key Ability 6\n\n## Description\nCentering Master is a Discipline Feature: \\+6 Attune Checks (Affecting DCs).\n\n## Mechanics & Benefit\n\\+6 Attune Checks (Affecting DCs).\n\n## Special Rules\n64",
-    "mechanics": "\\+6 Attune Checks (Affecting DCs).",
-    "notes": "[Rule] 64\n[Prerequisite] Attune 16, Key Ability 6",
-    "notesList": [
-      "[Rule] 64",
-      "[Prerequisite] Attune 16, Key Ability 6"
-    ],
-    "keywords": "centering master, discipline, special-feature, focused-training, mastery, centering",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "combat-channel-smite",
@@ -1526,117 +849,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] If the attack misses, the Invocation energy is dissipated and lost.",
       "[Prerequisite] Awakened (Energy), Attune 1"
-    ],
-    "keywords": "channel smite, combat, special-feature, combat-maneuver, tactical-edge, technique",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "karma-charmed",
-    "name": "Charmed",
-    "category": "Karma",
-    "type": "karma",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Maximum Karma Pool of 4+",
-    "modifiers": [],
-    "description": "The character leads a charmed life. Disasters that would doom others seem to miss them by inches.",
-    "mechanic": "**Once per day**, if you roll a **Natural 1** (Fumble/Critical Failure), you may immediately re-roll it without spending a Karma Point.  \n  * *Mechanics:* This serves as a free \"safety net\" against catastrophic failure.",
-    "rules": "122",
-    "special_rules": "122",
-    "body": "# Charmed\n\n**Category**: Karma Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Maximum Karma Pool of 4+\n\n## Description\nThe character leads a charmed life. Disasters that would doom others seem to miss them by inches.\n\n## Mechanics & Benefit\n**Once per day**, if you roll a **Natural 1** (Fumble/Critical Failure), you may immediately re-roll it without spending a Karma Point.  \n  * *Mechanics:* This serves as a free \"safety net\" against catastrophic failure.\n\n## Special Rules\n122",
-    "mechanics": "**Once per day**, if you roll a **Natural 1** (Fumble/Critical Failure), you may immediately re-roll it without spending a Karma Point.  \n  * *Mechanics:* This serves as a free \"safety net\" against catastrophic failure.",
-    "notes": "[Rule] 122\n[Prerequisite] Maximum Karma Pool of 4+",
-    "notesList": [
-      "[Rule] 122",
-      "[Prerequisite] Maximum Karma Pool of 4+"
-    ],
-    "keywords": "charmed, karma, special-feature, disasters, others, inches",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "general-climber",
-    "name": "Climber",
-    "category": "General",
-    "type": "general",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Agility 1, Athletics 1",
-    "modifiers": [
-      {
-        "target": "Athletics Climbing",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Athletics Climbing"
-      }
-    ],
-    "description": "The character is a master mountaineer and vertical surface scaler.",
-    "mechanic": "- **Speed Multiplier Boost**: Increases all Climbing speeds without affecting action penalties:\n  - **Standard Climbing**: Moves at full **Base Walking Speed (1x = 30 ft/rd)** on standard surfaces.\n  - **Scaling Pace**: Moves at **2x Base Speed (60 ft/rd)**.\n  - **Fast Ascent Pace**: Moves at **3x Base Speed (90 ft/rd)**.\n  - **Fast Descent Pace**: Moves at **6x Base Speed (180 ft/rd)**.\n- **Grip & Balance**: Gain **+2 bonus** to Athletics (Climbing) checks and avoid fall damage on successful descent checks.",
-    "rules": "Prerequisite: Agility 1, Athletics 1.",
-    "special_rules": "Prerequisite: Agility 1, Athletics 1.",
-    "body": "# Climber\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisites**: Agility 1, Athletics 1  \n\n## Description\nThe character is an expert climber capable of rapid ascent, surface scaling, and controlled vertical descent.\n\n## Mechanics & Benefit\n- **Speed Multiplier Boost**: Increases all Climbing speeds without affecting action penalties:\n  - **Standard Climbing**: Moves at full **Base Walking Speed (1x = 30 ft/rd)** on standard surfaces.\n  - **Scaling Pace**: Moves at **2x Base Speed (60 ft/rd)**.\n  - **Fast Ascent Pace**: Moves at **3x Base Speed (90 ft/rd)**.\n  - **Fast Descent Pace**: Moves at **6x Base Speed (180 ft/rd)**.\n- **Grip & Balance**: Gain **+2 bonus** to Athletics (Climbing) checks and avoid fall damage on successful descent checks.",
-    "mechanics": "- **Speed Multiplier Boost**: Increases all Climbing speeds without affecting action penalties:\n  - **Standard Climbing**: Moves at full **Base Walking Speed (1x = 30 ft/rd)** on standard surfaces.\n  - **Scaling Pace**: Moves at **2x Base Speed (60 ft/rd)**.\n  - **Fast Ascent Pace**: Moves at **3x Base Speed (90 ft/rd)**.\n  - **Fast Descent Pace**: Moves at **6x Base Speed (180 ft/rd)**.\n- **Grip & Balance**: Gain **+2 bonus** to Athletics (Climbing) checks and avoid fall damage on successful descent checks.",
-    "notes": "[Modifier] +2 to Athletics Climbing\n[Rule] Prerequisite: Agility 1, Athletics 1.\n[Prerequisite] Agility 1, Athletics 1",
-    "notesList": [
-      "[Modifier] +2 to Athletics Climbing",
-      "[Rule] Prerequisite: Agility 1, Athletics 1.",
-      "[Prerequisite] Agility 1, Athletics 1"
-    ],
-    "keywords": "climber, general, special-feature, master, mountaineer, vertical",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-coding-master",
-    "name": "Coding Master",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Computer Specialist",
-    "modifiers": [],
-    "description": "Coding Master is a Skill Feature: Perform Computer Tasks at Advantage.",
-    "mechanic": "Perform Computer Tasks at Advantage.",
-    "rules": "136",
-    "special_rules": "136",
-    "body": "# Coding Master\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Computer Specialist\n\n## Description\nCoding Master is a Skill Feature: Perform Computer Tasks at Advantage.\n\n## Mechanics & Benefit\nPerform Computer Tasks at Advantage.\n\n## Special Rules\n136",
-    "mechanics": "Perform Computer Tasks at Advantage.",
-    "notes": "[Rule] 136\n[Prerequisite] Computer Specialist",
-    "notesList": [
-      "[Rule] 136",
-      "[Prerequisite] Computer Specialist"
-    ],
-    "keywords": "coding master, skill, special-feature, coding, master, feature:",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "combat-combat-casting",
@@ -1684,9 +897,7 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +4 to Concentration",
       "[Rule] 24",
       "[Prerequisite] Attune 1"
-    ],
-    "keywords": "combat casting, combat, special-feature, combat-maneuver, tactical-edge, trained",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
+    ]
   },
   {
     "id": "combat-combat-expertise",
@@ -1717,9 +928,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] You forfeit any bonus attacks from high skill or other features when using this action; you make one...",
       "[Prerequisite] Intellect 2"
-    ],
-    "keywords": "combat expertise, combat, special-feature, combat-maneuver, tactical-edge, fights",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
+    ]
   },
   {
     "id": "combat-combat-reflexes",
@@ -1750,9 +959,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 33",
       "[Prerequisite] Agility 1"
-    ],
-    "keywords": "combat reflexes, combat, special-feature, combat-maneuver, tactical-edge, exceptional",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
+    ]
   },
   {
     "id": "combat-combat-skill-focus",
@@ -1784,9 +991,7 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] Multiple 34",
       "[Prerequisite] Chosen Skill 1"
-    ],
-    "keywords": "combat skill focus, combat, special-feature, combat-maneuver, tactical-edge, feature:",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
+    ]
   },
   {
     "id": "combat-combat-specialist",
@@ -1818,272 +1023,7 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] \\[Multiple\\] May be taken for different weapon groups.",
       "[Prerequisite] Combat Skill 6 (Trained)"
-    ],
-    "keywords": "combat specialist, combat, special-feature, combat-maneuver, tactical-edge, inflict",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "special-companion",
-    "name": "Companion",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": true,
-    "max_rank": 4,
-    "is_multiple": true,
-    "prerequisites": "Charisma 1",
-    "modifiers": [],
-    "description": "The character has unlocked access to a loyal companion, bio-construct, tactical drone, or metaphysical cohort.",
-    "mechanic": "Purchasing this feature unlocks access to the Modular Companion Matrix and grants a loyal cohort constructed with **40 Character Points (CP)** (15 CP Form Package + 25 CP Function Package).",
-    "rules": "**[Ranked / Multiple Purchases]**: You may purchase this feature multiple times:\n- **Additional Companion Unit**: Each new purchase of the Companion feature allows you to unlock and construct an additional separate 40 CP Companion.\n- **Enhanced Build Budget**: Alternatively, taking an additional rank in an existing companion grants **+10 CP** to that companion's build budget (Rank 1: 40 CP, Rank 2: 50 CP, Rank 3: 60 CP, etc.).",
-    "special_rules": "**[Ranked / Multiple Purchases]**: You may purchase this feature multiple times:\n- **Additional Companion Unit**: Each new purchase of the Companion feature allows you to unlock and construct an additional separate 40 CP Companion.\n- **Enhanced Build Budget**: Alternatively, taking an additional rank in an existing companion grants **+10 CP** to that companion's build budget (Rank 1: 40 CP, Rank 2: 50 CP, Rank 3: 60 CP, etc.).",
-    "body": "# Companion\n\n**Category**: Special Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Charisma 1\n\n## Description\nAs with Metaphysics (Awakened) and Augmentations (Augmented), access to Companions must be unlocked by purchasing the **Companion** feature. The character gains a loyal follower, bio-engineered beast, combat drone, or metaphysical spirit-guide.\n\n## Mechanics & Benefit\nPurchasing this feature unlocks access to the Modular Companion Matrix and grants a loyal cohort constructed with **40 Character Points (CP)** (15 CP Form Package + 25 CP Function Package).\n\n## Special Rules\n**[Ranked / Multiple Purchases]**: You may purchase this feature multiple times:\n- **Additional Companion Unit**: Each new purchase of the Companion feature allows you to unlock and construct an additional separate 40 CP Companion.\n- **Enhanced Build Budget**: Alternatively, taking an additional rank in an existing companion grants **+10 CP** to that companion's build budget (Rank 1: 40 CP, Rank 2: 50 CP, Rank 3: 60 CP, etc.).",
-    "mechanics": "Purchasing this feature unlocks access to the Modular Companion Matrix and grants a loyal cohort constructed with **40 Character Points (CP)** (15 CP Form Package + 25 CP Function Package).",
-    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] **[Ranked / Multiple Purchases]**: You may purchase this feature multiple times:\n- **Additional Comp...\n[Prerequisite] Charisma 1",
-    "notesList": [
-      "[Rule] Ranked: Bonus stacks with additional purchases",
-      "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] **[Ranked / Multiple Purchases]**: You may purchase this feature multiple times:\n- **Additional Comp...",
-      "[Prerequisite] Charisma 1"
-    ],
-    "keywords": "companion, special, special-feature, unlocked, access, bio-construct",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-computer-specialist",
-    "name": "Computer Specialist",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Computers 1",
-    "modifiers": [
-      {
-        "target": "Computer tasks Hacking",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Computer tasks Hacking"
-      },
-      {
-        "target": "Programming",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Programming"
-      },
-      {
-        "target": "Hardware Repair",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Hardware Repair"
-      }
-    ],
-    "description": "The character lives in the digital realm, navigating code as easily as walking down the street.",
-    "mechanic": "Gain a **\\+2 Bonus** to all **Computer** tasks (Hacking, Programming, Hardware Repair).",
-    "rules": "134",
-    "special_rules": "134",
-    "body": "# Computer Specialist\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Computers 1\n\n## Description\nThe character lives in the digital realm, navigating code as easily as walking down the street.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to all **Computer** tasks (Hacking, Programming, Hardware Repair).\n\n## Special Rules\n134",
-    "mechanics": "Gain a **\\+2 Bonus** to all **Computer** tasks (Hacking, Programming, Hardware Repair).",
-    "notes": "[Modifier] +2 to Computer tasks Hacking\n[Modifier] +2 to Programming\n[Modifier] +2 to Hardware Repair\n[Rule] 134\n[Prerequisite] Computers 1",
-    "notesList": [
-      "[Modifier] +2 to Computer tasks Hacking",
-      "[Modifier] +2 to Programming",
-      "[Modifier] +2 to Hardware Repair",
-      "[Rule] 134",
-      "[Prerequisite] Computers 1"
-    ],
-    "keywords": "computer specialist, skill, special-feature, digital, navigating, easily",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "general-connected",
-    "name": "Connected",
-    "category": "General",
-    "type": "general",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": true,
-    "max_rank": 4,
-    "is_multiple": false,
-    "prerequisites": "Charisma 1",
-    "modifiers": [],
-    "description": "The character has friends in low (or high) places. They can call in favors for equipment, information, or safe houses.",
-    "mechanic": "You have a network of contacts.  \n  * *Rank 1:* Street/Soldier level (Gangs, Grunts).  \n  * *Rank 2:* Management/Lieutenant level (Shop owners, Squad leaders).  \n  * *Rank 3:* Officer/Executive level (City officials, Corp VPs).  \n  * *Rank 4:* Boss/Director level (Planetary Governors, Crime Lords).",
-    "rules": "This feature is Ranked (up to Rank 4). Each additional rank purchased expands the reach, authority, and influence of your network of contacts.",
-    "special_rules": "This feature is Ranked (up to Rank 4). Each additional rank purchased expands the reach, authority, and influence of your network of contacts.",
-    "body": "# Connected\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Charisma 1\n\n## Description\nThe character has friends in low (or high) places. They can call in favors for equipment, information, or safe houses.\n\n## Mechanics & Benefit\nYou have a network of contacts.  \n  * *Rank 1:* Street/Soldier level (Gangs, Grunts).  \n  * *Rank 2:* Management/Lieutenant level (Shop owners, Squad leaders).  \n  * *Rank 3:* Officer/Executive level (City officials, Corp VPs).  \n  * *Rank 4:* Boss/Director level (Planetary Governors, Crime Lords).\n\n## Special Rules\nThis feature is Ranked (up to Rank 4). Each additional rank purchased expands the reach, authority, and influence of your network of contacts.",
-    "mechanics": "You have a network of contacts.  \n  * *Rank 1:* Street/Soldier level (Gangs, Grunts).  \n  * *Rank 2:* Management/Lieutenant level (Shop owners, Squad leaders).  \n  * *Rank 3:* Officer/Executive level (City officials, Corp VPs).  \n  * *Rank 4:* Boss/Director level (Planetary Governors, Crime Lords).",
-    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] This feature is Ranked (up to Rank 4). Each additional rank purchased expands the reach, authority, ...\n[Prerequisite] Charisma 1",
-    "notesList": [
-      "[Rule] Ranked: Bonus stacks with additional purchases",
-      "[Rule] This feature is Ranked (up to Rank 4). Each additional rank purchased expands the reach, authority, ...",
-      "[Prerequisite] Charisma 1"
-    ],
-    "keywords": "connected, general, special-feature, friends, places, favors",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "general-contacts",
-    "name": "Contacts",
-    "category": "General",
-    "type": "general",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Charisma 1",
-    "modifiers": [],
-    "description": "The character knows who to talk to. They don't necessarily have favors owed, but they know the flow of information.",
-    "mechanic": "You may make **Gather Information** checks in **1/2 the typical time**.",
-    "rules": "85",
-    "special_rules": "85",
-    "body": "# Contacts\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Charisma 1\n\n## Description\nThe character knows who to talk to. They don't necessarily have favors owed, but they know the flow of information.\n\n## Mechanics & Benefit\nYou may make **Gather Information** checks in **1/2 the typical time**.\n\n## Special Rules\n85",
-    "mechanics": "You may make **Gather Information** checks in **1/2 the typical time**.",
-    "notes": "[Rule] 85\n[Prerequisite] Charisma 1",
-    "notesList": [
-      "[Rule] 85",
-      "[Prerequisite] Charisma 1"
-    ],
-    "keywords": "contacts, general, special-feature, necessarily, favors, information",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "general-coordinated-assist",
-    "name": "Coordinated Assist",
-    "category": "General",
-    "type": "general",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": true,
-    "max_rank": 4,
-    "is_multiple": false,
-    "prerequisites": "Intellect 1",
-    "modifiers": [],
-    "description": "The character is a natural team player or squad leader, adept at setting up allies for success.",
-    "mechanic": "When using the **Aid Another** action (Skill Synergy), you grant an additional **\\+1 Bonus** to your ally's check.",
-    "rules": "This feature is \\[Ranked\\] by Intellect. (Rank 2 grants \\+2, etc.).",
-    "special_rules": "This feature is \\[Ranked\\] by Intellect. (Rank 2 grants \\+2, etc.).",
-    "body": "# Coordinated Assist\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Intellect 1\n\n## Description\nThe character is a natural team player or squad leader, adept at setting up allies for success.\n\n## Mechanics & Benefit\nWhen using the **Aid Another** action (Skill Synergy), you grant an additional **\\+1 Bonus** to your ally's check.\n\n## Special Rules\nThis feature is \\[Ranked\\] by Intellect. (Rank 2 grants \\+2, etc.).",
-    "mechanics": "When using the **Aid Another** action (Skill Synergy), you grant an additional **\\+1 Bonus** to your ally's check.",
-    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] This feature is \\[Ranked\\] by Intellect. (Rank 2 grants \\+2, etc.).\n[Prerequisite] Intellect 1",
-    "notesList": [
-      "[Rule] Ranked: Bonus stacks with additional purchases",
-      "[Rule] This feature is \\[Ranked\\] by Intellect. (Rank 2 grants \\+2, etc.).",
-      "[Prerequisite] Intellect 1"
-    ],
-    "keywords": "coordinated assist, general, special-feature, natural, player, leader",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-crack-pilot",
-    "name": "Crack Pilot",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Gifted Pilot, Pilot 11",
-    "modifiers": [],
-    "description": "Crack Pilot is a Skill Feature: +4 Piloting, +20% to Maximum Vehicle Speed.",
-    "mechanic": "\\+4 Piloting, \\+20% to Maximum Vehicle Speed.",
-    "rules": "142",
-    "special_rules": "142",
-    "body": "# Crack Pilot\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Gifted Pilot, Pilot 11\n\n## Description\nCrack Pilot is a Skill Feature: \\+4 Piloting, \\+20% to Maximum Vehicle Speed.\n\n## Mechanics & Benefit\n\\+4 Piloting, \\+20% to Maximum Vehicle Speed.\n\n## Special Rules\n142",
-    "mechanics": "\\+4 Piloting, \\+20% to Maximum Vehicle Speed.",
-    "notes": "[Rule] 142\n[Prerequisite] Gifted Pilot, Pilot 11",
-    "notesList": [
-      "[Rule] 142",
-      "[Prerequisite] Gifted Pilot, Pilot 11"
-    ],
-    "keywords": "crack pilot, skill, special-feature, feature:, piloting, maximum",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "special-cripple",
-    "name": "Cripple",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Sneak Attack",
-    "modifiers": [],
-    "description": "Cripple is a Special Feature: Cause severe damage to a target's limb.",
-    "mechanic": "Cause severe damage to a target's limb.",
-    "rules": "209",
-    "special_rules": "209",
-    "body": "# Cripple\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Sneak Attack\n\n## Description\nCripple is a Special Feature: Cause severe damage to a target's limb.\n\n## Mechanics & Benefit\nCause severe damage to a target's limb.\n\n## Special Rules\n209",
-    "mechanics": "Cause severe damage to a target's limb.",
-    "notes": "[Rule] 209\n[Prerequisite] Sneak Attack",
-    "notesList": [
-      "[Rule] 209",
-      "[Prerequisite] Sneak Attack"
-    ],
-    "keywords": "cripple, special, special-feature, feature:, severe, damage",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "combat-crushing-blow",
@@ -2104,84 +1044,17 @@ export const DEFAULT_FEATURES = [
     "is_multiple": false,
     "prerequisites": "-",
     "modifiers": [],
-    "description": "Crushing Blow is a Combat Feature: Reduce opponent's Defense by 2 on a successful strike.",
-    "mechanic": "Reduce opponent's Defense by 2 on a successful strike.",
+    "description": "Crushing Blow is a Combat Feature: Reduce opponent's AC.",
+    "mechanic": "Reduce opponent's AC.",
     "rules": "36",
     "special_rules": "36",
-    "body": "# Crushing Blow\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: \\-\n\n## Description\nCrushing Blow is a Combat Feature: Reduce opponent's Defense.\n\n## Mechanics & Benefit\nReduce opponent's Defense.\n\n## Special Rules\n36",
-    "mechanics": "Reduce opponent's Defense by 2 on a successful strike.",
+    "body": "# Crushing Blow\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: \\-\n\n## Description\nCrushing Blow is a Combat Feature: Reduce opponent's AC.\n\n## Mechanics & Benefit\nReduce opponent's AC.\n\n## Special Rules\n36",
+    "mechanics": "Reduce opponent's AC.",
     "notes": "[Rule] 36\n[Prerequisite] -",
     "notesList": [
       "[Rule] 36",
       "[Prerequisite] -"
-    ],
-    "keywords": "crushing blow, combat, special-feature, combat-maneuver, tactical-edge, crushing",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "special-danger-sense",
-    "name": "Danger Sense",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Wisdom 1",
-    "modifiers": [],
-    "description": "A \"sixth sense\" or spidey-sense that warns of immediate peril.",
-    "mechanic": "You make all **Surprise Checks** and checks to avoid traps at **Advantage**. You are never truly \"unaware\" of direct danger, allowing you to act in the Surprise round.",
-    "rules": "189",
-    "special_rules": "189",
-    "body": "# Danger Sense\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Wisdom 1\n\n## Description\nA \"sixth sense\" or spidey-sense that warns of immediate peril.\n\n## Mechanics & Benefit\nYou make all **Surprise Checks** and checks to avoid traps at **Advantage**. You are never truly \"unaware\" of direct danger, allowing you to act in the Surprise round.\n\n## Special Rules\n189",
-    "mechanics": "You make all **Surprise Checks** and checks to avoid traps at **Advantage**. You are never truly \"unaware\" of direct danger, allowing you to act in the Surprise round.",
-    "notes": "[Rule] 189\n[Prerequisite] Wisdom 1",
-    "notesList": [
-      "[Rule] 189",
-      "[Prerequisite] Wisdom 1"
-    ],
-    "keywords": "danger sense, special, special-feature, \"sixth, sense\", spidey-sense",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "special-darksight",
-    "name": "Darksight",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "None",
-    "modifiers": [],
-    "description": "The character sees using thermal or other non-visible spectrums.",
-    "mechanic": "You can see in total darkness up to 60 feet.",
-    "rules": "196",
-    "special_rules": "196",
-    "body": "# Darksight\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character sees using thermal or other non-visible spectrums.\n\n## Mechanics & Benefit\nYou can see in total darkness up to 60 feet.\n\n## Special Rules\n196",
-    "mechanics": "You can see in total darkness up to 60 feet.",
-    "notes": "[Rule] 196",
-    "notesList": [
-      "[Rule] 196"
-    ],
-    "keywords": "darksight, special, special-feature, thermal, non-visible, spectrums",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "combat-dead-aim",
@@ -2221,58 +1094,7 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Strike with Ranged Weapons",
       "[Rule] 37",
       "[Prerequisite] Wisdom 3, Ranged 6"
-    ],
-    "keywords": "dead aim, combat, special-feature, combat-maneuver, tactical-edge, trades",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "skill-deceitful",
-    "name": "Deceitful",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "None",
-    "modifiers": [
-      {
-        "target": "Manipulation",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Manipulation"
-      },
-      {
-        "target": "Etiquette",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Etiquette"
-      }
-    ],
-    "description": "The character is a pathological or professional liar, skilled in misdirection and blending in.",
-    "mechanic": "Gain a **\\+2 Bonus** to **Manipulation Skills** (Bluff, Disguise) and a **\\+1 Bonus** to **Etiquette** checks.",
-    "rules": "137",
-    "special_rules": "137",
-    "body": "# Deceitful\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character is a pathological or professional liar, skilled in misdirection and blending in.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Manipulation Skills** (Bluff, Disguise) and a **\\+1 Bonus** to **Etiquette** checks.\n\n## Special Rules\n137",
-    "mechanics": "Gain a **\\+2 Bonus** to **Manipulation Skills** (Bluff, Disguise) and a **\\+1 Bonus** to **Etiquette** checks.",
-    "notes": "[Modifier] +2 to Manipulation\n[Modifier] +1 to Etiquette\n[Rule] 137",
-    "notesList": [
-      "[Modifier] +2 to Manipulation",
-      "[Modifier] +1 to Etiquette",
-      "[Rule] 137"
-    ],
-    "keywords": "deceitful, skill, special-feature, pathological, professional, skilled",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "combat-defensive-combat-training",
@@ -2336,9 +1158,7 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +4 to Bull Rush",
       "[Rule] 38",
       "[Prerequisite] Combat Skill 1"
-    ],
-    "keywords": "defensive combat training, combat, special-feature, combat-maneuver, tactical-edge, trained",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
+    ]
   },
   {
     "id": "combat-deflect-arrows",
@@ -2369,50 +1189,13 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 39",
       "[Prerequisite] Agility 2, Unarmed 1"
-    ],
-    "keywords": "deflect arrows, combat, special-feature, combat-maneuver, tactical-edge, projectiles",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
+    ]
   },
   {
-    "id": "karma-devout",
-    "name": "Devout",
-    "category": "Karma",
-    "type": "karma",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": true,
-    "max_rank": 4,
-    "is_multiple": false,
-    "prerequisites": "Believer",
-    "modifiers": [],
-    "description": "Devout is a Karma Feature: Call upon one’s Faith for an Ability Check reroll once per day.",
-    "mechanic": "Call upon one’s Faith for an Ability Check reroll once per day.",
-    "rules": "Ranked (Cha) 120",
-    "special_rules": "Ranked (Cha) 120",
-    "body": "# Devout\n\n**Category**: Karma Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Believer\n\n## Description\nDevout is a Karma Feature: Call upon one’s Faith for an Ability Check reroll once per day.\n\n## Mechanics & Benefit\nCall upon one’s Faith for an Ability Check reroll once per day.\n\n## Special Rules\nRanked (Cha) 120",
-    "mechanics": "Call upon one’s Faith for an Ability Check reroll once per day.",
-    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Ranked (Cha) 120\n[Prerequisite] Believer",
-    "notesList": [
-      "[Rule] Ranked: Bonus stacks with additional purchases",
-      "[Rule] Ranked (Cha) 120",
-      "[Prerequisite] Believer"
-    ],
-    "keywords": "devout, karma, special-feature, feature:, ability, reroll",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "general-diehard",
-    "name": "Diehard",
-    "category": "General",
-    "type": "general",
+    "id": "combat-dodge",
+    "name": "Dodge",
+    "category": "Combat",
+    "type": "combat",
     "cp": 3,
     "costs": {
       "bp": 3,
@@ -2425,27 +1208,25 @@ export const DEFAULT_FEATURES = [
     },
     "is_ranked": false,
     "is_multiple": false,
-    "prerequisites": "Endurance",
+    "prerequisites": "Agility 1",
     "modifiers": [],
-    "description": "Diehard is a General Feature: Automatically stabilize when dying.",
-    "mechanic": "Automatically stabilize when dying.",
-    "rules": "93",
-    "special_rules": "93",
-    "body": "# Diehard\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Endurance\n\n## Description\nDiehard is a General Feature: Automatically stabilize when dying.\n\n## Mechanics & Benefit\nAutomatically stabilize when dying.\n\n## Special Rules\n93",
-    "mechanics": "Automatically stabilize when dying.",
-    "notes": "[Rule] 93\n[Prerequisite] Endurance",
+    "description": "The character is adept at dodging blows.",
+    "mechanic": "Gain a **\\+1 Dodge bonus to Defense**.",
+    "rules": "Dodge bonuses stack with other Dodge bonuses (but not with themselves). This bonus is lost if you are Flat-Footed.",
+    "special_rules": "Dodge bonuses stack with other Dodge bonuses (but not with themselves). This bonus is lost if you are Flat-Footed.",
+    "body": "# Dodge\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Agility 1\n\n## Description\nThe character is adept at dodging blows.\n\n## Mechanics & Benefit\nGain a **\\+1 Dodge bonus to Defense**.\n\n## Special Rules\nDodge bonuses stack with other Dodge bonuses (but not with themselves). This bonus is lost if you are Flat-Footed.",
+    "mechanics": "Gain a **\\+1 Dodge bonus to Defense**.",
+    "notes": "[Rule] Dodge bonuses stack with other Dodge bonuses (but not with themselves). This bonus is lost if you ar...\n[Prerequisite] Agility 1",
     "notesList": [
-      "[Rule] 93",
-      "[Prerequisite] Endurance"
-    ],
-    "keywords": "diehard, general, special-feature, feature:, automatically, stabilize",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+      "[Rule] Dodge bonuses stack with other Dodge bonuses (but not with themselves). This bonus is lost if you ar...",
+      "[Prerequisite] Agility 1"
+    ]
   },
   {
-    "id": "skill-digital-expert",
-    "name": "Digital Expert",
-    "category": "Skill",
-    "type": "skill",
+    "id": "combat-double-slice",
+    "name": "Double Slice",
+    "category": "Combat",
+    "type": "combat",
     "cp": 3,
     "costs": {
       "bp": 3,
@@ -2458,21 +1239,1436 @@ export const DEFAULT_FEATURES = [
     },
     "is_ranked": false,
     "is_multiple": false,
-    "prerequisites": "Computer Specialist",
+    "prerequisites": "Two-Weapon Fighting",
     "modifiers": [],
-    "description": "Digital Expert is a Skill Feature: Perform Computer Tasks in 1/2 time.",
-    "mechanic": "Perform Computer Tasks in 1/2 time.",
-    "rules": "135",
-    "special_rules": "135",
-    "body": "# Digital Expert\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Computer Specialist\n\n## Description\nDigital Expert is a Skill Feature: Perform Computer Tasks in 1/2 time.\n\n## Mechanics & Benefit\nPerform Computer Tasks in 1/2 time.\n\n## Special Rules\n135",
-    "mechanics": "Perform Computer Tasks in 1/2 time.",
-    "notes": "[Rule] 135\n[Prerequisite] Computer Specialist",
+    "description": "Double Slice is a Combat Feature: Add your Str bonus to off-hand damage rolls.",
+    "mechanic": "Add your Str bonus to off-hand damage rolls.",
+    "rules": "43",
+    "special_rules": "43",
+    "body": "# Double Slice\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Two-Weapon Fighting\n\n## Description\nDouble Slice is a Combat Feature: Add your Str bonus to off-hand damage rolls.\n\n## Mechanics & Benefit\nAdd your Str bonus to off-hand damage rolls.\n\n## Special Rules\n43",
+    "mechanics": "Add your Str bonus to off-hand damage rolls.",
+    "notes": "[Rule] 43\n[Prerequisite] Two-Weapon Fighting",
     "notesList": [
-      "[Rule] 135",
-      "[Prerequisite] Computer Specialist"
+      "[Rule] 43",
+      "[Prerequisite] Two-Weapon Fighting"
+    ]
+  },
+  {
+    "id": "combat-greater-disarm",
+    "name": "Greater Disarm",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Improved Disarm",
+    "modifiers": [],
+    "description": "Greater Disarm is a Combat Feature: Disarmed weapons are knocked away from your enemy.",
+    "mechanic": "Disarmed weapons are knocked away from your enemy.",
+    "rules": "27",
+    "special_rules": "27",
+    "body": "# Greater Disarm\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Improved Disarm\n\n## Description\nGreater Disarm is a Combat Feature: Disarmed weapons are knocked away from your enemy.\n\n## Mechanics & Benefit\nDisarmed weapons are knocked away from your enemy.\n\n## Special Rules\n27",
+    "mechanics": "Disarmed weapons are knocked away from your enemy.",
+    "notes": "[Rule] 27\n[Prerequisite] Improved Disarm",
+    "notesList": [
+      "[Rule] 27",
+      "[Prerequisite] Improved Disarm"
+    ]
+  },
+  {
+    "id": "combat-greater-feint",
+    "name": "Greater Feint",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Improved Feint",
+    "modifiers": [],
+    "description": "Greater Feint is a Combat Feature: Enemies you feint lose their Agi bonus for 1 round.",
+    "mechanic": "Enemies you feint lose their Agi bonus for 1 round.",
+    "rules": "29",
+    "special_rules": "29",
+    "body": "# Greater Feint\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Improved Feint\n\n## Description\nGreater Feint is a Combat Feature: Enemies you feint lose their Agi bonus for 1 round.\n\n## Mechanics & Benefit\nEnemies you feint lose their Agi bonus for 1 round.\n\n## Special Rules\n29",
+    "mechanics": "Enemies you feint lose their Agi bonus for 1 round.",
+    "notes": "[Rule] 29\n[Prerequisite] Improved Feint",
+    "notesList": [
+      "[Rule] 29",
+      "[Prerequisite] Improved Feint"
+    ]
+  },
+  {
+    "id": "combat-greater-trip",
+    "name": "Greater Trip",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Improved Trip",
+    "modifiers": [],
+    "description": "Greater Trip is a Combat Feature: Enemies you trip provoke attacks of opportunity.",
+    "mechanic": "Enemies you trip provoke attacks of opportunity.",
+    "rules": "31",
+    "special_rules": "31",
+    "body": "# Greater Trip\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Improved Trip\n\n## Description\nGreater Trip is a Combat Feature: Enemies you trip provoke attacks of opportunity.\n\n## Mechanics & Benefit\nEnemies you trip provoke attacks of opportunity.\n\n## Special Rules\n31",
+    "mechanics": "Enemies you trip provoke attacks of opportunity.",
+    "notes": "[Rule] 31\n[Prerequisite] Improved Trip",
+    "notesList": [
+      "[Rule] 31",
+      "[Prerequisite] Improved Trip"
+    ]
+  },
+  {
+    "id": "combat-greater-two-weapon-defense",
+    "name": "Greater Two-Weapon Defense",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Grtr. Two-Weapon Fighting",
+    "modifiers": [],
+    "description": "Greater Two-Weapon Defense is a Combat Feature: +3 shield bonus to defense when fighting with two weapons.",
+    "mechanic": "\\+3 shield bonus to defense when fighting with two weapons.",
+    "rules": "49",
+    "special_rules": "49",
+    "body": "# Greater Two-Weapon Defense\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Grtr. Two-Weapon Fighting\n\n## Description\nGreater Two-Weapon Defense is a Combat Feature: \\+3 shield bonus to defense when fighting with two weapons.\n\n## Mechanics & Benefit\n\\+3 shield bonus to defense when fighting with two weapons.\n\n## Special Rules\n49",
+    "mechanics": "\\+3 shield bonus to defense when fighting with two weapons.",
+    "notes": "[Rule] 49\n[Prerequisite] Grtr. Two-Weapon Fighting",
+    "notesList": [
+      "[Rule] 49",
+      "[Prerequisite] Grtr. Two-Weapon Fighting"
+    ]
+  },
+  {
+    "id": "combat-greater-two-weapon-fighting",
+    "name": "Greater Two-Weapon Fighting",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Agi 4, Skill 11",
+    "modifiers": [],
+    "description": "Greater Two-Weapon Fighting is a Combat Feature: Gain a third off-hand attack.",
+    "mechanic": "Gain a third off-hand attack.",
+    "rules": "45",
+    "special_rules": "45",
+    "body": "# Greater Two-Weapon Fighting\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Agi 4, Skill 11\n\n## Description\nGreater Two-Weapon Fighting is a Combat Feature: Gain a third off-hand attack.\n\n## Mechanics & Benefit\nGain a third off-hand attack.\n\n## Special Rules\n45",
+    "mechanics": "Gain a third off-hand attack.",
+    "notes": "[Rule] 45\n[Prerequisite] Agi 4, Skill 11",
+    "notesList": [
+      "[Rule] 45",
+      "[Prerequisite] Agi 4, Skill 11"
+    ]
+  },
+  {
+    "id": "combat-greater-vital-strike",
+    "name": "Greater Vital Strike",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Improved Vital Strike, Skill 16",
+    "modifiers": [],
+    "description": "Greater Vital Strike is a Combat Feature: Deal four times the normal damage on a single attack.",
+    "mechanic": "Deal four times the normal damage on a single attack.",
+    "rules": "54",
+    "special_rules": "54",
+    "body": "# Greater Vital Strike\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Improved Vital Strike, Skill 16\n\n## Description\nGreater Vital Strike is a Combat Feature: Deal four times the normal damage on a single attack.\n\n## Mechanics & Benefit\nDeal four times the normal damage on a single attack.\n\n## Special Rules\n54",
+    "mechanics": "Deal four times the normal damage on a single attack.",
+    "notes": "[Rule] 54\n[Prerequisite] Improved Vital Strike, Skill 16",
+    "notesList": [
+      "[Rule] 54",
+      "[Prerequisite] Improved Vital Strike, Skill 16"
+    ]
+  },
+  {
+    "id": "combat-grtr-weapon-specialization",
+    "name": "Grtr. Weapon Specialization",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Imp. Weapon Spec, Skill 16",
+    "modifiers": [],
+    "description": "Grtr. Weapon Specialization is a Combat Feature: +3d damage with one weapon type.",
+    "mechanic": "\\+3d damage with one weapon type.",
+    "rules": "59",
+    "special_rules": "59",
+    "body": "# Grtr. Weapon Specialization\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Imp. Weapon Spec, Skill 16\n\n## Description\nGrtr. Weapon Specialization is a Combat Feature: \\+3d damage with one weapon type.\n\n## Mechanics & Benefit\n\\+3d damage with one weapon type.\n\n## Special Rules\n59",
+    "mechanics": "\\+3d damage with one weapon type.",
+    "notes": "[Rule] 59\n[Prerequisite] Imp. Weapon Spec, Skill 16",
+    "notesList": [
+      "[Rule] 59",
+      "[Prerequisite] Imp. Weapon Spec, Skill 16"
+    ]
+  },
+  {
+    "id": "combat-imp-weapon-specialization",
+    "name": "Imp. Weapon Specialization",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Weapon Spec, Skill 11",
+    "modifiers": [],
+    "description": "Imp. Weapon Specialization is a Combat Feature: +2d damage with one weapon type.",
+    "mechanic": "\\+2d damage with one weapon type.",
+    "rules": "58",
+    "special_rules": "58",
+    "body": "# Imp. Weapon Specialization\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Weapon Spec, Skill 11\n\n## Description\nImp. Weapon Specialization is a Combat Feature: \\+2d damage with one weapon type.\n\n## Mechanics & Benefit\n\\+2d damage with one weapon type.\n\n## Special Rules\n58",
+    "mechanics": "\\+2d damage with one weapon type.",
+    "notes": "[Rule] 58\n[Prerequisite] Weapon Spec, Skill 11",
+    "notesList": [
+      "[Rule] 58",
+      "[Prerequisite] Weapon Spec, Skill 11"
+    ]
+  },
+  {
+    "id": "combat-improved-disarm",
+    "name": "Improved Disarm",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Combat Expertise",
+    "modifiers": [
+      {
+        "target": "Disarm attempts",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Disarm attempts"
+      },
+      {
+        "target": "No attack of opportunity",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to No attack of opportunity"
+      }
     ],
-    "keywords": "digital expert, skill, special-feature, digital, expert, feature:",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    "description": "Improved Disarm is a Combat Feature: +2 bonus on disarm attempts, no attack of opportunity.",
+    "mechanic": "\\+2 bonus on disarm attempts, no attack of opportunity.",
+    "rules": "26",
+    "special_rules": "26",
+    "body": "# Improved Disarm\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Combat Expertise\n\n## Description\nImproved Disarm is a Combat Feature: \\+2 bonus on disarm attempts, no attack of opportunity.\n\n## Mechanics & Benefit\n\\+2 bonus on disarm attempts, no attack of opportunity.\n\n## Special Rules\n26",
+    "mechanics": "\\+2 bonus on disarm attempts, no attack of opportunity.",
+    "notes": "[Modifier] +2 to Disarm attempts\n[Modifier] +2 to No attack of opportunity\n[Rule] 26\n[Prerequisite] Combat Expertise",
+    "notesList": [
+      "[Modifier] +2 to Disarm attempts",
+      "[Modifier] +2 to No attack of opportunity",
+      "[Rule] 26",
+      "[Prerequisite] Combat Expertise"
+    ]
+  },
+  {
+    "id": "combat-improved-feint",
+    "name": "Improved Feint",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Combat Expertise",
+    "modifiers": [],
+    "description": "Improved Feint is a Combat Feature: Feint as a move action.",
+    "mechanic": "Feint as a move action.",
+    "rules": "28",
+    "special_rules": "28",
+    "body": "# Improved Feint\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Combat Expertise\n\n## Description\nImproved Feint is a Combat Feature: Feint as a move action.\n\n## Mechanics & Benefit\nFeint as a move action.\n\n## Special Rules\n28",
+    "mechanics": "Feint as a move action.",
+    "notes": "[Rule] 28\n[Prerequisite] Combat Expertise",
+    "notesList": [
+      "[Rule] 28",
+      "[Prerequisite] Combat Expertise"
+    ]
+  },
+  {
+    "id": "combat-improved-trip",
+    "name": "Improved Trip",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Combat Expertise",
+    "modifiers": [
+      {
+        "target": "Trip attempts",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Trip attempts"
+      },
+      {
+        "target": "No attack of opportunity",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to No attack of opportunity"
+      }
+    ],
+    "description": "Improved Trip is a Combat Feature: +2 bonus on trip attempts, no attack of opportunity.",
+    "mechanic": "\\+2 bonus on trip attempts, no attack of opportunity.",
+    "rules": "30",
+    "special_rules": "30",
+    "body": "# Improved Trip\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Combat Expertise\n\n## Description\nImproved Trip is a Combat Feature: \\+2 bonus on trip attempts, no attack of opportunity.\n\n## Mechanics & Benefit\n\\+2 bonus on trip attempts, no attack of opportunity.\n\n## Special Rules\n30",
+    "mechanics": "\\+2 bonus on trip attempts, no attack of opportunity.",
+    "notes": "[Modifier] +2 to Trip attempts\n[Modifier] +2 to No attack of opportunity\n[Rule] 30\n[Prerequisite] Combat Expertise",
+    "notesList": [
+      "[Modifier] +2 to Trip attempts",
+      "[Modifier] +2 to No attack of opportunity",
+      "[Rule] 30",
+      "[Prerequisite] Combat Expertise"
+    ]
+  },
+  {
+    "id": "combat-improved-two-weapon-defense",
+    "name": "Improved Two-Weapon Defense",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Imp. Two-Weapon Fighting",
+    "modifiers": [],
+    "description": "Improved Two-Weapon Defense is a Combat Feature: +2 shield bonus to defense when fighting with two weapons.",
+    "mechanic": "\\+2 shield bonus to defense when fighting with two weapons.",
+    "rules": "48",
+    "special_rules": "48",
+    "body": "# Improved Two-Weapon Defense\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Imp. Two-Weapon Fighting\n\n## Description\nImproved Two-Weapon Defense is a Combat Feature: \\+2 shield bonus to defense when fighting with two weapons.\n\n## Mechanics & Benefit\n\\+2 shield bonus to defense when fighting with two weapons.\n\n## Special Rules\n48",
+    "mechanics": "\\+2 shield bonus to defense when fighting with two weapons.",
+    "notes": "[Rule] 48\n[Prerequisite] Imp. Two-Weapon Fighting",
+    "notesList": [
+      "[Rule] 48",
+      "[Prerequisite] Imp. Two-Weapon Fighting"
+    ]
+  },
+  {
+    "id": "combat-improved-two-weapon-fighting",
+    "name": "Improved Two-Weapon Fighting",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Agi 3, Skill 6",
+    "modifiers": [],
+    "description": "Improved Two-Weapon Fighting is a Combat Feature: Gain second off-hand attack.",
+    "mechanic": "Gain second off-hand attack.",
+    "rules": "44",
+    "special_rules": "44",
+    "body": "# Improved Two-Weapon Fighting\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Agi 3, Skill 6\n\n## Description\nImproved Two-Weapon Fighting is a Combat Feature: Gain second off-hand attack.\n\n## Mechanics & Benefit\nGain second off-hand attack.\n\n## Special Rules\n44",
+    "mechanics": "Gain second off-hand attack.",
+    "notes": "[Rule] 44\n[Prerequisite] Agi 3, Skill 6",
+    "notesList": [
+      "[Rule] 44",
+      "[Prerequisite] Agi 3, Skill 6"
+    ]
+  },
+  {
+    "id": "combat-improved-vital-strike",
+    "name": "Improved Vital Strike",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Vital Strike, Skill 11",
+    "modifiers": [],
+    "description": "Improved Vital Strike is a Combat Feature: Deal three times the normal damage on a single attack.",
+    "mechanic": "Deal three times the normal damage on a single attack.",
+    "rules": "53",
+    "special_rules": "53",
+    "body": "# Improved Vital Strike\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Vital Strike, Skill 11\n\n## Description\nImproved Vital Strike is a Combat Feature: Deal three times the normal damage on a single attack.\n\n## Mechanics & Benefit\nDeal three times the normal damage on a single attack.\n\n## Special Rules\n53",
+    "mechanics": "Deal three times the normal damage on a single attack.",
+    "notes": "[Rule] 53\n[Prerequisite] Vital Strike, Skill 11",
+    "notesList": [
+      "[Rule] 53",
+      "[Prerequisite] Vital Strike, Skill 11"
+    ]
+  },
+  {
+    "id": "combat-mobility",
+    "name": "Mobility",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Agi 2, Dodge",
+    "modifiers": [
+      {
+        "target": "defense-mod",
+        "type": "combat",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 defense"
+      }
+    ],
+    "description": "Mobility is a Combat Feature: +4 defense against attacks of opportunity from movement.",
+    "mechanic": "\\+4 defense against attacks of opportunity from movement.",
+    "rules": "42",
+    "special_rules": "42",
+    "body": "# Mobility\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Agi 2, Dodge\n\n## Description\nMobility is a Combat Feature: \\+4 defense against attacks of opportunity from movement.\n\n## Mechanics & Benefit\n\\+4 defense against attacks of opportunity from movement.\n\n## Special Rules\n42",
+    "mechanics": "\\+4 defense against attacks of opportunity from movement.",
+    "notes": "[Modifier] +4 defense\n[Rule] 42\n[Prerequisite] Agi 2, Dodge",
+    "notesList": [
+      "[Modifier] +4 defense",
+      "[Rule] 42",
+      "[Prerequisite] Agi 2, Dodge"
+    ]
+  },
+  {
+    "id": "combat-multidextrous",
+    "name": "Multidextrous",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Ambidextrous or Agi 4",
+    "modifiers": [],
+    "description": "Multidextrous is a Combat Feature: No Off-Handed Penalty with Multiple Limbs.",
+    "mechanic": "No Off-Handed Penalty with Multiple Limbs.",
+    "rules": "Prerequisite: Ambidextrous or Agi 4.",
+    "special_rules": "Prerequisite: Ambidextrous or Agi 4.",
+    "body": "# Multidextrous\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Ambidextrous or Agi 4\n\n## Description\nMultidextrous is a Combat Feature: No Off-Handed Penalty with Multiple Limbs.\n\n## Mechanics & Benefit\nNo Off-Handed Penalty with Multiple Limbs.",
+    "mechanics": "No Off-Handed Penalty with Multiple Limbs.",
+    "notes": "[Rule] Prerequisite: Ambidextrous or Agi 4.\n[Prerequisite] Ambidextrous or Agi 4",
+    "notesList": [
+      "[Rule] Prerequisite: Ambidextrous or Agi 4.",
+      "[Prerequisite] Ambidextrous or Agi 4"
+    ]
+  },
+  {
+    "id": "combat-multidextrous-4-arms",
+    "name": "Multidextrous (4 Arms)",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 4,
+    "costs": {
+      "bp": 4,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Agility 2, 4 Arms",
+    "modifiers": [],
+    "description": "The character possesses four fully articulate arms terminating in sharp, clawed digits, suffering no off-hand penalties and capable of complex multi-arm combat and simultaneous engineering tasks.",
+    "mechanic": "- **Zero Off-Hand Penalty**: The character suffers no off-hand attack or interaction penalties when wielding weapons, tools, or shields with any of their four arms.\n- **Multi-Tasking Dexterity**: Can perform dual complex tasks simultaneously (e.g., firing a two-handed weapon while patching armor or operating a technical console with the second pair of arms).\n- **Clawed Digits**: Natural attacks made with the hands deal **1d6 + Str Lethal (Slashing/Piercing)** damage.",
+    "rules": "Prerequisite: Agility 2, 4 Arms.",
+    "special_rules": "Prerequisite: Agility 2, 4 Arms.",
+    "body": "# Multidextrous (4 Arms)\n\n**Category**: Combat Features  \n**Cost**: 4 BP  \n**Prerequisites**: Agility 2, 4 Arms  \n\n## Description\nThe character possesses four fully articulate upper limbs ending in sharp, reinforced clawed digits. Engineered for simultaneous fine motor manipulation and lethal close-quarters combat, all four limbs operate with primary-hand dexterity.\n\n## Mechanics & Benefit\n- **Zero Off-Hand Penalty**: The character suffers no off-hand attack or interaction penalties when wielding weapons, tools, or shields with any of their four arms.\n- **Multi-Tasking Dexterity**: Can perform dual complex tasks simultaneously (e.g., firing a two-handed weapon while patching armor or operating a technical console with the second pair of arms).\n- **Clawed Digits**: Natural attacks made with the hands deal **1d6 + Str Lethal (Slashing/Piercing)** damage.",
+    "mechanics": "- **Zero Off-Hand Penalty**: The character suffers no off-hand attack or interaction penalties when wielding weapons, tools, or shields with any of their four arms.\n- **Multi-Tasking Dexterity**: Can perform dual complex tasks simultaneously (e.g., firing a two-handed weapon while patching armor or operating a technical console with the second pair of arms).\n- **Clawed Digits**: Natural attacks made with the hands deal **1d6 + Str Lethal (Slashing/Piercing)** damage.",
+    "notes": "[Rule] Prerequisite: Agility 2, 4 Arms.\n[Prerequisite] Agility 2, 4 Arms",
+    "notesList": [
+      "[Rule] Prerequisite: Agility 2, 4 Arms.",
+      "[Prerequisite] Agility 2, 4 Arms"
+    ]
+  },
+  {
+    "id": "combat-natural-leader",
+    "name": "Natural Leader",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Charisma 3, Diplomacy 6",
+    "modifiers": [
+      {
+        "target": "Organization",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Organization"
+      },
+      {
+        "target": "Administration",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Administration"
+      }
+    ],
+    "description": "The character attracts loyal followers and can manage a crew or organization effectively.",
+    "mechanic": "You gain a number of **Followers** (NPCs) and potentially a **Cohort** (a loyal lieutenant). The number and quality depend on your Level and Charisma score. You gain a \\+2 bonus to Organization/Administration checks.",
+    "rules": "Prerequisite: Charisma 3, Diplomacy 6.",
+    "special_rules": "Prerequisite: Charisma 3, Diplomacy 6.",
+    "body": "# Natural Leader\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Charisma 3, Diplomacy 6\n\n## Description\nThe character attracts loyal followers and can manage a crew or organization effectively.\n\n## Mechanics & Benefit\nYou gain a number of **Followers** (NPCs) and potentially a **Cohort** (a loyal lieutenant). The number and quality depend on your Level and Charisma score. You gain a \\+2 bonus to Organization/Administration checks.",
+    "mechanics": "You gain a number of **Followers** (NPCs) and potentially a **Cohort** (a loyal lieutenant). The number and quality depend on your Level and Charisma score. You gain a \\+2 bonus to Organization/Administration checks.",
+    "notes": "[Modifier] +2 to Organization\n[Modifier] +2 to Administration\n[Rule] Prerequisite: Charisma 3, Diplomacy 6.\n[Prerequisite] Charisma 3, Diplomacy 6",
+    "notesList": [
+      "[Modifier] +2 to Organization",
+      "[Modifier] +2 to Administration",
+      "[Rule] Prerequisite: Charisma 3, Diplomacy 6.",
+      "[Prerequisite] Charisma 3, Diplomacy 6"
+    ]
+  },
+  {
+    "id": "combat-perfect-two-weapon-defense",
+    "name": "Perfect Two-Weapon Defense",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Perfect Two-Weapon Fighting",
+    "modifiers": [],
+    "description": "Perfect Two-Weapon Defense is a Combat Feature: +4 shield bonus to defense when fighting with two weapons.",
+    "mechanic": "\\+4 shield bonus to defense when fighting with two weapons.",
+    "rules": "50",
+    "special_rules": "50",
+    "body": "# Perfect Two-Weapon Defense\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Perfect Two-Weapon Fighting\n\n## Description\nPerfect Two-Weapon Defense is a Combat Feature: \\+4 shield bonus to defense when fighting with two weapons.\n\n## Mechanics & Benefit\n\\+4 shield bonus to defense when fighting with two weapons.\n\n## Special Rules\n50",
+    "mechanics": "\\+4 shield bonus to defense when fighting with two weapons.",
+    "notes": "[Rule] 50\n[Prerequisite] Perfect Two-Weapon Fighting",
+    "notesList": [
+      "[Rule] 50",
+      "[Prerequisite] Perfect Two-Weapon Fighting"
+    ]
+  },
+  {
+    "id": "combat-perfect-two-weapon-fighting",
+    "name": "Perfect Two-Weapon Fighting",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Agi 5, Skill 16",
+    "modifiers": [],
+    "description": "Perfect Two-Weapon Fighting is a Combat Feature: Gain a fourth off-hand attack.",
+    "mechanic": "Gain a fourth off-hand attack.",
+    "rules": "46",
+    "special_rules": "46",
+    "body": "# Perfect Two-Weapon Fighting\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Agi 5, Skill 16\n\n## Description\nPerfect Two-Weapon Fighting is a Combat Feature: Gain a fourth off-hand attack.\n\n## Mechanics & Benefit\nGain a fourth off-hand attack.\n\n## Special Rules\n46",
+    "mechanics": "Gain a fourth off-hand attack.",
+    "notes": "[Rule] 46\n[Prerequisite] Agi 5, Skill 16",
+    "notesList": [
+      "[Rule] 46",
+      "[Prerequisite] Agi 5, Skill 16"
+    ]
+  },
+  {
+    "id": "combat-snatch-arrows",
+    "name": "Snatch Arrows",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Agi 4, Deflect Arrows",
+    "modifiers": [],
+    "description": "Snatch Arrows is a Combat Feature: Catch a ranged attack.",
+    "mechanic": "Catch a ranged attack.",
+    "rules": "40",
+    "special_rules": "40",
+    "body": "# Snatch Arrows\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Agi 4, Deflect Arrows\n\n## Description\nSnatch Arrows is a Combat Feature: Catch a ranged attack.\n\n## Mechanics & Benefit\nCatch a ranged attack.\n\n## Special Rules\n40",
+    "mechanics": "Catch a ranged attack.",
+    "notes": "[Rule] 40\n[Prerequisite] Agi 4, Deflect Arrows",
+    "notesList": [
+      "[Rule] 40",
+      "[Prerequisite] Agi 4, Deflect Arrows"
+    ]
+  },
+  {
+    "id": "combat-tech-interface",
+    "name": "Tech Interface",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": true,
+    "prerequisites": "None",
+    "modifiers": [],
+    "description": "The character possesses a specialized mental architecture or metaphysical link that allows them to bridge the gap between consciousness and advanced machinery.",
+    "mechanic": "Special benefit.",
+    "rules": "Multiple selections allowed.",
+    "special_rules": "Multiple selections allowed.",
+    "body": "# Tech Interface\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character possesses a specialized mental architecture or metaphysical link that allows them to bridge the gap between consciousness and advanced machinery.\n\n## Mechanics & Benefit\nSpecial benefit.",
+    "mechanics": "Special benefit.",
+    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] Multiple selections allowed.",
+    "notesList": [
+      "[Rule] Multiple: May be purchased separately for different categories/types",
+      "[Rule] Multiple selections allowed."
+    ]
+  },
+  {
+    "id": "combat-two-weapon-defense",
+    "name": "Two-Weapon Defense",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Two-Weapon Fighting",
+    "modifiers": [],
+    "description": "The character uses their off-hand weapon to parry and block.",
+    "mechanic": "When wielding two weapons (or a double weapon), gain a **\\+1 Shield bonus to Defense**.",
+    "rules": "47",
+    "special_rules": "47",
+    "body": "# Two-Weapon Defense\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Two-Weapon Fighting\n\n## Description\nThe character uses their off-hand weapon to parry and block.\n\n## Mechanics & Benefit\nWhen wielding two weapons (or a double weapon), gain a **\\+1 Shield bonus to Defense**.\n\n## Special Rules\n47",
+    "mechanics": "When wielding two weapons (or a double weapon), gain a **\\+1 Shield bonus to Defense**.",
+    "notes": "[Rule] 47\n[Prerequisite] Two-Weapon Fighting",
+    "notesList": [
+      "[Rule] 47",
+      "[Prerequisite] Two-Weapon Fighting"
+    ]
+  },
+  {
+    "id": "combat-uncanny-dodge",
+    "name": "Uncanny Dodge",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Agility 4",
+    "modifiers": [],
+    "description": "The character reacts to danger before their senses fully process it.",
+    "mechanic": "You retain your **Agility bonus to Defense** even if you are caught **Flat-Footed** or struck by an **Invisible attacker**.",
+    "rules": "This does not negate the advantage an attacker gets from Feinting (see Greater Feint).",
+    "special_rules": "This does not negate the advantage an attacker gets from Feinting (see Greater Feint).",
+    "body": "# Uncanny Dodge\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Agility 4\n\n## Description\nThe character reacts to danger before their senses fully process it.\n\n## Mechanics & Benefit\nYou retain your **Agility bonus to Defense** even if you are caught **Flat-Footed** or struck by an **Invisible attacker**.\n\n## Special Rules\nThis does not negate the advantage an attacker gets from Feinting (see Greater Feint).",
+    "mechanics": "You retain your **Agility bonus to Defense** even if you are caught **Flat-Footed** or struck by an **Invisible attacker**.",
+    "notes": "[Rule] This does not negate the advantage an attacker gets from Feinting (see Greater Feint).\n[Prerequisite] Agility 4",
+    "notesList": [
+      "[Rule] This does not negate the advantage an attacker gets from Feinting (see Greater Feint).",
+      "[Prerequisite] Agility 4"
+    ]
+  },
+  {
+    "id": "combat-venom-spit",
+    "name": "Venom Spit",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Toxic Blood, Stamina 2",
+    "modifiers": [
+      {
+        "target": "Attack",
+        "type": "skill",
+        "value": -1,
+        "mode": "penalty",
+        "description": "-1 to Attack"
+      }
+    ],
+    "description": "Aerosolized or projectile spit of contact ocular neurotoxin that blinds victims upon striking their eyes or sensory membranes.",
+    "mechanic": "* **Delivery:** Contact (Ranged Attack with 20 ft range increment, up to 60 ft maximum range).\n* **Difficulty Class:** **DC 11 + (2 × Stamina)** Reflex or Fortitude check.\n* **Effect on Failure:** The victim is afflicted with **Blindness** for **10+ minutes** (or 10 + Stamina minutes), suffering full concealment penalties and loss of targeted visual combat capabilities.\n* **Effect on Success:** On a successful save, the target is dazzled (-1 to attack rolls and visual perception) for 1 minute.",
+    "rules": "Prerequisite: Toxic Blood, Stamina 2.",
+    "special_rules": "Prerequisite: Toxic Blood, Stamina 2.",
+    "body": "# Venom Spit\n\n**Category**: Combat / Physical Features  \n**Cost**: 2 BP  \n**Prerequisite**: Toxic Blood, Stamina 2  \n\n## Description\nPressurized chemical glands beneath the tongue allow the character to spit an aerosolized stream of corrosive, ocular-targeted venom at an approaching threat.\n\n## Mechanics & Benefit\n* **Delivery:** Contact (Ranged Attack with 20 ft range increment, up to 60 ft maximum range).\n* **Difficulty Class:** **DC 11 + (2 × Stamina)** Reflex or Fortitude check.\n* **Effect on Failure:** The victim is afflicted with **Blindness** for **10+ minutes** (or 10 + Stamina minutes), suffering full concealment penalties and loss of targeted visual combat capabilities.\n* **Effect on Success:** On a successful save, the target is dazzled (-1 to attack rolls and visual perception) for 1 minute.",
+    "mechanics": "* **Delivery:** Contact (Ranged Attack with 20 ft range increment, up to 60 ft maximum range).\n* **Difficulty Class:** **DC 11 + (2 × Stamina)** Reflex or Fortitude check.\n* **Effect on Failure:** The victim is afflicted with **Blindness** for **10+ minutes** (or 10 + Stamina minutes), suffering full concealment penalties and loss of targeted visual combat capabilities.\n* **Effect on Success:** On a successful save, the target is dazzled (-1 to attack rolls and visual perception) for 1 minute.",
+    "notes": "[Penalty] -1 to Attack\n[Rule] Prerequisite: Toxic Blood, Stamina 2.\n[Prerequisite] Toxic Blood, Stamina 2",
+    "notesList": [
+      "[Penalty] -1 to Attack",
+      "[Rule] Prerequisite: Toxic Blood, Stamina 2.",
+      "[Prerequisite] Toxic Blood, Stamina 2"
+    ]
+  },
+  {
+    "id": "combat-venomous-saliva",
+    "name": "Venomous Saliva",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Toxic Blood, Stamina 2",
+    "modifiers": [
+      {
+        "target": "Agility",
+        "type": "skill",
+        "value": -2,
+        "mode": "penalty",
+        "description": "-2 to Agility"
+      },
+      {
+        "target": "Sensory",
+        "type": "skill",
+        "value": -2,
+        "mode": "penalty",
+        "description": "-2 to Sensory"
+      }
+    ],
+    "description": "Sharp, needle-like teeth deliver an injected paralytic neurotoxin on bite attacks, shutting down motor nerve transmission.",
+    "mechanic": "* **Delivery:** Injected via natural bite attack or melee puncture attack.\n* **Difficulty Class:** **DC 11 + (2 × Stamina)** Fortitude check.\n* **Effect on Failure:** The victim is afflicted with **Paralytic condition** for **1 hour**, rendering motor systems immobilized.\n* **Effect on Success:** On a successful Fortitude save, the victim is afflicted with the **Drugged condition** (-2 penalty to Agility, Reflex, and sensory checks, plus slowed movement) for 1 hour.",
+    "rules": "Prerequisite: Toxic Blood, Stamina 2.",
+    "special_rules": "Prerequisite: Toxic Blood, Stamina 2.",
+    "body": "# Venomous Saliva\n\n**Category**: Combat / Physical Features  \n**Cost**: 2 BP  \n**Prerequisite**: Toxic Blood, Stamina 2  \n\n## Description\nDistinctive rows of sharp, needle-like teeth are backed by specialized venom glands along the jawline, injecting a potent paralytic venom into punctured tissues during a bite.\n\n## Mechanics & Benefit\n* **Delivery:** Injected via natural bite attack or melee puncture attack.\n* **Difficulty Class:** **DC 11 + (2 × Stamina)** Fortitude check.\n* **Effect on Failure:** The victim is afflicted with **Paralytic condition** for **1 hour**, rendering motor systems immobilized.\n* **Effect on Success:** On a successful Fortitude save, the victim is afflicted with the **Drugged condition** (-2 penalty to Agility, Reflex, and sensory checks, plus slowed movement) for 1 hour.",
+    "mechanics": "* **Delivery:** Injected via natural bite attack or melee puncture attack.\n* **Difficulty Class:** **DC 11 + (2 × Stamina)** Fortitude check.\n* **Effect on Failure:** The victim is afflicted with **Paralytic condition** for **1 hour**, rendering motor systems immobilized.\n* **Effect on Success:** On a successful Fortitude save, the victim is afflicted with the **Drugged condition** (-2 penalty to Agility, Reflex, and sensory checks, plus slowed movement) for 1 hour.",
+    "notes": "[Penalty] -2 to Agility\n[Penalty] -2 to Sensory\n[Rule] Prerequisite: Toxic Blood, Stamina 2.\n[Prerequisite] Toxic Blood, Stamina 2",
+    "notesList": [
+      "[Penalty] -2 to Agility",
+      "[Penalty] -2 to Sensory",
+      "[Rule] Prerequisite: Toxic Blood, Stamina 2.",
+      "[Prerequisite] Toxic Blood, Stamina 2"
+    ]
+  },
+  {
+    "id": "combat-vital-strike",
+    "name": "Vital Strike",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Combat Skill 6",
+    "modifiers": [],
+    "description": "The character makes a single, devastatingly accurate attack rather than a flurry of blows.",
+    "mechanic": "As a **Standard Action**, make a single attack at your highest bonus. If it hits, deal **two times (2x)** the weapon's damage dice.",
+    "rules": "52",
+    "special_rules": "52",
+    "body": "# Vital Strike\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Combat Skill 6\n\n## Description\nThe character makes a single, devastatingly accurate attack rather than a flurry of blows.\n\n## Mechanics & Benefit\nAs a **Standard Action**, make a single attack at your highest bonus. If it hits, deal **two times (2x)** the weapon's damage dice.\n\n## Special Rules\n52",
+    "mechanics": "As a **Standard Action**, make a single attack at your highest bonus. If it hits, deal **two times (2x)** the weapon's damage dice.",
+    "notes": "[Rule] 52\n[Prerequisite] Combat Skill 6",
+    "notesList": [
+      "[Rule] 52",
+      "[Prerequisite] Combat Skill 6"
+    ]
+  },
+  {
+    "id": "combat-weapon-focus",
+    "name": "Weapon Focus",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": true,
+    "prerequisites": "Combat Skill 1",
+    "modifiers": [
+      {
+        "target": "Strike with that weapon",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Strike with that weapon"
+      }
+    ],
+    "description": "Extensive training with a specific weapon type (e.g., Laser Rifle, Longsword, Plasma Pistol).",
+    "mechanic": "Choose a specific weapon. You gain **\\+1 to Strike** with that weapon.",
+    "rules": "\\[Multiple\\] May be taken for different weapons.",
+    "special_rules": "\\[Multiple\\] May be taken for different weapons.",
+    "body": "# Weapon Focus\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Combat Skill 1\n\n## Description\nExtensive training with a specific weapon type (e.g., Laser Rifle, Longsword, Plasma Pistol).\n\n## Mechanics & Benefit\nChoose a specific weapon. You gain **\\+1 to Strike** with that weapon.\n\n## Special Rules\n\\[Multiple\\] May be taken for different weapons.",
+    "mechanics": "Choose a specific weapon. You gain **\\+1 to Strike** with that weapon.",
+    "notes": "[Modifier] +1 to Strike with that weapon\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] \\[Multiple\\] May be taken for different weapons.\n[Prerequisite] Combat Skill 1",
+    "notesList": [
+      "[Modifier] +1 to Strike with that weapon",
+      "[Rule] Multiple: May be purchased separately for different categories/types",
+      "[Rule] \\[Multiple\\] May be taken for different weapons.",
+      "[Prerequisite] Combat Skill 1"
+    ]
+  },
+  {
+    "id": "combat-weapon-improvisation",
+    "name": "Weapon Improvisation",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [],
+    "description": "The character is dangerous with anything—a bottle, a chair, or a rock.",
+    "mechanic": "You suffer **no penalties** for using improvised Archaic weapons (normally \\-4).",
+    "rules": "56",
+    "special_rules": "56",
+    "body": "# Weapon Improvisation\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character is dangerous with anything—a bottle, a chair, or a rock.\n\n## Mechanics & Benefit\nYou suffer **no penalties** for using improvised Archaic weapons (normally \\-4).\n\n## Special Rules\n56",
+    "mechanics": "You suffer **no penalties** for using improvised Archaic weapons (normally \\-4).",
+    "notes": "[Rule] 56",
+    "notesList": [
+      "[Rule] 56"
+    ]
+  },
+  {
+    "id": "combat-weapon-specialization",
+    "name": "Weapon Specialization",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": true,
+    "prerequisites": "Weapon Focus, Skill 6",
+    "modifiers": [],
+    "description": "Weapon Specialization is a Combat Feature: +1d damage with one weapon type.",
+    "mechanic": "\\+1d damage with one weapon type.",
+    "rules": "Multiple 57",
+    "special_rules": "Multiple 57",
+    "body": "# Weapon Specialization\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Weapon Focus, Skill 6\n\n## Description\nWeapon Specialization is a Combat Feature: \\+1d damage with one weapon type.\n\n## Mechanics & Benefit\n\\+1d damage with one weapon type.\n\n## Special Rules\nMultiple 57",
+    "mechanics": "\\+1d damage with one weapon type.",
+    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] Multiple 57\n[Prerequisite] Weapon Focus, Skill 6",
+    "notesList": [
+      "[Rule] Multiple: May be purchased separately for different categories/types",
+      "[Rule] Multiple 57",
+      "[Prerequisite] Weapon Focus, Skill 6"
+    ]
+  },
+  {
+    "id": "combat-whirlwind-attack",
+    "name": "Whirlwind Attack",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Agi 2, Combat Expertise, Blitz Attack",
+    "modifiers": [],
+    "description": "Whirlwind Attack is a Combat Feature: Make one melee attack against all foes within reach.",
+    "mechanic": "Make one melee attack against all foes within reach.",
+    "rules": "32",
+    "special_rules": "32",
+    "body": "# Whirlwind Attack\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Agi 2, Combat Expertise, Blitz Attack\n\n## Description\nWhirlwind Attack is a Combat Feature: Make one melee attack against all foes within reach.\n\n## Mechanics & Benefit\nMake one melee attack against all foes within reach.\n\n## Special Rules\n32",
+    "mechanics": "Make one melee attack against all foes within reach.",
+    "notes": "[Rule] 32\n[Prerequisite] Agi 2, Combat Expertise, Blitz Attack",
+    "notesList": [
+      "[Rule] 32",
+      "[Prerequisite] Agi 2, Combat Expertise, Blitz Attack"
+    ]
+  },
+  {
+    "id": "defensive-radiation-advantage",
+    "name": "Radiation Advantage",
+    "category": "defensive",
+    "type": "feature",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": [],
+    "modifiers": [],
+    "description": "Thick heavy-element chitin layers and copper-based hemocyanin cellular matrices provide superior physiological resistance against radiological hazards. All checks against ionizing radiation, cosmic rays, and fallout are made with Advantage, and radiation damage/strain is halved.",
+    "mechanic": "Thick heavy-element chitin layers and copper-based hemocyanin cellular matrices provide superior physiological resistance against radiological hazards. All checks against ionizing radiation, cosmic rays, and fallout are made with Advantage, and radiation damage/strain is halved.",
+    "rules": "Prerequisite: .",
+    "special_rules": "Prerequisite: .",
+    "body": "### **Overview**\nThe operative's cellular biology and protective integument are reinforced by dense metalloid lattice structures or specialized radiotrophic pigments. This adaptation enables prolonged survival in high-radiation sectors, unshielded reactor spaces, and planetary fallout fields.\n\n### **Mechanical Benefits**\n* **Radiological Advantage:** The character rolls with **Advantage** (roll 2d10 and keep the highest result, or apply +3 bonus where opposed) on all Stamina, Survival, and physical checks made to resist the onset of radiation poisoning, sickness, or acute cellular degradation.\n* **Rad Absorption / Soak:** Any raw Vitality or Stability damage directly inflicted by ambient ionizing radiation, solar flares, or dirty nuclear/antimatter detonation fields is reduced by **50% (halved)** after standard Damage Reduction (DR).\n* **Zero Latent Mutation:** The character is immune to accidental non-beneficial mutagenic decay caused by environmental fallout.",
+    "mechanics": "Thick heavy-element chitin layers and copper-based hemocyanin cellular matrices provide superior physiological resistance against radiological hazards. All checks against ionizing radiation, cosmic rays, and fallout are made with Advantage, and radiation damage/strain is halved.",
+    "notes": "[Rule] Prerequisite: .",
+    "notesList": [
+      "[Rule] Prerequisite: ."
+    ]
+  },
+  {
+    "id": "defensive-chitinous-shell-armor",
+    "name": "Armor (Chitinous Shell)",
+    "category": "Defensive",
+    "type": "defensive",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Exoskeletal Physiology",
+    "modifiers": [],
+    "description": "A dense, glossy chitinous shell providing base DR 10 resistant to physical trauma, directed energy, and caustic chemicals.",
+    "mechanic": "- **Base DR 10**: Provides **Base 10 Damage Reduction (DR 10)** against physical trauma (kinetic, ballistic, slashing, piercing), direct energy attacks (thermal, voltic), and chemical caustic substances.\n- **Environmental Buffering**: Grants advantage on saving throws against corrosive atmospheres and atmospheric pressure variations.",
+    "rules": "Prerequisite: Exoskeletal Physiology.",
+    "special_rules": "Prerequisite: Exoskeletal Physiology.",
+    "body": "# Armor (Chitinous Shell)\n\n**Category**: Defensive Features  \n**Cost**: 2 BP  \n**Prerequisites**: Exoskeletal Physiology  \n\n## Description\nThe body is enveloped in a hardened, glossy obsidian chitinous shell perpetually slick with microscopic natural polymer secretions. This heavy biomorphic armor dissipates impact energy, deflects shrapnel, and resists chemical burns.\n\n## Mechanics & Benefit\n- **Base DR 10**: Provides **Base 10 Damage Reduction (DR 10)** against physical trauma (kinetic, ballistic, slashing, piercing), direct energy attacks (thermal, voltic), and chemical caustic substances.\n- **Environmental Buffering**: Grants advantage on saving throws against corrosive atmospheres and atmospheric pressure variations.",
+    "mechanics": "- **Base DR 10**: Provides **Base 10 Damage Reduction (DR 10)** against physical trauma (kinetic, ballistic, slashing, piercing), direct energy attacks (thermal, voltic), and chemical caustic substances.\n- **Environmental Buffering**: Grants advantage on saving throws against corrosive atmospheres and atmospheric pressure variations.",
+    "notes": "[Rule] Prerequisite: Exoskeletal Physiology.\n[Prerequisite] Exoskeletal Physiology",
+    "notesList": [
+      "[Rule] Prerequisite: Exoskeletal Physiology.",
+      "[Prerequisite] Exoskeletal Physiology"
+    ]
+  },
+  {
+    "id": "defensive-dual-skeletal-structure",
+    "name": "Dual Skeletal Structure",
+    "category": "Defensive",
+    "type": "defensive",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Endoskeleton and Exoskeleton",
+    "modifiers": [],
+    "description": "A composite biomechanical architecture fusing an internal endoskeleton with an external chitinous framework, granting natural Damage Reduction (DR +5).",
+    "mechanic": "- **Natural DR +5**: The character gains **+5 Damage Reduction (DR 5)** against all physical trauma (bludgeoning, piercing, slashing) and kinetic shockwaves.\n- **Structural Integrity**: Immune to bone-shattering injuries and limb dislocation from mundane falls or crushing pressures.",
+    "rules": "Prerequisite: Endoskeleton and Exoskeleton.",
+    "special_rules": "Prerequisite: Endoskeleton and Exoskeleton.",
+    "body": "# Dual Skeletal Structure\n\n**Category**: Defensive Features  \n**Cost**: 2 BP  \n**Prerequisites**: Endoskeleton and Exoskeleton  \n\n## Description\nThe organism possesses an advanced hybrid skeletal system combining an internal articulated endoskeleton with a hardened, segmented outer chitinous shell. This dual-layer framework distributes kinetic shock and prevents catastrophic bone breakage.\n\n## Mechanics & Benefit\n- **Natural DR +5**: The character gains **+5 Damage Reduction (DR 5)** against all physical trauma (bludgeoning, piercing, slashing) and kinetic shockwaves.\n- **Structural Integrity**: Immune to bone-shattering injuries and limb dislocation from mundane falls or crushing pressures.",
+    "mechanics": "- **Natural DR +5**: The character gains **+5 Damage Reduction (DR 5)** against all physical trauma (bludgeoning, piercing, slashing) and kinetic shockwaves.\n- **Structural Integrity**: Immune to bone-shattering injuries and limb dislocation from mundane falls or crushing pressures.",
+    "notes": "[Rule] Prerequisite: Endoskeleton and Exoskeleton.\n[Prerequisite] Endoskeleton and Exoskeleton",
+    "notesList": [
+      "[Rule] Prerequisite: Endoskeleton and Exoskeleton.",
+      "[Prerequisite] Endoskeleton and Exoskeleton"
+    ]
+  },
+  {
+    "id": "defensive-exoskeleton-light",
+    "name": "Exoskeleton (Light)",
+    "category": "Defensive",
+    "type": "defensive",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Insectoid, Crustacean, or Synthetic Physiology",
+    "modifiers": [],
+    "description": "A lightweight outer chitinous layer or scale plating providing natural Damage Reduction DR (Strength + 2) x 2 (minimum DR 6) against physical attacks.",
+    "mechanic": "- **Damage Reduction**: Provides natural **Damage Reduction DR (Strength + 2) x 2** (minimum **DR 6**) against bludgeoning, slashing, and piercing attacks.\n- **Physical Deflection**: Reduces impact trauma from environmental collisions and light debris.",
+    "rules": "Prerequisite: Insectoid, Crustacean, or Synthetic Physiology.",
+    "special_rules": "Prerequisite: Insectoid, Crustacean, or Synthetic Physiology.",
+    "body": "# Exoskeleton (Light)\n\n**Category**: Defensive Features  \n**Cost**: 2 BP  \n**Prerequisites**: Insectoid, Crustacean, or Synthetic Physiology  \n\n## Description\nA resilient chitinous carapace, overlapping chitin scales, or segmented composite shell covering the body. While lighter than combat plates, it effectively turns aside low-velocity shrapnel and blunt impacts.\n\n## Mechanics & Benefit\n- **Damage Reduction**: Provides natural **Damage Reduction DR (Strength + 2) x 2** (minimum **DR 6**) against bludgeoning, slashing, and piercing attacks.\n- **Physical Deflection**: Reduces impact trauma from environmental collisions and light debris.",
+    "mechanics": "- **Damage Reduction**: Provides natural **Damage Reduction DR (Strength + 2) x 2** (minimum **DR 6**) against bludgeoning, slashing, and piercing attacks.\n- **Physical Deflection**: Reduces impact trauma from environmental collisions and light debris.",
+    "notes": "[Rule] Prerequisite: Insectoid, Crustacean, or Synthetic Physiology.\n[Prerequisite] Insectoid, Crustacean, or Synthetic Physiology",
+    "notesList": [
+      "[Rule] Prerequisite: Insectoid, Crustacean, or Synthetic Physiology.",
+      "[Prerequisite] Insectoid, Crustacean, or Synthetic Physiology"
+    ]
+  },
+  {
+    "id": "defensive-poison-immunity",
+    "name": "Poison Immunity",
+    "category": "Defensive",
+    "type": "defensive",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Stamina 1 or Insectoid/Synthetic Physiology",
+    "modifiers": [],
+    "description": "Highly adapted biochemical filters and cellular resilience grant automatic immunity to all poisonous substances, toxins, and venoms.",
+    "mechanic": "* **Automatic Save:** Automatically succeed on all saving throws and Fortitude checks against any poisonous substances, ingested toxins, injected venoms, or contact irritants.\n* **Toxin Neutralization:** Toxins introduced to the bloodstream are safely metabolized into inert bio-organic compounds without causing biological damage or lingering impairment.",
+    "rules": "Prerequisite: Stamina 1 or Insectoid/Synthetic Physiology.",
+    "special_rules": "Prerequisite: Stamina 1 or Insectoid/Synthetic Physiology.",
+    "body": "# Poison Immunity\n\n**Category**: Defensive / Physical Features  \n**Cost**: 2 BP  \n**Prerequisite**: Stamina 1 or Insectoid/Synthetic Physiology  \n\n## Description\nThe character possesses an extraordinarily specialized hepatic, renal, and hemolymph filtration system that neutralizes xenotoxins, chemical weapons, venoms, and ingested poisons instantly.\n\n## Mechanics & Benefit\n* **Automatic Save:** Automatically succeed on all saving throws and Fortitude checks against any poisonous substances, ingested toxins, injected venoms, or contact irritants.\n* **Toxin Neutralization:** Toxins introduced to the bloodstream are safely metabolized into inert bio-organic compounds without causing biological damage or lingering impairment.",
+    "mechanics": "* **Automatic Save:** Automatically succeed on all saving throws and Fortitude checks against any poisonous substances, ingested toxins, injected venoms, or contact irritants.\n* **Toxin Neutralization:** Toxins introduced to the bloodstream are safely metabolized into inert bio-organic compounds without causing biological damage or lingering impairment.",
+    "notes": "[Rule] Prerequisite: Stamina 1 or Insectoid/Synthetic Physiology.\n[Prerequisite] Stamina 1 or Insectoid/Synthetic Physiology",
+    "notesList": [
+      "[Rule] Prerequisite: Stamina 1 or Insectoid/Synthetic Physiology.",
+      "[Prerequisite] Stamina 1 or Insectoid/Synthetic Physiology"
+    ]
+  },
+  {
+    "id": "discipline-aptitude",
+    "name": "Aptitude",
+    "category": "Discipline",
+    "type": "discipline",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": true,
+    "prerequisites": "Key Ability Score (Intellect, Wisdom, or Charisma) 1+",
+    "modifiers": [
+      {
+        "target": "Checks with those specific",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Checks with those specific"
+      }
+    ],
+    "description": "The character possesses a natural affinity for specific metaphysical interactions, grasping the nuance of shaping energy more intuitively than others.",
+    "mechanic": "Choose two specific **Discipline Skills** (e.g., *Thermal* and *Telekinetic*, or *Biomancy* and *Necromancy*). You gain a **\\+2 Bonus** to checks with those specific skills.",
+    "rules": "This feature is **\\[Multiple\\]**. It may be selected again to apply to two different Discipline skills.",
+    "special_rules": "This feature is **\\[Multiple\\]**. It may be selected again to apply to two different Discipline skills.",
+    "body": "# Aptitude\n\n**Category**: Discipline Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Key Ability Score (Intellect, Wisdom, or Charisma) 1+\n\n## Description\nThe character possesses a natural affinity for specific metaphysical interactions, grasping the nuance of shaping energy more intuitively than others.\n\n## Mechanics & Benefit\nChoose two specific **Discipline Skills** (e.g., *Thermal* and *Telekinetic*, or *Biomancy* and *Necromancy*). You gain a **\\+2 Bonus** to checks with those specific skills.\n\n## Special Rules\nThis feature is **\\[Multiple\\]**. It may be selected again to apply to two different Discipline skills.",
+    "mechanics": "Choose two specific **Discipline Skills** (e.g., *Thermal* and *Telekinetic*, or *Biomancy* and *Necromancy*). You gain a **\\+2 Bonus** to checks with those specific skills.",
+    "notes": "[Modifier] +2 to Checks with those specific\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature is **\\[Multiple\\]**. It may be selected again to apply to two different Discipline skil...\n[Prerequisite] Key Ability Score (Intellect, Wisdom, or Charisma) 1+",
+    "notesList": [
+      "[Modifier] +2 to Checks with those specific",
+      "[Rule] Multiple: May be purchased separately for different categories/types",
+      "[Rule] This feature is **\\[Multiple\\]**. It may be selected again to apply to two different Discipline skil...",
+      "[Prerequisite] Key Ability Score (Intellect, Wisdom, or Charisma) 1+"
+    ]
+  },
+  {
+    "id": "discipline-awakened",
+    "name": "Awakened",
+    "category": "Discipline",
+    "type": "discipline",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": true,
+    "prerequisites": "None (often taken at Character Creation).",
+    "modifiers": [],
+    "description": "The character has opened their mind or soul to a greater reality. This is the fundamental \"spark\" required to use any form of metaphysics. Without this feature, a character cannot manipulate supernatural forces.",
+    "mechanic": "You gain access to the **Attune** skill (the universal skill for channeling power) and **2 Discipline Skills** belonging to a specific **Metafocus Discipline** (e.g., Dimension, Energy, Entropy, Illusion, Matter, or Mental).  \n  * *Example:* Selecting *Awakened (Energy)* might grant access to *Attune*, *Elemental Focus*, and *Force Focus*.",
+    "rules": "This feature is **\\[Multiple\\]**. Taking it a second time allows you to awaken a different Metafocus (e.g., adding *Entropy* to a character who already has *Energy*), granting access to that discipline's specific skills.",
+    "special_rules": "This feature is **\\[Multiple\\]**. Taking it a second time allows you to awaken a different Metafocus (e.g., adding *Entropy* to a character who already has *Energy*), granting access to that discipline's specific skills.",
+    "body": "# Awakened\n\n**Category**: Discipline Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None (often taken at Character Creation).\n\n## Description\nThe character has opened their mind or soul to a greater reality. This is the fundamental \"spark\" required to use any form of metaphysics. Without this feature, a character cannot manipulate supernatural forces.\n\n## Mechanics & Benefit\nYou gain access to the **Attune** skill (the universal skill for channeling power) and **2 Discipline Skills** belonging to a specific **Metafocus Discipline** (e.g., Dimension, Energy, Entropy, Illusion, Matter, or Mental).  \n  * *Example:* Selecting *Awakened (Energy)* might grant access to *Attune*, *Elemental Focus*, and *Force Focus*.\n\n## Special Rules\nThis feature is **\\[Multiple\\]**. Taking it a second time allows you to awaken a different Metafocus (e.g., adding *Entropy* to a character who already has *Energy*), granting access to that discipline's specific skills.",
+    "mechanics": "You gain access to the **Attune** skill (the universal skill for channeling power) and **2 Discipline Skills** belonging to a specific **Metafocus Discipline** (e.g., Dimension, Energy, Entropy, Illusion, Matter, or Mental).  \n  * *Example:* Selecting *Awakened (Energy)* might grant access to *Attune*, *Elemental Focus*, and *Force Focus*.",
+    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature is **\\[Multiple\\]**. Taking it a second time allows you to awaken a different Metafocus...\n[Prerequisite] None (often taken at Character Creation).",
+    "notesList": [
+      "[Rule] Multiple: May be purchased separately for different categories/types",
+      "[Rule] This feature is **\\[Multiple\\]**. Taking it a second time allows you to awaken a different Metafocus...",
+      "[Prerequisite] None (often taken at Character Creation)."
+    ]
+  },
+  {
+    "id": "discipline-balanced-center",
+    "name": "Balanced Center",
+    "category": "Discipline",
+    "type": "discipline",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Centering Exp, Discipline Exp",
+    "modifiers": [],
+    "description": "Balanced Center is a Discipline Feature: May take 10 with all Discipline Checks Expertised.",
+    "mechanic": "May take 10 with all Discipline Checks Expertised.",
+    "rules": "71",
+    "special_rules": "71",
+    "body": "# Balanced Center\n\n**Category**: Discipline Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Centering Exp, Discipline Exp\n\n## Description\nBalanced Center is a Discipline Feature: May take 10 with all Discipline Checks Expertised.\n\n## Mechanics & Benefit\nMay take 10 with all Discipline Checks Expertised.\n\n## Special Rules\n71",
+    "mechanics": "May take 10 with all Discipline Checks Expertised.",
+    "notes": "[Rule] 71\n[Prerequisite] Centering Exp, Discipline Exp",
+    "notesList": [
+      "[Rule] 71",
+      "[Prerequisite] Centering Exp, Discipline Exp"
+    ]
+  },
+  {
+    "id": "discipline-centering",
+    "name": "Centering",
+    "category": "Discipline",
+    "type": "discipline",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Attune 6 (Trained), Key Ability Score 2",
+    "modifiers": [
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Attune"
+      }
+    ],
+    "description": "The character has learned to stabilize their internal flow of energy, allowing them to channel power with greater control and intensity.",
+    "mechanic": "You gain a **\\+2 Bonus** to all **Attune Checks**.",
+    "rules": "This replaces the bonus from *Centering*, it does not stack (it is an upgrade).\n\n  ### \n\n  ## **Centering Master**\n\n  **Description:** The character's control over their metaphysical connection is absolute; they are a conduit through which power flows without resistance.",
+    "special_rules": "This replaces the bonus from *Centering*, it does not stack (it is an upgrade).\n\n  ### \n\n  ## **Centering Master**\n\n  **Description:** The character's control over their metaphysical connection is absolute; they are a conduit through which power flows without resistance.",
+    "body": "# Centering\n\n**Category**: Discipline Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Attune 6 (Trained), Key Ability Score 2\n\n## Description\nThe character has learned to stabilize their internal flow of energy, allowing them to channel power with greater control and intensity.\n\n## Mechanics & Benefit\nYou gain a **\\+2 Bonus** to all **Attune Checks**.\n\n## Special Rules\nThis replaces the bonus from *Centering*, it does not stack (it is an upgrade).\n\n  ### \n\n  ## **Centering Master**\n\n  **Description:** The character's control over their metaphysical connection is absolute; they are a conduit through which power flows without resistance.",
+    "mechanics": "You gain a **\\+2 Bonus** to all **Attune Checks**.",
+    "notes": "[Modifier] +2 to Attune\n[Rule] This replaces the bonus from *Centering*, it does not stack (it is an upgrade).\n\n  ### \n\n  ## **Cent...\n[Prerequisite] Attune 6 (Trained), Key Ability Score 2",
+    "notesList": [
+      "[Modifier] +2 to Attune",
+      "[Rule] This replaces the bonus from *Centering*, it does not stack (it is an upgrade).\n\n  ### \n\n  ## **Cent...",
+      "[Prerequisite] Attune 6 (Trained), Key Ability Score 2"
+    ]
+  },
+  {
+    "id": "discipline-centering-expert",
+    "name": "Centering Expert",
+    "category": "Discipline",
+    "type": "discipline",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Attune 11, Key Ability 4",
+    "modifiers": [],
+    "description": "Centering Expert is a Discipline Feature: +4 Attune Checks (Affecting DCs).",
+    "mechanic": "\\+4 Attune Checks (Affecting DCs).",
+    "rules": "63",
+    "special_rules": "63",
+    "body": "# Centering Expert\n\n**Category**: Discipline Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Attune 11, Key Ability 4\n\n## Description\nCentering Expert is a Discipline Feature: \\+4 Attune Checks (Affecting DCs).\n\n## Mechanics & Benefit\n\\+4 Attune Checks (Affecting DCs).\n\n## Special Rules\n63",
+    "mechanics": "\\+4 Attune Checks (Affecting DCs).",
+    "notes": "[Rule] 63\n[Prerequisite] Attune 11, Key Ability 4",
+    "notesList": [
+      "[Rule] 63",
+      "[Prerequisite] Attune 11, Key Ability 4"
+    ]
+  },
+  {
+    "id": "discipline-centering-master",
+    "name": "Centering Master",
+    "category": "Discipline",
+    "type": "discipline",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Attune 16, Key Ability 6",
+    "modifiers": [],
+    "description": "Centering Master is a Discipline Feature: +6 Attune Checks (Affecting DCs).",
+    "mechanic": "\\+6 Attune Checks (Affecting DCs).",
+    "rules": "64",
+    "special_rules": "64",
+    "body": "# Centering Master\n\n**Category**: Discipline Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Attune 16, Key Ability 6\n\n## Description\nCentering Master is a Discipline Feature: \\+6 Attune Checks (Affecting DCs).\n\n## Mechanics & Benefit\n\\+6 Attune Checks (Affecting DCs).\n\n## Special Rules\n64",
+    "mechanics": "\\+6 Attune Checks (Affecting DCs).",
+    "notes": "[Rule] 64\n[Prerequisite] Attune 16, Key Ability 6",
+    "notesList": [
+      "[Rule] 64",
+      "[Prerequisite] Attune 16, Key Ability 6"
+    ]
   },
   {
     "id": "discipline-discipline-empower",
@@ -2503,9 +2699,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 68",
       "[Prerequisite] Discipline Focus, Attune 6"
-    ],
-    "keywords": "discipline empower, discipline, special-feature, focused-training, mastery, empower",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "discipline-discipline-expertise",
@@ -2536,9 +2730,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 66",
       "[Prerequisite] Discipline Focus, Skill 11"
-    ],
-    "keywords": "discipline expertise, discipline, special-feature, focused-training, mastery, expertise",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "discipline-discipline-focus",
@@ -2579,9 +2771,7 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] This feature is **\\[Multiple\\]**; you may take it for different Discipline skills.",
       "[Prerequisite] Chosen Discipline Skill 6 (Trained)"
-    ],
-    "keywords": "discipline focus, discipline, special-feature, focused-training, mastery, specialized",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "discipline-discipline-mastery",
@@ -2612,9 +2802,873 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 67",
       "[Prerequisite] Discipline Expertise, Skill 16"
+    ]
+  },
+  {
+    "id": "discipline-empowered-strike",
+    "name": "Empowered Strike",
+    "category": "Discipline",
+    "type": "discipline",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": true,
+    "max_rank": 4,
+    "is_multiple": true,
+    "prerequisites": "Attune 6",
+    "modifiers": [
+      {
+        "target": "Damage",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Damage"
+      }
     ],
-    "keywords": "discipline mastery, discipline, special-feature, focused-training, mastery, feature:",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    "description": "The character can infuse their physical attacks with raw metaphysical energy. This is the signature ability of \"Spellblades,\" \"Paladins,\" or \"Psychic Warriors.\"",
+    "mechanic": "You may channel energy into a melee or ranged weapon attack. The attack gains **\\+1 to Strike** and **\\+1 to Damage**.",
+    "rules": "This feature is **\\[Ranked\\]**. You may take it multiple times (up to your Attune rank limit). Rank 2 would grant \\+2 Strike/Damage, etc.",
+    "special_rules": "This feature is **\\[Ranked\\]**. You may take it multiple times (up to your Attune rank limit). Rank 2 would grant \\+2 Strike/Damage, etc.",
+    "body": "# Empowered Strike\n\n**Category**: Discipline Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Attune 6\n\n## Description\nThe character can infuse their physical attacks with raw metaphysical energy. This is the signature ability of \"Spellblades,\" \"Paladins,\" or \"Psychic Warriors.\"\n\n## Mechanics & Benefit\nYou may channel energy into a melee or ranged weapon attack. The attack gains **\\+1 to Strike** and **\\+1 to Damage**.\n\n## Special Rules\nThis feature is **\\[Ranked\\]**. You may take it multiple times (up to your Attune rank limit). Rank 2 would grant \\+2 Strike/Damage, etc.",
+    "mechanics": "You may channel energy into a melee or ranged weapon attack. The attack gains **\\+1 to Strike** and **\\+1 to Damage**.",
+    "notes": "[Modifier] +1 to Damage\n[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature is **\\[Ranked\\]**. You may take it multiple times (up to your Attune rank limit). Rank ...\n[Prerequisite] Attune 6",
+    "notesList": [
+      "[Modifier] +1 to Damage",
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] Multiple: May be purchased separately for different categories/types",
+      "[Rule] This feature is **\\[Ranked\\]**. You may take it multiple times (up to your Attune rank limit). Rank ...",
+      "[Prerequisite] Attune 6"
+    ]
+  },
+  {
+    "id": "discipline-focused-center",
+    "name": "Focused Center",
+    "category": "Discipline",
+    "type": "discipline",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Centering, Discipline Focus (in all currently used Disciplines)",
+    "modifiers": [],
+    "description": "The character's concentration is so absolute that they can channel power reliably even in the heat of battle.",
+    "mechanic": "You may **Take 10** on **Attune Checks** even when threatened, distracted, or in combat conditions.",
+    "rules": "70",
+    "special_rules": "70",
+    "body": "# Focused Center\n\n**Category**: Discipline Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Centering, Discipline Focus (in all currently used Disciplines)\n\n## Description\nThe character's concentration is so absolute that they can channel power reliably even in the heat of battle.\n\n## Mechanics & Benefit\nYou may **Take 10** on **Attune Checks** even when threatened, distracted, or in combat conditions.\n\n## Special Rules\n70",
+    "mechanics": "You may **Take 10** on **Attune Checks** even when threatened, distracted, or in combat conditions.",
+    "notes": "[Rule] 70\n[Prerequisite] Centering, Discipline Focus (in all currently used Disciplines)",
+    "notesList": [
+      "[Rule] 70",
+      "[Prerequisite] Centering, Discipline Focus (in all currently used Disciplines)"
+    ]
+  },
+  {
+    "id": "discipline-harmonious-center",
+    "name": "Harmonious Center",
+    "category": "Discipline",
+    "type": "discipline",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Centering Mst, Discipline Mst",
+    "modifiers": [],
+    "description": "Harmonious Center is a Discipline Feature: All Checks with Advantage with all Disciplines Mastered.",
+    "mechanic": "All Checks with Advantage with all Disciplines Mastered.",
+    "rules": "72",
+    "special_rules": "72",
+    "body": "# Harmonious Center\n\n**Category**: Discipline Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Centering Mst, Discipline Mst\n\n## Description\nHarmonious Center is a Discipline Feature: All Checks with Advantage with all Disciplines Mastered.\n\n## Mechanics & Benefit\nAll Checks with Advantage with all Disciplines Mastered.\n\n## Special Rules\n72",
+    "mechanics": "All Checks with Advantage with all Disciplines Mastered.",
+    "notes": "[Rule] 72\n[Prerequisite] Centering Mst, Discipline Mst",
+    "notesList": [
+      "[Rule] 72",
+      "[Prerequisite] Centering Mst, Discipline Mst"
+    ]
+  },
+  {
+    "id": "discipline-special-ability",
+    "name": "Special Ability",
+    "category": "Discipline",
+    "type": "discipline",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": true,
+    "prerequisites": "None (though usually tied to Species or Origin).",
+    "modifiers": [],
+    "description": "The character possesses a singular, innate supernatural power that does not require the broad study of a Discipline. This represents things like a dragon's breath weapon, a mutant's teleportation, or a cyborg's built-in sonic scream.",
+    "mechanic": "You gain the ability to use **one specific Invocation** (Spell/Power) at **Level 1**.",
+    "rules": "This feature is **\\[Multiple\\]**. You can take it multiple times to gain different isolated powers.",
+    "special_rules": "This feature is **\\[Multiple\\]**. You can take it multiple times to gain different isolated powers.",
+    "body": "# Special Ability\n\n**Category**: Discipline Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None (though usually tied to Species or Origin).\n\n## Description\nThe character possesses a singular, innate supernatural power that does not require the broad study of a Discipline. This represents things like a dragon's breath weapon, a mutant's teleportation, or a cyborg's built-in sonic scream.\n\n## Mechanics & Benefit\nYou gain the ability to use **one specific Invocation** (Spell/Power) at **Level 1**.\n\n## Special Rules\nThis feature is **\\[Multiple\\]**. You can take it multiple times to gain different isolated powers.",
+    "mechanics": "You gain the ability to use **one specific Invocation** (Spell/Power) at **Level 1**.",
+    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature is **\\[Multiple\\]**. You can take it multiple times to gain different isolated powers.\n[Prerequisite] None (though usually tied to Species or Origin).",
+    "notesList": [
+      "[Rule] Multiple: May be purchased separately for different categories/types",
+      "[Rule] This feature is **\\[Multiple\\]**. You can take it multiple times to gain different isolated powers.",
+      "[Prerequisite] None (though usually tied to Species or Origin)."
+    ]
+  },
+  {
+    "id": "discipline-versatile-source",
+    "name": "Versatile Source",
+    "category": "Discipline",
+    "type": "discipline",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Attune 6",
+    "modifiers": [],
+    "description": "The character's understanding of metaphysics is broad enough to bridge different sources of power. A wizard might tap into divine faith, or a psychic might calculate ley-lines like a mathematician.",
+    "mechanic": "You may use a **Secondary Ability Score** to modify your **Attune Checks**.  \n  * *Example:* An Intellect-based caster (Mage) with this feature could choose to use their Wisdom modifier for Attune checks instead, perhaps representing a shift from logical weaving to intuitive feeling.",
+    "rules": "74",
+    "special_rules": "74",
+    "body": "# Versatile Source\n\n**Category**: Discipline Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Attune 6\n\n## Description\nThe character's understanding of metaphysics is broad enough to bridge different sources of power. A wizard might tap into divine faith, or a psychic might calculate ley-lines like a mathematician.\n\n## Mechanics & Benefit\nYou may use a **Secondary Ability Score** to modify your **Attune Checks**.  \n  * *Example:* An Intellect-based caster (Mage) with this feature could choose to use their Wisdom modifier for Attune checks instead, perhaps representing a shift from logical weaving to intuitive feeling.\n\n## Special Rules\n74",
+    "mechanics": "You may use a **Secondary Ability Score** to modify your **Attune Checks**.  \n  * *Example:* An Intellect-based caster (Mage) with this feature could choose to use their Wisdom modifier for Attune checks instead, perhaps representing a shift from logical weaving to intuitive feeling.",
+    "notes": "[Rule] 74\n[Prerequisite] Attune 6",
+    "notesList": [
+      "[Rule] 74",
+      "[Prerequisite] Attune 6"
+    ]
+  },
+  {
+    "id": "general-absolute-pitch",
+    "name": "Absolute Pitch",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Awareness 1, Perform 1",
+    "modifiers": [
+      {
+        "target": "Auditory matching",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Auditory matching"
+      },
+      {
+        "target": "Impersonation vocal",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Impersonation vocal"
+      },
+      {
+        "target": "Acoustic security bypass",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Acoustic security bypass"
+      }
+    ],
+    "description": "The character possesses an exaggerated structural asymmetry in the planum temporale, allowing them to instantly identify, categorize, and perfectly recreate auditory frequencies without a reference tone.",
+    "mechanic": "You can perfectly memorize and mimic voices, musical notes, or mechanical frequencies. You gain a **+4 Bonus** on checks involving auditory matching, impersonation (vocal), or acoustic security bypass.",
+    "rules": "None",
+    "special_rules": "None",
+    "body": "# Absolute Pitch\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Awareness 1, Perform 1\n\n## Description\nThe character possesses an exaggerated structural asymmetry in the planum temporale, allowing them to instantly identify, categorize, and perfectly recreate auditory frequencies without a reference tone.\n\n## Mechanics & Benefit\nYou can perfectly memorize and mimic voices, musical notes, or mechanical frequencies. You gain a **+4 Bonus** on checks involving auditory matching, impersonation (vocal), or acoustic security bypass.\n\n## Special Rules\nNone",
+    "mechanics": "You can perfectly memorize and mimic voices, musical notes, or mechanical frequencies. You gain a **+4 Bonus** on checks involving auditory matching, impersonation (vocal), or acoustic security bypass.",
+    "notes": "[Modifier] +4 to Auditory matching\n[Modifier] +4 to Impersonation vocal\n[Modifier] +4 to Acoustic security bypass\n[Rule] None\n[Prerequisite] Awareness 1, Perform 1",
+    "notesList": [
+      "[Modifier] +4 to Auditory matching",
+      "[Modifier] +4 to Impersonation vocal",
+      "[Modifier] +4 to Acoustic security bypass",
+      "[Rule] None",
+      "[Prerequisite] Awareness 1, Perform 1"
+    ]
+  },
+  {
+    "id": "general-acrobatic-steps",
+    "name": "Acrobatic Steps",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Agi 3, Nimble Moves",
+    "modifiers": [],
+    "description": "Acrobatic Steps is a General Feature: Ignore 30 feet of difficult terrain when you move.",
+    "mechanic": "Ignore 30 feet of difficult terrain when you move.",
+    "rules": "105",
+    "special_rules": "105",
+    "body": "# Acrobatic Steps\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Agi 3, Nimble Moves\n\n## Description\nAcrobatic Steps is a General Feature: Ignore 30 feet of difficult terrain when you move.\n\n## Mechanics & Benefit\nIgnore 30 feet of difficult terrain when you move.\n\n## Special Rules\n105",
+    "mechanics": "Ignore 30 feet of difficult terrain when you move.",
+    "notes": "[Rule] 105\n[Prerequisite] Agi 3, Nimble Moves",
+    "notesList": [
+      "[Rule] 105",
+      "[Prerequisite] Agi 3, Nimble Moves"
+    ]
+  },
+  {
+    "id": "general-algorithmic-cognition",
+    "name": "Algorithmic Cognition",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Lightning Calculator, Intellect 4",
+    "modifiers": [
+      {
+        "target": "Logic",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Logic Checks"
+      }
+    ],
+    "description": "The character's brain bypasses standard working memory bottlenecks, allowing them to perform hypercalculia and extreme high-speed mental arithmetic natively.",
+    "mechanic": "You may perform complex mathematical calculations, cryptanalysis, and algorithmic decryption as a **Free Action** instead of a Standard or Full Round Action. You gain **Advantage** on all Logic checks involving mathematics or codebreaking.",
+    "rules": "Prerequisite: Lightning Calculator, Intellect 4.",
+    "special_rules": "Prerequisite: Lightning Calculator, Intellect 4.",
+    "body": "# Algorithmic Cognition\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Lightning Calculator, Intellect 4\n\n## Description\nThe character's brain bypasses standard working memory bottlenecks, allowing them to perform hypercalculia and extreme high-speed mental arithmetic natively.\n\n## Mechanics & Benefit\nYou may perform complex mathematical calculations, cryptanalysis, and algorithmic decryption as a **Free Action** instead of a Standard or Full Round Action. You gain **Advantage** on all Logic checks involving mathematics or codebreaking.\n\n## Special Rules\nPrerequisite: Lightning Calculator, Intellect 4.",
+    "mechanics": "You may perform complex mathematical calculations, cryptanalysis, and algorithmic decryption as a **Free Action** instead of a Standard or Full Round Action. You gain **Advantage** on all Logic checks involving mathematics or codebreaking.",
+    "notes": "[Modifier] Advantage on Logic Checks\n[Rule] Prerequisite: Lightning Calculator, Intellect 4.\n[Prerequisite] Lightning Calculator, Intellect 4",
+    "notesList": [
+      "[Modifier] Advantage on Logic Checks",
+      "[Rule] Prerequisite: Lightning Calculator, Intellect 4.",
+      "[Prerequisite] Lightning Calculator, Intellect 4"
+    ]
+  },
+  {
+    "id": "general-analyze-weakness",
+    "name": "Analyze Weakness",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Assessment",
+    "modifiers": [],
+    "description": "Analyze Weakness is a General Feature: +1 bonus vs target per 5 points of success (Assessment vs Bluff).",
+    "mechanic": "\\+1 bonus vs target per 5 points of success (Assessment vs Bluff).",
+    "rules": "76",
+    "special_rules": "76",
+    "body": "# Analyze Weakness\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Assessment\n\n## Description\nAnalyze Weakness is a General Feature: \\+1 bonus vs target per 5 points of success (Assessment vs Bluff).\n\n## Mechanics & Benefit\n\\+1 bonus vs target per 5 points of success (Assessment vs Bluff).\n\n## Special Rules\n76",
+    "mechanics": "\\+1 bonus vs target per 5 points of success (Assessment vs Bluff).",
+    "notes": "[Rule] 76\n[Prerequisite] Assessment",
+    "notesList": [
+      "[Rule] 76",
+      "[Prerequisite] Assessment"
+    ]
+  },
+  {
+    "id": "general-assessment",
+    "name": "Assessment",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Awareness 6, Sense Motive 6",
+    "modifiers": [],
+    "description": "The character has a practiced eye for sizing up opposition. By observing a target's stance, equipment, and demeanor, they can gauge the threat level.",
+    "mechanic": "By observing a target for 1 full round, you can determine their relative threat level compared to yourself (Inferior, Equal, or Superior) and estimate their highest Skill Rank category (Novice, Trained, Expert, Master, Pinnacle).",
+    "rules": "This bonus lasts for the duration of the encounter or until the target successfully leaves your line of sight for more than 1 minute.",
+    "special_rules": "This bonus lasts for the duration of the encounter or until the target successfully leaves your line of sight for more than 1 minute.",
+    "body": "# Assessment\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Awareness 6, Sense Motive 6\n\n## Description\nThe character has a practiced eye for sizing up opposition. By observing a target's stance, equipment, and demeanor, they can gauge the threat level.\n\n## Mechanics & Benefit\nBy observing a target for 1 full round, you can determine their relative threat level compared to yourself (Inferior, Equal, or Superior) and estimate their highest Skill Rank category (Novice, Trained, Expert, Master, Pinnacle).\n\n## Special Rules\nThis bonus lasts for the duration of the encounter or until the target successfully leaves your line of sight for more than 1 minute.",
+    "mechanics": "By observing a target for 1 full round, you can determine their relative threat level compared to yourself (Inferior, Equal, or Superior) and estimate their highest Skill Rank category (Novice, Trained, Expert, Master, Pinnacle).",
+    "notes": "[Rule] This bonus lasts for the duration of the encounter or until the target successfully leaves your line...\n[Prerequisite] Awareness 6, Sense Motive 6",
+    "notesList": [
+      "[Rule] This bonus lasts for the duration of the encounter or until the target successfully leaves your line...",
+      "[Prerequisite] Awareness 6, Sense Motive 6"
+    ]
+  },
+  {
+    "id": "general-benefit-authority",
+    "name": "Benefit (Authority)",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": true,
+    "max_rank": 4,
+    "is_multiple": false,
+    "prerequisites": "Special (Law Enforcement background)",
+    "modifiers": [],
+    "description": "Legal enforcement authority granted by a governing body, planetary militia, or sector law enforcement agency.",
+    "mechanic": "Grants legal authority, jurisdictional powers, and arrest rights within designated sectors (from Deputy to Sector Marshal / Special Agent).",
+    "rules": "Ranked: Higher ranks grant wider planetary and interstellar jurisdiction.",
+    "special_rules": "Ranked: Higher ranks grant wider planetary and interstellar jurisdiction.",
+    "body": "# Benefit (Authority)\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Special (Law Enforcement background)\n\n## Description\nLegal enforcement authority granted by a governing body, planetary militia, or sector law enforcement agency.\n\n## Mechanics & Benefit\nGrants legal authority, jurisdictional powers, and arrest rights within designated sectors (from Deputy to Sector Marshal / Special Agent).\n\n## Special Rules\nRanked: Higher ranks grant wider planetary and interstellar jurisdiction.",
+    "mechanics": "Grants legal authority, jurisdictional powers, and arrest rights within designated sectors (from Deputy to Sector Marshal / Special Agent).",
+    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Ranked: Higher ranks grant wider planetary and interstellar jurisdiction.\n[Prerequisite] Special (Law Enforcement background)",
+    "notesList": [
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] Ranked: Higher ranks grant wider planetary and interstellar jurisdiction.",
+      "[Prerequisite] Special (Law Enforcement background)"
+    ]
+  },
+  {
+    "id": "general-benefit",
+    "name": "Benefit (Authority)",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Associated Occupation (Soldier, Constable, Agent)",
+    "modifiers": [],
+    "description": "The character holds a recognized rank within a law enforcement or military organization, granting them legal power and jurisdiction.",
+    "mechanic": "You hold a specific rank.  \n  * *Rank 1:* Deputy / Corporal (Local jurisdiction).  \n  * *Rank 2:* Officer / Sergeant (Regional jurisdiction).  \n  * *Rank 3:* Marshal / Lieutenant (Planet-wide jurisdiction).  \n  * *Rank 4:* Agent / Commander (Interstellar/System-wide jurisdiction).",
+    "rules": "77",
+    "special_rules": "77",
+    "body": "# Benefit (Authority)\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Associated Occupation (Soldier, Constable, Agent)\n\n## Description\nThe character holds a recognized rank within a law enforcement or military organization, granting them legal power and jurisdiction.\n\n## Mechanics & Benefit\nYou hold a specific rank.  \n  * *Rank 1:* Deputy / Corporal (Local jurisdiction).  \n  * *Rank 2:* Officer / Sergeant (Regional jurisdiction).  \n  * *Rank 3:* Marshal / Lieutenant (Planet-wide jurisdiction).  \n  * *Rank 4:* Agent / Commander (Interstellar/System-wide jurisdiction).\n\n## Special Rules\n77",
+    "mechanics": "You hold a specific rank.  \n  * *Rank 1:* Deputy / Corporal (Local jurisdiction).  \n  * *Rank 2:* Officer / Sergeant (Regional jurisdiction).  \n  * *Rank 3:* Marshal / Lieutenant (Planet-wide jurisdiction).  \n  * *Rank 4:* Agent / Commander (Interstellar/System-wide jurisdiction).",
+    "notes": "[Rule] 77\n[Prerequisite] Associated Occupation (Soldier, Constable, Agent)",
+    "notesList": [
+      "[Rule] 77",
+      "[Prerequisite] Associated Occupation (Soldier, Constable, Agent)"
+    ]
+  },
+  {
+    "id": "general-benefit-clearance",
+    "name": "Benefit (Clearance)",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": true,
+    "max_rank": 4,
+    "is_multiple": false,
+    "prerequisites": "Special (Military or Corporate standing)",
+    "modifiers": [],
+    "description": "Official security clearance granting access to classified databases, restricted orbital facilities, and top-secret projects.",
+    "mechanic": "Access to classified intelligence and restricted facilities (Classified -> Secret -> Top Secret -> Black Badge).",
+    "rules": "Ranked: Higher ranks unlock access to military compartmentalized programs.",
+    "special_rules": "Ranked: Higher ranks unlock access to military compartmentalized programs.",
+    "body": "# Benefit (Clearance)\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Special (Military or Corporate standing)\n\n## Description\nOfficial security clearance granting access to classified databases, restricted orbital facilities, and top-secret projects.\n\n## Mechanics & Benefit\nAccess to classified intelligence and restricted facilities (Classified -> Secret -> Top Secret -> Black Badge).\n\n## Special Rules\nRanked: Higher ranks unlock access to military compartmentalized programs.",
+    "mechanics": "Access to classified intelligence and restricted facilities (Classified -> Secret -> Top Secret -> Black Badge).",
+    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Ranked: Higher ranks unlock access to military compartmentalized programs.\n[Prerequisite] Special (Military or Corporate standing)",
+    "notesList": [
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] Ranked: Higher ranks unlock access to military compartmentalized programs.",
+      "[Prerequisite] Special (Military or Corporate standing)"
+    ]
+  },
+  {
+    "id": "general-benefit-equipment",
+    "name": "Benefit (Equipment)",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": true,
+    "max_rank": 4,
+    "is_multiple": true,
+    "prerequisites": "Special (Organizational sponsorship)",
+    "modifiers": [],
+    "description": "Issued or subsidized organizational hardware, specialized field kits, armored vehicles, or scout starships.",
+    "mechanic": "Character receives supplied gear, military ordnance, or access to an organization-owned vehicle/vessel.",
+    "rules": "Ranked: Rank 1 grants personal gear kits, Rank 3 grants tactical combat vehicles, Rank 5 grants a scout starship.",
+    "special_rules": "Ranked: Rank 1 grants personal gear kits, Rank 3 grants tactical combat vehicles, Rank 5 grants a scout starship.",
+    "body": "# Benefit (Equipment)\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Special (Organizational sponsorship)\n\n## Description\nIssued or subsidized organizational hardware, specialized field kits, armored vehicles, or scout starships.\n\n## Mechanics & Benefit\nCharacter receives supplied gear, military ordnance, or access to an organization-owned vehicle/vessel.\n\n## Special Rules\nRanked: Rank 1 grants personal gear kits, Rank 3 grants tactical combat vehicles, Rank 5 grants a scout starship.",
+    "mechanics": "Character receives supplied gear, military ordnance, or access to an organization-owned vehicle/vessel.",
+    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] Ranked: Rank 1 grants personal gear kits, Rank 3 grants tactical combat vehicles, Rank 5 grants a sc...\n[Prerequisite] Special (Organizational sponsorship)",
+    "notesList": [
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] Multiple: May be purchased separately for different categories/types",
+      "[Rule] Ranked: Rank 1 grants personal gear kits, Rank 3 grants tactical combat vehicles, Rank 5 grants a sc...",
+      "[Prerequisite] Special (Organizational sponsorship)"
+    ]
+  },
+  {
+    "id": "general-benefit-identity",
+    "name": "Benefit (Identity)",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": true,
+    "max_rank": 4,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [],
+    "description": "A fully established, legally recognized alternate identity complete with planetary biometric records and credit histories.",
+    "mechanic": "Grants 1 complete, legally verifiable cover identity per rank, bypassing basic biometric and customs scrutiny.",
+    "rules": "Ranked: Each purchase adds an additional established cover identity.",
+    "special_rules": "Ranked: Each purchase adds an additional established cover identity.",
+    "body": "# Benefit (Identity)\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nA fully established, legally recognized alternate identity complete with planetary biometric records and credit histories.\n\n## Mechanics & Benefit\nGrants 1 complete, legally verifiable cover identity per rank, bypassing basic biometric and customs scrutiny.\n\n## Special Rules\nRanked: Each purchase adds an additional established cover identity.",
+    "mechanics": "Grants 1 complete, legally verifiable cover identity per rank, bypassing basic biometric and customs scrutiny.",
+    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Ranked: Each purchase adds an additional established cover identity.",
+    "notesList": [
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] Ranked: Each purchase adds an additional established cover identity."
+    ]
+  },
+  {
+    "id": "general-benefit-immunity",
+    "name": "Benefit (Immunity)",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": true,
+    "max_rank": 4,
+    "is_multiple": false,
+    "prerequisites": "Special (Diplomatic or Imperial decree)",
+    "modifiers": [],
+    "description": "Legal immunity from prosecution under local planetary laws, customs tariffs, or extraterritorial arrest warrants.",
+    "mechanic": "Grants legal immunity (from Diplomatic Immunity to Inquisitorial License to Kill).",
+    "rules": "Special: Requires sovereign or diplomatic faction affiliation.",
+    "special_rules": "Special: Requires sovereign or diplomatic faction affiliation.",
+    "body": "# Benefit (Immunity)\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Special (Diplomatic or Imperial decree)\n\n## Description\nLegal immunity from prosecution under local planetary laws, customs tariffs, or extraterritorial arrest warrants.\n\n## Mechanics & Benefit\nGrants legal immunity (from Diplomatic Immunity to Inquisitorial License to Kill).\n\n## Special Rules\nSpecial: Requires sovereign or diplomatic faction affiliation.",
+    "mechanics": "Grants legal immunity (from Diplomatic Immunity to Inquisitorial License to Kill).",
+    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Special: Requires sovereign or diplomatic faction affiliation.\n[Prerequisite] Special (Diplomatic or Imperial decree)",
+    "notesList": [
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] Special: Requires sovereign or diplomatic faction affiliation.",
+      "[Prerequisite] Special (Diplomatic or Imperial decree)"
+    ]
+  },
+  {
+    "id": "general-benefit-status",
+    "name": "Benefit (Status)",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": true,
+    "max_rank": 4,
+    "is_multiple": false,
+    "prerequisites": "Special (Aristocratic or Corporate lineage)",
+    "modifiers": [
+      {
+        "target": "Wealth",
+        "type": "wealth",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 Wealth Score"
+      }
+    ],
+    "description": "High social standing, aristocratic titles, noble rank, executive board standing, and associated wealth stipends.",
+    "mechanic": "Grants significant social influence, aristocratic privilege, and +2 Wealth score per rank.",
+    "rules": "Ranked: Higher ranks represent titles from Baron/Director to Archon/Grand Duke.",
+    "special_rules": "Ranked: Higher ranks represent titles from Baron/Director to Archon/Grand Duke.",
+    "body": "# Benefit (Status)\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Special (Aristocratic or Corporate lineage)\n\n## Description\nHigh social standing, aristocratic titles, noble rank, executive board standing, and associated wealth stipends.\n\n## Mechanics & Benefit\nGrants significant social influence, aristocratic privilege, and +2 Wealth score per rank.\n\n## Special Rules\nRanked: Higher ranks represent titles from Baron/Director to Archon/Grand Duke.",
+    "mechanics": "Grants significant social influence, aristocratic privilege, and +2 Wealth score per rank.",
+    "notes": "[Modifier] +2 Wealth Score\n[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Ranked: Higher ranks represent titles from Baron/Director to Archon/Grand Duke.\n[Prerequisite] Special (Aristocratic or Corporate lineage)",
+    "notesList": [
+      "[Modifier] +2 Wealth Score",
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] Ranked: Higher ranks represent titles from Baron/Director to Archon/Grand Duke.",
+      "[Prerequisite] Special (Aristocratic or Corporate lineage)"
+    ]
+  },
+  {
+    "id": "general-benefit-wealth",
+    "name": "Benefit (Wealth)",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": true,
+    "max_rank": 4,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [],
+    "description": "Substantial personal financial reserves, passive dividend income, and liquid capital assets.",
+    "mechanic": "Permanently increases character's Wealth score by +3 per purchase.",
+    "rules": "Ranked: May be purchased multiple times to represent vast commercial fortunes.",
+    "special_rules": "Ranked: May be purchased multiple times to represent vast commercial fortunes.",
+    "body": "# Benefit (Wealth)\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nSubstantial personal financial reserves, passive dividend income, and liquid capital assets.\n\n## Mechanics & Benefit\nPermanently increases character's Wealth score by +3 per purchase.\n\n## Special Rules\nRanked: May be purchased multiple times to represent vast commercial fortunes.",
+    "mechanics": "Permanently increases character's Wealth score by +3 per purchase.",
+    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Ranked: May be purchased multiple times to represent vast commercial fortunes.",
+    "notesList": [
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] Ranked: May be purchased multiple times to represent vast commercial fortunes."
+    ]
+  },
+  {
+    "id": "general-born-leader",
+    "name": "Born Leader",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Special",
+    "modifiers": [],
+    "description": "Born Leader is a General Feature: Gain Followers.",
+    "mechanic": "Gain Followers.",
+    "rules": "99",
+    "special_rules": "99",
+    "body": "# Born Leader\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Special\n\n## Description\nBorn Leader is a General Feature: Gain Followers.\n\n## Mechanics & Benefit\nGain Followers.\n\n## Special Rules\n99",
+    "mechanics": "Gain Followers.",
+    "notes": "[Rule] 99\n[Prerequisite] Special",
+    "notesList": [
+      "[Rule] 99",
+      "[Prerequisite] Special"
+    ]
+  },
+  {
+    "id": "general-camouflage",
+    "name": "Camouflage",
+    "category": "General",
+    "type": "general",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Stealth 1",
+    "modifiers": [
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Stealth"
+      }
+    ],
+    "description": "Passive adaptive coloration, light-draping contours, and texture mimicry grant a +4 bonus on Stealth checks in favored or shadowed terrain.",
+    "mechanic": "- **Stealth Competence**: Grants a **+4 bonus** on all Stealth checks when remaining stationary or moving at half speed through dim light, shadows, subterranean environments, or favored hunting terrain.\n- **Concealed Stalking**: Reduces the penalty for making Stealth checks while maneuvering around obstacles by 50%.",
+    "rules": "Prerequisite: Stealth 1.",
+    "special_rules": "Prerequisite: Stealth 1.",
+    "body": "# Camouflage\n\n**Category**: General Features  \n**Cost**: 2 BP  \n**Prerequisites**: Stealth 1  \n\n## Description\nThe character possesses passive epidermal coloration, matte chitinous properties, or biological patterning that naturally blends into shadows, subterranean cave walls, metallic ship framing, or rocky terrain.\n\n## Mechanics & Benefit\n- **Stealth Competence**: Grants a **+4 bonus** on all Stealth checks when remaining stationary or moving at half speed through dim light, shadows, subterranean environments, or favored hunting terrain.\n- **Concealed Stalking**: Reduces the penalty for making Stealth checks while maneuvering around obstacles by 50%.",
+    "mechanics": "- **Stealth Competence**: Grants a **+4 bonus** on all Stealth checks when remaining stationary or moving at half speed through dim light, shadows, subterranean environments, or favored hunting terrain.\n- **Concealed Stalking**: Reduces the penalty for making Stealth checks while maneuvering around obstacles by 50%.",
+    "notes": "[Modifier] +4 to Stealth\n[Rule] Prerequisite: Stealth 1.\n[Prerequisite] Stealth 1",
+    "notesList": [
+      "[Modifier] +4 to Stealth",
+      "[Rule] Prerequisite: Stealth 1.",
+      "[Prerequisite] Stealth 1"
+    ]
+  },
+  {
+    "id": "general-climber",
+    "name": "Climber",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Agility 1, Athletics 1",
+    "modifiers": [
+      {
+        "target": "Athletics Climbing",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Athletics Climbing"
+      }
+    ],
+    "description": "The character is a master mountaineer and vertical surface scaler.",
+    "mechanic": "- **Speed Multiplier Boost**: Increases all Climbing speeds without affecting action penalties:\n  - **Standard Climbing**: Moves at full **Base Walking Speed (1x = 30 ft/rd)** on standard surfaces.\n  - **Scaling Pace**: Moves at **2x Base Speed (60 ft/rd)**.\n  - **Fast Ascent Pace**: Moves at **3x Base Speed (90 ft/rd)**.\n  - **Fast Descent Pace**: Moves at **6x Base Speed (180 ft/rd)**.\n- **Grip & Balance**: Gain **+2 bonus** to Athletics (Climbing) checks and avoid fall damage on successful descent checks.",
+    "rules": "Prerequisite: Agility 1, Athletics 1.",
+    "special_rules": "Prerequisite: Agility 1, Athletics 1.",
+    "body": "# Climber\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisites**: Agility 1, Athletics 1  \n\n## Description\nThe character is an expert climber capable of rapid ascent, surface scaling, and controlled vertical descent.\n\n## Mechanics & Benefit\n- **Speed Multiplier Boost**: Increases all Climbing speeds without affecting action penalties:\n  - **Standard Climbing**: Moves at full **Base Walking Speed (1x = 30 ft/rd)** on standard surfaces.\n  - **Scaling Pace**: Moves at **2x Base Speed (60 ft/rd)**.\n  - **Fast Ascent Pace**: Moves at **3x Base Speed (90 ft/rd)**.\n  - **Fast Descent Pace**: Moves at **6x Base Speed (180 ft/rd)**.\n- **Grip & Balance**: Gain **+2 bonus** to Athletics (Climbing) checks and avoid fall damage on successful descent checks.",
+    "mechanics": "- **Speed Multiplier Boost**: Increases all Climbing speeds without affecting action penalties:\n  - **Standard Climbing**: Moves at full **Base Walking Speed (1x = 30 ft/rd)** on standard surfaces.\n  - **Scaling Pace**: Moves at **2x Base Speed (60 ft/rd)**.\n  - **Fast Ascent Pace**: Moves at **3x Base Speed (90 ft/rd)**.\n  - **Fast Descent Pace**: Moves at **6x Base Speed (180 ft/rd)**.\n- **Grip & Balance**: Gain **+2 bonus** to Athletics (Climbing) checks and avoid fall damage on successful descent checks.",
+    "notes": "[Modifier] +2 to Athletics Climbing\n[Rule] Prerequisite: Agility 1, Athletics 1.\n[Prerequisite] Agility 1, Athletics 1",
+    "notesList": [
+      "[Modifier] +2 to Athletics Climbing",
+      "[Rule] Prerequisite: Agility 1, Athletics 1.",
+      "[Prerequisite] Agility 1, Athletics 1"
+    ]
+  },
+  {
+    "id": "general-connected",
+    "name": "Connected",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": true,
+    "max_rank": 4,
+    "is_multiple": false,
+    "prerequisites": "Charisma 1",
+    "modifiers": [],
+    "description": "The character has friends in low (or high) places. They can call in favors for equipment, information, or safe houses.",
+    "mechanic": "You have a network of contacts.  \n  * *Rank 1:* Street/Soldier level (Gangs, Grunts).  \n  * *Rank 2:* Management/Lieutenant level (Shop owners, Squad leaders).  \n  * *Rank 3:* Officer/Executive level (City officials, Corp VPs).  \n  * *Rank 4:* Boss/Director level (Planetary Governors, Crime Lords).",
+    "rules": "This feature is Ranked (up to Rank 4). Each additional rank purchased expands the reach, authority, and influence of your network of contacts.",
+    "special_rules": "This feature is Ranked (up to Rank 4). Each additional rank purchased expands the reach, authority, and influence of your network of contacts.",
+    "body": "# Connected\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Charisma 1\n\n## Description\nThe character has friends in low (or high) places. They can call in favors for equipment, information, or safe houses.\n\n## Mechanics & Benefit\nYou have a network of contacts.  \n  * *Rank 1:* Street/Soldier level (Gangs, Grunts).  \n  * *Rank 2:* Management/Lieutenant level (Shop owners, Squad leaders).  \n  * *Rank 3:* Officer/Executive level (City officials, Corp VPs).  \n  * *Rank 4:* Boss/Director level (Planetary Governors, Crime Lords).\n\n## Special Rules\nThis feature is Ranked (up to Rank 4). Each additional rank purchased expands the reach, authority, and influence of your network of contacts.",
+    "mechanics": "You have a network of contacts.  \n  * *Rank 1:* Street/Soldier level (Gangs, Grunts).  \n  * *Rank 2:* Management/Lieutenant level (Shop owners, Squad leaders).  \n  * *Rank 3:* Officer/Executive level (City officials, Corp VPs).  \n  * *Rank 4:* Boss/Director level (Planetary Governors, Crime Lords).",
+    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] This feature is Ranked (up to Rank 4). Each additional rank purchased expands the reach, authority, ...\n[Prerequisite] Charisma 1",
+    "notesList": [
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] This feature is Ranked (up to Rank 4). Each additional rank purchased expands the reach, authority, ...",
+      "[Prerequisite] Charisma 1"
+    ]
+  },
+  {
+    "id": "general-contacts",
+    "name": "Contacts",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Charisma 1",
+    "modifiers": [],
+    "description": "The character knows who to talk to. They don't necessarily have favors owed, but they know the flow of information.",
+    "mechanic": "You may make **Gather Information** checks in **1/2 the typical time**.",
+    "rules": "85",
+    "special_rules": "85",
+    "body": "# Contacts\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Charisma 1\n\n## Description\nThe character knows who to talk to. They don't necessarily have favors owed, but they know the flow of information.\n\n## Mechanics & Benefit\nYou may make **Gather Information** checks in **1/2 the typical time**.\n\n## Special Rules\n85",
+    "mechanics": "You may make **Gather Information** checks in **1/2 the typical time**.",
+    "notes": "[Rule] 85\n[Prerequisite] Charisma 1",
+    "notesList": [
+      "[Rule] 85",
+      "[Prerequisite] Charisma 1"
+    ]
+  },
+  {
+    "id": "general-coordinated-assist",
+    "name": "Coordinated Assist",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": true,
+    "max_rank": 4,
+    "is_multiple": false,
+    "prerequisites": "Intellect 1",
+    "modifiers": [],
+    "description": "The character is a natural team player or squad leader, adept at setting up allies for success.",
+    "mechanic": "When using the **Aid Another** action (Skill Synergy), you grant an additional **\\+1 Bonus** to your ally's check.",
+    "rules": "This feature is \\[Ranked\\] by Intellect. (Rank 2 grants \\+2, etc.).",
+    "special_rules": "This feature is \\[Ranked\\] by Intellect. (Rank 2 grants \\+2, etc.).",
+    "body": "# Coordinated Assist\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Intellect 1\n\n## Description\nThe character is a natural team player or squad leader, adept at setting up allies for success.\n\n## Mechanics & Benefit\nWhen using the **Aid Another** action (Skill Synergy), you grant an additional **\\+1 Bonus** to your ally's check.\n\n## Special Rules\nThis feature is \\[Ranked\\] by Intellect. (Rank 2 grants \\+2, etc.).",
+    "mechanics": "When using the **Aid Another** action (Skill Synergy), you grant an additional **\\+1 Bonus** to your ally's check.",
+    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] This feature is \\[Ranked\\] by Intellect. (Rank 2 grants \\+2, etc.).\n[Prerequisite] Intellect 1",
+    "notesList": [
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] This feature is \\[Ranked\\] by Intellect. (Rank 2 grants \\+2, etc.).",
+      "[Prerequisite] Intellect 1"
+    ]
+  },
+  {
+    "id": "general-diehard",
+    "name": "Diehard",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Endurance",
+    "modifiers": [],
+    "description": "Diehard is a General Feature: Automatically stabilize when dying.",
+    "mechanic": "Automatically stabilize when dying.",
+    "rules": "93",
+    "special_rules": "93",
+    "body": "# Diehard\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Endurance\n\n## Description\nDiehard is a General Feature: Automatically stabilize when dying.\n\n## Mechanics & Benefit\nAutomatically stabilize when dying.\n\n## Special Rules\n93",
+    "mechanics": "Automatically stabilize when dying.",
+    "notes": "[Rule] 93\n[Prerequisite] Endurance",
+    "notesList": [
+      "[Rule] 93",
+      "[Prerequisite] Endurance"
+    ]
   },
   {
     "id": "general-distract",
@@ -2645,42 +3699,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 88",
       "[Prerequisite] Charisma 1 or Intellect 1"
-    ],
-    "keywords": "distract, general, special-feature, diversion, potent, leaves",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "combat-dodge",
-    "name": "Dodge",
-    "category": "Combat",
-    "type": "combat",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Agility 1",
-    "modifiers": [],
-    "description": "The character is adept at dodging blows.",
-    "mechanic": "Gain a **\\+1 Dodge bonus to Defense**.",
-    "rules": "Dodge bonuses stack with other Dodge bonuses (but not with themselves). This bonus is lost if you are Flat-Footed.",
-    "special_rules": "Dodge bonuses stack with other Dodge bonuses (but not with themselves). This bonus is lost if you are Flat-Footed.",
-    "body": "# Dodge\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Agility 1\n\n## Description\nThe character is adept at dodging blows.\n\n## Mechanics & Benefit\nGain a **\\+1 Dodge bonus to Defense**.\n\n## Special Rules\nDodge bonuses stack with other Dodge bonuses (but not with themselves). This bonus is lost if you are Flat-Footed.",
-    "mechanics": "Gain a **\\+1 Dodge bonus to Defense**.",
-    "notes": "[Rule] Dodge bonuses stack with other Dodge bonuses (but not with themselves). This bonus is lost if you ar...\n[Prerequisite] Agility 1",
-    "notesList": [
-      "[Rule] Dodge bonuses stack with other Dodge bonuses (but not with themselves). This bonus is lost if you ar...",
-      "[Prerequisite] Agility 1"
-    ],
-    "keywords": "dodge, combat, special-feature, combat-maneuver, tactical-edge, dodging",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
+    ]
   },
   {
     "id": "general-double-jointed",
@@ -2720,42 +3739,7 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +4 to Escape Artist",
       "[Rule] 89",
       "[Prerequisite] Agility 1"
-    ],
-    "keywords": "double jointed, general, special-feature, possesses, extreme, flexibility",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "combat-double-slice",
-    "name": "Double Slice",
-    "category": "Combat",
-    "type": "combat",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Two-Weapon Fighting",
-    "modifiers": [],
-    "description": "Double Slice is a Combat Feature: Add your Str bonus to off-hand damage rolls.",
-    "mechanic": "Add your Str bonus to off-hand damage rolls.",
-    "rules": "43",
-    "special_rules": "43",
-    "body": "# Double Slice\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Two-Weapon Fighting\n\n## Description\nDouble Slice is a Combat Feature: Add your Str bonus to off-hand damage rolls.\n\n## Mechanics & Benefit\nAdd your Str bonus to off-hand damage rolls.\n\n## Special Rules\n43",
-    "mechanics": "Add your Str bonus to off-hand damage rolls.",
-    "notes": "[Rule] 43\n[Prerequisite] Two-Weapon Fighting",
-    "notesList": [
-      "[Rule] 43",
-      "[Prerequisite] Two-Weapon Fighting"
-    ],
-    "keywords": "double slice, combat, special-feature, combat-maneuver, tactical-edge, double",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
+    ]
   },
   {
     "id": "general-dual-hemispheric-processing",
@@ -2786,42 +3770,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Special: Congenital Trait.",
       "[Prerequisite] Intellect 3, Special (Congenital Trait)"
-    ],
-    "keywords": "dual-hemispheric processing, general, special-feature, congenital, anomaly, agenesis",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "special-dwarfism",
-    "name": "Dwarfism",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Species Trait or Flaw",
-    "modifiers": [],
-    "description": "The character is significantly smaller than the average for their species.",
-    "mechanic": "Your Size Category decreases by one step (e.g., Medium to Small).",
-    "rules": "190",
-    "special_rules": "190",
-    "body": "# Dwarfism\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Species Trait or Flaw\n\n## Description\nThe character is significantly smaller than the average for their species.\n\n## Mechanics & Benefit\nYour Size Category decreases by one step (e.g., Medium to Small).\n\n## Special Rules\n190",
-    "mechanics": "Your Size Category decreases by one step (e.g., Medium to Small).",
-    "notes": "[Rule] 190\n[Prerequisite] Species Trait or Flaw",
-    "notesList": [
-      "[Rule] 190",
-      "[Prerequisite] Species Trait or Flaw"
-    ],
-    "keywords": "dwarfism, special, special-feature, significantly, smaller, average",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-echolocation",
@@ -2852,51 +3801,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Prerequisite: Awareness 3, Blindness flaw or visual deprivation.",
       "[Prerequisite] Awareness 3, Must possess the Blindness flaw (or be visually deprived)"
-    ],
-    "keywords": "echolocation, general, special-feature, through, extreme, cross-modal",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-educated",
-    "name": "Educated",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Academics 5, Any Knowledge 5",
-    "modifiers": [
-      {
-        "target": "Knowledge",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Knowledge"
-      }
-    ],
-    "description": "The character has received extensive formal schooling or possesses a voracious appetite for reading.",
-    "mechanic": "Gain a **\\+2 Bonus** to **Academics** and a **\\+1 Bonus** to **ALL Knowledge Skills**.",
-    "rules": "138",
-    "special_rules": "138",
-    "body": "# Educated\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Academics 5, Any Knowledge 5\n\n## Description\nThe character has received extensive formal schooling or possesses a voracious appetite for reading.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Academics** and a **\\+1 Bonus** to **ALL Knowledge Skills**.\n\n## Special Rules\n138",
-    "mechanics": "Gain a **\\+2 Bonus** to **Academics** and a **\\+1 Bonus** to **ALL Knowledge Skills**.",
-    "notes": "[Modifier] +1 to Knowledge\n[Rule] 138\n[Prerequisite] Academics 5, Any Knowledge 5",
-    "notesList": [
-      "[Modifier] +1 to Knowledge",
-      "[Rule] 138",
-      "[Prerequisite] Academics 5, Any Knowledge 5"
-    ],
-    "keywords": "educated, skill, special-feature, received, extensive, formal",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-eidetic-constructor",
@@ -2952,9 +3857,7 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +4 to Tactical",
       "[Rule] Prerequisite: Eidetic Memory, Awareness 2.",
       "[Prerequisite] Eidetic Memory, Awareness 2"
-    ],
-    "keywords": "eidetic constructor, general, special-feature, possesses, unparalleled, visual-spatial",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-eidetic-memory",
@@ -2994,87 +3897,7 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +4 to Memory",
       "[Rule] 90",
       "[Prerequisite] Intellect 2"
-    ],
-    "keywords": "eidetic memory, general, special-feature, remembers, everything, accuracy",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "special-eldritch-heritage",
-    "name": "Eldritch Heritage",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "None (Background)",
-    "modifiers": [],
-    "description": "The character carries the blood of dragons, demons, fey, or gods.",
-    "mechanic": "You gain a specific **Bloodline Power** or minor supernatural trait associated with your ancestor (e.g., minor energy resistance, claws, or a cantrip-level spell usable at will).",
-    "rules": "191",
-    "special_rules": "191",
-    "body": "# Eldritch Heritage\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None (Background)\n\n## Description\nThe character carries the blood of dragons, demons, fey, or gods.\n\n## Mechanics & Benefit\nYou gain a specific **Bloodline Power** or minor supernatural trait associated with your ancestor (e.g., minor energy resistance, claws, or a cantrip-level spell usable at will).\n\n## Special Rules\n191",
-    "mechanics": "You gain a specific **Bloodline Power** or minor supernatural trait associated with your ancestor (e.g., minor energy resistance, claws, or a cantrip-level spell usable at will).",
-    "notes": "[Rule] 191\n[Prerequisite] None (Background)",
-    "notesList": [
-      "[Rule] 191",
-      "[Prerequisite] None (Background)"
-    ],
-    "keywords": "eldritch heritage, special, special-feature, carries, dragons, demons",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "discipline-empowered-strike",
-    "name": "Empowered Strike",
-    "category": "Discipline",
-    "type": "discipline",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": true,
-    "max_rank": 4,
-    "is_multiple": true,
-    "prerequisites": "Attune 6",
-    "modifiers": [
-      {
-        "target": "Damage",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Damage"
-      }
-    ],
-    "description": "The character can infuse their physical attacks with raw metaphysical energy. This is the signature ability of \"Spellblades,\" \"Paladins,\" or \"Psychic Warriors.\"",
-    "mechanic": "You may channel energy into a melee or ranged weapon attack. The attack gains **\\+1 to Strike** and **\\+1 to Damage**.",
-    "rules": "This feature is **\\[Ranked\\]**. You may take it multiple times (up to your Attune rank limit). Rank 2 would grant \\+2 Strike/Damage, etc.",
-    "special_rules": "This feature is **\\[Ranked\\]**. You may take it multiple times (up to your Attune rank limit). Rank 2 would grant \\+2 Strike/Damage, etc.",
-    "body": "# Empowered Strike\n\n**Category**: Discipline Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Attune 6\n\n## Description\nThe character can infuse their physical attacks with raw metaphysical energy. This is the signature ability of \"Spellblades,\" \"Paladins,\" or \"Psychic Warriors.\"\n\n## Mechanics & Benefit\nYou may channel energy into a melee or ranged weapon attack. The attack gains **\\+1 to Strike** and **\\+1 to Damage**.\n\n## Special Rules\nThis feature is **\\[Ranked\\]**. You may take it multiple times (up to your Attune rank limit). Rank 2 would grant \\+2 Strike/Damage, etc.",
-    "mechanics": "You may channel energy into a melee or ranged weapon attack. The attack gains **\\+1 to Strike** and **\\+1 to Damage**.",
-    "notes": "[Modifier] +1 to Damage\n[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature is **\\[Ranked\\]**. You may take it multiple times (up to your Attune rank limit). Rank ...\n[Prerequisite] Attune 6",
-    "notesList": [
-      "[Modifier] +1 to Damage",
-      "[Rule] Ranked: Bonus stacks with additional purchases",
-      "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] This feature is **\\[Ranked\\]**. You may take it multiple times (up to your Attune rank limit). Rank ...",
-      "[Prerequisite] Attune 6"
-    ],
-    "keywords": "empowered strike, discipline, special-feature, focused-training, mastery, infuse",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-endurance",
@@ -3105,186 +3928,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 92",
       "[Prerequisite] Stamina 1"
-    ],
-    "keywords": "endurance, general, special-feature, exceptional, cardiovascular, health",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "special-energy-resistance",
-    "name": "Energy Resistance",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": true,
-    "max_rank": 4,
-    "is_multiple": false,
-    "prerequisites": "None",
-    "modifiers": [],
-    "description": "The character's physiology is resistant to a specific form of energy (Fire, Cold, Electricity, Acid, Sonic).",
-    "mechanic": "Gain **Resistance 5** against one chosen energy type. (Subtract 5 from all damage of that type).",
-    "rules": "\\[Ranked\\] Stacks to Resistance 10, 15, etc., eventually becoming Immunity.",
-    "special_rules": "\\[Ranked\\] Stacks to Resistance 10, 15, etc., eventually becoming Immunity.",
-    "body": "# Energy Resistance\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character's physiology is resistant to a specific form of energy (Fire, Cold, Electricity, Acid, Sonic).\n\n## Mechanics & Benefit\nGain **Resistance 5** against one chosen energy type. (Subtract 5 from all damage of that type).\n\n## Special Rules\n\\[Ranked\\] Stacks to Resistance 10, 15, etc., eventually becoming Immunity.",
-    "mechanics": "Gain **Resistance 5** against one chosen energy type. (Subtract 5 from all damage of that type).",
-    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] \\[Ranked\\] Stacks to Resistance 10, 15, etc., eventually becoming Immunity.",
-    "notesList": [
-      "[Rule] Ranked: Bonus stacks with additional purchases",
-      "[Rule] \\[Ranked\\] Stacks to Resistance 10, 15, etc., eventually becoming Immunity."
-    ],
-    "keywords": "energy resistance, special, special-feature, character's, physiology, resistant",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-entertaining",
-    "name": "Entertaining",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": true,
-    "max_rank": 4,
-    "is_multiple": false,
-    "prerequisites": "Charisma 1",
-    "modifiers": [
-      {
-        "target": "Any Performance",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Any Performance"
-      },
-      {
-        "target": "Performance types Singing",
-        "type": "skill",
-        "value": 3,
-        "mode": "inherent",
-        "description": "+3 to Performance types Singing"
-      },
-      {
-        "target": "Dancing",
-        "type": "skill",
-        "value": 3,
-        "mode": "inherent",
-        "description": "+3 to Dancing"
-      },
-      {
-        "target": "Acting",
-        "type": "skill",
-        "value": 3,
-        "mode": "inherent",
-        "description": "+3 to Acting"
-      },
-      {
-        "target": "Etc",
-        "type": "skill",
-        "value": 3,
-        "mode": "inherent",
-        "description": "+3 to Etc"
-      }
-    ],
-    "description": "The character is a born performer, capable of holding an audience's attention.",
-    "mechanic": "Gain a **\\+1 Bonus** to **Any Performance Check**.",
-    "rules": "This feature is **\\[Ranked\\]** (Limited by Charisma). Rank 3 would grant a \\+3 to all Performance types (Singing, Dancing, Acting, etc.).",
-    "special_rules": "This feature is **\\[Ranked\\]** (Limited by Charisma). Rank 3 would grant a \\+3 to all Performance types (Singing, Dancing, Acting, etc.).",
-    "body": "# Entertaining\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Charisma 1\n\n## Description\nThe character is a born performer, capable of holding an audience's attention.\n\n## Mechanics & Benefit\nGain a **\\+1 Bonus** to **Any Performance Check**.\n\n## Special Rules\nThis feature is **\\[Ranked\\]** (Limited by Charisma). Rank 3 would grant a \\+3 to all Performance types (Singing, Dancing, Acting, etc.).",
-    "mechanics": "Gain a **\\+1 Bonus** to **Any Performance Check**.",
-    "notes": "[Modifier] +1 to Any Performance\n[Modifier] +3 to Performance types Singing\n[Modifier] +3 to Dancing\n[Modifier] +3 to Acting\n[Modifier] +3 to Etc\n[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] This feature is **\\[Ranked\\]** (Limited by Charisma). Rank 3 would grant a \\+3 to all Performance ty...\n[Prerequisite] Charisma 1",
-    "notesList": [
-      "[Modifier] +1 to Any Performance",
-      "[Modifier] +3 to Performance types Singing",
-      "[Modifier] +3 to Dancing",
-      "[Modifier] +3 to Acting",
-      "[Modifier] +3 to Etc",
-      "[Rule] Ranked: Bonus stacks with additional purchases",
-      "[Rule] This feature is **\\[Ranked\\]** (Limited by Charisma). Rank 3 would grant a \\+3 to all Performance ty...",
-      "[Prerequisite] Charisma 1"
-    ],
-    "keywords": "entertaining, skill, special-feature, performer, capable, holding",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "ability-evasiveness",
-    "name": "Evasiveness",
-    "category": "Ability",
-    "type": "ability",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": true,
-    "prerequisites": "Must possess the base Feature for the chosen Save (Lightning Reflexes, Great Fortitude, or Iron Will).",
-    "modifiers": [],
-    "description": "The character is adept at avoiding the brunt of area attacks or resisting the full efficacy of potent effects.",
-    "mechanic": "When subjected to an effect that allows a **Resistance Check** for **Partial Effect** (commonly taking half damage on a success), a successful check instead results in **No Effect** (or zero damage).  \n  * *Usage:* If a dragon breathes fire (Reflex for half), a character with Evasiveness (Reflex) takes *no damage* if they succeed on the roll.",
-    "rules": "This feature acts as a **\\[Multiple\\]** selection. You must purchase it separately for Reflex, Fortitude, or Will.",
-    "special_rules": "This feature acts as a **\\[Multiple\\]** selection. You must purchase it separately for Reflex, Fortitude, or Will.",
-    "body": "# Evasiveness\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Must possess the base Feature for the chosen Save (Lightning Reflexes, Great Fortitude, or Iron Will).\n\n## Description\nThe character is adept at avoiding the brunt of area attacks or resisting the full efficacy of potent effects.\n\n## Mechanics & Benefit\nWhen subjected to an effect that allows a **Resistance Check** for **Partial Effect** (commonly taking half damage on a success), a successful check instead results in **No Effect** (or zero damage).  \n  * *Usage:* If a dragon breathes fire (Reflex for half), a character with Evasiveness (Reflex) takes *no damage* if they succeed on the roll.\n\n## Special Rules\nThis feature acts as a **\\[Multiple\\]** selection. You must purchase it separately for Reflex, Fortitude, or Will.",
-    "mechanics": "When subjected to an effect that allows a **Resistance Check** for **Partial Effect** (commonly taking half damage on a success), a successful check instead results in **No Effect** (or zero damage).  \n  * *Usage:* If a dragon breathes fire (Reflex for half), a character with Evasiveness (Reflex) takes *no damage* if they succeed on the roll.",
-    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature acts as a **\\[Multiple\\]** selection. You must purchase it separately for Reflex, Forti...\n[Prerequisite] Must possess the base Feature for the chosen Save (Lightning Reflexes, Great Fortitude, or Iron Will).",
-    "notesList": [
-      "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] This feature acts as a **\\[Multiple\\]** selection. You must purchase it separately for Reflex, Forti...",
-      "[Prerequisite] Must possess the base Feature for the chosen Save (Lightning Reflexes, Great Fortitude, or Iron Will)."
-    ],
-    "keywords": "evasiveness, ability, special-feature, innate-talent, passive-prowess, avoiding",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "special-extreme-augmentations",
-    "name": "Extreme Augmentations",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Heavy Augmentations, Stamina 4",
-    "modifiers": [],
-    "description": "The character is more machine (or bio-construct) than original being. They have replaced the majority of their biological functions.",
-    "mechanic": "You may undergo Full Body Conversion. You may install systems that alter your Size category or basic physiology (e.g., tank treads instead of legs). You gain an additional 6 BP worth of Augmentations.",
-    "rules": "Grants an additional 6 BP worth of Augmentations for free (+18 BP cumulative credit). Permits Full Body Conversion (FBC) chassis and radical physiological structural alterations.",
-    "special_rules": "Grants an additional 6 BP worth of Augmentations for free (+18 BP cumulative credit). Permits Full Body Conversion (FBC) chassis and radical physiological structural alterations.",
-    "body": "# Extreme Augmentations\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Heavy Augmentations, Stamina 4\n\n## Description\nThe character is more machine (or bio-construct) than original being. They have replaced the majority of biological functions.\n\n## Mechanics & Benefit\nYou may undergo Full Body Conversion. You may install systems that alter your Size category or basic physiology (e.g., tank treads instead of legs). You gain an additional 6 BP worth of Augmentations.\n\n## Special Rules\nGrants an additional 6 BP worth of Augmentations for free (+18 BP cumulative credit). Permits Full Body Conversion (FBC) chassis and radical physiological structural alterations.",
-    "mechanics": "You may undergo Full Body Conversion. You may install systems that alter your Size category or basic physiology (e.g., tank treads instead of legs). You gain an additional 6 BP worth of Augmentations.",
-    "notes": "[Rule] Grants an additional 6 BP worth of Augmentations for free (+18 BP cumulative credit). Permits Full B...\n[Prerequisite] Heavy Augmentations, Stamina 4",
-    "notesList": [
-      "[Rule] Grants an additional 6 BP worth of Augmentations for free (+18 BP cumulative credit). Permits Full B...",
-      "[Prerequisite] Heavy Augmentations, Stamina 4"
-    ],
-    "keywords": "extreme augmentations, special, special-feature, machine, bio-construct, original",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-extreme-endurance",
@@ -3324,42 +3968,7 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +4 to Stamina",
       "[Rule] Prerequisite: Stamina 3.",
       "[Prerequisite] Stamina 3"
-    ],
-    "keywords": "extreme endurance, general, special-feature, mutation, causes, character's",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "special-familiar",
-    "name": "Familiar",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Companion",
-    "modifiers": [],
-    "description": "Familiar is a Special Feature: Empathically linked; know location/state (+20BP to Companion).",
-    "mechanic": "Empathically linked; know location/state (+20BP to Companion).",
-    "rules": "186",
-    "special_rules": "186",
-    "body": "# Familiar\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Companion\n\n## Description\nFamiliar is a Special Feature: Empathically linked; know location/state (+20BP to Companion).\n\n## Mechanics & Benefit\nEmpathically linked; know location/state (+20BP to Companion).\n\n## Special Rules\n186",
-    "mechanics": "Empathically linked; know location/state (+20BP to Companion).",
-    "notes": "[Rule] 186\n[Prerequisite] Companion",
-    "notesList": [
-      "[Rule] 186",
-      "[Prerequisite] Companion"
-    ],
-    "keywords": "familiar, special, special-feature, feature:, empathically, linked",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-fast-heal",
@@ -3392,9 +4001,7 @@ export const DEFAULT_FEATURES = [
       "[Rule] Ranked: Bonus stacks with additional purchases",
       "[Rule] This feature is \\[Ranked\\]. Rank 2 \\= 3x healing, Rank 3 \\= 4x healing.",
       "[Prerequisite] Stamina 2"
-    ],
-    "keywords": "fast heal, general, special-feature, character's, metabolism, repairs",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-favored-enemy",
@@ -3469,9 +4076,7 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] \\[Multiple\\] Can be taken for different creature types.",
       "[Prerequisite] Awareness 1"
-    ],
-    "keywords": "favored enemy, general, special-feature, studied, specific, creature",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-fearless",
@@ -3502,689 +4107,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 97",
       "[Prerequisite] Will 3+"
-    ],
-    "keywords": "fearless, general, special-feature, whether, through, madness",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "discipline-focused-center",
-    "name": "Focused Center",
-    "category": "Discipline",
-    "type": "discipline",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Centering, Discipline Focus (in all currently used Disciplines)",
-    "modifiers": [],
-    "description": "The character's concentration is so absolute that they can channel power reliably even in the heat of battle.",
-    "mechanic": "You may **Take 10** on **Attune Checks** even when threatened, distracted, or in combat conditions.",
-    "rules": "70",
-    "special_rules": "70",
-    "body": "# Focused Center\n\n**Category**: Discipline Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Centering, Discipline Focus (in all currently used Disciplines)\n\n## Description\nThe character's concentration is so absolute that they can channel power reliably even in the heat of battle.\n\n## Mechanics & Benefit\nYou may **Take 10** on **Attune Checks** even when threatened, distracted, or in combat conditions.\n\n## Special Rules\n70",
-    "mechanics": "You may **Take 10** on **Attune Checks** even when threatened, distracted, or in combat conditions.",
-    "notes": "[Rule] 70\n[Prerequisite] Centering, Discipline Focus (in all currently used Disciplines)",
-    "notesList": [
-      "[Rule] 70",
-      "[Prerequisite] Centering, Discipline Focus (in all currently used Disciplines)"
-    ],
-    "keywords": "focused center, discipline, special-feature, focused-training, mastery, character's",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-gearhead",
-    "name": "Gearhead",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Engineering 1 or Mechanics 1",
-    "modifiers": [
-      {
-        "target": "Mechanical-based Knowledge",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Mechanical-based Knowledge"
-      },
-      {
-        "target": "Operation",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Operation"
-      },
-      {
-        "target": "Repair",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Repair"
-      }
-    ],
-    "description": "The character has an intuitive understanding of machinery, engines, and mechanical systems.",
-    "mechanic": "Gain a **\\+2 Bonus** to all Mechanical-based **Knowledge**, **Operation**, and **Repair** checks.",
-    "rules": "140",
-    "special_rules": "140",
-    "body": "# Gearhead\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Engineering 1 or Mechanics 1\n\n## Description\nThe character has an intuitive understanding of machinery, engines, and mechanical systems.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to all Mechanical-based **Knowledge**, **Operation**, and **Repair** checks.\n\n## Special Rules\n140",
-    "mechanics": "Gain a **\\+2 Bonus** to all Mechanical-based **Knowledge**, **Operation**, and **Repair** checks.",
-    "notes": "[Modifier] +2 to Mechanical-based Knowledge\n[Modifier] +2 to Operation\n[Modifier] +2 to Repair\n[Rule] 140\n[Prerequisite] Engineering 1 or Mechanics 1",
-    "notesList": [
-      "[Modifier] +2 to Mechanical-based Knowledge",
-      "[Modifier] +2 to Operation",
-      "[Modifier] +2 to Repair",
-      "[Rule] 140",
-      "[Prerequisite] Engineering 1 or Mechanics 1"
-    ],
-    "keywords": "gearhead, skill, special-feature, intuitive, understanding, machinery",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "special-giant",
-    "name": "Giant",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Species Trait",
-    "modifiers": [],
-    "description": "The character is significantly larger than the average for their species.",
-    "mechanic": "Your Size Category increases by one step (e.g., Medium to Large).",
-    "rules": "193",
-    "special_rules": "193",
-    "body": "# Giant\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Species Trait\n\n## Description\nThe character is significantly larger than the average for their species.\n\n## Mechanics & Benefit\nYour Size Category increases by one step (e.g., Medium to Large).\n\n## Special Rules\n193",
-    "mechanics": "Your Size Category increases by one step (e.g., Medium to Large).",
-    "notes": "[Rule] 193\n[Prerequisite] Species Trait",
-    "notesList": [
-      "[Rule] 193",
-      "[Prerequisite] Species Trait"
-    ],
-    "keywords": "giant, special, special-feature, significantly, larger, average",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-gifted-pilot",
-    "name": "Gifted Pilot",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Pilot 6",
-    "modifiers": [
-      {
-        "target": "Piloting",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Piloting"
-      }
-    ],
-    "description": "The character feels the vehicle as an extension of their own body.",
-    "mechanic": "Gain a **\\+2 Bonus** to Piloting checks. Increase the **Maximum Speed** of any vehicle you pilot by **10%**.",
-    "rules": "141",
-    "special_rules": "141",
-    "body": "# Gifted Pilot\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Pilot 6\n\n## Description\nThe character feels the vehicle as an extension of their own body.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to Piloting checks. Increase the **Maximum Speed** of any vehicle you pilot by **10%**.\n\n## Special Rules\n141",
-    "mechanics": "Gain a **\\+2 Bonus** to Piloting checks. Increase the **Maximum Speed** of any vehicle you pilot by **10%**.",
-    "notes": "[Modifier] +2 to Piloting\n[Rule] 141\n[Prerequisite] Pilot 6",
-    "notesList": [
-      "[Modifier] +2 to Piloting",
-      "[Rule] 141",
-      "[Prerequisite] Pilot 6"
-    ],
-    "keywords": "gifted pilot, skill, special-feature, vehicle, extension",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-golden-smile",
-    "name": "Golden Smile",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Silver Tongue, Cha 2, Dip/Bluff 6",
-    "modifiers": [],
-    "description": "Golden Smile is a Skill Feature: Take 10 or add d10 to Bluff and Diplomacy checks.",
-    "mechanic": "Take 10 or add d10 to Bluff and Diplomacy checks.",
-    "rules": "162",
-    "special_rules": "162",
-    "body": "# Golden Smile\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Silver Tongue, Cha 2, Dip/Bluff 6\n\n## Description\nGolden Smile is a Skill Feature: Take 10 or add d10 to Bluff and Diplomacy checks.\n\n## Mechanics & Benefit\nTake 10 or add d10 to Bluff and Diplomacy checks.\n\n## Special Rules\n162",
-    "mechanics": "Take 10 or add d10 to Bluff and Diplomacy checks.",
-    "notes": "[Rule] 162\n[Prerequisite] Silver Tongue, Cha 2, Dip/Bluff 6",
-    "notesList": [
-      "[Rule] 162",
-      "[Prerequisite] Silver Tongue, Cha 2, Dip/Bluff 6"
-    ],
-    "keywords": "golden smile, skill, special-feature, golden, feature:, diplomacy",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-graceful",
-    "name": "Graceful",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "None",
-    "modifiers": [
-      {
-        "target": "Agility-based Non-Attack",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Agility-based Non-Attack"
-      }
-    ],
-    "description": "The character moves with elegance and precision.",
-    "mechanic": "Gain a **\\+1 Bonus** to all **Agility-based Non-Attack Skill checks** (Acrobatics, Stealth, Sleight of Hand) and **Reflex Checks**.",
-    "rules": "144",
-    "special_rules": "144",
-    "body": "# Graceful\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character moves with elegance and precision.\n\n## Mechanics & Benefit\nGain a **\\+1 Bonus** to all **Agility-based Non-Attack Skill checks** (Acrobatics, Stealth, Sleight of Hand) and **Reflex Checks**.\n\n## Special Rules\n144",
-    "mechanics": "Gain a **\\+1 Bonus** to all **Agility-based Non-Attack Skill checks** (Acrobatics, Stealth, Sleight of Hand) and **Reflex Checks**.",
-    "notes": "[Modifier] +1 to Agility-based Non-Attack\n[Rule] 144",
-    "notesList": [
-      "[Modifier] +1 to Agility-based Non-Attack",
-      "[Rule] 144"
-    ],
-    "keywords": "graceful, skill, special-feature, elegance, precision",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "ability-great-fortitude",
-    "name": "Great Fortitude",
-    "category": "Ability",
-    "type": "ability",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": true,
-    "max_rank": 4,
-    "is_multiple": true,
-    "prerequisites": "Stamina 1",
-    "modifiers": [
-      {
-        "target": "Fortitude",
-        "type": "save",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 on Fortitude Checks"
-      },
-      {
-        "target": "Tal bonus",
-        "type": "skill",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 to Tal bonus"
-      }
-    ],
-    "description": "Through vigorous conditioning or natural hardiness, the character has developed a profound resistance to physical ailments. Their body fights off toxins and trauma with exceptional efficiency.",
-    "mechanic": "Gain a **\\+2 bonus** on all **Fortitude Checks**.  \n  * *Usage:* This applies to resisting poisons, diseases, radiation, physical fatigue, and metabolic hazards.",
-    "rules": "This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Stamina score. The bonuses stack (e.g., Rank 2 grants a \\+4 total bonus).",
-    "special_rules": "This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Stamina score. The bonuses stack (e.g., Rank 2 grants a \\+4 total bonus).",
-    "body": "# Great Fortitude\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Stamina 1\n\n## Description\nThrough vigorous conditioning or natural hardiness, the character has developed a profound resistance to physical ailments. Their body fights off toxins and trauma with exceptional efficiency.\n\n## Mechanics & Benefit\nGain a **\\+2 bonus** on all **Fortitude Checks**.  \n  * *Usage:* This applies to resisting poisons, diseases, radiation, physical fatigue, and metabolic hazards.\n\n## Special Rules\nThis feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Stamina score. The bonuses stack (e.g., Rank 2 grants a \\+4 total bonus).",
-    "mechanics": "Gain a **\\+2 bonus** on all **Fortitude Checks**.  \n  * *Usage:* This applies to resisting poisons, diseases, radiation, physical fatigue, and metabolic hazards.",
-    "notes": "[Modifier] +2 on Fortitude Checks\n[Modifier] +4 to Tal bonus\n[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...\n[Prerequisite] Stamina 1",
-    "notesList": [
-      "[Modifier] +2 on Fortitude Checks",
-      "[Modifier] +4 to Tal bonus",
-      "[Rule] Ranked: Bonus stacks with additional purchases",
-      "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...",
-      "[Prerequisite] Stamina 1"
-    ],
-    "keywords": "great fortitude, ability, special-feature, innate-talent, passive-prowess, through",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "combat-greater-disarm",
-    "name": "Greater Disarm",
-    "category": "Combat",
-    "type": "combat",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Improved Disarm",
-    "modifiers": [],
-    "description": "Greater Disarm is a Combat Feature: Disarmed weapons are knocked away from your enemy.",
-    "mechanic": "Disarmed weapons are knocked away from your enemy.",
-    "rules": "27",
-    "special_rules": "27",
-    "body": "# Greater Disarm\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Improved Disarm\n\n## Description\nGreater Disarm is a Combat Feature: Disarmed weapons are knocked away from your enemy.\n\n## Mechanics & Benefit\nDisarmed weapons are knocked away from your enemy.\n\n## Special Rules\n27",
-    "mechanics": "Disarmed weapons are knocked away from your enemy.",
-    "notes": "[Rule] 27\n[Prerequisite] Improved Disarm",
-    "notesList": [
-      "[Rule] 27",
-      "[Prerequisite] Improved Disarm"
-    ],
-    "keywords": "greater disarm, combat, special-feature, combat-maneuver, tactical-edge, greater",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "combat-greater-feint",
-    "name": "Greater Feint",
-    "category": "Combat",
-    "type": "combat",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Improved Feint",
-    "modifiers": [],
-    "description": "Greater Feint is a Combat Feature: Enemies you feint lose their Agi bonus for 1 round.",
-    "mechanic": "Enemies you feint lose their Agi bonus for 1 round.",
-    "rules": "29",
-    "special_rules": "29",
-    "body": "# Greater Feint\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Improved Feint\n\n## Description\nGreater Feint is a Combat Feature: Enemies you feint lose their Agi bonus for 1 round.\n\n## Mechanics & Benefit\nEnemies you feint lose their Agi bonus for 1 round.\n\n## Special Rules\n29",
-    "mechanics": "Enemies you feint lose their Agi bonus for 1 round.",
-    "notes": "[Rule] 29\n[Prerequisite] Improved Feint",
-    "notesList": [
-      "[Rule] 29",
-      "[Prerequisite] Improved Feint"
-    ],
-    "keywords": "greater feint, combat, special-feature, combat-maneuver, tactical-edge, greater",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "combat-greater-trip",
-    "name": "Greater Trip",
-    "category": "Combat",
-    "type": "combat",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Improved Trip",
-    "modifiers": [],
-    "description": "Greater Trip is a Combat Feature: Enemies you trip provoke attacks of opportunity.",
-    "mechanic": "Enemies you trip provoke attacks of opportunity.",
-    "rules": "31",
-    "special_rules": "31",
-    "body": "# Greater Trip\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Improved Trip\n\n## Description\nGreater Trip is a Combat Feature: Enemies you trip provoke attacks of opportunity.\n\n## Mechanics & Benefit\nEnemies you trip provoke attacks of opportunity.\n\n## Special Rules\n31",
-    "mechanics": "Enemies you trip provoke attacks of opportunity.",
-    "notes": "[Rule] 31\n[Prerequisite] Improved Trip",
-    "notesList": [
-      "[Rule] 31",
-      "[Prerequisite] Improved Trip"
-    ],
-    "keywords": "greater trip, combat, special-feature, combat-maneuver, tactical-edge, greater",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "combat-greater-two-weapon-defense",
-    "name": "Greater Two-Weapon Defense",
-    "category": "Combat",
-    "type": "combat",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Grtr. Two-Weapon Fighting",
-    "modifiers": [],
-    "description": "Greater Two-Weapon Defense is a Combat Feature: +3 shield bonus to defense when fighting with two weapons.",
-    "mechanic": "\\+3 shield bonus to defense when fighting with two weapons.",
-    "rules": "49",
-    "special_rules": "49",
-    "body": "# Greater Two-Weapon Defense\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Grtr. Two-Weapon Fighting\n\n## Description\nGreater Two-Weapon Defense is a Combat Feature: \\+3 shield bonus to defense when fighting with two weapons.\n\n## Mechanics & Benefit\n\\+3 shield bonus to defense when fighting with two weapons.\n\n## Special Rules\n49",
-    "mechanics": "\\+3 shield bonus to defense when fighting with two weapons.",
-    "notes": "[Rule] 49\n[Prerequisite] Grtr. Two-Weapon Fighting",
-    "notesList": [
-      "[Rule] 49",
-      "[Prerequisite] Grtr. Two-Weapon Fighting"
-    ],
-    "keywords": "greater two-weapon defense, combat, special-feature, combat-maneuver, tactical-edge, greater",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "combat-greater-two-weapon-fighting",
-    "name": "Greater Two-Weapon Fighting",
-    "category": "Combat",
-    "type": "combat",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Agi 4, Skill 11",
-    "modifiers": [],
-    "description": "Greater Two-Weapon Fighting is a Combat Feature: Gain a third off-hand attack.",
-    "mechanic": "Gain a third off-hand attack.",
-    "rules": "45",
-    "special_rules": "45",
-    "body": "# Greater Two-Weapon Fighting\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Agi 4, Skill 11\n\n## Description\nGreater Two-Weapon Fighting is a Combat Feature: Gain a third off-hand attack.\n\n## Mechanics & Benefit\nGain a third off-hand attack.\n\n## Special Rules\n45",
-    "mechanics": "Gain a third off-hand attack.",
-    "notes": "[Rule] 45\n[Prerequisite] Agi 4, Skill 11",
-    "notesList": [
-      "[Rule] 45",
-      "[Prerequisite] Agi 4, Skill 11"
-    ],
-    "keywords": "greater two-weapon fighting, combat, special-feature, combat-maneuver, tactical-edge, greater",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "combat-greater-vital-strike",
-    "name": "Greater Vital Strike",
-    "category": "Combat",
-    "type": "combat",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Improved Vital Strike, Skill 16",
-    "modifiers": [],
-    "description": "Greater Vital Strike is a Combat Feature: Deal four times the normal damage on a single attack.",
-    "mechanic": "Deal four times the normal damage on a single attack.",
-    "rules": "54",
-    "special_rules": "54",
-    "body": "# Greater Vital Strike\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Improved Vital Strike, Skill 16\n\n## Description\nGreater Vital Strike is a Combat Feature: Deal four times the normal damage on a single attack.\n\n## Mechanics & Benefit\nDeal four times the normal damage on a single attack.\n\n## Special Rules\n54",
-    "mechanics": "Deal four times the normal damage on a single attack.",
-    "notes": "[Rule] 54\n[Prerequisite] Improved Vital Strike, Skill 16",
-    "notesList": [
-      "[Rule] 54",
-      "[Prerequisite] Improved Vital Strike, Skill 16"
-    ],
-    "keywords": "greater vital strike, combat, special-feature, combat-maneuver, tactical-edge, greater",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "combat-grtr-weapon-specialization",
-    "name": "Grtr. Weapon Specialization",
-    "category": "Combat",
-    "type": "combat",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Imp. Weapon Spec, Skill 16",
-    "modifiers": [],
-    "description": "Grtr. Weapon Specialization is a Combat Feature: +3d damage with one weapon type.",
-    "mechanic": "\\+3d damage with one weapon type.",
-    "rules": "59",
-    "special_rules": "59",
-    "body": "# Grtr. Weapon Specialization\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Imp. Weapon Spec, Skill 16\n\n## Description\nGrtr. Weapon Specialization is a Combat Feature: \\+3d damage with one weapon type.\n\n## Mechanics & Benefit\n\\+3d damage with one weapon type.\n\n## Special Rules\n59",
-    "mechanics": "\\+3d damage with one weapon type.",
-    "notes": "[Rule] 59\n[Prerequisite] Imp. Weapon Spec, Skill 16",
-    "notesList": [
-      "[Rule] 59",
-      "[Prerequisite] Imp. Weapon Spec, Skill 16"
-    ],
-    "keywords": "grtr. weapon specialization, combat, special-feature, combat-maneuver, tactical-edge, weapon",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "discipline-harmonious-center",
-    "name": "Harmonious Center",
-    "category": "Discipline",
-    "type": "discipline",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Centering Mst, Discipline Mst",
-    "modifiers": [],
-    "description": "Harmonious Center is a Discipline Feature: All Checks with Advantage with all Disciplines Mastered.",
-    "mechanic": "All Checks with Advantage with all Disciplines Mastered.",
-    "rules": "72",
-    "special_rules": "72",
-    "body": "# Harmonious Center\n\n**Category**: Discipline Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Centering Mst, Discipline Mst\n\n## Description\nHarmonious Center is a Discipline Feature: All Checks with Advantage with all Disciplines Mastered.\n\n## Mechanics & Benefit\nAll Checks with Advantage with all Disciplines Mastered.\n\n## Special Rules\n72",
-    "mechanics": "All Checks with Advantage with all Disciplines Mastered.",
-    "notes": "[Rule] 72\n[Prerequisite] Centering Mst, Discipline Mst",
-    "notesList": [
-      "[Rule] 72",
-      "[Prerequisite] Centering Mst, Discipline Mst"
-    ],
-    "keywords": "harmonious center, discipline, special-feature, focused-training, mastery, harmonious",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-headstrong",
-    "name": "Headstrong",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "None",
-    "modifiers": [
-      {
-        "target": "Will",
-        "type": "save",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 on Will Checks"
-      },
-      {
-        "target": "Bluff",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Bluff"
-      },
-      {
-        "target": "Intimidate",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Intimidate"
-      }
-    ],
-    "description": "The character is stubborn, loud, and forceful.",
-    "mechanic": "Gain a **\\+2 Bonus** to **Bluff** and **Intimidate** checks, and a **\\+1 Bonus** to **Will Checks**.",
-    "rules": "145",
-    "special_rules": "145",
-    "body": "# Headstrong\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character is stubborn, loud, and forceful.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Bluff** and **Intimidate** checks, and a **\\+1 Bonus** to **Will Checks**.\n\n## Special Rules\n145",
-    "mechanics": "Gain a **\\+2 Bonus** to **Bluff** and **Intimidate** checks, and a **\\+1 Bonus** to **Will Checks**.",
-    "notes": "[Modifier] +1 on Will Checks\n[Modifier] +2 to Bluff\n[Modifier] +2 to Intimidate\n[Rule] 145",
-    "notesList": [
-      "[Modifier] +1 on Will Checks",
-      "[Modifier] +2 to Bluff",
-      "[Modifier] +2 to Intimidate",
-      "[Rule] 145"
-    ],
-    "keywords": "headstrong, skill, special-feature, stubborn, forceful",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "special-heavy-augmentations",
-    "name": "Heavy Augmentations",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Augmented, Stamina 2",
-    "modifiers": [],
-    "description": "The character has replaced significant portions of their body with industrial or military-grade hardware. These modifications are often bulky, obvious, and not designed for social integration.",
-    "mechanic": "You may install Heavy class Augmentations (which often have higher DR or Strength bonuses but may impose social penalties). You gain an additional 6 BP worth of Augmentations.",
-    "rules": "Grants an additional 6 BP worth of Augmentations for free (+12 BP cumulative credit). Unlocks compatibility with Heavy class cybernetic and biomechanical hardware.",
-    "special_rules": "Grants an additional 6 BP worth of Augmentations for free (+12 BP cumulative credit). Unlocks compatibility with Heavy class cybernetic and biomechanical hardware.",
-    "body": "# Heavy Augmentations\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Augmented, Stamina 2\n\n## Description\nThe character has replaced significant portions of their body with industrial or military-grade hardware. These modifications are often bulky, obvious, and not designed for social integration.\n\n## Mechanics & Benefit\nYou may install Heavy class Augmentations (which often have higher DR or Strength bonuses but may impose social penalties). You gain an additional 6 BP worth of Augmentations.\n\n## Special Rules\nGrants an additional 6 BP worth of Augmentations for free (+12 BP cumulative credit). Unlocks compatibility with Heavy class cybernetic and biomechanical hardware.",
-    "mechanics": "You may install Heavy class Augmentations (which often have higher DR or Strength bonuses but may impose social penalties). You gain an additional 6 BP worth of Augmentations.",
-    "notes": "[Rule] Grants an additional 6 BP worth of Augmentations for free (+12 BP cumulative credit). Unlocks compat...\n[Prerequisite] Augmented, Stamina 2",
-    "notesList": [
-      "[Rule] Grants an additional 6 BP worth of Augmentations for free (+12 BP cumulative credit). Unlocks compat...",
-      "[Prerequisite] Augmented, Stamina 2"
-    ],
-    "keywords": "heavy augmentations, special, special-feature, replaced, significant, portions",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "special-hobble",
-    "name": "Hobble",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Sneak Attack",
-    "modifiers": [],
-    "description": "Hobble is a Special Feature: Reduce a target’s speed by 50% (immobilize on 2nd).",
-    "mechanic": "Reduce a target’s speed by 50% (immobilize on 2nd).",
-    "rules": "210",
-    "special_rules": "210",
-    "body": "# Hobble\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Sneak Attack\n\n## Description\nHobble is a Special Feature: Reduce a target’s speed by 50% (immobilize on 2nd).\n\n## Mechanics & Benefit\nReduce a target’s speed by 50% (immobilize on 2nd).\n\n## Special Rules\n210",
-    "mechanics": "Reduce a target’s speed by 50% (immobilize on 2nd).",
-    "notes": "[Rule] 210\n[Prerequisite] Sneak Attack",
-    "notesList": [
-      "[Rule] 210",
-      "[Prerequisite] Sneak Attack"
-    ],
-    "keywords": "hobble, special, special-feature, feature:, reduce, target’s",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-hyperthymesia",
@@ -4215,9 +4138,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Prerequisite: Eidetic Memory, Wisdom 2.",
       "[Prerequisite] Eidetic Memory, Wisdom 2"
-    ],
-    "keywords": "hyperthymesia, general, special-feature, highly, superior, autobiographical",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-hypoxia-tolerance",
@@ -4248,737 +4169,11 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Prerequisite: Stamina 1.",
       "[Prerequisite] Stamina 1"
-    ],
-    "keywords": "hypoxia tolerance, general, special-feature, genetic, variants, epas1/egln1",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "combat-imp-weapon-specialization",
-    "name": "Imp. Weapon Specialization",
-    "category": "Combat",
-    "type": "combat",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Weapon Spec, Skill 11",
-    "modifiers": [],
-    "description": "Imp. Weapon Specialization is a Combat Feature: +2d damage with one weapon type.",
-    "mechanic": "\\+2d damage with one weapon type.",
-    "rules": "58",
-    "special_rules": "58",
-    "body": "# Imp. Weapon Specialization\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Weapon Spec, Skill 11\n\n## Description\nImp. Weapon Specialization is a Combat Feature: \\+2d damage with one weapon type.\n\n## Mechanics & Benefit\n\\+2d damage with one weapon type.\n\n## Special Rules\n58",
-    "mechanics": "\\+2d damage with one weapon type.",
-    "notes": "[Rule] 58\n[Prerequisite] Weapon Spec, Skill 11",
-    "notesList": [
-      "[Rule] 58",
-      "[Prerequisite] Weapon Spec, Skill 11"
-    ],
-    "keywords": "imp. weapon specialization, combat, special-feature, combat-maneuver, tactical-edge, weapon",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "combat-improved-disarm",
-    "name": "Improved Disarm",
-    "category": "Combat",
-    "type": "combat",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Combat Expertise",
-    "modifiers": [
-      {
-        "target": "Disarm attempts",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Disarm attempts"
-      },
-      {
-        "target": "No attack of opportunity",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to No attack of opportunity"
-      }
-    ],
-    "description": "Improved Disarm is a Combat Feature: +2 bonus on disarm attempts, no attack of opportunity.",
-    "mechanic": "\\+2 bonus on disarm attempts, no attack of opportunity.",
-    "rules": "26",
-    "special_rules": "26",
-    "body": "# Improved Disarm\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Combat Expertise\n\n## Description\nImproved Disarm is a Combat Feature: \\+2 bonus on disarm attempts, no attack of opportunity.\n\n## Mechanics & Benefit\n\\+2 bonus on disarm attempts, no attack of opportunity.\n\n## Special Rules\n26",
-    "mechanics": "\\+2 bonus on disarm attempts, no attack of opportunity.",
-    "notes": "[Modifier] +2 to Disarm attempts\n[Modifier] +2 to No attack of opportunity\n[Rule] 26\n[Prerequisite] Combat Expertise",
-    "notesList": [
-      "[Modifier] +2 to Disarm attempts",
-      "[Modifier] +2 to No attack of opportunity",
-      "[Rule] 26",
-      "[Prerequisite] Combat Expertise"
-    ],
-    "keywords": "improved disarm, combat, special-feature, combat-maneuver, tactical-edge, improved",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "ability-improved-evasiveness",
-    "name": "Improved Evasiveness",
-    "category": "Ability",
-    "type": "ability",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Evasiveness",
-    "modifiers": [],
-    "description": "Improved Evasiveness is a Ability Feature: Failed check is still a partial success (resulting in less effect, generally 1/2).",
-    "mechanic": "Failed check is still a partial success (resulting in less effect, generally 1/2).",
-    "rules": "Prerequisite: Evasiveness.",
-    "special_rules": "Prerequisite: Evasiveness.",
-    "body": "# Improved Evasiveness\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Evasiveness\n\n## Description\nImproved Evasiveness is a Ability Feature: Failed check is still a partial success (resulting in less effect, generally 1/2).\n\n## Mechanics & Benefit\nFailed check is still a partial success (resulting in less effect, generally 1/2).",
-    "mechanics": "Failed check is still a partial success (resulting in less effect, generally 1/2).",
-    "notes": "[Rule] Prerequisite: Evasiveness.\n[Prerequisite] Evasiveness",
-    "notesList": [
-      "[Rule] Prerequisite: Evasiveness.",
-      "[Prerequisite] Evasiveness"
-    ],
-    "keywords": "improved evasiveness, ability, special-feature, innate-talent, passive-prowess, improved",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "combat-improved-feint",
-    "name": "Improved Feint",
-    "category": "Combat",
-    "type": "combat",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Combat Expertise",
-    "modifiers": [],
-    "description": "Improved Feint is a Combat Feature: Feint as a move action.",
-    "mechanic": "Feint as a move action.",
-    "rules": "28",
-    "special_rules": "28",
-    "body": "# Improved Feint\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Combat Expertise\n\n## Description\nImproved Feint is a Combat Feature: Feint as a move action.\n\n## Mechanics & Benefit\nFeint as a move action.\n\n## Special Rules\n28",
-    "mechanics": "Feint as a move action.",
-    "notes": "[Rule] 28\n[Prerequisite] Combat Expertise",
-    "notesList": [
-      "[Rule] 28",
-      "[Prerequisite] Combat Expertise"
-    ],
-    "keywords": "improved feint, combat, special-feature, combat-maneuver, tactical-edge, improved",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "ability-improved-tolerance",
-    "name": "Improved Tolerance",
-    "category": "Ability",
-    "type": "ability",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Tolerance",
-    "modifiers": [],
-    "description": "Improved Tolerance is a Ability Feature: Additional Resistance Checks made in 1/4 typical time for most effects.",
-    "mechanic": "Additional Resistance Checks made in 1/4 typical time for most effects.",
-    "rules": "Prerequisite: Tolerance.",
-    "special_rules": "Prerequisite: Tolerance.",
-    "body": "# Improved Tolerance\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Tolerance\n\n## Description\nImproved Tolerance is a Ability Feature: Additional Resistance Checks made in 1/4 typical time for most effects.\n\n## Mechanics & Benefit\nAdditional Resistance Checks made in 1/4 typical time for most effects.",
-    "mechanics": "Additional Resistance Checks made in 1/4 typical time for most effects.",
-    "notes": "[Rule] Prerequisite: Tolerance.\n[Prerequisite] Tolerance",
-    "notesList": [
-      "[Rule] Prerequisite: Tolerance.",
-      "[Prerequisite] Tolerance"
-    ],
-    "keywords": "improved tolerance, ability, special-feature, innate-talent, passive-prowess, improved",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "combat-improved-trip",
-    "name": "Improved Trip",
-    "category": "Combat",
-    "type": "combat",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Combat Expertise",
-    "modifiers": [
-      {
-        "target": "Trip attempts",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Trip attempts"
-      },
-      {
-        "target": "No attack of opportunity",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to No attack of opportunity"
-      }
-    ],
-    "description": "Improved Trip is a Combat Feature: +2 bonus on trip attempts, no attack of opportunity.",
-    "mechanic": "\\+2 bonus on trip attempts, no attack of opportunity.",
-    "rules": "30",
-    "special_rules": "30",
-    "body": "# Improved Trip\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Combat Expertise\n\n## Description\nImproved Trip is a Combat Feature: \\+2 bonus on trip attempts, no attack of opportunity.\n\n## Mechanics & Benefit\n\\+2 bonus on trip attempts, no attack of opportunity.\n\n## Special Rules\n30",
-    "mechanics": "\\+2 bonus on trip attempts, no attack of opportunity.",
-    "notes": "[Modifier] +2 to Trip attempts\n[Modifier] +2 to No attack of opportunity\n[Rule] 30\n[Prerequisite] Combat Expertise",
-    "notesList": [
-      "[Modifier] +2 to Trip attempts",
-      "[Modifier] +2 to No attack of opportunity",
-      "[Rule] 30",
-      "[Prerequisite] Combat Expertise"
-    ],
-    "keywords": "improved trip, combat, special-feature, combat-maneuver, tactical-edge, improved",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "combat-improved-two-weapon-defense",
-    "name": "Improved Two-Weapon Defense",
-    "category": "Combat",
-    "type": "combat",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Imp. Two-Weapon Fighting",
-    "modifiers": [],
-    "description": "Improved Two-Weapon Defense is a Combat Feature: +2 shield bonus to defense when fighting with two weapons.",
-    "mechanic": "\\+2 shield bonus to defense when fighting with two weapons.",
-    "rules": "48",
-    "special_rules": "48",
-    "body": "# Improved Two-Weapon Defense\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Imp. Two-Weapon Fighting\n\n## Description\nImproved Two-Weapon Defense is a Combat Feature: \\+2 shield bonus to defense when fighting with two weapons.\n\n## Mechanics & Benefit\n\\+2 shield bonus to defense when fighting with two weapons.\n\n## Special Rules\n48",
-    "mechanics": "\\+2 shield bonus to defense when fighting with two weapons.",
-    "notes": "[Rule] 48\n[Prerequisite] Imp. Two-Weapon Fighting",
-    "notesList": [
-      "[Rule] 48",
-      "[Prerequisite] Imp. Two-Weapon Fighting"
-    ],
-    "keywords": "improved two-weapon defense, combat, special-feature, combat-maneuver, tactical-edge, improved",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "combat-improved-two-weapon-fighting",
-    "name": "Improved Two-Weapon Fighting",
-    "category": "Combat",
-    "type": "combat",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Agi 3, Skill 6",
-    "modifiers": [],
-    "description": "Improved Two-Weapon Fighting is a Combat Feature: Gain second off-hand attack.",
-    "mechanic": "Gain second off-hand attack.",
-    "rules": "44",
-    "special_rules": "44",
-    "body": "# Improved Two-Weapon Fighting\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Agi 3, Skill 6\n\n## Description\nImproved Two-Weapon Fighting is a Combat Feature: Gain second off-hand attack.\n\n## Mechanics & Benefit\nGain second off-hand attack.\n\n## Special Rules\n44",
-    "mechanics": "Gain second off-hand attack.",
-    "notes": "[Rule] 44\n[Prerequisite] Agi 3, Skill 6",
-    "notesList": [
-      "[Rule] 44",
-      "[Prerequisite] Agi 3, Skill 6"
-    ],
-    "keywords": "improved two-weapon fighting, combat, special-feature, combat-maneuver, tactical-edge, improved",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "combat-improved-vital-strike",
-    "name": "Improved Vital Strike",
-    "category": "Combat",
-    "type": "combat",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Vital Strike, Skill 11",
-    "modifiers": [],
-    "description": "Improved Vital Strike is a Combat Feature: Deal three times the normal damage on a single attack.",
-    "mechanic": "Deal three times the normal damage on a single attack.",
-    "rules": "53",
-    "special_rules": "53",
-    "body": "# Improved Vital Strike\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Vital Strike, Skill 11\n\n## Description\nImproved Vital Strike is a Combat Feature: Deal three times the normal damage on a single attack.\n\n## Mechanics & Benefit\nDeal three times the normal damage on a single attack.\n\n## Special Rules\n53",
-    "mechanics": "Deal three times the normal damage on a single attack.",
-    "notes": "[Rule] 53\n[Prerequisite] Vital Strike, Skill 11",
-    "notesList": [
-      "[Rule] 53",
-      "[Prerequisite] Vital Strike, Skill 11"
-    ],
-    "keywords": "improved vital strike, combat, special-feature, combat-maneuver, tactical-edge, improved",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "ability-incredible-fortitude",
-    "name": "Incredible Fortitude",
-    "category": "Ability",
-    "type": "ability",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Great Fortitude",
-    "modifiers": [
-      {
-        "target": "Fortitude",
-        "type": "save_advantage",
-        "value": 1,
-        "mode": "inherent",
-        "description": "Advantage on Fortitude Checks"
-      }
-    ],
-    "description": "Incredible Fortitude is a Ability Feature: Roll Fortitude checks with Advantage",
-    "mechanic": "Roll Fortitude checks with Advantage",
-    "rules": "Prerequisite: Great Fortitude.",
-    "special_rules": "Prerequisite: Great Fortitude.",
-    "body": "# Incredible Fortitude\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Great Fortitude\n\n## Description\nIncredible Fortitude is a Ability Feature: Roll Fortitude checks with Advantage\n\n## Mechanics & Benefit\nRoll Fortitude checks with Advantage",
-    "mechanics": "Roll Fortitude checks with Advantage",
-    "notes": "[Modifier] Advantage on Fortitude Checks\n[Rule] Prerequisite: Great Fortitude.\n[Prerequisite] Great Fortitude",
-    "notesList": [
-      "[Modifier] Advantage on Fortitude Checks",
-      "[Rule] Prerequisite: Great Fortitude.",
-      "[Prerequisite] Great Fortitude"
-    ],
-    "keywords": "incredible fortitude, ability, special-feature, innate-talent, passive-prowess, incredible",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "ability-indomitable-will",
-    "name": "Indomitable Will",
-    "category": "Ability",
-    "type": "ability",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Iron Will",
-    "modifiers": [
-      {
-        "target": "Will",
-        "type": "save_advantage",
-        "value": 1,
-        "mode": "inherent",
-        "description": "Advantage on Will Checks"
-      }
-    ],
-    "description": "Indomitable Will is a Ability Feature: Roll Will checks with Advantage",
-    "mechanic": "Roll Will checks with Advantage",
-    "rules": "Prerequisite: Iron Will.",
-    "special_rules": "Prerequisite: Iron Will.",
-    "body": "# Indomitable Will\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Iron Will\n\n## Description\nIndomitable Will is a Ability Feature: Roll Will checks with Advantage\n\n## Mechanics & Benefit\nRoll Will checks with Advantage",
-    "mechanics": "Roll Will checks with Advantage",
-    "notes": "[Modifier] Advantage on Will Checks\n[Rule] Prerequisite: Iron Will.\n[Prerequisite] Iron Will",
-    "notesList": [
-      "[Modifier] Advantage on Will Checks",
-      "[Rule] Prerequisite: Iron Will.",
-      "[Prerequisite] Iron Will"
-    ],
-    "keywords": "indomitable will, ability, special-feature, innate-talent, passive-prowess, indomitable",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-influence",
-    "name": "Influence",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Charisma 2",
-    "modifiers": [
-      {
-        "target": "Reputation",
-        "type": "skill",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 to Reputation"
-      },
-      {
-        "target": "Favor",
-        "type": "skill",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 to Favor"
-      }
-    ],
-    "description": "The character has significant social pull within their faction or community.",
-    "mechanic": "Gain a **\\+4 Bonus** to **Reputation** and **Favor** checks (a subset of Diplomacy used to acquire resources or assistance).",
-    "rules": "146",
-    "special_rules": "146",
-    "body": "# Influence\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Charisma 2\n\n## Description\nThe character has significant social pull within their faction or community.\n\n## Mechanics & Benefit\nGain a **\\+4 Bonus** to **Reputation** and **Favor** checks (a subset of Diplomacy used to acquire resources or assistance).\n\n## Special Rules\n146",
-    "mechanics": "Gain a **\\+4 Bonus** to **Reputation** and **Favor** checks (a subset of Diplomacy used to acquire resources or assistance).",
-    "notes": "[Modifier] +4 to Reputation\n[Modifier] +4 to Favor\n[Rule] 146\n[Prerequisite] Charisma 2",
-    "notesList": [
-      "[Modifier] +4 to Reputation",
-      "[Modifier] +4 to Favor",
-      "[Rule] 146",
-      "[Prerequisite] Charisma 2"
-    ],
-    "keywords": "influence, skill, special-feature, significant, social, within",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "ability-insightful-reason",
-    "name": "Insightful Reason",
-    "category": "Ability",
-    "type": "ability",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": true,
-    "max_rank": 4,
-    "is_multiple": true,
-    "prerequisites": "Intellect 1",
-    "modifiers": [
-      {
-        "target": "Logic",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Logic"
-      }
-    ],
-    "description": "The character has a sharp, analytical mind capable of making rapid deductions and seeing through complex deceptions or puzzles.",
-    "mechanic": "Gain a **\\+2 bonus** on all **Logic Checks**.  \n  * *Usage:* This applies to solving puzzles, cryptanalysis, deduction, resisting illusions (disbelieving), and navigating complex bureaucratic or logical labyrinths.",
-    "rules": "This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Intellect score.",
-    "special_rules": "This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Intellect score.",
-    "body": "# Insightful Reason\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Intellect 1\n\n## Description\nThe character has a sharp, analytical mind capable of making rapid deductions and seeing through complex deceptions or puzzles.\n\n## Mechanics & Benefit\nGain a **\\+2 bonus** on all **Logic Checks**.  \n  * *Usage:* This applies to solving puzzles, cryptanalysis, deduction, resisting illusions (disbelieving), and navigating complex bureaucratic or logical labyrinths.\n\n## Special Rules\nThis feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Intellect score.",
-    "mechanics": "Gain a **\\+2 bonus** on all **Logic Checks**.  \n  * *Usage:* This applies to solving puzzles, cryptanalysis, deduction, resisting illusions (disbelieving), and navigating complex bureaucratic or logical labyrinths.",
-    "notes": "[Modifier] +2 to Logic\n[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...\n[Prerequisite] Intellect 1",
-    "notesList": [
-      "[Modifier] +2 to Logic",
-      "[Rule] Ranked: Bonus stacks with additional purchases",
-      "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...",
-      "[Prerequisite] Intellect 1"
-    ],
-    "keywords": "insightful reason, ability, special-feature, innate-talent, passive-prowess, analytical",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "karma-inspiration",
-    "name": "Inspiration",
-    "category": "Karma",
-    "type": "karma",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Charisma 2",
-    "modifiers": [],
-    "description": "The character is the heart of the team. They can lend their own luck and determination to allies, spurring them on to greatness.",
-    "mechanic": "You may spend your own **Karma Points** to grant a Karma Benefit to an **Ally**.  \n  * *Cost:* The cost is **1 KP (Transfer Cost) \\+ The Cost of the Effect**.  \n  * *Example:* To give an ally *Surge* (normally 1 KP), you spend 2 KP. To give an ally *Advantage* (\"I Got This\", normally 1 KP), you spend 2 KP.",
-    "rules": "123",
-    "special_rules": "123",
-    "body": "# Inspiration\n\n**Category**: Karma Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Charisma 2\n\n## Description\nThe character is the heart of the team. They can lend their own luck and determination to allies, spurring them on to greatness.\n\n## Mechanics & Benefit\nYou may spend your own **Karma Points** to grant a Karma Benefit to an **Ally**.  \n  * *Cost:* The cost is **1 KP (Transfer Cost) \\+ The Cost of the Effect**.  \n  * *Example:* To give an ally *Surge* (normally 1 KP), you spend 2 KP. To give an ally *Advantage* (\"I Got This\", normally 1 KP), you spend 2 KP.\n\n## Special Rules\n123",
-    "mechanics": "You may spend your own **Karma Points** to grant a Karma Benefit to an **Ally**.  \n  * *Cost:* The cost is **1 KP (Transfer Cost) \\+ The Cost of the Effect**.  \n  * *Example:* To give an ally *Surge* (normally 1 KP), you spend 2 KP. To give an ally *Advantage* (\"I Got This\", normally 1 KP), you spend 2 KP.",
-    "notes": "[Rule] 123\n[Prerequisite] Charisma 2",
-    "notesList": [
-      "[Rule] 123",
-      "[Prerequisite] Charisma 2"
-    ],
-    "keywords": "inspiration, karma, special-feature, determination, allies, spurring",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "ability-inspired-reason",
-    "name": "Inspired Reason",
-    "category": "Ability",
-    "type": "ability",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Insightful Reason",
-    "modifiers": [
-      {
-        "target": "Logic",
-        "type": "check_advantage",
-        "value": 1,
-        "mode": "inherent",
-        "description": "Advantage on Logic Checks"
-      }
-    ],
-    "description": "Inspired Reason is a Ability Feature: Roll Logic checks with Advantage",
-    "mechanic": "Roll Logic checks with Advantage",
-    "rules": "Prerequisite: Insightful Reason.",
-    "special_rules": "Prerequisite: Insightful Reason.",
-    "body": "# Inspired Reason\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Insightful Reason\n\n## Description\nInspired Reason is a Ability Feature: Roll Logic checks with Advantage\n\n## Mechanics & Benefit\nRoll Logic checks with Advantage",
-    "mechanics": "Roll Logic checks with Advantage",
-    "notes": "[Modifier] Advantage on Logic Checks\n[Rule] Prerequisite: Insightful Reason.\n[Prerequisite] Insightful Reason",
-    "notesList": [
-      "[Modifier] Advantage on Logic Checks",
-      "[Rule] Prerequisite: Insightful Reason.",
-      "[Prerequisite] Insightful Reason"
-    ],
-    "keywords": "inspired reason, ability, special-feature, innate-talent, passive-prowess, inspired",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "ability-inspiring-personality",
-    "name": "Inspiring Personality",
-    "category": "Ability",
-    "type": "ability",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": true,
-    "max_rank": 4,
-    "is_multiple": true,
-    "prerequisites": "Charisma 1",
-    "modifiers": [
-      {
-        "target": "Etiquette",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Etiquette"
-      }
-    ],
-    "description": "The character possesses a magnetic presence or an innate understanding of social dynamics. They navigate social hierarchies and interactions with practiced ease.",
-    "mechanic": "Gain a **\\+2 bonus** on all **Etiquette Checks**.  \n  * *Usage:* This applies to making first impressions, avoiding social faux pas, navigating formal gatherings, and interacting with high-status NPCs without causing offense.",
-    "rules": "This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Charisma score.",
-    "special_rules": "This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Charisma score.",
-    "body": "# Inspiring Personality\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Charisma 1\n\n## Description\nThe character possesses a magnetic presence or an innate understanding of social dynamics. They navigate social hierarchies and interactions with practiced ease.\n\n## Mechanics & Benefit\nGain a **\\+2 bonus** on all **Etiquette Checks**.  \n  * *Usage:* This applies to making first impressions, avoiding social faux pas, navigating formal gatherings, and interacting with high-status NPCs without causing offense.\n\n## Special Rules\nThis feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Charisma score.",
-    "mechanics": "Gain a **\\+2 bonus** on all **Etiquette Checks**.  \n  * *Usage:* This applies to making first impressions, avoiding social faux pas, navigating formal gatherings, and interacting with high-status NPCs without causing offense.",
-    "notes": "[Modifier] +2 to Etiquette\n[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...\n[Prerequisite] Charisma 1",
-    "notesList": [
-      "[Modifier] +2 to Etiquette",
-      "[Rule] Ranked: Bonus stacks with additional purchases",
-      "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...",
-      "[Prerequisite] Charisma 1"
-    ],
-    "keywords": "inspiring personality, ability, special-feature, innate-talent, passive-prowess, possesses",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-investigator",
-    "name": "Investigator",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "None",
-    "modifiers": [
-      {
-        "target": "Investigation",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Investigation"
-      },
-      {
-        "target": "Gather Information",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Gather Information"
-      }
-    ],
-    "description": "The character is trained to notice details and follow leads.",
-    "mechanic": "Gain a **\\+2 Bonus** to **Investigation** and **Gather Information** checks.",
-    "rules": "147",
-    "special_rules": "147",
-    "body": "# Investigator\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character is trained to notice details and follow leads.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Investigation** and **Gather Information** checks.\n\n## Special Rules\n147",
-    "mechanics": "Gain a **\\+2 Bonus** to **Investigation** and **Gather Information** checks.",
-    "notes": "[Modifier] +2 to Investigation\n[Modifier] +2 to Gather Information\n[Rule] 147",
-    "notesList": [
-      "[Modifier] +2 to Investigation",
-      "[Modifier] +2 to Gather Information",
-      "[Rule] 147"
-    ],
-    "keywords": "investigator, skill, special-feature, trained, notice, details",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "ability-iron-will",
-    "name": "Iron Will",
-    "category": "Ability",
-    "type": "ability",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": true,
-    "max_rank": 4,
-    "is_multiple": true,
-    "prerequisites": "Wisdom 1",
-    "modifiers": [
-      {
-        "target": "Will",
-        "type": "save",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 on Will Checks"
-      }
-    ],
-    "description": "The character possesses a mind like a fortress. They are stubborn, focused, and resistant to fear, manipulation, or psychological trauma.",
-    "mechanic": "Gain a **\\+2 bonus** on all **Will Checks**.  \n  * *Usage:* This applies to resisting Fear effects, Mind Control, Charm, Domination, and psychological torture or intimidation.",
-    "rules": "This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Wisdom score.",
-    "special_rules": "This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Wisdom score.",
-    "body": "# Iron Will\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Wisdom 1\n\n## Description\nThe character possesses a mind like a fortress. They are stubborn, focused, and resistant to fear, manipulation, or psychological trauma.\n\n## Mechanics & Benefit\nGain a **\\+2 bonus** on all **Will Checks**.  \n  * *Usage:* This applies to resisting Fear effects, Mind Control, Charm, Domination, and psychological torture or intimidation.\n\n## Special Rules\nThis feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Wisdom score.",
-    "mechanics": "Gain a **\\+2 bonus** on all **Will Checks**.  \n  * *Usage:* This applies to resisting Fear effects, Mind Control, Charm, Domination, and psychological torture or intimidation.",
-    "notes": "[Modifier] +2 on Will Checks\n[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...\n[Prerequisite] Wisdom 1",
-    "notesList": [
-      "[Modifier] +2 on Will Checks",
-      "[Rule] Ranked: Bonus stacks with additional purchases",
-      "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...",
-      "[Prerequisite] Wisdom 1"
-    ],
-    "keywords": "iron will, ability, special-feature, innate-talent, passive-prowess, possesses",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-jack-of-all-trades",
-    "name": "Jack-of-all-trades",
+    "name": "Jack of all trades",
     "category": "General",
     "type": "general",
     "cp": 3,
@@ -4993,54 +4188,19 @@ export const DEFAULT_FEATURES = [
     },
     "is_ranked": false,
     "is_multiple": false,
-    "prerequisites": "Intellect 2",
+    "prerequisites": "Intellect 1 or Wisdom 1",
     "modifiers": [],
-    "description": "The character has picked up a little bit of everything in their travels.",
-    "mechanic": "You may attempt **any Skill check Untrained**, even those normally requiring training (like Medicine, Engineering, or Piloting).",
-    "rules": "98",
-    "special_rules": "98",
-    "body": "# Jack-of-all-trades\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Intellect 2\n\n## Description\nThe character has picked up a little bit of everything in their travels.\n\n## Mechanics & Benefit\nYou may attempt **any Skill check Untrained**, even those normally requiring training (like Medicine, Engineering, or Piloting).\n\n## Special Rules\n98",
-    "mechanics": "You may attempt **any Skill check Untrained**, even those normally requiring training (like Medicine, Engineering, or Piloting).",
-    "notes": "[Rule] 98\n[Prerequisite] Intellect 2",
+    "description": "Broad, eclectic practical exposure allowing the character to attempt any untrained skill check without suffering severe unfamiliarity penalties.",
+    "mechanic": "* The character may attempt skill checks in any skill even if they possess 0 trained skill ranks, without suffering standard untrained penalties.\n* Gain a **+1 Competence Bonus** on all skill checks for skills with 0 purchased ranks.",
+    "rules": "Prerequisite: Intellect 1 or Wisdom 1.",
+    "special_rules": "Prerequisite: Intellect 1 or Wisdom 1.",
+    "body": "# Jack of all trades\n\n**Category**: General Features  \n**Cost**: 3 BP  \n**Prerequisite**: Intellect 1 or Wisdom 1  \n\n## Description\nWhether through wide travel, fragmented ancestral memories, or restless curiosity, the character has picked up a functional grounding in nearly every field of endeavor.\n\n## Mechanics & Benefit\n* The character may attempt skill checks in any skill even if they possess 0 trained skill ranks, without suffering standard untrained penalties.\n* Gain a **+1 Competence Bonus** on all skill checks for skills with 0 purchased ranks.",
+    "mechanics": "* The character may attempt skill checks in any skill even if they possess 0 trained skill ranks, without suffering standard untrained penalties.\n* Gain a **+1 Competence Bonus** on all skill checks for skills with 0 purchased ranks.",
+    "notes": "[Rule] Prerequisite: Intellect 1 or Wisdom 1.\n[Prerequisite] Intellect 1 or Wisdom 1",
     "notesList": [
-      "[Rule] 98",
-      "[Prerequisite] Intellect 2"
-    ],
-    "keywords": "jack-of-all-trades, general, special-feature, picked, little, everything",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "karma-karmic-blessing",
-    "name": "Karmic Blessing",
-    "category": "Karma",
-    "type": "karma",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": true,
-    "prerequisites": "None",
-    "modifiers": [],
-    "description": "The character has a larger destiny than most. Fate has stockpiled more luck for them to use.",
-    "mechanic": "Increase your **Maximum Karma Pool** by **+1 Point** per rank of this feature.  \n  * *Default:* Characters start with 3 Max Karma Points by default. This feature raises that cap by +1 per rank taken.",
-    "rules": "This feature is **[Ranked / Multiple]**. You may take it multiple times to keep expanding your pool by +1 point per rank.",
-    "special_rules": "This feature is **[Ranked / Multiple]**. You may take it multiple times to keep expanding your pool by +1 point per rank.",
-    "body": "# Karmic Blessing\n\n**Category**: Karma Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character has a larger destiny than most. Fate has stockpiled more luck for them to use.\n\n## Mechanics & Benefit\nIncrease your **Maximum Karma Pool** by **+1 Point** per rank of this feature.  \n  * *Default:* Characters start with 3 Max Karma Points by default. This feature raises that cap by +1 per rank taken.\n\n## Special Rules\nThis feature is **[Ranked / Multiple]**. You may take it multiple times to keep expanding your pool by +1 point per rank.",
-    "mechanics": "Increase your **Maximum Karma Pool** by **+1 Point** per rank of this feature.  \n  * *Default:* Characters start with 3 Max Karma Points by default. This feature raises that cap by +1 per rank taken.",
-    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature is **[Ranked / Multiple]**. You may take it multiple times to keep expanding your pool ...",
-    "notesList": [
-      "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] This feature is **[Ranked / Multiple]**. You may take it multiple times to keep expanding your pool ..."
-    ],
-    "keywords": "karmic blessing, karma, special-feature, larger, destiny, stockpiled",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+      "[Rule] Prerequisite: Intellect 1 or Wisdom 1.",
+      "[Prerequisite] Intellect 1 or Wisdom 1"
+    ]
   },
   {
     "id": "general-lactate-immunity",
@@ -5071,42 +4231,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Prerequisite: Endurance, Stamina 4.",
       "[Prerequisite] Endurance, Stamina 4"
-    ],
-    "keywords": "lactate immunity, general, special-feature, character's, physiology, clears",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "special-life-support",
-    "name": "Life Support",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": true,
-    "prerequisites": "None",
-    "modifiers": [],
-    "description": "The character can survive in environments hostile to their biology.",
-    "mechanic": "You can breathe and function comfortably in a specific non-native environment.",
-    "rules": "Multiple 194",
-    "special_rules": "Multiple 194",
-    "body": "# Life Support\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character can survive in environments hostile to their biology.\n\n## Mechanics & Benefit\nYou can breathe and function comfortably in a specific non-native environment.\n\n## Special Rules\nMultiple 194",
-    "mechanics": "You can breathe and function comfortably in a specific non-native environment.",
-    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] Multiple 194",
-    "notesList": [
-      "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] Multiple 194"
-    ],
-    "keywords": "life support, special, special-feature, survive, environments, hostile",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-lightning-calculator",
@@ -5139,268 +4264,7 @@ export const DEFAULT_FEATURES = [
       "[Rule] Ranked: Bonus stacks with additional purchases",
       "[Rule] \\[Ranked\\] Limited by Intellect modifier.",
       "[Prerequisite] Intellect 1"
-    ],
-    "keywords": "lightning calculator, general, special-feature, living, computer, perform",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "ability-lightning-reflexes",
-    "name": "Lightning Reflexes",
-    "category": "Ability",
-    "type": "ability",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": true,
-    "max_rank": 4,
-    "is_multiple": true,
-    "prerequisites": "Agility 1",
-    "modifiers": [
-      {
-        "target": "Reflex",
-        "type": "save",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 on Reflex Checks"
-      }
-    ],
-    "description": "The character reacts to danger before they are consciously aware of it. Their nerves are wire-taut, allowing them to dodge blasts, catch falling objects, or keep their footing on shifting ground.",
-    "mechanic": "Gain a **\\+2 bonus** on all **Reflex Checks**.  \n  * *Usage:* This applies to dodging Area of Effect (AoE) attacks (explosions, breath weapons), maintaining balance, and avoiding sudden traps.",
-    "rules": "This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Agility score.",
-    "special_rules": "This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Agility score.",
-    "body": "# Lightning Reflexes\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Agility 1\n\n## Description\nThe character reacts to danger before they are consciously aware of it. Their nerves are wire-taut, allowing them to dodge blasts, catch falling objects, or keep their footing on shifting ground.\n\n## Mechanics & Benefit\nGain a **\\+2 bonus** on all **Reflex Checks**.  \n  * *Usage:* This applies to dodging Area of Effect (AoE) attacks (explosions, breath weapons), maintaining balance, and avoiding sudden traps.\n\n## Special Rules\nThis feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Agility score.",
-    "mechanics": "Gain a **\\+2 bonus** on all **Reflex Checks**.  \n  * *Usage:* This applies to dodging Area of Effect (AoE) attacks (explosions, breath weapons), maintaining balance, and avoiding sudden traps.",
-    "notes": "[Modifier] +2 on Reflex Checks\n[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...\n[Prerequisite] Agility 1",
-    "notesList": [
-      "[Modifier] +2 on Reflex Checks",
-      "[Rule] Ranked: Bonus stacks with additional purchases",
-      "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...",
-      "[Prerequisite] Agility 1"
-    ],
-    "keywords": "lightning reflexes, ability, special-feature, innate-talent, passive-prowess, reacts",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-linguist",
-    "name": "Linguist",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Linguistics 1",
-    "modifiers": [
-      {
-        "target": "Language",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Language"
-      }
-    ],
-    "description": "The character has an ear for dialects and syntax.",
-    "mechanic": "Gain a **\\+2 Bonus** to **Language** checks. You may **Take 10** on Language checks to decipher writing even under stress.",
-    "rules": "148",
-    "special_rules": "148",
-    "body": "# Linguist\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Linguistics 1\n\n## Description\nThe character has an ear for dialects and syntax.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Language** checks. You may **Take 10** on Language checks to decipher writing even under stress.\n\n## Special Rules\n148",
-    "mechanics": "Gain a **\\+2 Bonus** to **Language** checks. You may **Take 10** on Language checks to decipher writing even under stress.",
-    "notes": "[Modifier] +2 to Language\n[Rule] 148\n[Prerequisite] Linguistics 1",
-    "notesList": [
-      "[Modifier] +2 to Language",
-      "[Rule] 148",
-      "[Prerequisite] Linguistics 1"
-    ],
-    "keywords": "linguist, skill, special-feature, dialects, syntax",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-logical",
-    "name": "Logical",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "None",
-    "modifiers": [
-      {
-        "target": "Logic",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Logic"
-      }
-    ],
-    "description": "The character approaches problems with cold, hard rationality.",
-    "mechanic": "Gain a **\\+2 Bonus** to **Logic Checks**. You may **Take 10** on Logic checks even under stress.",
-    "rules": "149",
-    "special_rules": "149",
-    "body": "# Logical\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character approaches problems with cold, hard rationality.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Logic Checks**. You may **Take 10** on Logic checks even under stress.\n\n## Special Rules\n149",
-    "mechanics": "Gain a **\\+2 Bonus** to **Logic Checks**. You may **Take 10** on Logic checks even under stress.",
-    "notes": "[Modifier] +2 to Logic\n[Rule] 149",
-    "notesList": [
-      "[Modifier] +2 to Logic",
-      "[Rule] 149"
-    ],
-    "keywords": "logical, skill, special-feature, approaches, problems, rationality",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "special-low-light-vision",
-    "name": "Low Light Vision",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "None",
-    "modifiers": [],
-    "description": "The character's eyes magnify ambient light.",
-    "mechanic": "You can see in dim light (starlight, moonlight) as clearly as if it were bright daylight. You interpret color normally. You still cannot see in absolute darkness.",
-    "rules": "195",
-    "special_rules": "195",
-    "body": "# Low Light Vision\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character's eyes magnify ambient light.\n\n## Mechanics & Benefit\nYou can see in dim light (starlight, moonlight) as clearly as if it were bright daylight. You interpret color normally. You still cannot see in absolute darkness.\n\n## Special Rules\n195",
-    "mechanics": "You can see in dim light (starlight, moonlight) as clearly as if it were bright daylight. You interpret color normally. You still cannot see in absolute darkness.",
-    "notes": "[Rule] 195",
-    "notesList": [
-      "[Rule] 195"
-    ],
-    "keywords": "low light vision, special, special-feature, character's, magnify, ambient",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-magical-aptitude",
-    "name": "Magical Aptitude",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "None",
-    "modifiers": [
-      {
-        "target": "Attune",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Attune"
-      },
-      {
-        "target": "Knowledge Metaphysics",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Knowledge Metaphysics"
-      }
-    ],
-    "description": "The character has a knack for the arcane theory, even if they aren't a powerful caster.",
-    "mechanic": "Gain a **\\+2 Bonus** to **Attune** checks and a **\\+1 Bonus** to **Knowledge (Metaphysics)**.",
-    "rules": "150",
-    "special_rules": "150",
-    "body": "# Magical Aptitude\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character has a knack for the arcane theory, even if they aren't a powerful caster.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Attune** checks and a **\\+1 Bonus** to **Knowledge (Metaphysics)**.\n\n## Special Rules\n150",
-    "mechanics": "Gain a **\\+2 Bonus** to **Attune** checks and a **\\+1 Bonus** to **Knowledge (Metaphysics)**.",
-    "notes": "[Modifier] +2 to Attune\n[Modifier] +1 to Knowledge Metaphysics\n[Rule] 150",
-    "notesList": [
-      "[Modifier] +2 to Attune",
-      "[Modifier] +1 to Knowledge Metaphysics",
-      "[Rule] 150"
-    ],
-    "keywords": "magical aptitude, skill, special-feature, arcane, theory, aren't",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-master-craftsman",
-    "name": "Master Craftsman",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Crafting 6",
-    "modifiers": [
-      {
-        "target": "Crafting",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Crafting"
-      },
-      {
-        "target": "The DC limit of what you can create allowing for more complex modifications",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to The DC limit of what you can create allowing for more complex modifications"
-      }
-    ],
-    "description": "The character creates items of superior quality and durability.",
-    "mechanic": "Gain a **\\+2 Bonus** to Crafting checks. When creating **Masterwork** items, you add **\\+2** to the DC limit of what you can create (allowing for more complex modifications).",
-    "rules": "151",
-    "special_rules": "151",
-    "body": "# Master Craftsman\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Crafting 6\n\n## Description\nThe character creates items of superior quality and durability.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to Crafting checks. When creating **Masterwork** items, you add **\\+2** to the DC limit of what you can create (allowing for more complex modifications).\n\n## Special Rules\n151",
-    "mechanics": "Gain a **\\+2 Bonus** to Crafting checks. When creating **Masterwork** items, you add **\\+2** to the DC limit of what you can create (allowing for more complex modifications).",
-    "notes": "[Modifier] +2 to Crafting\n[Modifier] +2 to The DC limit of what you can create allowing for more complex modifications\n[Rule] 151\n[Prerequisite] Crafting 6",
-    "notesList": [
-      "[Modifier] +2 to Crafting",
-      "[Modifier] +2 to The DC limit of what you can create allowing for more complex modifications",
-      "[Rule] 151",
-      "[Prerequisite] Crafting 6"
-    ],
-    "keywords": "master craftsman, skill, special-feature, creates, superior, quality",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-master-plan",
@@ -5431,51 +4295,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 103",
       "[Prerequisite] Logic 6, Intellect 3"
-    ],
-    "keywords": "master plan, general, special-feature, tactical, genius, prepares",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-medic",
-    "name": "Medic",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Medicine 1",
-    "modifiers": [
-      {
-        "target": "Medicine",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Medicine"
-      }
-    ],
-    "description": "The character is trained in emergency triage and trauma care.",
-    "mechanic": "Gain a **\\+2 Bonus** to Medicine checks.",
-    "rules": "You may perform **First Aid** (stabilize a dying character) as a **Standard Action** rather than a Full Round Action.",
-    "special_rules": "You may perform **First Aid** (stabilize a dying character) as a **Standard Action** rather than a Full Round Action.",
-    "body": "# Medic\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Medicine 1\n\n## Description\nThe character is trained in emergency triage and trauma care.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to Medicine checks.\n\n## Special Rules\nYou may perform **First Aid** (stabilize a dying character) as a **Standard Action** rather than a Full Round Action.",
-    "mechanics": "Gain a **\\+2 Bonus** to Medicine checks.",
-    "notes": "[Modifier] +2 to Medicine\n[Rule] You may perform **First Aid** (stabilize a dying character) as a **Standard Action** rather than a F...\n[Prerequisite] Medicine 1",
-    "notesList": [
-      "[Modifier] +2 to Medicine",
-      "[Rule] You may perform **First Aid** (stabilize a dying character) as a **Standard Action** rather than a F...",
-      "[Prerequisite] Medicine 1"
-    ],
-    "keywords": "medic, skill, special-feature, trained, emergency, triage",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-mental-alacrity",
@@ -5506,215 +4326,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 101",
       "[Prerequisite] Lightning Calc, Trance, Int 2"
-    ],
-    "keywords": "mental alacrity, general, special-feature, mental, alacrity, feature:",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-meticulous",
-    "name": "Meticulous",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "None",
-    "modifiers": [],
-    "description": "The character is exceptionally thorough. When they take their time, they rarely fail.",
-    "mechanic": "The bonus gained from taking extra time on a skill check is improved.",
-    "rules": "153",
-    "special_rules": "153",
-    "body": "# Meticulous\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character is exceptionally thorough. When they take their time, they rarely fail.\n\n## Mechanics & Benefit\nThe bonus gained from taking extra time on a skill check is improved.\n\n## Special Rules\n153",
-    "mechanics": "The bonus gained from taking extra time on a skill check is improved.",
-    "notes": "[Rule] 153",
-    "notesList": [
-      "[Rule] 153"
-    ],
-    "keywords": "meticulous, skill, special-feature, exceptionally, thorough, rarely",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "ability-mighty-surge",
-    "name": "Mighty Surge",
-    "category": "Ability",
-    "type": "ability",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Potent Might",
-    "modifiers": [],
-    "description": "Mighty Surge is a Ability Feature: Roll Might checks with Advantage",
-    "mechanic": "Roll Might checks with Advantage",
-    "rules": "Prerequisite: Potent Might.",
-    "special_rules": "Prerequisite: Potent Might.",
-    "body": "# Mighty Surge\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Potent Might\n\n## Description\nMighty Surge is a Ability Feature: Roll Might checks with Advantage\n\n## Mechanics & Benefit\nRoll Might checks with Advantage",
-    "mechanics": "Roll Might checks with Advantage",
-    "notes": "[Rule] Prerequisite: Potent Might.\n[Prerequisite] Potent Might",
-    "notesList": [
-      "[Rule] Prerequisite: Potent Might.",
-      "[Prerequisite] Potent Might"
-    ],
-    "keywords": "mighty surge, ability, special-feature, innate-talent, passive-prowess, mighty",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "special-mind-link",
-    "name": "Mind Link",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Companion",
-    "modifiers": [],
-    "description": "Mind Link is a Special Feature: Telepathic link; share skills/knowledge (+10BP to Companion).",
-    "mechanic": "Telepathic link; share skills/knowledge (+10BP to Companion).",
-    "rules": "187",
-    "special_rules": "187",
-    "body": "# Mind Link\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Companion\n\n## Description\nMind Link is a Special Feature: Telepathic link; share skills/knowledge (+10BP to Companion).\n\n## Mechanics & Benefit\nTelepathic link; share skills/knowledge (+10BP to Companion).\n\n## Special Rules\n187",
-    "mechanics": "Telepathic link; share skills/knowledge (+10BP to Companion).",
-    "notes": "[Rule] 187\n[Prerequisite] Companion",
-    "notesList": [
-      "[Rule] 187",
-      "[Prerequisite] Companion"
-    ],
-    "keywords": "mind link, special, special-feature, feature:, telepathic, skills/knowledge",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "combat-mobility",
-    "name": "Mobility",
-    "category": "Combat",
-    "type": "combat",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Agi 2, Dodge",
-    "modifiers": [
-      {
-        "target": "defense-mod",
-        "type": "combat",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 defense"
-      }
-    ],
-    "description": "Mobility is a Combat Feature: +4 defense against attacks of opportunity from movement.",
-    "mechanic": "\\+4 defense against attacks of opportunity from movement.",
-    "rules": "42",
-    "special_rules": "42",
-    "body": "# Mobility\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Agi 2, Dodge\n\n## Description\nMobility is a Combat Feature: \\+4 defense against attacks of opportunity from movement.\n\n## Mechanics & Benefit\n\\+4 defense against attacks of opportunity from movement.\n\n## Special Rules\n42",
-    "mechanics": "\\+4 defense against attacks of opportunity from movement.",
-    "notes": "[Modifier] +4 defense\n[Rule] 42\n[Prerequisite] Agi 2, Dodge",
-    "notesList": [
-      "[Modifier] +4 defense",
-      "[Rule] 42",
-      "[Prerequisite] Agi 2, Dodge"
-    ],
-    "keywords": "mobility, combat, special-feature, combat-maneuver, tactical-edge, feature:",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "ability-motivating-persona",
-    "name": "Motivating Persona",
-    "category": "Ability",
-    "type": "ability",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Inspiring Personality",
-    "modifiers": [],
-    "description": "Motivating Persona is a Ability Feature: Roll Etiquette checks with Advantage",
-    "mechanic": "Roll Etiquette checks with Advantage",
-    "rules": "Prerequisite: Inspiring Personality.",
-    "special_rules": "Prerequisite: Inspiring Personality.",
-    "body": "# Motivating Persona\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Inspiring Personality\n\n## Description\nMotivating Persona is a Ability Feature: Roll Etiquette checks with Advantage\n\n## Mechanics & Benefit\nRoll Etiquette checks with Advantage",
-    "mechanics": "Roll Etiquette checks with Advantage",
-    "notes": "[Rule] Prerequisite: Inspiring Personality.\n[Prerequisite] Inspiring Personality",
-    "notesList": [
-      "[Rule] Prerequisite: Inspiring Personality.",
-      "[Prerequisite] Inspiring Personality"
-    ],
-    "keywords": "motivating persona, ability, special-feature, innate-talent, passive-prowess, motivating",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "combat-multidextrous",
-    "name": "Multidextrous",
-    "category": "Combat",
-    "type": "combat",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Ambidextrous or Agi 4",
-    "modifiers": [],
-    "description": "Multidextrous is a Combat Feature: No Off-Handed Penalty with Multiple Limbs.",
-    "mechanic": "No Off-Handed Penalty with Multiple Limbs.",
-    "rules": "Prerequisite: Ambidextrous or Agi 4.",
-    "special_rules": "Prerequisite: Ambidextrous or Agi 4.",
-    "body": "# Multidextrous\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Ambidextrous or Agi 4\n\n## Description\nMultidextrous is a Combat Feature: No Off-Handed Penalty with Multiple Limbs.\n\n## Mechanics & Benefit\nNo Off-Handed Penalty with Multiple Limbs.",
-    "mechanics": "No Off-Handed Penalty with Multiple Limbs.",
-    "notes": "[Rule] Prerequisite: Ambidextrous or Agi 4.\n[Prerequisite] Ambidextrous or Agi 4",
-    "notesList": [
-      "[Rule] Prerequisite: Ambidextrous or Agi 4.",
-      "[Prerequisite] Ambidextrous or Agi 4"
-    ],
-    "keywords": "multidextrous, combat, special-feature, combat-maneuver, tactical-edge, feature:",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
+    ]
   },
   {
     "id": "general-multiplexing",
@@ -5747,9 +4359,7 @@ export const DEFAULT_FEATURES = [
       "[Rule] Ranked: Bonus stacks with additional purchases",
       "[Rule] Ranked (Int) 102",
       "[Prerequisite] Mental Alacrity, Int 3"
-    ],
-    "keywords": "multiplexing, general, special-feature, feature:, mental, action",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-myostatin-hypertrophy",
@@ -5797,199 +4407,7 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Athletics",
       "[Rule] Prerequisite: Strength 3, Stamina 2.",
       "[Prerequisite] Strength 3, Stamina 2"
-    ],
-    "keywords": "myostatin hypertrophy, general, special-feature, homozygous, mutation, renders",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "combat-natural-leader",
-    "name": "Natural Leader",
-    "category": "Combat",
-    "type": "combat",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Charisma 3, Diplomacy 6",
-    "modifiers": [
-      {
-        "target": "Organization",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Organization"
-      },
-      {
-        "target": "Administration",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Administration"
-      }
-    ],
-    "description": "The character attracts loyal followers and can manage a crew or organization effectively.",
-    "mechanic": "You gain a number of **Followers** (NPCs) and potentially a **Cohort** (a loyal lieutenant). The number and quality depend on your Level and Charisma score. You gain a \\+2 bonus to Organization/Administration checks.",
-    "rules": "Prerequisite: Charisma 3, Diplomacy 6.",
-    "special_rules": "Prerequisite: Charisma 3, Diplomacy 6.",
-    "body": "# Natural Leader\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Charisma 3, Diplomacy 6\n\n## Description\nThe character attracts loyal followers and can manage a crew or organization effectively.\n\n## Mechanics & Benefit\nYou gain a number of **Followers** (NPCs) and potentially a **Cohort** (a loyal lieutenant). The number and quality depend on your Level and Charisma score. You gain a \\+2 bonus to Organization/Administration checks.",
-    "mechanics": "You gain a number of **Followers** (NPCs) and potentially a **Cohort** (a loyal lieutenant). The number and quality depend on your Level and Charisma score. You gain a \\+2 bonus to Organization/Administration checks.",
-    "notes": "[Modifier] +2 to Organization\n[Modifier] +2 to Administration\n[Rule] Prerequisite: Charisma 3, Diplomacy 6.\n[Prerequisite] Charisma 3, Diplomacy 6",
-    "notesList": [
-      "[Modifier] +2 to Organization",
-      "[Modifier] +2 to Administration",
-      "[Rule] Prerequisite: Charisma 3, Diplomacy 6.",
-      "[Prerequisite] Charisma 3, Diplomacy 6"
-    ],
-    "keywords": "natural leader, combat, special-feature, combat-maneuver, tactical-edge, attracts",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "special-natural-weapons",
-    "name": "Natural Weapons",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": true,
-    "max_rank": 4,
-    "is_multiple": false,
-    "prerequisites": "None",
-    "modifiers": [],
-    "description": "The character possesses claws, fangs, horns, or a tail striker.",
-    "mechanic": "You are always armed. Your Unarmed Strikes deal Lethal damage and the damage die is increased.  \n  * *Small/Medium:* 1d4 or 1d6 damage.  \n  * *Large:* 1d8 damage.",
-    "rules": "\\[Ranked\\] Can be taken to increase the damage die size.",
-    "special_rules": "\\[Ranked\\] Can be taken to increase the damage die size.",
-    "body": "# Natural Weapons\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character possesses claws, fangs, horns, or a tail striker.\n\n## Mechanics & Benefit\nYou are always armed. Your Unarmed Strikes deal Lethal damage and the damage die is increased.  \n  * *Small/Medium:* 1d4 or 1d6 damage.  \n  * *Large:* 1d8 damage.\n\n## Special Rules\n\\[Ranked\\] Can be taken to increase the damage die size.",
-    "mechanics": "You are always armed. Your Unarmed Strikes deal Lethal damage and the damage die is increased.  \n  * *Small/Medium:* 1d4 or 1d6 damage.  \n  * *Large:* 1d8 damage.",
-    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] \\[Ranked\\] Can be taken to increase the damage die size.",
-    "notesList": [
-      "[Rule] Ranked: Bonus stacks with additional purchases",
-      "[Rule] \\[Ranked\\] Can be taken to increase the damage die size."
-    ],
-    "keywords": "natural weapons, special, special-feature, possesses, striker",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-naturalist",
-    "name": "Naturalist",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "None",
-    "modifiers": [
-      {
-        "target": "Nature Knowledge",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Nature Knowledge"
-      },
-      {
-        "target": "Survival",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Survival"
-      }
-    ],
-    "description": "The character is at home in the wild.",
-    "mechanic": "Gain a **\\+2 Bonus** to **Nature** (Knowledge) and **Survival** checks.",
-    "rules": "154",
-    "special_rules": "154",
-    "body": "# Naturalist\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character is at home in the wild.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Nature** (Knowledge) and **Survival** checks.\n\n## Special Rules\n154",
-    "mechanics": "Gain a **\\+2 Bonus** to **Nature** (Knowledge) and **Survival** checks.",
-    "notes": "[Modifier] +2 to Nature Knowledge\n[Modifier] +2 to Survival\n[Rule] 154",
-    "notesList": [
-      "[Modifier] +2 to Nature Knowledge",
-      "[Modifier] +2 to Survival",
-      "[Rule] 154"
-    ],
-    "keywords": "naturalist, skill, special-feature",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-nimble-fingers",
-    "name": "Nimble Fingers",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "None",
-    "modifiers": [
-      {
-        "target": "Sleight of Hand",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Sleight of Hand"
-      },
-      {
-        "target": "Disable Device Security",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Disable Device Security"
-      },
-      {
-        "target": "Mechanics",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Mechanics"
-      }
-    ],
-    "description": "The character has excellent manual agility and precision for fine manipulation.",
-    "mechanic": "Gain a **\\+2 Bonus** to **Sleight of Hand** and **Disable Device** (Security/Mechanics) checks.",
-    "rules": "155",
-    "special_rules": "155",
-    "body": "# Nimble Fingers\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character has excellent manual agility and precision for fine manipulation.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Sleight of Hand** and **Disable Device** (Security/Mechanics) checks.\n\n## Special Rules\n155",
-    "mechanics": "Gain a **\\+2 Bonus** to **Sleight of Hand** and **Disable Device** (Security/Mechanics) checks.",
-    "notes": "[Modifier] +2 to Sleight of Hand\n[Modifier] +2 to Disable Device Security\n[Modifier] +2 to Mechanics\n[Rule] 155",
-    "notesList": [
-      "[Modifier] +2 to Sleight of Hand",
-      "[Modifier] +2 to Disable Device Security",
-      "[Modifier] +2 to Mechanics",
-      "[Rule] 155"
-    ],
-    "keywords": "nimble fingers, skill, special-feature, excellent, manual, agility",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-nimble-moves",
@@ -6020,9 +4438,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 104",
       "[Prerequisite] Agility 2"
-    ],
-    "keywords": "nimble moves, general, special-feature, dances, around, obstacles",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-nociceptor-dampening",
@@ -6053,42 +4469,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Prerequisite: Pain Tolerance, Stamina 2.",
       "[Prerequisite] Pain Tolerance, Stamina 2"
-    ],
-    "keywords": "nociceptor dampening, general, special-feature, mutation, transcription, factors",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "special-non-lethal-immunity",
-    "name": "Non-Lethal Immunity",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "-",
-    "modifiers": [],
-    "description": "Non-Lethal Immunity is a Special Feature: Immune to Non-Lethal Damage.",
-    "mechanic": "Immune to Non-Lethal Damage.",
-    "rules": "198",
-    "special_rules": "198",
-    "body": "# Non-Lethal Immunity\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: \\-\n\n## Description\nNon-Lethal Immunity is a Special Feature: Immune to Non-Lethal Damage.\n\n## Mechanics & Benefit\nImmune to Non-Lethal Damage.\n\n## Special Rules\n198",
-    "mechanics": "Immune to Non-Lethal Damage.",
-    "notes": "[Rule] 198\n[Prerequisite] -",
-    "notesList": [
-      "[Rule] 198",
-      "[Prerequisite] -"
-    ],
-    "keywords": "non-lethal immunity, special, special-feature, non-lethal, immunity, feature:",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-pain-tolerance",
@@ -6119,58 +4500,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 108",
       "[Prerequisite] Tough, Sta 2"
-    ],
-    "keywords": "pain tolerance, general, special-feature, tolerance, feature:, advantage",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-perceptive",
-    "name": "Perceptive",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "None",
-    "modifiers": [
-      {
-        "target": "Perception",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Perception"
-      },
-      {
-        "target": "Insight",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Insight"
-      }
-    ],
-    "description": "The character notices things others miss.",
-    "mechanic": "Gain a **\\+2 Bonus** to **Perception** checks (Alertness) and a **\\+1 Bonus** to **Insight** checks.",
-    "rules": "157",
-    "special_rules": "157",
-    "body": "# Perceptive\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character notices things others miss.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Perception** checks (Alertness) and a **\\+1 Bonus** to **Insight** checks.\n\n## Special Rules\n157",
-    "mechanics": "Gain a **\\+2 Bonus** to **Perception** checks (Alertness) and a **\\+1 Bonus** to **Insight** checks.",
-    "notes": "[Modifier] +2 to Perception\n[Modifier] +1 to Insight\n[Rule] 157",
-    "notesList": [
-      "[Modifier] +2 to Perception",
-      "[Modifier] +1 to Insight",
-      "[Rule] 157"
-    ],
-    "keywords": "perceptive, skill, special-feature, notices, things, others",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-perfect-balance",
@@ -6201,124 +4531,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 106",
       "[Prerequisite] Agi 4, Acrobatic Steps"
-    ],
-    "keywords": "perfect balance, general, special-feature, perfect, balance, feature:",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "combat-perfect-two-weapon-defense",
-    "name": "Perfect Two-Weapon Defense",
-    "category": "Combat",
-    "type": "combat",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Perfect Two-Weapon Fighting",
-    "modifiers": [],
-    "description": "Perfect Two-Weapon Defense is a Combat Feature: +4 shield bonus to defense when fighting with two weapons.",
-    "mechanic": "\\+4 shield bonus to defense when fighting with two weapons.",
-    "rules": "50",
-    "special_rules": "50",
-    "body": "# Perfect Two-Weapon Defense\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Perfect Two-Weapon Fighting\n\n## Description\nPerfect Two-Weapon Defense is a Combat Feature: \\+4 shield bonus to defense when fighting with two weapons.\n\n## Mechanics & Benefit\n\\+4 shield bonus to defense when fighting with two weapons.\n\n## Special Rules\n50",
-    "mechanics": "\\+4 shield bonus to defense when fighting with two weapons.",
-    "notes": "[Rule] 50\n[Prerequisite] Perfect Two-Weapon Fighting",
-    "notesList": [
-      "[Rule] 50",
-      "[Prerequisite] Perfect Two-Weapon Fighting"
-    ],
-    "keywords": "perfect two-weapon defense, combat, special-feature, combat-maneuver, tactical-edge, perfect",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "combat-perfect-two-weapon-fighting",
-    "name": "Perfect Two-Weapon Fighting",
-    "category": "Combat",
-    "type": "combat",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Agi 5, Skill 16",
-    "modifiers": [],
-    "description": "Perfect Two-Weapon Fighting is a Combat Feature: Gain a fourth off-hand attack.",
-    "mechanic": "Gain a fourth off-hand attack.",
-    "rules": "46",
-    "special_rules": "46",
-    "body": "# Perfect Two-Weapon Fighting\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Agi 5, Skill 16\n\n## Description\nPerfect Two-Weapon Fighting is a Combat Feature: Gain a fourth off-hand attack.\n\n## Mechanics & Benefit\nGain a fourth off-hand attack.\n\n## Special Rules\n46",
-    "mechanics": "Gain a fourth off-hand attack.",
-    "notes": "[Rule] 46\n[Prerequisite] Agi 5, Skill 16",
-    "notesList": [
-      "[Rule] 46",
-      "[Prerequisite] Agi 5, Skill 16"
-    ],
-    "keywords": "perfect two-weapon fighting, combat, special-feature, combat-maneuver, tactical-edge, perfect",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "skill-persuasive",
-    "name": "Persuasive",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "None",
-    "modifiers": [
-      {
-        "target": "Diplomacy",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Diplomacy"
-      },
-      {
-        "target": "Intimidate",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Intimidate"
-      }
-    ],
-    "description": "The character is convincing and compelling.",
-    "mechanic": "Gain a **\\+2 Bonus** to **Diplomacy** and **Intimidate** checks.",
-    "rules": "156",
-    "special_rules": "156",
-    "body": "# Persuasive\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character is convincing and compelling.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Diplomacy** and **Intimidate** checks.\n\n## Special Rules\n156",
-    "mechanics": "Gain a **\\+2 Bonus** to **Diplomacy** and **Intimidate** checks.",
-    "notes": "[Modifier] +2 to Diplomacy\n[Modifier] +2 to Intimidate\n[Rule] 156",
-    "notesList": [
-      "[Modifier] +2 to Diplomacy",
-      "[Modifier] +2 to Intimidate",
-      "[Rule] 156"
-    ],
-    "keywords": "persuasive, skill, special-feature, convincing, compelling",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-photographic-memory",
@@ -6349,120 +4562,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 91",
       "[Prerequisite] Eidetic Memory, Int 4"
-    ],
-    "keywords": "photographic memory, general, special-feature, photographic, memory, feature:",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-platinum-personality",
-    "name": "Platinum Personality",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Golden Smile, Cha 4, Dip/Bluff 11",
-    "modifiers": [],
-    "description": "Platinum Personality is a Skill Feature: Make Bluff and Diplomacy Checks with Advantage.",
-    "mechanic": "Make Bluff and Diplomacy Checks with Advantage.",
-    "rules": "163",
-    "special_rules": "163",
-    "body": "# Platinum Personality\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Golden Smile, Cha 4, Dip/Bluff 11\n\n## Description\nPlatinum Personality is a Skill Feature: Make Bluff and Diplomacy Checks with Advantage.\n\n## Mechanics & Benefit\nMake Bluff and Diplomacy Checks with Advantage.\n\n## Special Rules\n163",
-    "mechanics": "Make Bluff and Diplomacy Checks with Advantage.",
-    "notes": "[Rule] 163\n[Prerequisite] Golden Smile, Cha 4, Dip/Bluff 11",
-    "notesList": [
-      "[Rule] 163",
-      "[Prerequisite] Golden Smile, Cha 4, Dip/Bluff 11"
-    ],
-    "keywords": "platinum personality, skill, special-feature, platinum, personality, feature:",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "ability-potent-might",
-    "name": "Potent Might",
-    "category": "Ability",
-    "type": "ability",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": true,
-    "max_rank": 4,
-    "is_multiple": true,
-    "prerequisites": "Strength 1",
-    "modifiers": [
-      {
-        "target": "Might",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Might"
-      }
-    ],
-    "description": "The character knows how to apply their strength for maximum leverage and impact. Whether forcing open a blast door or holding back a crushing weight, they are far more effective than their muscle mass alone suggests.",
-    "mechanic": "Gain a **\\+2 bonus** on all **Might Checks**.  \n  * *Usage:* This applies to breaking objects, lifting heavy loads, forcing doors, and resisting physical containment (such as grappling or webs). *Note: This does not apply to Attack or Damage rolls.*",
-    "rules": "This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Strength score.",
-    "special_rules": "This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Strength score.",
-    "body": "# Potent Might\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Strength 1\n\n## Description\nThe character knows how to apply their strength for maximum leverage and impact. Whether forcing open a blast door or holding back a crushing weight, they are far more effective than their muscle mass alone suggests.\n\n## Mechanics & Benefit\nGain a **\\+2 bonus** on all **Might Checks**.  \n  * *Usage:* This applies to breaking objects, lifting heavy loads, forcing doors, and resisting physical containment (such as grappling or webs). *Note: This does not apply to Attack or Damage rolls.*\n\n## Special Rules\nThis feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Strength score.",
-    "mechanics": "Gain a **\\+2 bonus** on all **Might Checks**.  \n  * *Usage:* This applies to breaking objects, lifting heavy loads, forcing doors, and resisting physical containment (such as grappling or webs). *Note: This does not apply to Attack or Damage rolls.*",
-    "notes": "[Modifier] +2 to Might\n[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...\n[Prerequisite] Strength 1",
-    "notesList": [
-      "[Modifier] +2 to Might",
-      "[Rule] Ranked: Bonus stacks with additional purchases",
-      "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the ch...",
-      "[Prerequisite] Strength 1"
-    ],
-    "keywords": "potent might, ability, special-feature, innate-talent, passive-prowess, strength",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-power-attack",
-    "name": "Power Attack",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Strength 2, Unarmed or Melee 6",
-    "modifiers": [],
-    "description": "The character sacrifices precision for raw force, trading attack accuracy for devastating damage.",
-    "mechanic": "When declaring a melee attack, you may choose to take a penalty up to your Combat Skill Rank on your **Strike** (Attack) roll. You add this same amount as a bonus to your **Damage** roll. This choice is made before you roll your attack and lasts until the start of your next turn.",
-    "rules": "This bonus to damage is considered a \"Power\" bonus, which may not stack with other features that grant generic bonus damage.",
-    "special_rules": "This bonus to damage is considered a \"Power\" bonus, which may not stack with other features that grant generic bonus damage.",
-    "body": "# Power Attack\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Strength 2, Unarmed or Melee 6\n\n## Description\nThe character sacrifices precision for raw force, trading attack accuracy for devastating damage.\n\n## Mechanics & Benefit\nWhen declaring a melee attack, you may choose to take a penalty up to your Combat Skill Rank on your **Strike** (Attack) roll. You add this same amount as a bonus to your **Damage** roll. This choice is made before you roll your attack and lasts until the start of your next turn.\n\n## Special Rules\nThis bonus to damage is considered a \"Power\" bonus, which may not stack with other features that grant generic bonus damage.",
-    "mechanics": "When declaring a melee attack, you may choose to take a penalty up to your Combat Skill Rank on your **Strike** (Attack) roll. You add this same amount as a bonus to your **Damage** roll. This choice is made before you roll your attack and lasts until the start of your next turn.",
-    "notes": "[Rule] This bonus to damage is considered a \"Power\" bonus, which may not stack with other features that gra...\n[Prerequisite] Strength 2, Unarmed or Melee 6",
-    "notesList": [
-      "[Rule] This bonus to damage is considered a \"Power\" bonus, which may not stack with other features that gra...",
-      "[Prerequisite] Strength 2, Unarmed or Melee 6"
-    ],
-    "keywords": "power attack, skill, special-feature, sacrifices, precision, trading",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-quick",
@@ -6510,9 +4610,7 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +1 Initiative",
       "[Rule] 114",
       "[Prerequisite] Agility 1"
-    ],
-    "keywords": "quick, general, special-feature, naturally",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-quicker",
@@ -6560,9 +4658,7 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 Initiative",
       "[Rule] 115",
       "[Prerequisite] Quick, Agi 2"
-    ],
-    "keywords": "quicker, general, special-feature, feature:, movement, initiative",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-quickest",
@@ -6610,52 +4706,7 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +3 Initiative",
       "[Rule] 116",
       "[Prerequisite] Quicker, Agi 3"
-    ],
-    "keywords": "quickest, general, special-feature, feature:, movement, initiative",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "special-rage",
-    "name": "Rage",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": true,
-    "max_rank": 4,
-    "is_multiple": false,
-    "prerequisites": "None",
-    "modifiers": [
-      {
-        "target": "defense-mod",
-        "type": "combat",
-        "value": -2,
-        "mode": "inherent",
-        "description": "-2 Defense"
-      }
-    ],
-    "description": "The character can tap into a primal fury, ignoring safety for raw power.",
-    "mechanic": "As a Free Action, enter a Rage.  \n  * **Gain:** \\+2 Strength, \\+2 Stamina (and temporary Health), \\+2 Will.  \n  * **Suffer:** \\-2 Defense. You cannot use skills requiring patience or concentration (most Mental/Tech skills).  \n  * **Duration:** Rounds equal to 4 \\+ New Stamina Mod. Ends in fatigue.",
-    "rules": "Ranked 199",
-    "special_rules": "Ranked 199",
-    "body": "# Rage\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character can tap into a primal fury, ignoring safety for raw power.\n\n## Mechanics & Benefit\nAs a Free Action, enter a Rage.  \n  * **Gain:** \\+2 Strength, \\+2 Stamina (and temporary Health), \\+2 Will.  \n  * **Suffer:** \\-2 Defense. You cannot use skills requiring patience or concentration (most Mental/Tech skills).  \n  * **Duration:** Rounds equal to 4 \\+ New Stamina Mod. Ends in fatigue.\n\n## Special Rules\nRanked 199",
-    "mechanics": "As a Free Action, enter a Rage.  \n  * **Gain:** \\+2 Strength, \\+2 Stamina (and temporary Health), \\+2 Will.  \n  * **Suffer:** \\-2 Defense. You cannot use skills requiring patience or concentration (most Mental/Tech skills).  \n  * **Duration:** Rounds equal to 4 \\+ New Stamina Mod. Ends in fatigue.",
-    "notes": "[Penalty] -2 Defense\n[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Ranked 199",
-    "notesList": [
-      "[Penalty] -2 Defense",
-      "[Rule] Ranked: Bonus stacks with additional purchases",
-      "[Rule] Ranked 199"
-    ],
-    "keywords": "rage, special, special-feature, primal, ignoring, safety",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-regeneration",
@@ -6686,92 +4737,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 95",
       "[Prerequisite] Fast Heal, Sta 4"
-    ],
-    "keywords": "regeneration, general, special-feature, feature:, regrow",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-researcher",
-    "name": "Researcher",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "None",
-    "modifiers": [
-      {
-        "target": "Academics",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Academics"
-      },
-      {
-        "target": "Library Use",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Library Use"
-      }
-    ],
-    "description": "The character knows how to navigate data archives and libraries.",
-    "mechanic": "Gain a **\\+2 Bonus** to **Academics** and **Library Use** checks.",
-    "rules": "158",
-    "special_rules": "158",
-    "body": "# Researcher\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character knows how to navigate data archives and libraries.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Academics** and **Library Use** checks.\n\n## Special Rules\n158",
-    "mechanics": "Gain a **\\+2 Bonus** to **Academics** and **Library Use** checks.",
-    "notes": "[Modifier] +2 to Academics\n[Modifier] +2 to Library Use\n[Rule] 158",
-    "notesList": [
-      "[Modifier] +2 to Academics",
-      "[Modifier] +2 to Library Use",
-      "[Rule] 158"
-    ],
-    "keywords": "researcher, skill, special-feature, navigate, archives, libraries",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "special-resistance",
-    "name": "Resistance",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": true,
-    "prerequisites": "Stamina 1",
-    "modifiers": [],
-    "description": "The character has a fortified immune system or supernatural resilience.",
-    "mechanic": "Gain a **\\+2 Bonus** to saves against a specific hazard category: **Disease**, **Poison**, **Radiation**, or **Magic**.",
-    "rules": "\\[Multiple\\] Can be taken for different hazards.",
-    "special_rules": "\\[Multiple\\] Can be taken for different hazards.",
-    "body": "# Resistance\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Stamina 1\n\n## Description\nThe character has a fortified immune system or supernatural resilience.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to saves against a specific hazard category: **Disease**, **Poison**, **Radiation**, or **Magic**.\n\n## Special Rules\n\\[Multiple\\] Can be taken for different hazards.",
-    "mechanics": "Gain a **\\+2 Bonus** to saves against a specific hazard category: **Disease**, **Poison**, **Radiation**, or **Magic**.",
-    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] \\[Multiple\\] Can be taken for different hazards.\n[Prerequisite] Stamina 1",
-    "notesList": [
-      "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] \\[Multiple\\] Can be taken for different hazards.",
-      "[Prerequisite] Stamina 1"
-    ],
-    "keywords": "resistance, special, special-feature, fortified, immune, system",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-runner",
@@ -6811,299 +4777,7 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Athletics",
       "[Rule] Prerequisite: Strength 1, Agility 1, Stamina 1.",
       "[Prerequisite] Strength 1, Agility 1, Stamina 1"
-    ],
-    "keywords": "runner, general, special-feature, trained, exceptional, endurance",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "special-scent",
-    "name": "Scent",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Wisdom 1",
-    "modifiers": [],
-    "description": "The character can detect creatures and objects by smell alone.",
-    "mechanic": "You can detect opponents within 30 feet by sense of smell. You can track creatures using **Survival** based on scent trails.",
-    "rules": "201",
-    "special_rules": "201",
-    "body": "# Scent\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Wisdom 1\n\n## Description\nThe character can detect creatures and objects by smell alone.\n\n## Mechanics & Benefit\nYou can detect opponents within 30 feet by sense of smell. You can track creatures using **Survival** based on scent trails.\n\n## Special Rules\n201",
-    "mechanics": "You can detect opponents within 30 feet by sense of smell. You can track creatures using **Survival** based on scent trails.",
-    "notes": "[Rule] 201\n[Prerequisite] Wisdom 1",
-    "notesList": [
-      "[Rule] 201",
-      "[Prerequisite] Wisdom 1"
-    ],
-    "keywords": "scent, special, special-feature, detect, creatures, objects",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-scholar",
-    "name": "Scholar",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "None",
-    "modifiers": [
-      {
-        "target": "Knowledge",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Knowledge"
-      }
-    ],
-    "description": "The character is an academic with a broad base of learning.",
-    "mechanic": "Gain a **\\+2 Bonus** to **ALL Knowledge Skills**.",
-    "rules": "159",
-    "special_rules": "159",
-    "body": "# Scholar\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character is an academic with a broad base of learning.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **ALL Knowledge Skills**.\n\n## Special Rules\n159",
-    "mechanics": "Gain a **\\+2 Bonus** to **ALL Knowledge Skills**.",
-    "notes": "[Modifier] +2 to Knowledge\n[Rule] 159",
-    "notesList": [
-      "[Modifier] +2 to Knowledge",
-      "[Rule] 159"
-    ],
-    "keywords": "scholar, skill, special-feature, academic, learning",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "karma-seize-initiative",
-    "name": "Seize Initiative",
-    "category": "Karma",
-    "type": "karma",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "-",
-    "modifiers": [],
-    "description": "The character reacts with blazing speed when chaos erupts, acting before the enemy can blink.",
-    "mechanic": "You automatically go **First** in the initiative order, regardless of your Agility or roll.  \n  * *Conflict:* If multiple characters (allies or enemies) use this feature, they are ranked at the top of the order, sorted by their Agility scores.",
-    "rules": "125",
-    "special_rules": "125",
-    "body": "# Seize Initiative\n\n**Category**: Karma Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: \\-\n\n## Description\nThe character reacts with blazing speed when chaos erupts, acting before the enemy can blink.\n\n## Mechanics & Benefit\nYou automatically go **First** in the initiative order, regardless of your Agility or roll.  \n  * *Conflict:* If multiple characters (allies or enemies) use this feature, they are ranked at the top of the order, sorted by their Agility scores.\n\n## Special Rules\n125",
-    "mechanics": "You automatically go **First** in the initiative order, regardless of your Agility or roll.  \n  * *Conflict:* If multiple characters (allies or enemies) use this feature, they are ranked at the top of the order, sorted by their Agility scores.",
-    "notes": "[Rule] 125\n[Prerequisite] -",
-    "notesList": [
-      "[Rule] 125",
-      "[Prerequisite] -"
-    ],
-    "keywords": "seize initiative, karma, special-feature, reacts, blazing, erupts",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-self-sufficient",
-    "name": "Self Sufficient",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "None",
-    "modifiers": [
-      {
-        "target": "Fortitude",
-        "type": "save",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 on Fortitude Checks"
-      },
-      {
-        "target": "Survival",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Survival"
-      }
-    ],
-    "description": "The character can take care of themselves in the wild without support.",
-    "mechanic": "Gain a **\\+2 Bonus** to **Survival** checks and a **\\+1 Bonus** to **Fortitude** checks.",
-    "rules": "160",
-    "special_rules": "160",
-    "body": "# Self Sufficient\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character can take care of themselves in the wild without support.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Survival** checks and a **\\+1 Bonus** to **Fortitude** checks.\n\n## Special Rules\n160",
-    "mechanics": "Gain a **\\+2 Bonus** to **Survival** checks and a **\\+1 Bonus** to **Fortitude** checks.",
-    "notes": "[Modifier] +1 on Fortitude Checks\n[Modifier] +2 to Survival\n[Rule] 160",
-    "notesList": [
-      "[Modifier] +1 on Fortitude Checks",
-      "[Modifier] +2 to Survival",
-      "[Rule] 160"
-    ],
-    "keywords": "self sufficient, skill, special-feature, themselves, without, support",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "special-self-sustaining",
-    "name": "Self-Sustaining",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Synthetic, Plant, or Undead traits",
-    "modifiers": [],
-    "description": "The character does not require standard biological fuel.",
-    "mechanic": "You do not need to eat or drink. You may rely on solar power, a battery recharge, or magical energy, but you are immune to starvation and dehydration mechanics.",
-    "rules": "202",
-    "special_rules": "202",
-    "body": "# Self-Sustaining\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Synthetic, Plant, or Undead traits\n\n## Description\nThe character does not require standard biological fuel.\n\n## Mechanics & Benefit\nYou do not need to eat or drink. You may rely on solar power, a battery recharge, or magical energy, but you are immune to starvation and dehydration mechanics.\n\n## Special Rules\n202",
-    "mechanics": "You do not need to eat or drink. You may rely on solar power, a battery recharge, or magical energy, but you are immune to starvation and dehydration mechanics.",
-    "notes": "[Rule] 202\n[Prerequisite] Synthetic, Plant, or Undead traits",
-    "notesList": [
-      "[Rule] 202",
-      "[Prerequisite] Synthetic, Plant, or Undead traits"
-    ],
-    "keywords": "self-sustaining, special, special-feature, require, standard, biological",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "special-sense",
-    "name": "Sense",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": true,
-    "prerequisites": "Awakened or Species Trait",
-    "modifiers": [],
-    "description": "The character can sense a specific type of energy or presence.",
-    "mechanic": "You can detect a specific aura (Evil, Magic, Life, Tech, Heat) within a **20 ft Radius** or a **40 ft Cone**. This requires active concentration (Standard Action).",
-    "rules": "Multiple 204",
-    "special_rules": "Multiple 204",
-    "body": "# Sense\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Awakened or Species Trait\n\n## Description\nThe character can sense a specific type of energy or presence.\n\n## Mechanics & Benefit\nYou can detect a specific aura (Evil, Magic, Life, Tech, Heat) within a **20 ft Radius** or a **40 ft Cone**. This requires active concentration (Standard Action).\n\n## Special Rules\nMultiple 204",
-    "mechanics": "You can detect a specific aura (Evil, Magic, Life, Tech, Heat) within a **20 ft Radius** or a **40 ft Cone**. This requires active concentration (Standard Action).",
-    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] Multiple 204\n[Prerequisite] Awakened or Species Trait",
-    "notesList": [
-      "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] Multiple 204",
-      "[Prerequisite] Awakened or Species Trait"
-    ],
-    "keywords": "sense, special, special-feature, specific, energy, presence",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "special-sense-uncontrolled",
-    "name": "Sense, Uncontrolled",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": true,
-    "prerequisites": "Special",
-    "modifiers": [],
-    "description": "The character is constantly bombarded by sensory input.",
-    "mechanic": "As *Sense*, but the range increases to **30 ft Radius / 60 ft Cone**.",
-    "rules": "Multiple 205",
-    "special_rules": "Multiple 205",
-    "body": "# Sense, Uncontrolled\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Special\n\n## Description\nThe character is constantly bombarded by sensory input.\n\n## Mechanics & Benefit\nAs *Sense*, but the range increases to **30 ft Radius / 60 ft Cone**.\n\n## Special Rules\nMultiple 205",
-    "mechanics": "As *Sense*, but the range increases to **30 ft Radius / 60 ft Cone**.",
-    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] Multiple 205\n[Prerequisite] Special",
-    "notesList": [
-      "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] Multiple 205",
-      "[Prerequisite] Special"
-    ],
-    "keywords": "sense, uncontrolled, special, special-feature, constantly, bombarded, sensory",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "special-shared-senses",
-    "name": "Shared Senses",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Companion",
-    "modifiers": [],
-    "description": "Shared Senses is a Special Feature: Gain the senses of and sense through the other (+10BP to Companion).",
-    "mechanic": "Gain the senses of and sense through the other (+10BP to Companion).",
-    "rules": "188",
-    "special_rules": "188",
-    "body": "# Shared Senses\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Companion\n\n## Description\nShared Senses is a Special Feature: Gain the senses of and sense through the other (+10BP to Companion).\n\n## Mechanics & Benefit\nGain the senses of and sense through the other (+10BP to Companion).\n\n## Special Rules\n188",
-    "mechanics": "Gain the senses of and sense through the other (+10BP to Companion).",
-    "notes": "[Rule] 188\n[Prerequisite] Companion",
-    "notesList": [
-      "[Rule] 188",
-      "[Prerequisite] Companion"
-    ],
-    "keywords": "shared senses, special, special-feature, shared, senses, feature:",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-short-sleeper",
@@ -7134,255 +4808,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Prerequisite: Stamina 1.",
       "[Prerequisite] Stamina 1"
-    ],
-    "keywords": "short sleeper, general, special-feature, mutation, alters, character's",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-silver-tongue",
-    "name": "Silver Tongue",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Charisma 1, Diplomacy 1",
-    "modifiers": [],
-    "description": "The character knows exactly what to say to defuse a situation or make a friend.",
-    "mechanic": "When using Diplomacy to change an NPC's attitude, you improve it by **one additional step** (e.g., Hostile becomes Indifferent instead of Unfriendly).",
-    "rules": "161",
-    "special_rules": "161",
-    "body": "# Silver Tongue\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Charisma 1, Diplomacy 1\n\n## Description\nThe character knows exactly what to say to defuse a situation or make a friend.\n\n## Mechanics & Benefit\nWhen using Diplomacy to change an NPC's attitude, you improve it by **one additional step** (e.g., Hostile becomes Indifferent instead of Unfriendly).\n\n## Special Rules\n161",
-    "mechanics": "When using Diplomacy to change an NPC's attitude, you improve it by **one additional step** (e.g., Hostile becomes Indifferent instead of Unfriendly).",
-    "notes": "[Rule] 161\n[Prerequisite] Charisma 1, Diplomacy 1",
-    "notesList": [
-      "[Rule] 161",
-      "[Prerequisite] Charisma 1, Diplomacy 1"
-    ],
-    "keywords": "silver tongue, skill, special-feature, exactly, defuse, situation",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-skill-focus",
-    "name": "Skill Focus",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": true,
-    "max_rank": 4,
-    "is_multiple": true,
-    "prerequisites": "Chosen Skill Rank 1",
-    "modifiers": [
-      {
-        "target": "The chosen",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to The chosen"
-      }
-    ],
-    "description": "The character has dedicated significant effort to mastering a specific skill.",
-    "mechanic": "Gain a **\\+2 Bonus** to the chosen skill.",
-    "rules": "This feature is **\\[Multiple\\]** and **\\[Ranked\\]**. You may purchase it again for the *same* skill each time you reach a new Skill Stage (Novice, Trained, Expert, Master) to stack the bonuses. (e.g., A Master (Rank 16\\) with 4 ranks of Skill Focus has a total \\+8 bonus from this feature).",
-    "special_rules": "This feature is **\\[Multiple\\]** and **\\[Ranked\\]**. You may purchase it again for the *same* skill each time you reach a new Skill Stage (Novice, Trained, Expert, Master) to stack the bonuses. (e.g., A Master (Rank 16\\) with 4 ranks of Skill Focus has a total \\+8 bonus from this feature).",
-    "body": "# Skill Focus\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Chosen Skill Rank 1\n\n## Description\nThe character has dedicated significant effort to mastering a specific skill.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to the chosen skill.\n\n## Special Rules\nThis feature is **\\[Multiple\\]** and **\\[Ranked\\]**. You may purchase it again for the *same* skill each time you reach a new Skill Stage (Novice, Trained, Expert, Master) to stack the bonuses. (e.g., A Master (Rank 16\\) with 4 ranks of Skill Focus has a total \\+8 bonus from this feature).",
-    "mechanics": "Gain a **\\+2 Bonus** to the chosen skill.",
-    "notes": "[Modifier] +2 to The chosen\n[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature is **\\[Multiple\\]** and **\\[Ranked\\]**. You may purchase it again for the *same* skill ...\n[Prerequisite] Chosen Skill Rank 1",
-    "notesList": [
-      "[Modifier] +2 to The chosen",
-      "[Rule] Ranked: Bonus stacks with additional purchases",
-      "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] This feature is **\\[Multiple\\]** and **\\[Ranked\\]**. You may purchase it again for the *same* skill ...",
-      "[Prerequisite] Chosen Skill Rank 1"
-    ],
-    "keywords": "skill focus, skill, special-feature, dedicated, significant, effort",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-skill-mastery",
-    "name": "Skill Mastery",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Skill Focus (2), Rank 11+",
-    "modifiers": [],
-    "description": "Skill Mastery is a Skill Feature: Take 10 with ALL skills at 11+ with Skill Focus.",
-    "mechanic": "Take 10 with ALL skills at 11+ with Skill Focus.",
-    "rules": "165",
-    "special_rules": "165",
-    "body": "# Skill Mastery\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Skill Focus (2), Rank 11+\n\n## Description\nSkill Mastery is a Skill Feature: Take 10 with ALL skills at 11+ with Skill Focus.\n\n## Mechanics & Benefit\nTake 10 with ALL skills at 11+ with Skill Focus.\n\n## Special Rules\n165",
-    "mechanics": "Take 10 with ALL skills at 11+ with Skill Focus.",
-    "notes": "[Rule] 165\n[Prerequisite] Skill Focus (2), Rank 11+",
-    "notesList": [
-      "[Rule] 165",
-      "[Prerequisite] Skill Focus (2), Rank 11+"
-    ],
-    "keywords": "skill mastery, skill, special-feature, mastery, feature:, skills",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-skill-specialization",
-    "name": "Skill Specialization",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": true,
-    "prerequisites": "Chosen Skill Rank 6 (Trained)",
-    "modifiers": [],
-    "description": "The character drills deep into a specific niche of a broad skill.",
-    "mechanic": "Choose a sub-category of the skill (e.g., *Firearms: Sniping* or *Computers: Hacking*). You gain a separate pool of ranks in this specialization equal to your base skill rank (up to \\+10).",
-    "rules": "\\[Multiple\\] Can be taken for different skills or different sub-categories.",
-    "special_rules": "\\[Multiple\\] Can be taken for different skills or different sub-categories.",
-    "body": "# Skill Specialization\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Chosen Skill Rank 6 (Trained)\n\n## Description\nThe character drills deep into a specific niche of a broad skill.\n\n## Mechanics & Benefit\nChoose a sub-category of the skill (e.g., *Firearms: Sniping* or *Computers: Hacking*). You gain a separate pool of ranks in this specialization equal to your base skill rank (up to \\+10).\n\n## Special Rules\n\\[Multiple\\] Can be taken for different skills or different sub-categories.",
-    "mechanics": "Choose a sub-category of the skill (e.g., *Firearms: Sniping* or *Computers: Hacking*). You gain a separate pool of ranks in this specialization equal to your base skill rank (up to \\+10).",
-    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] \\[Multiple\\] Can be taken for different skills or different sub-categories.\n[Prerequisite] Chosen Skill Rank 6 (Trained)",
-    "notesList": [
-      "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] \\[Multiple\\] Can be taken for different skills or different sub-categories.",
-      "[Prerequisite] Chosen Skill Rank 6 (Trained)"
-    ],
-    "keywords": "skill specialization, skill, special-feature, drills, specific",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "special-sleepless",
-    "name": "Sleepless",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Synthetic, Elf, or Special",
-    "modifiers": [],
-    "description": "The character does not require sleep cycles (though they may need downtime for system diagnostics or meditation).",
-    "mechanic": "You are **Immune** to magical sleep effects. You do not need 8 hours of sleep; you remain conscious during rest periods, though you must still engage in light activity to gain the benefits of a Long Rest.",
-    "rules": "203",
-    "special_rules": "203",
-    "body": "# Sleepless\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Synthetic, Elf, or Special\n\n## Description\nThe character does not require sleep cycles (though they may need downtime for system diagnostics or meditation).\n\n## Mechanics & Benefit\nYou are **Immune** to magical sleep effects. You do not need 8 hours of sleep; you remain conscious during rest periods, though you must still engage in light activity to gain the benefits of a Long Rest.\n\n## Special Rules\n203",
-    "mechanics": "You are **Immune** to magical sleep effects. You do not need 8 hours of sleep; you remain conscious during rest periods, though you must still engage in light activity to gain the benefits of a Long Rest.",
-    "notes": "[Rule] 203\n[Prerequisite] Synthetic, Elf, or Special",
-    "notesList": [
-      "[Rule] 203",
-      "[Prerequisite] Synthetic, Elf, or Special"
-    ],
-    "keywords": "sleepless, special, special-feature, require, cycles, though",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "combat-snatch-arrows",
-    "name": "Snatch Arrows",
-    "category": "Combat",
-    "type": "combat",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Agi 4, Deflect Arrows",
-    "modifiers": [],
-    "description": "Snatch Arrows is a Combat Feature: Catch a ranged attack.",
-    "mechanic": "Catch a ranged attack.",
-    "rules": "40",
-    "special_rules": "40",
-    "body": "# Snatch Arrows\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Agi 4, Deflect Arrows\n\n## Description\nSnatch Arrows is a Combat Feature: Catch a ranged attack.\n\n## Mechanics & Benefit\nCatch a ranged attack.\n\n## Special Rules\n40",
-    "mechanics": "Catch a ranged attack.",
-    "notes": "[Rule] 40\n[Prerequisite] Agi 4, Deflect Arrows",
-    "notesList": [
-      "[Rule] 40",
-      "[Prerequisite] Agi 4, Deflect Arrows"
-    ],
-    "keywords": "snatch arrows, combat, special-feature, combat-maneuver, tactical-edge, snatch",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "special-sneak-attack",
-    "name": "Sneak Attack",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": true,
-    "max_rank": 4,
-    "is_multiple": false,
-    "prerequisites": "Agility 2, Stealth 1",
-    "modifiers": [],
-    "description": "The character knows exactly where to strike to deal maximum damage to a vulnerable target.",
-    "mechanic": "If you attack a target that is **Flat-Footed** or **Flanked**, you deal extra damage.",
-    "rules": "\\[Ranked\\] Each additional rank adds \\+1d6 to the damage.",
-    "special_rules": "\\[Ranked\\] Each additional rank adds \\+1d6 to the damage.",
-    "body": "# Sneak Attack\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Agility 2, Stealth 1\n\n## Description\nThe character knows exactly where to strike to deal maximum damage to a vulnerable target.\n\n## Mechanics & Benefit\nIf you attack a target that is **Flat-Footed** or **Flanked**, you deal extra damage.\n\n## Special Rules\n\\[Ranked\\] Each additional rank adds \\+1d6 to the damage.",
-    "mechanics": "If you attack a target that is **Flat-Footed** or **Flanked**, you deal extra damage.",
-    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] \\[Ranked\\] Each additional rank adds \\+1d6 to the damage.\n[Prerequisite] Agility 2, Stealth 1",
-    "notesList": [
-      "[Rule] Ranked: Bonus stacks with additional purchases",
-      "[Rule] \\[Ranked\\] Each additional rank adds \\+1d6 to the damage.",
-      "[Prerequisite] Agility 2, Stealth 1"
-    ],
-    "keywords": "sneak attack, special, special-feature, exactly, strike, maximum",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-soar",
@@ -7422,340 +4848,7 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Acrobatics",
       "[Rule] Prerequisite: Flight capability (Species trait, cybernetic thrusters, or invocation), Acrobatics 1.",
       "[Prerequisite] Flight capability (Species trait, cybernetic thrusters, or invocation), Acrobatics 1"
-    ],
-    "keywords": "soar, general, special-feature, mastered, aerial, dynamics",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-social",
-    "name": "Social",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "None",
-    "modifiers": [
-      {
-        "target": "Charisma",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Charisma"
-      }
-    ],
-    "description": "The character is a social butterfly.",
-    "mechanic": "Gain a **\\+1 Bonus** to **ALL Charisma Skills** and **Etiquette** checks.",
-    "rules": "167",
-    "special_rules": "167",
-    "body": "# Social\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character is a social butterfly.\n\n## Mechanics & Benefit\nGain a **\\+1 Bonus** to **ALL Charisma Skills** and **Etiquette** checks.\n\n## Special Rules\n167",
-    "mechanics": "Gain a **\\+1 Bonus** to **ALL Charisma Skills** and **Etiquette** checks.",
-    "notes": "[Modifier] +1 to Charisma\n[Rule] 167",
-    "notesList": [
-      "[Modifier] +1 to Charisma",
-      "[Rule] 167"
-    ],
-    "keywords": "social, skill, special-feature, butterfly",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-spacer",
-    "name": "Spacer",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "None",
-    "modifiers": [
-      {
-        "target": "Starship Operation Vocation",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Starship Operation Vocation"
-      },
-      {
-        "target": "Pilot",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Pilot"
-      },
-      {
-        "target": "Any Space Survival",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Any Space Survival"
-      }
-    ],
-    "description": "The character was born or raised in the void; zero-g and vacuum are second nature.",
-    "mechanic": "Gain a **\\+2 Bonus** to **Starship Operation** (Vocation/Pilot) and any **Space Survival** checks.",
-    "rules": "168",
-    "special_rules": "168",
-    "body": "# Spacer\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character was born or raised in the void; zero-g and vacuum are second nature.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Starship Operation** (Vocation/Pilot) and any **Space Survival** checks.\n\n## Special Rules\n168",
-    "mechanics": "Gain a **\\+2 Bonus** to **Starship Operation** (Vocation/Pilot) and any **Space Survival** checks.",
-    "notes": "[Modifier] +2 to Starship Operation Vocation\n[Modifier] +2 to Pilot\n[Modifier] +2 to Any Space Survival\n[Rule] 168",
-    "notesList": [
-      "[Modifier] +2 to Starship Operation Vocation",
-      "[Modifier] +2 to Pilot",
-      "[Modifier] +2 to Any Space Survival",
-      "[Rule] 168"
-    ],
-    "keywords": "spacer, skill, special-feature, raised, zero-g, vacuum",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "discipline-special-ability",
-    "name": "Special Ability",
-    "category": "Discipline",
-    "type": "discipline",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": true,
-    "prerequisites": "None (though usually tied to Species or Origin).",
-    "modifiers": [],
-    "description": "The character possesses a singular, innate supernatural power that does not require the broad study of a Discipline. This represents things like a dragon's breath weapon, a mutant's teleportation, or a cyborg's built-in sonic scream.",
-    "mechanic": "You gain the ability to use **one specific Invocation** (Spell/Power) at **Level 1**.",
-    "rules": "This feature is **\\[Multiple\\]**. You can take it multiple times to gain different isolated powers.",
-    "special_rules": "This feature is **\\[Multiple\\]**. You can take it multiple times to gain different isolated powers.",
-    "body": "# Special Ability\n\n**Category**: Discipline Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None (though usually tied to Species or Origin).\n\n## Description\nThe character possesses a singular, innate supernatural power that does not require the broad study of a Discipline. This represents things like a dragon's breath weapon, a mutant's teleportation, or a cyborg's built-in sonic scream.\n\n## Mechanics & Benefit\nYou gain the ability to use **one specific Invocation** (Spell/Power) at **Level 1**.\n\n## Special Rules\nThis feature is **\\[Multiple\\]**. You can take it multiple times to gain different isolated powers.",
-    "mechanics": "You gain the ability to use **one specific Invocation** (Spell/Power) at **Level 1**.",
-    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature is **\\[Multiple\\]**. You can take it multiple times to gain different isolated powers.\n[Prerequisite] None (though usually tied to Species or Origin).",
-    "notesList": [
-      "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] This feature is **\\[Multiple\\]**. You can take it multiple times to gain different isolated powers.",
-      "[Prerequisite] None (though usually tied to Species or Origin)."
-    ],
-    "keywords": "special ability, discipline, special-feature, focused-training, mastery, possesses",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-steady",
-    "name": "Steady",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "None",
-    "modifiers": [
-      {
-        "target": "Reflex",
-        "type": "save",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 on Reflex Checks"
-      }
-    ],
-    "description": "The character has excellent balance and steady hands.",
-    "mechanic": "Gain a **\\+2 Bonus** to **Acrobatics** and **Athletics** (Balancing/Climbing) and a **\\+1 Bonus** to **Reflex** checks.",
-    "rules": "169",
-    "special_rules": "169",
-    "body": "# Steady\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character has excellent balance and steady hands.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Acrobatics** and **Athletics** (Balancing/Climbing) and a **\\+1 Bonus** to **Reflex** checks.\n\n## Special Rules\n169",
-    "mechanics": "Gain a **\\+2 Bonus** to **Acrobatics** and **Athletics** (Balancing/Climbing) and a **\\+1 Bonus** to **Reflex** checks.",
-    "notes": "[Modifier] +1 on Reflex Checks\n[Rule] 169",
-    "notesList": [
-      "[Modifier] +1 on Reflex Checks",
-      "[Rule] 169"
-    ],
-    "keywords": "steady, skill, special-feature, excellent, balance",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-stealthy",
-    "name": "Stealthy",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Agility 2",
-    "modifiers": [
-      {
-        "target": "Stealth",
-        "type": "skill",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 to Stealth"
-      }
-    ],
-    "description": "The character is a shadow.",
-    "mechanic": "Gain a **\\+2 Bonus** to **Escape Artist** and **Sleight of Hand**; Gain a **\\+4 Bonus** to **Stealth** checks.",
-    "rules": "170",
-    "special_rules": "170",
-    "body": "# Stealthy\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Agility 2\n\n## Description\nThe character is a shadow.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Escape Artist** and **Sleight of Hand**; Gain a **\\+4 Bonus** to **Stealth** checks.\n\n## Special Rules\n170",
-    "mechanics": "Gain a **\\+2 Bonus** to **Escape Artist** and **Sleight of Hand**; Gain a **\\+4 Bonus** to **Stealth** checks.",
-    "notes": "[Modifier] +4 to Stealth\n[Rule] 170\n[Prerequisite] Agility 2",
-    "notesList": [
-      "[Modifier] +4 to Stealth",
-      "[Rule] 170",
-      "[Prerequisite] Agility 2"
-    ],
-    "keywords": "stealthy, skill, special-feature, shadow",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-stout",
-    "name": "Stout",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "None",
-    "modifiers": [
-      {
-        "target": "Stamina",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Stamina-based Skills"
-      }
-    ],
-    "description": "The character is built like a tank, broad and sturdy.",
-    "mechanic": "Gain a **+1 Bonus** to **ALL Stamina-based Skills**, as well as **Might** and **Fortitude** checks.",
-    "rules": "171",
-    "special_rules": "171",
-    "body": "# Stout\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character is built like a tank, broad and sturdy.\n\n## Mechanics & Benefit\nGain a **\\+1 Bonus** to **ALL Stamina-based Skills**, as well as **Might** and **Fortitude** checks.\n\n## Special Rules\n171",
-    "mechanics": "Gain a **+1 Bonus** to **ALL Stamina-based Skills**, as well as **Might** and **Fortitude** checks.",
-    "notes": "[Modifier] +1 to Stamina-based Skills\n[Rule] 171",
-    "notesList": [
-      "[Modifier] +1 to Stamina-based Skills",
-      "[Rule] 171"
-    ],
-    "keywords": "stout, skill, special-feature, sturdy",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "ability-superb-reflexes",
-    "name": "Superb Reflexes",
-    "category": "Ability",
-    "type": "ability",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Lightning Reflexes",
-    "modifiers": [
-      {
-        "target": "Reflex",
-        "type": "save_advantage",
-        "value": 1,
-        "mode": "inherent",
-        "description": "Advantage on Reflex Checks"
-      }
-    ],
-    "description": "Superb Reflexes is a Ability Feature: Roll Reflex checks with Advantage",
-    "mechanic": "Roll Reflex checks with Advantage",
-    "rules": "Prerequisite: Lightning Reflexes.",
-    "special_rules": "Prerequisite: Lightning Reflexes.",
-    "body": "# Superb Reflexes\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Lightning Reflexes\n\n## Description\nSuperb Reflexes is a Ability Feature: Roll Reflex checks with Advantage\n\n## Mechanics & Benefit\nRoll Reflex checks with Advantage",
-    "mechanics": "Roll Reflex checks with Advantage",
-    "notes": "[Modifier] Advantage on Reflex Checks\n[Rule] Prerequisite: Lightning Reflexes.\n[Prerequisite] Lightning Reflexes",
-    "notesList": [
-      "[Modifier] Advantage on Reflex Checks",
-      "[Rule] Prerequisite: Lightning Reflexes.",
-      "[Prerequisite] Lightning Reflexes"
-    ],
-    "keywords": "superb reflexes, ability, special-feature, innate-talent, passive-prowess, superb",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "karma-surge",
-    "name": "Surge",
-    "category": "Karma",
-    "type": "karma",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "-",
-    "modifiers": [],
-    "description": "The character pushes their body and mind beyond standard limits, fitting more action into a moment than should be possible.",
-    "mechanic": "You gain **1 additional Standard Action** this round.  \n  * *Usage:* This allows for a Move \\+ Attack \\+ Attack, or Move \\+ Cast Spell \\+ Attack. It breaks the standard action economy.",
-    "rules": "126",
-    "special_rules": "126",
-    "body": "# Surge\n\n**Category**: Karma Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: \\-\n\n## Description\nThe character pushes their body and mind beyond standard limits, fitting more action into a moment than should be possible.\n\n## Mechanics & Benefit\nYou gain **1 additional Standard Action** this round.  \n  * *Usage:* This allows for a Move \\+ Attack \\+ Attack, or Move \\+ Cast Spell \\+ Attack. It breaks the standard action economy.\n\n## Special Rules\n126",
-    "mechanics": "You gain **1 additional Standard Action** this round.  \n  * *Usage:* This allows for a Move \\+ Attack \\+ Attack, or Move \\+ Cast Spell \\+ Attack. It breaks the standard action economy.",
-    "notes": "[Rule] 126\n[Prerequisite] -",
-    "notesList": [
-      "[Rule] 126",
-      "[Prerequisite] -"
-    ],
-    "keywords": "surge, karma, special-feature, pushes, beyond, standard",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-swimmer",
@@ -7795,9 +4888,7 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Athletics Swimming",
       "[Rule] Prerequisite: Athletics 1.",
       "[Prerequisite] Athletics 1"
-    ],
-    "keywords": "swimmer, general, special-feature, aquatic, capable, sustained",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-synesthetic-savant",
@@ -7845,108 +4936,7 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Disbelieve fake stimuli",
       "[Rule] Prerequisite: Intellect 2.",
       "[Prerequisite] Intellect 2"
-    ],
-    "keywords": "synesthetic savant, general, special-feature, experiences, profound, cross-modal",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "combat-tech-interface",
-    "name": "Tech Interface",
-    "category": "Combat",
-    "type": "combat",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": true,
-    "prerequisites": "None",
-    "modifiers": [],
-    "description": "The character possesses a specialized mental architecture or metaphysical link that allows them to bridge the gap between consciousness and advanced machinery.",
-    "mechanic": "Special benefit.",
-    "rules": "Multiple selections allowed.",
-    "special_rules": "Multiple selections allowed.",
-    "body": "# Tech Interface\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character possesses a specialized mental architecture or metaphysical link that allows them to bridge the gap between consciousness and advanced machinery.\n\n## Mechanics & Benefit\nSpecial benefit.",
-    "mechanics": "Special benefit.",
-    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] Multiple selections allowed.",
-    "notesList": [
-      "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] Multiple selections allowed."
-    ],
-    "keywords": "tech interface, combat, special-feature, combat-maneuver, tactical-edge, possesses",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "special-technologist",
-    "name": "Technologist",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Intellect 3, Technology (Knowledge) 11",
-    "modifiers": [],
-    "description": "The character is ahead of the curve, understanding technology that shouldn't exist yet. For a character to advance in their (TL Tech Level) they will require different fields of advanced study, the feature will need to be selected multiple times for various fields (minimum of five).",
-    "mechanic": "You treat your effective **Tech Level** as one step higher for the purposes of crafting, repairing, or understanding advanced artifacts in a specific field of study.  \n  * Agriculture  \n  * Architecture  \n  * Biotechnology  \n  * Commerce  \n  * Communication  \n  * Devices  \n  * Education  \n  * Energy  \n  * Manufacturing  \n  * Materials  \n  * Medicine  \n  * Meta Sciences  \n  * Science  \n  * Society  \n  * Synthetic Intelligence  \n  * Transportation  \n  * Weaponry",
-    "rules": "211",
-    "special_rules": "211",
-    "body": "# Technologist\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Intellect 3, Technology (Knowledge) 11\n\n## Description\nThe character is ahead of the curve, understanding technology that shouldn't exist yet. For a character to advance in their (TL Tech Level) they will require different fields of advanced study, the feature will need to be selected multiple times for various fields (minimum of five).\n\n## Mechanics & Benefit\nYou treat your effective **Tech Level** as one step higher for the purposes of crafting, repairing, or understanding advanced artifacts in a specific field of study.  \n  * Agriculture  \n  * Architecture  \n  * Biotechnology  \n  * Commerce  \n  * Communication  \n  * Devices  \n  * Education  \n  * Energy  \n  * Manufacturing  \n  * Materials  \n  * Medicine  \n  * Meta Sciences  \n  * Science  \n  * Society  \n  * Synthetic Intelligence  \n  * Transportation  \n  * Weaponry\n\n## Special Rules\n211",
-    "mechanics": "You treat your effective **Tech Level** as one step higher for the purposes of crafting, repairing, or understanding advanced artifacts in a specific field of study.  \n  * Agriculture  \n  * Architecture  \n  * Biotechnology  \n  * Commerce  \n  * Communication  \n  * Devices  \n  * Education  \n  * Energy  \n  * Manufacturing  \n  * Materials  \n  * Medicine  \n  * Meta Sciences  \n  * Science  \n  * Society  \n  * Synthetic Intelligence  \n  * Transportation  \n  * Weaponry",
-    "notes": "[Rule] 211\n[Prerequisite] Intellect 3, Technology (Knowledge) 11",
-    "notesList": [
-      "[Rule] 211",
-      "[Prerequisite] Intellect 3, Technology (Knowledge) 11"
-    ],
-    "keywords": "technologist, special, special-feature, understanding, technology, shouldn't",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "special-telepathy",
-    "name": "Telepathy",
-    "category": "Special",
-    "type": "special",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Awakened (Mental) or Species Trait",
-    "modifiers": [],
-    "description": "The character can communicate mind-to-mind.",
-    "mechanic": "You can communicate mentally with any intelligent lifeform within **Range** (usually 100ft \\+).",
-    "rules": "212",
-    "special_rules": "212",
-    "body": "# Telepathy\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Awakened (Mental) or Species Trait\n\n## Description\nThe character can communicate mind-to-mind.\n\n## Mechanics & Benefit\nYou can communicate mentally with any intelligent lifeform within **Range** (usually 100ft \\+).\n\n## Special Rules\n212",
-    "mechanics": "You can communicate mentally with any intelligent lifeform within **Range** (usually 100ft \\+).",
-    "notes": "[Rule] 212\n[Prerequisite] Awakened (Mental) or Species Trait",
-    "notesList": [
-      "[Rule] 212",
-      "[Prerequisite] Awakened (Mental) or Species Trait"
-    ],
-    "keywords": "telepathy, special, special-feature, communicate, mind-to-mind",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-tetrachromacy",
@@ -8002,43 +4992,7 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +4 to Tracking",
       "[Rule] Special: Genetically Female, or engineered variant.",
       "[Prerequisite] Awareness 2, Special (Genetically Female, or engineered variant)"
-    ],
-    "keywords": "tetrachromacy, general, special-feature, presence, fourth, retina",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "ability-tolerance",
-    "name": "Tolerance",
-    "category": "Ability",
-    "type": "ability",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": true,
-    "prerequisites": "Stamina 1 (for Physical) or Wisdom 1 (for Mental).",
-    "modifiers": [],
-    "description": "The character's metabolism or psyche processes ongoing trauma much faster than the average being.",
-    "mechanic": "When suffering from an ongoing effect (such as poison, disease, paralysis, or mental domination) that allows periodic Resistance Checks to end the effect (e.g., \"save every minute\"), the time interval between checks is reduced to **1/2 the typical time**.  \n  * *Usage:* A poison that normally allows a save once per hour allows this character to save every 30 minutes.",
-    "rules": "This feature acts as a **\\[Multiple\\]** selection. You must choose Physical Tolerance (Fortitude) or Mental Tolerance (Will).",
-    "special_rules": "This feature acts as a **\\[Multiple\\]** selection. You must choose Physical Tolerance (Fortitude) or Mental Tolerance (Will).",
-    "body": "# Tolerance\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Stamina 1 (for Physical) or Wisdom 1 (for Mental).\n\n## Description\nThe character's metabolism or psyche processes ongoing trauma much faster than the average being.\n\n## Mechanics & Benefit\nWhen suffering from an ongoing effect (such as poison, disease, paralysis, or mental domination) that allows periodic Resistance Checks to end the effect (e.g., \"save every minute\"), the time interval between checks is reduced to **1/2 the typical time**.  \n  * *Usage:* A poison that normally allows a save once per hour allows this character to save every 30 minutes.\n\n## Special Rules\nThis feature acts as a **\\[Multiple\\]** selection. You must choose Physical Tolerance (Fortitude) or Mental Tolerance (Will).",
-    "mechanics": "When suffering from an ongoing effect (such as poison, disease, paralysis, or mental domination) that allows periodic Resistance Checks to end the effect (e.g., \"save every minute\"), the time interval between checks is reduced to **1/2 the typical time**.  \n  * *Usage:* A poison that normally allows a save once per hour allows this character to save every 30 minutes.",
-    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature acts as a **\\[Multiple\\]** selection. You must choose Physical Tolerance (Fortitude) or...\n[Prerequisite] Stamina 1 (for Physical) or Wisdom 1 (for Mental).",
-    "notesList": [
-      "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] This feature acts as a **\\[Multiple\\]** selection. You must choose Physical Tolerance (Fortitude) or...",
-      "[Prerequisite] Stamina 1 (for Physical) or Wisdom 1 (for Mental)."
-    ],
-    "keywords": "tolerance, ability, special-feature, innate-talent, passive-prowess, character's",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-tough",
@@ -8069,9 +5023,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 107",
       "[Prerequisite] Stamina 1"
-    ],
-    "keywords": "tough, general, special-feature, threshold, trauma",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-tracker",
@@ -8102,9 +5054,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 112",
       "[Prerequisite] Wisdom 1"
-    ],
-    "keywords": "tracker, general, special-feature, expert, hunter",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "general-trance",
@@ -8135,9 +5085,400 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 110",
       "[Prerequisite] Wisdom 1"
+    ]
+  },
+  {
+    "id": "general-unbreakable-skeleton",
+    "name": "Unbreakable Skeleton",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Tough, Stamina 3",
+    "modifiers": [],
+    "description": "A gain-of-function mutation in the LRP5 gene blocks inhibitory proteins, causing continuous, hyperactive bone formation. The character possesses a skeleton of extreme, unyielding density.",
+    "mechanic": "You gain **Damage Resistance (DR) 5** specifically against Bludgeoning, Crushing, and Falling damage. You are completely immune to effects that specifically fracture or break bones (such as the Cripple Sneak Attack feature). Because of your extreme bone density, your unarmed strikes deal an additional **+1 Damage**.",
+    "rules": "Prerequisite: Tough, Stamina 3.",
+    "special_rules": "Prerequisite: Tough, Stamina 3.",
+    "body": "# Unbreakable Skeleton\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Tough, Stamina 3\n\n## Description\nA gain-of-function mutation in the LRP5 gene blocks inhibitory proteins, causing continuous, hyperactive bone formation. The character possesses a skeleton of extreme, unyielding density.\n\n## Mechanics & Benefit\nYou gain **Damage Resistance (DR) 5** specifically against Bludgeoning, Crushing, and Falling damage. You are completely immune to effects that specifically fracture or break bones (such as the Cripple Sneak Attack feature). Because of your extreme bone density, your unarmed strikes deal an additional **+1 Damage**.\n\n## Special Rules\nPrerequisite: Tough, Stamina 3.",
+    "mechanics": "You gain **Damage Resistance (DR) 5** specifically against Bludgeoning, Crushing, and Falling damage. You are completely immune to effects that specifically fracture or break bones (such as the Cripple Sneak Attack feature). Because of your extreme bone density, your unarmed strikes deal an additional **+1 Damage**.",
+    "notes": "[Rule] Prerequisite: Tough, Stamina 3.\n[Prerequisite] Tough, Stamina 3",
+    "notesList": [
+      "[Rule] Prerequisite: Tough, Stamina 3.",
+      "[Prerequisite] Tough, Stamina 3"
+    ]
+  },
+  {
+    "id": "general-underworld-connections",
+    "name": "Underworld Connections",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Streetwise 3",
+    "modifiers": [],
+    "description": "Access to illicit black market weapons, fences, and safehouses across all starports.",
+    "mechanic": "The character maintains deep ties with smuggling syndicates, fences, and illegal arms dealers. They can source restricted, military, and black-market items without police interference, sell contraband merchandise at standard fence rates, and secure covert safehouses in most major civilized settlements.",
+    "rules": "Characters with this feature ignore black market availability markups by 10% and gain Advantage on Streetwise checks to locate contraband or black-market contacts.",
+    "special_rules": "Characters with this feature ignore black market availability markups by 10% and gain Advantage on Streetwise checks to locate contraband or black-market contacts.",
+    "body": "# Underworld Connections\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Streetwise 3\n\n## Description\nAccess to illicit black market weapons, fences, and safehouses across all starports.\n\n## Mechanics & Benefit\nThe character maintains deep ties with smuggling syndicates, fences, and illegal arms dealers. They can source restricted, military, and black-market items without police interference, sell contraband merchandise at standard fence rates, and secure covert safehouses in most major civilized settlements.\n\n## Special Rules\nCharacters with this feature ignore black market availability markups by 10% and gain Advantage on Streetwise checks to locate contraband or black-market contacts.",
+    "mechanics": "The character maintains deep ties with smuggling syndicates, fences, and illegal arms dealers. They can source restricted, military, and black-market items without police interference, sell contraband merchandise at standard fence rates, and secure covert safehouses in most major civilized settlements.",
+    "notes": "[Rule] Characters with this feature ignore black market availability markups by 10% and gain Advantage on S...\n[Prerequisite] Streetwise 3",
+    "notesList": [
+      "[Rule] Characters with this feature ignore black market availability markups by 10% and gain Advantage on S...",
+      "[Prerequisite] Streetwise 3"
+    ]
+  },
+  {
+    "id": "general-well-informed",
+    "name": "Well Informed",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [],
+    "description": "The character keeps their ear to the ground and knows a little bit about every local scene.",
+    "mechanic": "Upon entering a new settlement or region, you may make an immediate **Gather Information** check for free to learn the local news, rumors, and power structure.",
+    "rules": "113",
+    "special_rules": "113",
+    "body": "# Well Informed\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character keeps their ear to the ground and knows a little bit about every local scene.\n\n## Mechanics & Benefit\nUpon entering a new settlement or region, you may make an immediate **Gather Information** check for free to learn the local news, rumors, and power structure.\n\n## Special Rules\n113",
+    "mechanics": "Upon entering a new settlement or region, you may make an immediate **Gather Information** check for free to learn the local news, rumors, and power structure.",
+    "notes": "[Rule] 113",
+    "notesList": [
+      "[Rule] 113"
+    ]
+  },
+  {
+    "id": "general-zero-g-training",
+    "name": "Zero G Training",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Agility 1",
+    "modifiers": [
+      {
+        "target": "Acrobatics when maneuvering in Zero-G",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Acrobatics when maneuvering in Zero-G"
+      }
     ],
-    "keywords": "trance, general, special-feature, meditative, conserve, energy",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    "description": "The character is trained to operate in microgravity environments without disorientation.",
+    "mechanic": "You suffer **No Disadvantage** or penalties for operating in Zero Gravity. You gain a \\+2 bonus to Acrobatics when maneuvering in Zero-G.\n\n# **KARMA FEATURES**\n\n# **KARMA FEATURES**\n\nManipulation of luck, faith, and the Karma pool.\n\n| FEATURE NAME | PREREQUISITE | BENEFIT / EFFECT | SPECIAL / NOTES |\n| :---- | :---- | :---- | :---- |\n| **Beginner's Luck** | Skill Rank \\< 6 | Gain 5 Temporary Skill ranks for the scene (Cost: 1 KP). | 118 |\n| **Believer** | \\- | Call upon one’s Faith for a Skill reroll once per day. | Ranked (Wis) 119  |\n| **Devout** | Believer | Call upon one’s Faith for an Ability Check reroll once per day. | Ranked (Cha) 120  |\n| **True Faith** | Believer, Devout | Double effects from any Karma points on behalf of their Faith. | 121 |\n| **Charmed** | Karma 4 | Re-roll 1 Fumble 1/day (without spending Karma Point). | 122 |\n| **Inspiration** | \\- | Spend a Karma Point to benefit an ally (1kp \\+ cost). | 123 |\n| **Karmic Blessing** | \\- | \\+2 maximum Karma points. | Multiple 124  |\n| **Seize Initiative** | \\- | Go first in combat (Cost: 1 KP). | 125 |\n| **Surge** | \\- | 1 extra action in a round (Cost: 1 KP). | 126 |\n| **Ultimate Effort** | \\- | Make 20 on check for 1 chosen trait (Cost: 1 KP). | Multiple 127  |\n\nKarma Features represent a character's destiny, luck, divine favor, or sheer force of will. They allow players to manipulate the game mechanics in moments of crisis, spending **Karma Points (KP)** or daily uses to alter outcomes.",
+    "rules": "117",
+    "special_rules": "117",
+    "body": "# Zero G Training\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Agility 1\n\n## Description\nThe character is trained to operate in microgravity environments without disorientation.\n\n## Mechanics & Benefit\nYou suffer **No Disadvantage** or penalties for operating in Zero Gravity. You gain a \\+2 bonus to Acrobatics when maneuvering in Zero-G.\n\n# **KARMA FEATURES**\n\n# **KARMA FEATURES**\n\nManipulation of luck, faith, and the Karma pool.\n\n| FEATURE NAME | PREREQUISITE | BENEFIT / EFFECT | SPECIAL / NOTES |\n| :---- | :---- | :---- | :---- |\n| **Beginner's Luck** | Skill Rank \\< 6 | Gain 5 Temporary Skill ranks for the scene (Cost: 1 KP). | 118 |\n| **Believer** | \\- | Call upon one’s Faith for a Skill reroll once per day. | Ranked (Wis) 119  |\n| **Devout** | Believer | Call upon one’s Faith for an Ability Check reroll once per day. | Ranked (Cha) 120  |\n| **True Faith** | Believer, Devout | Double effects from any Karma points on behalf of their Faith. | 121 |\n| **Charmed** | Karma 4 | Re-roll 1 Fumble 1/day (without spending Karma Point). | 122 |\n| **Inspiration** | \\- | Spend a Karma Point to benefit an ally (1kp \\+ cost). | 123 |\n| **Karmic Blessing** | \\- | \\+2 maximum Karma points. | Multiple 124  |\n| **Seize Initiative** | \\- | Go first in combat (Cost: 1 KP). | 125 |\n| **Surge** | \\- | 1 extra action in a round (Cost: 1 KP). | 126 |\n| **Ultimate Effort** | \\- | Make 20 on check for 1 chosen trait (Cost: 1 KP). | Multiple 127  |\n\nKarma Features represent a character's destiny, luck, divine favor, or sheer force of will. They allow players to manipulate the game mechanics in moments of crisis, spending **Karma Points (KP)** or daily uses to alter outcomes.\n\n## Special Rules\n117",
+    "mechanics": "You suffer **No Disadvantage** or penalties for operating in Zero Gravity. You gain a \\+2 bonus to Acrobatics when maneuvering in Zero-G.\n\n# **KARMA FEATURES**\n\n# **KARMA FEATURES**\n\nManipulation of luck, faith, and the Karma pool.\n\n| FEATURE NAME | PREREQUISITE | BENEFIT / EFFECT | SPECIAL / NOTES |\n| :---- | :---- | :---- | :---- |\n| **Beginner's Luck** | Skill Rank \\< 6 | Gain 5 Temporary Skill ranks for the scene (Cost: 1 KP). | 118 |\n| **Believer** | \\- | Call upon one’s Faith for a Skill reroll once per day. | Ranked (Wis) 119  |\n| **Devout** | Believer | Call upon one’s Faith for an Ability Check reroll once per day. | Ranked (Cha) 120  |\n| **True Faith** | Believer, Devout | Double effects from any Karma points on behalf of their Faith. | 121 |\n| **Charmed** | Karma 4 | Re-roll 1 Fumble 1/day (without spending Karma Point). | 122 |\n| **Inspiration** | \\- | Spend a Karma Point to benefit an ally (1kp \\+ cost). | 123 |\n| **Karmic Blessing** | \\- | \\+2 maximum Karma points. | Multiple 124  |\n| **Seize Initiative** | \\- | Go first in combat (Cost: 1 KP). | 125 |\n| **Surge** | \\- | 1 extra action in a round (Cost: 1 KP). | 126 |\n| **Ultimate Effort** | \\- | Make 20 on check for 1 chosen trait (Cost: 1 KP). | Multiple 127  |\n\nKarma Features represent a character's destiny, luck, divine favor, or sheer force of will. They allow players to manipulate the game mechanics in moments of crisis, spending **Karma Points (KP)** or daily uses to alter outcomes.",
+    "notes": "[Modifier] +2 to Acrobatics when maneuvering in Zero-G\n[Rule] 117\n[Prerequisite] Agility 1",
+    "notesList": [
+      "[Modifier] +2 to Acrobatics when maneuvering in Zero-G",
+      "[Rule] 117",
+      "[Prerequisite] Agility 1"
+    ]
+  },
+  {
+    "id": "karma-beginner-s-luck",
+    "name": "Beginner's Luck",
+    "category": "Karma",
+    "type": "karma",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "The Skill being attempted must be at **Rank 5 (Novice) or lower**.",
+    "modifiers": [
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Karma Pool"
+      }
+    ],
+    "description": "The character has an uncanny knack for succeeding at things they have no business doing. When inexperienced, they rely on instinct and fortune rather than training.",
+    "mechanic": "You may spend **1 Karma Point** to gain **\\+5 Temporary Ranks** in a specific skill for the duration of the current scene or encounter.  \n  * *Mechanics:* This effectively treats an Untrained (Rank 0\\) character as a Novice (Rank 5), or a Novice as a Professional (Rank 6-10) for a short time.",
+    "rules": "118",
+    "special_rules": "118",
+    "body": "# Beginner's Luck\n\n**Category**: Karma Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: The Skill being attempted must be at **Rank 5 (Novice) or lower**.\n\n## Description\nThe character has an uncanny knack for succeeding at things they have no business doing. When inexperienced, they rely on instinct and fortune rather than training.\n\n## Mechanics & Benefit\nYou may spend **1 Karma Point** to gain **\\+5 Temporary Ranks** in a specific skill for the duration of the current scene or encounter.  \n  * *Mechanics:* This effectively treats an Untrained (Rank 0\\) character as a Novice (Rank 5), or a Novice as a Professional (Rank 6-10) for a short time.\n\n## Special Rules\n118",
+    "mechanics": "You may spend **1 Karma Point** to gain **\\+5 Temporary Ranks** in a specific skill for the duration of the current scene or encounter.  \n  * *Mechanics:* This effectively treats an Untrained (Rank 0\\) character as a Novice (Rank 5), or a Novice as a Professional (Rank 6-10) for a short time.",
+    "notes": "[Modifier] +1 to Karma Pool\n[Rule] 118\n[Prerequisite] The Skill being attempted must be at **Rank 5 (Novice) or lower**.",
+    "notesList": [
+      "[Modifier] +1 to Karma Pool",
+      "[Rule] 118",
+      "[Prerequisite] The Skill being attempted must be at **Rank 5 (Novice) or lower**."
+    ]
+  },
+  {
+    "id": "karma-believer",
+    "name": "Believer",
+    "category": "Karma",
+    "type": "karma",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": true,
+    "max_rank": 4,
+    "is_multiple": false,
+    "prerequisites": "Wisdom 1",
+    "modifiers": [],
+    "description": "The character possesses a profound faith in a higher power, a philosophy, or a cosmic order. In times of need, they can draw upon this faith to guide their hand.",
+    "mechanic": "**Once per day**, you may re-roll any single failed **Skill Check**.  \n  * *Mechanics:* This does **not** cost Karma Points. It is a daily ability refreshed after a Full Rest. You must accept the result of the second roll.",
+    "rules": "This feature is **\\[Ranked\\]**. Each additional rank allows an additional use per day. The maximum rank is limited by your **Wisdom** score.",
+    "special_rules": "This feature is **\\[Ranked\\]**. Each additional rank allows an additional use per day. The maximum rank is limited by your **Wisdom** score.",
+    "body": "# Believer\n\n**Category**: Karma Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Wisdom 1\n\n## Description\nThe character possesses a profound faith in a higher power, a philosophy, or a cosmic order. In times of need, they can draw upon this faith to guide their hand.\n\n## Mechanics & Benefit\n**Once per day**, you may re-roll any single failed **Skill Check**.  \n  * *Mechanics:* This does **not** cost Karma Points. It is a daily ability refreshed after a Full Rest. You must accept the result of the second roll.\n\n## Special Rules\nThis feature is **\\[Ranked\\]**. Each additional rank allows an additional use per day. The maximum rank is limited by your **Wisdom** score.",
+    "mechanics": "**Once per day**, you may re-roll any single failed **Skill Check**.  \n  * *Mechanics:* This does **not** cost Karma Points. It is a daily ability refreshed after a Full Rest. You must accept the result of the second roll.",
+    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] This feature is **\\[Ranked\\]**. Each additional rank allows an additional use per day. The maximum r...\n[Prerequisite] Wisdom 1",
+    "notesList": [
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] This feature is **\\[Ranked\\]**. Each additional rank allows an additional use per day. The maximum r...",
+      "[Prerequisite] Wisdom 1"
+    ]
+  },
+  {
+    "id": "karma-charmed",
+    "name": "Charmed",
+    "category": "Karma",
+    "type": "karma",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Maximum Karma Pool of 4+",
+    "modifiers": [],
+    "description": "The character leads a charmed life. Disasters that would doom others seem to miss them by inches.",
+    "mechanic": "**Once per day**, if you roll a **Natural 1** (Fumble/Critical Failure), you may immediately re-roll it without spending a Karma Point.  \n  * *Mechanics:* This serves as a free \"safety net\" against catastrophic failure.",
+    "rules": "122",
+    "special_rules": "122",
+    "body": "# Charmed\n\n**Category**: Karma Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Maximum Karma Pool of 4+\n\n## Description\nThe character leads a charmed life. Disasters that would doom others seem to miss them by inches.\n\n## Mechanics & Benefit\n**Once per day**, if you roll a **Natural 1** (Fumble/Critical Failure), you may immediately re-roll it without spending a Karma Point.  \n  * *Mechanics:* This serves as a free \"safety net\" against catastrophic failure.\n\n## Special Rules\n122",
+    "mechanics": "**Once per day**, if you roll a **Natural 1** (Fumble/Critical Failure), you may immediately re-roll it without spending a Karma Point.  \n  * *Mechanics:* This serves as a free \"safety net\" against catastrophic failure.",
+    "notes": "[Rule] 122\n[Prerequisite] Maximum Karma Pool of 4+",
+    "notesList": [
+      "[Rule] 122",
+      "[Prerequisite] Maximum Karma Pool of 4+"
+    ]
+  },
+  {
+    "id": "karma-devout",
+    "name": "Devout",
+    "category": "Karma",
+    "type": "karma",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": true,
+    "max_rank": 4,
+    "is_multiple": false,
+    "prerequisites": "Believer",
+    "modifiers": [],
+    "description": "Devout is a Karma Feature: Call upon one’s Faith for an Ability Check reroll once per day.",
+    "mechanic": "Call upon one’s Faith for an Ability Check reroll once per day.",
+    "rules": "Ranked (Cha) 120",
+    "special_rules": "Ranked (Cha) 120",
+    "body": "# Devout\n\n**Category**: Karma Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Believer\n\n## Description\nDevout is a Karma Feature: Call upon one’s Faith for an Ability Check reroll once per day.\n\n## Mechanics & Benefit\nCall upon one’s Faith for an Ability Check reroll once per day.\n\n## Special Rules\nRanked (Cha) 120",
+    "mechanics": "Call upon one’s Faith for an Ability Check reroll once per day.",
+    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Ranked (Cha) 120\n[Prerequisite] Believer",
+    "notesList": [
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] Ranked (Cha) 120",
+      "[Prerequisite] Believer"
+    ]
+  },
+  {
+    "id": "karma-inspiration",
+    "name": "Inspiration",
+    "category": "Karma",
+    "type": "karma",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Charisma 2",
+    "modifiers": [],
+    "description": "The character is the heart of the team. They can lend their own luck and determination to allies, spurring them on to greatness.",
+    "mechanic": "You may spend your own **Karma Points** to grant a Karma Benefit to an **Ally**.  \n  * *Cost:* The cost is **1 KP (Transfer Cost) \\+ The Cost of the Effect**.  \n  * *Example:* To give an ally *Surge* (normally 1 KP), you spend 2 KP. To give an ally *Advantage* (\"I Got This\", normally 1 KP), you spend 2 KP.",
+    "rules": "123",
+    "special_rules": "123",
+    "body": "# Inspiration\n\n**Category**: Karma Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Charisma 2\n\n## Description\nThe character is the heart of the team. They can lend their own luck and determination to allies, spurring them on to greatness.\n\n## Mechanics & Benefit\nYou may spend your own **Karma Points** to grant a Karma Benefit to an **Ally**.  \n  * *Cost:* The cost is **1 KP (Transfer Cost) \\+ The Cost of the Effect**.  \n  * *Example:* To give an ally *Surge* (normally 1 KP), you spend 2 KP. To give an ally *Advantage* (\"I Got This\", normally 1 KP), you spend 2 KP.\n\n## Special Rules\n123",
+    "mechanics": "You may spend your own **Karma Points** to grant a Karma Benefit to an **Ally**.  \n  * *Cost:* The cost is **1 KP (Transfer Cost) \\+ The Cost of the Effect**.  \n  * *Example:* To give an ally *Surge* (normally 1 KP), you spend 2 KP. To give an ally *Advantage* (\"I Got This\", normally 1 KP), you spend 2 KP.",
+    "notes": "[Rule] 123\n[Prerequisite] Charisma 2",
+    "notesList": [
+      "[Rule] 123",
+      "[Prerequisite] Charisma 2"
+    ]
+  },
+  {
+    "id": "karma-karmic-blessing",
+    "name": "Karmic Blessing",
+    "category": "Karma",
+    "type": "karma",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": true,
+    "prerequisites": "None",
+    "modifiers": [],
+    "description": "The character has a larger destiny than most. Fate has stockpiled more luck for them to use.",
+    "mechanic": "Increase your **Maximum Karma Pool** by **+1 Point** per rank of this feature.  \n  * *Default:* Characters start with 3 Max Karma Points by default. This feature raises that cap by +1 per rank taken.",
+    "rules": "This feature is **[Ranked / Multiple]**. You may take it multiple times to keep expanding your pool by +1 point per rank.",
+    "special_rules": "This feature is **[Ranked / Multiple]**. You may take it multiple times to keep expanding your pool by +1 point per rank.",
+    "body": "# Karmic Blessing\n\n**Category**: Karma Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character has a larger destiny than most. Fate has stockpiled more luck for them to use.\n\n## Mechanics & Benefit\nIncrease your **Maximum Karma Pool** by **+1 Point** per rank of this feature.  \n  * *Default:* Characters start with 3 Max Karma Points by default. This feature raises that cap by +1 per rank taken.\n\n## Special Rules\nThis feature is **[Ranked / Multiple]**. You may take it multiple times to keep expanding your pool by +1 point per rank.",
+    "mechanics": "Increase your **Maximum Karma Pool** by **+1 Point** per rank of this feature.  \n  * *Default:* Characters start with 3 Max Karma Points by default. This feature raises that cap by +1 per rank taken.",
+    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature is **[Ranked / Multiple]**. You may take it multiple times to keep expanding your pool ...",
+    "notesList": [
+      "[Rule] Multiple: May be purchased separately for different categories/types",
+      "[Rule] This feature is **[Ranked / Multiple]**. You may take it multiple times to keep expanding your pool ..."
+    ]
+  },
+  {
+    "id": "karma-seize-initiative",
+    "name": "Seize Initiative",
+    "category": "Karma",
+    "type": "karma",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "-",
+    "modifiers": [],
+    "description": "The character reacts with blazing speed when chaos erupts, acting before the enemy can blink.",
+    "mechanic": "You automatically go **First** in the initiative order, regardless of your Agility or roll.  \n  * *Conflict:* If multiple characters (allies or enemies) use this feature, they are ranked at the top of the order, sorted by their Agility scores.",
+    "rules": "125",
+    "special_rules": "125",
+    "body": "# Seize Initiative\n\n**Category**: Karma Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: \\-\n\n## Description\nThe character reacts with blazing speed when chaos erupts, acting before the enemy can blink.\n\n## Mechanics & Benefit\nYou automatically go **First** in the initiative order, regardless of your Agility or roll.  \n  * *Conflict:* If multiple characters (allies or enemies) use this feature, they are ranked at the top of the order, sorted by their Agility scores.\n\n## Special Rules\n125",
+    "mechanics": "You automatically go **First** in the initiative order, regardless of your Agility or roll.  \n  * *Conflict:* If multiple characters (allies or enemies) use this feature, they are ranked at the top of the order, sorted by their Agility scores.",
+    "notes": "[Rule] 125\n[Prerequisite] -",
+    "notesList": [
+      "[Rule] 125",
+      "[Prerequisite] -"
+    ]
+  },
+  {
+    "id": "karma-surge",
+    "name": "Surge",
+    "category": "Karma",
+    "type": "karma",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "-",
+    "modifiers": [],
+    "description": "The character pushes their body and mind beyond standard limits, fitting more action into a moment than should be possible.",
+    "mechanic": "You gain **1 additional Standard Action** this round.  \n  * *Usage:* This allows for a Move \\+ Attack \\+ Attack, or Move \\+ Cast Spell \\+ Attack. It breaks the standard action economy.",
+    "rules": "126",
+    "special_rules": "126",
+    "body": "# Surge\n\n**Category**: Karma Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: \\-\n\n## Description\nThe character pushes their body and mind beyond standard limits, fitting more action into a moment than should be possible.\n\n## Mechanics & Benefit\nYou gain **1 additional Standard Action** this round.  \n  * *Usage:* This allows for a Move \\+ Attack \\+ Attack, or Move \\+ Cast Spell \\+ Attack. It breaks the standard action economy.\n\n## Special Rules\n126",
+    "mechanics": "You gain **1 additional Standard Action** this round.  \n  * *Usage:* This allows for a Move \\+ Attack \\+ Attack, or Move \\+ Cast Spell \\+ Attack. It breaks the standard action economy.",
+    "notes": "[Rule] 126\n[Prerequisite] -",
+    "notesList": [
+      "[Rule] 126",
+      "[Prerequisite] -"
+    ]
   },
   {
     "id": "karma-true-faith",
@@ -8168,124 +5509,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 121",
       "[Prerequisite] Believer, Devout"
-    ],
-    "keywords": "true faith, karma, special-feature, feature:, double, effects",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "skill-trustworthy",
-    "name": "Trustworthy",
-    "category": "Skill",
-    "type": "skill",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "None",
-    "modifiers": [
-      {
-        "target": "Manipulation",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Manipulation"
-      },
-      {
-        "target": "Culture",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Culture"
-      }
-    ],
-    "description": "The character has an honest face and a reliable demeanor.",
-    "mechanic": "Gain a **\\+2 Bonus** to **Manipulation Skills** (Bluff/Diplomacy) and a **\\+1 Bonus** to **Culture** checks (fitting in).",
-    "rules": "172",
-    "special_rules": "172",
-    "body": "# Trustworthy\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character has an honest face and a reliable demeanor.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Manipulation Skills** (Bluff/Diplomacy) and a **\\+1 Bonus** to **Culture** checks (fitting in).\n\n## Special Rules\n172",
-    "mechanics": "Gain a **\\+2 Bonus** to **Manipulation Skills** (Bluff/Diplomacy) and a **\\+1 Bonus** to **Culture** checks (fitting in).",
-    "notes": "[Modifier] +2 to Manipulation\n[Modifier] +1 to Culture\n[Rule] 172",
-    "notesList": [
-      "[Modifier] +2 to Manipulation",
-      "[Modifier] +1 to Culture",
-      "[Rule] 172"
-    ],
-    "keywords": "trustworthy, skill, special-feature, honest, reliable, demeanor",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "combat-two-weapon-defense",
-    "name": "Two-Weapon Defense",
-    "category": "Combat",
-    "type": "combat",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Two-Weapon Fighting",
-    "modifiers": [],
-    "description": "The character uses their off-hand weapon to parry and block.",
-    "mechanic": "When wielding two weapons (or a double weapon), gain a **\\+1 Shield bonus to Defense**.",
-    "rules": "47",
-    "special_rules": "47",
-    "body": "# Two-Weapon Defense\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Two-Weapon Fighting\n\n## Description\nThe character uses their off-hand weapon to parry and block.\n\n## Mechanics & Benefit\nWhen wielding two weapons (or a double weapon), gain a **\\+1 Shield bonus to Defense**.\n\n## Special Rules\n47",
-    "mechanics": "When wielding two weapons (or a double weapon), gain a **\\+1 Shield bonus to Defense**.",
-    "notes": "[Rule] 47\n[Prerequisite] Two-Weapon Fighting",
-    "notesList": [
-      "[Rule] 47",
-      "[Prerequisite] Two-Weapon Fighting"
-    ],
-    "keywords": "two-weapon defense, combat, special-feature, combat-maneuver, tactical-edge, off-hand",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "combat-two-weapon-fighting",
-    "name": "Two-Weapon Fighting",
-    "category": "Combat",
-    "type": "combat",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Agility 2, Combat Skill 2",
-    "modifiers": [],
-    "description": "The character is skilled in the art of using two weapons simultaneously, coordinating attacks to maintain offense while balancing defensive gaps.",
-    "mechanic": "You suffer only a -2 penalty to Strike rolls when using an off-hand weapon (standard penalty is -4).",
-    "rules": "Foundation for all dual-wielding combat styles.",
-    "special_rules": "Reduces off-hand strike penalties to -2.",
-    "body": "# Two-Weapon Fighting\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Agility 2, Combat Skill 2\n\n## Description\nThe character is skilled in the art of using two weapons simultaneously, coordinating attacks to maintain offense while balancing defensive gaps.\n\n## Mechanics & Benefit\nYou suffer only a -2 penalty to Strike rolls when using an off-hand weapon (standard penalty is -4).\n\n## Special Rules\nFoundation for all dual-wielding combat styles.",
-    "mechanics": "You suffer only a -2 penalty to Strike rolls when using an off-hand weapon (standard penalty is -4).",
-    "notes": "[Prerequisite] Agility 2, Combat Skill 2\n[Rule] Reduces off-hand strike penalties to -2.",
-    "notesList": [
-      "[Prerequisite] Agility 2, Combat Skill 2",
-      "[Rule] Reduces off-hand strike penalties to -2."
-    ],
-    "keywords": "two-weapon fighting, dual wield, combat, off-hand",
-    "negative_keywords": "single weapon, shield"
+    ]
   },
   {
     "id": "karma-ultimate-effort",
@@ -8360,15 +5584,521 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] This feature is **\\[Multiple\\]**. You must select which trait it applies to when purchased (e.g., *U...",
       "[Prerequisite] None (Must be assigned to a specific Trait/Skill/Attribute)."
-    ],
-    "keywords": "ultimate effort, karma, special-feature, savant, master, specific",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
-    "id": "general-unbreakable-skeleton",
-    "name": "Unbreakable Skeleton",
-    "category": "General",
-    "type": "general",
+    "id": "meta-psionic-gating",
+    "name": "Psionic Gating",
+    "category": "meta",
+    "type": "feature",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": [],
+    "modifiers": [
+      {
+        "target": "Willpower",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Willpower"
+      },
+      {
+        "target": "Wisdom",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Wisdom"
+      }
+    ],
+    "description": "The mind is harmonized with the cryptographic frequency filters of the Chorus. External telepathic intrusions, hostile psionic scans, and non-hive mental manipulations face Disadvantage and must overcome a +2 Psionic Defense DC bonus.",
+    "mechanic": "The mind is harmonized with the cryptographic frequency filters of the Chorus. External telepathic intrusions, hostile psionic scans, and non-hive mental manipulations face Disadvantage and must overcome a +2 Psionic Defense DC bonus.",
+    "rules": "Prerequisite: .",
+    "special_rules": "Prerequisite: .",
+    "body": "### **Overview**\nOperating within the continuous mental carrier-wave of the Chorus, the operative's neural pathways are defended by active psionic frequency gating. Foreign thoughts and invasive psychic frequencies are intercepted and damped before they can compromise the conscious ego.\n\n### **Mechanical Benefits**\n* **Cryptographic Neural Filter:** Hostile telepathic probes, mind-reading attempts, illusions, and forced psychic interrogations targeting the operative suffer **Disadvantage** on their attack or activation check.\n* **Elevated Mental Defense:** The character receives a **+2 bonus to Mental DR** (Damage Reduction against psionic/metaphysical trauma) and a **+2 bonus on all Willpower or Wisdom checks** made to resist mind control, psychic panic, or cognitive override.\n* **Chorus Ping:** The moment an unauthorized external entity attempts to breach the character's mental threshold, an automated silent alert resonates through the local Hive-Link network.",
+    "mechanics": "The mind is harmonized with the cryptographic frequency filters of the Chorus. External telepathic intrusions, hostile psionic scans, and non-hive mental manipulations face Disadvantage and must overcome a +2 Psionic Defense DC bonus.",
+    "notes": "[Modifier] +2 to Willpower\n[Modifier] +2 to Wisdom\n[Rule] Prerequisite: .",
+    "notesList": [
+      "[Modifier] +2 to Willpower",
+      "[Modifier] +2 to Wisdom",
+      "[Rule] Prerequisite: ."
+    ]
+  },
+  {
+    "id": "meta-adaptive-aspects",
+    "name": "Adaptive Aspects (Hive Memories)",
+    "category": "Meta",
+    "type": "meta",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": true,
+    "max_rank": 4,
+    "is_multiple": false,
+    "prerequisites": "Hive-Link or Genetic Memory",
+    "modifiers": [],
+    "description": "Attune to inherited ancestral hive memories during rest to temporarily swap or adapt personal cognitive proficiencies and specialized aspects.",
+    "mechanic": "* During a Light Rest (or Torpor cycle), the character may reconfigure one designated adaptive aspect—selecting a situational bonus (+2 to a specific knowledge, engineering, or piloting specialization) drawn from ancestral experiences.\n* This adapted specialization remains active until the next rest cycle.",
+    "rules": "Ranked selection. Prerequisite: Hive-Link or Genetic Memory.",
+    "special_rules": "Ranked selection. Prerequisite: Hive-Link or Genetic Memory.",
+    "body": "# Adaptive Aspects (Hive Memories)\n\n**Category**: Meta Features  \n**Cost**: 2 BP  \n**Prerequisite**: Hive-Link or Genetic Memory  \n\n## Description\nBy entering a quiet trance during Torpor or a Light Rest, the character communes with the ancestral genomatrix and deep hive memories, adjusting their mental focus to mirror specialized forebears.\n\n## Mechanics & Benefit\n* During a Light Rest (or Torpor cycle), the character may reconfigure one designated adaptive aspect—selecting a situational bonus (+2 to a specific knowledge, engineering, or piloting specialization) drawn from ancestral experiences.\n* This adapted specialization remains active until the next rest cycle.",
+    "mechanics": "* During a Light Rest (or Torpor cycle), the character may reconfigure one designated adaptive aspect—selecting a situational bonus (+2 to a specific knowledge, engineering, or piloting specialization) drawn from ancestral experiences.\n* This adapted specialization remains active until the next rest cycle.",
+    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Ranked selection. Prerequisite: Hive-Link or Genetic Memory.\n[Prerequisite] Hive-Link or Genetic Memory",
+    "notesList": [
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] Ranked selection. Prerequisite: Hive-Link or Genetic Memory.",
+      "[Prerequisite] Hive-Link or Genetic Memory"
+    ]
+  },
+  {
+    "id": "special-hive-link",
+    "name": "Hive-Link",
+    "category": "Meta",
+    "type": "meta",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Kitin Lineage or Hive Mind Archetype",
+    "modifiers": [],
+    "description": "Constant telepathic connection to the Kitin Collective and all Kitin Strains, synchronizing thoughts with the psionic Chorus.",
+    "mechanic": "* **Constant Telepathic Connection:** Maintain uninterrupted telepathic communication with all Kitin Strains within local range (planetary surface or system hub).\n* **Tactical Chorus Synchronization:** When fighting or operating alongside other Kitin Strains or Hive-Linked allies, the character cannot be surprised if at least one linked ally is aware of the threat.\n* **Brood Coordination:** Allows the transmission of non-verbal tactical directives, sensorial feeds, and bio-status reports instantaneously without generating audible or electronic signatures.",
+    "rules": "Prerequisite: Kitin Lineage or Hive Mind Archetype.",
+    "special_rules": "Prerequisite: Kitin Lineage or Hive Mind Archetype.",
+    "body": "# Hive-Link\n\n**Category**: Meta Features  \n**Cost**: 2 BP  \n**Prerequisite**: Kitin Lineage or Hive Mind Archetype  \n\n## Description\nThe organism possesses an innate bio-synaptic resonance with the Kitin Collective. Through this conduit, the individual maintains a continuous background link with the Chorus, bridging minds across planetary and orbital distances.\n\n## Mechanics & Benefit\n* **Constant Telepathic Connection:** Maintain uninterrupted telepathic communication with all Kitin Strains within local range (planetary surface or system hub).\n* **Tactical Chorus Synchronization:** When fighting or operating alongside other Kitin Strains or Hive-Linked allies, the character cannot be surprised if at least one linked ally is aware of the threat.\n* **Brood Coordination:** Allows the transmission of non-verbal tactical directives, sensorial feeds, and bio-status reports instantaneously without generating audible or electronic signatures.",
+    "mechanics": "* **Constant Telepathic Connection:** Maintain uninterrupted telepathic communication with all Kitin Strains within local range (planetary surface or system hub).\n* **Tactical Chorus Synchronization:** When fighting or operating alongside other Kitin Strains or Hive-Linked allies, the character cannot be surprised if at least one linked ally is aware of the threat.\n* **Brood Coordination:** Allows the transmission of non-verbal tactical directives, sensorial feeds, and bio-status reports instantaneously without generating audible or electronic signatures.",
+    "notes": "[Rule] Prerequisite: Kitin Lineage or Hive Mind Archetype.\n[Prerequisite] Kitin Lineage or Hive Mind Archetype",
+    "notesList": [
+      "[Rule] Prerequisite: Kitin Lineage or Hive Mind Archetype.",
+      "[Prerequisite] Kitin Lineage or Hive Mind Archetype"
+    ]
+  },
+  {
+    "id": "meta-psionic-interference-static",
+    "name": "Psionic Interference (The Static)",
+    "category": "Meta",
+    "type": "meta",
+    "cp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Resonant / Chaotic Psionic Aura",
+    "modifiers": [
+      {
+        "target": "Psionic",
+        "type": "skill",
+        "value": -2,
+        "mode": "penalty",
+        "description": "-2 to Psionic"
+      },
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": -2,
+        "mode": "penalty",
+        "description": "-2 to Attune"
+      },
+      {
+        "target": "Wisdom",
+        "type": "skill",
+        "value": -2,
+        "mode": "penalty",
+        "description": "-2 to Wisdom"
+      }
+    ],
+    "description": "Generates discordant psionic static. Manelli in range suffer -2 on Psionic and Wisdom checks; Kitin Chorus communications in the immediate vicinity are manipulated or used at Disadvantage.",
+    "mechanic": "- **Manelli Disruption**: Any Manelli within telepathic range (100 ft) of the swarm suffers a **-2 penalty** to all Psionic, Attune, and Wisdom checks due to excruciating cognitive feedback.\n- **Chorus Jamming**: When in the immediate vicinity (within 30 ft), all Kitin Collective communications are severely disrupted; Chorus coordination, telepathic relay checks, and brood commands must be rolled at **Disadvantage**.\n- **Aura Static**: Non-Kitin psionic operators attempting to probe or read the swarm's thoughts take 1d6 mental shock damage.",
+    "rules": "Prerequisite: Resonant / Chaotic Psionic Aura.",
+    "special_rules": "Prerequisite: Resonant / Chaotic Psionic Aura.",
+    "body": "# Psionic Interference (The Static)\n\n**Category**: Meta Features  \n**Cost**: 1 BP  \n**Prerequisites**: Resonant / Chaotic Psionic Aura  \n\n## Description\nThe divergent survival conditions of the swarm resulted in an abrasive, chaotic mental resonance that runs violently counter to the Kitin Chorus steering frequencies. This manifests as a palpable \"psionic static\" that creates painful mental feedback in orderly telepathic networks.\n\n## Mechanics & Benefit\n- **Manelli Disruption**: Any Manelli within telepathic range (100 ft) of the swarm suffers a **-2 penalty** to all Psionic, Attune, and Wisdom checks due to excruciating cognitive feedback.\n- **Chorus Jamming**: When in the immediate vicinity (within 30 ft), all Kitin Collective communications are severely disrupted; Chorus coordination, telepathic relay checks, and brood commands must be rolled at **Disadvantage**.\n- **Aura Static**: Non-Kitin psionic operators attempting to probe or read the swarm's thoughts take 1d6 mental shock damage.",
+    "mechanics": "- **Manelli Disruption**: Any Manelli within telepathic range (100 ft) of the swarm suffers a **-2 penalty** to all Psionic, Attune, and Wisdom checks due to excruciating cognitive feedback.\n- **Chorus Jamming**: When in the immediate vicinity (within 30 ft), all Kitin Collective communications are severely disrupted; Chorus coordination, telepathic relay checks, and brood commands must be rolled at **Disadvantage**.\n- **Aura Static**: Non-Kitin psionic operators attempting to probe or read the swarm's thoughts take 1d6 mental shock damage.",
+    "notes": "[Penalty] -2 to Psionic\n[Penalty] -2 to Attune\n[Penalty] -2 to Wisdom\n[Rule] Prerequisite: Resonant / Chaotic Psionic Aura.\n[Prerequisite] Resonant / Chaotic Psionic Aura",
+    "notesList": [
+      "[Penalty] -2 to Psionic",
+      "[Penalty] -2 to Attune",
+      "[Penalty] -2 to Wisdom",
+      "[Rule] Prerequisite: Resonant / Chaotic Psionic Aura.",
+      "[Prerequisite] Resonant / Chaotic Psionic Aura"
+    ]
+  },
+  {
+    "id": "meta-sense-psychic",
+    "name": "Sense (Psychic)",
+    "category": "Meta",
+    "type": "meta",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Awakened, Intellect 2, or Wisdom 2",
+    "modifiers": [],
+    "description": "Innate sensory attunement to psionic fields, bio-energetic frequencies, and supernatural thought patterns within 60 feet.",
+    "mechanic": "* **Psionic Perception Range:** Detect the presence and approximate direction of conscious minds, psionic channeling, or metaphysical manifestations within a **60-foot radius**.\n* **Aura Reading:** By spending 1 action in focused concentration, determine whether a detected mind is calm, panicked, hostile, or under mental coercion.\n* **Cover Penetration:** This sense bypasses physical barriers up to 3 feet of wood/dirt or 1 foot of stone/metal, though dense lead or dedicated psionic dampeners block detection.",
+    "rules": "Prerequisite: Awakened, Intellect 2, or Wisdom 2.",
+    "special_rules": "Prerequisite: Awakened, Intellect 2, or Wisdom 2.",
+    "body": "# Sense (Psychic)\n\n**Category**: Meta / Sensory Features  \n**Cost**: 2 BP  \n**Prerequisite**: Awakened, Intellect 2, or Wisdom 2  \n\n## Description\nThe character can directly perceive the resonance of psionic minds, metaphysical activity, and bio-energetic auras without requiring technological sensors or overt physical signs.\n\n## Mechanics & Benefit\n* **Psionic Perception Range:** Detect the presence and approximate direction of conscious minds, psionic channeling, or metaphysical manifestations within a **60-foot radius**.\n* **Aura Reading:** By spending 1 action in focused concentration, determine whether a detected mind is calm, panicked, hostile, or under mental coercion.\n* **Cover Penetration:** This sense bypasses physical barriers up to 3 feet of wood/dirt or 1 foot of stone/metal, though dense lead or dedicated psionic dampeners block detection.",
+    "mechanics": "* **Psionic Perception Range:** Detect the presence and approximate direction of conscious minds, psionic channeling, or metaphysical manifestations within a **60-foot radius**.\n* **Aura Reading:** By spending 1 action in focused concentration, determine whether a detected mind is calm, panicked, hostile, or under mental coercion.\n* **Cover Penetration:** This sense bypasses physical barriers up to 3 feet of wood/dirt or 1 foot of stone/metal, though dense lead or dedicated psionic dampeners block detection.",
+    "notes": "[Rule] Prerequisite: Awakened, Intellect 2, or Wisdom 2.\n[Prerequisite] Awakened, Intellect 2, or Wisdom 2",
+    "notesList": [
+      "[Rule] Prerequisite: Awakened, Intellect 2, or Wisdom 2.",
+      "[Prerequisite] Awakened, Intellect 2, or Wisdom 2"
+    ]
+  },
+  {
+    "id": "physical-enhanced-strength",
+    "name": "Enhanced Strength",
+    "category": "Physical",
+    "type": "physical",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Strength 2",
+    "modifiers": [],
+    "description": "Biomechanical muscle architecture and hydraulic frame geometry allow the character to count as 1 size larger for lifting and carrying capacity.",
+    "mechanic": "- **Size Category Lift/Carry**: Count as **1 size category larger** (Medium counts as Large) when determining maximum lifting capacity, dragging limit, encumbrance thresholds, and grappling checks against larger foes.\n- **Overburden Resilience**: Suffers no movement speed penalties when operating under heavy encumbrance loads up to their revised maximum threshold.",
+    "rules": "Prerequisite: Strength 2.",
+    "special_rules": "Prerequisite: Strength 2.",
+    "body": "# Enhanced Strength\n\n**Category**: Physical Features  \n**Cost**: 2 BP  \n**Prerequisites**: Strength 2  \n\n## Description\nHigh-density striated muscle tissue reinforced by internal lever geometry allows the creature to exert phenomenal mechanical leverage. Their physical frame supports loads far beyond standard species of their nominal size category.\n\n## Mechanics & Benefit\n- **Size Category Lift/Carry**: Count as **1 size category larger** (Medium counts as Large) when determining maximum lifting capacity, dragging limit, encumbrance thresholds, and grappling checks against larger foes.\n- **Overburden Resilience**: Suffers no movement speed penalties when operating under heavy encumbrance loads up to their revised maximum threshold.",
+    "mechanics": "- **Size Category Lift/Carry**: Count as **1 size category larger** (Medium counts as Large) when determining maximum lifting capacity, dragging limit, encumbrance thresholds, and grappling checks against larger foes.\n- **Overburden Resilience**: Suffers no movement speed penalties when operating under heavy encumbrance loads up to their revised maximum threshold.",
+    "notes": "[Rule] Prerequisite: Strength 2.\n[Prerequisite] Strength 2",
+    "notesList": [
+      "[Rule] Prerequisite: Strength 2.",
+      "[Prerequisite] Strength 2"
+    ]
+  },
+  {
+    "id": "physical-swarm-fast-heal-regeneration",
+    "name": "Fast Heal & Regeneration (Swarm)",
+    "category": "Physical",
+    "type": "physical",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Swarm Physiology",
+    "modifiers": [],
+    "description": "The swarm constantly births new micro-arthropods to replace fallen members, granting continuous biological regeneration and rapid recovery of lost swarm mass.",
+    "mechanic": "- **Rapid Health Recovery**: Automatically recovers **2 Health/Vitality per combat round** so long as at least 25% of the swarm survives and has access to organic matter.\n- **Light Rest Replenishment**: Completely replenishes lost Health and dispersed outer swarm layers over a single Light Rest (15 minutes).\n- **Limb / Shape Reformation**: When manifested in a pseudo-humanoid form or inhabiting a host, the swarm can reshape damaged appendages within seconds.",
+    "rules": "Prerequisite: Swarm Physiology.",
+    "special_rules": "Prerequisite: Swarm Physiology.",
+    "body": "# Fast Heal & Regeneration (Swarm)\n\n**Category**: Physical Features  \n**Cost**: 2 BP  \n**Prerequisites**: Swarm Physiology  \n\n## Description\nThe swarm maintains an internal breeding cycle where hundreds of micro-insects pupate, mature, and integrate every minute. Losses inflicted by combat or hostile environments are rapidly compensated through internal cellular reproduction.\n\n## Mechanics & Benefit\n- **Rapid Health Recovery**: Automatically recovers **2 Health/Vitality per combat round** so long as at least 25% of the swarm survives and has access to organic matter.\n- **Light Rest Replenishment**: Completely replenishes lost Health and dispersed outer swarm layers over a single Light Rest (15 minutes).\n- **Limb / Shape Reformation**: When manifested in a pseudo-humanoid form or inhabiting a host, the swarm can reshape damaged appendages within seconds.",
+    "mechanics": "- **Rapid Health Recovery**: Automatically recovers **2 Health/Vitality per combat round** so long as at least 25% of the swarm survives and has access to organic matter.\n- **Light Rest Replenishment**: Completely replenishes lost Health and dispersed outer swarm layers over a single Light Rest (15 minutes).\n- **Limb / Shape Reformation**: When manifested in a pseudo-humanoid form or inhabiting a host, the swarm can reshape damaged appendages within seconds.",
+    "notes": "[Rule] Prerequisite: Swarm Physiology.\n[Prerequisite] Swarm Physiology",
+    "notesList": [
+      "[Rule] Prerequisite: Swarm Physiology.",
+      "[Prerequisite] Swarm Physiology"
+    ]
+  },
+  {
+    "id": "physical-fatigue-resistance",
+    "name": "Fatigue Resistance",
+    "category": "Physical",
+    "type": "physical",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Robust Physiology or Inexhaustible Stamina",
+    "modifiers": [],
+    "description": "Metabolic efficiency and lactic acid recycling grant Advantage on all Fatigue checks and double the duration between required endurance checks.",
+    "mechanic": "- **Endurance Advantage**: All saving throws and ability checks made to resist fatigue, exhaustion, environmental heat/cold exertion, or starvation/dehydration intervals are made with **Advantage**.\n- **Extended Interval Time**: The duration required between successive fatigue checks (e.g., forced marching, extended labor, sleep deprivation) is **doubled**.",
+    "rules": "Prerequisite: Robust Physiology or Inexhaustible Stamina.",
+    "special_rules": "Prerequisite: Robust Physiology or Inexhaustible Stamina.",
+    "body": "# Fatigue Resistance\n\n**Category**: Physical Features  \n**Cost**: 2 BP  \n**Prerequisites**: Robust Physiology or Inexhaustible Stamina  \n\n## Description\nThe organism possesses highly optimized metabolic pathways that rapidly process and recycle lactic acid, preventing cellular exhaustion during prolonged manual labor or forced marches.\n\n## Mechanics & Benefit\n- **Endurance Advantage**: All saving throws and ability checks made to resist fatigue, exhaustion, environmental heat/cold exertion, or starvation/dehydration intervals are made with **Advantage**.\n- **Extended Interval Time**: The duration required between successive fatigue checks (e.g., forced marching, extended labor, sleep deprivation) is **doubled**.",
+    "mechanics": "- **Endurance Advantage**: All saving throws and ability checks made to resist fatigue, exhaustion, environmental heat/cold exertion, or starvation/dehydration intervals are made with **Advantage**.\n- **Extended Interval Time**: The duration required between successive fatigue checks (e.g., forced marching, extended labor, sleep deprivation) is **doubled**.",
+    "notes": "[Rule] Prerequisite: Robust Physiology or Inexhaustible Stamina.\n[Prerequisite] Robust Physiology or Inexhaustible Stamina",
+    "notesList": [
+      "[Rule] Prerequisite: Robust Physiology or Inexhaustible Stamina.",
+      "[Prerequisite] Robust Physiology or Inexhaustible Stamina"
+    ]
+  },
+  {
+    "id": "physical-leaper",
+    "name": "Leaper",
+    "category": "Physical",
+    "type": "physical",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Athletics 1 or Agility 2",
+    "modifiers": [],
+    "description": "Specialized leg musculature and hydraulic joints allow the character to always count as having a running start, and all checks for jumping, leaping, and dropping are made at advantage.",
+    "mechanic": "- **Running Start**: Always counts as having a running start for all jumping and leaping distance calculations, even when initiating a leap from a dead stop or cramped stance.\n- **Leap & Drop Advantage**: Make all Athletics or Acrobatics checks related to jumping across chasms, leaping over obstacles, or executing controlled high-altitude drops with **Advantage**.\n- **Impact Absorption**: High-tensile chitinous shock dampers reduce falling damage by up to 20 feet.",
+    "rules": "Prerequisite: Athletics 1 or Agility 2.",
+    "special_rules": "Prerequisite: Athletics 1 or Agility 2.",
+    "body": "# Leaper\n\n**Category**: Physical Features  \n**Cost**: 2 BP  \n**Prerequisites**: Athletics 1 or Agility 2  \n\n## Description\nThe character possesses powerful digitigrade, mantis-like, or spring-loaded leg articulation engineered for explosive vertical and horizontal leaps.\n\n## Mechanics & Benefit\n- **Running Start**: Always counts as having a running start for all jumping and leaping distance calculations, even when initiating a leap from a dead stop or cramped stance.\n- **Leap & Drop Advantage**: Make all Athletics or Acrobatics checks related to jumping across chasms, leaping over obstacles, or executing controlled high-altitude drops with **Advantage**.\n- **Impact Absorption**: High-tensile chitinous shock dampers reduce falling damage by up to 20 feet.",
+    "mechanics": "- **Running Start**: Always counts as having a running start for all jumping and leaping distance calculations, even when initiating a leap from a dead stop or cramped stance.\n- **Leap & Drop Advantage**: Make all Athletics or Acrobatics checks related to jumping across chasms, leaping over obstacles, or executing controlled high-altitude drops with **Advantage**.\n- **Impact Absorption**: High-tensile chitinous shock dampers reduce falling damage by up to 20 feet.",
+    "notes": "[Rule] Prerequisite: Athletics 1 or Agility 2.\n[Prerequisite] Athletics 1 or Agility 2",
+    "notesList": [
+      "[Rule] Prerequisite: Athletics 1 or Agility 2.",
+      "[Prerequisite] Athletics 1 or Agility 2"
+    ]
+  },
+  {
+    "id": "physical-limited-flight",
+    "name": "Limited Flight",
+    "category": "Physical",
+    "type": "physical",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Athletics 1 or Agility 2",
+    "modifiers": [],
+    "description": "Vestigial elytra or bio-thrusters allow short bursts of flight (2x Land Speed for 1 round of movement), 2x Jump distance, and Slow Fall.",
+    "mechanic": "- **Burst Flight**: Can fly at **2x Ground Speed (80 ft/rd)** for up to 1 round of movement before needing to touch down.\n- **Double Jump Distance**: Doubled jump distance when combining muscular leaps with wing assisted propulsion.\n- **Slow Fall**: Immune to falling damage; can glide safely to the ground from any height at a rate of 30 ft per round.",
+    "rules": "Prerequisite: Athletics 1 or Agility 2.",
+    "special_rules": "Prerequisite: Athletics 1 or Agility 2.",
+    "body": "# Limited Flight\n\n**Category**: Physical Features  \n**Cost**: 2 BP  \n**Prerequisites**: Athletics 1 or Agility 2  \n\n## Description\nThe creature possesses lightweight dorsal elytra plates, membranous underwings, or pulsed bio-pneumatic vents capable of generating sustained aerodynamic lift for brief durations.\n\n## Mechanics & Benefit\n- **Burst Flight**: Can fly at **2x Ground Speed (80 ft/rd)** for up to 1 round of movement before needing to touch down.\n- **Double Jump Distance**: Doubled jump distance when combining muscular leaps with wing assisted propulsion.\n- **Slow Fall**: Immune to falling damage; can glide safely to the ground from any height at a rate of 30 ft per round.",
+    "mechanics": "- **Burst Flight**: Can fly at **2x Ground Speed (80 ft/rd)** for up to 1 round of movement before needing to touch down.\n- **Double Jump Distance**: Doubled jump distance when combining muscular leaps with wing assisted propulsion.\n- **Slow Fall**: Immune to falling damage; can glide safely to the ground from any height at a rate of 30 ft per round.",
+    "notes": "[Rule] Prerequisite: Athletics 1 or Agility 2.\n[Prerequisite] Athletics 1 or Agility 2",
+    "notesList": [
+      "[Rule] Prerequisite: Athletics 1 or Agility 2.",
+      "[Prerequisite] Athletics 1 or Agility 2"
+    ]
+  },
+  {
+    "id": "physical-quadruped",
+    "name": "Quadruped",
+    "category": "Physical",
+    "type": "physical",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Four or More Lower Limbs",
+    "modifiers": [],
+    "description": "A robust multi-legged lower chassis providing exceptional physical balance, +4 Stability against trips/shoves, and +10 ft to Base Ground Movement.",
+    "mechanic": "- **Stability Bonus**: Gain a **+4 racial bonus to Stability** against combat maneuvers such as trips, bull rushes, knockdown effects, and overruns.\n- **Speed Increase**: **+10 feet** to Base Ground Movement speed.\n- **Special Accommodations**: Requires custom armor, saddles, and suits tailored for non-humanoid or tauric body forms.",
+    "rules": "Prerequisite: Four or More Lower Limbs.",
+    "special_rules": "Prerequisite: Four or More Lower Limbs.",
+    "body": "# Quadruped\n\n**Category**: Physical Features  \n**Cost**: 2 BP  \n**Prerequisites**: Four or More Lower Limbs  \n\n## Description\nThe creature moves on four or more sturdy lower limbs supporting a tauric or animalistic body plan. This broad stance distributes body mass effectively across any ground condition.\n\n## Mechanics & Benefit\n- **Stability Bonus**: Gain a **+4 racial bonus to Stability** against combat maneuvers such as trips, bull rushes, knockdown effects, and overruns.\n- **Speed Increase**: **+10 feet** to Base Ground Movement speed.\n- **Special Accommodations**: Requires custom armor, saddles, and suits tailored for non-humanoid or tauric body forms.",
+    "mechanics": "- **Stability Bonus**: Gain a **+4 racial bonus to Stability** against combat maneuvers such as trips, bull rushes, knockdown effects, and overruns.\n- **Speed Increase**: **+10 feet** to Base Ground Movement speed.\n- **Special Accommodations**: Requires custom armor, saddles, and suits tailored for non-humanoid or tauric body forms.",
+    "notes": "[Rule] Prerequisite: Four or More Lower Limbs.\n[Prerequisite] Four or More Lower Limbs",
+    "notesList": [
+      "[Rule] Prerequisite: Four or More Lower Limbs.",
+      "[Prerequisite] Four or More Lower Limbs"
+    ]
+  },
+  {
+    "id": "physical-quadruped-leaping",
+    "name": "Quadruped (Leaping)",
+    "category": "Physical",
+    "type": "physical",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Four Lower Limbs",
+    "modifiers": [],
+    "description": "Specialized quadrupedal legs engineered for high-impact jumping, granting +4 Stability against knockdowns/trips and increased leap distance.",
+    "mechanic": "- **Stability Bonus**: Grants a **+4 racial bonus to Stability** against trips, pushes, and knockdown effects while on any solid surface.\n- **Enhanced Leap Velocity**: High-impact springs add **+10 feet** to maximum horizontal jump distance and **+5 feet** to vertical reach.\n- **Tauric Sprint**: Base Groundspeed increases by **+10 feet** when operating in full quadrupedal gait.",
+    "rules": "Prerequisite: Four Lower Limbs.",
+    "special_rules": "Prerequisite: Four Lower Limbs.",
+    "body": "# Quadruped (Leaping)\n\n**Category**: Physical Features  \n**Cost**: 2 BP  \n**Prerequisites**: Four Lower Limbs  \n\n## Description\nA four-legged lower chassis featuring reinforced spring-tendons and broad clawed pads specifically adapted for rapid sprinting and explosive high-impact leaps across rugged planetary terrain.\n\n## Mechanics & Benefit\n- **Stability Bonus**: Grants a **+4 racial bonus to Stability** against trips, pushes, and knockdown effects while on any solid surface.\n- **Enhanced Leap Velocity**: High-impact springs add **+10 feet** to maximum horizontal jump distance and **+5 feet** to vertical reach.\n- **Tauric Sprint**: Base Groundspeed increases by **+10 feet** when operating in full quadrupedal gait.",
+    "mechanics": "- **Stability Bonus**: Grants a **+4 racial bonus to Stability** against trips, pushes, and knockdown effects while on any solid surface.\n- **Enhanced Leap Velocity**: High-impact springs add **+10 feet** to maximum horizontal jump distance and **+5 feet** to vertical reach.\n- **Tauric Sprint**: Base Groundspeed increases by **+10 feet** when operating in full quadrupedal gait.",
+    "notes": "[Rule] Prerequisite: Four Lower Limbs.\n[Prerequisite] Four Lower Limbs",
+    "notesList": [
+      "[Rule] Prerequisite: Four Lower Limbs.",
+      "[Prerequisite] Four Lower Limbs"
+    ]
+  },
+  {
+    "id": "physical-toxic-blood",
+    "name": "Toxic Blood",
+    "category": "Physical",
+    "type": "physical",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Stamina 1, Poison Immunity",
+    "modifiers": [],
+    "description": "The organism's copper-based circulatory fluid is laced with virulent bio-toxins that incapacitate predators attempting to consume it.",
+    "mechanic": "* **Delivery:** Ingested (triggered when bitten, swallowed, or during predatory attacks involving oral contact).\n* **Difficulty Class:** **DC 11 + (2 × Stamina)** Fortitude check.\n* **Effect on Failure:** The victim suffers **Pain Incapacitation** for **1 hour**, unable to take offensive actions and doubled AP costs for movement.\n* **Effect on Success:** On a successful Fortitude save, the victim instead suffers **Severe Nausea** (-2 on all d20 checks and actions) for 1 hour.",
+    "rules": "Prerequisite: Stamina 1, Poison Immunity.",
+    "special_rules": "Prerequisite: Stamina 1, Poison Immunity.",
+    "body": "# Toxic Blood\n\n**Category**: Physical Features  \n**Cost**: 2 BP  \n**Prerequisite**: Stamina 1, Poison Immunity  \n\n## Description\nThe creature's emerald green circulatory system, powered by copper-based hemocyanin, carries potent endogenous chemical defense toxins. Anyone attempting to ingest the blood suffers swift biological distress.\n\n## Mechanics & Benefit\n* **Delivery:** Ingested (triggered when bitten, swallowed, or during predatory attacks involving oral contact).\n* **Difficulty Class:** **DC 11 + (2 × Stamina)** Fortitude check.\n* **Effect on Failure:** The victim suffers **Pain Incapacitation** for **1 hour**, unable to take offensive actions and doubled AP costs for movement.\n* **Effect on Success:** On a successful Fortitude save, the victim instead suffers **Severe Nausea** (-2 on all d20 checks and actions) for 1 hour.",
+    "mechanics": "* **Delivery:** Ingested (triggered when bitten, swallowed, or during predatory attacks involving oral contact).\n* **Difficulty Class:** **DC 11 + (2 × Stamina)** Fortitude check.\n* **Effect on Failure:** The victim suffers **Pain Incapacitation** for **1 hour**, unable to take offensive actions and doubled AP costs for movement.\n* **Effect on Success:** On a successful Fortitude save, the victim instead suffers **Severe Nausea** (-2 on all d20 checks and actions) for 1 hour.",
+    "notes": "[Rule] Prerequisite: Stamina 1, Poison Immunity.\n[Prerequisite] Stamina 1, Poison Immunity",
+    "notesList": [
+      "[Rule] Prerequisite: Stamina 1, Poison Immunity.",
+      "[Prerequisite] Stamina 1, Poison Immunity"
+    ]
+  },
+  {
+    "id": "sensory-blind-sight",
+    "name": "Blind Sight",
+    "category": "Sensory",
+    "type": "sensory",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Non-Visual Sensory Organs",
+    "modifiers": [],
+    "description": "Accurately perceive and target unseen objects and creatures in a 30 ft radius or 60 ft cone without the use of eyes, immune to visual concealment and darkness.",
+    "mechanic": "- **Precise Targeting**: Accurately targets, tracks, and engages unseen or visually obscured targets within a **30 ft radius** (or a **60 ft cone**) without penalty.\n- **Immunity to Visual Impairments**: Immune to visual penalties from pitch darkness, dense fog, blinding flashes, smoke grenades, and optical invisibility.",
+    "rules": "Prerequisite: Non-Visual Sensory Organs.",
+    "special_rules": "Prerequisite: Non-Visual Sensory Organs.",
+    "body": "# Blind Sight\n\n**Category**: Sensory Features  \n**Cost**: 2 BP  \n**Prerequisites**: Non-Visual Sensory Organs  \n\n## Description\nThe creature perceives its surroundings through distributed sensory receptors, electromagnetic resonance, micro-acoustic sonar, or chemical olfactory tracking, completely bypassing the need for optical vision.\n\n## Mechanics & Benefit\n- **Precise Targeting**: Accurately targets, tracks, and engages unseen or visually obscured targets within a **30 ft radius** (or a **60 ft cone**) without penalty.\n- **Immunity to Visual Impairments**: Immune to visual penalties from pitch darkness, dense fog, blinding flashes, smoke grenades, and optical invisibility.",
+    "mechanics": "- **Precise Targeting**: Accurately targets, tracks, and engages unseen or visually obscured targets within a **30 ft radius** (or a **60 ft cone**) without penalty.\n- **Immunity to Visual Impairments**: Immune to visual penalties from pitch darkness, dense fog, blinding flashes, smoke grenades, and optical invisibility.",
+    "notes": "[Rule] Prerequisite: Non-Visual Sensory Organs.\n[Prerequisite] Non-Visual Sensory Organs",
+    "notesList": [
+      "[Rule] Prerequisite: Non-Visual Sensory Organs.",
+      "[Prerequisite] Non-Visual Sensory Organs"
+    ]
+  },
+  {
+    "id": "sensory-uncanny-senses-vibration",
+    "name": "Uncanny Senses (Vibration)",
+    "category": "Sensory",
+    "type": "sensory",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Insectoid or Arachnoid Physiology",
+    "modifiers": [],
+    "description": "Delicate trichobothria hairs across the limbs and abdomen detect micro-vibrations, acoustic tremors, and structural stress through solid surfaces and web meshes out to 60 ft.",
+    "mechanic": "- **Surface Tremorsense (60 ft)**: Pinpoint the location, size, and movement vectors of all creatures and mechanical devices contacting the same floor, ceiling, wall, or connected web network within **60 feet**, regardless of darkness, smoke, or optical invisibility.\n- **Hive-Mesh Alert**: When in contact with webbed structures or Hive-Spire meshworks, this detection range extends to **150 feet**.\n- **Ambushes Defeated**: The character cannot be caught flat-footed or surprised by ground-based or surface-scaling assailants.",
+    "rules": "Prerequisite: Insectoid or Arachnoid Physiology.",
+    "special_rules": "Prerequisite: Insectoid or Arachnoid Physiology.",
+    "body": "# Uncanny Senses (Vibration)\n\n**Category**: Sensory Features  \n**Cost**: 2 BP  \n**Prerequisites**: Insectoid or Arachnoid Physiology  \n\n## Description\nMicroscopic tactile setae (trichobothria) distributed along the creature's limbs, pedipalps, and abdominal surface are attuned to the faintest mechanical tremors. This grants an extraordinary seismic awareness of movements occurring across solid floors, walls, and interconnecting web meshes.\n\n## Mechanics & Benefit\n- **Surface Tremorsense (60 ft)**: Pinpoint the location, size, and movement vectors of all creatures and mechanical devices contacting the same floor, ceiling, wall, or connected web network within **60 feet**, regardless of darkness, smoke, or optical invisibility.\n- **Hive-Mesh Alert**: When in contact with webbed structures or Hive-Spire meshworks, this detection range extends to **150 feet**.\n- **Ambushes Defeated**: The character cannot be caught flat-footed or surprised by ground-based or surface-scaling assailants.",
+    "mechanics": "- **Surface Tremorsense (60 ft)**: Pinpoint the location, size, and movement vectors of all creatures and mechanical devices contacting the same floor, ceiling, wall, or connected web network within **60 feet**, regardless of darkness, smoke, or optical invisibility.\n- **Hive-Mesh Alert**: When in contact with webbed structures or Hive-Spire meshworks, this detection range extends to **150 feet**.\n- **Ambushes Defeated**: The character cannot be caught flat-footed or surprised by ground-based or surface-scaling assailants.",
+    "notes": "[Rule] Prerequisite: Insectoid or Arachnoid Physiology.\n[Prerequisite] Insectoid or Arachnoid Physiology",
+    "notesList": [
+      "[Rule] Prerequisite: Insectoid or Arachnoid Physiology.",
+      "[Prerequisite] Insectoid or Arachnoid Physiology"
+    ]
+  },
+  {
+    "id": "skill-ace-pilot",
+    "name": "Ace Pilot",
+    "category": "Skill",
+    "type": "skill",
     "cp": 3,
     "costs": {
       "bp": 3,
@@ -8381,27 +6111,25 @@ export const DEFAULT_FEATURES = [
     },
     "is_ranked": false,
     "is_multiple": false,
-    "prerequisites": "Tough, Stamina 3",
+    "prerequisites": "Crack Pilot, Pilot 16",
     "modifiers": [],
-    "description": "A gain-of-function mutation in the LRP5 gene blocks inhibitory proteins, causing continuous, hyperactive bone formation. The character possesses a skeleton of extreme, unyielding density.",
-    "mechanic": "You gain **Damage Resistance (DR) 5** specifically against Bludgeoning, Crushing, and Falling damage. You are completely immune to effects that specifically fracture or break bones (such as the Cripple Sneak Attack feature). Because of your extreme bone density, your unarmed strikes deal an additional **+1 Damage**.",
-    "rules": "Prerequisite: Tough, Stamina 3.",
-    "special_rules": "Prerequisite: Tough, Stamina 3.",
-    "body": "# Unbreakable Skeleton\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Tough, Stamina 3\n\n## Description\nA gain-of-function mutation in the LRP5 gene blocks inhibitory proteins, causing continuous, hyperactive bone formation. The character possesses a skeleton of extreme, unyielding density.\n\n## Mechanics & Benefit\nYou gain **Damage Resistance (DR) 5** specifically against Bludgeoning, Crushing, and Falling damage. You are completely immune to effects that specifically fracture or break bones (such as the Cripple Sneak Attack feature). Because of your extreme bone density, your unarmed strikes deal an additional **+1 Damage**.\n\n## Special Rules\nPrerequisite: Tough, Stamina 3.",
-    "mechanics": "You gain **Damage Resistance (DR) 5** specifically against Bludgeoning, Crushing, and Falling damage. You are completely immune to effects that specifically fracture or break bones (such as the Cripple Sneak Attack feature). Because of your extreme bone density, your unarmed strikes deal an additional **+1 Damage**.",
-    "notes": "[Rule] Prerequisite: Tough, Stamina 3.\n[Prerequisite] Tough, Stamina 3",
+    "description": "Ace Pilot is a Skill Feature: +6 Piloting, +30% to Maximum Vehicle Speed.",
+    "mechanic": "\\+6 Piloting, \\+30% to Maximum Vehicle Speed.",
+    "rules": "143",
+    "special_rules": "143",
+    "body": "# Ace Pilot\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Crack Pilot, Pilot 16\n\n## Description\nAce Pilot is a Skill Feature: \\+6 Piloting, \\+30% to Maximum Vehicle Speed.\n\n## Mechanics & Benefit\n\\+6 Piloting, \\+30% to Maximum Vehicle Speed.\n\n## Special Rules\n143",
+    "mechanics": "\\+6 Piloting, \\+30% to Maximum Vehicle Speed.",
+    "notes": "[Rule] 143\n[Prerequisite] Crack Pilot, Pilot 16",
     "notesList": [
-      "[Rule] Prerequisite: Tough, Stamina 3.",
-      "[Prerequisite] Tough, Stamina 3"
-    ],
-    "keywords": "unbreakable skeleton, general, special-feature, gain-of-function, mutation, blocks",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+      "[Rule] 143",
+      "[Prerequisite] Crack Pilot, Pilot 16"
+    ]
   },
   {
-    "id": "combat-uncanny-dodge",
-    "name": "Uncanny Dodge",
-    "category": "Combat",
-    "type": "combat",
+    "id": "skill-aeronaut",
+    "name": "Aeronaut",
+    "category": "Skill",
+    "type": "skill",
     "cp": 3,
     "costs": {
       "bp": 3,
@@ -8414,27 +6142,25 @@ export const DEFAULT_FEATURES = [
     },
     "is_ranked": false,
     "is_multiple": false,
-    "prerequisites": "Agility 4",
+    "prerequisites": "Pilot (Unpowered) 1",
     "modifiers": [],
-    "description": "The character reacts to danger before their senses fully process it.",
-    "mechanic": "You retain your **Agility bonus to Defense** even if you are caught **Flat-Footed** or struck by an **Invisible attacker**.",
-    "rules": "This does not negate the advantage an attacker gets from Feinting (see Greater Feint).",
-    "special_rules": "This does not negate the advantage an attacker gets from Feinting (see Greater Feint).",
-    "body": "# Uncanny Dodge\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Agility 4\n\n## Description\nThe character reacts to danger before their senses fully process it.\n\n## Mechanics & Benefit\nYou retain your **Agility bonus to Defense** even if you are caught **Flat-Footed** or struck by an **Invisible attacker**.\n\n## Special Rules\nThis does not negate the advantage an attacker gets from Feinting (see Greater Feint).",
-    "mechanics": "You retain your **Agility bonus to Defense** even if you are caught **Flat-Footed** or struck by an **Invisible attacker**.",
-    "notes": "[Rule] This does not negate the advantage an attacker gets from Feinting (see Greater Feint).\n[Prerequisite] Agility 4",
+    "description": "The character is a specialist in unpowered or nature-assisted flight. They understand wind shears, thermals, and aerodynamics intuitively, whether using a glider, wingsuit, or natural wings.",
+    "mechanic": "You may make all **Pilot (Unpowered)** checks with **Advantage**.",
+    "rules": "128",
+    "special_rules": "128",
+    "body": "# Aeronaut\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Pilot (Unpowered) 1\n\n## Description\nThe character is a specialist in unpowered or nature-assisted flight. They understand wind shears, thermals, and aerodynamics intuitively, whether using a glider, wingsuit, or natural wings.\n\n## Mechanics & Benefit\nYou may make all **Pilot (Unpowered)** checks with **Advantage**.\n\n## Special Rules\n128",
+    "mechanics": "You may make all **Pilot (Unpowered)** checks with **Advantage**.",
+    "notes": "[Rule] 128\n[Prerequisite] Pilot (Unpowered) 1",
     "notesList": [
-      "[Rule] This does not negate the advantage an attacker gets from Feinting (see Greater Feint).",
-      "[Prerequisite] Agility 4"
-    ],
-    "keywords": "uncanny dodge, combat, special-feature, combat-maneuver, tactical-edge, reacts",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
+      "[Rule] 128",
+      "[Prerequisite] Pilot (Unpowered) 1"
+    ]
   },
   {
-    "id": "special-uncanny-sense",
-    "name": "Uncanny Sense",
-    "category": "Special",
-    "type": "special",
+    "id": "skill-animal-affinity",
+    "name": "Animal Affinity",
+    "category": "Skill",
+    "type": "skill",
     "cp": 3,
     "costs": {
       "bp": 3,
@@ -8447,27 +6173,33 @@ export const DEFAULT_FEATURES = [
     },
     "is_ranked": false,
     "is_multiple": false,
-    "prerequisites": "Acute Sense",
-    "modifiers": [],
-    "description": "Uncanny Sense is a Special Feature: Roll Awareness Checks with chosen sense at Advantage.",
-    "mechanic": "Roll Awareness Checks with chosen sense at Advantage.",
-    "rules": "179",
-    "special_rules": "179",
-    "body": "# Uncanny Sense\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Acute Sense\n\n## Description\nUncanny Sense is a Special Feature: Roll Awareness Checks with chosen sense at Advantage.\n\n## Mechanics & Benefit\nRoll Awareness Checks with chosen sense at Advantage.\n\n## Special Rules\n179",
-    "mechanics": "Roll Awareness Checks with chosen sense at Advantage.",
-    "notes": "[Rule] 179\n[Prerequisite] Acute Sense",
-    "notesList": [
-      "[Rule] 179",
-      "[Prerequisite] Acute Sense"
+    "prerequisites": "None",
+    "modifiers": [
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Survival"
+      }
     ],
-    "keywords": "uncanny sense, special, special-feature, uncanny, feature:, awareness",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    "description": "The character has a natural bond with beasts, understanding their body language and instincts.",
+    "mechanic": "Gain a **\\+2 Bonus** to **Survival** checks regarding Animal Handling, Riding, or Taming. You can alter an animal's attitude one step faster than normal.",
+    "rules": "129",
+    "special_rules": "129",
+    "body": "# Animal Affinity\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character has a natural bond with beasts, understanding their body language and instincts.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Survival** checks regarding Animal Handling, Riding, or Taming. You can alter an animal's attitude one step faster than normal.\n\n## Special Rules\n129",
+    "mechanics": "Gain a **\\+2 Bonus** to **Survival** checks regarding Animal Handling, Riding, or Taming. You can alter an animal's attitude one step faster than normal.",
+    "notes": "[Modifier] +2 to Survival\n[Rule] 129",
+    "notesList": [
+      "[Modifier] +2 to Survival",
+      "[Rule] 129"
+    ]
   },
   {
-    "id": "general-underworld-connections",
-    "name": "Underworld Connections",
-    "category": "General",
-    "type": "general",
+    "id": "skill-artificer",
+    "name": "Artificer",
+    "category": "Skill",
+    "type": "skill",
     "cp": 3,
     "costs": {
       "bp": 3,
@@ -8480,21 +6212,1788 @@ export const DEFAULT_FEATURES = [
     },
     "is_ranked": false,
     "is_multiple": false,
-    "prerequisites": "Streetwise 3",
+    "prerequisites": "Attune 11, Any Discipline 11, Any Crafting 11",
     "modifiers": [],
-    "description": "Access to illicit black market weapons, fences, and safehouses across all starports.",
-    "mechanic": "The character maintains deep ties with smuggling syndicates, fences, and illegal arms dealers. They can source restricted, military, and black-market items without police interference, sell contraband merchandise at standard fence rates, and secure covert safehouses in most major civilized settlements.",
-    "rules": "Characters with this feature ignore black market availability markups by 10% and gain Advantage on Streetwise checks to locate contraband or black-market contacts.",
-    "special_rules": "Characters with this feature ignore black market availability markups by 10% and gain Advantage on Streetwise checks to locate contraband or black-market contacts.",
-    "body": "# Underworld Connections\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Streetwise 3\n\n## Description\nAccess to illicit black market weapons, fences, and safehouses across all starports.\n\n## Mechanics & Benefit\nThe character maintains deep ties with smuggling syndicates, fences, and illegal arms dealers. They can source restricted, military, and black-market items without police interference, sell contraband merchandise at standard fence rates, and secure covert safehouses in most major civilized settlements.\n\n## Special Rules\nCharacters with this feature ignore black market availability markups by 10% and gain Advantage on Streetwise checks to locate contraband or black-market contacts.",
-    "mechanics": "The character maintains deep ties with smuggling syndicates, fences, and illegal arms dealers. They can source restricted, military, and black-market items without police interference, sell contraband merchandise at standard fence rates, and secure covert safehouses in most major civilized settlements.",
-    "notes": "[Rule] Characters with this feature ignore black market availability markups by 10% and gain Advantage on S...\n[Prerequisite] Streetwise 3",
+    "description": "The character combines engineering with metaphysics, capable of creating items that blur the line between technology and magic.",
+    "mechanic": "All **Metacrafting** and **Prototyping** checks to create magical or psionic items are made with **Advantage**.",
+    "rules": "130",
+    "special_rules": "130",
+    "body": "# Artificer\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Attune 11, Any Discipline 11, Any Crafting 11\n\n## Description\nThe character combines engineering with metaphysics, capable of creating items that blur the line between technology and magic.\n\n## Mechanics & Benefit\nAll **Metacrafting** and **Prototyping** checks to create magical or psionic items are made with **Advantage**.\n\n## Special Rules\n130",
+    "mechanics": "All **Metacrafting** and **Prototyping** checks to create magical or psionic items are made with **Advantage**.",
+    "notes": "[Rule] 130\n[Prerequisite] Attune 11, Any Discipline 11, Any Crafting 11",
     "notesList": [
-      "[Rule] Characters with this feature ignore black market availability markups by 10% and gain Advantage on S...",
-      "[Prerequisite] Streetwise 3"
+      "[Rule] 130",
+      "[Prerequisite] Attune 11, Any Discipline 11, Any Crafting 11"
+    ]
+  },
+  {
+    "id": "skill-artistic",
+    "name": "Artistic",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [
+      {
+        "target": "Both",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Both"
+      }
     ],
-    "keywords": "underworld connections, general, special-feature, access, illicit, market",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    "description": "The character possesses a flare for the creative arts.",
+    "mechanic": "Choose two **Performance** or **Vocation (Art/Craft)** sub-skills. Gain a **\\+2 Bonus** to both.",
+    "rules": "131",
+    "special_rules": "131",
+    "body": "# Artistic\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character possesses a flare for the creative arts.\n\n## Mechanics & Benefit\nChoose two **Performance** or **Vocation (Art/Craft)** sub-skills. Gain a **\\+2 Bonus** to both.\n\n## Special Rules\n131",
+    "mechanics": "Choose two **Performance** or **Vocation (Art/Craft)** sub-skills. Gain a **\\+2 Bonus** to both.",
+    "notes": "[Modifier] +2 to Both\n[Rule] 131",
+    "notesList": [
+      "[Modifier] +2 to Both",
+      "[Rule] 131"
+    ]
+  },
+  {
+    "id": "skill-attractive",
+    "name": "Attractive",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": true,
+    "max_rank": 4,
+    "is_multiple": false,
+    "prerequisites": "Charisma 2",
+    "modifiers": [
+      {
+        "target": "Social",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Social"
+      }
+    ],
+    "description": "The character possesses striking physical beauty or magnetic appeal that captures attention.",
+    "mechanic": "Gain a **\\+2 Bonus** to all Social checks where physical appearance is a factor (e.g., Seduction, First Impressions).",
+    "rules": "This feature is **\\[Ranked\\]** (Limited by Charisma score). Rank 2 grants \\+4, etc.",
+    "special_rules": "This feature is **\\[Ranked\\]** (Limited by Charisma score). Rank 2 grants \\+4, etc.",
+    "body": "# Attractive\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Charisma 2\n\n## Description\nThe character possesses striking physical beauty or magnetic appeal that captures attention.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to all Social checks where physical appearance is a factor (e.g., Seduction, First Impressions).\n\n## Special Rules\nThis feature is **\\[Ranked\\]** (Limited by Charisma score). Rank 2 grants \\+4, etc.",
+    "mechanics": "Gain a **\\+2 Bonus** to all Social checks where physical appearance is a factor (e.g., Seduction, First Impressions).",
+    "notes": "[Modifier] +2 to Social\n[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] This feature is **\\[Ranked\\]** (Limited by Charisma score). Rank 2 grants \\+4, etc.\n[Prerequisite] Charisma 2",
+    "notesList": [
+      "[Modifier] +2 to Social",
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] This feature is **\\[Ranked\\]** (Limited by Charisma score). Rank 2 grants \\+4, etc.",
+      "[Prerequisite] Charisma 2"
+    ]
+  },
+  {
+    "id": "skill-biotechnologist",
+    "name": "Biotechnologist",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Biology, Botany, or Medicine Rank 11",
+    "modifiers": [],
+    "description": "The character is an expert in the manipulation of living tissue and organic technology.",
+    "mechanic": "All **Biotechnology Prototyping** and **Grafting** checks are made with **Advantage**.",
+    "rules": "133",
+    "special_rules": "133",
+    "body": "# Biotechnologist\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Biology, Botany, or Medicine Rank 11\n\n## Description\nThe character is an expert in the manipulation of living tissue and organic technology.\n\n## Mechanics & Benefit\nAll **Biotechnology Prototyping** and **Grafting** checks are made with **Advantage**.\n\n## Special Rules\n133",
+    "mechanics": "All **Biotechnology Prototyping** and **Grafting** checks are made with **Advantage**.",
+    "notes": "[Rule] 133\n[Prerequisite] Biology, Botany, or Medicine Rank 11",
+    "notesList": [
+      "[Rule] 133",
+      "[Prerequisite] Biology, Botany, or Medicine Rank 11"
+    ]
+  },
+  {
+    "id": "skill-coding-master",
+    "name": "Coding Master",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Computer Specialist",
+    "modifiers": [],
+    "description": "Coding Master is a Skill Feature: Perform Computer Tasks at Advantage.",
+    "mechanic": "Perform Computer Tasks at Advantage.",
+    "rules": "136",
+    "special_rules": "136",
+    "body": "# Coding Master\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Computer Specialist\n\n## Description\nCoding Master is a Skill Feature: Perform Computer Tasks at Advantage.\n\n## Mechanics & Benefit\nPerform Computer Tasks at Advantage.\n\n## Special Rules\n136",
+    "mechanics": "Perform Computer Tasks at Advantage.",
+    "notes": "[Rule] 136\n[Prerequisite] Computer Specialist",
+    "notesList": [
+      "[Rule] 136",
+      "[Prerequisite] Computer Specialist"
+    ]
+  },
+  {
+    "id": "skill-computer-specialist",
+    "name": "Computer Specialist",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Computers 1",
+    "modifiers": [
+      {
+        "target": "Computer tasks Hacking",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Computer tasks Hacking"
+      },
+      {
+        "target": "Programming",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Programming"
+      },
+      {
+        "target": "Hardware Repair",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Hardware Repair"
+      }
+    ],
+    "description": "The character lives in the digital realm, navigating code as easily as walking down the street.",
+    "mechanic": "Gain a **\\+2 Bonus** to all **Computer** tasks (Hacking, Programming, Hardware Repair).",
+    "rules": "134",
+    "special_rules": "134",
+    "body": "# Computer Specialist\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Computers 1\n\n## Description\nThe character lives in the digital realm, navigating code as easily as walking down the street.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to all **Computer** tasks (Hacking, Programming, Hardware Repair).\n\n## Special Rules\n134",
+    "mechanics": "Gain a **\\+2 Bonus** to all **Computer** tasks (Hacking, Programming, Hardware Repair).",
+    "notes": "[Modifier] +2 to Computer tasks Hacking\n[Modifier] +2 to Programming\n[Modifier] +2 to Hardware Repair\n[Rule] 134\n[Prerequisite] Computers 1",
+    "notesList": [
+      "[Modifier] +2 to Computer tasks Hacking",
+      "[Modifier] +2 to Programming",
+      "[Modifier] +2 to Hardware Repair",
+      "[Rule] 134",
+      "[Prerequisite] Computers 1"
+    ]
+  },
+  {
+    "id": "skill-crack-pilot",
+    "name": "Crack Pilot",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Gifted Pilot, Pilot 11",
+    "modifiers": [],
+    "description": "Crack Pilot is a Skill Feature: +4 Piloting, +20% to Maximum Vehicle Speed.",
+    "mechanic": "\\+4 Piloting, \\+20% to Maximum Vehicle Speed.",
+    "rules": "142",
+    "special_rules": "142",
+    "body": "# Crack Pilot\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Gifted Pilot, Pilot 11\n\n## Description\nCrack Pilot is a Skill Feature: \\+4 Piloting, \\+20% to Maximum Vehicle Speed.\n\n## Mechanics & Benefit\n\\+4 Piloting, \\+20% to Maximum Vehicle Speed.\n\n## Special Rules\n142",
+    "mechanics": "\\+4 Piloting, \\+20% to Maximum Vehicle Speed.",
+    "notes": "[Rule] 142\n[Prerequisite] Gifted Pilot, Pilot 11",
+    "notesList": [
+      "[Rule] 142",
+      "[Prerequisite] Gifted Pilot, Pilot 11"
+    ]
+  },
+  {
+    "id": "skill-deceitful",
+    "name": "Deceitful",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [
+      {
+        "target": "Manipulation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Manipulation"
+      },
+      {
+        "target": "Etiquette",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Etiquette"
+      }
+    ],
+    "description": "The character is a pathological or professional liar, skilled in misdirection and blending in.",
+    "mechanic": "Gain a **\\+2 Bonus** to **Manipulation Skills** (Bluff, Disguise) and a **\\+1 Bonus** to **Etiquette** checks.",
+    "rules": "137",
+    "special_rules": "137",
+    "body": "# Deceitful\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character is a pathological or professional liar, skilled in misdirection and blending in.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Manipulation Skills** (Bluff, Disguise) and a **\\+1 Bonus** to **Etiquette** checks.\n\n## Special Rules\n137",
+    "mechanics": "Gain a **\\+2 Bonus** to **Manipulation Skills** (Bluff, Disguise) and a **\\+1 Bonus** to **Etiquette** checks.",
+    "notes": "[Modifier] +2 to Manipulation\n[Modifier] +1 to Etiquette\n[Rule] 137",
+    "notesList": [
+      "[Modifier] +2 to Manipulation",
+      "[Modifier] +1 to Etiquette",
+      "[Rule] 137"
+    ]
+  },
+  {
+    "id": "skill-digital-expert",
+    "name": "Digital Expert",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Computer Specialist",
+    "modifiers": [],
+    "description": "Digital Expert is a Skill Feature: Perform Computer Tasks in 1/2 time.",
+    "mechanic": "Perform Computer Tasks in 1/2 time.",
+    "rules": "135",
+    "special_rules": "135",
+    "body": "# Digital Expert\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Computer Specialist\n\n## Description\nDigital Expert is a Skill Feature: Perform Computer Tasks in 1/2 time.\n\n## Mechanics & Benefit\nPerform Computer Tasks in 1/2 time.\n\n## Special Rules\n135",
+    "mechanics": "Perform Computer Tasks in 1/2 time.",
+    "notes": "[Rule] 135\n[Prerequisite] Computer Specialist",
+    "notesList": [
+      "[Rule] 135",
+      "[Prerequisite] Computer Specialist"
+    ]
+  },
+  {
+    "id": "skill-educated",
+    "name": "Educated",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Academics 5, Any Knowledge 5",
+    "modifiers": [
+      {
+        "target": "Knowledge",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Knowledge"
+      }
+    ],
+    "description": "The character has received extensive formal schooling or possesses a voracious appetite for reading.",
+    "mechanic": "Gain a **\\+2 Bonus** to **Academics** and a **\\+1 Bonus** to **ALL Knowledge Skills**.",
+    "rules": "138",
+    "special_rules": "138",
+    "body": "# Educated\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Academics 5, Any Knowledge 5\n\n## Description\nThe character has received extensive formal schooling or possesses a voracious appetite for reading.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Academics** and a **\\+1 Bonus** to **ALL Knowledge Skills**.\n\n## Special Rules\n138",
+    "mechanics": "Gain a **\\+2 Bonus** to **Academics** and a **\\+1 Bonus** to **ALL Knowledge Skills**.",
+    "notes": "[Modifier] +1 to Knowledge\n[Rule] 138\n[Prerequisite] Academics 5, Any Knowledge 5",
+    "notesList": [
+      "[Modifier] +1 to Knowledge",
+      "[Rule] 138",
+      "[Prerequisite] Academics 5, Any Knowledge 5"
+    ]
+  },
+  {
+    "id": "skill-entertaining",
+    "name": "Entertaining",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": true,
+    "max_rank": 4,
+    "is_multiple": false,
+    "prerequisites": "Charisma 1",
+    "modifiers": [
+      {
+        "target": "Any Performance",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Any Performance"
+      },
+      {
+        "target": "Performance types Singing",
+        "type": "skill",
+        "value": 3,
+        "mode": "inherent",
+        "description": "+3 to Performance types Singing"
+      },
+      {
+        "target": "Dancing",
+        "type": "skill",
+        "value": 3,
+        "mode": "inherent",
+        "description": "+3 to Dancing"
+      },
+      {
+        "target": "Acting",
+        "type": "skill",
+        "value": 3,
+        "mode": "inherent",
+        "description": "+3 to Acting"
+      },
+      {
+        "target": "Etc",
+        "type": "skill",
+        "value": 3,
+        "mode": "inherent",
+        "description": "+3 to Etc"
+      }
+    ],
+    "description": "The character is a born performer, capable of holding an audience's attention.",
+    "mechanic": "Gain a **\\+1 Bonus** to **Any Performance Check**.",
+    "rules": "This feature is **\\[Ranked\\]** (Limited by Charisma). Rank 3 would grant a \\+3 to all Performance types (Singing, Dancing, Acting, etc.).",
+    "special_rules": "This feature is **\\[Ranked\\]** (Limited by Charisma). Rank 3 would grant a \\+3 to all Performance types (Singing, Dancing, Acting, etc.).",
+    "body": "# Entertaining\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Charisma 1\n\n## Description\nThe character is a born performer, capable of holding an audience's attention.\n\n## Mechanics & Benefit\nGain a **\\+1 Bonus** to **Any Performance Check**.\n\n## Special Rules\nThis feature is **\\[Ranked\\]** (Limited by Charisma). Rank 3 would grant a \\+3 to all Performance types (Singing, Dancing, Acting, etc.).",
+    "mechanics": "Gain a **\\+1 Bonus** to **Any Performance Check**.",
+    "notes": "[Modifier] +1 to Any Performance\n[Modifier] +3 to Performance types Singing\n[Modifier] +3 to Dancing\n[Modifier] +3 to Acting\n[Modifier] +3 to Etc\n[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] This feature is **\\[Ranked\\]** (Limited by Charisma). Rank 3 would grant a \\+3 to all Performance ty...\n[Prerequisite] Charisma 1",
+    "notesList": [
+      "[Modifier] +1 to Any Performance",
+      "[Modifier] +3 to Performance types Singing",
+      "[Modifier] +3 to Dancing",
+      "[Modifier] +3 to Acting",
+      "[Modifier] +3 to Etc",
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] This feature is **\\[Ranked\\]** (Limited by Charisma). Rank 3 would grant a \\+3 to all Performance ty...",
+      "[Prerequisite] Charisma 1"
+    ]
+  },
+  {
+    "id": "skill-gearhead",
+    "name": "Gearhead",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Engineering 1 or Mechanics 1",
+    "modifiers": [
+      {
+        "target": "Mechanical-based Knowledge",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Mechanical-based Knowledge"
+      },
+      {
+        "target": "Operation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Operation"
+      },
+      {
+        "target": "Repair",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Repair"
+      }
+    ],
+    "description": "The character has an intuitive understanding of machinery, engines, and mechanical systems.",
+    "mechanic": "Gain a **\\+2 Bonus** to all Mechanical-based **Knowledge**, **Operation**, and **Repair** checks.",
+    "rules": "140",
+    "special_rules": "140",
+    "body": "# Gearhead\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Engineering 1 or Mechanics 1\n\n## Description\nThe character has an intuitive understanding of machinery, engines, and mechanical systems.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to all Mechanical-based **Knowledge**, **Operation**, and **Repair** checks.\n\n## Special Rules\n140",
+    "mechanics": "Gain a **\\+2 Bonus** to all Mechanical-based **Knowledge**, **Operation**, and **Repair** checks.",
+    "notes": "[Modifier] +2 to Mechanical-based Knowledge\n[Modifier] +2 to Operation\n[Modifier] +2 to Repair\n[Rule] 140\n[Prerequisite] Engineering 1 or Mechanics 1",
+    "notesList": [
+      "[Modifier] +2 to Mechanical-based Knowledge",
+      "[Modifier] +2 to Operation",
+      "[Modifier] +2 to Repair",
+      "[Rule] 140",
+      "[Prerequisite] Engineering 1 or Mechanics 1"
+    ]
+  },
+  {
+    "id": "skill-gifted-pilot",
+    "name": "Gifted Pilot",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Pilot 6",
+    "modifiers": [
+      {
+        "target": "Piloting",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Piloting"
+      }
+    ],
+    "description": "The character feels the vehicle as an extension of their own body.",
+    "mechanic": "Gain a **\\+2 Bonus** to Piloting checks. Increase the **Maximum Speed** of any vehicle you pilot by **10%**.",
+    "rules": "141",
+    "special_rules": "141",
+    "body": "# Gifted Pilot\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Pilot 6\n\n## Description\nThe character feels the vehicle as an extension of their own body.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to Piloting checks. Increase the **Maximum Speed** of any vehicle you pilot by **10%**.\n\n## Special Rules\n141",
+    "mechanics": "Gain a **\\+2 Bonus** to Piloting checks. Increase the **Maximum Speed** of any vehicle you pilot by **10%**.",
+    "notes": "[Modifier] +2 to Piloting\n[Rule] 141\n[Prerequisite] Pilot 6",
+    "notesList": [
+      "[Modifier] +2 to Piloting",
+      "[Rule] 141",
+      "[Prerequisite] Pilot 6"
+    ]
+  },
+  {
+    "id": "skill-golden-smile",
+    "name": "Golden Smile",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Silver Tongue, Cha 2, Dip/Bluff 6",
+    "modifiers": [],
+    "description": "Golden Smile is a Skill Feature: Take 10 or add d10 to Bluff and Diplomacy checks.",
+    "mechanic": "Take 10 or add d10 to Bluff and Diplomacy checks.",
+    "rules": "162",
+    "special_rules": "162",
+    "body": "# Golden Smile\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Silver Tongue, Cha 2, Dip/Bluff 6\n\n## Description\nGolden Smile is a Skill Feature: Take 10 or add d10 to Bluff and Diplomacy checks.\n\n## Mechanics & Benefit\nTake 10 or add d10 to Bluff and Diplomacy checks.\n\n## Special Rules\n162",
+    "mechanics": "Take 10 or add d10 to Bluff and Diplomacy checks.",
+    "notes": "[Rule] 162\n[Prerequisite] Silver Tongue, Cha 2, Dip/Bluff 6",
+    "notesList": [
+      "[Rule] 162",
+      "[Prerequisite] Silver Tongue, Cha 2, Dip/Bluff 6"
+    ]
+  },
+  {
+    "id": "skill-graceful",
+    "name": "Graceful",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [
+      {
+        "target": "Agility-based Non-Attack",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Agility-based Non-Attack"
+      }
+    ],
+    "description": "The character moves with elegance and precision.",
+    "mechanic": "Gain a **\\+1 Bonus** to all **Agility-based Non-Attack Skill checks** (Acrobatics, Stealth, Sleight of Hand) and **Reflex Checks**.",
+    "rules": "144",
+    "special_rules": "144",
+    "body": "# Graceful\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character moves with elegance and precision.\n\n## Mechanics & Benefit\nGain a **\\+1 Bonus** to all **Agility-based Non-Attack Skill checks** (Acrobatics, Stealth, Sleight of Hand) and **Reflex Checks**.\n\n## Special Rules\n144",
+    "mechanics": "Gain a **\\+1 Bonus** to all **Agility-based Non-Attack Skill checks** (Acrobatics, Stealth, Sleight of Hand) and **Reflex Checks**.",
+    "notes": "[Modifier] +1 to Agility-based Non-Attack\n[Rule] 144",
+    "notesList": [
+      "[Modifier] +1 to Agility-based Non-Attack",
+      "[Rule] 144"
+    ]
+  },
+  {
+    "id": "skill-headstrong",
+    "name": "Headstrong",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [
+      {
+        "target": "Will",
+        "type": "save",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 on Will Checks"
+      },
+      {
+        "target": "Bluff",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Bluff"
+      },
+      {
+        "target": "Intimidate",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Intimidate"
+      }
+    ],
+    "description": "The character is stubborn, loud, and forceful.",
+    "mechanic": "Gain a **\\+2 Bonus** to **Bluff** and **Intimidate** checks, and a **\\+1 Bonus** to **Will Checks**.",
+    "rules": "145",
+    "special_rules": "145",
+    "body": "# Headstrong\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character is stubborn, loud, and forceful.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Bluff** and **Intimidate** checks, and a **\\+1 Bonus** to **Will Checks**.\n\n## Special Rules\n145",
+    "mechanics": "Gain a **\\+2 Bonus** to **Bluff** and **Intimidate** checks, and a **\\+1 Bonus** to **Will Checks**.",
+    "notes": "[Modifier] +1 on Will Checks\n[Modifier] +2 to Bluff\n[Modifier] +2 to Intimidate\n[Rule] 145",
+    "notesList": [
+      "[Modifier] +1 on Will Checks",
+      "[Modifier] +2 to Bluff",
+      "[Modifier] +2 to Intimidate",
+      "[Rule] 145"
+    ]
+  },
+  {
+    "id": "skill-influence",
+    "name": "Influence",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Charisma 2",
+    "modifiers": [
+      {
+        "target": "Reputation",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Reputation"
+      },
+      {
+        "target": "Favor",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Favor"
+      }
+    ],
+    "description": "The character has significant social pull within their faction or community.",
+    "mechanic": "Gain a **\\+4 Bonus** to **Reputation** and **Favor** checks (a subset of Diplomacy used to acquire resources or assistance).",
+    "rules": "146",
+    "special_rules": "146",
+    "body": "# Influence\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Charisma 2\n\n## Description\nThe character has significant social pull within their faction or community.\n\n## Mechanics & Benefit\nGain a **\\+4 Bonus** to **Reputation** and **Favor** checks (a subset of Diplomacy used to acquire resources or assistance).\n\n## Special Rules\n146",
+    "mechanics": "Gain a **\\+4 Bonus** to **Reputation** and **Favor** checks (a subset of Diplomacy used to acquire resources or assistance).",
+    "notes": "[Modifier] +4 to Reputation\n[Modifier] +4 to Favor\n[Rule] 146\n[Prerequisite] Charisma 2",
+    "notesList": [
+      "[Modifier] +4 to Reputation",
+      "[Modifier] +4 to Favor",
+      "[Rule] 146",
+      "[Prerequisite] Charisma 2"
+    ]
+  },
+  {
+    "id": "skill-investigator",
+    "name": "Investigator",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [
+      {
+        "target": "Investigation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Investigation"
+      },
+      {
+        "target": "Gather Information",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Gather Information"
+      }
+    ],
+    "description": "The character is trained to notice details and follow leads.",
+    "mechanic": "Gain a **\\+2 Bonus** to **Investigation** and **Gather Information** checks.",
+    "rules": "147",
+    "special_rules": "147",
+    "body": "# Investigator\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character is trained to notice details and follow leads.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Investigation** and **Gather Information** checks.\n\n## Special Rules\n147",
+    "mechanics": "Gain a **\\+2 Bonus** to **Investigation** and **Gather Information** checks.",
+    "notes": "[Modifier] +2 to Investigation\n[Modifier] +2 to Gather Information\n[Rule] 147",
+    "notesList": [
+      "[Modifier] +2 to Investigation",
+      "[Modifier] +2 to Gather Information",
+      "[Rule] 147"
+    ]
+  },
+  {
+    "id": "skill-linguist",
+    "name": "Linguist",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Linguistics 1",
+    "modifiers": [
+      {
+        "target": "Language",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Language"
+      }
+    ],
+    "description": "The character has an ear for dialects and syntax.",
+    "mechanic": "Gain a **\\+2 Bonus** to **Language** checks. You may **Take 10** on Language checks to decipher writing even under stress.",
+    "rules": "148",
+    "special_rules": "148",
+    "body": "# Linguist\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Linguistics 1\n\n## Description\nThe character has an ear for dialects and syntax.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Language** checks. You may **Take 10** on Language checks to decipher writing even under stress.\n\n## Special Rules\n148",
+    "mechanics": "Gain a **\\+2 Bonus** to **Language** checks. You may **Take 10** on Language checks to decipher writing even under stress.",
+    "notes": "[Modifier] +2 to Language\n[Rule] 148\n[Prerequisite] Linguistics 1",
+    "notesList": [
+      "[Modifier] +2 to Language",
+      "[Rule] 148",
+      "[Prerequisite] Linguistics 1"
+    ]
+  },
+  {
+    "id": "skill-logical",
+    "name": "Logical",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [
+      {
+        "target": "Logic",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Logic"
+      }
+    ],
+    "description": "The character approaches problems with cold, hard rationality.",
+    "mechanic": "Gain a **\\+2 Bonus** to **Logic Checks**. You may **Take 10** on Logic checks even under stress.",
+    "rules": "149",
+    "special_rules": "149",
+    "body": "# Logical\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character approaches problems with cold, hard rationality.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Logic Checks**. You may **Take 10** on Logic checks even under stress.\n\n## Special Rules\n149",
+    "mechanics": "Gain a **\\+2 Bonus** to **Logic Checks**. You may **Take 10** on Logic checks even under stress.",
+    "notes": "[Modifier] +2 to Logic\n[Rule] 149",
+    "notesList": [
+      "[Modifier] +2 to Logic",
+      "[Rule] 149"
+    ]
+  },
+  {
+    "id": "skill-magical-aptitude",
+    "name": "Magical Aptitude",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Attune"
+      },
+      {
+        "target": "Knowledge Metaphysics",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Knowledge Metaphysics"
+      }
+    ],
+    "description": "The character has a knack for the arcane theory, even if they aren't a powerful caster.",
+    "mechanic": "Gain a **\\+2 Bonus** to **Attune** checks and a **\\+1 Bonus** to **Knowledge (Metaphysics)**.",
+    "rules": "150",
+    "special_rules": "150",
+    "body": "# Magical Aptitude\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character has a knack for the arcane theory, even if they aren't a powerful caster.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Attune** checks and a **\\+1 Bonus** to **Knowledge (Metaphysics)**.\n\n## Special Rules\n150",
+    "mechanics": "Gain a **\\+2 Bonus** to **Attune** checks and a **\\+1 Bonus** to **Knowledge (Metaphysics)**.",
+    "notes": "[Modifier] +2 to Attune\n[Modifier] +1 to Knowledge Metaphysics\n[Rule] 150",
+    "notesList": [
+      "[Modifier] +2 to Attune",
+      "[Modifier] +1 to Knowledge Metaphysics",
+      "[Rule] 150"
+    ]
+  },
+  {
+    "id": "skill-master-craftsman",
+    "name": "Master Craftsman",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Crafting 6",
+    "modifiers": [
+      {
+        "target": "Crafting",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Crafting"
+      },
+      {
+        "target": "The DC limit of what you can create allowing for more complex modifications",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to The DC limit of what you can create allowing for more complex modifications"
+      }
+    ],
+    "description": "The character creates items of superior quality and durability.",
+    "mechanic": "Gain a **\\+2 Bonus** to Crafting checks. When creating **Masterwork** items, you add **\\+2** to the DC limit of what you can create (allowing for more complex modifications).",
+    "rules": "151",
+    "special_rules": "151",
+    "body": "# Master Craftsman\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Crafting 6\n\n## Description\nThe character creates items of superior quality and durability.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to Crafting checks. When creating **Masterwork** items, you add **\\+2** to the DC limit of what you can create (allowing for more complex modifications).\n\n## Special Rules\n151",
+    "mechanics": "Gain a **\\+2 Bonus** to Crafting checks. When creating **Masterwork** items, you add **\\+2** to the DC limit of what you can create (allowing for more complex modifications).",
+    "notes": "[Modifier] +2 to Crafting\n[Modifier] +2 to The DC limit of what you can create allowing for more complex modifications\n[Rule] 151\n[Prerequisite] Crafting 6",
+    "notesList": [
+      "[Modifier] +2 to Crafting",
+      "[Modifier] +2 to The DC limit of what you can create allowing for more complex modifications",
+      "[Rule] 151",
+      "[Prerequisite] Crafting 6"
+    ]
+  },
+  {
+    "id": "skill-medic",
+    "name": "Medic",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Medicine 1",
+    "modifiers": [
+      {
+        "target": "Medicine",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Medicine"
+      }
+    ],
+    "description": "The character is trained in emergency triage and trauma care.",
+    "mechanic": "Gain a **\\+2 Bonus** to Medicine checks.",
+    "rules": "You may perform **First Aid** (stabilize a dying character) as a **Standard Action** rather than a Full Round Action.",
+    "special_rules": "You may perform **First Aid** (stabilize a dying character) as a **Standard Action** rather than a Full Round Action.",
+    "body": "# Medic\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Medicine 1\n\n## Description\nThe character is trained in emergency triage and trauma care.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to Medicine checks.\n\n## Special Rules\nYou may perform **First Aid** (stabilize a dying character) as a **Standard Action** rather than a Full Round Action.",
+    "mechanics": "Gain a **\\+2 Bonus** to Medicine checks.",
+    "notes": "[Modifier] +2 to Medicine\n[Rule] You may perform **First Aid** (stabilize a dying character) as a **Standard Action** rather than a F...\n[Prerequisite] Medicine 1",
+    "notesList": [
+      "[Modifier] +2 to Medicine",
+      "[Rule] You may perform **First Aid** (stabilize a dying character) as a **Standard Action** rather than a F...",
+      "[Prerequisite] Medicine 1"
+    ]
+  },
+  {
+    "id": "skill-meticulous",
+    "name": "Meticulous",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [],
+    "description": "The character is exceptionally thorough. When they take their time, they rarely fail.",
+    "mechanic": "The bonus gained from taking extra time on a skill check is improved.",
+    "rules": "153",
+    "special_rules": "153",
+    "body": "# Meticulous\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character is exceptionally thorough. When they take their time, they rarely fail.\n\n## Mechanics & Benefit\nThe bonus gained from taking extra time on a skill check is improved.\n\n## Special Rules\n153",
+    "mechanics": "The bonus gained from taking extra time on a skill check is improved.",
+    "notes": "[Rule] 153",
+    "notesList": [
+      "[Rule] 153"
+    ]
+  },
+  {
+    "id": "skill-naturalist",
+    "name": "Naturalist",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [
+      {
+        "target": "Nature Knowledge",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Nature Knowledge"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Survival"
+      }
+    ],
+    "description": "The character is at home in the wild.",
+    "mechanic": "Gain a **\\+2 Bonus** to **Nature** (Knowledge) and **Survival** checks.",
+    "rules": "154",
+    "special_rules": "154",
+    "body": "# Naturalist\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character is at home in the wild.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Nature** (Knowledge) and **Survival** checks.\n\n## Special Rules\n154",
+    "mechanics": "Gain a **\\+2 Bonus** to **Nature** (Knowledge) and **Survival** checks.",
+    "notes": "[Modifier] +2 to Nature Knowledge\n[Modifier] +2 to Survival\n[Rule] 154",
+    "notesList": [
+      "[Modifier] +2 to Nature Knowledge",
+      "[Modifier] +2 to Survival",
+      "[Rule] 154"
+    ]
+  },
+  {
+    "id": "skill-nimble-fingers",
+    "name": "Nimble Fingers",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [
+      {
+        "target": "Sleight of Hand",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Sleight of Hand"
+      },
+      {
+        "target": "Disable Device Security",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Disable Device Security"
+      },
+      {
+        "target": "Mechanics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Mechanics"
+      }
+    ],
+    "description": "The character has excellent manual dexterity for fine manipulation.",
+    "mechanic": "Gain a **\\+2 Bonus** to **Sleight of Hand** and **Disable Device** (Security/Mechanics) checks.",
+    "rules": "155",
+    "special_rules": "155",
+    "body": "# Nimble Fingers\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character has excellent manual dexterity for fine manipulation.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Sleight of Hand** and **Disable Device** (Security/Mechanics) checks.\n\n## Special Rules\n155",
+    "mechanics": "Gain a **\\+2 Bonus** to **Sleight of Hand** and **Disable Device** (Security/Mechanics) checks.",
+    "notes": "[Modifier] +2 to Sleight of Hand\n[Modifier] +2 to Disable Device Security\n[Modifier] +2 to Mechanics\n[Rule] 155",
+    "notesList": [
+      "[Modifier] +2 to Sleight of Hand",
+      "[Modifier] +2 to Disable Device Security",
+      "[Modifier] +2 to Mechanics",
+      "[Rule] 155"
+    ]
+  },
+  {
+    "id": "skill-perceptive",
+    "name": "Perceptive",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [
+      {
+        "target": "Perception",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Perception"
+      },
+      {
+        "target": "Insight",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Insight"
+      }
+    ],
+    "description": "The character notices things others miss.",
+    "mechanic": "Gain a **\\+2 Bonus** to **Perception** checks (Alertness) and a **\\+1 Bonus** to **Insight** checks.",
+    "rules": "157",
+    "special_rules": "157",
+    "body": "# Perceptive\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character notices things others miss.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Perception** checks (Alertness) and a **\\+1 Bonus** to **Insight** checks.\n\n## Special Rules\n157",
+    "mechanics": "Gain a **\\+2 Bonus** to **Perception** checks (Alertness) and a **\\+1 Bonus** to **Insight** checks.",
+    "notes": "[Modifier] +2 to Perception\n[Modifier] +1 to Insight\n[Rule] 157",
+    "notesList": [
+      "[Modifier] +2 to Perception",
+      "[Modifier] +1 to Insight",
+      "[Rule] 157"
+    ]
+  },
+  {
+    "id": "skill-persuasive",
+    "name": "Persuasive",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [
+      {
+        "target": "Diplomacy",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Diplomacy"
+      },
+      {
+        "target": "Intimidate",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Intimidate"
+      }
+    ],
+    "description": "The character is convincing and compelling.",
+    "mechanic": "Gain a **\\+2 Bonus** to **Diplomacy** and **Intimidate** checks.",
+    "rules": "156",
+    "special_rules": "156",
+    "body": "# Persuasive\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character is convincing and compelling.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Diplomacy** and **Intimidate** checks.\n\n## Special Rules\n156",
+    "mechanics": "Gain a **\\+2 Bonus** to **Diplomacy** and **Intimidate** checks.",
+    "notes": "[Modifier] +2 to Diplomacy\n[Modifier] +2 to Intimidate\n[Rule] 156",
+    "notesList": [
+      "[Modifier] +2 to Diplomacy",
+      "[Modifier] +2 to Intimidate",
+      "[Rule] 156"
+    ]
+  },
+  {
+    "id": "skill-platinum-personality",
+    "name": "Platinum Personality",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Golden Smile, Cha 4, Dip/Bluff 11",
+    "modifiers": [],
+    "description": "Platinum Personality is a Skill Feature: Make Bluff and Diplomacy Checks with Advantage.",
+    "mechanic": "Make Bluff and Diplomacy Checks with Advantage.",
+    "rules": "163",
+    "special_rules": "163",
+    "body": "# Platinum Personality\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Golden Smile, Cha 4, Dip/Bluff 11\n\n## Description\nPlatinum Personality is a Skill Feature: Make Bluff and Diplomacy Checks with Advantage.\n\n## Mechanics & Benefit\nMake Bluff and Diplomacy Checks with Advantage.\n\n## Special Rules\n163",
+    "mechanics": "Make Bluff and Diplomacy Checks with Advantage.",
+    "notes": "[Rule] 163\n[Prerequisite] Golden Smile, Cha 4, Dip/Bluff 11",
+    "notesList": [
+      "[Rule] 163",
+      "[Prerequisite] Golden Smile, Cha 4, Dip/Bluff 11"
+    ]
+  },
+  {
+    "id": "skill-power-attack",
+    "name": "Power Attack",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Strength 2, Unarmed or Melee 6",
+    "modifiers": [],
+    "description": "The character sacrifices precision for raw force, trading attack accuracy for devastating damage.",
+    "mechanic": "When declaring a melee attack, you may choose to take a penalty up to your Combat Skill Rank on your **Strike** (Attack) roll. You add this same amount as a bonus to your **Damage** roll. This choice is made before you roll your attack and lasts until the start of your next turn.",
+    "rules": "This bonus to damage is considered a \"Power\" bonus, which may not stack with other features that grant generic bonus damage.",
+    "special_rules": "This bonus to damage is considered a \"Power\" bonus, which may not stack with other features that grant generic bonus damage.",
+    "body": "# Power Attack\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Strength 2, Unarmed or Melee 6\n\n## Description\nThe character sacrifices precision for raw force, trading attack accuracy for devastating damage.\n\n## Mechanics & Benefit\nWhen declaring a melee attack, you may choose to take a penalty up to your Combat Skill Rank on your **Strike** (Attack) roll. You add this same amount as a bonus to your **Damage** roll. This choice is made before you roll your attack and lasts until the start of your next turn.\n\n## Special Rules\nThis bonus to damage is considered a \"Power\" bonus, which may not stack with other features that grant generic bonus damage.",
+    "mechanics": "When declaring a melee attack, you may choose to take a penalty up to your Combat Skill Rank on your **Strike** (Attack) roll. You add this same amount as a bonus to your **Damage** roll. This choice is made before you roll your attack and lasts until the start of your next turn.",
+    "notes": "[Rule] This bonus to damage is considered a \"Power\" bonus, which may not stack with other features that gra...\n[Prerequisite] Strength 2, Unarmed or Melee 6",
+    "notesList": [
+      "[Rule] This bonus to damage is considered a \"Power\" bonus, which may not stack with other features that gra...",
+      "[Prerequisite] Strength 2, Unarmed or Melee 6"
+    ]
+  },
+  {
+    "id": "skill-researcher",
+    "name": "Researcher",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [
+      {
+        "target": "Academics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Academics"
+      },
+      {
+        "target": "Library Use",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Library Use"
+      }
+    ],
+    "description": "The character knows how to navigate data archives and libraries.",
+    "mechanic": "Gain a **\\+2 Bonus** to **Academics** and **Library Use** checks.",
+    "rules": "158",
+    "special_rules": "158",
+    "body": "# Researcher\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character knows how to navigate data archives and libraries.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Academics** and **Library Use** checks.\n\n## Special Rules\n158",
+    "mechanics": "Gain a **\\+2 Bonus** to **Academics** and **Library Use** checks.",
+    "notes": "[Modifier] +2 to Academics\n[Modifier] +2 to Library Use\n[Rule] 158",
+    "notesList": [
+      "[Modifier] +2 to Academics",
+      "[Modifier] +2 to Library Use",
+      "[Rule] 158"
+    ]
+  },
+  {
+    "id": "skill-scholar",
+    "name": "Scholar",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [
+      {
+        "target": "Knowledge",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Knowledge"
+      }
+    ],
+    "description": "The character is an academic with a broad base of learning.",
+    "mechanic": "Gain a **\\+2 Bonus** to **ALL Knowledge Skills**.",
+    "rules": "159",
+    "special_rules": "159",
+    "body": "# Scholar\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character is an academic with a broad base of learning.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **ALL Knowledge Skills**.\n\n## Special Rules\n159",
+    "mechanics": "Gain a **\\+2 Bonus** to **ALL Knowledge Skills**.",
+    "notes": "[Modifier] +2 to Knowledge\n[Rule] 159",
+    "notesList": [
+      "[Modifier] +2 to Knowledge",
+      "[Rule] 159"
+    ]
+  },
+  {
+    "id": "skill-self-sufficient",
+    "name": "Self Sufficient",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [
+      {
+        "target": "Fortitude",
+        "type": "save",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 on Fortitude Checks"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Survival"
+      }
+    ],
+    "description": "The character can take care of themselves in the wild without support.",
+    "mechanic": "Gain a **\\+2 Bonus** to **Survival** checks and a **\\+1 Bonus** to **Fortitude** checks.",
+    "rules": "160",
+    "special_rules": "160",
+    "body": "# Self Sufficient\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character can take care of themselves in the wild without support.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Survival** checks and a **\\+1 Bonus** to **Fortitude** checks.\n\n## Special Rules\n160",
+    "mechanics": "Gain a **\\+2 Bonus** to **Survival** checks and a **\\+1 Bonus** to **Fortitude** checks.",
+    "notes": "[Modifier] +1 on Fortitude Checks\n[Modifier] +2 to Survival\n[Rule] 160",
+    "notesList": [
+      "[Modifier] +1 on Fortitude Checks",
+      "[Modifier] +2 to Survival",
+      "[Rule] 160"
+    ]
+  },
+  {
+    "id": "skill-silver-tongue",
+    "name": "Silver Tongue",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Charisma 1, Diplomacy 1",
+    "modifiers": [],
+    "description": "The character knows exactly what to say to defuse a situation or make a friend.",
+    "mechanic": "When using Diplomacy to change an NPC's attitude, you improve it by **one additional step** (e.g., Hostile becomes Indifferent instead of Unfriendly).",
+    "rules": "161",
+    "special_rules": "161",
+    "body": "# Silver Tongue\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Charisma 1, Diplomacy 1\n\n## Description\nThe character knows exactly what to say to defuse a situation or make a friend.\n\n## Mechanics & Benefit\nWhen using Diplomacy to change an NPC's attitude, you improve it by **one additional step** (e.g., Hostile becomes Indifferent instead of Unfriendly).\n\n## Special Rules\n161",
+    "mechanics": "When using Diplomacy to change an NPC's attitude, you improve it by **one additional step** (e.g., Hostile becomes Indifferent instead of Unfriendly).",
+    "notes": "[Rule] 161\n[Prerequisite] Charisma 1, Diplomacy 1",
+    "notesList": [
+      "[Rule] 161",
+      "[Prerequisite] Charisma 1, Diplomacy 1"
+    ]
+  },
+  {
+    "id": "skill-skill-focus",
+    "name": "Skill Focus",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": true,
+    "max_rank": 4,
+    "is_multiple": true,
+    "prerequisites": "Chosen Skill Rank 1",
+    "modifiers": [
+      {
+        "target": "The chosen",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to The chosen"
+      }
+    ],
+    "description": "The character has dedicated significant effort to mastering a specific skill.",
+    "mechanic": "Gain a **\\+2 Bonus** to the chosen skill.",
+    "rules": "This feature is **\\[Multiple\\]** and **\\[Ranked\\]**. You may purchase it again for the *same* skill each time you reach a new Skill Stage (Novice, Trained, Expert, Master) to stack the bonuses. (e.g., A Master (Rank 16\\) with 4 ranks of Skill Focus has a total \\+8 bonus from this feature).",
+    "special_rules": "This feature is **\\[Multiple\\]** and **\\[Ranked\\]**. You may purchase it again for the *same* skill each time you reach a new Skill Stage (Novice, Trained, Expert, Master) to stack the bonuses. (e.g., A Master (Rank 16\\) with 4 ranks of Skill Focus has a total \\+8 bonus from this feature).",
+    "body": "# Skill Focus\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Chosen Skill Rank 1\n\n## Description\nThe character has dedicated significant effort to mastering a specific skill.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to the chosen skill.\n\n## Special Rules\nThis feature is **\\[Multiple\\]** and **\\[Ranked\\]**. You may purchase it again for the *same* skill each time you reach a new Skill Stage (Novice, Trained, Expert, Master) to stack the bonuses. (e.g., A Master (Rank 16\\) with 4 ranks of Skill Focus has a total \\+8 bonus from this feature).",
+    "mechanics": "Gain a **\\+2 Bonus** to the chosen skill.",
+    "notes": "[Modifier] +2 to The chosen\n[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature is **\\[Multiple\\]** and **\\[Ranked\\]**. You may purchase it again for the *same* skill ...\n[Prerequisite] Chosen Skill Rank 1",
+    "notesList": [
+      "[Modifier] +2 to The chosen",
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] Multiple: May be purchased separately for different categories/types",
+      "[Rule] This feature is **\\[Multiple\\]** and **\\[Ranked\\]**. You may purchase it again for the *same* skill ...",
+      "[Prerequisite] Chosen Skill Rank 1"
+    ]
+  },
+  {
+    "id": "skill-skill-mastery",
+    "name": "Skill Mastery",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Skill Focus (2), Rank 11+",
+    "modifiers": [],
+    "description": "Skill Mastery is a Skill Feature: Take 10 with ALL skills at 11+ with Skill Focus.",
+    "mechanic": "Take 10 with ALL skills at 11+ with Skill Focus.",
+    "rules": "165",
+    "special_rules": "165",
+    "body": "# Skill Mastery\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Skill Focus (2), Rank 11+\n\n## Description\nSkill Mastery is a Skill Feature: Take 10 with ALL skills at 11+ with Skill Focus.\n\n## Mechanics & Benefit\nTake 10 with ALL skills at 11+ with Skill Focus.\n\n## Special Rules\n165",
+    "mechanics": "Take 10 with ALL skills at 11+ with Skill Focus.",
+    "notes": "[Rule] 165\n[Prerequisite] Skill Focus (2), Rank 11+",
+    "notesList": [
+      "[Rule] 165",
+      "[Prerequisite] Skill Focus (2), Rank 11+"
+    ]
+  },
+  {
+    "id": "skill-skill-specialization",
+    "name": "Skill Specialization",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": true,
+    "prerequisites": "Chosen Skill Rank 6 (Trained)",
+    "modifiers": [],
+    "description": "The character drills deep into a specific niche of a broad skill.",
+    "mechanic": "Choose a sub-category of the skill (e.g., *Firearms: Sniping* or *Computers: Hacking*). You gain a separate pool of ranks in this specialization equal to your base skill rank (up to \\+10).",
+    "rules": "\\[Multiple\\] Can be taken for different skills or different sub-categories.",
+    "special_rules": "\\[Multiple\\] Can be taken for different skills or different sub-categories.",
+    "body": "# Skill Specialization\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Chosen Skill Rank 6 (Trained)\n\n## Description\nThe character drills deep into a specific niche of a broad skill.\n\n## Mechanics & Benefit\nChoose a sub-category of the skill (e.g., *Firearms: Sniping* or *Computers: Hacking*). You gain a separate pool of ranks in this specialization equal to your base skill rank (up to \\+10).\n\n## Special Rules\n\\[Multiple\\] Can be taken for different skills or different sub-categories.",
+    "mechanics": "Choose a sub-category of the skill (e.g., *Firearms: Sniping* or *Computers: Hacking*). You gain a separate pool of ranks in this specialization equal to your base skill rank (up to \\+10).",
+    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] \\[Multiple\\] Can be taken for different skills or different sub-categories.\n[Prerequisite] Chosen Skill Rank 6 (Trained)",
+    "notesList": [
+      "[Rule] Multiple: May be purchased separately for different categories/types",
+      "[Rule] \\[Multiple\\] Can be taken for different skills or different sub-categories.",
+      "[Prerequisite] Chosen Skill Rank 6 (Trained)"
+    ]
+  },
+  {
+    "id": "skill-social",
+    "name": "Social",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [
+      {
+        "target": "Charisma",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Charisma"
+      }
+    ],
+    "description": "The character is a social butterfly.",
+    "mechanic": "Gain a **\\+1 Bonus** to **ALL Charisma Skills** and **Etiquette** checks.",
+    "rules": "167",
+    "special_rules": "167",
+    "body": "# Social\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character is a social butterfly.\n\n## Mechanics & Benefit\nGain a **\\+1 Bonus** to **ALL Charisma Skills** and **Etiquette** checks.\n\n## Special Rules\n167",
+    "mechanics": "Gain a **\\+1 Bonus** to **ALL Charisma Skills** and **Etiquette** checks.",
+    "notes": "[Modifier] +1 to Charisma\n[Rule] 167",
+    "notesList": [
+      "[Modifier] +1 to Charisma",
+      "[Rule] 167"
+    ]
+  },
+  {
+    "id": "skill-spacer",
+    "name": "Spacer",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [
+      {
+        "target": "Starship Operation Vocation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Starship Operation Vocation"
+      },
+      {
+        "target": "Pilot",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Pilot"
+      },
+      {
+        "target": "Any Space Survival",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Any Space Survival"
+      }
+    ],
+    "description": "The character was born or raised in the void; zero-g and vacuum are second nature.",
+    "mechanic": "Gain a **\\+2 Bonus** to **Starship Operation** (Vocation/Pilot) and any **Space Survival** checks.",
+    "rules": "168",
+    "special_rules": "168",
+    "body": "# Spacer\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character was born or raised in the void; zero-g and vacuum are second nature.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Starship Operation** (Vocation/Pilot) and any **Space Survival** checks.\n\n## Special Rules\n168",
+    "mechanics": "Gain a **\\+2 Bonus** to **Starship Operation** (Vocation/Pilot) and any **Space Survival** checks.",
+    "notes": "[Modifier] +2 to Starship Operation Vocation\n[Modifier] +2 to Pilot\n[Modifier] +2 to Any Space Survival\n[Rule] 168",
+    "notesList": [
+      "[Modifier] +2 to Starship Operation Vocation",
+      "[Modifier] +2 to Pilot",
+      "[Modifier] +2 to Any Space Survival",
+      "[Rule] 168"
+    ]
+  },
+  {
+    "id": "skill-steady",
+    "name": "Steady",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [
+      {
+        "target": "Reflex",
+        "type": "save",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 on Reflex Checks"
+      }
+    ],
+    "description": "The character has excellent balance and steady hands.",
+    "mechanic": "Gain a **\\+2 Bonus** to **Acrobatics** and **Athletics** (Balancing/Climbing) and a **\\+1 Bonus** to **Reflex** checks.",
+    "rules": "169",
+    "special_rules": "169",
+    "body": "# Steady\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character has excellent balance and steady hands.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Acrobatics** and **Athletics** (Balancing/Climbing) and a **\\+1 Bonus** to **Reflex** checks.\n\n## Special Rules\n169",
+    "mechanics": "Gain a **\\+2 Bonus** to **Acrobatics** and **Athletics** (Balancing/Climbing) and a **\\+1 Bonus** to **Reflex** checks.",
+    "notes": "[Modifier] +1 on Reflex Checks\n[Rule] 169",
+    "notesList": [
+      "[Modifier] +1 on Reflex Checks",
+      "[Rule] 169"
+    ]
+  },
+  {
+    "id": "skill-stealthy",
+    "name": "Stealthy",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Agility 2",
+    "modifiers": [
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Stealth"
+      }
+    ],
+    "description": "The character is a shadow.",
+    "mechanic": "Gain a **\\+2 Bonus** to **Escape Artist** and **Sleight of Hand**; Gain a **\\+4 Bonus** to **Stealth** checks.",
+    "rules": "170",
+    "special_rules": "170",
+    "body": "# Stealthy\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Agility 2\n\n## Description\nThe character is a shadow.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Escape Artist** and **Sleight of Hand**; Gain a **\\+4 Bonus** to **Stealth** checks.\n\n## Special Rules\n170",
+    "mechanics": "Gain a **\\+2 Bonus** to **Escape Artist** and **Sleight of Hand**; Gain a **\\+4 Bonus** to **Stealth** checks.",
+    "notes": "[Modifier] +4 to Stealth\n[Rule] 170\n[Prerequisite] Agility 2",
+    "notesList": [
+      "[Modifier] +4 to Stealth",
+      "[Rule] 170",
+      "[Prerequisite] Agility 2"
+    ]
+  },
+  {
+    "id": "skill-stout",
+    "name": "Stout",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [
+      {
+        "target": "Stamina & Constitution",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Stamina & Constitution"
+      }
+    ],
+    "description": "The character is built like a tank, broad and sturdy.",
+    "mechanic": "Gain a **\\+1 Bonus** to **ALL Stamina & Constitution Skills**, as well as **Might** and **Fortitude** checks.",
+    "rules": "171",
+    "special_rules": "171",
+    "body": "# Stout\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character is built like a tank, broad and sturdy.\n\n## Mechanics & Benefit\nGain a **\\+1 Bonus** to **ALL Stamina & Constitution Skills**, as well as **Might** and **Fortitude** checks.\n\n## Special Rules\n171",
+    "mechanics": "Gain a **\\+1 Bonus** to **ALL Stamina & Constitution Skills**, as well as **Might** and **Fortitude** checks.",
+    "notes": "[Modifier] +1 to Stamina & Constitution\n[Rule] 171",
+    "notesList": [
+      "[Modifier] +1 to Stamina & Constitution",
+      "[Rule] 171"
+    ]
+  },
+  {
+    "id": "skill-trustworthy",
+    "name": "Trustworthy",
+    "category": "Skill",
+    "type": "skill",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [
+      {
+        "target": "Manipulation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Manipulation"
+      },
+      {
+        "target": "Culture",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Culture"
+      }
+    ],
+    "description": "The character has an honest face and a reliable demeanor.",
+    "mechanic": "Gain a **\\+2 Bonus** to **Manipulation Skills** (Bluff/Diplomacy) and a **\\+1 Bonus** to **Culture** checks (fitting in).",
+    "rules": "172",
+    "special_rules": "172",
+    "body": "# Trustworthy\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character has an honest face and a reliable demeanor.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Manipulation Skills** (Bluff/Diplomacy) and a **\\+1 Bonus** to **Culture** checks (fitting in).\n\n## Special Rules\n172",
+    "mechanics": "Gain a **\\+2 Bonus** to **Manipulation Skills** (Bluff/Diplomacy) and a **\\+1 Bonus** to **Culture** checks (fitting in).",
+    "notes": "[Modifier] +2 to Manipulation\n[Modifier] +1 to Culture\n[Rule] 172",
+    "notesList": [
+      "[Modifier] +2 to Manipulation",
+      "[Modifier] +1 to Culture",
+      "[Rule] 172"
+    ]
   },
   {
     "id": "skill-veiled-threat",
@@ -8525,9 +8024,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 173",
       "[Prerequisite] Intimidate 6"
-    ],
-    "keywords": "veiled threat, skill, special-feature, menace, someone, subtly",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "skill-versatile-curator",
@@ -8558,9 +8055,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 174",
       "[Prerequisite] Knowledge 6, Intellect 2"
-    ],
-    "keywords": "versatile curator, skill, special-feature, trivia",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "skill-versatile-performer",
@@ -8591,9 +8086,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 175",
       "[Prerequisite] Perform 6, Intellect 2"
-    ],
-    "keywords": "versatile performer, skill, special-feature, multi-talented, artist",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
     "id": "skill-versatile-professional",
@@ -8623,28 +8116,26 @@ export const DEFAULT_FEATURES = [
       }
     ],
     "description": "The character knows every job on the crew.",
-    "mechanic": "You gain \"Virtual Skills\" in the Vocation category. For every point of Intellect Bonus (INT > 1), gain access to a related Vocation sub-skill without spending BP. Example: A Soldier with Int +2 might gain Virtual Ranks in Armorer and Demolitions.",
-    "rules": "Virtual skills function as additional Vocation skills (1 per Int > 1).",
-    "special_rules": "Virtual skills function as additional Vocation skills (1 per Int > 1).",
-    "body": "# Versatile Professional\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Vocation 6, Intellect 2\n\n## Description\nThe character knows every job on the crew.\n\n## Mechanics & Benefit\nYou gain \"Virtual Skills\" in the Vocation category. For every point of Intellect Bonus (INT > 1), gain access to a related Vocation sub-skill without spending BP.\n\n## Special Rules\nVirtual skills function as additional Vocation skills (1 per Int > 1).",
-    "mechanics": "You gain \"Virtual Skills\" in the Vocation category. For every point of Intellect Bonus (INT > 1), gain access to a related Vocation sub-skill without spending BP. Example: A Soldier with Int +2 might gain Virtual Ranks in Armorer and Demolitions.",
+    "mechanic": "You gain \"Virtual Skills\" in the Vocation category. For every point of Intellect Bonus, gain access to a related Vocation sub-skill without spending BP.  \n  * *Example:* A Soldier with Int \\+2 might gain Virtual Ranks in *Armorer* and *Demolitions*.\n\n# **SPECIAL FEATURES**\n\n# **SPECIAL FEATURES**\n\nSpecies traits, supernatural senses, and augmentations.\n\n| FEATURE NAME | PREREQUISITE | BENEFIT / EFFECT | SPECIAL / NOTES |\n| :---- | :---- | :---- | :---- |\n| **Acute Sense** | \\- | \\+2 to Awareness Checks with chosen sense. |    |\n| **Analytical Sense** | Acute Sense | Gain specific and detailed information from sense. |    |\n| **Uncanny Sense** | Acute Sense | Roll Awareness Checks with chosen sense at Advantage. |    |\n| **Augmented** | \\- | Cybernetic / Biological / Meta Improvements. |    |\n| **Heavy Augmentations** | Augmented | More Intensive Replacements and Enhancements. |    |\n| **Extreme Augmentations** | Heavy Augmented | Replaces a majority of biological components. |    |\n| **Biotechnology** | Awakened or TL4 | Imprinting, using and manipulating Living Technology. |    |\n| **Bonded** | \\- | Tele-Empathic connection with another. |    |\n| **Companion** | Cha | Bio, Tech or other 40BP Companion. | Rank, Multi |\n| **Familiar** | Companion | Empathically linked; know location/state |   |\n| **Mind Link** | Companion | Telepathic link; share skills/knowledge |    |\n| **Shared Senses** | Companion | Gain the senses of and sense through the other |    |\n| **Danger Sense** | Wis 1 | Surprise Checks are made with Advantage. |    |\n| **Dwarfism** | \\- | Smaller than normal size (one category smaller). |    |\n| **Eldritch Heritage** | \\- | Gain a Bloodline Power (Sorcerer/Meta). |    |\n| **Energy Resistance** | \\- | Resistance 5 vs chosen Energy Type. | Rank (up to Immun)    |\n| **Giant** | \\- | Larger than normal size (one category larger). |    |\n| **Life Support** | \\- | Breathe in a non-native environment (Water, Gas, etc). | Multi |\n| **Low Light Vision** | \\- | See in dim light as if bright light. |    |\n| **Darksight** | \\- | See in darkness (Black and White only). |    |\n| **Natural Weapons** | \\- | Armed with Claws, Fangs, Horns etc. | Rank |\n| **Rage** | \\- | \\+2 Str/Con/Will, \\-2 AC, No mental skills. | Rank |\n| **Resistance** | \\- | \\+2 vs Disease, Poison, Magic, etc. | Multi |\n| **Scent** | \\- | Detect opponents by smell (Wisdom Check). |    |\n| **Self-Sustaining** | \\- | Do not need to eat or drink. |    |\n| **Sleepless** | \\- | Do not need to sleep (immunity to sleep effects). |    |\n| **Sense** | Special Ability | Sense 20 ft Radius or a 40 ft Cone (Evil, Magic, etc). | Multi |\n| **Sense, Uncontrolled** | \\- | As Sense, but no off switch; 30 ft Radius / 60 ft Cone. | Multi |\n| **Sneak Attack** | Agi 2, Stealth 1 | Add Int and 1 extra die to damage if target flat footed. | Rank |\n| **Bleed** | Sneak Attack | Cause 1 point Bleed Damage per die of Sneak Attack. |    |\n| **Blind** | Sneak Attack | Direct attack to a target's Sense. |  |\n| **Cripple** | Sneak Attack | Cause severe damage to a target's limb. |  |\n| **Hobble** | Sneak Attack | Reduce a target’s speed by 50% (immobilize on 2nd). |  |\n| **Technologist** | Special | Improved Technology Level in a field of study. | Multi (5+/advance) |\n| **Telepathy** | Special Ability | Mental Communication with any intelligent lifeform. |  |\n| **Wild Speech** | \\- | Communicate with animals. |  |\n\nSpecial Features are often restricted by Species, Origin, or Technology Level. They represent biological realities or extensive body modification rather than simple training.",
+    "rules": "176",
+    "special_rules": "176",
+    "body": "# Versatile Professional\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Vocation 6, Intellect 2\n\n## Description\nThe character knows every job on the crew.\n\n## Mechanics & Benefit\nYou gain \"Virtual Skills\" in the Vocation category. For every point of Intellect Bonus, gain access to a related Vocation sub-skill without spending BP.  \n  * *Example:* A Soldier with Int \\+2 might gain Virtual Ranks in *Armorer* and *Demolitions*.\n\n# **SPECIAL FEATURES**\n\n# **SPECIAL FEATURES**\n\nSpecies traits, supernatural senses, and augmentations.\n\n| FEATURE NAME | PREREQUISITE | BENEFIT / EFFECT | SPECIAL / NOTES |\n| :---- | :---- | :---- | :---- |\n| **Acute Sense** | \\- | \\+2 to Awareness Checks with chosen sense. |    |\n| **Analytical Sense** | Acute Sense | Gain specific and detailed information from sense. |    |\n| **Uncanny Sense** | Acute Sense | Roll Awareness Checks with chosen sense at Advantage. |    |\n| **Augmented** | \\- | Cybernetic / Biological / Meta Improvements. |    |\n| **Heavy Augmentations** | Augmented | More Intensive Replacements and Enhancements. |    |\n| **Extreme Augmentations** | Heavy Augmented | Replaces a majority of biological components. |    |\n| **Biotechnology** | Awakened or TL4 | Imprinting, using and manipulating Living Technology. |    |\n| **Bonded** | \\- | Tele-Empathic connection with another. |    |\n| **Companion** | Cha | Bio, Tech or other 40BP Companion. | Rank, Multi |\n| **Familiar** | Companion | Empathically linked; know location/state |   |\n| **Mind Link** | Companion | Telepathic link; share skills/knowledge |    |\n| **Shared Senses** | Companion | Gain the senses of and sense through the other |    |\n| **Danger Sense** | Wis 1 | Surprise Checks are made with Advantage. |    |\n| **Dwarfism** | \\- | Smaller than normal size (one category smaller). |    |\n| **Eldritch Heritage** | \\- | Gain a Bloodline Power (Sorcerer/Meta). |    |\n| **Energy Resistance** | \\- | Resistance 5 vs chosen Energy Type. | Rank (up to Immun)    |\n| **Giant** | \\- | Larger than normal size (one category larger). |    |\n| **Life Support** | \\- | Breathe in a non-native environment (Water, Gas, etc). | Multi |\n| **Low Light Vision** | \\- | See in dim light as if bright light. |    |\n| **Darksight** | \\- | See in darkness (Black and White only). |    |\n| **Natural Weapons** | \\- | Armed with Claws, Fangs, Horns etc. | Rank |\n| **Rage** | \\- | \\+2 Str/Con/Will, \\-2 AC, No mental skills. | Rank |\n| **Resistance** | \\- | \\+2 vs Disease, Poison, Magic, etc. | Multi |\n| **Scent** | \\- | Detect opponents by smell (Wisdom Check). |    |\n| **Self-Sustaining** | \\- | Do not need to eat or drink. |    |\n| **Sleepless** | \\- | Do not need to sleep (immunity to sleep effects). |    |\n| **Sense** | Special Ability | Sense 20 ft Radius or a 40 ft Cone (Evil, Magic, etc). | Multi |\n| **Sense, Uncontrolled** | \\- | As Sense, but no off switch; 30 ft Radius / 60 ft Cone. | Multi |\n| **Sneak Attack** | Agi 2, Stealth 1 | Add Int and 1 extra die to damage if target flat footed. | Rank |\n| **Bleed** | Sneak Attack | Cause 1 point Bleed Damage per die of Sneak Attack. |    |\n| **Blind** | Sneak Attack | Direct attack to a target's Sense. |  |\n| **Cripple** | Sneak Attack | Cause severe damage to a target's limb. |  |\n| **Hobble** | Sneak Attack | Reduce a target’s speed by 50% (immobilize on 2nd). |  |\n| **Technologist** | Special | Improved Technology Level in a field of study. | Multi (5+/advance) |\n| **Telepathy** | Special Ability | Mental Communication with any intelligent lifeform. |  |\n| **Wild Speech** | \\- | Communicate with animals. |  |\n\nSpecial Features are often restricted by Species, Origin, or Technology Level. They represent biological realities or extensive body modification rather than simple training.\n\n## Special Rules\n176",
+    "mechanics": "You gain \"Virtual Skills\" in the Vocation category. For every point of Intellect Bonus, gain access to a related Vocation sub-skill without spending BP.  \n  * *Example:* A Soldier with Int \\+2 might gain Virtual Ranks in *Armorer* and *Demolitions*.\n\n# **SPECIAL FEATURES**\n\n# **SPECIAL FEATURES**\n\nSpecies traits, supernatural senses, and augmentations.\n\n| FEATURE NAME | PREREQUISITE | BENEFIT / EFFECT | SPECIAL / NOTES |\n| :---- | :---- | :---- | :---- |\n| **Acute Sense** | \\- | \\+2 to Awareness Checks with chosen sense. |    |\n| **Analytical Sense** | Acute Sense | Gain specific and detailed information from sense. |    |\n| **Uncanny Sense** | Acute Sense | Roll Awareness Checks with chosen sense at Advantage. |    |\n| **Augmented** | \\- | Cybernetic / Biological / Meta Improvements. |    |\n| **Heavy Augmentations** | Augmented | More Intensive Replacements and Enhancements. |    |\n| **Extreme Augmentations** | Heavy Augmented | Replaces a majority of biological components. |    |\n| **Biotechnology** | Awakened or TL4 | Imprinting, using and manipulating Living Technology. |    |\n| **Bonded** | \\- | Tele-Empathic connection with another. |    |\n| **Companion** | Cha | Bio, Tech or other 40BP Companion. | Rank, Multi |\n| **Familiar** | Companion | Empathically linked; know location/state |   |\n| **Mind Link** | Companion | Telepathic link; share skills/knowledge |    |\n| **Shared Senses** | Companion | Gain the senses of and sense through the other |    |\n| **Danger Sense** | Wis 1 | Surprise Checks are made with Advantage. |    |\n| **Dwarfism** | \\- | Smaller than normal size (one category smaller). |    |\n| **Eldritch Heritage** | \\- | Gain a Bloodline Power (Sorcerer/Meta). |    |\n| **Energy Resistance** | \\- | Resistance 5 vs chosen Energy Type. | Rank (up to Immun)    |\n| **Giant** | \\- | Larger than normal size (one category larger). |    |\n| **Life Support** | \\- | Breathe in a non-native environment (Water, Gas, etc). | Multi |\n| **Low Light Vision** | \\- | See in dim light as if bright light. |    |\n| **Darksight** | \\- | See in darkness (Black and White only). |    |\n| **Natural Weapons** | \\- | Armed with Claws, Fangs, Horns etc. | Rank |\n| **Rage** | \\- | \\+2 Str/Con/Will, \\-2 AC, No mental skills. | Rank |\n| **Resistance** | \\- | \\+2 vs Disease, Poison, Magic, etc. | Multi |\n| **Scent** | \\- | Detect opponents by smell (Wisdom Check). |    |\n| **Self-Sustaining** | \\- | Do not need to eat or drink. |    |\n| **Sleepless** | \\- | Do not need to sleep (immunity to sleep effects). |    |\n| **Sense** | Special Ability | Sense 20 ft Radius or a 40 ft Cone (Evil, Magic, etc). | Multi |\n| **Sense, Uncontrolled** | \\- | As Sense, but no off switch; 30 ft Radius / 60 ft Cone. | Multi |\n| **Sneak Attack** | Agi 2, Stealth 1 | Add Int and 1 extra die to damage if target flat footed. | Rank |\n| **Bleed** | Sneak Attack | Cause 1 point Bleed Damage per die of Sneak Attack. |    |\n| **Blind** | Sneak Attack | Direct attack to a target's Sense. |  |\n| **Cripple** | Sneak Attack | Cause severe damage to a target's limb. |  |\n| **Hobble** | Sneak Attack | Reduce a target’s speed by 50% (immobilize on 2nd). |  |\n| **Technologist** | Special | Improved Technology Level in a field of study. | Multi (5+/advance) |\n| **Telepathy** | Special Ability | Mental Communication with any intelligent lifeform. |  |\n| **Wild Speech** | \\- | Communicate with animals. |  |\n\nSpecial Features are often restricted by Species, Origin, or Technology Level. They represent biological realities or extensive body modification rather than simple training.",
     "notes": "[Modifier] +2 to Awareness\n[Rule] 176\n[Prerequisite] Vocation 6, Intellect 2",
     "notesList": [
       "[Modifier] +2 to Awareness",
       "[Rule] 176",
       "[Prerequisite] Vocation 6, Intellect 2"
-    ],
-    "keywords": "versatile professional, skill, special-feature",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   },
   {
-    "id": "discipline-versatile-source",
-    "name": "Versatile Source",
-    "category": "Discipline",
-    "type": "discipline",
-    "cp": 3,
+    "id": "special-biological-continuity",
+    "name": "Biological Continuity",
+    "category": "special",
+    "type": "feature",
+    "cp": 2,
     "costs": {
-      "bp": 3,
+      "bp": 2,
       "credits": 0,
       "nodes": 0,
       "sockets": 0,
@@ -8654,60 +8145,24 @@ export const DEFAULT_FEATURES = [
     },
     "is_ranked": false,
     "is_multiple": false,
-    "prerequisites": "Attune 6",
+    "prerequisites": [],
     "modifiers": [],
-    "description": "The character's understanding of metaphysics is broad enough to bridge different sources of power. A wizard might tap into divine faith, or a psychic might calculate ley-lines like a mathematician.",
-    "mechanic": "You may use a **Secondary Ability Score** to modify your **Attune Checks**.  \n  * *Example:* An Intellect-based caster (Mage) with this feature could choose to use their Wisdom modifier for Attune checks instead, perhaps representing a shift from logical weaving to intuitive feeling.",
-    "rules": "74",
-    "special_rules": "74",
-    "body": "# Versatile Source\n\n**Category**: Discipline Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Attune 6\n\n## Description\nThe character's understanding of metaphysics is broad enough to bridge different sources of power. A wizard might tap into divine faith, or a psychic might calculate ley-lines like a mathematician.\n\n## Mechanics & Benefit\nYou may use a **Secondary Ability Score** to modify your **Attune Checks**.  \n  * *Example:* An Intellect-based caster (Mage) with this feature could choose to use their Wisdom modifier for Attune checks instead, perhaps representing a shift from logical weaving to intuitive feeling.\n\n## Special Rules\n74",
-    "mechanics": "You may use a **Secondary Ability Score** to modify your **Attune Checks**.  \n  * *Example:* An Intellect-based caster (Mage) with this feature could choose to use their Wisdom modifier for Attune checks instead, perhaps representing a shift from logical weaving to intuitive feeling.",
-    "notes": "[Rule] 74\n[Prerequisite] Attune 6",
+    "description": "Monogenetic genomic stabilization and generational inheritance grant immunity to clone degeneration, cellular senescence, and retroviral genetic rewrites. When interfacing with Hive-grown biomorphic tech or organic sockets, ignores cellular rejection checks and gains Advantage on biomorphic repair tasks.",
+    "mechanic": "Monogenetic genomic stabilization and generational inheritance grant immunity to clone degeneration, cellular senescence, and retroviral genetic rewrites. When interfacing with Hive-grown biomorphic tech or organic sockets, ignores cellular rejection checks and gains Advantage on biomorphic repair tasks.",
+    "rules": "Prerequisite: .",
+    "special_rules": "Prerequisite: .",
+    "body": "### **Overview**\nGrown directly from the stabilized Genomatrix, the operative's genome exhibits unbroken fidelity across generations. Their tissues harmonize instantaneously with living Hive-technology, organo-grafts, and biomorphic neural interfaces without suffering immune rejection or biological incompatibility.\n\n### **Mechanical Benefits**\n* **Genetic Stabilization:** The operative is immune to accelerated cellular aging, clone decay syndrome, telomere unraveling, and non-hive retroviral pathogens attempting to rewrite host DNA.\n* **Organic Socket Affinity:** The character completely ignores Cellular Rejection checks when equipping, grafting, or slaving organic augmentations, biomorphic symbiotic suits, or living wetware sockets.\n* **Biomorphic Intuition:** The operative gains **Advantage** on all Science (Biotechnology) and Medicine checks performed to maintain, graft, suture, or cultivate Hive-Resin structures and biomorphic machinery.",
+    "mechanics": "Monogenetic genomic stabilization and generational inheritance grant immunity to clone degeneration, cellular senescence, and retroviral genetic rewrites. When interfacing with Hive-grown biomorphic tech or organic sockets, ignores cellular rejection checks and gains Advantage on biomorphic repair tasks.",
+    "notes": "[Rule] Prerequisite: .",
     "notesList": [
-      "[Rule] 74",
-      "[Prerequisite] Attune 6"
-    ],
-    "keywords": "versatile source, discipline, special-feature, focused-training, mastery, character's",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+      "[Rule] Prerequisite: ."
+    ]
   },
   {
-    "id": "combat-vital-strike",
-    "name": "Vital Strike",
-    "category": "Combat",
-    "type": "combat",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Combat Skill 6",
-    "modifiers": [],
-    "description": "The character makes a single, devastatingly accurate attack rather than a flurry of blows.",
-    "mechanic": "As a **Standard Action**, make a single attack at your highest bonus. If it hits, deal **two times (2x)** the weapon's damage dice.",
-    "rules": "52",
-    "special_rules": "52",
-    "body": "# Vital Strike\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Combat Skill 6\n\n## Description\nThe character makes a single, devastatingly accurate attack rather than a flurry of blows.\n\n## Mechanics & Benefit\nAs a **Standard Action**, make a single attack at your highest bonus. If it hits, deal **two times (2x)** the weapon's damage dice.\n\n## Special Rules\n52",
-    "mechanics": "As a **Standard Action**, make a single attack at your highest bonus. If it hits, deal **two times (2x)** the weapon's damage dice.",
-    "notes": "[Rule] 52\n[Prerequisite] Combat Skill 6",
-    "notesList": [
-      "[Rule] 52",
-      "[Prerequisite] Combat Skill 6"
-    ],
-    "keywords": "vital strike, combat, special-feature, combat-maneuver, tactical-edge, single",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
-  },
-  {
-    "id": "combat-weapon-focus",
-    "name": "Weapon Focus",
-    "category": "Combat",
-    "type": "combat",
+    "id": "special-acute-sense",
+    "name": "Acute Sense",
+    "category": "Special",
+    "type": "special",
     "cp": 3,
     "costs": {
       "bp": 3,
@@ -8720,37 +8175,475 @@ export const DEFAULT_FEATURES = [
     },
     "is_ranked": false,
     "is_multiple": true,
-    "prerequisites": "Combat Skill 1",
+    "prerequisites": "Awareness 1",
     "modifiers": [
       {
-        "target": "Strike with that weapon",
+        "target": "Awareness",
         "type": "skill",
-        "value": 1,
+        "value": 2,
         "mode": "inherent",
-        "description": "+1 to Strike with that weapon"
+        "description": "+2 to Awareness"
       }
     ],
-    "description": "Extensive training with a specific weapon type (e.g., Laser Rifle, Longsword, Plasma Pistol).",
-    "mechanic": "Choose a specific weapon. You gain **\\+1 to Strike** with that weapon.",
-    "rules": "\\[Multiple\\] May be taken for different weapons.",
-    "special_rules": "\\[Multiple\\] May be taken for different weapons.",
-    "body": "# Weapon Focus\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Combat Skill 1\n\n## Description\nExtensive training with a specific weapon type (e.g., Laser Rifle, Longsword, Plasma Pistol).\n\n## Mechanics & Benefit\nChoose a specific weapon. You gain **\\+1 to Strike** with that weapon.\n\n## Special Rules\n\\[Multiple\\] May be taken for different weapons.",
-    "mechanics": "Choose a specific weapon. You gain **\\+1 to Strike** with that weapon.",
-    "notes": "[Modifier] +1 to Strike with that weapon\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] \\[Multiple\\] May be taken for different weapons.\n[Prerequisite] Combat Skill 1",
+    "description": "The character possesses a specific sensory organ that is highly developed, far exceeding the baseline for their species. This could be eagle eyes, a bloodhound’s nose, or sensitive auditory receptors.",
+    "mechanic": "Choose one sense (Vision, Hearing, Smell, Taste, or Touch). You gain a **\\+2 Bonus** to **Awareness Checks** utilizing that sense.",
+    "rules": "\\[Multiple\\] You may take this feature multiple times, applying it to a different sense each time.",
+    "special_rules": "\\[Multiple\\] You may take this feature multiple times, applying it to a different sense each time.",
+    "body": "# Acute Sense\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Awareness 1\n\n## Description\nThe character possesses a specific sensory organ that is highly developed, far exceeding the baseline for their species. This could be eagle eyes, a bloodhound’s nose, or sensitive auditory receptors.\n\n## Mechanics & Benefit\nChoose one sense (Vision, Hearing, Smell, Taste, or Touch). You gain a **\\+2 Bonus** to **Awareness Checks** utilizing that sense.\n\n## Special Rules\n\\[Multiple\\] You may take this feature multiple times, applying it to a different sense each time.",
+    "mechanics": "Choose one sense (Vision, Hearing, Smell, Taste, or Touch). You gain a **\\+2 Bonus** to **Awareness Checks** utilizing that sense.",
+    "notes": "[Modifier] +2 to Awareness\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] \\[Multiple\\] You may take this feature multiple times, applying it to a different sense each time.\n[Prerequisite] Awareness 1",
     "notesList": [
-      "[Modifier] +1 to Strike with that weapon",
+      "[Modifier] +2 to Awareness",
       "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] \\[Multiple\\] May be taken for different weapons.",
-      "[Prerequisite] Combat Skill 1"
-    ],
-    "keywords": "weapon focus, combat, special-feature, combat-maneuver, tactical-edge, extensive",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
+      "[Rule] \\[Multiple\\] You may take this feature multiple times, applying it to a different sense each time.",
+      "[Prerequisite] Awareness 1"
+    ]
   },
   {
-    "id": "combat-weapon-improvisation",
-    "name": "Weapon Improvisation",
-    "category": "Combat",
-    "type": "combat",
+    "id": "sensory-acute-senses",
+    "name": "Acute Senses",
+    "category": "Special",
+    "type": "special",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": true,
+    "prerequisites": "Awareness 1 or Wisdom 1",
+    "modifiers": [
+      {
+        "target": "Perception",
+        "value": 4,
+        "type": "skill",
+        "mode": "conditional"
+      },
+      {
+        "target": "Alertness",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Alertness"
+      },
+      {
+        "target": "Tracking",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Tracking"
+      }
+    ],
+    "description": "Extraordinarily sharp sensory faculties granting a +4 bonus to Perception and Alertness checks using a chosen sensory modality (Vision, Hearing, Scent, Touch, or Taste).",
+    "mechanic": "Choose one sensory modality when taking this feature (e.g., **Scent**, **Hearing**, or **Vision**):\n* Gain a **+4 Bonus** on all **Perception**, **Alertness**, and **Tracking** checks that utilize the chosen sense.\n* Characters with *Acute Senses (Scent)* can distinguish specific individuals, detect decaying organic matter, and diagnose biochemical changes through smell alone.",
+    "rules": "This feature may be selected multiple times, choosing a different sensory modality each time.",
+    "special_rules": "This feature may be selected multiple times, choosing a different sensory modality each time.",
+    "body": "# Acute Senses\n\n**Category**: Sensory Features  \n**Cost**: 2 BP  \n**Prerequisite**: Awareness 1 or Wisdom 1  \n\n## Description\nThe character possesses finely tuned sensory receptors, allowing them to detect subtle audio frequencies, pinpoint distant scent plumes, or resolve fine visual details well beyond normal mortal baselines.\n\n## Mechanics & Benefit\nChoose one sensory modality when taking this feature (e.g., **Scent**, **Hearing**, or **Vision**):\n* Gain a **+4 Bonus** on all **Perception**, **Alertness**, and **Tracking** checks that utilize the chosen sense.\n* Characters with *Acute Senses (Scent)* can distinguish specific individuals, detect decaying organic matter, and diagnose biochemical changes through smell alone.\n\n## Special Rules\nThis feature may be selected multiple times, choosing a different sensory modality each time.",
+    "mechanics": "Choose one sensory modality when taking this feature (e.g., **Scent**, **Hearing**, or **Vision**):\n* Gain a **+4 Bonus** on all **Perception**, **Alertness**, and **Tracking** checks that utilize the chosen sense.\n* Characters with *Acute Senses (Scent)* can distinguish specific individuals, detect decaying organic matter, and diagnose biochemical changes through smell alone.",
+    "notes": "[Modifier] Perception: +4\n[Modifier] +4 to Alertness\n[Modifier] +4 to Tracking\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature may be selected multiple times, choosing a different sensory modality each time.\n[Prerequisite] Awareness 1 or Wisdom 1",
+    "notesList": [
+      "[Modifier] Perception: +4",
+      "[Modifier] +4 to Alertness",
+      "[Modifier] +4 to Tracking",
+      "[Rule] Multiple: May be purchased separately for different categories/types",
+      "[Rule] This feature may be selected multiple times, choosing a different sensory modality each time.",
+      "[Prerequisite] Awareness 1 or Wisdom 1"
+    ]
+  },
+  {
+    "id": "special-analytical-sense",
+    "name": "Analytical Sense",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Acute Sense",
+    "modifiers": [],
+    "description": "Analytical Sense is a Special Feature: Gain specific and detailed information from sense.",
+    "mechanic": "Gain specific and detailed information from sense.",
+    "rules": "178",
+    "special_rules": "178",
+    "body": "# Analytical Sense\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Acute Sense\n\n## Description\nAnalytical Sense is a Special Feature: Gain specific and detailed information from sense.\n\n## Mechanics & Benefit\nGain specific and detailed information from sense.\n\n## Special Rules\n178",
+    "mechanics": "Gain specific and detailed information from sense.",
+    "notes": "[Rule] 178\n[Prerequisite] Acute Sense",
+    "notesList": [
+      "[Rule] 178",
+      "[Prerequisite] Acute Sense"
+    ]
+  },
+  {
+    "id": "special-augmented",
+    "name": "Augmented",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Available Technology Level (TL 3+)",
+    "modifiers": [],
+    "description": "The character has undergone invasive surgery to replace or enhance biological systems with cybernetics, biotechnology, or magical prosthetics.",
+    "mechanic": "You are compatible with **Standard Augmentations**.",
+    "rules": "Upon taking this feature, you gain a \"credit\" of **6 Build Points (BP)** worth of Augmentations effectively for free (representing the initial suite of upgrades). Any cost beyond this must be paid with BP or Credits.",
+    "special_rules": "Upon taking this feature, you gain a \"credit\" of **6 Build Points (BP)** worth of Augmentations effectively for free (representing the initial suite of upgrades). Any cost beyond this must be paid with BP or Credits.",
+    "body": "# Augmented\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Available Technology Level (TL 3+)\n\n## Description\nThe character has undergone invasive surgery to replace or enhance biological systems with cybernetics, biotechnology, or magical prosthetics.\n\n## Mechanics & Benefit\nYou are compatible with **Standard Augmentations**.\n\n## Special Rules\nUpon taking this feature, you gain a \"credit\" of **6 Build Points (BP)** worth of Augmentations effectively for free (representing the initial suite of upgrades). Any cost beyond this must be paid with BP or Credits.",
+    "mechanics": "You are compatible with **Standard Augmentations**.",
+    "notes": "[Rule] Upon taking this feature, you gain a \"credit\" of **6 Build Points (BP)** worth of Augmentations effe...\n[Prerequisite] Available Technology Level (TL 3+)",
+    "notesList": [
+      "[Rule] Upon taking this feature, you gain a \"credit\" of **6 Build Points (BP)** worth of Augmentations effe...",
+      "[Prerequisite] Available Technology Level (TL 3+)"
+    ]
+  },
+  {
+    "id": "special-biotechnology",
+    "name": "Biotechnology",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Awakened (Psychic) OR Tech Level 4+ society.",
+    "modifiers": [],
+    "description": "The character is trained or naturally adapted to use \"Living Technology\"—grown items, symbiotic armor, and genetically engineered tools (common among Aulurans and Tyranid-like factions).",
+    "mechanic": "You can imprint, operate, and heal Living Technology. Without this feature, Biotech items treat the user as a foreign body and may not function or may even attack the user.",
+    "rules": "183",
+    "special_rules": "183",
+    "body": "# Biotechnology\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Awakened (Psychic) OR Tech Level 4+ society.\n\n## Description\nThe character is trained or naturally adapted to use \"Living Technology\"—grown items, symbiotic armor, and genetically engineered tools (common among Aulurans and Tyranid-like factions).\n\n## Mechanics & Benefit\nYou can imprint, operate, and heal Living Technology. Without this feature, Biotech items treat the user as a foreign body and may not function or may even attack the user.\n\n## Special Rules\n183",
+    "mechanics": "You can imprint, operate, and heal Living Technology. Without this feature, Biotech items treat the user as a foreign body and may not function or may even attack the user.",
+    "notes": "[Rule] 183\n[Prerequisite] Awakened (Psychic) OR Tech Level 4+ society.",
+    "notesList": [
+      "[Rule] 183",
+      "[Prerequisite] Awakened (Psychic) OR Tech Level 4+ society."
+    ]
+  },
+  {
+    "id": "special-bleed",
+    "name": "Bleed",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Sneak Attack",
+    "modifiers": [],
+    "description": "Bleed is a Special Feature: Cause 1 point Bleed Damage per die of Sneak Attack.",
+    "mechanic": "Cause 1 point Bleed Damage per die of Sneak Attack.",
+    "rules": "207",
+    "special_rules": "207",
+    "body": "# Bleed\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Sneak Attack\n\n## Description\nBleed is a Special Feature: Cause 1 point Bleed Damage per die of Sneak Attack.\n\n## Mechanics & Benefit\nCause 1 point Bleed Damage per die of Sneak Attack.\n\n## Special Rules\n207",
+    "mechanics": "Cause 1 point Bleed Damage per die of Sneak Attack.",
+    "notes": "[Rule] 207\n[Prerequisite] Sneak Attack",
+    "notesList": [
+      "[Rule] 207",
+      "[Prerequisite] Sneak Attack"
+    ]
+  },
+  {
+    "id": "special-blind",
+    "name": "Blind",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Sneak Attack",
+    "modifiers": [],
+    "description": "Blind is a Special Feature: Direct attack to a target's Sense.",
+    "mechanic": "Direct attack to a target's Sense.",
+    "rules": "208",
+    "special_rules": "208",
+    "body": "# Blind\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Sneak Attack\n\n## Description\nBlind is a Special Feature: Direct attack to a target's Sense.\n\n## Mechanics & Benefit\nDirect attack to a target's Sense.\n\n## Special Rules\n208",
+    "mechanics": "Direct attack to a target's Sense.",
+    "notes": "[Rule] 208\n[Prerequisite] Sneak Attack",
+    "notesList": [
+      "[Rule] 208",
+      "[Prerequisite] Sneak Attack"
+    ]
+  },
+  {
+    "id": "sensory-blind-sense-em-vibration",
+    "name": "Blind Sense (EM/Vibration)",
+    "category": "Special",
+    "type": "special",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Electro-Receptive Array or Synaptic Vehicle Link",
+    "modifiers": [],
+    "description": "Perceives surroundings via mecha sensors and external bio-arrays, feeling the environment as personal skin through electromagnetic and vibration resonance.",
+    "mechanic": "- **Tactile Spatial Awareness**: Accurately detects and tracks moving entities, metallic masses, and energy sources within a **30-foot radius** (or 60-foot cone) without optical line of sight.\n- **Hull Sensor Integration**: When integrated into a Kitin mecha, this sense expands across the vehicle’s entire outer hull surface, rendering the craft immune to flanking attacks and surprise strikes from concealed ground or atmospheric targets.",
+    "rules": "Prerequisite: Electro-Receptive Array or Synaptic Vehicle Link.",
+    "special_rules": "Prerequisite: Electro-Receptive Array or Synaptic Vehicle Link.",
+    "body": "# Blind Sense (EM/Vibration)\n\n**Category**: Sensory / Special Features  \n**Cost**: 2 BP  \n**Prerequisites**: Electro-Receptive Array or Synaptic Vehicle Link  \n\n## Description\nDominating the Syndess's anterior segment is a wrap-around sensory array and dual rows of antenna-cables. When slotted into a biomorphic husk or operating independently, these organs interpret electromagnetic waveforms and acoustic surface vibrations directly as tactile sensations.\n\n## Mechanics & Benefit\n- **Tactile Spatial Awareness**: Accurately detects and tracks moving entities, metallic masses, and energy sources within a **30-foot radius** (or 60-foot cone) without optical line of sight.\n- **Hull Sensor Integration**: When integrated into a Kitin mecha, this sense expands across the vehicle’s entire outer hull surface, rendering the craft immune to flanking attacks and surprise strikes from concealed ground or atmospheric targets.",
+    "mechanics": "- **Tactile Spatial Awareness**: Accurately detects and tracks moving entities, metallic masses, and energy sources within a **30-foot radius** (or 60-foot cone) without optical line of sight.\n- **Hull Sensor Integration**: When integrated into a Kitin mecha, this sense expands across the vehicle’s entire outer hull surface, rendering the craft immune to flanking attacks and surprise strikes from concealed ground or atmospheric targets.",
+    "notes": "[Rule] Prerequisite: Electro-Receptive Array or Synaptic Vehicle Link.\n[Prerequisite] Electro-Receptive Array or Synaptic Vehicle Link",
+    "notesList": [
+      "[Rule] Prerequisite: Electro-Receptive Array or Synaptic Vehicle Link.",
+      "[Prerequisite] Electro-Receptive Array or Synaptic Vehicle Link"
+    ]
+  },
+  {
+    "id": "sensory-blind-sense-scent-em",
+    "name": "Blind Sense (Scent/EM)",
+    "category": "Special",
+    "type": "special",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Sensory Antennae or Electro-Receptive Physiology",
+    "modifiers": [],
+    "description": "Delicate sensory antennae perceive bio-energetic, electromagnetic, and olfactory fields, enabling non-visual spatial awareness.",
+    "mechanic": "* **Perceptual Radius:** Detects moving organisms, electrical machinery, and biological entities within a **30-foot radius** (or 60-foot cone) regardless of lighting, darkness, visual obscurity, or total blindness.\n* **Dual Sensory Channels:** Senses through subtle ambient air motion, olfactory plumes (scent), and electromagnetic emanations. Invisibility or visual camouflage confers no defensive concealment bonuses against this sensory sweep.",
+    "rules": "Prerequisite: Sensory Antennae or Electro-Receptive Physiology.",
+    "special_rules": "Prerequisite: Sensory Antennae or Electro-Receptive Physiology.",
+    "body": "# Blind Sense (Scent/EM)\n\n**Category**: Sensory / Special Features  \n**Cost**: 2 BP  \n**Prerequisite**: Sensory Antennae or Electro-Receptive Physiology  \n\n## Description\nProminent sensory antennae crowning the head serve as sensitive conduits for bio-energetic and electromagnetic fields. These delicate organs grant heightened spatial awareness and non-visual environmental navigation.\n\n## Mechanics & Benefit\n* **Perceptual Radius:** Detects moving organisms, electrical machinery, and biological entities within a **30-foot radius** (or 60-foot cone) regardless of lighting, darkness, visual obscurity, or total blindness.\n* **Dual Sensory Channels:** Senses through subtle ambient air motion, olfactory plumes (scent), and electromagnetic emanations. Invisibility or visual camouflage confers no defensive concealment bonuses against this sensory sweep.",
+    "mechanics": "* **Perceptual Radius:** Detects moving organisms, electrical machinery, and biological entities within a **30-foot radius** (or 60-foot cone) regardless of lighting, darkness, visual obscurity, or total blindness.\n* **Dual Sensory Channels:** Senses through subtle ambient air motion, olfactory plumes (scent), and electromagnetic emanations. Invisibility or visual camouflage confers no defensive concealment bonuses against this sensory sweep.",
+    "notes": "[Rule] Prerequisite: Sensory Antennae or Electro-Receptive Physiology.\n[Prerequisite] Sensory Antennae or Electro-Receptive Physiology",
+    "notesList": [
+      "[Rule] Prerequisite: Sensory Antennae or Electro-Receptive Physiology.",
+      "[Prerequisite] Sensory Antennae or Electro-Receptive Physiology"
+    ]
+  },
+  {
+    "id": "special-bonded",
+    "name": "Bonded",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Charisma 2",
+    "modifiers": [],
+    "description": "The character shares a profound, supernatural connection with another specific being.",
+    "mechanic": "You possess a **Tele-Empathic** link with another character (PC or NPC) who also possesses this feature. You can sense their strong emotions and general physical state (pain, unconsciousness) regardless of distance.",
+    "rules": "184",
+    "special_rules": "184",
+    "body": "# Bonded\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Charisma 2\n\n## Description\nThe character shares a profound, supernatural connection with another specific being.\n\n## Mechanics & Benefit\nYou possess a **Tele-Empathic** link with another character (PC or NPC) who also possesses this feature. You can sense their strong emotions and general physical state (pain, unconsciousness) regardless of distance.\n\n## Special Rules\n184",
+    "mechanics": "You possess a **Tele-Empathic** link with another character (PC or NPC) who also possesses this feature. You can sense their strong emotions and general physical state (pain, unconsciousness) regardless of distance.",
+    "notes": "[Rule] 184\n[Prerequisite] Charisma 2",
+    "notesList": [
+      "[Rule] 184",
+      "[Prerequisite] Charisma 2"
+    ]
+  },
+  {
+    "id": "special-active-camouflage",
+    "name": "Camouflage (Active)",
+    "category": "Special",
+    "type": "special",
+    "cp": 4,
+    "costs": {
+      "bp": 4,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Chitinous or Biomorphic Dermis",
+    "modifiers": [
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 8,
+        "mode": "inherent",
+        "description": "+8 to Stealth"
+      }
+    ],
+    "description": "Chitin can actively shift texture and hue to match surroundings, including light-absorbing vanta-black and near-transparent optical bending (+8 to Stealth).",
+    "mechanic": "- **Dynamic Chromatic & Texture Shift**: Can alter coloration across all visible spectra to match surrounding terrain in 1 free action.\n- **Vanta-Black & Transparency**: Capable of assuming a matte, light-absorbing vanta-black state in shadows or bending ambient light so effectively that the character appears semi-transparent.\n- **Stealth Dominance**: Grants a **+8 bonus** to Stealth checks when motionless and **+4 bonus** while moving at half speed. Thermal and standard optical sensors suffer Disadvantage when attempting to detect or track the character.",
+    "rules": "Prerequisite: Chitinous or Biomorphic Dermis.",
+    "special_rules": "Prerequisite: Chitinous or Biomorphic Dermis.",
+    "body": "# Camouflage (Active)\n\n**Category**: Special Features  \n**Cost**: 4 BP  \n**Prerequisites**: Chitinous or Biomorphic Dermis  \n\n## Description\nThe organism's carapace is embedded with reactive chromatophores, micro-prismatic refraction facets, and light-absorbing melanin matrices. By instinct or conscious intent, the shell dynamically alters both color and surface micro-texture, adapting to arid sand, volcanic basalt, synthetic starship interiors, or deep darkness.\n\n## Mechanics & Benefit\n- **Dynamic Chromatic & Texture Shift**: Can alter coloration across all visible spectra to match surrounding terrain in 1 free action.\n- **Vanta-Black & Transparency**: Capable of assuming a matte, light-absorbing vanta-black state in shadows or bending ambient light so effectively that the character appears semi-transparent.\n- **Stealth Dominance**: Grants a **+8 bonus** to Stealth checks when motionless and **+4 bonus** while moving at half speed. Thermal and standard optical sensors suffer Disadvantage when attempting to detect or track the character.",
+    "mechanics": "- **Dynamic Chromatic & Texture Shift**: Can alter coloration across all visible spectra to match surrounding terrain in 1 free action.\n- **Vanta-Black & Transparency**: Capable of assuming a matte, light-absorbing vanta-black state in shadows or bending ambient light so effectively that the character appears semi-transparent.\n- **Stealth Dominance**: Grants a **+8 bonus** to Stealth checks when motionless and **+4 bonus** while moving at half speed. Thermal and standard optical sensors suffer Disadvantage when attempting to detect or track the character.",
+    "notes": "[Modifier] +8 to Stealth\n[Rule] Prerequisite: Chitinous or Biomorphic Dermis.\n[Prerequisite] Chitinous or Biomorphic Dermis",
+    "notesList": [
+      "[Modifier] +8 to Stealth",
+      "[Rule] Prerequisite: Chitinous or Biomorphic Dermis.",
+      "[Prerequisite] Chitinous or Biomorphic Dermis"
+    ]
+  },
+  {
+    "id": "special-companion",
+    "name": "Companion",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": true,
+    "max_rank": 4,
+    "is_multiple": true,
+    "prerequisites": "Charisma 1",
+    "modifiers": [],
+    "description": "The character has unlocked access to a loyal companion, bio-construct, tactical drone, or metaphysical cohort.",
+    "mechanic": "Purchasing this feature unlocks access to the Modular Companion Matrix and grants a loyal cohort constructed with **40 Character Points (CP)** (15 CP Form Package + 25 CP Function Package).",
+    "rules": "**[Ranked / Multiple Purchases]**: You may purchase this feature multiple times:\n- **Additional Companion Unit**: Each new purchase of the Companion feature allows you to unlock and construct an additional separate 40 CP Companion.\n- **Enhanced Build Budget**: Alternatively, taking an additional rank in an existing companion grants **+10 CP** to that companion's build budget (Rank 1: 40 CP, Rank 2: 50 CP, Rank 3: 60 CP, etc.).",
+    "special_rules": "**[Ranked / Multiple Purchases]**: You may purchase this feature multiple times:\n- **Additional Companion Unit**: Each new purchase of the Companion feature allows you to unlock and construct an additional separate 40 CP Companion.\n- **Enhanced Build Budget**: Alternatively, taking an additional rank in an existing companion grants **+10 CP** to that companion's build budget (Rank 1: 40 CP, Rank 2: 50 CP, Rank 3: 60 CP, etc.).",
+    "body": "# Companion\n\n**Category**: Special Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Charisma 1\n\n## Description\nAs with Metaphysics (Awakened) and Augmentations (Augmented), access to Companions must be unlocked by purchasing the **Companion** feature. The character gains a loyal follower, bio-engineered beast, combat drone, or metaphysical spirit-guide.\n\n## Mechanics & Benefit\nPurchasing this feature unlocks access to the Modular Companion Matrix and grants a loyal cohort constructed with **40 Character Points (CP)** (15 CP Form Package + 25 CP Function Package).\n\n## Special Rules\n**[Ranked / Multiple Purchases]**: You may purchase this feature multiple times:\n- **Additional Companion Unit**: Each new purchase of the Companion feature allows you to unlock and construct an additional separate 40 CP Companion.\n- **Enhanced Build Budget**: Alternatively, taking an additional rank in an existing companion grants **+10 CP** to that companion's build budget (Rank 1: 40 CP, Rank 2: 50 CP, Rank 3: 60 CP, etc.).",
+    "mechanics": "Purchasing this feature unlocks access to the Modular Companion Matrix and grants a loyal cohort constructed with **40 Character Points (CP)** (15 CP Form Package + 25 CP Function Package).",
+    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] **[Ranked / Multiple Purchases]**: You may purchase this feature multiple times:\n- **Additional Comp...\n[Prerequisite] Charisma 1",
+    "notesList": [
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] Multiple: May be purchased separately for different categories/types",
+      "[Rule] **[Ranked / Multiple Purchases]**: You may purchase this feature multiple times:\n- **Additional Comp...",
+      "[Prerequisite] Charisma 1"
+    ]
+  },
+  {
+    "id": "special-cripple",
+    "name": "Cripple",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Sneak Attack",
+    "modifiers": [],
+    "description": "Cripple is a Special Feature: Cause severe damage to a target's limb.",
+    "mechanic": "Cause severe damage to a target's limb.",
+    "rules": "209",
+    "special_rules": "209",
+    "body": "# Cripple\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Sneak Attack\n\n## Description\nCripple is a Special Feature: Cause severe damage to a target's limb.\n\n## Mechanics & Benefit\nCause severe damage to a target's limb.\n\n## Special Rules\n209",
+    "mechanics": "Cause severe damage to a target's limb.",
+    "notes": "[Rule] 209\n[Prerequisite] Sneak Attack",
+    "notesList": [
+      "[Rule] 209",
+      "[Prerequisite] Sneak Attack"
+    ]
+  },
+  {
+    "id": "special-danger-sense",
+    "name": "Danger Sense",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Wisdom 1",
+    "modifiers": [],
+    "description": "A \"sixth sense\" or spidey-sense that warns of immediate peril.",
+    "mechanic": "You make all **Surprise Checks** and checks to avoid traps at **Advantage**. You are never truly \"unaware\" of direct danger, allowing you to act in the Surprise round.",
+    "rules": "189",
+    "special_rules": "189",
+    "body": "# Danger Sense\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Wisdom 1\n\n## Description\nA \"sixth sense\" or spidey-sense that warns of immediate peril.\n\n## Mechanics & Benefit\nYou make all **Surprise Checks** and checks to avoid traps at **Advantage**. You are never truly \"unaware\" of direct danger, allowing you to act in the Surprise round.\n\n## Special Rules\n189",
+    "mechanics": "You make all **Surprise Checks** and checks to avoid traps at **Advantage**. You are never truly \"unaware\" of direct danger, allowing you to act in the Surprise round.",
+    "notes": "[Rule] 189\n[Prerequisite] Wisdom 1",
+    "notesList": [
+      "[Rule] 189",
+      "[Prerequisite] Wisdom 1"
+    ]
+  },
+  {
+    "id": "special-darksight",
+    "name": "Darksight",
+    "category": "Special",
+    "type": "special",
     "cp": 3,
     "costs": {
       "bp": 3,
@@ -8765,24 +8658,488 @@ export const DEFAULT_FEATURES = [
     "is_multiple": false,
     "prerequisites": "None",
     "modifiers": [],
-    "description": "The character is dangerous with anything—a bottle, a chair, or a rock.",
-    "mechanic": "You suffer **no penalties** for using improvised Archaic weapons (normally \\-4).",
-    "rules": "56",
-    "special_rules": "56",
-    "body": "# Weapon Improvisation\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character is dangerous with anything—a bottle, a chair, or a rock.\n\n## Mechanics & Benefit\nYou suffer **no penalties** for using improvised Archaic weapons (normally \\-4).\n\n## Special Rules\n56",
-    "mechanics": "You suffer **no penalties** for using improvised Archaic weapons (normally \\-4).",
-    "notes": "[Rule] 56",
+    "description": "The character sees using thermal or other non-visible spectrums.",
+    "mechanic": "You can see in total darkness up to 60 feet.",
+    "rules": "196",
+    "special_rules": "196",
+    "body": "# Darksight\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character sees using thermal or other non-visible spectrums.\n\n## Mechanics & Benefit\nYou can see in total darkness up to 60 feet.\n\n## Special Rules\n196",
+    "mechanics": "You can see in total darkness up to 60 feet.",
+    "notes": "[Rule] 196",
     "notesList": [
-      "[Rule] 56"
-    ],
-    "keywords": "weapon improvisation, combat, special-feature, combat-maneuver, tactical-edge, dangerous",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
+      "[Rule] 196"
+    ]
   },
   {
-    "id": "combat-weapon-specialization",
-    "name": "Weapon Specialization",
-    "category": "Combat",
-    "type": "combat",
+    "id": "special-dwarfism",
+    "name": "Dwarfism",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Species Trait or Flaw",
+    "modifiers": [],
+    "description": "The character is significantly smaller than the average for their species.",
+    "mechanic": "Your Size Category decreases by one step (e.g., Medium to Small).",
+    "rules": "190",
+    "special_rules": "190",
+    "body": "# Dwarfism\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Species Trait or Flaw\n\n## Description\nThe character is significantly smaller than the average for their species.\n\n## Mechanics & Benefit\nYour Size Category decreases by one step (e.g., Medium to Small).\n\n## Special Rules\n190",
+    "mechanics": "Your Size Category decreases by one step (e.g., Medium to Small).",
+    "notes": "[Rule] 190\n[Prerequisite] Species Trait or Flaw",
+    "notesList": [
+      "[Rule] 190",
+      "[Prerequisite] Species Trait or Flaw"
+    ]
+  },
+  {
+    "id": "special-eldritch-heritage",
+    "name": "Eldritch Heritage",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "None (Background)",
+    "modifiers": [],
+    "description": "The character carries the blood of dragons, demons, fey, or gods.",
+    "mechanic": "You gain a specific **Bloodline Power** or minor supernatural trait associated with your ancestor (e.g., minor energy resistance, claws, or a cantrip-level spell usable at will).",
+    "rules": "191",
+    "special_rules": "191",
+    "body": "# Eldritch Heritage\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None (Background)\n\n## Description\nThe character carries the blood of dragons, demons, fey, or gods.\n\n## Mechanics & Benefit\nYou gain a specific **Bloodline Power** or minor supernatural trait associated with your ancestor (e.g., minor energy resistance, claws, or a cantrip-level spell usable at will).\n\n## Special Rules\n191",
+    "mechanics": "You gain a specific **Bloodline Power** or minor supernatural trait associated with your ancestor (e.g., minor energy resistance, claws, or a cantrip-level spell usable at will).",
+    "notes": "[Rule] 191\n[Prerequisite] None (Background)",
+    "notesList": [
+      "[Rule] 191",
+      "[Prerequisite] None (Background)"
+    ]
+  },
+  {
+    "id": "special-energy-resistance",
+    "name": "Energy Resistance",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": true,
+    "max_rank": 4,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [],
+    "description": "The character's physiology is resistant to a specific form of energy (Fire, Cold, Electricity, Acid, Sonic).",
+    "mechanic": "Gain **Resistance 5** against one chosen energy type. (Subtract 5 from all damage of that type).",
+    "rules": "\\[Ranked\\] Stacks to Resistance 10, 15, etc., eventually becoming Immunity.",
+    "special_rules": "\\[Ranked\\] Stacks to Resistance 10, 15, etc., eventually becoming Immunity.",
+    "body": "# Energy Resistance\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character's physiology is resistant to a specific form of energy (Fire, Cold, Electricity, Acid, Sonic).\n\n## Mechanics & Benefit\nGain **Resistance 5** against one chosen energy type. (Subtract 5 from all damage of that type).\n\n## Special Rules\n\\[Ranked\\] Stacks to Resistance 10, 15, etc., eventually becoming Immunity.",
+    "mechanics": "Gain **Resistance 5** against one chosen energy type. (Subtract 5 from all damage of that type).",
+    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] \\[Ranked\\] Stacks to Resistance 10, 15, etc., eventually becoming Immunity.",
+    "notesList": [
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] \\[Ranked\\] Stacks to Resistance 10, 15, etc., eventually becoming Immunity."
+    ]
+  },
+  {
+    "id": "special-extreme-augmentations",
+    "name": "Extreme Augmentations",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Heavy Augmentations, Stamina 4",
+    "modifiers": [],
+    "description": "The character is more machine (or bio-construct) than original being. They have replaced the majority of their biological functions.",
+    "mechanic": "You may undergo Full Body Conversion. You may install systems that alter your Size category or basic physiology (e.g., tank treads instead of legs). You gain an additional 6 BP worth of Augmentations.",
+    "rules": "Grants an additional 6 BP worth of Augmentations for free (+18 BP cumulative credit). Permits Full Body Conversion (FBC) chassis and radical physiological structural alterations.",
+    "special_rules": "Grants an additional 6 BP worth of Augmentations for free (+18 BP cumulative credit). Permits Full Body Conversion (FBC) chassis and radical physiological structural alterations.",
+    "body": "# Extreme Augmentations\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Heavy Augmentations, Stamina 4\n\n## Description\nThe character is more machine (or bio-construct) than original being. They have replaced the majority of biological functions.\n\n## Mechanics & Benefit\nYou may undergo Full Body Conversion. You may install systems that alter your Size category or basic physiology (e.g., tank treads instead of legs). You gain an additional 6 BP worth of Augmentations.\n\n## Special Rules\nGrants an additional 6 BP worth of Augmentations for free (+18 BP cumulative credit). Permits Full Body Conversion (FBC) chassis and radical physiological structural alterations.",
+    "mechanics": "You may undergo Full Body Conversion. You may install systems that alter your Size category or basic physiology (e.g., tank treads instead of legs). You gain an additional 6 BP worth of Augmentations.",
+    "notes": "[Rule] Grants an additional 6 BP worth of Augmentations for free (+18 BP cumulative credit). Permits Full B...\n[Prerequisite] Heavy Augmentations, Stamina 4",
+    "notesList": [
+      "[Rule] Grants an additional 6 BP worth of Augmentations for free (+18 BP cumulative credit). Permits Full B...",
+      "[Prerequisite] Heavy Augmentations, Stamina 4"
+    ]
+  },
+  {
+    "id": "special-familiar",
+    "name": "Familiar",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Companion",
+    "modifiers": [],
+    "description": "Familiar is a Special Feature: Empathically linked; know location/state (+20BP to Companion).",
+    "mechanic": "Empathically linked; know location/state (+20BP to Companion).",
+    "rules": "186",
+    "special_rules": "186",
+    "body": "# Familiar\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Companion\n\n## Description\nFamiliar is a Special Feature: Empathically linked; know location/state (+20BP to Companion).\n\n## Mechanics & Benefit\nEmpathically linked; know location/state (+20BP to Companion).\n\n## Special Rules\n186",
+    "mechanics": "Empathically linked; know location/state (+20BP to Companion).",
+    "notes": "[Rule] 186\n[Prerequisite] Companion",
+    "notesList": [
+      "[Rule] 186",
+      "[Prerequisite] Companion"
+    ]
+  },
+  {
+    "id": "special-g-force-immunity",
+    "name": "G-Force Immunity",
+    "category": "Special",
+    "type": "special",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Hydro-Cushioned Hemolymph Vascular System",
+    "modifiers": [],
+    "description": "Internal fluid dampening allows the organism to survive extreme maneuvers and turns that would liquefy humanoid pilots.",
+    "mechanic": "- **Total G-Force Immunity**: The organism is completely immune to blackout, redout, G-LOC (loss of consciousness), vertigo, and internal organ rupture caused by high-G turns or extreme acceleration.\n- **Extreme Evasive Maneuvers**: In vehicle combat, allows high-angle vector snaps, instantaneous retro-burns, and hard air-braking without requiring saving throws to resist physical incapacitation.",
+    "rules": "Prerequisite: Hydro-Cushioned Hemolymph Vascular System.",
+    "special_rules": "Prerequisite: Hydro-Cushioned Hemolymph Vascular System.",
+    "body": "# G-Force Immunity\n\n**Category**: Special Features  \n**Cost**: 2 BP  \n**Prerequisites**: Hydro-Cushioned Hemolymph Vascular System  \n\n## Description\nThe Syndess utilizes a hydro-cushioned internal cavity filled with non-compressible, dense hemolymph. This biological dampening architecture insulates vital neural organs against rapid velocity shifts and violent angular momentum.\n\n## Mechanics & Benefit\n- **Total G-Force Immunity**: The organism is completely immune to blackout, redout, G-LOC (loss of consciousness), vertigo, and internal organ rupture caused by high-G turns or extreme acceleration.\n- **Extreme Evasive Maneuvers**: In vehicle combat, allows high-angle vector snaps, instantaneous retro-burns, and hard air-braking without requiring saving throws to resist physical incapacitation.",
+    "mechanics": "- **Total G-Force Immunity**: The organism is completely immune to blackout, redout, G-LOC (loss of consciousness), vertigo, and internal organ rupture caused by high-G turns or extreme acceleration.\n- **Extreme Evasive Maneuvers**: In vehicle combat, allows high-angle vector snaps, instantaneous retro-burns, and hard air-braking without requiring saving throws to resist physical incapacitation.",
+    "notes": "[Rule] Prerequisite: Hydro-Cushioned Hemolymph Vascular System.\n[Prerequisite] Hydro-Cushioned Hemolymph Vascular System",
+    "notesList": [
+      "[Rule] Prerequisite: Hydro-Cushioned Hemolymph Vascular System.",
+      "[Prerequisite] Hydro-Cushioned Hemolymph Vascular System"
+    ]
+  },
+  {
+    "id": "special-genetic-memory",
+    "name": "Genetic Memory",
+    "category": "Special",
+    "type": "special",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Kitin or Lineage with Cellular Inheritance",
+    "modifiers": [
+      {
+        "target": "Academics",
+        "value": 2,
+        "type": "skill",
+        "mode": "conditional"
+      },
+      {
+        "target": "Science",
+        "value": 2,
+        "type": "skill",
+        "mode": "conditional"
+      },
+      {
+        "target": "Lore",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Lore"
+      },
+      {
+        "target": "History",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to History"
+      }
+    ],
+    "description": "Inheritance of ancestral knowledge, cultural history, and Genomatrix blueprints passed directly through biological lineage.",
+    "mechanic": "Gain access to ancestral knowledge and Genomatrix blueprints:\n* **Ancestral Recall:** The character gains a **+2 Bonus** on Lore, History, and Science checks relating to ancestral events, biological engineering, or collective history.\n* **Genomatrix Blueprints:** The character intuitively comprehends biotechnological patterns and hive structural schematics without prior formal training.",
+    "rules": "Prerequisite: Kitin or Lineage with Cellular Inheritance.",
+    "special_rules": "Prerequisite: Kitin or Lineage with Cellular Inheritance.",
+    "body": "# Genetic Memory\n\n**Category**: Special Features  \n**Cost**: 2 BP  \n**Prerequisite**: Kitin or Lineage with Cellular Inheritance  \n\n## Description\nEach new generation inherits a cumulative, albeit fragmented, memory bank of their ancestors, shaping their societal norms, skill sets, and instinctive reactions. This direct link to their past profoundly influences their culture, technical fluency, and resistance to historical revision.\n\n## Mechanics & Benefit\nGain access to ancestral knowledge and Genomatrix blueprints:\n* **Ancestral Recall:** The character gains a **+2 Bonus** on Lore, History, and Science checks relating to ancestral events, biological engineering, or collective history.\n* **Genomatrix Blueprints:** The character intuitively comprehends biotechnological patterns and hive structural schematics without prior formal training.",
+    "mechanics": "Gain access to ancestral knowledge and Genomatrix blueprints:\n* **Ancestral Recall:** The character gains a **+2 Bonus** on Lore, History, and Science checks relating to ancestral events, biological engineering, or collective history.\n* **Genomatrix Blueprints:** The character intuitively comprehends biotechnological patterns and hive structural schematics without prior formal training.",
+    "notes": "[Modifier] Academics: +2\n[Modifier] Science: +2\n[Modifier] +2 to Lore\n[Modifier] +2 to History\n[Rule] Prerequisite: Kitin or Lineage with Cellular Inheritance.\n[Prerequisite] Kitin or Lineage with Cellular Inheritance",
+    "notesList": [
+      "[Modifier] Academics: +2",
+      "[Modifier] Science: +2",
+      "[Modifier] +2 to Lore",
+      "[Modifier] +2 to History",
+      "[Rule] Prerequisite: Kitin or Lineage with Cellular Inheritance.",
+      "[Prerequisite] Kitin or Lineage with Cellular Inheritance"
+    ]
+  },
+  {
+    "id": "special-giant",
+    "name": "Giant",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Species Trait",
+    "modifiers": [],
+    "description": "The character is significantly larger than the average for their species.",
+    "mechanic": "Your Size Category increases by one step (e.g., Medium to Large).",
+    "rules": "193",
+    "special_rules": "193",
+    "body": "# Giant\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Species Trait\n\n## Description\nThe character is significantly larger than the average for their species.\n\n## Mechanics & Benefit\nYour Size Category increases by one step (e.g., Medium to Large).\n\n## Special Rules\n193",
+    "mechanics": "Your Size Category increases by one step (e.g., Medium to Large).",
+    "notes": "[Rule] 193\n[Prerequisite] Species Trait",
+    "notesList": [
+      "[Rule] 193",
+      "[Prerequisite] Species Trait"
+    ]
+  },
+  {
+    "id": "special-heavy-augmentations",
+    "name": "Heavy Augmentations",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Augmented, Stamina 2",
+    "modifiers": [],
+    "description": "The character has replaced significant portions of their body with industrial or military-grade hardware. These modifications are often bulky, obvious, and not designed for social integration.",
+    "mechanic": "You may install Heavy class Augmentations (which often have higher DR or Strength bonuses but may impose social penalties). You gain an additional 6 BP worth of Augmentations.",
+    "rules": "Grants an additional 6 BP worth of Augmentations for free (+12 BP cumulative credit). Unlocks compatibility with Heavy class cybernetic and biomechanical hardware.",
+    "special_rules": "Grants an additional 6 BP worth of Augmentations for free (+12 BP cumulative credit). Unlocks compatibility with Heavy class cybernetic and biomechanical hardware.",
+    "body": "# Heavy Augmentations\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Augmented, Stamina 2\n\n## Description\nThe character has replaced significant portions of their body with industrial or military-grade hardware. These modifications are often bulky, obvious, and not designed for social integration.\n\n## Mechanics & Benefit\nYou may install Heavy class Augmentations (which often have higher DR or Strength bonuses but may impose social penalties). You gain an additional 6 BP worth of Augmentations.\n\n## Special Rules\nGrants an additional 6 BP worth of Augmentations for free (+12 BP cumulative credit). Unlocks compatibility with Heavy class cybernetic and biomechanical hardware.",
+    "mechanics": "You may install Heavy class Augmentations (which often have higher DR or Strength bonuses but may impose social penalties). You gain an additional 6 BP worth of Augmentations.",
+    "notes": "[Rule] Grants an additional 6 BP worth of Augmentations for free (+12 BP cumulative credit). Unlocks compat...\n[Prerequisite] Augmented, Stamina 2",
+    "notesList": [
+      "[Rule] Grants an additional 6 BP worth of Augmentations for free (+12 BP cumulative credit). Unlocks compat...",
+      "[Prerequisite] Augmented, Stamina 2"
+    ]
+  },
+  {
+    "id": "special-hive-mind-swarm",
+    "name": "Hive Mind (Swarm)",
+    "category": "Special",
+    "type": "special",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Swarm Physiology",
+    "modifiers": [],
+    "description": "The swarm operates as a singular distributed consciousness composed of thousands of individual organisms; immune to single-target lethal trauma unless the vast majority is destroyed.",
+    "mechanic": "- **Distributed Consciousness**: Immune to sleep, paralysis, stunning, flanking, and critical hits directed at specific anatomical weak points.\n- **Swarm Resilience**: Single-target precision weapons, piercing attacks, and non-area kinetic strikes deal half damage or fail to impede the swarm.\n- **Annihilation Threshold**: The entity cannot be killed unless more than 75% of its total biomass is dispersed or destroyed by area-of-effect trauma (fire, explosive, chemical, or psionic shockwaves).",
+    "rules": "Prerequisite: Swarm Physiology.",
+    "special_rules": "Prerequisite: Swarm Physiology.",
+    "body": "# Hive Mind (Swarm)\n\n**Category**: Special Features  \n**Cost**: 2 BP  \n**Prerequisites**: Swarm Physiology  \n\n## Description\nThe organism does not possess a centralized brain or vital organ. Instead, thousands of synchronized fine-sized insects share a unified resonant psionic consciousness.\n\n## Mechanics & Benefit\n- **Distributed Consciousness**: Immune to sleep, paralysis, stunning, flanking, and critical hits directed at specific anatomical weak points.\n- **Swarm Resilience**: Single-target precision weapons, piercing attacks, and non-area kinetic strikes deal half damage or fail to impede the swarm.\n- **Annihilation Threshold**: The entity cannot be killed unless more than 75% of its total biomass is dispersed or destroyed by area-of-effect trauma (fire, explosive, chemical, or psionic shockwaves).",
+    "mechanics": "- **Distributed Consciousness**: Immune to sleep, paralysis, stunning, flanking, and critical hits directed at specific anatomical weak points.\n- **Swarm Resilience**: Single-target precision weapons, piercing attacks, and non-area kinetic strikes deal half damage or fail to impede the swarm.\n- **Annihilation Threshold**: The entity cannot be killed unless more than 75% of its total biomass is dispersed or destroyed by area-of-effect trauma (fire, explosive, chemical, or psionic shockwaves).",
+    "notes": "[Rule] Prerequisite: Swarm Physiology.\n[Prerequisite] Swarm Physiology",
+    "notesList": [
+      "[Rule] Prerequisite: Swarm Physiology.",
+      "[Prerequisite] Swarm Physiology"
+    ]
+  },
+  {
+    "id": "special-hive-link-minor",
+    "name": "Hive-Link (Minor)",
+    "category": "Special",
+    "type": "special",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Kitin Genome or Swarm Attunement",
+    "modifiers": [],
+    "description": "Basic telepathic receptivity allowing the organism to instinctively receive and execute commands broadcast through the psionic Chorus.",
+    "mechanic": "- **Command Receptivity**: Uninterrupted telepathic reception from any Manelli, Queen, or Hive Node within 5 miles.\n- **Synchronized Readiness**: When allied hive leaders or commanders roll Initiative, the character may use the leader's Initiative result if it is higher than their own.\n- **Mental Resistance**: Gains a **+2 bonus on saving throws against mental coercion, charm, or fear effects** originating from sources outside the Collective.",
+    "rules": "Prerequisite: Kitin Genome or Swarm Attunement.",
+    "special_rules": "Prerequisite: Kitin Genome or Swarm Attunement.",
+    "body": "# Hive-Link (Minor)\n\n**Category**: Special Features  \n**Cost**: 2 BP  \n**Prerequisites**: Kitin Genome or Swarm Attunement  \n\n## Description\nA streamlined neural antenna setup tuned primarily as a receiver for the psionic Chorus. While lacking the broadcasting potency of Cerebral strains, it enables instantaneous, unhesitating compliance with collective directives.\n\n## Mechanics & Benefit\n- **Command Receptivity**: Uninterrupted telepathic reception from any Manelli, Queen, or Hive Node within 5 miles.\n- **Synchronized Readiness**: When allied hive leaders or commanders roll Initiative, the character may use the leader's Initiative result if it is higher than their own.\n- **Mental Resistance**: Gains a **+2 bonus on saving throws against mental coercion, charm, or fear effects** originating from sources outside the Collective.",
+    "mechanics": "- **Command Receptivity**: Uninterrupted telepathic reception from any Manelli, Queen, or Hive Node within 5 miles.\n- **Synchronized Readiness**: When allied hive leaders or commanders roll Initiative, the character may use the leader's Initiative result if it is higher than their own.\n- **Mental Resistance**: Gains a **+2 bonus on saving throws against mental coercion, charm, or fear effects** originating from sources outside the Collective.",
+    "notes": "[Rule] Prerequisite: Kitin Genome or Swarm Attunement.\n[Prerequisite] Kitin Genome or Swarm Attunement",
+    "notesList": [
+      "[Rule] Prerequisite: Kitin Genome or Swarm Attunement.",
+      "[Prerequisite] Kitin Genome or Swarm Attunement"
+    ]
+  },
+  {
+    "id": "special-hobble",
+    "name": "Hobble",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Sneak Attack",
+    "modifiers": [],
+    "description": "Hobble is a Special Feature: Reduce a target’s speed by 50% (immobilize on 2nd).",
+    "mechanic": "Reduce a target’s speed by 50% (immobilize on 2nd).",
+    "rules": "210",
+    "special_rules": "210",
+    "body": "# Hobble\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Sneak Attack\n\n## Description\nHobble is a Special Feature: Reduce a target’s speed by 50% (immobilize on 2nd).\n\n## Mechanics & Benefit\nReduce a target’s speed by 50% (immobilize on 2nd).\n\n## Special Rules\n210",
+    "mechanics": "Reduce a target’s speed by 50% (immobilize on 2nd).",
+    "notes": "[Rule] 210\n[Prerequisite] Sneak Attack",
+    "notesList": [
+      "[Rule] 210",
+      "[Prerequisite] Sneak Attack"
+    ]
+  },
+  {
+    "id": "special-honey-paper-manufacture",
+    "name": "Honey & Paper Manufacture",
+    "category": "Special",
+    "type": "special",
+    "cp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Insectoid Secretions",
+    "modifiers": [],
+    "description": "Synthesize biological adhesives, sticky amber honey ooze, and masticated cellulose pulp for nest building, structural reinforcement, and physical entrapment.",
+    "mechanic": "- **Nest & Barricade Building**: Can construct dense, paper-like chitinous hive nests, atmospheric seals, and hanging egg-sacs. In 10 minutes, can create a reinforced barricade offering **DR 5 and 30 Structure Points**.\n- **Amber Ooze Entrapment**: Can coat a 10 ft area in sticky honeyed ooze (Difficult Terrain; DC 14 Athletics or Reflex save to avoid being stuck).\n- **Nutrient Honey**: Excretes nutrient-rich amber honey capable of sustaining organic allies or zombified husks.",
+    "rules": "Prerequisite: Insectoid Secretions.",
+    "special_rules": "Prerequisite: Insectoid Secretions.",
+    "body": "# Honey & Paper Manufacture\n\n**Category**: Special Features  \n**Cost**: 1 BP  \n**Prerequisites**: Insectoid Secretions  \n\n## Description\nThe swarm's worker castes synthesize sticky amber ooze, regurgitated cellulose pulp, and biological resin. These substances can be rapidly extruded and layered into fortified nests, structural honeycombs, or sticky combat obstacles.\n\n## Mechanics & Benefit\n- **Nest & Barricade Building**: Can construct dense, paper-like chitinous hive nests, atmospheric seals, and hanging egg-sacs. In 10 minutes, can create a reinforced barricade offering **DR 5 and 30 Structure Points**.\n- **Amber Ooze Entrapment**: Can coat a 10 ft area in sticky honeyed ooze (Difficult Terrain; DC 14 Athletics or Reflex save to avoid being stuck).\n- **Nutrient Honey**: Excretes nutrient-rich amber honey capable of sustaining organic allies or zombified husks.",
+    "mechanics": "- **Nest & Barricade Building**: Can construct dense, paper-like chitinous hive nests, atmospheric seals, and hanging egg-sacs. In 10 minutes, can create a reinforced barricade offering **DR 5 and 30 Structure Points**.\n- **Amber Ooze Entrapment**: Can coat a 10 ft area in sticky honeyed ooze (Difficult Terrain; DC 14 Athletics or Reflex save to avoid being stuck).\n- **Nutrient Honey**: Excretes nutrient-rich amber honey capable of sustaining organic allies or zombified husks.",
+    "notes": "[Rule] Prerequisite: Insectoid Secretions.\n[Prerequisite] Insectoid Secretions",
+    "notesList": [
+      "[Rule] Prerequisite: Insectoid Secretions.",
+      "[Prerequisite] Insectoid Secretions"
+    ]
+  },
+  {
+    "id": "special-host-zombification",
+    "name": "Host Zombification",
+    "category": "Special",
+    "type": "special",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Swarm Physiology",
+    "modifiers": [],
+    "description": "The swarm can enter, occupy, and mechanically puppet the corpses of other species or damaged biomorphic husks, utilizing them as armored shells and adopting their physical traits.",
+    "mechanic": "- **Puppet Husk**: Inhabiting a fresh corpse or husk takes 1 minute of uninterrupted burrowing. While inside, the swarm adopts the host's physical Size, Base Strength score, and native Armor DR.\n- **Ablative Shell**: Attacks directed at the zombified form damage the host husk first (using the corpse's remaining Structure/Health). Once the husk is destroyed, the swarm emerges unscathed.\n- **Technological Interface**: Can operate basic vehicles, tools, and weapons tailored to the host's anatomy.",
+    "rules": "Prerequisite: Swarm Physiology.",
+    "special_rules": "Prerequisite: Swarm Physiology.",
+    "body": "# Host Zombification\n\n**Category**: Special Features  \n**Cost**: 2 BP  \n**Prerequisites**: Swarm Physiology  \n\n## Description\nThe swarm can flow into the cavities of dead biological entities, synthetic cyber-frames, or damaged biomorphic husks, threading through muscle bundles and neural conduits to puppet the host body from within.\n\n## Mechanics & Benefit\n- **Puppet Husk**: Inhabiting a fresh corpse or husk takes 1 minute of uninterrupted burrowing. While inside, the swarm adopts the host's physical Size, Base Strength score, and native Armor DR.\n- **Ablative Shell**: Attacks directed at the zombified form damage the host husk first (using the corpse's remaining Structure/Health). Once the husk is destroyed, the swarm emerges unscathed.\n- **Technological Interface**: Can operate basic vehicles, tools, and weapons tailored to the host's anatomy.",
+    "mechanics": "- **Puppet Husk**: Inhabiting a fresh corpse or husk takes 1 minute of uninterrupted burrowing. While inside, the swarm adopts the host's physical Size, Base Strength score, and native Armor DR.\n- **Ablative Shell**: Attacks directed at the zombified form damage the host husk first (using the corpse's remaining Structure/Health). Once the husk is destroyed, the swarm emerges unscathed.\n- **Technological Interface**: Can operate basic vehicles, tools, and weapons tailored to the host's anatomy.",
+    "notes": "[Rule] Prerequisite: Swarm Physiology.\n[Prerequisite] Swarm Physiology",
+    "notesList": [
+      "[Rule] Prerequisite: Swarm Physiology.",
+      "[Prerequisite] Swarm Physiology"
+    ]
+  },
+  {
+    "id": "special-life-support",
+    "name": "Life Support",
+    "category": "Special",
+    "type": "special",
     "cp": 3,
     "costs": {
       "bp": 3,
@@ -8795,28 +9152,25 @@ export const DEFAULT_FEATURES = [
     },
     "is_ranked": false,
     "is_multiple": true,
-    "prerequisites": "Weapon Focus, Skill 6",
+    "prerequisites": "None",
     "modifiers": [],
-    "description": "Weapon Specialization is a Combat Feature: +1d damage with one weapon type.",
-    "mechanic": "\\+1d damage with one weapon type.",
-    "rules": "Multiple 57",
-    "special_rules": "Multiple 57",
-    "body": "# Weapon Specialization\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Weapon Focus, Skill 6\n\n## Description\nWeapon Specialization is a Combat Feature: \\+1d damage with one weapon type.\n\n## Mechanics & Benefit\n\\+1d damage with one weapon type.\n\n## Special Rules\nMultiple 57",
-    "mechanics": "\\+1d damage with one weapon type.",
-    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] Multiple 57\n[Prerequisite] Weapon Focus, Skill 6",
+    "description": "The character can survive in environments hostile to their biology.",
+    "mechanic": "You can breathe and function comfortably in a specific non-native environment.",
+    "rules": "Multiple 194",
+    "special_rules": "Multiple 194",
+    "body": "# Life Support\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character can survive in environments hostile to their biology.\n\n## Mechanics & Benefit\nYou can breathe and function comfortably in a specific non-native environment.\n\n## Special Rules\nMultiple 194",
+    "mechanics": "You can breathe and function comfortably in a specific non-native environment.",
+    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] Multiple 194",
     "notesList": [
       "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] Multiple 57",
-      "[Prerequisite] Weapon Focus, Skill 6"
-    ],
-    "keywords": "weapon specialization, combat, special-feature, combat-maneuver, tactical-edge, weapon",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
+      "[Rule] Multiple 194"
+    ]
   },
   {
-    "id": "general-well-informed",
-    "name": "Well Informed",
-    "category": "General",
-    "type": "general",
+    "id": "special-low-light-vision",
+    "name": "Low Light Vision",
+    "category": "Special",
+    "type": "special",
     "cp": 3,
     "costs": {
       "bp": 3,
@@ -8831,24 +9185,68 @@ export const DEFAULT_FEATURES = [
     "is_multiple": false,
     "prerequisites": "None",
     "modifiers": [],
-    "description": "The character keeps their ear to the ground and knows a little bit about every local scene.",
-    "mechanic": "Upon entering a new settlement or region, you may make an immediate **Gather Information** check for free to learn the local news, rumors, and power structure.",
-    "rules": "113",
-    "special_rules": "113",
-    "body": "# Well Informed\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character keeps their ear to the ground and knows a little bit about every local scene.\n\n## Mechanics & Benefit\nUpon entering a new settlement or region, you may make an immediate **Gather Information** check for free to learn the local news, rumors, and power structure.\n\n## Special Rules\n113",
-    "mechanics": "Upon entering a new settlement or region, you may make an immediate **Gather Information** check for free to learn the local news, rumors, and power structure.",
-    "notes": "[Rule] 113",
+    "description": "The character's eyes magnify ambient light.",
+    "mechanic": "You can see in dim light (starlight, moonlight) as clearly as if it were bright daylight. You interpret color normally. You still cannot see in absolute darkness.",
+    "rules": "195",
+    "special_rules": "195",
+    "body": "# Low Light Vision\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character's eyes magnify ambient light.\n\n## Mechanics & Benefit\nYou can see in dim light (starlight, moonlight) as clearly as if it were bright daylight. You interpret color normally. You still cannot see in absolute darkness.\n\n## Special Rules\n195",
+    "mechanics": "You can see in dim light (starlight, moonlight) as clearly as if it were bright daylight. You interpret color normally. You still cannot see in absolute darkness.",
+    "notes": "[Rule] 195",
     "notesList": [
-      "[Rule] 113"
-    ],
-    "keywords": "well informed, general, special-feature, ground, little",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+      "[Rule] 195"
+    ]
   },
   {
-    "id": "combat-whirlwind-attack",
-    "name": "Whirlwind Attack",
-    "category": "Combat",
-    "type": "combat",
+    "id": "special-mimetic-form",
+    "name": "Mimetic Form",
+    "category": "Special",
+    "type": "special",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Kitin Manelli or Morphic Species",
+    "modifiers": [
+      {
+        "target": "Disguise",
+        "value": 2,
+        "type": "skill",
+        "mode": "conditional"
+      },
+      {
+        "target": "Deception",
+        "value": 2,
+        "type": "skill",
+        "mode": "conditional"
+      }
+    ],
+    "description": "The species possesses a thin, human-mimetic dermis and internal endoskeletal structure capable of passing as baseline humanity.",
+    "mechanic": "Gain a **+2 Bonus** to **Disguise** or **Deception** checks to pass as human.  \n* *Condition:* The organism's sensory cranial antennae must be concealed (e.g., woven into hairstyles, concealed within headwear, or tucked flat against the scalp). If the antennae or needle-like teeth are visibly revealed, this disguise bonus is forfeited and true xenotype is recognized.",
+    "rules": "Prerequisite: Kitin Manelli or Morphic Species.",
+    "special_rules": "Prerequisite: Kitin Manelli or Morphic Species.",
+    "body": "# Mimetic Form\n\n**Category**: Special Features  \n**Cost**: 2 BP  \n**Prerequisite**: Kitin Manelli or Morphic Species  \n\n## Description\nThe species possesses a thin, human-mimetic dermis and internal endoskeletal framework capable of masquerading as baseline humanity. Beneath this skin, emerald copper-based blood flows without an external carapace.\n\n## Mechanics & Benefit\nGain a **+2 Bonus** to **Disguise** or **Deception** checks to pass as human.  \n* *Condition:* The organism's sensory cranial antennae must be concealed (e.g., woven into hairstyles, concealed within headwear, or tucked flat against the scalp). If the antennae or needle-like teeth are visibly revealed, this disguise bonus is forfeited and true xenotype is recognized.",
+    "mechanics": "Gain a **+2 Bonus** to **Disguise** or **Deception** checks to pass as human.  \n* *Condition:* The organism's sensory cranial antennae must be concealed (e.g., woven into hairstyles, concealed within headwear, or tucked flat against the scalp). If the antennae or needle-like teeth are visibly revealed, this disguise bonus is forfeited and true xenotype is recognized.",
+    "notes": "[Modifier] Disguise: +2\n[Modifier] Deception: +2\n[Rule] Prerequisite: Kitin Manelli or Morphic Species.\n[Prerequisite] Kitin Manelli or Morphic Species",
+    "notesList": [
+      "[Modifier] Disguise: +2",
+      "[Modifier] Deception: +2",
+      "[Rule] Prerequisite: Kitin Manelli or Morphic Species.",
+      "[Prerequisite] Kitin Manelli or Morphic Species"
+    ]
+  },
+  {
+    "id": "special-mind-link",
+    "name": "Mind Link",
+    "category": "Special",
+    "type": "special",
     "cp": 3,
     "costs": {
       "bp": 3,
@@ -8861,21 +9259,711 @@ export const DEFAULT_FEATURES = [
     },
     "is_ranked": false,
     "is_multiple": false,
-    "prerequisites": "Agi 2, Combat Expertise, Blitz Attack",
+    "prerequisites": "Companion",
     "modifiers": [],
-    "description": "Whirlwind Attack is a Combat Feature: Make one melee attack against all foes within reach.",
-    "mechanic": "Make one melee attack against all foes within reach.",
-    "rules": "32",
-    "special_rules": "32",
-    "body": "# Whirlwind Attack\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Agi 2, Combat Expertise, Blitz Attack\n\n## Description\nWhirlwind Attack is a Combat Feature: Make one melee attack against all foes within reach.\n\n## Mechanics & Benefit\nMake one melee attack against all foes within reach.\n\n## Special Rules\n32",
-    "mechanics": "Make one melee attack against all foes within reach.",
-    "notes": "[Rule] 32\n[Prerequisite] Agi 2, Combat Expertise, Blitz Attack",
+    "description": "Mind Link is a Special Feature: Telepathic link; share skills/knowledge (+10BP to Companion).",
+    "mechanic": "Telepathic link; share skills/knowledge (+10BP to Companion).",
+    "rules": "187",
+    "special_rules": "187",
+    "body": "# Mind Link\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Companion\n\n## Description\nMind Link is a Special Feature: Telepathic link; share skills/knowledge (+10BP to Companion).\n\n## Mechanics & Benefit\nTelepathic link; share skills/knowledge (+10BP to Companion).\n\n## Special Rules\n187",
+    "mechanics": "Telepathic link; share skills/knowledge (+10BP to Companion).",
+    "notes": "[Rule] 187\n[Prerequisite] Companion",
     "notesList": [
-      "[Rule] 32",
-      "[Prerequisite] Agi 2, Combat Expertise, Blitz Attack"
+      "[Rule] 187",
+      "[Prerequisite] Companion"
+    ]
+  },
+  {
+    "id": "special-multidextrous-many-limbed",
+    "name": "Multidextrous (Many-Limbed)",
+    "category": "Special",
+    "type": "special",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Multi-segmented Larval Anatomy",
+    "modifiers": [],
+    "description": "Possesses 30+ micro-limbs along their underside for fine internal repairs, fluid management, and multitasking across the mecha's biological subsystems.",
+    "mechanic": "- **Distributed Subsystem Processing**: A single integrated pilot can manipulate internal controls equivalent to 4 standard crew members simultaneously (pilot, gunner, engineer, and sensor operator).\n- **Fine Internal Maintenance**: Can perform emergency bio-patching, nutrient fluid rerouting, and internal system calibrations without disconnecting from the mecha node.\n- **Off-Hand Negation**: Zero penalty for operating multiple interfaces or fine tools simultaneously.",
+    "rules": "Prerequisite: Multi-segmented Larval Anatomy.",
+    "special_rules": "Prerequisite: Multi-segmented Larval Anatomy.",
+    "body": "# Multidextrous (Many-Limbed)\n\n**Category**: Special Features  \n**Cost**: 2 BP  \n**Prerequisites**: Multi-segmented Larval Anatomy  \n\n## Description\nThe Syndess possesses dozens of fine, hair-like limbs running along the ventral length of its multi-segmented body. Each limb ends in a hyper-sensitive synaptic filament capable of manipulating micro-valves, nerve clusters, and vascular channels simultaneously.\n\n## Mechanics & Benefit\n- **Distributed Subsystem Processing**: A single integrated pilot can manipulate internal controls equivalent to 4 standard crew members simultaneously (pilot, gunner, engineer, and sensor operator).\n- **Fine Internal Maintenance**: Can perform emergency bio-patching, nutrient fluid rerouting, and internal system calibrations without disconnecting from the mecha node.\n- **Off-Hand Negation**: Zero penalty for operating multiple interfaces or fine tools simultaneously.",
+    "mechanics": "- **Distributed Subsystem Processing**: A single integrated pilot can manipulate internal controls equivalent to 4 standard crew members simultaneously (pilot, gunner, engineer, and sensor operator).\n- **Fine Internal Maintenance**: Can perform emergency bio-patching, nutrient fluid rerouting, and internal system calibrations without disconnecting from the mecha node.\n- **Off-Hand Negation**: Zero penalty for operating multiple interfaces or fine tools simultaneously.",
+    "notes": "[Rule] Prerequisite: Multi-segmented Larval Anatomy.\n[Prerequisite] Multi-segmented Larval Anatomy",
+    "notesList": [
+      "[Rule] Prerequisite: Multi-segmented Larval Anatomy.",
+      "[Prerequisite] Multi-segmented Larval Anatomy"
+    ]
+  },
+  {
+    "id": "special-natural-weapons",
+    "name": "Natural Weapons",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": true,
+    "max_rank": 4,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [],
+    "description": "The character possesses claws, fangs, horns, or a tail striker.",
+    "mechanic": "You are always armed. Your Unarmed Strikes deal Lethal damage and the damage die is increased.  \n  * *Small/Medium:* 1d4 or 1d6 damage.  \n  * *Large:* 1d8 damage.",
+    "rules": "\\[Ranked\\] Can be taken to increase the damage die size.",
+    "special_rules": "\\[Ranked\\] Can be taken to increase the damage die size.",
+    "body": "# Natural Weapons\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character possesses claws, fangs, horns, or a tail striker.\n\n## Mechanics & Benefit\nYou are always armed. Your Unarmed Strikes deal Lethal damage and the damage die is increased.  \n  * *Small/Medium:* 1d4 or 1d6 damage.  \n  * *Large:* 1d8 damage.\n\n## Special Rules\n\\[Ranked\\] Can be taken to increase the damage die size.",
+    "mechanics": "You are always armed. Your Unarmed Strikes deal Lethal damage and the damage die is increased.  \n  * *Small/Medium:* 1d4 or 1d6 damage.  \n  * *Large:* 1d8 damage.",
+    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] \\[Ranked\\] Can be taken to increase the damage die size.",
+    "notesList": [
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] \\[Ranked\\] Can be taken to increase the damage die size."
+    ]
+  },
+  {
+    "id": "special-non-lethal-immunity",
+    "name": "Non-Lethal Immunity",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "-",
+    "modifiers": [],
+    "description": "Non-Lethal Immunity is a Special Feature: Immune to Non-Lethal Damage.",
+    "mechanic": "Immune to Non-Lethal Damage.",
+    "rules": "198",
+    "special_rules": "198",
+    "body": "# Non-Lethal Immunity\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: \\-\n\n## Description\nNon-Lethal Immunity is a Special Feature: Immune to Non-Lethal Damage.\n\n## Mechanics & Benefit\nImmune to Non-Lethal Damage.\n\n## Special Rules\n198",
+    "mechanics": "Immune to Non-Lethal Damage.",
+    "notes": "[Rule] 198\n[Prerequisite] -",
+    "notesList": [
+      "[Rule] 198",
+      "[Prerequisite] -"
+    ]
+  },
+  {
+    "id": "special-pheromonal-synthesis",
+    "name": "Pheromonal Synthesis",
+    "category": "Special",
+    "type": "special",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Insectoid Glands or Chemoreceptive Biology",
+    "modifiers": [
+      {
+        "target": "Navigation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Navigation"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Survival"
+      },
+      {
+        "target": "Initiative",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Initiative"
+      }
     ],
-    "keywords": "whirlwind attack, combat, special-feature, combat-maneuver, tactical-edge, whirlwind",
-    "negative_keywords": "pacifist, feeble, untrained-civilian"
+    "description": "Synthesizes complex airborne and surface pheromones for silent intra-hive communication, scent-trail marking, and coordinated swarm logistics.",
+    "mechanic": "- **Hive Scent Marking**: Can mark objects, tunnels, and structural paths with persistent chemical trails lasting up to 72 hours.\n- **Coordination Boost**: Allied Kitin and chemoreceptive organisms following a laid trail gain a **+2 bonus on Navigation, Survival, and Initiative checks** while operating within the scented operational zone.\n- **Silent Alarm**: Can release an instantaneous localized aerosol alert across a 60-foot radius to silently signal danger without making audible noise or psychic vibrations.",
+    "rules": "Prerequisite: Insectoid Glands or Chemoreceptive Biology.",
+    "special_rules": "Prerequisite: Insectoid Glands or Chemoreceptive Biology.",
+    "body": "# Pheromonal Synthesis\n\n**Category**: Special Features  \n**Cost**: 2 BP  \n**Prerequisites**: Insectoid Glands or Chemoreceptive Biology  \n\n## Description\nSpecialized ventral and oral glands synthesize sophisticated chemical cocktails and aromatic markers. These markers linger in environments to transmit silent tactical instructions, alarm states, and navigation routes to hive kin.\n\n## Mechanics & Benefit\n- **Hive Scent Marking**: Can mark objects, tunnels, and structural paths with persistent chemical trails lasting up to 72 hours.\n- **Coordination Boost**: Allied Kitin and chemoreceptive organisms following a laid trail gain a **+2 bonus on Navigation, Survival, and Initiative checks** while operating within the scented operational zone.\n- **Silent Alarm**: Can release an instantaneous localized aerosol alert across a 60-foot radius to silently signal danger without making audible noise or psychic vibrations.",
+    "mechanics": "- **Hive Scent Marking**: Can mark objects, tunnels, and structural paths with persistent chemical trails lasting up to 72 hours.\n- **Coordination Boost**: Allied Kitin and chemoreceptive organisms following a laid trail gain a **+2 bonus on Navigation, Survival, and Initiative checks** while operating within the scented operational zone.\n- **Silent Alarm**: Can release an instantaneous localized aerosol alert across a 60-foot radius to silently signal danger without making audible noise or psychic vibrations.",
+    "notes": "[Modifier] +2 to Navigation\n[Modifier] +2 to Survival\n[Modifier] +2 to Initiative\n[Rule] Prerequisite: Insectoid Glands or Chemoreceptive Biology.\n[Prerequisite] Insectoid Glands or Chemoreceptive Biology",
+    "notesList": [
+      "[Modifier] +2 to Navigation",
+      "[Modifier] +2 to Survival",
+      "[Modifier] +2 to Initiative",
+      "[Rule] Prerequisite: Insectoid Glands or Chemoreceptive Biology.",
+      "[Prerequisite] Insectoid Glands or Chemoreceptive Biology"
+    ]
+  },
+  {
+    "id": "special-property-boon",
+    "name": "Property Boon",
+    "category": "Special",
+    "type": "special",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Specialist or Operator Standing",
+    "modifiers": [],
+    "description": "Special equipment allocation granting personal vehicle or biomorphic docking privileges, providing +4 Wealth toward property or personal mecha acquisition.",
+    "mechanic": "- **Wealth Allocation**: Grants a permanent **+4 bonus to Wealth** specifically earmarked for purchasing, customizing, or maintaining personal property, vehicles, biomorphic mecha frames, or mobile command units.\n- **Requisition Authority**: Provides priority docking, biological refit, and hangar space within friendly faction installations.",
+    "rules": "Prerequisite: Specialist or Operator Standing.",
+    "special_rules": "Prerequisite: Specialist or Operator Standing.",
+    "body": "# Property Boon\n\n**Category**: Special Features  \n**Cost**: 2 BP  \n**Prerequisites**: Specialist or Operator Standing  \n\n## Description\nA societal or factional endowment granting the character personal command or ownership of specialized equipment, vehicles, or biomorphic construct docking rights.\n\n## Mechanics & Benefit\n- **Wealth Allocation**: Grants a permanent **+4 bonus to Wealth** specifically earmarked for purchasing, customizing, or maintaining personal property, vehicles, biomorphic mecha frames, or mobile command units.\n- **Requisition Authority**: Provides priority docking, biological refit, and hangar space within friendly faction installations.",
+    "mechanics": "- **Wealth Allocation**: Grants a permanent **+4 bonus to Wealth** specifically earmarked for purchasing, customizing, or maintaining personal property, vehicles, biomorphic mecha frames, or mobile command units.\n- **Requisition Authority**: Provides priority docking, biological refit, and hangar space within friendly faction installations.",
+    "notes": "[Rule] Prerequisite: Specialist or Operator Standing.\n[Prerequisite] Specialist or Operator Standing",
+    "notesList": [
+      "[Rule] Prerequisite: Specialist or Operator Standing.",
+      "[Prerequisite] Specialist or Operator Standing"
+    ]
+  },
+  {
+    "id": "special-rage",
+    "name": "Rage",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": true,
+    "max_rank": 4,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [
+      {
+        "target": "defense-mod",
+        "type": "combat",
+        "value": -2,
+        "mode": "inherent",
+        "description": "-2 Defense"
+      }
+    ],
+    "description": "The character can tap into a primal fury, ignoring safety for raw power.",
+    "mechanic": "As a Free Action, enter a Rage.  \n  * **Gain:** \\+2 Strength, \\+2 Stamina (and temporary Health), \\+2 Will.  \n  * **Suffer:** \\-2 Defense. You cannot use skills requiring patience or concentration (most Mental/Tech skills).  \n  * **Duration:** Rounds equal to 4 \\+ New Stamina Mod. Ends in fatigue.",
+    "rules": "Ranked 199",
+    "special_rules": "Ranked 199",
+    "body": "# Rage\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character can tap into a primal fury, ignoring safety for raw power.\n\n## Mechanics & Benefit\nAs a Free Action, enter a Rage.  \n  * **Gain:** \\+2 Strength, \\+2 Stamina (and temporary Health), \\+2 Will.  \n  * **Suffer:** \\-2 Defense. You cannot use skills requiring patience or concentration (most Mental/Tech skills).  \n  * **Duration:** Rounds equal to 4 \\+ New Stamina Mod. Ends in fatigue.\n\n## Special Rules\nRanked 199",
+    "mechanics": "As a Free Action, enter a Rage.  \n  * **Gain:** \\+2 Strength, \\+2 Stamina (and temporary Health), \\+2 Will.  \n  * **Suffer:** \\-2 Defense. You cannot use skills requiring patience or concentration (most Mental/Tech skills).  \n  * **Duration:** Rounds equal to 4 \\+ New Stamina Mod. Ends in fatigue.",
+    "notes": "[Penalty] -2 Defense\n[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Ranked 199",
+    "notesList": [
+      "[Penalty] -2 Defense",
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] Ranked 199"
+    ]
+  },
+  {
+    "id": "special-resin-secretion",
+    "name": "Resin Secretion",
+    "category": "Special",
+    "type": "special",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Biomorphic Glands",
+    "modifiers": [],
+    "description": "Specialized glandular excretion producing fast-curing Hive-Resin used for structural repairs, emergency hull patching on mecha and vehicles, and environmental seals.",
+    "mechanic": "- **Field Patching & Mecha Repair**: Can seal breaches in spacecraft hulls, mech armor plates, airlocks, and environmental suits. Restores **2d6 Structure Points** or patches critical integrity breaches in 1 round of sustained secretion.\n- **Structural Adhesive**: The extruded resin cures in 10 seconds into a rigid polymer with tensile strength comparable to reinforced titanium alloys.\n- **Airtight / Watertight**: Naturally seals atmospheric leaks, resisting vacuums and pressures up to 10 atmospheres.",
+    "rules": "Prerequisite: Biomorphic Glands.",
+    "special_rules": "Prerequisite: Biomorphic Glands.",
+    "body": "# Resin Secretion\n\n**Category**: Special Features  \n**Cost**: 2 BP  \n**Prerequisites**: Biomorphic Glands  \n\n## Description\nThe organism possesses abdominal and thoracic dermal glands capable of synthesizing and extruding high-grade biomorphic resin. This compound rapidly cross-links upon exposure to air or moisture, forming an impermeable, shock-resistant seal.\n\n## Mechanics & Benefit\n- **Field Patching & Mecha Repair**: Can seal breaches in spacecraft hulls, mech armor plates, airlocks, and environmental suits. Restores **2d6 Structure Points** or patches critical integrity breaches in 1 round of sustained secretion.\n- **Structural Adhesive**: The extruded resin cures in 10 seconds into a rigid polymer with tensile strength comparable to reinforced titanium alloys.\n- **Airtight / Watertight**: Naturally seals atmospheric leaks, resisting vacuums and pressures up to 10 atmospheres.",
+    "mechanics": "- **Field Patching & Mecha Repair**: Can seal breaches in spacecraft hulls, mech armor plates, airlocks, and environmental suits. Restores **2d6 Structure Points** or patches critical integrity breaches in 1 round of sustained secretion.\n- **Structural Adhesive**: The extruded resin cures in 10 seconds into a rigid polymer with tensile strength comparable to reinforced titanium alloys.\n- **Airtight / Watertight**: Naturally seals atmospheric leaks, resisting vacuums and pressures up to 10 atmospheres.",
+    "notes": "[Rule] Prerequisite: Biomorphic Glands.\n[Prerequisite] Biomorphic Glands",
+    "notesList": [
+      "[Rule] Prerequisite: Biomorphic Glands.",
+      "[Prerequisite] Biomorphic Glands"
+    ]
+  },
+  {
+    "id": "special-resistance",
+    "name": "Resistance",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": true,
+    "prerequisites": "Stamina 1",
+    "modifiers": [],
+    "description": "The character has a fortified immune system or supernatural resilience.",
+    "mechanic": "Gain a **\\+2 Bonus** to saves against a specific hazard category: **Disease**, **Poison**, **Radiation**, or **Magic**.",
+    "rules": "\\[Multiple\\] Can be taken for different hazards.",
+    "special_rules": "\\[Multiple\\] Can be taken for different hazards.",
+    "body": "# Resistance\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Stamina 1\n\n## Description\nThe character has a fortified immune system or supernatural resilience.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to saves against a specific hazard category: **Disease**, **Poison**, **Radiation**, or **Magic**.\n\n## Special Rules\n\\[Multiple\\] Can be taken for different hazards.",
+    "mechanics": "Gain a **\\+2 Bonus** to saves against a specific hazard category: **Disease**, **Poison**, **Radiation**, or **Magic**.",
+    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] \\[Multiple\\] Can be taken for different hazards.\n[Prerequisite] Stamina 1",
+    "notesList": [
+      "[Rule] Multiple: May be purchased separately for different categories/types",
+      "[Rule] \\[Multiple\\] Can be taken for different hazards.",
+      "[Prerequisite] Stamina 1"
+    ]
+  },
+  {
+    "id": "special-scent",
+    "name": "Scent",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Wisdom 1",
+    "modifiers": [],
+    "description": "The character can detect creatures and objects by smell alone.",
+    "mechanic": "You can detect opponents within 30 feet by sense of smell. You can track creatures using **Survival** based on scent trails.",
+    "rules": "201",
+    "special_rules": "201",
+    "body": "# Scent\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Wisdom 1\n\n## Description\nThe character can detect creatures and objects by smell alone.\n\n## Mechanics & Benefit\nYou can detect opponents within 30 feet by sense of smell. You can track creatures using **Survival** based on scent trails.\n\n## Special Rules\n201",
+    "mechanics": "You can detect opponents within 30 feet by sense of smell. You can track creatures using **Survival** based on scent trails.",
+    "notes": "[Rule] 201\n[Prerequisite] Wisdom 1",
+    "notesList": [
+      "[Rule] 201",
+      "[Prerequisite] Wisdom 1"
+    ]
+  },
+  {
+    "id": "special-self-sustaining",
+    "name": "Self-Sustaining",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Synthetic, Plant, or Undead traits",
+    "modifiers": [],
+    "description": "The character does not require standard biological fuel.",
+    "mechanic": "You do not need to eat or drink. You may rely on solar power, a battery recharge, or magical energy, but you are immune to starvation and dehydration mechanics.",
+    "rules": "202",
+    "special_rules": "202",
+    "body": "# Self-Sustaining\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Synthetic, Plant, or Undead traits\n\n## Description\nThe character does not require standard biological fuel.\n\n## Mechanics & Benefit\nYou do not need to eat or drink. You may rely on solar power, a battery recharge, or magical energy, but you are immune to starvation and dehydration mechanics.\n\n## Special Rules\n202",
+    "mechanics": "You do not need to eat or drink. You may rely on solar power, a battery recharge, or magical energy, but you are immune to starvation and dehydration mechanics.",
+    "notes": "[Rule] 202\n[Prerequisite] Synthetic, Plant, or Undead traits",
+    "notesList": [
+      "[Rule] 202",
+      "[Prerequisite] Synthetic, Plant, or Undead traits"
+    ]
+  },
+  {
+    "id": "special-sense",
+    "name": "Sense",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": true,
+    "prerequisites": "Awakened or Species Trait",
+    "modifiers": [],
+    "description": "The character can sense a specific type of energy or presence.",
+    "mechanic": "You can detect a specific aura (Evil, Magic, Life, Tech, Heat) within a **20 ft Radius** or a **40 ft Cone**. This requires active concentration (Standard Action).",
+    "rules": "Multiple 204",
+    "special_rules": "Multiple 204",
+    "body": "# Sense\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Awakened or Species Trait\n\n## Description\nThe character can sense a specific type of energy or presence.\n\n## Mechanics & Benefit\nYou can detect a specific aura (Evil, Magic, Life, Tech, Heat) within a **20 ft Radius** or a **40 ft Cone**. This requires active concentration (Standard Action).\n\n## Special Rules\nMultiple 204",
+    "mechanics": "You can detect a specific aura (Evil, Magic, Life, Tech, Heat) within a **20 ft Radius** or a **40 ft Cone**. This requires active concentration (Standard Action).",
+    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] Multiple 204\n[Prerequisite] Awakened or Species Trait",
+    "notesList": [
+      "[Rule] Multiple: May be purchased separately for different categories/types",
+      "[Rule] Multiple 204",
+      "[Prerequisite] Awakened or Species Trait"
+    ]
+  },
+  {
+    "id": "special-sense-uncontrolled",
+    "name": "Sense, Uncontrolled",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": true,
+    "prerequisites": "Special",
+    "modifiers": [],
+    "description": "The character is constantly bombarded by sensory input.",
+    "mechanic": "As *Sense*, but the range increases to **30 ft Radius / 60 ft Cone**.",
+    "rules": "Multiple 205",
+    "special_rules": "Multiple 205",
+    "body": "# Sense, Uncontrolled\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Special\n\n## Description\nThe character is constantly bombarded by sensory input.\n\n## Mechanics & Benefit\nAs *Sense*, but the range increases to **30 ft Radius / 60 ft Cone**.\n\n## Special Rules\nMultiple 205",
+    "mechanics": "As *Sense*, but the range increases to **30 ft Radius / 60 ft Cone**.",
+    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] Multiple 205\n[Prerequisite] Special",
+    "notesList": [
+      "[Rule] Multiple: May be purchased separately for different categories/types",
+      "[Rule] Multiple 205",
+      "[Prerequisite] Special"
+    ]
+  },
+  {
+    "id": "special-shared-senses",
+    "name": "Shared Senses",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Companion",
+    "modifiers": [],
+    "description": "Shared Senses is a Special Feature: Gain the senses of and sense through the other (+10BP to Companion).",
+    "mechanic": "Gain the senses of and sense through the other (+10BP to Companion).",
+    "rules": "188",
+    "special_rules": "188",
+    "body": "# Shared Senses\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Companion\n\n## Description\nShared Senses is a Special Feature: Gain the senses of and sense through the other (+10BP to Companion).\n\n## Mechanics & Benefit\nGain the senses of and sense through the other (+10BP to Companion).\n\n## Special Rules\n188",
+    "mechanics": "Gain the senses of and sense through the other (+10BP to Companion).",
+    "notes": "[Rule] 188\n[Prerequisite] Companion",
+    "notesList": [
+      "[Rule] 188",
+      "[Prerequisite] Companion"
+    ]
+  },
+  {
+    "id": "special-sleepless",
+    "name": "Sleepless",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Synthetic, Elf, or Special",
+    "modifiers": [],
+    "description": "The character does not require sleep cycles (though they may need downtime for system diagnostics or meditation).",
+    "mechanic": "You are **Immune** to magical sleep effects. You do not need 8 hours of sleep; you remain conscious during rest periods, though you must still engage in light activity to gain the benefits of a Long Rest.",
+    "rules": "203",
+    "special_rules": "203",
+    "body": "# Sleepless\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Synthetic, Elf, or Special\n\n## Description\nThe character does not require sleep cycles (though they may need downtime for system diagnostics or meditation).\n\n## Mechanics & Benefit\nYou are **Immune** to magical sleep effects. You do not need 8 hours of sleep; you remain conscious during rest periods, though you must still engage in light activity to gain the benefits of a Long Rest.\n\n## Special Rules\n203",
+    "mechanics": "You are **Immune** to magical sleep effects. You do not need 8 hours of sleep; you remain conscious during rest periods, though you must still engage in light activity to gain the benefits of a Long Rest.",
+    "notes": "[Rule] 203\n[Prerequisite] Synthetic, Elf, or Special",
+    "notesList": [
+      "[Rule] 203",
+      "[Prerequisite] Synthetic, Elf, or Special"
+    ]
+  },
+  {
+    "id": "special-sneak-attack",
+    "name": "Sneak Attack",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": true,
+    "max_rank": 4,
+    "is_multiple": false,
+    "prerequisites": "Agility 2, Stealth 1",
+    "modifiers": [],
+    "description": "The character knows exactly where to strike to deal maximum damage to a vulnerable target.",
+    "mechanic": "If you attack a target that is **Flat-Footed** or **Flanked**, you deal extra damage.",
+    "rules": "\\[Ranked\\] Each additional rank adds \\+1d6 to the damage.",
+    "special_rules": "\\[Ranked\\] Each additional rank adds \\+1d6 to the damage.",
+    "body": "# Sneak Attack\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Agility 2, Stealth 1\n\n## Description\nThe character knows exactly where to strike to deal maximum damage to a vulnerable target.\n\n## Mechanics & Benefit\nIf you attack a target that is **Flat-Footed** or **Flanked**, you deal extra damage.\n\n## Special Rules\n\\[Ranked\\] Each additional rank adds \\+1d6 to the damage.",
+    "mechanics": "If you attack a target that is **Flat-Footed** or **Flanked**, you deal extra damage.",
+    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] \\[Ranked\\] Each additional rank adds \\+1d6 to the damage.\n[Prerequisite] Agility 2, Stealth 1",
+    "notesList": [
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] \\[Ranked\\] Each additional rank adds \\+1d6 to the damage.",
+      "[Prerequisite] Agility 2, Stealth 1"
+    ]
+  },
+  {
+    "id": "special-synaptic-integration",
+    "name": "Synaptic Integration",
+    "category": "Special",
+    "type": "special",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Pilot Expression Physiology",
+    "modifiers": [],
+    "description": "The Syndess can slot into any Kitin mecha Synaptic Node. While integrated, they use their own Intellect and Agility for all vehicle checks and ignore all G-force or high-velocity penalties.",
+    "mechanic": "- **Bio-Neural Handshake**: Establishing full synchronization requires 1 full round of bio-neural calibration with a dormant or active mecha shell.\n- **Cognitive Control**: While integrated, the pilot uses their own **Intellect** and **Agility** ability modifiers for all vehicle handling, piloting maneuvers, gunnery targeting, and systems checks.\n- **Inertial Negation**: Ignores all G-force, high-velocity deceleration, and angular vector penalties.\n- **Sensory Fusion**: External vehicle sensors operate as natural biological skin, granting complete spatial awareness without blind spots.",
+    "rules": "Prerequisite: Pilot Expression Physiology.",
+    "special_rules": "Prerequisite: Pilot Expression Physiology.",
+    "body": "# Synaptic Integration\n\n**Category**: Special Features  \n**Cost**: 2 BP  \n**Prerequisites**: Pilot Expression Physiology  \n\n## Description\nThe Syndess can \"slot\" directly into the neuro-synaptic junction or cerebral node of any Kitin biomorphic construct or mecha frame. Upon establishing a bio-neural handshake, the pilot's nervous system fuses seamlessly with the construct's vascular and motor networks.\n\n## Mechanics & Benefit\n- **Bio-Neural Handshake**: Establishing full synchronization requires 1 full round of bio-neural calibration with a dormant or active mecha shell.\n- **Cognitive Control**: While integrated, the pilot uses their own **Intellect** and **Agility** ability modifiers for all vehicle handling, piloting maneuvers, gunnery targeting, and systems checks.\n- **Inertial Negation**: Ignores all G-force, high-velocity deceleration, and angular vector penalties.\n- **Sensory Fusion**: External vehicle sensors operate as natural biological skin, granting complete spatial awareness without blind spots.",
+    "mechanics": "- **Bio-Neural Handshake**: Establishing full synchronization requires 1 full round of bio-neural calibration with a dormant or active mecha shell.\n- **Cognitive Control**: While integrated, the pilot uses their own **Intellect** and **Agility** ability modifiers for all vehicle handling, piloting maneuvers, gunnery targeting, and systems checks.\n- **Inertial Negation**: Ignores all G-force, high-velocity deceleration, and angular vector penalties.\n- **Sensory Fusion**: External vehicle sensors operate as natural biological skin, granting complete spatial awareness without blind spots.",
+    "notes": "[Rule] Prerequisite: Pilot Expression Physiology.\n[Prerequisite] Pilot Expression Physiology",
+    "notesList": [
+      "[Rule] Prerequisite: Pilot Expression Physiology.",
+      "[Prerequisite] Pilot Expression Physiology"
+    ]
+  },
+  {
+    "id": "special-technologist",
+    "name": "Technologist",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Intellect 3, Technology (Knowledge) 11",
+    "modifiers": [],
+    "description": "The character is ahead of the curve, understanding technology that shouldn't exist yet. For a character to advance in their (TL Tech Level) they will require different fields of advanced study, the feature will need to be selected multiple times for various fields (minimum of five).",
+    "mechanic": "You treat your effective **Tech Level** as one step higher for the purposes of crafting, repairing, or understanding advanced artifacts in a specific field of study.  \n  * Agriculture  \n  * Architecture  \n  * Biotechnology  \n  * Commerce  \n  * Communication  \n  * Devices  \n  * Education  \n  * Energy  \n  * Manufacturing  \n  * Materials  \n  * Medicine  \n  * Meta Sciences  \n  * Science  \n  * Society  \n  * Synthetic Intelligence  \n  * Transportation  \n  * Weaponry",
+    "rules": "211",
+    "special_rules": "211",
+    "body": "# Technologist\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Intellect 3, Technology (Knowledge) 11\n\n## Description\nThe character is ahead of the curve, understanding technology that shouldn't exist yet. For a character to advance in their (TL Tech Level) they will require different fields of advanced study, the feature will need to be selected multiple times for various fields (minimum of five).\n\n## Mechanics & Benefit\nYou treat your effective **Tech Level** as one step higher for the purposes of crafting, repairing, or understanding advanced artifacts in a specific field of study.  \n  * Agriculture  \n  * Architecture  \n  * Biotechnology  \n  * Commerce  \n  * Communication  \n  * Devices  \n  * Education  \n  * Energy  \n  * Manufacturing  \n  * Materials  \n  * Medicine  \n  * Meta Sciences  \n  * Science  \n  * Society  \n  * Synthetic Intelligence  \n  * Transportation  \n  * Weaponry\n\n## Special Rules\n211",
+    "mechanics": "You treat your effective **Tech Level** as one step higher for the purposes of crafting, repairing, or understanding advanced artifacts in a specific field of study.  \n  * Agriculture  \n  * Architecture  \n  * Biotechnology  \n  * Commerce  \n  * Communication  \n  * Devices  \n  * Education  \n  * Energy  \n  * Manufacturing  \n  * Materials  \n  * Medicine  \n  * Meta Sciences  \n  * Science  \n  * Society  \n  * Synthetic Intelligence  \n  * Transportation  \n  * Weaponry",
+    "notes": "[Rule] 211\n[Prerequisite] Intellect 3, Technology (Knowledge) 11",
+    "notesList": [
+      "[Rule] 211",
+      "[Prerequisite] Intellect 3, Technology (Knowledge) 11"
+    ]
+  },
+  {
+    "id": "special-telepathy",
+    "name": "Telepathy",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Awakened (Mental) or Species Trait",
+    "modifiers": [],
+    "description": "The character can communicate mind-to-mind.",
+    "mechanic": "You can communicate mentally with any intelligent lifeform within **Range** (usually 100ft \\+).",
+    "rules": "212",
+    "special_rules": "212",
+    "body": "# Telepathy\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Awakened (Mental) or Species Trait\n\n## Description\nThe character can communicate mind-to-mind.\n\n## Mechanics & Benefit\nYou can communicate mentally with any intelligent lifeform within **Range** (usually 100ft \\+).\n\n## Special Rules\n212",
+    "mechanics": "You can communicate mentally with any intelligent lifeform within **Range** (usually 100ft \\+).",
+    "notes": "[Rule] 212\n[Prerequisite] Awakened (Mental) or Species Trait",
+    "notesList": [
+      "[Rule] 212",
+      "[Prerequisite] Awakened (Mental) or Species Trait"
+    ]
+  },
+  {
+    "id": "special-torpor-universal",
+    "name": "Torpor (Universal)",
+    "category": "Special",
+    "type": "special",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Kitin or Non-Sleeping Species",
+    "modifiers": [],
+    "description": "Requires only 4 hours of conscious inactivity to gain the benefits of a full rest; immune to magical and biochemical sleep effects.",
+    "mechanic": "* **Conscious Rest:** Requires only **4 hours** of conscious inactivity to complete a Full Rest (recovering Vitality, Health, and Strain).\n* **Sleep Immunity:** The character is completely immune to biological, magical, or psionic effects that induce involuntary sleep, stupor, or hypnotic unconsciousness.\n* **Perceptual Vigilance:** While in torpor, the character remains aware of their immediate surroundings and suffers no penalties on passive Awareness or Perception checks.",
+    "rules": "Prerequisite: Kitin or Non-Sleeping Species.",
+    "special_rules": "Prerequisite: Kitin or Non-Sleeping Species.",
+    "body": "# Torpor (Universal)\n\n**Category**: Special Features  \n**Cost**: 2 BP  \n**Prerequisite**: Kitin or Non-Sleeping Species  \n\n## Description\nThe species does not sleep in the conventional mammalian sense. Instead, individuals enter a 4-hour state of conscious torpor, maintaining environmental perception and alertness while metabolic and cellular maintenance occurs. They view the dreaming, subconscious minds of other species with profound distrust.\n\n## Mechanics & Benefit\n* **Conscious Rest:** Requires only **4 hours** of conscious inactivity to complete a Full Rest (recovering Vitality, Health, and Strain).\n* **Sleep Immunity:** The character is completely immune to biological, magical, or psionic effects that induce involuntary sleep, stupor, or hypnotic unconsciousness.\n* **Perceptual Vigilance:** While in torpor, the character remains aware of their immediate surroundings and suffers no penalties on passive Awareness or Perception checks.",
+    "mechanics": "* **Conscious Rest:** Requires only **4 hours** of conscious inactivity to complete a Full Rest (recovering Vitality, Health, and Strain).\n* **Sleep Immunity:** The character is completely immune to biological, magical, or psionic effects that induce involuntary sleep, stupor, or hypnotic unconsciousness.\n* **Perceptual Vigilance:** While in torpor, the character remains aware of their immediate surroundings and suffers no penalties on passive Awareness or Perception checks.",
+    "notes": "[Rule] Prerequisite: Kitin or Non-Sleeping Species.\n[Prerequisite] Kitin or Non-Sleeping Species",
+    "notesList": [
+      "[Rule] Prerequisite: Kitin or Non-Sleeping Species.",
+      "[Prerequisite] Kitin or Non-Sleeping Species"
+    ]
+  },
+  {
+    "id": "special-uncanny-sense",
+    "name": "Uncanny Sense",
+    "category": "Special",
+    "type": "special",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Acute Sense",
+    "modifiers": [],
+    "description": "Uncanny Sense is a Special Feature: Roll Awareness Checks with chosen sense at Advantage.",
+    "mechanic": "Roll Awareness Checks with chosen sense at Advantage.",
+    "rules": "179",
+    "special_rules": "179",
+    "body": "# Uncanny Sense\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Acute Sense\n\n## Description\nUncanny Sense is a Special Feature: Roll Awareness Checks with chosen sense at Advantage.\n\n## Mechanics & Benefit\nRoll Awareness Checks with chosen sense at Advantage.\n\n## Special Rules\n179",
+    "mechanics": "Roll Awareness Checks with chosen sense at Advantage.",
+    "notes": "[Rule] 179\n[Prerequisite] Acute Sense",
+    "notesList": [
+      "[Rule] 179",
+      "[Prerequisite] Acute Sense"
+    ]
+  },
+  {
+    "id": "special-weaver",
+    "name": "Weaver",
+    "category": "Special",
+    "type": "special",
+    "cp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Resin Secretion",
+    "modifiers": [],
+    "description": "Abdominal spinnerets produce and manipulate high-tensile natural webbing made from specialized Hive-Resin for trapping targets, rigging rappels, and construction.",
+    "mechanic": "- **Web Snare / Entrapment**: As a standard action, shoot a sticky webbing net at a target within **40 ft** (ranged attack vs Agility). On a hit, the target is **Entangled/Immobilized** (DC 15 + Sta Strength check to break free, or requires cutting through 25 Health webbing).\n- **High-Tensile Tethers & Rappels**: Can produce up to 200 ft of continuous climb-line or anchoring wire capable of supporting up to 5,000 lbs.\n- **Hive-Mesh Construction**: Can weave structural safety nets, hanging bivouacs, and tripwire alarm meshes across subterranean tunnels and ship corridors.",
+    "rules": "Prerequisite: Resin Secretion.",
+    "special_rules": "Prerequisite: Resin Secretion.",
+    "body": "# Weaver\n\n**Category**: Special Features  \n**Cost**: 2 BP  \n**Prerequisites**: Resin Secretion  \n\n## Description\nThe character possesses spinneret nozzles capable of spinning high-tensile silk filaments spun from specialized, polymerizing Hive-Resin. These strands can be spun as ultra-sticky adhesive snares or non-adhesive structural cables.\n\n## Mechanics & Benefit\n- **Web Snare / Entrapment**: As a standard action, shoot a sticky webbing net at a target within **40 ft** (ranged attack vs Agility). On a hit, the target is **Entangled/Immobilized** (DC 15 + Sta Strength check to break free, or requires cutting through 25 Health webbing).\n- **High-Tensile Tethers & Rappels**: Can produce up to 200 ft of continuous climb-line or anchoring wire capable of supporting up to 5,000 lbs.\n- **Hive-Mesh Construction**: Can weave structural safety nets, hanging bivouacs, and tripwire alarm meshes across subterranean tunnels and ship corridors.",
+    "mechanics": "- **Web Snare / Entrapment**: As a standard action, shoot a sticky webbing net at a target within **40 ft** (ranged attack vs Agility). On a hit, the target is **Entangled/Immobilized** (DC 15 + Sta Strength check to break free, or requires cutting through 25 Health webbing).\n- **High-Tensile Tethers & Rappels**: Can produce up to 200 ft of continuous climb-line or anchoring wire capable of supporting up to 5,000 lbs.\n- **Hive-Mesh Construction**: Can weave structural safety nets, hanging bivouacs, and tripwire alarm meshes across subterranean tunnels and ship corridors.",
+    "notes": "[Rule] Prerequisite: Resin Secretion.\n[Prerequisite] Resin Secretion",
+    "notesList": [
+      "[Rule] Prerequisite: Resin Secretion.",
+      "[Prerequisite] Resin Secretion"
+    ]
   },
   {
     "id": "special-wild-speech",
@@ -8906,51 +9994,7 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 213",
       "[Prerequisite] Nature Affinity, Fey, or Druidic training"
-    ],
-    "keywords": "wild speech, special, special-feature, beasts",
-    "negative_keywords": "incompetent, untrained, vulnerable"
-  },
-  {
-    "id": "general-zero-g-training",
-    "name": "Zero G Training",
-    "category": "General",
-    "type": "general",
-    "cp": 3,
-    "costs": {
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Agility 1",
-    "modifiers": [
-      {
-        "target": "Acrobatics when maneuvering in Zero-G",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Acrobatics when maneuvering in Zero-G"
-      }
-    ],
-    "description": "The character is trained to operate in microgravity environments without disorientation.",
-    "mechanic": "You suffer **No Disadvantage** or penalties for operating in Zero Gravity. You gain a \\+2 bonus to Acrobatics when maneuvering in Zero-G.\n\n# **KARMA FEATURES**\n\n# **KARMA FEATURES**\n\nManipulation of luck, faith, and the Karma pool.\n\n| FEATURE NAME | PREREQUISITE | BENEFIT / EFFECT | SPECIAL / NOTES |\n| :---- | :---- | :---- | :---- |\n| **Beginner's Luck** | Skill Rank \\< 6 | Gain 5 Temporary Skill ranks for the scene (Cost: 1 KP). | 118 |\n| **Believer** | \\- | Call upon one’s Faith for a Skill reroll once per day. | Ranked (Wis) 119  |\n| **Devout** | Believer | Call upon one’s Faith for an Ability Check reroll once per day. | Ranked (Cha) 120  |\n| **True Faith** | Believer, Devout | Double effects from any Karma points on behalf of their Faith. | 121 |\n| **Charmed** | Karma 4 | Re-roll 1 Fumble 1/day (without spending Karma Point). | 122 |\n| **Inspiration** | \\- | Spend a Karma Point to benefit an ally (1kp \\+ cost). | 123 |\n| **Karmic Blessing** | \\- | \\+2 maximum Karma points. | Multiple 124  |\n| **Seize Initiative** | \\- | Go first in combat (Cost: 1 KP). | 125 |\n| **Surge** | \\- | 1 extra action in a round (Cost: 1 KP). | 126 |\n| **Ultimate Effort** | \\- | Make 20 on check for 1 chosen trait (Cost: 1 KP). | Multiple 127  |\n\nKarma Features represent a character's destiny, luck, divine favor, or sheer force of will. They allow players to manipulate the game mechanics in moments of crisis, spending **Karma Points (KP)** or daily uses to alter outcomes.",
-    "rules": "117",
-    "special_rules": "117",
-    "body": "# Zero G Training\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Agility 1\n\n## Description\nThe character is trained to operate in microgravity environments without disorientation.\n\n## Mechanics & Benefit\nYou suffer **No Disadvantage** or penalties for operating in Zero Gravity. You gain a \\+2 bonus to Acrobatics when maneuvering in Zero-G.\n\n# **KARMA FEATURES**\n\n# **KARMA FEATURES**\n\nManipulation of luck, faith, and the Karma pool.\n\n| FEATURE NAME | PREREQUISITE | BENEFIT / EFFECT | SPECIAL / NOTES |\n| :---- | :---- | :---- | :---- |\n| **Beginner's Luck** | Skill Rank \\< 6 | Gain 5 Temporary Skill ranks for the scene (Cost: 1 KP). | 118 |\n| **Believer** | \\- | Call upon one’s Faith for a Skill reroll once per day. | Ranked (Wis) 119  |\n| **Devout** | Believer | Call upon one’s Faith for an Ability Check reroll once per day. | Ranked (Cha) 120  |\n| **True Faith** | Believer, Devout | Double effects from any Karma points on behalf of their Faith. | 121 |\n| **Charmed** | Karma 4 | Re-roll 1 Fumble 1/day (without spending Karma Point). | 122 |\n| **Inspiration** | \\- | Spend a Karma Point to benefit an ally (1kp \\+ cost). | 123 |\n| **Karmic Blessing** | \\- | \\+2 maximum Karma points. | Multiple 124  |\n| **Seize Initiative** | \\- | Go first in combat (Cost: 1 KP). | 125 |\n| **Surge** | \\- | 1 extra action in a round (Cost: 1 KP). | 126 |\n| **Ultimate Effort** | \\- | Make 20 on check for 1 chosen trait (Cost: 1 KP). | Multiple 127  |\n\nKarma Features represent a character's destiny, luck, divine favor, or sheer force of will. They allow players to manipulate the game mechanics in moments of crisis, spending **Karma Points (KP)** or daily uses to alter outcomes.\n\n## Special Rules\n117",
-    "mechanics": "You suffer **No Disadvantage** or penalties for operating in Zero Gravity. You gain a \\+2 bonus to Acrobatics when maneuvering in Zero-G.\n\n# **KARMA FEATURES**\n\n# **KARMA FEATURES**\n\nManipulation of luck, faith, and the Karma pool.\n\n| FEATURE NAME | PREREQUISITE | BENEFIT / EFFECT | SPECIAL / NOTES |\n| :---- | :---- | :---- | :---- |\n| **Beginner's Luck** | Skill Rank \\< 6 | Gain 5 Temporary Skill ranks for the scene (Cost: 1 KP). | 118 |\n| **Believer** | \\- | Call upon one’s Faith for a Skill reroll once per day. | Ranked (Wis) 119  |\n| **Devout** | Believer | Call upon one’s Faith for an Ability Check reroll once per day. | Ranked (Cha) 120  |\n| **True Faith** | Believer, Devout | Double effects from any Karma points on behalf of their Faith. | 121 |\n| **Charmed** | Karma 4 | Re-roll 1 Fumble 1/day (without spending Karma Point). | 122 |\n| **Inspiration** | \\- | Spend a Karma Point to benefit an ally (1kp \\+ cost). | 123 |\n| **Karmic Blessing** | \\- | \\+2 maximum Karma points. | Multiple 124  |\n| **Seize Initiative** | \\- | Go first in combat (Cost: 1 KP). | 125 |\n| **Surge** | \\- | 1 extra action in a round (Cost: 1 KP). | 126 |\n| **Ultimate Effort** | \\- | Make 20 on check for 1 chosen trait (Cost: 1 KP). | Multiple 127  |\n\nKarma Features represent a character's destiny, luck, divine favor, or sheer force of will. They allow players to manipulate the game mechanics in moments of crisis, spending **Karma Points (KP)** or daily uses to alter outcomes.",
-    "notes": "[Modifier] +2 to Acrobatics when maneuvering in Zero-G\n[Rule] 117\n[Prerequisite] Agility 1",
-    "notesList": [
-      "[Modifier] +2 to Acrobatics when maneuvering in Zero-G",
-      "[Rule] 117",
-      "[Prerequisite] Agility 1"
-    ],
-    "keywords": "zero g training, general, special-feature, trained, operate, microgravity",
-    "negative_keywords": "incompetent, untrained, vulnerable"
+    ]
   }
 ];
 
@@ -8958,6 +10002,3 @@ export const getFeatureById = (id) => DEFAULT_FEATURES.find(f => f.id === id);
 
 export const getFeaturesByCategory = (category) => 
   DEFAULT_FEATURES.filter(f => (f.category || '').toLowerCase() === (category || '').toLowerCase());
-
-export default DEFAULT_FEATURES;
-

@@ -25,6 +25,7 @@ import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 import { resolveMetaSkillForInvocation } from '../../utils/metaphysicsUtils';
 import { enrichItemWithModifiers } from '../../engines/tangentModifierEngine';
 import { AudioService } from '../../services/audioService';
+import { getFolioTombstones, isFolioPersonaDeleted } from '../../utils/personaValidationUtils';
 import RosterCatalogView from './views/RosterCatalogView';
 import FeaturesHubView from './views/FeaturesHubView';
 import PropertyHubView from './views/PropertyHubView';
@@ -174,7 +175,10 @@ const FolioContainer = () => {
     const curDocId = characterData?.['character-doc-id'] || characterData?.id;
 
     if (charParam && charParam !== curDocId) {
-      switchRosterCharacter?.(charParam);
+      const tombstones = getFolioTombstones();
+      if (!isFolioPersonaDeleted(charParam, tombstones)) {
+        switchRosterCharacter?.(charParam);
+      }
     }
 
     if (tabParam) {
@@ -195,8 +199,10 @@ const FolioContainer = () => {
   }, [location.search, characterData, switchRosterCharacter, activeTab, setActiveTab]);
 
   // Seamless navigation helper that synchronizes active tab and character with browser history
-  const handleSelectTab = useCallback((newTab, newCharId = null, pushHistory = true) => {
-    triggerSave();
+  const handleSelectTab = useCallback((newTab, newCharId = null, pushHistory = true, shouldSave = true) => {
+    if (shouldSave && newTab !== 'catalog') {
+      triggerSave();
+    }
     const charId = newCharId || characterData?.['character-doc-id'] || characterData?.id;
     const searchParams = new URLSearchParams(location.search);
 
@@ -231,7 +237,7 @@ const FolioContainer = () => {
   }, [switchRosterCharacter, handleSelectTab]);
 
   const handleReturnToCatalog = useCallback(() => {
-    handleSelectTab('catalog', null, true);
+    handleSelectTab('catalog', null, true, false);
   }, [handleSelectTab]);
 
   const handleFolioBack = useCallback(() => {
@@ -356,8 +362,8 @@ const FolioContainer = () => {
   const handleDeleteCurrentCharacter = useCallback(async () => {
     const charName = characterData['char-name'] || 'Unnamed Persona';
     if (!(await confirmTypedDeletion(charName, 'persona sheet'))) return;
-    const activeDocId = characterData['character-doc-id'];
-    deleteRosterCharacter(activeDocId);
+    const activeDocId = characterData['character-doc-id'] || characterData.id;
+    deleteRosterCharacter(activeDocId || characterData);
     setIsDeleteConfirmOpen(false);
     handleReturnToCatalog();
   }, [characterData, deleteRosterCharacter, handleReturnToCatalog]);
@@ -872,7 +878,11 @@ const FolioContainer = () => {
         })()}
 
         {/* Tab Content Display with ample padding to prevent viewport cutoff */}
-        <div className={`flex-1 overflow-y-auto relative p-2.5 sm:p-5 pb-32 sm:pb-20 ${(viewMode === 'play' || viewMode === 'preview') ? 'scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]' : ''}`} onBlur={() => triggerSave()}>
+        <div className={`flex-1 overflow-y-auto relative p-2.5 sm:p-5 pb-32 sm:pb-20 ${(viewMode === 'play' || viewMode === 'preview') ? 'scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]' : ''}`} onBlur={() => {
+          if (activeTab !== 'catalog') {
+            triggerSave();
+          }
+        }}>
           {activeTab === 'catalog' ? (
             <RosterCatalogView
               personaRoster={personaRoster}

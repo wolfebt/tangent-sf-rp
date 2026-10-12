@@ -1,10 +1,10 @@
 /**
  * Canonical Traits Database for Tangent SF RP (Species, Occupational, and Origin Traits)
  * Auto-generated from src/data/omnicortex/traits/
- * Total Traits: 286
- *  - Species Basic: 54
- *  - Species Advanced: 57
- *  - Species Elite: 24
+ * Total Traits: 330
+ *  - Species Basic: 57
+ *  - Species Advanced: 95
+ *  - Species Elite: 27
  *  - Occupational Traits: 88
  *  - Origin Traits: 63
  */
@@ -256,10 +256,11 @@ export const SPECIES_TRAITS_BASIC = [
       }
     ],
     "body": "# Camouflage\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nChoose a favored terrain type. +4 bonus on Stealth checks within that terrain.",
-    "notes": "[Modifier] +4 to Stealth\n[Rule] Basic Species Trait (1 BP).",
+    "notes": "[Modifier] +4 to Stealth\n[Rule] Basic Species Trait (1 BP).\n[Prerequisite] Stealth 1",
     "notesList": [
       "[Modifier] +4 to Stealth",
-      "[Rule] Basic Species Trait (1 BP)."
+      "[Rule] Basic Species Trait (1 BP).",
+      "[Prerequisite] Stealth 1"
     ]
   },
   {
@@ -576,6 +577,41 @@ export const SPECIES_TRAITS_BASIC = [
     ]
   },
   {
+    "id": "trait-fragile-frame",
+    "name": "Fragile Frame",
+    "category": "traits",
+    "trait_type": "Disadvantage",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": -2,
+    "costs": {
+      "bp": -2
+    },
+    "is_ranked": false,
+    "desc": "Outside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves.",
+    "description": "Outside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves.",
+    "mechanics": "Outside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves.",
+    "mechanic": "Outside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves.",
+    "rules": "Basic Disadvantage (-2 BP).",
+    "special_rules": "Basic Disadvantage (-2 BP).",
+    "modifiers": [
+      {
+        "target": "Physical",
+        "type": "skill",
+        "value": -2,
+        "mode": "penalty",
+        "description": "-2 to Physical"
+      }
+    ],
+    "body": "# Fragile Frame\n\n**Category**: TRAITS  \n**Tier**: Basic  \n**Type**: Disadvantage  \n**BP Cost**: -2 (Refund 2 BP)  \n\n## Description\nOutside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves.",
+    "notes": "[Penalty] -2 to Physical\n[Rule] Basic Disadvantage (-2 BP).",
+    "notesList": [
+      "[Penalty] -2 to Physical",
+      "[Rule] Basic Disadvantage (-2 BP)."
+    ]
+  },
+  {
     "id": "trait-frenzy",
     "name": "Frenzy",
     "category": "traits",
@@ -698,6 +734,33 @@ export const SPECIES_TRAITS_BASIC = [
     ]
   },
   {
+    "id": "trait-honey-paper-manufacture",
+    "name": "Honey & Paper Manufacture",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Ability to produce biological adhesives, sticky amber ooze, and cellulose pulp for nest building, barricades, and restraint.",
+    "description": "Ability to produce biological adhesives, sticky amber ooze, and cellulose pulp for nest building, barricades, and restraint.",
+    "mechanics": "Ability to produce biological adhesives, sticky amber ooze, and cellulose pulp for nest building, barricades, and restraint.",
+    "mechanic": "Ability to produce biological adhesives, sticky amber ooze, and cellulose pulp for nest building, barricades, and restraint.",
+    "rules": "Basic Species Trait (1 BP).",
+    "special_rules": "Basic Species Trait (1 BP).",
+    "modifiers": [],
+    "body": "# Honey & Paper Manufacture\n\n**Category**: TRAITS  \n**Tier**: Basic  \n**Type**: Species Trait  \n**BP Cost**: 1  \n\n## Description\nAbility to synthesize biological adhesives, pulp, and amber ooze for nest building, defensive barricades, and sticky physical restraints.",
+    "notes": "[Rule] Basic Species Trait (1 BP).\n[Prerequisite] Insectoid Secretions",
+    "notesList": [
+      "[Rule] Basic Species Trait (1 BP).",
+      "[Prerequisite] Insectoid Secretions"
+    ]
+  },
+  {
     "id": "trait-integrated",
     "name": "Integrated",
     "category": "traits",
@@ -723,12 +786,28 @@ export const SPECIES_TRAITS_BASIC = [
         "value": 1,
         "mode": "inherent",
         "description": "+1 to Bluff"
+      },
+      {
+        "target": "Disguise",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Disguise"
+      },
+      {
+        "target": "Knowledge local",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Knowledge local"
       }
     ],
     "body": "# Integrated\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+1 bonus on Bluff, Disguise, and Knowledge (local) checks.",
-    "notes": "[Modifier] +1 to Bluff\n[Rule] Basic Species Trait (1 BP).",
+    "notes": "[Modifier] +1 to Bluff\n[Modifier] +1 to Disguise\n[Modifier] +1 to Knowledge local\n[Rule] Basic Species Trait (1 BP).",
     "notesList": [
       "[Modifier] +1 to Bluff",
+      "[Modifier] +1 to Disguise",
+      "[Modifier] +1 to Knowledge local",
       "[Rule] Basic Species Trait (1 BP)."
     ]
   },
@@ -941,6 +1020,66 @@ export const SPECIES_TRAITS_BASIC = [
     ]
   },
   {
+    "id": "trait-psionic-interference-static",
+    "name": "Psionic Interference (The Static)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Discordant psychic frequency imposes -2 on Manelli Psionic/Wisdom checks; Kitin Chorus communication in immediate vicinity is disrupted and rolled at Disadvantage.",
+    "description": "Discordant psychic frequency imposes -2 on Manelli Psionic/Wisdom checks; Kitin Chorus communication in immediate vicinity is disrupted and rolled at Disadvantage.",
+    "mechanics": "Discordant psychic frequency imposes -2 on Manelli Psionic/Wisdom checks; Kitin Chorus communication in immediate vicinity is disrupted and rolled at Disadvantage.",
+    "mechanic": "Discordant psychic frequency imposes -2 on Manelli Psionic/Wisdom checks; Kitin Chorus communication in immediate vicinity is disrupted and rolled at Disadvantage.",
+    "rules": "Basic Species Trait (1 BP).",
+    "special_rules": "Basic Species Trait (1 BP).",
+    "modifiers": [
+      {
+        "target": "Psionic",
+        "type": "skill",
+        "value": -2,
+        "mode": "penalty",
+        "description": "-2 to Psionic"
+      },
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": -2,
+        "mode": "penalty",
+        "description": "-2 to Attune"
+      },
+      {
+        "target": "Wisdom",
+        "type": "skill",
+        "value": -2,
+        "mode": "penalty",
+        "description": "-2 to Wisdom"
+      },
+      {
+        "target": "Manelli Psionic",
+        "type": "skill",
+        "value": -2,
+        "mode": "penalty",
+        "description": "-2 to Manelli Psionic"
+      }
+    ],
+    "body": "# Psionic Interference (The Static)\n\n**Category**: TRAITS  \n**Tier**: Basic  \n**Type**: Species Trait  \n**BP Cost**: 1  \n\n## Description\nDiscordant psionic static out of tune with the Kitin Collective. Manelli within psychic range suffer a -2 penalty to Psionic and Wisdom checks; Kitin Chorus communications within 30 ft are severely disrupted and used at Disadvantage.",
+    "notes": "[Penalty] -2 to Psionic\n[Penalty] -2 to Attune\n[Penalty] -2 to Wisdom\n[Penalty] -2 to Manelli Psionic\n[Rule] Basic Species Trait (1 BP).\n[Prerequisite] Resonant / Chaotic Psionic Aura",
+    "notesList": [
+      "[Penalty] -2 to Psionic",
+      "[Penalty] -2 to Attune",
+      "[Penalty] -2 to Wisdom",
+      "[Penalty] -2 to Manelli Psionic",
+      "[Rule] Basic Species Trait (1 BP).",
+      "[Prerequisite] Resonant / Chaotic Psionic Aura"
+    ]
+  },
+  {
     "id": "trait-reach",
     "name": "Reach",
     "category": "traits",
@@ -1082,10 +1221,27 @@ export const SPECIES_TRAITS_BASIC = [
     "mechanic": "Identify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).",
     "rules": "Basic Species Trait (1 BP).",
     "special_rules": "Basic Species Trait (1 BP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Track",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Track"
+      },
+      {
+        "target": "Medical Diagnosis as Analytical Sense of Smell",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Medical Diagnosis as Analytical Sense of Smell"
+      }
+    ],
     "body": "# Scent\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nIdentify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).",
-    "notes": "[Rule] Basic Species Trait (1 BP).\n[Prerequisite] Wisdom 1",
+    "notes": "[Modifier] +4 to Track\n[Modifier] +4 to Medical Diagnosis as Analytical Sense of Smell\n[Rule] Basic Species Trait (1 BP).\n[Prerequisite] Wisdom 1",
     "notesList": [
+      "[Modifier] +4 to Track",
+      "[Modifier] +4 to Medical Diagnosis as Analytical Sense of Smell",
       "[Rule] Basic Species Trait (1 BP).",
       "[Prerequisite] Wisdom 1"
     ]
@@ -1116,12 +1272,28 @@ export const SPECIES_TRAITS_BASIC = [
         "value": 5,
         "mode": "inherent",
         "description": "+5 to Stealth when in Shadowy or Dim area"
+      },
+      {
+        "target": "Stealth when in Shadowy",
+        "type": "skill",
+        "value": 5,
+        "mode": "inherent",
+        "description": "+5 to Stealth when in Shadowy"
+      },
+      {
+        "target": "Dim area",
+        "type": "skill",
+        "value": 5,
+        "mode": "inherent",
+        "description": "+5 to Dim area"
       }
     ],
     "body": "# Shadow Affinity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nGain +5 to Stealth when in Shadowy or Dim area.",
-    "notes": "[Modifier] +5 to Stealth when in Shadowy or Dim area\n[Rule] Basic Species Trait (1 BP).",
+    "notes": "[Modifier] +5 to Stealth when in Shadowy or Dim area\n[Modifier] +5 to Stealth when in Shadowy\n[Modifier] +5 to Dim area\n[Rule] Basic Species Trait (1 BP).",
     "notesList": [
       "[Modifier] +5 to Stealth when in Shadowy or Dim area",
+      "[Modifier] +5 to Stealth when in Shadowy",
+      "[Modifier] +5 to Dim area",
       "[Rule] Basic Species Trait (1 BP)."
     ]
   },
@@ -1591,128 +1763,9 @@ export const SPECIES_TRAITS_BASIC = [
     "notesList": [
       "[Rule] Basic Species Trait (1 BP)."
     ]
-  },
-  {
-    "id": "trait-synthetic-base-traits",
-    "name": "Synthetic Base Traits",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": { "bp": 1 },
-    "is_ranked": false,
-    "desc": "Immune to biological ailments, poison, disease, asphyxiation, starvation, and sleep. Uses Structure Points instead of Vitality/Health; must be repaired.",
-    "description": "Immune to biological ailments, poison, disease, asphyxiation, starvation, and sleep. Uses Structure Points instead of Vitality/Health; must be repaired.",
-    "rules": "Basic Species Trait (1 BP)."
-  },
-  {
-    "id": "trait-sub-routine-matrix",
-    "name": "Sub-Routine Matrix",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Mental",
-    "type": "Mental",
-    "bp": 1,
-    "costs": { "bp": 1 },
-    "is_ranked": false,
-    "desc": "Dedicated parallel sub-routine co-processors allow concurrent execution of system analyses and technical directives.",
-    "description": "Dedicated parallel sub-routine co-processors allow concurrent execution of system analyses and technical directives.",
-    "rules": "Basic Species Trait (1 BP)."
-  },
-  {
-    "id": "trait-logic-engine",
-    "name": "Logic Engine",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Mental",
-    "type": "Mental",
-    "bp": 1,
-    "costs": { "bp": 1 },
-    "is_ranked": false,
-    "desc": "High-speed algorithmic evaluation engine granting +2 bonus on Computation, Logic, and Tactical Evaluation checks.",
-    "description": "High-speed algorithmic evaluation engine granting +2 bonus on Computation, Logic, and Tactical Evaluation checks.",
-    "rules": "Basic Species Trait (1 BP)."
   }
 ];
 export const SPECIES_TRAITS_ADVANCED = [
-  {
-    "id": "trait-aeld-lineage-traits",
-    "name": "Aeld Lineage",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Lineage",
-    "type": "Lineage",
-    "bp": 5,
-    "costs": { "bp": 5 },
-    "is_ranked": false,
-    "desc": "Inherent ancestral adaptations of the Aeld: Awakened (Arcane) [2], Lifespan 600+ [1], and Immune to Sleep [2].",
-    "description": "Inherent ancestral adaptations of the Aeld: Awakened (Arcane) [2], Lifespan 600+ [1], and Immune to Sleep [2].",
-    "mechanics": "Grants Awakened (Arcane), Extended Lifespan 600+, and Sleep Immunity.",
-    "mechanic": "Grants Awakened (Arcane), Extended Lifespan 600+, and Sleep Immunity.",
-    "rules": "Advanced Species Lineage Trait (5 BP). Includes Awakened (Arcane), Lifespan 600+, Sleep Immunity.",
-    "special_rules": "Advanced Species Lineage Trait (5 BP).",
-    "modifiers": [],
-    "body": "# Aeld Lineage\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 5\n\n## Description\nInherent ancestral adaptations of the Aeld: Awakened (Arcane) [2], Lifespan 600+ [1], and Immune to Sleep [2].",
-    "notes": "[Rule] Advanced Species Lineage Trait (5 BP).",
-    "notesList": ["[Rule] Advanced Species Lineage Trait (5 BP)."]
-  },
-  {
-    "id": "trait-alter-form-humanoid-special-ability",
-    "name": "Alter Form",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 2,
-    "costs": { "bp": 2 },
-    "is_ranked": false,
-    "desc": "Mutable cellular matrix allowing the entity to alter its physical form, voice, and appearance to mimic other humanoid species (+5 to Disguise checks).",
-    "description": "Mutable cellular matrix allowing the entity to alter its physical form, voice, and appearance to mimic other humanoid species (+5 to Disguise checks).",
-    "mechanics": "Active shapechanging into humanoid forms; grants +5 bonus to Disguise and infiltration rolls.",
-    "mechanic": "Active shapechanging into humanoid forms; grants +5 bonus to Disguise and infiltration rolls.",
-    "rules": "Advanced Species Trait (2 BP). Grants +5 to Disguise.",
-    "special_rules": "Advanced Species Trait (2 BP).",
-    "modifiers": [
-      {
-        "target": "Disguise",
-        "type": "skill",
-        "value": 5,
-        "mode": "inherent",
-        "description": "+5 to Disguise"
-      }
-    ],
-    "body": "# Alter Form\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nMutable cellular matrix allowing the entity to alter its physical form, voice, and appearance to mimic other humanoid species (+5 to Disguise checks).",
-    "notes": "[Modifier] +5 to Disguise\n[Rule] Advanced Species Trait (2 BP).",
-    "notesList": ["[Modifier] +5 to Disguise", "[Rule] Advanced Species Trait (2 BP)."]
-  },
-  {
-    "id": "trait-sense-alignment-intent",
-    "name": "Sense Alignment / Intent",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Mental",
-    "type": "Mental",
-    "bp": 2,
-    "costs": { "bp": 2 },
-    "is_ranked": false,
-    "desc": "Innate 60 ft radius detection of alignment, intent, or supernatural malice. Intrusively alerts senses when near extreme morality or vile planning.",
-    "description": "Innate 60 ft radius detection of alignment, intent, or supernatural malice. Intrusively alerts senses when near extreme morality or vile planning.",
-    "mechanics": "Uncontrolled sensory detection within 60 ft radius; senses targets with Extreme Morality or hostile intent.",
-    "mechanic": "Uncontrolled sensory detection within 60 ft radius; senses targets with Extreme Morality or hostile intent.",
-    "rules": "Advanced Species Trait (2 BP). Detection within 60 ft radius.",
-    "special_rules": "Advanced Species Trait (2 BP).",
-    "modifiers": [],
-    "body": "# Sense Alignment / Intent\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nInnate 60 ft radius detection of alignment, intent, or supernatural malice. Intrusively alerts senses when near extreme morality or vile planning.",
-    "notes": "[Rule] Advanced Species Trait (2 BP).",
-    "notesList": ["[Rule] Advanced Species Trait (2 BP)."]
-  },
   {
     "id": "trait-adaptive-features",
     "name": "Adaptive Features",
@@ -1974,6 +2027,112 @@ export const SPECIES_TRAITS_ADVANCED = [
     ]
   },
   {
+    "id": "trait-awakened-psychic",
+    "name": "Awakened (Psychic)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Awakened conductor of the Hive’s psionic Chorus; grants access to Attune and mental psionic metaphysics.",
+    "description": "Awakened conductor of the Hive’s psionic Chorus; grants access to Attune and mental psionic metaphysics.",
+    "mechanics": "Awakened conductor of the Hive’s psionic Chorus; grants access to Attune and mental psionic metaphysics.",
+    "mechanic": "Awakened conductor of the Hive’s psionic Chorus; grants access to Attune and mental psionic metaphysics.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Awakened (Psychic)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nConductors of the Hive’s psionic Chorus. Possesses the innate metaphysical spark granting access to the Attune skill and mental focus disciplines (Intellect or Wisdom).",
+    "notes": "[Rule] Advanced Species Trait (2 BP).",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP)."
+    ]
+  },
+  {
+    "id": "trait-biological-continuity",
+    "name": "Biological Continuity",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Monogenetic stabilization grants immunity to clone decay and allows effortless interface with biomorphic wetware.",
+    "description": "Monogenetic stabilization grants immunity to clone decay and allows effortless interface with biomorphic wetware.",
+    "mechanics": "Monogenetic stabilization grants immunity to clone decay and allows effortless interface with biomorphic wetware.",
+    "mechanic": "Monogenetic stabilization grants immunity to clone decay and allows effortless interface with biomorphic wetware.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Biological Continuity\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nInherited generational genetic stability grants immunity to cellular senescence and DNA decay, while bypassing cellular rejection checks when grafting organic wetware or piloting biomorphic vessels.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP)."
+    ]
+  },
+  {
+    "id": "trait-blind-sense-em-vibration",
+    "name": "Blind Sense (EM/Vibration)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Perceive surroundings via mecha sensors and external bio-arrays, feeling the environment as personal skin via EM and vibration resonance.",
+    "description": "Perceive surroundings via mecha sensors and external bio-arrays, feeling the environment as personal skin via EM and vibration resonance.",
+    "mechanics": "Perceive surroundings via mecha sensors and external bio-arrays, feeling the environment as personal skin via EM and vibration resonance.",
+    "mechanic": "Perceive surroundings via mecha sensors and external bio-arrays, feeling the environment as personal skin via EM and vibration resonance.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Blind Sense (EM/Vibration)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nPerceives surroundings via mecha sensors and external bio-arrays within a 30 ft radius (or 60 ft cone), feeling electromagnetic waveforms and surface vibrations as tactile skin sensations.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Electro-Receptive Array or Synaptic Vehicle Link",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Electro-Receptive Array or Synaptic Vehicle Link"
+    ]
+  },
+  {
+    "id": "trait-blind-sense-scent-em",
+    "name": "Blind Sense (Scent/EM)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Delicate antennae perceive bio-energetic and EM fields.",
+    "description": "Delicate antennae perceive bio-energetic and EM fields.",
+    "mechanics": "Delicate antennae perceive bio-energetic and EM fields.",
+    "mechanic": "Delicate antennae perceive bio-energetic and EM fields.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Blind Sense (Scent/EM)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nDelicate antennae perceive bio-energetic, electromagnetic, and olfactory fields in a 30 ft radius.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Sensory Antennae or Electro-Receptive Physiology",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Sensory Antennae or Electro-Receptive Physiology"
+    ]
+  },
+  {
     "id": "trait-blind-sense",
     "name": "Blind Sense",
     "category": "traits",
@@ -1994,6 +2153,32 @@ export const SPECIES_TRAITS_ADVANCED = [
     "special_rules": "Advanced Species Trait (2 BP).",
     "modifiers": [],
     "body": "# Blind Sense\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nSense unseen objects in a 30 ft Radius or Cone of 60 ft.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP)."
+    ]
+  },
+  {
+    "id": "trait-blind-sight-swarm",
+    "name": "Blind Sight (Swarm)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Accurately sense and target unseen objects and creatures in a 30 ft radius or 60 ft cone without optical sight.",
+    "description": "Accurately sense and target unseen objects and creatures in a 30 ft radius or 60 ft cone without optical sight.",
+    "mechanics": "Accurately sense and target unseen objects and creatures in a 30 ft radius or 60 ft cone without optical sight.",
+    "mechanic": "Accurately sense and target unseen objects and creatures in a 30 ft radius or 60 ft cone without optical sight.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Blind Sight (Swarm)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nDistributed micro-acoustic, chemical, and electromagnetic resonance allows the swarm to accurately perceive and target unseen objects and creatures in a 30 ft radius (or 60 ft cone) without optical vision.",
     "notes": "[Rule] Advanced Species Trait (2 BP).",
     "notesList": [
       "[Rule] Advanced Species Trait (2 BP)."
@@ -2286,6 +2471,33 @@ export const SPECIES_TRAITS_ADVANCED = [
     ]
   },
   {
+    "id": "trait-chitinous-shell-armor",
+    "name": "Armor (Chitinous Shell)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10].",
+    "description": "Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10].",
+    "mechanics": "Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10].",
+    "mechanic": "Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10].",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Armor (Chitinous Shell)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nGlossy obsidian chitinous shell providing natural base DR 10 against physical impacts, energy weapons, and corrosive chemicals.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Exoskeletal Physiology",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Exoskeletal Physiology"
+    ]
+  },
+  {
     "id": "trait-chloroplast",
     "name": "Chloroplast",
     "category": "traits",
@@ -2309,6 +2521,50 @@ export const SPECIES_TRAITS_ADVANCED = [
     "notes": "[Rule] Advanced Species Trait (2 BP).",
     "notesList": [
       "[Rule] Advanced Species Trait (2 BP)."
+    ]
+  },
+  {
+    "id": "trait-climber",
+    "name": "Climber",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Traverse vertical and inverted surfaces at full speed (40 ft/rd); +2 bonus on Climbing checks.",
+    "description": "Traverse vertical and inverted surfaces at full speed (40 ft/rd); +2 bonus on Climbing checks.",
+    "mechanics": "Traverse vertical and inverted surfaces at full speed (40 ft/rd); +2 bonus on Climbing checks.",
+    "mechanic": "Traverse vertical and inverted surfaces at full speed (40 ft/rd); +2 bonus on Climbing checks.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [
+      {
+        "target": "Athletics Climbing",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Athletics Climbing"
+      },
+      {
+        "target": "Climbing",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Climbing"
+      }
+    ],
+    "body": "# Climber\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nTraverse vertical walls and inverted ceilings at full ground movement speed without penalty. Gain a +2 racial bonus on Athletics (Climbing) checks.",
+    "notes": "[Modifier] +2 to Athletics Climbing\n[Modifier] +2 to Climbing\n[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Agility 1, Athletics 1",
+    "notesList": [
+      "[Modifier] +2 to Athletics Climbing",
+      "[Modifier] +2 to Climbing",
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Agility 1, Athletics 1"
     ]
   },
   {
@@ -2520,6 +2776,33 @@ export const SPECIES_TRAITS_ADVANCED = [
     ]
   },
   {
+    "id": "trait-dual-skeletal-structure",
+    "name": "Dual Skeletal Structure",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Combined endoskeleton and exoskeleton providing natural Damage Reduction (DR +5).",
+    "description": "Combined endoskeleton and exoskeleton providing natural Damage Reduction (DR +5).",
+    "mechanics": "Combined endoskeleton and exoskeleton providing natural Damage Reduction (DR +5).",
+    "mechanic": "Combined endoskeleton and exoskeleton providing natural Damage Reduction (DR +5).",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Dual Skeletal Structure\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nA sophisticated dual-skeletal framework uniting an articulated internal endoskeleton with a segmented outer chitinous shell, providing natural DR +5 against all physical and kinetic trauma.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Endoskeleton and Exoskeleton",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Endoskeleton and Exoskeleton"
+    ]
+  },
+  {
     "id": "trait-energy-resist",
     "name": "Energy Resist",
     "category": "traits",
@@ -2546,6 +2829,60 @@ export const SPECIES_TRAITS_ADVANCED = [
     ]
   },
   {
+    "id": "trait-enhanced-biotechnology",
+    "name": "Enhanced Biotechnology",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Advanced affinity and control over living biotechnology and symbiotic structures.",
+    "description": "Advanced affinity and control over living biotechnology and symbiotic structures.",
+    "mechanics": "Advanced affinity and control over living biotechnology and symbiotic structures.",
+    "mechanic": "Advanced affinity and control over living biotechnology and symbiotic structures.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Enhanced Biotechnology\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nAdvanced biological affinity and seamless neurological manipulation of living technology, bio-grafts, and biomorphic carapaces.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Kitin Lineage, Awakened, or Tech Level 4+",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Kitin Lineage, Awakened, or Tech Level 4+"
+    ]
+  },
+  {
+    "id": "trait-enhanced-strength",
+    "name": "Enhanced Strength",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Count as 1 size larger for lifting and carrying capacity.",
+    "description": "Count as 1 size larger for lifting and carrying capacity.",
+    "mechanics": "Count as 1 size larger for lifting and carrying capacity.",
+    "mechanic": "Count as 1 size larger for lifting and carrying capacity.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Enhanced Strength\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nBiomechanical musculature and leveraged skeletal joints treat the organism as one size category larger when calculating lifting, carrying, dragging limits, and grappling resistance.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Strength 2",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Strength 2"
+    ]
+  },
+  {
     "id": "trait-exoskeleton-light",
     "name": "Exoskeleton (Light)",
     "category": "traits",
@@ -2566,9 +2903,10 @@ export const SPECIES_TRAITS_ADVANCED = [
     "special_rules": "Advanced Species Trait (2 BP).",
     "modifiers": [],
     "body": "# Exoskeleton (Light)\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nDR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.",
-    "notes": "[Rule] Advanced Species Trait (2 BP).",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Insectoid, Crustacean, or Synthetic Physiology",
     "notesList": [
-      "[Rule] Advanced Species Trait (2 BP)."
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Insectoid, Crustacean, or Synthetic Physiology"
     ]
   },
   {
@@ -2596,6 +2934,33 @@ export const SPECIES_TRAITS_ADVANCED = [
     "notesList": [
       "[Rule] Advanced Species Trait (2 BP).",
       "[Prerequisite] Stamina 2"
+    ]
+  },
+  {
+    "id": "trait-fatigue-resistance",
+    "name": "Fatigue Resistance",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "All Fatigue checks are made at Advantage and at twice the interval time.",
+    "description": "All Fatigue checks are made at Advantage and at twice the interval time.",
+    "mechanics": "All Fatigue checks are made at Advantage and at twice the interval time.",
+    "mechanic": "All Fatigue checks are made at Advantage and at twice the interval time.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Fatigue Resistance\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nAll Fatigue checks are made at Advantage and at twice the interval time, allowing relentless sustained labor and prolonged forced marches.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Robust Physiology or Inexhaustible Stamina",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Robust Physiology or Inexhaustible Stamina"
     ]
   },
   {
@@ -2651,6 +3016,68 @@ export const SPECIES_TRAITS_ADVANCED = [
     ]
   },
   {
+    "id": "trait-g-force-immunity",
+    "name": "G-Force Immunity",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Internal fluid dampening allows survival through extreme accelerations and supersonic vector shifts that would liquefy humanoids.",
+    "description": "Internal fluid dampening allows survival through extreme accelerations and supersonic vector shifts that would liquefy humanoids.",
+    "mechanics": "Internal fluid dampening allows survival through extreme accelerations and supersonic vector shifts that would liquefy humanoids.",
+    "mechanic": "Internal fluid dampening allows survival through extreme accelerations and supersonic vector shifts that would liquefy humanoids.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# G-Force Immunity\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nInternal fluid dampening allows the organism to survive extreme maneuvers and turns that would turn a humanoid to jelly. Grants complete immunity to G-LOC, blackout, redout, and acceleration trauma.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Hydro-Cushioned Hemolymph Vascular System",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Hydro-Cushioned Hemolymph Vascular System"
+    ]
+  },
+  {
+    "id": "trait-genetic-memory",
+    "name": "Genetic Memory",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Inheritance of ancestral knowledge and Genomatrix blueprints.",
+    "description": "Inheritance of ancestral knowledge and Genomatrix blueprints.",
+    "mechanics": "Inheritance of ancestral knowledge and Genomatrix blueprints.",
+    "mechanic": "Inheritance of ancestral knowledge and Genomatrix blueprints.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [
+      {
+        "target": "Academics",
+        "value": 2,
+        "type": "skill",
+        "mode": "conditional"
+      }
+    ],
+    "body": "# Genetic Memory\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nInheritance of ancestral knowledge and Genomatrix blueprints. Cumulative, fragmented memory bank of ancestors.",
+    "notes": "[Modifier] Academics: +2\n[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Kitin or Lineage with Cellular Inheritance",
+    "notesList": [
+      "[Modifier] Academics: +2",
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Kitin or Lineage with Cellular Inheritance"
+    ]
+  },
+  {
     "id": "trait-gifted-linguist",
     "name": "Gifted Linguist",
     "category": "traits",
@@ -2700,6 +3127,168 @@ export const SPECIES_TRAITS_ADVANCED = [
     "notes": "[Rule] Advanced Species Trait (2 BP).",
     "notesList": [
       "[Rule] Advanced Species Trait (2 BP)."
+    ]
+  },
+  {
+    "id": "trait-hive-link-minor",
+    "name": "Hive-Link (Minor)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Basic telepathic receptivity to follow Collective commands and synchronize with hive leadership.",
+    "description": "Basic telepathic receptivity to follow Collective commands and synchronize with hive leadership.",
+    "mechanics": "Basic telepathic receptivity to follow Collective commands and synchronize with hive leadership.",
+    "mechanic": "Basic telepathic receptivity to follow Collective commands and synchronize with hive leadership.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Hive-Link (Minor)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nBasic telepathic receptivity to follow Collective commands. Receives mental broadcasts within 5 miles, synchronizes Initiative with commanders, and gains +2 saves against external mental coercion.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Kitin Genome or Swarm Attunement",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Kitin Genome or Swarm Attunement"
+    ]
+  },
+  {
+    "id": "trait-hive-link",
+    "name": "Hive-Link",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Constant telepathic connection to all Kitin Strains.",
+    "description": "Constant telepathic connection to all Kitin Strains.",
+    "mechanics": "Constant telepathic connection to all Kitin Strains.",
+    "mechanic": "Constant telepathic connection to all Kitin Strains.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Hive-Link\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nConstant telepathic connection to all Kitin Strains. Conductors of the Hive Chorus.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Kitin Lineage or Hive Mind Archetype",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Kitin Lineage or Hive Mind Archetype"
+    ]
+  },
+  {
+    "id": "trait-hive-mind-swarm",
+    "name": "Hive Mind (Swarm)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "The swarm is a single distributed consciousness. It cannot be killed unless the majority of the swarm is destroyed.",
+    "description": "The swarm is a single distributed consciousness. It cannot be killed unless the majority of the swarm is destroyed.",
+    "mechanics": "The swarm is a single distributed consciousness. It cannot be killed unless the majority of the swarm is destroyed.",
+    "mechanic": "The swarm is a single distributed consciousness. It cannot be killed unless the majority of the swarm is destroyed.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Hive Mind (Swarm)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nThe swarm is a single distributed consciousness. Immune to single-target precision attacks and critical hits; cannot be killed unless more than 75% of the swarm mass is annihilated by area-of-effect damage.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Swarm Physiology",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Swarm Physiology"
+    ]
+  },
+  {
+    "id": "trait-host-zombification",
+    "name": "Host Zombification",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "The swarm can inhabit and pilot the corpses of other species or damaged biomorphic husks as armored shells.",
+    "description": "The swarm can inhabit and pilot the corpses of other species or damaged biomorphic husks as armored shells.",
+    "mechanics": "The swarm can inhabit and pilot the corpses of other species or damaged biomorphic husks as armored shells.",
+    "mechanic": "The swarm can inhabit and pilot the corpses of other species or damaged biomorphic husks as armored shells.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Host Zombification\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nThe swarm can flow into, occupy, and puppeteer the corpses of other organisms or damaged biomorphic husks, utilizing them as ablative armored shells and adopting their physical size and strength.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Swarm Physiology",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Swarm Physiology"
+    ]
+  },
+  {
+    "id": "trait-leaper",
+    "name": "Leaper",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Always counts as a running start; all checks for jumping, leaping, and controlled dropping made at advantage.",
+    "description": "Always counts as a running start; all checks for jumping, leaping, and controlled dropping made at advantage.",
+    "mechanics": "Always counts as a running start; all checks for jumping, leaping, and controlled dropping made at advantage.",
+    "mechanic": "Always counts as a running start; all checks for jumping, leaping, and controlled dropping made at advantage.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Leaper\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nHigh-impact hydraulic leg anatomy allows the creature to always count as having a running start for jump distance, and grants Advantage on all checks for jumping, leaping, and dropping.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Athletics 1 or Agility 2",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Athletics 1 or Agility 2"
+    ]
+  },
+  {
+    "id": "trait-limited-flight",
+    "name": "Limited Flight",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Flight speed of 2x Land Speed for 1 round of movement, 2x Jump distance, and Slow Fall.",
+    "description": "Flight speed of 2x Land Speed for 1 round of movement, 2x Jump distance, and Slow Fall.",
+    "mechanics": "Flight speed of 2x Land Speed for 1 round of movement, 2x Jump distance, and Slow Fall.",
+    "mechanic": "Flight speed of 2x Land Speed for 1 round of movement, 2x Jump distance, and Slow Fall.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Limited Flight\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nShort bursts of elytra-powered flight granting 2x Land Speed for 1 round of movement, 2x Jump distance, and immunity to falling damage via Slow Fall.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Athletics 1 or Agility 2",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Athletics 1 or Agility 2"
     ]
   },
   {
@@ -2798,6 +3387,48 @@ export const SPECIES_TRAITS_ADVANCED = [
     ]
   },
   {
+    "id": "trait-mimetic-form",
+    "name": "Mimetic Form",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Gain a +2 Bonus to Disguise or Deception checks to pass as human (antennae must be concealed).",
+    "description": "Gain a +2 Bonus to Disguise or Deception checks to pass as human (antennae must be concealed).",
+    "mechanics": "Gain a +2 Bonus to Disguise or Deception checks to pass as human (antennae must be concealed).",
+    "mechanic": "Gain a +2 Bonus to Disguise or Deception checks to pass as human (antennae must be concealed).",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [
+      {
+        "target": "Disguise",
+        "value": 2,
+        "type": "skill",
+        "mode": "conditional"
+      },
+      {
+        "target": "Deception",
+        "value": 2,
+        "type": "skill",
+        "mode": "conditional"
+      }
+    ],
+    "body": "# Mimetic Form\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nGain a +2 Bonus to Disguise or Deception checks to pass as human (antennae must be concealed).",
+    "notes": "[Modifier] Disguise: +2\n[Modifier] Deception: +2\n[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Kitin Manelli or Morphic Species",
+    "notesList": [
+      "[Modifier] Disguise: +2",
+      "[Modifier] Deception: +2",
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Kitin Manelli or Morphic Species"
+    ]
+  },
+  {
     "id": "trait-mind-speech",
     "name": "Mind Speech",
     "category": "traits",
@@ -2824,6 +3455,33 @@ export const SPECIES_TRAITS_ADVANCED = [
     ]
   },
   {
+    "id": "trait-multidextrous-many-limbed",
+    "name": "Multidextrous (Many-Limbed)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Possess 30+ micro-limbs along underside for fine internal repairs, fluid management, and concurrent subsystem multitasking.",
+    "description": "Possess 30+ micro-limbs along underside for fine internal repairs, fluid management, and concurrent subsystem multitasking.",
+    "mechanics": "Possess 30+ micro-limbs along underside for fine internal repairs, fluid management, and concurrent subsystem multitasking.",
+    "mechanic": "Possess 30+ micro-limbs along underside for fine internal repairs, fluid management, and concurrent subsystem multitasking.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Multidextrous (Many-Limbed)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nPossesses 30+ micro-limbs for fine repairs, fluid management, and multitasking across the mecha’s biological subsystems. A single pilot manages duties equivalent to 4 humanoid crew members.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Multi-segmented Larval Anatomy",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Multi-segmented Larval Anatomy"
+    ]
+  },
+  {
     "id": "trait-natural-weapons",
     "name": "Natural Weapons",
     "category": "traits",
@@ -2847,6 +3505,85 @@ export const SPECIES_TRAITS_ADVANCED = [
     "notes": "[Rule] Advanced Species Trait (2 BP).",
     "notesList": [
       "[Rule] Advanced Species Trait (2 BP)."
+    ]
+  },
+  {
+    "id": "trait-pheromonal-synthesis",
+    "name": "Pheromonal Synthesis",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Biological scent-marking for hive coordination, trail navigation, and silent aerosol alarm signaling.",
+    "description": "Biological scent-marking for hive coordination, trail navigation, and silent aerosol alarm signaling.",
+    "mechanics": "Biological scent-marking for hive coordination, trail navigation, and silent aerosol alarm signaling.",
+    "mechanic": "Biological scent-marking for hive coordination, trail navigation, and silent aerosol alarm signaling.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [
+      {
+        "target": "Navigation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Navigation"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Survival"
+      },
+      {
+        "target": "Initiative",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Initiative"
+      }
+    ],
+    "body": "# Pheromonal Synthesis\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nBiological scent-marking for hive coordination. Synthesizes persistent chemical trails lasting up to 72 hours (+2 Navigation/Survival to allies) and silent aerosol alarms out to 60 ft.",
+    "notes": "[Modifier] +2 to Navigation\n[Modifier] +2 to Survival\n[Modifier] +2 to Initiative\n[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Insectoid Glands or Chemoreceptive Biology",
+    "notesList": [
+      "[Modifier] +2 to Navigation",
+      "[Modifier] +2 to Survival",
+      "[Modifier] +2 to Initiative",
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Insectoid Glands or Chemoreceptive Biology"
+    ]
+  },
+  {
+    "id": "trait-poison-immunity",
+    "name": "Poison Immunity",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Automatically Save versus any Poisonous Substances.",
+    "description": "Automatically Save versus any Poisonous Substances.",
+    "mechanics": "Automatically Save versus any Poisonous Substances.",
+    "mechanic": "Automatically Save versus any Poisonous Substances.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Poison Immunity\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nAutomatically Save versus any Poisonous Substances. Complete physiological immunity to metabolic and xenobiological toxins.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Stamina 1 or Insectoid/Synthetic Physiology",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Stamina 1 or Insectoid/Synthetic Physiology"
     ]
   },
   {
@@ -2945,6 +3682,112 @@ export const SPECIES_TRAITS_ADVANCED = [
     ]
   },
   {
+    "id": "trait-property-boon",
+    "name": "Property Boon",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Special equipment allocation granting personal vehicle or biomorphic docking privileges; +4 Wealth for personal property.",
+    "description": "Special equipment allocation granting personal vehicle or biomorphic docking privileges; +4 Wealth for personal property.",
+    "mechanics": "Special equipment allocation granting personal vehicle or biomorphic docking privileges; +4 Wealth for personal property.",
+    "mechanic": "Special equipment allocation granting personal vehicle or biomorphic docking privileges; +4 Wealth for personal property.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [
+      {
+        "target": "Wealth",
+        "type": "wealth",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 Wealth Score"
+      }
+    ],
+    "body": "# Property Boon\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nSpecial equipment allocation granting personal vehicle or biomorphic docking privileges, providing +4 Wealth toward property or personal mecha acquisition.",
+    "notes": "[Modifier] +4 Wealth Score\n[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Specialist or Operator Standing",
+    "notesList": [
+      "[Modifier] +4 Wealth Score",
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Specialist or Operator Standing"
+    ]
+  },
+  {
+    "id": "trait-psionic-gating",
+    "name": "Psionic Gating",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "The mind is harmonized with the cryptographic frequency filters of the Chorus, imposing Disadvantage on foreign psionic intrusions.",
+    "description": "The mind is harmonized with the cryptographic frequency filters of the Chorus, imposing Disadvantage on foreign psionic intrusions.",
+    "mechanics": "The mind is harmonized with the cryptographic frequency filters of the Chorus, imposing Disadvantage on foreign psionic intrusions.",
+    "mechanic": "The mind is harmonized with the cryptographic frequency filters of the Chorus, imposing Disadvantage on foreign psionic intrusions.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [
+      {
+        "target": "Willpower",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Willpower"
+      },
+      {
+        "target": "Wisdom",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Wisdom"
+      }
+    ],
+    "body": "# Psionic Gating\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nOperating within the carrier frequency of the Chorus, the operative receives +2 Mental DR and forces hostile telepathic scans and psychic intrusions to roll with Disadvantage.",
+    "notes": "[Modifier] +2 to Willpower\n[Modifier] +2 to Wisdom\n[Rule] Advanced Species Trait (2 BP).",
+    "notesList": [
+      "[Modifier] +2 to Willpower",
+      "[Modifier] +2 to Wisdom",
+      "[Rule] Advanced Species Trait (2 BP)."
+    ]
+  },
+  {
+    "id": "trait-quadruped-leaping",
+    "name": "Quadruped (Leaping)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Specialized quadrupedal legs for high-impact jumping, +4 Stability, and +10 ft Groundspeed.",
+    "description": "Specialized quadrupedal legs for high-impact jumping, +4 Stability, and +10 ft Groundspeed.",
+    "mechanics": "Specialized quadrupedal legs for high-impact jumping, +4 Stability, and +10 ft Groundspeed.",
+    "mechanic": "Specialized quadrupedal legs for high-impact jumping, +4 Stability, and +10 ft Groundspeed.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Quadruped (Leaping)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nFour specialized legs designed for high-impact jumping. Provides +4 racial Stability against trips and knockdowns, and increases Base Groundspeed by +10 feet.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Four Lower Limbs",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Four Lower Limbs"
+    ]
+  },
+  {
     "id": "trait-quadruped",
     "name": "Quadruped",
     "category": "traits",
@@ -2973,10 +3816,11 @@ export const SPECIES_TRAITS_ADVANCED = [
       }
     ],
     "body": "# Quadruped\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nFour legged, +4 Stability, +10 movement speed. Special Accommodations.",
-    "notes": "[Modifier] +10 movement\n[Rule] Advanced Species Trait (2 BP).",
+    "notes": "[Modifier] +10 movement\n[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Four or More Lower Limbs",
     "notesList": [
       "[Modifier] +10 movement",
-      "[Rule] Advanced Species Trait (2 BP)."
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Four or More Lower Limbs"
     ]
   },
   {
@@ -3003,6 +3847,103 @@ export const SPECIES_TRAITS_ADVANCED = [
     "notes": "[Rule] Advanced Species Trait (2 BP).",
     "notesList": [
       "[Rule] Advanced Species Trait (2 BP)."
+    ]
+  },
+  {
+    "id": "trait-quick",
+    "name": "Quick",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "+10 feet to Base Movement Speed and +1 to Initiative.",
+    "description": "+10 feet to Base Movement Speed and +1 to Initiative.",
+    "mechanics": "+10 feet to Base Movement Speed and +1 to Initiative.",
+    "mechanic": "+10 feet to Base Movement Speed and +1 to Initiative.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [
+      {
+        "target": "Initiative",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Initiative"
+      },
+      {
+        "target": "initiative-mod",
+        "type": "combat",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 Initiative"
+      }
+    ],
+    "body": "# Quick\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nNaturally fleet and reactive reflexes grant +10 feet to Base Movement Speed and a +1 bonus to Initiative checks.",
+    "notes": "[Modifier] +1 to Initiative\n[Modifier] +1 Initiative\n[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Agility 1",
+    "notesList": [
+      "[Modifier] +1 to Initiative",
+      "[Modifier] +1 Initiative",
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Agility 1"
+    ]
+  },
+  {
+    "id": "trait-radiation-advantage",
+    "name": "Radiation Advantage",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "All checks against ionizing radiation, cosmic rays, and fallout are made with Advantage, and radiation damage is halved.",
+    "description": "All checks against ionizing radiation, cosmic rays, and fallout are made with Advantage, and radiation damage is halved.",
+    "mechanics": "All checks against ionizing radiation, cosmic rays, and fallout are made with Advantage, and radiation damage is halved.",
+    "mechanic": "All checks against ionizing radiation, cosmic rays, and fallout are made with Advantage, and radiation damage is halved.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Radiation Advantage\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nHeavy-element chitin and stabilized cellular matrices grant Advantage on all Stamina, Survival, and physical checks against ionizing radiation and fallout, while halving any raw damage or strain inflicted by radiological hazards.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP)."
+    ]
+  },
+  {
+    "id": "trait-resin-secretion",
+    "name": "Resin Secretion",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Creation of Hive-Resin for field-patching mecha, vehicle hulls, and hive structures.",
+    "description": "Creation of Hive-Resin for field-patching mecha, vehicle hulls, and hive structures.",
+    "mechanics": "Creation of Hive-Resin for field-patching mecha, vehicle hulls, and hive structures.",
+    "mechanic": "Creation of Hive-Resin for field-patching mecha, vehicle hulls, and hive structures.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Resin Secretion\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nExudes fast-curing Hive-Resin used to seal breaches, repair vehicle/mecha plating, and anchor defensive positions against vacuum and pressure hazards.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Biomorphic Glands",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Biomorphic Glands"
     ]
   },
   {
@@ -3085,6 +4026,33 @@ export const SPECIES_TRAITS_ADVANCED = [
     ]
   },
   {
+    "id": "trait-swarm-fast-heal-regeneration",
+    "name": "Fast Heal & Regeneration (Swarm)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "The swarm constantly births new members to replace those lost, allowing it to heal and regenerate rapidly.",
+    "description": "The swarm constantly births new members to replace those lost, allowing it to heal and regenerate rapidly.",
+    "mechanics": "The swarm constantly births new members to replace those lost, allowing it to heal and regenerate rapidly.",
+    "mechanic": "The swarm constantly births new members to replace those lost, allowing it to heal and regenerate rapidly.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Fast Heal & Regeneration (Swarm)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nThe swarm constantly births new members to replace those lost, regenerating 2 Health/Vitality per round in combat and fully restoring mass during a Light Rest.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Swarm Physiology",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Swarm Physiology"
+    ]
+  },
+  {
     "id": "trait-swarming",
     "name": "Swarming",
     "category": "traits",
@@ -3108,6 +4076,33 @@ export const SPECIES_TRAITS_ADVANCED = [
     "notes": "[Rule] Advanced Species Trait (2 BP).",
     "notesList": [
       "[Rule] Advanced Species Trait (2 BP)."
+    ]
+  },
+  {
+    "id": "trait-synaptic-integration",
+    "name": "Synaptic Integration",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Can slot into any Kitin mecha Synaptic Node, using own Intellect and Agility for all vehicle checks and ignoring G-force penalties.",
+    "description": "Can slot into any Kitin mecha Synaptic Node, using own Intellect and Agility for all vehicle checks and ignoring G-force penalties.",
+    "mechanics": "Can slot into any Kitin mecha Synaptic Node, using own Intellect and Agility for all vehicle checks and ignoring G-force penalties.",
+    "mechanic": "Can slot into any Kitin mecha Synaptic Node, using own Intellect and Agility for all vehicle checks and ignoring G-force penalties.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Synaptic Integration\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nThe Syndess can slot directly into any Kitin mecha’s Synaptic Node. While integrated, they use their own Intellect and Agility for all vehicle checks and ignore all G-force or high-velocity penalties.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Pilot Expression Physiology",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Pilot Expression Physiology"
     ]
   },
   {
@@ -3163,6 +4158,32 @@ export const SPECIES_TRAITS_ADVANCED = [
     ]
   },
   {
+    "id": "trait-telepathic",
+    "name": "Telepathic",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Innate psychic communication within the swarm and with external sentient minds out to 100 ft.",
+    "description": "Innate psychic communication within the swarm and with external sentient minds out to 100 ft.",
+    "mechanics": "Innate psychic communication within the swarm and with external sentient minds out to 100 ft.",
+    "mechanic": "Innate psychic communication within the swarm and with external sentient minds out to 100 ft.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Telepathic\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nInnate mind-to-mind psychic communication within the swarm and with external sentient lifeforms within 100 feet without physical speech organs.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP)."
+    ]
+  },
+  {
     "id": "trait-thermal-sight",
     "name": "Thermal Sight",
     "category": "traits",
@@ -3186,6 +4207,60 @@ export const SPECIES_TRAITS_ADVANCED = [
     "notes": "[Rule] Advanced Species Trait (2 BP).",
     "notesList": [
       "[Rule] Advanced Species Trait (2 BP)."
+    ]
+  },
+  {
+    "id": "trait-torpor-universal",
+    "name": "Torpor (Universal)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Requires only 4 hours of conscious inactivity; immune to sleep effects.",
+    "description": "Requires only 4 hours of conscious inactivity; immune to sleep effects.",
+    "mechanics": "Requires only 4 hours of conscious inactivity; immune to sleep effects.",
+    "mechanic": "Requires only 4 hours of conscious inactivity; immune to sleep effects.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Torpor (Universal)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nRequires only 4 hours of conscious inactivity; immune to sleep effects. Conscious vigilance maintained.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Kitin or Non-Sleeping Species",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Kitin or Non-Sleeping Species"
+    ]
+  },
+  {
+    "id": "trait-toxic-blood",
+    "name": "Toxic Blood",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Ingested, DC 11 + 2xSta, Pain Incapacitation 1hr (Severe Nausea on Success).",
+    "description": "Ingested, DC 11 + 2xSta, Pain Incapacitation 1hr (Severe Nausea on Success).",
+    "mechanics": "Ingested, DC 11 + 2xSta, Pain Incapacitation 1hr (Severe Nausea on Success).",
+    "mechanic": "Ingested, DC 11 + 2xSta, Pain Incapacitation 1hr (Severe Nausea on Success).",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Toxic Blood\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nIngested, DC 11 + 2xSta, Pain Incapacitation 1hr (Severe Nausea on Success). Prereq: Sta 1, Poison Immunity.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Stamina 1, Poison Immunity",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Stamina 1, Poison Immunity"
     ]
   },
   {
@@ -3215,6 +4290,69 @@ export const SPECIES_TRAITS_ADVANCED = [
     ]
   },
   {
+    "id": "trait-uncanny-senses-vibration",
+    "name": "Uncanny Senses (Vibration)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Detection of motion, vibrations, and tremors through surfaces and the hive-mesh out to 60 ft.",
+    "description": "Detection of motion, vibrations, and tremors through surfaces and the hive-mesh out to 60 ft.",
+    "mechanics": "Detection of motion, vibrations, and tremors through surfaces and the hive-mesh out to 60 ft.",
+    "mechanic": "Detection of motion, vibrations, and tremors through surfaces and the hive-mesh out to 60 ft.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Uncanny Senses (Vibration)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nSurface trichobothria hairs detect mechanical oscillations and subtle acoustic waves across floors, walls, and connecting hive-mesh webs, defeating surprises and pinpointing movement within 60 ft.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Insectoid or Arachnoid Physiology",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Insectoid or Arachnoid Physiology"
+    ]
+  },
+  {
+    "id": "trait-venom-spit",
+    "name": "Venom Spit",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Contact, DC 11 + 2xSta, Blind for 10+ minutes.",
+    "description": "Contact, DC 11 + 2xSta, Blind for 10+ minutes.",
+    "mechanics": "Contact, DC 11 + 2xSta, Blind for 10+ minutes.",
+    "mechanic": "Contact, DC 11 + 2xSta, Blind for 10+ minutes.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [
+      {
+        "target": "Attack",
+        "type": "skill",
+        "value": -1,
+        "mode": "penalty",
+        "description": "-1 to Attack"
+      }
+    ],
+    "body": "# Venom Spit\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nContact, DC 11 + 2xSta, Blind for 10+ minutes. Prereq: Toxic Blood, Sta 2.",
+    "notes": "[Penalty] -1 to Attack\n[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Toxic Blood, Stamina 2",
+    "notesList": [
+      "[Penalty] -1 to Attack",
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Toxic Blood, Stamina 2"
+    ]
+  },
+  {
     "id": "trait-venom",
     "name": "Venom",
     "category": "traits",
@@ -3241,52 +4379,114 @@ export const SPECIES_TRAITS_ADVANCED = [
     ]
   },
   {
-    "id": "trait-digitized-mind",
-    "name": "Digitized Mind",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Defensive",
-    "type": "Defensive",
-    "bp": 2,
-    "costs": { "bp": 2 },
-    "is_ranked": false,
-    "desc": "Optronic cognitive shielding grants Advantage on all resistance rolls and checks against mental, psionic, and mind-affecting effects.",
-    "description": "Optronic cognitive shielding grants Advantage on all resistance rolls and checks against mental, psionic, and mind-affecting effects.",
-    "rules": "Advanced Species Trait (2 BP)."
-  },
-  {
-    "id": "trait-robotic-strength",
-    "name": "Robotic Strength",
+    "id": "trait-venomous-saliva",
+    "name": "Venomous Saliva",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
     "classification": "Physical",
     "type": "Physical",
     "bp": 2,
-    "costs": { "bp": 2 },
+    "costs": {
+      "bp": 2
+    },
     "is_ranked": false,
-    "desc": "Reinforced high-torque servo actuators consider the synthetic one category larger for lifting, grappling, and carrying capacity.",
-    "description": "Reinforced high-torque servo actuators consider the synthetic one category larger for lifting, grappling, and carrying capacity.",
-    "rules": "Advanced Species Trait (2 BP)."
+    "desc": "Injected (Bite), DC 11 + 2xSta, Paralytic 1hr (Drugged on Success).",
+    "description": "Injected (Bite), DC 11 + 2xSta, Paralytic 1hr (Drugged on Success).",
+    "mechanics": "Injected (Bite), DC 11 + 2xSta, Paralytic 1hr (Drugged on Success).",
+    "mechanic": "Injected (Bite), DC 11 + 2xSta, Paralytic 1hr (Drugged on Success).",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [
+      {
+        "target": "Agility",
+        "type": "skill",
+        "value": -2,
+        "mode": "penalty",
+        "description": "-2 to Agility"
+      },
+      {
+        "target": "Sensory",
+        "type": "skill",
+        "value": -2,
+        "mode": "penalty",
+        "description": "-2 to Sensory"
+      }
+    ],
+    "body": "# Venomous Saliva\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nInjected (Bite), DC 11 + 2xSta, Paralytic 1hr (Drugged on Success). Prereq: Toxic Blood, Sta 2.",
+    "notes": "[Penalty] -2 to Agility\n[Penalty] -2 to Sensory\n[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Toxic Blood, Stamina 2",
+    "notesList": [
+      "[Penalty] -2 to Agility",
+      "[Penalty] -2 to Sensory",
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Toxic Blood, Stamina 2"
+    ]
   },
   {
-    "id": "trait-resilient-design",
-    "name": "Resilient Design",
+    "id": "trait-weaver",
+    "name": "Weaver",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Defensive",
-    "type": "Defensive",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
-    "costs": { "bp": 2 },
+    "costs": {
+      "bp": 2
+    },
     "is_ranked": false,
-    "desc": "Dense shock-absorptive synthetic armature provides DR 5/- natural damage reduction.",
-    "description": "Dense shock-absorptive synthetic armature provides DR 5/- natural damage reduction.",
-    "rules": "Advanced Species Trait (2 BP)."
+    "desc": "Can produce and manipulate natural webbing made from high-tensile Hive-Resin.",
+    "description": "Can produce and manipulate natural webbing made from high-tensile Hive-Resin.",
+    "mechanics": "Can produce and manipulate natural webbing made from high-tensile Hive-Resin.",
+    "mechanic": "Can produce and manipulate natural webbing made from high-tensile Hive-Resin.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Weaver\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nAbdominal spinnerets weave high-tensile silk filaments of Hive-Resin, creating adhesive snares to entangle enemies or constructing structural safety nets, hanging bivouacs, and anchor lines.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Resin Secretion",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Resin Secretion"
+    ]
   }
 ];
 export const SPECIES_TRAITS_ELITE = [
+  {
+    "id": "trait-active-camouflage",
+    "name": "Camouflage (Active)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Elite",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 4,
+    "costs": {
+      "bp": 4
+    },
+    "is_ranked": false,
+    "desc": "Chitin can shift texture and hue to blend into environment, including light-absorbing vanta-black and visual transparency.",
+    "description": "Chitin can shift texture and hue to blend into environment, including light-absorbing vanta-black and visual transparency.",
+    "mechanics": "Chitin can shift texture and hue to blend into environment, including light-absorbing vanta-black and visual transparency.",
+    "mechanic": "Chitin can shift texture and hue to blend into environment, including light-absorbing vanta-black and visual transparency.",
+    "rules": "Elite Species Trait (4 BP).",
+    "special_rules": "Elite Species Trait (4 BP).",
+    "modifiers": [
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 8,
+        "mode": "inherent",
+        "description": "+8 to Stealth"
+      }
+    ],
+    "body": "# Camouflage (Active)\n\n**Category**: TRAITS  \n**Tier**: Elite  \n**Type**: Species Trait  \n**BP Cost**: 4  \n\n## Description\nChitin can shift texture and hue to blend into their environment, shifting to a variety of colors as desired—including light-absorbing vanta-black and visual camouflage so effective they seem to fade into transparency (+8 to Stealth motionless, +4 moving).",
+    "notes": "[Modifier] +8 to Stealth\n[Rule] Elite Species Trait (4 BP).\n[Prerequisite] Chitinous or Biomorphic Dermis",
+    "notesList": [
+      "[Modifier] +8 to Stealth",
+      "[Rule] Elite Species Trait (4 BP).",
+      "[Prerequisite] Chitinous or Biomorphic Dermis"
+    ]
+  },
   {
     "id": "trait-alter-form-elite",
     "name": "Alter Form (Elite)",
@@ -3334,9 +4534,10 @@ export const SPECIES_TRAITS_ELITE = [
     "special_rules": "Elite Species Trait (4 BP).",
     "modifiers": [],
     "body": "# Blind Sight\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nAccurately target unseen objects in a 30 ft Radius or 60 ft Cone.",
-    "notes": "[Rule] Elite Species Trait (4 BP).",
+    "notes": "[Rule] Elite Species Trait (4 BP).\n[Prerequisite] Non-Visual Sensory Organs",
     "notesList": [
-      "[Rule] Elite Species Trait (4 BP)."
+      "[Rule] Elite Species Trait (4 BP).",
+      "[Prerequisite] Non-Visual Sensory Organs"
     ]
   },
   {
@@ -3658,6 +4859,59 @@ export const SPECIES_TRAITS_ELITE = [
     "notes": "[Rule] Elite Species Trait (4 BP).",
     "notesList": [
       "[Rule] Elite Species Trait (4 BP)."
+    ]
+  },
+  {
+    "id": "trait-kitin-base-traits",
+    "name": "Kitin Base Traits",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Elite",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 8,
+    "costs": {
+      "bp": 8
+    },
+    "is_ranked": false,
+    "desc": "Awakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].",
+    "description": "Awakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].",
+    "mechanics": "Awakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].",
+    "mechanic": "Awakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].",
+    "rules": "Elite Species Trait (8 BP).",
+    "special_rules": "Elite Species Trait (8 BP).",
+    "modifiers": [],
+    "body": "# Kitin Base Traits\n\n**Category**: TRAITS  \n**Tier**: Elite  \n**Type**: Species Trait  \n**BP Cost**: 8  \n\n## Description\nThe fundamental biological and psionic heritage shared across all Kitin Strains:\n* **Awakened (Psychic) [2 BP]:** Conductors and receptors of the Hive psionic Chorus.\n* **Biotechnology [2 BP]:** Innate affinity for manipulating living symbiotic technology.\n* **Hive Connection / Hive-Link [2 BP]:** Constant telepathic connection to the Collective.\n* **Torpor / Sleepless [2 BP]:** Requires only 4 hours of conscious torpor; immune to sleep effects.",
+    "notes": "[Rule] Elite Species Trait (8 BP).",
+    "notesList": [
+      "[Rule] Elite Species Trait (8 BP)."
+    ]
+  },
+  {
+    "id": "trait-multidextrous-4-arms",
+    "name": "Multidextrous (4 Arms)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Elite",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 4,
+    "costs": {
+      "bp": 4
+    },
+    "is_ranked": false,
+    "desc": "Four articulated arms ending in sharp clawed digits with zero off-hand penalties, allowing simultaneous complex tasks, multiple attacks, and precision engineering.",
+    "description": "Four articulated arms ending in sharp clawed digits with zero off-hand penalties, allowing simultaneous complex tasks, multiple attacks, and precision engineering.",
+    "mechanics": "Four articulated arms ending in sharp clawed digits with zero off-hand penalties, allowing simultaneous complex tasks, multiple attacks, and precision engineering.",
+    "mechanic": "Four articulated arms ending in sharp clawed digits with zero off-hand penalties, allowing simultaneous complex tasks, multiple attacks, and precision engineering.",
+    "rules": "Elite Species Trait (4 BP).",
+    "special_rules": "Elite Species Trait (4 BP).",
+    "modifiers": [],
+    "body": "# Multidextrous (4 Arms)\n\n**Category**: TRAITS  \n**Tier**: Elite  \n**Type**: Species Trait  \n**BP Cost**: 4  \n\n## Description\nFour articulated upper limbs ending in sharp, clawed digits. Operates all four hands with primary dexterity, suffering no off-hand penalties in combat or technical tasks, and dealing 1d6 + Str Lethal natural damage.",
+    "notes": "[Rule] Elite Species Trait (4 BP).\n[Prerequisite] Agility 2, 4 Arms",
+    "notesList": [
+      "[Rule] Elite Species Trait (4 BP).",
+      "[Prerequisite] Agility 2, 4 Arms"
     ]
   },
   {
@@ -4915,10 +6169,10 @@ export const OCCUPATIONAL_TRAITS = [
     "special_rules": "Basic Occupational Trait (1 BP).",
     "modifiers": [],
     "body": "# Jack-of-All-Trades\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nPossess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group",
-    "notes": "[Rule] Basic Occupational Trait (1 BP).\n[Prerequisite] Intellect 2",
+    "notes": "[Rule] Basic Occupational Trait (1 BP).\n[Prerequisite] Intellect 1 or Wisdom 1",
     "notesList": [
       "[Rule] Basic Occupational Trait (1 BP).",
-      "[Prerequisite] Intellect 2"
+      "[Prerequisite] Intellect 1 or Wisdom 1"
     ]
   },
   {
@@ -8495,6 +9749,33 @@ export const ALL_CANONICAL_TRAITS = [
     ]
   },
   {
+    "id": "trait-chitinous-shell-armor",
+    "name": "Armor (Chitinous Shell)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10].",
+    "description": "Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10].",
+    "mechanics": "Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10].",
+    "mechanic": "Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10].",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Armor (Chitinous Shell)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nGlossy obsidian chitinous shell providing natural base DR 10 against physical impacts, energy weapons, and corrosive chemicals.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Exoskeletal Physiology",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Exoskeletal Physiology"
+    ]
+  },
+  {
     "id": "trait-attention-to-detail",
     "name": "Attention to Detail",
     "category": "traits",
@@ -8573,6 +9854,32 @@ export const ALL_CANONICAL_TRAITS = [
     ]
   },
   {
+    "id": "trait-awakened-psychic",
+    "name": "Awakened (Psychic)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Awakened conductor of the Hive’s psionic Chorus; grants access to Attune and mental psionic metaphysics.",
+    "description": "Awakened conductor of the Hive’s psionic Chorus; grants access to Attune and mental psionic metaphysics.",
+    "mechanics": "Awakened conductor of the Hive’s psionic Chorus; grants access to Attune and mental psionic metaphysics.",
+    "mechanic": "Awakened conductor of the Hive’s psionic Chorus; grants access to Attune and mental psionic metaphysics.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Awakened (Psychic)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nConductors of the Hive’s psionic Chorus. Possesses the innate metaphysical spark granting access to the Attune skill and mental focus disciplines (Intellect or Wisdom).",
+    "notes": "[Rule] Advanced Species Trait (2 BP).",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP)."
+    ]
+  },
+  {
     "id": "trait-b-e",
     "name": "B&E",
     "category": "traits",
@@ -8625,6 +9932,32 @@ export const ALL_CANONICAL_TRAITS = [
     ]
   },
   {
+    "id": "trait-biological-continuity",
+    "name": "Biological Continuity",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Monogenetic stabilization grants immunity to clone decay and allows effortless interface with biomorphic wetware.",
+    "description": "Monogenetic stabilization grants immunity to clone decay and allows effortless interface with biomorphic wetware.",
+    "mechanics": "Monogenetic stabilization grants immunity to clone decay and allows effortless interface with biomorphic wetware.",
+    "mechanic": "Monogenetic stabilization grants immunity to clone decay and allows effortless interface with biomorphic wetware.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Biological Continuity\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nInherited generational genetic stability grants immunity to cellular senescence and DNA decay, while bypassing cellular rejection checks when grafting organic wetware or piloting biomorphic vessels.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP)."
+    ]
+  },
+  {
     "id": "trait-blind-sense",
     "name": "Blind Sense",
     "category": "traits",
@@ -8651,6 +9984,60 @@ export const ALL_CANONICAL_TRAITS = [
     ]
   },
   {
+    "id": "trait-blind-sense-em-vibration",
+    "name": "Blind Sense (EM/Vibration)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Perceive surroundings via mecha sensors and external bio-arrays, feeling the environment as personal skin via EM and vibration resonance.",
+    "description": "Perceive surroundings via mecha sensors and external bio-arrays, feeling the environment as personal skin via EM and vibration resonance.",
+    "mechanics": "Perceive surroundings via mecha sensors and external bio-arrays, feeling the environment as personal skin via EM and vibration resonance.",
+    "mechanic": "Perceive surroundings via mecha sensors and external bio-arrays, feeling the environment as personal skin via EM and vibration resonance.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Blind Sense (EM/Vibration)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nPerceives surroundings via mecha sensors and external bio-arrays within a 30 ft radius (or 60 ft cone), feeling electromagnetic waveforms and surface vibrations as tactile skin sensations.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Electro-Receptive Array or Synaptic Vehicle Link",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Electro-Receptive Array or Synaptic Vehicle Link"
+    ]
+  },
+  {
+    "id": "trait-blind-sense-scent-em",
+    "name": "Blind Sense (Scent/EM)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Delicate antennae perceive bio-energetic and EM fields.",
+    "description": "Delicate antennae perceive bio-energetic and EM fields.",
+    "mechanics": "Delicate antennae perceive bio-energetic and EM fields.",
+    "mechanic": "Delicate antennae perceive bio-energetic and EM fields.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Blind Sense (Scent/EM)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nDelicate antennae perceive bio-energetic, electromagnetic, and olfactory fields in a 30 ft radius.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Sensory Antennae or Electro-Receptive Physiology",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Sensory Antennae or Electro-Receptive Physiology"
+    ]
+  },
+  {
     "id": "trait-blind-sight",
     "name": "Blind Sight",
     "category": "traits",
@@ -8671,9 +10058,36 @@ export const ALL_CANONICAL_TRAITS = [
     "special_rules": "Elite Species Trait (4 BP).",
     "modifiers": [],
     "body": "# Blind Sight\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nAccurately target unseen objects in a 30 ft Radius or 60 ft Cone.",
-    "notes": "[Rule] Elite Species Trait (4 BP).",
+    "notes": "[Rule] Elite Species Trait (4 BP).\n[Prerequisite] Non-Visual Sensory Organs",
     "notesList": [
-      "[Rule] Elite Species Trait (4 BP)."
+      "[Rule] Elite Species Trait (4 BP).",
+      "[Prerequisite] Non-Visual Sensory Organs"
+    ]
+  },
+  {
+    "id": "trait-blind-sight-swarm",
+    "name": "Blind Sight (Swarm)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Accurately sense and target unseen objects and creatures in a 30 ft radius or 60 ft cone without optical sight.",
+    "description": "Accurately sense and target unseen objects and creatures in a 30 ft radius or 60 ft cone without optical sight.",
+    "mechanics": "Accurately sense and target unseen objects and creatures in a 30 ft radius or 60 ft cone without optical sight.",
+    "mechanic": "Accurately sense and target unseen objects and creatures in a 30 ft radius or 60 ft cone without optical sight.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Blind Sight (Swarm)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nDistributed micro-acoustic, chemical, and electromagnetic resonance allows the swarm to accurately perceive and target unseen objects and creatures in a 30 ft radius (or 60 ft cone) without optical vision.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP)."
     ]
   },
   {
@@ -9095,10 +10509,47 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "body": "# Camouflage\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nChoose a favored terrain type. +4 bonus on Stealth checks within that terrain.",
-    "notes": "[Modifier] +4 to Stealth\n[Rule] Basic Species Trait (1 BP).",
+    "notes": "[Modifier] +4 to Stealth\n[Rule] Basic Species Trait (1 BP).\n[Prerequisite] Stealth 1",
     "notesList": [
       "[Modifier] +4 to Stealth",
-      "[Rule] Basic Species Trait (1 BP)."
+      "[Rule] Basic Species Trait (1 BP).",
+      "[Prerequisite] Stealth 1"
+    ]
+  },
+  {
+    "id": "trait-active-camouflage",
+    "name": "Camouflage (Active)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Elite",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 4,
+    "costs": {
+      "bp": 4
+    },
+    "is_ranked": false,
+    "desc": "Chitin can shift texture and hue to blend into environment, including light-absorbing vanta-black and visual transparency.",
+    "description": "Chitin can shift texture and hue to blend into environment, including light-absorbing vanta-black and visual transparency.",
+    "mechanics": "Chitin can shift texture and hue to blend into environment, including light-absorbing vanta-black and visual transparency.",
+    "mechanic": "Chitin can shift texture and hue to blend into environment, including light-absorbing vanta-black and visual transparency.",
+    "rules": "Elite Species Trait (4 BP).",
+    "special_rules": "Elite Species Trait (4 BP).",
+    "modifiers": [
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 8,
+        "mode": "inherent",
+        "description": "+8 to Stealth"
+      }
+    ],
+    "body": "# Camouflage (Active)\n\n**Category**: TRAITS  \n**Tier**: Elite  \n**Type**: Species Trait  \n**BP Cost**: 4  \n\n## Description\nChitin can shift texture and hue to blend into their environment, shifting to a variety of colors as desired—including light-absorbing vanta-black and visual camouflage so effective they seem to fade into transparency (+8 to Stealth motionless, +4 moving).",
+    "notes": "[Modifier] +8 to Stealth\n[Rule] Elite Species Trait (4 BP).\n[Prerequisite] Chitinous or Biomorphic Dermis",
+    "notesList": [
+      "[Modifier] +8 to Stealth",
+      "[Rule] Elite Species Trait (4 BP).",
+      "[Prerequisite] Chitinous or Biomorphic Dermis"
     ]
   },
   {
@@ -9264,6 +10715,50 @@ export const ALL_CANONICAL_TRAITS = [
     "notes": "[Rule] Advanced Species Trait (2 BP).",
     "notesList": [
       "[Rule] Advanced Species Trait (2 BP)."
+    ]
+  },
+  {
+    "id": "trait-climber",
+    "name": "Climber",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Traverse vertical and inverted surfaces at full speed (40 ft/rd); +2 bonus on Climbing checks.",
+    "description": "Traverse vertical and inverted surfaces at full speed (40 ft/rd); +2 bonus on Climbing checks.",
+    "mechanics": "Traverse vertical and inverted surfaces at full speed (40 ft/rd); +2 bonus on Climbing checks.",
+    "mechanic": "Traverse vertical and inverted surfaces at full speed (40 ft/rd); +2 bonus on Climbing checks.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [
+      {
+        "target": "Athletics Climbing",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Athletics Climbing"
+      },
+      {
+        "target": "Climbing",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Climbing"
+      }
+    ],
+    "body": "# Climber\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nTraverse vertical walls and inverted ceilings at full ground movement speed without penalty. Gain a +2 racial bonus on Athletics (Climbing) checks.",
+    "notes": "[Modifier] +2 to Athletics Climbing\n[Modifier] +2 to Climbing\n[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Agility 1, Athletics 1",
+    "notesList": [
+      "[Modifier] +2 to Athletics Climbing",
+      "[Modifier] +2 to Climbing",
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Agility 1, Athletics 1"
     ]
   },
   {
@@ -10196,6 +11691,33 @@ export const ALL_CANONICAL_TRAITS = [
     ]
   },
   {
+    "id": "trait-dual-skeletal-structure",
+    "name": "Dual Skeletal Structure",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Combined endoskeleton and exoskeleton providing natural Damage Reduction (DR +5).",
+    "description": "Combined endoskeleton and exoskeleton providing natural Damage Reduction (DR +5).",
+    "mechanics": "Combined endoskeleton and exoskeleton providing natural Damage Reduction (DR +5).",
+    "mechanic": "Combined endoskeleton and exoskeleton providing natural Damage Reduction (DR +5).",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Dual Skeletal Structure\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nA sophisticated dual-skeletal framework uniting an articulated internal endoskeleton with a segmented outer chitinous shell, providing natural DR +5 against all physical and kinetic trauma.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Endoskeleton and Exoskeleton",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Endoskeleton and Exoskeleton"
+    ]
+  },
+  {
     "id": "trait-emissary",
     "name": "Emissary",
     "category": "traits",
@@ -10430,6 +11952,60 @@ export const ALL_CANONICAL_TRAITS = [
     ]
   },
   {
+    "id": "trait-enhanced-biotechnology",
+    "name": "Enhanced Biotechnology",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Advanced affinity and control over living biotechnology and symbiotic structures.",
+    "description": "Advanced affinity and control over living biotechnology and symbiotic structures.",
+    "mechanics": "Advanced affinity and control over living biotechnology and symbiotic structures.",
+    "mechanic": "Advanced affinity and control over living biotechnology and symbiotic structures.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Enhanced Biotechnology\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nAdvanced biological affinity and seamless neurological manipulation of living technology, bio-grafts, and biomorphic carapaces.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Kitin Lineage, Awakened, or Tech Level 4+",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Kitin Lineage, Awakened, or Tech Level 4+"
+    ]
+  },
+  {
+    "id": "trait-enhanced-strength",
+    "name": "Enhanced Strength",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Count as 1 size larger for lifting and carrying capacity.",
+    "description": "Count as 1 size larger for lifting and carrying capacity.",
+    "mechanics": "Count as 1 size larger for lifting and carrying capacity.",
+    "mechanic": "Count as 1 size larger for lifting and carrying capacity.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Enhanced Strength\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nBiomechanical musculature and leveraged skeletal joints treat the organism as one size category larger when calculating lifting, carrying, dragging limits, and grappling resistance.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Strength 2",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Strength 2"
+    ]
+  },
+  {
     "id": "trait-entertainment-skill",
     "name": "Entertainment Skill",
     "category": "traits",
@@ -10606,9 +12182,10 @@ export const ALL_CANONICAL_TRAITS = [
     "special_rules": "Advanced Species Trait (2 BP).",
     "modifiers": [],
     "body": "# Exoskeleton (Light)\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nDR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.",
-    "notes": "[Rule] Advanced Species Trait (2 BP).",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Insectoid, Crustacean, or Synthetic Physiology",
     "notesList": [
-      "[Rule] Advanced Species Trait (2 BP)."
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Insectoid, Crustacean, or Synthetic Physiology"
     ]
   },
   {
@@ -10714,6 +12291,60 @@ export const ALL_CANONICAL_TRAITS = [
     "notesList": [
       "[Rule] Advanced Species Trait (2 BP).",
       "[Prerequisite] Stamina 2"
+    ]
+  },
+  {
+    "id": "trait-swarm-fast-heal-regeneration",
+    "name": "Fast Heal & Regeneration (Swarm)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "The swarm constantly births new members to replace those lost, allowing it to heal and regenerate rapidly.",
+    "description": "The swarm constantly births new members to replace those lost, allowing it to heal and regenerate rapidly.",
+    "mechanics": "The swarm constantly births new members to replace those lost, allowing it to heal and regenerate rapidly.",
+    "mechanic": "The swarm constantly births new members to replace those lost, allowing it to heal and regenerate rapidly.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Fast Heal & Regeneration (Swarm)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nThe swarm constantly births new members to replace those lost, regenerating 2 Health/Vitality per round in combat and fully restoring mass during a Light Rest.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Swarm Physiology",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Swarm Physiology"
+    ]
+  },
+  {
+    "id": "trait-fatigue-resistance",
+    "name": "Fatigue Resistance",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "All Fatigue checks are made at Advantage and at twice the interval time.",
+    "description": "All Fatigue checks are made at Advantage and at twice the interval time.",
+    "mechanics": "All Fatigue checks are made at Advantage and at twice the interval time.",
+    "mechanic": "All Fatigue checks are made at Advantage and at twice the interval time.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Fatigue Resistance\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nAll Fatigue checks are made at Advantage and at twice the interval time, allowing relentless sustained labor and prolonged forced marches.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Robust Physiology or Inexhaustible Stamina",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Robust Physiology or Inexhaustible Stamina"
     ]
   },
   {
@@ -10925,6 +12556,41 @@ export const ALL_CANONICAL_TRAITS = [
     ]
   },
   {
+    "id": "trait-fragile-frame",
+    "name": "Fragile Frame",
+    "category": "traits",
+    "trait_type": "Disadvantage",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": -2,
+    "costs": {
+      "bp": -2
+    },
+    "is_ranked": false,
+    "desc": "Outside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves.",
+    "description": "Outside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves.",
+    "mechanics": "Outside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves.",
+    "mechanic": "Outside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves.",
+    "rules": "Basic Disadvantage (-2 BP).",
+    "special_rules": "Basic Disadvantage (-2 BP).",
+    "modifiers": [
+      {
+        "target": "Physical",
+        "type": "skill",
+        "value": -2,
+        "mode": "penalty",
+        "description": "-2 to Physical"
+      }
+    ],
+    "body": "# Fragile Frame\n\n**Category**: TRAITS  \n**Tier**: Basic  \n**Type**: Disadvantage  \n**BP Cost**: -2 (Refund 2 BP)  \n\n## Description\nOutside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves.",
+    "notes": "[Penalty] -2 to Physical\n[Rule] Basic Disadvantage (-2 BP).",
+    "notesList": [
+      "[Penalty] -2 to Physical",
+      "[Rule] Basic Disadvantage (-2 BP)."
+    ]
+  },
+  {
     "id": "trait-freedom",
     "name": "Freedom",
     "category": "traits",
@@ -11000,6 +12666,68 @@ export const ALL_CANONICAL_TRAITS = [
     "notes": "[Rule] Basic Occupational Trait (1 BP).",
     "notesList": [
       "[Rule] Basic Occupational Trait (1 BP)."
+    ]
+  },
+  {
+    "id": "trait-g-force-immunity",
+    "name": "G-Force Immunity",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Internal fluid dampening allows survival through extreme accelerations and supersonic vector shifts that would liquefy humanoids.",
+    "description": "Internal fluid dampening allows survival through extreme accelerations and supersonic vector shifts that would liquefy humanoids.",
+    "mechanics": "Internal fluid dampening allows survival through extreme accelerations and supersonic vector shifts that would liquefy humanoids.",
+    "mechanic": "Internal fluid dampening allows survival through extreme accelerations and supersonic vector shifts that would liquefy humanoids.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# G-Force Immunity\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nInternal fluid dampening allows the organism to survive extreme maneuvers and turns that would turn a humanoid to jelly. Grants complete immunity to G-LOC, blackout, redout, and acceleration trauma.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Hydro-Cushioned Hemolymph Vascular System",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Hydro-Cushioned Hemolymph Vascular System"
+    ]
+  },
+  {
+    "id": "trait-genetic-memory",
+    "name": "Genetic Memory",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Inheritance of ancestral knowledge and Genomatrix blueprints.",
+    "description": "Inheritance of ancestral knowledge and Genomatrix blueprints.",
+    "mechanics": "Inheritance of ancestral knowledge and Genomatrix blueprints.",
+    "mechanic": "Inheritance of ancestral knowledge and Genomatrix blueprints.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [
+      {
+        "target": "Academics",
+        "value": 2,
+        "type": "skill",
+        "mode": "conditional"
+      }
+    ],
+    "body": "# Genetic Memory\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nInheritance of ancestral knowledge and Genomatrix blueprints. Cumulative, fragmented memory bank of ancestors.",
+    "notes": "[Modifier] Academics: +2\n[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Kitin or Lineage with Cellular Inheritance",
+    "notesList": [
+      "[Modifier] Academics: +2",
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Kitin or Lineage with Cellular Inheritance"
     ]
   },
   {
@@ -11342,6 +13070,114 @@ export const ALL_CANONICAL_TRAITS = [
     ]
   },
   {
+    "id": "trait-hive-mind-swarm",
+    "name": "Hive Mind (Swarm)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "The swarm is a single distributed consciousness. It cannot be killed unless the majority of the swarm is destroyed.",
+    "description": "The swarm is a single distributed consciousness. It cannot be killed unless the majority of the swarm is destroyed.",
+    "mechanics": "The swarm is a single distributed consciousness. It cannot be killed unless the majority of the swarm is destroyed.",
+    "mechanic": "The swarm is a single distributed consciousness. It cannot be killed unless the majority of the swarm is destroyed.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Hive Mind (Swarm)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nThe swarm is a single distributed consciousness. Immune to single-target precision attacks and critical hits; cannot be killed unless more than 75% of the swarm mass is annihilated by area-of-effect damage.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Swarm Physiology",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Swarm Physiology"
+    ]
+  },
+  {
+    "id": "trait-hive-link",
+    "name": "Hive-Link",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Constant telepathic connection to all Kitin Strains.",
+    "description": "Constant telepathic connection to all Kitin Strains.",
+    "mechanics": "Constant telepathic connection to all Kitin Strains.",
+    "mechanic": "Constant telepathic connection to all Kitin Strains.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Hive-Link\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nConstant telepathic connection to all Kitin Strains. Conductors of the Hive Chorus.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Kitin Lineage or Hive Mind Archetype",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Kitin Lineage or Hive Mind Archetype"
+    ]
+  },
+  {
+    "id": "trait-hive-link-minor",
+    "name": "Hive-Link (Minor)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Basic telepathic receptivity to follow Collective commands and synchronize with hive leadership.",
+    "description": "Basic telepathic receptivity to follow Collective commands and synchronize with hive leadership.",
+    "mechanics": "Basic telepathic receptivity to follow Collective commands and synchronize with hive leadership.",
+    "mechanic": "Basic telepathic receptivity to follow Collective commands and synchronize with hive leadership.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Hive-Link (Minor)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nBasic telepathic receptivity to follow Collective commands. Receives mental broadcasts within 5 miles, synchronizes Initiative with commanders, and gains +2 saves against external mental coercion.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Kitin Genome or Swarm Attunement",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Kitin Genome or Swarm Attunement"
+    ]
+  },
+  {
+    "id": "trait-honey-paper-manufacture",
+    "name": "Honey & Paper Manufacture",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Ability to produce biological adhesives, sticky amber ooze, and cellulose pulp for nest building, barricades, and restraint.",
+    "description": "Ability to produce biological adhesives, sticky amber ooze, and cellulose pulp for nest building, barricades, and restraint.",
+    "mechanics": "Ability to produce biological adhesives, sticky amber ooze, and cellulose pulp for nest building, barricades, and restraint.",
+    "mechanic": "Ability to produce biological adhesives, sticky amber ooze, and cellulose pulp for nest building, barricades, and restraint.",
+    "rules": "Basic Species Trait (1 BP).",
+    "special_rules": "Basic Species Trait (1 BP).",
+    "modifiers": [],
+    "body": "# Honey & Paper Manufacture\n\n**Category**: TRAITS  \n**Tier**: Basic  \n**Type**: Species Trait  \n**BP Cost**: 1  \n\n## Description\nAbility to synthesize biological adhesives, pulp, and amber ooze for nest building, defensive barricades, and sticky physical restraints.",
+    "notes": "[Rule] Basic Species Trait (1 BP).\n[Prerequisite] Insectoid Secretions",
+    "notesList": [
+      "[Rule] Basic Species Trait (1 BP).",
+      "[Prerequisite] Insectoid Secretions"
+    ]
+  },
+  {
     "id": "trait-honor-bound",
     "name": "Honor-Bound",
     "category": "traits",
@@ -11365,6 +13201,33 @@ export const ALL_CANONICAL_TRAITS = [
     "notes": "[Rule] Basic Origin Trait (1 BP).",
     "notesList": [
       "[Rule] Basic Origin Trait (1 BP)."
+    ]
+  },
+  {
+    "id": "trait-host-zombification",
+    "name": "Host Zombification",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "The swarm can inhabit and pilot the corpses of other species or damaged biomorphic husks as armored shells.",
+    "description": "The swarm can inhabit and pilot the corpses of other species or damaged biomorphic husks as armored shells.",
+    "mechanics": "The swarm can inhabit and pilot the corpses of other species or damaged biomorphic husks as armored shells.",
+    "mechanic": "The swarm can inhabit and pilot the corpses of other species or damaged biomorphic husks as armored shells.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Host Zombification\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nThe swarm can flow into, occupy, and puppeteer the corpses of other organisms or damaged biomorphic husks, utilizing them as ablative armored shells and adopting their physical size and strength.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Swarm Physiology",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Swarm Physiology"
     ]
   },
   {
@@ -11445,12 +13308,28 @@ export const ALL_CANONICAL_TRAITS = [
         "value": 1,
         "mode": "inherent",
         "description": "+1 to Bluff"
+      },
+      {
+        "target": "Disguise",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Disguise"
+      },
+      {
+        "target": "Knowledge local",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Knowledge local"
       }
     ],
     "body": "# Integrated\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+1 bonus on Bluff, Disguise, and Knowledge (local) checks.",
-    "notes": "[Modifier] +1 to Bluff\n[Rule] Basic Species Trait (1 BP).",
+    "notes": "[Modifier] +1 to Bluff\n[Modifier] +1 to Disguise\n[Modifier] +1 to Knowledge local\n[Rule] Basic Species Trait (1 BP).",
     "notesList": [
       "[Modifier] +1 to Bluff",
+      "[Modifier] +1 to Disguise",
+      "[Modifier] +1 to Knowledge local",
       "[Rule] Basic Species Trait (1 BP)."
     ]
   },
@@ -11579,10 +13458,10 @@ export const ALL_CANONICAL_TRAITS = [
     "special_rules": "Basic Occupational Trait (1 BP).",
     "modifiers": [],
     "body": "# Jack-of-All-Trades\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nPossess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group",
-    "notes": "[Rule] Basic Occupational Trait (1 BP).\n[Prerequisite] Intellect 2",
+    "notes": "[Rule] Basic Occupational Trait (1 BP).\n[Prerequisite] Intellect 1 or Wisdom 1",
     "notesList": [
       "[Rule] Basic Occupational Trait (1 BP).",
-      "[Prerequisite] Intellect 2"
+      "[Prerequisite] Intellect 1 or Wisdom 1"
     ]
   },
   {
@@ -11609,6 +13488,32 @@ export const ALL_CANONICAL_TRAITS = [
     "notes": "[Rule] Basic Occupational Trait (1 BP).",
     "notesList": [
       "[Rule] Basic Occupational Trait (1 BP)."
+    ]
+  },
+  {
+    "id": "trait-kitin-base-traits",
+    "name": "Kitin Base Traits",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Elite",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 8,
+    "costs": {
+      "bp": 8
+    },
+    "is_ranked": false,
+    "desc": "Awakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].",
+    "description": "Awakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].",
+    "mechanics": "Awakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].",
+    "mechanic": "Awakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].",
+    "rules": "Elite Species Trait (8 BP).",
+    "special_rules": "Elite Species Trait (8 BP).",
+    "modifiers": [],
+    "body": "# Kitin Base Traits\n\n**Category**: TRAITS  \n**Tier**: Elite  \n**Type**: Species Trait  \n**BP Cost**: 8  \n\n## Description\nThe fundamental biological and psionic heritage shared across all Kitin Strains:\n* **Awakened (Psychic) [2 BP]:** Conductors and receptors of the Hive psionic Chorus.\n* **Biotechnology [2 BP]:** Innate affinity for manipulating living symbiotic technology.\n* **Hive Connection / Hive-Link [2 BP]:** Constant telepathic connection to the Collective.\n* **Torpor / Sleepless [2 BP]:** Requires only 4 hours of conscious torpor; immune to sleep effects.",
+    "notes": "[Rule] Elite Species Trait (8 BP).",
+    "notesList": [
+      "[Rule] Elite Species Trait (8 BP)."
     ]
   },
   {
@@ -11664,6 +13569,33 @@ export const ALL_CANONICAL_TRAITS = [
     ]
   },
   {
+    "id": "trait-leaper",
+    "name": "Leaper",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Always counts as a running start; all checks for jumping, leaping, and controlled dropping made at advantage.",
+    "description": "Always counts as a running start; all checks for jumping, leaping, and controlled dropping made at advantage.",
+    "mechanics": "Always counts as a running start; all checks for jumping, leaping, and controlled dropping made at advantage.",
+    "mechanic": "Always counts as a running start; all checks for jumping, leaping, and controlled dropping made at advantage.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Leaper\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nHigh-impact hydraulic leg anatomy allows the creature to always count as having a running start for jump distance, and grants Advantage on all checks for jumping, leaping, and dropping.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Athletics 1 or Agility 2",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Athletics 1 or Agility 2"
+    ]
+  },
+  {
     "id": "trait-lifestyle-preferences",
     "name": "Lifestyle Preferences",
     "category": "traits",
@@ -11687,6 +13619,33 @@ export const ALL_CANONICAL_TRAITS = [
     "notes": "[Rule] Basic Origin Trait (1 BP).",
     "notesList": [
       "[Rule] Basic Origin Trait (1 BP)."
+    ]
+  },
+  {
+    "id": "trait-limited-flight",
+    "name": "Limited Flight",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Flight speed of 2x Land Speed for 1 round of movement, 2x Jump distance, and Slow Fall.",
+    "description": "Flight speed of 2x Land Speed for 1 round of movement, 2x Jump distance, and Slow Fall.",
+    "mechanics": "Flight speed of 2x Land Speed for 1 round of movement, 2x Jump distance, and Slow Fall.",
+    "mechanic": "Flight speed of 2x Land Speed for 1 round of movement, 2x Jump distance, and Slow Fall.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Limited Flight\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nShort bursts of elytra-powered flight granting 2x Land Speed for 1 round of movement, 2x Jump distance, and immunity to falling damage via Slow Fall.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Athletics 1 or Agility 2",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Athletics 1 or Agility 2"
     ]
   },
   {
@@ -12227,6 +14186,48 @@ export const ALL_CANONICAL_TRAITS = [
     ]
   },
   {
+    "id": "trait-mimetic-form",
+    "name": "Mimetic Form",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Gain a +2 Bonus to Disguise or Deception checks to pass as human (antennae must be concealed).",
+    "description": "Gain a +2 Bonus to Disguise or Deception checks to pass as human (antennae must be concealed).",
+    "mechanics": "Gain a +2 Bonus to Disguise or Deception checks to pass as human (antennae must be concealed).",
+    "mechanic": "Gain a +2 Bonus to Disguise or Deception checks to pass as human (antennae must be concealed).",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [
+      {
+        "target": "Disguise",
+        "value": 2,
+        "type": "skill",
+        "mode": "conditional"
+      },
+      {
+        "target": "Deception",
+        "value": 2,
+        "type": "skill",
+        "mode": "conditional"
+      }
+    ],
+    "body": "# Mimetic Form\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nGain a +2 Bonus to Disguise or Deception checks to pass as human (antennae must be concealed).",
+    "notes": "[Modifier] Disguise: +2\n[Modifier] Deception: +2\n[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Kitin Manelli or Morphic Species",
+    "notesList": [
+      "[Modifier] Disguise: +2",
+      "[Modifier] Deception: +2",
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Kitin Manelli or Morphic Species"
+    ]
+  },
+  {
     "id": "trait-mind-speech",
     "name": "Mind Speech",
     "category": "traits",
@@ -12286,6 +14287,60 @@ export const ALL_CANONICAL_TRAITS = [
       "[Modifier] +4 defense",
       "[Rule] Basic Occupational Trait (1 BP).",
       "[Prerequisite] Agi 2, Dodge"
+    ]
+  },
+  {
+    "id": "trait-multidextrous-4-arms",
+    "name": "Multidextrous (4 Arms)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Elite",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 4,
+    "costs": {
+      "bp": 4
+    },
+    "is_ranked": false,
+    "desc": "Four articulated arms ending in sharp clawed digits with zero off-hand penalties, allowing simultaneous complex tasks, multiple attacks, and precision engineering.",
+    "description": "Four articulated arms ending in sharp clawed digits with zero off-hand penalties, allowing simultaneous complex tasks, multiple attacks, and precision engineering.",
+    "mechanics": "Four articulated arms ending in sharp clawed digits with zero off-hand penalties, allowing simultaneous complex tasks, multiple attacks, and precision engineering.",
+    "mechanic": "Four articulated arms ending in sharp clawed digits with zero off-hand penalties, allowing simultaneous complex tasks, multiple attacks, and precision engineering.",
+    "rules": "Elite Species Trait (4 BP).",
+    "special_rules": "Elite Species Trait (4 BP).",
+    "modifiers": [],
+    "body": "# Multidextrous (4 Arms)\n\n**Category**: TRAITS  \n**Tier**: Elite  \n**Type**: Species Trait  \n**BP Cost**: 4  \n\n## Description\nFour articulated upper limbs ending in sharp, clawed digits. Operates all four hands with primary dexterity, suffering no off-hand penalties in combat or technical tasks, and dealing 1d6 + Str Lethal natural damage.",
+    "notes": "[Rule] Elite Species Trait (4 BP).\n[Prerequisite] Agility 2, 4 Arms",
+    "notesList": [
+      "[Rule] Elite Species Trait (4 BP).",
+      "[Prerequisite] Agility 2, 4 Arms"
+    ]
+  },
+  {
+    "id": "trait-multidextrous-many-limbed",
+    "name": "Multidextrous (Many-Limbed)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Possess 30+ micro-limbs along underside for fine internal repairs, fluid management, and concurrent subsystem multitasking.",
+    "description": "Possess 30+ micro-limbs along underside for fine internal repairs, fluid management, and concurrent subsystem multitasking.",
+    "mechanics": "Possess 30+ micro-limbs along underside for fine internal repairs, fluid management, and concurrent subsystem multitasking.",
+    "mechanic": "Possess 30+ micro-limbs along underside for fine internal repairs, fluid management, and concurrent subsystem multitasking.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Multidextrous (Many-Limbed)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nPossesses 30+ micro-limbs for fine repairs, fluid management, and multitasking across the mecha’s biological subsystems. A single pilot manages duties equivalent to 4 humanoid crew members.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Multi-segmented Larval Anatomy",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Multi-segmented Larval Anatomy"
     ]
   },
   {
@@ -12731,6 +14786,58 @@ export const ALL_CANONICAL_TRAITS = [
     ]
   },
   {
+    "id": "trait-pheromonal-synthesis",
+    "name": "Pheromonal Synthesis",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Biological scent-marking for hive coordination, trail navigation, and silent aerosol alarm signaling.",
+    "description": "Biological scent-marking for hive coordination, trail navigation, and silent aerosol alarm signaling.",
+    "mechanics": "Biological scent-marking for hive coordination, trail navigation, and silent aerosol alarm signaling.",
+    "mechanic": "Biological scent-marking for hive coordination, trail navigation, and silent aerosol alarm signaling.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [
+      {
+        "target": "Navigation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Navigation"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Survival"
+      },
+      {
+        "target": "Initiative",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Initiative"
+      }
+    ],
+    "body": "# Pheromonal Synthesis\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nBiological scent-marking for hive coordination. Synthesizes persistent chemical trails lasting up to 72 hours (+2 Navigation/Survival to allies) and silent aerosol alarms out to 60 ft.",
+    "notes": "[Modifier] +2 to Navigation\n[Modifier] +2 to Survival\n[Modifier] +2 to Initiative\n[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Insectoid Glands or Chemoreceptive Biology",
+    "notesList": [
+      "[Modifier] +2 to Navigation",
+      "[Modifier] +2 to Survival",
+      "[Modifier] +2 to Initiative",
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Insectoid Glands or Chemoreceptive Biology"
+    ]
+  },
+  {
     "id": "trait-physical-and-mental-resilience",
     "name": "Physical and mental resilience",
     "category": "traits",
@@ -12910,6 +15017,33 @@ export const ALL_CANONICAL_TRAITS = [
     "notes": "[Rule] Basic Origin Trait (1 BP).",
     "notesList": [
       "[Rule] Basic Origin Trait (1 BP)."
+    ]
+  },
+  {
+    "id": "trait-poison-immunity",
+    "name": "Poison Immunity",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Automatically Save versus any Poisonous Substances.",
+    "description": "Automatically Save versus any Poisonous Substances.",
+    "mechanics": "Automatically Save versus any Poisonous Substances.",
+    "mechanic": "Automatically Save versus any Poisonous Substances.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Poison Immunity\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nAutomatically Save versus any Poisonous Substances. Complete physiological immunity to metabolic and xenobiological toxins.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Stamina 1 or Insectoid/Synthetic Physiology",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Stamina 1 or Insectoid/Synthetic Physiology"
     ]
   },
   {
@@ -13138,6 +15272,145 @@ export const ALL_CANONICAL_TRAITS = [
     ]
   },
   {
+    "id": "trait-property-boon",
+    "name": "Property Boon",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Special equipment allocation granting personal vehicle or biomorphic docking privileges; +4 Wealth for personal property.",
+    "description": "Special equipment allocation granting personal vehicle or biomorphic docking privileges; +4 Wealth for personal property.",
+    "mechanics": "Special equipment allocation granting personal vehicle or biomorphic docking privileges; +4 Wealth for personal property.",
+    "mechanic": "Special equipment allocation granting personal vehicle or biomorphic docking privileges; +4 Wealth for personal property.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [
+      {
+        "target": "Wealth",
+        "type": "wealth",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 Wealth Score"
+      }
+    ],
+    "body": "# Property Boon\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nSpecial equipment allocation granting personal vehicle or biomorphic docking privileges, providing +4 Wealth toward property or personal mecha acquisition.",
+    "notes": "[Modifier] +4 Wealth Score\n[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Specialist or Operator Standing",
+    "notesList": [
+      "[Modifier] +4 Wealth Score",
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Specialist or Operator Standing"
+    ]
+  },
+  {
+    "id": "trait-psionic-gating",
+    "name": "Psionic Gating",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "The mind is harmonized with the cryptographic frequency filters of the Chorus, imposing Disadvantage on foreign psionic intrusions.",
+    "description": "The mind is harmonized with the cryptographic frequency filters of the Chorus, imposing Disadvantage on foreign psionic intrusions.",
+    "mechanics": "The mind is harmonized with the cryptographic frequency filters of the Chorus, imposing Disadvantage on foreign psionic intrusions.",
+    "mechanic": "The mind is harmonized with the cryptographic frequency filters of the Chorus, imposing Disadvantage on foreign psionic intrusions.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [
+      {
+        "target": "Willpower",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Willpower"
+      },
+      {
+        "target": "Wisdom",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Wisdom"
+      }
+    ],
+    "body": "# Psionic Gating\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nOperating within the carrier frequency of the Chorus, the operative receives +2 Mental DR and forces hostile telepathic scans and psychic intrusions to roll with Disadvantage.",
+    "notes": "[Modifier] +2 to Willpower\n[Modifier] +2 to Wisdom\n[Rule] Advanced Species Trait (2 BP).",
+    "notesList": [
+      "[Modifier] +2 to Willpower",
+      "[Modifier] +2 to Wisdom",
+      "[Rule] Advanced Species Trait (2 BP)."
+    ]
+  },
+  {
+    "id": "trait-psionic-interference-static",
+    "name": "Psionic Interference (The Static)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Discordant psychic frequency imposes -2 on Manelli Psionic/Wisdom checks; Kitin Chorus communication in immediate vicinity is disrupted and rolled at Disadvantage.",
+    "description": "Discordant psychic frequency imposes -2 on Manelli Psionic/Wisdom checks; Kitin Chorus communication in immediate vicinity is disrupted and rolled at Disadvantage.",
+    "mechanics": "Discordant psychic frequency imposes -2 on Manelli Psionic/Wisdom checks; Kitin Chorus communication in immediate vicinity is disrupted and rolled at Disadvantage.",
+    "mechanic": "Discordant psychic frequency imposes -2 on Manelli Psionic/Wisdom checks; Kitin Chorus communication in immediate vicinity is disrupted and rolled at Disadvantage.",
+    "rules": "Basic Species Trait (1 BP).",
+    "special_rules": "Basic Species Trait (1 BP).",
+    "modifiers": [
+      {
+        "target": "Psionic",
+        "type": "skill",
+        "value": -2,
+        "mode": "penalty",
+        "description": "-2 to Psionic"
+      },
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": -2,
+        "mode": "penalty",
+        "description": "-2 to Attune"
+      },
+      {
+        "target": "Wisdom",
+        "type": "skill",
+        "value": -2,
+        "mode": "penalty",
+        "description": "-2 to Wisdom"
+      },
+      {
+        "target": "Manelli Psionic",
+        "type": "skill",
+        "value": -2,
+        "mode": "penalty",
+        "description": "-2 to Manelli Psionic"
+      }
+    ],
+    "body": "# Psionic Interference (The Static)\n\n**Category**: TRAITS  \n**Tier**: Basic  \n**Type**: Species Trait  \n**BP Cost**: 1  \n\n## Description\nDiscordant psionic static out of tune with the Kitin Collective. Manelli within psychic range suffer a -2 penalty to Psionic and Wisdom checks; Kitin Chorus communications within 30 ft are severely disrupted and used at Disadvantage.",
+    "notes": "[Penalty] -2 to Psionic\n[Penalty] -2 to Attune\n[Penalty] -2 to Wisdom\n[Penalty] -2 to Manelli Psionic\n[Rule] Basic Species Trait (1 BP).\n[Prerequisite] Resonant / Chaotic Psionic Aura",
+    "notesList": [
+      "[Penalty] -2 to Psionic",
+      "[Penalty] -2 to Attune",
+      "[Penalty] -2 to Wisdom",
+      "[Penalty] -2 to Manelli Psionic",
+      "[Rule] Basic Species Trait (1 BP).",
+      "[Prerequisite] Resonant / Chaotic Psionic Aura"
+    ]
+  },
+  {
     "id": "trait-quadruped",
     "name": "Quadruped",
     "category": "traits",
@@ -13166,10 +15439,82 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "body": "# Quadruped\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nFour legged, +4 Stability, +10 movement speed. Special Accommodations.",
-    "notes": "[Modifier] +10 movement\n[Rule] Advanced Species Trait (2 BP).",
+    "notes": "[Modifier] +10 movement\n[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Four or More Lower Limbs",
     "notesList": [
       "[Modifier] +10 movement",
-      "[Rule] Advanced Species Trait (2 BP)."
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Four or More Lower Limbs"
+    ]
+  },
+  {
+    "id": "trait-quadruped-leaping",
+    "name": "Quadruped (Leaping)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Specialized quadrupedal legs for high-impact jumping, +4 Stability, and +10 ft Groundspeed.",
+    "description": "Specialized quadrupedal legs for high-impact jumping, +4 Stability, and +10 ft Groundspeed.",
+    "mechanics": "Specialized quadrupedal legs for high-impact jumping, +4 Stability, and +10 ft Groundspeed.",
+    "mechanic": "Specialized quadrupedal legs for high-impact jumping, +4 Stability, and +10 ft Groundspeed.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Quadruped (Leaping)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nFour specialized legs designed for high-impact jumping. Provides +4 racial Stability against trips and knockdowns, and increases Base Groundspeed by +10 feet.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Four Lower Limbs",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Four Lower Limbs"
+    ]
+  },
+  {
+    "id": "trait-quick",
+    "name": "Quick",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "+10 feet to Base Movement Speed and +1 to Initiative.",
+    "description": "+10 feet to Base Movement Speed and +1 to Initiative.",
+    "mechanics": "+10 feet to Base Movement Speed and +1 to Initiative.",
+    "mechanic": "+10 feet to Base Movement Speed and +1 to Initiative.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [
+      {
+        "target": "Initiative",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Initiative"
+      },
+      {
+        "target": "initiative-mod",
+        "type": "combat",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 Initiative"
+      }
+    ],
+    "body": "# Quick\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nNaturally fleet and reactive reflexes grant +10 feet to Base Movement Speed and a +1 bonus to Initiative checks.",
+    "notes": "[Modifier] +1 to Initiative\n[Modifier] +1 Initiative\n[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Agility 1",
+    "notesList": [
+      "[Modifier] +1 to Initiative",
+      "[Modifier] +1 Initiative",
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Agility 1"
     ]
   },
   {
@@ -13222,6 +15567,32 @@ export const ALL_CANONICAL_TRAITS = [
     "notes": "[Rule] Basic Occupational Trait (1 BP).",
     "notesList": [
       "[Rule] Basic Occupational Trait (1 BP)."
+    ]
+  },
+  {
+    "id": "trait-radiation-advantage",
+    "name": "Radiation Advantage",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "All checks against ionizing radiation, cosmic rays, and fallout are made with Advantage, and radiation damage is halved.",
+    "description": "All checks against ionizing radiation, cosmic rays, and fallout are made with Advantage, and radiation damage is halved.",
+    "mechanics": "All checks against ionizing radiation, cosmic rays, and fallout are made with Advantage, and radiation damage is halved.",
+    "mechanic": "All checks against ionizing radiation, cosmic rays, and fallout are made with Advantage, and radiation damage is halved.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Radiation Advantage\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nHeavy-element chitin and stabilized cellular matrices grant Advantage on all Stamina, Survival, and physical checks against ionizing radiation and fallout, while halving any raw damage or strain inflicted by radiological hazards.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP)."
     ]
   },
   {
@@ -13362,6 +15733,33 @@ export const ALL_CANONICAL_TRAITS = [
     "notesList": [
       "[Modifier] +2 to Combat maneuver",
       "[Rule] Basic Species Trait (1 BP)."
+    ]
+  },
+  {
+    "id": "trait-resin-secretion",
+    "name": "Resin Secretion",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Creation of Hive-Resin for field-patching mecha, vehicle hulls, and hive structures.",
+    "description": "Creation of Hive-Resin for field-patching mecha, vehicle hulls, and hive structures.",
+    "mechanics": "Creation of Hive-Resin for field-patching mecha, vehicle hulls, and hive structures.",
+    "mechanic": "Creation of Hive-Resin for field-patching mecha, vehicle hulls, and hive structures.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Resin Secretion\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nExudes fast-curing Hive-Resin used to seal breaches, repair vehicle/mecha plating, and anchor defensive positions against vacuum and pressure hazards.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Biomorphic Glands",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Biomorphic Glands"
     ]
   },
   {
@@ -13636,10 +16034,27 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "Identify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).",
     "rules": "Basic Species Trait (1 BP).",
     "special_rules": "Basic Species Trait (1 BP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Track",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Track"
+      },
+      {
+        "target": "Medical Diagnosis as Analytical Sense of Smell",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Medical Diagnosis as Analytical Sense of Smell"
+      }
+    ],
     "body": "# Scent\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nIdentify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).",
-    "notes": "[Rule] Basic Species Trait (1 BP).\n[Prerequisite] Wisdom 1",
+    "notes": "[Modifier] +4 to Track\n[Modifier] +4 to Medical Diagnosis as Analytical Sense of Smell\n[Rule] Basic Species Trait (1 BP).\n[Prerequisite] Wisdom 1",
     "notesList": [
+      "[Modifier] +4 to Track",
+      "[Modifier] +4 to Medical Diagnosis as Analytical Sense of Smell",
       "[Rule] Basic Species Trait (1 BP).",
       "[Prerequisite] Wisdom 1"
     ]
@@ -13835,12 +16250,28 @@ export const ALL_CANONICAL_TRAITS = [
         "value": 5,
         "mode": "inherent",
         "description": "+5 to Stealth when in Shadowy or Dim area"
+      },
+      {
+        "target": "Stealth when in Shadowy",
+        "type": "skill",
+        "value": 5,
+        "mode": "inherent",
+        "description": "+5 to Stealth when in Shadowy"
+      },
+      {
+        "target": "Dim area",
+        "type": "skill",
+        "value": 5,
+        "mode": "inherent",
+        "description": "+5 to Dim area"
       }
     ],
     "body": "# Shadow Affinity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nGain +5 to Stealth when in Shadowy or Dim area.",
-    "notes": "[Modifier] +5 to Stealth when in Shadowy or Dim area\n[Rule] Basic Species Trait (1 BP).",
+    "notes": "[Modifier] +5 to Stealth when in Shadowy or Dim area\n[Modifier] +5 to Stealth when in Shadowy\n[Modifier] +5 to Dim area\n[Rule] Basic Species Trait (1 BP).",
     "notesList": [
       "[Modifier] +5 to Stealth when in Shadowy or Dim area",
+      "[Modifier] +5 to Stealth when in Shadowy",
+      "[Modifier] +5 to Dim area",
       "[Rule] Basic Species Trait (1 BP)."
     ]
   },
@@ -14688,6 +17119,33 @@ export const ALL_CANONICAL_TRAITS = [
     ]
   },
   {
+    "id": "trait-synaptic-integration",
+    "name": "Synaptic Integration",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Can slot into any Kitin mecha Synaptic Node, using own Intellect and Agility for all vehicle checks and ignoring G-force penalties.",
+    "description": "Can slot into any Kitin mecha Synaptic Node, using own Intellect and Agility for all vehicle checks and ignoring G-force penalties.",
+    "mechanics": "Can slot into any Kitin mecha Synaptic Node, using own Intellect and Agility for all vehicle checks and ignoring G-force penalties.",
+    "mechanic": "Can slot into any Kitin mecha Synaptic Node, using own Intellect and Agility for all vehicle checks and ignoring G-force penalties.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Synaptic Integration\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nThe Syndess can slot directly into any Kitin mecha’s Synaptic Node. While integrated, they use their own Intellect and Agility for all vehicle checks and ignore all G-force or high-velocity penalties.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Pilot Expression Physiology",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Pilot Expression Physiology"
+    ]
+  },
+  {
     "id": "trait-synthetic-armor-options",
     "name": "Synthetic Armor Options",
     "category": "traits",
@@ -15121,6 +17579,32 @@ export const ALL_CANONICAL_TRAITS = [
     ]
   },
   {
+    "id": "trait-telepathic",
+    "name": "Telepathic",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Innate psychic communication within the swarm and with external sentient minds out to 100 ft.",
+    "description": "Innate psychic communication within the swarm and with external sentient minds out to 100 ft.",
+    "mechanics": "Innate psychic communication within the swarm and with external sentient minds out to 100 ft.",
+    "mechanic": "Innate psychic communication within the swarm and with external sentient minds out to 100 ft.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Telepathic\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nInnate mind-to-mind psychic communication within the swarm and with external sentient lifeforms within 100 feet without physical speech organs.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP)."
+    ]
+  },
+  {
     "id": "trait-terrain-expert",
     "name": "Terrain Expert",
     "category": "traits",
@@ -15208,6 +17692,33 @@ export const ALL_CANONICAL_TRAITS = [
     ]
   },
   {
+    "id": "trait-torpor-universal",
+    "name": "Torpor (Universal)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Requires only 4 hours of conscious inactivity; immune to sleep effects.",
+    "description": "Requires only 4 hours of conscious inactivity; immune to sleep effects.",
+    "mechanics": "Requires only 4 hours of conscious inactivity; immune to sleep effects.",
+    "mechanic": "Requires only 4 hours of conscious inactivity; immune to sleep effects.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Torpor (Universal)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nRequires only 4 hours of conscious inactivity; immune to sleep effects. Conscious vigilance maintained.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Kitin or Non-Sleeping Species",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Kitin or Non-Sleeping Species"
+    ]
+  },
+  {
     "id": "trait-toughness",
     "name": "Toughness",
     "category": "traits",
@@ -15231,6 +17742,33 @@ export const ALL_CANONICAL_TRAITS = [
     "notes": "[Rule] Basic Origin Trait (1 BP).",
     "notesList": [
       "[Rule] Basic Origin Trait (1 BP)."
+    ]
+  },
+  {
+    "id": "trait-toxic-blood",
+    "name": "Toxic Blood",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Ingested, DC 11 + 2xSta, Pain Incapacitation 1hr (Severe Nausea on Success).",
+    "description": "Ingested, DC 11 + 2xSta, Pain Incapacitation 1hr (Severe Nausea on Success).",
+    "mechanics": "Ingested, DC 11 + 2xSta, Pain Incapacitation 1hr (Severe Nausea on Success).",
+    "mechanic": "Ingested, DC 11 + 2xSta, Pain Incapacitation 1hr (Severe Nausea on Success).",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Toxic Blood\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nIngested, DC 11 + 2xSta, Pain Incapacitation 1hr (Severe Nausea on Success). Prereq: Sta 1, Poison Immunity.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Stamina 1, Poison Immunity",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Stamina 1, Poison Immunity"
     ]
   },
   {
@@ -15309,6 +17847,33 @@ export const ALL_CANONICAL_TRAITS = [
     "notes": "[Rule] Advanced Species Trait (2 BP).",
     "notesList": [
       "[Rule] Advanced Species Trait (2 BP)."
+    ]
+  },
+  {
+    "id": "trait-uncanny-senses-vibration",
+    "name": "Uncanny Senses (Vibration)",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Detection of motion, vibrations, and tremors through surfaces and the hive-mesh out to 60 ft.",
+    "description": "Detection of motion, vibrations, and tremors through surfaces and the hive-mesh out to 60 ft.",
+    "mechanics": "Detection of motion, vibrations, and tremors through surfaces and the hive-mesh out to 60 ft.",
+    "mechanic": "Detection of motion, vibrations, and tremors through surfaces and the hive-mesh out to 60 ft.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Uncanny Senses (Vibration)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nSurface trichobothria hairs detect mechanical oscillations and subtle acoustic waves across floors, walls, and connecting hive-mesh webs, defeating surprises and pinpointing movement within 60 ft.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Insectoid or Arachnoid Physiology",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Insectoid or Arachnoid Physiology"
     ]
   },
   {
@@ -15451,6 +18016,86 @@ export const ALL_CANONICAL_TRAITS = [
     ]
   },
   {
+    "id": "trait-venom-spit",
+    "name": "Venom Spit",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Contact, DC 11 + 2xSta, Blind for 10+ minutes.",
+    "description": "Contact, DC 11 + 2xSta, Blind for 10+ minutes.",
+    "mechanics": "Contact, DC 11 + 2xSta, Blind for 10+ minutes.",
+    "mechanic": "Contact, DC 11 + 2xSta, Blind for 10+ minutes.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [
+      {
+        "target": "Attack",
+        "type": "skill",
+        "value": -1,
+        "mode": "penalty",
+        "description": "-1 to Attack"
+      }
+    ],
+    "body": "# Venom Spit\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nContact, DC 11 + 2xSta, Blind for 10+ minutes. Prereq: Toxic Blood, Sta 2.",
+    "notes": "[Penalty] -1 to Attack\n[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Toxic Blood, Stamina 2",
+    "notesList": [
+      "[Penalty] -1 to Attack",
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Toxic Blood, Stamina 2"
+    ]
+  },
+  {
+    "id": "trait-venomous-saliva",
+    "name": "Venomous Saliva",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Injected (Bite), DC 11 + 2xSta, Paralytic 1hr (Drugged on Success).",
+    "description": "Injected (Bite), DC 11 + 2xSta, Paralytic 1hr (Drugged on Success).",
+    "mechanics": "Injected (Bite), DC 11 + 2xSta, Paralytic 1hr (Drugged on Success).",
+    "mechanic": "Injected (Bite), DC 11 + 2xSta, Paralytic 1hr (Drugged on Success).",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [
+      {
+        "target": "Agility",
+        "type": "skill",
+        "value": -2,
+        "mode": "penalty",
+        "description": "-2 to Agility"
+      },
+      {
+        "target": "Sensory",
+        "type": "skill",
+        "value": -2,
+        "mode": "penalty",
+        "description": "-2 to Sensory"
+      }
+    ],
+    "body": "# Venomous Saliva\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nInjected (Bite), DC 11 + 2xSta, Paralytic 1hr (Drugged on Success). Prereq: Toxic Blood, Sta 2.",
+    "notes": "[Penalty] -2 to Agility\n[Penalty] -2 to Sensory\n[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Toxic Blood, Stamina 2",
+    "notesList": [
+      "[Penalty] -2 to Agility",
+      "[Penalty] -2 to Sensory",
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Toxic Blood, Stamina 2"
+    ]
+  },
+  {
     "id": "trait-venues",
     "name": "Venues",
     "category": "traits",
@@ -15561,6 +18206,33 @@ export const ALL_CANONICAL_TRAITS = [
     "notes": "[Rule] Basic Species Trait (1 BP).",
     "notesList": [
       "[Rule] Basic Species Trait (1 BP)."
+    ]
+  },
+  {
+    "id": "trait-weaver",
+    "name": "Weaver",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Can produce and manipulate natural webbing made from high-tensile Hive-Resin.",
+    "description": "Can produce and manipulate natural webbing made from high-tensile Hive-Resin.",
+    "mechanics": "Can produce and manipulate natural webbing made from high-tensile Hive-Resin.",
+    "mechanic": "Can produce and manipulate natural webbing made from high-tensile Hive-Resin.",
+    "rules": "Advanced Species Trait (2 BP).",
+    "special_rules": "Advanced Species Trait (2 BP).",
+    "modifiers": [],
+    "body": "# Weaver\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**BP Cost**: 2  \n\n## Description\nAbdominal spinnerets weave high-tensile silk filaments of Hive-Resin, creating adhesive snares to entangle enemies or constructing structural safety nets, hanging bivouacs, and anchor lines.",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Resin Secretion",
+    "notesList": [
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Resin Secretion"
     ]
   },
   {

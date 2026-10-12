@@ -48,7 +48,7 @@ costs:
 modifiers: []
 recommended_species:
   - Celestine (Alterian)
-  - Manelli (Kitin Diplomat)
+  - Manelli (Cerebral Expression)
   - Human (Base)
   - Argynt Human
   - Draconian (Scaled Aeld)

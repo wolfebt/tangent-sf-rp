@@ -53,7 +53,7 @@ recommended_species:
   - Tozen
   - Human (Base)
   - Eidolon (Aetherion Specialist)
-  - Manelli (Kitin Diplomat)
+  - Manelli (Cerebral Expression)
 recommended_factions:
   - The Ascendancy
   - Technological Faction Template

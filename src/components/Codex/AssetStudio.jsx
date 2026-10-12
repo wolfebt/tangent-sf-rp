@@ -91,6 +91,7 @@ import { useStory } from '../../context/CampaignContext';
 import { AudioService } from '../../services/audioService';
 import { showToast } from '../../context/ToastContext';
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
+import { sanitizeFirestoreData } from '../../utils/firestoreUtils';
 
 // Engines & Codex Core
 import { useComputedState } from '../../pages/Codex/hooks/useComputedState';
@@ -607,12 +608,14 @@ export const AssetStudio = ({
   devMode = true,
   isAdmin = true,
   saveEntry: directSaveEntry = null,
+  deleteEntry: directDeleteEntry = null,
   dbData: propDbData = null
 }) => {
   const { dbData: contextDbData, saveEntry: contextSaveEntry, deleteEntry: contextDeleteEntry } = useDBM() || {};
   const { currentUser } = useAuth();
   const dbData = propDbData || contextDbData || {};
   const saveEntry = directSaveEntry || contextSaveEntry;
+  const deleteEntry = directDeleteEntry || contextDeleteEntry;
 
   // Resolve target item and key
   const activeItem = initialData || selectedItem || {};
@@ -918,21 +921,36 @@ export const AssetStudio = ({
       // Create normalized payload
       const adaptedPayload = adaptCodexToOmnicortexItem(formData, mergedComputed, matrix);
       const targetCol = matrix.targetCollection || resolvedKey;
-      const docId = adaptedPayload.id || `entry_${Date.now()}`;
+      const docId = formData.id || activeItem?.id || adaptedPayload.id || `entry_${Date.now()}`;
+      adaptedPayload.id = docId;
 
-      // Commit to Firestore collection
+      // Commit to Omnicortex collection
+      let success = true;
       if (saveEntry) {
-        await saveEntry(adaptedPayload, targetCol);
+        success = await saveEntry(adaptedPayload, targetCol);
       } else {
-        await setDoc(doc(db, targetCol, docId), adaptedPayload, { merge: true });
+        try {
+          await setDoc(doc(db, targetCol, docId), sanitizeFirestoreData(adaptedPayload), { merge: true });
+        } catch (err) {
+          console.warn('[AssetStudio] Direct setDoc failed:', err);
+        }
+      }
+
+      if (success === false) {
+        setErrorMessage('Failed to commit entry to Omnicortex.');
+        AudioService.playErrorSound();
+        return;
       }
 
       AudioService.playTerminalBeep(1400, 0.05);
       setSaveSuccess(true);
 
-      // Invoke parent handlers
-      if (onSaveComplete) onSaveComplete(adaptedPayload);
-      if (onSave) onSave(true, adaptedPayload);
+      // Invoke parent handlers cleanly
+      if (onSaveComplete) {
+        onSaveComplete(adaptedPayload);
+      } else if (onSave) {
+        onSave(true, adaptedPayload);
+      }
 
       setTimeout(() => {
         if (onClose) onClose();
@@ -958,8 +976,8 @@ export const AssetStudio = ({
       const targetCol = matrix.targetCollection || resolvedKey;
       const targetId = formData.id || activeItem.id;
 
-      if (contextDeleteEntry && targetId) {
-        await contextDeleteEntry(targetId, targetCol);
+      if (deleteEntry && targetId) {
+        await deleteEntry(targetId, targetCol);
       } else if (targetId) {
         try {
           await deleteDoc(doc(db, targetCol, targetId));

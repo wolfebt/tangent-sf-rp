@@ -1,7 +1,7 @@
 ---
 id: species-kitin-maantene
-name: Maantene (Kitin Leaper)
-title: Maantene (Kitin Insectoid Aberration)
+name: Maantene (Recon Expression)
+title: Maantene (Kitin Recon Expression / Quadruped)
 category: species
 parent_species: Kitin
 type:
@@ -9,103 +9,164 @@ type:
 size:
   - species_size-medium
 movement:
-  - species_movement-bipedal
   - species_movement-quadruped
-speeds: 'Ground 30 ft, Ground 40 ft'
+speeds: 'Ground 40 ft (Leaping)'
 reach: 5 ft
-senses: 'Darkvision out to 60 feet. [1]'
-immunities: None
-inherent_attribute_modifiers: []
-bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Acrobatics
+senses: 'Uncanny Senses (Vibration detection through atmospheric and ground ripples), Large multi-faceted compound eyes out to 60 ft.'
+immunities: 'Sleep effects and involuntary unconsciousness (Torpor)'
+inherent_attribute_modifiers:
+  - attribute: Agility
     bonus: 2
-bonus_skills: 5
+  - attribute: Stamina
+    bonus: 1
+  - attribute: Charisma
+    bonus: -1
+bonus_attribute_points: 0
+specific_skill_bonuses: []
+bonus_skills: 10
 bonus_skill_choices:
   - Acrobatics
   - Athletics
-  - Stealth
+  - Combat
   - Perception
-inherent_features: []
-bonus_features: []
+  - Science
+  - Stealth
+  - Survival
+  - Tech
+inherent_features:
+  - discipline-awakened
+  - physical-leaper
+  - defensive-dual-skeletal-structure
+  - defensive-chitinous-shell-armor
+  - physical-enhanced-strength
+  - special-active-camouflage
+  - physical-quadruped-leaping
+  - combat-multidextrous-4-arms
+  - special-torpor-universal
+  - sensory-uncanny-senses-vibration
+bonus_features: 0
 bonus_feature_choices: []
-recommended_features: []
-stigma: Severe Xeno (-4)
-tech_level: 3 (Chitinous Bio-Carapaces & Hive Bio-Guns)
-meta_level: 3 (Hive Mind Psionics)
-homeworld: Kitin Hive Worlds
+recommended_features:
+  - sensory-acute-senses
+  - general-camouflage
+  - general-climber
+  - skill-headstrong
+  - physical-limited-flight
+stigma: 'Severe Xeno (-4)'
+tech_level: '3 (Environmental)'
+meta_level: '3 (Awakened)'
+homeworld: 'Kitin Hive Worlds / Arid Frontier Warrens'
 costs:
-  bp: 10
-modifiers: []
-cp_cost: 10
-cp: 10
-bp: 10
+  bp: 40
+modifiers:
+  - target: Agility
+    value: 2
+    type: attribute
+    mode: inherent
+  - target: Stamina
+    value: 1
+    type: attribute
+    mode: inherent
+  - target: Charisma
+    value: -1
+    type: attribute
+    mode: inherent
+cp_cost: 40
+cp: 40
+bp: 40
 description: >-
-  Maantene are four-armed insectoid leapers of the Kitin hive. Agile and armored
-  in heavy chitin, they serve as scouts and vanguard flankers.
+  The Maantene represent the "Recon Expression" of the Kitin Collective, specialized for survival
+  in hostile frontiers. Quadrupedal with mantis-like heads, four arms, and active camouflage chitin,
+  they vanish into shadows and execute explosive leaping ambushes across alien terrain.
 traits:
-  - trait-kitin-base-traits-awakened-psychic-biotech-hive-connection-sleepless
-  - trait-exoskeleton-dr-3
+  - trait-awakened-psychic
+  - trait-leaper
+  - trait-dual-skeletal-structure
+  - trait-chitinous-shell-armor
+  - trait-enhanced-strength
+  - trait-active-camouflage
+  - trait-quadruped-leaping
   - trait-multidextrous-4-arms
-  - trait-leaper-20ft-jump
-  - trait-quick-5ft-movement
+  - trait-torpor-universal
+  - trait-uncanny-senses-vibration
 recommended_factions:
+  - Kitin Collective (The Star Hive)
   - Hive Mind Faction Template
   - Coalition of Independent Worlds
+  - Criminal Faction Template
 recommended_origins:
   - Hostile
   - Colony
+  - Spacer
 recommended_occupations:
   - Scout
   - Soldier
-keywords: 'four-armed, leaper, chitin-carapace, hive-psionics, insectoid-vanguard'
-negative_keywords: 'individualism, heavy-firearms, solitary'
+  - Specialist
+  - Agent
+keywords: >-
+  insectoid-aberration, recon-expression, mantis-leaper, active-camouflage, four-arms,
+  dual-skeletal, torpor, vibration-sense, vanta-black, arid-predator, collective-recon
+negative_keywords: 'individualism, diplomatic-court, fragile, sleep-vulnerable'
 ---
 
-# Maantene (Kitin Insectoid Aberration)
+# Maantene (Kitin Recon Expression / Quadruped)
 
-**BP Cost:**   
-**Description:** The Kizin are a fascinating race of medium-sized, vulpine humanoids distantly related to the Kannid but distinguished by several key physical traits and a defining, complex temperament. Their silhouette is immediately recognizable due to their digitigrade legs, giving them a perpetual sense of motion and contributing to their famed nimbleness and speed. Complementing this, a bushy tail provides essential balance and expresses a range of subtle emotions.
-
-Physically, they possess the cunning and sharp features often associated with foxes, though rendered in a bipedal form. Their bodies are typically lean and agile, built for swift movement and quick reflexes. Their coat colors can vary widely, ranging from earthy reds and browns to more exotic whites, blacks, and dappled patterns, often with lighter fur marking their chests and the tips of their tails.
-
-Beyond their physical characteristics, Kizin are renowned for their high intelligence. They possess sharp minds, a knack for puzzles, and a rapid ability to learn and adapt, making them excellent strategists, engineers, and scholars in their own right. This mental acuity, however, is often closely linked to their most defining trait: an insatiable, overwhelming over-curiosity.
-
-While they are frequently perceived as mischievous, this reputation stems less from an inclination toward deliberate harm or villainy, and more from their profound need to investigate, disassemble, and understand the world around them. A Kizin's "prank" is rarely malicious; it is far more likely a poorly considered experiment, a consequence of wanting to know *what happens if* they tamper with a mechanism, unlock a door, or simply follow a fascinating secret down a troublesome path. Their nature, therefore, is fundamentally one of discovery and exploration, often prioritizing new knowledge or experiences above social etiquette or personal safety.
-
-**Classification:** Humanoid  
+**BP Cost:** 40 BP  
+**Classification:** Insectoid Aberration (Quadruped)  
 **Size:** Medium  
-**Movement:** 40ft Groundspeed
+**Movement:** 40ft Groundspeed (Leaping)  
 
-**Tech Level:** 3  
-**Meta Level:** 2
+**Tech Level:** 3 (Environmental)  
+**Meta Level:** 3 (Awakened)  
+**Stigma:** Severe Xeno  
 
-**Homeworld:**   
-**Stigma:** Xeno
+## Description
+The Manteene are quadrupedal insectoids that stand roughly the same height as humans but appear much larger due to their length and limb span. They are covered in a tough, chitinous armor, typically sandy-yellow or golden-brown to blend with desert environments. This carapace can often shift in color and texture (similar to a chameleon) to match their surroundings. They are quadruped with legs designed for leaping. Above these, they have four arms: a smaller upper pair for fine manipulation and a larger lower pair for heavy lifting and combat. Their heads are distinctly mantis-like, featuring large, multi-faceted black compound eyes, twitching antennae used for sensing vibrations and communication, and complex mandible mechanism.
 
-**Ability Modifiers:**   
-\+1 Int  
-\+1 Agi
+Mantene biology is radically different from mammals, leading to a psychology that many other races find difficult to understand. Mantene do not sleep. Instead, they enter a fully conscious but inactive state called torpor for about 4 hours a day to rest their bodies. Because they are always awake, they have no concept of dreams and often view sleep as a waste of time or a dangerous vulnerability. They are strict carnivores. While they can survive on little water, they require fresh meat.
 
-**Skills:**   
-\+5 Skills
+The Maantene represent the "Recon Expression," specialized for survival in hostile frontiers. They are quadrupedal with mantis-like heads and a sandy-black glossy obsidian shell. Their active camouflage allows their wet chitin to vanish into shadows.
 
-**Species Features:**   
-Digitigrade Legs  
-Low-Light Vision  
-Scent  
-Stigma (Xeno)
+## Technical Profile
+* **Size:** Medium
+* **Movement:** 40ft Groundspeed (Leaping)
+* **Tech Level:** 3 (Environmental)
+* **Meta Level:** 3 (Awakened)
+* **Stigma:** Severe Xeno
 
-**Recommended Features:**   
-Acrobatic  
-Athletic  
-Blindsense  
-Danger Sense  
-Darksight  
-Nimble  
-Obfuscate  
-Sneak Attack  
-Stealthy  
-Quick  
-Uncanny Sense (Scent)  
-Uncanny Sense (Hearing)
+## Ability Modifiers
+* **+2 Agility** (4 BP)
+* **+1 Stamina** (4 BP)
+* **-1 Charisma** (-4 BP)
+
+## Skills
+* **+10 Skill Ranks to ANY skills** (8 BP)
+
+## Species Features
+* **Awakened (Psychic, Int or Wis):** Conductor of the Hive’s psionic Chorus. (2 BP)
+* **Leaper:** Always counts as a running start, all checks for jumping, leaping and dropping at advantage. (2 BP)
+* **Dual Skeletal Structure:** Combined endo/exo-skeleton (DR +5). (2 BP)
+* **Armor:** Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10] (2 BP)
+* **Enhanced Strength:** Count as 1 size larger for lifting and carrying. (2 BP)
+* **Camouflage (Active):** Chitin can shift texture and hue to blend into their environment, shifting to a variety of colors as desired - including light absorbing vanta-black and can visually camo so well they seem to fade away into transparency. (4 BP)
+* **Quadruped (Leaping):** Specialized legs for high-impact jumping. (2 BP)
+* **Multidextrous (4 Arms):** Two combat arms, two manipulation arms. (4 BP)
+* **Torpor (Universal):** 4 hours of conscious rest; no loss of awareness. (2 BP)
+* **Uncanny Senses (Vibration):** Sensitive to atmospheric and ground ripples. (2 BP)
+
+## Recommended Features
+* **Ability Check Feature**
+* **Alertness**
+* **Awakened (Psychic)**
+* **Bodyform Features**
+* **Camouflage**
+* **Climbing**
+* **Headstrong**
+* **Limited Flight:** (2x Land Speed for 1 round of movement, 2x Jump distance and Slow Fall)
+* **Mutation**
+* **Social**
+
+## Aesthetics (CRISP)
+* **Style:** Painterly Realism, Segmented Armor, Arid Predator.
+* **Palette:** Dominant: Glossy Obsidian / Gunmetal. Accent: Cyan.
+* **Visuals:** Quadrupedal silhouette with segmented chitin plates, four articulated humanoid arms, a distinct mantis-like head with faceted compound eyes, and twitching vibrational antennae.

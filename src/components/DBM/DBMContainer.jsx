@@ -523,16 +523,18 @@ export const DBMContainer = () => {
   };
 
   const handleSaveEntry = async (closeOnSuccess = false, customPayload = null) => {
-    if (!currentUser && !isAdmin) {
-      showToast({ type: 'error', title: 'Authentication Required', text: 'You must be logged into Terran Net to save database entries.' });
+    // If AssetStudio already prepared and saved the payload via saveEntry
+    if (customPayload) {
+      setSelectedItem(customPayload);
+      setEditFormData(customPayload);
+      if (closeOnSuccess === true) {
+        setIsEntryModalOpen(false);
+      }
       return;
     }
-    if (!isAdmin) {
-      showToast({ type: 'error', title: 'Access Denied', text: 'Administrator or GM privileges are required to save database entries.' });
-      return;
-    }
-    const currentData = customPayload || editFormData;
-    if (!currentData.name || !currentData.name.trim()) {
+
+    const currentData = editFormData;
+    if (!currentData || !currentData.name || !currentData.name.trim()) {
       showToast({ type: 'warn', title: 'Validation Warning', text: 'Entry name is mandatory before saving.' });
       return;
     }
@@ -541,12 +543,14 @@ export const DBMContainer = () => {
 
     const success = await saveEntry(payload, currentKey);
     if (success) {
+      setSelectedItem(payload);
+      setEditFormData(payload);
       showToast({ type: 'success', title: 'Entry Saved', text: `Saved "${payload.name}" successfully.` });
       if (closeOnSuccess === true) {
         setIsEntryModalOpen(false);
       }
     } else {
-      showToast({ type: 'error', title: 'Save Failed', text: 'Save failed. You may not have administrative privileges, or a network error occurred.' });
+      showToast({ type: 'error', title: 'Save Failed', text: 'Save failed. Check console or network.' });
     }
   };
 
