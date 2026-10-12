@@ -36,6 +36,7 @@ import {
   Activity,
   Layers2
 } from 'lucide-react';
+import DOMPurify from 'dompurify';
 import { AudioService } from '../../services/audioService';
 
 // Icon mapping helper
@@ -348,9 +349,9 @@ export const UserGuideView = ({
                             {items.map((bullet, bIdx) => (
                               <li key={bIdx} className="leading-snug">
                                 <span dangerouslySetInnerHTML={{ 
-                                  __html: bullet
+                                  __html: DOMPurify.sanitize(bullet
                                     .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-semibold">$1</strong>')
-                                    .replace(/`([^`]+)`/g, '<code class="px-1 py-0.5 rounded bg-slate-900 border border-slate-800 text-cyan-300 font-mono text-[11px]">$1</code>')
+                                    .replace(/`([^`]+)`/g, '<code class="px-1 py-0.5 rounded bg-slate-900 border border-slate-800 text-cyan-300 font-mono text-[11px]">$1</code>'))
                                 }} />
                               </li>
                             ))}
@@ -385,7 +386,7 @@ export const UserGuideView = ({
                                   <tr key={rIdx} className="hover:bg-slate-900/50">
                                     {r.map((cell, cIdx) => (
                                       <td key={cIdx} className="p-2.5 text-slate-300" dangerouslySetInnerHTML={{
-                                        __html: cell.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>')
+                                        __html: DOMPurify.sanitize(cell.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>'))
                                       }} />
                                     ))}
                                   </tr>
@@ -397,9 +398,9 @@ export const UserGuideView = ({
                       }
                       return (
                         <p key={pIdx} dangerouslySetInnerHTML={{ 
-                          __html: paragraph
+                          __html: DOMPurify.sanitize(paragraph
                             .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-semibold">$1</strong>')
-                            .replace(/`([^`]+)`/g, '<code class="px-1 py-0.5 rounded bg-slate-900 border border-slate-800 text-cyan-300 font-mono text-[11px]">$1</code>')
+                            .replace(/`([^`]+)`/g, '<code class="px-1 py-0.5 rounded bg-slate-900 border border-slate-800 text-cyan-300 font-mono text-[11px]">$1</code>'))
                         }} />
                       );
                     })}
