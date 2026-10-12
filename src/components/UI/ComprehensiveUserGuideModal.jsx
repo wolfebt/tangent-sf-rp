@@ -1,94 +1,99 @@
+/**
+ * @file ComprehensiveUserGuideModal.jsx
+ * Fullscreen Interactive User Guide Modal for Tangent Science Fantasy Roleplaying Game.
+ * Features Ringed Planet logo branding, 11 comprehensive modules, 6W operational context answers,
+ * and unified rendering via UserGuideView.
+ */
+
 import React, { useState, useEffect, useMemo } from 'react';
 import { 
   Compass, 
   Users, 
   Database, 
-  BookOpen, 
   Sparkles, 
+  Layers, 
   Map, 
+  Cpu, 
   Radio, 
   Dices, 
-  Layers, 
-  HelpCircle, 
+  Terminal, 
   Search, 
-  X, 
-  ExternalLink, 
-  Shield, 
-  Cpu, 
-  ChevronRight, 
-  Copy, 
-  Check, 
-  Code, 
-  Activity, 
-  Flame, 
-  Maximize2,
-  Terminal,
-  Grid,
-  Zap
+  ChevronRight
 } from 'lucide-react';
+import { RingedPlanetLogo } from './RingedPlanetLogo';
+import { UserGuideView } from '../Guide/UserGuideView';
+import { USER_GUIDE_SECTIONS } from '../Guide/userGuideData';
 import { AudioService } from '../../services/audioService';
 
 export const GUIDE_TABS = [
-  { id: 'hub', label: 'Operations Hub & HUD', icon: Compass, badge: 'Command Center', color: '#22d3ee' },
-  { id: 'folio', label: 'Persona Folio & Roster', icon: Users, badge: 'Hero Manager', color: '#06b6d4' },
+  { id: 'intro', label: 'Intro & Architecture', icon: RingedPlanetLogo, badge: 'System Blueprint', color: '#22d3ee' },
+  { id: 'hub', label: 'Operations Hub & HUD', icon: Compass, badge: 'Command Center', color: '#06b6d4' },
+  { id: 'folio', label: 'Persona Folio & Roster', icon: Users, badge: 'Hero Manager', color: '#0ea5e9' },
   { id: 'dbm', label: 'Omnicortex DBM', icon: Database, badge: 'Rules Compendium', color: '#10b981' },
   { id: 'codex', label: 'Codex & Economatrix', icon: Sparkles, badge: 'Matrix Suite', color: '#f59e0b' },
-  { id: 'story', label: 'ADE Studio & Scenarios', icon: Layers, badge: 'Adventure Engine', color: '#a855f7' },
+  { id: 'story', label: 'ADE Story Foundry', icon: Layers, badge: 'Adventure Engine', color: '#a855f7' },
   { id: 'maps', label: 'Tactical Map Maker & VTT', icon: Map, badge: 'Virtual Tabletop', color: '#38bdf8' },
   { id: 'aime', label: 'AIME & Element Forge', icon: Cpu, badge: 'AI & Lore Forge', color: '#ec4899' },
   { id: 'comms', label: 'CommLink Relay', icon: Radio, badge: 'Comms & Dispatch', color: '#3b82f6' },
-  { id: 'utilities', label: 'Dice, Hotkeys & Audio', icon: Dices, badge: 'System Tools', color: '#eab308' },
-  { id: 'rules', label: 'Core Rules & Mechanics', icon: BookOpen, badge: '2d10 System Reference', color: '#14b8a6' }
+  { id: 'dice', label: '2d10 Dice & Arbitration', icon: Dices, badge: 'Arbitration Engine', color: '#eab308' },
+  { id: 'shortcuts', label: 'Hotkeys & Preferences', icon: Terminal, badge: 'System Tools', color: '#6366f1' }
 ];
 
-export const ComprehensiveUserGuideModal = ({ isOpen, onClose, initialTab = 'hub' }) => {
-  const [activeTab, setActiveTab] = useState(initialTab);
+export const ComprehensiveUserGuideModal = ({ isOpen, onClose, initialTab = 'intro' }) => {
+  // Normalize legacy tab IDs (e.g. 'rules' -> 'dbm', 'utilities' -> 'dice')
+  const normalizeTab = (t) => {
+    if (t === 'rules') return 'dbm';
+    if (t === 'utilities') return 'dice';
+    return t || 'intro';
+  };
+
+  const [activeTab, setActiveTab] = useState(() => normalizeTab(initialTab));
   const [searchTerm, setSearchTerm] = useState('');
-  const [copiedSnippet, setCopiedSnippet] = useState(null);
 
   useEffect(() => {
     if (isOpen && initialTab) {
-      setActiveTab(initialTab);
+      setActiveTab(normalizeTab(initialTab));
     }
   }, [isOpen, initialTab]);
-
-  const handleCopy = (text, id) => {
-    navigator.clipboard.writeText(text);
-    setCopiedSnippet(id);
-    AudioService.playTerminalBeep(1400, 0.02);
-    setTimeout(() => setCopiedSnippet(null), 1500);
-  };
 
   const activeTabMeta = useMemo(() => {
     return GUIDE_TABS.find(t => t.id === activeTab) || GUIDE_TABS[0];
   }, [activeTab]);
 
-  if (!isOpen) return null;
+  const filteredTabs = useMemo(() => {
+    if (!searchTerm.trim()) return GUIDE_TABS;
+    const q = searchTerm.toLowerCase().trim();
+    return GUIDE_TABS.filter(t => 
+      t.label.toLowerCase().includes(q) || 
+      t.badge.toLowerCase().includes(q) ||
+      t.id.toLowerCase().includes(q)
+    );
+  }, [searchTerm]);
 
-  const TabIcon = activeTabMeta.icon;
+  if (!isOpen) return null;
 
   return (
     <div 
-      className="fixed inset-0 z-[200] flex items-center sm:items-start justify-center bg-black/85 backdrop-blur-md p-2 sm:p-4 md:p-6 pt-3 sm:pt-10 md:pt-12 pb-3 sm:pb-8 overflow-y-auto select-none font-sans animate-fade-in"
+      className="fixed inset-0 z-[200] flex items-center sm:items-start justify-center bg-black/85 backdrop-blur-md p-2 sm:p-4 md:p-6 pt-3 sm:pt-8 md:pt-10 pb-3 sm:pb-6 overflow-y-auto select-none font-sans animate-fade-in"
       onClick={onClose}
     >
       <div 
-        className="relative bg-[#0b0f17] border border-cyan-500/40 rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.9),0_0_20px_rgba(34,211,238,0.2)] w-full max-w-7xl h-[94vh] sm:h-auto max-h-[96vh] sm:max-h-[90vh] flex flex-col font-sans overflow-hidden text-slate-200"
+        className="relative bg-[#0b0f17] border border-cyan-500/40 rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.9),0_0_20px_rgba(34,211,238,0.2)] w-full max-w-7xl h-[94vh] sm:h-auto max-h-[96vh] sm:max-h-[92vh] flex flex-col font-sans overflow-hidden text-slate-200"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Header Bar */}
         <header className="px-3.5 sm:px-5 py-2.5 sm:py-3.5 bg-slate-950/90 border-b border-cyan-900/60 flex items-center justify-between gap-3 sm:gap-4 shrink-0">
           <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
             <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-cyan-950/80 border border-cyan-500/50 flex items-center justify-center text-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.3)] shrink-0">
-              <BookOpen size={18} className="sm:w-5 sm:h-5" />
+              <RingedPlanetLogo size={20} glow={true} />
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-1.5 sm:gap-2">
-                <span className="text-[9px] sm:text-[10px] font-mono font-bold uppercase tracking-wider sm:tracking-widest px-1.5 sm:px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-500/30 shrink-0">
+                <span className="text-[9px] sm:text-[10px] font-mono font-bold uppercase tracking-wider px-1.5 sm:px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-500/30 shrink-0">
                   v2.5+
                 </span>
                 <span className="text-slate-600 hidden sm:inline">•</span>
-                <span className="text-[10px] sm:text-xs text-slate-400 font-mono hidden sm:inline">OFFICIAL OPERATOR MANUAL</span>
+                <span className="text-[10px] sm:text-xs text-slate-400 font-mono hidden sm:inline">OFFICIAL PLATFORM USER GUIDE</span>
               </div>
               <h2 className="text-xs sm:text-base md:text-lg font-extrabold tracking-wider text-white uppercase font-mono truncate">
                 Comprehensive User Guide
@@ -103,7 +108,7 @@ export const ComprehensiveUserGuideModal = ({ isOpen, onClose, initialTab = 'hub
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Filter guide topics..."
+                placeholder="Filter guide modules..."
                 className="w-48 lg:w-64 bg-slate-900/90 border border-slate-700/80 focus:border-cyan-400 rounded-xl px-3 py-1.5 pl-8 text-xs text-slate-200 placeholder-slate-500 outline-none font-mono transition-all shadow-inner"
               />
               <Search size={13} className="absolute left-2.5 top-2.5 text-slate-500" />
@@ -120,10 +125,10 @@ export const ComprehensiveUserGuideModal = ({ isOpen, onClose, initialTab = 'hub
 
             <button
               onClick={() => {
-                AudioService.playTerminalBeep(900, 0.02);
+                AudioService?.playTerminalBeep?.(900, 0.02);
                 onClose();
               }}
-              className="p-1 sm:p-1.5 px-2.5 sm:px-3 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-white rounded-xl text-xs font-mono font-bold uppercase transition-colors flex items-center gap-1.5 shrink-0"
+              className="p-1 sm:p-1.5 px-2.5 sm:px-3 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-white rounded-xl text-xs font-mono font-bold uppercase transition-colors flex items-center gap-1.5 shrink-0 cursor-pointer"
               title="Close Guide (Esc)"
             >
               <span>✕</span>
@@ -134,7 +139,7 @@ export const ComprehensiveUserGuideModal = ({ isOpen, onClose, initialTab = 'hub
 
         {/* Mobile Horizontal Module Tabs Strip */}
         <div className="md:hidden flex items-center gap-1.5 overflow-x-auto p-2 bg-[#080c13] border-b border-slate-800/90 shrink-0 custom-scrollbar scrollbar-thin">
-          {GUIDE_TABS.map((tab) => {
+          {filteredTabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
             return (
@@ -142,16 +147,16 @@ export const ComprehensiveUserGuideModal = ({ isOpen, onClose, initialTab = 'hub
                 key={tab.id}
                 type="button"
                 onClick={() => {
-                  AudioService.playTerminalBeep(1100, 0.02);
+                  AudioService?.playTerminalBeep?.(1100, 0.02);
                   setActiveTab(tab.id);
                 }}
-                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-mono font-bold uppercase whitespace-nowrap shrink-0 transition-all ${
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-mono font-bold uppercase whitespace-nowrap shrink-0 transition-all cursor-pointer ${
                   isActive
                     ? 'bg-cyan-950 text-cyan-200 border border-cyan-500/60 shadow-sm'
                     : 'text-slate-400 bg-slate-900/60 hover:text-white border border-slate-800'
                 }`}
               >
-                <Icon size={13} className={isActive ? 'text-cyan-400' : 'text-slate-400'} />
+                {tab.id === 'intro' ? <RingedPlanetLogo size={13} /> : <Icon size={13} className={isActive ? 'text-cyan-400' : 'text-slate-400'} />}
                 <span>{tab.label}</span>
               </button>
             );
@@ -164,11 +169,11 @@ export const ComprehensiveUserGuideModal = ({ isOpen, onClose, initialTab = 'hub
           <aside className="hidden md:flex md:w-64 lg:w-72 bg-[#080c13] border-r border-slate-800/90 flex-col shrink-0">
             <div className="p-3 border-b border-slate-800/80 text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400 flex items-center justify-between">
               <span>Application Modules</span>
-              <span className="text-cyan-400 font-mono">10 APPS</span>
+              <span className="text-cyan-400 font-mono">{filteredTabs.length} MODULES</span>
             </div>
 
             <nav className="flex-1 overflow-y-auto p-2 space-y-1 custom-scrollbar">
-              {GUIDE_TABS.map((tab) => {
+              {filteredTabs.map((tab) => {
                 const Icon = tab.icon;
                 const isActive = activeTab === tab.id;
                 return (
@@ -176,7 +181,7 @@ export const ComprehensiveUserGuideModal = ({ isOpen, onClose, initialTab = 'hub
                     key={tab.id}
                     type="button"
                     onClick={() => {
-                      AudioService.playTerminalBeep(1100, 0.02);
+                      AudioService?.playTerminalBeep?.(1100, 0.02);
                       setActiveTab(tab.id);
                     }}
                     className={`w-full text-left px-3 py-2.5 rounded-xl text-xs font-mono font-bold uppercase tracking-wide transition-all flex items-center gap-2.5 group cursor-pointer ${
@@ -190,7 +195,7 @@ export const ComprehensiveUserGuideModal = ({ isOpen, onClose, initialTab = 'hub
                         isActive ? 'bg-cyan-500/20 text-cyan-300' : 'bg-slate-800 text-slate-400'
                       }`}
                     >
-                      <Icon size={15} />
+                      {tab.id === 'intro' ? <RingedPlanetLogo size={15} /> : <Icon size={15} />}
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="truncate">{tab.label}</div>
@@ -221,1441 +226,23 @@ export const ComprehensiveUserGuideModal = ({ isOpen, onClose, initialTab = 'hub
 
           {/* Right Content Area */}
           <main className="flex-1 flex flex-col h-full min-w-0 bg-[#090d16]/90 overflow-hidden">
-            {/* Tab Header Banner */}
-            <div className="px-3.5 py-2.5 sm:px-6 sm:py-4 bg-slate-900/50 border-b border-slate-800/80 flex items-center justify-between gap-3 shrink-0">
-              <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                <div 
-                  className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shrink-0 shadow-lg"
-                  style={{ background: `${activeTabMeta.color}20`, border: `1px solid ${activeTabMeta.color}60`, color: activeTabMeta.color }}
-                >
-                  <TabIcon size={18} className="sm:w-5 sm:h-5" />
-                </div>
-                <div className="min-w-0">
-                  <div className="flex items-center gap-1.5 sm:gap-2">
-                    <span 
-                      className="text-[9px] sm:text-[10px] font-mono font-bold uppercase tracking-wider px-1.5 sm:px-2 py-0.5 rounded truncate"
-                      style={{ background: `${activeTabMeta.color}15`, color: activeTabMeta.color }}
-                    >
-                      {activeTabMeta.badge}
-                    </span>
-                    <span className="text-[10px] sm:text-xs text-slate-400 font-mono hidden sm:inline">Documentation &amp; Function Breakdown</span>
-                  </div>
-                  <h1 className="text-sm sm:text-lg md:text-xl font-extrabold font-mono uppercase tracking-wider text-white mt-0.5 truncate">
-                    {activeTabMeta.label}
-                  </h1>
-                </div>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => handleCopy(window.location.origin + '#' + activeTab, 'share-link')}
-                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-slate-800/60 hover:bg-slate-800 border border-slate-700 text-slate-300 rounded-lg text-xs font-mono font-bold transition-colors shrink-0"
-                title="Copy Reference Link"
-              >
-                {copiedSnippet === 'share-link' ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
-                <span>{copiedSnippet === 'share-link' ? 'Copied' : 'Share Link'}</span>
-              </button>
-            </div>
-
-            {/* Scrollable Documentation Content */}
-            <div className="flex-1 overflow-y-auto p-3.5 sm:p-6 md:p-8 space-y-6 sm:space-y-8 custom-scrollbar text-slate-300 text-xs sm:text-sm leading-relaxed min-w-0 break-words">
-              {activeTab === 'hub' && <HubGuideSection onCopy={handleCopy} copiedSnippet={copiedSnippet} />}
-              {activeTab === 'folio' && <FolioGuideSection onCopy={handleCopy} copiedSnippet={copiedSnippet} />}
-              {activeTab === 'dbm' && <DbmGuideSection onCopy={handleCopy} copiedSnippet={copiedSnippet} />}
-              {activeTab === 'codex' && <CodexGuideSection onCopy={handleCopy} copiedSnippet={copiedSnippet} />}
-              {activeTab === 'story' && <StoryFoundryGuideSection onCopy={handleCopy} copiedSnippet={copiedSnippet} />}
-              {activeTab === 'maps' && <MapMakerGuideSection onCopy={handleCopy} copiedSnippet={copiedSnippet} />}
-              {activeTab === 'aime' && <AimeGuideSection onCopy={handleCopy} copiedSnippet={copiedSnippet} />}
-              {activeTab === 'comms' && <CommsGuideSection onCopy={handleCopy} copiedSnippet={copiedSnippet} />}
-              {activeTab === 'utilities' && <UtilitiesGuideSection onCopy={handleCopy} copiedSnippet={copiedSnippet} />}
-              {activeTab === 'rules' && <RulesGuideSection onCopy={handleCopy} copiedSnippet={copiedSnippet} />}
-            </div>
+            <UserGuideView
+              activeSectionId={activeTab}
+              onSelectSection={(id) => {
+                AudioService?.playTerminalBeep?.(1100, 0.02);
+                setActiveTab(id);
+              }}
+              onNavigate={(target) => {
+                if (target?.id) {
+                  setActiveTab(target.id);
+                }
+              }}
+            />
           </main>
         </div>
       </div>
     </div>
   );
 };
-
-/* =========================================================================
-   1. OPERATIONS HUB & GLOBAL HUD GUIDE
-   ========================================================================= */
-const HubGuideSection = ({ onCopy, copiedSnippet }) => (
-  <div className="space-y-6">
-    <div className="bg-slate-900/60 border border-cyan-500/30 rounded-2xl p-5 sm:p-6 space-y-3">
-      <h3 className="text-base font-bold text-cyan-300 uppercase tracking-wide font-mono flex items-center gap-2">
-        <Compass size={18} />
-        1. Operations Hub Overview
-      </h3>
-      <p>
-        The <strong className="text-white">Command Operations Hub (`/`)</strong> is the primary launchpad and operational nerve center of Tangent SFF RP. It integrates active campaign states, party telemetry, real-time group collaboration, transmission dispatches, and provides fast one-click navigation to every specialized app in the ecosystem.
-      </p>
-    </div>
-
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-4 space-y-2">
-        <h4 className="text-cyan-400 font-bold text-xs uppercase font-mono tracking-wider flex items-center gap-1.5">
-          <Activity size={15} /> Active Campaign & Team Operations
-        </h4>
-        <p className="text-xs text-slate-300">
-          The <strong className="text-white">CampaignOpsWidget</strong> displays the active campaign title, scenario hierarchy count, sector map count, and direct link to ADE Studio. The <strong className="text-white">GameSquadsWidget</strong> tracks multiplayer parties, active teams, invite join codes (<code className="text-amber-300 font-mono">?join=GRP-XXXXXX</code>), and team roster synchronization.
-        </p>
-      </div>
-
-      <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-4 space-y-2">
-        <h4 className="text-emerald-400 font-bold text-xs uppercase font-mono tracking-wider flex items-center gap-1.5">
-          <Users size={15} /> Party at a Glance Carousel
-        </h4>
-        <p className="text-xs text-slate-300">
-          The <strong className="text-white">PartyStatusWidget</strong> dynamically reads characters from your active Persona Folio roster, displaying hero portraits, species, archetype origin, Tech Level, Health/Vitality meters, and CP legality status with one-click sheet loading.
-        </p>
-      </div>
-
-      <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-4 space-y-2">
-        <h4 className="text-amber-400 font-bold text-xs uppercase font-mono tracking-wider flex items-center gap-1.5">
-          <Radio size={15} /> CommCenter & Transmission Feed
-        </h4>
-        <p className="text-xs text-slate-300">
-          Streams real-time Quantum Relay channel messages, private operative frequencies, mission dispatches, and party dice rolls. Allows direct messaging and immediate dispatch to Comms page.
-        </p>
-      </div>
-
-      <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-4 space-y-2">
-        <h4 className="text-purple-400 font-bold text-xs uppercase font-mono tracking-wider flex items-center gap-1.5">
-          <Maximize2 size={15} /> Collapsible Drawers &amp; Gem Lists
-        </h4>
-        <p className="text-xs text-slate-300">
-          Clicking any module launcher card unfolds interactive preview drawers (Persona Folio roster cards, Story scenarios tree, Element Forge lore elements, Tactical map selector, AIME manuscript cards) with compact gem-like list views, card borders, and transparent backdrops directly on the home canvas without route transitions.
-        </p>
-      </div>
-    </div>
-
-    <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-5 space-y-3">
-      <h3 className="text-sm font-bold text-white uppercase tracking-wide font-mono flex items-center gap-2">
-        <Zap size={16} className="text-amber-400" />
-        Persistent Global HUD (52px Ergonomics)
-      </h3>
-      <p className="text-slate-300 text-xs leading-relaxed">
-        The standardized 52px HUD persists across all views, seamlessly bridging navigation between Operations Hub (<code className="text-cyan-300 font-mono">/</code>), Persona Folio (<code className="text-cyan-300 font-mono">/folio</code>), Compendium Suite (<code className="text-emerald-300 font-mono">/compendium</code>), Omnicortex DBM (<code className="text-teal-300 font-mono">/dbm</code>), Codex (<code className="text-amber-300 font-mono">/codex</code>), Tactical Stage VTT (<code className="text-sky-300 font-mono">/stage</code> / <code className="text-sky-300 font-mono">/vtt</code>), ADE Studio (<code className="text-purple-300 font-mono">/foundry</code> or <code className="text-purple-300 font-mono">/ade</code>), and CommLink (<code className="text-blue-300 font-mono">/comms</code>).
-      </p>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800">
-          <div className="text-cyan-300 font-bold font-mono uppercase mb-1">Omni-Search (`Ctrl+K`)</div>
-          <p className="text-slate-400 text-[11px]">Instant spotlight palette indexing species, weapons, scenarios, maps, heroes, and `/roll` commands.</p>
-        </div>
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800">
-          <div className="text-amber-300 font-bold font-mono uppercase mb-1">Dice Tray Dock (`Alt+D`)</div>
-          <p className="text-slate-400 text-[11px]">Global polyhedral dice dock powered by DiceContext with AST expression parsing and channel broadcasting.</p>
-        </div>
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800">
-          <div className="text-emerald-300 font-bold font-mono uppercase mb-1">Comms Dock (`Alt+C`)</div>
-          <p className="text-slate-400 text-[11px]">Persistent sliding transmission tray for instant party chat, team coordination, and verified dice cards.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
-/* =========================================================================
-   2. PERSONA FOLIO & ROSTER GUIDE
-   ========================================================================= */
-const FolioGuideSection = () => (
-  <div className="space-y-6">
-    <div className="bg-slate-900/60 border border-cyan-500/30 rounded-2xl p-5 sm:p-6 space-y-3">
-      <h3 className="text-base font-bold text-cyan-300 uppercase tracking-wide font-mono flex items-center gap-2">
-        <Users size={18} />
-        2. Persona Folio & Operative Sheet Architecture
-      </h3>
-      <p>
-        The <strong className="text-white">Persona Folio (`/folio`)</strong> is the official digital operative manager for Tangent Science Fantasy. Powered by an enterprise Hub-and-Spoke architecture, it enforces the strict <strong className="text-cyan-300">150 Build Point (BP)</strong> economy, automated derived vitals with universal tooltips, intelligent combat attack/defense derivation, and VTT state locking for live multiplayer games.
-      </p>
-    </div>
-
-    <div className="bg-amber-950/30 border border-amber-500/40 rounded-xl p-4 space-y-2">
-      <h4 className="text-amber-300 font-bold text-xs uppercase font-mono tracking-wider flex items-center gap-1.5">
-        💎 Character Point (CP/BP) Economy & Background Pools
-      </h4>
-      <ul className="list-disc pl-5 text-xs space-y-1 text-slate-300">
-        <li><strong>Starting Budget:</strong> Default <strong className="text-cyan-300 font-mono">150 BP/CP</strong>. GMs can customize this limit for high-powered campaigns.</li>
-        <li><strong>Three Dedicated 20 SP Pools:</strong> In addition to the 150 BP starting budget, characters receive <strong>20 Faction SP</strong>, <strong>20 Origin SP</strong>, and <strong>20 Occupation SP</strong> managed through dedicated dropdown selectors (<code className="text-cyan-300 font-mono">IdentityPoolPulldown.jsx</code>) to prevent pool dilution.</li>
-        <li><strong>Legality Enforcement:</strong> When total expenditures exceed budget, the header flashes an <strong className="text-red-400 font-mono">ILLEGAL BUILD</strong> badge. Clicking opens the full line-item ledger (<code className="text-cyan-300 font-mono">EconomyModal.jsx</code>).</li>
-        <li><strong>Point Allocations:</strong> Core stats (5 BP / +1), check bonuses (1 BP / +1), skills, perks, and augmentations cost points; hindrances grant rebates.</li>
-      </ul>
-    </div>
-
-    <div className="space-y-3">
-      <h4 className="text-white font-bold text-sm font-mono uppercase tracking-wider">
-        The Folio Tabs & Hub-and-Spoke Architecture
-      </h4>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-        <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-3.5 space-y-1.5">
-          <div className="font-bold text-cyan-300 font-mono flex items-center gap-1.5">
-            <span>🪪</span> 1. IDENTITY TAB
-          </div>
-          <p className="text-slate-300 text-[11px]">
-            Operative name, portrait URL, species selection (with automated trait modifiers), origin archetype, background occupation, physical metrics, augmentation slots, and one-click <strong>Archetype 80 CP Chassis</strong> pre-builds (+3 Primary Attr, +2 Secondary Attr, core skills).
-          </p>
-        </div>
-
-        <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-3.5 space-y-1.5">
-          <div className="font-bold text-emerald-300 font-mono flex items-center gap-1.5">
-            <span>📊</span> 2. CORE STATS & DERIVED VITALS
-          </div>
-          <p className="text-slate-300 text-[11px]">
-            The 6 primary attributes and sub-attributes. Features <strong>Universal FolioTooltips</strong> revealing exact formulas: <strong className="text-white">Health (Base 30 + 5/CP, max +5×STA)</strong>, <strong className="text-white">Vitality (Base 30 + 5/CP, max +5×STA)</strong>, Natural DR (STA score, min 1 point), Defense value, and STR-based carry capacity.
-          </p>
-        </div>
-
-        <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-3.5 space-y-1.5">
-          <div className="font-bold text-amber-300 font-mono flex items-center gap-1.5">
-            <span>🎯</span> 3. SKILLS & SPECIALIZATIONS
-          </div>
-          <p className="text-slate-300 text-[11px]">
-            Categorized across Combat, Physical, Mental Knowledge, Mental Vocation, Social, and Metafocus. Tracks Ranks (<span className="text-slate-400 font-mono">Novice → Expert → Master → Legend</span>), linked attribute synergy bonuses, and specialized proficiencies.
-          </p>
-        </div>
-
-        <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-3.5 space-y-1.5">
-          <div className="font-bold text-purple-300 font-mono flex items-center gap-1.5">
-            <span>✨</span> 4. FEATURES HUB VIEW
-          </div>
-          <p className="text-slate-300 text-[11px]">
-            Central command dashboard managing four dedicated sub-views: <strong className="text-white">Standard Features</strong> (perks/feats with CP tracking), <strong className="text-white">Metaphysics / Awakened</strong> (invocations), <strong className="text-white">Augmentations</strong> (cyberware/bioware with Stigma stepping), and <strong className="text-white">Hindrances</strong> (flaws with CP rebates).
-          </p>
-        </div>
-
-        <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-3.5 space-y-1.5">
-          <div className="font-bold text-red-300 font-mono flex items-center gap-1.5">
-            <span>⚔️</span> 5. ACTIVE COMBAT TAB
-          </div>
-          <p className="text-slate-300 text-[11px]">
-            Powered by <strong>combatUtils.js</strong>. Automatically maps weapon inventory into active offensive attacks, dynamically deriving check bonuses (<code className="text-cyan-300 font-mono">Skill Rank + Linked Attribute</code> — never halved) based on weapon keywords (Melee, Ballistic, Energy, Heavy), compiling tactical strike notes, and configuring armor DR suites.
-          </p>
-        </div>
-
-        <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-3.5 space-y-1.5">
-          <div className="font-bold text-sky-300 font-mono flex items-center gap-1.5">
-            <span>💼</span> 6. PROPERTY HUB VIEW
-          </div>
-          <p className="text-slate-300 text-[11px]">
-            Logistical command overview tracking total credit valuation and encumbrance across six sub-sections: <strong className="text-white">Weaponry</strong>, <strong className="text-white">Armoring</strong>, <strong className="text-white">Gear & Tools</strong>, <strong className="text-white">Mecha & Vehicles</strong>, <strong className="text-white">Architecture & Real Estate</strong>, and <strong className="text-white">Other Logistics</strong>.
-          </p>
-        </div>
-
-        <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-3.5 space-y-1.5">
-          <div className="font-bold text-blue-300 font-mono flex items-center gap-1.5">
-            <span>📝</span> 7. 31-FIELD NARRATIVE STORY WRITER
-          </div>
-          <p className="text-slate-300 text-[11px]">
-            Four sub-tabs (<strong className="text-white">Biography, Psychology, Factions, Logistics</strong>) with 31 distinct character fields and <strong>🤖 BASTION AI Auto-Writer</strong> to generate or refine rich backstory snippets in real-time.
-          </p>
-        </div>
-
-        <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-3.5 space-y-1.5">
-          <div className="font-bold text-slate-300 font-mono flex items-center gap-1.5">
-            <span>📁</span> 8. MISSION NOTES & LOGS
-          </div>
-          <p className="text-slate-300 text-[11px]">
-            Freeform field mission journals, starship share tracking, syndicates and NPC contacts, and custom debriefing logs.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-4 space-y-2">
-      <h4 className="text-cyan-400 font-bold text-xs uppercase font-mono tracking-wider flex items-center gap-1.5">
-        🚀 VTT State Locking, Guided Creator & Roster Management
-      </h4>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800">
-          <div className="font-bold text-amber-300 mb-1">🔒 VTT Active Game Locking</div>
-          <p className="text-slate-400 text-[11px]">Operators lock their sheet when joining a game session. This enables the GM/Architect to remotely stream AP, Karma, status conditions, damage, and heals without player collision. Player emergency edits are tracked and flagged for GM review.</p>
-        </div>
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800">
-          <div className="font-bold text-cyan-300 mb-1">🧙 Guided Creator Wizard</div>
-          <p className="text-slate-400 text-[11px]">An 8-step wizard walking players through Concept, Species, Origin, Faction, Occupation, Attributes, Skills, and Gear to produce fully legal builds.</p>
-        </div>
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800">
-          <div className="font-bold text-emerald-300 mb-1">📇 Roster & Cloud Sync</div>
-          <p className="text-slate-400 text-[11px]">Store unlimited characters in authenticated Google Cloud Firestore, clone operatives, duplicate sheets, generate public read-only URLs, or export standalone JSON files.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
-/* =========================================================================
-   3. COMPENDIUM SUITE & OMNICORTEX DBM GUIDE
-   ========================================================================= */
-const DbmGuideSection = () => (
-  <div className="space-y-6">
-    <div className="bg-slate-900/60 border border-emerald-500/30 rounded-2xl p-5 sm:p-6 space-y-3">
-      <h3 className="text-base font-bold text-emerald-300 uppercase tracking-wide font-mono flex items-center gap-2">
-        <Database size={18} />
-        3. Compendium Suite (`/compendium`) & Omnicortex DBM (`/dbm`)
-      </h3>
-      <p>
-        The <strong className="text-white">Compendium Suite (`/compendium`)</strong> and <strong className="text-white">Omnicortex DBM (`/dbm`)</strong> form the definitive rules reference and relational database of Tangent SFF RP. It indexes 65+ comprehensive rules volumes and all canonical items, lineages, occupational backgrounds, weaponry, and invocations with instant multi-attribute search and client-side Semantic Vector RAG.
-      </p>
-    </div>
-
-    <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-4 space-y-2">
-      <h4 className="text-emerald-400 font-bold text-xs uppercase font-mono tracking-wider flex items-center gap-1.5">
-        📚 Three Compendium Viewing Modes (`CompendiumApp.jsx`)
-      </h4>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800">
-          <div className="font-bold text-cyan-300 mb-1">📖 1. Rules Wiki (`rules`)</div>
-          <p className="text-slate-400 text-[11px]">Searchable reading of 65+ standardized compendium volumes covering Architect reference manuals, combat rules, metaphysics, and movement codices.</p>
-        </div>
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800">
-          <div className="font-bold text-emerald-300 mb-1">🗂️ 2. Omnicortex Catalog (`omnicortex`)</div>
-          <p className="text-slate-400 text-[11px]">Database browser for items, weaponry, armor, species, and traits with multi-filters for Category, Tech Level (TL0–TL5), Discipline, and BP cost.</p>
-        </div>
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800">
-          <div className="font-bold text-amber-300 mb-1">📑 3. Side-by-Side Split (`split`)</div>
-          <p className="text-slate-400 text-[11px]">Dual-pane layout displaying the Rules Wiki side-by-side with database catalogs for instant cross-referencing during game prep or tactical sessions.</p>
-        </div>
-      </div>
-    </div>
-
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
-      {[
-        { cat: 'Architecture', icon: '🏛️', desc: 'Facility scales, modular rooms, life support & defense grids.' },
-        { cat: 'Armoring & Shields', icon: '🛡️', desc: 'Protective weave, powered suits, coverage zones & DR ratings.' },
-        { cat: 'Augmentations', icon: '🦾', desc: 'Cybernetics, bioware, neural co-processors & sensory shunts.' },
-        { cat: 'Mecha & Vehicles', icon: '🤖', desc: 'Frame weight classes, propulsion, hardpoints & combat walkers.' },
-        { cat: 'Weaponry Matrix', icon: '🔫', desc: 'Melee, slugthrowers, lasers, plasma arms & heavy artillery.' },
-        { cat: 'Gear & Tools', icon: '🧰', desc: 'Field equipment, scanners, medical injectors & utility rigs.' },
-        { cat: 'Invocations', icon: '✨', desc: 'Disciplines (Energy, Entropy, Matter, Mental, Dimension, Illusion).' },
-        { cat: 'Occupations & Origins', icon: '💼', desc: 'Career backgrounds, homeworld habitats & starting packages.' },
-        { cat: 'Species & Lineages', icon: '🧬', desc: 'Biological species profiles, synthetic chassis & alien types.' },
-        { cat: 'Standardized Traits', icon: '⚡', desc: '150+ granular trait markdown files (Basic, Advanced, Elite).' },
-        { cat: 'Rules & Compendium', icon: '📜', desc: 'Core mechanics, combat systems, movement & advancement manuals.' },
-        { cat: 'Prerequisites & Modifiers', icon: '🔑', desc: 'Requirement ladders and global combat condition modifiers.' },
-      ].map(c => (
-        <div key={c.cat} className="bg-slate-900/60 border border-slate-800 rounded-xl p-3">
-          <div className="font-bold text-amber-300 font-mono flex items-center gap-1.5 mb-1">
-            <span>{c.icon}</span> {c.cat}
-          </div>
-          <p className="text-slate-400 text-[11px]">{c.desc}</p>
-        </div>
-      ))}
-    </div>
-
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-      <div className="bg-slate-900/60 border border-cyan-500/30 rounded-xl p-4 space-y-2">
-        <h4 className="text-cyan-300 font-bold uppercase font-mono tracking-wider">
-          🔍 Client-Side Semantic Vector RAG (`omnicortexVectorRag.ts`)
-        </h4>
-        <p className="text-slate-300 text-[11px]">
-          Generates semantic embeddings over rules and items directly in the browser. Powers <strong>BASTION AI</strong> with grounded, verifiable citations to answer complex mechanics questions with zero hallucination.
-        </p>
-      </div>
-
-      <div className="bg-slate-900/60 border border-emerald-500/30 rounded-xl p-4 space-y-2">
-        <h4 className="text-emerald-300 font-bold uppercase font-mono tracking-wider">
-          💾 Cloud Sync & Automated Ingestion Pipelines
-        </h4>
-        <p className="text-slate-300 text-[11px]">
-          Synchronizes local markdown files with Firestore using automated 450-op batch scripts (<code className="text-cyan-300 font-mono">syncOmnicortexSpecies.mjs</code>, <code className="text-cyan-300 font-mono">syncOmnicortexEquipment.mjs</code>) to prevent quota throttling, paired with offline IndexedDB caching for instant search.
-        </p>
-      </div>
-    </div>
-  </div>
-);
-
-/* =========================================================================
-   4. CODEX MATRIX SUITE & ECONOMATRIX GUIDE
-   ========================================================================= */
-const CodexGuideSection = ({ onCopy, copiedSnippet }) => (
-  <div className="space-y-6">
-    <div className="bg-slate-900/60 border border-amber-500/30 rounded-2xl p-5 sm:p-6 space-y-3">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <h3 className="text-base font-bold text-amber-300 uppercase tracking-wide font-mono flex items-center gap-2">
-          <Sparkles size={18} />
-          4. Codex Simulation Engine, Matrices & Data Ingestion
-        </h3>
-        <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-500/40 uppercase">
-          17 Matrices • 5 Suites • 6 Pure Engines
-        </span>
-      </div>
-      <p className="text-xs text-slate-300 leading-relaxed">
-        The <strong className="text-white">Codex (`/codex`)</strong> is the definitive mathematical simulation engine and asset forge for Tangent SFF RP. It governs all equipment crafting, structure construction, vehicle fabrication, biological species synthesis, world generation, and automated multi-format data ingestion directly into active memory and Firestore.
-      </p>
-    </div>
-
-    {/* The 5 Thematic Suites Accordion Summary */}
-    <div className="space-y-4">
-      <h4 className="text-xs font-bold text-white uppercase font-mono tracking-wider flex items-center gap-1.5">
-        <span>📂</span> The 5 Thematic Sidebar Suites & 17 Matrices
-      </h4>
-
-      {/* 1. Hardware & Structures (Amber) */}
-      <div className="bg-slate-900/50 border border-amber-500/30 rounded-xl p-4 space-y-3">
-        <div className="flex items-center justify-between">
-          <div className="font-bold text-amber-300 font-mono text-xs uppercase flex items-center gap-1.5">
-            <span>📦</span> 1. Hardware & Structures Suite
-          </div>
-          <span className="text-[10px] font-mono text-amber-400/80 bg-amber-950/60 px-2 py-0.5 rounded border border-amber-500/30">
-            6 Matrices
-          </span>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 text-xs">
-          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-            <strong className="text-amber-200 block mb-0.5">🏛️ Architecture Blueprint</strong>
-            <p className="text-slate-400 text-[11px]">Sheds (0.1 Mod) to Spires (800+ Mods), 10:1 UDU mount conversion, Highest Complexity DC rule, Workforce PP calendar & Liquidity Gap.</p>
-          </div>
-          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-            <strong className="text-amber-200 block mb-0.5">🛡️ Armor Coverage Matrix</strong>
-            <p className="text-slate-400 text-[11px]">7 hit-location slots (Head, Torso, Arms, Legs, Full Suit), composite DR, Max Dex caps, and hardware socket allocation.</p>
-          </div>
-          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-            <strong className="text-amber-200 block mb-0.5">🦾 Augmentations & FBC</strong>
-            <p className="text-slate-400 text-[11px]">Cranial, Ocular, Thoracic & Dermal nodes, Full Body Conversion (FBC) synthetic packages, and social stigma stepper.</p>
-          </div>
-          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-            <strong className="text-amber-200 block mb-0.5">🎒 Equipment & Workshop</strong>
-            <p className="text-slate-400 text-[11px]">Fine to Structure sizing, workshop toolkits (+0 to +8 Check bonus), Processor Ratings (PR 0–4), and Hazard Sealing (EPR 0–3).</p>
-          </div>
-          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-            <strong className="text-amber-200 block mb-0.5">🤖 Mecha & Vehicles</strong>
-            <p className="text-slate-400 text-[11px]">Humanoid/Quad/Tracked frames, mount bays, Defense DC, variable thrusters & Megacredit ($M) conversion.</p>
-          </div>
-          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-            <strong className="text-amber-200 block mb-0.5">⚔️ Weapon Mod Stacker</strong>
-            <p className="text-slate-400 text-[11px]">Attachment rails, damage dice overcharge upgrades, reliability downgrades, and corporate manufacturer skins.</p>
-          </div>
-        </div>
-      </div>
-
-      {/* 2. Characters & Companions (Blue) */}
-      <div className="bg-slate-900/50 border border-blue-500/30 rounded-xl p-4 space-y-3">
-        <div className="flex items-center justify-between">
-          <div className="font-bold text-blue-300 font-mono text-xs uppercase flex items-center gap-1.5">
-            <span>👥</span> 2. Characters & Companions Suite
-          </div>
-          <span className="text-[10px] font-mono text-blue-400/80 bg-blue-950/60 px-2 py-0.5 rounded border border-blue-500/30">
-            2 Matrices
-          </span>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
-          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-            <strong className="text-blue-200 block mb-0.5">👤 Modular NPC Stat Blocks</strong>
-            <p className="text-slate-400 text-[11px]">Threat Tiers 1–20, Competency roles (Minion, Skirmisher, Bruiser, Sniper, Elite, Boss), and tactical AI behaviors (Swarm, Flank, Suppress, Protect).</p>
-          </div>
-          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-            <strong className="text-blue-200 block mb-0.5">🌟 Features & Perks Matrix</strong>
-            <p className="text-slate-400 text-[11px]">Master compendium of general perks, combat feats, biological mutations, and racial features with BP balance validation.</p>
-          </div>
-        </div>
-      </div>
-
-      {/* 3. Planetary, Species & Factions (Emerald) */}
-      <div className="bg-slate-900/50 border border-emerald-500/30 rounded-xl p-4 space-y-3">
-        <div className="flex items-center justify-between">
-          <div className="font-bold text-emerald-300 font-mono text-xs uppercase flex items-center gap-1.5">
-            <span>🌍</span> 3. Planetary, Species & Factions Suite
-          </div>
-          <span className="text-[10px] font-mono text-emerald-400/80 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-500/30">
-            3 Matrices
-          </span>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
-          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-            <strong className="text-emerald-200 block mb-0.5">🧬 Species Forge Matrix</strong>
-            <p className="text-slate-400 text-[11px]">150 BP character budget, movement modes (Ground, Burrow, Swim, Glide, Fly), and genetic biotechnology synthesis DC.</p>
-          </div>
-          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-            <strong className="text-emerald-200 block mb-0.5">🪐 Planetary Design Matrix</strong>
-            <p className="text-slate-400 text-[11px]">Universal World Profile (UWP/TWP), 16-domain civilization radar, Trade codes (Ag, In, Hi, Ri), and speculative commodity market margins.</p>
-          </div>
-          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-            <strong className="text-emerald-200 block mb-0.5">🚩 Factions & Polities</strong>
-            <p className="text-slate-400 text-[11px]">26 canonical attributes covering driving mandates, government types, naval assets, sigils, and economic models.</p>
-          </div>
-        </div>
-      </div>
-
-      {/* 4. Metaphysics (Purple) */}
-      <div className="bg-slate-900/50 border border-purple-500/30 rounded-xl p-4 space-y-3">
-        <div className="flex items-center justify-between">
-          <div className="font-bold text-purple-300 font-mono text-xs uppercase flex items-center gap-1.5">
-            <span>✨</span> 4. Metaphysics Suite
-          </div>
-          <span className="text-[10px] font-mono text-purple-400/80 bg-purple-950/60 px-2 py-0.5 rounded border border-purple-500/30">
-            2 Matrices
-          </span>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
-          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-            <strong className="text-purple-200 block mb-0.5">⚡ Invocation Matrix</strong>
-            <p className="text-slate-400 text-[11px]">6 disciplines (Telekinesis, Telepathy, Pyrokinesis, Chronomancy, Biokinesis, Voidcraft), range/target/area/duration formulas, and essence drain strain costs.</p>
-          </div>
-          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-            <strong className="text-purple-200 block mb-0.5">🔮 Meta-Tech Matrix</strong>
-            <p className="text-slate-400 text-[11px]">Metamaterial resonance bonding, artifact crafting formulas, and passive imbuements into weapons, armor, and cyberware.</p>
-          </div>
-        </div>
-      </div>
-
-      {/* 5. System Suites (Slate) */}
-      <div className="bg-slate-900/50 border border-slate-500/30 rounded-xl p-4 space-y-3">
-        <div className="flex items-center justify-between">
-          <div className="font-bold text-slate-200 font-mono text-xs uppercase flex items-center gap-1.5">
-            <span>⚡</span> 5. System Suites
-          </div>
-          <span className="text-[10px] font-mono text-slate-300 bg-slate-800/80 px-2 py-0.5 rounded border border-slate-600/40">
-            4 Suites
-          </span>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 text-xs">
-          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-            <strong className="text-slate-200 block mb-0.5">💰 Economatrix Dashboard</strong>
-            <p className="text-slate-400 text-[11px]">TSC calculator, 7-tier crafting timetable, speculative trade simulator, and Wealth Score status table.</p>
-          </div>
-          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-            <strong className="text-slate-200 block mb-0.5">🔬 Technology Codex</strong>
-            <p className="text-slate-400 text-[11px]">TL0–TL5 Domain Grid across 16 domains, adaptive tech reconfiguration action economy, and AI continuum.</p>
-          </div>
-          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-            <strong className="text-slate-200 block mb-0.5">📐 Scaling Codex</strong>
-            <p className="text-slate-400 text-[11px]">14 size tiers, die degradation ladder (-1ds to -5ds), cross-scale combat matchups, and starship overblast.</p>
-          </div>
-          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-            <strong className="text-slate-200 block mb-0.5">📥 Ingestion Engine</strong>
-            <p className="text-slate-400 text-[11px]">Multimodal BASTION AI, Universal Delimiter CSV/TSV/Markdown parser, and Side-by-Side Record Diff Inspector.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    {/* Core Mathematical Formulations */}
-    <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-5 space-y-3 font-mono text-xs">
-      <div className="flex items-center justify-between">
-        <h4 className="text-cyan-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
-          <Code size={14} /> Core Mathematical Formulations
-        </h4>
-        <button
-          type="button"
-          onClick={() => onCopy('V = 10 * 4^(CR / 5); MaterialCost = V * 0.50; DailyPP = max(1, (Check - 10) * TierMult);', 'tsc-formula')}
-          className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-[10px] flex items-center gap-1 transition-all"
-        >
-          {copiedSnippet === 'tsc-formula' ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
-          <span>{copiedSnippet === 'tsc-formula' ? 'Copied' : 'Copy Formulas'}</span>
-        </button>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-[11px]">
-        <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1.5">
-          <div className="text-amber-300 font-bold">Tangent Standard Curve (TSC)</div>
-          <div className="text-slate-300 bg-slate-900 px-2 py-1 rounded">Market Value = 10 * 4^(CR / 5)</div>
-          <div className="text-slate-300 bg-slate-900 px-2 py-1 rounded">Material Cost = floor(Market Value * 0.50)</div>
-        </div>
-
-        <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1.5">
-          <div className="text-emerald-300 font-bold">Fabrication & Workforce (PP)</div>
-          <div className="text-slate-300 bg-slate-900 px-2 py-1 rounded">Daily PP = max(1, (SkillCheck - 10) * ToolTierMult)</div>
-          <div className="text-slate-300 bg-slate-900 px-2 py-1 rounded">Coop Daily PP = Crew * (SkillCheck - 10) * ToolTierMult</div>
-        </div>
-
-        <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1.5">
-          <div className="text-cyan-300 font-bold">Liquidity Gap & Wealth Score</div>
-          <div className="text-slate-300 bg-slate-900 px-2 py-1 rounded">Liquid Cost = max(0, ItemValue - BuyerAutoBuyLimit)</div>
-        </div>
-
-        <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1.5">
-          <div className="text-purple-300 font-bold">10:1 UDU Capacity Hierarchy</div>
-          <div className="text-slate-300 bg-slate-900 px-2 py-1 rounded">1 Mod = 10 Mounts = 100 Sockets = 1,000 Nodes = 10,000 Sub-Nodes</div>
-        </div>
-      </div>
-    </div>
-
-    {/* Data Ingestion Engine & Revision Pipeline */}
-    <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-5 space-y-3 text-xs">
-      <h4 className="text-cyan-400 font-bold uppercase font-mono tracking-wider flex items-center gap-1.5">
-        📥 Codex Ingestion Engine & Diff Revision Workbench
-      </h4>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-1.5">
-          <div className="text-cyan-300 font-bold font-mono uppercase">1. Multi-Modal Intake</div>
-          <p className="text-slate-300 text-[11px] leading-relaxed">
-            <strong>BASTION AI Studio:</strong> Multimodal extraction from PDFs/TXTs with automatic multi-chunk section splitting (&gt;10k chars) and real-time synthesis progress.<br />
-            <strong>Universal Delimiter Parser:</strong> Auto-detects Markdown pipes, TSV (Excel paste), RFC 4180 CSV, and Semicolon tables with header aliasing and drag-and-drop file upload.
-          </p>
-        </div>
-
-        <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-1.5">
-          <div className="text-amber-300 font-bold font-mono uppercase">2. Side-by-Side Diff Modal</div>
-          <p className="text-slate-300 text-[11px] leading-relaxed">
-            Compares incoming staged records against existing database items. Visual status badges highlight <strong className="text-amber-300">MODIFIED</strong> fields, <strong className="text-emerald-300">NEW FIELDS</strong>, and <strong className="text-slate-400">MATCHES</strong> with one-click transition into the In-Place Revision Workbench.
-          </p>
-        </div>
-
-        <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-1.5">
-          <div className="text-emerald-300 font-bold font-mono uppercase">3. Conflict Strategies & Sanitization</div>
-          <p className="text-slate-300 text-[11px] leading-relaxed">
-            Choose between <strong>Merge</strong> (preserves existing document IDs), <strong>Overwrite</strong>, or <strong>Skip</strong>. All incoming strings are automatically sanitized to strip LaTeX math delimiters and unescaped markdown to ensure 100% Folio and DBM compendium compatibility.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
-/* =========================================================================
-   5. ADE STUDIO & SCENARIOS GUIDE
-   ========================================================================= */
-const StoryFoundryGuideSection = () => (
-  <div className="space-y-6">
-    <div className="bg-slate-900/60 border border-purple-500/30 rounded-2xl p-5 sm:p-6 space-y-3">
-      <h3 className="text-base font-bold text-purple-300 uppercase tracking-wide font-mono flex items-center gap-2">
-        <Layers size={18} />
-        5. ADE Studio &amp; Scenario Engine
-      </h3>
-      <p>
-        The <strong className="text-white">ADE Studio (`/foundry` or `/ade`)</strong> is an integrated adventure and campaign builder combining hierarchical tree scenario management, rich text element editing, relational links, and offline-first cloud syncing with automatic conflict resolution.
-      </p>
-    </div>
-
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-      <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-4 space-y-2">
-        <h4 className="text-purple-300 font-bold uppercase font-mono tracking-wider">
-          🌳 Hierarchical Scenario Tree Editor
-        </h4>
-        <ul className="list-disc pl-4 space-y-1 text-slate-300 text-[11px]">
-          <li><strong>Drag-and-Drop Organization:</strong> Reorder sibling nodes or nest elements into parent acts and chapters with real-time visual drop highlights.</li>
-          <li><strong>8 Element Types:</strong> Character, Location, Faction, Event, Item, Lore, Session Prep, and Custom Schema.</li>
-          <li><strong>Relational Cross-Links:</strong> Link story characters to specific location nodes or factions with bi-directional references.</li>
-          <li><strong>Safety Deletion:</strong> Requires typing the node name before destructive removal to prevent accidental loss.</li>
-        </ul>
-      </div>
-
-      <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-4 space-y-2">
-        <h4 className="text-cyan-300 font-bold uppercase font-mono tracking-wider">
-          ☁️ Cloud Push/Pull & Export Options
-        </h4>
-        <ul className="list-disc pl-4 space-y-1 text-slate-300 text-[11px]">
-          <li><strong>Debounced Cloud Sync:</strong> Automatically batches changes with 1.5s write throttling to protect Firestore quotas.</li>
-          <li><strong>Conflict Detection:</strong> If local and remote timestamps diverge, a visual Sync Conflict Modal lets you choose or merge branches.</li>
-          <li><strong>Multi-Format Export:</strong> Export your full campaign or single acts to <strong className="text-amber-300">Markdown (.md)</strong>, <strong className="text-cyan-300">HTML</strong>, <strong className="text-emerald-300">PDF</strong>, or <strong className="text-purple-300">JSON</strong>.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-);
-
-/* =========================================================================
-   6. TACTICAL MAP MAKER & NEXT-GEN VTT SIMULATION ENGINE GUIDE
-   ========================================================================= */
-const MapMakerGuideSection = () => (
-  <div className="space-y-6">
-    <div className="bg-slate-900/60 border border-cyan-500/30 rounded-2xl p-5 sm:p-6 space-y-3">
-      <h3 className="text-base font-bold text-cyan-300 uppercase tracking-wide font-mono flex items-center gap-2">
-        <Map size={18} />
-        6. Tactical Map Maker (`/foundry/map-maker`) & Next-Gen VTT Simulation Engine (`/stage` / `/vtt`)
-      </h3>
-      <p>
-        Tangent SFF RP features a dual Virtual Tabletop ecosystem: the rapid-authoring <strong className="text-white">Tactical Map Maker (`/foundry/map-maker`)</strong> powered by React Konva and the enterprise <strong className="text-white">Next-Gen Simulation Engine (`/stage` / `/vtt`)</strong> driven by WebGPU shaders, dynamic particle physics, LiveKit WebRTC, and CRDT synchronization.
-      </p>
-    </div>
-
-    <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-4 space-y-3">
-      <h4 className="text-cyan-400 font-bold text-xs uppercase font-mono tracking-wider flex items-center gap-1.5">
-        ⚡ Next-Gen Engine Architecture (Stages 1–6 at `/stage`)
-      </h4>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-cyan-300 font-mono">1. Coordinate Engine</div>
-          <p className="text-slate-400 text-[11px]">Native math projection for Square (5ft), Pointy/Flat Hex, Isometric, and Geodesic spherical planetary grids (<code className="text-cyan-400 font-mono">CoordinateEngine.ts</code>).</p>
-        </div>
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-emerald-300 font-mono">2. WebGPU Renderer</div>
-          <p className="text-slate-400 text-[11px]">Hardware-accelerated viewport rendering with frustum chunking (<code className="text-emerald-400 font-mono">FrustumChunkManager.ts</code>), multi-layer compositing, and canvas fallback.</p>
-        </div>
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-amber-300 font-mono">3. WGSL Compute Vision</div>
-          <p className="text-slate-400 text-[11px]">Bounding Volume Hierarchy (<code className="text-amber-400 font-mono">BVHBuilder.ts</code>) powering real-time Raycast Line-of-Sight and Signed Distance Field CSG Fog of War.</p>
-        </div>
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-purple-300 font-mono">4. Hazard Particle Physics</div>
-          <p className="text-slate-400 text-[11px]">Dynamic compute simulation of spreading fire, toxic gases, radiation leaks, vacuum decompression venting, and ambient boids flocking.</p>
-        </div>
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-blue-300 font-mono">5. LiveKit & Yjs Sync</div>
-          <p className="text-slate-400 text-[11px]">Distance-attenuated spatial WebRTC audio/video (<code className="text-blue-400 font-mono">LiveKitClient.ts</code>) paired with Yjs CRDT shared state and sub-ms volatile cursor sharding.</p>
-        </div>
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-pink-300 font-mono">6. Procedural Astrogation</div>
-          <p className="text-slate-400 text-[11px]">Generates procedural star systems, planetary orbits, and BSP modular starship deckplans with sandboxed QuickJS script triggers.</p>
-        </div>
-      </div>
-    </div>
-
-    <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-4 space-y-3">
-      <h4 className="text-cyan-400 font-bold text-xs uppercase font-mono tracking-wider flex items-center gap-1.5">
-        ⚡ Tripartite Stage VTT Layout (`/stage` / `/vtt`)
-      </h4>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-cyan-300 font-mono">1. Left: Catalog Rail & Outliner</div>
-          <p className="text-slate-400 text-[11px] leading-relaxed">
-            <code className="text-cyan-400 font-mono">ModuleCatalogRail.tsx</code> &amp; <code className="text-cyan-400 font-mono">CatalogOutliner.tsx</code>. Hierarchical tree of all active entities (PCs, Hostile Threats, Neutral NPCs, Interactive Props, Dynamic Lights, Hazard Volumes). Features instant text search (<code className="text-cyan-400 font-mono">CatalogSearchFilter.tsx</code>), visibility eye toggles, lock toggles, and camera centering.
-          </p>
-        </div>
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-emerald-300 font-mono">2. Center: WebGPU Viewport & Stage</div>
-          <p className="text-slate-400 text-[11px] leading-relaxed">
-            <code className="text-emerald-400 font-mono">TripartiteStageView.tsx</code> &amp; <code className="text-emerald-400 font-mono">StageView.tsx</code>. WebGPU frustum chunking (<code className="text-emerald-400 font-mono">FrustumChunkManager.ts</code>), WGSL raycast Line-of-Sight &amp; CSG Fog (<code className="text-amber-400 font-mono">BVHBuilder.ts</code>), fluid hazard particles, multi-scene breadcrumbs (<code className="text-emerald-400 font-mono">StageBreadcrumbTabs.tsx</code>), floating vitals pills (<code className="text-cyan-300 font-mono">TokenContextualPill.tsx</code>), and in-stage design palette (<code className="text-emerald-400 font-mono">ArchitectDesignPalette.tsx</code>).
-          </p>
-        </div>
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-purple-300 font-mono">3. Right: Master Cockpit Dock</div>
-          <p className="text-slate-400 text-[11px] leading-relaxed">
-            <code className="text-purple-400 font-mono">CockpitPanel.tsx</code>. 5 specialized decks: <strong className="text-white">TangentActionDeck</strong> (3-AP combat &amp; strikes), <strong className="text-white">GMInspector</strong> (stats override &amp; vision), <strong className="text-white">MechaCompanionDeck</strong> (vehicle SP, heat, hardpoints), <strong className="text-white">AimeCockpitDeck</strong> (in-VTT AI co-pilot), <strong className="text-white">MultiSelectCard</strong> (batch operations), and <strong className="text-white">PopoutPortal</strong> (multi-monitor popout).
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-4 space-y-3">
-      <h4 className="text-cyan-400 font-bold text-xs uppercase font-mono tracking-wider flex items-center gap-1.5">
-        🗺️ Tactical Map Maker Authoring Tools (`/foundry/map-maker`)
-      </h4>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-cyan-300 font-mono">9-Layer Compositor Panel</div>
-          <p className="text-slate-400 text-[11px]">Grid, Underlay Blueprint, Floor Tile/Terrain, Props, Walls/Occlusion, Hazards, Tokens, Lighting/Fog, and GM Secret Layer (<code className="text-cyan-400 font-mono">MapLayersPanel.jsx</code>).</p>
-        </div>
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-emerald-300 font-mono">Biome & Terrain Brushes</div>
-          <p className="text-slate-400 text-[11px]">Brush radius, opacity, and textured biomes (Steel Decking, Volcanic Basalt, Rust Sand, Neon Pavement, Toxic Sludge) (<code className="text-emerald-400 font-mono">MapToolsPanel.jsx</code>).</p>
-        </div>
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-amber-300 font-mono">Folio Hero & Asset Drawers</div>
-          <p className="text-slate-400 text-[11px]">One-click drag-and-drop spawning of Folio operatives (<code className="text-amber-400 font-mono">FolioHeroTokenDrawer.jsx</code>) and Omnicortex database items (<code className="text-amber-400 font-mono">OmnicortexAssetDrawer.jsx</code>).</p>
-        </div>
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-red-300 font-mono">Combat & Hit Location Modal</div>
-          <p className="text-slate-400 text-[11px]">Automated 2d10 attack check, 7 hit locations (Head, Torso, Arms, Legs, Vitals), armor DR soak, wound allocation, and floating damage numbers (<code className="text-red-400 font-mono">CombatResolutionModal.jsx</code>).</p>
-        </div>
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-purple-300 font-mono">AoE & Hazmat Volume Modals</div>
-          <p className="text-slate-400 text-[11px]">Blast, cone, and line templates with saving throws (<code className="text-purple-400 font-mono">AoEResolutionModal.jsx</code>); spreading toxic gas, fire, and decompression (<code className="text-purple-400 font-mono">HazmatVolumeManagerModal.jsx</code>).</p>
-        </div>
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-pink-300 font-mono">UVTT Import & Calibration</div>
-          <p className="text-slate-400 text-[11px]">Import Dungeondraft .dd2vtt files with automated wall and light extraction (<code className="text-pink-400 font-mono">UvttImportModal.jsx</code>), and 3-point grid alignment (<code className="text-pink-400 font-mono">MapUnderlayCalibrationModal.jsx</code>).</p>
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
-/* =========================================================================
-   7. AIME CREATIVE SUITE & ELEMENT FORGE GUIDE
-   ========================================================================= */
-const AimeGuideSection = () => (
-  <div className="space-y-6">
-    <div className="bg-slate-900/60 border border-pink-500/30 rounded-2xl p-5 sm:p-6 space-y-3">
-      <h3 className="text-base font-bold text-pink-300 uppercase tracking-wide font-mono flex items-center gap-2">
-        <Cpu size={18} />
-        7. AIME Creative Suite & Element Forge Lore Architect
-      </h3>
-      <p>
-        The <strong className="text-white">AIME Creative Suite (`/foundry/aime`)</strong> (Artificial Intellect Master Entity) and <strong className="text-white">Element Forge (`/foundry/elements`)</strong> provide AI-assisted prose drafting and structured worldbuilding databases.
-      </p>
-    </div>
-
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-      <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-4 space-y-2">
-        <h4 className="text-pink-300 font-bold uppercase font-mono tracking-wider">
-          ✨ 3-Stage AIME Manuscript Engine
-        </h4>
-        <ol className="list-decimal pl-4 space-y-1.5 text-slate-300 text-[11px]">
-          <li><strong>Stage 1 — Brainstorm:</strong> Select active lore elements & Guidance Gems to brainstorm scene premises and unexpected narrative twists.</li>
-          <li><strong>Stage 2 — Outline:</strong> Structure scene beats, character arcs, and pacing before generating long-form prose.</li>
-          <li><strong>Stage 3 — Draft & Floating Toolbar:</strong> Write in a rich manuscript canvas with floating tools to <em>Expand, Rephrase, Shorten, Polish,</em> or <em>Transform Tone</em>.</li>
-        </ol>
-      </div>
-
-      <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-4 space-y-2">
-        <h4 className="text-cyan-300 font-bold uppercase font-mono tracking-wider">
-          🧩 Element Forge & Floating AI Co-Pilot
-        </h4>
-        <p className="text-slate-300 text-[11px] mb-2">
-          Create schema-driven world lore for Characters, Locations, Factions, Relics, and Historical Events with custom attributes and automated Omnicortex rules cross-referencing.
-        </p>
-        <p className="text-slate-400 text-[11px]">
-          <strong>Movable AIME Co-Pilot:</strong> Click ✨ AIME Co-Pilot in ADE Studio to open a floating, draggable chat assistant that checks rules with Bastion AI and executes <code className="text-amber-300 font-mono">/roll 2d10+4</code> directly.
-        </p>
-      </div>
-    </div>
-  </div>
-);
-
-/* =========================================================================
-   8. COMMLINK RELAY GUIDE
-   ========================================================================= */
-const CommsGuideSection = () => (
-  <div className="space-y-6">
-    <div className="bg-slate-900/60 border border-blue-500/30 rounded-2xl p-5 sm:p-6 space-y-3">
-      <h3 className="text-base font-bold text-blue-300 uppercase tracking-wide font-mono flex items-center gap-2">
-        <Radio size={18} />
-        8. CommLink Quantum Relay & In-Chat Dice System
-      </h3>
-      <p>
-        The <strong className="text-white">CommLink Relay (`/comms`)</strong> is a real-time multiplayer communications and dispatch matrix for roleplay dialogue, GM announcements, private operative frequencies, and instant dice check resolution.
-      </p>
-    </div>
-
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-      <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-3.5 space-y-1">
-        <div className="font-bold text-cyan-300 font-mono uppercase">📡 Public & Faction Channels</div>
-        <p className="text-slate-400 text-[11px]">Broadcast on open channels (Holonet) or join encrypted channels accessible only to authorized team members.</p>
-      </div>
-      <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-3.5 space-y-1">
-        <div className="font-bold text-emerald-300 font-mono uppercase">🔒 Direct Operative Comms</div>
-        <p className="text-slate-400 text-[11px]">Establish secure 1-on-1 private frequencies between operatives or between a player and the GM for secret checks.</p>
-      </div>
-      <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-3.5 space-y-1">
-        <div className="font-bold text-amber-300 font-mono uppercase">🎲 Slash Command Rolls</div>
-        <p className="text-slate-400 text-[11px]">Type <code className="text-amber-300 font-mono">/roll 2d10+4</code> or <code className="text-amber-300 font-mono">/roll d100</code> directly in message input to broadcast verified rolls.</p>
-      </div>
-    </div>
-  </div>
-);
-
-/* =========================================================================
-   9. UTILITIES, HOTKEYS & AUDIO GUIDE
-   ========================================================================= */
-const UtilitiesGuideSection = () => (
-  <div className="space-y-6">
-    <div className="bg-slate-900/60 border border-yellow-500/30 rounded-2xl p-5 sm:p-6 space-y-3">
-      <h3 className="text-base font-bold text-yellow-300 uppercase tracking-wide font-mono flex items-center gap-2">
-        <Dices size={18} />
-        9. Global Dice Architecture, AST Parser & System Hotkeys
-      </h3>
-      <p>
-        Tangent SFF RP is engineered with a centralized <strong className="text-white">DiceContext</strong>, an enterprise <strong className="text-white">Abstract Syntax Tree (AST) Dice Parser (`DiceASTParser.ts`)</strong>, zero-dependency procedural Web Audio synthesis, spotlight omni-search, and high-speed keyboard shortcuts accessible on all routes.
-      </p>
-    </div>
-
-    <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-5 space-y-3">
-      <h4 className="text-amber-400 font-bold text-xs uppercase font-mono tracking-wider flex items-center gap-1.5">
-        🎲 AST Dice Formula Expression Engine (`DiceASTParser.ts`)
-      </h4>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-cyan-300 font-mono">Standard Polyhedrals</div>
-          <p className="text-slate-400 text-[11px]">Supports one-click or typed formulas: <code className="text-cyan-300 font-mono">2d10+5</code>, <code className="text-cyan-300 font-mono">4d6-2</code>, <code className="text-cyan-300 font-mono">1d100</code> with arithmetic evaluation.</p>
-        </div>
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-amber-300 font-mono">Keep & Explode (`k` / `!`)</div>
-          <p className="text-slate-400 text-[11px]">Keep highest or lowest dice (<code className="text-amber-300 font-mono">4d6k3</code>) and exploding maximum rolls (<code className="text-amber-300 font-mono">1d10!</code>) for dramatic critical hits.</p>
-        </div>
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-emerald-300 font-mono">Advantage / Disadvantage</div>
-          <p className="text-slate-400 text-[11px]">Toggle Advantage or Disadvantage with automated higher/lower selection and instant broadcast to team chat and VTT logs.</p>
-        </div>
-      </div>
-    </div>
-
-    <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-5 space-y-3">
-      <h4 className="text-white font-bold text-xs uppercase font-mono tracking-wider">
-        Global Keyboard Shortcuts Cheatsheet
-      </h4>
-      <div className="overflow-x-auto">
-        <table className="w-full text-left text-xs font-mono">
-          <thead>
-            <tr className="border-b border-slate-800 text-slate-400 text-[11px]">
-              <th className="pb-2">Keybinding</th>
-              <th className="pb-2">Action Description</th>
-              <th className="pb-2">Availability</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-800/60 text-slate-300 text-[11px]">
-            <tr>
-              <td className="py-2"><kbd className="px-2 py-0.5 bg-slate-800 text-cyan-300 rounded border border-slate-700">Ctrl + K</kbd> or <kbd className="px-2 py-0.5 bg-slate-800 text-cyan-300 rounded border border-slate-700">Cmd + K</kbd></td>
-              <td>Toggle Spotlight Omni-Search &amp; Command Palette</td>
-              <td>Global</td>
-            </tr>
-            <tr>
-              <td className="py-2"><kbd className="px-2 py-0.5 bg-slate-800 text-amber-300 rounded border border-slate-700">Alt + D</kbd></td>
-              <td>Toggle Centralized Polyhedral Dice Roller Dock (AST Parser)</td>
-              <td>Global</td>
-            </tr>
-            <tr>
-              <td className="py-2"><kbd className="px-2 py-0.5 bg-slate-800 text-blue-300 rounded border border-slate-700">Alt + C</kbd></td>
-              <td>Toggle CommLink Dock Quick Chat</td>
-              <td>Global</td>
-            </tr>
-            <tr>
-              <td className="py-2"><kbd className="px-2 py-0.5 bg-slate-800 text-slate-300 rounded border border-slate-700">Esc</kbd></td>
-              <td>Close active modal, drawer, or palette</td>
-              <td>Global</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-);
-
-/* =========================================================================
-   10. TANGENT CORE RULES & RESOLUTION MECHANICS
-   ========================================================================= */
-const RulesGuideSection = () => (
-  <div className="space-y-6">
-    <div className="bg-slate-900/60 border border-teal-500/30 rounded-2xl p-5 sm:p-6 space-y-3">
-      <h3 className="text-base font-bold text-teal-300 uppercase tracking-wide font-mono flex items-center gap-2">
-        <BookOpen size={18} />
-        10. Tangent Core Mechanics, Attributes &amp; Resolution Engine
-      </h3>
-      <p className="text-slate-300 text-sm">
-        Tangent Science Fantasy uses a dual resolution architecture: <strong className="text-cyan-300 font-mono">2d10 + Attribute + Skill Rank vs TN</strong> for trained skill tests, and <strong className="text-amber-300 font-mono">d20 + Base Check Score + Modifiers vs CR</strong> for Attribute Checks &amp; Saving Throws.
-      </p>
-    </div>
-
-    {/* Section 1: Trained Skills Resolution */}
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-      <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-4 space-y-2">
-        <h4 className="text-teal-300 font-bold uppercase font-mono tracking-wider">
-          🎲 Trained Skill Formula &amp; Target Numbers (TN)
-        </h4>
-        <div className="p-3 bg-slate-950 rounded-lg border border-slate-800 font-mono text-cyan-300 text-center font-bold text-sm">
-          Roll = 2d10 + Linked Attribute + Skill Rank + Mods
-        </div>
-        <div className="space-y-1 text-slate-300 text-[11px]">
-          <div className="flex justify-between py-0.5 border-b border-slate-800"><span>TN 10 — Routine / Simple</span> <span className="text-emerald-400 font-bold">Standard Task</span></div>
-          <div className="flex justify-between py-0.5 border-b border-slate-800"><span>TN 15 — Challenging / Trained</span> <span className="text-cyan-400 font-bold">Combat Stress</span></div>
-          <div className="flex justify-between py-0.5 border-b border-slate-800"><span>TN 20 — Formidable / Expert</span> <span className="text-amber-400 font-bold">Specialist Feat</span></div>
-          <div className="flex justify-between py-0.5"><span>TN 25+ — Heroic / Legendary</span> <span className="text-purple-400 font-bold">Universe-Altering</span></div>
-        </div>
-      </div>
-
-      <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-4 space-y-2">
-        <h4 className="text-amber-300 font-bold uppercase font-mono tracking-wider">
-          ⚡ Critical Success &amp; Critical Fumbles (Numeric Adjustments)
-        </h4>
-        <p className="text-slate-300 text-[11px]">
-          <strong>Critical Success (Double 10s on 2d10):</strong> The rolled value is treated as <strong className="text-amber-300 font-mono">30</strong> (<code className="text-cyan-300 font-mono">Total = 30 + Modifiers</code>), guaranteeing an extraordinary triumph and maximum margin of success.
-        </p>
-        <p className="text-slate-300 text-[11px]">
-          <strong>Critical Fumble (Double 1s on 2d10):</strong> The rolled value is treated as <strong className="text-red-400 font-mono">-10</strong> (<code className="text-red-300 font-mono">Total = -10 + Modifiers</code>), resulting in catastrophic failure, weapon malfunctions, or severe tactical complications.
-        </p>
-      </div>
-    </div>
-
-    {/* Section 2: Core Attributes & Checks System */}
-    <div className="bg-slate-900/50 border border-cyan-900/50 rounded-xl p-4 sm:p-5 space-y-4">
-      <div className="flex justify-between items-center border-b border-slate-800 pb-2">
-        <h4 className="text-cyan-300 font-bold uppercase font-mono tracking-wider text-xs flex items-center gap-2">
-          <span>🧬</span> The Six Core Attributes &amp; Attribute Checks
-        </h4>
-        <span className="text-[10px] font-mono text-amber-300 font-semibold">
-          Attr Cost: 5 BP / +1 • Check Cost: 1 BP / +1
-        </span>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
-        {[
-          { name: 'Strength (STR)', check: 'Might Check', formula: '2 + (STR × 2)', desc: 'Carrying/lifting weight, melee damage, grappling, bending prison bars, smashing gates.' },
-          { name: 'Agility (AGI)', check: 'Reflex Check', formula: '2 + (AGI × 2)', desc: 'Dodging attacks, ranged accuracy, initiative, acrobatic feats, diving from explosions.' },
-          { name: 'Stamina (STA)', check: 'Fortitude Check', formula: '2 + (STA × 2)', desc: 'Endurance, toxic/disease immunity, harsh climates, base Toughness, Health buffer.' },
-          { name: 'Intellect (INT)', check: 'Reason Check', formula: '2 + (INT × 2)', desc: 'Pure logic, problem-solving, deduction, decoding languages/ciphers, technical analysis.' },
-          { name: 'Wisdom (WIS)', check: 'Willpower Check', formula: '2 + (WIS × 2)', desc: 'Sensing deception, mental fortitude, resisting terror/fear, breaking mind control, focus.' },
-          { name: 'Charisma (CHA)', check: 'Etiquette Check', formula: '2 + (CHA × 2)', desc: 'Persuasion, leadership, inspiring morale, bartering, diplomacy, peaceful conflict resolution.' },
-        ].map(item => (
-          <div key={item.name} className="bg-slate-950/80 border border-slate-800 rounded-lg p-3 space-y-1.5">
-            <div className="flex justify-between items-center">
-              <span className="font-bold text-white font-mono">{item.name}</span>
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800 font-mono font-bold">
-                {item.check}
-              </span>
-            </div>
-            <div className="text-[10px] font-mono text-amber-300">Base: {item.formula}</div>
-            <p className="text-slate-400 text-[11px] leading-relaxed">{item.desc}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Mechanics Breakdown: General Checks, Saving Throws, Challenges & Synergy */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs pt-2">
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1.5">
-          <div className="font-bold text-emerald-300 font-mono text-xs uppercase">
-            🛡️ General Checks vs Saving Throws
-          </div>
-          <p className="text-slate-300 text-[11px]">
-            <strong>General Checks:</strong> Tests for actions not covered by specific skills (e.g., Strength to force a door, Dexterity to catch a falling glass).
-          </p>
-          <p className="text-slate-300 text-[11px]">
-            <strong>Saving Throws:</strong> Reactive checks to resist or mitigate harmful effects (Fortitude vs neurotoxin, Willpower vs psionic charm, Reflex vs explosive traps).
-          </p>
-          <p className="text-amber-400 text-[10px] font-mono">
-            ⚠️ Rule: Attribute checks never replace trained skill checks; if an action is covered by a skill, use the skill roll.
-          </p>
-        </div>
-
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1.5">
-          <div className="font-bold text-purple-300 font-mono text-xs uppercase">
-            ⚔️ Challenge Types &amp; Skill Synergy
-          </div>
-          <p className="text-slate-300 text-[11px]">
-            <strong>Targeted Challenge:</strong> Compare <code className="text-cyan-300 font-mono">d20 + Base Score + Mods</code> against the GM's Challenge Rating (CR).
-          </p>
-          <p className="text-slate-300 text-[11px]">
-            <strong>Opposed Challenge:</strong> Direct contest between two characters (e.g. arm wrestling, battle of wills, social debate). Highest total wins.
-          </p>
-          <p className="text-teal-300 text-[11px]">
-            <strong>Skill Synergy:</strong> Relevant skills aid saves (e.g., Medicine aids Fortitude vs poison; Athletics aids Reflex vs hazards; Perception aids Willpower vs illusions; Linguistics aids Reason vs ancient inscriptions).
-          </p>
-        </div>
-      </div>
-    </div>
-
-    {/* Section 3: Perception Sub-Ability & Detection Checks */}
-    <div className="bg-slate-900/50 border border-cyan-900/50 rounded-xl p-4 sm:p-5 space-y-4">
-      <div className="flex justify-between items-center border-b border-slate-800 pb-2">
-        <h4 className="text-cyan-300 font-bold uppercase font-mono tracking-wider text-xs flex items-center gap-2">
-          <span>👁️</span> Sub-Ability: Perception &amp; Detection Checks
-        </h4>
-        <span className="text-[10px] font-mono text-cyan-300 font-semibold">
-          Formula: Intellect + Wisdom
-        </span>
-      </div>
-
-      <p className="text-slate-300 text-xs leading-relaxed">
-        <strong>Perception</strong> is a sub-ability derived from a character's <strong>Intellect</strong> and <strong>Wisdom</strong> scores. It reflects overall sensory acuity, mental focus, and intuitive awareness. Perception is combined with specific skills to determine success across different detection scenarios.
-      </p>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-cyan-300 font-mono text-xs flex items-center gap-1.5">
-            <span>🎯</span> Default Check (Alertness)
-          </div>
-          <div className="text-[10.5px] text-slate-400 font-mono">
-            <code>Perception Base + Alertness (Rank + Mod)</code>
-          </div>
-          <p className="text-slate-300 text-[11px]">
-            Standard environmental awareness: spotting visual/auditory cues, noticing hidden traps, concealed doors, and detecting ambushes.
-          </p>
-        </div>
-
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-amber-300 font-mono text-xs flex items-center gap-1.5">
-            <span>✨</span> Meta Perception (Attune)
-          </div>
-          <div className="text-[10.5px] text-slate-400 font-mono">
-            <code>Perception Base + Attune (Rank + Mod)</code>
-          </div>
-          <p className="text-slate-300 text-[11px]">
-            Supernatural sensing: detecting and analyzing magic, psychic powers, subtle planar energies, and Metafocus aura signatures.
-          </p>
-        </div>
-
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-emerald-300 font-mono text-xs flex items-center gap-1.5">
-            <span>💬</span> Social Perception (Insight)
-          </div>
-          <div className="text-[10.5px] text-slate-400 font-mono">
-            <code>Perception Base + Insight (Rank + Mod)</code>
-          </div>
-          <p className="text-slate-300 text-[11px]">
-            Interpersonal reading: picking up on subtle social cues, micro-expressions, vocal tone shifts, motivations, and lie detection.
-          </p>
-        </div>
-
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-blue-300 font-mono text-xs flex items-center gap-1.5">
-            <span>⚙️</span> Technical Perception (Technology)
-          </div>
-          <div className="text-[10.5px] text-slate-400 font-mono">
-            <code>Perception Base + Technology (Rank + Mod)</code>
-          </div>
-          <p className="text-slate-300 text-[11px]">
-            Hardware analysis: interpreting electronic sensors, detecting hardware vulnerabilities, electronic counter-measures, and tech devices.
-          </p>
-        </div>
-      </div>
-
-      <div className="bg-slate-950/80 p-3 rounded-lg border border-cyan-900/40 space-y-1">
-        <div className="text-[11px] font-bold text-slate-200 uppercase font-mono">
-          Example &amp; GM Modifiers
-        </div>
-        <p className="text-[11px] text-slate-400">
-          A character with <strong className="text-slate-200">INT +2</strong> and <strong className="text-slate-200">WIS +1</strong> has a <strong className="text-cyan-300">Base Perception of +3</strong>. Spotting a hidden tripwire uses Alertness + 3; sensing a magic rune uses Attune + 3; reading a suspect uses Insight + 3; analyzing computer hardware uses Technology + 3. The GM applies situational modifiers based on lighting, distance, interference, or camouflage.
-        </p>
-      </div>
-    </div>
-
-    {/* Section 4: Experience & Advancement System */}
-    <div className="bg-slate-900/50 border border-cyan-900/50 rounded-xl p-4 sm:p-5 space-y-4">
-      <div className="flex justify-between items-center border-b border-slate-800 pb-2">
-        <h4 className="text-emerald-300 font-bold uppercase font-mono tracking-wider text-xs flex items-center gap-2">
-          <span>🎖️</span> Experience &amp; Advancement (Award Points &amp; The Increment Rule)
-        </h4>
-        <span className="text-[10px] font-mono text-emerald-400 font-bold">
-          1 AP = 1 BP • Standard Pacing: 1-3 AP / session
-        </span>
-      </div>
-
-      <p className="text-slate-300 text-xs leading-relaxed">
-        Character progression in Tangent is organic, non-linear, and based on real narrative achievements. <strong>Award Points (AP)</strong> are awarded for outstanding gameplay, strategic competence, and immersive roleplaying.
-      </p>
-
-      {/* The Increment Rule */}
-      <div className="bg-amber-950/40 border border-amber-500/50 rounded-lg p-3 space-y-1">
-        <div className="flex items-center gap-2 text-xs font-bold font-mono text-amber-300 uppercase tracking-wider">
-          <span>⚠️</span> The Increment Rule (CRITICAL)
-        </div>
-        <p className="text-[11px] text-slate-300 leading-relaxed">
-          Advancement Points are spent in the exact same manner as Build Points in character creation, on a 1-for-1 basis, except that <strong className="text-amber-200">abilities, skills, or other traits may ONLY HAVE A 1 POINT INCREMENT OF ANY SCORE PER ADVANCEMENT AWARD</strong>. A player cannot dump 10 AP into a single skill instantly.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
-        {/* Story Awards */}
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-2 flex flex-col justify-between">
-          <div>
-            <div className="font-bold text-cyan-300 font-mono text-xs uppercase flex items-center gap-1.5">
-              <span>📖</span> Story Awards
-            </div>
-            <p className="text-slate-400 text-[10.5px] mt-1 leading-relaxed">
-              Awarded upon concluding story milestones, chapters, and during downtime reflection.
-            </p>
-          </div>
-          <div className="space-y-1 text-[11px] border-t border-slate-800/80 pt-1.5">
-            <div className="flex justify-between"><span className="text-slate-300">Chapter Completion</span> <strong className="text-cyan-300 font-mono">5 to 10 AP</strong></div>
-            <div className="flex justify-between"><span className="text-slate-300">Overcoming Villain/Plot</span> <strong className="text-cyan-300 font-mono">1, 2, or 3 AP</strong></div>
-          </div>
-        </div>
-
-        {/* Session Awards */}
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-2 flex flex-col justify-between">
-          <div>
-            <div className="font-bold text-emerald-300 font-mono text-xs uppercase flex items-center gap-1.5">
-              <span>🎲</span> Session Awards
-            </div>
-            <p className="text-slate-400 text-[10.5px] mt-1 leading-relaxed">
-              Evaluated post-session regardless of narrative milestone completion.
-            </p>
-          </div>
-          <div className="space-y-1 text-[11px] border-t border-slate-800/80 pt-1.5">
-            <div className="flex justify-between"><span className="text-slate-300">Proper Game / Mechanics</span> <strong className="text-emerald-300 font-mono">0, 1, or 2 AP</strong></div>
-            <div className="flex justify-between"><span className="text-slate-300">Roleplaying in Character</span> <strong className="text-emerald-300 font-mono">0, 1, or 2 AP</strong></div>
-          </div>
-        </div>
-
-        {/* Epic Awards */}
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-2 flex flex-col justify-between">
-          <div>
-            <div className="font-bold text-purple-300 font-mono text-xs uppercase flex items-center gap-1.5">
-              <span>⚡</span> Epic &amp; Ad Hoc
-            </div>
-            <p className="text-slate-400 text-[10.5px] mt-1 leading-relaxed">
-              Granted immediately for turns of the tide, brilliant ideas, and stumping the Architect.
-            </p>
-          </div>
-          <div className="space-y-1 text-[11px] border-t border-slate-800/80 pt-1.5">
-            <div className="flex justify-between"><span className="text-slate-300">Stumping the Architect</span> <strong className="text-purple-300 font-mono">1 to 5 AP</strong></div>
-            <div className="flex justify-between"><span className="text-slate-300">Revivification Trauma</span> <strong className="text-rose-400 font-mono">-5 AP Debt</strong></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    {/* Section 5: Vitality, Health, Toughness & Damage Resolution */}
-    <div className="bg-slate-900/50 border border-cyan-900/50 rounded-xl p-4 sm:p-5 space-y-4">
-      <div className="flex justify-between items-center border-b border-slate-800 pb-2">
-        <h4 className="text-rose-400 font-bold uppercase font-mono tracking-wider text-xs flex items-center gap-2">
-          <span>❤️</span> Vitality, Health, Toughness &amp; Damage Resolution
-        </h4>
-        <span className="text-[10px] font-mono text-cyan-300 font-semibold">
-          Vitality: Base 30 • Health: Base 30 (Max Increase: 5 × STA)
-        </span>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-        <div className="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-2">
-          <div className="font-bold text-amber-300 font-mono uppercase text-xs">
-            🛡️ Vitality vs. Physical Health
-          </div>
-          <p className="text-slate-300 text-[11px] leading-relaxed">
-            <strong className="text-cyan-300">Vitality</strong> represents stamina, reflex poise, and non-lethal stress capacity. It is depleted first by non-lethal strikes. Once non-lethal damage exceeds Vitality, it spills into Health as lethal damage. <strong className="text-rose-400">Health</strong> represents deep physical tissue, structural integrity, and lethal damage capacity. Critical hits affect damage without necessarily converting non-lethal attacks to lethal. Synthetics use Structure (Vitality + Health) and are immune to non-lethal damage.
-          </p>
-          <div className="text-[10.5px] font-mono text-emerald-300 border-t border-slate-800/80 pt-1.5">
-            Natural DR: Stamina Score (reduces all damage penetrating defenses, minimum 1 point)
-          </div>
-        </div>
-
-        <div className="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-2">
-          <div className="font-bold text-cyan-300 font-mono uppercase text-xs">
-            💥 Concussive Split &amp; Armor DR
-          </div>
-          <p className="text-slate-300 text-[11px] leading-relaxed">
-            Blunt concussive blasts and explosive shocks split incoming damage between the Vitality and Health pools based on impact energy. Armor Damage Reduction (DR) deflects damage prior to pool subtraction based on the hit location struck.
-          </p>
-          <div className="text-[10.5px] font-mono text-amber-300 border-t border-slate-800/80 pt-1.5">
-            Called Shots: Specific limb targeting with situational DR penalties
-          </div>
-        </div>
-      </div>
-    </div>
-
-    {/* Section 6: The Death Clock, Massive Damage & Revivification */}
-    <div className="bg-slate-900/50 border border-cyan-900/50 rounded-xl p-4 sm:p-5 space-y-4">
-      <div className="flex justify-between items-center border-b border-slate-800 pb-2">
-        <h4 className="text-rose-500 font-bold uppercase font-mono tracking-wider text-xs flex items-center gap-2">
-          <span>💀</span> The Death Clock, Massive Damage &amp; Revivification
-        </h4>
-        <span className="text-[10px] font-mono text-rose-400 font-semibold">
-          Clock = Stamina Score in Rounds
-        </span>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1.5">
-          <div className="font-bold text-rose-400 font-mono text-xs uppercase">
-            ⏳ The Death Clock
-          </div>
-          <p className="text-slate-300 text-[11px] leading-relaxed">
-            When Health hits 0, the character collapses unconscious and initiates the Death Clock, equal to their Stamina score in rounds (minimum 1 round). Each un-stabilized round ticks the clock down by 1. At 0, permanent clinical death occurs.
-          </p>
-        </div>
-
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1.5">
-          <div className="font-bold text-amber-400 font-mono text-xs uppercase">
-            ⚡ Massive Damage &amp; Stabs
-          </div>
-          <p className="text-slate-300 text-[11px] leading-relaxed">
-            Taking damage in a single hit equal to or exceeding your Stamina score directly to Health triggers an immediate CR 15 Fortitude check. Failure causes instant death or instantaneous coma. A successful CR 15 Medicine check stops the Death Clock.
-          </p>
-        </div>
-
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1.5">
-          <div className="font-bold text-purple-400 font-mono text-xs uppercase">
-            🌌 The High Cost of Dying
-          </div>
-          <p className="text-slate-300 text-[11px] leading-relaxed">
-            Revivification via TL5 medical resurrection or rare metaphysics incurs devastating existential trauma: the character loses ALL remaining Karma Points and suffers a <strong className="text-rose-400 font-mono">-5 AP Experience Debt</strong> paid 1-for-1 before new advancements.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    {/* Section 7: Rest & Recovery Engine & Movement Fatigue */}
-    <div className="bg-slate-900/50 border border-cyan-900/50 rounded-xl p-4 sm:p-5 space-y-4">
-      <div className="flex justify-between items-center border-b border-slate-800 pb-2">
-        <h4 className="text-blue-400 font-bold uppercase font-mono tracking-wider text-xs flex items-center gap-2">
-          <span>🌙</span> Rest Cycles, Recovery &amp; Movement Fatigue
-        </h4>
-        <span className="text-[10px] font-mono text-cyan-400 font-semibold">
-          Full Rest: 6-8h • Light Rest: up to 4×/day
-        </span>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-        <div className="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-2">
-          <div className="font-bold text-blue-300 font-mono uppercase text-xs">
-            🛌 Full Rest vs. Light Rest Tiers
-          </div>
-          <div className="space-y-1 text-[11px] text-slate-300">
-            <div><strong>Full Rest (6-8 Hours):</strong> Completely removes exhaustion and restores full vitality. Synthetics, Fae, and Insects need only a brief Light Rest; Alterians/Mondi meditate.</div>
-            <div><strong>Nap / Meditation (1 Hour):</strong> Optimal Light Rest resetting single-encounter features.</div>
-            <div><strong>Lounging (2 Hours) / Light Duty (3 Hours):</strong> Passive guard/reading. Strenuous action worsens rest tier.</div>
-          </div>
-        </div>
-
-        <div className="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-2">
-          <div className="font-bold text-amber-300 font-mono uppercase text-xs">
-            🏃 Movement Fatigue Triggers
-          </div>
-          <p className="text-slate-300 text-[11px] leading-relaxed">
-            Sprinting for <strong>5 consecutive combat rounds</strong> or maintaining hurried forced march for <strong>10 minutes</strong> triggers a mandatory <strong>CR 15 Stamina Fortitude Check</strong>.
-          </p>
-          <div className="text-[10.5px] text-slate-400 border-t border-slate-800/80 pt-1.5">
-            Failure: Suffer 5 points of non-lethal Vitality damage. If Vitality is 0, take 2 Health damage and become <strong className="text-amber-300">Exhausted</strong> (-2 to active checks, half movement speed) until receiving a Light Rest.
-          </div>
-        </div>
-      </div>
-    </div>
-
-    {/* Section 8: Movement Rules, Locomotion Modes & Tactical Paces */}
-    <div className="bg-slate-900/50 border border-cyan-900/50 rounded-xl p-4 sm:p-5 space-y-4">
-      <div className="flex justify-between items-center border-b border-slate-800 pb-2">
-        <h4 className="text-emerald-400 font-bold uppercase font-mono tracking-wider text-xs flex items-center gap-2">
-          <span>👟</span> Movement Rules, Locomotion Modes &amp; Tactical Paces
-        </h4>
-        <span className="text-[10px] font-mono text-emerald-300 font-semibold">
-          Base: 30 ft (6 hexes/squares)
-        </span>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 text-xs">
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-cyan-300 font-mono">Walk (1× Base)</div>
-          <p className="text-slate-400 text-[10.5px]">Standard movement; perform normal combat actions with zero tactical penalty.</p>
-        </div>
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-emerald-300 font-mono">Hustle (2× Base)</div>
-          <p className="text-slate-400 text-[10.5px]">Double-time movement; consumes standard action during the tactical round.</p>
-        </div>
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-amber-300 font-mono">Run (3× Base)</div>
-          <p className="text-slate-400 text-[10.5px]">High-speed advance; imposes -2 penalty to passive perception checks.</p>
-        </div>
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-rose-400 font-mono">Sprint (4× Base)</div>
-          <p className="text-slate-400 text-[10.5px]">Straight-line surge; imposes -4 to defense and triggers fatigue checks after 5 rounds.</p>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs pt-1">
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-sky-300 font-mono uppercase text-xs">🦅 Aerial Flight &amp; Ramming</div>
-          <p className="text-slate-400 text-[10.5px]">
-            Hovering requires CR 15 Acrobatics. Soaring grants <strong className="text-cyan-300">High Ground (+2 Strike/+2 Crit)</strong>. Aerial rams deal +1d damage per flight stage and +1 impact per 10ft of speed to both flyer and target.
-          </p>
-        </div>
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-teal-300 font-mono uppercase text-xs">🧗 Climbing &amp; Descents</div>
-          <p className="text-slate-400 text-[10.5px]">
-            Base climbing is 1/2 speed. Scaling (2×, CR 15), Fast Ascent (3×, CR 18), and Fast Descent (6×, CR 20 Athletics) permit rapid vertical maneuvers across sheer cliff faces.
-          </p>
-        </div>
-        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-          <div className="font-bold text-purple-300 font-mono uppercase text-xs">🚀 Zero-G &amp; Locomotion Modes</div>
-          <p className="text-slate-400 text-[10.5px]">
-            Zero-G requires reaction thrusters or mag-boots. Quadruped, Slithering, Swimming, Hexapedal, and Treads locomotion modes provide specialized terrain bonuses.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    {/* Section 9: Unified Scaling Multipliers (Personal to Planetary) */}
-    <div className="bg-slate-900/50 border border-cyan-900/50 rounded-xl p-4 sm:p-5 space-y-4">
-      <div className="flex justify-between items-center border-b border-slate-800 pb-2">
-        <h4 className="text-amber-400 font-bold uppercase font-mono tracking-wider text-xs flex items-center gap-2">
-          <span>📐</span> Unified Scaling Multipliers (Personal to Planetary)
-        </h4>
-        <span className="text-[10px] font-mono text-amber-300 font-semibold">
-          8 Distinct Scale Tiers
-        </span>
-      </div>
-
-      <div className="overflow-x-auto">
-        <table className="w-full text-left text-xs font-mono">
-          <thead>
-            <tr className="border-b border-slate-800 text-slate-400 text-[10.5px]">
-              <th className="pb-2">Tier</th>
-              <th className="pb-2">Multiplier</th>
-              <th className="pb-2">Typical Archetypes</th>
-              <th className="pb-2">Damage / DR Scale</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-800/60 text-slate-300 text-[11px]">
-            <tr>
-              <td className="py-1.5 font-bold text-white">Personal</td>
-              <td className="py-1.5 text-cyan-300">1×</td>
-              <td>Humanoids, biological species, infantry rifles</td>
-              <td>1× Kinetic / 1× DR</td>
-            </tr>
-            <tr>
-              <td className="py-1.5 font-bold text-white">Heavy Exo</td>
-              <td className="py-1.5 text-cyan-300">2×</td>
-              <td>Powered exoskeleton rigs, crew-served autocannons</td>
-              <td>2× Kinetic / 2× DR</td>
-            </tr>
-            <tr>
-              <td className="py-1.5 font-bold text-white">Light Vehicle</td>
-              <td className="py-1.5 text-emerald-300">5×</td>
-              <td>Hoverbikes, light buggies, scout walkers</td>
-              <td>5× Kinetic / 5× DR</td>
-            </tr>
-            <tr>
-              <td className="py-1.5 font-bold text-white">Medium Mecha</td>
-              <td className="py-1.5 text-emerald-300">10×</td>
-              <td>Combat walkers, armored personnel carriers</td>
-              <td>10× Kinetic / 10× DR</td>
-            </tr>
-            <tr>
-              <td className="py-1.5 font-bold text-white">Heavy MBT</td>
-              <td className="py-1.5 text-amber-300">20×</td>
-              <td>Main battle tanks, heavy siege platforms</td>
-              <td>20× Kinetic / 20× DR</td>
-            </tr>
-            <tr>
-              <td className="py-1.5 font-bold text-white">Super Heavy</td>
-              <td className="py-1.5 text-amber-300">50×</td>
-              <td>Titan combat chassis, super-heavy assault mecha</td>
-              <td>50× Kinetic / 50× DR</td>
-            </tr>
-            <tr>
-              <td className="py-1.5 font-bold text-white">Capital Ship</td>
-              <td className="py-1.5 text-purple-300">100×</td>
-              <td>Starship corvettes, frigates, orbital stations</td>
-              <td>100× Kinetic / 100× DR</td>
-            </tr>
-            <tr>
-              <td className="py-1.5 font-bold text-white">Planetary</td>
-              <td className="py-1.5 text-rose-400">1000×</td>
-              <td>Orbital bombardment arrays, world-cracker lasers</td>
-              <td>1000× Kinetic / 1000× DR</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    {/* Section 10: The Metaphysics Triad & Invocations Engine */}
-    <div className="bg-slate-900/50 border border-cyan-900/50 rounded-xl p-4 sm:p-5 space-y-4">
-      <div className="flex justify-between items-center border-b border-slate-800 pb-2">
-        <h4 className="text-purple-400 font-bold uppercase font-mono tracking-wider text-xs flex items-center gap-2">
-          <span>🔮</span> The Metaphysics Triad & Invocations Engine (`metaphysicsUtils.js`)
-        </h4>
-        <span className="text-[10px] font-mono text-purple-300 font-semibold">
-          Attunement → Disciplines → Invocations
-        </span>
-      </div>
-
-      <p className="text-slate-300 text-xs leading-relaxed">
-        Metaphysics operates via a codified three-tier hierarchy: <strong className="text-cyan-300">Attunement</strong> determines baseline channeling capacity, <strong className="text-purple-300">Disciplines</strong> govern specific mastery domains, and <strong className="text-amber-300">Invocations</strong> define discrete manifestation parameters (Cast DC, Essence cost, AOE template, Duration).
-      </p>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 text-xs">
-        {[
-          { name: 'Dimension', sub: 'Summoning, Teleport', skill: 'meta-summoning', desc: 'Rift gateways, phase shifting, portal anchoring, spatial dilation.' },
-          { name: 'Energy', sub: 'Elemental, Force', skill: 'meta-elemental', desc: 'Plasma projection, kinetic shielding, arc lighting, thermodynamic shifts.' },
-          { name: 'Entropy', sub: 'Chaos, Order', skill: 'meta-chaos', desc: 'Decay acceleration, temporal stasis, probability distortion, life transfer.' },
-          { name: 'Illusion', sub: 'Phantasm, Shadow', skill: 'meta-phantasm', desc: 'Holographic sensory fabrication, shadow cloaking, phantom terrors.' },
-          { name: 'Matter', sub: 'Enhancement, Transmutation', skill: 'meta-enhancement', desc: 'Molecular restructuring, flesh crafting, telekinetic density hardening.' },
-          { name: 'Mental', sub: 'Projection, Sense', skill: 'meta-projection', desc: 'Telepathic relays, neural shockwaves, machine spirit interfacing.' },
-        ].map(d => (
-          <div key={d.name} className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
-            <div className="flex justify-between items-center">
-              <span className="font-bold text-white font-mono">{d.name}</span>
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-800 font-mono">
-                {d.skill}
-              </span>
-            </div>
-            <div className="text-[10px] font-mono text-cyan-300">Sub-Skills: {d.sub}</div>
-            <p className="text-slate-400 text-[10.5px] leading-relaxed">{d.desc}</p>
-          </div>
-        ))}
-      </div>
-
-      <div className="bg-slate-950/80 p-3 rounded-lg border border-purple-900/40 space-y-1 text-xs">
-        <div className="text-[11px] font-bold text-slate-200 uppercase font-mono">
-          ⚡ Composite Invocations Matrix Resolver
-        </div>
-        <p className="text-[11px] text-slate-400">
-          Complex multi-discipline invocations (e.g., <em className="text-amber-300">Accelerated Decay</em>, <em className="text-cyan-300">Construct Intelligence</em>, <em className="text-emerald-300">Flesh Crafting</em>, <em className="text-purple-300">Shadow Step Assault</em>, <em className="text-sky-300">Spatial Labyrinth</em>) are automatically mapped by <code className="text-cyan-300 font-mono">metaphysicsUtils.js</code> to their primary requisite meta-skills and disciplines for seamless roll resolution.
-        </p>
-      </div>
-    </div>
-  </div>
-);
 
 export default ComprehensiveUserGuideModal;

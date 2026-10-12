@@ -38,6 +38,9 @@ import {
   ArrowDownAZ
 } from 'lucide-react';
 import { AudioService } from '../../services/audioService';
+import { RingedPlanetLogo } from '../UI/RingedPlanetLogo';
+import { USER_GUIDE_SECTIONS } from '../Guide/userGuideData';
+import { UserGuideView } from '../Guide/UserGuideView';
 
 const TreeArticleItem = ({ item, isSelected, childrenCount, onSelect, onOpenEdit, className, prefix = '📜 ' }) => {
   const interactions = useItemInteractions({
@@ -295,12 +298,32 @@ export const DBMWikiView = ({
   const [activeTab, setActiveTab] = useState(() => {
     if (typeof window === 'undefined') return 'operator';
     try {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('guide') || urlParams.get('tab') === 'guide') {
+        return 'guide';
+      }
       const saved = localStorage.getItem('compendium_active_tab');
-      return saved === 'architect' ? 'architect' : 'operator';
+      return (saved === 'architect' || saved === 'guide') ? saved : 'operator';
     } catch {
       return 'operator';
     }
   });
+
+  const [activeGuideSectionId, setActiveGuideSectionId] = useState(() => {
+    if (typeof window === 'undefined') return 'intro';
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const gParam = urlParams.get('guide');
+      if (gParam && USER_GUIDE_SECTIONS.some(s => s.id === gParam)) {
+        return gParam;
+      }
+      return localStorage.getItem('compendium_active_guide_section') || 'intro';
+    } catch {
+      return 'intro';
+    }
+  });
+
+  const [isMobileGuideOpen, setIsMobileGuideOpen] = useState(false);
 
   const [sortMode, setSortMode] = useState(() => {
     if (typeof window === 'undefined') return 'order';
@@ -502,6 +525,10 @@ export const DBMWikiView = ({
       } catch {}
     }
 
+    if (tabKey === 'guide') {
+      return;
+    }
+
     // If currently selected article is not in the new tab, select the first article of the new tab
     const targetArticles = tabKey === 'operator' ? operatorArticles : architectArticles;
     const isCurrentInTab = targetArticles.some(a => a.id === activeArticle?.id);
@@ -512,6 +539,20 @@ export const DBMWikiView = ({
       }
     }
   };
+
+  // Filtered Guide sections when activeTab === 'guide'
+  const filteredGuideSections = useMemo(() => {
+    if (!searchQuery.trim()) return USER_GUIDE_SECTIONS;
+    const q = searchQuery.toLowerCase().trim();
+    return USER_GUIDE_SECTIONS.filter(sec => {
+      const titleMatch = (sec.title || '').toLowerCase().includes(q) || (sec.fullTitle || '').toLowerCase().includes(q);
+      const badgeMatch = (sec.badge || '').toLowerCase().includes(q);
+      const leadMatch = (sec.lead || '').toLowerCase().includes(q);
+      const sixWMatch = sec.sixW?.some(w => w.toLowerCase().includes(q));
+      const sectionMatch = sec.sections?.some(s => s.heading?.toLowerCase().includes(q) || s.content?.toLowerCase().includes(q));
+      return titleMatch || badgeMatch || leadMatch || sixWMatch || sectionMatch;
+    });
+  }, [searchQuery]);
 
   // Active articles for the selected tab
   const currentTabRawArticles = useMemo(() => {
@@ -609,9 +650,9 @@ export const DBMWikiView = ({
     return allArticlesFlat[0];
   }, [allArticlesFlat, selectedArticleId, activeTab, operatorArticles, architectArticles, sortMode, sortArticles]);
 
-  // Keep activeTab in sync with activeArticle when activeArticle changes
+  // Keep activeTab in sync with activeArticle when activeArticle changes (only when not in guide mode)
   useEffect(() => {
-    if (activeArticle) {
+    if (activeArticle && activeTab !== 'guide') {
       const itemPerspective = (activeArticle.parent === ARCH_PARENT || activeArticle.id?.startsWith('doc-architect-') || activeArticle.category === 'architect_matrix')
         ? 'architect'
         : 'operator';
@@ -619,7 +660,7 @@ export const DBMWikiView = ({
         setActiveTab(itemPerspective);
       }
     }
-  }, [activeArticle?.id]);
+  }, [activeArticle?.id, activeTab]);
 
   // Sequential reading order within the active tab
   const currentIndex = useMemo(() => {
@@ -632,28 +673,60 @@ export const DBMWikiView = ({
 
   // Cross-tab continuous reading bridging
   const crossTabPrev = useMemo(() => {
+    if (activeTab === 'guide') {
+      const gIndex = USER_GUIDE_SECTIONS.findIndex(s => s.id === activeGuideSectionId);
+      if (gIndex > 0) {
+        return USER_GUIDE_SECTIONS[gIndex - 1];
+      }
+      // If at start of Guide (Intro), link back to last Architect article!
+      if (architectArticles.length > 0) {
+        const sortedArch = sortArticles(architectArticles, sortMode);
+        return sortedArch[sortedArch.length - 1] || null;
+      }
+      return null;
+    }
     if (prevArticle) return prevArticle;
     if (activeTab === 'architect' && operatorArticles.length > 0 && !searchQuery.trim()) {
       const sortedOp = sortArticles(operatorArticles, sortMode);
       return sortedOp[sortedOp.length - 1] || null;
     }
     return null;
-  }, [prevArticle, activeTab, operatorArticles, sortMode, sortArticles, searchQuery]);
+  }, [prevArticle, activeTab, operatorArticles, architectArticles, activeGuideSectionId, sortMode, sortArticles, searchQuery]);
 
   const crossTabNext = useMemo(() => {
+    if (activeTab === 'guide') {
+      const gIndex = USER_GUIDE_SECTIONS.findIndex(s => s.id === activeGuideSectionId);
+      if (gIndex >= 0 && gIndex < USER_GUIDE_SECTIONS.length - 1) {
+        return USER_GUIDE_SECTIONS[gIndex + 1];
+      }
+      return null;
+    }
     if (nextArticle) return nextArticle;
     if (activeTab === 'operator' && architectArticles.length > 0 && !searchQuery.trim()) {
       const sortedArch = sortArticles(architectArticles, sortMode);
       return sortedArch[0] || null;
     }
+    // If at end of Architect tab, transition seamlessly to User Guide Intro!
+    if (activeTab === 'architect' && !searchQuery.trim()) {
+      return USER_GUIDE_SECTIONS[0]; // Transition to User Guide Intro!
+    }
     return null;
-  }, [nextArticle, activeTab, architectArticles, sortMode, sortArticles, searchQuery]);
+  }, [nextArticle, activeTab, architectArticles, sortMode, sortArticles, searchQuery, activeGuideSectionId]);
 
   const currentPrevArticle = prevArticle || crossTabPrev;
   const currentNextArticle = nextArticle || crossTabNext;
 
   const handleNavigateArticle = (targetArticle) => {
     if (!targetArticle) return;
+    if (targetArticle.id && USER_GUIDE_SECTIONS.some(s => s.id === targetArticle.id)) {
+      setActiveTab('guide');
+      setActiveGuideSectionId(targetArticle.id);
+      try {
+        localStorage.setItem('compendium_active_tab', 'guide');
+        localStorage.setItem('compendium_active_guide_section', targetArticle.id);
+      } catch {}
+      return;
+    }
     handleSelectArticle(targetArticle);
     if (desktopContentRef.current) {
       desktopContentRef.current.scrollTo({ top: 0, behavior: 'smooth' });
@@ -810,6 +883,41 @@ export const DBMWikiView = ({
 
   return (
     <div className="flex-1 flex bg-slate-900 border border-slate-800 rounded-xl overflow-hidden h-full relative shadow-xl">
+      {/* Mobile / Narrow View Guide Section Modal Overlay */}
+      {isMobileGuideOpen && activeTab === 'guide' && (
+        <div className="fixed inset-0 z-[200] bg-[#0d1117]/98 backdrop-blur-md flex flex-col overflow-hidden font-sans p-3 sm:p-6 pt-12 md:hidden">
+          <div className="bg-[#0d1117] border border-cyan-500/50 rounded-xl w-full h-full shadow-[0_0_30px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col">
+            <div className="p-3 bg-slate-950 border-b border-cyan-900/60 flex justify-between items-center shrink-0">
+              <div className="flex items-center gap-2">
+                <RingedPlanetLogo size={18} />
+                <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">USER GUIDE</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsMobileGuideOpen(false)}
+                className="text-slate-400 hover:text-white text-xl font-bold leading-none px-2 transition-colors cursor-pointer"
+                title="Close Guide"
+              >
+                &times;
+              </button>
+            </div>
+            <div className="flex-1 overflow-hidden flex flex-col">
+              <UserGuideView
+                activeSectionId={activeGuideSectionId}
+                onSelectSection={(id) => {
+                  setActiveGuideSectionId(id);
+                }}
+                onNavigate={(target) => {
+                  handleNavigateArticle(target);
+                }}
+                prevItem={currentPrevArticle}
+                nextItem={currentNextArticle}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Mobile / Narrow View Full Article Modal Overlay */}
       {selectedArticleId && activeArticle && (
         <div className="fixed inset-0 z-[200] bg-[#0d1117]/98 backdrop-blur-md flex flex-col overflow-hidden font-sans p-3 sm:p-6 pt-12 md:hidden">
@@ -1110,6 +1218,45 @@ export const DBMWikiView = ({
           </span>
         </button>
 
+        {/* User Guide Rail Tab Button (Cyan Theme with RingedPlanetLogo) */}
+        <button
+          type="button"
+          onClick={() => handleTabClick('guide')}
+          className={`group relative w-11 sm:w-12 py-2 px-1 rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer select-none border min-h-[52px] ${
+            activeTab === 'guide'
+              ? 'bg-cyan-950/70 border-cyan-400/80 text-cyan-200 shadow-[0_0_15px_rgba(6,182,212,0.25)]'
+              : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/70 border-transparent hover:border-slate-800/80'
+          }`}
+          title={`Comprehensive User Guide (${USER_GUIDE_SECTIONS.length} sections)`}
+          aria-label="Comprehensive User Guide"
+        >
+          {/* Active Left Indicator Bar */}
+          {activeTab === 'guide' && (
+            <span className="absolute -left-1 top-2 bottom-2 w-1 rounded-r-full bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
+          )}
+
+          {/* Icon Box with Ringed Planet Icon */}
+          <div className={`relative w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-lg flex items-center justify-center border transition-all ${
+            activeTab === 'guide'
+              ? 'bg-cyan-500/25 border-cyan-400 text-cyan-200 shadow-[0_0_12px_rgba(6,182,212,0.4)]'
+              : 'bg-cyan-500/10 border-cyan-500/30 text-cyan-400 group-hover:bg-cyan-500/20 group-hover:border-cyan-400'
+          }`}>
+            <RingedPlanetLogo size={18} />
+            <span className="absolute -top-1.5 -right-1.5 px-1 min-w-[14px] h-[14px] rounded-full font-mono text-[8px] font-bold flex items-center justify-center shadow-md bg-cyan-400 text-black">
+              {USER_GUIDE_SECTIONS.length}
+            </span>
+          </div>
+
+          {/* Label */}
+          <span className={`font-mono text-[9px] uppercase tracking-wider text-center mt-1 leading-tight select-none transition-colors ${
+            activeTab === 'guide'
+              ? 'text-cyan-300 font-extrabold [text-shadow:0_0_8px_rgba(6,182,212,0.7)]'
+              : 'text-cyan-400/70 group-hover:text-cyan-200'
+          }`}>
+            GUIDE
+          </span>
+        </button>
+
         <div className="flex-1" />
 
         {/* Quick Sort Toggle Button on Rail */}
@@ -1150,31 +1297,33 @@ export const DBMWikiView = ({
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-2 min-w-0">
                 <span className="text-base leading-none shrink-0">
-                  {activeTab === 'operator' ? '📘' : '🏛️'}
+                  {activeTab === 'operator' ? '📘' : activeTab === 'architect' ? '🏛️' : <RingedPlanetLogo size={18} />}
                 </span>
                 <div className="flex flex-col min-w-0">
                   <div className="flex items-center gap-1.5">
                     <span className={`text-xs font-bold uppercase tracking-wider font-mono truncate ${
-                      activeTab === 'operator' ? 'text-emerald-300' : 'text-amber-300'
+                      activeTab === 'operator' ? 'text-emerald-300' : activeTab === 'architect' ? 'text-amber-300' : 'text-cyan-300'
                     }`}>
-                      {activeTab === 'operator' ? 'OPERATOR RULES' : 'ARCHITECT MATRICES'}
+                      {activeTab === 'operator' ? 'OPERATOR RULES' : activeTab === 'architect' ? 'ARCHITECT MATRICES' : 'USER GUIDE'}
                     </span>
                     <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded-full font-bold border shrink-0 ${
                       activeTab === 'operator'
                         ? 'bg-emerald-950/80 text-emerald-300 border-emerald-500/50'
-                        : 'bg-amber-950/80 text-amber-300 border-amber-500/50'
+                        : activeTab === 'architect'
+                        ? 'bg-amber-950/80 text-amber-300 border-amber-500/50'
+                        : 'bg-cyan-950/80 text-cyan-300 border-cyan-500/50'
                     }`}>
-                      {currentTabRawArticles.length}
+                      {activeTab === 'guide' ? filteredGuideSections.length : currentTabRawArticles.length}
                     </span>
                   </div>
                   <span className="text-[9.5px] font-mono text-slate-400 truncate">
-                    {activeTab === 'operator' ? '1.00 Player Core Rules' : '5.00 World & Modular Systems'}
+                    {activeTab === 'operator' ? '1.00 Player Core Rules' : activeTab === 'architect' ? '5.00 World & Modular Systems' : 'Platform & System Manual'}
                   </span>
                 </div>
               </div>
 
               <div className="flex items-center gap-1.5 shrink-0">
-                {isAdmin && (
+                {isAdmin && activeTab !== 'guide' && (
                   <button
                     onClick={handleCreateNew}
                     className="px-2 py-1 bg-amber-600 hover:bg-amber-500 text-white font-bold text-[10px] uppercase rounded shadow transition-colors flex items-center gap-1 cursor-pointer"
@@ -1201,7 +1350,11 @@ export const DBMWikiView = ({
                 <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none" />
                 <input
                   type="text"
-                  placeholder={`Search ${currentTabRawArticles.length} ${activeTab === 'operator' ? 'Operator' : 'Architect'} articles...`}
+                  placeholder={
+                    activeTab === 'guide'
+                      ? `Search ${USER_GUIDE_SECTIONS.length} User Guide sections...`
+                      : `Search ${currentTabRawArticles.length} ${activeTab === 'operator' ? 'Operator' : 'Architect'} articles...`
+                  }
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
                   className="w-full bg-slate-900 border border-slate-700/80 text-white pl-8 pr-7 py-1.5 rounded-lg text-xs outline-none focus:border-cyan-500 font-mono shadow-inner transition-colors"
@@ -1217,35 +1370,80 @@ export const DBMWikiView = ({
                 )}
               </div>
 
-              {/* Sort Mode Button */}
-              <button
-                type="button"
-                onClick={toggleSortMode}
-                className={`px-2 py-1.5 rounded-lg border transition-all cursor-pointer text-xs font-mono font-bold flex items-center gap-1 shrink-0 shadow-sm ${
-                  sortMode === 'alpha'
-                    ? 'bg-amber-950/70 border-amber-500/60 text-amber-300 hover:bg-amber-900/80'
-                    : 'bg-cyan-950/70 border-cyan-500/60 text-cyan-300 hover:bg-cyan-900/80'
-                }`}
-                title={sortMode === 'order' ? "Sort: Canonical Numbers (Click for A-Z Alphabetical)" : "Sort: Alphabetical A-Z (Click for Canonical Numbers)"}
-              >
-                {sortMode === 'order' ? (
-                  <>
-                    <ArrowDown10 size={14} className="text-cyan-400" />
-                    <span className="text-[10px]">1-9</span>
-                  </>
-                ) : (
-                  <>
-                    <ArrowDownAZ size={14} className="text-amber-400" />
-                    <span className="text-[10px]">A-Z</span>
-                  </>
-                )}
-              </button>
+              {/* Sort Mode Button (For compendium articles) */}
+              {activeTab !== 'guide' && (
+                <button
+                  type="button"
+                  onClick={toggleSortMode}
+                  className={`px-2 py-1.5 rounded-lg border transition-all cursor-pointer text-xs font-mono font-bold flex items-center gap-1 shrink-0 shadow-sm ${
+                    sortMode === 'alpha'
+                      ? 'bg-amber-950/70 border-amber-500/60 text-amber-300 hover:bg-amber-900/80'
+                      : 'bg-cyan-950/70 border-cyan-500/60 text-cyan-300 hover:bg-cyan-900/80'
+                  }`}
+                  title={sortMode === 'order' ? "Sort: Canonical Numbers (Click for A-Z Alphabetical)" : "Sort: Alphabetical A-Z (Click for Canonical Numbers)"}
+                >
+                  {sortMode === 'order' ? (
+                    <>
+                      <ArrowDown10 size={14} className="text-cyan-400" />
+                      <span className="text-[10px]">1-9</span>
+                    </>
+                  ) : (
+                    <>
+                      <ArrowDownAZ size={14} className="text-amber-400" />
+                      <span className="text-[10px]">A-Z</span>
+                    </>
+                  )}
+                </button>
+              )}
             </div>
           </div>
 
-          {/* Article List Strictly for Active Tab */}
+          {/* Article / Section List Strictly for Active Tab */}
           <div className="flex-1 overflow-y-auto p-2 pb-6 space-y-1">
-            {(!currentTabRawArticles || currentTabRawArticles.length === 0) ? (
+            {activeTab === 'guide' ? (
+              filteredGuideSections.length === 0 ? (
+                <div className="p-8 text-center text-slate-500 italic text-xs">
+                  No User Guide sections match "{searchQuery}".
+                </div>
+              ) : (
+                filteredGuideSections.map((sec) => {
+                  const isSelected = activeGuideSectionId === sec.id;
+                  return (
+                    <button
+                      key={sec.id}
+                      type="button"
+                      onClick={() => {
+                        AudioService?.playTerminalBeep?.(1100, 0.02);
+                        setActiveGuideSectionId(sec.id);
+                        setIsMobileGuideOpen(true);
+                        try {
+                          localStorage.setItem('compendium_active_guide_section', sec.id);
+                        } catch {}
+                      }}
+                      className={`w-full text-left px-2.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center justify-between cursor-pointer border ${
+                        isSelected
+                          ? 'bg-cyan-950/85 border-cyan-500/80 text-cyan-200 shadow-[0_0_12px_rgba(6,182,212,0.3)] font-bold'
+                          : 'text-slate-300 hover:text-white hover:bg-slate-800/60 border-transparent hover:border-slate-800/80'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2 min-w-0">
+                        {sec.id === 'intro' ? (
+                          <RingedPlanetLogo size={14} className="shrink-0" />
+                        ) : (
+                          <span className="text-cyan-400 font-mono text-[10px] w-4 shrink-0 font-bold">
+                            {sec.num}.
+                          </span>
+                        )}
+                        <span className="truncate">{sec.title}</span>
+                      </div>
+                      <span className="text-[9px] font-mono uppercase px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-400 shrink-0">
+                        {sec.badge}
+                      </span>
+                    </button>
+                  );
+                })
+              )
+            ) : (!currentTabRawArticles || currentTabRawArticles.length === 0) ? (
               <div className="p-8 text-center text-slate-500 italic text-xs">
                 No articles found in {activeTab === 'operator' ? 'Operator Core Rules' : 'Architect Matrices'}.
               </div>
@@ -1330,14 +1528,14 @@ export const DBMWikiView = ({
 
           {/* Sidebar Footer */}
           <div className="p-2 border-t border-slate-800/80 bg-slate-950 text-[10px] font-mono flex items-center justify-between shrink-0">
-            <span className={activeTab === 'operator' ? 'text-emerald-400/90 font-bold' : 'text-amber-400/90 font-bold'}>
-              {activeTab === 'operator' ? 'OPERATOR RULES' : 'ARCHITECT MATRICES'}
+            <span className={activeTab === 'operator' ? 'text-emerald-400/90 font-bold' : activeTab === 'architect' ? 'text-amber-400/90 font-bold' : 'text-cyan-400/90 font-bold'}>
+              {activeTab === 'operator' ? 'OPERATOR RULES' : activeTab === 'architect' ? 'ARCHITECT MATRICES' : 'USER GUIDE'}
             </span>
             <span className="text-slate-400">
-              {sortMode === 'order' ? 'CANONICAL (1-9)' : 'ALPHABETICAL (A-Z)'}
+              {activeTab === 'guide' ? 'TOPICS (0-10)' : sortMode === 'order' ? 'CANONICAL (1-9)' : 'ALPHABETICAL (A-Z)'}
             </span>
             <span className="text-cyan-400 font-bold">
-              {filteredTabArticles.length} / {currentTabRawArticles.length}
+              {activeTab === 'guide' ? `${filteredGuideSections.length} / ${USER_GUIDE_SECTIONS.length}` : `${filteredTabArticles.length} / ${currentTabRawArticles.length}`}
             </span>
           </div>
         </div>
@@ -1345,7 +1543,21 @@ export const DBMWikiView = ({
 
       {/* RIGHT PANEL: Article Viewer / Content Display (Desktop Side-by-Side) */}
       <div className="flex flex-col flex-1 max-md:hidden relative h-full overflow-hidden">
-        <main ref={desktopContentRef} className="flex flex-col flex-1 overflow-y-auto p-6 lg:p-8 pb-28 bg-slate-900/95 scroll-smooth">
+        {activeTab === 'guide' ? (
+          <UserGuideView
+            activeSectionId={activeGuideSectionId}
+            onSelectSection={(id) => {
+              setActiveGuideSectionId(id);
+              try {
+                localStorage.setItem('compendium_active_guide_section', id);
+              } catch {}
+            }}
+            onNavigate={handleNavigateArticle}
+            prevItem={currentPrevArticle}
+            nextItem={currentNextArticle}
+          />
+        ) : (
+          <main ref={desktopContentRef} className="flex flex-col flex-1 overflow-y-auto p-6 lg:p-8 pb-28 bg-slate-900/95 scroll-smooth">
           {activeArticle ? (
             <div className="w-full space-y-6">
               {/* Header & Controls */}
@@ -1723,9 +1935,10 @@ export const DBMWikiView = ({
             </div>
           )}
         </main>
+        )}
 
         {/* Floating Quick Navigation Controls: Bottom Left & Bottom Right */}
-        {activeArticle && (
+        {activeTab !== 'guide' && activeArticle && (
           <div className="pointer-events-none absolute bottom-5 left-6 right-6 flex items-center justify-between z-20">
             {/* Bottom Left: Previous Arrow */}
             {currentPrevArticle ? (

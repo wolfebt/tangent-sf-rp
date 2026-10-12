@@ -8,13 +8,18 @@ import fs from "fs";
 import path from "path";
 import http from "http";
 import { execSync, spawnSync } from "child_process";
+import { fileURLToPath } from "url";
 
 // 1. Resolve Application Root Directory
-let rootDir = process.env.APP_ROOT ? path.resolve(process.env.APP_ROOT) : process.cwd();
+const __mcp_dirname = path.dirname(fileURLToPath(import.meta.url));
+const defaultRoot = path.resolve(__mcp_dirname, "..");
+let rootDir = process.env.APP_ROOT ? path.resolve(process.env.APP_ROOT) : (fs.existsSync(path.join(process.cwd(), "package.json")) ? process.cwd() : defaultRoot);
 if (!fs.existsSync(path.join(rootDir, "package.json"))) {
   const candidate = path.join(rootDir, "TANGENT SF RP react project");
   if (fs.existsSync(path.join(candidate, "package.json"))) {
     rootDir = candidate;
+  } else {
+    rootDir = defaultRoot;
   }
 }
 

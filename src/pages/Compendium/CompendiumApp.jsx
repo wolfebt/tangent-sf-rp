@@ -336,7 +336,7 @@ export const CompendiumApp = () => {
               </h1>
             </div>
             <p className="text-[10px] text-slate-400 font-mono hidden sm:block">
-              Canonical rules wiki (1.00 Operator & 5.00 Architect).
+              Canonical rules wiki (1.00 Operator & 5.00 Architect) & Platform User Guide.
             </p>
           </div>
         </div>
