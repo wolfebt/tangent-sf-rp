@@ -1,184 +1,250 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { execSync } from 'child_process';
 import assert from 'assert';
-import { economyAndWealthArticles } from './data_economy_wealth.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, '..');
 
-const OP_DIR = path.join(projectRoot, 'docs', 'game rules', 'operator');
-const ARCH_DIR = path.join(projectRoot, 'docs', 'game rules', 'architect');
-const SEED_PATH = path.join(projectRoot, 'src', 'data', 'compendiumSeed.json');
-const MD_OUTPUT_DIR = path.join(projectRoot, 'src', 'data', 'omnicortex', 'compendium');
-
-// 1. Run compileCompendium.mjs
-console.log('--- Running compileCompendium.mjs ---');
-execSync(`node "${path.join(__dirname, 'compileCompendium.mjs')}"`, {
-  cwd: projectRoot,
-  stdio: 'inherit'
-});
-
-// 2. Read newly compiled articles
-const compiledArticles = JSON.parse(fs.readFileSync(SEED_PATH, 'utf8'));
-const compiledMap = new Map();
-compiledArticles.forEach(a => compiledMap.set(a.id, a));
-
-// 3. Read baseline articles from git HEAD to retain modular volume articles
-console.log('--- Merging with canonical baseline from git HEAD ---');
-const headSeedJson = execSync('git show HEAD:src/data/compendiumSeed.json', { maxBuffer: 25 * 1024 * 1024 }).toString();
-const headArticles = JSON.parse(headSeedJson);
-
-const mergedMap = new Map();
-
-// Insert all head articles first
-for (const art of headArticles) {
-  mergedMap.set(art.id, art);
-}
-
-// Override with newly compiled articles
-for (const [id, art] of compiledMap.entries()) {
-  mergedMap.set(id, art);
-}
-
-// Add modular economy & wealth articles
-for (const art of economyAndWealthArticles) {
-  mergedMap.set(art.id, art);
-}
-
-// 4. Ingest and update ALL 14 Operator and ALL 17 Architect documents with 100% exact text!
-function ingestMasterDoc(dirPath, perspective, parentVolume) {
-  const files = fs.readdirSync(dirPath).filter(f => f.endsWith('.md'));
-  files.forEach(file => {
-    const fullPath = path.join(dirPath, file);
-    const content = fs.readFileSync(fullPath, 'utf8');
-    const cleanFileName = file.replace(/\.md$/, '').trim();
-    const articleId = `doc-${perspective}-${cleanFileName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`.replace(/-+$/, '');
-
-    const titleMatch = content.match(/^#+\s*\*{0,2}(.*?)\*{0,2}$/m);
-    const title = titleMatch ? titleMatch[1].replace(/[*#]/g, '').trim() : cleanFileName;
-
-    const docArticle = {
-      id: articleId,
-      name: `${cleanFileName} — ${title}`,
-      category: perspective === 'architect' ? 'architect_matrix' : 'operator_rule',
-      parent: parentVolume,
-      order: 1,
-      perspective,
-      entry_type: perspective === 'architect' ? 'Architect Matrix' : 'Core Rule',
-      tl: 3,
-      ml: 0,
-      cost: 0,
-      tags: [perspective, 'core-rules', 'source-of-truth', cleanFileName.toLowerCase(), perspective === 'architect' ? 'matrix' : 'mechanics'],
-      description: content,
-      mechanic: `See full canonical text in ${file}`,
-      guide: `Refer to ${file} in the game rules library for complete architectural tables and system parameters.`,
-      note: `Canonical Tangent SF RP rulebook reference from ${file}. Complete, unabridged source of truth.`,
-      updatedAt: new Date().toISOString()
-    };
-
-    mergedMap.set(articleId, docArticle);
-  });
-}
-
-ingestMasterDoc(OP_DIR, 'operator', '1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)');
-ingestMasterDoc(ARCH_DIR, 'architect', '5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)');
-
-// Backwards-compatible aliases for omnicortexCompendiumSync.test.mjs
-const aliasMap = [
-  { sourceId: 'doc-architect-99-metaphysics-1', aliasId: 'doc-architect-99-metaphysics' },
-  { sourceId: 'doc-architect-99-metaphysics-invocation-matrix-1', aliasId: 'doc-architect-99-metaphysics-invocation-matrix' },
-  { sourceId: 'doc-architect-99-metaphysics-meta-tech-matrix-1', aliasId: 'doc-architect-99-metaphysics-meta-tech-matrix' },
+const PREFERRED_ARCH_ORDER = [
+  '02 ECONOMY AND WEALTH.md',
+  '99. .ARCHETYPES.md',
+  '99. MODULAR CHARACTER MATRIX.md',
+  '99. MODULAR SPECIES MATRIX.md',
+  '99. MODULAR FACTION MATRIX.md',
+  '99. MODULAR COMPANION MATRIX.md',
+  '99. MODULAR PLANETARY MATRIX.md',
+  '99. TECHNOLOGY.md',
+  '99. TECHNOLOGY, WEAPONRY MATRIX.md',
+  '99. TECHNOLOGY, ARMOR MATRIX.md',
+  '99. TECHNOLOGY, EQUIPMENT MATRIX.md',
+  '99. TECHNOLOGY, AUGMENTATIONS MATRIX.md',
+  '99. TECHNOLOGY, MECHA MATRIX.md',
+  '99. TECHNOLOGY, ARCHITECTURAL MATRIX.md',
+  '99. METAPHYSICS (1).md',
+  '99. METAPHYSICS, INVOCATION MATRIX (1).md',
+  '99. METAPHYSICS, META-TECH MATRIX (1).md'
 ];
 
-aliasMap.forEach(({ sourceId, aliasId }) => {
-  const base = mergedMap.get(sourceId);
-  if (base) {
-    mergedMap.set(aliasId, {
-      ...base,
-      id: aliasId,
-      parent: '5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)'
-    });
-  }
-});
+/**
+ * Recursively scans directory and all subdirectories for markdown (.md) rule files.
+ */
+function scanRuleFiles(rulesDir) {
+  const discovered = [];
 
-// 5. UPDATE ALL MASTER CODEX ARTICLES in their respective volumes with 100% exact text!
-const masterCodexDocMap = [
-  { codexId: '0-00-introduction-and-glossary', file: '1.00 INTRODUCTION.md', dir: OP_DIR },
-  { codexId: '1-01-character-creation-master', file: '1.01 CHARACTER CREATION.md', dir: OP_DIR },
-  { codexId: '1-03-species-master-catalog', file: '1.03 SPECIES (work).md', dir: OP_DIR },
-  { codexId: '1-04-factions-master-codex', file: '1.04 FACTIONS.md', dir: OP_DIR },
-  { codexId: '1-05-origins-habitats-codex', file: '1.05 ORIGINS.md', dir: OP_DIR },
-  { codexId: '1-06-occupations-careers-codex', file: '1.06 OCCUPATIONS.md', dir: OP_DIR },
-  { codexId: '1-07-master-skills-codex', file: '1.07 SKILLS.md', dir: OP_DIR },
-  { codexId: '1-08-features-perks-codex', file: '1.08 FEATURES.md', dir: OP_DIR },
-  { codexId: '1-08-features-perks-master-codex', file: '1.08 FEATURES.md', dir: OP_DIR },
-  { codexId: '1-09-hindrances-flaws-codex', file: '1.09 HINDRANCES.md', dir: OP_DIR },
-  { codexId: '1-09-hindrances-karmic-debt-codex', file: '1.09 HINDRANCES.md', dir: OP_DIR },
-  { codexId: '1-10-scaling-matrix-codex', file: '1.10 SCALING.md', dir: OP_DIR },
-  { codexId: '2-00-economatrix-unified-theory', file: '2.00 ECONOMATRIX.md', dir: OP_DIR },
-  { codexId: '3-00-tactical-combat-master', file: '3.00 COMBAT.md', dir: OP_DIR },
-  { codexId: '4-00-metaphysics-omni-codex', file: '4.00 METAPHYSICS.md', dir: OP_DIR },
-];
-
-for (const { codexId, file, dir } of masterCodexDocMap) {
-  const filePath = path.join(dir, file);
-  if (fs.existsSync(filePath)) {
-    const rawContent = fs.readFileSync(filePath, 'utf8');
-    const existing = mergedMap.get(codexId);
-    if (existing) {
-      existing.description = rawContent;
-      existing.updatedAt = new Date().toISOString();
+  function traverse(currentDir, relBranch = '') {
+    const entries = fs.readdirSync(currentDir, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = path.join(currentDir, entry.name);
+      if (entry.isDirectory()) {
+        const subRel = relBranch ? `${relBranch}/${entry.name}` : entry.name;
+        traverse(fullPath, subRel);
+      } else if (
+        entry.isFile() &&
+        entry.name.toLowerCase().endsWith('.md') &&
+        !entry.name.toLowerCase().endsWith('.bak') &&
+        !entry.name.startsWith('.')
+      ) {
+        discovered.push({
+          fullPath,
+          fileName: entry.name,
+          relBranch: relBranch.toLowerCase()
+        });
+      }
     }
   }
+
+  traverse(rulesDir);
+  return discovered;
 }
 
-// 6. PURGE all foreign/corrupted/hallucinated articles
-const PURGED_IDS = new Set([
-  '1-03-09-kitin-subspecies-morphology',
-  '1-04-11-kitin-collective-megadox',
-  '6-01-entity-npc-architecture',
-  '6-02-bestiary-xenofauna-matrix',
-  '2-01-d20-universal-resolution-engine'
-]);
+/**
+ * Determines parent section, category, perspective, and entry_type based on subfolder.
+ */
+function getSectionMetadata(relBranch, fileName) {
+  const branchNormalized = (relBranch || '').toLowerCase();
 
-for (const id of PURGED_IDS) {
-  mergedMap.delete(id);
-}
-
-// Ensure 2-01-2d10-dual-resolution-engine exists and is canonical
-if (!mergedMap.has('2-01-2d10-dual-resolution-engine')) {
-  console.error('ERROR: 2-01-2d10-dual-resolution-engine is missing!');
-} else {
-  const resArt = mergedMap.get('2-01-2d10-dual-resolution-engine');
-  assert(resArt.description.includes('2d10'), 'Must contain 2d10');
-  assert(resArt.description.includes('DEFENDER WINS ALL TIES'), 'Must contain DEFENDER WINS ALL TIES');
-  assert(resArt.description.includes('CR 15'), 'Must contain CR 15');
-}
-
-const finalArticles = Array.from(mergedMap.values());
-console.log(`Total consolidated compendium articles: ${finalArticles.length}`);
-
-// 7. Clean stale .md files in MD_OUTPUT_DIR that are not in finalArticles
-const activeIds = new Set(finalArticles.map(a => `${a.id}.md`));
-const existingFiles = fs.readdirSync(MD_OUTPUT_DIR).filter(f => f.endsWith('.md'));
-let purged = 0;
-for (const file of existingFiles) {
-  if (!activeIds.has(file)) {
-    fs.unlinkSync(path.join(MD_OUTPUT_DIR, file));
-    purged++;
+  if (branchNormalized === 'operator' || branchNormalized.startsWith('operator/')) {
+    return {
+      parent: '1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)',
+      category: 'operator_rule',
+      perspective: 'operator',
+      entry_type: 'Core Rule',
+      subfolderKey: 'operator'
+    };
   }
-}
-if (purged > 0) {
-  console.log(`Purged ${purged} stale markdown files from ${MD_OUTPUT_DIR}`);
+
+  if (branchNormalized === 'architect' || branchNormalized.startsWith('architect/')) {
+    return {
+      parent: '5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)',
+      category: 'architect_matrix',
+      perspective: 'architect',
+      entry_type: 'Architect Matrix',
+      subfolderKey: 'architect'
+    };
+  }
+
+  // Fallback for custom or newly added subfolders/rules
+  const cleanBranch = branchNormalized.replace(/[^a-z0-9]+/g, ' ').trim();
+  const titleBranch = cleanBranch ? cleanBranch.toUpperCase() : 'CORE';
+  return {
+    parent: `${titleBranch} RULES (SOURCE OF TRUTH)`,
+    category: `${(cleanBranch || 'core').replace(/\s+/g, '_')}_rule`,
+    perspective: 'both',
+    entry_type: 'Game Rule',
+    subfolderKey: cleanBranch.replace(/\s+/g, '-') || 'core'
+  };
 }
 
-// 8. Write out all individual markdown files in MD_OUTPUT_DIR
-for (const art of finalArticles) {
-  const filePath = path.join(MD_OUTPUT_DIR, `${art.id}.md`);
-  const content = `---
+/**
+ * Sorts discovered files within a branch naturally or according to canonical preferences.
+ */
+function sortBranchFiles(branchKey, files) {
+  if (branchKey === 'architect') {
+    return [...files].sort((a, b) => {
+      const idxA = PREFERRED_ARCH_ORDER.indexOf(a.fileName);
+      const idxB = PREFERRED_ARCH_ORDER.indexOf(b.fileName);
+      if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+      if (idxA !== -1) return -1;
+      if (idxB !== -1) return 1;
+      return a.fileName.localeCompare(b.fileName, undefined, { numeric: true, sensitivity: 'base' });
+    });
+  }
+
+  // Default natural collation sort (e.g. 1.00, 1.01 ... 1.10, 2.00, etc.)
+  return [...files].sort((a, b) =>
+    a.fileName.localeCompare(b.fileName, undefined, { numeric: true, sensitivity: 'base' })
+  );
+}
+
+/**
+ * Synchronizes all markdown files from `docs/game rules` and all subfolders into
+ * `src/data/compendiumSeed.json` and `src/data/omnicortex/compendium/*.md`.
+ */
+export function syncCanonicalCompendium({ silent = false } = {}) {
+  let rulesDir = path.join(projectRoot, 'docs', 'game rules');
+  if (!fs.existsSync(rulesDir)) {
+    rulesDir = path.join(projectRoot, '..', 'docs', 'game rules');
+  }
+
+  if (!fs.existsSync(rulesDir)) {
+    throw new Error(`Rules directory not found: ${rulesDir}`);
+  }
+
+  const SEED_PATH = path.join(projectRoot, 'src', 'data', 'compendiumSeed.json');
+  const MD_OUTPUT_DIR = path.join(projectRoot, 'src', 'data', 'omnicortex', 'compendium');
+
+  if (!fs.existsSync(MD_OUTPUT_DIR)) {
+    fs.mkdirSync(MD_OUTPUT_DIR, { recursive: true });
+  }
+
+  if (!silent) {
+    console.log(`=== SYNCING CANONICAL COMPENDIUM FROM RULES DIRECTORY ===`);
+    console.log(`Source: ${rulesDir}`);
+  }
+
+  const rawFiles = scanRuleFiles(rulesDir);
+  if (!silent) {
+    console.log(`Discovered ${rawFiles.length} markdown rule file(s) across all subfolders.`);
+  }
+
+  // Group by branch for accurate ordering
+  const branchMap = new Map();
+  for (const f of rawFiles) {
+    const meta = getSectionMetadata(f.relBranch, f.fileName);
+    const branchKey = meta.subfolderKey;
+    if (!branchMap.has(branchKey)) {
+      branchMap.set(branchKey, { meta, files: [] });
+    }
+    branchMap.get(branchKey).files.push(f);
+  }
+
+  // Order branches: operator first, then architect, then any others
+  const orderedBranchKeys = Array.from(branchMap.keys()).sort((a, b) => {
+    if (a === 'operator') return -1;
+    if (b === 'operator') return 1;
+    if (a === 'architect') return -1;
+    if (b === 'architect') return 1;
+    return a.localeCompare(b);
+  });
+
+  const finalArticles = [];
+
+  for (const branchKey of orderedBranchKeys) {
+    const { meta, files } = branchMap.get(branchKey);
+    const sortedFiles = sortBranchFiles(branchKey, files);
+
+    sortedFiles.forEach((fileObj, idx) => {
+      const content = fs.readFileSync(fileObj.fullPath, 'utf8');
+      const stats = fs.statSync(fileObj.fullPath);
+      const cleanFileName = fileObj.fileName.replace(/\.md$/i, '').trim();
+
+      // Normalize article ID: strip non-alphanumerics, strip trailing -1 duplicate artifact
+      const rawSlug = cleanFileName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '');
+      const normalizedSlug = rawSlug.replace(/-1$/, '');
+      const articleId = `doc-${meta.subfolderKey}-${normalizedSlug}`;
+
+      // Format clean, single canonical article name without doubling
+      const docName = cleanFileName
+        .replace(/\s*\(\d+\)$/, '') // removes trailing copy index like (1)
+        .replace(/\s*\(work\)/i, '') // cleans work tag
+        .replace(/\.\s*\.+/, '. ') // fixes '99. .ARCHETYPES' -> '99. ARCHETYPES'
+        .replace(/&nbsp;/gi, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+      const docArticle = {
+        id: articleId,
+        name: docName,
+        category: meta.category,
+        parent: meta.parent,
+        order: idx + 1,
+        perspective: meta.perspective,
+        entry_type: meta.entry_type,
+        tl: 3,
+        ml: 0,
+        cost: 0,
+        tags: [
+          meta.subfolderKey,
+          'core-rules',
+          'source-of-truth',
+          cleanFileName.toLowerCase(),
+          meta.subfolderKey === 'architect' ? 'matrix' : 'mechanics'
+        ],
+        description: content,
+        mechanic: `See full canonical text in ${fileObj.fileName}`,
+        guide: `Refer to ${fileObj.fileName} in the game rules library for complete architectural tables and system parameters.`,
+        note: `Canonical Tangent SF RP rulebook reference from ${fileObj.fileName}. Complete, unabridged source of truth.`,
+        updatedAt: stats.mtime.toISOString()
+      };
+
+      finalArticles.push(docArticle);
+    });
+  }
+
+  // Validation checks on core combat source of truth
+  const combatArt = finalArticles.find(a => a.id === 'doc-operator-3-00-combat');
+  if (combatArt) {
+    assert(combatArt.description.includes('2d10'), 'Combat doc must state 2d10 resolution');
+    assert(combatArt.description.includes('DEFENDER WINS ALL TIES'), 'Combat doc must state DEFENDER WINS ALL TIES');
+  }
+
+  // Clean stale/orphaned .md files in MD_OUTPUT_DIR that are no longer in finalArticles
+  const activeFileNames = new Set(finalArticles.map(a => `${a.id}.md`));
+  const existingFiles = fs.readdirSync(MD_OUTPUT_DIR).filter(f => f.endsWith('.md'));
+  let purgedCount = 0;
+  for (const file of existingFiles) {
+    if (!activeFileNames.has(file)) {
+      fs.unlinkSync(path.join(MD_OUTPUT_DIR, file));
+      purgedCount++;
+    }
+  }
+
+  // Write out all individual markdown files in MD_OUTPUT_DIR
+  for (const art of finalArticles) {
+    const filePath = path.join(MD_OUTPUT_DIR, `${art.id}.md`);
+    const content = `---
 id: "${art.id}"
 name: "${(art.name || '').replace(/"/g, '\\"')}"
 category: "${art.category || 'compendium'}"
@@ -226,10 +292,29 @@ ${art.guide || ''}
 ## Designer Notes
 ${art.note || ''}
 `;
-  fs.writeFileSync(filePath, content, 'utf8');
+    fs.writeFileSync(filePath, content, 'utf8');
+  }
+
+  // Write out consolidated compendiumSeed.json
+  fs.writeFileSync(SEED_PATH, JSON.stringify(finalArticles, null, 2), 'utf8');
+
+  if (!silent) {
+    if (purgedCount > 0) {
+      console.log(`Purged ${purgedCount} stale markdown files from ${MD_OUTPUT_DIR}`);
+    }
+    console.log(`Saved master compendium seed to ${SEED_PATH} (${(fs.statSync(SEED_PATH).size / 1024).toFixed(1)} KB)`);
+    console.log(`Wrote ${finalArticles.length} canonical markdown articles to ${MD_OUTPUT_DIR}`);
+    console.log('=== SYNC COMPLETE ===\n');
+  }
+
+  return {
+    totalArticles: finalArticles.length,
+    purgedCount,
+    articles: finalArticles
+  };
 }
 
-// 9. Write out consolidated compendiumSeed.json
-fs.writeFileSync(SEED_PATH, JSON.stringify(finalArticles, null, 2), 'utf8');
-console.log(`Saved master compendium seed to ${SEED_PATH} (${(fs.statSync(SEED_PATH).size / 1024).toFixed(1)} KB)`);
-console.log(`Wrote ${finalArticles.length} markdown articles to ${MD_OUTPUT_DIR}`);
+// Direct CLI invocation
+if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
+  syncCanonicalCompendium();
+}

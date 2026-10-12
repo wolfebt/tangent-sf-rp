@@ -1,71 +1,99 @@
-﻿import fs from 'fs';
+import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const projectRoot = path.resolve(__dirname, '..');
 
-const OPERATOR_DIR = path.resolve(__dirname, '../docs/game rules/operator');
-const ARCHITECT_DIR = path.resolve(__dirname, '../docs/game rules/architect');
-const SEED_PATH = path.resolve(__dirname, '../src/data/compendiumSeed.json');
-const MD_DIR = path.resolve(__dirname, '../src/data/omnicortex/compendium');
+const RULES_DIR = path.resolve(projectRoot, 'docs/game rules');
+const SEED_PATH = path.resolve(projectRoot, 'src/data/compendiumSeed.json');
+const MD_DIR = path.resolve(projectRoot, 'src/data/omnicortex/compendium');
 
 const seedData = JSON.parse(fs.readFileSync(SEED_PATH, 'utf-8'));
 console.log(`Loaded ${seedData.length} articles from compendiumSeed.json`);
 
-function checkDirectory(dirPath, perspective) {
-  const files = fs.readdirSync(dirPath).filter(f => f.endsWith('.md'));
-  console.log(`\nVerifying ${files.length} files from ${perspective.toUpperCase()} (${dirPath})...`);
-  
-  let allMatched = true;
-  files.forEach(file => {
-    const filePath = path.join(dirPath, file);
-    const content = fs.readFileSync(filePath, 'utf-8');
-    const cleanFileName = file.replace(/\.md$/, '').trim();
-    const articleId = `doc-${perspective}-${cleanFileName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`.replace(/-+$/, '');
-    
-    const matchedArticle = seedData.find(a => a.id === articleId || a.id.toLowerCase() === cleanFileName.toLowerCase());
-    
-    if (!matchedArticle) {
-      console.error(`[FAIL] Missing article for ${file} (expected ID: ${articleId})`);
-      allMatched = false;
-      return;
-    }
-
-    // Verify character length match
-    if (matchedArticle.description.length !== content.length) {
-      console.error(`[FAIL] Content length mismatch for ${file}: Source=${content.length}, Compiled=${matchedArticle.description.length}`);
-      allMatched = false;
-    } else {
-      console.log(`[PASS] ${file} -> ${articleId} (${content.length} chars, 100% matched)`);
-    }
-
-    // Verify markdown file exists and contains full description
-    const mdFile = path.join(MD_DIR, `${matchedArticle.id}.md`);
-    if (!fs.existsSync(mdFile)) {
-      console.error(`[FAIL] Missing markdown file: ${mdFile}`);
-      allMatched = false;
-    } else {
-      const mdContent = fs.readFileSync(mdFile, 'utf-8');
-      if (!mdContent.includes(content.slice(0, 100)) || !mdContent.includes(content.slice(-100))) {
-        console.error(`[FAIL] Markdown file does not contain full source text: ${mdFile}`);
-        allMatched = false;
+function scanAllRuleFiles(dir) {
+  const discovered = [];
+  function traverse(currentDir, relBranch = '') {
+    const entries = fs.readdirSync(currentDir, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = path.join(currentDir, entry.name);
+      if (entry.isDirectory()) {
+        const subRel = relBranch ? `${relBranch}/${entry.name}` : entry.name;
+        traverse(fullPath, subRel);
+      } else if (
+        entry.isFile() &&
+        entry.name.toLowerCase().endsWith('.md') &&
+        !entry.name.toLowerCase().endsWith('.bak') &&
+        !entry.name.startsWith('.')
+      ) {
+        discovered.push({
+          fullPath,
+          fileName: entry.name,
+          relBranch: relBranch.toLowerCase()
+        });
       }
     }
-  });
-
-  return allMatched;
+  }
+  traverse(dir);
+  return discovered;
 }
 
-const opPass = checkDirectory(OPERATOR_DIR, 'operator');
-const archPass = checkDirectory(ARCHITECT_DIR, 'architect');
+const ruleFiles = scanAllRuleFiles(RULES_DIR);
+console.log(`\nVerifying ${ruleFiles.length} rule files from ${RULES_DIR}...`);
+
+let allMatched = true;
+let totalChars = 0;
+
+ruleFiles.forEach(({ fullPath, fileName, relBranch }) => {
+  const content = fs.readFileSync(fullPath, 'utf-8');
+  totalChars += content.length;
+  const cleanFileName = fileName.replace(/\.md$/i, '').trim();
+  const subfolderKey = relBranch.replace(/[^a-z0-9]+/g, '-') || 'core';
+  const rawSlug = cleanFileName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '');
+  const normalizedSlug = rawSlug.replace(/-1$/, '');
+  const articleId = `doc-${subfolderKey}-${normalizedSlug}`;
+
+  const matchedArticle = seedData.find(
+    a => a.id === articleId || a.id === `doc-${subfolderKey}-${rawSlug}` || a.id.toLowerCase() === cleanFileName.toLowerCase()
+  );
+
+  if (!matchedArticle) {
+    console.error(`[FAIL] Missing article for ${fileName} (expected ID: ${articleId})`);
+    allMatched = false;
+    return;
+  }
+
+  // Verify character length match (100% exact fidelity)
+  if (matchedArticle.description.length !== content.length) {
+    console.error(`[FAIL] Content length mismatch for ${fileName}: Source=${content.length}, Compiled=${matchedArticle.description.length}`);
+    allMatched = false;
+  } else {
+    console.log(`[PASS] ${fileName} -> ${matchedArticle.id} (${content.length} chars, 100% matched)`);
+  }
+
+  // Verify markdown file exists and contains full description
+  const mdFile = path.join(MD_DIR, `${matchedArticle.id}.md`);
+  if (!fs.existsSync(mdFile)) {
+    console.error(`[FAIL] Missing markdown file: ${mdFile}`);
+    allMatched = false;
+  } else {
+    const mdContent = fs.readFileSync(mdFile, 'utf-8');
+    if (!mdContent.includes(content.slice(0, 100)) || !mdContent.includes(content.slice(-100))) {
+      console.error(`[FAIL] Markdown file does not contain full source text: ${mdFile}`);
+      allMatched = false;
+    }
+  }
+});
 
 console.log('\n======================================================');
-if (opPass && archPass) {
-  console.log('  ALL 30 CANONICAL GAME RULE FILES VERIFIED WITH 100% FIDELITY!');
+if (allMatched && ruleFiles.length === seedData.length) {
+  console.log(`  ALL ${ruleFiles.length} CANONICAL GAME RULE FILES VERIFIED WITH 100% FIDELITY!`);
+  console.log(`  TOTAL TEXT: ${(totalChars / 1024).toFixed(1)} KB`);
   console.log('  ZERO CONTENT LOSS, ZERO TRUNCATION.');
 } else {
-  console.error('  VERIFICATION FAILED FOR SOME FILES.');
+  console.error(`  VERIFICATION FAILED: allMatched=${allMatched}, ruleFiles=${ruleFiles.length}, seedArticles=${seedData.length}`);
   process.exit(1);
 }
 console.log('======================================================');

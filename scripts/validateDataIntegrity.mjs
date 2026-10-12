@@ -49,7 +49,7 @@ assert(DEFAULT_WEAPONRY.length === 75, 'Weaponry count parity', `Expected 75, go
 assert(DEFAULT_ARMORING.length === 37, 'Armoring count parity', `Expected 37, got ${DEFAULT_ARMORING.length}`);
 assert(DEFAULT_AUGMENTATIONS.length === 172, 'Augmentations count parity', `Expected 172, got ${DEFAULT_AUGMENTATIONS.length}`);
 assert(DEFAULT_INVOCATIONS.length === 137, 'Invocations count parity', `Expected 137, got ${DEFAULT_INVOCATIONS.length}`);
-assert(compendiumSeedData.length >= 94, 'Compendium articles count', `Expected >= 94, got ${compendiumSeedData.length}`);
+assert(compendiumSeedData.length >= 30, 'Compendium articles count', `Expected >= 30, got ${compendiumSeedData.length}`);
 
 // 2. Relational Cross-Reference Resolution
 console.log('\n[2/5] Testing Relational Cross-Reference Resolution Rates...');

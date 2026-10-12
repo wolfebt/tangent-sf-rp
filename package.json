@@ -5,13 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "node scripts/syncMasterCanonicalCompendium.mjs && tsc && vite build",
     "typecheck": "tsc --noEmit",
     "lint": "tsc --noEmit",
     "preview": "vite preview",
     "deploy": "npm run build && firebase deploy --only hosting",
     "deploy:rules": "firebase deploy --only firestore:rules",
     "deploy:all": "npm run build && firebase deploy",
+    "sync:compendium": "node scripts/syncMasterCanonicalCompendium.mjs",
+    "verify:rules": "node scripts/verifyRulesFidelity.mjs",
     "sync:species": "node scripts/syncOmnicortexSpecies.mjs",
     "sync:species-traits": "node scripts/syncSpeciesTraits.mjs",
     "sync:species-disadvantages": "node scripts/syncSpeciesDisadvantages.mjs",
@@ -21,7 +23,7 @@
     "test:e2e": "playwright test",
     "test:e2e:smoke": "playwright test tests/e2e/smoke.spec.ts",
     "test:e2e:journeys": "playwright test tests/e2e/user-journeys.spec.ts",
-    "test": "npm run test:engine && node scripts/validateDataIntegrity.mjs"
+    "test": "node scripts/syncMasterCanonicalCompendium.mjs && npm run test:engine && node scripts/validateDataIntegrity.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.51.0",
