@@ -88,9 +88,9 @@ export const creationArticles = [
       '',
       '> [!TIP]',
       '> **Example (Species):**  ',
-      '> *Xy\'larra is an Alterian (17 BP package - covering all traits of the species) and she will have the following modifiers:*  ',
-      '> *Gain +1 Agility and +1 Intellect (Elven types are typically quite quick and intelligent). She is Awakened (her species specifically studies the Arcane with an Intellect basis and will gain a discipline and its skills) and also gains +10 Skill points for discipline related skills. Alterians are Humanoid with a Minor Xeno Stigma (humans will comparatively have a slightly different cultural view, -2 penalty on certain social interactions).*  ',
-      '> - *Awakened in Mental with 5 points to Focus and 5 points to the Sensory Discipline (for meta enhanced perception and awareness).*',
+      '> *Xy\'larra is an Alterian (28 BP package - covering all traits of the species) and she will have the following modifiers:*  ',
+      '> *Gain +1 Agility [4 BP] and +1 Intellect [4 BP] (Elven types are typically quite quick and intelligent). She gains the Aeld Heritage Base Package [5 BP: Awakened (Arcane) [2], Lifespan 600+ [1], Immune to Sleep [2]], +20 Skill Points [16 BP] focused on intellectual and discipline pursuits, and has a Minor Xeno Stigma [-1 BP refund]. (4 + 4 + 5 + 16 - 1 = 28 BP total).*  ',
+      '> - *Awakened in Arcane (Intellect-based) with skills distributed into Academics, Sensory, and Focus.*',
       '',
       '---',
       '',
@@ -318,7 +318,7 @@ export const creationArticles = [
       '',
       '### How Attribute Checks are Calculated',
       '`Base Check Score = 2 + (Attribute Score * 2)`  ',
-      '`Roll = d20 + Base Check Score + Modifiers`',
+      '`Roll = 2d10 + Base Check Score + Modifiers`',
       '',
       '| Attribute | Derived Check | Core Mechanical Influence |',
       '| :--- | :--- | :--- |',
@@ -342,7 +342,7 @@ export const creationArticles = [
       '- **Social Insight (Insight):** Perception Base + Insight skill (reading facial cues, body language, emotional deception).',
       '- **Technical Analysis (Technology):** Perception Base + Technology skill (evaluating hardware vulnerabilities, sensor scans).'
     ].join('\n'),
-    mechanic: 'BaseAttributeScore = 0 (Standard Human)\nAttributeCheck_Base = 2 + (AttributeScore * 2)\nPerceptionBase = Intellect + Wisdom\nAttributeCheck_Roll = d20 + AttributeCheck_Base + Modifiers',
+    mechanic: 'BaseAttributeScore = 0 (Standard Human)\nAttributeCheck_Base = 2 + (AttributeScore * 2)\nPerceptionBase = Intellect + Wisdom\nAttributeCheck_Roll = 2d10 + AttributeCheck_Base + Modifiers',
     guide: 'Use Attribute Checks primarily for saving throws and fallback situations not covered by specific learned skills.',
     note: 'Attribute checks are not a replacement for trained skills; unassisted raw checks lack focus strike and specialization bonuses.'
   },
@@ -860,7 +860,7 @@ export const creationArticles = [
       '- **Discipline Skills (6 Branches):** Dimension, Energy, Entropy, Illusion, Matter, Mental.'
     ].join('\n'),
     mechanic: 'SkillCheck = 2d10 + SkillRank + LinkedAttributeMod + SituationalModifiers\nFocusBonus: Rank 1-5 (+2), Rank 6-10 (+3), Rank 11-15 (+4), Rank 16-20 (+5), Rank 21-25 (+6), Rank 26-30 (+7)',
-    guide: 'Roll d20 and add your skill rank plus the linked attribute modifier against the Target CR.',
+    guide: 'Roll 2d10 and add your skill rank plus the linked attribute modifier against the Target CR.',
     note: 'Synergies: Having 5+ ranks in a prerequisite skill provides a +2 synergy bonus to related specialized checks.'
   },
   {

@@ -24,18 +24,64 @@ export interface CharacterDraft {
   features: string[];   // IDs of positive traits costing BP
 }
 
+import { DEFAULT_SPECIES } from '../../data/speciesData.js';
+
 export interface SpeciesRule {
   bp_cost: number;
   parity_cap: Record<string, number>;
 }
 
+function buildSpeciesCatalog(): Record<string, SpeciesRule> {
+  const db: Record<string, SpeciesRule> = {};
+
+  if (Array.isArray(DEFAULT_SPECIES)) {
+    DEFAULT_SPECIES.forEach((s: any) => {
+      const bpCost = s.costs?.bp ?? s.bp ?? s.cp_cost ?? 0;
+      const parityCap: Record<string, number> = { str: 4, agi: 4, sta: 4, int: 4, wis: 4, cha: 4, dex: 4, con: 4 };
+
+      (s.inherent_attribute_modifiers || []).forEach((m: any) => {
+        const attr = (m.attribute || '').toLowerCase();
+        const b = m.bonus || 0;
+        if (attr.startsWith('str')) { parityCap.str += b; }
+        if (attr.startsWith('agi')) { parityCap.agi += b; parityCap.dex += b; }
+        if (attr.startsWith('sta')) { parityCap.sta += b; parityCap.con += b; }
+        if (attr.startsWith('int')) { parityCap.int += b; }
+        if (attr.startsWith('wis')) { parityCap.wis += b; }
+        if (attr.startsWith('cha')) { parityCap.cha += b; }
+      });
+
+      const rule: SpeciesRule = { bp_cost: bpCost, parity_cap: parityCap };
+      if (s.id) db[s.id] = rule;
+      const nameKey = (s.name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      if (nameKey) db[nameKey] = rule;
+      if (s.name) db[s.name.toLowerCase()] = rule;
+    });
+  }
+
+  // Ensure canonical shorthand and backward-compatible aliases
+  if (db['species-human-base']) db['human'] = db['species-human-base'];
+  if (db['species-aeld-alterian']) {
+    db['alterian'] = db['species-aeld-alterian'];
+    db['celestine'] = db['species-aeld-alterian'];
+  }
+  if (db['species-aeld-kovian']) {
+    db['kovian'] = db['species-aeld-kovian'];
+    db['nocturne'] = db['species-aeld-kovian'];
+  }
+  if (db['species-synthetic-android']) {
+    db['synth_android'] = db['species-synthetic-android'];
+    db['android'] = db['species-synthetic-android'];
+  }
+  if (db['species-gene-digon']) {
+    db['digon'] = db['species-gene-digon'];
+    db['krogan_analog'] = db['species-gene-digon'];
+  }
+
+  return db;
+}
+
 export const MECHANICS_DB = {
-  species: {
-    'human': { bp_cost: 0, parity_cap: { str: 4, agi: 4, sta: 4, int: 4, wis: 4, cha: 4, dex: 4, con: 4 } },
-    'alterian': { bp_cost: 17, parity_cap: { str: 3, agi: 5, sta: 3, int: 5, wis: 4, cha: 4, dex: 5, con: 3 } },
-    'krogan_analog': { bp_cost: 10, parity_cap: { str: 5, agi: 3, sta: 5, int: 3, wis: 3, cha: 2, dex: 3, con: 5 } },
-    'synth_android': { bp_cost: 15, parity_cap: { str: 5, agi: 4, sta: 5, int: 5, wis: 3, cha: 1, dex: 4, con: 5 } }
-  } as Record<string, SpeciesRule>,
+  species: buildSpeciesCatalog(),
   hindrances: {
     'blind': { bp_yield: 15 },
     'debt': { bp_yield: 5 },

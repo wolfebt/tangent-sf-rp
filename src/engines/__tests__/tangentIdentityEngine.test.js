@@ -62,9 +62,9 @@ describe('Tangent SF RP — Identity Transition & Trait Synchronization Engine',
   });
 
   it('correctly transitions Species: removes old species traits and attaches new species traits/movement', () => {
-    // 1. Apply Celestine (Alterian)
-    const afterFirst = applySpeciesTransition(sampleBaseCharacter, 'Celestine (Alterian)');
-    assert.strictEqual(afterFirst['char-species'], 'Celestine (Alterian)');
+    // 1. Apply Alterian
+    const afterFirst = applySpeciesTransition(sampleBaseCharacter, 'Alterian');
+    assert.strictEqual(afterFirst['char-species'], 'Alterian');
     assert.ok(afterFirst.features.some(f => f.category === 'Species Inherent' && f.source === 'species'));
     // Custom feature preserved
     assert.ok(afterFirst.features.some(f => f.name === 'Custom Luck'));
@@ -72,9 +72,9 @@ describe('Tangent SF RP — Identity Transition & Trait Synchronization Engine',
     // 2. Switch species to Human (Base)
     const afterSecond = applySpeciesTransition(afterFirst, 'Human (Base)');
     assert.strictEqual(afterSecond['char-species'], 'Human (Base)');
-    // Previous Celestine traits should be gone
-    const celestineTraits = afterSecond.features.filter(f => f.name.includes('Arcane') && f.category === 'Species Inherent');
-    assert.strictEqual(celestineTraits.length, 0, 'Celestine inherent traits must be cleanly removed');
+    // Previous Alterian traits should be gone
+    const alterianTraits = afterSecond.features.filter(f => f.name.includes('Arcane') && f.category === 'Species Inherent');
+    assert.strictEqual(alterianTraits.length, 0, 'Alterian inherent traits must be cleanly removed');
     // Human adaptability should be present
     assert.ok(afterSecond.features.some(f => f.name.includes('Adaptability') || f.source === 'species'));
     // Custom feature still preserved
@@ -405,7 +405,7 @@ describe('Tangent SF RP — Identity Transition & Trait Synchronization Engine',
   it('resets tech-level to 3 and magic-level to 3 when Species is cleared without an active Faction', () => {
     const charWithSpecies = {
       ...sampleBaseCharacter,
-      'char-species': 'Celestine (Alterian)',
+      'char-species': 'Alterian',
       'char-faction': '',
       'tech-level': 4,
       'magic-level': 4

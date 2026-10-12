@@ -1,7 +1,7 @@
 ---
-id: species-aeld-nocturne
-name: Nocturne (Kovian)
-title: Nocturne (Kovian Aeld)
+id: species-aeld-kovian
+name: Kovian
+title: Kovian (Umbral Aeld)
 category: species
 parent_species: Aeld
 type:
@@ -41,7 +41,7 @@ tech_level: 4 (Void-Tech & Stealth Sub-systems)
 meta_level: 4 (Shadow Metaphysics & Telepathy)
 homeworld: Kovia (The Umbral Fortress)
 costs:
-  bp: 23
+  bp: 12
 modifiers:
   - target: Intellect
     value: 1
@@ -51,11 +51,11 @@ modifiers:
     value: -1
     type: attribute
     mode: inherent
-cp_cost: 23
-cp: 23
-bp: 23
+cp_cost: 12
+cp: 12
+bp: 12
 description: >-
-  The Nocturne (Kovians) are a fiercely disciplined, subterranean and
+  The Kovians are a fiercely disciplined, subterranean and
   void-dwelling elven faction. Prioritizing cold logic, genetic preservation,
   and shadow-craft, they harbor deep skepticism toward outsiders.
 traits:

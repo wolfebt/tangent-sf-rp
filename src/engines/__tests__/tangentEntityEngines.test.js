@@ -377,10 +377,10 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
     });
 
     it('calculates full species cost and breakdown from catalog documents via calculateFullSpeciesCost', () => {
-      const celestineCost = calculateFullSpeciesCost('Celestine (Alterian)');
-      assert.strictEqual(celestineCost.totalCost, 26);
-      assert.ok(celestineCost.itemizedList.length > 0);
-      assert.ok(celestineCost.summaryText.length > 0);
+      const alterianCost = calculateFullSpeciesCost('Alterian');
+      assert.strictEqual(alterianCost.totalCost, 28);
+      assert.ok(alterianCost.itemizedList.length > 0);
+      assert.ok(alterianCost.summaryText.length > 0);
 
       const baseHumanCost = calculateFullSpeciesCost('Human (Base)');
       assert.strictEqual(baseHumanCost.totalCost, 10);

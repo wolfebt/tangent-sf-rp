@@ -1,4 +1,4 @@
-﻿export const metaphysicsArticles = [
+export const metaphysicsArticles = [
   {
     id: '4-01-omni-codex-metaphysics-overview',
     name: '4.01 The Omni-Codex of Metaphysics Overview',
@@ -186,7 +186,7 @@
       '## Metaphysic Strain & Overchanneling',
       '',
       '- When a character\'s Essence drops to **0**, they can choose to **Overchannel**:',
-      '  - Each point of Essence spent beyond zero inflicts **2 points of direct HP damage** that completely bypasses Armor DR.',
+      '  - Each point of Essence spent beyond zero inflicts **2 points of direct Vitality damage** (spilling into Health if Vitality is 0) that completely bypasses Armor DR.',
       '  - The character must make a **Fortitude Save (CR 10 + Points Overchanneled)**:',
       '    - **Failure:** Suffers **Metaphysic Burnout** (incapable of channeling for 24 hours).',
       '    - **Critical Failure (Nat 1):** Suffers permanent neurological or sensory impairment.',

@@ -96,7 +96,7 @@ export type { ASTNode } from './math/DiceASTParser.ts';
 export { QuickJSSandbox } from './scripting/QuickJSSandbox.ts';
 export type { SandboxRequest, SandboxResponse, SandboxStandardContext } from './scripting/QuickJSSandbox.ts';
 export { EssenceTracker } from './rules/EssenceTracker.ts';
-export type { OngoingSpellEffect } from './rules/EssenceTracker.ts';
+export type { OngoingSpellEffect, OverchannelResult } from './rules/EssenceTracker.ts';
 
 // Stage 7: Dual-Agent AI Ecosystem & Vision Auto-Walling
 export { VertexAIGateway } from './ai/VertexAIGateway.ts';

@@ -1,21 +1,21 @@
 export const resolutionArticles = [
   {
-    id: '2-01-d20-universal-resolution-engine',
-    name: '2.01 The d20 Universal Resolution Engine',
+    id: '2-01-2d10-universal-resolution-engine',
+    name: '2.01 The 2d10 Universal Resolution Engine',
     category: 'compendium',
     entry_type: 'Core Rule',
     parent: '2.00 CORE RESOLUTION',
     order: 1,
     description: [
-      '# 2.01 The d20 Universal Resolution Engine',
+      '# 2.01 The 2d10 Universal Resolution Engine',
       '',
-      'The Tangent Roleplaying System is driven by a unified **twenty-sided die (d20)** mechanic for resolving all uncertain actions, combat strikes, social interactions, and environmental hazards.',
+      'The Tangent Roleplaying System is driven by a unified **two ten-sided dice (2d10)** mechanic for resolving all uncertain actions, combat strikes, social interactions, and environmental hazards.',
       '',
       '---',
       '',
       '## The Core Resolution Formula',
       '',
-      '\\text{Check Result} = d20 + \\text{Skill Rank} + \\text{Linked Attribute Modifier} + \\text{Situational Modifiers}',
+      '\\text{Check Result} = 2d10 + \\text{Skill Rank} + \\text{Linked Attribute Modifier} + \\text{Situational Modifiers}',
       '',
       '- **Success:** If the total meets or exceeds the Target Challenge Rating (**DC**) or Opposed Defense score, the action succeeds.',
       '- **Failure:** If the total is less than the DC or Opposed Defense score, the action fails or introduces a narrative complication.',
@@ -34,8 +34,8 @@ export const resolutionArticles = [
       'When a character interacts with a static object, bypasses security, or targets a stationary or surprised foe:',
       '- Attacker rolls against a fixed **Challenge Rating (CR)** set by the Architect or determined by standard benchmarks.'
     ].join('\n'),
-    mechanic: 'Check = d20 + SkillRank + AttrMod + MiscMod\nOpposed: AttackerRoll > DefenderRoll (Defender wins on equal scores)',
-    guide: 'Roll d20, add your skill rank and attribute modifier, and report the total to the Architect.',
+    mechanic: 'Check = 2d10 + SkillRank + AttrMod + MiscMod\nOpposed: AttackerRoll > DefenderRoll (Defender wins on equal scores)',
+    guide: 'Roll 2d10, add your skill rank and attribute modifier, and report the total to the Architect.',
     note: 'Critical Success (Natural 20) automatically succeeds in combat and adds bonus effect; Natural 1 is a critical complication.'
   },
   {
@@ -116,8 +116,8 @@ export const resolutionArticles = [
       '',
       'Advantage and Disadvantage **do not stack**. If multiple sources grant Advantage, you still roll only two dice. If a character has both Advantage and Disadvantage simultaneously from different sources, they **cancel each other out completely**, resulting in a standard single die roll.'
     ].join('\n'),
-    mechanic: 'Advantage = max(d20_1, d20_2) + Modifiers\nDisadvantage = min(d20_1, d20_2) + Modifiers\nAdvantage + Disadvantage = 1d20 + Modifiers',
-    guide: 'When Advantage is declared, roll two d20s simultaneously and choose the higher number before adding modifiers.',
+    mechanic: 'Advantage = max(2d10_1, 2d10_2) + Modifiers\nDisadvantage = min(2d10_1, 2d10_2) + Modifiers\nAdvantage + Disadvantage = 12d10 + Modifiers',
+    guide: 'When Advantage is declared, roll 2d10 twice simultaneously and choose the higher number before adding modifiers.',
     note: 'Advantage also applies to damage rolls when specified by special weapon properties (e.g. Point Blank shots).'
   },
   {

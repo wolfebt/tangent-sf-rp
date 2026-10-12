@@ -1,7 +1,7 @@
 ---
-id: species-aeld-celestine
-name: Celestine (Alterian)
-title: Celestine (Alterian Aeld)
+id: species-aeld-alterian
+name: Alterian
+title: Alterian (Aeld Conclave)
 category: species
 parent_species: Aeld
 type:
@@ -49,7 +49,7 @@ tech_level: '3 (Magi-Tech: Solar Sails, Crystalline Laminates, Aetherium Refinem
 meta_level: '4 (High Magic: The Flow)'
 homeworld: Altheria (The Gilded World)
 costs:
-  bp: 26
+  bp: 28
 modifiers:
   - target: Agility
     value: 1
@@ -59,11 +59,11 @@ modifiers:
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 26
-cp: 26
-bp: 26
+cp_cost: 28
+cp: 28
+bp: 28
 description: >-
-  The Alterian Aeld (Celestines) are graceful, exceptionally long-lived
+  The Alterian Aeld are graceful, exceptionally long-lived
   scholars, diplomats, and magi-tech pioneers. They harmonize technology with
   arcane metaphysics, viewing magic as a rigorous science and operating with a
   profound long-term perspective.

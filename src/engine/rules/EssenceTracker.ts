@@ -1,8 +1,8 @@
 /**
  * @file EssenceTracker.ts
- * @description Stage 5.7 / 6.4: Magic taxation and physics entropy.
- * Enforces Tangent magic systems: 0-cost cantrips vs exhausting high-DC spells, 
- * Sustained chronometer taxes, and the automated Degradation Protocol (entropy).
+ * @description Stage 5.7 / 6.4: Rulebook Compliant Metaphysics Tracking.
+ * Enforces fixed costs for codified invocations, +50% for free-casting,
+ * and handles Overchanneling (HP damage for casting below 0 Essence).
  */
 
 export interface OngoingSpellEffect {
@@ -12,18 +12,41 @@ export interface OngoingSpellEffect {
   isSustained: boolean;
 }
 
+export interface OverchannelResult {
+  isOverchanneling: boolean;
+  vitalityDamage: number; // Applied to Vitality first, spills to Health
+  fortitudeSaveDC: number;
+  newEssence: number;
+}
+
 export class EssenceTracker {
   // Tangent standard: Effects with DC <= 14 cost 0 Essence (Cantrips)
   private readonly CANTRIP_THRESHOLD = 14;
 
   /**
-   * Calculates immediate Essence cost to cast or attune a supernatural effect.
+   * Calculates maximum Essence pool based on the vol4 formula.
    */
-  public calculateCastCost(baseDC: number): number {
-    if (baseDC <= this.CANTRIP_THRESHOLD) {
-      return 0;
+  public calculateMaxEssence(keyAbilityMod: number, attuneRank: number, totalDisciplineRanks: number): number {
+    return (keyAbilityMod * 5) + (attuneRank * 2) + totalDisciplineRanks;
+  }
+
+  /**
+   * Calculates Essence cost based on base DC or invocation cost, with optional free-cast surcharge (+50%).
+   * - If costOrDC <= 14: Treated as a cantrip (0 Essence).
+   * - If costOrDC is a standard spell DC (> 14): Scaled per 5 DC increments.
+   */
+  public calculateCastCost(costOrDC: number, isFreeCast: boolean = false): number {
+    let cost = 0;
+    if (costOrDC <= this.CANTRIP_THRESHOLD) {
+      cost = 0;
+    } else {
+      cost = Math.floor((costOrDC - this.CANTRIP_THRESHOLD + 4) / 5);
     }
-    return Math.floor((baseDC - this.CANTRIP_THRESHOLD + 4) / 5);
+
+    if (isFreeCast && cost > 0) {
+      return Math.ceil(cost * 1.5);
+    }
+    return cost;
   }
 
   /**
@@ -64,4 +87,29 @@ export class EssenceTracker {
 
     return updatedEffects;
   }
+
+  /**
+   * Deducts Essence and returns an OverchannelResult detailing HP damage and saves if dropped below 0.
+   */
+  public processEssenceExpenditure(currentEssence: number, cost: number): OverchannelResult {
+    const newEssence = currentEssence - cost;
+    
+    if (newEssence < 0) {
+      const pointsOverchanneled = Math.abs(newEssence);
+      return {
+        isOverchanneling: true,
+        vitalityDamage: pointsOverchanneled * 2, // 2 points of direct Vitality damage per negative point
+        fortitudeSaveDC: 10 + pointsOverchanneled, // CR 10 + Points Overchanneled
+        newEssence
+      };
+    }
+
+    return {
+      isOverchanneling: false,
+      vitalityDamage: 0,
+      fortitudeSaveDC: 0,
+      newEssence
+    };
+  }
 }
+

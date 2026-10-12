@@ -1,4 +1,4 @@
-﻿export const technologyArticles = [
+export const technologyArticles = [
   {
     id: '5-01-technology-levels',
     name: '5.01 Technology Levels (TL 0 to TL 5)',

@@ -671,7 +671,10 @@ export function calculateFullSpeciesCost(speciesInput, dbData = {}) {
     speciesObj = list.find(s => 
       (s.name || '').toLowerCase() === query || 
       (s.title || '').toLowerCase() === query || 
-      (s.id || '').toLowerCase() === query
+      (s.id || '').toLowerCase() === query ||
+      (Array.isArray(s.aliases) && s.aliases.some(a => a.toLowerCase() === query)) ||
+      (query.includes('celestine') && (s.id.includes('alterian') || s.name.toLowerCase().includes('alterian'))) ||
+      (query.includes('nocturne') && (s.id.includes('kovian') || s.name.toLowerCase().includes('kovian')))
     ) || { name: speciesInput };
   }
 

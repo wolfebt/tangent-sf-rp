@@ -209,12 +209,19 @@ export const resolveCatalogItem = (colKey, itemInput, dbData = {}) => {
   };
 
   const list = getCatalog();
-  // 1. Exact match by name, title, or id
+  // 1. Exact match by name, title, id, or alias
   let found = list.find(item => {
     const name = (item.name || '').toLowerCase();
     const title = (item.title || '').toLowerCase();
     const id = (item.id || '').toLowerCase();
-    return name === queryStr || title === queryStr || id === queryStr || id.replace(/^[a-z]+-/, '') === queryStr;
+    const aliases = Array.isArray(item.aliases) ? item.aliases.map(a => a.toLowerCase()) : [];
+    return name === queryStr || 
+           title === queryStr || 
+           id === queryStr || 
+           id.replace(/^[a-z]+-/, '') === queryStr ||
+           aliases.includes(queryStr) ||
+           (queryStr.includes('celestine') && (id.includes('alterian') || name.includes('alterian'))) ||
+           (queryStr.includes('nocturne') && (id.includes('kovian') || name.includes('kovian')));
   });
 
   // 2. Prefix or substring match (e.g. "Human" -> "Human (Base)")
@@ -222,7 +229,9 @@ export const resolveCatalogItem = (colKey, itemInput, dbData = {}) => {
     found = list.find(item => {
       const name = (item.name || '').toLowerCase();
       const title = (item.title || '').toLowerCase();
-      return name.startsWith(`${queryStr} `) || name.startsWith(`${queryStr}(`) || title.startsWith(`${queryStr} `) || title.startsWith(`${queryStr}(`);
+      return name.startsWith(`${queryStr} `) || name.startsWith(`${queryStr}(`) || title.startsWith(`${queryStr} `) || title.startsWith(`${queryStr}(`) ||
+             queryStr.startsWith(`${name} `) || queryStr.startsWith(`${name}(`) ||
+             (name.length > 3 && queryStr.includes(name));
     });
   }
 

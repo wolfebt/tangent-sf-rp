@@ -15,14 +15,8 @@ export const CANONICAL_ATTRIBUTES = [
   'agility',
   'stamina',
   'intellect',
-  'perception',
-  'presence',
-  'tech',
-  'willpower',
-  'charisma',
-  'metaphysics',
-  'luck',
-  'karma'
+  'wisdom',
+  'charisma'
 ];
 
 /**

@@ -285,7 +285,7 @@ export function useCombatController({
     AudioService.playTerminalBeep(1200, 0.04);
     const scores: Record<string, number> = {};
     tokens.forEach(t => {
-      scores[t.id] = Math.floor(Math.random() * 20) + 1 + (t.tech_level || 3);
+      scores[t.id] = (Math.floor(Math.random() * 10) + 1) + (Math.floor(Math.random() * 10) + 1) + (t.tech_level || 3);
     });
     setInitiativeScores(scores);
     setCurrentTurnIndex(0);

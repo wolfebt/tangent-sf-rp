@@ -43,17 +43,17 @@ describe('Tangent SF RP — Folio CP Economy & Species Package Asset Accounting'
   });
 
   describe('Species Package Inclusivity & Economy Accounting', () => {
-    it('resolves Celestine (Alterian) 26 CP species package with itemized components', () => {
-      const celestine = calculateFullSpeciesCost('Celestine (Alterian)');
-      assert.strictEqual(celestine.totalCost, 26);
-      assert.ok(celestine.itemizedList.length > 0);
+    it('resolves Alterian 28 CP species package with itemized components', () => {
+      const alterian = calculateFullSpeciesCost('Alterian');
+      assert.strictEqual(alterian.totalCost, 28);
+      assert.ok(alterian.itemizedList.length > 0);
 
       // Inherent attributes
-      assert.ok(celestine.itemized.attributes.some(a => a.attr === 'AGI' && a.value === 1));
-      assert.ok(celestine.itemized.attributes.some(a => a.attr === 'INT' && a.value === 1));
+      assert.ok(alterian.itemized.attributes.some(a => a.attr === 'AGI' && a.value === 1));
+      assert.ok(alterian.itemized.attributes.some(a => a.attr === 'INT' && a.value === 1));
 
       // Traits / Inherent features
-      assert.ok(celestine.itemized.traits.length > 0);
+      assert.ok(alterian.itemized.traits.length > 0);
     });
 
     it('attaches standaloneCp to inherent features during species transition with cp: 0', () => {
@@ -64,8 +64,8 @@ describe('Tangent SF RP — Folio CP Economy & Species Package Asset Accounting'
         disadvantages: []
       };
 
-      const updatedChar = applySpeciesTransition(initialChar, 'Celestine (Alterian)');
-      assert.strictEqual(updatedChar['char-species'], 'Celestine (Alterian)');
+      const updatedChar = applySpeciesTransition(initialChar, 'Alterian');
+      assert.strictEqual(updatedChar['char-species'], 'Alterian');
       
       // Inherent features must have cp === 0 and a valid standaloneCp > 0
       const inherentFeats = updatedChar.features.filter(f => f.source === 'species' || f.category === 'Species Inherent');
@@ -79,7 +79,7 @@ describe('Tangent SF RP — Folio CP Economy & Species Package Asset Accounting'
     it('verifies 0 CP tracking and no double-charging in an economy calculation simulation', () => {
       const char = {
         'starting-cp': 150,
-        'char-species': 'Celestine (Alterian)',
+        'char-species': 'Alterian',
         'char-archetype': 'Agent',
         'char-occu': 'Bounty Hunter',
         'char-origin': 'Frontier Colony',
@@ -110,7 +110,7 @@ describe('Tangent SF RP — Folio CP Economy & Species Package Asset Accounting'
 
       // Calculate Economy simulation
       const spCost = calculateFullSpeciesCost(char['char-species']);
-      const speciesPackageCost = spCost.totalCost; // 26 CP
+      const speciesPackageCost = spCost.totalCost; // 28 CP
       const primaryAttrCost = (1 + 2 + 0 + 1 + 0 + 0) * 5; // 20 CP
       const purchasedFeaturesCost = 3; // Combat Reflexes
       const purchasedTraitsCost = 0;
@@ -118,9 +118,9 @@ describe('Tangent SF RP — Folio CP Economy & Species Package Asset Accounting'
       const hindranceRefund = 3; // Impulsive
 
       const expectedSpent = speciesPackageCost + primaryAttrCost + purchasedFeaturesCost + purchasedTraitsCost + skillCost - hindranceRefund;
-      // 26 + 20 + 3 + 0 + 3 - 3 = 49 CP
+      // 28 + 20 + 3 + 0 + 3 - 3 = 51 CP
 
-      assert.strictEqual(expectedSpent, 49);
+      assert.strictEqual(expectedSpent, 51);
 
       // Verify that all species assets are recorded with costVal === 0 and "0 [X]" cost
       const speciesFeat = char.features[0];
