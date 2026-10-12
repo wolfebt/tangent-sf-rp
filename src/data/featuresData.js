@@ -1,7 +1,7 @@
 /**
  * Canonical Features & Traits Database for Tangent SF RP
  * Auto-generated from src/data/omnicortex/features/
- * Total Features: 278
+ * Total Features: 283
  */
 
 export const FEATURE_CATEGORIES = [
@@ -20,6 +20,34 @@ export const FEATURE_CATEGORIES = [
 ];
 
 export const DEFAULT_FEATURES = [
+  {
+    "id": "ability-environmental-adaptation",
+    "name": "Environmental Adaptation",
+    "category": "Ability",
+    "type": "ability",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [],
+    "description": "The character's physiology adapts rapidly to hostile ecological extremes, including vacuum exposure, thermal shifts, and high radiation.",
+    "mechanic": "The character suffers no penalties or exhaustion from extreme planetary temperatures (intense desert heat up to 60°C or sub-zero arctic cold down to -40°C) without special gear. When exposed to explosive decompression, thin atmospheres, or hard vacuum, they can sustain life without permanent lung damage or unconsciousness for up to 5 rounds (1 minute) by entering a controlled metabolic stasis.",
+    "rules": "",
+    "special_rules": "",
+    "body": "# Environmental Adaptation\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nWhether evolved in brutal frontier climates, engineered through genetic optimization, or tempered by void exploration, the character easily survives hazardous atmospheric, thermal, and barometric conditions.\n\n## Mechanics & Benefit\nThe character suffers no penalties or exhaustion from extreme planetary temperatures (intense desert heat up to 60°C or sub-zero arctic cold down to -40°C) without special gear. When exposed to explosive decompression, thin atmospheres, or hard vacuum, they can sustain life without permanent lung damage or unconsciousness for up to 5 rounds (1 minute) by entering a controlled metabolic stasis.",
+    "mechanics": "The character suffers no penalties or exhaustion from extreme planetary temperatures (intense desert heat up to 60°C or sub-zero arctic cold down to -40°C) without special gear. When exposed to explosive decompression, thin atmospheres, or hard vacuum, they can sustain life without permanent lung damage or unconsciousness for up to 5 rounds (1 minute) by entering a controlled metabolic stasis.",
+    "notes": "",
+    "notesList": []
+  },
   {
     "id": "ability-evasiveness",
     "name": "Evasiveness",
@@ -633,6 +661,34 @@ export const DEFAULT_FEATURES = [
       "[Rule] This feature acts as a **\\[Multiple\\]** selection. You must choose Physical Tolerance (Fortitude) or...",
       "[Prerequisite] Stamina 1 (for Physical) or Wisdom 1 (for Mental)."
     ]
+  },
+  {
+    "id": "ability-toxic-resistance",
+    "name": "Toxic Resistance",
+    "category": "Ability",
+    "type": "ability",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [],
+    "description": "The character's physiology metabolizes or neutralizes poisons, venoms, neurotoxins, and biochemical agents with superior efficiency.",
+    "mechanic": "The character receives a **+3 bonus on Fortitude saving throws** against all ingested, inhaled, contact, or injury-delivered toxins, poisons, and biochemical radiation. Additionally, successful saves against damaging poisons eliminate all secondary effects, and failed saves deal half the normal initial damage.",
+    "rules": "",
+    "special_rules": "",
+    "body": "# Toxic Resistance\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character possesses an aggressively robust lymphatic and metabolic filter system, enabling them to resist corrosive gases, virulent toxins, and predatory venoms.\n\n## Mechanics & Benefit\nThe character receives a **+3 bonus on Fortitude saving throws** against all ingested, inhaled, contact, or injury-delivered toxins, poisons, and biochemical radiation. Additionally, successful saves against damaging poisons eliminate all secondary effects, and failed saves deal half the normal initial damage.",
+    "mechanics": "The character receives a **+3 bonus on Fortitude saving throws** against all ingested, inhaled, contact, or injury-delivered toxins, poisons, and biochemical radiation. Additionally, successful saves against damaging poisons eliminate all secondary effects, and failed saves deal half the normal initial damage.",
+    "notes": "",
+    "notesList": []
   },
   {
     "id": "general-enhanced-biotechnology",
@@ -4172,6 +4228,34 @@ export const DEFAULT_FEATURES = [
     ]
   },
   {
+    "id": "general-inventor",
+    "name": "Inventor",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [],
+    "description": "A natural genius for engineering, jury-rigging, and prototyping novel technology, field modifications, and experimental devices.",
+    "mechanic": "The character reduces the time required to build, upgrade, or modify weapons, armor, and gear by 50%. Once per session, they can jury-rig a temporary gadget or override an incompatible system with scrap parts, functioning reliably for a scene before breaking down.",
+    "rules": "",
+    "special_rules": "",
+    "body": "# Inventor\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character possesses an innate intuitive grasp of mechanical, electronic, and energetic principles, enabling them to fabricate bespoke solutions and jury-rig sophisticated hardware under impossible conditions.\n\n## Mechanics & Benefit\nThe character reduces the time required to build, upgrade, or modify weapons, armor, and gear by 50%. Once per session, they can jury-rig a temporary gadget or override an incompatible system with scrap parts, functioning reliably for a scene before breaking down.",
+    "mechanics": "The character reduces the time required to build, upgrade, or modify weapons, armor, and gear by 50%. Once per session, they can jury-rig a temporary gadget or override an incompatible system with scrap parts, functioning reliably for a scene before breaking down.",
+    "notes": "",
+    "notesList": []
+  },
+  {
     "id": "general-jack-of-all-trades",
     "name": "Jack of all trades",
     "category": "General",
@@ -6033,6 +6117,34 @@ export const DEFAULT_FEATURES = [
     ]
   },
   {
+    "id": "physical-wall-crawler",
+    "name": "Wall-Crawler",
+    "category": "Physical",
+    "type": "physical",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [],
+    "description": "The character can traverse vertical surfaces, sheer walls, and ceilings with ease using microscopic setae, specialized claws, or adhesive secretions.",
+    "mechanic": "The character gains a Climb Speed equal to their normal Ground Movement Speed. They do not need to make Athletics checks to climb typical sheer surfaces unless under direct duress or navigating frictionless, polished materials. They retain their full Defense while climbing and can adhere to surfaces with at least two free limbs.",
+    "rules": "",
+    "special_rules": "",
+    "body": "# Wall-Crawler\n\n**Category**: Physical Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character possesses the uncanny physical adaptation to scale vertical inclines, sheer cliffs, and ceilings without specialized climbing gear.\n\n## Mechanics & Benefit\nThe character gains a Climb Speed equal to their normal Ground Movement Speed. They do not need to make Athletics checks to climb typical sheer surfaces unless under direct duress or navigating frictionless, polished materials. They retain their full Defense while climbing and can adhere to surfaces with at least two free limbs.",
+    "mechanics": "The character gains a Climb Speed equal to their normal Ground Movement Speed. They do not need to make Athletics checks to climb typical sheer surfaces unless under direct duress or navigating frictionless, polished materials. They retain their full Defense while climbing and can adhere to surfaces with at least two free limbs.",
+    "notes": "",
+    "notesList": []
+  },
+  {
     "id": "sensory-blind-sight",
     "name": "Blind Sight",
     "category": "Sensory",
@@ -6062,6 +6174,34 @@ export const DEFAULT_FEATURES = [
       "[Rule] Prerequisite: Non-Visual Sensory Organs.",
       "[Prerequisite] Non-Visual Sensory Organs"
     ]
+  },
+  {
+    "id": "sensory-night-vision",
+    "name": "Night Vision",
+    "category": "Sensory",
+    "type": "sensory",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "None",
+    "modifiers": [],
+    "description": "Your character can see in the dark, giving them an advantage in low-light and pitch-black conditions.",
+    "mechanic": "The character ignores darkness and dim-light penalties to Awareness and Combat attack rolls within medium range (up to 30 meters). They can discern movement and shapes in total non-magical darkness as if it were daylight, though fine color details may be perceived in monochrome shades.",
+    "rules": "",
+    "special_rules": "",
+    "body": "# Night Vision\n\n**Category**: Sensory Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nYour character can see in the dark, giving them an advantage in low-light conditions and deep shadows without requiring an external illumination source.\n\n## Mechanics & Benefit\nThe character ignores darkness and dim-light penalties to Awareness and Combat attack rolls within medium range (up to 30 meters). They can discern movement and shapes in total non-magical darkness as if it were daylight, though fine color details may be perceived in monochrome shades.",
+    "mechanics": "The character ignores darkness and dim-light penalties to Awareness and Combat attack rolls within medium range (up to 30 meters). They can discern movement and shapes in total non-magical darkness as if it were daylight, though fine color details may be perceived in monochrome shades.",
+    "notes": "",
+    "notesList": []
   },
   {
     "id": "sensory-uncanny-senses-vibration",

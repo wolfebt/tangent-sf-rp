@@ -81,7 +81,11 @@ for (const sec of majorSections) {
   const wealthMod = parseBulletValue(sec, 'Wealth Modifier');
   const prominentSpecies = parseBulletValue(sec, 'Prominent Species');
   const typicalArchetypes = parseBulletValue(sec, 'Typical Archetypes');
-  const recFeatsRaw = parseBulletValue(sec, 'Recommended Features \\(1 BP Discount\\)') || parseBulletValue(sec, 'Recommended Features');
+  let recFeatsRaw = parseBulletValue(sec, 'Recommended Features[^\n:*]*') || parseBulletValue(sec, 'Recommended Features');
+  if (!recFeatsRaw) {
+    const subMatch = sec.match(/\*\s*\*\*Recommended Features[^\n:*]*:\*\*\s*\n\s*[*+-]\s+([^\n]+)/i);
+    if (subMatch) recFeatsRaw = subMatch[1];
+  }
   const recommendedFeatures = parseFeaturesList(recFeatsRaw);
   const skills = parseSkillPackage(sec);
 

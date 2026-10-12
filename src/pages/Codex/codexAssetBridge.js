@@ -171,20 +171,26 @@ export const adaptItemToCodexFormData = (item, matrix) => {
   const base = { ...(resolvedMatrix.defaultValues || {}), ...item };
 
   // Harmonize Tech Level
-  if (item.tech_level !== undefined && base.tl === undefined) {
-    base.tl = item.tech_level;
-  }
-  if (item.tl !== undefined && base.tech_level === undefined) {
-    base.tech_level = item.tl;
-  }
+  const resolvedTl = item.tech_level !== undefined 
+    ? item.tech_level 
+    : (item.tl !== undefined 
+      ? item.tl 
+      : (item.techLevel !== undefined 
+        ? item.techLevel 
+        : (base.tech_level !== undefined ? base.tech_level : (base.tl !== undefined ? base.tl : 3))));
+  base.tech_level = resolvedTl;
+  base.tl = resolvedTl;
 
   // Harmonize Meta Level
-  if (item.meta_level !== undefined && base.ml === undefined) {
-    base.ml = item.meta_level;
-  }
-  if (item.ml !== undefined && base.meta_level === undefined) {
-    base.meta_level = item.ml;
-  }
+  const resolvedMl = item.meta_level !== undefined 
+    ? item.meta_level 
+    : (item.ml !== undefined 
+      ? item.ml 
+      : (item.metaLevel !== undefined 
+        ? item.metaLevel 
+        : (base.meta_level !== undefined ? base.meta_level : (base.ml !== undefined ? base.ml : 0))));
+  base.meta_level = resolvedMl;
+  base.ml = resolvedMl;
 
   // Harmonize Craft / Build DC for Property matrices
   if (resolvedMatrix.isProperty || ['architecture', 'weaponry', 'armor', 'equipment', 'mecha', 'augmentations', 'meta-tech', 'other'].includes(resolvedMatrix.id)) {
@@ -584,6 +590,10 @@ export const adaptCodexToOmnicortexItem = (formData, computedValues, matrix) => 
 
   // Ensure faction recommendations, directives, and railguards are synchronized
   if (resolvedMatrix.id === 'factions') {
+    payload.tech_level = Number(formData.tech_level !== undefined ? formData.tech_level : (formData.tl !== undefined ? formData.tl : 3));
+    payload.tl = payload.tech_level;
+    payload.meta_level = Number(formData.meta_level !== undefined ? formData.meta_level : (formData.ml !== undefined ? formData.ml : 0));
+    payload.ml = payload.meta_level;
     payload.recommended_species = Array.isArray(formData.recommended_species) ? formData.recommended_species : [];
     payload.recommended_origins = Array.isArray(formData.recommended_origins) ? formData.recommended_origins : [];
     payload.recommended_occupations = Array.isArray(formData.recommended_occupations) ? formData.recommended_occupations : [];

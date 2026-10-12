@@ -936,7 +936,13 @@ export const DEFAULT_FACTIONS = [
     "meta_level": "4",
     "wealth_modifier": "+3",
     "prominent_species": "Celestine, High Elves, Doppelgangers",
-    "typical_archetypes": [],
+    "typical_archetypes": [
+      "The Diplomat",
+      "The High Architect",
+      "The Star Weaver",
+      "The Sage",
+      "The Shadow Investigator"
+    ],
     "skill_package": [
       "Attune (+5)",
       "Culture (+4)",
@@ -962,18 +968,36 @@ export const DEFAULT_FACTIONS = [
       "Scout"
     ],
     "recommended_features": [
-      "Ancient Lineage",
-      "Ethereal Grace",
-      "Benefit (Status)"
+      "Benefit (Status)",
+      "Master Craftsman",
+      "Silver Tongue",
+      "Trustworthy",
+      "Educated",
+      "Linguist",
+      "Inspiring Personality",
+      "Magical Aptitude",
+      "Centering",
+      "Artificer",
+      "Graceful",
+      "Insightful Reason"
     ],
     "features": [
-      "Ancient Lineage",
-      "Ethereal Grace",
-      "Benefit (Status)"
+      "Benefit (Status)",
+      "Master Craftsman",
+      "Silver Tongue",
+      "Trustworthy",
+      "Educated",
+      "Linguist",
+      "Inspiring Personality",
+      "Magical Aptitude",
+      "Centering",
+      "Artificer",
+      "Graceful",
+      "Insightful Reason"
     ],
     "bonus_features": [
-      "Ancient Lineage",
-      "Ethereal Grace"
+      "Benefit (Status)",
+      "Master Craftsman"
     ],
     "keywords": "ancient-lineage, magi-tech-architects, schismatic-history, ethereal-grace, elder-wisdom, harmonic-flow, pan-aeld-heritage",
     "negative_keywords": "crude-machinery, reckless-expansion, heavy-cybernetics, short-lived-impulsiveness, unrefined",
@@ -3366,19 +3390,35 @@ export const DEFAULT_FACTIONS = [
     ],
     "recommended_features": [
       "Benefit (Status)",
-      "Ancient Lineage",
-      "Ethereal Grace",
-      "Master Craftsman"
+      "Master Craftsman",
+      "Silver Tongue",
+      "Trustworthy",
+      "Educated",
+      "Linguist",
+      "Inspiring Personality",
+      "Magical Aptitude",
+      "Centering",
+      "Artificer",
+      "Graceful",
+      "Insightful Reason"
     ],
     "features": [
       "Benefit (Status)",
-      "Ancient Lineage",
-      "Ethereal Grace",
-      "Master Craftsman"
+      "Master Craftsman",
+      "Silver Tongue",
+      "Trustworthy",
+      "Educated",
+      "Linguist",
+      "Inspiring Personality",
+      "Magical Aptitude",
+      "Centering",
+      "Artificer",
+      "Graceful",
+      "Insightful Reason"
     ],
     "bonus_features": [
       "Benefit (Status)",
-      "Ancient Lineage"
+      "Master Craftsman"
     ],
     "keywords": "arcane-affinity, magi-tech, long-view, high-refinement, diplomacy, crystalline-architecture, solar-sails, gerontocracy",
     "negative_keywords": "brute-force, heavy-armor, reckless, technophile-cybernetics, short-sighted, crude-industrial",
@@ -3401,7 +3441,7 @@ export const DEFAULT_FACTIONS = [
       "allocated": []
     },
     "faction_classification": "Major Galactic Power",
-    "body": "## **ALTERIAN ENCLAVE (Celestine)**\n\n*Part of Elven Providence (The Factional Schisms)*\n\n* **Archetype:** Galactic Diplomats / Magi-Tech Architects  \n* **Capital:** Altheria (The Gilded World)  \n* **Mandate:** \"Perfect the Art of Living; Maintain the Galactic Balance.\"  \n* **Profile:** The self-appointed \"Elder Siblings\" of the galaxy. They engage heavily in galactic trade and diplomacy, believing the universe functions on harmonic principles (\"The Flow\"). Governed by a Gerontocracy/Meritocracy. They take \"The Long View,\" moving slowly but acting with overwhelming magi-tech superiority when necessary."
+    "body": "## **ALTERIAN ENCLAVE (Celestine)**\n\n*Part of Elven Providence (The Factional Schisms)*\n\n* **Archetype:** Galactic Diplomats / Magi-Tech Architects  \n* **Capital:** Altheria (The Gilded World)  \n* **Mandate:** \"Perfect the Art of Living; Maintain the Galactic Balance.\"  \n* **Profile:** The self-appointed \"Elder Siblings\" of the galaxy. They engage heavily in galactic trade and diplomacy, believing the universe functions on harmonic principles (\"The Flow\"). Governed by a Gerontocracy/Meritocracy. They take \"The Long View,\" moving slowly but acting with overwhelming magi-tech superiority when necessary.  \n* **Recommended Features (1 BP Discount):** Benefit (Status), Master Craftsman, Silver Tongue, Trustworthy, Educated, Linguist, Inspiring Personality, Magical Aptitude, Centering, Artificer, Graceful, Insightful Reason."
   },
   {
     "id": "faction-ascendancy",
@@ -3877,22 +3917,36 @@ export const DEFAULT_FACTIONS = [
       "Soldier"
     ],
     "recommended_features": [
-      "Shapeshifter",
-      "Mimic Voice",
-      "Master of Disguise",
-      "Unshakable Mind",
-      "Clandestine Network"
+      "Sneak Attack",
+      "Deceitful",
+      "Evasiveness",
+      "Iron Will",
+      "Darksight",
+      "Uncanny Dodge",
+      "Nimble Fingers",
+      "Blind-Fight",
+      "Connected",
+      "Danger Sense",
+      "Quick",
+      "Stealthy"
     ],
     "features": [
-      "Shapeshifter",
-      "Mimic Voice",
-      "Master of Disguise",
-      "Unshakable Mind",
-      "Clandestine Network"
+      "Sneak Attack",
+      "Deceitful",
+      "Evasiveness",
+      "Iron Will",
+      "Darksight",
+      "Uncanny Dodge",
+      "Nimble Fingers",
+      "Blind-Fight",
+      "Connected",
+      "Danger Sense",
+      "Quick",
+      "Stealthy"
     ],
     "bonus_features": [
-      "Shapeshifter",
-      "Clandestine Network"
+      "Sneak Attack",
+      "Deceitful"
     ],
     "keywords": "covert-intelligence, deep-cover-infiltrator, shadow-inquisition, shapeshifting, classified-ops, surgical-strikes, paranoia-shield",
     "negative_keywords": "high-visibility, flamboyant, public-celebrity, loud-artillery, trustful, open-diplomacy",
@@ -3915,7 +3969,7 @@ export const DEFAULT_FACTIONS = [
       "allocated": []
     },
     "faction_classification": "Major Galactic Power",
-    "body": "## **SILVERMOON VANGUARD (Doppelgangers)**\n\n*Part of Elven Providence (The Factional Schisms)*\n\n* **Archetype:** Shadowed Inquisition / Covert Intelligence Network  \n* **Capital:** Nomadic / Classified deep-cover nodes.  \n* **Mandate:** \"Eradicate true evil through perfect infiltration and absolute intelligence.\"  \n* **Profile:** A shadow faction engineered to hunt corruption. They officially \"do not exist\" to the younger races. They manipulate galactic events from the shadows via assassinations and infiltration. Forced into extreme secrecy due to historical gaslighting and smear campaigns by hostile rulers."
+    "body": "## **SILVERMOON VANGUARD (Doppelgangers)**\n\n*Part of Elven Providence (The Factional Schisms)*\n\n* **Archetype:** Shadowed Inquisition / Covert Intelligence Network  \n* **Capital:** Nomadic / Classified deep-cover nodes.  \n* **Mandate:** \"Eradicate true evil through perfect infiltration and absolute intelligence.\"  \n* **Profile:** A shadow faction engineered to hunt corruption. They officially \"do not exist\" to the younger races. They manipulate galactic events from the shadows via assassinations and infiltration. Forced into extreme secrecy due to historical gaslighting and smear campaigns by hostile rulers.  \n* **Recommended Features (1 BP Discount):** Sneak Attack, Deceitful, Evasiveness, Iron Will, Darksight, Uncanny Dodge, Nimble Fingers, Blind-Fight, Connected, Danger Sense, Quick, Stealthy."
   },
   {
     "id": "faction-vajar",
@@ -3944,7 +3998,12 @@ export const DEFAULT_FACTIONS = [
       "The Biologist",
       "The Pioneer"
     ],
-    "skill_package": [],
+    "skill_package": [
+      "Survival (+5)",
+      "Nature (+5)",
+      "Discipline (+5)",
+      "Melee Combat (+5)"
+    ],
     "recommended_species": [
       "Vajar (Wilder)",
       "Wildling",
@@ -3962,8 +4021,34 @@ export const DEFAULT_FACTIONS = [
       "Adept",
       "Drifter"
     ],
-    "recommended_features": [],
-    "features": [],
+    "recommended_features": [
+      "Natural Weapons",
+      "Wild Speech",
+      "Animal Affinity",
+      "Power Attack",
+      "Empowered Strike",
+      "Tracker",
+      "Endurance",
+      "Tough",
+      "Fast Heal",
+      "Scent",
+      "Potent Might",
+      "Danger Sense"
+    ],
+    "features": [
+      "Natural Weapons",
+      "Wild Speech",
+      "Animal Affinity",
+      "Power Attack",
+      "Empowered Strike",
+      "Tracker",
+      "Endurance",
+      "Tough",
+      "Fast Heal",
+      "Scent",
+      "Potent Might",
+      "Danger Sense"
+    ],
     "bonus_features": [
       "Primal Resilience",
       "Beast Hunter"
@@ -3989,7 +4074,7 @@ export const DEFAULT_FACTIONS = [
       "allocated": []
     },
     "faction_classification": "Major Galactic Power",
-    "body": "## **VAJAR TRIBES (WILDER)**\n\n*(Elven Sub-Faction)*\n\n### **I. Detailed Faction Description**\n\n* **Overview:** The Vajar represent the untamed, primal soul of the Elven species. They are shapeshifting Druids who reject static cities and industrial mass production. Operating at Tech Level 1, they forge metal using geothermal heat and elemental manipulation, backed by profound Metaphysics that renders conventional tech obsolete. They view their domain as an ecosystem to be preserved, and industrialization as an infection.  \n* **Key Themes:** Adaptation, Primal Power, Wrath of Nature, Iron & Bone.  \n* **Relationship to Others:** Pity Alterians as \"domesticated\"; respect Aulurans; view Impyrium/Coalition/Syndicate as infections to be cauterized.\n\n### **II. Core Identity**\n\n* **Official Designation:** The Vajar Primalcy  \n* **Colloquialisms:** The Wild Hunt / Skin-Walkers / Iron-Druids  \n* **Archetype:** Theocratic Tribalism / Primal Meritocracy  \n* **Capital/Key World:** Vea'Sura (The Living Heart)  \n* **Symbol/Sigil:** Iron wolf's head wreathed in living roots.  \n* **Driving Mandate:** Adapt, survive, and protect the primal ecosystem.  \n* **Motto:** \"Steel is Earth; Flesh is Grass.\"\n\n### **III. Sociological Profile**\n\n#### **Ideology & Culture**\n\n* **Core Beliefs:** Metal is natural; machines are soulless abominations. To survive is to change (Shapeshifting).  \n* **Social Structure:** The Pack (Family), The Iron Circle (Leadership), The Skin-Dancers (Warriors).  \n* **View on Outsiders:** Fiercely territorial isolationists.  \n* **Law & Order:** The Law of the Wild (Strength/respect for land). Crimes against nature punishable by death.\n\n#### **Governance**\n\n* **Government Type:** Tribal Chiefdoms / Pack Dynamics.  \n* **Leadership:** The Circle of Fangs (Druids/Smiths).  \n* **Succession:** Ritual combat or competitive hunts.\n\n### **IV. Strategic Assets**\n\n#### **Economy & Tech**\n\n* **Tech Level (TL):** 1+ (Metal Age / Feudal \\- Note: Tech skills cost 10 BP).  \n* **Meta Level (ML):** 4 (High \\- Highly Attuned).  \n* **Wealth Modifier:** \\+0 (Barter System).  \n* **Primary Exports:** Rare biological samples, refined ores, magical foci.  \n* **Economic Model:** Primal Subsistence / Barter.\n\n#### **Military Profile**\n\n* **Doctrine:** \"The Ambush\" \\- Lure enemies into dense terrain, negate long-range ballistics, strike with shapeshifting fury.  \n* **Key Units:** Skin-Walkers (Shapeshifters), Iron-Bound (Heavy infantry), Storm-Callers (Artillery mages), Root-Striders (Treants).  \n* **Unique Tech/Materials:** Alchemical Steel, Matter (Enhancement) Runes.\n\n### **V. Mechanics (Game Data)**\n\n* **Prominent Species:** Vajar (Wild Elves).  \n* **Faction Skill Package (20 Points):** Survival (+5), Nature (+5), Discipline (+5), Melee Combat (+5).  \n* **Typical Archetypes:** The Warden, The Veteran, The Beast-Handler, The Pathfinder, The Raider, The Oracle, The Ascetic, The Spirit-Walker, The Magus, The Planetologist, The Biologist, The Pioneer.  \n* **Recommended Features (1 BP Discount \\- Choose Two):**  \n  * Natural Weapons, Wild Speech, Animal Affinity, Power Attack, Empowered Strike, Tracker, Endurance, Tough, Fast Heal, Scent, Potent Might, Danger Sense.\n\n### **VI. Visual Synthesis Protocols (Aesthetics)**\n\n#### **HI-FI INK Prompt Framework**\n\n* **SETTING STYLE:** Iron-Age Fantasy meets Primal Magic. Heavy, grounded, savage.  \n* **CONTEXT:** Geothermal forges, natural caverns, massive migrating groves. Folded iron and bone weapons, shifting plate armor. Palette: Rust Red, Iron Grey, Forest Green.  \n* **ATMOSPHERE:** Kinetic, savage, terrifying, vigilant. Heavy shadows, magical luminescence (glowing amber or spirit blue runes), natural lighting."
+    "body": "## **VAJAR TRIBES (WILDER)**\n\n*(Elven Sub-Faction)*\n\n### **I. Detailed Faction Description**\n\n* **Overview:** The Vajar represent the untamed, primal soul of the Elven species. They are shapeshifting Druids who reject static cities and industrial mass production. Operating at Tech Level 1, they forge metal using geothermal heat and elemental manipulation, backed by profound Metaphysics that renders conventional tech obsolete. They view their domain as an ecosystem to be preserved, and industrialization as an infection.  \n* **Key Themes:** Adaptation, Primal Power, Wrath of Nature, Iron & Bone.  \n* **Relationship to Others:** Pity Alterians as \"domesticated\"; respect Aulurans; view Impyrium/Coalition/Syndicate as infections to be cauterized.\n\n### **II. Core Identity**\n\n* **Official Designation:** The Vajar Primalcy  \n* **Colloquialisms:** The Wild Hunt / Skin-Walkers / Iron-Druids  \n* **Archetype:** Theocratic Tribalism / Primal Meritocracy  \n* **Capital/Key World:** Vea'Sura (The Living Heart)  \n* **Symbol/Sigil:** Iron wolf's head wreathed in living roots.  \n* **Driving Mandate:** Adapt, survive, and protect the primal ecosystem.  \n* **Motto:** \"Steel is Earth; Flesh is Grass.\"\n\n### **III. Sociological Profile**\n\n#### **Ideology & Culture**\n\n* **Core Beliefs:** Metal is natural; machines are soulless abominations. To survive is to change (Shapeshifting).  \n* **Social Structure:** The Pack (Family), The Iron Circle (Leadership), The Skin-Dancers (Warriors).  \n* **View on Outsiders:** Fiercely territorial isolationists.  \n* **Law & Order:** The Law of the Wild (Strength/respect for land). Crimes against nature punishable by death.\n\n#### **Governance**\n\n* **Government Type:** Tribal Chiefdoms / Pack Dynamics.  \n* **Leadership:** The Circle of Fangs (Druids/Smiths).  \n* **Succession:** Ritual combat or competitive hunts.\n\n### **IV. Strategic Assets**\n\n#### **Economy & Tech**\n\n* **Tech Level (TL):** 1+ (Metal Age / Feudal \\- Note: Tech skills cost 10 BP).  \n* **Meta Level (ML):** 4 (High \\- Highly Attuned).  \n* **Wealth Modifier:** \\+0 (Barter System).  \n* **Primary Exports:** Rare biological samples, refined ores, magical foci.  \n* **Economic Model:** Primal Subsistence / Barter.\n\n#### **Military Profile**\n\n* **Doctrine:** \"The Ambush\" \\- Lure enemies into dense terrain, negate long-range ballistics, strike with shapeshifting fury.  \n* **Key Units:** Skin-Walkers (Shapeshifters), Iron-Bound (Heavy infantry), Storm-Callers (Artillery mages), Root-Striders (Treants).  \n* **Unique Tech/Materials:** Alchemical Steel, Matter (Enhancement) Runes.\n\n### **V. Mechanics (Game Data)**\n\n* **Prominent Species:** Vajar (Wild Elves).  \n* **Faction Skill Package (20 Points):** Survival (+5), Nature (+5), Discipline (+5), Melee Combat (+5).  \n* **Typical Archetypes:** The Warden, The Veteran, The Beast-Handler, The Pathfinder, The Raider, The Oracle, The Ascetic, The Spirit-Walker, The Magus, The Planetologist, The Biologist, The Pioneer.  \n* **Recommended Features (1 BP Discount \\- Choose Two):**  \n  * Natural Weapons, Wild Speech, Animal Affinity, Power Attack, Empowered Strike, Tracker, Endurance, Tough, Fast Heal, Scent, Potent Might, Danger Sense\n\n### **VI. Visual Synthesis Protocols (Aesthetics)**\n\n#### **HI-FI INK Prompt Framework**\n\n* **SETTING STYLE:** Iron-Age Fantasy meets Primal Magic. Heavy, grounded, savage.  \n* **CONTEXT:** Geothermal forges, natural caverns, massive migrating groves. Folded iron and bone weapons, shifting plate armor. Palette: Rust Red, Iron Grey, Forest Green.  \n* **ATMOSPHERE:** Kinetic, savage, terrifying, vigilant. Heavy shadows, magical luminescence (glowing amber or spirit blue runes), natural lighting."
   }
 ];
 

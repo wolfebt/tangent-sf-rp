@@ -24,17 +24,33 @@ skill_package:
   - Combat (+3)
 recommended_features:
   - Benefit (Status)
-  - Ancient Lineage
-  - Ethereal Grace
   - Master Craftsman
+  - Silver Tongue
+  - Trustworthy
+  - Educated
+  - Linguist
+  - Inspiring Personality
+  - Magical Aptitude
+  - Centering
+  - Artificer
+  - Graceful
+  - Insightful Reason
 features:
   - Benefit (Status)
-  - Ancient Lineage
-  - Ethereal Grace
   - Master Craftsman
+  - Silver Tongue
+  - Trustworthy
+  - Educated
+  - Linguist
+  - Inspiring Personality
+  - Magical Aptitude
+  - Centering
+  - Artificer
+  - Graceful
+  - Insightful Reason
 bonus_features:
   - Benefit (Status)
-  - Ancient Lineage
+  - Master Craftsman
 description: >-
   The self-appointed Elder Siblings of the galaxy, ruling from gilded spires and
   governing through long-view diplomacy and high magitech architecture
@@ -70,4 +86,5 @@ negative_keywords: >-
 * **Archetype:** Galactic Diplomats / Magi-Tech Architects  
 * **Capital:** Altheria (The Gilded World)  
 * **Mandate:** "Perfect the Art of Living; Maintain the Galactic Balance."  
-* **Profile:** The self-appointed "Elder Siblings" of the galaxy. They engage heavily in galactic trade and diplomacy, believing the universe functions on harmonic principles ("The Flow"). Governed by a Gerontocracy/Meritocracy. They take "The Long View," moving slowly but acting with overwhelming magi-tech superiority when necessary.
+* **Profile:** The self-appointed "Elder Siblings" of the galaxy. They engage heavily in galactic trade and diplomacy, believing the universe functions on harmonic principles ("The Flow"). Governed by a Gerontocracy/Meritocracy. They take "The Long View," moving slowly but acting with overwhelming magi-tech superiority when necessary.  
+* **Recommended Features (1 BP Discount):** Benefit (Status), Master Craftsman, Silver Tongue, Trustworthy, Educated, Linguist, Inspiring Personality, Magical Aptitude, Centering, Artificer, Graceful, Insightful Reason.

@@ -11,7 +11,12 @@ tech_level: '4'
 meta_level: '4'
 wealth_modifier: '+3'
 prominent_species: 'Celestine, High Elves, Doppelgangers'
-typical_archetypes: []
+typical_archetypes:
+  - The Diplomat
+  - The High Architect
+  - The Star Weaver
+  - The Sage
+  - The Shadow Investigator
 skill_package:
   - Attune (+5)
   - Culture (+4)
@@ -19,16 +24,34 @@ skill_package:
   - Diplomacy (+4)
   - Combat (+3)
 recommended_features:
-  - Ancient Lineage
-  - Ethereal Grace
   - Benefit (Status)
+  - Master Craftsman
+  - Silver Tongue
+  - Trustworthy
+  - Educated
+  - Linguist
+  - Inspiring Personality
+  - Magical Aptitude
+  - Centering
+  - Artificer
+  - Graceful
+  - Insightful Reason
 features:
-  - Ancient Lineage
-  - Ethereal Grace
   - Benefit (Status)
+  - Master Craftsman
+  - Silver Tongue
+  - Trustworthy
+  - Educated
+  - Linguist
+  - Inspiring Personality
+  - Magical Aptitude
+  - Centering
+  - Artificer
+  - Graceful
+  - Insightful Reason
 bonus_features:
-  - Ancient Lineage
-  - Ethereal Grace
+  - Benefit (Status)
+  - Master Craftsman
 description: >-
   Ancient, fractured civilization encompassing the Alterian Enclave, Silvermoon
   Vanguard, and Draconian Order across millennia of ideological schisms

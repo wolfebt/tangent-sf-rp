@@ -24,20 +24,34 @@ skill_package:
   - Investigation (+4)
   - Combat (Melee) (+3)
 recommended_features:
-  - Shapeshifter
-  - Mimic Voice
-  - Master of Disguise
-  - Unshakable Mind
-  - Clandestine Network
+  - Sneak Attack
+  - Deceitful
+  - Evasiveness
+  - Iron Will
+  - Darksight
+  - Uncanny Dodge
+  - Nimble Fingers
+  - Blind-Fight
+  - Connected
+  - Danger Sense
+  - Quick
+  - Stealthy
 features:
-  - Shapeshifter
-  - Mimic Voice
-  - Master of Disguise
-  - Unshakable Mind
-  - Clandestine Network
+  - Sneak Attack
+  - Deceitful
+  - Evasiveness
+  - Iron Will
+  - Darksight
+  - Uncanny Dodge
+  - Nimble Fingers
+  - Blind-Fight
+  - Connected
+  - Danger Sense
+  - Quick
+  - Stealthy
 bonus_features:
-  - Shapeshifter
-  - Clandestine Network
+  - Sneak Attack
+  - Deceitful
 description: >-
   A shadow faction engineered to hunt existential corruption. Officially
   non-existent to younger races, they manipulate galactic events from the
@@ -75,4 +89,5 @@ negative_keywords: >-
 * **Archetype:** Shadowed Inquisition / Covert Intelligence Network  
 * **Capital:** Nomadic / Classified deep-cover nodes.  
 * **Mandate:** "Eradicate true evil through perfect infiltration and absolute intelligence."  
-* **Profile:** A shadow faction engineered to hunt corruption. They officially "do not exist" to the younger races. They manipulate galactic events from the shadows via assassinations and infiltration. Forced into extreme secrecy due to historical gaslighting and smear campaigns by hostile rulers.
+* **Profile:** A shadow faction engineered to hunt corruption. They officially "do not exist" to the younger races. They manipulate galactic events from the shadows via assassinations and infiltration. Forced into extreme secrecy due to historical gaslighting and smear campaigns by hostile rulers.  
+* **Recommended Features (1 BP Discount):** Sneak Attack, Deceitful, Evasiveness, Iron Will, Darksight, Uncanny Dodge, Nimble Fingers, Blind-Fight, Connected, Danger Sense, Quick, Stealthy.

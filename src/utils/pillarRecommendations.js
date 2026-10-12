@@ -74,10 +74,11 @@ export const normalizeFeatureLookup = (raw) => {
  * Known synonyms and knacks mapping archetype/background concepts to canonical features
  */
 export const FEATURE_SYNONYMS = {
-  'connections': ['connected', 'underworld connections', 'black market connections'],
-  'connected': ['connections', 'underworld connections', 'black market connections'],
-  'black market connections': ['underworld connections', 'connected', 'connections'],
-  'underworld connections': ['black market connections', 'connected', 'connections'],
+  'connections': ['connected', 'underworld connections', 'black market connections', 'black market access'],
+  'connected': ['connections', 'underworld connections', 'black market connections', 'black market access'],
+  'black market connections': ['underworld connections', 'connected', 'connections', 'black market access'],
+  'underworld connections': ['black market connections', 'connected', 'connections', 'black market access'],
+  'black market access': ['connected', 'underworld connections', 'black market connections'],
   'quick reflexes': ['lightning reflexes', 'combat reflexes'],
   'lightning reflexes': ['quick reflexes'],
   'field triage': ['medic'],
@@ -89,7 +90,45 @@ export const FEATURE_SYNONYMS = {
   'digital ghost': ['digital expert', 'coding master'],
   'demolitionist': ['burst attack', 'heavy weapon mastery'],
   'acute senses': ['acute sense'],
-  'acute sense': ['acute senses']
+  'acute sense': ['acute senses'],
+
+  // Audited Faction & Archetype Feature Aliases
+  'street-smart': ['street smarts', 'streetwise'],
+  'street smart': ['street smarts', 'streetwise'],
+  'street smarts': ['street-smart', 'street smart', 'streetwise'],
+  'enduring': ['endurance'],
+  'armor proficiency': ['armor (chitinous shell)', 'combat expertise'],
+  'lie detector': ['truth sense', 'sense motive'],
+  'legal immunity': ['benefit (immunity)', 'immunity'],
+  'resolute': ['iron will', 'indomitable will'],
+  'logic-mind': ['logical', 'lightning calculator'],
+  'logic mind': ['logical', 'lightning calculator'],
+  'night vision': ['low light vision', 'darksight'],
+  'environmental resistance': ['resistance', 'energy resistance'],
+  'eldritch resistance': ['eldritch heritage', 'resistance'],
+  'swarm tactics': ['coordinated assist'],
+  'swarm tactics (coordinated assist)': ['coordinated assist'],
+  'benefit (tech assimilation)': ['benefit (equipment)', 'tech interface'],
+  'ancient lineage': ['benefit (status)', 'educated'],
+  'ethereal grace': ['graceful'],
+  'shapeshifter': ['deceitful', 'sneak attack'],
+  'mimic voice': ['deceitful'],
+  'master of disguise': ['deceitful', 'sneak attack'],
+  'unshakable mind': ['iron will', 'indomitable will'],
+  'clandestine network': ['connected', 'sneak attack'],
+  'alien physiology': ['tough', 'fast heal'],
+  'environmental adaptation': ['tolerance', 'self sufficient'],
+  'toxic resistance': ['tolerance', 'toxic blood'],
+  'pheromone control': ['silver tongue', 'sense'],
+  'networked': ['mind link', 'tech interface'],
+  'modular chassis': ['augmented', 'benefit (equipment)'],
+  'integrated weaponry': ['augmented', 'weapon focus'],
+  'corporate sponsorship': ['benefit (wealth)', 'benefit (clearance)'],
+  'ruthless negotiation': ['silver tongue', 'intimidate'],
+  'unsettling aura': ['intimidating presence', 'veiled threat'],
+  'intimidating presence': ['veiled threat', 'intimidate'],
+  'hidden pockets': ['nimble fingers', 'sneak attack'],
+  'inventor': ['master craftsman', 'tech interface']
 };
 
 /**
@@ -138,6 +177,20 @@ const addEntryToPillarSet = (featSet, catSet, rawItem) => {
   if (clean) {
     featSet.add(clean);
     featSet.add(clean.replace(/\s+/g, ''));
+
+    // Parenthetical base extraction (e.g. "discipline focus (entropy)" -> "discipline focus")
+    const baseParen = clean.replace(/\s*\([^)]*\)/g, '').trim();
+    if (baseParen && baseParen !== clean) {
+      featSet.add(baseParen);
+      featSet.add(baseParen.replace(/\s+/g, ''));
+      const baseSynonyms = FEATURE_SYNONYMS[baseParen];
+      if (Array.isArray(baseSynonyms)) {
+        baseSynonyms.forEach(syn => {
+          featSet.add(syn);
+          featSet.add(syn.replace(/\s+/g, ''));
+        });
+      }
+    }
 
     // Also register known synonyms for this feature
     const synonyms = FEATURE_SYNONYMS[clean];

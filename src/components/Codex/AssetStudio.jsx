@@ -657,16 +657,23 @@ export const AssetStudio = ({
       return false;
     };
 
+    const hasFieldOrAlias = (fName) => {
+      if (fieldsMap.has(fName)) return true;
+      if ((fName === 'tl' || fName === 'tech_level') && (fieldsMap.has('tl') || fieldsMap.has('tech_level'))) return true;
+      if ((fName === 'ml' || fName === 'meta_level') && (fieldsMap.has('ml') || fieldsMap.has('meta_level'))) return true;
+      return false;
+    };
+
     if (matrix?.fields) {
       matrix.fields.forEach(f => {
-        if (SPECS_FIELD_NAMES.has(f.name) && !shouldExclude(f.name)) {
+        if (SPECS_FIELD_NAMES.has(f.name) && !shouldExclude(f.name) && !hasFieldOrAlias(f.name)) {
           fieldsMap.set(f.name, f);
         }
       });
     }
     if (activeCategoryConfig?.fields) {
       Object.entries(activeCategoryConfig.fields).forEach(([fName, fDef]) => {
-        if (SPECS_FIELD_NAMES.has(fName) && !shouldExclude(fName) && !fieldsMap.has(fName)) {
+        if (SPECS_FIELD_NAMES.has(fName) && !shouldExclude(fName) && !hasFieldOrAlias(fName)) {
           fieldsMap.set(fName, {
             name: fName,
             label: fDef.label || fName.replace(/_/g, ' ').toUpperCase(),
@@ -796,6 +803,17 @@ export const AssetStudio = ({
   const handleFieldChange = (name, value) => {
     setFormData(prev => {
       const next = { ...prev, [name]: value };
+
+      // Two-way synchronization for Tech Level & Meta Level aliases
+      if (name === 'tech_level') {
+        next.tl = value;
+      } else if (name === 'tl') {
+        next.tech_level = value;
+      } else if (name === 'meta_level') {
+        next.ml = value;
+      } else if (name === 'ml') {
+        next.meta_level = value;
+      }
 
       // Two-way synchronization for species modifiers and chassis type
       if (isSpeciesStudio) {
@@ -1584,7 +1602,11 @@ export const AssetStudio = ({
               <div className="space-y-4 animate-fade-in">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {specsFields.map(field => {
-                    const rawVal = formData[field.name];
+                    const rawVal = (field.name === 'tech_level' || field.name === 'tl')
+                      ? (formData.tech_level ?? formData.tl)
+                      : (field.name === 'meta_level' || field.name === 'ml')
+                        ? (formData.meta_level ?? formData.ml)
+                        : formData[field.name];
                     const val = rawVal ?? '';
                     const guidanceItem = CODEX_DATASET_GUIDANCE[matrix.id]?.sections?.find(s => s.id === field.name);
 

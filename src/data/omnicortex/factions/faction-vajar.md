@@ -24,9 +24,37 @@ typical_archetypes:
   - The Planetologist
   - The Biologist
   - The Pioneer
-skill_package: []
-recommended_features: []
-features: []
+skill_package:
+  - Survival (+5)
+  - Nature (+5)
+  - Discipline (+5)
+  - Melee Combat (+5)
+recommended_features:
+  - Natural Weapons
+  - Wild Speech
+  - Animal Affinity
+  - Power Attack
+  - Empowered Strike
+  - Tracker
+  - Endurance
+  - Tough
+  - Fast Heal
+  - Scent
+  - Potent Might
+  - Danger Sense
+features:
+  - Natural Weapons
+  - Wild Speech
+  - Animal Affinity
+  - Power Attack
+  - Empowered Strike
+  - Tracker
+  - Endurance
+  - Tough
+  - Fast Heal
+  - Scent
+  - Potent Might
+  - Danger Sense
 bonus_features:
   - Primal Resilience
   - Beast Hunter
@@ -120,7 +148,7 @@ negative_keywords: >-
 * **Faction Skill Package (20 Points):** Survival (+5), Nature (+5), Discipline (+5), Melee Combat (+5).  
 * **Typical Archetypes:** The Warden, The Veteran, The Beast-Handler, The Pathfinder, The Raider, The Oracle, The Ascetic, The Spirit-Walker, The Magus, The Planetologist, The Biologist, The Pioneer.  
 * **Recommended Features (1 BP Discount \- Choose Two):**  
-  * Natural Weapons, Wild Speech, Animal Affinity, Power Attack, Empowered Strike, Tracker, Endurance, Tough, Fast Heal, Scent, Potent Might, Danger Sense.
+  * Natural Weapons, Wild Speech, Animal Affinity, Power Attack, Empowered Strike, Tracker, Endurance, Tough, Fast Heal, Scent, Potent Might, Danger Sense
 
 ### **VI. Visual Synthesis Protocols (Aesthetics)**
 

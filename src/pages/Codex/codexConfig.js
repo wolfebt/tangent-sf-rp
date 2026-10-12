@@ -1851,6 +1851,11 @@ export const CODEX_MATRICES = [
       { name: 'archetype', label: 'Faction Archetype / Sociological Model', type: 'text', placeholder: 'E.g., Frontier Industrialists / Kleptocratic Republic' },
       { name: 'prominent_species', label: 'Prominent Species / Genotypes', type: 'text', placeholder: 'E.g., Humans (Hardened Frontier Genotype), Draconic Descendants' },
       { name: 'capital_world', label: 'Capital World / Key Star System', type: 'text', placeholder: 'E.g., Copia (The Gilded Heart), Draconis' },
+      { name: 'government_type', label: 'Government / Administrative Model', type: 'text', placeholder: 'E.g., Kleptocratic Republic / Corporate Oligarchy' },
+      { name: 'leadership', label: 'Ruling Leadership / Key Figures', type: 'text', placeholder: 'E.g., Clan Councils (Copia) and Corporate Governors' },
+      { name: 'succession', label: 'Succession & Leadership Transition', type: 'text', placeholder: 'E.g., Wealth acquisition, corporate dominance, bloodright' },
+      { name: 'tech_level', label: 'Tech Level (TL 0-5)', type: 'number', min: 0, max: 5 },
+      { name: 'meta_level', label: 'Meta Level (ML 0-5)', type: 'number', min: 0, max: 5 },
 
       // 2. Thematic & Narrative Overview
       { name: 'description', label: 'Detailed Faction Overview', type: 'textarea', aiEnabled: true, placeholder: 'Comprehensive narrative summary of the faction, historical origin, and cultural ethos...' },
@@ -1862,8 +1867,6 @@ export const CODEX_MATRICES = [
       { name: 'colloquialisms', label: 'Colloquialisms / In-Universe Slang', type: 'text', placeholder: 'E.g., The Free Colonies, Rust-Walkers, The Gilded Core' },
 
       // 3. Strategic Assets & Economic Profile
-      { name: 'tl', label: 'Tech Level (TL 0-5)', type: 'number', min: 0, max: 5 },
-      { name: 'ml', label: 'Meta Level (ML 0-5)', type: 'number', min: 0, max: 5 },
       { name: 'wealth_modifier', label: 'Wealth Modifier (Score / Context)', type: 'text', placeholder: 'E.g., 0 (Standard baseline), +2 (Old Money / High Resources)' },
       { name: 'primary_exports', label: 'Primary Exports & Strategic Commodities', type: 'text', placeholder: 'E.g., Heavy metals, Aetherite, Food, Industrial machinery' },
       { name: 'economic_model', label: 'Economic Model & Trade System', type: 'text', placeholder: 'E.g., Exploitative Capitalism / Manufactured Post-Scarcity' },
@@ -1873,9 +1876,6 @@ export const CODEX_MATRICES = [
       { name: 'social_structure', label: 'Social Structure & Internal Hierarchy', type: 'textarea', placeholder: 'E.g., Volatile Hierarchy: Corporate Elites > Marshals > Citizens > Penal Legions' },
       { name: 'outsider_view', label: 'View on Outsiders & Aliens', type: 'textarea', placeholder: 'E.g., Suspicious. Outsiders are either trying to steal resources or impose core laws...' },
       { name: 'law_order', label: 'Law, Order & Enforcement Bodies', type: 'textarea', placeholder: 'E.g., Federal Marshals (Code of Harm) vs Colonial Rangers (Penal Legion)' },
-      { name: 'government_type', label: 'Government / Administrative Model', type: 'text', placeholder: 'E.g., Kleptocratic Republic / Corporate Oligarchy' },
-      { name: 'leadership', label: 'Ruling Leadership / Key Figures', type: 'text', placeholder: 'E.g., Clan Councils (Copia) and Corporate Governors' },
-      { name: 'succession', label: 'Succession & Leadership Transition', type: 'text', placeholder: 'E.g., Wealth acquisition, corporate dominance, bloodright' },
 
       // 5. Military Profile & Defense Doctrine
       { name: 'military_doctrine', label: 'Military Doctrine & Combat Strategy', type: 'textarea', placeholder: 'E.g., Attrition and overwhelming kinetic firepower. "Blunt instruments."' },
