@@ -685,6 +685,7 @@ const FolioContainer = () => {
             onSave={handleManualSave}
             saveStatus={cloudSaveStatus}
             onClose={() => setIsSidebarOpen(false)}
+            isMobileOpen={isSidebarOpen}
           />
         </div>
       )}

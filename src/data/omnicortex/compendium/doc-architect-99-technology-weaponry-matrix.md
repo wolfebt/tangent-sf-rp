@@ -1,16 +1,16 @@
 ---
 id: "doc-architect-99-technology-weaponry-matrix"
-name: "99. TECHNOLOGY, WEAPONRY MATRIX — Tab 1"
+name: "99. TECHNOLOGY, WEAPONRY MATRIX"
 category: "architect_matrix"
 parent: "5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)"
-order: 1
+order: 9
 perspective: "architect"
 entry_type: "Architect Matrix"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","source-of-truth","99. technology, weaponry matrix","matrix"]
-updatedAt: "2026-10-09T07:59:56.586Z"
+updatedAt: "2026-09-14T19:38:24.451Z"
 costs:
   bp: 0
   credits: 0

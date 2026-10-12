@@ -1,16 +1,16 @@
 ---
 id: "doc-operator-1-06-occupations"
-name: "1.06 OCCUPATIONS — OCCUPATION"
+name: "1.06 OCCUPATIONS"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 1
+order: 7
 perspective: "operator"
 entry_type: "Core Rule"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","1.06 occupations","mechanics"]
-updatedAt: "2026-10-09T07:59:56.572Z"
+updatedAt: "2026-10-09T05:34:39.882Z"
 costs:
   bp: 0
   credits: 0

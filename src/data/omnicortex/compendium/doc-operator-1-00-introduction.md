@@ -1,6 +1,6 @@
 ---
 id: "doc-operator-1-00-introduction"
-name: "1.00 INTRODUCTION — TANGENT&nbsp;"
+name: "1.00 INTRODUCTION"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
 order: 1
@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","1.00 introduction","mechanics"]
-updatedAt: "2026-10-09T07:59:56.565Z"
+updatedAt: "2026-10-12T03:22:23.346Z"
 costs:
   bp: 0
   credits: 0
@@ -33,7 +33,7 @@ sockets:
   allocated: []
 ---
 
-# **TANGENT**&nbsp;
+# **TANGENT**
 
 ## **SCIENCE FANTASY ROLE PLAYING SYSTEM**
 

@@ -1,16 +1,16 @@
 ---
 id: "doc-operator-3-00-combat"
-name: "3.00 COMBAT — COMBAT"
+name: "3.00 COMBAT"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 1
+order: 13
 perspective: "operator"
 entry_type: "Core Rule"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","3.00 combat","mechanics"]
-updatedAt: "2026-10-09T07:59:56.577Z"
+updatedAt: "2026-09-14T19:38:24.473Z"
 costs:
   bp: 0
   credits: 0

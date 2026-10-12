@@ -1,16 +1,16 @@
 ---
 id: "doc-architect-99-metaphysics-meta-tech-matrix"
-name: "99. METAPHYSICS, META-TECH MATRIX (1) — META-TECH FRAMEWORK"
+name: "99. METAPHYSICS, META-TECH MATRIX"
 category: "architect_matrix"
 parent: "5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)"
-order: 1
+order: 17
 perspective: "architect"
 entry_type: "Architect Matrix"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","source-of-truth","99. metaphysics, meta-tech matrix (1)","matrix"]
-updatedAt: "2026-10-09T07:59:56.581Z"
+updatedAt: "2026-09-14T19:37:35.610Z"
 costs:
   bp: 0
   credits: 0

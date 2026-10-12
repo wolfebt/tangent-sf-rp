@@ -1,16 +1,16 @@
 ---
 id: "doc-operator-1-01-character-creation"
-name: "1.01 CHARACTER CREATION — CHARACTER CREATION"
+name: "1.01 CHARACTER CREATION"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 1
+order: 2
 perspective: "operator"
 entry_type: "Core Rule"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","1.01 character creation","mechanics"]
-updatedAt: "2026-10-09T07:59:56.568Z"
+updatedAt: "2026-10-09T06:11:36.866Z"
 costs:
   bp: 0
   credits: 0

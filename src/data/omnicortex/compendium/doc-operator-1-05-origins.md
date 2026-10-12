@@ -1,16 +1,16 @@
 ---
 id: "doc-operator-1-05-origins"
-name: "1.05 ORIGINS — ORIGIN"
+name: "1.05 ORIGINS"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 1
+order: 6
 perspective: "operator"
 entry_type: "Core Rule"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","1.05 origins","mechanics"]
-updatedAt: "2026-10-09T07:59:56.571Z"
+updatedAt: "2026-10-09T05:34:47.988Z"
 costs:
   bp: 0
   credits: 0

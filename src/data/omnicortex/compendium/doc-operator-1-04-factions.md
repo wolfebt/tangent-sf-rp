@@ -1,16 +1,16 @@
 ---
 id: "doc-operator-1-04-factions"
-name: "1.04 FACTIONS — 1.04 FACTIONS & GALACTIC POLITIES"
+name: "1.04 FACTIONS"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 1
+order: 5
 perspective: "operator"
 entry_type: "Core Rule"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","1.04 factions","mechanics"]
-updatedAt: "2026-10-09T07:59:56.570Z"
+updatedAt: "2026-10-09T05:44:50.664Z"
 costs:
   bp: 0
   credits: 0

@@ -1,6 +1,6 @@
 ---
 id: "doc-architect-02-economy-and-wealth"
-name: "02 ECONOMY AND WEALTH — The Tangent Standard Curve (TSC)"
+name: "02 ECONOMY AND WEALTH"
 category: "architect_matrix"
 parent: "5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)"
 order: 1
@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","source-of-truth","02 economy and wealth","matrix"]
-updatedAt: "2026-10-09T07:59:56.580Z"
+updatedAt: "2026-10-09T05:17:58.183Z"
 costs:
   bp: 0
   credits: 0

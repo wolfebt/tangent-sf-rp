@@ -1,16 +1,16 @@
 ---
 id: "doc-operator-1-09-hindrances"
-name: "1.09 HINDRANCES — HINDRANCES"
+name: "1.09 HINDRANCES"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 1
+order: 10
 perspective: "operator"
 entry_type: "Core Rule"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","1.09 hindrances","mechanics"]
-updatedAt: "2026-10-09T07:59:56.575Z"
+updatedAt: "2026-09-14T19:33:31.744Z"
 costs:
   bp: 0
   credits: 0

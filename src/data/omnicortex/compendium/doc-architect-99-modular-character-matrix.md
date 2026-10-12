@@ -1,16 +1,16 @@
 ---
 id: "doc-architect-99-modular-character-matrix"
-name: "99. MODULAR CHARACTER MATRIX — MODULAR CHARACTER MATRIX (MCM)"
+name: "99. MODULAR CHARACTER MATRIX"
 category: "architect_matrix"
 parent: "5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)"
-order: 1
+order: 3
 perspective: "architect"
 entry_type: "Architect Matrix"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","source-of-truth","99. modular character matrix","matrix"]
-updatedAt: "2026-10-09T07:59:56.582Z"
+updatedAt: "2026-09-14T19:33:31.670Z"
 costs:
   bp: 0
   credits: 0

@@ -1,16 +1,16 @@
 ---
 id: "doc-architect-99-modular-companion-matrix"
-name: "99. MODULAR COMPANION MATRIX — COMPANIONS"
+name: "99. MODULAR COMPANION MATRIX"
 category: "architect_matrix"
 parent: "5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)"
-order: 1
+order: 6
 perspective: "architect"
 entry_type: "Architect Matrix"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","source-of-truth","99. modular companion matrix","matrix"]
-updatedAt: "2026-10-09T07:59:56.583Z"
+updatedAt: "2026-09-12T05:01:05.649Z"
 costs:
   bp: 0
   credits: 0

@@ -219,8 +219,30 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
         }
       }
 
+      if (catKey === 'compendium' && matchingSeed) {
+        // Canonical rulebook markdown is the Source of Truth: update core content and metadata
+        enriched.description = matchingSeed.description;
+        enriched.name = matchingSeed.name || enriched.name;
+        enriched.parent = matchingSeed.parent || enriched.parent;
+        enriched.order = matchingSeed.order ?? enriched.order;
+        enriched.mechanic = matchingSeed.mechanic || enriched.mechanic;
+        enriched.guide = matchingSeed.guide || enriched.guide;
+        enriched.note = matchingSeed.note || enriched.note;
+        enriched.tags = matchingSeed.tags || enriched.tags;
+        enriched.updatedAt = matchingSeed.updatedAt || enriched.updatedAt;
+      }
+
       return enriched;
     });
+
+    if (catKey === 'compendium' && fallbackSeeds.length > 0) {
+      const allowedSeedIds = new Set(fallbackSeeds.map(s => (s.id || '').toString().toLowerCase().trim()));
+      // STRICT FILTER: Exclusively retain canonical source of truth articles
+      items = items.filter(item => {
+        const id = (item.id || '').toString().toLowerCase().trim();
+        return allowedSeedIds.has(id);
+      });
+    }
 
     const existingIds = new Set(items.map(i => (i.id || '').toString().toLowerCase().trim()));
     const missingSeeds = fallbackSeeds.filter(seed => {

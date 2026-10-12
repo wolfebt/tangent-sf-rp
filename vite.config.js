@@ -1,7 +1,66 @@
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
+import { syncCanonicalCompendium } from './scripts/syncMasterCanonicalCompendium.mjs'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+function rulesCompendiumPlugin() {
+  const rulesDir = path.resolve(__dirname, 'docs/game rules')
+  const seedFile = path.resolve(__dirname, 'src/data/compendiumSeed.json')
+
+  return {
+    name: 'vite-plugin-rules-compendium',
+    buildStart() {
+      // Ensure compendium is 100% synchronized on every dev server startup and build start
+      try {
+        syncCanonicalCompendium({ silent: true })
+      } catch (err) {
+        console.error('[rulesCompendiumPlugin] Build start sync error:', err)
+      }
+    },
+    configureServer(server) {
+      if (fs.existsSync(rulesDir)) {
+        server.watcher.add(rulesDir)
+
+        let debounceTimer = null
+        const handleRuleChange = (action, filePath) => {
+          if (!filePath.toLowerCase().endsWith('.md')) return
+          clearTimeout(debounceTimer)
+          debounceTimer = setTimeout(() => {
+            try {
+              console.log(`\n[rulesCompendiumPlugin] Detected rule change (${action}): ${path.basename(filePath)}. Syncing compendium...`)
+              syncCanonicalCompendium({ silent: false })
+
+              const mod = server.moduleGraph.getModuleById(seedFile)
+              if (mod) {
+                server.moduleGraph.invalidateModule(mod)
+              }
+              server.ws.send({ type: 'full-reload' })
+            } catch (err) {
+              console.error('[rulesCompendiumPlugin] Live update failed:', err)
+            }
+          }, 150)
+        }
+
+        server.watcher.on('add', p => {
+          if (p.includes('game rules')) handleRuleChange('add', p)
+        })
+        server.watcher.on('change', p => {
+          if (p.includes('game rules')) handleRuleChange('change', p)
+        })
+        server.watcher.on('unlink', p => {
+          if (p.includes('game rules')) handleRuleChange('unlink', p)
+        })
+      }
+    }
+  }
+}
 
 export default defineConfig({
   define: {
@@ -9,7 +68,13 @@ export default defineConfig({
   },
   server: {
     watch: {
-      ignored: ['**/docs/**', '**/*.md']
+      ignored: [
+        '**/docs/!(game rules)/**',
+        '**/src/data/omnicortex/compendium/**',
+        '**/playwright-report/**',
+        '**/test-results/**',
+        '**/.git/**'
+      ]
     }
   },
   build: {
@@ -89,6 +154,7 @@ export default defineConfig({
     }
   },
   plugins: [
+    rulesCompendiumPlugin(),
     react(),
     tailwindcss(),
     VitePWA({

@@ -1,16 +1,16 @@
 ---
 id: "doc-architect-99-technology-augmentations-matrix"
-name: "99. TECHNOLOGY, AUGMENTATIONS MATRIX — AUGMENTATIONS"
+name: "99. TECHNOLOGY, AUGMENTATIONS MATRIX"
 category: "architect_matrix"
 parent: "5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)"
-order: 1
+order: 12
 perspective: "architect"
 entry_type: "Architect Matrix"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","source-of-truth","99. technology, augmentations matrix","matrix"]
-updatedAt: "2026-10-09T07:59:56.585Z"
+updatedAt: "2026-09-14T19:37:35.625Z"
 costs:
   bp: 0
   credits: 0

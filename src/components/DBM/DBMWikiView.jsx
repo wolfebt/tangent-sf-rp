@@ -1,11 +1,43 @@
-import React, { useState, useMemo, useRef, useEffect } from 'react';
+import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useItemInteractions } from '../../utils/interactionUtils';
 import { useDBM } from '../../context/DBMContext';
 import { useConfirm } from '../../context/ConfirmContext';
 import { showToast } from '../../context/ToastContext';
-import { Users, ChevronDown, ChevronRight, BookOpen, Layers, Search, Sparkles, Plus, Edit, Trash2, Copy, ExternalLink, RefreshCw, UserCheck, ShieldAlert, Cpu, ArrowLeft, ArrowRight, Flag, Globe, Briefcase, Tag, GraduationCap, Zap } from 'lucide-react';
+import { 
+  Users, 
+  ChevronDown, 
+  ChevronRight, 
+  BookOpen, 
+  Layers, 
+  Search, 
+  Sparkles, 
+  Plus, 
+  Edit, 
+  Trash2, 
+  Copy, 
+  ExternalLink, 
+  RefreshCw, 
+  UserCheck, 
+  ShieldAlert, 
+  Cpu, 
+  ArrowLeft, 
+  ArrowRight, 
+  Flag, 
+  Globe, 
+  Briefcase, 
+  Tag, 
+  GraduationCap, 
+  Zap,
+  PanelLeftClose,
+  PanelLeftOpen,
+  ChevronsUpDown,
+  ChevronsDownUp,
+  ArrowDown10,
+  ArrowDownAZ
+} from 'lucide-react';
+import { AudioService } from '../../services/audioService';
 
 const TreeArticleItem = ({ item, isSelected, childrenCount, onSelect, onOpenEdit, className, prefix = '📜 ' }) => {
   const interactions = useItemInteractions({
@@ -16,7 +48,6 @@ const TreeArticleItem = ({ item, isSelected, childrenCount, onSelect, onOpenEdit
 
   const isPrimaryFaction = item.entry_type?.toLowerCase().includes('primary');
   const isGenericTemplate = item.entry_type?.toLowerCase().includes('generic');
-  const isFullMaster = (item.description?.length > 15000) || item.tags?.includes('source-of-truth') || item.id?.startsWith('doc-') || item.id?.endsWith('-master');
 
   return (
     <button
@@ -29,11 +60,6 @@ const TreeArticleItem = ({ item, isSelected, childrenCount, onSelect, onOpenEdit
         <span className="truncate">{item.name}</span>
       </div>
       <div className="flex items-center gap-1 shrink-0">
-        {isFullMaster && (
-          <span className="text-[8px] px-1 py-0.2 bg-cyan-950 text-cyan-300 border border-cyan-500/50 rounded font-mono font-bold tracking-tight">
-            FULL
-          </span>
-        )}
         {isPrimaryFaction && (
           <span className="text-[8px] px-1 py-0.2 bg-emerald-950/80 text-emerald-300 border border-emerald-500/50 rounded font-mono font-bold tracking-tight">
             PRIMARY
@@ -148,13 +174,8 @@ const CollapsibleSectionNode = ({
               ? 'text-[11px] text-amber-300/90 group-hover:text-amber-200'
               : 'text-[10px] text-slate-300 group-hover:text-slate-100'
           }`}>
-            {section.name}
+            {section.name.replace(/\s*\(SOURCE OF TRUTH\)/gi, '')}
           </span>
-          {isTruthSec && (
-            <span className="text-[8px] px-1 py-0.2 rounded bg-sky-900 text-sky-300 border border-sky-400/60 font-mono font-bold tracking-tight shrink-0 hidden sm:inline">
-              SOURCE OF TRUTH
-            </span>
-          )}
         </div>
 
         <span
@@ -259,28 +280,52 @@ export const DBMWikiView = ({
   const confirm = useConfirm();
   const [selectedArticleId, setSelectedArticleId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [perspectiveFilter, setPerspectiveFilter] = useState('all'); // 'operator' | 'architect' | 'all'
-  const [expandedSections, setExpandedSections] = useState({});
-  const [isSyncing, setIsSyncing] = useState(false);
-
-  const { syncCanonicalCompendium } = useDBM() || {};
-
-  const handleSyncCloud = async () => {
-    if (!syncCanonicalCompendium) return;
-    const ok = await confirm({
-      title: 'Sync Canonical Rulebook',
-      message: 'Sync all 71 canonical rulebook articles to Firestore cloud collection? This will overwrite or update seed documents in the database.',
-      danger: true,
-      confirmLabel: 'Sync Rulebook'
-    });
-    if (ok) {
-      setIsSyncing(true);
-      try {
-        await syncCanonicalCompendium();
-      } finally {
-        setIsSyncing(false);
-      }
+  const [isDrawerOpen, setIsDrawerOpen] = useState(() => {
+    if (typeof window === 'undefined') return true;
+    try {
+      return localStorage.getItem('compendium_rail_drawer_open') !== 'false';
+    } catch {
+      return true;
     }
+  });
+
+  const OP_PARENT = '1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)';
+  const ARCH_PARENT = '5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)';
+
+  const [activeTab, setActiveTab] = useState(() => {
+    if (typeof window === 'undefined') return 'operator';
+    try {
+      const saved = localStorage.getItem('compendium_active_tab');
+      return saved === 'architect' ? 'architect' : 'operator';
+    } catch {
+      return 'operator';
+    }
+  });
+
+  const [sortMode, setSortMode] = useState(() => {
+    if (typeof window === 'undefined') return 'order';
+    try {
+      const saved = localStorage.getItem('compendium_sort_mode');
+      return saved === 'alpha' ? 'alpha' : 'order';
+    } catch {
+      return 'order';
+    }
+  });
+
+  const [expandedSections, setExpandedSections] = useState({
+    [OP_PARENT]: true,
+    [ARCH_PARENT]: true
+  });
+
+  const toggleDrawer = () => {
+    AudioService?.playTerminalBeep?.(1050, 0.02);
+    setIsDrawerOpen(prev => {
+      const next = !prev;
+      try {
+        localStorage.setItem('compendium_rail_drawer_open', String(next));
+      } catch {}
+      return next;
+    });
   };
 
   const toggleSection = (secId) => {
@@ -290,40 +335,51 @@ export const DBMWikiView = ({
     }));
   };
 
-  // Build hierarchical parent/child and section-grouped article tree with nested subsections
+  // Build strictly the 2 canonical Source of Truth section trees (Operator & Architect)
   const { sections, childMap, allArticlesFlat, articleAncestorsMap, allSectionIds } = useMemo(() => {
-    const items = currentItems || [];
+    const rawItems = currentItems || [];
+
+    // Strictly keep only 1.00 Operator and 5.00 Architect articles
+    const sourceOfTruthItems = rawItems.filter(item => {
+      const p = (item.parent || '').trim();
+      const id = (item.id || '').toLowerCase();
+      const isOp = p === OP_PARENT || id.startsWith('doc-operator-');
+      const isArch = p === ARCH_PARENT || id.startsWith('doc-architect-');
+      return isOp || isArch;
+    }).map(item => {
+      const id = (item.id || '').toLowerCase();
+      if (id.startsWith('doc-operator-') && item.parent !== OP_PARENT) {
+        return { ...item, parent: OP_PARENT };
+      }
+      if (id.startsWith('doc-architect-') && item.parent !== ARCH_PARENT) {
+        return { ...item, parent: ARCH_PARENT };
+      }
+      return item;
+    });
+
     const itemMap = new Map();
-    items.forEach(item => {
+    sourceOfTruthItems.forEach(item => {
       if (item.id) itemMap.set(item.id, item);
       if (item.name) itemMap.set(item.name.toLowerCase(), item);
     });
 
     const children = {};
-    const sectionMap = {};
-    const standalone = [];
+    const sectionMap = {
+      [OP_PARENT]: [],
+      [ARCH_PARENT]: []
+    };
 
-    // Filter items by perspective if selected
-    const perspectiveItems = items.filter(item => {
-      if (perspectiveFilter === 'all') return true;
-      const p = (item.perspective || 'both').toLowerCase();
-      if (perspectiveFilter === 'operator') return p === 'operator' || p === 'both';
-      if (perspectiveFilter === 'architect') return p === 'architect' || p === 'both';
-      return true;
-    });
-
-    perspectiveItems.forEach(item => {
+    sourceOfTruthItems.forEach(item => {
       let p = (item.parent || '').trim();
-      if (CANONICAL_SECTION_ALIASES[p]) {
-        p = CANONICAL_SECTION_ALIASES[p];
+      if (p !== OP_PARENT && p !== ARCH_PARENT) {
+        if (item.id?.startsWith('doc-architect-') || item.category === 'architect_matrix') {
+          p = ARCH_PARENT;
+        } else {
+          p = OP_PARENT;
+        }
       }
 
-      if (!p || p === '-- Select --') {
-        standalone.push(item);
-        return;
-      }
-
-      // Check if parent is an actual article
+      // Check if parent is an actual sub-article
       const parentArticle = itemMap.get(p) || itemMap.get(p.toLowerCase());
       if (parentArticle && parentArticle.id !== item.id) {
         if (!children[parentArticle.id]) children[parentArticle.id] = [];
@@ -331,170 +387,201 @@ export const DBMWikiView = ({
         return;
       }
 
-      // Otherwise parent is a Section Name
       if (!sectionMap[p]) sectionMap[p] = [];
       sectionMap[p].push(item);
     });
 
-    // Sort standalone items
-    standalone.sort((a, b) => (Number(a.order) || 0) - (Number(b.order) || 0) || (a.name || '').localeCompare(b.name || ''));
-
-    // Sort items in each section
-    Object.keys(sectionMap).forEach(secKey => {
-      sectionMap[secKey].sort((a, b) => (Number(a.order) || 0) - (Number(b.order) || 0) || (a.name || '').localeCompare(b.name || ''));
-    });
-
-    // Sort sub-articles
-    Object.keys(children).forEach(pKey => {
-      children[pKey].sort((a, b) => (Number(a.order) || 0) - (Number(b.order) || 0) || (a.name || '').localeCompare(b.name || ''));
-    });
-
-    // Build all section nodes
-    const sectionNodes = {};
-    Object.keys(sectionMap).forEach(secName => {
-      sectionNodes[secName] = {
-        id: secName,
-        name: secName,
+    // Exactly 2 canonical root sections
+    const rootSections = [
+      {
+        id: OP_PARENT,
+        name: OP_PARENT,
         isSection: true,
-        items: sectionMap[secName],
-        subsections: []
-      };
-    });
-
-    // Connect subsections to parents
-    const rootSections = [];
-    Object.keys(sectionNodes).forEach(secName => {
-      const node = sectionNodes[secName];
-      const parentName = SUBSECTION_PARENT_MAP[secName];
-      if (parentName && sectionNodes[parentName]) {
-        sectionNodes[parentName].subsections.push(node);
-      } else {
-        rootSections.push(node);
-      }
-    });
-
-    // Compute recursive counts and sort subsections
-    function finalizeNode(node) {
-      node.subsections.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
-      node.subsections.forEach(finalizeNode);
-      const subCount = node.subsections.reduce((acc, sub) => acc + sub.totalCount, 0);
-      node.directCount = node.items.length;
-      node.totalCount = node.directCount + subCount;
-      node.count = node.totalCount;
-    }
-
-    rootSections.sort((a, b) => {
-      const aIsTruth = a.name.includes('SOURCE OF TRUTH') || a.name.includes('OPERATOR CORE') || a.name.includes('ARCHITECT & MODULAR');
-      const bIsTruth = b.name.includes('SOURCE OF TRUTH') || b.name.includes('OPERATOR CORE') || b.name.includes('ARCHITECT & MODULAR');
-      if (aIsTruth && !bIsTruth) return -1;
-      if (!aIsTruth && bIsTruth) return 1;
-      return a.name.localeCompare(b.name, undefined, { numeric: true });
-    });
-    rootSections.forEach(finalizeNode);
-
-    if (standalone.length > 0) {
-      rootSections.push({
-        id: 'General Lore & Standalone Articles',
-        name: 'General Lore & Standalone Articles',
-        isSection: true,
-        isGeneral: true,
-        items: standalone,
+        items: sectionMap[OP_PARENT] || [],
         subsections: [],
-        directCount: standalone.length,
-        totalCount: standalone.length,
-        count: standalone.length
-      });
-    }
+        directCount: (sectionMap[OP_PARENT] || []).length,
+        totalCount: (sectionMap[OP_PARENT] || []).length,
+        count: (sectionMap[OP_PARENT] || []).length
+      },
+      {
+        id: ARCH_PARENT,
+        name: ARCH_PARENT,
+        isSection: true,
+        items: sectionMap[ARCH_PARENT] || [],
+        subsections: [],
+        directCount: (sectionMap[ARCH_PARENT] || []).length,
+        totalCount: (sectionMap[ARCH_PARENT] || []).length,
+        count: (sectionMap[ARCH_PARENT] || []).length
+      }
+    ].filter(sec => sec.totalCount > 0);
 
-    // Build article ancestors map and list of all section IDs
     const ancestorsMap = {};
-    const allSecIds = [];
-    const traverseAncestors = (nodeList, path = []) => {
-      nodeList.forEach(node => {
-        allSecIds.push(node.id);
-        const currentPath = [...path, node.id];
-        (node.items || []).forEach(item => {
-          ancestorsMap[item.id] = currentPath;
-          if (item.name) ancestorsMap[item.name.toLowerCase()] = currentPath;
-        });
-        if (node.subsections && node.subsections.length > 0) {
-          traverseAncestors(node.subsections, currentPath);
-        }
+    const allSecIds = rootSections.map(s => s.id);
+    rootSections.forEach(node => {
+      (node.items || []).forEach(item => {
+        ancestorsMap[item.id] = [node.id];
+        if (item.name) ancestorsMap[item.name.toLowerCase()] = [node.id];
       });
-    };
-    traverseAncestors(rootSections);
+    });
 
     return {
       sections: rootSections,
       childMap: children,
-      allArticlesFlat: perspectiveItems,
+      allArticlesFlat: sourceOfTruthItems,
       articleAncestorsMap: ancestorsMap,
       allSectionIds: allSecIds
     };
-  }, [currentItems, perspectiveFilter]);
+  }, [currentItems]);
 
-  // Filtered sections for search (recursive search matching)
-  const filteredSections = useMemo(() => {
-    if (!searchQuery.trim()) return sections;
-    const q = searchQuery.toLowerCase().trim();
+  // Separate articles cleanly into Operator (14) and Architect (17)
+  const operatorArticles = useMemo(() => {
+    return (allArticlesFlat || []).filter(item => {
+      const p = (item.parent || '').trim();
+      const id = (item.id || '').toLowerCase();
+      return p === OP_PARENT || id.startsWith('doc-operator-');
+    });
+  }, [allArticlesFlat]);
 
-    const filterNode = (node) => {
-      const matchingItems = (node.items || []).filter(item => {
-        const nameMatch = (item.name || '').toLowerCase().includes(q);
-        const descMatch = (item.description || item.body || '').toLowerCase().includes(q);
-        const typeMatch = (item.entry_type || '').toLowerCase().includes(q);
-        const noteMatch = (item.note || '').toLowerCase().includes(q);
-        const tagMatch = Array.isArray(item.tags)
-          ? item.tags.some(t => String(t).toLowerCase().includes(q))
-          : typeof item.tags === 'string' && item.tags.toLowerCase().includes(q);
-        return nameMatch || descMatch || typeMatch || noteMatch || tagMatch;
+  const architectArticles = useMemo(() => {
+    return (allArticlesFlat || []).filter(item => {
+      const p = (item.parent || '').trim();
+      const id = (item.id || '').toLowerCase();
+      return p === ARCH_PARENT || id.startsWith('doc-architect-') || item.category === 'architect_matrix';
+    });
+  }, [allArticlesFlat]);
+
+  const opCount = operatorArticles.length;
+  const archCount = architectArticles.length;
+
+  // Sorting helper: Canonical numerical order vs Alphabetical A-Z
+  const sortArticles = useCallback((items, mode) => {
+    const list = [...(items || [])];
+    if (mode === 'alpha') {
+      list.sort((a, b) => {
+        const titleA = (a.name || '').replace(/^[\d.]+\s*[-—:]?\s*/, '').trim().toLowerCase();
+        const titleB = (b.name || '').replace(/^[\d.]+\s*[-—:]?\s*/, '').trim().toLowerCase();
+        return titleA.localeCompare(titleB);
       });
+    } else {
+      list.sort((a, b) => {
+        const orderA = Number(a.order);
+        const orderB = Number(b.order);
+        const hasOrderA = !isNaN(orderA) && a.order !== undefined && a.order !== null;
+        const hasOrderB = !isNaN(orderB) && b.order !== undefined && b.order !== null;
+        if (hasOrderA && hasOrderB && orderA !== orderB) {
+          return orderA - orderB;
+        }
+        return (a.name || '').localeCompare(b.name || '', undefined, { numeric: true });
+      });
+    }
+    return list;
+  }, []);
 
-      const matchingSubsections = (node.subsections || [])
-        .map(sub => filterNode(sub))
-        .filter(Boolean);
+  const toggleSortMode = () => {
+    const nextMode = sortMode === 'order' ? 'alpha' : 'order';
+    AudioService?.playTerminalBeep?.(1100, 0.02);
+    setSortMode(nextMode);
+    try {
+      localStorage.setItem('compendium_sort_mode', nextMode);
+    } catch {}
+  };
 
-      if (matchingItems.length === 0 && matchingSubsections.length === 0) {
-        return null;
+  // Tab Switching Handler
+  const handleTabClick = (tabKey) => {
+    AudioService?.playTerminalBeep?.(1150, 0.02);
+    setActiveTab(tabKey);
+    try {
+      localStorage.setItem('compendium_active_tab', tabKey);
+    } catch {}
+
+    // Ensure drawer is open when switching/clicking tabs
+    if (!isDrawerOpen) {
+      setIsDrawerOpen(true);
+      try {
+        localStorage.setItem('compendium_rail_drawer_open', 'true');
+      } catch {}
+    }
+
+    // If currently selected article is not in the new tab, select the first article of the new tab
+    const targetArticles = tabKey === 'operator' ? operatorArticles : architectArticles;
+    const isCurrentInTab = targetArticles.some(a => a.id === activeArticle?.id);
+    if (!isCurrentInTab && targetArticles.length > 0) {
+      const sorted = sortArticles(targetArticles, sortMode);
+      if (sorted.length > 0) {
+        setSelectedArticleId(sorted[0].id);
       }
+    }
+  };
 
-      const subCount = matchingSubsections.reduce((acc, sub) => acc + sub.totalCount, 0);
-      return {
-        ...node,
-        items: matchingItems,
-        subsections: matchingSubsections,
-        directCount: matchingItems.length,
-        totalCount: matchingItems.length + subCount,
-        count: matchingItems.length + subCount
-      };
-    };
+  // Active articles for the selected tab
+  const currentTabRawArticles = useMemo(() => {
+    return activeTab === 'operator' ? operatorArticles : architectArticles;
+  }, [activeTab, operatorArticles, architectArticles]);
 
-    return sections.map(sec => filterNode(sec)).filter(Boolean);
-  }, [sections, searchQuery]);
+  const sortedCurrentTabArticles = useMemo(() => {
+    return sortArticles(currentTabRawArticles, sortMode);
+  }, [currentTabRawArticles, sortMode, sortArticles]);
+
+  const filteredTabArticles = useMemo(() => {
+    if (!searchQuery.trim()) return sortedCurrentTabArticles;
+    const q = searchQuery.toLowerCase().trim();
+    return sortedCurrentTabArticles.filter(item => {
+      const nameMatch = (item.name || '').toLowerCase().includes(q);
+      const descMatch = (item.description || item.body || '').toLowerCase().includes(q);
+      const typeMatch = (item.entry_type || '').toLowerCase().includes(q);
+      const noteMatch = (item.note || '').toLowerCase().includes(q);
+      const tagMatch = Array.isArray(item.tags)
+        ? item.tags.some(t => String(t).toLowerCase().includes(q))
+        : typeof item.tags === 'string' && item.tags.toLowerCase().includes(q);
+      return nameMatch || descMatch || typeMatch || noteMatch || tagMatch;
+    });
+  }, [sortedCurrentTabArticles, searchQuery]);
+
+  // Check if search matches items in the other tab
+  const otherTabMatches = useMemo(() => {
+    if (!searchQuery.trim()) return [];
+    const q = searchQuery.toLowerCase().trim();
+    const otherArticles = activeTab === 'operator' ? architectArticles : operatorArticles;
+    return otherArticles.filter(item => {
+      const nameMatch = (item.name || '').toLowerCase().includes(q);
+      const descMatch = (item.description || item.body || '').toLowerCase().includes(q);
+      const typeMatch = (item.entry_type || '').toLowerCase().includes(q);
+      return nameMatch || descMatch || typeMatch;
+    });
+  }, [searchQuery, activeTab, operatorArticles, architectArticles]);
 
   const desktopContentRef = useRef(null);
   const mobileContentRef = useRef(null);
 
-  // Handle article selection and auto-expansion of ancestor sections
+  // Handle article selection and auto-sync activeTab with the selected article
   const handleSelectArticle = (itemOrId) => {
     if (!itemOrId) return;
     const item = typeof itemOrId === 'string'
       ? (allArticlesFlat || []).find(a => a.id === itemOrId || a.name === itemOrId)
       : itemOrId;
     if (!item) return;
+
     setSelectedArticleId(item.id);
-    const ancestors = articleAncestorsMap[item.id] || (item.name && articleAncestorsMap[item.name.toLowerCase()]) || [];
-    if (ancestors.length > 0) {
-      setExpandedSections(prev => {
-        const next = { ...prev };
-        ancestors.forEach(secId => { next[secId] = true; });
-        return next;
-      });
+
+    // Auto-sync activeTab with the selected article
+    const itemPerspective = (item.parent === ARCH_PARENT || item.id?.startsWith('doc-architect-') || item.category === 'architect_matrix')
+      ? 'architect'
+      : 'operator';
+
+    if (activeTab !== itemPerspective) {
+      setActiveTab(itemPerspective);
+      try {
+        localStorage.setItem('compendium_active_tab', itemPerspective);
+      } catch {}
     }
   };
 
   const handleJumpToArticle = (targetName) => {
-    const targetItem = (allArticlesFlat || []).find(item => item.name.toLowerCase() === targetName.toLowerCase());
+    const q = (targetName || '').toLowerCase().trim();
+    const targetItem = (allArticlesFlat || []).find(item => {
+      const n = (item.name || '').toLowerCase();
+      return n === q || n.endsWith(` ${q}`) || n.includes(q);
+    });
     if (targetItem) {
       handleSelectArticle(targetItem);
     } else {
@@ -506,16 +593,6 @@ export const DBMWikiView = ({
     }
   };
 
-  const handleExpandAll = () => {
-    const exp = {};
-    (allSectionIds || []).forEach(id => { exp[id] = true; });
-    setExpandedSections(exp);
-  };
-
-  const handleCollapseAll = () => {
-    setExpandedSections({});
-  };
-
   // Active selected article object
   const activeArticle = useMemo(() => {
     if (!allArticlesFlat || allArticlesFlat.length === 0) return null;
@@ -523,71 +600,57 @@ export const DBMWikiView = ({
       const found = allArticlesFlat.find(item => item.id === selectedArticleId || item.name === selectedArticleId);
       if (found) return found;
     }
-    // Helper to find first available article in nested hierarchy
-    const findFirstArticle = (nodeList) => {
-      for (const node of nodeList) {
-        if (node.items && node.items.length > 0) return node.items[0];
-        if (node.subsections && node.subsections.length > 0) {
-          const found = findFirstArticle(node.subsections);
-          if (found) return found;
-        }
-      }
-      return null;
-    };
-    return findFirstArticle(sections) || allArticlesFlat[0];
-  }, [allArticlesFlat, selectedArticleId, sections]);
+    // Default to first article of active tab
+    const tabArticles = activeTab === 'operator' ? operatorArticles : architectArticles;
+    if (tabArticles && tabArticles.length > 0) {
+      const sorted = sortArticles(tabArticles, sortMode);
+      return sorted[0] || tabArticles[0];
+    }
+    return allArticlesFlat[0];
+  }, [allArticlesFlat, selectedArticleId, activeTab, operatorArticles, architectArticles, sortMode, sortArticles]);
 
-  // Flatten articles in exact sequential reading order according to the section hierarchy
-  const orderedArticles = useMemo(() => {
-    const list = [];
-    const visited = new Set();
-    const activeTree = searchQuery.trim() ? filteredSections : sections;
-
-    const traverse = (nodeList) => {
-      for (const node of nodeList) {
-        if (node.items && node.items.length > 0) {
-          for (const item of node.items) {
-            if (!visited.has(item.id)) {
-              visited.add(item.id);
-              list.push(item);
-            }
-            const subChildren = childMap[item.id] || (item.name && childMap[item.name.toLowerCase()]) || [];
-            for (const child of subChildren) {
-              if (!visited.has(child.id)) {
-                visited.add(child.id);
-                list.push(child);
-              }
-            }
-          }
-        }
-        if (node.subsections && node.subsections.length > 0) {
-          traverse(node.subsections);
-        }
-      }
-    };
-
-    traverse(activeTree);
-
-    // If not searching, ensure any remaining articles from allArticlesFlat are included
-    if (!searchQuery.trim()) {
-      for (const item of allArticlesFlat) {
-        if (!visited.has(item.id)) {
-          visited.add(item.id);
-          list.push(item);
-        }
+  // Keep activeTab in sync with activeArticle when activeArticle changes
+  useEffect(() => {
+    if (activeArticle) {
+      const itemPerspective = (activeArticle.parent === ARCH_PARENT || activeArticle.id?.startsWith('doc-architect-') || activeArticle.category === 'architect_matrix')
+        ? 'architect'
+        : 'operator';
+      if (activeTab !== itemPerspective) {
+        setActiveTab(itemPerspective);
       }
     }
+  }, [activeArticle?.id]);
 
-    return list;
-  }, [sections, filteredSections, searchQuery, childMap, allArticlesFlat]);
-
+  // Sequential reading order within the active tab
   const currentIndex = useMemo(() => {
-    if (!activeArticle || !orderedArticles.length) return -1;
-    return orderedArticles.findIndex(a => a.id === activeArticle.id);
-  }, [activeArticle, orderedArticles]);
+    if (!activeArticle || !sortedCurrentTabArticles.length) return -1;
+    return sortedCurrentTabArticles.findIndex(a => a.id === activeArticle.id);
+  }, [activeArticle, sortedCurrentTabArticles]);
 
-  const prevArticle = currentIndex > 0 ? orderedArticles[currentIndex - 1] : null;
-  const nextArticle = currentIndex >= 0 && currentIndex < orderedArticles.length - 1 ? orderedArticles[currentIndex + 1] : null;
+  const prevArticle = currentIndex > 0 ? sortedCurrentTabArticles[currentIndex - 1] : null;
+  const nextArticle = currentIndex >= 0 && currentIndex < sortedCurrentTabArticles.length - 1 ? sortedCurrentTabArticles[currentIndex + 1] : null;
+
+  // Cross-tab continuous reading bridging
+  const crossTabPrev = useMemo(() => {
+    if (prevArticle) return prevArticle;
+    if (activeTab === 'architect' && operatorArticles.length > 0 && !searchQuery.trim()) {
+      const sortedOp = sortArticles(operatorArticles, sortMode);
+      return sortedOp[sortedOp.length - 1] || null;
+    }
+    return null;
+  }, [prevArticle, activeTab, operatorArticles, sortMode, sortArticles, searchQuery]);
+
+  const crossTabNext = useMemo(() => {
+    if (nextArticle) return nextArticle;
+    if (activeTab === 'operator' && architectArticles.length > 0 && !searchQuery.trim()) {
+      const sortedArch = sortArticles(architectArticles, sortMode);
+      return sortedArch[0] || null;
+    }
+    return null;
+  }, [nextArticle, activeTab, architectArticles, sortMode, sortArticles, searchQuery]);
+
+  const currentPrevArticle = prevArticle || crossTabPrev;
+  const currentNextArticle = nextArticle || crossTabNext;
 
   const handleNavigateArticle = (targetArticle) => {
     if (!targetArticle) return;
@@ -607,18 +670,18 @@ export const DBMWikiView = ({
       if (tag === 'INPUT' || tag === 'TEXTAREA' || document.activeElement?.isContentEditable) {
         return;
       }
-      if (e.altKey && e.key === 'ArrowLeft' && prevArticle) {
+      if (e.altKey && e.key === 'ArrowLeft' && currentPrevArticle) {
         e.preventDefault();
-        handleNavigateArticle(prevArticle);
-      } else if (e.altKey && e.key === 'ArrowRight' && nextArticle) {
+        handleNavigateArticle(currentPrevArticle);
+      } else if (e.altKey && e.key === 'ArrowRight' && currentNextArticle) {
         e.preventDefault();
-        handleNavigateArticle(nextArticle);
+        handleNavigateArticle(currentNextArticle);
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [prevArticle, nextArticle]);
+  }, [currentPrevArticle, currentNextArticle]);
 
   const isFullRulebook = useMemo(() => {
     if (!activeArticle) return false;
@@ -760,7 +823,7 @@ export const DBMWikiView = ({
                   </span>
                   {activeArticle.parent && (
                     <span className="text-[10px] text-amber-400 font-mono">
-                      / {activeArticle.parent}
+                      / {activeArticle.parent.replace(/\s*\(SOURCE OF TRUTH\)/gi, '')}
                     </span>
                   )}
                   {activeArticle.perspective && (
@@ -783,11 +846,6 @@ export const DBMWikiView = ({
                         : 'bg-slate-900 text-slate-300 border-slate-700'
                     }`}>
                       {activeArticle.entry_type}
-                    </span>
-                  )}
-                  {isFullRulebook && (
-                    <span className="text-[9px] px-1.5 py-0.5 rounded font-mono uppercase font-bold bg-cyan-950 text-cyan-300 border border-cyan-400 shadow-sm animate-pulse">
-                      📘 FULL RULEBOOK ({Math.round(articleBodyText.length / 1000)}k chars)
                     </span>
                   )}
                 </div>
@@ -879,29 +937,29 @@ export const DBMWikiView = ({
 
               {/* In-flow Mobile Pagination Links */}
               <div className="pt-4 border-t border-slate-800 flex items-center justify-between gap-2">
-                {prevArticle ? (
+                {currentPrevArticle ? (
                   <button
                     type="button"
-                    onClick={() => handleNavigateArticle(prevArticle)}
+                    onClick={() => handleNavigateArticle(currentPrevArticle)}
                     className="flex-1 flex items-center gap-2 p-2.5 bg-slate-950 hover:bg-slate-900 border border-cyan-900/60 hover:border-cyan-500/50 rounded-lg text-left transition-colors cursor-pointer"
                   >
                     <ArrowLeft size={14} className="text-cyan-400 shrink-0" />
                     <div className="min-w-0">
                       <div className="text-[9px] font-mono text-slate-400 uppercase">Previous</div>
-                      <div className="text-[11px] font-bold text-white truncate">{prevArticle.name}</div>
+                      <div className="text-[11px] font-bold text-white truncate">{currentPrevArticle.name}</div>
                     </div>
                   </button>
                 ) : <div className="flex-1" />}
 
-                {nextArticle ? (
+                {currentNextArticle ? (
                   <button
                     type="button"
-                    onClick={() => handleNavigateArticle(nextArticle)}
+                    onClick={() => handleNavigateArticle(currentNextArticle)}
                     className="flex-1 flex items-center justify-end gap-2 p-2.5 bg-slate-950 hover:bg-slate-900 border border-cyan-900/60 hover:border-cyan-500/50 rounded-lg text-right transition-colors cursor-pointer"
                   >
                     <div className="min-w-0">
                       <div className="text-[9px] font-mono text-slate-400 uppercase">Next</div>
-                      <div className="text-[11px] font-bold text-white truncate">{nextArticle.name}</div>
+                      <div className="text-[11px] font-bold text-white truncate">{currentNextArticle.name}</div>
                     </div>
                     <ArrowRight size={14} className="text-cyan-400 shrink-0" />
                   </button>
@@ -912,12 +970,12 @@ export const DBMWikiView = ({
             {/* Mobile Modal Footer Navigation Bar: Previous (bottom left), Close (center), Next (bottom right) */}
             <div className="sticky bottom-0 bg-slate-950 border-t border-cyan-900/60 p-2.5 flex items-center justify-between gap-2 shrink-0 shadow-lg">
               {/* Bottom Left: Previous Arrow */}
-              {prevArticle ? (
+              {currentPrevArticle ? (
                 <button
                   type="button"
-                  onClick={() => handleNavigateArticle(prevArticle)}
+                  onClick={() => handleNavigateArticle(currentPrevArticle)}
                   className="flex items-center gap-1 px-2.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-cyan-300 border border-cyan-500/50 rounded-lg text-xs font-bold font-mono transition-colors active:scale-95 shadow-sm cursor-pointer"
-                  title={`Previous: ${prevArticle.name}`}
+                  title={`Previous: ${currentPrevArticle.name}`}
                 >
                   <ArrowLeft size={14} />
                   <span className="hidden xs:inline truncate max-w-[70px]">Prev</span>
@@ -936,12 +994,12 @@ export const DBMWikiView = ({
               </button>
 
               {/* Bottom Right: Next Arrow */}
-              {nextArticle ? (
+              {currentNextArticle ? (
                 <button
                   type="button"
-                  onClick={() => handleNavigateArticle(nextArticle)}
+                  onClick={() => handleNavigateArticle(currentNextArticle)}
                   className="flex items-center gap-1 px-2.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-cyan-300 border border-cyan-500/50 rounded-lg text-xs font-bold font-mono transition-colors active:scale-95 shadow-sm cursor-pointer"
-                  title={`Next: ${nextArticle.name}`}
+                  title={`Next: ${currentNextArticle.name}`}
                 >
                   <span className="hidden xs:inline truncate max-w-[70px]">Next</span>
                   <ArrowRight size={14} />
@@ -954,159 +1012,334 @@ export const DBMWikiView = ({
         </div>
       )}
 
-      {/* LEFT PANEL: Directory Tree Navigation */}
-      <aside className="w-full md:w-84 lg:w-96 bg-slate-950 border-r border-slate-800 flex flex-col shrink-0">
-        <div className="p-3 border-b border-slate-800 space-y-2 bg-slate-950/90">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-2">
-              <BookOpen size={14} className="text-amber-400" />
-              <span className="text-xs font-bold text-amber-400 uppercase tracking-wider">
-                {currentConfig?.label || 'Compendium'}
-              </span>
-              <span className="text-[10px] font-mono px-1.5 py-0.2 bg-amber-950/80 text-amber-300 border border-amber-500/40 rounded-full font-bold">
-                {allArticlesFlat.length}
-              </span>
+      {/* DUAL-LAYER RAIL DRAWER */}
+      {/* 1. Slim Guidance Rail (Always visible, w-13 sm:w-14) */}
+      <aside className="w-13 sm:w-14 bg-slate-950 border-r border-slate-800/90 flex flex-col items-center py-2.5 px-1 select-none shrink-0 z-20 gap-2">
+        {/* Drawer Open/Close Toggle Button */}
+        <button
+          type="button"
+          onClick={toggleDrawer}
+          className={`p-2 rounded-xl border transition-all cursor-pointer flex items-center justify-center ${
+            isDrawerOpen 
+              ? 'bg-slate-900 border-slate-700 text-cyan-400 hover:bg-slate-800' 
+              : 'bg-cyan-950/70 border-cyan-500/50 text-cyan-300 hover:bg-cyan-900 shadow-[0_0_10px_rgba(34,211,238,0.25)]'
+          }`}
+          title={isDrawerOpen ? "Collapse Compendium Drawer" : "Expand Compendium Drawer"}
+          aria-label={isDrawerOpen ? "Collapse Compendium Drawer" : "Expand Compendium Drawer"}
+        >
+          {isDrawerOpen ? <PanelLeftClose size={17} /> : <PanelLeftOpen size={17} />}
+        </button>
+
+        <div className="w-8 h-[1px] bg-slate-800 my-0.5" />
+
+        {/* 1.00 Operator Rail Tab Button (Emerald Theme) */}
+        <button
+          type="button"
+          onClick={() => handleTabClick('operator')}
+          className={`group relative w-11 sm:w-12 py-2 px-1 rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer select-none border min-h-[52px] ${
+            activeTab === 'operator'
+              ? 'bg-emerald-950/70 border-emerald-400/80 text-emerald-200 shadow-[0_0_15px_rgba(16,185,129,0.25)]'
+              : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/70 border-transparent hover:border-slate-800/80'
+          }`}
+          title={`1.00 Operator Core Rules (${opCount} articles)`}
+          aria-label="1.00 Operator Core Rules"
+        >
+          {/* Active Left Indicator Bar */}
+          {activeTab === 'operator' && (
+            <span className="absolute -left-1 top-2 bottom-2 w-1 rounded-r-full bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+          )}
+
+          {/* Icon Box */}
+          <div className={`relative w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-lg flex items-center justify-center border transition-all ${
+            activeTab === 'operator'
+              ? 'bg-emerald-500/25 border-emerald-400 text-emerald-200 shadow-[0_0_12px_rgba(16,185,129,0.4)]'
+              : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400 group-hover:bg-emerald-500/20 group-hover:border-emerald-400'
+          }`}>
+            <span className="text-sm leading-none">📘</span>
+            <span className="absolute -top-1.5 -right-1.5 px-1 min-w-[14px] h-[14px] rounded-full font-mono text-[8px] font-bold flex items-center justify-center shadow-md bg-emerald-500 text-black">
+              {opCount}
+            </span>
+          </div>
+
+          {/* Label */}
+          <span className={`font-mono text-[9px] uppercase tracking-wider text-center mt-1 leading-tight select-none transition-colors ${
+            activeTab === 'operator'
+              ? 'text-emerald-300 font-extrabold [text-shadow:0_0_8px_rgba(16,185,129,0.7)]'
+              : 'text-emerald-400/70 group-hover:text-emerald-200'
+          }`}>
+            OPER
+          </span>
+        </button>
+
+        {/* 5.00 Architect Rail Tab Button (Amber Theme) */}
+        <button
+          type="button"
+          onClick={() => handleTabClick('architect')}
+          className={`group relative w-11 sm:w-12 py-2 px-1 rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer select-none border min-h-[52px] ${
+            activeTab === 'architect'
+              ? 'bg-amber-950/70 border-amber-400/80 text-amber-200 shadow-[0_0_15px_rgba(245,158,11,0.25)]'
+              : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/70 border-transparent hover:border-slate-800/80'
+          }`}
+          title={`5.00 Architect & Modular Matrices (${archCount} articles)`}
+          aria-label="5.00 Architect & Modular Matrices"
+        >
+          {/* Active Left Indicator Bar */}
+          {activeTab === 'architect' && (
+            <span className="absolute -left-1 top-2 bottom-2 w-1 rounded-r-full bg-amber-400 shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
+          )}
+
+          {/* Icon Box */}
+          <div className={`relative w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-lg flex items-center justify-center border transition-all ${
+            activeTab === 'architect'
+              ? 'bg-amber-500/25 border-amber-400 text-amber-200 shadow-[0_0_12px_rgba(245,158,11,0.4)]'
+              : 'bg-amber-500/10 border-amber-500/30 text-amber-400 group-hover:bg-amber-500/20 group-hover:border-amber-400'
+          }`}>
+            <span className="text-sm leading-none">🏛️</span>
+            <span className="absolute -top-1.5 -right-1.5 px-1 min-w-[14px] h-[14px] rounded-full font-mono text-[8px] font-bold flex items-center justify-center shadow-md bg-amber-500 text-black">
+              {archCount}
+            </span>
+          </div>
+
+          {/* Label */}
+          <span className={`font-mono text-[9px] uppercase tracking-wider text-center mt-1 leading-tight select-none transition-colors ${
+            activeTab === 'architect'
+              ? 'text-amber-300 font-extrabold [text-shadow:0_0_8px_rgba(245,158,11,0.7)]'
+              : 'text-amber-400/70 group-hover:text-amber-200'
+          }`}>
+            ARCH
+          </span>
+        </button>
+
+        <div className="flex-1" />
+
+        {/* Quick Sort Toggle Button on Rail */}
+        <button
+          type="button"
+          onClick={toggleSortMode}
+          className="w-9 h-9 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-400 hover:text-cyan-300 transition-colors cursor-pointer flex flex-col items-center justify-center gap-0.5"
+          title={`Sort: ${sortMode === 'order' ? 'Canonical Numbers (1-9)' : 'Alphabetical (A-Z)'} (Click to toggle)`}
+        >
+          {sortMode === 'order' ? (
+            <ArrowDown10 size={15} className="text-cyan-400" />
+          ) : (
+            <ArrowDownAZ size={15} className="text-amber-400" />
+          )}
+          <span className="text-[7.5px] font-mono text-slate-500 uppercase">{sortMode === 'order' ? 'NUM' : 'A-Z'}</span>
+        </button>
+
+        {/* Total Article Count Indicator on Rail */}
+        <div 
+          className="text-[8px] font-mono text-slate-500 px-1 py-0.5 rounded bg-slate-900 border border-slate-800"
+          title={`Total Rulebook Articles: ${allArticlesFlat.length}`}
+        >
+          {allArticlesFlat.length}
+        </div>
+      </aside>
+
+      {/* 2. Expandable Directory Drawer (Filtered strictly to activeTab) */}
+      <aside
+        className={`transition-all duration-200 ease-in-out bg-slate-950 border-r border-slate-800 flex flex-col shrink-0 overflow-hidden ${
+          isDrawerOpen
+            ? 'w-full md:w-80 lg:w-88'
+            : 'w-0 border-r-0 pointer-events-none'
+        }`}
+      >
+        <div className="w-full md:w-80 lg:w-88 flex flex-col h-full shrink-0">
+          {/* Drawer Top Header */}
+          <div className="p-3 border-b border-slate-800 space-y-2.5 bg-slate-950/90 shrink-0">
+            <div className="flex justify-between items-center">
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="text-base leading-none shrink-0">
+                  {activeTab === 'operator' ? '📘' : '🏛️'}
+                </span>
+                <div className="flex flex-col min-w-0">
+                  <div className="flex items-center gap-1.5">
+                    <span className={`text-xs font-bold uppercase tracking-wider font-mono truncate ${
+                      activeTab === 'operator' ? 'text-emerald-300' : 'text-amber-300'
+                    }`}>
+                      {activeTab === 'operator' ? 'OPERATOR RULES' : 'ARCHITECT MATRICES'}
+                    </span>
+                    <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded-full font-bold border shrink-0 ${
+                      activeTab === 'operator'
+                        ? 'bg-emerald-950/80 text-emerald-300 border-emerald-500/50'
+                        : 'bg-amber-950/80 text-amber-300 border-amber-500/50'
+                    }`}>
+                      {currentTabRawArticles.length}
+                    </span>
+                  </div>
+                  <span className="text-[9.5px] font-mono text-slate-400 truncate">
+                    {activeTab === 'operator' ? '1.00 Player Core Rules' : '5.00 World & Modular Systems'}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1.5 shrink-0">
+                {isAdmin && (
+                  <button
+                    onClick={handleCreateNew}
+                    className="px-2 py-1 bg-amber-600 hover:bg-amber-500 text-white font-bold text-[10px] uppercase rounded shadow transition-colors flex items-center gap-1 cursor-pointer"
+                    title="Create New Article"
+                  >
+                    <Plus size={11} />
+                    <span>New</span>
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={toggleDrawer}
+                  className="p-1 rounded text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+                  title="Collapse Drawer"
+                >
+                  <PanelLeftClose size={15} />
+                </button>
+              </div>
             </div>
+
+            {/* Search Row: Search input + Sort Mode button */}
             <div className="flex items-center gap-1.5">
-              {isAdmin && (
-                <button
-                  onClick={handleSyncCloud}
-                  disabled={isSyncing}
-                  className="px-2 py-1 bg-cyan-950 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/40 font-bold text-[10px] uppercase rounded transition-colors flex items-center gap-1 cursor-pointer disabled:opacity-50 shadow-sm"
-                  title="Sync all 71 canonical rulebook articles to Firestore database"
-                >
-                  <RefreshCw size={11} className={isSyncing ? "animate-spin text-cyan-400" : "text-cyan-400"} />
-                  <span>{isSyncing ? 'Syncing...' : 'Sync Cloud'}</span>
-                </button>
-              )}
-              {isAdmin && (
-                <button
-                  onClick={handleCreateNew}
-                  className="px-2 py-1 bg-amber-600 hover:bg-amber-500 text-white font-bold text-[10px] uppercase rounded shadow transition-colors flex items-center gap-1 cursor-pointer"
-                >
-                  <Plus size={11} />
-                  <span>New</span>
-                </button>
-              )}
+              <div className="relative flex-1 min-w-0">
+                <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none" />
+                <input
+                  type="text"
+                  placeholder={`Search ${currentTabRawArticles.length} ${activeTab === 'operator' ? 'Operator' : 'Architect'} articles...`}
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                  className="w-full bg-slate-900 border border-slate-700/80 text-white pl-8 pr-7 py-1.5 rounded-lg text-xs outline-none focus:border-cyan-500 font-mono shadow-inner transition-colors"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white text-xs px-1 cursor-pointer"
+                    title="Clear Search"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+
+              {/* Sort Mode Button */}
+              <button
+                type="button"
+                onClick={toggleSortMode}
+                className={`px-2 py-1.5 rounded-lg border transition-all cursor-pointer text-xs font-mono font-bold flex items-center gap-1 shrink-0 shadow-sm ${
+                  sortMode === 'alpha'
+                    ? 'bg-amber-950/70 border-amber-500/60 text-amber-300 hover:bg-amber-900/80'
+                    : 'bg-cyan-950/70 border-cyan-500/60 text-cyan-300 hover:bg-cyan-900/80'
+                }`}
+                title={sortMode === 'order' ? "Sort: Canonical Numbers (Click for A-Z Alphabetical)" : "Sort: Alphabetical A-Z (Click for Canonical Numbers)"}
+              >
+                {sortMode === 'order' ? (
+                  <>
+                    <ArrowDown10 size={14} className="text-cyan-400" />
+                    <span className="text-[10px]">1-9</span>
+                  </>
+                ) : (
+                  <>
+                    <ArrowDownAZ size={14} className="text-amber-400" />
+                    <span className="text-[10px]">A-Z</span>
+                  </>
+                )}
+              </button>
             </div>
           </div>
 
-          {/* Perspective Filter Pills */}
-          <div className="flex items-center gap-1 bg-slate-900 p-1 rounded-lg border border-slate-800 text-[11px] font-mono">
-            <button
-              onClick={() => setPerspectiveFilter('operator')}
-              className={`flex-1 py-1 rounded text-center font-bold uppercase transition-all flex items-center justify-center gap-1 ${
-                perspectiveFilter === 'operator'
-                  ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/60 shadow-[0_0_8px_rgba(52,211,153,0.25)]'
-                  : 'text-slate-400 hover:text-emerald-300'
-              }`}
-              title="Player-facing rules, character creation, major primary factions, skills, features & spells"
-            >
-              <span>👤</span> Operator
-            </button>
-            <button
-              onClick={() => setPerspectiveFilter('architect')}
-              className={`flex-1 py-1 rounded text-center font-bold uppercase transition-all flex items-center justify-center gap-1 ${
-                perspectiveFilter === 'architect'
-                  ? 'bg-amber-950 text-amber-300 border border-amber-500/60 shadow-[0_0_8px_rgba(251,191,36,0.25)]'
-                  : 'text-slate-400 hover:text-amber-300'
-              }`}
-              title="Game Master rules, worldbuilding, generic templates, combat matrices & Bastion engine"
-            >
-              <span>🏛️</span> Architect
-            </button>
-            <button
-              onClick={() => setPerspectiveFilter('all')}
-              className={`flex-1 py-1 rounded text-center font-bold uppercase transition-all ${
-                perspectiveFilter === 'all'
-                  ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.25)]'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              All ({currentItems?.length || 0})
-            </button>
-          </div>
+          {/* Article List Strictly for Active Tab */}
+          <div className="flex-1 overflow-y-auto p-2 pb-6 space-y-1">
+            {(!currentTabRawArticles || currentTabRawArticles.length === 0) ? (
+              <div className="p-8 text-center text-slate-500 italic text-xs">
+                No articles found in {activeTab === 'operator' ? 'Operator Core Rules' : 'Architect Matrices'}.
+              </div>
+            ) : filteredTabArticles.length === 0 ? (
+              <div className="p-6 text-center space-y-3">
+                <div className="text-slate-500 italic text-xs">
+                  No {activeTab === 'operator' ? 'Operator' : 'Architect'} articles match "{searchQuery}".
+                </div>
+                {otherTabMatches.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleTabClick(activeTab === 'operator' ? 'architect' : 'operator');
+                    }}
+                    className={`px-3 py-2 rounded-xl text-xs font-mono font-bold flex items-center justify-center gap-2 mx-auto cursor-pointer shadow-md transition-all ${
+                      activeTab === 'operator'
+                        ? 'bg-amber-950/80 border border-amber-500/60 text-amber-300 hover:bg-amber-900/80'
+                        : 'bg-emerald-950/80 border border-emerald-500/60 text-emerald-300 hover:bg-emerald-900/80'
+                    }`}
+                  >
+                    <span>Switch to {activeTab === 'operator' ? 'Architect' : 'Operator'} ({otherTabMatches.length} match{otherTabMatches.length === 1 ? '' : 'es'})</span>
+                    <ArrowRight size={13} />
+                  </button>
+                )}
+              </div>
+            ) : (
+              filteredTabArticles.map((item) => {
+                const isSelected = activeArticle?.id === item.id;
+                const children = childMap[item.id] || childMap[item.name?.toLowerCase()] || [];
 
-          <div className="relative">
-            <input
-              type="text"
-              placeholder={`Search ${allArticlesFlat.length} articles...`}
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-700 text-white pl-8 pr-7 py-1.5 rounded-lg text-xs outline-none focus:border-cyan-500 font-mono shadow-inner"
-            />
-               {searchQuery && (
-              <button
-                onClick={() => setSearchQuery('')}
-                className="absolute right-2 top-1.5 text-slate-500 hover:text-white text-xs px-1"
-              >
-                ✕
-              </button>
+                return (
+                  <div key={item.id || item.name} className="flex flex-col">
+                    <TreeArticleItem
+                      item={item}
+                      isSelected={isSelected}
+                      childrenCount={children.length}
+                      prefix={activeTab === 'operator' ? '📘 ' : '🏛️ '}
+                      onSelect={() => handleSelectArticle(item)}
+                      onOpenEdit={() => isAdmin && handleOpenItem(item, true)}
+                      className={`w-full text-left px-2.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center justify-between cursor-pointer border ${
+                        isSelected
+                          ? activeTab === 'operator'
+                            ? 'bg-emerald-950/85 border-emerald-500/80 text-emerald-200 shadow-[0_0_12px_rgba(16,185,129,0.3)] font-bold'
+                            : 'bg-amber-950/85 border-amber-500/80 text-amber-200 shadow-[0_0_12px_rgba(245,158,11,0.3)] font-bold'
+                          : 'text-slate-300 hover:text-white hover:bg-slate-800/60 border-transparent hover:border-slate-800/80'
+                      }`}
+                    />
+
+                    {/* Sub-articles */}
+                    {children.length > 0 && (
+                      <div className={`pl-3 my-0.5 flex flex-col gap-0.5 border-l-2 ml-3.5 ${
+                        activeTab === 'operator' ? 'border-emerald-500/30' : 'border-amber-500/30'
+                      }`}>
+                        {children.map(child => {
+                          const isChildSelected = activeArticle?.id === child.id;
+                          return (
+                            <TreeArticleItem
+                              key={child.id || child.name}
+                              item={child}
+                              isSelected={isChildSelected}
+                              childrenCount={0}
+                              prefix="↳ "
+                              onSelect={() => handleSelectArticle(child)}
+                              onOpenEdit={() => isAdmin && handleOpenItem(child, true)}
+                              className={`w-full text-left px-2 py-1 rounded text-[11px] transition-colors cursor-pointer ${
+                                isChildSelected
+                                  ? activeTab === 'operator'
+                                    ? 'text-emerald-200 font-bold bg-emerald-900/50 border border-emerald-500/50'
+                                    : 'text-amber-200 font-bold bg-amber-900/50 border border-amber-500/50'
+                                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/40'
+                              }`}
+                            />
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                );
+              })
             )}
           </div>
 
-          {/* Tree Action Controls (Expand/Collapse All) */}
-          <div className="flex items-center justify-between px-0.5 pt-0.5 text-[10px] font-mono">
-            <span className="uppercase tracking-wider text-slate-400 font-semibold flex items-center gap-1.5">
-              <span>VOLUMES</span>
-              <span className="px-1 py-0.2 rounded bg-slate-900 border border-slate-700 text-cyan-400 text-[9px] font-bold">
-                {sections.length}
-              </span>
+          {/* Sidebar Footer */}
+          <div className="p-2 border-t border-slate-800/80 bg-slate-950 text-[10px] font-mono flex items-center justify-between shrink-0">
+            <span className={activeTab === 'operator' ? 'text-emerald-400/90 font-bold' : 'text-amber-400/90 font-bold'}>
+              {activeTab === 'operator' ? 'OPERATOR RULES' : 'ARCHITECT MATRICES'}
             </span>
-            <div className="flex items-center gap-1">
-              <button
-                type="button"
-                onClick={handleExpandAll}
-                className="px-1.5 py-0.5 rounded bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-cyan-300 border border-slate-700/60 transition-colors cursor-pointer text-[9px] font-semibold"
-                title="Expand All Volumes & Subsections"
-              >
-                + Expand All
-              </button>
-              <button
-                type="button"
-                onClick={handleCollapseAll}
-                className="px-1.5 py-0.5 rounded bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-amber-300 border border-slate-700/60 transition-colors cursor-pointer text-[9px] font-semibold"
-                title="Collapse All Volumes & Subsections"
-              >
-                − Collapse All
-              </button>
-            </div>
+            <span className="text-slate-400">
+              {sortMode === 'order' ? 'CANONICAL (1-9)' : 'ALPHABETICAL (A-Z)'}
+            </span>
+            <span className="text-cyan-400 font-bold">
+              {filteredTabArticles.length} / {currentTabRawArticles.length}
+            </span>
           </div>
-        </div>
-
-        {/* Hierarchical Article Directory Tree */}
-        <div className="flex-1 overflow-y-auto p-2 pb-6 space-y-1">
-          {(!allArticlesFlat || allArticlesFlat.length === 0) ? (
-            <div className="p-8 text-center text-slate-500 italic text-xs">
-              No articles found in {currentConfig?.label || 'compendium'}.
-            </div>
-          ) : filteredSections.length === 0 ? (
-            <div className="p-8 text-center text-slate-500 italic text-xs">
-              No articles match "{searchQuery}".
-            </div>
-          ) : (
-            filteredSections.map(sec => (
-              <CollapsibleSectionNode
-                key={sec.id}
-                section={sec}
-                level={0}
-                expandedSections={expandedSections}
-                toggleSection={toggleSection}
-                activeArticle={activeArticle}
-                onSelectArticle={handleSelectArticle}
-                onOpenEdit={handleOpenItem}
-                isAdmin={isAdmin}
-                childMap={childMap}
-                isSearching={Boolean(searchQuery.trim())}
-              />
-            ))
-          )}
-        </div>
-
-        {/* Sidebar Footer */}
-        <div className="p-2 border-t border-slate-800/80 bg-slate-950 text-[10px] font-mono text-slate-500 flex items-center justify-between">
-          <span>{sections.length} Volumes / Sections</span>
-          <span className="text-cyan-400 font-bold">{allArticlesFlat.length} Articles</span>
         </div>
       </aside>
 
@@ -1119,12 +1352,23 @@ export const DBMWikiView = ({
               <div className="flex justify-between items-start border-b border-slate-800 pb-4 gap-4">
                 <div className="space-y-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap mb-1">
+                    {!isDrawerOpen && (
+                      <button
+                        type="button"
+                        onClick={toggleDrawer}
+                        className="mr-1 px-2 py-1 rounded-md bg-slate-800 hover:bg-slate-700 border border-slate-700 text-cyan-400 hover:text-cyan-300 transition-colors cursor-pointer flex items-center gap-1 text-[11px] font-mono font-bold shadow-sm"
+                        title="Open Compendium Rail Drawer"
+                      >
+                        <PanelLeftOpen size={13} />
+                        <span>DRAWER</span>
+                      </button>
+                    )}
                     <span className="text-xs font-mono text-cyan-400 uppercase tracking-wider">
                       {currentConfig?.label || 'Compendium'}
                     </span>
                     {activeArticle.parent && (
                       <span className="text-xs font-mono text-amber-400">
-                        / {activeArticle.parent}
+                        / {activeArticle.parent.replace(/\s*\(SOURCE OF TRUTH\)/gi, '')}
                       </span>
                     )}
                     {activeArticle.perspective && (
@@ -1147,11 +1391,6 @@ export const DBMWikiView = ({
                           : 'bg-slate-900 text-slate-300 border-slate-700'
                       }`}>
                         {activeArticle.entry_type}
-                      </span>
-                    )}
-                    {isFullRulebook && (
-                      <span className="text-[10px] px-2 py-0.5 rounded font-mono uppercase font-bold bg-cyan-950/90 text-cyan-300 border border-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.3)]">
-                        📘 FULL UNABRIDGED SOURCE OF TRUTH ({Math.round(articleBodyText.length / 1000)}k chars)
                       </span>
                     )}
                   </div>
@@ -1428,12 +1667,12 @@ export const DBMWikiView = ({
 
               {/* In-flow Desktop Pagination Card at Bottom of Article */}
               <div className="pt-8 pb-4 border-t border-slate-800/80 mt-10 flex flex-col sm:flex-row items-center justify-between gap-4">
-                {prevArticle ? (
+                {currentPrevArticle ? (
                   <button
                     type="button"
-                    onClick={() => handleNavigateArticle(prevArticle)}
+                    onClick={() => handleNavigateArticle(currentPrevArticle)}
                     className="group flex items-center gap-3 p-3.5 bg-slate-950/80 hover:bg-slate-900 border border-slate-800 hover:border-cyan-500/50 rounded-xl transition-all cursor-pointer text-left max-w-sm w-full sm:w-auto shadow-md"
-                    title={`Previous: ${prevArticle.name}`}
+                    title={`Previous: ${currentPrevArticle.name}`}
                   >
                     <div className="p-2 rounded-lg bg-slate-900 group-hover:bg-cyan-500/20 text-cyan-400 border border-slate-800 group-hover:border-cyan-500/40 transition-colors">
                       <ArrowLeft size={16} />
@@ -1441,7 +1680,7 @@ export const DBMWikiView = ({
                     <div className="min-w-0">
                       <div className="text-[10px] font-mono uppercase text-slate-400 tracking-wider">Previous Article</div>
                       <div className="text-xs font-bold text-white group-hover:text-cyan-300 truncate max-w-[220px]">
-                        {prevArticle.name}
+                        {currentPrevArticle.name}
                       </div>
                     </div>
                   </button>
@@ -1452,21 +1691,21 @@ export const DBMWikiView = ({
                 {/* Progress indicator */}
                 {currentIndex >= 0 && (
                   <div className="text-[11px] font-mono text-slate-500 uppercase tracking-widest text-center">
-                    Article {currentIndex + 1} of {orderedArticles.length}
+                    Article {currentIndex + 1} of {currentTabRawArticles.length} ({activeTab === 'operator' ? 'Operator' : 'Architect'})
                   </div>
                 )}
 
-                {nextArticle ? (
+                {currentNextArticle ? (
                   <button
                     type="button"
-                    onClick={() => handleNavigateArticle(nextArticle)}
+                    onClick={() => handleNavigateArticle(currentNextArticle)}
                     className="group flex items-center justify-end gap-3 p-3.5 bg-slate-950/80 hover:bg-slate-900 border border-slate-800 hover:border-cyan-500/50 rounded-xl transition-all cursor-pointer text-right max-w-sm w-full sm:w-auto shadow-md"
-                    title={`Next: ${nextArticle.name}`}
+                    title={`Next: ${currentNextArticle.name}`}
                   >
                     <div className="min-w-0">
                       <div className="text-[10px] font-mono uppercase text-slate-400 tracking-wider">Next Article</div>
                       <div className="text-xs font-bold text-white group-hover:text-cyan-300 truncate max-w-[220px]">
-                        {nextArticle.name}
+                        {currentNextArticle.name}
                       </div>
                     </div>
                     <div className="p-2 rounded-lg bg-slate-900 group-hover:bg-cyan-500/20 text-cyan-400 border border-slate-800 group-hover:border-cyan-500/40 transition-colors">
@@ -1489,12 +1728,12 @@ export const DBMWikiView = ({
         {activeArticle && (
           <div className="pointer-events-none absolute bottom-5 left-6 right-6 flex items-center justify-between z-20">
             {/* Bottom Left: Previous Arrow */}
-            {prevArticle ? (
+            {currentPrevArticle ? (
               <button
                 type="button"
-                onClick={() => handleNavigateArticle(prevArticle)}
+                onClick={() => handleNavigateArticle(currentPrevArticle)}
                 className="pointer-events-auto flex items-center gap-2.5 px-4 py-2.5 bg-slate-950/95 hover:bg-slate-900 text-cyan-300 hover:text-white border border-cyan-500/50 hover:border-cyan-400 rounded-xl shadow-[0_8px_25px_rgba(0,0,0,0.85)] backdrop-blur-md transition-all duration-200 cursor-pointer group active:scale-95"
-                title={`Previous Article: ${prevArticle.name} (Alt+Left)`}
+                title={`Previous Article: ${currentPrevArticle.name} (Alt+Left)`}
               >
                 <div className="p-1.5 rounded-lg bg-cyan-950/90 text-cyan-300 border border-cyan-500/40 group-hover:bg-cyan-500/30 group-hover:-translate-x-0.5 transition-all">
                   <ArrowLeft size={16} />
@@ -1502,24 +1741,24 @@ export const DBMWikiView = ({
                 <div className="flex flex-col text-left">
                   <span className="text-[9px] font-mono uppercase text-slate-400 tracking-wider">Previous</span>
                   <span className="text-xs font-bold text-cyan-200 group-hover:text-white max-w-[160px] lg:max-w-[220px] truncate">
-                    {prevArticle.name}
+                    {currentPrevArticle.name}
                   </span>
                 </div>
               </button>
             ) : <div />}
 
             {/* Bottom Right: Next Arrow */}
-            {nextArticle ? (
+            {currentNextArticle ? (
               <button
                 type="button"
-                onClick={() => handleNavigateArticle(nextArticle)}
+                onClick={() => handleNavigateArticle(currentNextArticle)}
                 className="pointer-events-auto flex items-center gap-2.5 px-4 py-2.5 bg-slate-950/95 hover:bg-slate-900 text-cyan-300 hover:text-white border border-cyan-500/50 hover:border-cyan-400 rounded-xl shadow-[0_8px_25px_rgba(0,0,0,0.85)] backdrop-blur-md transition-all duration-200 cursor-pointer group active:scale-95 ml-auto"
-                title={`Next Article: ${nextArticle.name} (Alt+Right)`}
+                title={`Next Article: ${currentNextArticle.name} (Alt+Right)`}
               >
                 <div className="flex flex-col text-right">
                   <span className="text-[9px] font-mono uppercase text-slate-400 tracking-wider">Next</span>
                   <span className="text-xs font-bold text-cyan-200 group-hover:text-white max-w-[160px] lg:max-w-[220px] truncate">
-                    {nextArticle.name}
+                    {currentNextArticle.name}
                   </span>
                 </div>
                 <div className="p-1.5 rounded-lg bg-cyan-950/90 text-cyan-300 border border-cyan-500/40 group-hover:bg-cyan-500/30 group-hover:translate-x-0.5 transition-all">

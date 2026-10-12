@@ -1,16 +1,16 @@
 ---
 id: "doc-operator-1-03-species-work"
-name: "1.03 SPECIES (work) — SPECIES CATALOG"
+name: "1.03 SPECIES"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 1
+order: 4
 perspective: "operator"
 entry_type: "Core Rule"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","1.03 species (work)","mechanics"]
-updatedAt: "2026-10-09T07:59:56.569Z"
+updatedAt: "2026-09-14T19:35:00.907Z"
 costs:
   bp: 0
   credits: 0

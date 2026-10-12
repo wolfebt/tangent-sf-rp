@@ -21,7 +21,8 @@ import {
   RefreshCw,
   Search,
   Layers,
-  HelpCircle
+  HelpCircle,
+  ArrowLeft
 } from 'lucide-react';
 
 export const CompendiumApp = () => {
@@ -87,7 +88,7 @@ export const CompendiumApp = () => {
     const articleParam = searchParams.get('article') || searchParams.get('id');
     if (articleParam && currentRulesItems.length > 0) {
       const match = currentRulesItems.find(
-        a => a.id === articleParam || a.name?.toLowerCase() === articleParam.toLowerCase() || a.title?.toLowerCase() === articleParam.toLowerCase()
+        a => a.id === articleParam || a.id === articleParam.replace(/-1$/, '') || a.name?.toLowerCase() === articleParam.toLowerCase() || a.title?.toLowerCase() === articleParam.toLowerCase()
       );
       if (match && selectedItem?.id !== match.id) {
         setSelectedItem(match);
@@ -315,8 +316,16 @@ export const CompendiumApp = () => {
     <div className="flex flex-col h-full w-full bg-[#0d1117] text-slate-100 font-sans overflow-hidden select-none">
       {/* Top Compendium Navigation & Module Switcher Bar */}
       <div className="px-3 sm:px-4 py-2 bg-slate-950/90 border-b border-slate-800 flex items-center justify-between gap-3 shrink-0 backdrop-blur-md">
-        {/* Left: Brand / Title */}
-        <div className="flex items-center gap-2.5">
+        {/* Left: Brand / Title with Quick Back Button */}
+        <div className="flex items-center gap-2 sm:gap-2.5">
+          <button
+            type="button"
+            onClick={handleCompendiumBack}
+            className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-slate-100 transition-colors cursor-pointer"
+            title="Return to Tangent Dashboard"
+          >
+            <ArrowLeft size={15} />
+          </button>
           <div className="p-1.5 rounded-lg bg-sky-500/15 border border-sky-500/30 text-sky-400">
             <BookOpen size={16} />
           </div>
@@ -325,12 +334,9 @@ export const CompendiumApp = () => {
               <h1 className="text-xs sm:text-sm font-mono font-bold text-white uppercase tracking-wider">
                 COMPENDIUM ARCHIVE
               </h1>
-              <span className="text-[9px] font-mono px-2 py-0.2 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/40 font-bold hidden xs:inline">
-                OFFICIAL CODEX
-              </span>
             </div>
             <p className="text-[10px] text-slate-400 font-mono hidden sm:block">
-              Unified rules wiki and canonical game reference.
+              Canonical rules wiki (1.00 Operator & 5.00 Architect).
             </p>
           </div>
         </div>
@@ -353,18 +359,7 @@ export const CompendiumApp = () => {
       </div>
 
       {/* Main Compendium Workspace */}
-      <div className="flex-1 flex flex-col overflow-hidden p-2 sm:p-3 pb-3 sm:pb-4 gap-2">
-        <BreadcrumbNav
-          items={getCompendiumBreadcrumbs()}
-          onBack={handleCompendiumBack}
-          backTitle={
-            isEntryModalOpen || selectedItem
-              ? 'Return to Compendium Archive'
-              : 'Return to Tangent Dashboard'
-          }
-          className="rounded-xl"
-        />
-
+      <div className="flex-1 flex flex-col overflow-hidden">
         <div className="flex-1 flex overflow-hidden">
           <DBMWikiView
             currentConfig={rulesConfig}

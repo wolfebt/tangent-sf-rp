@@ -1,16 +1,16 @@
 ---
 id: "doc-operator-1-02-archetypes"
-name: "1.02 ARCHETYPES — ARCHETYPE"
+name: "1.02 ARCHETYPES"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 1
+order: 3
 perspective: "operator"
 entry_type: "Core Rule"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","1.02 archetypes","mechanics"]
-updatedAt: "2026-10-09T07:59:56.568Z"
+updatedAt: "2026-09-14T19:35:00.893Z"
 costs:
   bp: 0
   credits: 0

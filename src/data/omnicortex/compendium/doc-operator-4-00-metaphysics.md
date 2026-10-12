@@ -1,16 +1,16 @@
 ---
 id: "doc-operator-4-00-metaphysics"
-name: "4.00 METAPHYSICS — METAPHYSICS"
+name: "4.00 METAPHYSICS"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 1
+order: 14
 perspective: "operator"
 entry_type: "Core Rule"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","4.00 metaphysics","mechanics"]
-updatedAt: "2026-10-09T07:59:56.579Z"
+updatedAt: "2026-09-14T19:38:24.475Z"
 costs:
   bp: 0
   credits: 0

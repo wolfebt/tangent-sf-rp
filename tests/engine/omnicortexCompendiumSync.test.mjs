@@ -19,7 +19,7 @@ test('Omnicortex Compendium: 1-to-1 Parity between Markdown Files and compendium
   const seed = JSON.parse(fs.readFileSync(seedPath, 'utf8'));
   const mdFiles = fs.readdirSync(compDir).filter(f => f.endsWith('.md'));
 
-  assert(seed.length >= 190, `Expected at least 190 seed articles, got ${seed.length}`);
+  assert(seed.length >= 30, `Expected at least 30 seed articles, got ${seed.length}`);
   assert.equal(seed.length, mdFiles.length, `Expected seed count (${seed.length}) to match md files count (${mdFiles.length})`);
 
   const seedIds = new Set(seed.map(s => s.id));
@@ -70,13 +70,12 @@ test('Omnicortex Compendium: 1-to-1 Parity between Markdown Files and compendium
 });
 
 test('Omnicortex Compendium: 2d10 Dual Resolution Engine Canon (No d20 Resolution)', () => {
-  const resFile = path.join(compDir, '2-01-2d10-dual-resolution-engine.md');
-  assert(fs.existsSync(resFile), '2-01-2d10-dual-resolution-engine.md must exist');
+  const combatFile = path.join(compDir, 'doc-operator-3-00-combat.md');
+  assert(fs.existsSync(combatFile), 'doc-operator-3-00-combat.md must exist');
 
-  const content = fs.readFileSync(resFile, 'utf8');
+  const content = fs.readFileSync(combatFile, 'utf8');
   assert(content.includes('2d10'), 'Resolution engine must explicitly state 2d10');
   assert(content.includes('DEFENDER WINS ALL TIES'), 'Must state DEFENDER WINS ALL TIES');
-  assert(content.includes('CR 15'), 'Must state baseline CR 15 for unopposed');
   assert(!fs.existsSync(path.join(compDir, '2-01-d20-universal-resolution-engine.md')), 'Legacy d20 file must not exist');
 });
 

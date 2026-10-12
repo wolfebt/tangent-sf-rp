@@ -1,16 +1,16 @@
 ---
 id: "doc-architect-99-modular-species-matrix"
-name: "99. MODULAR SPECIES MATRIX — SPECIES FRAMEWORK & BUILD SYSTEM"
+name: "99. MODULAR SPECIES MATRIX"
 category: "architect_matrix"
 parent: "5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)"
-order: 1
+order: 4
 perspective: "architect"
 entry_type: "Architect Matrix"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","source-of-truth","99. modular species matrix","matrix"]
-updatedAt: "2026-10-09T07:59:56.584Z"
+updatedAt: "2026-09-12T05:04:24.737Z"
 costs:
   bp: 0
   credits: 0
