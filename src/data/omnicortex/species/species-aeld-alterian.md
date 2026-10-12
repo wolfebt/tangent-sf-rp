@@ -37,13 +37,16 @@ bonus_features: []
 bonus_feature_choices: []
 recommended_features:
   - Acute Senses
-  - Agile Maneuvers
+  - Agile Wrestling
+  - Awakened
   - Combat Expertise
-  - Combat Specialization
   - Darksight
-  - Eidetic Memory
-  - Martial Arts
-  - Sense Magic
+  - Lightning Calculator
+  - Low Light Vision
+  - Magical Aptitude
+  - Martial Arts Mastery
+  - Skill Specialization
+  - Weapon Specialization
 stigma: Minor Xeno (-1)
 tech_level: '3 (Magi-Tech: Solar Sails, Crystalline Laminates, Aetherium Refinement)'
 meta_level: '4 (High Magic: The Flow)'
@@ -63,13 +66,17 @@ cp_cost: 28
 cp: 28
 bp: 28
 description: >-
-  The Alterian Aeld are graceful, exceptionally long-lived
-  scholars, diplomats, and magi-tech pioneers. They harmonize technology with
-  arcane metaphysics, viewing magic as a rigorous science and operating with a
-  profound long-term perspective.
+  The Alterian Aeld are graceful, exceptionally long-lived scholars, diplomats,
+  and magi-tech pioneers. They harmonize technology with arcane metaphysics,
+  viewing magic as a rigorous science and operating with a profound long-term
+  perspective.
 traits:
+  - trait-ageless
+  - trait-amphibious
   - trait-awakened-arcane
   - trait-long-lived-600-years
+  - trait-longevity
+  - trait-reduced-sustenance
   - trait-sleepless-immune-to-sleep-effects
 recommended_factions:
   - The Alterian Enclave

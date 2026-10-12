@@ -25,7 +25,11 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Armor (Chitinous Shell)
+  - Brutal
+  - Mighty Surge
+  - Tough
 stigma: Synthetic (-2)
 tech_level: 4 (Cortical Stacks & Sleeves)
 meta_level: 1 (Residual Soul)
@@ -41,9 +45,9 @@ description: >-
   consciousnesses (transferred via cortical neural stacks upon biological
   death).
 traits:
-  - trait-synthetic-base-traits
-  - trait-neural-stack-integration-organic-consciousness-housing
   - trait-ghost-in-the-machine-resilience
+  - trait-neural-stack-integration-organic-consciousness-housing
+  - trait-synthetic-base-traits
 recommended_factions:
   - The Syndicate
   - The Ascendancy

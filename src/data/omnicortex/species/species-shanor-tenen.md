@@ -27,7 +27,12 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Darksight
+  - Deceitful
+  - Discipline Features
+  - Iron Will
+  - Stealthy
 stigma: Xeno (-2)
 tech_level: 4 (Ethereal Lattice Tech)
 meta_level: 5 (High Spectral Metaphysics)
@@ -46,12 +51,12 @@ traits:
   - trait-alter-form-advanced
   - trait-awakened-void
   - trait-fast-healing
+  - trait-flight
   - trait-immortal
   - trait-non-typical-anatomy
   - trait-regeneration
   - trait-semi-corporeal-pass-through-walls
   - trait-telepathic
-  - trait-flight
 recommended_factions:
   - The Alterian Enclave
   - The Outworlds

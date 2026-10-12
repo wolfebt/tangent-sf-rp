@@ -29,7 +29,12 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Darksight
+  - Deceitful
+  - Discipline Features
+  - Iron Will
+  - Stealthy
 stigma: Monstrous (-4)
 tech_level: 2 (Scavenged Warp Relics)
 meta_level: 3 (Chaotic Void Warping)
@@ -44,8 +49,8 @@ description: >-
   Eakren are mortals who were caught in catastrophic void collapses and mutated
   into chimeric aberrational humanoids.
 traits:
-  - trait-corrupted-void-traits
   - trait-aberrant-mutations-tentacles-eyes-claws
+  - trait-corrupted-void-traits
   - trait-void-resonance
 recommended_factions:
   - The Outworlds

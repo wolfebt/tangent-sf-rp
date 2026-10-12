@@ -10,10 +10,12 @@ size:
   - species_size-medium
 movement:
   - species_movement-quadruped
-speeds: 'Ground 40 ft (Leaping)'
+speeds: Ground 40 ft (Leaping)
 reach: 5 ft
-senses: 'Uncanny Senses (Vibration detection through atmospheric and ground ripples), Large multi-faceted compound eyes out to 60 ft.'
-immunities: 'Sleep effects and involuntary unconsciousness (Torpor)'
+senses: >-
+  Uncanny Senses (Vibration detection through atmospheric and ground ripples),
+  Large multi-faceted compound eyes out to 60 ft.
+immunities: Sleep effects and involuntary unconsciousness (Torpor)
 inherent_attribute_modifiers:
   - attribute: Agility
     bonus: 2
@@ -47,15 +49,15 @@ inherent_features:
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - sensory-acute-senses
-  - general-camouflage
-  - general-climber
-  - skill-headstrong
-  - physical-limited-flight
-stigma: 'Severe Xeno (-4)'
-tech_level: '3 (Environmental)'
-meta_level: '3 (Awakened)'
-homeworld: 'Kitin Hive Worlds / Arid Frontier Warrens'
+  - Acute Senses
+  - Camouflage
+  - Iron Will
+  - Limited Flight
+  - Wall-Crawler
+stigma: Severe Xeno (-4)
+tech_level: 3 (Environmental)
+meta_level: 3 (Awakened)
+homeworld: Kitin Hive Worlds / Arid Frontier Warrens
 costs:
   bp: 40
 modifiers:
@@ -75,18 +77,19 @@ cp_cost: 40
 cp: 40
 bp: 40
 description: >-
-  The Maantene represent the "Recon Expression" of the Kitin Collective, specialized for survival
-  in hostile frontiers. Quadrupedal with mantis-like heads, four arms, and active camouflage chitin,
-  they vanish into shadows and execute explosive leaping ambushes across alien terrain.
+  The Maantene represent the "Recon Expression" of the Kitin Collective,
+  specialized for survival in hostile frontiers. Quadrupedal with mantis-like
+  heads, four arms, and active camouflage chitin, they vanish into shadows and
+  execute explosive leaping ambushes across alien terrain.
 traits:
-  - trait-awakened-psychic
-  - trait-leaper
-  - trait-dual-skeletal-structure
-  - trait-chitinous-shell-armor
-  - trait-enhanced-strength
   - trait-active-camouflage
-  - trait-quadruped-leaping
+  - trait-awakened-psychic
+  - trait-chitinous-shell-armor
+  - trait-dual-skeletal-structure
+  - trait-enhanced-strength
+  - trait-leaper
   - trait-multidextrous-4-arms
+  - trait-quadruped-leaping
   - trait-torpor-universal
   - trait-uncanny-senses-vibration
 recommended_factions:
@@ -104,8 +107,9 @@ recommended_occupations:
   - Specialist
   - Agent
 keywords: >-
-  insectoid-aberration, recon-expression, mantis-leaper, active-camouflage, four-arms,
-  dual-skeletal, torpor, vibration-sense, vanta-black, arid-predator, collective-recon
+  insectoid-aberration, recon-expression, mantis-leaper, active-camouflage,
+  four-arms, dual-skeletal, torpor, vibration-sense, vanta-black, arid-predator,
+  collective-recon
 negative_keywords: 'individualism, diplomatic-court, fragile, sleep-vulnerable'
 ---
 

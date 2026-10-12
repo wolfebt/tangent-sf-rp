@@ -31,7 +31,15 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Acute Senses
+  - Animal Affinity
+  - Assessment
+  - Awakened
+  - Danger Sense
+  - Fast Heal
+  - Regeneration
+  - Runner
 stigma: 'Animal (-2), Xeno (-2)'
 tech_level: 1 (Bone & Root Tools)
 meta_level: 3 (Symbiotic Totemism)
@@ -59,11 +67,15 @@ description: >-
   with apex predators, shifting effortlessly into diverse mammalian forms to
   hunt and forage.
 traits:
-  - trait-asi-base-traits
-  - trait-animal-affinity
-  - trait-climber
+  - trait-ageless
+  - trait-alter-form-adv
   - trait-alter-form-animal
+  - trait-alternate-form
+  - trait-animal-affinity
+  - trait-asi-base-traits
   - trait-awakened-nature
+  - trait-climber
+  - trait-immortal
 recommended_factions:
   - Vajar Tribes
   - Environmental Faction Template

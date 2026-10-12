@@ -34,7 +34,8 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Agile Wrestling
 stigma: Severe Xeno (-4)
 tech_level: 3 (Heavy Tail-Mount Harnesses & Plasma Blasters)
 meta_level: 3 (Serpentine Sorcery)
@@ -69,9 +70,9 @@ description: >-
   Colossal 12-to-18 foot serpentine beings with humanoid upper torsos, wielding
   crushing constriction power, heat-sensing pits, and venomous strikes.
 traits:
-  - trait-large-size-12-18ft-serpentine-body-reach-10ft
   - trait-awakened-serpentine-metaphysics
   - trait-constriction-deals-double-damage-on-successful-grapple-hold
+  - trait-large-size-12-18ft-serpentine-body-reach-10ft
   - trait-venomous-fangs-paralytic-poison-dc-15
 recommended_factions:
   - Coalition of Independent Worlds

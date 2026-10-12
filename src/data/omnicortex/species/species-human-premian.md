@@ -31,7 +31,13 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Augmented
+  - Awakened
+  - Connected
+  - Educated
+  - Field Medic
+  - Master Craftsman
 stigma: None
 tech_level: 3 (Financial Holo-Nets & Comms)
 meta_level: 1 (Subconscious Suggestion)
@@ -47,6 +53,7 @@ description: >-
   empires, and silver-tongued contract negotiations.
 traits:
   - trait-calculating-mind
+  - trait-longevity
   - trait-silver-tongue
   - trait-syndicate-network
 recommended_factions:

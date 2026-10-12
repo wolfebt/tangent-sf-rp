@@ -37,7 +37,8 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Combat Rage
 stigma: 'Xeno (-2), Savage (-4)'
 tech_level: 3 (Imperial Heavy Ordinance)
 meta_level: 0 (Null)
@@ -85,8 +86,8 @@ description: >-
   boarding actions and trench warfare.
 traits:
   - trait-brutal-3-melee-damage
-  - trait-exoskeleton-partial-sub-dermal-plates-dr-3
   - trait-combat-rage-1-encounter
+  - trait-exoskeleton-partial-sub-dermal-plates-dr-3
 recommended_factions:
   - Impyrium Dominion
   - Radiant Impyrium

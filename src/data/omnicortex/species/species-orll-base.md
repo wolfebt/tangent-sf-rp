@@ -36,7 +36,11 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Darksight
+  - Natural Weapons
+  - Tough
+  - Wall-Crawler
 stigma: 'Savage (-4), Xeno (-2)'
 tech_level: 2 (Heavy Ballistic Scrap Guns & Cleavers)
 meta_level: 0 (Null)
@@ -80,8 +84,8 @@ description: >-
   physical power and terrifying combat rages.
 traits:
   - trait-exoskeleton-light-chitin-dr-3
-  - trait-rage-4-str-2-defense-in-combat-1-enc
   - trait-heavy-strike-2-damage
+  - trait-rage-4-str-2-defense-in-combat-1-enc
 recommended_factions:
   - Coalition of Independent Worlds
   - The Outworlds

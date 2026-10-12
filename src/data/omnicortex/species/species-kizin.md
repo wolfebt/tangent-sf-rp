@@ -35,7 +35,16 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Acrobatic Steps
+  - Acute Senses
+  - Athletics Training
+  - Danger Sense
+  - Darksight
+  - Lightning Reflexes
+  - Sneak Attack
+  - Stealthy
+  - Uncanny Sense
 stigma: Xeno (-2)
 tech_level: 3 (Sensory Scanners & Covert Tech)
 meta_level: 2 (Intuitive Psionics)
@@ -58,11 +67,11 @@ description: >-
   Sleek feline humanoids known for sharp intellects, stealth, curiosity, and
   forensic deductive abilities.
 traits:
+  - trait-acute-scent
   - trait-digitigrade
   - trait-low-light-vision
-  - trait-acute-scent
-  - trait-silent-stride
   - trait-retractable-claws
+  - trait-silent-stride
 recommended_factions:
   - The Entari Combine
   - The Syndicate

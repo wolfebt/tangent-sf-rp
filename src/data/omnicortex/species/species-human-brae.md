@@ -33,7 +33,10 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Educated
+  - Low Light Vision
+  - Stealthy
 stigma: None
 tech_level: 3 (Miniaturized Mechanics)
 meta_level: 1 (Agile Flow)
@@ -64,9 +67,10 @@ description: >-
   Brae are compact, diminutive humans (standing 3 to 4 feet tall) who evolved
   aboard generational colony ships and tight subterranean refinery tubes.
 traits:
-  - trait-small-size-2-defense-2-stealth
   - trait-climber
   - trait-high-metabolism
+  - trait-longevity
+  - trait-small-size-2-defense-2-stealth
 recommended_factions:
   - The Entari Combine
   - The Outworlds

@@ -28,7 +28,11 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Agile Wrestling
+  - Armor (Chitinous Shell)
+  - Brutal
+  - Camouflage
 stigma: Severe Xeno (-4)
 tech_level: 2 (Living Botanical Tools)
 meta_level: 4 (Verdant Metaphysics)
@@ -46,6 +50,7 @@ traits:
   - trait-adaptive-aspects
   - trait-ageless
   - trait-alter-form-root-vine-morph
+  - trait-aquatic
   - trait-atmosphere-variant-breathes-co2-toxics
   - trait-awakened-nature
   - trait-chloroplast-energy-photosynthesis

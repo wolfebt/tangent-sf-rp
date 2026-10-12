@@ -33,7 +33,9 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Acute Senses
+  - Uncanny Sense
 stigma: Xeno (-2)
 tech_level: 4 (Biomechanical Synthesis)
 meta_level: 2 (Cyber-Psionics)
@@ -52,10 +54,10 @@ description: >-
   Biomechanical synthetics fuse vat-grown organic muscle and vascular organs
   with titanium endoskeletons and optronic neural processors.
 traits:
-  - trait-synthetic-base-traits
   - trait-adaptive-aspects-rapid-evolutionary-resistance
-  - trait-self-healing-bio-circuits
   - trait-hybrid-metabolism-fuel-or-food
+  - trait-self-healing-bio-circuits
+  - trait-synthetic-base-traits
 recommended_factions:
   - The Syndicate
   - Artificial Life Faction Template

@@ -34,7 +34,15 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Ability Check Features
+  - Armor (Chitinous Shell)
+  - Danger Sense
+  - Fast Heal
+  - Iron Will
+  - Low Light Vision
+  - Scent
+  - Two-Weapon Fighting
 stigma: Xeno (-2)
 tech_level: 4 (Syndicate Black-Ops Tech)
 meta_level: 1 (Tactical Focus)
@@ -54,9 +62,10 @@ description: >-
   surgically implanted targeters, adrenal pumps, and uncompromising tactical
   conditioning.
 traits:
+  - trait-adapted
   - trait-augmented-sub-dermal-targeter-adrenal-regulator
-  - trait-conditioned-mind-4-vs-fear
   - trait-combat-specialization
+  - trait-conditioned-mind-4-vs-fear
 recommended_factions:
   - The Syndicate
   - Corporate Faction Template

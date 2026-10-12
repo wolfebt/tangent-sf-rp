@@ -48,7 +48,8 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Digital Expert
 stigma: Severe Synthetic (-4)
 tech_level: 5 (Singularity Computing)
 meta_level: 2 (Digital Psionics)
@@ -100,10 +101,10 @@ description: >-
   floating core chassis or drone bodies, commanding battlefield drones and
   networks.
 traits:
-  - trait-synthetic-base-traits
   - trait-comms-array-mastery-instant-holo-link
   - trait-companion-remotes-commands-2-drone-units
   - trait-hyper-threading-logic-engine
+  - trait-synthetic-base-traits
 recommended_factions:
   - The Mekan Collective
   - The Ascendancy

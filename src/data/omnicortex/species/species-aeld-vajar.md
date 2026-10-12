@@ -31,7 +31,18 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Acute Senses
+  - Camouflage
+  - Combat Reflexes
+  - Companion
+  - Danger Sense
+  - Favored Environment
+  - Natural Weapons
+  - Regeneration
+  - Survivalist
+  - Tracker
+  - Wild Speech
 stigma: 'Feral (-4), Xeno (-2)'
 tech_level: 2 (Biomimetic Crafting)
 meta_level: 4 (Primal Shamanism & Biomorphism)
@@ -47,11 +58,12 @@ description: >-
   symbiotic living. They wield shapeshifting and animalistic biomodifications
   with fierce territorial pride.
 traits:
-  - trait-awakened-nature
+  - trait-adapted
   - trait-ageless
-  - trait-immune-to-sleep
   - trait-alter-form-adv-animal
   - trait-animalistic-mutation
+  - trait-awakened-nature
+  - trait-immune-to-sleep
 recommended_factions:
   - Vajar Tribes
   - The Alterian Enclave

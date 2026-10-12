@@ -33,7 +33,11 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Discipline Features
+  - Fast Heal
+  - Regeneration
+  - Wild Speech
 stigma: 'Fae (-2), Xeno (-2)'
 tech_level: 1 (Enchanted Flora)
 meta_level: 5 (High Fey Metaphysics)
@@ -66,9 +70,10 @@ description: >-
   civilizations with wonder and cryptic intentions.
 traits:
   - trait-asi-base-traits
-  - trait-diminutive-size-4-stealth-4-might
   - trait-awakened-nature
+  - trait-diminutive-size-4-stealth-4-might
   - trait-flight-gossamer-wings-30ft
+  - trait-immortal
 recommended_factions:
   - Elven Providence
   - The Alterian Enclave

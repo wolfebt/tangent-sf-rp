@@ -32,7 +32,12 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Aptitude
+  - Educated
+  - Endurance
+  - Self-Sufficient
+  - Tough
 stigma: Blue Skin (-1)
 tech_level: 3 (Industrial Heavy Tech)
 meta_level: 2 (Electrochemical Psionics)
@@ -52,9 +57,11 @@ description: >-
   mineral assimilation, Argynts are resilient human colonists adapted to harsh,
   radiation-heavy worlds.
 traits:
-  - trait-improved-great-fortitude-4-vs-poison-disease
   - trait-dense-skeletal-structure
+  - trait-improved-great-fortitude-4-vs-poison-disease
+  - trait-longevity
   - trait-radiation-tolerance
+  - trait-reduced-sustenance
 recommended_factions:
   - The Outworlds
   - Coalition of Independent Worlds

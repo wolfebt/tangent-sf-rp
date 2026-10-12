@@ -32,7 +32,13 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Aptitude
+  - Attractive
+  - Awakened
+  - Discipline Features
+  - Educated
+  - Low Light Vision
 stigma: None
 tech_level: 4 (FTL & Slipstream Gate Tech)
 meta_level: 4 (Spatial Metaphysics)
@@ -52,9 +58,10 @@ description: >-
   gateway networks, possessing innate teleportation and spatial recall powers.
 traits:
   - trait-awakened-dimension-psychic
-  - trait-indomitable-will
-  - trait-teleportal-special-ability-short-jump
   - trait-homing-special-ability-spatial-recall
+  - trait-indomitable-will
+  - trait-longevity
+  - trait-teleportal-special-ability-short-jump
 recommended_factions:
   - The Ascendancy
   - The Alterian Enclave

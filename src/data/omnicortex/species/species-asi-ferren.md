@@ -35,7 +35,12 @@ inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
 recommended_features:
-  - feature-lightning-reflexes
+  - Attractive
+  - Danger Sense
+  - Fast Heal
+  - Regeneration
+  - Stealthy
+  - Wild Speech
 stigma: 'Fey (-2), Xeno (-2)'
 tech_level: 2 (Bio-Loomed Weaves & Organic Tools)
 meta_level: 3 (Primal Fey Illusion)
@@ -67,11 +72,13 @@ description: >-
   ecosystems. Inquisitive and fleet-footed, they traverse vertical cityscapes
   and wild jungles with equal ease.
 traits:
-  - trait-asi-base-traits-ageless-obfuscate-sleepless
-  - trait-prehensile-tail
-  - trait-climber
-  - trait-quick-5ft-movement
   - trait-adapted-arboreal
+  - trait-ageless
+  - trait-asi-base-traits-ageless-obfuscate-sleepless
+  - trait-climber
+  - trait-immortal
+  - trait-prehensile-tail
+  - trait-quick-5ft-movement
 recommended_factions:
   - Elven Providence
   - Coalition of Independent Worlds

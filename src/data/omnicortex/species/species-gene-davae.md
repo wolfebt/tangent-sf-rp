@@ -30,7 +30,13 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Adaptive Aspects (Hive Memories)
+  - Awakened
+  - Discipline Features
+  - Fast Heal
+  - Jack of all trades
+  - Regeneration
 stigma: Xeno (-2)
 tech_level: 4 (Neural Mesh & Bio-Computing)
 meta_level: 4 (Hive Psionics)
@@ -49,10 +55,12 @@ description: >-
   Davae are telepathically networked transhumans engineered with oversized
   craniums and bioluminescent neurological nodes.
 traits:
+  - trait-ageless
   - trait-awakened-psychic
-  - trait-telepathy-100ft
   - trait-biotechnology-mastery
   - trait-hive-connection-shared-telepathic-mesh
+  - trait-reduced-sustenance
+  - trait-telepathy-100ft
 recommended_factions:
   - The Syndicate
   - The Ascendancy

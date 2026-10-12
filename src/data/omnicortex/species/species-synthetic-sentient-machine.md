@@ -39,7 +39,10 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Digital Expert
+  - Master Craftsman
+  - Tough
 stigma: Synthetic (-4)
 tech_level: 3 (Industrial Heavy Mechanics)
 meta_level: 0 (Null)
@@ -66,10 +69,10 @@ description: >-
   Industrial and labor droids that achieved spontaneous consciousness through
   neural lattice cascade errors or rogue updates, forging their own culture.
 traits:
-  - trait-synthetic-base-traits
-  - trait-reinforced-chassis-dr-6
-  - trait-heavy-industrial-motors
   - trait-direct-usb-data-jack
+  - trait-heavy-industrial-motors
+  - trait-reinforced-chassis-dr-6
+  - trait-synthetic-base-traits
 recommended_factions:
   - The Outworlds
   - Artificial Life Faction Template

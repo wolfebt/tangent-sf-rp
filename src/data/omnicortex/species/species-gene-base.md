@@ -28,7 +28,13 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Ability Check Features
+  - Attractive
+  - Fast Heal
+  - Low Light Vision
+  - Scent
+  - Two-Weapon Fighting
 stigma: None
 tech_level: 4 (Genetic Engineering & Gene-Splicing)
 meta_level: 1 (Cellular Potential)
@@ -43,8 +49,10 @@ description: >-
   Gen-E transhumans are laboratory-engineered humans designed without congenital
   defects, carrying optimized immune systems and modular genetic code.
 traits:
-  - trait-genetic-optimization-disease-immunity-retinal-filter
+  - trait-adapted
   - trait-custom-gene-blueprint-1-free-feature
+  - trait-genetic-optimization-disease-immunity-retinal-filter
+  - trait-longevity
 recommended_factions:
   - The Syndicate
   - The Ascendancy

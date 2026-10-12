@@ -12,9 +12,9 @@ movement:
   - species_movement-bipedal
   - species_movement-climbing
 speeds: 'Ground 40 ft (Crawling), Climb 40 ft'
-reach: '5 ft'
+reach: 5 ft
 senses: 'Darkvision out to 60 ft, Pheromonal scent tracking'
-immunities: 'Sleep effects'
+immunities: Sleep effects
 inherent_attribute_modifiers:
   - attribute: Strength
     bonus: 2
@@ -53,15 +53,15 @@ inherent_features:
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - sensory-acute-senses
-  - general-fearless
-  - defensive-poison-immunity
-  - general-runner
-  - skill-self-sufficient
-stigma: 'Severe Xeno'
-tech_level: '3 (Industrial)'
-meta_level: '2 (Resonant)'
-homeworld: 'Kitin Hive Worlds / Spire Infrastructure & Hive-Warrens'
+  - Acute Senses
+  - Iron Will
+  - Runner
+  - Self-Sufficient
+  - Tolerance
+stigma: Severe Xeno
+tech_level: 3 (Industrial)
+meta_level: 2 (Resonant)
+homeworld: Kitin Hive Worlds / Spire Infrastructure & Hive-Warrens
 costs:
   bp: 34
 modifiers:
@@ -85,19 +85,21 @@ cp_cost: 34
 cp: 34
 bp: 34
 description: >-
-  The Murex are the "General Purpose" Foundation Expression of the Kitin Collective. Serving as the
-  builders and heavy infantry that form the backbone of Hive infrastructure, they possess a standard
-  dual-skeletal structure encased in smooth matte-black obsidian chitin with four dextrous manipulation limbs.
+  The Murex are the "General Purpose" Foundation Expression of the Kitin
+  Collective. Serving as the builders and heavy infantry that form the backbone
+  of Hive infrastructure, they possess a standard dual-skeletal structure
+  encased in smooth matte-black obsidian chitin with four dextrous manipulation
+  limbs.
 traits:
-  - trait-multidextrous-4-arms
-  - trait-dual-skeletal-structure
   - trait-chitinous-shell-armor
+  - trait-climber
+  - trait-dual-skeletal-structure
   - trait-enhanced-strength
   - trait-fatigue-resistance
+  - trait-hive-link-minor
+  - trait-multidextrous-4-arms
   - trait-pheromonal-synthesis
   - trait-quick
-  - trait-climber
-  - trait-hive-link-minor
   - trait-resin-secretion
   - trait-torpor-universal
 recommended_factions:
@@ -116,8 +118,9 @@ recommended_occupations:
   - Scout
   - Drifter
 keywords: >-
-  murex, foundation-expression, general-purpose, builder, infantry, hive-infrastructure,
-  four-arms, dual-skeletal, fatigue-resistance, pheromonal-synthesis, matte-obsidian
+  murex, foundation-expression, general-purpose, builder, infantry,
+  hive-infrastructure, four-arms, dual-skeletal, fatigue-resistance,
+  pheromonal-synthesis, matte-obsidian
 negative_keywords: 'individualist, diplomatic-ambassador, frail'
 ---
 

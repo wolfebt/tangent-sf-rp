@@ -33,7 +33,11 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Connected
+  - Educated
+  - Lightning Calculator
+  - Silver Tongue
 stigma: 'Severe Synthetic (-4), Anti-Organic (-2)'
 tech_level: 4 (High-Density Directive Processing)
 meta_level: 0 (Null)
@@ -52,10 +56,10 @@ description: >-
   Protocol units are dedicated administrative, medical, or security automatons
   built with rigid programming directives and extensive skill libraries.
 traits:
-  - trait-synthetic-base-traits
   - trait-adaptive-task-aspects
-  - trait-tech-assimilation-rapid-tool-swap
   - trait-flawless-etiquette-calculation
+  - trait-synthetic-base-traits
+  - trait-tech-assimilation-rapid-tool-swap
 recommended_factions:
   - Corporate Faction Template
   - The Syndicate

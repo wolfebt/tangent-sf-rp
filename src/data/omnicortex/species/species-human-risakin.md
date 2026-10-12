@@ -32,7 +32,12 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Brutal
+  - Great Fortitude
+  - Mighty Surge
+  - Tough
+  - Weapon Focus
 stigma: 'Xeno (-2), Giant (-2)'
 tech_level: 3 (Heavy Industrial Hydraulic Rigging)
 meta_level: 0 (Physical Dominance)
@@ -67,9 +72,9 @@ description: >-
   Towering 8-to-10 foot humans from super-heavy gravity worlds whose massive
   musculature and skeletal density render them natural juggernauts.
 traits:
+  - trait-colossal-carrying-capacity
   - trait-large-size-8-10ft-reach-10ft
   - trait-massive-bulk-dr-3
-  - trait-colossal-carrying-capacity
 recommended_factions:
   - The Outworlds
   - Industrial Faction Template

@@ -35,7 +35,14 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Ability Check Features
+  - Acute Senses
+  - Awakened
+  - Darksight
+  - Lightning Calculator
+  - Low Light Vision
+  - Magical Aptitude
 stigma: 'Xeno (-2), Supremacist (-2)'
 tech_level: 4 (Void-Tech & Stealth Sub-systems)
 meta_level: 4 (Shadow Metaphysics & Telepathy)
@@ -55,14 +62,15 @@ cp_cost: 12
 cp: 12
 bp: 12
 description: >-
-  The Kovians are a fiercely disciplined, subterranean and
-  void-dwelling elven faction. Prioritizing cold logic, genetic preservation,
-  and shadow-craft, they harbor deep skepticism toward outsiders.
+  The Kovians are a fiercely disciplined, subterranean and void-dwelling elven
+  faction. Prioritizing cold logic, genetic preservation, and shadow-craft, they
+  harbor deep skepticism toward outsiders.
 traits:
   - trait-aeld-lineage-traits
-  - trait-dark-sight
   - trait-cold-discipline
+  - trait-dark-sight
   - trait-indomitable-will
+  - trait-reduced-sustenance
 recommended_factions:
   - Kovian Tribunal
   - The Alterian Enclave

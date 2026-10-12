@@ -32,7 +32,8 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Phase Shift
 stigma: Severe Xeno (-6)
 tech_level: 4 (Photonic & Energy Resonators)
 meta_level: 5 (Pure Energy Metaphysics)
@@ -69,12 +70,12 @@ description: >-
   perfect memory, and telekinetic mastery are staggering.
 traits:
   - trait-asi-base-traits
-  - trait-diminutive-size
   - trait-awakened-energy-illusion
-  - trait-telekinetic-flight
+  - trait-diminutive-size
   - trait-non-living-energy-entity
-  - trait-telekinesis-special-ability
   - trait-perfect-memory
+  - trait-telekinesis-special-ability
+  - trait-telekinetic-flight
 recommended_factions:
   - The Alterian Enclave
   - The Ascendancy

@@ -34,7 +34,8 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Acute Senses
 stigma: Severe Xeno (-4)
 tech_level: 3 (Hydro-Resonance Equipment)
 meta_level: 2 (Sonic Metaphysics)
@@ -58,11 +59,11 @@ description: >-
   ability to glide through atmospheric currents or dive into oceanic depths.
 traits:
   - trait-adapted-aquatic
-  - trait-amphibious
   - trait-alternate-form-manta-ray-flight-form
+  - trait-amphibious
   - trait-echolocation-60ft-sonar
-  - trait-uncanny-sense-underwater-vision
   - trait-swim-glide-speed-40ft
+  - trait-uncanny-sense-underwater-vision
 recommended_factions:
   - Coalition of Independent Worlds
   - Alien Faction Template

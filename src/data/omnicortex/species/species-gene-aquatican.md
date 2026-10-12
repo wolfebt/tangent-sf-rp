@@ -29,7 +29,14 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Acute Senses
+  - Armor (Chitinous Shell)
+  - Camouflage
+  - Darksight
+  - Great Fortitude
+  - Lightning Reflexes
+  - Low Light Vision
 stigma: Aquatic Xeno (-3)
 tech_level: 4 (Deep Trench Tech)
 meta_level: 1 (Echo Resonance)
@@ -46,8 +53,8 @@ description: >-
 traits:
   - trait-adapted-deep-ocean
   - trait-amphibious
-  - trait-natural-swim-speed-40ft
   - trait-hydrodynamic-skin
+  - trait-natural-swim-speed-40ft
 recommended_factions:
   - The Syndicate
   - Corporate Faction Template

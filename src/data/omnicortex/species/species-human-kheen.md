@@ -28,7 +28,13 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Awakened
+  - Combat Expertise
+  - Lightning Calculator
+  - Magical Aptitude
+  - Silver Tongue
+  - Social
 stigma: None
 tech_level: 3 (Magi-Tech Synthesis)
 meta_level: 2 (Harmonic Weave)
@@ -43,9 +49,11 @@ description: >-
   The Kheen represent stable human-aeld lineages who inherited elven aesthetic
   grace and longevity while maintaining human versatility and adaptability.
 traits:
-  - trait-low-light-vision
-  - trait-extended-lifespan-200-years
   - trait-arcane-affinity
+  - trait-extended-lifespan-200-years
+  - trait-longevity
+  - trait-low-light-vision
+  - trait-reduced-sustenance
 recommended_factions:
   - The Entari Combine
   - The Alterian Enclave

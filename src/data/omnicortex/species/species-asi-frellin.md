@@ -35,7 +35,11 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Discipline Features
+  - Fast Heal
+  - Karma Features
+  - Stealthy
 stigma: 'Animal (-2), Xeno (-2)'
 tech_level: 3 (Crystal Transceivers)
 meta_level: 4 (Aero-Psionics & Telepathy)
@@ -71,12 +75,14 @@ description: >-
   messengers, and navigators, they read wind currents and psychic frequencies
   with equal precision.
 traits:
+  - trait-ageless
   - trait-asi-base-traits
-  - trait-tiny-size
   - trait-awakened-arcane
-  - trait-telepathy-special-ability
-  - trait-flight-winged-40ft
   - trait-dark-sight
+  - trait-flight-winged-40ft
+  - trait-immortal
+  - trait-telepathy-special-ability
+  - trait-tiny-size
 recommended_factions:
   - The Entari Combine
   - Coalition of Independent Worlds

@@ -34,7 +34,12 @@ inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
 recommended_features:
-  - feature-mighty-surge
+  - Armor (Chitinous Shell)
+  - Awakened
+  - Discipline Features
+  - Dragonkin Features
+  - Iron Will
+  - Natural Weapons
 stigma: 'Dragonkin (-4), Xeno (-2)'
 tech_level: 3 (Forge-Tech & Arcane Metallurgy)
 meta_level: 3 (Draconic Sorcery)

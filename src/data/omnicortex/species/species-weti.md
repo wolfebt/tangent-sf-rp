@@ -34,7 +34,13 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Acute Senses
+  - Danger Sense
+  - Runner
+  - Self-Sufficient
+  - Tracker
+  - Wall-Crawler
 stigma: 'Beast (-4), Xeno (-2)'
 tech_level: 3 (Miniaturized Sensor Rigs)
 meta_level: 1 (Intuitive Agility)
@@ -65,10 +71,10 @@ description: >-
   Tiny, hyper-intelligent simian creatures standing barely 18 inches tall,
   celebrated for repairing starship conduits, espionage, and rapid climbing.
 traits:
-  - trait-tiny-size-4-defense-4-stealth
   - trait-climbing-speed-30ft
   - trait-prehensile-tail
   - trait-quick-5ft-movement
+  - trait-tiny-size-4-defense-4-stealth
 recommended_factions:
   - The Entari Combine
   - The Outworlds

@@ -34,7 +34,8 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Leadership
 stigma: None
 tech_level: 4 (Imperial Regalia & Grav-Chairs)
 meta_level: 4 (Command Metaphysics)
@@ -55,9 +56,9 @@ description: >-
   authority.
 traits:
   - trait-adaptive-aspects
+  - trait-aristocratic-immunity
   - trait-awakened-psionic
   - trait-status-imperial-nobility
-  - trait-aristocratic-immunity
 recommended_factions:
   - Impyrium Dominion
   - Radiant Impyrium

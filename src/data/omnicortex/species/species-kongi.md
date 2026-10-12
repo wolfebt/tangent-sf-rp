@@ -34,7 +34,15 @@ inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
 recommended_features:
-  - feature-mighty-surge
+  - Acrobatic Steps
+  - Acute Senses
+  - Armor (Chitinous Shell)
+  - Athletics Training
+  - Darksight
+  - Graceful
+  - Iron Will
+  - Skill Focus
+  - Steady
 stigma: Minor Xeno (-1)
 tech_level: 3 (Heavy Rigging & Mining Plasma Tools)
 meta_level: 1 (Primal Strength)
@@ -69,12 +77,13 @@ description: >-
   Powerful simian beings combining immense upper-body strength with prehensile
   four-limb dexterity and climbing speed.
 traits:
+  - trait-acute-scent
+  - trait-climb-speed-30ft
   - trait-climber
   - trait-low-light-vision
   - trait-mighty-surge-bonus-str-athletics
+  - trait-patagia
   - trait-prehensile-tail-feet
-  - trait-acute-scent
-  - trait-climb-speed-30ft
 recommended_factions:
   - Coalition of Independent Worlds
   - Environmental Faction Template

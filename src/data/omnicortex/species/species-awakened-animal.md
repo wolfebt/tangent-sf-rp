@@ -30,7 +30,13 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Acute Senses
+  - Danger Sense
+  - Natural Weapons
+  - Runner
+  - Tough
+  - Wild Speech
 stigma: Beast (-4)
 tech_level: 2 (Adapted Gear)
 meta_level: 2 (Primal Sentience)

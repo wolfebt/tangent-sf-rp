@@ -18,37 +18,29 @@ export const addFolioTombstone = (docIdOrChar) => {
     const current = getFolioTombstones();
     const set = new Set(current.map(id => (id ? id.toString().trim() : '')).filter(Boolean));
 
+    const extractIds = (item) => {
+      if (!item) return;
+      if (typeof item === 'object') {
+        const id1 = item['character-doc-id']?.toString()?.trim();
+        const id2 = item.id?.toString()?.trim();
+        const id3 = item['char-id']?.toString()?.trim();
+        const id4 = item['doc-id']?.toString()?.trim();
+        const id5 = item.character_doc_id?.toString()?.trim();
+        if (id1) set.add(id1);
+        if (id2) set.add(id2);
+        if (id3) set.add(id3);
+        if (id4) set.add(id4);
+        if (id5) set.add(id5);
+      } else {
+        const str = item.toString().trim();
+        if (str) set.add(str);
+      }
+    };
+
     if (Array.isArray(docIdOrChar)) {
-      docIdOrChar.forEach(item => {
-        if (!item) return;
-        if (typeof item === 'object') {
-          const id1 = item['character-doc-id']?.toString()?.trim();
-          const id2 = item.id?.toString()?.trim();
-          const id3 = item['char-id']?.toString()?.trim();
-          const id4 = item['doc-id']?.toString()?.trim();
-          const id5 = item.character_doc_id?.toString()?.trim();
-          if (id1) set.add(id1);
-          if (id2) set.add(id2);
-          if (id3) set.add(id3);
-          if (id4) set.add(id4);
-          if (id5) set.add(id5);
-        } else {
-          set.add(item.toString().trim());
-        }
-      });
-    } else if (typeof docIdOrChar === 'object') {
-      const id1 = docIdOrChar['character-doc-id']?.toString()?.trim();
-      const id2 = docIdOrChar.id?.toString()?.trim();
-      const id3 = docIdOrChar['char-id']?.toString()?.trim();
-      const id4 = docIdOrChar['doc-id']?.toString()?.trim();
-      const id5 = docIdOrChar.character_doc_id?.toString()?.trim();
-      if (id1) set.add(id1);
-      if (id2) set.add(id2);
-      if (id3) set.add(id3);
-      if (id4) set.add(id4);
-      if (id5) set.add(id5);
+      docIdOrChar.forEach(extractIds);
     } else {
-      set.add(docIdOrChar.toString().trim());
+      extractIds(docIdOrChar);
     }
 
     const updated = Array.from(set);
@@ -59,6 +51,29 @@ export const addFolioTombstone = (docIdOrChar) => {
   } catch (e) {}
 };
 
+export const removeFolioTombstones = (ids) => {
+  if (!ids) return;
+  try {
+    const toRemove = new Set((Array.isArray(ids) ? ids : [ids]).map(x => (x ? x.toString().trim().toLowerCase() : '')).filter(Boolean));
+    if (toRemove.size === 0) return;
+    const current = getFolioTombstones();
+    const updated = current.filter(x => !toRemove.has((x ? x.toString().trim().toLowerCase() : '')));
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(FOLIO_TOMBSTONES_KEY, JSON.stringify(updated));
+    }
+    StorageService.setItem(FOLIO_TOMBSTONES_KEY, updated);
+  } catch (e) {}
+};
+
+export const clearFolioTombstones = () => {
+  try {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem(FOLIO_TOMBSTONES_KEY);
+    }
+    StorageService.removeItem(FOLIO_TOMBSTONES_KEY);
+  } catch (e) {}
+};
+
 export const isFolioPersonaDeleted = (docIdOrChar, tombstones = null) => {
   if (!docIdOrChar) return false;
   if (typeof docIdOrChar === 'object' && docIdOrChar.isDeleted === true) return true;
@@ -66,22 +81,25 @@ export const isFolioPersonaDeleted = (docIdOrChar, tombstones = null) => {
   const list = tombstones || getFolioTombstones();
   if (!list || list.length === 0) return false;
   const set = new Set(list.map(id => (id ? id.toString().trim() : '')).filter(Boolean));
+  const lowerSet = new Set(list.map(id => (id ? id.toString().trim().toLowerCase() : '')).filter(Boolean));
 
   if (typeof docIdOrChar === 'object') {
-    const id1 = docIdOrChar['character-doc-id']?.toString()?.trim();
-    const id2 = docIdOrChar.id?.toString()?.trim();
-    const id3 = docIdOrChar['char-id']?.toString()?.trim();
-    const id4 = docIdOrChar['doc-id']?.toString()?.trim();
-    const id5 = docIdOrChar.character_doc_id?.toString()?.trim();
-    if (id1 && set.has(id1)) return true;
-    if (id2 && set.has(id2)) return true;
-    if (id3 && set.has(id3)) return true;
-    if (id4 && set.has(id4)) return true;
-    if (id5 && set.has(id5)) return true;
+    const candidates = [
+      docIdOrChar['character-doc-id'],
+      docIdOrChar.id,
+      docIdOrChar['char-id'],
+      docIdOrChar['doc-id'],
+      docIdOrChar.character_doc_id
+    ].map(x => (x ? x.toString().trim() : '')).filter(Boolean);
+
+    for (const c of candidates) {
+      if (set.has(c) || lowerSet.has(c.toLowerCase())) return true;
+    }
     return false;
   }
 
-  return set.has(docIdOrChar.toString().trim());
+  const rawStr = docIdOrChar.toString().trim();
+  return set.has(rawStr) || lowerSet.has(rawStr.toLowerCase());
 };
 
 /**

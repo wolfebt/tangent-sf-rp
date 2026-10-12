@@ -34,7 +34,11 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Coordinated Assist
+  - Darksight
+  - Lightning Calculator
+  - Wall-Crawler
 stigma: Severe Synthetic (-4)
 tech_level: 4 (Micro-Drone & Nanite Lattices)
 meta_level: 1 (Swarm Resonance)
@@ -70,11 +74,11 @@ description: >-
   distributed intelligence, able to seep through vents and infiltrate secure
   systems.
 traits:
-  - trait-synthetic-base-traits
-  - trait-hive-mind-protocol
-  - trait-fine-size-6-stealth-passes-through-keyholes
   - trait-dispersal-defense-immune-to-single-target-physical-attacks
+  - trait-fine-size-6-stealth-passes-through-keyholes
+  - trait-hive-mind-protocol
   - trait-nano-flight-30ft
+  - trait-synthetic-base-traits
 recommended_factions:
   - The Mekan Collective
   - Sentient Intelligence Faction Template

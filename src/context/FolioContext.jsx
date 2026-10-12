@@ -92,6 +92,7 @@ const FolioFacadeBridge = ({ children }) => {
     characterData: identity.characterData,
     setCharacterData: identity.setCharacterData,
     activeCharacter: identity.activeCharacter,
+    activePersona: identity.activePersona || identity.characterData,
     activeHeroName: identity.activeCharacter?.name || identity.characterData?.['char-name'] || 'Operative',
     updateField: identity.updateField,
     activeTab: identity.activeTab,

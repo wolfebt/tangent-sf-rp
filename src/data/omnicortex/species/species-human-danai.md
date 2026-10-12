@@ -32,7 +32,17 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Acute Senses
+  - Adaptive Aspects (Hive Memories)
+  - Aptitude
+  - Awakened
+  - Educated
+  - Fast Heal
+  - Jack of all trades
+  - Lightning Calculator
+  - Regeneration
+  - Two-Weapon Fighting
 stigma: Minor Xeno (-1)
 tech_level: 3 (Bio-Hybrid Devices)
 meta_level: 3 (Telepathic Linkage)
@@ -52,6 +62,7 @@ description: >-
   gentle bioluminescent patterns and natural mental connections to bio-synthetic
   equipment.
 traits:
+  - trait-ageless
   - trait-awakened-mental-psychic
   - trait-biotechnology-affinity
   - trait-hive-connection-low-band-telepathy

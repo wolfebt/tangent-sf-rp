@@ -30,7 +30,11 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Armor (Chitinous Shell)
+  - Dragonkin Features
+  - Iron Will
+  - Natural Weapons
 stigma: Draconic (-2)
 tech_level: 3 (Dracon Dynasty Imperial Tech)
 meta_level: 2 (Elemental Fire)
@@ -47,8 +51,8 @@ description: >-
   social presence.
 traits:
   - trait-dragonkin-traits-partial-scales-dr-1-heat-resistance
-  - trait-status-dynasty-ties
   - trait-fiery-resolve
+  - trait-status-dynasty-ties
 recommended_factions:
   - Dracon Dynasty
   - Military Faction Template

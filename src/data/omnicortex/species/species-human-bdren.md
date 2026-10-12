@@ -32,7 +32,8 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Lightning Reflexes
 stigma: None
 tech_level: 3 (Standard)
 meta_level: 1 (Sensory Focus)
@@ -52,9 +53,9 @@ description: >-
   possess dilated tapetum lucidum eyes providing superior nocturnal vision and
   rapid motor reflexes.
 traits:
+  - trait-echo-sensitivity
   - trait-low-light-vision
   - trait-quick-5ft-movement
-  - trait-echo-sensitivity
 recommended_factions:
   - The Outworlds
   - Kovian Tribunal

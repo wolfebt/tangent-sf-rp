@@ -33,7 +33,8 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Mind Link
 stigma: None
 tech_level: 4 (Imperial Psionic Relics & Force Armor)
 meta_level: 4 (Imperial High Psionics)
@@ -53,9 +54,9 @@ description: >-
   judges, interrogators, and battle-psions.
 traits:
   - trait-awakened-psionic
-  - trait-status-impyrium-authority
   - trait-mind-wipe-resistance
   - trait-psychic-aura
+  - trait-status-impyrium-authority
 recommended_factions:
   - Impyrium Dominion
   - Radiant Impyrium

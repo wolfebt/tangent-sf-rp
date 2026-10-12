@@ -29,7 +29,8 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Camouflage
 stigma: Xeno (-2)
 tech_level: 4 (Bio-Organic Submersibles & Neural Syringes)
 meta_level: 3 (Aquatic Psionics)
@@ -45,14 +46,14 @@ description: >-
   chromatophore skin, rapid limb regeneration, and formidable intellects.
 traits:
   - trait-adapted-deep-sea-pelagic
-  - trait-awakened-psychic
   - trait-amphibious
+  - trait-awakened-psychic
   - trait-biotech-affinity
   - trait-chameleon-skin-4-stealth
   - trait-fast-healing
-  - trait-tentacles-4-prehensile-grasping-limbs
   - trait-quick-movement
   - trait-regeneration-3-hp-rnd
+  - trait-tentacles-4-prehensile-grasping-limbs
 recommended_factions:
   - The Syndicate
   - The Entari Combine

@@ -35,14 +35,18 @@ bonus_skill_choices:
   - Technology
   - Discipline
 traits:
-  - trait-synthetic-base-traits
   - trait-digitized-mind
-  - trait-robotic-strength
   - trait-resilient-design
+  - trait-robotic-strength
+  - trait-synthetic-base-traits
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Educated
+  - Lightning Calculator
+  - Master Craftsman
+  - Tough
 stigma: None to Minor Synthetic (-1)
 tech_level: 4 (Optronic Cores & Piezoelectric Myomer)
 meta_level: 0 (Null)

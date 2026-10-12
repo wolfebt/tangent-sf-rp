@@ -28,7 +28,8 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Karma Features
 stigma: None (Galactic Baseline)
 tech_level: 3 (Standard Interstellar Fusion & Ballistics)
 meta_level: 1 (Variable / Latent Potential)

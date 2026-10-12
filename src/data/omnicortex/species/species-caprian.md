@@ -30,7 +30,14 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Darksight
+  - Endurance
+  - Low Light Vision
+  - Natural Weapons
+  - Runner
+  - Tough
+  - Wall-Crawler
 stigma: Xeno (-2)
 tech_level: 3 (High-Altitude Climbing Rigs & Kinetic Carbines)
 meta_level: 1 (Mountain Resonance)
@@ -49,10 +56,10 @@ description: >-
   Horned, ungulate humanoids renowned as mountaineers, high-gravity scouts, and
   perimeter wardens.
 traits:
-  - trait-ungulate-legs-sure-footed-on-cliffs
-  - trait-uncanny-senses-360-degree-vision-hearing
-  - trait-quick-5ft-movement
   - trait-horn-strike-melee-1d6
+  - trait-quick-5ft-movement
+  - trait-uncanny-senses-360-degree-vision-hearing
+  - trait-ungulate-legs-sure-footed-on-cliffs
 recommended_factions:
   - The Alterian Enclave
   - Coalition of Independent Worlds

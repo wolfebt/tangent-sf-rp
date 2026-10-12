@@ -28,7 +28,14 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Ability Check Features
+  - Attractive
+  - Fast Heal
+  - Low Light Vision
+  - Regeneration
+  - Scent
+  - Two-Weapon Fighting
 stigma: 'Genetic (-2), Beastial (-2)'
 tech_level: 4 (Splice Genomics)
 meta_level: 1 (Animalistic Resonance)
@@ -44,6 +51,7 @@ description: >-
   reinforced skin, or thermal vision.
 traits:
   - trait-2-splice-mutations-natural-weapons-chitin-fur-tail
+  - trait-longevity
   - trait-mutation-power-special-perk
 recommended_factions:
   - The Syndicate

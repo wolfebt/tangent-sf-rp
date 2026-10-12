@@ -13,8 +13,10 @@ movement:
   - species_movement-climbing
 speeds: 'Ground 40 ft, Climb 40 ft'
 reach: 5 ft
-senses: 'Uncanny Senses (Vibration detection through surface and hive-mesh out to 60 ft), Multi-eye wide-field vision out to 60 ft.'
-immunities: 'Sleep effects and involuntary unconsciousness (Torpor)'
+senses: >-
+  Uncanny Senses (Vibration detection through surface and hive-mesh out to 60
+  ft), Multi-eye wide-field vision out to 60 ft.
+immunities: Sleep effects and involuntary unconsciousness (Torpor)
 inherent_attribute_modifiers:
   - attribute: Strength
     bonus: 2
@@ -54,17 +56,16 @@ inherent_features:
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - sensory-acute-senses
-  - general-double-jointed
-  - general-fearless
-  - general-runner
-  - skill-self-sufficient
-  - general-quicker
-  - special-weaver
-stigma: 'Severe Xeno / Monstrous'
-tech_level: '3 (Tactical)'
-meta_level: '3 (Instinctual)'
-homeworld: 'Kitin Hive Worlds / Subterranean Spire-Warren'
+  - Acute Senses
+  - Iron Will
+  - Lightning Reflexes
+  - Runner
+  - Self-Sufficient
+  - Weaver
+stigma: Severe Xeno / Monstrous
+tech_level: 3 (Tactical)
+meta_level: 3 (Instinctual)
+homeworld: Kitin Hive Worlds / Subterranean Spire-Warren
 costs:
   bp: 40
 modifiers:
@@ -88,22 +89,23 @@ cp_cost: 40
 cp: 40
 bp: 40
 description: >-
-  The Rakne are an intimidating Arachno-tauric species classified as an Insectoid Aberration.
-  Serving as the "Hands of the Collective," their multi-armed upper torso and quadrupedal spider body
-  weave high-tensile resin webbing, scale vertical surfaces, and infiltrate hostile installations.
+  The Rakne are an intimidating Arachno-tauric species classified as an
+  Insectoid Aberration. Serving as the "Hands of the Collective," their
+  multi-armed upper torso and quadrupedal spider body weave high-tensile resin
+  webbing, scale vertical surfaces, and infiltrate hostile installations.
 traits:
-  - trait-multidextrous-4-arms
+  - trait-camouflage
+  - trait-chitinous-shell-armor
   - trait-climber
   - trait-dual-skeletal-structure
-  - trait-chitinous-shell-armor
   - trait-enhanced-strength
+  - trait-multidextrous-4-arms
+  - trait-quadruped
+  - trait-quick
   - trait-resin-secretion
-  - trait-weaver
   - trait-torpor-universal
   - trait-uncanny-senses-vibration
-  - trait-camouflage
-  - trait-quick
-  - trait-quadruped
+  - trait-weaver
 recommended_factions:
   - Kitin Collective (The Star Hive)
   - Hive Mind Faction Template
@@ -119,8 +121,9 @@ recommended_occupations:
   - Soldier
   - Specialist
 keywords: >-
-  arachnid-kitin, infiltration-expression, arachno-tauric, four-arms, dual-skeletal,
-  resin-weaver, climber, tremorsense, high-tensile-webbing, obsidian-chitin, collective-hands
+  arachnid-kitin, infiltration-expression, arachno-tauric, four-arms,
+  dual-skeletal, resin-weaver, climber, tremorsense, high-tensile-webbing,
+  obsidian-chitin, collective-hands
 negative_keywords: 'diplomatic-court, baseline-humanoid, fragile, open-plains'
 ---
 

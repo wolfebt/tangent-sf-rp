@@ -33,7 +33,12 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Armor (Chitinous Shell)
+  - Darksight
+  - Natural Weapons
+  - Tough
+  - Wall-Crawler
 stigma: Xeno (-2)
 tech_level: 2 (Solar Bio-Crafting)
 meta_level: 1 (Solar Resonance)

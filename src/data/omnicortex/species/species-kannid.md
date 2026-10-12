@@ -35,7 +35,14 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Danger Sense
+  - Low Light Vision
+  - Runner
+  - Scent
+  - Self-Sufficient
+  - Tough
+  - Tracker
 stigma: Xeno (-2)
 tech_level: 3 (Standard Infantry Gear & Tracking Arrays)
 meta_level: 1 (Pack Empathy)
@@ -59,9 +66,9 @@ description: >-
   law enforcers, and close-quarters assault specialists.
 traits:
   - trait-digitigrade
+  - trait-pack-tactics-2-to-hit-when-flanking
   - trait-quick-5ft-movement
   - trait-uncanny-senses-acute-scent-hearing-4
-  - trait-pack-tactics-2-to-hit-when-flanking
 recommended_factions:
   - Coalition of Independent Worlds
   - The Entari Combine

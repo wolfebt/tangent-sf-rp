@@ -33,7 +33,14 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Assessment
+  - Educated
+  - Fast Heal
+  - Jack of all trades
+  - Lightning Calculator
+  - Regeneration
+  - Skill Focus
 stigma: 'Xeno (-2), Luminescent (-1)'
 tech_level: 4 (Psi-Amplifier Holo-Suits)
 meta_level: 4 (High Psionics)
@@ -52,11 +59,13 @@ description: >-
   Slender, glowing humanoids whose feet never touch the ground, communicating
   exclusively via harmonic telepathy and telekinetic flight.
 traits:
-  - trait-awakened-psychic
-  - trait-telepathic-150ft
   - trait-adaptive-aspects
-  - trait-flight-telekinetic-levitation-30ft
+  - trait-ageless
+  - trait-awakened-psychic
   - trait-bioluminescent-body-glow
+  - trait-flight-telekinetic-levitation-30ft
+  - trait-immortal
+  - trait-telepathic-150ft
 recommended_factions:
   - The Alterian Enclave
   - The Ascendancy

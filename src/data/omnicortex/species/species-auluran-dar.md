@@ -33,7 +33,13 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Awakened
+  - Fast Heal
+  - Natural Weapons
+  - Runner
+  - Tolerance
+  - Tough
 stigma: Xeno (-2)
 tech_level: 3 (Bio-Tech Weapons & Neural Symbionts)
 meta_level: 2 (Bio-Psionics)

@@ -33,7 +33,8 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Brutal
 stigma: None
 tech_level: 3 (Ballistics & Heavy Exosuits)
 meta_level: 0 (Null)

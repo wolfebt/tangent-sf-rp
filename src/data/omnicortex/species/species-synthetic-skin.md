@@ -33,7 +33,11 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Camouflage
+  - Deceitful
+  - Jack of all trades
+  - Stealthy
 stigma: Secret (-6) / Severe if Exposed
 tech_level: 4 (Bio-Synthetic Weave & Organic Cloaking)
 meta_level: 1 (Neural Empathy)
@@ -49,9 +53,9 @@ description: >-
   simulated vascular systems, and emotional emulators designed to pass as
   natural organics.
 traits:
+  - trait-alter-self-advanced-cellular-surface
   - trait-synthetic-base-traits
   - trait-synthetic-flesh-shroud-indistinguishable-from-organic-to-casual-scans
-  - trait-alter-self-advanced-cellular-surface
   - trait-thermal-simulation
 recommended_factions:
   - The Syndicate

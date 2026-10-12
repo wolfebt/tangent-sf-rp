@@ -33,7 +33,17 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Adaptive Aspects (Hive Memories)
+  - Awakened
+  - Darksight
+  - Deceitful
+  - Fast Heal
+  - Jack of all trades
+  - Regeneration
+  - Silver Tongue
+  - Stealthy
+  - Trustworthy
 stigma: 'Shifter (-2), Xeno (-2)'
 tech_level: 3 (Adaptive Technology)
 meta_level: 3 (Metamorphic Psionics)
@@ -54,6 +64,8 @@ description: >-
   perfectly, operating as intelligence operatives, infiltrators, and observers.
 traits:
   - trait-aeld-lineage-traits
+  - trait-ageless
+  - trait-alter-form-adv
   - trait-alter-form-humanoid-special-ability
   - trait-sense-alignment-intent
 recommended_factions:

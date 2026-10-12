@@ -34,7 +34,13 @@ inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
 recommended_features:
-  - feature-mighty-surge
+  - Armor (Chitinous Shell)
+  - Camouflage
+  - Iron Will
+  - Low Light Vision
+  - Master Craftsman
+  - Skill Focus
+  - Tough
 stigma: Minor Xeno (-1)
 tech_level: 3 (Heavy Metallurgy & Kinetic Forges)
 meta_level: 1 (Earth / Mineral Resonance)
@@ -57,8 +63,8 @@ description: >-
   Stocky, broad-shouldered heavy-world humans renowned for foundry work,
   starship armor plating, and asteroid mining.
 traits:
-  - trait-mighty-surge-1-encounter-bonus-to-str-sta-checks
   - trait-dense-musculature
+  - trait-mighty-surge-1-encounter-bonus-to-str-sta-checks
   - trait-poison-resistance
 recommended_factions:
   - The Entari Combine

@@ -29,7 +29,20 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Acrobatic Steps
+  - Acute Senses
+  - Athletics Training
+  - Danger Sense
+  - Darksight
+  - Endurance
+  - Lightning Reflexes
+  - Low Light Vision
+  - Nimble Moves
+  - Runner
+  - Scent
+  - Tracker
+  - Wall-Crawler
 stigma: 'Animal (-2), Xeno (-2)'
 tech_level: 2 (Symbiotic Harnesses)
 meta_level: 1 (Pheromone Network)
@@ -61,12 +74,13 @@ description: >-
   manipulative hands, they make up for it with crushing jaw power, thick hide,
   and devastating combat charges.
 traits:
+  - trait-armless-4-penalty-to-manipulation
   - trait-auluran-base-traits
   - trait-large-size
-  - trait-armless-4-penalty-to-manipulation
-  - trait-quick-speed
   - trait-martial-arts
+  - trait-prehensile-tail
   - trait-quadruped-speed-40ft
+  - trait-quick-speed
 recommended_factions:
   - Auluran Clans
   - Mercenary Faction Template

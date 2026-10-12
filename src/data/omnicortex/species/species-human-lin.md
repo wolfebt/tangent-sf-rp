@@ -34,7 +34,11 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Awakened
+  - Companion
+  - Fast Heal
+  - Regeneration
 stigma: Xeno (-2)
 tech_level: 2 (Living Vine Architecture)
 meta_level: 3 (Botanical Psionics)
@@ -57,6 +61,7 @@ traits:
   - trait-awakened-nature-psychic
   - trait-biotech-synergy
   - trait-climber
+  - trait-longevity
   - trait-prehensile-tail
 recommended_factions:
   - Environmental Faction Template

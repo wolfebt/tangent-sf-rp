@@ -29,7 +29,15 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Acute Senses
+  - Armor (Chitinous Shell)
+  - Camouflage
+  - Darksight
+  - Great Fortitude
+  - Lightning Reflexes
+  - Low Light Vision
+  - Swimmer
 stigma: Aquatic Xeno (-3)
 tech_level: 3 (Sub-Surface Habitats & Hydro-Drives)
 meta_level: 1 (Oceanic Echo)
@@ -48,8 +56,8 @@ traits:
   - trait-adapted-aquatic
   - trait-amphibious-gills-lungs
   - trait-aquatic-strength-2-in-water
-  - trait-specialized-senses-underwater-vision-sonar
   - trait-natural-swim-speed-30ft
+  - trait-specialized-senses-underwater-vision-sonar
 recommended_factions:
   - The Syndicate
   - Coalition of Independent Worlds

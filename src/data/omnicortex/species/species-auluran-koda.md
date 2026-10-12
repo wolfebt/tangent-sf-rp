@@ -32,7 +32,13 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Awakened
+  - Fast Heal
+  - Natural Weapons
+  - Runner
+  - Stealthy
+  - Wall-Crawler
 stigma: Xeno (-2)
 tech_level: 3 (Living Habitat Architecture)
 meta_level: 1 (Cellular Attunement)
@@ -57,11 +63,11 @@ description: >-
   breeding chitinous structures.
 traits:
   - trait-auluran-base-traits
-  - trait-digitigrade-legs
-  - trait-climber
-  - trait-quick
-  - trait-martial-arts
   - trait-biotechnology-2-crafting
+  - trait-climber
+  - trait-digitigrade-legs
+  - trait-martial-arts
+  - trait-quick
 recommended_factions:
   - Auluran Clans
   - The Entari Combine

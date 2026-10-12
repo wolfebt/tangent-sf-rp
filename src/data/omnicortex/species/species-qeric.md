@@ -34,7 +34,8 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Wall-Crawler
 stigma: Severe Xeno (-4)
 tech_level: 2 (Lightweight Harnesses)
 meta_level: 1 (Animalistic Empathy)
@@ -69,12 +70,12 @@ description: >-
   Small, charismatic mammalian quadrupeds with patagial gliding membranes who
   navigate high-canopy habitats and urban catwalks.
 traits:
-  - trait-small-size
-  - trait-climbing
-  - trait-patagia-glide-30ft
-  - trait-multidextrous
-  - trait-uncanny-senses-acute-scent
   - trait-climb-speed-30ft
+  - trait-climbing
+  - trait-multidextrous
+  - trait-patagia-glide-30ft
+  - trait-small-size
+  - trait-uncanny-senses-acute-scent
 recommended_factions:
   - The Entari Combine
   - Coalition of Independent Worlds

@@ -35,7 +35,12 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Endurance
+  - Runner
+  - Self-Sufficient
+  - Tolerance
+  - Tough
 stigma: Xeno (-2)
 tech_level: 3 (Bio-Scanners & Lightweight Stealth Armor)
 meta_level: 2 (Predator Sense)
@@ -58,11 +63,11 @@ description: >-
   Feline-influenced human transhumans bred for high-speed reconnaissance, urban
   parkour, and stealth operations.
 traits:
+  - trait-acute-scent
   - trait-fast-10ft-movement
   - trait-jumper-5ft-vertical
   - trait-low-light-vision
   - trait-prehensile-tail
-  - trait-acute-scent
 recommended_factions:
   - The Syndicate
   - Mercenary Faction Template

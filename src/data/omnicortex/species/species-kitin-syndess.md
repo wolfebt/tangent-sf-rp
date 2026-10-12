@@ -12,7 +12,7 @@ movement:
   - species_movement-bipedal
   - species_movement-climbing
 speeds: 'Ground 30 ft (Crawling), Climb 30 ft'
-reach: '5 ft'
+reach: 5 ft
 senses: 'Blind Sense 30 ft (EM/Vibration / Mecha Sensors), Darkvision out to 60 ft.'
 immunities: 'G-force incapacitation, G-LOC, sleep effects'
 inherent_attribute_modifiers:
@@ -56,15 +56,15 @@ inherent_features:
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - sensory-acute-senses
-  - meta-adaptive-aspects
-  - skill-self-sufficient
-  - general-quicker
-  - defensive-poison-immunity
-stigma: 'Minor Xeno (hidden in mecha) / Severe Xeno (exposed)'
-tech_level: '4 (Integration)'
-meta_level: '4 (Resonant with the Manelli)'
-homeworld: 'Kitin Hive Worlds / Spire Foundries & Mecha Vaults'
+  - Acute Senses
+  - Adaptive Aspects (Hive Memories)
+  - Lightning Reflexes
+  - Self-Sufficient
+  - Tolerance
+stigma: Minor Xeno (hidden in mecha) / Severe Xeno (exposed)
+tech_level: 4 (Integration)
+meta_level: 4 (Resonant with the Manelli)
+homeworld: Kitin Hive Worlds / Spire Foundries & Mecha Vaults
 costs:
   bp: 39
 modifiers:
@@ -88,24 +88,26 @@ cp_cost: 39
 cp: 39
 bp: 39
 description: >-
-  The Syndess is the "Integration Expression," a specialized pilot strain resembling an elongated, multi-segmented
-  larva roughly 3 feet long. Serving as the "Ghost in the Machine" for Kitin mecha and bio-structures, they fuse
-  directly with synaptic nodes to provide conscious guidance, extreme agility, and distributed subsystem mastery.
+  The Syndess is the "Integration Expression," a specialized pilot strain
+  resembling an elongated, multi-segmented larva roughly 3 feet long. Serving as
+  the "Ghost in the Machine" for Kitin mecha and bio-structures, they fuse
+  directly with synaptic nodes to provide conscious guidance, extreme agility,
+  and distributed subsystem mastery.
 traits:
-  - trait-synaptic-integration
-  - trait-multidextrous-many-limbed
-  - trait-g-force-immunity
-  - trait-torpor-universal
+  - trait-awakened-psychic
   - trait-blind-sense-em-vibration
-  - trait-dual-skeletal-structure
   - trait-chitinous-shell-armor
   - trait-climber
-  - trait-awakened-psychic
+  - trait-dual-skeletal-structure
+  - trait-enhanced-biotechnology
+  - trait-fragile-frame
+  - trait-g-force-immunity
   - trait-genetic-memory
   - trait-hive-link
-  - trait-enhanced-biotechnology
+  - trait-multidextrous-many-limbed
   - trait-property-boon
-  - trait-fragile-frame
+  - trait-synaptic-integration
+  - trait-torpor-universal
 recommended_factions:
   - Kitin Collective (The Star Hive)
   - Hive Mind Faction Template
@@ -122,8 +124,9 @@ recommended_occupations:
   - Agent
   - Scholar
 keywords: >-
-  syndess, pilot-expression, integration-strain, biomorphic-mecha, synaptic-integration,
-  ghost-in-the-machine, chorus-synchronization, multidextrous-many-limbed, g-force-immunity
+  syndess, pilot-expression, integration-strain, biomorphic-mecha,
+  synaptic-integration, ghost-in-the-machine, chorus-synchronization,
+  multidextrous-many-limbed, g-force-immunity
 negative_keywords: 'mechanical-cockpit, manual-controls, solitary-pilot'
 ---
 

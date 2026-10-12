@@ -30,7 +30,14 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Attractive
+  - Deceitful
+  - Entertaining
+  - Silver Tongue
+  - Social
+  - Stealthy
+  - Trustworthy
 stigma: Shifter (-2)
 tech_level: 3 (Cosmetic Synthesis)
 meta_level: 2 (Empathic Resonance)

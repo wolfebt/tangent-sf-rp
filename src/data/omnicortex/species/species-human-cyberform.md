@@ -33,7 +33,11 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Adaptive Aspects (Hive Memories)
+  - Jack of all trades
+  - Regeneration
+  - Technologist
 stigma: 'Xeno (-2), Augmented (-4)'
 tech_level: 4 (Advanced Cybernetics & Neural Sockets)
 meta_level: 0 (Null / Technological Optimization)
@@ -53,6 +57,7 @@ description: >-
   bodies with cybernetic augmentations, internal processors, and sub-dermal
   nano-repair hives.
 traits:
+  - trait-ageless
   - trait-augmented-sub-dermal-body-comp-pico-surgeons-smart-link
   - trait-bodyform-acclimation-0-cyber-strain
   - trait-companion-integrated-sub-ai-assistant

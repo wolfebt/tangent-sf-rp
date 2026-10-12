@@ -11,9 +11,11 @@ size:
   - species_size-large
 movement:
   - species_movement-flight
-speeds: 'Flight 30 ft'
-reach: '5 ft (Fine individual) / 10 ft (Manifested Swarm)'
-senses: 'Blind Sight 30 ft (Acoustic, chemical, and EM resonance), Darkvision out to 60 ft.'
+speeds: Flight 30 ft
+reach: 5 ft (Fine individual) / 10 ft (Manifested Swarm)
+senses: >-
+  Blind Sight 30 ft (Acoustic, chemical, and EM resonance), Darkvision out to 60
+  ft.
 immunities: 'Sleep effects, single-target precision strikes, paralysis, and stunning'
 inherent_attribute_modifiers:
   - attribute: Agility
@@ -43,17 +45,17 @@ inherent_features:
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - sensory-acute-senses
-  - meta-adaptive-aspects
-  - discipline-awakened
-  - defensive-poison-immunity
-  - physical-toxic-blood
-  - combat-venomous-saliva
-  - combat-venom-spit
+  - Acute Senses
+  - Adaptive Aspects (Hive Memories)
+  - Awakened
+  - Tolerance
+  - Toxic Resistance
+  - Venom Spit
+  - Venomous Saliva
 stigma: 'Severe Xeno, Monstrous (when inhabiting hosts)'
-tech_level: '— (Utilizes biological zombification of host technology)'
-meta_level: '3 (Resonant / Chaotic)'
-homeworld: 'NBC War-Scorched Kitin Waste Worlds'
+tech_level: — (Utilizes biological zombification of host technology)
+meta_level: 3 (Resonant / Chaotic)
+homeworld: NBC War-Scorched Kitin Waste Worlds
 costs:
   bp: 24
 modifiers:
@@ -69,20 +71,21 @@ cp_cost: 24
 cp: 24
 bp: 24
 description: >-
-  The Riezen are a divergent swarm of thousands of fine-sized insects acting as a singular psionic
-  entity. Born of planetary NBC fallout, they exist outside the Kitin Collective as a biological heresy,
-  emitting disruptive psionic static and zombifying host corpses as armored shells.
+  The Riezen are a divergent swarm of thousands of fine-sized insects acting as
+  a singular psionic entity. Born of planetary NBC fallout, they exist outside
+  the Kitin Collective as a biological heresy, emitting disruptive psionic
+  static and zombifying host corpses as armored shells.
 traits:
-  - trait-hive-mind-swarm
-  - trait-telepathic
-  - trait-host-zombification
-  - trait-psionic-interference-static
-  - trait-swarm-fast-heal-regeneration
-  - trait-honey-paper-manufacture
-  - trait-sleepless
   - trait-adaptive-features
   - trait-blind-sight-swarm
   - trait-exoskeleton-light
+  - trait-hive-mind-swarm
+  - trait-honey-paper-manufacture
+  - trait-host-zombification
+  - trait-psionic-interference-static
+  - trait-sleepless
+  - trait-swarm-fast-heal-regeneration
+  - trait-telepathic
 recommended_factions:
   - Hive Mind Faction Template
   - Alien Faction Template
@@ -97,8 +100,9 @@ recommended_occupations:
   - Adept
   - Agent
 keywords: >-
-  divergent-swarm, insect-ooze, psionic-static, counter-chorus, host-zombification,
-  honey-paper-manufacture, blindsight, fast-heal-regeneration, nbc-survivor, toxic-cloud
+  divergent-swarm, insect-ooze, psionic-static, counter-chorus,
+  host-zombification, honey-paper-manufacture, blindsight,
+  fast-heal-regeneration, nbc-survivor, toxic-cloud
 negative_keywords: 'orderly-chorus, solitary-humanoid, rigid-endoskeleton'
 ---
 

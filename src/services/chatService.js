@@ -448,7 +448,8 @@ export const ChatService = {
         photoURL: currentUser.photoURL || null
       };
 
-      if (extra.activePersona) {
+      const tombstones = getFolioTombstones();
+      if (extra.activePersona && !isPersonaEmptyTemplate(extra.activePersona) && !isFolioPersonaDeleted(extra.activePersona, tombstones)) {
         payload.currentPersona = {
           id: extra.activePersona['character-doc-id'] || extra.activePersona.id,
           name: extra.activePersona['char-name'] || extra.activePersona.name || 'Persona',
@@ -456,10 +457,15 @@ export const ChatService = {
           role: extra.activePersona['char-concept'] || extra.activePersona.role || extra.activePersona['char-occu'] || 'Specialist',
           avatar: extra.activePersona.avatar || null
         };
+      } else if (extra.activePersona === null || extra.clearActivePersona) {
+        payload.currentPersona = null;
       }
 
       if (Array.isArray(extra.personasSummary)) {
-        payload.personas = extra.personasSummary;
+        const validPersonas = extra.personasSummary.filter(p => !isFolioPersonaDeleted(p, tombstones) && !isPersonaEmptyTemplate(p));
+        if (validPersonas.length > 0 || extra.forceEmptyPersonas) {
+          payload.personas = validPersonas;
+        }
       }
 
       await setDoc(userDocRef, payload, { merge: true });
@@ -484,6 +490,9 @@ export const ChatService = {
 
       snapshot.forEach(d => {
         const uData = d.data();
+        if (Array.isArray(uData.deletedPersonaIds) && uData.deletedPersonaIds.length > 0) {
+          addFolioTombstone(uData.deletedPersonaIds);
+        }
         const online = ChatService.isUserOnline(uData);
         const effectiveHandle = getEffectiveUserHandle({ ...uData, uid: d.id });
 

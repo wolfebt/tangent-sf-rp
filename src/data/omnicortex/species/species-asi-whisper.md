@@ -31,7 +31,12 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Acute Senses
+  - Deceitful
+  - Discipline Features
+  - Fast Heal
+  - Stealthy
 stigma: Fey (-2)
 tech_level: 3 (Optical Mirage Tech)
 meta_level: 4 (Ethereal Illusion)
@@ -51,11 +56,11 @@ description: >-
   light or manifest as ghostly humanoid silhouettes. They pass through locks and
   sensory grids undetected.
 traits:
-  - trait-asi-base-traits
   - trait-alter-form-wisp-orb-form-special-ability
+  - trait-asi-base-traits
   - trait-awakened-nature
-  - trait-silent-step
   - trait-flight-in-wisp-form
+  - trait-silent-step
 recommended_factions:
   - The Alterian Enclave
   - The Syndicate

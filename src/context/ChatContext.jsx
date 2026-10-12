@@ -57,7 +57,7 @@ export const getChannelAddressingMode = (channel) => {
 export const ChatProvider = ({ children }) => {
   const { currentUser, userHandle, openAuthModal } = useAuth() || {};
   const folio = useFolio() || {};
-  const { activePersona: folioActivePersona, personaRoster, roster, togglePersonaNetworkEngaged } = folio;
+  const { activePersona: folioActivePersona, personaRoster, roster, togglePersonaNetworkEngaged, cloudSaveStatus } = folio;
 
   const [channels, setChannels] = useState(DEFAULT_PUBLIC_CHANNELS);
   const [activeChannelId, setActiveChannelId] = useState('public_general');
@@ -195,6 +195,7 @@ export const ChatProvider = ({ children }) => {
     if (!currentUser) return;
 
     const currentPersona = selectedPersona || folioActivePersona;
+    const isConfirmedEmpty = cloudSaveStatus === 'saved' && Array.isArray(personaRoster) && personaRoster.length === 0;
     const personasSummary = currentUserCharacters.map(c => ({
       id: c.id,
       'character-doc-id': c.id,
@@ -207,14 +208,16 @@ export const ChatProvider = ({ children }) => {
     ChatService.updateUserPresence(currentUser, 'online', {
       userHandle,
       activePersona: currentPersona,
-      personasSummary
+      personasSummary,
+      forceEmptyPersonas: isConfirmedEmpty
     });
 
     const interval = setInterval(() => {
       ChatService.updateUserPresence(currentUser, 'online', {
         userHandle,
         activePersona: selectedPersona || folioActivePersona,
-        personasSummary
+        personasSummary,
+        forceEmptyPersonas: isConfirmedEmpty
       });
     }, 60000);
 
@@ -223,7 +226,8 @@ export const ChatProvider = ({ children }) => {
       ChatService.updateUserPresence(currentUser, isVisible ? 'online' : 'idle', {
         userHandle,
         activePersona: selectedPersona || folioActivePersona,
-        personasSummary
+        personasSummary,
+        forceEmptyPersonas: isConfirmedEmpty
       });
     };
 
@@ -239,7 +243,7 @@ export const ChatProvider = ({ children }) => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
-  }, [currentUser, userHandle, selectedPersona, folioActivePersona, currentUserCharacters]);
+  }, [currentUser, userHandle, selectedPersona, folioActivePersona, currentUserCharacters, cloudSaveStatus, personaRoster]);
 
   // Subscribe to channels visible to current user
   useEffect(() => {

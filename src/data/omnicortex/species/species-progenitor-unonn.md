@@ -27,7 +27,12 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Discipline Features
+  - Educated
+  - Iron Will
+  - Lightning Calculator
+  - Master Craftsman
 stigma: 'Deific (-6), Xeno (-2)'
 tech_level: 5 (Exotic Precursor Tech)
 meta_level: 6 (Deific Metaphysics)
@@ -58,10 +63,10 @@ description: >-
   U’Nonn are ancient primordial progenitors who command matter and energy
   directly through pure thought and deific metaphysical matrices.
 traits:
-  - trait-progenitor-heritage-base
-  - trait-large-size
   - trait-absolute-mental-fortitude
+  - trait-large-size
   - trait-matter-reshaping-special-ability
+  - trait-progenitor-heritage-base
 recommended_factions:
   - Alien Faction Template
   - Supernatural Faction Template

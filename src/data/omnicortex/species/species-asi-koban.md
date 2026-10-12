@@ -30,7 +30,15 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Acute Senses
+  - Animal Affinity
+  - Assessment
+  - Awakened
+  - Danger Sense
+  - Fast Heal
+  - Regeneration
+  - Runner
 stigma: 'Animal (-2), Xeno (-2)'
 tech_level: 2 (Primal Tools)
 meta_level: 3 (Metamorphic Nature)
@@ -58,11 +66,15 @@ description: >-
   vanish into wilderness thickets by adopting localized animal and humanoid
   silhouettes.
 traits:
-  - trait-asi-base-traits
-  - trait-small-medium-size-shift
-  - trait-climber
+  - trait-ageless
+  - trait-alter-form-adv
   - trait-alter-form-humanoid
+  - trait-alternate-form
+  - trait-asi-base-traits
   - trait-awakened-nature
+  - trait-climber
+  - trait-immortal
+  - trait-small-medium-size-shift
 recommended_factions:
   - Elven Providence
   - Coalition of Independent Worlds

@@ -37,7 +37,11 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Armor (Chitinous Shell)
+  - Brutal
+  - Mighty Surge
+  - Tough
 stigma: Severe Synthetic (-4)
 tech_level: 2 (Arcane Masonry & Runic Seals)
 meta_level: 4 (Runic Core Animation)
@@ -80,11 +84,11 @@ description: >-
   Constructed from enchanted alloys, granite, or obsidian and animated by arcane
   runic cores, Golems are unstoppable heavy sentinels.
 traits:
-  - trait-synthetic-base-traits
   - trait-large-size
-  - trait-stone-metal-alloy-body-dr-8
   - trait-magic-core-power
   - trait-spell-resistance-4-vs-magic
+  - trait-stone-metal-alloy-body-dr-8
+  - trait-synthetic-base-traits
 recommended_factions:
   - The Alterian Enclave
   - The Silvermoon Vanguard

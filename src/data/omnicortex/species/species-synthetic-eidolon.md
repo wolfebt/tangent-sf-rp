@@ -35,7 +35,11 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Darksight
+  - Discipline Features
+  - Educated
+  - Lightning Calculator
 stigma: 'Synthetic (-2), Severe Xeno (-6)'
 tech_level: 5 (Zero-Point Energy & Chrono-Lattices)
 meta_level: 5 (Crystalline Metaphysics)
@@ -55,10 +59,10 @@ description: >-
   consensus hive intelligence, photonic fluid pathways, and transcendent
   spacetime manipulation.
 traits:
-  - trait-synthetic-base-traits
-  - trait-crystalline-photonic-physiology
   - trait-consensus-mesh-telepathy
+  - trait-crystalline-photonic-physiology
   - trait-photonic-bleed-energy-sustenance
+  - trait-synthetic-base-traits
   - trait-tech-level-5-meta-level-5-relic-matrix
 recommended_factions:
   - The Alterian Enclave

@@ -30,7 +30,12 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Darksight
+  - Deceitful
+  - Discipline Features
+  - Iron Will
+  - Stealthy
 stigma: 'Monstrous (-6), Xeno (-2)'
 tech_level: 4 (Void Siphons & Dark Matter Taps)
 meta_level: 5 (Void Reality-Warping)
@@ -54,12 +59,12 @@ traits:
   - trait-alter-form-void-wisp-shadow-special-ability
   - trait-awakened-void
   - trait-fast-healing
+  - trait-flight
   - trait-immortal
   - trait-non-typical-anatomy
   - trait-regeneration-2-hp-rnd
   - trait-semi-corporeal
   - trait-telepathic-100ft
-  - trait-flight
   - trait-vampiric-4-essence-drain-need
 recommended_factions:
   - Cosmic Horror Faction Template

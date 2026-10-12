@@ -30,7 +30,8 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Regeneration
 stigma: Xeno (-2)
 tech_level: 3 (Cryo-Biotechnology)
 meta_level: 2 (Cellular Metamorphosis)
@@ -50,13 +51,13 @@ description: >-
   shift between a slender humanoid form for technology operation and a bulky
   furred predator form for tundra survival.
 traits:
-  - trait-auluran-base-traits
-  - trait-digitigrade
-  - trait-climber
-  - trait-quick
   - trait-adapted-cold-environments
   - trait-alternate-form-humanoid-beast-form
+  - trait-auluran-base-traits
+  - trait-climber
+  - trait-digitigrade
   - trait-improved-great-fortitude
+  - trait-quick
 recommended_factions:
   - Auluran Clans
   - Coalition of Independent Worlds

@@ -31,7 +31,12 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Armor (Chitinous Shell)
+  - Darksight
+  - Natural Weapons
+  - Tolerance
+  - Tough
 stigma: Xeno (-2)
 tech_level: 3 (Aerodynamic Laminates & Long-Rifle Snipers)
 meta_level: 2 (Aero-Kinetic Wind Weaving)
@@ -46,10 +51,10 @@ description: >-
   Magnificent winged humanoids possessing feathered plumage, eagle-like
   telescopic eyesight, and aerial supremacy.
 traits:
-  - trait-uncanny-senses-telescopic-vision-4
   - trait-flight-winged-speed-50ft
   - trait-hollow-bone-agility
   - trait-thermal-current-riding
+  - trait-uncanny-senses-telescopic-vision-4
 recommended_factions:
   - The Entari Combine
   - Coalition of Independent Worlds

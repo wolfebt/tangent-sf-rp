@@ -12,7 +12,7 @@ movement:
   - species_movement-bipedal
 speeds: Ground 30 ft
 reach: 5 ft
-senses: Blind Sense (Scent/EM 30 ft radius), Standard visual and auditory range.
+senses: 'Blind Sense (Scent/EM 30 ft radius), Standard visual and auditory range.'
 immunities: Sleep effects and involuntary unconsciousness
 inherent_attribute_modifiers:
   - attribute: Intellect
@@ -46,17 +46,17 @@ inherent_features:
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - sensory-acute-senses
-  - meta-adaptive-aspects
-  - general-assessment
-  - general-jack-of-all-trades
-  - special-low-light-vision
-  - defensive-poison-immunity
-  - meta-sense-psychic
-  - skill-silver-tongue
-  - physical-toxic-blood
-  - combat-venomous-saliva
-  - combat-venom-spit
+  - Acute Senses
+  - Adaptive Aspects (Hive Memories)
+  - Assessment
+  - Jack of all trades
+  - Low Light Vision
+  - Sense (Psychic)
+  - Silver Tongue
+  - Tolerance
+  - Toxic Resistance
+  - Venom Spit
+  - Venomous Saliva
 stigma: Minor Xeno (hidden) / Severe Xeno (revealed)
 tech_level: 4 (Advanced Psionic/Biomorphic)
 meta_level: 4 (Psionic)
@@ -88,18 +88,18 @@ cp_cost: 39
 cp: 39
 bp: 39
 description: >-
-  The Manelli are the striking and enigmatic "Face of the Collective" and primary
-  Brood-Masters. Psionically steered into a mimetic humanoid form with internal
-  endoskeletons and emerald copper-based blood, they conduct the Chorus and bridge
-  the hive mind with galactic civilizations.
+  The Manelli are the striking and enigmatic "Face of the Collective" and
+  primary Brood-Masters. Psionically steered into a mimetic humanoid form with
+  internal endoskeletons and emerald copper-based blood, they conduct the Chorus
+  and bridge the hive mind with galactic civilizations.
 traits:
-  - trait-kitin-base-traits
-  - trait-mimetic-form
-  - trait-genetic-memory
-  - trait-hive-link
-  - trait-torpor-universal
   - trait-blind-sense-scent-em
   - trait-enhanced-biotechnology
+  - trait-genetic-memory
+  - trait-hive-link
+  - trait-kitin-base-traits
+  - trait-mimetic-form
+  - trait-torpor-universal
 recommended_factions:
   - Kitin Collective (The Star Hive)
   - Hive Mind Faction Template
@@ -114,8 +114,9 @@ recommended_occupations:
   - Specialist
   - Scholar
 keywords: >-
-  humanoid-kitin, cerebral-expression, brood-master, mimetic-humanoid, hive-chorus,
-  genetic-memory, telepathic-link, torpor, green-blooded, insectivore-omnivore
+  humanoid-kitin, cerebral-expression, brood-master, mimetic-humanoid,
+  hive-chorus, genetic-memory, telepathic-link, torpor, green-blooded,
+  insectivore-omnivore
 negative_keywords: 'berserker-rage, isolation, xenophobic, individualist'
 ---
 

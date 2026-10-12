@@ -34,7 +34,8 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Augmented
 stigma: Synthetic (-2)
 tech_level: 3 (Salvage & Reclaimed Hardware)
 meta_level: 0 (Null)
@@ -53,10 +54,10 @@ description: >-
   Scraps are self-assembled, autonomous synthetic beings constructed from
   recycled chassis, discarded starship components, and industrial hulls.
 traits:
-  - trait-synthetic-base-traits
-  - trait-heavy-augmentation-slots-3-free-cyber-slots
   - trait-field-self-repair-protocol
+  - trait-heavy-augmentation-slots-3-free-cyber-slots
   - trait-scrap-plating-dr-6
+  - trait-synthetic-base-traits
 recommended_factions:
   - The Outworlds
   - Coalition of Independent Worlds

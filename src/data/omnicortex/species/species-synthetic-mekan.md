@@ -34,7 +34,16 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Armor (Chitinous Shell)
+  - Assessment
+  - Educated
+  - Flight
+  - Gifted Pilot
+  - Jack of all trades
+  - Lightning Calculator
+  - Master Craftsman
+  - Skill Focus
 stigma: Severe Synthetic (-4)
 tech_level: 4 (Adaptive Nanite Reconfiguration)
 meta_level: 3 (Technomancy)
@@ -53,11 +62,12 @@ description: >-
   Mekan are self-evolving nanite and modular machines capable of assimilating,
   repurposing, and technokinetically manipulating electronic systems.
 traits:
-  - trait-synthetic-base-traits
+  - trait-adapted
   - trait-double-adaptive-aspects
-  - trait-telepathic-technopathic-network
+  - trait-synthetic-base-traits
   - trait-tech-assimilation-integrates-alien-gear-instantly
   - trait-technokinesis-special-ability
+  - trait-telepathic-technopathic-network
 recommended_factions:
   - The Mekan Collective
   - Technological Faction Template

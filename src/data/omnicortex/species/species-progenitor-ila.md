@@ -38,7 +38,12 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Discipline Features
+  - Educated
+  - Iron Will
+  - Lightning Calculator
+  - Master Craftsman
 stigma: 'Deific (-6), Xeno (-2)'
 tech_level: 5 (Precursor Singularity Manipulation)
 meta_level: 6 (Deific / Reality Reshaping)
@@ -77,11 +82,11 @@ description: >-
   The Ila are god-like precursor architects of transcendent intelligence and
   luminous presence, founders of ancient megastructures and stargates.
 traits:
+  - trait-corporeal-as-desired
+  - trait-flicker-movement-teleport-60ft-as-move-action
+  - trait-large-size
   - >-
     trait-progenitor-traits-awakened-x6-telepathy-telekinesis-fast-heal-regeneration-ageless-immortal
-  - trait-corporeal-as-desired
-  - trait-large-size
-  - trait-flicker-movement-teleport-60ft-as-move-action
 recommended_factions:
   - The Alterian Enclave
   - Sentient Intelligence Faction Template
