@@ -585,6 +585,7 @@ export const CommunityNetworkingView = ({ onNavigateToSquad }) => {
                             }}
                             className="p-1.5 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer shrink-0"
                             title="Copy Join Code"
+                            aria-label="Copy Join Code"
                           >
                             <Copy size={13} />
                           </button>
@@ -715,7 +716,7 @@ const FlagPersonaLftModal = ({ isOpen, onClose, personas = [], currentUser, exis
               </p>
             </div>
           </div>
-          <button type="button" onClick={onClose} className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer">
+          <button type="button" onClick={onClose} className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer" aria-label="Close form" title="Close">
             <X size={15} />
           </button>
         </div>
@@ -877,7 +878,7 @@ const FlagSquadLfpModal = ({ isOpen, onClose, squads = [], currentUser, onSave, 
               </p>
             </div>
           </div>
-          <button type="button" onClick={onClose} className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer">
+          <button type="button" onClick={onClose} className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer" aria-label="Close form" title="Close">
             <X size={15} />
           </button>
         </div>
