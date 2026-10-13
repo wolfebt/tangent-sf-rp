@@ -6,6 +6,7 @@ description: >-
   Target not defending, surprised, or still vs. CR 15 (Average) for medium
   target at short range.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

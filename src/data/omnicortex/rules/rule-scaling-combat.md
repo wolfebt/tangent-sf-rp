@@ -6,6 +6,7 @@ description: >-
   Scaling multiplies weapon damage dice, adjusts Defense scores, and scales
   speed/distance.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

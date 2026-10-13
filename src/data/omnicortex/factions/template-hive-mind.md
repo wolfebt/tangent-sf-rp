@@ -53,6 +53,7 @@ description: >-
   "individual" is entirely foreign. They act with absolute, terrifying
   synchronicity
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Faction Template
@@ -121,7 +122,7 @@ negative_keywords: >-
   * Survival (+4)  
   * Stealth (+3)  
 * **Typical Archetypes:** The Drone, The Synapse Node, The Infiltrator, The Siege-Breaker, The Queen.  
-* **Recommended Features (1 BP Discount):** Mind Link, Fearless, Uncanny Dodge, Wall-Crawler, Swarm Tactics (Coordinated Assist), Echolocation, Endurance, Diehard, Natural Weapons, Scent.
+* **Recommended Features (1 CP Discount):** Mind Link, Fearless, Uncanny Dodge, Wall-Crawler, Swarm Tactics (Coordinated Assist), Echolocation, Endurance, Diehard, Natural Weapons, Scent.
 
 ### **VI. Visual Semiotics (Aesthetics)**
 

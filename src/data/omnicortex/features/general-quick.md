@@ -9,16 +9,18 @@ is_multiple: false
 prerequisites: Agility 1
 description: The character is naturally fleet of foot.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'quick, general, special-feature, naturally'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Quick
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Agility 1
 
 ## Description

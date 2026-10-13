@@ -4,6 +4,7 @@ name: Object / Construct
 description: 'Targets inanimate hardware, structural modules, weapons, or vehicles.'
 category: target
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

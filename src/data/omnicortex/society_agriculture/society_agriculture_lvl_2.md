@@ -8,6 +8,7 @@ description: >-
   Level 2 development in Agriculture & Biosphere: Food production, farming
   technologies, hydroponics, and ecosystem synthesis. (Modern / Planetary).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

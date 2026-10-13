@@ -7,6 +7,7 @@ description: >-
   Pulling back defensively at base speed. NO Modifiers and not counted as a
   Retreating Target.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -6,6 +6,7 @@ description: >-
   Holy light, divine righteousness, and planar radiance. Devastating against
   fiends, undead, and unholy beings; may heal allies.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

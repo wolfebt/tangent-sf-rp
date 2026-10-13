@@ -9,16 +9,18 @@ is_multiple: false
 prerequisites: None
 description: The character's eyes magnify ambient light.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'low light vision, special, special-feature, character''s, magnify, ambient'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Low Light Vision
 
 **Category**: Special Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: None
 
 ## Description

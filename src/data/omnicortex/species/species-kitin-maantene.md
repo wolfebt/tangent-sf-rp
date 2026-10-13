@@ -59,7 +59,8 @@ tech_level: 3 (Environmental)
 meta_level: 3 (Awakened)
 homeworld: Kitin Hive Worlds / Arid Frontier Warrens
 costs:
-  bp: 40
+  cp: 37
+  bp: 37
 modifiers:
   - target: Agility
     value: 2
@@ -73,9 +74,9 @@ modifiers:
     value: -1
     type: attribute
     mode: inherent
-cp_cost: 40
-cp: 40
-bp: 40
+cp_cost: 37
+cp: 37
+bp: 37
 description: >-
   The Maantene represent the "Recon Expression" of the Kitin Collective,
   specialized for survival in hostile frontiers. Quadrupedal with mantis-like
@@ -115,7 +116,7 @@ negative_keywords: 'individualism, diplomatic-court, fragile, sleep-vulnerable'
 
 # Maantene (Kitin Recon Expression / Quadruped)
 
-**BP Cost:** 40 BP  
+**CP Cost:** 37 CP  
 **Classification:** Insectoid Aberration (Quadruped)  
 **Size:** Medium  
 **Movement:** 40ft Groundspeed (Leaping)  
@@ -139,24 +140,24 @@ The Maantene represent the "Recon Expression," specialized for survival in hosti
 * **Stigma:** Severe Xeno
 
 ## Ability Modifiers
-* **+2 Agility** (4 BP)
-* **+1 Stamina** (4 BP)
-* **-1 Charisma** (-4 BP)
+* **+2 Agility** (4 CP)
+* **+1 Stamina** (4 CP)
+* **-1 Charisma** (-4 CP)
 
 ## Skills
-* **+10 Skill Ranks to ANY skills** (8 BP)
+* **+10 Skill Ranks to ANY skills** (8 CP)
 
 ## Species Features
-* **Awakened (Psychic, Int or Wis):** Conductor of the Hive’s psionic Chorus. (2 BP)
-* **Leaper:** Always counts as a running start, all checks for jumping, leaping and dropping at advantage. (2 BP)
-* **Dual Skeletal Structure:** Combined endo/exo-skeleton (DR +5). (2 BP)
-* **Armor:** Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10] (2 BP)
-* **Enhanced Strength:** Count as 1 size larger for lifting and carrying. (2 BP)
-* **Camouflage (Active):** Chitin can shift texture and hue to blend into their environment, shifting to a variety of colors as desired - including light absorbing vanta-black and can visually camo so well they seem to fade away into transparency. (4 BP)
-* **Quadruped (Leaping):** Specialized legs for high-impact jumping. (2 BP)
-* **Multidextrous (4 Arms):** Two combat arms, two manipulation arms. (4 BP)
-* **Torpor (Universal):** 4 hours of conscious rest; no loss of awareness. (2 BP)
-* **Uncanny Senses (Vibration):** Sensitive to atmospheric and ground ripples. (2 BP)
+* **Awakened (Psychic, Int or Wis):** Conductor of the Hive’s psionic Chorus. (2 CP)
+* **Leaper:** Always counts as a running start, all checks for jumping, leaping and dropping at advantage. (2 CP)
+* **Dual Skeletal Structure:** Combined endo/exo-skeleton (DR +5). (2 CP)
+* **Armor:** Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10] (2 CP)
+* **Enhanced Strength:** Count as 1 size larger for lifting and carrying. (2 CP)
+* **Camouflage (Active):** Chitin can shift texture and hue to blend into their environment, shifting to a variety of colors as desired - including light absorbing vanta-black and can visually camo so well they seem to fade away into transparency. (4 CP)
+* **Quadruped (Leaping):** Specialized legs for high-impact jumping. (2 CP)
+* **Multidextrous (4 Arms):** Two combat arms, two manipulation arms. (4 CP)
+* **Torpor (Universal):** 4 hours of conscious rest; no loss of awareness. (2 CP)
+* **Uncanny Senses (Vibration):** Sensitive to atmospheric and ground ripples. (2 CP)
 
 ## Recommended Features
 * **Ability Check Feature**

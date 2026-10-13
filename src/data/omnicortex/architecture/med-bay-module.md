@@ -21,6 +21,7 @@ description: >-
   bays.
 mechanic: Counts as Sterile Environment. Grants +2 to Medical checks.
 costs:
+  cp: 0
   bp: 0
   credits: 5000
   nodes: 0

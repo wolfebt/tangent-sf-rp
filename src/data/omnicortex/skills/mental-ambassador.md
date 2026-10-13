@@ -20,6 +20,7 @@ synergy_links:
   - mental-culture
   - mental-nobility
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'ambassador, mental, charisma, intellect, cognitive, expertise'

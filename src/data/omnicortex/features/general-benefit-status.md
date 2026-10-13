@@ -11,16 +11,18 @@ description: >-
   High social standing, aristocratic titles, noble rank, executive board
   standing, and associated wealth stipends.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'benefit (status), general, special-feature, social, standing, aristocratic'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Benefit (Status)
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Special (Aristocratic or Corporate lineage)
 
 ## Description

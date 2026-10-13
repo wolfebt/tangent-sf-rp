@@ -58,6 +58,7 @@ description: >-
   to control resources, expand their influence, and develop new technologies at
   the expense of ethics
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Faction Template
@@ -124,7 +125,7 @@ negative_keywords: >-
   * Insight (+3)  
   * Streetwise (+3)  
 * **Typical Archetypes:** The Executive, The Fixer, The Auditor, The Corporate Spy, The PR Rep, The Security Chief, The Data Broker, The R\&D Scientist, The HR Enforcer, The Asset Liquidator.  
-* **Recommended Features (1 BP Discount):** Benefit (Wealth), Benefit (Clearance), Silver Tongue, Connected, Well-Informed, Golden Smile, Legal Immunity, Platinum Personality, Corporate Sponsorship, Ruthless Negotiation.
+* **Recommended Features (1 CP Discount):** Benefit (Wealth), Benefit (Clearance), Silver Tongue, Connected, Well-Informed, Golden Smile, Legal Immunity, Platinum Personality, Corporate Sponsorship, Ruthless Negotiation.
 
 ### **VI. Visual Semiotics (Aesthetics)**
 

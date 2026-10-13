@@ -11,6 +11,7 @@ mechanic: >-
   Regeneration trait (Regenerates 1 HP/hour). Feeding organic matter repairs 1d4
   HP instantly (requires Trained Xenobiology).
 costs:
+  cp: 0
   bp: 0
   credits: 2560
   nodes: 0

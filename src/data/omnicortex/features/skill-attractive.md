@@ -11,16 +11,18 @@ description: >-
   The character possesses striking physical beauty or magnetic appeal that
   captures attention.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'attractive, skill, special-feature, possesses, striking, physical'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Attractive
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Charisma 2
 
 ## Description

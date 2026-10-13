@@ -276,6 +276,19 @@ export const FolioTooltip = ({
     return [];
   }, [associatedEquipment, skillBreakdown]);
 
+  const formattedPrerequisites = useMemo(() => {
+    if (!prerequisites) return '';
+    if (Array.isArray(prerequisites)) {
+      return prerequisites.filter(Boolean).map(String).join(', ');
+    }
+    if (typeof prerequisites === 'object') {
+      return prerequisites.text || prerequisites.name || '';
+    }
+    const str = String(prerequisites).trim();
+    if (!str || str.toLowerCase() === 'none' || str === '-' || str === '—' || str === '.') return '';
+    return str;
+  }, [prerequisites]);
+
   const hasModifiers = activeModifierList.length > 0;
   const hasContent = Boolean(
     title || 
@@ -284,7 +297,7 @@ export const FolioTooltip = ({
     rules || 
     notes || 
     hasModifiers || 
-    prerequisites || 
+    formattedPrerequisites || 
     cost || 
     skillBreakdown || 
     equippedItems.length > 0
@@ -346,7 +359,7 @@ export const FolioTooltip = ({
         </div>
 
         {/* Prerequisites */}
-        {prerequisites && (
+        {formattedPrerequisites && (
           <div className={`text-[10.5px] font-mono px-2 py-1 rounded border ${
             prerequisiteMet === false
               ? 'bg-rose-950/80 text-rose-200 border-rose-500/70 shadow-[0_0_10px_rgba(244,63,94,0.25)]'
@@ -362,7 +375,7 @@ export const FolioTooltip = ({
                 <span className="text-amber-400">Prereq:</span>
               )}
             </div>
-            <div className="text-[10.5px] text-slate-200 mt-0.5">{prerequisites}</div>
+            <div className="text-[10.5px] text-slate-200 mt-0.5">{formattedPrerequisites}</div>
             {prerequisiteMet === false && prerequisiteUnmetReasons && (
               <div className="text-[9.5px] text-rose-300 font-sans italic mt-1 border-t border-rose-900/50 pt-0.5">
                 Missing: {Array.isArray(prerequisiteUnmetReasons) ? prerequisiteUnmetReasons.join('; ') : String(prerequisiteUnmetReasons)}
@@ -434,7 +447,7 @@ export const FolioTooltip = ({
                   </div>
                   {attrBreakdown.purchasedBonus > 0 && (
                     <div className="flex items-center justify-between bg-slate-900/80 border border-slate-800 px-2 py-1 rounded">
-                      <span className="text-slate-400">Purchased Bonus (BP):</span>
+                      <span className="text-slate-400">Purchased Bonus (CP):</span>
                       <span className="text-emerald-300 font-bold">+{attrBreakdown.purchasedBonus}</span>
                     </div>
                   )}

@@ -11,18 +11,20 @@ description: >-
   The character has trained to resist grappling and takedowns, using overall
   combat experience rather than just raw agility.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   defensive combat training, combat, special-feature, combat-maneuver,
   tactical-edge, trained
 negative_keywords: 'pacifist, feeble, untrained-civilian'
+cost_cp: 3
 ---
 
 # Defensive Combat Training
 
 **Category**: Combat Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Combat Skill 1
 
 ## Description

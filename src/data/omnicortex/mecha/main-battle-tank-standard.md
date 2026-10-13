@@ -18,6 +18,7 @@ mechanic: >-
   Heavy Kinetic Cannon (4d10), Coaxial Autocannon (2d8), Heavy Frontal Armor (DR
   40).
 costs:
+  cp: 0
   bp: 0
   credits: 40960
   nodes: 0

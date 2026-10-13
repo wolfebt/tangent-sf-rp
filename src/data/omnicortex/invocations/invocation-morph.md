@@ -5,6 +5,7 @@ category: invocations
 discipline: Matter
 description: MORPH invocation for Matter reality manipulation.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 recommended_species:
@@ -52,5 +53,5 @@ Effect Description:
 Transforms the caster physically into another form (humanoid, animal, or object).  
 **Scaling Function:**
 * **Complexity:** Allowed Forms expand per Stage (Humanoid \-\> Beast \-\> Object \-\> Elemental).  
-* **Features:** Gains 1 Trait of the new form per Stage (e.g., Scent, Swim Speed) up to the BP limit (5 BP/Stage).
+* **Features:** Gains 1 Trait of the new form per Stage (e.g., Scent, Swim Speed) up to the CP limit (5 CP/Stage).
 ###

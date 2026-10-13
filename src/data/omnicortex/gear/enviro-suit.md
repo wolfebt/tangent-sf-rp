@@ -9,6 +9,7 @@ weight: 4
 description: Full body containment suit protecting against vacuum and radiation hazards.
 mechanic: Provides EPR 3 (Vacuum/Radiation). Uses Supply Die (d10) for Oxygen and Power.
 costs:
+  cp: 0
   bp: 0
   credits: 640
   nodes: 0

@@ -4,6 +4,7 @@ name: Reach (10ft)
 description: Melee weapon allows attacks against opponents 10 feet away without provoking.
 category: special
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

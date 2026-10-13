@@ -4,6 +4,7 @@ name: 'Hit Location: Arms (-2 to -5)'
 category: rules
 description: 'Arms: Called Shot -2. Upper Arm: -3. Forearm: -3. Hand: -4. Digits: -5.'
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

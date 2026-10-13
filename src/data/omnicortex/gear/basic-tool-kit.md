@@ -9,6 +9,7 @@ weight: 2
 description: 'Wrenches, screwdrivers, soldering iron, and manual fabrication tools.'
 mechanic: Required to make Engineering and Repair checks without penalty.
 costs:
+  cp: 0
   bp: 0
   credits: 40
   nodes: 0

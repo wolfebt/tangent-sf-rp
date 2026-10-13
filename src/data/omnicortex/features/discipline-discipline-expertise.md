@@ -11,18 +11,20 @@ description: >-
   Discipline Expertise is a Discipline Feature: +4 with chosen Discipline Skill
   (Affecting Severity).
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   discipline expertise, discipline, special-feature, focused-training, mastery,
   expertise
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Discipline Expertise
 
 **Category**: Discipline Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Discipline Focus, Skill 11
 
 ## Description

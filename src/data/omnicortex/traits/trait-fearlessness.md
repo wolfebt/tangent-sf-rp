@@ -5,6 +5,7 @@ trait_tier: Basic
 trait_type: Occupational Trait
 category: traits
 costs:
+  cp: 1
   bp: 1
 description: Seem fearless and willing to take risks in order to achieve their goals
 modifiers: []
@@ -14,7 +15,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Basic
 **Type**: Occupational Trait
-**BP Cost**: 1
+**CP Cost**: 1
 
 ## Description
 Seem fearless and willing to take risks in order to achieve their goals

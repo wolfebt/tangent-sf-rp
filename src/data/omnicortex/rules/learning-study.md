@@ -6,6 +6,7 @@ summary: >-
   Rules for acquiring and improving skills and features through independent
   study, instructors, and training aids.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

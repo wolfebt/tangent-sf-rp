@@ -6,21 +6,26 @@ feature_category: Sensory
 cost_bp: 2
 is_ranked: false
 is_multiple: false
-prerequisites: 'Insectoid or Arachnoid Physiology'
+prerequisites: Insectoid or Arachnoid Physiology
 description: >-
-  Delicate trichobothria hairs across the limbs and abdomen detect micro-vibrations,
-  acoustic tremors, and structural stress through solid surfaces and web meshes out to 60 ft.
+  Delicate trichobothria hairs across the limbs and abdomen detect
+  micro-vibrations, acoustic tremors, and structural stress through solid
+  surfaces and web meshes out to 60 ft.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
-keywords: 'uncanny-senses, vibration, tremorsense, hive-mesh, acoustic-resonance, seismic-sense'
+keywords: >-
+  uncanny-senses, vibration, tremorsense, hive-mesh, acoustic-resonance,
+  seismic-sense
 negative_keywords: 'sensory-blind, numb, isolated'
+cost_cp: 2
 ---
 
 # Uncanny Senses (Vibration)
 
 **Category**: Sensory Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisites**: Insectoid or Arachnoid Physiology  
 
 ## Description

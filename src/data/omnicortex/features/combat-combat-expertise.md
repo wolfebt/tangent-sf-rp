@@ -11,18 +11,20 @@ description: >-
   The character fights with superior tactical caution, sacrificing aggression
   for protection.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   combat expertise, combat, special-feature, combat-maneuver, tactical-edge,
   fights
 negative_keywords: 'pacifist, feeble, untrained-civilian'
+cost_cp: 3
 ---
 
 # Combat Expertise
 
 **Category**: Combat Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Intellect 2
 
 ## Description

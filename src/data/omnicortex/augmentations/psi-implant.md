@@ -9,6 +9,7 @@ description: Awakened (Mental); Grants 100 Essence.
 stigma: None
 type: Esoteric
 costs:
+  cp: 0
   bp: 0
   credits: 40960
   nodes: 0
@@ -37,4 +38,4 @@ negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
 Category: **9\. TL5 Advanced Augmentations**
 
 **Effect:** Awakened (Mental); Grants 100 Essence.
-**BP:** 4
+**CP:** 4

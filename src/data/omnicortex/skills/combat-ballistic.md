@@ -20,6 +20,7 @@ synergy_links:
   - mental-demolitionist
   - mental-weaponsmith
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'ballistic, combat, agility, tactical, offensive, defense'

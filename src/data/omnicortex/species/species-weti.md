@@ -46,7 +46,8 @@ tech_level: 3 (Miniaturized Sensor Rigs)
 meta_level: 1 (Intuitive Agility)
 homeworld: Weti Tree Canopies & Starship Ductwork
 costs:
-  bp: 21
+  cp: 19
+  bp: 19
 modifiers:
   - target: Agility
     value: 1
@@ -64,17 +65,16 @@ modifiers:
     value: 8
     type: skill
     mode: size_modifier
-cp_cost: 21
-cp: 21
-bp: 21
+cp_cost: 19
+cp: 19
+bp: 19
 description: >-
   Tiny, hyper-intelligent simian creatures standing barely 18 inches tall,
   celebrated for repairing starship conduits, espionage, and rapid climbing.
-traits:
-  - trait-climbing-speed-30ft
+traits: &ref_0
+  - trait-climber
   - trait-prehensile-tail
-  - trait-quick-5ft-movement
-  - trait-tiny-size-4-defense-4-stealth
+  - trait-quick
 recommended_factions:
   - The Entari Combine
   - The Outworlds
@@ -89,6 +89,7 @@ recommended_occupations:
   - Scout
 keywords: '18-inch-simian, duct-repair, gremlin-mechanic, tiny-infiltrator, hyper-agile'
 negative_keywords: 'heavy-combat, high-strength, lumbering'
+species_traits: *ref_0
 ---
 
 # Weti (Simian Scout)
@@ -97,7 +98,7 @@ negative_keywords: 'heavy-combat, high-strength, lumbering'
 
 # 
 
-**BP Cost:**   
+**CP Cost:** 19 CP  
 **Description:** The Weti are **tiny arboreal simian humanoids** originating from a dense, high-canopy jungle homeworld, where their tool use and complex social structures were tragically overlooked by early off-world visitors. Standing roughly two feet tall and covered in a fine, brown-to-grey pelt, their quick, agile movements and specialized **prehensile tails** initially led to their classification by many as merely clever beasts. They possess a high degree of natural **agility** and are exceptionally **quick** and skilled at **climbing**, enabling them to navigate their vertical environment with ease.
 
 Their accidental entry into the galactic community is a popular—and often condescendingly recounted—tale. A foreign visitor, mistaking their intelligence for animal cunning, captured several Weti for an exotic menagerie. Upon arrival at the **Hub Station**, a sprawling, colossal nexus of civilization, the Weti escaped. Their tiny size, agility, and ability to use their environment to their advantage allowed them to vanish into the station's labyrinthine ventilation shafts, maintenance tunnels, and forgotten sections.

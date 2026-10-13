@@ -54,6 +54,7 @@ description: >-
   highest bidder. They hold no allegiance to flags, kings, or causes—only to the
   contract
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Faction Template
@@ -122,7 +123,7 @@ negative_keywords: >-
   * Mechanics (+4)  
   * Athletics (+3)  
 * **Typical Archetypes:** The Shock Trooper, The Sniper, The Tactician, The Combat Medic, The Quartermaster.  
-* **Recommended Features (1 BP Discount):** Weapon Focus, Tough, Armor Proficiency, Combat Reflexes, Danger Sense, Burst Attack, Gearhead, Diehard, Endurance, Weapon Improvisation.
+* **Recommended Features (1 CP Discount):** Weapon Focus, Tough, Armor Proficiency, Combat Reflexes, Danger Sense, Burst Attack, Gearhead, Diehard, Endurance, Weapon Improvisation.
 
 ### **VI. Visual Semiotics (Aesthetics)**
 

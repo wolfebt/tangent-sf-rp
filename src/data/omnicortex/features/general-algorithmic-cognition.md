@@ -12,18 +12,20 @@ description: >-
   them to perform hypercalculia and extreme high-speed mental arithmetic
   natively.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   algorithmic cognition, general, special-feature, character's, bypasses,
   standard
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Algorithmic Cognition
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Lightning Calculator, Intellect 4
 
 ## Description

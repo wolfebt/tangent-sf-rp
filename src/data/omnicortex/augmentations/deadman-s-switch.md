@@ -9,6 +9,7 @@ description: Trigger signal/bomb upon heart stopping.
 stigma: None
 type: Neural
 costs:
+  cp: 0
   bp: 0
   credits: 640
   nodes: 0

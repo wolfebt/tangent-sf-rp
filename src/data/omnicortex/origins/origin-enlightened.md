@@ -2,64 +2,76 @@
 id: origin-enlightened
 name: Enlightened
 category: origins
-habitat: "Sanctuary & Arcane"
+habitat: Sanctuary & Arcane
+ws_modifier: 2
+economic_context: Cultural / academic enclaves; robust institutional stipends & archives.
 skill_points: 20
 society_skills:
-  - "Alertness"
-  - "Academics"
-  - "Knowledge (Culture)"
-  - "Knowledge (History)"
-  - "Knowledge (Language)"
-  - "Knowledge (Physics)"
-  - "Knowledge (Religion)"
-  - "Vocation (Any)"
+  - Alertness
+  - Academics
+  - Knowledge (Culture)
+  - Knowledge (History)
+  - Knowledge (Language)
+  - Knowledge (Physics)
+  - Knowledge (Religion)
+  - Vocation (Any)
 archetypes:
-  - "Arcanist"
-  - "Psionic"
-  - "Seer"
-  - "Scholar"
-  - "Spiritual Guide"
-  - "Envoy"
+  - Arcanist
+  - Psionic
+  - Seer
+  - Scholar
+  - Spiritual Guide
+  - Envoy
 traits:
-  - "trait-empathy"
-  - "trait-curiosity"
-  - "trait-mentorship"
-  - "trait-open-mindedness"
-  - "trait-peaceful-nature"
-  - "trait-problem-solving-skills"
-  - "trait-shared-wisdom"
-  - "trait-spiritual-awareness"
+  - trait-empathy
+  - trait-curiosity
+  - trait-mentorship
+  - trait-open-mindedness
+  - trait-peaceful-nature
+  - trait-problem-solving-skills
+  - trait-shared-wisdom
+  - trait-spiritual-awareness
 recommended_species:
-  - "Celestine (Alterian)"
-  - "Whisper"
-  - "Fey (Base)"
-  - "Sigal"
-  - "Draconian (Scaled Aeld)"
-  - "Ila (Progenitor Archon)"
-  - "U’Nonn (Progenitor Sovereign)"
-  - "Tenen (Sha’nor Spectral)"
-  - "Golem (Arcane Construct)"
-  - "Eidolon (Aetherion Specialist)"
+  - Celestine (Alterian)
+  - Whisper
+  - Fey (Base)
+  - Sigal
+  - Draconian (Scaled Aeld)
+  - Ila (Progenitor Archon)
+  - U’Nonn (Progenitor Sovereign)
+  - Tenen (Sha’nor Spectral)
+  - Golem (Arcane Construct)
+  - Eidolon (Aetherion Specialist)
 recommended_factions:
-  - "The Alterian Enclave"
-  - "The Ascendancy"
-  - "Elven Providence"
-  - "Dracon Dynasty"
-  - "Supernatural Faction Template"
-  - "Religious Cult Faction Template"
-  - "Space Religion Faction Template"
+  - The Alterian Enclave
+  - The Ascendancy
+  - Elven Providence
+  - Dracon Dynasty
+  - Supernatural Faction Template
+  - Religious Cult Faction Template
+  - Space Religion Faction Template
 recommended_occupations:
-  - "Adept"
-  - "Scholar"
-  - "Representative"
-  - "Specialist"
-  - "Agent"
-  - "Entertainer"
-keywords: "metaphysical, ley-line, psionic-sanctuary, crystal-spire, temple-enclave, ancient-archives, meditation-garden, resonance-core, esoteric-wisdom, arcane-orrery, mind-over-matter, harmonic-energy, illuminated-sanctum, philosophy, ascetic, transcendence, mystic-shrines"
-negative_keywords: "smog-factory-belt, brutal-trench-warfare, industrial-strip-mine, grimy-scrap-flotilla, cybernetic-meat-grinder, low-life-street-ganger, corporate-debt-enforcer, mechanized-assembly-line, dieselpunk-forge"
+  - Adept
+  - Scholar
+  - Representative
+  - Specialist
+  - Agent
+  - Entertainer
+keywords: >-
+  metaphysical, ley-line, psionic-sanctuary, crystal-spire, temple-enclave,
+  ancient-archives, meditation-garden, resonance-core, esoteric-wisdom,
+  arcane-orrery, mind-over-matter, harmonic-energy, illuminated-sanctum,
+  philosophy, ascetic, transcendence, mystic-shrines
+negative_keywords: >-
+  smog-factory-belt, brutal-trench-warfare, industrial-strip-mine,
+  grimy-scrap-flotilla, cybernetic-meat-grinder, low-life-street-ganger,
+  corporate-debt-enforcer, mechanized-assembly-line, dieselpunk-forge
 description: >-
-  Certain worlds have particularly strong ley lines, special crystal formations, atmospheric anomalies, or other features that make them metaphysically active. Adept Occupations and Metafocus Disciplines flourish here.
+  Certain worlds have particularly strong ley lines, special crystal formations,
+  atmospheric anomalies, or other features that make them metaphysically active.
+  Adept Occupations and Metafocus Disciplines flourish here.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -68,6 +80,7 @@ modifiers: []
 
 **Category**: Origins  
 **Habitat**: Sanctuary & Arcane  
+**EUFT Wealth Score Modifier**: +2 (Cultural / academic enclaves; robust institutional stipends & archives.)  
 **Starting Skill Points**: 20 SP (allocated to Society Skills)  
 **Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)
 

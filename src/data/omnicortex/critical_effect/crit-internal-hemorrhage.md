@@ -4,6 +4,7 @@ name: Internal Hemorrhage
 description: Internal organ damage; target suffers -2 Stamina and 1d8 ongoing damage.
 category: critical_effect
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

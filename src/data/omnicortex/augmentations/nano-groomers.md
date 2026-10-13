@@ -9,6 +9,7 @@ description: 'Automated skin, hair, and hygiene maintenance.'
 stigma: None
 type: Fashionware
 costs:
+  cp: 0
   bp: 0
   credits: 640
   nodes: 0

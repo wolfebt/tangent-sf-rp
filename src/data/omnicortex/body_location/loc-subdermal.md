@@ -10,6 +10,7 @@ description: >-
   pigment shift layers.
 category: body_location
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

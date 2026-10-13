@@ -21,6 +21,7 @@ synergy_links:
   - social-leadership
   - mental-logistics
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'administrator, mental, intellect, cognitive, expertise, bureaucratic'

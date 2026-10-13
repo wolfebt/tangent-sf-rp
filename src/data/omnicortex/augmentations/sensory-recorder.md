@@ -9,6 +9,7 @@ description: Records all 5 sensations (SimStim).
 stigma: None
 type: Sensory
 costs:
+  cp: 0
   bp: 0
   credits: 10240
   nodes: 0

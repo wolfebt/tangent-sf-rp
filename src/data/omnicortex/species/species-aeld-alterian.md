@@ -52,6 +52,7 @@ tech_level: '3 (Magi-Tech: Solar Sails, Crystalline Laminates, Aetherium Refinem
 meta_level: '4 (High Magic: The Flow)'
 homeworld: Altheria (The Gilded World)
 costs:
+  cp: 28
   bp: 28
 modifiers:
   - target: Agility
@@ -71,13 +72,7 @@ description: >-
   viewing magic as a rigorous science and operating with a profound long-term
   perspective.
 traits:
-  - trait-ageless
-  - trait-amphibious
-  - trait-awakened-arcane
-  - trait-long-lived-600-years
-  - trait-longevity
-  - trait-reduced-sustenance
-  - trait-sleepless-immune-to-sleep-effects
+  - trait-aeld-lineage-traits
 recommended_factions:
   - The Alterian Enclave
   - The Silvermoon Vanguard
@@ -95,6 +90,8 @@ keywords: >-
   arcane-affinity, magi-tech, diplomacy, long-view, high-refinement, scholarly,
   mediation, graceful
 negative_keywords: 'brute-force, heavy-armor, reckless, technophile-cybernetics, short-sighted'
+species_traits:
+  - trait-aeld-lineage-traits
 ---
 
 # Celestine (Alterian Aeld)
@@ -136,7 +133,7 @@ Significant differences in physical traits exist among the major clans:
 
 ## **General Species Features & Mechanics**
 
-**BP Cost:** \[TBD\]  
+**CP Cost:** 28 CP  
 **Classification:** Humanoid  
 **Size:** Medium Sized (6+ ft)  
 **Movement:** 30ft  

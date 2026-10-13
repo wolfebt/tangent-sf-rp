@@ -22,6 +22,7 @@ synergy_links:
   - mental-technology
   - mental-investigation
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'computers, mental, intellect, cognitive, expertise, hacking'

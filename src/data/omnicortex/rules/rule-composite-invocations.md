@@ -6,6 +6,7 @@ description: >-
   Rules for multi-discipline synthesized invocations, lowest skill ranking rule,
   and the five canonical composite archetypes.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -5,6 +5,7 @@ dcMod: 3
 description: Radiates in a continuous 10-foot emanation surrounding the user as they move.
 category: area
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

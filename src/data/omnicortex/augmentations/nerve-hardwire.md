@@ -9,6 +9,7 @@ description: Overclocks nervous system. +1/+2/+3 Agility.
 stigma: None
 type: Neural
 costs:
+  cp: 0
   bp: 0
   credits: 10240
   nodes: 0

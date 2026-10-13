@@ -9,16 +9,18 @@ is_multiple: false
 prerequisites: Intellect 2
 description: The character remembers everything they see or read with fair accuracy.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'eidetic memory, general, special-feature, remembers, everything, accuracy'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Eidetic Memory
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Intellect 2
 
 ## Description

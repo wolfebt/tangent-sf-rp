@@ -7,6 +7,7 @@ description: >-
   Quiet, sneaky, low-key action avoiding attention. Required for availability of
   stealth-based Skill Actions.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

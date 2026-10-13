@@ -21,6 +21,7 @@ synergy_links:
   - physical-acrobatics
   - combat-unarmed
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'athletics, physical, strength, mobility, bodily-coordination, running'

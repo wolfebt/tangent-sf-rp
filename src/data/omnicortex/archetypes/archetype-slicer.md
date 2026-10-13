@@ -30,17 +30,19 @@ tactical_role: 'Electronic warfare, data theft, bypassing security.'
 quote: '"Information wants to be free. I''m just the liberator."'
 description: 'A master of cyberspace, skilled in infiltrating networks and stealing data.'
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'slicer, operative, artisan, adaptable, specialist, hacking, intel'
 negative_keywords: 'mindless-brute, reckless, illiterate'
+cp_chassis: 80
 ---
 
 # The Slicer
 
 **Sphere**: Operatives (The Artisans)  
 **Core Concept**: Hacking / Intel / Support  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
 **Secondary Attribute**: Technology  
 

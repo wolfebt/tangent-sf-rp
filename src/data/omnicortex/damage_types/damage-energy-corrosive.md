@@ -6,6 +6,7 @@ description: >-
   Acidic chemical dissolution and molecular breakdown. Degrades armor DR,
   inflicts ongoing damage, and dissolves organic matter.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

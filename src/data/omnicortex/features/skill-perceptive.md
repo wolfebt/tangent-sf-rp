@@ -9,16 +9,18 @@ is_multiple: false
 prerequisites: None
 description: The character notices things others miss.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'perceptive, skill, special-feature, notices, things, others'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Perceptive
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: None
 
 ## Description

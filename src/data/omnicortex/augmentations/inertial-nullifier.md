@@ -9,6 +9,7 @@ description: Treat falls as 50ft less.
 stigma: None
 type: Cybernetic
 costs:
+  cp: 0
   bp: 0
   credits: 10240
   nodes: 0

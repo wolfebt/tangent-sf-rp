@@ -12,18 +12,20 @@ description: >-
   causing continuous, hyperactive bone formation. The character possesses a
   skeleton of extreme, unyielding density.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   unbreakable skeleton, general, special-feature, gain-of-function, mutation,
   blocks
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Unbreakable Skeleton
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Tough, Stamina 3
 
 ## Description

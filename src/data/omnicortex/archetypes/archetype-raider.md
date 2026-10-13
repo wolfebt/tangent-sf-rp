@@ -29,17 +29,19 @@ tactical_role: 'Shock assault, intimidation, scavenging.'
 quote: '"Weakness is a choice. I chose strength."'
 description: A hardened survivor who uses force to secure resources.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'raider, operative, artisan, adaptable, specialist, aggression, survival'
 negative_keywords: 'incompetent, untrained, undisciplined'
+cp_chassis: 80
 ---
 
 # The Raider
 
 **Sphere**: Operatives (The Artisans)  
 **Core Concept**: Aggression / Survival / Intimidation  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Strength  
 **Secondary Attribute**: Constitution  
 

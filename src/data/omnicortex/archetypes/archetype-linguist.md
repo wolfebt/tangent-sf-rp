@@ -32,17 +32,19 @@ description: >-
   The master of communication who deciphers the languages of the galaxy to
   enable cooperation or manipulation.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'linguist, savant, rational, intellect, strategist, intel, face'
 negative_keywords: 'mindless-brute, reckless, illiterate'
+cp_chassis: 80
 ---
 
 # The Linguist
 
 **Sphere**: Savants (The Rationals)  
 **Core Concept**: Intel / Face / Support  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
 **Secondary Attribute**: Charisma  
 

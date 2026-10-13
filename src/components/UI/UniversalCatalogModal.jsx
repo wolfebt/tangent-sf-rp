@@ -1156,7 +1156,7 @@ export const UniversalCatalogModal = ({
         <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-slate-300">
           {item.primary_attribute && <span className="px-1.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-800/60 text-cyan-300">Pri: {item.primary_attribute}</span>}
           {item.secondary_attribute && <span className="px-1.5 py-0.5 rounded bg-purple-950/80 border border-purple-800/60 text-purple-300">Sec: {item.secondary_attribute}</span>}
-          {item.bp_chassis && <span className="px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-800/60 text-amber-300">{item.bp_chassis} BP</span>}
+          {(item.cp_chassis || item.bp_chassis) && <span className="px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-800/60 text-amber-300">{item.cp_chassis || item.bp_chassis} CP</span>}
         </div>
       );
     }
@@ -1293,7 +1293,7 @@ export const UniversalCatalogModal = ({
     if (canonicalColKey === 'augmentations') {
       const stage = getAugmentationStage(item);
       const nodes = getAugmentationNodes(item);
-      const bpCost = item.costs?.bp ?? item.bp ?? 0;
+      const cpCost = item.costs?.cp ?? item.costs?.bp ?? item.cp ?? item.bp ?? 0;
       const credCost = item.costs?.credits ?? item.cost ?? item.credits;
       const location = item.body_location || item.location;
 
@@ -1314,9 +1314,9 @@ export const UniversalCatalogModal = ({
               {nodes} {nodes === 1 ? 'Node' : 'Nodes'}
             </span>
           )}
-          {bpCost > 0 && (
+          {cpCost > 0 && (
             <span className="px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-800/60 text-amber-300">
-              {bpCost} BP
+              {cpCost} CP
             </span>
           )}
           {location && location !== 'General' && (
@@ -2050,9 +2050,9 @@ export const UniversalCatalogModal = ({
                         <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-800/60 text-amber-300">
                           {item.cp} CP
                         </span>
-                      ) : item.bp_chassis ? (
+                      ) : (item.cp_chassis || item.bp_chassis) ? (
                         <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-purple-950/80 border border-purple-800/60 text-purple-300">
-                          {item.bp_chassis} BP
+                          {item.cp_chassis || item.bp_chassis} CP
                         </span>
                       ) : null}
                     </div>

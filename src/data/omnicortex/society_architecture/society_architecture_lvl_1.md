@@ -8,6 +8,7 @@ description: >-
   Level 1 development in Architecture & Habitats: Urban engineering, habitat
   construction, dome architecture, and megastructures. (Emerging / Industrial).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

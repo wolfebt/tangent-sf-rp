@@ -11,7 +11,9 @@ bp: 0
 description: >-
   Maximum aerial sprint (4x Fly) requiring Acrobatics check (CR 10+) each
   minute.
+cp: 0
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -20,7 +22,7 @@ modifiers: []
 **Category**: Species Movement (STAGE)  
 **Classification**: stage  
 **Target Mode**: Flying  
-**Cost**: +0 BP  
+**Cost**: +0 CP  
 
 ## Description
 Maximum aerial sprint (4x Fly) requiring Acrobatics check (CR 10+) each minute.

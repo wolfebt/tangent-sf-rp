@@ -11,6 +11,7 @@ description: >-
   space.
 mechanic: 'Silent, un-jammable communication. Requires Trained Telepathy or Metafocus.'
 costs:
+  cp: 0
   bp: 0
   credits: 10240
   nodes: 0

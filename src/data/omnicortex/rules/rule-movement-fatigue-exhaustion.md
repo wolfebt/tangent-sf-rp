@@ -2,8 +2,11 @@
 id: rule-movement-fatigue-exhaustion
 name: Movement Fatigue & Exhaustion System
 category: rules
-description: Fatigue check triggers, non-lethal vitality loss, and progression to exhaustion.
+description: >-
+  Fatigue check triggers, non-lethal vitality loss, and progression to
+  exhaustion.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

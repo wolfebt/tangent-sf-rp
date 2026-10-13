@@ -8,6 +8,7 @@ description: "Penalty: None\r\nLocations: T, A, L\r\nSockets: 1"
 sp: 5
 coverage: Partial
 costs:
+  cp: 0
   bp: 0
   credits: 0
   nodes: 0

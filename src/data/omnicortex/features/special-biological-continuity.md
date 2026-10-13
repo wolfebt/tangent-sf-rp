@@ -15,9 +15,10 @@ tags:
   - kitin
 description: >-
   Monogenetic genomic stabilization and generational inheritance grant immunity
-  to clone degeneration, cellular senescence, and retroviral genetic rewrites. When
-  interfacing with Hive-grown biomorphic tech or organic sockets, ignores cellular rejection
-  checks and gains Advantage on biomorphic repair tasks.
+  to clone degeneration, cellular senescence, and retroviral genetic rewrites.
+  When interfacing with Hive-grown biomorphic tech or organic sockets, ignores
+  cellular rejection checks and gains Advantage on biomorphic repair tasks.
+cost_cp: 2
 ---
 
 ### **Overview**

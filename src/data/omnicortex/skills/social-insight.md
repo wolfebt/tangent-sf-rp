@@ -21,6 +21,7 @@ synergy_links:
   - mental-alertness
   - social-diplomacy
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'insight, social, wisdom, interaction, diplomacy, influence'

@@ -20,6 +20,7 @@ synergy_links:
   - social-diplomacy
   - mental-history
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'nobility, mental, intellect, cognitive, expertise, heraldry'

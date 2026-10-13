@@ -48,24 +48,25 @@ tech_level: 3 (Bio-Hybrid Devices)
 meta_level: 3 (Telepathic Linkage)
 homeworld: Danai Enclaves
 costs:
-  bp: 10
+  cp: 11
+  bp: 11
 modifiers:
   - target: Intellect
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 10
-cp: 10
-bp: 10
+cp_cost: 11
+cp: 11
+bp: 11
 description: >-
   Danai are genetic chimeras born from human and Davae transhumans. They display
   gentle bioluminescent patterns and natural mental connections to bio-synthetic
   equipment.
-traits:
+traits: &ref_0
   - trait-ageless
-  - trait-awakened-mental-psychic
-  - trait-biotechnology-affinity
-  - trait-hive-connection-low-band-telepathy
+  - trait-awakened-mental
+  - trait-master-tinker
+  - trait-hive-connection
 recommended_factions:
   - The Ascendancy
   - The Syndicate
@@ -79,11 +80,12 @@ recommended_occupations:
   - Scholar
 keywords: 'empathic-diplomat, bio-resonance, gentle-glow, mediator, hybrid-psion'
 negative_keywords: 'brutality, isolation, violent-outburst'
+species_traits: *ref_0
 ---
 
 # Danai (Human-Davae Hybrid)
 
-**BP Cost:**   
+**CP Cost:** 11 CP  
 **Description:** The Danai are a distinct and potent hybrid subspecies resulting from the genetic blending of baseline humans with the highly-engineered Davae. They represent a more human-centered branch of this lineage, balancing the raw, separatist power of the Davae with traditional human adaptability.  
 As a hybrid, the Danai are profoundly influenced by their Davae ancestry, a psychic species born from the Syndicate's “Proto-Chimera GeNes” project and based on Imperium Regi genetics. This heritage grants them two primary and powerful traits:  
 Highly Sensitive Psychics: Danai have an inherent and intense psychic affinity, often manifesting as Awakened (Mental) abilities. This makes them natural conduits for mental energies and highly sensitive to the thoughts and emotions of others. While the full-blooded Davae often use this for collective consciousness, the Danai possess a more individualistic, yet powerful, psychic focus.  

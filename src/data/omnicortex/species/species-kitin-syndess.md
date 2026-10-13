@@ -66,7 +66,8 @@ tech_level: 4 (Integration)
 meta_level: 4 (Resonant with the Manelli)
 homeworld: Kitin Hive Worlds / Spire Foundries & Mecha Vaults
 costs:
-  bp: 39
+  cp: 33
+  bp: 33
 modifiers:
   - target: Intellect
     value: 2
@@ -84,9 +85,9 @@ modifiers:
     value: -2
     type: attribute
     mode: inherent
-cp_cost: 39
-cp: 39
-bp: 39
+cp_cost: 33
+cp: 33
+bp: 33
 description: >-
   The Syndess is the "Integration Expression," a specialized pilot strain
   resembling an elongated, multi-segmented larva roughly 3 feet long. Serving as
@@ -132,13 +133,13 @@ negative_keywords: 'mechanical-cockpit, manual-controls, solitary-pilot'
 
 # Syndess (Kitin Pilot Expression / Multi-segmented Integration Strain)
 
-**BP Cost:** 39 BP  
+**CP Cost:** 33 CP  
 **Classification:** Insectoid Larva (Multi-segmented Integration Strain)  
 **Size:** Small  
 **Movement:** 30ft Groundspeed (Crawling & Climbing)  
 
-**Tech Level:** 4 (Integration) (5 BP)  
-**Meta Level:** 4 (Resonant with the Manelli) (2 BP)  
+**Tech Level:** 4 (Integration) (5 CP)  
+**Meta Level:** 4 (Resonant with the Manelli) (2 CP)  
 **Stigma:** Minor Xeno (hidden in mecha) / Severe Xeno (exposed)  
 
 ## Description
@@ -151,37 +152,37 @@ The Syndess is the "Ghost in the Machine." While the Kitin mecha and structures 
 ## Technical Profile
 * **Size:** Small
 * **Movement:** 30ft Groundspeed (Crawling & Climbing)
-* **Tech Level:** 4 (Integration) (5 BP)
-* **Meta Level:** 4 (Resonant with the Manelli) (2 BP)
+* **Tech Level:** 4 (Integration) (5 CP)
+* **Meta Level:** 4 (Resonant with the Manelli) (2 CP)
 * **Stigma:** Minor Xeno (hidden in mecha) / Severe Xeno (exposed)
 
 ## Ability Modifiers
-* **+2 Intellect** (10 BP)
-* **+2 Agility** (10 BP)
-* **-2 Strength** (-10 BP)
-* **-2 Stamina** (-10 BP)  
-*(Net Ability Modifier: 0 BP)*
+* **+2 Intellect** (10 CP)
+* **+2 Agility** (10 CP)
+* **-2 Strength** (-10 CP)
+* **-2 Stamina** (-10 CP)  
+*(Net Ability Modifier: 0 CP)*
 
 ## Skills
-* **+10 Skill Ranks to ANY skills** (10 BP)
+* **+10 Skill Ranks to ANY skills** (10 CP)
 
 ## Species Features
-* **Synaptic Integration:** The Syndess can "slot" into any Kitin mecha’s Synaptic Node. While integrated, they use their own Intellect and Agility for all vehicle checks and ignore all G-force or high-velocity penalties. (2 BP)
-* **Multidextrous (Many-Limbed):** Possess 30+ micro-limbs for fine internal repairs, fluid management, and multitasking across the mecha’s biological subsystems. (2 BP)
-* **G-Force Immunity:** Internal fluid dampening allows them to survive maneuvers and turns that would turn a humanoid to jelly. (2 BP)
-* **Torpor (Universal):** Enter a 4-hour dormant state while docked in a mecha, during which the mecha can regenerate and refuel. (2 BP)
-* **Blind Sense (EM/Vibration):** Can perceive their surroundings via the mecha’s external sensors, feeling the environment as if it were their own skin. (2 BP)
-* **Dual Skeletal Structure:** Combined endo/exo-skeleton (DR +5). (2 BP)
-* **Armor:** Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10] (2 BP)
-* **Climber:** Traverse vertical or inverted surfaces at full speed. (2 BP)
-* **Awakened (Psionic - Intellect):** Facilitators of the Chorus. (2 BP)
-* **Genetic Memory:** Inherited ancestral blueprints and instincts for piloting any Kitin construct. (2 BP)
-* **Hive-Link:** Telepathic link to the Kitin Collective and other Syndess pilots. (2 BP)
+* **Synaptic Integration:** The Syndess can "slot" into any Kitin mecha’s Synaptic Node. While integrated, they use their own Intellect and Agility for all vehicle checks and ignore all G-force or high-velocity penalties. (2 CP)
+* **Multidextrous (Many-Limbed):** Possess 30+ micro-limbs for fine internal repairs, fluid management, and multitasking across the mecha’s biological subsystems. (2 CP)
+* **G-Force Immunity:** Internal fluid dampening allows them to survive maneuvers and turns that would turn a humanoid to jelly. (2 CP)
+* **Torpor (Universal):** Enter a 4-hour dormant state while docked in a mecha, during which the mecha can regenerate and refuel. (2 CP)
+* **Blind Sense (EM/Vibration):** Can perceive their surroundings via the mecha’s external sensors, feeling the environment as if it were their own skin. (2 CP)
+* **Dual Skeletal Structure:** Combined endo/exo-skeleton (DR +5). (2 CP)
+* **Armor:** Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10] (2 CP)
+* **Climber:** Traverse vertical or inverted surfaces at full speed. (2 CP)
+* **Awakened (Psionic - Intellect):** Facilitators of the Chorus. (2 CP)
+* **Genetic Memory:** Inherited ancestral blueprints and instincts for piloting any Kitin construct. (2 CP)
+* **Hive-Link:** Telepathic link to the Kitin Collective and other Syndess pilots. (2 CP)
 * **Enhanced Biotechnology:** Natural mastery over organic technology and living systems. (Inherent)
-* **Property Boon:** Special Equipment consideration for integrated mecha body / gear; +4 wealth for personal property acquisition. (2 BP)
+* **Property Boon:** Special Equipment consideration for integrated mecha body / gear; +4 wealth for personal property acquisition. (2 CP)
 
 ## Species Hindrances / Disadvantages
-* **Fragile Frame:** Outside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves. (-2 BP)
+* **Fragile Frame:** Outside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves. (-2 CP)
 
 ## The Integration Protocol
 1. **Minimum Crew Scaling Requirements:**

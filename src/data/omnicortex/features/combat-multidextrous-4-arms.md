@@ -9,19 +9,23 @@ is_multiple: false
 prerequisites: 'Agility 2, 4 Arms'
 description: >-
   The character possesses four fully articulate arms terminating in sharp,
-  clawed digits, suffering no off-hand penalties and capable of complex multi-arm
-  combat and simultaneous engineering tasks.
+  clawed digits, suffering no off-hand penalties and capable of complex
+  multi-arm combat and simultaneous engineering tasks.
 costs:
+  cp: 4
   bp: 4
 modifiers: []
-keywords: 'multidextrous, four-arms, combat-maneuver, clawed-digits, engineering, multi-limbed'
+keywords: >-
+  multidextrous, four-arms, combat-maneuver, clawed-digits, engineering,
+  multi-limbed
 negative_keywords: 'armless, clumsy, two-armed-baseline'
+cost_cp: 4
 ---
 
 # Multidextrous (4 Arms)
 
 **Category**: Combat Features  
-**Cost**: 4 BP  
+**Cost**: 4 CP  
 **Prerequisites**: Agility 2, 4 Arms  
 
 ## Description

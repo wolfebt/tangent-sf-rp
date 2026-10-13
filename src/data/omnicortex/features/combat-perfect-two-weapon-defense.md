@@ -11,18 +11,20 @@ description: >-
   Perfect Two-Weapon Defense is a Combat Feature: +4 shield bonus to defense
   when fighting with two weapons.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   perfect two-weapon defense, combat, special-feature, combat-maneuver,
   tactical-edge, perfect
 negative_keywords: 'pacifist, feeble, untrained-civilian'
+cost_cp: 3
 ---
 
 # Perfect Two-Weapon Defense
 
 **Category**: Combat Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Perfect Two-Weapon Fighting
 
 ## Description

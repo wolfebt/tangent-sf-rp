@@ -43,19 +43,20 @@ tech_level: 3 (Financial Holo-Nets & Comms)
 meta_level: 1 (Subconscious Suggestion)
 homeworld: Premia (Syndicate Financial Hub)
 costs:
-  bp: 15
+  cp: 13
+  bp: 13
 modifiers: []
-cp_cost: 15
-cp: 15
-bp: 15
+cp_cost: 13
+cp: 13
+bp: 13
 description: >-
   Urban, corporate-bred humans renowned for financial acumen, mercantile trade
   empires, and silver-tongued contract negotiations.
-traits:
-  - trait-calculating-mind
+traits: &ref_0
+  - trait-focused-study
   - trait-longevity
-  - trait-silver-tongue
-  - trait-syndicate-network
+  - trait-silver-tongued
+  - trait-integrated
 recommended_factions:
   - The Syndicate
   - Corporate Faction Template
@@ -68,11 +69,12 @@ recommended_occupations:
   - Citizen
 keywords: 'high-finance, silver-tongue, corporate-mogul, patron-patronage, boardroom'
 negative_keywords: 'wilderness-scavenger, destitute, hermit'
+species_traits: *ref_0
 ---
 
 # Premian Human (Merchant Folk)
 
-**BP Cost:**   
+**CP Cost:** 13 CP  
 **Description:** The original inhabitants of Premius, the Syndicate Homeworld, are a people with a distinct and ancient heritage. Physically, they are characterized by dark complexions, with deep black hair and eyes.  
 Their history significantly predates the rise of the current galactic power, the Impyrium. Even during the height of the Impyrium's expansion, this formidable empire maintained a respectful distance, a testament to the Premians' enduring influence and mystic reputation. In a bygone era, Premius was known across the cosmos as an enlightened world, a center of profound spiritual and philosophical thought. This heritage has not been lost; the Premians still possess a deep connection to mystic arts and traditions that continue to shape their society.
 

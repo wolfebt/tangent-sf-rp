@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","source-of-truth","99. modular faction matrix","matrix"]
-updatedAt: "2026-09-12T05:04:16.072Z"
+updatedAt: "2026-10-13T03:46:47.896Z"
 costs:
   bp: 0
   credits: 0
@@ -126,7 +126,7 @@ Create a curated list of skills that represents the faction's "Basic Training."
 
 Reference: 01.07 FEATURES
 
-Select two features that characters from this faction may take as a bonus (0 BP).
+Select two features that characters from this faction may take as a bonus (0 CP).
 
 **Examples:** *Authority*, *Clearance*, *Wealthy*, *Contacts*, *Combat Trained*.
 
@@ -234,7 +234,7 @@ Select two features that characters from this faction may take as a bonus (0 BP)
 
 **Faction Skill Package (20 Points)**
 
-**Bonus Features (1 BP Discount)**
+**Bonus Features (1 CP Discount)**
 
 \[Feature Name\]
 

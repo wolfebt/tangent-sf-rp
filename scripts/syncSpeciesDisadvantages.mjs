@@ -32,7 +32,9 @@ function syncDisadvantages() {
     const name = data.name || data.title || id;
     const disType = data.disadvantage_type || data.type || 'Disadvantage';
     const classification = data.classification || (disType.includes('Species') ? 'Physical' : 'General');
-    const refundBP = Math.abs(typeof data.refundBP === 'number' ? data.refundBP : (typeof data.costs?.bp === 'number' ? data.costs.bp : (typeof data.costBP === 'number' ? data.costBP : 2)));
+    const refundVal = Math.abs(typeof data.refundCP === 'number' ? data.refundCP : (typeof data.refundBP === 'number' ? data.refundBP : (typeof data.costs?.cp === 'number' ? data.costs.cp : (typeof data.costs?.bp === 'number' ? data.costs.bp : (typeof data.costBP === 'number' ? data.costBP : 2)))));
+    const refundCP = refundVal;
+    const refundBP = refundVal;
 
     let mechanics = data.mechanic || data.mechanics || '';
     if (!mechanics && body) {
@@ -49,7 +51,7 @@ function syncDisadvantages() {
       if (ruleMatch) rules = ruleMatch[1].trim();
     }
     if (!rules) {
-      rules = `Hindrance: Grants ${refundBP} CP refund upon selection.`;
+      rules = `Hindrance: Grants ${refundCP} CP refund upon selection.`;
     }
 
     const rawDisObj = {
@@ -60,8 +62,11 @@ function syncDisadvantages() {
       disadvantage_type: disType,
       classification,
       type: classification,
+      refundCP,
       refundBP,
-      costs: { bp: -refundBP },
+      cp: -refundCP,
+      bp: -refundBP,
+      costs: { cp: -refundCP, bp: -refundBP },
       prerequisite: data.prerequisite || data.prerequisites || 'None',
       desc: data.description || '',
       description: data.description || '',

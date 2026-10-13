@@ -9,16 +9,18 @@ is_multiple: false
 prerequisites: Agility 4
 description: The character reacts to danger before their senses fully process it.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'uncanny dodge, combat, special-feature, combat-maneuver, tactical-edge, reacts'
 negative_keywords: 'pacifist, feeble, untrained-civilian'
+cost_cp: 3
 ---
 
 # Uncanny Dodge
 
 **Category**: Combat Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Agility 4
 
 ## Description

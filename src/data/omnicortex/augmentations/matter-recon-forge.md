@@ -9,6 +9,7 @@ description: Resurrects from single cell in 1d4 days.
 stigma: None
 type: Esoteric
 costs:
+  cp: 0
   bp: 0
   credits: 655360
   nodes: 0
@@ -37,4 +38,4 @@ negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
 Category: **9\. TL5 Advanced Augmentations**
 
 **Effect:** Resurrects from single cell in 1d4 days.
-**BP:** 5
+**CP:** 5

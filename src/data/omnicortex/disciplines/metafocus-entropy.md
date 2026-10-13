@@ -7,10 +7,14 @@ metafocus_skills:
   - Order
 primary_color: 'Sickly Green (Chaos), Geometric Gold (Order), Vibrant Life Green (Healing)'
 secondary_color: 'Grey/Black, Crystal White, Soft Gold'
-texture_form: 'Rusting, decaying, mist, smoke; or perfect crystal lattices and knitting cellular flesh.'
+texture_form: >-
+  Rusting, decaying, mist, smoke; or perfect crystal lattices and knitting
+  cellular flesh.
 description: >-
-  Governing the acceleration of decay, molecular breakdown, probability shifts, and harmonic biological restoration.
+  Governing the acceleration of decay, molecular breakdown, probability shifts,
+  and harmonic biological restoration.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

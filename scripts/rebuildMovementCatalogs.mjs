@@ -442,14 +442,20 @@ const ALL_MOVEMENT_ENTRIES = [
   ...ADVANCED_MOVEMENT_MODES,
   ...SPEED_ADJUSTERS,
   ...TACTICAL_PACES
-].map(item => ({
-  ...item,
-  costs: {
-    bp: item.bp || 0
-  },
-  modifiers: item.modifiers || [],
-  body: `# ${item.name}\n\n**Category**: Species Movement (${item.classification.toUpperCase()})  \n**Classification**: ${item.classification}  \n**Target Mode**: ${item.target_mode}  \n**Cost**: ${item.bp >= 0 ? `+${item.bp}` : item.bp} BP  \n${item.speed_modifier !== undefined ? `**Speed Modifier**: ${item.speed_modifier > 0 ? `+${item.speed_modifier}` : item.speed_modifier} ft (Additive)  \n` : ''}${item.base_speed ? `**Base Speed**: ${item.base_speed} ft / round  \n` : ''}\n## Description\n${item.description}\n`
-}));
+].map(item => {
+  const cost = item.cp ?? item.bp ?? 0;
+  return {
+    ...item,
+    cp: cost,
+    bp: cost,
+    costs: {
+      cp: cost,
+      bp: cost
+    },
+    modifiers: item.modifiers || [],
+    body: `# ${item.name}\n\n**Category**: Species Movement (${item.classification.toUpperCase()})  \n**Classification**: ${item.classification}  \n**Target Mode**: ${item.target_mode}  \n**Cost**: ${cost >= 0 ? `+${cost}` : cost} CP  \n${item.speed_modifier !== undefined ? `**Speed Modifier**: ${item.speed_modifier > 0 ? `+${item.speed_modifier}` : item.speed_modifier} ft (Additive)  \n` : ''}${item.base_speed ? `**Base Speed**: ${item.base_speed} ft / round  \n` : ''}\n## Description\n${item.description}\n`
+  };
+});
 
 // Grouped Dictionary for UI and Engine: ZERO DUPLICATES
 const SPECIES_MOVEMENT_GROUPS = {

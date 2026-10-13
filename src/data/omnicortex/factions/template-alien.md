@@ -58,6 +58,7 @@ description: >-
   or dangerous to humanity, driven by a biological imperative to expand,
   explore, or ensure the survival of their race
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Faction Template
@@ -122,7 +123,7 @@ negative_keywords: 'human-centrism, terrestrial-culture, urban-bureaucracy, conv
   * Stealth (+4)  
   * Combat (Any) (+3)  
 * **Typical Archetypes:** The Scout, The Hunter, The Emissary, The Bio-Shaper, The Survivor, The Brute, The Observer, The Hive-Node, The Infiltrator, The Xenologist.  
-* **Recommended Features (1 BP Discount):** Alien Physiology, Natural Weapons, Environmental Adaptation, Scent, Fast Heal, Telepathy, Wall-Crawler, Toxic Resistance, Pheromone Control, Echolocation.
+* **Recommended Features (1 CP Discount):** Alien Physiology, Natural Weapons, Environmental Adaptation, Scent, Fast Heal, Telepathy, Wall-Crawler, Toxic Resistance, Pheromone Control, Echolocation.
 
 ### **VI. Visual Semiotics (Aesthetics)**
 

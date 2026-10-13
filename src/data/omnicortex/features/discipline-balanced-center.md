@@ -11,18 +11,20 @@ description: >-
   Balanced Center is a Discipline Feature: May take 10 with all Discipline
   Checks Expertised.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   balanced center, discipline, special-feature, focused-training, mastery,
   balanced
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Balanced Center
 
 **Category**: Discipline Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Centering Exp, Discipline Exp
 
 ## Description

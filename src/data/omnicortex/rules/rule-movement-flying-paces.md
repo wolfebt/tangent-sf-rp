@@ -2,8 +2,11 @@
 id: rule-movement-flying-paces
 name: Flying Movement Paces & Aerial Rules
 category: rules
-description: Rules for flight speeds (Flight, Sail, Surge/Soar, Dive, Glide, Hover) and aerial fatigue.
+description: >-
+  Rules for flight speeds (Flight, Sail, Surge/Soar, Dive, Glide, Hover) and
+  aerial fatigue.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

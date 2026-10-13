@@ -5,6 +5,7 @@ category: invocations
 discipline: Matter
 description: PROTECTION invocation for Matter reality manipulation.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
 recommended_species:

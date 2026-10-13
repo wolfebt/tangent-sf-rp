@@ -6,6 +6,7 @@ description: >-
   Pinned by fire. Leaving cover triggers immediate Attack of Opportunity.
   Cleared when enemy stops firing, reloads, or is neutralized.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

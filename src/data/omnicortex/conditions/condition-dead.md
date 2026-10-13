@@ -1,9 +1,12 @@
-﻿---
+---
 id: condition-dead
 name: Dead
 category: conditions
-description: Permanently deceased. Can only be revived through high-level Metaphysics or TL5 Tech under the High Cost of Dying.
+description: >-
+  Permanently deceased. Can only be revived through high-level Metaphysics or
+  TL5 Tech under the High Cost of Dying.
 costs:
+  cp: 0
   bp: 0
   credits: 0
   nodes: 0

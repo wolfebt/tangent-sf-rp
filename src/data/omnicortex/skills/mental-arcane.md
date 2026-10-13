@@ -17,6 +17,7 @@ specialties:
 synergy_links:
   - meta-attune
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'arcane, mental, intellect, cognitive, expertise, theory'

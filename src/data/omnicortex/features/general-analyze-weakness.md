@@ -11,16 +11,18 @@ description: >-
   Analyze Weakness is a General Feature: +1 bonus vs target per 5 points of
   success (Assessment vs Bluff).
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'analyze weakness, general, special-feature, analyze, weakness, feature:'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Analyze Weakness
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Assessment
 
 ## Description

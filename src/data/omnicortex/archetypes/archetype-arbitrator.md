@@ -32,17 +32,19 @@ description: >-
   The neutral mediator who resolves disputes with absolute impartiality and a
   deep understanding of universal justice.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'arbitrator, visionary, idealist, leadership, charisma, mediator, social'
 negative_keywords: 'anti-social, mute, solitary-hermit'
+cp_chassis: 80
 ---
 
 # The Arbitrator
 
 **Sphere**: Visionaries (The Idealists)  
 **Core Concept**: Mediator / Social / Buffer  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Wisdom  
 **Secondary Attribute**: Charisma  
 

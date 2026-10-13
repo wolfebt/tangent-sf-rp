@@ -22,6 +22,7 @@ synergy_links:
   - mental-mechanic
   - mental-electrician
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'technology, mental, intellect, cognitive, expertise, hardware'

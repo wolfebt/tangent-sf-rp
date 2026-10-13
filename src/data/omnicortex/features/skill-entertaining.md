@@ -9,16 +9,18 @@ is_multiple: false
 prerequisites: Charisma 1
 description: 'The character is a born performer, capable of holding an audience''s attention.'
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'entertaining, skill, special-feature, performer, capable, holding'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Entertaining
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Charisma 1
 
 ## Description

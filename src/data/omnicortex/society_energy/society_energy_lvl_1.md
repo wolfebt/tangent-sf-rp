@@ -8,6 +8,7 @@ description: >-
   Level 1 development in Energy & Power Generation: Power generation, fusion
   reactors, antimatter taps, and solar arrays. (Emerging / Industrial).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

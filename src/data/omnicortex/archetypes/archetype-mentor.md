@@ -32,17 +32,19 @@ description: >-
   The experienced instructor who guides the growth of others, identifying
   potential and refining raw talent.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'mentor, visionary, idealist, leadership, charisma, buffer, support'
 negative_keywords: 'mindless-brute, reckless, illiterate, anti-social, mute'
+cp_chassis: 80
 ---
 
 # The Mentor
 
 **Sphere**: Visionaries (The Idealists)  
 **Core Concept**: Buffer / Support / Teacher  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Wisdom  
 **Secondary Attribute**: Intellect  
 

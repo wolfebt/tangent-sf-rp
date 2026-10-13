@@ -8,6 +8,7 @@ description: >-
   Level 4 development in Commerce & Economy: Economic models, banking networks,
   trade routes, currency, and resource exchange. (Mastered / Interstellar).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

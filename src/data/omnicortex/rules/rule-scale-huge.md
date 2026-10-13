@@ -4,6 +4,7 @@ name: 'Scale: Huge (x5)'
 category: rules
 description: 'Walker mecha / tanks; x5 damage, +4 defense modifier.'
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

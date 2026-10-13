@@ -27,6 +27,7 @@ mechanic: >-
   Motorized Strength (+2 Might), Sealed Life Support (24h), Integrated HUD. DR
   35, SP 100.
 costs:
+  cp: 0
   bp: 0
   credits: 40960
   nodes: 0

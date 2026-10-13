@@ -43,6 +43,7 @@ tech_level: 4 (Advanced Cybernetics & Neural Sockets)
 meta_level: 0 (Null / Technological Optimization)
 homeworld: Cygnus Arcologies & Orbital Rings
 costs:
+  cp: 17
   bp: 17
 modifiers:
   - target: Intellect
@@ -56,11 +57,11 @@ description: >-
   Cyberforms are transhumans who have replaced upwards of 60% of their organic
   bodies with cybernetic augmentations, internal processors, and sub-dermal
   nano-repair hives.
-traits:
+traits: &ref_0
   - trait-ageless
-  - trait-augmented-sub-dermal-body-comp-pico-surgeons-smart-link
-  - trait-bodyform-acclimation-0-cyber-strain
-  - trait-companion-integrated-sub-ai-assistant
+  - trait-synthetic-armor-opts
+  - trait-bodyform-adaptation
+  - trait-bonus-feature
 recommended_factions:
   - The Syndicate
   - Technological Faction Template
@@ -76,11 +77,12 @@ keywords: >-
   cyborg, neural-socket, optic-hub, titanium-replacement, high-tech,
   nanite-repair
 negative_keywords: 'nature-magic, emp-vulnerable, biological-purist, low-tech'
+species_traits: *ref_0
 ---
 
 # Cyberform Human (Transhuman Cyborg)
 
-**BP Cost:**   
+**CP Cost:** 17 CP  
 **Description:** Reclusive and highly advanced culture with adaptive picotech augmentations integrated on a genetic level. Personal AIs bond with each infant for its facilitation and also to voice any needs and opinions in the AI managed society. Combines Cybernetic and Eudaimonic Societies, becoming an efficient and benevolent democratic AI social focused government that promotes fulfillment of an individual’s potential. A tolerant and understanding culture, allowing individuals to pursue their own paths and wholly backed by their system. 
 
 Have strong belief in governmental transparency and communal information while having personal privacy between individuals. The Network’s management council is composed of actual Synthetic Intellects and digitally converted Cyberforms, with constant communication from personal Body Computers. This allows the system to be highly efficient in maintaining the world’s infrastructure, transportation, logistics, communications, education, archives, etc. with the priority of ALL of its people’s needs, wants, and well being. 

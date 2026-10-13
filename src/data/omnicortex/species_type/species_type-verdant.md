@@ -5,6 +5,7 @@ category: species_type
 bp: 9
 cp: 9
 costs:
+  cp: 9
   bp: 9
 senses: 'Low-light vision. [1]'
 immunities: 'Mind-affecting effects, poison, sleep, paralysis [6]'

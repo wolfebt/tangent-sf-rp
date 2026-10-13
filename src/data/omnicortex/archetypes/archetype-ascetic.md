@@ -30,17 +30,19 @@ tactical_role: 'Resisting mental attacks, calming emotions, spiritual guidance.'
 quote: '"Peace is not the absence of conflict, but the ability to handle it."'
 description: 'A devout individual dedicated to prayer and meditation, seeking enlightenment.'
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'ascetic, visionary, idealist, leadership, charisma, monk, buffer'
 negative_keywords: 'anti-social, mute, solitary-hermit'
+cp_chassis: 80
 ---
 
 # The Ascetic
 
 **Sphere**: Visionaries (The Idealists)  
 **Core Concept**: Monk / Buffer / Mental Tank  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Wisdom  
 **Secondary Attribute**: Constitution  
 

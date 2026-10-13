@@ -5,6 +5,7 @@ category: invocations
 discipline: Entropy
 description: PROTECTION invocation for Entropy reality manipulation.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
 recommended_species:

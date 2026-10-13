@@ -13,18 +13,20 @@ description: >-
   two pages simultaneously and process localized data without global
   interference.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   dual-hemispheric processing, general, special-feature, congenital, anomaly,
   agenesis
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Dual-Hemispheric Processing
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Intellect 3, Special (Congenital Trait)
 
 ## Description

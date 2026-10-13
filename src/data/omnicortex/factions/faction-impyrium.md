@@ -63,6 +63,7 @@ description: >-
   maintaining massive infrastructure as proof of their right to rule. Every
   action is dictated by the *Code of the Forefathers*
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Major Galactic Power
@@ -146,7 +147,7 @@ negative_keywords: >-
 * **Prominent Species:** Humans.  
 * **Faction Skill Package (20 Points):** History (+5), Diplomacy (Command) (+4), Combat (+4), Athletics (+3), Intimidate (+2), Vocation (+2).  
 * **Typical Archetypes:** The Bureaucrat, The Protector, The Demolisher, The Shock Trooper, The Legionnaire, The High Commander, The Armorer, The Zealot, The Aristocrat, The Chronicler, The Priest, The Archivist.  
-* **Recommended Features (1 BP Discount):**  
+* **Recommended Features (1 CP Discount):**  
   * Benefit (Status), Benefit (Equipment), Combat Expertise, Defensive Combat Training, Iron Will, Educated, Coordinated Assist, Master Plan, Indomitable Will, Meticulous, Weapon Focus, Skill Focus.
 
 ### **VI. Visual Synthesis Protocols (Aesthetics)**

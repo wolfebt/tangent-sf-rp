@@ -7,6 +7,7 @@ description: >-
   Guarded approach, defensive advancement at base speed. NO Modifiers and not
   counted as an Advancing Target.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

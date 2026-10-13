@@ -12,16 +12,18 @@ description: >-
   business doing. When inexperienced, they rely on instinct and fortune rather
   than training.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'beginner''s luck, karma, special-feature, uncanny, succeeding, things'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Beginner's Luck
 
 **Category**: Karma Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: The Skill being attempted must be at **Rank 5 (Novice) or lower**.
 
 ## Description

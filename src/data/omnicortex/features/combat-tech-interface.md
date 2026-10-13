@@ -12,18 +12,20 @@ description: >-
   that allows them to bridge the gap between consciousness and advanced
   machinery.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   tech interface, combat, special-feature, combat-maneuver, tactical-edge,
   possesses
 negative_keywords: 'pacifist, feeble, untrained-civilian'
+cost_cp: 3
 ---
 
 # Tech Interface
 
 **Category**: Combat Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: None
 
 ## Description

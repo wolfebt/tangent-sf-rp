@@ -9,16 +9,18 @@ is_multiple: true
 prerequisites: None
 description: The character can survive in environments hostile to their biology.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'life support, special, special-feature, survive, environments, hostile'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Life Support
 
 **Category**: Special Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: None
 
 ## Description

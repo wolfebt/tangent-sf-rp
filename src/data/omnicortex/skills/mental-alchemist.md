@@ -21,6 +21,7 @@ synergy_links:
   - mental-medicine
   - mental-nature
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'alchemist, mental, intellect, cognitive, expertise, creating'

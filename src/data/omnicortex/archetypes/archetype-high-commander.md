@@ -28,17 +28,19 @@ tactical_role: 'Mass buffing allies, coordinating large-scale battles, strategic
 quote: '"Victory is not an accident. It is engineered."'
 description: A high-ranking military commander who leads legions into battle.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'high commander, sentinel, defender, stability, order, leadership, strategy'
 negative_keywords: 'mindless-brute, reckless, illiterate, chaotic-anarchist, unreliable'
+cp_chassis: 80
 ---
 
 # The High Commander
 
 **Sphere**: Sentinels (The Stabilizers)  
 **Core Concept**: Leadership / Strategy / Buff  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
 **Secondary Attribute**: Charisma  
 

@@ -9,16 +9,18 @@ is_multiple: false
 prerequisites: 'Knowledge 6, Intellect 2'
 description: The character is a font of trivia and data.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'versatile curator, skill, special-feature, trivia'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Versatile Curator
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Knowledge 6, Intellect 2
 
 ## Description

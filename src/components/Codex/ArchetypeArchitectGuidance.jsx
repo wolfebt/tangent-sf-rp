@@ -639,7 +639,7 @@ export const ArchetypeArchitectGuidance = ({
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-purple-400 uppercase">
                   <Sparkles size={13} />
-                  <span>Signature Features (13 BP Allocation)</span>
+                  <span>Signature Features (13 CP Allocation)</span>
                 </div>
                 {isEditMode && onOpenPicker && (
                   <button
@@ -653,7 +653,7 @@ export const ArchetypeArchitectGuidance = ({
                 )}
               </div>
               <p className="text-[11px] text-slate-400 leading-normal">
-                Two 2-BP signature features plus three relative features forming the mechanical core of this archetype.
+                Two 2-CP signature features plus three relative features forming the mechanical core of this archetype.
               </p>
             </div>
 

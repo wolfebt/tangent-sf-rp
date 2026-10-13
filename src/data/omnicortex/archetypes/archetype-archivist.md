@@ -32,17 +32,19 @@ description: >-
   Studies history and culture. Provides context and insight into societies and
   ancient technologies.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'archivist, savant, rational, intellect, strategist, knowledge, utility'
 negative_keywords: 'mindless-brute, reckless, illiterate'
+cp_chassis: 80
 ---
 
 # The Archivist
 
 **Sphere**: Savants (The Rationals)  
 **Core Concept**: Knowledge / Utility  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
 **Secondary Attribute**: Wisdom  
 

@@ -8,19 +8,21 @@ is_ranked: false
 is_multiple: false
 prerequisites: Sensory Antennae or Electro-Receptive Physiology
 description: >-
-  Delicate sensory antennae perceive bio-energetic, electromagnetic, and olfactory
-  fields, enabling non-visual spatial awareness.
+  Delicate sensory antennae perceive bio-energetic, electromagnetic, and
+  olfactory fields, enabling non-visual spatial awareness.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
 keywords: 'blind-sense, scent, em, electromagnetic, bio-energetic, antennae, sensory'
 negative_keywords: 'blind, sensory-deprived, oblivious'
+cost_cp: 2
 ---
 
 # Blind Sense (Scent/EM)
 
 **Category**: Sensory / Special Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisite**: Sensory Antennae or Electro-Receptive Physiology  
 
 ## Description

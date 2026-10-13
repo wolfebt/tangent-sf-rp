@@ -5,6 +5,7 @@ dcMod: 4
 description: Arcs from the primary target to up to 3 secondary targets within 15 feet.
 category: area
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

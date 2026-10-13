@@ -25,6 +25,7 @@ description: >-
   deflection against kinetic and acid attacks.
 mechanic: 'Acid & Kinetic Resistance (Ignore 5 Acid/Corrosive damage). DR 18, SP 45.'
 costs:
+  cp: 0
   bp: 0
   credits: 2560
   nodes: 0

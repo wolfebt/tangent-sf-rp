@@ -9,6 +9,7 @@ description: Subdermal anchors for modular jewelry.
 stigma: None
 type: Fashionware
 costs:
+  cp: 0
   bp: 0
   credits: 40
   nodes: 0

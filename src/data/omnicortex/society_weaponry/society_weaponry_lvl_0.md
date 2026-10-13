@@ -8,6 +8,7 @@ description: >-
   Level 0 development in Weaponry & Defense Grids: Military doctrines, planetary
   defense grids, ordinance, and arms advancement. (Primitive / Subsistence).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

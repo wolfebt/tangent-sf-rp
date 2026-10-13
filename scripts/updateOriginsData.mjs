@@ -11,6 +11,8 @@ const ALL_11_ORIGINS = [
     name: 'Agricultural',
     category: 'origins',
     habitat: 'Planetary Biome',
+    ws_modifier: 0,
+    economic_context: 'Agri-world baseline; high food volume with stable agrarian commodity prices.',
     skill_points: 20,
     society_skills: [
       'Piloting',
@@ -145,6 +147,8 @@ Farmer, Hunter, Preservationist, Pilot, Technician, Community Leader
     name: 'Aquatic',
     category: 'origins',
     habitat: 'Aquatic & Oceanic',
+    ws_modifier: 1,
+    economic_context: 'Specialized oceanic biosphere; pharmaceutical & hydrogen export dividends.',
     skill_points: 20,
     society_skills: [
       'Athletics',
@@ -279,6 +283,8 @@ Mariner, Deep Sea Explorer, Marine Biologist, Shipwright, Underwater Salvage Exp
     name: 'Colony',
     category: 'origins',
     habitat: 'Frontier Outpost',
+    ws_modifier: 0,
+    economic_context: 'Developing frontier settlement; self-reliant barter and pioneer infrastructure.',
     skill_points: 20,
     society_skills: [
       'Piloting',
@@ -423,6 +429,8 @@ Pioneer, Homesteader, Prospector, Engineer, Doctor, Soldier
     name: 'Enlightened',
     category: 'origins',
     habitat: 'Sanctuary & Arcane',
+    ws_modifier: 2,
+    economic_context: 'Cultural / academic enclaves; robust institutional stipends & archives.',
     skill_points: 20,
     society_skills: [
       'Alertness',
@@ -559,6 +567,8 @@ Arcanist, Psionic, Seer, Scholar, Spiritual Guide, Envoy
     name: 'Hostile',
     category: 'origins',
     habitat: 'Death World & Extreme',
+    ws_modifier: 0,
+    economic_context: 'Extreme survival environment; resource-strained frontier economy.',
     skill_points: 20,
     society_skills: [
       'Athletics',
@@ -692,6 +702,8 @@ Survivalist, Warrior, Scavenger, Shaman, Mutant, Outcast
     name: 'Industrial',
     category: 'origins',
     habitat: 'Industrial Heavy',
+    ws_modifier: 2,
+    economic_context: 'Manufacturing powerhouses; high demand for specialized technical labor.',
     skill_points: 20,
     society_skills: [
       'Knowledge (Technology)',
@@ -836,6 +848,8 @@ Miner, Factory Worker, Engineer, Foreman, Security Officer, Corporate Executive
     name: 'Leisure',
     category: 'origins',
     habitat: 'Resort & Paradise',
+    ws_modifier: 3,
+    economic_context: 'Resort / luxury worlds; high disposable capital, service wealth & tourism.',
     skill_points: 20,
     society_skills: [
       'Vocation (Any)',
@@ -980,6 +994,8 @@ Aesthete, Socialite, Concierge, Entertainer, Artisan, Security Officer
     name: 'Militaristic',
     category: 'origins',
     habitat: 'Military Stronghold',
+    ws_modifier: 0,
+    economic_context: 'Garrison or fortress world; strictly controlled military logistics and stipends.',
     skill_points: 20,
     society_skills: [
       'Combat (Any)',
@@ -1125,6 +1141,8 @@ Shock Trooper, Sharpshooter, Combat Medic, Tactician, Military Engineer, Militar
     name: 'Research',
     category: 'origins',
     habitat: 'Science & Laboratory',
+    ws_modifier: 2,
+    economic_context: 'High-tech laboratories & testing worlds; lucrative corporate research grants.',
     skill_points: 20,
     society_skills: [
       'Mental (Any)',
@@ -1270,6 +1288,8 @@ Scientist, Analyst, Theorist, Archivist, Technician, Security Officer
     name: 'Spacer',
     category: 'origins',
     habitat: 'Deep Void & Station',
+    ws_modifier: 1,
+    economic_context: 'Orbital station or asteroid habitat; independent merchant trade exposure.',
     skill_points: 20,
     society_skills: [
       'Piloting',
@@ -1403,6 +1423,8 @@ Freighter Captain, Explorer, Mercenary, Smuggler, Technician, Merchant
     name: 'Urban',
     category: 'origins',
     habitat: 'Sprawl & Arcology',
+    ws_modifier: 1,
+    economic_context: 'Metropolis or arcology hub; dense consumer markets & financial services.',
     skill_points: 20,
     society_skills: [
       'Streetwise',
@@ -1576,6 +1598,8 @@ id: ${origin.id}
 name: ${origin.name}
 category: origins
 habitat: "${origin.habitat}"
+ws_modifier: ${origin.ws_modifier}
+economic_context: "${origin.economic_context}"
 skill_points: 20
 society_skills:
 ${origin.society_skills.map(s => `  - "${s}"`).join('\n')}
@@ -1602,6 +1626,7 @@ modifiers: []
 
 **Category**: Origins  
 **Habitat**: ${origin.habitat}  
+**EUFT Wealth Score Modifier**: +${origin.ws_modifier} (${origin.economic_context})  
 **Starting Skill Points**: 20 SP (allocated to Society Skills)  
 **Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)
 

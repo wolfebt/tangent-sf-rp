@@ -19,6 +19,7 @@ synergy_links:
   - physical-athletics
   - mental-weaponsmith
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'ranged, combat, agility, tactical, offensive, defense'

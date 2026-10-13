@@ -48,6 +48,7 @@ import {
 import { formatSpeciesTrait, getInherentSpeciesTraits } from '../../../utils/speciesDisplayUtils';
 import { METAPHYSICAL_DISCIPLINES } from '../../../data/skillsData';
 import { resolveCatalogItem } from '../../../engines/tangentIdentityEngine';
+import { getCanonicalTraitCost, formatGrantedCost } from '../../../engines/tangentEntityEngines';
 import {
   extractPillarFeatureSets,
   getPillarFeatureRecommendations,
@@ -731,11 +732,16 @@ export const FeaturesTab = ({
           item.cp === 0
         );
 
+        const canonicalCost = getCanonicalTraitCost(item);
+        const canonicalTrait = ALL_CANONICAL_TRAITS.find(ct => ct.id === item.id || normalizeLookupName(ct.name) === cleanName);
+        const package_traits = (item.package_traits && item.package_traits.length > 0) ? item.package_traits : (canonicalTrait?.package_traits || []);
+
         combined.push({
           ...(typeof item === 'object' ? item : { name: item }),
           columnCategory,
           cleanName,
-          cp: isInherent ? 0 : (typeof item === 'object' && item.cp !== undefined ? item.cp : 1)
+          package_traits,
+          cp: isInherent ? 0 : (typeof item === 'object' && item.cp !== undefined && item.cp !== null ? Number(item.cp) : canonicalCost)
         });
       }
     });
@@ -869,10 +875,11 @@ export const FeaturesTab = ({
     return result;
   }, [columnsData]);
 
-  // Total CP of Character Traits (1 CP each for purchased, 0 for inherent)
+  // Total CP of Character Traits (1, 2, or 4 CP for purchased based on tier, 0 for inherent)
   const totalTraitsCP = useMemo(() => {
     return characterTraits.reduce((acc, t) => {
-      const cost = typeof t === 'object' && t.cp !== undefined ? parseInt(t.cp, 10) : 1;
+      if (t.isInherent || t.cp === 0) return acc;
+      const cost = typeof t === 'object' && t.cp !== undefined && t.cp !== null ? parseInt(t.cp, 10) : getCanonicalTraitCost(t);
       return acc + (isNaN(cost) ? 1 : cost);
     }, 0);
   }, [characterTraits]);
@@ -2003,7 +2010,7 @@ export const FeaturesTab = ({
                           description={feat.description || 'Pillar recommended feature.'}
                           formula={feat.mechanic || undefined}
                           modifiers={Array.isArray(feat.modifiers) ? feat.modifiers : []}
-                          prerequisites={feat.prerequisites || undefined}
+                          prerequisites={prereqResult.prerequisiteText}
                           prerequisiteMet={!isPrereqUnmet}
                           prerequisiteUnmetReasons={prereqResult.unmetReasons}
                           cost={`${discountInfo.finalCost} CP (Base: ${discountInfo.baseCost || 3} CP, -${discountInfo.totalDiscount || 1} CP Discount)`}
@@ -2238,7 +2245,7 @@ export const FeaturesTab = ({
                           description={feat.description || 'Persona feature.'}
                           formula={feat.mechanic || undefined}
                           modifiers={Array.isArray(feat.modifiers) ? feat.modifiers : []}
-                          prerequisites={feat.prerequisites || undefined}
+                          prerequisites={prereqResult.prerequisiteText}
                           prerequisiteMet={!isPrereqUnmet}
                           prerequisiteUnmetReasons={prereqResult.unmetReasons}
                           cost={discountInfo.isDiscounted ? `${discountInfo.finalCost} CP (Discounted from 3 CP)` : '3 CP'}
@@ -2409,44 +2416,61 @@ export const FeaturesTab = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
                 {characterTraits.map((t, tIdx) => {
                   const tName = t.name || t.title || 'Trait';
-                  const tCost = t.cp === 0 ? 'Inherent (0 CP)' : `${t.cp || 1} CP`;
+                  const tierCost = getCanonicalTraitCost(t);
+                  const tCost = (t.isInherent || t.cp === 0) ? formatGrantedCost(0, tierCost, 'CP') : `${t.cp || tierCost} CP`;
                   const tCol = t.columnCategory || t.columnSource || 'Heritage';
                   const tColor = tCol === 'Species' ? 'cyan' : tCol === 'Origin' ? 'emerald' : tCol === 'Occupation' ? 'sky' : 'purple';
                   return (
                     <div
                       key={`acq_t_${tIdx}`}
-                      className="p-2 rounded-lg border border-emerald-900/40 bg-slate-950/80 flex items-center justify-between gap-2 text-xs hover:border-emerald-700/60 transition-colors"
+                      className="p-2 rounded-lg border border-emerald-900/40 bg-slate-950/80 flex flex-col justify-between gap-1.5 text-xs hover:border-emerald-700/60 transition-colors"
                     >
-                      <div className="flex items-center gap-1.5 min-w-0 flex-1">
-                        <FolioTooltip
-                          title={tName}
-                          badge={`${tCol} Trait`}
-                          badgeColor={tColor}
-                          description={t.description || 'Acquired column heritage trait.'}
-                          formula={t.mechanic || undefined}
-                          modifiers={Array.isArray(t.modifiers) ? t.modifiers : []}
-                          cost={tCost}
-                          tags={[t.trait_tier || 'Basic', tCol].filter(Boolean)}
-                          showInfoIcon={true}
-                        >
-                          <h5 className="font-bold text-xs text-slate-100 truncate hover:text-emerald-300 transition-colors">
-                            {tName}
-                          </h5>
-                        </FolioTooltip>
+                      <div className="flex items-center justify-between gap-2 w-full">
+                        <div className="flex items-center gap-1.5 min-w-0 flex-1">
+                          <FolioTooltip
+                            title={tName}
+                            badge={`${tCol} Trait`}
+                            badgeColor={tColor}
+                            description={t.description || 'Acquired column heritage trait.'}
+                            formula={t.mechanic || undefined}
+                            modifiers={Array.isArray(t.modifiers) ? t.modifiers : []}
+                            cost={tCost}
+                            tags={[t.trait_tier || 'Basic', tCol].filter(Boolean)}
+                            showInfoIcon={true}
+                          >
+                            <h5 className="font-bold text-xs text-slate-100 truncate hover:text-emerald-300 transition-colors">
+                              {tName}
+                            </h5>
+                          </FolioTooltip>
+                        </div>
+                        <div className="flex items-center gap-1.5 shrink-0">
+                          <span className="text-[9.5px] font-mono font-bold px-1.5 py-0.2 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">
+                            {tCost}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveTrait(t)}
+                            className="text-slate-500 hover:text-red-400 text-xs p-1 rounded hover:bg-slate-900 transition-colors cursor-pointer"
+                            title="Remove trait"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                          </button>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-1.5 shrink-0">
-                        <span className="text-[9.5px] font-mono font-bold px-1.5 py-0.2 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">
-                          {tCost}
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveTrait(t)}
-                          className="text-slate-500 hover:text-red-400 text-xs p-1 rounded hover:bg-slate-900 transition-colors cursor-pointer"
-                          title="Remove trait"
-                        >
-                          <Trash2 className="w-3 h-3" />
-                        </button>
-                      </div>
+
+                      {t.package_traits && t.package_traits.length > 0 && (
+                        <div className="flex flex-wrap gap-1 pt-1 border-t border-slate-900">
+                          {t.package_traits.map((sub, sIdx) => (
+                            <span
+                              key={sIdx}
+                              className="px-1.5 py-0.5 rounded bg-slate-900/90 border border-emerald-900/50 text-[8.5px] font-mono text-emerald-300/90"
+                              title={sub.mechanic || sub.name}
+                            >
+                              {sub.name} <span className="text-emerald-500/70">[{sub.cp || sub.bp} CP]</span>
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   );
                 })}
@@ -2509,9 +2533,9 @@ export const FeaturesTab = ({
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                     {columnAvailableTraits.species.map((trait, idx) => {
                       const acquired = isTraitAcquired(trait.name || trait.id);
-                      const rawCp = parseInt(trait.cpCost || trait.cp || trait.bp || 1, 10);
-                      const traitCp = trait.isInherent ? 0 : ([1, 2, 4].includes(rawCp) ? rawCp : 1);
-                      const costDisplay = trait.isInherent ? 'Inherent (0 CP)' : `${traitCp} CP`;
+                      const rawTierCost = getCanonicalTraitCost(trait);
+                      const traitCp = trait.isInherent ? 0 : rawTierCost;
+                      const costDisplay = trait.isInherent ? formatGrantedCost(0, rawTierCost, 'CP') : `${traitCp} CP`;
                       const prereqResult = checkPrerequisite(trait, characterData, 'features');
                       const isPrereqUnmet = prereqResult.hasPrerequisite && !prereqResult.isPossessed;
 
@@ -2535,7 +2559,7 @@ export const FeaturesTab = ({
                               description={trait.description || 'Species heritage trait.'}
                               formula={trait.mechanic || undefined}
                               modifiers={Array.isArray(trait.modifiers) ? trait.modifiers : []}
-                              prerequisites={trait.prerequisites || undefined}
+                              prerequisites={prereqResult.prerequisiteText}
                               prerequisiteMet={!isPrereqUnmet}
                               prerequisiteUnmetReasons={prereqResult.unmetReasons}
                               cost={costDisplay}
@@ -2547,6 +2571,22 @@ export const FeaturesTab = ({
                               </h5>
                             </FolioTooltip>
                           </div>
+
+                          {/* Packaged Sublist Pills */}
+                          {trait.package_traits && trait.package_traits.length > 0 && (
+                            <div className="flex flex-wrap gap-1 py-0.5">
+                              {trait.package_traits.map((sub, sIdx) => (
+                                <span
+                                  key={sIdx}
+                                  className="px-1.5 py-0.5 rounded bg-slate-900/90 border border-cyan-900/50 text-[8.5px] font-mono text-cyan-300 flex items-center gap-1"
+                                  title={sub.mechanic || sub.name}
+                                >
+                                  <span>{sub.name}</span>
+                                  <span className="text-[8px] text-cyan-400/70">[{sub.cp || sub.bp} CP]</span>
+                                </span>
+                              ))}
+                            </div>
+                          )}
 
                           {/* Line 2: Tier / Notes & Controls */}
                           <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-900 text-xs">
@@ -2596,7 +2636,7 @@ export const FeaturesTab = ({
                                     className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-cyan-950 hover:bg-cyan-900 border border-cyan-600 text-cyan-200 transition-all cursor-pointer flex items-center gap-1"
                                   >
                                     <Plus className="w-3 h-3" />
-                                    <span>+ Add {trait.isInherent ? '(0 CP)' : `(${traitCp} CP)`}</span>
+                                    <span>+ Add {trait.isInherent ? `(${costDisplay})` : `(${traitCp} CP)`}</span>
                                   </button>
                                 )
                               ) : (
@@ -2658,6 +2698,8 @@ export const FeaturesTab = ({
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                     {columnAvailableTraits.origin.map((trait, idx) => {
                       const acquired = isTraitAcquired(trait.name || trait.id);
+                      const traitCp = getCanonicalTraitCost(trait);
+                      const costDisplay = `${traitCp} CP`;
                       const prereqResult = checkPrerequisite(trait, characterData, 'features');
                       const isPrereqUnmet = prereqResult.hasPrerequisite && !prereqResult.isPossessed;
 
@@ -2681,10 +2723,10 @@ export const FeaturesTab = ({
                               description={trait.description || 'Origin heritage trait.'}
                               formula={trait.mechanic || undefined}
                               modifiers={Array.isArray(trait.modifiers) ? trait.modifiers : []}
-                              prerequisites={trait.prerequisites || undefined}
+                              prerequisites={prereqResult.prerequisiteText}
                               prerequisiteMet={!isPrereqUnmet}
                               prerequisiteUnmetReasons={prereqResult.unmetReasons}
-                              cost="1 CP"
+                              cost={costDisplay}
                               tags={[trait.trait_tier || 'Basic', trait.sourceDetail || 'Origin Trait'].filter(Boolean)}
                               showInfoIcon={true}
                             >
@@ -2709,7 +2751,7 @@ export const FeaturesTab = ({
 
                             <div className="flex items-center gap-2 shrink-0">
                               <span className="px-1.5 py-0.5 rounded text-[9.5px] font-mono bg-emerald-950 text-emerald-300 border border-emerald-800 font-bold shrink-0">
-                                1 CP
+                                {costDisplay}
                               </span>
                               {!acquired ? (
                                 isPrereqUnmet ? (
@@ -2734,7 +2776,7 @@ export const FeaturesTab = ({
                                       source: 'origin',
                                       columnSource: 'Origin',
                                       sourceDetail: trait.sourceDetail || 'Origin Trait',
-                                      cp: 1,
+                                      cp: traitCp,
                                       description: trait.description,
                                       mechanic: trait.mechanic,
                                       modifiers: Array.isArray(trait.modifiers) ? trait.modifiers : []
@@ -2742,7 +2784,7 @@ export const FeaturesTab = ({
                                     className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-emerald-950 hover:bg-emerald-900 border border-emerald-600 text-emerald-200 transition-all cursor-pointer flex items-center gap-1"
                                   >
                                     <Plus className="w-3 h-3" />
-                                    <span>+ Add</span>
+                                    <span>+ Add ({traitCp} CP)</span>
                                   </button>
                                 )
                               ) : (
@@ -2804,6 +2846,8 @@ export const FeaturesTab = ({
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                     {columnAvailableTraits.occupation.map((trait, idx) => {
                       const acquired = isTraitAcquired(trait.name || trait.id);
+                      const traitCp = getCanonicalTraitCost(trait);
+                      const costDisplay = `${traitCp} CP`;
                       const prereqResult = checkPrerequisite(trait, characterData, 'features');
                       const isPrereqUnmet = prereqResult.hasPrerequisite && !prereqResult.isPossessed;
 
@@ -2827,10 +2871,10 @@ export const FeaturesTab = ({
                               description={trait.description || 'Occupation heritage trait.'}
                               formula={trait.mechanic || undefined}
                               modifiers={Array.isArray(trait.modifiers) ? trait.modifiers : []}
-                              prerequisites={trait.prerequisites || undefined}
+                              prerequisites={prereqResult.prerequisiteText}
                               prerequisiteMet={!isPrereqUnmet}
                               prerequisiteUnmetReasons={prereqResult.unmetReasons}
-                              cost="1 CP"
+                              cost={costDisplay}
                               tags={[trait.trait_tier || 'Basic', trait.sourceDetail || 'Occupation Trait'].filter(Boolean)}
                               showInfoIcon={true}
                             >
@@ -2855,7 +2899,7 @@ export const FeaturesTab = ({
 
                             <div className="flex items-center gap-2 shrink-0">
                               <span className="px-1.5 py-0.5 rounded text-[9.5px] font-mono bg-sky-950 text-sky-300 border border-sky-800 font-bold shrink-0">
-                                1 CP
+                                {costDisplay}
                               </span>
                               {!acquired ? (
                                 isPrereqUnmet ? (
@@ -2880,7 +2924,7 @@ export const FeaturesTab = ({
                                       source: 'occupation',
                                       columnSource: 'Occupation',
                                       sourceDetail: trait.sourceDetail || 'Occupation Trait',
-                                      cp: 1,
+                                      cp: traitCp,
                                       description: trait.description,
                                       mechanic: trait.mechanic,
                                       modifiers: Array.isArray(trait.modifiers) ? trait.modifiers : []
@@ -2888,7 +2932,7 @@ export const FeaturesTab = ({
                                     className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-sky-950 hover:bg-sky-900 border border-sky-600 text-sky-200 transition-all cursor-pointer flex items-center gap-1"
                                   >
                                     <Plus className="w-3 h-3" />
-                                    <span>+ Add</span>
+                                    <span>+ Add ({traitCp} CP)</span>
                                   </button>
                                 )
                               ) : (
@@ -2950,6 +2994,8 @@ export const FeaturesTab = ({
                     ) : (
                       columnAvailableTraits.faction.map((trait, idx) => {
                         const acquired = isTraitAcquired(trait.name || trait.id);
+                        const traitCp = getCanonicalTraitCost(trait);
+                        const costDisplay = `${traitCp} CP`;
                         const prereqResult = checkPrerequisite(trait, characterData, 'features');
                         const isPrereqUnmet = prereqResult.hasPrerequisite && !prereqResult.isPossessed;
 
@@ -2973,10 +3019,10 @@ export const FeaturesTab = ({
                                 description={trait.description || 'Faction heritage trait.'}
                                 formula={trait.mechanic || undefined}
                                 modifiers={Array.isArray(trait.modifiers) ? trait.modifiers : []}
-                                prerequisites={trait.prerequisites || undefined}
+                                prerequisites={prereqResult.prerequisiteText}
                                 prerequisiteMet={!isPrereqUnmet}
                                 prerequisiteUnmetReasons={prereqResult.unmetReasons}
-                                cost="1 CP"
+                                cost={costDisplay}
                                 tags={[trait.trait_tier || 'Basic', trait.sourceDetail || 'Faction Trait'].filter(Boolean)}
                                 showInfoIcon={true}
                               >
@@ -3001,7 +3047,7 @@ export const FeaturesTab = ({
 
                               <div className="flex items-center gap-2 shrink-0">
                                 <span className="px-1.5 py-0.5 rounded text-[9.5px] font-mono bg-purple-950 text-purple-300 border border-purple-800 font-bold shrink-0">
-                                  1 CP
+                                  {costDisplay}
                                 </span>
                                 {!acquired ? (
                                   isPrereqUnmet ? (
@@ -3026,7 +3072,7 @@ export const FeaturesTab = ({
                                         source: 'faction',
                                         columnSource: 'Faction',
                                         sourceDetail: trait.sourceDetail || 'Faction Trait',
-                                        cp: 1,
+                                        cp: traitCp,
                                         description: trait.description,
                                         mechanic: trait.mechanic,
                                         modifiers: Array.isArray(trait.modifiers) ? trait.modifiers : []
@@ -3034,7 +3080,7 @@ export const FeaturesTab = ({
                                       className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-purple-950 hover:bg-purple-900 border border-purple-600 text-purple-200 transition-all cursor-pointer flex items-center gap-1"
                                     >
                                       <Plus className="w-3 h-3" />
-                                      <span>+ Add</span>
+                                      <span>+ Add ({traitCp} CP)</span>
                                     </button>
                                   )
                                 ) : (

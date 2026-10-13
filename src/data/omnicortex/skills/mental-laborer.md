@@ -21,6 +21,7 @@ synergy_links:
   - physical-endurance
   - mental-transporter
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'laborer, mental, strength, intellect, cognitive, expertise'

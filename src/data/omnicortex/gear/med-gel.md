@@ -9,6 +9,7 @@ weight: 0.2
 description: Aerosol antiseptic bio-foam that seals puncture wounds and knits torn flesh.
 mechanic: Restores 1d6 HP instantly on application. 1 Single Use.
 costs:
+  cp: 0
   bp: 0
   credits: 160
   nodes: 0

@@ -5,6 +5,7 @@ trait_tier: Basic
 trait_type: Occupational Trait
 category: traits
 costs:
+  cp: 1
   bp: 1
 description: >-
   Rely on their wits and cunning to achieve their objectives, often using
@@ -16,7 +17,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Basic
 **Type**: Occupational Trait
-**BP Cost**: 1
+**CP Cost**: 1
 
 ## Description
 Rely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies

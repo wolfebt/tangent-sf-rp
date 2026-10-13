@@ -52,6 +52,7 @@ description: >-
   fragile galactic peace. Operating out of neutral sectors, they forge treaties,
   mediate trade disputes, and oversee the rules of war
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Faction Template
@@ -116,7 +117,7 @@ negative_keywords: 'isolationist, shoot-first, warmongering, xenophobic, erratic
   * History (+3)  
   * Language (+3)  
 * **Typical Archetypes:** The Ambassador, The Peacekeeper, The Analyst, The Bodyguard, The Spy.  
-* **Recommended Features (1 BP Discount):** Silver Tongue, Trustworthy, Golden Smile, Connected, Linguist, Scholar, Inspiring Personality, Benefit (Immunity), Educated, Insightful Reason.
+* **Recommended Features (1 CP Discount):** Silver Tongue, Trustworthy, Golden Smile, Connected, Linguist, Scholar, Inspiring Personality, Benefit (Immunity), Educated, Insightful Reason.
 
 ### **VI. Visual Semiotics (Aesthetics)**
 

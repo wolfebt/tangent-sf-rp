@@ -27,6 +27,7 @@ mechanic: >-
   Adaptive Resistance (Switch damage type resistance as a Free Action). DR 20,
   SP 50.
 costs:
+  cp: 0
   bp: 0
   credits: 40960
   nodes: 0

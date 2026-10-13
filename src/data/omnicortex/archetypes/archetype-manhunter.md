@@ -32,17 +32,19 @@ description: >-
   Uses tracking and combat skills to pursue criminals for a reward. Skilled in
   investigation and apprehension.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'manhunter, operative, artisan, adaptable, specialist, hybrid (combat, skill)'
 negative_keywords: 'incompetent, untrained, undisciplined'
+cp_chassis: 80
 ---
 
 # The Manhunter
 
 **Sphere**: Operatives (The Artisans)  
 **Core Concept**: Hybrid (Combat/Skill) / Tracker  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Wisdom  
 **Secondary Attribute**: Agility  
 

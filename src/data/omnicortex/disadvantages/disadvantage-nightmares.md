@@ -8,16 +8,18 @@ description: >-
   Plagued by psychic echoes, traumatic memories, or horrifying supernatural
   dreams.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'nightmares, hindrance, penalty, general, plagued, psychic'
 negative_keywords: 'perfection, flawless, unyielding, invulnerable'
+cp_granted: '2'
 ---
 
 # Nightmares
 
 **Category**: Hindrances & Disadvantages  
-**BP Granted**: 2 BP  
+**CP Granted**: 2 CP  
 **Type**: Mental
 
 ## Description

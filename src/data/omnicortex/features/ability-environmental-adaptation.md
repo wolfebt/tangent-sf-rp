@@ -8,19 +8,23 @@ is_ranked: false
 is_multiple: false
 prerequisites: None
 description: >-
-  The character's physiology adapts rapidly to hostile ecological extremes, including vacuum exposure, thermal shifts, and high radiation.
+  The character's physiology adapts rapidly to hostile ecological extremes,
+  including vacuum exposure, thermal shifts, and high radiation.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
-  environmental-adaptation, survival, extreme-environments, cold, heat, radiation, vacuum
+  environmental-adaptation, survival, extreme-environments, cold, heat,
+  radiation, vacuum
 negative_keywords: 'fragile, unadapted, sheltered'
+cost_cp: 3
 ---
 
 # Environmental Adaptation
 
 **Category**: Ability Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: None
 
 ## Description

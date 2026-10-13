@@ -3,15 +3,18 @@ id: species_size-miniscule
 name: Miniscule
 category: species_size
 scaling: 0.0833
-scaling_display: "-5ds (1/12)"
+scaling_display: '-5ds (1/12)'
 strength_mod: -32
 combat_mod: 32
 stealth_mod: 20
-height_length_range: "< 1 in"
-weight_range: "< 1 oz"
-reach: "1 in"
-description: "Extremely microscopic or insect-sized entity. Requires microscopic precision to target."
+height_length_range: < 1 in
+weight_range: < 1 oz
+reach: 1 in
+description: >-
+  Extremely microscopic or insect-sized entity. Requires microscopic precision
+  to target.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

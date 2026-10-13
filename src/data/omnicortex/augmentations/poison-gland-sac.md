@@ -9,6 +9,7 @@ description: Holds 8 doses of toxin.
 stigma: None
 type: Cybernetic Armor
 costs:
+  cp: 0
   bp: 0
   credits: 2560
   nodes: 0

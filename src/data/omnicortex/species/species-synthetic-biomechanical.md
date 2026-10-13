@@ -41,22 +41,23 @@ tech_level: 4 (Biomechanical Synthesis)
 meta_level: 2 (Cyber-Psionics)
 homeworld: Bio-Mech Nexus Habitats
 costs:
-  bp: 51
+  cp: 41
+  bp: 41
 modifiers:
   - target: Charisma
     value: -2
     type: attribute
     mode: inherent
-cp_cost: 51
-cp: 51
-bp: 51
+cp_cost: 41
+cp: 41
+bp: 41
 description: >-
   Biomechanical synthetics fuse vat-grown organic muscle and vascular organs
   with titanium endoskeletons and optronic neural processors.
-traits:
-  - trait-adaptive-aspects-rapid-evolutionary-resistance
-  - trait-hybrid-metabolism-fuel-or-food
-  - trait-self-healing-bio-circuits
+traits: &ref_0
+  - trait-adaptive-features
+  - trait-autotroph
+  - trait-fast-heal
   - trait-synthetic-base-traits
 recommended_factions:
   - The Syndicate
@@ -72,6 +73,7 @@ keywords: >-
   cyber-organic, vat-muscle, titanium-endoskeleton, hybrid-vitality,
   organ-sleeve
 negative_keywords: 'pure-organic, purist-tech, anti-cyborg'
+species_traits: *ref_0
 ---
 
 # Biomechanical (Cyber-Organic Hybrid)
@@ -80,7 +82,7 @@ negative_keywords: 'pure-organic, purist-tech, anti-cyborg'
 
 # 
 
-**BP Cost:**   
+**CP Cost:** 41 CP  
 **Description:** Similar to both an Android and Sentient Machine, fully made with Biotechnology, often being simulations of different species. Usually they are custom tailored and augmented for a specific purpose. Example being a bio-printed body awakening fully grown with programmed education and training.
 
 **Classification:** Synthetic Humanoid  

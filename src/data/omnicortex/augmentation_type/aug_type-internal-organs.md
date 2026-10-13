@@ -8,6 +8,7 @@ description: >-
   cybernetic lungs.
 category: augmentation_type
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

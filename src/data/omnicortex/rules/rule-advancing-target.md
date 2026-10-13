@@ -6,6 +6,7 @@ description: >-
   Target approaching without Cover or Evasion; allows extra attack at -5 Strike
   and rerolls Initiative in melee.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

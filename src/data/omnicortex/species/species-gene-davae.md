@@ -42,25 +42,26 @@ tech_level: 4 (Neural Mesh & Bio-Computing)
 meta_level: 4 (Hive Psionics)
 homeworld: Davae Hive Laboratories
 costs:
-  bp: 14
+  cp: 17
+  bp: 17
 modifiers:
   - target: Intellect
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 14
-cp: 14
-bp: 14
+cp_cost: 17
+cp: 17
+bp: 17
 description: >-
   Davae are telepathically networked transhumans engineered with oversized
   craniums and bioluminescent neurological nodes.
-traits:
+traits: &ref_0
   - trait-ageless
   - trait-awakened-psychic
-  - trait-biotechnology-mastery
-  - trait-hive-connection-shared-telepathic-mesh
+  - trait-master-tinker
+  - trait-hive-connection
   - trait-reduced-sustenance
-  - trait-telepathy-100ft
+  - trait-mind-speech
 recommended_factions:
   - The Syndicate
   - The Ascendancy
@@ -75,13 +76,14 @@ recommended_occupations:
   - Specialist
 keywords: 'hive-psion, neural-mesh, cranial-expansion, bio-computing, telepathic-network'
 negative_keywords: 'physical-labor, brute-force, solitary-isolation, psionic-null'
+species_traits: *ref_0
 ---
 
 # Davae (Hive Psion Transhuman)
 
 *
 
-**BP Cost:**   
+**CP Cost:** 17 CP  
 **Description:** The Davae are a highly evolved psychic species whose very existence is a testament to the advanced, and morally questionable, biotechnology experiments of the Syndicate. Their genesis traces back to the clandestine "Silverglass" project. This initiative centered on developing experimental psychic bio-technology, primarily utilizing a rare, naturally occurring crystal matrix as its core component. This matrix, while initially viewed as merely a unique energy source, was later determined to possess a profound, inherent connection to the fey races, specifically the elusive Koban.
 
 The Syndicate sought to engineer a new class of operative, or perhaps a new servant species, by infusing this new psi-crystal energy with re-engineered genetic material. However, the exact nature of this experimental awakening would not be what the Syndicate intended.
@@ -137,7 +139,7 @@ Regeneration
 
 # **DIGON (I) \* \*\***
 
-**BP Cost:**   
+**CP Cost:**   
 **Description:** Genetically engineered as a warrior species for the Impyrium, The Digon are physically imposing: tall (averaging 7 ft), stocky, and distinguished by their gray skin.
 
 Their genetics are a fusion of B'Dren and Nian traits. They are products of a harsh, Spartan upbringing that included relentless training and rigorous obedience conditioning, shaping them into brutal fighters renowned for their absolute servitude to the Impyrium.

@@ -32,17 +32,19 @@ description: >-
   The skilled administrator who ensures the smooth operation of departments or
   territories. They navigate red tape like a labyrinth runner.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'bureaucrat, sentinel, defender, stability, order, logistics, support'
 negative_keywords: 'mindless-brute, reckless, illiterate, chaotic-anarchist, unreliable'
+cp_chassis: 80
 ---
 
 # The Bureaucrat
 
 **Sphere**: Sentinels (The Stabilizers)  
 **Core Concept**: Logistics / Support / Social Tank  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
 **Secondary Attribute**: Charisma  
 

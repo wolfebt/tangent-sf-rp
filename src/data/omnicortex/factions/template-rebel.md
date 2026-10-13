@@ -53,6 +53,7 @@ description: >-
   and the support of the local populace to bleed their technically superior
   enemies
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Faction Template
@@ -117,7 +118,7 @@ negative_keywords: 'imperial-loyalty, compliant-citizenship, totalitarian-sympat
   * Bluff (+4)  
   * Streetwise (+3)  
 * **Typical Archetypes:** The Saboteur, The Guerrilla Fighter, The Charismatic Agitator, The Smuggler, The Rebel Medic.  
-* **Recommended Features (1 BP Discount):** Sneak Attack, Evasiveness, Weapon Improvisation, Deceitful, Inspiring Personality, Danger Sense, Runner, Nimble Fingers, Street-Smart, Blind-Fight.
+* **Recommended Features (1 CP Discount):** Sneak Attack, Evasiveness, Weapon Improvisation, Deceitful, Inspiring Personality, Danger Sense, Runner, Nimble Fingers, Street-Smart, Blind-Fight.
 
 ### **VI. Visual Semiotics (Aesthetics)**
 

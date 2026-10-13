@@ -24,7 +24,9 @@ description: >-
 
   - **Excavation**: 1/8 Walk (3.75 ft/rd baseline, 10 ft innate). Reinforced
   excavation for subterranean bunkers, chambers, or fortifications.
+cp: 2
 costs:
+  cp: 2
   bp: 2
 modifiers: []
 ---
@@ -33,7 +35,7 @@ modifiers: []
 **Category**: Species Movement (ADVANCED)  
 **Classification**: advanced  
 **Target Mode**: Burrowing  
-**Cost**: +2 BP  
+**Cost**: +2 CP  
 **Base Speed**: 20 ft / round  
 
 ## Description

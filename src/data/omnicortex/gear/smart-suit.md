@@ -13,6 +13,7 @@ mechanic: >-
   As a Reaction, adapts resistance to provide EPR 4 against specific
   environmental threats (Heat, Cold, Acid).
 costs:
+  cp: 0
   bp: 0
   credits: 2560
   nodes: 0

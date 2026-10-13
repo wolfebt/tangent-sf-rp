@@ -9,6 +9,7 @@ weight: 0.2
 description: Chemical or LED high-luminescence torch providing bright illumination.
 mechanic: Illuminates a 20ft radius cone/sphere for 12 hours.
 costs:
+  cp: 0
   bp: 0
   credits: 10
   nodes: 0

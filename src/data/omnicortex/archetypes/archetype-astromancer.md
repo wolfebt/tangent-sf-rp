@@ -34,17 +34,19 @@ description: >-
   Specializes in the study of celestial objects and phenomena. They provide
   navigation data and understand the cosmos.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'astromancer, savant, rational, intellect, strategist, expert, navigator'
 negative_keywords: 'mindless-brute, reckless, illiterate'
+cp_chassis: 80
 ---
 
 # The Astromancer
 
 **Sphere**: Savants (The Rationals)  
 **Core Concept**: Expert / Navigator / Science Support  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
 **Secondary Attribute**: Wisdom  
 

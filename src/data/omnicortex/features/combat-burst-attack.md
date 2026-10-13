@@ -11,16 +11,18 @@ description: >-
   The character is trained in controlling the recoil and spray of automatic
   weaponry to maximize accuracy or saturation.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'burst attack, combat, special-feature, combat-maneuver, tactical-edge, trained'
 negative_keywords: 'pacifist, feeble, untrained-civilian'
+cost_cp: 3
 ---
 
 # Burst Attack
 
 **Category**: Combat Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Ballistic, Energy, or Heavy Weapon Skill Rank 2
 
 ## Description

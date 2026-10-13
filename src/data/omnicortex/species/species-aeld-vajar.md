@@ -14,7 +14,9 @@ speeds: Ground 30 ft
 reach: 5 ft
 senses: Standard visual and auditory range.
 immunities: None
-inherent_attribute_modifiers: []
+inherent_attribute_modifiers:
+  - attribute: Agility
+    bonus: 2
 bonus_attribute_points: 2
 specific_skill_bonuses:
   - skill: Survival
@@ -48,22 +50,23 @@ tech_level: 2 (Biomimetic Crafting)
 meta_level: 4 (Primal Shamanism & Biomorphism)
 homeworld: Vajara Prime (The Untamed Jungle)
 costs:
-  bp: 19
+  cp: 21
+  bp: 21
 modifiers: []
-cp_cost: 19
-cp: 19
-bp: 19
+cp_cost: 21
+cp: 21
+bp: 21
 description: >-
   Vajar are feral, nature-attuned Aeld who rejected urbanization for deep forest
   symbiotic living. They wield shapeshifting and animalistic biomodifications
   with fierce territorial pride.
-traits:
+traits: &ref_0
   - trait-adapted
   - trait-ageless
-  - trait-alter-form-adv-animal
-  - trait-animalistic-mutation
+  - trait-alter-form-adv
+  - trait-bodyform-mutation
   - trait-awakened-nature
-  - trait-immune-to-sleep
+  - trait-sleepless
 recommended_factions:
   - Vajar Tribes
   - The Alterian Enclave
@@ -79,6 +82,7 @@ recommended_occupations:
   - Adept
 keywords: 'feral, primal, tracker, wilderness, survivalist, predator, agile, tribal'
 negative_keywords: 'high-tech, urbanite, heavy-armor, bureaucratic, academic'
+species_traits: *ref_0
 ---
 
 # Vajar (Wilder Aeld)
@@ -89,7 +93,7 @@ Even in their humanoid form, the Wild Aeld are never entirely free from their be
 
 ### **General Species Features & Mechanics**
 
-**BP Cost:** \[TBD\]  
+**CP Cost:** 21 CP  
 **Classification:** Humanoid  
 **Size:** Medium Sized (6+ ft)  
 **Movement:** 30ft  

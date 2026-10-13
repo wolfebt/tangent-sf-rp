@@ -9,16 +9,18 @@ is_multiple: true
 prerequisites: Chosen Skill Rank 1
 description: The character has dedicated significant effort to mastering a specific skill.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'skill focus, skill, special-feature, dedicated, significant, effort'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Skill Focus
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Chosen Skill Rank 1
 
 ## Description

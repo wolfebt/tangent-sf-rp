@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","source-of-truth","99. technology, equipment matrix","matrix"]
-updatedAt: "2026-09-14T19:36:02.918Z"
+updatedAt: "2026-10-13T03:46:47.917Z"
 costs:
   bp: 0
   credits: 0
@@ -320,7 +320,7 @@ By strictly adhering to this calculation, all pricing debates are eliminated. Th
 
 ### **Wealth Score and Purchasing Power**
 
-Character economic power is quantified by the Wealth Score (WS), a static rating of economic leverage representing credit rating, active investments, salary, and social capital.4 The '99 \- AUGMENTATIONS MATRIX' utilizes Build Points (BP) for biological tolerance; the Equipment Matrix utilizes Wealth Score for material acquisition, translating a character's intrinsic potential (BP invested at character creation) into extrinsic economic power.4
+Character economic power is quantified by the Wealth Score (WS), a static rating of economic leverage representing credit rating, active investments, salary, and social capital.4 The '99 \- AUGMENTATIONS MATRIX' utilizes Character Points (CP) for biological tolerance; the Equipment Matrix utilizes Wealth Score for material acquisition, translating a character's intrinsic potential (CP invested at character creation) into extrinsic economic power.4
 
 The integration of WS and the TSC operates on **The Golden Rule of Tangent Wealth**: A character may automatically purchase any item with a Crafting CR equal to or less than their Wealth Score without depleting liquid Credits or reducing their baseline Wealth Score.4 This aligns the abstraction of "lifestyle" with the concrete math of item acquisition: Purchase CR \= Crafting CR.4
 

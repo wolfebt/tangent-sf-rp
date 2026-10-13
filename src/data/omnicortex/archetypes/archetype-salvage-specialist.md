@@ -34,19 +34,21 @@ description: >-
   The high-risk recovery expert who ventures into derelict hulls and unstable
   ruins to pull riches from the wreckage.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: >-
   salvage-specialist, operative, artisan, adaptable, specialist, scavenging,
   utility
 negative_keywords: 'mindless-brute, reckless, illiterate'
+cp_chassis: 80
 ---
 
 # The Salvage-specialist
 
 **Sphere**: Operatives (The Artisans)  
 **Core Concept**: Scavenging / Utility / Tech  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Strength  
 **Secondary Attribute**: Intellect  
 

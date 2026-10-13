@@ -25,6 +25,7 @@ description: >-
   physical ordinance and psionic assaults.
 mechanic: 'Psionic Warding (+3 Will Defense against Mental Disciplines). DR 22, SP 60.'
 costs:
+  cp: 0
   bp: 0
   credits: 10240
   nodes: 0

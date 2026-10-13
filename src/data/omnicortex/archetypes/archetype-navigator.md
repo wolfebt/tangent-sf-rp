@@ -29,17 +29,19 @@ tactical_role: 'Plotting FTL jumps, navigating hazards, mapping sectors.'
 quote: '"Trust my headings. I''ve never lost a ship yet."'
 description: A skilled pilot and navigator who charts the course for ships.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'navigator, savant, rational, intellect, strategist, transport, support'
 negative_keywords: 'mindless-brute, reckless, illiterate'
+cp_chassis: 80
 ---
 
 # The Navigator
 
 **Sphere**: Savants (The Rationals)  
 **Core Concept**: Transport / Support / Explorer  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
 **Secondary Attribute**: Wisdom  
 

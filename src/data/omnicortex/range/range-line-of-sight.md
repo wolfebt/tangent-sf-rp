@@ -6,6 +6,7 @@ distance: Visual Horizon
 description: Any visible target within uninterrupted visual line of sight.
 category: range
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -211,7 +211,7 @@ export const StudioTransferBar = ({ item, categoryKey }) => {
         apCost: item.apCost || item.ap || 2,
         damage: item.damage || '',
         description: item.description || '',
-        cpCost: parseInt(item.cpCost || item.cp || item.cost_cp || item.costs?.bp || 5, 10),
+        cpCost: parseInt(item.cpCost || item.cp || item.cost_cp || item.costs?.cp || item.costs?.bp || 5, 10),
         ...item
       });
       setStatusMessage(`Equipped to ${heroName}!`);
@@ -226,7 +226,7 @@ export const StudioTransferBar = ({ item, categoryKey }) => {
         resistance: item.resistance || item.armor || '',
         weight: item.weight || item.wt || 1,
         techLevel: item.techLevel || item.tl || 1,
-        cpCost: parseInt(item.cpCost || item.cp || item.cost_cp || item.costs?.bp || 0, 10),
+        cpCost: parseInt(item.cpCost || item.cp || item.cost_cp || item.costs?.cp || item.costs?.bp || 0, 10),
         notes: item.description || item.notes || '',
         ...item
       });
@@ -1053,7 +1053,7 @@ export const AssetStudio = ({
     if (mId === 'archetypes') {
       return {
         label: 'Chassis & Attributes',
-        sublabel: '80 BP Formula & Skills',
+        sublabel: '80 CP Formula & Skills',
         icon: Award,
         color: '#8b5cf6',
         activeBg: 'bg-purple-950/80',
@@ -1152,7 +1152,7 @@ export const AssetStudio = ({
     const getSpecsSublabel = () => {
       if (isOrigin) return 'Homeworld & 1.05 Rules';
       if (isOccu) return 'Profession & 1.06 Rules';
-      if (isArch) return '80 BP Chassis & 1.02 Rules';
+      if (isArch) return '80 CP Chassis & 1.02 Rules';
       if (isSkill) return 'Domain & 1.07 Rules';
       return 'Registry Dossier';
     };
@@ -1887,7 +1887,7 @@ export const AssetStudio = ({
 
                       <div className="space-y-1">
                         <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
-                          Recommended Features (1 BP Discount in Folio)
+                          Recommended Features (1 CP Discount in Folio)
                         </label>
                         {isEditMode ? (
                           <textarea

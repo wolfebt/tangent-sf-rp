@@ -6,6 +6,7 @@ description: >-
   Tentacles / Wings / Fins: Called Shot -2 (full limb), -3 (half-limb/thin), -4
   (hand size/fibrous).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

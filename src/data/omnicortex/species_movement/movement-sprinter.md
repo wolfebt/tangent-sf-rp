@@ -12,7 +12,9 @@ bp: 1
 description: >-
   Gains a +10 foot bonus to speed when executing running or sprinting actions.
   Ranked.
+cp: 1
 costs:
+  cp: 1
   bp: 1
 modifiers: []
 ---
@@ -21,7 +23,7 @@ modifiers: []
 **Category**: Species Movement (MODIFIER)  
 **Classification**: modifier  
 **Target Mode**: Ground  
-**Cost**: +1 BP  
+**Cost**: +1 CP  
 **Speed Modifier**: +10 ft (Additive)  
 
 ## Description

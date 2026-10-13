@@ -21,6 +21,7 @@ synergy_links:
   - physical-endurance
   - social-expression
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'wind, social, stamina, interaction, diplomacy, influence'

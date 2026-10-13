@@ -9,6 +9,7 @@ description: >-
   systems, social stratification, and caste frameworks. (Primitive /
   Subsistence).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

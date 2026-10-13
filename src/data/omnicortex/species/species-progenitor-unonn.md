@@ -38,7 +38,8 @@ tech_level: 5 (Exotic Precursor Tech)
 meta_level: 6 (Deific Metaphysics)
 homeworld: Extragalactic Citadel of Void
 costs:
-  bp: 81
+  cp: 79
+  bp: 79
 modifiers:
   - target: Intellect
     value: 4
@@ -56,16 +57,15 @@ modifiers:
     value: -4
     type: skill
     mode: size_modifier
-cp_cost: 81
-cp: 81
-bp: 81
+cp_cost: 79
+cp: 79
+bp: 79
 description: >-
   U’Nonn are ancient primordial progenitors who command matter and energy
   directly through pure thought and deific metaphysical matrices.
-traits:
-  - trait-absolute-mental-fortitude
-  - trait-large-size
-  - trait-matter-reshaping-special-ability
+traits: &ref_0
+  - trait-resistant
+  - trait-synthetic-tech-assim
   - trait-progenitor-heritage-base
 recommended_factions:
   - Alien Faction Template
@@ -81,6 +81,7 @@ keywords: >-
   primordial-sovereign, reality-warping, pure-thought, deific-metaphysics,
   void-command
 negative_keywords: 'subservient, mortal-fragility, physical-tool'
+species_traits: *ref_0
 ---
 
 # U’Nonn (Ancient Reality Shaper)

@@ -8,19 +8,21 @@ is_ranked: false
 is_multiple: false
 prerequisites: Specialist or Operator Standing
 description: >-
-  Special equipment allocation granting personal vehicle or biomorphic docking privileges,
-  providing +4 Wealth toward property or personal mecha acquisition.
+  Special equipment allocation granting personal vehicle or biomorphic docking
+  privileges, providing +4 Wealth toward property or personal mecha acquisition.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
 keywords: 'property-boon, wealth, mecha, equipment, vehicle, resource, syndess'
 negative_keywords: 'destitute, propertyless, unequipped'
+cost_cp: 2
 ---
 
 # Property Boon
 
 **Category**: Special Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisites**: Specialist or Operator Standing  
 
 ## Description

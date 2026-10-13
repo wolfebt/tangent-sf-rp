@@ -8,6 +8,7 @@ description: >-
   Level 1 development in Communication & Data: Sub-space relays, ansible
   networks, holonet infrastructure, and telemetry. (Emerging / Industrial).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

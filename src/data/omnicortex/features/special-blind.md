@@ -9,16 +9,18 @@ is_multiple: false
 prerequisites: Sneak Attack
 description: 'Blind is a Special Feature: Direct attack to a target''s Sense.'
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'blind, special, special-feature, feature:, direct, attack'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Blind
 
 **Category**: Special Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Sneak Attack
 
 ## Description

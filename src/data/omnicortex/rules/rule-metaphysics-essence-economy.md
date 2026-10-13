@@ -4,8 +4,10 @@ name: 'Essence Pool Economy, Costs & The Burn'
 category: rules
 description: >-
   The comprehensive Essence Pool calculation (Substrate + Conduit + Breadth),
-  Base DC cost scale, Sanctum bonus, Combat tax, and The Burn life-force channeling.
+  Base DC cost scale, Sanctum bonus, Combat tax, and The Burn life-force
+  channeling.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

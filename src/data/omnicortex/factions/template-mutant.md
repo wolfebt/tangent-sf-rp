@@ -54,6 +54,7 @@ description: >-
   They possess strange, volatile powers that make them dangerous and
   unpredictable
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Faction Template
@@ -118,7 +119,7 @@ negative_keywords: 'genetic-purity, pristine-palaces, high-society-snobbery, ste
   * Athletics (+4)  
   * Awareness (+3)  
 * **Typical Archetypes:** The Mutant Psychic, The Beast-Brute, The Infiltrator, The Under-City Guide, The Wasteland Warlord.  
-* **Recommended Features (1 BP Discount):** Augmented, Fast Heal, Tough, Darksight, Energy Resistance, Tolerance, Danger Sense, Natural Weapons, Wall-Crawler, Unsettling Aura.
+* **Recommended Features (1 CP Discount):** Augmented, Fast Heal, Tough, Darksight, Energy Resistance, Tolerance, Danger Sense, Natural Weapons, Wall-Crawler, Unsettling Aura.
 
 ### **VI. Visual Semiotics (Aesthetics)**
 

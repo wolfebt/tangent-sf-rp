@@ -6,21 +6,26 @@ feature_category: Special
 cost_bp: 2
 is_ranked: false
 is_multiple: false
-prerequisites: 'Biomorphic Glands'
+prerequisites: Biomorphic Glands
 description: >-
-  Specialized glandular excretion producing fast-curing Hive-Resin used for structural
-  repairs, emergency hull patching on mecha and vehicles, and environmental seals.
+  Specialized glandular excretion producing fast-curing Hive-Resin used for
+  structural repairs, emergency hull patching on mecha and vehicles, and
+  environmental seals.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
-keywords: 'resin-secretion, hive-resin, mecha-patch, field-repair, structural-adhesive, sealant'
+keywords: >-
+  resin-secretion, hive-resin, mecha-patch, field-repair, structural-adhesive,
+  sealant
 negative_keywords: 'dry-skin, non-secreting'
+cost_cp: 2
 ---
 
 # Resin Secretion
 
 **Category**: Special Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisites**: Biomorphic Glands  
 
 ## Description

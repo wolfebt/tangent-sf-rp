@@ -54,7 +54,7 @@ export const AugmentationDiagnosticsModal = ({
                 <span>Anatomical Diagnostics &amp; Cybernetic Stages</span>
               </h2>
               <p className="text-xs text-slate-400">
-                Manage 4-tier augmentation stages, free BP credit allocations, and biological body slot tolerances.
+                Manage 4-tier augmentation stages, free CP credit allocations, and biological body slot tolerances.
               </p>
             </div>
           </div>
@@ -81,7 +81,7 @@ export const AugmentationDiagnosticsModal = ({
                   <span>4-Tier Augmentation Stages</span>
                 </h3>
                 <p className="text-[11px] text-slate-400">
-                  Select persona stage to grant free BP allowances and unlock higher grade hardware.
+                  Select persona stage to grant free CP allowances and unlock higher grade hardware.
                 </p>
               </div>
 
@@ -145,7 +145,7 @@ export const AugmentationDiagnosticsModal = ({
 
                       <div className="flex items-center gap-2 mb-2">
                         <span className="px-2 py-0.5 rounded bg-amber-950/70 border border-amber-800/80 text-amber-300 text-[10px] font-mono font-bold">
-                          +{stage.bpCredit} BP Credit
+                          +{stage.cpCredit || stage.bpCredit} CP Credit
                         </span>
                       </div>
 
@@ -198,7 +198,7 @@ export const AugmentationDiagnosticsModal = ({
                     <p className="text-slate-300 text-[11px]">{stageInfo.stage.benefit}</p>
                   </div>
                   <div className="p-2.5 bg-slate-900/80 rounded border border-slate-800">
-                    <span className="text-[10px] font-mono uppercase text-slate-500 block mb-1">Special &amp; BP Credit</span>
+                    <span className="text-[10px] font-mono uppercase text-slate-500 block mb-1">Special &amp; CP Credit</span>
                     <p className="text-slate-300 text-[11px]">{stageInfo.stage.special}</p>
                   </div>
                 </div>
@@ -216,23 +216,23 @@ export const AugmentationDiagnosticsModal = ({
               </div>
             )}
 
-            {/* BP Credit Tracker Bar */}
+            {/* CP Credit Tracker Bar */}
             <div className="p-3.5 bg-slate-950/80 border border-slate-800 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold uppercase text-slate-300 tracking-wider">Augmentation BP Credit:</span>
+                  <span className="text-xs font-bold uppercase text-slate-300 tracking-wider">Augmentation CP Credit:</span>
                   <span className="font-mono text-xs font-bold text-amber-400">
-                    {bpStats.totalBPSpent} / {bpStats.bpCredit} BP
+                    {bpStats.totalBPSpent} / {bpStats.bpCredit} CP
                   </span>
                   {bpStats.remainingCredit > 0 && (
                     <span className="text-[11px] font-mono text-emerald-400">
-                      ({bpStats.remainingCredit} BP Credit Available)
+                      ({bpStats.remainingCredit} CP Credit Available)
                     </span>
                   )}
                 </div>
                 <p className="text-[11px] text-slate-400">
                   {bpStats.isOverCredit
-                    ? `Exceeded credit allowance by ${bpStats.overflowBP} BP. Overflow must be paid with BP or ${bpStats.overflowCreditsEquivalent.toLocaleString()} Credits.`
+                    ? `Exceeded credit allowance by ${bpStats.overflowBP} CP. Overflow must be paid with CP or ${bpStats.overflowCreditsEquivalent.toLocaleString()} Credits.`
                     : `Fully covered by the ${stageInfo.stage.name} initial augmentation credit suite.`}
                 </p>
               </div>
@@ -249,8 +249,8 @@ export const AugmentationDiagnosticsModal = ({
                   />
                 </div>
                 <div className="flex justify-between text-[10px] font-mono text-slate-500">
-                  <span>0 BP</span>
-                  <span>{bpStats.bpCredit} BP Free Credit</span>
+                  <span>0 CP</span>
+                  <span>{bpStats.bpCredit} CP Free Credit</span>
                 </div>
               </div>
             </div>

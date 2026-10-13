@@ -9,6 +9,7 @@ description: >-
   augmentation feature.
 category: augmentation_type
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -17,4 +18,4 @@ modifiers: []
 **Category**: AUGMENTATION TYPE
 
 ## Description
-Baseline low-invasive options, cosmetic fashionware, personal convenience implants, and standard unenhanced prosthetics requiring 0 BP, 0 Nodes, and no augmentation feature.
+Baseline low-invasive options, cosmetic fashionware, personal convenience implants, and standard unenhanced prosthetics requiring 0 CP, 0 Nodes, and no augmentation feature.

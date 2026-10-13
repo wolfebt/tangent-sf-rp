@@ -8,6 +8,7 @@ description: "Penalty: -2 Sight/Hearing\r\nLocations: H\r\nSockets: 2"
 sp: 10
 coverage: Standard
 costs:
+  cp: 0
   bp: 0
   credits: 0
   nodes: 0

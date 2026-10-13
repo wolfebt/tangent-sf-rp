@@ -5,12 +5,16 @@ category: disciplines
 metafocus_skills:
   - Phantasm
   - Shadow
-primary_color: 'Shimmering'
-secondary_color: 'Oil-Slick'
-texture_form: 'Mirrored surfaces, chromatic haze, sensor glitches, and light-bending refractive weaves.'
+primary_color: Shimmering
+secondary_color: Oil-Slick
+texture_form: >-
+  Mirrored surfaces, chromatic haze, sensor glitches, and light-bending
+  refractive weaves.
 description: >-
-  Manipulating photon refraction, sensory deception, holographic phantasms, mental glamours, and shadow weaving.
+  Manipulating photon refraction, sensory deception, holographic phantasms,
+  mental glamours, and shadow weaving.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

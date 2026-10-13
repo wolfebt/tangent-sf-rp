@@ -45,7 +45,8 @@ tech_level: 3 (Crystal Transceivers)
 meta_level: 4 (Aero-Psionics & Telepathy)
 homeworld: Aethel-Crest (The Floating Archipelago)
 costs:
-  bp: 31
+  cp: 37
+  bp: 37
 modifiers:
   - target: Intellect
     value: 1
@@ -67,22 +68,18 @@ modifiers:
     value: 8
     type: skill
     mode: size_modifier
-cp_cost: 31
-cp: 31
-bp: 31
+cp_cost: 37
+cp: 37
+bp: 37
 description: >-
   Frellin are feathered, telepathic avian fey of tiny stature. Renowned scouts,
   messengers, and navigators, they read wind currents and psychic frequencies
   with equal precision.
 traits:
-  - trait-ageless
   - trait-asi-base-traits
   - trait-awakened-arcane
   - trait-dark-sight
-  - trait-flight-winged-40ft
-  - trait-immortal
-  - trait-telepathy-special-ability
-  - trait-tiny-size
+  - trait-mind-speech
 recommended_factions:
   - The Entari Combine
   - Coalition of Independent Worlds
@@ -97,13 +94,18 @@ recommended_occupations:
   - Adept
 keywords: 'avian, feathered, telepathic, flight, messenger, wind-currents, sensory, tiny'
 negative_keywords: 'subterranean, heavy-armor, claustrophile, brute-force, slow'
+species_traits:
+  - trait-asi-base-traits
+  - trait-awakened-arcane
+  - trait-dark-sight
+  - trait-mind-speech
 ---
 
 # Frellin (Avian Fey)
 
 *
 
-**BP Cost:**   
+**CP Cost:** 37 CP  
 **Description:** The Frellin are a remarkable and distinct species classified as tiny, yet highly intelligent, Avian Fey. These creatures are instantly recognizable by their extraordinary appearance, characterized by a vibrant, multicolored plumage that shimmers with an inherent magical light, making them a truly magnificent sight. Their bright, golden eyes are intensely perceptive, hinting at the deep arcane knowledge they possess. Renowned throughout the realms for their sharp intellect and natural affinity for the mystical arts, the Frellin are considered exceptionally skilled in the arcane, often acting as observers or subtle influencers in events beyond the ken of larger, less sensitive beings.
 
 **Classification:** Avian Fey  

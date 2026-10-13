@@ -9,16 +9,18 @@ is_multiple: false
 prerequisites: 'Perform 6, Intellect 2'
 description: The character is a multi-talented artist.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'versatile performer, skill, special-feature, multi-talented, artist'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Versatile Performer
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Perform 6, Intellect 2
 
 ## Description

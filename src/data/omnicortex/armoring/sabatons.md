@@ -9,6 +9,7 @@ description: Reinforced Boots. 2d6 Blunt. DR 10\. Paired.
 dr: 10
 coverage: Reinforced
 costs:
+  cp: 0
   bp: 0
   credits: 160
   nodes: 0

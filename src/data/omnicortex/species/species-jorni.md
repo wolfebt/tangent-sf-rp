@@ -51,7 +51,8 @@ tech_level: 3 (Bio-Thermal Tech & Slugthrowers)
 meta_level: 1 (Regenerative Vitality)
 homeworld: Jorn-Tor Swamps
 costs:
-  bp: 15
+  cp: 25
+  bp: 25
 modifiers:
   - target: Strength
     value: 1
@@ -61,20 +62,20 @@ modifiers:
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 15
-cp: 15
-bp: 15
+cp_cost: 25
+cp: 25
+bp: 25
 description: >-
   Reptilian swamp hunters possessing extraordinary regenerative biology, capable
   of re-growing severed limbs and enduring lethal trauma.
-traits:
+traits: &ref_0
   - trait-amphibious
   - trait-climber
-  - trait-digitigrade
+  - trait-digitigrade-ungulated
   - trait-fast-heal
-  - trait-long-prehensile-tail-trip-hold
-  - trait-regeneration-3-hp-rnd-regrows-limbs
-  - trait-swimmer
+  - trait-prehensile-tail
+  - trait-regeneration
+  - trait-aquatic
   - trait-venom
 recommended_factions:
   - Coalition of Independent Worlds
@@ -88,13 +89,14 @@ recommended_occupations:
   - Drifter
 keywords: 'reptilian, rapid-regeneration, swamp-hunter, severed-limb-regrowth, hardy'
 negative_keywords: 'arid-desert, delicate, fragile'
+species_traits: *ref_0
 ---
 
 # Jorni (Reptilian Regenerator)
 
 *
 
-**BP Cost:**   
+**CP Cost:** 25 CP  
 **Description:** The Jorni are a formidable and imposing reptilian species, standing at an average height of seven feet. These powerful beings, commonly referred to as Lizardfolk, possess a distinctive physical makeup characterized by their thick, scaly skin, which serves as a natural defense. Their powerful, semi-aquatic builds allow them to navigate and thrive in challenging, waterlogged environments, such as vast swamps and dense, humid jungles.
 
 The core of the Jorni existence is a deep, instinctual survivalist mindset. Their lives are a relentless pursuit of sustenance and security, driven by a need to overcome the harshness of their chosen habitats. This single-minded focus often leads to them being perceived by other races as cold, stoic, or even emotionless. However, this perception is a misunderstanding of their nature. Jorni are, in fact, highly intelligent creatures who operate with an extreme degree of pragmatism and efficiency. Every action is calculated, serving a direct purpose related to the clan's well-being or the individual's survival; there is little room for frivolous or expressive emotion in their daily calculus.

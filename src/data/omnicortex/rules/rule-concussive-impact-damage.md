@@ -6,6 +6,7 @@ description: >-
   Whole-body kinetic trauma split equally between Vitality and Health; armor DR
   interactions and falling.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

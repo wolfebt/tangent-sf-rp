@@ -29,17 +29,19 @@ tactical_role: 'Building/repairing drones, commanding robot minions, hacking ene
 quote: '"It''s not just a machine. It''s a masterpiece."'
 description: 'A scholar who specializes in the study, design, and development of robots.'
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'roboticist, savant, rational, intellect, strategist, crafter, minion master'
 negative_keywords: 'fragile, unarmored, timid, evasive-sniper, mindless-brute'
+cp_chassis: 80
 ---
 
 # The Roboticist
 
 **Sphere**: Savants (The Rationals)  
 **Core Concept**: Crafter / Minion Master / Tech  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
 **Secondary Attribute**: Technology  
 

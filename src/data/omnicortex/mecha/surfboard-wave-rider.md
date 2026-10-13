@@ -14,6 +14,7 @@ propulsion: Environmental (Wave/Current)
 description: Composite hydrodynamic board for riding wave energy and coastal currents.
 mechanic: Speed equal to current speed. Requires Athletics (Swim) to maneuver.
 costs:
+  cp: 0
   bp: 0
   credits: 20
   nodes: 0

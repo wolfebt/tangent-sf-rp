@@ -9,6 +9,7 @@ description: Telescopic zoom. Range penalties 1/2.
 stigma: None
 type: Sensory
 costs:
+  cp: 0
   bp: 0
   credits: 640
   nodes: 0

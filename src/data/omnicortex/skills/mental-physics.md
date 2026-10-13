@@ -20,6 +20,7 @@ synergy_links:
   - mental-engineer
   - mental-technology
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'physics, mental, intellect, cognitive, expertise, astrophysics'

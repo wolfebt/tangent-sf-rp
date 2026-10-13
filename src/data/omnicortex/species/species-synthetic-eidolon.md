@@ -45,25 +45,26 @@ tech_level: 5 (Zero-Point Energy & Chrono-Lattices)
 meta_level: 5 (Crystalline Metaphysics)
 homeworld: The Monolith Worlds of Aetheria
 costs:
-  bp: 42
+  cp: 53
+  bp: 53
 modifiers:
   - target: Intellect
     value: 2
     type: attribute
     mode: inherent
-cp_cost: 42
-cp: 42
-bp: 42
+cp_cost: 53
+cp: 53
+bp: 53
 description: >-
   Eidolons (Aetherions) are ancient crystalline silicon beings possessing
   consensus hive intelligence, photonic fluid pathways, and transcendent
   spacetime manipulation.
-traits:
-  - trait-consensus-mesh-telepathy
-  - trait-crystalline-photonic-physiology
-  - trait-photonic-bleed-energy-sustenance
+traits: &ref_0
+  - trait-mind-speech
+  - trait-energy-immunity
+  - trait-chloroplast
   - trait-synthetic-base-traits
-  - trait-tech-level-5-meta-level-5-relic-matrix
+  - trait-synthetic-exotic-opt
 recommended_factions:
   - The Alterian Enclave
   - Sentient Intelligence Faction Template
@@ -79,6 +80,7 @@ keywords: >-
   silicon-crystalline, photonic-pathways, consensus-hive, zero-point-energy,
   chrono-shaper
 negative_keywords: 'dirty-oil, primitive-slugthrower, rust'
+species_traits: *ref_0
 ---
 
 # Eidolon (Silicon / Crystalline Entity)
@@ -87,7 +89,7 @@ negative_keywords: 'dirty-oil, primitive-slugthrower, rust'
 
 # 
 
-**BP Cost:**   
+**CP Cost:** 53 CP  
 **Description:** A highly advanced silicon based lifeform implementing Polymatter and Holophotonic technology and vast understanding of the secrets of the cosmos, possibly were originally designed by progenitors for observation (possibly the Ila?) and have evolved over the millenia.
 
 Iridion of the Eidolon arrives as a herald / harbinger, who announces / warns of the returning gods.

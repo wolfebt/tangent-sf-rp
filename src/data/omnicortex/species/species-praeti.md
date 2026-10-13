@@ -42,19 +42,20 @@ tech_level: 3 (Aerodynamic Laminates & Long-Rifle Snipers)
 meta_level: 2 (Aero-Kinetic Wind Weaving)
 homeworld: Avis Spire Worlds
 costs:
-  bp: 22
+  cp: 19
+  bp: 19
 modifiers: []
-cp_cost: 22
-cp: 22
-bp: 22
+cp_cost: 19
+cp: 19
+bp: 19
 description: >-
   Magnificent winged humanoids possessing feathered plumage, eagle-like
   telescopic eyesight, and aerial supremacy.
-traits:
-  - trait-flight-winged-speed-50ft
-  - trait-hollow-bone-agility
-  - trait-thermal-current-riding
-  - trait-uncanny-senses-telescopic-vision-4
+traits: &ref_0
+  - trait-flight
+  - trait-quick
+  - trait-patagia
+  - trait-all-around-vision
 recommended_factions:
   - The Entari Combine
   - Coalition of Independent Worlds
@@ -69,13 +70,14 @@ recommended_occupations:
   - Representative
 keywords: 'avian-winged, eagle-eyes, marksman-sniper, aerial-supremacy, plumage, vantage'
 negative_keywords: 'subterranean, water-logging, cramped'
+species_traits: *ref_0
 ---
 
 # Praeti (Winged Avian Humanoid)
 
 # 
 
-**BP Cost:**   
+**CP Cost:** 19 CP  
 **Description:** The Praeti (pronounced ‘Ray-Tie’) are a distinct species of Winged Avian-evolved humanoids, formally classified as Saura-Raptric. This designation reflects their evolutionary lineage, which traces back to a raptor-like ancestor. Their biology represents a unique synthesis, combining the robust, aerodynamic skeletal structures and membranous wing features reminiscent of the ancient pterodactyl with the lightweight bones, complex feather structures, and keen sensory acuity of modern avians.
 
 This combined evolution grants the Praeti the ability of sustained, powered flight. Their wings are powerful, multi-jointed appendages that can fold neatly against their backs when not in use. The wings feature durable, leathery membranes akin to those of a pterosaur, while the wings and main body are covered in very fine, overlapping feathers that aid in insulation, lift, and silent gliding. As humanoids, they possess bipedal locomotion, standing upright, with powerful legs and taloned feet evolved for grasping and perching, and do not bother wearing footwear.
@@ -111,7 +113,7 @@ Stigma (Xeno)
 
 # 
 
-**BP Cost:**   
+**CP Cost:**   
 **Description:** The Qeric (Pronounced Ker-Ik) are a species of small, six-limbed arboreal humanoids that bear a superficial resemblance to Rodentia, characterized by their friendly, inherently cute, and exceptionally quick nature. Qeric are generally diminutive, perfectly sized for navigating their arboreal homes. 
 
 Their most distinguishing feature is the presence of six articulated limbs, which provide them with unparalleled agility and grip when moving through the canopy. They are almost exclusively tree-dwellers, building intricate, often communal nests high in the branches of the largest trees. Their agility allows them to leap great distances and move with a blur of motion, making them notoriously difficult to track or catch. 
@@ -151,7 +153,7 @@ Xeno Stigma (Severe)
 
 # 
 
-**BP Cost:**   
+**CP Cost:**   
 **Description:** The Sefalin are a fascinating species, classified as an Aquatic Aberration with a distinct Cephalotauric form. Their upper body is that of a smooth-skinned aquatic humanoid, but their lower half transitions into a formidable arrangement of six prehensile tentacles, replacing the typical legs of a terrestrial being.
 
 Perfectly Adapted to Deep Sea environments, Sefalin possess remarkable physical traits that allow them to thrive in the crushing pressures and cold of their homeworld's watery depths, including an Amphibious nature that grants them a movement speed of 40 ft on both land and water. They exhibit incredible vitality, possessing Fast Heal and Regeneration abilities.

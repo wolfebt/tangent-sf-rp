@@ -44,7 +44,8 @@ tech_level: 2 (Solar Bio-Crafting)
 meta_level: 1 (Solar Resonance)
 homeworld: Gra’or Sun Canopies
 costs:
-  bp: 28
+  cp: 22
+  bp: 22
 modifiers:
   - target: Strength
     value: 2
@@ -70,16 +71,16 @@ modifiers:
     value: -4
     type: skill
     mode: size_modifier
-cp_cost: 28
-cp: 28
-bp: 28
+cp_cost: 22
+cp: 22
+bp: 22
 description: >-
   A green-skinned, photosynthetic sub-species of Orll who generate nourishment
   and cellular healing directly from sunlight.
-traits:
-  - trait-chloroplast-cells-sustained-by-sunlight-2-sta-in-sun
-  - trait-exoskeleton-dr-3
-  - trait-regenerative-sap
+traits: &ref_0
+  - trait-chloroplast
+  - trait-exoskeleton-light
+  - trait-fast-heal
 recommended_factions:
   - Coalition of Independent Worlds
   - Environmental Faction Template
@@ -94,13 +95,14 @@ keywords: >-
   photosynthetic-orll, sun-healer, green-chitin, solar-canopy,
   natural-resilience
 negative_keywords: 'subterranean, dark-space, void'
+species_traits: *ref_0
 ---
 
 # Gra'or (Photosynthetic Orll Subspecies)
 
 # 
 
-**BP Cost:**   
+**CP Cost:** 22 CP  
 **Description:** The Orll are a powerful and incredibly stocky humanoid species, immediately recognizable across the known territories by their imposing, often barrel-chested build, which belies a surprising agility. Their most distinct physical features include a pair of prominent, upward-curving tusks that jut from their lower jaw, and a thick, dense coat of coarse body fur, typically in shades of earthy brown, gray, or black. This formidable coat is not merely an aesthetic trait; it provides exceptional natural insulation, allowing the Orll to thrive and maintain their hardiness against the constant, biting cold of their wooded mountain homelands.
 
 Every aspect of their physical form—from their heavily muscled limbs to their broad, flattened noses and deeply set eyes—is a testament to an ancestral life of hardship and survival in the harshest environments. Their formidable strength, coupled with their sheer physical resilience, embodies a savage, enduring nature and a primal ferocity that commands respect, often fear, from other races. The Orll are a race forged by the unforgiving high peaks, where only the strongest and most resilient can endure.
@@ -135,7 +137,7 @@ Stigma (Xeno & Savage)
 
 ## **Gra’Or**
 
-**BP Cost:**   
+**CP Cost:**   
 **Description:** The grey-skinned Orll represent a distinct and notable variance within the broader Orll species. Unlike their more commonly encountered cousins, who are often characterized by volatile temperaments and a propensity for unrestrained aggression, the grey variety is generally considered to possess a significantly higher degree of intelligence and a markedly reduced inclination towards violent, unthinking rage.
 
 This cognitive divergence is the most defining trait of the grey-skinned Orll. They exhibit complex problem-solving skills, a greater capacity for long-term planning, and a more sophisticated social structure. While their cousins might charge headlong into conflict, the grey Orll prefer to assess threats, formulate strategies, and utilize diplomacy or tactical maneuvering before resorting to outright violence. This inherent restraint and intellectual capacity have often led them to occupy roles of leadership, scholarship, or specialized trade within their own society, or even in interaction with other races. Their calmer demeanor does not equate to weakness; rather, it allows their considerable strength and innate resilience to be deployed with precision and lethal efficiency when necessary.
@@ -170,7 +172,7 @@ Stigma (Xeno & Savage)
 
 # 
 
-**BP Cost:**   
+**CP Cost:**   
 **Description:** The Plasm are a truly unique and enigmatic species, classified as a medium humanoid ooze. Their origins trace back to a massive, singular body from which individual Plasm "bud" off to explore the greater universe, driven by an almost insatiable curiosity. Incredibly inquisitive and fast learners, they adapt quickly to new environments and social situations. They are known for being surprisingly amiable and friendly with other species, a stark contrast to the common fear their ooze classification might inspire.
 
 Physiologically, their form is mutable and defined by their inherent abilities. They possess Adaptive Aspects and Bodyform Adaptation, allowing them to constantly change their shape, supplemented by Alter Form (Advanced). Coupled with Fast Heal and Regeneration, they are resilient and difficult to permanently destroy. Furthermore, their consciousness is highly developed, making them Awakened  with an understanding of Cosmic attuned manipulations and all are capable of Telepathic communication, which likely aids in their rapid learning and peaceful inter-species relations.

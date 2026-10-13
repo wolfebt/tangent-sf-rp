@@ -8,6 +8,7 @@ description: >-
   Level 3 development in Devices & Apparatus: Consumer electronics, personal
   computing, sensors, tools, and apparatus. (Advanced / Stellar).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

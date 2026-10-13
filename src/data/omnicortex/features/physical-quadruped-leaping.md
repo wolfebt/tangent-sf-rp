@@ -6,21 +6,25 @@ feature_category: Physical
 cost_bp: 2
 is_ranked: false
 is_multiple: false
-prerequisites: 'Four Lower Limbs'
+prerequisites: Four Lower Limbs
 description: >-
-  Specialized quadrupedal legs engineered for high-impact jumping, granting
-  +4 Stability against knockdowns/trips and increased leap distance.
+  Specialized quadrupedal legs engineered for high-impact jumping, granting +4
+  Stability against knockdowns/trips and increased leap distance.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
-keywords: 'quadruped-leaping, jumping-legs, stability, quadrupedal, impact-absorbers, balance'
+keywords: >-
+  quadruped-leaping, jumping-legs, stability, quadrupedal, impact-absorbers,
+  balance
 negative_keywords: 'unsteady, frail-limbs, bipedal'
+cost_cp: 2
 ---
 
 # Quadruped (Leaping)
 
 **Category**: Physical Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisites**: Four Lower Limbs  
 
 ## Description

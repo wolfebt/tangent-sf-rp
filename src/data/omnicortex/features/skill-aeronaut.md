@@ -12,16 +12,18 @@ description: >-
   understand wind shears, thermals, and aerodynamics intuitively, whether using
   a glider, wingsuit, or natural wings.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'aeronaut, skill, special-feature, specialist, unpowered, nature-assisted'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Aeronaut
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Pilot (Unpowered) 1
 
 ## Description

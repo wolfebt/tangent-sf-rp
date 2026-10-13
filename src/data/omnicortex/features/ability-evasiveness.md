@@ -13,18 +13,20 @@ description: >-
   The character is adept at avoiding the brunt of area attacks or resisting the
   full efficacy of potent effects.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   evasiveness, ability, special-feature, innate-talent, passive-prowess,
   avoiding
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Evasiveness
 
 **Category**: Ability Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Must possess the base Feature for the chosen Save (Lightning Reflexes, Great Fortitude, or Iron Will).
 
 ## Description

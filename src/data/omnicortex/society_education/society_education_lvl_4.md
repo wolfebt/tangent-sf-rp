@@ -8,6 +8,7 @@ description: >-
   Level 4 development in Education & Archives: Knowledge institutions, neural
   archives, apprenticeships, and academies. (Mastered / Interstellar).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

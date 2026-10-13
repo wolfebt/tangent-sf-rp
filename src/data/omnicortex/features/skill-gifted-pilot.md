@@ -9,16 +9,18 @@ is_multiple: false
 prerequisites: Pilot 6
 description: The character feels the vehicle as an extension of their own body.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'gifted pilot, skill, special-feature, vehicle, extension'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Gifted Pilot
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Pilot 6
 
 ## Description

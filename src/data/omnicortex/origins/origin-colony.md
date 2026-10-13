@@ -2,61 +2,75 @@
 id: origin-colony
 name: Colony
 category: origins
-habitat: "Frontier Outpost"
+habitat: Frontier Outpost
+ws_modifier: 0
+economic_context: >-
+  Developing frontier settlement; self-reliant barter and pioneer
+  infrastructure.
 skill_points: 20
 society_skills:
-  - "Piloting"
-  - "Alertness"
-  - "Knowledge (Any)"
-  - "Vocation (Any)"
+  - Piloting
+  - Alertness
+  - Knowledge (Any)
+  - Vocation (Any)
 archetypes:
-  - "Pioneer"
-  - "Homesteader"
-  - "Prospector"
-  - "Engineer"
-  - "Doctor"
-  - "Soldier"
+  - Pioneer
+  - Homesteader
+  - Prospector
+  - Engineer
+  - Doctor
+  - Soldier
 traits:
-  - "trait-adaptability"
-  - "trait-adventurous-spirit"
-  - "trait-community-building"
-  - "trait-diplomacy"
-  - "trait-leadership"
-  - "trait-problem-solving"
-  - "trait-resource-management"
-  - "trait-scientific-knowledge"
-  - "trait-survival-skills"
+  - trait-adaptability
+  - trait-adventurous-spirit
+  - trait-community-building
+  - trait-diplomacy
+  - trait-leadership
+  - trait-problem-solving
+  - trait-resource-management
+  - trait-scientific-knowledge
+  - trait-survival-skills
 recommended_species:
-  - "Human (Base)"
-  - "Lin Human"
-  - "Premian Human"
-  - "Dwerg Human"
-  - "Cyberform Human"
-  - "Wildling"
-  - "Kheen Human"
-  - "Frellin"
-  - "Jorni"
-  - "Mondi"
-  - "Sentient Machine (Free Droid)"
+  - Human (Base)
+  - Lin Human
+  - Premian Human
+  - Dwerg Human
+  - Cyberform Human
+  - Wildling
+  - Kheen Human
+  - Frellin
+  - Jorni
+  - Mondi
+  - Sentient Machine (Free Droid)
 recommended_factions:
-  - "The Outworlds"
-  - "Coalition of Independent Worlds"
-  - "Planetary Faction Template"
-  - "Space Exploration Faction Template"
-  - "Impyrium Dominion"
-  - "Rebel Faction Template"
+  - The Outworlds
+  - Coalition of Independent Worlds
+  - Planetary Faction Template
+  - Space Exploration Faction Template
+  - Impyrium Dominion
+  - Rebel Faction Template
 recommended_occupations:
-  - "Builder"
-  - "Scout"
-  - "Citizen"
-  - "Soldier"
-  - "Specialist"
-  - "Drifter"
-keywords: "frontier, prefab-habitat, settler, pioneer, homestead, prospector, geodesic-dome, rugged-survival, terraforming-array, modular-outpost, borderlands, expansionist, resource-staging, self-reliance, uncharted-horizon, dusty-trail, solar-array-grid"
-negative_keywords: "decadent-leisure-resort, ancient-gilded-spire, high-class-ballroom, megacity-cyber-sprawl, ancestral-temple, pure-void-deep-spacer, imperial-palace-court, corporate-high-executive-boardroom"
+  - Builder
+  - Scout
+  - Citizen
+  - Soldier
+  - Specialist
+  - Drifter
+keywords: >-
+  frontier, prefab-habitat, settler, pioneer, homestead, prospector,
+  geodesic-dome, rugged-survival, terraforming-array, modular-outpost,
+  borderlands, expansionist, resource-staging, self-reliance, uncharted-horizon,
+  dusty-trail, solar-array-grid
+negative_keywords: >-
+  decadent-leisure-resort, ancient-gilded-spire, high-class-ballroom,
+  megacity-cyber-sprawl, ancestral-temple, pure-void-deep-spacer,
+  imperial-palace-court, corporate-high-executive-boardroom
 description: >-
-  New settlers who have just arrived or are still trying to establish themselves inhabit these worlds. Prefabricated or easily movable modular structures prevail on new planetary territories.
+  New settlers who have just arrived or are still trying to establish themselves
+  inhabit these worlds. Prefabricated or easily movable modular structures
+  prevail on new planetary territories.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -65,6 +79,7 @@ modifiers: []
 
 **Category**: Origins  
 **Habitat**: Frontier Outpost  
+**EUFT Wealth Score Modifier**: +0 (Developing frontier settlement; self-reliant barter and pioneer infrastructure.)  
 **Starting Skill Points**: 20 SP (allocated to Society Skills)  
 **Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)
 

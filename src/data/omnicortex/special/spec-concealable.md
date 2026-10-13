@@ -4,6 +4,7 @@ name: Concealable
 description: Compact frame grants +4 to Stealth checks when concealing on a person.
 category: special
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

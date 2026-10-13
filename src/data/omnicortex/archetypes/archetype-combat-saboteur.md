@@ -32,19 +32,21 @@ description: >-
   The frontline demolitionist who uses chaos and high explosives to restructure
   the battlefield in real-time.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: >-
   combat-saboteur, operative, artisan, adaptable, specialist, area damage,
   demolition
 negative_keywords: 'mindless-brute, reckless, illiterate'
+cp_chassis: 80
 ---
 
 # The Combat-saboteur
 
 **Sphere**: Operatives (The Artisans)  
 **Core Concept**: Area Damage / Demolition / Utility  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Strength  
 **Secondary Attribute**: Intellect  
 

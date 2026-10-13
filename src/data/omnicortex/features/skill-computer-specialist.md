@@ -11,16 +11,18 @@ description: >-
   The character lives in the digital realm, navigating code as easily as walking
   down the street.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'computer specialist, skill, special-feature, digital, navigating, easily'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Computer Specialist
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Computers 1
 
 ## Description

@@ -45,23 +45,24 @@ tech_level: 3 (Forge-Tech & Arcane Metallurgy)
 meta_level: 3 (Draconic Sorcery)
 homeworld: Drakon Prime
 costs:
-  bp: 13
+  cp: 19
+  bp: 19
 modifiers:
   - target: Intellect
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 13
-cp: 13
-bp: 13
+cp_cost: 19
+cp: 19
+bp: 19
 description: >-
   Draconians bridge ancient elven grace with the primal draconic essence.
   Scaled, proud, and martial, they serve as warrior-philosophers and guardians
   of sacred flame.
 traits:
   - trait-aeld-lineage-traits
-  - trait-dragonkin-heritage-scales-dr-2
-  - trait-natural-weapon-claws-bite
+  - trait-dragonkin-traits
+  - trait-natural-weapons
 recommended_factions:
   - Dracon Dynasty
   - The Alterian Enclave
@@ -79,6 +80,10 @@ keywords: >-
   draconic, noble, armored-scales, martial-discipline, honor-bound,
   breath-weapon, feudal
 negative_keywords: 'subterfuge, frail, cowardly, dishonorable, primitive'
+species_traits:
+  - trait-aeld-lineage-traits
+  - trait-dragonkin-traits
+  - trait-natural-weapons
 ---
 
 # Draconian (Scaled Aeld)
@@ -88,7 +93,7 @@ Although Medium-sized Humanoids, Draconian Aeld typically reach heights of about
 
 ### **General Species Features & Mechanics**
 
-**BP Cost:** \[TBD\]  
+**CP Cost:** 19 CP  
 **Classification:** Humanoid  
 **Size:** Medium Sized (7ft)  
 **Movement:** 30ft  

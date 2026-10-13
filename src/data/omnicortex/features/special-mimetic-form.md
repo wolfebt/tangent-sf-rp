@@ -11,6 +11,7 @@ description: >-
   The species possesses a thin, human-mimetic dermis and internal endoskeletal
   structure capable of passing as baseline humanity.
 costs:
+  cp: 2
   bp: 2
 modifiers:
   - target: Disguise
@@ -23,12 +24,13 @@ modifiers:
     mode: conditional
 keywords: 'mimetic, disguise, deception, human-pass, antennae-conceal, kitin'
 negative_keywords: 'conspicuous, obvious-xeno, clumsy'
+cost_cp: 2
 ---
 
 # Mimetic Form
 
 **Category**: Special Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisite**: Kitin Manelli or Morphic Species  
 
 ## Description

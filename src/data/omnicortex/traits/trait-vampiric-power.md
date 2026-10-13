@@ -5,6 +5,7 @@ trait_tier: Elite
 trait_type: Species Trait
 category: traits
 costs:
+  cp: 4
   bp: 4
 description: Gain point in Physical Ability per 2 points of Sta drained (Lethal at 3+Sta).
 modifiers: []
@@ -14,7 +15,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Elite
 **Type**: Species Trait
-**BP Cost**: 4
+**CP Cost**: 4
 
 ## Description
 Gain point in Physical Ability per 2 points of Sta drained (Lethal at 3+Sta).

@@ -10,6 +10,7 @@ bp_cost: 1
 stigma: None
 type: Prosthetic
 costs:
+  cp: 0
   bp: 0
   credits: 10240
   nodes: 0
@@ -35,7 +36,7 @@ stage: Standard
 keywords: 'speed boost (legs), augmentation, prosthetic, standard, tl-3, general'
 negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
 ---
-Category: **4.3 Limb Upgrades (1 BP Per Upgrade)**
+Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**
 
 **Effect:** +10/+20/+30 Ground Move (Requires Pair).
 **Nodes:** 5

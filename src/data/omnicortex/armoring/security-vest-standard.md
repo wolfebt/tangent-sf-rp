@@ -22,6 +22,7 @@ description: >-
   for police and private security.
 mechanic: 'Hardened (Immune to Critical Hits from small arms). DR 10, SP 20.'
 costs:
+  cp: 0
   bp: 0
   credits: 160
   nodes: 0

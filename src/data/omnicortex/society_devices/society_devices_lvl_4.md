@@ -8,6 +8,7 @@ description: >-
   Level 4 development in Devices & Apparatus: Consumer electronics, personal
   computing, sensors, tools, and apparatus. (Mastered / Interstellar).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

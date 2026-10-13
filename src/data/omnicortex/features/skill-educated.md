@@ -11,16 +11,18 @@ description: >-
   The character has received extensive formal schooling or possesses a voracious
   appetite for reading.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'educated, skill, special-feature, received, extensive, formal'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Educated
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Academics 5, Any Knowledge 5
 
 ## Description

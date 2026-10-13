@@ -6,6 +6,7 @@ description: >-
   Massive whole-body kinetic energy from crashes, falls, and explosions. Split
   equally between Vitality and Health; ignores or halves DR.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

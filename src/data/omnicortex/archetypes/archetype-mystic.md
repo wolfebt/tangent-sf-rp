@@ -31,17 +31,19 @@ description: >-
   A wise and insightful individual who perceives glimpses of the future and
   offers guidance.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'mystic, visionary, idealist, leadership, charisma, diviner, support'
 negative_keywords: 'anti-social, mute, solitary-hermit'
+cp_chassis: 80
 ---
 
 # The Mystic
 
 **Sphere**: Visionaries (The Idealists)  
 **Core Concept**: Diviner / Support / Advisor  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Wisdom  
 **Secondary Attribute**: Insight  
 

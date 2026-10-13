@@ -5,6 +5,7 @@ trait_tier: Basic
 trait_type: Occupational Trait
 category: traits
 costs:
+  cp: 1
   bp: 1
 description: >-
   Think on their feet, make split-second decisions, and adapt to rapidly
@@ -16,7 +17,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Basic
 **Type**: Occupational Trait
-**BP Cost**: 1
+**CP Cost**: 1
 
 ## Description
 Think on their feet, make split-second decisions, and adapt to rapidly changing situations

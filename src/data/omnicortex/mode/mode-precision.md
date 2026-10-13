@@ -4,6 +4,7 @@ name: Precision Aim Mode
 description: Requires a steady stance; grants +4 accuracy and +1 Penetration on next shot.
 category: mode
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

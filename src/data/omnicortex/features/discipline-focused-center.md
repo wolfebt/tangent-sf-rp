@@ -11,18 +11,20 @@ description: >-
   The character's concentration is so absolute that they can channel power
   reliably even in the heat of battle.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   focused center, discipline, special-feature, focused-training, mastery,
   character's
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Focused Center
 
 **Category**: Discipline Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Centering, Discipline Focus (in all currently used Disciplines)
 
 ## Description

@@ -9,6 +9,7 @@ description: Immune to loud noise/deafening.
 stigma: None
 type: Sensory
 costs:
+  cp: 0
   bp: 0
   credits: 160
   nodes: 0

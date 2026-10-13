@@ -16,6 +16,7 @@ description: >-
   mast.
 mechanic: 'High-speed scouting, jump-jets, chin-mounted twin light lasers (2d6).'
 costs:
+  cp: 0
   bp: 0
   credits: 10240
   nodes: 0

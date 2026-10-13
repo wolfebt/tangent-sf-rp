@@ -31,17 +31,19 @@ description: >-
   Skilled in piloting high-speed vehicles in competitive or dangerous
   environments.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'racer, operative, artisan, adaptable, specialist, speed, transport'
 negative_keywords: 'incompetent, untrained, undisciplined'
+cp_chassis: 80
 ---
 
 # The Racer
 
 **Sphere**: Operatives (The Artisans)  
 **Core Concept**: Speed / Transport / Evasion  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Agility  
 **Secondary Attribute**: Technology  
 

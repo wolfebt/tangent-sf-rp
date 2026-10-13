@@ -5,20 +5,23 @@ category: disadvantages
 bp_granted: 2
 hindrance_type: Social
 description: >-
-  The character carries a latent alien physiology. When disguised and antennae are concealed,
-  they suffer Minor Xeno stigma; when revealed, society reacts with Severe Xeno revulsion.
+  The character carries a latent alien physiology. When disguised and antennae
+  are concealed, they suffer Minor Xeno stigma; when revealed, society reacts
+  with Severe Xeno revulsion.
 costs:
+  cp: 0
   bp: 0
 refundBP: 2
 modifiers: []
 keywords: 'stigma, xeno, mimetic, minor-xeno, severe-xeno, prejudice, kitin'
 negative_keywords: 'accepted, beloved, baseline-human'
+cp_granted: '2'
 ---
 
 # Stigma: Minor Xeno (Hidden) / Severe Xeno (Revealed)
 
 **Category**: Hindrances & Disadvantages  
-**BP Granted / Refund**: 2 BP (Minor Hidden) / 4 BP (Severe Revealed)  
+**CP Granted / Refund**: 2 CP (Minor Hidden) / 4 CP (Severe Revealed)  
 **Type**: Social  
 
 ## Description

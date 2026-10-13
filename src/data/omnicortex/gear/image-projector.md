@@ -9,6 +9,7 @@ weight: 0.5
 description: Projects a static or looped 2D image and basic audio onto flat surfaces.
 mechanic: Visual projection up to 10m. Easily detected as artificial (Perception DC 10).
 costs:
+  cp: 0
   bp: 0
   credits: 40
   nodes: 0

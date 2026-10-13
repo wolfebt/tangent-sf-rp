@@ -28,6 +28,7 @@ mechanic: >-
   Blast Shielding (Explosive/Area damage reduced by 50%). -2 Mobility, -10
   Movement. DR 30, SP 80.
 costs:
+  cp: 0
   bp: 0
   credits: 10240
   nodes: 0

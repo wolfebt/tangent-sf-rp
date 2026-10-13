@@ -6,21 +6,24 @@ feature_category: Physical
 cost_bp: 2
 is_ranked: false
 is_multiple: false
-prerequisites: 'Athletics 1 or Agility 2'
+prerequisites: Athletics 1 or Agility 2
 description: >-
-  Specialized leg musculature and hydraulic joints allow the character to always count
-  as having a running start, and all checks for jumping, leaping, and dropping are made at advantage.
+  Specialized leg musculature and hydraulic joints allow the character to always
+  count as having a running start, and all checks for jumping, leaping, and
+  dropping are made at advantage.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
 keywords: 'leaper, jumping, athletics, running-start, advantage, high-impact, acrobatics'
 negative_keywords: 'ponderous, earthbound, slow'
+cost_cp: 2
 ---
 
 # Leaper
 
 **Category**: Physical Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisites**: Athletics 1 or Agility 2  
 
 ## Description

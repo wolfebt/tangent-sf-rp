@@ -63,7 +63,8 @@ tech_level: 3 (Industrial)
 meta_level: 2 (Resonant)
 homeworld: Kitin Hive Worlds / Spire Infrastructure & Hive-Warrens
 costs:
-  bp: 34
+  cp: 39
+  bp: 39
 modifiers:
   - target: Strength
     value: 2
@@ -81,9 +82,9 @@ modifiers:
     value: -1
     type: attribute
     mode: inherent
-cp_cost: 34
-cp: 34
-bp: 34
+cp_cost: 39
+cp: 39
+bp: 39
 description: >-
   The Murex are the "General Purpose" Foundation Expression of the Kitin
   Collective. Serving as the builders and heavy infantry that form the backbone
@@ -126,7 +127,7 @@ negative_keywords: 'individualist, diplomatic-ambassador, frail'
 
 # Murex (Kitin Foundation Expression / General Purpose Builder & Infantry)
 
-**BP Cost:** 34 BP  
+**CP Cost:** 39 CP  
 **Classification:** Insectoid Aberration (Humanoid)  
 **Size:** Medium  
 **Movement:** 40ft Groundspeed (Crawling & Climbing)  
@@ -148,26 +149,26 @@ Murex are the primary audience for the psionic Chorus, moving in perfect synchro
 * **Stigma:** Severe Xeno
 
 ## Ability Modifiers
-* **+2 Strength** (8 BP)
-* **+2 Stamina** (8 BP)
-* **-1 Wisdom** (-4 BP)
-* **-1 Charisma** (-4 BP)
+* **+2 Strength** (8 CP)
+* **+2 Stamina** (8 CP)
+* **-1 Wisdom** (-4 CP)
+* **-1 Charisma** (-4 CP)
 
 ## Skills
-* **+10 Skill Ranks to ANY skills** (8 BP)
+* **+10 Skill Ranks to ANY skills** (8 CP)
 
 ## Species Features
-* **Multidextrous (4 Arms):** Full manipulation capability ending with dextrous 4 digit hands. (4 BP)
-* **Dual Skeletal Structure:** Combined endo/exo-skeleton (DR +5). (2 BP)
-* **Armor:** Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10] (2 BP)
-* **Enhanced Strength:** Count as 1 size larger for lifting and carrying. (2 BP)
-* **Fatigue Resistance:** All Fatigue checks are made at Advantage and at twice the interval time. (2 BP)
-* **Pheromonal Synthesis:** Biological scent-marking for hive coordination. (2 BP)
-* **Quick:** Naturally efficient movement and reaction times. (2 BP)
-* **Climber:** Traverse vertical or inverted surfaces at full speed. (2 BP)
-* **Hive-Link (Minor):** Basic telepathic receptivity to follow Collective commands. (2 BP)
-* **Resin Secretion:** Creation of Hive-Resin for patching mecha and structures. (2 BP)
-* **Torpor (Universal):** 4 hours of conscious rest; no loss of awareness. (2 BP)
+* **Multidextrous (4 Arms):** Full manipulation capability ending with dextrous 4 digit hands. (4 CP)
+* **Dual Skeletal Structure:** Combined endo/exo-skeleton (DR +5). (2 CP)
+* **Armor:** Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10] (2 CP)
+* **Enhanced Strength:** Count as 1 size larger for lifting and carrying. (2 CP)
+* **Fatigue Resistance:** All Fatigue checks are made at Advantage and at twice the interval time. (2 CP)
+* **Pheromonal Synthesis:** Biological scent-marking for hive coordination. (2 CP)
+* **Quick:** Naturally efficient movement and reaction times. (2 CP)
+* **Climber:** Traverse vertical or inverted surfaces at full speed. (2 CP)
+* **Hive-Link (Minor):** Basic telepathic receptivity to follow Collective commands. (2 CP)
+* **Resin Secretion:** Creation of Hive-Resin for patching mecha and structures. (2 CP)
+* **Torpor (Universal):** 4 hours of conscious rest; no loss of awareness. (2 CP)
 
 ## Recommended Features
 * **Acute Senses:** (Hearing, Scent)

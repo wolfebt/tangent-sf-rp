@@ -5,6 +5,7 @@ trait_tier: Basic
 trait_type: Occupational Trait
 category: traits
 costs:
+  cp: 1
   bp: 1
 description: >-
   Has strong ties to certain performance venues   *+2 Equipment (Hideout) and +1
@@ -16,7 +17,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Basic
 **Type**: Occupational Trait
-**BP Cost**: 1
+**CP Cost**: 1
 
 ## Description
 Has strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #

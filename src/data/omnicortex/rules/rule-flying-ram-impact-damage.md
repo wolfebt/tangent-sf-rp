@@ -4,6 +4,7 @@ name: Aerial Ramming & Kinetic Impact Rules
 category: rules
 description: Damage calculations for aerial collisions and flyer ram attacks.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

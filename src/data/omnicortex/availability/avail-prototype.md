@@ -4,6 +4,7 @@ name: Prototype / Experimental
 description: One-of-a-kind classified laboratory test items not in mass production.
 category: availability
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

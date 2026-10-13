@@ -9,6 +9,7 @@ description: "**Modifier:** As Synth Arm, +100% Cost, +10 DC.\r\n**Nodes:** 15"
 stigma: None
 type: Cybernetic
 costs:
+  cp: 0
   bp: 0
   credits: 163840
   nodes: 0

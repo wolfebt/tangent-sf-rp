@@ -12,16 +12,18 @@ description: >-
   effectively never hit a lactate threshold. Their muscles do not burn or fail
   from prolonged standard exertion.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'lactate immunity, general, special-feature, character''s, physiology, clears'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Lactate Immunity
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Endurance, Stamina 4
 
 ## Description

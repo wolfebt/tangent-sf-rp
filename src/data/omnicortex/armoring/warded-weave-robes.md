@@ -26,6 +26,7 @@ mechanic: >-
   Resonance Dispersion (+2 to saves vs Metaphysical and Energy attacks). DR 8,
   SP 20.
 costs:
+  cp: 0
   bp: 0
   credits: 640
   nodes: 0

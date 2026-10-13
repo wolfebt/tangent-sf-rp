@@ -5,6 +5,7 @@ trait_tier: Basic
 trait_type: Occupational Trait
 category: traits
 costs:
+  cp: 1
   bp: 1
 description: >-
   Scouts have a keen eye and sharp mind, allowing them to solve mysteries,
@@ -16,7 +17,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Basic
 **Type**: Occupational Trait
-**BP Cost**: 1
+**CP Cost**: 1
 
 ## Description
 Scouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.

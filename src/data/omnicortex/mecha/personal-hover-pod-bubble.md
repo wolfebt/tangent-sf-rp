@@ -14,6 +14,7 @@ propulsion: Grav-Drive
 description: Enclosed glass-sphere transport for comfortable city or atmospheric flight.
 mechanic: 'Full Grav-Drive flight, life support seal, autopilot, holds 50kg stowage.'
 costs:
+  cp: 0
   bp: 0
   credits: 2560
   nodes: 0

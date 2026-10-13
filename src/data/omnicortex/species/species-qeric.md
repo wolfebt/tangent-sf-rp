@@ -41,6 +41,7 @@ tech_level: 2 (Lightweight Harnesses)
 meta_level: 1 (Animalistic Empathy)
 homeworld: Qerica Jungle Spires
 costs:
+  cp: 16
   bp: 16
 modifiers:
   - target: Agility
@@ -69,13 +70,11 @@ bp: 16
 description: >-
   Small, charismatic mammalian quadrupeds with patagial gliding membranes who
   navigate high-canopy habitats and urban catwalks.
-traits:
-  - trait-climb-speed-30ft
-  - trait-climbing
-  - trait-multidextrous
-  - trait-patagia-glide-30ft
-  - trait-small-size
-  - trait-uncanny-senses-acute-scent
+traits: &ref_0
+  - trait-climber
+  - trait-additional-limbs
+  - trait-patagia
+  - trait-scent
 recommended_factions:
   - The Entari Combine
   - Coalition of Independent Worlds
@@ -91,6 +90,7 @@ keywords: >-
   patagial-glider, tiny-charmer, canopy-scamper, charismatic, acrobatic,
   friendly
 negative_keywords: 'heavy-infantry, slugthrower, terrifying'
+species_traits: *ref_0
 ---
 
 # Qeric (Gliding Beastfolk)
@@ -109,7 +109,7 @@ Small, charismatic mammalian quadrupeds with patagial gliding membranes who navi
 - **Stigma**: Severe Xeno (-4)
 
 ## Mechanics & Statblock
-- **BP Cost**: 16 BP
+- **CP Cost**: 16 CP
 - **Inherent Modifiers**: +1 Agility, +1 Charisma
 - **Bonus Skills**: +0 Skill Points
 - **Inherent Features**: Small Size, Climbing, Patagia (Glide 30ft), Multidextrous, Uncanny Senses (Acute Scent), Climb Speed (30ft)

@@ -221,7 +221,8 @@ export const ORIGIN_WEALTH_MODS = {
   'Urban': 1,
   'Agricultural': 0,
   'Colony': 0,
-  'Militaristic': 0
+  'Militaristic': 0,
+  'Hostile': 0
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -576,13 +577,14 @@ export const AUGMENTATION_STAGES = {
     name: 'Negligible',
     badge: 'Baseline / Low-Invasive',
     color: 'slate',
+    cpCredit: 0,
     bpCredit: 0,
     prerequisites: 'None',
     staminaRequired: 0,
     tlRequired: 0,
     description: 'None, very minor options, prosthetics with no enhancements and certain other low-invasive modifications or options.',
     benefit: 'Compatible with baseline, cosmetic, and unenhanced prosthetics without invasive surgical penalties.',
-    special: 'No BP credit. Non-invasive baseline options only.',
+    special: 'No CP credit. Non-invasive baseline options only.',
     featureName: null,
     featureId: null
   },
@@ -592,13 +594,14 @@ export const AUGMENTATION_STAGES = {
     name: 'Augmented',
     badge: 'Standard Augmentations',
     color: 'cyan',
+    cpCredit: 6,
     bpCredit: 6,
     prerequisites: 'Available Technology Level (TL 3+)',
     staminaRequired: 0,
     tlRequired: 3,
     description: 'The character has undergone invasive surgery to replace or enhance biological systems with cybernetics, biotechnology, or magical prosthetics.',
     benefit: 'You are compatible with Standard Augmentations.',
-    special: 'Upon taking this feature, you gain a "credit" of 6 Build Points (BP) worth of Augmentations effectively for free (representing the initial suite of upgrades). Any cost beyond this must be paid with BP or Credits.',
+    special: 'Upon taking this feature, you gain a "credit" of 6 Character Points (CP) worth of Augmentations effectively for free (representing the initial suite of upgrades). Any cost beyond this must be paid with CP or Credits.',
     featureName: 'Augmented',
     featureId: 'special-augmented'
   },
@@ -608,14 +611,16 @@ export const AUGMENTATION_STAGES = {
     name: 'Heavy Augmentations',
     badge: 'Heavy / Industrial Grade',
     color: 'amber',
+    cpCredit: 12,
     bpCredit: 12,
+    additionalCpCredit: 6,
     additionalBpCredit: 6,
     prerequisites: 'Augmented, Stamina 2',
     staminaRequired: 2,
     tlRequired: 3,
     description: 'The character has replaced significant portions of their body with industrial or military-grade hardware. These modifications are often bulky, obvious, and not designed for social integration.',
-    benefit: 'You may install Heavy class Augmentations (which often have higher DR or Strength bonuses but may impose social penalties). You gain an additional 6 BP worth of Augmentations.',
-    special: 'Gain an additional 6 BP worth of Augmentations (12 BP total credit). Compatible with Heavy class hardware.',
+    benefit: 'You may install Heavy class Augmentations (which often have higher DR or Strength bonuses but may impose social penalties). You gain an additional 6 CP worth of Augmentations.',
+    special: 'Gain an additional 6 CP worth of Augmentations (12 CP total credit). Compatible with Heavy class hardware.',
     featureName: 'Heavy Augmentations',
     featureId: 'special-heavy-augmentations'
   },
@@ -625,14 +630,16 @@ export const AUGMENTATION_STAGES = {
     name: 'Extreme Augmentations',
     badge: 'Full Body Conversion',
     color: 'rose',
+    cpCredit: 18,
     bpCredit: 18,
+    additionalCpCredit: 6,
     additionalBpCredit: 6,
     prerequisites: 'Heavy Augmentations, Stamina 4',
     staminaRequired: 4,
     tlRequired: 3,
     description: 'The character is more machine (or bio-construct) than original being. They have replaced the majority of biological functions.',
-    benefit: 'You may undergo Full Body Conversion. You may install systems that alter your Size category or basic physiology (e.g., tank treads instead of legs). You gain an additional 6 BP worth of Augmentations.',
-    special: 'Gain an additional 6 BP worth of Augmentations (18 BP total credit). Full Body Conversion (FBC) and structural physiology changes permitted.',
+    benefit: 'You may undergo Full Body Conversion. You may install systems that alter your Size category or basic physiology (e.g., tank treads instead of legs). You gain an additional 6 CP worth of Augmentations.',
+    special: 'Gain an additional 6 CP worth of Augmentations (18 CP total credit). Full Body Conversion (FBC) and structural physiology changes permitted.',
     featureName: 'Extreme Augmentations',
     featureId: 'special-extreme-augmentations'
   }
@@ -649,25 +656,25 @@ export const ANATOMICAL_BODY_SLOTS = {
 };
 
 export const AUGMENTATION_CATEGORIES = {
-  fashionware: { id: 'fashionware', name: 'Fashionware & Utilities', defaultBP: 0, defaultNodes: 0, tl: 3, description: 'Civilian baseline mods (Skinwatch, ID chip, Holo-Tattoos)' },
-  synth_limb: { id: 'synth_limb', name: 'Prosthetic & Synth Limbs', defaultBP: 0, defaultNodes: 15, tl: 3, description: 'Full or sectional limb replacements' },
-  hand_foot: { id: 'hand_foot', name: 'Hand & Foot Options', defaultBP: 1, defaultNodes: 2, tl: 3, description: 'Blade fists, shock knuckles, prehensile feet, grapplers' },
-  limb_upgrade: { id: 'limb_upgrade', name: 'Limb Upgrades', defaultBP: 1, defaultNodes: 3, tl: 3, description: 'Armor plating, hydraulic rams, jump boosters, micro-missiles' },
-  exotic_limb: { id: 'exotic_limb', name: 'Exotic Limbs (TL4)', defaultBP: 2, defaultNodes: 15, tl: 4, description: 'Synth tentacles, digitigrade legs, insectoid limbs, wings' },
-  body_mod: { id: 'body_mod', name: 'Body Modifications', defaultBP: 2, defaultNodes: 5, tl: 3, description: 'Dermal armor, redundant organs, gills, muscle weave' },
-  sensory: { id: 'sensory', name: 'Sensory Modifications', defaultBP: 2, defaultNodes: 2, tl: 3, description: 'Nightvision, radar/sonar, teleoptics, bug detectors' },
-  brain: { id: 'brain', name: 'Brain & Neural Mods', defaultBP: 2, defaultNodes: 2, tl: 3, description: 'Neural processors, ghost jacks, skill circuitry, reflex co-processors' },
-  tl4_bioware: { id: 'tl4_bioware', name: 'TL4 Enhanced (Bioware)', defaultBP: 2, defaultNodes: 5, tl: 4, description: 'Immune to Massive Damage disablement; regenerates 1 SP/hour' },
-  tl5_nanotech: { id: 'tl5_nanotech', name: 'TL5 Advanced (Nanotech)', defaultBP: 1, defaultNodes: 3, tl: 5, description: 'Half BP cost (min 1); Morphic/Weightless reality-warping augs' },
-  fbc: { id: 'fbc', name: 'Full Body Conversion (FBC)', defaultBP: 10, defaultNodes: 200, tl: 3, description: 'Total synthetic chassis conversion (200 Nodes, 260 SP)' },
-  pseudo: { id: 'pseudo', name: 'Pseudo-Cybernetics (Wearable)', defaultBP: 0, defaultNodes: 10, tl: 3, description: 'External harnesses/gauntlets hosting internal node mods' },
-  meta_aug: { id: 'meta_aug', name: 'Metaphysical Augmentation', defaultBP: 2, defaultNodes: 10, tl: 4, description: 'Imbued tattoos, psi-crystals, cyber-occult neural sockets' }
+  fashionware: { id: 'fashionware', name: 'Fashionware & Utilities', defaultCP: 0, defaultBP: 0, defaultNodes: 0, tl: 3, description: 'Civilian baseline mods (Skinwatch, ID chip, Holo-Tattoos)' },
+  synth_limb: { id: 'synth_limb', name: 'Prosthetic & Synth Limbs', defaultCP: 0, defaultBP: 0, defaultNodes: 15, tl: 3, description: 'Full or sectional limb replacements' },
+  hand_foot: { id: 'hand_foot', name: 'Hand & Foot Options', defaultCP: 1, defaultBP: 1, defaultNodes: 2, tl: 3, description: 'Blade fists, shock knuckles, prehensile feet, grapplers' },
+  limb_upgrade: { id: 'limb_upgrade', name: 'Limb Upgrades', defaultCP: 1, defaultBP: 1, defaultNodes: 3, tl: 3, description: 'Armor plating, hydraulic rams, jump boosters, micro-missiles' },
+  exotic_limb: { id: 'exotic_limb', name: 'Exotic Limbs (TL4)', defaultCP: 2, defaultBP: 2, defaultNodes: 15, tl: 4, description: 'Synth tentacles, digitigrade legs, insectoid limbs, wings' },
+  body_mod: { id: 'body_mod', name: 'Body Modifications', defaultCP: 2, defaultBP: 2, defaultNodes: 5, tl: 3, description: 'Dermal armor, redundant organs, gills, muscle weave' },
+  sensory: { id: 'sensory', name: 'Sensory Modifications', defaultCP: 2, defaultBP: 2, defaultNodes: 2, tl: 3, description: 'Nightvision, radar/sonar, teleoptics, bug detectors' },
+  brain: { id: 'brain', name: 'Brain & Neural Mods', defaultCP: 2, defaultBP: 2, defaultNodes: 2, tl: 3, description: 'Neural processors, ghost jacks, skill circuitry, reflex co-processors' },
+  tl4_bioware: { id: 'tl4_bioware', name: 'TL4 Enhanced (Bioware)', defaultCP: 2, defaultBP: 2, defaultNodes: 5, tl: 4, description: 'Immune to Massive Damage disablement; regenerates 1 SP/hour' },
+  tl5_nanotech: { id: 'tl5_nanotech', name: 'TL5 Advanced (Nanotech)', defaultCP: 1, defaultBP: 1, defaultNodes: 3, tl: 5, description: 'Half CP cost (min 1); Morphic/Weightless reality-warping augs' },
+  fbc: { id: 'fbc', name: 'Full Body Conversion (FBC)', defaultCP: 10, defaultBP: 10, defaultNodes: 200, tl: 3, description: 'Total synthetic chassis conversion (200 Nodes, 260 SP)' },
+  pseudo: { id: 'pseudo', name: 'Pseudo-Cybernetics (Wearable)', defaultCP: 0, defaultBP: 0, defaultNodes: 10, tl: 3, description: 'External harnesses/gauntlets hosting internal node mods' },
+  meta_aug: { id: 'meta_aug', name: 'Metaphysical Augmentation', defaultCP: 2, defaultBP: 2, defaultNodes: 10, tl: 4, description: 'Imbued tattoos, psi-crystals, cyber-occult neural sockets' }
 };
 
 export const FBC_PACKAGES = {
-  Civilian: { id: 'Civilian', name: 'Civilian Shell (Light)', bpCost: 10, credits: 100000, totalSP: 260, dr: 10, nodes: 200, sockets: 20, baseDC: 40, description: 'Standard humanoid aesthetic, basic daily utility and light protection' },
-  IndustrialCombat: { id: 'IndustrialCombat', name: 'Industrial / Combat (Heavy)', bpCost: 10, credits: 250000, totalSP: 260, dr: 40, nodes: 200, sockets: 20, baseDC: 45, description: 'Reinforced ballistic chassis, shock plating, industrial myomer muscles' },
-  MekanApex: { id: 'MekanApex', name: 'Mekan Apex (Powered TL5)', bpCost: 5, credits: 1000000, totalSP: 260, dr: 120, nodes: 200, sockets: 20, baseDC: 60, description: 'Polymatter liquid metal frame, hard-light projection, ultimate defense' }
+  Civilian: { id: 'Civilian', name: 'Civilian Shell (Light)', cpCost: 10, bpCost: 10, credits: 100000, totalSP: 260, dr: 10, nodes: 200, sockets: 20, baseDC: 40, description: 'Standard humanoid aesthetic, basic daily utility and light protection' },
+  IndustrialCombat: { id: 'IndustrialCombat', name: 'Industrial / Combat (Heavy)', cpCost: 10, bpCost: 10, credits: 250000, totalSP: 260, dr: 40, nodes: 200, sockets: 20, baseDC: 45, description: 'Reinforced ballistic chassis, shock plating, industrial myomer muscles' },
+  MekanApex: { id: 'MekanApex', name: 'Mekan Apex (Powered TL5)', cpCost: 5, bpCost: 5, credits: 1000000, totalSP: 260, dr: 120, nodes: 200, sockets: 20, baseDC: 60, description: 'Polymatter liquid metal frame, hard-light projection, ultimate defense' }
 };
 
 export const STIGMA_LEVELS_DETAILED = {

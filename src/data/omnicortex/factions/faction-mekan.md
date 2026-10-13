@@ -64,6 +64,7 @@ description: >-
   organic sustenance and traditional mortality, existing as "Ghosts in the
   Machine." They are Neutral Optimizers and the Architects of Reality
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Major Galactic Power
@@ -151,7 +152,7 @@ negative_keywords: >-
   * Investigation (+2): Gathering new data.  
   * History (+2): Archiving universal events.  
 * **Typical Archetypes:** The Logic-Sage, The Null-Vector Pilot, The Fractal Diplomat, The Logic-Enforcer, The Net-Architect, The Cyberneticist.  
-* **Recommended Features (1 BP Discount):**  
+* **Recommended Features (1 CP Discount):**  
   * Benefit (Tech Assimilation), Logic-Mind, Self-Sustaining, Sleepless, Logical, Lightning Calculator, Computer Specialist, Coding Master, Tech Interface, Eidetic Memory, Fearless, Mind Link.
 
 ### **VI. Visual Synthesis Protocols (Aesthetics)**

@@ -8,19 +8,21 @@ is_ranked: false
 is_multiple: false
 prerequisites: Kitin Genome or Swarm Attunement
 description: >-
-  Basic telepathic receptivity allowing the organism to instinctively receive and execute
-  commands broadcast through the psionic Chorus.
+  Basic telepathic receptivity allowing the organism to instinctively receive
+  and execute commands broadcast through the psionic Chorus.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
 keywords: 'hive-link, minor, telepathic-receptivity, collective-commands, chorus, murex'
 negative_keywords: 'disconnected, autonomous-lone-wolf, deaf-to-chorus'
+cost_cp: 2
 ---
 
 # Hive-Link (Minor)
 
 **Category**: Special Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisites**: Kitin Genome or Swarm Attunement  
 
 ## Description

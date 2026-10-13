@@ -44,6 +44,7 @@ description: >-
   diplomacy, negotiation, and communication to build relationships, resolve
   conflicts, and advocate for the interests of their constituents.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 recommended_species:
@@ -77,13 +78,16 @@ keywords: >-
 negative_keywords: >-
   feral-wildsman, vulgar-street-brawler, lawless-bandit, inarticulate-grunt,
   chaotic-rioter, mud-scavenger, reclusive-hermit, reckless-provocateur
+base_ws: 6
+economic_context: Apex political/diplomatic standing
 ---
 
 # Representative Occupation
 
 **Category**: Occupations  
+**EUFT Base Wealth Score**: WS 6 (Apex political/diplomatic standing)  
 **Starting Skill Points**: 20 SP (allocated to Professional Skills, max Rank 11, recommended Rank 6)  
-**Recommended Features**: Skill (1 BP Discount)  
+**Recommended Features**: Skill (1 CP Discount)  
 **Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)
 
 ## Description

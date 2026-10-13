@@ -32,17 +32,19 @@ description: >-
   An adept negotiator entrusted with representing their faction. They navigate
   diplomatic channels to ensure peace.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'envoy, visionary, idealist, leadership, charisma, face, shield'
 negative_keywords: 'anti-social, mute, solitary-hermit'
+cp_chassis: 80
 ---
 
 # The Envoy
 
 **Sphere**: Visionaries (The Idealists)  
 **Core Concept**: Face / Shield / Connection Hub  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Charisma  
 **Secondary Attribute**: Wisdom  
 

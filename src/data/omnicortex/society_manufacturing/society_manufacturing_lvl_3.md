@@ -9,6 +9,7 @@ description: >-
   fabrication, nano-forges, mass production, and orbital yards. (Advanced /
   Stellar).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -6,6 +6,7 @@ description: >-
   Initiative formula (2d10 + Agility + Alertness + Handling), crew roles (Pilot,
   Gunner, Engineer), and Scaling targeting rules.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

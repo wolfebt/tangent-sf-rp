@@ -27,6 +27,7 @@ mechanic: >-
   Hydraulic Strength (Set Strength to 18/+4, Lifting Capacity x2). DR 40, SP
   120.
 costs:
+  cp: 0
   bp: 0
   credits: 40960
   nodes: 0

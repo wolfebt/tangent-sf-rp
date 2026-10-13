@@ -6,7 +6,7 @@
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { checkPrerequisite } from '../../src/utils/prerequisiteEvaluator.js';
+import { checkPrerequisite, normalizePrerequisiteString, evaluatePrerequisiteString } from '../../src/utils/prerequisiteEvaluator.js';
 import { getAugmentationStage } from '../../src/engines/tangentComplexEngines.js';
 
 test('Prerequisite Evaluator: Augmentations Negligible stage has no feature requirement', () => {
@@ -225,5 +225,75 @@ test('Prerequisite Evaluator: Skill Specializations correctly require trained ba
   assert.equal(resPass.isPossessed, true);
   assert.equal(resPass.unmetReasons.length, 0);
 });
+
+test('Prerequisite Evaluator: normalizePrerequisiteString handles edge cases cleanly', () => {
+  assert.equal(normalizePrerequisiteString(null), '');
+  assert.equal(normalizePrerequisiteString(undefined), '');
+  assert.equal(normalizePrerequisiteString(''), '');
+  assert.equal(normalizePrerequisiteString('None'), '');
+  assert.equal(normalizePrerequisiteString('None.'), '');
+  assert.equal(normalizePrerequisiteString('-'), '');
+  assert.equal(normalizePrerequisiteString('—'), '');
+  assert.equal(normalizePrerequisiteString('.'), '');
+  assert.equal(normalizePrerequisiteString('Prerequisite: .'), '');
+  assert.equal(normalizePrerequisiteString('Prerequisite: none'), '');
+  assert.equal(normalizePrerequisiteString([]), '');
+  assert.equal(normalizePrerequisiteString(['None']), '');
+  assert.equal(normalizePrerequisiteString(['Prerequisite: .']), '');
+  assert.equal(normalizePrerequisiteString(['Stamina 2', 'Iron Will']), 'Stamina 2, Iron Will');
+  assert.equal(normalizePrerequisiteString({ text: 'Agility 3' }), 'Agility 3');
+  assert.equal(normalizePrerequisiteString({ name: 'Lightning Reflexes' }), 'Lightning Reflexes');
+  assert.equal(normalizePrerequisiteString('Prerequisite: Stamina 2'), 'Stamina 2');
+});
+
+test('Prerequisite Evaluator: handles array prerequisites without throwing TypeError: e.split is not a function', () => {
+  const char = {
+    'attr-stamina': 2,
+    features: []
+  };
+
+  // Exact scenario from crash report: item with prerequisites: []
+  const featWithEmptyArray = {
+    id: 'defensive-radiation-advantage',
+    name: 'Radiation Advantage',
+    category: 'defensive',
+    type: 'feature',
+    prerequisites: []
+  };
+
+  const res1 = checkPrerequisite(featWithEmptyArray, char, 'features');
+  assert.equal(res1.hasPrerequisite, false);
+  assert.equal(res1.isPossessed, true);
+  assert.equal(res1.prerequisiteText, '');
+  assert.equal(res1.unmetReasons.length, 0);
+
+  // Item with array of strings
+  const featWithArrayPrereqs = {
+    id: 'test-feat',
+    name: 'Test Feature',
+    category: 'features',
+    type: 'feature',
+    prerequisites: ['Stamina 2', 'Lightning Reflexes']
+  };
+
+  const res2 = checkPrerequisite(featWithArrayPrereqs, char, 'features');
+  assert.equal(res2.hasPrerequisite, true);
+  assert.equal(res2.isPossessed, false); // missing Lightning Reflexes
+  assert.ok(res2.unmetReasons.some(r => r.includes('Lightning Reflexes')));
+  assert.equal(res2.prerequisiteText, 'Stamina 2, Lightning Reflexes');
+
+  // Invocation with array discipline
+  const invWithArrayDiscipline = {
+    name: 'Entropy Flare',
+    category: 'invocations',
+    discipline: ['Entropy', 'Energy']
+  };
+
+  const res3 = checkPrerequisite(invWithArrayDiscipline, char, 'invocations');
+  assert.equal(res3.hasPrerequisite, true);
+  assert.equal(res3.isPossessed, false);
+  assert.ok(res3.unmetReasons.some(r => r.includes('Entropy')));
+});
+
 
 

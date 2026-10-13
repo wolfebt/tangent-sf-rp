@@ -4,6 +4,7 @@ name: Overcharge Mode
 description: 'Draws double power to add +1d8 extra damage, generating heat.'
 category: mode
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -6,6 +6,7 @@ summary: >-
   Mechanical adjustments for taking additional time or forcing rapid execution
   of skill checks.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

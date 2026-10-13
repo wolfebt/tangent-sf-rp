@@ -4,6 +4,7 @@ name: Spirit / Soul
 description: 'Targets the metaphysical lodestar, aura, or essence signature of a creature.'
 category: target
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

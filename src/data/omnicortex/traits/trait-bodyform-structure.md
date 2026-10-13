@@ -5,6 +5,7 @@ trait_tier: Advanced
 trait_type: Species Trait
 category: traits
 costs:
+  cp: 2
   bp: 2
 description: >-
   Adjust Physical Abilities in equal trade. Once per day for the entire day.
@@ -16,7 +17,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Advanced
 **Type**: Species Trait
-**BP Cost**: 2
+**CP Cost**: 2
 
 ## Description
 Adjust Physical Abilities in equal trade. Once per day for the entire day. Ranked.

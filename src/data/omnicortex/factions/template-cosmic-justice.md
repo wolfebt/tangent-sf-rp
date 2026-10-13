@@ -58,6 +58,7 @@ description: >-
   guardians, attempting to balance inequalities and address discrimination
   wherever they find it
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Faction Template
@@ -122,7 +123,7 @@ negative_keywords: 'bribery, underworld-cartel, lawless-chaos, arbitrary-cruelty
   * Insight (+3)  
   * Law (+3)  
 * **Typical Archetypes:** The Paladin, The Judge, The Investigator, The Arbiter, The Inquisitor, The Warden, The Peacekeeper, The Diplomat, The Ranger, The Truth-Seeker.  
-* **Recommended Features (1 BP Discount):** Iron Will, Fearless, Inspiring Personality, Lie Detector, Benefit (Authority), Weapon Focus, Defensive Combat Training, Indomitable Will, Resolute, Trustworthy.
+* **Recommended Features (1 CP Discount):** Iron Will, Fearless, Inspiring Personality, Lie Detector, Benefit (Authority), Weapon Focus, Defensive Combat Training, Indomitable Will, Resolute, Trustworthy.
 
 ### **VI. Visual Semiotics (Aesthetics)**
 

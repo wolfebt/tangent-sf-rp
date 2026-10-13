@@ -58,6 +58,7 @@ description: >-
   their own society, focused on autonomy, self-preservation, and exploring the
   meaning of their own existence
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Faction Template
@@ -122,7 +123,7 @@ negative_keywords: 'organic-chauvinism, flesh-worship, primitive-mysticism, anti
   * Mechanics (+3)  
   * Combat (+3)  
 * **Typical Archetypes:** The Liberator, The Hacker, The Combat Chassis, The Archivist, The Proxy, The Architect, The Logic-Sage, The Drone Controller, The Synthetic Diplomat, The Maintenance Unit.  
-* **Recommended Features (1 BP Discount):** Self-Sustaining, Sleepless, Logic-Mind, Lightning Calculator, Tech Interface, Eidetic Memory, Fearless, Networked, Modular Chassis, Integrated Weaponry.
+* **Recommended Features (1 CP Discount):** Self-Sustaining, Sleepless, Logic-Mind, Lightning Calculator, Tech Interface, Eidetic Memory, Fearless, Networked, Modular Chassis, Integrated Weaponry.
 
 ### **VI. Visual Semiotics (Aesthetics)**
 

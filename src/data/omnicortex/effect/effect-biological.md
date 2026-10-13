@@ -5,6 +5,7 @@ type: Biological
 description: 'Neurotoxins, hemotoxins, and cellular mutagens requiring Fortitude saves.'
 category: effect
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

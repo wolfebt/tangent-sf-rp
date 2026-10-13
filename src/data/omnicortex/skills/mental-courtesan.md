@@ -20,6 +20,7 @@ synergy_links:
   - social-bluff
   - social-style
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'courtesan, mental, charisma, intellect, cognitive, expertise'

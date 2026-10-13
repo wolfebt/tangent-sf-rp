@@ -69,6 +69,7 @@ description: >-
   "Neutral Ground," a stabilizing force where commerce and conversation
   supersede conflict, proving profitability does not require exploitation
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Major Galactic Power
@@ -159,7 +160,7 @@ negative_keywords: >-
   * Language (+3)  
   * Finance (+2)  
 * **Typical Archetypes:** The Bureaucrat, The Warden, The Company Man, The Broker, The Security Officer, The Thespian, The Virtuoso, The Envoy, The Senator, The Peacekeeper, The Xenologist, The Biologist.  
-* **Recommended Features (1 BP Discount):**  
+* **Recommended Features (1 CP Discount):**  
   * Benefit (Wealth), Benefit (Immunity), Inspiring Personality, Silver Tongue, Trustworthy, Linguist, Scholar, Medic, Golden Smile, Connected, Educated, Versatile Curator.
 
 ### **VI. Visual Synthesis Protocols (Aesthetics)**

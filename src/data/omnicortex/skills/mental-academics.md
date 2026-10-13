@@ -20,6 +20,7 @@ synergy_links:
   - mental-archivist
   - mental-history
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'academics, mental, intellect, cognitive, expertise, higher'

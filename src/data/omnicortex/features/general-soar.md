@@ -13,16 +13,18 @@ description: >-
   The character has mastered aerial dynamics, thermals, and high-velocity flight
   maneuvers.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'soar, general, special-feature, mastered, aerial, dynamics'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Soar
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisites**: Flight capability, Acrobatics 1  
 
 ## Description

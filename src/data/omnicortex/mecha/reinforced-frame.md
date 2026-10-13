@@ -9,6 +9,7 @@ frame: Humanoid
 size: Large
 domain: Ground
 costs:
+  cp: 0
   bp: 0
   credits: 25
   nodes: 0
@@ -33,7 +34,7 @@ meta_level: 0
 keywords: 'reinforced frame, mecha, vehicle, large, humanoid, tl-3'
 negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
 ---
-Category: **4.3 Limb Upgrades (1 BP Per Upgrade)**
+Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**
 
 **Effect:** +25% Structure Points to limb.
 **Nodes:** 2

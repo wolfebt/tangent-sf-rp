@@ -8,6 +8,7 @@ description: >-
   sub-atomic cell manipulation.
 category: augmentation_type
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -16,4 +17,4 @@ modifiers: []
 **Category**: AUGMENTATION TYPE
 
 ## Description
-Half BP cost (min 1). Morphic, weightless reality-warping nanotechnology and sub-atomic cell manipulation.
+Half CP cost (min 1). Morphic, weightless reality-warping nanotechnology and sub-atomic cell manipulation.

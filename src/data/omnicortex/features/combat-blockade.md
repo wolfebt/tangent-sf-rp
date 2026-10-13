@@ -11,16 +11,18 @@ description: >-
   The character dominates the space around them, making it impossible for
   enemies to slip by without engaging.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'blockade, combat, special-feature, combat-maneuver, tactical-edge, dominates'
 negative_keywords: 'pacifist, feeble, untrained-civilian'
+cost_cp: 3
 ---
 
 # Blockade
 
 **Category**: Combat Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Strength 2
 
 ## Description

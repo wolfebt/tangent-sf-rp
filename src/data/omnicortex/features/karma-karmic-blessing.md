@@ -11,16 +11,18 @@ description: >-
   The character has a larger destiny than most. Fate has stockpiled more luck
   for them to use.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'karmic blessing, karma, special-feature, larger, destiny, stockpiled'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Karmic Blessing
 
 **Category**: Karma Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: None
 
 ## Description

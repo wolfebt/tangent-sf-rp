@@ -4,6 +4,7 @@ name: System Shutdown / EMP Lock
 description: 'Synthetic chassis or cybernetics freeze for 1 round, immobilizing the target.'
 category: critical_effect
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

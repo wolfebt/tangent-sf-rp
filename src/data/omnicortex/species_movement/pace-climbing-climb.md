@@ -9,7 +9,9 @@ multiplier: 0.5
 speed: 15
 bp: 0
 description: Standard vertical ascent/descent pace (1/2 Base Walk).
+cp: 0
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -18,7 +20,7 @@ modifiers: []
 **Category**: Species Movement (STAGE)  
 **Classification**: stage  
 **Target Mode**: Climbing  
-**Cost**: +0 BP  
+**Cost**: +0 CP  
 
 ## Description
 Standard vertical ascent/descent pace (1/2 Base Walk).

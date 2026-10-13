@@ -34,17 +34,19 @@ description: >-
   Focuses on the trade of weapons and military equipment. They have access to
   cutting-edge technology and sell it at a premium.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'munitions magnate, sentinel, defender, stability, order, merchant, tech'
 negative_keywords: 'mindless-brute, reckless, illiterate, chaotic-anarchist, unreliable'
+cp_chassis: 80
 ---
 
 # The Munitions Magnate
 
 **Sphere**: Sentinels (The Stabilizers)  
 **Core Concept**: Merchant / Tech / Heavy Support  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Charisma  
 **Secondary Attribute**: Intellect  
 

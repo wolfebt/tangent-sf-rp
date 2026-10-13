@@ -6,6 +6,7 @@ description: >-
   Moving more than 5ft restricts to 1 attack; difficult terrain halves speed and
   imposes -2 to -4 attack penalties.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

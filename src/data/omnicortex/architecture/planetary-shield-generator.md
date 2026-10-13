@@ -23,6 +23,7 @@ mechanic: >-
   SP: 19,200. DR: 50 (Active Shielding). Modules: 250. Emitter Array (150),
   Reactor Core (80), Cryo Cooling (20).
 costs:
+  cp: 0
   bp: 0
   credits: 41943040
   nodes: 0

@@ -29,19 +29,21 @@ tactical_role: 'Solving murders, identifying toxins/diseases, analyzing biologic
 quote: '"The body never lies."'
 description: An expert in determining cause of death and analyzing biological evidence.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: >-
   forensic pathologist, savant, rational, intellect, strategist, investigation,
   science
 negative_keywords: 'mindless-brute, reckless, illiterate'
+cp_chassis: 80
 ---
 
 # The Forensic Pathologist
 
 **Sphere**: Savants (The Rationals)  
 **Core Concept**: Investigation / Science / Intel  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
 **Secondary Attribute**: Wisdom  
 

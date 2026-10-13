@@ -47,7 +47,7 @@ function syncFeatures() {
     const name = data.name || data.title || id;
     const category = data.feature_category || data.category || 'General';
     const type = (data.feature_category || data.type || category).toLowerCase();
-    const cp = typeof data.costs?.bp === 'number' ? data.costs.bp : (typeof data.cost_bp === 'number' ? data.cost_bp : (typeof data.cp === 'number' ? data.cp : 3));
+    const cp = typeof data.costs?.cp === 'number' ? data.costs.cp : (typeof data.costs?.bp === 'number' ? data.costs.bp : (typeof data.cost_cp === 'number' ? data.cost_cp : (typeof data.cost_bp === 'number' ? data.cost_bp : (typeof data.cp === 'number' ? data.cp : 3))));
 
     // Extract mechanic snippet from markdown body if not in frontmatter
     let mechanic = data.mechanic || '';
@@ -76,7 +76,8 @@ function syncFeatures() {
       category,
       type,
       cp,
-      costs: { bp: cp, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0, ...(data.costs || {}) },
+      bp: cp,
+      costs: { cp, bp: cp, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0, ...(data.costs || {}) },
       is_ranked: Boolean(data.is_ranked),
       max_rank: data.max_rank || (data.is_ranked ? 4 : undefined),
       is_multiple: Boolean(data.is_multiple),

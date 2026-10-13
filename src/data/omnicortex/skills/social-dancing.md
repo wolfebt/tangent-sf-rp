@@ -22,6 +22,7 @@ synergy_links:
   - social-style
   - physical-athletics
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'dancing, social, agility, interaction, diplomacy, influence'

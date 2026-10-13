@@ -45,7 +45,8 @@ tech_level: 2 (Arboreal Bowcraft & Astronomy)
 meta_level: 3 (Astral Nature Divination)
 homeworld: Plains of Eldoria
 costs:
-  bp: 17
+  cp: 25
+  bp: 25
 modifiers:
   - target: Agility
     value: 1
@@ -67,19 +68,19 @@ modifiers:
     value: -4
     type: skill
     mode: size_modifier
-cp_cost: 17
-cp: 17
-bp: 17
+cp_cost: 25
+cp: 25
+bp: 25
 description: >-
   Tozen are proud centauroid fey combining humanoid torsos with equine bodies.
   Revered for their wisdom, astronomical precision, and nomadic independence,
   they range the open steppes.
-traits:
+traits: &ref_0
   - trait-asi-base-traits
-  - trait-awakened-natural-wisdom
-  - trait-quadruped-speed-40ft
-  - trait-quick-reflexes
-  - trait-stable-stance
+  - trait-awakened-nature
+  - trait-quadruped
+  - trait-quick-reactions
+  - trait-stable-footed
 recommended_factions:
   - Elven Providence
   - Coalition of Independent Worlds
@@ -93,6 +94,7 @@ recommended_occupations:
   - Scholar
 keywords: 'centauroid, fleet-footed, astronomy, archery, open-steppes, proud, nomadic'
 negative_keywords: 'indoor-confined, starship-ductwork, urbanite, cramped-cockpits'
+species_traits: *ref_0
 ---
 
 # Tozen (Centaur Fey)
@@ -101,7 +103,7 @@ negative_keywords: 'indoor-confined, starship-ductwork, urbanite, cramped-cockpi
 
 # 
 
-**BP Cost:**   
+**CP Cost:** 25 CP  
 **Description:** The Tozen are a captivating breed of fey, distinguished by their graceful, centauric forms that blend the upper body of a lean, lithe humanoid with the powerful, four-legged lower body of a gazelle or deer. This inherent physical structure is a testament to their deep connection to the natural world.
 
 Innately, the Tozen are highly attuned with nature's rhythm and subtle energies. This profound bond grants them an unparalleled mastery of camouflage and stealth within the wilds. They do not merely hide; they *become* a part of the landscape. Their movements are fluid, their presence so minimal that they often move in plain sight, blending seamlessly with the shadows, foliage, or dappled sunlight. It is a common experience for travelers to pass by a Tozen without ever noticing their presence, leaving them to an existence that is as elusive as the whispers of the wind through the trees. They are the unseen guardians of the forest, moving with a silent grace that makes them virtually undetectable to the unperceiving eye.

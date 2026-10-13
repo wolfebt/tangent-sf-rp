@@ -5,6 +5,7 @@ type: Metaphysical
 description: Dark energy and spatial compression that pulls targets and crushes matter.
 category: effect
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

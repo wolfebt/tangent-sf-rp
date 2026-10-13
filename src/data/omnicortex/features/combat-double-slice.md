@@ -9,16 +9,18 @@ is_multiple: false
 prerequisites: Two-Weapon Fighting
 description: 'Double Slice is a Combat Feature: Add your Str bonus to off-hand damage rolls.'
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'double slice, combat, special-feature, combat-maneuver, tactical-edge, double'
 negative_keywords: 'pacifist, feeble, untrained-civilian'
+cost_cp: 3
 ---
 
 # Double Slice
 
 **Category**: Combat Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Two-Weapon Fighting
 
 ## Description

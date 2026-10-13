@@ -11,16 +11,18 @@ description: >-
   Devout is a Karma Feature: Call upon one’s Faith for an Ability Check reroll
   once per day.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'devout, karma, special-feature, feature:, ability, reroll'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Devout
 
 **Category**: Karma Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Believer
 
 ## Description

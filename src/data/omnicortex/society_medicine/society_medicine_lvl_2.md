@@ -8,6 +8,7 @@ description: >-
   Level 2 development in Medicine & Healthcare: Healthcare infrastructure,
   cellular regeneration, trauma care, and panaceas. (Modern / Planetary).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

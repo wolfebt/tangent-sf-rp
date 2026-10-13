@@ -36,7 +36,7 @@ const ATTRIBUTES = [
     badgeColor: 'amber',
     desc: 'Raw physical power check: lifting gates, bending bars, prying open bulkheads, breaking chains, and smashing structural obstacles.',
     formula: 'Base = 2 + (Strength × 2)',
-    cost: '1 BP / +1',
+    cost: '1 CP / +1',
     tags: ['Check', 'DC Roll', 'Brute Force']
   },
   {
@@ -61,7 +61,7 @@ const ATTRIBUTES = [
     badgeColor: 'amber',
     desc: 'Reaction check: dodging area-of-effect explosions, catching falling/thrown objects, rapid evasion, acrobatic feats, and initiative baseline.',
     formula: 'Base = 2 + (Agility × 2)',
-    cost: '1 BP / +1',
+    cost: '1 CP / +1',
     tags: ['Save', 'Initiative Base', 'Evasion']
   },
   {
@@ -86,7 +86,7 @@ const ATTRIBUTES = [
     badgeColor: 'amber',
     desc: 'Endurance save: resisting toxins, alien pathogens, radiation, extreme atmospheric pressure/temperature, and physical exhaustion.',
     formula: 'Base = 2 + (Stamina × 2)',
-    cost: '1 BP / +1',
+    cost: '1 CP / +1',
     tags: ['Save', 'Biohazard', 'Endurance']
   },
   {
@@ -112,7 +112,7 @@ const ATTRIBUTES = [
     badgeColor: 'amber',
     desc: 'Intellect check: cracking ciphers, deciphering alien scripts, solving ancient mechanical riddles, and comprehending technical blueprints.',
     formula: 'Base = 2 + (Intellect × 2)',
-    cost: '1 BP / +1',
+    cost: '1 CP / +1',
     tags: ['Check', 'Cryptography', 'Deduction']
   },
   {
@@ -138,7 +138,7 @@ const ATTRIBUTES = [
     badgeColor: 'amber',
     desc: 'Mental save: resisting terror/fear, breaking free from mind control or psychic manipulation, and maintaining deep focus under extreme stress.',
     formula: 'Base = 2 + (Wisdom × 2)',
-    cost: '1 BP / +1',
+    cost: '1 CP / +1',
     tags: ['Save', 'Mental Screen', 'Focus']
   },
   {
@@ -163,7 +163,7 @@ const ATTRIBUTES = [
     badgeColor: 'amber',
     desc: 'Social check: diplomacy, bartering treaties, navigating aristocratic courts or underworld cantinas, and de-escalating tense confrontations.',
     formula: 'Base = 2 + (Charisma × 2)',
-    cost: '1 BP / +1',
+    cost: '1 CP / +1',
     tags: ['Check', 'Diplomacy', 'Barter']
   }
 ];

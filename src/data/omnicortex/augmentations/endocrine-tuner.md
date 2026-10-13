@@ -9,6 +9,7 @@ description: Regulates mood and minor hormonal imbalances.
 stigma: None
 type: Fashionware
 costs:
+  cp: 0
   bp: 0
   credits: 160
   nodes: 0

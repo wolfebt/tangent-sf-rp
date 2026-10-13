@@ -5,6 +5,7 @@ trait_tier: Basic
 trait_type: Species Trait
 category: traits
 costs:
+  cp: 1
   bp: 1
 description: Choose a favored terrain type. +4 bonus on Stealth checks within that terrain.
 modifiers: []
@@ -14,7 +15,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Basic
 **Type**: Species Trait
-**BP Cost**: 1
+**CP Cost**: 1
 
 ## Description
 Choose a favored terrain type. +4 bonus on Stealth checks within that terrain.

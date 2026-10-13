@@ -5,6 +5,7 @@ category: invocations
 discipline: Matter
 description: ARCANE LOCK invocation for Matter reality manipulation.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 recommended_species:

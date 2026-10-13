@@ -23,6 +23,7 @@ mechanic: >-
   SP: 6,000 (+20% Bulwark). DR: 17 (Hardened). Modules: 90. Command/CIC (10),
   Garrison & Armory (30), Support & Vehicle Bay (20), Defenses & Shields (30).
 costs:
+  cp: 0
   bp: 0
   credits: 71316
   nodes: 0

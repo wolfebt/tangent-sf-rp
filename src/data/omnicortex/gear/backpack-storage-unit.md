@@ -11,6 +11,7 @@ description: >-
   expedition gear.
 mechanic: Increases personal carrying capacity by +2 Slots / Sockets.
 costs:
+  cp: 0
   bp: 0
   credits: 40
   nodes: 0

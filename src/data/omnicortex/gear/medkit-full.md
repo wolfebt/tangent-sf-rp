@@ -9,6 +9,7 @@ weight: 2
 description: 'Comprehensive paramedic field kit with diagnostic wand, cauterizer, and stims.'
 mechanic: +1 Bonus to Medicine checks. Contains 5 clinical uses.
 costs:
+  cp: 0
   bp: 0
   credits: 160
   nodes: 0

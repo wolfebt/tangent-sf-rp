@@ -9,16 +9,18 @@ is_multiple: false
 prerequisites: Species Trait or Flaw
 description: The character is significantly smaller than the average for their species.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'dwarfism, special, special-feature, significantly, smaller, average'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Dwarfism
 
 **Category**: Special Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Species Trait or Flaw
 
 ## Description

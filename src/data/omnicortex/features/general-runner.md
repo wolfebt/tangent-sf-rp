@@ -9,16 +9,18 @@ is_multiple: false
 prerequisites: 'Strength 1, Agility 1, Stamina 1'
 description: The character is trained for exceptional land speed and endurance.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'runner, general, special-feature, trained, exceptional, endurance'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Runner
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisites**: Strength 1, Agility 1, Stamina 1  
 
 ## Description

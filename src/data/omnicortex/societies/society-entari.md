@@ -7,6 +7,7 @@ description: >-
   Vibrant multicultural bazaar culture valuing trade acumen, diplomatic
   hospitality, and artisan craftsmanship.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

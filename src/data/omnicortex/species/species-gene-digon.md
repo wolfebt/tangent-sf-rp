@@ -44,7 +44,8 @@ tech_level: 3 (Imperial Heavy Ordinance)
 meta_level: 0 (Null)
 homeworld: Imperial Barracks Worlds
 costs:
-  bp: 29
+  cp: 8
+  bp: 8
 modifiers:
   - target: Strength
     value: 1
@@ -78,16 +79,16 @@ modifiers:
     value: -4
     type: skill
     mode: size_modifier
-cp_cost: 29
-cp: 29
-bp: 29
+cp_cost: 8
+cp: 8
+bp: 8
 description: >-
   Brutal, hulking bio-engineered shock troops bred by the Impyrium for planetary
   boarding actions and trench warfare.
-traits:
-  - trait-brutal-3-melee-damage
-  - trait-combat-rage-1-encounter
-  - trait-exoskeleton-partial-sub-dermal-plates-dr-3
+traits: &ref_0
+  - trait-brutal
+  - trait-frenzy
+  - trait-exoskeleton-partial
 recommended_factions:
   - Impyrium Dominion
   - Radiant Impyrium
@@ -104,6 +105,7 @@ keywords: >-
   shock-trooper, reinforced-skeleton, heavy-infantry, high-pain-threshold,
   boarding-party
 negative_keywords: 'subtle-espionage, delicate-craft, diplomacy, psionics, agile-flight'
+species_traits: *ref_0
 ---
 
 # Digon (Imperial Heavy Shock Trooper)
@@ -122,7 +124,7 @@ Brutal, hulking bio-engineered shock troops bred by the Impyrium for planetary b
 - **Stigma**: Xeno (-2), Savage (-4)
 
 ## Mechanics & Statblock
-- **BP Cost**: 29 BP
+- **CP Cost**: 29 CP
 - **Inherent Modifiers**: +1 Strength, +1 Agility, +1 Stamina, -1 Intellect, -1 Charisma
 - **Bonus Skills**: +5 Skill Points
 - **Inherent Features**: Brutal (+3 Melee Damage), Exoskeleton (Partial Sub-dermal Plates DR 3/-), Combat Rage (1/Encounter)

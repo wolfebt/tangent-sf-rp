@@ -11,18 +11,20 @@ description: >-
   The character has exceptional peripheral awareness and reaction time,
   preventing enemies from exploiting blind spots.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   combat reflexes, combat, special-feature, combat-maneuver, tactical-edge,
   exceptional
 negative_keywords: 'pacifist, feeble, untrained-civilian'
+cost_cp: 3
 ---
 
 # Combat Reflexes
 
 **Category**: Combat Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Agility 1
 
 ## Description

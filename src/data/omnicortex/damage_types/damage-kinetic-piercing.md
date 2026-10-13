@@ -6,6 +6,7 @@ description: >-
   Puncturing and penetrating targets with deep, narrow wounds. Ideal for
   exploiting weak points and delivering payloads.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

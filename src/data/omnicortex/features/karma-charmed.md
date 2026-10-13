@@ -11,16 +11,18 @@ description: >-
   The character leads a charmed life. Disasters that would doom others seem to
   miss them by inches.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'charmed, karma, special-feature, disasters, others, inches'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Charmed
 
 **Category**: Karma Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Maximum Karma Pool of 4+
 
 ## Description

@@ -5,6 +5,7 @@ category: invocations
 discipline: Dimension
 description: MEASURE invocation for Dimension reality manipulation.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 recommended_species:

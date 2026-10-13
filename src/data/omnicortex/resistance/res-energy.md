@@ -4,6 +4,7 @@ name: Energy / Laser Resistance
 description: 'Deflects and dissipates coherent light, blasters, and directed-energy beams.'
 category: resistance
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

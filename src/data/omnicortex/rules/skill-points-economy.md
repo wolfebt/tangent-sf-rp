@@ -6,6 +6,7 @@ summary: >-
   Build Point costs, starting maximum caps, and skill point allotments from
   Species, Faction, Origin, and Occupation.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

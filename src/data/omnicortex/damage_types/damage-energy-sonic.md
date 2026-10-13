@@ -6,6 +6,7 @@ description: >-
   High-frequency acoustic vibrations that bypass physical armor to cause
   disorientation, ruptured organs, and cellular disintegration.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

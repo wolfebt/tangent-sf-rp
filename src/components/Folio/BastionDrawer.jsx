@@ -1295,33 +1295,33 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                       <div className="bg-slate-950/95 border border-cyan-500/40 rounded-lg p-3 space-y-2">
                         <div className="flex items-center justify-between">
                           <span className="text-[10px] text-cyan-400 uppercase font-bold tracking-wider">
-                            Stage 5 of 6: 150 BP Rules Economics & Core Stats
+                            Stage 5 of 6: 150 CP Rules Economics & Core Stats
                           </span>
                           <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold ${
                             stagedRulesLedger.bpRemaining >= 0
                               ? 'bg-emerald-950 text-emerald-300 border border-emerald-600/50'
                               : 'bg-red-950 text-red-300 border border-red-600/50'
                           }`}>
-                            Budget: {stagedRulesLedger.bpRemaining} / 150 BP Available
+                            Budget: {stagedRulesLedger.bpRemaining} / 150 CP Available
                           </span>
                         </div>
 
                         <p className="text-[11px] text-slate-300">
-                          Tangent creation rules: Base attributes cost 5 BP per point (max +4 raw before species bonuses). Sub-attributes derive from Base 2 + (Primary * 2).
+                          Tangent creation rules: Base attributes cost 5 CP per point (max +4 raw before species bonuses). Sub-attributes derive from Base 2 + (Primary * 2).
                         </p>
 
                         <div className="grid grid-cols-3 gap-1.5 text-[10px] font-mono pt-1">
                           <div className="p-1.5 rounded bg-slate-900 border border-slate-800 text-center">
                             <span className="text-slate-400 block text-[9px]">Attributes Cost</span>
-                            <span className="text-amber-300 font-bold">{stagedRulesLedger.breakdown.attributesCost} BP</span>
+                            <span className="text-amber-300 font-bold">{stagedRulesLedger.breakdown.attributesCost} CP</span>
                           </div>
                           <div className="p-1.5 rounded bg-slate-900 border border-slate-800 text-center">
                             <span className="text-slate-400 block text-[9px]">Species Cost</span>
-                            <span className="text-cyan-300 font-bold">{stagedRulesLedger.breakdown.speciesCost} BP</span>
+                            <span className="text-cyan-300 font-bold">{stagedRulesLedger.breakdown.speciesCost} CP</span>
                           </div>
                           <div className="p-1.5 rounded bg-slate-900 border border-slate-800 text-center">
                             <span className="text-slate-400 block text-[9px]">Tech Level Cost</span>
-                            <span className="text-sky-300 font-bold">{stagedRulesLedger.breakdown.techLevelCost} BP</span>
+                            <span className="text-sky-300 font-bold">{stagedRulesLedger.breakdown.techLevelCost} CP</span>
                           </div>
                         </div>
                       </div>
@@ -1332,7 +1332,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                           <span className="text-cyan-400 font-bold uppercase tracking-wider text-[10px]">
                             Core Attributes (Max +4 Raw at Creation)
                           </span>
-                          <span className="text-slate-400 text-[10px]">5 BP per raw point</span>
+                          <span className="text-slate-400 text-[10px]">5 CP per raw point</span>
                         </div>
 
                         <div className="grid grid-cols-2 gap-2">
@@ -1464,7 +1464,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                             />
                           </div>
                           <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-600/50 font-bold shrink-0">
-                            150 BP Compliant
+                            150 CP Compliant
                           </span>
                         </div>
 

@@ -9,6 +9,7 @@ description: 'Changes ground plane, Climb +20, Jump +10.'
 stigma: None
 type: Esoteric
 costs:
+  cp: 0
   bp: 0
   credits: 10240
   nodes: 0
@@ -37,4 +38,4 @@ negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
 Category: **9\. TL5 Advanced Augmentations**
 
 **Effect:** Changes ground plane, Climb +20, Jump +10.
-**BP:** 1
+**CP:** 1

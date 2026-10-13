@@ -7,6 +7,7 @@ type: speed
 description: Increases ground movement speed by 10 feet per round.
 category: modifier
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

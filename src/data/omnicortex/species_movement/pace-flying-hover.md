@@ -9,7 +9,9 @@ multiplier: 0.5
 speed: 30
 bp: 0
 description: Stationary hover or slow vertical descent enabling stable targeting.
+cp: 0
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -18,7 +20,7 @@ modifiers: []
 **Category**: Species Movement (STAGE)  
 **Classification**: stage  
 **Target Mode**: Flying  
-**Cost**: +0 BP  
+**Cost**: +0 CP  
 
 ## Description
 Stationary hover or slow vertical descent enabling stable targeting.

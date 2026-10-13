@@ -5,6 +5,7 @@ trait_tier: Basic
 trait_type: Mental
 category: traits
 costs:
+  cp: 1
   bp: 1
 description: >-
   Keen understanding of market dynamics, trade valuation, credit arbitration,
@@ -16,7 +17,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Basic
 **Type**: Mental
-**BP Cost**: 1
+**CP Cost**: 1
 
 ## Description
 Keen understanding of market dynamics, trade valuation, credit arbitration, and contract law.

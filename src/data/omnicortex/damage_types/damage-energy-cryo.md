@@ -6,6 +6,7 @@ description: >-
   Freezes and chills targets, slowing movement, causing frostbite, and
   embrittling metal armor. Triggers the Freeze condition on criticals.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

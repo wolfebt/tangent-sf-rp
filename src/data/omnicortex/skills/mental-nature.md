@@ -23,6 +23,7 @@ synergy_links:
   - mental-farmer
   - mental-groundskeeper
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'nature, mental, wisdom, intellect, cognitive, expertise'

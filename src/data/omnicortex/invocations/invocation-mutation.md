@@ -5,6 +5,7 @@ category: invocations
 discipline: Matter
 description: MUTATION invocation for Matter reality manipulation.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 recommended_species:
@@ -52,7 +53,7 @@ Effect Description:
 Alters the physical form to produce a specific biological enhancement (gills, claws).  
 **Scaling Function:**
 * **Magnitude:** Natural Weapon Damage \= 1d6 per Stage.  
-* **Quantity:** Number of Mutations \= 1 per Stage (Max 5 BP worth per Stage).
+* **Quantity:** Number of Mutations \= 1 per Stage (Max 5 CP worth per Stage).
 # **Mental Invocations**
 # **Mental Invocations**
 The following Invocations belong to the **Mental Discipline**. They rely on the Attune skill for accuracy and DC setting, and the specific Discipline Skill (Mental: Projection or Mental: Sense) for shaping, intensity, and effect resolution.

@@ -32,17 +32,19 @@ description: >-
   The master of the dramatic arts, captivating audiences with powerful
   performances.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'thespian, operative, artisan, adaptable, specialist, face, infiltrator'
 negative_keywords: 'heavy-plating, blunt-assault, loud, clumsy'
+cp_chassis: 80
 ---
 
 # The Thespian
 
 **Sphere**: Operatives (The Artisans)  
 **Core Concept**: Face / Infiltrator / Distraction  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Charisma  
 **Secondary Attribute**: Wisdom  
 

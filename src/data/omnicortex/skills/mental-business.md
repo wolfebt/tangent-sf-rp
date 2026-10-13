@@ -21,6 +21,7 @@ synergy_links:
   - mental-broker
   - mental-administrator
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'business, mental, intellect, cognitive, expertise, commerce'

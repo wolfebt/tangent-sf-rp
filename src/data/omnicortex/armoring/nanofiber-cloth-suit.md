@@ -24,6 +24,7 @@ description: >-
   spreads impact. Indistinguishable from high-end business wear.
 mechanic: 'High Fashion (+1 to Etiquette/Style checks); Concealable. DR 5, SP 10.'
 costs:
+  cp: 0
   bp: 0
   credits: 160
   nodes: 0

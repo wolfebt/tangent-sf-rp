@@ -6,6 +6,7 @@ description: >-
   Melee reach by size; Point Blank (+5 Strike, Advantage on Damage); Short,
   Medium, Long, Extreme.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

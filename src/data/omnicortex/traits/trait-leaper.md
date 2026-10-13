@@ -5,9 +5,11 @@ trait_tier: Advanced
 trait_type: Species Trait
 category: traits
 costs:
+  cp: 2
   bp: 2
 description: >-
-  Always counts as a running start; all checks for jumping, leaping, and controlled dropping made at advantage.
+  Always counts as a running start; all checks for jumping, leaping, and
+  controlled dropping made at advantage.
 modifiers: []
 ---
 # Leaper
@@ -15,7 +17,7 @@ modifiers: []
 **Category**: TRAITS  
 **Tier**: Advanced  
 **Type**: Species Trait  
-**BP Cost**: 2  
+**CP Cost**: 2  
 
 ## Description
 High-impact hydraulic leg anatomy allows the creature to always count as having a running start for jump distance, and grants Advantage on all checks for jumping, leaping, and dropping.

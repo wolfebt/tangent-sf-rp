@@ -6,6 +6,7 @@ description: >-
   Negative energy and primal darkness draining vitality, obscuring vision, and
   instilling existential terror.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

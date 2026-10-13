@@ -5,6 +5,7 @@ category: invocations
 discipline: Illusion
 description: SHADOW ASSAULT invocation for Illusion reality manipulation.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 recommended_species:
@@ -62,5 +63,5 @@ Parent Skill: Matter
 Specialization: Enhancement  
 Description: Improving the pattern of something. The reinforcement and optimization of existing physical properties.  
 Standard Duration: 1 Minute per Level (Stage).  
-Standard Effect: Add up to 5 Build Points (BP) worth of traits, stats, or features to a target per Stage.
+Standard Effect: Add up to 5 Character Points (CP) worth of traits, stats, or features to a target per Stage.
 ###

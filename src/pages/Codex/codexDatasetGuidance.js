@@ -396,10 +396,10 @@ export const DATASET_GUIDANCE = {
       {
         id: 'character_mechanics',
         name: 'Player Options & Character Mechanics',
-        description: 'Faction Skill Package (20 Points Allocation), Recommended Features (1 BP Discount), and Bonus Features.',
+        description: 'Faction Skill Package (20 Points Allocation), Recommended Features (1 CP Discount), and Bonus Features.',
         tips: [
           'Skill Package: 20-point distribution among faction-relevant skills (e.g., Bluff +4, Survival +3, Mechanics +3, Pilot +3).',
-          'Recommended Features: Core traits associated with faction operatives, granted at 1 BP discount.',
+          'Recommended Features: Core traits associated with faction operatives, granted at 1 CP discount.',
           'Bonus Features: Special authority, racial, or background perks granted upon membership.'
         ]
       },

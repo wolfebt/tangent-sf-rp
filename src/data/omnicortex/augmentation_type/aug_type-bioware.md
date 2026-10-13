@@ -8,6 +8,7 @@ description: >-
   disablement; naturally regenerates 1 SP/hour.
 category: augmentation_type
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -30,17 +30,19 @@ tactical_role: 'Clearing debris, carrying heavy gear, grappling enemies.'
 quote: '"Heavy lifting? That''s just a warm-up."'
 description: A hardworking individual contributing through physical labor and endurance.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'muscle, sentinel, defender, stability, order, utility, strength'
 negative_keywords: 'chaotic-anarchist, unreliable, reckless-gambler'
+cp_chassis: 80
 ---
 
 # The Muscle
 
 **Sphere**: Sentinels (The Stabilizers)  
 **Core Concept**: Utility / Strength / Endurance  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Strength  
 **Secondary Attribute**: Constitution  
 

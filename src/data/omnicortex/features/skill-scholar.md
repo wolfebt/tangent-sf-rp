@@ -9,16 +9,18 @@ is_multiple: false
 prerequisites: None
 description: The character is an academic with a broad base of learning.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'scholar, skill, special-feature, academic, learning'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Scholar
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: None
 
 ## Description

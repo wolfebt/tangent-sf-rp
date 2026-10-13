@@ -6,6 +6,7 @@ description: >-
   electrical shock.
 category: resistance
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

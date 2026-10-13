@@ -9,6 +9,7 @@ description: Push past bio-limits. +1 Action Point 1/day.
 stigma: None
 type: Cybernetic
 costs:
+  cp: 0
   bp: 0
   credits: 10240
   nodes: 0

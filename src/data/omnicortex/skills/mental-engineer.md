@@ -21,6 +21,7 @@ synergy_links:
   - mental-electrician
   - mental-physics
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'engineer, mental, intellect, cognitive, expertise, heavy'

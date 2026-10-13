@@ -8,6 +8,7 @@ description: >-
   Level 5 development in Education & Archives: Knowledge institutions, neural
   archives, apprenticeships, and academies. (Transcendent / Deific).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

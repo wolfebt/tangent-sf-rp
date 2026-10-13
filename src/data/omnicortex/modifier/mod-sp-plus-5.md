@@ -7,6 +7,7 @@ type: health
 description: Adds 5 bonus Structure Points to the chassis or module.
 category: modifier
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

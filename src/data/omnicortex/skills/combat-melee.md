@@ -22,6 +22,7 @@ synergy_links:
   - mental-weaponsmith
   - mental-armorer
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'melee, combat, strength, tactical, offensive, defense'

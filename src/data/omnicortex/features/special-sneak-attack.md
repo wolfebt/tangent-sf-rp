@@ -11,16 +11,18 @@ description: >-
   The character knows exactly where to strike to deal maximum damage to a
   vulnerable target.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'sneak attack, special, special-feature, exactly, strike, maximum'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Sneak Attack
 
 **Category**: Special Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Agility 2, Stealth 1
 
 ## Description

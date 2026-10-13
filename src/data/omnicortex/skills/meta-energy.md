@@ -19,6 +19,7 @@ synergy_links:
   - meta-attune
   - mental-metaphysics
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'energy, combat, agility, tactical, offensive, defense'

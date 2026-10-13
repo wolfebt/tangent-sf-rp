@@ -8,6 +8,7 @@ description: >-
   user.
 category: range
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

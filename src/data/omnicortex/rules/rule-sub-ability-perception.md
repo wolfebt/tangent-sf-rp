@@ -1,9 +1,13 @@
-﻿---
+---
 id: rule-sub-ability-perception
 name: Sub-Ability Perception & Focused Detection Checks
 category: rules
-description: Perception is a sub-ability derived from Intellect + Wisdom, combined with Alertness (Default), Attune (Meta), Insight (Social), or Technology (Technical).
+description: >-
+  Perception is a sub-ability derived from Intellect + Wisdom, combined with
+  Alertness (Default), Attune (Meta), Insight (Social), or Technology
+  (Technical).
 costs:
+  cp: 0
   bp: 0
   credits: 0
   nodes: 0

@@ -8,6 +8,7 @@ description: >-
   Level 5 development in Architecture & Habitats: Urban engineering, habitat
   construction, dome architecture, and megastructures. (Transcendent / Deific).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

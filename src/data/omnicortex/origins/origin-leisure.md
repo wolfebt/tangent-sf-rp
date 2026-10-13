@@ -2,60 +2,73 @@
 id: origin-leisure
 name: Leisure
 category: origins
-habitat: "Resort & Paradise"
+habitat: Resort & Paradise
+ws_modifier: 3
+economic_context: 'Resort / luxury worlds; high disposable capital, service wealth & tourism.'
 skill_points: 20
 society_skills:
-  - "Vocation (Any)"
-  - "Social (Any)"
-  - "Etiquette"
-  - "Artisan (Any)"
+  - Vocation (Any)
+  - Social (Any)
+  - Etiquette
+  - Artisan (Any)
 archetypes:
-  - "Aesthete"
-  - "Socialite"
-  - "Concierge"
-  - "Entertainer"
-  - "Artisan"
-  - "Security Officer"
+  - Aesthete
+  - Socialite
+  - Concierge
+  - Entertainer
+  - Artisan
+  - Security Officer
 traits:
-  - "trait-adaptability"
-  - "trait-diplomacy"
-  - "trait-entertainment-skill"
-  - "trait-lifestyle-preferences"
-  - "trait-non-combat-focus"
-  - "trait-optimistic"
-  - "trait-management"
-  - "trait-resourcefulness"
-  - "trait-smooth-talking"
+  - trait-adaptability
+  - trait-diplomacy
+  - trait-entertainment-skill
+  - trait-lifestyle-preferences
+  - trait-non-combat-focus
+  - trait-optimistic
+  - trait-management
+  - trait-resourcefulness
+  - trait-smooth-talking
 recommended_species:
-  - "Celestine (Alterian)"
-  - "Fey (Base)"
-  - "Argynt Human"
-  - "Brae Human"
-  - "Davae (Gen-E)"
-  - "Danai (Davae Hybrid)"
-  - "Kizin"
-  - "Kongi"
-  - "Skin (Infiltrator Synthetic)"
-  - "Changeling (Doppelganger Hybrid)"
+  - Celestine (Alterian)
+  - Fey (Base)
+  - Argynt Human
+  - Brae Human
+  - Davae (Gen-E)
+  - Danai (Davae Hybrid)
+  - Kizin
+  - Kongi
+  - Skin (Infiltrator Synthetic)
+  - Changeling (Doppelganger Hybrid)
 recommended_factions:
-  - "Space Tourism Faction Template"
-  - "Incorporated Planetary Syndication (The Syndicate)"
-  - "The Alterian Enclave"
-  - "Dracon Dynasty"
-  - "Corporate Faction Template"
-  - "The Silvermoon Vanguard"
+  - Space Tourism Faction Template
+  - Incorporated Planetary Syndication (The Syndicate)
+  - The Alterian Enclave
+  - Dracon Dynasty
+  - Corporate Faction Template
+  - The Silvermoon Vanguard
 recommended_occupations:
-  - "Entertainer"
-  - "Representative"
-  - "Merchant"
-  - "Citizen"
-  - "Agent"
-  - "Criminal"
-keywords: "resort-world, luxury-retreat, pleasure-dome, infinity-pool, casino-strip, haute-cuisine, grand-amphitheater, opulent-suites, holographic-cabaret, hospitality, hedonism, concierge, star-gazing-pavilion, fine-wine, decadence, pampered, neon-nightlife"
-negative_keywords: "bleak-trench-warfare, industrial-ash-heap, toxic-radiation-bog, grimy-slag-pit, cramped-miner-submersible, rigorous-ascetic-monasticism, penal-forced-labor, extreme-deprivation, mud-and-blood"
+  - Entertainer
+  - Representative
+  - Merchant
+  - Citizen
+  - Agent
+  - Criminal
+keywords: >-
+  resort-world, luxury-retreat, pleasure-dome, infinity-pool, casino-strip,
+  haute-cuisine, grand-amphitheater, opulent-suites, holographic-cabaret,
+  hospitality, hedonism, concierge, star-gazing-pavilion, fine-wine, decadence,
+  pampered, neon-nightlife
+negative_keywords: >-
+  bleak-trench-warfare, industrial-ash-heap, toxic-radiation-bog,
+  grimy-slag-pit, cramped-miner-submersible, rigorous-ascetic-monasticism,
+  penal-forced-labor, extreme-deprivation, mud-and-blood
 description: >-
-  These worlds can best be described as paradise or utopian, focusing on aesthetics over functionality. High-end resort cities, private gambling spires, pristine beaches, and artistic sanctuaries cater to elites and tourists.
+  These worlds can best be described as paradise or utopian, focusing on
+  aesthetics over functionality. High-end resort cities, private gambling
+  spires, pristine beaches, and artistic sanctuaries cater to elites and
+  tourists.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -64,6 +77,7 @@ modifiers: []
 
 **Category**: Origins  
 **Habitat**: Resort & Paradise  
+**EUFT Wealth Score Modifier**: +3 (Resort / luxury worlds; high disposable capital, service wealth & tourism.)  
 **Starting Skill Points**: 20 SP (allocated to Society Skills)  
 **Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)
 

@@ -206,7 +206,7 @@ export const CompanionsTab = () => {
   const handleDelete = async (comp) => {
     const ok = await confirm({
       title: 'Decommission Companion',
-      message: `Decommission companion unit "${comp.name}"? (No BP penalty; narrative retraining required)`,
+      message: `Decommission companion unit "${comp.name}"? (No CP penalty; narrative retraining required)`,
       danger: true,
       confirmLabel: 'Decommission'
     });
@@ -383,7 +383,7 @@ export const CompanionsTab = () => {
                           </span>
                         </div>
                         <div className="flex items-center gap-2 text-[10px] text-slate-400 font-sans mt-0.5">
-                          <span>Rank {comp.rank || 1} ({comp.bpBudget || 40} BP)</span>
+                          <span>Rank {comp.rank || 1} ({comp.cpBudget || comp.bpBudget || 40} CP)</span>
                           <span>•</span>
                           <span className="capitalize">{comp.size || 'Medium'}</span>
                           <span>•</span>

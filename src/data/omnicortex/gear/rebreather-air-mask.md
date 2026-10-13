@@ -9,6 +9,7 @@ weight: 0.5
 description: Facial mask recycling exhaled carbon dioxide and filtering atmospheric toxins.
 mechanic: Filters toxins (EPR 2). Contains 2 hours of internal emergency oxygen.
 costs:
+  cp: 0
   bp: 0
   credits: 160
   nodes: 0

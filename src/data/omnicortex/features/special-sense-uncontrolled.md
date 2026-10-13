@@ -9,16 +9,18 @@ is_multiple: true
 prerequisites: Special
 description: The character is constantly bombarded by sensory input.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'sense, uncontrolled, special, special-feature, constantly, bombarded, sensory'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Sense, Uncontrolled
 
 **Category**: Special Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Special
 
 ## Description

@@ -49,25 +49,25 @@ tech_level: 4 (Adaptive Nanite Reconfiguration)
 meta_level: 3 (Technomancy)
 homeworld: Mekan Forge Worlds
 costs:
-  bp: 32
+  cp: 50
+  bp: 50
 modifiers:
   - target: Intellect
     value: 2
     type: attribute
     mode: inherent
-cp_cost: 32
-cp: 32
-bp: 32
+cp_cost: 50
+cp: 50
+bp: 50
 description: >-
   Mekan are self-evolving nanite and modular machines capable of assimilating,
   repurposing, and technokinetically manipulating electronic systems.
-traits:
+traits: &ref_0
   - trait-adapted
-  - trait-double-adaptive-aspects
+  - trait-adaptive-features
   - trait-synthetic-base-traits
-  - trait-tech-assimilation-integrates-alien-gear-instantly
-  - trait-technokinesis-special-ability
-  - trait-telepathic-technopathic-network
+  - trait-synthetic-tech-assim
+  - trait-mind-speech
 recommended_factions:
   - The Mekan Collective
   - Technological Faction Template
@@ -83,6 +83,7 @@ keywords: >-
   nanite-assimilation, technopathy, modular-adaptation, machine-will,
   hyper-structure
 negative_keywords: 'organic-healing, nature-communion, biological-purism'
+species_traits: *ref_0
 ---
 
 # Mekan (Technopathic Assimilator)
@@ -91,7 +92,7 @@ negative_keywords: 'organic-healing, nature-communion, biological-purism'
 
 # 
 
-**BP Cost:**   
+**CP Cost:** 50 CP  
 **Description:** The Mekan entity is a highly intelligent essence of psychic-elemental energy. This essence is the core power animating and empowering their mechanical body, which serves as a vital physical containment. Through sheer force of will, a Mekan bonds with machinery, gaining a specific form and the associated abilities.
 
 A Mekan must maintain a physical shell to prevent discorporation. While in a discorporated state, they are largely incapable of affecting the corporeal world, though they retain the ability to form a new body and utilize their Mech Link ability.
@@ -170,7 +171,7 @@ Well Informed
 
 ## PROTOCOL
 
-**BP Cost:**   
+**CP Cost:**   
 **Description:** Robotic Race originally created to be the Mekan War Machine, eventually becoming self-aware and independent.   
 Most will self redesigned with possible non-humanoid/hybrid forms and features
 
@@ -224,7 +225,7 @@ Size (Small)
 
 # 
 
-**BP Cost:**   
+**CP Cost:**   
 **Description:** The Mobula are a remarkable lineage of Aquatic Shifters, a people uniquely adapted to thrive both on land and within the vast ocean depths. Their defining characteristic is the ability to assume two distinct forms. The first is an aquatic-adapted humanoid shape, which allows them to interact with land-dwelling societies while retaining physical traits beneficial for the water, such as subtle webbing between digits, enhanced lung capacity, and smooth, pressure-resistant skin. The second form, which they shift into for rapid or prolonged immersion, is that of a magnificent 'manta ray.' This ray form is not merely a common sea creature but a larger, highly intelligent manifestation that grants them unparalleled maneuverability, speed, and silence beneath the waves, making them formidable inhabitants of the marine world. The Mobula have learned to be xenophobic from Impyrium incursions for their world’s resources.
 
 **Classification:** Beast-Humanoid Biform  

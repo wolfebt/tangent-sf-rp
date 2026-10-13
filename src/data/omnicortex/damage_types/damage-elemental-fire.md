@@ -6,6 +6,7 @@ description: >-
   Raw elemental flame and superheated thermal energy. Causes immediate fire
   damage and continuous burning hazards.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

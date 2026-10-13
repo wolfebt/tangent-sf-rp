@@ -8,19 +8,21 @@ is_ranked: false
 is_multiple: false
 prerequisites: None
 description: >-
-  Your character can see in the dark, giving them an advantage in low-light and pitch-black conditions.
+  Your character can see in the dark, giving them an advantage in low-light and
+  pitch-black conditions.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
-keywords: >-
-  night-vision, sensory, vision, darkness, low-light, optics
+keywords: 'night-vision, sensory, vision, darkness, low-light, optics'
 negative_keywords: 'blind, darkness-penalty'
+cost_cp: 3
 ---
 
 # Night Vision
 
 **Category**: Sensory Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: None
 
 ## Description

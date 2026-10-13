@@ -49,7 +49,8 @@ tech_level: 5 (Precursor Singularity Manipulation)
 meta_level: 6 (Deific / Reality Reshaping)
 homeworld: The Ring Architect Capitals
 costs:
-  bp: 96
+  cp: 118
+  bp: 118
 modifiers:
   - target: Intellect
     value: 4
@@ -75,18 +76,16 @@ modifiers:
     value: -4
     type: skill
     mode: size_modifier
-cp_cost: 96
-cp: 96
-bp: 96
+cp_cost: 118
+cp: 118
+bp: 118
 description: >-
   The Ila are god-like precursor architects of transcendent intelligence and
   luminous presence, founders of ancient megastructures and stargates.
-traits:
-  - trait-corporeal-as-desired
-  - trait-flicker-movement-teleport-60ft-as-move-action
-  - trait-large-size
-  - >-
-    trait-progenitor-traits-awakened-x6-telepathy-telekinesis-fast-heal-regeneration-ageless-immortal
+traits: &ref_0
+  - trait-semi-corporeal
+  - trait-awakened-dimension
+  - trait-progenitor-heritage-base
 recommended_factions:
   - The Alterian Enclave
   - Sentient Intelligence Faction Template
@@ -103,6 +102,7 @@ keywords: >-
   precursor-archon, megastructure-builder, deific-intellect,
   luminous-singularity, ancient
 negative_keywords: 'primitive, mundane-labor, disposable, short-lived'
+species_traits: *ref_0
 ---
 
 # Ila (Precursor Entity)

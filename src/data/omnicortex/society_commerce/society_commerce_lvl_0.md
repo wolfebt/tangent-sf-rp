@@ -8,6 +8,7 @@ description: >-
   Level 0 development in Commerce & Economy: Economic models, banking networks,
   trade routes, currency, and resource exchange. (Primitive / Subsistence).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

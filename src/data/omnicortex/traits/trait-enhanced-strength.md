@@ -5,9 +5,9 @@ trait_tier: Advanced
 trait_type: Species Trait
 category: traits
 costs:
+  cp: 2
   bp: 2
-description: >-
-  Count as 1 size larger for lifting and carrying capacity.
+description: Count as 1 size larger for lifting and carrying capacity.
 modifiers: []
 ---
 # Enhanced Strength
@@ -15,7 +15,7 @@ modifiers: []
 **Category**: TRAITS  
 **Tier**: Advanced  
 **Type**: Species Trait  
-**BP Cost**: 2  
+**CP Cost**: 2  
 
 ## Description
 Biomechanical musculature and leveraged skeletal joints treat the organism as one size category larger when calculating lifting, carrying, dragging limits, and grappling resistance.

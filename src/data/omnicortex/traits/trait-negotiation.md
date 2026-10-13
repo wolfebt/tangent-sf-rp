@@ -5,6 +5,7 @@ trait_tier: Basic
 trait_type: Social
 category: traits
 costs:
+  cp: 1
   bp: 1
 description: >-
   Adept at bargaining, contract dispute resolution, diplomacy, and finding
@@ -16,7 +17,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Basic
 **Type**: Social
-**BP Cost**: 1
+**CP Cost**: 1
 
 ## Description
 Adept at bargaining, contract dispute resolution, diplomacy, and finding mutually agreeable compromise.

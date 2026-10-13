@@ -34,17 +34,19 @@ description: >-
   THE visionary scientist who pushes the boundaries of standard physics to
   unlock the secrets of the multiverse.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'theoretician, savant, rational, intellect, strategist, research, utility'
 negative_keywords: 'mindless-brute, reckless, illiterate'
+cp_chassis: 80
 ---
 
 # The Theoretician
 
 **Sphere**: Savants (The Rationals)  
 **Core Concept**: Research / Utility / Lore  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
 **Secondary Attribute**: Wisdom  
 

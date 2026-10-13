@@ -1,10 +1,12 @@
 ---
 id: rule-meta-combat-countering
-name: 'Meta Combat & Counter Effects'
+name: Meta Combat & Counter Effects
 category: rules
 description: >-
-  Attune attack rolls vs defense, and the two-step Opposed Counter Effect resolution.
+  Attune attack rolls vs defense, and the two-step Opposed Counter Effect
+  resolution.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

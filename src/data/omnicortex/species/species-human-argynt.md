@@ -43,24 +43,25 @@ tech_level: 3 (Industrial Heavy Tech)
 meta_level: 2 (Electrochemical Psionics)
 homeworld: Argynt-9 (High Radiation World)
 costs:
-  bp: 10
+  cp: 13
+  bp: 13
 modifiers:
   - target: Intellect
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 10
-cp: 10
-bp: 10
+cp_cost: 13
+cp: 13
+bp: 13
 description: >-
   Distinguished by their distinctive silvery-blue skin resulting from colloidal
   mineral assimilation, Argynts are resilient human colonists adapted to harsh,
   radiation-heavy worlds.
-traits:
-  - trait-dense-skeletal-structure
-  - trait-improved-great-fortitude-4-vs-poison-disease
+traits: &ref_0
+  - trait-natural-armor
+  - trait-healthy
   - trait-longevity
-  - trait-radiation-tolerance
+  - trait-adapted
   - trait-reduced-sustenance
 recommended_factions:
   - The Outworlds
@@ -74,11 +75,12 @@ recommended_occupations:
   - Drifter
 keywords: 'radiation-immune, colloidal-silver, heavy-worlder, resilient, miner'
 negative_keywords: 'fragile, luxury, delicate, light-gravity'
+species_traits: *ref_0
 ---
 
 # Argynt Human (Heavy Gravity Variant)
 
-**BP Cost:**   
+**CP Cost:** 13 CP  
 **Description:** The Argynts, a distinct branch of humanity, are instantly recognizable by their striking blue skin, a permanent and visible mark of their ancestral history. Their home world, once a jewel of the galaxy, suffered an ecological catastrophe driven by unchecked industrial extraction. The planet was exceptionally rich in two critical materials: Aetherium, a high-energy metamaterial vital for advanced magic and psychic practices, and silver, a common but valuable metal. Centuries of intense mining pulverized these materials into thick, pervasive dust that blanketed the atmosphere, eventually settling on and integrating with the planet's surface.
 
 Remarkably, the native inhabitants survived this environmental poisoning. Their unique biological structure absorbed a significant quantity of this particulate matter. This involuntary biological integration did not kill them; instead, it fundamentally altered their physiology. Their descendants, the modern Argynts, exhibit prominent and stable genetic traits stemming from this deep mineral absorption.

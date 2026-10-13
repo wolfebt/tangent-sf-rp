@@ -165,14 +165,18 @@ export const OriginConfigurator = ({
           A character's origin represents the type of environment they come from, shaping their skills, traits, and worldview. 
           Origins are <strong>not combat adversary chassis</strong> and have no competency combat roles.
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 font-mono text-[11px]">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1 font-mono text-[11px]">
           <div className="p-2 rounded bg-slate-900/80 border border-slate-800 flex items-center gap-2">
             <Sparkles className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-            <span><strong>20 Skill Points</strong> granted for listed Society Skills in Folio</span>
+            <span><strong>20 Skill Points</strong> for Society Skills in Folio</span>
           </div>
           <div className="p-2 rounded bg-slate-900/80 border border-slate-800 flex items-center gap-2">
             <Coins className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-            <span><strong>2 Free Traits</strong> selected initially (+1 CP for each additional)</span>
+            <span><strong>2 Free Traits</strong> (+1 CP for extra)</span>
+          </div>
+          <div className="p-2 rounded bg-slate-900/80 border border-slate-800 flex items-center gap-2">
+            <Coins className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+            <span><strong>EUFT WS:</strong> +{formData.ws_modifier ?? 0}</span>
           </div>
         </div>
       </div>

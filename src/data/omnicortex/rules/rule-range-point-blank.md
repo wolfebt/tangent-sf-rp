@@ -6,6 +6,7 @@ description: >-
   Point Blank shots grant +5 Strike and roll damage dice with Advantage for
   ballistic/energy weapons.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

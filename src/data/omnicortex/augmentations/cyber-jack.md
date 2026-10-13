@@ -9,6 +9,7 @@ description: 'Operate over Comm: Smart Link, Comm Implant.'
 stigma: None
 type: Cybernetic
 costs:
+  cp: 0
   bp: 0
   credits: 2560
   nodes: 0

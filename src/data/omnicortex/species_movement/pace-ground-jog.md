@@ -11,7 +11,9 @@ bp: 0
 description: >-
   Hurried pace (2x Base Walk) with a -2 penalty to subtlety, stealth, or
   precision.
+cp: 0
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -20,7 +22,7 @@ modifiers: []
 **Category**: Species Movement (STAGE)  
 **Classification**: stage  
 **Target Mode**: Ground  
-**Cost**: +0 BP  
+**Cost**: +0 CP  
 
 ## Description
 Hurried pace (2x Base Walk) with a -2 penalty to subtlety, stealth, or precision.

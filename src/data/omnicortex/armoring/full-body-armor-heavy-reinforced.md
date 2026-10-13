@@ -8,6 +8,7 @@ description: "Penalty: -1 Mobility / -5 Move\r\nLocations: All\r\nSockets: 8"
 sp: 60
 coverage: Sealed
 costs:
+  cp: 0
   bp: 0
   credits: 0
   nodes: 0

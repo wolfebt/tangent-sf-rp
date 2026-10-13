@@ -7,6 +7,7 @@ description: >-
   Allies positioned on multiple sides of target exploit defensive openings,
   granting +2 bonus to hit.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

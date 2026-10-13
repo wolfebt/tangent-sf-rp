@@ -8,9 +8,11 @@ is_ranked: false
 is_multiple: true
 prerequisites: Awareness 1 or Wisdom 1
 description: >-
-  Extraordinarily sharp sensory faculties granting a +4 bonus to Perception and Alertness
-  checks using a chosen sensory modality (Vision, Hearing, Scent, Touch, or Taste).
+  Extraordinarily sharp sensory faculties granting a +4 bonus to Perception and
+  Alertness checks using a chosen sensory modality (Vision, Hearing, Scent,
+  Touch, or Taste).
 costs:
+  cp: 2
   bp: 2
 modifiers:
   - target: Perception
@@ -19,12 +21,13 @@ modifiers:
     mode: conditional
 keywords: 'acute-senses, sensory, perception, scent, hearing, vision, heightened'
 negative_keywords: 'impaired, blind, deaf, anosmic'
+cost_cp: 2
 ---
 
 # Acute Senses
 
 **Category**: Sensory Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisite**: Awareness 1 or Wisdom 1  
 
 ## Description

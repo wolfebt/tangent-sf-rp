@@ -67,6 +67,7 @@ tech_level: 3 (Tactical)
 meta_level: 3 (Instinctual)
 homeworld: Kitin Hive Worlds / Subterranean Spire-Warren
 costs:
+  cp: 40
   bp: 40
 modifiers:
   - target: Strength
@@ -129,7 +130,7 @@ negative_keywords: 'diplomatic-court, baseline-humanoid, fragile, open-plains'
 
 # Rakne (Kitin Infiltration Expression / Arachno-Tauric)
 
-**BP Cost:** 40 BP  
+**CP Cost:** 40 CP  
 **Classification:** Insectoid Aberration (Arachno-Tauric)  
 **Size:** Medium  
 **Movement:** 40ft Groundspeed, 40ft Climbspeed  
@@ -153,27 +154,27 @@ The Rakne are the "Hands of the Collective." Arachno-tauric with a dual-skeletal
 * **Stigma:** Severe Xeno / Monstrous
 
 ## Ability Modifiers
-* **+2 Strength** (4 BP)
-* **+2 Agility** (4 BP)
-* **-1 Stamina** (-4 BP)
-* **-1 Charisma** (-4 BP)
+* **+2 Strength** (4 CP)
+* **+2 Agility** (4 CP)
+* **-1 Stamina** (-4 CP)
+* **-1 Charisma** (-4 CP)
 
 ## Skills
-* **+10 Skill Ranks to ANY skills** (8 BP)
+* **+10 Skill Ranks to ANY skills** (8 CP)
 
 ## Species Features
-* **Multidextrous (4 Arms):** Sharp digits for combat and engineering. (4 BP)
-* **Climber:** Traverse vertical or inverted surfaces at full speed. (2 BP)
-* **Dual Skeletal Structure:** Combined endo/exo-skeleton (DR +5). (2 BP)
-* **Armor:** Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10] (2 BP)
-* **Enhanced Strength:** Count as 1 size larger for lifting and carrying. (2 BP)
-* **Resin Secretion:** Creation of Hive-Resin for patching mecha and structures. (2 BP)
-* **Weaver:** Can produce webbing made from high-tensile Hive-Resin. (2 BP)
-* **Torpor (Universal):** 4 hours of conscious rest; often hangs inverted. (2 BP)
-* **Uncanny Senses (Vibration):** Detection through the hive-mesh. (2 BP)
-* **Camouflage:** Blending into darkness and favored terrain. (2 BP)
-* **Quick:** +10ft speed / reaction agility. (2 BP)
-* **Quadruped:** Spider abdomen lower chassis; stability & base speed. (2 BP)
+* **Multidextrous (4 Arms):** Sharp digits for combat and engineering. (4 CP)
+* **Climber:** Traverse vertical or inverted surfaces at full speed. (2 CP)
+* **Dual Skeletal Structure:** Combined endo/exo-skeleton (DR +5). (2 CP)
+* **Armor:** Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10] (2 CP)
+* **Enhanced Strength:** Count as 1 size larger for lifting and carrying. (2 CP)
+* **Resin Secretion:** Creation of Hive-Resin for patching mecha and structures. (2 CP)
+* **Weaver:** Can produce webbing made from high-tensile Hive-Resin. (2 CP)
+* **Torpor (Universal):** 4 hours of conscious rest; often hangs inverted. (2 CP)
+* **Uncanny Senses (Vibration):** Detection through the hive-mesh. (2 CP)
+* **Camouflage:** Blending into darkness and favored terrain. (2 CP)
+* **Quick:** +10ft speed / reaction agility. (2 CP)
+* **Quadruped:** Spider abdomen lower chassis; stability & base speed. (2 CP)
 
 ## Recommended Features
 * **Alertness:** Heightened environmental and situational awareness

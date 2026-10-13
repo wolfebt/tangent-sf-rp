@@ -6,6 +6,7 @@ description: >-
   General Area (+2 dice per 5 pts over DC 10); Focused Blast Zone (+100% dice
   per 10 pts over DC 15). Range penalties doubled.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

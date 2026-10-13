@@ -8,6 +8,7 @@ description: "Penalty: Varies (Powered)\r\nLocations: All\r\nSockets: 1 Mount (1
 sp: 100
 coverage: Sealed
 costs:
+  cp: 0
   bp: 0
   credits: 0
   nodes: 0

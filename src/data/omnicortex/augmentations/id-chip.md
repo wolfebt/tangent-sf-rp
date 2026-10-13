@@ -9,6 +9,7 @@ description: 'Subdermal identity, licenses, and banking.'
 stigma: None
 type: Fashionware
 costs:
+  cp: 0
   bp: 0
   credits: 40
   nodes: 0

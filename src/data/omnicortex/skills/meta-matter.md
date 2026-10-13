@@ -9,7 +9,8 @@ governing_attributes:
   - Wisdom
   - Charisma
 description: >-
-  The metaphysical discipline governing molecular alteration, density shifting, material reinforcement, telekinetic manipulation, and matter transmutation.
+  The metaphysical discipline governing molecular alteration, density shifting,
+  material reinforcement, telekinetic manipulation, and matter transmutation.
 trained_only: true
 specialties:
   - 'Enhancement Focus (Strengthening material bonds, hardening objects)'
@@ -18,6 +19,7 @@ synergy_links:
   - meta-attune
   - mental-metaphysics
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -21,6 +21,7 @@ synergy_links:
   - mental-armorer
   - social-disguise
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'tailor, mental, agility, intellect, cognitive, expertise'

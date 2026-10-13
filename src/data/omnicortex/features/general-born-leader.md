@@ -9,16 +9,18 @@ is_multiple: false
 prerequisites: Special
 description: 'Born Leader is a General Feature: Gain Followers.'
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'born leader, general, special-feature, leader, feature:, followers'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Born Leader
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Special
 
 ## Description

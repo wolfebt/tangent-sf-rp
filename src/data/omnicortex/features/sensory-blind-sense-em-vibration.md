@@ -8,19 +8,21 @@ is_ranked: false
 is_multiple: false
 prerequisites: Electro-Receptive Array or Synaptic Vehicle Link
 description: >-
-  Perceives surroundings via mecha sensors and external bio-arrays, feeling the environment
-  as personal skin through electromagnetic and vibration resonance.
+  Perceives surroundings via mecha sensors and external bio-arrays, feeling the
+  environment as personal skin through electromagnetic and vibration resonance.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
 keywords: 'blind-sense, em, vibration, mecha-sensors, electro-receptive, sensory, syndess'
 negative_keywords: 'blind, oblivious, sensory-blindspot'
+cost_cp: 2
 ---
 
 # Blind Sense (EM/Vibration)
 
 **Category**: Sensory / Special Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisites**: Electro-Receptive Array or Synaptic Vehicle Link  
 
 ## Description

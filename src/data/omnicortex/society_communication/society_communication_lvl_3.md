@@ -8,6 +8,7 @@ description: >-
   Level 3 development in Communication & Data: Sub-space relays, ansible
   networks, holonet infrastructure, and telemetry. (Advanced / Stellar).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

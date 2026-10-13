@@ -7,6 +7,7 @@ description: >-
   Move 10+ ft straight toward enemy (-2 Def, -2 Atk); on hit +1d damage, -1
   strike/speed stage, +1 impact/10ft speed (up to +100%).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

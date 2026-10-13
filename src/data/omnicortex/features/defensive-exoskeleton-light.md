@@ -8,19 +8,21 @@ is_ranked: false
 is_multiple: false
 prerequisites: 'Insectoid, Crustacean, or Synthetic Physiology'
 description: >-
-  A lightweight outer chitinous layer or scale plating providing natural Damage Reduction
-  DR (Strength + 2) x 2 (minimum DR 6) against physical attacks.
+  A lightweight outer chitinous layer or scale plating providing natural Damage
+  Reduction DR (Strength + 2) x 2 (minimum DR 6) against physical attacks.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
 keywords: 'exoskeleton, light-exoskeleton, chitin, damage-reduction, dr, natural-armor'
 negative_keywords: 'soft-skin, vulnerable'
+cost_cp: 2
 ---
 
 # Exoskeleton (Light)
 
 **Category**: Defensive Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisites**: Insectoid, Crustacean, or Synthetic Physiology  
 
 ## Description

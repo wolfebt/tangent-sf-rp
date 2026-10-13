@@ -41,18 +41,18 @@ tech_level: 4 (Splice Genomics)
 meta_level: 1 (Animalistic Resonance)
 homeworld: Bio-Foundry Laboratories
 costs:
-  bp: 12
+  cp: 4
+  bp: 4
 modifiers: []
-cp_cost: 12
-cp: 12
-bp: 12
+cp_cost: 4
+cp: 4
+bp: 4
 description: >-
   Spliced humans bearing animalistic genetic sequences granting horns, claws,
   reinforced skin, or thermal vision.
-traits:
-  - trait-2-splice-mutations-natural-weapons-chitin-fur-tail
+traits: &ref_0
+  - trait-bodyform-mutation
   - trait-longevity
-  - trait-mutation-power-special-perk
 recommended_factions:
   - The Syndicate
   - The Outworlds
@@ -69,13 +69,14 @@ keywords: >-
   gene-spliced, animalistic-traits, thermal-vision, natural-weapons, hardy,
   predator-reflex
 negative_keywords: 'high-society-diplomat, pureblood-supremacy, delicate'
+species_traits: *ref_0
 ---
 
 # Chimera (Splice Transhuman)
 
 *
 
-**BP Cost:**   
+**CP Cost:** 4 CP  
 **Description:** The Chimera represent the pinnacle of genetic splicing, deliberately engineered from a human \*Gen-E\* template integrated with non-human genetic material, which can be of humanoid, animal, or other exotic origins. This process results in a being with a potent, yet often unsettling, blend of traits. While possessing the core human form and intellect, the Chimera invariably exhibits overt, non-human physical and/or biological features, such as vestigial tails, specialized sensory organs, dense fur, claws, or bio-luminescent skin. They are intentionally designed for highly specialized, often brutal roles that require abilities far outside the human norm. However, this profound genetic alteration leads to a severe social and genetic stigma, and they are typically viewed with fear and prejudice by baseline human populations and most other species, often being cast as 'Beastial' or 'Xeno' by society at large.
 
 **Classification:** Humanoid  

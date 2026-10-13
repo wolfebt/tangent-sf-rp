@@ -20,6 +20,7 @@ synergy_links:
   - mental-science
   - mental-investigation
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'researcher, mental, intellect, cognitive, expertise, academic'

@@ -12,6 +12,7 @@ frame: Standard
 environment: Standard
 security_level: Open
 costs:
+  cp: 0
   bp: 0
   credits: 25
   nodes: 0
@@ -39,4 +40,4 @@ negative_keywords: 'mobile-infantry, personal-weapon, portable-trinket'
 Category: **9\. TL5 Advanced Augmentations**
 
 **Effect:** Morphic Implant or Replacement (limited).
-**BP:** 0
+**CP:** 0

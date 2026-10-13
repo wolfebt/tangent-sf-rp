@@ -53,6 +53,7 @@ description: >-
   the darkest, unmapped corners of the galaxy in highly advanced, poorly armed
   survey vessels
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Faction Template
@@ -118,7 +119,7 @@ negative_keywords: 'parochial-isolation, xenophobic-fear, stay-at-home, planetar
   * Awareness (+3)  
   * Technology (+3)  
 * **Typical Archetypes:** The Xenologist, The Astronaut, The Surveyor, The Astromancer, The Void Medic.  
-* **Recommended Features (1 BP Discount):** Spacer, Zero-G Training, Gifted Pilot, Educated, Scholar, Tech Interface, Self Sufficient, Endurance, Linguist, Insightful Reason.
+* **Recommended Features (1 CP Discount):** Spacer, Zero-G Training, Gifted Pilot, Educated, Scholar, Tech Interface, Self Sufficient, Endurance, Linguist, Insightful Reason.
 
 ### **VI. Visual Semiotics (Aesthetics)**
 

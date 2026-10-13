@@ -6,6 +6,7 @@ description: >-
   Total Stability Points equal Constitution Score + 5 before permanent death
   occurs.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

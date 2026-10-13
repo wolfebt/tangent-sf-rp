@@ -21,6 +21,7 @@ synergy_links:
   - mental-trade
   - social-bluff
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'streetwise, social, wisdom, interaction, diplomacy, influence'

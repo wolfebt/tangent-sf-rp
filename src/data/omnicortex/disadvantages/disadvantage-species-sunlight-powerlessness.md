@@ -7,18 +7,20 @@ classification: Meta
 type: Meta
 bp_granted: 6
 costs:
+  cp: -6
   bp: -6
 description: 'Staggered/Helpless in direct sunlight. Req: Undead/Half-Undead.'
 prerequisite: Undead / Half-Undead / Non-Living
 modifiers: []
 keywords: 'sunlight powerlessness, hindrance, penalty, meta, staggered/helpless, direct'
 negative_keywords: 'perfection, flawless, unyielding, invulnerable'
+cp_granted: '6'
 ---
 
 # Sunlight Powerlessness
 
-**Category**: Species Disadvantages (BP Reduction)  
-**BP Refund**: +6 BP (Cost: -6 BP)  
+**Category**: Species Disadvantages (CP Reduction)  
+**CP Refund**: +6 CP (Cost: -6 CP)  
 **Type**: Meta  
 **Prerequisites**: Undead / Half-Undead / Non-Living  
 

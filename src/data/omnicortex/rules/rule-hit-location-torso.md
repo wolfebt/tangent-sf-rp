@@ -4,6 +4,7 @@ name: 'Hit Location: Torso (-1 to -4)'
 category: rules
 description: 'Torso: Called Shot -1. Chest: -2. Abdomen: -2. Groin/Pelvis: -4.'
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

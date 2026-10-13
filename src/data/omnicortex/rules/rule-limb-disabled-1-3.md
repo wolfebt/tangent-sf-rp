@@ -6,6 +6,7 @@ description: >-
   Taking 1/3 Health in damage disables a limb. Stamina check CR 10 + damage to
   keep using.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

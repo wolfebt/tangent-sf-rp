@@ -32,17 +32,19 @@ description: >-
   Charts new territories and uncovers the mysteries of the universe. Thirsts for
   discovery.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'pioneer, operative, artisan, adaptable, specialist, scout, knowledge'
 negative_keywords: 'incompetent, untrained, undisciplined'
+cp_chassis: 80
 ---
 
 # The Pioneer
 
 **Sphere**: Operatives (The Artisans)  
 **Core Concept**: Scout / Knowledge / Survival  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Wisdom  
 **Secondary Attribute**: Constitution  
 

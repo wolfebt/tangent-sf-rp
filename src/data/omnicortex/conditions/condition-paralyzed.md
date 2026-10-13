@@ -6,6 +6,7 @@ description: >-
   Motor functions frozen; treated as helpless, Defense DC drops to CR 15
   baseline.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

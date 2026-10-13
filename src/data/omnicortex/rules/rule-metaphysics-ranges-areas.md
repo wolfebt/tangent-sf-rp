@@ -3,9 +3,10 @@ id: rule-metaphysics-ranges-areas
 name: 'Metaphysic Ranges, Modifiers & Area Geometry'
 category: rules
 description: >-
-  Range brackets and check modifiers (Melee to Extended), multiple targeting penalties,
-  and Area of Effect geometries (Blast, Line, Cone).
+  Range brackets and check modifiers (Melee to Extended), multiple targeting
+  penalties, and Area of Effect geometries (Blast, Line, Cone).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

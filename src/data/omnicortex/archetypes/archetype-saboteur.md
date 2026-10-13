@@ -29,17 +29,19 @@ tactical_role: 'Disabling enemy infrastructure, setting traps, causing distracti
 quote: '"A little chaos goes a long way."'
 description: A skilled operative who infiltrates to destroy or disrupt.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'saboteur, operative, artisan, adaptable, specialist, stealth, tech'
 negative_keywords: 'heavy-plating, blunt-assault, loud, clumsy, mindless-brute'
+cp_chassis: 80
 ---
 
 # The Saboteur
 
 **Sphere**: Operatives (The Artisans)  
 **Core Concept**: Stealth / Tech / Debuff  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
 **Secondary Attribute**: Agility  
 

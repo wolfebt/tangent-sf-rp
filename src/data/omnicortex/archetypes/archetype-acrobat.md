@@ -29,17 +29,19 @@ tactical_role: 'Traversing difficult terrain, dodging attacks, distracting enemi
 quote: '"Catch me if you can."'
 description: 'A performer specializing in agility and stunts, often in zero-gravity.'
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'acrobat, operative, artisan, adaptable, specialist, mobility, evasion'
 negative_keywords: 'incompetent, untrained, undisciplined'
+cp_chassis: 80
 ---
 
 # The Acrobat
 
 **Sphere**: Operatives (The Artisans)  
 **Core Concept**: Mobility / Evasion / Performance  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Agility  
 **Secondary Attribute**: Strength  
 

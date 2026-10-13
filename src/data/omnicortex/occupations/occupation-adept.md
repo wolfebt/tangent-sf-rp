@@ -41,6 +41,7 @@ description: >-
   Though many may have Awakened various Metafocus Skills and Abilities - an
   Adept has a true understanding of the arts.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 recommended_species:
@@ -76,13 +77,16 @@ negative_keywords: >-
   mundane-bureaucracy, anti-magic, brute-force-only, crude-industrial-welding,
   corporate-spreadsheet, pure-mechanical-drone, soulless-assembly-line,
   low-tech-peasant, illiterate-scavenger
+base_ws: 4
+economic_context: Metaphysical expertise & arcane consulting
 ---
 
 # Adept Occupation
 
 **Category**: Occupations  
+**EUFT Base Wealth Score**: WS 4 (Metaphysical expertise & arcane consulting)  
 **Starting Skill Points**: 20 SP (allocated to Professional Skills, max Rank 11, recommended Rank 6)  
-**Recommended Features**: Discipline (Awakened or Special Ability Feature is required) (1 BP Discount)  
+**Recommended Features**: Discipline (Awakened or Special Ability Feature is required) (1 CP Discount)  
 **Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)
 
 ## Description

@@ -32,17 +32,19 @@ description: >-
   The master of extraction and evasion who specializes in getting out of
   "impossible" situations.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'escapologist, operative, artisan, adaptable, specialist, evasion, utility'
 negative_keywords: 'incompetent, untrained, undisciplined'
+cp_chassis: 80
 ---
 
 # The Escapologist
 
 **Sphere**: Operatives (The Artisans)  
 **Core Concept**: Evasion / Utility / Mobility  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Agility  
 **Secondary Attribute**: Wisdom  
 

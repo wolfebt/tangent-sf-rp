@@ -12,6 +12,7 @@ description: >-
   AI agents.
 mechanic: PR 4. Capable of running full True AI and advanced intrusion suites.
 costs:
+  cp: 0
   bp: 0
   credits: 10240
   nodes: 0

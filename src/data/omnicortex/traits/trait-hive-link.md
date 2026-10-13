@@ -5,6 +5,7 @@ trait_tier: Advanced
 trait_type: Species Trait
 category: traits
 costs:
+  cp: 2
   bp: 2
 description: Constant telepathic connection to all Kitin Strains.
 modifiers: []
@@ -14,7 +15,7 @@ modifiers: []
 **Category**: TRAITS  
 **Tier**: Advanced  
 **Type**: Species Trait  
-**BP Cost**: 2  
+**CP Cost**: 2  
 
 ## Description
 Constant telepathic connection to all Kitin Strains. Conductors of the Hive Chorus.

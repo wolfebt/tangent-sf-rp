@@ -8,6 +8,7 @@ description: >-
   Level 2 development in Architecture & Habitats: Urban engineering, habitat
   construction, dome architecture, and megastructures. (Modern / Planetary).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -53,6 +53,7 @@ description: >-
   brutal survival instincts. They represent a severe regression in technology
   and society
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Faction Template
@@ -117,7 +118,7 @@ negative_keywords: 'luxurious-excess, post-scarcity, high-fashion, fragile-arist
   * Athletics (+3)  
   * Combat (Improvised) (+3)  
 * **Typical Archetypes:** The Scavenger, The Road-Warrior, The Wasteland Medic, The Tech-Priest (Artifact worshipper), The Raider.  
-* **Recommended Features (1 BP Discount):** Self Sufficient, Endurance, Tough, Master Craftsman, Weapon Improvisation, Danger Sense, Beginner's Luck, Tolerance, Gearhead, Tracker.
+* **Recommended Features (1 CP Discount):** Self Sufficient, Endurance, Tough, Master Craftsman, Weapon Improvisation, Danger Sense, Beginner's Luck, Tolerance, Gearhead, Tracker.
 
 ### **VI. Visual Semiotics (Aesthetics)**
 

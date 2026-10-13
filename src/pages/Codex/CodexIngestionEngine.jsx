@@ -1258,9 +1258,13 @@ export const CodexIngestionEngine = ({
                               </span>
                             )}
 
-                            {item.costs?.bp !== undefined && item.costs.bp !== 0 && (
+                            {(item.costs?.cp !== undefined && item.costs.cp !== 0) ? (
                               <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-purple-950/80 text-purple-300 font-bold border border-purple-500/30">
-                                {item.costs.bp > 0 ? `+${item.costs.bp}` : item.costs.bp} BP
+                                {item.costs.cp > 0 ? `+${item.costs.cp}` : item.costs.cp} CP
+                              </span>
+                            ) : (item.costs?.bp !== undefined && item.costs.bp !== 0) && (
+                              <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-purple-950/80 text-purple-300 font-bold border border-purple-500/30">
+                                {item.costs.bp > 0 ? `+${item.costs.bp}` : item.costs.bp} CP
                               </span>
                             )}
                             {item.costs?.credits > 0 && (
@@ -1472,11 +1476,19 @@ export const CodexIngestionEngine = ({
                 {isPropertyCategory(revisionForm.category || selectedDatasetKey) ? (
                   <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
                     <div>
-                      <span className="text-[9px] text-slate-500 uppercase">BP</span>
+                      <span className="text-[9px] text-slate-500 uppercase">CP</span>
                       <input
                         type="number"
-                        value={revisionForm.costs?.bp ?? 0}
-                        onChange={(e) => setRevisionForm(prev => ({ ...prev, costs: { ...prev.costs, bp: parseInt(e.target.value) || 0 } }))}
+                        value={revisionForm.costs?.cp ?? revisionForm.costs?.bp ?? 0}
+                        onChange={(e) => {
+                          const val = parseInt(e.target.value) || 0;
+                          setRevisionForm(prev => ({
+                            ...prev,
+                            costs: { ...prev.costs, cp: val, bp: val },
+                            cp: val,
+                            bp: val
+                          }));
+                        }}
                         className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-center text-slate-100"
                       />
                     </div>
@@ -1537,11 +1549,19 @@ export const CodexIngestionEngine = ({
                   </div>
                 ) : (
                   <div className="max-w-xs">
-                    <span className="text-[9px] text-slate-500 uppercase">Build Points (BP / CP)</span>
+                    <span className="text-[9px] text-slate-500 uppercase">Character Points (CP)</span>
                     <input
                       type="number"
-                      value={revisionForm.costs?.bp ?? revisionForm.bp ?? 0}
-                      onChange={(e) => setRevisionForm(prev => ({ ...prev, costs: { bp: parseInt(e.target.value) || 0 }, bp: parseInt(e.target.value) || 0 }))}
+                      value={revisionForm.costs?.cp ?? revisionForm.cp ?? revisionForm.costs?.bp ?? revisionForm.bp ?? 0}
+                      onChange={(e) => {
+                        const val = parseInt(e.target.value) || 0;
+                        setRevisionForm(prev => ({
+                          ...prev,
+                          costs: { ...(prev.costs || {}), cp: val, bp: val },
+                          cp: val,
+                          bp: val
+                        }));
+                      }}
                       className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-left text-slate-100"
                     />
                   </div>

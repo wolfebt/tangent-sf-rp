@@ -11,6 +11,7 @@ mechanic: >-
   1-mile tactical line-of-sight range; global when linked to satellite or
   planetary grid.
 costs:
+  cp: 0
   bp: 0
   credits: 40
   nodes: 0

@@ -11,16 +11,18 @@ description: >-
   A mutation in the DEC2 gene alters the character's circadian rhythm and orexin
   production. They experience highly concentrated, perfectly restorative sleep.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'short sleeper, general, special-feature, mutation, alters, character''s'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Short Sleeper
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Stamina 1
 
 ## Description

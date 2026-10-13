@@ -66,6 +66,7 @@ description: >-
   conventional tech obsolete. They view their domain as an ecosystem to be
   preserved, and industrialization as an infection
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Major Galactic Power
@@ -130,7 +131,7 @@ negative_keywords: >-
 
 #### **Economy & Tech**
 
-* **Tech Level (TL):** 1+ (Metal Age / Feudal \- Note: Tech skills cost 10 BP).  
+* **Tech Level (TL):** 1+ (Metal Age / Feudal \- Note: Tech skills cost 10 CP).  
 * **Meta Level (ML):** 4 (High \- Highly Attuned).  
 * **Wealth Modifier:** \+0 (Barter System).  
 * **Primary Exports:** Rare biological samples, refined ores, magical foci.  
@@ -147,7 +148,7 @@ negative_keywords: >-
 * **Prominent Species:** Vajar (Wild Elves).  
 * **Faction Skill Package (20 Points):** Survival (+5), Nature (+5), Discipline (+5), Melee Combat (+5).  
 * **Typical Archetypes:** The Warden, The Veteran, The Beast-Handler, The Pathfinder, The Raider, The Oracle, The Ascetic, The Spirit-Walker, The Magus, The Planetologist, The Biologist, The Pioneer.  
-* **Recommended Features (1 BP Discount \- Choose Two):**  
+* **Recommended Features (1 CP Discount \- Choose Two):**  
   * Natural Weapons, Wild Speech, Animal Affinity, Power Attack, Empowered Strike, Tracker, Endurance, Tough, Fast Heal, Scent, Potent Might, Danger Sense
 
 ### **VI. Visual Synthesis Protocols (Aesthetics)**

@@ -5,6 +5,7 @@ trait_tier: Advanced
 trait_type: Species Trait
 category: traits
 costs:
+  cp: 2
   bp: 2
 description: >-
   Hemotoxic (Str/Sta) / Neurotoxic (Agility/Sensory) / Cytotoxic (Tissue
@@ -16,7 +17,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Advanced
 **Type**: Species Trait
-**BP Cost**: 2
+**CP Cost**: 2
 
 ## Description
 Hemotoxic (Str/Sta) / Neurotoxic (Agility/Sensory) / Cytotoxic (Tissue Corrosive)

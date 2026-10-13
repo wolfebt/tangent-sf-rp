@@ -9,6 +9,7 @@ description: Dimensional pocket; stores up to 100kg.
 stigma: None
 type: Esoteric
 costs:
+  cp: 0
   bp: 0
   credits: 40960
   nodes: 0
@@ -37,4 +38,4 @@ negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
 Category: **9\. TL5 Advanced Augmentations**
 
 **Effect:** Dimensional pocket; stores up to 100kg.
-**BP:** 1
+**CP:** 1

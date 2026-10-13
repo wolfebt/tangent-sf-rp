@@ -11,16 +11,18 @@ description: >-
   Legal immunity from prosecution under local planetary laws, customs tariffs,
   or extraterritorial arrest warrants.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'benefit (immunity), general, special-feature, immunity, prosecution, planetary'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Benefit (Immunity)
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Special (Diplomatic or Imperial decree)
 
 ## Description

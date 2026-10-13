@@ -9,6 +9,7 @@ description: "**Modifier:** As Synth Leg, +25% Cost.\r\n**Nodes:** 15"
 stigma: None
 type: Cybernetic
 costs:
+  cp: 0
   bp: 0
   credits: 2560
   nodes: 0

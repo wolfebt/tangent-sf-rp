@@ -23,6 +23,7 @@ mechanic: >-
   SP: 2,250. DR: 18. Modules: 40. Labs (20), Containment (10), Server Core (5),
   Living Quarters (5).
 costs:
+  cp: 0
   bp: 0
   credits: 23525
   nodes: 0

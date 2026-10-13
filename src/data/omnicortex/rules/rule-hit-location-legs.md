@@ -4,6 +4,7 @@ name: 'Hit Location: Legs (-2 to -5)'
 category: rules
 description: 'Legs: Called Shot -2. Thigh: -3. Shin: -3. Foot: -4. Digits: -5.'
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

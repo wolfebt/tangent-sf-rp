@@ -4,6 +4,7 @@ name: Deafened
 category: conditions
 description: 'Cannot hear; acoustic checks auto-fail, -2 on Initiative.'
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

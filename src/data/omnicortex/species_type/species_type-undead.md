@@ -7,6 +7,7 @@ description: >-
   forces. Undead are based on another corporeal creature type and may or may not
   retain its previous traits.
 costs:
+  cp: 20
   bp: 20
 senses: 'Darkvision 60 feet. [1]'
 physiology: >-

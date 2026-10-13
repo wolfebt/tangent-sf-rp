@@ -4,6 +4,7 @@ name: Maximum Variable Damage
 description: All damage dice roll their maximum possible numeric values automatically.
 category: critical_success_effect
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -11,16 +11,18 @@ description: >-
   Photographic Memory is a General Feature: Learn skill in 1/2 time and perfect
   recall of texts/images.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'photographic memory, general, special-feature, photographic, memory, feature:'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Photographic Memory
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Eidetic Memory, Int 4
 
 ## Description

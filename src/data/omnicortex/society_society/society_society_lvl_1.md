@@ -8,6 +8,7 @@ description: >-
   Level 1 development in Structure & Governance: Government models, legal
   systems, social stratification, and caste frameworks. (Emerging / Industrial).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

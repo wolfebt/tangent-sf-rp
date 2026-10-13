@@ -14,7 +14,9 @@ refundBP: 4
 description: >-
   Reduces base Ground locomotion speed by -20 feet (Additive). Grants +4 BP
   refund. Mutually exclusive with other ground speed adjusters.
+cp: -4
 costs:
+  cp: -4
   bp: -4
 modifiers: []
 ---
@@ -23,7 +25,7 @@ modifiers: []
 **Category**: Species Movement (MODIFIER)  
 **Classification**: modifier  
 **Target Mode**: Ground  
-**Cost**: -4 BP  
+**Cost**: -4 CP  
 **Speed Modifier**: -20 ft (Additive)  
 
 ## Description

@@ -11,16 +11,18 @@ description: >-
   Constant telepathic connection to the Kitin Collective and all Kitin Strains,
   synchronizing thoughts with the psionic Chorus.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
 keywords: 'hive-link, telepathy, kitin, chorus, hive-mind, collective, mesh'
 negative_keywords: 'isolated, solitary, individualist'
+cost_cp: 2
 ---
 
 # Hive-Link
 
 **Category**: Meta Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisite**: Kitin Lineage or Hive Mind Archetype  
 
 ## Description

@@ -33,7 +33,9 @@ description: >-
 
   - **Slow Crawl**: 1/4x Base (7.5 ft/rd). Deliberate stealth crawl; grants +4
   bonus to stealth; inflicts Prone condition.
+cp: 0
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -42,7 +44,7 @@ modifiers: []
 **Category**: Species Movement (BASIC)  
 **Classification**: basic  
 **Target Mode**: Ground  
-**Cost**: +0 BP  
+**Cost**: +0 CP  
 **Base Speed**: 30 ft / round  
 
 ## Description

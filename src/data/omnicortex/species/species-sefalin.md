@@ -36,24 +36,25 @@ tech_level: 4 (Bio-Organic Submersibles & Neural Syringes)
 meta_level: 3 (Aquatic Psionics)
 homeworld: Sefalia Ocean Trench Capitals
 costs:
-  bp: 14
+  cp: 23
+  bp: 23
 modifiers: []
-cp_cost: 14
-cp: 14
-bp: 14
+cp_cost: 23
+cp: 23
+bp: 23
 description: >-
   Tentacled cephalopod humanoids from abyssal trenches possessing dynamic
   chromatophore skin, rapid limb regeneration, and formidable intellects.
-traits:
-  - trait-adapted-deep-sea-pelagic
+traits: &ref_0
+  - trait-adapted
   - trait-amphibious
   - trait-awakened-psychic
-  - trait-biotech-affinity
-  - trait-chameleon-skin-4-stealth
-  - trait-fast-healing
-  - trait-quick-movement
-  - trait-regeneration-3-hp-rnd
-  - trait-tentacles-4-prehensile-grasping-limbs
+  - trait-enhanced-biotechnology
+  - trait-chameleon
+  - trait-fast-heal
+  - trait-quick
+  - trait-regeneration
+  - trait-prehensile-limbs
 recommended_factions:
   - The Syndicate
   - The Entari Combine
@@ -70,6 +71,7 @@ keywords: >-
   cephalopod-humanoid, chromatophore-skin, multi-tentacle, trench-genius,
   bio-tech
 negative_keywords: 'arid-desert, rigid, clumsy'
+species_traits: *ref_0
 ---
 
 # Sefalin (Cephalopod Aberration)
@@ -88,7 +90,7 @@ Tentacled cephalopod humanoids from abyssal trenches possessing dynamic chromato
 - **Stigma**: Xeno (-2)
 
 ## Mechanics & Statblock
-- **BP Cost**: 14 BP
+- **CP Cost**: 14 CP
 - **Inherent Modifiers**: None
 - **Bonus Skills**: +5 Skill Points
 - **Inherent Features**: Adapted (Deep Sea / Pelagic), Awakened (Psychic), Amphibious, Biotech Affinity, Chameleon Skin (+4 Stealth), Fast Healing, Tentacles (4 Prehensile Grasping Limbs), Quick Movement, Regeneration (3 HP/rnd)

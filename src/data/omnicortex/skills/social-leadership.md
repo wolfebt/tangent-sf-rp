@@ -20,6 +20,7 @@ synergy_links:
   - mental-tactics
   - social-diplomacy
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'leadership, social, charisma, interaction, diplomacy, influence'

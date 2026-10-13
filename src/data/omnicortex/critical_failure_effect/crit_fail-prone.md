@@ -4,6 +4,7 @@ name: Loss of Balance / Prone
 description: 'User trips or overextends, falling prone in their current hex.'
 category: critical_failure_effect
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

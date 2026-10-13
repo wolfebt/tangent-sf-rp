@@ -11,6 +11,7 @@ description: >-
   tools.
 mechanic: Replicates powered hand tools. Grants +2 Bonus to Engineering checks.
 costs:
+  cp: 0
   bp: 0
   credits: 640
   nodes: 0

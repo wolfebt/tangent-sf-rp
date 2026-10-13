@@ -6,6 +6,7 @@ description: >-
   Hellish flames, spiritual corruption, and soul-tainting hellfire. Causes
   physical and spiritual agony, and memory erosion.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

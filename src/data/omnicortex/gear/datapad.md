@@ -12,6 +12,7 @@ description: >-
   and files.
 mechanic: Processor Rating 0. Stores local files and connects to planetary nets.
 costs:
+  cp: 0
   bp: 0
   credits: 40
   nodes: 0

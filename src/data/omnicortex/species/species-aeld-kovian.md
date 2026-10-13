@@ -19,6 +19,8 @@ inherent_attribute_modifiers:
     bonus: 1
   - attribute: Charisma
     bonus: -1
+  - attribute: Stamina
+    bonus: 1
 bonus_attribute_points: 1
 specific_skill_bonuses:
   - skill: Discipline
@@ -48,7 +50,8 @@ tech_level: 4 (Void-Tech & Stealth Sub-systems)
 meta_level: 4 (Shadow Metaphysics & Telepathy)
 homeworld: Kovia (The Umbral Fortress)
 costs:
-  bp: 12
+  cp: 13
+  bp: 13
 modifiers:
   - target: Intellect
     value: 1
@@ -58,19 +61,15 @@ modifiers:
     value: -1
     type: attribute
     mode: inherent
-cp_cost: 12
-cp: 12
-bp: 12
+cp_cost: 13
+cp: 13
+bp: 13
 description: >-
   The Kovians are a fiercely disciplined, subterranean and void-dwelling elven
   faction. Prioritizing cold logic, genetic preservation, and shadow-craft, they
   harbor deep skepticism toward outsiders.
 traits:
   - trait-aeld-lineage-traits
-  - trait-cold-discipline
-  - trait-dark-sight
-  - trait-indomitable-will
-  - trait-reduced-sustenance
 recommended_factions:
   - Kovian Tribunal
   - The Alterian Enclave
@@ -88,6 +87,8 @@ keywords: >-
   umbral, shadow-magic, covert, lethal, discipline, stealth, night-vision,
   supremacist
 negative_keywords: 'gregarious, daylight-dependent, naive, diplomatic-mediator, reckless'
+species_traits:
+  - trait-aeld-lineage-traits
 ---
 
 # Nocturne (Kovian Aeld)
@@ -98,7 +99,7 @@ Consequently, the Elven who are drawn to the Nocturne ideology are often those o
 
 ### **General Species Features & Mechanics**
 
-**BP Cost:** \[TBD\]  
+**CP Cost:** 13 CP  
 **Classification:** Humanoid  
 **Size:** Medium Sized (6+ ft)  
 **Movement:** 30ft  

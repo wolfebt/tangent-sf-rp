@@ -3,9 +3,11 @@ id: rule-meta-sensory-manifestations
 name: 'Codex: Meta-Sensory Manifestations & Colorations'
 category: rules
 description: >-
-  Visuals, audio, texture guidelines for Psychic (Mind), Magic (Weave), and Divine (Will)
-  manifestations, and the full Discipline-Specific Colorations table.
+  Visuals, audio, texture guidelines for Psychic (Mind), Magic (Weave), and
+  Divine (Will) manifestations, and the full Discipline-Specific Colorations
+  table.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

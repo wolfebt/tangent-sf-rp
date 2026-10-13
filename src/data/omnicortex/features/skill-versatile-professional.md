@@ -9,23 +9,25 @@ is_multiple: false
 prerequisites: 'Vocation 6, Intellect 2'
 description: The character knows every job on the crew.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'versatile professional, skill, special-feature'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Versatile Professional
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Vocation 6, Intellect 2
 
 ## Description
 The character knows every job on the crew.
 
 ## Mechanics & Benefit
-You gain "Virtual Skills" in the Vocation category. For every point of Intellect Bonus, gain access to a related Vocation sub-skill without spending BP.  
+You gain "Virtual Skills" in the Vocation category. For every point of Intellect Bonus, gain access to a related Vocation sub-skill without spending CP.  
   * *Example:* A Soldier with Int \+2 might gain Virtual Ranks in *Armorer* and *Demolitions*.
 
 # **SPECIAL FEATURES**
@@ -44,7 +46,7 @@ Species traits, supernatural senses, and augmentations.
 | **Extreme Augmentations** | Heavy Augmented | Replaces a majority of biological components. |    |
 | **Biotechnology** | Awakened or TL4 | Imprinting, using and manipulating Living Technology. |    |
 | **Bonded** | \- | Tele-Empathic connection with another. |    |
-| **Companion** | Cha | Bio, Tech or other 40BP Companion. | Rank, Multi |
+| **Companion** | Cha | Bio, Tech or other 40 CP Companion. | Rank, Multi |
 | **Familiar** | Companion | Empathically linked; know location/state |   |
 | **Mind Link** | Companion | Telepathic link; share skills/knowledge |    |
 | **Shared Senses** | Companion | Gain the senses of and sense through the other |    |

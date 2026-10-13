@@ -11,7 +11,9 @@ bp: 0
 description: >-
   Extended emergency quantum phase surge up to 60 ft; requires Endurance /
   Stamina check (CR 15+) to avoid fatigue.
+cp: 0
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -20,7 +22,7 @@ modifiers: []
 **Category**: Species Movement (STAGE)  
 **Classification**: stage  
 **Target Mode**: Flicker  
-**Cost**: +0 BP  
+**Cost**: +0 CP  
 
 ## Description
 Extended emergency quantum phase surge up to 60 ft; requires Endurance / Stamina check (CR 15+) to avoid fatigue.

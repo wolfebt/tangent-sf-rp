@@ -9,6 +9,7 @@ description: Blur (10 Min) or Invisibility (1 Min).
 stigma: None
 type: Esoteric
 costs:
+  cp: 0
   bp: 0
   credits: 40960
   nodes: 0
@@ -37,4 +38,4 @@ negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
 Category: **9\. TL5 Advanced Augmentations**
 
 **Effect:** Blur (10 Min) or Invisibility (1 Min).
-**BP:** 1
+**CP:** 1

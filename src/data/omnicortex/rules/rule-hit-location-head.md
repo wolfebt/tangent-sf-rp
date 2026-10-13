@@ -6,6 +6,7 @@ description: >-
   Head: Called Shot -2 (double damage / instant death). Neck/Throat: -4.
   Specific eyes/ears/nose: -5.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

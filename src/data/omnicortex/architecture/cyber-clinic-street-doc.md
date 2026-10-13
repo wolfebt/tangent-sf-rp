@@ -23,6 +23,7 @@ mechanic: >-
   SP: 200. DR: 12. Modules: 4. Surgical Chair, Autodoc Arm, Sterilization
   Chamber, Storage.
 costs:
+  cp: 0
   bp: 0
   credits: 279
   nodes: 0

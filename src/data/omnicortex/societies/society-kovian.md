@@ -7,6 +7,7 @@ description: >-
   Austere judicial autocracy where duty, martial discipline, and strict legal
   codes govern all aspects of life.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

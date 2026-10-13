@@ -40,7 +40,8 @@ tech_level: 3 (Ballistics & Heavy Exosuits)
 meta_level: 0 (Null)
 homeworld: Nia Frontier Badlands
 costs:
-  bp: 16
+  cp: 8
+  bp: 8
 modifiers:
   - target: Strength
     value: 1
@@ -54,16 +55,16 @@ modifiers:
     value: -1
     type: attribute
     mode: inherent
-cp_cost: 16
-cp: 16
-bp: 16
+cp_cost: 8
+cp: 8
+bp: 8
 description: >-
   Hardened frontier humans whose bones and skin grew calcified armor plating in
   response to hyper-abrasive mineral environments.
-traits:
-  - trait-brutal-2-melee-damage
-  - trait-exoskeleton-partial-chitinous-plates-dr-2
-  - trait-pain-tolerance
+traits: &ref_0
+  - trait-brutal
+  - trait-exoskeleton-partial
+  - trait-hardy
 recommended_factions:
   - The Outworlds
   - Mercenary Faction Template
@@ -76,6 +77,7 @@ recommended_occupations:
   - Scout
 keywords: 'calcified-armor, abrasive-badlands, rugged-survivor, heavy-slugthrower, tough'
 negative_keywords: 'aristocratic, delicate, indoor-sedentary'
+species_traits: *ref_0
 ---
 
 # Nian Human (Armored Variant)
@@ -94,7 +96,7 @@ Hardened frontier humans whose bones and skin grew calcified armor plating in re
 - **Stigma**: None
 
 ## Mechanics & Statblock
-- **BP Cost**: 16 BP
+- **CP Cost**: 16 CP
 - **Inherent Modifiers**: +1 Strength, +1 Stamina, -1 Charisma
 - **Bonus Skills**: +0 Skill Points
 - **Inherent Features**: Brutal (+2 Melee Damage), Exoskeleton (Partial Chitinous Plates DR 2/-), Pain Tolerance

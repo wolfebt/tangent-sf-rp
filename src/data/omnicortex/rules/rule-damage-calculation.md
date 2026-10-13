@@ -6,6 +6,7 @@ description: >-
   Weapon Die + Ability Mod + Precision Damage - Armor DR - Target CON = Total
   Damage. Active defense counters precision.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

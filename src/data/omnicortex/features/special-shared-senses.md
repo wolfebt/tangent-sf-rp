@@ -11,23 +11,25 @@ description: >-
   Shared Senses is a Special Feature: Gain the senses of and sense through the
   other (+10BP to Companion).
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'shared senses, special, special-feature, shared, senses, feature:'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Shared Senses
 
 **Category**: Special Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Companion
 
 ## Description
-Shared Senses is a Special Feature: Gain the senses of and sense through the other (+10BP to Companion).
+Shared Senses is a Special Feature: Gain the senses of and sense through the other (+10 CP to Companion).
 
 ## Mechanics & Benefit
-Gain the senses of and sense through the other (+10BP to Companion).
+Gain the senses of and sense through the other (+10 CP to Companion).
 
 ## Special Rules
 188

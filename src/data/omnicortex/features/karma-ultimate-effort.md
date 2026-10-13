@@ -11,16 +11,18 @@ description: >-
   The character is a savant or master in a specific field. When they truly
   focus, failure is impossible.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'ultimate effort, karma, special-feature, savant, master, specific'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Ultimate Effort
 
 **Category**: Karma Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: None (Must be assigned to a specific Trait/Skill/Attribute).
 
 ## Description

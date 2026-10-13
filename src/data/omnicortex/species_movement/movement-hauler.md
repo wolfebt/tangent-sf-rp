@@ -9,7 +9,9 @@ speed_modifier: 0
 is_additive: false
 bp: 1
 description: Not encumbered or slowed by carrying a Heavy Load.
+cp: 1
 costs:
+  cp: 1
   bp: 1
 modifiers: []
 ---
@@ -18,7 +20,7 @@ modifiers: []
 **Category**: Species Movement (MODIFIER)  
 **Classification**: modifier  
 **Target Mode**: Ground  
-**Cost**: +1 BP  
+**Cost**: +1 CP  
 **Speed Modifier**: 0 ft (Additive)  
 
 ## Description

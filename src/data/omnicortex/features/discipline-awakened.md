@@ -12,16 +12,18 @@ description: >-
   fundamental "spark" required to use any form of metaphysics. Without this
   feature, a character cannot manipulate supernatural forces.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'awakened, discipline, special-feature, focused-training, mastery, opened'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Awakened
 
 **Category**: Discipline Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: None (often taken at Character Creation).
 
 ## Description

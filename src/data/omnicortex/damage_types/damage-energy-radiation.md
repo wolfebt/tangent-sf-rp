@@ -6,6 +6,7 @@ description: >-
   Ionizing radiation causing cellular destruction, mutation, and radiation
   sickness in biologicals while degrading electronics.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -30,17 +30,19 @@ tactical_role: 'Granting bonuses to allies, organizing attacks, managing NPC tro
 quote: '"Form up! Hold the line!"'
 description: A strategic leader who commands troops and coordinates military operations.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'officer, visionary, idealist, leadership, charisma, leader, tactician'
 negative_keywords: 'mindless-brute, reckless, illiterate, anti-social, mute'
+cp_chassis: 80
 ---
 
 # The Officer
 
 **Sphere**: Visionaries (The Idealists)  
 **Core Concept**: Leader / Tactician / Buffer  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Charisma  
 **Secondary Attribute**: Intellect  
 

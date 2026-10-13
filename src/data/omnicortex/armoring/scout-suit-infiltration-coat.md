@@ -24,6 +24,7 @@ description: >-
   Covers vital areas while allowing free movement.
 mechanic: 'Stealthy (+2 to Stealth checks). DR 10, SP 20.'
 costs:
+  cp: 0
   bp: 0
   credits: 279
   nodes: 0

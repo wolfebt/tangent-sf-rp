@@ -6,6 +6,7 @@ description: >-
   Pure radiant energy and blinding light. Excels against undead, shadow
   entities, and light-sensitive targets; induces Blinded status.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

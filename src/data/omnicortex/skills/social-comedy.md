@@ -20,6 +20,7 @@ synergy_links:
   - social-bluff
   - social-insight
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'comedy, social, charisma, interaction, diplomacy, influence'

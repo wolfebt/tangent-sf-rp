@@ -13,15 +13,19 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 0,
     "refundBP": 0,
+    "cp": 0,
+    "bp": 0,
     "costs": {
+      "cp": 0,
       "bp": 0
     },
     "prerequisite": "None",
     "desc": "A chemical, biological, or psychological dependency on a substance or intense stimulus.",
     "description": "A chemical, biological, or psychological dependency on a substance or intense stimulus.",
-    "mechanics": "### Tiers & Effects\n- **Minor (3 BP)**: A bad habit (tobacco, alcohol, mild gambling). Suffer **-2 to Will saves** if denied within 24 hours.\n- **Moderate (6 BP)**: Serious dependency (hallucinogens, painkillers, hard narcotics). Going 24 hours without inflicts the **Sickened** condition (`-2` to all checks) until indulged.\n- **Major (9 BP)**: Debilitating addiction (rare combat stims, neural-jacking). Withdrawal begins after 12 hours. The character rolls **all checks with Disadvantage** and takes **1 Constitution damage per day** until indulged or detoxed.",
-    "mechanic": "### Tiers & Effects\n- **Minor (3 BP)**: A bad habit (tobacco, alcohol, mild gambling). Suffer **-2 to Will saves** if denied within 24 hours.\n- **Moderate (6 BP)**: Serious dependency (hallucinogens, painkillers, hard narcotics). Going 24 hours without inflicts the **Sickened** condition (`-2` to all checks) until indulged.\n- **Major (9 BP)**: Debilitating addiction (rare combat stims, neural-jacking). Withdrawal begins after 12 hours. The character rolls **all checks with Disadvantage** and takes **1 Constitution damage per day** until indulged or detoxed.",
+    "mechanics": "### Tiers & Effects\n- **Minor (3 CP)**: A bad habit (tobacco, alcohol, mild gambling). Suffer **-2 to Will saves** if denied within 24 hours.\n- **Moderate (6 CP)**: Serious dependency (hallucinogens, painkillers, hard narcotics). Going 24 hours without inflicts the **Sickened** condition (`-2` to all checks) until indulged.\n- **Major (9 CP)**: Debilitating addiction (rare combat stims, neural-jacking). Withdrawal begins after 12 hours. The character rolls **all checks with Disadvantage** and takes **1 Constitution damage per day** until indulged or detoxed.",
+    "mechanic": "### Tiers & Effects\n- **Minor (3 CP)**: A bad habit (tobacco, alcohol, mild gambling). Suffer **-2 to Will saves** if denied within 24 hours.\n- **Moderate (6 CP)**: Serious dependency (hallucinogens, painkillers, hard narcotics). Going 24 hours without inflicts the **Sickened** condition (`-2` to all checks) until indulged.\n- **Major (9 CP)**: Debilitating addiction (rare combat stims, neural-jacking). Withdrawal begins after 12 hours. The character rolls **all checks with Disadvantage** and takes **1 Constitution damage per day** until indulged or detoxed.",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
     "modifiers": [
       {
@@ -46,7 +50,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
         "description": "Inflicts Sickened condition (-2 to all checks)"
       }
     ],
-    "body": "# Addiction\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 BP  \n**Type**: Psychological / Physical\n\n## Description\nA chemical, biological, or psychological dependency on a substance or intense stimulus.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 BP)**: A bad habit (tobacco, alcohol, mild gambling). Suffer **-2 to Will saves** if denied within 24 hours.\n- **Moderate (6 BP)**: Serious dependency (hallucinogens, painkillers, hard narcotics). Going 24 hours without inflicts the **Sickened** condition (`-2` to all checks) until indulged.\n- **Major (9 BP)**: Debilitating addiction (rare combat stims, neural-jacking). Withdrawal begins after 12 hours. The character rolls **all checks with Disadvantage** and takes **1 Constitution damage per day** until indulged or detoxed.",
+    "body": "# Addiction\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 3 / 6 / 9 CP  \n**Type**: Psychological / Physical\n\n## Description\nA chemical, biological, or psychological dependency on a substance or intense stimulus.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 CP)**: A bad habit (tobacco, alcohol, mild gambling). Suffer **-2 to Will saves** if denied within 24 hours.\n- **Moderate (6 CP)**: Serious dependency (hallucinogens, painkillers, hard narcotics). Going 24 hours without inflicts the **Sickened** condition (`-2` to all checks) until indulged.\n- **Major (9 CP)**: Debilitating addiction (rare combat stims, neural-jacking). Withdrawal begins after 12 hours. The character rolls **all checks with Disadvantage** and takes **1 Constitution damage per day** until indulged or detoxed.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
     "notes": "[Penalty] -2 on Will Checks\n[Penalty] Disadvantage on all checks\n[Penalty] Inflicts Sickened condition (-2 to all checks)\n[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
@@ -64,18 +68,22 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 0,
     "refundBP": 0,
+    "cp": 0,
+    "bp": 0,
     "costs": {
+      "cp": 0,
       "bp": 0
     },
     "prerequisite": "None",
     "desc": "An individual rival or powerful organization actively hunting, harassing, or seeking to ruin the character.",
     "description": "An individual rival or powerful organization actively hunting, harassing, or seeking to ruin the character.",
-    "mechanics": "### Tiers & Effects\n- **Individual Adversary (1-5 BP)**:\n  - *1-2 BP*: Nuisance or rival of equal power level.\n  - *3-5 BP*: Superior hunter, assassin, or nemesis who actively tracks the character.\n- **Organizational Adversary (5-10 BP)**:\n  - *5-7 BP*: Local gang, sector police precinct, or planetary guild.\n  - *8-10 BP*: Galaxy-spanning megacorporation (Syndicate), Imperial Inquisition (Impyrium), or interstellar crime syndicate.",
-    "mechanic": "### Tiers & Effects\n- **Individual Adversary (1-5 BP)**:\n  - *1-2 BP*: Nuisance or rival of equal power level.\n  - *3-5 BP*: Superior hunter, assassin, or nemesis who actively tracks the character.\n- **Organizational Adversary (5-10 BP)**:\n  - *5-7 BP*: Local gang, sector police precinct, or planetary guild.\n  - *8-10 BP*: Galaxy-spanning megacorporation (Syndicate), Imperial Inquisition (Impyrium), or interstellar crime syndicate.",
+    "mechanics": "### Tiers & Effects\n- **Individual Adversary (1-5 CP)**:\n  - *1-2 CP*: Nuisance or rival of equal power level.\n  - *3-5 CP*: Superior hunter, assassin, or nemesis who actively tracks the character.\n- **Organizational Adversary (5-10 CP)**:\n  - *5-7 CP*: Local gang, sector police precinct, or planetary guild.\n  - *8-10 CP*: Galaxy-spanning megacorporation (Syndicate), Imperial Inquisition (Impyrium), or interstellar crime syndicate.",
+    "mechanic": "### Tiers & Effects\n- **Individual Adversary (1-5 CP)**:\n  - *1-2 CP*: Nuisance or rival of equal power level.\n  - *3-5 CP*: Superior hunter, assassin, or nemesis who actively tracks the character.\n- **Organizational Adversary (5-10 CP)**:\n  - *5-7 CP*: Local gang, sector police precinct, or planetary guild.\n  - *8-10 CP*: Galaxy-spanning megacorporation (Syndicate), Imperial Inquisition (Impyrium), or interstellar crime syndicate.",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
     "modifiers": [],
-    "body": "# Adversary\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 1 to 10 BP  \n**Type**: Social / Background\n\n## Description\nAn individual rival or powerful organization actively hunting, harassing, or seeking to ruin the character.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Individual Adversary (1-5 BP)**:\n  - *1-2 BP*: Nuisance or rival of equal power level.\n  - *3-5 BP*: Superior hunter, assassin, or nemesis who actively tracks the character.\n- **Organizational Adversary (5-10 BP)**:\n  - *5-7 BP*: Local gang, sector police precinct, or planetary guild.\n  - *8-10 BP*: Galaxy-spanning megacorporation (Syndicate), Imperial Inquisition (Impyrium), or interstellar crime syndicate.",
+    "body": "# Adversary\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 1 to 10 CP  \n**Type**: Social / Background\n\n## Description\nAn individual rival or powerful organization actively hunting, harassing, or seeking to ruin the character.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Individual Adversary (1-5 CP)**:\n  - *1-2 CP*: Nuisance or rival of equal power level.\n  - *3-5 CP*: Superior hunter, assassin, or nemesis who actively tracks the character.\n- **Organizational Adversary (5-10 CP)**:\n  - *5-7 CP*: Local gang, sector police precinct, or planetary guild.\n  - *8-10 CP*: Galaxy-spanning megacorporation (Syndicate), Imperial Inquisition (Impyrium), or interstellar crime syndicate.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
@@ -90,8 +98,12 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Species Disadvantage",
     "classification": "Physical",
     "type": "Physical",
+    "refundCP": 4,
     "refundBP": 4,
+    "cp": -4,
+    "bp": -4,
     "costs": {
+      "cp": -4,
       "bp": -4
     },
     "prerequisite": "None",
@@ -101,7 +113,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "mechanic": "The species completely lacks arms, forelimbs, tentacles, or manual manipulation appendages. The character cannot wield weapons, hold items, carry two-handed gear, or perform fine mechanical manipulation without specialized prosthetic rigs, mouth grips, or cybernetics.",
     "rules": "Hindrance: Grants 4 CP refund upon selection.",
     "modifiers": [],
-    "body": "# Armless\n\n**Category**: Species Disadvantages (BP Reduction)  \n**BP Refund**: +4 BP (Cost: -4 BP)  \n**Type**: Physical  \n\n## Description\nWithout Arms.\n\n## Mechanics & Severity\nThe species completely lacks arms, forelimbs, tentacles, or manual manipulation appendages. The character cannot wield weapons, hold items, carry two-handed gear, or perform fine mechanical manipulation without specialized prosthetic rigs, mouth grips, or cybernetics.",
+    "body": "# Armless\n\n**Category**: Species Disadvantages (CP Reduction)  \n**CP Refund**: +4 CP (Cost: -4 CP)  \n**Type**: Physical  \n\n## Description\nWithout Arms.\n\n## Mechanics & Severity\nThe species completely lacks arms, forelimbs, tentacles, or manual manipulation appendages. The character cannot wield weapons, hold items, carry two-handed gear, or perform fine mechanical manipulation without specialized prosthetic rigs, mouth grips, or cybernetics.",
     "special_rules": "Hindrance: Grants 4 CP refund upon selection.",
     "notes": "[Rule] Hindrance: Grants 4 CP refund upon selection.",
     "notesList": [
@@ -116,18 +128,22 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 0,
     "refundBP": 0,
+    "cp": 0,
+    "bp": 0,
     "costs": {
+      "cp": 0,
       "bp": 0
     },
     "prerequisite": "None",
     "desc": "The character is outside the physical prime for their species, suffering bodily limitations.",
     "description": "The character is outside the physical prime for their species, suffering bodily limitations.",
-    "mechanics": "### Tiers & Effects\n- **Child (10 BP)**: 7-12ish typical human years. **-1 Strength, -1 Agility, -1 Stamina** (Choose two). Small stature, physically undeveloped.\n- **Teen (5 BP)**: 12-16ish typical human years. **-1 Strength, -1 Agility, or -1 Stamina** (Choose one). Awkward growth phases.\n- **Old (5 BP)**: 60-90ish typical human years. **-1 Strength, -1 Agility, or -1 Stamina** (Choose one). Aching joints and slower reflexes.\n- **Venerable (10 BP)**: 90+ typical human years. **-1 Strength, -1 Agility, -1 Stamina** (Choose two). Physically frail but rich in experience.",
-    "mechanic": "### Tiers & Effects\n- **Child (10 BP)**: 7-12ish typical human years. **-1 Strength, -1 Agility, -1 Stamina** (Choose two). Small stature, physically undeveloped.\n- **Teen (5 BP)**: 12-16ish typical human years. **-1 Strength, -1 Agility, or -1 Stamina** (Choose one). Awkward growth phases.\n- **Old (5 BP)**: 60-90ish typical human years. **-1 Strength, -1 Agility, or -1 Stamina** (Choose one). Aching joints and slower reflexes.\n- **Venerable (10 BP)**: 90+ typical human years. **-1 Strength, -1 Agility, -1 Stamina** (Choose two). Physically frail but rich in experience.",
+    "mechanics": "### Tiers & Effects\n- **Child (10 CP)**: 7-12ish typical human years. **-1 Strength, -1 Agility, -1 Stamina** (Choose two). Small stature, physically undeveloped.\n- **Teen (5 CP)**: 12-16ish typical human years. **-1 Strength, -1 Agility, or -1 Stamina** (Choose one). Awkward growth phases.\n- **Old (5 CP)**: 60-90ish typical human years. **-1 Strength, -1 Agility, or -1 Stamina** (Choose one). Aching joints and slower reflexes.\n- **Venerable (10 CP)**: 90+ typical human years. **-1 Strength, -1 Agility, -1 Stamina** (Choose two). Physically frail but rich in experience.",
+    "mechanic": "### Tiers & Effects\n- **Child (10 CP)**: 7-12ish typical human years. **-1 Strength, -1 Agility, -1 Stamina** (Choose two). Small stature, physically undeveloped.\n- **Teen (5 CP)**: 12-16ish typical human years. **-1 Strength, -1 Agility, or -1 Stamina** (Choose one). Awkward growth phases.\n- **Old (5 CP)**: 60-90ish typical human years. **-1 Strength, -1 Agility, or -1 Stamina** (Choose one). Aching joints and slower reflexes.\n- **Venerable (10 CP)**: 90+ typical human years. **-1 Strength, -1 Agility, -1 Stamina** (Choose two). Physically frail but rich in experience.",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
     "modifiers": [],
-    "body": "# Bodily Age\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 5 / 10 BP  \n**Type**: Physical\n\n## Description\nThe character is outside the physical prime for their species, suffering bodily limitations.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Child (10 BP)**: 7-12ish typical human years. **-1 Strength, -1 Agility, -1 Stamina** (Choose two). Small stature, physically undeveloped.\n- **Teen (5 BP)**: 12-16ish typical human years. **-1 Strength, -1 Agility, or -1 Stamina** (Choose one). Awkward growth phases.\n- **Old (5 BP)**: 60-90ish typical human years. **-1 Strength, -1 Agility, or -1 Stamina** (Choose one). Aching joints and slower reflexes.\n- **Venerable (10 BP)**: 90+ typical human years. **-1 Strength, -1 Agility, -1 Stamina** (Choose two). Physically frail but rich in experience.",
+    "body": "# Bodily Age\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 5 / 10 CP  \n**Type**: Physical\n\n## Description\nThe character is outside the physical prime for their species, suffering bodily limitations.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Child (10 CP)**: 7-12ish typical human years. **-1 Strength, -1 Agility, -1 Stamina** (Choose two). Small stature, physically undeveloped.\n- **Teen (5 CP)**: 12-16ish typical human years. **-1 Strength, -1 Agility, or -1 Stamina** (Choose one). Awkward growth phases.\n- **Old (5 CP)**: 60-90ish typical human years. **-1 Strength, -1 Agility, or -1 Stamina** (Choose one). Aching joints and slower reflexes.\n- **Venerable (10 CP)**: 90+ typical human years. **-1 Strength, -1 Agility, -1 Stamina** (Choose two). Physically frail but rich in experience.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
@@ -142,8 +158,12 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 0,
     "refundBP": 0,
+    "cp": 0,
+    "bp": 0,
     "costs": {
+      "cp": 0,
       "bp": 0
     },
     "prerequisite": "None",
@@ -153,7 +173,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "mechanic": "### Mechanics\n- **-2 Penalty** on all checks to be taken seriously (Intimidation, formal Persuasion, battlefield Command).\n- NPCs naturally assume the character is joking, bluffing, or being sarcastic.",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
     "modifiers": [],
-    "body": "# Clown\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 2 BP  \n**Type**: Social\n\n## Description\nA known compulsive jokester, prankster, or class clown who struggles to project authority.\n\n## Mechanics & Severity\n### Mechanics\n- **-2 Penalty** on all checks to be taken seriously (Intimidation, formal Persuasion, battlefield Command).\n- NPCs naturally assume the character is joking, bluffing, or being sarcastic.",
+    "body": "# Clown\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 2 CP  \n**Type**: Social\n\n## Description\nA known compulsive jokester, prankster, or class clown who struggles to project authority.\n\n## Mechanics & Severity\n### Mechanics\n- **-2 Penalty** on all checks to be taken seriously (Intimidation, formal Persuasion, battlefield Command).\n- NPCs naturally assume the character is joking, bluffing, or being sarcastic.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
@@ -168,18 +188,22 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 0,
     "refundBP": 0,
+    "cp": 0,
+    "bp": 0,
     "costs": {
+      "cp": 0,
       "bp": 0
     },
     "prerequisite": "None",
     "desc": "An overwhelming compulsion toward Greed (Money), Lechery (Lust), Ambition (Power), or Conspicuousness (Fame).",
     "description": "An overwhelming compulsion toward Greed (Money), Lechery (Lust), Ambition (Power), or Conspicuousness (Fame).",
-    "mechanics": "### Tiers & Effects\n- **Compulsion Trigger**: When presented with the object of desire, make a **Will Save (DC 15 + Severity)** to avoid acting impulsively.\n- **Minor (3 BP)**: Grumbles and complains bitterly if denied.\n- **Moderate (6 BP)**: Takes dangerous tactical risks or commits social faux pas to acquire the prize.\n- **Major (9 BP)**: Will steal, betray allies, or enter combat to satisfy the craving.",
-    "mechanic": "### Tiers & Effects\n- **Compulsion Trigger**: When presented with the object of desire, make a **Will Save (DC 15 + Severity)** to avoid acting impulsively.\n- **Minor (3 BP)**: Grumbles and complains bitterly if denied.\n- **Moderate (6 BP)**: Takes dangerous tactical risks or commits social faux pas to acquire the prize.\n- **Major (9 BP)**: Will steal, betray allies, or enter combat to satisfy the craving.",
+    "mechanics": "### Tiers & Effects\n- **Compulsion Trigger**: When presented with the object of desire, make a **Will Save (DC 15 + Severity)** to avoid acting impulsively.\n- **Minor (3 CP)**: Grumbles and complains bitterly if denied.\n- **Moderate (6 CP)**: Takes dangerous tactical risks or commits social faux pas to acquire the prize.\n- **Major (9 CP)**: Will steal, betray allies, or enter combat to satisfy the craving.",
+    "mechanic": "### Tiers & Effects\n- **Compulsion Trigger**: When presented with the object of desire, make a **Will Save (DC 15 + Severity)** to avoid acting impulsively.\n- **Minor (3 CP)**: Grumbles and complains bitterly if denied.\n- **Moderate (6 CP)**: Takes dangerous tactical risks or commits social faux pas to acquire the prize.\n- **Major (9 CP)**: Will steal, betray allies, or enter combat to satisfy the craving.",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
     "modifiers": [],
-    "body": "# Covetous\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 BP  \n**Type**: Psychological\n\n## Description\nAn overwhelming compulsion toward Greed (Money), Lechery (Lust), Ambition (Power), or Conspicuousness (Fame).\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Compulsion Trigger**: When presented with the object of desire, make a **Will Save (DC 15 + Severity)** to avoid acting impulsively.\n- **Minor (3 BP)**: Grumbles and complains bitterly if denied.\n- **Moderate (6 BP)**: Takes dangerous tactical risks or commits social faux pas to acquire the prize.\n- **Major (9 BP)**: Will steal, betray allies, or enter combat to satisfy the craving.",
+    "body": "# Covetous\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 3 / 6 / 9 CP  \n**Type**: Psychological\n\n## Description\nAn overwhelming compulsion toward Greed (Money), Lechery (Lust), Ambition (Power), or Conspicuousness (Fame).\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Compulsion Trigger**: When presented with the object of desire, make a **Will Save (DC 15 + Severity)** to avoid acting impulsively.\n- **Minor (3 CP)**: Grumbles and complains bitterly if denied.\n- **Moderate (6 CP)**: Takes dangerous tactical risks or commits social faux pas to acquire the prize.\n- **Major (9 CP)**: Will steal, betray allies, or enter combat to satisfy the craving.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
@@ -194,18 +218,22 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 0,
     "refundBP": 0,
+    "cp": 0,
+    "bp": 0,
     "costs": {
+      "cp": 0,
       "bp": 0
     },
     "prerequisite": "None",
     "desc": "Responsible for the continuous protection, feeding, and medical safety of a non-combatant NPC ward.",
     "description": "Responsible for the continuous protection, feeding, and medical safety of a non-combatant NPC ward.",
-    "mechanics": "### Tiers & Effects\n- **Capable (3 BP)**: Ward feeds and dresses themselves but needs protection in combat (spouse, teenage apprentice).\n- **Needy (6 BP)**: Ward requires daily assistance, supervision, and guidance (young child, frail elder).\n- **Dependent (9 BP)**: Ward is completely helpless or requires expensive medical upkeep/stasis pod support (infant, comatose patient).",
-    "mechanic": "### Tiers & Effects\n- **Capable (3 BP)**: Ward feeds and dresses themselves but needs protection in combat (spouse, teenage apprentice).\n- **Needy (6 BP)**: Ward requires daily assistance, supervision, and guidance (young child, frail elder).\n- **Dependent (9 BP)**: Ward is completely helpless or requires expensive medical upkeep/stasis pod support (infant, comatose patient).",
+    "mechanics": "### Tiers & Effects\n- **Capable (3 CP)**: Ward feeds and dresses themselves but needs protection in combat (spouse, teenage apprentice).\n- **Needy (6 CP)**: Ward requires daily assistance, supervision, and guidance (young child, frail elder).\n- **Dependent (9 CP)**: Ward is completely helpless or requires expensive medical upkeep/stasis pod support (infant, comatose patient).",
+    "mechanic": "### Tiers & Effects\n- **Capable (3 CP)**: Ward feeds and dresses themselves but needs protection in combat (spouse, teenage apprentice).\n- **Needy (6 CP)**: Ward requires daily assistance, supervision, and guidance (young child, frail elder).\n- **Dependent (9 CP)**: Ward is completely helpless or requires expensive medical upkeep/stasis pod support (infant, comatose patient).",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
     "modifiers": [],
-    "body": "# Dependent\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 BP  \n**Type**: Social\n\n## Description\nResponsible for the continuous protection, feeding, and medical safety of a non-combatant NPC ward.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Capable (3 BP)**: Ward feeds and dresses themselves but needs protection in combat (spouse, teenage apprentice).\n- **Needy (6 BP)**: Ward requires daily assistance, supervision, and guidance (young child, frail elder).\n- **Dependent (9 BP)**: Ward is completely helpless or requires expensive medical upkeep/stasis pod support (infant, comatose patient).",
+    "body": "# Dependent\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 3 / 6 / 9 CP  \n**Type**: Social\n\n## Description\nResponsible for the continuous protection, feeding, and medical safety of a non-combatant NPC ward.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Capable (3 CP)**: Ward feeds and dresses themselves but needs protection in combat (spouse, teenage apprentice).\n- **Needy (6 CP)**: Ward requires daily assistance, supervision, and guidance (young child, frail elder).\n- **Dependent (9 CP)**: Ward is completely helpless or requires expensive medical upkeep/stasis pod support (infant, comatose patient).",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
@@ -220,18 +248,22 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 0,
     "refundBP": 0,
+    "cp": 0,
+    "bp": 0,
     "costs": {
+      "cp": 0,
       "bp": 0
     },
     "prerequisite": "None",
     "desc": "Missing limbs, paralysis, or severe mechanical impairment of bodily motor function.",
     "description": "Missing limbs, paralysis, or severe mechanical impairment of bodily motor function.",
-    "mechanics": "### Tiers & Effects\n- **Minor (3 BP)**: Missing a Hand or Foot. `-2` to Athletics/Dexterity tasks with that limb; reduced movement if foot.\n- **Major (6 BP)**: Missing a full Limb (Arm or Leg). Cannot use two-handed gear/shields (Arm); movement speed halved (Leg).\n- **Severe (9 BP)**: Two Limbs missing or Paraplegic (Legs paralyzed). Requires wheelchair, hover-rig, or cybernetics.\n- **Crippling (18 BP)**: Quadriplegic or all limbs missing. Requires full-body life-support chassis or prosthetics.",
-    "mechanic": "### Tiers & Effects\n- **Minor (3 BP)**: Missing a Hand or Foot. `-2` to Athletics/Dexterity tasks with that limb; reduced movement if foot.\n- **Major (6 BP)**: Missing a full Limb (Arm or Leg). Cannot use two-handed gear/shields (Arm); movement speed halved (Leg).\n- **Severe (9 BP)**: Two Limbs missing or Paraplegic (Legs paralyzed). Requires wheelchair, hover-rig, or cybernetics.\n- **Crippling (18 BP)**: Quadriplegic or all limbs missing. Requires full-body life-support chassis or prosthetics.",
+    "mechanics": "### Tiers & Effects\n- **Minor (3 CP)**: Missing a Hand or Foot. `-2` to Athletics/Dexterity tasks with that limb; reduced movement if foot.\n- **Major (6 CP)**: Missing a full Limb (Arm or Leg). Cannot use two-handed gear/shields (Arm); movement speed halved (Leg).\n- **Severe (9 CP)**: Two Limbs missing or Paraplegic (Legs paralyzed). Requires wheelchair, hover-rig, or cybernetics.\n- **Crippling (18 CP)**: Quadriplegic or all limbs missing. Requires full-body life-support chassis or prosthetics.",
+    "mechanic": "### Tiers & Effects\n- **Minor (3 CP)**: Missing a Hand or Foot. `-2` to Athletics/Dexterity tasks with that limb; reduced movement if foot.\n- **Major (6 CP)**: Missing a full Limb (Arm or Leg). Cannot use two-handed gear/shields (Arm); movement speed halved (Leg).\n- **Severe (9 CP)**: Two Limbs missing or Paraplegic (Legs paralyzed). Requires wheelchair, hover-rig, or cybernetics.\n- **Crippling (18 CP)**: Quadriplegic or all limbs missing. Requires full-body life-support chassis or prosthetics.",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
     "modifiers": [],
-    "body": "# Disability\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 / 18 BP  \n**Type**: Physical\n\n## Description\nMissing limbs, paralysis, or severe mechanical impairment of bodily motor function.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 BP)**: Missing a Hand or Foot. `-2` to Athletics/Dexterity tasks with that limb; reduced movement if foot.\n- **Major (6 BP)**: Missing a full Limb (Arm or Leg). Cannot use two-handed gear/shields (Arm); movement speed halved (Leg).\n- **Severe (9 BP)**: Two Limbs missing or Paraplegic (Legs paralyzed). Requires wheelchair, hover-rig, or cybernetics.\n- **Crippling (18 BP)**: Quadriplegic or all limbs missing. Requires full-body life-support chassis or prosthetics.",
+    "body": "# Disability\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 3 / 6 / 9 / 18 CP  \n**Type**: Physical\n\n## Description\nMissing limbs, paralysis, or severe mechanical impairment of bodily motor function.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 CP)**: Missing a Hand or Foot. `-2` to Athletics/Dexterity tasks with that limb; reduced movement if foot.\n- **Major (6 CP)**: Missing a full Limb (Arm or Leg). Cannot use two-handed gear/shields (Arm); movement speed halved (Leg).\n- **Severe (9 CP)**: Two Limbs missing or Paraplegic (Legs paralyzed). Requires wheelchair, hover-rig, or cybernetics.\n- **Crippling (18 CP)**: Quadriplegic or all limbs missing. Requires full-body life-support chassis or prosthetics.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
@@ -246,18 +278,22 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 0,
     "refundBP": 0,
+    "cp": 0,
+    "bp": 0,
     "costs": {
+      "cp": 0,
       "bp": 0
     },
     "prerequisite": "None",
     "desc": "Unmistakable physical marks, alien coloration, cybernetic glow, or monstrous traits that make blending in impossible.",
     "description": "Unmistakable physical marks, alien coloration, cybernetic glow, or monstrous traits that make blending in impossible.",
-    "mechanics": "### Tiers & Effects\n- **Disguisable (3 BP)**: Large facial scar, distinct tattoo, exotic hair. Can be hidden with standard Disguise check.\n- **Not-Disguisable (6 BP)**: Extra eye cluster, bioluminescent blue skin in human cities, 7-foot height. Disguise checks roll with Disadvantage.\n- **Very Obvious (9 BP)**: Blazing energy aura, stone carapace, horrific mutation. Stealth and Disguise impossible in populated areas.",
-    "mechanic": "### Tiers & Effects\n- **Disguisable (3 BP)**: Large facial scar, distinct tattoo, exotic hair. Can be hidden with standard Disguise check.\n- **Not-Disguisable (6 BP)**: Extra eye cluster, bioluminescent blue skin in human cities, 7-foot height. Disguise checks roll with Disadvantage.\n- **Very Obvious (9 BP)**: Blazing energy aura, stone carapace, horrific mutation. Stealth and Disguise impossible in populated areas.",
+    "mechanics": "### Tiers & Effects\n- **Disguisable (3 CP)**: Large facial scar, distinct tattoo, exotic hair. Can be hidden with standard Disguise check.\n- **Not-Disguisable (6 CP)**: Extra eye cluster, bioluminescent blue skin in human cities, 7-foot height. Disguise checks roll with Disadvantage.\n- **Very Obvious (9 CP)**: Blazing energy aura, stone carapace, horrific mutation. Stealth and Disguise impossible in populated areas.",
+    "mechanic": "### Tiers & Effects\n- **Disguisable (3 CP)**: Large facial scar, distinct tattoo, exotic hair. Can be hidden with standard Disguise check.\n- **Not-Disguisable (6 CP)**: Extra eye cluster, bioluminescent blue skin in human cities, 7-foot height. Disguise checks roll with Disadvantage.\n- **Very Obvious (9 CP)**: Blazing energy aura, stone carapace, horrific mutation. Stealth and Disguise impossible in populated areas.",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
     "modifiers": [],
-    "body": "# Distinctive Features\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 BP  \n**Type**: Physical / Social\n\n## Description\nUnmistakable physical marks, alien coloration, cybernetic glow, or monstrous traits that make blending in impossible.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Disguisable (3 BP)**: Large facial scar, distinct tattoo, exotic hair. Can be hidden with standard Disguise check.\n- **Not-Disguisable (6 BP)**: Extra eye cluster, bioluminescent blue skin in human cities, 7-foot height. Disguise checks roll with Disadvantage.\n- **Very Obvious (9 BP)**: Blazing energy aura, stone carapace, horrific mutation. Stealth and Disguise impossible in populated areas.",
+    "body": "# Distinctive Features\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 3 / 6 / 9 CP  \n**Type**: Physical / Social\n\n## Description\nUnmistakable physical marks, alien coloration, cybernetic glow, or monstrous traits that make blending in impossible.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Disguisable (3 CP)**: Large facial scar, distinct tattoo, exotic hair. Can be hidden with standard Disguise check.\n- **Not-Disguisable (6 CP)**: Extra eye cluster, bioluminescent blue skin in human cities, 7-foot height. Disguise checks roll with Disadvantage.\n- **Very Obvious (9 CP)**: Blazing energy aura, stone carapace, horrific mutation. Stealth and Disguise impossible in populated areas.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
@@ -272,8 +308,12 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Species Disadvantage",
     "classification": "Physical",
     "type": "Physical",
+    "refundCP": 4,
     "refundBP": 4,
+    "cp": -4,
+    "bp": -4,
     "costs": {
+      "cp": -4,
       "bp": -4
     },
     "prerequisite": "None",
@@ -283,7 +323,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "mechanic": "Select one elemental energy damage type (Acid/Corrosive, Cold/Cryo, Electricity/Voltic, or Fire/Pyro). The species suffers +2 additional damage per damage die rolled whenever taking damage of the chosen elemental type.",
     "rules": "Hindrance: Grants 4 CP refund upon selection.",
     "modifiers": [],
-    "body": "# Elemental Vulnerability\n\n**Category**: Species Disadvantages (BP Reduction)  \n**BP Refund**: +4 BP (Cost: -4 BP)  \n**Type**: Physical  \n\n## Description\nVulnerability (+2 dmg per die) to Acid, Cold, Electricity, or Fire.\n\n## Mechanics & Severity\nSelect one elemental energy damage type (Acid/Corrosive, Cold/Cryo, Electricity/Voltic, or Fire/Pyro). The species suffers +2 additional damage per damage die rolled whenever taking damage of the chosen elemental type.",
+    "body": "# Elemental Vulnerability\n\n**Category**: Species Disadvantages (CP Reduction)  \n**CP Refund**: +4 CP (Cost: -4 CP)  \n**Type**: Physical  \n\n## Description\nVulnerability (+2 dmg per die) to Acid, Cold, Electricity, or Fire.\n\n## Mechanics & Severity\nSelect one elemental energy damage type (Acid/Corrosive, Cold/Cryo, Electricity/Voltic, or Fire/Pyro). The species suffers +2 additional damage per damage die rolled whenever taking damage of the chosen elemental type.",
     "special_rules": "Hindrance: Grants 4 CP refund upon selection.",
     "notes": "[Rule] Hindrance: Grants 4 CP refund upon selection.",
     "notesList": [
@@ -298,15 +338,19 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 0,
     "refundBP": 0,
+    "cp": 0,
+    "bp": 0,
     "costs": {
+      "cp": 0,
       "bp": 0
     },
     "prerequisite": "None",
     "desc": "Severe emotional volatility, mood swings, rage triggers, or trauma-induced freezing under pressure.",
     "description": "Severe emotional volatility, mood swings, rage triggers, or trauma-induced freezing under pressure.",
-    "mechanics": "### Tiers & Effects\n- **Minor (3 BP)**: Mood swings. `-2` penalty to social interactions when under stress.\n- **Moderate (6 BP)**: Outbursts or deep withdrawal. Make **Will Save (DC 15)** under duress or become *Stunned* for 1 round.\n- **Major (9 BP)**: Debilitating hysteria or catatonia. Make **Will Save (DC 20)** at start of any round where damage is taken to act normally.\n- **Severe (12 BP)**: Crippling instability. Permanent **-2 to Will saves**. Must pass **Will Save (DC 18)** at start of each combat turn or become *Panicked*, *Paralyzed*, or *Staggered*.",
-    "mechanic": "### Tiers & Effects\n- **Minor (3 BP)**: Mood swings. `-2` penalty to social interactions when under stress.\n- **Moderate (6 BP)**: Outbursts or deep withdrawal. Make **Will Save (DC 15)** under duress or become *Stunned* for 1 round.\n- **Major (9 BP)**: Debilitating hysteria or catatonia. Make **Will Save (DC 20)** at start of any round where damage is taken to act normally.\n- **Severe (12 BP)**: Crippling instability. Permanent **-2 to Will saves**. Must pass **Will Save (DC 18)** at start of each combat turn or become *Panicked*, *Paralyzed*, or *Staggered*.",
+    "mechanics": "### Tiers & Effects\n- **Minor (3 CP)**: Mood swings. `-2` penalty to social interactions when under stress.\n- **Moderate (6 CP)**: Outbursts or deep withdrawal. Make **Will Save (DC 15)** under duress or become *Stunned* for 1 round.\n- **Major (9 CP)**: Debilitating hysteria or catatonia. Make **Will Save (DC 20)** at start of any round where damage is taken to act normally.\n- **Severe (12 CP)**: Crippling instability. Permanent **-2 to Will saves**. Must pass **Will Save (DC 18)** at start of each combat turn or become *Panicked*, *Paralyzed*, or *Staggered*.",
+    "mechanic": "### Tiers & Effects\n- **Minor (3 CP)**: Mood swings. `-2` penalty to social interactions when under stress.\n- **Moderate (6 CP)**: Outbursts or deep withdrawal. Make **Will Save (DC 15)** under duress or become *Stunned* for 1 round.\n- **Major (9 CP)**: Debilitating hysteria or catatonia. Make **Will Save (DC 20)** at start of any round where damage is taken to act normally.\n- **Severe (12 CP)**: Crippling instability. Permanent **-2 to Will saves**. Must pass **Will Save (DC 18)** at start of each combat turn or become *Panicked*, *Paralyzed*, or *Staggered*.",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
     "modifiers": [
       {
@@ -324,7 +368,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
         "description": "-2 to Social inter"
       }
     ],
-    "body": "# Emotional Issues\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 / 12 BP  \n**Type**: Psychological\n\n## Description\nSevere emotional volatility, mood swings, rage triggers, or trauma-induced freezing under pressure.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 BP)**: Mood swings. `-2` penalty to social interactions when under stress.\n- **Moderate (6 BP)**: Outbursts or deep withdrawal. Make **Will Save (DC 15)** under duress or become *Stunned* for 1 round.\n- **Major (9 BP)**: Debilitating hysteria or catatonia. Make **Will Save (DC 20)** at start of any round where damage is taken to act normally.\n- **Severe (12 BP)**: Crippling instability. Permanent **-2 to Will saves**. Must pass **Will Save (DC 18)** at start of each combat turn or become *Panicked*, *Paralyzed*, or *Staggered*.",
+    "body": "# Emotional Issues\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 3 / 6 / 9 / 12 CP  \n**Type**: Psychological\n\n## Description\nSevere emotional volatility, mood swings, rage triggers, or trauma-induced freezing under pressure.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 CP)**: Mood swings. `-2` penalty to social interactions when under stress.\n- **Moderate (6 CP)**: Outbursts or deep withdrawal. Make **Will Save (DC 15)** under duress or become *Stunned* for 1 round.\n- **Major (9 CP)**: Debilitating hysteria or catatonia. Make **Will Save (DC 20)** at start of any round where damage is taken to act normally.\n- **Severe (12 CP)**: Crippling instability. Permanent **-2 to Will saves**. Must pass **Will Save (DC 18)** at start of each combat turn or become *Panicked*, *Paralyzed*, or *Staggered*.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
     "notes": "[Penalty] -2 on Will Checks\n[Penalty] -2 to Social inter\n[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
@@ -341,18 +385,22 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 0,
     "refundBP": 0,
+    "cp": 0,
+    "bp": 0,
     "costs": {
+      "cp": 0,
       "bp": 0
     },
     "prerequisite": "None",
     "desc": "Unshakeable moral dogma aligned with cosmic poles (Good, Evil, Law, Chaos) that the character cannot violate.",
     "description": "Unshakeable moral dogma aligned with cosmic poles (Good, Evil, Law, Chaos) that the character cannot violate.",
-    "mechanics": "### Tiers & Effects\n- **Minor (4 BP)**: Refuses to perform actions contrary to personal cosmic alignment.\n- **Moderate (8 BP)**: Actively intervenes to stop allies or bystanders from violating moral code.\n- **Major (12 BP)**: Violently opposes moral antithesis, even facing certain death.",
-    "mechanic": "### Tiers & Effects\n- **Minor (4 BP)**: Refuses to perform actions contrary to personal cosmic alignment.\n- **Moderate (8 BP)**: Actively intervenes to stop allies or bystanders from violating moral code.\n- **Major (12 BP)**: Violently opposes moral antithesis, even facing certain death.",
+    "mechanics": "### Tiers & Effects\n- **Minor (4 CP)**: Refuses to perform actions contrary to personal cosmic alignment.\n- **Moderate (8 CP)**: Actively intervenes to stop allies or bystanders from violating moral code.\n- **Major (12 CP)**: Violently opposes moral antithesis, even facing certain death.",
+    "mechanic": "### Tiers & Effects\n- **Minor (4 CP)**: Refuses to perform actions contrary to personal cosmic alignment.\n- **Moderate (8 CP)**: Actively intervenes to stop allies or bystanders from violating moral code.\n- **Major (12 CP)**: Violently opposes moral antithesis, even facing certain death.",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
     "modifiers": [],
-    "body": "# Extreme Morality\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 4 / 8 / 12 BP  \n**Type**: Psychological / Metaphysical\n\n## Description\nUnshakeable moral dogma aligned with cosmic poles (Good, Evil, Law, Chaos) that the character cannot violate.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (4 BP)**: Refuses to perform actions contrary to personal cosmic alignment.\n- **Moderate (8 BP)**: Actively intervenes to stop allies or bystanders from violating moral code.\n- **Major (12 BP)**: Violently opposes moral antithesis, even facing certain death.",
+    "body": "# Extreme Morality\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 4 / 8 / 12 CP  \n**Type**: Psychological / Metaphysical\n\n## Description\nUnshakeable moral dogma aligned with cosmic poles (Good, Evil, Law, Chaos) that the character cannot violate.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (4 CP)**: Refuses to perform actions contrary to personal cosmic alignment.\n- **Moderate (8 CP)**: Actively intervenes to stop allies or bystanders from violating moral code.\n- **Major (12 CP)**: Violently opposes moral antithesis, even facing certain death.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
@@ -367,8 +415,12 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 2,
     "refundBP": 2,
+    "cp": -2,
+    "bp": -2,
     "costs": {
+      "cp": -2,
       "bp": -2
     },
     "prerequisite": "None",
@@ -386,7 +438,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
         "description": "-2 to Physical"
       }
     ],
-    "body": "# Fragile Frame\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted / Refund**: 2 BP  \n**Type**: Physical  \n\n## Description\nThe Syndess has evolved strictly for symbiotic cybernetic integration. In their exposed larval state outside a biomorphic mecha chassis or sealed nutrient tube, their soft translucent dermis and slender segmental frame lack structural reinforcement against concussive forces, environmental shocks, and atmospheric pressures.\n\n## Mechanics & Severity\n* **Physical Save Penalty:** Outside of a mecha cockpit or armored containment pod, the character suffers a **-2 penalty to all physical saving throws** (Fortitude, Reflex, and Stamina-based endurance checks).\n* **Vulnerable to Trauma:** When exposed directly to kinetic explosions or bludgeoning attacks, any knockdown or stagger condition applied to the character increases in duration by 1 round.",
+    "body": "# Fragile Frame\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted / Refund**: 2 CP  \n**Type**: Physical  \n\n## Description\nThe Syndess has evolved strictly for symbiotic cybernetic integration. In their exposed larval state outside a biomorphic mecha chassis or sealed nutrient tube, their soft translucent dermis and slender segmental frame lack structural reinforcement against concussive forces, environmental shocks, and atmospheric pressures.\n\n## Mechanics & Severity\n* **Physical Save Penalty:** Outside of a mecha cockpit or armored containment pod, the character suffers a **-2 penalty to all physical saving throws** (Fortitude, Reflex, and Stamina-based endurance checks).\n* **Vulnerable to Trauma:** When exposed directly to kinetic explosions or bludgeoning attacks, any knockdown or stagger condition applied to the character increases in duration by 1 round.",
     "special_rules": "Hindrance: Grants 2 CP refund upon selection.",
     "notes": "[Penalty] -2 to Physical\n[Rule] Hindrance: Grants 2 CP refund upon selection.",
     "notesList": [
@@ -402,15 +454,19 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 0,
     "refundBP": 0,
+    "cp": 0,
+    "bp": 0,
     "costs": {
+      "cp": 0,
       "bp": 0
     },
     "prerequisite": "None",
     "desc": "Deep prejudice, visceral loathing, or blood-feud hatred directed against a specific species, faction, or creed.",
     "description": "Deep prejudice, visceral loathing, or blood-feud hatred directed against a specific species, faction, or creed.",
-    "mechanics": "### Tiers & Effects\n- **Minor (3 BP)**: Disgust & Prejudice. `-2` to all Social checks with target group.\n- **Moderate (6 BP)**: Loathing. Must pass a **Will Save (DC 15)** to assist, heal, or cooperate with them.\n- **Major (9 BP)**: Violent animosity. Must pass a **Will Save (DC 18)** *not* to attack or sabotage them on sight.",
-    "mechanic": "### Tiers & Effects\n- **Minor (3 BP)**: Disgust & Prejudice. `-2` to all Social checks with target group.\n- **Moderate (6 BP)**: Loathing. Must pass a **Will Save (DC 15)** to assist, heal, or cooperate with them.\n- **Major (9 BP)**: Violent animosity. Must pass a **Will Save (DC 18)** *not* to attack or sabotage them on sight.",
+    "mechanics": "### Tiers & Effects\n- **Minor (3 CP)**: Disgust & Prejudice. `-2` to all Social checks with target group.\n- **Moderate (6 CP)**: Loathing. Must pass a **Will Save (DC 15)** to assist, heal, or cooperate with them.\n- **Major (9 CP)**: Violent animosity. Must pass a **Will Save (DC 18)** *not* to attack or sabotage them on sight.",
+    "mechanic": "### Tiers & Effects\n- **Minor (3 CP)**: Disgust & Prejudice. `-2` to all Social checks with target group.\n- **Moderate (6 CP)**: Loathing. Must pass a **Will Save (DC 15)** to assist, heal, or cooperate with them.\n- **Major (9 CP)**: Violent animosity. Must pass a **Will Save (DC 18)** *not* to attack or sabotage them on sight.",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
     "modifiers": [
       {
@@ -421,7 +477,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
         "description": "-2 to Social"
       }
     ],
-    "body": "# Hatred\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 BP  \n**Type**: Psychological\n\n## Description\nDeep prejudice, visceral loathing, or blood-feud hatred directed against a specific species, faction, or creed.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 BP)**: Disgust & Prejudice. `-2` to all Social checks with target group.\n- **Moderate (6 BP)**: Loathing. Must pass a **Will Save (DC 15)** to assist, heal, or cooperate with them.\n- **Major (9 BP)**: Violent animosity. Must pass a **Will Save (DC 18)** *not* to attack or sabotage them on sight.",
+    "body": "# Hatred\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 3 / 6 / 9 CP  \n**Type**: Psychological\n\n## Description\nDeep prejudice, visceral loathing, or blood-feud hatred directed against a specific species, faction, or creed.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 CP)**: Disgust & Prejudice. `-2` to all Social checks with target group.\n- **Moderate (6 CP)**: Loathing. Must pass a **Will Save (DC 15)** to assist, heal, or cooperate with them.\n- **Major (9 CP)**: Violent animosity. Must pass a **Will Save (DC 18)** *not* to attack or sabotage them on sight.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
     "notes": "[Penalty] -2 to Social\n[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
@@ -437,18 +493,22 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 0,
     "refundBP": 0,
+    "cp": 0,
+    "bp": 0,
     "costs": {
+      "cp": 0,
       "bp": 0
     },
     "prerequisite": "None",
     "desc": "Bound by an inflexible code of chivalry, bushido, rules of engagement, or strict honesty.",
     "description": "Bound by an inflexible code of chivalry, bushido, rules of engagement, or strict honesty.",
-    "mechanics": "### Tiers & Effects\n- **Minor (3 BP)**: Gentlemanly conduct. Refuses to cheat at games or strike from behind.\n- **Moderate (6 BP)**: Code of Honor. Won't attack an unarmed foe, won't tell deliberate lies, accepts formal surrenders.\n- **Major (9 BP)**: Absolute Pacifism or Unbreakable Oath. Cannot break word or harm a living being even to save own life.",
-    "mechanic": "### Tiers & Effects\n- **Minor (3 BP)**: Gentlemanly conduct. Refuses to cheat at games or strike from behind.\n- **Moderate (6 BP)**: Code of Honor. Won't attack an unarmed foe, won't tell deliberate lies, accepts formal surrenders.\n- **Major (9 BP)**: Absolute Pacifism or Unbreakable Oath. Cannot break word or harm a living being even to save own life.",
+    "mechanics": "### Tiers & Effects\n- **Minor (3 CP)**: Gentlemanly conduct. Refuses to cheat at games or strike from behind.\n- **Moderate (6 CP)**: Code of Honor. Won't attack an unarmed foe, won't tell deliberate lies, accepts formal surrenders.\n- **Major (9 CP)**: Absolute Pacifism or Unbreakable Oath. Cannot break word or harm a living being even to save own life.",
+    "mechanic": "### Tiers & Effects\n- **Minor (3 CP)**: Gentlemanly conduct. Refuses to cheat at games or strike from behind.\n- **Moderate (6 CP)**: Code of Honor. Won't attack an unarmed foe, won't tell deliberate lies, accepts formal surrenders.\n- **Major (9 CP)**: Absolute Pacifism or Unbreakable Oath. Cannot break word or harm a living being even to save own life.",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
     "modifiers": [],
-    "body": "# Honorable\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 BP  \n**Type**: Psychological\n\n## Description\nBound by an inflexible code of chivalry, bushido, rules of engagement, or strict honesty.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 BP)**: Gentlemanly conduct. Refuses to cheat at games or strike from behind.\n- **Moderate (6 BP)**: Code of Honor. Won't attack an unarmed foe, won't tell deliberate lies, accepts formal surrenders.\n- **Major (9 BP)**: Absolute Pacifism or Unbreakable Oath. Cannot break word or harm a living being even to save own life.",
+    "body": "# Honorable\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 3 / 6 / 9 CP  \n**Type**: Psychological\n\n## Description\nBound by an inflexible code of chivalry, bushido, rules of engagement, or strict honesty.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 CP)**: Gentlemanly conduct. Refuses to cheat at games or strike from behind.\n- **Moderate (6 CP)**: Code of Honor. Won't attack an unarmed foe, won't tell deliberate lies, accepts formal surrenders.\n- **Major (9 CP)**: Absolute Pacifism or Unbreakable Oath. Cannot break word or harm a living being even to save own life.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
@@ -463,8 +523,12 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 0,
     "refundBP": 0,
+    "cp": 0,
+    "bp": 0,
     "costs": {
+      "cp": 0,
       "bp": 0
     },
     "prerequisite": "None",
@@ -489,7 +553,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
         "description": "-2 to Social"
       }
     ],
-    "body": "# Humorless\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 2 BP  \n**Type**: Social\n\n## Description\nTakes every statement literally and lacks the ability to parse sarcasm, dry humor, or double entendres.\n\n## Mechanics & Severity\n### Mechanics\n- **-2 Penalty** to Insight and Social checks involving nuance, sarcasm, subtext, innuendo, or metaphors.",
+    "body": "# Humorless\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 2 CP  \n**Type**: Social\n\n## Description\nTakes every statement literally and lacks the ability to parse sarcasm, dry humor, or double entendres.\n\n## Mechanics & Severity\n### Mechanics\n- **-2 Penalty** to Insight and Social checks involving nuance, sarcasm, subtext, innuendo, or metaphors.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
     "notes": "[Penalty] -2 to Insight\n[Penalty] -2 to Social\n[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
@@ -506,8 +570,12 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 0,
     "refundBP": 0,
+    "cp": 0,
+    "bp": 0,
     "costs": {
+      "cp": 0,
       "bp": 0
     },
     "prerequisite": "None",
@@ -517,7 +585,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "mechanic": "### Mechanics\n- **Alertness and Perception Checks** relying on the chosen sense are permanently made with **Disadvantage**.",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
     "modifiers": [],
-    "body": "# Impaired Sense\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 4 BP  \n**Type**: Physical\n\n## Description\nOne primary sensory organ is partially damaged or weak (e.g., Near-Sighted, Hard of Hearing, Nerve Damage).\n\n## Mechanics & Severity\n### Mechanics\n- **Alertness and Perception Checks** relying on the chosen sense are permanently made with **Disadvantage**.",
+    "body": "# Impaired Sense\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 4 CP  \n**Type**: Physical\n\n## Description\nOne primary sensory organ is partially damaged or weak (e.g., Near-Sighted, Hard of Hearing, Nerve Damage).\n\n## Mechanics & Severity\n### Mechanics\n- **Alertness and Perception Checks** relying on the chosen sense are permanently made with **Disadvantage**.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
@@ -532,8 +600,12 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Species Disadvantage",
     "classification": "Sensory",
     "type": "Sensory",
+    "refundCP": 4,
     "refundBP": 4,
+    "cp": -4,
+    "bp": -4,
     "costs": {
+      "cp": -4,
       "bp": -4
     },
     "prerequisite": "Darkvision / Dark Sight",
@@ -543,7 +615,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "mechanic": "Requirements: Darkvision / Dark Sight. Abrupt exposure to bright sunlight, flashbangs, or intense illumination permanently tuned to subterranean darkness blinds the creature for 1 full combat round. In subsequent rounds of continuous exposure, the character remains Dazzled (–1 penalty on attack rolls and sight-based Perception checks).",
     "rules": "Hindrance: Grants 4 CP refund upon selection.",
     "modifiers": [],
-    "body": "# Light Blindness\n\n**Category**: Species Disadvantages (BP Reduction)  \n**BP Refund**: +4 BP (Cost: -4 BP)  \n**Type**: Sensory  \n**Prerequisites**: Darkvision / Dark Sight  \n\n## Description\nAbrupt exposure to bright light blinds for 1 round; then dazzled. Req: Darkvision.\n\n## Mechanics & Severity\nRequirements: Darkvision / Dark Sight. Abrupt exposure to bright sunlight, flashbangs, or intense illumination permanently tuned to subterranean darkness blinds the creature for 1 full combat round. In subsequent rounds of continuous exposure, the character remains Dazzled (–1 penalty on attack rolls and sight-based Perception checks).",
+    "body": "# Light Blindness\n\n**Category**: Species Disadvantages (CP Reduction)  \n**CP Refund**: +4 CP (Cost: -4 CP)  \n**Type**: Sensory  \n**Prerequisites**: Darkvision / Dark Sight  \n\n## Description\nAbrupt exposure to bright light blinds for 1 round; then dazzled. Req: Darkvision.\n\n## Mechanics & Severity\nRequirements: Darkvision / Dark Sight. Abrupt exposure to bright sunlight, flashbangs, or intense illumination permanently tuned to subterranean darkness blinds the creature for 1 full combat round. In subsequent rounds of continuous exposure, the character remains Dazzled (–1 penalty on attack rolls and sight-based Perception checks).",
     "special_rules": "Hindrance: Grants 4 CP refund upon selection.",
     "notes": "[Rule] Hindrance: Grants 4 CP refund upon selection.\n[Prerequisite] Darkvision / Dark Sight",
     "notesList": [
@@ -559,8 +631,12 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Species Disadvantage",
     "classification": "Sensory",
     "type": "Sensory",
+    "refundCP": 2,
     "refundBP": 2,
+    "cp": -2,
+    "bp": -2,
     "costs": {
+      "cp": -2,
       "bp": -2
     },
     "prerequisite": "Darkvision / Dark Sight",
@@ -570,7 +646,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "mechanic": "Requirements: Darkvision / Dark Sight. Optical photoreceptors are overly sensitive to solar radiation. While operating in direct, unshielded bright sunlight or equivalent daylight-level illumination, the character is permanently Dazzled (–1 penalty on attack rolls and sight-based Perception checks).",
     "rules": "Hindrance: Grants 2 CP refund upon selection.",
     "modifiers": [],
-    "body": "# Light Sensitivity\n\n**Category**: Species Disadvantages (BP Reduction)  \n**BP Refund**: +2 BP (Cost: -2 BP)  \n**Type**: Sensory  \n**Prerequisites**: Darkvision / Dark Sight  \n\n## Description\nDazzled in bright sunlight. Req: Darkvision.\n\n## Mechanics & Severity\nRequirements: Darkvision / Dark Sight. Optical photoreceptors are overly sensitive to solar radiation. While operating in direct, unshielded bright sunlight or equivalent daylight-level illumination, the character is permanently Dazzled (–1 penalty on attack rolls and sight-based Perception checks).",
+    "body": "# Light Sensitivity\n\n**Category**: Species Disadvantages (CP Reduction)  \n**CP Refund**: +2 CP (Cost: -2 CP)  \n**Type**: Sensory  \n**Prerequisites**: Darkvision / Dark Sight  \n\n## Description\nDazzled in bright sunlight. Req: Darkvision.\n\n## Mechanics & Severity\nRequirements: Darkvision / Dark Sight. Optical photoreceptors are overly sensitive to solar radiation. While operating in direct, unshielded bright sunlight or equivalent daylight-level illumination, the character is permanently Dazzled (–1 penalty on attack rolls and sight-based Perception checks).",
     "special_rules": "Hindrance: Grants 2 CP refund upon selection.",
     "notes": "[Rule] Hindrance: Grants 2 CP refund upon selection.\n[Prerequisite] Darkvision / Dark Sight",
     "notesList": [
@@ -586,15 +662,19 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 0,
     "refundBP": 0,
+    "cp": 0,
+    "bp": 0,
     "costs": {
+      "cp": 0,
       "bp": 0
     },
     "prerequisite": "None",
     "desc": "Complete biological absence or destruction of one of the character's primary sensory channels.",
     "description": "Complete biological absence or destruction of one of the character's primary sensory channels.",
-    "mechanics": "### Tiers & Effects\n- **3 BP**: Total loss of **Taste or Smell**. Immune to scent-based nausea/gas sickness, but cannot smell toxins or smoke.\n- **6 BP**: Total loss of **Touch (Numbness)** or **Hearing (Deafness)**. `-4` to fine Dexterity (if Numb) or auto-fail all acoustic checks (if Deaf).\n- **9 BP**: Total loss of **Sight (Blindness)**. Automatically fails visual checks; 50% miss chance in combat unless using blind-fight/meta senses.",
-    "mechanic": "### Tiers & Effects\n- **3 BP**: Total loss of **Taste or Smell**. Immune to scent-based nausea/gas sickness, but cannot smell toxins or smoke.\n- **6 BP**: Total loss of **Touch (Numbness)** or **Hearing (Deafness)**. `-4` to fine Dexterity (if Numb) or auto-fail all acoustic checks (if Deaf).\n- **9 BP**: Total loss of **Sight (Blindness)**. Automatically fails visual checks; 50% miss chance in combat unless using blind-fight/meta senses.",
+    "mechanics": "### Tiers & Effects\n- **3 CP**: Total loss of **Taste or Smell**. Immune to scent-based nausea/gas sickness, but cannot smell toxins or smoke.\n- **6 CP**: Total loss of **Touch (Numbness)** or **Hearing (Deafness)**. `-4` to fine Dexterity (if Numb) or auto-fail all acoustic checks (if Deaf).\n- **9 CP**: Total loss of **Sight (Blindness)**. Automatically fails visual checks; 50% miss chance in combat unless using blind-fight/meta senses.",
+    "mechanic": "### Tiers & Effects\n- **3 CP**: Total loss of **Taste or Smell**. Immune to scent-based nausea/gas sickness, but cannot smell toxins or smoke.\n- **6 CP**: Total loss of **Touch (Numbness)** or **Hearing (Deafness)**. `-4` to fine Dexterity (if Numb) or auto-fail all acoustic checks (if Deaf).\n- **9 CP**: Total loss of **Sight (Blindness)**. Automatically fails visual checks; 50% miss chance in combat unless using blind-fight/meta senses.",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
     "modifiers": [
       {
@@ -612,7 +692,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
         "description": "-4 to Auto-fail all acoustic"
       }
     ],
-    "body": "# Lost Sense\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 BP  \n**Type**: Physical\n\n## Description\nComplete biological absence or destruction of one of the character's primary sensory channels.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **3 BP**: Total loss of **Taste or Smell**. Immune to scent-based nausea/gas sickness, but cannot smell toxins or smoke.\n- **6 BP**: Total loss of **Touch (Numbness)** or **Hearing (Deafness)**. `-4` to fine Dexterity (if Numb) or auto-fail all acoustic checks (if Deaf).\n- **9 BP**: Total loss of **Sight (Blindness)**. Automatically fails visual checks; 50% miss chance in combat unless using blind-fight/meta senses.",
+    "body": "# Lost Sense\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 3 / 6 / 9 CP  \n**Type**: Physical\n\n## Description\nComplete biological absence or destruction of one of the character's primary sensory channels.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **3 CP**: Total loss of **Taste or Smell**. Immune to scent-based nausea/gas sickness, but cannot smell toxins or smoke.\n- **6 CP**: Total loss of **Touch (Numbness)** or **Hearing (Deafness)**. `-4` to fine Dexterity (if Numb) or auto-fail all acoustic checks (if Deaf).\n- **9 CP**: Total loss of **Sight (Blindness)**. Automatically fails visual checks; 50% miss chance in combat unless using blind-fight/meta senses.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
     "notes": "[Penalty] -4 to Fine Dexterity if Numb\n[Penalty] -4 to Auto-fail all acoustic\n[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
@@ -629,15 +709,19 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 0,
     "refundBP": 0,
+    "cp": 0,
+    "bp": 0,
     "costs": {
+      "cp": 0,
       "bp": 0
     },
     "prerequisite": "None",
     "desc": "Neurodivergence, chronic amnesia, hallucinations, severe cognitive blocks, or traumatic brain injuries.",
     "description": "Neurodivergence, chronic amnesia, hallucinations, severe cognitive blocks, or traumatic brain injuries.",
-    "mechanics": "### Tiers & Effects\n- **Minor (3 BP)**: Mild distraction or fixation. `-2` to Concentration checks.\n- **Moderate (6 BP)**: Stress confusion. Suffer **-2 penalty to all mental checks** when under duress.\n- **Major (9 BP)**: Hallucinogenic / Dissociative. Suffer **-4 penalty to Perception**; struggles to distinguish reality from delusion.\n- **Severe (12 BP)**: Catatonic / Paralyzing Anxiety. When triggered, character cannot initiate attacks or complex actions, taking only defensive actions.",
-    "mechanic": "### Tiers & Effects\n- **Minor (3 BP)**: Mild distraction or fixation. `-2` to Concentration checks.\n- **Moderate (6 BP)**: Stress confusion. Suffer **-2 penalty to all mental checks** when under duress.\n- **Major (9 BP)**: Hallucinogenic / Dissociative. Suffer **-4 penalty to Perception**; struggles to distinguish reality from delusion.\n- **Severe (12 BP)**: Catatonic / Paralyzing Anxiety. When triggered, character cannot initiate attacks or complex actions, taking only defensive actions.",
+    "mechanics": "### Tiers & Effects\n- **Minor (3 CP)**: Mild distraction or fixation. `-2` to Concentration checks.\n- **Moderate (6 CP)**: Stress confusion. Suffer **-2 penalty to all mental checks** when under duress.\n- **Major (9 CP)**: Hallucinogenic / Dissociative. Suffer **-4 penalty to Perception**; struggles to distinguish reality from delusion.\n- **Severe (12 CP)**: Catatonic / Paralyzing Anxiety. When triggered, character cannot initiate attacks or complex actions, taking only defensive actions.",
+    "mechanic": "### Tiers & Effects\n- **Minor (3 CP)**: Mild distraction or fixation. `-2` to Concentration checks.\n- **Moderate (6 CP)**: Stress confusion. Suffer **-2 penalty to all mental checks** when under duress.\n- **Major (9 CP)**: Hallucinogenic / Dissociative. Suffer **-4 penalty to Perception**; struggles to distinguish reality from delusion.\n- **Severe (12 CP)**: Catatonic / Paralyzing Anxiety. When triggered, character cannot initiate attacks or complex actions, taking only defensive actions.",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
     "modifiers": [
       {
@@ -662,7 +746,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
         "description": "-2 to Mental"
       }
     ],
-    "body": "# Mental Issues\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 / 12 BP  \n**Type**: Mental\n\n## Description\nNeurodivergence, chronic amnesia, hallucinations, severe cognitive blocks, or traumatic brain injuries.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 BP)**: Mild distraction or fixation. `-2` to Concentration checks.\n- **Moderate (6 BP)**: Stress confusion. Suffer **-2 penalty to all mental checks** when under duress.\n- **Major (9 BP)**: Hallucinogenic / Dissociative. Suffer **-4 penalty to Perception**; struggles to distinguish reality from delusion.\n- **Severe (12 BP)**: Catatonic / Paralyzing Anxiety. When triggered, character cannot initiate attacks or complex actions, taking only defensive actions.",
+    "body": "# Mental Issues\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 3 / 6 / 9 / 12 CP  \n**Type**: Mental\n\n## Description\nNeurodivergence, chronic amnesia, hallucinations, severe cognitive blocks, or traumatic brain injuries.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 CP)**: Mild distraction or fixation. `-2` to Concentration checks.\n- **Moderate (6 CP)**: Stress confusion. Suffer **-2 penalty to all mental checks** when under duress.\n- **Major (9 CP)**: Hallucinogenic / Dissociative. Suffer **-4 penalty to Perception**; struggles to distinguish reality from delusion.\n- **Severe (12 CP)**: Catatonic / Paralyzing Anxiety. When triggered, character cannot initiate attacks or complex actions, taking only defensive actions.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
     "notes": "[Penalty] -2 on Concentration Checks\n[Penalty] -2 to Concentration\n[Penalty] -2 to Mental\n[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
@@ -680,8 +764,12 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 0,
     "refundBP": 0,
+    "cp": 0,
+    "bp": 0,
     "costs": {
+      "cp": 0,
       "bp": 0
     },
     "prerequisite": "None",
@@ -691,7 +779,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "mechanic": "### Mechanics\n- Gains the **Xeno / Social Stigma** modifier.\n- Prices for goods/services are 20-50% higher; law enforcement treats character with extreme suspicion; initial NPC reactions start as *Unfriendly* or *Hostile*.",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
     "modifiers": [],
-    "body": "# Minority\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 2+ BP  \n**Type**: Social\n\n## Description\nBelonging to an oppressed, feared, or heavily stigmatized demographic, species, or creed in the sector.\n\n## Mechanics & Severity\n### Mechanics\n- Gains the **Xeno / Social Stigma** modifier.\n- Prices for goods/services are 20-50% higher; law enforcement treats character with extreme suspicion; initial NPC reactions start as *Unfriendly* or *Hostile*.",
+    "body": "# Minority\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 2+ CP  \n**Type**: Social\n\n## Description\nBelonging to an oppressed, feared, or heavily stigmatized demographic, species, or creed in the sector.\n\n## Mechanics & Severity\n### Mechanics\n- Gains the **Xeno / Social Stigma** modifier.\n- Prices for goods/services are 20-50% higher; law enforcement treats character with extreme suspicion; initial NPC reactions start as *Unfriendly* or *Hostile*.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
@@ -706,8 +794,12 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 0,
     "refundBP": 0,
+    "cp": 0,
+    "bp": 0,
     "costs": {
+      "cp": 0,
       "bp": 0
     },
     "prerequisite": "None",
@@ -717,7 +809,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "mechanic": "### Mechanics\n- Cannot speak aloud. Cannot cast invocations requiring Verbal components. Must communicate via sign language, datapad text, or telepathy.",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
     "modifiers": [],
-    "body": "# Mute\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 2 BP  \n**Type**: Physical\n\n## Description\nLacking vocal cords or biological capacity for verbal speech.\n\n## Mechanics & Severity\n### Mechanics\n- Cannot speak aloud. Cannot cast invocations requiring Verbal components. Must communicate via sign language, datapad text, or telepathy.",
+    "body": "# Mute\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 2 CP  \n**Type**: Physical\n\n## Description\nLacking vocal cords or biological capacity for verbal speech.\n\n## Mechanics & Severity\n### Mechanics\n- Cannot speak aloud. Cannot cast invocations requiring Verbal components. Must communicate via sign language, datapad text, or telepathy.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
@@ -732,8 +824,12 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Species Disadvantage",
     "classification": "Meta",
     "type": "Meta",
+    "refundCP": 4,
     "refundBP": 4,
+    "cp": -4,
+    "bp": -4,
     "costs": {
+      "cp": -4,
       "bp": -4
     },
     "prerequisite": "None",
@@ -743,7 +839,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "mechanic": "Though biologically alive, the creature's metaphysical matrix reacts inversely to life force energies: positive/radiant healing spells and standard medical nanites cause damage instead of healing, while negative/entropic/necrotic energy effects restore Health and Vitality.",
     "rules": "Hindrance: Grants 4 CP refund upon selection.",
     "modifiers": [],
-    "body": "# Negative Energy Affinity\n\n**Category**: Species Disadvantages (BP Reduction)  \n**BP Refund**: +4 BP (Cost: -4 BP)  \n**Type**: Meta  \n\n## Description\nAlive, but harmed by positive/healed by negative energy (like undead).\n\n## Mechanics & Severity\nThough biologically alive, the creature's metaphysical matrix reacts inversely to life force energies: positive/radiant healing spells and standard medical nanites cause damage instead of healing, while negative/entropic/necrotic energy effects restore Health and Vitality.",
+    "body": "# Negative Energy Affinity\n\n**Category**: Species Disadvantages (CP Reduction)  \n**CP Refund**: +4 CP (Cost: -4 CP)  \n**Type**: Meta  \n\n## Description\nAlive, but harmed by positive/healed by negative energy (like undead).\n\n## Mechanics & Severity\nThough biologically alive, the creature's metaphysical matrix reacts inversely to life force energies: positive/radiant healing spells and standard medical nanites cause damage instead of healing, while negative/entropic/necrotic energy effects restore Health and Vitality.",
     "special_rules": "Hindrance: Grants 4 CP refund upon selection.",
     "notes": "[Rule] Hindrance: Grants 4 CP refund upon selection.",
     "notesList": [
@@ -758,8 +854,12 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 0,
     "refundBP": 0,
+    "cp": 0,
+    "bp": 0,
     "costs": {
+      "cp": 0,
       "bp": 0
     },
     "prerequisite": "None",
@@ -777,7 +877,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
         "description": "Inflicts Fatigued condition (-2 to all actions)"
       }
     ],
-    "body": "# Nightmares\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 2 BP  \n**Type**: Mental\n\n## Description\nPlagued by psychic echoes, traumatic memories, or horrifying supernatural dreams.\n\n## Mechanics & Severity\n### Mechanics\n- After every Long Rest, roll **1d10**. On a **1**, the character suffers night terrors and gains **no benefit from the rest**, starting the day **Fatigued** (`-2` to all actions).",
+    "body": "# Nightmares\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 2 CP  \n**Type**: Mental\n\n## Description\nPlagued by psychic echoes, traumatic memories, or horrifying supernatural dreams.\n\n## Mechanics & Severity\n### Mechanics\n- After every Long Rest, roll **1d10**. On a **1**, the character suffers night terrors and gains **no benefit from the rest**, starting the day **Fatigued** (`-2` to all actions).",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
     "notes": "[Penalty] Inflicts Fatigued condition (-2 to all actions)\n[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
@@ -793,18 +893,22 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 0,
     "refundBP": 0,
+    "cp": 0,
+    "bp": 0,
     "costs": {
+      "cp": 0,
       "bp": 0
     },
     "prerequisite": "None",
     "desc": "Bound by contractual feudal duty, military service, syndicate blood oath, or patron servitude.",
     "description": "Bound by contractual feudal duty, military service, syndicate blood oath, or patron servitude.",
-    "mechanics": "### Tiers & Effects\n- **Minor (3 BP)**: Weekly report-ins, minor tithes, or regular civic duty.\n- **Moderate (6 BP)**: Must perform dangerous missions on demand or surrender 25% of all earned revenue.\n- **Major (9 BP)**: Total servitude. The character is a sworn thrall, indentured slave, or sacred avatar with zero personal assets.",
-    "mechanic": "### Tiers & Effects\n- **Minor (3 BP)**: Weekly report-ins, minor tithes, or regular civic duty.\n- **Moderate (6 BP)**: Must perform dangerous missions on demand or surrender 25% of all earned revenue.\n- **Major (9 BP)**: Total servitude. The character is a sworn thrall, indentured slave, or sacred avatar with zero personal assets.",
+    "mechanics": "### Tiers & Effects\n- **Minor (3 CP)**: Weekly report-ins, minor tithes, or regular civic duty.\n- **Moderate (6 CP)**: Must perform dangerous missions on demand or surrender 25% of all earned revenue.\n- **Major (9 CP)**: Total servitude. The character is a sworn thrall, indentured slave, or sacred avatar with zero personal assets.",
+    "mechanic": "### Tiers & Effects\n- **Minor (3 CP)**: Weekly report-ins, minor tithes, or regular civic duty.\n- **Moderate (6 CP)**: Must perform dangerous missions on demand or surrender 25% of all earned revenue.\n- **Major (9 CP)**: Total servitude. The character is a sworn thrall, indentured slave, or sacred avatar with zero personal assets.",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
     "modifiers": [],
-    "body": "# Obligation\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 BP  \n**Type**: Social\n\n## Description\nBound by contractual feudal duty, military service, syndicate blood oath, or patron servitude.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 BP)**: Weekly report-ins, minor tithes, or regular civic duty.\n- **Moderate (6 BP)**: Must perform dangerous missions on demand or surrender 25% of all earned revenue.\n- **Major (9 BP)**: Total servitude. The character is a sworn thrall, indentured slave, or sacred avatar with zero personal assets.",
+    "body": "# Obligation\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 3 / 6 / 9 CP  \n**Type**: Social\n\n## Description\nBound by contractual feudal duty, military service, syndicate blood oath, or patron servitude.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 CP)**: Weekly report-ins, minor tithes, or regular civic duty.\n- **Moderate (6 CP)**: Must perform dangerous missions on demand or surrender 25% of all earned revenue.\n- **Major (9 CP)**: Total servitude. The character is a sworn thrall, indentured slave, or sacred avatar with zero personal assets.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
@@ -819,8 +923,12 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Species Disadvantage",
     "classification": "Movement",
     "type": "Movement",
+    "refundCP": 4,
     "refundBP": 4,
+    "cp": -4,
+    "bp": -4,
     "costs": {
+      "cp": -4,
       "bp": -4
     },
     "prerequisite": "None",
@@ -830,7 +938,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "mechanic": "The species suffers a -20 foot penalty to their base ground movement speed (reducing standard 30 ft speed to 10 ft). Note: A species may only select one base speed modifier trait.",
     "rules": "Hindrance: Grants 4 CP refund upon selection.",
     "modifiers": [],
-    "body": "# Ponderous (Disadvantage)\n\n**Category**: Species Disadvantages (BP Reduction)  \n**BP Refund**: +4 BP (Cost: -4 BP)  \n**Type**: Movement  \n\n## Description\nBase Speed -20 feet. (BP Gain) *\n\n## Mechanics & Severity\nThe species suffers a -20 foot penalty to their base ground movement speed (reducing standard 30 ft speed to 10 ft). Note: A species may only select one base speed modifier trait.",
+    "body": "# Ponderous (Disadvantage)\n\n**Category**: Species Disadvantages (CP Reduction)  \n**CP Refund**: +4 CP (Cost: -4 CP)  \n**Type**: Movement  \n\n## Description\nBase Speed -20 feet. (CP Gain) *\n\n## Mechanics & Severity\nThe species suffers a -20 foot penalty to their base ground movement speed (reducing standard 30 ft speed to 10 ft). Note: A species may only select one base speed modifier trait.",
     "special_rules": "Hindrance: Grants 4 CP refund upon selection.",
     "notes": "[Rule] Hindrance: Grants 4 CP refund upon selection.",
     "notesList": [
@@ -845,15 +953,19 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 0,
     "refundBP": 0,
+    "cp": 0,
+    "bp": 0,
     "costs": {
+      "cp": 0,
       "bp": 0
     },
     "prerequisite": "None",
     "desc": "Starting with severe financial deficits, second-hand gear, or crushing loanshark debt.",
     "description": "Starting with severe financial deficits, second-hand gear, or crushing loanshark debt.",
-    "mechanics": "### Tiers & Effects\n- **3 BP**: **-4 to Wealth Score**. Starts with basic, second-hand survival gear only.\n- **6 BP**: **-8 to Wealth Score**. Destitute; starts with practically nothing.\n- **9 BP**: **-12 to Wealth Score**. Enters **Negative Wealth (Debt)**. Creditors garnish all income; bounty hunters pursue for unpaid loans.",
-    "mechanic": "### Tiers & Effects\n- **3 BP**: **-4 to Wealth Score**. Starts with basic, second-hand survival gear only.\n- **6 BP**: **-8 to Wealth Score**. Destitute; starts with practically nothing.\n- **9 BP**: **-12 to Wealth Score**. Enters **Negative Wealth (Debt)**. Creditors garnish all income; bounty hunters pursue for unpaid loans.",
+    "mechanics": "### Tiers & Effects\n- **3 CP**: **-4 to Wealth Score**. Starts with basic, second-hand survival gear only.\n- **6 CP**: **-8 to Wealth Score**. Destitute; starts with practically nothing.\n- **9 CP**: **-12 to Wealth Score**. Enters **Negative Wealth (Debt)**. Creditors garnish all income; bounty hunters pursue for unpaid loans.",
+    "mechanic": "### Tiers & Effects\n- **3 CP**: **-4 to Wealth Score**. Starts with basic, second-hand survival gear only.\n- **6 CP**: **-8 to Wealth Score**. Destitute; starts with practically nothing.\n- **9 CP**: **-12 to Wealth Score**. Enters **Negative Wealth (Debt)**. Creditors garnish all income; bounty hunters pursue for unpaid loans.",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
     "modifiers": [
       {
@@ -885,7 +997,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
         "description": "-4 Wealth Score"
       }
     ],
-    "body": "# Poor\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 BP  \n**Type**: Resource\n\n## Description\nStarting with severe financial deficits, second-hand gear, or crushing loanshark debt.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **3 BP**: **-4 to Wealth Score**. Starts with basic, second-hand survival gear only.\n- **6 BP**: **-8 to Wealth Score**. Destitute; starts with practically nothing.\n- **9 BP**: **-12 to Wealth Score**. Enters **Negative Wealth (Debt)**. Creditors garnish all income; bounty hunters pursue for unpaid loans.",
+    "body": "# Poor\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 3 / 6 / 9 CP  \n**Type**: Resource\n\n## Description\nStarting with severe financial deficits, second-hand gear, or crushing loanshark debt.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **3 CP**: **-4 to Wealth Score**. Starts with basic, second-hand survival gear only.\n- **6 CP**: **-8 to Wealth Score**. Destitute; starts with practically nothing.\n- **9 CP**: **-12 to Wealth Score**. Enters **Negative Wealth (Debt)**. Creditors garnish all income; bounty hunters pursue for unpaid loans.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
     "notes": "[Penalty] -4 to Wealth Score\n[Penalty] -8 to Wealth Score\n[Penalty] -12 to Wealth Score\n[Penalty] -4 Wealth Score\n[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
@@ -904,8 +1016,12 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 4,
     "refundBP": 4,
+    "cp": -4,
+    "bp": -4,
     "costs": {
+      "cp": -4,
       "bp": -4
     },
     "prerequisite": "None",
@@ -915,7 +1031,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "mechanic": "* **Psionic Disruption:** While within telepathic broadcast proximity (typically within line of sight or within 100 meters) of an active Riezen swarm or an artificial psionic scrambler, the character suffers **Disadvantage** on all Concentration, Metaphysics, Insight, and Initiative checks.\n* **Neuro-Sensory Agony:** Each round the character begins their turn within active Riezen static, they must make a **DC 12 Willpower / Stamina check** or suffer 1 point of non-lethal Mental Strain / bio-neural headache and lose their Minor Action.\n* **Chorus Disconnect:** Direct exposure to concentrated static temporarily suppresses Hive-Link communication until the source is neutralized or out of range.",
     "rules": "Hindrance: Grants 4 CP refund upon selection.",
     "modifiers": [],
-    "body": "# Psionic Static Susceptibility (Riezen Disruption)\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted / Refund**: 4 BP  \n**Type**: Metaphysical / Neural  \n\n## Description\nBecause the character's nervous system is tightly calibrated to the structured carrier wave of the Chorus, chaotic or discordant psionic broadcasts inflict acute neuro-biological shock. The discordant frequency emitted by Riezen swarms or unaligned psychic turbulence violently clashes with the character's mental pathways, triggering intense cranial agony and cognitive disorientation.\n\n## Mechanics & Severity\n* **Psionic Disruption:** While within telepathic broadcast proximity (typically within line of sight or within 100 meters) of an active Riezen swarm or an artificial psionic scrambler, the character suffers **Disadvantage** on all Concentration, Metaphysics, Insight, and Initiative checks.\n* **Neuro-Sensory Agony:** Each round the character begins their turn within active Riezen static, they must make a **DC 12 Willpower / Stamina check** or suffer 1 point of non-lethal Mental Strain / bio-neural headache and lose their Minor Action.\n* **Chorus Disconnect:** Direct exposure to concentrated static temporarily suppresses Hive-Link communication until the source is neutralized or out of range.",
+    "body": "# Psionic Static Susceptibility (Riezen Disruption)\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted / Refund**: 4 CP  \n**Type**: Metaphysical / Neural  \n\n## Description\nBecause the character's nervous system is tightly calibrated to the structured carrier wave of the Chorus, chaotic or discordant psionic broadcasts inflict acute neuro-biological shock. The discordant frequency emitted by Riezen swarms or unaligned psychic turbulence violently clashes with the character's mental pathways, triggering intense cranial agony and cognitive disorientation.\n\n## Mechanics & Severity\n* **Psionic Disruption:** While within telepathic broadcast proximity (typically within line of sight or within 100 meters) of an active Riezen swarm or an artificial psionic scrambler, the character suffers **Disadvantage** on all Concentration, Metaphysics, Insight, and Initiative checks.\n* **Neuro-Sensory Agony:** Each round the character begins their turn within active Riezen static, they must make a **DC 12 Willpower / Stamina check** or suffer 1 point of non-lethal Mental Strain / bio-neural headache and lose their Minor Action.\n* **Chorus Disconnect:** Direct exposure to concentrated static temporarily suppresses Hive-Link communication until the source is neutralized or out of range.",
     "special_rules": "Hindrance: Grants 4 CP refund upon selection.",
     "notes": "[Rule] Hindrance: Grants 4 CP refund upon selection.",
     "notesList": [
@@ -930,18 +1046,22 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 0,
     "refundBP": 0,
+    "cp": 0,
+    "bp": 0,
     "costs": {
+      "cp": 0,
       "bp": 0
     },
     "prerequisite": "None",
     "desc": "Hiding a dangerous truth or past crime that would result in public ruin, exile, or execution if exposed.",
     "description": "Hiding a dangerous truth or past crime that would result in public ruin, exile, or execution if exposed.",
-    "mechanics": "### Tiers & Effects\n- **Minor (3 BP)**: Reputation damage or public embarrassment (e.g., forged academic degree).\n- **Moderate (6 BP)**: Legal prosecution, imprisonment, or exile (e.g., undercover enemy operative, escaped convict).\n- **Major (9 BP)**: Immediate death warrant or sector-wide manhunt (e.g., fugitive heir to fallen dynasty, wanted serial assassin).",
-    "mechanic": "### Tiers & Effects\n- **Minor (3 BP)**: Reputation damage or public embarrassment (e.g., forged academic degree).\n- **Moderate (6 BP)**: Legal prosecution, imprisonment, or exile (e.g., undercover enemy operative, escaped convict).\n- **Major (9 BP)**: Immediate death warrant or sector-wide manhunt (e.g., fugitive heir to fallen dynasty, wanted serial assassin).",
+    "mechanics": "### Tiers & Effects\n- **Minor (3 CP)**: Reputation damage or public embarrassment (e.g., forged academic degree).\n- **Moderate (6 CP)**: Legal prosecution, imprisonment, or exile (e.g., undercover enemy operative, escaped convict).\n- **Major (9 CP)**: Immediate death warrant or sector-wide manhunt (e.g., fugitive heir to fallen dynasty, wanted serial assassin).",
+    "mechanic": "### Tiers & Effects\n- **Minor (3 CP)**: Reputation damage or public embarrassment (e.g., forged academic degree).\n- **Moderate (6 CP)**: Legal prosecution, imprisonment, or exile (e.g., undercover enemy operative, escaped convict).\n- **Major (9 CP)**: Immediate death warrant or sector-wide manhunt (e.g., fugitive heir to fallen dynasty, wanted serial assassin).",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
     "modifiers": [],
-    "body": "# Secret\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 BP  \n**Type**: Background / Social\n\n## Description\nHiding a dangerous truth or past crime that would result in public ruin, exile, or execution if exposed.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 BP)**: Reputation damage or public embarrassment (e.g., forged academic degree).\n- **Moderate (6 BP)**: Legal prosecution, imprisonment, or exile (e.g., undercover enemy operative, escaped convict).\n- **Major (9 BP)**: Immediate death warrant or sector-wide manhunt (e.g., fugitive heir to fallen dynasty, wanted serial assassin).",
+    "body": "# Secret\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 3 / 6 / 9 CP  \n**Type**: Background / Social\n\n## Description\nHiding a dangerous truth or past crime that would result in public ruin, exile, or execution if exposed.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 CP)**: Reputation damage or public embarrassment (e.g., forged academic degree).\n- **Moderate (6 CP)**: Legal prosecution, imprisonment, or exile (e.g., undercover enemy operative, escaped convict).\n- **Major (9 CP)**: Immediate death warrant or sector-wide manhunt (e.g., fugitive heir to fallen dynasty, wanted serial assassin).",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
@@ -956,8 +1076,12 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Species Disadvantage",
     "classification": "Movement",
     "type": "Movement",
+    "refundCP": 2,
     "refundBP": 2,
+    "cp": -2,
+    "bp": -2,
     "costs": {
+      "cp": -2,
       "bp": -2
     },
     "prerequisite": "None",
@@ -967,7 +1091,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "mechanic": "The species suffers a -10 foot penalty to their base ground movement speed (reducing standard 30 ft speed to 20 ft). Note: A species may only select one base speed modifier trait.",
     "rules": "Hindrance: Grants 2 CP refund upon selection.",
     "modifiers": [],
-    "body": "# Slow (Disadvantage)\n\n**Category**: Species Disadvantages (BP Reduction)  \n**BP Refund**: +2 BP (Cost: -2 BP)  \n**Type**: Movement  \n\n## Description\nBase Speed -10 feet. (BP Gain) *\n\n## Mechanics & Severity\nThe species suffers a -10 foot penalty to their base ground movement speed (reducing standard 30 ft speed to 20 ft). Note: A species may only select one base speed modifier trait.",
+    "body": "# Slow (Disadvantage)\n\n**Category**: Species Disadvantages (CP Reduction)  \n**CP Refund**: +2 CP (Cost: -2 CP)  \n**Type**: Movement  \n\n## Description\nBase Speed -10 feet. (CP Gain) *\n\n## Mechanics & Severity\nThe species suffers a -10 foot penalty to their base ground movement speed (reducing standard 30 ft speed to 20 ft). Note: A species may only select one base speed modifier trait.",
     "special_rules": "Hindrance: Grants 2 CP refund upon selection.",
     "notes": "[Rule] Hindrance: Grants 2 CP refund upon selection.",
     "notesList": [
@@ -982,15 +1106,19 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 0,
     "refundBP": 0,
+    "cp": 0,
+    "bp": 0,
     "costs": {
+      "cp": 0,
       "bp": 0
     },
     "prerequisite": "None",
     "desc": "Severe social awkwardness, abrasive personality, inability to read rooms, or notorious reputation.",
     "description": "Severe social awkwardness, abrasive personality, inability to read rooms, or notorious reputation.",
-    "mechanics": "### Tiers & Effects\n- **Minor (3 BP)**: Introverted/Shy. `-2` to Persuasion checks.\n- **Moderate (6 BP)**: Abrasive or Clueless. `-4` to Diplomacy; NPC starting attitudes drop one step lower.\n- **Major (9 BP)**: Antisocial / Sociopathic. All social checks (Diplomacy, Deception, Intimidate) made with **Disadvantage**.\n- **Severe (12 BP)**: Social Pariah. All social checks with Disadvantage plus a permanent **-2 penalty to all Charisma skills**.",
-    "mechanic": "### Tiers & Effects\n- **Minor (3 BP)**: Introverted/Shy. `-2` to Persuasion checks.\n- **Moderate (6 BP)**: Abrasive or Clueless. `-4` to Diplomacy; NPC starting attitudes drop one step lower.\n- **Major (9 BP)**: Antisocial / Sociopathic. All social checks (Diplomacy, Deception, Intimidate) made with **Disadvantage**.\n- **Severe (12 BP)**: Social Pariah. All social checks with Disadvantage plus a permanent **-2 penalty to all Charisma skills**.",
+    "mechanics": "### Tiers & Effects\n- **Minor (3 CP)**: Introverted/Shy. `-2` to Persuasion checks.\n- **Moderate (6 CP)**: Abrasive or Clueless. `-4` to Diplomacy; NPC starting attitudes drop one step lower.\n- **Major (9 CP)**: Antisocial / Sociopathic. All social checks (Diplomacy, Deception, Intimidate) made with **Disadvantage**.\n- **Severe (12 CP)**: Social Pariah. All social checks with Disadvantage plus a permanent **-2 penalty to all Charisma skills**.",
+    "mechanic": "### Tiers & Effects\n- **Minor (3 CP)**: Introverted/Shy. `-2` to Persuasion checks.\n- **Moderate (6 CP)**: Abrasive or Clueless. `-4` to Diplomacy; NPC starting attitudes drop one step lower.\n- **Major (9 CP)**: Antisocial / Sociopathic. All social checks (Diplomacy, Deception, Intimidate) made with **Disadvantage**.\n- **Severe (12 CP)**: Social Pariah. All social checks with Disadvantage plus a permanent **-2 penalty to all Charisma skills**.",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
     "modifiers": [
       {
@@ -1008,7 +1136,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
         "description": "-2 to Charisma"
       }
     ],
-    "body": "# Social Issues\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 / 12 BP  \n**Type**: Social\n\n## Description\nSevere social awkwardness, abrasive personality, inability to read rooms, or notorious reputation.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 BP)**: Introverted/Shy. `-2` to Persuasion checks.\n- **Moderate (6 BP)**: Abrasive or Clueless. `-4` to Diplomacy; NPC starting attitudes drop one step lower.\n- **Major (9 BP)**: Antisocial / Sociopathic. All social checks (Diplomacy, Deception, Intimidate) made with **Disadvantage**.\n- **Severe (12 BP)**: Social Pariah. All social checks with Disadvantage plus a permanent **-2 penalty to all Charisma skills**.",
+    "body": "# Social Issues\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 3 / 6 / 9 / 12 CP  \n**Type**: Social\n\n## Description\nSevere social awkwardness, abrasive personality, inability to read rooms, or notorious reputation.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 CP)**: Introverted/Shy. `-2` to Persuasion checks.\n- **Moderate (6 CP)**: Abrasive or Clueless. `-4` to Diplomacy; NPC starting attitudes drop one step lower.\n- **Major (9 CP)**: Antisocial / Sociopathic. All social checks (Diplomacy, Deception, Intimidate) made with **Disadvantage**.\n- **Severe (12 CP)**: Social Pariah. All social checks with Disadvantage plus a permanent **-2 penalty to all Charisma skills**.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
     "notes": "[Penalty] -2 to Persuasion\n[Penalty] -2 to Charisma\n[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
@@ -1025,8 +1153,12 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 2,
     "refundBP": 2,
+    "cp": -2,
+    "bp": -2,
     "costs": {
+      "cp": -2,
       "bp": -2
     },
     "prerequisite": "None",
@@ -1051,7 +1183,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
         "description": "-2 to Xenophobic f"
       }
     ],
-    "body": "# Stigma: Minor Xeno (Hidden) / Severe Xeno (Revealed)\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted / Refund**: 2 BP (Minor Hidden) / 4 BP (Severe Revealed)  \n**Type**: Social  \n\n## Description\nThe character is an insectoid mimetic organism operating within predominantly human or conventional carbon-based societies. While superficially humanoid, unnatural biological traits (emerald copper blood, needle-like teeth, cranial antennae) mark them as an alien outsider.\n\n## Mechanics & Severity\n* **Concealed State (Minor Xeno -2):** As long as antennae, sharp needle teeth, and green blood remain concealed, the character incurs only a **Minor Xeno penalty (-1 to -2)** on social negotiations with suspicious outsiders or xenophobic factions.\n* **Revealed State (Severe Xeno -4):** If the character's antennae are exposed, green blood is spilled in public, or their insectoid nature is discovered, their social penalty worsens immediately to **Severe Xeno (-4)**. Prices increase by 50–100%, authorities are notified, and initial NPC reactions become automatically Unfriendly or Hostile.",
+    "body": "# Stigma: Minor Xeno (Hidden) / Severe Xeno (Revealed)\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted / Refund**: 2 CP (Minor Hidden) / 4 CP (Severe Revealed)  \n**Type**: Social  \n\n## Description\nThe character is an insectoid mimetic organism operating within predominantly human or conventional carbon-based societies. While superficially humanoid, unnatural biological traits (emerald copper blood, needle-like teeth, cranial antennae) mark them as an alien outsider.\n\n## Mechanics & Severity\n* **Concealed State (Minor Xeno -2):** As long as antennae, sharp needle teeth, and green blood remain concealed, the character incurs only a **Minor Xeno penalty (-1 to -2)** on social negotiations with suspicious outsiders or xenophobic factions.\n* **Revealed State (Severe Xeno -4):** If the character's antennae are exposed, green blood is spilled in public, or their insectoid nature is discovered, their social penalty worsens immediately to **Severe Xeno (-4)**. Prices increase by 50–100%, authorities are notified, and initial NPC reactions become automatically Unfriendly or Hostile.",
     "special_rules": "Hindrance: Grants 2 CP refund upon selection.",
     "notes": "[Penalty] -2 to Social negotiations with suspicious outsiders\n[Penalty] -2 to Xenophobic f\n[Rule] Hindrance: Grants 2 CP refund upon selection.",
     "notesList": [
@@ -1068,8 +1200,12 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 4,
     "refundBP": 4,
+    "cp": -4,
+    "bp": -4,
     "costs": {
+      "cp": -4,
       "bp": -4
     },
     "prerequisite": "None",
@@ -1101,7 +1237,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
         "description": "-4 to Persuasion"
       }
     ],
-    "body": "# Stigma: Severe Xeno / Monstrous\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted / Refund**: 4 BP  \n**Type**: Social  \n\n## Description\nThe character is an overt alien aberration—such as an intimidating arachno-tauric organism with multi-jointed limbs, clicking mandibles, and an obsidian chitinous lower abdomen. Their appearance triggers immediate fear, revulsion, and instinctive panic in standard humanoid societies.\n\n## Mechanics & Severity\n- **Severe Social Penalty (-4)**: The character suffers a **-4 penalty** on all social negotiation, diplomacy, and persuasion checks with standard civil populations and non-hive factions.\n- **Immediate Hostility**: Non-allied civilian NPCs generally react with terror or hostile defensiveness upon sight unless pacified through overwhelming psionic presence or diplomatic intermediaries.\n- **Surcharges & Confinement**: Commercial vendors charge 50–100% surcharges, and municipal planetary laws often restrict monstrous aberrations from free transit without armed chaperones or permits.",
+    "body": "# Stigma: Severe Xeno / Monstrous\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted / Refund**: 4 CP  \n**Type**: Social  \n\n## Description\nThe character is an overt alien aberration—such as an intimidating arachno-tauric organism with multi-jointed limbs, clicking mandibles, and an obsidian chitinous lower abdomen. Their appearance triggers immediate fear, revulsion, and instinctive panic in standard humanoid societies.\n\n## Mechanics & Severity\n- **Severe Social Penalty (-4)**: The character suffers a **-4 penalty** on all social negotiation, diplomacy, and persuasion checks with standard civil populations and non-hive factions.\n- **Immediate Hostility**: Non-allied civilian NPCs generally react with terror or hostile defensiveness upon sight unless pacified through overwhelming psionic presence or diplomatic intermediaries.\n- **Surcharges & Confinement**: Commercial vendors charge 50–100% surcharges, and municipal planetary laws often restrict monstrous aberrations from free transit without armed chaperones or permits.",
     "special_rules": "Hindrance: Grants 4 CP refund upon selection.",
     "notes": "[Penalty] -4 to Social negotiation\n[Penalty] -4 to Diplomacy\n[Penalty] -4 to Persuasion\n[Rule] Hindrance: Grants 4 CP refund upon selection.",
     "notesList": [
@@ -1119,8 +1255,12 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Species Disadvantage",
     "classification": "Meta",
     "type": "Meta",
+    "refundCP": 6,
     "refundBP": 6,
+    "cp": -6,
+    "bp": -6,
     "costs": {
+      "cp": -6,
       "bp": -6
     },
     "prerequisite": "Undead / Half-Undead / Non-Living",
@@ -1130,7 +1270,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "mechanic": "Requirements: Undead / Half-Undead or Non-Living lineage. Exposure to direct solar radiation completely paralyzes internal energetic channels. While exposed to natural direct sunlight, the character is Staggered and Helpless, able to take only a single standard action per round with severe disadvantage.",
     "rules": "Hindrance: Grants 6 CP refund upon selection.",
     "modifiers": [],
-    "body": "# Sunlight Powerlessness\n\n**Category**: Species Disadvantages (BP Reduction)  \n**BP Refund**: +6 BP (Cost: -6 BP)  \n**Type**: Meta  \n**Prerequisites**: Undead / Half-Undead / Non-Living  \n\n## Description\nStaggered/Helpless in direct sunlight. Req: Undead/Half-Undead.\n\n## Mechanics & Severity\nRequirements: Undead / Half-Undead or Non-Living lineage. Exposure to direct solar radiation completely paralyzes internal energetic channels. While exposed to natural direct sunlight, the character is Staggered and Helpless, able to take only a single standard action per round with severe disadvantage.",
+    "body": "# Sunlight Powerlessness\n\n**Category**: Species Disadvantages (CP Reduction)  \n**CP Refund**: +6 CP (Cost: -6 CP)  \n**Type**: Meta  \n**Prerequisites**: Undead / Half-Undead / Non-Living  \n\n## Description\nStaggered/Helpless in direct sunlight. Req: Undead/Half-Undead.\n\n## Mechanics & Severity\nRequirements: Undead / Half-Undead or Non-Living lineage. Exposure to direct solar radiation completely paralyzes internal energetic channels. While exposed to natural direct sunlight, the character is Staggered and Helpless, able to take only a single standard action per round with severe disadvantage.",
     "special_rules": "Hindrance: Grants 6 CP refund upon selection.",
     "notes": "[Rule] Hindrance: Grants 6 CP refund upon selection.\n[Prerequisite] Undead / Half-Undead / Non-Living",
     "notesList": [
@@ -1146,15 +1286,19 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 0,
     "refundBP": 0,
+    "cp": 0,
+    "bp": 0,
     "costs": {
+      "cp": 0,
       "bp": 0
     },
     "prerequisite": "None",
     "desc": "Baffled by modern technology, computing devices, energy weapons, or automated starships.",
     "description": "Baffled by modern technology, computing devices, energy weapons, or automated starships.",
-    "mechanics": "### Tiers & Effects\n- **10 BP**: **-1 Tech Level**. Treats standard TL 3 tech as unfamiliar (-2 penalty).\n- **20 BP**: **-2 Tech Level**. Struggles with basic industrial machinery (-4 penalty).\n- **30 BP**: **-3 Tech Level (Luddite)**. Cannot operate computers, energy weapons, or starship controls without massive penalties.",
-    "mechanic": "### Tiers & Effects\n- **10 BP**: **-1 Tech Level**. Treats standard TL 3 tech as unfamiliar (-2 penalty).\n- **20 BP**: **-2 Tech Level**. Struggles with basic industrial machinery (-4 penalty).\n- **30 BP**: **-3 Tech Level (Luddite)**. Cannot operate computers, energy weapons, or starship controls without massive penalties.",
+    "mechanics": "### Tiers & Effects\n- **10 CP**: **-1 Tech Level**. Treats standard TL 3 tech as unfamiliar (-2 penalty).\n- **20 CP**: **-2 Tech Level**. Struggles with basic industrial machinery (-4 penalty).\n- **30 CP**: **-3 Tech Level (Luddite)**. Cannot operate computers, energy weapons, or starship controls without massive penalties.",
+    "mechanic": "### Tiers & Effects\n- **10 CP**: **-1 Tech Level**. Treats standard TL 3 tech as unfamiliar (-2 penalty).\n- **20 CP**: **-2 Tech Level**. Struggles with basic industrial machinery (-4 penalty).\n- **30 CP**: **-3 Tech Level (Luddite)**. Cannot operate computers, energy weapons, or starship controls without massive penalties.",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
     "modifiers": [
       {
@@ -1165,7 +1309,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
         "description": "-1 Tech Level"
       }
     ],
-    "body": "# Technologically Impaired\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 10 / 20 / 30 BP  \n**Type**: Mental / Background\n\n## Description\nBaffled by modern technology, computing devices, energy weapons, or automated starships.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **10 BP**: **-1 Tech Level**. Treats standard TL 3 tech as unfamiliar (-2 penalty).\n- **20 BP**: **-2 Tech Level**. Struggles with basic industrial machinery (-4 penalty).\n- **30 BP**: **-3 Tech Level (Luddite)**. Cannot operate computers, energy weapons, or starship controls without massive penalties.",
+    "body": "# Technologically Impaired\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 10 / 20 / 30 CP  \n**Type**: Mental / Background\n\n## Description\nBaffled by modern technology, computing devices, energy weapons, or automated starships.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **10 CP**: **-1 Tech Level**. Treats standard TL 3 tech as unfamiliar (-2 penalty).\n- **20 CP**: **-2 Tech Level**. Struggles with basic industrial machinery (-4 penalty).\n- **30 CP**: **-3 Tech Level (Luddite)**. Cannot operate computers, energy weapons, or starship controls without massive penalties.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
     "notes": "[Penalty] -1 Tech Level\n[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
@@ -1181,15 +1325,19 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Disadvantage",
     "classification": "General",
     "type": "General",
+    "refundCP": 0,
     "refundBP": 0,
+    "cp": 0,
+    "bp": 0,
     "costs": {
+      "cp": 0,
       "bp": 0
     },
     "prerequisite": "None",
     "desc": "A profound cosmic jinx that drains the character's pool of heroic luck and causes probability to work against them.",
     "description": "A profound cosmic jinx that drains the character's pool of heroic luck and causes probability to work against them.",
-    "mechanics": "### Tiers & Effects\n- **3 BP**: **-2 to Karma Pool** maximum.\n- **6 BP**: **-4 to Karma Pool** maximum.\n- **9 BP**: **-6 to Karma Pool** maximum. Drops character into **Karmic Debt**, granting the GM automatic complication triggers at the start of each session.",
-    "mechanic": "### Tiers & Effects\n- **3 BP**: **-2 to Karma Pool** maximum.\n- **6 BP**: **-4 to Karma Pool** maximum.\n- **9 BP**: **-6 to Karma Pool** maximum. Drops character into **Karmic Debt**, granting the GM automatic complication triggers at the start of each session.",
+    "mechanics": "### Tiers & Effects\n- **3 CP**: **-2 to Karma Pool** maximum.\n- **6 CP**: **-4 to Karma Pool** maximum.\n- **9 CP**: **-6 to Karma Pool** maximum. Drops character into **Karmic Debt**, granting the GM automatic complication triggers at the start of each session.",
+    "mechanic": "### Tiers & Effects\n- **3 CP**: **-2 to Karma Pool** maximum.\n- **6 CP**: **-4 to Karma Pool** maximum.\n- **9 CP**: **-6 to Karma Pool** maximum. Drops character into **Karmic Debt**, granting the GM automatic complication triggers at the start of each session.",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
     "modifiers": [
       {
@@ -1221,7 +1369,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
         "description": "-2 to Karma Pool"
       }
     ],
-    "body": "# Unlucky\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 BP  \n**Type**: Metaphysical / Karma\n\n## Description\nA profound cosmic jinx that drains the character's pool of heroic luck and causes probability to work against them.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **3 BP**: **-2 to Karma Pool** maximum.\n- **6 BP**: **-4 to Karma Pool** maximum.\n- **9 BP**: **-6 to Karma Pool** maximum. Drops character into **Karmic Debt**, granting the GM automatic complication triggers at the start of each session.",
+    "body": "# Unlucky\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 3 / 6 / 9 CP  \n**Type**: Metaphysical / Karma\n\n## Description\nA profound cosmic jinx that drains the character's pool of heroic luck and causes probability to work against them.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **3 CP**: **-2 to Karma Pool** maximum.\n- **6 CP**: **-4 to Karma Pool** maximum.\n- **9 CP**: **-6 to Karma Pool** maximum. Drops character into **Karmic Debt**, granting the GM automatic complication triggers at the start of each session.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
     "notes": "[Penalty] -2 to Karma Pool maximum\n[Penalty] -4 to Karma Pool maximum\n[Penalty] -6 to Karma Pool maximum\n[Penalty] -2 to Karma Pool\n[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
@@ -1240,8 +1388,12 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "disadvantage_type": "Species Disadvantage",
     "classification": "Meta",
     "type": "Meta",
+    "refundCP": 4,
     "refundBP": 4,
+    "cp": -4,
+    "bp": -4,
     "costs": {
+      "cp": -4,
       "bp": -4
     },
     "prerequisite": "Native to Darklands / Shadow Realms",
@@ -1251,7 +1403,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "mechanic": "Requirements: Native to Darklands / Shadow Realms. Cellular and metaphysical degradation occurs under direct solar ultraviolet bombardment. The character suffers 1 point of Constitution (Stamina) damage for every cumulative hour spent in direct sunlight without specialized protective full-body thermal cloaks.",
     "rules": "Hindrance: Grants 4 CP refund upon selection.",
     "modifiers": [],
-    "body": "# Vulnerable to Sunlight\n\n**Category**: Species Disadvantages (BP Reduction)  \n**BP Refund**: +4 BP (Cost: -4 BP)  \n**Type**: Meta  \n**Prerequisites**: Native to Darklands / Shadow Realms  \n\n## Description\nTake 1 Con damage per hour in sunlight. Req: Native to Darklands/Shadow.\n\n## Mechanics & Severity\nRequirements: Native to Darklands / Shadow Realms. Cellular and metaphysical degradation occurs under direct solar ultraviolet bombardment. The character suffers 1 point of Constitution (Stamina) damage for every cumulative hour spent in direct sunlight without specialized protective full-body thermal cloaks.",
+    "body": "# Vulnerable to Sunlight\n\n**Category**: Species Disadvantages (CP Reduction)  \n**CP Refund**: +4 CP (Cost: -4 CP)  \n**Type**: Meta  \n**Prerequisites**: Native to Darklands / Shadow Realms  \n\n## Description\nTake 1 Con damage per hour in sunlight. Req: Native to Darklands/Shadow.\n\n## Mechanics & Severity\nRequirements: Native to Darklands / Shadow Realms. Cellular and metaphysical degradation occurs under direct solar ultraviolet bombardment. The character suffers 1 point of Constitution (Stamina) damage for every cumulative hour spent in direct sunlight without specialized protective full-body thermal cloaks.",
     "special_rules": "Hindrance: Grants 4 CP refund upon selection.",
     "notes": "[Rule] Hindrance: Grants 4 CP refund upon selection.\n[Prerequisite] Native to Darklands / Shadow Realms",
     "notesList": [

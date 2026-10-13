@@ -5,6 +5,7 @@ type: Physical
 description: High-velocity puncturing force optimized for armor penetration.
 category: effect
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

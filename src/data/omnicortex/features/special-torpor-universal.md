@@ -8,19 +8,21 @@ is_ranked: false
 is_multiple: false
 prerequisites: Kitin or Non-Sleeping Species
 description: >-
-  Requires only 4 hours of conscious inactivity to gain the benefits of a full rest;
-  immune to magical and biochemical sleep effects.
+  Requires only 4 hours of conscious inactivity to gain the benefits of a full
+  rest; immune to magical and biochemical sleep effects.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
 keywords: 'torpor, sleepless, rest, conscious-rest, sleep-immunity, kitin'
 negative_keywords: 'drowsy, comatose, vulnerable-sleep'
+cost_cp: 2
 ---
 
 # Torpor (Universal)
 
 **Category**: Special Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisite**: Kitin or Non-Sleeping Species  
 
 ## Description

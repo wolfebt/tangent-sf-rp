@@ -23,6 +23,7 @@ mechanic: >-
   SP: 15,000. DR: 12 (Radiation Shielded). Modules: 400. Reactor Core (200),
   Turbines (100), Control Room (50), Cooling Systems (50).
 costs:
+  cp: 0
   bp: 0
   credits: 2621440
   nodes: 0

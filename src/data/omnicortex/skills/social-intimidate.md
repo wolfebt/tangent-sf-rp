@@ -21,6 +21,7 @@ synergy_links:
   - combat-unarmed
   - mental-constable
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'intimidate, social, strength, interaction, diplomacy, influence'

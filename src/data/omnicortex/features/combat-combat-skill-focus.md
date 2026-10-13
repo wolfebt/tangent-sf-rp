@@ -11,18 +11,20 @@ description: >-
   Combat Skill Focus is a Combat Feature: Bonus of +2 and may be purchased per
   skill stage.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   combat skill focus, combat, special-feature, combat-maneuver, tactical-edge,
   feature:
 negative_keywords: 'pacifist, feeble, untrained-civilian'
+cost_cp: 3
 ---
 
 # Combat Skill Focus
 
 **Category**: Combat Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Chosen Skill 1
 
 ## Description

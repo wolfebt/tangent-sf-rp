@@ -9,15 +9,17 @@ governing_attributes:
   - Wisdom
   - Charisma
 description: >-
-  The metaphysical discipline governing spatial distortion, planar rifting, object/creature summoning, tactical teleportation, and gateway creation.
+  The metaphysical discipline governing spatial distortion, planar rifting,
+  object/creature summoning, tactical teleportation, and gateway creation.
 trained_only: true
 specialties:
-  - 'Summoning Focus (Conjuring creatures and matter across boundaries)'
+  - Summoning Focus (Conjuring creatures and matter across boundaries)
   - 'Teleport Focus (Blinking, portals, spatial transit)'
 synergy_links:
   - meta-attune
   - mental-metaphysics
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

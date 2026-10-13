@@ -2,62 +2,74 @@
 id: origin-urban
 name: Urban
 category: origins
-habitat: "Sprawl & Arcology"
+habitat: Sprawl & Arcology
+ws_modifier: 1
+economic_context: Metropolis or arcology hub; dense consumer markets & financial services.
 skill_points: 20
 society_skills:
-  - "Streetwise"
-  - "Alertness"
-  - "Knowledge (Culture)"
-  - "Knowledge (Technology)"
-  - "Social (Any)"
-  - "Vocation (Any)"
+  - Streetwise
+  - Alertness
+  - Knowledge (Culture)
+  - Knowledge (Technology)
+  - Social (Any)
+  - Vocation (Any)
 archetypes:
-  - "Street Fixer"
-  - "Ganger Enforcer"
-  - "Cyber-Runner"
-  - "Rooftop Courier"
-  - "Corporate Drone"
-  - "City Gumshoe"
+  - Street Fixer
+  - Ganger Enforcer
+  - Cyber-Runner
+  - Rooftop Courier
+  - Corporate Drone
+  - City Gumshoe
 traits:
-  - "trait-adaptability"
-  - "trait-contacts"
-  - "trait-resourceful"
-  - "trait-social-skills"
-  - "trait-street-fighting"
-  - "trait-streetwise"
-  - "trait-tech-savvy"
-  - "trait-urban-survival"
+  - trait-adaptability
+  - trait-contacts
+  - trait-resourceful
+  - trait-social-skills
+  - trait-street-fighting
+  - trait-streetwise
+  - trait-tech-savvy
+  - trait-urban-survival
 recommended_species:
-  - "Human (Base)"
-  - "Doppelganger (Shifter)"
-  - "Changeling (Doppelganger Hybrid)"
-  - "Cyberform Human"
-  - "Skin (Infiltrator Synthetic)"
-  - "Android"
-  - "Kannid"
-  - "Kizin"
-  - "Danai (Davae Hybrid)"
-  - "Nocturne (Kovian)"
+  - Human (Base)
+  - Doppelganger (Shifter)
+  - Changeling (Doppelganger Hybrid)
+  - Cyberform Human
+  - Skin (Infiltrator Synthetic)
+  - Android
+  - Kannid
+  - Kizin
+  - Danai (Davae Hybrid)
+  - Nocturne (Kovian)
 recommended_factions:
-  - "Incorporated Planetary Syndication (The Syndicate)"
-  - "Coalition of Independent Worlds"
-  - "Corporate Faction Template"
-  - "Criminal Faction Template"
-  - "Impyrium Dominion"
-  - "Political Faction Template"
-  - "Interstellar Diplomats Faction Template"
+  - Incorporated Planetary Syndication (The Syndicate)
+  - Coalition of Independent Worlds
+  - Corporate Faction Template
+  - Criminal Faction Template
+  - Impyrium Dominion
+  - Political Faction Template
+  - Interstellar Diplomats Faction Template
 recommended_occupations:
-  - "Criminal"
-  - "Agent"
-  - "Citizen"
-  - "Entertainer"
-  - "Specialist"
-  - "Merchant"
-keywords: "megacity, arcology, neon-drenched, rain-slicked-pavement, skyscraper-concourse, mass-transit-monorail, street-market, verticality, alleyway, cyberpunk-sprawl, overcrowded, high-population-density, holographic-billboards, underworld, smog-haze"
-negative_keywords: "untamed-wilderness, pristine-glacial-tundra, desert-sand-dunes, lonely-deep-space-station, pastoral-farming-valley, quiet-ancient-hermitage, submerged-oceanic-trench, feral-jungle-canopy"
+  - Criminal
+  - Agent
+  - Citizen
+  - Entertainer
+  - Specialist
+  - Merchant
+keywords: >-
+  megacity, arcology, neon-drenched, rain-slicked-pavement,
+  skyscraper-concourse, mass-transit-monorail, street-market, verticality,
+  alleyway, cyberpunk-sprawl, overcrowded, high-population-density,
+  holographic-billboards, underworld, smog-haze
+negative_keywords: >-
+  untamed-wilderness, pristine-glacial-tundra, desert-sand-dunes,
+  lonely-deep-space-station, pastoral-farming-valley, quiet-ancient-hermitage,
+  submerged-oceanic-trench, feral-jungle-canopy
 description: >-
-  People who live in cities, from large metropolises to vertical arcologies, experience high population density, rapid technological integration, ground and air vehicles, and vibrant street cultures.
+  People who live in cities, from large metropolises to vertical arcologies,
+  experience high population density, rapid technological integration, ground
+  and air vehicles, and vibrant street cultures.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -66,6 +78,7 @@ modifiers: []
 
 **Category**: Origins  
 **Habitat**: Sprawl & Arcology  
+**EUFT Wealth Score Modifier**: +1 (Metropolis or arcology hub; dense consumer markets & financial services.)  
 **Starting Skill Points**: 20 SP (allocated to Society Skills)  
 **Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)
 

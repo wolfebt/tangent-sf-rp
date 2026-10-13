@@ -6,6 +6,7 @@ description: >-
   Tactical advantage modifiers gained or lost based on movements, positions, and
   environment during combat.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

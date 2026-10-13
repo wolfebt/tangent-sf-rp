@@ -3,9 +3,11 @@ id: rule-metaphysics-casting-checks
 name: 'Metaphysic Checks, Difficulty & Critical Outcomes'
 category: rules
 description: >-
-  Base DCs (5–35), Free-Casting vs Codified Invocations, Take 10 operational safety,
-  Critical Success (+30), Critical Mistake (-10), Energy Surge, Fizzle, and Strain.
+  Base DCs (5–35), Free-Casting vs Codified Invocations, Take 10 operational
+  safety, Critical Success (+30), Critical Mistake (-10), Energy Surge, Fizzle,
+  and Strain.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

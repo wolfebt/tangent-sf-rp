@@ -5,6 +5,7 @@ trait_tier: Basic
 trait_type: Species Trait
 category: traits
 costs:
+  cp: 1
   bp: 1
 description: Pick two skills. Gain +2 racial bonus on both. Represents past lives.
 modifiers: []
@@ -14,7 +15,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Basic
 **Type**: Species Trait
-**BP Cost**: 1
+**CP Cost**: 1
 
 ## Description
 Pick two skills. Gain +2 racial bonus on both. Represents past lives.

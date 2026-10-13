@@ -11,6 +11,7 @@ description: >-
   potable water.
 mechanic: Filters 10 liters per hour of toxic water into safe drinking water.
 costs:
+  cp: 0
   bp: 0
   credits: 40
   nodes: 0

@@ -6,6 +6,7 @@ synthesis_type: origin_scenery
 origin_id: origin-agricultural
 faction_id: faction-auluran
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

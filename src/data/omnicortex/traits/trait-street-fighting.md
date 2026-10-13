@@ -5,6 +5,7 @@ trait_tier: Basic
 trait_type: Origin Trait
 category: traits
 costs:
+  cp: 1
   bp: 1
 description: >-
   Dirty fighting techniques optimized for claustrophobic alleys, elevator cabs,
@@ -16,7 +17,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Basic
 **Type**: Origin Trait
-**BP Cost**: 1
+**CP Cost**: 1
 
 ## Description
 Dirty fighting techniques optimized for claustrophobic alleys, elevator cabs, and crowded subway cars.

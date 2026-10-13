@@ -40,18 +40,19 @@ tech_level: 4 (Genetic Engineering & Gene-Splicing)
 meta_level: 1 (Cellular Potential)
 homeworld: Neo-Genesis Laboratories
 costs:
-  bp: 14
+  cp: 9
+  bp: 9
 modifiers: []
-cp_cost: 14
-cp: 14
-bp: 14
+cp_cost: 9
+cp: 9
+bp: 9
 description: >-
   Gen-E transhumans are laboratory-engineered humans designed without congenital
   defects, carrying optimized immune systems and modular genetic code.
-traits:
+traits: &ref_0
   - trait-adapted
-  - trait-custom-gene-blueprint-1-free-feature
-  - trait-genetic-optimization-disease-immunity-retinal-filter
+  - trait-bonus-feature
+  - trait-healthy
   - trait-longevity
 recommended_factions:
   - The Syndicate
@@ -70,13 +71,14 @@ keywords: >-
   transhuman, genetic-optimization, disease-immunity, clean-genome, adaptive,
   athletic
 negative_keywords: 'primitive, bio-purist, degenerative-defects, superstition'
+species_traits: *ref_0
 ---
 
 # Gen-E (Standard Engineered Transhuman)
 
 *
 
-**BP Cost:**   
+**CP Cost:** 9 CP  
 **Description:** GThe Gen-E designation applies to any individual or population of human stock that has been non-hybridically bio-engineered for specific traits, purposes, or environments. They are the ultimate expression of human adaptability, but achieved through the precise manipulation of their own genome rather than millennia of natural evolution. Unlike other engineered subspecies (like the Digon or Janissary) who are tailored for a single, mass-produced role, the Gen-E are often bespoke individuals or small, specialized cohorts. Their enhancements can be subtle—such as extended lifespan and heightened resistance to disease—or profound, like superior intellect, physical prowess, or deep adaptation to a unique environment. Because they are designed for a purpose, they do not possess a single homeworld, collective culture, or set of unifying features beyond their core human-like form. Their varied genetic 'templates' make them highly adaptable, but they often struggle with a lack of innate cultural identity or connection to the natural human diaspora.
 
 **Classification:** Humanoid  

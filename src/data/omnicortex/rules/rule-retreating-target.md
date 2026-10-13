@@ -6,6 +6,7 @@ description: >-
   Target quickly leaving without evasion/cover at Jog/Run/Sprint; extra attack
   at -5 Strike and reroll Initiative.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

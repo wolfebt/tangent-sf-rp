@@ -6,6 +6,7 @@ description: >-
   Disrupts fundamental molecular bonds, destabilizing and disintegrating matter.
   Bypasses conventional armor and shatters structures.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

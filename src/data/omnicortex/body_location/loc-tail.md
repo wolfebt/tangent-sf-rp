@@ -8,6 +8,7 @@ isHardened: false
 description: 'Prehensile tail, stinger mechanism, balancing gyro, or third manipulator arm.'
 category: body_location
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

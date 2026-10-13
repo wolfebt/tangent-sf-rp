@@ -9,6 +9,7 @@ weight: 2
 description: Electromagnetic clamp boots securing feet to ferrous hull surfaces.
 mechanic: Enables walking on metal hulls in Zero-G at half standard movement speed.
 costs:
+  cp: 0
   bp: 0
   credits: 160
   nodes: 0

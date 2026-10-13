@@ -9,18 +9,20 @@ is_multiple: true
 prerequisites: 'Weapon Focus, Skill 6'
 description: 'Weapon Specialization is a Combat Feature: +1d damage with one weapon type.'
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   weapon specialization, combat, special-feature, combat-maneuver,
   tactical-edge, weapon
 negative_keywords: 'pacifist, feeble, untrained-civilian'
+cost_cp: 3
 ---
 
 # Weapon Specialization
 
 **Category**: Combat Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Weapon Focus, Skill 6
 
 ## Description

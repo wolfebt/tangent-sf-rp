@@ -30,17 +30,19 @@ tactical_role: 'Space combat, boarding actions, high-speed interdiction.'
 quote: '"It''s not piracy if you have a permit."'
 description: A skilled starship captain who operates independently on behalf of a faction.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'privateer, operative, artisan, adaptable, specialist, combat pilot, skirmisher'
 negative_keywords: 'incompetent, untrained, undisciplined'
+cp_chassis: 80
 ---
 
 # The Privateer
 
 **Sphere**: Operatives (The Artisans)  
 **Core Concept**: Combat Pilot / Skirmisher / Face  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Agility  
 **Secondary Attribute**: Charisma  
 

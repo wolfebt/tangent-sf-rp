@@ -14,6 +14,7 @@ propulsion: Micro-Motor (Electric)
 description: Self-balancing personal mover for arcology station or city concourse transit.
 mechanic: Micro-motor with gyro-stabilizer. 8 hours continuous electric range.
 costs:
+  cp: 0
   bp: 0
   credits: 40
   nodes: 0

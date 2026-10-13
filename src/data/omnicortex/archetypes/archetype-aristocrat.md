@@ -32,17 +32,19 @@ description: >-
   A member of the aristocracy, born into a position of privilege and power. They
   wield status as a weapon.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'aristocrat, visionary, idealist, leadership, charisma, resource access, face'
 negative_keywords: 'anti-social, mute, solitary-hermit'
+cp_chassis: 80
 ---
 
 # The Aristocrat
 
 **Sphere**: Visionaries (The Idealists)  
 **Core Concept**: Resource Access / Face / Leader  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Charisma  
 **Secondary Attribute**: History  
 

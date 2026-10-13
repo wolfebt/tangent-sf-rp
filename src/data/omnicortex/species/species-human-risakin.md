@@ -43,7 +43,8 @@ tech_level: 3 (Heavy Industrial Hydraulic Rigging)
 meta_level: 0 (Physical Dominance)
 homeworld: Risak (Super-Earth)
 costs:
-  bp: 27
+  cp: 25
+  bp: 25
 modifiers:
   - target: Strength
     value: 2
@@ -65,16 +66,15 @@ modifiers:
     value: -4
     type: skill
     mode: size_modifier
-cp_cost: 27
-cp: 27
-bp: 27
+cp_cost: 25
+cp: 25
+bp: 25
 description: >-
   Towering 8-to-10 foot humans from super-heavy gravity worlds whose massive
   musculature and skeletal density render them natural juggernauts.
-traits:
-  - trait-colossal-carrying-capacity
-  - trait-large-size-8-10ft-reach-10ft
-  - trait-massive-bulk-dr-3
+traits: &ref_0
+  - trait-powerful-charge
+  - trait-natural-armor
 recommended_factions:
   - The Outworlds
   - Industrial Faction Template
@@ -87,11 +87,12 @@ recommended_occupations:
   - Drifter
 keywords: 'heavy-gravity, giant-human, hydraulic-power, massive-reach, crusher'
 negative_keywords: 'tight-ducts, stealth, tiny, agile-aerial'
+species_traits: *ref_0
 ---
 
 # Risakin (Heavy-World Giant)
 
-**BP Cost:**   
+**CP Cost:** 25 CP  
 **Description:** The Risakin, represents a branch of humanity that underwent natural evolution on high-gravity worlds. Standing approximately 10 feet tall, these humans evolved to be immensely strong and resilient to survive environments where their smaller cousins would struggle. Originally indigenous to low-tech (TL1 to TL2) clan-based societies, some Risakin have become spacefaring after being recruited or integrated by the Impyrium as heavy shock troopers and industrial laborers (limited numbers as most disdain the Impyriums fronted superiority).
 
 Despite their massive size, they retain the core human traits of adaptability and resourcefulness, though they often face social stigmas due to their intimidating stature and the Impyrium's history of aggressive colonization if so aligned.

@@ -23,6 +23,7 @@ mechanic: >-
   Simulates any planetary environment. XP / Mastery gain from training here is
   +10%.
 costs:
+  cp: 0
   bp: 0
   credits: 10000
   nodes: 0

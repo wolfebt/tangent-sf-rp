@@ -11,16 +11,18 @@ description: >-
   The character has exceptional cardiovascular health and stamina for long-term
   exertion.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'endurance, general, special-feature, exceptional, cardiovascular, health'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Endurance
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Stamina 1
 
 ## Description

@@ -11,6 +11,7 @@ mechanic: >-
   Runs Operation Software (Medicine Rank 10). Stabilizes dying patients and
   performs surgery autonomously.
 costs:
+  cp: 0
   bp: 0
   credits: 2560
   nodes: 0

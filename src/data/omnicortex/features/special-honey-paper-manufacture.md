@@ -6,21 +6,26 @@ feature_category: Special
 cost_bp: 1
 is_ranked: false
 is_multiple: false
-prerequisites: 'Insectoid Secretions'
+prerequisites: Insectoid Secretions
 description: >-
-  Synthesize biological adhesives, sticky amber honey ooze, and masticated cellulose pulp
-  for nest building, structural reinforcement, and physical entrapment.
+  Synthesize biological adhesives, sticky amber honey ooze, and masticated
+  cellulose pulp for nest building, structural reinforcement, and physical
+  entrapment.
 costs:
+  cp: 1
   bp: 1
 modifiers: []
-keywords: 'honey, paper, manufacture, biological-adhesive, pulp, amber-ooze, nest-building, entrapment'
+keywords: >-
+  honey, paper, manufacture, biological-adhesive, pulp, amber-ooze,
+  nest-building, entrapment
 negative_keywords: 'sterile, dry'
+cost_cp: 1
 ---
 
 # Honey & Paper Manufacture
 
 **Category**: Special Features  
-**Cost**: 1 BP  
+**Cost**: 1 CP  
 **Prerequisites**: Insectoid Secretions  
 
 ## Description

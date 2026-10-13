@@ -4,6 +4,7 @@ name: CRISP Global Constants & Render Tokens
 category: synthesis
 synthesis_type: global_constants
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

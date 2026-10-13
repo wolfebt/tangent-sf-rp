@@ -43,7 +43,8 @@ tech_level: 1 (Enchanted Flora)
 meta_level: 5 (High Fey Metaphysics)
 homeworld: The Feywild Reliquary
 costs:
-  bp: 27
+  cp: 31
+  bp: 31
 modifiers:
   - target: Charisma
     value: 1
@@ -61,9 +62,9 @@ modifiers:
     value: 12
     type: skill
     mode: size_modifier
-cp_cost: 27
-cp: 27
-bp: 27
+cp_cost: 31
+cp: 31
+bp: 31
 description: >-
   Base Fey are diminutive, winged beings of pure elemental and natural
   resonance. Mischievous, radiant, and immortal, they navigate mortal
@@ -71,9 +72,6 @@ description: >-
 traits:
   - trait-asi-base-traits
   - trait-awakened-nature
-  - trait-diminutive-size-4-stealth-4-might
-  - trait-flight-gossamer-wings-30ft
-  - trait-immortal
 recommended_factions:
   - Elven Providence
   - The Alterian Enclave
@@ -88,13 +86,16 @@ recommended_occupations:
   - Drifter
 keywords: 'fey, immortal, glamour, illusions, flight, radiance, nature-magic, trickster'
 negative_keywords: 'cold-iron, heavy-machinery, industrial, blunt, scientific-rigor'
+species_traits:
+  - trait-asi-base-traits
+  - trait-awakened-nature
 ---
 
 # Fey (Base Asi)
 
 *
 
-**BP Cost:**   
+**CP Cost:** 31 CP  
 **Description:** Fey, or Fairies, are mystical humanoids, diminutive in size, yet legendary in their mythic presence. These anthropomorphic, often ethereal beings are a common feature in folklore and fantasy across various cultures. Typically, they are described as being incredibly small, reaching a maximum height of only five inches. A key visual trait is the presence of delicate, often iridescent wings, similar in structure and appearance to those of a dragonfly, which allow them to navigate the air with swift, fluttering movements. These characteristics contribute to their common perception as creatures of magic, nature, and wonder, residing in hidden, enchanted pockets of the world.
 
 **Classification:** Fey  

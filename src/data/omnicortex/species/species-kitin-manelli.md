@@ -62,7 +62,8 @@ tech_level: 4 (Advanced Psionic/Biomorphic)
 meta_level: 4 (Psionic)
 homeworld: Kitin Hive Worlds / Diplomatic Hubs
 costs:
-  bp: 39
+  cp: 36
+  bp: 36
 modifiers:
   - target: Intellect
     value: 2
@@ -84,20 +85,19 @@ modifiers:
     value: 2
     type: skill
     mode: conditional
-cp_cost: 39
-cp: 39
-bp: 39
+cp_cost: 36
+cp: 36
+bp: 36
 description: >-
   The Manelli are the striking and enigmatic "Face of the Collective" and
   primary Brood-Masters. Psionically steered into a mimetic humanoid form with
   internal endoskeletons and emerald copper-based blood, they conduct the Chorus
   and bridge the hive mind with galactic civilizations.
-traits:
+traits: &ref_0
   - trait-blind-sense-scent-em
   - trait-enhanced-biotechnology
   - trait-genetic-memory
   - trait-hive-link
-  - trait-kitin-base-traits
   - trait-mimetic-form
   - trait-torpor-universal
 recommended_factions:
@@ -118,16 +118,17 @@ keywords: >-
   hive-chorus, genetic-memory, telepathic-link, torpor, green-blooded,
   insectivore-omnivore
 negative_keywords: 'berserker-rage, isolation, xenophobic, individualist'
+species_traits: *ref_0
 ---
 
 # Manelli (Kitin Cerebral Expression / Mimetic Humanoid)
 
-**BP Cost:** 39 BP  
+**CP Cost:** 36 CP  
 **Classification:** Humanoid (Mimetic Mimicry)  
 **Size:** Medium  
 **Movement:** 30ft Groundspeed  
 
-**Tech Level:** 4 (Advanced Psionic/Biomorphic) (5 BP)  
+**Tech Level:** 4 (Advanced Psionic/Biomorphic) (5 CP)  
 **Meta Level:** 4 (Psionic)  
 **Stigma:** Minor Xeno (hidden) / Severe Xeno (revealed)  
 
@@ -149,25 +150,25 @@ As the "Cerebral Expression," they maintain the Chorus and steer the development
 ## Technical Profile
 * **Size:** Medium
 * **Movement:** 30ft Groundspeed
-* **Tech Level:** 4 (Advanced Psionic/Biomorphic) (5 BP)
+* **Tech Level:** 4 (Advanced Psionic/Biomorphic) (5 CP)
 * **Meta Level:** 4 (Psionic)
 * **Stigma:** Minor Xeno (hidden) / Severe Xeno (revealed)
 
 ## Ability Modifiers
-* **+2 Intellect** (8 BP)
-* **+2 Wisdom** (8 BP)
-* **+1 Charisma** (4 BP)
+* **+2 Intellect** (8 CP)
+* **+2 Wisdom** (8 CP)
+* **+1 Charisma** (4 CP)
 
 ## Skills
-* **+10 Skill Ranks to ANY skills** (8 BP)
+* **+10 Skill Ranks to ANY skills** (8 CP)
 
 ## Species Features
-* **Mimetic Form:** Gain a +2 Bonus to Disguise or Deception checks to pass as human (antennae must be concealed). (2 BP)
-* **Awakened (Psionic - Intellect or Wisdom):** Conductors of the Hive’s psionic Chorus. (2 BP)
-* **Genetic Memory:** Inheritance of ancestral knowledge and Genomatrix blueprints. (2 BP)
-* **Hive-Link:** Constant telepathic connection to all Kitin Strains. (2 BP)
-* **Torpor (Universal):** Requires only 4 hours of conscious inactivity; immune to sleep effects. (2 BP)
-* **Blind Sense (Scent/EM):** Delicate antennae perceive bio-energetic and EM fields. (2 BP)
+* **Mimetic Form:** Gain a +2 Bonus to Disguise or Deception checks to pass as human (antennae must be concealed). (2 CP)
+* **Awakened (Psionic - Intellect or Wisdom):** Conductors of the Hive’s psionic Chorus. (2 CP)
+* **Genetic Memory:** Inheritance of ancestral knowledge and Genomatrix blueprints. (2 CP)
+* **Hive-Link:** Constant telepathic connection to all Kitin Strains. (2 CP)
+* **Torpor (Universal):** Requires only 4 hours of conscious inactivity; immune to sleep effects. (2 CP)
+* **Blind Sense (Scent/EM):** Delicate antennae perceive bio-energetic and EM fields. (2 CP)
 * **Enhanced Biotechnology:** Instinctive attunement and manipulation of living technology.
 
 ## Recommended Features

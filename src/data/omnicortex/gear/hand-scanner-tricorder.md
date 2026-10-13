@@ -13,6 +13,7 @@ mechanic: >-
   Active sensor scanning within 50ft radius. Identifies atmospheric toxicity and
   life signs.
 costs:
+  cp: 0
   bp: 0
   credits: 640
   nodes: 0

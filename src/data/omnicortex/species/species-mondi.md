@@ -46,26 +46,27 @@ tech_level: 4 (Psi-Amplifier Holo-Suits)
 meta_level: 4 (High Psionics)
 homeworld: Mondis Floating Arcologies
 costs:
-  bp: 24
+  cp: 34
+  bp: 34
 modifiers:
   - target: Intellect
     value: 2
     type: attribute
     mode: inherent
-cp_cost: 24
-cp: 24
-bp: 24
+cp_cost: 34
+cp: 34
+bp: 34
 description: >-
   Slender, glowing humanoids whose feet never touch the ground, communicating
   exclusively via harmonic telepathy and telekinetic flight.
-traits:
-  - trait-adaptive-aspects
+traits: &ref_0
+  - trait-adaptive-features
   - trait-ageless
   - trait-awakened-psychic
-  - trait-bioluminescent-body-glow
-  - trait-flight-telekinetic-levitation-30ft
+  - trait-shadow-blending
+  - trait-flight
   - trait-immortal
-  - trait-telepathic-150ft
+  - trait-mind-speech
 recommended_factions:
   - The Alterian Enclave
   - The Ascendancy
@@ -82,6 +83,7 @@ keywords: >-
   harmonic-telepathy, floating-levitation, luminous, ancient-wisdom,
   high-psionics
 negative_keywords: 'physical-brawling, dirt, manual-labor, heavy-armor'
+species_traits: *ref_0
 ---
 
 # Mondi (Psionic Luminous Entity)
@@ -90,7 +92,7 @@ negative_keywords: 'physical-brawling, dirt, manual-labor, heavy-armor'
 
 # 
 
-**BP Cost:**   
+**CP Cost:** 34 CP  
 **Description:** Ancient and enigmatic, there are various ancient historical accounts of beings which would fit the Mondi’s description and style throughout most human cultures and many other Species as well, there are speculations that they account for many ‘Angelic’ encounters in various societies' histories \- using the locals’ beliefs to their advantage in manipulating them.
 
 The Mondi had strongly influenced the Impyrium in its founding, and is the stated reason for the Impyrium-Dragon Wars. Dragons are wary of any encountered Mondi (and Impyrium, to a lesser degree) as historically their knowledge has outweighed their understanding \- leading to the end of many civilizations over the eons, including the Mondi’s own. Dragons and Alterians are also aware that the Mondi had kept the Sha’Knor threat from escalating, with the Dark Hungers gaining power over the past two millennia, steadily encroaching into Alterian space.

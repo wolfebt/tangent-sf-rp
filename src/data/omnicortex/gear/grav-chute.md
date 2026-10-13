@@ -11,6 +11,7 @@ description: >-
   high-altitude drops.
 mechanic: Completely negates falling damage upon deployment.
 costs:
+  cp: 0
   bp: 0
   credits: 640
   nodes: 0

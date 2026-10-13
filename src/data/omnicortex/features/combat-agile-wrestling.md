@@ -11,18 +11,20 @@ description: >-
   The character utilizes leverage, flexibility, and technique rather than brute
   force to control opponents in close quarters.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   agile wrestling, combat, special-feature, combat-maneuver, tactical-edge,
   utilizes
 negative_keywords: 'pacifist, feeble, untrained-civilian'
+cost_cp: 3
 ---
 
 # Agile Wrestling
 
 **Category**: Combat Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Agility 1, Unarmed Combat 1
 
 ## Description

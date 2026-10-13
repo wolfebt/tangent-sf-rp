@@ -9,7 +9,8 @@ governing_attributes:
   - Wisdom
   - Charisma
 description: >-
-  The metaphysical discipline governing photon refraction, sensory deception, holographic phantasms, mental glamours, and shadow weaving.
+  The metaphysical discipline governing photon refraction, sensory deception,
+  holographic phantasms, mental glamours, and shadow weaving.
 trained_only: true
 specialties:
   - 'Phantasm Focus (Sensory phantasms, holographic weaves, mirages)'
@@ -18,6 +19,7 @@ synergy_links:
   - meta-attune
   - mental-metaphysics
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

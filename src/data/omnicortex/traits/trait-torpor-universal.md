@@ -5,6 +5,7 @@ trait_tier: Advanced
 trait_type: Species Trait
 category: traits
 costs:
+  cp: 2
   bp: 2
 description: Requires only 4 hours of conscious inactivity; immune to sleep effects.
 modifiers: []
@@ -14,7 +15,7 @@ modifiers: []
 **Category**: TRAITS  
 **Tier**: Advanced  
 **Type**: Species Trait  
-**BP Cost**: 2  
+**CP Cost**: 2  
 
 ## Description
 Requires only 4 hours of conscious inactivity; immune to sleep effects. Conscious vigilance maintained.

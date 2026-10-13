@@ -17,6 +17,8 @@ immunities: None
 inherent_attribute_modifiers:
   - attribute: Agility
     bonus: 1
+  - attribute: Stamina
+    bonus: 1
 bonus_attribute_points: 1
 specific_skill_bonuses:
   - skill: Martial Arts
@@ -45,26 +47,26 @@ tech_level: 3 (Bio-Tech Weapons & Neural Symbionts)
 meta_level: 2 (Bio-Psionics)
 homeworld: Aulura Prime (The Spore Arcologies)
 costs:
-  bp: 15
+  cp: 26
+  bp: 26
 modifiers:
   - target: Agility
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 15
-cp: 15
-bp: 15
+cp_cost: 26
+cp: 26
+bp: 26
 description: >-
   The Dar are the hunter and scout caste of the Auluran race. Feline, arboreal,
   and biologically sophisticated, they wield living symbiote weapons and
   prehensile limbs with lethal grace.
-traits:
-  - >-
-    trait-auluran-base-traits-biotechnology-low-light-vision-prehensile-feet-tail-scent-nat-weapons
+traits: &ref_0
+  - trait-auluran-base-traits
   - trait-awakened-psychic
   - trait-climber
-  - trait-martial-arts
-  - trait-quick-5ft-movement
+  - trait-bonus-feature
+  - trait-quick
 recommended_factions:
   - Auluran Clans
   - Coalition of Independent Worlds
@@ -82,13 +84,14 @@ keywords: >-
   feline, hunter, arboreal, living-symbiotes, biotechnology, prehensile, agile,
   psychic
 negative_keywords: 'clumsy, heavy-armor, aquatic, cybernetic-dependent, pacifist'
+species_traits: *ref_0
 ---
 
 # Dar (Auluran Hunter Caste)
 
 ## **DAR**
 
-**BP:** 27  
+**CP:** 26 CP  
 **Description:** These creatures possess more human-like forms, standing upright on two legs at a height of **5 feet average**. They share many features with humans but are distinguished by fine fur covering their entire bodies. Their ears are **long, furry, and pointed at the tips**. Their eyes are large, wide, and **iridescent with bright colors**.  
 **Role:** Renowned for potent psychic capabilities, often acting as spiritual guides or wise advisors.  
 **Classification:** Humanoid (Feline traits)  

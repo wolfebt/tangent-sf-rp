@@ -9,6 +9,7 @@ description: Color and pattern changing skin tints.
 stigma: None
 type: Fashionware
 costs:
+  cp: 0
   bp: 0
   credits: 160
   nodes: 0

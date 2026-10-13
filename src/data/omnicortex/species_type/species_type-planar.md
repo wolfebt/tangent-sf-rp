@@ -5,6 +5,7 @@ category: species_type
 bp: 4
 cp: 4
 costs:
+  cp: 4
   bp: 4
 senses: 'Darkvision 60 feet. [1]'
 immunities: 'Material plane specific effects [3]'

@@ -5,10 +5,12 @@ trait_tier: Elite
 trait_type: Species Trait
 category: traits
 costs:
+  cp: 4
   bp: 4
 description: >-
-  Four articulated arms ending in sharp clawed digits with zero off-hand penalties,
-  allowing simultaneous complex tasks, multiple attacks, and precision engineering.
+  Four articulated arms ending in sharp clawed digits with zero off-hand
+  penalties, allowing simultaneous complex tasks, multiple attacks, and
+  precision engineering.
 modifiers: []
 ---
 # Multidextrous (4 Arms)
@@ -16,7 +18,7 @@ modifiers: []
 **Category**: TRAITS  
 **Tier**: Elite  
 **Type**: Species Trait  
-**BP Cost**: 4  
+**CP Cost**: 4  
 
 ## Description
 Four articulated upper limbs ending in sharp, clawed digits. Operates all four hands with primary dexterity, suffering no off-hand penalties in combat or technical tasks, and dealing 1d6 + Str Lethal natural damage.

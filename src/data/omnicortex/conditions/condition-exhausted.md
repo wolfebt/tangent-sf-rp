@@ -6,6 +6,7 @@ description: >-
   -2 Penalty to Physical Checks (Str/Agi/Sta). Speed -50%. No Run/Charge.
   Requires 8 Hours of Rest with food/water.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

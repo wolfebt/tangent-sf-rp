@@ -5,6 +5,7 @@ trait_tier: Basic
 trait_type: Origin Trait
 category: traits
 costs:
+  cp: 1
   bp: 1
 description: >-
   Devotion to comrades and code of duty; willing to endure hardship for the
@@ -16,7 +17,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Basic
 **Type**: Origin Trait
-**BP Cost**: 1
+**CP Cost**: 1
 
 ## Description
 Devotion to comrades and code of duty; willing to endure hardship for the unit.

@@ -4,6 +4,7 @@ name: Precursor Matrix
 description: Ancient architectural geometry that channels ambient metaphysical energy.
 category: design
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

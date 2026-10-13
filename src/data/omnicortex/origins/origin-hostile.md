@@ -2,62 +2,74 @@
 id: origin-hostile
 name: Hostile
 category: origins
-habitat: "Death World & Extreme"
+habitat: Death World & Extreme
+ws_modifier: 0
+economic_context: Extreme survival environment; resource-strained frontier economy.
 skill_points: 20
 society_skills:
-  - "Athletics"
-  - "Alertness"
-  - "Knowledge (Survival)"
-  - "Combat (Any)"
-  - "Vocation (Any)"
+  - Athletics
+  - Alertness
+  - Knowledge (Survival)
+  - Combat (Any)
+  - Vocation (Any)
 archetypes:
-  - "Survivalist"
-  - "Warrior"
-  - "Scavenger"
-  - "Shaman"
-  - "Mutant"
-  - "Outcast"
+  - Survivalist
+  - Warrior
+  - Scavenger
+  - Shaman
+  - Mutant
+  - Outcast
 traits:
-  - "trait-combat-skills"
-  - "trait-intuition"
-  - "trait-mental-toughness"
-  - "trait-physical-endurance"
-  - "trait-pilot-skills"
-  - "trait-resourcefulness"
-  - "trait-survival-skills"
-  - "trait-technical-skills"
+  - trait-combat-skills
+  - trait-intuition
+  - trait-mental-toughness
+  - trait-physical-endurance
+  - trait-pilot-skills
+  - trait-resourcefulness
+  - trait-survival-skills
+  - trait-technical-skills
 recommended_species:
-  - "Rautha Human"
-  - "B’Dren Human"
-  - "Vajar (Wilder)"
-  - "Nocturne (Kovian)"
-  - "Graa (Auluran Heavy)"
-  - "Gra'or"
-  - "Vassoth"
-  - "Rakne (Kitin Stalker)"
-  - "Eakren (Corrupted Aberration)"
-  - "Risakin (Giant Folk)"
-  - "Scrap (Junkframe Synthetic)"
+  - Rautha Human
+  - B’Dren Human
+  - Vajar (Wilder)
+  - Nocturne (Kovian)
+  - Graa (Auluran Heavy)
+  - Gra'or
+  - Vassoth
+  - Rakne (Kitin Stalker)
+  - Eakren (Corrupted Aberration)
+  - Risakin (Giant Folk)
+  - Scrap (Junkframe Synthetic)
 recommended_factions:
-  - "The Outworlds"
-  - "Post-apocalyptic Faction Template"
-  - "Mutant Faction Template"
-  - "Vajar Tribes"
-  - "Kovian Tribunal"
-  - "Mercenary Faction Template"
-  - "Alien Faction Template"
+  - The Outworlds
+  - Post-apocalyptic Faction Template
+  - Mutant Faction Template
+  - Vajar Tribes
+  - Kovian Tribunal
+  - Mercenary Faction Template
+  - Alien Faction Template
 recommended_occupations:
-  - "Soldier"
-  - "Scout"
-  - "Specialist"
-  - "Drifter"
-  - "Criminal"
-  - "Builder"
-keywords: "death-world, toxic-atmosphere, corrosive-rain, ash-wastes, volcanic-ridge, apex-predators, radiation-hazard, hardened-bunkers, respirator-gear, survivalist, harsh-biome, chem-scrubber, armored-carapace, extreme-elements, scavenged-scrap, danger-zone"
-negative_keywords: "pristine-luxury-resort, polished-marble-ballroom, carefree-tourism, fragile-glass-spire, gentle-pastoral-meadow, silk-velvet-lounge, serene-academic-cloister, high-society-banquet, unshielded-civilian-park"
+  - Soldier
+  - Scout
+  - Specialist
+  - Drifter
+  - Criminal
+  - Builder
+keywords: >-
+  death-world, toxic-atmosphere, corrosive-rain, ash-wastes, volcanic-ridge,
+  apex-predators, radiation-hazard, hardened-bunkers, respirator-gear,
+  survivalist, harsh-biome, chem-scrubber, armored-carapace, extreme-elements,
+  scavenged-scrap, danger-zone
+negative_keywords: >-
+  pristine-luxury-resort, polished-marble-ballroom, carefree-tourism,
+  fragile-glass-spire, gentle-pastoral-meadow, silk-velvet-lounge,
+  serene-academic-cloister, high-society-banquet, unshielded-civilian-park
 description: >-
-  It is uncommon to find a civilization in a dangerous or poisonous world, but hardy survivor clans have chosen or been forced to live in radiation wastelands, toxic swamps, and extreme geothermal death worlds.
+  It is uncommon to find a civilization in a dangerous or poisonous world, but
+  hardy survivor clans have chosen or been forced to live in radiation
+  wastelands, toxic swamps, and extreme geothermal death worlds.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -66,6 +78,7 @@ modifiers: []
 
 **Category**: Origins  
 **Habitat**: Death World & Extreme  
+**EUFT Wealth Score Modifier**: +0 (Extreme survival environment; resource-strained frontier economy.)  
 **Starting Skill Points**: 20 SP (allocated to Society Skills)  
 **Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)
 

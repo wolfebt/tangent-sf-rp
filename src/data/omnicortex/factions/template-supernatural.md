@@ -53,6 +53,7 @@ description: >-
   shadows, protecting "The Veil" to ensure they are not hunted by the masses.
   They rely on dark magic and reality manipulation rather than standard tech
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Faction Template
@@ -118,7 +119,7 @@ negative_keywords: 'purely-mundane, hard-science-dogma, materialist-reductionism
   * Insight (+3)  
   * Bluff (+3)  
 * **Typical Archetypes:** The Shapeshifter, The Occultist, The Night-Guardian, The Thrall, The Ancient Aristocrat.  
-* **Recommended Features (1 BP Discount):** Magical Aptitude, Awakened, Darksight, Sneak Attack, Deceitful, Benefit (Wealth), Fast Heal, Unsettling Aura, Veiled Threat, Sense.
+* **Recommended Features (1 CP Discount):** Magical Aptitude, Awakened, Darksight, Sneak Attack, Deceitful, Benefit (Wealth), Fast Heal, Unsettling Aura, Veiled Threat, Sense.
 
 ### **VI. Visual Semiotics (Aesthetics)**
 

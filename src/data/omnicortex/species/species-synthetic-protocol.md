@@ -43,23 +43,24 @@ tech_level: 4 (High-Density Directive Processing)
 meta_level: 0 (Null)
 homeworld: Megacorp Headquarters
 costs:
-  bp: 51
+  cp: 30
+  bp: 30
 modifiers:
   - target: Charisma
     value: -2
     type: attribute
     mode: inherent
-cp_cost: 51
-cp: 51
-bp: 51
+cp_cost: 30
+cp: 30
+bp: 30
 description: >-
   Protocol units are dedicated administrative, medical, or security automatons
   built with rigid programming directives and extensive skill libraries.
-traits:
-  - trait-adaptive-task-aspects
-  - trait-flawless-etiquette-calculation
+traits: &ref_0
+  - trait-adaptive-features
+  - trait-emissary
   - trait-synthetic-base-traits
-  - trait-tech-assimilation-rapid-tool-swap
+  - trait-synthetic-tech-assim
 recommended_factions:
   - Corporate Faction Template
   - The Syndicate
@@ -75,6 +76,7 @@ keywords: >-
   directive-processing, medical-protocol, administrative-bot, precision-servant,
   etiquette
 negative_keywords: 'rogue-anarchy, combat-frenzy, wilderness'
+species_traits: *ref_0
 ---
 
 # Protocol (Specialized Directive Unit)
@@ -85,7 +87,7 @@ negative_keywords: 'rogue-anarchy, combat-frenzy, wilderness'
 
 # 
 
-**BP Cost:**   
+**CP Cost:** 30 CP  
 **Description:** Experimental design to be more Human like in form and function, for various reasons including infiltration. No obvious distinguishable traits showing mechanical nature. Casual observation will not show any sign of being a Synthetic, a cursory exam will require DC 30, Technical Scanner with a DC 25 and Biomed Scanners with a DC 20 \- medical treatment will also reveal nature to the physician (although wounds would outwardly be ‘normal’ with loss of fluids included \[limited blood simulation\]).
 
 *Heals as a typical human, with repair using nanotechnology.*   
@@ -118,7 +120,7 @@ Adaptive Aspects
 
 # 
 
-**BP Cost:**   
+**CP Cost:**   
 **Description:** Conscious Algorithm housed within a structure or a mech. (the ‘Shell’). 
 
 **Classification:** Synthetic  

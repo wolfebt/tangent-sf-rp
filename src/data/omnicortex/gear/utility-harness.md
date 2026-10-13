@@ -8,6 +8,7 @@ description: "Penalty: None\r\nLocations: None\r\nSockets: 1"
 size: Small
 workspace_scale: Bench
 costs:
+  cp: 0
   bp: 0
   credits: 0
   nodes: 0

@@ -8,6 +8,7 @@ description: >-
   Surgically and metaphysically reshapes biological tissues, adding gills, armor
   plating, or extra eyes.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 discipline: Matter + Entropy

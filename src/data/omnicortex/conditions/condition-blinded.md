@@ -6,6 +6,7 @@ description: >-
   -5 Penalty to Attack/Defense. Visual Perception fails automatically. Cured by
   medical intervention or Time (Temporary: 1d4 rounds).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

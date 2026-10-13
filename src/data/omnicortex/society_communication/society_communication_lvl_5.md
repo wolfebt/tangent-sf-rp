@@ -8,6 +8,7 @@ description: >-
   Level 5 development in Communication & Data: Sub-space relays, ansible
   networks, holonet infrastructure, and telemetry. (Transcendent / Deific).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

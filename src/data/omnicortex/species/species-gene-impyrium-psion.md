@@ -40,23 +40,24 @@ tech_level: 4 (Imperial Psionic Relics & Force Armor)
 meta_level: 4 (Imperial High Psionics)
 homeworld: Imperia Core
 costs:
-  bp: 20
+  cp: 19
+  bp: 19
 modifiers:
   - target: Wisdom
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 20
-cp: 20
-bp: 20
+cp_cost: 19
+cp: 19
+bp: 19
 description: >-
   Bred in imperial gen-vaults, Impyrium Psions serve the Throne as telepathic
   judges, interrogators, and battle-psions.
-traits:
-  - trait-awakened-psionic
-  - trait-mind-wipe-resistance
-  - trait-psychic-aura
-  - trait-status-impyrium-authority
+traits: &ref_0
+  - trait-awakened-psychic
+  - trait-resistant
+  - trait-mind-speech
+  - trait-sociable
 recommended_factions:
   - Impyrium Dominion
   - Radiant Impyrium
@@ -72,6 +73,7 @@ keywords: >-
   inquisitor, telepathy, precognition, imperial-authority, mental-domination,
   battle-psion
 negative_keywords: 'physical-labor, anti-authoritarian, tech-hack, primitive'
+species_traits: *ref_0
 ---
 
 # Impyrium Psion (Imperial Inquisitor)
@@ -90,7 +92,7 @@ Bred in imperial gen-vaults, Impyrium Psions serve the Throne as telepathic judg
 - **Stigma**: None
 
 ## Mechanics & Statblock
-- **BP Cost**: 20 BP
+- **CP Cost**: 20 CP
 - **Inherent Modifiers**: +1 Wisdom
 - **Bonus Skills**: +10 Skill Points
 - **Inherent Features**: Awakened (Psionic), Status (Impyrium Authority), Mind Wipe Resistance, Psychic Aura

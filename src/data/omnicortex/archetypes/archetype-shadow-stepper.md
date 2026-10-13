@@ -32,19 +32,21 @@ description: >-
   A master of optical camouflage and tactical misdirection who treats reality as
   an obstacle to be bypassed.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: >-
   shadow-stepper, operative, artisan, adaptable, specialist, stealth,
   infiltration
 negative_keywords: 'heavy-plating, blunt-assault, loud, clumsy, mindless-brute'
+cp_chassis: 80
 ---
 
 # The Shadow-stepper
 
 **Sphere**: Operatives (The Artisans)  
 **Core Concept**: Stealth / Infiltration / Sabotage  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Agility  
 **Secondary Attribute**: Intellect  
 

@@ -6,6 +6,7 @@ description: >-
   Canonical reference matrix of all 10 combat status effects, mechanical
   penalties, and cures/removals.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

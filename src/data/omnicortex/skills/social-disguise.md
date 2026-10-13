@@ -21,6 +21,7 @@ synergy_links:
   - mental-tailor
   - physical-stealth
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'disguise, social, intellect, interaction, diplomacy, influence'

@@ -21,6 +21,7 @@ synergy_links:
   - mental-metaphysics
   - mental-technology
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'artificer, mental, intellect, cognitive, expertise, crafting'

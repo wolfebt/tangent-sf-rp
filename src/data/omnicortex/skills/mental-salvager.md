@@ -21,6 +21,7 @@ synergy_links:
   - mental-mechanic
   - mental-demolitionist
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'salvager, mental, wisdom, intellect, cognitive, expertise'

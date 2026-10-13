@@ -34,17 +34,19 @@ description: >-
   The conduit between the material plane and the spiritual realms, interpreting
   the will of the unseen.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'spirit-walker, visionary, idealist, leadership, charisma, medium, scout'
 negative_keywords: 'anti-social, mute, solitary-hermit'
+cp_chassis: 80
 ---
 
 # The Spirit-walker
 
 **Sphere**: Visionaries (The Idealists)  
 **Core Concept**: Medium / Scout / Utility  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Wisdom  
 **Secondary Attribute**: Constitution  
 

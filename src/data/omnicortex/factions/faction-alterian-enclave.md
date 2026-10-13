@@ -55,6 +55,7 @@ description: >-
   The self-appointed Elder Siblings of the galaxy, ruling from gilded spires and
   governing through long-view diplomacy and high magitech architecture
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Major Galactic Power
@@ -87,4 +88,4 @@ negative_keywords: >-
 * **Capital:** Altheria (The Gilded World)  
 * **Mandate:** "Perfect the Art of Living; Maintain the Galactic Balance."  
 * **Profile:** The self-appointed "Elder Siblings" of the galaxy. They engage heavily in galactic trade and diplomacy, believing the universe functions on harmonic principles ("The Flow"). Governed by a Gerontocracy/Meritocracy. They take "The Long View," moving slowly but acting with overwhelming magi-tech superiority when necessary.  
-* **Recommended Features (1 BP Discount):** Benefit (Status), Master Craftsman, Silver Tongue, Trustworthy, Educated, Linguist, Inspiring Personality, Magical Aptitude, Centering, Artificer, Graceful, Insightful Reason.
+* **Recommended Features (1 CP Discount):** Benefit (Status), Master Craftsman, Silver Tongue, Trustworthy, Educated, Linguist, Inspiring Personality, Magical Aptitude, Centering, Artificer, Graceful, Insightful Reason.

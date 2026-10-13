@@ -5,6 +5,7 @@ trait_tier: Advanced
 trait_type: Species Trait
 category: traits
 costs:
+  cp: 2
   bp: 2
 description: 'Clear vision in all levels of Light or Darkness (UV, seeing luminescence).'
 modifiers: []
@@ -14,7 +15,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Advanced
 **Type**: Species Trait
-**BP Cost**: 2
+**CP Cost**: 2
 
 ## Description
 Clear vision in all levels of Light or Darkness (UV, seeing luminescence).

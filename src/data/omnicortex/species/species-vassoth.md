@@ -41,7 +41,8 @@ tech_level: 3 (Heavy Tail-Mount Harnesses & Plasma Blasters)
 meta_level: 3 (Serpentine Sorcery)
 homeworld: Vass-Tor Dunes & Ruins
 costs:
-  bp: 10
+  cp: 12
+  bp: 12
 modifiers:
   - target: Strength
     value: 1
@@ -63,17 +64,16 @@ modifiers:
     value: -4
     type: skill
     mode: size_modifier
-cp_cost: 10
-cp: 10
-bp: 10
+cp_cost: 12
+cp: 12
+bp: 12
 description: >-
   Colossal 12-to-18 foot serpentine beings with humanoid upper torsos, wielding
   crushing constriction power, heat-sensing pits, and venomous strikes.
-traits:
-  - trait-awakened-serpentine-metaphysics
-  - trait-constriction-deals-double-damage-on-successful-grapple-hold
-  - trait-large-size-12-18ft-serpentine-body-reach-10ft
-  - trait-venomous-fangs-paralytic-poison-dc-15
+traits: &ref_0
+  - trait-awakened-nature
+  - trait-constriction
+  - trait-venom
 recommended_factions:
   - Coalition of Independent Worlds
   - Alien Faction Template
@@ -88,6 +88,7 @@ recommended_occupations:
   - Adept
 keywords: 'serpentine-colossus, crushing-constriction, heat-sensing-pits, venom, massive'
 negative_keywords: 'stealth-in-crowds, pilot-small-cockpit, tiny'
+species_traits: *ref_0
 ---
 
 # Vassoth (Serpentine Colossus)
@@ -106,7 +107,7 @@ Colossal 12-to-18 foot serpentine beings with humanoid upper torsos, wielding cr
 - **Stigma**: Severe Xeno (-4)
 
 ## Mechanics & Statblock
-- **BP Cost**: 10 BP
+- **CP Cost**: 10 CP
 - **Inherent Modifiers**: +1 Strength, +1 Agility
 - **Bonus Skills**: +0 Skill Points
 - **Inherent Features**: Large Size (12-18ft serpentine body, Reach 10ft), Awakened (Serpentine Metaphysics), Constriction (Deals double damage on successful grapple hold), Venomous Fangs (Paralytic Poison DC 15)

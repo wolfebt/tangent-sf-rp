@@ -6,6 +6,7 @@ description: >-
   shots.
 category: special
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

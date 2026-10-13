@@ -8,16 +8,18 @@ description: >-
   Takes every statement literally and lacks the ability to parse sarcasm, dry
   humor, or double entendres.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'humorless, hindrance, penalty, general, statement, literally'
 negative_keywords: 'perfection, flawless, unyielding, invulnerable'
+cp_granted: '2'
 ---
 
 # Humorless
 
 **Category**: Hindrances & Disadvantages  
-**BP Granted**: 2 BP  
+**CP Granted**: 2 CP  
 **Type**: Social
 
 ## Description

@@ -6,6 +6,7 @@ description: >-
   Target is encased/chilled. Speed = 0. Target gains Vulnerability to Physical &
   Sonic Dmg. Strength Check (DC 20) to shatter or Fire Dmg to melt.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

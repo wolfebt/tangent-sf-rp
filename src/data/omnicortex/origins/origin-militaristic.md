@@ -2,61 +2,75 @@
 id: origin-militaristic
 name: Militaristic
 category: origins
-habitat: "Military Stronghold"
+habitat: Military Stronghold
+ws_modifier: 0
+economic_context: >-
+  Garrison or fortress world; strictly controlled military logistics and
+  stipends.
 skill_points: 20
 society_skills:
-  - "Combat (Any)"
-  - "Physical (Any)"
-  - "Vocation (Any)"
-  - "Alertness"
-  - "Tactics"
+  - Combat (Any)
+  - Physical (Any)
+  - Vocation (Any)
+  - Alertness
+  - Tactics
 archetypes:
-  - "Shock Trooper"
-  - "Sharpshooter"
-  - "Combat Medic"
-  - "Tactician"
-  - "Military Engineer"
-  - "Military Intelligence Officer"
+  - Shock Trooper
+  - Sharpshooter
+  - Combat Medic
+  - Tactician
+  - Military Engineer
+  - Military Intelligence Officer
 traits:
-  - "trait-combat-trained"
-  - "trait-disciplined"
-  - "trait-honor-bound"
-  - "trait-leadership"
-  - "trait-loyal"
-  - "trait-milspec-gear"
-  - "trait-pilot-skills"
-  - "trait-strategic"
-  - "trait-tough"
+  - trait-combat-trained
+  - trait-disciplined
+  - trait-honor-bound
+  - trait-leadership
+  - trait-loyal
+  - trait-milspec-gear
+  - trait-pilot-skills
+  - trait-strategic
+  - trait-tough
 recommended_species:
-  - "Draconian (Scaled Aeld)"
-  - "Janissary (Gen-E)"
-  - "Impyrium Regi (Gen-E)"
-  - "Rautha Human"
-  - "Dar (Auluran Hunter)"
-  - "Graa (Auluran Heavy)"
-  - "Maantene (Kitin Leaper)"
-  - "Qeric"
-  - "Weti"
-  - "Sentient Machine (Free Droid)"
+  - Draconian (Scaled Aeld)
+  - Janissary (Gen-E)
+  - Impyrium Regi (Gen-E)
+  - Rautha Human
+  - Dar (Auluran Hunter)
+  - Graa (Auluran Heavy)
+  - Maantene (Kitin Leaper)
+  - Qeric
+  - Weti
+  - Sentient Machine (Free Droid)
 recommended_factions:
-  - "Military Faction Template"
-  - "Impyrium Dominion"
-  - "Dracon Dynasty"
-  - "Mercenary Faction Template"
-  - "Radiant Impyrium"
-  - "Cosmic Justice Faction Template"
+  - Military Faction Template
+  - Impyrium Dominion
+  - Dracon Dynasty
+  - Mercenary Faction Template
+  - Radiant Impyrium
+  - Cosmic Justice Faction Template
 recommended_occupations:
-  - "Soldier"
-  - "Specialist"
-  - "Scout"
-  - "Agent"
-  - "Builder"
-  - "Representative"
-keywords: "fortress-world, military-garrison, plasteel-bunkers, firing-range, parade-grounds, barbed-perimeters, defense-turrets, flak-emplacements, hardened-command-bunker, combat-readiness, drills, disciplined-ranks, munitions-depots, war-room, drop-ship-hangar"
-negative_keywords: "carefree-resort-beach, gilded-dance-ballroom, pacifist-commune, chaotic-unregulated-slums, fragile-glass-greenhouse, drug-riddled-cantina, unarmed-ascetic-hermitage, frivolous-haute-couture"
+  - Soldier
+  - Specialist
+  - Scout
+  - Agent
+  - Builder
+  - Representative
+keywords: >-
+  fortress-world, military-garrison, plasteel-bunkers, firing-range,
+  parade-grounds, barbed-perimeters, defense-turrets, flak-emplacements,
+  hardened-command-bunker, combat-readiness, drills, disciplined-ranks,
+  munitions-depots, war-room, drop-ship-hangar
+negative_keywords: >-
+  carefree-resort-beach, gilded-dance-ballroom, pacifist-commune,
+  chaotic-unregulated-slums, fragile-glass-greenhouse, drug-riddled-cantina,
+  unarmed-ascetic-hermitage, frivolous-haute-couture
 description: >-
-  Whether a fortified border fortress, orbital garrison, or dedicated planetary training ground, a pervasive military hierarchy governs every aspect of daily life. Fortified bunkers and security corridors prevail.
+  Whether a fortified border fortress, orbital garrison, or dedicated planetary
+  training ground, a pervasive military hierarchy governs every aspect of daily
+  life. Fortified bunkers and security corridors prevail.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -65,6 +79,7 @@ modifiers: []
 
 **Category**: Origins  
 **Habitat**: Military Stronghold  
+**EUFT Wealth Score Modifier**: +0 (Garrison or fortress world; strictly controlled military logistics and stipends.)  
 **Starting Skill Points**: 20 SP (allocated to Society Skills)  
 **Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)
 

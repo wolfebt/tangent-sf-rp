@@ -184,25 +184,25 @@ export const ArchetypeConfigurator = ({
           </span>
         </div>
         <p className="text-xs text-slate-300 leading-relaxed font-sans">
-          Archetypes bridge the gap between abstract Build Points (BP) and a functional narrative role. 
-          Each entry defines a thematic <strong>80 BP Chassis</strong>—a set of prioritized attributes, essential skills, and signature features. 
+          Archetypes bridge the gap between abstract Character Points (CP) and a functional narrative role. 
+          Each entry defines a thematic <strong>80 CP Chassis</strong>—a set of prioritized attributes, essential skills, and signature features. 
           Archetypes are <strong>not adversary chassis</strong> and have no threat tiers, boss multipliers, or adversary designations.
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 font-mono text-[11px]">
           <div className="p-2 rounded bg-slate-900/80 border border-slate-800 flex flex-col">
-            <span className="text-indigo-400 font-bold">+3 Primary (15 BP)</span>
+            <span className="text-indigo-400 font-bold">+3 Primary (15 CP)</span>
             <span className="text-slate-400 text-[10px]">{formData.primary_attribute || 'Intellect'}</span>
           </div>
           <div className="p-2 rounded bg-slate-900/80 border border-slate-800 flex flex-col">
-            <span className="text-indigo-400 font-bold">+2 Secondary (10 BP)</span>
+            <span className="text-indigo-400 font-bold">+2 Secondary (10 CP)</span>
             <span className="text-slate-400 text-[10px]">{formData.secondary_attribute || 'Charisma'}</span>
           </div>
           <div className="p-2 rounded bg-slate-900/80 border border-slate-800 flex flex-col">
-            <span className="text-purple-400 font-bold">Skills Package (42 BP)</span>
+            <span className="text-purple-400 font-bold">Skills Package (42 CP)</span>
             <span className="text-slate-400 text-[10px]">4 Trained (24) + 6 Novice (18)</span>
           </div>
           <div className="p-2 rounded bg-slate-900/80 border border-slate-800 flex flex-col">
-            <span className="text-emerald-400 font-bold">Features (13 BP)</span>
+            <span className="text-emerald-400 font-bold">Features (13 CP)</span>
             <span className="text-slate-400 text-[10px]">2 Signature (4) + 3 Relative (9)</span>
           </div>
         </div>
@@ -218,7 +218,7 @@ export const ArchetypeConfigurator = ({
             </h4>
           </div>
           <span className="text-[10px] font-mono text-indigo-300 bg-indigo-950 px-2 py-0.5 rounded border border-indigo-500/30">
-            80 BP Chassis
+            80 CP Chassis
           </span>
         </div>
 
@@ -297,14 +297,14 @@ export const ArchetypeConfigurator = ({
               Key Attributes (+3 Primary / +2 Secondary)
             </h4>
             <CodexTooltip
-              title="Key Attributes (25 BP Total)"
-              description="Part of the 80 BP Chassis Allocation Formula: +3 to Primary Attribute (15 BP) and +2 to Secondary Attribute (10 BP)."
+              title="Key Attributes (25 CP Total)"
+              description="Part of the 80 CP Chassis Allocation Formula: +3 to Primary Attribute (15 CP) and +2 to Secondary Attribute (10 CP)."
               rule="1.02 ARCHETYPES.md"
               color="#f59e0b"
             />
           </div>
           <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-amber-950 border border-amber-500/40 text-amber-300">
-            25 BP Allocated
+            25 CP Allocated
           </span>
         </div>
 
@@ -312,7 +312,7 @@ export const ArchetypeConfigurator = ({
           <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1.5">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono font-bold uppercase tracking-wider text-indigo-400">
-                Primary Attribute (+3 Bonus / 15 BP)
+                Primary Attribute (+3 Bonus / 15 CP)
               </span>
               <span className="text-[10px] font-mono px-2 py-0.2 rounded bg-indigo-950 border border-indigo-500/40 text-indigo-300">
                 +3 Score
@@ -341,7 +341,7 @@ export const ArchetypeConfigurator = ({
           <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1.5">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono font-bold uppercase tracking-wider text-purple-400">
-                Secondary Attribute (+2 Bonus / 10 BP)
+                Secondary Attribute (+2 Bonus / 10 CP)
               </span>
               <span className="text-[10px] font-mono px-2 py-0.2 rounded bg-purple-950 border border-purple-500/40 text-purple-300">
                 +2 Score
@@ -378,14 +378,14 @@ export const ArchetypeConfigurator = ({
               Essential Skills (4 Trained @ 6 + 6 Novice @ 3 Priority)
             </h4>
             <CodexTooltip
-              title="Essential Skills (42 BP)"
-              description="4 Skills at Trained Tier (level 6 for 24 BP) & 6 Skills at Novice Tier (level 3 for 18 BP) — Essential Skills prioritized first."
+              title="Essential Skills (42 CP)"
+              description="4 Skills at Trained Tier (level 6 for 24 CP) & 6 Skills at Novice Tier (level 3 for 18 CP) — Essential Skills prioritized first."
               rule="1.02 ARCHETYPES.md"
               color="#6366f1"
             />
           </div>
           <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-indigo-950 border border-indigo-500/40 text-indigo-300">
-            42 BP Package
+            42 CP Package
           </span>
         </div>
 
@@ -440,23 +440,23 @@ export const ArchetypeConfigurator = ({
         )}
       </div>
 
-      {/* ── Section 4: Signature Features (13 BP Total) ── */}
+      {/* ── Section 4: Signature Features (13 CP Total) ── */}
       <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-2.5">
           <div className="flex items-center gap-2">
             <Award className="w-4 h-4 text-purple-400" />
             <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-slate-200">
-              Signature Features (2 Recommended @ 2 BP + 3 Relative @ 3 BP)
+              Signature Features (2 Recommended @ 2 CP + 3 Relative @ 3 CP)
             </h4>
             <CodexTooltip
-              title="Signature Features (13 BP)"
-              description="Two recommended Signature Features (discounted to 2 BP each) plus three other relative Features (9 BP)."
+              title="Signature Features (13 CP)"
+              description="Two recommended Signature Features (discounted to 2 CP each) plus three other relative Features (9 CP)."
               rule="1.02 ARCHETYPES.md"
               color="#8b5cf6"
             />
           </div>
           <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-purple-950 border border-purple-500/40 text-purple-300">
-            13 BP Allocated
+            13 CP Allocated
           </span>
         </div>
 

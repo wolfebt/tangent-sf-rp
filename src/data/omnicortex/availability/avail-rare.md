@@ -6,6 +6,7 @@ description: >-
   markets.
 category: availability
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

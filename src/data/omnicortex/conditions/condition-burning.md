@@ -6,6 +6,7 @@ description: >-
   Takes 1d6 Fire Damage per round. Panic Check (Will DC 12) or flail/flee. Full
   Action to extinguish (Stop, Drop, Roll).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

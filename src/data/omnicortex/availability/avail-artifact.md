@@ -4,6 +4,7 @@ name: Artifact / Relic
 description: Ancient precursor deific relic or unique historical treasure of immense power.
 category: availability
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

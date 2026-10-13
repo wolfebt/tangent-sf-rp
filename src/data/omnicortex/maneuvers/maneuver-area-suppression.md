@@ -7,6 +7,7 @@ description: >-
   Suppress area. General Area (+2 dice / 5 pts over DC 10); Focused Zone (+100%
   dice / 10 pts over DC 15). Range penalties doubled.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

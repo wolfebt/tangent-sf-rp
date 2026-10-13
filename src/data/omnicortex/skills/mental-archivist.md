@@ -20,6 +20,7 @@ synergy_links:
   - mental-academics
   - mental-investigation
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'archivist, mental, intellect, cognitive, expertise, cataloging'

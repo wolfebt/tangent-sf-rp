@@ -48,7 +48,8 @@ tech_level: 3 (Heavy Rigging & Mining Plasma Tools)
 meta_level: 1 (Primal Strength)
 homeworld: Kongo- Prime Mega-Jungle
 costs:
-  bp: 21
+  cp: 24
+  bp: 24
 modifiers:
   - target: Strength
     value: 2
@@ -70,20 +71,19 @@ modifiers:
     value: -4
     type: skill
     mode: size_modifier
-cp_cost: 21
-cp: 21
-bp: 21
+cp_cost: 24
+cp: 24
+bp: 24
 description: >-
   Powerful simian beings combining immense upper-body strength with prehensile
   four-limb dexterity and climbing speed.
-traits:
-  - trait-acute-scent
-  - trait-climb-speed-30ft
+traits: &ref_0
+  - trait-scent
   - trait-climber
   - trait-low-light-vision
-  - trait-mighty-surge-bonus-str-athletics
+  - trait-mighty-surge
   - trait-patagia
-  - trait-prehensile-tail-feet
+  - trait-prehensile-limbs
 recommended_factions:
   - Coalition of Independent Worlds
   - Environmental Faction Template
@@ -99,13 +99,14 @@ keywords: >-
   simian-colossus, canopy-climber, prehensile-limbs, crushing-biceps,
   mega-jungle
 negative_keywords: 'tiny-spaces, aerial-glide, frail'
+species_traits: *ref_0
 ---
 
 # Kongi (Simian Juggernaut)
 
 # 
 
-**BP Cost:**   
+**CP Cost:** 24 CP  
 **Description:** The Kongi are a fascinating species of simian-like humanoids, medium in size, originating from a high-gravity, cavernous homeworld. This environment has profoundly shaped their biology and culture.  
 Their evolution in a high-gravity environment has resulted in exceptional physical strength and agility and they possess several key features that allow them to thrive in their native habitat.
 

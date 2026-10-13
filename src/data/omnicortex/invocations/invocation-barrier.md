@@ -5,6 +5,7 @@ category: invocations
 discipline: Energy
 description: BARRIER invocation for Energy reality manipulation.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 recommended_species:

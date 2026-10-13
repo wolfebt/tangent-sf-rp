@@ -25,6 +25,7 @@ mechanic: >-
   Civilian Grade (Legal in all jurisdictions). DR 5, SP 10. No mobility
   penalties.
 costs:
+  cp: 0
   bp: 0
   credits: 160
   nodes: 0

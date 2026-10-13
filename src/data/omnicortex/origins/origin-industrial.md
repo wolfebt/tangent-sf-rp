@@ -2,60 +2,72 @@
 id: origin-industrial
 name: Industrial
 category: origins
-habitat: "Industrial Heavy"
+habitat: Industrial Heavy
+ws_modifier: 2
+economic_context: Manufacturing powerhouses; high demand for specialized technical labor.
 skill_points: 20
 society_skills:
-  - "Knowledge (Technology)"
-  - "Knowledge (Science)"
-  - "Vocation (Any)"
-  - "Knowledge (Any)"
+  - Knowledge (Technology)
+  - Knowledge (Science)
+  - Vocation (Any)
+  - Knowledge (Any)
 archetypes:
-  - "Miner"
-  - "Factory Worker"
-  - "Engineer"
-  - "Foreman"
-  - "Security Officer"
-  - "Corporate Executive"
+  - Miner
+  - Factory Worker
+  - Engineer
+  - Foreman
+  - Security Officer
+  - Corporate Executive
 traits:
-  - "trait-adaptability"
-  - "trait-mechanical-aptitude"
-  - "trait-physical-strength"
-  - "trait-practicality"
-  - "trait-problem-solving-skills"
-  - "trait-resourcefulness"
-  - "trait-risk-taking"
-  - "trait-specialized-knowledge"
-  - "trait-teamwork"
+  - trait-adaptability
+  - trait-mechanical-aptitude
+  - trait-physical-strength
+  - trait-practicality
+  - trait-problem-solving-skills
+  - trait-resourcefulness
+  - trait-risk-taking
+  - trait-specialized-knowledge
+  - trait-teamwork
 recommended_species:
-  - "Dwerg Human"
-  - "Cyberform Human"
-  - "Koda (Auluran Worker)"
-  - "Mekan (Assimilation Unit)"
-  - "Protocol (Task Automaton)"
-  - "Scrap (Junkframe Synthetic)"
-  - "Biomechanical Synthetic"
-  - "Human (Base)"
-  - "Digon (Gen-E)"
-  - "Orll"
+  - Dwerg Human
+  - Cyberform Human
+  - Koda (Auluran Worker)
+  - Mekan (Assimilation Unit)
+  - Protocol (Task Automaton)
+  - Scrap (Junkframe Synthetic)
+  - Biomechanical Synthetic
+  - Human (Base)
+  - Digon (Gen-E)
+  - Orll
 recommended_factions:
-  - "The Mekan Collective"
-  - "Incorporated Planetary Syndication (The Syndicate)"
-  - "Technological Faction Template"
-  - "Coalition of Independent Worlds"
-  - "Corporate Faction Template"
-  - "Impyrium Dominion"
+  - The Mekan Collective
+  - Incorporated Planetary Syndication (The Syndicate)
+  - Technological Faction Template
+  - Coalition of Independent Worlds
+  - Corporate Faction Template
+  - Impyrium Dominion
 recommended_occupations:
-  - "Builder"
-  - "Specialist"
-  - "Citizen"
-  - "Soldier"
-  - "Merchant"
-  - "Agent"
-keywords: "forge-world, heavy-industry, smelting-plant, foundry, assembly-line, slag-vats, cranes, gantry-grid, smog-stack, strip-mining, hydraulics, pneumatics, machining, high-pressure-steam, industrial-robotics, tooling, hardhat, rust-and-iron"
-negative_keywords: "pristine-natural-forest, serene-underwater-reef, gilded-royal-court, arcane-ley-line-sanctuary, untouched-wilderness, luxury-sunbathing-beach, zero-g-delicate-glass, pastoral-vineyard, fae-enchantment"
+  - Builder
+  - Specialist
+  - Citizen
+  - Soldier
+  - Merchant
+  - Agent
+keywords: >-
+  forge-world, heavy-industry, smelting-plant, foundry, assembly-line,
+  slag-vats, cranes, gantry-grid, smog-stack, strip-mining, hydraulics,
+  pneumatics, machining, high-pressure-steam, industrial-robotics, tooling,
+  hardhat, rust-and-iron
+negative_keywords: >-
+  pristine-natural-forest, serene-underwater-reef, gilded-royal-court,
+  arcane-ley-line-sanctuary, untouched-wilderness, luxury-sunbathing-beach,
+  zero-g-delicate-glass, pastoral-vineyard, fae-enchantment
 description: >-
-  These worlds are developed to exploit available natural resources and are designed for maximum efficiency. Heavy blast walls, automated smelters, toxic smokestacks, and modular worker complexes dominate.
+  These worlds are developed to exploit available natural resources and are
+  designed for maximum efficiency. Heavy blast walls, automated smelters, toxic
+  smokestacks, and modular worker complexes dominate.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -64,6 +76,7 @@ modifiers: []
 
 **Category**: Origins  
 **Habitat**: Industrial Heavy  
+**EUFT Wealth Score Modifier**: +2 (Manufacturing powerhouses; high demand for specialized technical labor.)  
 **Starting Skill Points**: 20 SP (allocated to Society Skills)  
 **Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)
 

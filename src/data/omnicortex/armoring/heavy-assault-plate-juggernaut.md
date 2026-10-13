@@ -28,6 +28,7 @@ mechanic: >-
   Anchor (Advantage on checks to resist being knocked down). -2 Mobility, -10
   Movement. DR 30, SP 80.
 costs:
+  cp: 0
   bp: 0
   credits: 10240
   nodes: 0

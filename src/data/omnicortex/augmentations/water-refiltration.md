@@ -9,6 +9,7 @@ description: Triples survival time without water.
 stigma: None
 type: Cybernetic Armor
 costs:
+  cp: 0
   bp: 0
   credits: 640
   nodes: 0

@@ -9,6 +9,7 @@ description: Non-Typical Anatomy + Synth chassis use.
 stigma: None
 type: Cybernetic
 costs:
+  cp: 0
   bp: 0
   credits: 40960
   nodes: 0

@@ -58,6 +58,7 @@ description: >-
   powers of the unknown, and spread their fanatical beliefs, often aiming to
   bring about the end of the universe
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Faction Template
@@ -120,7 +121,7 @@ negative_keywords: 'rational-humanism, bright-optimism, public-safety, mundane-s
   * Survival (+3)  
   * Stealth (+3)  
 * **Typical Archetypes:** The Cultist, The Occultist, The Doomsayer, The Corrupted, The Void-Caller, The Awakened, The Sacrifice, The Harbinger, The Eldritch Scholar, The Mad Prophet.  
-* **Recommended Features (1 BP Discount):** Fearless (Madness), Discipline Focus (Entropy), Darksight, Iron Will, Unsettling Aura, Pain Tolerance, Eldritch Resistance, Veiled Threat, Wild Speech, Awakened.
+* **Recommended Features (1 CP Discount):** Fearless (Madness), Discipline Focus (Entropy), Darksight, Iron Will, Unsettling Aura, Pain Tolerance, Eldritch Resistance, Veiled Threat, Wild Speech, Awakened.
 
 ### **VI. Visual Semiotics (Aesthetics)**
 

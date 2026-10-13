@@ -13,6 +13,7 @@ mechanic: >-
   Can transform into any scanner or mechanical tool. Grants +4 Bonus to
   Engineering/Repair checks.
 costs:
+  cp: 0
   bp: 0
   credits: 10240
   nodes: 0

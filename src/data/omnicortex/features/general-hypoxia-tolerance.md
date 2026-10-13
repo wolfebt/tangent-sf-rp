@@ -12,16 +12,18 @@ description: >-
   environments with severely depleted oxygen without suffering altitude sickness
   or cardiovascular strain.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'hypoxia tolerance, general, special-feature, genetic, variants, epas1/egln1'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Hypoxia Tolerance
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Stamina 1
 
 ## Description

@@ -7,6 +7,7 @@ description: >-
   Set stance against charge or heavy recoil. Block usable as counter attack on
   hit/readied weapon; bonus gained vs Advancing Target.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

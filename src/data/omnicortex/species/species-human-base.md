@@ -35,6 +35,7 @@ tech_level: 3 (Standard Interstellar Fusion & Ballistics)
 meta_level: 1 (Variable / Latent Potential)
 homeworld: 'Earth / Sol System (and 1,000+ colony worlds)'
 costs:
+  cp: 10
   bp: 10
 modifiers: []
 cp_cost: 10
@@ -44,9 +45,9 @@ description: >-
   Humans are the adaptable, ubiquitous baseline of the known galaxy. Driven by
   restless ambition and resilience, their versatility allows them to thrive in
   any environment and master any discipline.
-traits:
+traits: &ref_0
   - trait-adaptability
-  - trait-broad-horizons-1-feature-at-creation
+  - trait-bonus-feature
 recommended_factions:
   - The Ascendancy
   - The Entari Combine
@@ -66,11 +67,12 @@ recommended_occupations:
   - Scout
 keywords: 'adaptable, ubiquitous, ambitious, versatile, tenacious, core-lineage'
 negative_keywords: 'environmental-extremophile, biologically-inflexible'
+species_traits: *ref_0
 ---
 
 # Human (Standard Baseline)
 
-**BP Cost:** 10  
+**CP Cost:** 10 CP  
 **Description:** People found in Dynasty, Syndicate, Imperium, etc.   
 Humans are known to be trouble (at best) and a Stigma is common in most other species encountered, from minor to severe, mainly due to history with the Impyrium’s aggressive colonizing efforts.
 

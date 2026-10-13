@@ -24,6 +24,7 @@ mechanic: >-
   SP: 1,000,000+. Modules: 100,000+. Internal centrifugal gravity, atmosphere
   cyclers, agricultural bands, and dock collars.
 costs:
+  cp: 0
   bp: 0
   credits: 42949672960
   nodes: 0

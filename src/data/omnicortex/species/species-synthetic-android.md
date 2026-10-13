@@ -34,10 +34,10 @@ bonus_skill_choices:
   - Science
   - Technology
   - Discipline
-traits:
-  - trait-digitized-mind
-  - trait-resilient-design
-  - trait-robotic-strength
+traits: &ref_0
+  - trait-resistant
+  - trait-natural-armor
+  - trait-powerful-charge
   - trait-synthetic-base-traits
 inherent_features: []
 bonus_features: []
@@ -52,6 +52,7 @@ tech_level: 4 (Optronic Cores & Piezoelectric Myomer)
 meta_level: 0 (Null)
 homeworld: Autonomous Foundry Stations
 costs:
+  cp: 42
   bp: 42
 modifiers:
   - target: Intellect
@@ -84,6 +85,7 @@ recommended_occupations:
   - Agent
 keywords: 'optronic-chassis, myomer-muscle, modular-hardware, tireless, emotion-neutral'
 negative_keywords: 'biological-disease, starvation, nature-magic'
+species_traits: *ref_0
 ---
 
 # Android (Synthetic Humanoid)
@@ -94,7 +96,7 @@ negative_keywords: 'biological-disease, starvation, nature-magic'
 
 # 
 
-**BP Cost:**   
+**CP Cost:** 42 CP  
 **Description:** Humanlike in general form and function, and often looking synthetic with bright or metallic skin and hair colors as well as adjustable illuminations and circuitry patterns. Began in the Syndicate as a labor caste, originally designed by unknowingly using the Impyrium’s knowledge of the Mekan neural network and advanced technology.
 
 **Classification:** Synthetic Humanoid  

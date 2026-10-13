@@ -4,6 +4,7 @@ name: Semi-Automatic (1 Shot)
 description: 'Fires one precise projectile per attack action, maximizing accuracy.'
 category: mode
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

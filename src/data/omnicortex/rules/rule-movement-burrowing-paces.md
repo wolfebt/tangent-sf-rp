@@ -2,8 +2,11 @@
 id: rule-movement-burrowing-paces
 name: Burrowing Movement Paces & Subterranean Rules
 category: rules
-description: Rules for subterranean traversal (Burrowing, Tunneling, Excavation) and shoring.
+description: >-
+  Rules for subterranean traversal (Burrowing, Tunneling, Excavation) and
+  shoring.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

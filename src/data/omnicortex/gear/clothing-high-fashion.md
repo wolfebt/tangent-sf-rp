@@ -11,6 +11,7 @@ mechanic: >-
   Prestige status symbol. Grants +1 to Social & Etiquette checks in elite
   society.
 costs:
+  cp: 0
   bp: 0
   credits: 640
   nodes: 0

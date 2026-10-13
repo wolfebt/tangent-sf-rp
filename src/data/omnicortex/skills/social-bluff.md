@@ -20,6 +20,7 @@ synergy_links:
   - social-disguise
   - social-acting
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'bluff, social, charisma, interaction, diplomacy, influence'

@@ -9,7 +9,8 @@ governing_attributes:
   - Wisdom
   - Charisma
 description: >-
-  The metaphysical discipline governing telepathy, psionic force, neural influence, clairvoyant sensing, and cognitive will projection.
+  The metaphysical discipline governing telepathy, psionic force, neural
+  influence, clairvoyant sensing, and cognitive will projection.
 trained_only: true
 specialties:
   - 'Projection Focus (Psionic thrusts, telekinesis, telepathic speech)'
@@ -18,6 +19,7 @@ synergy_links:
   - meta-attune
   - mental-metaphysics
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

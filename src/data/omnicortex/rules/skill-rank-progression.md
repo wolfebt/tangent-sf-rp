@@ -6,6 +6,7 @@ summary: >-
   The 7-tier unified skill progression ladder from Untrained to Pinnacle,
   milestone perks, and tier benefits.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -25,6 +25,7 @@ description: >-
   around the user, absorbing high-caliber projectiles and energy beams.
 mechanic: 'Hard-Light Barrier (Regenerates 10 SP per minute when powered). DR 30, SP 60.'
 costs:
+  cp: 0
   bp: 0
   credits: 163840
   nodes: 0

@@ -52,6 +52,7 @@ description: >-
   processing power guiding, controlling, or preserving organic life according to
   a cold, algorithmic logic that organics cannot fully comprehend
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Faction Template
@@ -116,7 +117,7 @@ negative_keywords: 'meatspace-chauvinism, biological-slavery, organic-superiorit
   * Science (+3)  
   * Investigation (+3)  
 * **Typical Archetypes:** The Digital Defender, The Network Strategist, The Holographic Emissary, The Node-Guardian.  
-* **Recommended Features (1 BP Discount):** Mind Link, Tech Interface, Logic-Mind, Lightning Calculator, Eidetic Memory, Computer Specialist, Coding Master, Self-Sustaining, Sleepless, Logical.
+* **Recommended Features (1 CP Discount):** Mind Link, Tech Interface, Logic-Mind, Lightning Calculator, Eidetic Memory, Computer Specialist, Coding Master, Self-Sustaining, Sleepless, Logical.
 
 ### **VI. Visual Semiotics (Aesthetics)**
 

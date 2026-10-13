@@ -31,17 +31,19 @@ description: >-
   Possesses innate mental powers or spiritual connection. Seers, telepaths, and
   prophets.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'oracle, visionary, idealist, leadership, charisma, caster, sensor'
 negative_keywords: 'anti-social, mute, solitary-hermit'
+cp_chassis: 80
 ---
 
 # The Oracle
 
 **Sphere**: Visionaries (The Idealists)  
 **Core Concept**: Caster / Sensor / Controller  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Wisdom  
 **Secondary Attribute**: Constitution  
 

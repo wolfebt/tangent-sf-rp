@@ -6,6 +6,7 @@ summary: >-
   The 10 modifier sources and the universal rule against stacking bonuses of the
   same type.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

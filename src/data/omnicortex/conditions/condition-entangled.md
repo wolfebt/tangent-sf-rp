@@ -6,6 +6,7 @@ description: >-
   Movement = 0. -2 Penalty to Attack/Defense. No Dodge/Evasion. Strength Check
   (DC 15) or Cutting free (Structure damage).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -35,18 +35,19 @@ tech_level: 4 (Cortical Stacks & Sleeves)
 meta_level: 1 (Residual Soul)
 homeworld: Resleeve Clinics & Transhuman Stations
 costs:
-  bp: 32
+  cp: 43
+  bp: 43
 modifiers: []
-cp_cost: 32
-cp: 32
-bp: 32
+cp_cost: 43
+cp: 43
+bp: 43
 description: >-
   Shells are synthetic sleeve bodies inhabited by digitized organic
   consciousnesses (transferred via cortical neural stacks upon biological
   death).
-traits:
-  - trait-ghost-in-the-machine-resilience
-  - trait-neural-stack-integration-organic-consciousness-housing
+traits: &ref_0
+  - trait-self-revivifying
+  - trait-synthetic-aux-core
   - trait-synthetic-base-traits
 recommended_factions:
   - The Syndicate
@@ -63,6 +64,7 @@ keywords: >-
   cortical-stack, resleeve, transhuman-mind, digitized-consciousness,
   sleeve-swap
 negative_keywords: 'permanent-death-fear, natural-aging, bio-purist'
+species_traits: *ref_0
 ---
 
 # Shell (Sleeve for Organic Mind)
@@ -71,7 +73,7 @@ negative_keywords: 'permanent-death-fear, natural-aging, bio-purist'
 
 # 
 
-**BP Cost:**   
+**CP Cost:** 43 CP  
 **Description:** A synthetic body housing a previously organic consciousness \- body is a variant of another type of Synthetic, such as an Android, a Sentient Machine or an Intellect Construct. Tech 4 bodies are viable for housing of remote operations but the consciousness transfer technology is Tech 5 (or experimental at TL4).
 
 **Classification:** Synthetic Humanoid  

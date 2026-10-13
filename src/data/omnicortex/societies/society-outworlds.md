@@ -7,6 +7,7 @@ description: >-
   Rugged survivalist clans living on the fringes of civilization, bound by
   frontier hospitality and grit.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

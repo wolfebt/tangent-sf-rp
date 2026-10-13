@@ -8,6 +8,7 @@ description: >-
   Level 0 development in Energy & Power Generation: Power generation, fusion
   reactors, antimatter taps, and solar arrays. (Primitive / Subsistence).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

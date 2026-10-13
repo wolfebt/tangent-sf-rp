@@ -11,6 +11,7 @@ mechanic: >-
   Removes Exhausted or Dazed conditions for 1 hour. Character suffers crash (-2
   to checks) afterwards.
 costs:
+  cp: 0
   bp: 0
   credits: 40
   nodes: 0

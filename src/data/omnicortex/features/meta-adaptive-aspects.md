@@ -11,16 +11,18 @@ description: >-
   Attune to inherited ancestral hive memories during rest to temporarily swap or
   adapt personal cognitive proficiencies and specialized aspects.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
 keywords: 'adaptive-aspects, hive-memories, ancestral-resonance, kitin, versatility'
 negative_keywords: 'rigid, stagnant, amnesiac'
+cost_cp: 2
 ---
 
 # Adaptive Aspects (Hive Memories)
 
 **Category**: Meta Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisite**: Hive-Link or Genetic Memory  
 
 ## Description

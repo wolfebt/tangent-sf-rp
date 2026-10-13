@@ -11,7 +11,9 @@ bp: 0
 description: >-
   Rapid subterranean tunnel excavation (3/4 Base Walk) with -2 penalty to
   subtlety.
+cp: 0
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -20,7 +22,7 @@ modifiers: []
 **Category**: Species Movement (STAGE)  
 **Classification**: stage  
 **Target Mode**: Burrowing  
-**Cost**: +0 BP  
+**Cost**: +0 CP  
 
 ## Description
 Rapid subterranean tunnel excavation (3/4 Base Walk) with -2 penalty to subtlety.

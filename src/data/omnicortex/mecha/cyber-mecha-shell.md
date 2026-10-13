@@ -9,6 +9,7 @@ frame: Humanoid
 size: Large
 domain: Ground
 costs:
+  cp: 0
   bp: 0
   credits: 655360
   nodes: 0

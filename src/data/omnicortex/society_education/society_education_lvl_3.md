@@ -8,6 +8,7 @@ description: >-
   Level 3 development in Education & Archives: Knowledge institutions, neural
   archives, apprenticeships, and academies. (Advanced / Stellar).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

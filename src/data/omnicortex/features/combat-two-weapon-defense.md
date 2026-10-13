@@ -9,18 +9,20 @@ is_multiple: false
 prerequisites: Two-Weapon Fighting
 description: The character uses their off-hand weapon to parry and block.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   two-weapon defense, combat, special-feature, combat-maneuver, tactical-edge,
   off-hand
 negative_keywords: 'pacifist, feeble, untrained-civilian'
+cost_cp: 3
 ---
 
 # Two-Weapon Defense
 
 **Category**: Combat Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Two-Weapon Fighting
 
 ## Description

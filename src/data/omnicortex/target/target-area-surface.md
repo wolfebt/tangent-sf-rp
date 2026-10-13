@@ -4,6 +4,7 @@ name: Area / Surface
 description: 'Covers a physical wall, floor, bulkhead, or planetary terrain zone.'
 category: target
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

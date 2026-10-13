@@ -48,7 +48,8 @@ tech_level: 3 (Standard Infantry Gear & Tracking Arrays)
 meta_level: 1 (Pack Empathy)
 homeworld: Kannis-4 Steppes
 costs:
-  bp: 10
+  cp: 12
+  bp: 12
 modifiers:
   - target: Agility
     value: 1
@@ -58,17 +59,17 @@ modifiers:
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 10
-cp: 10
-bp: 10
+cp_cost: 12
+cp: 12
+bp: 12
 description: >-
   Canid humanoids prized across the galaxy as elite trackers, loyal bodyguards,
   law enforcers, and close-quarters assault specialists.
-traits:
-  - trait-digitigrade
-  - trait-pack-tactics-2-to-hit-when-flanking
-  - trait-quick-5ft-movement
-  - trait-uncanny-senses-acute-scent-hearing-4
+traits: &ref_0
+  - trait-digitigrade-ungulated
+  - trait-swarming
+  - trait-quick
+  - trait-scent
 recommended_factions:
   - Coalition of Independent Worlds
   - The Entari Combine
@@ -85,11 +86,12 @@ keywords: >-
   canine-humanoid, tracker, loyal-bodyguard, scent-master, pack-tactics,
   guardian
 negative_keywords: 'treason, lone-wolf, stealth-disguise'
+species_traits: *ref_0
 ---
 
 # Kannid (Canine Humanoid)
 
-**BP Cost:**   
+**CP Cost:** 12 CP  
 **Description:** The Kannid are humanoids of canine-like ancestry, immediately recognizable by their digitigrade legs which grant them a natural Quickness and agile gait. Culturally, they are highly social, generally operating in tight-knit groups known as ‘Packs,’ a structure that emphasizes collective strength and efficiency, boosting their natural Agility and Stamina.   
 Beyond their physical and social traits, they are widely known for being extremely fashion forward, often setting trends with bold, cutting-edge styles.   
 This species is equipped with highly developed sensory organs, possessing Uncanny Sense (Scent) and Uncanny Sense (Hearing), which make them difficult to surprise. However, their distinct xeno-heritage means they often carry a Stigma (Xeno) in wider society.

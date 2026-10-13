@@ -5,6 +5,7 @@ category: species_type
 bp: 18
 cp: 18
 costs:
+  cp: 18
   bp: 18
 senses: 'Darkvision 60 feet, Ether Sight 60 feet.'
 immunities: 'Non-magical physical weapons, disease, poison.'

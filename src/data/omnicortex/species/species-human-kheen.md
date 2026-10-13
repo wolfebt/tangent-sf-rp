@@ -40,17 +40,17 @@ tech_level: 3 (Magi-Tech Synthesis)
 meta_level: 2 (Harmonic Weave)
 homeworld: Border Worlds & Conclave Embassies
 costs:
-  bp: 15
+  cp: 10
+  bp: 10
 modifiers: []
-cp_cost: 15
-cp: 15
-bp: 15
+cp_cost: 10
+cp: 10
+bp: 10
 description: >-
   The Kheen represent stable human-aeld lineages who inherited elven aesthetic
   grace and longevity while maintaining human versatility and adaptability.
-traits:
-  - trait-arcane-affinity
-  - trait-extended-lifespan-200-years
+traits: &ref_0
+  - trait-awakened-arcane
   - trait-longevity
   - trait-low-light-vision
   - trait-reduced-sustenance
@@ -67,11 +67,12 @@ recommended_occupations:
   - Scholar
 keywords: 'half-aeld, cultural-bridge, diplomatic-emissary, refined, longevity, harmony'
 negative_keywords: 'feral, brute-force, primitive-tribal'
+species_traits: *ref_0
 ---
 
 # Kheen Human (Aeld Hybrid)
 
-**BP Cost:**   
+**CP Cost:** 10 CP  
 **Description:** The Kheen, often colloquially known as Half-Aeld, are a distinct human subspecies resulting from the intermingling between baseline Human and Alterian Aeld lineages. They embody a unique synthesis of the two parent races, inheriting the core adaptability and wide-ranging aptitude of humanity while also possessing the intellectual, magical, and graceful predisposition of their elven ancestors.
 
 As a bridge species, Kheen often thrive in societies where Human and Alterian cultures intersect. From their Alterian heritage, they gain a natural affinity for arcane talent, a commitment to knowledge, and a physical grace. They generally possess the taller, more slender build of the Alterians, though with the full spectrum of human variation in features. While they do not share the Alterian's 600+ year lifespan or immunity to sleep, they typically live longer than baseline humans and possess the **Low Light Vision** common to many elven variants. Their combination of the Alterian's intellectual rigor and the human's robust pragmatism makes them exceptionally versatile and capable of excelling in both martial and academic pursuits.

@@ -4,6 +4,7 @@ name: Weapon Misfire / Self Damage
 description: 'The weapon backfires, dealing half base damage directly to the user.'
 category: critical_failure_effect
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -9,6 +9,7 @@ description: Color/light emitting hair; styleable via app.
 stigma: None
 type: Fashionware
 costs:
+  cp: 0
   bp: 0
   credits: 160
   nodes: 0

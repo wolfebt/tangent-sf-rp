@@ -8,6 +8,7 @@ description: >-
   Level 1 development in Agriculture & Biosphere: Food production, farming
   technologies, hydroponics, and ecosystem synthesis. (Emerging / Industrial).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

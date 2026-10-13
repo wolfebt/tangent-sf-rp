@@ -8,6 +8,7 @@ description: >-
   Weaves solid physical mass and energy plasma into an autonomous living
   elemental minion.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 discipline: Matter + Energy

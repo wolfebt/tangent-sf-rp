@@ -7,6 +7,7 @@ description: >-
   High-elegance aristocratic technomancers pursuing esoteric perfection in
   floating crystal spires.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

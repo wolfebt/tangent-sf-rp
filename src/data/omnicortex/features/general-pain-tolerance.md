@@ -9,16 +9,18 @@ is_multiple: false
 prerequisites: 'Tough, Sta 2'
 description: 'Pain Tolerance is a General Feature: Make Stun checks at Advantage.'
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'pain tolerance, general, special-feature, tolerance, feature:, advantage'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Pain Tolerance
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Tough, Sta 2
 
 ## Description

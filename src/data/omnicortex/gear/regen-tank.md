@@ -13,6 +13,7 @@ mechanic: >-
   Heals 1 HP per hour; fully regrows lost limbs or synthetic tissues during
   extended rest.
 costs:
+  cp: 0
   bp: 0
   credits: 10240
   nodes: 0

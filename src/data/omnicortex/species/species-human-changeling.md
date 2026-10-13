@@ -43,22 +43,23 @@ tech_level: 3 (Cosmetic Synthesis)
 meta_level: 2 (Empathic Resonance)
 homeworld: Various Cosmopolitan Stations
 costs:
-  bp: 10
+  cp: 8
+  bp: 8
 modifiers:
   - target: Charisma
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 10
-cp: 10
-bp: 10
+cp_cost: 8
+cp: 8
+bp: 8
 description: >-
   Changelings are human-aeld hybrids carrying dormant shifter alleles. They can
   subtly alter their facial structure, voice, and eye pigments to adopt distinct
   personas.
-traits:
-  - trait-alter-form-minor-facial-skin-hair-shift
-  - trait-intuitive-empathy
+traits: &ref_0
+  - trait-alter-form-basic
+  - trait-emissary
 recommended_factions:
   - The Syndicate
   - The Alterian Enclave
@@ -72,11 +73,12 @@ recommended_occupations:
   - Criminal
 keywords: 'hybrid-shifter, persona-mimic, social-chameleon, subtle, disguise'
 negative_keywords: 'obvious, honest, rigid, static-features'
+species_traits: *ref_0
 ---
 
 # Changeling (Human-Aeld Hybrid)
 
-**BP Cost:**   
+**CP Cost:** 8 CP  
 **Description:**   
 The Changeling is the result of a cross between a baseline Human and a Doppelganger, inheriting the Doppelganger's unique shape-shifting lineage. They are a distinct subspecies often characterized by an innate adaptability and a subtle, unsettling air of 'otherness' that hints at their dual nature.  
 While their Doppelganger ancestors were magically engineered to flawlessly mimic any sentient creature for the purpose of hunting evil, the Changeling's ability is a more limited, *Minor Alter Form* power, allowing for subtle but significant shifts in their physical appearance. They are often predisposed toward becoming proficient social operators, adept at blending in and manipulating social situations.

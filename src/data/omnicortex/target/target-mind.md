@@ -4,6 +4,7 @@ name: Mind / Consciousness
 description: 'Targets neural architecture, ego matrices, or organic brains directly.'
 category: target
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

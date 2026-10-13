@@ -58,6 +58,7 @@ description: >-
   sustainability and protecting natural habitats through direct, often violent,
   action
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Faction Template
@@ -124,7 +125,7 @@ negative_keywords: >-
   * Mechanics (Sabotage) (+3)  
   * Athletics (+3)  
 * **Typical Archetypes:** The Eco-Warrior, The Shaman, The Saboteur, The Terraformer, The Beastmaster, The Grove Warden, The Scavenger, The Outrider, The Herbalist, The Radical Activist.  
-* **Recommended Features (1 BP Discount):** Naturalist, Animal Affinity, Wild Speech, Tracker, Self Sufficient, Camouflage, Tolerance, Danger Sense, Environmental Resistance, Climber.
+* **Recommended Features (1 CP Discount):** Naturalist, Animal Affinity, Wild Speech, Tracker, Self Sufficient, Camouflage, Tolerance, Danger Sense, Environmental Resistance, Climber.
 
 ### **VI. Visual Semiotics (Aesthetics)**
 

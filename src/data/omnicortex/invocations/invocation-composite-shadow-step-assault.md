@@ -8,6 +8,7 @@ description: >-
   Teleports through umbral rifts while leaving behind decoy phantasms to strike
   enemies from behind.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 discipline: Illusion + Dimension

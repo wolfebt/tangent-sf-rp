@@ -2,61 +2,73 @@
 id: origin-research
 name: Research
 category: origins
-habitat: "Science & Laboratory"
+habitat: Science & Laboratory
+ws_modifier: 2
+economic_context: High-tech laboratories & testing worlds; lucrative corporate research grants.
 skill_points: 20
 society_skills:
-  - "Mental (Any)"
-  - "Academics"
-  - "Knowledge (Science)"
-  - "Knowledge (Technology)"
-  - "Vocation (Any)"
+  - Mental (Any)
+  - Academics
+  - Knowledge (Science)
+  - Knowledge (Technology)
+  - Vocation (Any)
 archetypes:
-  - "Scientist"
-  - "Analyst"
-  - "Theorist"
-  - "Archivist"
-  - "Technician"
-  - "Security Officer"
+  - Scientist
+  - Analyst
+  - Theorist
+  - Archivist
+  - Technician
+  - Security Officer
 traits:
-  - "trait-adaptability"
-  - "trait-analytical-thinking"
-  - "trait-attention-to-detail"
-  - "trait-collaboration"
-  - "trait-curiosity"
-  - "trait-intellectualism"
-  - "trait-persistence"
-  - "trait-problem-solving"
-  - "trait-studious"
+  - trait-adaptability
+  - trait-analytical-thinking
+  - trait-attention-to-detail
+  - trait-collaboration
+  - trait-curiosity
+  - trait-intellectualism
+  - trait-persistence
+  - trait-problem-solving
+  - trait-studious
 recommended_species:
-  - "Sigal"
-  - "Celestine (Alterian)"
-  - "Nian Human"
-  - "Intellect Construct (Pure AI)"
-  - "Android"
-  - "Manelli (Kitin Diplomat)"
-  - "Prokos (Auluran Biform)"
-  - "Impyrium Psion (Gen-E)"
-  - "Gen-E (Base Engineered Human)"
-  - "Swarm (Micro-Drone Synthetic)"
+  - Sigal
+  - Celestine (Alterian)
+  - Nian Human
+  - Intellect Construct (Pure AI)
+  - Android
+  - Manelli (Kitin Diplomat)
+  - Prokos (Auluran Biform)
+  - Impyrium Psion (Gen-E)
+  - Gen-E (Base Engineered Human)
+  - Swarm (Micro-Drone Synthetic)
 recommended_factions:
-  - "The Ascendancy"
-  - "Technological Faction Template"
-  - "The Mekan Collective"
-  - "Sentient Intelligence Faction Template"
-  - "Genetic Engineering Faction Template"
-  - "The Alterian Enclave"
+  - The Ascendancy
+  - Technological Faction Template
+  - The Mekan Collective
+  - Sentient Intelligence Faction Template
+  - Genetic Engineering Faction Template
+  - The Alterian Enclave
 recommended_occupations:
-  - "Scholar"
-  - "Specialist"
-  - "Builder"
-  - "Agent"
-  - "Scout"
-  - "Representative"
-keywords: "research-facility, cleanroom-laboratory, supercomputer-array, particle-accelerator, observational-dome, genetic-sequencing, quantum-analysis, test-chambers, data-servers, scientific-method, academic-archive, prototyping, telemetry, whiteboard-hypotheses"
-negative_keywords: "anti-intellectualism, feudal-superstition, primitive-mud-hut, unregulated-street-riot, lawless-mercenary-den, slag-heavy-smelting, decadent-carefree-party, trench-mud-war"
+  - Scholar
+  - Specialist
+  - Builder
+  - Agent
+  - Scout
+  - Representative
+keywords: >-
+  research-facility, cleanroom-laboratory, supercomputer-array,
+  particle-accelerator, observational-dome, genetic-sequencing,
+  quantum-analysis, test-chambers, data-servers, scientific-method,
+  academic-archive, prototyping, telemetry, whiteboard-hypotheses
+negative_keywords: >-
+  anti-intellectualism, feudal-superstition, primitive-mud-hut,
+  unregulated-street-riot, lawless-mercenary-den, slag-heavy-smelting,
+  decadent-carefree-party, trench-mud-war
 description: >-
-  A complex or habitat dedicated to the pursuit of knowledge. These worlds are focused on the systematic scientific investigation of a particular subject, housing clean rooms, orbital observatories, and supercomputer arrays.
+  A complex or habitat dedicated to the pursuit of knowledge. These worlds are
+  focused on the systematic scientific investigation of a particular subject,
+  housing clean rooms, orbital observatories, and supercomputer arrays.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -65,6 +77,7 @@ modifiers: []
 
 **Category**: Origins  
 **Habitat**: Science & Laboratory  
+**EUFT Wealth Score Modifier**: +2 (High-tech laboratories & testing worlds; lucrative corporate research grants.)  
 **Starting Skill Points**: 20 SP (allocated to Society Skills)  
 **Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)
 

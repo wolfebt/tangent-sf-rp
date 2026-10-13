@@ -6,6 +6,7 @@ description: >-
   cost.
 category: critical_success_effect
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

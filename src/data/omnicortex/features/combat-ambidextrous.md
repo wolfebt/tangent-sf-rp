@@ -11,18 +11,20 @@ description: >-
   The character is naturally gifted or intensely trained to use both hands with
   equal proficiency.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   ambidextrous, combat, special-feature, combat-maneuver, tactical-edge,
   naturally
 negative_keywords: 'pacifist, feeble, untrained-civilian'
+cost_cp: 3
 ---
 
 # Ambidextrous
 
 **Category**: Combat Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Agility 2
 
 ## Description

@@ -8,6 +8,7 @@ description: >-
   Level 0 development in Synthetics & AI Rights: Artificial intelligence,
   android rights, synthetic biology, and cybernetics. (Primitive / Subsistence).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -11,16 +11,18 @@ description: >-
   The character keeps their ear to the ground and knows a little bit about every
   local scene.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'well informed, general, special-feature, ground, little'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Well Informed
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: None
 
 ## Description

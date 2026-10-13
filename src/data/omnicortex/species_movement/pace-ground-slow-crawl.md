@@ -11,7 +11,9 @@ bp: 0
 description: >-
   Deliberate stealth crawl (1/4 Base Walk). Grants +4 to stealth; inflicts
   Prone.
+cp: 0
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -20,7 +22,7 @@ modifiers: []
 **Category**: Species Movement (STAGE)  
 **Classification**: stage  
 **Target Mode**: Ground  
-**Cost**: +0 BP  
+**Cost**: +0 CP  
 
 ## Description
 Deliberate stealth crawl (1/4 Base Walk). Grants +4 to stealth; inflicts Prone.

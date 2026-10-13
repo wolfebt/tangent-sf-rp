@@ -3,9 +3,10 @@ id: rule-metafocus-damage
 name: 'Metafocus: Invocations & Damage Resolution'
 category: rules
 description: >-
-  The universal potency calculation, damage scaling per stage, Attune attack rolls,
-  and opposed Counter Effect resolution.
+  The universal potency calculation, damage scaling per stage, Attune attack
+  rolls, and opposed Counter Effect resolution.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

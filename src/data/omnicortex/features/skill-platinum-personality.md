@@ -11,16 +11,18 @@ description: >-
   Platinum Personality is a Skill Feature: Make Bluff and Diplomacy Checks with
   Advantage.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'platinum personality, skill, special-feature, platinum, personality, feature:'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Platinum Personality
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Golden Smile, Cha 4, Dip/Bluff 11
 
 ## Description

@@ -53,6 +53,7 @@ description: >-
   thrill-seekers bound together by a loose code of honor and the promise of
   plunder
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Faction Template
@@ -118,7 +119,7 @@ negative_keywords: 'legal-authorities, maritime-customs-compliance, pacifism, fr
   * Mechanics (+4)  
   * Bluff (+3)  
 * **Typical Archetypes:** The Pirate Captain, The Swashbuckler, The Quartermaster, The Boarding Specialist, The Smuggler.  
-* **Recommended Features (1 BP Discount):** Sneak Attack, Spacer, Weapon Focus (Cutlass/Pistol), Zero-G Training, Gifted Pilot, Runner, Danger Sense, Combat Reflexes, Intimidating Presence, Black Market Access.
+* **Recommended Features (1 CP Discount):** Sneak Attack, Spacer, Weapon Focus (Cutlass/Pistol), Zero-G Training, Gifted Pilot, Runner, Danger Sense, Combat Reflexes, Intimidating Presence, Black Market Access.
 
 ### **VI. Visual Semiotics (Aesthetics)**
 

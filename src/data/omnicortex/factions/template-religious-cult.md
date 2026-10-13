@@ -52,6 +52,7 @@ description: >-
   event, or a dangerous dogma. They are highly insular, demanding absolute
   devotion from their members, and often prepare for a violent cosmic reckoning
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Faction Template
@@ -118,7 +119,7 @@ negative_keywords: >-
   * Melee Combat (+4)  
   * Academics (Theology) (+3)  
 * **Typical Archetypes:** The Prophet, The Inquisitor, The Ascetic, The Martyr, The Zealot Vanguard.  
-* **Recommended Features (1 BP Discount):** Iron Will, Fearless, Indomitable Will, Resolute, Pain Tolerance, Diehard, Unsettling Aura, Power Attack, Channel Smite, Awakened.
+* **Recommended Features (1 CP Discount):** Iron Will, Fearless, Indomitable Will, Resolute, Pain Tolerance, Diehard, Unsettling Aura, Power Attack, Channel Smite, Awakened.
 
 ### **VI. Visual Semiotics (Aesthetics)**
 

@@ -101,8 +101,8 @@ function syncSpecies() {
     const parentSpecies = data.parent_species || 'Independent Xenotypes';
 
     const modifiers = Array.isArray(data.modifiers) ? data.modifiers : [];
-    const bpVal = Number(data.costs?.bp ?? data.cp ?? data.cp_cost ?? 10);
-    const costs = { bp: bpVal };
+    const cpVal = Number(data.costs?.cp ?? data.costs?.bp ?? data.cp ?? data.cp_cost ?? 10);
+    const costs = { cp: cpVal, bp: cpVal };
 
     // Backward-compatibility derivation from modern modifiers:
     const inherent_attribute_modifiers = Array.isArray(data.inherent_attribute_modifiers) ? [...data.inherent_attribute_modifiers] : [];
@@ -166,6 +166,9 @@ function syncSpecies() {
       disadvantages: Array.isArray(data.disadvantages) ? data.disadvantages : [],
       modifiers: modifiers,
       costs: costs,
+      cp: cpVal,
+      bp: cpVal,
+      cp_cost: cpVal,
       inherent_attribute_modifiers: inherent_attribute_modifiers,
       bonus_attribute_points: typeof data.bonus_attribute_points === 'number' ? data.bonus_attribute_points : 0,
       specific_skill_bonuses: specific_skill_bonuses,

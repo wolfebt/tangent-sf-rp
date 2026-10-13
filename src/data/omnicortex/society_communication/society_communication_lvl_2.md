@@ -8,6 +8,7 @@ description: >-
   Level 2 development in Communication & Data: Sub-space relays, ansible
   networks, holonet infrastructure, and telemetry. (Modern / Planetary).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -8,6 +8,7 @@ description: >-
   Level 2 development in Energy & Power Generation: Power generation, fusion
   reactors, antimatter taps, and solar arrays. (Modern / Planetary).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

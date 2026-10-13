@@ -23,6 +23,7 @@ description: >-
   Stops small arms fire while appearing as normal clothing.
 mechanic: 'Concealable (Detectable only with physical inspection). DR 5, SP 10.'
 costs:
+  cp: 0
   bp: 0
   credits: 160
   nodes: 0

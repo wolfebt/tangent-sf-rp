@@ -11,6 +11,7 @@ dr: 10
 stigma: None
 type: Prosthetic
 costs:
+  cp: 0
   bp: 0
   credits: 15
   nodes: 0
@@ -36,7 +37,7 @@ stage: Standard
 keywords: 'armor plating, augmentation, prosthetic, standard, tl-3, general'
 negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
 ---
-Category: **4.3 Limb Upgrades (1 BP Per Upgrade)**
+Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**
 
 **Effect:** Tiered DR 10 / 20 / 40\.
 **Nodes:** 5

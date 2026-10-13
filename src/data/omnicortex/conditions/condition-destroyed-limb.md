@@ -6,6 +6,7 @@ description: >-
   Limb destroyed by catastrophic trauma (2/3 max HP); irreparable without
   prosthesis.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

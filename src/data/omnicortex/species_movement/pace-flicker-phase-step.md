@@ -11,7 +11,9 @@ bp: 0
 description: >-
   Standard quantum phase displacement pace up to 30 ft per round without
   physical traversal.
+cp: 0
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -20,7 +22,7 @@ modifiers: []
 **Category**: Species Movement (STAGE)  
 **Classification**: stage  
 **Target Mode**: Flicker  
-**Cost**: +0 BP  
+**Cost**: +0 CP  
 
 ## Description
 Standard quantum phase displacement pace up to 30 ft per round without physical traversal.

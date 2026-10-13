@@ -435,7 +435,7 @@ export const OMNICORTEX_DATASETS = [
     targetCollection: 'factions',
     icon: Building,
     color: '#10b981',
-    description: 'Parse raw faction documentation into comprehensive JSON documents covering the 7 canonical sections: Overview & Themes, Core Identity, Sociological Profile & Governance, Strategic Assets & Military Doctrine, Game Mechanics (20pt Skill Package, Archetypes, 1 BP Discount Features), Visual Synthesis Protocols (HI-FI INK), and Expansion Modules.',
+    description: 'Parse raw faction documentation into comprehensive JSON documents covering the 7 canonical sections: Overview & Themes, Core Identity, Sociological Profile & Governance, Strategic Assets & Military Doctrine, Game Mechanics (20pt Skill Package, Archetypes, 1 CP Discount Features), Visual Synthesis Protocols (HI-FI INK), and Expansion Modules.',
     promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX FACTION PARSER
 
 **ROLE:** You are an expert worldbuilding archivist and data engineer for Tangent SFF RPG. Your task is to parse raw faction documentation (from Major Factions, Minor Factions, Polities, or Custom Lore) into strict, comprehensive JSON documents for the OMNICORTEX database.
@@ -447,7 +447,7 @@ export const OMNICORTEX_DATASETS = [
 - **Section II. Core Identity:** Official Designation, Colloquialisms, Archetype / Sociological Model, Capital / Key World, Symbol / Sigil, Driving Mandate, Official Motto.
 - **Section III. Sociological Profile:** Ideology & Culture (Core Beliefs, Social Structure, View on Outsiders, Law & Order) and Governance (Government Type, Leadership, Succession).
 - **Section IV. Strategic Assets:** Economy & Tech (Tech Level 0-5, Meta Level 0-5, Wealth Modifier, Primary Exports, Economic Model) and Military Profile (Combat Doctrine, Key Formations, Naval Assets, Unique Tech/Materials).
-- **Section V. Mechanics (Game Data):** Prominent Species, Classification / Faction Type, Faction Skill Package (20 Points Allocation), Typical Archetypes, Recommended Features (1 BP Discount), Bonus Features / Origin & Profession Traits.
+- **Section V. Mechanics (Game Data):** Prominent Species, Classification / Faction Type, Faction Skill Package (20 Points Allocation), Typical Archetypes, Recommended Features (1 CP Discount), Bonus Features / Origin & Profession Traits.
 - **Section VI. Visual Synthesis Protocols (HI-FI INK):** Setting Style, Context & Color Palette, Lighting & Atmospheric Mood, AI Image Generation Prompt.
 - **Section VII. Expansion Modules (Optional):** Scene Vignettes, Sub-Factions, Key Locations, Vehicular Assets, GM Campaign Hooks & Secrets.
 
@@ -501,7 +501,7 @@ export const OMNICORTEX_DATASETS = [
       "String (Recommended skills, e.g. 'Survival', 'Mechanics', 'Small Arms')"
     ],
     "recommended_features": [
-      "String (Tailored faction features available at 1 BP discount, e.g. 'Tough', 'Pain Tolerance', 'Endurance', 'Burst Attack', 'Weapon Improvisation', 'Gearhead', 'Benefit (Authority)', 'Tracker')"
+      "String (Tailored faction features available at 1 CP discount, e.g. 'Tough', 'Pain Tolerance', 'Endurance', 'Burst Attack', 'Weapon Improvisation', 'Gearhead', 'Benefit (Authority)', 'Tracker')"
     ],
     "bonus_features": [
       "String (Inherent or distinctive faction perks/traits, e.g. 'Independent Grit', 'Jack of All Trades')"
@@ -543,7 +543,7 @@ export const OMNICORTEX_DATASETS = [
 **PARSING HEURISTICS & RULES:**
 1. **Snake Case Keys:** Use snake_case for all multi-word keys (e.g. driving_mandate, social_structure, symbol_sigil, tech_level, prominent_species).
 2. **20-Point Skill Packages:** Preserve the exact skill points allocations in the \`skill_package\` array.
-3. **Recommended Features Discount:** Extract recommended features into \`recommended_features\` (players receive these at a 1 BP discount).
+3. **Recommended Features Discount:** Extract recommended features into \`recommended_features\` (players receive these at a 1 CP discount).
 4. **HI-FI INK Protocols:** Accurately extract the visual synthesis protocols into \`setting_style\`, \`context_palette\`, \`lighting_mood\`, and \`image_prompt\`.
 5. **Clean Numeric Levels:** Ensure \`tech_level\` and \`meta_level\` are integer numbers (0-5).
 6. **Output Requirement:** Output ONLY the valid JSON array of objects. Do NOT wrap in conversational prose.
@@ -668,7 +668,7 @@ export const OMNICORTEX_DATASETS = [
         focus: 0,
         ap: 0
       },
-      mechanic: "Players from this faction receive 20 points for faction skills and can purchase recommended features at a 1 BP discount.",
+      mechanic: "Players from this faction receive 20 points for faction skills and can purchase recommended features at a 1 CP discount.",
       note: "GM Secret: Copian robber-barons secretly fund frontier raiders to drive independent homesteaders into debt and corporate vassalage."
     }
   },
@@ -709,7 +709,7 @@ export const OMNICORTEX_DATASETS = [
     "recommended_factions": ["String (Recommended factions employing or commissioning this role)"],
     "recommended_origins": ["String (Recommended origins where this vocation naturally emerges)"],
     "recommended_skills": ["String (Recommended professional skills)"],
-    "recommended_features": ["String (Recommended features granted with -1 BP discount)"],
+    "recommended_features": ["String (Recommended features granted with -1 CP discount)"],
     "keywords": "String (Comma-separated positive directives adding weight for AI and operators)",
     "negative_keywords": "String (Comma-separated negative railguards reducing weight for AI and operators)",
     "note": "String or null (Common contacts, starting gear packages, GM hooks)"
@@ -718,7 +718,7 @@ export const OMNICORTEX_DATASETS = [
 
 **PARSING HEURISTICS & RULES:**
 1. **Skill & Attribute Packages:** Convert granted vocational skills and attribute adjustments into discrete entries inside the modifiers array.
-2. **Demographic & Mechanical Synergies:** Extract recommended_species, recommended_factions, recommended_origins, recommended_skills, and recommended_features (-1 BP discount) into string arrays.
+2. **Demographic & Mechanical Synergies:** Extract recommended_species, recommended_factions, recommended_origins, recommended_skills, and recommended_features (-1 CP discount) into string arrays.
 3. **AI Guidance:** Extract keywords (adds weight) and negative_keywords (reduces weight / railguards) for operator and AI reference.
 4. **Output Requirement:** Output ONLY the valid JSON block.
 
@@ -1864,7 +1864,7 @@ export const OMNICORTEX_DATASETS = [
     "recommended_factions": ["String (Recommended factions with presence or jurisdiction)"],
     "recommended_occupations": ["String (Recommended vocations and professions)"],
     "recommended_skills": ["String (Recommended society and survival skills)"],
-    "recommended_features": ["String (Recommended features granted with -1 BP discount)"],
+    "recommended_features": ["String (Recommended features granted with -1 CP discount)"],
     "keywords": "String (Comma-separated positive directives adding weight for AI and operators)",
     "negative_keywords": "String (Comma-separated negative railguards reducing weight for AI and operators)",
     "note": "String or null (Common origin associations and GM hooks)"

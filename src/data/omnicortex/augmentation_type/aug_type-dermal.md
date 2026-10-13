@@ -8,6 +8,7 @@ description: >-
   subcutaneous energy absorption grids.
 category: augmentation_type
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -8,6 +8,7 @@ description: >-
   Level 1 development in Devices & Apparatus: Consumer electronics, personal
   computing, sensors, tools, and apparatus. (Emerging / Industrial).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

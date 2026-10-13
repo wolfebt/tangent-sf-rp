@@ -8,6 +8,7 @@ description: >-
   Level 4 development in Communication & Data: Sub-space relays, ansible
   networks, holonet infrastructure, and telemetry. (Mastered / Interstellar).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -9,16 +9,18 @@ is_multiple: false
 prerequisites: Medicine 1
 description: The character is trained in emergency triage and trauma care.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'medic, skill, special-feature, trained, emergency, triage'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Medic
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Medicine 1
 
 ## Description

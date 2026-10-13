@@ -11,16 +11,18 @@ description: >-
   Mental Alacrity is a General Feature: Gain additional Mental Action if doing
   nothing physical.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'mental alacrity, general, special-feature, mental, alacrity, feature:'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Mental Alacrity
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Lightning Calc, Trance, Int 2
 
 ## Description

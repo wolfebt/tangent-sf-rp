@@ -46,7 +46,8 @@ tech_level: 3 (Heavy Metallurgy & Kinetic Forges)
 meta_level: 1 (Earth / Mineral Resonance)
 homeworld: Nidavellir Asteroid Belt
 costs:
-  bp: 18
+  cp: 19
+  bp: 19
 modifiers:
   - target: Strength
     value: 1
@@ -56,16 +57,16 @@ modifiers:
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 18
-cp: 18
-bp: 18
+cp_cost: 19
+cp: 19
+bp: 19
 description: >-
   Stocky, broad-shouldered heavy-world humans renowned for foundry work,
   starship armor plating, and asteroid mining.
-traits:
-  - trait-dense-musculature
-  - trait-mighty-surge-1-encounter-bonus-to-str-sta-checks
-  - trait-poison-resistance
+traits: &ref_0
+  - trait-natural-armor
+  - trait-mighty-surge
+  - trait-hardy
 recommended_factions:
   - The Entari Combine
   - The Outworlds
@@ -79,13 +80,14 @@ recommended_occupations:
   - Merchant
 keywords: 'asteroid-miner, forge-craft, dense-bone, foundry-armor, tenacious, blacksmith'
 negative_keywords: 'graceful-aerial, swimming, frail'
+species_traits: *ref_0
 ---
 
 # Dwerg Human (Forge Folk)
 
 *
 
-**BP Cost:**   
+**CP Cost:** 19 CP  
 **Description:** Dwerg, a prominent human variant frequently referred to as Dwarves, possess a distinctive physiological profile rooted in their evolution on a high-gravity world. This intense gravitational environment has acted as a potent selective pressure, fundamentally shaping their physical characteristics.
 
 The most noticeable result of this evolution is their dense, compact physique and markedly shorter-than-average stature. While classified as Medium size in general terms, their typical height is around 5 feet, giving them a "Stocky" build. Despite this reduced height, their bone density and muscular mass are significantly increased, leading to a body weight comparable to, or sometimes exceeding, that of a baseline human of average height. This combination of short stature and high mass contributes to an exceptionally low center of gravity, granting them superior stability, balance, and physical resilience. Their circulatory and skeletal systems are also uniquely adapted to withstand high-stress environments.

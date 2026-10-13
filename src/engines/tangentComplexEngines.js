@@ -158,21 +158,23 @@ export function calculateAugmentationNodes({
 }
 
 /**
- * Calculates Build Points (BP) biological tolerance cost.
+ * Calculates Character Points (CP) / Build Points (BP) biological tolerance cost.
  */
 export function calculateAugmentationBP({
   category = 'body_mod',
+  customCP = null,
   customBP = null,
   tl = 3,
   isFBC = false,
   fbcPackage = 'Civilian'
 } = {}) {
   if (isFBC && FBC_PACKAGES[fbcPackage]) {
-    return FBC_PACKAGES[fbcPackage].bpCost;
+    return FBC_PACKAGES[fbcPackage].cpCost ?? FBC_PACKAGES[fbcPackage].bpCost;
   }
 
-  if (customBP !== null && customBP !== undefined && !isNaN(customBP)) {
-    return Number(customBP);
+  const userCost = customCP !== null && customCP !== undefined ? customCP : customBP;
+  if (userCost !== null && userCost !== undefined && !isNaN(userCost)) {
+    return Number(userCost);
   }
 
   if (category === 'fashionware' || category === 'pseudo' || category === 'synth_limb') {
@@ -187,8 +189,10 @@ export function calculateAugmentationBP({
     return 1; // 1/2 BP rounded up, min 1
   }
 
-  return AUGMENTATION_CATEGORIES[category]?.defaultBP ?? 2;
+  return AUGMENTATION_CATEGORIES[category]?.defaultCP ?? AUGMENTATION_CATEGORIES[category]?.defaultBP ?? 2;
 }
+
+export const calculateAugmentationCP = calculateAugmentationBP;
 
 /**
  * Calculates Structure Points (SP) for the augmented limb/body.
@@ -533,11 +537,23 @@ export function getAugmentationNodes(aug) {
 }
 
 /**
- * Extracts Build Points (BP) cost for an augmentation.
+ * Extracts Character Points (CP) / Build Points (BP) cost for an augmentation.
  */
 export function getAugmentationBP(aug) {
   if (!aug) return 1;
   if (typeof aug !== 'object') return 1;
+  if (aug.costs?.cp !== undefined && !isNaN(aug.costs.cp) && Number(aug.costs.cp) >= 0) {
+    return Number(aug.costs.cp);
+  }
+  if (aug.cp !== undefined && !isNaN(aug.cp) && Number(aug.cp) >= 0) {
+    return Number(aug.cp);
+  }
+  if (aug.cp_cost !== undefined && !isNaN(aug.cp_cost) && Number(aug.cp_cost) >= 0) {
+    return Number(aug.cp_cost);
+  }
+  if (aug.cpCost !== undefined && !isNaN(aug.cpCost) && Number(aug.cpCost) >= 0) {
+    return Number(aug.cpCost);
+  }
   if (aug.costs?.bp !== undefined && !isNaN(aug.costs.bp) && Number(aug.costs.bp) >= 0) {
     return Number(aug.costs.bp);
   }
@@ -550,15 +566,16 @@ export function getAugmentationBP(aug) {
   if (aug.bpCost !== undefined && !isNaN(aug.bpCost) && Number(aug.bpCost) >= 0) {
     return Number(aug.bpCost);
   }
-  if (aug.cp !== undefined && !isNaN(aug.cp) && Number(aug.cp) >= 0) {
-    return Number(aug.cp);
-  }
   if (typeof aug.body === 'string') {
+    const cpMatch = aug.body.match(/CP:\s*(\d+)/i);
+    if (cpMatch) return parseInt(cpMatch[1], 10);
     const match = aug.body.match(/BP:\s*(\d+)/i);
     if (match) return parseInt(match[1], 10);
   }
   return 1;
 }
+
+export const getAugmentationCP = getAugmentationBP;
 
 /**
  * Normalizes an augmentation's location to one of the canonical body slots.
@@ -676,31 +693,39 @@ export function determineAugmentationStage(characterData, options = {}) {
 }
 
 /**
- * Computes Build Points (BP) Credit and overflow cost based on active stage.
+ * Computes Character Points (CP) / Build Points (BP) Credit and overflow cost based on active stage.
  */
 export function calculateAugmentationStageBP(characterData, stageInfo = null) {
   const currentStageInfo = stageInfo || determineAugmentationStage(characterData);
-  const bpCredit = currentStageInfo?.stage?.bpCredit ?? 0;
+  const cpCredit = currentStageInfo?.stage?.cpCredit ?? currentStageInfo?.stage?.bpCredit ?? 0;
+  const bpCredit = cpCredit;
 
   const augList = Array.isArray(characterData?.augmentations) ? characterData.augmentations : [];
-  const totalBPSpent = augList.reduce((acc, aug) => acc + getAugmentationBP(aug), 0);
+  const totalCPSpent = augList.reduce((acc, aug) => acc + getAugmentationBP(aug), 0);
+  const totalBPSpent = totalCPSpent;
 
-  const remainingCredit = Math.max(0, bpCredit - totalBPSpent);
-  const overflowBP = Math.max(0, totalBPSpent - bpCredit);
-  const isOverCredit = totalBPSpent > bpCredit;
-  const overflowCreditsEquivalent = overflowBP * 2500; // Standard Tangent exchange: 2,500 Cr per BP
+  const remainingCredit = Math.max(0, cpCredit - totalCPSpent);
+  const overflowCP = Math.max(0, totalCPSpent - cpCredit);
+  const overflowBP = overflowCP;
+  const isOverCredit = totalCPSpent > cpCredit;
+  const overflowCreditsEquivalent = overflowCP * 2500; // Standard Tangent exchange: 2,500 Cr per CP
 
   return {
     stageId: currentStageInfo.stageId,
     stageName: currentStageInfo.stage.name,
+    cpCredit,
     bpCredit,
+    totalCPSpent,
     totalBPSpent,
     remainingCredit,
+    overflowCP,
     overflowBP,
     isOverCredit,
     overflowCreditsEquivalent
   };
 }
+
+export const calculateAugmentationStageCP = calculateAugmentationStageBP;
 
 /**
  * Calculates anatomical capacity limits and current usage for the Body Chart.

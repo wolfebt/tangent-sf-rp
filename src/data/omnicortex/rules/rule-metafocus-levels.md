@@ -1,10 +1,12 @@
 ---
 id: rule-metafocus-levels
-name: 'Metafocus Level (ML 0–6) & Skill Caps'
+name: Metafocus Level (ML 0–6) & Skill Caps
 category: rules
 description: >-
-  Prevalence of Metaphysics in civilizations, starting maximum discipline skill rank calculation (ML * 2), and Attune exemption.
+  Prevalence of Metaphysics in civilizations, starting maximum discipline skill
+  rank calculation (ML * 2), and Attune exemption.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -21,6 +21,7 @@ synergy_links:
   - mental-researcher
   - mental-physics
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'science, mental, intellect, cognitive, expertise, scientific'

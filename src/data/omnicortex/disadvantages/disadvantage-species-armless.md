@@ -7,18 +7,20 @@ classification: Physical
 type: Physical
 bp_granted: 4
 costs:
+  cp: -4
   bp: -4
 description: Without Arms.
 prerequisite: ''
 modifiers: []
 keywords: 'armless, hindrance, penalty, physical, without'
 negative_keywords: 'perfection, flawless, unyielding, invulnerable'
+cp_granted: '4'
 ---
 
 # Armless
 
-**Category**: Species Disadvantages (BP Reduction)  
-**BP Refund**: +4 BP (Cost: -4 BP)  
+**Category**: Species Disadvantages (CP Reduction)  
+**CP Refund**: +4 CP (Cost: -4 CP)  
 **Type**: Physical  
 
 ## Description

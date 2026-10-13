@@ -9,7 +9,9 @@ multiplier: 8
 speed: 480
 bp: 0
 description: High-speed tactical descent (8x Fly) for precision dive attacks.
+cp: 0
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -18,7 +20,7 @@ modifiers: []
 **Category**: Species Movement (STAGE)  
 **Classification**: stage  
 **Target Mode**: Flying  
-**Cost**: +0 BP  
+**Cost**: +0 CP  
 
 ## Description
 High-speed tactical descent (8x Fly) for precision dive attacks.

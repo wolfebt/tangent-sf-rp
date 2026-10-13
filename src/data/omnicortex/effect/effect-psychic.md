@@ -7,6 +7,7 @@ description: >-
   armor.
 category: effect
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

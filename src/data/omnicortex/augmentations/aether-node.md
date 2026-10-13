@@ -9,6 +9,7 @@ description: Access 1 Metafocus (No Awakened req).
 stigma: None
 type: Esoteric
 costs:
+  cp: 0
   bp: 0
   credits: 163840
   nodes: 0
@@ -37,4 +38,4 @@ negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
 Category: **9\. TL5 Advanced Augmentations**
 
 **Effect:** Access 1 Metafocus (No Awakened req).
-**BP:** 4
+**CP:** 4

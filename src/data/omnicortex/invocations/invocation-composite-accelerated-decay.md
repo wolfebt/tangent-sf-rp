@@ -8,6 +8,7 @@ description: >-
   Accelerates local entropy across centuries, corroding durasteel plating to
   dust in seconds.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 discipline: Entropy + Dimension

@@ -32,17 +32,19 @@ description: >-
   Leader of a criminal organization, overseeing illegal activities and managing
   a network of underlings.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'kingpin, visionary, idealist, leadership, charisma, leader, minion master'
 negative_keywords: 'anti-social, mute, solitary-hermit'
+cp_chassis: 80
 ---
 
 # The Kingpin
 
 **Sphere**: Visionaries (The Idealists)  
 **Core Concept**: Leader / Minion Master / Intimidator  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Charisma  
 **Secondary Attribute**: Strength  
 

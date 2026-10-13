@@ -5,6 +5,7 @@ category: invocations
 discipline: Entropy
 description: NAUSEATE invocation for Entropy reality manipulation.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 recommended_species:

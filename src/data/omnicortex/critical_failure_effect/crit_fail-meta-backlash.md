@@ -6,6 +6,7 @@ description: >-
   Health.
 category: critical_failure_effect
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

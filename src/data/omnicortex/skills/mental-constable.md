@@ -22,6 +22,7 @@ synergy_links:
   - social-intimidate
   - mental-alertness
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'constable, mental, wisdom, intellect, cognitive, expertise'

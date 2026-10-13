@@ -8,19 +8,21 @@ is_ranked: false
 is_multiple: false
 prerequisites: None
 description: >-
-  The character's physiology metabolizes or neutralizes poisons, venoms, neurotoxins, and biochemical agents with superior efficiency.
+  The character's physiology metabolizes or neutralizes poisons, venoms,
+  neurotoxins, and biochemical agents with superior efficiency.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
-keywords: >-
-  toxic-resistance, immunity, poison, venom, resilience, fortitude
+keywords: 'toxic-resistance, immunity, poison, venom, resilience, fortitude'
 negative_keywords: 'fragile, susceptible, poisoned'
+cost_cp: 3
 ---
 
 # Toxic Resistance
 
 **Category**: Ability Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: None
 
 ## Description

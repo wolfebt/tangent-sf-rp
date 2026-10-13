@@ -11,16 +11,18 @@ description: >-
   The character has an intuitive understanding of machinery, engines, and
   mechanical systems.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'gearhead, skill, special-feature, intuitive, understanding, machinery'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Gearhead
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Engineering 1 or Mechanics 1
 
 ## Description

@@ -10,6 +10,7 @@ dr: 10
 stigma: None
 type: Cybernetic Armor
 costs:
+  cp: 0
   bp: 0
   credits: 40960
   nodes: 0

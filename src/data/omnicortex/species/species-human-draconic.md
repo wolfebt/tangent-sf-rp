@@ -40,19 +40,20 @@ tech_level: 3 (Dracon Dynasty Imperial Tech)
 meta_level: 2 (Elemental Fire)
 homeworld: Dracon Dynasty Capitals
 costs:
-  bp: 10
+  cp: 7
+  bp: 7
 modifiers: []
-cp_cost: 10
-cp: 10
-bp: 10
+cp_cost: 7
+cp: 7
+bp: 7
 description: >-
   Humans bearing the nobility mark and genetic legacy of the Dracon Dynasty.
   They possess patchworks of iridescent scales, heat tolerance, and commanding
   social presence.
-traits:
-  - trait-dragonkin-traits-partial-scales-dr-1-heat-resistance
-  - trait-fiery-resolve
-  - trait-status-dynasty-ties
+traits: &ref_0
+  - trait-dragonkin-traits
+  - trait-energy-resist
+  - trait-sociable
 recommended_factions:
   - Dracon Dynasty
   - Military Faction Template
@@ -65,13 +66,14 @@ recommended_occupations:
   - Specialist
 keywords: 'dragon-blood, feudal-knight, iridescent-scales, heat-hardened, commanding'
 negative_keywords: 'cowardly, dishonorable, treacherous'
+species_traits: *ref_0
 ---
 
 # Draconic Human (Dragonkin Bloodline)
 
 *
 
-**BP Cost:**   
+**CP Cost:** 7 CP  
 **Description:** The Dragon-Blooded individuals within the Dynasty are a distinct and powerful class, sharing many traits and characteristics with the Draconian Alterians, a lineage renowned for their strength and prestige. The draconic essence that flows through their veins sets them apart and grants them an innate, almost mythical authority.
 
 An individual exhibiting Draconic features or ancestry automatically commands a deep, ingrained respect from all strata of society, from the lowliest commoner working the fields to the most powerful noble seated on the Imperial Council. This deference is not merely a courtesy extended to a title or wealth; it is a fundamental reaction to their inherent, powerful nature. A Dragon-Blooded person, even if they possess no ancestral claim to a Noble family's titles, lands, or wealth, will be treated with a level of reverence and awe typically reserved for high-ranking royalty or legendary heroes.

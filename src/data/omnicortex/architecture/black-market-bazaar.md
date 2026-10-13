@@ -23,6 +23,7 @@ mechanic: >-
   SP: 1,200. DR: 8 (Patchwork Metal). Modules: 25. Vendor Stalls (15), Hidden
   Storage (4), Gambling Den (2), Armored Safe Room (4).
 costs:
+  cp: 0
   bp: 0
   credits: 10240
   nodes: 0

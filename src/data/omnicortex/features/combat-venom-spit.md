@@ -6,21 +6,23 @@ feature_category: Combat
 cost_bp: 2
 is_ranked: false
 is_multiple: false
-prerequisites: Toxic Blood, Stamina 2
+prerequisites: 'Toxic Blood, Stamina 2'
 description: >-
-  Aerosolized or projectile spit of contact ocular neurotoxin that blinds victims
-  upon striking their eyes or sensory membranes.
+  Aerosolized or projectile spit of contact ocular neurotoxin that blinds
+  victims upon striking their eyes or sensory membranes.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
 keywords: 'venom-spit, contact-poison, blindness, ranged-attack, spit, kitin'
 negative_keywords: 'melee-only, harmless'
+cost_cp: 2
 ---
 
 # Venom Spit
 
 **Category**: Combat / Physical Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisite**: Toxic Blood, Stamina 2  
 
 ## Description

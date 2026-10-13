@@ -11,16 +11,18 @@ description: >-
   The character sacrifices precision for raw force, trading attack accuracy for
   devastating damage.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'power attack, skill, special-feature, sacrifices, precision, trading'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Power Attack
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Strength 2, Unarmed or Melee 6
 
 ## Description

@@ -8,6 +8,7 @@ description: >-
   Bends local dimensions into an infinite, shifting sensory maze from which
   enemies cannot escape.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 discipline: Illusion + Dimension

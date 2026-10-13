@@ -30,17 +30,19 @@ tactical_role: 'Engaging enemy leaders, mobile melee damage, flamboyant distract
 quote: '"En garde! Try not to bore me."'
 description: A skilled combatant who excels in boarding actions and close-quarters flair.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'swashbuckler, operative, artisan, adaptable, specialist, melee dps, mobility'
 negative_keywords: 'incompetent, untrained, undisciplined'
+cp_chassis: 80
 ---
 
 # The Swashbuckler
 
 **Sphere**: Operatives (The Artisans)  
 **Core Concept**: Melee DPS / Mobility / Face  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Agility  
 **Secondary Attribute**: Charisma  
 

@@ -22,6 +22,7 @@ synergy_links:
   - mental-engineer
   - mental-physics
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'energy, combat, agility, tactical, offensive, defense'

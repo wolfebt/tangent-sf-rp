@@ -6,21 +6,25 @@ feature_category: Physical
 cost_bp: 2
 is_ranked: false
 is_multiple: false
-prerequisites: 'Strength 2'
+prerequisites: Strength 2
 description: >-
-  Biomechanical muscle architecture and hydraulic frame geometry allow the character
-  to count as 1 size larger for lifting and carrying capacity.
+  Biomechanical muscle architecture and hydraulic frame geometry allow the
+  character to count as 1 size larger for lifting and carrying capacity.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
-keywords: 'enhanced-strength, lifting, carrying-capacity, size-modifier, muscle-density, tauric-frame'
+keywords: >-
+  enhanced-strength, lifting, carrying-capacity, size-modifier, muscle-density,
+  tauric-frame
 negative_keywords: 'frail, feeble, over-encumbered'
+cost_cp: 2
 ---
 
 # Enhanced Strength
 
 **Category**: Physical Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisites**: Strength 2  
 
 ## Description

@@ -6,6 +6,7 @@ description: >-
   Harnesses raw wind, pressure differentials, and atmospheric currents. Deals
   concussive force, knocks targets prone, and suffocates.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

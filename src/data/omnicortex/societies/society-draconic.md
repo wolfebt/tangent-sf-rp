@@ -7,6 +7,7 @@ description: >-
   Rigid chivalric caste structure governed by dragon-blooded lords, honorable
   knights, and loyal commoners.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

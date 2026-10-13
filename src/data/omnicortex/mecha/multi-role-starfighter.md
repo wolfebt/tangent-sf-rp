@@ -16,6 +16,7 @@ description: >-
   void strikes.
 mechanic: 'Twin Lasers (3d8), Proton Torpedo Launcher, Atmospheric Flight & Void Shields.'
 costs:
+  cp: 0
   bp: 0
   credits: 163840
   nodes: 0

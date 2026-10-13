@@ -9,18 +9,20 @@ is_multiple: false
 prerequisites: 'Agility 2, Unarmed 1'
 description: The character can knock aside projectiles with a weapon or free hand.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   deflect arrows, combat, special-feature, combat-maneuver, tactical-edge,
   projectiles
 negative_keywords: 'pacifist, feeble, untrained-civilian'
+cost_cp: 3
 ---
 
 # Deflect Arrows
 
 **Category**: Combat Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Agility 2, Unarmed 1
 
 ## Description

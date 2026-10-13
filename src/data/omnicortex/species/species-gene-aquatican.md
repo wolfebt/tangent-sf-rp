@@ -42,19 +42,19 @@ tech_level: 4 (Deep Trench Tech)
 meta_level: 1 (Echo Resonance)
 homeworld: Syndicate Marine Arcologies
 costs:
-  bp: 14
+  cp: 7
+  bp: 7
 modifiers: []
-cp_cost: 14
-cp: 14
-bp: 14
+cp_cost: 7
+cp: 7
+bp: 7
 description: >-
   Syndicate-engineered pelagic operatives bred for underwater sabotage, deep-sea
   mining security, and submerged salvage.
-traits:
-  - trait-adapted-deep-ocean
+traits: &ref_0
+  - trait-adapted
   - trait-amphibious
-  - trait-hydrodynamic-skin
-  - trait-natural-swim-speed-40ft
+  - trait-aquatic
 recommended_factions:
   - The Syndicate
   - Corporate Faction Template
@@ -72,11 +72,12 @@ keywords: >-
   pelagic, gilled, deep-trench, aquatic-combat, pressure-hardened,
   underwater-sabotage
 negative_keywords: 'dehydration, desert-wasteland, fire, clumsy-on-land'
+species_traits: *ref_0
 ---
 
 # Aquatican (Syndicate Pelagic Operative)
 
-**BP Cost:**   
+**CP Cost:** 7 CP  
 **Description:** Aquatic Humans of Aquatica, a unique and potent engineered human-variant. This species has been in existence for over a century, representing one of the Syndicate's most ambitious and successful genetic projects. They are the Syndicate's original Chimera GeNe, developed through the precise splicing of Aquarian genetics with standard Human DNA.
 
 This engineered lineage possesses several noticeable aquatic traits that distinguish them from baseline humans. Physically, they exhibit larger eyes, granting superior vision in low-light, watery environments. Their skin often features silvery scales that provide a degree of protection and aid in hydrodynamic movement. A clear predatory adaptation is their set of pointed teeth. Most notably, they possess full webbing on their fingers and toes, a trait that necessitates the use of custom gloves and boots for comfortable and practical use of standard human technology and environments.

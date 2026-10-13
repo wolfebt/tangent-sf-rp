@@ -6,6 +6,7 @@ description: >-
   Taking 2/3 Health in damage damages a limb beyond any use. No check; brain
   death GM discretion.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

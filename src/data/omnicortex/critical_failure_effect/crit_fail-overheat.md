@@ -4,6 +4,7 @@ name: Energy Overheat / Venting
 description: Energy cell or barrel vents superheated gas; weapon cannot fire for 1 round.
 category: critical_failure_effect
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

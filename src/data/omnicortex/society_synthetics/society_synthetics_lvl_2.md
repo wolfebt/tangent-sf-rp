@@ -8,6 +8,7 @@ description: >-
   Level 2 development in Synthetics & AI Rights: Artificial intelligence,
   android rights, synthetic biology, and cybernetics. (Modern / Planetary).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

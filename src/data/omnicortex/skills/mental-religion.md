@@ -20,6 +20,7 @@ synergy_links:
   - mental-culture
   - social-oratory
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'religion, mental, wisdom, intellect, cognitive, expertise'

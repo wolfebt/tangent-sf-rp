@@ -5,6 +5,7 @@ trait_tier: Basic
 trait_type: Species Trait
 category: traits
 costs:
+  cp: 1
   bp: 1
 description: >-
   Identify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of
@@ -16,7 +17,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Basic
 **Type**: Species Trait
-**BP Cost**: 1
+**CP Cost**: 1
 
 ## Description
 Identify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).

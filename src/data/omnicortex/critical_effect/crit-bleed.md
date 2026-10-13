@@ -6,6 +6,7 @@ description: >-
   with Medical DC 15.
 category: critical_effect
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

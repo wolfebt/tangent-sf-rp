@@ -11,16 +11,18 @@ description: >-
   Official security clearance granting access to classified databases,
   restricted orbital facilities, and top-secret projects.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'benefit (clearance), general, special-feature, official, security, clearance'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Benefit (Clearance)
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Special (Military or Corporate standing)
 
 ## Description

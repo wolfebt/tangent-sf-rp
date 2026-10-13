@@ -20,6 +20,7 @@ synergy_links:
   - social-legerdemain
   - combat-unarmed
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'stealth, physical, agility, mobility, athletics, bodily-coordination'

@@ -1,24 +1,27 @@
 ---
 id: disadvantage-fragile-frame
-name: 'Fragile Frame'
+name: Fragile Frame
 category: disadvantages
 bp_granted: 2
 hindrance_type: Physical
 description: >-
-  Outside of a mecha or protective containment pod, the organism has an extremely fragile
-  physiology and suffers a -2 penalty to all physical saving throws.
+  Outside of a mecha or protective containment pod, the organism has an
+  extremely fragile physiology and suffers a -2 penalty to all physical saving
+  throws.
 costs:
+  cp: 0
   bp: 0
 refundBP: 2
 modifiers: []
 keywords: 'fragile-frame, syndess, larva, soft-dermis, physical-penalty, hindrance'
 negative_keywords: 'sturdy, resilient, durable'
+cp_granted: '2'
 ---
 
 # Fragile Frame
 
 **Category**: Hindrances & Disadvantages  
-**BP Granted / Refund**: 2 BP  
+**CP Granted / Refund**: 2 CP  
 **Type**: Physical  
 
 ## Description

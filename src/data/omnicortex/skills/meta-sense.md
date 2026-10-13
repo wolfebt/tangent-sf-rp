@@ -19,6 +19,7 @@ specialties:
 synergy_links:
   - meta-attune
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'sense, meta, wisdom, metafocus, psionic, resonance'

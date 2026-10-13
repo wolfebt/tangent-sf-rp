@@ -8,6 +8,7 @@ description: >-
   Level 4 development in Energy & Power Generation: Power generation, fusion
   reactors, antimatter taps, and solar arrays. (Mastered / Interstellar).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

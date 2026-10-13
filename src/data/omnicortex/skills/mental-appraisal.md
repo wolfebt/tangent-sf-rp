@@ -21,6 +21,7 @@ synergy_links:
   - social-barter
   - mental-artificer
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'appraisal, mental, intellect, cognitive, expertise, assessing'

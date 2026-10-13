@@ -53,6 +53,7 @@ description: >-
   deep-rooted defense, utilizing extreme local knowledge and entrenched
   fortifications to repel off-world invaders
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Faction Template
@@ -118,7 +119,7 @@ negative_keywords: 'intergalactic-empire, nomadic-drifters, foreign-interference
   * Combat (Rifle/Artillery) (+3)  
   * Mechanics (+3)  
 * **Typical Archetypes:** The Planetary Governor, The Trench Veteran, The Local Guide, The Anti-Air Gunner, The Partisan.  
-* **Recommended Features (1 BP Discount):** Defensive Combat Training, Coordinated Assist, Iron Will, Tracker, Enduring, Tough, Camouflage, Master Plan, Benefit (Status), Environmental Resistance.
+* **Recommended Features (1 CP Discount):** Defensive Combat Training, Coordinated Assist, Iron Will, Tracker, Enduring, Tough, Camouflage, Master Plan, Benefit (Status), Environmental Resistance.
 
 ### **VI. Visual Semiotics (Aesthetics)**
 

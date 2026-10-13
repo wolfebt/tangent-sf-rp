@@ -5,6 +5,7 @@ trait_tier: Basic
 trait_type: Origin Trait
 category: traits
 costs:
+  cp: 1
   bp: 1
 description: >-
   Honed instincts for foraging, navigating wilderness, and finding shelter in
@@ -16,7 +17,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Basic
 **Type**: Origin Trait
-**BP Cost**: 1
+**CP Cost**: 1
 
 ## Description
 Honed instincts for foraging, navigating wilderness, and finding shelter in hostile terrain.

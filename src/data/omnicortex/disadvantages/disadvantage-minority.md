@@ -8,16 +8,18 @@ description: >-
   Belonging to an oppressed, feared, or heavily stigmatized demographic,
   species, or creed in the sector.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'minority, hindrance, penalty, general, belonging, oppressed'
 negative_keywords: 'perfection, flawless, unyielding, invulnerable'
+cp_granted: 2+
 ---
 
 # Minority
 
 **Category**: Hindrances & Disadvantages  
-**BP Granted**: 2+ BP  
+**CP Granted**: 2+ CP  
 **Type**: Social
 
 ## Description

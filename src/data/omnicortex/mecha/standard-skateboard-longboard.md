@@ -16,6 +16,7 @@ description: >-
   smooth, flat terrain.
 mechanic: Movement x1.5 on paved streets. Manual propulsion.
 costs:
+  cp: 0
   bp: 0
   credits: 10
   nodes: 0

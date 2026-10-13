@@ -20,6 +20,7 @@ synergy_links:
   - mental-culture
   - social-leadership
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'diplomacy, social, charisma, interaction, influence, persuasion'

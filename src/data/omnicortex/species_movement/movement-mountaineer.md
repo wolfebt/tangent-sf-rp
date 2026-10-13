@@ -11,7 +11,9 @@ bp: 1
 description: >-
   Immune to altitude sickness and suffers no defense penalties on narrow or
   slippery vertical surfaces.
+cp: 1
 costs:
+  cp: 1
   bp: 1
 modifiers: []
 ---
@@ -20,7 +22,7 @@ modifiers: []
 **Category**: Species Movement (MODIFIER)  
 **Classification**: modifier  
 **Target Mode**: Climbing  
-**Cost**: +1 BP  
+**Cost**: +1 CP  
 **Speed Modifier**: 0 ft (Additive)  
 
 ## Description

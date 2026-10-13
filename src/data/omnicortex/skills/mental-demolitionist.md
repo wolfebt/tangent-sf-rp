@@ -20,6 +20,7 @@ synergy_links:
   - mental-architect
   - mental-physics
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'demolitionist, mental, intellect, cognitive, expertise, explosives'

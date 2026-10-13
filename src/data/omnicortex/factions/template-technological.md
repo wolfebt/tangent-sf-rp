@@ -53,6 +53,7 @@ description: >-
   sacrifice. They possess the most advanced prototypes in the galaxy but lack
   the empathy to care about who gets hurt during the testing phase
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Faction Template
@@ -118,7 +119,7 @@ negative_keywords: 'luddite-primitive, technophobia, organic-purity, anti-cybern
   * Mechanics (+3)  
   * Medicine (+3)  
 * **Typical Archetypes:** The Mad Scientist, The Lead Engineer, The Hacker, The Field Tester, The Prototype Guard.  
-* **Recommended Features (1 BP Discount):** Gearhead, Tech Interface, Inventor, Master Craftsman, Computer Specialist, Coding Master, Lightning Calculator, Logic-Mind, Augmented, Benefit (Equipment).
+* **Recommended Features (1 CP Discount):** Gearhead, Tech Interface, Inventor, Master Craftsman, Computer Specialist, Coding Master, Lightning Calculator, Logic-Mind, Augmented, Benefit (Equipment).
 
 ### **VI. Visual Semiotics (Aesthetics)**
 

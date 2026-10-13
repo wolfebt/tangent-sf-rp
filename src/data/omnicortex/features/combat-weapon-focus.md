@@ -11,18 +11,20 @@ description: >-
   Extensive training with a specific weapon type (e.g., Laser Rifle, Longsword,
   Plasma Pistol).
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   weapon focus, combat, special-feature, combat-maneuver, tactical-edge,
   extensive
 negative_keywords: 'pacifist, feeble, untrained-civilian'
+cost_cp: 3
 ---
 
 # Weapon Focus
 
 **Category**: Combat Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Combat Skill 1
 
 ## Description

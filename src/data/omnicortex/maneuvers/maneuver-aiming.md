@@ -7,6 +7,7 @@ description: >-
   Having target in sights to steady and lead shot; +2 Strike per round of Aiming
   (up to 1/2 Skill Rank, max AGIx2 + 2). Cannot move before shooting.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -7,6 +7,7 @@ type: combat
 description: Grants +2 bonus on combat attack rolls.
 category: modifier
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -7,6 +7,7 @@ description: >-
   Honor-driven warrior society centered around clan halls, martial trials,
   starship boarding raids, and bloodlines.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -8,6 +8,7 @@ description: >-
   Level 1 development in Commerce & Economy: Economic models, banking networks,
   trade routes, currency, and resource exchange. (Emerging / Industrial).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

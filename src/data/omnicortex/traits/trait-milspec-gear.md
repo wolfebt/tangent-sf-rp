@@ -5,6 +5,7 @@ trait_tier: Basic
 trait_type: Origin Trait
 category: traits
 costs:
+  cp: 1
   bp: 1
 description: 'Issued military-grade armor, sidearms, and tactical field gear.'
 modifiers: []
@@ -14,7 +15,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Basic
 **Type**: Origin Trait
-**BP Cost**: 1
+**CP Cost**: 1
 
 ## Description
 Issued military-grade armor, sidearms, and tactical field gear.

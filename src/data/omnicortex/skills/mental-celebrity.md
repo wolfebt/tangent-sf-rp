@@ -20,6 +20,7 @@ synergy_links:
   - social-oratory
   - social-style
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'celebrity, mental, charisma, intellect, cognitive, expertise'

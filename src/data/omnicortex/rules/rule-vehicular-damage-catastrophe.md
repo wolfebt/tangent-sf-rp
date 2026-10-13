@@ -6,6 +6,7 @@ description: >-
   Glancing vs penetrating hits, d6 System Failure Table, 0 SP disabled, -50%
   destroyed, and catastrophic explosion radius & damage.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

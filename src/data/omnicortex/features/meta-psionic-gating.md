@@ -16,7 +16,9 @@ tags:
 description: >-
   The mind is harmonized with the cryptographic frequency filters of the Chorus.
   External telepathic intrusions, hostile psionic scans, and non-hive mental
-  manipulations face Disadvantage and must overcome a +2 Psionic Defense DC bonus.
+  manipulations face Disadvantage and must overcome a +2 Psionic Defense DC
+  bonus.
+cost_cp: 2
 ---
 
 ### **Overview**

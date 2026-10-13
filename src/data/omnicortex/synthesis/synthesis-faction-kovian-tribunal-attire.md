@@ -5,6 +5,7 @@ category: synthesis
 synthesis_type: faction_attire
 faction_id: faction-kovian-tribunal
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

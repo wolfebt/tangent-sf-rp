@@ -9,16 +9,18 @@ is_multiple: false
 prerequisites: None
 description: The character possesses a flare for the creative arts.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'artistic, skill, special-feature, possesses, creative'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Artistic
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: None
 
 ## Description

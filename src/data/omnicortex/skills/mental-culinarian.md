@@ -21,6 +21,7 @@ synergy_links:
   - mental-alchemist
   - mental-medicine
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'culinarian, mental, wisdom, intellect, cognitive, expertise'

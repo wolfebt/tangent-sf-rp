@@ -9,16 +9,18 @@ is_multiple: false
 prerequisites: None
 description: 'The character is stubborn, loud, and forceful.'
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'headstrong, skill, special-feature, stubborn, forceful'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Headstrong
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: None
 
 ## Description

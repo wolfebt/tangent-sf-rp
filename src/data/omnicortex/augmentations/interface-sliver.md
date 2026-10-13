@@ -9,6 +9,7 @@ description: Dedicated Cyberjack for 1 Mecha.
 stigma: None
 type: Esoteric
 costs:
+  cp: 0
   bp: 0
   credits: 640
   nodes: 0
@@ -37,4 +38,4 @@ negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
 Category: **9\. TL5 Advanced Augmentations**
 
 **Effect:** Dedicated Cyberjack for 1 Mecha.
-**BP:** 1
+**CP:** 1

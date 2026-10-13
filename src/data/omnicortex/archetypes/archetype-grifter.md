@@ -30,17 +30,19 @@ tactical_role: 'Talk the way into secure areas, trick enemies, gather intel via 
 quote: '"Trust me. I''m exactly who you want me to be."'
 description: Uses charm and bluff to swindle and exploit others for personal gain.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'grifter, operative, artisan, adaptable, specialist, social stealth, deceiver'
 negative_keywords: 'mindless-brute, reckless, illiterate'
+cp_chassis: 80
 ---
 
 # The Grifter
 
 **Sphere**: Operatives (The Artisans)  
 **Core Concept**: Social Stealth / Deceiver  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Charisma  
 **Secondary Attribute**: Intellect  
 

@@ -11,16 +11,18 @@ description: >-
   Perfect Balance is a General Feature: Ignore any difficult terrain when you
   move.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'perfect balance, general, special-feature, perfect, balance, feature:'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Perfect Balance
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Agi 4, Acrobatic Steps
 
 ## Description

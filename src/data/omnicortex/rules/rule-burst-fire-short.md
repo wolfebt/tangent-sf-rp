@@ -6,6 +6,7 @@ description: >-
   3-round burst expending more ammo to grant +1 Strike. All range penalties
   doubled during auto fire.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

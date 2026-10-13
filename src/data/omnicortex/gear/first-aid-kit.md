@@ -9,6 +9,7 @@ weight: 1
 description: 'Bandages, antiseptics, tourniquets, and basic splints.'
 mechanic: Allows Medicine checks to be made without Improvised Tool penalties.
 costs:
+  cp: 0
   bp: 0
   credits: 40
   nodes: 0

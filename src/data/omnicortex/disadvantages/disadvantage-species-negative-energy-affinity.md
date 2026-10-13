@@ -7,18 +7,20 @@ classification: Meta
 type: Meta
 bp_granted: 4
 costs:
+  cp: -4
   bp: -4
 description: 'Alive, but harmed by positive/healed by negative energy (like undead).'
 prerequisite: ''
 modifiers: []
 keywords: 'negative energy affinity, hindrance, penalty, meta, harmed, positive/healed'
 negative_keywords: 'perfection, flawless, unyielding, invulnerable'
+cp_granted: '4'
 ---
 
 # Negative Energy Affinity
 
-**Category**: Species Disadvantages (BP Reduction)  
-**BP Refund**: +4 BP (Cost: -4 BP)  
+**Category**: Species Disadvantages (CP Reduction)  
+**CP Refund**: +4 CP (Cost: -4 CP)  
 **Type**: Meta  
 
 ## Description

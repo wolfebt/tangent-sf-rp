@@ -6,21 +6,23 @@ feature_category: Physical
 cost_bp: 2
 is_ranked: false
 is_multiple: false
-prerequisites: Stamina 1, Poison Immunity
+prerequisites: 'Stamina 1, Poison Immunity'
 description: >-
-  The organism's copper-based circulatory fluid is laced with virulent bio-toxins
-  that incapacitate predators attempting to consume it.
+  The organism's copper-based circulatory fluid is laced with virulent
+  bio-toxins that incapacitate predators attempting to consume it.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
 keywords: 'toxic-blood, hemocyanin, ingested-poison, incapacitation, nausea, kitin'
 negative_keywords: 'pure-blood, edible, vulnerable-predators'
+cost_cp: 2
 ---
 
 # Toxic Blood
 
 **Category**: Physical Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisite**: Stamina 1, Poison Immunity  
 
 ## Description

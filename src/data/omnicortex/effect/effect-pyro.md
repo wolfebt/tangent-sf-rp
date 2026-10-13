@@ -5,6 +5,7 @@ type: Energy
 description: Superheated plasma and combustion. Triggers secondary burning status effects.
 category: effect
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -32,17 +32,19 @@ description: >-
   A seasoned starship captain who commands a vessel and crew with expertise in
   trade and safety.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'shipmaster, sentinel, defender, stability, order, logistics, transport'
 negative_keywords: 'mindless-brute, reckless, illiterate, chaotic-anarchist, unreliable'
+cp_chassis: 80
 ---
 
 # The Shipmaster
 
 **Sphere**: Sentinels (The Stabilizers)  
 **Core Concept**: Logistics / Transport / Leadership  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
 **Secondary Attribute**: Charisma  
 

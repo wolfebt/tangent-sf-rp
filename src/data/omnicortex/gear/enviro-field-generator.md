@@ -9,6 +9,7 @@ weight: 3
 description: Deployable pylon projecting a 20ft atmospheric protection dome.
 mechanic: Projects 20ft radius dome. EPR 1. Provides DR 1 against ranged kinetic fire.
 costs:
+  cp: 0
   bp: 0
   credits: 640
   nodes: 0

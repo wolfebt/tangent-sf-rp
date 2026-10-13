@@ -6,6 +6,7 @@ description: >-
   Harnesses physical stone, shifting tectonic pressure, and rock projectiles.
   Bludgeons armor and knocks combatants prone.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

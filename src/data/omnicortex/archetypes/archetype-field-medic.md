@@ -31,17 +31,19 @@ description: >-
   Provides emergency medical care under fire. Proficient in both combat and
   medicine.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'field medic, sentinel, defender, stability, order, healer, light infantry'
 negative_keywords: 'fragile, unarmored, timid, evasive-sniper, chaotic-anarchist'
+cp_chassis: 80
 ---
 
 # The Field Medic
 
 **Sphere**: Sentinels (The Stabilizers)  
 **Core Concept**: Healer / Light Infantry  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Wisdom  
 **Secondary Attribute**: Agility  
 

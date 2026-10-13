@@ -41,7 +41,8 @@ tech_level: 3 (Hydro-Resonance Equipment)
 meta_level: 2 (Sonic Metaphysics)
 homeworld: The Oceanic Gas Giant of Pelagia
 costs:
-  bp: 16
+  cp: 19
+  bp: 19
 modifiers:
   - target: Agility
     value: 1
@@ -51,19 +52,19 @@ modifiers:
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 16
-cp: 16
-bp: 16
+cp_cost: 19
+cp: 19
+bp: 19
 description: >-
   Aquatic-aerial biforms with winged patagia, sonar echolocation, and the
   ability to glide through atmospheric currents or dive into oceanic depths.
-traits:
-  - trait-adapted-aquatic
-  - trait-alternate-form-manta-ray-flight-form
+traits: &ref_0
+  - trait-adapted
+  - trait-alternate-form
   - trait-amphibious
-  - trait-echolocation-60ft-sonar
-  - trait-swim-glide-speed-40ft
-  - trait-uncanny-sense-underwater-vision
+  - trait-blind-sense
+  - trait-aquatic
+  - trait-low-light-vision
 recommended_factions:
   - Coalition of Independent Worlds
   - Alien Faction Template
@@ -79,6 +80,7 @@ keywords: >-
   manta-biform, aerial-glide, sonar-echolocation, pelagic-dive, winged,
   gas-giant
 negative_keywords: 'confined-corridors, arid-desert, subterranean'
+species_traits: *ref_0
 ---
 
 # Mobula (Manta Biform)
@@ -97,7 +99,7 @@ Aquatic-aerial biforms with winged patagia, sonar echolocation, and the ability 
 - **Stigma**: Severe Xeno (-4)
 
 ## Mechanics & Statblock
-- **BP Cost**: 16 BP
+- **CP Cost**: 16 CP
 - **Inherent Modifiers**: +1 Agility, +1 Stamina
 - **Bonus Skills**: +0 Skill Points
 - **Inherent Features**: Adapted (Aquatic), Amphibious, Alternate Form (Manta Ray Flight Form), Echolocation (60ft Sonar), Uncanny Sense (Underwater Vision), Swim / Glide Speed (40ft)

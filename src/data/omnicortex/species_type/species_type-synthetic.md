@@ -5,6 +5,7 @@ category: species_type
 bp: 15
 cp: 15
 costs:
+  cp: 15
   bp: 15
 senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
 immunities: >-

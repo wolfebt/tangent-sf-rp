@@ -9,6 +9,7 @@ description: >-
   construction, dome architecture, and megastructures. (Primitive /
   Subsistence).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

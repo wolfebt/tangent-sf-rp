@@ -5,6 +5,7 @@ category: invocations
 discipline: Illusion
 description: PROJECTED IMAGE invocation for Illusion reality manipulation.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 recommended_species:

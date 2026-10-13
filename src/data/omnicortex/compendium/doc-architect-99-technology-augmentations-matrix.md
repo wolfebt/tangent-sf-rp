@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","source-of-truth","99. technology, augmentations matrix","matrix"]
-updatedAt: "2026-09-14T19:37:35.625Z"
+updatedAt: "2026-10-13T03:46:47.912Z"
 costs:
   bp: 0
   credits: 0
@@ -39,7 +39,7 @@ sockets:
 
 # **MODIFYING THE PHYSICAL FORM**
 
-In the Tangent universe, the definition of "self" is fluid. The body is an agnostic chassis—upgradable, interchangeable, and capable of profound evolution. This catalog unifies the mechanics of Cybernetics (Replacements), Bioware (Enhancements), and Nanoware into a single matrix governed by Tech Levels (TL), Build Points (BP), and the Node System.
+In the Tangent universe, the definition of "self" is fluid. The body is an agnostic chassis—upgradable, interchangeable, and capable of profound evolution. This catalog unifies the mechanics of Cybernetics (Replacements), Bioware (Enhancements), and Nanoware into a single matrix governed by Tech Levels (TL), Character Points (CP), and the Node System.
 
 ## 
 
@@ -53,7 +53,7 @@ The augmentation system provides a progression from basic prosthetics to god-lik
 
 ### **1.1 The Economy of Self**
 
-1. **Build Points (BP)**: Represents neurological and biological capacity. Standard mods cost 2 BP. Specialized traits or simple options cost 1 BP.  
+1. **Character Points (CP)**: Represents neurological and biological capacity. Standard mods cost 2 CP. Specialized traits or simple options cost 1 CP.  
 2. **Nodes**: Represents the physical mass and room available in a limb or organ. If a body part's Node capacity is exceeded, the part malfunctions or suffers structural failure. Typically, Structure Points (SP) are matched 1-to-1 with Node Capacity.  
 3. **Sockets**: Standardized hardpoints for modular gear and internal upgrades. Limb-based sockets are often pre-determined by the chassis. Internally will take 10 nodes per socket integrated.  
 4. **Credits (Cr)**: The financial cost of hardware and surgery. Calculated via the formula: Value \= 10 \* 4^(CR / 5).
@@ -62,19 +62,19 @@ The augmentation system provides a progression from basic prosthetics to god-lik
 
 * ### **1.2 Augmentation Feature Levels**
 
-5. **Standard Augmentations (Level 1\)**: The character has undergone invasive surgery to replace or enhance biological systems with cybernetics, biotechnology, or magical prosthetics. Prerequisite: Available Technology Level (TL 3+). Benefit: You are compatible with Standard Augmentations. Special: Upon taking this feature, you gain a "credit" of 6 Build Points (BP) worth of Augmentations effectively for free (representing the initial suite of upgrades). Any cost beyond this must be paid with BP or Credits.  
-6. **Heavy Augmentations (Level 2\)**: The character has replaced significant portions of their body with industrial or military-grade hardware. These modifications are often bulky, obvious, and not designed for social integration. Prerequisite: Augmented, Stamina 2\. Benefit: You may install Heavy class Augmentations (which often have higher DR or Strength bonuses but may impose social penalties). You gain an additional 6 BP worth of Augmentations.  
-7. **Extreme Augmentations (Level 3\)**: The character is more machine (or bio-construct) than original being. They have replaced the majority of their biological functions. Prerequisite: Heavy Augmentations, Stamina 4\. Benefit: You may undergo Full Body Conversion. You may install systems that alter your Size category or basic physiology (e.g., tank treads instead of legs). You gain an additional 6 BP worth of Augmentations.  
-* **TL 5 (Advanced)**: Nanotech/Metaphysical. Mechanic: Costs 1/2 BP (minimum 1).
+5. **Standard Augmentations (Level 1\)**: The character has undergone invasive surgery to replace or enhance biological systems with cybernetics, biotechnology, or magical prosthetics. Prerequisite: Available Technology Level (TL 3+). Benefit: You are compatible with Standard Augmentations. Special: Upon taking this feature, you gain a "credit" of 6 Character Points (CP) worth of Augmentations effectively for free (representing the initial suite of upgrades). Any cost beyond this must be paid with CP or Credits.  
+6. **Heavy Augmentations (Level 2\)**: The character has replaced significant portions of their body with industrial or military-grade hardware. These modifications are often bulky, obvious, and not designed for social integration. Prerequisite: Augmented, Stamina 2\. Benefit: You may install Heavy class Augmentations (which often have higher DR or Strength bonuses but may impose social penalties). You gain an additional 6 CP worth of Augmentations.  
+7. **Extreme Augmentations (Level 3\)**: The character is more machine (or bio-construct) than original being. They have replaced the majority of their biological functions. Prerequisite: Heavy Augmentations, Stamina 4\. Benefit: You may undergo Full Body Conversion. You may install systems that alter your Size category or basic physiology (e.g., tank treads instead of legs). You gain an additional 6 CP worth of Augmentations.  
+* **TL 5 (Advanced)**: Nanotech/Metaphysical. Mechanic: Costs 1/2 CP (minimum 1).
 
 ### 
 
 ### **1.3 Tech Level (TL) Progression**
 
-* **TL 1-2**: Primitive/Functional replacements. Often 0 BP (Prosthetic).  
+* **TL 1-2**: Primitive/Functional replacements. Often 0 CP (Prosthetic).  
 * **TL 3 (Standard)**: Parity with biology. The galactic baseline.  
 * **TL 4 (Enhanced)**: Bioware/Seamless. Mechanic: Immune to disablement from Massive Damage.  
-* **TL 5 (Advanced)**: Nanotech/Metaphysical. Mechanic: Costs 1/2 BP (minimum 1).
+* **TL 5 (Advanced)**: Nanotech/Metaphysical. Mechanic: Costs 1/2 CP (minimum 1).
 
 ## 
 
@@ -95,7 +95,7 @@ The augmentation system provides a progression from basic prosthetics to god-lik
 
 ## **3\. The Civilian Standard (Fashionware & Utilities)**
 
-**TL 3+ | 0 BP Cost | 0 Nodes**
+**TL 3+ | 0 CP Cost | 0 Nodes**
 
 These modifications are so prevalent they are considered basic personal choices. They do not require the Augmented Feature.
 
@@ -154,7 +154,7 @@ Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital ho
 
 ### 
 
-### **4.2 Hand & Foot Options (1 BP Per Option)**
+### **4.2 Hand & Foot Options (1 CP Per Option)**
 
 | Option | Stage | Effect | Nodes | CR | Cost (Cr) |
 | :---- | :---- | :---- | :---- | :---- | :---- |
@@ -174,7 +174,7 @@ Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital ho
 
 ### 
 
-### **4.3 Limb Upgrades (1 BP Per Upgrade)**
+### **4.3 Limb Upgrades (1 CP Per Upgrade)**
 
 | Augment | Stage | Effect | Nodes | CR | Cost (Cr) |
 | :---- | :---- | :---- | :---- | :---- | :---- |
@@ -211,7 +211,7 @@ Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital ho
 
 ## **5\. Body Modifications (TL 3\)**
 
-**Standard BP Cost: 2 BP | Torso/Internal Integration**
+**Standard CP Cost: 2 CP | Torso/Internal Integration**
 
 ### 
 
@@ -263,7 +263,7 @@ Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital ho
 
 ## **6\. Sensory Modifications (TL 3\)**
 
-**Standard BP Cost: 2 BP**
+**Standard CP Cost: 2 CP**
 
 | Augment | Stage | Effect | Nodes | CR | Cost (Cr) |
 | :---- | :---- | :---- | :---- | :---- | :---- |
@@ -292,7 +292,7 @@ Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital ho
 
 ## **7\. Brain Modifications (TL 3\)**
 
-**Standard BP Cost: 2 BP**
+**Standard CP Cost: 2 CP**
 
 | Augment | Stage | Effect | Nodes | CR | Cost (Cr) |
 | :---- | :---- | :---- | :---- | :---- | :---- |
@@ -317,7 +317,7 @@ Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital ho
 
 ## **8\. TL4 Enhanced Augmentations**
 
-**Immune to Massive Damage/EMP | Standard BP Cost: 2 BP**
+**Immune to Massive Damage/EMP | Standard CP Cost: 2 CP**
 
 | Augment | Stage | Effect | Nodes | CR | Cost (Cr) |
 | :---- | :---- | :---- | :---- | :---- | :---- |
@@ -362,9 +362,9 @@ Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital ho
 
 ## **9\. TL5 Advanced Augmentations**
 
-**Apex Technology | Standard BP Cost: 1 BP (1/2 Cost)**
+**Apex Technology | Standard CP Cost: 1 CP (1/2 Cost)**
 
-| Augment | Stage | Effect | BP | CR | Cost (Cr) |
+| Augment | Stage | Effect | CP | CR | Cost (Cr) |
 | :---- | :---- | :---- | :---- | :---- | :---- |
 | **Matter Recon Forge**&nbsp; | (Extreme) | Resurrects from single cell in 1d4 days. | 5 | 40 | 655,360 |
 | **Phase Shift Gen**&nbsp; | (Extreme) | Temporary intangibility to bypass matter. | 4 | 35 | 163,840 |
@@ -404,7 +404,7 @@ FBC is the total migration of consciousness into a synthetic frame.
 
 ### **10.2 FBC Package Tiers**
 
-| Package Tier | Stage | BP Cost (Bio) | Credits | Total SP | DR |
+| Package Tier | Stage | CP Cost (Bio) | Credits | Total SP | DR |
 | :---- | :---- | :---- | :---- | :---- | :---- |
 | **Civilian Shell** (Light)&nbsp; | (Heavy) | 10 | 100,000 | 260 | 10 |
 | **Industrial / Combat** (Heavy) | (Heavy) | 10 | 250,000 | 260 | 40 |
@@ -434,7 +434,7 @@ Non-permanent, external harnesses that provide mechanical advantages without sur
 
 * **Capacity**: Pseudo-cybernetics provide their own internal Node capacity for hosting mods. These are external frames; mods are installed into the item's chassis.  
 * **Node Calculation**: Set to **Half** the comparable anatomical location (Head=5, Torso=25, Gauntlet=8, Sabaton=10). A full body shell provides 100 nodes. **Note: Node capacities for Gauntlets and Sabatons are per item, not a total for the pair.**  
-* **Standard Interface**: Wearables (0 BP) require an **Interface Port** (Internal or External) to sync with neural impulses. Without a port, the item suffers \-2 to all associated checks, checks at disadvantage or it is not usable at all, in addition to any security options.  
+* **Standard Interface**: Wearables (0 CP) require an **Interface Port** (Internal or External) to sync with neural impulses. Without a port, the item suffers \-2 to all associated checks, checks at disadvantage or it is not usable at all, in addition to any security options.  
 * **Limitations**: One wearable item per primary body location. External sockets cannot exceed 1 per 10 Nodes of base capacity.
 
 | Augment | Location | Nodes | CR | Cost (Cr) | Description |
@@ -475,7 +475,7 @@ To fully understand the application of Biological Augmentations in the Tangent s
 * **Who uses them?** Advanced factions operating at Tech Level 4 (Syndicate Elite, Ascendancy Science Officers) and civilizations built entirely on living technology, such as the Aulurans and the Thorn. It is also utilized by Adepts specializing in Matter (Transmutation) Invocations.  
 * **What are they?** Living technology. This includes parasitic/symbiotic creatures engineered for specific tasks, organs cloned from enhanced DNA, and chemical/viral agents that mutate the host's cellular structure.  
 * **Where are they installed?** Procedures take place in sterile Bio-Labs, Auluran "Deep Root Forges," or through the metaphysical touch of a Matter Discipline user.  
-* **When are they acquired?** Characters can acquire them during Character Creation by spending Build Points (BP) or during a campaign by expending Credits (Cr) and undergoing significant surgical/incubation downtime.  
+* **When are they acquired?** Characters can acquire them during Character Creation by spending Character Points (CP) or during a campaign by expending Credits (Cr) and undergoing significant surgical/incubation downtime.  
 * **Why choose Bioware over Cybernetics?** Bioware is inherently stealthy (often undetectable by metal detectors or standard EMPs). Furthermore, TL4 Bioware is immune to disablement from Massive Damage, and it naturally interfaces with the host's Essence for Meta-Tech applications.  
 * **How do they work?** They utilize the exact same Node and Capacity economy as mechanical augmentations. A biological arm graft still requires the corresponding Nodes in the shoulder. However, they rely on the host's metabolism, requiring increased caloric intake, Essence, or biological matter to function and repair.
 
@@ -516,7 +516,7 @@ Grafts are vat-grown limbs, organs, or carapaces surgically attached to the host
 Unlike physical additions, genetic mods alter the host's DNA to naturally develop new traits.
 
 * **Integration:** Injected via retroviral serums or triggered by the **Mutation Invocation** (Matter: Transmutation CR 18).  
-* **Mechanic:** Grants access to standard Species Features (e.g., *Low-Light Vision, Water Breathing, Claws, Exoskeleton*) for species that do not naturally possess them. These are paid for via BP or high Credit costs.
+* **Mechanic:** Grants access to standard Species Features (e.g., *Low-Light Vision, Water Breathing, Claws, Exoskeleton*) for species that do not naturally possess them. These are paid for via CP or high Credit costs.
 
 ## **5\. CATALOG OF BIOLOGICAL MATRIX**
 
@@ -649,7 +649,7 @@ To understand the application and deployment of Metaphysical Augmentations withi
 * **Who uses them?** Factions operating at high Meta Levels (ML). The Ascendancy utilizes them extensively as "Psi-Tech" to amplify their innate telepathic and telekinetic abilities. The Alterian Enclave uses "Magi-Tech" crystal laminates. Minor factions like the Vajar or Kovian Tribunal utilize primal runic scarification or shadow-glass implants.  
 * **What are they?** Physical modifications that contain or channel metaphysical patterns. They range from solid Resonance Crystals surgically fused to the pineal gland, to intricate geometric tattoos inked with Aetherium-laced pigments, to cybernetic neural sockets designed to run "spell subroutines."  
 * **Where are they installed?** Implantation requires highly specialized facilities. Alterian "Crystalline Matrices," Ascendancy "Meditation Forges," or the sterile, high-end clinics of the Syndicate (who reverse-engineer ancient Impyrium relics). The process blends medical surgery with metaphysical Attunement.  
-* **When are they acquired?** Players may acquire them during Character Creation by spending Build Points (BP) or during standard gameplay by expending Credits (Cr) and raw materials (Aetherium/Resonance Crystals), followed by a period of physical and spiritual recovery.  
+* **When are they acquired?** Players may acquire them during Character Creation by spending Character Points (CP) or during standard gameplay by expending Credits (Cr) and raw materials (Aetherium/Resonance Crystals), followed by a period of physical and spiritual recovery.  
 * **Why choose Meta-Augs over standard Cybernetics?** While cybernetics provide physical output (strength, armor), Meta-Augs alter reality. They allow non-Awakened individuals to manifest specific supernatural effects, or they grant Awakened individuals massive amplifiers for their Essence and Discipline skills.  
 * **How do they work?** They utilize the Universal Displacement Unit (UDU) hierarchy. **1 Socket of Meta-Tech requires 10 Nodes of biological capacity.** Once implanted, Passive enhancements are permanent, while Active Imbuements are triggered as a Free Action (Mental Trigger) and fueled by the host's Essence pool (1 Essence \= 1 Charge).
 

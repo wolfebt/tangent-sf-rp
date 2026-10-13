@@ -49,25 +49,24 @@ tech_level: 3 (Adaptive Technology)
 meta_level: 3 (Metamorphic Psionics)
 homeworld: Nomadic / Diaspora
 costs:
-  bp: 10
+  cp: 14
+  bp: 14
 modifiers:
   - target: Charisma
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 10
-cp: 10
-bp: 10
+cp_cost: 14
+cp: 14
+bp: 14
 description: >-
   Doppelgangers are an enigmatic elven offshoot possessing mutable cellular
   matrices. They can alter their physical form to mimic other humanoids
   perfectly, operating as intelligence operatives, infiltrators, and observers.
 traits:
   - trait-aeld-lineage-traits
-  - trait-ageless
-  - trait-alter-form-adv
-  - trait-alter-form-humanoid-special-ability
-  - trait-sense-alignment-intent
+  - trait-alter-form-basic
+  - trait-wyrm-senses
 recommended_factions:
   - The Alterian Enclave
   - The Syndicate
@@ -85,6 +84,10 @@ keywords: >-
   shapechanger, mimicry, espionage, stealth, deceptive, adaptive, infiltrator,
   elusive
 negative_keywords: 'inflexible, heavy-armor, conspicuous, loud, static-form'
+species_traits:
+  - trait-aeld-lineage-traits
+  - trait-alter-form-basic
+  - trait-wyrm-senses
 ---
 
 # Doppelganger (Shifter Aeld)
@@ -94,7 +97,7 @@ This profound magical alteration was performed with a singular and critical purp
 
 ### **General Species Features & Mechanics**
 
-**BP Cost:** \[TBD\]  
+**CP Cost:** 14 CP  
 **Classification:** Humanoid (Shifter)  
 **Size:** Medium  
 **Movement:** 30ft  

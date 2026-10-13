@@ -63,6 +63,7 @@ description: >-
   manipulating matter. Society is defined by unyielding stoicism and extreme
   determination
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Major Galactic Power
@@ -145,7 +146,7 @@ negative_keywords: >-
 * **Prominent Species:** Humans (Baseline & Regi).  
 * **Faction Skill Package (20 Points):** Academics (+5), Athletics (+4), Diplomacy (+4), Combat (+3), Technology (+2), Vocation (+2).  
 * **Typical Archetypes:** The Bureaucrat, The Demolisher, The Shock Trooper, The Legionnaire, The High Commander, The Envoy, The Philosopher, The Strategist, The Magus, The Architect, The Theoretician, The Net-Architect.  
-* **Recommended Features (1 BP Discount):**  
+* **Recommended Features (1 CP Discount):**  
   * Awakened, Tech Interface, Centering Expert, Harmonious Center, Telepathy, Mind Link, Inspired Reason, Eidetic Memory, Educated, Magical Aptitude, Master Craftsman, Artificer.
 
 ### **VI. Visual Synthesis Protocols (Aesthetics)**

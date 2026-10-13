@@ -4,6 +4,7 @@ name: Military Requisition
 description: Issued exclusively to government military branches and state security forces.
 category: availability
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

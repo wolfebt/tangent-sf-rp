@@ -56,6 +56,7 @@ description: >-
   environments, often creating customized castes for specific labor, scientific,
   or combat roles
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Faction Template
@@ -120,7 +121,7 @@ negative_keywords: 'genetic-purism, natural-stagnation, bio-conservatism, anti-e
   * Athletics (+3)  
   * Combat (Any) (+3)  
 * **Typical Archetypes:** The Bioengineer, The Perfected Warrior, The Apex Predator, The Healer, The Reject.  
-* **Recommended Features (1 BP Discount):** Biotechnology, Fast Heal, Tolerance, Augmented, Tough, Scent, Self Sufficient, Animal Affinity, Night Vision, Natural Weapons.
+* **Recommended Features (1 CP Discount):** Biotechnology, Fast Heal, Tolerance, Augmented, Tough, Scent, Self Sufficient, Animal Affinity, Night Vision, Natural Weapons.
 
 ### **VI. Visual Semiotics (Aesthetics)**
 

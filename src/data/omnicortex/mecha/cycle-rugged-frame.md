@@ -16,6 +16,7 @@ description: >-
   traversal.
 mechanic: Movement x2 on roads/trails. Includes cargo rack (holds 2 Slots).
 costs:
+  cp: 0
   bp: 0
   credits: 20
   nodes: 0

@@ -11,16 +11,18 @@ description: >-
   The character possesses a mind like a fortress. They are stubborn, focused,
   and resistant to fear, manipulation, or psychological trauma.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'iron will, ability, special-feature, innate-talent, passive-prowess, possesses'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Iron Will
 
 **Category**: Ability Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Wisdom 1
 
 ## Description

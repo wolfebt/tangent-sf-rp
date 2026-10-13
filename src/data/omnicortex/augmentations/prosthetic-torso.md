@@ -10,6 +10,7 @@ description: "**Nodes:** 50\r\n**Sockets:** 5"
 stigma: None
 type: Prosthetic
 costs:
+  cp: 0
   bp: 0
   credits: 40960
   nodes: 0

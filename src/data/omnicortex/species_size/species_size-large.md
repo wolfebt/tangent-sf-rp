@@ -3,15 +3,16 @@ id: species_size-large
 name: Large
 category: species_size
 scaling: 2
-scaling_display: "x2"
+scaling_display: x2
 strength_mod: 2
 combat_mod: -2
 stealth_mod: -4
-height_length_range: "< 16 ft"
-weight_range: "< 2 tons"
-reach: "10 ft"
-description: "Heavy quadruped, large construct, power armor frame, or light walker."
+height_length_range: < 16 ft
+weight_range: < 2 tons
+reach: 10 ft
+description: 'Heavy quadruped, large construct, power armor frame, or light walker.'
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -6,21 +6,25 @@ feature_category: Defensive
 cost_bp: 2
 is_ranked: false
 is_multiple: false
-prerequisites: 'Exoskeletal Physiology'
+prerequisites: Exoskeletal Physiology
 description: >-
-  A dense, glossy chitinous shell providing base DR 10 resistant to physical trauma,
-  directed energy, and caustic chemicals.
+  A dense, glossy chitinous shell providing base DR 10 resistant to physical
+  trauma, directed energy, and caustic chemicals.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
-keywords: 'armor, chitinous-shell, dr-10, natural-armor, physical-energy-chemical, obsidian-carapace'
+keywords: >-
+  armor, chitinous-shell, dr-10, natural-armor, physical-energy-chemical,
+  obsidian-carapace
 negative_keywords: 'unarmored, soft-skin, vulnerable'
+cost_cp: 2
 ---
 
 # Armor (Chitinous Shell)
 
 **Category**: Defensive Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisites**: Exoskeletal Physiology  
 
 ## Description

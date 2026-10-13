@@ -4,6 +4,7 @@ name: Stunned (1 Round)
 description: Target loses their next turn of actions and suffers -4 to all defenses.
 category: critical_effect
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

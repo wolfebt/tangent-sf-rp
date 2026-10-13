@@ -9,7 +9,9 @@ governing_attributes:
   - Wisdom
   - Charisma
 description: >-
-  The metaphysical discipline governing decay, dissolution, probability manipulation, molecular breakdown, cellular regeneration, and life restoration.
+  The metaphysical discipline governing decay, dissolution, probability
+  manipulation, molecular breakdown, cellular regeneration, and life
+  restoration.
 trained_only: true
 specialties:
   - 'Chaos Focus (Accelerating decay, unmaking bonds, curses)'
@@ -18,6 +20,7 @@ synergy_links:
   - meta-attune
   - mental-metaphysics
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

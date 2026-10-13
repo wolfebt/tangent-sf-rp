@@ -2,61 +2,74 @@
 id: origin-agricultural
 name: Agricultural
 category: origins
-habitat: "Planetary Biome"
+habitat: Planetary Biome
+ws_modifier: 0
+economic_context: Agri-world baseline; high food volume with stable agrarian commodity prices.
 skill_points: 20
 society_skills:
-  - "Piloting"
-  - "Alertness"
-  - "Knowledge (Nature)"
-  - "Knowledge (Survival)"
-  - "Knowledge (Technology)"
-  - "Vocation (Any)"
+  - Piloting
+  - Alertness
+  - Knowledge (Nature)
+  - Knowledge (Survival)
+  - Knowledge (Technology)
+  - Vocation (Any)
 archetypes:
-  - "Farmer"
-  - "Hunter"
-  - "Preservationist"
-  - "Pilot"
-  - "Technician"
-  - "Community Leader"
+  - Farmer
+  - Hunter
+  - Preservationist
+  - Pilot
+  - Technician
+  - Community Leader
 traits:
-  - "trait-animal-husbandry"
-  - "trait-botanical-knowledge"
-  - "trait-community-building"
-  - "trait-green-thumb"
-  - "trait-mechanical-skills"
-  - "trait-resourcefulness"
-  - "trait-survival-skills"
-  - "trait-sustainable-practices"
+  - trait-animal-husbandry
+  - trait-botanical-knowledge
+  - trait-community-building
+  - trait-green-thumb
+  - trait-mechanical-skills
+  - trait-resourcefulness
+  - trait-survival-skills
+  - trait-sustainable-practices
 recommended_species:
-  - "Lin Human"
-  - "Rautha Human"
-  - "Human (Base)"
-  - "Tozen"
-  - "Ferren"
-  - "Koban"
-  - "Kannid"
-  - "Koda (Auluran Worker)"
-  - "Awakened Animal"
-  - "Thorn"
+  - Lin Human
+  - Rautha Human
+  - Human (Base)
+  - Tozen
+  - Ferren
+  - Koban
+  - Kannid
+  - Koda (Auluran Worker)
+  - Awakened Animal
+  - Thorn
 recommended_factions:
-  - "Auluran Clans"
-  - "Environmental Faction Template"
-  - "Planetary Faction Template"
-  - "Impyrium Dominion"
-  - "The Outworlds"
-  - "Coalition of Independent Worlds"
+  - Auluran Clans
+  - Environmental Faction Template
+  - Planetary Faction Template
+  - Impyrium Dominion
+  - The Outworlds
+  - Coalition of Independent Worlds
 recommended_occupations:
-  - "Builder"
-  - "Citizen"
-  - "Scout"
-  - "Specialist"
-  - "Drifter"
-  - "Merchant"
-keywords: "agrarian, pastoral, bio-dome, mega-harvester, hydroponics, homestead, fertile-plains, crop-canopies, silo-arcology, soil-ecology, rural-frontier, green-biosphere, food-security, agricultural-combine, cultivation, earthy, golden-fields, season-cycles, solar-irrigators"
-negative_keywords: "cyberpunk-megacity, void-vacuum, zero-g-station, deep-abyss, volcanic-waste, neon-high-tech-sprawl, nanite-swarm, pure-synthetic-android, bleak-penal-colony, corporate-executive-boardroom, casino-strip, orbital-dockyard"
+  - Builder
+  - Citizen
+  - Scout
+  - Specialist
+  - Drifter
+  - Merchant
+keywords: >-
+  agrarian, pastoral, bio-dome, mega-harvester, hydroponics, homestead,
+  fertile-plains, crop-canopies, silo-arcology, soil-ecology, rural-frontier,
+  green-biosphere, food-security, agricultural-combine, cultivation, earthy,
+  golden-fields, season-cycles, solar-irrigators
+negative_keywords: >-
+  cyberpunk-megacity, void-vacuum, zero-g-station, deep-abyss, volcanic-waste,
+  neon-high-tech-sprawl, nanite-swarm, pure-synthetic-android,
+  bleak-penal-colony, corporate-executive-boardroom, casino-strip,
+  orbital-dockyard
 description: >-
-  Agri-Worlds are essential for mass food production. These worlds typically have low development and population, ranging from small rural houses, barns, and silos to expansive mega-structure Arcologies and preservation biospheres.
+  Agri-Worlds are essential for mass food production. These worlds typically
+  have low development and population, ranging from small rural houses, barns,
+  and silos to expansive mega-structure Arcologies and preservation biospheres.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -65,6 +78,7 @@ modifiers: []
 
 **Category**: Origins  
 **Habitat**: Planetary Biome  
+**EUFT Wealth Score Modifier**: +0 (Agri-world baseline; high food volume with stable agrarian commodity prices.)  
 **Starting Skill Points**: 20 SP (allocated to Society Skills)  
 **Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)
 

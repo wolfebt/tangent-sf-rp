@@ -9,16 +9,18 @@ is_multiple: false
 prerequisites: 'Nature Affinity, Fey, or Druidic training'
 description: The character can speak with the beasts of the wild.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'wild speech, special, special-feature, beasts'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Wild Speech
 
 **Category**: Special Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Nature Affinity, Fey, or Druidic training
 
 ## Description

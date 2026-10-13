@@ -46,7 +46,8 @@ tech_level: 2 (Bio-Loomed Weaves & Organic Tools)
 meta_level: 3 (Primal Fey Illusion)
 homeworld: Sylvanna (The Canopied World)
 costs:
-  bp: 18
+  cp: 26
+  bp: 26
 modifiers:
   - target: Agility
     value: 1
@@ -64,21 +65,19 @@ modifiers:
     value: 4
     type: skill
     mode: size_modifier
-cp_cost: 18
-cp: 18
-bp: 18
+cp_cost: 26
+cp: 26
+bp: 26
 description: >-
   Ferren are nimble, tail-bearing fey creatures adapted to high-canopy
   ecosystems. Inquisitive and fleet-footed, they traverse vertical cityscapes
   and wild jungles with equal ease.
 traits:
-  - trait-adapted-arboreal
-  - trait-ageless
-  - trait-asi-base-traits-ageless-obfuscate-sleepless
+  - trait-adapted
+  - trait-asi-base-traits
   - trait-climber
-  - trait-immortal
   - trait-prehensile-tail
-  - trait-quick-5ft-movement
+  - trait-quick
 recommended_factions:
   - Elven Providence
   - Coalition of Independent Worlds
@@ -93,13 +92,19 @@ recommended_occupations:
   - Drifter
 keywords: 'arboreal, nimble, climber, canopy, playful, tail-agility, wilderness, nature'
 negative_keywords: 'heavy-armor, industrial, cybernetics, polluter, sedentary'
+species_traits:
+  - trait-adapted
+  - trait-asi-base-traits
+  - trait-climber
+  - trait-prehensile-tail
+  - trait-quick
 ---
 
 # Ferren (Arboreal Fey)
 
 *
 
-**BP Cost:**   
+**CP Cost:** 26 CP  
 **Description:** The Ferren are a fascinating species of arboreal fey, distinguished by their slender, elf-like appearance and, most notably, a unique split tail that helps them maintain balance as they leap through the forest canopy. These spritelike beings possess an insatiable curiosity that drives their every action, often leading them far afield from their original intent.
 
 Their seemingly short attention span is a common misconception among those unfamiliar with their nature. While an individual Ferren may appear easily distracted, constantly flitting from one object of interest to the next, this behavior is, in fact, evidence of an inherent, highly-developed capacity for simultaneous multitasking. A Ferren can be tracking the scent of a rare bloom, listening to the alarm call of a distant bird, and inspecting the texture of a piece of bark all at once, seamlessly shifting focus between these tasks without dropping any of them. This constant state of engagement allows them to process the vast sensory information of their sylvan homes with extraordinary efficiency. Their curiosity is not merely a quirk; it is a vital survival mechanism and a core part of their interactivity with the world.

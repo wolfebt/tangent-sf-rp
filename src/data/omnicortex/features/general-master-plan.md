@@ -9,16 +9,18 @@ is_multiple: false
 prerequisites: 'Logic 6, Intellect 3'
 description: The character is a tactical genius who prepares for every eventuality.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'master plan, general, special-feature, tactical, genius, prepares'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Master Plan
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Logic 6, Intellect 3
 
 ## Description

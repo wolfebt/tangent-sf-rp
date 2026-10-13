@@ -1,9 +1,12 @@
-﻿---
+---
 id: condition-deaths-door
 name: Death's Door
 category: conditions
-description: Health is 0 and Vitality is 0. Comatose and severely wounded. Has rounds equal to Stamina score to be stabilized.
+description: >-
+  Health is 0 and Vitality is 0. Comatose and severely wounded. Has rounds equal
+  to Stamina score to be stabilized.
 costs:
+  cp: 0
   bp: 0
   credits: 0
   nodes: 0

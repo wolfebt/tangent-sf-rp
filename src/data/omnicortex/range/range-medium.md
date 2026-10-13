@@ -6,6 +6,7 @@ distance: 100 ft + 10ft/Rank
 description: Standard mid-range engagement distance across streets and open fields.
 category: range
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

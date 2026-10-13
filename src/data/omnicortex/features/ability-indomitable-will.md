@@ -9,18 +9,20 @@ is_multiple: false
 prerequisites: Iron Will
 description: 'Indomitable Will is a Ability Feature: Roll Will checks with Advantage'
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   indomitable will, ability, special-feature, innate-talent, passive-prowess,
   indomitable
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Indomitable Will
 
 **Category**: Ability Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Iron Will
 
 ## Description

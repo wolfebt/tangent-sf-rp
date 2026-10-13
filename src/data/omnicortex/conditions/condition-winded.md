@@ -6,6 +6,7 @@ description: >-
   Severe torso trauma; Fortitude save or suffer cumulative -2 penalty on
   actions.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

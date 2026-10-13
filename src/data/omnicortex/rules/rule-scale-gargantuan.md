@@ -4,6 +4,7 @@ name: 'Scale: Gargantuan (x10)'
 category: rules
 description: 'Dropships / gunships; x10 damage, +8 defense modifier.'
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

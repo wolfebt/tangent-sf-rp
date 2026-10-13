@@ -1,9 +1,12 @@
-﻿---
+---
 id: condition-comatose
 name: Comatose
 category: conditions
-description: Completely unresponsive, unaware of surroundings, and cannot take actions, move, or make active defense reactions.
+description: >-
+  Completely unresponsive, unaware of surroundings, and cannot take actions,
+  move, or make active defense reactions.
 costs:
+  cp: 0
   bp: 0
   credits: 0
   nodes: 0

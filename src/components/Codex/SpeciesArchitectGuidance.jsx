@@ -272,7 +272,7 @@ export const SpeciesArchitectGuidance = ({
           </span>
         </div>
         <p className="text-xs text-slate-400 leading-relaxed font-sans">
-          Define canonical cultural affinities, recommended factions, home planetary origins, typical professions, innate skills, and discounted features (-1 BP) for members of this species, along with AI guidance directives and railguards.
+          Define canonical cultural affinities, recommended factions, home planetary origins, typical professions, innate skills, and discounted features (-1 CP) for members of this species, along with AI guidance directives and railguards.
         </p>
       </div>
 

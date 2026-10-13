@@ -8,16 +8,18 @@ description: >-
   A known compulsive jokester, prankster, or class clown who struggles to
   project authority.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'clown, hindrance, penalty, general, compulsive, jokester'
 negative_keywords: 'perfection, flawless, unyielding, invulnerable'
+cp_granted: '2'
 ---
 
 # Clown
 
 **Category**: Hindrances & Disadvantages  
-**BP Granted**: 2 BP  
+**CP Granted**: 2 CP  
 **Type**: Social
 
 ## Description

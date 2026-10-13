@@ -6,6 +6,7 @@ description: >-
   Determined by a Reflex Check (2d10 + Reflex Save + Agility Mod). High roll
   goes first.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

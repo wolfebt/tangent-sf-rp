@@ -11,18 +11,20 @@ description: >-
   The character's metabolism or psyche processes ongoing trauma much faster than
   the average being.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   tolerance, ability, special-feature, innate-talent, passive-prowess,
   character's
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Tolerance
 
 **Category**: Ability Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Stamina 1 (for Physical) or Wisdom 1 (for Mental).
 
 ## Description

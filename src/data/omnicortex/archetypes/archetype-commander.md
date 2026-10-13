@@ -32,17 +32,19 @@ description: >-
   A charismatic and cunning leader who commands a starship, charting courses and
   leading crew in dangerous adventures.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'commander, visionary, idealist, leadership, charisma, leader, buffer'
 negative_keywords: 'mindless-brute, reckless, illiterate, anti-social, mute'
+cp_chassis: 80
 ---
 
 # The Commander
 
 **Sphere**: Visionaries (The Idealists)  
 **Core Concept**: Leader / Buffer / Vehicle Expert  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Charisma  
 **Secondary Attribute**: Intellect  
 

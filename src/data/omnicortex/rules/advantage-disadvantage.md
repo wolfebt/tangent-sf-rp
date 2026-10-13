@@ -3,9 +3,10 @@ id: advantage-disadvantage
 name: Advantage & Disadvantage Mechanics
 category: rules
 summary: >-
-  Rolling multiple 2d10 sets, stacking sources of advantage, mutual cancellation,
-  and Karma point triggers.
+  Rolling multiple 2d10 sets, stacking sources of advantage, mutual
+  cancellation, and Karma point triggers.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

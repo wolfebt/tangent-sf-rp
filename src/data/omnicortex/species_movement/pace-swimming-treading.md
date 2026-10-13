@@ -9,7 +9,9 @@ multiplier: 0.25
 speed: 7.5
 bp: 0
 description: Stationary or slow treading water to conserve stamina (+2 to concentration).
+cp: 0
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -18,7 +20,7 @@ modifiers: []
 **Category**: Species Movement (STAGE)  
 **Classification**: stage  
 **Target Mode**: Swimming  
-**Cost**: +0 BP  
+**Cost**: +0 CP  
 
 ## Description
 Stationary or slow treading water to conserve stamina (+2 to concentration).

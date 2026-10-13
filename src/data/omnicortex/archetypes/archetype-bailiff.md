@@ -32,17 +32,19 @@ description: >-
   The officer of the court and enforcer of civil law, ensuring that order is
   maintained within the halls of justice.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'bailiff, sentinel, defender, stability, order, law enforcement, control'
 negative_keywords: 'fragile, unarmored, timid, evasive-sniper, chaotic-anarchist'
+cp_chassis: 80
 ---
 
 # The Bailiff
 
 **Sphere**: Sentinels (The Stabilizers)  
 **Core Concept**: Law Enforcement / Control / Tank  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Strength  
 **Secondary Attribute**: Wisdom  
 

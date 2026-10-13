@@ -4,6 +4,7 @@ name: 'Scale: Tiny (x1/4)'
 category: rules
 description: 'Cat / small drones; x1/4 damage, -4 defense modifier.'
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

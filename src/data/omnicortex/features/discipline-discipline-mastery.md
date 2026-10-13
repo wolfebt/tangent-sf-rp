@@ -11,18 +11,20 @@ description: >-
   Discipline Mastery is a Discipline Feature: +6 with chosen Discipline Skill
   (Affecting Severity).
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   discipline mastery, discipline, special-feature, focused-training, mastery,
   feature:
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Discipline Mastery
 
 **Category**: Discipline Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Discipline Expertise, Skill 16
 
 ## Description

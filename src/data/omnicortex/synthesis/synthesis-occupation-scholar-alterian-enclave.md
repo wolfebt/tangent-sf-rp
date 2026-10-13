@@ -6,6 +6,7 @@ synthesis_type: occupation_character
 occupation_id: occupation-scholar
 faction_id: faction-alterian-enclave
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

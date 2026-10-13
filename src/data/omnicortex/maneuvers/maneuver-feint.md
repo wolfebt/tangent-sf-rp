@@ -7,6 +7,7 @@ description: >-
   Bluff check vs Sense Motive leads target into False Defense, allowing a Sneak
   Attack at -5 Strike with Target having NO Defense.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -44,22 +44,23 @@ tech_level: 2 (Living Vine Architecture)
 meta_level: 3 (Botanical Psionics)
 homeworld: Lin-Shur Canopies
 costs:
-  bp: 17
+  cp: 23
+  bp: 23
 modifiers:
   - target: Intellect
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 17
-cp: 17
-bp: 17
+cp_cost: 23
+cp: 23
+bp: 23
 description: >-
   Tail-bearing canopy humans who merged their physiology with arboreal symbiotic
   plants to navigate colossal alien forests.
-traits:
-  - trait-adapted-arboreal
-  - trait-awakened-nature-psychic
-  - trait-biotech-synergy
+traits: &ref_0
+  - trait-adapted
+  - trait-awakened-nature
+  - trait-master-tinker
   - trait-climber
   - trait-longevity
   - trait-prehensile-tail
@@ -75,11 +76,12 @@ recommended_occupations:
   - Drifter
 keywords: 'canopy-dweller, symbiotic-flora, arboreal-tail, green-worlder, athletic'
 negative_keywords: 'sterile-metal, deep-space, high-gravity'
+species_traits: *ref_0
 ---
 
 # Lin Human (Arboreal Canopy Folk)
 
-**BP Cost:**   
+**CP Cost:** 23 CP  
 **Description:** These human variants are a distinctive offshoot, presenting as nature-centered intellectuals with a strong physical deviation from baseline human norms. They possess lean, slightly simian features and are notably tall, typically standing around 7 feet. Key physiological traits include elongated digits, specific patterns of fine fur growth across their bodies, and solid, unpigmented black eyes, giving them a striking and somewhat alien appearance.
 
 A most prominent and defining characteristic is their prehensile tail. This appendage is a highly evolved extension of the caudal vertebrae, covered in fine fur, and serves as a powerful and dexterous fifth limb. The tail is often impressive in length, frequently matching the entire length of the body, and its fur color is generally congruent with the individual's hair and overall body fur coloration. This tail is integral to their movement, balance, and fine manipulation within their arboreal or nature-integrated environments.
@@ -122,7 +124,7 @@ Regeneration
 
 # **NIAN \*\***
 
-**BP Cost:**   
+**CP Cost:**   
 **Description:** Tall (7ft+), stocky with bone growths and plating, akin to Denisovan humans. The Nian evolved on worlds characterized by intense seismic activity, rapid environmental shifts, and frequent, localized radiation bursts from a highly unstable primary star. This perilous, high-risk environment drove a specific, rapid evolutionary path focused on natural defense and physical fortitude. Their dense, stocky build and heightened Strength and Stamina are adaptations for weathering these periodic environmental catastrophes.  
 The most defining feature—the development of armor plating and jagged bone growths—is a direct result of these conditions. The bone plating is a form of hyper-calcification and keratinization, triggered by the body’s response to high-impact trauma and subtle environmental radiation. This process begins in early adolescence, creating natural, hardened plates across their back, chest, and limbs, providing an innate, partial Exoskeleton defense. The jagged growths are a secondary evolutionary trait, emerging primarily around joints and along the spine, likely serving as both a deterrent to large-scale predators and a stabilization mechanism against the violent, unpredictable terrain of their homeworld. The result is a physically imposing, naturally armored warrior species, whose very form is a testament to the brutal, unforgiving nature of their ancestral home.
 

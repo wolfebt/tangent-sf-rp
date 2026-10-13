@@ -9,7 +9,9 @@ multiplier: 1
 speed: 60
 bp: 0
 description: Controlled unpowered aerodynamic glide granting +2 bonus to aerial actions.
+cp: 0
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -18,7 +20,7 @@ modifiers: []
 **Category**: Species Movement (STAGE)  
 **Classification**: stage  
 **Target Mode**: Flying  
-**Cost**: +0 BP  
+**Cost**: +0 CP  
 
 ## Description
 Controlled unpowered aerodynamic glide granting +2 bonus to aerial actions.

@@ -4,6 +4,7 @@ name: 'Scale: Medium (x1)'
 category: rules
 description: 'Human baseline; x1 damage, 0 defense modifier.'
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

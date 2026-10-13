@@ -21,6 +21,7 @@ synergy_links:
   - combat-ballistic
   - mental-technology
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'weaponsmith, mental, intellect, cognitive, expertise, forging'

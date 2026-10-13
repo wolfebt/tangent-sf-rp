@@ -32,17 +32,19 @@ description: >-
   A brilliant inventor and technician who develops and maintains advanced
   technology. Skilled in hardware and software.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'maker, savant, rational, intellect, strategist, utility, support'
 negative_keywords: 'mindless-brute, reckless, illiterate'
+cp_chassis: 80
 ---
 
 # The Maker
 
 **Sphere**: Savants (The Rationals)  
 **Core Concept**: Utility / Support / Repair  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
 **Secondary Attribute**: Agility  
 

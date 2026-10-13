@@ -4,6 +4,7 @@ name: 'Scale: Large (x2)'
 category: rules
 description: 'Power armor / bikes; x2 damage, +2 defense modifier.'
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

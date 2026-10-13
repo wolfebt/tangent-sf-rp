@@ -43,21 +43,22 @@ tech_level: 3 (Sub-Surface Habitats & Hydro-Drives)
 meta_level: 1 (Oceanic Echo)
 homeworld: Thalassa (Ocean World)
 costs:
-  bp: 11
+  cp: 7
+  bp: 7
 modifiers: []
-cp_cost: 11
-cp: 11
-bp: 11
+cp_cost: 7
+cp: 7
+bp: 7
 description: >-
   Aquarians are oceanic-adapted humans with gill slits, webbed digits, and
   pressurized vascular systems suited for pelagic trenches and coastal orbital
   habitats.
-traits:
-  - trait-adapted-aquatic
-  - trait-amphibious-gills-lungs
-  - trait-aquatic-strength-2-in-water
-  - trait-natural-swim-speed-30ft
-  - trait-specialized-senses-underwater-vision-sonar
+traits: &ref_0
+  - trait-adapted
+  - trait-amphibious
+  - trait-aquatic-strength
+  - trait-aquatic
+  - trait-blind-sense
 recommended_factions:
   - The Syndicate
   - Coalition of Independent Worlds
@@ -70,11 +71,12 @@ recommended_occupations:
   - Citizen
 keywords: 'aquatic, hydro-thrusters, diving, coastal-settler, pelagic-life'
 negative_keywords: 'arid-desert, heavy-foundry, claustrophobia'
+species_traits: *ref_0
 ---
 
 # Aquarian Human (Water Variant)
 
-**BP Cost:**   
+**CP Cost:** 7 CP  
 **Description:** The indigenous aquatic humanoids of Aquarius, known simply as Aquatic Humans, are a native race whose history on the water world significantly predates the establishment and influence of the Impyrium in this region. They are the planet's original sentient inhabitants.
 
 Aquatic Humans possess several key physiological adaptations suited to their watery environment. Their skin is covered in fine, almost imperceptible scales that aid in hydrodynamics and offer a slight defense against environmental pressures. When submerged, their skin often takes on a subtle, natural bluish tint, which provides a degree of camouflage within the planet's deep, cerulean oceans. Their eyes are noteworthy, featuring unusually large pupils that maximize light capture in the dimmer, deeper regions of Aquarius, granting them exceptional underwater vision. Furthermore, they exhibit partial webbing—approximately halfway—on both their fingers and toes, significantly enhancing their propulsion and maneuverability through the water. These traits mark them as a species intrinsically linked to, and perfectly evolved for, the aquatic realm.
@@ -120,7 +122,7 @@ Quick
 
 # **B’DREN \* \*\***
 
-**BP Cost:**   
+**CP Cost:**   
 **Description:** The B’Dren are a striking species, immediately distinguishable by their Tall and Lean physiques. This evolutionary trait is not merely aesthetic; it is the physical culmination of generations spent traversing the varied and often challenging terrain of their homeworld. Their movements reflect a natural efficiency born from necessity.
 
 Their skin possesses a natural, subtle bronzing, an adaptation perfectly suited to the perpetual low-light conditions of their twilight world. This pigmentation offers not only protection but also a superior form of camouflage within the deep shadows and muted landscapes. Far from being frail, the B’Dren possess a quiet, coiled strength. They move with the fluid, almost hypnotic grace of apex predators, effortlessly navigating their shadowed domain as its undisputed masters. Every step, every gesture, is deliberate and economical, speaking to a profound understanding of their environment.

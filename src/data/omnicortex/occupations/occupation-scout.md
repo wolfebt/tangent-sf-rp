@@ -38,6 +38,7 @@ description: >-
   to make the most of their situation. Scouts are often proficient in finding
   food, shelter, and navigating through unfamiliar terrain.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 recommended_species:
@@ -72,13 +73,16 @@ negative_keywords: >-
   claustrophobic-desk, loud-clanking-armor, conspicuous-banner,
   sedentary-indoor-worker, heavy-urban-drone, noisy-crowd, reckless-charger,
   nearsighted
+base_ws: 1
+economic_context: Frontier surveying & expedition bounties
 ---
 
 # Scout Occupation
 
 **Category**: Occupations  
+**EUFT Base Wealth Score**: WS 1 (Frontier surveying & expedition bounties)  
 **Starting Skill Points**: 20 SP (allocated to Professional Skills, max Rank 11, recommended Rank 6)  
-**Recommended Features**: General (1 BP Discount)  
+**Recommended Features**: General (1 CP Discount)  
 **Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)
 
 ## Description

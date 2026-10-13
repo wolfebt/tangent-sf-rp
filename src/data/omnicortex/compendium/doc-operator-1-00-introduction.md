@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","1.00 introduction","mechanics"]
-updatedAt: "2026-10-12T03:22:23.346Z"
+updatedAt: "2026-10-13T03:46:47.925Z"
 costs:
   bp: 0
   credits: 0
@@ -87,8 +87,8 @@ These terms define the fundamental mathematics of the system.
 | :---- | :---- | :---- | :---- |
 | Rank | Skills | The numerical value assigned to a Skill, representing training. | 0 (Untrained) to 30 (Pinnacle+) |
 | Score | Attributes | The raw modifier of an Attribute (e.g., Strength \+2). | \-5 to \+10 (Caps vary by Species/Tier) |
-| BP | Creation | **Build Points**. The currency used for Character Creation. | Standard: 150 BP |
-| AP | Progression | **Award Points**. Experience points spent 1-for-1 like BP. | 1 to ∞ |
+| CP | Creation | **Character Points**. The currency used for Character Creation. | Standard: 150 CP |
+| AP | Progression | **Award Points**. Experience points spent 1-for-1 like CP. | 1 to ∞ |
 | CR | Mechanics | **Challenge Rating**. The target number a check must meet or exceed. | 0 (Simple) to 40+ (Godlike) |
 | Karma | Resources | A meta-currency pool used to reroll dice or activate special feats. | Base 3\. Refreshes per Session. |
 | Tier | Scale | Broad category of power for Items, Enemies, or Scale. | Tier 0 (Civilian) to Tier 5 (Cosmic) |
@@ -115,8 +115,8 @@ Defining the states of life and death.
 
 | Term | Domain | Definition | Range / Limit |
 | :---- | :---- | :---- | :---- |
-| Vitality | Integrity | Physical resilience, luck, and stamina. Absorbs non-lethal/initial damage. | Base 30 \+ (5 per BP/Sta). Recovers fast. |
-| Health | Integrity | Structural integrity and life force. Damage here is lethal/traumatic. | Base 30 \+ (5 per BP). Recovers slow. |
+| Vitality | Integrity | Physical resilience, luck, and stamina. Absorbs non-lethal/initial damage. | Base 30 \+ (5 per CP/Sta). Recovers fast. |
+| Health | Integrity | Structural integrity and life force. Damage here is lethal/traumatic. | Base 30 \+ (5 per CP). Recovers slow. |
 | Structure | Integrity | The "Health" equivalent for inanimate objects and Synthetics. | Varies by Size/Chassis. |
 | DR | Defense | Damage Resistance. A flat value subtracted from incoming damage before it hits Vitality. | 0 (Clothing) to 60+ (Capital Ship) |
 | Defense | Combat | The Target Number to hit a character (Passive). | 10 \+ Agility \+ Skill \+ Mods |

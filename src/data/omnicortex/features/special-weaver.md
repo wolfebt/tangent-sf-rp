@@ -6,21 +6,24 @@ feature_category: Special
 cost_bp: 2
 is_ranked: false
 is_multiple: false
-prerequisites: 'Resin Secretion'
+prerequisites: Resin Secretion
 description: >-
-  Abdominal spinnerets produce and manipulate high-tensile natural webbing
-  made from specialized Hive-Resin for trapping targets, rigging rappels, and construction.
+  Abdominal spinnerets produce and manipulate high-tensile natural webbing made
+  from specialized Hive-Resin for trapping targets, rigging rappels, and
+  construction.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
 keywords: 'weaver, webbing, hive-resin, silk-spinner, entrapment, tether, spider-silk'
 negative_keywords: 'web-blind, non-spinneret'
+cost_cp: 2
 ---
 
 # Weaver
 
 **Category**: Special Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisites**: Resin Secretion  
 
 ## Description

@@ -1,26 +1,31 @@
 ---
 id: meta-psionic-interference-static
-name: 'Psionic Interference (The Static)'
+name: Psionic Interference (The Static)
 category: features
 feature_category: Meta
 cost_bp: 1
 is_ranked: false
 is_multiple: false
-prerequisites: 'Resonant / Chaotic Psionic Aura'
+prerequisites: Resonant / Chaotic Psionic Aura
 description: >-
   Generates discordant psionic static. Manelli in range suffer -2 on Psionic and
-  Wisdom checks; Kitin Chorus communications in the immediate vicinity are manipulated or used at Disadvantage.
+  Wisdom checks; Kitin Chorus communications in the immediate vicinity are
+  manipulated or used at Disadvantage.
 costs:
+  cp: 1
   bp: 1
 modifiers: []
-keywords: 'psionic-interference, the-static, counter-chorus, manelli-disruption, psychic-feedback, chaotic-resonance'
+keywords: >-
+  psionic-interference, the-static, counter-chorus, manelli-disruption,
+  psychic-feedback, chaotic-resonance
 negative_keywords: 'orderly-chorus, harmonious, psionic-compliance'
+cost_cp: 1
 ---
 
 # Psionic Interference (The Static)
 
 **Category**: Meta Features  
-**Cost**: 1 BP  
+**Cost**: 1 CP  
 **Prerequisites**: Resonant / Chaotic Psionic Aura  
 
 ## Description

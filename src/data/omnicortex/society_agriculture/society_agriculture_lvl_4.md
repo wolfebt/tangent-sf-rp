@@ -8,6 +8,7 @@ description: >-
   Level 4 development in Agriculture & Biosphere: Food production, farming
   technologies, hydroponics, and ecosystem synthesis. (Mastered / Interstellar).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

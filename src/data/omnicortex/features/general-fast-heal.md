@@ -9,16 +9,18 @@ is_multiple: false
 prerequisites: Stamina 2
 description: The character's metabolism repairs tissue at an accelerated rate.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'fast heal, general, special-feature, character''s, metabolism, repairs'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Fast Heal
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Stamina 2
 
 ## Description

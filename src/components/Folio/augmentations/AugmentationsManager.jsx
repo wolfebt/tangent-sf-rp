@@ -138,9 +138,11 @@ export const AugmentationsManager = ({
         category: 'features',
         feature_category: 'Special',
         cost_bp: 3,
+        cost_cp: 3,
+        cp: 3,
         description: 'The character has undergone invasive surgery to replace or enhance biological systems with cybernetics, biotechnology, or magical prosthetics.',
         benefit: 'You are compatible with Standard Augmentations.',
-        special: 'Upon taking this feature, you gain a "credit" of 6 Build Points (BP) worth of Augmentations effectively for free (representing the initial suite of upgrades). Any cost beyond this must be paid with BP or Credits.'
+        special: 'Upon taking this feature, you gain a "credit" of 6 Character Points (CP) worth of Augmentations effectively for free (representing the initial suite of upgrades). Any cost beyond this must be paid with CP or Credits.'
       },
       heavy: {
         id: 'special-heavy-augmentations',
@@ -148,10 +150,12 @@ export const AugmentationsManager = ({
         category: 'features',
         feature_category: 'Special',
         cost_bp: 3,
+        cost_cp: 3,
+        cp: 3,
         prerequisites: 'Augmented, Stamina 2',
         description: 'The character has replaced significant portions of their body with industrial or military-grade hardware. These modifications are often bulky, obvious, and not designed for social integration.',
-        benefit: 'You may install Heavy class Augmentations (which often have higher DR or Strength bonuses but may impose social penalties). You gain an additional 6 BP worth of Augmentations.',
-        special: 'Grants an additional 6 BP worth of Augmentations for free (+12 BP cumulative credit). Unlocks compatibility with Heavy class cybernetic and biomechanical hardware.'
+        benefit: 'You may install Heavy class Augmentations (which often have higher DR or Strength bonuses but may impose social penalties). You gain an additional 6 CP worth of Augmentations.',
+        special: 'Grants an additional 6 CP worth of Augmentations for free (+12 CP cumulative credit). Unlocks compatibility with Heavy class cybernetic and biomechanical hardware.'
       },
       extreme: {
         id: 'special-extreme-augmentations',
@@ -159,10 +163,12 @@ export const AugmentationsManager = ({
         category: 'features',
         feature_category: 'Special',
         cost_bp: 3,
+        cost_cp: 3,
+        cp: 3,
         prerequisites: 'Heavy Augmentations, Stamina 4',
         description: 'The character is more machine (or bio-construct) than original being. They have replaced the majority of biological functions.',
-        benefit: 'You may undergo Full Body Conversion. You may install systems that alter your Size category or basic physiology (e.g., tank treads instead of legs). You gain an additional 6 BP worth of Augmentations.',
-        special: 'Grants an additional 6 BP worth of Augmentations for free (+18 BP cumulative credit). Permits Full Body Conversion (FBC) chassis and radical physiological structural alterations.'
+        benefit: 'You may undergo Full Body Conversion. You may install systems that alter your Size category or basic physiology (e.g., tank treads instead of legs). You gain an additional 6 CP worth of Augmentations.',
+        special: 'Grants an additional 6 CP worth of Augmentations for free (+18 CP cumulative credit). Permits Full Body Conversion (FBC) chassis and radical physiological structural alterations.'
       }
     };
 
@@ -258,9 +264,9 @@ export const AugmentationsManager = ({
               <span>STAGE: {stageInfo.stage.name.toUpperCase()}</span>
             </div>
 
-            {/* Total BP Credit Badge */}
+            {/* Total CP Credit Badge */}
             <div className="px-3 py-1.5 rounded-lg bg-slate-950 border border-amber-900/60 text-amber-300 text-xs font-mono font-bold">
-              <span>{bpStats.bpCredit} BP Credit</span>
+              <span>{bpStats.cpCredit || bpStats.bpCredit} CP Credit</span>
             </div>
 
             {/* Total Chassis Capacity */}
@@ -560,7 +566,7 @@ export const AugmentationsManager = ({
                         badge={location}
                         badgeColor="amber"
                         description={desc || 'Prosthetic hardware, neural cyberware, or biological graft.'}
-                        cost={`${nodes} Nodes | ${bp} BP | Stage: ${stage}`}
+                        cost={`${nodes} Nodes | ${bp} CP | Stage: ${stage}`}
                         tags={['Augmentation', location, stage]}
                         showInfoIcon={true}
                       >
@@ -586,7 +592,7 @@ export const AugmentationsManager = ({
                           {nodes} N
                         </span>
                         <span className="px-1.5 py-0.5 text-[10px] font-mono font-bold text-amber-300 bg-amber-950/80 border border-amber-800/80 rounded">
-                          {bp} BP
+                          {bp} CP
                         </span>
                       </div>
                     </div>

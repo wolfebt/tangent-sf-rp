@@ -33,17 +33,19 @@ tactical_role: >-
 quote: '"Oh, darling, you simply must tell me everything."'
 description: A charismatic individual who thrives in social settings and networking.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'socialite, visionary, idealist, leadership, charisma, face, info gatherer'
 negative_keywords: 'anti-social, mute, solitary-hermit'
+cp_chassis: 80
 ---
 
 # The Socialite
 
 **Sphere**: Visionaries (The Idealists)  
 **Core Concept**: Face / Info Gatherer / Buffer  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Charisma  
 **Secondary Attribute**: Wisdom  
 

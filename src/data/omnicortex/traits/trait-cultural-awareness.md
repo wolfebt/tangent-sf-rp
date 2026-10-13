@@ -5,6 +5,7 @@ trait_tier: Basic
 trait_type: Occupational Trait
 category: traits
 costs:
+  cp: 1
   bp: 1
 description: >-
   Merchants are culturally aware and sensitive. They understand different
@@ -17,7 +18,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Basic
 **Type**: Occupational Trait
-**BP Cost**: 1
+**CP Cost**: 1
 
 ## Description
 Merchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.

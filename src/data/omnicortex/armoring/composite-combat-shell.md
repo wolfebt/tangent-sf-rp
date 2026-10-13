@@ -28,6 +28,7 @@ mechanic: >-
   Refractive Coating (+2 Defense vs Lasers/Beams). -1 Mobility, -5 Movement. DR
   20, SP 50.
 costs:
+  cp: 0
   bp: 0
   credits: 4457
   nodes: 0

@@ -6,21 +6,26 @@ feature_category: Special
 cost_bp: 4
 is_ranked: false
 is_multiple: false
-prerequisites: 'Chitinous or Biomorphic Dermis'
+prerequisites: Chitinous or Biomorphic Dermis
 description: >-
   Chitin can actively shift texture and hue to match surroundings, including
-  light-absorbing vanta-black and near-transparent optical bending (+8 to Stealth).
+  light-absorbing vanta-black and near-transparent optical bending (+8 to
+  Stealth).
 costs:
+  cp: 4
   bp: 4
 modifiers: []
-keywords: 'active-camouflage, chameleon, vanta-black, transparency, stealth, optical-bending, infiltration'
+keywords: >-
+  active-camouflage, chameleon, vanta-black, transparency, stealth,
+  optical-bending, infiltration
 negative_keywords: 'conspicuous, fluorescent, glowing, uncamouflaged'
+cost_cp: 4
 ---
 
 # Camouflage (Active)
 
 **Category**: Special Features  
-**Cost**: 4 BP  
+**Cost**: 4 CP  
 **Prerequisites**: Chitinous or Biomorphic Dermis  
 
 ## Description

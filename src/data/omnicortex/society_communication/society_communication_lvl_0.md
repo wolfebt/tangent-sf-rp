@@ -8,6 +8,7 @@ description: >-
   Level 0 development in Communication & Data: Sub-space relays, ansible
   networks, holonet infrastructure, and telemetry. (Primitive / Subsistence).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -8,19 +8,23 @@ is_ranked: false
 is_multiple: false
 prerequisites: Multi-segmented Larval Anatomy
 description: >-
-  Possesses 30+ micro-limbs along their underside for fine internal repairs, fluid management,
-  and multitasking across the mecha's biological subsystems.
+  Possesses 30+ micro-limbs along their underside for fine internal repairs,
+  fluid management, and multitasking across the mecha's biological subsystems.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
-keywords: 'multidextrous, micro-limbs, many-limbed, larval, multitasking, internal-repairs, syndess'
+keywords: >-
+  multidextrous, micro-limbs, many-limbed, larval, multitasking,
+  internal-repairs, syndess
 negative_keywords: 'clumsy, two-limbed, single-task'
+cost_cp: 2
 ---
 
 # Multidextrous (Many-Limbed)
 
 **Category**: Special Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisites**: Multi-segmented Larval Anatomy  
 
 ## Description

@@ -24,6 +24,7 @@ mechanic: >-
   Support (2), Bunks (2), Galley/Mess (2), Comms Array (1), Airlock (1), Storage
   (2).
 costs:
+  cp: 0
   bp: 0
   credits: 2560
   nodes: 0

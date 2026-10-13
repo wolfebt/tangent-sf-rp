@@ -12,16 +12,18 @@ description: >-
   items, symbiotic armor, and genetically engineered tools (common among
   Aulurans and Tyranid-like factions).
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'biotechnology, special, special-feature, trained, naturally, adapted'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Biotechnology
 
 **Category**: Special Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Awakened (Psychic) OR Tech Level 4+ society.
 
 ## Description

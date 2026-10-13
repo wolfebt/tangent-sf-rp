@@ -52,6 +52,7 @@ description: >-
   universal enlightenment through the stars. They blend high technology with
   deep mysticism, viewing the cosmos as a divine tapestry
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Faction Template
@@ -116,7 +117,7 @@ negative_keywords: 'nihilism, atheistic-materialism, purely-secular, short-term-
   * Diplomacy (+4)  
   * Attune (+3)  
 * **Typical Archetypes:** The Mystic, The Pilgrim, The Oracle, The Temple Guardian, The Chaplain.  
-* **Recommended Features (1 BP Discount):** Centering, Iron Will, Educated, Magical Aptitude, Harmonious Center, Trustworthy, Awakened, Defensive Combat Training, Sense, Insightful Reason.
+* **Recommended Features (1 CP Discount):** Centering, Iron Will, Educated, Magical Aptitude, Harmonious Center, Trustworthy, Awakened, Defensive Combat Training, Sense, Insightful Reason.
 
 ### **VI. Visual Semiotics (Aesthetics)**
 

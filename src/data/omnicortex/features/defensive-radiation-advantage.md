@@ -14,10 +14,11 @@ tags:
   - cellular-resilience
   - kitin
 description: >-
-  Thick heavy-element chitin layers and copper-based hemocyanin cellular matrices
-  provide superior physiological resistance against radiological hazards. All checks
-  against ionizing radiation, cosmic rays, and fallout are made with Advantage, and
-  radiation damage/strain is halved.
+  Thick heavy-element chitin layers and copper-based hemocyanin cellular
+  matrices provide superior physiological resistance against radiological
+  hazards. All checks against ionizing radiation, cosmic rays, and fallout are
+  made with Advantage, and radiation damage/strain is halved.
+cost_cp: 2
 ---
 
 ### **Overview**

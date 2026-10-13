@@ -9,6 +9,7 @@ description: Skin acts as a programmable vidscreen.
 stigma: None
 type: Fashionware
 costs:
+  cp: 0
   bp: 0
   credits: 640
   nodes: 0

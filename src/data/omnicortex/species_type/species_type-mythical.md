@@ -5,6 +5,7 @@ category: species_type
 bp: 5
 cp: 5
 costs:
+  cp: 5
   bp: 5
 senses: 'Darkvision 60 feet and Low-light vision. [1+1]'
 immunities: Environmental extremes

@@ -11,16 +11,18 @@ description: >-
   The character can cause a diversion so potent that it leaves opponents
   vulnerable.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'distract, general, special-feature, diversion, potent, leaves'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Distract
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Charisma 1 or Intellect 1
 
 ## Description

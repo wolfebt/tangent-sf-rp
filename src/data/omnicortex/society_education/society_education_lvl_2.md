@@ -8,6 +8,7 @@ description: >-
   Level 2 development in Education & Archives: Knowledge institutions, neural
   archives, apprenticeships, and academies. (Modern / Planetary).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

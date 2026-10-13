@@ -9,6 +9,7 @@ description: 2 mini-injectors with 4 doses each.
 stigma: None
 type: Cybernetic Armor
 costs:
+  cp: 0
   bp: 0
   credits: 640
   nodes: 0

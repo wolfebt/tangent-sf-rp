@@ -28,6 +28,7 @@ synergy_links:
   - meta-matter
   - meta-mental
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'attune, meta, wisdom, metafocus, psionic, resonance'

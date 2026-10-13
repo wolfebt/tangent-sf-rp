@@ -32,17 +32,19 @@ tactical_role: >-
 quote: '"This planet is alive, and right now, it''s angry."'
 description: 'A scholar who studies the geology, climate, and ecosystems of planets.'
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'planetologist, savant, rational, intellect, strategist, science, survival'
 negative_keywords: 'mindless-brute, reckless, illiterate'
+cp_chassis: 80
 ---
 
 # The Planetologist
 
 **Sphere**: Savants (The Rationals)  
 **Core Concept**: Science / Survival / Explorer  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
 **Secondary Attribute**: Constitution  
 

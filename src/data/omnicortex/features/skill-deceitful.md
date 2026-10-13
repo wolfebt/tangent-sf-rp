@@ -11,16 +11,18 @@ description: >-
   The character is a pathological or professional liar, skilled in misdirection
   and blending in.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'deceitful, skill, special-feature, pathological, professional, skilled'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Deceitful
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: None
 
 ## Description

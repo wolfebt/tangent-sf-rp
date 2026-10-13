@@ -7,6 +7,7 @@ description: >-
   Target specific anatomy/component (-1 to -5 Strike). Successful damage
   disables or destroys the location.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

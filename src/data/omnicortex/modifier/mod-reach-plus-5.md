@@ -7,6 +7,7 @@ type: combat
 description: Extends melee combat reach by 5 feet.
 category: modifier
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

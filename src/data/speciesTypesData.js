@@ -9,9 +9,10 @@ export const DEFAULT_SPECIES_TYPES = [
     "id": "species_type-aberration",
     "name": "Aberration",
     "category": "species_type",
-    "bp": 1,
     "cp": 1,
+    "bp": 1,
     "costs": {
+      "cp": 1,
       "bp": 1
     },
     "description": "Aberration chassis.",
@@ -31,9 +32,10 @@ export const DEFAULT_SPECIES_TYPES = [
     "id": "species_type-beast",
     "name": "Beast",
     "category": "species_type",
-    "bp": 1,
     "cp": 1,
+    "bp": 1,
     "costs": {
+      "cp": 1,
       "bp": 1
     },
     "description": "Beast chassis.",
@@ -53,9 +55,10 @@ export const DEFAULT_SPECIES_TYPES = [
     "id": "species_type-dragon",
     "name": "Dragon",
     "category": "species_type",
-    "bp": 5,
     "cp": 5,
+    "bp": 5,
     "costs": {
+      "cp": 5,
       "bp": 5
     },
     "description": "Dragon chassis.",
@@ -75,9 +78,10 @@ export const DEFAULT_SPECIES_TYPES = [
     "id": "species_type-elemental",
     "name": "Elemental",
     "category": "species_type",
-    "bp": 13,
     "cp": 13,
+    "bp": 13,
     "costs": {
+      "cp": 13,
       "bp": 13
     },
     "description": "Elemental chassis.",
@@ -97,9 +101,10 @@ export const DEFAULT_SPECIES_TYPES = [
     "id": "species_type-entity",
     "name": "Entity",
     "category": "species_type",
-    "bp": 24,
     "cp": 24,
+    "bp": 24,
     "costs": {
+      "cp": 24,
       "bp": 24
     },
     "description": "Entity chassis.",
@@ -119,9 +124,10 @@ export const DEFAULT_SPECIES_TYPES = [
     "id": "species_type-fey",
     "name": "Fey",
     "category": "species_type",
-    "bp": 3,
     "cp": 3,
+    "bp": 3,
     "costs": {
+      "cp": 3,
       "bp": 3
     },
     "description": "Fey chassis.",
@@ -141,9 +147,10 @@ export const DEFAULT_SPECIES_TYPES = [
     "id": "species_type-humanoid",
     "name": "Humanoid",
     "category": "species_type",
-    "bp": 0,
     "cp": 0,
+    "bp": 0,
     "costs": {
+      "cp": 0,
       "bp": 0
     },
     "description": "Humanoid chassis.",
@@ -163,9 +170,10 @@ export const DEFAULT_SPECIES_TYPES = [
     "id": "species_type-mythical",
     "name": "Mythical",
     "category": "species_type",
-    "bp": 5,
     "cp": 5,
+    "bp": 5,
     "costs": {
+      "cp": 5,
       "bp": 5
     },
     "description": "Mythical chassis.",
@@ -185,9 +193,10 @@ export const DEFAULT_SPECIES_TYPES = [
     "id": "species_type-ooze",
     "name": "Ooze",
     "category": "species_type",
-    "bp": 6,
     "cp": 6,
+    "bp": 6,
     "costs": {
+      "cp": 6,
       "bp": 6
     },
     "description": "Ooze chassis.",
@@ -207,9 +216,10 @@ export const DEFAULT_SPECIES_TYPES = [
     "id": "species_type-planar",
     "name": "Planar",
     "category": "species_type",
-    "bp": 4,
     "cp": 4,
+    "bp": 4,
     "costs": {
+      "cp": 4,
       "bp": 4
     },
     "description": "Planar chassis.",
@@ -229,9 +239,10 @@ export const DEFAULT_SPECIES_TYPES = [
     "id": "species_type-spectral",
     "name": "Spectral",
     "category": "species_type",
-    "bp": 18,
     "cp": 18,
+    "bp": 18,
     "costs": {
+      "cp": 18,
       "bp": 18
     },
     "description": "Spectral chassis.",
@@ -251,9 +262,10 @@ export const DEFAULT_SPECIES_TYPES = [
     "id": "species_type-synthetic",
     "name": "Synthetic",
     "category": "species_type",
-    "bp": 15,
     "cp": 15,
+    "bp": 15,
     "costs": {
+      "cp": 15,
       "bp": 15
     },
     "description": "Synthetic chassis.",
@@ -273,9 +285,10 @@ export const DEFAULT_SPECIES_TYPES = [
     "id": "species_type-undead",
     "name": "Undead",
     "category": "species_type",
-    "bp": 20,
     "cp": 20,
+    "bp": 20,
     "costs": {
+      "cp": 20,
       "bp": 20
     },
     "description": "Undead species are once-living creatures animated by spiritual or supernatural forces. Undead are based on another corporeal creature type and may or may not retain its previous traits.",
@@ -295,9 +308,10 @@ export const DEFAULT_SPECIES_TYPES = [
     "id": "species_type-verdant",
     "name": "Verdant",
     "category": "species_type",
-    "bp": 9,
     "cp": 9,
+    "bp": 9,
     "costs": {
+      "cp": 9,
       "bp": 9
     },
     "description": "Verdant chassis.",

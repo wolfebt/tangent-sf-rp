@@ -2,8 +2,11 @@
 id: rule-movement-climbing-paces
 name: Climbing Movement Paces & Vertical Scaling Rules
 category: rules
-description: Rules for vertical scaling paces (Easy, Moderate, Difficult, Scaling, Fast Ascent, Fast Descent).
+description: >-
+  Rules for vertical scaling paces (Easy, Moderate, Difficult, Scaling, Fast
+  Ascent, Fast Descent).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

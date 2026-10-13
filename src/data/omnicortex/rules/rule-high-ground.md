@@ -4,6 +4,7 @@ name: 'Edge: High Ground'
 category: rules
 description: Elevated positioning grants +2 to Strike and +2 to Critical Damage Range.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

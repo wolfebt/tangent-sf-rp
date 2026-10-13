@@ -1,9 +1,12 @@
-﻿---
+---
 id: condition-stabilized
 name: Stabilized
 category: conditions
-description: Stopped from dying; death clock is halted. Remains unconscious and prone at 0 Health until healed.
+description: >-
+  Stopped from dying; death clock is halted. Remains unconscious and prone at 0
+  Health until healed.
 costs:
+  cp: 0
   bp: 0
   credits: 0
   nodes: 0

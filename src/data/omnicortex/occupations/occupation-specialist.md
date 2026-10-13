@@ -40,6 +40,7 @@ description: >-
   crucial in overcoming obstacles, gathering information, or supporting the team
   in combat and non-combat situations.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 recommended_species:
@@ -74,13 +75,16 @@ keywords: >-
 negative_keywords: >-
   jack-of-all-trades-master-of-none, crude-brute-force, unscientific-guesswork,
   superstitious-ritual, careless-operator, sloppy-execution, blunt-force
+base_ws: 3
+economic_context: Contract engineering & technical commissions
 ---
 
 # Specialist Occupation
 
 **Category**: Occupations  
+**EUFT Base Wealth Score**: WS 3 (Contract engineering & technical commissions)  
 **Starting Skill Points**: 20 SP (allocated to Professional Skills, max Rank 11, recommended Rank 6)  
-**Recommended Features**: Skill (1 BP Discount)  
+**Recommended Features**: Skill (1 CP Discount)  
 **Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)
 
 ## Description

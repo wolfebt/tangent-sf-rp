@@ -19,6 +19,7 @@ primary_purpose: Secure Prisoner Holding Cell
 description: Heavy containment cell with forcefield bars and anti-tamper locks.
 mechanic: Holding cell with Structure 30 Forcefield walls.
 costs:
+  cp: 0
   bp: 0
   credits: 1500
   nodes: 0

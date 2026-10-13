@@ -27,6 +27,7 @@ mechanic: >-
   Telepathic Immunity (Wearer is immune to telepathic detection and
   mind-reading). DR 25, SP 70.
 costs:
+  cp: 0
   bp: 0
   credits: 23525
   nodes: 0

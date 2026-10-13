@@ -27,6 +27,7 @@ mechanic: >-
   Regenerating Bio-Armor (Regains 5 SP per hour), Zero Mobility Penalty. DR 12,
   SP 30.
 costs:
+  cp: 0
   bp: 0
   credits: 2560
   nodes: 0

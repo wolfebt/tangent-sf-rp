@@ -6,6 +6,7 @@ description: >-
   Bio vs Synth limb replacement times, Tech 4/5 body transfers, and Synth +50%
   damage capacity.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

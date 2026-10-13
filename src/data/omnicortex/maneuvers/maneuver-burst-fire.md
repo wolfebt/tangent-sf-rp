@@ -7,6 +7,7 @@ description: >-
   3-round burst granting +1 Strike. All range penalties are doubled during
   automatic fire.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

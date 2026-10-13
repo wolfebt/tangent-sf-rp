@@ -8,19 +8,23 @@ is_ranked: false
 is_multiple: false
 prerequisites: Hydro-Cushioned Hemolymph Vascular System
 description: >-
-  Internal fluid dampening allows the organism to survive extreme maneuvers and turns
-  that would liquefy humanoid pilots.
+  Internal fluid dampening allows the organism to survive extreme maneuvers and
+  turns that would liquefy humanoid pilots.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
-keywords: 'g-force-immunity, fluid-dampening, high-acceleration, supersonic, vector-shift, syndess'
+keywords: >-
+  g-force-immunity, fluid-dampening, high-acceleration, supersonic,
+  vector-shift, syndess
 negative_keywords: 'blackout, redout, g-loc, acceleration-trauma'
+cost_cp: 2
 ---
 
 # G-Force Immunity
 
 **Category**: Special Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisites**: Hydro-Cushioned Hemolymph Vascular System  
 
 ## Description

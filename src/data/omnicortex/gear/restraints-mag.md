@@ -11,6 +11,7 @@ mechanic: >-
   Reusable. Requires Strength DC 25 to break or Hack / Electronics DC 20 to
   open.
 costs:
+  cp: 0
   bp: 0
   credits: 160
   nodes: 0

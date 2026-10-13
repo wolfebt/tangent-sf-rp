@@ -34,17 +34,19 @@ description: >-
   Weaver of words and tales, captivating audiences with immersive narratives and
   transporting them to fantastical realms.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'chronicler, visionary, idealist, leadership, charisma, bard, historian'
 negative_keywords: 'mindless-brute, reckless, illiterate, anti-social, mute'
+cp_chassis: 80
 ---
 
 # The Chronicler
 
 **Sphere**: Visionaries (The Idealists)  
 **Core Concept**: Bard / Historian / Buffer  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Charisma  
 **Secondary Attribute**: Intellect  
 

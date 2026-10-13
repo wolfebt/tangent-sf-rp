@@ -28,12 +28,18 @@ export interface TangentCharacterDraft {
 
 export interface BastionValidationResult {
   isValid: boolean;
+  totalCpSpent?: number;
   totalBpSpent: number;
+  maxCp?: number;
   maxBp: number;
   breakdown: {
+    attributesCp?: number;
     attributesBp: number;
+    skillsCp?: number;
     skillsBp: number;
+    traitsCp?: number;
     traitsBp: number;
+    augmentationsCp?: number;
     augmentationsBp: number;
   };
   errors: string[];
@@ -55,16 +61,16 @@ export class BastionRulesAgent {
     techLevel: number = 3
   ): Promise<{ draft: TangentCharacterDraft; validation: BastionValidationResult }> {
     const prompt = `
-Generate a canonical Tangent SFF RPG character conforming strictly to 150 Build Points (BP).
+Generate a canonical Tangent SFF RPG character conforming strictly to 150 Character Points (CP).
 Concept: "${concept}"
 Species: "${species}"
 Tech Level: TL${techLevel}
 
 Rules:
 - 6 Core Attributes: Strength, Agility, Stamina, Intellect, Wisdom, Charisma.
-- Baseline attributes start at 0 (soft cap +4 at creation). Each +1 costs 5 BP.
-- Skills cost 1 BP per rank (max rank 5 for starting characters).
-- Total BP spent must be exactly 150.
+- Baseline attributes start at 0 (soft cap +4 at creation). Each +1 costs 5 CP.
+- Skills cost 1 CP per rank (max rank 5 for starting characters).
+- Total CP spent must be exactly 150.
 `;
 
     const schema = {
@@ -183,9 +189,9 @@ Rules:
     const errors: string[] = [];
 
     if (totalBpSpent > this.MAX_BP) {
-      errors.push(`Statblock exceeded BP limit: spent ${totalBpSpent} BP out of ${this.MAX_BP} max.`);
+      errors.push(`Statblock exceeded CP limit: spent ${totalBpSpent} CP out of ${this.MAX_BP} max.`);
     } else if (totalBpSpent < this.MAX_BP) {
-      errors.push(`Statblock unspent BP: spent ${totalBpSpent} BP out of ${this.MAX_BP} available.`);
+      errors.push(`Statblock unspent CP: spent ${totalBpSpent} CP out of ${this.MAX_BP} available.`);
     }
 
     // Self-balancing middleware: if under or over, adjust the highest or lowest skill
@@ -206,17 +212,27 @@ Rules:
 
     return {
       isValid: errors.length === 0,
+      totalCpSpent: totalBpSpent,
       totalBpSpent,
+      maxCp: this.MAX_BP,
       maxBp: this.MAX_BP,
       breakdown: {
+        attributesCp: attributesBp,
         attributesBp,
+        skillsCp: skillsBp,
         skillsBp,
+        traitsCp: traitsBp,
         traitsBp,
+        augmentationsCp: augmentationsBp,
         augmentationsBp
       },
       errors,
       correctedDraft
     };
+  }
+
+  public validateAndBalanceCp(draft: TangentCharacterDraft): BastionValidationResult {
+    return this.validateAndBalanceBp(draft);
   }
 }
 

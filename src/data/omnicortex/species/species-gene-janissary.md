@@ -48,24 +48,25 @@ tech_level: 4 (Syndicate Black-Ops Tech)
 meta_level: 1 (Tactical Focus)
 homeworld: Syndicate Citadel Academies
 costs:
-  bp: 30
+  cp: 16
+  bp: 16
 modifiers:
   - target: Charisma
     value: -1
     type: attribute
     mode: inherent
-cp_cost: 30
-cp: 30
-bp: 30
+cp_cost: 16
+cp: 16
+bp: 16
 description: >-
   The Janissaries are precision-crafted corporate enforcers possessing
   surgically implanted targeters, adrenal pumps, and uncompromising tactical
   conditioning.
-traits:
+traits: &ref_0
   - trait-adapted
-  - trait-augmented-sub-dermal-targeter-adrenal-regulator
-  - trait-combat-specialization
-  - trait-conditioned-mind-4-vs-fear
+  - trait-synthetic-armor-opts
+  - trait-focused-study
+  - trait-resistant
 recommended_factions:
   - The Syndicate
   - Corporate Faction Template
@@ -82,13 +83,14 @@ keywords: >-
   cloned-enforcer, vat-grown, adrenal-boost, targeter-implant,
   tactical-discipline, obedience
 negative_keywords: 'creative-freethinking, rebellious, pacifist, emotional-expression'
+species_traits: *ref_0
 ---
 
 # Janissary (Syndicate Elite Enforcer)
 
 *
 
-**BP Cost:**   
+**CP Cost:** 16 CP  
 **Description:** The Janissary operatives are not naturally born; instead, they are rapidly grown to physical adulthood from engineered zygotes in specialized gestation tanks. This accelerated biological maturation is a tactical necessity, enabling a fully mature fighting force to be deployed in a fraction of the time required by natural human development.
 
 Following this physical maturation, Janissary soldiers undergo an intense, virtual training regimen. Advanced neural interface systems directly link to their minds, bypassing traditional, slow learning and memorization. Complex skill sets—from advanced tactical combat and demolitions to cryptography and xenolinguistics—are directly 'programmed' into their neural architecture, creating a force with unparalleled immediate proficiency.
@@ -132,7 +134,7 @@ Toxin Resist (+4 vs Diseases, \+2 vs Poisons)
 
 # **IMPYRIUM PSION (I) \* \*\* \*\*\***
 
-**BP Cost:**   
+**CP Cost:**   
 **Description:** The Impyrium Psion is a highly specialized human subspecies 'Evolved' through eugenics and make prominent use of Psitech. Following the Dragon's purge and the catastrophic loss of the Impyrium Regi bloodline with the Grand Fleet's disappearance, the remaining Impyrium innovators developed the Psions as an emergency measure. They were engineered to act as advanced psychic guides and navigators across the Reach, utilizing their innate Psitech and Awakened abilities to maintain cohesion and direction for the scattered Impyrium remnants in the absence of the Regi leadership.
 
 **Classification:** Humanoid  
@@ -172,7 +174,7 @@ Silver Tongue
 
 # **IMPYRIUM REGI \* \*\* \*\*\***
 
-**BP Cost:**   
+**CP Cost:**   
 **Description:** The Regi are not a naturally occurring human variant but a sophisticated human subspecies, the product of deliberate, centuries-long bio-engineering by the technologically and psychically advanced Mondi civilization. Millennia ago, the Mondi intervened directly in the evolutionary path of a subset of humanity, meticulously engineering their development to achieve a state of exceptionalism. This profound genetic and psychic manipulation resulted in a population characterized by extraordinary intellectual capacity, potent inherent psychic abilities, and a suite of unique adaptive features.   
 Physiologically, the Regi are distinct, most notably characterized by a high prevalence of left-handedness and striking, iridescent eyes and emotionally triggered bioluminescent patterns (seen as fine lines and fine dots and often an individual show various hues of a particular color) — hallmarks of their engineered lineage.
 

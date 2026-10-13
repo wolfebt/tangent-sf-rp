@@ -11,16 +11,18 @@ description: >-
   The character is a living computer, able to perform complex mathematics
   instantly.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'lightning calculator, general, special-feature, living, computer, perform'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Lightning Calculator
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Intellect 1
 
 ## Description

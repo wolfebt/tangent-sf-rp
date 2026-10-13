@@ -48,6 +48,7 @@ tech_level: 3 (Industrial Heavy Mechanics)
 meta_level: 0 (Null)
 homeworld: Free Machine Colonies & Labor Outposts
 costs:
+  cp: 45
   bp: 45
 modifiers:
   - target: Strength
@@ -68,10 +69,10 @@ bp: 45
 description: >-
   Industrial and labor droids that achieved spontaneous consciousness through
   neural lattice cascade errors or rogue updates, forging their own culture.
-traits:
-  - trait-direct-usb-data-jack
-  - trait-heavy-industrial-motors
-  - trait-reinforced-chassis-dr-6
+traits: &ref_0
+  - trait-master-tinker
+  - trait-powerful-charge
+  - trait-exoskeleton-heavy
   - trait-synthetic-base-traits
 recommended_factions:
   - The Outworlds
@@ -87,6 +88,7 @@ recommended_occupations:
   - Drifter
 keywords: 'awakened-industrial, free-droid, labor-rebel, heavy-mechanic, emancipated'
 negative_keywords: 'subservient-protocol, corporate-loyalty, factory-slave'
+species_traits: *ref_0
 ---
 
 # Sentient Machine (Awakened Industrial Bot)
@@ -97,7 +99,7 @@ negative_keywords: 'subservient-protocol, corporate-loyalty, factory-slave'
 
 # 
 
-**BP Cost:**   
+**CP Cost:** 45 CP  
 **Description:** Intelligent Robot, designs from near humanoid form to industrial or military mecha. The typical unit is built on a medium frame for use of human sized portals, although larger and smaller designs are also used.
 
 **Classification:** Synthetic Humanoid  

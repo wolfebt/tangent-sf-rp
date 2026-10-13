@@ -8,16 +8,18 @@ description: >-
   Unshakeable moral dogma aligned with cosmic poles (Good, Evil, Law, Chaos)
   that the character cannot violate.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'extreme morality, hindrance, penalty, general, unshakeable, aligned'
 negative_keywords: 'perfection, flawless, unyielding, invulnerable'
+cp_granted: 4 / 8 / 12
 ---
 
 # Extreme Morality
 
 **Category**: Hindrances & Disadvantages  
-**BP Granted**: 4 / 8 / 12 BP  
+**CP Granted**: 4 / 8 / 12 CP  
 **Type**: Psychological / Metaphysical
 
 ## Description
@@ -25,6 +27,6 @@ Unshakeable moral dogma aligned with cosmic poles (Good, Evil, Law, Chaos) that 
 
 ## Mechanics & Severity
 ### Tiers & Effects
-- **Minor (4 BP)**: Refuses to perform actions contrary to personal cosmic alignment.
-- **Moderate (8 BP)**: Actively intervenes to stop allies or bystanders from violating moral code.
-- **Major (12 BP)**: Violently opposes moral antithesis, even facing certain death.
+- **Minor (4 CP)**: Refuses to perform actions contrary to personal cosmic alignment.
+- **Moderate (8 CP)**: Actively intervenes to stop allies or bystanders from violating moral code.
+- **Major (12 CP)**: Violently opposes moral antithesis, even facing certain death.

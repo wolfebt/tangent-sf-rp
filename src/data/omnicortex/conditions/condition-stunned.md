@@ -6,6 +6,7 @@ description: >-
   Incapacitated. Lose all Actions. Drop items. Defense = Base (No Dex/Skill).
   Constitution Save (DC 15) at end of turn to recover.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

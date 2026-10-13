@@ -8,6 +8,7 @@ description: >-
   modifications without biological strain.
 category: augmentation_type
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

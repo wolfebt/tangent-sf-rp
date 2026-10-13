@@ -4,6 +4,7 @@ name: Weapon Jammed
 description: The firearm mechanism or actuator jams; requires 1 full Action to clear.
 category: critical_failure_effect
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -2,60 +2,72 @@
 id: origin-spacer
 name: Spacer
 category: origins
-habitat: "Deep Void & Station"
+habitat: Deep Void & Station
+ws_modifier: 1
+economic_context: Orbital station or asteroid habitat; independent merchant trade exposure.
 skill_points: 20
 society_skills:
-  - "Piloting"
-  - "Alertness"
-  - "Knowledge (Technology)"
-  - "Knowledge (Survival)"
-  - "Vocation (Any)"
+  - Piloting
+  - Alertness
+  - Knowledge (Technology)
+  - Knowledge (Survival)
+  - Vocation (Any)
 archetypes:
-  - "Freighter Captain"
-  - "Explorer"
-  - "Mercenary"
-  - "Smuggler"
-  - "Technician"
-  - "Merchant"
+  - Freighter Captain
+  - Explorer
+  - Mercenary
+  - Smuggler
+  - Technician
+  - Merchant
 traits:
-  - "trait-combat-training"
-  - "trait-independence"
-  - "trait-leadership-skills"
-  - "trait-pilot-skills"
-  - "trait-resourcefulness"
-  - "trait-smooth-talking"
-  - "trait-technical-skills"
-  - "trait-toughness"
+  - trait-combat-training
+  - trait-independence
+  - trait-leadership-skills
+  - trait-pilot-skills
+  - trait-resourcefulness
+  - trait-smooth-talking
+  - trait-technical-skills
+  - trait-toughness
 recommended_species:
-  - "Varen (Gatekeeper)"
-  - "Cyberform Human"
-  - "Human (Base)"
-  - "Frellin"
-  - "Jorni"
-  - "Mobula"
-  - "Sentient Machine (Free Droid)"
-  - "Shell (Transferred Organic)"
-  - "Chimera (Gen-E)"
-  - "Scrap (Junkframe Synthetic)"
+  - Varen (Gatekeeper)
+  - Cyberform Human
+  - Human (Base)
+  - Frellin
+  - Jorni
+  - Mobula
+  - Sentient Machine (Free Droid)
+  - Shell (Transferred Organic)
+  - Chimera (Gen-E)
+  - Scrap (Junkframe Synthetic)
 recommended_factions:
-  - "The Outworlds"
-  - "Coalition of Independent Worlds"
-  - "The Entari Combine"
-  - "Space Exploration Faction Template"
-  - "Space Pirate Faction Template"
-  - "Mercenary Faction Template"
+  - The Outworlds
+  - Coalition of Independent Worlds
+  - The Entari Combine
+  - Space Exploration Faction Template
+  - Space Pirate Faction Template
+  - Mercenary Faction Template
 recommended_occupations:
-  - "Drifter"
-  - "Scout"
-  - "Merchant"
-  - "Builder"
-  - "Agent"
-  - "Soldier"
-keywords: "void-born, zero-g, orbital-station, pressurized-corridor, airlock, tramp-freighter, asteroid-belt, solar-sails, hull-plating, life-support, gravity-plates, nav-computer, docking-clamps, microgravity, bulkheads, spacefarer, stellar-void"
-negative_keywords: "deep-planetary-gravity-well, vast-open-prairie, mountainous-alpine-forest, submerged-coral-trench, heavy-mud-bog, ancient-stone-catacomb, open-atmosphere-storm, unpressurized-wilderness"
+  - Drifter
+  - Scout
+  - Merchant
+  - Builder
+  - Agent
+  - Soldier
+keywords: >-
+  void-born, zero-g, orbital-station, pressurized-corridor, airlock,
+  tramp-freighter, asteroid-belt, solar-sails, hull-plating, life-support,
+  gravity-plates, nav-computer, docking-clamps, microgravity, bulkheads,
+  spacefarer, stellar-void
+negative_keywords: >-
+  deep-planetary-gravity-well, vast-open-prairie, mountainous-alpine-forest,
+  submerged-coral-trench, heavy-mud-bog, ancient-stone-catacomb,
+  open-atmosphere-storm, unpressurized-wilderness
 description: >-
-  Some people do not have a home planet, instead choosing to travel the stars. They spend most of their time on generation ships, orbital trade rings, and hollowed-out asteroid stations, rarely setting foot on planetary dirt.
+  Some people do not have a home planet, instead choosing to travel the stars.
+  They spend most of their time on generation ships, orbital trade rings, and
+  hollowed-out asteroid stations, rarely setting foot on planetary dirt.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -64,6 +76,7 @@ modifiers: []
 
 **Category**: Origins  
 **Habitat**: Deep Void & Station  
+**EUFT Wealth Score Modifier**: +1 (Orbital station or asteroid habitat; independent merchant trade exposure.)  
 **Starting Skill Points**: 20 SP (allocated to Society Skills)  
 **Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)
 

@@ -34,17 +34,19 @@ description: >-
   The specialist who crafts and maintains the protective shells that preserve
   life in high-threat zones.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'armorer, sentinel, defender, stability, order, crafter, support'
 negative_keywords: 'fragile, unarmored, timid, evasive-sniper, mindless-brute'
+cp_chassis: 80
 ---
 
 # The Armorer
 
 **Sphere**: Sentinels (The Stabilizers)  
 **Core Concept**: Crafter / Support / Defense  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
 **Secondary Attribute**: Strength  
 

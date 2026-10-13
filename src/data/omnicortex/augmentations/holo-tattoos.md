@@ -9,6 +9,7 @@ description: Subdermal projectors for floating 3D holograms.
 stigma: None
 type: Fashionware
 costs:
+  cp: 0
   bp: 0
   credits: 640
   nodes: 0

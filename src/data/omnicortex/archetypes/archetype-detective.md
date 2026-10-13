@@ -32,17 +32,19 @@ description: >-
   Relentless detective who uncovers conspiracies and brings criminals to
   justice.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'detective, savant, rational, intellect, strategist, investigation, perception'
 negative_keywords: 'mindless-brute, reckless, illiterate'
+cp_chassis: 80
 ---
 
 # The Detective
 
 **Sphere**: Savants (The Rationals)  
 **Core Concept**: Investigation / Perception  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
 **Secondary Attribute**: Wisdom  
 

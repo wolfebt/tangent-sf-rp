@@ -9,7 +9,9 @@ multiplier: 1
 speed: 60
 bp: 0
 description: Standard flying cruise pace (1x Fly).
+cp: 0
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -18,7 +20,7 @@ modifiers: []
 **Category**: Species Movement (STAGE)  
 **Classification**: stage  
 **Target Mode**: Flying  
-**Cost**: +0 BP  
+**Cost**: +0 CP  
 
 ## Description
 Standard flying cruise pace (1x Fly).

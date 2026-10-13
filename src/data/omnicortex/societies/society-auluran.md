@@ -7,6 +7,7 @@ description: >-
   Symbiotic biomorphic tribal society living in balance with ancestral forests
   and bio-engineered flora.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

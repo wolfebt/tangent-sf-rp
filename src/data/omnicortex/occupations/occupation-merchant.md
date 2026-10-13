@@ -46,6 +46,7 @@ description: >-
   merchant prince, who is a powerful and wealthy individual with a license to
   explore and trade outside the limits of their civilization.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 recommended_species:
@@ -77,13 +78,16 @@ keywords: >-
 negative_keywords: >-
   charity-ascetic, penniless-vow, senseless-vandalism, reckless-spender,
   anti-commercial-anarchist, self-destructive-rage, gift-economy-only
+base_ws: 5
+economic_context: Commercial enterprise & capital leverage
 ---
 
 # Merchant Occupation
 
 **Category**: Occupations  
+**EUFT Base Wealth Score**: WS 5 (Commercial enterprise & capital leverage)  
 **Starting Skill Points**: 20 SP (allocated to Professional Skills, max Rank 11, recommended Rank 6)  
-**Recommended Features**: Skill (1 BP Discount)  
+**Recommended Features**: Skill (1 CP Discount)  
 **Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)
 
 ## Description

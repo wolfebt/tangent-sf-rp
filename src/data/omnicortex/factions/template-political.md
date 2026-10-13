@@ -53,6 +53,7 @@ description: >-
   assembly halls, and the media, utilizing propaganda, subversion, and massive
   capital to shape the galaxy's laws to their advantage
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Faction Template
@@ -117,7 +118,7 @@ negative_keywords: 'apolitical-passivity, military-autocracy, pure-anarchy, mind
   * History (+3)  
   * Computers (Data-Mining) (+3)  
 * **Typical Archetypes:** The Politician, The Campaign Strategist, The Lobbyist, The Spin-Doctor, The Black-Ops Fixer.  
-* **Recommended Features (1 BP Discount):** Silver Tongue, Connected, Inspiring Personality, Trustworthy, Golden Smile, Well-Informed, Benefit (Wealth), Deceitful, Lie Detector, Benefit (Immunity).
+* **Recommended Features (1 CP Discount):** Silver Tongue, Connected, Inspiring Personality, Trustworthy, Golden Smile, Well-Informed, Benefit (Wealth), Deceitful, Lie Detector, Benefit (Immunity).
 
 ### **VI. Visual Semiotics (Aesthetics)**
 

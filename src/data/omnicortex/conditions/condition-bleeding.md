@@ -6,6 +6,7 @@ description: >-
   Target takes 1d4 Damage at start of their turn. Ignores Armor/DR. Cured by
   Medicine Check (DC 10) or healing ability/item.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

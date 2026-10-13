@@ -6,21 +6,25 @@ feature_category: General
 cost_bp: 2
 is_ranked: false
 is_multiple: false
-prerequisites: 'Stealth 1'
+prerequisites: Stealth 1
 description: >-
-  Passive adaptive coloration, light-draping contours, and texture mimicry grant a +4
-  bonus on Stealth checks in favored or shadowed terrain.
+  Passive adaptive coloration, light-draping contours, and texture mimicry grant
+  a +4 bonus on Stealth checks in favored or shadowed terrain.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
-keywords: 'camouflage, stealth, concealment, shadow-blending, favored-terrain, infiltration'
+keywords: >-
+  camouflage, stealth, concealment, shadow-blending, favored-terrain,
+  infiltration
 negative_keywords: 'conspicuous, fluorescent, glowing'
+cost_cp: 2
 ---
 
 # Camouflage
 
 **Category**: General Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisites**: Stealth 1  
 
 ## Description

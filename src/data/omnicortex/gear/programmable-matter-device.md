@@ -13,6 +13,7 @@ mechanic: >-
   Reshapes into any Simple tool of Tiny size with Electronics check. [Morphic]:
   Stores up to 3 Blueprints to switch between as Free Action.
 costs:
+  cp: 0
   bp: 0
   credits: 10240
   nodes: 0

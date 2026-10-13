@@ -11,7 +11,9 @@ bp: 0
 description: >-
   Careful reinforced excavation for permanent subterranean bunkers or
   fortresses.
+cp: 0
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -20,7 +22,7 @@ modifiers: []
 **Category**: Species Movement (STAGE)  
 **Classification**: stage  
 **Target Mode**: Burrowing  
-**Cost**: +0 BP  
+**Cost**: +0 CP  
 
 ## Description
 Careful reinforced excavation for permanent subterranean bunkers or fortresses.

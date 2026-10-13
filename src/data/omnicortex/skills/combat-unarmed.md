@@ -21,6 +21,7 @@ synergy_links:
   - physical-acrobatics
   - combat-defense
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'unarmed, combat, strength, tactical, offensive, defense'

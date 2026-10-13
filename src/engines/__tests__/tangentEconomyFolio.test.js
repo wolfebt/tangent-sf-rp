@@ -4,7 +4,8 @@ import {
   formatGrantedCost,
   calculateFullSpeciesCost,
   calculateSpeciesBP,
-  computeEconomyBreakdown
+  computeEconomyBreakdown,
+  getCanonicalTraitCost
 } from '../tangentEntityEngines.js';
 import { applySpeciesTransition } from '../tangentIdentityEngine.js';
 import { DEFAULT_SPECIES } from '../../data/speciesData.js';
@@ -629,5 +630,127 @@ describe('Tangent SF RP — Folio CP Economy & Species Package Asset Accounting'
     });
   });
 
+  describe('Canonical Trait Tier CP Costs (1, 2, 4 CP) & Package Breakdowns', () => {
+    it('accurately resolves canonical tier costs: Basic = 1 CP, Advanced = 2 CP, Elite = 4 CP', () => {
+      // By explicit tier
+      assert.strictEqual(getCanonicalTraitCost({ trait_tier: 'Basic' }), 1);
+      assert.strictEqual(getCanonicalTraitCost({ trait_tier: 'Advanced' }), 2);
+      assert.strictEqual(getCanonicalTraitCost({ trait_tier: 'Elite' }), 4);
+
+      // By explicit bp or cp
+      assert.strictEqual(getCanonicalTraitCost({ cp: 2 }), 2);
+      assert.strictEqual(getCanonicalTraitCost({ bp: 4 }), 4);
+
+      // By catalog name / ID lookup
+      assert.strictEqual(getCanonicalTraitCost('adapted'), 1);
+      assert.strictEqual(getCanonicalTraitCost('ageless'), 2);
+      assert.strictEqual(getCanonicalTraitCost('blind-sight'), 4);
+    });
+
+    it('displays inherent species traits as 0 [1] CP, 0 [2] CP, or 0 [4] CP in the folio breakdown without charging CP', () => {
+      const char = {
+        'starting-cp': 150,
+        'char-species': 'Alterian',
+        'traits': [
+          { name: 'Keen Senses', trait_tier: 'Basic', source: 'species' },
+          { name: 'Low-Light Vision', trait_tier: 'Advanced', source: 'species' }
+        ]
+      };
+      const breakdown = computeEconomyBreakdown(char);
+      // Species package is charged as a whole (Alterian = 28 CP)
+      assert.strictEqual(breakdown.speciesCost, 28);
+      // Inherent traits themselves are 0 CP charged
+      assert.strictEqual(breakdown.traitsCost, 0);
+
+      const keen = breakdown.itemizedList.find(i => i.item === 'Keen Senses');
+      assert.ok(keen);
+      assert.strictEqual(keen.costVal, 0);
+      assert.strictEqual(keen.cost, '0 [1] CP');
+
+      const lowlight = breakdown.itemizedList.find(i => i.item === 'Low-Light Vision');
+      assert.ok(lowlight);
+      assert.strictEqual(lowlight.costVal, 0);
+      assert.strictEqual(lowlight.cost, '0 [2] CP');
+    });
+
+    it('grants 2 free Origin traits (0 [X] CP) and charges canonical tier cost for additional Origin traits', () => {
+      const char = {
+        'starting-cp': 150,
+        'char-origin': 'Urban',
+        'traits': [
+          { name: 'Streetwise', trait_tier: 'Basic', source: 'origin' },
+          { name: 'Contacts', trait_tier: 'Advanced', source: 'origin' },
+          { name: 'Shadow Operative', trait_tier: 'Elite', source: 'origin' }
+        ]
+      };
+      const breakdown = computeEconomyBreakdown(char);
+      // First 2 are free (0 CP), 3rd is Elite (4 CP)
+      assert.strictEqual(breakdown.traitsCost, 4);
+      assert.strictEqual(breakdown.spentCP, 4);
+
+      const t1 = breakdown.itemizedList.find(i => i.item === 'Streetwise');
+      assert.ok(t1);
+      assert.strictEqual(t1.costVal, 0);
+      assert.strictEqual(t1.cost, '0 [1] CP');
+
+      const t2 = breakdown.itemizedList.find(i => i.item === 'Contacts');
+      assert.ok(t2);
+      assert.strictEqual(t2.costVal, 0);
+      assert.strictEqual(t2.cost, '0 [2] CP');
+
+      const t3 = breakdown.itemizedList.find(i => i.item === 'Shadow Operative');
+      assert.ok(t3);
+      assert.strictEqual(t3.costVal, 4);
+      assert.strictEqual(t3.cost, '4 CP');
+    });
+
+    it('grants 2 free Occupation traits (0 [X] CP) and charges canonical tier cost for additional Occupation traits', () => {
+      const char = {
+        'starting-cp': 150,
+        'char-occu': 'Soldier',
+        'traits': [
+          { name: 'Combat Reflexes', trait_tier: 'Basic', source: 'occupation' },
+          { name: 'Weapon Specialization', trait_tier: 'Advanced', source: 'occupation' },
+          { name: 'Battle Master', trait_tier: 'Advanced', source: 'occupation' }
+        ]
+      };
+      const breakdown = computeEconomyBreakdown(char);
+      // First 2 are free (0 CP), 3rd is Advanced (2 CP)
+      assert.strictEqual(breakdown.traitsCost, 2);
+      assert.strictEqual(breakdown.spentCP, 2);
+
+      const t1 = breakdown.itemizedList.find(i => i.item === 'Combat Reflexes');
+      assert.ok(t1);
+      assert.strictEqual(t1.costVal, 0);
+      assert.strictEqual(t1.cost, '0 [1] CP');
+
+      const t2 = breakdown.itemizedList.find(i => i.item === 'Weapon Specialization');
+      assert.ok(t2);
+      assert.strictEqual(t2.costVal, 0);
+      assert.strictEqual(t2.cost, '0 [2] CP');
+
+      const t3 = breakdown.itemizedList.find(i => i.item === 'Battle Master');
+      assert.ok(t3);
+      assert.strictEqual(t3.costVal, 2);
+      assert.strictEqual(t3.cost, '2 CP');
+    });
+
+    it('charges canonical tier costs for general purchased traits (1, 2, or 4 CP)', () => {
+      const char = {
+        'starting-cp': 150,
+        'traits': [
+          { name: 'Alertness', trait_tier: 'Basic' }, // 1 CP
+          { name: 'Night Vision', trait_tier: 'Advanced' }, // 2 CP
+          { name: 'Preternatural Reflexes', trait_tier: 'Elite' } // 4 CP
+        ]
+      };
+      const breakdown = computeEconomyBreakdown(char);
+      assert.strictEqual(breakdown.traitsCost, 7); // 1 + 2 + 4 = 7 CP
+      assert.strictEqual(breakdown.spentCP, 7);
+      assert.strictEqual(breakdown.remainingCP, 143);
+    });
+  });
+
 });
+
 

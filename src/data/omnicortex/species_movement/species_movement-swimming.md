@@ -27,7 +27,9 @@ description: >-
 
   - **Treading**: 1/2 Swim or less (7.5 ft/rd). Conserves stamina; grants +2
   bonus to concentration; Athletics (Swim) CR 5+.
+cp: 2
 costs:
+  cp: 2
   bp: 2
 modifiers: []
 ---
@@ -36,7 +38,7 @@ modifiers: []
 **Category**: Species Movement (ADVANCED)  
 **Classification**: advanced  
 **Target Mode**: Swimming  
-**Cost**: +2 BP  
+**Cost**: +2 CP  
 **Base Speed**: 30 ft / round  
 
 ## Description

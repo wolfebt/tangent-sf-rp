@@ -8,6 +8,7 @@ description: >-
   Locks a target or zone in absolute time freeze, halting all physical
   degradation, bleeding, and chemical reactions.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 discipline: Entropy + Dimension

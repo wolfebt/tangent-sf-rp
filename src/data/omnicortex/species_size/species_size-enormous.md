@@ -3,15 +3,16 @@ id: species_size-enormous
 name: Enormous
 category: species_size
 scaling: 40
-scaling_display: "x40"
+scaling_display: x40
 strength_mod: 32
 combat_mod: -32
 stealth_mod: 0
-height_length_range: "< 512 ft"
-weight_range: "< 16,000 tons"
-reach: "50 ft"
-description: "Frigate-class naval vessel or planetary fortress complex."
+height_length_range: < 512 ft
+weight_range: '< 16,000 tons'
+reach: 50 ft
+description: Frigate-class naval vessel or planetary fortress complex.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

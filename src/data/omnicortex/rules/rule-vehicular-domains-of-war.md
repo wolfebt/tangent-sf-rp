@@ -6,6 +6,7 @@ description: >-
   Specific battlefield domains: Land cover & ramming, Nautical sonar & depth,
   Aerial dogfights & stalling, Space Newtonian drift & heat.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

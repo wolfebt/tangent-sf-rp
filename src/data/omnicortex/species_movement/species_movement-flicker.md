@@ -23,7 +23,9 @@ description: >-
 
   - **Rush**: Up to 2x Base (60 ft/rd). Extended emergency phase surge; requires
   an Endurance / Stamina check (CR 15+) to avoid fatigue.
+cp: 3
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 ---
@@ -32,7 +34,7 @@ modifiers: []
 **Category**: Species Movement (ADVANCED)  
 **Classification**: advanced  
 **Target Mode**: Flicker  
-**Cost**: +3 BP  
+**Cost**: +3 CP  
 **Base Speed**: 30 ft / round  
 
 ## Description

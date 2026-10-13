@@ -6,21 +6,23 @@ feature_category: Meta
 cost_bp: 2
 is_ranked: false
 is_multiple: false
-prerequisites: Awakened, Intellect 2, or Wisdom 2
+prerequisites: 'Awakened, Intellect 2, or Wisdom 2'
 description: >-
-  Innate sensory attunement to psionic fields, bio-energetic frequencies, and supernatural
-  thought patterns within 60 feet.
+  Innate sensory attunement to psionic fields, bio-energetic frequencies, and
+  supernatural thought patterns within 60 feet.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
 keywords: 'sense-psychic, psionic-sense, aura-reading, telepathic-detection, meta'
 negative_keywords: 'null-aura, psionic-blind'
+cost_cp: 2
 ---
 
 # Sense (Psychic)
 
 **Category**: Meta / Sensory Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisite**: Awakened, Intellect 2, or Wisdom 2  
 
 ## Description

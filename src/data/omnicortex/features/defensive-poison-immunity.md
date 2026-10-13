@@ -8,19 +8,21 @@ is_ranked: false
 is_multiple: false
 prerequisites: Stamina 1 or Insectoid/Synthetic Physiology
 description: >-
-  Highly adapted biochemical filters and cellular resilience grant automatic immunity
-  to all poisonous substances, toxins, and venoms.
+  Highly adapted biochemical filters and cellular resilience grant automatic
+  immunity to all poisonous substances, toxins, and venoms.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
 keywords: 'poison-immunity, toxin-immunity, venom-resistance, automatic-save, defense'
 negative_keywords: 'susceptible-poison, vulnerable-toxins'
+cost_cp: 2
 ---
 
 # Poison Immunity
 
 **Category**: Defensive / Physical Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisite**: Stamina 1 or Insectoid/Synthetic Physiology  
 
 ## Description

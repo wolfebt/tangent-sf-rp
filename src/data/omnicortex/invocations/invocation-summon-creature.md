@@ -5,6 +5,7 @@ category: invocations
 discipline: Dimension
 description: SUMMON CREATURE invocation for Dimension reality manipulation.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 recommended_species:
@@ -54,6 +55,6 @@ Parameters:
 Effect Description:  
 Calls a known existing creature from another plane or location to serve the caster as a temporary companion.  
 **Scaling Function:**
-* **Power:** Total Creature Build Points (BP) \= 10 BP per Stage achieved.  
-* **Quantity:** Can split the total BP budget among multiple creatures.
+* **Power:** Total Creature Character Points (CP) \= 10 CP per Stage achieved.  
+* **Quantity:** Can split the total CP budget among multiple creatures.
 ###

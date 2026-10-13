@@ -2,8 +2,11 @@
 id: rule-movement-swimming-paces
 name: Swimming Movement Paces & Aquatic Rules
 category: rules
-description: Rules for aquatic swimming paces (Swim, Glide, Stroke, Treading) and drowning hazards.
+description: >-
+  Rules for aquatic swimming paces (Swim, Glide, Stroke, Treading) and drowning
+  hazards.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

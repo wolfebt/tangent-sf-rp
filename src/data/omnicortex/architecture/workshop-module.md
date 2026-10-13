@@ -19,6 +19,7 @@ primary_purpose: Engineering & Manufacturing Workshop
 description: 'Equipped with heavy tooling benches, diagnostic computers, and repair suites.'
 mechanic: Contains Engineering Tools. Reduces Crafting Time by 25%.
 costs:
+  cp: 0
   bp: 0
   credits: 3000
   nodes: 0

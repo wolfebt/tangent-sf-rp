@@ -7,6 +7,7 @@ description: >-
   internal injuries. Effective against unarmored or lightly armored foes and
   machinery.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -9,6 +9,7 @@ description: Counters Sense of Pain / Negate Wound penalty.
 stigma: None
 type: Neural
 costs:
+  cp: 0
   bp: 0
   credits: 640
   nodes: 0

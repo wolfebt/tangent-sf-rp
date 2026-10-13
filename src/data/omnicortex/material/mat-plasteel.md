@@ -9,6 +9,7 @@ description: >-
   non-Newtonian impact gel buffers.
 category: material
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","1.07 skills","mechanics"]
-updatedAt: "2026-10-09T05:35:28.368Z"
+updatedAt: "2026-10-13T03:46:47.975Z"
 costs:
   bp: 0
   credits: 0
@@ -51,7 +51,7 @@ Skill types are:
 * **METAFOCUS SKILLS** (Attune, Discipline Skills and Special Abilities)  
 * **COMBAT SKILLS** (Archaic, Modern and Advanced).
 
-Build Points (BP) are the currency used in character creation. All skills cost 1 BP per rank regardless of other character aspects. Players must decide how to spend their limited BP to improve the skills most important for their character concept. For example, a character focused on diplomacy might spend more BP on Social skills, while a character focused on combat might spend more on Combat skills. Characters may receive Skill Points from Species as shown, indicating widely accessible training in the field. All characters receive Skill points from the Faction, Origin and Occupation they have chosen as listed, from the various types of education and training, they will only receive one allotment of Skills from each category. Technology & Metascience Levels will also grant the character skills based on the society's advancements. Tech Levels grant skills in focused areas for particular societies with low levels of advancements, or in general granting the bonus to wherever is needed. The more advanced Meta Levels will grant skills in Attune, Disciplines and Invocations show there understanding of Metasciences such as Magic and Psychic phenomenon.
+Character Points (CP) are the currency used in character creation. All skills cost 1 CP per rank regardless of other character aspects. Players must decide how to spend their limited CP to improve the skills most important for their character concept. For example, a character focused on diplomacy might spend more CP on Social skills, while a character focused on combat might spend more on Combat skills. Characters may receive Skill Points from Species as shown, indicating widely accessible training in the field. All characters receive Skill points from the Faction, Origin and Occupation they have chosen as listed, from the various types of education and training, they will only receive one allotment of Skills from each category. Technology & Metascience Levels will also grant the character skills based on the society's advancements. Tech Levels grant skills in focused areas for particular societies with low levels of advancements, or in general granting the bonus to wherever is needed. The more advanced Meta Levels will grant skills in Attune, Disciplines and Invocations show there understanding of Metasciences such as Magic and Psychic phenomenon.
 
 ## 
 
@@ -277,7 +277,7 @@ This system allows you to tailor your character's abilities to their profession,
 
 In Tangent, a character's Skill Rank reflects their level of expertise and competence in a particular skill. It's a numerical representation of their training, experience, and/or natural aptitude in that area.  
 Cost  
-Each Skill Rank costs 1 Build Point (BP) to acquire during character creation, regardless of the type of skill. This means that players need to carefully consider which skills are most important for their character concept and allocate their limited BP accordingly.  
+Each Skill Rank costs 1 Character Point (CP) to acquire during character creation, regardless of the type of skill. This means that players need to carefully consider which skills are most important for their character concept and allocate their limited CP accordingly.  
 Maximum Starting Rank  
 The maximum starting Skill Rank is 11, which corresponds to the "Expert" level of proficiency. Skills may be increased by 1 point per experience reward or session.
 
@@ -2346,7 +2346,7 @@ Calling forth creatures or objects from other coordinates or planes.
 **Invocations:**
 
 * **Summon Creature:** Calls a creature to fight or aid.  
-  * *Effect:* Summons a creature with a Build Point (BP) value equal to 10 \+ (Invocation Rank x 5).  
+  * *Effect:* Summons a creature with a Character Point (CP) value equal to 10 \+ (Invocation Rank x 5).  
 * **Create Object:** Manifests a temporary item from generic matter.  
   * *Effect:* Creates an object of Simple complexity (CR 0). Rank increases complexity/Tech Level.  
 * **Banishment:** Forces a creature back to its home plane or a pocket dimension.  
@@ -2872,11 +2872,11 @@ To acquire a Skill Specialization, the character must already have a rank of 6 o
 
 ## **Cost**
 
-Acquiring a Skill Specialization requires spending Build Points (BP), similar to other features in the system.
+Acquiring a Skill Specialization requires spending Character Points (CP), similar to other features in the system.
 
 ## **Independent Level**
 
-The level of Specialization advances separately from the base skill rank. This means a character can continue to improve their specialization even if they don't invest further BP into increasing the overall skill rank.
+The level of Specialization advances separately from the base skill rank. This means a character can continue to improve their specialization even if they don't invest further CP into increasing the overall skill rank.
 
 ## **Maximum Level**
 

@@ -5,6 +5,7 @@ category: species_type
 bp: 24
 cp: 24
 costs:
+  cp: 24
   bp: 24
 senses: 'Darkvision and Ether Sight out to 60 feet. [1+2]'
 immunities: 'Reality distortion, biological needs, mortal aging.'

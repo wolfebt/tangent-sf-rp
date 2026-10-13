@@ -8,19 +8,21 @@ is_ranked: false
 is_multiple: false
 prerequisites: Intellect 1 or Wisdom 1
 description: >-
-  Broad, eclectic practical exposure allowing the character to attempt any untrained
-  skill check without suffering severe unfamiliarity penalties.
+  Broad, eclectic practical exposure allowing the character to attempt any
+  untrained skill check without suffering severe unfamiliarity penalties.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'jack-of-all-trades, versatile, untrained-skills, generalist, adaptable'
 negative_keywords: 'hyper-specialist, rigid, incompetent'
+cost_cp: 3
 ---
 
 # Jack of all trades
 
 **Category**: General Features  
-**Cost**: 3 BP  
+**Cost**: 3 CP  
 **Prerequisite**: Intellect 1 or Wisdom 1  
 
 ## Description

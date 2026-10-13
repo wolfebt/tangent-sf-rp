@@ -8,6 +8,7 @@ description: >-
   Psychic-electronic interface commanding computer matrices and shipboard AI
   directly through pure thought.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 discipline: Mental + Energy

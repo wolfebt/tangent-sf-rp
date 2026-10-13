@@ -30,17 +30,19 @@ tactical_role: 'De-escalating combat, protecting allies, subduing enemies non-le
 quote: '"Stand down. There is no need for bloodshed today."'
 description: 'A protector of the innocent and champion of peace, using force and words.'
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'peacekeeper, visionary, idealist, leadership, charisma, tank, diplomat'
 negative_keywords: 'fragile, unarmored, timid, evasive-sniper, anti-social'
+cp_chassis: 80
 ---
 
 # The Peacekeeper
 
 **Sphere**: Visionaries (The Idealists)  
 **Core Concept**: Tank / Diplomat / Controller  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Charisma  
 **Secondary Attribute**: Constitution  
 

@@ -4,6 +4,7 @@ name: Sonic Resistance
 description: Dampening foam and acoustic baffles that neutralize vibrational frequencies.
 category: resistance
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

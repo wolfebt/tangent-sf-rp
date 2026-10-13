@@ -8,6 +8,7 @@ description: >-
   Level 4 development in Weaponry & Defense Grids: Military doctrines, planetary
   defense grids, ordinance, and arms advancement. (Mastered / Interstellar).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

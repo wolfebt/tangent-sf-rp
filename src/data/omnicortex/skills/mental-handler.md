@@ -21,6 +21,7 @@ synergy_links:
   - mental-survival
   - social-insight
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'handler, mental, wisdom, intellect, cognitive, expertise'

@@ -24,6 +24,7 @@ mechanic: >-
   Skills), Archives (400), Training Halls (200), Levitation Core (100), Psionic
   Defenses (100).
 costs:
+  cp: 0
   bp: 0
   credits: 167772160
   nodes: 0

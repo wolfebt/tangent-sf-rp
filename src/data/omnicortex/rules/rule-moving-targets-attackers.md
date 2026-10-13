@@ -6,6 +6,7 @@ description: >-
   Tactical modifiers for running targets, distance moved, total defense, running
   attackers, mounts, and charging.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

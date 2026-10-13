@@ -6,6 +6,7 @@ description: >-
   Direct psychic trauma and neural disruption targeting the mind. Bypasses
   physical armor completely; resisted by Willpower and Reason.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

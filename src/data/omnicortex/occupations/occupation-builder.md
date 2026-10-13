@@ -41,6 +41,7 @@ description: >-
   community. They can provide the tools and structures that are necessary for
   survival, and they can help to improve the quality of life for everyone.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 recommended_species:
@@ -75,13 +76,16 @@ negative_keywords: >-
   fragile-aestheticism, theoretical-philosophy-only, careless-demolition,
   aristocratic-idleness, ungrounded-mysticism, non-technical-bureaucrat,
   frivolous-courtier, destructive-anarchy
+base_ws: 3
+economic_context: Technical trades & manufacturing contracts
 ---
 
 # Builder Occupation
 
 **Category**: Occupations  
+**EUFT Base Wealth Score**: WS 3 (Technical trades & manufacturing contracts)  
 **Starting Skill Points**: 20 SP (allocated to Professional Skills, max Rank 11, recommended Rank 6)  
-**Recommended Features**: Skill (1 BP Discount)  
+**Recommended Features**: Skill (1 CP Discount)  
 **Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)
 
 ## Description

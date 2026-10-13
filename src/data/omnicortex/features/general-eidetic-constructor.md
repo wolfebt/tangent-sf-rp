@@ -12,18 +12,20 @@ description: >-
   "frozen frames" of complex visual stimuli and can perfectly recreate them in
   physical space or memory.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   eidetic constructor, general, special-feature, possesses, unparalleled,
   visual-spatial
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Eidetic Constructor
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Eidetic Memory, Awareness 2
 
 ## Description

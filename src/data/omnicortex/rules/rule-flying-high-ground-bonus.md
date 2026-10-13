@@ -4,6 +4,7 @@ name: Aerial High Ground Bonus
 category: rules
 description: Combat bonuses gained by airborne combatants engaging grounded targets.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

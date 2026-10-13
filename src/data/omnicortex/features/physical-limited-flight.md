@@ -6,21 +6,23 @@ feature_category: Physical
 cost_bp: 2
 is_ranked: false
 is_multiple: false
-prerequisites: 'Athletics 1 or Agility 2'
+prerequisites: Athletics 1 or Agility 2
 description: >-
-  Vestigial elytra or bio-thrusters allow short bursts of flight (2x Land Speed for 1 round of movement),
-  2x Jump distance, and Slow Fall.
+  Vestigial elytra or bio-thrusters allow short bursts of flight (2x Land Speed
+  for 1 round of movement), 2x Jump distance, and Slow Fall.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
 keywords: 'limited-flight, elytra, wings, slow-fall, jump-boost, aerial-burst'
 negative_keywords: 'earthbound, heavy-fall'
+cost_cp: 2
 ---
 
 # Limited Flight
 
 **Category**: Physical Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisites**: Athletics 1 or Agility 2  
 
 ## Description

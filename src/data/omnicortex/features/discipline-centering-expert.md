@@ -9,18 +9,20 @@ is_multiple: false
 prerequisites: 'Attune 11, Key Ability 4'
 description: 'Centering Expert is a Discipline Feature: +4 Attune Checks (Affecting DCs).'
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   centering expert, discipline, special-feature, focused-training, mastery,
   centering
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Centering Expert
 
 **Category**: Discipline Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Attune 11, Key Ability 4
 
 ## Description

@@ -21,6 +21,7 @@ synergy_links:
   - mental-navigation
   - mental-logistics
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'transporter, mental, agility, intellect, cognitive, expertise'

@@ -5,6 +5,7 @@ category: species_type
 bp: 0
 cp: 0
 costs:
+  cp: 0
   bp: 0
 senses: Standard visual and auditory range.
 immunities: None

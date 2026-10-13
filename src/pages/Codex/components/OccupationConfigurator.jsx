@@ -50,8 +50,8 @@ const COMMON_OCCUPATIONAL_TRAITS = [
  * - Professional training, career history, and social role
  * - Decoupled from adversary chassis, combat competency roles, boss types, TL, and ML
  * - 20 Skill Points pool for listed Professional Skills (creation cap: Rank 11 Expert, recommended Rank 6)
- * - Recommended Features discount (-1 BP / CP)
- * - Occupational Traits: Select 2 Free initially, additional traits cost 2 BP each
+ * - Recommended Features discount (-1 CP)
+ * - Occupational Traits: Select 2 Free initially, additional traits cost 1 CP each
  * - Common Traits available to all Occupations (Background, Trade Tools, High Pay, Professionalism)
  * - Associated Archetypes and Full Rules Text
  */
@@ -210,18 +210,22 @@ export const OccupationConfigurator = ({
           Occupations represent a character's formal training, career history, and social role. 
           Occupations are <strong>not combat adversary templates</strong> and have no competency combat roles, boss types, or threat ratings.
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1 font-mono text-[11px]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 pt-1 font-mono text-[11px]">
           <div className="p-2 rounded bg-slate-900/80 border border-slate-800 flex items-center gap-2">
             <Sparkles className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-            <span><strong>20 Skill Points</strong> granted for listed Professional Skills</span>
+            <span><strong>20 Skill Points</strong> for Professional Skills</span>
           </div>
           <div className="p-2 rounded bg-slate-900/80 border border-slate-800 flex items-center gap-2">
             <Tag className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-            <span><strong>-1 BP Discount</strong> on Recommended Features</span>
+            <span><strong>-1 CP Discount</strong> on Features</span>
           </div>
           <div className="p-2 rounded bg-slate-900/80 border border-slate-800 flex items-center gap-2">
             <Coins className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-            <span><strong>2 Free Traits</strong> selected initially (+2 BP each for extra)</span>
+            <span><strong>2 Free Traits</strong> (+2 CP for extra)</span>
+          </div>
+          <div className="p-2 rounded bg-slate-900/80 border border-slate-800 flex items-center gap-2">
+            <Shield className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+            <span><strong>EUFT Base WS:</strong> {formData.base_ws ?? 2}</span>
           </div>
         </div>
       </div>
@@ -300,28 +304,28 @@ export const OccupationConfigurator = ({
         )}
       </div>
 
-      {/* ── Section 2: Recommended Features (The Discount: -1 BP) ── */}
+      {/* ── Section 2: Recommended Features (The Discount: -1 CP) ── */}
       <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-2.5">
           <div className="flex items-center gap-2">
             <Award className="w-4 h-4 text-emerald-400" />
             <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-slate-200">
-              Recommended Features (Discounted -1 BP / CP)
+              Recommended Features (Discounted -1 CP)
             </h4>
             <CodexTooltip
               title="Recommended Features Discount"
-              description="Each Occupation lists specific Recommended Features. When purchasing these features during character creation or progression, their cost is reduced by 1 BP (standard cost is 3 BP; Recommended Features cost 2 BP)."
+              description="Each Occupation lists specific Recommended Features. When purchasing these features during character creation or progression, their cost is reduced by 1 CP (standard cost is 3 CP; Recommended Features cost 2 CP)."
               rule="1.06 OCCUPATIONS.md"
               color="#10b981"
             />
           </div>
           <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-950 border border-emerald-500/40 text-emerald-300">
-            -1 BP Cost Discount
+            -1 CP Cost Discount
           </span>
         </div>
 
         <p className="text-xs text-slate-400 leading-relaxed font-sans">
-          Features aligned with this profession cost 1 less Build Point (2 BP instead of standard 3 BP). 
+          Features aligned with this profession cost 1 less Character Point (2 CP instead of standard 3 CP). 
           These represent natural career talents developed through vocational practice:
         </p>
 
@@ -337,7 +341,7 @@ export const OccupationConfigurator = ({
               >
                 <Tag size={11} className="text-emerald-400" />
                 <span>{feat}</span>
-                <span className="text-[10px] text-emerald-400 ml-1 font-mono">(-1 BP)</span>
+                <span className="text-[10px] text-emerald-400 ml-1 font-mono">(-1 CP)</span>
                 {isEditMode && (
                   <button
                     type="button"
@@ -386,13 +390,13 @@ export const OccupationConfigurator = ({
             </h4>
             <CodexTooltip
               title="Occupational Traits"
-              description="Players choose exactly two Traits from their Occupation list initially. Additional traits from this occupation may be purchased for 2 BP each."
+              description="Players choose exactly two Traits from their Occupation list initially. Additional traits from this occupation may be purchased for 1 CP each."
               rule="1.06 OCCUPATIONS.md"
               color="#f59e0b"
             />
           </div>
           <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-amber-950 border border-amber-500/40 text-amber-300">
-            2 Free Selections (Additional: 2 BP each)
+            2 Free Selections (Additional: 1 CP each)
           </span>
         </div>
 

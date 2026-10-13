@@ -6,6 +6,7 @@ distance: 400 ft + 40ft/Rank
 description: Long-range engagement distance across large battlefields and perimeter zones.
 category: range
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

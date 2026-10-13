@@ -330,6 +330,46 @@ export function checkPropertyWealthPrerequisite(item, characterData) {
 }
 
 /**
+ * Normalizes any prerequisite input into a clean string.
+ * Handles arrays, objects, non-strings, null/undefined, and empty-markers safely.
+ * Returns empty string '' if no valid prerequisite exists or if it signifies 'None'.
+ */
+export function normalizePrerequisiteString(prereq) {
+  if (!prereq) return '';
+  if (Array.isArray(prereq)) {
+    return prereq
+      .map(p => normalizePrerequisiteString(p))
+      .filter(Boolean)
+      .join(', ');
+  }
+  if (typeof prereq === 'object') {
+    const text = prereq.text || prereq.name || prereq.description || prereq.prereq || prereq.prerequisite || '';
+    return normalizePrerequisiteString(text);
+  }
+  const str = String(prereq).trim();
+  const lower = str.toLowerCase();
+  if (
+    !str ||
+    lower === 'none' ||
+    lower === 'none.' ||
+    lower === 'prerequisite: .' ||
+    lower === 'prerequisite: none' ||
+    str === '-' ||
+    str === '—' ||
+    str === '.'
+  ) {
+    return '';
+  }
+  // Strip redundant leading "Prerequisite:" or "Prerequisites:" if present
+  const cleaned = str.replace(/^prerequisites?:\s*/i, '').trim();
+  const cleanedLower = cleaned.toLowerCase();
+  if (!cleaned || cleanedLower === 'none' || cleanedLower === 'none.' || cleaned === '-' || cleaned === '—' || cleaned === '.') {
+    return '';
+  }
+  return cleaned;
+}
+
+/**
  * Main Prerequisite Checker
  * 
  * @param {Object|string} item - The feature, invocation, special ability, or specialization
@@ -411,8 +451,8 @@ export const checkPrerequisite = (item, characterData, itemType = 'features', op
         stage
       };
     }
-    const rawPrereq = typeof item === 'object' ? (item.prerequisites || item.prereq || '') : '';
-    const hasP = Boolean(rawPrereq && rawPrereq !== 'None' && rawPrereq !== '-' && rawPrereq !== '—');
+    const rawPrereq = normalizePrerequisiteString(typeof item === 'object' ? (item.prerequisites ?? item.prereq) : '');
+    const hasP = Boolean(rawPrereq);
     return { hasPrerequisite: hasP, isPossessed: true, prerequisiteText: rawPrereq || '', unmetReasons: [] };
   }
 
@@ -421,11 +461,11 @@ export const checkPrerequisite = (item, characterData, itemType = 'features', op
   // ══════════════════════════════════════════════════════════════════════════
   if (isAugmentation) {
     const stage = getAugmentationStage(rawItem);
-    const rawPrereq = rawItem.prerequisites || rawItem.prereq;
+    const rawPrereq = normalizePrerequisiteString(rawItem.prerequisites ?? rawItem.prereq);
     const unmetReasons = [];
 
     if (stage === 'Negligible') {
-      if (rawPrereq && rawPrereq !== 'None' && rawPrereq !== '-' && rawPrereq !== '—') {
+      if (rawPrereq) {
         const explicitEval = evaluatePrerequisiteString(rawPrereq, characterData);
         return {
           hasPrerequisite: true,
@@ -459,7 +499,7 @@ export const checkPrerequisite = (item, characterData, itemType = 'features', op
     }
 
     // Explicit prerequisite evaluation if item specifies extra conditions
-    if (rawPrereq && rawPrereq !== 'None' && rawPrereq !== '-' && rawPrereq !== '—') {
+    if (rawPrereq) {
       const explicitEval = evaluatePrerequisiteString(rawPrereq, characterData);
       if (!explicitEval.isPossessed) {
         unmetReasons.push(...explicitEval.unmetReasons);
@@ -494,8 +534,8 @@ export const checkPrerequisite = (item, characterData, itemType = 'features', op
   );
 
   if (isItemSpecialAbility) {
-    const rawPrereq = rawItem.prerequisites || rawItem.prereq;
-    if (!rawPrereq || rawPrereq === 'None' || rawPrereq === '-' || rawPrereq === '—') {
+    const rawPrereq = normalizePrerequisiteString(rawItem.prerequisites ?? rawItem.prereq);
+    if (!rawPrereq) {
       return {
         hasPrerequisite: false,
         isPossessed: true,
@@ -514,8 +554,9 @@ export const checkPrerequisite = (item, characterData, itemType = 'features', op
   }
 
   if (typeKey.includes('invoc') || rawItem.powerType === 'invocation' || rawItem.isInvocation) {
-    const rawPrereq = rawItem.prerequisites || rawItem.prereq;
-    const discStr = rawItem.discipline || rawItem.school || '';
+    const rawPrereq = normalizePrerequisiteString(rawItem.prerequisites ?? rawItem.prereq);
+    const rawDisc = rawItem.discipline || rawItem.school || '';
+    const discStr = Array.isArray(rawDisc) ? rawDisc.join(' + ') : String(rawDisc || '');
     
     // Parse requisite disciplines (e.g. "Entropy + Dimension" or "Energy")
     const requiredDisciplines = discStr
@@ -538,7 +579,7 @@ export const checkPrerequisite = (item, characterData, itemType = 'features', op
     }
 
     // Additional explicit prerequisites if provided
-    if (rawPrereq && rawPrereq !== 'None' && rawPrereq !== '-' && rawPrereq !== '—') {
+    if (rawPrereq) {
       hasPrereq = true;
       prereqText = prereqText ? `${prereqText}, ${rawPrereq}` : rawPrereq;
       const explicitEval = evaluatePrerequisiteString(rawPrereq, characterData);
@@ -561,7 +602,7 @@ export const checkPrerequisite = (item, characterData, itemType = 'features', op
   if ((typeKey.includes('specializ') || typeKey === 'specialization' || typeKey === 'specializations') || rawItem.isSpecialization || options.isSpecialization) {
     const baseSkillId = rawItem.baseSkillId || options.baseSkillId || options.skillId;
     const baseSkillName = rawItem.baseSkillName || options.baseSkillName || rawItem.skill || 'Base Skill';
-    const rawPrereq = rawItem.prerequisites || rawItem.prereq;
+    const rawPrereq = normalizePrerequisiteString(rawItem.prerequisites ?? rawItem.prereq);
     const unmetReasons = [];
 
     // Rule: Base skill must be trained (rank >= 1)
@@ -579,7 +620,7 @@ export const checkPrerequisite = (item, characterData, itemType = 'features', op
     let prereqText = `Trained in ${baseSkillName || 'Base Skill'} (Rank 1+)`;
 
     // If specialization itself has advanced prerequisites (e.g. Weapon Focus, Rank 6, etc.)
-    if (rawPrereq && rawPrereq !== 'None' && rawPrereq !== '-' && rawPrereq !== '—') {
+    if (rawPrereq) {
       prereqText = `${prereqText}, ${rawPrereq}`;
       const explicitEval = evaluatePrerequisiteString(rawPrereq, characterData, { baseRank });
       if (!explicitEval.isPossessed) {
@@ -599,8 +640,8 @@ export const checkPrerequisite = (item, characterData, itemType = 'features', op
   // 3. SPECIAL ABILITIES PREREQUISITE EVALUATION
   // ══════════════════════════════════════════════════════════════════════════
   if (typeKey.includes('special_abil') || rawItem.powerType === 'special_ability') {
-    const rawPrereq = rawItem.prerequisites || rawItem.prereq;
-    if (!rawPrereq || rawPrereq === 'None' || rawPrereq === '-' || rawPrereq === '—') {
+    const rawPrereq = normalizePrerequisiteString(rawItem.prerequisites ?? rawItem.prereq);
+    if (!rawPrereq) {
       return {
         hasPrerequisite: false,
         isPossessed: true,
@@ -621,8 +662,8 @@ export const checkPrerequisite = (item, characterData, itemType = 'features', op
   // ══════════════════════════════════════════════════════════════════════════
   // 4. FEATURES PREREQUISITE EVALUATION (Standard Features Catalog & Traits)
   // ══════════════════════════════════════════════════════════════════════════
-  const rawPrereq = rawItem.prerequisites || rawItem.prereq;
-  if (!rawPrereq || rawPrereq === 'None' || rawPrereq === 'None.' || rawPrereq === '-' || rawPrereq === '—') {
+  const rawPrereq = normalizePrerequisiteString(rawItem.prerequisites ?? rawItem.prereq);
+  if (!rawPrereq) {
     return {
       hasPrerequisite: false,
       isPossessed: true,
@@ -644,8 +685,9 @@ export const checkPrerequisite = (item, characterData, itemType = 'features', op
  * Internal parsing engine for prerequisite strings.
  * Evaluates comma-separated or logical prerequisite clauses.
  */
-function evaluatePrerequisiteString(prereqStr, characterData, context = {}) {
+export function evaluatePrerequisiteString(prereqInput, characterData, context = {}) {
   const unmetReasons = [];
+  const prereqStr = normalizePrerequisiteString(prereqInput);
   if (!prereqStr || !characterData) {
     return { isPossessed: true, unmetReasons };
   }
@@ -793,6 +835,8 @@ function evaluatePrerequisiteString(prereqStr, characterData, context = {}) {
 
 export default {
   checkPrerequisite,
+  evaluatePrerequisiteString,
+  normalizePrerequisiteString,
   getCharacterAttrScore,
   getCharacterSkillRank,
   characterHasFeature,

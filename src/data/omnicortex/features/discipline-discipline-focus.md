@@ -9,18 +9,20 @@ is_multiple: true
 prerequisites: Chosen Discipline Skill 6 (Trained)
 description: The character has specialized in shaping a specific type of energy or reality.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   discipline focus, discipline, special-feature, focused-training, mastery,
   specialized
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Discipline Focus
 
 **Category**: Discipline Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Chosen Discipline Skill 6 (Trained)
 
 ## Description

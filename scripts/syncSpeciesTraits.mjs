@@ -38,7 +38,8 @@ function syncTraits() {
     const traitType = data.trait_type || 'Species Trait';
     const traitTier = data.trait_tier || 'Basic';
     const classification = data.classification || data.type || 'Physical';
-    const bp = typeof data.costs?.bp === 'number' ? data.costs.bp : (typeof data.bp === 'number' ? data.bp : 1);
+    const cp = typeof data.costs?.cp === 'number' ? data.costs.cp : (typeof data.costs?.bp === 'number' ? data.costs.bp : (typeof data.cp === 'number' ? data.cp : (typeof data.bp === 'number' ? data.bp : 1)));
+    const bp = cp;
 
     let mechanics = data.mechanic || data.mechanics || '';
     if (!mechanics && body) {
@@ -55,7 +56,7 @@ function syncTraits() {
       if (ruleMatch) rules = ruleMatch[1].trim();
     }
     if (!rules) {
-      rules = `${traitTier} ${traitType} (${bp} BP).`;
+      rules = `${traitTier} ${traitType} (${cp} CP).`;
     }
 
     const rawTraitObj = {
@@ -66,8 +67,9 @@ function syncTraits() {
       trait_tier: traitTier,
       classification,
       type: classification,
+      cp,
       bp,
-      costs: { bp },
+      costs: { cp, bp },
       is_ranked: Boolean(data.is_ranked),
       desc: data.description || '',
       description: data.description || '',
@@ -76,6 +78,11 @@ function syncTraits() {
       rules,
       special_rules: rules,
       modifiers: Array.isArray(data.modifiers) ? data.modifiers : [],
+      package_traits: Array.isArray(data.package_traits) ? data.package_traits.map(t => ({
+        ...t,
+        cp: Number(t.cp ?? t.bp ?? 1),
+        bp: Number(t.bp ?? t.cp ?? 1)
+      })) : [],
       body
     };
 

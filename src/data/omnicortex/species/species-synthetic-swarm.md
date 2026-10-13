@@ -44,7 +44,8 @@ tech_level: 4 (Micro-Drone & Nanite Lattices)
 meta_level: 1 (Swarm Resonance)
 homeworld: Nano-Fabrication Cloud Platforms
 costs:
-  bp: 78
+  cp: 25
+  bp: 25
 modifiers:
   - target: Intellect
     value: 1
@@ -66,18 +67,17 @@ modifiers:
     value: 12
     type: skill
     mode: size_modifier
-cp_cost: 78
-cp: 78
-bp: 78
+cp_cost: 25
+cp: 25
+bp: 25
 description: >-
   A cloud of billions of microscopic robotic drones functioning as a singular
   distributed intelligence, able to seep through vents and infiltrate secure
   systems.
-traits:
-  - trait-dispersal-defense-immune-to-single-target-physical-attacks
-  - trait-fine-size-6-stealth-passes-through-keyholes
-  - trait-hive-mind-protocol
-  - trait-nano-flight-30ft
+traits: &ref_0
+  - trait-semi-corporeal
+  - trait-hive-connection
+  - trait-flight
   - trait-synthetic-base-traits
 recommended_factions:
   - The Mekan Collective
@@ -94,6 +94,7 @@ keywords: >-
   micro-drone-cloud, distributed-intelligence, vent-seepage, nanite-fabrication,
   dispersed
 negative_keywords: 'single-bullet-target, solid-frame, skeletal'
+species_traits: *ref_0
 ---
 
 # Swarm (Nanite / Micro-Drone Collective)
@@ -102,7 +103,7 @@ negative_keywords: 'single-bullet-target, solid-frame, skeletal'
 
 # 
 
-**BP Cost:**   
+**CP Cost:** 25 CP  
 **Description:** An Ooze composed of a nano-machine hyper colony \- slithers on surfaces or with flight ability and highly morphic. Tech 5 for a conscious hive mind, at Tech 4 it is likely just an advanced automata.
 
 **Classification:** Synthetic Ooze  

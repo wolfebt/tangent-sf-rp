@@ -57,6 +57,7 @@ description: >-
   non-existent to younger races, they manipulate galactic events from the
   shadows via infiltration and surgical strikes
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Major Galactic Power
@@ -90,4 +91,4 @@ negative_keywords: >-
 * **Capital:** Nomadic / Classified deep-cover nodes.  
 * **Mandate:** "Eradicate true evil through perfect infiltration and absolute intelligence."  
 * **Profile:** A shadow faction engineered to hunt corruption. They officially "do not exist" to the younger races. They manipulate galactic events from the shadows via assassinations and infiltration. Forced into extreme secrecy due to historical gaslighting and smear campaigns by hostile rulers.  
-* **Recommended Features (1 BP Discount):** Sneak Attack, Deceitful, Evasiveness, Iron Will, Darksight, Uncanny Dodge, Nimble Fingers, Blind-Fight, Connected, Danger Sense, Quick, Stealthy.
+* **Recommended Features (1 CP Discount):** Sneak Attack, Deceitful, Evasiveness, Iron Will, Darksight, Uncanny Dodge, Nimble Fingers, Blind-Fight, Connected, Danger Sense, Quick, Stealthy.

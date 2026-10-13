@@ -11,16 +11,18 @@ description: >-
   The character has a natural bond with beasts, understanding their body
   language and instincts.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'animal affinity, skill, special-feature, natural, beasts, understanding'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Animal Affinity
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: None
 
 ## Description

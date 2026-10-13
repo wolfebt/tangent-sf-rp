@@ -12,16 +12,18 @@ description: >-
   and flawlessly records every moment of their life, immune to the standard
   reconstructive decay of memory.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'hyperthymesia, general, special-feature, highly, superior, autobiographical'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Hyperthymesia
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Eidetic Memory, Wisdom 2
 
 ## Description

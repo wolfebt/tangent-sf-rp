@@ -32,7 +32,7 @@ const normalizeList = (val) => {
 
 /**
  * OccupationArchitectGuidance
- * Renders recommended species, factions, origins, skills, and features (discounted -1 BP),
+ * Renders recommended species, factions, origins, skills, and features (discounted -1 CP),
  * plus guidance keywords and negative railguards in Occupations Studio / Relations page.
  */
 export const OccupationArchitectGuidance = ({
@@ -270,7 +270,7 @@ export const OccupationArchitectGuidance = ({
         </div>
         <p className="text-xs text-slate-300 leading-relaxed font-sans">
           Configure canonical career synergies, recommended demographic species, affiliated factions, and native origins.
-          Define recommended professional skills and discounted features (-1 BP) to anchor character creation and instruct BASTION AI synthesis.
+          Define recommended professional skills and discounted features (-1 CP) to anchor character creation and instruct BASTION AI synthesis.
         </p>
       </div>
 
@@ -568,7 +568,7 @@ export const OccupationArchitectGuidance = ({
             )}
           </div>
 
-          {/* RECOMMENDED FEATURES (-1 BP DISCOUNT) */}
+          {/* RECOMMENDED FEATURES (-1 CP DISCOUNT) */}
           <div className="bg-slate-950/60 border border-purple-500/30 rounded-xl p-4 flex flex-col justify-between space-y-3 shadow-inner">
             <div className="space-y-1">
               <div className="flex items-center justify-between">
@@ -576,7 +576,7 @@ export const OccupationArchitectGuidance = ({
                   <Sparkles size={13} />
                   <span>Recommended Features</span>
                   <span className="px-1.5 py-0.2 bg-purple-900/60 border border-purple-500/40 text-purple-300 text-[10px] rounded font-mono font-bold">
-                    -1 BP Discount
+                    -1 CP Discount
                   </span>
                 </div>
                 {isEditMode && onOpenPicker && (
@@ -591,7 +591,7 @@ export const OccupationArchitectGuidance = ({
                 )}
               </div>
               <p className="text-[11px] text-slate-400 leading-normal">
-                Signature perks and professional feats that characters purchase at a -1 BP discount when pursuing this occupation.
+                Signature perks and professional feats that characters purchase at a -1 CP discount when pursuing this occupation.
               </p>
             </div>
 
@@ -606,7 +606,7 @@ export const OccupationArchitectGuidance = ({
                     className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-purple-950/70 border border-purple-500/30 text-purple-200 text-xs font-mono"
                   >
                     <span>{feat}</span>
-                    <span className="text-[9px] text-purple-400 font-bold font-mono">(-1 BP)</span>
+                    <span className="text-[9px] text-purple-400 font-bold font-mono">(-1 CP)</span>
                     {isEditMode && (
                       <button
                         type="button"

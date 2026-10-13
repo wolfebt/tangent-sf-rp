@@ -9,16 +9,18 @@ is_multiple: false
 prerequisites: '-'
 description: 'Non-Lethal Immunity is a Special Feature: Immune to Non-Lethal Damage.'
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'non-lethal immunity, special, special-feature, non-lethal, immunity, feature:'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Non-Lethal Immunity
 
 **Category**: Special Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: \-
 
 ## Description

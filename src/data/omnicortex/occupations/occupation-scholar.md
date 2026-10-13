@@ -42,6 +42,7 @@ description: >-
   scholars are intelligent, curious, and dedicated individuals who play an
   important role in society by advancing knowledge and understanding.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 recommended_species:
@@ -73,13 +74,16 @@ negative_keywords: >-
   willful-ignorance, superstitious-fear, book-burning, illiterate-thug,
   mindless-violence, anti-intellectual-dogma, reckless-brawling,
   unverified-rumor
+base_ws: 3
+economic_context: Academic stipends & institutional grants
 ---
 
 # Scholar Occupation
 
 **Category**: Occupations  
+**EUFT Base Wealth Score**: WS 3 (Academic stipends & institutional grants)  
 **Starting Skill Points**: 20 SP (allocated to Professional Skills, max Rank 11, recommended Rank 6)  
-**Recommended Features**: Skill (1 BP Discount)  
+**Recommended Features**: Skill (1 CP Discount)  
 **Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)
 
 ## Description

@@ -5,20 +5,25 @@ category: disadvantages
 bp_granted: 4
 hindrance_type: Social
 description: >-
-  The character possesses an overtly monstrous, alien, or arachno-tauric physiology
-  that elicits visceral terror and hostility from standard civil societies (-4 social penalty).
+  The character possesses an overtly monstrous, alien, or arachno-tauric
+  physiology that elicits visceral terror and hostility from standard civil
+  societies (-4 social penalty).
 costs:
+  cp: 0
   bp: 0
 refundBP: 4
 modifiers: []
-keywords: 'stigma, xeno, monstrous, severe-xeno, alien-aberration, prejudice, kitin, arachnid'
+keywords: >-
+  stigma, xeno, monstrous, severe-xeno, alien-aberration, prejudice, kitin,
+  arachnid
 negative_keywords: 'accepted, beloved, baseline-humanoid'
+cp_granted: '4'
 ---
 
 # Stigma: Severe Xeno / Monstrous
 
 **Category**: Hindrances & Disadvantages  
-**BP Granted / Refund**: 4 BP  
+**CP Granted / Refund**: 4 CP  
 **Type**: Social  
 
 ## Description

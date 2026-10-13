@@ -8,6 +8,7 @@ description: >-
   Imbues an inanimate computer network or robotic chassis with an awakened
   pseudo-sentient spirit.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 discipline: Mental + Energy

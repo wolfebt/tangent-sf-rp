@@ -11,16 +11,18 @@ description: >-
   The character is an expert in the manipulation of living tissue and organic
   technology.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'biotechnologist, skill, special-feature, expert, manipulation, living'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Biotechnologist
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Biology, Botany, or Medicine Rank 11
 
 ## Description

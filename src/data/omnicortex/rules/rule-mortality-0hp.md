@@ -6,6 +6,7 @@ description: >-
   At 0 HP: Prone, Incapacitated, Bleeding Out (1 Stability Damage/turn),
   Stability Threshold = CON + 5, Death at 0 Stability.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

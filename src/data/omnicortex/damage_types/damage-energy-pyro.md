@@ -6,6 +6,7 @@ description: >-
   Burns and incinerates targets, causing ongoing burning damage. Highly
   effective against flammables, beasts, and cold-vulnerable entities.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

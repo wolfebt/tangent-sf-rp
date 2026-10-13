@@ -25,6 +25,7 @@ description: >-
   bodysuit. Standard military armor for Coalition and Dynasty forces.
 mechanic: 'Environmental Seal (6 hours air). DR 15, SP 40. No mobility penalties.'
 costs:
+  cp: 0
   bp: 0
   credits: 1470
   nodes: 0

@@ -6,6 +6,7 @@ value: Attune >= 2
 description: Requires Attune skill rank of 2 or higher to channel metaphysics.
 category: prerequisite
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

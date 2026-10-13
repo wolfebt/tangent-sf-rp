@@ -7,6 +7,7 @@ type: armor
 description: Absorbs 2 points of incoming physical/energy damage.
 category: modifier
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

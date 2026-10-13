@@ -5,6 +5,7 @@ trait_tier: Basic
 trait_type: Mental
 category: traits
 costs:
+  cp: 1
   bp: 1
 description: >-
   Mastery of operational logistics, prioritizing tasks, and maximizing
@@ -16,7 +17,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Basic
 **Type**: Mental
-**BP Cost**: 1
+**CP Cost**: 1
 
 ## Description
 Mastery of operational logistics, prioritizing tasks, and maximizing productivity during downtime.

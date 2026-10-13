@@ -5,9 +5,11 @@ trait_tier: Advanced
 trait_type: Species Trait
 category: traits
 costs:
+  cp: 2
   bp: 2
 description: >-
-  Internal fluid dampening allows survival through extreme accelerations and supersonic vector shifts that would liquefy humanoids.
+  Internal fluid dampening allows survival through extreme accelerations and
+  supersonic vector shifts that would liquefy humanoids.
 modifiers: []
 ---
 # G-Force Immunity
@@ -15,7 +17,7 @@ modifiers: []
 **Category**: TRAITS  
 **Tier**: Advanced  
 **Type**: Species Trait  
-**BP Cost**: 2  
+**CP Cost**: 2  
 
 ## Description
 Internal fluid dampening allows the organism to survive extreme maneuvers and turns that would turn a humanoid to jelly. Grants complete immunity to G-LOC, blackout, redout, and acceleration trauma.

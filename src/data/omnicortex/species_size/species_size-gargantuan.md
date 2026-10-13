@@ -3,15 +3,16 @@ id: species_size-gargantuan
 name: Gargantuan
 category: species_size
 scaling: 10
-scaling_display: "x10"
+scaling_display: x10
 strength_mod: 8
 combat_mod: -8
 stealth_mod: -16
-height_length_range: "< 64 ft"
-weight_range: "< 125 tons"
-reach: "20 ft"
-description: "Super-heavy siege walker, space shuttle landing craft, or planetary behemoth."
+height_length_range: < 64 ft
+weight_range: < 125 tons
+reach: 20 ft
+description: 'Super-heavy siege walker, space shuttle landing craft, or planetary behemoth.'
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

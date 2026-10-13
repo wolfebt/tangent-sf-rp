@@ -32,17 +32,19 @@ description: >-
   Unveils the secrets of ancient ruins and artifacts, reconstructing chronicles
   of civilizations long gone.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'relic hunter, savant, rational, intellect, strategist, explorer, lore expert'
 negative_keywords: 'mindless-brute, reckless, illiterate, null-zone, anti-magic-fanatic'
+cp_chassis: 80
 ---
 
 # The Relic Hunter
 
 **Sphere**: Savants (The Rationals)  
 **Core Concept**: Explorer / Lore Expert / Trap Specialist  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
 **Secondary Attribute**: Constitution  
 

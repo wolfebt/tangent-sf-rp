@@ -11,16 +11,18 @@ description: >-
   Substantial personal financial reserves, passive dividend income, and liquid
   capital assets.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'benefit (wealth), general, special-feature, substantial, personal, financial'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Benefit (Wealth)
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: None
 
 ## Description

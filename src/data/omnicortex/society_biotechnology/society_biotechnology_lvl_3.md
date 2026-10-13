@@ -8,6 +8,7 @@ description: >-
   Level 3 development in Biotechnology & Genetics: Genetics, cloning,
   bio-engineering, neural crafting, and organism design. (Advanced / Stellar).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

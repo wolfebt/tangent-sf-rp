@@ -6,6 +6,7 @@ description: >-
   The foundational Attune (Channel), Discipline (Shape), and Invocation (Effect)
   reality manipulation triad, Awakening requirements, and Key Ability sources.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

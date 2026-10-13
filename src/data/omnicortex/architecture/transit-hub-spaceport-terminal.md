@@ -23,6 +23,7 @@ mechanic: >-
   SP: 60,000. DR: 12. Modules: 2,000. Hangar Bays (1,000), Cargo Warehousing
   (500), Commercial Concourse (300), Admin/Control (100), Fueling Systems (100).
 costs:
+  cp: 0
   bp: 0
   credits: 10485760
   nodes: 0

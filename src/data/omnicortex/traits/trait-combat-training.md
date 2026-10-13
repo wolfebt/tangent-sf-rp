@@ -5,7 +5,8 @@ trait_tier: Basic
 trait_type: Combat
 category: traits
 costs:
-  bp: 2
+  cp: 1
+  bp: 1
 description: >-
   Extensive formal training in tactical firearms, CQB weapon drills, and
   battlefield maneuvering.
@@ -16,7 +17,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Basic
 **Type**: Combat
-**BP Cost**: 2
+**CP Cost**: 1
 
 ## Description
 Extensive formal training in tactical firearms, CQB weapon drills, and battlefield maneuvering.

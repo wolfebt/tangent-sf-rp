@@ -11,18 +11,20 @@ description: >-
   The character's physiology is resistant to a specific form of energy (Fire,
   Cold, Electricity, Acid, Sonic).
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   energy resistance, special, special-feature, character's, physiology,
   resistant
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Energy Resistance
 
 **Category**: Special Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: None
 
 ## Description

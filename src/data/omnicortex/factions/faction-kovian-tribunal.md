@@ -62,6 +62,7 @@ description: >-
   Alterian tolerance. They do not trade; they take. Their technology is sleek,
   silent, and predatory
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Major Galactic Power
@@ -143,7 +144,7 @@ negative_keywords: >-
 * **Prominent Species:** Nocturne Elves.  
 * **Faction Skill Package (20 Points):** Stealth (+4), Intimidate (+3), Metaphysics (Entropy/Illusion) (+4), Academics (+3), Melee Weapons (+3), Alertness (+3).  
 * **Typical Archetypes:** The Silent Blade, The Ghost, The Operative, The Saboteur, The Slicer, The Shadow-Stepper, The Zealot, The Doomsayer, The Magus, The Aristocrat, The Cryptographer, The Astromancer.  
-* **Recommended Features (1 BP Discount):**  
+* **Recommended Features (1 CP Discount):**  
   * Darksight, Sneak Attack, Bleed, Blind-Fight, Stealthy, Evasiveness, Discipline Focus (Entropy), Veiled Threat, Iron Will, Uncanny Dodge, Sense, Quick.
 
 ### **VI. Visual Synthesis Protocols (Aesthetics)**

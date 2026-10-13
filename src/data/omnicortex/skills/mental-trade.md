@@ -21,6 +21,7 @@ synergy_links:
   - mental-appraisal
   - mental-broker
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'trade, mental, intellect, cognitive, expertise, merchant'

@@ -6,6 +6,7 @@ description: >-
   When Health reaches 0, character falls Prone, is Incapacitated, and enters the
   Bleeding Out state.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

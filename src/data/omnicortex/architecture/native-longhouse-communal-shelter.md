@@ -25,6 +25,7 @@ mechanic: >-
   Module Configuration: Communal Living (10), Central Hearth (5), Storage (5),
   Shrine (2), Elder's Quarters (3).
 costs:
+  cp: 0
   bp: 0
   credits: 1470
   nodes: 0

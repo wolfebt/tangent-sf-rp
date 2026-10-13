@@ -7,6 +7,7 @@ description: >-
   Catching target unaware; made at -5 to hit but Target has NO Defense, Damage
   rolled at Advantage. Danger Sense allows awareness check.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

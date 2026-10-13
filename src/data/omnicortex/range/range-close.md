@@ -6,6 +6,7 @@ distance: 25 ft + 5ft/2 Ranks
 description: Short tactical distance; ideal for standard room clearing and close combat.
 category: range
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

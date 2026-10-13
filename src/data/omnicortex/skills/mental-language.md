@@ -23,6 +23,7 @@ synergy_links:
   - mental-academics
   - mental-culture
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'language, mental, intellect, cognitive, expertise, linguistics'

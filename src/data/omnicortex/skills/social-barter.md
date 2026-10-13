@@ -21,6 +21,7 @@ synergy_links:
   - mental-appraisal
   - social-diplomacy
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'barter, social, charisma, interaction, diplomacy, influence'

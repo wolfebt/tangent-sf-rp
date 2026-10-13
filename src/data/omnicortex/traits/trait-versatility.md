@@ -5,7 +5,8 @@ trait_tier: Basic
 trait_type: General
 category: traits
 costs:
-  bp: 2
+  cp: 1
+  bp: 1
 description: >-
   Adaptable skill set allowing the character to perform a wide variety of tasks
   without specialized tools or preparation.
@@ -16,7 +17,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Basic
 **Type**: General
-**BP Cost**: 2
+**CP Cost**: 1
 
 ## Description
 Adaptable skill set allowing the character to perform a wide variety of tasks without specialized tools or preparation.

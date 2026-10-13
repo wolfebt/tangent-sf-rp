@@ -20,6 +20,7 @@ synergy_links:
   - physical-stealth
   - combat-defense
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'acrobatics, physical, agility, mobility, athletics, bodily-coordination'

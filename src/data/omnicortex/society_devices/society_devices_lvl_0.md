@@ -8,6 +8,7 @@ description: >-
   Level 0 development in Devices & Apparatus: Consumer electronics, personal
   computing, sensors, tools, and apparatus. (Primitive / Subsistence).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

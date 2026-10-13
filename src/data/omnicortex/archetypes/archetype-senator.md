@@ -32,17 +32,19 @@ description: >-
   Charismatic figure who navigates the political landscape, builds alliances,
   and sways public opinion.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'senator, visionary, idealist, leadership, charisma, face, leader'
 negative_keywords: 'anti-social, mute, solitary-hermit'
+cp_chassis: 80
 ---
 
 # The Senator
 
 **Sphere**: Visionaries (The Idealists)  
 **Core Concept**: Face / Leader / Buffer  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Charisma  
 **Secondary Attribute**: Wisdom  
 

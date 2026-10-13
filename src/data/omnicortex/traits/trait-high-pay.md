@@ -5,6 +5,7 @@ trait_tier: Basic
 trait_type: Common Occupational Trait
 category: traits
 costs:
+  cp: 1
   bp: 1
 description: Higher compensation and retainer fees for elite vocational service.
 modifiers: []
@@ -14,7 +15,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Basic
 **Type**: Common Occupational Trait
-**BP Cost**: 1
+**CP Cost**: 1
 
 ## Description
 Higher compensation and retainer fees for elite vocational service.

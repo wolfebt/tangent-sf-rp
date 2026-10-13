@@ -32,17 +32,19 @@ tactical_role: >-
 quote: '"They are moving to flank. Suppress the left and advance on my signal."'
 description: A strategic mastermind who analyzes the battlefield and coordinates actions.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'tactician, savant, rational, intellect, strategist, leader, support'
 negative_keywords: 'mindless-brute, reckless, illiterate'
+cp_chassis: 80
 ---
 
 # The Tactician
 
 **Sphere**: Savants (The Rationals)  
 **Core Concept**: Leader / Support / Buffer  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
 **Secondary Attribute**: Charisma  
 

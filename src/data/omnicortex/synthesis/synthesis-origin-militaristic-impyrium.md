@@ -6,6 +6,7 @@ synthesis_type: origin_scenery
 origin_id: origin-militaristic
 faction_id: faction-impyrium
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

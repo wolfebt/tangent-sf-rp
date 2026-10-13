@@ -4,6 +4,7 @@ name: Stun / Non-Lethal Setting
 description: Toggles weapon output to electrical non-lethal subdual damage.
 category: mode
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -48,7 +48,8 @@ tech_level: 2 (Symbiotic Harnesses)
 meta_level: 1 (Pheromone Network)
 homeworld: Aulura Prime
 costs:
-  bp: 19
+  cp: 15
+  bp: 15
 modifiers:
   - target: Agility
     value: 1
@@ -66,21 +67,19 @@ modifiers:
     value: -4
     type: skill
     mode: size_modifier
-cp_cost: 19
-cp: 19
-bp: 19
+cp_cost: 15
+cp: 15
+bp: 15
 description: >-
   The Graa are massive quadrupedal Auluran juggernauts. Lacking fine
   manipulative hands, they make up for it with crushing jaw power, thick hide,
   and devastating combat charges.
-traits:
-  - trait-armless-4-penalty-to-manipulation
+traits: &ref_0
   - trait-auluran-base-traits
-  - trait-large-size
-  - trait-martial-arts
+  - trait-bonus-feature
   - trait-prehensile-tail
-  - trait-quadruped-speed-40ft
-  - trait-quick-speed
+  - trait-quadruped
+  - trait-quick
 recommended_factions:
   - Auluran Clans
   - Mercenary Faction Template
@@ -96,13 +95,16 @@ keywords: >-
   quadruped, beast-juggernaut, crushing-power, apex-carnivore, charge,
   natural-armor
 negative_keywords: 'fine-manipulation, marksmanship, tool-crafting, academic, urban-formal'
+disadvantages:
+  - disadvantage-species-armless
+species_traits: *ref_0
 ---
 
 # Graa (Auluran Heavy Beast Caste)
 
 ## **GRAA**
 
-**BP:** 28  
+**CP:** 28  
 **Description:** Intelligent feline quadrupeds with muscular bodies built for power and agility. They feature strong legs, large paws, and sharp retractable claws. Their rounded heads have powerful jaws and sharp teeth for gripping and tearing flesh. A Graa can reach **9ft in length (plus a 4ft tail)** and weigh around **600lbs**.  
 **Role:** Excel as scouts and protectors. Despite their bestial form, they are surprisingly intelligent; many use technological or Meta assistance to aid in using bipedal technology properly.  
 **Classification:** Beast  
@@ -127,7 +129,7 @@ negative_keywords: 'fine-manipulation, marksmanship, tool-crafting, academic, ur
 
 # 
 
-**BP Cost:**   
+**CP Cost:** 15 CP  
 **Description:** The Prokos stand as a unique and fascinating sub-species within the broader spectrum of feline humanoids. Their lineage traces a distant connection to the graceful Aulurans, simultaneously exhibiting a blend of physical and behavioral traits shared with both the Koda and the Graa. 
 
 A central element of Prokos biology is their profound adaptation to an extreme Arctic environment. Over generations, they have evolved a dense, multi-layered fur that provides exceptional insulation against the harshest cold. A particularly defining feature is their extra-thick, long tails used primarily for balance and agility on rough and icy terrain, thermal insulation, and fat storage for emergency energy reserves. These multifunctional tails can be as long as 6.5 feet (2 meters) and are used to wrap around the body for warmth and protect the face during blizzards. Their paws are broad and padded, acting like natural snowshoes.

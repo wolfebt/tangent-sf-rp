@@ -21,6 +21,7 @@ synergy_links:
   - social-music
   - social-expression
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'string, social, agility, interaction, diplomacy, influence'

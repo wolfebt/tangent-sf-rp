@@ -41,22 +41,23 @@ tech_level: 3 (Salvage & Reclaimed Hardware)
 meta_level: 0 (Null)
 homeworld: Junk Worlds & Scrapyard Moons
 costs:
-  bp: 47
+  cp: 35
+  bp: 35
 modifiers:
   - target: Charisma
     value: -2
     type: attribute
     mode: inherent
-cp_cost: 47
-cp: 47
-bp: 47
+cp_cost: 35
+cp: 35
+bp: 35
 description: >-
   Scraps are self-assembled, autonomous synthetic beings constructed from
   recycled chassis, discarded starship components, and industrial hulls.
-traits:
-  - trait-field-self-repair-protocol
-  - trait-heavy-augmentation-slots-3-free-cyber-slots
-  - trait-scrap-plating-dr-6
+traits: &ref_0
+  - trait-fast-heal
+  - trait-synthetic-armor-opts
+  - trait-exoskeleton-heavy
   - trait-synthetic-base-traits
 recommended_factions:
   - The Outworlds
@@ -71,6 +72,7 @@ recommended_occupations:
   - Criminal
 keywords: 'kit-bashed, junkframe, welded-chassis, scrapper-survivor, improvised-parts'
 negative_keywords: 'luxury-sleek, factory-standard, pureblood'
+species_traits: *ref_0
 ---
 
 # Scrap (Kit-Bashed Autonomous Frame)
@@ -81,7 +83,7 @@ negative_keywords: 'luxury-sleek, factory-standard, pureblood'
 
 # 
 
-**BP Cost:**   
+**CP Cost:** 35 CP  
 **Description:** Androids who have been repurposed, have had major repairs or general augmentations. Due to mismatched parts or stylization they will not have the original form or possibly function. Limbs replaced, accessories mounted, armored plating, lost skin patterns and other ‘mechanical’ modifications.
 
 **Classification:** Synthetic Humanoid  

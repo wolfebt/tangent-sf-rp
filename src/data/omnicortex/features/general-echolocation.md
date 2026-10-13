@@ -12,16 +12,18 @@ description: >-
   been repurposed to process auditory data, acting as a high-resolution
   biological sonar.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'echolocation, general, special-feature, through, extreme, cross-modal'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Echolocation
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Awareness 3, Must possess the Blindness flaw (or be visually deprived)
 
 ## Description

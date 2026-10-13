@@ -38,23 +38,24 @@ tech_level: 3 (Bio-Polymer Containment Suits)
 meta_level: 4 (Cosmic Fluidity)
 homeworld: Plasm Ooze Oceans of Ooz-Prime
 costs:
-  bp: 17
+  cp: 26
+  bp: 26
 modifiers: []
-cp_cost: 17
-cp: 17
-bp: 17
+cp_cost: 26
+cp: 26
+bp: 26
 description: >-
   Sentient, translucent amorphous slime entities able to flow through sealed
   vents, reshape their mass into pseudo-limbs, and regenerate from fluid
   droplets.
-traits:
-  - trait-adaptive-aspects-acid-thermal-immunity
-  - trait-alter-form-amorphous-slime-pseudo-humanoid
+traits: &ref_0
+  - trait-adaptive-features
+  - trait-alter-form-adv
   - trait-awakened-cosmic
-  - trait-bodyform-adaptation-squeeze-through-any-opening
-  - trait-fast-healing
-  - trait-regeneration-3-hp-rnd
-  - trait-telepathic-100ft
+  - trait-bodyform-adaptation
+  - trait-fast-heal
+  - trait-regeneration
+  - trait-mind-speech
 recommended_factions:
   - Coalition of Independent Worlds
   - Alien Faction Template
@@ -68,6 +69,7 @@ recommended_occupations:
   - Agent
 keywords: 'amorphous-ooze, vent-flow, shape-molding, fluid-regeneration, acid-immunity'
 negative_keywords: 'rigid-armor, fixed-clothing, skeletal'
+species_traits: *ref_0
 ---
 
 # Plasm (Amorphous Ooze Entity)
@@ -86,7 +88,7 @@ Sentient, translucent amorphous slime entities able to flow through sealed vents
 - **Stigma**: Severe Xeno (-4)
 
 ## Mechanics & Statblock
-- **BP Cost**: 17 BP
+- **CP Cost**: 17 CP
 - **Inherent Modifiers**: None
 - **Bonus Skills**: +10 Skill Points
 - **Inherent Features**: Adaptive Aspects (Acid / Thermal Immunity), Alter Form (Amorphous Slime / Pseudo-Humanoid), Awakened (Cosmic), Bodyform Adaptation (Squeeze through any opening), Fast Healing, Regeneration (3 HP/rnd), Telepathic (100ft)

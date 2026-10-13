@@ -11,7 +11,9 @@ bp: 1
 description: >-
   Move through naturally difficult terrain (rubble, ice, mud, underbrush) at
   full normal speed without penalty.
+cp: 1
 costs:
+  cp: 1
   bp: 1
 modifiers: []
 ---
@@ -20,7 +22,7 @@ modifiers: []
 **Category**: Species Movement (MODIFIER)  
 **Classification**: modifier  
 **Target Mode**: Ground  
-**Cost**: +1 BP  
+**Cost**: +1 CP  
 **Speed Modifier**: 0 ft (Additive)  
 
 ## Description

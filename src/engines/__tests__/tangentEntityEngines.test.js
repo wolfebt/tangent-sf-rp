@@ -47,27 +47,27 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
         type: 'Aberration', // +1 BP
         size: 'Large', // +2 BP
         movementModes: ['flight_basic'], // +2 BP
-        attributes: { str: 2, agi: 1, sta: 0, int: -1, wis: 0, cha: 0 }, // (+2 + 1 - 1) * 5 = +10 BP
-        skillBundles: 1, // +5 BP
+        attributes: { str: 2, agi: 1, sta: 0, int: -1, wis: 0, cha: 0 }, // (+2 + 1 - 1) * 4 = +8 BP
+        skillBundles: 1, // +4 BP
         traits: ['adapted', 'camouflage'], // 1 BP + 1 BP = +2 BP
         disadvantages: ['light_sensitivity'], // -2 BP refund
         budgetLevel: 'Advanced' // max 40 BP
       });
 
-      // Total = 1 + 2 + 2 + 10 + 5 + 2 - 2 = 20 BP
-      assert.strictEqual(result.totalBPUsed, 20);
-      assert.strictEqual(result.bpRemaining, 20);
+      // Total = 1 + 2 + 2 + 8 + 4 + 2 - 2 = 17 BP
+      assert.strictEqual(result.totalBPUsed, 17);
+      assert.strictEqual(result.bpRemaining, 23);
       assert.strictEqual(result.isOverBudget, false);
       assert.strictEqual(result.breakdown.typeBP, 1);
       assert.strictEqual(result.breakdown.sizeBP, 2);
       assert.strictEqual(result.breakdown.movementBP, 2);
-      assert.strictEqual(result.breakdown.attributeBP, 10);
-      assert.strictEqual(result.breakdown.skillsBP, 5);
+      assert.strictEqual(result.breakdown.attributeBP, 8);
+      assert.strictEqual(result.breakdown.skillsBP, 4);
       assert.strictEqual(result.breakdown.traitsBP, 2);
       assert.strictEqual(result.breakdown.disadvantagesRefund, 2);
     });
 
-    it('accurately prices all 42 basic species traits at exactly 1 BP each', () => {
+    it('accurately prices all 43 basic species traits at exactly 1 BP each', () => {
       const basicTraitsList = [
         'Adapted',
         'Alter Form (Basic)',
@@ -78,6 +78,7 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
         "Cat's Luck",
         'Cave Dweller',
         'Craftsman',
+        'Curiosity',
         'Digitigrade / Ungulated',
         'Draconic',
         'Emissary',
@@ -113,7 +114,7 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
         'Water-Sense'
       ];
 
-      assert.strictEqual(basicTraitsList.length, 42);
+      assert.strictEqual(basicTraitsList.length, 43);
 
       basicTraitsList.forEach(traitName => {
         const result = calculateSpeciesBP({
@@ -126,7 +127,7 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
       });
     });
 
-    it('accurately prices all 58 advanced species traits at exactly 2 BP each', () => {
+    it('accurately prices all 57 advanced species traits at exactly 2 BP each', () => {
       const advancedTraitsList = [
         'Adaptive Features',
         'Adaptive Skill Set',
@@ -152,7 +153,6 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
         'Chameleon',
         'Chloroplast',
         'Constriction',
-        'Curiosity',
         'Dark Sight',
         'Defensive Training',
         'Dragon Eyes',
@@ -188,7 +188,7 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
         'Venom'
       ];
 
-      assert.strictEqual(advancedTraitsList.length, 58);
+      assert.strictEqual(advancedTraitsList.length, 57);
 
       advancedTraitsList.forEach(traitName => {
         const result = calculateSpeciesBP({
@@ -325,8 +325,8 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
       });
     });
 
-    it('accurately prices all species attribute modifiers (+5 BP each, -5 BP penalty) and skill points (5 BP per +5 bundle / 1 BP per point)', () => {
-      // Test individual +1 attributes at 5 BP each
+    it('accurately prices all species attribute modifiers (+4 BP each, -4 BP penalty) and skill points (4 BP per +5 bundle / 0.8 BP per point)', () => {
+      // Test individual +1 attributes at 4 BP each
       const attributes = [
         { name: 'Strength', input: { str: 1 } },
         { name: 'Agility', input: { agi: 1 } },
@@ -342,38 +342,38 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
           size: 'Medium', // 0 BP
           attributes: input
         });
-        assert.strictEqual(result.totalBPUsed, 5, `Improved ${name} (+1) should cost exactly 5 BP`);
-        assert.strictEqual(result.breakdown.attributeBP, 5);
+        assert.strictEqual(result.totalBPUsed, 4, `Improved ${name} (+1) should cost exactly 4 BP`);
+        assert.strictEqual(result.breakdown.attributeBP, 4);
       });
 
       // Test alias inputs (con, dex)
       const conResult = calculateSpeciesBP({ attributes: { con: 1 } });
-      assert.strictEqual(conResult.breakdown.attributeBP, 5);
+      assert.strictEqual(conResult.breakdown.attributeBP, 4);
 
       const dexResult = calculateSpeciesBP({ attributes: { dex: 1 } });
-      assert.strictEqual(dexResult.breakdown.attributeBP, 5);
+      assert.strictEqual(dexResult.breakdown.attributeBP, 4);
 
-      // Test Reduced Ability (-1 penalty = -5 BP refund)
+      // Test Reduced Ability (-1 penalty = -4 BP refund)
       const penaltyResult = calculateSpeciesBP({
         type: 'Humanoid',
         size: 'Medium',
-        attributes: { str: 2, int: -1 } // (2 * 5) + (-1 * 5) = 5 BP
+        attributes: { str: 2, int: -1 } // (2 * 4) + (-1 * 4) = 4 BP
       });
-      assert.strictEqual(penaltyResult.totalBPUsed, 5);
-      assert.strictEqual(penaltyResult.breakdown.attributeBP, 5);
+      assert.strictEqual(penaltyResult.totalBPUsed, 4);
+      assert.strictEqual(penaltyResult.breakdown.attributeBP, 4);
 
-      // Test Skill Points (+5 bundle = 5 BP)
+      // Test Skill Points (+5 bundle = 4 BP)
       const skillBundleResult = calculateSpeciesBP({
         skillBundles: 1
       });
-      assert.strictEqual(skillBundleResult.totalBPUsed, 5);
-      assert.strictEqual(skillBundleResult.breakdown.skillsBP, 5);
+      assert.strictEqual(skillBundleResult.totalBPUsed, 4);
+      assert.strictEqual(skillBundleResult.breakdown.skillsBP, 4);
 
       const skillPointsResult = calculateSpeciesBP({
         skill_points: 10
       });
-      assert.strictEqual(skillPointsResult.totalBPUsed, 10);
-      assert.strictEqual(skillPointsResult.breakdown.skillsBP, 10);
+      assert.strictEqual(skillPointsResult.totalBPUsed, 8);
+      assert.strictEqual(skillPointsResult.breakdown.skillsBP, 8);
     });
 
     it('calculates full species cost and breakdown from catalog documents via calculateFullSpeciesCost', () => {
@@ -393,17 +393,17 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
         species_type: 'Beast', // 1 BP
         size: 'Large', // 2 BP
         movement_modes: ['normal', 'flight_basic'], // 0 + 2 = 2 BP
-        attributes: { str: 2, agi: 2 }, // (2 + 2) * 5 = 20 BP
+        attributes: { str: 2, agi: 2 }, // (2 + 2) * 4 = 16 BP
         traits: ['Scent', 'Runner'], // 1 + 1 = 2 BP
         disadvantages: ['light_sensitivity'] // -2 BP
       };
-      // Total = 1 + 2 + 2 + 20 + 2 - 2 = 25 BP
+      // Total = 1 + 2 + 2 + 16 + 2 - 2 = 21 BP
       const customCost = calculateFullSpeciesCost(customSpecies);
-      assert.strictEqual(customCost.totalCost, 25);
+      assert.strictEqual(customCost.totalCost, 21);
       assert.strictEqual(customCost.breakdown.typeBP, 1);
       assert.strictEqual(customCost.breakdown.sizeBP, 2);
       assert.strictEqual(customCost.breakdown.movementBP, 2);
-      assert.strictEqual(customCost.breakdown.attributeBP, 20);
+      assert.strictEqual(customCost.breakdown.attributeBP, 16);
       assert.strictEqual(customCost.breakdown.traitsBP, 2);
       assert.strictEqual(customCost.breakdown.disadvantagesRefund, 2);
     });
@@ -444,13 +444,13 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
       const result = calculateSpeciesBP({
         type: 'Dragon', // +5 BP
         size: 'Huge', // +4 BP
-        attributes: { str: 3, agi: 2 }, // (3 + 2) * 5 = +25 BP
+        attributes: { str: 3, agi: 2 }, // (3 + 2) * 4 = +20 BP
         budgetLevel: 'Standard' // max 20 BP
       });
-      // Total = 5 + 4 + 25 = 34 BP > 20
-      assert.strictEqual(result.totalBPUsed, 34);
+      // Total = 5 + 4 + 20 = 29 BP > 20
+      assert.strictEqual(result.totalBPUsed, 29);
       assert.strictEqual(result.isOverBudget, true);
-      assert.strictEqual(result.bpRemaining, -14);
+      assert.strictEqual(result.bpRemaining, -9);
     });
 
     it('resolves size combat, attribute, stealth, stability, damage, and mobility modifiers correctly across all 6 sizes', () => {

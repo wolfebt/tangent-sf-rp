@@ -5,10 +5,12 @@ trait_tier: Basic
 trait_type: Disadvantage
 category: traits
 costs:
+  cp: -2
   bp: -2
 refundBP: 2
 description: >-
-  Outside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves.
+  Outside of a mecha or containment tube, the Syndess has a fragile physiology
+  and suffers a -2 penalty to physical saves.
 modifiers: []
 ---
 # Fragile Frame
@@ -16,7 +18,7 @@ modifiers: []
 **Category**: TRAITS  
 **Tier**: Basic  
 **Type**: Disadvantage  
-**BP Cost**: -2 (Refund 2 BP)  
+**CP Cost**: -2 (Refund 2 CP)  
 
 ## Description
 Outside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves.

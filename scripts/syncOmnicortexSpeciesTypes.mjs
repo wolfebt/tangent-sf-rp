@@ -24,15 +24,17 @@ for (const file of mdFiles) {
 
   const cleanId = data.id || file.replace(/\.md$/, '');
   const name = data.name || cleanId.replace(/^species_type-/, '').replace(/^./, c => c.toUpperCase());
-  const bp = Number(data.bp || data.costs?.bp || 0);
+  const cp = Number(data.cp ?? data.costs?.cp ?? data.bp ?? data.costs?.bp ?? 0);
+  const bp = cp;
 
   compiledTypes.push({
     id: cleanId,
     name,
     category: 'species_type',
+    cp,
     bp,
-    cp: bp,
     costs: {
+      cp,
       bp
     },
     description: data.description || '',

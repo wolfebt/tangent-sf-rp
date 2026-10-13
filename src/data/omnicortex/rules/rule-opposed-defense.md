@@ -6,6 +6,7 @@ description: >-
   Defender’s Agility + Defense Skill vs. Attacker’s Ability + Combat Skill.
   Defender wins all ties.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

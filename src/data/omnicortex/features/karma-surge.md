@@ -11,16 +11,18 @@ description: >-
   The character pushes their body and mind beyond standard limits, fitting more
   action into a moment than should be possible.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'surge, karma, special-feature, pushes, beyond, standard'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Surge
 
 **Category**: Karma Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: \-
 
 ## Description

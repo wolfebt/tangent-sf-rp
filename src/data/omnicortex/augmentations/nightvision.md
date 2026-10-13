@@ -9,6 +9,7 @@ description: Night Vision 60ft.
 stigma: None
 type: Sensory
 costs:
+  cp: 0
   bp: 0
   credits: 640
   nodes: 0

@@ -6,6 +6,7 @@ value: CHA >= 2
 description: Requires Charisma attribute score of 2 or higher.
 category: prerequisite
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

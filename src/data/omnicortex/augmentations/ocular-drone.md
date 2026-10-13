@@ -9,6 +9,7 @@ description: Cyber-eye detaches to act as remote spy cam.
 stigma: None
 type: Sensory
 costs:
+  cp: 0
   bp: 0
   credits: 10240
   nodes: 0

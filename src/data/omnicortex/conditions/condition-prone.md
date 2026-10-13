@@ -6,6 +6,7 @@ description: >-
   Lying on ground. Ranged Attacks vs. Target: Disadvantage. Melee vs. Target:
   Advantage. Move Action to stand up.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

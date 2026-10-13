@@ -31,17 +31,19 @@ description: >-
   A vigilant and disciplined individual who ensures the safety and security of
   their post.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'security officer, sentinel, defender, stability, order, perception, defense'
 negative_keywords: 'chaotic-anarchist, unreliable, reckless-gambler'
+cp_chassis: 80
 ---
 
 # The Security Officer
 
 **Sphere**: Sentinels (The Stabilizers)  
 **Core Concept**: Perception / Defense / Area Denial  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Wisdom  
 **Secondary Attribute**: Perception  
 

@@ -6,21 +6,26 @@ feature_category: Special
 cost_bp: 2
 is_ranked: false
 is_multiple: false
-prerequisites: 'Swarm Physiology'
+prerequisites: Swarm Physiology
 description: >-
-  The swarm operates as a singular distributed consciousness composed of thousands of
-  individual organisms; immune to single-target lethal trauma unless the vast majority is destroyed.
+  The swarm operates as a singular distributed consciousness composed of
+  thousands of individual organisms; immune to single-target lethal trauma
+  unless the vast majority is destroyed.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
-keywords: 'hive-mind, swarm, distributed-consciousness, collective, immune-single-target, riezen'
+keywords: >-
+  hive-mind, swarm, distributed-consciousness, collective, immune-single-target,
+  riezen
 negative_keywords: 'solitary-mind, individualist, vulnerable-to-precision'
+cost_cp: 2
 ---
 
 # Hive Mind (Swarm)
 
 **Category**: Special Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisites**: Swarm Physiology  
 
 ## Description

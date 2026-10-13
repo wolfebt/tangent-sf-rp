@@ -8,19 +8,24 @@ is_ranked: false
 is_multiple: false
 prerequisites: Pilot Expression Physiology
 description: >-
-  The Syndess can slot into any Kitin mecha Synaptic Node. While integrated, they use their
-  own Intellect and Agility for all vehicle checks and ignore all G-force or high-velocity penalties.
+  The Syndess can slot into any Kitin mecha Synaptic Node. While integrated,
+  they use their own Intellect and Agility for all vehicle checks and ignore all
+  G-force or high-velocity penalties.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
-keywords: 'synaptic-integration, pilot, mecha, vehicle, g-force-immunity, intellect, agility, syndess'
+keywords: >-
+  synaptic-integration, pilot, mecha, vehicle, g-force-immunity, intellect,
+  agility, syndess
 negative_keywords: 'unintegrated, manual-controls, biological-rejection'
+cost_cp: 2
 ---
 
 # Synaptic Integration
 
 **Category**: Special Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisites**: Pilot Expression Physiology  
 
 ## Description

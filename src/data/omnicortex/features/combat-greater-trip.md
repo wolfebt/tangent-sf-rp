@@ -11,16 +11,18 @@ description: >-
   Greater Trip is a Combat Feature: Enemies you trip provoke attacks of
   opportunity.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'greater trip, combat, special-feature, combat-maneuver, tactical-edge, greater'
 negative_keywords: 'pacifist, feeble, untrained-civilian'
+cost_cp: 3
 ---
 
 # Greater Trip
 
 **Category**: Combat Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Improved Trip
 
 ## Description

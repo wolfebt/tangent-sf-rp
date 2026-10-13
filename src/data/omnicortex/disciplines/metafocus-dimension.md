@@ -5,12 +5,14 @@ category: disciplines
 metafocus_skills:
   - Summoning
   - Teleport
-primary_color: 'Deep Indigo'
-secondary_color: 'Void Black'
+primary_color: Deep Indigo
+secondary_color: Void Black
 texture_form: 'Warping, folding, portals, rifts.'
 description: >-
-  Manipulating spatial coordinates, folding space, opening wormholes, and conjuring objects or entities across dimensional boundaries.
+  Manipulating spatial coordinates, folding space, opening wormholes, and
+  conjuring objects or entities across dimensional boundaries.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

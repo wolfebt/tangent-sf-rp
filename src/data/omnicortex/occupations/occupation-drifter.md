@@ -52,6 +52,7 @@ description: >-
   self-reliance and independence. Drifters can be found in various settings,
   such as aboard starships, space stations, or on distant planets.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 recommended_species:
@@ -86,13 +87,16 @@ negative_keywords: >-
   entrenched-bureaucracy, luxury-penthouse, stationary-desk-job,
   high-society-socialite, strict-military-barracks, corporate-salaryman,
   locked-vault, sedentary-lifestyle
+base_ws: 1
+economic_context: Transient gig economy & day labor
 ---
 
 # Drifter Occupation
 
 **Category**: Occupations  
+**EUFT Base Wealth Score**: WS 1 (Transient gig economy & day labor)  
 **Starting Skill Points**: 20 SP (allocated to Professional Skills, max Rank 11, recommended Rank 6)  
-**Recommended Features**: General (1 BP Discount)  
+**Recommended Features**: General (1 CP Discount)  
 **Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)
 
 ## Description

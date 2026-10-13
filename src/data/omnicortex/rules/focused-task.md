@@ -6,6 +6,7 @@ summary: >-
   Entering a state of deep concentration for +2 task bonus at the cost of -5
   Defense and Perception.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

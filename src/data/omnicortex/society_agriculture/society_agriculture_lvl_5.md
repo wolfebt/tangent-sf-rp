@@ -8,6 +8,7 @@ description: >-
   Level 5 development in Agriculture & Biosphere: Food production, farming
   technologies, hydroponics, and ecosystem synthesis. (Transcendent / Deific).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

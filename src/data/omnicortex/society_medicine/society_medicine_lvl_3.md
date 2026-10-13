@@ -8,6 +8,7 @@ description: >-
   Level 3 development in Medicine & Healthcare: Healthcare infrastructure,
   cellular regeneration, trauma care, and panaceas. (Advanced / Stellar).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

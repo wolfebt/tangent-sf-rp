@@ -40,18 +40,18 @@ tech_level: 2 (Scavenged Warp Relics)
 meta_level: 3 (Chaotic Void Warping)
 homeworld: Corrupted Fringe Outposts
 costs:
-  bp: 10
+  cp: 1
+  bp: 1
 modifiers: []
-cp_cost: 10
-cp: 10
-bp: 10
+cp_cost: 1
+cp: 1
+bp: 1
 description: >-
   Eakren are mortals who were caught in catastrophic void collapses and mutated
   into chimeric aberrational humanoids.
-traits:
-  - trait-aberrant-mutations-tentacles-eyes-claws
-  - trait-corrupted-void-traits
-  - trait-void-resonance
+traits: &ref_0
+  - trait-bodyform-mutation
+  - trait-awakened-void
 recommended_factions:
   - The Outworlds
   - Mutant Faction Template
@@ -66,13 +66,14 @@ keywords: >-
   void-mutant, warp-touched, chaotic-physiology, resilient-aberration,
   fringe-dweller
 negative_keywords: 'pureblood-society, stable-form, pristine'
+species_traits: *ref_0
 ---
 
 # Eakren (Void-Warped Mutant)
 
 # 
 
-**BP Cost:**   
+**CP Cost:** 1 CP  
 **Description:** Known as Harbingers of Entropy, Dark Hungers and Smoke Demons, the Sha’Nor are an extremely ancient species and are physically unlike any other species ever encountered. Being composed of what seems to be both some type of shifting organic material and dark matter simultaneously would indicate an other dimensional origin.  
 Sha’Nor require energy from living beings on a semi-regular basis or have a risk of discorporation (feeding is not necessarily lethal but will weaken the source for a day, \-1 Sta), will feed once a month or Cha check of DC10 (-1 per each month past due) failure resulting in \-1 Sta (discorporating after total Sta of \-5).   
 Many quite enjoy feeding and have learned to gain additional energy from it.  
@@ -121,7 +122,7 @@ Special Abilities
 
 # 
 
-**BP Cost:**   
+**CP Cost:**   
 **Description:** The Tenen are an extremely rare offshoot of Sha’Nor which have evolved from their predatory nature and Vampiric needs. Theory of this is primarily due to a transition to a demi-dimension they have been dwelling in. This seems to have accompanied their use of different energies more amiable to creation than destruction.   
 Origins are actually unknown and completely theorized at this point as only brief encounters have occurred, some speculate a grand connection to the Ila progenitors who have been rumored to have returned \- but again speculations.
 
@@ -167,7 +168,7 @@ Special Abilities
 
 # 
 
-**BP Cost:**   
+**CP Cost:**   
 **Description:** Various creatures (including humanoid, animal and plant based) which are infused and mutated by the Shar’Nor (aka the Corrupted)  
 \[akin to Awakened Animals, Adjusted PC Build and Equivalent Abilities\]
 

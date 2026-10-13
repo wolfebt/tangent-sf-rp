@@ -69,6 +69,7 @@ description: >-
   are High-Tech Utopians defined by Hope, Innovation, and Self-Reliance, viewing
   technology and the mind as one
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Major Galactic Power
@@ -156,7 +157,7 @@ negative_keywords: >-
   * Diplomacy (+3): Building alliances.  
   * Attune (+3): Interfacing with Psi-Tech.  
 * **Typical Archetypes:** The Company Man, The Ghost, The Vagabond, The Pioneer, The Envoy, The Oracle, The Arbitrator, The Philosopher, The Strategist, The Astromancer, The Theoretician, The Xeno-Surveyor.  
-* **Recommended Features (1 BP Discount):**  
+* **Recommended Features (1 CP Discount):**  
   * Awakened, Tech Interface, Discipline Focus, Insightful Reason, Mental Alacrity, Gifted Pilot, Centering, Eidetic Memory, Telepathy, Magical Aptitude, Graceful, Zero G Training.
 
 ### **VI. Visual Synthesis Protocols (Aesthetics)**

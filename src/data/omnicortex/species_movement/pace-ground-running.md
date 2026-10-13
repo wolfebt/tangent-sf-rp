@@ -11,7 +11,9 @@ bp: 0
 description: >-
   Fast running pace (4x Base Walk) requiring Athletics check (CR 10+) each
   minute.
+cp: 0
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -20,7 +22,7 @@ modifiers: []
 **Category**: Species Movement (STAGE)  
 **Classification**: stage  
 **Target Mode**: Ground  
-**Cost**: +0 BP  
+**Cost**: +0 CP  
 
 ## Description
 Fast running pace (4x Base Walk) requiring Athletics check (CR 10+) each minute.

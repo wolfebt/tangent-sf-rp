@@ -10,6 +10,7 @@ dr: 10
 stigma: None
 type: Cybernetic
 costs:
+  cp: 0
   bp: 0
   credits: 40
   nodes: 0

@@ -34,17 +34,19 @@ description: >-
   The veteran technician who keeps massive infrastructure systems online under
   impossible conditions.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'maintenance chief, sentinel, defender, stability, order, support, repair'
 negative_keywords: 'mindless-brute, reckless, illiterate, chaotic-anarchist, unreliable'
+cp_chassis: 80
 ---
 
 # The Maintenance Chief
 
 **Sphere**: Sentinels (The Stabilizers)  
 **Core Concept**: Support / Repair / Logistics  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
 **Secondary Attribute**: Agility  
 

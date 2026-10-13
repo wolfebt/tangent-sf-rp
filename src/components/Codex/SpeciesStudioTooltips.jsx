@@ -250,6 +250,7 @@ export const TraitTooltipCard = ({
       name: idStr.replace(/^trait-/, '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
       classification: 'Species Trait',
       tier: 'Basic',
+      cp: 1,
       bp: 1,
       description: 'Canonical species biological trait.'
     };
@@ -264,7 +265,7 @@ export const TraitTooltipCard = ({
     ? 'text-purple-400 bg-purple-950/80 border-purple-500/60' 
     : 'text-cyan-400 bg-cyan-950/80 border-cyan-500/60';
 
-  const cpCost = trait.bp || trait.cp || trait.costs?.bp || 1;
+  const cpCost = trait.cp || trait.bp || trait.costs?.cp || trait.costs?.bp || 1;
 
   return (
     <div className="space-y-2.5 font-mono text-xs">
@@ -452,7 +453,7 @@ export const FeatureSummaryCard = ({
     ? 'bg-purple-950/80 text-purple-300 border-purple-500/60' 
     : 'bg-emerald-950/80 text-emerald-300 border-emerald-500/60';
 
-  const cpCost = feature.cp || feature.costs?.bp || 1;
+  const cpCost = feature.cp || feature.costs?.cp || feature.costs?.bp || feature.bp || 1;
 
   return (
     <div className="space-y-2.5 font-mono text-xs">
@@ -645,7 +646,7 @@ export const MovementModeSummaryCard = ({
 
   const targetMode = modeObj.target_mode || modeObj.type || 'Locomotion';
   const speed = modeObj.base_speed || modeObj.speed || 30;
-  const bp = Number(modeObj.bp || 0);
+  const bp = Number(modeObj.cp !== undefined ? modeObj.cp : (modeObj.bp || 0));
 
   const basicDesc = useMemo(() => {
     const raw = modeObj.description || '';
@@ -891,7 +892,7 @@ export const SpeciesTypeSummaryCard = ({
         </div>
         <div className="text-right shrink-0">
           <span className="text-xs font-bold px-2 py-0.5 rounded-lg bg-purple-500/20 text-purple-300 border border-purple-500/40">
-            {typeData.bp || 0} CP
+            {typeData.cp !== undefined ? typeData.cp : (typeData.bp || 0)} CP
           </span>
         </div>
       </div>
@@ -944,7 +945,7 @@ export const SpeciesSizeSummaryCard = ({
         </div>
         <div className="text-right shrink-0">
           <span className="text-xs font-bold px-2 py-0.5 rounded-lg bg-sky-500/20 text-sky-300 border border-sky-500/40">
-            {sizeData.bp || 0} CP
+            {sizeData.cp !== undefined ? sizeData.cp : (sizeData.bp || 0)} CP
           </span>
         </div>
       </div>

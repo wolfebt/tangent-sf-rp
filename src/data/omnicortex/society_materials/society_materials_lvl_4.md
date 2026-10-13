@@ -9,6 +9,7 @@ description: >-
   meta-materials, molecular metallurgy, and high-density plating. (Mastered /
   Interstellar).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

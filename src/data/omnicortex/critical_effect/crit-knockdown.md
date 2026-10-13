@@ -4,6 +4,7 @@ name: Knocked Prone
 description: 'Target is slammed into the ground, must spend movement to stand up.'
 category: critical_effect
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

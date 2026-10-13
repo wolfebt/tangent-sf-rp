@@ -21,6 +21,7 @@ synergy_links:
   - mental-survival
   - physical-stealth
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'alertness, mental, wisdom, intellect, cognitive, expertise'

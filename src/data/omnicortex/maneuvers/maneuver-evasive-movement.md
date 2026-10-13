@@ -7,6 +7,7 @@ description: >-
   Fully defensive while moving quickly; +1 Defense base and another +1 Defense
   per 10ft Movement Speed used.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

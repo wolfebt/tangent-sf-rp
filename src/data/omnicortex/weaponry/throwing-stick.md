@@ -9,6 +9,7 @@ damage_type: Kinetic
 classification: Melee (Blunt)
 wielding: One-Handed
 costs:
+  cp: 0
   bp: 0
   credits: 0
   nodes: 0

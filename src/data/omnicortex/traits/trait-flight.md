@@ -5,6 +5,7 @@ trait_tier: Elite
 trait_type: Species Trait
 category: traits
 costs:
+  cp: 4
   bp: 4
 description: >-
   Flight Speed of 2x Ground Speed and Average Maneuverability, uses Acrobatics
@@ -16,7 +17,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Elite
 **Type**: Species Trait
-**BP Cost**: 4
+**CP Cost**: 4
 
 ## Description
 Flight Speed of 2x Ground Speed and Average Maneuverability, uses Acrobatics skill.

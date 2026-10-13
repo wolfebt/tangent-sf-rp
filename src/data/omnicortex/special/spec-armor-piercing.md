@@ -4,6 +4,7 @@ name: Armor Piercing (AP)
 description: Weapon projectiles or edges bypass a designated amount of target Armor DR.
 category: special
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

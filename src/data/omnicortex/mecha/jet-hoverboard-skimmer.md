@@ -16,6 +16,7 @@ description: >-
   micro-turbines.
 mechanic: Skims over water/ground at high speed. Pilot Agility +2.
 costs:
+  cp: 0
   bp: 0
   credits: 160
   nodes: 0

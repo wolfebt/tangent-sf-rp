@@ -11,18 +11,20 @@ description: >-
   A technique often used by battle-mages or paladins, channeling raw
   metaphysical energy through a physical vessel.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   channel smite, combat, special-feature, combat-maneuver, tactical-edge,
   technique
 negative_keywords: 'pacifist, feeble, untrained-civilian'
+cost_cp: 3
 ---
 
 # Channel Smite
 
 **Category**: Combat Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Awakened (Energy), Attune 1
 
 ## Description

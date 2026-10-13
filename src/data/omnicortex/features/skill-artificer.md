@@ -11,16 +11,18 @@ description: >-
   The character combines engineering with metaphysics, capable of creating items
   that blur the line between technology and magic.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'artificer, skill, special-feature, combines, engineering, metaphysics'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Artificer
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Attune 11, Any Discipline 11, Any Crafting 11
 
 ## Description

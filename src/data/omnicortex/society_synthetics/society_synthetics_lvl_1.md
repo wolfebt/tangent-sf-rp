@@ -8,6 +8,7 @@ description: >-
   Level 1 development in Synthetics & AI Rights: Artificial intelligence,
   android rights, synthetic biology, and cybernetics. (Emerging / Industrial).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

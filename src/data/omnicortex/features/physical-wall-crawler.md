@@ -8,19 +8,21 @@ is_ranked: false
 is_multiple: false
 prerequisites: None
 description: >-
-  The character can traverse vertical surfaces, sheer walls, and ceilings with ease using microscopic setae, specialized claws, or adhesive secretions.
+  The character can traverse vertical surfaces, sheer walls, and ceilings with
+  ease using microscopic setae, specialized claws, or adhesive secretions.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
-keywords: >-
-  wall-crawler, climbing, traversal, adhesion, vertical, movement
+keywords: 'wall-crawler, climbing, traversal, adhesion, vertical, movement'
 negative_keywords: 'clumsy, grounded, fallen'
+cost_cp: 3
 ---
 
 # Wall-Crawler
 
 **Category**: Physical Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: None
 
 ## Description

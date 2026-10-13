@@ -21,6 +21,7 @@ synergy_links:
   - mental-nature
   - mental-laborer
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'groundskeeper, mental, stamina, intellect, cognitive, expertise'

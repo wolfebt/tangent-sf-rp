@@ -41,31 +41,32 @@ tech_level: 4 (Void Siphons & Dark Matter Taps)
 meta_level: 5 (Void Reality-Warping)
 homeworld: The Abyssal Rift of Null-Space
 costs:
-  bp: 30
+  cp: 41
+  bp: 41
 modifiers:
   - target: Wisdom
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 30
-cp: 30
-bp: 30
+cp_cost: 41
+cp: 41
+bp: 41
 description: >-
   Sha'nor are semi-corporeal shadow and void beings dwelling in cosmic rifts.
   Immortal and telepathic, they sustain themselves on ambient essence and deep
   void energy.
-traits:
+traits: &ref_0
   - trait-ageless
-  - trait-alter-form-void-wisp-shadow-special-ability
+  - trait-alter-form-adv
   - trait-awakened-void
-  - trait-fast-healing
+  - trait-fast-heal
   - trait-flight
   - trait-immortal
-  - trait-non-typical-anatomy
-  - trait-regeneration-2-hp-rnd
+  - trait-adaptive-features
+  - trait-regeneration
   - trait-semi-corporeal
-  - trait-telepathic-100ft
-  - trait-vampiric-4-essence-drain-need
+  - trait-mind-speech
+  - trait-vampiric-power
 recommended_factions:
   - Cosmic Horror Faction Template
   - Supernatural Faction Template
@@ -78,13 +79,14 @@ recommended_occupations:
   - Drifter
 keywords: 'void-aberration, dark-matter, semi-corporeal, entropy-harbinger, phase-shift'
 negative_keywords: 'solar-radiance, biological-healing, clumsy'
+species_traits: *ref_0
 ---
 
 # Sha'nor (Void Aberration)
 
 # 
 
-**BP Cost:**   
+**CP Cost:** 41 CP  
 **Description:** Known as Harbingers of Entropy, Dark Hungers and Smoke Demons, the Sha’Nor are an extremely ancient species and are physically unlike any other species ever encountered. Being composed of what seems to be both some type of shifting organic material and dark matter simultaneously would indicate an other dimensional origin.  
 Sha’Nor require energy from living beings on a semi-regular basis or have a risk of discorporation (feeding is not necessarily lethal but will weaken the source for a day, \-1 Sta), will feed once a month or Cha check of DC10 (-1 per each month past due) failure resulting in \-1 Sta (discorporating after total Sta of \-5).   
 Many quite enjoy feeding and have learned to gain additional energy from it.  
@@ -133,7 +135,7 @@ Special Abilities
 
 # 
 
-**BP Cost:**   
+**CP Cost:**   
 **Description:** The Tenen are an extremely rare offshoot of Sha’Nor which have evolved from their predatory nature and Vampiric needs. Theory of this is primarily due to a transition to a demi-dimension they have been dwelling in. This seems to have accompanied their use of different energies more amiable to creation than destruction.   
 Origins are actually unknown and completely theorized at this point as only brief encounters have occurred, some speculate a grand connection to the Ila progenitors who have been rumored to have returned \- but again speculations.
 
@@ -179,7 +181,7 @@ Special Abilities
 
 # 
 
-**BP Cost:**   
+**CP Cost:**   
 **Description:** Various creatures (including humanoid, animal and plant based) which are infused and mutated by the Shar’Nor (aka the Corrupted)  
 \[akin to Awakened Animals, Adjusted PC Build and Equivalent Abilities\]
 

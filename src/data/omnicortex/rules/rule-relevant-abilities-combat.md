@@ -6,6 +6,7 @@ description: >-
   Ability score mappings for melee, finesse, ranged, metaphysical weaving, and
   defensive saves.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -8,6 +8,7 @@ description: >-
   Level 5 development in Structure & Governance: Government models, legal
   systems, social stratification, and caste frameworks. (Transcendent / Deific).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

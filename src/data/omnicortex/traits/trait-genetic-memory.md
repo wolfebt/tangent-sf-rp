@@ -5,6 +5,7 @@ trait_tier: Advanced
 trait_type: Species Trait
 category: traits
 costs:
+  cp: 2
   bp: 2
 description: Inheritance of ancestral knowledge and Genomatrix blueprints.
 modifiers:
@@ -18,7 +19,7 @@ modifiers:
 **Category**: TRAITS  
 **Tier**: Advanced  
 **Type**: Species Trait  
-**BP Cost**: 2  
+**CP Cost**: 2  
 
 ## Description
 Inheritance of ancestral knowledge and Genomatrix blueprints. Cumulative, fragmented memory bank of ancestors.

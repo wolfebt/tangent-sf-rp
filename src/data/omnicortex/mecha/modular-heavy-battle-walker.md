@@ -16,6 +16,7 @@ description: >-
   autocannons, and lasers.
 mechanic: 'Hydraulic stride, modular weapon pods, cockpit jump-jets.'
 costs:
+  cp: 0
   bp: 0
   credits: 40960
   nodes: 0

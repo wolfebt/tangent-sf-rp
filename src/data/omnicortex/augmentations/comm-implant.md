@@ -9,6 +9,7 @@ description: Coded transceiver (Continental range/Network).
 stigma: None
 type: Cybernetic Armor
 costs:
+  cp: 0
   bp: 0
   credits: 160
   nodes: 0

@@ -5,12 +5,18 @@ category: disciplines
 metafocus_skills:
   - Elemental
   - Force
-primary_color: 'Orange/Red (Fire), Transparent (Force/Sonic), Blue/White (Elec), Glacial Blue (Cold)'
+primary_color: >-
+  Orange/Red (Fire), Transparent (Force/Sonic), Blue/White (Elec), Glacial Blue
+  (Cold)
 secondary_color: 'White Hot, Pale Blue, Violet, Silver Ripples'
-texture_form: 'Plasma flickering, distortion waves, solid impact walls, crystalline frost, and ionized arcs.'
+texture_form: >-
+  Plasma flickering, distortion waves, solid impact walls, crystalline frost,
+  and ionized arcs.
 description: >-
-  Harnessing kinetic vectors, telekinesis, hard-light force barriers, thermodynamics (pyro/cryo), electricity, and sound.
+  Harnessing kinetic vectors, telekinesis, hard-light force barriers,
+  thermodynamics (pyro/cryo), electricity, and sound.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

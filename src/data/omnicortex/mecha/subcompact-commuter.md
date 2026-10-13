@@ -14,6 +14,7 @@ propulsion: Micro-Motor (Electric)
 description: The ubiquitous automated pod car of futuristic metropolitan arcologies.
 mechanic: Seats 2. Automated traffic grid autopilot. Printable composite hull.
 costs:
+  cp: 0
   bp: 0
   credits: 160
   nodes: 0

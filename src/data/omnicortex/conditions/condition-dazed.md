@@ -6,6 +6,7 @@ description: >-
   Mentally reeling. Only 1 Action per turn (Move OR Standard). No Reactions.
   Ends automatically at end of creature's next turn.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

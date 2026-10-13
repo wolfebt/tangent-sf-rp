@@ -8,6 +8,7 @@ description: >-
   Level 3 development in Agriculture & Biosphere: Food production, farming
   technologies, hydroponics, and ecosystem synthesis. (Advanced / Stellar).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

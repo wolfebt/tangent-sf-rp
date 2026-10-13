@@ -4,6 +4,7 @@ name: Disabled Limb
 category: conditions
 description: Limb incapacitated by trauma (1/3 max HP); requires DC 10+damage Stamina save.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

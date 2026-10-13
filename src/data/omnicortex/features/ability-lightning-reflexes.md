@@ -12,18 +12,20 @@ description: >-
   nerves are wire-taut, allowing them to dodge blasts, catch falling objects, or
   keep their footing on shifting ground.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   lightning reflexes, ability, special-feature, innate-talent, passive-prowess,
   reacts
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Lightning Reflexes
 
 **Category**: Ability Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Agility 1
 
 ## Description

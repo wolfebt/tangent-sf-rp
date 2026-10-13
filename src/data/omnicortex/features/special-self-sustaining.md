@@ -9,16 +9,18 @@ is_multiple: false
 prerequisites: 'Synthetic, Plant, or Undead traits'
 description: The character does not require standard biological fuel.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'self-sustaining, special, special-feature, require, standard, biological'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Self-Sustaining
 
 **Category**: Special Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Synthetic, Plant, or Undead traits
 
 ## Description

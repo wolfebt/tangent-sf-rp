@@ -3,15 +3,18 @@ id: species_size-medium
 name: Medium
 category: species_size
 scaling: 1
-scaling_display: "Base (1.0)"
+scaling_display: Base (1.0)
 strength_mod: 0
 combat_mod: 0
 stealth_mod: 0
-height_length_range: "< 8 ft"
-weight_range: "< 500 lbs"
-reach: "5 ft"
-description: "Baseline standard humanoid form across galactic species (Humans, Aeld, Aulurans, etc.)."
+height_length_range: < 8 ft
+weight_range: < 500 lbs
+reach: 5 ft
+description: >-
+  Baseline standard humanoid form across galactic species (Humans, Aeld,
+  Aulurans, etc.).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

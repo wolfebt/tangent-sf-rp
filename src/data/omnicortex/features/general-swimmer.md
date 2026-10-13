@@ -9,16 +9,18 @@ is_multiple: false
 prerequisites: Athletics 1
 description: The character is an adept aquatic swimmer capable of high sustained speeds.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'swimmer, general, special-feature, aquatic, capable, sustained'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Swimmer
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisites**: Athletics 1  
 
 ## Description

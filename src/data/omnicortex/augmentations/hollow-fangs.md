@@ -9,6 +9,7 @@ description: 1d4 Piercing. Wired directly to a Poison Sac.
 stigma: None
 type: Cybernetic Armor
 costs:
+  cp: 0
   bp: 0
   credits: 640
   nodes: 0

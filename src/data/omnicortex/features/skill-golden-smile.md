@@ -11,16 +11,18 @@ description: >-
   Golden Smile is a Skill Feature: Take 10 or add d10 to Bluff and Diplomacy
   checks.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'golden smile, skill, special-feature, golden, feature:, diplomacy'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Golden Smile
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Silver Tongue, Cha 2, Dip/Bluff 6
 
 ## Description

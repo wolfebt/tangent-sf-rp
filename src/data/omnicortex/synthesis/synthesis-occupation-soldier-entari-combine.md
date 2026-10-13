@@ -6,6 +6,7 @@ synthesis_type: occupation_character
 occupation_id: occupation-soldier
 faction_id: faction-entari-combine
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -42,25 +42,26 @@ tech_level: 3 (Optical Mirage Tech)
 meta_level: 4 (Ethereal Illusion)
 homeworld: The Shrouded Veil
 costs:
-  bp: 14
+  cp: 26
+  bp: 26
 modifiers:
   - target: Charisma
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 14
-cp: 14
-bp: 14
+cp_cost: 26
+cp: 26
+bp: 26
 description: >-
   Whispers are enigmatic beings able to dissolve into glowing spheres of soft
   light or manifest as ghostly humanoid silhouettes. They pass through locks and
   sensory grids undetected.
-traits:
-  - trait-alter-form-wisp-orb-form-special-ability
+traits: &ref_0
+  - trait-alter-form-adv
   - trait-asi-base-traits
   - trait-awakened-nature
-  - trait-flight-in-wisp-form
-  - trait-silent-step
+  - trait-flight
+  - trait-silent-hunter
 recommended_factions:
   - The Alterian Enclave
   - The Syndicate
@@ -75,13 +76,14 @@ recommended_occupations:
   - Scout
 keywords: 'ethereal, intangible, light-form, phantasmal, stealth, infiltration, soundless'
 negative_keywords: 'loud, heavy-infantry, conspicuous, physical-labor'
+species_traits: *ref_0
 ---
 
 # Whisper (Wisp Shifter)
 
 # 
 
-**BP Cost:**   
+**CP Cost:** 26 CP  
 **Description:** The Fey creature known as Whisper possesses a deeply enigmatic nature, evidenced by its capacity to manifest in two strikingly distinct primary forms. The first is its Wisp form: a small mote of ethereal light, characterized by its faint, shimmering luminescence. In this state, Whisper is barely visible, often mistaken for a stray spirit or an unusual atmospheric phenomenon, and is highly mobile. It is its most elusive and true-to-nature manifestation, reflecting its primal connection to the subtle energies of the Feywild.
 
 The second primary manifestation is the Elven form. This presentation is that of an enchanting, though subtly unsettling, elf. Its appearance is typically perceived as being in the liminal phase of a young adult or adolescent, yet with an indefinable quality that makes the viewer instinctively feel that something is "off"—a slight unnaturalness to its movements, the depth of its eyes, or the unnatural stillness of its expression. This form is used for interaction and observation, allowing Whisper to walk among other sentient beings. It retains the enchanting allure characteristic of many Fey, but its beauty is laced with a cold, ethereal detachment.

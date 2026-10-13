@@ -8,6 +8,7 @@ description: >-
   Level 1 development in Education & Archives: Knowledge institutions, neural
   archives, apprenticeships, and academies. (Emerging / Industrial).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

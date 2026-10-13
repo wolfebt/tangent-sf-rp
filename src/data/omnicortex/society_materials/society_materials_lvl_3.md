@@ -9,6 +9,7 @@ description: >-
   meta-materials, molecular metallurgy, and high-density plating. (Advanced /
   Stellar).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

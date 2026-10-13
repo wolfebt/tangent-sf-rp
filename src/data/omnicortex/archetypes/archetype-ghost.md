@@ -32,17 +32,19 @@ description: >-
   Equipped with advanced enhancements to blend in and infiltrate high-security
   areas. Hack, cloak, and kill.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'ghost, operative, artisan, adaptable, specialist, stealth, tech'
 negative_keywords: 'heavy-plating, blunt-assault, loud, clumsy'
+cp_chassis: 80
 ---
 
 # The Ghost
 
 **Sphere**: Operatives (The Artisans)  
 **Core Concept**: Stealth / Tech / Combat  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Agility  
 **Secondary Attribute**: Technology  
 

@@ -12,18 +12,20 @@ description: >-
   This is the signature ability of "Spellblades," "Paladins," or "Psychic
   Warriors."
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   empowered strike, discipline, special-feature, focused-training, mastery,
   infuse
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Empowered Strike
 
 **Category**: Discipline Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Attune 6
 
 ## Description

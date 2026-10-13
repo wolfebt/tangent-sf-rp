@@ -11,16 +11,18 @@ description: >-
   The character was born or raised in the void; zero-g and vacuum are second
   nature.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'spacer, skill, special-feature, raised, zero-g, vacuum'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Spacer
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: None
 
 ## Description

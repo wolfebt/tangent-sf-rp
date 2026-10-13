@@ -4,6 +4,7 @@ name: Armor Sundered (-2 DR)
 description: Permanently reduces the target equipped armor DR by 2 points until repaired.
 category: critical_effect
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

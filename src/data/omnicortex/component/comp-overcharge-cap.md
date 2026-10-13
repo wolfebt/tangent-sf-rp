@@ -4,6 +4,7 @@ name: Overcharge Capacitor
 description: Allows weapon to supercharge single shots for +1 bonus damage die.
 category: component
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

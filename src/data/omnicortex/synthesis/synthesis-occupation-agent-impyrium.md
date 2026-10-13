@@ -6,6 +6,7 @@ synthesis_type: occupation_character
 occupation_id: occupation-agent
 faction_id: faction-impyrium
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

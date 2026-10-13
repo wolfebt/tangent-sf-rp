@@ -3,15 +3,18 @@ id: species_size-huge
 name: Huge
 category: species_size
 scaling: 5
-scaling_display: "x5"
+scaling_display: x5
 strength_mod: 4
 combat_mod: -4
 stealth_mod: -8
-height_length_range: "< 32 ft"
-weight_range: "< 16 tons"
-reach: "15 ft"
-description: "Tactical combat mech, armored fighting vehicle, or colossal apex alien predator."
+height_length_range: < 32 ft
+weight_range: < 16 tons
+reach: 15 ft
+description: >-
+  Tactical combat mech, armored fighting vehicle, or colossal apex alien
+  predator.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

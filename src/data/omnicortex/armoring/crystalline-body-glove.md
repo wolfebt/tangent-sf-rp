@@ -27,6 +27,7 @@ mechanic: >-
   Impact Hardening (Gain DR 20 against single highest damage attack per round).
   DR 14, SP 35.
 costs:
+  cp: 0
   bp: 0
   credits: 4457
   nodes: 0

@@ -5,6 +5,7 @@ trait_tier: Basic
 trait_type: Species Trait
 category: traits
 costs:
+  cp: 1
   bp: 1
 description: +2 to Specific Vocation.
 modifiers: []
@@ -14,7 +15,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Basic
 **Type**: Species Trait
-**BP Cost**: 1
+**CP Cost**: 1
 
 ## Description
 +2 to Specific Vocation.

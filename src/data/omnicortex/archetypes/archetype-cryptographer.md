@@ -29,17 +29,19 @@ tactical_role: 'Decrypting comms, translating alien languages, solving logic puz
 quote: '"Everything is a pattern. I just need to find the key."'
 description: 'An expert in deciphering codes, languages, and hidden messages.'
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'cryptographer, savant, rational, intellect, strategist, intel, support'
 negative_keywords: 'mindless-brute, reckless, illiterate'
+cp_chassis: 80
 ---
 
 # The Cryptographer
 
 **Sphere**: Savants (The Rationals)  
 **Core Concept**: Intel / Support / Puzzle Solver  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
 **Secondary Attribute**: Wisdom  
 

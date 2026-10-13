@@ -43,20 +43,20 @@ tech_level: 4 (Bio-Synthetic Weave & Organic Cloaking)
 meta_level: 1 (Neural Empathy)
 homeworld: Covert Black Labs
 costs:
-  bp: 29
+  cp: 34
+  bp: 34
 modifiers: []
-cp_cost: 29
-cp: 29
-bp: 29
+cp_cost: 34
+cp: 34
+bp: 34
 description: >-
   Skins are advanced bio-synthetic androids covered in warm, synthetic flesh,
   simulated vascular systems, and emotional emulators designed to pass as
   natural organics.
-traits:
-  - trait-alter-self-advanced-cellular-surface
+traits: &ref_0
+  - trait-alter-form-adv
   - trait-synthetic-base-traits
-  - trait-synthetic-flesh-shroud-indistinguishable-from-organic-to-casual-scans
-  - trait-thermal-simulation
+  - trait-alter-form-basic
 recommended_factions:
   - The Syndicate
   - Corporate Faction Template
@@ -71,6 +71,7 @@ keywords: >-
   synthetic-flesh, emotional-emulator, infiltrator-android, social-mimic,
   sleeper-unit
 negative_keywords: 'clunky-metal, obvious-robot, conspicuous'
+species_traits: *ref_0
 ---
 
 # Skin (Synthetic Replicant / Infiltrator)
@@ -81,7 +82,7 @@ negative_keywords: 'clunky-metal, obvious-robot, conspicuous'
 
 # 
 
-**BP Cost:**   
+**CP Cost:** 34 CP  
 **Description:** Experimental design to be more Human like in form and function, for various reasons including infiltration. No obvious distinguishable traits showing mechanical nature. Casual observation will not show any sign of being a Synthetic, a cursory exam will require DC 30, Technical Scanner with a DC 25 and Biomed Scanners with a DC 20 \- medical treatment will also reveal nature to the physician (although wounds would outwardly be ‘normal’ with loss of fluids included \[limited blood simulation\]).
 
 *Heals as a typical human, with repair using nanotechnology.*   
@@ -114,7 +115,7 @@ Adaptive Aspects
 
 # 
 
-**BP Cost:**   
+**CP Cost:**   
 **Description:** Conscious Algorithm housed within a structure or a mech. (the ‘Shell’). 
 
 **Classification:** Synthetic  

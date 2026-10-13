@@ -5,6 +5,7 @@ trait_tier: Basic
 trait_type: Occupational Trait
 category: traits
 costs:
+  cp: 1
   bp: 1
 description: >-
   Adepts may have a deep connection to mystical or spiritual forces. They may
@@ -17,7 +18,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Basic
 **Type**: Occupational Trait
-**BP Cost**: 1
+**CP Cost**: 1
 
 ## Description
 Adepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.

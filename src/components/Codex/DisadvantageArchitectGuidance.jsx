@@ -126,14 +126,14 @@ export const DisadvantageArchitectGuidance = ({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* BP REBATE TIER */}
+          {/* CP REBATE TIER */}
           <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4 space-y-2">
             <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-amber-400 uppercase">
               <Coins size={13} />
-              <span>BP Rebate / Severity Tier</span>
+              <span>CP Rebate / Severity Tier</span>
             </div>
             <div className="p-2.5 bg-slate-900/80 border border-slate-800/80 rounded-lg text-xs font-mono text-amber-200">
-              {formData.bp_granted || canonicalSeed?.bp_granted || '3 / 6 / 9 BP'}
+              {formData.cp_granted || formData.bp_granted || canonicalSeed?.cp_granted || canonicalSeed?.bp_granted || '3 / 6 / 9 CP'}
             </div>
             <p className="text-[11px] text-slate-400 leading-normal">
               Character Points refunded to allocate toward additional features or attribute upgrades.

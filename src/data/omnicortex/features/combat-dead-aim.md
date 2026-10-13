@@ -9,16 +9,18 @@ is_multiple: false
 prerequisites: 'Wisdom 3, Ranged 6'
 description: The character trades mobility for extreme precision.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'dead aim, combat, special-feature, combat-maneuver, tactical-edge, trades'
 negative_keywords: 'pacifist, feeble, untrained-civilian'
+cost_cp: 3
 ---
 
 # Dead Aim
 
 **Category**: Combat Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Wisdom 3, Ranged 6
 
 ## Description

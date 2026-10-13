@@ -12,6 +12,7 @@ description: >-
   The character has unlocked access to a loyal companion, bio-construct,
   tactical drone, or metaphysical cohort.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'companion, special, special-feature, unlocked, access, bio-construct'

@@ -7,6 +7,7 @@ classification: Sensory
 type: Sensory
 bp_granted: 4
 costs:
+  cp: -4
   bp: -4
 description: >-
   Abrupt exposure to bright light blinds for 1 round; then dazzled. Req:
@@ -15,12 +16,13 @@ prerequisite: Darkvision / Dark Sight
 modifiers: []
 keywords: 'light blindness, hindrance, penalty, sensory, abrupt, exposure'
 negative_keywords: 'perfection, flawless, unyielding, invulnerable'
+cp_granted: '4'
 ---
 
 # Light Blindness
 
-**Category**: Species Disadvantages (BP Reduction)  
-**BP Refund**: +4 BP (Cost: -4 BP)  
+**Category**: Species Disadvantages (CP Reduction)  
+**CP Refund**: +4 CP (Cost: -4 CP)  
 **Type**: Sensory  
 **Prerequisites**: Darkvision / Dark Sight  
 

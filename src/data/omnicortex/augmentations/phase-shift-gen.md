@@ -9,6 +9,7 @@ description: Temporary intangibility to bypass matter.
 stigma: None
 type: Esoteric
 costs:
+  cp: 0
   bp: 0
   credits: 163840
   nodes: 0
@@ -37,4 +38,4 @@ negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
 Category: **9\. TL5 Advanced Augmentations**
 
 **Effect:** Temporary intangibility to bypass matter.
-**BP:** 4
+**CP:** 4

@@ -5,6 +5,7 @@ trait_tier: Elite
 trait_type: Species Trait
 category: traits
 costs:
+  cp: 4
   bp: 4
 description: 'DR30 vs physical, able to Phase through solid matter, Solidify at will.'
 modifiers: []
@@ -14,7 +15,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Elite
 **Type**: Species Trait
-**BP Cost**: 4
+**CP Cost**: 4
 
 ## Description
 DR30 vs physical, able to Phase through solid matter, Solidify at will.

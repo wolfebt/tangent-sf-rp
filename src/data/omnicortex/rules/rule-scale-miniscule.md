@@ -4,6 +4,7 @@ name: 'Scale: Miniscule (x1/8)'
 category: rules
 description: 'Micro-drones; x1/8 damage, -32 defense modifier.'
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

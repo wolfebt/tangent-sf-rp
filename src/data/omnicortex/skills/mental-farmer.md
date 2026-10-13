@@ -22,6 +22,7 @@ synergy_links:
   - mental-groundskeeper
   - mental-handler
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'farmer, mental, stamina, intellect, cognitive, expertise'

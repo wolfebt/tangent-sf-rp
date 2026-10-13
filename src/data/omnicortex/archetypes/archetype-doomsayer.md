@@ -31,17 +31,19 @@ description: >-
   A nihilistic prophet who believes the end is inevitable and seeks to hasten or
   warn of it.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'doomsayer, visionary, idealist, leadership, charisma, debuffer, intimidator'
 negative_keywords: 'anti-social, mute, solitary-hermit, null-zone, anti-magic-fanatic'
+cp_chassis: 80
 ---
 
 # The Doomsayer
 
 **Sphere**: Visionaries (The Idealists)  
 **Core Concept**: Debuffer / Intimidator / Caster  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Charisma  
 **Secondary Attribute**: Wisdom  
 

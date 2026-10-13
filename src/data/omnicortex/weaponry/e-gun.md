@@ -10,6 +10,7 @@ damage_type: Kinetic
 classification: Ranged (Ballistic)
 wielding: One-Handed
 costs:
+  cp: 0
   bp: 0
   credits: 0
   nodes: 0

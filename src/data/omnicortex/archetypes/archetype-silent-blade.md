@@ -32,17 +32,19 @@ description: >-
   A professional killer taking contracts to eliminate specific targets via
   long-range sniping or close-quarters execution.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'silent blade, operative, artisan, adaptable, specialist, stealth, burst damage'
 negative_keywords: 'heavy-plating, blunt-assault, loud, clumsy'
+cp_chassis: 80
 ---
 
 # The Silent Blade
 
 **Sphere**: Operatives (The Artisans)  
 **Core Concept**: Stealth / Burst Damage  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Agility  
 **Secondary Attribute**: Perception  
 

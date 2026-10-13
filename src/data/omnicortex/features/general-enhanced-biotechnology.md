@@ -6,21 +6,25 @@ feature_category: Augmentation
 cost_bp: 2
 is_ranked: false
 is_multiple: false
-prerequisites: Kitin Lineage, Awakened, or Tech Level 4+
+prerequisites: 'Kitin Lineage, Awakened, or Tech Level 4+'
 description: >-
-  Innate cellular affinity and neurological interface with living technology, bio-grafts,
-  and biomorphic constructs.
+  Innate cellular affinity and neurological interface with living technology,
+  bio-grafts, and biomorphic constructs.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
-keywords: 'enhanced-biotechnology, biotech, living-technology, bio-armor, grafting, symbiotic'
+keywords: >-
+  enhanced-biotechnology, biotech, living-technology, bio-armor, grafting,
+  symbiotic
 negative_keywords: 'mechanical-only, anti-organic, cyberware-dependent'
+cost_cp: 2
 ---
 
 # Enhanced Biotechnology
 
 **Category**: Augmentation / General Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisite**: Kitin Lineage, Awakened, or Tech Level 4+  
 
 ## Description

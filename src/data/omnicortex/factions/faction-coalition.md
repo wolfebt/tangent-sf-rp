@@ -70,6 +70,7 @@ description: >-
   Copia system), the frontier spirit is defined by grit, self-determination, and
   a fierce protective instinct
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Major Galactic Power
@@ -162,7 +163,7 @@ negative_keywords: >-
 * **Origin & Profession Traits:**  
   * Penal Recruit (Ranger): Gain Advantage on Willpower saves vs Fear; Disadvantage on Social checks against Coalition Authority.  
   * Federal Authority (Marshal): Supreme Jurisdiction to commandeer vehicles/access scenes.  
-* **Recommended Features (1 BP Discount):**  
+* **Recommended Features (1 CP Discount):**  
   * Tough, Pain Tolerance, Endurance, Burst Attack, Weapon Improvisation, Gearhead, Benefit (Authority), Tracker, Fearless, Diehard, Crushing Blow, Headstrong.
 
 ### **VI. Visual Synthesis Protocols (Aesthetics)**

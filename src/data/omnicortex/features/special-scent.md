@@ -9,16 +9,18 @@ is_multiple: false
 prerequisites: Wisdom 1
 description: The character can detect creatures and objects by smell alone.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'scent, special, special-feature, detect, creatures, objects'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Scent
 
 **Category**: Special Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Wisdom 1
 
 ## Description

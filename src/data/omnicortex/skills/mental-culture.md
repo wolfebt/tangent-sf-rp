@@ -20,6 +20,7 @@ synergy_links:
   - mental-nobility
   - mental-history
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'culture, mental, intellect, cognitive, expertise, customs'

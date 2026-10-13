@@ -5,6 +5,7 @@ type: Metaphysical
 description: Pure condensed kinetic pressure that bypasses 50% of target physical Armor DR.
 category: effect
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

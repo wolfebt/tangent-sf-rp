@@ -11,16 +11,18 @@ description: >-
   The character is the heart of the team. They can lend their own luck and
   determination to allies, spurring them on to greatness.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'inspiration, karma, special-feature, determination, allies, spurring'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Inspiration
 
 **Category**: Karma Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Charisma 2
 
 ## Description

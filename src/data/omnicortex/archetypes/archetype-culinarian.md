@@ -34,17 +34,19 @@ description: >-
   The essential provider of nutrition and morale, transforming scarce resources
   into sustaining banquets.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'culinarian, sentinel, defender, stability, order, support, morale'
 negative_keywords: 'chaotic-anarchist, unreliable, reckless-gambler'
+cp_chassis: 80
 ---
 
 # The Culinarian
 
 **Sphere**: Sentinels (The Stabilizers)  
 **Core Concept**: Support / Morale / Survival  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Wisdom  
 **Secondary Attribute**: Charisma  
 

@@ -5,7 +5,8 @@ trait_tier: Basic
 trait_type: Social
 category: traits
 costs:
-  bp: 2
+  cp: 1
+  bp: 1
 description: >-
   A wide network of professional and informal contacts across industries,
   syndicates, and governments for information and resource gathering.
@@ -16,7 +17,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Basic
 **Type**: Social
-**BP Cost**: 2
+**CP Cost**: 1
 
 ## Description
 A wide network of professional and informal contacts across industries, syndicates, and governments for information and resource gathering.

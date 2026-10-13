@@ -46,6 +46,7 @@ description: >-
   protect their faction's borders. Soldiers are brave and dedicated individuals
   who put their lives on the line to serve their faction’s interest.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 recommended_species:
@@ -80,13 +81,16 @@ keywords: >-
 negative_keywords: >-
   pacifist-retreat, unarmed-surrender, treasonous-desertion, careless-disregard,
   undisciplined-riot, ivory-tower-academic, delicate-socialite
+base_ws: 1
+economic_context: Military standard-issue ration & field pay
 ---
 
 # Soldier Occupation
 
 **Category**: Occupations  
+**EUFT Base Wealth Score**: WS 1 (Military standard-issue ration & field pay)  
 **Starting Skill Points**: 20 SP (allocated to Professional Skills, max Rank 11, recommended Rank 6)  
-**Recommended Features**: Combat (1 BP Discount)  
+**Recommended Features**: Combat (1 CP Discount)  
 **Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)
 
 ## Description

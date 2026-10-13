@@ -12,18 +12,20 @@ description: >-
   (such as ZFHX2) renders the character profoundly insensitive to noxious pain
   while retaining normal tactile sensation.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   nociceptor dampening, general, special-feature, mutation, transcription,
   factors
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Nociceptor Dampening
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Pain Tolerance, Stamina 2
 
 ## Description

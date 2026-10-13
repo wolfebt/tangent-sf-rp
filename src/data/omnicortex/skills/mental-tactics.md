@@ -21,6 +21,7 @@ synergy_links:
   - mental-soldier
   - social-leadership
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'tactics, mental, intellect, cognitive, expertise, squad'

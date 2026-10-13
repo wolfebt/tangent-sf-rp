@@ -7,6 +7,7 @@ description: >-
   Roll Defense check (Defender wins ties) to replace static Defense or negate
   maneuvers. Subsequent reactions suffer -5 cumulative penalty.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

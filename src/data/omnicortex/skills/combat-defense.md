@@ -18,6 +18,7 @@ synergy_links:
   - physical-acrobatics
   - combat-melee
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'defense, combat, agility, tactical, offensive, parrying'

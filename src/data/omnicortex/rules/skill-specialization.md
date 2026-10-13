@@ -6,6 +6,7 @@ summary: >-
   Rules for unlocking specialized skill sub-categories, independent leveling,
   and exceeding the normal Rank 20 cap.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

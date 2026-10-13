@@ -44,7 +44,8 @@ tech_level: 3 (Living Habitat Architecture)
 meta_level: 1 (Cellular Attunement)
 homeworld: Aulura Prime
 costs:
-  bp: 12
+  cp: 23
+  bp: 23
 modifiers:
   - target: Agility
     value: 1
@@ -54,19 +55,19 @@ modifiers:
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 12
-cp: 12
-bp: 12
+cp_cost: 23
+cp: 23
+bp: 23
 description: >-
   The Koda are the artisan and bio-architect caste of the Aulurans, possessing
   enhanced muscular density, digitigrade agility, and an innate knack for
   breeding chitinous structures.
-traits:
+traits: &ref_0
   - trait-auluran-base-traits
-  - trait-biotechnology-2-crafting
+  - trait-master-tinker
   - trait-climber
-  - trait-digitigrade-legs
-  - trait-martial-arts
+  - trait-digitigrade-ungulated
+  - trait-bonus-feature
   - trait-quick
 recommended_factions:
   - Auluran Clans
@@ -84,13 +85,14 @@ keywords: >-
   feline-artisan, bio-architect, chitin-breeder, digitigrade, dense-muscle,
   athletic
 negative_keywords: 'sedentary, fragile, metallic-machinery, technophobia'
+species_traits: *ref_0
 ---
 
 # Koda (Auluran Builder Caste)
 
 ## **KODA**
 
-**BP:** 24  
+**CP:** 23 CP  
 **Description:** Distinguished by their pronounced feline traits, such as digitigrade legs and a **prominent muzzle** with sharp teeth. Standing upright at an impressive height of **just over 7 feet tall**, the Koda exude an air of strength and grace. Their digitigrade legs allow them to walk on their toes, enhancing balance and agility.  
 **Role:** Possessing exceptional strength and agility, they make formidable warriors or skilled hunters, adept at navigating treacherous landscapes.  
 **Classification:** Humanoid (Feline-Humanoid hybrid form)  

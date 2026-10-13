@@ -73,6 +73,7 @@ description: >-
   premier diplomats, preferring to expand through alliance, marriage, and
   economic integration rather than brute force
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Major Galactic Power
@@ -161,7 +162,7 @@ negative_keywords: >-
   * Tactics (+3): Large scale warfare.  
   * Ride/Pilot (+3): Mounting beasts or mecha.  
 * **Typical Archetypes:** The Protector, The Veteran, The Legionnaire, The High Commander, The Armorer, The Silent Blade, The Swashbuckler, The Aristocrat, The Priest, The Socialite, The Magus, The Architect.  
-* **Recommended Features (1 BP Discount):**  
+* **Recommended Features (1 CP Discount):**  
   * Benefit (Status), Combat Specialist, Great Fortitude, Iron Will, Power Attack, Channel Smite, Animal Affinity, Born Leader, Empowered Strike, Tough, Weapon Specialization, Inspiring Personality.
 
 ### **VI. Visual Synthesis Protocols (Aesthetics)**

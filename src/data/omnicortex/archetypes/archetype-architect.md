@@ -29,17 +29,19 @@ tactical_role: 'Designing bases, identifying structural weaknesses, overseeing c
 quote: '"Form follows function, but strength is non-negotiable."'
 description: Skilled in the design and upkeep of infrastructure.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'architect, savant, rational, intellect, strategist, builder, support'
 negative_keywords: 'mindless-brute, reckless, illiterate'
+cp_chassis: 80
 ---
 
 # The Architect
 
 **Sphere**: Savants (The Rationals)  
 **Core Concept**: Builder / Support / Utility  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
 **Secondary Attribute**: Wisdom  
 

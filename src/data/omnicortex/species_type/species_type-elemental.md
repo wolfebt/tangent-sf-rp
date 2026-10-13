@@ -5,6 +5,7 @@ category: species_type
 bp: 13
 cp: 13
 costs:
+  cp: 13
   bp: 13
 senses: 'Darkvision out to 60 feet. [1]'
 immunities: 'Poison, sleep, paralysis, stunning, flanking [6]'

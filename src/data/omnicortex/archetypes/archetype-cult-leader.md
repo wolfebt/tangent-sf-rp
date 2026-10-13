@@ -32,17 +32,19 @@ description: >-
   A charismatic leader who inspires and guides followers, delivering divine
   pronouncements.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'cult leader, visionary, idealist, leadership, charisma, leader, buffer'
 negative_keywords: 'anti-social, mute, solitary-hermit'
+cp_chassis: 80
 ---
 
 # The Cult Leader
 
 **Sphere**: Visionaries (The Idealists)  
 **Core Concept**: Leader / Buffer / Minion Master  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Charisma  
 **Secondary Attribute**: Wisdom  
 

@@ -12,7 +12,9 @@ bp: 2
 description: >-
   Increases base Ground locomotion speed by +10 feet (Additive). Mutually
   exclusive with other ground speed adjusters.
+cp: 2
 costs:
+  cp: 2
   bp: 2
 modifiers: []
 ---
@@ -21,7 +23,7 @@ modifiers: []
 **Category**: Species Movement (MODIFIER)  
 **Classification**: modifier  
 **Target Mode**: Ground  
-**Cost**: +2 BP  
+**Cost**: +2 CP  
 **Speed Modifier**: +10 ft (Additive)  
 
 ## Description

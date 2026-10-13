@@ -22,6 +22,7 @@ synergy_links:
   - mental-tactics
   - mental-weaponsmith
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'heavy weapons, combat, strength, tactical, offensive, defense'

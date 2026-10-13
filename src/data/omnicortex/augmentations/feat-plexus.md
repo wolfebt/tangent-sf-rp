@@ -9,6 +9,7 @@ description: Socket for 4 Feature Circuits.
 stigma: None
 type: Esoteric
 costs:
+  cp: 0
   bp: 0
   credits: 10240
   nodes: 0
@@ -37,4 +38,4 @@ negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
 Category: **9\. TL5 Advanced Augmentations**
 
 **Effect:** Socket for 4 Feature Circuits.
-**BP:** 4
+**CP:** 4

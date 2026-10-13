@@ -13,6 +13,7 @@ mechanic: >-
   Runs Expert Software (Medicine). Grants +2 Aid Bonus to a character making a
   Medicine check.
 costs:
+  cp: 0
   bp: 0
   credits: 640
   nodes: 0

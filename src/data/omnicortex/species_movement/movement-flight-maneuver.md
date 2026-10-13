@@ -12,7 +12,9 @@ bp: 1
 description: >-
   Flight maneuverability improves by 1 step (Clumsy > Poor > Average > Good >
   Perfect). Ranked.
+cp: 1
 costs:
+  cp: 1
   bp: 1
 modifiers: []
 ---
@@ -21,7 +23,7 @@ modifiers: []
 **Category**: Species Movement (MODIFIER)  
 **Classification**: modifier  
 **Target Mode**: Flying  
-**Cost**: +1 BP  
+**Cost**: +1 CP  
 **Speed Modifier**: 0 ft (Additive)  
 
 ## Description

@@ -21,6 +21,7 @@ synergy_links:
   - physical-athletics
   - mental-survival
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'endurance, physical, stamina, mobility, athletics, bodily-coordination'

@@ -5,6 +5,7 @@ type: Chemical
 description: Degrades armor Structure Points and inflicts lingering damage over time.
 category: effect
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -14,6 +14,7 @@ propulsion: Grav-Plate (Silent)
 description: Floating armored command disk keeping overseers elevated above the fray.
 mechanic: Silent anti-gravity platform with tactical shield and comms array.
 costs:
+  cp: 0
   bp: 0
   credits: 640
   nodes: 0

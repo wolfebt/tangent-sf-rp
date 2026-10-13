@@ -30,17 +30,19 @@ tactical_role: 'Installing/repairing cybernetics, hacking enemy augments, buffin
 quote: '"Flesh is weak. Steel is strong. I provide the upgrade."'
 description: 'Specialist in creating, repairing, and modifying cybernetic enhancements.'
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'cyberneticist, savant, rational, intellect, strategist, healer, crafter'
 negative_keywords: 'mindless-brute, reckless, illiterate'
+cp_chassis: 80
 ---
 
 # The Cyberneticist
 
 **Sphere**: Savants (The Rationals)  
 **Core Concept**: Healer / Crafter / Buffer  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
 **Secondary Attribute**: Technology  
 

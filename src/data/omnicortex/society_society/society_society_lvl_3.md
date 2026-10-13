@@ -8,6 +8,7 @@ description: >-
   Level 3 development in Structure & Governance: Government models, legal
   systems, social stratification, and caste frameworks. (Advanced / Stellar).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

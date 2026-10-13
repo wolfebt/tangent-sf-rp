@@ -68,6 +68,7 @@ description: >-
   anarchy to strict micro-tyrannies. They are the engine of raw resources and
   home of true grit
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Major Galactic Power
@@ -156,7 +157,7 @@ negative_keywords: >-
   * Combat (1 or 2 Skills) (+3)  
   * Stealth (+2)  
 * **Typical Archetypes:** The Field Medic, The Veteran, The Foreman, The Homesteader, The Quartermaster, The Vagabond, The Manhunter, The Grifter, The Pioneer, The Raider, The Smuggler, The Salvage-Specialist.  
-* **Recommended Features (1 BP Discount):**  
+* **Recommended Features (1 CP Discount):**  
   * Beginner's Luck, Jack-of-all-trades, Self Sufficient, Spacer, Master Craftsman, Gearhead, Endurance, Climber, Danger Sense, Gifted Pilot, Runner, Weapon Improvisation.
 
 ### **VI. Visual Synthesis Protocols (Aesthetics)**

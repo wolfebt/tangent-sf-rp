@@ -23,6 +23,7 @@ mechanic: >-
   SP: 11,250. DR: 18 (Heat Shielding). Modules: 200. Smelting Floor (100),
   Fabrication (50), Docking (20), Power (20), Cooling (10).
 costs:
+  cp: 0
   bp: 0
   credits: 167772160
   nodes: 0

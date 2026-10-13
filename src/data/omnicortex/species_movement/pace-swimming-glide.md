@@ -9,7 +9,9 @@ multiplier: 2
 speed: 60
 bp: 0
 description: Hurried swim stroke (2x Swim) with -2 penalty to stealth.
+cp: 0
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -18,7 +20,7 @@ modifiers: []
 **Category**: Species Movement (STAGE)  
 **Classification**: stage  
 **Target Mode**: Swimming  
-**Cost**: +0 BP  
+**Cost**: +0 CP  
 
 ## Description
 Hurried swim stroke (2x Swim) with -2 penalty to stealth.

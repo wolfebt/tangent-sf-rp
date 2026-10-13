@@ -15,7 +15,9 @@ speeds: 'Ground 30 ft, Climb 30 ft'
 reach: 3 ft
 senses: 'Low-light vision. [1]'
 immunities: None
-inherent_attribute_modifiers: []
+inherent_attribute_modifiers:
+  - attribute: Agility
+    bonus: 1
 bonus_attribute_points: 1
 specific_skill_bonuses:
   - skill: Survival
@@ -45,7 +47,8 @@ tech_level: 1 (Bone & Root Tools)
 meta_level: 3 (Symbiotic Totemism)
 homeworld: Untamed Wildlands
 costs:
-  bp: 14
+  cp: 23
+  bp: 23
 modifiers:
   - target: Strength
     value: -2
@@ -59,23 +62,19 @@ modifiers:
     value: 4
     type: skill
     mode: size_modifier
-cp_cost: 14
-cp: 14
-bp: 14
+cp_cost: 23
+cp: 23
+bp: 23
 description: >-
   Wildlings are feral offshoots of the Koban fey lineage who live in communion
   with apex predators, shifting effortlessly into diverse mammalian forms to
   hunt and forage.
 traits:
-  - trait-ageless
-  - trait-alter-form-adv
-  - trait-alter-form-animal
-  - trait-alternate-form
-  - trait-animal-affinity
   - trait-asi-base-traits
-  - trait-awakened-nature
+  - trait-fey-affinity
   - trait-climber
-  - trait-immortal
+  - trait-alter-form-adv
+  - trait-awakened-nature
 recommended_factions:
   - Vajar Tribes
   - Environmental Faction Template
@@ -89,13 +88,19 @@ recommended_occupations:
   - Drifter
 keywords: 'totem-shifter, apex-predator, feral, pack-bond, wilderness, primal-instinct'
 negative_keywords: 'urban-court, high-technology, starship-bridge, academic-formal'
+species_traits:
+  - trait-asi-base-traits
+  - trait-fey-affinity
+  - trait-climber
+  - trait-alter-form-adv
+  - trait-awakened-nature
 ---
 
 # Wildling (Koban Lineage)
 
 *
 
-**BP Cost:**   
+**CP Cost:** 23 CP  
 **Description:** In their true form, the Koban are diminutive, leporid (rabbit-like) fey creatures standing approximately 0.7 meters tall. They possess soft, dense fur—typically in white with black accents—large, expressive eyes that shimmer with innate magic, and long, sensitive ears capable of independent rotation. They have a long, prehensile tail that aids in balance and manipulation.
 
 Unlike the chaotic nature of some Fey, Koban are often calm and observant. However, they possess a powerful, innate defense mechanism: the ability to assume the form of a specific Medium-sized humanoid. This "Guise" is unique to each Koban and acts as their interface with the larger galaxy, allowing them to travel, trade, and negotiate without being dismissed as mere animals.
@@ -141,7 +146,7 @@ Quick
 
 ## **WILDLING \***
 
-**BP Cost:**   
+**CP Cost:**   
 **Description:** While closely related to the true Koban, this lesser-known faction exhibits distinct variations, particularly in their transformation abilities. They are not merely mimics but a parallel evolution, sharing a core Fey lineage. Their natural Fey form shares the earthy and muted palette of the forest floor, featuring mottled coats of fawn, rich cream, or deep russet, allowing them to blend seamlessly with the woodlands.
 
 The most notable difference, however, lies in their ability to shape-shift. Where the Koban transition into a lithe, graceful humanoid form, these beings take on a natural animal guise. This shift is not merely a superficial change but a deep, spiritual integration with the chosen creature's essence. This grants them the physical prowess, instincts, and sensory perception of the animal they embody—be it the swift silence of a fox, the keen sight of an owl, or the grounded strength of a deer.
@@ -187,7 +192,7 @@ Quick
 
 # 
 
-**BP Cost:**   
+**CP Cost:**   
 **Description:** The Sigals are an extraordinary race known as the Crystal Fae. Their physical form is not organic in the traditional sense but is a floating stone, typically ranging from six to twelve inches in size, which resembles large, exquisite, and exotic gems. These "stones" vary greatly, mirroring the diverse spectrum of real-world gemstones—from the deep violet of amethyst to the fiery brilliance of opal or the cool blue of sapphire. This unique crystalline body allows them to hover effortlessly, granting them a serene and almost otherworldly presence. Though they possess no discernible limbs, their innate magical abilities allow them to interact with their environment with precision and grace.
 
 Sigals are highly accomplished adepts, demonstrating a profound natural talent and mastery in two distinct yet complementary schools of magic: Force Magic allows them to manipulate kinetic energy, create protective barriers, exert telekinetic pressure, and project invisible yet potent concussive blasts. This is their primary mode of defense and environmental interaction. Shadow Magic is used for subterfuge, concealment, and accessing hidden knowledge. They can weave minor illusions, manipulate ambient darkness for camouflage, and perceive the subtle shifts of unseen energies, giving them an advantage in observation and research.  

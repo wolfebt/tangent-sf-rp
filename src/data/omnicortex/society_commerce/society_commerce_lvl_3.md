@@ -8,6 +8,7 @@ description: >-
   Level 3 development in Commerce & Economy: Economic models, banking networks,
   trade routes, currency, and resource exchange. (Advanced / Stellar).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

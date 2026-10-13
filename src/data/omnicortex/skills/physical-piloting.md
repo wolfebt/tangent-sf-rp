@@ -22,6 +22,7 @@ synergy_links:
   - mental-mechanic
   - mental-engineer
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'piloting, physical, agility, mobility, athletics, bodily-coordination'

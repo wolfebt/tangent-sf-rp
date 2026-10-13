@@ -9,6 +9,7 @@ weight: 0.5
 description: Nutrient-dense synthetic ration blocks sustaining an operative for 1 day.
 mechanic: Restores Supply Die for 1 day of survival.
 costs:
+  cp: 0
   bp: 0
   credits: 10
   nodes: 0

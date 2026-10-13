@@ -34,17 +34,19 @@ description: >-
   The gunslinger of the future, whose survival depends on being the first to
   fire in any confrontation.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'quick-draw, operative, artisan, adaptable, specialist, burst dps, initiative'
 negative_keywords: 'incompetent, untrained, undisciplined'
+cp_chassis: 80
 ---
 
 # The Quick-draw
 
 **Sphere**: Operatives (The Artisans)  
 **Core Concept**: Burst DPS / Initiative / Reflex  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Agility  
 **Secondary Attribute**: Perception  
 

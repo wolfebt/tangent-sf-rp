@@ -11,7 +11,9 @@ bp: 2
 description: >-
   Increases the Size category multiplier by +1 for Flying Speed and load
   capacity.
+cp: 2
 costs:
+  cp: 2
   bp: 2
 modifiers: []
 ---
@@ -20,7 +22,7 @@ modifiers: []
 **Category**: Species Movement (MODIFIER)  
 **Classification**: modifier  
 **Target Mode**: Flying  
-**Cost**: +2 BP  
+**Cost**: +2 CP  
 **Speed Modifier**: 0 ft (Additive)  
 
 ## Description

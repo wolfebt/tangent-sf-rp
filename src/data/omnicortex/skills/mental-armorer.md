@@ -22,6 +22,7 @@ synergy_links:
   - mental-mechanic
   - combat-defense
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'armorer, mental, intellect, cognitive, expertise, fabricating'

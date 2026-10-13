@@ -9,6 +9,7 @@ description: Mount 2 extra cyber arms under main (Heavy).
 stigma: None
 type: Cybernetic Armor
 costs:
+  cp: 0
   bp: 0
   credits: 10240
   nodes: 0

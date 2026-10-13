@@ -13,6 +13,7 @@ mechanic: >-
   Provides full life support and atmospheric seal against hostile biospheres for
   4 occupants.
 costs:
+  cp: 0
   bp: 0
   credits: 640
   nodes: 0

@@ -11,18 +11,20 @@ description: >-
   Perfect Two-Weapon Fighting is a Combat Feature: Gain a fourth off-hand
   attack.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   perfect two-weapon fighting, combat, special-feature, combat-maneuver,
   tactical-edge, perfect
 negative_keywords: 'pacifist, feeble, untrained-civilian'
+cost_cp: 3
 ---
 
 # Perfect Two-Weapon Fighting
 
 **Category**: Combat Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Agi 5, Skill 16
 
 ## Description

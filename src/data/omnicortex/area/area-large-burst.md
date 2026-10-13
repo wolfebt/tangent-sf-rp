@@ -5,6 +5,7 @@ dcMod: 10
 description: Massive battlefield detonation blanketing an entire district or facility wing.
 category: area
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

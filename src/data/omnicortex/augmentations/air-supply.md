@@ -9,6 +9,7 @@ description: Internal compressed air; 60 mins of Oxygen.
 stigma: None
 type: Cybernetic Armor
 costs:
+  cp: 0
   bp: 0
   credits: 640
   nodes: 0

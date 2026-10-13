@@ -25,6 +25,7 @@ description: >-
   environments (vacuum, radiation, toxic atmosphere).
 mechanic: 'Full Environmental (Immune to gas/vacuum, 24hr Life Support). DR 15, SP 40.'
 costs:
+  cp: 0
   bp: 0
   credits: 1470
   nodes: 0

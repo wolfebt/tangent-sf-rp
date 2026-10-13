@@ -24,6 +24,7 @@ mechanic: >-
   (10,000 Coffin + 5,000 Family), Hydroponics, Law Enforcement, Mag-lev transit,
   Commercial concourse.
 costs:
+  cp: 0
   bp: 0
   credits: 42949672960
   nodes: 0

@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","1.06 occupations","mechanics"]
-updatedAt: "2026-10-09T05:34:39.882Z"
+updatedAt: "2026-10-13T04:09:27.791Z"
 costs:
   bp: 0
   credits: 0
@@ -39,7 +39,7 @@ sockets:
 
 **Occupations in Tangent represent a character's training, job, or place in society.**&nbsp;
 
-**Characters gain *20 POINTS TO SKILLS* listed under their chosen Occupation. Each Occupation also has *RECOMMENDED FEATURES*, which cost 1 less Build Point (BP) if selected. Players *CHOOSE TWO TRAITS* from their Occupation, reflecting their background and granting special benefits. Additional traits can be purchased for 1 BP each, either during character creation or as an experience reward. The Background Trait allows characters to select training from a different Occupation, gaining one trait but no additional Skill Points or Recommended Features from that Occupation. This enables multi-skilled characters with diverse backgrounds.**
+**Characters gain *20 POINTS TO SKILLS* listed under their chosen Occupation. Each Occupation also has *RECOMMENDED FEATURES*, which cost 1 less Character Point (CP) if selected. Players *CHOOSE TWO TRAITS* from their Occupation, reflecting their background and granting special benefits. Additional traits can be purchased for 1 CP each, either during character creation or as an experience reward. The Background Trait allows characters to select training from a different Occupation, gaining one trait but no additional Skill Points or Recommended Features from that Occupation. This enables multi-skilled characters with diverse backgrounds.**
 
 &nbsp;
 
@@ -91,10 +91,10 @@ Occupations represent a character’s formal training, professional history, and
     * *Recommended Creation limit:* It is highly recommended that starting skills do not exceed Rank 6 (Trained/Professional) to ensure a balanced, versatile character sheet. A player may only raise a skill up to Rank 11 if dedication to a single, specialized discipline is a core pillar of the character's backstory and concept.  
     * *Cost Note:* 1 SP = 1 Skill Rank.
 
-2.  **Recommended Features (The Discount):** Each Occupation lists specific Recommended Features. When purchasing these features during character creation or progression, their cost is reduced by 1 BP (standard cost is 3 BP; Recommended Features cost 2 BP).
+2.  **Recommended Features (The Discount):** Each Occupation lists specific Recommended Features. When purchasing these features during character creation or progression, their cost is reduced by 1 CP (standard cost is 3 CP; Recommended Features cost 2 CP).
 
 3.  **Occupational Traits:** Players choose exactly two Traits from their Occupation’s trait list.  
-    * *Additional Traits:* Characters may purchase additional traits from their own Occupation’s list for 2 BP each.
+    * *Additional Traits:* Characters may purchase additional traits from their own Occupation’s list for 1 CP each.
 
 4.  **Base Wealth Score (WS):** Each Occupation anchors the character's baseline financial standing and purchasing power according to the Tangent Economic Unified Field Theory (EUFT):
     * **Representative:** Base WS 6 (Apex political/diplomatic standing)

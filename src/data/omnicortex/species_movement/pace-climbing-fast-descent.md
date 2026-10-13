@@ -9,7 +9,9 @@ multiplier: 4
 speed: 120
 bp: 0
 description: Rapid controlled vertical slide or abseil descent (4x Walk).
+cp: 0
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -18,7 +20,7 @@ modifiers: []
 **Category**: Species Movement (STAGE)  
 **Classification**: stage  
 **Target Mode**: Climbing  
-**Cost**: +0 BP  
+**Cost**: +0 CP  
 
 ## Description
 Rapid controlled vertical slide or abseil descent (4x Walk).

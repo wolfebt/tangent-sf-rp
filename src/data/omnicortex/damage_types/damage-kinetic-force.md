@@ -6,6 +6,7 @@ description: >-
   Kinetic subtype consisting of focused gravitic, telekinetic, or concussive
   mass fields that ignores 1/2 of Target Armor DR.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -4,6 +4,7 @@ name: Standard
 description: Standard commercial equipment available across all major ports and trade hubs.
 category: availability
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

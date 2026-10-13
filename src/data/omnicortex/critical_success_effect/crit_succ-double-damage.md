@@ -4,6 +4,7 @@ name: Double Base Damage
 description: All base weapon damage dice are doubled before applying bonuses.
 category: critical_success_effect
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

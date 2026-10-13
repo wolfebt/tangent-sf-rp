@@ -4,6 +4,7 @@ name: Scatter / Wide Spread
 description: Toggles muzzle choke to hit all targets in a 10ft frontal cone.
 category: mode
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

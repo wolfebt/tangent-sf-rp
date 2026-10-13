@@ -8,6 +8,7 @@ description: >-
   Level 4 development in Synthetics & AI Rights: Artificial intelligence,
   android rights, synthetic biology, and cybernetics. (Mastered / Interstellar).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -23,6 +23,7 @@ mechanic: >-
   SP: 5,000. DR: 12. Modules: 100. Drilling Rig (40), Mineral Processing (30),
   Material Elevators (10), Power Plant (20).
 costs:
+  cp: 0
   bp: 0
   credits: 163840
   nodes: 0

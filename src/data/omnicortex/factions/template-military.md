@@ -54,6 +54,7 @@ description: >-
   dedicated entirely to defense, conquest, and the enforcement of order. Unlike
   mercenaries, they fight for a flag, a cause, or a government
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Faction Template
@@ -118,7 +119,7 @@ negative_keywords: 'insubordination, mutinous, undisciplined-militia, pacifism, 
   * Athletics (+3)  
   * Intimidate (+3)  
 * **Typical Archetypes:** The Officer, The Special Forces Operative, The Artillery Specialist, The Combat Pilot, The Drill Instructor.  
-* **Recommended Features (1 BP Discount):** Combat Expertise, Coordinated Assist, Iron Will, Defensive Combat Training, Weapon Specialization, Enduring, Tough, Benefit (Status), Master Plan, Skill Focus (Tactics).
+* **Recommended Features (1 CP Discount):** Combat Expertise, Coordinated Assist, Iron Will, Defensive Combat Training, Weapon Specialization, Enduring, Tough, Benefit (Status), Master Plan, Skill Focus (Tactics).
 
 ### **VI. Visual Semiotics (Aesthetics)**
 

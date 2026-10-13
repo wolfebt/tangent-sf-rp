@@ -11,16 +11,18 @@ description: >-
   The character has studied a specific type of creature extensively, knowing
   their anatomy, tactics, and psychology.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'favored enemy, general, special-feature, studied, specific, creature'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Favored Enemy
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Awareness 1
 
 ## Description

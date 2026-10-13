@@ -17,6 +17,8 @@ export const DEFAULT_ORIGINS = [
     "name": "Agricultural",
     "category": "origins",
     "habitat": "Planetary Biome",
+    "ws_modifier": 0,
+    "economic_context": "Agri-world baseline; high food volume with stable agrarian commodity prices.",
     "skill_points": 20,
     "society_skills": [
       "Piloting",
@@ -164,6 +166,8 @@ export const DEFAULT_ORIGINS = [
     "name": "Aquatic",
     "category": "origins",
     "habitat": "Aquatic & Oceanic",
+    "ws_modifier": 1,
+    "economic_context": "Specialized oceanic biosphere; pharmaceutical & hydrogen export dividends.",
     "skill_points": 20,
     "society_skills": [
       "Athletics",
@@ -309,6 +313,8 @@ export const DEFAULT_ORIGINS = [
     "name": "Colony",
     "category": "origins",
     "habitat": "Frontier Outpost",
+    "ws_modifier": 0,
+    "economic_context": "Developing frontier settlement; self-reliant barter and pioneer infrastructure.",
     "skill_points": 20,
     "society_skills": [
       "Piloting",
@@ -466,6 +472,8 @@ export const DEFAULT_ORIGINS = [
     "name": "Enlightened",
     "category": "origins",
     "habitat": "Sanctuary & Arcane",
+    "ws_modifier": 2,
+    "economic_context": "Cultural / academic enclaves; robust institutional stipends & archives.",
     "skill_points": 20,
     "society_skills": [
       "Alertness",
@@ -616,6 +624,8 @@ export const DEFAULT_ORIGINS = [
     "name": "Hostile",
     "category": "origins",
     "habitat": "Death World & Extreme",
+    "ws_modifier": 0,
+    "economic_context": "Extreme survival environment; resource-strained frontier economy.",
     "skill_points": 20,
     "society_skills": [
       "Athletics",
@@ -764,6 +774,8 @@ export const DEFAULT_ORIGINS = [
     "name": "Industrial",
     "category": "origins",
     "habitat": "Industrial Heavy",
+    "ws_modifier": 2,
+    "economic_context": "Manufacturing powerhouses; high demand for specialized technical labor.",
     "skill_points": 20,
     "society_skills": [
       "Knowledge (Technology)",
@@ -920,6 +932,8 @@ export const DEFAULT_ORIGINS = [
     "name": "Leisure",
     "category": "origins",
     "habitat": "Resort & Paradise",
+    "ws_modifier": 3,
+    "economic_context": "Resort / luxury worlds; high disposable capital, service wealth & tourism.",
     "skill_points": 20,
     "society_skills": [
       "Vocation (Any)",
@@ -1076,6 +1090,8 @@ export const DEFAULT_ORIGINS = [
     "name": "Militaristic",
     "category": "origins",
     "habitat": "Military Stronghold",
+    "ws_modifier": 0,
+    "economic_context": "Garrison or fortress world; strictly controlled military logistics and stipends.",
     "skill_points": 20,
     "society_skills": [
       "Combat (Any)",
@@ -1233,6 +1249,8 @@ export const DEFAULT_ORIGINS = [
     "name": "Research",
     "category": "origins",
     "habitat": "Science & Laboratory",
+    "ws_modifier": 2,
+    "economic_context": "High-tech laboratories & testing worlds; lucrative corporate research grants.",
     "skill_points": 20,
     "society_skills": [
       "Mental (Any)",
@@ -1390,6 +1408,8 @@ export const DEFAULT_ORIGINS = [
     "name": "Spacer",
     "category": "origins",
     "habitat": "Deep Void & Station",
+    "ws_modifier": 1,
+    "economic_context": "Orbital station or asteroid habitat; independent merchant trade exposure.",
     "skill_points": 20,
     "society_skills": [
       "Piloting",
@@ -1536,6 +1556,8 @@ export const DEFAULT_ORIGINS = [
     "name": "Urban",
     "category": "origins",
     "habitat": "Sprawl & Arcology",
+    "ws_modifier": 1,
+    "economic_context": "Metropolis or arcology hub; dense consumer markets & financial services.",
     "skill_points": 20,
     "society_skills": [
       "Streetwise",

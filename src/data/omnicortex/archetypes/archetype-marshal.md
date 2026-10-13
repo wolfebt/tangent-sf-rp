@@ -31,17 +31,19 @@ description: >-
   A law enforcement officer who maintains order and protects settlements in the
   lawless territories.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'marshal, sentinel, defender, stability, order, social, combat'
 negative_keywords: 'chaotic-anarchist, unreliable, reckless-gambler'
+cp_chassis: 80
 ---
 
 # The Marshal
 
 **Sphere**: Sentinels (The Stabilizers)  
 **Core Concept**: Social / Combat / Crowd Control  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Charisma  
 **Secondary Attribute**: Wisdom  
 

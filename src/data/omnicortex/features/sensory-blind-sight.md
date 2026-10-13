@@ -6,21 +6,24 @@ feature_category: Sensory
 cost_bp: 2
 is_ranked: false
 is_multiple: false
-prerequisites: 'Non-Visual Sensory Organs'
+prerequisites: Non-Visual Sensory Organs
 description: >-
-  Accurately perceive and target unseen objects and creatures in a 30 ft radius or 60 ft cone
-  without the use of eyes, immune to visual concealment and darkness.
+  Accurately perceive and target unseen objects and creatures in a 30 ft radius
+  or 60 ft cone without the use of eyes, immune to visual concealment and
+  darkness.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
 keywords: 'blindsight, blind-sight, non-visual, targeting, acoustic, tremorsense, sensory'
 negative_keywords: 'blind, sight-dependent, visually-confused'
+cost_cp: 2
 ---
 
 # Blind Sight
 
 **Category**: Sensory Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisites**: Non-Visual Sensory Organs  
 
 ## Description

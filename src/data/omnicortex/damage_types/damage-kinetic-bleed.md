@@ -6,6 +6,7 @@ description: >-
   Ongoing trauma caused by slashing and piercing wounds. Inflicts 1d4 damage at
   start of turn, ignoring Armor/DR until cured.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

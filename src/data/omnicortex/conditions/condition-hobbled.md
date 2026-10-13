@@ -4,6 +4,7 @@ name: Hobbled
 category: conditions
 description: Leg injury reducing base movement speed by 50%.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

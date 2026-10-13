@@ -6,6 +6,7 @@ summary: >-
   Rules and guidelines for swapping a skill's governing Ability Score with GM
   approval.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

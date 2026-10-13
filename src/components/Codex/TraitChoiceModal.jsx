@@ -126,7 +126,8 @@ export const TraitChoiceModal = ({
       base_name: trait.name,
       choice: maxSelections === 1 ? finalChoices[0] : finalChoices,
       choiceLabel,
-      bp: trait.bp || 1,
+      cp: trait.cp || trait.bp || 1,
+      bp: trait.bp || trait.cp || 1,
       tier: trait.tier || 'basic',
       classification: trait.classification || 'Trait',
       description: trait.description,
@@ -168,7 +169,7 @@ export const TraitChoiceModal = ({
                   {config.title || `Configure ${trait.name}`}
                 </h3>
                 <span className="text-[10px] px-2 py-0.5 rounded font-bold uppercase bg-purple-500/20 text-purple-300 border border-purple-500/40">
-                  {trait.bp || 1} CP
+                  {trait.cp || trait.bp || 1} CP
                 </span>
                 <span className="text-[10px] px-2 py-0.5 rounded font-bold uppercase bg-slate-800 text-slate-300">
                   {trait.tier || 'Basic'}
@@ -400,7 +401,7 @@ export const TraitChoiceModal = ({
               }`}
             >
               <Check size={14} />
-              <span>Confirm & Equip Trait ({trait.bp || 1} CP)</span>
+              <span>Confirm & Equip Trait ({trait.cp || trait.bp || 1} CP)</span>
             </button>
           </div>
         </div>

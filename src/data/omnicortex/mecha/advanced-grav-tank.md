@@ -18,6 +18,7 @@ mechanic: >-
   Particle Beam Cannon (5d10), High Mobility Strafing, Active Energy Shields (DR
   45).
 costs:
+  cp: 0
   bp: 0
   credits: 163840
   nodes: 0

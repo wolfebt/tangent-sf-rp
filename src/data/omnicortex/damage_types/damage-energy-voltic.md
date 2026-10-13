@@ -6,6 +6,7 @@ description: >-
   High-voltage electrical arcs that stun biological nervous systems and overload
   electronic circuitry, cyberware, and robotics.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

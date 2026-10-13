@@ -8,19 +8,21 @@ is_ranked: false
 is_multiple: false
 prerequisites: Robust Physiology or Inexhaustible Stamina
 description: >-
-  Metabolic efficiency and lactic acid recycling grant Advantage on all Fatigue checks
-  and double the duration between required endurance checks.
+  Metabolic efficiency and lactic acid recycling grant Advantage on all Fatigue
+  checks and double the duration between required endurance checks.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
 keywords: 'fatigue-resistance, stamina, endurance, advantage, builder, infantry, murex'
 negative_keywords: 'exhausted, frail, low-stamina'
+cost_cp: 2
 ---
 
 # Fatigue Resistance
 
 **Category**: Physical Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisites**: Robust Physiology or Inexhaustible Stamina  
 
 ## Description

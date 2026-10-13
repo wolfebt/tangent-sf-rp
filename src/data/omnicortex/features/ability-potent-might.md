@@ -12,18 +12,20 @@ description: >-
   impact. Whether forcing open a blast door or holding back a crushing weight,
   they are far more effective than their muscle mass alone suggests.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   potent might, ability, special-feature, innate-talent, passive-prowess,
   strength
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Potent Might
 
 **Category**: Ability Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Strength 1
 
 ## Description

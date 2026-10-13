@@ -4,6 +4,7 @@ name: Power Cell Depleted
 description: 'Battery or capacitor burns out instantly, requiring a fresh reload.'
 category: critical_failure_effect
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

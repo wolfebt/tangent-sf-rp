@@ -21,6 +21,7 @@ description: >-
   weapon racks.
 mechanic: Secure storage holding 50 Slots of gear. Security Grade 3 locks.
 costs:
+  cp: 0
   bp: 0
   credits: 2000
   nodes: 0

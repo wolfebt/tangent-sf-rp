@@ -1,9 +1,13 @@
 ---
 id: rule-rest-recovery
-name: Rest, Recovery & Biological Cycles System
+name: 'Rest, Recovery & Biological Cycles System'
 category: rules
-description: Canonical Full Rest and Light Rest mechanics, species physiological adaptations (Synthetics, Fae, Insects, Alterians, Mondi), activity tiers, and strenuous interruption degradation.
+description: >-
+  Canonical Full Rest and Light Rest mechanics, species physiological
+  adaptations (Synthetics, Fae, Insects, Alterians, Mondi), activity tiers, and
+  strenuous interruption degradation.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

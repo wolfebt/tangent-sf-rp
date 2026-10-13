@@ -8,6 +8,7 @@ description: >-
   Solidifies superheated plasma into razor-sharp, durable melee weaponry and
   armor plating.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 discipline: Matter + Energy

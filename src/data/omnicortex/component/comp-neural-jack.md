@@ -4,6 +4,7 @@ name: Neural Interface Ghost-Jack
 description: Direct neural interface providing +2 to strike and weapon telemetry in HUD.
 category: component
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

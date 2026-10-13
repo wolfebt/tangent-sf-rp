@@ -6,6 +6,7 @@ description: >-
   Synthetic limbs take 50% more damage before Disabled/Destroyed than biological
   ones.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

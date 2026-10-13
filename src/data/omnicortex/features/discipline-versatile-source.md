@@ -12,18 +12,20 @@ description: >-
   different sources of power. A wizard might tap into divine faith, or a psychic
   might calculate ley-lines like a mathematician.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   versatile source, discipline, special-feature, focused-training, mastery,
   character's
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Versatile Source
 
 **Category**: Discipline Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Attune 6
 
 ## Description

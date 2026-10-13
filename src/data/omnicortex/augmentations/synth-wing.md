@@ -9,6 +9,7 @@ description: "**Modifier:** As Leg (Flight), +100% Cost, +5 DC.\r\n**Nodes:** 20
 stigma: None
 type: Cybernetic
 costs:
+  cp: 0
   bp: 0
   credits: 40960
   nodes: 0

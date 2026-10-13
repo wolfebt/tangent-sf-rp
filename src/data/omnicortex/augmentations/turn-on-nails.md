@@ -9,6 +9,7 @@ description: 'Nails that change color, length, or pattern.'
 stigma: None
 type: Fashionware
 costs:
+  cp: 0
   bp: 0
   credits: 160
   nodes: 0

@@ -5,6 +5,7 @@ trait_tier: Basic
 trait_type: Occupational Trait
 category: traits
 costs:
+  cp: 1
   bp: 1
 description: >-
   Adepts may have access to specialized equipment or tools that enhance their
@@ -17,7 +18,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Basic
 **Type**: Occupational Trait
-**BP Cost**: 1
+**CP Cost**: 1
 
 ## Description
 Adepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.

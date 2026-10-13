@@ -10,6 +10,7 @@ computer_pr: 0
 description: Entry-level processing unit capable of running basic software scripts.
 mechanic: PR 0. Can run standard automated operations scripts.
 costs:
+  cp: 0
   bp: 0
   credits: 160
   nodes: 0

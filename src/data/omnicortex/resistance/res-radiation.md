@@ -4,6 +4,7 @@ name: Radiation Shielding
 description: Dense lead and magnetic shielding protecting against cosmic rays and fallout.
 category: resistance
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

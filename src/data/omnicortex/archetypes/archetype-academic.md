@@ -32,17 +32,19 @@ description: >-
   Conducts research to further knowledge. Systematically gathers evidence and
   tests hypotheses.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'academic, savant, rational, intellect, strategist, intelligence, utility'
 negative_keywords: 'mindless-brute, reckless, illiterate'
+cp_chassis: 80
 ---
 
 # The Academic
 
 **Sphere**: Savants (The Rationals)  
 **Core Concept**: Intelligence / Utility / Crafter  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
 **Secondary Attribute**: Wisdom  
 

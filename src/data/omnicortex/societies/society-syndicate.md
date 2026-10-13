@@ -7,6 +7,7 @@ description: >-
   High-speed corporate meritocracy interconnected through the Mesh AR datagrid
   and transhuman enhancement.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -6,6 +6,7 @@ description: >-
   Evasive maneuvers, Jinking, Fixed vs Turrets, Armor Threshold, Infantry Called
   Shots (-5), Boarding, and Structure Breaching.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

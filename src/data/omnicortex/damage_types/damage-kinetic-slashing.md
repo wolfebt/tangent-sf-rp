@@ -6,6 +6,7 @@ description: >-
   Cutting and tearing targets, causing wide lacerations, severed limbs, and
   bleeding. Exploits gaps in heavier armor.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

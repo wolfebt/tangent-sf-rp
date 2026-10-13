@@ -8,6 +8,7 @@ description: >-
   Level 4 development in Medicine & Healthcare: Healthcare infrastructure,
   cellular regeneration, trauma care, and panaceas. (Mastered / Interstellar).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

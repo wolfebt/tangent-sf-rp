@@ -7,6 +7,7 @@ description: >-
   Fiercely independent frontier democracy with heavy industrial grit, boomtown
   taverns, and union solidarity.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

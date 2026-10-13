@@ -12,16 +12,18 @@ description: >-
   The character has friends in low (or high) places. They can call in favors for
   equipment, information, or safe houses.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'connected, general, special-feature, friends, places, favors'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Connected
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Charisma 1
 
 ## Description

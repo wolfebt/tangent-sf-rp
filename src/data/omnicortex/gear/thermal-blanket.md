@@ -9,6 +9,7 @@ weight: 0.2
 description: High-efficiency thermal retention foil reflecting 98% of radiated body heat.
 mechanic: Grants Advantage on Survival checks vs. Extreme Cold.
 costs:
+  cp: 0
   bp: 0
   credits: 20
   nodes: 0

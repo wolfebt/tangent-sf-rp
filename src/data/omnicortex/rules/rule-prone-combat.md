@@ -6,6 +6,7 @@ description: >-
   Opponents in melee/point blank gain High Ground bonus; ranged foes suffer -2
   defense per category after point blank; full cover on check.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

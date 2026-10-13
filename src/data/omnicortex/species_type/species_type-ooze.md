@@ -5,6 +5,7 @@ category: species_type
 bp: 6
 cp: 6
 costs:
+  cp: 6
   bp: 6
 senses: Blindsight 30ft
 immunities: 'Physical conditions and critical hits [3]'

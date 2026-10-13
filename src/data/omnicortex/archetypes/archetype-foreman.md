@@ -32,17 +32,19 @@ description: >-
   A stern and authoritative leader who oversees the workforce and ensures that
   production targets are met.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'foreman, sentinel, defender, stability, order, leadership, logistics'
 negative_keywords: 'chaotic-anarchist, unreliable, reckless-gambler, anti-social, mute'
+cp_chassis: 80
 ---
 
 # The Foreman
 
 **Sphere**: Sentinels (The Stabilizers)  
 **Core Concept**: Leadership / Logistics / Intimidation  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Charisma  
 **Secondary Attribute**: Constitution  
 

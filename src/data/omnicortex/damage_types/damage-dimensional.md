@@ -6,6 +6,7 @@ description: >-
   Tears reality itself, causing spatial displacement, banishment, or molecular
   shearing across dimensional planes.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

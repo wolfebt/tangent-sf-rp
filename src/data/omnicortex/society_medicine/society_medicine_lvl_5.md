@@ -8,6 +8,7 @@ description: >-
   Level 5 development in Medicine & Healthcare: Healthcare infrastructure,
   cellular regeneration, trauma care, and panaceas. (Transcendent / Deific).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

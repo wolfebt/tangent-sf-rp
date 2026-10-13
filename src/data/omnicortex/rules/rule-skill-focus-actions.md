@@ -6,6 +6,7 @@ description: >-
   Combat actions and Focus Strike bonuses unlocked per Skill Rank tier (Ranks
   0–30).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

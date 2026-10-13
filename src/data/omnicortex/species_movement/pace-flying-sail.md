@@ -9,7 +9,9 @@ multiplier: 2
 speed: 120
 bp: 0
 description: Hurried aerial cruise pace (2x Fly) with a -2 penalty to subtle actions.
+cp: 0
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -18,7 +20,7 @@ modifiers: []
 **Category**: Species Movement (STAGE)  
 **Classification**: stage  
 **Target Mode**: Flying  
-**Cost**: +0 BP  
+**Cost**: +0 CP  
 
 ## Description
 Hurried aerial cruise pace (2x Fly) with a -2 penalty to subtle actions.

@@ -30,17 +30,19 @@ tactical_role: 'Communicating with aliens, identifying xeno-threats, cultural na
 quote: '"They aren''t monsters. They''re just... different."'
 description: 'An expert in alien cultures, biology, and languages.'
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'xenologist, savant, rational, intellect, strategist, face, knowledge'
 negative_keywords: 'mindless-brute, reckless, illiterate'
+cp_chassis: 80
 ---
 
 # The Xenologist
 
 **Sphere**: Savants (The Rationals)  
 **Core Concept**: Face / Knowledge / Science  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
 **Secondary Attribute**: Charisma  
 

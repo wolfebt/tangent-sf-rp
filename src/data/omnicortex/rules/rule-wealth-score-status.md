@@ -2,8 +2,12 @@
 id: rule-wealth-score-status
 name: Character Wealth Score (WS) & Financial Status Hierarchy
 category: rules
-description: Starting wealth score determination formulas across Occupations, Origins, Factions, Tech Levels, and Vocation Skills, with the 12-tier financial status hierarchy, single-purchase auto-buy thresholds, and liquidity gaps.
+description: >-
+  Starting wealth score determination formulas across Occupations, Origins,
+  Factions, Tech Levels, and Vocation Skills, with the 12-tier financial status
+  hierarchy, single-purchase auto-buy thresholds, and liquidity gaps.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

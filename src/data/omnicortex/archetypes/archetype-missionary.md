@@ -32,17 +32,19 @@ tactical_role: >-
 quote: '"There is no place too dark for the light to reach."'
 description: A zealous preacher who travels the galaxy to spread their faith.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'missionary, visionary, idealist, leadership, charisma, face, healer'
 negative_keywords: 'anti-social, mute, solitary-hermit'
+cp_chassis: 80
 ---
 
 # The Missionary
 
 **Sphere**: Visionaries (The Idealists)  
 **Core Concept**: Face / Healer / Support  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Charisma  
 **Secondary Attribute**: Constitution  
 

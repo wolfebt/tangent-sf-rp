@@ -21,6 +21,7 @@ synergy_links:
   - combat-ballistic
   - mental-survival
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'soldier, mental, stamina, intellect, cognitive, expertise'

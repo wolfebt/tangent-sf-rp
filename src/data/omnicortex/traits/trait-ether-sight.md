@@ -5,6 +5,7 @@ trait_tier: Elite
 trait_type: Species Trait
 category: traits
 costs:
+  cp: 4
   bp: 4
 description: >-
   See the Invisible, Phased (other-dimensional energies) and Bioluminescence
@@ -16,7 +17,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Elite
 **Type**: Species Trait
-**BP Cost**: 4
+**CP Cost**: 4
 
 ## Description
 See the Invisible, Phased (other-dimensional energies) and Bioluminescence Auras.

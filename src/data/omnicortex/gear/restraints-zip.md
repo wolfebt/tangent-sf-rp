@@ -9,6 +9,7 @@ weight: 0.1
 description: High-tensile nylon locking ties for securing prisoners.
 mechanic: Single use. Requires Strength DC 20 to break.
 costs:
+  cp: 0
   bp: 0
   credits: 5
   nodes: 0

@@ -3,6 +3,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import { fileURLToPath } from 'url';
 import { DEFAULT_OCCUPATIONS } from '../src/data/occupationsData.js';
+import { OCCUPATION_WEALTH_BASE } from '../src/constants/equipment.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -48,6 +49,8 @@ function syncOccupations() {
       id,
       name: data.name || existing.name || id,
       category: 'occupations',
+      base_ws: data.base_ws !== undefined ? data.base_ws : (existing.base_ws !== undefined ? existing.base_ws : (OCCUPATION_WEALTH_BASE[data.name || existing.name] || 2)),
+      economic_context: data.economic_context || existing.economic_context || '',
       skill_points: data.skill_points !== undefined ? data.skill_points : (existing.skill_points !== undefined ? existing.skill_points : 20),
       professional_skills: Array.isArray(data.professional_skills) ? data.professional_skills : (existing.professional_skills || []),
       archetypes: Array.isArray(data.archetypes) ? data.archetypes : (existing.archetypes || []),
@@ -61,6 +64,7 @@ function syncOccupations() {
       keywords,
       negative_keywords: negativeKeywords,
       costs: existing.costs || {
+        cp: 0,
         bp: 0,
         credits: 0,
         nodes: 0,

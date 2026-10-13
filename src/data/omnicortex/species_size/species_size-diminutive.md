@@ -3,15 +3,16 @@ id: species_size-diminutive
 name: Diminutive
 category: species_size
 scaling: 0.3333
-scaling_display: "-3ds (1/3)"
+scaling_display: '-3ds (1/3)'
 strength_mod: -8
 combat_mod: 8
 stealth_mod: 12
-height_length_range: "< 1 ft"
-weight_range: "< 1 lb"
-reach: "1 ft"
-description: "Small avian or domestic animal size. High defense and stealth bonus."
+height_length_range: < 1 ft
+weight_range: < 1 lb
+reach: 1 ft
+description: Small avian or domestic animal size. High defense and stealth bonus.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

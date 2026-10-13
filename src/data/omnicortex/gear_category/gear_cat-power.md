@@ -6,6 +6,7 @@ description: >-
   generators.
 category: gear_category
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -21,6 +21,7 @@ synergy_links:
   - social-percussion
   - mental-music
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'keyboard, social, agility, interaction, diplomacy, influence'

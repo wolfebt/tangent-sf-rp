@@ -35,17 +35,19 @@ description: >-
   The high-level systems engineer who designs and manages the data
   infrastructures that link civilizations.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'net-architect, savant, rational, intellect, strategist, tech, logistics'
 negative_keywords: 'mindless-brute, reckless, illiterate'
+cp_chassis: 80
 ---
 
 # The Net-architect
 
 **Sphere**: Savants (The Rationals)  
 **Core Concept**: Tech / Logistics / Support  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
 **Secondary Attribute**: Agility  
 

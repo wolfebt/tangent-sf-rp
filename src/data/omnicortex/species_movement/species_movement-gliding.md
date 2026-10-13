@@ -34,7 +34,9 @@ description: >-
   - **Hover / Controlled Descent**: 1/2 Fly or less (30 ft or static).
   Stationary hover or slow descent enabling stable observation; Acrobatics check
   (CR 15+).
+cp: 1
 costs:
+  cp: 1
   bp: 1
 modifiers: []
 ---
@@ -43,7 +45,7 @@ modifiers: []
 **Category**: Species Movement (BASIC)  
 **Classification**: basic  
 **Target Mode**: Flying  
-**Cost**: +1 BP  
+**Cost**: +1 CP  
 **Base Speed**: 30 ft / round  
 
 ## Description

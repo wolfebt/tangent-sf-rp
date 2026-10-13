@@ -10,7 +10,9 @@ is_additive: true
 is_ranked: true
 bp: 1
 description: Increases base climbing speed by +10 feet (Additive). Ranked.
+cp: 1
 costs:
+  cp: 1
   bp: 1
 modifiers: []
 ---
@@ -19,7 +21,7 @@ modifiers: []
 **Category**: Species Movement (MODIFIER)  
 **Classification**: modifier  
 **Target Mode**: Climbing  
-**Cost**: +1 BP  
+**Cost**: +1 CP  
 **Speed Modifier**: +10 ft (Additive)  
 
 ## Description

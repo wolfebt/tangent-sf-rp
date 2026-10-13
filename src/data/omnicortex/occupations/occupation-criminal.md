@@ -43,6 +43,7 @@ description: >-
   honorable. Though others commit a myriad assortment of crimes on a regular
   basis, no one is as good at crime-for-profit as an actual Criminal.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 recommended_species:
@@ -77,13 +78,16 @@ negative_keywords: >-
   strict-law-enforcer, incorruptible-judge, transparent-accountability,
   paladin-virtue, naive-honesty, municipal-hall-bureaucrat, pacifist-monk,
   royal-chivalry
+base_ws: 4
+economic_context: Underworld liquidity & black-market fencing
 ---
 
 # Criminal Occupation
 
 **Category**: Occupations  
+**EUFT Base Wealth Score**: WS 4 (Underworld liquidity & black-market fencing)  
 **Starting Skill Points**: 20 SP (allocated to Professional Skills, max Rank 11, recommended Rank 6)  
-**Recommended Features**: Skill (1 BP Discount)  
+**Recommended Features**: Skill (1 CP Discount)  
 **Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)
 
 ## Description

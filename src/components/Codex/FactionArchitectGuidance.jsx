@@ -271,7 +271,7 @@ export const FactionArchitectGuidance = ({
           </span>
         </div>
         <p className="text-xs text-slate-400 leading-relaxed font-sans">
-          Define canonical demographic affinities, key planetary origins, typical professions, cultural skills, and discounted features (-1 BP) for members of this faction, along with AI guidance directives and railguards.
+          Define canonical demographic affinities, key planetary origins, typical professions, cultural skills, and discounted features (-1 CP) for members of this faction, along with AI guidance directives and railguards.
         </p>
       </div>
 
@@ -556,7 +556,7 @@ export const FactionArchitectGuidance = ({
                 <Zap size={13} className="text-violet-400" />
                 <span>Recommended Features</span>
                 <span className="text-[9px] px-1.5 py-0.2 rounded bg-violet-950 border border-violet-500/50 text-violet-300 font-mono">
-                  -1 BP Discount
+                  -1 CP Discount
                 </span>
               </span>
               {isEditMode && onOpenPicker && (

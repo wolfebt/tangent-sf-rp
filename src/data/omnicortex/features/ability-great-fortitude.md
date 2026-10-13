@@ -12,18 +12,20 @@ description: >-
   developed a profound resistance to physical ailments. Their body fights off
   toxins and trauma with exceptional efficiency.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   great fortitude, ability, special-feature, innate-talent, passive-prowess,
   through
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Great Fortitude
 
 **Category**: Ability Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Stamina 1
 
 ## Description

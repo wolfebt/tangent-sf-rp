@@ -2,8 +2,12 @@
 id: rule-economy-unified-field-theory
 name: Tangent Economic Unified Field Theory (EUFT) & Crafting Productivity Engine
 category: rules
-description: Mathematical equivalence between Crafting DC and Purchase DC, Tangent Standard Curve (TSC), 50% material costs, tool tier multipliers, and cooperative macro manufacturing.
+description: >-
+  Mathematical equivalence between Crafting DC and Purchase DC, Tangent Standard
+  Curve (TSC), 50% material costs, tool tier multipliers, and cooperative macro
+  manufacturing.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

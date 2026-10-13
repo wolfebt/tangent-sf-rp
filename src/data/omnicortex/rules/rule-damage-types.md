@@ -6,6 +6,7 @@ description: >-
   Master directory of all Kinetic, Energy, and Variative damage types across
   Archaic, Modern, Advanced Tech, and Metaphysical applications.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

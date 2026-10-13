@@ -6,6 +6,7 @@ distance: Multiverse / Aether
 description: Crosses dimensional rifts and connects between parallel reality planes.
 category: range
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

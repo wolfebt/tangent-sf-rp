@@ -144,7 +144,8 @@ for (const file of files) {
   const id = data.id || file.replace(/\.md$/, '');
   const name = data.name || data.title || id;
   const speed = typeof data.speed === 'number' ? data.speed : 30;
-  const bp = typeof data.costs?.bp === 'number' ? data.costs.bp : (typeof data.bp === 'number' ? data.bp : 0);
+  const cp = typeof data.costs?.cp === 'number' ? data.costs.cp : (typeof data.costs?.bp === 'number' ? data.costs.bp : (typeof data.cp === 'number' ? data.cp : (typeof data.bp === 'number' ? data.bp : 0)));
+  const bp = cp;
 
   const movObj = {
     id,
@@ -152,8 +153,9 @@ for (const file of files) {
     category: 'species_movement',
     type: data.type || 'Mode',
     speed,
+    cp,
     bp,
-    costs: data.costs || { bp, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0 },
+    costs: data.costs || { cp, bp, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0 },
     description: data.description || '',
     modifiers: Array.isArray(data.modifiers) ? data.modifiers : [],
     body

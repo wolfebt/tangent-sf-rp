@@ -6,6 +6,7 @@ synthesis_type: origin_scenery
 origin_id: origin-spacer
 faction_id: faction-alterian-enclave
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

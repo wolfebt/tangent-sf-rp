@@ -38,27 +38,27 @@ tech_level: 2 (Living Botanical Tools)
 meta_level: 4 (Verdant Metaphysics)
 homeworld: The Great Arboreal Bloom of Thorn-7
 costs:
-  bp: 24
+  cp: 30
+  bp: 30
 modifiers: []
-cp_cost: 24
-cp: 24
-bp: 24
+cp_cost: 30
+cp: 30
+bp: 30
 description: >-
   Sentient, ambulatory humanoid plant beings made of interwoven thorny briars,
   floral cores, and photosynthetic sap.
-traits:
-  - trait-adaptive-aspects
+traits: &ref_0
+  - trait-adaptive-features
   - trait-ageless
-  - trait-alter-form-root-vine-morph
+  - trait-alter-form-adv
   - trait-aquatic
-  - trait-atmosphere-variant-breathes-co2-toxics
+  - trait-adapted
   - trait-awakened-nature
-  - trait-chloroplast-energy-photosynthesis
-  - trait-fast-healing
+  - trait-chloroplast
+  - trait-fast-heal
   - trait-immortal
-  - trait-non-typical-anatomy-no-vital-organs
-  - trait-regeneration-3-hp-rnd
-  - trait-verdant-flesh-plant-entity
+  - trait-regeneration
+  - trait-autotroph
 recommended_factions:
   - Environmental Faction Template
   - The Alterian Enclave
@@ -73,6 +73,7 @@ recommended_occupations:
   - Drifter
 keywords: 'plant-humanoid, briar-armor, photosynthetic-sap, root-communion, verdant'
 negative_keywords: 'fire, industrial-pollution, herbicide'
+species_traits: *ref_0
 ---
 
 # Thorn (Verdant Plant Entity)
@@ -83,7 +84,7 @@ negative_keywords: 'fire, industrial-pollution, herbicide'
 
 # 
 
-**BP Cost:**   
+**CP Cost:** 30 CP  
 **Description:** The Thorn are a Verdant Humanoid species, a living testament to a planet's desperate defense mechanism. Their accelerated, directed evolution was not a natural occurrence but a radical consequence of a planetary ecosystem's psychic retaliation against a large-scale, intrusive terraforming operation. The planet's entire biosphere possesses a singular, distributed psychic presence—a collective consciousness woven into the fabric of all life. This unified, yet diffuse, mind, under existential threat, executed a deliberate and rapid speciation event. This critical branch in its consciousness led to the awakening of individual flora humanoids, giving rise to the Thorn. Their genesis began when the planet's flora, directed by the overarching psychic-active biosphere, underwent a process of rapid, highly-controlled evolution specifically designed to neutralize and shut down the invasion.
 
 As an intelligent and sapient species, the Thorn are fundamentally bipedal plant species, retaining an inherent Plant-like structure even while achieving a predominantly Humanoid form. Their biology is fundamentally tied to photosynthesis, possessing the essential Chloroplast feature that allows them to efficiently convert ambient light—whether from a star or artificial sources—directly into all necessary sustenance. This light-dependence is a core aspect of their existence.
@@ -131,7 +132,7 @@ Exoskeleton (Light)
 
 # 
 
-**BP Cost:**   
+**CP Cost:**   
 **Description:** Truldan will stand fully upright at 7 to 71/2 ft tall with a regal, aristocratic bearing. They possess a wiry, acrobatic build with minimal body fat and dense, corded muscle. Their limbs are disproportionately long compared to humans, giving them extended reach in combat. Due to their evolution from swamp-dwelling ancestors, Truldan also retain amphibious features, making them equally adept in water as on land.
 
 Trolls have only four fingers on each hand (three fingers and a thumb). Despite this, they possess excellent manual dexterity. They have three large toes on each foot. A spur-like heel claw is present on the back of the foot, which aids in climbing and balance. They almost exclusively walk barefoot to utilize their gripping toes.
@@ -175,7 +176,7 @@ Regeneration
 
 # 
 
-**BP Cost:**   
+**CP Cost:**   
 **Description:** The Vassoth are a serpentauric race, characterized by a powerful, scaled serpentine lower body and tail that can reach between 12 and 18 feet in length, supporting a medium-sized humanoid torso and arms. Their heads often blend human and serpent features, possessing sharp, keen eyes and fine scales. As a very old race, the Vassoth possess a long and intertwined history, notably with dragons—a lineage confirmed by their protected Sa-Sa-Si colony on Entari—as well as with the Mondi and various other progenitors. Universally, all Vassoth possess some type of innate attunement to the supernatural, manifesting in diverse ways across their society. This inherent connection to the arcane, coupled with their formidable physical nature, has cemented their historical role as fierce and vigilant guardians.
 
 **Classification:**   

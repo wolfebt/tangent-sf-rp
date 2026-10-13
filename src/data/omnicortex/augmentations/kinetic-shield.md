@@ -9,6 +9,7 @@ description: Absorbs 40 dmg before recharge.
 stigma: None
 type: Cybernetic
 costs:
+  cp: 0
   bp: 0
   credits: 40960
   nodes: 0

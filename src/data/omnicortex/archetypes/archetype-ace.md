@@ -30,17 +30,19 @@ tactical_role: 'Ship combat, extraction, high-speed chases.'
 quote: '"Hold on back there. I''m gonna try something stupid."'
 description: Navigates starships through asteroids and blockades. Master of the stick.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'ace, operative, artisan, adaptable, specialist, vehicle specialist, transport'
 negative_keywords: 'mindless-brute, reckless, illiterate'
+cp_chassis: 80
 ---
 
 # The Ace
 
 **Sphere**: Operatives (The Artisans)  
 **Core Concept**: Vehicle Specialist / Transport  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Agility  
 **Secondary Attribute**: Intellect  
 

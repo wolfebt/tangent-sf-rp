@@ -8,6 +8,7 @@ description: "Penalty: None\r\nLocations: All\r\nSockets: 8"
 sp: 40
 coverage: Sealed
 costs:
+  cp: 0
   bp: 0
   credits: 0
   nodes: 0

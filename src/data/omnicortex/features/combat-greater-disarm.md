@@ -11,18 +11,20 @@ description: >-
   Greater Disarm is a Combat Feature: Disarmed weapons are knocked away from
   your enemy.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   greater disarm, combat, special-feature, combat-maneuver, tactical-edge,
   greater
 negative_keywords: 'pacifist, feeble, untrained-civilian'
+cost_cp: 3
 ---
 
 # Greater Disarm
 
 **Category**: Combat Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Improved Disarm
 
 ## Description

@@ -20,6 +20,7 @@ synergy_links:
   - social-diplomacy
   - mental-nobility
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'oratory, social, charisma, interaction, diplomacy, influence'

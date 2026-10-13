@@ -9,6 +9,7 @@ description: Bioluminescent or animated decorative tattoos.
 stigma: None
 type: Fashionware
 costs:
+  cp: 0
   bp: 0
   credits: 40
   nodes: 0

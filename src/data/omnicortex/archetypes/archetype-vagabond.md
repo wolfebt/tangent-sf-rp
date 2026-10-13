@@ -32,19 +32,21 @@ description: >-
   Travels from place to place without a fixed home. Characterized by freedom,
   adaptability, and adventure.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: >-
   vagabond, operative, artisan, adaptable, specialist, jack-of-all-trades,
   survivor
 negative_keywords: 'incompetent, untrained, undisciplined'
+cp_chassis: 80
 ---
 
 # The Vagabond
 
 **Sphere**: Operatives (The Artisans)  
 **Core Concept**: Jack-of-All-Trades / Survivor  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Constitution  
 **Secondary Attribute**: Wisdom  
 

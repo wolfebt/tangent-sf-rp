@@ -9,6 +9,7 @@ description: >-
   bio-engineering, neural crafting, and organism design. (Primitive /
   Subsistence).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

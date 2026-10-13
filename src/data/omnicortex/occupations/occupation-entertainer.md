@@ -38,6 +38,7 @@ description: >-
   truly endless. As technology continues to evolve, so will the ways we can be
   entertained.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 recommended_species:
@@ -71,13 +72,16 @@ negative_keywords: >-
   dull-drudgery, silent-monk-solitude, grim-trench-survival,
   sterile-lab-isolation, emotionless-drone, illiterate-labor, secretive-recluse,
   joyless-stoicism
+base_ws: 5
+economic_context: Celebrity patronage & public bookings
 ---
 
 # Entertainer Occupation
 
 **Category**: Occupations  
+**EUFT Base Wealth Score**: WS 5 (Celebrity patronage & public bookings)  
 **Starting Skill Points**: 20 SP (allocated to Professional Skills, max Rank 11, recommended Rank 6)  
-**Recommended Features**: Skill (1 BP Discount)  
+**Recommended Features**: Skill (1 CP Discount)  
 **Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)
 
 ## Description

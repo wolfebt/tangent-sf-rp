@@ -32,17 +32,19 @@ description: >-
   A skilled propagandist who spreads dissent and undermines authority through
   persuasive speeches and subversive media.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'demagogue, visionary, idealist, leadership, charisma, debuffer, chaos agent'
 negative_keywords: 'mindless-brute, reckless, illiterate, anti-social, mute'
+cp_chassis: 80
 ---
 
 # The Demagogue
 
 **Sphere**: Visionaries (The Idealists)  
 **Core Concept**: Debuffer / Chaos Agent / Crowd Control  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Charisma  
 **Secondary Attribute**: Intellect  
 

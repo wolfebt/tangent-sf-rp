@@ -12,16 +12,18 @@ description: >-
   temporale, allowing them to instantly identify, categorize, and perfectly
   recreate auditory frequencies without a reference tone.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'absolute pitch, general, special-feature, possesses, exaggerated, structural'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Absolute Pitch
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Awareness 1, Perform 1
 
 ## Description

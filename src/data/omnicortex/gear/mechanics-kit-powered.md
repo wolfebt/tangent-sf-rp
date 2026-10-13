@@ -9,6 +9,7 @@ weight: 3.5
 description: 'Pneumatic drivers, laser calibrators, and sonic torque wrenches.'
 mechanic: +1 Bonus to Engineering and Repair checks.
 costs:
+  cp: 0
   bp: 0
   credits: 160
   nodes: 0

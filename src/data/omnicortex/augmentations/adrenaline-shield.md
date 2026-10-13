@@ -9,6 +9,7 @@ description: 10 temp Vitality when hit (Free action).
 stigma: None
 type: Cybernetic
 costs:
+  cp: 0
   bp: 0
   credits: 2560
   nodes: 0

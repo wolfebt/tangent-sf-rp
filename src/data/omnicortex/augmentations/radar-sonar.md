@@ -9,6 +9,7 @@ description: Grants Blindsense 30ft.
 stigma: None
 type: Sensory
 costs:
+  cp: 0
   bp: 0
   credits: 10240
   nodes: 0

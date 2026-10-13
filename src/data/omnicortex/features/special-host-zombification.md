@@ -6,21 +6,26 @@ feature_category: Special
 cost_bp: 2
 is_ranked: false
 is_multiple: false
-prerequisites: 'Swarm Physiology'
+prerequisites: Swarm Physiology
 description: >-
-  The swarm can enter, occupy, and mechanically puppet the corpses of other species or
-  damaged biomorphic husks, utilizing them as armored shells and adopting their physical traits.
+  The swarm can enter, occupy, and mechanically puppet the corpses of other
+  species or damaged biomorphic husks, utilizing them as armored shells and
+  adopting their physical traits.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
-keywords: 'host-zombification, corpse-puppet, bio-husk, armored-shell, swarm-pilot, necro-infestation'
+keywords: >-
+  host-zombification, corpse-puppet, bio-husk, armored-shell, swarm-pilot,
+  necro-infestation
 negative_keywords: 'pure-flesh, unhusked'
+cost_cp: 2
 ---
 
 # Host Zombification
 
 **Category**: Special Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisites**: Swarm Physiology  
 
 ## Description

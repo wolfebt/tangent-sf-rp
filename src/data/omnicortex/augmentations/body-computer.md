@@ -9,6 +9,7 @@ description: Take 10 on Computer at Advantage / Half time.
 stigma: None
 type: Cybernetic
 costs:
+  cp: 0
   bp: 0
   credits: 10240
   nodes: 0

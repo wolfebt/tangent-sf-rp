@@ -5,6 +5,7 @@ trait_tier: Basic
 trait_type: Physical
 category: traits
 costs:
+  cp: 1
   bp: 1
 description: >-
   Superior cardiovascular endurance, stamina, and physical conditioning,
@@ -16,7 +17,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Basic
 **Type**: Physical
-**BP Cost**: 1
+**CP Cost**: 1
 
 ## Description
 Superior cardiovascular endurance, stamina, and physical conditioning, granting bonuses on long-distance athletics checks.

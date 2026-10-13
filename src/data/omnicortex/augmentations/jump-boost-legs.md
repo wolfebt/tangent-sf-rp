@@ -10,6 +10,7 @@ bp_cost: 1
 stigma: None
 type: Prosthetic
 costs:
+  cp: 0
   bp: 0
   credits: 2560
   nodes: 0
@@ -35,7 +36,7 @@ stage: Heavy
 keywords: 'jump boost (legs), augmentation, prosthetic, heavy, tl-3, general'
 negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
 ---
-Category: **4.3 Limb Upgrades (1 BP Per Upgrade)**
+Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**
 
 **Effect:** +10 to Jump checks (Requires Pair).
 **Nodes:** 4

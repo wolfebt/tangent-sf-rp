@@ -9,6 +9,7 @@ description: Contains most Languages/Dialects.
 stigma: None
 type: Neural
 costs:
+  cp: 0
   bp: 0
   credits: 160
   nodes: 0

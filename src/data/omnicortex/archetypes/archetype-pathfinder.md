@@ -30,17 +30,19 @@ tactical_role: 'Reconnaissance, initiating ambushes, guiding the party.'
 quote: '"Three guards, two turrets, and a back door they forgot to lock. Easy."'
 description: 'Ventures into the unknown, charting territories and assessing threats.'
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'pathfinder, operative, artisan, adaptable, specialist, stealth, recon'
 negative_keywords: 'heavy-plating, blunt-assault, loud, clumsy'
+cp_chassis: 80
 ---
 
 # The Pathfinder
 
 **Sphere**: Operatives (The Artisans)  
 **Core Concept**: Stealth / Recon / Survival  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Agility  
 **Secondary Attribute**: Wisdom  
 

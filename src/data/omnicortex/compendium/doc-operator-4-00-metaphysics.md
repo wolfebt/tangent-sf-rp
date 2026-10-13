@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","4.00 metaphysics","mechanics"]
-updatedAt: "2026-09-14T19:38:24.475Z"
+updatedAt: "2026-10-13T03:46:47.999Z"
 costs:
   bp: 0
   credits: 0
@@ -1197,8 +1197,8 @@ Calls a known existing creature from another plane or location to serve the cast
 
 **Scaling Function:**
 
-* **Power:** Total Creature Build Points (BP) \= 10 BP per Stage achieved.  
-* **Quantity:** Can split the total BP budget among multiple creatures.
+* **Power:** Total Creature Character Points (CP) \= 10 CP per Stage achieved.  
+* **Quantity:** Can split the total CP budget among multiple creatures.
 
 ### 
 
@@ -1245,7 +1245,7 @@ Summons a minor spirit or creature to serve as a permanent magical companion.
 
 **Scaling Function:**
 
-* **Bond:** Familiar gains 10 BP per Stage (aligning with Summoning core rules).  
+* **Bond:** Familiar gains 10 CP per Stage (aligning with Summoning core rules).  
 * **Link:** Telepathic range increases by 1 mile per Stage.
 
 ### 
@@ -2657,7 +2657,7 @@ Description: Improving the pattern of something. The reinforcement and optimizat
 
 Standard Duration: 1 Minute per Level (Stage).
 
-Standard Effect: Add up to 5 Build Points (BP) worth of traits, stats, or features to a target per Stage.
+Standard Effect: Add up to 5 Character Points (CP) worth of traits, stats, or features to a target per Stage.
 
 ### 
 
@@ -2698,7 +2698,7 @@ Toughens the skin of the target, granting it the texture and durability of stone
 **Scaling Function:**
 
 * **Integrity:** Grants DR 5 \+ (2 per Stage).  
-* **BP Value:** Roughly equivalent to 5 BP of Armor/DR traits per Stage.
+* **CP Value:** Roughly equivalent to 5 CP of Armor/DR traits per Stage.
 
 ### 
 
@@ -2840,7 +2840,7 @@ Temporarily grants a special ability, feature, or trait (e.g., Darkvision, Ambid
 
 **Scaling Function:**
 
-* **Complexity:** Can grant 5 BP worth of Features per Stage.
+* **Complexity:** Can grant 5 CP worth of Features per Stage.
 
 ### 
 
@@ -2999,7 +2999,7 @@ Description: Altering the pattern of something. The fundamental alteration of ph
 
 Standard Duration: 1 Minute per Level (Stage).
 
-Standard Effect: Manipulate up to 5 Build Points (BP) worth of traits or material volume per Stage.
+Standard Effect: Manipulate up to 5 Character Points (CP) worth of traits or material volume per Stage.
 
 ### 
 
@@ -3109,7 +3109,7 @@ Transforms the caster physically into another form (humanoid, animal, or object)
 **Scaling Function:**
 
 * **Complexity:** Allowed Forms expand per Stage (Humanoid \-\> Beast \-\> Object \-\> Elemental).  
-* **Features:** Gains 1 Trait of the new form per Stage (e.g., Scent, Swim Speed) up to the BP limit (5 BP/Stage).
+* **Features:** Gains 1 Trait of the new form per Stage (e.g., Scent, Swim Speed) up to the CP limit (5 CP/Stage).
 
 ### 
 
@@ -3181,7 +3181,7 @@ Alters the physical form to produce a specific biological enhancement (gills, cl
 **Scaling Function:**
 
 * **Magnitude:** Natural Weapon Damage \= 1d6 per Stage.  
-* **Quantity:** Number of Mutations \= 1 per Stage (Max 5 BP worth per Stage).
+* **Quantity:** Number of Mutations \= 1 per Stage (Max 5 CP worth per Stage).
 
 &nbsp;
 

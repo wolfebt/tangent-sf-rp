@@ -68,6 +68,7 @@ description: >-
   They view the galaxy through the lens of an immune system: outsiders are
   either compatible cells or pathogens
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Major Galactic Power
@@ -154,7 +155,7 @@ negative_keywords: >-
   * Animal Handling: \+3  
   * Combat: \+2  
 * **Typical Archetypes:** The Warden, The Field Medic, The Beast-Handler, The Pathfinder, The Zealot, The Oracle, The Ascetic, The Spirit-Walker, The Magus, The Geneticist, The Planetologist, The Biologist.  
-* **Recommended Features (1 BP Discount):**  
+* **Recommended Features (1 CP Discount):**  
   * Biotechnology, Awakened, Naturalist, Animal Affinity, Wild Speech, Fast Heal, Scent, Stealthy, Climber, Self Sufficient, Tolerance, Sense.
 
 ### **VI. Visual Synthesis Protocols (Aesthetics)**

@@ -34,17 +34,19 @@ description: >-
   The public figure who embodies a concept or cause, wielding their fame as a
   source of inspiration and pressure.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'icon, visionary, idealist, leadership, charisma, social influence, leader'
 negative_keywords: 'anti-social, mute, solitary-hermit'
+cp_chassis: 80
 ---
 
 # The Icon
 
 **Sphere**: Visionaries (The Idealists)  
 **Core Concept**: Social Influence / Leader / Face  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Charisma  
 **Secondary Attribute**: Wisdom  
 

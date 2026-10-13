@@ -74,6 +74,7 @@ description: >-
   Layers), where unlicensed tech and native Premian culture thrive in the
   shadows
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Major Galactic Power
@@ -162,7 +163,7 @@ negative_keywords: >-
   * Insight (+2): Reading people in negotiations.  
   * Diplomacy (+2): Closing the deal.  
 * **Typical Archetypes:** The Bureaucrat, The Munitions Magnate, The Company Man, The Ghost, The Broker, The Foreman, The Kingpin, The Socialite, The Decker, The Cyberneticist, The Net-Architect, The Saboteur.  
-* **Recommended Features (1 BP Discount):**  
+* **Recommended Features (1 CP Discount):**  
   * Augmented, Computer Specialist, Digital Expert, Benefit (Wealth), Benefit (Clearance), Silver Tongue, Connected, Coding Master, Gearhead, Tech Interface, Nimble Fingers, Well Informed.
 
 ### **VI. Visual Synthesis Protocols (Aesthetics)**

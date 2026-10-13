@@ -6,16 +6,18 @@ bp_granted: '2'
 hindrance_type: Physical
 description: Lacking vocal cords or biological capacity for verbal speech.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'mute, hindrance, penalty, general, lacking, biological'
 negative_keywords: 'perfection, flawless, unyielding, invulnerable'
+cp_granted: '2'
 ---
 
 # Mute
 
 **Category**: Hindrances & Disadvantages  
-**BP Granted**: 2 BP  
+**CP Granted**: 2 CP  
 **Type**: Physical
 
 ## Description

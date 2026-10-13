@@ -6,6 +6,7 @@ synthesis_type: origin_scenery
 origin_id: origin-research
 faction_id: faction-mekan
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

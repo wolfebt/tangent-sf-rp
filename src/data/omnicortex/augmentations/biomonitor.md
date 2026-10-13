@@ -9,6 +9,7 @@ description: Vitals readout. +2 to Resist Torture/Drugs.
 stigma: None
 type: Fashionware
 costs:
+  cp: 0
   bp: 0
   credits: 160
   nodes: 0

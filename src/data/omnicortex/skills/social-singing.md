@@ -21,6 +21,7 @@ synergy_links:
   - social-oratory
   - physical-endurance
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'singing, social, charisma, interaction, diplomacy, influence'

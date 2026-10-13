@@ -6,6 +6,7 @@ description: >-
   2d10 + Skill Rank + Attribute Mod + Situational Modifiers vs. Target Defense
   (DC).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

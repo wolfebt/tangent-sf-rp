@@ -22,6 +22,7 @@ synergy_links:
   - mental-constable
   - mental-computers
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'investigation, mental, intellect, cognitive, expertise, forensics'

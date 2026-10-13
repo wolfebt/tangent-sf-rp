@@ -4,6 +4,7 @@ name: CRISP Form Templates (A through F)
 category: synthesis
 synthesis_type: form_templates
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

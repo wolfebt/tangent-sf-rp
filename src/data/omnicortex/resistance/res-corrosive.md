@@ -4,6 +4,7 @@ name: Corrosive / Acid Resistance
 description: Chemically inert coating preventing chemical dissolution and lingering burn.
 category: resistance
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

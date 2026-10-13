@@ -7,18 +7,20 @@ classification: Meta
 type: Meta
 bp_granted: 4
 costs:
+  cp: -4
   bp: -4
 description: 'Take 1 Con damage per hour in sunlight. Req: Native to Darklands/Shadow.'
 prerequisite: Native to Darklands / Shadow Realms
 modifiers: []
 keywords: 'vulnerable to sunlight, hindrance, penalty, meta, damage, sunlight'
 negative_keywords: 'perfection, flawless, unyielding, invulnerable'
+cp_granted: '4'
 ---
 
 # Vulnerable to Sunlight
 
-**Category**: Species Disadvantages (BP Reduction)  
-**BP Refund**: +4 BP (Cost: -4 BP)  
+**Category**: Species Disadvantages (CP Reduction)  
+**CP Refund**: +4 CP (Cost: -4 CP)  
 **Type**: Meta  
 **Prerequisites**: Native to Darklands / Shadow Realms  
 

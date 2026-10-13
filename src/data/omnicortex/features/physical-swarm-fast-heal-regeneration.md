@@ -6,21 +6,26 @@ feature_category: Physical
 cost_bp: 2
 is_ranked: false
 is_multiple: false
-prerequisites: 'Swarm Physiology'
+prerequisites: Swarm Physiology
 description: >-
   The swarm constantly births new micro-arthropods to replace fallen members,
-  granting continuous biological regeneration and rapid recovery of lost swarm mass.
+  granting continuous biological regeneration and rapid recovery of lost swarm
+  mass.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
-keywords: 'fast-heal, regeneration, swarm-birthing, mass-recovery, continuous-vitality, riezen'
+keywords: >-
+  fast-heal, regeneration, swarm-birthing, mass-recovery, continuous-vitality,
+  riezen
 negative_keywords: 'slow-healing, scarring, non-regenerative'
+cost_cp: 2
 ---
 
 # Fast Heal & Regeneration (Swarm)
 
 **Category**: Physical Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisites**: Swarm Physiology  
 
 ## Description

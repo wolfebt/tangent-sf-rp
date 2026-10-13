@@ -44,24 +44,23 @@ tech_level: 4 (FTL & Slipstream Gate Tech)
 meta_level: 4 (Spatial Metaphysics)
 homeworld: Varen Gate Arcologies
 costs:
-  bp: 20
+  cp: 18
+  bp: 18
 modifiers:
   - target: Intellect
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 20
-cp: 20
-bp: 20
+cp_cost: 18
+cp: 18
+bp: 18
 description: >-
   Varen are spacefaring humans attuned to hyper-space corridors and ancient
   gateway networks, possessing innate teleportation and spatial recall powers.
-traits:
-  - trait-awakened-dimension-psychic
-  - trait-homing-special-ability-spatial-recall
-  - trait-indomitable-will
+traits: &ref_0
+  - trait-awakened-dimension
+  - trait-resistant
   - trait-longevity
-  - trait-teleportal-special-ability-short-jump
 recommended_factions:
   - The Ascendancy
   - The Alterian Enclave
@@ -77,11 +76,12 @@ keywords: >-
   stargate-navigator, spatial-slipstream, awakened-teleport, gate-kin,
   cosmic-recall
 negative_keywords: 'ground-bound, claustrophobic, tech-phobic'
+species_traits: *ref_0
 ---
 
 # Varen (Warp Gatekeeper Human)
 
-**BP Cost:** 28  
+**CP Cost:** 18 CP  
 **Description:** A highly specialized and inherently rare lineage of Awakened Humans, the Gatekeepers are defined by their singular, potent specialty: Psychoportation and the intricate art of psychic navigation.
 
 Gatekeepers are individuals born with an inherent, instinctive command over the mind's ability to manipulate space and distance. This natural psychic signature allows them to precisely open, maintain, and steer temporary rifts or "gates" in reality. Unlike those who must learn Psychoportation through rigorous practice or technology, this ability is integral to the Gatekeeper's very being.

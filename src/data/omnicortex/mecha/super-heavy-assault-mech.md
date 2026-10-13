@@ -18,6 +18,7 @@ mechanic: >-
   Ablative composite plating (DR 50), dual Heavy Plasma Cannons (6d10), missile
   batteries.
 costs:
+  cp: 0
   bp: 0
   credits: 655360
   nodes: 0

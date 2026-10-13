@@ -6,21 +6,23 @@ feature_category: Physical
 cost_bp: 2
 is_ranked: false
 is_multiple: false
-prerequisites: 'Four or More Lower Limbs'
+prerequisites: Four or More Lower Limbs
 description: >-
-  A robust multi-legged lower chassis providing exceptional physical balance,
-  +4 Stability against trips/shoves, and +10 ft to Base Ground Movement.
+  A robust multi-legged lower chassis providing exceptional physical balance, +4
+  Stability against trips/shoves, and +10 ft to Base Ground Movement.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
 keywords: 'quadruped, four-legged, stability, movement-speed, tauric-body, balance'
 negative_keywords: 'bipedal-unsteady, trip-vulnerable'
+cost_cp: 2
 ---
 
 # Quadruped
 
 **Category**: Physical Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisites**: Four or More Lower Limbs  
 
 ## Description

@@ -30,17 +30,19 @@ tactical_role: 'Managing party inventory, sourcing specific gear, identifying lo
 quote: '"A soldier without bullets is just a target. I make sure you aren''t targets."'
 description: 'A resourceful individual who manages supplies, equipment, and finances.'
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'quartermaster, sentinel, defender, stability, order, economy, support'
 negative_keywords: 'mindless-brute, reckless, illiterate, chaotic-anarchist, unreliable'
+cp_chassis: 80
 ---
 
 # The Quartermaster
 
 **Sphere**: Sentinels (The Stabilizers)  
 **Core Concept**: Economy / Support / Logistics  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
 **Secondary Attribute**: Wisdom  
 

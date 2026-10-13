@@ -9,16 +9,18 @@ is_multiple: true
 prerequisites: Chosen Skill Rank 6 (Trained)
 description: The character drills deep into a specific niche of a broad skill.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'skill specialization, skill, special-feature, drills, specific'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Skill Specialization
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Chosen Skill Rank 6 (Trained)
 
 ## Description

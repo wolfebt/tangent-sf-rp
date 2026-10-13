@@ -267,7 +267,7 @@ export const FeaturesHubView = ({
     {
       id: 'features-augmentations',
       title: 'Augmentations',
-      tagline: `Stage: ${augStageInfo.stage.name} (${augStageInfo.stage.bpCredit} BP Credit)`,
+      tagline: `Stage: ${augStageInfo.stage.name} (${augStageInfo.stage.cpCredit || augStageInfo.stage.bpCredit} CP Credit)`,
       icon: Cpu,
       count: augmentationsList.length,
       unit: augmentationsList.length === 1 ? 'Installed' : 'Installed',

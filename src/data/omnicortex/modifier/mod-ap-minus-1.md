@@ -7,6 +7,7 @@ type: action
 description: Reduces action point cost of specialized actions by 1.
 category: modifier
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

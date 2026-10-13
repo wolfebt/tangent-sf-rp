@@ -5,6 +5,7 @@ category: invocations
 discipline: Matter
 description: STONESKIN invocation for Matter reality manipulation.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 recommended_species:
@@ -53,5 +54,5 @@ Effect Description:
 Toughens the skin of the target, granting it the texture and durability of stone or metal.  
 **Scaling Function:**
 * **Integrity:** Grants DR 5 \+ (2 per Stage).  
-* **BP Value:** Roughly equivalent to 5 BP of Armor/DR traits per Stage.
+* **CP Value:** Roughly equivalent to 5 CP of Armor/DR traits per Stage.
 ###

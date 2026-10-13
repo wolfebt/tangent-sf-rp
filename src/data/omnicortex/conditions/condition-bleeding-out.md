@@ -6,6 +6,7 @@ description: >-
   At 0 Health, character loses 1 point of Stability Damage at start of turn
   until stabilized or dead at 0 Stability Points.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

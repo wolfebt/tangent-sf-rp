@@ -27,7 +27,9 @@ description: >-
 
   - **Fast Descent**: 4x Walk (120 ft/rd). Rapid controlled vertical slide or
   abseil descent with a -4 penalty; CR 20 Athletics (Climb) or -10 penalty.
+cp: 2
 costs:
+  cp: 2
   bp: 2
 modifiers: []
 ---
@@ -36,7 +38,7 @@ modifiers: []
 **Category**: Species Movement (ADVANCED)  
 **Classification**: advanced  
 **Target Mode**: Climbing  
-**Cost**: +2 BP  
+**Cost**: +2 CP  
 **Base Speed**: 30 ft / round  
 
 ## Description

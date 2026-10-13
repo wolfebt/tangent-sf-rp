@@ -30,17 +30,19 @@ tactical_role: 'Transporting illicit cargo, bypassing blockades, fast talk.'
 quote: '"I run a clean ship. Mostly."'
 description: Specializes in transporting illegal goods across borders.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'smuggler, operative, artisan, adaptable, specialist, transport, stealth'
 negative_keywords: 'heavy-plating, blunt-assault, loud, clumsy'
+cp_chassis: 80
 ---
 
 # The Smuggler
 
 **Sphere**: Operatives (The Artisans)  
 **Core Concept**: Transport / Stealth / Face  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Agility  
 **Secondary Attribute**: Charisma  
 

@@ -4,6 +4,7 @@ name: Fumble / Drop Weapon
 description: 'User loses their grip, dropping the weapon 5 feet away.'
 category: critical_failure_effect
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

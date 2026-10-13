@@ -8,6 +8,7 @@ description: >-
   buffers, and cyber-occult links.
 category: augmentation_type
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -5,6 +5,7 @@ category: invocations
 discipline: Dimension
 description: FIND FAMILIAR invocation for Dimension reality manipulation.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 recommended_species:
@@ -54,6 +55,6 @@ Parameters:
 Effect Description:  
 Summons a minor spirit or creature to serve as a permanent magical companion.  
 **Scaling Function:**
-* **Bond:** Familiar gains 10 BP per Stage (aligning with Summoning core rules).  
+* **Bond:** Familiar gains 10 CP per Stage (aligning with Summoning core rules).  
 * **Link:** Telepathic range increases by 1 mile per Stage.
 ###

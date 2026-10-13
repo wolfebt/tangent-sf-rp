@@ -8,6 +8,7 @@ description: >-
   Level 1 development in Medicine & Healthcare: Healthcare infrastructure,
   cellular regeneration, trauma care, and panaceas. (Emerging / Industrial).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

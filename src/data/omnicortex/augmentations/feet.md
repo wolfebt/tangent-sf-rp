@@ -7,6 +7,7 @@ description: '**Special:** Non-Lethal'
 stigma: None
 type: Cybernetic
 costs:
+  cp: 0
   bp: 0
   credits: 0
   nodes: 0

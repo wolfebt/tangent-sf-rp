@@ -893,12 +893,12 @@ export const CODEX_MATRICES = [
         options: ['Strength', 'Agility', 'Constitution', 'Intellect', 'Perception', 'Charisma', 'Willpower', 'Wisdom'] 
       },
       { name: 'essential_skills', label: 'Essential Skills (Priority 4 Trained + 6 Novice)', type: 'array', placeholder: 'Key proficiencies prioritized by this archetype' },
-      { name: 'signature_features', label: 'Signature Features (13 BP Allocation)', type: 'array', placeholder: 'Two 2-BP signature features plus three relative features' },
+      { name: 'signature_features', label: 'Signature Features (13 CP Allocation)', type: 'array', placeholder: 'Two 2-CP signature features plus three relative features' },
       { name: 'tactical_role', label: 'Tactical Role & Field Operations', type: 'textarea', placeholder: 'E.g., Secure resources, bypass legal hurdles, manage team logistics.' },
       { name: 'recommended_occupations', label: 'Recommended Occupations', type: 'array', placeholder: 'Recommended career backgrounds' },
       { name: 'recommended_origins', label: 'Recommended Origins', type: 'array', placeholder: 'Recommended environmental origins' },
       { name: 'recommended_factions', label: 'Recommended Factions', type: 'array', placeholder: 'Recommended faction allegiances' },
-      { name: 'bp_chassis', label: 'Chassis Allocation Budget (BP)', type: 'number', min: 0, max: 150, default: 80 },
+      { name: 'cp_chassis', label: 'Chassis Allocation Budget (CP)', type: 'number', min: 0, max: 150, default: 80 },
       { name: 'description', label: 'Archetype Profile & Narrative Lore', type: 'textarea', aiEnabled: true },
       { name: 'full_text', label: 'Full Rules Text & Lore (1.02 Archetypes.md)', type: 'textarea', aiEnabled: true },
       { name: 'note', label: 'Architect Notes', type: 'textarea' },
@@ -907,7 +907,8 @@ export const CODEX_MATRICES = [
     ],
     computedOutputs: [],
     computeOnSave: (formData) => ({
-      bp_chassis: Number(formData.bp_chassis || 80),
+      cp_chassis: Number(formData.cp_chassis || formData.bp_chassis || 80),
+      bp_chassis: Number(formData.cp_chassis || formData.bp_chassis || 80),
       computed_at: new Date().toISOString()
     }),
     archetypes: [
@@ -1051,7 +1052,7 @@ export const CODEX_MATRICES = [
       { name: 'recommended_factions', label: 'Recommended Factions', type: 'array', placeholder: 'Select or add factions (from cortex)' },
       { name: 'recommended_occupations', label: 'Recommended Occupations', type: 'array', placeholder: 'Select or add occupations (from cortex)' },
       { name: 'recommended_skills', label: 'Recommended Society Skills', type: 'array', placeholder: 'Select or add skills (from cortex)' },
-      { name: 'recommended_features', label: 'Recommended Features (-1 BP Discount)', type: 'array', placeholder: 'Select or add features (from cortex)' },
+      { name: 'recommended_features', label: 'Recommended Features (-1 CP Discount)', type: 'array', placeholder: 'Select or add features (from cortex)' },
       { name: 'keywords', label: 'Positive Directives / Keywords', type: 'text', placeholder: 'e.g. subterranean, mining, low-gravity' },
       { name: 'negative_keywords', label: 'Negative Directives / Railguards', type: 'text', placeholder: 'e.g. aquatic, zero-g, stealth' },
       { name: 'description', label: 'Environmental Overview & Technical Profile', type: 'textarea', aiEnabled: true },
@@ -1128,10 +1129,10 @@ export const CODEX_MATRICES = [
       { name: 'recommended_factions', label: 'Recommended Factions', type: 'array', placeholder: 'Select or add factions (from cortex)' },
       { name: 'recommended_origins', label: 'Recommended Origins', type: 'array', placeholder: 'Select or add origins (from cortex)' },
       { name: 'recommended_skills', label: 'Recommended Professional Skills', type: 'array', placeholder: 'Select or add skills (from cortex)' },
-      { name: 'recommended_features', label: 'Recommended Features (-1 BP Discount)', type: 'array', placeholder: 'Select or add features (from cortex)' },
+      { name: 'recommended_features', label: 'Recommended Features (-1 CP Discount)', type: 'array', placeholder: 'Select or add features (from cortex)' },
       { name: 'keywords', label: 'Positive Directives / Keywords', type: 'text', placeholder: 'e.g. covert, tactical, cybernetic' },
       { name: 'negative_keywords', label: 'Negative Directives / Railguards', type: 'text', placeholder: 'e.g. brute force, heavy armor, primitive' },
-      { name: 'traits', label: 'Occupational Traits List', type: 'array', placeholder: 'Traits selectable for this occupation (2 free, +2 BP each for extra)' },
+      { name: 'traits', label: 'Occupational Traits List', type: 'array', placeholder: 'Traits selectable for this occupation (2 free, +1 CP each for extra)' },
       { name: 'archetypes', label: 'Associated Archetypes / Vocations', type: 'array', placeholder: 'Typical archetype pairings (e.g. Combatant, Psionic, Mystic)' },
       { name: 'description', label: 'Professional Overview & Career Dossier', type: 'textarea', aiEnabled: true },
       { name: 'full_text', label: 'Full Rules Text & Lore (1.06 Occupations.md)', type: 'textarea', aiEnabled: true },
@@ -1540,6 +1541,7 @@ export const CODEX_MATRICES = [
       name: '',
       classification: 'basic',
       target_mode: 'Ground',
+      cp: 0,
       bp: 0,
       speed: 30,
       speed_modifier: 0,
@@ -1550,7 +1552,7 @@ export const CODEX_MATRICES = [
       { name: 'name', label: 'Movement Designation', type: 'text', required: true, placeholder: 'E.g., Bipedal Locomotion' },
       { name: 'classification', label: 'Classification', type: 'select', options: ['basic', 'advanced', 'modifier', 'stage'] },
       { name: 'target_mode', label: 'Locomotion Mode', type: 'select', options: ['Ground', 'Flying', 'Swimming', 'Climbing', 'Burrowing', 'Flicker', 'Mechanical'] },
-      { name: 'bp', label: 'BP Cost', type: 'number' },
+      { name: 'cp', label: 'CP Cost', type: 'number' },
       { name: 'speed', label: 'Speed (ft / round)', type: 'number' },
       { name: 'speed_modifier', label: 'Speed Modifier (ft, Additive)', type: 'number' },
       { name: 'multiplier', label: 'Pace Multiplier', type: 'number' },
@@ -1558,7 +1560,8 @@ export const CODEX_MATRICES = [
     ],
     computedOutputs: [],
     computeOnSave: (formData) => ({
-      bp: Number(formData.bp || 0),
+      cp: Number(formData.cp !== undefined ? formData.cp : (formData.bp || 0)),
+      bp: Number(formData.cp !== undefined ? formData.cp : (formData.bp || 0)),
       computed_at: new Date().toISOString()
     })
   },
@@ -1584,6 +1587,7 @@ export const CODEX_MATRICES = [
       trait_type: 'Species Trait',
       trait_tier: 'Basic',
       classification: 'Physical',
+      cp: 1,
       bp: 1,
       description: '',
       mechanic: '',
@@ -1594,14 +1598,15 @@ export const CODEX_MATRICES = [
       { name: 'trait_type', label: 'Trait Type', type: 'select', options: ['Species Trait', 'Origin Trait', 'Occupational Trait', 'Common Occupational Trait'] },
       { name: 'trait_tier', label: 'Trait Tier', type: 'select', options: ['Basic', 'Advanced', 'Elite'] },
       { name: 'classification', label: 'Classification', type: 'select', options: ['Physical', 'Mental', 'Sensory', 'Combat', 'Metaphysical'] },
-      { name: 'bp', label: 'BP Cost', type: 'number' },
+      { name: 'cp', label: 'CP Cost', type: 'number' },
       { name: 'description', label: 'Trait Overview', type: 'textarea' },
       { name: 'mechanic', label: 'Rules & Mechanical Effects', type: 'textarea' },
       { name: 'note', label: 'Architect Notes', type: 'textarea' }
     ],
     computedOutputs: [],
     computeOnSave: (formData) => ({
-      bp: Number(formData.bp || 1),
+      cp: Number(formData.cp !== undefined ? formData.cp : (formData.bp || 1)),
+      bp: Number(formData.cp !== undefined ? formData.cp : (formData.bp || 1)),
       computed_at: new Date().toISOString()
     })
   },
@@ -1626,7 +1631,9 @@ export const CODEX_MATRICES = [
       name: '',
       disadvantage_type: 'Species Disadvantage',
       classification: 'Physical',
+      cp_granted: '3 / 6 / 9',
       bp_granted: '3 / 6 / 9',
+      refundCP: 2,
       refundBP: 2,
       prerequisite: 'None',
       description: '',
@@ -1638,8 +1645,8 @@ export const CODEX_MATRICES = [
     fields: [
       { name: 'name', label: 'Disadvantage Name', type: 'text', required: true, placeholder: 'E.g., Addiction' },
       { name: 'disadvantage_type', label: 'Disadvantage Type', type: 'select', options: ['Species Disadvantage', 'General Disadvantage', 'Psychological', 'Physical', 'Social'] },
-      { name: 'bp_granted', label: 'BP Granted / Rebate Tier', type: 'text', placeholder: 'E.g., 3 / 6 / 9' },
-      { name: 'refundBP', label: 'CP / BP Refund', type: 'number' },
+      { name: 'cp_granted', label: 'CP Granted / Rebate Tier', type: 'text', placeholder: 'E.g., 3 / 6 / 9' },
+      { name: 'refundCP', label: 'CP Refund', type: 'number' },
       { name: 'prerequisite', label: 'Prerequisites', type: 'text', placeholder: 'E.g., None' },
       { name: 'description', label: 'Flaw Overview', type: 'textarea' },
       { name: 'mechanic', label: 'Mechanics & Severity Tiers', type: 'textarea' },
@@ -1649,7 +1656,10 @@ export const CODEX_MATRICES = [
     ],
     computedOutputs: [],
     computeOnSave: (formData) => ({
-      refundBP: Number(formData.refundBP || 2),
+      refundCP: Number(formData.refundCP || formData.refundBP || 2),
+      refundBP: Number(formData.refundCP || formData.refundBP || 2),
+      cp_granted: formData.cp_granted || formData.bp_granted || '3 / 6 / 9',
+      bp_granted: formData.cp_granted || formData.bp_granted || '3 / 6 / 9',
       computed_at: new Date().toISOString()
     })
   },
@@ -1890,7 +1900,7 @@ export const CODEX_MATRICES = [
       { name: 'recommended_origins', label: 'Recommended Origins', type: 'array', placeholder: 'Recommended planetary origins' },
       { name: 'recommended_occupations', label: 'Recommended Occupations', type: 'array', placeholder: 'Recommended professions / careers' },
       { name: 'recommended_skills', label: 'Recommended Skills', type: 'array', placeholder: 'Recommended inherent / cultural skills' },
-      { name: 'recommended_features', label: 'Recommended Features (-1 BP Discount)', type: 'array', placeholder: 'Discounted features for faction members' },
+      { name: 'recommended_features', label: 'Recommended Features (-1 CP Discount)', type: 'array', placeholder: 'Discounted features for faction members' },
       { name: 'bonus_features', label: 'Bonus Features & Origin Traits', type: 'textarea', placeholder: 'E.g., Independent Grit, Jack of All Trades, Penal Recruit, Federal Authority' },
       { name: 'keywords', label: 'Guidance Keywords', type: 'text', placeholder: 'E.g., militaristic, corporate, void-faring' },
       { name: 'negative_keywords', label: 'Negative Keywords & Railguards', type: 'text', placeholder: 'E.g., pacifist, primitive, psionic-taboo' },

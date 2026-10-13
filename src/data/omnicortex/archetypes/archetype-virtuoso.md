@@ -32,17 +32,19 @@ description: >-
   Captivates audiences with skills in music, dance, or acting. Thrives in the
   spotlight.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'virtuoso, operative, artisan, adaptable, specialist, social, distraction'
 negative_keywords: 'incompetent, untrained, undisciplined'
+cp_chassis: 80
 ---
 
 # The Virtuoso
 
 **Sphere**: Operatives (The Artisans)  
 **Core Concept**: Social / Distraction / Buffer  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Charisma  
 **Secondary Attribute**: Agility  
 

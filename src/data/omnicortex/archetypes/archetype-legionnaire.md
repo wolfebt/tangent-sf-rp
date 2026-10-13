@@ -30,17 +30,19 @@ description: >-
   A disciplined and loyal soldier who serves in the Impyrium's legions. Expert
   in formation warfare.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'legionnaire, sentinel, defender, stability, order, tank, formation fighter'
 negative_keywords: 'fragile, unarmored, timid, evasive-sniper, chaotic-anarchist'
+cp_chassis: 80
 ---
 
 # The Legionnaire
 
 **Sphere**: Sentinels (The Stabilizers)  
 **Core Concept**: Tank / Formation Fighter / Discipline  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Constitution  
 **Secondary Attribute**: Strength  
 

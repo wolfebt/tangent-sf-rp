@@ -6,6 +6,7 @@ description: >-
   d10 location table (1d6 melee), called shots (-2 torso/leg, -4 head/arm),
   Reason/Fort/Ref/Might saves & trauma.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

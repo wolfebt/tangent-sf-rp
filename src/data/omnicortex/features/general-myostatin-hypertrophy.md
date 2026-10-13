@@ -12,16 +12,18 @@ description: >-
   non-functional, removing biological brakes on muscle fiber proliferation. The
   character possesses massive, dense musculature without needing to train.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'myostatin hypertrophy, general, special-feature, homozygous, mutation, renders'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Myostatin Hypertrophy
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Strength 3, Stamina 2
 
 ## Description

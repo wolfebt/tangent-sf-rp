@@ -5,6 +5,7 @@ category: synthesis
 synthesis_type: faction_architecture
 faction_id: faction-auluran-clans
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

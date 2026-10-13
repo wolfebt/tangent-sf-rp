@@ -3,15 +3,18 @@ id: species_size-small
 name: Small
 category: species_size
 scaling: 0.6667
-scaling_display: "-1ds (2/3)"
+scaling_display: '-1ds (2/3)'
 strength_mod: -2
 combat_mod: 2
 stealth_mod: 4
-height_length_range: "< 4 ft"
-weight_range: "< 60 lbs"
-reach: "3 ft"
-description: "Diminutive humanoid or juvenile alien form. Slight stealth and evasion benefit."
+height_length_range: < 4 ft
+weight_range: < 60 lbs
+reach: 3 ft
+description: >-
+  Diminutive humanoid or juvenile alien form. Slight stealth and evasion
+  benefit.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

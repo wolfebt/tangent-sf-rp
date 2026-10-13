@@ -9,6 +9,7 @@ description: Retinal crosshairs. Move penalties 1/2.
 stigma: None
 type: Sensory
 costs:
+  cp: 0
   bp: 0
   credits: 2560
   nodes: 0

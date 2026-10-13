@@ -11,16 +11,18 @@ description: >-
   The character can menace someone so subtly that bystanders don't notice, and
   the target is too scared to retaliate.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'veiled threat, skill, special-feature, menace, someone, subtly'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Veiled Threat
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Intimidate 6
 
 ## Description

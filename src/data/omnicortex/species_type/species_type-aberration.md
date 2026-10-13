@@ -5,6 +5,7 @@ category: species_type
 bp: 1
 cp: 1
 costs:
+  cp: 1
   bp: 1
 senses: 'Darkvision out to 60 feet. [1]'
 immunities: None

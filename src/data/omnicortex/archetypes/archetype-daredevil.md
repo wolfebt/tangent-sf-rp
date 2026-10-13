@@ -30,17 +30,19 @@ tactical_role: 'Reaching inaccessible areas, performing stunts, surviving falls.
 quote: '"It''s not a fall; it''s a very fast descent with style."'
 description: Excels in extreme sports and high-risk maneuvers.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'daredevil, operative, artisan, adaptable, specialist, mobility, risk'
 negative_keywords: 'incompetent, untrained, undisciplined'
+cp_chassis: 80
 ---
 
 # The Daredevil
 
 **Sphere**: Operatives (The Artisans)  
 **Core Concept**: Mobility / Risk / Action  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Agility  
 **Secondary Attribute**: Constitution  
 

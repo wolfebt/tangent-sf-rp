@@ -11,18 +11,20 @@ description: >-
   The character has a sharp, analytical mind capable of making rapid deductions
   and seeing through complex deceptions or puzzles.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   insightful reason, ability, special-feature, innate-talent, passive-prowess,
   analytical
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Insightful Reason
 
 **Category**: Ability Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Intellect 1
 
 ## Description

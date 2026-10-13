@@ -5,6 +5,7 @@ trait_tier: Advanced
 trait_type: Species Trait
 category: traits
 costs:
+  cp: 2
   bp: 2
 description: Sense unseen objects in a 30 ft Radius or Cone of 60 ft.
 modifiers: []
@@ -14,7 +15,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Advanced
 **Type**: Species Trait
-**BP Cost**: 2
+**CP Cost**: 2
 
 ## Description
 Sense unseen objects in a 30 ft Radius or Cone of 60 ft.

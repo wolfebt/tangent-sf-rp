@@ -9,6 +9,7 @@ description: 'Gain 1 feature (reprogrammable): Limited.'
 stigma: None
 type: Cybernetic
 costs:
+  cp: 0
   bp: 0
   credits: 2560
   nodes: 0

@@ -11,16 +11,18 @@ description: >-
   The character is exceptionally thorough. When they take their time, they
   rarely fail.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'meticulous, skill, special-feature, exceptionally, thorough, rarely'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Meticulous
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: None
 
 ## Description

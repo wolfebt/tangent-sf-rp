@@ -11,16 +11,18 @@ description: >-
   The character has learned to stabilize their internal flow of energy, allowing
   them to channel power with greater control and intensity.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'centering, discipline, special-feature, focused-training, mastery, learned'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Centering
 
 **Category**: Discipline Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Attune 6 (Trained), Key Ability Score 2
 
 ## Description

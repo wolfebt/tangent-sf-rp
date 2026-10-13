@@ -8,19 +8,23 @@ is_ranked: false
 is_multiple: false
 prerequisites: Insectoid Glands or Chemoreceptive Biology
 description: >-
-  Synthesizes complex airborne and surface pheromones for silent intra-hive communication,
-  scent-trail marking, and coordinated swarm logistics.
+  Synthesizes complex airborne and surface pheromones for silent intra-hive
+  communication, scent-trail marking, and coordinated swarm logistics.
 costs:
+  cp: 2
   bp: 2
 modifiers: []
-keywords: 'pheromonal-synthesis, scent-marking, hive-coordination, trail-marking, communication, murex'
+keywords: >-
+  pheromonal-synthesis, scent-marking, hive-coordination, trail-marking,
+  communication, murex
 negative_keywords: 'scentless, non-communicative, sensory-deprived'
+cost_cp: 2
 ---
 
 # Pheromonal Synthesis
 
 **Category**: Special Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisites**: Insectoid Glands or Chemoreceptive Biology  
 
 ## Description

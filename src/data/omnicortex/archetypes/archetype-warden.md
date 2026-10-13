@@ -32,17 +32,19 @@ description: >-
   A protector of forests and natural habitats, skilled in both magic and combat
   to defend the wild.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'warden, sentinel, defender, stability, order, hybrid (magic, melee)'
 negative_keywords: 'fragile, unarmored, timid, evasive-sniper, chaotic-anarchist'
+cp_chassis: 80
 ---
 
 # The Warden
 
 **Sphere**: Sentinels (The Stabilizers)  
 **Core Concept**: Hybrid (Magic/Melee) / Defender  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Wisdom  
 **Secondary Attribute**: Strength or Agility  
 

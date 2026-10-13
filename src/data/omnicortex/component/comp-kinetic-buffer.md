@@ -4,6 +4,7 @@ name: Kinetic Recoil Buffer
 description: Hydraulic stock buffer reducing automatic fire penalties by 2 points.
 category: component
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

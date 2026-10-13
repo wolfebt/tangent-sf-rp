@@ -11,16 +11,18 @@ description: >-
   The character has a knack for the arcane theory, even if they aren't a
   powerful caster.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'magical aptitude, skill, special-feature, arcane, theory, aren''t'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Magical Aptitude
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: None
 
 ## Description

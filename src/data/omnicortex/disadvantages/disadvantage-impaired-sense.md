@@ -8,16 +8,18 @@ description: >-
   One primary sensory organ is partially damaged or weak (e.g., Near-Sighted,
   Hard of Hearing, Nerve Damage).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'impaired sense, hindrance, penalty, general, primary, sensory'
 negative_keywords: 'perfection, flawless, unyielding, invulnerable'
+cp_granted: '4'
 ---
 
 # Impaired Sense
 
 **Category**: Hindrances & Disadvantages  
-**BP Granted**: 4 BP  
+**CP Granted**: 4 CP  
 **Type**: Physical
 
 ## Description

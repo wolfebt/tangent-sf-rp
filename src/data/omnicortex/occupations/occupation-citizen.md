@@ -36,6 +36,7 @@ description: >-
   with customs, languages, and technologies, allowing them to navigate the
   complexities of their society.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 recommended_species:
@@ -70,13 +71,16 @@ negative_keywords: >-
   bloodthirsty-berserker, eldritch-cultist, covert-assassin, rogue-warlord,
   deep-abyss-monstrosity, outlaw-raider, lone-wolf-vigilante,
   nihilistic-anarchist
+base_ws: 2
+economic_context: Standard municipal wage & steady employment
 ---
 
 # Citizen Occupation
 
 **Category**: Occupations  
+**EUFT Base Wealth Score**: WS 2 (Standard municipal wage & steady employment)  
 **Starting Skill Points**: 20 SP (allocated to Professional Skills, max Rank 11, recommended Rank 6)  
-**Recommended Features**: General (1 BP Discount)  
+**Recommended Features**: General (1 CP Discount)  
 **Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)
 
 ## Description

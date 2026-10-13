@@ -13,6 +13,7 @@ mechanic: >-
   Projects volumetric image within Close (10m) range. Grants +2 to Deception
   checks for distractions.
 costs:
+  cp: 0
   bp: 0
   credits: 160
   nodes: 0

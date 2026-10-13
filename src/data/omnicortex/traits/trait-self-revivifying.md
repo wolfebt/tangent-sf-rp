@@ -5,6 +5,7 @@ trait_tier: Elite
 trait_type: Species Trait
 category: traits
 costs:
+  cp: 4
   bp: 4
 description: '1/day attempt to resurrect. Cost: 1 Karma, Con Check Diff 20. Req: Immortal.'
 modifiers: []
@@ -14,7 +15,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Elite
 **Type**: Species Trait
-**BP Cost**: 4
+**CP Cost**: 4
 
 ## Description
 1/day attempt to resurrect. Cost: 1 Karma, Con Check Diff 20. Req: Immortal.

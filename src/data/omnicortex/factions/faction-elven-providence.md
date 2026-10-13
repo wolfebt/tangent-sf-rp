@@ -56,6 +56,7 @@ description: >-
   Ancient, fractured civilization encompassing the Alterian Enclave, Silvermoon
   Vanguard, and Draconian Order across millennia of ideological schisms
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Major Galactic Power

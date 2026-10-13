@@ -33,17 +33,19 @@ description: >-
   A master of arcane magic, manipulating subtle energies to cast powerful spells
   through intricate gestures and rituals.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'magus, savant, rational, intellect, strategist, artillery, utility'
 negative_keywords: 'mindless-brute, reckless, illiterate'
+cp_chassis: 80
 ---
 
 # The Magus
 
 **Sphere**: Savants (The Rationals)  
 **Core Concept**: Artillery / Utility / Glass Cannon  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
 **Secondary Attribute**: Constitution  
 

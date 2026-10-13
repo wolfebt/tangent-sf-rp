@@ -10,6 +10,7 @@ bp_cost: 1
 stigma: None
 type: Prosthetic
 costs:
+  cp: 0
   bp: 0
   credits: 640
   nodes: 0
@@ -35,7 +36,7 @@ stage: Standard
 keywords: 'skate foot, augmentation, prosthetic, standard, tl-3, general'
 negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
 ---
-Category: **4.2 Hand & Foot Options (1 BP Per Option)**
+Category: **4.2 Hand & Foot Options (1 CP Per Option)**
 
 **Effect:** Integrated wheels; Run speed +50%.
 **Nodes:** 3

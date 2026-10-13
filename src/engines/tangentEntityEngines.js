@@ -49,6 +49,7 @@ import {
 
 import { DEFAULT_SPECIES } from '../data/speciesData.js';
 import { ALL_CANONICAL_SKILLS } from '../data/skillsData.js';
+import { DEFAULT_SPECIES_TRAITS } from '../data/speciesTraitsData.js';
 
 import {
   calculateCreditValue,
@@ -284,7 +285,7 @@ export function calculateSpeciesBP(params = {}) {
   let movementModes = params.movementModes || params.movement_modes || params.movement || ['normal'];
   let attributes = {};
   let skillBundles = params.skillBundles ?? params.skill_bundles ?? 0;
-  let traits = [
+  const rawTraits = [
     ...(Array.isArray(params.traits) ? params.traits : []),
     ...(Array.isArray(params.species_traits) ? params.species_traits : []),
     ...(Array.isArray(params.inherent_traits) ? params.inherent_traits : [])
@@ -294,10 +295,20 @@ export function calculateSpeciesBP(params = {}) {
     params.inherent_features.forEach(item => {
       const id = typeof item === 'object' ? (item.id || item.name || '') : String(item);
       if (id.startsWith('trait-') || id.toLowerCase().includes('trait')) {
-        traits.push(item);
+        rawTraits.push(item);
       }
     });
   }
+  const seenTraitKeys = new Set();
+  const traits = [];
+  rawTraits.forEach(item => {
+    const rawId = typeof item === 'object' ? (item.id || item.code || item.name || '') : String(item);
+    const cleanKey = rawId.toLowerCase().trim().replace(/^trait-species-/, '').replace(/^trait-/, '').replace(/-/g, '_');
+    if (cleanKey && !seenTraitKeys.has(cleanKey)) {
+      seenTraitKeys.add(cleanKey);
+      traits.push(item);
+    }
+  });
   let disadvantages = [
     ...(Array.isArray(params.disadvantages) ? params.disadvantages : []),
     ...(Array.isArray(params.inherent_disadvantages) ? params.inherent_disadvantages : [])
@@ -354,11 +365,12 @@ export function calculateSpeciesBP(params = {}) {
     });
   }
 
-  // Support skill points directly
-  if (params.skillPoints || params.skill_points) {
-    const rawPoints = Number(params.skillPoints || params.skill_points);
-    if (!skillBundles) {
-      skillBundles = Math.floor(rawPoints / 5);
+  // Support skill points directly from bonus_skills, bonus_skill_points, skillPoints, or skill_points
+  const rawPoints = params.bonus_skills ?? params.bonus_skill_points ?? params.skillPoints ?? params.skill_points;
+  if (rawPoints !== undefined && rawPoints !== null) {
+    const numPoints = Number(rawPoints);
+    if (!isNaN(numPoints) && !skillBundles) {
+      skillBundles = Math.floor(numPoints / 5);
     }
   }
 
@@ -441,25 +453,27 @@ export function calculateSpeciesBP(params = {}) {
   const calculatedSpeeds = speedData.speeds;
   const speedsFormatted = speedData.speedsFormatted;
 
-  // 4. Attribute Modifiers (1 point = 5 BP, -1 point = -5 BP refund)
+  // 4. Attribute Modifiers (Modular Matrix: 1 point = 4 BP, -1 point = -4 BP refund)
   let attributeBP = 0;
   const itemizedAttributes = [];
   for (const attr of ['str', 'agi', 'sta', 'int', 'wis', 'cha']) {
     const val = Number(attributes[attr] || 0);
     if (val !== 0) {
-      const bpVal = val * 5;
+      const bpVal = val * 4;
       attributeBP += bpVal;
       itemizedAttributes.push({ attr: attr.toUpperCase(), value: val, bp: bpVal });
     }
   }
 
-  // 5. Skill Points (Each +5 bundle costs 5 BP / 1 BP per point)
-  const skillsBP = Math.max(0, Number(skillBundles || 0)) * 5;
+  // 5. Skill Points (Modular Matrix: Each +5 bundle costs 4 BP / 0.8 BP per point)
+  const skillsBP = Math.max(0, Number(skillBundles || 0)) * 4;
 
   // 6. Traits Catalog (Basic 1 BP, Advanced 2 BP, Elite 4 BP)
   let traitsBP = 0;
   const itemizedTraits = [];
-  const allTraits = [...SPECIES_TRAITS_BASIC, ...SPECIES_TRAITS_ADVANCED, ...SPECIES_TRAITS_ELITE];
+  const allTraits = (DEFAULT_SPECIES_TRAITS && DEFAULT_SPECIES_TRAITS.length > 0)
+    ? DEFAULT_SPECIES_TRAITS
+    : [...SPECIES_TRAITS_BASIC, ...SPECIES_TRAITS_ADVANCED, ...SPECIES_TRAITS_ELITE];
   if (Array.isArray(traits)) {
     for (const t of traits) {
       const traitId = typeof t === 'string' ? t : (t?.id || t?.code || t?.name);
@@ -498,13 +512,13 @@ export function calculateSpeciesBP(params = {}) {
       }
 
       if (found) {
-        const bpVal = Number(found.bp || 1);
+        const bpVal = Number(found.bp ?? (found.trait_tier === 'Elite' ? 4 : (found.trait_tier === 'Advanced' ? 2 : 1)));
         traitsBP += bpVal;
-        itemizedTraits.push({ id: found.id, name: found.name, bp: bpVal, tier: found.trait_tier || (found.bp === 4 ? 'Elite' : (found.bp === 2 ? 'Advanced' : 'Basic')), type: found.type });
-      } else if (typeof t === 'object' && t.bp) {
-        const bpVal = Number(t.bp);
+        itemizedTraits.push({ id: found.id, name: found.name, bp: bpVal, tier: found.trait_tier || (bpVal === 4 ? 'Elite' : (bpVal === 2 ? 'Advanced' : 'Basic')), type: found.type || found.classification || 'Physical' });
+      } else if (typeof t === 'object' && (t.bp !== undefined || t.cp !== undefined || t.trait_tier)) {
+        const bpVal = Number(t.bp ?? t.cp ?? (t.trait_tier === 'Elite' ? 4 : (t.trait_tier === 'Advanced' ? 2 : 1)));
         traitsBP += bpVal;
-        itemizedTraits.push({ id: t.id || 'custom_trait', name: t.name || 'Custom Trait', bp: bpVal, tier: 'Custom', type: t.type || 'Physical' });
+        itemizedTraits.push({ id: t.id || 'custom_trait', name: t.name || 'Custom Trait', bp: bpVal, tier: t.trait_tier || (bpVal === 4 ? 'Elite' : (bpVal === 2 ? 'Advanced' : 'Basic')), type: t.type || 'Physical' });
       } else if (typeof t === 'string' && t.trim()) {
         traitsBP += 1;
         itemizedTraits.push({ id: cleanTraitId, name: t, bp: 1, tier: 'Basic', type: 'Physical' });
@@ -600,7 +614,9 @@ export function calculateSpeciesBP(params = {}) {
   const isOverBudget = finalBPUsed > budgetDef.maxBP;
 
   return {
+    totalCPUsed: finalBPUsed,
     totalBPUsed: finalBPUsed,
+    cpRemaining: bpRemaining,
     bpRemaining,
     budgetMax: budgetDef.maxBP,
     budgetMin: budgetDef.minBP,
@@ -609,31 +625,39 @@ export function calculateSpeciesBP(params = {}) {
     speeds: calculatedSpeeds,
     speedsFormatted,
     breakdown: {
+      typeCP: typeBP,
       typeBP,
+      sizeCP: sizeBP,
       sizeBP,
+      movementCP: movementBP,
       movementBP,
+      attributeCP: attributeBP,
       attributeBP,
+      skillsCP: skillsBP,
       skillsBP,
+      traitsCP: traitsBP,
       traitsBP,
       disadvantagesRefund,
       stigmaRefund
     },
     itemized: {
-      type: itemizedTypes.length === 1 ? itemizedTypes[0] : { id: itemizedTypes.map(t => t.id).join(', '), name: itemizedTypes.map(t => t.name).join(', '), bp: typeBP, types: itemizedTypes },
-      size: { id: sizeDef.id, name: sizeDef.name, bp: sizeBP },
+      type: itemizedTypes.length === 1 ? itemizedTypes[0] : { id: itemizedTypes.map(t => t.id).join(', '), name: itemizedTypes.map(t => t.name).join(', '), bp: typeBP, cp: typeBP, types: itemizedTypes },
+      size: { id: sizeDef.id, name: sizeDef.name, bp: sizeBP, cp: sizeBP },
       movement: itemizedMovement,
       speeds: calculatedSpeeds,
       attributes: itemizedAttributes,
-      skills: { bundles: skillBundles, bp: skillsBP },
+      skills: { bundles: skillBundles, bp: skillsBP, cp: skillsBP },
       traits: itemizedTraits,
       disadvantages: itemizedDisadvantages,
-      stigma: { text: rawStigmaStr, refundBP: stigmaRefund }
+      stigma: { text: rawStigmaStr, refundBP: stigmaRefund, refundCP: stigmaRefund }
     }
   };
 }
 
+export const calculateSpeciesCP = calculateSpeciesBP;
+
 /**
- * Calculates the full Build Point (BP) / Character Point (CP) cost of a species,
+ * Calculates the full Character Point (CP) / Build Point (BP) cost of a species,
  * resolving it against the canonical species database or evaluating its raw components.
  * 
  * @param {string|object} speciesInput - Species name, ID, or object
@@ -684,10 +708,14 @@ export function calculateFullSpeciesCost(speciesInput, dbData = {}) {
   const bpData = calculateSpeciesBP(speciesObj);
 
   // If explicit cp/cost is specified in catalog, use document standard or computed total
-  const explicitCost = (speciesObj.costs?.bp !== undefined && speciesObj.costs?.bp !== null)
-    ? Number(speciesObj.costs.bp)
-    : ((speciesObj.cp !== undefined && speciesObj.cp !== null) ? Number(speciesObj.cp) : null);
-  const finalCost = explicitCost !== null && !isNaN(explicitCost) ? explicitCost : bpData.totalBPUsed;
+  const explicitCost = (speciesObj.costs?.cp !== undefined && speciesObj.costs?.cp !== null)
+    ? Number(speciesObj.costs.cp)
+    : ((speciesObj.costs?.bp !== undefined && speciesObj.costs?.bp !== null)
+      ? Number(speciesObj.costs.bp)
+      : ((speciesObj.cp_cost !== undefined && speciesObj.cp_cost !== null)
+        ? Number(speciesObj.cp_cost)
+        : ((speciesObj.cp !== undefined && speciesObj.cp !== null) ? Number(speciesObj.cp) : null)));
+  const finalCost = explicitCost !== null && !isNaN(explicitCost) ? explicitCost : (bpData.totalCPUsed ?? bpData.totalBPUsed);
 
   const itemizedList = [];
   if (bpData.breakdown.typeBP > 0) {
@@ -711,6 +739,9 @@ export function calculateFullSpeciesCost(speciesInput, dbData = {}) {
   if (bpData.breakdown.disadvantagesRefund > 0) {
     itemizedList.push({ category: 'Disadvantages (Refund)', name: `-${bpData.breakdown.disadvantagesRefund} CP`, bp: -bpData.breakdown.disadvantagesRefund, cp: -bpData.breakdown.disadvantagesRefund });
   }
+  if (bpData.breakdown.stigmaRefund > 0) {
+    itemizedList.push({ category: 'Social Stigma (Rebate)', name: `-${bpData.breakdown.stigmaRefund} CP (${bpData.itemized.stigma?.text || 'Stigma'})`, bp: -bpData.breakdown.stigmaRefund, cp: -bpData.breakdown.stigmaRefund });
+  }
 
   const summaryParts = [];
   if (bpData.breakdown.typeBP) summaryParts.push(`Type: ${bpData.breakdown.typeBP} CP`);
@@ -720,6 +751,7 @@ export function calculateFullSpeciesCost(speciesInput, dbData = {}) {
   if (bpData.breakdown.skillsBP) summaryParts.push(`Skills: ${bpData.breakdown.skillsBP} CP`);
   if (bpData.breakdown.traitsBP) summaryParts.push(`Traits: ${bpData.breakdown.traitsBP} CP`);
   if (bpData.breakdown.disadvantagesRefund) summaryParts.push(`Refund: -${bpData.breakdown.disadvantagesRefund} CP`);
+  if (bpData.breakdown.stigmaRefund) summaryParts.push(`Stigma: -${bpData.breakdown.stigmaRefund} CP`);
 
   return {
     speciesName,
@@ -2228,6 +2260,50 @@ export {
 } from './tangentIdentityEngine.js';
 
 /**
+ * Resolves the canonical Character Point (CP) / Build Point (BP) cost for a trait
+ * based on its tier in the Species / Trait Matrix:
+ * - Basic: 1 CP
+ * - Advanced: 2 CP
+ * - Elite: 4 CP
+ *
+ * @param {string|object} trait - Trait object or name/id
+ * @returns {number} 1, 2, or 4 CP
+ */
+export function getCanonicalTraitCost(trait) {
+  if (typeof trait === 'number') return trait;
+  if (!trait) return 1;
+  if (typeof trait === 'object') {
+    if (trait.cp !== undefined && trait.cp !== null && trait.cp !== '' && Number(trait.cp) > 0) {
+      return Number(trait.cp);
+    }
+    if (trait.bp !== undefined && trait.bp !== null && trait.bp !== '' && Number(trait.bp) > 0) {
+      return Number(trait.bp);
+    }
+    if (trait.trait_tier === 'Elite') return 4;
+    if (trait.trait_tier === 'Advanced') return 2;
+    if (trait.trait_tier === 'Basic') return 1;
+  }
+  const idOrName = typeof trait === 'object' ? (trait.id || trait.name || '') : String(trait);
+  const clean = idOrName.toLowerCase().trim();
+  const normId = clean.replace(/^trait-species-/, '').replace(/^trait-/, '');
+  const all = (DEFAULT_SPECIES_TRAITS && DEFAULT_SPECIES_TRAITS.length > 0)
+    ? DEFAULT_SPECIES_TRAITS
+    : [...SPECIES_TRAITS_BASIC, ...SPECIES_TRAITS_ADVANCED, ...SPECIES_TRAITS_ELITE];
+  const found = all.find(t => 
+    t.id.toLowerCase() === clean || 
+    t.name.toLowerCase() === clean ||
+    t.id.toLowerCase() === ('trait-' + normId) ||
+    t.id.toLowerCase() === normId
+  );
+  if (found) {
+    if (found.trait_tier === 'Elite' || found.bp === 4) return 4;
+    if (found.trait_tier === 'Advanced' || found.bp === 2) return 2;
+    return 1;
+  }
+  return 1;
+}
+
+/**
  * Computes comprehensive character point (CP) economy breakdown, ensuring that all
  * attribute modifiers, features, skills, and traits picked from selection pools granted
  * from Species, Occupation, Origin, or Faction are never charged CP in the 150 CP pool.
@@ -2708,6 +2784,7 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
   // 7. Traits (characterData.traits)
   let traitsCost = 0;
   let originGrantedCount = 0;
+  let occuGrantedCount = 0;
   const speciesPoolTraits = new Set((characterData.speciesAllocations?.traits || []).map(t => normTrait(typeof t === 'object' ? (t.name || t.title || t.id) : t)));
   const occuPoolTraits = new Set([
     ...(characterData.occuAllocations?.traits || []),
@@ -2729,11 +2806,14 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
     const tSource = typeof trait === 'object' ? (trait.source || '') : '';
     const isExplicitlyGranted = typeof trait === 'object' && (trait.isGranted === true || trait.cp === 0);
 
-    const isFromSpecies = speciesPoolTraits.has(cleanName) || tSource === 'species' || tCat.includes('Species');
+    const isFromSpecies = speciesPoolTraits.has(cleanName) || tSource === 'species' || tCat.includes('Species') || (speciesCostBreakdown?.itemized?.traits?.some(st => normTrait(st.name) === cleanName));
     const isFromOccu = occuPoolTraits.has(cleanName) || tSource === 'occupation' || tSource === 'occu' || tCat.includes('Occupation');
     const isFromOrigin = originPoolTraits.has(cleanName) || tSource === 'origin' || tCat.includes('Origin');
     const isFromFaction = factionPoolTraits.has(cleanName) || tSource === 'faction' || tCat.includes('Faction');
 
+    const canonicalTierCost = getCanonicalTraitCost(trait);
+
+    // Origin Traits: 2 free, additional cost canonical tier cost (1, 2, or 4 CP)
     if (isFromOrigin) {
       const isPaid = (typeof trait === 'object' && trait.isPaidOriginTrait === true) || originGrantedCount >= 2;
       if (!isPaid) {
@@ -2743,16 +2823,16 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
           item: name,
           val: 'Granted by Origin (0 CP Included / Free)',
           costVal: 0,
-          cost: formatGrantedCost(0, 1, 'CP'),
-          standaloneCost: 1
+          cost: formatGrantedCost(0, canonicalTierCost, 'CP'),
+          standaloneCost: canonicalTierCost
         });
       } else {
-        const cost = (typeof trait === 'object' && trait.cp !== undefined) ? getItemCP(trait, 1) : 1;
+        const cost = (typeof trait === 'object' && trait.cp !== undefined && trait.cp !== 0) ? getItemCP(trait, canonicalTierCost) : canonicalTierCost;
         traitsCost += cost;
         itemizedList.push({
           category: 'Origin Trait (Additional)',
           item: name,
-          val: 'Origin Trait (1 CP Additional Purchase)',
+          val: `Origin Trait (${cost} CP Additional Purchase)`,
           costVal: cost,
           cost: `${cost} CP`
         });
@@ -2760,21 +2840,45 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
       return;
     }
 
-    const isGrantedTrait = isFromSpecies || isFromOccu || isFromFaction || isExplicitlyGranted;
+    // Occupation Traits: 2 free, additional cost canonical tier cost (1, 2, or 4 CP)
+    if (isFromOccu) {
+      const isPaid = (typeof trait === 'object' && trait.isPaidOccuTrait === true) || occuGrantedCount >= 2;
+      if (!isPaid) {
+        occuGrantedCount++;
+        itemizedList.push({
+          category: 'Occupation Trait',
+          item: name,
+          val: 'Granted by Occupation (0 CP Included / Free)',
+          costVal: 0,
+          cost: formatGrantedCost(0, canonicalTierCost, 'CP'),
+          standaloneCost: canonicalTierCost
+        });
+      } else {
+        const cost = (typeof trait === 'object' && trait.cp !== undefined && trait.cp !== 0) ? getItemCP(trait, canonicalTierCost) : canonicalTierCost;
+        traitsCost += cost;
+        itemizedList.push({
+          category: 'Occupation Trait (Additional)',
+          item: name,
+          val: `Occupation Trait (${cost} CP Additional Purchase)`,
+          costVal: cost,
+          cost: `${cost} CP`
+        });
+      }
+      return;
+    }
+
+    const isGrantedTrait = isFromSpecies || isFromFaction || isExplicitlyGranted;
 
     if (isGrantedTrait) {
       const standalone = (typeof trait === 'object' && (trait.standaloneBp !== undefined || trait.standaloneCp !== undefined))
         ? (trait.standaloneBp !== undefined ? trait.standaloneBp : trait.standaloneCp)
-        : ((typeof trait === 'object' && trait.bp) ? trait.bp : 1);
+        : canonicalTierCost;
 
       let categoryLabel = 'Species Trait';
       let sourceName = speciesCostBreakdown?.speciesName || 'Species';
       if (isFromSpecies) {
         categoryLabel = 'Species Trait';
         sourceName = speciesCostBreakdown?.speciesName || 'Species';
-      } else if (isFromOccu) {
-        categoryLabel = 'Occupation Trait';
-        sourceName = 'Occupation';
       } else if (isFromFaction) {
         categoryLabel = 'Faction Trait';
         sourceName = 'Faction';
@@ -2789,12 +2893,12 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
         standaloneCost: standalone
       });
     } else {
-      const cost = getItemCP(trait, 1);
+      const cost = (typeof trait === 'object' && trait.cp !== undefined && trait.cp !== 0) ? getItemCP(trait, canonicalTierCost) : canonicalTierCost;
       traitsCost += cost;
       itemizedList.push({
         category: 'Trait',
         item: name,
-        val: (typeof trait === 'object' && trait.type) ? trait.type : 'Trait Purchase',
+        val: (typeof trait === 'object' && trait.type) ? trait.type : `Trait Purchase (${cost} CP)`,
         costVal: cost,
         cost: `${cost} CP`
       });
@@ -3169,6 +3273,8 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
     purchasedStatsCost,
     identityPools,
     speciesCostBreakdown,
+    speciesCost: speciesCostBreakdown?.totalCost || 0,
+    identityCost,
     itemizedList
   };
 }

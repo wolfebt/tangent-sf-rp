@@ -5,12 +5,16 @@ category: disciplines
 metafocus_skills:
   - Enhancement
   - Transmutation
-primary_color: 'Earth Tones'
-secondary_color: 'Metallic Sheen'
-texture_form: 'Solidification, density shifting, transmutation, and diamond lattice reinforcement.'
+primary_color: Earth Tones
+secondary_color: Metallic Sheen
+texture_form: >-
+  Solidification, density shifting, transmutation, and diamond lattice
+  reinforcement.
 description: >-
-  Controlling physical density, atomic crystalline bonds, elemental transmutation, and structural reinforcement.
+  Controlling physical density, atomic crystalline bonds, elemental
+  transmutation, and structural reinforcement.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -6,6 +6,7 @@ distance: Star System
 description: Transmits across astronomical units within a local star system.
 category: range
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

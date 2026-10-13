@@ -5,12 +5,14 @@ category: disciplines
 metafocus_skills:
   - Projection
   - Sense
-primary_color: 'Pink/Magenta'
-secondary_color: 'Cyan'
+primary_color: Pink/Magenta
+secondary_color: Cyan
 texture_form: 'Cognitive ripples, psionic pulses, telepathic threads, and glowing eyes.'
 description: >-
-  Direct neural interfacing, telepathic communication, remote sensory clairvoyance, and psychic will projection.
+  Direct neural interfacing, telepathic communication, remote sensory
+  clairvoyance, and psychic will projection.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -21,6 +21,7 @@ synergy_links:
   - mental-physics
   - mental-science
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'metaphysics, mental, wisdom, intellect, cognitive, expertise'

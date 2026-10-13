@@ -5,6 +5,7 @@ trait_tier: Elite
 trait_type: Species Trait
 category: traits
 costs:
+  cp: 4
   bp: 4
 description: 'Breath Weapon - 30 ft Cone or 60 ft Line of Energy [Str x d8 in Dmg].'
 modifiers: []
@@ -14,7 +15,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Elite
 **Type**: Species Trait
-**BP Cost**: 4
+**CP Cost**: 4
 
 ## Description
 Breath Weapon - 30 ft Cone or 60 ft Line of Energy [Str x d8 in Dmg].

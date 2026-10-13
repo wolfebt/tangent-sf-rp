@@ -13,6 +13,7 @@ mechanic: >-
   Creates temporary physical cover (20 HP), furniture, or bridges. Dissolves if
   powered down.
 costs:
+  cp: 0
   bp: 0
   credits: 40960
   nodes: 0

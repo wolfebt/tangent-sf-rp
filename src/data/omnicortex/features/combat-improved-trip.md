@@ -11,18 +11,20 @@ description: >-
   Improved Trip is a Combat Feature: +2 bonus on trip attempts, no attack of
   opportunity.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   improved trip, combat, special-feature, combat-maneuver, tactical-edge,
   improved
 negative_keywords: 'pacifist, feeble, untrained-civilian'
+cost_cp: 3
 ---
 
 # Improved Trip
 
 **Category**: Combat Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Combat Expertise
 
 ## Description

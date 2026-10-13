@@ -9,7 +9,7 @@ symbol_sigil: The Star Hive (Interlocking Obsidian Mandibles around a Pulsating 
 capital_world: The Primary Hive-Spire (Homeworld Genomatrix)
 tech_level: '4'
 meta_level: '4'
-wealth_modifier: '+2 (Biological cultivation monopolies and pharmaceutical yields)'
+wealth_modifier: +2 (Biological cultivation monopolies and pharmaceutical yields)
 prominent_species: 'Kitin (Manelli, Murex, Rakne, Maantene, Syndess)'
 typical_archetypes:
   - The Brood-Master
@@ -23,12 +23,12 @@ typical_archetypes:
   - The Geneticist
   - The Living Engine
 skill_package:
-  - 'Awareness (+4)'
-  - 'Survival (+4)'
-  - 'Science (Biotechnology) (+3)'
-  - 'Athletics (+3)'
-  - 'Metaphysics (+3)'
-  - 'Combat (+3)'
+  - Awareness (+4)
+  - Survival (+4)
+  - Science (Biotechnology) (+3)
+  - Athletics (+3)
+  - Metaphysics (+3)
+  - Combat (+3)
 recommended_features:
   - Radiation Advantage
   - Torpor (Universal)
@@ -64,6 +64,7 @@ description: >-
   Brood-Masters and powered by the Genomatrix, the Collective fields specialized
   biological expressions linked in seamless, sleepless coordination.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Major Galactic Power
@@ -88,11 +89,12 @@ recommended_occupations:
   - Representative
   - Scholar
 keywords: >-
-  monogenetic-hive-state, the-star-hive, psionic-biocracy, the-chorus, biomorphic-adaptation,
-  genomatrix-proto-flux, hive-resin, syndess-core-interface, void-terror-dreadnought, green-vein-piping
+  monogenetic-hive-state, the-star-hive, psionic-biocracy, the-chorus,
+  biomorphic-adaptation, genomatrix-proto-flux, hive-resin,
+  syndess-core-interface, void-terror-dreadnought, green-vein-piping
 negative_keywords: >-
-  individual-ego, democratic-pluralism, dissenting-static, riezen-heresy, corporate-greed,
-  mechanical-stagnation, sleep-dependency
+  individual-ego, democratic-pluralism, dissenting-static, riezen-heresy,
+  corporate-greed, mechanical-stagnation, sleep-dependency
 ---
 
 ## **KITIN COLLECTIVE (THE STAR HIVE)**
@@ -170,7 +172,7 @@ negative_keywords: >-
   * Metaphysics (+3): Attunement to the Chorus and psionic command synchronization.  
   * Combat (+3): Natural weapons, bio-lances, and coordinated swarm combat.  
 * **Typical Archetypes:** The Brood-Master, The Hive Weaver, The Synaptic Pilot, The Biomorphic Shaper, The Swarm Guardian, The Infiltrator, The Scout, The Drone Overseer, The Geneticist, The Living Engine.  
-* **Recommended Features (1 BP Discount):**  
+* **Recommended Features (1 CP Discount):**  
   * Radiation Advantage, Torpor (Universal), Biological Continuity, Psionic Gating, Biotechnology, Mind Link, Telepathy, Fast Heal, Wall-Crawler, Scent, Endurance, Swarm Tactics (Coordinated Assist).
 
 ---

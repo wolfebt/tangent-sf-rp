@@ -9,6 +9,7 @@ description: Military grade encryption.
 stigma: None
 type: Sensory
 costs:
+  cp: 0
   bp: 0
   credits: 2560
   nodes: 0

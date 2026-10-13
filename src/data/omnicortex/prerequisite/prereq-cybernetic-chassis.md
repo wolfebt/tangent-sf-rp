@@ -6,6 +6,7 @@ value: Chassis == Synthetic/Augmented
 description: Requires the character to possess synthetic chassis or augmented body parts.
 category: prerequisite
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

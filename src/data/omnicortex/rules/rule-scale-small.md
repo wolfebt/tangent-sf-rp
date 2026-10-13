@@ -4,6 +4,7 @@ name: 'Scale: Small (x1/2)'
 category: rules
 description: 'Halflings / turrets; x1/2 damage, -2 defense modifier.'
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

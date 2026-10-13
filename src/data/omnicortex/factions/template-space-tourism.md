@@ -53,6 +53,7 @@ description: >-
   planetary resorts. They prioritize profit and experience above all, often
   ignoring the safety of the locals or the stability of the regions they visit
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Faction Template
@@ -117,7 +118,7 @@ negative_keywords: 'austere-survival, grime, battlefield-horrors, toxic-hazards,
   * Pilot (+4)  
   * Insight (+3)  
 * **Typical Archetypes:** The Galactic Guide, The Thrill-Seeker, The Cruise Director, The VIP Security, The Socialite.  
-* **Recommended Features (1 BP Discount):** Benefit (Wealth), Golden Smile, Trustworthy, Silver Tongue, Platinum Personality, Connected, Versatile Curator, Graceful, Evasiveness, Educated.
+* **Recommended Features (1 CP Discount):** Benefit (Wealth), Golden Smile, Trustworthy, Silver Tongue, Platinum Personality, Connected, Versatile Curator, Graceful, Evasiveness, Educated.
 
 ### **VI. Visual Semiotics (Aesthetics)**
 

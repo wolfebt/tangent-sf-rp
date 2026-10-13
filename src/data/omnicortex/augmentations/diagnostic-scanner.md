@@ -9,6 +9,7 @@ description: Medical scanner embedded in finger or palm.
 stigma: None
 type: Fashionware
 costs:
+  cp: 0
   bp: 0
   credits: 160
   nodes: 0

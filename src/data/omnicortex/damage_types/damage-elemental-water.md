@@ -6,6 +6,7 @@ description: >-
   High-pressure aqueous streams, crushing tidal waves, and drowning trauma.
   Knocks targets back and suffocates.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

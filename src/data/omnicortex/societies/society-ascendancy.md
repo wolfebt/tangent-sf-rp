@@ -7,6 +7,7 @@ description: >-
   Harmonious solarpunk eco-society focused on mental clarity, psionic
   meditation, and public welfare.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

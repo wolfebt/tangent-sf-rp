@@ -42,7 +42,8 @@ tech_level: 3 (Miniaturized Mechanics)
 meta_level: 1 (Agile Flow)
 homeworld: Brae Warren Habitats
 costs:
-  bp: 21
+  cp: 20
+  bp: 20
 modifiers:
   - target: Agility
     value: 1
@@ -60,17 +61,16 @@ modifiers:
     value: 4
     type: skill
     mode: size_modifier
-cp_cost: 21
-cp: 21
-bp: 21
+cp_cost: 20
+cp: 20
+bp: 20
 description: >-
   Brae are compact, diminutive humans (standing 3 to 4 feet tall) who evolved
   aboard generational colony ships and tight subterranean refinery tubes.
-traits:
+traits: &ref_0
   - trait-climber
-  - trait-high-metabolism
+  - trait-quick
   - trait-longevity
-  - trait-small-size-2-defense-2-stealth
 recommended_factions:
   - The Entari Combine
   - The Outworlds
@@ -84,13 +84,14 @@ recommended_occupations:
   - Criminal
 keywords: 'diminutive, generational-ship, conduit-crawler, compact-tinkerer, nimble'
 negative_keywords: 'heavy-combat, towering, brute-force'
+species_traits: *ref_0
 ---
 
 # Brae Human (Small Stature Variant)
 
 *
 
-**BP Cost:**   
+**CP Cost:** 20 CP  
 **Description:** The Half-Folk are a distinct and fascinating subspecies of humans, instantly recognizable by their diminutive stature, typically averaging around three feet in height. Despite their small size, they possess a wiry strength and a remarkable level of adaptability that has allowed them to thrive in virtually every corner of the known world. This adaptability is the cornerstone of their culture and survival, marking them as one of the most highly survivable human groups.
 
 Their keen intellect and innate agility contribute significantly to their success. The Half-Folk are clever problem-solvers, often utilizing their understanding of natural surroundings and simple mechanics to overcome obstacles that would baffle larger human societies. Their agility is not just a trait for movement; it is a fundamental aspect of their interaction with the environment, allowing them to traverse difficult terrain with ease.

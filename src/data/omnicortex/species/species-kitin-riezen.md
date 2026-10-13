@@ -57,7 +57,8 @@ tech_level: — (Utilizes biological zombification of host technology)
 meta_level: 3 (Resonant / Chaotic)
 homeworld: NBC War-Scorched Kitin Waste Worlds
 costs:
-  bp: 24
+  cp: 26
+  bp: 26
 modifiers:
   - target: Agility
     value: 2
@@ -67,15 +68,15 @@ modifiers:
     value: -2
     type: attribute
     mode: inherent
-cp_cost: 24
-cp: 24
-bp: 24
+cp_cost: 26
+cp: 26
+bp: 26
 description: >-
   The Riezen are a divergent swarm of thousands of fine-sized insects acting as
   a singular psionic entity. Born of planetary NBC fallout, they exist outside
   the Kitin Collective as a biological heresy, emitting disruptive psionic
   static and zombifying host corpses as armored shells.
-traits:
+traits: &ref_0
   - trait-adaptive-features
   - trait-blind-sight-swarm
   - trait-exoskeleton-light
@@ -84,7 +85,7 @@ traits:
   - trait-host-zombification
   - trait-psionic-interference-static
   - trait-sleepless
-  - trait-swarm-fast-heal-regeneration
+  - trait-fast-heal
   - trait-telepathic
 recommended_factions:
   - Hive Mind Faction Template
@@ -104,11 +105,12 @@ keywords: >-
   host-zombification, honey-paper-manufacture, blindsight,
   fast-heal-regeneration, nbc-survivor, toxic-cloud
 negative_keywords: 'orderly-chorus, solitary-humanoid, rigid-endoskeleton'
+species_traits: *ref_0
 ---
 
 # Riezen (Kitin Divergent Swarm / Insect Ooze)
 
-**BP Cost:** 24 BP  
+**CP Cost:** 26 CP  
 **Classification:** Insect Ooze (Swarm)  
 **Size:** Fine (Individual insects) / Large (Manifested Swarm)  
 **Movement:** 30ft Flightspeed  
@@ -131,20 +133,20 @@ They are not part of the Kitin Collective and are considered a biological "heres
 * **Stigma:** Severe Xeno, Monstrous (when inhabiting hosts)
 
 ## Ability Modifiers
-* **+2 Agility** (8 BP)
-* **-2 Charisma** (-8 BP; except with other Riezen)
+* **+2 Agility** (8 CP)
+* **-2 Charisma** (-8 CP; except with other Riezen)
 
 ## Species Features
-* **Hive Mind:** The swarm is a single consciousness. It cannot be "killed" unless the majority of the swarm is destroyed. (2 BP)
-* **Telepathic:** Innate psychic communication within the swarm and with external minds. (2 BP)
-* **Host Zombification:** The Riezen can inhabit and "pilot" the corpses of other species or damaged biomorphic husks, utilizing them as armored shells. (2 BP)
-* **Psionic Interference (The Static):** Their psionic frequency is "out of tune" with the Manelli. Any Manelli within psychic range of a Riezen swarm suffers a -2 penalty to all Psionic and Wisdom checks due to mental feedback. If the Riezen are in the immediate vicinity then any communications between Kitin will be severely disrupted with the Chorus will be manipulated or used at a Disadvantage. (1 BP)
-* **Fast Heal & Regeneration:** The swarm constantly births new members to replace those lost, allowing it to "heal" rapidly. (2 BP)
-* **Honey & Paper Manufacture:** Ability to produce biological adhesives and pulp for nest building and restraint. (1 BP)
-* **Sleepless:** Does not require rest; the swarm operates in constant rotation. (2 BP)
-* **Adapted Features:** (2 BP)
-* **Blind Sight:** (2 BP)
-* **Exoskeleton (Light):** (2 BP)
+* **Hive Mind:** The swarm is a single consciousness. It cannot be "killed" unless the majority of the swarm is destroyed. (2 CP)
+* **Telepathic:** Innate psychic communication within the swarm and with external minds. (2 CP)
+* **Host Zombification:** The Riezen can inhabit and "pilot" the corpses of other species or damaged biomorphic husks, utilizing them as armored shells. (2 CP)
+* **Psionic Interference (The Static):** Their psionic frequency is "out of tune" with the Manelli. Any Manelli within psychic range of a Riezen swarm suffers a -2 penalty to all Psionic and Wisdom checks due to mental feedback. If the Riezen are in the immediate vicinity then any communications between Kitin will be severely disrupted with the Chorus will be manipulated or used at a Disadvantage. (1 CP)
+* **Fast Heal & Regeneration:** The swarm constantly births new members to replace those lost, allowing it to "heal" rapidly. (2 CP)
+* **Honey & Paper Manufacture:** Ability to produce biological adhesives and pulp for nest building and restraint. (1 CP)
+* **Sleepless:** Does not require rest; the swarm operates in constant rotation. (2 CP)
+* **Adapted Features:** (2 CP)
+* **Blind Sight:** (2 CP)
+* **Exoskeleton (Light):** (2 CP)
 
 ## Recommended Features
 * **Acute Senses:** (any, especially Scent)

@@ -9,6 +9,7 @@ description: >-
   meta-materials, molecular metallurgy, and high-density plating. (Emerging /
   Industrial).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

@@ -6,6 +6,7 @@ description: >-
   Skill-derived precision damage, defense score counter-reduction, and sneak
   attack threshold.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

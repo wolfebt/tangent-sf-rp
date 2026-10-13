@@ -1,24 +1,29 @@
 ---
 id: disadvantage-psionic-static-susceptibility
-name: 'Psionic Static Susceptibility'
+name: Psionic Static Susceptibility
 category: disadvantages
 bp_granted: 4
 hindrance_type: Metaphysical
 description: >-
-  Severe psionic disruption and physical pain caused by Riezen frequency static or
-  chaotic dissonant telepathic noise, imposing Disadvantage on Concentration and Metaphysics.
+  Severe psionic disruption and physical pain caused by Riezen frequency static
+  or chaotic dissonant telepathic noise, imposing Disadvantage on Concentration
+  and Metaphysics.
 costs:
+  cp: 0
   bp: 0
 refundBP: 4
 modifiers: []
-keywords: 'psionic-static, riezen-vulnerability, neural-migraine, dissonance, chorus-interference, hindrance'
+keywords: >-
+  psionic-static, riezen-vulnerability, neural-migraine, dissonance,
+  chorus-interference, hindrance
 negative_keywords: 'immune, shielded, noise-isolated'
+cp_granted: '4'
 ---
 
 # Psionic Static Susceptibility (Riezen Disruption)
 
 **Category**: Hindrances & Disadvantages  
-**BP Granted / Refund**: 4 BP  
+**CP Granted / Refund**: 4 CP  
 **Type**: Metaphysical / Neural  
 
 ## Description

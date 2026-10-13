@@ -6,6 +6,7 @@ description: >-
   Incorporeal energy bypassing physical armor to disrupt life force directly.
   Lethal to ethereal entities and armored targets alike.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

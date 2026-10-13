@@ -4,6 +4,7 @@ name: Micro-Platform
 description: Sub-compact form factor optimized for tiny drones or wrist-mounted modules.
 category: design
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

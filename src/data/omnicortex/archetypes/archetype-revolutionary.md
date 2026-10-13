@@ -31,17 +31,19 @@ tactical_role: 'Inspiring NPCs to fight, leading riots/raids, boosting ally mora
 quote: '"Break the chains! Rise up!"'
 description: A charismatic leader who inspires and unites the rebellion.
 costs:
+  cp: 80
   bp: 80
 modifiers: []
 keywords: 'revolutionary, visionary, idealist, leadership, charisma, leader, agitator'
 negative_keywords: 'anti-social, mute, solitary-hermit'
+cp_chassis: 80
 ---
 
 # The Revolutionary
 
 **Sphere**: Visionaries (The Idealists)  
 **Core Concept**: Leader / Agitator / Skirmisher  
-**Chassis Allocation**: 80 BP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
+**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Charisma  
 **Secondary Attribute**: Spirit  
 

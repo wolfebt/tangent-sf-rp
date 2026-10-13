@@ -11,16 +11,18 @@ description: >-
   The character has a practiced eye for sizing up opposition. By observing a
   target's stance, equipment, and demeanor, they can gauge the threat level.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'assessment, general, special-feature, practiced, sizing, opposition'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Assessment
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Awareness 6, Sense Motive 6
 
 ## Description

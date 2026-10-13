@@ -9,6 +9,7 @@ description: Circuits for emotional/mental control.
 stigma: None
 type: Neural
 costs:
+  cp: 0
   bp: 0
   credits: 2560
   nodes: 0

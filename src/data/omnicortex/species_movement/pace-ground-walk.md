@@ -9,7 +9,9 @@ multiplier: 1
 speed: 30
 bp: 0
 description: Default baseline movement pace for all ground locomotion (1x Base Walk).
+cp: 0
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---
@@ -18,7 +20,7 @@ modifiers: []
 **Category**: Species Movement (STAGE)  
 **Classification**: stage  
 **Target Mode**: Ground  
-**Cost**: +0 BP  
+**Cost**: +0 CP  
 
 ## Description
 Default baseline movement pace for all ground locomotion (1x Base Walk).

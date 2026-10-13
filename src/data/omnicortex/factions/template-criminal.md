@@ -58,6 +58,7 @@ description: >-
   activities, accumulating wealth, power, and influence through illicit means
   while avoiding the gaze of official authorities
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 faction_classification: Faction Template
@@ -124,7 +125,7 @@ negative_keywords: >-
   * Mechanics (Security) (+4)  
   * Combat (+3)  
 * **Typical Archetypes:** The Crime Boss, The Con Artist, The Enforcer, The Smuggler, The Slicer, The Fence, The Hitman, The Getaway Driver, The Extortionist, The Bouncer.  
-* **Recommended Features (1 BP Discount):** Connected (Underworld), Sneak Attack, Deceitful, Intimidating Presence, Black Market Access, Nimble Fingers, Street-Smart, Uncanny Dodge, Hidden Pockets, Danger Sense.
+* **Recommended Features (1 CP Discount):** Connected (Underworld), Sneak Attack, Deceitful, Intimidating Presence, Black Market Access, Nimble Fingers, Street-Smart, Uncanny Dodge, Hidden Pockets, Danger Sense.
 
 ### **VI. Visual Semiotics (Aesthetics)**
 

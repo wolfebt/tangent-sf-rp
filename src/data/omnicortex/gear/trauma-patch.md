@@ -9,6 +9,7 @@ weight: 0.1
 description: Emergency adhesive dermal patch releasing clotting enzymes and stabilizers.
 mechanic: Instantly stabilizes a Dying character and stops Bleeding. 1 Single Use.
 costs:
+  cp: 0
   bp: 0
   credits: 160
   nodes: 0

@@ -50,7 +50,8 @@ tech_level: 3 (Sensory Scanners & Covert Tech)
 meta_level: 2 (Intuitive Psionics)
 homeworld: Kizina Enclaves
 costs:
-  bp: 15
+  cp: 16
+  bp: 16
 modifiers:
   - target: Intellect
     value: 1
@@ -60,18 +61,18 @@ modifiers:
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 15
-cp: 15
-bp: 15
+cp_cost: 16
+cp: 16
+bp: 16
 description: >-
   Sleek feline humanoids known for sharp intellects, stealth, curiosity, and
   forensic deductive abilities.
-traits:
-  - trait-acute-scent
-  - trait-digitigrade
+traits: &ref_0
+  - trait-scent
+  - trait-digitigrade-ungulated
   - trait-low-light-vision
-  - trait-retractable-claws
-  - trait-silent-stride
+  - trait-natural-weapons
+  - trait-silent-hunter
 recommended_factions:
   - The Entari Combine
   - The Syndicate
@@ -86,11 +87,12 @@ recommended_occupations:
   - Scout
 keywords: 'feline-intellect, forensic-investigator, stealth, deductive, agile, curious'
 negative_keywords: 'brute-force, heavy-armor, reckless'
+species_traits: *ref_0
 ---
 
 # Kizin (Feline Scout)
 
-**BP Cost:**   
+**CP Cost:** 16 CP  
 **Description:** The Kizin are a fascinating race of medium-sized, vulpine humanoids distantly related to the Kannid but distinguished by several key physical traits and a defining, complex temperament. Their silhouette is immediately recognizable due to their digitigrade legs, giving them a perpetual sense of motion and contributing to their famed nimbleness and speed. Complementing this, a bushy tail provides essential balance and expresses a range of subtle emotions.
 
 Physically, they possess the cunning and sharp features often associated with foxes, though rendered in a bipedal form. Their bodies are typically lean and agile, built for swift movement and quick reflexes. Their coat colors can vary widely, ranging from earthy reds and browns to more exotic whites, blacks, and dappled patterns, often with lighter fur marking their chests and the tips of their tails.

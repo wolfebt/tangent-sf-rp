@@ -3,6 +3,8 @@ export const DEFAULT_OCCUPATIONS = [
     "id": "occupation-adept",
     "name": "Adept",
     "category": "occupations",
+    "base_ws": 4,
+    "economic_context": "Metaphysical expertise & arcane consulting",
     "skill_points": 20,
     "professional_skills": [
       "Disciplines (Attune or any known Metafocus Skill)"
@@ -102,6 +104,8 @@ export const DEFAULT_OCCUPATIONS = [
     "id": "occupation-agent",
     "name": "Agent",
     "category": "occupations",
+    "base_ws": 2,
+    "economic_context": "Operational expense accounts & field stipends",
     "skill_points": 20,
     "professional_skills": [
       "Insight",
@@ -199,6 +203,8 @@ export const DEFAULT_OCCUPATIONS = [
     "id": "occupation-builder",
     "name": "Builder",
     "category": "occupations",
+    "base_ws": 3,
+    "economic_context": "Technical trades & manufacturing contracts",
     "skill_points": 20,
     "professional_skills": [
       "Any Vocation Skills"
@@ -293,6 +299,8 @@ export const DEFAULT_OCCUPATIONS = [
     "id": "occupation-citizen",
     "name": "Citizen",
     "category": "occupations",
+    "base_ws": 2,
+    "economic_context": "Standard municipal wage & steady employment",
     "skill_points": 20,
     "professional_skills": [
       "Any Non-Combat Skills"
@@ -386,6 +394,8 @@ export const DEFAULT_OCCUPATIONS = [
     "id": "occupation-criminal",
     "name": "Criminal",
     "category": "occupations",
+    "base_ws": 4,
+    "economic_context": "Underworld liquidity & black-market fencing",
     "skill_points": 20,
     "professional_skills": [
       "Bluff",
@@ -488,6 +498,8 @@ export const DEFAULT_OCCUPATIONS = [
     "id": "occupation-drifter",
     "name": "Drifter",
     "category": "occupations",
+    "base_ws": 1,
+    "economic_context": "Transient gig economy & day labor",
     "skill_points": 20,
     "professional_skills": [
       "Pilot",
@@ -591,6 +603,8 @@ export const DEFAULT_OCCUPATIONS = [
     "id": "occupation-entertainer",
     "name": "Entertainer",
     "category": "occupations",
+    "base_ws": 5,
+    "economic_context": "Celebrity patronage & public bookings",
     "skill_points": 20,
     "professional_skills": [
       "Any Expression Skills"
@@ -683,6 +697,8 @@ export const DEFAULT_OCCUPATIONS = [
     "id": "occupation-merchant",
     "name": "Merchant",
     "category": "occupations",
+    "base_ws": 5,
+    "economic_context": "Commercial enterprise & capital leverage",
     "skill_points": 20,
     "professional_skills": [
       "Any Manipulation Skills"
@@ -779,6 +795,8 @@ export const DEFAULT_OCCUPATIONS = [
     "id": "occupation-representative",
     "name": "Representative",
     "category": "occupations",
+    "base_ws": 6,
+    "economic_context": "Apex political/diplomatic standing",
     "skill_points": 20,
     "professional_skills": [
       "Any Manipulation Skills"
@@ -869,6 +887,8 @@ export const DEFAULT_OCCUPATIONS = [
     "id": "occupation-scholar",
     "name": "Scholar",
     "category": "occupations",
+    "base_ws": 3,
+    "economic_context": "Academic stipends & institutional grants",
     "skill_points": 20,
     "professional_skills": [
       "Any Knowledge Skills"
@@ -963,6 +983,8 @@ export const DEFAULT_OCCUPATIONS = [
     "id": "occupation-scout",
     "name": "Scout",
     "category": "occupations",
+    "base_ws": 1,
+    "economic_context": "Frontier surveying & expedition bounties",
     "skill_points": 20,
     "professional_skills": [
       "Alertness",
@@ -1059,6 +1081,8 @@ export const DEFAULT_OCCUPATIONS = [
     "id": "occupation-soldier",
     "name": "Soldier",
     "category": "occupations",
+    "base_ws": 1,
+    "economic_context": "Military standard-issue ration & field pay",
     "skill_points": 20,
     "professional_skills": [
       "Any Combat Skills"
@@ -1156,6 +1180,8 @@ export const DEFAULT_OCCUPATIONS = [
     "id": "occupation-specialist",
     "name": "Specialist",
     "category": "occupations",
+    "base_ws": 3,
+    "economic_context": "Contract engineering & technical commissions",
     "skill_points": 20,
     "professional_skills": [
       "Any five Physical",

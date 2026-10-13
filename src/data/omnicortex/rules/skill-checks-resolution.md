@@ -6,6 +6,7 @@ summary: >-
   The 2d10 resolution formula, Challenge Rating ladder, opposed checks, and
   Taking 10/20.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

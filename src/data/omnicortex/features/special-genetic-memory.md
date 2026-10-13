@@ -8,9 +8,10 @@ is_ranked: false
 is_multiple: false
 prerequisites: Kitin or Lineage with Cellular Inheritance
 description: >-
-  Inheritance of ancestral knowledge, cultural history, and Genomatrix blueprints
-  passed directly through biological lineage.
+  Inheritance of ancestral knowledge, cultural history, and Genomatrix
+  blueprints passed directly through biological lineage.
 costs:
+  cp: 2
   bp: 2
 modifiers:
   - target: Academics
@@ -23,12 +24,13 @@ modifiers:
     mode: conditional
 keywords: 'genetic-memory, ancestral-knowledge, genomatrix, blueprint, kitin, chorus'
 negative_keywords: 'amnesia, disconnected, oblivious'
+cost_cp: 2
 ---
 
 # Genetic Memory
 
 **Category**: Special Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisite**: Kitin or Lineage with Cellular Inheritance  
 
 ## Description

@@ -22,6 +22,7 @@ mechanic: >-
   Sensor Suite (Can house HUD/Comms). -2 Sight/Hearing without sensor link. DR
   15, SP 15.
 costs:
+  cp: 0
   bp: 0
   credits: 279
   nodes: 0

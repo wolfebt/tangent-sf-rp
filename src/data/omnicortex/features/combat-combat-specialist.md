@@ -11,18 +11,20 @@ description: >-
   The character knows how to inflict maximum trauma with a specific class of
   weaponry.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   combat specialist, combat, special-feature, combat-maneuver, tactical-edge,
   inflict
 negative_keywords: 'pacifist, feeble, untrained-civilian'
+cost_cp: 3
 ---
 
 # Combat Specialist
 
 **Category**: Combat Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Combat Skill 6 (Trained)
 
 ## Description

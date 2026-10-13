@@ -2,8 +2,11 @@
 id: rule-movement-ground-paces
 name: Ground Movement Paces & Mechanics
 category: rules
-description: Rules governing ground movement paces (Walk, Jog, Run, Sprint, Crawl, Slow Crawl) and stealth/subtlety penalties.
+description: >-
+  Rules governing ground movement paces (Walk, Jog, Run, Sprint, Crawl, Slow
+  Crawl) and stealth/subtlety penalties.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

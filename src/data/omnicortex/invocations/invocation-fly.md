@@ -5,6 +5,7 @@ category: invocations
 discipline: Matter
 description: FLY invocation for Matter reality manipulation.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 recommended_species:
@@ -61,5 +62,5 @@ Parent Skill: Matter
 Specialization: Transmutation  
 Description: Altering the pattern of something. The fundamental alteration of physical form and substance.  
 Standard Duration: 1 Minute per Level (Stage).  
-Standard Effect: Manipulate up to 5 Build Points (BP) worth of traits or material volume per Stage.
+Standard Effect: Manipulate up to 5 Character Points (CP) worth of traits or material volume per Stage.
 ###

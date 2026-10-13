@@ -9,6 +9,7 @@ weight: 0.3
 description: 'Foldable precision alloy multi-tool with wire-strippers, blades, and sensors.'
 mechanic: Replicates any non-powered hand tool.
 costs:
+  cp: 0
   bp: 0
   credits: 160
   nodes: 0

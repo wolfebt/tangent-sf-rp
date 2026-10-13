@@ -2,8 +2,11 @@
 id: condition-incapacitated
 name: Incapacitated
 category: conditions
-description: "When reduced to 0 Health: falls unconscious immediately, drops held items, and falls Prone. Cannot take actions or reactions."
+description: >-
+  When reduced to 0 Health: falls unconscious immediately, drops held items, and
+  falls Prone. Cannot take actions or reactions.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

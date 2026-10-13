@@ -11,6 +11,7 @@ description: >-
   plating.
 mechanic: Deals 1d10 Structure Points of damage per round to barriers and armor.
 costs:
+  cp: 0
   bp: 0
   credits: 640
   nodes: 0

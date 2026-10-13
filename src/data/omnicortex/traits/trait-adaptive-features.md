@@ -5,6 +5,7 @@ trait_tier: Advanced
 trait_type: Species Trait
 category: traits
 costs:
+  cp: 2
   bp: 2
 description: May change between specific features during a Light Rest. Ranked.
 modifiers: []
@@ -14,7 +15,7 @@ modifiers: []
 **Category**: TRAITS
 **Tier**: Advanced
 **Type**: Species Trait
-**BP Cost**: 2
+**CP Cost**: 2
 
 ## Description
 May change between specific features during a Light Rest. Ranked.

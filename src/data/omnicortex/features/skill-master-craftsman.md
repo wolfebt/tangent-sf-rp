@@ -9,16 +9,18 @@ is_multiple: false
 prerequisites: Crafting 6
 description: The character creates items of superior quality and durability.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: 'master craftsman, skill, special-feature, creates, superior, quality'
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Master Craftsman
 
 **Category**: Skill Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Crafting 6
 
 ## Description

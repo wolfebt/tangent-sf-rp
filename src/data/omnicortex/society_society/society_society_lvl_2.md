@@ -8,6 +8,7 @@ description: >-
   Level 2 development in Structure & Governance: Government models, legal
   systems, social stratification, and caste frameworks. (Modern / Planetary).
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

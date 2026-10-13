@@ -21,6 +21,7 @@ synergy_links:
   - mental-academics
   - mental-nobility
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'history, mental, intellect, cognitive, expertise, historical'

@@ -8,6 +8,7 @@ description: >-
   Siphons organic health and vitality from a target to immediately repair wounds
   on another ally.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 discipline: Matter + Entropy

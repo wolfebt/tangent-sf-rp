@@ -6,6 +6,7 @@ value: Firearms >= 3
 description: Requires Firearms skill rank of 3 or higher.
 category: prerequisite
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

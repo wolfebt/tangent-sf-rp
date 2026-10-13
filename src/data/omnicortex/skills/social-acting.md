@@ -20,6 +20,7 @@ synergy_links:
   - social-bluff
   - social-oratory
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'acting, social, charisma, interaction, diplomacy, influence'

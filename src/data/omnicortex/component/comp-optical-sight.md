@@ -4,6 +4,7 @@ name: Optical Sight / Reflex Scope
 description: Red-dot holographic sight providing +1 to strike at close engagement ranges.
 category: component
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

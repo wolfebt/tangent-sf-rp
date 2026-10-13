@@ -5,6 +5,7 @@ category: invocations
 discipline: Matter
 description: EMPOWERMENT invocation for Matter reality manipulation.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 recommended_species:
@@ -52,5 +53,5 @@ Parameters:
 Effect Description:  
 Temporarily grants a special ability, feature, or trait (e.g., Darkvision, Ambidextrous).  
 **Scaling Function:**
-* **Complexity:** Can grant 5 BP worth of Features per Stage.
+* **Complexity:** Can grant 5 CP worth of Features per Stage.
 ###

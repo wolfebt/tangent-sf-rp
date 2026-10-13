@@ -21,6 +21,7 @@ synergy_links:
   - physical-acrobatics
   - social-bluff
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'legerdemain, social, agility, interaction, diplomacy, influence'

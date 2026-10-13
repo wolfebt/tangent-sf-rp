@@ -6,6 +6,7 @@ summary: >-
   Applying secondary auxiliary skills to grant flat +2 or +4 synergy bonuses to
   primary skill tasks.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

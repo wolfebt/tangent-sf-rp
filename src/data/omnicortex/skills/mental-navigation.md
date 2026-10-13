@@ -21,6 +21,7 @@ synergy_links:
   - mental-physics
   - mental-transporter
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 keywords: 'navigation, mental, intellect, cognitive, expertise, astrogation'

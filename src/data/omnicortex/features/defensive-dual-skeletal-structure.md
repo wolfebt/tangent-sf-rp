@@ -6,21 +6,25 @@ feature_category: Defensive
 cost_bp: 2
 is_ranked: false
 is_multiple: false
-prerequisites: 'Endoskeleton and Exoskeleton'
+prerequisites: Endoskeleton and Exoskeleton
 description: >-
-  A composite biomechanical architecture fusing an internal endoskeleton with an external
-  chitinous framework, granting natural Damage Reduction (DR +5).
+  A composite biomechanical architecture fusing an internal endoskeleton with an
+  external chitinous framework, granting natural Damage Reduction (DR +5).
 costs:
+  cp: 2
   bp: 2
 modifiers: []
-keywords: 'dual-skeletal, endoskeleton, exoskeleton, damage-reduction, dr-5, structural-resilience'
+keywords: >-
+  dual-skeletal, endoskeleton, exoskeleton, damage-reduction, dr-5,
+  structural-resilience
 negative_keywords: 'fragile, soft-bodied, invertebrate'
+cost_cp: 2
 ---
 
 # Dual Skeletal Structure
 
 **Category**: Defensive Features  
-**Cost**: 2 BP  
+**Cost**: 2 CP  
 **Prerequisites**: Endoskeleton and Exoskeleton  
 
 ## Description

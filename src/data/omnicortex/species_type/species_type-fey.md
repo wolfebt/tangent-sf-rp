@@ -5,6 +5,7 @@ category: species_type
 bp: 3
 cp: 3
 costs:
+  cp: 3
   bp: 3
 senses: 'Low-light vision. [1]'
 immunities: None

@@ -6,6 +6,7 @@ description: >-
   10+ rounds, -1 recoil per 10 rounds, +1 hit per point exceeding DC, extra hits
   deal +1d damage if DR penetrated.
 costs:
+  cp: 0
   bp: 0
 modifiers: []
 ---

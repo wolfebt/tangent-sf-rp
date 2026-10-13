@@ -12,18 +12,20 @@ description: >-
   numbers as colors and textures). This provides a permanent, involuntary
   mnemonic structure for data retention.
 costs:
+  cp: 3
   bp: 3
 modifiers: []
 keywords: >-
   synesthetic savant, general, special-feature, experiences, profound,
   cross-modal
 negative_keywords: 'incompetent, untrained, vulnerable'
+cost_cp: 3
 ---
 
 # Synesthetic Savant
 
 **Category**: General Features  
-**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Intellect 2
 
 ## Description
