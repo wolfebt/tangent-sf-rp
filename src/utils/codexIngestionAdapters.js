@@ -176,8 +176,15 @@ export function adaptSparkItemToFirestore(datasetKey, rawItem) {
         modifiers: modernModifiers,
         mechanic: combinedMechanic,
         note: sanitized.note || sanitized.notes || '',
+        acquisition_type: sanitized.acquisition_type || (
+          (sanitized.multi || sanitized.isMultipleSelection) && (sanitized.staged || sanitized.isStaged) ? 'Multi/Staged' :
+          (sanitized.staged || sanitized.isStaged) ? 'Staged' :
+          (sanitized.multi || sanitized.isMultipleSelection) ? 'Multiple' : 'Basic'
+        ),
         multi: sanitized.multi !== undefined ? Boolean(sanitized.multi) : Boolean(sanitized.isMultipleSelection),
         staged: sanitized.staged !== undefined ? Boolean(sanitized.staged) : Boolean(sanitized.isStaged),
+        is_multiple: sanitized.multi !== undefined ? Boolean(sanitized.multi) : Boolean(sanitized.isMultipleSelection),
+        is_ranked: sanitized.staged !== undefined ? Boolean(sanitized.staged) : Boolean(sanitized.isStaged),
         costs: sanitized.costs && typeof sanitized.costs === 'object'
           ? { bp: apCost, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: apCost, ...sanitized.costs }
           : { bp: apCost, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: apCost },

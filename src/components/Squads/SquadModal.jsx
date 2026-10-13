@@ -130,8 +130,8 @@ export const SquadModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
   ];
 
   const modalContent = (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/85 backdrop-blur-md p-3 sm:p-5 overflow-y-auto animate-fade-in select-none font-sans">
-      <div className="bg-[#0b0f17] border border-cyan-500/40 rounded-2xl w-full max-w-4xl overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.9)] flex flex-col h-[85vh] max-h-[85vh]">
+    <div className="fixed inset-0 z-[200] flex items-start sm:items-center justify-center bg-black/85 backdrop-blur-md p-3 sm:p-5 pt-8 sm:pt-14 pb-8 overflow-y-auto animate-fade-in select-none font-sans">
+      <div className="bg-[#0b0f17] border-2 border-cyan-400/80 rounded-2xl w-full max-w-4xl overflow-hidden shadow-[0_0_60px_rgba(6,182,212,0.3)] flex flex-col my-auto max-h-[calc(100vh-4rem)] sm:max-h-[85vh] h-[85vh]">
         
         {/* Top Header Banner */}
         <div className="px-4 py-3 border-b border-slate-800 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-cyan-950/40 flex items-center justify-between shrink-0">

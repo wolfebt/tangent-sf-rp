@@ -25,7 +25,7 @@ import {
  * with deep BASTION tactical rules integration.
  */
 export function resolveFolioMenu(context, appState, handlers) {
-  const { subcategory = 'identity', entityId, entityType, entityData, selectedText } = context;
+  const { subcategory = 'identity', category, entityId, entityType, entityData, selectedText } = context;
   const { activeOperative, executeBastionPrompt, openBastionDrawer } = handlers;
 
   const items = [];
@@ -204,8 +204,8 @@ export function resolveFolioMenu(context, appState, handlers) {
     );
   }
 
-  // SUB: SKILLS
-  else if (subcategory === 'skills') {
+  // SUB: SKILLS & SPECIALIZATIONS
+  else if (subcategory === 'skills' || category === 'skills' || entityType === 'skill' || entityType === 'specialization') {
     const skillName = entityData?.name || 'Selected Skill';
     items.push(
       {
@@ -234,6 +234,44 @@ export function resolveFolioMenu(context, appState, handlers) {
       { type: 'divider' },
       {
         type: 'section-header',
+        label: 'Admin / Asset Operations'
+      },
+      {
+        id: 'view-edit-skill-dataset',
+        label: `View / Edit Skill Dataset (${skillName})`,
+        icon: Edit3,
+        highlight: true,
+        badge: 'ADMIN',
+        onClick: () => {
+          if (handlers.openSkillDataset) {
+            handlers.openSkillDataset(entityData || { id: entityId, name: skillName });
+          } else {
+            window.dispatchEvent(new CustomEvent('open-folio-asset', {
+              detail: {
+                key: 'skills',
+                title: `${skillName} Matrix`,
+                mode: 'edit',
+                initialData: entityData || { id: entityId, name: skillName }
+              }
+            }));
+          }
+        }
+      },
+      {
+        id: 'open-skill-dbm',
+        label: 'Inspect in Omnicortex DBM',
+        icon: BookOpen,
+        onClick: () => {
+          if (handlers.openInDbm) {
+            handlers.openInDbm('skills', skillName);
+          } else {
+            window.location.href = `/dbm?cat=skills&item=${encodeURIComponent(entityId || skillName)}`;
+          }
+        }
+      },
+      { type: 'divider' },
+      {
+        type: 'section-header',
         label: 'BASTION Skill Advisory'
       },
       {
@@ -257,6 +295,386 @@ export function resolveFolioMenu(context, appState, handlers) {
           title: `Synergies for ${skillName}`,
           prompt: `Analyze ${skillName} and recommend top synergistic canonical Features, Feats, Traits, and Equipment from the Tangent Omnicortex database that optimize an operative specializing in this skill.`,
           context: `Skill: ${skillName}`
+        })
+      }
+    );
+  }
+
+  // SUB: FEATURES & TALENTS
+  else if (subcategory === 'features' || category === 'features' || entityType === 'feature' || entityType === 'features') {
+    const featureName = entityData?.name || entityData?.title || 'Selected Feature';
+    const featureCat = entityData?.category || entityData?.type || 'General';
+    const cp = entityData?.cp !== undefined ? `${entityData.cp} CP` : '3 CP';
+
+    items.push(
+      {
+        type: 'section-header',
+        label: `Feature: ${featureName}`
+      },
+      {
+        id: 'view-edit-feature-dataset',
+        label: `View / Edit Feature Dataset (${featureName})`,
+        icon: Edit3,
+        highlight: true,
+        badge: 'ADMIN',
+        onClick: () => {
+          if (handlers.openFeatureDataset) {
+            handlers.openFeatureDataset(entityData || { id: entityId, name: featureName });
+          } else {
+            window.dispatchEvent(new CustomEvent('open-folio-asset', {
+              detail: {
+                key: 'features',
+                title: `${featureName} Matrix`,
+                mode: 'edit',
+                initialData: entityData || { id: entityId, name: featureName }
+              }
+            }));
+          }
+        }
+      },
+      {
+        id: 'open-feature-dbm',
+        label: 'Inspect in Omnicortex DBM',
+        icon: BookOpen,
+        onClick: () => {
+          if (handlers.openInDbm) {
+            handlers.openInDbm('features', featureName);
+          } else {
+            window.location.href = `/dbm?cat=features&item=${encodeURIComponent(entityId || featureName)}`;
+          }
+        }
+      },
+      { type: 'divider' },
+      {
+        type: 'section-header',
+        label: 'BASTION Feature Advisory'
+      },
+      {
+        id: 'bastion-adjudicate-feature',
+        label: `BASTION: Adjudicate Mechanics for ${featureName}`,
+        icon: Bot,
+        aiType: 'BASTION',
+        highlight: true,
+        onClick: () => executeBastionPrompt({
+          title: `Mechanics Adjudication: ${featureName}`,
+          prompt: `Analyze the feature "${featureName}" (${featureCat}, ${cp}) in the Tangent SFF RPG system. Explain how its mechanical benefits, prerequisites, and stacking interactions apply during tactical play and character advancement. Ground response in canonical rules.`,
+          context: `Feature: ${featureName} [${featureCat}]`
+        })
+      },
+      {
+        id: 'bastion-feature-synergies',
+        label: `BASTION: Recommend Synergies for ${featureName}`,
+        icon: Sparkles,
+        aiType: 'BASTION',
+        onClick: () => executeBastionPrompt({
+          title: `Synergies for ${featureName}`,
+          prompt: `Analyze the feature "${featureName}" and recommend complementary canonical skills, attributes, cybernetics, and tactical loadouts from the Tangent Omnicortex database that maximize this feature's potential.`,
+          context: `Feature: ${featureName}`
+        })
+      }
+    );
+  }
+
+  // SUB: TRAITS & BIOLOGICAL ADAPTATIONS
+  else if (subcategory === 'traits' || category === 'traits' || entityType === 'trait' || entityType === 'traits') {
+    const traitName = entityData?.name || entityData?.title || 'Selected Trait';
+    const traitType = entityData?.trait_type || entityData?.type || entityData?.columnSource || 'Species Trait';
+    const traitTier = entityData?.trait_tier || 'Basic';
+    const cp = entityData?.cp !== undefined ? `${entityData.cp} CP` : '1 CP';
+
+    items.push(
+      {
+        type: 'section-header',
+        label: `Trait: ${traitName}`
+      },
+      {
+        id: 'view-edit-trait-dataset',
+        label: `View / Edit Trait Dataset (${traitName})`,
+        icon: Edit3,
+        highlight: true,
+        badge: 'ADMIN',
+        onClick: () => {
+          if (handlers.openTraitDataset) {
+            handlers.openTraitDataset(entityData || { id: entityId, name: traitName });
+          } else {
+            window.dispatchEvent(new CustomEvent('open-folio-asset', {
+              detail: {
+                key: 'traits',
+                title: `${traitName} Matrix`,
+                mode: 'edit',
+                initialData: entityData || { id: entityId, name: traitName }
+              }
+            }));
+          }
+        }
+      },
+      {
+        id: 'open-trait-dbm',
+        label: 'Inspect in Omnicortex DBM',
+        icon: BookOpen,
+        onClick: () => {
+          if (handlers.openInDbm) {
+            handlers.openInDbm('traits', traitName);
+          } else {
+            window.location.href = `/dbm?cat=traits&item=${encodeURIComponent(entityId || traitName)}`;
+          }
+        }
+      },
+      { type: 'divider' },
+      {
+        type: 'section-header',
+        label: 'BASTION Trait Advisory'
+      },
+      {
+        id: 'bastion-adjudicate-trait',
+        label: `BASTION: Adjudicate Mechanics for ${traitName}`,
+        icon: Bot,
+        aiType: 'BASTION',
+        highlight: true,
+        onClick: () => executeBastionPrompt({
+          title: `Mechanics Adjudication: ${traitName}`,
+          prompt: `Analyze the trait "${traitName}" (${traitTier} ${traitType}, ${cp}) in the Tangent SFF RPG system. Explain how its mechanical benefits, rules, and physiological adaptations function in play, including synergy with species lineage or occupation. Ground response in canonical rules.`,
+          context: `Trait: ${traitName} [${traitType}]`
+        })
+      },
+      {
+        id: 'bastion-trait-synergies',
+        label: `BASTION: Recommend Synergies for ${traitName}`,
+        icon: Sparkles,
+        aiType: 'BASTION',
+        onClick: () => executeBastionPrompt({
+          title: `Synergies for ${traitName}`,
+          prompt: `Analyze the trait "${traitName}" and recommend complementary canonical features, skills, cybernetics, and lineage adaptations from the Tangent Omnicortex database that optimize this character build.`,
+          context: `Trait: ${traitName}`
+        })
+      }
+    );
+  }
+
+  // SUB: INVOCATIONS & METAPHYSICAL POWERS
+  else if (subcategory === 'invocations' || category === 'invocations' || subcategory === 'metaphysics' || category === 'metaphysics' || entityType === 'invocation' || entityType === 'invocations') {
+    const invName = entityData?.name || entityData?.title || 'Selected Invocation';
+    const discName = entityData?.discipline || 'Metaphysics';
+    const invLevel = entityData?.level !== undefined ? `Level ${entityData.level}` : (entityData?.rank !== undefined ? `Rank ${entityData.rank}` : 'Invocation');
+    const dcDisplay = entityData?.manifestation_dc || entityData?.baseDC ? `DC ${entityData.manifestation_dc || entityData.baseDC}` : 'DC 15';
+
+    items.push(
+      {
+        type: 'section-header',
+        label: `Invocation: ${invName}`
+      },
+      {
+        id: 'view-edit-invocation-dataset',
+        label: `View / Edit Invocation Dataset (${invName})`,
+        icon: Edit3,
+        highlight: true,
+        badge: 'ADMIN',
+        onClick: () => {
+          if (handlers.openInvocationDataset) {
+            handlers.openInvocationDataset(entityData || { id: entityId, name: invName });
+          } else {
+            window.dispatchEvent(new CustomEvent('open-folio-asset', {
+              detail: {
+                key: 'invocations',
+                title: `${invName} Matrix`,
+                mode: 'edit',
+                initialData: entityData || { id: entityId, name: invName }
+              }
+            }));
+          }
+        }
+      },
+      {
+        id: 'open-invocation-dbm',
+        label: 'Inspect in Omnicortex DBM',
+        icon: BookOpen,
+        onClick: () => {
+          if (handlers.openInDbm) {
+            handlers.openInDbm('invocations', invName);
+          } else {
+            window.location.href = `/dbm?cat=invocations&item=${encodeURIComponent(entityId || invName)}`;
+          }
+        }
+      },
+      { type: 'divider' },
+      {
+        type: 'section-header',
+        label: 'BASTION Psionic Advisory'
+      },
+      {
+        id: 'bastion-adjudicate-invocation',
+        label: `BASTION: Adjudicate Mechanics for ${invName}`,
+        icon: Bot,
+        aiType: 'BASTION',
+        highlight: true,
+        onClick: () => executeBastionPrompt({
+          title: `Psionic Adjudication: ${invName}`,
+          prompt: `Analyze the invocation "${invName}" (${discName}, ${invLevel}, ${dcDisplay}) in the Tangent SFF RPG system. Detail its reality-manipulation mechanics, Focus and Strain expenditures, manifestation check formulas, range, duration, and tactical application. Ground response in canonical rules.`,
+          context: `Invocation: ${invName} [${discName}]`
+        })
+      },
+      {
+        id: 'bastion-invocation-synergies',
+        label: `BASTION: Recommend Synergies for ${invName}`,
+        icon: Sparkles,
+        aiType: 'BASTION',
+        onClick: () => executeBastionPrompt({
+          title: `Synergies for ${invName}`,
+          prompt: `Analyze the invocation "${invName}" and recommend complementary Awakened disciplines, meta-skills, focus-amplifying cybernetics, and synergistic feats from the Tangent Omnicortex database that optimize this psionic power.`,
+          context: `Invocation: ${invName}`
+        })
+      }
+    );
+  }
+
+  // SUB: AUGMENTATIONS & CYBERWARE
+  else if (subcategory === 'augmentations' || category === 'augmentations' || subcategory === 'cyberware' || category === 'cyberware' || entityType === 'augmentation' || entityType === 'augmentations') {
+    const augName = entityData?.name || entityData?.title || 'Selected Augmentation';
+    const stage = entityData?.stage || 'Standard';
+    const location = entityData?.body_location || entityData?.location || 'General';
+    const nodes = entityData?.costs?.nodes ?? entityData?.nodes ?? 0;
+    const tl = entityData?.tech_level ?? entityData?.tl ?? 3;
+
+    items.push(
+      {
+        type: 'section-header',
+        label: `Augmentation: ${augName}`
+      },
+      {
+        id: 'view-edit-augmentation-dataset',
+        label: `View / Edit Augmentation Dataset (${augName})`,
+        icon: Edit3,
+        highlight: true,
+        badge: 'ADMIN',
+        onClick: () => {
+          if (handlers.openAugmentationDataset) {
+            handlers.openAugmentationDataset(entityData || { id: entityId, name: augName });
+          } else {
+            window.dispatchEvent(new CustomEvent('open-folio-asset', {
+              detail: {
+                key: 'augmentations',
+                title: `${augName} Matrix`,
+                mode: 'edit',
+                initialData: entityData || { id: entityId, name: augName }
+              }
+            }));
+          }
+        }
+      },
+      {
+        id: 'open-augmentation-dbm',
+        label: 'Inspect in Omnicortex DBM',
+        icon: BookOpen,
+        onClick: () => {
+          if (handlers.openInDbm) {
+            handlers.openInDbm('augmentations', augName);
+          } else {
+            window.location.href = `/dbm?cat=augmentations&item=${encodeURIComponent(entityId || augName)}`;
+          }
+        }
+      },
+      { type: 'divider' },
+      {
+        type: 'section-header',
+        label: 'BASTION Cybernetic Advisory'
+      },
+      {
+        id: 'bastion-adjudicate-augmentation',
+        label: `BASTION: Evaluate Cyberware Compatibility`,
+        icon: Bot,
+        aiType: 'BASTION',
+        highlight: true,
+        onClick: () => executeBastionPrompt({
+          title: `Cybernetic Evaluation: ${augName}`,
+          prompt: `Analyze the augmentation "${augName}" (Stage: ${stage}, Slot: ${location}, ${nodes} Nodes, TL ${tl}) for operative "${operativeName}". Evaluate biological compatibility, surgical strain, anatomical capacity limits, and operational synergy with the operative's chassis. Ground your advice in canonical Tangent SFF RPG augmentations rules.`,
+          context: `Augmentation: ${augName} [Stage: ${stage}, Slot: ${location}]`
+        })
+      },
+      {
+        id: 'bastion-augmentation-optimizations',
+        label: `BASTION: Suggest Upgrades & Synergies`,
+        icon: Sparkles,
+        aiType: 'BASTION',
+        onClick: () => executeBastionPrompt({
+          title: `Cyberware Optimization: ${augName}`,
+          prompt: `Recommend optimal cybernetic node configurations, tactical hardware integrations, and synergistic features for "${augName}" in operative "${operativeName}'s loadout.`,
+          context: `Augmentation: ${augName}`
+        })
+      }
+    );
+  }
+
+  // SUB: HINDRANCES & DISADVANTAGES
+  else if (subcategory === 'hindrances' || category === 'hindrances' || subcategory === 'disadvantages' || category === 'disadvantages' || subcategory === 'species_disadvantages' || category === 'species_disadvantages' || entityType === 'hindrance' || entityType === 'disadvantage' || entityType === 'hindrances' || entityType === 'disadvantages') {
+    const hindName = entityData?.name || entityData?.title || 'Selected Hindrance';
+    const classification = entityData?.classification || entityData?.type || 'General';
+    const refundCP = (entityData?.refundCP ?? entityData?.refund_cp ?? Math.abs(Number(entityData?.cp) || 0)) || 3;
+    const prereq = entityData?.prerequisite && entityData?.prerequisite !== 'None' ? ` • Req: ${entityData.prerequisite}` : '';
+
+    items.push(
+      {
+        type: 'section-header',
+        label: `Hindrance: ${hindName}`
+      },
+      {
+        id: 'view-edit-hindrance-dataset',
+        label: `View / Edit Hindrance Dataset (${hindName})`,
+        icon: Edit3,
+        highlight: true,
+        badge: 'ADMIN',
+        onClick: () => {
+          if (handlers.openHindranceDataset) {
+            handlers.openHindranceDataset(entityData || { id: entityId, name: hindName });
+          } else {
+            window.dispatchEvent(new CustomEvent('open-folio-asset', {
+              detail: {
+                key: 'disadvantages',
+                title: `${hindName} Matrix`,
+                mode: 'edit',
+                initialData: entityData || { id: entityId, name: hindName }
+              }
+            }));
+          }
+        }
+      },
+      {
+        id: 'open-hindrance-dbm',
+        label: 'Inspect in Omnicortex DBM',
+        icon: BookOpen,
+        onClick: () => {
+          if (handlers.openInDbm) {
+            handlers.openInDbm('disadvantages', hindName);
+          } else {
+            window.location.href = `/dbm?cat=disadvantages&item=${encodeURIComponent(entityId || hindName)}`;
+          }
+        }
+      },
+      { type: 'divider' },
+      {
+        type: 'section-header',
+        label: 'BASTION Hindrance Advisory'
+      },
+      {
+        id: 'bastion-adjudicate-hindrance',
+        label: `BASTION: Adjudicate Flaw & Severity`,
+        icon: Bot,
+        aiType: 'BASTION',
+        highlight: true,
+        onClick: () => executeBastionPrompt({
+          title: `Hindrance Adjudication: ${hindName}`,
+          prompt: `Analyze the hindrance/disadvantage "${hindName}" (${classification}, refund: ${refundCP} CP${prereq}) in the Tangent SFF RPG system. Explain how its penalties, narrative triggers, severity tiers, and mechanical handicaps function in active play. Detail roleplay complications and GM award conditions. Ground response in canonical rules.`,
+          context: `Hindrance: ${hindName} [${classification}, ${refundCP} CP]`
+        })
+      },
+      {
+        id: 'bastion-hindrance-overcoming',
+        label: `BASTION: Overcoming & Narrative Arcs`,
+        icon: Sparkles,
+        aiType: 'BASTION',
+        onClick: () => executeBastionPrompt({
+          title: `Overcoming Hindrance: ${hindName}`,
+          prompt: `Propose dramatic narrative arcs, cybernetic or medical mitigations, and character advancement options for operative "${operativeName}" to overcome, buy off, or strategically mitigate the hindrance "${hindName}".`,
+          context: `Operative: ${operativeName}, Hindrance: ${hindName}`
         })
       }
     );

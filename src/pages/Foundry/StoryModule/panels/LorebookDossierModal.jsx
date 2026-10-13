@@ -37,11 +37,11 @@ export default function LorebookDossierModal({ isOpen, onClose, entry, onNavigat
   return (
     <div 
       onClick={handleBackdropClick}
-      className="fixed inset-0 z-[250] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 overflow-y-auto select-none font-sans text-slate-200"
+      className="fixed inset-0 z-[250] flex items-start sm:items-center justify-center bg-black/80 backdrop-blur-sm p-4 pt-10 sm:pt-16 pb-8 overflow-y-auto select-none font-sans text-slate-200"
     >
       <div 
         onClick={(e) => e.stopPropagation()}
-        className="bg-[#0e131f] border border-cyan-500/60 rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden relative animate-in fade-in zoom-in-95"
+        className="bg-[#0e131f] border-2 border-cyan-400/80 rounded-2xl w-full max-w-2xl my-auto max-h-[calc(100vh-4rem)] sm:max-h-[90vh] flex flex-col shadow-[0_0_40px_rgba(6,182,212,0.3)] overflow-hidden relative animate-in fade-in zoom-in-95"
         role="dialog"
         aria-modal="true"
         aria-labelledby="lorebook-dossier-title"

@@ -1242,8 +1242,16 @@ export const CODEX_MATRICES = [
       prerequisite: [],
       modifiers: [],
       costs: {},
+      acquisition_type: 'Basic',
       multi: false,
       staged: false,
+      modifier_options: {
+        enabled: false,
+        mode: 'single', // 'single' | 'pair'
+        value: 2,
+        options: []
+      },
+      selected_option_id: '',
       description: '',
       mechanic: '',
       note: ''
@@ -1251,6 +1259,7 @@ export const CODEX_MATRICES = [
     fields: [
       { name: 'name', label: 'Feature / Talent Name', type: 'text', required: true, placeholder: 'E.g., Void Acclimation' },
       { name: 'type', label: 'Feature Category / Classification', type: 'select', options: ['ability', 'combat', 'meta', 'general', 'karma', 'skill', 'exotic', 'Special Ability'] },
+      { name: 'acquisition_type', label: 'Acquisition / Scaling Model', type: 'select', options: ['Basic', 'Multiple', 'Staged', 'Multi/Staged'], helpText: 'Basic (single purchase), Multiple (effect to different asset per purchase), Staged (increases effect per purchase), or Multi/Staged (both)' },
       { name: 'cp', label: 'Character Point (CP) Cost', type: 'number', min: -50, max: 100, helpText: 'Character point investment or flaw point rebate' },
       { name: 'tech_level', label: 'Tech Level (TL 0-5)', type: 'number', min: 0, max: 5 },
       { name: 'meta_level', label: 'Meta Level (ML 0-5)', type: 'number', min: 0, max: 5 },
@@ -1265,10 +1274,39 @@ export const CODEX_MATRICES = [
       { name: 'note', label: 'Architect Notes', type: 'textarea' }
     ],
     computedOutputs: [],
-    computeOnSave: (formData) => ({
-      cp: Number(formData.cp ?? 2),
-      computed_at: new Date().toISOString()
-    }),
+    computeOnSave: (formData) => {
+      const acq = formData.acquisition_type || (
+        formData.multi && formData.staged ? 'Multi/Staged' :
+        formData.staged ? 'Staged' :
+        formData.multi ? 'Multiple' : 'Basic'
+      );
+      const isMulti = acq === 'Multiple' || acq === 'Multi/Staged';
+      const isStaged = acq === 'Staged' || acq === 'Multi/Staged';
+      const rawOptions = formData.modifier_options;
+      const normalizedModifierOptions = rawOptions && typeof rawOptions === 'object' ? {
+        enabled: Boolean(rawOptions.enabled),
+        mode: rawOptions.mode === 'pair' ? 'pair' : 'single',
+        value: Number(rawOptions.value !== undefined ? rawOptions.value : 2),
+        options: Array.isArray(rawOptions.options) ? rawOptions.options : []
+      } : {
+        enabled: false,
+        mode: 'single',
+        value: 2,
+        options: []
+      };
+
+      return {
+        cp: Number(formData.cp ?? 2),
+        acquisition_type: acq,
+        multi: isMulti,
+        staged: isStaged,
+        is_multiple: isMulti,
+        is_ranked: isStaged,
+        modifier_options: normalizedModifierOptions,
+        selected_option_id: formData.selected_option_id || '',
+        computed_at: new Date().toISOString()
+      };
+    },
     archetypes: [
       { name: 'Combat Reflexes', prompt: 'Lightning-fast instincts allowing instant reaction to ambushes and bonus defensive positioning.' },
       { name: 'Void-Born Metabolism', prompt: 'Physiological adaptation granting resistance to decompression, radiation, and low-gravity disorientation.' },

@@ -55,8 +55,8 @@ export const TrackedModificationsModal = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 font-sans select-none">
-      <div className="bg-[#0e1420] border border-cyan-500/60 rounded-xl shadow-[0_0_40px_rgba(34,211,238,0.25)] w-full max-w-2xl overflow-hidden flex flex-col max-h-[85vh] animate-in fade-in zoom-in duration-200">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-start sm:items-center justify-center p-4 pt-8 sm:pt-14 pb-8 overflow-y-auto font-sans select-none" onClick={onClose}>
+      <div className="bg-[#0e1420] border-2 border-cyan-400/80 rounded-xl shadow-[0_0_40px_rgba(6,182,212,0.3)] w-full max-w-2xl overflow-hidden flex flex-col my-auto max-h-[calc(100vh-4rem)] sm:max-h-[85vh] animate-in fade-in zoom-in duration-200" onClick={(e) => e.stopPropagation()}>
         
         {/* Header */}
         <div className="px-5 py-3.5 border-b border-slate-800 bg-[#141b2b] flex items-center justify-between">

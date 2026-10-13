@@ -24,8 +24,10 @@ import {
   AlertTriangle,
   Coins,
   CreditCard,
-  Scale
+  Scale,
+  Edit3
 } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 import FolioTooltip from '../Folio/shared/FolioTooltip';
 import {
   checkPrerequisite,
@@ -56,18 +58,18 @@ import { useDBM } from '../../context/DBMContext';
 import { getMatrixIdForAssetKey } from '../../pages/Codex/codexAssetBridge';
 import { DEFAULT_ARCHETYPES } from '../../data/archetypesData';
 import { DEFAULT_SPECIES, SPECIES_LINEAGES } from '../../data/speciesData';
-import { DEFAULT_FEATURES } from '../../data/featuresData';
-import { ALL_CANONICAL_SKILLS } from '../../data/skillsData';
+import { DEFAULT_FEATURES, getEnrichedFeatureData } from '../../data/featuresData';
+import { ALL_CANONICAL_SKILLS, getEnrichedSkillData } from '../../data/skillsData';
 import { DEFAULT_OCCUPATIONS } from '../../data/occupationsData';
 import { DEFAULT_ORIGINS } from '../../data/originsData';
 import { DEFAULT_FACTIONS } from '../../data/factionsData';
-import { DEFAULT_SPECIES_DISADVANTAGES } from '../../data/speciesDisadvantagesData';
+import { DEFAULT_SPECIES_DISADVANTAGES, getEnrichedHindranceData } from '../../data/speciesDisadvantagesData';
 import { DEFAULT_SPECIES_TYPES } from '../../data/speciesTypesData';
-import { ALL_CANONICAL_TRAITS, SPECIES_TRAITS_BASIC, SPECIES_TRAITS_ADVANCED, SPECIES_TRAITS_ELITE } from '../../data/speciesTraitsData';
+import { ALL_CANONICAL_TRAITS, SPECIES_TRAITS_BASIC, SPECIES_TRAITS_ADVANCED, SPECIES_TRAITS_ELITE, getEnrichedTraitData } from '../../data/speciesTraitsData';
 import { DEFAULT_WEAPONRY } from '../../data/weaponryData';
 import { DEFAULT_ARMORING } from '../../data/armoringData';
-import { DEFAULT_AUGMENTATIONS } from '../../data/augmentationsData';
-import { DEFAULT_INVOCATIONS } from '../../data/invocationsData';
+import { DEFAULT_AUGMENTATIONS, getEnrichedAugmentationData } from '../../data/augmentationsData';
+import { DEFAULT_INVOCATIONS, getEnrichedInvocationData } from '../../data/invocationsData';
 import { DEFAULT_SPECIES_SIZES, getSizeTierIndex } from '../../data/speciesSizeData';
 import { DEFAULT_SPECIES_MOVEMENT, getMovementClassification, getMovementClassificationOrderIndex } from '../../data/speciesMovementData';
 import { DEFAULT_AUGMENTATION_TYPES, DEFAULT_BODY_LOCATIONS } from '../../data/supportingCatalogsData';
@@ -124,6 +126,8 @@ const FALLBACK_CATALOG_DATA = {
   awakened: DEFAULT_DISCIPLINES,
   disadvantages: DEFAULT_SPECIES_DISADVANTAGES,
   species_disadvantages: DEFAULT_SPECIES_DISADVANTAGES,
+  hindrances: DEFAULT_SPECIES_DISADVANTAGES,
+  hindrance: DEFAULT_SPECIES_DISADVANTAGES,
   augmentations: DEFAULT_AUGMENTATIONS,
   weaponry: DEFAULT_WEAPONRY,
   weapons: DEFAULT_WEAPONRY,
@@ -320,6 +324,7 @@ export const UniversalCatalogModal = ({
 }) => {
   // Global DBM context for pre-synced database records
   const dbm = useDBM();
+  const { isAdmin } = useAuth() || {};
   const [cloudItems, setCloudItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -435,6 +440,7 @@ export const UniversalCatalogModal = ({
     if (['char-origin', 'origins'].includes(collectionKey)) return 'origins';
     if (['char-faction', 'factions'].includes(collectionKey)) return 'factions';
     if (['disciplines', 'awakened'].includes(collectionKey)) return 'disciplines';
+    if (['disadvantages', 'species_disadvantages', 'hindrances', 'hindrance', 'disadvantage'].includes(collectionKey)) return 'disadvantages';
     return collectionKey || 'gear';
   }, [collectionKey]);
 
@@ -1787,6 +1793,13 @@ export const UniversalCatalogModal = ({
                       <tr
                         key={item.id || idx}
                         onClick={() => handleItemClick(item)}
+                        data-context-zone="folio"
+                        data-context-category={canonicalColKey}
+                        data-context-subcategory={canonicalColKey === 'skills' ? (item.group || 'general') : canonicalColKey === 'traits' ? 'traits' : (canonicalColKey === 'invocations' || canonicalColKey === 'invocation') ? 'invocations' : (canonicalColKey === 'augmentations' || canonicalColKey === 'augmentation' || canonicalColKey === 'cyberware') ? 'augmentations' : (canonicalColKey === 'disadvantages' || canonicalColKey === 'disadvantage' || canonicalColKey === 'hindrances' || canonicalColKey === 'hindrance') ? 'hindrances' : getItemCategory(item, canonicalColKey)}
+                        data-context-entity-id={item.id || item.name || item.title || idx}
+                        data-context-entity-type={canonicalColKey === 'skills' ? 'skill' : canonicalColKey === 'features' ? 'feature' : canonicalColKey === 'traits' ? 'trait' : (canonicalColKey === 'invocations' || canonicalColKey === 'invocation') ? 'invocation' : (canonicalColKey === 'augmentations' || canonicalColKey === 'augmentation' || canonicalColKey === 'cyberware') ? 'augmentation' : (canonicalColKey === 'disadvantages' || canonicalColKey === 'disadvantage' || canonicalColKey === 'hindrances' || canonicalColKey === 'hindrance') ? 'hindrance' : canonicalColKey}
+                        data-context-entity-title={item.name || item.title || item.id}
+                        data-context-entity-data={JSON.stringify(canonicalColKey === 'skills' ? getEnrichedSkillData(item) : canonicalColKey === 'features' ? getEnrichedFeatureData(item) : canonicalColKey === 'traits' ? getEnrichedTraitData(item) : (canonicalColKey === 'invocations' || canonicalColKey === 'invocation') ? getEnrichedInvocationData(item) : (canonicalColKey === 'augmentations' || canonicalColKey === 'augmentation' || canonicalColKey === 'cyberware') ? getEnrichedAugmentationData(item) : (canonicalColKey === 'disadvantages' || canonicalColKey === 'disadvantage' || canonicalColKey === 'hindrances' || canonicalColKey === 'hindrance') ? getEnrichedHindranceData(item) : item)}
                         className={`transition-colors cursor-pointer group ${
                           isSelected
                             ? 'bg-cyan-950/60 border-l-4 border-l-cyan-400'
@@ -1821,6 +1834,10 @@ export const UniversalCatalogModal = ({
                               ...(item.category ? [item.category] : []),
                               ...itemPillars.map(p => `${p.name}: ${p.detail}`)
                             ]}
+                            adminAction={(isAdmin || allowEdit) && onOpenManageModal ? {
+                              label: `View / Edit ${canonicalColKey === 'skills' ? 'Skill Dataset' : canonicalColKey === 'features' ? 'Feature Dataset' : canonicalColKey === 'traits' ? 'Trait Dataset' : (canonicalColKey === 'invocations' || canonicalColKey === 'invocation') ? 'Invocation Dataset' : (canonicalColKey === 'augmentations' || canonicalColKey === 'augmentation' || canonicalColKey === 'cyberware') ? 'Augmentation Dataset' : (canonicalColKey === 'disadvantages' || canonicalColKey === 'disadvantage' || canonicalColKey === 'hindrances' || canonicalColKey === 'hindrance') ? 'Hindrance Dataset' : 'Dataset'}`,
+                              onClick: () => handleEditItem(item)
+                            } : null}
                           >
                             <div className="flex items-center gap-2">
                               <span className={`w-2 h-2 rounded-full ${isSelected ? 'bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,1)]' : isPropertyGap ? 'bg-amber-400 shadow-[0_0_6px_rgba(245,158,11,0.8)]' : isPrereqUnmet ? 'bg-rose-500' : 'bg-slate-600'} shrink-0`} />
@@ -1895,7 +1912,20 @@ export const UniversalCatalogModal = ({
 
                         {/* Select Action Button */}
                         <td className="py-3 px-4 text-right whitespace-nowrap">
-                          <div className="flex items-center justify-end">
+                          <div className="flex items-center justify-end gap-1.5">
+                            {(isAdmin || allowEdit) && onOpenManageModal && (
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleEditItem(item);
+                                }}
+                                className="opacity-0 group-hover:opacity-100 transition-opacity p-1.5 rounded bg-slate-900/80 hover:bg-cyan-950 border border-slate-700 hover:border-cyan-500/60 text-slate-400 hover:text-cyan-300 cursor-pointer"
+                                title={`View / Edit ${item.name || item.title || 'Item'} Dataset`}
+                              >
+                                <Edit3 className="w-3.5 h-3.5" />
+                              </button>
+                            )}
                             <button
                               type="button"
                               onClick={(e) => {
@@ -1969,6 +1999,13 @@ export const UniversalCatalogModal = ({
                   <div
                     key={item.id || idx}
                     onClick={() => handleItemClick(item)}
+                    data-context-zone="folio"
+                    data-context-category={canonicalColKey}
+                    data-context-subcategory={canonicalColKey === 'skills' ? (item.group || 'general') : canonicalColKey === 'traits' ? 'traits' : (canonicalColKey === 'invocations' || canonicalColKey === 'invocation') ? 'invocations' : (canonicalColKey === 'augmentations' || canonicalColKey === 'augmentation' || canonicalColKey === 'cyberware') ? 'augmentations' : (canonicalColKey === 'disadvantages' || canonicalColKey === 'disadvantage' || canonicalColKey === 'hindrances' || canonicalColKey === 'hindrance') ? 'hindrances' : getItemCategory(item, canonicalColKey)}
+                    data-context-entity-id={item.id || item.name || item.title || idx}
+                    data-context-entity-type={canonicalColKey === 'skills' ? 'skill' : canonicalColKey === 'features' ? 'feature' : canonicalColKey === 'traits' ? 'trait' : (canonicalColKey === 'invocations' || canonicalColKey === 'invocation') ? 'invocation' : (canonicalColKey === 'augmentations' || canonicalColKey === 'augmentation' || canonicalColKey === 'cyberware') ? 'augmentation' : (canonicalColKey === 'disadvantages' || canonicalColKey === 'disadvantage' || canonicalColKey === 'hindrances' || canonicalColKey === 'hindrance') ? 'hindrance' : canonicalColKey}
+                    data-context-entity-title={item.name || item.title || item.id}
+                    data-context-entity-data={JSON.stringify(canonicalColKey === 'skills' ? getEnrichedSkillData(item) : canonicalColKey === 'features' ? getEnrichedFeatureData(item) : canonicalColKey === 'traits' ? getEnrichedTraitData(item) : (canonicalColKey === 'invocations' || canonicalColKey === 'invocation') ? getEnrichedInvocationData(item) : (canonicalColKey === 'augmentations' || canonicalColKey === 'augmentation' || canonicalColKey === 'cyberware') ? getEnrichedAugmentationData(item) : (canonicalColKey === 'disadvantages' || canonicalColKey === 'disadvantage' || canonicalColKey === 'hindrances' || canonicalColKey === 'hindrance') ? getEnrichedHindranceData(item) : item)}
                     className={`relative rounded-xl border p-4 transition-all duration-200 cursor-pointer flex flex-col justify-between group overflow-hidden ${
                       isSelected
                         ? 'bg-slate-900/90 border-2 border-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.3)]'
@@ -2070,6 +2107,10 @@ export const UniversalCatalogModal = ({
                           ...(item.category ? [item.category] : []),
                           ...itemPillars.map(p => `${p.name}: ${p.detail}`)
                         ]}
+                        adminAction={(isAdmin || allowEdit) && onOpenManageModal ? {
+                          label: `View / Edit ${canonicalColKey === 'skills' ? 'Skill Dataset' : canonicalColKey === 'features' ? 'Feature Dataset' : canonicalColKey === 'traits' ? 'Trait Dataset' : (canonicalColKey === 'invocations' || canonicalColKey === 'invocation') ? 'Invocation Dataset' : (canonicalColKey === 'augmentations' || canonicalColKey === 'augmentation' || canonicalColKey === 'cyberware') ? 'Augmentation Dataset' : (canonicalColKey === 'disadvantages' || canonicalColKey === 'disadvantage' || canonicalColKey === 'hindrances' || canonicalColKey === 'hindrance') ? 'Hindrance Dataset' : 'Dataset'}`,
+                          onClick: () => handleEditItem(item)
+                        } : null}
                       >
                         <div className="flex items-center gap-1.5 flex-wrap">
                           <h4 className={`font-bold text-sm line-clamp-1 transition-colors ${isPropertyGap ? 'text-amber-200 group-hover:text-amber-100' : isPrereqUnmet ? 'text-slate-400 group-hover:text-slate-100' : 'text-slate-100 group-hover:text-cyan-300'}`}>
@@ -2127,7 +2168,20 @@ export const UniversalCatalogModal = ({
                         {item.id ? `#${String(item.id).slice(-6)}` : ''}
                       </span>
 
-                      <div className="flex items-center">
+                      <div className="flex items-center gap-1.5">
+                        {(isAdmin || allowEdit) && onOpenManageModal && (
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleEditItem(item);
+                            }}
+                            className="p-1.5 rounded bg-slate-950/80 hover:bg-cyan-950 border border-slate-700/80 hover:border-cyan-500/60 text-slate-400 hover:text-cyan-300 transition-colors cursor-pointer"
+                            title={`View / Edit ${item.name || item.title || 'Item'} Dataset`}
+                          >
+                            <Edit3 className="w-3.5 h-3.5" />
+                          </button>
+                        )}
                         <button
                           type="button"
                           onClick={(e) => {
@@ -2232,8 +2286,8 @@ export const UniversalCatalogModal = ({
 
         {/* PROPERTY FINANCING & CREDIT DEBT OVERRIDE DIALOG */}
         {financingItem && (
-          <div className="fixed inset-0 z-[400] flex items-center justify-center bg-black/85 backdrop-blur-md p-4 animate-in fade-in duration-200">
-            <div className="bg-[#0b101a] border-2 border-amber-500/60 rounded-2xl w-full max-w-2xl text-slate-100 shadow-[0_0_40px_rgba(245,158,11,0.3)] overflow-hidden flex flex-col">
+          <div className="fixed inset-0 z-[400] flex items-start sm:items-center justify-center bg-black/85 backdrop-blur-md p-4 pt-10 sm:pt-16 pb-8 overflow-y-auto animate-in fade-in duration-200">
+            <div className="bg-[#0b101a] border-2 border-cyan-400/80 rounded-2xl w-full max-w-2xl my-auto max-h-[calc(100vh-4rem)] text-slate-100 shadow-[0_0_40px_rgba(6,182,212,0.3)] overflow-hidden flex flex-col">
               {/* Header */}
               <div className="px-5 py-4 bg-slate-950 border-b border-amber-900/50 flex justify-between items-center">
                 <div className="flex items-center gap-3">

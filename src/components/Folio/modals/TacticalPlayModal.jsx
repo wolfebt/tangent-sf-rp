@@ -26,9 +26,9 @@ export const TacticalPlayModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-2 sm:p-4 pt-8 sm:pt-14 pb-8 overflow-y-auto bg-black/80 backdrop-blur-md animate-in fade-in duration-200" onClick={onClose}>
       <div 
-        className="relative w-full max-w-6xl max-h-[92vh] bg-[#0c1219] border border-cyan-500/60 rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.9),0_0_20px_rgba(34,211,238,0.2)] overflow-hidden flex flex-col"
+        className="relative w-full max-w-6xl my-auto max-h-[calc(100vh-4rem)] sm:max-h-[92vh] bg-[#0c1219] border-2 border-cyan-400/80 rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.3)] overflow-hidden flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Top Floating Close Button */}

@@ -292,7 +292,7 @@ export default function MapAssetManagerModal({
 
   return (
     <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/85 backdrop-blur-md p-2 sm:p-4 md:p-6 pt-6 sm:pt-10 md:pt-12 pb-8 overflow-y-auto select-none font-sans">
-      <div className="bg-[#161b22] border border-[#0D5C63] rounded-xl w-full max-w-7xl max-h-[88vh] sm:max-h-[90vh] flex flex-col shadow-2xl overflow-hidden text-slate-100 font-sans">
+      <div className="bg-[#161b22] border-2 border-cyan-400/80 rounded-xl w-full max-w-7xl max-h-[88vh] sm:max-h-[90vh] flex flex-col shadow-[0_0_50px_rgba(6,182,212,0.3)] overflow-hidden text-slate-100 font-sans">
         
         {/* Header */}
         <div className="px-6 py-3 bg-[#0d1117] border-b border-[#0D5C63]/60 flex items-center justify-between flex-wrap gap-2">

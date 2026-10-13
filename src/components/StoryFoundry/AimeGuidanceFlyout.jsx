@@ -87,8 +87,8 @@ export const AimeGuidanceFlyout = ({
   };
 
   return (
-    <div className="fixed inset-0 z-[250] bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto select-none font-sans">
-      <div className="bg-[#0b0f19] border border-amber-500/60 rounded-2xl shadow-[0_0_40px_rgba(245,158,11,0.25)] w-full max-w-2xl max-h-[90vh] flex flex-col text-slate-200 animate-in fade-in zoom-in-95 duration-150 overflow-hidden">
+    <div className="fixed inset-0 z-[250] bg-black/80 backdrop-blur-md flex items-start sm:items-center justify-center p-3 sm:p-6 pt-10 sm:pt-16 pb-8 overflow-y-auto select-none font-sans">
+      <div className="bg-[#0b0f19] border-2 border-cyan-400/80 rounded-2xl shadow-[0_0_40px_rgba(6,182,212,0.35)] w-full max-w-2xl my-auto max-h-[calc(100vh-4rem)] sm:max-h-[90vh] flex flex-col text-slate-200 animate-in fade-in zoom-in-95 duration-150 overflow-hidden">
         
         {/* Header */}
         <div className="px-5 py-3.5 bg-gradient-to-r from-amber-950/80 via-slate-900 to-slate-900 border-b border-amber-500/40 flex items-center justify-between">

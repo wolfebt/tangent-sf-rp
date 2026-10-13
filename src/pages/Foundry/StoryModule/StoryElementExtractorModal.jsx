@@ -265,8 +265,8 @@ If Type is "Clue": { "title": string, "clueIntel": string, "summary": string }`;
   };
 
   return (
-    <div className="fixed inset-0 z-[150] bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto select-none font-mono">
-      <div className="bg-[#0b1019] border border-cyan-500/60 rounded-2xl shadow-[0_0_40px_rgba(6,182,212,0.3)] w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col text-slate-100 animate-in fade-in zoom-in-95 duration-150">
+    <div className="fixed inset-0 z-[150] bg-black/80 backdrop-blur-md flex items-start sm:items-center justify-center p-3 sm:p-6 pt-10 sm:pt-16 pb-8 overflow-y-auto select-none font-mono">
+      <div className="bg-[#0b1019] border-2 border-cyan-400/80 rounded-2xl shadow-[0_0_40px_rgba(6,182,212,0.35)] w-full max-w-2xl my-auto max-h-[calc(100vh-4rem)] sm:max-h-[90vh] overflow-hidden flex flex-col text-slate-100 animate-in fade-in zoom-in-95 duration-150">
         
         {/* Header */}
         <div className="px-5 py-3.5 bg-gradient-to-r from-cyan-950/90 via-slate-900 to-purple-950/80 border-b border-cyan-500/40 flex items-center justify-between">

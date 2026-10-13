@@ -6520,3 +6520,91 @@ export const DEFAULT_INVOCATIONS = [
   }
 ];
 export const getInvocationById = (id) => DEFAULT_INVOCATIONS.find(i => i.id === id);
+
+/**
+ * Enriches an invocation object with all canonical metadata (category, discipline,
+ * level, range, duration, area, manifestation_dc, focus_cost, description, mechanic,
+ * costs, keywords, negative_keywords, recommendations, modifiers)
+ * for Codex Matrix editing, Folio sheet rendering, or Omnicortex DBM inspection.
+ */
+export const getEnrichedInvocationData = (invocation) => {
+  if (!invocation) return null;
+  const rawId = (invocation.id || '').toString().trim();
+  const cleanId = rawId.replace(/^(invocation|inv)-/i, '').toLowerCase();
+  const rawName = (invocation.name || invocation.title || '').toString().trim().toLowerCase();
+
+  const canonical = DEFAULT_INVOCATIONS.find(i => {
+    const iId = (i.id || '').toString().trim().toLowerCase();
+    const iCleanId = iId.replace(/^(invocation|inv)-/i, '');
+    const iName = (i.name || i.title || '').toString().trim().toLowerCase();
+    return (rawId && iId === rawId.toLowerCase()) ||
+           (cleanId && iCleanId === cleanId) ||
+           (rawName && iName === rawName);
+  });
+
+  const name = invocation.name || invocation.title || canonical?.name || canonical?.title || 'Invocation';
+  const id = invocation.id || canonical?.id || `invocation-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+  const discipline = invocation.discipline || canonical?.discipline || 'Entropy';
+  const category = 'invocations';
+  const level = invocation.level !== undefined ? Number(invocation.level) : (canonical?.level !== undefined ? Number(canonical.level) : (invocation.rank ? Number(invocation.rank) : 1));
+  const range = invocation.range || canonical?.range || 'Medium';
+  const duration = invocation.duration || canonical?.duration || 'Instantaneous';
+  const area = invocation.area || canonical?.area || 'Single Target';
+  const description = invocation.description || canonical?.description || invocation.desc || canonical?.desc || '';
+  const mechanic = invocation.mechanic || invocation.mechanics || canonical?.mechanic || canonical?.mechanics || canonical?.body || '';
+  const note = invocation.note || invocation.notes || canonical?.note || canonical?.notes || '';
+  const keywords = invocation.keywords || canonical?.keywords || '';
+  const negative_keywords = invocation.negative_keywords || canonical?.negative_keywords || '';
+  const manifestation_dc = invocation.manifestation_dc || invocation.baseDC || canonical?.manifestation_dc || canonical?.baseDC || 15;
+  const focus_cost = invocation.focus_cost || canonical?.focus_cost || 2;
+  const isSpecialAbility = Boolean(invocation.isSpecialAbility || canonical?.isSpecialAbility);
+  const foundationAttribute = invocation.foundationAttribute || canonical?.foundationAttribute || 'attr-intellect';
+  const rank = invocation.rank !== undefined ? Number(invocation.rank) : level;
+  const cp = invocation.cp !== undefined ? Number(invocation.cp) : 1;
+
+  return {
+    ...(canonical || {}),
+    ...invocation,
+    id,
+    name,
+    category,
+    discipline,
+    level,
+    range,
+    duration,
+    area,
+    description,
+    desc: description,
+    mechanic,
+    mechanics: mechanic,
+    note,
+    notes: note,
+    keywords,
+    negative_keywords,
+    manifestation_dc,
+    baseDC: manifestation_dc,
+    focus_cost,
+    isSpecialAbility,
+    foundationAttribute,
+    rank,
+    cp,
+    costs: {
+      bp: 2,
+      cp: 1,
+      credits: 0,
+      nodes: 0,
+      sockets: 0,
+      strain: 2,
+      focus: focus_cost,
+      ap: 2,
+      ...(canonical?.costs || {}),
+      ...(invocation.costs || {})
+    },
+    recommended_species: Array.isArray(invocation.recommended_species) ? invocation.recommended_species : (canonical?.recommended_species || []),
+    recommended_factions: Array.isArray(invocation.recommended_factions) ? invocation.recommended_factions : (canonical?.recommended_factions || []),
+    recommended_origins: Array.isArray(invocation.recommended_origins) ? invocation.recommended_origins : (canonical?.recommended_origins || []),
+    recommended_occupations: Array.isArray(invocation.recommended_occupations) ? invocation.recommended_occupations : (canonical?.recommended_occupations || []),
+    modifiers: Array.isArray(invocation.modifiers) ? invocation.modifiers : (canonical?.modifiers || [])
+  };
+};
+

@@ -49,7 +49,7 @@ export const MovementRulesModal = ({
 
   return (
     <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/85 backdrop-blur-md p-2 sm:p-6 pt-10 sm:pt-14 pb-12 overflow-y-auto select-none font-sans">
-      <div className="bg-[#0b111c] border border-amber-500/40 rounded-2xl max-w-4xl w-full p-4 sm:p-7 shadow-[0_0_50px_rgba(245,158,11,0.2)] text-slate-100 space-y-6">
+      <div className="bg-[#0b111c] border-2 border-cyan-400/80 rounded-2xl max-w-4xl w-full p-4 sm:p-7 shadow-[0_0_50px_rgba(6,182,212,0.3)] text-slate-100 space-y-6">
         
         {/* Modal Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-amber-900/60 pb-4">

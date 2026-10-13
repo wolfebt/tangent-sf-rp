@@ -2133,3 +2133,49 @@ export const SKILL_CATEGORY_SECTIONS = [
     skills: DEFAULT_SKILLS.meta[6].skills
   }
 ];
+
+/**
+ * Enriches a skill object with all canonical metadata (group, base attribute, description,
+ * keywords, negative railguards, specialties, TL, ML) for Codex Matrix editing or DBM.
+ */
+export const getEnrichedSkillData = (skill) => {
+  if (!skill) return null;
+  const rawId = skill.id || '';
+  const cleanId = rawId.replace(/^[a-z]+-/, '').toLowerCase();
+  const rawName = (skill.name || skill.title || '').trim().toLowerCase();
+
+  const canonical = ALL_CANONICAL_SKILLS.find(s => {
+    const sId = (s.id || '').toLowerCase();
+    const sCleanId = sId.replace(/^[a-z]+-/, '');
+    const sName = (s.name || '').toLowerCase();
+    return (rawId && sId === rawId.toLowerCase()) ||
+           (cleanId && sCleanId === cleanId) ||
+           (rawName && sName === rawName);
+  });
+
+  const group = skill.group || canonical?.group || 'physical';
+  const name = skill.name || canonical?.name || 'Skill';
+  const id = skill.id || canonical?.id || `${group}-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+
+  return {
+    ...(canonical || {}),
+    ...skill,
+    id,
+    name,
+    group,
+    type: skill.type || canonical?.type || group,
+    subtype: skill.subtype || canonical?.subcategory || canonical?.subtype || 'General',
+    subcategory: skill.subcategory || canonical?.subcategory || 'General',
+    baseAttr: skill.baseAttr || canonical?.baseAttr || 'attr-agility',
+    description: skill.description || canonical?.description || '',
+    keywords: skill.keywords || canonical?.keywords || '',
+    negative_keywords: skill.negative_keywords || canonical?.negative_keywords || '',
+    specialties: Array.isArray(skill.specialties) && skill.specialties.length > 0 
+      ? skill.specialties 
+      : (Array.isArray(canonical?.specialties) ? canonical.specialties : []),
+    tech_level: skill.tech_level !== undefined ? skill.tech_level : (canonical?.tech_level ?? 0),
+    meta_level: skill.meta_level !== undefined ? skill.meta_level : (canonical?.meta_level ?? 0),
+    tl: skill.tech_level !== undefined ? skill.tech_level : (canonical?.tech_level ?? 0),
+    ml: skill.meta_level !== undefined ? skill.meta_level : (canonical?.meta_level ?? 0),
+  };
+};

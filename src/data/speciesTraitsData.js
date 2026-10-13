@@ -22293,3 +22293,70 @@ export const ALL_CANONICAL_TRAITS = [
 export const DEFAULT_SPECIES_TRAITS = ALL_CANONICAL_TRAITS;
 
 export const getTraitById = (id) => ALL_CANONICAL_TRAITS.find(t => t.id === id);
+
+/**
+ * Enriches a trait object with all canonical metadata (category, trait_type, trait_tier,
+ * classification, type, CP, BP, costs, description, mechanic, rules, note, modifiers)
+ * for Codex Matrix editing, Folio sheet rendering, or Omnicortex DBM inspection.
+ */
+export const getEnrichedTraitData = (trait) => {
+  if (!trait) return null;
+  const rawId = (trait.id || '').toString().trim();
+  const cleanId = rawId.replace(/^trait-/i, '').toLowerCase();
+  const rawName = (trait.name || trait.title || '').toString().trim().toLowerCase();
+
+  const canonical = ALL_CANONICAL_TRAITS.find(t => {
+    const tId = (t.id || '').toString().trim().toLowerCase();
+    const tCleanId = tId.replace(/^trait-/i, '');
+    const tName = (t.name || t.title || '').toString().trim().toLowerCase();
+    return (rawId && tId === rawId.toLowerCase()) ||
+           (cleanId && tCleanId === cleanId) ||
+           (rawName && tName === rawName);
+  });
+
+  const name = trait.name || trait.title || canonical?.name || canonical?.title || 'Trait';
+  const id = trait.id || canonical?.id || `trait-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+  const trait_type = trait.trait_type || canonical?.trait_type || trait.sourceDetail || 'Species Trait';
+  const trait_tier = trait.trait_tier || canonical?.trait_tier || 'Basic';
+  const classification = trait.classification || canonical?.classification || trait.type || canonical?.type || 'Physical';
+  const cp = trait.cp !== undefined ? Number(trait.cp) : (canonical?.cp !== undefined ? Number(canonical.cp) : 1);
+  const bp = trait.bp !== undefined ? Number(trait.bp) : (canonical?.bp !== undefined ? Number(canonical.bp) : cp);
+  const description = trait.description || trait.desc || canonical?.description || canonical?.desc || '';
+  const mechanic = trait.mechanic || trait.mechanics || canonical?.mechanic || canonical?.mechanics || '';
+  const note = trait.note || trait.notes || canonical?.note || canonical?.notes || '';
+  const rules = trait.rules || trait.special_rules || canonical?.rules || canonical?.special_rules || `${trait_tier} ${trait_type} (${cp} CP).`;
+  const modifiers = Array.isArray(trait.modifiers) && trait.modifiers.length > 0
+    ? trait.modifiers
+    : (Array.isArray(canonical?.modifiers) ? canonical.modifiers : []);
+
+  return {
+    ...(canonical || {}),
+    ...trait,
+    id,
+    name,
+    category: 'traits',
+    trait_type,
+    trait_tier,
+    classification,
+    type: classification,
+    cp,
+    bp,
+    costs: {
+      cp,
+      bp,
+      ...(canonical?.costs || {}),
+      ...(trait.costs || {})
+    },
+    description,
+    desc: description,
+    mechanic,
+    mechanics: mechanic,
+    note,
+    notes: note,
+    notesList: Array.isArray(trait.notesList) ? trait.notesList : (Array.isArray(canonical?.notesList) ? canonical.notesList : (note ? [note] : [])),
+    rules,
+    special_rules: rules,
+    modifiers
+  };
+};
+

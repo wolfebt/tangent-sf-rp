@@ -1,3 +1,10 @@
+import {
+  getAugmentationStage,
+  getAugmentationNodes,
+  getAugmentationBP,
+  getAugmentationLocation
+} from '../engines/tangentComplexEngines';
+
 /**
  * Canonical Augmentations Database for Tangent SF RP
  * Auto-generated from src/data/omnicortex/augmentations/
@@ -4135,3 +4142,97 @@ export const DEFAULT_AUGMENTATIONS = [
   }
 ];
 export const getAugmentationById = (id) => DEFAULT_AUGMENTATIONS.find(a => a.id === id);
+
+/**
+ * Normalizes and enriches an augmentation item to guarantee full matrix compatibility
+ * across Persona Folio, Codex Matrix Studio, and DBM Omnicortex catalogs.
+ *
+ * @param {object|string} augmentation - Augmentation object or name string
+ * @returns {object} Canonical enriched augmentation record
+ */
+export const getEnrichedAugmentationData = (augmentation) => {
+  if (!augmentation) return null;
+  const rawName = typeof augmentation === 'object' ? (augmentation.name || augmentation.title || augmentation.id || '') : String(augmentation);
+  const rawId = typeof augmentation === 'object' ? (augmentation.id || '') : '';
+  const cleanLookup = rawName.toLowerCase().replace(/^(aug:|cyber:|cyberware:)\s*/i, '').trim();
+  const cleanId = rawId.toLowerCase().replace(/^(aug:|cyber:|cyberware:)\s*/i, '').trim();
+
+  const canonical = DEFAULT_AUGMENTATIONS.find(a => 
+    (cleanId && (a.id.toLowerCase() === cleanId || a.id.toLowerCase().replace(/^aug-/, '') === cleanId)) ||
+    (cleanLookup && (a.name.toLowerCase() === cleanLookup || a.id.toLowerCase() === cleanLookup.replace(/[^a-z0-9]+/g, '-')))
+  );
+
+  const obj = typeof augmentation === 'object' ? augmentation : {};
+  const id = obj.id || canonical?.id || `aug-${cleanLookup.replace(/[^a-z0-9]+/g, '-') || Date.now()}`;
+  const name = obj.name || canonical?.name || rawName || 'Augmentation';
+  const category = 'augmentations';
+  const augmentation_type = obj.augmentation_type || obj.type || canonical?.augmentation_type || 'Cybernetic';
+  const stage = obj.stage || (typeof getAugmentationStage === 'function' ? getAugmentationStage(obj || canonical) : (canonical?.stage || 'Standard'));
+  const body_location = obj.body_location || obj.location || (typeof getAugmentationLocation === 'function' ? getAugmentationLocation(obj || canonical) : (canonical?.body_location || 'General'));
+  const tech_level = Number(obj.tech_level ?? obj.tl ?? canonical?.tech_level ?? 3) || 3;
+  const meta_level = Number(obj.meta_level ?? obj.ml ?? canonical?.meta_level ?? 0) || 0;
+  const description = obj.description || obj.desc || canonical?.description || canonical?.body || '';
+  const mechanic = obj.mechanic || obj.mechanics || obj.rules || canonical?.mechanic || canonical?.body || '';
+  const body = obj.body || canonical?.body || mechanic || description;
+  const keywords = obj.keywords || canonical?.keywords || '';
+  const negative_keywords = obj.negative_keywords || canonical?.negative_keywords || '';
+
+  const nodes = Number(obj.nodes ?? obj.costs?.nodes ?? (typeof getAugmentationNodes === 'function' ? getAugmentationNodes(obj || canonical) : (canonical?.costs?.nodes ?? 1))) || 1;
+  const sockets = Number(obj.sockets ?? obj.costs?.sockets ?? canonical?.sockets ?? canonical?.costs?.sockets ?? 0) || 0;
+  const strain = Number(obj.strain ?? obj.costs?.strain ?? canonical?.strain ?? canonical?.costs?.strain ?? 0) || 0;
+  const credits = Number(obj.credits ?? obj.costs?.credits ?? obj.cost ?? canonical?.credits ?? canonical?.costs?.credits ?? 0) || 0;
+  const bp = Number(obj.bp ?? obj.costs?.bp ?? (typeof getAugmentationBP === 'function' ? getAugmentationBP(obj || canonical) : (canonical?.costs?.bp ?? 0))) || 0;
+  const cp = Number(obj.cp ?? obj.costs?.cp ?? bp ?? 1) || 1;
+
+  return {
+    ...(canonical || {}),
+    ...obj,
+    id,
+    name,
+    category,
+    type: augmentation_type,
+    augmentation_type,
+    stage,
+    body_location,
+    location: body_location,
+    tech_level,
+    tl: tech_level,
+    meta_level,
+    ml: meta_level,
+    description,
+    desc: description,
+    mechanic,
+    mechanics: mechanic,
+    body,
+    keywords,
+    negative_keywords,
+    nodes,
+    sockets,
+    strain,
+    credits,
+    cost: credits,
+    bp,
+    cp,
+    costs: {
+      bp,
+      cp,
+      credits,
+      nodes,
+      sockets,
+      strain,
+      focus: Number(obj.costs?.focus ?? canonical?.costs?.focus ?? 0) || 0,
+      ap: Number(obj.costs?.ap ?? canonical?.costs?.ap ?? 0) || 0,
+      ...(canonical?.costs || {}),
+      ...(obj.costs || {})
+    },
+    modifiers: Array.isArray(obj.modifiers) ? obj.modifiers : (canonical?.modifiers || []),
+    modifications: Array.isArray(obj.modifications) ? obj.modifications : (canonical?.modifications || []),
+    recommended_species: Array.isArray(obj.recommended_species) ? obj.recommended_species : (canonical?.recommended_species || []),
+    recommended_factions: Array.isArray(obj.recommended_factions) ? obj.recommended_factions : (canonical?.recommended_factions || []),
+    recommended_origins: Array.isArray(obj.recommended_origins) ? obj.recommended_origins : (canonical?.recommended_origins || []),
+    recommended_occupations: Array.isArray(obj.recommended_occupations) ? obj.recommended_occupations : (canonical?.recommended_occupations || []),
+    recommended_tl: Array.isArray(obj.recommended_tl) ? obj.recommended_tl : (canonical?.recommended_tl || [`TL ${tech_level}`]),
+    recommended_ml: Array.isArray(obj.recommended_ml) ? obj.recommended_ml : (canonical?.recommended_ml || [`ML ${meta_level}`])
+  };
+};
+

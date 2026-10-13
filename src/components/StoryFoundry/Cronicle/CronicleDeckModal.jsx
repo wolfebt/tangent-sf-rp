@@ -493,8 +493,8 @@ export default function CronicleDeckModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[220] flex items-center justify-center p-2 sm:p-4 bg-black/85 backdrop-blur-md font-sans select-none animate-in fade-in duration-150">
-      <div className="bg-[#0b0f19] border border-cyan-500/50 w-full max-w-7xl h-[92vh] rounded-2xl shadow-[0_0_60px_rgba(6,182,212,0.3)] flex flex-col overflow-hidden text-slate-200">
+    <div className="fixed inset-0 z-[220] flex items-start sm:items-center justify-center p-2 sm:p-4 pt-8 sm:pt-14 pb-8 overflow-y-auto bg-black/85 backdrop-blur-md font-sans select-none animate-in fade-in duration-150">
+      <div className="bg-[#0b0f19] border-2 border-cyan-400/80 w-full max-w-7xl my-auto max-h-[calc(100vh-4rem)] sm:max-h-[92vh] h-[92vh] rounded-2xl shadow-[0_0_60px_rgba(6,182,212,0.35)] flex flex-col overflow-hidden text-slate-200">
         
         {/* ── TOP HEADER BAR ── */}
         <div className="px-5 py-3 bg-[#080c14] border-b border-slate-800 flex flex-wrap items-center justify-between gap-3 shrink-0">

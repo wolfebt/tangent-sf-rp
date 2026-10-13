@@ -143,7 +143,7 @@ export const ElementSelectorModal = ({
   return (
     <>
       <div className="fixed inset-0 z-[250] flex items-start justify-center bg-black/85 backdrop-blur-md p-3 sm:p-6 pt-10 sm:pt-14 md:pt-16 pb-12 overflow-y-auto select-none font-sans">
-        <div className="bg-[#0d131f] border border-cyan-500/50 rounded-2xl w-full max-w-4xl shadow-[0_0_30px_rgba(34,211,238,0.2)] text-slate-100 flex flex-col max-h-[85vh] sm:max-h-[88vh] overflow-hidden">
+        <div className="bg-[#0d131f] border-2 border-cyan-400/80 rounded-2xl w-full max-w-4xl shadow-[0_0_40px_rgba(6,182,212,0.3)] text-slate-100 flex flex-col max-h-[85vh] sm:max-h-[88vh] overflow-hidden">
           
           {/* HEADER */}
           <div className="px-5 py-4 bg-slate-950/90 border-b border-slate-800 flex justify-between items-center shrink-0">

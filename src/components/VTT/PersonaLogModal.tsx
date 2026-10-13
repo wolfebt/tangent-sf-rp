@@ -91,8 +91,8 @@ export const PersonaLogModal: React.FC<PersonaLogModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 overflow-y-auto font-sans select-none">
-      <div className="bg-[#0b1019] border border-cyan-500/50 rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.25)] w-full max-w-3xl overflow-hidden flex flex-col max-h-[92vh] sm:max-h-[85vh] animate-in fade-in zoom-in duration-150 text-slate-200">
+    <div className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm flex items-start sm:items-center justify-center p-2 sm:p-4 pt-10 sm:pt-16 pb-8 overflow-y-auto font-sans select-none">
+      <div className="bg-[#0b1019] border-2 border-cyan-400/80 rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.35)] w-full max-w-3xl overflow-hidden flex flex-col my-auto max-h-[calc(100vh-4rem)] sm:max-h-[85vh] animate-in fade-in zoom-in duration-150 text-slate-200">
         
         {/* Header */}
         <div className="px-4 sm:px-5 py-3 sm:py-3.5 border-b border-slate-800 bg-slate-950/90 flex items-center justify-between shrink-0">

@@ -73,7 +73,7 @@ export const CreateSquadModal = ({ isOpen, onClose, onCreated }) => {
 
   return (
     <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto select-none font-sans animate-fade-in">
-      <div className="bg-[#0f141d] border border-cyan-500/40 rounded-2xl w-full max-w-xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.9)] flex flex-col max-h-[85vh] sm:max-h-[88vh]">
+      <div className="bg-[#0f141d] border-2 border-cyan-400/80 rounded-2xl w-full max-w-xl overflow-hidden shadow-[0_0_50px_rgba(6,182,212,0.3)] flex flex-col max-h-[85vh] sm:max-h-[88vh]">
         {/* Header */}
         <div className="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/70">
           <div className="flex items-center gap-2.5">

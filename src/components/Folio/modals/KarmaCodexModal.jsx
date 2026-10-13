@@ -88,8 +88,8 @@ const KarmaCodexModal = ({ isOpen, onClose, charismaScore = 0, currentKarma = 3,
   });
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4 overflow-y-auto select-none font-sans">
-      <div className="bg-[#0e1422] border border-cyan-500/40 rounded-xl max-w-3xl w-full p-3.5 sm:p-4 shadow-[0_0_35px_rgba(6,182,212,0.15)] text-slate-100 space-y-2.5 my-auto max-h-[92vh] flex flex-col">
+    <div className="fixed inset-0 z-[200] flex items-start sm:items-center justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4 pt-8 sm:pt-14 pb-8 overflow-y-auto select-none font-sans">
+      <div className="bg-[#0e1422] border-2 border-cyan-400/80 rounded-xl max-w-3xl w-full p-3.5 sm:p-4 shadow-[0_0_40px_rgba(6,182,212,0.3)] text-slate-100 space-y-2.5 my-auto max-h-[calc(100vh-4rem)] sm:max-h-[92vh] flex flex-col">
         
         {/* Header */}
         <div className="flex justify-between items-center gap-2 border-b border-cyan-900/60 pb-2 shrink-0">

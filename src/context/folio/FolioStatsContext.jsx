@@ -473,7 +473,7 @@ export const FolioStatsSliceProvider = ({ children }) => {
             if (saveMods[targetSave] !== undefined) saveMods[targetSave] += val;
             else saveMods[targetSave] = val;
             activeFeatureModifiers.push({ source: fName, target: `${targetSave} Check`, value: val, description: mod.description });
-          } else if (mod.type === 'skill') {
+          } else if (mod.type === 'skill' && mod.mode !== 'group_choice') {
             const sKey = (mod.target || '').toLowerCase().trim();
             if (sKey) {
               skillMods[sKey] = (skillMods[sKey] || 0) + val;
@@ -494,6 +494,68 @@ export const FolioStatsSliceProvider = ({ children }) => {
             activeFeatureModifiers.push({ source: fName, target: cKey, value: val, description: mod.description });
           }
         });
+      }
+
+      // Check choice-based modifier_options (group_pool or single/pair options) or group_choice modifiers
+      const rawOptions = (typeof feat === 'object' && feat.modifier_options) ? feat.modifier_options : enriched?.modifier_options;
+      const groupChoiceMod = Array.isArray(enriched?.modifiers) ? enriched.modifiers.find(m => m.type === 'skill' && m.mode === 'group_choice') : null;
+
+      if ((rawOptions && rawOptions.enabled && rawOptions.mode === 'group_pool') || groupChoiceMod) {
+        const optValue = parseInt(rawOptions?.value ?? groupChoiceMod?.value ?? 2, 10) || 2;
+        const selectedSkills = Array.isArray(feat?.selected_skills) 
+          ? feat.selected_skills 
+          : (feat?.selected_skill ? [feat.selected_skill] : (Array.isArray(enriched?.selected_skills) ? enriched.selected_skills : []));
+        const groupLabel = rawOptions?.group_label || groupChoiceMod?.group_label || groupChoiceMod?.target || 'Skill Group Choice';
+
+        selectedSkills.forEach(skillTarget => {
+          const sKey = (skillTarget || '').toLowerCase().trim();
+          if (sKey) {
+            skillMods[sKey] = (skillMods[sKey] || 0) + optValue;
+            activeFeatureModifiers.push({
+              source: `${fName} [${skillTarget}]`,
+              target: skillTarget,
+              value: optValue,
+              description: `${fName}: ${optValue >= 0 ? '+' : ''}${optValue} to ${skillTarget} (${groupLabel})`
+            });
+            activeSkillModifiers.push({
+              source: `${fName} [${skillTarget}]`,
+              sourceType: 'feature',
+              target: skillTarget,
+              value: optValue,
+              description: `${fName}: ${optValue >= 0 ? '+' : ''}${optValue} to ${skillTarget} (${groupLabel})`
+            });
+          }
+        });
+      } else if (rawOptions && rawOptions.enabled && Array.isArray(rawOptions.options) && rawOptions.options.length > 0) {
+        const selectedId = (typeof feat === 'object' && feat.selected_option_id) ? feat.selected_option_id : enriched?.selected_option_id;
+        const activeOption = rawOptions.options.find(opt => opt.id === selectedId) || (rawOptions.options.length === 1 ? rawOptions.options[0] : null);
+
+        if (activeOption) {
+          const optValue = parseInt(activeOption.value !== undefined ? activeOption.value : (rawOptions.value || 2), 10) || 2;
+          const targetSkills = Array.isArray(activeOption.skills) 
+            ? activeOption.skills 
+            : (activeOption.skill ? [activeOption.skill] : []);
+
+          targetSkills.forEach(skillTarget => {
+            const sKey = (skillTarget || '').toLowerCase().trim();
+            if (sKey) {
+              skillMods[sKey] = (skillMods[sKey] || 0) + optValue;
+              activeFeatureModifiers.push({
+                source: `${fName} [${activeOption.label || activeOption.id || 'Selected Option'}]`,
+                target: skillTarget,
+                value: optValue,
+                description: `${fName}: ${optValue >= 0 ? '+' : ''}${optValue} to ${skillTarget} (${activeOption.label || activeOption.id})`
+              });
+              activeSkillModifiers.push({
+                source: `${fName} [${activeOption.label || activeOption.id || 'Selected Option'}]`,
+                sourceType: 'feature',
+                target: skillTarget,
+                value: optValue,
+                description: `${fName}: ${optValue >= 0 ? '+' : ''}${optValue} to ${skillTarget} (${activeOption.label || activeOption.id})`
+              });
+            }
+          });
+        }
       }
     });
 

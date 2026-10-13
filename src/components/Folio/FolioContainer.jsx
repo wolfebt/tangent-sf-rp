@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useFolio } from '../../context/FolioContext';
 import { useDice } from '../../context/DiceContext';
-import { Dices, Lock, Unlock, Copy, AlertTriangle, ShieldCheck, FileText, CheckCircle2, Save, PanelLeftOpen, PanelLeftClose, Users } from 'lucide-react';
+import { Lock, Unlock, Copy, AlertTriangle, ShieldCheck, FileText, CheckCircle2, Save, PanelLeftOpen, PanelLeftClose } from 'lucide-react';
 import { Toast } from '../UI/Toast';
 import { useToast, showToast } from '../../context/ToastContext';
 import { useConfirm } from '../../context/ConfirmContext';
@@ -23,6 +23,8 @@ import ConfirmationModal from './modals/ConfirmationModal';
 import { attachCreatorTag } from '../../utils/creatorUtils';
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 import { resolveMetaSkillForInvocation } from '../../utils/metaphysicsUtils';
+import { getEnrichedAugmentationData } from '../../data/augmentationsData';
+import { getEnrichedHindranceData } from '../../data/speciesDisadvantagesData';
 import { enrichItemWithModifiers } from '../../engines/tangentModifierEngine';
 import { AudioService } from '../../services/audioService';
 import { getFolioTombstones, isFolioPersonaDeleted } from '../../utils/personaValidationUtils';
@@ -307,12 +309,13 @@ const FolioContainer = () => {
     const tabHierarchyMap = {
       'core-stats': { parent: null, label: 'Core Attributes' },
       'skills': { parent: null, label: 'Skills & Masteries' },
-      'features': { parent: null, label: 'Features & Edge Hub' },
-      'features-traits': { parent: 'features', parentLabel: 'Features', label: 'Traits' },
-      'features-hindrances': { parent: 'features', parentLabel: 'Features', label: 'Hindrances' },
-      'features-augmentations': { parent: 'features', parentLabel: 'Features', label: 'Augmentations' },
-      'features-metaphysics': { parent: 'features', parentLabel: 'Features', label: 'Metaphysics' },
-      'features-awakened': { parent: 'features', parentLabel: 'Features', label: 'Awakened Disciplines' },
+      'features': { parent: null, label: 'Aspects Hub & Overview' },
+      'features-standard': { parent: 'features', parentLabel: 'Aspects', label: 'Standard Features' },
+      'features-traits': { parent: 'features', parentLabel: 'Aspects', label: 'Traits' },
+      'features-hindrances': { parent: 'features', parentLabel: 'Aspects', label: 'Hindrances' },
+      'features-augmentations': { parent: 'features', parentLabel: 'Aspects', label: 'Augmentations' },
+      'features-metaphysics': { parent: 'features', parentLabel: 'Aspects', label: 'Metaphysics' },
+      'features-awakened': { parent: 'features', parentLabel: 'Aspects', label: 'Awakened Disciplines' },
       'abilities': { parent: null, label: 'Special Abilities' },
       'combat': { parent: null, label: 'Tactical & Combat' },
       'companions': { parent: null, label: 'Companions & Units' },
@@ -409,13 +412,141 @@ const FolioContainer = () => {
       const cleanName = typeof taggedData === 'object' ? (taggedData.name || taggedData.title || '') : taggedData;
       const skillGroup = taggedData.group || taggedData.type || 'physical';
       const id = taggedData.id || `${skillGroup}-${cleanName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+      const cleanId = id.replace(/^[a-z]+-/, '');
+      const existingRank = characterData?.[`skill-${id}-rank`] !== undefined 
+        ? characterData[`skill-${id}-rank`] 
+        : (characterData?.[`skill-${cleanId}-rank`] !== undefined 
+          ? characterData[`skill-${cleanId}-rank`] 
+          : (taggedData.rank !== undefined ? parseInt(taggedData.rank, 10) : 1));
+
       handleAddSkill({
         name: cleanName,
         id,
         group: skillGroup,
         subcategory: taggedData.subcategory || taggedData.subtype || 'General',
-        baseAttr: taggedData.baseAttr || 'attr-strength',
-        rank: parseInt(taggedData.rank, 10) || 1
+        baseAttr: taggedData.baseAttr || characterData?.[`skill-${id}-base`] || characterData?.[`skill-${cleanId}-base`] || 'attr-strength',
+        rank: existingRank
+      });
+
+      if (taggedData.description) {
+        updateField(`skill-${id}-description`, taggedData.description);
+        if (cleanId !== id) updateField(`skill-${cleanId}-description`, taggedData.description);
+      }
+
+      showToast({
+        type: 'success',
+        title: 'Skill Dataset Updated',
+        text: `Successfully updated "${cleanName}" in Omnicortex database and active persona folio.`
+      });
+    } else if (key === 'features' || key === 'feature') {
+      const cleanName = typeof taggedData === 'object' ? (taggedData.name || taggedData.title || '') : taggedData;
+      const featCategory = taggedData.category || taggedData.type || 'General';
+      const featId = taggedData.id || `feature-${cleanName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+      
+      const acqType = taggedData.acquisition_type || (
+        taggedData.multi && taggedData.staged ? 'Multi/Staged' :
+        taggedData.staged ? 'Staged' :
+        taggedData.multi ? 'Multiple' : 'Basic'
+      );
+      const isMulti = acqType === 'Multiple' || acqType === 'Multi/Staged';
+      const isStaged = acqType === 'Staged' || acqType === 'Multi/Staged';
+
+      const newFeature = {
+        ...(typeof taggedData === 'object' ? taggedData : {}),
+        id: featId,
+        name: cleanName,
+        category: featCategory,
+        type: (taggedData.type || featCategory || 'general').toLowerCase(),
+        acquisition_type: acqType,
+        multi: isMulti,
+        staged: isStaged,
+        is_multiple: isMulti,
+        is_ranked: isStaged,
+        rank: taggedData.rank || 1,
+        max_rank: taggedData.max_rank || (isStaged ? 5 : undefined),
+        modifier_options: taggedData.modifier_options || {
+          enabled: false,
+          mode: 'single',
+          value: 2,
+          options: []
+        },
+        selected_option_id: taggedData.selected_option_id || '',
+        cp: taggedData.cp !== undefined ? Number(taggedData.cp) : 3,
+        description: taggedData.description || '',
+        mechanic: taggedData.mechanic || taggedData.mechanics || '',
+        prerequisites: taggedData.prerequisites || taggedData.prerequisite || 'None',
+        modifiers: Array.isArray(taggedData.modifiers) ? taggedData.modifiers : []
+      };
+
+      if (index !== null && index !== undefined && index >= 0) {
+        handleUpdateItem('features', index, newFeature);
+      } else {
+        const currentFeatures = Array.isArray(characterData?.features) ? characterData.features : [];
+        const existingIdx = currentFeatures.findIndex(f => {
+          const fId = (typeof f === 'object' ? f.id : '').toLowerCase();
+          const fName = (typeof f === 'object' ? (f.name || f.title) : f).toLowerCase();
+          return (featId && fId === featId.toLowerCase()) || (cleanName && fName === cleanName.toLowerCase());
+        });
+
+        if (existingIdx >= 0) {
+          handleUpdateItem('features', existingIdx, newFeature);
+        } else {
+          handleAddItem('features', newFeature);
+        }
+      }
+
+      showToast({
+        type: 'success',
+        title: 'Feature Dataset Updated',
+        text: `Successfully updated "${cleanName}" in Omnicortex database and active persona folio.`
+      });
+    } else if (key === 'traits' || key === 'trait') {
+      const cleanName = typeof taggedData === 'object' ? (taggedData.name || taggedData.title || '') : taggedData;
+      const traitType = taggedData.trait_type || taggedData.type || 'Species Trait';
+      const traitTier = taggedData.trait_tier || 'Basic';
+      const classification = taggedData.classification || 'Physical';
+      const traitId = taggedData.id || `trait-${cleanName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+
+      const newTrait = {
+        ...(typeof taggedData === 'object' ? taggedData : {}),
+        id: traitId,
+        name: cleanName,
+        category: 'traits',
+        trait_type: traitType,
+        trait_tier: traitTier,
+        classification,
+        type: classification,
+        cp: taggedData.cp !== undefined ? Number(taggedData.cp) : 1,
+        bp: taggedData.bp !== undefined ? Number(taggedData.bp) : (taggedData.cp !== undefined ? Number(taggedData.cp) : 1),
+        description: taggedData.description || taggedData.desc || '',
+        mechanic: taggedData.mechanic || taggedData.mechanics || '',
+        note: taggedData.note || taggedData.notes || '',
+        notes: taggedData.notes || taggedData.note || '',
+        rules: taggedData.rules || taggedData.special_rules || `${traitTier} ${traitType} (${taggedData.cp || 1} CP).`,
+        modifiers: Array.isArray(taggedData.modifiers) ? taggedData.modifiers : []
+      };
+
+      if (index !== null && index !== undefined && index >= 0) {
+        handleUpdateItem('traits', index, newTrait);
+      } else {
+        const currentTraits = Array.isArray(characterData?.traits) ? characterData.traits : [];
+        const existingIdx = currentTraits.findIndex(t => {
+          const tId = (typeof t === 'object' ? t.id : '').toLowerCase();
+          const tName = (typeof t === 'object' ? (t.name || t.title) : t).toLowerCase();
+          return (traitId && tId === traitId.toLowerCase()) || (cleanName && tName === cleanName.toLowerCase());
+        });
+
+        if (existingIdx >= 0) {
+          handleUpdateItem('traits', existingIdx, newTrait);
+        } else {
+          handleAddItem('traits', newTrait);
+        }
+      }
+
+      showToast({
+        type: 'success',
+        title: 'Trait Dataset Updated',
+        text: `Successfully updated "${cleanName}" in Omnicortex database and active persona folio.`
       });
     } else if (key === 'disciplines' || key === 'awakened') {
       const discName = typeof taggedData === 'object' ? (taggedData.name || taggedData.title || '') : taggedData;
@@ -429,7 +560,7 @@ const FolioContainer = () => {
         description: taggedData.description || taggedData.desc || ''
       };
       handleAddItem('features', item);
-    } else if (key === 'invocations') {
+    } else if (key === 'invocations' || key === 'invocation') {
       const rawObj = typeof taggedData === 'object' ? taggedData : { name: taggedData };
       const resolved = resolveMetaSkillForInvocation(rawObj);
       const newInv = {
@@ -441,7 +572,7 @@ const FolioContainer = () => {
         discipline: rawObj.discipline || resolved.discipline,
         subSkill: rawObj.subSkill || resolved.subSkill,
         baseSkillId: rawObj.baseSkillId || resolved.baseSkillId,
-        rank: Math.min(10, Math.max(1, parseInt(rawObj.rank || 1, 10))),
+        rank: Math.min(10, Math.max(1, parseInt(rawObj.rank || rawObj.level || 1, 10))),
         cp: 1,
         mod: parseInt(rawObj.mod || 0, 10)
       };
@@ -449,19 +580,75 @@ const FolioContainer = () => {
         handleUpdateItem('invocations', index, newInv);
       } else {
         const currentInvs = Array.isArray(characterData.invocations) ? characterData.invocations : [];
-        const exists = currentInvs.some(i => (typeof i === 'object' ? (i.name || i.title) : i).toLowerCase() === newInv.name.toLowerCase());
-        if (exists) {
-          showToast({ type: 'warn', title: 'Invocation Already Known', text: `Invocation "${newInv.name}" is already known.` });
+        const existingIdx = currentInvs.findIndex(i => {
+          const iId = (typeof i === 'object' ? i.id : '').toLowerCase();
+          const iName = (typeof i === 'object' ? (i.name || i.title) : i).toLowerCase();
+          return (newInv.id && iId === newInv.id.toLowerCase()) || (newInv.name && iName === newInv.name.toLowerCase());
+        });
+        if (existingIdx >= 0) {
+          handleUpdateItem('invocations', existingIdx, newInv);
         } else {
           handleAddItem('invocations', newInv);
         }
       }
+      showToast({
+        type: 'success',
+        title: 'Invocation Dataset Updated',
+        text: `Successfully updated "${newInv.name}" in Omnicortex database and active persona folio.`
+      });
+    } else if (key === 'augmentations' || key === 'augmentation' || key === 'cyberware' || key === 'cybernetics' || key === 'bioware') {
+      const newAug = getEnrichedAugmentationData(taggedData);
+      if (index !== null && index !== undefined && index >= 0) {
+        handleUpdateItem('augmentations', index, newAug);
+      } else {
+        const currentAugs = Array.isArray(characterData.augmentations) ? characterData.augmentations : [];
+        const existingIdx = currentAugs.findIndex(a => {
+          const aId = (typeof a === 'object' ? a.id : '').toLowerCase();
+          const aName = (typeof a === 'object' ? (a.name || a.title) : a).toLowerCase();
+          return (newAug.id && aId === newAug.id.toLowerCase()) || (newAug.name && aName === newAug.name.toLowerCase());
+        });
+        if (existingIdx >= 0) {
+          handleUpdateItem('augmentations', existingIdx, newAug);
+        } else {
+          handleAddItem('augmentations', newAug);
+        }
+      }
+      showToast({
+        type: 'success',
+        title: 'Augmentation Dataset Updated',
+        text: `Successfully updated "${newAug.name}" in Omnicortex database and active persona folio.`
+      });
+    } else if (key === 'disadvantages' || key === 'disadvantage' || key === 'hindrances' || key === 'hindrance' || key === 'species_disadvantages') {
+      const cleanName = typeof taggedData === 'object' ? (taggedData.name || taggedData.title || '') : taggedData;
+      const targetCol = (key === 'hindrances' || key === 'hindrance') ? 'hindrances' : 'disadvantages';
+      const enrichedHind = getEnrichedHindranceData(taggedData);
+      
+      if (index !== null && index !== undefined && index >= 0) {
+        handleUpdateItem(targetCol, index, enrichedHind);
+      } else {
+        const currentList = Array.isArray(characterData[targetCol]) ? characterData[targetCol] : [];
+        const existingIdx = currentList.findIndex(h => {
+          const hId = (typeof h === 'object' ? h.id : '').toLowerCase();
+          const hName = (typeof h === 'object' ? (h.name || h.title) : h).toLowerCase();
+          return (enrichedHind.id && hId === enrichedHind.id.toLowerCase()) || (cleanName && hName === cleanName.toLowerCase());
+        });
+        if (existingIdx >= 0) {
+          handleUpdateItem(targetCol, existingIdx, enrichedHind);
+        } else {
+          handleAddItem(targetCol, enrichedHind);
+        }
+      }
+      showToast({
+        type: 'success',
+        title: 'Hindrance Dataset Updated',
+        text: `Successfully updated "${cleanName}" in Omnicortex database and active persona folio.`
+      });
     } else if (index !== null && index !== undefined && index >= 0) {
       handleUpdateItem(key, index, taggedData);
     } else {
       handleAddItem(key, taggedData);
     }
-  }, [updateField, handleAddItem, handleUpdateItem, handleAddSkill, userHandle, currentUser, applyArchetypeChassis, applySpeciesAdjustments]);
+  }, [updateField, handleAddItem, handleUpdateItem, handleAddSkill, userHandle, currentUser, applyArchetypeChassis, applySpeciesAdjustments, characterData]);
 
   // Handle Delete from Asset Modal
   const handleDeleteAssetItem = useCallback((key, index = null, itemData = null) => {
@@ -480,7 +667,8 @@ const FolioContainer = () => {
         handleDeleteSpecialization(id);
       }
     } else {
-      const currentList = Array.isArray(characterData[key]) ? [...characterData[key]] : [];
+      const targetColKey = (key === 'feature') ? 'features' : (key === 'trait' ? 'traits' : (key === 'invocation' ? 'invocations' : ((key === 'augmentation' || key === 'cyberware' || key === 'cybernetics' || key === 'bioware') ? 'augmentations' : ((key === 'hindrance' || key === 'disadvantage' || key === 'species_disadvantages') ? 'disadvantages' : key))));
+      const currentList = Array.isArray(characterData[targetColKey]) ? [...characterData[targetColKey]] : [];
       let updatedList = [];
       if (index !== null && index !== undefined && index >= 0 && index < currentList.length) {
         updatedList = currentList.filter((_, idx) => idx !== index);
@@ -499,9 +687,10 @@ const FolioContainer = () => {
       } else {
         updatedList = currentList;
       }
-      updateField(key, updatedList);
+      updateField(targetColKey, updatedList);
     }
   }, [characterData, updateField, handleDeleteSkill, handleDeleteSpecialization]);
+
 
   // Open Selector Modal helper
   const handleOpenSelectorModal = useCallback((key, title, browsePath, filterCategory = null, filterCategoryExclude = null) => {
@@ -631,6 +820,12 @@ const FolioContainer = () => {
 
     const handleTriggerSave = () => handleManualSave();
 
+    const handleOpenAssetEvent = (e) => {
+      const { key = 'skills', title = 'Asset Matrix', mode = 'edit', itemIndex = null, initialData = null } = e.detail || {};
+      setIsSelectorOpen(false);
+      handleOpenAssetModal(key, title, mode, itemIndex, initialData);
+    };
+
     window.addEventListener('open-folio-economy', handleOpenEconomy);
     window.addEventListener('toggle-folio-bastion', handleToggleBastion);
     window.addEventListener('open-folio-catalog', handleOpenCatalog);
@@ -643,6 +838,7 @@ const FolioContainer = () => {
     window.addEventListener('open-folio-preview', handleOpenPreview);
     window.addEventListener('trigger-folio-load-local', handleTriggerLoadLocal);
     window.addEventListener('trigger-folio-save', handleTriggerSave);
+    window.addEventListener('open-folio-asset', handleOpenAssetEvent);
 
     return () => {
       window.removeEventListener('open-folio-economy', handleOpenEconomy);
@@ -657,8 +853,9 @@ const FolioContainer = () => {
       window.removeEventListener('open-folio-preview', handleOpenPreview);
       window.removeEventListener('trigger-folio-load-local', handleTriggerLoadLocal);
       window.removeEventListener('trigger-folio-save', handleTriggerSave);
+      window.removeEventListener('open-folio-asset', handleOpenAssetEvent);
     };
-  }, [handleManualSave]);
+  }, [handleManualSave, handleOpenAssetModal]);
 
   return (
     <div className="flex h-full w-full bg-[#0d1117] text-slate-100 overflow-hidden font-sans relative">
@@ -707,7 +904,7 @@ const FolioContainer = () => {
             viewMode === 'play'
               ? 'Return to Folio Builder'
               : activeTab.startsWith('features-')
-              ? 'Return to Features Hub'
+              ? 'Return to Aspects Hub & Overview'
               : activeTab.startsWith('property-') || activeTab === 'combat-gear'
               ? 'Return to Property Hub'
               : activeTab !== 'catalog'
@@ -734,88 +931,6 @@ const FolioContainer = () => {
                 <span>Rail</span>
               </button>
             ) : null
-          }
-          rightSlot={
-            <div className="flex items-center gap-1.5 shrink-0">
-              {/* Persona Catalog Shortcut on desktop/tablet only (mobile uses persona name tag as catalog link) */}
-              {isCharacterSelected && activeTab !== 'catalog' && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    AudioService.playTerminalBeep(1100, 0.02);
-                    handleReturnToCatalog();
-                  }}
-                  className="hidden md:inline-flex min-h-[28px] px-2 rounded-md text-[11px] font-mono font-bold uppercase tracking-wider text-slate-300 hover:text-cyan-300 bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 hover:border-cyan-500/60 cursor-pointer transition-all items-center gap-1 active:scale-95"
-                  title="Return to Persona Catalog / Dossiers"
-                >
-                  <Users size={13} className="text-cyan-400" />
-                  <span className="hidden sm:inline">Catalog</span>
-                </button>
-              )}
-
-              {/* Mode Switcher: Build vs Tac */}
-              {isCharacterSelected && activeTab !== 'catalog' && (
-                <div className="inline-flex rounded-md bg-slate-950 p-0.5 border border-slate-800 shadow-inner">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      AudioService.playTerminalBeep(1100, 0.02);
-                      setViewMode('builder');
-                    }}
-                    className={`px-1.5 py-0.5 rounded text-[10px] font-mono font-bold uppercase transition-all cursor-pointer flex items-center gap-1 active:scale-95 ${
-                      viewMode === 'builder'
-                        ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-xs'
-                        : 'text-slate-400 hover:text-slate-200'
-                    }`}
-                    title="Builder Mode"
-                  >
-                    <span>🛠️</span>
-                    <span className="hidden sm:inline">Build</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      AudioService.playTerminalBeep(1100, 0.02);
-                      setViewMode('play');
-                    }}
-                    className={`px-1.5 py-0.5 rounded text-[10px] font-mono font-bold uppercase transition-all cursor-pointer flex items-center gap-1 active:scale-95 ${
-                      viewMode === 'play' || viewMode === 'preview'
-                        ? 'bg-amber-950 text-amber-300 border border-amber-500/60 shadow-xs'
-                        : 'text-slate-400 hover:text-slate-200'
-                    }`}
-                    title="Switch to Live Tactical Sheet (VTT)"
-                  >
-                    <span>⚔️</span>
-                    <span className="hidden sm:inline">Tac</span>
-                  </button>
-                </div>
-              )}
-
-              {/* Dice Roller Button */}
-              <button
-                type="button"
-                onClick={() => {
-                  if (isDiceOpen) {
-                    closeDiceRoller();
-                  } else {
-                    openDiceRoller({
-                      label: `${characterData['char-name'] || 'Persona'} Check`,
-                      characterName: characterData['char-name'] || 'Persona',
-                      autoRoll: false
-                    });
-                  }
-                }}
-                className={`min-h-[28px] px-2 border rounded-md text-xs font-mono font-bold flex items-center gap-1 cursor-pointer transition-colors active:scale-95 ${
-                  isDiceOpen
-                    ? 'bg-rose-950 border-rose-500/80 text-rose-300'
-                    : 'bg-rose-950/40 hover:bg-rose-900/60 border-rose-500/50 text-rose-300'
-                }`}
-                title="Toggle Holographic Dice Tray"
-                aria-label="Toggle Dice Tray"
-              >
-                <Dices size={13} className="text-rose-400" />
-              </button>
-            </div>
           }
         />
 
@@ -942,24 +1057,19 @@ const FolioContainer = () => {
                 <SkillsTab
                   onOpenAddSkillModal={handleOpenAddSkillModal}
                   onOpenSelectorModal={handleOpenSelectorModal}
-                />
-              )}
-              {activeTab === 'features' && (
-                <FeaturesHubView
-                  onSelectSection={(tabId) => handleSelectTab(tabId)}
-                  onOpenMetaphysicsModal={() => setIsMetaphysicsOpen(true)}
-                  onOpenSelectorModal={handleOpenSelectorModal}
                   onOpenAssetModal={handleOpenAssetModal}
                 />
               )}
-              {(activeTab.startsWith('features-') || activeTab === 'abilities') && (
+              {(activeTab === 'features' || activeTab.startsWith('features-') || activeTab === 'abilities') && (
                 <FeaturesTab
                   activeSection={
+                    activeTab === 'features' ? 'overview' :
                     activeTab === 'features-traits' ? 'traits' :
                     activeTab === 'features-hindrances' ? 'hindrances' :
                     activeTab === 'features-augmentations' ? 'augmentations' :
                     activeTab === 'features-metaphysics' || activeTab === 'features-awakened' ? 'metaphysics' :
-                    'features'
+                    activeTab === 'features-standard' ? 'features' :
+                    'overview'
                   }
                   onBackToHub={() => handleSelectTab('features')}
                   onNavigate={(tabId) => handleSelectTab(tabId)}

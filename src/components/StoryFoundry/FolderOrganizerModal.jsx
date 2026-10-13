@@ -205,8 +205,8 @@ export const FolderOrganizerModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-[300] flex items-center justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4 md:p-6 overflow-y-auto select-none font-sans">
-      <div className="bg-[#0f141c] border border-cyan-500/40 rounded-2xl w-full max-w-5xl h-[92vh] sm:h-[88vh] max-h-[94vh] flex flex-col shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden">
+    <div className="fixed inset-0 z-[300] flex items-start sm:items-center justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4 md:p-6 pt-6 sm:pt-10 md:pt-12 pb-8 overflow-y-auto select-none font-sans">
+      <div className="bg-[#0f141c] border-2 border-cyan-400/80 rounded-2xl w-full max-w-5xl my-auto max-h-[calc(100vh-4rem)] sm:max-h-[88vh] h-[92vh] sm:h-[88vh] flex flex-col shadow-[0_0_50px_rgba(6,182,212,0.3)] overflow-hidden">
         
         {/* Header */}
         <div className="px-4 sm:px-5 py-3 sm:py-3.5 bg-[#0a0d14] border-b border-slate-800 flex items-center justify-between shrink-0">

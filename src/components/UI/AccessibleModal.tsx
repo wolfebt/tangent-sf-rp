@@ -110,7 +110,7 @@ export const AccessibleModal: React.FC<AccessibleModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 overflow-y-auto animate-fadeIn select-none"
+      className="fixed inset-0 z-[200] flex items-start sm:items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-10 sm:pt-14 pb-8 overflow-y-auto animate-fadeIn select-none"
       onClick={onClose}
       aria-hidden="false"
     >
@@ -121,7 +121,7 @@ export const AccessibleModal: React.FC<AccessibleModalProps> = ({
         aria-labelledby={resolvedTitleId}
         aria-describedby={resolvedDescId}
         tabIndex={-1}
-        className={`bg-[#0d1117] border border-cyan-500/50 rounded-2xl w-full ${maxWidthClass} shadow-[0_0_50px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col relative focus:outline-none ${className}`}
+        className={`bg-[#0d1117] border-2 border-cyan-400/80 rounded-2xl w-full ${maxWidthClass} my-auto max-h-[calc(100vh-3.5rem)] sm:max-h-[calc(100dvh-4.5rem)] shadow-[0_0_50px_rgba(6,182,212,0.3)] overflow-hidden flex flex-col relative focus:outline-none ${className}`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
@@ -150,7 +150,7 @@ export const AccessibleModal: React.FC<AccessibleModalProps> = ({
         </div>
 
         {/* Modal Body */}
-        <div className="p-4 sm:p-6 overflow-y-auto max-h-[85vh]">
+        <div className="p-4 sm:p-6 overflow-y-auto flex-1 min-h-0">
           {children}
         </div>
       </div>

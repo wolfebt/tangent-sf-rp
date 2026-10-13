@@ -873,12 +873,36 @@ export const AssetStudio = ({
             bonus: Number(m.value) || 1
           }));
           next.inherent_attribute_modifiers = next.attribute_modifiers;
-          next.specific_skill_bonuses = mods.filter(m => m.type === 'skill').map(m => ({
+          next.specific_skill_bonuses = mods.filter(m => m.type === 'skill' && m.mode !== 'group_choice' && m.mode !== 'choice_pool').map(m => ({
             skill: m.target,
             bonus: Number(m.value) || 1
           }));
           next.inherent_features = mods.filter(m => m.type === 'feature' && m.mode === 'inherent').map(m => m.target);
           next.recommended_features = mods.filter(m => m.type === 'feature' && m.mode === 'recommended').map(m => m.target);
+
+          // Synchronize group choice and options pool into modifier_options
+          const groupChoiceMod = mods.find(m => m.type === 'skill' && (m.mode === 'group_choice' || m.group_keys?.length || m.group_key));
+          if (groupChoiceMod) {
+            next.modifier_options = {
+              enabled: true,
+              mode: 'group_pool',
+              group_keys: groupChoiceMod.group_keys || (groupChoiceMod.group_key ? [groupChoiceMod.group_key] : ['mental_vocations']),
+              group_label: groupChoiceMod.group_label || groupChoiceMod.target || 'Skill Group Choice',
+              max_skills: groupChoiceMod.max_choices || 2,
+              value: groupChoiceMod.value || 2,
+              options: []
+            };
+          } else {
+            const choicePoolMod = mods.find(m => m.type === 'skill' && m.mode === 'choice_pool' && Array.isArray(m.options) && m.options.length > 0);
+            if (choicePoolMod) {
+              next.modifier_options = {
+                enabled: true,
+                mode: choicePoolMod.options[0]?.skills?.length > 1 ? 'pair' : 'single',
+                value: choicePoolMod.value || 2,
+                options: choicePoolMod.options
+              };
+            }
+          }
         } else if (name === 'social_stigma' || name === 'stigma') {
           next.social_stigma = value;
           next.stigma = value;
@@ -2850,7 +2874,7 @@ export const AssetStudio = ({
 
   if (isModal) {
     return (
-      <div className="fixed top-[52px] left-0 md:left-18 sm:md:left-20 right-0 bottom-0 z-[90] bg-[#070a13] flex flex-col overflow-hidden select-none font-sans p-0 m-0">
+      <div className="fixed top-[var(--header-height,52px)] left-0 md:left-18 right-0 bottom-0 z-[90] bg-[#070a13] border-2 border-cyan-400/80 shadow-[0_0_30px_rgba(6,182,212,0.25)] flex flex-col overflow-hidden select-none font-sans p-0 m-0">
         {content}
       </div>
     );

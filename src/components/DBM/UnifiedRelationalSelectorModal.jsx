@@ -464,7 +464,7 @@ export const UnifiedRelationalSelectorModal = ({
   };
 
   return (
-    <div className="fixed top-[52px] left-0 md:left-18 sm:md:left-20 right-0 bottom-0 z-[95] flex flex-col bg-[#070a13] select-none font-sans overflow-hidden p-0 m-0">
+    <div className="fixed top-[var(--header-height,52px)] left-0 md:left-18 right-0 bottom-0 z-[95] flex flex-col bg-[#070a13] border-2 border-cyan-400/80 shadow-[0_0_30px_rgba(6,182,212,0.25)] select-none font-sans overflow-hidden p-0 m-0">
       <div className="bg-slate-900 w-full h-full flex flex-col overflow-hidden">
         {/* Header */}
         <div className="bg-slate-950 px-5 py-4 border-b border-slate-800 flex justify-between items-center shrink-0">

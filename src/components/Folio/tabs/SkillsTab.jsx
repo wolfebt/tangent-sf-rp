@@ -1,9 +1,11 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { useFolio } from '../../../context/FolioContext';
 import { useDice } from '../../../context/DiceContext';
-import { Dices, Zap, Plus, Lock, Sparkles, ChevronDown, ChevronUp } from 'lucide-react';
+import { useAuth } from '../../../context/AuthContext';
+import { Dices, Zap, Plus, Lock, Sparkles, ChevronDown, ChevronUp, Edit3, Database } from 'lucide-react';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
-import { DEFAULT_SKILLS } from '../../../data/skillsData';
+import { DEFAULT_SKILLS, getEnrichedSkillData } from '../../../data/skillsData';
+import { DEFAULT_INVOCATIONS, getEnrichedInvocationData } from '../../../data/invocationsData';
 import { DEFAULT_ARCHETYPES } from '../../../data/archetypesData';
 import { DEFAULT_SPECIES } from '../../../data/speciesData';
 import { DEFAULT_OCCUPATIONS } from '../../../data/occupationsData';
@@ -123,7 +125,8 @@ const TABS_CONFIG = [
   }
 ];
 
-const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
+const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal, onOpenAssetModal }) => {
+  const { isAdmin } = useAuth() || {};
   const {
     characterData,
     updateField,
@@ -139,6 +142,38 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
     getAttrTotal
   } = useFolio();
   const { openDiceRoller } = useDice();
+
+  const handleOpenSkillDataset = useCallback((skill) => {
+    const enriched = getEnrichedSkillData(skill);
+    if (onOpenAssetModal) {
+      onOpenAssetModal('skills', `${enriched?.name || 'Skill'} Matrix`, 'edit', null, enriched);
+    } else {
+      window.dispatchEvent(new CustomEvent('open-folio-asset', {
+        detail: {
+          key: 'skills',
+          title: `${enriched?.name || 'Skill'} Matrix`,
+          mode: 'edit',
+          initialData: enriched
+        }
+      }));
+    }
+  }, [onOpenAssetModal]);
+
+  const handleOpenInvocationDataset = useCallback((inv) => {
+    const enriched = getEnrichedInvocationData(inv);
+    if (onOpenAssetModal) {
+      onOpenAssetModal('invocations', `${enriched?.name || 'Invocation'} Matrix`, 'edit', null, enriched);
+    } else {
+      window.dispatchEvent(new CustomEvent('open-folio-asset', {
+        detail: {
+          key: 'invocations',
+          title: `${enriched?.name || 'Invocation'} Matrix`,
+          mode: 'edit',
+          initialData: enriched
+        }
+      }));
+    }
+  }, [onOpenAssetModal]);
   const [activePane, setActivePane] = useState('skills'); // 'skills' | 'granted' | 'modifiers'
   const [expandedCategories, setExpandedCategories] = useState({}); // ALL CATEGORIES COLLAPSED BY DEFAULT
   const searchQuery = '';
@@ -933,6 +968,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
     }
 
     const breakdown = getSkillBreakdown ? getSkillBreakdown(skill) : null;
+    const enrichedSkill = getEnrichedSkillData(skill);
     const rank = breakdown?.rank ?? getSkillRank(skill);
     const mod = breakdown?.totalModifier ?? getSkillMod(skill);
     const baseAttr = characterData?.[`skill-${skill.id}-base`] || characterData?.[`skill-${cleanId}-base`] || skill.baseAttr || '';
@@ -949,11 +985,18 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
       <div key={skill.id} className="space-y-1.5">
         {/* Desktop / Tablet Grid View (>= 640px) */}
         <div
-          className={`folio-skill-row-desktop grid-cols-12 items-center gap-2 py-1 px-2 rounded transition-colors text-xs border ${
+          className={`folio-skill-row-desktop group/skill grid-cols-12 items-center gap-2 py-1 px-2 rounded transition-colors text-xs border ${
             isDisciplineLocked
               ? 'bg-slate-950/40 opacity-60 border-slate-800/60'
               : 'bg-slate-900/50 hover:bg-slate-800/60 border-slate-800/40'
           }`}
+          data-context-zone="folio"
+          data-context-category="skills"
+          data-context-subcategory={skill.group || 'general'}
+          data-context-entity-id={skill.id}
+          data-context-entity-type="skill"
+          data-context-entity-title={skill.name}
+          data-context-entity-data={JSON.stringify(enrichedSkill)}
           title={isDisciplineLocked ? lockMessage : undefined}
         >
           <div className="col-span-4 flex items-center justify-between pr-1 overflow-hidden">
@@ -967,6 +1010,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                 skillBreakdown={breakdown}
                 associatedEquipment={breakdown?.equipment}
                 tags={['Max Rank: 20', `Base: ${baseAttrLabel}`, groupName.toUpperCase(), ...pillarRecs.map(p => `${p.name}: ${p.detail}`)]}
+                adminAction={isAdmin ? { label: 'View / Edit Dataset', onClick: () => handleOpenSkillDataset(skill) } : null}
                 showInfoIcon={true}
               >
                 <span className={`font-medium ${isDisciplineLocked ? 'text-slate-500' : 'text-slate-200 hover:text-cyan-300'} truncate transition-colors`}>
@@ -994,6 +1038,19 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
               )}
             </div>
             <div className="flex items-center gap-1 shrink-0">
+              {isAdmin && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleOpenSkillDataset(skill);
+                  }}
+                  className="opacity-0 group-hover/skill:opacity-100 transition-opacity p-1 rounded hover:bg-cyan-950/80 border border-transparent hover:border-cyan-500/50 text-slate-400 hover:text-cyan-300 cursor-pointer"
+                  title={`View / Edit ${skill.name} Dataset (Matrix Studio)`}
+                >
+                  <Edit3 size={11} />
+                </button>
+              )}
               {(skill.group === 'meta' || skill.id.startsWith('meta-')) && !isDisciplineLocked && !isSheetLocked && onOpenSelectorModal && (
                 <button
                   type="button"
@@ -1121,11 +1178,18 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
 
         {/* Mobile View (< 640px) */}
         <div
-          className={`folio-skill-row-mobile flex-col gap-1.5 p-2 rounded transition-colors text-xs border ${
+          className={`folio-skill-row-mobile group/skill flex-col gap-1.5 p-2 rounded transition-colors text-xs border ${
             isDisciplineLocked
               ? 'bg-slate-950/40 opacity-60 border-slate-800/60'
               : 'bg-slate-900/60 hover:bg-slate-800/60 border-slate-800/60'
           }`}
+          data-context-zone="folio"
+          data-context-category="skills"
+          data-context-subcategory={skill.group || 'general'}
+          data-context-entity-id={skill.id}
+          data-context-entity-type="skill"
+          data-context-entity-title={skill.name}
+          data-context-entity-data={JSON.stringify(enrichedSkill)}
           title={isDisciplineLocked ? lockMessage : undefined}
         >
           {/* Top Line: Name + Status + Delete + Total Badge */}
@@ -1140,6 +1204,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                 skillBreakdown={breakdown}
                 associatedEquipment={breakdown?.equipment}
                 tags={['Max Rank: 20', `Base: ${baseAttrLabel}`, groupName.toUpperCase(), ...pillarRecs.map(p => `${p.name}: ${p.detail}`)]}
+                adminAction={isAdmin ? { label: 'View / Edit Dataset', onClick: () => handleOpenSkillDataset(skill) } : null}
                 showInfoIcon={true}
               >
                 <span className={`font-semibold ${isDisciplineLocked ? 'text-slate-500' : 'text-slate-100 hover:text-cyan-300'} truncate transition-colors`}>
@@ -1198,6 +1263,19 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                 <Dices size={11} />
                 <span>Check</span>
               </button>
+              {isAdmin && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleOpenSkillDataset(skill);
+                  }}
+                  className="p-1 rounded bg-slate-950/60 hover:bg-cyan-950 border border-slate-800 hover:border-cyan-500/50 text-slate-400 hover:text-cyan-300 cursor-pointer"
+                  title={`View / Edit ${skill.name} Dataset`}
+                >
+                  <Edit3 size={11} />
+                </button>
+              )}
               {isCustom && !isDisciplineLocked && !isSheetLocked && (
                 <button
                   type="button"
@@ -1318,6 +1396,13 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                     ? 'border-purple-500/60 bg-purple-950/20 hover:bg-purple-900/30 border-purple-900/30'
                     : 'border-amber-500/60 bg-amber-950/20 hover:bg-amber-900/30 border-amber-900/30'
                 } grid-cols-12 items-center gap-2 py-1 px-2 rounded transition-colors text-xs border`}
+                data-context-zone="folio"
+                data-context-category="skills"
+                data-context-subcategory={isInvocation ? 'invocations' : 'specializations'}
+                data-context-entity-id={spec.id}
+                data-context-entity-type={isInvocation ? 'invocation' : 'specialization'}
+                data-context-entity-title={spec.name}
+                data-context-entity-data={JSON.stringify(isInvocation ? getEnrichedInvocationData(spec) : spec)}
               >
                 {/* Specialization / Invocation Name & Base Skill Ref */}
                 <div className="col-span-4 flex flex-col justify-center overflow-hidden">
@@ -1356,6 +1441,16 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                       prerequisiteUnmetReasons={prereqResult.unmetReasons}
                       tags={isSpecAbility ? ['Special Ability', `Foundation: ${specAttrKey.replace('attr-', '').toUpperCase()}`, `DC: ${spec.baseDC || 15}`] : isInvocation ? ['1 CP', 'Invocation', `Base: ${skill.name}`, `DC: ${spec.baseDC || 15}`] : ['Max Rank: 10', `Base: ${skill.name}`]}
                       showInfoIcon={true}
+                      adminAction={isAdmin ? {
+                        label: isInvocation ? 'View / Edit Invocation Dataset' : 'View / Edit Skill Dataset',
+                        onClick: () => {
+                          if (isInvocation) {
+                            handleOpenInvocationDataset(spec);
+                          } else {
+                            handleOpenSkillDataset(skill);
+                          }
+                        }
+                      } : null}
                     >
                       <span className={`font-semibold ${isPrereqUnmet ? 'text-slate-400 hover:text-rose-300' : isSpecAbility ? 'text-cyan-200 hover:text-cyan-100' : isMetaSkill || isInvocation ? 'text-purple-200 hover:text-purple-100' : 'text-amber-200 hover:text-amber-100'} truncate transition-colors flex items-center gap-1`}>
                         <span>{spec.name}</span>
@@ -1442,6 +1537,16 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                     >
                       <Dices size={11} />
                     </button>
+                    {isAdmin && isInvocation && (
+                      <button
+                        type="button"
+                        onClick={() => handleOpenInvocationDataset(spec)}
+                        className="p-1 rounded cursor-pointer transition-colors text-slate-400 hover:text-purple-300 bg-slate-900/80 hover:bg-purple-950 border border-slate-700 hover:border-purple-500/50"
+                        title="View / Edit Invocation Dataset"
+                      >
+                        <Edit3 size={11} />
+                      </button>
+                    )}
                     <button
                       type="button"
                       onClick={() => handleDeleteSpecOrInv(spec)}
@@ -1467,6 +1572,13 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                     ? 'border-purple-500/60 bg-purple-950/20 border-purple-900/30'
                     : 'border-amber-500/60 bg-amber-950/20 border-amber-900/30'
                 } p-2 rounded transition-colors text-xs border flex-col gap-1.5`}
+                data-context-zone="folio"
+                data-context-category="skills"
+                data-context-subcategory={isInvocation ? 'invocations' : 'specializations'}
+                data-context-entity-id={spec.id}
+                data-context-entity-type={isInvocation ? 'invocation' : 'specialization'}
+                data-context-entity-title={spec.name}
+                data-context-entity-data={JSON.stringify(isInvocation ? getEnrichedInvocationData(spec) : spec)}
               >
                 <div className="flex items-center justify-between gap-1.5">
                   <div className="flex items-center gap-1 min-w-0">
@@ -1504,6 +1616,16 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                       prerequisiteUnmetReasons={prereqResult.unmetReasons}
                       tags={isSpecAbility ? ['Special Ability', `Foundation: ${specAttrKey.replace('attr-', '').toUpperCase()}`, `DC: ${spec.baseDC || 15}`] : isInvocation ? ['1 CP', 'Invocation', `Base: ${skill.name}`] : ['Max Rank: 10', `Base: ${skill.name}`]}
                       showInfoIcon={true}
+                      adminAction={isAdmin ? {
+                        label: isInvocation ? 'View / Edit Invocation Dataset' : 'View / Edit Skill Dataset',
+                        onClick: () => {
+                          if (isInvocation) {
+                            handleOpenInvocationDataset(spec);
+                          } else {
+                            handleOpenSkillDataset(skill);
+                          }
+                        }
+                      } : null}
                     >
                       <span className={`font-semibold ${isPrereqUnmet ? 'text-slate-400 hover:text-rose-300' : isSpecAbility ? 'text-cyan-200 hover:text-cyan-100' : isMetaSkill || isInvocation ? 'text-purple-200 hover:text-purple-100' : 'text-amber-200 hover:text-amber-100'} truncate transition-colors flex items-center gap-1`}>
                         <span>{spec.name}</span>
@@ -1555,6 +1677,16 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                       <Dices size={11} />
                       <span>Check</span>
                     </button>
+                    {isAdmin && isInvocation && (
+                      <button
+                        type="button"
+                        onClick={() => handleOpenInvocationDataset(spec)}
+                        className="p-1 rounded cursor-pointer transition-colors text-slate-400 hover:text-purple-300 bg-slate-900/80 hover:bg-purple-950 border border-slate-700 hover:border-purple-500/50"
+                        title="View / Edit Invocation Dataset"
+                      >
+                        <Edit3 size={11} />
+                      </button>
+                    )}
                     {!isSheetLocked && (
                       <button
                         type="button"

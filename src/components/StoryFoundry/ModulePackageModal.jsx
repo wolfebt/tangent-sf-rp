@@ -97,8 +97,8 @@ export default function ModulePackageModal({
   };
 
   return (
-    <div className="fixed inset-0 z-[250] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 font-mono select-none">
-      <div className="bg-slate-900/98 border border-cyan-500/50 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in-95 duration-150 text-slate-200">
+    <div className="fixed inset-0 z-[250] flex items-start sm:items-center justify-center bg-black/80 backdrop-blur-md p-4 pt-10 sm:pt-16 pb-8 overflow-y-auto font-mono select-none">
+      <div className="bg-slate-900/98 border-2 border-cyan-400/80 rounded-2xl max-w-lg w-full my-auto max-h-[calc(100vh-4rem)] overflow-y-auto p-6 shadow-[0_0_40px_rgba(6,182,212,0.3)] space-y-5 animate-in fade-in zoom-in-95 duration-150 text-slate-200">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-800 pb-3">
           <div className="flex items-center gap-2">

@@ -104,8 +104,8 @@ export const GMModificationReviewModal: React.FC<GMModificationReviewModalProps>
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 overflow-y-auto font-sans select-none">
-      <div className="bg-[#0e1420] border border-amber-500/60 rounded-xl shadow-[0_0_40px_rgba(245,158,11,0.25)] w-full max-w-2xl overflow-hidden flex flex-col max-h-[92vh] sm:max-h-[85vh] animate-in fade-in zoom-in duration-200">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-start sm:items-center justify-center p-2 sm:p-4 pt-10 sm:pt-16 pb-8 overflow-y-auto font-sans select-none">
+      <div className="bg-[#0e1420] border-2 border-cyan-400/80 rounded-xl shadow-[0_0_40px_rgba(6,182,212,0.3)] w-full max-w-2xl overflow-hidden flex flex-col my-auto max-h-[calc(100vh-4rem)] sm:max-h-[85vh] animate-in fade-in zoom-in duration-200">
         
         {/* Header */}
         <div className="px-4 sm:px-5 py-3 sm:py-3.5 border-b border-slate-800 bg-[#141b2b] flex items-center justify-between shrink-0">

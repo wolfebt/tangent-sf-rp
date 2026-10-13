@@ -1417,3 +1417,74 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
 export const SPECIES_DISADVANTAGES = DEFAULT_SPECIES_DISADVANTAGES;
 
 export const getDisadvantageById = (id) => DEFAULT_SPECIES_DISADVANTAGES.find(d => d.id === id);
+
+/**
+ * Normalizes and enriches a hindrance or disadvantage record with canonical fallback defaults
+ * @param {Object|string} item - Hindrance object or name string
+ * @returns {Object} Enriched hindrance dataset object
+ */
+export const getEnrichedHindranceData = (item) => {
+  if (!item) return null;
+  const rawObj = typeof item === 'object' && item !== null ? item : { name: String(item) };
+  const rawName = rawObj.name || rawObj.title || 'Hindrance';
+  const cleanId = rawObj.id || `disadvantage-${rawName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+
+  const canonical = DEFAULT_SPECIES_DISADVANTAGES.find(d => 
+    (d.id && (d.id.toLowerCase() === cleanId.toLowerCase() || d.id.toLowerCase().replace(/^disadvantage-/, '') === cleanId.toLowerCase().replace(/^disadvantage-/, ''))) ||
+    (d.name && d.name.toLowerCase() === rawName.toLowerCase()) ||
+    (d.code && d.code.toLowerCase() === rawName.toLowerCase())
+  );
+
+  const name = canonical?.name || rawName;
+  const id = rawObj.id || canonical?.id || cleanId;
+  const category = 'disadvantages';
+  const disadvantage_type = rawObj.disadvantage_type || canonical?.disadvantage_type || rawObj.type || canonical?.type || 'Disadvantage';
+  const classification = rawObj.classification || canonical?.classification || 'General';
+  const refundCP = Number(rawObj.refundCP ?? canonical?.refundCP ?? rawObj.refund_cp ?? (rawObj.cp !== undefined ? Math.abs(Number(rawObj.cp)) : (canonical?.cp !== undefined ? Math.abs(Number(canonical.cp)) : 3))) || 0;
+  const cp = rawObj.cp !== undefined ? Number(rawObj.cp) : (canonical?.cp !== undefined ? Number(canonical.cp) : -refundCP);
+  const bp = rawObj.bp !== undefined ? Number(rawObj.bp) : (canonical?.bp !== undefined ? Number(canonical.bp) : cp);
+  const desc = rawObj.description || rawObj.desc || canonical?.description || canonical?.desc || '';
+  const mechanic = rawObj.mechanic || rawObj.mechanics || canonical?.mechanic || canonical?.mechanics || '';
+  const prerequisite = rawObj.prerequisite || canonical?.prerequisite || 'None';
+  const rules = rawObj.rules || rawObj.special_rules || canonical?.rules || canonical?.special_rules || `Hindrance: Grants ${refundCP} CP refund upon selection.`;
+  const body = rawObj.body || canonical?.body || '';
+  const modifiers = Array.isArray(rawObj.modifiers) && rawObj.modifiers.length > 0 ? rawObj.modifiers : (canonical?.modifiers || []);
+  const notes = rawObj.notes || canonical?.notes || '';
+  const notesList = Array.isArray(rawObj.notesList) ? rawObj.notesList : (canonical?.notesList || (notes ? [notes] : []));
+
+  return {
+    ...(canonical || {}),
+    ...rawObj,
+    id,
+    name,
+    title: name,
+    category,
+    disadvantage_type,
+    classification,
+    type: classification,
+    refundCP,
+    refund_cp: refundCP,
+    refundBP: Number(rawObj.refundBP ?? canonical?.refundBP ?? refundCP),
+    cp,
+    bp,
+    costs: {
+      cp,
+      bp,
+      ...(canonical?.costs || {}),
+      ...(rawObj.costs || {})
+    },
+    prerequisite,
+    desc,
+    description: desc,
+    mechanic,
+    mechanics: mechanic,
+    rules,
+    special_rules: rules,
+    body,
+    modifiers,
+    notes,
+    notesList
+  };
+};
+
+export const getEnrichedDisadvantageData = getEnrichedHindranceData;

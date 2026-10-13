@@ -131,7 +131,7 @@ export const AssetStudioModal: React.FC<AssetStudioModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/85 backdrop-blur-sm p-4 pt-16 sm:pt-20 pb-8 overflow-y-auto animate-in fade-in duration-200">
-      <div className="bg-slate-900 border border-cyan-800 rounded-lg shadow-2xl shadow-cyan-950/80 w-full max-w-4xl flex flex-col h-[82vh] max-h-[calc(100vh-6rem)] overflow-hidden">
+      <div className="bg-slate-900 border-2 border-cyan-400/80 rounded-lg shadow-[0_0_40px_rgba(6,182,212,0.3)] w-full max-w-4xl flex flex-col h-[82vh] max-h-[calc(100vh-6rem)] overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 bg-slate-950 border-b border-cyan-900/40">
           <div className="flex items-center space-x-2">

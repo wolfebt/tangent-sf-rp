@@ -35,11 +35,11 @@ export const TerranNetAuthModal = ({ isOpen, onClose }) => {
 
   return (
     <div 
-      className="fixed inset-0 z-[250] flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 overflow-y-auto select-none font-sans"
+      className="fixed inset-0 z-[250] flex items-start sm:items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-10 sm:pt-16 pb-8 overflow-y-auto select-none font-sans"
       onClick={handleGuestDismiss}
     >
       <div
-        className="bg-[#0d1117]/95 border-2 border-cyan-500/50 rounded-2xl w-full max-w-lg max-h-[92vh] shadow-[0_0_60px_rgba(34,211,238,0.25)] overflow-hidden flex flex-col font-sans select-none animate-fadeIn"
+        className="bg-[#0d1117]/95 border-2 border-cyan-400/80 rounded-2xl w-full max-w-lg my-auto max-h-[calc(100vh-4rem)] sm:max-h-[92vh] shadow-[0_0_60px_rgba(6,182,212,0.35)] overflow-hidden flex flex-col font-sans select-none animate-fadeIn"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}

@@ -103,11 +103,11 @@ export default function GuidanceGemsModal({ isOpen, onClose }) {
   return (
     <div 
       onClick={handleBackdropClick}
-      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/75 backdrop-blur-sm overflow-y-auto animate-in fade-in duration-150"
+      className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-2 sm:p-4 pt-8 sm:pt-14 pb-8 overflow-y-auto bg-black/75 backdrop-blur-sm animate-in fade-in duration-150"
     >
       <div 
         onClick={(e) => e.stopPropagation()}
-        className="bg-[#0e131f] border border-cyan-500/40 w-full max-w-4xl h-[92vh] sm:h-[85vh] max-h-[94vh] rounded-2xl shadow-[0_0_40px_rgba(6,182,212,0.25)] flex flex-col overflow-hidden text-slate-100 font-sans"
+        className="bg-[#0e131f] border-2 border-cyan-400/80 w-full max-w-4xl my-auto max-h-[calc(100vh-4rem)] sm:max-h-[85vh] rounded-2xl shadow-[0_0_40px_rgba(6,182,212,0.3)] flex flex-col overflow-hidden text-slate-100 font-sans"
       >
         
         {/* Modal Header */}

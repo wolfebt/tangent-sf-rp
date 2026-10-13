@@ -114,8 +114,8 @@ export const VttCompilerModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-[220] bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto select-none font-sans">
-      <div className="bg-[#0b0f19] border border-cyan-500/60 rounded-2xl shadow-[0_0_45px_rgba(6,182,212,0.3)] w-full max-w-3xl max-h-[90vh] flex flex-col text-slate-200 animate-in fade-in zoom-in-95 duration-150 overflow-hidden">
+    <div className="fixed inset-0 z-[220] bg-black/80 backdrop-blur-md flex items-start sm:items-center justify-center p-3 sm:p-6 pt-10 sm:pt-16 pb-8 overflow-y-auto select-none font-sans">
+      <div className="bg-[#0b0f19] border-2 border-cyan-400/80 rounded-2xl shadow-[0_0_45px_rgba(6,182,212,0.35)] w-full max-w-3xl my-auto max-h-[calc(100vh-4rem)] sm:max-h-[90vh] flex flex-col text-slate-200 animate-in fade-in zoom-in-95 duration-150 overflow-hidden">
         
         {/* Header */}
         <div className="px-5 py-3.5 bg-gradient-to-r from-cyan-950/90 via-slate-900 to-slate-900 border-b border-cyan-500/40 flex items-center justify-between">

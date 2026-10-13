@@ -1,5 +1,6 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { useFolio } from '../../../context/FolioContext';
+import { useAuth } from '../../../context/AuthContext';
 import { useDice } from '../../../context/DiceContext';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { AudioService } from '../../../services/audioService';
@@ -25,7 +26,11 @@ import {
   ShieldCheck,
   Compass,
   Info,
-  ArrowUpDown
+  ArrowUpDown,
+  Repeat,
+  TrendingUp,
+  Shuffle,
+  Target
 } from 'lucide-react';
 import FolioTooltip from '../shared/FolioTooltip';
 import { checkPrerequisite } from '../../../utils/prerequisiteEvaluator';
@@ -36,19 +41,23 @@ import { DEFAULT_OCCUPATIONS } from '../../../data/occupationsData';
 import { DEFAULT_SPECIES } from '../../../data/speciesData';
 import { DEFAULT_ORIGINS } from '../../../data/originsData';
 import { DEFAULT_FACTIONS } from '../../../data/factionsData';
-import { DEFAULT_FEATURES } from '../../../data/featuresData';
+import { DEFAULT_FEATURES, getEnrichedFeatureData } from '../../../data/featuresData';
 import { 
   ALL_CANONICAL_TRAITS,
   SPECIES_TRAITS_BASIC,
   SPECIES_TRAITS_ADVANCED,
   SPECIES_TRAITS_ELITE,
   OCCUPATIONAL_TRAITS,
-  ORIGIN_TRAITS
+  ORIGIN_TRAITS,
+  getEnrichedTraitData
 } from '../../../data/speciesTraitsData';
+import { DEFAULT_INVOCATIONS, getEnrichedInvocationData } from '../../../data/invocationsData';
+import { getEnrichedHindranceData } from '../../../data/speciesDisadvantagesData';
 import { formatSpeciesTrait, getInherentSpeciesTraits } from '../../../utils/speciesDisplayUtils';
-import { METAPHYSICAL_DISCIPLINES } from '../../../data/skillsData';
+import { METAPHYSICAL_DISCIPLINES, SKILL_CATEGORY_SECTIONS } from '../../../data/skillsData';
 import { resolveCatalogItem } from '../../../engines/tangentIdentityEngine';
 import { getCanonicalTraitCost, formatGrantedCost } from '../../../engines/tangentEntityEngines';
+import { determineAugmentationStage } from '../../../engines/tangentComplexEngines';
 import {
   extractPillarFeatureSets,
   getPillarFeatureRecommendations,
@@ -139,15 +148,86 @@ export const FeaturesTab = ({
   onNavigate
 }) => {
   const { characterData, updateField, handleAddItem, handleUpdateItem, handleDeleteItem } = useFolio();
+  const { isAdmin } = useAuth() || {};
   const { openDiceRoller } = useDice();
   
+  const handleOpenFeatureDataset = useCallback((feat, itemIndex = null) => {
+    const enriched = getEnrichedFeatureData(feat);
+    if (onOpenAssetModal) {
+      onOpenAssetModal('features', `${enriched?.name || 'Feature'} Matrix`, 'edit', itemIndex, enriched);
+    } else {
+      window.dispatchEvent(new CustomEvent('open-folio-asset', {
+        detail: {
+          key: 'features',
+          title: `${enriched?.name || 'Feature'} Matrix`,
+          mode: 'edit',
+          itemIndex,
+          initialData: enriched
+        }
+      }));
+    }
+  }, [onOpenAssetModal]);
+
+  const handleOpenTraitDataset = useCallback((trait, itemIndex = null) => {
+    const enriched = getEnrichedTraitData(trait);
+    if (onOpenAssetModal) {
+      onOpenAssetModal('traits', `${enriched?.name || 'Trait'} Matrix`, 'edit', itemIndex, enriched);
+    } else {
+      window.dispatchEvent(new CustomEvent('open-folio-asset', {
+        detail: {
+          key: 'traits',
+          title: `${enriched?.name || 'Trait'} Matrix`,
+          mode: 'edit',
+          itemIndex,
+          initialData: enriched
+        }
+      }));
+    }
+  }, [onOpenAssetModal]);
+
+  const handleOpenInvocationDataset = useCallback((inv, itemIndex = null) => {
+    const enriched = getEnrichedInvocationData(inv);
+    if (onOpenAssetModal) {
+      onOpenAssetModal('invocations', `${enriched?.name || 'Invocation'} Matrix`, 'edit', itemIndex, enriched);
+    } else {
+      window.dispatchEvent(new CustomEvent('open-folio-asset', {
+        detail: {
+          key: 'invocations',
+          title: `${enriched?.name || 'Invocation'} Matrix`,
+          mode: 'edit',
+          itemIndex,
+          initialData: enriched
+        }
+      }));
+    }
+  }, [onOpenAssetModal]);
+
+  const handleOpenHindranceDataset = useCallback((hind, itemIndex = null) => {
+    const enriched = getEnrichedHindranceData(hind);
+    const targetKey = hind?.sourceList === 'hindrances' ? 'hindrances' : 'disadvantages';
+    if (onOpenAssetModal) {
+      onOpenAssetModal(targetKey, `${enriched?.name || 'Hindrance'} Matrix`, 'edit', itemIndex, enriched);
+    } else {
+      window.dispatchEvent(new CustomEvent('open-folio-asset', {
+        detail: {
+          key: targetKey,
+          title: `${enriched?.name || 'Hindrance'} Matrix`,
+          mode: 'edit',
+          itemIndex,
+          initialData: enriched
+        }
+      }));
+    }
+  }, [onOpenAssetModal]);
+
   // Active main sub-tab
   const [selectedSubTab, setSelectedSubTab] = useState(
     activeSection === 'traits' ? 'traits' :
     activeSection === 'hindrances' ? 'hindrances' :
     activeSection === 'augmentations' ? 'augmentations' :
     activeSection === 'metaphysics' || activeSection === 'awakened' ? 'metaphysics' :
-    'features'
+    activeSection === 'features' ? 'features' :
+    'overview'
   );
 
   // Features View Mode: 'my-features' | 'recommended' | 'catalog'
@@ -178,8 +258,14 @@ export const FeaturesTab = ({
   const [metaTypeFilter, setMetaTypeFilter] = useState('all');
   const [metaDisciplineFilter, setMetaDisciplineFilter] = useState('all');
 
-  // Overview Manifest search filter
+  // Overview Manifest search filter & category filter
   const [overviewSearchQuery, setOverviewSearchQuery] = useState('');
+  const [overviewManifestFilter, setOverviewManifestFilter] = useState('all');
+
+  // Augmentation Stage calculation
+  const augStageInfo = useMemo(() => {
+    return determineAugmentationStage(characterData);
+  }, [characterData]);
 
   // Synchronize internal subtab state when parent activeSection changes
   useEffect(() => {
@@ -188,10 +274,18 @@ export const FeaturesTab = ({
       else if (activeSection === 'hindrances') setSelectedSubTab('hindrances');
       else if (activeSection === 'augmentations') setSelectedSubTab('augmentations');
       else if (activeSection === 'metaphysics' || activeSection === 'awakened') setSelectedSubTab('metaphysics');
-      else if (activeSection === 'overview') setSelectedSubTab('overview');
-      else setSelectedSubTab('features');
+      else if (activeSection === 'features') setSelectedSubTab('features');
+      else setSelectedSubTab('overview');
     }
   }, [activeSection]);
+
+  const handleNavigateToSubsystem = useCallback((subTabKey, navRouteKey) => {
+    AudioService.playTerminalBeep(1100, 0.02);
+    setSelectedSubTab(subTabKey);
+    if (onNavigate && navRouteKey) {
+      onNavigate(navRouteKey);
+    }
+  }, [onNavigate]);
 
   // Helper to extract items array safely
   const getItemList = (key) => {
@@ -305,6 +399,17 @@ export const FeaturesTab = ({
     });
   };
 
+  const getAcquiredFeatureCount = (featName) => {
+    if (!featName) return 0;
+    const normTarget = normalizeLookupName(featName);
+    const targetSyns = FEATURE_SYNONYMS?.[normTarget] || [];
+    return standardFeatures.filter(item => {
+      const n = typeof item === 'object' ? (item.name || item.title || item.id || '') : String(item);
+      const normN = normalizeLookupName(n);
+      return normN === normTarget || targetSyns.includes(normN);
+    }).length;
+  };
+
   // Group acquired standard features by category
   const groupedStandardFeatures = useMemo(() => {
     const groups = {};
@@ -411,15 +516,18 @@ export const FeaturesTab = ({
   // Enriched features catalog entries
   const allEnrichedCatalogFeatures = useMemo(() => {
     return DEFAULT_FEATURES.filter(f => !isAwakenedItem(f) && !isAugmentationItem(f) && !isHindranceItem(f))
-      .map(feat => {
+      .map(rawFeat => {
+        const feat = getEnrichedFeatureData(rawFeat);
         const recs = getPillarFeatureRecommendations(feat, pillarFeatureSets, characterData);
         const discountInfo = getFeatureDiscountedCost(feat, pillarFeatureSets, characterData);
         const acquired = isFeatureAcquired(feat.name || feat.title || feat.id);
+        const acquiredCount = getAcquiredFeatureCount(feat.name || feat.title || feat.id);
         return {
           ...feat,
           recommendingPillars: recs,
           discountInfo,
-          isAcquired: acquired
+          isAcquired: acquired,
+          acquiredCount
         };
       });
   }, [pillarFeatureSets, characterData, standardFeatures]);
@@ -626,6 +734,49 @@ export const FeaturesTab = ({
       updated[item.sourceIndex] = typeof existing === 'object'
         ? { ...existing, rank: clamped }
         : { name: existing, rank: clamped };
+      updateField(listKey, updated);
+    }
+  };
+
+  // Select Active Skill Option on Feature with Modifier Choice Options
+  const handleSelectFeatureOption = (item, optionId) => {
+    const listKey = item.sourceList || 'features';
+    const currentList = getItemList(listKey);
+    const updated = [...currentList];
+    if (updated[item.sourceIndex]) {
+      const existing = updated[item.sourceIndex];
+      updated[item.sourceIndex] = typeof existing === 'object'
+        ? { ...existing, selected_option_id: optionId }
+        : { name: existing, selected_option_id: optionId };
+      updateField(listKey, updated);
+    }
+  };
+
+  // Toggle / Select Active Skill on Feature with Group Choice Pool
+  const handleToggleFeatureGroupSkill = (item, skillName, maxSkills = 2) => {
+    const listKey = item.sourceList || 'features';
+    const currentList = getItemList(listKey);
+    const updated = [...currentList];
+    if (updated[item.sourceIndex]) {
+      const existing = updated[item.sourceIndex];
+      const currentSelected = Array.isArray(existing.selected_skills)
+        ? [...existing.selected_skills]
+        : (existing.selected_skill ? [existing.selected_skill] : []);
+      
+      let nextSelected;
+      if (currentSelected.includes(skillName)) {
+        nextSelected = currentSelected.filter(s => s !== skillName);
+      } else {
+        if (currentSelected.length >= maxSkills) {
+          // If already at max, replace the last item
+          nextSelected = [...currentSelected.slice(0, maxSkills - 1), skillName];
+        } else {
+          nextSelected = [...currentSelected, skillName];
+        }
+      }
+      updated[item.sourceIndex] = typeof existing === 'object'
+        ? { ...existing, selected_skills: nextSelected }
+        : { name: existing, selected_skills: nextSelected };
       updateField(listKey, updated);
     }
   };
@@ -1214,6 +1365,38 @@ export const FeaturesTab = ({
     }
   };
 
+  const handleRemoveAugmentation = async (aug) => {
+    const augName = typeof aug === 'object' ? (aug.name || aug.title || 'Augmentation') : String(aug);
+    if (!(await confirmTypedDeletion(augName, 'augmentation'))) return;
+    const listKey = aug.sourceList || 'augmentations';
+    const raw = getItemList(listKey);
+    const updated = raw.filter((item, idx) => {
+      if (aug.sourceIndex !== undefined && idx === aug.sourceIndex) return false;
+      const itemName = typeof item === 'object' ? (item.name || item.title || '') : String(item);
+      return itemName.toLowerCase() !== augName.toLowerCase();
+    });
+    updateField(listKey, updated);
+  };
+
+  const handleRemoveMetaItem = async (power) => {
+    const name = typeof power === 'object' ? (power.name || power.title || 'Power') : String(power);
+    if (!(await confirmTypedDeletion(name, power.powerType === 'invocation' ? 'invocation' : 'power'))) return;
+    if (power.powerType === 'invocation') {
+      const raw = getItemList('invocations');
+      const updated = raw.filter((_, idx) => idx !== power.sourceIndex);
+      updateField('invocations', updated);
+    } else if (power.powerType === 'special_ability') {
+      const raw = getItemList('special_abilities');
+      const updated = raw.filter((_, idx) => idx !== power.sourceIndex);
+      updateField('special_abilities', updated);
+    } else {
+      const listKey = power.sourceList || 'awakened';
+      const raw = getItemList(listKey);
+      const updated = raw.filter((_, idx) => idx !== power.sourceIndex);
+      updateField(listKey, updated);
+    }
+  };
+
   // Grand Capabilities Totals
   const totalCapabilitiesCP = totalStandardFeaturesCP + totalTraitsCP + totalMetaphysicsCP + totalAugmentationsCP;
   const netCapabilitiesCP = totalCapabilitiesCP - totalHindrancesRefund;
@@ -1227,6 +1410,51 @@ export const FeaturesTab = ({
     return 'bg-cyan-950/80 text-cyan-300 border-cyan-800';
   };
 
+  const getAcquisitionBadgeConfig = (itemOrFeat) => {
+    if (!itemOrFeat) return null;
+    const acq = itemOrFeat.acquisition_type || (
+      (itemOrFeat.is_multiple || itemOrFeat.multi) && (itemOrFeat.is_ranked || itemOrFeat.staged)
+        ? 'Multi/Staged'
+        : (itemOrFeat.is_ranked || itemOrFeat.staged)
+        ? 'Staged'
+        : (itemOrFeat.is_multiple || itemOrFeat.multi)
+        ? 'Multiple'
+        : 'Basic'
+    );
+
+    switch (acq) {
+      case 'Multiple':
+        return {
+          type: 'Multiple',
+          label: 'Multiple',
+          badgeClass: 'bg-blue-950/80 text-blue-300 border-blue-700/80',
+          title: 'Multiple: Can be chosen multiple times for different assets/effects'
+        };
+      case 'Staged':
+        return {
+          type: 'Staged',
+          label: 'Staged',
+          badgeClass: 'bg-amber-950/80 text-amber-300 border-amber-700/80',
+          title: 'Staged: Improves effect through ranked progression with additional purchases'
+        };
+      case 'Multi/Staged':
+        return {
+          type: 'Multi/Staged',
+          label: 'Multi/Staged',
+          badgeClass: 'bg-purple-950/80 text-purple-300 border-purple-700/80',
+          title: 'Multi/Staged: Can be purchased for multiple assets AND ranked up per purchase'
+        };
+      case 'Basic':
+      default:
+        return {
+          type: 'Basic',
+          label: 'Basic',
+          badgeClass: 'bg-slate-900/90 text-slate-400 border-slate-700/70',
+          title: 'Basic: Single purchase feature'
+        };
+    }
+  };
+
   return (
     <div className="tab-panel active p-4 space-y-6 w-full pb-24">
       
@@ -1236,15 +1464,17 @@ export const FeaturesTab = ({
       <div className="bg-slate-900/90 border border-cyan-900/50 rounded-xl p-2.5 sm:p-3 shadow-lg backdrop-blur-xl space-y-2">
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-2">
           <div className="flex items-center gap-2">
-            {onBackToHub && (
+            {selectedSubTab !== 'overview' && (
               <button
                 type="button"
                 onClick={() => {
                   AudioService.playTerminalBeep(1100, 0.02);
-                  onBackToHub();
+                  setSelectedSubTab('overview');
+                  if (onBackToHub) onBackToHub();
+                  else if (onNavigate) onNavigate('features');
                 }}
                 className="px-2 py-1 rounded-md text-xs font-mono font-bold transition-all flex items-center gap-1 cursor-pointer bg-slate-950 hover:bg-cyan-950 border border-cyan-500/40 text-cyan-300 hover:border-cyan-400 shadow-sm shrink-0"
-                title="Return to Aspect Hub"
+                title="Return to Aspect Hub &amp; Overview"
               >
                 <span>◀</span>
                 <span>Hub</span>
@@ -1254,10 +1484,14 @@ export const FeaturesTab = ({
             <div className="flex items-baseline gap-2">
               <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white flex items-center gap-1.5 whitespace-nowrap">
                 <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-                <span>Features &amp; Traits Command</span>
+                <span>
+                  {selectedSubTab === 'overview' ? 'Aspect Hub & Overview' : 'Features & Traits Command'}
+                </span>
               </h2>
               <p className="text-[10px] text-slate-400 hidden xl:inline">
-                (3 CP base · Pillar discounted · Traits 1 CP)
+                {selectedSubTab === 'overview'
+                  ? '(Persona Capabilities, Column Heritage & Subsystems)'
+                  : '(3 CP base · Pillar discounted · Traits 1 CP)'}
               </p>
             </div>
           </div>
@@ -1291,101 +1525,38 @@ export const FeaturesTab = ({
           </div>
         </div>
 
-        {/* Subtabs Bar (Clean & Compact) */}
-        <div className="flex flex-wrap items-center justify-between gap-1.5">
-          <div className="flex flex-wrap items-center gap-1 sm:gap-1.5">
-            <button
-              type="button"
-              onClick={() => setSelectedSubTab('overview')}
-              className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-                selectedSubTab === 'overview'
-                  ? 'bg-cyan-950 border border-cyan-400 text-cyan-200 shadow-[0_0_10px_rgba(34,211,238,0.2)]'
-                  : 'bg-slate-950/80 border border-slate-800 text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              <Layers className="w-3 h-3 text-cyan-400" />
-              <span>Overview</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setSelectedSubTab('features')}
-              className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-                selectedSubTab === 'features'
-                  ? 'bg-cyan-950 border border-cyan-400 text-cyan-200 shadow-[0_0_10px_rgba(34,211,238,0.2)]'
-                  : 'bg-slate-950/80 border border-slate-800 text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              <Sparkles className="w-3 h-3 text-cyan-400" />
-              <span>Standard Features</span>
-              <span className="px-1 py-0.2 rounded bg-slate-900 text-[9px] text-cyan-300 font-mono">
-                {standardFeatures.length}
-              </span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setSelectedSubTab('traits')}
-              className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-                selectedSubTab === 'traits'
-                  ? 'bg-emerald-950 border border-emerald-400 text-emerald-200 shadow-[0_0_10px_rgba(16,185,129,0.2)]'
-                  : 'bg-slate-950/80 border border-slate-800 text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              <Award className="w-3 h-3 text-emerald-400" />
-              <span>Traits (1 CP)</span>
-              <span className="px-1 py-0.2 rounded bg-slate-900 text-[9px] text-emerald-300 font-mono">
-                {characterTraits.length}
-              </span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setSelectedSubTab('metaphysics')}
-              className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-                selectedSubTab === 'metaphysics'
-                  ? 'bg-purple-950 border border-purple-400 text-purple-200 shadow-[0_0_10px_rgba(168,85,247,0.2)]'
-                  : 'bg-slate-950/80 border border-slate-800 text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              <Zap className="w-3 h-3 text-purple-400" />
-              <span>Metaphysics</span>
-              <span className="px-1 py-0.2 rounded bg-slate-900 text-[9px] text-purple-300 font-mono">
-                {awakenedList.length}
-              </span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setSelectedSubTab('augmentations')}
-              className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-                selectedSubTab === 'augmentations'
-                  ? 'bg-amber-950 border border-amber-400 text-amber-200 shadow-[0_0_10px_rgba(245,158,11,0.2)]'
-                  : 'bg-slate-950/80 border border-slate-800 text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              <Cpu className="w-3 h-3 text-amber-400" />
-              <span>Augs</span>
-              <span className="px-1 py-0.2 rounded bg-slate-900 text-[9px] text-amber-300 font-mono">
-                {augmentationsList.length}
-              </span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setSelectedSubTab('hindrances')}
-              className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-                selectedSubTab === 'hindrances'
-                  ? 'bg-rose-950 border border-rose-400 text-rose-200 shadow-[0_0_10px_rgba(244,63,94,0.2)]'
-                  : 'bg-slate-950/80 border border-slate-800 text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              <AlertTriangle className="w-3 h-3 text-rose-400" />
-              <span>Hindrances</span>
-              <span className="px-1 py-0.2 rounded bg-slate-900 text-[9px] text-rose-300 font-mono">
-                {hindrancesList.length}
-              </span>
-            </button>
+        {/* Asset Navigation Pulldown & Actions */}
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-mono uppercase tracking-wider text-slate-400 font-bold hidden sm:inline">
+              Category:
+            </span>
+            <div className="relative">
+              <select
+                value={selectedSubTab}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  setSelectedSubTab(val);
+                  if (onNavigate) {
+                    if (val === 'overview') onNavigate('features');
+                    else if (val === 'features') onNavigate('features-standard');
+                    else if (val === 'traits') onNavigate('features-traits');
+                    else if (val === 'metaphysics') onNavigate('features-metaphysics');
+                    else if (val === 'augmentations') onNavigate('features-augmentations');
+                    else if (val === 'hindrances') onNavigate('features-hindrances');
+                  }
+                }}
+                className="bg-slate-950 border border-cyan-500/50 hover:border-cyan-400 text-cyan-200 font-mono text-xs font-bold py-1.5 pl-3 pr-8 rounded-lg shadow-[0_0_10px_rgba(6,182,212,0.15)] focus:outline-none focus:ring-1 focus:ring-cyan-400 cursor-pointer appearance-none"
+              >
+                <option value="overview">Aspect Hub &amp; Overview</option>
+                <option value="features">Standard Features ({standardFeatures.length})</option>
+                <option value="traits">Traits (1 CP) ({characterTraits.length})</option>
+                <option value="metaphysics">Metaphysics ({awakenedList.length + characterPowers.length})</option>
+                <option value="augmentations">Augmentations ({augmentationsList.length})</option>
+                <option value="hindrances">Hindrances ({hindrancesList.length})</option>
+              </select>
+              <ChevronDown className="w-3.5 h-3.5 text-cyan-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+            </div>
           </div>
 
           {onOpenAssetModal && (
@@ -1403,259 +1574,864 @@ export const FeaturesTab = ({
       </div>
 
       {/* ══════════════════════════════════════════════════════════════════ */}
-      {/* VIEW 0: OVERVIEW MANIFEST (INTELLIGENT UNIFIED DASHBOARD)          */}
+      {/* VIEW 0: CONSOLIDATED ASPECT HUB & OVERVIEW DASHBOARD               */}
       {/* ══════════════════════════════════════════════════════════════════ */}
-      {selectedSubTab === 'overview' && (
-        <div className="space-y-6">
-          {/* Identity Columns Status Card */}
-          <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
-            <div className="flex items-center gap-2">
-              <Compass className="w-4 h-4 text-cyan-400" />
-              <span className="text-slate-300 font-bold uppercase">Active Column Foundations:</span>
-            </div>
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="px-2 py-0.5 rounded bg-cyan-950/80 border border-cyan-700 text-cyan-300">
-                Species: <strong>{characterData['char-species'] || 'None'}</strong>
-              </span>
-              <span className="px-2 py-0.5 rounded bg-emerald-950/80 border border-emerald-700 text-emerald-300">
-                Origin: <strong>{characterData['char-origin'] || 'None'}</strong>
-                {columnsData.origin.secName && ` (+ ${columnsData.origin.secName})`}
-              </span>
-              <span className="px-2 py-0.5 rounded bg-sky-950/80 border border-sky-700 text-sky-300">
-                Occupation: <strong>{characterData['char-occu'] || 'None'}</strong>
-                {columnsData.occupation.secName && ` (+ ${columnsData.occupation.secName})`}
-              </span>
-              <span className="px-2 py-0.5 rounded bg-purple-950/80 border border-purple-700 text-purple-300">
-                Faction: <strong>{characterData['char-faction'] || 'None'}</strong>
-              </span>
-            </div>
-          </div>
+      {selectedSubTab === 'overview' && (() => {
+        const featureSubsystems = [
+          {
+            id: 'features-standard',
+            subTab: 'features',
+            title: 'Standard Features',
+            tagline: '3 CP Base · Combat, Physical & Skill Feats',
+            icon: Sparkles,
+            count: standardFeatures.length,
+            unit: standardFeatures.length === 1 ? 'Feature' : 'Features',
+            cpText: `${totalStandardFeaturesCP} CP`,
+            colorTheme: 'cyan',
+            borderColor: 'border-cyan-500/40 hover:border-cyan-400',
+            glowColor: 'hover:shadow-[0_0_24px_rgba(34,211,238,0.22)]',
+            iconBg: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30',
+            badgeBg: 'bg-cyan-950/80 text-cyan-300 border-cyan-700/60',
+            accentColor: 'text-cyan-400',
+            description: "Special persona aptitudes and combat knacks costing 3 CP base, with -1 CP discounts for feats recommended by your character's identity pillars."
+          },
+          {
+            id: 'features-traits',
+            subTab: 'traits',
+            title: 'Traits',
+            tagline: '1 CP Each · Chosen from Identity Columns',
+            icon: Award,
+            count: characterTraits.length,
+            unit: characterTraits.length === 1 ? 'Trait' : 'Traits',
+            cpText: `${totalTraitsCP} CP`,
+            colorTheme: 'emerald',
+            borderColor: 'border-emerald-500/40 hover:border-emerald-400',
+            glowColor: 'hover:shadow-[0_0_24px_rgba(16,185,129,0.22)]',
+            iconBg: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
+            badgeBg: 'bg-emerald-950/80 text-emerald-300 border-emerald-700/60',
+            accentColor: 'text-emerald-400',
+            description: 'Half-features (1 CP each) strictly selected from your chosen Species, Origin, Occupation, and Faction columns (including secondary choices). Traits are direct aspects of your column build.'
+          },
+          {
+            id: 'features-metaphysics',
+            subTab: 'metaphysics',
+            title: 'Metaphysics / Awakened',
+            tagline: 'Dimensional, Psionic & Void Disciplines',
+            icon: Zap,
+            count: awakenedList.length,
+            unit: awakenedList.length === 1 ? 'Discipline' : 'Disciplines',
+            extraCountText: (learnedInvocations.length + characterSpecialAbilities.length > 0) ? `· ${learnedInvocations.length + characterSpecialAbilities.length} Powers` : '',
+            cpText: `${totalMetaphysicsCP} CP`,
+            colorTheme: 'purple',
+            borderColor: 'border-purple-500/40 hover:border-purple-400',
+            glowColor: 'hover:shadow-[0_0_24px_rgba(168,85,247,0.22)]',
+            iconBg: 'bg-purple-500/15 text-purple-300 border-purple-500/30',
+            badgeBg: 'bg-purple-950/80 text-purple-300 border-purple-700/60',
+            accentColor: 'text-purple-400',
+            description: 'Awakened reality manipulation, psionic phenomena, metaphysical formulas, and psychic resonance across the 6 cosmic disciplines.'
+          },
+          {
+            id: 'features-augmentations',
+            subTab: 'augmentations',
+            title: 'Augmentations',
+            tagline: `Stage: ${augStageInfo?.stage?.name || 'Negligible'} (${augStageInfo?.stage?.cpCredit ?? 0} CP Credit)`,
+            icon: Cpu,
+            count: augmentationsList.length,
+            unit: 'Installed',
+            cpText: `${totalAugmentationsCP} CP`,
+            colorTheme: 'amber',
+            borderColor: 'border-amber-500/40 hover:border-amber-400',
+            glowColor: 'hover:shadow-[0_0_24px_rgba(245,158,11,0.22)]',
+            iconBg: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
+            badgeBg: 'bg-amber-950/80 text-amber-300 border-amber-700/60',
+            accentColor: 'text-amber-400',
+            description: 'High-tech physical alterations, sub-dermal armor, neural coprocessors, and synthetic implants augmenting biological limits.'
+          },
+          {
+            id: 'features-hindrances',
+            subTab: 'hindrances',
+            title: 'Hindrances',
+            tagline: 'Flaws, Debts & Physical Vulnerabilities',
+            icon: AlertTriangle,
+            count: hindrancesList.length,
+            unit: hindrancesList.length === 1 ? 'Flaw' : 'Flaws',
+            cpText: totalHindrancesRefund > 0 ? `-${totalHindrancesRefund} CP Refund` : '0 CP',
+            colorTheme: 'rose',
+            borderColor: 'border-rose-500/40 hover:border-rose-400',
+            glowColor: 'hover:shadow-[0_0_24px_rgba(244,63,94,0.22)]',
+            iconBg: 'bg-rose-500/15 text-rose-300 border-rose-500/30',
+            badgeBg: 'bg-rose-950/80 text-rose-300 border-rose-700/60',
+            accentColor: 'text-rose-400',
+            description: 'Character flaws, behavioral quirks, physical handicaps, and social debts providing vital CP refunds during persona creation.'
+          }
+        ];
 
-          {/* Quick Search */}
-          <div className="relative max-w-md">
-            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
-            <input
-              type="text"
-              value={overviewSearchQuery}
-              onChange={(e) => setOverviewSearchQuery(e.target.value)}
-              placeholder="Search all persona abilities..."
-              className="w-full bg-slate-950 border border-slate-800 focus:border-cyan-400 rounded-lg pl-9 pr-8 py-1.5 text-xs text-slate-200 placeholder-slate-500 outline-none"
-            />
-            {overviewSearchQuery && (
-              <button
-                type="button"
-                onClick={() => setOverviewSearchQuery('')}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white text-xs"
-              >
-                &times;
-              </button>
-            )}
-          </div>
+        const totalAllCount = (
+          characterTraits.length + 
+          standardFeatures.length + 
+          awakenedList.length + 
+          characterPowers.length + 
+          augmentationsList.length + 
+          hindrancesList.length
+        );
 
-          {/* Manifest Grid: Column Traits + Standard Features */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-            {/* Left: Column Traits Manifest */}
-            <div className="bg-slate-900/80 border border-emerald-900/50 rounded-xl p-4 space-y-3">
-              <div className="flex items-center justify-between border-b border-emerald-950 pb-2">
-                <div className="flex items-center gap-2">
-                  <Award className="w-4 h-4 text-emerald-400" />
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-300">
-                    Column Heritage Traits ({characterTraits.length})
-                  </h3>
-                </div>
-                <span className="text-[11px] font-mono text-emerald-400 font-bold">
-                  {totalTraitsCP} CP Total
+        const filterQuery = (overviewSearchQuery || '').toLowerCase().trim();
+
+        const filteredTraits = characterTraits.filter(t => {
+          if (!filterQuery) return true;
+          const name = (t.name || t.title || '').toLowerCase();
+          const desc = (t.description || '').toLowerCase();
+          return name.includes(filterQuery) || desc.includes(filterQuery);
+        });
+
+        const filteredFeatures = standardFeatures.filter(f => {
+          if (!filterQuery) return true;
+          const name = (f.name || f.title || '').toLowerCase();
+          const desc = (f.description || '').toLowerCase();
+          const cat = (f.category || f.type || '').toLowerCase();
+          return name.includes(filterQuery) || desc.includes(filterQuery) || cat.includes(filterQuery);
+        });
+
+        const allMetaItems = [
+          ...awakenedList.map(a => ({ ...a, metaSubtype: 'Discipline' })),
+          ...characterPowers.map(p => ({ ...p, metaSubtype: p.powerType === 'invocation' ? 'Invocation' : 'Special Ability' }))
+        ];
+
+        const filteredMetaItems = allMetaItems.filter(m => {
+          if (!filterQuery) return true;
+          const name = (m.name || m.title || '').toLowerCase();
+          const desc = (m.description || m.body || '').toLowerCase();
+          const disc = (m.discipline || '').toLowerCase();
+          return name.includes(filterQuery) || desc.includes(filterQuery) || disc.includes(filterQuery);
+        });
+
+        const filteredAugs = augmentationsList.filter(a => {
+          if (!filterQuery) return true;
+          const name = (a.name || a.title || '').toLowerCase();
+          const desc = (a.description || a.benefit || '').toLowerCase();
+          const loc = (a.location || a.body_location || '').toLowerCase();
+          return name.includes(filterQuery) || desc.includes(filterQuery) || loc.includes(filterQuery);
+        });
+
+        const filteredHindrances = hindrancesList.filter(h => {
+          if (!filterQuery) return true;
+          const name = (h.name || h.title || '').toLowerCase();
+          const desc = (h.description || '').toLowerCase();
+          const type = (h.type || h.category || '').toLowerCase();
+          return name.includes(filterQuery) || desc.includes(filterQuery) || type.includes(filterQuery);
+        });
+
+        const showTraits = overviewManifestFilter === 'all' || overviewManifestFilter === 'traits';
+        const showFeatures = overviewManifestFilter === 'all' || overviewManifestFilter === 'features';
+        const showMeta = overviewManifestFilter === 'metaphysics' || (overviewManifestFilter === 'all' && allMetaItems.length > 0);
+        const showAugs = overviewManifestFilter === 'augmentations' || (overviewManifestFilter === 'all' && augmentationsList.length > 0);
+        const showHindrances = overviewManifestFilter === 'hindrances' || (overviewManifestFilter === 'all' && hindrancesList.length > 0);
+
+        return (
+          <div className="space-y-6">
+            {/* Identity Columns Foundations Banner */}
+            <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 sm:p-4 flex flex-wrap items-center justify-between gap-3 text-xs font-mono shadow-sm">
+              <div className="flex items-center gap-2">
+                <Compass className="w-4 h-4 text-cyan-400" />
+                <span className="text-slate-300 font-bold uppercase tracking-wider">Active Column Foundations:</span>
+              </div>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="px-2 py-0.5 rounded bg-cyan-950/80 border border-cyan-700 text-cyan-300">
+                  Species: <strong>{characterData['char-species'] || 'None'}</strong>
+                </span>
+                <span className="px-2 py-0.5 rounded bg-emerald-950/80 border border-emerald-700 text-emerald-300">
+                  Origin: <strong>{characterData['char-origin'] || 'None'}</strong>
+                  {columnsData.origin.secName && ` (+ ${columnsData.origin.secName})`}
+                </span>
+                <span className="px-2 py-0.5 rounded bg-sky-950/80 border border-sky-700 text-sky-300">
+                  Occupation: <strong>{characterData['char-occu'] || 'None'}</strong>
+                  {columnsData.occupation.secName && ` (+ ${columnsData.occupation.secName})`}
+                </span>
+                <span className="px-2 py-0.5 rounded bg-purple-950/80 border border-purple-700 text-purple-300">
+                  Faction: <strong>{characterData['char-faction'] || 'None'}</strong>
                 </span>
               </div>
-
-              {characterTraits.length === 0 ? (
-                <div className="text-center py-8 text-xs text-slate-500 border border-dashed border-slate-800 rounded-lg">
-                  No column traits acquired yet. Browse the Traits tab to select traits from your Species, Origin, Occupation, and Faction columns.
-                </div>
-              ) : (
-                <div className="space-y-2 max-h-[480px] overflow-y-auto pr-1">
-                  {characterTraits
-                    .filter(t => !overviewSearchQuery || (t.name || '').toLowerCase().includes(overviewSearchQuery.toLowerCase()))
-                    .map((trait, tIdx) => {
-                      const name = trait.name || trait.title || 'Trait';
-                      const tier = trait.trait_tier || 'Basic';
-                      const costDisplay = trait.cp === 0 ? 'Inherent (0 CP)' : `${trait.cp || 1} CP`;
-                      const col = trait.columnCategory || trait.columnSource || 'Heritage';
-                      const colColor = col === 'Species' ? 'cyan' : col === 'Origin' ? 'emerald' : col === 'Occupation' ? 'sky' : 'purple';
-                      return (
-                        <div key={tIdx} className="bg-slate-950/80 border border-slate-800 hover:border-emerald-700/60 rounded-lg p-2.5 flex items-center justify-between gap-3 text-xs transition-colors">
-                          <div className="space-y-0.5 flex-1 min-w-0">
-                            <FolioTooltip
-                              title={name}
-                              badge={`${col} Trait`}
-                              badgeColor={colColor}
-                              description={trait.description || 'Acquired column heritage trait.'}
-                              formula={trait.mechanic || undefined}
-                              modifiers={Array.isArray(trait.modifiers) ? trait.modifiers : []}
-                              cost={costDisplay}
-                              tags={[tier, col].filter(Boolean)}
-                              showInfoIcon={true}
-                            >
-                              <div className="flex items-center gap-1.5 flex-wrap min-w-0">
-                                <span className="font-bold text-slate-100 hover:text-emerald-300 transition-colors truncate">{name}</span>
-                                <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-emerald-950 text-emerald-300 border border-emerald-800">
-                                  {col} &bull; {tier}
-                                </span>
-                              </div>
-                            </FolioTooltip>
-                          </div>
-                          <div className="flex items-center gap-1.5 shrink-0">
-                            <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-emerald-300 font-bold">
-                              {costDisplay}
-                            </span>
-                            <button
-                              type="button"
-                              onClick={() => handleRemoveTrait(trait)}
-                              className="text-slate-500 hover:text-red-400 text-xs p-1 rounded hover:bg-slate-900 transition-colors cursor-pointer"
-                              title="Remove trait"
-                            >
-                              <Trash2 className="w-3.5 h-3.5" />
-                            </button>
-                          </div>
-                        </div>
-                      );
-                    })}
-                </div>
-              )}
             </div>
 
-            {/* Right: Standard Features Manifest */}
-            <div className="bg-slate-900/80 border border-cyan-900/50 rounded-xl p-4 space-y-3">
-              <div className="flex items-center justify-between border-b border-cyan-950 pb-2">
+            {/* Aspect Hub: 5 Subsystem Capability Cards */}
+            <div className="space-y-2.5">
+              <div className="flex flex-wrap items-center justify-between gap-2 px-1">
                 <div className="flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-cyan-400" />
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-cyan-300">
-                    Standard Features ({standardFeatures.length})
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-slate-200">
+                    Capability Subsystems (Aspect Hub)
                   </h3>
                 </div>
-                <span className="text-[11px] font-mono text-cyan-400 font-bold">
-                  {totalStandardFeaturesCP} CP Total
+                <span className="text-[10.5px] font-mono text-slate-400">
+                  Select any subsystem card below to inspect, allocate, or manage
                 </span>
               </div>
 
-              {standardFeatures.length === 0 ? (
-                <div className="text-center py-8 text-xs text-slate-500 border border-dashed border-slate-800 rounded-lg">
-                  No standard features acquired yet. Explore the Features tab to view Pillar recommendations and the complete catalog.
-                </div>
-              ) : (
-                <div className="space-y-2 max-h-[480px] overflow-y-auto pr-1">
-                  {standardFeatures
-                    .filter(f => !overviewSearchQuery || (f.name || f.title || '').toLowerCase().includes(overviewSearchQuery.toLowerCase()))
-                    .map((feat, fIdx) => {
-                      const name = feat.name || feat.title || 'Feature';
-                      const cat = feat.category || feat.type || 'General';
-                      const cp = feat.cp !== undefined ? feat.cp : 3;
-                      const featPillars = getPillarFeatureRecommendations(feat, pillarFeatureSets, characterData);
-                      return (
-                        <div key={fIdx} className="bg-slate-950/80 border border-slate-800 hover:border-cyan-700/60 rounded-lg p-2.5 flex items-center justify-between gap-3 text-xs transition-colors">
-                          <div className="space-y-0.5 flex-1 min-w-0">
-                            <FolioTooltip
-                              title={name}
-                              badge={cat}
-                              badgeColor="cyan"
-                              description={feat.description || 'Standard persona feature.'}
-                              formula={feat.mechanic || undefined}
-                              modifiers={Array.isArray(feat.modifiers) ? feat.modifiers : []}
-                              prerequisites={feat.prerequisites || undefined}
-                              cost={`${cp} CP`}
-                              rules={feat.rules || feat.special_rules}
-                              notes={feat.notes}
-                              tags={[cat, feat.is_ranked ? `Rank ${feat.rank || 1}` : null].filter(Boolean)}
-                              showInfoIcon={true}
-                            >
-                              <div className="flex items-center gap-1.5 flex-wrap min-w-0">
-                                <span className="font-bold text-slate-100 hover:text-cyan-300 transition-colors truncate">{name}</span>
-                                <PillarMarkerDots recommendations={featPillars} />
-                                <span className={`px-1.5 py-0.2 rounded text-[9px] font-mono uppercase border ${getTypeBadgeStyle(cat)}`}>
-                                  {cat}
-                                </span>
-                              </div>
-                            </FolioTooltip>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3 w-full items-stretch">
+                {featureSubsystems.map((opt) => {
+                  const Icon = opt.icon;
+                  return (
+                    <div
+                      key={opt.id}
+                      onClick={() => handleNavigateToSubsystem(opt.subTab, opt.id)}
+                      className={`bg-slate-900/80 hover:bg-slate-900/95 backdrop-blur-xl border ${opt.borderColor} ${opt.glowColor} rounded-xl p-3 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 flex flex-col justify-between group shadow-sm text-left`}
+                    >
+                      {/* Card Header & Content */}
+                      <div className="space-y-1.5">
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="flex items-start gap-2 min-w-0">
+                            <div className={`w-7 h-7 rounded-lg flex items-center justify-center border shrink-0 mt-0.5 transition-transform duration-200 group-hover:scale-105 ${opt.iconBg}`}>
+                              <Icon size={14} />
+                            </div>
+
+                            <div className="min-w-0">
+                              <h3 className="text-xs sm:text-sm font-bold text-white group-hover:text-cyan-200 transition-colors uppercase tracking-wide leading-tight">
+                                {opt.title}
+                              </h3>
+                              <p className="text-[10px] font-mono text-slate-400 font-medium truncate mt-0.5">
+                                {opt.tagline}
+                              </p>
+                            </div>
                           </div>
-                          <div className="flex items-center gap-1.5 shrink-0">
-                            <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-cyan-300 font-bold">
-                              {cp} CP
+
+                          <div className="flex flex-col items-end shrink-0 pl-1">
+                            <span className={`px-1.5 py-0.5 rounded font-mono text-[9px] font-bold border ${opt.badgeBg}`}>
+                              {opt.count} {opt.unit}
                             </span>
-                            <button
-                              type="button"
-                              onClick={() => handleRemoveFeature(feat)}
-                              className="text-slate-500 hover:text-red-400 text-xs p-1 rounded hover:bg-slate-900 transition-colors cursor-pointer"
-                              title="Remove feature"
-                            >
-                              <Trash2 className="w-3.5 h-3.5" />
-                            </button>
+                            {opt.extraCountText && (
+                              <span className="font-mono text-[8.5px] text-slate-400 mt-0.5 whitespace-nowrap">
+                                {opt.extraCountText}
+                              </span>
+                            )}
                           </div>
                         </div>
-                      );
-                    })}
+
+                        <p className="text-[10.5px] text-slate-400/90 leading-snug line-clamp-2">
+                          {opt.description}
+                        </p>
+                      </div>
+
+                      {/* Card Footer Action */}
+                      <div className="mt-2.5 pt-1.5 border-t border-slate-800/80 flex items-center justify-between text-xs">
+                        <span className="font-mono font-bold text-slate-300 text-[10.5px]">
+                          {opt.cpText}
+                        </span>
+
+                        <div className={`flex items-center gap-1 font-bold uppercase tracking-wider text-[10px] ${opt.accentColor} group-hover:translate-x-0.5 transition-transform`}>
+                          <span>Manage</span>
+                          <ArrowRight size={11} className="group-hover:translate-x-1 transition-transform" />
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Acquired Capabilities Manifest & Filtering Bar */}
+            <div className="space-y-4 pt-2">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-t border-slate-800/80 pt-4">
+                <div className="flex items-center gap-2">
+                  <Layers className="w-4 h-4 text-cyan-400" />
+                  <div>
+                    <h3 className="text-xs font-bold uppercase tracking-widest text-white">
+                      Acquired Capabilities Manifest
+                    </h3>
+                    <p className="text-[10.5px] text-slate-400">
+                      Live inventory of active persona traits, features, augmentations and powers
+                    </p>
+                  </div>
                 </div>
-              )}
+
+                {/* Quick Search */}
+                <div className="relative w-full md:w-72">
+                  <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+                  <input
+                    type="text"
+                    value={overviewSearchQuery}
+                    onChange={(e) => setOverviewSearchQuery(e.target.value)}
+                    placeholder="Search all persona abilities..."
+                    className="w-full bg-slate-950 border border-slate-800 focus:border-cyan-400 rounded-lg pl-9 pr-8 py-1.5 text-xs text-slate-200 placeholder-slate-500 outline-none"
+                  />
+                  {overviewSearchQuery && (
+                    <button
+                      type="button"
+                      onClick={() => setOverviewSearchQuery('')}
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white text-xs"
+                    >
+                      &times;
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Subsystem Filter Pills */}
+              <div className="flex flex-wrap items-center gap-1.5 text-xs font-mono">
+                <button
+                  type="button"
+                  onClick={() => setOverviewManifestFilter('all')}
+                  className={`px-2.5 py-1 rounded-lg border font-bold transition-all cursor-pointer ${
+                    overviewManifestFilter === 'all'
+                      ? 'bg-cyan-950 border-cyan-500/80 text-cyan-200 shadow-sm'
+                      : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  All Aspects ({totalAllCount})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setOverviewManifestFilter('traits')}
+                  className={`px-2.5 py-1 rounded-lg border font-bold transition-all cursor-pointer ${
+                    overviewManifestFilter === 'traits'
+                      ? 'bg-emerald-950 border-emerald-500/80 text-emerald-200 shadow-sm'
+                      : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  Traits ({characterTraits.length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setOverviewManifestFilter('features')}
+                  className={`px-2.5 py-1 rounded-lg border font-bold transition-all cursor-pointer ${
+                    overviewManifestFilter === 'features'
+                      ? 'bg-cyan-950 border-cyan-500/80 text-cyan-200 shadow-sm'
+                      : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  Features ({standardFeatures.length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setOverviewManifestFilter('metaphysics')}
+                  className={`px-2.5 py-1 rounded-lg border font-bold transition-all cursor-pointer ${
+                    overviewManifestFilter === 'metaphysics'
+                      ? 'bg-purple-950 border-purple-500/80 text-purple-200 shadow-sm'
+                      : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  Metaphysics ({allMetaItems.length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setOverviewManifestFilter('augmentations')}
+                  className={`px-2.5 py-1 rounded-lg border font-bold transition-all cursor-pointer ${
+                    overviewManifestFilter === 'augmentations'
+                      ? 'bg-amber-950 border-amber-500/80 text-amber-200 shadow-sm'
+                      : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  Augmentations ({augmentationsList.length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setOverviewManifestFilter('hindrances')}
+                  className={`px-2.5 py-1 rounded-lg border font-bold transition-all cursor-pointer ${
+                    overviewManifestFilter === 'hindrances'
+                      ? 'bg-rose-950 border-rose-500/80 text-rose-200 shadow-sm'
+                      : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  Hindrances ({hindrancesList.length})
+                </button>
+              </div>
+
+              {/* Manifest Grid */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
+                {/* 1. Column Heritage Traits */}
+                {showTraits && (
+                  <div className={`bg-slate-900/80 border border-emerald-900/50 rounded-xl p-4 space-y-3 ${overviewManifestFilter === 'traits' ? 'lg:col-span-2' : ''}`}>
+                    <div className="flex items-center justify-between border-b border-emerald-950 pb-2">
+                      <div className="flex items-center gap-2">
+                        <Award className="w-4 h-4 text-emerald-400" />
+                        <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-300">
+                          Column Heritage Traits ({filteredTraits.length}{filterQuery ? ` of ${characterTraits.length}` : ''})
+                        </h3>
+                      </div>
+                      <span className="text-[11px] font-mono text-emerald-400 font-bold">
+                        {totalTraitsCP} CP Total
+                      </span>
+                    </div>
+
+                    {filteredTraits.length === 0 ? (
+                      <div className="text-center py-7 px-4 text-xs text-slate-500 border border-dashed border-slate-800 rounded-lg space-y-2">
+                        <p>
+                          {characterTraits.length === 0
+                            ? 'No column traits acquired yet. Browse the Traits tab to select traits from your Species, Origin, Occupation, and Faction columns.'
+                            : 'No column traits match your search filter.'}
+                        </p>
+                        {characterTraits.length === 0 && (
+                          <button
+                            type="button"
+                            onClick={() => handleNavigateToSubsystem('traits', 'features-traits')}
+                            className="px-3 py-1 rounded-lg text-xs font-mono font-bold bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-600/70 text-emerald-200 transition-all cursor-pointer inline-flex items-center gap-1.5"
+                          >
+                            <Award className="w-3.5 h-3.5 text-emerald-400" />
+                            <span>Browse Column Traits</span>
+                          </button>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="space-y-2 max-h-[480px] overflow-y-auto pr-1">
+                        {filteredTraits.map((trait, tIdx) => {
+                          const name = trait.name || trait.title || 'Trait';
+                          const tier = trait.trait_tier || 'Basic';
+                          const costDisplay = trait.cp === 0 ? 'Inherent (0 CP)' : `${trait.cp || 1} CP`;
+                          const col = trait.columnCategory || trait.columnSource || 'Heritage';
+                          const colColor = col === 'Species' ? 'cyan' : col === 'Origin' ? 'emerald' : col === 'Occupation' ? 'sky' : 'purple';
+                          return (
+                            <div
+                              key={tIdx}
+                              data-context-zone="folio"
+                              data-context-category="traits"
+                              data-context-subcategory="traits"
+                              data-context-entity-id={trait.id || trait.name}
+                              data-context-entity-type="trait"
+                              data-context-entity-title={name}
+                              data-context-entity-data={JSON.stringify(getEnrichedTraitData(trait))}
+                              className="bg-slate-950/80 border border-slate-800 hover:border-emerald-700/60 rounded-lg p-2.5 flex items-center justify-between gap-3 text-xs transition-colors group"
+                            >
+                              <div className="space-y-0.5 flex-1 min-w-0">
+                                <FolioTooltip
+                                  title={name}
+                                  badge={`${col} Trait`}
+                                  badgeColor={colColor}
+                                  description={trait.description || 'Acquired column heritage trait.'}
+                                  formula={trait.mechanic || undefined}
+                                  modifiers={Array.isArray(trait.modifiers) ? trait.modifiers : []}
+                                  cost={costDisplay}
+                                  tags={[tier, col].filter(Boolean)}
+                                  adminAction={isAdmin ? { label: 'View / Edit Dataset', onClick: () => handleOpenTraitDataset(trait) } : null}
+                                  showInfoIcon={true}
+                                >
+                                  <div className="flex items-center gap-1.5 flex-wrap min-w-0">
+                                    <span className="font-bold text-slate-100 hover:text-emerald-300 transition-colors truncate">{name}</span>
+                                    <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-emerald-950 text-emerald-300 border border-emerald-800">
+                                      {col} &bull; {tier}
+                                    </span>
+                                  </div>
+                                </FolioTooltip>
+                              </div>
+                              <div className="flex items-center gap-1.5 shrink-0">
+                                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-emerald-300 font-bold">
+                                  {costDisplay}
+                                </span>
+                                {isAdmin && (
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleOpenTraitDataset(trait);
+                                    }}
+                                    className="text-slate-400 hover:text-emerald-300 text-xs p-1 rounded hover:bg-slate-900 border border-transparent hover:border-emerald-500/50 transition-colors cursor-pointer"
+                                    title={`View / Edit ${name} Dataset (Matrix Studio)`}
+                                  >
+                                    <Edit3 className="w-3.5 h-3.5" />
+                                  </button>
+                                )}
+                                <button
+                                  type="button"
+                                  onClick={() => handleRemoveTrait(trait)}
+                                  className="text-slate-500 hover:text-red-400 text-xs p-1 rounded hover:bg-slate-900 transition-colors cursor-pointer"
+                                  title="Remove trait"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* 2. Standard Features */}
+                {showFeatures && (
+                  <div className={`bg-slate-900/80 border border-cyan-900/50 rounded-xl p-4 space-y-3 ${overviewManifestFilter === 'features' ? 'lg:col-span-2' : ''}`}>
+                    <div className="flex items-center justify-between border-b border-cyan-950 pb-2">
+                      <div className="flex items-center gap-2">
+                        <Sparkles className="w-4 h-4 text-cyan-400" />
+                        <h3 className="text-xs font-bold uppercase tracking-wider text-cyan-300">
+                          Standard Features ({filteredFeatures.length}{filterQuery ? ` of ${standardFeatures.length}` : ''})
+                        </h3>
+                      </div>
+                      <span className="text-[11px] font-mono text-cyan-400 font-bold">
+                        {totalStandardFeaturesCP} CP Total
+                      </span>
+                    </div>
+
+                    {filteredFeatures.length === 0 ? (
+                      <div className="text-center py-7 px-4 text-xs text-slate-500 border border-dashed border-slate-800 rounded-lg space-y-2">
+                        <p>
+                          {standardFeatures.length === 0
+                            ? 'No standard features acquired yet. Explore the Features tab to view Pillar recommendations and the complete catalog.'
+                            : 'No standard features match your search filter.'}
+                        </p>
+                        {standardFeatures.length === 0 && (
+                          <button
+                            type="button"
+                            onClick={() => handleNavigateToSubsystem('features', 'features-standard')}
+                            className="px-3 py-1 rounded-lg text-xs font-mono font-bold bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-600/70 text-cyan-200 transition-all cursor-pointer inline-flex items-center gap-1.5"
+                          >
+                            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+                            <span>Browse Features Catalog</span>
+                          </button>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="space-y-2 max-h-[480px] overflow-y-auto pr-1">
+                        {filteredFeatures.map((feat, fIdx) => {
+                          const name = feat.name || feat.title || 'Feature';
+                          const cat = feat.category || feat.type || 'General';
+                          const cp = feat.cp !== undefined ? feat.cp : 3;
+                          const featPillars = getPillarFeatureRecommendations(feat, pillarFeatureSets, characterData);
+                          return (
+                            <div
+                              key={fIdx}
+                              data-context-zone="folio"
+                              data-context-category="features"
+                              data-context-subcategory={cat.toLowerCase()}
+                              data-context-entity-id={feat.id || feat.name}
+                              data-context-entity-type="feature"
+                              data-context-entity-title={name}
+                              data-context-entity-data={JSON.stringify(getEnrichedFeatureData(feat))}
+                              className="bg-slate-950/80 border border-slate-800 hover:border-cyan-700/60 rounded-lg p-2.5 flex items-center justify-between gap-3 text-xs transition-colors group"
+                            >
+                              <div className="space-y-0.5 flex-1 min-w-0">
+                                <FolioTooltip
+                                  title={name}
+                                  badge={cat}
+                                  badgeColor="cyan"
+                                  description={feat.description || 'Standard persona feature.'}
+                                  formula={feat.mechanic || undefined}
+                                  modifiers={Array.isArray(feat.modifiers) ? feat.modifiers : []}
+                                  prerequisites={feat.prerequisites || undefined}
+                                  cost={`${cp} CP`}
+                                  rules={feat.rules || feat.special_rules}
+                                  notes={feat.notes}
+                                  tags={[
+                                    cat, 
+                                    getAcquisitionBadgeConfig(feat)?.label ? `Model: ${getAcquisitionBadgeConfig(feat).label}` : null,
+                                    feat.is_ranked ? `Rank ${feat.rank || 1}` : null
+                                  ].filter(Boolean)}
+                                  adminAction={isAdmin ? { label: 'View / Edit Dataset', onClick: () => handleOpenFeatureDataset(feat) } : null}
+                                  showInfoIcon={true}
+                                >
+                                  <div className="flex items-center gap-1.5 flex-wrap min-w-0">
+                                    <span className="font-bold text-slate-100 hover:text-cyan-300 transition-colors truncate">{name}</span>
+                                    <PillarMarkerDots recommendations={featPillars} />
+                                    <span className={`px-1.5 py-0.2 rounded text-[9px] font-mono uppercase border ${getTypeBadgeStyle(cat)}`}>
+                                      {cat}
+                                    </span>
+                                    {(() => {
+                                      const acqCfg = getAcquisitionBadgeConfig(feat);
+                                      return (
+                                        <span 
+                                          className={`px-1.5 py-0.2 rounded text-[9px] font-mono uppercase border shrink-0 ${acqCfg.badgeClass}`}
+                                          title={acqCfg.title}
+                                        >
+                                          {acqCfg.label}
+                                        </span>
+                                      );
+                                    })()}
+                                  </div>
+                                </FolioTooltip>
+                              </div>
+                              <div className="flex items-center gap-1.5 shrink-0">
+                                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-cyan-300 font-bold">
+                                  {cp} CP
+                                </span>
+                                {isAdmin && (
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleOpenFeatureDataset(feat);
+                                    }}
+                                    className="text-slate-400 hover:text-cyan-300 text-xs p-1 rounded hover:bg-slate-900 border border-transparent hover:border-cyan-500/50 transition-colors cursor-pointer"
+                                    title={`View / Edit ${name} Dataset (Matrix Studio)`}
+                                  >
+                                    <Edit3 className="w-3.5 h-3.5" />
+                                  </button>
+                                )}
+                                <button
+                                  type="button"
+                                  onClick={() => handleRemoveFeature(feat)}
+                                  className="text-slate-500 hover:text-red-400 text-xs p-1 rounded hover:bg-slate-900 transition-colors cursor-pointer"
+                                  title="Remove feature"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* 3. Metaphysics / Awakened Manifest */}
+                {showMeta && (
+                  <div className={`bg-slate-900/80 border border-purple-900/50 rounded-xl p-4 space-y-3 ${overviewManifestFilter === 'metaphysics' ? 'lg:col-span-2' : ''}`}>
+                    <div className="flex items-center justify-between border-b border-purple-950 pb-2">
+                      <div className="flex items-center gap-2">
+                        <Zap className="w-4 h-4 text-purple-400" />
+                        <h3 className="text-xs font-bold uppercase tracking-wider text-purple-300">
+                          Metaphysics &amp; Awakened ({filteredMetaItems.length}{filterQuery ? ` of ${allMetaItems.length}` : ''})
+                        </h3>
+                      </div>
+                      <span className="text-[11px] font-mono text-purple-400 font-bold">
+                        {totalMetaphysicsCP} CP Total
+                      </span>
+                    </div>
+
+                    {filteredMetaItems.length === 0 ? (
+                      <div className="text-center py-7 px-4 text-xs text-slate-500 border border-dashed border-slate-800 rounded-lg space-y-2">
+                        <p>
+                          {allMetaItems.length === 0
+                            ? 'No awakened disciplines or metaphysics invocations acquired yet.'
+                            : 'No metaphysics items match your search filter.'}
+                        </p>
+                        {allMetaItems.length === 0 && (
+                          <button
+                            type="button"
+                            onClick={() => handleNavigateToSubsystem('metaphysics', 'features-metaphysics')}
+                            className="px-3 py-1 rounded-lg text-xs font-mono font-bold bg-purple-950/80 hover:bg-purple-900 border border-purple-600/70 text-purple-200 transition-all cursor-pointer inline-flex items-center gap-1.5"
+                          >
+                            <Zap className="w-3.5 h-3.5 text-purple-400" />
+                            <span>Manage Metaphysics</span>
+                          </button>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="space-y-2 max-h-[480px] overflow-y-auto pr-1">
+                        {filteredMetaItems.map((meta, mIdx) => {
+                          const name = meta.name || meta.title || 'Power';
+                          const cp = meta.cp !== undefined ? meta.cp : (meta.metaSubtype === 'Discipline' ? 3 : 1);
+                          const disc = meta.discipline || meta.category || meta.metaSubtype || 'Metaphysics';
+                          const isInv = meta.powerType === 'invocation';
+                          const rank = meta.rank ? `Lvl ${meta.rank}` : null;
+                          return (
+                            <div
+                              key={mIdx}
+                              className="bg-slate-950/80 border border-slate-800 hover:border-purple-700/60 rounded-lg p-2.5 flex items-center justify-between gap-3 text-xs transition-colors group"
+                            >
+                              <div className="space-y-0.5 flex-1 min-w-0">
+                                <FolioTooltip
+                                  title={name}
+                                  badge={meta.metaSubtype || 'Metaphysics'}
+                                  badgeColor="purple"
+                                  description={meta.description || meta.body || 'Awakened metaphysical discipline or power.'}
+                                  cost={`${cp} CP`}
+                                  tags={[disc, rank].filter(Boolean)}
+                                  showInfoIcon={true}
+                                >
+                                  <div className="flex items-center gap-1.5 flex-wrap min-w-0">
+                                    <span className="font-bold text-slate-100 hover:text-purple-300 transition-colors truncate">{name}</span>
+                                    <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-purple-950 text-purple-300 border border-purple-800">
+                                      {disc} {rank ? `• ${rank}` : ''}
+                                    </span>
+                                  </div>
+                                </FolioTooltip>
+                              </div>
+                              <div className="flex items-center gap-1.5 shrink-0">
+                                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-purple-300 font-bold">
+                                  {isInv && rank ? rank : `${cp} CP`}
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() => handleRemoveMetaItem(meta)}
+                                  className="text-slate-500 hover:text-red-400 text-xs p-1 rounded hover:bg-slate-900 transition-colors cursor-pointer"
+                                  title="Remove power"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* 4. Augmentations Manifest */}
+                {showAugs && (
+                  <div className={`bg-slate-900/80 border border-amber-900/50 rounded-xl p-4 space-y-3 ${overviewManifestFilter === 'augmentations' ? 'lg:col-span-2' : ''}`}>
+                    <div className="flex items-center justify-between border-b border-amber-950 pb-2">
+                      <div className="flex items-center gap-2">
+                        <Cpu className="w-4 h-4 text-amber-400" />
+                        <h3 className="text-xs font-bold uppercase tracking-wider text-amber-300">
+                          Installed Augmentations ({filteredAugs.length}{filterQuery ? ` of ${augmentationsList.length}` : ''})
+                        </h3>
+                      </div>
+                      <span className="text-[11px] font-mono text-amber-400 font-bold">
+                        {totalAugmentationsCP} CP Total
+                      </span>
+                    </div>
+
+                    {filteredAugs.length === 0 ? (
+                      <div className="text-center py-7 px-4 text-xs text-slate-500 border border-dashed border-slate-800 rounded-lg space-y-2">
+                        <p>
+                          {augmentationsList.length === 0
+                            ? 'No cybernetic, bionic or physical augmentations installed yet.'
+                            : 'No augmentations match your search filter.'}
+                        </p>
+                        {augmentationsList.length === 0 && (
+                          <button
+                            type="button"
+                            onClick={() => handleNavigateToSubsystem('augmentations', 'features-augmentations')}
+                            className="px-3 py-1 rounded-lg text-xs font-mono font-bold bg-amber-950/80 hover:bg-amber-900 border border-amber-600/70 text-amber-200 transition-all cursor-pointer inline-flex items-center gap-1.5"
+                          >
+                            <Cpu className="w-3.5 h-3.5 text-amber-400" />
+                            <span>Manage Augmentations</span>
+                          </button>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="space-y-2 max-h-[480px] overflow-y-auto pr-1">
+                        {filteredAugs.map((aug, aIdx) => {
+                          const name = aug.name || aug.title || 'Augmentation';
+                          const cp = aug.cp !== undefined ? aug.cp : 2;
+                          const loc = aug.location || aug.body_location || 'Internal';
+                          return (
+                            <div
+                              key={aIdx}
+                              className="bg-slate-950/80 border border-slate-800 hover:border-amber-700/60 rounded-lg p-2.5 flex items-center justify-between gap-3 text-xs transition-colors group"
+                            >
+                              <div className="space-y-0.5 flex-1 min-w-0">
+                                <FolioTooltip
+                                  title={name}
+                                  badge="Augmentation"
+                                  badgeColor="amber"
+                                  description={aug.description || aug.benefit || 'Cybernetic or biological alteration.'}
+                                  cost={`${cp} CP`}
+                                  tags={[loc].filter(Boolean)}
+                                  showInfoIcon={true}
+                                >
+                                  <div className="flex items-center gap-1.5 flex-wrap min-w-0">
+                                    <span className="font-bold text-slate-100 hover:text-amber-300 transition-colors truncate">{name}</span>
+                                    <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-amber-950 text-amber-300 border border-amber-800">
+                                      {loc}
+                                    </span>
+                                  </div>
+                                </FolioTooltip>
+                              </div>
+                              <div className="flex items-center gap-1.5 shrink-0">
+                                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-amber-300 font-bold">
+                                  {cp} CP
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() => handleRemoveAugmentation(aug)}
+                                  className="text-slate-500 hover:text-red-400 text-xs p-1 rounded hover:bg-slate-900 transition-colors cursor-pointer"
+                                  title="Remove augmentation"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* 5. Hindrances & Flaws Manifest */}
+                {showHindrances && (
+                  <div className={`bg-slate-900/80 border border-rose-900/50 rounded-xl p-4 space-y-3 ${overviewManifestFilter === 'hindrances' ? 'lg:col-span-2' : ''}`}>
+                    <div className="flex items-center justify-between border-b border-rose-950 pb-2">
+                      <div className="flex items-center gap-2">
+                        <AlertTriangle className="w-4 h-4 text-rose-400" />
+                        <h3 className="text-xs font-bold uppercase tracking-wider text-rose-300">
+                          Hindrances &amp; Flaws ({filteredHindrances.length}{filterQuery ? ` of ${hindrancesList.length}` : ''})
+                        </h3>
+                      </div>
+                      <span className="text-[11px] font-mono text-emerald-400 font-bold">
+                        {totalHindrancesRefund > 0 ? `-${totalHindrancesRefund} CP Refund` : '0 CP'}
+                      </span>
+                    </div>
+
+                    {filteredHindrances.length === 0 ? (
+                      <div className="text-center py-7 px-4 text-xs text-slate-500 border border-dashed border-slate-800 rounded-lg space-y-2">
+                        <p>
+                          {hindrancesList.length === 0
+                            ? 'No hindrances or physiological flaws acquired on this persona.'
+                            : 'No hindrances match your search filter.'}
+                        </p>
+                        {hindrancesList.length === 0 && (
+                          <button
+                            type="button"
+                            onClick={() => handleNavigateToSubsystem('hindrances', 'features-hindrances')}
+                            className="px-3 py-1 rounded-lg text-xs font-mono font-bold bg-rose-950/80 hover:bg-rose-900 border border-rose-600/70 text-rose-200 transition-all cursor-pointer inline-flex items-center gap-1.5"
+                          >
+                            <AlertTriangle className="w-3.5 h-3.5 text-rose-400" />
+                            <span>Manage Hindrances</span>
+                          </button>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="space-y-2 max-h-[480px] overflow-y-auto pr-1">
+                        {filteredHindrances.map((hind, hIdx) => {
+                          const name = hind.name || hind.title || 'Hindrance';
+                          const cp = hind.cp !== undefined ? hind.cp : 3;
+                          const cat = hind.type || hind.category || 'Flaw';
+                          return (
+                            <div
+                              key={hIdx}
+                              className="bg-slate-950/80 border border-slate-800 hover:border-rose-700/60 rounded-lg p-2.5 flex items-center justify-between gap-3 text-xs transition-colors group"
+                            >
+                              <div className="space-y-0.5 flex-1 min-w-0">
+                                <FolioTooltip
+                                  title={name}
+                                  badge={cat}
+                                  badgeColor="rose"
+                                  description={hind.description || 'Character flaw, handicap or obligation.'}
+                                  cost={`-${cp} CP`}
+                                  tags={[cat].filter(Boolean)}
+                                  showInfoIcon={true}
+                                >
+                                  <div className="flex items-center gap-1.5 flex-wrap min-w-0">
+                                    <span className="font-bold text-slate-100 hover:text-rose-300 transition-colors truncate">{name}</span>
+                                    <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-rose-950 text-rose-300 border border-rose-800">
+                                      {cat}
+                                    </span>
+                                  </div>
+                                </FolioTooltip>
+                              </div>
+                              <div className="flex items-center gap-1.5 shrink-0">
+                                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-emerald-950 border border-emerald-800 text-emerald-300 font-bold">
+                                  -{cp} CP
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() => handleRemoveHindrance(hind)}
+                                  className="text-slate-500 hover:text-red-400 text-xs p-1 rounded hover:bg-slate-900 transition-colors cursor-pointer"
+                                  title="Remove hindrance"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* ══════════════════════════════════════════════════════════════════ */}
       {/* VIEW 1: STANDARD FEATURES (3 CP BASE · PILLAR DISCOUNTS AVAILABLE) */}
       {/* ══════════════════════════════════════════════════════════════════ */}
       {selectedSubTab === 'features' && (
         <div className="space-y-5">
-          {/* Sub-Header & 3-Mode Switcher */}
-          <div className="bg-slate-900/80 border border-cyan-900/60 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-            <div>
-              <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-cyan-400" />
-                <span>Standard Character Features</span>
-              </h3>
-              <p className="text-[11px] text-slate-400 mt-0.5">
-                Feats costing 3 CP base. Feats recommended by your Identity Pillars receive a <strong>-1 CP discount</strong> (minimum 1 CP).
-              </p>
-            </div>
-
-            {/* Segmented Mode Switcher */}
-            <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs font-mono">
-              <button
-                type="button"
-                onClick={() => setFeaturesViewMode('my-features')}
-                className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
-                  featuresViewMode === 'my-features'
-                    ? 'bg-cyan-950 text-cyan-200 border border-cyan-500/60 shadow-sm'
-                    : 'text-slate-400 hover:text-slate-200'
-                }`}
-              >
-                My Features ({standardFeatures.length})
-              </button>
-              <button
-                type="button"
-                onClick={() => setFeaturesViewMode('recommended')}
-                className={`px-3 py-1.5 rounded-lg font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-                  featuresViewMode === 'recommended'
-                    ? 'bg-amber-950 text-amber-200 border border-amber-500/60 shadow-sm'
-                    : 'text-slate-400 hover:text-slate-200'
-                }`}
-              >
-                <Star className="w-3 h-3 text-amber-400" />
-                <span>Recommended ({recommendedFeatures.length})</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setFeaturesViewMode('catalog')}
-                className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
-                  featuresViewMode === 'catalog'
-                    ? 'bg-slate-800 text-white border border-slate-700 shadow-sm'
-                    : 'text-slate-400 hover:text-slate-200'
-                }`}
-              >
-                Complete Catalog ({DEFAULT_FEATURES.length})
-              </button>
-            </div>
-          </div>
-
           {/* MODE A: MY FEATURES (ACQUIRED) */}
           {featuresViewMode === 'my-features' && (
             <div className="space-y-4">
@@ -1714,7 +2490,7 @@ export const FeaturesTab = ({
                       })}
                     </div>
 
-                    {/* Row down: Sort & Search Controls */}
+                    {/* Row down: Sort, View Switcher & Search Controls */}
                     <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 pt-0.5">
                       {/* Sort Selector */}
                       <div className="flex items-center gap-1.5 bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1 shrink-0">
@@ -1730,6 +2506,44 @@ export const FeaturesTab = ({
                           <option value="cost_asc" className="bg-slate-950 text-slate-200">CP (Low → High)</option>
                           <option value="category" className="bg-slate-950 text-slate-200">Category</option>
                         </select>
+                      </div>
+
+                      {/* Segmented Mode Switcher */}
+                      <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs font-mono shrink-0">
+                        <button
+                          type="button"
+                          onClick={() => setFeaturesViewMode('my-features')}
+                          className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
+                            featuresViewMode === 'my-features'
+                              ? 'bg-cyan-950 text-cyan-200 border border-cyan-500/60 shadow-sm'
+                              : 'text-slate-400 hover:text-slate-200'
+                          }`}
+                        >
+                          My Features ({standardFeatures.length})
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setFeaturesViewMode('recommended')}
+                          className={`px-3 py-1.5 rounded-lg font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                            featuresViewMode === 'recommended'
+                              ? 'bg-amber-950 text-amber-200 border border-amber-500/60 shadow-sm'
+                              : 'text-slate-400 hover:text-slate-200'
+                          }`}
+                        >
+                          <Star className="w-3 h-3 text-amber-400" />
+                          <span>Recommended ({recommendedFeatures.length})</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setFeaturesViewMode('catalog')}
+                          className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
+                            featuresViewMode === 'catalog'
+                              ? 'bg-slate-800 text-white border border-slate-700 shadow-sm'
+                              : 'text-slate-400 hover:text-slate-200'
+                          }`}
+                        >
+                          Complete Catalog ({DEFAULT_FEATURES.length})
+                        </button>
                       </div>
 
                       {/* Search Input */}
@@ -1776,6 +2590,13 @@ export const FeaturesTab = ({
                         return (
                           <div
                             key={`${item.sourceList}_${item.sourceIndex}`}
+                            data-context-zone="folio"
+                            data-context-category="features"
+                            data-context-subcategory={featCategory.toLowerCase()}
+                            data-context-entity-id={item.id || `feat_${item.sourceIndex}`}
+                            data-context-entity-type="feature"
+                            data-context-entity-title={name}
+                            data-context-entity-data={JSON.stringify(getEnrichedFeatureData(item))}
                             className={`border rounded-lg p-2.5 shadow-sm flex flex-col justify-between gap-1.5 transition-all group relative ${
                               isPrereqUnmet
                                 ? 'bg-slate-950/70 border-dashed border-rose-900/60 opacity-75'
@@ -1797,7 +2618,13 @@ export const FeaturesTab = ({
                                 cost={`${cpCost * (item.rank || 1)} CP`}
                                 rules={item.rules || item.special_rules}
                                 notes={item.notes}
-                                tags={[featCategory, item.is_ranked ? `Rank ${item.rank || 1}/${item.max_rank || 5}` : null].filter(Boolean)}
+                                tags={[
+                                  featCategory, 
+                                  getAcquisitionBadgeConfig(item)?.label ? `Model: ${getAcquisitionBadgeConfig(item).label}` : null,
+                                  item.is_ranked ? `Rank ${item.rank || 1}/${item.max_rank || 5}` : null,
+                                  item.modifier_options?.enabled ? `Skill Choice: ${item.modifier_options.mode === 'pair' ? 'Pair' : 'Single'}` : null
+                                ].filter(Boolean)}
+                                adminAction={isAdmin ? { label: 'View / Edit Dataset', onClick: () => handleOpenFeatureDataset(item, item.sourceIndex) } : null}
                                 showInfoIcon={true}
                               >
                                 <div className="flex items-center gap-1.5 min-w-0">
@@ -1843,12 +2670,161 @@ export const FeaturesTab = ({
                               )}
                             </div>
 
+                            {/* Operator Skill Option Selector Row (When modifier_options enabled or group choice modifier exists) */}
+                            {(() => {
+                              const groupChoiceMod = Array.isArray(item.modifiers) ? item.modifiers.find(m => m.type === 'skill' && m.mode === 'group_choice') : null;
+                              const isGroupPool = item.modifier_options?.mode === 'group_pool' || Boolean(groupChoiceMod);
+
+                              if (isGroupPool) {
+                                const groupKeys = item.modifier_options?.group_keys || (groupChoiceMod?.group_keys ? groupChoiceMod.group_keys : (groupChoiceMod?.group_key ? [groupChoiceMod.group_key] : ['mental_vocations']));
+                                const maxSkills = item.modifier_options?.max_skills || groupChoiceMod?.max_choices || 2;
+                                const bonusVal = item.modifier_options?.value || groupChoiceMod?.value || 2;
+                                const groupLabel = item.modifier_options?.group_label || groupChoiceMod?.group_label || groupChoiceMod?.target || 'Skill Group Choice';
+
+                                const selectedSkills = Array.isArray(item.selected_skills) ? item.selected_skills : (item.selected_skill ? [item.selected_skill] : []);
+                                const isComplete = selectedSkills.length >= maxSkills;
+
+                                // Collect eligible skills from the assigned group(s)
+                                const eligibleSkills = [];
+                                (groupKeys || []).forEach(gKey => {
+                                  const sec = (SKILL_CATEGORY_SECTIONS || []).find(s => s.key === gKey);
+                                  if (sec && Array.isArray(sec.skills)) {
+                                    sec.skills.forEach(sk => {
+                                      if (!eligibleSkills.some(existing => existing.name === sk.name)) {
+                                        eligibleSkills.push(sk);
+                                      }
+                                    });
+                                  }
+                                });
+
+                                return (
+                                  <div className="pt-1 pb-1 border-t border-slate-900 flex flex-col gap-1.5 font-mono text-xs">
+                                    <div className="flex items-center justify-between gap-1.5 flex-wrap">
+                                      <div className="flex items-center gap-1.5 text-[10px] text-amber-400 font-bold">
+                                        <Target size={11} className="text-amber-400 shrink-0" />
+                                        <span>Skill Group: <strong className="text-white">{groupLabel}</strong></span>
+                                      </div>
+                                      {isComplete ? (
+                                        <span className="text-[9px] font-bold text-emerald-300 bg-emerald-950/80 border border-emerald-600/60 px-1.5 py-0.2 rounded">
+                                          Selected ({selectedSkills.length}/{maxSkills}) • +{bonusVal} to each
+                                        </span>
+                                      ) : (
+                                        <span className="text-[9px] font-bold text-amber-300 bg-amber-950/80 border border-amber-600/60 px-1.5 py-0.2 rounded animate-pulse">
+                                          Pick {maxSkills - selectedSkills.length} more ({selectedSkills.length}/{maxSkills})
+                                        </span>
+                                      )}
+                                    </div>
+
+                                    {/* Selected Skill Chips */}
+                                    {selectedSkills.length > 0 && (
+                                      <div className="flex flex-wrap gap-1 items-center">
+                                        {selectedSkills.map(skName => (
+                                          <span
+                                            key={skName}
+                                            className="px-2 py-0.5 rounded bg-amber-950/70 border border-amber-500/60 text-amber-200 text-[11px] font-bold flex items-center gap-1 shadow-sm"
+                                          >
+                                            <span>{skName}</span>
+                                            <span className="text-amber-400 font-extrabold">+{bonusVal}</span>
+                                            <button
+                                              type="button"
+                                              onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleToggleFeatureGroupSkill(item, skName, maxSkills);
+                                              }}
+                                              className="ml-0.5 text-amber-400/80 hover:text-red-400 cursor-pointer font-bold px-0.5"
+                                              title="Remove this skill"
+                                            >
+                                              ×
+                                            </button>
+                                          </span>
+                                        ))}
+                                      </div>
+                                    )}
+
+                                    {/* Dropdown to add a skill from the group if not at max */}
+                                    {selectedSkills.length < maxSkills && (
+                                      <select
+                                        value=""
+                                        onChange={(e) => {
+                                          if (e.target.value) {
+                                            handleToggleFeatureGroupSkill(item, e.target.value, maxSkills);
+                                          }
+                                        }}
+                                        className="w-full py-1 px-2 rounded text-xs font-mono font-medium outline-none bg-amber-950/40 border border-amber-500/50 text-amber-200 hover:border-amber-400 cursor-pointer"
+                                      >
+                                        <option value="" disabled className="bg-slate-950 text-slate-400">
+                                          -- Select Skill from {groupLabel} (+{bonusVal}) [{selectedSkills.length}/{maxSkills}] --
+                                        </option>
+                                        {eligibleSkills
+                                          .filter(sk => !selectedSkills.includes(sk.name))
+                                          .map(sk => (
+                                            <option key={sk.name} value={sk.name} className="bg-slate-950 text-slate-100">
+                                              {sk.name} ({sk.subcategory || sk.group || 'Skill'})
+                                            </option>
+                                          ))}
+                                      </select>
+                                    )}
+                                  </div>
+                                );
+                              }
+
+                              // Predefined options pool
+                              if (item.modifier_options?.enabled && Array.isArray(item.modifier_options.options) && item.modifier_options.options.length > 0) {
+                                return (
+                                  <div className="pt-1 pb-0.5 border-t border-slate-900 flex flex-col gap-1">
+                                    <div className="flex items-center justify-between gap-1.5">
+                                      <div className="flex items-center gap-1 text-[10px] font-mono text-amber-400 font-bold">
+                                        <Target size={11} className="text-amber-400 shrink-0" />
+                                        <span>Applied Skill Check Modifier:</span>
+                                      </div>
+                                      {!item.selected_option_id && (
+                                        <span className="text-[9px] font-mono font-bold text-amber-300 bg-amber-950/80 border border-amber-600/60 px-1.5 py-0.2 rounded animate-pulse">
+                                          Selection Required
+                                        </span>
+                                      )}
+                                    </div>
+                                    <select
+                                      value={item.selected_option_id || ''}
+                                      onChange={(e) => handleSelectFeatureOption(item, e.target.value)}
+                                      className={`w-full py-1 px-2 rounded text-xs font-mono font-medium outline-none transition-all cursor-pointer ${
+                                        item.selected_option_id
+                                          ? 'bg-amber-950/40 border border-amber-500/50 text-amber-200 hover:border-amber-400'
+                                          : 'bg-amber-950/70 border border-amber-500 text-amber-100 ring-1 ring-amber-400/50'
+                                      }`}
+                                    >
+                                      <option value="" disabled className="bg-slate-950 text-slate-400">
+                                        -- Choose Applied Skill {item.modifier_options.mode === 'pair' ? 'Pair' : 'Option'} --
+                                      </option>
+                                      {item.modifier_options.options.map(opt => (
+                                        <option key={opt.id} value={opt.id} className="bg-slate-950 text-slate-100">
+                                          {opt.label || (opt.skills || [opt.skill]).join(' & ')}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                );
+                              }
+
+                              return null;
+                            })()}
+
                             {/* Line 2: Notes / Category & Controls */}
                             <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-900 text-xs">
                               <div className="flex items-center gap-1.5 min-w-0 flex-1 overflow-hidden">
                                 <span className={`px-1.5 py-0.5 text-[9px] font-bold uppercase rounded border shrink-0 ${getTypeBadgeStyle(featCategory)}`}>
                                   {featCategory}
                                 </span>
+                                {(() => {
+                                  const acqCfg = getAcquisitionBadgeConfig(item);
+                                  return (
+                                    <span 
+                                      className={`px-1.5 py-0.5 text-[9px] font-mono uppercase rounded border shrink-0 ${acqCfg.badgeClass}`}
+                                      title={acqCfg.title}
+                                    >
+                                      {acqCfg.label}
+                                    </span>
+                                  );
+                                })()}
                                 {item.notes && (
                                   <span className="text-[10.5px] font-sans text-slate-400 italic truncate" title={item.notes}>
                                     {item.notes}
@@ -1861,12 +2837,15 @@ export const FeaturesTab = ({
                                   {cpCost * (item.rank || 1)} CP
                                 </span>
 
-                                {onOpenAssetModal && (
+                                {(isAdmin || onOpenAssetModal) && (
                                   <button
                                     type="button"
-                                    onClick={() => onOpenAssetModal('features', 'Feature', 'edit', item.sourceIndex, item)}
-                                    className="text-slate-400 hover:text-cyan-300 text-xs p-1 rounded hover:bg-slate-900 transition-colors cursor-pointer"
-                                    title="Edit feature"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleOpenFeatureDataset(item, item.sourceIndex);
+                                    }}
+                                    className="text-slate-400 hover:text-cyan-300 text-xs p-1 rounded hover:bg-slate-900 border border-transparent hover:border-cyan-500/50 transition-colors cursor-pointer"
+                                    title={`View / Edit ${name} Dataset (Matrix Studio)`}
                                   >
                                     <Edit3 className="w-3.5 h-3.5" />
                                   </button>
@@ -1882,6 +2861,7 @@ export const FeaturesTab = ({
                               </div>
                             </div>
                           </div>
+
                         );
                       })}
                     </div>
@@ -1934,7 +2914,7 @@ export const FeaturesTab = ({
                   })}
                 </div>
 
-                {/* Row down: Sort & Search Controls */}
+                {/* Row down: Sort, View Switcher & Search Controls */}
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 pt-0.5">
                   {/* Sort Selector */}
                   <div className="flex items-center gap-1.5 bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1 shrink-0">
@@ -1951,6 +2931,44 @@ export const FeaturesTab = ({
                       <option value="cost_desc" className="bg-slate-950 text-slate-200">CP (High → Low)</option>
                       <option value="cost_asc" className="bg-slate-950 text-slate-200">CP (Low → High)</option>
                     </select>
+                  </div>
+
+                  {/* Segmented Mode Switcher */}
+                  <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs font-mono shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => setFeaturesViewMode('my-features')}
+                      className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
+                        featuresViewMode === 'my-features'
+                          ? 'bg-cyan-950 text-cyan-200 border border-cyan-500/60 shadow-sm'
+                          : 'text-slate-400 hover:text-slate-200'
+                      }`}
+                    >
+                      My Features ({standardFeatures.length})
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setFeaturesViewMode('recommended')}
+                      className={`px-3 py-1.5 rounded-lg font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                        featuresViewMode === 'recommended'
+                          ? 'bg-amber-950 text-amber-200 border border-amber-500/60 shadow-sm'
+                          : 'text-slate-400 hover:text-slate-200'
+                      }`}
+                    >
+                      <Star className="w-3 h-3 text-amber-400" />
+                      <span>Recommended ({recommendedFeatures.length})</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setFeaturesViewMode('catalog')}
+                      className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
+                        featuresViewMode === 'catalog'
+                          ? 'bg-slate-800 text-white border border-slate-700 shadow-sm'
+                          : 'text-slate-400 hover:text-slate-200'
+                      }`}
+                    >
+                      Complete Catalog ({DEFAULT_FEATURES.length})
+                    </button>
                   </div>
 
                   {/* Search Input */}
@@ -1993,6 +3011,13 @@ export const FeaturesTab = ({
                   return (
                     <div
                       key={feat.id}
+                      data-context-zone="folio"
+                      data-context-category="features"
+                      data-context-subcategory={featCategory.toLowerCase()}
+                      data-context-entity-id={feat.id}
+                      data-context-entity-type="feature"
+                      data-context-entity-title={feat.name}
+                      data-context-entity-data={JSON.stringify(getEnrichedFeatureData(feat))}
                       className={`p-2.5 rounded-lg border text-xs flex flex-col justify-between gap-1.5 transition-all group ${
                         acquired
                           ? 'bg-cyan-950/20 border-cyan-500/40 shadow-sm'
@@ -2016,7 +3041,17 @@ export const FeaturesTab = ({
                           cost={`${discountInfo.finalCost} CP (Base: ${discountInfo.baseCost || 3} CP, -${discountInfo.totalDiscount || 1} CP Discount)`}
                           rules={feat.rules || feat.special_rules}
                           notes={feat.notes}
-                          tags={[featCategory, ...recs.map(p => `${p.name}: ${p.detail}`)]}
+                          tags={[
+                            featCategory, 
+                            getAcquisitionBadgeConfig(feat)?.label ? `Model: ${getAcquisitionBadgeConfig(feat).label}` : null,
+                            (feat.modifier_options?.enabled || (Array.isArray(feat.modifiers) && feat.modifiers.some(m => m.mode === 'group_choice')))
+                              ? (feat.modifier_options?.mode === 'group_pool' || feat.modifiers?.some(m => m.mode === 'group_choice')
+                                  ? `Skill Pool: ${feat.modifier_options?.group_label || feat.modifiers?.find(m => m.mode === 'group_choice')?.target || 'Group'} (Pick up to ${feat.modifier_options?.max_skills || feat.modifiers?.find(m => m.mode === 'group_choice')?.max_choices || 2} at +${feat.modifier_options?.value || feat.modifiers?.find(m => m.mode === 'group_choice')?.value || 2})`
+                                  : `Skill Choice: ${feat.modifier_options?.mode === 'pair' ? 'Pairs' : 'Single'} (${(feat.modifier_options?.options || []).length} Options)`)
+                              : null,
+                            ...recs.map(p => `${p.name}: ${p.detail}`)
+                          ].filter(Boolean)}
+                          adminAction={isAdmin ? { label: 'View / Edit Dataset', onClick: () => handleOpenFeatureDataset(feat) } : null}
                           showInfoIcon={true}
                         >
                           <div className="flex items-center gap-1.5 min-w-0">
@@ -2034,6 +3069,29 @@ export const FeaturesTab = ({
                           <span className={`px-1.5 py-0.5 text-[9px] font-bold uppercase rounded border shrink-0 ${getTypeBadgeStyle(featCategory)}`}>
                             {featCategory}
                           </span>
+                          {(() => {
+                            const acqCfg = getAcquisitionBadgeConfig(feat);
+                            return (
+                              <span 
+                                className={`px-1.5 py-0.5 text-[9px] font-mono uppercase rounded border shrink-0 ${acqCfg.badgeClass}`}
+                                title={acqCfg.title}
+                              >
+                                {acqCfg.label}
+                              </span>
+                            );
+                          })()}
+                          {(feat.modifier_options?.enabled || (Array.isArray(feat.modifiers) && feat.modifiers.some(m => m.mode === 'group_choice'))) && (
+                            <span 
+                              className="px-1.5 py-0.5 text-[9px] font-mono uppercase rounded border border-amber-600/70 bg-amber-950/60 text-amber-300 shrink-0"
+                              title={
+                                feat.modifier_options?.mode === 'group_pool' || feat.modifiers?.some(m => m.mode === 'group_choice')
+                                  ? `Skill Check Modifier: Operator chooses up to ${feat.modifier_options?.max_skills || feat.modifiers?.find(m => m.mode === 'group_choice')?.max_choices || 2} skills (+${feat.modifier_options?.value || feat.modifiers?.find(m => m.mode === 'group_choice')?.value || 2} each)`
+                                  : `Skill Check Modifier: Operator chooses between ${(feat.modifier_options?.options || []).length} ${feat.modifier_options?.mode === 'pair' ? 'skill pairs' : 'skills'}`
+                              }
+                            >
+                              Choice: {feat.modifier_options?.mode === 'group_pool' || feat.modifiers?.some(m => m.mode === 'group_choice') ? 'Skill Group' : (feat.modifier_options?.mode === 'pair' ? 'Pair' : 'Skill')}
+                            </span>
+                          )}
                           {feat.notes ? (
                             <span className="text-[10.5px] font-sans text-slate-400 italic truncate" title={feat.notes}>
                               {feat.notes}
@@ -2054,6 +3112,20 @@ export const FeaturesTab = ({
                               {discountInfo.finalCost} CP
                             </span>
                           </div>
+
+                          {isAdmin && (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleOpenFeatureDataset(feat);
+                              }}
+                              className="p-1 rounded text-slate-400 hover:text-amber-300 hover:bg-slate-900 border border-transparent hover:border-amber-500/50 transition-colors cursor-pointer"
+                              title={`View / Edit ${feat.name} Dataset (Matrix Studio)`}
+                            >
+                              <Edit3 className="w-3.5 h-3.5" />
+                            </button>
+                          )}
 
                           {!acquired ? (
                             isPrereqUnmet ? (
@@ -2081,6 +3153,12 @@ export const FeaturesTab = ({
                                   rank: 1,
                                   max_rank: feat.max_rank || (feat.is_ranked ? 5 : undefined),
                                   is_multiple: !!feat.is_multiple,
+                                  multi: !!feat.multi,
+                                  staged: !!feat.staged,
+                                  acquisition_type: feat.acquisition_type || (feat.is_multiple ? 'Multiple' : feat.is_ranked ? 'Staged' : 'Basic'),
+                                  modifier_options: feat.modifier_options || { enabled: false, mode: 'single', value: 2, options: [] },
+                                  selected_option_id: feat.selected_option_id || '',
+                                  selected_skills: Array.isArray(feat.selected_skills) ? feat.selected_skills : [],
                                   prerequisites: feat.prerequisites || '',
                                   modifiers: Array.isArray(feat.modifiers) ? feat.modifiers : [],
                                   costs: {
@@ -2109,8 +3187,54 @@ export const FeaturesTab = ({
                             <div className="flex items-center gap-1">
                               <span className="text-[10px] font-mono text-cyan-400 font-bold flex items-center gap-1 px-1.5 py-0.5 rounded bg-cyan-950/60 border border-cyan-800/60">
                                 <Check className="w-3 h-3" />
-                                <span>In Folio</span>
+                                <span>In Folio{feat.acquiredCount > 1 ? ` (${feat.acquiredCount})` : ''}</span>
                               </span>
+                              {(feat.is_multiple || feat.acquisition_type === 'Multiple' || feat.acquisition_type === 'Multi/Staged') && (
+                                <button
+                                  type="button"
+                                  onClick={() => handleAddItem('features', {
+                                    id: `feat_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+                                    name: feat.name,
+                                    category: featCategory,
+                                    type: (feat.type || featCategory || 'general').toLowerCase(),
+                                    cp: discountInfo.finalCost,
+                                    baseCp: discountInfo.baseCost,
+                                    isDiscounted: true,
+                                    is_ranked: !!feat.is_ranked,
+                                    rank: 1,
+                                    max_rank: feat.max_rank || (feat.is_ranked ? 5 : undefined),
+                                    is_multiple: true,
+                                    multi: true,
+                                    staged: !!feat.staged,
+                                    acquisition_type: feat.acquisition_type || 'Multiple',
+                                    modifier_options: feat.modifier_options || { enabled: false, mode: 'single', value: 2, options: [] },
+                                    selected_option_id: '',
+                                    selected_skills: [],
+                                    prerequisites: feat.prerequisites || '',
+                                    modifiers: Array.isArray(feat.modifiers) ? feat.modifiers : [],
+                                    costs: {
+                                      bp: discountInfo.finalCost,
+                                      credits: 0,
+                                      nodes: 0,
+                                      sockets: 0,
+                                      strain: 0,
+                                      focus: 0,
+                                      ap: 0
+                                    },
+                                    description: feat.description || '',
+                                    mechanic: feat.mechanic || feat.mechanics || '',
+                                    rules: feat.rules || feat.special_rules || '',
+                                    special_rules: feat.special_rules || feat.rules || '',
+                                    notes: feat.notes || '',
+                                    notesList: Array.isArray(feat.notesList) ? feat.notesList : []
+                                  })}
+                                  className="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-blue-950 hover:bg-blue-900 border border-blue-600 text-blue-200 transition-all flex items-center gap-0.5 cursor-pointer"
+                                  title="Add another copy of this multiple-acquisition feature for a different asset or purpose"
+                                >
+                                  <Plus className="w-2.5 h-2.5" />
+                                  <span>Another</span>
+                                </button>
+                              )}
                               <button
                                 type="button"
                                 onClick={() => {
@@ -2167,7 +3291,7 @@ export const FeaturesTab = ({
                   })}
                 </div>
 
-                {/* Row down: Sort & Search Controls */}
+                {/* Row down: Sort, View Switcher & Search Controls */}
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 pt-0.5">
                   {/* Sort Selector */}
                   <div className="flex items-center gap-1.5 bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1 shrink-0">
@@ -2184,6 +3308,44 @@ export const FeaturesTab = ({
                       <option value="cost_desc" className="bg-slate-950 text-slate-200">CP (High → Low)</option>
                       <option value="cost_asc" className="bg-slate-950 text-slate-200">CP (Low → High)</option>
                     </select>
+                  </div>
+
+                  {/* Segmented Mode Switcher */}
+                  <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs font-mono shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => setFeaturesViewMode('my-features')}
+                      className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
+                        featuresViewMode === 'my-features'
+                          ? 'bg-cyan-950 text-cyan-200 border border-cyan-500/60 shadow-sm'
+                          : 'text-slate-400 hover:text-slate-200'
+                      }`}
+                    >
+                      My Features ({standardFeatures.length})
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setFeaturesViewMode('recommended')}
+                      className={`px-3 py-1.5 rounded-lg font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                        featuresViewMode === 'recommended'
+                          ? 'bg-amber-950 text-amber-200 border border-amber-500/60 shadow-sm'
+                          : 'text-slate-400 hover:text-slate-200'
+                      }`}
+                    >
+                      <Star className="w-3 h-3 text-amber-400" />
+                      <span>Recommended ({recommendedFeatures.length})</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setFeaturesViewMode('catalog')}
+                      className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
+                        featuresViewMode === 'catalog'
+                          ? 'bg-slate-800 text-white border border-slate-700 shadow-sm'
+                          : 'text-slate-400 hover:text-slate-200'
+                      }`}
+                    >
+                      Complete Catalog ({DEFAULT_FEATURES.length})
+                    </button>
                   </div>
 
                   {/* Search Input */}
@@ -2226,6 +3388,13 @@ export const FeaturesTab = ({
                   return (
                     <div
                       key={feat.id}
+                      data-context-zone="folio"
+                      data-context-category="features"
+                      data-context-subcategory={featCategory.toLowerCase()}
+                      data-context-entity-id={feat.id}
+                      data-context-entity-type="feature"
+                      data-context-entity-title={feat.name}
+                      data-context-entity-data={JSON.stringify(getEnrichedFeatureData(feat))}
                       className={`p-2.5 rounded-lg border text-xs flex flex-col justify-between gap-1.5 transition-all group ${
                         acquired
                           ? 'bg-cyan-950/20 border-cyan-500/40 shadow-sm'
@@ -2251,7 +3420,17 @@ export const FeaturesTab = ({
                           cost={discountInfo.isDiscounted ? `${discountInfo.finalCost} CP (Discounted from 3 CP)` : '3 CP'}
                           rules={feat.rules || feat.special_rules}
                           notes={feat.notes}
-                          tags={[featCategory, ...recs.map(r => r.name)]}
+                          tags={[
+                            featCategory, 
+                            getAcquisitionBadgeConfig(feat)?.label ? `Model: ${getAcquisitionBadgeConfig(feat).label}` : null,
+                            (feat.modifier_options?.enabled || (Array.isArray(feat.modifiers) && feat.modifiers.some(m => m.mode === 'group_choice')))
+                              ? (feat.modifier_options?.mode === 'group_pool' || feat.modifiers?.some(m => m.mode === 'group_choice')
+                                  ? `Skill Pool: ${feat.modifier_options?.group_label || feat.modifiers?.find(m => m.mode === 'group_choice')?.target || 'Group'} (Pick up to ${feat.modifier_options?.max_skills || feat.modifiers?.find(m => m.mode === 'group_choice')?.max_choices || 2} at +${feat.modifier_options?.value || feat.modifiers?.find(m => m.mode === 'group_choice')?.value || 2})`
+                                  : `Skill Choice: ${feat.modifier_options?.mode === 'pair' ? 'Pairs' : 'Single'} (${(feat.modifier_options?.options || []).length} Options)`)
+                              : null,
+                            ...recs.map(r => r.name)
+                          ].filter(Boolean)}
+                          adminAction={isAdmin ? { label: 'View / Edit Dataset', onClick: () => handleOpenFeatureDataset(feat) } : null}
                           showInfoIcon={true}
                         >
                           <div className="flex items-center gap-1.5 min-w-0">
@@ -2269,6 +3448,29 @@ export const FeaturesTab = ({
                           <span className={`px-1.5 py-0.5 text-[9px] font-bold uppercase rounded border shrink-0 ${getTypeBadgeStyle(featCategory)}`}>
                             {featCategory}
                           </span>
+                          {(() => {
+                            const acqCfg = getAcquisitionBadgeConfig(feat);
+                            return (
+                              <span 
+                                className={`px-1.5 py-0.5 text-[9px] font-mono uppercase rounded border shrink-0 ${acqCfg.badgeClass}`}
+                                title={acqCfg.title}
+                              >
+                                {acqCfg.label}
+                              </span>
+                            );
+                          })()}
+                          {(feat.modifier_options?.enabled || (Array.isArray(feat.modifiers) && feat.modifiers.some(m => m.mode === 'group_choice'))) && (
+                            <span 
+                              className="px-1.5 py-0.5 text-[9px] font-mono uppercase rounded border border-cyan-700/60 bg-cyan-950/50 text-cyan-300 shrink-0"
+                              title={
+                                feat.modifier_options?.mode === 'group_pool' || feat.modifiers?.some(m => m.mode === 'group_choice')
+                                  ? `Skill Check Modifier: Operator chooses up to ${feat.modifier_options?.max_skills || feat.modifiers?.find(m => m.mode === 'group_choice')?.max_choices || 2} skills (+${feat.modifier_options?.value || feat.modifiers?.find(m => m.mode === 'group_choice')?.value || 2} each)`
+                                  : `Skill Check Modifier: Operator chooses between ${(feat.modifier_options?.options || []).length} ${feat.modifier_options?.mode === 'pair' ? 'skill pairs' : 'skills'}`
+                              }
+                            >
+                              Choice: {feat.modifier_options?.mode === 'group_pool' || feat.modifiers?.some(m => m.mode === 'group_choice') ? 'Skill Group' : (feat.modifier_options?.mode === 'pair' ? 'Pair' : 'Skill')}
+                            </span>
+                          )}
                           {feat.notes && (
                             <span className="text-[10.5px] font-sans text-slate-400 italic truncate" title={feat.notes}>
                               {feat.notes}
@@ -2289,6 +3491,20 @@ export const FeaturesTab = ({
                               {discountInfo.finalCost} CP
                             </span>
                           </div>
+
+                          {isAdmin && (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleOpenFeatureDataset(feat);
+                              }}
+                              className="p-1 rounded text-slate-400 hover:text-cyan-300 hover:bg-slate-900 border border-transparent hover:border-cyan-500/50 transition-colors cursor-pointer"
+                              title={`View / Edit ${feat.name} Dataset (Matrix Studio)`}
+                            >
+                              <Edit3 className="w-3.5 h-3.5" />
+                            </button>
+                          )}
 
                           {!acquired ? (
                             !isPurchasable ? (
@@ -2320,6 +3536,12 @@ export const FeaturesTab = ({
                                   rank: 1,
                                   max_rank: feat.max_rank || (feat.is_ranked ? 5 : undefined),
                                   is_multiple: !!feat.is_multiple,
+                                  multi: !!feat.multi,
+                                  staged: !!feat.staged,
+                                  acquisition_type: feat.acquisition_type || (feat.is_multiple ? 'Multiple' : feat.is_ranked ? 'Staged' : 'Basic'),
+                                  modifier_options: feat.modifier_options || { enabled: false, mode: 'single', value: 2, options: [] },
+                                  selected_option_id: feat.selected_option_id || '',
+                                  selected_skills: Array.isArray(feat.selected_skills) ? feat.selected_skills : [],
                                   prerequisites: feat.prerequisites || '',
                                   modifiers: Array.isArray(feat.modifiers) ? feat.modifiers : [],
                                   costs: {
@@ -2348,8 +3570,54 @@ export const FeaturesTab = ({
                             <div className="flex items-center gap-1">
                               <span className="text-[10px] font-mono text-cyan-400 font-bold flex items-center gap-1 px-1.5 py-0.5 rounded bg-cyan-950/60 border border-cyan-800/60">
                                 <Check className="w-3 h-3" />
-                                <span>In Folio</span>
+                                <span>In Folio{feat.acquiredCount > 1 ? ` (${feat.acquiredCount})` : ''}</span>
                               </span>
+                              {(feat.is_multiple || feat.acquisition_type === 'Multiple' || feat.acquisition_type === 'Multi/Staged') && (
+                                <button
+                                  type="button"
+                                  onClick={() => handleAddItem('features', {
+                                    id: `feat_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+                                    name: feat.name,
+                                    category: featCategory,
+                                    type: (feat.type || featCategory || 'general').toLowerCase(),
+                                    cp: discountInfo.finalCost,
+                                    baseCp: discountInfo.baseCost,
+                                    isDiscounted: discountInfo.isDiscounted,
+                                    is_ranked: !!feat.is_ranked,
+                                    rank: 1,
+                                    max_rank: feat.max_rank || (feat.is_ranked ? 5 : undefined),
+                                    is_multiple: true,
+                                    multi: true,
+                                    staged: !!feat.staged,
+                                    acquisition_type: feat.acquisition_type || 'Multiple',
+                                    modifier_options: feat.modifier_options || { enabled: false, mode: 'single', value: 2, options: [] },
+                                    selected_option_id: '',
+                                    selected_skills: [],
+                                    prerequisites: feat.prerequisites || '',
+                                    modifiers: Array.isArray(feat.modifiers) ? feat.modifiers : [],
+                                    costs: {
+                                      bp: discountInfo.finalCost,
+                                      credits: 0,
+                                      nodes: 0,
+                                      sockets: 0,
+                                      strain: 0,
+                                      focus: 0,
+                                      ap: 0
+                                    },
+                                    description: feat.description || '',
+                                    mechanic: feat.mechanic || feat.mechanics || '',
+                                    rules: feat.rules || feat.special_rules || '',
+                                    special_rules: feat.special_rules || feat.rules || '',
+                                    notes: feat.notes || '',
+                                    notesList: Array.isArray(feat.notesList) ? feat.notesList : []
+                                  })}
+                                  className="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-blue-950 hover:bg-blue-900 border border-blue-600 text-blue-200 transition-all flex items-center gap-0.5 cursor-pointer"
+                                  title="Add another copy of this multiple-acquisition feature for a different asset or purpose"
+                                >
+                                  <Plus className="w-2.5 h-2.5" />
+                                  <span>Another</span>
+                                </button>
+                              )}
                               <button
                                 type="button"
                                 onClick={() => {
@@ -2379,28 +3647,6 @@ export const FeaturesTab = ({
       {/* ══════════════════════════════════════════════════════════════════ */}
       {selectedSubTab === 'traits' && (
         <div className="space-y-5">
-          {/* Sub-Header */}
-          <div className="bg-slate-900/80 border border-emerald-900/60 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-            <div>
-              <h3 className="text-sm font-bold uppercase tracking-wider text-emerald-300 flex items-center gap-2">
-                <Award className="w-4 h-4 text-emerald-400" />
-                <span>Column Heritage Traits</span>
-                <span className="text-xs font-mono text-slate-400 font-normal">
-                  (1 CP Flat &bull; Half-Features &bull; Column-Bound)
-                </span>
-              </h3>
-              <p className="text-[11px] text-slate-400 mt-0.5">
-                Traits are direct aspects of your character's build. They cost <strong>1 CP each</strong> (never discounted) and are chosen strictly from your active <strong>Species, Origin, Occupation, and Faction</strong> columns (including secondary choices).
-              </p>
-            </div>
-
-            <div className="flex items-center gap-2 font-mono text-xs">
-              <span className="px-2.5 py-1 rounded bg-emerald-950 border border-emerald-700 text-emerald-300 font-bold">
-                Acquired: {characterTraits.length} ({totalTraitsCP} CP)
-              </span>
-            </div>
-          </div>
-
           {/* Acquired Column Heritage Traits Bar */}
           {characterTraits.length > 0 && (
             <div className="bg-slate-900/80 border border-emerald-900/50 rounded-xl p-3 space-y-2">
@@ -2423,7 +3669,14 @@ export const FeaturesTab = ({
                   return (
                     <div
                       key={`acq_t_${tIdx}`}
-                      className="p-2 rounded-lg border border-emerald-900/40 bg-slate-950/80 flex flex-col justify-between gap-1.5 text-xs hover:border-emerald-700/60 transition-colors"
+                      data-context-zone="folio"
+                      data-context-category="traits"
+                      data-context-subcategory="traits"
+                      data-context-entity-id={t.id || t.name}
+                      data-context-entity-type="trait"
+                      data-context-entity-title={tName}
+                      data-context-entity-data={JSON.stringify(getEnrichedTraitData(t))}
+                      className="p-2 rounded-lg border border-emerald-900/40 bg-slate-950/80 flex flex-col justify-between gap-1.5 text-xs hover:border-emerald-700/60 transition-colors group"
                     >
                       <div className="flex items-center justify-between gap-2 w-full">
                         <div className="flex items-center gap-1.5 min-w-0 flex-1">
@@ -2436,6 +3689,7 @@ export const FeaturesTab = ({
                             modifiers={Array.isArray(t.modifiers) ? t.modifiers : []}
                             cost={tCost}
                             tags={[t.trait_tier || 'Basic', tCol].filter(Boolean)}
+                            adminAction={isAdmin ? { label: 'View / Edit Dataset', onClick: () => handleOpenTraitDataset(t, t.sourceIndex ?? tIdx) } : null}
                             showInfoIcon={true}
                           >
                             <h5 className="font-bold text-xs text-slate-100 truncate hover:text-emerald-300 transition-colors">
@@ -2447,6 +3701,19 @@ export const FeaturesTab = ({
                           <span className="text-[9.5px] font-mono font-bold px-1.5 py-0.2 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">
                             {tCost}
                           </span>
+                          {isAdmin && (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleOpenTraitDataset(t, t.sourceIndex ?? tIdx);
+                              }}
+                              className="text-slate-400 hover:text-emerald-300 text-xs p-1 rounded hover:bg-slate-900 border border-transparent hover:border-emerald-500/50 transition-colors cursor-pointer"
+                              title={`View / Edit ${tName} Dataset (Matrix Studio)`}
+                            >
+                              <Edit3 className="w-3 h-3" />
+                            </button>
+                          )}
                           <button
                             type="button"
                             onClick={() => handleRemoveTrait(t)}
@@ -2542,7 +3809,14 @@ export const FeaturesTab = ({
                       return (
                         <div
                           key={`${trait.id || trait.name}_${idx}`}
-                          className={`p-2.5 rounded-lg border text-xs flex flex-col justify-between gap-1.5 transition-all ${
+                          data-context-zone="folio"
+                          data-context-category="traits"
+                          data-context-subcategory="traits"
+                          data-context-entity-id={trait.id || trait.name}
+                          data-context-entity-type="trait"
+                          data-context-entity-title={trait.name}
+                          data-context-entity-data={JSON.stringify(getEnrichedTraitData(trait))}
+                          className={`p-2.5 rounded-lg border text-xs flex flex-col justify-between gap-1.5 transition-all group ${
                             acquired
                               ? 'bg-cyan-950/20 border-cyan-500/50 shadow-sm'
                               : isPrereqUnmet
@@ -2564,6 +3838,7 @@ export const FeaturesTab = ({
                               prerequisiteUnmetReasons={prereqResult.unmetReasons}
                               cost={costDisplay}
                               tags={[trait.trait_tier || 'Basic', trait.sourceDetail || 'Species Trait'].filter(Boolean)}
+                              adminAction={isAdmin ? { label: 'View / Edit Dataset', onClick: () => handleOpenTraitDataset(trait) } : null}
                               showInfoIcon={true}
                             >
                               <h5 className="font-bold text-slate-100 text-xs group-hover:text-cyan-300 transition-colors">
@@ -2605,6 +3880,19 @@ export const FeaturesTab = ({
                               <span className="px-1.5 py-0.5 rounded text-[9.5px] font-mono bg-cyan-950 text-cyan-300 border border-cyan-800 font-bold shrink-0">
                                 {costDisplay}
                               </span>
+                              {isAdmin && (
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleOpenTraitDataset(trait);
+                                  }}
+                                  className="p-1 rounded text-slate-400 hover:text-cyan-300 hover:bg-slate-900 border border-transparent hover:border-cyan-500/50 transition-colors cursor-pointer"
+                                  title={`View / Edit ${trait.name} Dataset (Matrix Studio)`}
+                                >
+                                  <Edit3 className="w-3.5 h-3.5" />
+                                </button>
+                              )}
                               {!acquired ? (
                                 isPrereqUnmet ? (
                                   <button
@@ -2706,7 +3994,14 @@ export const FeaturesTab = ({
                       return (
                         <div
                           key={`${trait.id || trait.name}_${idx}`}
-                          className={`p-2.5 rounded-lg border text-xs flex flex-col justify-between gap-1.5 transition-all ${
+                          data-context-zone="folio"
+                          data-context-category="traits"
+                          data-context-subcategory="traits"
+                          data-context-entity-id={trait.id || trait.name}
+                          data-context-entity-type="trait"
+                          data-context-entity-title={trait.name}
+                          data-context-entity-data={JSON.stringify(getEnrichedTraitData(trait))}
+                          className={`p-2.5 rounded-lg border text-xs flex flex-col justify-between gap-1.5 transition-all group ${
                             acquired
                               ? 'bg-emerald-950/20 border-emerald-500/50 shadow-sm'
                               : isPrereqUnmet
@@ -2728,6 +4023,7 @@ export const FeaturesTab = ({
                               prerequisiteUnmetReasons={prereqResult.unmetReasons}
                               cost={costDisplay}
                               tags={[trait.trait_tier || 'Basic', trait.sourceDetail || 'Origin Trait'].filter(Boolean)}
+                              adminAction={isAdmin ? { label: 'View / Edit Dataset', onClick: () => handleOpenTraitDataset(trait) } : null}
                               showInfoIcon={true}
                             >
                               <h5 className="font-bold text-slate-100 text-xs group-hover:text-emerald-300 transition-colors">
@@ -2753,6 +4049,19 @@ export const FeaturesTab = ({
                               <span className="px-1.5 py-0.5 rounded text-[9.5px] font-mono bg-emerald-950 text-emerald-300 border border-emerald-800 font-bold shrink-0">
                                 {costDisplay}
                               </span>
+                              {isAdmin && (
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleOpenTraitDataset(trait);
+                                  }}
+                                  className="p-1 rounded text-slate-400 hover:text-emerald-300 hover:bg-slate-900 border border-transparent hover:border-emerald-500/50 transition-colors cursor-pointer"
+                                  title={`View / Edit ${trait.name} Dataset (Matrix Studio)`}
+                                >
+                                  <Edit3 className="w-3.5 h-3.5" />
+                                </button>
+                              )}
                               {!acquired ? (
                                 isPrereqUnmet ? (
                                   <button
@@ -2854,7 +4163,14 @@ export const FeaturesTab = ({
                       return (
                         <div
                           key={`${trait.id || trait.name}_${idx}`}
-                          className={`p-2.5 rounded-lg border text-xs flex flex-col justify-between gap-1.5 transition-all ${
+                          data-context-zone="folio"
+                          data-context-category="traits"
+                          data-context-subcategory="traits"
+                          data-context-entity-id={trait.id || trait.name}
+                          data-context-entity-type="trait"
+                          data-context-entity-title={trait.name}
+                          data-context-entity-data={JSON.stringify(getEnrichedTraitData(trait))}
+                          className={`p-2.5 rounded-lg border text-xs flex flex-col justify-between gap-1.5 transition-all group ${
                             acquired
                               ? 'bg-sky-950/20 border-sky-500/50 shadow-sm'
                               : isPrereqUnmet
@@ -2876,6 +4192,7 @@ export const FeaturesTab = ({
                               prerequisiteUnmetReasons={prereqResult.unmetReasons}
                               cost={costDisplay}
                               tags={[trait.trait_tier || 'Basic', trait.sourceDetail || 'Occupation Trait'].filter(Boolean)}
+                              adminAction={isAdmin ? { label: 'View / Edit Dataset', onClick: () => handleOpenTraitDataset(trait) } : null}
                               showInfoIcon={true}
                             >
                               <h5 className="font-bold text-slate-100 text-xs group-hover:text-sky-300 transition-colors">
@@ -2901,6 +4218,19 @@ export const FeaturesTab = ({
                               <span className="px-1.5 py-0.5 rounded text-[9.5px] font-mono bg-sky-950 text-sky-300 border border-sky-800 font-bold shrink-0">
                                 {costDisplay}
                               </span>
+                              {isAdmin && (
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleOpenTraitDataset(trait);
+                                  }}
+                                  className="p-1 rounded text-slate-400 hover:text-sky-300 hover:bg-slate-900 border border-transparent hover:border-sky-500/50 transition-colors cursor-pointer"
+                                  title={`View / Edit ${trait.name} Dataset (Matrix Studio)`}
+                                >
+                                  <Edit3 className="w-3.5 h-3.5" />
+                                </button>
+                              )}
                               {!acquired ? (
                                 isPrereqUnmet ? (
                                   <button
@@ -3002,7 +4332,14 @@ export const FeaturesTab = ({
                         return (
                           <div
                             key={`${trait.id || trait.name}_${idx}`}
-                            className={`p-2.5 rounded-lg border text-xs flex flex-col justify-between gap-1.5 transition-all ${
+                            data-context-zone="folio"
+                            data-context-category="traits"
+                            data-context-subcategory="traits"
+                            data-context-entity-id={trait.id || trait.name}
+                            data-context-entity-type="trait"
+                            data-context-entity-title={trait.name}
+                            data-context-entity-data={JSON.stringify(getEnrichedTraitData(trait))}
+                            className={`p-2.5 rounded-lg border text-xs flex flex-col justify-between gap-1.5 transition-all group ${
                               acquired
                                 ? 'bg-purple-950/20 border-purple-500/50 shadow-sm'
                                 : isPrereqUnmet
@@ -3024,6 +4361,7 @@ export const FeaturesTab = ({
                                 prerequisiteUnmetReasons={prereqResult.unmetReasons}
                                 cost={costDisplay}
                                 tags={[trait.trait_tier || 'Basic', trait.sourceDetail || 'Faction Trait'].filter(Boolean)}
+                                adminAction={isAdmin ? { label: 'View / Edit Dataset', onClick: () => handleOpenTraitDataset(trait) } : null}
                                 showInfoIcon={true}
                               >
                                 <h5 className="font-bold text-slate-100 text-xs group-hover:text-purple-300 transition-colors">
@@ -3049,6 +4387,19 @@ export const FeaturesTab = ({
                                 <span className="px-1.5 py-0.5 rounded text-[9.5px] font-mono bg-purple-950 text-purple-300 border border-purple-800 font-bold shrink-0">
                                   {costDisplay}
                                 </span>
+                                {isAdmin && (
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleOpenTraitDataset(trait);
+                                    }}
+                                    className="p-1 rounded text-slate-400 hover:text-purple-300 hover:bg-slate-900 border border-transparent hover:border-purple-500/50 transition-colors cursor-pointer"
+                                    title={`View / Edit ${trait.name} Dataset (Matrix Studio)`}
+                                  >
+                                    <Edit3 className="w-3.5 h-3.5" />
+                                  </button>
+                                )}
                                 {!acquired ? (
                                   isPrereqUnmet ? (
                                     <button
@@ -3129,17 +4480,6 @@ export const FeaturesTab = ({
                 Awakening a discipline costs 3 CP, unlocking the discipline and its paired skills. Attune is unlocked with your first awakening.
               </p>
             </div>
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="px-2.5 py-1 bg-purple-950/80 border border-purple-800 text-purple-300 text-xs font-mono font-bold rounded">
-                {awakenedList.length} Awakened ({totalAwakenedCP} CP)
-              </span>
-              <span className="px-2.5 py-1 bg-purple-950/80 border border-purple-800 text-purple-300 text-xs font-mono font-bold rounded">
-                {learnedInvocations.length} Invocations ({totalInvocationsCP} CP)
-              </span>
-              <span className="px-2.5 py-1 bg-amber-950/80 border border-amber-800 text-amber-300 text-xs font-mono font-bold rounded">
-                {totalMetaphysicsCP} CP Total
-              </span>
-            </div>
           </div>
 
           {/* Inner Tabs: Disciplines vs Invocations */}
@@ -3171,17 +4511,6 @@ export const FeaturesTab = ({
                 <span>Invocations &amp; Special Abilities ({characterPowers.length})</span>
               </button>
             </div>
-
-            <button
-              type="button"
-              onClick={() => {
-                if (onOpenMetaphysicsModal) onOpenMetaphysicsModal();
-              }}
-              className="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 border border-purple-500/50 text-purple-200 hover:text-white rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer"
-            >
-              <BookOpen size={12} className="text-purple-400" />
-              <span>Launch Full Codex</span>
-            </button>
           </div>
 
           {/* TAB 1: Disciplines */}
@@ -3371,6 +4700,13 @@ export const FeaturesTab = ({
                     return (
                       <div
                         key={power.id || `${power.powerType}_${pIdx}`}
+                        data-context-zone="folio"
+                        data-context-category={isInv ? "invocations" : "features"}
+                        data-context-subcategory={isInv ? "invocations" : (power.discipline || "metaphysics")}
+                        data-context-entity-id={power.id || power.name}
+                        data-context-entity-type={isInv ? "invocation" : "feature"}
+                        data-context-entity-title={powerName}
+                        data-context-entity-data={JSON.stringify(isInv ? getEnrichedInvocationData(power) : power)}
                         className="group relative flex flex-col justify-between gap-1.5 p-2.5 rounded-xl bg-slate-950/80 border border-purple-900/40 hover:border-purple-600/70 hover:bg-slate-900/90 transition-all shadow-sm"
                       >
                         {/* Line 1: Complete Name + Tooltip Info */}
@@ -3385,6 +4721,16 @@ export const FeaturesTab = ({
                             rules={power.rules || power.rule}
                             notes={power.notes || power.effect}
                             showInfoIcon={true}
+                            adminAction={isAdmin ? {
+                              label: isInv ? 'View / Edit Invocation Dataset' : 'View / Edit Dataset',
+                              onClick: () => {
+                                if (isInv) {
+                                  handleOpenInvocationDataset(power, power.sourceIndex);
+                                } else {
+                                  handleOpenFeatureDataset(power, power.sourceIndex);
+                                }
+                              }
+                            } : null}
                           >
                             <h4 className="font-bold text-xs text-slate-100 group-hover:text-purple-300 transition-colors">
                               {powerName}
@@ -3434,6 +4780,20 @@ export const FeaturesTab = ({
                               <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-amber-300 font-bold">
                                 {power.cp || 5} CP
                               </span>
+                            )}
+
+                            {isAdmin && (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  if (isInv) handleOpenInvocationDataset(power, power.sourceIndex);
+                                  else handleOpenFeatureDataset(power, power.sourceIndex);
+                                }}
+                                className="p-1 text-slate-400 hover:text-cyan-300 rounded transition-colors cursor-pointer"
+                                title={isInv ? "View / Edit Invocation Dataset" : "View / Edit Dataset"}
+                              >
+                                <Edit3 className="w-3.5 h-3.5" />
+                              </button>
                             )}
 
                             <button
@@ -3501,15 +4861,23 @@ export const FeaturesTab = ({
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {hindrancesList.map((item) => {
-                const name = typeof item === 'object' ? (item.name || item.title) : item;
-                const refundCp = typeof item === 'object' && item.cp !== undefined ? item.cp : 3;
-                const desc = typeof item === 'object' ? (item.description || item.summary || '') : '';
-                const hindMechanic = typeof item === 'object' ? (item.mechanic || item.mechanics || '') : '';
-                const notes = typeof item === 'object' ? (item.notes || item.note) : '';
+                const enrichedHindrance = getEnrichedHindranceData(item);
+                const name = enrichedHindrance.name || (typeof item === 'object' ? (item.name || item.title) : item);
+                const refundCp = enrichedHindrance.cp !== undefined ? enrichedHindrance.cp : (typeof item === 'object' && item.cp !== undefined ? item.cp : 3);
+                const desc = enrichedHindrance.description || (typeof item === 'object' ? (item.description || item.summary || '') : '');
+                const hindMechanic = enrichedHindrance.mechanics || enrichedHindrance.mechanic || (typeof item === 'object' ? (item.mechanic || item.mechanics || '') : '');
+                const notes = enrichedHindrance.notes || (typeof item === 'object' ? (item.notes || item.note) : '');
 
                 return (
                   <div
                     key={item.originalIndex}
+                    data-context-zone="folio"
+                    data-context-category="disadvantages"
+                    data-context-subcategory="hindrances"
+                    data-context-entity-id={enrichedHindrance.id || name}
+                    data-context-entity-type="hindrance"
+                    data-context-entity-title={name}
+                    data-context-entity-data={JSON.stringify(enrichedHindrance)}
                     className="group relative flex flex-col justify-between gap-1.5 p-2.5 bg-slate-950/80 border border-slate-800 hover:border-rose-800/70 hover:bg-slate-900/90 rounded-xl transition-all shadow-sm"
                   >
                     {/* Line 1: Complete Name + Tooltip Info */}
@@ -3523,9 +4891,13 @@ export const FeaturesTab = ({
                           description={desc || 'No description provided.'}
                           cost={`-${refundCp} CP Refund`}
                           modifiers={hindMechanic ? [{ label: 'Mechanic', value: hindMechanic }] : []}
-                          rules={typeof item === 'object' ? (item.rules || item.rule) : undefined}
+                          rules={enrichedHindrance.rules || (typeof item === 'object' ? (item.rules || item.rule) : undefined)}
                           notes={notes}
                           showInfoIcon={true}
+                          adminAction={(isAdmin || Boolean(onOpenAssetModal)) ? {
+                            label: 'View / Edit Dataset',
+                            onClick: () => handleOpenHindranceDataset(item, item.sourceIndex ?? item.originalIndex)
+                          } : null}
                         >
                           <span className="text-xs font-semibold text-slate-100 hover:text-rose-300 transition-colors">
                             {name}
@@ -3557,12 +4929,12 @@ export const FeaturesTab = ({
                           -{refundCp} CP
                         </span>
 
-                        {onOpenAssetModal && (
+                        {(isAdmin || Boolean(onOpenAssetModal)) && (
                           <button
                             type="button"
-                            onClick={() => onOpenAssetModal('disadvantages', 'Hindrance', 'edit', item.originalIndex, item)}
+                            onClick={() => handleOpenHindranceDataset(item, item.sourceIndex ?? item.originalIndex)}
                             className="text-slate-400 hover:text-cyan-300 text-xs p-1 rounded hover:bg-slate-900 transition-colors cursor-pointer"
-                            title="Edit hindrance"
+                            title="View / Edit Hindrance Dataset"
                           >
                             <Edit3 className="w-3.5 h-3.5" />
                           </button>

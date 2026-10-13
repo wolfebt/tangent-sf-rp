@@ -148,8 +148,8 @@ export const TraitChoiceModal = ({
   const badgeColor = config.badgeColor || '#a855f7';
 
   return (
-    <div className="fixed inset-0 z-[350] bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 animate-fade-in font-mono">
-      <div className="w-full max-w-2xl bg-[#080c16] border border-slate-700/80 rounded-2xl shadow-[0_25px_60px_rgba(0,0,0,0.95)] flex flex-col max-h-[92vh] overflow-hidden">
+    <div className="fixed inset-0 z-[350] bg-black/85 backdrop-blur-md flex items-start sm:items-center justify-center p-3 sm:p-4 pt-10 sm:pt-16 pb-8 overflow-y-auto animate-fade-in font-mono">
+      <div className="w-full max-w-2xl bg-[#080c16] border-2 border-cyan-400/80 rounded-2xl shadow-[0_0_40px_rgba(6,182,212,0.3)] flex flex-col my-auto max-h-[calc(100vh-4rem)] sm:max-h-[92vh] overflow-hidden">
         {/* Header */}
         <div className="p-4 border-b border-slate-800 bg-slate-950/80 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">

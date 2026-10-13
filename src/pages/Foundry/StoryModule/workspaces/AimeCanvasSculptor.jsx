@@ -547,8 +547,8 @@ export default function AimeCanvasSculptor({
 
       {/* ── PROPOSAL & DIFF REVIEW MODAL ── */}
       {proposal && (
-        <div className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto font-mono select-none">
-          <div className="w-full max-w-4xl bg-slate-950 border border-cyan-500/60 rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.25)] flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+        <div className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-md flex items-start sm:items-center justify-center p-3 sm:p-6 pt-10 sm:pt-16 pb-8 overflow-y-auto font-mono select-none">
+          <div className="w-full max-w-4xl bg-slate-950 border-2 border-cyan-400/80 rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.35)] flex flex-col my-auto max-h-[calc(100vh-4rem)] sm:max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
             {/* Header */}
             <div className="px-5 py-3.5 border-b border-slate-800 bg-slate-900/90 flex items-center justify-between gap-3 shrink-0 flex-wrap">
               <div className="flex items-center gap-2.5">

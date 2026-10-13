@@ -245,11 +245,11 @@ export const CreateScenarioModal = ({
   return (
     <div 
       onClick={handleBackdropClick}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4 overflow-y-auto font-mono"
+      className="fixed inset-0 z-50 flex items-start sm:items-center justify-center bg-black/75 backdrop-blur-sm p-4 pt-10 sm:pt-16 pb-8 overflow-y-auto font-mono"
     >
       <div 
         onClick={(e) => e.stopPropagation()}
-        className="bg-[#0b101d] border border-cyan-500/40 rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-[0_0_50px_rgba(6,182,212,0.25)] overflow-hidden animate-in fade-in zoom-in-95 duration-150 text-slate-200"
+        className="bg-[#0b101d] border-2 border-cyan-400/80 rounded-2xl w-full max-w-2xl my-auto max-h-[calc(100vh-4rem)] sm:max-h-[90vh] flex flex-col shadow-[0_0_50px_rgba(6,182,212,0.35)] overflow-hidden animate-in fade-in zoom-in-95 duration-150 text-slate-200"
       >
         
         {/* Modal Header */}

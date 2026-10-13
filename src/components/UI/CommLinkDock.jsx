@@ -48,13 +48,13 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
     <>
       {/* Centered Modal Backdrop */}
       <div 
-        className="fixed inset-0 z-[100] flex items-center justify-center p-2 sm:p-4 md:p-6 bg-black/80 backdrop-blur-md animate-fadeIn select-none"
+        className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center p-2 sm:p-4 md:p-6 pt-8 sm:pt-14 pb-8 overflow-y-auto bg-black/80 backdrop-blur-md animate-fadeIn select-none"
         onClick={onClose}
       >
         {/* Main Modal Card Container */}
         <div 
           onClick={(e) => e.stopPropagation()}
-          className="w-full max-w-5xl h-[92vh] sm:h-[86vh] max-h-[880px] bg-[#0b0f17] border border-cyan-500/50 rounded-2xl shadow-[0_0_60px_rgba(0,0,0,0.9)] flex flex-col overflow-hidden relative font-sans"
+          className="w-full max-w-5xl my-auto max-h-[calc(100vh-4rem)] sm:max-h-[86vh] h-[92vh] sm:h-[86vh] bg-[#0b0f17] border-2 border-cyan-400/80 rounded-2xl shadow-[0_0_60px_rgba(6,182,212,0.3)] flex flex-col overflow-hidden relative font-sans"
         >
           {/* Top Modal Header */}
           <div className="px-3 sm:px-4 py-2 bg-slate-950/95 border-b border-slate-800 flex items-center justify-between gap-2 shrink-0">

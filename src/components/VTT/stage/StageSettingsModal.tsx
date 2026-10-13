@@ -153,11 +153,11 @@ export const StageSettingsModal: React.FC<StageSettingsModalProps> = ({
 
   return (
     <div 
-      className="fixed inset-0 z-[250] flex items-center justify-center bg-black/85 backdrop-blur-md p-3 sm:p-6 select-none font-mono animate-in fade-in duration-150"
+      className="fixed inset-0 z-[250] flex items-start sm:items-center justify-center bg-black/85 backdrop-blur-md p-3 sm:p-6 pt-10 sm:pt-16 pb-8 overflow-y-auto select-none font-mono animate-in fade-in duration-150"
       onClick={onClose}
     >
       <div 
-        className="bg-[#0b121d] border border-cyan-500/70 rounded-2xl p-5 w-full max-w-3xl shadow-[0_0_50px_rgba(6,182,212,0.3)] text-white flex flex-col gap-4 max-h-[88vh] overflow-hidden"
+        className="bg-[#0b121d] border-2 border-cyan-400/80 rounded-2xl p-5 w-full max-w-3xl my-auto max-h-[calc(100vh-4rem)] sm:max-h-[88vh] shadow-[0_0_50px_rgba(6,182,212,0.35)] text-white flex flex-col gap-4 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Header */}

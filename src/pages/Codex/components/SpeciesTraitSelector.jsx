@@ -2432,7 +2432,7 @@ export const SpeciesTraitSelector = ({
 
       {/* ── EXPANDED FULL-WINDOW TRAITS CATALOG MODAL ── */}
       {isFullWindowCatalog && (
-        <div className="fixed top-[52px] left-0 md:left-18 sm:md:left-20 right-0 bottom-0 z-[95] bg-[#070a13] flex flex-col overflow-hidden select-none animate-fade-in font-mono">
+        <div className="fixed top-[var(--header-height,52px)] left-0 md:left-18 right-0 bottom-0 z-[95] bg-[#070a13] border-2 border-cyan-400/80 shadow-[0_0_30px_rgba(6,182,212,0.25)] flex flex-col overflow-hidden select-none animate-fade-in font-mono">
           {/* Full Window Header */}
           <div className="flex items-center justify-between px-6 py-4 border-b border-purple-500/30 bg-purple-950/40">
             <div className="flex items-center gap-3">

@@ -267,6 +267,25 @@ export function formatModifierNotes(modifiers = [], rules = '', item = {}) {
   if (item.is_multiple) {
     notes.push('[Rule] Multiple: May be purchased separately for different categories/types');
   }
+  const isGroupPool = item.modifier_options?.mode === 'group_pool' || (Array.isArray(item.modifiers) && item.modifiers.some(m => m.mode === 'group_choice'));
+  if (isGroupPool) {
+    const selected = Array.isArray(item.selected_skills) ? item.selected_skills : (item.selected_skill ? [item.selected_skill] : []);
+    const groupChoiceMod = Array.isArray(item.modifiers) ? item.modifiers.find(m => m.mode === 'group_choice') : null;
+    const max = item.modifier_options?.max_skills || groupChoiceMod?.max_choices || 2;
+    const val = item.modifier_options?.value || groupChoiceMod?.value || 2;
+    if (selected.length > 0) {
+      notes.push(`[Skill Group Choice] Active: ${selected.join(', ')} (+${val})`);
+    } else {
+      notes.push(`[Skill Group Choice] Pick up to ${max} skills (+${val})`);
+    }
+  } else if (item.modifier_options?.enabled && Array.isArray(item.modifier_options.options)) {
+    const active = item.modifier_options.options.find(o => o.id === item.selected_option_id);
+    if (active) {
+      notes.push(`[Skill Choice] Active: ${active.label || active.id}`);
+    } else {
+      notes.push(`[Skill Choice] ${item.modifier_options.options.length} options available (${item.modifier_options.mode === 'pair' ? 'Pairs' : 'Single Skill'})`);
+    }
+  }
   if (rules && typeof rules === 'string' && rules.trim()) {
     const cleanRule = rules.replace(/^#+\s*Special Rules\s*/i, '').trim();
     if (cleanRule && !notes.some(n => n.includes(cleanRule.slice(0, 20)))) {
@@ -730,6 +749,52 @@ export function getSkillCheckBreakdown(skill, characterData = {}, dbData = {}, e
             }
           }
         });
+      }
+
+      // Check choice-based modifier_options (group_pool or single/pair options) or group_choice modifiers
+      const rawOptions = (typeof raw === 'object' && raw.modifier_options) ? raw.modifier_options : enriched.modifier_options;
+      const groupChoiceMod = Array.isArray(enriched.modifiers) ? enriched.modifiers.find(m => m.type === 'skill' && m.mode === 'group_choice') : null;
+
+      if ((rawOptions && rawOptions.enabled && rawOptions.mode === 'group_pool') || groupChoiceMod) {
+        const optValue = parseInt(rawOptions?.value ?? groupChoiceMod?.value ?? 2, 10) || 2;
+        const selectedSkills = Array.isArray(raw?.selected_skills) 
+          ? raw.selected_skills 
+          : (raw?.selected_skill ? [raw.selected_skill] : (Array.isArray(enriched?.selected_skills) ? enriched.selected_skills : []));
+        const groupLabel = rawOptions?.group_label || groupChoiceMod?.group_label || groupChoiceMod?.target || 'Skill Group Choice';
+
+        selectedSkills.forEach(skillTarget => {
+          if (isSkillTargetMatch(skillObj, skillTarget)) {
+            addModifier({
+              source: `${srcName} [${skillTarget}]`,
+              sourceType: defaultSourceType,
+              target: skillTarget,
+              value: optValue,
+              description: `${srcName}: ${optValue >= 0 ? '+' : ''}${optValue} to ${skillTarget} (${groupLabel})`
+            });
+          }
+        });
+      } else if (rawOptions && rawOptions.enabled && Array.isArray(rawOptions.options) && rawOptions.options.length > 0) {
+        const selectedId = (typeof raw === 'object' && raw.selected_option_id) ? raw.selected_option_id : enriched.selected_option_id;
+        const activeOption = rawOptions.options.find(opt => opt.id === selectedId) || (rawOptions.options.length === 1 ? rawOptions.options[0] : null);
+        
+        if (activeOption) {
+          const optValue = parseInt(activeOption.value !== undefined ? activeOption.value : (rawOptions.value || 2), 10) || 2;
+          const targetSkills = Array.isArray(activeOption.skills) 
+            ? activeOption.skills 
+            : (activeOption.skill ? [activeOption.skill] : []);
+            
+          targetSkills.forEach(skillTarget => {
+            if (isSkillTargetMatch(skillObj, skillTarget)) {
+              addModifier({
+                source: `${srcName} [${activeOption.label || activeOption.id || 'Selected Option'}]`,
+                sourceType: defaultSourceType,
+                target: skillTarget,
+                value: optValue,
+                description: `${srcName}: ${optValue >= 0 ? '+' : ''}${optValue} to ${skillTarget} (${activeOption.label || activeOption.id})`
+              });
+            }
+          });
+        }
       }
     });
   };

@@ -27,11 +27,11 @@ export default function NewStoryModal({ isOpen, onClose, onCreateStory }) {
   return (
     <div 
       onClick={handleBackdropClick}
-      className="fixed inset-0 z-[300] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 font-mono select-none"
+      className="fixed inset-0 z-[300] flex items-start sm:items-center justify-center bg-black/80 backdrop-blur-sm p-4 pt-10 sm:pt-16 pb-8 overflow-y-auto font-mono select-none"
     >
       <div 
         onClick={(e) => e.stopPropagation()}
-        className="bg-slate-900 border border-cyan-500/70 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-150"
+        className="bg-slate-900 border-2 border-cyan-400/80 rounded-2xl max-w-md w-full my-auto max-h-[calc(100vh-4rem)] p-6 shadow-[0_0_40px_rgba(6,182,212,0.3)] space-y-4 animate-in fade-in zoom-in-95 duration-150"
       >
         <div className="flex items-center justify-between border-b border-slate-800 pb-3">
           <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-2">

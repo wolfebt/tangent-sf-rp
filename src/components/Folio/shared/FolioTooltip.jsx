@@ -46,6 +46,7 @@ export const FolioTooltip = ({
   attrBreakdown = null,
   associatedEquipment = null,
   delay = 1000,
+  adminAction = null,
   children
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -300,7 +301,8 @@ export const FolioTooltip = ({
     formattedPrerequisites || 
     cost || 
     skillBreakdown || 
-    equippedItems.length > 0
+    equippedItems.length > 0 ||
+    adminAction
   );
   if (!hasContent) {
     return children || null;
@@ -605,6 +607,25 @@ export const FolioTooltip = ({
                 {tag}
               </span>
             ))}
+          </div>
+        )}
+
+        {/* Admin / Dev Dataset Action */}
+        {adminAction && (
+          <div className="pt-1.5 mt-1 border-t border-cyan-900/60 flex items-center justify-center">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                hideTooltip();
+                adminAction.onClick?.();
+              }}
+              className="px-2.5 py-0.5 rounded text-[9.5px] font-mono font-bold bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/70 hover:border-cyan-400 text-cyan-300 hover:text-white transition-all shadow-[0_0_8px_rgba(34,211,238,0.2)] flex items-center gap-1 cursor-pointer"
+              title="Open dataset in Codex Matrix Studio for testing and revision"
+            >
+              <span>🛠️</span>
+              <span>{adminAction.label || 'View / Edit Dataset'}</span>
+            </button>
           </div>
         )}
       </div>

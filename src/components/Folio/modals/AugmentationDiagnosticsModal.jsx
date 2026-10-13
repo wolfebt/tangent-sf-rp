@@ -38,9 +38,9 @@ export const AugmentationDiagnosticsModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-3 sm:p-6 pt-10 sm:pt-16 pb-8 overflow-y-auto bg-black/80 backdrop-blur-md animate-in fade-in duration-200" onClick={onClose}>
       <div 
-        className="bg-slate-950 border border-cyan-500/50 rounded-2xl w-full max-w-5xl max-h-[92vh] flex flex-col shadow-[0_0_30px_rgba(6,182,212,0.25)] overflow-hidden"
+        className="bg-slate-950 border-2 border-cyan-400/80 rounded-2xl w-full max-w-5xl my-auto max-h-[calc(100vh-4rem)] sm:max-h-[92vh] flex flex-col shadow-[0_0_40px_rgba(6,182,212,0.3)] overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -97,7 +97,7 @@ export const AugmentationDiagnosticsModal = ({
 
             {/* 4 Cards Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              {AUGMENTATION_STAGES.map((stage) => {
+              {Object.values(AUGMENTATION_STAGES).map((stage) => {
                 const isActive = stageInfo.stageId === stage.id;
                 const isAugmented = stage.id === 'augmented';
                 const isHeavy = stage.id === 'heavy';

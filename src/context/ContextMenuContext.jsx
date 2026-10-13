@@ -13,6 +13,13 @@ import { AIME_SYSTEM_PROMPT } from '../services/aimeService';
 import { useFolio } from './FolioContext';
 import { useDBM } from './DBMContext';
 import { useCampaign } from './CampaignContext';
+import { useAuth } from './AuthContext';
+import { getEnrichedSkillData } from '../data/skillsData';
+import { getEnrichedFeatureData } from '../data/featuresData';
+import { getEnrichedTraitData } from '../data/speciesTraitsData';
+import { getEnrichedInvocationData } from '../data/invocationsData';
+import { getEnrichedAugmentationData } from '../data/augmentationsData';
+import { getEnrichedHindranceData } from '../data/speciesDisadvantagesData';
 
 const ContextMenuContext = createContext(null);
 
@@ -32,6 +39,8 @@ export const ContextMenuProvider = ({ children }) => {
   const folioContext = useFolio();
   const dbmContext = useDBM();
   const campaignContext = useCampaign();
+  const authContext = useAuth();
+  const isAdmin = Boolean(authContext?.isAdmin);
 
   // Active Context Menu State
   const [menuState, setMenuState] = useState({
@@ -240,11 +249,13 @@ export const ContextMenuProvider = ({ children }) => {
       pathname: location.pathname,
       folio: folioContext,
       dbm: dbmContext,
-      campaign: campaignContext
+      campaign: campaignContext,
+      isAdmin
     };
 
     const handlers = {
       // General
+      isAdmin,
       activeOperative: folioContext?.activeOperative,
       currentCategoryConfig: dbmContext?.categoryConfig?.[dbmContext?.activeCategory] || dbmContext?.currentConfig,
       // BASTION Handlers
@@ -260,6 +271,82 @@ export const ContextMenuProvider = ({ children }) => {
       // Folio Specific Handlers
       advanceSkill: (skillId) => {
         folioContext?.advanceSkillRank?.(skillId);
+      },
+      openSkillDataset: (skillData) => {
+        closeContextMenu();
+        const enriched = getEnrichedSkillData(skillData);
+        window.dispatchEvent(new CustomEvent('open-folio-asset', {
+          detail: {
+            key: 'skills',
+            title: `${enriched?.name || 'Skill'} Matrix`,
+            mode: 'edit',
+            initialData: enriched
+          }
+        }));
+      },
+      openFeatureDataset: (featureData) => {
+        closeContextMenu();
+        const enriched = getEnrichedFeatureData(featureData);
+        window.dispatchEvent(new CustomEvent('open-folio-asset', {
+          detail: {
+            key: 'features',
+            title: `${enriched?.name || 'Feature'} Matrix`,
+            mode: 'edit',
+            initialData: enriched
+          }
+        }));
+      },
+      openTraitDataset: (traitData) => {
+        closeContextMenu();
+        const enriched = getEnrichedTraitData(traitData);
+        window.dispatchEvent(new CustomEvent('open-folio-asset', {
+          detail: {
+            key: 'traits',
+            title: `${enriched?.name || 'Trait'} Matrix`,
+            mode: 'edit',
+            initialData: enriched
+          }
+        }));
+      },
+      openInvocationDataset: (invData) => {
+        closeContextMenu();
+        const enriched = getEnrichedInvocationData(invData);
+        window.dispatchEvent(new CustomEvent('open-folio-asset', {
+          detail: {
+            key: 'invocations',
+            title: `${enriched?.name || 'Invocation'} Matrix`,
+            mode: 'edit',
+            initialData: enriched
+          }
+        }));
+      },
+      openAugmentationDataset: (augData) => {
+        closeContextMenu();
+        const enriched = getEnrichedAugmentationData(augData);
+        window.dispatchEvent(new CustomEvent('open-folio-asset', {
+          detail: {
+            key: 'augmentations',
+            title: `${enriched?.name || 'Augmentation'} Matrix`,
+            mode: 'edit',
+            initialData: enriched
+          }
+        }));
+      },
+      openHindranceDataset: (hindData) => {
+        closeContextMenu();
+        const enriched = getEnrichedHindranceData(hindData);
+        window.dispatchEvent(new CustomEvent('open-folio-asset', {
+          detail: {
+            key: 'disadvantages',
+            title: `${enriched?.name || 'Hindrance'} Matrix`,
+            mode: 'edit',
+            initialData: enriched
+          }
+        }));
+      },
+      openInDbm: (category, itemSearch) => {
+        closeContextMenu();
+        navigate(`/dbm?cat=${encodeURIComponent(category)}${itemSearch ? `&search=${encodeURIComponent(itemSearch)}` : ''}`);
       },
       rollDice: (rollData) => {
         window.dispatchEvent(new CustomEvent('trigger-dice-roll', { detail: rollData }));
@@ -346,6 +433,7 @@ export const ContextMenuProvider = ({ children }) => {
       const target = e.target;
       const zoneEl = target.closest('[data-context-zone]');
       const categoryEl = target.closest('[data-context-category]');
+      const subcategoryEl = target.closest('[data-context-subcategory]');
       const entityEl = target.closest('[data-context-entity-id]');
       
       const selection = window.getSelection()?.toString().trim() || '';
@@ -357,8 +445,8 @@ export const ContextMenuProvider = ({ children }) => {
         } catch (err) {}
       }
 
-      // Determine Subcategory if not in DOM attribute
-      let subcategory = categoryEl?.dataset?.contextCategory;
+      // Determine Subcategory: prioritize explicit subcategory attribute, then category, then route default
+      let subcategory = subcategoryEl?.dataset?.contextSubcategory || categoryEl?.dataset?.contextCategory;
       if (!subcategory) {
         if (location.pathname.startsWith('/folio')) {
           subcategory = folioContext?.activeTab || 'identity';
@@ -373,6 +461,7 @@ export const ContextMenuProvider = ({ children }) => {
         x: e.clientX,
         y: e.clientY,
         zone: zoneEl?.dataset?.contextZone,
+        category: categoryEl?.dataset?.contextCategory,
         subcategory,
         entityId: entityEl?.dataset?.contextEntityId,
         entityType: entityEl?.dataset?.contextEntityType,

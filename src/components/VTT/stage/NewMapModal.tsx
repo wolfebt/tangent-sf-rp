@@ -151,11 +151,11 @@ export const NewMapModal: React.FC<NewMapModalProps> = ({
   return (
     <div 
       onClick={(e) => handleBackdropClick(e)}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4 overflow-y-auto select-none animate-in fade-in duration-150"
+      className="fixed inset-0 z-50 flex items-start sm:items-center justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4 pt-10 sm:pt-16 pb-8 overflow-y-auto select-none animate-in fade-in duration-150"
     >
       <div 
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-2xl bg-[#090d16] border border-cyan-500/50 rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.2)] overflow-hidden flex flex-col max-h-[92vh] sm:max-h-[90vh]"
+        className="relative w-full max-w-2xl bg-[#090d16] border-2 border-cyan-400/80 rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.3)] overflow-hidden flex flex-col my-auto max-h-[calc(100vh-4rem)] sm:max-h-[90vh]"
       >
         {/* Header */}
         <div className="flex items-center justify-between px-4 sm:px-5 py-3 sm:py-3.5 border-b border-slate-800 bg-[#0c121d] shrink-0">

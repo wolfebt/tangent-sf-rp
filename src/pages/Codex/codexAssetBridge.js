@@ -103,6 +103,7 @@ export const ASSET_COLLECTION_TO_MATRIX_MAP = {
   disadvantage: 'disadvantages',
   species_disadvantages: 'disadvantages',
   hindrances: 'disadvantages',
+  hindrance: 'disadvantages',
 
   // Meta-Abilities & Psionics
   invocations: 'invocation',
@@ -404,6 +405,18 @@ export const adaptItemToCodexFormData = (item, matrix) => {
     base.staged = Boolean(item.staged ?? base.staged);
   }
 
+  // Harmonize Traits Fields
+  if (resolvedMatrix.id === 'traits') {
+    base.trait_type = item.trait_type || item.type || base.trait_type || 'Species Trait';
+    base.trait_tier = item.trait_tier || base.trait_tier || 'Basic';
+    base.classification = item.classification || item.type || base.classification || 'Physical';
+    base.cp = Number(item.cp !== undefined ? item.cp : (base.cp !== undefined ? base.cp : 1));
+    base.bp = Number(item.bp !== undefined ? item.bp : base.cp);
+    base.description = item.description || item.desc || base.description || '';
+    base.mechanic = item.mechanic || item.mechanics || base.mechanic || '';
+    base.note = item.note || item.notes || base.note || '';
+  }
+
   // Harmonize Equipment / Gear Fields
   if (resolvedMatrix.id === 'equipment' || resolvedMatrix.id === 'gear') {
     base.recommended_tl = parseListField(item.recommended_tl || item.recommended_tech_level || (item.tech_level !== undefined ? [`TL ${item.tech_level}`] : (item.tl !== undefined ? [`TL ${item.tl}`] : base.recommended_tl)));
@@ -503,6 +516,32 @@ export const adaptItemToCodexFormData = (item, matrix) => {
     base.quote = item.quote || base.quote || '';
     base.core_concept = item.core_concept || base.core_concept || '';
     base.tactical_role = item.tactical_role || base.tactical_role || '';
+  }
+
+  // Harmonize Features Fields
+  if (resolvedMatrix.id === 'features') {
+    const rawAcq = item.acquisition_type || item.acquisitionType;
+    const isMulti = item.multi !== undefined ? Boolean(item.multi) : (item.is_multiple !== undefined ? Boolean(item.is_multiple) : false);
+    const isStaged = item.staged !== undefined ? Boolean(item.staged) : (item.is_ranked !== undefined ? Boolean(item.is_ranked) : false);
+    base.acquisition_type = rawAcq || (isMulti && isStaged ? 'Multi/Staged' : isStaged ? 'Staged' : isMulti ? 'Multiple' : 'Basic');
+    base.multi = base.acquisition_type === 'Multiple' || base.acquisition_type === 'Multi/Staged';
+    base.staged = base.acquisition_type === 'Staged' || base.acquisition_type === 'Multi/Staged';
+    base.is_multiple = base.multi;
+    base.is_ranked = base.staged;
+
+    const rawModOptions = item.modifier_options || item.modifierOptions;
+    base.modifier_options = rawModOptions && typeof rawModOptions === 'object' ? {
+      enabled: Boolean(rawModOptions.enabled),
+      mode: rawModOptions.mode === 'pair' ? 'pair' : 'single',
+      value: Number(rawModOptions.value !== undefined ? rawModOptions.value : 2),
+      options: Array.isArray(rawModOptions.options) ? rawModOptions.options : []
+    } : (base.modifier_options || {
+      enabled: false,
+      mode: 'single',
+      value: 2,
+      options: []
+    });
+    base.selected_option_id = item.selected_option_id || item.selectedOptionId || '';
   }
 
   // Universal fallback harmonization of keywords & negative railguards
@@ -662,6 +701,45 @@ export const adaptCodexToOmnicortexItem = (formData, computedValues, matrix) => 
     payload.ml = payload.meta_level;
     payload.keywords = typeof formData.keywords === 'string' ? formData.keywords.trim() : (formData.keywords || '');
     payload.negative_keywords = typeof formData.negative_keywords === 'string' ? formData.negative_keywords.trim() : (formData.negative_keywords || '');
+
+    const acq = formData.acquisition_type || (
+      formData.multi && formData.staged ? 'Multi/Staged' :
+      formData.staged ? 'Staged' :
+      formData.multi ? 'Multiple' : 'Basic'
+    );
+    const isMulti = acq === 'Multiple' || acq === 'Multi/Staged';
+    const isStaged = acq === 'Staged' || acq === 'Multi/Staged';
+    payload.acquisition_type = acq;
+    payload.multi = isMulti;
+    payload.staged = isStaged;
+    payload.is_multiple = isMulti;
+    payload.is_ranked = isStaged;
+
+    const rawModOptions = formData.modifier_options;
+    payload.modifier_options = rawModOptions && typeof rawModOptions === 'object' ? {
+      enabled: Boolean(rawModOptions.enabled),
+      mode: rawModOptions.mode === 'pair' ? 'pair' : 'single',
+      value: Number(rawModOptions.value !== undefined ? rawModOptions.value : 2),
+      options: Array.isArray(rawModOptions.options) ? rawModOptions.options : []
+    } : {
+      enabled: false,
+      mode: 'single',
+      value: 2,
+      options: []
+    };
+    payload.selected_option_id = formData.selected_option_id || '';
+  }
+
+  // Ensure traits directives and values are synchronized
+  if (resolvedMatrix.id === 'traits') {
+    payload.trait_type = formData.trait_type || 'Species Trait';
+    payload.trait_tier = formData.trait_tier || 'Basic';
+    payload.classification = formData.classification || 'Physical';
+    payload.cp = Number(formData.cp !== undefined ? formData.cp : 1);
+    payload.bp = Number(formData.bp !== undefined ? formData.bp : payload.cp);
+    payload.description = formData.description || '';
+    payload.mechanic = formData.mechanic || '';
+    payload.note = formData.note || '';
   }
 
   // Ensure equipment / gear recommendations, directives, and railguards are synchronized

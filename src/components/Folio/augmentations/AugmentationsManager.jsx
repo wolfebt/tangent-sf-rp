@@ -20,6 +20,7 @@ import {
   RefreshCw
 } from 'lucide-react';
 import { useFolio } from '../../../context/FolioContext';
+import { useAuth } from '../../../context/AuthContext';
 import { AUGMENTATION_STAGES, ANATOMICAL_BODY_SLOTS } from '../../../engines/tangentConstants';
 import {
   determineAugmentationStage,
@@ -31,6 +32,7 @@ import {
   getAugmentationStage,
   checkAugmentationStageCompatibility
 } from '../../../engines/tangentComplexEngines';
+import { getEnrichedAugmentationData } from '../../../data/augmentationsData';
 import FolioTooltip from '../shared/FolioTooltip';
 
 // Lazy Loaded Augmentation Diagnostics Modal
@@ -55,6 +57,24 @@ export const AugmentationsManager = ({
     handleAddItem,
     getAttrTotal
   } = useFolio();
+  const { isAdmin } = useAuth() || {};
+
+  const handleOpenAugmentationDataset = useCallback((aug, itemIndex = null) => {
+    const enriched = getEnrichedAugmentationData(aug);
+    if (onOpenAssetModal) {
+      onOpenAssetModal('augmentations', `${enriched?.name || 'Augmentation'} Matrix`, 'edit', itemIndex ?? aug.sourceIndex ?? null, enriched);
+    } else {
+      window.dispatchEvent(new CustomEvent('open-folio-asset', {
+        detail: {
+          key: 'augmentations',
+          title: `${enriched?.name || 'Augmentation'} Matrix`,
+          mode: 'edit',
+          index: itemIndex ?? aug.sourceIndex ?? null,
+          initialData: enriched
+        }
+      }));
+    }
+  }, [onOpenAssetModal]);
 
   const [activeSlotFilter, setActiveSlotFilter] = useState('all');
   const [activeStageFilter, setActiveStageFilter] = useState('all');
@@ -220,77 +240,8 @@ export const AugmentationsManager = ({
     }
   }, [characterData?.augmentations, updateField]);
 
-  // Stage styling helpers
-  const getStageBadgeColor = (stageId) => {
-    switch (stageId) {
-      case 'extreme': return 'bg-rose-950/80 border-rose-500/80 text-rose-300 shadow-[0_0_15px_rgba(244,63,94,0.3)]';
-      case 'heavy': return 'bg-amber-950/80 border-amber-500/80 text-amber-300 shadow-[0_0_15px_rgba(245,158,11,0.3)]';
-      case 'augmented': return 'bg-cyan-950/80 border-cyan-500/80 text-cyan-300 shadow-[0_0_15px_rgba(34,211,238,0.3)]';
-      default: return 'bg-slate-900 border-slate-700 text-slate-300';
-    }
-  };
-
   return (
     <div className="space-y-6">
-      {/* ══════════════════════════════════════════════════════════════════ */}
-      {/* SECTION 1: HEADER & ACTIVE STAGE BANNER */}
-      {/* ══════════════════════════════════════════════════════════════════ */}
-      <div className="bg-slate-900/90 border border-amber-900/60 rounded-xl p-5 shadow-xl relative overflow-hidden">
-        {/* Background glow accent */}
-        <div className="absolute -top-24 -right-24 w-60 h-60 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 border-b border-amber-950/80 pb-4">
-          <div>
-            <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-lg bg-amber-950/60 border border-amber-700/60 text-amber-400">
-                <Cpu className="w-5 h-5" />
-              </div>
-              <div>
-                <h2 className="text-base font-bold uppercase tracking-wider text-amber-300 flex items-center gap-2">
-                  <span>Cybernetic &amp; Biological Augmentations</span>
-                </h2>
-                <p className="text-xs text-slate-400 mt-0.5">
-                  Anatomical prosthesis installations, biological grafts, and physiological system replacements.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Quick HUD Metrics */}
-          <div className="flex flex-wrap items-center gap-2 w-full lg:w-auto">
-            {/* Current Stage Badge */}
-            <div className={`px-3 py-1.5 rounded-lg border text-xs font-mono font-bold flex items-center gap-2 ${getStageBadgeColor(stageInfo.stageId)}`}>
-              <span className="w-2 h-2 rounded-full bg-current animate-pulse" />
-              <span>STAGE: {stageInfo.stage.name.toUpperCase()}</span>
-            </div>
-
-            {/* Total CP Credit Badge */}
-            <div className="px-3 py-1.5 rounded-lg bg-slate-950 border border-amber-900/60 text-amber-300 text-xs font-mono font-bold">
-              <span>{bpStats.cpCredit || bpStats.bpCredit} CP Credit</span>
-            </div>
-
-            {/* Total Chassis Capacity */}
-            <div className={`px-3 py-1.5 rounded-lg border text-xs font-mono font-bold ${
-              bodyBreakdown.isTotalOverCapacity
-                ? 'bg-rose-950/80 border-rose-600 text-rose-300'
-                : 'bg-slate-950 border-cyan-900/60 text-cyan-300'
-            }`}>
-              <span>{bodyBreakdown.totalUsedNodes} / {bodyBreakdown.totalMaxCapacity} Nodes</span>
-            </div>
-
-            {/* Diagnostics & Anatomy Modal Trigger Button */}
-            <button
-              type="button"
-              onClick={() => setIsDiagnosticsOpen(true)}
-              className="px-3.5 py-1.5 rounded-lg bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500/70 text-cyan-300 text-xs font-mono font-bold flex items-center gap-1.5 transition-all shadow-[0_0_12px_rgba(6,182,212,0.2)] hover:border-cyan-400 cursor-pointer"
-            >
-              <Activity className="w-4 h-4 text-cyan-400 animate-pulse" />
-              <span>Anatomy &amp; Diagnostics</span>
-            </button>
-          </div>
-        </div>
-      </div>
-
       {/* Diagnostics & Stage Progression Modal */}
       {isDiagnosticsOpen && (
         <React.Suspense fallback={null}>
@@ -342,81 +293,6 @@ export const AugmentationsManager = ({
       )}
 
       {/* ══════════════════════════════════════════════════════════════════ */}
-      {/* COMPACT ANATOMICAL QUICK-SLOT FILTER RAIL */}
-      {/* ══════════════════════════════════════════════════════════════════ */}
-      <div className="bg-slate-900/90 border border-cyan-900/50 rounded-xl p-3 sm:p-4 shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-1.5 mr-1">
-            <Activity className="w-3.5 h-3.5" />
-            <span>Slot Filter:</span>
-          </span>
-
-          <button
-            type="button"
-            onClick={() => setActiveSlotFilter('all')}
-            className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
-              activeSlotFilter === 'all'
-                ? 'bg-cyan-500 text-slate-950 shadow-[0_0_10px_rgba(6,182,212,0.4)]'
-                : 'bg-slate-950 border border-slate-800 text-slate-400 hover:border-cyan-800 hover:text-cyan-300'
-            }`}
-          >
-            All Slots ({augmentationsList.length})
-          </button>
-
-          {BODY_SLOT_KEYS.map(slotKey => {
-            const slotData = bodyBreakdown.slots[slotKey.id] || {
-              name: slotKey.label,
-              usedNodes: 0,
-              maxNodes: slotKey.max,
-              remainingNodes: slotKey.max,
-              percentage: 0,
-              isOverCapacity: false,
-              items: []
-            };
-            const isSelected = activeSlotFilter === slotKey.id;
-
-            return (
-              <button
-                key={slotKey.id}
-                type="button"
-                onClick={() => setActiveSlotFilter(prev => prev === slotKey.id ? 'all' : slotKey.id)}
-                className={`px-2.5 py-1 rounded-lg text-xs font-mono flex items-center gap-1.5 transition-all cursor-pointer border ${
-                  isSelected
-                    ? 'bg-cyan-950 border-cyan-400 text-cyan-200 shadow-[0_0_10px_rgba(6,182,212,0.3)] ring-1 ring-cyan-400'
-                    : slotData.isOverCapacity
-                      ? 'bg-rose-950/60 border-rose-600 text-rose-300'
-                      : 'bg-slate-950 border-slate-800 text-slate-300 hover:border-cyan-800'
-                }`}
-              >
-                <span>{slotKey.label}</span>
-                <span className={`text-[10px] px-1.5 py-0.2 rounded font-bold ${
-                  slotData.isOverCapacity ? 'bg-rose-900 text-rose-100' : 'bg-slate-900 text-slate-400'
-                }`}>
-                  {slotData.usedNodes}/{slotData.maxNodes}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-        <div className="flex items-center gap-2 self-end md:self-auto shrink-0">
-          {bodyBreakdown.hasAnyOverCapacity && (
-            <div className="flex items-center gap-1 text-rose-400 text-xs font-mono font-bold animate-pulse mr-2">
-              <AlertTriangle className="w-3.5 h-3.5" />
-              <span>Chassis Overload</span>
-            </div>
-          )}
-          <button
-            type="button"
-            onClick={() => setIsDiagnosticsOpen(true)}
-            className="text-xs font-mono text-cyan-400 hover:text-cyan-300 flex items-center gap-1 cursor-pointer transition-colors"
-          >
-            <span>Full Anatomical Schematic &rarr;</span>
-          </button>
-        </div>
-      </div>
-
-      {/* ══════════════════════════════════════════════════════════════════ */}
       {/* SECTION 5: INSTALLED AUGMENTATIONS LIST & CONTROLS */}
       {/* ══════════════════════════════════════════════════════════════════ */}
       <div className="bg-slate-900/90 border border-amber-900/50 rounded-xl p-5 shadow-xl space-y-4">
@@ -440,7 +316,16 @@ export const AugmentationsManager = ({
           </div>
 
           {/* Search & Actions */}
-          <div className="flex items-center gap-2 w-full sm:w-auto">
+          <div className="flex items-center gap-2 w-full sm:w-auto flex-wrap sm:flex-nowrap">
+            <button
+              type="button"
+              onClick={() => setIsDiagnosticsOpen(true)}
+              className="px-3 py-1.5 rounded-lg bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500/70 text-cyan-300 text-xs font-mono font-bold flex items-center gap-1.5 transition-all shadow-[0_0_12px_rgba(6,182,212,0.2)] hover:border-cyan-400 cursor-pointer shrink-0"
+            >
+              <Activity className="w-3.5 h-3.5 text-cyan-400" />
+              <span>Anatomy &amp; Diagnostics</span>
+            </button>
+
             <div className="relative flex-1 sm:w-48">
               <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500" />
               <input
@@ -553,6 +438,13 @@ export const AugmentationsManager = ({
               return (
                 <div
                   key={`aug_${aug.sourceIndex}`}
+                  data-context-zone="folio"
+                  data-context-category="augmentations"
+                  data-context-subcategory="augmentations"
+                  data-context-entity-id={aug.id || name}
+                  data-context-entity-type="augmentation"
+                  data-context-entity-title={name}
+                  data-context-entity-data={JSON.stringify(getEnrichedAugmentationData(aug))}
                   className={`bg-slate-950/80 border rounded-xl p-3.5 flex flex-col justify-between transition-all group relative ${
                     !isCompatible
                       ? 'border-rose-700/80 shadow-[0_0_12px_rgba(244,63,94,0.15)] ring-1 ring-rose-600/30'
@@ -569,6 +461,10 @@ export const AugmentationsManager = ({
                         cost={`${nodes} Nodes | ${bp} CP | Stage: ${stage}`}
                         tags={['Augmentation', location, stage]}
                         showInfoIcon={true}
+                        adminAction={isAdmin ? {
+                          label: 'View / Edit Dataset',
+                          onClick: () => handleOpenAugmentationDataset(aug, aug.sourceIndex)
+                        } : null}
                       >
                         <h4 className="font-semibold text-xs text-slate-100 hover:text-amber-300 leading-snug cursor-help pr-1 transition-colors">
                           {name}
@@ -628,12 +524,12 @@ export const AugmentationsManager = ({
 
                   {/* Card Actions */}
                   <div className="flex items-center justify-end gap-1.5 pt-2 border-t border-slate-900 mt-auto">
-                    {onOpenAssetModal && (
+                    {(isAdmin || Boolean(onOpenAssetModal)) && (
                       <button
                         type="button"
-                        onClick={() => onOpenAssetModal('augmentations', 'Augmentation', 'edit', aug.sourceIndex, aug)}
+                        onClick={() => handleOpenAugmentationDataset(aug, aug.sourceIndex)}
                         className="text-slate-400 hover:text-amber-300 text-xs p-1 rounded hover:bg-slate-900 transition-colors cursor-pointer"
-                        title="Edit augmentation properties"
+                        title={isAdmin ? "View / Edit Augmentation Dataset (Admin)" : "Edit augmentation properties"}
                       >
                         <Edit3 className="w-3.5 h-3.5" />
                       </button>

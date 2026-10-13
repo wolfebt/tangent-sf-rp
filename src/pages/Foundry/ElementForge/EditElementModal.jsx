@@ -285,7 +285,7 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
     >
       <div 
         onClick={(e) => e.stopPropagation()}
-        className="bg-[#161b22] border border-cyan-500/70 rounded-2xl w-[96vw] max-w-7xl max-h-[96vh] sm:max-h-[96dvh] flex flex-col shadow-2xl overflow-hidden relative"
+        className="bg-[#161b22] border-2 border-cyan-400/80 rounded-2xl w-[96vw] max-w-7xl max-h-[96vh] sm:max-h-[96dvh] flex flex-col shadow-[0_0_50px_rgba(6,182,212,0.3)] overflow-hidden relative"
       >
         
         {/* Header */}

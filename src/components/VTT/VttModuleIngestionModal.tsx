@@ -122,8 +122,8 @@ export const VttModuleIngestionModal: React.FC<VttModuleIngestionModalProps> = (
   const automations = parsedPackage?.automations;
 
   return (
-    <div className="fixed inset-0 z-[230] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 select-none font-sans">
-      <div className="bg-[#0b0f19] border border-cyan-500/60 rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.3)] w-full max-w-2xl max-h-[90vh] flex flex-col text-slate-200 overflow-hidden font-mono text-xs">
+    <div className="fixed inset-0 z-[230] bg-black/80 backdrop-blur-md flex items-start sm:items-center justify-center p-4 pt-10 sm:pt-16 pb-8 overflow-y-auto select-none font-sans" onClick={onClose}>
+      <div className="bg-[#0b0f19] border-2 border-cyan-400/80 rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.35)] w-full max-w-2xl my-auto max-h-[calc(100vh-4rem)] sm:max-h-[90vh] flex flex-col text-slate-200 overflow-hidden font-mono text-xs" onClick={(e) => e.stopPropagation()}>
         
         {/* Header */}
         <div className="px-5 py-3.5 bg-gradient-to-r from-cyan-950/90 via-slate-900 to-slate-900 border-b border-cyan-500/40 flex items-center justify-between">

@@ -90,7 +90,7 @@ export const SquadInviteConfirmationModal = ({ isOpen, onClose, invite }) => {
 
   const modalContent = (
     <div className="fixed inset-0 z-[250] flex items-start justify-center bg-black/85 backdrop-blur-md p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto select-none font-sans animate-fade-in">
-      <div className="bg-[#0b121d] border border-cyan-500/50 rounded-2xl w-full max-w-xl overflow-hidden shadow-[0_0_60px_rgba(6,182,212,0.3)] flex flex-col max-h-[85vh] sm:max-h-[88vh] text-slate-100">
+      <div className="bg-[#0b121d] border-2 border-cyan-400/80 rounded-2xl w-full max-w-xl overflow-hidden shadow-[0_0_60px_rgba(6,182,212,0.35)] flex flex-col max-h-[85vh] sm:max-h-[88vh] text-slate-100">
         
         {/* Header */}
         <div className="p-4 border-b border-slate-800 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-cyan-950/40 flex items-center justify-between">

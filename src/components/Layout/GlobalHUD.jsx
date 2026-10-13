@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { 
   Compass, 
@@ -220,11 +220,13 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
   const headerRef = useRef(null);
   const hasDynamicTabs = isFolio || isFoundry;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const updateHeaderHeight = () => {
       if (headerRef.current) {
         const height = headerRef.current.offsetHeight;
-        document.documentElement.style.setProperty('--header-height', `${height}px`);
+        if (height > 0) {
+          document.documentElement.style.setProperty('--header-height', `${height}px`);
+        }
       }
     };
 

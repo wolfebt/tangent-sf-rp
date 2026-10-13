@@ -55,8 +55,15 @@ import {
   Package,
   Boxes,
   Scale,
-  Search
+  Search,
+  Edit3
 } from 'lucide-react';
+import { useAuth } from '../../../context/AuthContext';
+import { getEnrichedSkillData } from '../../../data/skillsData';
+import { getEnrichedFeatureData } from '../../../data/featuresData';
+import { getEnrichedTraitData } from '../../../data/speciesTraitsData';
+import { getEnrichedInvocationData } from '../../../data/invocationsData';
+import { getEnrichedAugmentationData } from '../../../data/augmentationsData';
 
 export const TacticalPlayView = ({ 
   onSwitchToBuilder, 
@@ -67,7 +74,69 @@ export const TacticalPlayView = ({
   onLockSheet = null 
 }) => {
   const { toast } = useToast();
+  const { isAdmin } = useAuth() || {};
   const folio = useFolio();
+
+  const handleOpenInvocationDataset = useCallback((inv) => {
+    const enriched = getEnrichedInvocationData(inv);
+    window.dispatchEvent(new CustomEvent('open-folio-asset', {
+      detail: {
+        key: 'invocations',
+        title: `${enriched?.name || 'Invocation'} Matrix`,
+        mode: 'edit',
+        initialData: enriched
+      }
+    }));
+  }, []);
+
+  const handleOpenAugmentationDataset = useCallback((aug) => {
+    const enriched = getEnrichedAugmentationData(aug);
+    window.dispatchEvent(new CustomEvent('open-folio-asset', {
+      detail: {
+        key: 'augmentations',
+        title: `${enriched?.name || 'Augmentation'} Matrix`,
+        mode: 'edit',
+        initialData: enriched
+      }
+    }));
+  }, []);
+
+  const handleOpenSkillDataset = useCallback((skill) => {
+    const enriched = getEnrichedSkillData(skill);
+    window.dispatchEvent(new CustomEvent('open-folio-asset', {
+      detail: {
+        key: 'skills',
+        title: `${enriched?.name || 'Skill'} Matrix`,
+        mode: 'edit',
+        initialData: enriched
+      }
+    }));
+  }, []);
+
+  const handleOpenFeatureDataset = useCallback((feat) => {
+    const enriched = getEnrichedFeatureData(feat);
+    window.dispatchEvent(new CustomEvent('open-folio-asset', {
+      detail: {
+        key: 'features',
+        title: `${enriched?.name || 'Feature'} Matrix`,
+        mode: 'edit',
+        initialData: enriched
+      }
+    }));
+  }, []);
+
+  const handleOpenTraitDataset = useCallback((trait) => {
+    const enriched = getEnrichedTraitData(trait);
+    window.dispatchEvent(new CustomEvent('open-folio-asset', {
+      detail: {
+        key: 'traits',
+        title: `${enriched?.name || 'Trait'} Matrix`,
+        mode: 'edit',
+        initialData: enriched
+      }
+    }));
+  }, []);
+
   const rawCharacterData = characterOverride || folio.characterData || {};
   const [localVitalsOverride, setLocalVitalsOverride] = useState({});
 
@@ -2028,31 +2097,44 @@ export const TacticalPlayView = ({
 
                             {/* Traits inside this Pillar */}
                             <div className="space-y-1 pl-1">
-                              {matchingTraits.map((trait) => (
-                                <div
-                                  key={`${pillar.id}_${trait.id || trait.name}`}
-                                  className="p-2 rounded-lg bg-slate-950/80 border border-slate-800/80 hover:border-amber-500/50 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 shadow-sm"
-                                >
-                                  <div className="flex items-center gap-2 min-w-0 flex-1">
-                                    <FolioTooltip
-                                      title={trait.name}
-                                      badge={`${pillar.title} • ${trait.isGranted ? 'Granted Innate (0 CP)' : 'Chosen Trait (1 CP)'}`}
-                                      badgeColor={trait.isGranted ? 'emerald' : 'amber'}
-                                      description={trait.description || 'No description recorded.'}
-                                      modifiers={trait.modifiers}
-                                      rules={trait.rules}
-                                      showInfoIcon={true}
-                                    >
-                                      <div className="flex items-center gap-1.5 min-w-0 cursor-pointer">
-                                        <Sparkles size={12} className={trait.isGranted ? 'text-emerald-400 shrink-0' : 'text-amber-400 shrink-0'} />
-                                        <span className={`text-xs font-mono font-bold truncate ${
-                                          trait.isGranted ? 'text-emerald-200 hover:text-emerald-100' : 'text-amber-200 hover:text-amber-100'
-                                        }`}>
-                                          {trait.name}
-                                        </span>
-                                      </div>
-                                    </FolioTooltip>
-                                  </div>
+                              {matchingTraits.map((trait) => {
+                                const enrichedTrait = getEnrichedTraitData(trait);
+                                return (
+                                  <div
+                                    key={`${pillar.id}_${trait.id || trait.name}`}
+                                    data-context-zone="folio"
+                                    data-context-category="traits"
+                                    data-context-subcategory="traits"
+                                    data-context-entity-id={enrichedTrait.id || trait.name}
+                                    data-context-entity-type="trait"
+                                    data-context-entity-title={trait.name}
+                                    data-context-entity-data={JSON.stringify(enrichedTrait)}
+                                    className="p-2 rounded-lg bg-slate-950/80 border border-slate-800/80 hover:border-amber-500/50 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 shadow-sm"
+                                  >
+                                    <div className="flex items-center gap-2 min-w-0 flex-1">
+                                      <FolioTooltip
+                                        title={trait.name}
+                                        badge={`${pillar.title} • ${trait.isGranted ? 'Granted Innate (0 CP)' : 'Chosen Trait (1 CP)'}`}
+                                        badgeColor={trait.isGranted ? 'emerald' : 'amber'}
+                                        description={trait.description || 'No description recorded.'}
+                                        modifiers={trait.modifiers}
+                                        rules={trait.rules}
+                                        showInfoIcon={true}
+                                        adminAction={isAdmin ? {
+                                          label: 'View / Edit Dataset',
+                                          onClick: () => handleOpenTraitDataset(trait)
+                                        } : null}
+                                      >
+                                        <div className="flex items-center gap-1.5 min-w-0 cursor-pointer">
+                                          <Sparkles size={12} className={trait.isGranted ? 'text-emerald-400 shrink-0' : 'text-amber-400 shrink-0'} />
+                                          <span className={`text-xs font-mono font-bold truncate ${
+                                            trait.isGranted ? 'text-emerald-200 hover:text-emerald-100' : 'text-amber-200 hover:text-amber-100'
+                                          }`}>
+                                            {trait.name}
+                                          </span>
+                                        </div>
+                                      </FolioTooltip>
+                                    </div>
 
                                   <div className="flex items-center gap-1.5 shrink-0 self-end sm:self-auto flex-wrap">
                                     <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded font-bold uppercase border ${
@@ -2067,7 +2149,8 @@ export const TacticalPlayView = ({
                                     </span>
                                   </div>
                                 </div>
-                              ))}
+                              );
+                            })}
                             </div>
                           </div>
                         );
@@ -2091,36 +2174,50 @@ export const TacticalPlayView = ({
                               </span>
                             </div>
                             <div className="space-y-1 pl-1">
-                              {matchingGeneral.map(feat => (
-                                <div
-                                  key={feat.id || feat.name}
-                                  className="p-2 rounded-lg bg-slate-950/80 border border-slate-800/80 hover:border-amber-500/50 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 shadow-sm"
-                                >
-                                  <div className="flex items-center gap-2 min-w-0 flex-1">
-                                    <FolioTooltip
-                                      title={feat.name}
-                                      badge={`${feat.category} • ${feat.source}`}
-                                      badgeColor="amber"
-                                      description={feat.description || 'No description recorded.'}
-                                      modifiers={feat.modifiers}
-                                      rules={feat.rules}
-                                      showInfoIcon={true}
-                                    >
-                                      <div className="flex items-center gap-1.5 min-w-0 cursor-pointer">
-                                        <Sparkles size={12} className="text-amber-400 shrink-0" />
-                                        <span className="text-xs font-mono font-bold truncate text-amber-200 hover:text-amber-100">
-                                          {feat.name}
-                                        </span>
-                                      </div>
-                                    </FolioTooltip>
-                                  </div>
+                              {matchingGeneral.map(feat => {
+                                const enrichedFeat = getEnrichedFeatureData(feat);
+                                return (
+                                  <div
+                                    key={feat.id || feat.name}
+                                    data-context-zone="folio"
+                                    data-context-category="features"
+                                    data-context-subcategory="features"
+                                    data-context-entity-id={enrichedFeat.id || feat.name}
+                                    data-context-entity-type="feature"
+                                    data-context-entity-title={feat.name}
+                                    data-context-entity-data={JSON.stringify(enrichedFeat)}
+                                    className="p-2 rounded-lg bg-slate-950/80 border border-slate-800/80 hover:border-amber-500/50 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 shadow-sm"
+                                  >
+                                    <div className="flex items-center gap-2 min-w-0 flex-1">
+                                      <FolioTooltip
+                                        title={feat.name}
+                                        badge={`${feat.category} • ${feat.source}`}
+                                        badgeColor="amber"
+                                        description={feat.description || 'No description recorded.'}
+                                        modifiers={feat.modifiers}
+                                        rules={feat.rules}
+                                        showInfoIcon={true}
+                                        adminAction={isAdmin ? {
+                                          label: 'View / Edit Dataset',
+                                          onClick: () => handleOpenFeatureDataset(feat)
+                                        } : null}
+                                      >
+                                        <div className="flex items-center gap-1.5 min-w-0 cursor-pointer">
+                                          <Sparkles size={12} className="text-amber-400 shrink-0" />
+                                          <span className="text-xs font-mono font-bold truncate text-amber-200 hover:text-amber-100">
+                                            {feat.name}
+                                          </span>
+                                        </div>
+                                      </FolioTooltip>
+                                    </div>
                                   <div className="flex items-center gap-1.5 shrink-0 self-end sm:self-auto flex-wrap">
                                     <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-400 uppercase">
                                       {feat.source}
                                     </span>
                                   </div>
                                 </div>
-                              ))}
+                              );
+                            })}
                             </div>
                           </div>
                         );
@@ -2176,6 +2273,13 @@ export const TacticalPlayView = ({
                               .map((inv) => (
                                 <div
                                   key={inv.id}
+                                  data-context-zone="folio"
+                                  data-context-category="invocations"
+                                  data-context-subcategory="invocations"
+                                  data-context-entity-id={inv.id}
+                                  data-context-entity-type="invocation"
+                                  data-context-entity-title={inv.name}
+                                  data-context-entity-data={JSON.stringify(getEnrichedInvocationData(inv))}
                                   className="p-2 rounded-lg bg-purple-950/20 border border-purple-900/60 hover:border-purple-500/50 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 shadow-sm"
                                 >
                                   <div className="flex items-center gap-2 min-w-0 flex-1">
@@ -2185,6 +2289,10 @@ export const TacticalPlayView = ({
                                       badgeColor="purple"
                                       description={inv.desc || `Rank ${inv.rank} invocation. Base target DC ${inv.baseDC}.`}
                                       showInfoIcon={true}
+                                      adminAction={isAdmin ? {
+                                        label: 'View / Edit Dataset',
+                                        onClick: () => handleOpenInvocationDataset(inv)
+                                      } : null}
                                     >
                                       <div className="flex items-center gap-1.5 min-w-0 cursor-pointer">
                                         <Flame size={12} className="text-purple-400 shrink-0" />
@@ -2198,6 +2306,16 @@ export const TacticalPlayView = ({
                                     <span className="text-[9px] font-mono text-purple-300 bg-purple-950/60 px-1.5 py-0.5 rounded border border-purple-800/40">
                                       DC {inv.baseDC}
                                     </span>
+                                    {isAdmin && (
+                                      <button
+                                        type="button"
+                                        onClick={() => handleOpenInvocationDataset(inv)}
+                                        className="p-1 rounded bg-purple-950/80 hover:bg-purple-900 border border-purple-700/60 text-purple-300 hover:text-white transition-colors cursor-pointer"
+                                        title="View / Edit Invocation Dataset"
+                                      >
+                                        <Edit3 size={11} />
+                                      </button>
+                                    )}
                                     <button
                                       type="button"
                                       onClick={() => handleExecuteTacticalRoll(`${inv.name} Invocation`, inv.total)}
@@ -2236,39 +2354,64 @@ export const TacticalPlayView = ({
                                 const q = aspectSearchQuery.toLowerCase();
                                 return (aug.name || '').toLowerCase().includes(q) || (aug.description || aug.desc || '').toLowerCase().includes(q);
                               })
-                              .map((aug, idx) => (
+                              .map((aug, idx) => {
+                                const enrichedAug = getEnrichedAugmentationData(aug);
+                                const augName = enrichedAug.name || aug.name || 'Augmentation';
+                                return (
                                 <div
                                   key={aug.id || `aug_${idx}`}
+                                  data-context-zone="folio"
+                                  data-context-category="augmentations"
+                                  data-context-subcategory="augmentations"
+                                  data-context-entity-id={enrichedAug.id || aug.id || augName}
+                                  data-context-entity-type="augmentation"
+                                  data-context-entity-title={augName}
+                                  data-context-entity-data={JSON.stringify(enrichedAug)}
                                   className="p-2 rounded-lg bg-cyan-950/20 border border-cyan-900/60 hover:border-cyan-500/50 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 shadow-sm"
                                 >
                                   <div className="flex items-center gap-2 min-w-0 flex-1">
                                     <FolioTooltip
-                                      title={aug.name}
-                                      badge={aug.type || 'Chassis Cyberware'}
+                                      title={augName}
+                                      badge={enrichedAug.augmentation_type || aug.type || 'Chassis Cyberware'}
                                       badgeColor="cyan"
-                                      description={aug.description || aug.desc || aug.summary || 'Cybernetic / synthetic enhancement installed.'}
+                                      description={enrichedAug.description || aug.description || aug.desc || aug.summary || 'Cybernetic / synthetic enhancement installed.'}
                                       showInfoIcon={true}
+                                      adminAction={isAdmin ? {
+                                        label: 'View / Edit Dataset',
+                                        onClick: () => handleOpenAugmentationDataset(enrichedAug)
+                                      } : null}
                                     >
                                       <div className="flex items-center gap-1.5 min-w-0 cursor-pointer">
                                         <Cpu size={12} className="text-cyan-400 shrink-0" />
                                         <span className="text-xs font-mono font-bold text-cyan-200 hover:text-cyan-100 truncate">
-                                          {aug.name}
+                                          {augName}
                                         </span>
                                       </div>
                                     </FolioTooltip>
                                   </div>
                                   <div className="flex items-center gap-1.5 shrink-0 self-end sm:self-auto">
-                                    {aug.tl && (
+                                    {isAdmin && (
+                                      <button
+                                        type="button"
+                                        onClick={() => handleOpenAugmentationDataset(enrichedAug)}
+                                        className="p-1 rounded bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-700/60 text-cyan-300 hover:text-white transition-colors cursor-pointer"
+                                        title="View / Edit Augmentation Dataset (Admin)"
+                                      >
+                                        <Edit3 size={11} />
+                                      </button>
+                                    )}
+                                    {(enrichedAug.tech_level !== undefined || aug.tl !== undefined) && (
                                       <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-cyan-950 border border-cyan-800/50 text-cyan-300">
-                                        TL {aug.tl}
+                                        TL {enrichedAug.tech_level ?? aug.tl}
                                       </span>
                                     )}
                                     <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-400 uppercase">
-                                      {aug.type || 'Installed'}
+                                      {enrichedAug.stage || enrichedAug.augmentation_type || aug.type || 'Installed'}
                                     </span>
                                   </div>
                                 </div>
-                              ))}
+                              );
+                            })}
                           </div>
                         </div>
                       )}
@@ -3189,27 +3332,51 @@ export const TacticalPlayView = ({
                             <span className="text-[9px] text-slate-500 font-normal">({group.skills.length})</span>
                           </div>
                           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-                            {group.skills.map(skill => (
-                              <button
-                                key={skill.id}
-                                type="button"
-                                onClick={() => handleRollCheck(`${skill.name} Check`, skill.total)}
-                                className="p-2 rounded-lg bg-slate-950/80 hover:bg-rose-950/50 border border-slate-800/80 hover:border-rose-500/60 transition-all flex items-center justify-between cursor-pointer group shadow-sm text-left"
-                                title={`${skill.name}: Rank ${skill.rank} + ${skill.attrKey} (${skill.attrScore}) = Total ${skill.total}\n${skill.description}`}
-                              >
-                                <div className="truncate pr-1">
-                                  <span className="text-xs font-mono font-semibold text-slate-200 group-hover:text-rose-300 block truncate">
-                                    {skill.name}
-                                  </span>
-                                  <span className="text-[9px] font-mono text-slate-500">
-                                    Rank {skill.rank} • {skill.attrKey} {skill.attrScore >= 0 ? `+${skill.attrScore}` : skill.attrScore}
-                                  </span>
-                                </div>
-                                <span className="px-2 py-0.5 rounded bg-rose-950/90 border border-rose-800 text-rose-300 font-mono font-bold text-xs shrink-0">
-                                  +{skill.total}
-                                </span>
-                              </button>
-                            ))}
+                            {group.skills.map(skill => {
+                              const enrichedSkill = getEnrichedSkillData(skill);
+                              return (
+                                <FolioTooltip
+                                  key={skill.id}
+                                  title={skill.name}
+                                  badge={`Rank ${skill.rank} • +${skill.total}`}
+                                  badgeColor="rose"
+                                  description={enrichedSkill.description || skill.description || 'No description recorded.'}
+                                  formula={`2d10 + ${skill.attrKey} (${skill.attrScore}) + Rank ${skill.rank}`}
+                                  adminAction={isAdmin ? {
+                                    label: 'View / Edit Skill Dataset',
+                                    onClick: (e) => {
+                                      e?.stopPropagation?.();
+                                      handleOpenSkillDataset(skill);
+                                    }
+                                  } : null}
+                                >
+                                  <button
+                                    type="button"
+                                    onClick={() => handleRollCheck(`${skill.name} Check`, skill.total)}
+                                    data-context-zone="folio"
+                                    data-context-category="skills"
+                                    data-context-subcategory={skill.group || group.key || 'combat'}
+                                    data-context-entity-id={skill.id}
+                                    data-context-entity-type="skill"
+                                    data-context-entity-title={skill.name}
+                                    data-context-entity-data={JSON.stringify(enrichedSkill)}
+                                    className="w-full p-2 rounded-lg bg-slate-950/80 hover:bg-rose-950/50 border border-slate-800/80 hover:border-rose-500/60 transition-all flex items-center justify-between cursor-pointer group shadow-sm text-left"
+                                  >
+                                    <div className="truncate pr-1">
+                                      <span className="text-xs font-mono font-semibold text-slate-200 group-hover:text-rose-300 block truncate">
+                                        {skill.name}
+                                      </span>
+                                      <span className="text-[9px] font-mono text-slate-500">
+                                        Rank {skill.rank} • {skill.attrKey} {skill.attrScore >= 0 ? `+${skill.attrScore}` : skill.attrScore}
+                                      </span>
+                                    </div>
+                                    <span className="px-2 py-0.5 rounded bg-rose-950/90 border border-rose-800 text-rose-300 font-mono font-bold text-xs shrink-0">
+                                      +{skill.total}
+                                    </span>
+                                  </button>
+                                </FolioTooltip>
+                              );
+                            })}
                           </div>
                         </div>
                       ))}
