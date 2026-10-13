@@ -27,7 +27,7 @@ By strictly adhering to this calculation, all pricing debates are eliminated. Th
 
 ### *Wealth Score and Purchasing Power*
 
-Character economic power is quantified by the Wealth Score (WS), a static rating of economic leverage representing credit rating, active investments, salary, and social capital.4 The '99 \- AUGMENTATIONS FRAMEWORK' utilizes Build Points (BP) for biological tolerance; the Equipment Framework utilizes Wealth Score for material acquisition, translating a character's intrinsic potential (BP invested at character creation) into extrinsic economic power.4  
+Character economic power is quantified by the Wealth Score (WS), a static rating of economic leverage representing credit rating, active investments, salary, and social capital.4 The '99 \- AUGMENTATIONS FRAMEWORK' utilizes Character Points (CP) for biological tolerance; the Equipment Framework utilizes Wealth Score for material acquisition, translating a character's intrinsic potential (CP invested at character creation) into extrinsic economic power.4  
 The integration of WS and the TSC operates on **The Golden Rule of Tangent Wealth**: A character may automatically purchase any item with a Crafting DC equal to or less than their Wealth Score without depleting liquid Credits or reducing their baseline Wealth Score.4 This aligns the abstraction of "lifestyle" with the concrete math of item acquisition: Purchase DC \= Crafting DC.4
 
 Composite score summing a characters income, prestige, endebtments, credit, savings, etc
@@ -342,9 +342,9 @@ Transporting people is a steady income source but requires Life Support modules.
 
 ## **1\. Introduction: The Economic Dissonance in Roleplaying Games**
 
-The design of economic systems within tabletop roleplaying games (RPGs) has historically suffered from a fundamental fracture between narrative ambition and mechanical execution. In the context of the Tangent SciFi Fantasy RPG, the objective is to synthesize a coherent economic engine that unifies character creation resources (Build Points or BP), abstract purchasing power (Wealth Score), liquid currency (Credits), and the mechanics of creation (Crafting DC). This unification is not merely an aesthetic choice but a structural necessity to prevent the "economic dissonance" that plagues legacy systems.  
+The design of economic systems within tabletop roleplaying games (RPGs) has historically suffered from a fundamental fracture between narrative ambition and mechanical execution. In the context of the Tangent SciFi Fantasy RPG, the objective is to synthesize a coherent economic engine that unifies character creation resources (Character Points or CP), abstract purchasing power (Wealth Score), liquid currency (Credits), and the mechanics of creation (Crafting DC). This unification is not merely an aesthetic choice but a structural necessity to prevent the "economic dissonance" that plagues legacy systems.  
 Economic dissonance arises when the different currencies of a game—time, experience, gold, and crafting effort—fail to exchange at consistent rates. In Dungeons & Dragons 3.5 and Pathfinder, for example, the cost to craft an item is derived from its market price, which is often assigned arbitrarily by designers based on utility rather than complexity. This leads to ludonarrative failures where a high-level adventurer can slay a dragon in six seconds but requires years to forge a suit of armor that is statistically necessary for their survival. Conversely, systems like d20 Modern or Mutants & Masterminds utilize abstract Wealth Scores to streamline bookkeeping, yet often struggle to integrate the granular rewards of "loot" that drive player motivation in dungeon-crawling scenarios.  
-This report proposes a singular, mathematically rigorous solution: **The Tangent Economic Matrix**. By establishing the Crafting Difficulty Class (DC) as the "Prime Mover" of the economy, we ensure that the value of an object is a direct, non-arbitrary derivative of the complexity required to create it. This approach aligns the simulationist desire for a logical world (harder things cost more) with the gamist need for balanced progression (investment in BP yields proportional economic power).  
+This report proposes a singular, mathematically rigorous solution: **The Tangent Economic Matrix**. By establishing the Crafting Difficulty Class (DC) as the "Prime Mover" of the economy, we ensure that the value of an object is a direct, non-arbitrary derivative of the complexity required to create it. This approach aligns the simulationist desire for a logical world (harder things cost more) with the gamist need for balanced progression (investment in CP yields proportional economic power).  
 The following analysis draws upon a broad spectrum of RPG mechanics—from the granular accounting of Traveller starship economics to the abstract point-buy of GURPS—to construct a robust system capable of handling the immense scale variance inherent in a SciFi Fantasy setting, where players may trade both iron daggers and faster-than-light dreadnoughts.
 
 ## 
@@ -402,9 +402,9 @@ The Plasma Rifle is inherently 4 times more valuable because it is one distinct 
 
 ## 
 
-## **3\. The Wealth Matrix: Integrating Build Points and Status**
+## **3\. The Wealth Matrix: Integrating Character Points and Status**
 
-The Wealth Matrix serves as the translation layer between the character’s intrinsic potential (Build Points) and their extrinsic economic power (Wealth Score). In many point-buy systems like GURPS or Mutants & Masterminds, wealth is a distinct advantage purchased separately from skills. Tangent integrates this by treating Wealth Score (WS) as a status attribute that dictates purchasing thresholds.
+The Wealth Matrix serves as the translation layer between the character’s intrinsic potential (Character Points) and their extrinsic economic power (Wealth Score). In many point-buy systems like GURPS or Mutants & Masterminds, wealth is a distinct advantage purchased separately from skills. Tangent integrates this by treating Wealth Score (WS) as a status attribute that dictates purchasing thresholds.
 
 ### 
 
@@ -423,9 +423,9 @@ This elegant alignment resolves the disconnect found in d20 Modern, where Purcha
 This table defines the social and economic power of a character based on their Wealth Score. It scales from the destitute to the rulers of interstellar empires.  
 **Column Definitions:**
 
-* **Wealth Score (WS):** The target DC the character can "Take 10" on for purchasing. It is the primary attribute derived from BP investment.  
+* **Wealth Score (WS):** The target DC the character can "Take 10" on for purchasing. It is the primary attribute derived from CP investment.  
 * **Financial Status:** The socio-economic label applied to the character in the game world.  
-* **BP Cost:** The cost in Character Build Points to acquire this status at creation. Costs scale non-linearly to represent the exponential utility of wealth.  
+* **CP Cost:** The cost in Character Character Points to acquire this status at creation. Costs scale non-linearly to represent the exponential utility of wealth.  
 * **Purchasing Limit (Liquid Cap):** The maximum Credit value of a single item the character can purchase automatically without rolling or dipping into savings. This aligns with the item's Crafting DC.  
 * **Net Worth (Est):** The theoretical total value of the character's assets (land, stocks, ships, favor). This is usually 100x–1000x their liquid purchasing limit and is used for collateral on loans.  
 * **Lifestyle Description:** What the character's daily life looks like and what assets they likely maintain.
@@ -434,7 +434,7 @@ This table defines the social and economic power of a character based on their W
 
 #### **Table 3.2: Extended Financial Status Hierarchy**
 
-| Wealth Score (WS) | Financial Status | BP Cost | Purchasing Limit (Auto-Buy) | Estimated Net Worth | Lifestyle Description |
+| Wealth Score (WS) | Financial Status | CP Cost | Purchasing Limit (Auto-Buy) | Estimated Net Worth | Lifestyle Description |
 | :---- | :---- | :---- | :---- | :---- | :---- |
 | **0** | Indebted | \-5 (Flaw) | 0 Cr | Negative | Debt slavery or prison. Zero assets. Survival depends on others. |
 | **1 \- 4** | Impoverished | 0 | 10 \- 30 Cr | \< 500 Cr | Homeless or squatter. Scavenges for food/scrap. Possessions are improvised. |
@@ -727,7 +727,7 @@ The Tangent Economic Matrix succeeds by establishing a rigid, mathematical backb
 
 * **Crafting DC** is the absolute truth of the universe. It dictates **Value**.  
 * **Value** dictates the **Time** required to build and the **Wealth** required to buy.  
-* **Build Points** allow players to invest in this system, gaining exponential returns on Purchasing Power, paralleling the exponential returns of Combat Power in a leveling RPG.
+* **Character Points** allow players to invest in this system, gaining exponential returns on Purchasing Power, paralleling the exponential returns of Combat Power in a leveling RPG.
 
 This system avoids the pitfalls of linear crafting times, resolves the abstraction issues of wealth scores, and scales effortlessly from the street level to the starship level. It provides the Tangent SciFi Fantasy RPG with an economy that is consistent, exploitable only through gameplay effort, and robust enough to support years of campaign escalation.
 
