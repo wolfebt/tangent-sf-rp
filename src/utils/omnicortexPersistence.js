@@ -46,23 +46,13 @@ import {
   DEFAULT_SOCIETAL_ENTRIES
 } from '../data/supportingCatalogsData.js';
 
-let cachedCompendiumSeed = null;
-let compendiumSeedPromise = null;
+import compendiumSeedData from '../data/compendiumSeed.json' with { type: 'json' };
+
+let cachedCompendiumSeed = Array.isArray(compendiumSeedData) ? compendiumSeedData : [];
+let compendiumSeedPromise = Promise.resolve(cachedCompendiumSeed);
 
 export const loadCompendiumCatalog = async () => {
-  if (cachedCompendiumSeed) return cachedCompendiumSeed;
-  if (!compendiumSeedPromise) {
-    compendiumSeedPromise = import('../data/compendiumSeed.json', { with: { type: 'json' } })
-      .then(mod => {
-        cachedCompendiumSeed = mod.default || mod;
-        return cachedCompendiumSeed;
-      })
-      .catch(err => {
-        console.warn('[omnicortexPersistence] Failed to load compendium seed dynamically:', err);
-        compendiumSeedPromise = null;
-        return [];
-      });
-  }
+  if (cachedCompendiumSeed && cachedCompendiumSeed.length > 0) return cachedCompendiumSeed;
   return compendiumSeedPromise;
 };
 
@@ -218,6 +208,13 @@ export const filterInitialData = (dataList, catKey = null) => {
 };
 
 export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
+  if (catKey === 'compendium' || catKey === 'rules_codex') {
+    const canonicalSeeds = getFallbackSeedForCategory('compendium');
+    if (canonicalSeeds && canonicalSeeds.length > 0) {
+      return [...canonicalSeeds];
+    }
+  }
+
   const currentTombstones = tombstones || getOmnicortexTombstones();
   let items = (docsList || []).filter(i => !isOmnicortexDeleted(i, currentTombstones));
 
@@ -319,6 +316,42 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
         }
       }
 
+      if (catKey === 'skills' && matchingSeed) {
+        enriched.description = matchingSeed.description || enriched.description;
+        enriched.governing_attribute = matchingSeed.governing_attribute || enriched.governing_attribute;
+        enriched.mechanic = matchingSeed.mechanic || enriched.mechanic;
+        enriched.specialties = matchingSeed.specialties || enriched.specialties;
+        enriched.specialty_details = matchingSeed.specialty_details || enriched.specialty_details;
+        enriched.full_text = matchingSeed.full_text || enriched.full_text;
+        enriched.type = matchingSeed.type || enriched.type;
+        enriched.subtype = matchingSeed.subtype || matchingSeed.subcategory || enriched.subtype;
+        enriched.subcategory = matchingSeed.subcategory || enriched.subcategory;
+        enriched.categoryLabel = matchingSeed.categoryLabel || enriched.categoryLabel;
+      }
+
+      if (catKey === 'features' && matchingSeed) {
+        enriched.description = matchingSeed.description || enriched.description;
+        enriched.mechanic = matchingSeed.mechanic || enriched.mechanic;
+        enriched.mechanics = matchingSeed.mechanics || matchingSeed.mechanic || enriched.mechanics;
+        enriched.rules = matchingSeed.rules !== undefined ? matchingSeed.rules : enriched.rules;
+        enriched.special_rules = matchingSeed.special_rules !== undefined ? matchingSeed.special_rules : enriched.special_rules;
+        enriched.prerequisites = matchingSeed.prerequisites || enriched.prerequisites;
+        enriched.prerequisite_text = matchingSeed.prerequisite_text || matchingSeed.prerequisites || enriched.prerequisite_text;
+        enriched.body = matchingSeed.body || enriched.body;
+        enriched.full_text = matchingSeed.full_text || matchingSeed.body || enriched.full_text;
+        enriched.category = matchingSeed.category || enriched.category;
+        enriched.type = matchingSeed.type || enriched.type;
+        enriched.cp = matchingSeed.cp ?? enriched.cp ?? 3;
+        enriched.bp = matchingSeed.bp ?? enriched.bp ?? 3;
+        enriched.is_ranked = matchingSeed.is_ranked ?? enriched.is_ranked;
+        enriched.is_multiple = matchingSeed.is_multiple ?? enriched.is_multiple;
+        enriched.modifiers = (Array.isArray(matchingSeed.modifiers) && matchingSeed.modifiers.length > 0)
+          ? matchingSeed.modifiers
+          : enriched.modifiers;
+        enriched.notes = matchingSeed.notes !== undefined ? matchingSeed.notes : enriched.notes;
+        enriched.notesList = matchingSeed.notesList || enriched.notesList;
+      }
+
       if (catKey === 'compendium' && matchingSeed) {
         enriched.description = matchingSeed.description;
         enriched.name = matchingSeed.name || enriched.name;
@@ -331,9 +364,12 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
         enriched.entry_type = matchingSeed.entry_type || enriched.entry_type;
         enriched.parent = matchingSeed.parent || enriched.parent;
         enriched.order = matchingSeed.order ?? enriched.order;
-        enriched.mechanic = matchingSeed.mechanic || enriched.mechanic;
-        enriched.guide = matchingSeed.guide || enriched.guide;
-        enriched.note = matchingSeed.note || enriched.note;
+        enriched.mechanic = (matchingSeed.mechanic !== undefined ? matchingSeed.mechanic : enriched.mechanic) || '';
+        enriched.guide = (matchingSeed.guide !== undefined ? matchingSeed.guide : enriched.guide) || '';
+        enriched.note = (matchingSeed.note !== undefined ? matchingSeed.note : enriched.note) || '';
+        if (typeof enriched.mechanic === 'string' && enriched.mechanic.startsWith('See full canonical text')) enriched.mechanic = '';
+        if (typeof enriched.guide === 'string' && enriched.guide.includes('in the game rules library for complete')) enriched.guide = '';
+        if (typeof enriched.note === 'string' && enriched.note.includes('Complete, unabridged source of truth')) enriched.note = '';
         enriched.tags = matchingSeed.tags || enriched.tags;
         enriched.updatedAt = matchingSeed.updatedAt || enriched.updatedAt;
       }

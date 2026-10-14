@@ -6,8 +6,10 @@ feature_category: Discipline
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: 'Attune 11, Key Ability 4'
-description: 'Centering Expert is a Discipline Feature: +4 Attune Checks (Affecting DCs).'
+prerequisites: 'Centering, Attune 11 (Expert), Key Ability Score 4'
+description: >-
+  The character has achieved a profound state of mental or spiritual
+  equilibrium.
 costs:
   cp: 3
   bp: 3
@@ -22,20 +24,22 @@ keywords: >-
   centering
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: The bonus to **Attune Checks** increases to **\+4**.
+rules: >-
+  This replaces the bonus from *Centering*, it does not stack (it is an
+  upgrade).
 ---
-
 # Centering Expert
 
 **Category**: Discipline Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: Attune 11, Key Ability 4
+**Prerequisite**: Centering, Attune 11 (Expert), Key Ability Score 4
 
 ## Description
-Centering Expert is a Discipline Feature: \+4 Attune Checks (Affecting DCs).
+The character has achieved a profound state of mental or spiritual equilibrium.
 
 ## Mechanics & Benefit
-\+4 Attune Checks (Affecting DCs).
+The bonus to **Attune Checks** increases to **\+4**.
 
 ## Special Rules
-63
-
+This replaces the bonus from *Centering*, it does not stack (it is an upgrade).

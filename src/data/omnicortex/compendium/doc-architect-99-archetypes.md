@@ -73,14 +73,3 @@ All 221 NPC and Character role archetypes are organized alphabetically in the `.
 * **[Archetypes (M – R) (55 Archetypes)](./archetypes/99.Archetypes.M_R.md)** — *Magician through Robotics Engineer*
 * **[Archetypes (S – Z) (54 Archetypes)](./archetypes/99.Archetypes.S_Z.md)** — *Saboteur through Xenology Expert*
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/99. ARCHETYPES.md
-```
-
-## Gameplay Instructions
-Refer to architect/99. ARCHETYPES.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/99. ARCHETYPES.md. Complete, unabridged source of truth.

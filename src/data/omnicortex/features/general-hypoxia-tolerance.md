@@ -18,8 +18,11 @@ modifiers: []
 keywords: 'hypoxia tolerance, general, special-feature, genetic, variants, epas1/egln1'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You suffer no penalties for operating in high-altitude, low-oxygen, or
+  thin-atmosphere environments. You require 50% less oxygen to survive than a
+  standard member of your species.
 ---
-
 # Hypoxia Tolerance
 
 **Category**: General Features  
@@ -30,7 +33,4 @@ cost_cp: 3
 Genetic variants (such as EPAS1/EGLN1) allow the character to thrive in environments with severely depleted oxygen without suffering altitude sickness or cardiovascular strain.
 
 ## Mechanics & Benefit
-You suffer no penalties for operating in high-altitude, low-oxygen, or thin-atmosphere environments. You require **50% less oxygen** to survive than a standard member of your species.
-
-## Special Rules
-Prerequisite: Stamina 1.
+You suffer no penalties for operating in high-altitude, low-oxygen, or thin-atmosphere environments. You require 50% less oxygen to survive than a standard member of your species.

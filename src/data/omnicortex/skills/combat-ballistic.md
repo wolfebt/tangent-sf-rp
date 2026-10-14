@@ -1,45 +1,47 @@
 ---
 id: combat-ballistic
-name: Ballistic
+name: "Ballistic"
 type: combat
-subtype: modern
+subtype: "modern"
 category: skills
-governing_attributes:
-  - Agility
-description: >-
-  The operation, maintenance, and precision firing of kinetic firearms and
-  projectile weapons using chemical propellant or electromagnetic acceleration.
-trained_only: false
+governing_attribute: "Agility"
+description: "The operation of firearms and other handheld projectile weapons. This skill covers maintaining, reloading, and firing weapons that use combustion or magnetic acceleration to launch solid slugs at high velocity."
 specialties:
-  - 'Pistols (Revolvers, semi-automatic sidearms, mag-pistols)'
-  - 'Rifles (Assault rifles, battle rifles, carbines)'
-  - 'Shotguns (Scatterguns, slug throwers)'
-  - Sniper Rifles (Long-range precision platforms)
-  - Submachine Guns / SMGs (Compact high-rate-of-fire weapons)
-synergy_links:
-  - mental-demolitionist
-  - mental-weaponsmith
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'ballistic, combat, agility, tactical, offensive, defense'
-negative_keywords: 'pacifist, unarmed-civilian, helpless'
+  - "Semi-Automatic Pistols: Double-tapping service handguns rapidly, clearing malfunctions, and drawing from holsters."
+  - "Heavy Revolvers: Firing high-caliber magnum hand cannons with heavy recoil control and precision shot placement."
+  - "Tactical Shotguns: Pumping or cycling 12-gauge buckshot spreads and armor-piercing slugs in room clearing."
+  - "Submachine Guns (SMGs): Controlling high cyclic rates of fire, firing controlled bursts from compact machine pistols."
+  - "Assault Rifles & Carbines: Engaging point and area targets from 50 to 300 meters using single shots and short bursts."
+  - "Designated Marksman Rifles: Precision shooting at mid-to-long range using magnified optics and match ammunition."
+  - "Sniper Rifles: Calculating windage, bullet drop, core Coriolis effect, and firing single-shot extreme range kills."
+  - "Automatic Fire Walking: Firing long full-auto bursts while walking the muzzle stream onto moving enemy lines."
+  - "Kinetic Anti-Materiel Rifles: Firing massive .50-caliber or 20mm kinetic rounds to destroy engine blocks and light armor."
+  - "Concealed Carry Quick-Draw: Clearing clothing, drawing a hidden sub-compact pistol, and firing within one second."
+keywords: "ballistic, combat, agility, tactical, offensive, defense"
+negative_keywords: "pacifist, unarmed-civilian, helpless"
 ---
 
-# Ballistic
+### **BALLISTIC**
 
-The operation, maintenance, and precision firing of kinetic firearms and projectile weapons using chemical propellant or electromagnetic acceleration.
+* **Ability:** Agility  
+* **Description:** The operation of firearms and other handheld projectile weapons. This skill covers maintaining, reloading, and firing weapons that use combustion or magnetic acceleration to launch solid slugs at high velocity.
 
-### Mechanics & Rules
-- **Governing Attribute**: Agility
-- **Standard Attack Roll**: `2d10 + Ballistic Rank + Agility Mod vs. Target Defense`.
-- **Burst Fire (Short)**: Controlled 3-round burst grants **+1 Bonus to Strike**.
-- **Auto-Fire (Long Burst)**: Firing 10+ rounds imposes **-1 Recoil Penalty** per 10 rounds fired. For every point the attack roll exceeds target Defense, 1 additional round hits (up to total shots fired), dealing **+1d damage** per extra hit if initial hit penetrates target DR.
+* **Mechanics:**  
+  * **Standard Attack:** **2d10 \+ Skill Rank \+ Agility Mod vs. Target Defense**.  
+  * **Burst Fire (Short):** Firing a controlled 3-round burst grants a **\+1 Bonus to Strike**2.
 
-### Specialties
-- **Pistols**: Concealable sidearms and tactical handguns.
-- **Rifles**: Standard infantry rifles and long-barrel carbines.
-- **Shotguns**: Close-range spread weapons and breaching tools.
-- **Sniper Rifles**: High-magnification precision kinetic rifles.
-- **SMGs**: High-cycling close-quarters automatic weapons.
+  * **Auto-Fire (Long Burst):** Firing longer bursts (10+ rounds) imposes a **\-1 Recoil Penalty** for every 10 rounds fired. However, for every point the attack roll exceeds the target's Defense, one additional round hits (up to the total shots fired). Each extra hit deals **\+1d damage** (if the initial hit penetrated DR)3.
+
+* **Specialties:**   
+  * **Semi-Automatic Pistols:** Double-tapping service handguns rapidly, clearing malfunctions, and drawing from holsters.  
+  * **Heavy Revolvers:** Firing high-caliber magnum hand cannons with heavy recoil control and precision shot placement.  
+  * **Tactical Shotguns:** Pumping or cycling 12-gauge buckshot spreads and armor-piercing slugs in room clearing.  
+  * **Submachine Guns (SMGs):** Controlling high cyclic rates of fire, firing controlled bursts from compact machine pistols.  
+  * **Assault Rifles & Carbines:** Engaging point and area targets from 50 to 300 meters using single shots and short bursts.  
+  * **Designated Marksman Rifles:** Precision shooting at mid-to-long range using magnified optics and match ammunition.  
+  * **Sniper Rifles:** Calculating windage, bullet drop, core Coriolis effect, and firing single-shot extreme range kills.  
+  * **Automatic Fire Walking:** Firing long full-auto bursts while walking the muzzle stream onto moving enemy lines.  
+  * **Kinetic Anti-Materiel Rifles:** Firing massive .50-caliber or 20mm kinetic rounds to destroy engine blocks and light armor.  
+  * **Concealed Carry Quick-Draw:** Clearing clothing, drawing a hidden sub-compact pistol, and firing within one second.
+
+###

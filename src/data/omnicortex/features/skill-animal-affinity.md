@@ -17,8 +17,10 @@ modifiers: []
 keywords: 'animal affinity, skill, special-feature, natural, beasts, understanding'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Gain a **\+2 Bonus** to **Survival** checks regarding Animal Handling, Riding,
+  or Taming. You can alter an animal's attitude one step faster than normal.
 ---
-
 # Animal Affinity
 
 **Category**: Skill Features  
@@ -30,7 +32,3 @@ The character has a natural bond with beasts, understanding their body language 
 
 ## Mechanics & Benefit
 Gain a **\+2 Bonus** to **Survival** checks regarding Animal Handling, Riding, or Taming. You can alter an animal's attitude one step faster than normal.
-
-## Special Rules
-129
-

@@ -179,14 +179,3 @@ Part III (The Master Catalog: Source of Truth) is organized into modular referen
 * **[Species Chassis Types, Size & Movement](./species/99.Species.ChassisAndMovement.md)** — *Part III.1–4: Species Types (The Chassis), Size Categories, Movement Modes, and Attributes & Skills*
 * **[Species Traits Catalog & Disadvantages](./species/99.Species.TraitsAndDisadvantages.md)** — *Part III.5–6: Master Catalog of positive Species Traits and CP-reducing Disadvantages*
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/99. MODULAR SPECIES MATRIX.md
-```
-
-## Gameplay Instructions
-Refer to architect/99. MODULAR SPECIES MATRIX.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/99. MODULAR SPECIES MATRIX.md. Complete, unabridged source of truth.

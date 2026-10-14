@@ -274,14 +274,3 @@ Detailed interstellar trade mechanics and the complete Tangent Economic Unified 
 * **[Interstellar Trade & Mercantile Framework](./economy/02.Economy.InterstellarTrade.md)** — *Trade Classifications & Codes, Commodities & Exchange Matrix, Speculative Cargo, Gray/Black Markets, and Cargo Capacity*
 * **[Tangent Economic Unified Field Theory (EUFT Protocol)](./economy/02.Economy.UnifiedFieldTheory.md)** — *Valuation Vector, Tangent Standard Curve, Wealth Matrix, Liquidity Gap/Drag, Crafting Engine, Reference Tables, Macro-Economics, and Stress Testing*
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/02 ECONOMY AND WEALTH.md
-```
-
-## Gameplay Instructions
-Refer to architect/02 ECONOMY AND WEALTH.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/02 ECONOMY AND WEALTH.md. Complete, unabridged source of truth.

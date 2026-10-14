@@ -1,45 +1,34 @@
 ---
 id: meta-sense
-name: Sense
+name: "Sense"
 type: meta
-subtype: mental
+subtype: "mental"
 category: skills
-governing_attributes:
-  - Wisdom
-description: >-
-  Mental discipline: Remote viewing, psionic detection, empathy, telepathic
-  probing, and clairvoyance.
-trained_only: true
+governing_attribute: ""
+description: "Mental: Remote viewing, psionic detection, empathy, telepathic probing, and clairvoyance."
 specialties:
-  - Empathic Resonance
-  - Remote Viewing
-  - Aura Perception
-  - Telepathic Scanning
-  - Premonitory Intuition
-synergy_links:
-  - meta-attune
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'sense, meta, wisdom, metafocus, psionic, resonance'
-negative_keywords: 'mundane, anti-magic-field, unattuned'
+  []
+keywords: "sense, meta, wisdom, metafocus, psionic, resonance"
+negative_keywords: "mundane, anti-magic-field, unattuned"
 ---
 
-# Sense
+### **SENSE FOCUS**
 
-Mental discipline: Remote viewing, psionic detection, empathy, telepathic probing, and clairvoyance.
+Receiving information from the universe or other minds.
 
-### Mechanics & Rules
-- **Governing Attribute**: Wisdom
-- **Discipline Focus**: Mental
-- **Standard Check**: `2d10 + Sense Rank + Wisdom Mod vs. Target DC / Resistance`.
-- **Prerequisite**: Unlocked when character possesses the **Awakened** feature or relevant Metaphysical discipline training.
-- **Strain Resolution**: Failing an invocation check by 5+ points deals non-lethal strain fatigue.
+* **Range:** Extended. 100ft x Rank.
 
-### Specialties
-- **Empathic**: Empathic Resonance
-- **Remote**: Remote Viewing
-- **Aura**: Aura Perception
-- **Telepathic**: Telepathic Scanning
-- **Premonitory**: Premonitory Intuition
+**Invocations:**
+
+* **Clairvoyance/Remote Viewing:** See/Hear at a distance.  
+  * *Effect:* Project senses to a known location or person.  
+* **Precognition:** Glimpse the future.  
+  * *Effect:* Gain Advantage on Initiative or a specific Defense check.  
+* **Mind Read:** Detect surface thoughts or deep probe.  
+  * *Effect:* Resisted by Will.  
+* **Detection:** Sense specific signatures (Life, Magic, Tech).  
+  * *Effect:* Ping location of target type within range.
+
+# 
+
+#

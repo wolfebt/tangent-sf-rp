@@ -18,8 +18,11 @@ modifiers: []
 keywords: 'biotechnology, special, special-feature, trained, naturally, adapted'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You can imprint, operate, and heal Living Technology. Without this feature,
+  Biotech items treat the user as a foreign body and may not function or may
+  even attack the user.
 ---
-
 # Biotechnology
 
 **Category**: Special Features  
@@ -31,7 +34,3 @@ The character is trained or naturally adapted to use "Living Technology"—grown
 
 ## Mechanics & Benefit
 You can imprint, operate, and heal Living Technology. Without this feature, Biotech items treat the user as a foreign body and may not function or may even attack the user.
-
-## Special Rules
-183
-

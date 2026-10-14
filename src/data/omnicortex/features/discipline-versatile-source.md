@@ -20,8 +20,22 @@ keywords: >-
   character's
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
----
+mechanic: >-
+  You may use a **Secondary Ability Score** to modify your **Attune Checks**.  
+    * *Example:* An Intellect-based caster (Mage) with this feature could choose to use their Wisdom modifier for Attune checks instead, perhaps representing a shift from logical weaving to intuitive feeling.  
+  * **Purpose:** useful for characters with high stats in non-standard casting
+  attributes, or to mitigate temporary Ability Damage to their primary casting
+  stat.
 
+
+  &nbsp;
+
+
+  &nbsp;
+
+
+  &nbsp;
+---
 # Versatile Source
 
 **Category**: Discipline Features  
@@ -33,8 +47,11 @@ The character's understanding of metaphysics is broad enough to bridge different
 
 ## Mechanics & Benefit
 You may use a **Secondary Ability Score** to modify your **Attune Checks**.  
-  * *Example:* An Intellect-based caster (Mage) with this feature could choose to use their Wisdom modifier for Attune checks instead, perhaps representing a shift from logical weaving to intuitive feeling.
+  * *Example:* An Intellect-based caster (Mage) with this feature could choose to use their Wisdom modifier for Attune checks instead, perhaps representing a shift from logical weaving to intuitive feeling.  
+* **Purpose:** useful for characters with high stats in non-standard casting attributes, or to mitigate temporary Ability Damage to their primary casting stat.
 
-## Special Rules
-74
+&nbsp;
 
+&nbsp;
+
+&nbsp;

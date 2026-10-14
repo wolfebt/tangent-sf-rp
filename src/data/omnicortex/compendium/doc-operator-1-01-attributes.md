@@ -651,14 +651,3 @@ A character with a Charisma score of \+5 attends a formal diplomatic reception w
 
 #
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/character_creation/1.01.Attributes.md
-```
-
-## Gameplay Instructions
-Refer to operator/character_creation/1.01.Attributes.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/character_creation/1.01.Attributes.md. Complete, unabridged source of truth.

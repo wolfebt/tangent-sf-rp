@@ -1,39 +1,43 @@
 ---
 id: mental-alertness
-name: Alertness
+name: "Alertness"
 type: mental
-subtype: general
+subtype: "general"
 category: skills
-governing_attributes:
-  - Intellect
-  - Wisdom
-description: >-
-  Environmental perception and sensory awareness. Spotting hidden items, hearing
-  subtle sounds, identifying traps, and avoiding ambushes.
-trained_only: false
+governing_attribute: "Perception (Intellect + Wisdom)"
+description: "Alertness is the skill of being aware of one's surroundings and noticing changes or potential threats in the environment. It reflects a character's ability to pay attention to details and react quickly to unexpected situations. Alertness is used whenever a character needs to be aware of their surroundings, whether it's to avoid danger or to gather information. This can include things like noticing a hidden door, detecting a trap, or identifying a potential ambush."
 specialties:
-  - Sight (Spotting visual anomalies and concealed foes)
-  - Hearing (Detecting faint footsteps and whispered conversations)
-  - 'Scent (Noticing chemical, biological, or thermal cues)'
-  - Intuition (Gut feelings and ambush sensing)
-synergy_links:
-  - mental-investigation
-  - mental-survival
-  - physical-stealth
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'alertness, mental, wisdom, intellect, cognitive, expertise'
-negative_keywords: 'mindless, instinct-only, illiterate'
+  - "Visual Spotting: Identifying hidden snipers, optical glints, camouflaged personnel, and concealed traps."
+  - "Auditory Listening: Eavesdropping through bulkheads, picking out hushed footsteps, and identifying weapon charging hums."
+  - "Ambush Detection: Sensing structural irregularities, kill-zone geometry, and unnatural environmental stillness."
+  - "Concealed Object Search: Uncovering secret compartments, hidden weapon holsters, false deckplates, and covert bugs."
+  - "Scent & Pheromone Recognition: Identifying chemical signatures, ozone leaks, and tracking alien scents."
+  - "Sensor Feed Monitoring: Catching blips, radar ghosting, and telemetry spikes on passive scanner consoles."
+  - "Danger Sense & Intuition: Reading subtle atmospheric pressure changes and gut feelings before violence erupts."
+  - "Counter-Surveillance Awareness: Noticing when you are being tailed, scanned, or watched from high vantage points."
+  - "Micro-Detail Inspection: Spotting minute hairline fractures in bulkheads, micro-cameras, and hairline tripwires."
+  - "Motion Tracking: Tracking high-speed peripheral movement across low-light and visual-clutter environments."
+keywords: "alertness, mental, wisdom, intellect, cognitive, expertise"
+negative_keywords: "mindless, instinct-only, illiterate"
 ---
 
-# Alertness
+## **ALERTNESS**
 
-Environmental perception and sensory awareness. Spotting hidden items, hearing subtle sounds, identifying traps, and avoiding ambushes.
+* **Ability:** Perception (Intellect \+ Wisdom)  
+* **Description:** Alertness is the skill of being aware of one's surroundings and noticing changes or potential threats in the environment. It reflects a character's ability to pay attention to details and react quickly to unexpected situations. Alertness is used whenever a character needs to be aware of their surroundings, whether it's to avoid danger or to gather information. This can include things like noticing a hidden door, detecting a trap, or identifying a potential ambush.  
+* **Mechanics:**  
+  * *Spot/Listen:* Opposed by Stealth.  
+  * *Search:* CR 10 (easy) to CR 30 (microscopic detail).  
+* **Specialties:**   
+  * **Visual Spotting:** Identifying hidden snipers, optical glints, camouflaged personnel, and concealed traps.  
+  * **Auditory Listening:** Eavesdropping through bulkheads, picking out hushed footsteps, and identifying weapon charging hums.  
+  * **Ambush Detection:** Sensing structural irregularities, kill-zone geometry, and unnatural environmental stillness.  
+  * **Concealed Object Search:** Uncovering secret compartments, hidden weapon holsters, false deckplates, and covert bugs.  
+  * **Scent & Pheromone Recognition:** Identifying chemical signatures, ozone leaks, and tracking alien scents.  
+  * **Sensor Feed Monitoring:** Catching blips, radar ghosting, and telemetry spikes on passive scanner consoles.  
+  * **Danger Sense & Intuition:** Reading subtle atmospheric pressure changes and gut feelings before violence erupts.  
+  * **Counter-Surveillance Awareness:** Noticing when you are being tailed, scanned, or watched from high vantage points.  
+  * **Micro-Detail Inspection:** Spotting minute hairline fractures in bulkheads, micro-cameras, and hairline tripwires.  
+  * **Motion Tracking:** Tracking high-speed peripheral movement across low-light and visual-clutter environments.
 
-### Mechanics & Rules
-- **Governing Attribute**: Perception (Intellect + Wisdom).
-- **Spot / Listen**: Opposed check against target's **Stealth**.
-- **Search Tasks**: DC 10 (Noticing obvious items) to DC 30 (Microscopic data caches or hidden seams).
-- **Surprise Avoidance**: Used at encounter start to detect ambushes and retain normal initiative.
+##

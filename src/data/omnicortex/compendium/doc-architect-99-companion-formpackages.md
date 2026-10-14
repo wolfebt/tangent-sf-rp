@@ -243,14 +243,3 @@ Select **one** form. This defines the Type, Size, and inherent physical traits. 
 
 ###
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/companions/99.Companion.FormPackages.md
-```
-
-## Gameplay Instructions
-Refer to architect/companions/99.Companion.FormPackages.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/companions/99.Companion.FormPackages.md. Complete, unabridged source of truth.

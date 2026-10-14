@@ -20,8 +20,11 @@ modifiers:
 keywords: 'entertaining, skill, special-feature, performer, capable, holding'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: Gain a **\+1 Bonus** to **Any Performance Check**.
+rules: >-
+  This feature is **\[Ranked\]** (Limited by Charisma). Rank 3 would grant a \+3
+  to all Performance types (Singing, Dancing, Acting, etc.).
 ---
-
 # Entertaining
 
 **Category**: Skill Features  
@@ -36,4 +39,3 @@ Gain a **\+1 Bonus** to **Any Performance Check**.
 
 ## Special Rules
 This feature is **\[Ranked\]** (Limited by Charisma). Rank 3 would grant a \+3 to all Performance types (Singing, Dancing, Acting, etc.).
-

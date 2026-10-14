@@ -1,6 +1,6 @@
 ---
 id: "doc-architect-99-planetary-civilizationandeconomy"
-name: "99. Planetary: Civilization, Economy & Infrastructure"
+name: "99. 14. Planetary: Civilization, Economy & Infrastructure"
 fileName: "99.Planetary.CivilizationAndEconomy.md"
 relPath: "architect/planetary/99.Planetary.CivilizationAndEconomy.md"
 isMasterDoc: false
@@ -429,14 +429,3 @@ A character's "Origin" defines their skills and worldview based on their homewor
 
 ---
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/planetary/99.Planetary.CivilizationAndEconomy.md
-```
-
-## Gameplay Instructions
-Refer to architect/planetary/99.Planetary.CivilizationAndEconomy.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/planetary/99.Planetary.CivilizationAndEconomy.md. Complete, unabridged source of truth.

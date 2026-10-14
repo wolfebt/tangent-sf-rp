@@ -19,8 +19,13 @@ keywords: >-
   utilizes
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
+mechanic: >-
+  You may use your **Agility** modifier instead of your Strength modifier when
+  making Grapple Checks (both to initiate and maintain a grapple).
+rules: >-
+  This applies to the grapple check only; damage dealt while grappling is still
+  calculated using Strength unless another feature modifies it.
 ---
-
 # Agile Wrestling
 
 **Category**: Combat Features  
@@ -35,4 +40,3 @@ You may use your **Agility** modifier instead of your Strength modifier when mak
 
 ## Special Rules
 This applies to the grapple check only; damage dealt while grappling is still calculated using Strength unless another feature modifies it.
-

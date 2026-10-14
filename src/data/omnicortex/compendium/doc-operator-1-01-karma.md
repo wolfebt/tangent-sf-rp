@@ -290,14 +290,3 @@ Negative Karma Points allow the GM to introduce various effects that hinder the 
 
   Negative Karma can also positively affect NPCs who are directly opposing the character. This could manifest as increased luck, improved skills, or unexpected advantages that help them overcome the character's efforts.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/character_creation/1.01.Karma.md
-```
-
-## Gameplay Instructions
-Refer to operator/character_creation/1.01.Karma.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/character_creation/1.01.Karma.md. Complete, unabridged source of truth.

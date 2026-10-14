@@ -7,7 +7,7 @@ cost_bp: 3
 is_ranked: false
 is_multiple: false
 prerequisites: Sneak Attack
-description: 'Cripple is a Special Feature: Cause severe damage to a target''s limb.'
+description: A brutal strike to the arms or weapon systems.
 costs:
   cp: 3
   bp: 3
@@ -15,8 +15,10 @@ modifiers: []
 keywords: 'cripple, special, special-feature, feature:, severe, damage'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You may trade your Sneak Attack damage dice to force the target to drop their
+  weapon or disable one of their arms/manipulators.
 ---
-
 # Cripple
 
 **Category**: Special Features  
@@ -24,11 +26,7 @@ cost_cp: 3
 **Prerequisite**: Sneak Attack
 
 ## Description
-Cripple is a Special Feature: Cause severe damage to a target's limb.
+A brutal strike to the arms or weapon systems.
 
 ## Mechanics & Benefit
-Cause severe damage to a target's limb.
-
-## Special Rules
-209
-
+You may trade your Sneak Attack damage dice to force the target to drop their weapon or disable one of their arms/manipulators.

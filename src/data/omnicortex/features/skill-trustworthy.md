@@ -15,8 +15,10 @@ modifiers: []
 keywords: 'trustworthy, skill, special-feature, honest, reliable, demeanor'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Gain a **\+2 Bonus** to **Manipulation Skills** (Bluff/Diplomacy) and a **\+1
+  Bonus** to **Culture** checks (fitting in).
 ---
-
 # Trustworthy
 
 **Category**: Skill Features  
@@ -28,7 +30,3 @@ The character has an honest face and a reliable demeanor.
 
 ## Mechanics & Benefit
 Gain a **\+2 Bonus** to **Manipulation Skills** (Bluff/Diplomacy) and a **\+1 Bonus** to **Culture** checks (fitting in).
-
-## Special Rules
-172
-

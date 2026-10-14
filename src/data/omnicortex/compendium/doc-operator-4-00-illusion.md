@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-4-00-metaphysics"
 category: "operator_rule"
 parent: "doc-operator-4-00-metaphysics"
-order: 219
+order: 222
 perspective: "operator"
 entry_type: "Metaphysics Discipline"
 tl: 3
@@ -455,14 +455,3 @@ Evokes a blast of roiling shadow energy that mimics a physical attack.
 * **Damage:** 1d6 Shadow Damage per Stage.  
 * **Debuff:** Targets taking damage are Entangled (Shadows cling) for 1 round per Stage.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/metaphysics/4.00.Illusion.md
-```
-
-## Gameplay Instructions
-Refer to operator/metaphysics/4.00.Illusion.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/metaphysics/4.00.Illusion.md. Complete, unabridged source of truth.

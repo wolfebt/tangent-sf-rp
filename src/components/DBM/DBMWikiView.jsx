@@ -463,15 +463,7 @@ export const DBMWikiView = ({
 
   const [isMobileGuideOpen, setIsMobileGuideOpen] = useState(false);
 
-  const [sortMode, setSortMode] = useState(() => {
-    if (typeof window === 'undefined') return 'order';
-    try {
-      const saved = localStorage.getItem('compendium_sort_mode');
-      return saved === 'alpha' ? 'alpha' : 'order';
-    } catch {
-      return 'order';
-    }
-  });
+  const sortMode = 'order';
 
   const [expandedSections, setExpandedSections] = useState({
     [OP_PARENT]: true,
@@ -519,13 +511,10 @@ export const DBMWikiView = ({
   } = useMemo(() => {
     const rawItems = currentItems || [];
 
-    // Strictly keep only 1.00 Operator and 5.00 Architect articles (and any modular children)
+    // Strictly keep only canonical 1.00 Operator and 5.00 Architect articles
     const sourceOfTruthItems = rawItems.filter(item => {
-      const p = (item.parent || '').trim();
       const id = (item.id || '').toLowerCase();
-      const isOp = p === OP_PARENT || id.startsWith('doc-operator-') || item.perspective === 'operator';
-      const isArch = p === ARCH_PARENT || id.startsWith('doc-architect-') || item.perspective === 'architect' || item.category === 'architect_matrix';
-      return isOp || isArch;
+      return id.startsWith('doc-operator-') || id.startsWith('doc-architect-');
     });
 
     const itemMap = new Map();
@@ -700,15 +689,6 @@ export const DBMWikiView = ({
     }
     return list;
   }, []);
-
-  const toggleSortMode = () => {
-    const nextMode = sortMode === 'order' ? 'alpha' : 'order';
-    AudioService?.playTerminalBeep?.(1100, 0.02);
-    setSortMode(nextMode);
-    try {
-      localStorage.setItem('compendium_sort_mode', nextMode);
-    } catch {}
-  };
 
   // Tab Switching Handler
   const handleTabClick = (tabKey) => {
@@ -1732,32 +1712,6 @@ export const DBMWikiView = ({
                   </button>
                 )}
               </div>
-
-              {/* Sort Mode Button (For compendium articles) */}
-              {activeTab !== 'guide' && (
-                <button
-                  type="button"
-                  onClick={toggleSortMode}
-                  className={`px-2 py-1.5 rounded-lg border transition-all cursor-pointer text-xs font-mono font-bold flex items-center gap-1 shrink-0 shadow-sm ${
-                    sortMode === 'alpha'
-                      ? 'bg-amber-950/70 border-amber-500/60 text-amber-300 hover:bg-amber-900/80'
-                      : 'bg-cyan-950/70 border-cyan-500/60 text-cyan-300 hover:bg-cyan-900/80'
-                  }`}
-                  title={sortMode === 'order' ? "Sort: Canonical Numbers (Click for A-Z Alphabetical)" : "Sort: Alphabetical A-Z (Click for Canonical Numbers)"}
-                >
-                  {sortMode === 'order' ? (
-                    <>
-                      <ArrowDown10 size={14} className="text-cyan-400" />
-                      <span className="text-[10px]">1-9</span>
-                    </>
-                  ) : (
-                    <>
-                      <ArrowDownAZ size={14} className="text-amber-400" />
-                      <span className="text-[10px]">A-Z</span>
-                    </>
-                  )}
-                </button>
-              )}
             </div>
           </div>
 
@@ -2140,7 +2094,7 @@ export const DBMWikiView = ({
               </div>
 
               {/* Game Mechanics Box */}
-              {activeArticle.mechanic && (
+              {activeArticle.mechanic && !activeArticle.mechanic.startsWith('See full canonical text') && (
                 <div className="bg-slate-950 border border-amber-500/40 p-5 rounded-xl text-xs space-y-2 shadow-md">
                   <h4 className="font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2 text-sm">
                     <span>⚙️</span> Game Mechanics (BASTION Rules)
@@ -2152,7 +2106,7 @@ export const DBMWikiView = ({
               )}
 
               {/* Guide Box */}
-              {activeArticle.guide && (
+              {activeArticle.guide && !activeArticle.guide.includes('in the game rules library for complete') && (
                 <div className="bg-slate-950 border border-cyan-500/40 p-5 rounded-xl text-xs space-y-2 shadow-md">
                   <h4 className="font-bold text-cyan-400 uppercase tracking-wider text-sm flex items-center gap-2">
                     <span>📖</span> Gameplay Instructions
@@ -2164,7 +2118,7 @@ export const DBMWikiView = ({
               )}
 
               {/* Notes Box */}
-              {activeArticle.note && (
+              {activeArticle.note && !activeArticle.note.includes('Complete, unabridged source of truth') && (
                 <div className="bg-slate-950 border border-slate-800 p-4 rounded-xl text-xs italic text-slate-400">
                   <span className="font-bold text-slate-300 not-italic uppercase block mb-1 font-mono text-[11px]">
                     Architect Notes:

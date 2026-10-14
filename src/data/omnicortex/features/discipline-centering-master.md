@@ -6,8 +6,10 @@ feature_category: Discipline
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: 'Attune 16, Key Ability 6'
-description: 'Centering Master is a Discipline Feature: +6 Attune Checks (Affecting DCs).'
+prerequisites: 'Centering Expert, Attune 16 (Master), Key Ability Score 6'
+description: >-
+  The character's control over their metaphysical connection is absolute; they
+  are a conduit through which power flows without resistance.
 costs:
   cp: 3
   bp: 3
@@ -22,20 +24,16 @@ keywords: >-
   centering
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: The bonus to **Attune Checks** increases to **\+6**.
 ---
-
 # Centering Master
 
 **Category**: Discipline Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: Attune 16, Key Ability 6
+**Prerequisite**: Centering Expert, Attune 16 (Master), Key Ability Score 6
 
 ## Description
-Centering Master is a Discipline Feature: \+6 Attune Checks (Affecting DCs).
+The character's control over their metaphysical connection is absolute; they are a conduit through which power flows without resistance.
 
 ## Mechanics & Benefit
-\+6 Attune Checks (Affecting DCs).
-
-## Special Rules
-64
-
+The bonus to **Attune Checks** increases to **\+6**.

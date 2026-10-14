@@ -24,8 +24,13 @@ modifiers:
 keywords: 'attractive, skill, special-feature, possesses, striking, physical'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Gain a **\+2 Bonus** to all Social checks where physical appearance is a
+  factor (e.g., Seduction, First Impressions).
+rules: >-
+  This feature is **\[Ranked\]** (Limited by Charisma score). Rank 2 grants \+4,
+  etc.
 ---
-
 # Attractive
 
 **Category**: Skill Features  
@@ -40,4 +45,3 @@ Gain a **\+2 Bonus** to all Social checks where physical appearance is a factor 
 
 ## Special Rules
 This feature is **\[Ranked\]** (Limited by Charisma score). Rank 2 grants \+4, etc.
-

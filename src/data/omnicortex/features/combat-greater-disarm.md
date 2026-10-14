@@ -7,9 +7,7 @@ cost_bp: 3
 is_ranked: false
 is_multiple: false
 prerequisites: Improved Disarm
-description: >-
-  Greater Disarm is a Combat Feature: Disarmed weapons are knocked away from
-  your enemy.
+description: The character disarms with such force that the weapon is sent flying.
 costs:
   cp: 3
   bp: 3
@@ -19,8 +17,11 @@ keywords: >-
   greater
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
+mechanic: >-
+  When you successfully Disarm an opponent, the weapon is knocked **15 feet**
+  away in a random direction (or one of your choice on a critical success),
+  rather than falling at the opponent's feet.
 ---
-
 # Greater Disarm
 
 **Category**: Combat Features  
@@ -28,11 +29,7 @@ cost_cp: 3
 **Prerequisite**: Improved Disarm
 
 ## Description
-Greater Disarm is a Combat Feature: Disarmed weapons are knocked away from your enemy.
+The character disarms with such force that the weapon is sent flying.
 
 ## Mechanics & Benefit
-Disarmed weapons are knocked away from your enemy.
-
-## Special Rules
-27
-
+When you successfully Disarm an opponent, the weapon is knocked **15 feet** away in a random direction (or one of your choice on a critical success), rather than falling at the opponent's feet.

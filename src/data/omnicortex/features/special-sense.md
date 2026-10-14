@@ -15,8 +15,11 @@ modifiers: []
 keywords: 'sense, special, special-feature, specific, energy, presence'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You can detect a specific aura (Evil, Magic, Life, Tech, Heat) within a **20
+  ft Radius** or a **40 ft Cone**. This requires active concentration (Standard
+  Action).
 ---
-
 # Sense
 
 **Category**: Special Features  
@@ -28,7 +31,3 @@ The character can sense a specific type of energy or presence.
 
 ## Mechanics & Benefit
 You can detect a specific aura (Evil, Magic, Life, Tech, Heat) within a **20 ft Radius** or a **40 ft Cone**. This requires active concentration (Standard Action).
-
-## Special Rules
-Multiple 204
-

@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-06-occupations"
 category: "operator_rule"
 parent: "doc-operator-1-06-occupations"
-order: 172
+order: 175
 perspective: "operator"
 entry_type: "Occupation Profile"
 tl: 3
@@ -228,14 +228,3 @@ Able to create, adapt, and improve technology in novel ways.
   * **Palette:** Server Black, Tape Reel Brown.  
   * **Tokens:** Tapes, arm, shelving, order.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/occupations/1.06.Scholar.md
-```
-
-## Gameplay Instructions
-Refer to operator/occupations/1.06.Scholar.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/occupations/1.06.Scholar.md. Complete, unabridged source of truth.

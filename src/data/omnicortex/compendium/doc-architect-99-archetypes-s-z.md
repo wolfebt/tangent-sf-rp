@@ -309,14 +309,3 @@ sockets:
 | *Xenology Expert* A scholar specializing in the study of alien life forms, their behaviors, and abilities. They can discover new species and identify weaknesses or vulnerabilities of alien creatures. A scholar who delves into the mysteries of alien life, studying their biology, culture, and technology to gain a deeper understanding of the universe's diverse inhabitants. Skills: Knowledge (Xenology), Insight, History, Technology Features: Alien Savant: You gain a \+2 bonus to Knowledge (Xenology) checks and \+2 bonus on any checks related to identifying alien species, understanding their behavior, or deciphering their communication signals. First Contact Specialist: You have a knack for establishing communication and building rapport with alien lifeforms, gaining \+2 bonus on any checks related to diplomacy or negotiation with extraterrestrial beings. |
 | :---- |
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/archetypes/99.Archetypes.S_Z.md
-```
-
-## Gameplay Instructions
-Refer to architect/archetypes/99.Archetypes.S_Z.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/archetypes/99.Archetypes.S_Z.md. Complete, unabridged source of truth.

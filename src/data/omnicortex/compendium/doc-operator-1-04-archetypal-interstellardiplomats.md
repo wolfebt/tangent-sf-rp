@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-archetypal-interstellardiplomats"
-name: "1.04 Archetypal: Interstellar Diplomats"
+name: "1.04 Archetypal: 10. Interstellar Diplomats"
 fileName: "1.04.Archetypal.InterstellarDiplomats.md"
 relPath: "operator/factions/1.04.Archetypal.InterstellarDiplomats.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 134
+order: 137
 perspective: "operator"
 entry_type: "Generic Faction Template"
 tl: 3
@@ -86,14 +86,3 @@ sockets:
 * **Atmosphere Tokens:** Pristine embassy halls, flowing ceremonial robes, high-end defensive shields, polished marble, holographic treaties.  
 * **HI-FI INK Guidance:** Diplomatic Elite, Clean Sci-Fi. Grand assembly halls, polished marble floors, pristine white uniforms, subtle high-tech security fields. Serene, tense, wealthy.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Archetypal.InterstellarDiplomats.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Archetypal.InterstellarDiplomats.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Archetypal.InterstellarDiplomats.md. Complete, unabridged source of truth.

@@ -177,14 +177,3 @@ This is the return from the dead option. It is generally rare, involves high-lev
 * A revived character loses ALL remaining Karma Points.  
 * They suffer a \-5 Experience Debt due to the trauma. This is taken as a reduction in a trait (or Traits) or as a reduction in accumulated/future experience until the debt is paid.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/character_creation/1.01.RestAndDying.md
-```
-
-## Gameplay Instructions
-Refer to operator/character_creation/1.01.RestAndDying.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/character_creation/1.01.RestAndDying.md. Complete, unabridged source of truth.

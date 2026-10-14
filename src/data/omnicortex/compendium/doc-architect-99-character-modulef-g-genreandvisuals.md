@@ -239,14 +239,3 @@ This facilitation framework provides the structural scaffolding necessary to bui
 
 ### ---
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/characters/99.Character.ModuleF_G.GenreAndVisuals.md
-```
-
-## Gameplay Instructions
-Refer to architect/characters/99.Character.ModuleF_G.GenreAndVisuals.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/characters/99.Character.ModuleF_G.GenreAndVisuals.md. Complete, unabridged source of truth.

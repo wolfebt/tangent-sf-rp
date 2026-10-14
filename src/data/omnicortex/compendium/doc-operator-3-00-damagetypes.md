@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-3-00-combat"
 category: "operator_rule"
 parent: "doc-operator-3-00-combat"
-order: 213
+order: 216
 perspective: "operator"
 entry_type: "Combat Module"
 tl: 3
@@ -764,14 +764,3 @@ Advanced Tech
 
 Additional Notes: Mental damage can cause a variety of effects, including confusion, fear, loss of control, and psychological trauma. Some attacks may bypass physical defenses entirely, while others may be resisted by mental fortitude or psychic shielding. Characters with strong wills or psychic defenses may be more resistant to mental damage. Based on the "Power Profile \- Mental Powers.pdf", mental powers generally involve mental sensory effects or Will-resisted effects which target minds. Effects can include Emotion Control, Hallucination, Mental Blast, Mind Control, Mind Switch, Possession, Psychic Vampirism, and Psychic Weapon.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/combat/3.00.DamageTypes.md
-```
-
-## Gameplay Instructions
-Refer to operator/combat/3.00.DamageTypes.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/combat/3.00.DamageTypes.md. Complete, unabridged source of truth.

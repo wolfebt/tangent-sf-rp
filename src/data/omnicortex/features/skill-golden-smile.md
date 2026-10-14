@@ -6,10 +6,8 @@ feature_category: Skill
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: 'Silver Tongue, Cha 2, Dip/Bluff 6'
-description: >-
-  Golden Smile is a Skill Feature: Take 10 or add d10 to Bluff and Diplomacy
-  checks.
+prerequisites: 'Silver Tongue, Charisma 2, Bluff 6, Diplomacy 6'
+description: 'The character''s charm is disarming and risky, but often rewarding.'
 costs:
   cp: 3
   bp: 3
@@ -24,20 +22,18 @@ modifiers:
 keywords: 'golden smile, skill, special-feature, golden, feature:, diplomacy'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You may choose to **Take 10** on Bluff and Diplomacy checks, OR you may roll
+  **2d10 with Advantage**, allowing for potentially higher highs but lower lows.
 ---
-
 # Golden Smile
 
 **Category**: Skill Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: Silver Tongue, Cha 2, Dip/Bluff 6
+**Prerequisite**: Silver Tongue, Charisma 2, Bluff 6, Diplomacy 6
 
 ## Description
-Golden Smile is a Skill Feature: Take 10 or add d10 to Bluff and Diplomacy checks.
+The character's charm is disarming and risky, but often rewarding.
 
 ## Mechanics & Benefit
-Take 10 or add d10 to Bluff and Diplomacy checks.
-
-## Special Rules
-162
-
+You may choose to **Take 10** on Bluff and Diplomacy checks, OR you may roll **2d10 with Advantage**, allowing for potentially higher highs but lower lows.

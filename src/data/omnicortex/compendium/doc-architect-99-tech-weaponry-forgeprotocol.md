@@ -700,14 +700,3 @@ Sum the final CR. Run through Value \= 10 \* 4^(CR / 5). Verify character Wealth
 
 *
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/technology/weaponry/99.Tech.Weaponry.ForgeProtocol.md
-```
-
-## Gameplay Instructions
-Refer to architect/technology/weaponry/99.Tech.Weaponry.ForgeProtocol.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/technology/weaponry/99.Tech.Weaponry.ForgeProtocol.md. Complete, unabridged source of truth.

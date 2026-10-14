@@ -15,8 +15,11 @@ modifiers: []
 keywords: 'medic, skill, special-feature, trained, emergency, triage'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: Gain a **\+2 Bonus** to Medicine checks.
+rules: >-
+  You may perform **First Aid** (stabilize a dying character) as a **Standard
+  Action** rather than a Full Round Action.
 ---
-
 # Medic
 
 **Category**: Skill Features  
@@ -31,4 +34,3 @@ Gain a **\+2 Bonus** to Medicine checks.
 
 ## Special Rules
 You may perform **First Aid** (stabilize a dying character) as a **Standard Action** rather than a Full Round Action.
-

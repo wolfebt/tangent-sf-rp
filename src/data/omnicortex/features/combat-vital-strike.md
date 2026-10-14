@@ -17,8 +17,13 @@ modifiers: []
 keywords: 'vital strike, combat, special-feature, combat-maneuver, tactical-edge, single'
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
+mechanic: >-
+  As a **Standard Action**, make a single attack at your highest bonus. If it
+  hits, deal **two times (2x)** the weapon's damage dice.
+rules: >-
+  **Note:** Only the dice are multiplied, not the static bonuses (Strength,
+  specialization, etc.).
 ---
-
 # Vital Strike
 
 **Category**: Combat Features  
@@ -32,5 +37,4 @@ The character makes a single, devastatingly accurate attack rather than a flurry
 As a **Standard Action**, make a single attack at your highest bonus. If it hits, deal **two times (2x)** the weapon's damage dice.
 
 ## Special Rules
-52
-
+**Note:** Only the dice are multiplied, not the static bonuses (Strength, specialization, etc.).

@@ -203,14 +203,3 @@ Bridging abstract Wealth Scores and liquid Credits.
 # 
 
 &nbsp;
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/1.00 INTRODUCTION.md
-```
-
-## Gameplay Instructions
-Refer to operator/1.00 INTRODUCTION.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/1.00 INTRODUCTION.md. Complete, unabridged source of truth.

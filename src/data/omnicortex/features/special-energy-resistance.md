@@ -19,8 +19,11 @@ keywords: >-
   resistant
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Gain **Resistance 5** against one chosen energy type. (Subtract 5 from all
+  damage of that type).
+rules: '\[Ranked\] Stacks to Resistance 10, 15, etc., eventually becoming Immunity.'
 ---
-
 # Energy Resistance
 
 **Category**: Special Features  
@@ -35,4 +38,3 @@ Gain **Resistance 5** against one chosen energy type. (Subtract 5 from all damag
 
 ## Special Rules
 \[Ranked\] Stacks to Resistance 10, 15, etc., eventually becoming Immunity.
-

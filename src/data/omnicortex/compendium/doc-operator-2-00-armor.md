@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-2-00-economatrix"
 category: "operator_rule"
 parent: "doc-operator-2-00-economatrix"
-order: 204
+order: 207
 perspective: "operator"
 entry_type: "Economatrix Catalog"
 tl: 3
@@ -507,14 +507,3 @@ Stat Block:
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/economatrix/2.00.Armor.md
-```
-
-## Gameplay Instructions
-Refer to operator/economatrix/2.00.Armor.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/economatrix/2.00.Armor.md. Complete, unabridged source of truth.

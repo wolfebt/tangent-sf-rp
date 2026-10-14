@@ -6,10 +6,10 @@ feature_category: General
 cost_bp: 3
 is_ranked: true
 is_multiple: true
-prerequisites: Special (Organizational sponsorship)
+prerequisites: Membership in a Faction or Corp
 description: >-
-  Issued or subsidized organizational hardware, specialized field kits, armored
-  vehicles, or scout starships.
+  The character is sponsored by an organization that provides them with gear,
+  rather than purchasing it with personal wealth.
 costs:
   cp: 3
   bp: 3
@@ -19,19 +19,26 @@ keywords: >-
   organizational
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You are issued a package of gear that does not count against your personal
+  Wealth or Debt.  
+    * *Rank 1:* Standard Kit (Personal Gear, Tools).  
+    * *Rank 2:* Tactical Package (Weapons, Armor).  
+    * *Rank 3:* Mobility Package (Personal Vehicle, Heavy Weapons).  
+    * *Rank 4:* Command Package (Starship, Base of Operations).
 ---
-
 # Benefit (Equipment)
 
 **Category**: General Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: Special (Organizational sponsorship)
+**Prerequisite**: Membership in a Faction or Corp
 
 ## Description
-Issued or subsidized organizational hardware, specialized field kits, armored vehicles, or scout starships.
+The character is sponsored by an organization that provides them with gear, rather than purchasing it with personal wealth.
 
 ## Mechanics & Benefit
-Character receives supplied gear, military ordnance, or access to an organization-owned vehicle/vessel.
-
-## Special Rules
-Ranked: Rank 1 grants personal gear kits, Rank 3 grants tactical combat vehicles, Rank 5 grants a scout starship.
+You are issued a package of gear that does not count against your personal Wealth or Debt.  
+  * *Rank 1:* Standard Kit (Personal Gear, Tools).  
+  * *Rank 2:* Tactical Package (Weapons, Armor).  
+  * *Rank 3:* Mobility Package (Personal Vehicle, Heavy Weapons).  
+  * *Rank 4:* Command Package (Starship, Base of Operations).

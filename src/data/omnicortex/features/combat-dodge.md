@@ -15,8 +15,11 @@ modifiers: []
 keywords: 'dodge, combat, special-feature, combat-maneuver, tactical-edge, dodging'
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
+mechanic: Gain a **\+1 Dodge bonus to Defense**.
+rules: >-
+  Dodge bonuses stack with other Dodge bonuses (but not with themselves). This
+  bonus is lost if you are Flat-Footed.
 ---
-
 # Dodge
 
 **Category**: Combat Features  
@@ -31,4 +34,3 @@ Gain a **\+1 Dodge bonus to Defense**.
 
 ## Special Rules
 Dodge bonuses stack with other Dodge bonuses (but not with themselves). This bonus is lost if you are Flat-Footed.
-

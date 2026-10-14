@@ -22,8 +22,11 @@ modifiers:
 keywords: 'endurance, general, special-feature, exceptional, cardiovascular, health'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Gain a **\+4 Bonus** on checks to resist non-lethal damage from exhaustion,
+  starvation, thirst, or forced marches. You can hold your breath twice as long
+  as normal.
 ---
-
 # Endurance
 
 **Category**: General Features  
@@ -35,7 +38,3 @@ The character has exceptional cardiovascular health and stamina for long-term ex
 
 ## Mechanics & Benefit
 Gain a **\+4 Bonus** on checks to resist non-lethal damage from exhaustion, starvation, thirst, or forced marches. You can hold your breath twice as long as normal.
-
-## Special Rules
-92
-

@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-06-occupations"
 category: "operator_rule"
 parent: "doc-operator-1-06-occupations"
-order: 163
+order: 166
 perspective: "operator"
 entry_type: "Occupation Profile"
 tl: 3
@@ -222,14 +222,3 @@ Adepts are often versatile characters who can adapt to different situations. The
   * **Palette:** Matte Grey, Neon Purple (Data), Grid Black.  
   * **Tokens:** Glitching reality, floating shapes, numbers, cold logic.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/occupations/1.06.Adept.md
-```
-
-## Gameplay Instructions
-Refer to operator/occupations/1.06.Adept.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/occupations/1.06.Adept.md. Complete, unabridged source of truth.

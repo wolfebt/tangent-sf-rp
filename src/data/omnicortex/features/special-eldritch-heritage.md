@@ -15,8 +15,11 @@ modifiers: []
 keywords: 'eldritch heritage, special, special-feature, carries, dragons, demons'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You gain a specific **Bloodline Power** or minor supernatural trait associated
+  with your ancestor (e.g., minor energy resistance, claws, or a cantrip-level
+  spell usable at will).
 ---
-
 # Eldritch Heritage
 
 **Category**: Special Features  
@@ -28,7 +31,3 @@ The character carries the blood of dragons, demons, fey, or gods.
 
 ## Mechanics & Benefit
 You gain a specific **Bloodline Power** or minor supernatural trait associated with your ancestor (e.g., minor energy resistance, claws, or a cantrip-level spell usable at will).
-
-## Special Rules
-191
-

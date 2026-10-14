@@ -7,9 +7,7 @@ cost_bp: 3
 is_ranked: false
 is_multiple: false
 prerequisites: Sneak Attack
-description: >-
-  Hobble is a Special Feature: Reduce a target’s speed by 50% (immobilize on
-  2nd).
+description: A hamstringing strike to the legs or motive systems.
 costs:
   cp: 3
   bp: 3
@@ -17,8 +15,10 @@ modifiers: []
 keywords: 'hobble, special, special-feature, feature:, reduce, target’s'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  When you deal Sneak Attack damage, the target's **Movement Speed is reduced by
+  50%**. A second successful Hobble immobilizes them.
 ---
-
 # Hobble
 
 **Category**: Special Features  
@@ -26,11 +26,7 @@ cost_cp: 3
 **Prerequisite**: Sneak Attack
 
 ## Description
-Hobble is a Special Feature: Reduce a target’s speed by 50% (immobilize on 2nd).
+A hamstringing strike to the legs or motive systems.
 
 ## Mechanics & Benefit
-Reduce a target’s speed by 50% (immobilize on 2nd).
-
-## Special Rules
-210
-
+When you deal Sneak Attack damage, the target's **Movement Speed is reduced by 50%**. A second successful Hobble immobilizes them.

@@ -6,15 +6,15 @@ relPath: "operator/species/ShaNor/1.03.ShaNor.Tenen.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
-parent: "doc-operator-1-03-shanor-base"
-order: 76
+parent: "doc-operator-1-03-shanor"
+order: 90
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.shanor.tenen","mechanics"]
-updatedAt: "2026-10-14T05:24:25.068Z"
+updatedAt: "2026-10-14T08:27:02.791Z"
 costs:
   bp: 0
   credits: 0
@@ -41,7 +41,7 @@ sockets:
 
 # 
 
-**CP Cost:**&nbsp;
+**CP Cost:** 38 CP
 
 **Description:** The Tenen are an extremely rare offshoot of Sha’Nor which have evolved from their predatory nature and Vampiric needs. Theory of this is primarily due to a transition to a demi-dimension they have been dwelling in. This seems to have accompanied their use of different energies more amiable to creation than destruction.&nbsp;
 
@@ -123,14 +123,3 @@ Special Abilities
 
 \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/ShaNor/1.03.ShaNor.Tenen.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/ShaNor/1.03.ShaNor.Tenen.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/ShaNor/1.03.ShaNor.Tenen.md. Complete, unabridged source of truth.

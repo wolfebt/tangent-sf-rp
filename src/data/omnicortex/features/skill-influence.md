@@ -15,8 +15,10 @@ modifiers: []
 keywords: 'influence, skill, special-feature, significant, social, within'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Gain a **\+4 Bonus** to **Reputation** and **Favor** checks (a subset of
+  Diplomacy used to acquire resources or assistance).
 ---
-
 # Influence
 
 **Category**: Skill Features  
@@ -28,7 +30,3 @@ The character has significant social pull within their faction or community.
 
 ## Mechanics & Benefit
 Gain a **\+4 Bonus** to **Reputation** and **Favor** checks (a subset of Diplomacy used to acquire resources or assistance).
-
-## Special Rules
-146
-

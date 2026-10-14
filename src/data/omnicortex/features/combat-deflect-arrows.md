@@ -17,8 +17,12 @@ keywords: >-
   projectiles
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
+mechanic: >-
+  Once per round, when you would normally be hit by a ranged weapon attack, you
+  may make a Reflex Save (CR equal to the Attack Roll). If successful, you
+  deflect the projectile and take **no damage**. You must be aware of the attack
+  and not flat-footed.
 ---
-
 # Deflect Arrows
 
 **Category**: Combat Features  
@@ -29,8 +33,4 @@ cost_cp: 3
 The character can knock aside projectiles with a weapon or free hand.
 
 ## Mechanics & Benefit
-Once per round, when you would normally be hit by a ranged weapon attack, you may make a Reflex Save (DC equal to the Attack Roll). If successful, you deflect the projectile and take **no damage**. You must be aware of the attack and not flat-footed.
-
-## Special Rules
-39
-
+Once per round, when you would normally be hit by a ranged weapon attack, you may make a Reflex Save (CR equal to the Attack Roll). If successful, you deflect the projectile and take **no damage**. You must be aware of the attack and not flat-footed.

@@ -82,12 +82,14 @@ function syncFeatures() {
       max_rank: data.max_rank || (data.is_ranked ? 4 : undefined),
       is_multiple: Boolean(data.is_multiple),
       prerequisites: data.prerequisites || data.prerequisite || 'None',
+      prerequisite_text: data.prerequisites || data.prerequisite || 'None',
       modifiers: Array.isArray(data.modifiers) ? data.modifiers : [],
       description: data.description || '',
       mechanic: mechanic,
       rules: rules,
       special_rules: rules,
-      body: body
+      body: body,
+      full_text: body
     };
 
     const featureObj = enrichItemWithModifiers(rawFeatureObj, {});

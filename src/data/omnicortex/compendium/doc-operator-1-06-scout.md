@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-06-occupations"
 category: "operator_rule"
 parent: "doc-operator-1-06-occupations"
-order: 173
+order: 176
 perspective: "operator"
 entry_type: "Occupation Profile"
 tl: 3
@@ -238,14 +238,3 @@ Scouts have knacks that allow them to improve their efficiency in specific terra
   * **Palette:** Spider Black, Sensor Red.  
   * **Tokens:** Legs, camera, wall, climbing.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/occupations/1.06.Scout.md
-```
-
-## Gameplay Instructions
-Refer to operator/occupations/1.06.Scout.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/occupations/1.06.Scout.md. Complete, unabridged source of truth.

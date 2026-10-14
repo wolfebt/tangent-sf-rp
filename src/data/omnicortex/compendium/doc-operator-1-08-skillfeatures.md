@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-08-features"
 category: "operator_rule"
 parent: "doc-operator-1-08-features"
-order: 194
+order: 197
 perspective: "operator"
 entry_type: "Feature Catalog"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","features","1.08.skillfeatures","mechanics"]
-updatedAt: "2026-10-14T05:52:41.917Z"
+updatedAt: "2026-10-14T09:06:38.173Z"
 costs:
   bp: 0
   credits: 0
@@ -39,61 +39,59 @@ sockets:
 
 # **SKILL FEATURES**
 
-# **SKILL FEATURES**
-
 Bonuses and specialized uses for skills.
 
 | FEATURE NAME | PREREQUISITE | BENEFIT / EFFECT | SPECIAL / NOTES |
 | :---- | :---- | :---- | :---- |
-| **Aeronaut** | Pilot (Unpowered) 1 | Make Unpowered Pilot checks at Advantage. | 128 |
-| **Animal Affinity** | \- | \+2 Handle and Ride animals (Survival). | 129 |
-| **Artificer** | Attune 11, Discipline 11, Craft 11 | Metacraft Prototyping checks made with Advantage. | 130 |
-| **Artistic** | \- | \+2 to 2 Performance or Vocation Subskills. | 131 |
-| **Attractive** | Cha 2 | \+2 Social checks for physical appeal. | Ranked (Cha) 132&nbsp; |
-| **Biotechnologist** | Bio/Botany/Med 11 | Biotechnology Prototyping with Advantage. | 133 |
-| **Computer Specialist** | \- | \+2 All Computer Tasks. | 134 |
-| **Digital Expert** | Computer Specialist | Perform Computer Tasks in 1/2 time. | 135 |
-| **Coding Master** | Computer Specialist | Perform Computer Tasks at Advantage. | 136 |
-| **Deceitful** | \- | \+2 Manipulation Skills and \+1 to Etiquette checks. | 137 |
-| **Educated** | Academics 5, Knowledge 5 | \+2 Academics and \+1 to all Knowledge Skills. | 138 |
-| **Entertaining** | Cha 1 | \+1 Any Performance Check. | Ranked (Cha) 139&nbsp; |
-| **Gearhead** | \- | \+2 All Mechanical based Knowledge, Operation, Repair checks. | 140 |
-| **Gifted Pilot** | Pilot 6 | \+2 Piloting, \+10% to Maximum Vehicle Speed. | 141 |
-| **Crack Pilot** | Gifted Pilot, Pilot 11 | \+4 Piloting, \+20% to Maximum Vehicle Speed. | 142 |
-| **Ace Pilot** | Crack Pilot, Pilot 16 | \+6 Piloting, \+30% to Maximum Vehicle Speed. | 143 |
-| **Graceful** | \- | \+1 All Agi based non-attack skill checks and Reflex checks. | 144 |
-| **Headstrong** | \- | \+2 Bluff, Intimidate checks and \+1 to Will checks. | 145 |
-| **Influence** | Cha 2 | \+4 Reputation and Favor checks (Diplomacy). | 146 |
-| **Investigator** | \- | \+2 Investigation and Gather Information checks. | 147 |
-| **Linguist** | \- | \+2 Language, may take 10 on Language checks. | 148 |
-| **Logical** | \- | \+2 Logic Checks and may take 10 on Logic Checks. | 149 |
-| **Magical Aptitude** | \- | \+2 Attune and \+1 to Metaphysics Knowledge checks. | 150 |
-| **Master Craftsman** | Crafting 6 | \+2 Crafting Checks and \+2 to Mastercrafting. | 151 |
-| **Medic** | \- | \+2 Medicine, First Aid is a Standard Action. | 152 |
-| **Meticulous** | \- | Meticulous Skill bonuses increase by 1 per stage. | 153 |
-| **Naturalist** | \- | \+2 Nature and Survival checks. | 154 |
-| **Nimble Fingers** | \- | \+2 Sleight of Hand and Disable Device (Security) checks. | 155 |
-| **Persuasive** | \- | \+2 Diplomacy and Intimidate checks. | 156 |
-| **Perceptive** | \- | \+2 Perception checks and \+1 Insight checks. | 157 |
-| **Researcher** | \- | \+2 Academics and Library Use checks. | 158 |
-| **Scholar** | \- | \+2 All Knowledge Skills. | 159 |
-| **Self Sufficient** | \- | \+2 Survival and \+1 Fortitude checks. | 160 |
-| **Silver Tongue** | Cha 1, Diplomacy 1 | Adjust Diplomacy checks by additional step. | 161 |
-| **Golden Smile** | Silver Tongue, Cha 2, Dip/Bluff 6 | Take 10 or add d10 to Bluff and Diplomacy checks. | 162 |
-| **Platinum Personality** | Golden Smile, Cha 4, Dip/Bluff 11 | Make Bluff and Diplomacy Checks with Advantage. | 163 |
-| **Skill Focus** | Chosen Skill 1 | Bonus of \+2 and may be gained at each skill stage. | Multiple 164&nbsp; |
-| **Skill Mastery** | Skill Focus (2), Rank 11+ | Take 10 with ALL skills at 11+ with Skill Focus. | 165 |
-| **Skill Specialization** | Chosen Skill 1 | Enable a path of expertise which adds to base skill (up to 10 levels). | Multiple 166&nbsp; |
-| **Social** | \- | \+1 ALL Cha Skills and Etiquette checks. | 167 |
-| **Spacer** | \- | \+2 All Starship and any Space Survival checks. | 168 |
-| **Steady** | \- | \+2 Acrobatics, Athletics and \+1 Ref checks. | 169 |
-| **Stealthy** | \- | \+2 Escape Artist, Sleight of Hand checks and \+4 Stealth. | 170 |
-| **Stout** | \- | \+1 ALL Sta & Con Skills and Might & Fortitude Checks. | 171 |
-| **Trustworthy** | \- | \+2 Manipulation Skills and \+1 Culture checks. | 172 |
-| **Veiled Threat** | \- | Target doesn't become hostile after Intimidation. | 173 |
-| **Versatile Curator** | Knowledge 6, Int 2 | Virtual skills as additional Knowledge skills (1 per Int \> 1). | 174 |
-| **Versatile Performer** | Perform 6, Int 2 | Virtual skills as additional Perform skills (1 per Int \> 1). | 175 |
-| **Versatile Professional** | Vocation 6, Int 2 | Virtual skills as additional Vocation skills (1 per Int \> 1). | 176 |
+| **Aeronaut** | Pilot (Unpowered) 1 | Make Unpowered Pilot checks at Advantage. |  |
+| **Animal Affinity** | \- | \+2 Handle and Ride animals (Survival). |  |
+| **Artificer** | Attune 11, Discipline 11, Craft 11 | Metacraft Prototyping checks made with Advantage. |  |
+| **Artistic** | \- | \+2 to 2 Performance or Vocation Subskills. |  |
+| **Attractive** | Cha 2 | \+2 Social checks for physical appeal. | Ranked (Cha) |
+| **Biotechnologist** | Bio/Botany/Med 11 | Biotechnology Prototyping with Advantage. |  |
+| **Computer Specialist** | \- | \+2 All Computer Tasks. |  |
+| **Digital Expert** | Computer Specialist | Perform Computer Tasks in 1/2 time. |  |
+| **Coding Master** | Computer Specialist | Perform Computer Tasks at Advantage. |  |
+| **Deceitful** | \- | \+2 Manipulation Skills and \+1 to Etiquette checks. |  |
+| **Educated** | Academics 5, Knowledge 5 | \+2 Academics and \+1 to all Knowledge Skills. |  |
+| **Entertaining** | Cha 1 | \+1 Any Performance Check. | Ranked (Cha) |
+| **Gearhead** | \- | \+2 All Mechanical based Knowledge, Operation, Repair checks. |  |
+| **Gifted Pilot** | Pilot 6 | \+2 Piloting, \+10% to Maximum Vehicle Speed. |  |
+| **Crack Pilot** | Gifted Pilot, Pilot 11 | \+4 Piloting, \+20% to Maximum Vehicle Speed. |  |
+| **Ace Pilot** | Crack Pilot, Pilot 16 | \+6 Piloting, \+30% to Maximum Vehicle Speed. |  |
+| **Graceful** | \- | \+1 All Agi based non-attack skill checks and Reflex checks. |  |
+| **Headstrong** | \- | \+2 Bluff, Intimidate checks and \+1 to Will checks. |  |
+| **Influence** | Cha 2 | \+4 Reputation and Favor checks (Diplomacy). |  |
+| **Investigator** | \- | \+2 Investigation and Gather Information checks. |  |
+| **Linguist** | \- | \+2 Language, may take 10 on Language checks. |  |
+| **Logical** | \- | \+2 Logic Checks and may take 10 on Logic Checks. |  |
+| **Magical Aptitude** | \- | \+2 Attune and \+1 to Metaphysics Knowledge checks. |  |
+| **Master Craftsman** | Crafting 6 | \+2 Crafting Checks and \+2 to Mastercrafting. |  |
+| **Medic** | \- | \+2 Medicine, First Aid is a Standard Action. |  |
+| **Meticulous** | \- | Meticulous Skill bonuses increase by 1 per stage. |  |
+| **Naturalist** | \- | \+2 Nature and Survival checks. |  |
+| **Nimble Fingers** | \- | \+2 Sleight of Hand and Disable Device (Security) checks. |  |
+| **Persuasive** | \- | \+2 Diplomacy and Intimidate checks. |  |
+| **Perceptive** | \- | \+2 Perception checks and \+1 Insight checks. |  |
+| **Researcher** | \- | \+2 Academics and Library Use checks. |  |
+| **Scholar** | \- | \+2 All Knowledge Skills. |  |
+| **Self Sufficient** | \- | \+2 Survival and \+1 Fortitude checks. |  |
+| **Silver Tongue** | Cha 1, Diplomacy 1 | Adjust Diplomacy checks by additional step. |  |
+| **Golden Smile** | Silver Tongue, Cha 2, Dip/Bluff 6 | Take 10 or add d10 to Bluff and Diplomacy checks. |  |
+| **Platinum Personality** | Golden Smile, Cha 4, Dip/Bluff 11 | Make Bluff and Diplomacy Checks with Advantage. |  |
+| **Skill Focus** | Chosen Skill 1 | Bonus of \+2 and may be gained at each skill stage. | Multiple |
+| **Skill Mastery** | Skill Focus (2), Rank 11+ | Take 10 with ALL skills at 11+ with Skill Focus. |  |
+| **Skill Specialization** | Chosen Skill 1 | Enable a path of expertise which adds to base skill (up to 10 levels). | Multiple |
+| **Social** | \- | \+1 ALL Cha Skills and Etiquette checks. |  |
+| **Spacer** | \- | \+2 All Starship and any Space Survival checks. |  |
+| **Steady** | \- | \+2 Acrobatics, Athletics and \+1 Ref checks. |  |
+| **Stealthy** | \- | \+2 Escape Artist, Sleight of Hand checks and \+4 Stealth. |  |
+| **Stout** | \- | \+1 ALL Sta & Con Skills and Might & Fortitude Checks. |  |
+| **Trustworthy** | \- | \+2 Manipulation Skills and \+1 Culture checks. |  |
+| **Veiled Threat** | \- | Target doesn't become hostile after Intimidation. |  |
+| **Versatile Curator** | Knowledge 6, Int 2 | Virtual skills as additional Knowledge skills (1 per Int \> 1). |  |
+| **Versatile Performer** | Perform 6, Int 2 | Virtual skills as additional Perform skills (1 per Int \> 1). |  |
+| **Versatile Professional** | Vocation 6, Int 2 | Virtual skills as additional Vocation skills (1 per Int \> 1). |  |
 
 &nbsp;
 
@@ -105,7 +103,7 @@ Bonuses and specialized uses for skills.
 * **Benefit:** You may make all **Pilot (Unpowered)** checks with **Advantage**.  
 * **Purpose:** Essential for winged species or low-tech gliders to fly safely in dangerous weather conditions.
 
-### 
+---
 
 ## **Animal Affinity**
 
@@ -114,7 +112,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** None  
 * **Benefit:** Gain a **\+2 Bonus** to **Survival** checks regarding Animal Handling, Riding, or Taming. You can alter an animal's attitude one step faster than normal.
 
-### 
+---
 
 ## **Artificer**
 
@@ -124,7 +122,7 @@ Bonuses and specialized uses for skills.
 * **Benefit:** All **Metacrafting** and **Prototyping** checks to create magical or psionic items are made with **Advantage**.  
 * **Mechanics:** drastically reduces the risk of wasting expensive materials when building enchantments.
 
-### 
+---
 
 ## **Artistic**
 
@@ -133,7 +131,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** None  
 * **Benefit:** Choose two **Performance** or **Vocation (Art/Craft)** sub-skills. Gain a **\+2 Bonus** to both.
 
-### 
+---
 
 ## **Attractive**
 
@@ -143,7 +141,7 @@ Bonuses and specialized uses for skills.
 * **Benefit:** Gain a **\+2 Bonus** to all Social checks where physical appearance is a factor (e.g., Seduction, First Impressions).  
 * **Special:** This feature is **\[Ranked\]** (Limited by Charisma score). Rank 2 grants \+4, etc.
 
-### 
+---
 
 ## **Biotechnologist**
 
@@ -153,7 +151,7 @@ Bonuses and specialized uses for skills.
 * **Benefit:** All **Biotechnology Prototyping** and **Grafting** checks are made with **Advantage**.  
 * **Purpose:** Critical for installing bio-augmentations or growing organic starship components (Auluran/Tyranid style tech).
 
-### 
+---
 
 ## **Computer Specialist**
 
@@ -162,25 +160,25 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** Computers 1  
 * **Benefit:** Gain a **\+2 Bonus** to all **Computer** tasks (Hacking, Programming, Hardware Repair).
 
-### 
+---
 
-  ## **Digital Expert**
+## **Digital Expert**
 
-  **Description:** The character types at the speed of thought.
+**Description:** The character types at the speed of thought.
 
 * **Prerequisite:** Computer Specialist  
 * **Benefit:** You perform Computer-based tasks in **1/2 the typical time**.  
 * **Usage:** Allows a hacker to break a security lock in 3 seconds (1 action) rather than 6 seconds (Full Round), or write a program in hours instead of days.
 
-  ### 
+---
 
-  ## **Coding Master**
+## **Coding Master**
 
-  **Description:** The character sees the matrix of the digital world.  
+**Description:** The character sees the matrix of the digital world.  
 * **Prerequisite:** Computer Specialist  
 * **Benefit:** Perform all Computer tasks with **Advantage**.
 
-### 
+---
 
 ## **Deceitful**
 
@@ -189,7 +187,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** None  
 * **Benefit:** Gain a **\+2 Bonus** to **Manipulation Skills** (Bluff, Disguise) and a **\+1 Bonus** to **Etiquette** checks.
 
-### 
+---
 
 ## **Educated**
 
@@ -198,7 +196,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** Academics 5, Any Knowledge 5  
 * **Benefit:** Gain a **\+2 Bonus** to **Academics** and a **\+1 Bonus** to **ALL Knowledge Skills**.
 
-### 
+---
 
 ## **Entertaining**
 
@@ -208,7 +206,7 @@ Bonuses and specialized uses for skills.
 * **Benefit:** Gain a **\+1 Bonus** to **Any Performance Check**.  
 * **Special:** This feature is **\[Ranked\]** (Limited by Charisma). Rank 3 would grant a \+3 to all Performance types (Singing, Dancing, Acting, etc.).
 
-### 
+---
 
 ## **Gearhead**
 
@@ -217,7 +215,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** Engineering 1 or Mechanics 1  
 * **Benefit:** Gain a **\+2 Bonus** to all Mechanical-based **Knowledge**, **Operation**, and **Repair** checks.
 
-### 
+---
 
 ## **Gifted Pilot**
 
@@ -226,24 +224,24 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** Pilot 6  
 * **Benefit:** Gain a **\+2 Bonus** to Piloting checks. Increase the **Maximum Speed** of any vehicle you pilot by **10%**.
 
-### 
+---
 
-  ## **Crack Pilot**
+## **Crack Pilot**
 
-  **Description:** A veteran of many dogfights or races.
+**Description:** A veteran of many dogfights or races.
 
 * **Prerequisite:** Gifted Pilot, Pilot 11  
 * **Benefit:** Gain a **\+4 Bonus** to Piloting checks. Increase Maximum Speed by **20%**.
 
-  ### 
+---
 
-  ## **Ace Pilot**
+## **Ace Pilot**
 
-  **Description:** A legendary flyer whose maneuvers defy physics.  
+**Description:** A legendary flyer whose maneuvers defy physics.  
 * **Prerequisite:** Crack Pilot, Pilot 16  
 * **Benefit:** Gain a **\+6 Bonus** to Piloting checks. Increase Maximum Speed by **30%**.
 
-### 
+---
 
 ## **Graceful**
 
@@ -252,7 +250,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** None  
 * **Benefit:** Gain a **\+1 Bonus** to all **Agility-based Non-Attack Skill checks** (Acrobatics, Stealth, Sleight of Hand) and **Reflex Checks**.
 
-### 
+---
 
 ## **Headstrong**
 
@@ -261,7 +259,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** None  
 * **Benefit:** Gain a **\+2 Bonus** to **Bluff** and **Intimidate** checks, and a **\+1 Bonus** to **Will Checks**.
 
-### 
+---
 
 ## **Influence**
 
@@ -270,7 +268,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** Charisma 2  
 * **Benefit:** Gain a **\+4 Bonus** to **Reputation** and **Favor** checks (a subset of Diplomacy used to acquire resources or assistance).
 
-### 
+---
 
 ## **Investigator**
 
@@ -279,7 +277,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** None  
 * **Benefit:** Gain a **\+2 Bonus** to **Investigation** and **Gather Information** checks.
 
-### 
+---
 
 ## **Linguist**
 
@@ -288,7 +286,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** Linguistics 1  
 * **Benefit:** Gain a **\+2 Bonus** to **Language** checks. You may **Take 10** on Language checks to decipher writing even under stress.
 
-### 
+---
 
 ## **Logical**
 
@@ -297,7 +295,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** None  
 * **Benefit:** Gain a **\+2 Bonus** to **Logic Checks**. You may **Take 10** on Logic checks even under stress.
 
-### 
+---
 
 ## **Magical Aptitude**
 
@@ -306,7 +304,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** None  
 * **Benefit:** Gain a **\+2 Bonus** to **Attune** checks and a **\+1 Bonus** to **Knowledge (Metaphysics)**.
 
-### 
+---
 
 ## **Master Craftsman**
 
@@ -315,7 +313,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** Crafting 6  
 * **Benefit:** Gain a **\+2 Bonus** to Crafting checks. When creating **Masterwork** items, you add **\+2** to the CR limit of what you can create (allowing for more complex modifications).
 
-### 
+---
 
 ## **Medic**
 
@@ -325,7 +323,7 @@ Bonuses and specialized uses for skills.
 * **Benefit:** Gain a **\+2 Bonus** to Medicine checks.  
 * **Special:** You may perform **First Aid** (stabilize a dying character) as a **Standard Action** rather than a Full Round Action.
 
-### 
+---
 
 ## **Meticulous**
 
@@ -335,7 +333,7 @@ Bonuses and specialized uses for skills.
 * **Benefit:** The bonus gained from taking extra time on a skill check is improved.  
 * **Mechanics:** For every \+50% time added to a task, you gain a **\+3 Bonus** (normally \+2). This bonus scales with stages (+3, \+6, \+9 etc.).
 
-### 
+---
 
 ## **Naturalist**
 
@@ -344,7 +342,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** None  
 * **Benefit:** Gain a **\+2 Bonus** to **Nature** (Knowledge) and **Survival** checks.
 
-### 
+---
 
 ## **Nimble Fingers**
 
@@ -353,7 +351,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** None  
 * **Benefit:** Gain a **\+2 Bonus** to **Sleight of Hand** and **Disable Device** (Security/Mechanics) checks.
 
-### 
+---
 
 ## **Persuasive**
 
@@ -362,7 +360,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** None  
 * **Benefit:** Gain a **\+2 Bonus** to **Diplomacy** and **Intimidate** checks.
 
-### 
+---
 
 ## **Perceptive**
 
@@ -371,7 +369,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** None  
 * **Benefit:** Gain a **\+2 Bonus** to **Perception** checks (Alertness) and a **\+1 Bonus** to **Insight** checks.
 
-### 
+---
 
 ## **Researcher**
 
@@ -380,7 +378,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** None  
 * **Benefit:** Gain a **\+2 Bonus** to **Academics** and **Library Use** checks.
 
-### 
+---
 
 ## **Scholar**
 
@@ -389,7 +387,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** None  
 * **Benefit:** Gain a **\+2 Bonus** to **ALL Knowledge Skills**.
 
-### 
+---
 
 ## **Self Sufficient**
 
@@ -398,7 +396,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** None  
 * **Benefit:** Gain a **\+2 Bonus** to **Survival** checks and a **\+1 Bonus** to **Fortitude** checks.
 
-### 
+---
 
 ## **Silver Tongue**
 
@@ -407,24 +405,24 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** Charisma 1, Diplomacy 1  
 * **Benefit:** When using Diplomacy to change an NPC's attitude, you improve it by **one additional step** (e.g., Hostile becomes Indifferent instead of Unfriendly).
 
-### 
+---
 
-  ## **Golden Smile**
+## **Golden Smile**
 
-  **Description:** The character's charm is disarming and risky, but often rewarding.
+**Description:** The character's charm is disarming and risky, but often rewarding.
 
 * **Prerequisite:** Silver Tongue, Charisma 2, Bluff 6, Diplomacy 6  
 * **Benefit:** You may choose to **Take 10** on Bluff and Diplomacy checks, OR you may roll **2d10 with Advantage**, allowing for potentially higher highs but lower lows.
 
-  ### 
+---
 
-  ## **Platinum Personality**
+## **Platinum Personality**
 
-  **Description:** The character radiates trustworthiness and charisma.  
+**Description:** The character radiates trustworthiness and charisma.  
 * **Prerequisite:** Golden Smile, Charisma 4, Bluff 11, Diplomacy 11  
 * **Benefit:** You may make all **Bluff** and **Diplomacy** checks with **Advantage**.
 
-### 
+---
 
 ## **Skill Focus**
 
@@ -434,16 +432,16 @@ Bonuses and specialized uses for skills.
 * **Benefit:** Gain a **\+2 Bonus** to the chosen skill.  
 * **Special:** This feature is **\[Multiple\]** and **\[Ranked\]**. You may purchase it again for the *same* skill each time you reach a new Skill Stage (Novice, Trained, Expert, Master) to stack the bonuses. (e.g., A Master (Rank 16\) with 4 ranks of Skill Focus has a total \+8 bonus from this feature).
 
-### 
+---
 
-  ## **Skill Mastery**
+## **Skill Mastery**
 
-  **Description:** The character is so confident in their skills that they cannot fail under pressure.
+**Description:** The character is so confident in their skills that they cannot fail under pressure.
 
 * **Prerequisite:** Skill Focus (any two), Focused Skills at Rank 11+ (Expert)  
 * **Benefit:** You may **Take 10** on checks with your Focused Skills even when rushed, threatened, or in combat.
 
-### 
+---
 
 ## **Skill Specialization**
 
@@ -454,7 +452,7 @@ Bonuses and specialized uses for skills.
 * **Mechanics:** When making a check in that specialization, you add your **Base Rank \+ Specialization Rank**. This allows you to exceed the normal Skill Rank cap of 20 (reaching Pinnacle+).  
 * **Special:** \[Multiple\] Can be taken for different skills or different sub-categories.
 
-### 
+---
 
 ## **Social**
 
@@ -463,7 +461,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** None  
 * **Benefit:** Gain a **\+1 Bonus** to **ALL Charisma Skills** and **Etiquette** checks.
 
-### 
+---
 
 ## **Spacer**
 
@@ -472,7 +470,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** None  
 * **Benefit:** Gain a **\+2 Bonus** to **Starship Operation** (Vocation/Pilot) and any **Space Survival** checks.
 
-### 
+---
 
 ## **Steady**
 
@@ -481,7 +479,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** None  
 * **Benefit:** Gain a **\+2 Bonus** to **Acrobatics** and **Athletics** (Balancing/Climbing) and a **\+1 Bonus** to **Reflex** checks.
 
-### 
+---
 
 ## **Stealthy**
 
@@ -490,7 +488,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** Agility 2  
 * **Benefit:** Gain a **\+2 Bonus** to **Escape Artist** and **Sleight of Hand**; Gain a **\+4 Bonus** to **Stealth** checks.
 
-### 
+---
 
 ## **Stout**
 
@@ -499,7 +497,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** None  
 * **Benefit:** Gain a **\+1 Bonus** to **ALL Stamina & Constitution Skills**, as well as **Might** and **Fortitude** checks.
 
-### 
+---
 
 ## **Trustworthy**
 
@@ -508,7 +506,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** None  
 * **Benefit:** Gain a **\+2 Bonus** to **Manipulation Skills** (Bluff/Diplomacy) and a **\+1 Bonus** to **Culture** checks (fitting in).
 
-### 
+---
 
 ## **Veiled Threat**
 
@@ -517,7 +515,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** Intimidate 6  
 * **Benefit:** When you use Intimidate to force a target to act, the target **does not become Hostile** toward you afterwards (they remain Indifferent or Unfriendly, but terrified). Bystanders must make an Insight check vs. your Intimidate to even realize a threat was made.
 
-### 
+---
 
 ## **Versatile Curator**
 
@@ -526,7 +524,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** Knowledge 6, Intellect 2  
 * **Benefit:** You gain "Virtual Skills" in the Knowledge category. For every point of Intellect Bonus you possess, you gain 1 Rank in a Knowledge skill you do not technically have, allowing you to make Trained checks.
 
-### 
+---
 
 ## **Versatile Performer**
 
@@ -535,7 +533,7 @@ Bonuses and specialized uses for skills.
 * **Prerequisite:** Perform 6, Intellect 2  
 * **Benefit:** You gain "Virtual Skills" in the Performance category. For every point of Intellect Bonus, gain access to another Performance type (Singing, Dancing, Oratory) at your base rank.
 
-### 
+---
 
 ## **Versatile Professional**
 
@@ -551,14 +549,3 @@ Bonuses and specialized uses for skills.
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/features/1.08.SkillFeatures.md
-```
-
-## Gameplay Instructions
-Refer to operator/features/1.08.SkillFeatures.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/features/1.08.SkillFeatures.md. Complete, unabridged source of truth.

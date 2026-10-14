@@ -6,10 +6,8 @@ feature_category: Combat
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: Grtr. Two-Weapon Fighting
-description: >-
-  Greater Two-Weapon Defense is a Combat Feature: +3 shield bonus to defense
-  when fighting with two weapons.
+prerequisites: 'Greater Two-Weapon Fighting, Improved Two-Weapon Defense'
+description: Superior defensive web of steel.
 costs:
   cp: 3
   bp: 3
@@ -19,20 +17,16 @@ keywords: >-
   tactical-edge, greater
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
+mechanic: The Shield bonus to Defense increases to **\+3**.
 ---
-
 # Greater Two-Weapon Defense
 
 **Category**: Combat Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: Grtr. Two-Weapon Fighting
+**Prerequisite**: Greater Two-Weapon Fighting, Improved Two-Weapon Defense
 
 ## Description
-Greater Two-Weapon Defense is a Combat Feature: \+3 shield bonus to defense when fighting with two weapons.
+Superior defensive web of steel.
 
 ## Mechanics & Benefit
-\+3 shield bonus to defense when fighting with two weapons.
-
-## Special Rules
-49
-
+The Shield bonus to Defense increases to **\+3**.

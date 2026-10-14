@@ -15,8 +15,8 @@ modifiers: []
 keywords: 'social, skill, special-feature, butterfly'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: Gain a **\+1 Bonus** to **ALL Charisma Skills** and **Etiquette** checks.
 ---
-
 # Social
 
 **Category**: Skill Features  
@@ -28,7 +28,3 @@ The character is a social butterfly.
 
 ## Mechanics & Benefit
 Gain a **\+1 Bonus** to **ALL Charisma Skills** and **Etiquette** checks.
-
-## Special Rules
-167
-

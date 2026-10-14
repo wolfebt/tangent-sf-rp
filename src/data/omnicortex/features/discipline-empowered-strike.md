@@ -20,8 +20,16 @@ keywords: >-
   infuse
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
----
+mechanic: >-
+  You may channel energy into a melee or ranged weapon attack. The attack gains
+  **\+1 to Strike** and **\+1 to Damage**.  
 
+  * **Effect:** The attack is considered **Enhanced** (Magical/Psionic) for the
+  purpose of bypassing Damage Resistance (DR) that ignores mundane weapons.
+rules: >-
+  This feature is **\[Ranked\]**. You may take it multiple times (up to your
+  Attune rank limit). Rank 2 would grant \+2 Strike/Damage, etc.
+---
 # Empowered Strike
 
 **Category**: Discipline Features  
@@ -32,8 +40,8 @@ cost_cp: 3
 The character can infuse their physical attacks with raw metaphysical energy. This is the signature ability of "Spellblades," "Paladins," or "Psychic Warriors."
 
 ## Mechanics & Benefit
-You may channel energy into a melee or ranged weapon attack. The attack gains **\+1 to Strike** and **\+1 to Damage**.
+You may channel energy into a melee or ranged weapon attack. The attack gains **\+1 to Strike** and **\+1 to Damage**.  
+* **Effect:** The attack is considered **Enhanced** (Magical/Psionic) for the purpose of bypassing Damage Resistance (DR) that ignores mundane weapons.
 
 ## Special Rules
 This feature is **\[Ranked\]**. You may take it multiple times (up to your Attune rank limit). Rank 2 would grant \+2 Strike/Damage, etc.
-

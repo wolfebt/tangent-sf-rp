@@ -1,46 +1,44 @@
 ---
 id: physical-athletics
-name: Athletics
+name: "Athletics"
 type: physical
-subtype: fitness
+subtype: "general"
 category: skills
-governing_attributes:
-  - Strength
-  - Stamina
-description: >-
-  General physical power, fitness, and conditioning: running, climbing,
-  swimming, jumping, weightlifting, and physical endurance.
-trained_only: false
+governing_attribute: "Strength"
+description: "Athletics is the skill of a character's general physical capabilities – running, jumping, climbing, swimming, and other broadly physical activities. It reflects a character's overall fitness and physical prowess. Athletics is used whenever a character attempts to perform a physical feat that requires strength and endurance. A measure of general physical prowess. It encompasses running, jumping, climbing, swimming, and lifting heavy objects."
 specialties:
-  - Climbing (Ascending natural cliffs and sheer walls)
-  - 'Running (Sprinting, distance pacing)'
-  - Swimming (Aquatic traversal and diving)
-  - 'Jumping (High jump, broad jump distance)'
-  - 'Weightlifting (Power lifting, feats of brute force)'
-synergy_links:
-  - physical-acrobatics
-  - combat-unarmed
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'athletics, physical, strength, mobility, bodily-coordination, running'
-negative_keywords: 'sedentary, paralyzed, clumsy'
+  - "Sprinting: Short-burst explosive acceleration over open terrain."
+  - "Endurance Running: Long-distance marches and prolonged pursuits without fatigue."
+  - "Vertical & Long Jumping: Clearing horizontal chasms and scaling sheer heights by leaping."
+  - "Rock & Hull Climbing: Scaling sheer cliffs, metal lattice bulkheads, and exterior starship hulls."
+  - "Swimming & Diving: Navigating high-viscosity liquids, aquatic currents, and submerged operations."
+  - "Powerlifting & Hauling: Lifting, pressing, and dragging massive bulk, collapsed beams, and heavy machinery."
+  - "Forceful Throwing: Hurling objects, grenades, or improvised bludgeons with maximum velocity."
+  - "Grapple Wrestling: Overpowering and pinning opponents through superior bodily mass and leverage."
+  - "High-G Conditioning: Resisting the physical and circulatory strain of high-gravity worlds and high-G acceleration."
+  - "Breaching & Forcing: Kicking in heavy security doors, forcing airlocks, and smashing barriers."
+keywords: "athletics, physical, strength, mobility, bodily-coordination, running"
+negative_keywords: "sedentary, paralyzed, clumsy"
 ---
 
-# Athletics
+## **Athletics**
 
-General physical power, fitness, and conditioning: running, climbing, swimming, jumping, weightlifting, and physical endurance.
+* **Ability:** Strength  
+* **Description:** Athletics is the skill of a character's general physical capabilities – running, jumping, climbing, swimming, and other broadly physical activities. It reflects a character's overall fitness and physical prowess. Athletics is used whenever a character attempts to perform a physical feat that requires strength and endurance. A measure of general physical prowess. It encompasses running, jumping, climbing, swimming, and lifting heavy objects.  
+* **Mechanics:**  
+  * *Climb:* CR 10 (rope with knots) to CR 25 (sheer surface). Speed is usually half base speed.  
+  * *Jump:* CR equals the distance in feet (running start).  
+  * *Swim:* CR 10 (calm water) to CR 20 (stormy water). Failure by 5 or more risks drowning.  
+* **Specialties:**   
+  * **Sprinting:** Short-burst explosive acceleration over open terrain.  
+  * **Endurance Running:** Long-distance marches and prolonged pursuits without fatigue.  
+  * **Vertical & Long Jumping:** Clearing horizontal chasms and scaling sheer heights by leaping.  
+  * **Rock & Hull Climbing:** Scaling sheer cliffs, metal lattice bulkheads, and exterior starship hulls.  
+  * **Swimming & Diving:** Navigating high-viscosity liquids, aquatic currents, and submerged operations.  
+  * **Powerlifting & Hauling:** Lifting, pressing, and dragging massive bulk, collapsed beams, and heavy machinery.  
+  * **Forceful Throwing:** Hurling objects, grenades, or improvised bludgeons with maximum velocity.  
+  * **Grapple Wrestling:** Overpowering and pinning opponents through superior bodily mass and leverage.  
+  * **High-G Conditioning:** Resisting the physical and circulatory strain of high-gravity worlds and high-G acceleration.  
+  * **Breaching & Forcing:** Kicking in heavy security doors, forcing airlocks, and smashing barriers.
 
-### Mechanics & Rules
-- **Governing Attribute**: Strength (or Stamina for long-duration endurance trials).
-- **Climbing**: DC 10 (Knotted rope) to DC 25 (Sheer glass/metal wall). Movement speed is standardly half base speed.
-- **Jumping**: Check result determines running horizontal jump distance in feet.
-- **Swimming**: DC 10 (Calm water) to DC 20 (Violent storm). Failing by 5+ risks water inhalation / drowning.
-
-### Specialties
-- **Climbing**: Ascending walls, hulls, and rock faces.
-- **Running**: Maximum speed bursts and sustained marathons.
-- **Swimming**: Rapid aquatic movement and diving.
-- **Jumping**: Vertical leaps and clearing wide gaps.
-- **Weightlifting**: Heavy structural lifting and carrying.
+##

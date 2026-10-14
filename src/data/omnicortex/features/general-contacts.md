@@ -17,8 +17,12 @@ modifiers: []
 keywords: 'contacts, general, special-feature, necessarily, favors, information'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
----
+mechanic: >-
+  You may make **Gather Information** checks in **1/2 the typical time**.  
 
+  * **Mechanics:** You have a specific reliable contact in a chosen field
+  (Medical, Legal, Criminal) who provides information at **Advantage**.
+---
 # Contacts
 
 **Category**: General Features  
@@ -29,8 +33,5 @@ cost_cp: 3
 The character knows who to talk to. They don't necessarily have favors owed, but they know the flow of information.
 
 ## Mechanics & Benefit
-You may make **Gather Information** checks in **1/2 the typical time**.
-
-## Special Rules
-85
-
+You may make **Gather Information** checks in **1/2 the typical time**.  
+* **Mechanics:** You have a specific reliable contact in a chosen field (Medical, Legal, Criminal) who provides information at **Advantage**.

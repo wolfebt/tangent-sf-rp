@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 182
+order: 185
 perspective: "operator"
 entry_type: "Skill Category"
 tl: 3
@@ -190,14 +190,3 @@ These skills are used to influence others, hide intentions, or read social situa
     * **Illicit Contraband Sourcing:** Procuring illegal combat drugs, untracked blasters, and forged transit papers in alleys.  
     * **Urban Evasion:** Slipping away through winding back-alleys, fire escapes, and sewer drains when syndicates hunt you.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/skills/1.07.Social.Manipulation.md
-```
-
-## Gameplay Instructions
-Refer to operator/skills/1.07.Social.Manipulation.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/skills/1.07.Social.Manipulation.md. Complete, unabridged source of truth.

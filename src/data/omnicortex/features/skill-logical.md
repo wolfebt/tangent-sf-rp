@@ -15,8 +15,10 @@ modifiers: []
 keywords: 'logical, skill, special-feature, approaches, problems, rationality'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Gain a **\+2 Bonus** to **Logic Checks**. You may **Take 10** on Logic checks
+  even under stress.
 ---
-
 # Logical
 
 **Category**: Skill Features  
@@ -28,7 +30,3 @@ The character approaches problems with cold, hard rationality.
 
 ## Mechanics & Benefit
 Gain a **\+2 Bonus** to **Logic Checks**. You may **Take 10** on Logic checks even under stress.
-
-## Special Rules
-149
-

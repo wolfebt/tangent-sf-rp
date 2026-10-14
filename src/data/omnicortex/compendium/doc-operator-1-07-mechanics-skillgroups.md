@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 187
+order: 190
 perspective: "operator"
 entry_type: "Skill Mechanics"
 tl: 3
@@ -242,14 +242,3 @@ A pinnacle archer can shoot a target through a keyhole from a hundred yards away
 
 *Pinnacle characters are rare and exceptional individuals who have dedicated their lives to mastering their chosen skill. They are the best of the best, and their abilities can change the world.*
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/skills/1.07.Mechanics.SkillGroups.md
-```
-
-## Gameplay Instructions
-Refer to operator/skills/1.07.Mechanics.SkillGroups.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/skills/1.07.Mechanics.SkillGroups.md. Complete, unabridged source of truth.

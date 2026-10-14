@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-03-humans-varen"
-name: "1.03 Humans: Varen"
+name: "1.03 Humans: Varen (Gatekeepers)"
 fileName: "1.03.Humans.Varen.md"
 relPath: "operator/species/Humans/1.03.Humans.Varen.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
-parent: "doc-operator-1-03-humans-base"
-order: 61
+parent: "doc-operator-1-03-humans"
+order: 64
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
@@ -125,14 +125,3 @@ Low Light Vision
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/Humans/1.03.Humans.Varen.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/Humans/1.03.Humans.Varen.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/Humans/1.03.Humans.Varen.md. Complete, unabridged source of truth.

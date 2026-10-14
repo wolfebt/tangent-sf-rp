@@ -1,40 +1,42 @@
 ---
 id: mental-technology
-name: Technology
+name: "Technology"
 type: mental
-subtype: knowledge
+subtype: "knowledges"
 category: skills
-governing_attributes:
-  - Intellect
-description: >-
-  General technological competence: operating, identifying, troubleshooting,
-  disabling, and repairing advanced mechanical and electronic devices.
-trained_only: false
+governing_attribute: "Intellect"
+description: "Technology is the skill of understanding and using advanced technology. It reflects a character's ability to understand the underlying principles of technology and general concept of its usage."
 specialties:
-  - Archaic & Industrial Tech (TL 0-2)
-  - Standard Spacefaring Tech (TL 3)
-  - Advanced & Psi-Tech (TL 4)
-  - Xenotech & Unknown Artifacts (TL 5)
-  - Robotics & Drones
-  - Starship Auxiliary Systems
-synergy_links:
-  - mental-engineer
-  - mental-mechanic
-  - mental-electrician
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'technology, mental, intellect, cognitive, expertise, hardware'
-negative_keywords: 'mindless, instinct-only, illiterate'
+  - "Archaic Technology: Restoring and fabricating muscle-powered, spring, and clockwork mechanical systems."
+  - "Advanced Directed Energy Systems: Calibrating laser lenses, tuning particle coils, and replacing cooling magnets."
+  - "Xenotechnology Diagnostics: Assessing and coaxing function out of inscrutable, non-human technical artifacts."
+  - "Robotics & Automata: Wiring logic boards, replacing servo actuators, and troubleshooting utility droids."
+  - "Weapons Technology: Repairing weapon feed systems, accurizing barrels, and modifying firing pins."
+  - "Starship Subsystems: Diagnosing life support scrubbers, grav-plating, and airlock pressure valves."
+  - "Sensor & Scanner Systems: Calibrating ladar arrays, tuning thermal scanners, and repairing multi-spectrum probes."
+  - "Power Generators & Fuel Cells: Servicing hydrogen fuel cells, compact fusion reactors, and battery banks."
+  - "Security Hardware: Disabling magnetic mag-locks, biometric readers, and laser tripwire systems mechanically."
+  - "Emergency Field-Stripping: Disassembling, cleaning, and unjamming complex machinery while pinned under fire."
+keywords: "technology, mental, intellect, cognitive, expertise, hardware"
+negative_keywords: "mindless, instinct-only, illiterate"
 ---
 
-# Technology
+### **TECHNOLOGY**
 
-General technological competence: operating, identifying, troubleshooting, disabling, and repairing advanced mechanical and electronic devices.
-
-### Mechanics & Rules
-- **Governing Attribute**: Intellect
-- **Repair Device**: DC 15 (Routine mechanical fault) to DC 30 (Rebuilding destroyed alien tech from scrap).
-- **Disable Security Device**: DC determined by security rating and complexity.
-- **Identify Unknown Technology**: Base DC 10 + 5 per Tech Level discrepancy.
+* **Ability:** Intellect  
+* **Description:** Technology is the skill of understanding and using advanced technology. It reflects a character's ability to understand the underlying principles of technology and general concept of its usage.   
+* **Mechanics:**  
+  * **Repair:** CR 15 (Simple fix) to CR 30 (Rebuild from scrap).  
+  * **Disable Device:** CR depends on device complexity/security rating.  
+  * **Identify Tech:** CR 10 \+ Tech Level difference.  
+* **Specialties:**   
+  * **Archaic Technology:** Restoring and fabricating muscle-powered, spring, and clockwork mechanical systems.  
+    * **Advanced Directed Energy Systems:** Calibrating laser lenses, tuning particle coils, and replacing cooling magnets.  
+    * **Xenotechnology Diagnostics:** Assessing and coaxing function out of inscrutable, non-human technical artifacts.  
+    * **Robotics & Automata:** Wiring logic boards, replacing servo actuators, and troubleshooting utility droids.  
+    * **Weapons Technology:** Repairing weapon feed systems, accurizing barrels, and modifying firing pins.  
+    * **Starship Subsystems:** Diagnosing life support scrubbers, grav-plating, and airlock pressure valves.  
+    * **Sensor & Scanner Systems:** Calibrating ladar arrays, tuning thermal scanners, and repairing multi-spectrum probes.  
+    * **Power Generators & Fuel Cells:** Servicing hydrogen fuel cells, compact fusion reactors, and battery banks.  
+    * **Security Hardware:** Disabling magnetic mag-locks, biometric readers, and laser tripwire systems mechanically.  
+    * **Emergency Field-Stripping:** Disassembling, cleaning, and unjamming complex machinery while pinned under fire.

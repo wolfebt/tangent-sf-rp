@@ -15,8 +15,10 @@ modifiers: []
 keywords: 'perceptive, skill, special-feature, notices, things, others'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Gain a **\+2 Bonus** to **Perception** checks (Alertness) and a **\+1 Bonus**
+  to **Insight** checks.
 ---
-
 # Perceptive
 
 **Category**: Skill Features  
@@ -28,7 +30,3 @@ The character notices things others miss.
 
 ## Mechanics & Benefit
 Gain a **\+2 Bonus** to **Perception** checks (Alertness) and a **\+1 Bonus** to **Insight** checks.
-
-## Special Rules
-157
-

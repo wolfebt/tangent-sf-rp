@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-synthetics"
-order: 81
+order: 97
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
@@ -146,14 +146,3 @@ To tailor this specifically to your game, let me know:
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/Synthetics/1.03.Synthetics.Eidolon.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/Synthetics/1.03.Synthetics.Eidolon.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/Synthetics/1.03.Synthetics.Eidolon.md. Complete, unabridged source of truth.

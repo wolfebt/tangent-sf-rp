@@ -15,8 +15,12 @@ modifiers: []
 keywords: 'darksight, special, special-feature, thermal, non-visible, spectrums'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
----
+mechanic: >-
+  You can see in total darkness up to 60 feet.  
 
+  * **Limitation:** This vision is typically black and white or monochromatic
+  (e.g., heat vision).
+---
 # Darksight
 
 **Category**: Special Features  
@@ -27,8 +31,5 @@ cost_cp: 3
 The character sees using thermal or other non-visible spectrums.
 
 ## Mechanics & Benefit
-You can see in total darkness up to 60 feet.
-
-## Special Rules
-196
-
+You can see in total darkness up to 60 feet.  
+* **Limitation:** This vision is typically black and white or monochromatic (e.g., heat vision).

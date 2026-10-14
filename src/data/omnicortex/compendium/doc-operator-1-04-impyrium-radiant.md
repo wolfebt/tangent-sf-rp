@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-impyrium-radiant"
-name: "1.04 Impyrium: Radiant"
+name: "1.04 Impyrium: Radiant Impyrium (The Enlightened Age)"
 fileName: "1.04.Impyrium.Radiant.md"
 relPath: "operator/factions/1.04.Impyrium.Radiant.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 124
+order: 127
 perspective: "operator"
 entry_type: "Primary Faction"
 tl: 3
@@ -121,14 +121,3 @@ sockets:
 
 ---
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Impyrium.Radiant.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Impyrium.Radiant.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Impyrium.Radiant.md. Complete, unabridged source of truth.

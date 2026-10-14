@@ -6,10 +6,10 @@ feature_category: Discipline
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: 'Discipline Expertise, Skill 16'
+prerequisites: 'Discipline Expertise (in the same skill), Discipline Skill 16 (Master)'
 description: >-
-  Discipline Mastery is a Discipline Feature: +6 with chosen Discipline Skill
-  (Affecting Severity).
+  The character is a virtuoso of their chosen art, capable of unleashing
+  devastating power.
 costs:
   cp: 3
   bp: 3
@@ -24,20 +24,16 @@ keywords: >-
   feature:
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: The bonus to the chosen Discipline Skill increases to **\+6**.
 ---
-
 # Discipline Mastery
 
 **Category**: Discipline Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: Discipline Expertise, Skill 16
+**Prerequisite**: Discipline Expertise (in the same skill), Discipline Skill 16 (Master)
 
 ## Description
-Discipline Mastery is a Discipline Feature: \+6 with chosen Discipline Skill (Affecting Severity).
+The character is a virtuoso of their chosen art, capable of unleashing devastating power.
 
 ## Mechanics & Benefit
-\+6 with chosen Discipline Skill (Affecting Severity).
-
-## Special Rules
-67
-
+The bonus to the chosen Discipline Skill increases to **\+6**.

@@ -1,20 +1,20 @@
 ---
 id: "doc-operator-1-04-aeldprovidence"
-name: "1.04 Aeld Providence"
+name: "1.04 Aeld Providence (The Factional Schisms)"
 fileName: "1.04.AeldProvidence.md"
 relPath: "operator/factions/1.04.AeldProvidence.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 117
+order: 120
 perspective: "operator"
 entry_type: "Primary Faction"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","factions","1.04.aeldprovidence","mechanics"]
-updatedAt: "2026-10-14T05:32:05.193Z"
+updatedAt: "2026-10-14T07:17:46.591Z"
 costs:
   bp: 0
   credits: 0
@@ -37,7 +37,7 @@ sockets:
   allocated: []
 ---
 
-## **ELVEN PROVIDENCE (THE FACTIONAL SCHISMS)**
+## **AELD PROVIDENCE (THE FACTIONAL SCHISMS)**
 
 *Note: The Elven species is fractured by profound, millennia-old ideological schisms. Below are the primary political entities.*
 
@@ -62,14 +62,3 @@ sockets:
 * **Mandate:** "Guard the ancient power; preserve the bloodline."  
 * **Profile:** The heavy martial backbone of the Elven diaspora. Strictly neutral in standard politics, their sole concern is guarding dangerous ruins, multiversal rifts, and catastrophic magic. Trespassers are met with devastating shock tactics and primal magic.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.AeldProvidence.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.AeldProvidence.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.AeldProvidence.md. Complete, unabridged source of truth.

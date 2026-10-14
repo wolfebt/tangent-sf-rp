@@ -17,8 +17,14 @@ modifiers: []
 keywords: 'distract, general, special-feature, diversion, potent, leaves'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
----
+mechanic: >-
+  As a Standard Action, make a Bluff or Engineering (for tech distraction) check
+  vs. the Target’s Will.  
 
+  * **Success:** The target's attention is totally consumed by the distraction.
+  They are considered **Flat-Footed** against all attacks from characters other
+  than you until the start of your next turn.
+---
 # Distract
 
 **Category**: General Features  
@@ -29,8 +35,5 @@ cost_cp: 3
 The character can cause a diversion so potent that it leaves opponents vulnerable.
 
 ## Mechanics & Benefit
-As a Standard Action, make a Bluff or Engineering (for tech distraction) check vs. the Target’s Will.
-
-## Special Rules
-88
-
+As a Standard Action, make a Bluff or Engineering (for tech distraction) check vs. the Target’s Will.  
+* **Success:** The target's attention is totally consumed by the distraction. They are considered **Flat-Footed** against all attacks from characters other than you until the start of your next turn.

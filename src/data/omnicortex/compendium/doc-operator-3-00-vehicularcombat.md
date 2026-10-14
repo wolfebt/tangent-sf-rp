@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-3-00-combat"
 category: "operator_rule"
 parent: "doc-operator-3-00-combat"
-order: 214
+order: 217
 perspective: "operator"
 entry_type: "Combat Module"
 tl: 3
@@ -204,14 +204,3 @@ When a vehicle takes a Critical Hit or reaches 50% SP:
   * *Radius:* 10ft per Size Category.  
   * *Damage:* 1d6 per 10 SP of the vehicle's max structure.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/combat/3.00.VehicularCombat.md
-```
-
-## Gameplay Instructions
-Refer to operator/combat/3.00.VehicularCombat.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/combat/3.00.VehicularCombat.md. Complete, unabridged source of truth.

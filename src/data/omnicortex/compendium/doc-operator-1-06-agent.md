@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-06-occupations"
 category: "operator_rule"
 parent: "doc-operator-1-06-occupations"
-order: 164
+order: 167
 perspective: "operator"
 entry_type: "Occupation Profile"
 tl: 3
@@ -256,14 +256,3 @@ Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar 
   * **Palette:** Matte Black, Sensor Red, Chrome.  
   * **Tokens:** Sniper rifle integration, scanning lasers, cold.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/occupations/1.06.Agent.md
-```
-
-## Gameplay Instructions
-Refer to operator/occupations/1.06.Agent.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/occupations/1.06.Agent.md. Complete, unabridged source of truth.

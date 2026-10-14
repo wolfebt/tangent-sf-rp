@@ -117,14 +117,3 @@ sockets:
 * **High-G Extraction:** Prospectors in heavy, mismatched exo-suits struggling against crushing weight to secure geodes.  
 * **The Orbital Refinery:** A massive habitat cobbled from docking rings and fuel tanks, spinning for gravity with a wobbly axis.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Major.Outworlds.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Major.Outworlds.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Major.Outworlds.md. Complete, unabridged source of truth.

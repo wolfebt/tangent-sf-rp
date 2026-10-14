@@ -17,8 +17,11 @@ modifiers: []
 keywords: 'blockade, combat, special-feature, combat-maneuver, tactical-edge, dominates'
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
+mechanic: >-
+  Enemies cannot move through your threatened area or move past you without
+  engaging in a contest of Strength (Opposed Might Check). If they fail, their
+  movement ends immediately in the square adjacent to you.
 ---
-
 # Blockade
 
 **Category**: Combat Features  
@@ -30,5 +33,3 @@ The character dominates the space around them, making it impossible for enemies 
 
 ## Mechanics & Benefit
 Enemies cannot move through your threatened area or move past you without engaging in a contest of Strength (Opposed Might Check). If they fail, their movement ends immediately in the square adjacent to you.
-
-

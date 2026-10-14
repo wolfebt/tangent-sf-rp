@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-2-00-economatrix"
 category: "operator_rule"
 parent: "doc-operator-2-00-economatrix"
-order: 203
+order: 206
 perspective: "operator"
 entry_type: "Economatrix Catalog"
 tl: 3
@@ -509,14 +509,3 @@ The following modules are standardized specialized units available for installat
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/economatrix/2.00.Architecture.md
-```
-
-## Gameplay Instructions
-Refer to operator/economatrix/2.00.Architecture.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/economatrix/2.00.Architecture.md. Complete, unabridged source of truth.

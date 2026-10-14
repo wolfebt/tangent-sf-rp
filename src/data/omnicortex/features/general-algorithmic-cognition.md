@@ -20,8 +20,12 @@ keywords: >-
   standard
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You may perform complex mathematical calculations, cryptanalysis, and
+  algorithmic decryption as a Free Action instead of a Standard or Full Round
+  Action. You gain Advantage on all Logic checks involving mathematics or
+  codebreaking.
 ---
-
 # Algorithmic Cognition
 
 **Category**: General Features  
@@ -32,7 +36,4 @@ cost_cp: 3
 The character's brain bypasses standard working memory bottlenecks, allowing them to perform hypercalculia and extreme high-speed mental arithmetic natively.
 
 ## Mechanics & Benefit
-You may perform complex mathematical calculations, cryptanalysis, and algorithmic decryption as a **Free Action** instead of a Standard or Full Round Action. You gain **Advantage** on all Logic checks involving mathematics or codebreaking.
-
-## Special Rules
-Prerequisite: Lightning Calculator, Intellect 4.
+You may perform complex mathematical calculations, cryptanalysis, and algorithmic decryption as a Free Action instead of a Standard or Full Round Action. You gain Advantage on all Logic checks involving mathematics or codebreaking.

@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-05-origins"
 category: "operator_rule"
 parent: "doc-operator-1-05-origins"
-order: 160
+order: 163
 perspective: "operator"
 entry_type: "Origin Profile"
 tl: 3
@@ -213,14 +213,3 @@ Ability to withstand the physical and mental challenges that come with living in
 * **PALETTE:** Solar Panel Black/Blue, Sun White, Metal.  
 * **TOKENS:** Solar panels, infinite horizon, sun, grid.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/origins/1.05.Spacer.md
-```
-
-## Gameplay Instructions
-Refer to operator/origins/1.05.Spacer.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/origins/1.05.Spacer.md. Complete, unabridged source of truth.

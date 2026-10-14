@@ -15,8 +15,13 @@ modifiers: []
 keywords: 'skill focus, skill, special-feature, dedicated, significant, effort'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: Gain a **\+2 Bonus** to the chosen skill.
+rules: >-
+  This feature is **\[Multiple\]** and **\[Ranked\]**. You may purchase it again
+  for the *same* skill each time you reach a new Skill Stage (Novice, Trained,
+  Expert, Master) to stack the bonuses. (e.g., A Master (Rank 16\) with 4 ranks
+  of Skill Focus has a total \+8 bonus from this feature).
 ---
-
 # Skill Focus
 
 **Category**: Skill Features  
@@ -31,4 +36,3 @@ Gain a **\+2 Bonus** to the chosen skill.
 
 ## Special Rules
 This feature is **\[Multiple\]** and **\[Ranked\]**. You may purchase it again for the *same* skill each time you reach a new Skill Stage (Novice, Trained, Expert, Master) to stack the bonuses. (e.g., A Master (Rank 16\) with 4 ranks of Skill Focus has a total \+8 bonus from this feature).
-

@@ -17,8 +17,11 @@ modifiers: []
 keywords: 'charmed, karma, special-feature, disasters, others, inches'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  **Once per day**, if you roll a **Natural 1** (Fumble/Critical Failure), you
+  may immediately re-roll it without spending a Karma Point.  
+    * *Mechanics:* This serves as a free "safety net" against catastrophic failure.
 ---
-
 # Charmed
 
 **Category**: Karma Features  
@@ -31,7 +34,3 @@ The character leads a charmed life. Disasters that would doom others seem to mis
 ## Mechanics & Benefit
 **Once per day**, if you roll a **Natural 1** (Fumble/Critical Failure), you may immediately re-roll it without spending a Karma Point.  
   * *Mechanics:* This serves as a free "safety net" against catastrophic failure.
-
-## Special Rules
-122
-

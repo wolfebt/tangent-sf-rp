@@ -7,9 +7,7 @@ cost_bp: 3
 is_ranked: false
 is_multiple: false
 prerequisites: Improved Trip
-description: >-
-  Greater Trip is a Combat Feature: Enemies you trip provoke attacks of
-  opportunity.
+description: The character follows up a takedown with immediate punishment.
 costs:
   cp: 3
   bp: 3
@@ -17,8 +15,10 @@ modifiers: []
 keywords: 'greater trip, combat, special-feature, combat-maneuver, tactical-edge, greater'
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
+mechanic: >-
+  Enemies you successfully Trip provoke an immediate **Attack of Opportunity**
+  from you as they fall.
 ---
-
 # Greater Trip
 
 **Category**: Combat Features  
@@ -26,11 +26,7 @@ cost_cp: 3
 **Prerequisite**: Improved Trip
 
 ## Description
-Greater Trip is a Combat Feature: Enemies you trip provoke attacks of opportunity.
+The character follows up a takedown with immediate punishment.
 
 ## Mechanics & Benefit
-Enemies you trip provoke attacks of opportunity.
-
-## Special Rules
-31
-
+Enemies you successfully Trip provoke an immediate **Attack of Opportunity** from you as they fall.

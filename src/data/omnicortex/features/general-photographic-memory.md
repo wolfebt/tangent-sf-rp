@@ -6,10 +6,10 @@ feature_category: General
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: 'Eidetic Memory, Int 4'
+prerequisites: 'Eidetic Memory, Intellect 4'
 description: >-
-  Photographic Memory is a General Feature: Learn skill in 1/2 time and perfect
-  recall of texts/images.
+  The character's mind is a perfect recorder. Visual and textual information is
+  stored instantly and permanently.
 costs:
   cp: 3
   bp: 3
@@ -17,20 +17,18 @@ modifiers: []
 keywords: 'photographic memory, general, special-feature, photographic, memory, feature:'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You recall images and texts perfectly. Study time for **Learning new Skills**
+  is reduced by **50%**.
 ---
-
 # Photographic Memory
 
 **Category**: General Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: Eidetic Memory, Int 4
+**Prerequisite**: Eidetic Memory, Intellect 4
 
 ## Description
-Photographic Memory is a General Feature: Learn skill in 1/2 time and perfect recall of texts/images.
+The character's mind is a perfect recorder. Visual and textual information is stored instantly and permanently.
 
 ## Mechanics & Benefit
-Learn skill in 1/2 time and perfect recall of texts/images.
-
-## Special Rules
-91
-
+You recall images and texts perfectly. Study time for **Learning new Skills** is reduced by **50%**.

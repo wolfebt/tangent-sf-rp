@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-2-00-economatrix"
 category: "operator_rule"
 parent: "doc-operator-2-00-economatrix"
-order: 206
+order: 209
 perspective: "operator"
 entry_type: "Economatrix Catalog"
 tl: 3
@@ -541,14 +541,3 @@ Bonuses apply based on the scale of the workshop.
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/economatrix/2.00.Equipment.md
-```
-
-## Gameplay Instructions
-Refer to operator/economatrix/2.00.Equipment.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/economatrix/2.00.Equipment.md. Complete, unabridged source of truth.

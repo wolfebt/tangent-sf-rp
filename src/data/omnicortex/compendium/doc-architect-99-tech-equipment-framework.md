@@ -401,14 +401,3 @@ A shipyard employing 1,000 engineers operating Industrial (x200) tools can gener
 
 ## ---
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/technology/equipment/99.Tech.Equipment.Framework.md
-```
-
-## Gameplay Instructions
-Refer to architect/technology/equipment/99.Tech.Equipment.Framework.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/technology/equipment/99.Tech.Equipment.Framework.md. Complete, unabridged source of truth.

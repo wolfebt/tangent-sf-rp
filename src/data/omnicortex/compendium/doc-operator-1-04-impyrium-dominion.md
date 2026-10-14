@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-impyrium-dominion"
-name: "1.04 Impyrium: Dominion"
+name: "1.04 Impyrium: Impyrium Dominion (The Shadow of the Sun)"
 fileName: "1.04.Impyrium.Dominion.md"
 relPath: "operator/factions/1.04.Impyrium.Dominion.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 123
+order: 126
 perspective: "operator"
 entry_type: "Primary Faction"
 tl: 3
@@ -118,14 +118,3 @@ sockets:
 * **Calculus Steward (TL4 Automata):** Civic labor robots fluent in all protocols.  
 * **Aegis Dreadnought (TL4):** Capital ships functioning as massive Armored Rams.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Impyrium.Dominion.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Impyrium.Dominion.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Impyrium.Dominion.md. Complete, unabridged source of truth.

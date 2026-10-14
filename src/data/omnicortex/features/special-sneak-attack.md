@@ -17,8 +17,14 @@ modifiers: []
 keywords: 'sneak attack, special, special-feature, exactly, strike, maximum'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
----
+mechanic: >-
+  If you attack a target that is **Flat-Footed** or **Flanked**, you deal extra
+  damage.  
 
+  * **Mechanics:** Add your **Intellect Modifier** \+ **1d6 extra damage** to
+  the roll.
+rules: '\[Ranked\] Each additional rank adds \+1d6 to the damage.'
+---
 # Sneak Attack
 
 **Category**: Special Features  
@@ -29,8 +35,8 @@ cost_cp: 3
 The character knows exactly where to strike to deal maximum damage to a vulnerable target.
 
 ## Mechanics & Benefit
-If you attack a target that is **Flat-Footed** or **Flanked**, you deal extra damage.
+If you attack a target that is **Flat-Footed** or **Flanked**, you deal extra damage.  
+* **Mechanics:** Add your **Intellect Modifier** \+ **1d6 extra damage** to the roll.
 
 ## Special Rules
 \[Ranked\] Each additional rank adds \+1d6 to the damage.
-

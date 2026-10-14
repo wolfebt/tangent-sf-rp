@@ -207,14 +207,3 @@ Designed exclusively for Syndicate shock-assault infantry dropped from low orbit
   * **Flexible Weave (TL 2):** Specifically offsets \-1 Mobility and \-5 Movement. Combined with the Exoskeleton Servos (+2 Str), all default Bulwark penalties (-2 Mobility, \-10 Movement) are entirely neutralized.  
 * **Socket Balance:** 0 Available Sockets in standard production line. Exceeding this baseline requires a complete Mastercraft redesign and reconstruction.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/technology/armor/99.Tech.Armor.EconomyAndExemplars.md
-```
-
-## Gameplay Instructions
-Refer to architect/technology/armor/99.Tech.Armor.EconomyAndExemplars.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/technology/armor/99.Tech.Armor.EconomyAndExemplars.md. Complete, unabridged source of truth.

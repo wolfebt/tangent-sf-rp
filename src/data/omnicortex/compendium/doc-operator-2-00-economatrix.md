@@ -7,7 +7,7 @@ isMasterDoc: true
 masterDocId: "doc-operator-2-00-economatrix"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 202
+order: 205
 perspective: "operator"
 entry_type: "Core Rulebook"
 tl: 3
@@ -435,14 +435,3 @@ Detailed equipment, architecture, augmentation, armor, vehicle, and weapon modif
 * **[Mecha & Vehicles](./economatrix/2.00.Mecha.md)** — *Personal mobility, light/heavy vehicles, starfighters, and mechanized walkers/suits*
 * **[Weapon Modifications](./economatrix/2.00.WeaponModifications.md)** — *Weapon upgrades, capacity enhancements, and tactical downgrades*
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/2.00 ECONOMATRIX.md
-```
-
-## Gameplay Instructions
-Refer to operator/2.00 ECONOMATRIX.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/2.00 ECONOMATRIX.md. Complete, unabridged source of truth.

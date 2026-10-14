@@ -34,8 +34,10 @@ modifiers:
 keywords: 'stealthy, skill, special-feature, shadow'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Gain a **\+2 Bonus** to **Escape Artist** and **Sleight of Hand**; Gain a
+  **\+4 Bonus** to **Stealth** checks.
 ---
-
 # Stealthy
 
 **Category**: Skill Features  
@@ -47,7 +49,3 @@ The character is a shadow.
 
 ## Mechanics & Benefit
 Gain a **\+2 Bonus** to **Escape Artist** and **Sleight of Hand**; Gain a **\+4 Bonus** to **Stealth** checks.
-
-## Special Rules
-170
-

@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-asi"
-order: 24
+order: 25
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
@@ -123,14 +123,3 @@ Wild Speech
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/Asi/1.03.Asi.Ferren.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/Asi/1.03.Asi.Ferren.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/Asi/1.03.Asi.Ferren.md. Complete, unabridged source of truth.

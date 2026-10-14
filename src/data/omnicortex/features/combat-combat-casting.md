@@ -19,8 +19,11 @@ keywords: >-
   trained
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
+mechanic: >-
+  You gain a **\+4 bonus** to Defense against Attacks of Opportunity caused by
+  casting or using Invocations in a threatened square. You also gain a \+4 bonus
+  to Concentration checks to maintain powers when taking damage.
 ---
-
 # Combat Casting
 
 **Category**: Combat Features  
@@ -32,7 +35,3 @@ The character is trained to focus on metaphysical weaving even in the chaos of m
 
 ## Mechanics & Benefit
 You gain a **\+4 bonus** to Defense against Attacks of Opportunity caused by casting or using Invocations in a threatened square. You also gain a \+4 bonus to Concentration checks to maintain powers when taking damage.
-
-## Special Rules
-24
-

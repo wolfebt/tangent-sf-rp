@@ -1,45 +1,34 @@
 ---
 id: meta-order
-name: Order
+name: "Order"
 type: meta
-subtype: entropy
+subtype: "entropy"
 category: skills
-governing_attributes:
-  - Wisdom
-description: >-
-  Entropy discipline: Probability stabilization, cellular regeneration,
-  biological healing, and preservation.
-trained_only: true
+governing_attribute: ""
+description: "Entropy: Probability stabilization, cellular regeneration, biological healing, and preservation."
 specialties:
-  - Cellular Regeneration
-  - Metabolic Stabilization
-  - Cohesion Fields
-  - Systemic Preservation
-  - Probability Anchoring
-synergy_links:
-  - meta-attune
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'order, meta, wisdom, metafocus, psionic, resonance'
-negative_keywords: 'mundane, anti-magic-field, unattuned'
+  []
+keywords: "order, meta, wisdom, metafocus, psionic, resonance"
+negative_keywords: "mundane, anti-magic-field, unattuned"
 ---
 
-# Order
+### **ORDER FOCUS**
 
-Entropy discipline: Probability stabilization, cellular regeneration, biological healing, and preservation.
+Restoring patterns, healing, and stabilization.
 
-### Mechanics & Rules
-- **Governing Attribute**: Wisdom
-- **Discipline Focus**: Entropy
-- **Standard Check**: `2d10 + Order Rank + Wisdom Mod vs. Target DC / Resistance`.
-- **Prerequisite**: Unlocked when character possesses the **Awakened** feature or relevant Metaphysical discipline training.
-- **Strain Resolution**: Failing an invocation check by 5+ points deals non-lethal strain fatigue.
+* **Healing:** 2d6 per Discipline Stage \+ 1d6 per Invocation Rank.
 
-### Specialties
-- **Cellular**: Cellular Regeneration
-- **Metabolic**: Metabolic Stabilization
-- **Cohesion**: Cohesion Fields
-- **Systemic**: Systemic Preservation
-- **Probability**: Probability Anchoring
+**Invocations:**
+
+* **Cure:** Restores Health/Vitality.  
+  * *Effect:* Touch range healing. Undead take damage.  
+* **Stabilize:** Prevents death.  
+  * *Effect:* Immediate Action. Target stops losing Health at Death's Door.  
+* **Restoration:** Removes status effects (Poison, Disease, Stun).  
+  * *Effect:* Difficulty based on the Severity of the ailment.  
+* **Ward:** Protection against specific alignments/energy.  
+  * *Effect:* \+2 Defense and Saves vs chosen source.
+
+## 
+
+##

@@ -137,14 +137,3 @@ Adaptive Aspect, Adaptive Skill Set, Ageless, Alter Form (Advanced), Awakened, B
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/Aeld/1.03.Aeld.Doppelganger.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/Aeld/1.03.Aeld.Doppelganger.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/Aeld/1.03.Aeld.Doppelganger.md. Complete, unabridged source of truth.

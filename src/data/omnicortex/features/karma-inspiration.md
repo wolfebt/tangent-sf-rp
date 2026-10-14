@@ -17,8 +17,14 @@ modifiers: []
 keywords: 'inspiration, karma, special-feature, determination, allies, spurring'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You may spend your own **Karma Points** to grant a Karma Benefit to an
+  **Ally**.  
+    * *Cost:* The cost is **1 KP (Transfer Cost) \+ The Cost of the Effect**.  
+    * *Example:* To give an ally *Surge* (normally 1 KP), you spend 2 KP. To give an ally *Advantage* ("I Got This", normally 1 KP), you spend 2 KP.  
+  * **Purpose:** Allows support characters to keep heavy hitters active or save
+  allies from bad rolls.
 ---
-
 # Inspiration
 
 **Category**: Karma Features  
@@ -31,8 +37,5 @@ The character is the heart of the team. They can lend their own luck and determi
 ## Mechanics & Benefit
 You may spend your own **Karma Points** to grant a Karma Benefit to an **Ally**.  
   * *Cost:* The cost is **1 KP (Transfer Cost) \+ The Cost of the Effect**.  
-  * *Example:* To give an ally *Surge* (normally 1 KP), you spend 2 KP. To give an ally *Advantage* ("I Got This", normally 1 KP), you spend 2 KP.
-
-## Special Rules
-123
-
+  * *Example:* To give an ally *Surge* (normally 1 KP), you spend 2 KP. To give an ally *Advantage* ("I Got This", normally 1 KP), you spend 2 KP.  
+* **Purpose:** Allows support characters to keep heavy hitters active or save allies from bad rolls.

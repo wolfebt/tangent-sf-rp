@@ -24,8 +24,13 @@ modifiers:
 keywords: 'biotechnologist, skill, special-feature, expert, manipulation, living'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
----
+mechanic: >-
+  All **Biotechnology Prototyping** and **Grafting** checks are made with
+  **Advantage**.  
 
+  * **Purpose:** Critical for installing bio-augmentations or growing organic
+  starship components (Auluran/Tyranid style tech).
+---
 # Biotechnologist
 
 **Category**: Skill Features  
@@ -36,8 +41,5 @@ cost_cp: 3
 The character is an expert in the manipulation of living tissue and organic technology.
 
 ## Mechanics & Benefit
-All **Biotechnology Prototyping** and **Grafting** checks are made with **Advantage**.
-
-## Special Rules
-133
-
+All **Biotechnology Prototyping** and **Grafting** checks are made with **Advantage**.  
+* **Purpose:** Critical for installing bio-augmentations or growing organic starship components (Auluran/Tyranid style tech).

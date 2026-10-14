@@ -6,10 +6,10 @@ feature_category: Special
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: Companion
+prerequisites: 'Bonded, Companion, Awakened'
 description: >-
-  Familiar is a Special Feature: Empathically linked; know location/state (+20BP
-  to Companion).
+  The companion is not just a pet, but a metaphysical extension of the
+  character's will.
 costs:
   cp: 3
   bp: 3
@@ -17,20 +17,18 @@ modifiers: []
 keywords: 'familiar, special, special-feature, feature:, empathically, linked'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Your Companion gains **\+20 Character Points**. You always know the exact
+  direction and distance to your familiar.
 ---
-
 # Familiar
 
 **Category**: Special Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: Companion
+**Prerequisite**: Bonded, Companion, Awakened
 
 ## Description
-Familiar is a Special Feature: Empathically linked; know location/state (+20 CP to Companion).
+The companion is not just a pet, but a metaphysical extension of the character's will.
 
 ## Mechanics & Benefit
-Empathically linked; know location/state (+20 CP to Companion).
-
-## Special Rules
-186
-
+Your Companion gains **\+20 Character Points**. You always know the exact direction and distance to your familiar.

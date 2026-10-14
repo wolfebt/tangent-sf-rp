@@ -15,8 +15,14 @@ modifiers: []
 keywords: 'telepathy, special, special-feature, communicate, mind-to-mind'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
----
+mechanic: >-
+  You can communicate mentally with any intelligent lifeform within **Range**
+  (usually 100ft \+).  
 
+  * **Constraint:** You must be aware of the subject. If they are unwilling, you
+  cannot force communication without using Discipline powers. Language barriers
+  still apply unless you have the *Universal Translator* power.
+---
 # Telepathy
 
 **Category**: Special Features  
@@ -27,8 +33,5 @@ cost_cp: 3
 The character can communicate mind-to-mind.
 
 ## Mechanics & Benefit
-You can communicate mentally with any intelligent lifeform within **Range** (usually 100ft \+).
-
-## Special Rules
-212
-
+You can communicate mentally with any intelligent lifeform within **Range** (usually 100ft \+).  
+* **Constraint:** You must be aware of the subject. If they are unwilling, you cannot force communication without using Discipline powers. Language barriers still apply unless you have the *Universal Translator* power.

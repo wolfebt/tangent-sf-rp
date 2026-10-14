@@ -22,8 +22,11 @@ modifiers:
 keywords: 'versatile performer, skill, special-feature, multi-talented, artist'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You gain "Virtual Skills" in the Performance category. For every point of
+  Intellect Bonus, gain access to another Performance type (Singing, Dancing,
+  Oratory) at your base rank.
 ---
-
 # Versatile Performer
 
 **Category**: Skill Features  
@@ -35,7 +38,3 @@ The character is a multi-talented artist.
 
 ## Mechanics & Benefit
 You gain "Virtual Skills" in the Performance category. For every point of Intellect Bonus, gain access to another Performance type (Singing, Dancing, Oratory) at your base rank.
-
-## Special Rules
-175
-

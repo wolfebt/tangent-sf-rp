@@ -220,14 +220,3 @@ Traits are determined by the categories below (Basic, Advanced or Elite). Any Fe
 | **Sunlight Powerlessness** | \-6 CP | Staggered/Helpless in direct sunlight. Req: Undead/Half-Undead. |
 | **Vulnerable to Sunlight** | \-4 CP | Take 1 Con damage per hour in sunlight. Req: Native to Darklands/Shadow. |
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/species/99.Species.TraitsAndDisadvantages.md
-```
-
-## Gameplay Instructions
-Refer to architect/species/99.Species.TraitsAndDisadvantages.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/species/99.Species.TraitsAndDisadvantages.md. Complete, unabridged source of truth.

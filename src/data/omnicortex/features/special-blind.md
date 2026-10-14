@@ -7,7 +7,7 @@ cost_bp: 3
 is_ranked: false
 is_multiple: false
 prerequisites: Sneak Attack
-description: 'Blind is a Special Feature: Direct attack to a target''s Sense.'
+description: A precision strike to the eyes or sensors.
 costs:
   cp: 3
   bp: 3
@@ -15,8 +15,10 @@ modifiers: []
 keywords: 'blind, special, special-feature, feature:, direct, attack'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You may trade your Sneak Attack damage dice to inflict the **Blinded**
+  condition on the target for 1d4 rounds.
 ---
-
 # Blind
 
 **Category**: Special Features  
@@ -24,11 +26,7 @@ cost_cp: 3
 **Prerequisite**: Sneak Attack
 
 ## Description
-Blind is a Special Feature: Direct attack to a target's Sense.
+A precision strike to the eyes or sensors.
 
 ## Mechanics & Benefit
-Direct attack to a target's Sense.
-
-## Special Rules
-208
-
+You may trade your Sneak Attack damage dice to inflict the **Blinded** condition on the target for 1d4 rounds.

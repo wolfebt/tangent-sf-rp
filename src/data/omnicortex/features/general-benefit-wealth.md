@@ -8,8 +8,8 @@ is_ranked: true
 is_multiple: false
 prerequisites: None
 description: >-
-  Substantial personal financial reserves, passive dividend income, and liquid
-  capital assets.
+  The character is independently wealthy, possessing vast investments,
+  inheritance, or liquid assets.
 costs:
   cp: 3
   bp: 3
@@ -17,8 +17,12 @@ modifiers: []
 keywords: 'benefit (wealth), general, special-feature, substantial, personal, financial'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
----
+mechanic: >-
+  Increase your **Wealth Score by \+3**.  
 
+  * **Purpose:** Allows purchasing of higher Tech Level gear or luxury items
+  during character creation and downtime.
+---
 # Benefit (Wealth)
 
 **Category**: General Features  
@@ -26,10 +30,8 @@ cost_cp: 3
 **Prerequisite**: None
 
 ## Description
-Substantial personal financial reserves, passive dividend income, and liquid capital assets.
+The character is independently wealthy, possessing vast investments, inheritance, or liquid assets.
 
 ## Mechanics & Benefit
-Permanently increases character's Wealth score by +3 per purchase.
-
-## Special Rules
-Ranked: May be purchased multiple times to represent vast commercial fortunes.
+Increase your **Wealth Score by \+3**.  
+* **Purpose:** Allows purchasing of higher Tech Level gear or luxury items during character creation and downtime.

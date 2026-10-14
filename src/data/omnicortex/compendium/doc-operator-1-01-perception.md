@@ -87,14 +87,3 @@ Example
 
 A character with an Intellect score of \+2 and a Wisdom score of \+1 has a Perception base score of 3\. If they are trying to notice a hidden trap, they would make an Alertness check with a modifier of \+3. However, if they are trying to locate an item using magical means, they would make an Attune check with a modifier of \+3 instead. While a check for a social situation will be added to Insight as checks for analyzing tech will use Technology (Knowledge).
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/character_creation/1.01.Perception.md
-```
-
-## Gameplay Instructions
-Refer to operator/character_creation/1.01.Perception.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/character_creation/1.01.Perception.md. Complete, unabridged source of truth.

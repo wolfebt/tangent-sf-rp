@@ -15,8 +15,11 @@ modifiers: []
 keywords: 'fast heal, general, special-feature, character''s, metabolism, repairs'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Your natural healing rate is **doubled**. You recover Vitality and Health
+  twice as fast during Rest.
+rules: 'This feature is \[Ranked\]. Rank 2 \= 3x healing, Rank 3 \= 4x healing.'
 ---
-
 # Fast Heal
 
 **Category**: General Features  
@@ -31,4 +34,3 @@ Your natural healing rate is **doubled**. You recover Vitality and Health twice 
 
 ## Special Rules
 This feature is \[Ranked\]. Rank 2 \= 3x healing, Rank 3 \= 4x healing.
-

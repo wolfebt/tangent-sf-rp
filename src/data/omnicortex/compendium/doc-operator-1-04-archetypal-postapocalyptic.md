@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-archetypal-postapocalyptic"
-name: "1.04 Archetypal: Post-Apocalyptic"
+name: "1.04 Archetypal: 16. Post-Apocalyptic"
 fileName: "1.04.Archetypal.PostApocalyptic.md"
 relPath: "operator/factions/1.04.Archetypal.PostApocalyptic.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 140
+order: 143
 perspective: "operator"
 entry_type: "Generic Faction Template"
 tl: 3
@@ -86,14 +86,3 @@ sockets:
 * **Atmosphere Tokens:** Irradiated zones, scrap metal armor, dust storms, rebreathers, ruined skyscrapers.  
 * **HI-FI INK Guidance:** Post-Apocalyptic, Wasteland. Ruined concrete, rusted metal, dust storms, patchwork armor, cobbled-together weapons. Harsh, desperate, gritty.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Archetypal.PostApocalyptic.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Archetypal.PostApocalyptic.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Archetypal.PostApocalyptic.md. Complete, unabridged source of truth.

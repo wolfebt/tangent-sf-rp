@@ -7,7 +7,7 @@ isMasterDoc: true
 masterDocId: "doc-operator-4-00-metaphysics"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 215
+order: 218
 perspective: "operator"
 entry_type: "Core Rulebook"
 tl: 3
@@ -520,14 +520,3 @@ Complete invocation catalogs for all six Metaphysic Disciplines (and their twelv
 * **[Matter Invocations](./metaphysics/4.00.Matter.md)** — *Enhancement Invocations (Reinforced Item through Fly) and Transmutation Invocations (Analyze Structure through Mutation)*
 * **[Mental Invocations](./metaphysics/4.00.Mental.md)** — *Projection Invocations (Telepathy through Emotion Control) and Sense Invocations (Analyze Psyche through Super-Sense)*
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/4.00 METAPHYSICS.md
-```
-
-## Gameplay Instructions
-Refer to operator/4.00 METAPHYSICS.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/4.00 METAPHYSICS.md. Complete, unabridged source of truth.

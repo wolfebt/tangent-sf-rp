@@ -15,8 +15,12 @@ modifiers: []
 keywords: 'rage, special, special-feature, primal, ignoring, safety'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: |-
+  As a Free Action, enter a Rage.  
+    * **Gain:** \+2 Strength, \+2 Stamina (and temporary Health), \+2 Will.  
+    * **Suffer:** \-2 Defense. You cannot use skills requiring patience or concentration (most Mental/Tech skills).  
+    * **Duration:** Rounds equal to 4 \+ New Stamina Mod. Ends in fatigue.
 ---
-
 # Rage
 
 **Category**: Special Features  
@@ -31,7 +35,3 @@ As a Free Action, enter a Rage.
   * **Gain:** \+2 Strength, \+2 Stamina (and temporary Health), \+2 Will.  
   * **Suffer:** \-2 Defense. You cannot use skills requiring patience or concentration (most Mental/Tech skills).  
   * **Duration:** Rounds equal to 4 \+ New Stamina Mod. Ends in fatigue.
-
-## Special Rules
-Ranked 199
-

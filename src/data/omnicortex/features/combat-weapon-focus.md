@@ -19,8 +19,16 @@ keywords: >-
   extensive
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
----
+mechanic: >-
+  Choose a specific weapon. You gain **\+1 to Strike** with that weapon.  
 
+  * **Secondary Effect:** You also gain a specialized perk based on the weapon's
+  damage type:  
+    * **Piercing:** \+1 Penetration (ignores 1 DR).  
+    * **Slashing:** \+1 Bleed damage.  
+    * **Bludgeoning:** \+1 to Stun CR.
+rules: '\[Multiple\] May be taken for different weapons.'
+---
 # Weapon Focus
 
 **Category**: Combat Features  
@@ -31,8 +39,11 @@ cost_cp: 3
 Extensive training with a specific weapon type (e.g., Laser Rifle, Longsword, Plasma Pistol).
 
 ## Mechanics & Benefit
-Choose a specific weapon. You gain **\+1 to Strike** with that weapon.
+Choose a specific weapon. You gain **\+1 to Strike** with that weapon.  
+* **Secondary Effect:** You also gain a specialized perk based on the weapon's damage type:  
+  * **Piercing:** \+1 Penetration (ignores 1 DR).  
+  * **Slashing:** \+1 Bleed damage.  
+  * **Bludgeoning:** \+1 to Stun CR.
 
 ## Special Rules
 \[Multiple\] May be taken for different weapons.
-

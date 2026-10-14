@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-05-origins"
 category: "operator_rule"
 parent: "doc-operator-1-05-origins"
-order: 151
+order: 154
 perspective: "operator"
 entry_type: "Origin Profile"
 tl: 3
@@ -215,14 +215,3 @@ Knowledgeable about sustainable farming practices and strives to minimize enviro
 * **PALETTE:** Algae Green, Neon Blue (Grid), Matte Grey, Steel.  
 * **TOKENS:** Geometry, silence, efficiency, protein vats, drones.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/origins/1.05.Agricultural.md
-```
-
-## Gameplay Instructions
-Refer to operator/origins/1.05.Agricultural.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/origins/1.05.Agricultural.md. Complete, unabridged source of truth.

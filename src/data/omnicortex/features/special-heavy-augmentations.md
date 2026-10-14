@@ -18,8 +18,11 @@ modifiers: []
 keywords: 'heavy augmentations, special, special-feature, replaced, significant, portions'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You may install **Heavy** class Augmentations (which often have higher DR or
+  Strength bonuses but may impose social penalties). You gain an additional **6
+  CP** worth of Augmentations.
 ---
-
 # Heavy Augmentations
 
 **Category**: Special Features  
@@ -30,8 +33,4 @@ cost_cp: 3
 The character has replaced significant portions of their body with industrial or military-grade hardware. These modifications are often bulky, obvious, and not designed for social integration.
 
 ## Mechanics & Benefit
-You may install Heavy class Augmentations (which often have higher DR or Strength bonuses but may impose social penalties). You gain an additional 6 CP worth of Augmentations.
-
-## Special Rules
-Grants an additional 6 CP worth of Augmentations for free (+12 CP cumulative credit). Unlocks compatibility with Heavy class cybernetic and biomechanical hardware.
-
+You may install **Heavy** class Augmentations (which often have higher DR or Strength bonuses but may impose social penalties). You gain an additional **6 CP** worth of Augmentations.

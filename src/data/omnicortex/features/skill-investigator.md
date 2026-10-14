@@ -15,8 +15,8 @@ modifiers: []
 keywords: 'investigator, skill, special-feature, trained, notice, details'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: Gain a **\+2 Bonus** to **Investigation** and **Gather Information** checks.
 ---
-
 # Investigator
 
 **Category**: Skill Features  
@@ -28,7 +28,3 @@ The character is trained to notice details and follow leads.
 
 ## Mechanics & Benefit
 Gain a **\+2 Bonus** to **Investigation** and **Gather Information** checks.
-
-## Special Rules
-147
-

@@ -388,14 +388,3 @@ Carried shields provide an active **Block Bonus** added to the user's Defense Sc
 * **Option Integration:** Carried shields can install standard Socket Modules (e.g., Hardened Circuits, Biometric Locks, Tactical Computers, or Reflective Shells) subject to their socket capacity and standard Mastercrafting rules.  
 * **Projected Shield Bracer:** The wrist bracer contains the 1 Option Socket; the projected energy plane itself cannot hold socket modules.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/technology/armor/99.Tech.Armor.DesignAndCatalog.md
-```
-
-## Gameplay Instructions
-Refer to architect/technology/armor/99.Tech.Armor.DesignAndCatalog.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/technology/armor/99.Tech.Armor.DesignAndCatalog.md. Complete, unabridged source of truth.

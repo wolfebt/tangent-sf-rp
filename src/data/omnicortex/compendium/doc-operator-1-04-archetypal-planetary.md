@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-archetypal-planetary"
-name: "1.04 Archetypal: Planetary"
+name: "1.04 Archetypal: 14. Planetary"
 fileName: "1.04.Archetypal.Planetary.md"
 relPath: "operator/factions/1.04.Archetypal.Planetary.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 138
+order: 141
 perspective: "operator"
 entry_type: "Generic Faction Template"
 tl: 3
@@ -86,14 +86,3 @@ sockets:
 * **Atmosphere Tokens:** Trench lines, planetary defense cannons, localized camo patterns, bunkers, rugged terrain.  
 * **HI-FI INK Guidance:** Military Sci-Fi, Planetary Defense. Entrenched bunkers, massive ground-to-space artillery, soldiers in environment-specific camouflage. Stubborn, gritty, defensive.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Archetypal.Planetary.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Archetypal.Planetary.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Archetypal.Planetary.md. Complete, unabridged source of truth.

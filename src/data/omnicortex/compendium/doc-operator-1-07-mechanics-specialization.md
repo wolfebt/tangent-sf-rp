@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 189
+order: 192
 perspective: "operator"
 entry_type: "Skill Mechanics"
 tl: 3
@@ -86,14 +86,3 @@ Only one Specialization can be applied to a single skill check. This prevents ch
 *Example*  
 *A character with a rank of 8 in the "Computer" skill might acquire a Skill Specialization in "Hacking." This would represent their focused expertise in breaking into computer systems and bypassing security measures. The Specialization bonus would enhance their effectiveness in hacking-related skill checks, allowing them to attempt more complex tasks and potentially outperforming other characters with higher Computer skill ranks but lacking this specialization.*
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/skills/1.07.Mechanics.Specialization.md
-```
-
-## Gameplay Instructions
-Refer to operator/skills/1.07.Mechanics.Specialization.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/skills/1.07.Mechanics.Specialization.md. Complete, unabridged source of truth.

@@ -87,14 +87,3 @@ This attribute applies to objects, constructs, and creatures with non-standard a
 
 Calculate Vitality and Health scores and combine for Structure score.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/character_creation/1.01.VitalityHealthStructure.md
-```
-
-## Gameplay Instructions
-Refer to operator/character_creation/1.01.VitalityHealthStructure.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/character_creation/1.01.VitalityHealthStructure.md. Complete, unabridged source of truth.

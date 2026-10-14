@@ -18,8 +18,11 @@ modifiers: []
 keywords: 'echolocation, general, special-feature, through, extreme, cross-modal'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  By emitting sharp clicks, you gain Blindsight up to 60 feet. You ignore all
+  concealment penalties caused by darkness, fog, or visual invisibility within
+  this range. You cannot be Flanked by enemies within your sonar radius.
 ---
-
 # Echolocation
 
 **Category**: General Features  
@@ -30,7 +33,4 @@ cost_cp: 3
 Through extreme cross-modal neuroplasticity, the character's visual cortex has been repurposed to process auditory data, acting as a high-resolution biological sonar.
 
 ## Mechanics & Benefit
-By emitting sharp clicks, you gain **Blindsight up to 60 feet**. You ignore all concealment penalties caused by darkness, fog, or visual invisibility within this range. You cannot be Flanked by enemies within your sonar radius.
-
-## Special Rules
-Prerequisite: Awareness 3, Blindness flaw or visual deprivation.
+By emitting sharp clicks, you gain Blindsight up to 60 feet. You ignore all concealment penalties caused by darkness, fog, or visual invisibility within this range. You cannot be Flanked by enemies within your sonar radius.

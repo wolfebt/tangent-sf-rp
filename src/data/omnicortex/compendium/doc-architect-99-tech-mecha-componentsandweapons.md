@@ -356,14 +356,3 @@ Used by walkers and exoskeleton suits. Requires Strength checks.
 
 ### ---
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/technology/mecha/99.Tech.Mecha.ComponentsAndWeapons.md
-```
-
-## Gameplay Instructions
-Refer to architect/technology/mecha/99.Tech.Mecha.ComponentsAndWeapons.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/technology/mecha/99.Tech.Mecha.ComponentsAndWeapons.md. Complete, unabridged source of truth.

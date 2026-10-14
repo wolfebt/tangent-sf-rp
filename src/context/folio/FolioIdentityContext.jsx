@@ -174,13 +174,73 @@ export const sanitizeCharacterSkills = (charData) => {
   return result;
 };
 
-export const FolioIdentityContext = createContext(null);
+export const DEFAULT_IDENTITY_FALLBACK = {
+  characterData: DEFAULT_CHARACTER,
+  setCharacterData: () => {},
+  activeCharacter: {
+    name: 'Operative',
+    archetype: 'Operative',
+    species: 'Alterian',
+    techLevel: 3,
+    magicLevel: 3
+  },
+  activePersona: DEFAULT_CHARACTER,
+  activeHeroName: 'Operative',
+  updateField: () => {},
+  activeTab: 'identity',
+  setActiveTab: () => {},
+  viewMode: 'builder',
+  setViewMode: () => {},
+  isCharacterSelected: false,
+  setIsCharacterSelected: () => {},
+  personaRoster: [],
+  roster: [],
+  saveCurrentToRoster: () => {},
+  switchRosterCharacter: () => {},
+  deleteRosterCharacter: () => {},
+  duplicateRosterCharacter: () => {},
+  togglePersonaNetworkEngaged: () => {},
+  togglePersonaVttLock: () => {},
+  handleNewCharacter: () => {},
+  handleSaveLocal: () => {},
+  handleLoadLocal: () => {},
+  handleLoadCloud: () => {},
+  handleExportAsStoryElement: () => {},
+  triggerSave: () => {},
+  cloudSaveStatus: 'idle',
+  lastSavedTime: null,
+  updateRosterCharacterNote: () => {},
+  applySpeciesAdjustments: () => {},
+  applyArchetypeChassis: () => {},
+  applyOccupationAdjustments: () => {},
+  applyOriginAdjustments: () => {},
+  applyFactionAdjustments: () => {},
+  applyIdentitySelection: () => {},
+  applyGuidedCharacter: () => {},
+  isLocked: false,
+  folioPhase: 'creation',
+  isReadyForVTT: false,
+  allowPlayerOverride: false,
+  isPlayerOverride: false,
+  isFolioLockedOut: false,
+  lockPersona: () => {},
+  unlockPersona: () => {},
+  setPersonaAllowPlayerOverride: () => {},
+  clonePersonaVariant: () => {},
+  recordTrackedModification: () => {},
+  reviewTrackedModification: () => {},
+  revertTrackedModification: () => {},
+  applyVTTStatusConditions: () => {},
+  trackedModifications: []
+};
+
+export const FolioIdentityContext = createContext(DEFAULT_IDENTITY_FALLBACK);
 
 export const useFolioIdentity = () => {
   const ctx = useContext(FolioIdentityContext);
   if (!ctx) {
-    console.warn('[useFolioIdentity] Called outside FolioIdentitySliceProvider.');
-    return {};
+    console.warn('[useFolioIdentity] Called outside FolioIdentitySliceProvider. Returning fallback state.');
+    return DEFAULT_IDENTITY_FALLBACK;
   }
   return ctx;
 };
@@ -1345,7 +1405,7 @@ export const FolioIdentitySliceProvider = ({ children }) => {
     reviewTrackedModification,
     revertTrackedModification,
     applyVTTStatusConditions,
-    trackedModifications: characterData.tracked_modifications || []
+    trackedModifications: characterData?.tracked_modifications || []
   };
 
   return (

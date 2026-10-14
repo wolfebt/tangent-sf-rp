@@ -1,45 +1,32 @@
 ---
 id: meta-projection
-name: Projection
+name: "Projection"
 type: meta
-subtype: mental
+subtype: "mental"
 category: skills
-governing_attributes:
-  - Wisdom
-description: >-
-  Mental discipline: Psionic projections, telekinesis, telepathic speech, and
-  cognitive thrusts.
-trained_only: true
+governing_attribute: ""
+description: "Mental: Psionic projections, telekinesis, telepathic speech, and cognitive thrusts."
 specialties:
-  - Telekinetic Thrust
-  - Psionic Blasts
-  - Cognitive Overload
-  - Kinetic Levitation
-  - Thought Constructs
-synergy_links:
-  - meta-attune
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'projection, meta, wisdom, metafocus, psionic, resonance'
-negative_keywords: 'mundane, anti-magic-field, unattuned'
+  []
+keywords: "projection, meta, wisdom, metafocus, psionic, resonance"
+negative_keywords: "mundane, anti-magic-field, unattuned"
 ---
 
-# Projection
+### **PROJECTION FOCUS**
 
-Mental discipline: Psionic projections, telekinesis, telepathic speech, and cognitive thrusts.
+Sending thoughts, commands, or psychic damage into another mind.
 
-### Mechanics & Rules
-- **Governing Attribute**: Wisdom
-- **Discipline Focus**: Mental
-- **Standard Check**: `2d10 + Projection Rank + Wisdom Mod vs. Target DC / Resistance`.
-- **Prerequisite**: Unlocked when character possesses the **Awakened** feature or relevant Metaphysical discipline training.
-- **Strain Resolution**: Failing an invocation check by 5+ points deals non-lethal strain fatigue.
+* **Range:** Extended. 100ft x Rank.
 
-### Specialties
-- **Telekinetic**: Telekinetic Thrust
-- **Psionic**: Psionic Blasts
-- **Cognitive**: Cognitive Overload
-- **Kinetic**: Kinetic Levitation
-- **Thought**: Thought Constructs
+**Invocations:**
+
+* **Telepathy:** Mental communication.  
+  * *Effect:* communicate with any language-using creature.  
+* **Domination/Command:** Force will upon another.  
+  * *Effect:* Target obeys command. Resisted by Will.  
+* **Mind Blast:** Overload neurons.  
+  * *Effect:* Stun damage. Resisted by Will. 1d6 Psychic damage per Rank.  
+* **Memory Edit:** Modify recollections.  
+  * *Effect:* Alter last 1 minute per Rank of memories.
+
+###

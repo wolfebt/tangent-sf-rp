@@ -15,8 +15,17 @@ modifiers: []
 keywords: 'wild speech, special, special-feature, beasts'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
----
+mechanic: >-
+  You can communicate with animals (Beast type) as if you shared a language. You
+  can use **Social Skills** (Diplomacy, Bluff, Intimidate) on animals with no
+  penalty.
 
+
+  &nbsp;
+
+
+  &nbsp;
+---
 # Wild Speech
 
 **Category**: Special Features  
@@ -29,6 +38,6 @@ The character can speak with the beasts of the wild.
 ## Mechanics & Benefit
 You can communicate with animals (Beast type) as if you shared a language. You can use **Social Skills** (Diplomacy, Bluff, Intimidate) on animals with no penalty.
 
-## Special Rules
-213
+&nbsp;
 
+&nbsp;

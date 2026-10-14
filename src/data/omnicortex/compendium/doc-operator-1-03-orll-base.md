@@ -1,15 +1,15 @@
 ---
 id: "doc-operator-1-03-orll-base"
-name: "1.03 Orll (Lineage Overview)"
+name: "1.03 Orll: Orll (Base)"
 fileName: "1.03.Orll.Base.md"
 relPath: "operator/species/Orll/1.03.Orll.Base.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
-parent: "doc-operator-1-03-species"
-order: 69
+parent: "doc-operator-1-03-orll"
+order: 79
 perspective: "operator"
-entry_type: "Species Lineage"
+entry_type: "Baseline Species"
 tl: 3
 ml: 0
 cost: 0
@@ -107,14 +107,3 @@ Stigma (Xeno & Savage)
 
 \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/Orll/1.03.Orll.Base.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/Orll/1.03.Orll.Base.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/Orll/1.03.Orll.Base.md. Complete, unabridged source of truth.

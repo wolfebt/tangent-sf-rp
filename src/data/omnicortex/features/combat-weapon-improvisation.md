@@ -17,8 +17,19 @@ keywords: >-
   dangerous
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
----
+mechanic: >-
+  You suffer **no penalties** for using improvised Archaic weapons (normally
+  \-4).  
 
+  * **Purpose:** Allows use of the environment as effective weaponry without
+  training in specific weapon groups.
+
+
+  ---
+
+
+  &nbsp;
+---
 # Weapon Improvisation
 
 **Category**: Combat Features  
@@ -29,8 +40,9 @@ cost_cp: 3
 The character is dangerous with anything—a bottle, a chair, or a rock.
 
 ## Mechanics & Benefit
-You suffer **no penalties** for using improvised Archaic weapons (normally \-4).
+You suffer **no penalties** for using improvised Archaic weapons (normally \-4).  
+* **Purpose:** Allows use of the environment as effective weaponry without training in specific weapon groups.
 
-## Special Rules
-56
+---
 
+&nbsp;

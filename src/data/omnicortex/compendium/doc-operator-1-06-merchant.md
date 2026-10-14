@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-06-occupations"
 category: "operator_rule"
 parent: "doc-operator-1-06-occupations"
-order: 170
+order: 173
 perspective: "operator"
 entry_type: "Occupation Profile"
 tl: 3
@@ -244,14 +244,3 @@ Merchants are skilled at assessing and managing risks. They can anticipate poten
   * **Palette:** Metal, Screen Blue, Button Red.  
   * **Tokens:** Screen, slot, goods, static.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/occupations/1.06.Merchant.md
-```
-
-## Gameplay Instructions
-Refer to operator/occupations/1.06.Merchant.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/occupations/1.06.Merchant.md. Complete, unabridged source of truth.

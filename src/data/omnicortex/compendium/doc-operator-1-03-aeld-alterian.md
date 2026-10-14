@@ -257,14 +257,3 @@ Patrols Enclave borders in "Smart-Silk" bodysuits with segmented pearlescent pla
 
 Crafts crystalline technology wearing multi-filtered magnifying lenses. Their hands glow violet, fusing crystal and gold without heat.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/Aeld/1.03.Aeld.Alterian.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/Aeld/1.03.Aeld.Alterian.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/Aeld/1.03.Aeld.Alterian.md. Complete, unabridged source of truth.

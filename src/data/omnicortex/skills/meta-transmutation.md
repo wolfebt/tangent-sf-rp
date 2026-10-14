@@ -1,45 +1,34 @@
 ---
 id: meta-transmutation
-name: Transmutation
+name: "Transmutation"
 type: meta
-subtype: matter
+subtype: "matter"
 category: skills
-governing_attributes:
-  - Wisdom
-description: >-
-  Matter discipline: Reshaping physical matter, molecular conversion, and phase
-  state changes.
-trained_only: true
+governing_attribute: ""
+description: "Matter: Reshaping physical matter, molecular conversion, and phase state changes."
 specialties:
-  - Phase State Alteration
-  - Elemental Conversion
-  - Architectural Sculpting
-  - Density Shifting
-  - Liquid-to-Solid Solidification
-synergy_links:
-  - meta-attune
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'transmutation, meta, wisdom, metafocus, psionic, resonance'
-negative_keywords: 'mundane, anti-magic-field, unattuned'
+  []
+keywords: "transmutation, meta, wisdom, metafocus, psionic, resonance"
+negative_keywords: "mundane, anti-magic-field, unattuned"
 ---
 
-# Transmutation
+### **TRANSMUTATION FOCUS**
 
-Matter discipline: Reshaping physical matter, molecular conversion, and phase state changes.
+Changing one substance into another or altering state of matter.
 
-### Mechanics & Rules
-- **Governing Attribute**: Wisdom
-- **Discipline Focus**: Matter
-- **Standard Check**: `2d10 + Transmutation Rank + Wisdom Mod vs. Target DC / Resistance`.
-- **Prerequisite**: Unlocked when character possesses the **Awakened** feature or relevant Metaphysical discipline training.
-- **Strain Resolution**: Failing an invocation check by 5+ points deals non-lethal strain fatigue.
+* **Mechanic:** Permanent changes usually require high Ranks and Karma expenditure. Combat use is temporary.
 
-### Specialties
-- **Phase**: Phase State Alteration
-- **Elemental**: Elemental Conversion
-- **Architectural**: Architectural Sculpting
-- **Density**: Density Shifting
-- **Liquid-to-Solid**: Liquid-to-Solid Solidification
+**Invocations:**
+
+* **Polymorph/Morph:** Changes biological form.  
+  * *Effect:* Subject takes on physical stats of a Beast/Humanoid.  
+* **Petrification:** Turns flesh to stone (or vice versa).  
+  * *Effect:* Resisted by Fortitude. "Slow" effect on partial success.  
+* **Liquid/Gas Form:** Alters caster's state.  
+  * *Effect:* Can pass through cracks, resistant to physical damage.  
+* **Matter Manipulation:** Shape stone, metal, or wood.  
+  * *Effect:* Reshape 1 cubic foot per Rank of raw material.
+
+## 
+
+##

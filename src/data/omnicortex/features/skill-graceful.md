@@ -15,8 +15,10 @@ modifiers: []
 keywords: 'graceful, skill, special-feature, elegance, precision'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Gain a **\+1 Bonus** to all **Agility-based Non-Attack Skill checks**
+  (Acrobatics, Stealth, Sleight of Hand) and **Reflex Checks**.
 ---
-
 # Graceful
 
 **Category**: Skill Features  
@@ -28,7 +30,3 @@ The character moves with elegance and precision.
 
 ## Mechanics & Benefit
 Gain a **\+1 Bonus** to all **Agility-based Non-Attack Skill checks** (Acrobatics, Stealth, Sleight of Hand) and **Reflex Checks**.
-
-## Special Rules
-144
-

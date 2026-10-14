@@ -7,7 +7,7 @@ isMasterDoc: true
 masterDocId: "doc-operator-1-05-origins"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 150
+order: 153
 perspective: "operator"
 entry_type: "Core Rulebook"
 tl: 3
@@ -169,14 +169,3 @@ Append the appropriate **FORM tokens** to the end of your RENDERING section depe
 > Architectural interior photography, 50mm lens, progressive depth of field, suspended dust particles in sharp light shafts, light refracting through glass and dense plastics, authentic diegetic lighting, practical ambient light sources, complex shadow casting, \[claustrophobic framing OR expansive wide-angle\], hyper-realistic narrative clutter, lived-in environmental storytelling.
 
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/1.05 ORIGINS.md
-```
-
-## Gameplay Instructions
-Refer to operator/1.05 ORIGINS.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/1.05 ORIGINS.md. Complete, unabridged source of truth.

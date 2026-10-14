@@ -15,8 +15,8 @@ modifiers: []
 keywords: 'quick, general, special-feature, naturally'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: '**\+10 feet** to Base Movement Speed and **\+1 to Initiative**.'
 ---
-
 # Quick
 
 **Category**: General Features  
@@ -28,7 +28,3 @@ The character is naturally fleet of foot.
 
 ## Mechanics & Benefit
 **\+10 feet** to Base Movement Speed and **\+1 to Initiative**.
-
-## Special Rules
-114
-

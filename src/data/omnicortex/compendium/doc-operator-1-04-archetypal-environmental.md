@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-archetypal-environmental"
-name: "1.04 Archetypal: Environmental"
+name: "1.04 Archetypal: 07. Environmental"
 fileName: "1.04.Archetypal.Environmental.md"
 relPath: "operator/factions/1.04.Archetypal.Environmental.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 131
+order: 134
 perspective: "operator"
 entry_type: "Generic Faction Template"
 tl: 3
@@ -86,14 +86,3 @@ sockets:
 * **Atmosphere Tokens:** Reclaimed ruins, thick jungles, rusted mecha covered in moss, guerrilla camps.  
 * **HI-FI INK Guidance:** Eco-Militant, Solar-Punk, Reclaimed ruins, thick jungles, rusted machinery covered in moss. Natural, determined, wild, vibrant.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Archetypal.Environmental.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Archetypal.Environmental.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Archetypal.Environmental.md. Complete, unabridged source of truth.

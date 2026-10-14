@@ -6,10 +6,10 @@ feature_category: Discipline
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: 'Centering Mst, Discipline Mst'
+prerequisites: 'Centering Master, Discipline Mastery (in all currently used Disciplines)'
 description: >-
-  Harmonious Center is a Discipline Feature: All Checks with Advantage with all
-  Disciplines Mastered.
+  The character exists in a state of flow with the universe. Power responds to
+  their will instantly and perfectly.
 costs:
   cp: 3
   bp: 3
@@ -28,20 +28,22 @@ keywords: >-
   harmonious
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
----
+mechanic: >-
+  You roll **ALL** Metafocus Checks (Attune and Discipline) with
+  **Advantage**.  
 
+  * **Mechanics:** Roll 2d10 with Advantage for both your Accuracy/CR (Attune)
+  and your Power/Severity (Discipline).
+---
 # Harmonious Center
 
 **Category**: Discipline Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: Centering Mst, Discipline Mst
+**Prerequisite**: Centering Master, Discipline Mastery (in all currently used Disciplines)
 
 ## Description
-Harmonious Center is a Discipline Feature: All Checks with Advantage with all Disciplines Mastered.
+The character exists in a state of flow with the universe. Power responds to their will instantly and perfectly.
 
 ## Mechanics & Benefit
-All Checks with Advantage with all Disciplines Mastered.
-
-## Special Rules
-72
-
+You roll **ALL** Metafocus Checks (Attune and Discipline) with **Advantage**.  
+* **Mechanics:** Roll 2d10 with Advantage for both your Accuracy/CR (Attune) and your Power/Severity (Discipline).

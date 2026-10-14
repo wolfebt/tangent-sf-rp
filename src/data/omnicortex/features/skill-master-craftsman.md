@@ -15,8 +15,11 @@ modifiers: []
 keywords: 'master craftsman, skill, special-feature, creates, superior, quality'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Gain a **\+2 Bonus** to Crafting checks. When creating **Masterwork** items,
+  you add **\+2** to the CR limit of what you can create (allowing for more
+  complex modifications).
 ---
-
 # Master Craftsman
 
 **Category**: Skill Features  
@@ -27,8 +30,4 @@ cost_cp: 3
 The character creates items of superior quality and durability.
 
 ## Mechanics & Benefit
-Gain a **\+2 Bonus** to Crafting checks. When creating **Masterwork** items, you add **\+2** to the DC limit of what you can create (allowing for more complex modifications).
-
-## Special Rules
-151
-
+Gain a **\+2 Bonus** to Crafting checks. When creating **Masterwork** items, you add **\+2** to the CR limit of what you can create (allowing for more complex modifications).

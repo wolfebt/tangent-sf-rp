@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-03-kitin-manelli"
-name: "1.03 Kitin: Manelli"
+name: "1.03 Kitin: Manelli (Cerebral Expression)"
 fileName: "1.03.Kitin.Manelli.md"
 relPath: "operator/species/Kitin/1.03.Kitin.Manelli.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-kitin"
-order: 64
+order: 69
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
@@ -108,14 +108,3 @@ As the "Cerebral Expression," they maintain the Chorus and steer the development
 
 ---
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/Kitin/1.03.Kitin.Manelli.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/Kitin/1.03.Kitin.Manelli.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/Kitin/1.03.Kitin.Manelli.md. Complete, unabridged source of truth.

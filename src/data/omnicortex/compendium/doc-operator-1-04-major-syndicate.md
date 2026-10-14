@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-major-syndicate"
-name: "1.04 Major: Syndicate"
+name: "1.04 Major: Incorporated Planetary Syndication (Syndicate)"
 fileName: "1.04.Major.Syndicate.md"
 relPath: "operator/factions/1.04.Major.Syndicate.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 116
+order: 112
 perspective: "operator"
 entry_type: "Primary Faction"
 tl: 3
@@ -121,14 +121,3 @@ sockets:
 * **The Spire Lobby:** Absolute silence as the Mesh dampens footstep audio. Thousands move in algorithmic streams reflecting the "Blue Line."  
 * **The Restriction Zone:** Vibrant, chaotic, unregulated. A diplomatic standoff zone protected by ancient indigenous land rights, lit by unregistered neon.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Major.Syndicate.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Major.Syndicate.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Major.Syndicate.md. Complete, unabridged source of truth.

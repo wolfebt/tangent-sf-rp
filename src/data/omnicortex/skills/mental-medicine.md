@@ -1,41 +1,42 @@
 ---
 id: mental-medicine
-name: Medicine
+name: "Medicine"
 type: mental
-subtype: knowledge
+subtype: "knowledges"
 category: skills
-governing_attributes:
-  - Wisdom
-  - Intellect
-description: >-
-  The science of medical treatment: trauma first aid, field surgery,
-  pharmacology, pathology, xenobiology, and cybernetic implantation.
-trained_only: false
+governing_attribute: "Wisdom (Intellect for surgery/diagnosis)"
+description: "Medicine is the skill of understanding and treating medical conditions. It reflects a character's ability to diagnose and treat illnesses and injuries. Medicine is used whenever a character needs to heal themselves or others, whether it's to save a life or to prevent an infection. This can include things like diagnosing illnesses, performing surgeries, and administering medication."
 specialties:
-  - First Aid & Field Triage
-  - Trauma Surgery
-  - Xenobiology & Alien Physiology
-  - Toxicology & Antidotes
-  - Cybernetic Surgery & Implantation
-  - Pathology & Infectious Diseases
-synergy_links:
-  - mental-science
-  - mental-nature
-  - mental-alchemist
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'medicine, mental, intellect, cognitive, expertise, first'
-negative_keywords: 'mindless, instinct-only, illiterate'
+  - "Combat Trauma & Triage: Stabilizing life-threatening wounds, stopping arterial bleeds, and patching sucking chests."
+  - "Field Surgery: Performing amputations, extracting shrapnel, and suturing organs under battlefield conditions."
+  - "Xenobiology Treatment: Diagnosing and treating disparate alien biologies, organs, and foreign blood chemistries."
+  - "Pharmacology & Toxicology: Synthesizing antidotes, administering pain management drugs, and treating poisons."
+  - "Cybernetic Implantation: Surgical installation, calibration, and rejection management of bionic limbs and organs."
+  - "Infectious Diseases & Pathology: Identifying bio-warfare vectors, alien spores, viruses, and designing quarantines."
+  - "Intensive Care Life-Support: Managing coma patients, critical stasis preservation, and multi-system organ failure."
+  - "Gene Therapy: Repairing radiation-induced DNA breaks and treating genetic degenerative diseases."
+  - "Psychiatry & Neural Trauma: Treating combat shock, chemical psychosis, and neural interface feedback loops."
+  - "Forensic Autopsy: Determining precise cause, timeline, and physical weapon signatures on deceased bodies."
+keywords: "medicine, mental, intellect, cognitive, expertise, first"
+negative_keywords: "mindless, instinct-only, illiterate"
 ---
 
-# Medicine
+### **MEDICINE**
 
-The science of medical treatment: trauma first aid, field surgery, pharmacology, pathology, xenobiology, and cybernetic implantation.
-
-### Mechanics & Rules
-- **Governing Attribute**: Wisdom (Field First Aid / Diagnostics) or Intellect (Surgery / Pharmacology).
-- **Stabilize Dying Character**: DC 15 Medicine check restores a character at 0 HP from Bleeding Out to Stable.
-- **Long-Term Care**: DC 15 doubles natural healing recovery rates for patients under care.
-- **Surgery / Treat Disease**: DC 15 (Minor illness) to DC 30 (Alien viral pathogen or brain surgery).
+* **Ability:** Wisdom (Intellect for surgery/diagnosis)  
+* **Description:** Medicine is the skill of understanding and treating medical conditions. It reflects a character's ability to diagnose and treat illnesses and injuries. Medicine is used whenever a character needs to heal themselves or others, whether it's to save a life or to prevent an infection. This can include things like diagnosing illnesses, performing surgeries, and administering medication.   
+* **Mechanics:**  
+  * **First Aid:** CR 15 to stabilize a dying character.  
+  * **Long-term Care:** CR 15 to double natural healing rates for a patient.  
+  * **Surgery/Treat Disease:** CR varies by severity (CR 15 to CR 30).  
+* **Specialties:**   
+  * **Combat Trauma & Triage:** Stabilizing life-threatening wounds, stopping arterial bleeds, and patching sucking chests.  
+    * **Field Surgery:** Performing amputations, extracting shrapnel, and suturing organs under battlefield conditions.  
+    * **Xenobiology Treatment:** Diagnosing and treating disparate alien biologies, organs, and foreign blood chemistries.  
+    * **Pharmacology & Toxicology:** Synthesizing antidotes, administering pain management drugs, and treating poisons.  
+    * **Cybernetic Implantation:** Surgical installation, calibration, and rejection management of bionic limbs and organs.  
+    * **Infectious Diseases & Pathology:** Identifying bio-warfare vectors, alien spores, viruses, and designing quarantines.  
+    * **Intensive Care Life-Support:** Managing coma patients, critical stasis preservation, and multi-system organ failure.  
+    * **Gene Therapy:** Repairing radiation-induced DNA breaks and treating genetic degenerative diseases.  
+    * **Psychiatry & Neural Trauma:** Treating combat shock, chemical psychosis, and neural interface feedback loops.  
+    * **Forensic Autopsy:** Determining precise cause, timeline, and physical weapon signatures on deceased bodies.

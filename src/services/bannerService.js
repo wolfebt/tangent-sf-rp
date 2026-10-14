@@ -617,18 +617,18 @@ export const saveHomeBanner = async (newConfig, user = null, position = 'top') =
     console.warn(`Failed to set local storage banner for ${position}:`, err);
   }
 
-  // 2. Persist to Firestore (with 1200ms timeout race to keep UI instantaneous)
+  // 2. Persist to Firestore (with 4000ms timeout race to keep UI responsive while allowing cloud sync)
   try {
     const docRef = doc(db, 'system_settings', firestoreDocName);
     const firestorePromise = setDoc(docRef, merged, { merge: true });
     const timeoutPromise = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error('Firestore operation timed out')), 1200)
+      setTimeout(() => reject(new Error('Firestore write timed out after 4000ms')), 4000)
     );
     await Promise.race([firestorePromise, timeoutPromise]);
-    return { success: true, banner: merged };
+    return { success: true, banner: merged, cloudSaved: true, localOnly: false };
   } catch (err) {
     console.warn(`Failed to save ${position} banner to Firestore, saved locally only:`, err);
-    return { success: true, banner: merged, localOnly: true };
+    return { success: true, banner: merged, cloudSaved: false, localOnly: true, error: err?.message || 'Firestore write error' };
   }
 };
 

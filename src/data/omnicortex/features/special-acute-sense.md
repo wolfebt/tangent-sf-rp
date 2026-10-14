@@ -18,8 +18,13 @@ modifiers: []
 keywords: 'acute sense, special, special-feature, possesses, specific, sensory'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Choose one sense (Vision, Hearing, Smell, Taste, or Touch). You gain a **\+2
+  Bonus** to **Awareness Checks** utilizing that sense.
+rules: >-
+  \[Multiple\] You may take this feature multiple times, applying it to a
+  different sense each time.
 ---
-
 # Acute Sense
 
 **Category**: Special Features  
@@ -34,4 +39,3 @@ Choose one sense (Vision, Hearing, Smell, Taste, or Touch). You gain a **\+2 Bon
 
 ## Special Rules
 \[Multiple\] You may take this feature multiple times, applying it to a different sense each time.
-

@@ -4,12 +4,13 @@ name: Combat Skill Focus
 category: features
 feature_category: Combat
 cost_bp: 3
-is_ranked: false
+is_ranked: true
 is_multiple: true
-prerequisites: Chosen Skill 1
+prerequisites: Chosen Combat Skill 1
 description: >-
-  Combat Skill Focus is a Combat Feature: Bonus of +2 and may be purchased per
-  skill stage.
+  The character has dedicated extensive training and conditioning to a specific
+  combat discipline, achieving superior accuracy and consistency with that
+  fighting style.
 costs:
   cp: 3
   bp: 3
@@ -24,20 +25,26 @@ keywords: >-
   feature:
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
+mechanic: >-
+  Gain a **\+2 bonus** to a chosen Combat Skill (such as Marksmanship, Melee
+  Weapons, Unarmed Combat, Heavy Weapons, or Gunnery).
+rules: >-
+  \[Ranked / Multiple\] This feature may be purchased once per Skill Stage in
+  the chosen Combat Skill: Novice (1+), Trained (6+), Expert (11+), Master
+  (16+), and Pinnacle (20), up to a maximum \+10 bonus. It may also be purchased
+  separately for different Combat Skills.
 ---
-
 # Combat Skill Focus
 
 **Category**: Combat Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: Chosen Skill 1
+**Prerequisite**: Chosen Combat Skill 1
 
 ## Description
-Combat Skill Focus is a Combat Feature: Bonus of \+2 and may be purchased per skill stage.
+The character has dedicated extensive training and conditioning to a specific combat discipline, achieving superior accuracy and consistency with that fighting style.
 
 ## Mechanics & Benefit
-Bonus of \+2 and may be purchased per skill stage.
+Gain a **\+2 bonus** to a chosen Combat Skill (such as Marksmanship, Melee Weapons, Unarmed Combat, Heavy Weapons, or Gunnery).
 
 ## Special Rules
-Multiple 34
-
+\[Ranked / Multiple\] This feature may be purchased once per Skill Stage in the chosen Combat Skill: Novice (1+), Trained (6+), Expert (11+), Master (16+), and Pinnacle (20), up to a maximum \+10 bonus. It may also be purchased separately for different Combat Skills.

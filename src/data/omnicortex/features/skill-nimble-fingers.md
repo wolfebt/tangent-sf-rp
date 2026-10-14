@@ -15,8 +15,10 @@ modifiers: []
 keywords: 'nimble fingers, skill, special-feature, excellent, manual, dexterity'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Gain a **\+2 Bonus** to **Sleight of Hand** and **Disable Device**
+  (Security/Mechanics) checks.
 ---
-
 # Nimble Fingers
 
 **Category**: Skill Features  
@@ -28,7 +30,3 @@ The character has excellent manual dexterity for fine manipulation.
 
 ## Mechanics & Benefit
 Gain a **\+2 Bonus** to **Sleight of Hand** and **Disable Device** (Security/Mechanics) checks.
-
-## Special Rules
-155
-

@@ -314,14 +314,3 @@ sockets:
 | *Robotics Engineer* This character would specialize in designing, building, and programming robots and drones. They could create anything from small utility drones to large combat mechs, depending on the needs of their team or mission. A skilled engineer who designs, builds, and programs robots and autonomous drones for various purposes. Skills: Technology, Hardware, Software, Knowledge (Robotics) Features: Robotics Mastery: You gain a \+2 bonus to Technology checks related to designing, constructing, and repairing robots and drones. Artificial Intelligence: You have expertise in programming artificial intelligence, gaining \+2 bonus on any checks related to creating autonomous robots or developing AI systems. |
 | :---- |
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/archetypes/99.Archetypes.M_R.md
-```
-
-## Gameplay Instructions
-Refer to architect/archetypes/99.Archetypes.M_R.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/archetypes/99.Archetypes.M_R.md. Complete, unabridged source of truth.

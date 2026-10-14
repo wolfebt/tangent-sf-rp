@@ -119,14 +119,3 @@ The number of Award Points awarded may vary depending on the game and the desire
 
 The experience system is designed to enhance the gaming experience by incentivizing players to engage in meaningful and engaging gameplay. By rewarding players for their efforts, the system fosters a sense of accomplishment and encourages players to continue exploring the world of the game.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/character_creation/1.01.Experience.md
-```
-
-## Gameplay Instructions
-Refer to operator/character_creation/1.01.Experience.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/character_creation/1.01.Experience.md. Complete, unabridged source of truth.

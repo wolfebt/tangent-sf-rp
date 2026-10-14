@@ -522,14 +522,3 @@ The seeker of deeper meaning who challenges the assumptions of society and explo
 
 ##
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/archetypes/1.02.Visionaries.md
-```
-
-## Gameplay Instructions
-Refer to operator/archetypes/1.02.Visionaries.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/archetypes/1.02.Visionaries.md. Complete, unabridged source of truth.

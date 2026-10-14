@@ -1,38 +1,43 @@
 ---
 id: mental-groundskeeper
-name: Groundskeeper
+name: "Groundskeeper"
 type: mental
-subtype: vocation
+subtype: "vocations"
 category: skills
-governing_attributes:
-  - Wisdom
-  - Constitution
-description: >-
-  Maintaining parklands, botanical gardens, exterior estate grounds, forestry,
-  land reclamation, and operating terraforming machinery.
-trained_only: false
+governing_attribute: "Wisdom or Constitution"
+description: "Groundskeeper is the skill of managing and maintaining outdoor spaces, such as parks or gardens. It reflects a character's ability to mow lawns, trim hedges, plant flowers, and maintain other outdoor features. Groundskeepers are responsible for ensuring that outdoor spaces are safe, functional, and aesthetically pleasing. This can include things like mowing lawns, trimming hedges, and planting flowers."
 specialties:
-  - Landscaping & Arboriculture
-  - Botanical Garden Curation
-  - Atmospheric Processing & Terraforming Maintenance
-  - Estate Grounds Management
-synergy_links:
-  - mental-farmer
-  - mental-nature
-  - mental-laborer
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'groundskeeper, mental, stamina, intellect, cognitive, expertise'
-negative_keywords: 'mindless, instinct-only, illiterate'
+  - "Landscape Gardening: Designing flower beds, trimming hedges, laying sod, and styling ornamental gardens."
+  - "Arboriculture & Tree Surgery: Felling dangerous deadwood, pruning high branches, and treating tree infections."
+  - "Estate Hardscaping: Laying stone pathways, building retaining walls, patio pavings, and ornamental fountains."
+  - "Turf & Heavy Lawn Machinery: Operating commercial ride-on mowers, aerators, dethatchers, and turf rollers."
+  - "Invasive Flora Eradication: Identifying and systematically poisoning or uprooting choking alien weeds and vines."
+  - "Drainage & Erosion Control: Installing French drains, grading soil swales, and planting grass to prevent mudslides."
+  - "Greenhouse Maintenance: Managing glass hygiene, misting systems, and soil heating cables for rare shrubs."
+  - "Park & Plaza Sanitation: Clearing public leaves, emptying waste receptacles, and pressure-washing stone avenues."
+  - "Soil & Mulch Composting: Managing thermal compost piles, shredding yard waste, and top-dressing garden beds."
+  - "Planetary Terraforming Planting: Seeding hardy lichen and scrub bushes across barren rocky ground to build topsoil."
+keywords: "groundskeeper, mental, stamina, intellect, cognitive, expertise"
+negative_keywords: "mindless, instinct-only, illiterate"
 ---
 
-# Groundskeeper
+### **GROUNDSKEEPER**
 
-Maintaining parklands, botanical gardens, exterior estate grounds, forestry, land reclamation, and operating terraforming machinery.
+* **Ability:** Wisdom or Constitution  
+* **Description:** Groundskeeper is the skill of managing and maintaining outdoor spaces, such as parks or gardens. It reflects a character's ability to mow lawns, trim hedges, plant flowers, and maintain other outdoor features. Groundskeepers are responsible for ensuring that outdoor spaces are safe, functional, and aesthetically pleasing. This can include things like mowing lawns, trimming hedges, and planting flowers.  
+* **Mechanics:**  
+  * *Cultivate:* CR 15 to grow specific plants in a hostile environment.  
+  * *Terraform:* CR 25 to operate large scale atmosphere processors.  
+* **Specialties:**   
+  * **Landscape Gardening:** Designing flower beds, trimming hedges, laying sod, and styling ornamental gardens.  
+    * **Arboriculture & Tree Surgery:** Felling dangerous deadwood, pruning high branches, and treating tree infections.  
+    * **Estate Hardscaping:** Laying stone pathways, building retaining walls, patio pavings, and ornamental fountains.  
+    * **Turf & Heavy Lawn Machinery:** Operating commercial ride-on mowers, aerators, dethatchers, and turf rollers.  
+    * **Invasive Flora Eradication:** Identifying and systematically poisoning or uprooting choking alien weeds and vines.  
+    * **Drainage & Erosion Control:** Installing French drains, grading soil swales, and planting grass to prevent mudslides.  
+    * **Greenhouse Maintenance:** Managing glass hygiene, misting systems, and soil heating cables for rare shrubs.  
+    * **Park & Plaza Sanitation:** Clearing public leaves, emptying waste receptacles, and pressure-washing stone avenues.  
+    * **Soil & Mulch Composting:** Managing thermal compost piles, shredding yard waste, and top-dressing garden beds.  
+    * **Planetary Terraforming Planting:** Seeding hardy lichen and scrub bushes across barren rocky ground to build topsoil.
 
-### Mechanics & Rules
-- **Governing Attribute**: Wisdom or Constitution
-- **Cultivate Hostile Flora**: DC 15 maintains exotic botanical specimens outside their native climate.
-- **Terraform Operation**: DC 25 operates and repairs large-scale planetary terraforming atmosphere scrubbers.
+  ###

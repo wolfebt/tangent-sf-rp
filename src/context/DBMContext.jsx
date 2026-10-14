@@ -6,25 +6,6 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { commitChunkedBatches, sanitizeFirestoreData } from '../utils/firestoreUtils';
 import { validateDbmEntry } from '../utils/dbmValidators';
 
-let cachedCompendiumSeed = null;
-let compendiumSeedPromise = null;
-
-export const loadCompendiumCatalog = async () => {
-  if (cachedCompendiumSeed) return cachedCompendiumSeed;
-  if (!compendiumSeedPromise) {
-    compendiumSeedPromise = import('../data/compendiumSeed.json')
-      .then(mod => {
-        cachedCompendiumSeed = mod.default || mod;
-        return cachedCompendiumSeed;
-      })
-      .catch(err => {
-        console.warn('[DBMContext] Failed to load compendium seed dynamically:', err);
-        compendiumSeedPromise = null;
-        return [];
-      });
-  }
-  return compendiumSeedPromise;
-};
 import { DEFAULT_ARCHETYPES } from '../data/archetypesData';
 import { DEFAULT_SPECIES } from '../data/speciesData';
 import { DEFAULT_SPECIES_TYPES } from '../data/speciesTypesData';
@@ -74,6 +55,7 @@ export const useDBM = () => useContext(DBMContext);
 export {
   TOMBSTONES_KEY,
   CUSTOM_ENTRIES_KEY,
+  loadCompendiumCatalog,
   getOmnicortexCustomEntries,
   saveOmnicortexCustomEntry,
   removeOmnicortexCustomEntry,
@@ -90,6 +72,7 @@ export {
 import {
   TOMBSTONES_KEY,
   CUSTOM_ENTRIES_KEY,
+  loadCompendiumCatalog,
   getOmnicortexCustomEntries,
   saveOmnicortexCustomEntry,
   removeOmnicortexCustomEntry,
@@ -106,7 +89,7 @@ import {
 
 export const DBMProvider = ({ children }) => {
   const [dbData, setDbData] = useState(() => ({
-    compendium: cachedCompendiumSeed ? filterInitialData(cachedCompendiumSeed, 'compendium') : [],
+    compendium: filterInitialData(getFallbackSeedForCategory('compendium'), 'compendium'),
     archetypes: filterInitialData(DEFAULT_ARCHETYPES, 'archetypes'),
     species: filterInitialData(DEFAULT_SPECIES, 'species'),
     species_type: filterInitialData(DEFAULT_SPECIES_TYPES, 'species_type'),
@@ -247,10 +230,10 @@ export const DBMProvider = ({ children }) => {
 
   // Lazy-load compendium seed on demand
   const ensureCompendiumLoaded = useCallback(async () => {
-    if (latestDbDataRef.current.compendium?.length > 0 && cachedCompendiumSeed) {
+    const seed = await loadCompendiumCatalog();
+    if (latestDbDataRef.current.compendium?.length === seed.length && seed.length > 0) {
       return latestDbDataRef.current.compendium;
     }
-    const seed = await loadCompendiumCatalog();
     const tombstones = getOmnicortexTombstones();
     setDbData(prev => {
       const merged = mergeSeedsWithDocs(prev.compendium || [], 'compendium', tombstones);
@@ -259,10 +242,11 @@ export const DBMProvider = ({ children }) => {
     return seed;
   }, []);
 
-  // Sync all Canonical Compendium Articles to Firestore Cloud
+  // Sync all Canonical Compendium Articles to Firestore Cloud (and purge legacy non-canonical articles)
   const syncCanonicalCompendium = useCallback(async () => {
     try {
       const seed = await loadCompendiumCatalog();
+      const canonicalIds = new Set(seed.map(item => item.id));
       showToast({ type: 'info', title: 'Syncing...', text: `Syncing ${seed.length} canonical articles to cloud...` });
       const operations = seed.map(item => ({
         ref: doc(db, 'compendium', item.id),
@@ -272,6 +256,17 @@ export const DBMProvider = ({ children }) => {
         },
         merge: true
       }));
+
+      try {
+        const snap = await getDocs(collection(db, 'compendium'));
+        for (const d of snap.docs) {
+          if (!canonicalIds.has(d.id)) {
+            await deleteDoc(doc(db, 'compendium', d.id));
+          }
+        }
+      } catch (cleanupErr) {
+        console.warn('[DBMContext] Could not purge legacy compendium docs:', cleanupErr);
+      }
 
       await commitChunkedBatches(operations, 450);
       showToast({

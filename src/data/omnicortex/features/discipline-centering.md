@@ -17,8 +17,16 @@ modifiers: []
 keywords: 'centering, discipline, special-feature, focused-training, mastery, learned'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
----
+mechanic: >-
+  You gain a **\+2 Bonus** to all **Attune Checks**.  
 
+  * **Mechanics:** In Tangent, the **Attune Check** determines the **Challenge
+  Rating (CR)** of the Saving Throw your targets must make. Therefore, this
+  feature directly increases the difficulty of resisting your powers.  
+
+  * **Purpose:** Essential for casters who want their spells to be difficult to
+  resist.
+---
 # Centering
 
 **Category**: Discipline Features  
@@ -29,14 +37,6 @@ cost_cp: 3
 The character has learned to stabilize their internal flow of energy, allowing them to channel power with greater control and intensity.
 
 ## Mechanics & Benefit
-You gain a **\+2 Bonus** to all **Attune Checks**.
-
-## Special Rules
-This replaces the bonus from *Centering*, it does not stack (it is an upgrade).
-
-  ### 
-
-  ## **Centering Master**
-
-  **Description:** The character's control over their metaphysical connection is absolute; they are a conduit through which power flows without resistance.
-
+You gain a **\+2 Bonus** to all **Attune Checks**.  
+* **Mechanics:** In Tangent, the **Attune Check** determines the **Challenge Rating (CR)** of the Saving Throw your targets must make. Therefore, this feature directly increases the difficulty of resisting your powers.  
+* **Purpose:** Essential for casters who want their spells to be difficult to resist.

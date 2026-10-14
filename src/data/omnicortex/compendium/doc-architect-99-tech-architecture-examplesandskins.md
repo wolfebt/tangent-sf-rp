@@ -433,14 +433,3 @@ For astronomical projects like a Dreadnought Shipyard (CR 50, Value \~10.5 Milli
 
 A planetary shipyard employing 1,000 structural engineers operating Industrial (x200) fabrication tools can generate 1,000,000 PP per day, completing a massive capital installation in roughly 10.5 days. This macro-economic logic drives factional warfare; maintaining these construction yards requires an uninterrupted flow of massive liquid capital (5.25 Million Cr in raw materials per installation), forcing factions to fight for territorial resources to keep their production engines fed.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/technology/architecture/99.Tech.Architecture.ExamplesAndSkins.md
-```
-
-## Gameplay Instructions
-Refer to architect/technology/architecture/99.Tech.Architecture.ExamplesAndSkins.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/technology/architecture/99.Tech.Architecture.ExamplesAndSkins.md. Complete, unabridged source of truth.

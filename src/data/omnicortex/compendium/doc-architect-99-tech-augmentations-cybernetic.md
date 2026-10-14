@@ -454,14 +454,3 @@ Non-permanent, external harnesses that provide mechanical advantages without sur
 
 *Created for the Tangent RP System. Reference Matrix 99 \- AUGMENTATION.*
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/technology/augmentations/99.Tech.Augmentations.Cybernetic.md
-```
-
-## Gameplay Instructions
-Refer to architect/technology/augmentations/99.Tech.Augmentations.Cybernetic.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/technology/augmentations/99.Tech.Augmentations.Cybernetic.md. Complete, unabridged source of truth.

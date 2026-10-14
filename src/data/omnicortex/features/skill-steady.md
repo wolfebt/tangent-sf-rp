@@ -34,8 +34,10 @@ modifiers:
 keywords: 'steady, skill, special-feature, excellent, balance'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Gain a **\+2 Bonus** to **Acrobatics** and **Athletics** (Balancing/Climbing)
+  and a **\+1 Bonus** to **Reflex** checks.
 ---
-
 # Steady
 
 **Category**: Skill Features  
@@ -47,7 +49,3 @@ The character has excellent balance and steady hands.
 
 ## Mechanics & Benefit
 Gain a **\+2 Bonus** to **Acrobatics** and **Athletics** (Balancing/Climbing) and a **\+1 Bonus** to **Reflex** checks.
-
-## Special Rules
-169
-

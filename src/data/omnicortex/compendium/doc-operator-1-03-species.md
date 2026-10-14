@@ -520,14 +520,3 @@ ATMOSPHERE: \[List of sensory and lighting descriptors\].
 * [1.03.Vassoth](./species/1.03.Vassoth.md)
 * [1.03.Weti](./species/1.03.Weti.md)
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/1.03 SPECIES.md
-```
-
-## Gameplay Instructions
-Refer to operator/1.03 SPECIES.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/1.03 SPECIES.md. Complete, unabridged source of truth.

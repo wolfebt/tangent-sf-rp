@@ -6,8 +6,10 @@ feature_category: Combat
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: Combat Expertise
-description: 'Improved Feint is a Combat Feature: Feint as a move action.'
+prerequisites: 'Combat Expertise, Bluff 1'
+description: >-
+  The character is a master of misdirection, capable of faking an attack faster
+  than the eye can follow.
 costs:
   cp: 3
   bp: 3
@@ -17,20 +19,21 @@ keywords: >-
   improved
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
----
+mechanic: >-
+  You may make a Bluff check to Feint in combat as a **Move Action** (normally a
+  Standard Action).  
 
+  * **Purpose:** Allows you to Feint and Attack in the same round.
+---
 # Improved Feint
 
 **Category**: Combat Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: Combat Expertise
+**Prerequisite**: Combat Expertise, Bluff 1
 
 ## Description
-Improved Feint is a Combat Feature: Feint as a move action.
+The character is a master of misdirection, capable of faking an attack faster than the eye can follow.
 
 ## Mechanics & Benefit
-Feint as a move action.
-
-## Special Rules
-28
-
+You may make a Bluff check to Feint in combat as a **Move Action** (normally a Standard Action).  
+* **Purpose:** Allows you to Feint and Attack in the same round.

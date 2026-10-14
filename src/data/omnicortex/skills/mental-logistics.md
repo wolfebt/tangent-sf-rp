@@ -1,38 +1,44 @@
 ---
 id: mental-logistics
-name: Logistics
+name: "Logistics"
 type: mental
-subtype: knowledge
+subtype: "knowledges"
 category: skills
-governing_attributes:
-  - Intellect
-description: >-
-  Managing supply chains, freight transport routes, cargo warehousing,
-  ammunition distribution, and operational resource planning.
-trained_only: false
+governing_attribute: "Intellect"
+description: "The skill of managing the flow of resources, supply chains, and large-scale operations. It reflects a character's ability to plan efficient movement, optimize inventory levels, and coordinate resource allocation. Logistics is used whenever a character needs to organize complex logistical operations, whether for military, industrial, or commercial purposes."
 specialties:
-  - Supply Chain Optimization
-  - Warehousing & Inventory Control
-  - Fleet & Convoy Routing
-  - Military Quartermastering
-  - Emergency Resource Rationing
-synergy_links:
-  - mental-business
-  - mental-trade
-  - mental-transporter
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'logistics, mental, intellect, cognitive, expertise, supply'
-negative_keywords: 'mindless, instinct-only, illiterate'
+  - "Interstellar Supply Chains: Organizing transport schedules across jump gates and hyperspace lanes."
+  - "Fleet Fuel & Resource Management: Calculating propellant reserves, reactor fuel burn, and life support replenishment."
+  - "Warehouse & Depot Operations: Optimizing cargo space, autonomous pallet storage, and loading bay throughput."
+  - "Wartime Requisitioning: Sourcing, prioritizing, and deploying arms, ammunition, and rations to active frontlines."
+  - "Hazardous Cargo Transport: Managing temperature, shielding, and containment protocols for volatile shipments."
+  - "Just-In-Time Distribution: Ensuring critical materials arrive exactly when required to minimize storage overhead."
+  - "Cargo Manifest Auditing: Detecting missing crates, manifest skimming, unauthorized stowaways, and smuggled tonnage."
+  - "Emergency Relief Staging: Rapidly deploying modular hospitals, rations, and water purification to disaster worlds."
+  - "Multi-Modal Route Optimization: Seamlessly integrating orbital drop, rail, atmospheric shuttle, and ground hauling."
+  - "Disassembly & Staging: Breaking down massive industrial machinery into shippable container modules."
+keywords: "logistics, mental, intellect, cognitive, expertise, supply"
+negative_keywords: "mindless, instinct-only, illiterate"
 ---
 
-# Logistics
+### **LOGISTICS**
 
-Managing supply chains, freight transport routes, cargo warehousing, ammunition distribution, and operational resource planning.
+* **Ability:** Intellect  
+* **Description:** The skill of managing the flow of resources, supply chains, and large-scale operations. It reflects a character's ability to plan efficient movement, optimize inventory levels, and coordinate resource allocation. Logistics is used whenever a character needs to organize complex logistical operations, whether for military, industrial, or commercial purposes.  
+* **Mechanics:**  
+  * *Supply Chain Management:* CR 15 to establish efficient supply routes or storage solutions.  
+  * *Resource Allocation:* CR 20 to optimize resource distribution during high-demand or crisis scenarios.  
+  * *Transport Planning:* CR 15+ to coordinate complex multi-modal shipments or fleet movements.  
+* **Specialties:**   
+  * **Interstellar Supply Chains:** Organizing transport schedules across jump gates and hyperspace lanes.  
+    * **Fleet Fuel & Resource Management:** Calculating propellant reserves, reactor fuel burn, and life support replenishment.  
+    * **Warehouse & Depot Operations:** Optimizing cargo space, autonomous pallet storage, and loading bay throughput.  
+    * **Wartime Requisitioning:** Sourcing, prioritizing, and deploying arms, ammunition, and rations to active frontlines.  
+    * **Hazardous Cargo Transport:** Managing temperature, shielding, and containment protocols for volatile shipments.  
+    * **Just-In-Time Distribution:** Ensuring critical materials arrive exactly when required to minimize storage overhead.  
+    * **Cargo Manifest Auditing:** Detecting missing crates, manifest skimming, unauthorized stowaways, and smuggled tonnage.  
+    * **Emergency Relief Staging:** Rapidly deploying modular hospitals, rations, and water purification to disaster worlds.  
+    * **Multi-Modal Route Optimization:** Seamlessly integrating orbital drop, rail, atmospheric shuttle, and ground hauling.  
+    * **Disassembly & Staging:** Breaking down massive industrial machinery into shippable container modules.
 
-### Mechanics & Rules
-- **Governing Attribute**: Intellect
-- **Supply Chain Routing**: DC 15 to establish rapid transit corridors through contested space.
-- **Crisis Allocation**: DC 20 to keep a besieged colony or fortress supplied with food and munitions.
+  ###

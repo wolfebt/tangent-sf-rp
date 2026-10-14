@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-archetypal-mutant"
-name: "1.04 Archetypal: Mutant"
+name: "1.04 Archetypal: 13. Mutant"
 fileName: "1.04.Archetypal.Mutant.md"
 relPath: "operator/factions/1.04.Archetypal.Mutant.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 137
+order: 140
 perspective: "operator"
 entry_type: "Generic Faction Template"
 tl: 3
@@ -86,14 +86,3 @@ sockets:
 * **Atmosphere Tokens:** Glowing veins, ragged clothing, concealed features, bio-luminescent scars, toxic environments.  
 * **HI-FI INK Guidance:** Biopunk, Gritty Survival. Rags and scavenged armor hiding asymmetrical biological growths, glowing veins, toxic smog, under-city shadows. Desperate, volatile.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Archetypal.Mutant.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Archetypal.Mutant.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Archetypal.Mutant.md. Complete, unabridged source of truth.

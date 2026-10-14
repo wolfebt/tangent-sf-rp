@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-06-occupations"
 category: "operator_rule"
 parent: "doc-operator-1-06-occupations"
-order: 165
+order: 168
 perspective: "operator"
 entry_type: "Occupation Profile"
 tl: 3
@@ -258,14 +258,3 @@ Excellent time management skills
   * **Palette:** Construction Yellow, Steel, Laser Blue.  
   * **Tokens:** Sparks, floating, geometry, efficiency.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/occupations/1.06.Builder.md
-```
-
-## Gameplay Instructions
-Refer to operator/occupations/1.06.Builder.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/occupations/1.06.Builder.md. Complete, unabridged source of truth.

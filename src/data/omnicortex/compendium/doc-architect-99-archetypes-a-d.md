@@ -324,14 +324,3 @@ sockets:
 | *Drop Marine* A heavily augmented special forces soldier employed by the Syndicate for high-risk missions requiring extreme force and resilience. They are cybernetically enhanced for superior combat capabilities and equipped with cutting-edge weaponry. \[Requires Augmentation and Heavy Augmentation Features\] Skills: Athletics, Intimidation, Technology, and any two Combat skills. Features: Cybernetic Warfare: You gain a \+1 bonus to a Combat skill. Augmented Resilience: Incredible Fortitude Feature |
 | :---- |
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/archetypes/99.Archetypes.A_D.md
-```
-
-## Gameplay Instructions
-Refer to architect/archetypes/99.Archetypes.A_D.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/archetypes/99.Archetypes.A_D.md. Complete, unabridged source of truth.

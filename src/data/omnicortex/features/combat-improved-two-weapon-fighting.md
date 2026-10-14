@@ -6,8 +6,8 @@ feature_category: Combat
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: 'Agi 3, Skill 6'
-description: 'Improved Two-Weapon Fighting is a Combat Feature: Gain second off-hand attack.'
+prerequisites: 'Agility 3, Combat Skill 6, Two-Weapon Fighting'
+description: The character's speed allows for more strikes with the off-hand.
 costs:
   cp: 3
   bp: 3
@@ -17,20 +17,18 @@ keywords: >-
   tactical-edge, improved
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
+mechanic: >-
+  In addition to the standard single off-hand attack, you gain a **second
+  attack** with your off-hand weapon, albeit at a **\-5 penalty**.
 ---
-
 # Improved Two-Weapon Fighting
 
 **Category**: Combat Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: Agi 3, Skill 6
+**Prerequisite**: Agility 3, Combat Skill 6, Two-Weapon Fighting
 
 ## Description
-Improved Two-Weapon Fighting is a Combat Feature: Gain second off-hand attack.
+The character's speed allows for more strikes with the off-hand.
 
 ## Mechanics & Benefit
-Gain second off-hand attack.
-
-## Special Rules
-44
-
+In addition to the standard single off-hand attack, you gain a **second attack** with your off-hand weapon, albeit at a **\-5 penalty**.

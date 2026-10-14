@@ -15,8 +15,8 @@ modifiers: []
 keywords: 'scholar, skill, special-feature, academic, learning'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: Gain a **\+2 Bonus** to **ALL Knowledge Skills**.
 ---
-
 # Scholar
 
 **Category**: Skill Features  
@@ -28,7 +28,3 @@ The character is an academic with a broad base of learning.
 
 ## Mechanics & Benefit
 Gain a **\+2 Bonus** to **ALL Knowledge Skills**.
-
-## Special Rules
-159
-

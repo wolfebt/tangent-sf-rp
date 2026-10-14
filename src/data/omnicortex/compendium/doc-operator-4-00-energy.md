@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-4-00-metaphysics"
 category: "operator_rule"
 parent: "doc-operator-4-00-metaphysics"
-order: 218
+order: 220
 perspective: "operator"
 entry_type: "Metaphysics Discipline"
 tl: 3
@@ -685,14 +685,3 @@ Creates a shimmering outer bubble of force that excludes physical matter.
 * **Integrity:** Field HP \= 50 per Stage.  
 * **Duration:** Base Concentration \+ (1 Minute per Stage) without concentration.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/metaphysics/4.00.Energy.md
-```
-
-## Gameplay Instructions
-Refer to operator/metaphysics/4.00.Energy.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/metaphysics/4.00.Energy.md. Complete, unabridged source of truth.

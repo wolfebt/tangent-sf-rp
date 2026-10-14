@@ -1,38 +1,44 @@
 ---
 id: mental-soldier
-name: Soldier
+name: "Soldier"
 type: mental
-subtype: vocation
+subtype: "vocations"
 category: skills
-governing_attributes:
-  - Constitution
-  - Intellect
-description: >-
-  Professional military knowledge: chain of command, operational discipline,
-  maintenance of field kits, rules of engagement, and squad coordination.
-trained_only: false
+governing_attribute: "Constitution or Intellect"
+description: "Knowledge of military life, hierarchy, logistics, and field procedures. Does *not* replace Combat skills (shooting/hitting), but covers the *job* of being a soldier."
 specialties:
-  - Infantry Procedures & Fieldcraft
-  - Officer Protocols & Chain of Command
-  - Quartermaster Supply Procedures
-  - Special Operations Protocols
-synergy_links:
-  - mental-tactics
-  - combat-ballistic
-  - mental-survival
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'soldier, mental, stamina, intellect, cognitive, expertise'
-negative_keywords: 'mindless, instinct-only, illiterate'
+  - "Field Gear Maintenance: Stripping, cleaning, and oiling service rifles, boots, and webbing to military inspection code."
+  - "Military Regulations & Law: Knowing the rules of engagement, uniform codes, lawful orders, and court-martial laws."
+  - "Drill & Formation Marching: Moving in tight lock-step formations, reacting instantly to parade and field whistle blasts."
+  - "Entrenchment & Sandbagging: Digging fighting holes, revetting trench walls, and filling sandbags to build firebases."
+  - "Guard Duty & Perimeter Security: Standing alert night watches, checking sentry passwords, and challenging intruders."
+  - "Field Bivouac Setup: Pitching squad tents, setting up perimeter trip-flares, and digging field latrines to hygiene specs."
+  - "Combat Communications Protocol: Speaking in standardized radio brevity codes, call signs, and reporting coordinates clearly."
+  - "Unit Cohesion & Morale: Supporting squadmates through combat fatigue, suppression panic, and the horrors of war."
+  - "Escort Formations: Walking security perimeters around supply convoys, VIP officers, and artillery pieces."
+  - "Bayonet & Close-Quarters Drill: Executing textbook thrusts, butt-strokes, and rifle parries in tight trench combat."
+keywords: "soldier, mental, stamina, intellect, cognitive, expertise"
+negative_keywords: "mindless, instinct-only, illiterate"
 ---
 
-# Soldier
+### **SOLDIER**
 
-Professional military knowledge: chain of command, operational discipline, maintenance of field kits, rules of engagement, and squad coordination.
+* **Ability:** Constitution or Intellect  
+* **Description:** Knowledge of military life, hierarchy, logistics, and field procedures. Does *not* replace Combat skills (shooting/hitting), but covers the *job* of being a soldier.  
+* **Mechanics:**  
+  * *Regulations:* CR 10 to know the rules of engagement.  
+  * *Field Maintenance:* CR 15 to clean and maintain gear in the field.  
+  * *Drill:* CR 15 to march or coordinate a squad efficiently.  
+* **Specialties:**   
+  * **Field Gear Maintenance:** Stripping, cleaning, and oiling service rifles, boots, and webbing to military inspection code.  
+    * **Military Regulations & Law:** Knowing the rules of engagement, uniform codes, lawful orders, and court-martial laws.  
+    * **Drill & Formation Marching:** Moving in tight lock-step formations, reacting instantly to parade and field whistle blasts.  
+    * **Entrenchment & Sandbagging:** Digging fighting holes, revetting trench walls, and filling sandbags to build firebases.  
+    * **Guard Duty & Perimeter Security:** Standing alert night watches, checking sentry passwords, and challenging intruders.  
+    * **Field Bivouac Setup:** Pitching squad tents, setting up perimeter trip-flares, and digging field latrines to hygiene specs.  
+    * **Combat Communications Protocol:** Speaking in standardized radio brevity codes, call signs, and reporting coordinates clearly.  
+    * **Unit Cohesion & Morale:** Supporting squadmates through combat fatigue, suppression panic, and the horrors of war.  
+    * **Escort Formations:** Walking security perimeters around supply convoys, VIP officers, and artillery pieces.  
+    * **Bayonet & Close-Quarters Drill:** Executing textbook thrusts, butt-strokes, and rifle parries in tight trench combat.
 
-### Mechanics & Rules
-- **Governing Attribute**: Constitution or Intellect (Covers the *profession* and administration of soldiering, not raw weapon attack rolls).
-- **Rules of Engagement**: DC 10 recalls legal military protocols in planetary or interstellar conflicts.
-- **Squad Drill**: DC 15 coordinates orderly tactical retreats, marches, or formation maneuvers.
+  ###

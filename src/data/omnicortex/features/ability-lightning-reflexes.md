@@ -20,8 +20,13 @@ keywords: >-
   reacts
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: |-
+  Gain a **\+2 bonus** on all **Reflex Checks**.  
+    * *Usage:* This applies to dodging Area of Effect (AoE) attacks (explosions, breath weapons), maintaining balance, and avoiding sudden traps.
+rules: >-
+  This feature is **Ranked**. It may be purchased multiple times, up to a
+  maximum rank equal to the character's Agility score.
 ---
-
 # Lightning Reflexes
 
 **Category**: Ability Features  
@@ -37,4 +42,3 @@ Gain a **\+2 bonus** on all **Reflex Checks**.
 
 ## Special Rules
 This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Agility score.
-

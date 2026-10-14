@@ -20,8 +20,13 @@ keywords: >-
   passive-prowess, possesses
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: |-
+  Gain a **\+2 bonus** on all **Etiquette Checks**.  
+    * *Usage:* This applies to making first impressions, avoiding social faux pas, navigating formal gatherings, and interacting with high-status NPCs without causing offense.
+rules: >-
+  This feature is **Ranked**. It may be purchased multiple times, up to a
+  maximum rank equal to the character's Charisma score.
 ---
-
 # Inspiring Personality
 
 **Category**: Ability Features  
@@ -37,4 +42,3 @@ Gain a **\+2 bonus** on all **Etiquette Checks**.
 
 ## Special Rules
 This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Charisma score.
-

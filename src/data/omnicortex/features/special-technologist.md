@@ -19,8 +19,28 @@ modifiers: []
 keywords: 'technologist, special, special-feature, understanding, technology, shouldn''t'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You treat your effective **Tech Level** as one step higher for the purposes of
+  crafting, repairing, or understanding advanced artifacts in a specific field
+  of study.  
+    * Agriculture  
+    * Architecture  
+    * Biotechnology  
+    * Commerce  
+    * Communication  
+    * Devices  
+    * Education  
+    * Energy  
+    * Manufacturing  
+    * Materials  
+    * Medicine  
+    * Meta Sciences  
+    * Science  
+    * Society  
+    * Synthetic Intelligence  
+    * Transportation  
+    * Weaponry
 ---
-
 # Technologist
 
 **Category**: Special Features  
@@ -49,7 +69,3 @@ You treat your effective **Tech Level** as one step higher for the purposes of c
   * Synthetic Intelligence  
   * Transportation  
   * Weaponry
-
-## Special Rules
-211
-

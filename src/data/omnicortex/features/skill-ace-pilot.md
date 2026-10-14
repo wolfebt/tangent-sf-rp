@@ -7,7 +7,7 @@ cost_bp: 3
 is_ranked: false
 is_multiple: false
 prerequisites: 'Crack Pilot, Pilot 16'
-description: 'Ace Pilot is a Skill Feature: +6 Piloting, +30% to Maximum Vehicle Speed.'
+description: A legendary flyer whose maneuvers defy physics.
 costs:
   cp: 3
   bp: 3
@@ -20,8 +20,8 @@ modifiers:
 keywords: 'ace pilot, skill, special-feature, feature:, piloting, maximum'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: Gain a **\+6 Bonus** to Piloting checks. Increase Maximum Speed by **30%**.
 ---
-
 # Ace Pilot
 
 **Category**: Skill Features  
@@ -29,11 +29,7 @@ cost_cp: 3
 **Prerequisite**: Crack Pilot, Pilot 16
 
 ## Description
-Ace Pilot is a Skill Feature: \+6 Piloting, \+30% to Maximum Vehicle Speed.
+A legendary flyer whose maneuvers defy physics.
 
 ## Mechanics & Benefit
-\+6 Piloting, \+30% to Maximum Vehicle Speed.
-
-## Special Rules
-143
-
+Gain a **\+6 Bonus** to Piloting checks. Increase Maximum Speed by **30%**.

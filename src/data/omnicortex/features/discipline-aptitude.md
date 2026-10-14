@@ -18,8 +18,17 @@ modifiers: []
 keywords: 'aptitude, discipline, special-feature, focused-training, mastery, possesses'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
----
+mechanic: >-
+  Choose two specific **Discipline Skills** (e.g., *Thermal* and *Telekinetic*,
+  or *Biomancy* and *Necromancy*). You gain a **\+2 Bonus** to checks with those
+  specific skills.  
 
+  * **Purpose:** To demonstrate innate talent in specific areas of magic or
+  psionics without necessarily having broad mastery.
+rules: >-
+  This feature is **\[Multiple\]**. It may be selected again to apply to two
+  different Discipline skills.
+---
 # Aptitude
 
 **Category**: Discipline Features  
@@ -30,8 +39,8 @@ cost_cp: 3
 The character possesses a natural affinity for specific metaphysical interactions, grasping the nuance of shaping energy more intuitively than others.
 
 ## Mechanics & Benefit
-Choose two specific **Discipline Skills** (e.g., *Thermal* and *Telekinetic*, or *Biomancy* and *Necromancy*). You gain a **\+2 Bonus** to checks with those specific skills.
+Choose two specific **Discipline Skills** (e.g., *Thermal* and *Telekinetic*, or *Biomancy* and *Necromancy*). You gain a **\+2 Bonus** to checks with those specific skills.  
+* **Purpose:** To demonstrate innate talent in specific areas of magic or psionics without necessarily having broad mastery.
 
 ## Special Rules
 This feature is **\[Multiple\]**. It may be selected again to apply to two different Discipline skills.
-

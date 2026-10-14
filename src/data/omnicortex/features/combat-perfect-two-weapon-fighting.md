@@ -6,10 +6,8 @@ feature_category: Combat
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: 'Agi 5, Skill 16'
-description: >-
-  Perfect Two-Weapon Fighting is a Combat Feature: Gain a fourth off-hand
-  attack.
+prerequisites: 'Agility 5, Combat Skill 16, Greater Two-Weapon Fighting'
+description: Total mastery of dual-wielding.
 costs:
   cp: 3
   bp: 3
@@ -19,20 +17,16 @@ keywords: >-
   tactical-edge, perfect
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
+mechanic: 'You gain a **fourth attack** with your off-hand weapon, at a **\-15 penalty**.'
 ---
-
 # Perfect Two-Weapon Fighting
 
 **Category**: Combat Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: Agi 5, Skill 16
+**Prerequisite**: Agility 5, Combat Skill 16, Greater Two-Weapon Fighting
 
 ## Description
-Perfect Two-Weapon Fighting is a Combat Feature: Gain a fourth off-hand attack.
+Total mastery of dual-wielding.
 
 ## Mechanics & Benefit
-Gain a fourth off-hand attack.
-
-## Special Rules
-46
-
+You gain a **fourth attack** with your off-hand weapon, at a **\-15 penalty**.

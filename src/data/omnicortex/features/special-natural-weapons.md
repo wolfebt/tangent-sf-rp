@@ -15,8 +15,13 @@ modifiers: []
 keywords: 'natural weapons, special, special-feature, possesses, striker'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You are always armed. Your Unarmed Strikes deal Lethal damage and the damage
+  die is increased.  
+    * *Small/Medium:* 1d4 or 1d6 damage.  
+    * *Large:* 1d8 damage.
+rules: '\[Ranked\] Can be taken to increase the damage die size.'
 ---
-
 # Natural Weapons
 
 **Category**: Special Features  
@@ -33,4 +38,3 @@ You are always armed. Your Unarmed Strikes deal Lethal damage and the damage die
 
 ## Special Rules
 \[Ranked\] Can be taken to increase the damage die size.
-

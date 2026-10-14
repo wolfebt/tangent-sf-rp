@@ -141,14 +141,3 @@ Awakened (Arcane), Discipline features, Dragonkin Features, Energy Resist line, 
 
 **The Bloodline Custodian:** A historian and preserver of their draconic heritage. Exceptionally tall and robust, adorned in deep metallic silks, carrying an ancient crystal catalyst shaped like a dragon's eye.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/Aeld/1.03.Aeld.Draconian.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/Aeld/1.03.Aeld.Draconian.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/Aeld/1.03.Aeld.Draconian.md. Complete, unabridged source of truth.

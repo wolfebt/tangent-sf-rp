@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-species"
-order: 92
+order: 38
 perspective: "operator"
 entry_type: "Standalone Species"
 tl: 3
@@ -121,14 +121,3 @@ Quicker / Quickest
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/1.03.Caprian.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/1.03.Caprian.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/1.03.Caprian.md. Complete, unabridged source of truth.

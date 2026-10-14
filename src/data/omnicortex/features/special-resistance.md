@@ -15,8 +15,11 @@ modifiers: []
 keywords: 'resistance, special, special-feature, fortified, immune, system'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Gain a **\+2 Bonus** to saves against a specific hazard category: **Disease**,
+  **Poison**, **Radiation**, or **Magic**.
+rules: '\[Multiple\] Can be taken for different hazards.'
 ---
-
 # Resistance
 
 **Category**: Special Features  
@@ -31,4 +34,3 @@ Gain a **\+2 Bonus** to saves against a specific hazard category: **Disease**, *
 
 ## Special Rules
 \[Multiple\] Can be taken for different hazards.
-

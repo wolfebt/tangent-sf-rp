@@ -1,39 +1,42 @@
 ---
 id: mental-business
-name: Business
+name: "Business"
 type: mental
-subtype: knowledge
+subtype: "knowledges"
 category: skills
-governing_attributes:
-  - Intellect
-description: >-
-  Understanding financial markets, corporate structures, investment flows,
-  macroeconomic models, and corporate boardroom dynamics.
-trained_only: false
+governing_attribute: "Intellect"
+description: "The skill of understanding markets, corporate structures, economics, and business operations. It allows a character to analyze market trends, understand financial systems, and manage business ventures."
 specialties:
-  - Economics & Macro-finance
-  - Corporate Law & Regulations
-  - Management & Executive Operations
-  - Marketing & Branding
-  - Securities & Venture Capital
-synergy_links:
-  - mental-trade
-  - mental-broker
-  - mental-administrator
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'business, mental, intellect, cognitive, expertise, commerce'
-negative_keywords: 'mindless, instinct-only, illiterate'
+  - "Corporate Law & Governance: Understanding regulatory filings, compliance liabilities, and corporate charters."
+  - "Market Trend Analysis: Forecasting supply, demand, and economic fluctuations across star sectors."
+  - "Investment & Portfolio Management: Allocating financial capital across ventures, equities, and resource bonds."
+  - "Mergers & Acquisitions: Conducting corporate takeovers, buyout evaluations, and shell company absorptions."
+  - "Venture Capitalism: Spotting promising tech startups and high-yield frontier resource ventures."
+  - "Fiscal Auditing: Tracing hidden accounting ledgers, corporate embezzlements, and balance sheet discrepancies."
+  - "Contract Architecture: Drafting binding corporate NDAs, licensing agreements, and commercial partnerships."
+  - "Marketing & Public Relations: Designing campaign rollouts and brand identity to maximize sector-wide sales."
+  - "Risk Management: Mitigating operational losses due to sector wars, market crashes, and supply disruptions."
+  - "Corporate Shell Networks: Establishing holding syndicates to protect personal assets from tax levies and seizures."
+keywords: "business, mental, intellect, cognitive, expertise, commerce"
+negative_keywords: "mindless, instinct-only, illiterate"
 ---
 
-# Business
+### **BUSINESS**
 
-Understanding financial markets, corporate structures, investment flows, macroeconomic models, and corporate boardroom dynamics.
-
-### Mechanics & Rules
-- **Governing Attribute**: Intellect
-- **Market Analysis**: DC 15 to predict commodity price swings or detect investment opportunities.
-- **Corporate Intrigues**: DC 20 to deduce internal megacorp political alliances and hostile takeover plans.
-- **Commercial Negotiations**: DC 15+ to structure multi-million credit contracts.
+* **Ability:** Intellect  
+* **Description:** The skill of understanding markets, corporate structures, economics, and business operations. It allows a character to analyze market trends, understand financial systems, and manage business ventures.  
+* **Mechanics:**  
+  * *Analyze Market:* CR 15 to predict trends or find investment opportunities.  
+  * *Corporate Insight:* CR 20 to understand internal company politics or organizational structures.  
+  * *Negotiation:* CR 15+ to facilitate business deals.  
+* **Specialties:**   
+  * **Corporate Law & Governance:** Understanding regulatory filings, compliance liabilities, and corporate charters.  
+    * **Market Trend Analysis:** Forecasting supply, demand, and economic fluctuations across star sectors.  
+    * **Investment & Portfolio Management:** Allocating financial capital across ventures, equities, and resource bonds.  
+    * **Mergers & Acquisitions:** Conducting corporate takeovers, buyout evaluations, and shell company absorptions.  
+    * **Venture Capitalism:** Spotting promising tech startups and high-yield frontier resource ventures.  
+    * **Fiscal Auditing:** Tracing hidden accounting ledgers, corporate embezzlements, and balance sheet discrepancies.  
+    * **Contract Architecture:** Drafting binding corporate NDAs, licensing agreements, and commercial partnerships.  
+    * **Marketing & Public Relations:** Designing campaign rollouts and brand identity to maximize sector-wide sales.  
+    * **Risk Management:** Mitigating operational losses due to sector wars, market crashes, and supply disruptions.  
+    * **Corporate Shell Networks:** Establishing holding syndicates to protect personal assets from tax levies and seizures.

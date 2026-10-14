@@ -7,9 +7,7 @@ cost_bp: 3
 is_ranked: false
 is_multiple: false
 prerequisites: Sneak Attack
-description: >-
-  Bleed is a Special Feature: Cause 1 point Bleed Damage per die of Sneak
-  Attack.
+description: A dirty fighting technique that opens veins or severs lines.
 costs:
   cp: 3
   bp: 3
@@ -17,8 +15,11 @@ modifiers: []
 keywords: 'bleed, special, special-feature, feature:, damage, attack'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  When you deal Sneak Attack damage, the target also takes **1 point of Bleed
+  damage** per die of Sneak Attack. This damage persists every round until
+  healed/repaired.
 ---
-
 # Bleed
 
 **Category**: Special Features  
@@ -26,11 +27,7 @@ cost_cp: 3
 **Prerequisite**: Sneak Attack
 
 ## Description
-Bleed is a Special Feature: Cause 1 point Bleed Damage per die of Sneak Attack.
+A dirty fighting technique that opens veins or severs lines.
 
 ## Mechanics & Benefit
-Cause 1 point Bleed Damage per die of Sneak Attack.
-
-## Special Rules
-207
-
+When you deal Sneak Attack damage, the target also takes **1 point of Bleed damage** per die of Sneak Attack. This damage persists every round until healed/repaired.

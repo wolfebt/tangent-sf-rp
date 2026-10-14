@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-05-origins"
 category: "operator_rule"
 parent: "doc-operator-1-05-origins"
-order: 152
+order: 155
 perspective: "operator"
 entry_type: "Origin Profile"
 tl: 3
@@ -217,14 +217,3 @@ The character has a range of survival skills that are specific to life in the aq
 * **PALETTE:** Electric Blue, Chrome, Coolant Green, Mirror Black.  
 * **TOKENS:** Server racks, cooling pipes, geometric islands, still water.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/origins/1.05.Aquatic.md
-```
-
-## Gameplay Instructions
-Refer to operator/origins/1.05.Aquatic.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/origins/1.05.Aquatic.md. Complete, unabridged source of truth.

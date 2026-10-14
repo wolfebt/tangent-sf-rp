@@ -6,8 +6,8 @@ feature_category: General
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: 'Tough, Sta 2'
-description: 'Pain Tolerance is a General Feature: Make Stun checks at Advantage.'
+prerequisites: 'Tough, Stamina 2'
+description: The character can function through agony that would incapacitate others.
 costs:
   cp: 3
   bp: 3
@@ -20,20 +20,19 @@ modifiers:
 keywords: 'pain tolerance, general, special-feature, tolerance, feature:, advantage'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You make all **Stun Resistance Checks** at **Advantage**. You do not suffer
+  penalty modifiers from being wounded or fatigued (though you still take the
+  damage).
 ---
-
 # Pain Tolerance
 
 **Category**: General Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: Tough, Sta 2
+**Prerequisite**: Tough, Stamina 2
 
 ## Description
-Pain Tolerance is a General Feature: Make Stun checks at Advantage.
+The character can function through agony that would incapacitate others.
 
 ## Mechanics & Benefit
-Make Stun checks at Advantage.
-
-## Special Rules
-108
-
+You make all **Stun Resistance Checks** at **Advantage**. You do not suffer penalty modifiers from being wounded or fatigued (though you still take the damage).

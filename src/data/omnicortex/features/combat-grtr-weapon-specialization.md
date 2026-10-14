@@ -6,10 +6,8 @@ feature_category: Combat
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: 'Imp. Weapon Spec, Skill 16'
-description: >-
-  Grtr. Weapon Specialization is a Combat Feature: +3d damage with one weapon
-  type.
+prerequisites: 'Imp. Weapon Specialization, Combat Skill 16'
+description: Peerless lethality.
 costs:
   cp: 3
   bp: 3
@@ -19,20 +17,21 @@ keywords: >-
   tactical-edge, weapon
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
----
+mechanic: |-
+  Gain **\+3 Dice of Damage** (total) with the chosen weapon.
 
+  &nbsp;
+---
 # Grtr. Weapon Specialization
 
 **Category**: Combat Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: Imp. Weapon Spec, Skill 16
+**Prerequisite**: Imp. Weapon Specialization, Combat Skill 16
 
 ## Description
-Grtr. Weapon Specialization is a Combat Feature: \+3d damage with one weapon type.
+Peerless lethality.
 
 ## Mechanics & Benefit
-\+3d damage with one weapon type.
+Gain **\+3 Dice of Damage** (total) with the chosen weapon.
 
-## Special Rules
-59
-
+&nbsp;

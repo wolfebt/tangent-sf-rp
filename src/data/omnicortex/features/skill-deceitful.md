@@ -17,8 +17,10 @@ modifiers: []
 keywords: 'deceitful, skill, special-feature, pathological, professional, skilled'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Gain a **\+2 Bonus** to **Manipulation Skills** (Bluff, Disguise) and a **\+1
+  Bonus** to **Etiquette** checks.
 ---
-
 # Deceitful
 
 **Category**: Skill Features  
@@ -30,7 +32,3 @@ The character is a pathological or professional liar, skilled in misdirection an
 
 ## Mechanics & Benefit
 Gain a **\+2 Bonus** to **Manipulation Skills** (Bluff, Disguise) and a **\+1 Bonus** to **Etiquette** checks.
-
-## Special Rules
-137
-

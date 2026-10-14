@@ -1,6 +1,6 @@
 ---
 id: "doc-operator-1-03-aeld"
-name: "1.03 Aeld"
+name: "1.03 Aeld (Lineage Overview)"
 fileName: "1.03.Aeld.md"
 relPath: "operator/species/Aeld/1.03.Aeld.md"
 isMasterDoc: false
@@ -85,14 +85,3 @@ Certain factions, notably the Alterians, consider the inflection of the ancient 
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/Aeld/1.03.Aeld.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/Aeld/1.03.Aeld.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/Aeld/1.03.Aeld.md. Complete, unabridged source of truth.

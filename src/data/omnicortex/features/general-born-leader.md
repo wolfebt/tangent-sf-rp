@@ -6,29 +6,32 @@ feature_category: General
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: Special
-description: 'Born Leader is a General Feature: Gain Followers.'
+prerequisites: 'Charisma 3, Diplomacy 6'
+description: >-
+  The character attracts loyal followers and can manage a crew or organization
+  effectively.
 costs:
   cp: 3
   bp: 3
 modifiers: []
-keywords: 'born leader, general, special-feature, leader, feature:, followers'
-negative_keywords: 'incompetent, untrained, vulnerable'
+keywords: >-
+  natural leader, combat, special-feature, combat-maneuver, tactical-edge,
+  attracts
+negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
+mechanic: >-
+  You gain a number of **Followers** (NPCs) and potentially a **Cohort** (a
+  loyal lieutenant). The number and quality depend on your Level and Charisma
+  score. You gain a \+2 bonus to Organization/Administration checks.
 ---
-
 # Born Leader
 
 **Category**: General Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: Special
+**Prerequisite**: Charisma 3, Diplomacy 6
 
 ## Description
-Born Leader is a General Feature: Gain Followers.
+The character attracts loyal followers and can manage a crew or organization effectively.
 
 ## Mechanics & Benefit
-Gain Followers.
-
-## Special Rules
-99
-
+You gain a number of **Followers** (NPCs) and potentially a **Cohort** (a loyal lieutenant). The number and quality depend on your Level and Charisma score. You gain a \+2 bonus to Organization/Administration checks.

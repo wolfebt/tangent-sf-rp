@@ -19,8 +19,10 @@ keywords: >-
   tactical-edge, trained
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
+mechanic: >-
+  You gain a **\+4 Bonus to Defense** specifically against Combat Maneuvers
+  (Trip, Disarm, Grapple, Bull Rush).
 ---
-
 # Defensive Combat Training
 
 **Category**: Combat Features  
@@ -32,7 +34,3 @@ The character has trained to resist grappling and takedowns, using overall comba
 
 ## Mechanics & Benefit
 You gain a **\+4 Bonus to Defense** specifically against Combat Maneuvers (Trip, Disarm, Grapple, Bull Rush).
-
-## Special Rules
-38
-

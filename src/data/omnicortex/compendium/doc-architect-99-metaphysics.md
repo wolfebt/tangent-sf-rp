@@ -142,14 +142,3 @@ Detailed design matrices for constructing Metaphysic Invocations and integrating
 * **[Invocation Matrix (99.Metaphysics.InvocationMatrix.md)](./metaphysics/99.Metaphysics.InvocationMatrix.md)** — *Architectural philosophy, Invocation Data Block, CR Parameter Standards (Time, Range, Area, Duration), Scaling Algorithm, and Design Examples*
 * **[Meta-Tech Matrix (99.Metaphysics.MetaTechMatrix.md)](./metaphysics/99.Metaphysics.MetaTechMatrix.md)** — *Integration of Metaphysics and Technology, Capacity Conversion, Passive Enhancement, Invocation Devices, Vehicle/Architecture Integration, and Fabrication Economics*
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/99. METAPHYSICS.md
-```
-
-## Gameplay Instructions
-Refer to architect/99. METAPHYSICS.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/99. METAPHYSICS.md. Complete, unabridged source of truth.

@@ -17,8 +17,13 @@ modifiers: []
 keywords: 'iron will, ability, special-feature, innate-talent, passive-prowess, possesses'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: |-
+  Gain a **\+2 bonus** on all **Will Checks**.  
+    * *Usage:* This applies to resisting Fear effects, Mind Control, Charm, Domination, and psychological torture or intimidation.
+rules: >-
+  This feature is **Ranked**. It may be purchased multiple times, up to a
+  maximum rank equal to the character's Wisdom score.
 ---
-
 # Iron Will
 
 **Category**: Ability Features  
@@ -34,4 +39,3 @@ Gain a **\+2 bonus** on all **Will Checks**.
 
 ## Special Rules
 This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Wisdom score.
-

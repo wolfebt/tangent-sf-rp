@@ -397,14 +397,3 @@ Establish the Final CR of the chassis by combining the Footprint CR, Frame Modif
 
 ## ---
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/technology/architecture/99.Tech.Architecture.ForgeProtocol.md
-```
-
-## Gameplay Instructions
-Refer to architect/technology/architecture/99.Tech.Architecture.ForgeProtocol.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/technology/architecture/99.Tech.Architecture.ForgeProtocol.md. Complete, unabridged source of truth.

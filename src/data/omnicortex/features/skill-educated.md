@@ -27,8 +27,10 @@ modifiers:
 keywords: 'educated, skill, special-feature, received, extensive, formal'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Gain a **\+2 Bonus** to **Academics** and a **\+1 Bonus** to **ALL Knowledge
+  Skills**.
 ---
-
 # Educated
 
 **Category**: Skill Features  
@@ -40,7 +42,3 @@ The character has received extensive formal schooling or possesses a voracious a
 
 ## Mechanics & Benefit
 Gain a **\+2 Bonus** to **Academics** and a **\+1 Bonus** to **ALL Knowledge Skills**.
-
-## Special Rules
-138
-

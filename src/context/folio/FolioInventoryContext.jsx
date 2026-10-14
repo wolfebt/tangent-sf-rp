@@ -1,27 +1,42 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import { db, auth } from '../../firebase';
 import { collectionGroup, query, where, getDocs, doc, setDoc } from 'firebase/firestore';
-import { useFolioIdentity } from './FolioIdentityContext';
+import { useFolioIdentity, DEFAULT_CHARACTER } from './FolioIdentityContext';
 import { useFolioStats } from './FolioStatsContext';
 import { enrichItemWithModifiers } from '../../engines/tangentModifierEngine';
 import { createAttackFromWeapon, createArmorFromItem } from '../../utils/combatUtils';
 import { attachCreatorTag } from '../../utils/creatorUtils';
 import { showToast } from '../ToastContext';
 
-export const FolioInventoryContext = createContext(null);
+export const DEFAULT_INVENTORY_FALLBACK = {
+  handleAddItem: () => {},
+  addItemToInventory: () => {},
+  addAbility: () => {},
+  handleUpdateItem: () => {},
+  companions: [],
+  handleAddCompanion: () => {},
+  handleUpdateCompanion: () => {},
+  handleDeleteCompanion: () => {},
+  handleToggleDeployCompanion: () => {},
+  publicCatalog: [],
+  togglePersonaVisibility: () => {},
+  clonePublicPersona: () => {}
+};
+
+export const FolioInventoryContext = createContext(DEFAULT_INVENTORY_FALLBACK);
 
 export const useFolioInventory = () => {
   const context = useContext(FolioInventoryContext);
   if (!context) {
     console.warn('[useFolioInventory] Hook called outside of FolioInventorySliceProvider. Returning fallback empty state.');
-    return {};
+    return DEFAULT_INVENTORY_FALLBACK;
   }
   return context;
 };
 
 export const FolioInventorySliceProvider = ({ children }) => {
   const { 
-    characterData, 
+    characterData: rawCharacterData, 
     setCharacterData, 
     triggerSave, 
     personaRoster, 
@@ -30,6 +45,7 @@ export const FolioInventorySliceProvider = ({ children }) => {
     setActiveTab,
     saveCurrentToRoster 
   } = useFolioIdentity();
+  const characterData = (rawCharacterData && typeof rawCharacterData === 'object') ? rawCharacterData : DEFAULT_CHARACTER;
   
   const { getAttrTotal } = useFolioStats();
 
@@ -548,7 +564,7 @@ export const FolioInventorySliceProvider = ({ children }) => {
     addItemToInventory,
     addAbility,
     handleUpdateItem,
-    companions: characterData.companions || [],
+    companions: characterData?.companions || [],
     handleAddCompanion,
     handleUpdateCompanion,
     handleDeleteCompanion,

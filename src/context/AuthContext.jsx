@@ -135,11 +135,13 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const isAdmin = hasAdminClaim || adminOverride;
+  const isAuthorizedEmail = Boolean(currentUser?.email && currentUser.email.toLowerCase() === 'btw.284@gmail.com');
+  const hasCloudAdminAccess = hasAdminClaim || isAuthorizedEmail;
+  const isAdmin = hasAdminClaim || adminOverride || isAuthorizedEmail;
   const isGM = isAdmin || customClaims.role === 'GM';
-  const userRole = isAdmin
-    ? (hasAdminClaim ? (customClaims.role || 'Architect') : 'Architect')
-    : 'Operator';
+  const userRole = (hasAdminClaim || isAuthorizedEmail)
+    ? (customClaims.role || 'Architect')
+    : (adminOverride ? 'Architect' : 'Operator');
 
   const displayIdentity = userHandle || (currentUser ? (currentUser.displayName || currentUser.email) : '');
 
@@ -168,6 +170,8 @@ export const AuthProvider = ({ children }) => {
     isGM,
     userRole,
     hasAdminClaim,
+    hasCloudAdminAccess,
+    isAuthorizedEmail,
     adminOverride,
     toggleAdminOverride,
     refreshUserHandle,

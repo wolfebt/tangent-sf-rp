@@ -314,14 +314,3 @@ sockets:
 | |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| |
 | :---- |
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/archetypes/99.Archetypes.E_L.md
-```
-
-## Gameplay Instructions
-Refer to architect/archetypes/99.Archetypes.E_L.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/archetypes/99.Archetypes.E_L.md. Complete, unabridged source of truth.

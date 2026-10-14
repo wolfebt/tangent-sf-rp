@@ -6,10 +6,8 @@ feature_category: Combat
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: 'Weapon Spec, Skill 11'
-description: >-
-  Imp. Weapon Specialization is a Combat Feature: +2d damage with one weapon
-  type.
+prerequisites: 'Weapon Specialization, Combat Skill 11'
+description: Lethal mastery.
 costs:
   cp: 3
   bp: 3
@@ -19,20 +17,16 @@ keywords: >-
   tactical-edge, weapon
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
+mechanic: Gain **\+2 Dice of Damage** (total) with the chosen weapon.
 ---
-
 # Imp. Weapon Specialization
 
 **Category**: Combat Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: Weapon Spec, Skill 11
+**Prerequisite**: Weapon Specialization, Combat Skill 11
 
 ## Description
-Imp. Weapon Specialization is a Combat Feature: \+2d damage with one weapon type.
+Lethal mastery.
 
 ## Mechanics & Benefit
-\+2d damage with one weapon type.
-
-## Special Rules
-58
-
+Gain **\+2 Dice of Damage** (total) with the chosen weapon.

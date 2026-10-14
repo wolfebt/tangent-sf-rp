@@ -15,8 +15,8 @@ modifiers: []
 keywords: 'naturalist, skill, special-feature'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: Gain a **\+2 Bonus** to **Nature** (Knowledge) and **Survival** checks.
 ---
-
 # Naturalist
 
 **Category**: Skill Features  
@@ -28,7 +28,3 @@ The character is at home in the wild.
 
 ## Mechanics & Benefit
 Gain a **\+2 Bonus** to **Nature** (Knowledge) and **Survival** checks.
-
-## Special Rules
-154
-

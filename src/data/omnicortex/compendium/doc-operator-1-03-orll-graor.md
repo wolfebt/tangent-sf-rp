@@ -6,15 +6,15 @@ relPath: "operator/species/Orll/1.03.Orll.GraOr.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
-parent: "doc-operator-1-03-orll-base"
-order: 70
+parent: "doc-operator-1-03-orll"
+order: 80
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.orll.graor","mechanics"]
-updatedAt: "2026-10-14T05:24:25.065Z"
+updatedAt: "2026-10-14T08:27:00.285Z"
 costs:
   bp: 0
   credits: 0
@@ -41,7 +41,7 @@ sockets:
 
 &nbsp;
 
-**CP Cost:**&nbsp;
+**CP Cost:** 22 CP
 
 **Description:** The grey-skinned Orll represent a distinct and notable variance within the broader Orll species. Unlike their more commonly encountered cousins, who are often characterized by volatile temperaments and a propensity for unrestrained aggression, the grey variety is generally considered to possess a significantly higher degree of intelligence and a markedly reduced inclination towards violent, unthinking rage.
 
@@ -103,14 +103,3 @@ Stigma (Xeno & Savage)
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/Orll/1.03.Orll.GraOr.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/Orll/1.03.Orll.GraOr.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/Orll/1.03.Orll.GraOr.md. Complete, unabridged source of truth.

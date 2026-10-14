@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-03-kitin"
-name: "1.03 Kitin"
+name: "1.03 Kitin (Lineage Overview)"
 fileName: "1.03.Kitin.md"
 relPath: "operator/species/Kitin/1.03.Kitin.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-species"
-order: 62
+order: 66
 perspective: "operator"
 entry_type: "Species Lineage"
 tl: 3
@@ -49,14 +49,3 @@ The Kitin are a vast, multifaceted insectoid lineage unified through a deep psio
 
 ---
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/Kitin/1.03.Kitin.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/Kitin/1.03.Kitin.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/Kitin/1.03.Kitin.md. Complete, unabridged source of truth.

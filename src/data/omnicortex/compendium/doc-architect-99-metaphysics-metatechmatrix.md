@@ -426,14 +426,3 @@ Meta-Tech cannot be built from scrap steel. It requires **Conductive Materials**
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/metaphysics/99.Metaphysics.MetaTechMatrix.md
-```
-
-## Gameplay Instructions
-Refer to architect/metaphysics/99.Metaphysics.MetaTechMatrix.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/metaphysics/99.Metaphysics.MetaTechMatrix.md. Complete, unabridged source of truth.

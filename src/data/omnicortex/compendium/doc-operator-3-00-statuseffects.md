@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-3-00-combat"
 category: "operator_rule"
 parent: "doc-operator-3-00-combat"
-order: 211
+order: 214
 perspective: "operator"
 entry_type: "Combat Module"
 tl: 3
@@ -60,14 +60,3 @@ sockets:
 
 ##
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/combat/3.00.StatusEffects.md
-```
-
-## Gameplay Instructions
-Refer to operator/combat/3.00.StatusEffects.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/combat/3.00.StatusEffects.md. Complete, unabridged source of truth.

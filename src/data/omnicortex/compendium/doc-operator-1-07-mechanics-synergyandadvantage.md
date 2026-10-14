@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 190
+order: 193
 perspective: "operator"
 entry_type: "Skill Mechanics"
 tl: 3
@@ -174,14 +174,3 @@ If you must roll with Disadvantage, consider using a Karma Point to improve your
 
 Try to minimize the impact of Disadvantage by addressing its source, if possible. For example, move to a better-lit area, use proper tools, or seek assistance from a skilled ally.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/skills/1.07.Mechanics.SynergyAndAdvantage.md
-```
-
-## Gameplay Instructions
-Refer to operator/skills/1.07.Mechanics.SynergyAndAdvantage.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/skills/1.07.Mechanics.SynergyAndAdvantage.md. Complete, unabridged source of truth.

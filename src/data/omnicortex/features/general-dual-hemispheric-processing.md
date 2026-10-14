@@ -21,8 +21,12 @@ keywords: >-
   agenesis
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You can read, scan, and process textual or visual information at 10x normal
+  speed. Furthermore, you may perform two different mental tasks (e.g., hacking
+  a terminal while calculating astrogation routes) without suffering a
+  multi-tasking penalty.
 ---
-
 # Dual-Hemispheric Processing
 
 **Category**: General Features  
@@ -33,7 +37,4 @@ cost_cp: 3
 Due to a congenital anomaly (such as the agenesis of the corpus callosum), the character's brain hemispheres operate with extreme independence. They can read two pages simultaneously and process localized data without global interference.
 
 ## Mechanics & Benefit
-You can read, scan, and process textual or visual information at **10x normal speed**. Furthermore, you may perform two different mental tasks (e.g., hacking a terminal while calculating astrogation routes) without suffering a multi-tasking penalty.
-
-## Special Rules
-Special: Congenital Trait.
+You can read, scan, and process textual or visual information at 10x normal speed. Furthermore, you may perform two different mental tasks (e.g., hacking a terminal while calculating astrogation routes) without suffering a multi-tasking penalty.

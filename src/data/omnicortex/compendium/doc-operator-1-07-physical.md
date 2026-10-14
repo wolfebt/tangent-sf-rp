@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 177
+order: 180
 perspective: "operator"
 entry_type: "Skill Category"
 tl: 3
@@ -129,14 +129,3 @@ These skills rely on the character's bodily fitness, coordination, and agility.
   * **Quick-Cover Snapping:** Darting between cover zones while security patrols or camera sweeps cycle past.  
   * **Infiltration Rigging:** Placing acoustic and optical cloaks over gear to silence rattling holsters and gear packs.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/skills/1.07.Physical.md
-```
-
-## Gameplay Instructions
-Refer to operator/skills/1.07.Physical.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/skills/1.07.Physical.md. Complete, unabridged source of truth.

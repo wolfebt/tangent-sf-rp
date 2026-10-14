@@ -15,8 +15,10 @@ modifiers: []
 keywords: 'artistic, skill, special-feature, possesses, creative'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Choose two **Performance** or **Vocation (Art/Craft)** sub-skills. Gain a
+  **\+2 Bonus** to both.
 ---
-
 # Artistic
 
 **Category**: Skill Features  
@@ -28,7 +30,3 @@ The character possesses a flare for the creative arts.
 
 ## Mechanics & Benefit
 Choose two **Performance** or **Vocation (Art/Craft)** sub-skills. Gain a **\+2 Bonus** to both.
-
-## Special Rules
-131
-

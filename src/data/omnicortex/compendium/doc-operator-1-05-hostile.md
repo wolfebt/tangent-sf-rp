@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-05-origins"
 category: "operator_rule"
 parent: "doc-operator-1-05-origins"
-order: 155
+order: 158
 perspective: "operator"
 entry_type: "Origin Profile"
 tl: 3
@@ -213,14 +213,3 @@ Repairing or modifying equipment to suit the needs of a hostile environment.
 * **PALETTE:** Metal Grey, Strip-Mine Brown, Laser Red, Acid Green.  
 * **TOKENS:** Excavators, pits, smoke, lasers, indifference.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/origins/1.05.Hostile.md
-```
-
-## Gameplay Instructions
-Refer to operator/origins/1.05.Hostile.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/origins/1.05.Hostile.md. Complete, unabridged source of truth.

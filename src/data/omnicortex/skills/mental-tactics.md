@@ -1,38 +1,43 @@
 ---
 id: mental-tactics
-name: Tactics
+name: "Tactics"
 type: mental
-subtype: knowledge
+subtype: "knowledges"
 category: skills
-governing_attributes:
-  - Intellect
-description: >-
-  The science of military strategy, troop formations, ambush design, battlefield
-  positioning, fire-support coordination, and predicting enemy movement.
-trained_only: false
+governing_attribute: "Intellect"
+description: "Knowledge of strategy, warfare, and small unit operations. It allows a character to predict enemy movements and plan effective ambushes."
 specialties:
-  - Squad & Small Unit Tactics
-  - Guerrilla Warfare & Ambush Craft
-  - Siege & Fortification Assault
-  - Fleet & Naval Fleet Strategy
-  - Space Combat Maneuvers
-synergy_links:
-  - combat-heavy-weapons
-  - mental-soldier
-  - social-leadership
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'tactics, mental, intellect, cognitive, expertise, squad'
-negative_keywords: 'mindless, instinct-only, illiterate'
+  - "Close-Quarters Battle (CQB): Clearing rooms, stacking doors, leapfrogging down corridors, and fatal funnel control."
+  - "Squad Fireteam Maneuvers: Coordinating bounding overwatch, flanking suppression, and tactical withdrawals."
+  - "Guerrilla & Asymmetric Warfare: Setting up hit-and-run ambushes, sabotage supply raids, and partisan insurgencies."
+  - "Ship-to-Ship Fleet Tactics: Coordinating broadsides, torpedo spreads, screen escorts, and crossfire brackets."
+  - "Siegecraft & Fortifications: Establishing defensive kill zones, interlocking fire fields, and breaching fortified walls."
+  - "Boarding Actions: Breaching airlocks, fighting in tight starship corridors, and securing bridge/engineering hubs."
+  - "Ambush Planning: Selecting choke points, camouflage perimeters, and timed kill boxes along transit routes."
+  - "Sniper/Spotter Protocols: Calculating windage, ballistic drop, concealment blinds, and designated marksman security."
+  - "Electronic Warfare Coordination: Synchronizing jamming bursts with kinetic assaults to deafen enemy comms."
+  - "Counter-Battery Warfare: Calculating enemy indirect fire origins from impact craters to direct counter-strikes."
+keywords: "tactics, mental, intellect, cognitive, expertise, squad"
+negative_keywords: "mindless, instinct-only, illiterate"
 ---
 
-# Tactics
+### **TACTICS**
 
-The science of military strategy, troop formations, ambush design, battlefield positioning, fire-support coordination, and predicting enemy movement.
+* **Ability:** Intellect  
+* **Description:** Knowledge of strategy, warfare, and small unit operations. It allows a character to predict enemy movements and plan effective ambushes.  
+* **Mechanics:**  
+  * **Predict Strategy:** Opposed check vs. Enemy Tactics/Bluff.  
+  * **Combat Bonus:** A successful check (CR 15+) prior to combat might grant the team a \+1 Initiative or Attack bonus for the first round (GM discretion).  
+* **Specialties:**   
+  * **Close-Quarters Battle (CQB):** Clearing rooms, stacking doors, leapfrogging down corridors, and fatal funnel control.  
+    * **Squad Fireteam Maneuvers:** Coordinating bounding overwatch, flanking suppression, and tactical withdrawals.  
+    * **Guerrilla & Asymmetric Warfare:** Setting up hit-and-run ambushes, sabotage supply raids, and partisan insurgencies.  
+    * **Ship-to-Ship Fleet Tactics:** Coordinating broadsides, torpedo spreads, screen escorts, and crossfire brackets.  
+    * **Siegecraft & Fortifications:** Establishing defensive kill zones, interlocking fire fields, and breaching fortified walls.  
+    * **Boarding Actions:** Breaching airlocks, fighting in tight starship corridors, and securing bridge/engineering hubs.  
+    * **Ambush Planning:** Selecting choke points, camouflage perimeters, and timed kill boxes along transit routes.  
+    * **Sniper/Spotter Protocols:** Calculating windage, ballistic drop, concealment blinds, and designated marksman security.  
+    * **Electronic Warfare Coordination:** Synchronizing jamming bursts with kinetic assaults to deafen enemy comms.  
+    * **Counter-Battery Warfare:** Calculating enemy indirect fire origins from impact craters to direct counter-strikes.
 
-### Mechanics & Rules
-- **Governing Attribute**: Intellect
-- **Predict Enemy Strategy**: Opposed check vs. Enemy Commander's **Tactics** or **Bluff**.
-- **Pre-Battle Briefing Bonus**: Successful DC 15+ Tactics check before combat grants allies a **+1 Initiative** or **+1 Attack bonus** during the opening combat round.
+  ###

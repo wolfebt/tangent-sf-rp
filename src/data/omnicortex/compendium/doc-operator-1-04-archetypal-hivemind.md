@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-archetypal-hivemind"
-name: "1.04 Archetypal: Hive Mind"
+name: "1.04 Archetypal: 09. Hive Mind"
 fileName: "1.04.Archetypal.HiveMind.md"
 relPath: "operator/factions/1.04.Archetypal.HiveMind.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 133
+order: 136
 perspective: "operator"
 entry_type: "Generic Faction Template"
 tl: 3
@@ -86,14 +86,3 @@ sockets:
 * **Atmosphere Tokens:** Resin hives, swarming masses, organic tunnels, clicking mandibles, alien geometries.  
 * **HI-FI INK Guidance:** Collective Swarm, Xenobiology, Horror. Dripping resin tunnels, massive egg clutches, seas of identical drones. Claustrophobic, terrifying.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Archetypal.HiveMind.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Archetypal.HiveMind.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Archetypal.HiveMind.md. Complete, unabridged source of truth.

@@ -285,14 +285,3 @@ Rendering: Photorealistic Cinematic Art, 8k raw imagery, lineless rendering, vol
 Negative Prompt: outlines, black lines, borders, ink strokes, contour lines, hatching, cross-hatching, line art, line weight, illustration, cartoon, sketch, 3d render, gradient mesh, fuzzy, blurry, messy, watermark, text, anime, cel shaded, toon shading, hard edges, capes, banners, extra fabric, excess cables, distorted hands, plastic skin, waxy texture, airbrushed, smooth, doll-like.
 
 &nbsp;
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/99. MODULAR FACTION MATRIX.md
-```
-
-## Gameplay Instructions
-Refer to architect/99. MODULAR FACTION MATRIX.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/99. MODULAR FACTION MATRIX.md. Complete, unabridged source of truth.

@@ -15,8 +15,11 @@ modifiers: []
 keywords: 'eidetic memory, general, special-feature, remembers, everything, accuracy'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Gain a **\+4 Bonus** on Memory Checks. You may use **Knowledge Skills
+  Untrained**, as you recall snippets of information you’ve encountered
+  previously.
 ---
-
 # Eidetic Memory
 
 **Category**: General Features  
@@ -28,7 +31,3 @@ The character remembers everything they see or read with fair accuracy.
 
 ## Mechanics & Benefit
 Gain a **\+4 Bonus** on Memory Checks. You may use **Knowledge Skills Untrained**, as you recall snippets of information you’ve encountered previously.
-
-## Special Rules
-90
-

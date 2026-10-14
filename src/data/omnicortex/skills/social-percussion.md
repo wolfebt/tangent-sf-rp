@@ -1,37 +1,43 @@
 ---
 id: social-percussion
-name: Percussion
+name: "Percussion"
 type: social
-subtype: expression
+subtype: "expression"
 category: skills
-governing_attributes:
-  - Charisma
-  - Agility
-description: >-
-  Playing struck instruments: acoustic drum kits, timpani, electronic rhythm
-  pads, metallic cymbals, and tribal war-drums.
-trained_only: false
+governing_attribute: "Charisma"
+description: "Percussion is the skill of playing percussion instruments, like drums or cymbals. It reflects a character's ability to create music using percussion instruments. Percussion is used whenever a character needs to create music or perform in a musical production. Proficiency with instruments that are struck, shaken, or scraped. This is often the foundation of musical timing and rhythm."
 specialties:
-  - Acoustic Drum Kits
-  - Electronic Beats & Synth Pads
-  - Tribal & War-Drums
-  - Orchestral Timpani & Cymbals
-synergy_links:
-  - social-dancing
-  - social-keyboard
-  - physical-athletics
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'percussion, social, agility, interaction, diplomacy, influence'
-negative_keywords: 'isolated, anti-social, inarticulate'
+  - "Acoustic Drum Kits: Playing intricate rock, jazz, and metal beats using snare, kick, tom-toms, and cymbals."
+  - "Military War Drums & Snares: Keeping the marching cadence, signaling battle lines, and drumming troops into action."
+  - "Orchestral Timpani & Gongs: Striking tuned kettle drums and massive orchestral gongs for dramatic climaxes."
+  - "Hand Percussion (Congas/Bongos): Slapping, popping, and palm-striking skin hand drums with polyrhythmic speed."
+  - "Electronic Drum Pads: Playing velocity-sensitive rubber pads triggering synthesized samples and sub-bass kicks."
+  - "Tuned Mallet Percussion: Playing wooden marimbas, steel xylophones, and vibraphones with precision mallets."
+  - "Tribal Ritual Drumming: Driving deep, hypnotic, relentless drum circles that induce trance states in participants."
+  - "Bodhrán & Frame Drums: Beating shallow Celtic-style frame drums with double-ended tippers while modulating pitch."
+  - "Cymbals, Triangles & Chimes: Accenting delicate sonic passages with crashes, rides, sizzling chimes, and iron bells."
+  - "Rhythmic Rowing/Marching Cadence: Maintaining a continuous, driving beat that coordinates team endurance tasks."
+keywords: "percussion, social, agility, interaction, diplomacy, influence"
+negative_keywords: "isolated, anti-social, inarticulate"
 ---
 
-# Percussion
+### **Percussion**
 
-Playing struck instruments: acoustic drum kits, timpani, electronic rhythm pads, metallic cymbals, and tribal war-drums.
+* **Ability:** Charisma  
+* **Description:** Percussion is the skill of playing percussion instruments, like drums or cymbals. It reflects a character's ability to create music using percussion instruments. Percussion is used whenever a character needs to create music or perform in a musical production. Proficiency with instruments that are struck, shaken, or scraped. This is often the foundation of musical timing and rhythm.  
+* **Mechanics:**  
+  * *Performance:* Standard performance mechanics.  
+  * *Rhythm:* CR 15 to maintain a beat that helps others coordinate physical tasks (e.g., rowing, marching), granting a \+1 bonus to their endurance-based checks.  
+* **Specialties:**   
+  * **Acoustic Drum Kits:** Playing intricate rock, jazz, and metal beats using snare, kick, tom-toms, and cymbals.  
+    * **Military War Drums & Snares:** Keeping the marching cadence, signaling battle lines, and drumming troops into action.  
+    * **Orchestral Timpani & Gongs:** Striking tuned kettle drums and massive orchestral gongs for dramatic climaxes.  
+    * **Hand Percussion (Congas/Bongos):** Slapping, popping, and palm-striking skin hand drums with polyrhythmic speed.  
+    * **Electronic Drum Pads:** Playing velocity-sensitive rubber pads triggering synthesized samples and sub-bass kicks.  
+    * **Tuned Mallet Percussion:** Playing wooden marimbas, steel xylophones, and vibraphones with precision mallets.  
+    * **Tribal Ritual Drumming:** Driving deep, hypnotic, relentless drum circles that induce trance states in participants.  
+    * **Bodhrán & Frame Drums:** Beating shallow Celtic-style frame drums with double-ended tippers while modulating pitch.  
+    * **Cymbals, Triangles & Chimes:** Accenting delicate sonic passages with crashes, rides, sizzling chimes, and iron bells.  
+    * **Rhythmic Rowing/Marching Cadence:** Maintaining a continuous, driving beat that coordinates team endurance tasks.
 
-### Mechanics & Rules
-- **Governing Attribute**: Charisma or Agility
-- **Cadence Coordination**: DC 15 maintains a steady rhythm that grants allies a **+1 bonus** to endurance-based forced march checks.
+  ###

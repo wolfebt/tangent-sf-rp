@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-species"
-order: 95
+order: 74
 perspective: "operator"
 entry_type: "Standalone Species"
 tl: 3
@@ -141,14 +141,3 @@ Uncanny Sense (Hearing)
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/1.03.Kizin.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/1.03.Kizin.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/1.03.Kizin.md. Complete, unabridged source of truth.

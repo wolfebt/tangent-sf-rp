@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-archetypal-alien"
-name: "1.04 Archetypal: Alien"
+name: "1.04 Archetypal: 01. Alien"
 fileName: "1.04.Archetypal.Alien.md"
 relPath: "operator/factions/1.04.Archetypal.Alien.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 125
+order: 128
 perspective: "operator"
 entry_type: "Generic Faction Template"
 tl: 3
@@ -86,14 +86,3 @@ sockets:
 * **Atmosphere Tokens:** Bioluminescence, organic architecture, chitin, strange geometries, enigmatic, alien.  
 * **HI-FI INK Guidance:** Extraterrestrial Enigma, Organic structures, alien flora, non-Euclidean environments, bioluminescent atmospheres. Mysterious, exotic, dangerous.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Archetypal.Alien.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Archetypal.Alien.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Archetypal.Alien.md. Complete, unabridged source of truth.

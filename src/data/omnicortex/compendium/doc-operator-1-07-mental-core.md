@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 178
+order: 181
 perspective: "operator"
 entry_type: "Skill Category"
 tl: 3
@@ -86,14 +86,3 @@ These skills utilize the character's mind, education, and sensory acuity.
 
 ##
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/skills/1.07.Mental.Core.md
-```
-
-## Gameplay Instructions
-Refer to operator/skills/1.07.Mental.Core.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/skills/1.07.Mental.Core.md. Complete, unabridged source of truth.

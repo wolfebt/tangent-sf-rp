@@ -209,14 +209,3 @@ Below are examples of standard Biological Augmentations, utilizing the TL, Node,
 * **Description:** A spliced adrenal gland that can be consciously triggered to flood the host's system with combat stimulants.  
 * **Mechanic:** Once per day, as a Swift Action, the host can activate the gland to gain the *Mighty Surge* feature (+4 to Strength/Agility checks and saving throws for 1 minute). When the effect ends, the host suffers 1 level of Exhaustion/Fatigue.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/technology/augmentations/99.Tech.Augmentations.Biological.md
-```
-
-## Gameplay Instructions
-Refer to architect/technology/augmentations/99.Tech.Augmentations.Biological.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/technology/augmentations/99.Tech.Augmentations.Biological.md. Complete, unabridged source of truth.

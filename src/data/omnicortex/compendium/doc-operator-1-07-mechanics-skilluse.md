@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 188
+order: 191
 perspective: "operator"
 entry_type: "Skill Mechanics"
 tl: 3
@@ -121,14 +121,3 @@ Characters can sometimes use multiple skills in conjunction to improve their cha
 
 Various factors can influence the outcome of Skill Checks through modifiers. These can include the character's Ability Scores, Skill Ranks, situational bonuses or penalties, and the use of special features or abilities. The GM has the final say on applying modifiers and their effects.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/skills/1.07.Mechanics.SkillUse.md
-```
-
-## Gameplay Instructions
-Refer to operator/skills/1.07.Mechanics.SkillUse.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/skills/1.07.Mechanics.SkillUse.md. Complete, unabridged source of truth.

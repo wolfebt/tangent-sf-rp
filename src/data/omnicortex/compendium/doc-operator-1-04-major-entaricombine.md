@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-major-entaricombine"
-name: "1.04 Major: Entari Combine"
+name: "1.04 Major: The Entari Combine"
 fileName: "1.04.Major.EntariCombine.md"
 relPath: "operator/factions/1.04.Major.EntariCombine.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 112
+order: 113
 perspective: "operator"
 entry_type: "Primary Faction"
 tl: 3
@@ -127,14 +127,3 @@ sockets:
 * **"Petal-Class" Hover-Skiff:** Light scout/luxury transport with stealth coating.  
 * **"Solar-Vigil" Interceptor:** High-precision atmospheric patrol ships armed with Grav-Net harpoons.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Major.EntariCombine.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Major.EntariCombine.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Major.EntariCombine.md. Complete, unabridged source of truth.

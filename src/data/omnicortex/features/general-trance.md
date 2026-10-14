@@ -17,8 +17,11 @@ modifiers: []
 keywords: 'trance, general, special-feature, meditative, conserve, energy'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You can voluntarily slow your heartbeat and metabolism. You consume 1/10th the
+  oxygen and food. You can appear dead to casual inspection (Medicine check CR
+  20 to detect life).
 ---
-
 # Trance
 
 **Category**: General Features  
@@ -29,8 +32,4 @@ cost_cp: 3
 The character can enter a deep meditative state to conserve energy or feign death.
 
 ## Mechanics & Benefit
-You can voluntarily slow your heartbeat and metabolism. You consume 1/10th the oxygen and food. You can appear dead to casual inspection (Medicine check DC 20 to detect life).
-
-## Special Rules
-110
-
+You can voluntarily slow your heartbeat and metabolism. You consume 1/10th the oxygen and food. You can appear dead to casual inspection (Medicine check CR 20 to detect life).

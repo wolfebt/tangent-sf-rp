@@ -24,8 +24,13 @@ modifiers:
 keywords: 'artificer, skill, special-feature, combines, engineering, metaphysics'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
----
+mechanic: >-
+  All **Metacrafting** and **Prototyping** checks to create magical or psionic
+  items are made with **Advantage**.  
 
+  * **Mechanics:** drastically reduces the risk of wasting expensive materials
+  when building enchantments.
+---
 # Artificer
 
 **Category**: Skill Features  
@@ -36,8 +41,5 @@ cost_cp: 3
 The character combines engineering with metaphysics, capable of creating items that blur the line between technology and magic.
 
 ## Mechanics & Benefit
-All **Metacrafting** and **Prototyping** checks to create magical or psionic items are made with **Advantage**.
-
-## Special Rules
-130
-
+All **Metacrafting** and **Prototyping** checks to create magical or psionic items are made with **Advantage**.  
+* **Mechanics:** drastically reduces the risk of wasting expensive materials when building enchantments.

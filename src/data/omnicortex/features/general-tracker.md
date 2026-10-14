@@ -15,8 +15,10 @@ modifiers: []
 keywords: 'tracker, general, special-feature, expert, hunter'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You can follow tracks using **Survival** or **Awareness** at **Full Movement
+  Speed** without penalty (normally tracking reduces speed to half).
 ---
-
 # Tracker
 
 **Category**: General Features  
@@ -28,7 +30,3 @@ The character is an expert hunter.
 
 ## Mechanics & Benefit
 You can follow tracks using **Survival** or **Awareness** at **Full Movement Speed** without penalty (normally tracking reduces speed to half).
-
-## Special Rules
-112
-

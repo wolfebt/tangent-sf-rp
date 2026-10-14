@@ -280,14 +280,3 @@ Trigger: A character must make a Stamina-based Fortitude Check (CR 15\) after sp
 
 Penalty for Failure: On a failure, the character takes 5 points of non-lethal Vitality damage. If their Vitality is depleted, they take 2 points of physical Health damage and gain the Exhausted condition (-2 to all active checks and half movement speed) until they take a Light Rest (Nap).
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/character_creation/1.01.Movement.md
-```
-
-## Gameplay Instructions
-Refer to operator/character_creation/1.01.Movement.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/character_creation/1.01.Movement.md. Complete, unabridged source of truth.

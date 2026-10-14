@@ -247,14 +247,3 @@ Species may only take 1 of the speed modifier traits (marked with \*).
 
 ###
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/species/99.Species.ChassisAndMovement.md
-```
-
-## Gameplay Instructions
-Refer to architect/species/99.Species.ChassisAndMovement.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/species/99.Species.ChassisAndMovement.md. Complete, unabridged source of truth.

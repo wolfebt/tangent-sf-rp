@@ -672,14 +672,3 @@ Detailed mechanics for Attributes, Saving Throws, Perception, Vitality/Health/St
 * **[Rest, Death & Dying](./character_creation/1.01.RestAndDying.md)** — *Full Rest, Light Rest, The Mechanics of Dying, Threshold of Death, and Revivification penalties*
 * **[Experience & Advancement](./character_creation/1.01.Experience.md)** — *Story Awards, Session Awards, roleplaying bonuses, and character progression*
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/1.01 CHARACTER CREATION.md
-```
-
-## Gameplay Instructions
-Refer to operator/1.01 CHARACTER CREATION.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/1.01 CHARACTER CREATION.md. Complete, unabridged source of truth.

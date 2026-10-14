@@ -17,8 +17,10 @@ modifiers: []
 keywords: 'lightning calculator, general, special-feature, living, computer, perform'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You perform mathematical calculations at **2x speed**. This applies to
+  Astrogation, Engineering calculations, and Cryptography.
 ---
-
 # Lightning Calculator
 
 **Category**: General Features  
@@ -30,7 +32,3 @@ The character is a living computer, able to perform complex mathematics instantl
 
 ## Mechanics & Benefit
 You perform mathematical calculations at **2x speed**. This applies to Astrogation, Engineering calculations, and Cryptography.
-
-## Special Rules
-\[Ranked\] Limited by Intellect modifier.
-

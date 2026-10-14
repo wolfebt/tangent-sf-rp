@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 191
+order: 194
 perspective: "operator"
 entry_type: "Skill Mechanics"
 tl: 3
@@ -159,14 +159,3 @@ Clear communication between the player and GM is essential to ensure that the tr
 
 Transposed Skill Bases should align with the character's overall concept and make sense within the context of the game world and its rules.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/skills/1.07.Mechanics.TimeAndFocus.md
-```
-
-## Gameplay Instructions
-Refer to operator/skills/1.07.Mechanics.TimeAndFocus.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/skills/1.07.Mechanics.TimeAndFocus.md. Complete, unabridged source of truth.

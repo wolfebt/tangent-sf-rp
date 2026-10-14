@@ -18,8 +18,11 @@ modifiers: []
 keywords: 'absolute pitch, general, special-feature, possesses, exaggerated, structural'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You can perfectly memorize and mimic voices, musical notes, or mechanical
+  frequencies. You gain a +4 Bonus on checks involving auditory matching,
+  impersonation (vocal), or acoustic security bypass.
 ---
-
 # Absolute Pitch
 
 **Category**: General Features  
@@ -30,7 +33,4 @@ cost_cp: 3
 The character possesses an exaggerated structural asymmetry in the planum temporale, allowing them to instantly identify, categorize, and perfectly recreate auditory frequencies without a reference tone.
 
 ## Mechanics & Benefit
-You can perfectly memorize and mimic voices, musical notes, or mechanical frequencies. You gain a **+4 Bonus** on checks involving auditory matching, impersonation (vocal), or acoustic security bypass.
-
-## Special Rules
-None
+You can perfectly memorize and mimic voices, musical notes, or mechanical frequencies. You gain a +4 Bonus on checks involving auditory matching, impersonation (vocal), or acoustic security bypass.

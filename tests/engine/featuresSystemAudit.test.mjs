@@ -92,8 +92,9 @@ test('Features System: Ranked Features Progression & Scaling Metadata', () => {
   assert.equal(connected.is_ranked, true, 'Connected is ranked');
   assert.equal(connected.max_rank, 4, 'Connected max rank is 4');
   const rulesText = Array.isArray(connected.rules) ? connected.rules.join(' ') : String(connected.rules || '');
+  const mechanicText = String(connected.mechanic || '');
   assert(!rulesText.includes('84'), 'Connected rules are clean of corrupted 84 string');
-  assert(rulesText.includes('Rank 4'), 'Connected rules document Rank 4 progression');
+  assert(mechanicText.includes('Rank 4') || rulesText.includes('Rank 4'), 'Connected documents Rank 4 progression');
 
   // Verify rank cost scaling logic: 1 rank = base, 2 ranks = 2 * base
   const baseCost = connected.cp !== undefined ? connected.cp : (connected.costs?.bp !== undefined ? connected.costs.bp : 3);

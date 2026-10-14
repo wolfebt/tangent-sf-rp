@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-archetypal-spaceexploration"
-name: "1.04 Archetypal: Space Exploration"
+name: "1.04 Archetypal: 20. Space Exploration"
 fileName: "1.04.Archetypal.SpaceExploration.md"
 relPath: "operator/factions/1.04.Archetypal.SpaceExploration.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 144
+order: 147
 perspective: "operator"
 entry_type: "Generic Faction Template"
 tl: 3
@@ -86,14 +86,3 @@ sockets:
 * **Atmosphere Tokens:** Clean EVA suits, massive sensor arrays, bright sterile ships, large reinforced viewports, hologlobes.  
 * **HI-FI INK Guidance:** Hard Sci-Fi, Exploration. Clean white ship interiors, massive glass viewports looking into nebulas, glowing holographic star maps, bulky EVA suits. Academic, awe-inspiring, isolated.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Archetypal.SpaceExploration.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Archetypal.SpaceExploration.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Archetypal.SpaceExploration.md. Complete, unabridged source of truth.

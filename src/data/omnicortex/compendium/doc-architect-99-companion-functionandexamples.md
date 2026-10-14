@@ -159,14 +159,3 @@ Select **one** function. This defines Attributes (Combat Stats) and Skills.
 * **Function:** The Striker (25 CP) \-\> *High Damage*  
 * **Total:** 40 CP.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/companions/99.Companion.FunctionAndExamples.md
-```
-
-## Gameplay Instructions
-Refer to architect/companions/99.Companion.FunctionAndExamples.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/companions/99.Companion.FunctionAndExamples.md. Complete, unabridged source of truth.

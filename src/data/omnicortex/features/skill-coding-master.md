@@ -7,7 +7,7 @@ cost_bp: 3
 is_ranked: false
 is_multiple: false
 prerequisites: Computer Specialist
-description: 'Coding Master is a Skill Feature: Perform Computer Tasks at Advantage.'
+description: The character sees the matrix of the digital world.
 costs:
   cp: 3
   bp: 3
@@ -22,8 +22,8 @@ modifiers:
 keywords: 'coding master, skill, special-feature, coding, master, feature:'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: Perform all Computer tasks with **Advantage**.
 ---
-
 # Coding Master
 
 **Category**: Skill Features  
@@ -31,11 +31,7 @@ cost_cp: 3
 **Prerequisite**: Computer Specialist
 
 ## Description
-Coding Master is a Skill Feature: Perform Computer Tasks at Advantage.
+The character sees the matrix of the digital world.
 
 ## Mechanics & Benefit
-Perform Computer Tasks at Advantage.
-
-## Special Rules
-136
-
+Perform all Computer tasks with **Advantage**.

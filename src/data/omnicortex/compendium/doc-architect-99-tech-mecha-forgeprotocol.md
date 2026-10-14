@@ -380,14 +380,3 @@ Sum the final CR of the chassis and all applied systems. Calculate the final Cre
 
 ### ---
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/technology/mecha/99.Tech.Mecha.ForgeProtocol.md
-```
-
-## Gameplay Instructions
-Refer to architect/technology/mecha/99.Tech.Mecha.ForgeProtocol.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/technology/mecha/99.Tech.Mecha.ForgeProtocol.md. Complete, unabridged source of truth.

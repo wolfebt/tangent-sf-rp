@@ -15,8 +15,8 @@ modifiers: []
 keywords: 'researcher, skill, special-feature, navigate, archives, libraries'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: Gain a **\+2 Bonus** to **Academics** and **Library Use** checks.
 ---
-
 # Researcher
 
 **Category**: Skill Features  
@@ -28,7 +28,3 @@ The character knows how to navigate data archives and libraries.
 
 ## Mechanics & Benefit
 Gain a **\+2 Bonus** to **Academics** and **Library Use** checks.
-
-## Special Rules
-158
-

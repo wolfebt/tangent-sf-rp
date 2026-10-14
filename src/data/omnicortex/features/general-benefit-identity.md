@@ -8,8 +8,8 @@ is_ranked: true
 is_multiple: false
 prerequisites: None
 description: >-
-  A fully established, legally recognized alternate identity complete with
-  planetary biometric records and credit histories.
+  The character has a meticulously crafted alternate persona, complete with
+  background records, credit history, and identification.
 costs:
   cp: 3
   bp: 3
@@ -17,8 +17,13 @@ modifiers: []
 keywords: 'benefit (identity), general, special-feature, established, legally, recognized'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
----
+mechanic: >-
+  You gain one complete, verifiable Alternate Identity.  
 
+  * **Mechanics:** Checks to uncover your true identity are made at
+  **Disadvantage**. If the identity is "burned" (exposed), this feature is lost
+  until a new one is purchased/established.
+---
 # Benefit (Identity)
 
 **Category**: General Features  
@@ -26,10 +31,8 @@ cost_cp: 3
 **Prerequisite**: None
 
 ## Description
-A fully established, legally recognized alternate identity complete with planetary biometric records and credit histories.
+The character has a meticulously crafted alternate persona, complete with background records, credit history, and identification.
 
 ## Mechanics & Benefit
-Grants 1 complete, legally verifiable cover identity per rank, bypassing basic biometric and customs scrutiny.
-
-## Special Rules
-Ranked: Each purchase adds an additional established cover identity.
+You gain one complete, verifiable Alternate Identity.  
+* **Mechanics:** Checks to uncover your true identity are made at **Disadvantage**. If the identity is "burned" (exposed), this feature is lost until a new one is purchased/established.

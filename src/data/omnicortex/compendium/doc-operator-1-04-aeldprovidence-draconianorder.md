@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-aeldprovidence-draconianorder"
-name: "1.04 Aeld Providence: Draconian Order"
+name: "1.04 Aeld Providence (The Factional Schisms): 3. Draconian Order"
 fileName: "1.04.AeldProvidence.DraconianOrder.md"
 relPath: "operator/factions/1.04.AeldProvidence.DraconianOrder.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-aeldprovidence"
-order: 119
+order: 123
 perspective: "operator"
 entry_type: "Primary Faction Enclave"
 tl: 3
@@ -44,14 +44,3 @@ sockets:
 * **Mandate:** "Guard the ancient power; preserve the bloodline."  
 * **Profile:** The heavy martial backbone of the Elven diaspora. Strictly neutral in standard politics, their sole concern is guarding dangerous ruins, multiversal rifts, and catastrophic magic. Trespassers are met with devastating shock tactics and primal magic.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.AeldProvidence.DraconianOrder.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.AeldProvidence.DraconianOrder.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.AeldProvidence.DraconianOrder.md. Complete, unabridged source of truth.

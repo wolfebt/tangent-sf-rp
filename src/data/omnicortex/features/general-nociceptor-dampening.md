@@ -20,8 +20,13 @@ keywords: >-
   factors
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You are Immune to non-lethal Stun damage, shock, and pain-compliance
+  techniques (including torture). You do not suffer any negative mechanical
+  modifiers from being severely wounded or burned. Drawback: You must make
+  Awareness checks to notice if you are taking damage from environmental hazards
+  (like standing on a hot surface).
 ---
-
 # Nociceptor Dampening
 
 **Category**: General Features  
@@ -32,7 +37,4 @@ cost_cp: 3
 A mutation in the transcription factors regulating peripheral pain signaling (such as ZFHX2) renders the character profoundly insensitive to noxious pain while retaining normal tactile sensation.
 
 ## Mechanics & Benefit
-You are **Immune** to non-lethal Stun damage, shock, and pain-compliance techniques (including torture). You do not suffer any negative mechanical modifiers from being severely wounded or burned. Drawback: You must make Awareness checks to notice if you are taking damage from environmental hazards (like standing on a hot surface).
-
-## Special Rules
-Prerequisite: Pain Tolerance, Stamina 2.
+You are Immune to non-lethal Stun damage, shock, and pain-compliance techniques (including torture). You do not suffer any negative mechanical modifiers from being severely wounded or burned. Drawback: You must make Awareness checks to notice if you are taking damage from environmental hazards (like standing on a hot surface).

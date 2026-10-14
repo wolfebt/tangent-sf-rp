@@ -387,14 +387,3 @@ This table demonstrates how a standard Rank 10 Fire Invocation (Base: 5d6 Damage
 
 * **Math Check:** A Titanic Ship (6,000 Structure Points) would take \~4-5 hits from a Titanic Scale Meta-Weapon to be destroyed. This feels tactically appropriate for capital ship combat.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/metaphysics/99.Metaphysics.InvocationMatrix.md
-```
-
-## Gameplay Instructions
-Refer to architect/metaphysics/99.Metaphysics.InvocationMatrix.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/metaphysics/99.Metaphysics.InvocationMatrix.md. Complete, unabridged source of truth.

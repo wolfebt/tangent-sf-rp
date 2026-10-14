@@ -6,10 +6,10 @@ feature_category: General
 cost_bp: 3
 is_ranked: true
 is_multiple: false
-prerequisites: Special (Military or Corporate standing)
+prerequisites: Vocation or Faction standing
 description: >-
-  Official security clearance granting access to classified databases,
-  restricted orbital facilities, and top-secret projects.
+  The character has official access to restricted information, government
+  facilities, or corporate secrets.
 costs:
   cp: 3
   bp: 3
@@ -17,19 +17,25 @@ modifiers: []
 keywords: 'benefit (clearance), general, special-feature, official, security, clearance'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: |-
+  You possess a security key or biometric clearance.  
+    * *Rank 1:* Classified (Departmental info).  
+    * *Rank 2:* Secret (Mission-critical info).  
+    * *Rank 3:* Top Secret (Strategic info).  
+    * *Rank 4:* Black Badge (Existential threats / Black Ops).
 ---
-
 # Benefit (Clearance)
 
 **Category**: General Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: Special (Military or Corporate standing)
+**Prerequisite**: Vocation or Faction standing
 
 ## Description
-Official security clearance granting access to classified databases, restricted orbital facilities, and top-secret projects.
+The character has official access to restricted information, government facilities, or corporate secrets.
 
 ## Mechanics & Benefit
-Access to classified intelligence and restricted facilities (Classified -> Secret -> Top Secret -> Black Badge).
-
-## Special Rules
-Ranked: Higher ranks unlock access to military compartmentalized programs.
+You possess a security key or biometric clearance.  
+  * *Rank 1:* Classified (Departmental info).  
+  * *Rank 2:* Secret (Mission-critical info).  
+  * *Rank 3:* Top Secret (Strategic info).  
+  * *Rank 4:* Black Badge (Existential threats / Black Ops).

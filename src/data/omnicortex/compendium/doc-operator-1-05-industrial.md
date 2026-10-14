@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-05-origins"
 category: "operator_rule"
 parent: "doc-operator-1-05-origins"
-order: 156
+order: 159
 perspective: "operator"
 entry_type: "Origin Profile"
 tl: 3
@@ -221,14 +221,3 @@ additional \+1 to Aid bonuses
 * **PALETTE:** Gunmetal, Gear Brass, Laser Red, Oil.  
 * **TOKENS:** Gears, pistons, conveyor belts, endless motion.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/origins/1.05.Industrial.md
-```
-
-## Gameplay Instructions
-Refer to operator/origins/1.05.Industrial.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/origins/1.05.Industrial.md. Complete, unabridged source of truth.

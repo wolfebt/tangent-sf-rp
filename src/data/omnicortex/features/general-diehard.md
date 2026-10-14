@@ -7,7 +7,7 @@ cost_bp: 3
 is_ranked: false
 is_multiple: false
 prerequisites: Endurance
-description: 'Diehard is a General Feature: Automatically stabilize when dying.'
+description: The character is too stubborn or tough to die when they should.
 costs:
   cp: 3
   bp: 3
@@ -15,8 +15,12 @@ modifiers: []
 keywords: 'diehard, general, special-feature, feature:, automatically, stabilize'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  When your Health is reduced to 0 or lower (but not dead), you automatically
+  **Stabilize**. You do not lose 1 HP per round. You may continue to take
+  partial actions while at Death's Door, though you risk killing yourself if you
+  take strenuous damage.
 ---
-
 # Diehard
 
 **Category**: General Features  
@@ -24,11 +28,7 @@ cost_cp: 3
 **Prerequisite**: Endurance
 
 ## Description
-Diehard is a General Feature: Automatically stabilize when dying.
+The character is too stubborn or tough to die when they should.
 
 ## Mechanics & Benefit
-Automatically stabilize when dying.
-
-## Special Rules
-93
-
+When your Health is reduced to 0 or lower (but not dead), you automatically **Stabilize**. You do not lose 1 HP per round. You may continue to take partial actions while at Death's Door, though you risk killing yourself if you take strenuous damage.

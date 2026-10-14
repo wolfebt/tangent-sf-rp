@@ -6,8 +6,8 @@ feature_category: Combat
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: '-'
-description: 'Crushing Blow is a Combat Feature: Reduce opponent''s AC.'
+prerequisites: 'Strength 2, Power Attack'
+description: The character delivers blows that shatter armor and resolve.
 costs:
   cp: 3
   bp: 3
@@ -17,20 +17,19 @@ keywords: >-
   crushing
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
+mechanic: >-
+  As a Standard Action, make a single melee attack. If successful, the target
+  suffers a **\-2 penalty to Defense** (AC) for 1 round due to the staggering
+  impact.
 ---
-
 # Crushing Blow
 
 **Category**: Combat Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: \-
+**Prerequisite**: Strength 2, Power Attack
 
 ## Description
-Crushing Blow is a Combat Feature: Reduce opponent's AC.
+The character delivers blows that shatter armor and resolve.
 
 ## Mechanics & Benefit
-Reduce opponent's AC.
-
-## Special Rules
-36
-
+As a Standard Action, make a single melee attack. If successful, the target suffers a **\-2 penalty to Defense** (AC) for 1 round due to the staggering impact.

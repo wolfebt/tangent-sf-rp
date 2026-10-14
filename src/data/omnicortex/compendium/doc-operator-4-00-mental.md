@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-4-00-metaphysics"
 category: "operator_rule"
 parent: "doc-operator-4-00-metaphysics"
-order: 221
+order: 224
 perspective: "operator"
 entry_type: "Metaphysics Discipline"
 tl: 3
@@ -684,14 +684,3 @@ Grants a specific enhanced sensory capability (Darkvision, Tremorsense, X-Ray).
 * **Range:** Sense Range \= 30ft \+ (10ft per Stage).  
 * **Duration:** 10 Minutes per Stage.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/metaphysics/4.00.Mental.md
-```
-
-## Gameplay Instructions
-Refer to operator/metaphysics/4.00.Mental.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/metaphysics/4.00.Mental.md. Complete, unabridged source of truth.

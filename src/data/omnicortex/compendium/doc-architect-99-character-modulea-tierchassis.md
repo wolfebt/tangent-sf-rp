@@ -99,14 +99,3 @@ The Game Master references this matrix to establish the mathematical ceiling and
 
 ###
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/characters/99.Character.ModuleA.TierChassis.md
-```
-
-## Gameplay Instructions
-Refer to architect/characters/99.Character.ModuleA.TierChassis.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/characters/99.Character.ModuleA.TierChassis.md. Complete, unabridged source of truth.

@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-progenitors"
-order: 73
+order: 85
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
@@ -68,14 +68,3 @@ sockets:
 * Progenitor Heritage [26 CP]
 * Large Size [2 CP]
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/Progenitors/1.03.Progenitors.UNonn.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/Progenitors/1.03.Progenitors.UNonn.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/Progenitors/1.03.Progenitors.UNonn.md. Complete, unabridged source of truth.

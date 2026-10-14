@@ -17,8 +17,10 @@ modifiers: []
 keywords: 'computer specialist, skill, special-feature, digital, navigating, easily'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Gain a **\+2 Bonus** to all **Computer** tasks (Hacking, Programming, Hardware
+  Repair).
 ---
-
 # Computer Specialist
 
 **Category**: Skill Features  
@@ -30,7 +32,3 @@ The character lives in the digital realm, navigating code as easily as walking d
 
 ## Mechanics & Benefit
 Gain a **\+2 Bonus** to all **Computer** tasks (Hacking, Programming, Hardware Repair).
-
-## Special Rules
-134
-

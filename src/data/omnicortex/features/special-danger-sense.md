@@ -24,8 +24,11 @@ modifiers:
 keywords: 'danger sense, special, special-feature, "sixth, sense", spidey-sense'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You make all **Surprise Checks** and checks to avoid traps at **Advantage**.
+  You are never truly "unaware" of direct danger, allowing you to act in the
+  Surprise round.
 ---
-
 # Danger Sense
 
 **Category**: Special Features  
@@ -37,7 +40,3 @@ A "sixth sense" or spidey-sense that warns of immediate peril.
 
 ## Mechanics & Benefit
 You make all **Surprise Checks** and checks to avoid traps at **Advantage**. You are never truly "unaware" of direct danger, allowing you to act in the Surprise round.
-
-## Special Rules
-189
-

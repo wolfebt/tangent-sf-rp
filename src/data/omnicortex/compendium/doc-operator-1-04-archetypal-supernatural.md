@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-archetypal-supernatural"
-name: "1.04 Archetypal: Supernatural"
+name: "1.04 Archetypal: 24. Supernatural"
 fileName: "1.04.Archetypal.Supernatural.md"
 relPath: "operator/factions/1.04.Archetypal.Supernatural.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 148
+order: 151
 perspective: "operator"
 entry_type: "Generic Faction Template"
 tl: 3
@@ -86,14 +86,3 @@ sockets:
 * **Atmosphere Tokens:** Gothic architecture hidden in modern cities, blood motifs, deep shadows, velvet, antique weapons.  
 * **HI-FI INK Guidance:** Gothic Sci-Fi, Dark Fantasy. Opulent antique rooms hidden inside futuristic skyscrapers, deep red velvet, shadows, elegant but predatory characters. Secretive, wealthy, dangerous.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Archetypal.Supernatural.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Archetypal.Supernatural.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Archetypal.Supernatural.md. Complete, unabridged source of truth.

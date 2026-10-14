@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-archetypal-religiouscult"
-name: "1.04 Archetypal: Religious Cult"
+name: "1.04 Archetypal: 18. Religious Cult"
 fileName: "1.04.Archetypal.ReligiousCult.md"
 relPath: "operator/factions/1.04.Archetypal.ReligiousCult.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 142
+order: 145
 perspective: "operator"
 entry_type: "Generic Faction Template"
 tl: 3
@@ -86,14 +86,3 @@ sockets:
 * **Atmosphere Tokens:** Flowing robes, branded holy symbols, grand but hidden altars, unified color schemes, incense.  
 * **HI-FI INK Guidance:** Sci-Fi Cult, Dark Devotion. Dimly lit temples, masses of followers in identical robes, glowing esoteric symbols, grand altars. Fanatical, unsettling, devoted.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Archetypal.ReligiousCult.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Archetypal.ReligiousCult.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Archetypal.ReligiousCult.md. Complete, unabridged source of truth.

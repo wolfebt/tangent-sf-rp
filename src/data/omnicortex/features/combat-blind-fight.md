@@ -17,8 +17,14 @@ modifiers: []
 keywords: 'blind-fight, combat, special-feature, combat-maneuver, tactical-edge, learned'
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
+mechanic: >-
+  When fighting a target that is concealed, invisible, or obscured
+  (darkness/fog), you may roll your Strike check with **Advantage** to counter
+  the miss chance or penalty usually imposed by the concealment.
+rules: >-
+  You do not lose your Agility bonus to Defense when attacked by an invisible
+  attacker in melee.
 ---
-
 # Blind-Fight
 
 **Category**: Combat Features  
@@ -33,4 +39,3 @@ When fighting a target that is concealed, invisible, or obscured (darkness/fog),
 
 ## Special Rules
 You do not lose your Agility bonus to Defense when attacked by an invisible attacker in melee.
-

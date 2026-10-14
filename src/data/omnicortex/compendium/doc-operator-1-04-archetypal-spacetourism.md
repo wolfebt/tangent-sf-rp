@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-archetypal-spacetourism"
-name: "1.04 Archetypal: Space Tourism"
+name: "1.04 Archetypal: 23. Space Tourism"
 fileName: "1.04.Archetypal.SpaceTourism.md"
 relPath: "operator/factions/1.04.Archetypal.SpaceTourism.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 147
+order: 150
 perspective: "operator"
 entry_type: "Generic Faction Template"
 tl: 3
@@ -86,14 +86,3 @@ sockets:
 * **Atmosphere Tokens:** Red velvet, gold trim, massive cruise liners, glass observation decks, zero-g pools, formal wear.  
 * **HI-FI INK Guidance:** Luxury Sci-Fi, High Status. Massive, brightly lit cruise ship interiors, panoramic windows looking at supernovas, opulent formal wear, gold and white decor. Wealthy, insulated, excessive.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Archetypal.SpaceTourism.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Archetypal.SpaceTourism.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Archetypal.SpaceTourism.md. Complete, unabridged source of truth.

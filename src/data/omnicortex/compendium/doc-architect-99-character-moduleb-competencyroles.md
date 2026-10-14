@@ -243,14 +243,3 @@ Operating as the conventional medical expert and tactical anatomist, the Biochem
 
 ###
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/characters/99.Character.ModuleB.CompetencyRoles.md
-```
-
-## Gameplay Instructions
-Refer to architect/characters/99.Character.ModuleB.CompetencyRoles.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/characters/99.Character.ModuleB.CompetencyRoles.md. Complete, unabridged source of truth.

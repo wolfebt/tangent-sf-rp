@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 186
+order: 189
 perspective: "operator"
 entry_type: "Skill Mechanics"
 tl: 3
@@ -114,14 +114,3 @@ Reference: 01.08.06 Skill Use To adjudicate actions, the GM sets a Challenge Rat
 
 ***Skill Checks are a fundamental mechanic in Tangent, used to resolve a wide range of actions and challenges throughout the game. They provide a structured and transparent way to determine success or failure, while also allowing for flexibility and customization based on the character's abilities, the difficulty of the task, and the GM's discretion. This system ensures that skill checks are both engaging and fair, reflecting the character's capabilities and the inherent risks and rewards of their actions.***
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/skills/1.07.Mechanics.SkillChecks.md
-```
-
-## Gameplay Instructions
-Refer to operator/skills/1.07.Mechanics.SkillChecks.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/skills/1.07.Mechanics.SkillChecks.md. Complete, unabridged source of truth.

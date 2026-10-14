@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-05-origins"
 category: "operator_rule"
 parent: "doc-operator-1-05-origins"
-order: 157
+order: 160
 perspective: "operator"
 entry_type: "Origin Profile"
 tl: 3
@@ -229,14 +229,3 @@ Charismatic and skilled in communication. May be able to negotiate, persuade, or
 * **PALETTE:** Dark Grey, Status Light Green/Red, Cable Black.  
 * **TOKENS:** Pods, cables, silence, darkness, mind-upload.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/origins/1.05.Leisure.md
-```
-
-## Gameplay Instructions
-Refer to operator/origins/1.05.Leisure.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/origins/1.05.Leisure.md. Complete, unabridged source of truth.

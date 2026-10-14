@@ -25,8 +25,12 @@ modifiers:
 keywords: 'aeronaut, skill, special-feature, specialist, unpowered, nature-assisted'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
----
+mechanic: >-
+  You may make all **Pilot (Unpowered)** checks with **Advantage**.  
 
+  * **Purpose:** Essential for winged species or low-tech gliders to fly safely
+  in dangerous weather conditions.
+---
 # Aeronaut
 
 **Category**: Skill Features  
@@ -37,8 +41,5 @@ cost_cp: 3
 The character is a specialist in unpowered or nature-assisted flight. They understand wind shears, thermals, and aerodynamics intuitively, whether using a glider, wingsuit, or natural wings.
 
 ## Mechanics & Benefit
-You may make all **Pilot (Unpowered)** checks with **Advantage**.
-
-## Special Rules
-128
-
+You may make all **Pilot (Unpowered)** checks with **Advantage**.  
+* **Purpose:** Essential for winged species or low-tech gliders to fly safely in dangerous weather conditions.

@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 180
+order: 183
 perspective: "operator"
 entry_type: "Skill Category"
 tl: 3
@@ -641,14 +641,3 @@ sockets:
 
   ###
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/skills/1.07.Mental.Vocation.md
-```
-
-## Gameplay Instructions
-Refer to operator/skills/1.07.Mental.Vocation.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/skills/1.07.Mental.Vocation.md. Complete, unabridged source of truth.

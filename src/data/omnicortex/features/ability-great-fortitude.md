@@ -25,8 +25,14 @@ keywords: >-
   through
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: |-
+  Gain a **\+2 bonus** on all **Fortitude Checks**.  
+    * *Usage:* This applies to resisting poisons, diseases, radiation, physical fatigue, and metabolic hazards.
+rules: >-
+  This feature is **Ranked**. It may be purchased multiple times, up to a
+  maximum rank equal to the character's Stamina score. The bonuses stack (e.g.,
+  Rank 2 grants a \+4 total bonus).
 ---
-
 # Great Fortitude
 
 **Category**: Ability Features  
@@ -42,4 +48,3 @@ Gain a **\+2 bonus** on all **Fortitude Checks**.
 
 ## Special Rules
 This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Stamina score. The bonuses stack (e.g., Rank 2 grants a \+4 total bonus).
-

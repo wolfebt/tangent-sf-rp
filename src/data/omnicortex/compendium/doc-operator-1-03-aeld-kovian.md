@@ -147,14 +147,3 @@ Ability Check Feature, Acute Senses, Alter Self line\*, Awakened (Arcane), Bodyf
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/Aeld/1.03.Aeld.Kovian.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/Aeld/1.03.Aeld.Kovian.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/Aeld/1.03.Aeld.Kovian.md. Complete, unabridged source of truth.

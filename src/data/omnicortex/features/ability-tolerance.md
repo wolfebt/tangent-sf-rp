@@ -19,8 +19,16 @@ keywords: >-
   character's
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  When suffering from an ongoing effect (such as poison, disease, paralysis, or
+  mental domination) that allows periodic Resistance Checks to end the effect
+  (e.g., "save every minute"), the time interval between checks is reduced to
+  **1/2 the typical time**.  
+    * *Usage:* A poison that normally allows a save once per hour allows this character to save every 30 minutes.
+rules: >-
+  This feature acts as a **\[Multiple\]** selection. You must choose Physical
+  Tolerance (Fortitude) or Mental Tolerance (Will).
 ---
-
 # Tolerance
 
 **Category**: Ability Features  
@@ -36,4 +44,3 @@ When suffering from an ongoing effect (such as poison, disease, paralysis, or me
 
 ## Special Rules
 This feature acts as a **\[Multiple\]** selection. You must choose Physical Tolerance (Fortitude) or Mental Tolerance (Will).
-

@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-aeldprovidence-koviantribunal"
-name: "1.04 Aeld Providence: Kovian Tribunal"
+name: "1.04 Aeld Providence (The Factional Schisms): 4. Kovian Tribunal (Nocturne)"
 fileName: "1.04.AeldProvidence.KovianTribunal.md"
 relPath: "operator/factions/1.04.AeldProvidence.KovianTribunal.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-aeldprovidence"
-order: 120
+order: 124
 perspective: "operator"
 entry_type: "Primary Faction Enclave"
 tl: 3
@@ -105,14 +105,3 @@ sockets:
 * **CONTEXT:** Spires of black glass, floating geometric pyramids, cavernous halls. Form-fitting Smart-Leather (kinetic weave), flowing shadow-weave capes, jagged geometries. Palette: Vanta Black, Obsidian, Matte Charcoal, Violet, Indigo.  
 * **ATMOSPHERE:** Oppressive, silent, cold, regal, terrifying. Deep shadows, backlit rim-lighting, bioluminescence. "The Void Stares Back".
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.AeldProvidence.KovianTribunal.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.AeldProvidence.KovianTribunal.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.AeldProvidence.KovianTribunal.md. Complete, unabridged source of truth.

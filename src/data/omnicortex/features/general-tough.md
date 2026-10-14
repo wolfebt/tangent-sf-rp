@@ -15,8 +15,10 @@ modifiers: []
 keywords: 'tough, general, special-feature, threshold, trauma'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You gain **Damage Resistance (DR) 5** specifically against **Non-Lethal**
+  damage and Stun damage.
 ---
-
 # Tough
 
 **Category**: General Features  
@@ -28,7 +30,3 @@ The character has a high threshold for pain and minor trauma.
 
 ## Mechanics & Benefit
 You gain **Damage Resistance (DR) 5** specifically against **Non-Lethal** damage and Stun damage.
-
-## Special Rules
-107
-

@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-3-00-combat"
 category: "operator_rule"
 parent: "doc-operator-3-00-combat"
-order: 210
+order: 213
 perspective: "operator"
 entry_type: "Combat Module"
 tl: 3
@@ -149,14 +149,3 @@ Made at \-5 to hit but with NO DEFENSE from the target, Damage is made at Advant
 
 #
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/combat/3.00.Edge.md
-```
-
-## Gameplay Instructions
-Refer to operator/combat/3.00.Edge.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/combat/3.00.Edge.md. Complete, unabridged source of truth.

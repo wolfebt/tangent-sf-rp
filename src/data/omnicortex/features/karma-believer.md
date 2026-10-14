@@ -25,8 +25,13 @@ modifiers:
 keywords: 'believer, karma, special-feature, possesses, profound, higher'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: |-
+  **Once per day**, you may re-roll any single failed **Skill Check**.  
+    * *Mechanics:* This does **not** cost Karma Points. It is a daily ability refreshed after a Full Rest. You must accept the result of the second roll.
+rules: >-
+  This feature is **\[Ranked\]**. Each additional rank allows an additional use
+  per day. The maximum rank is limited by your **Wisdom** score.
 ---
-
 # Believer
 
 **Category**: Karma Features  
@@ -42,4 +47,3 @@ The character possesses a profound faith in a higher power, a philosophy, or a c
 
 ## Special Rules
 This feature is **\[Ranked\]**. Each additional rank allows an additional use per day. The maximum rank is limited by your **Wisdom** score.
-

@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-major-kitincollective"
-name: "1.04 Major: Kitin Collective"
+name: "1.04 Major: Kitin Collective (The Star Hive)"
 fileName: "1.04.Major.KitinCollective.md"
 relPath: "operator/factions/1.04.Major.KitinCollective.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 113
+order: 119
 perspective: "operator"
 entry_type: "Primary Faction"
 tl: 3
@@ -134,14 +134,3 @@ sockets:
 * The beating heart of every Kitin hive-world: a towering mountain of calcified resin surrounding a geothermal caldera of emerald proto-flux.
 * Brood-Masters stand upon high sensory balconies, telepathically commanding the gestation vats to birth new specialized expressions in response to galactic threats.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Major.KitinCollective.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Major.KitinCollective.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Major.KitinCollective.md. Complete, unabridged source of truth.

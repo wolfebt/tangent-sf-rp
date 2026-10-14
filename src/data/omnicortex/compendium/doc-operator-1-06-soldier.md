@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-06-occupations"
 category: "operator_rule"
 parent: "doc-operator-1-06-occupations"
-order: 174
+order: 177
 perspective: "operator"
 entry_type: "Occupation Profile"
 tl: 3
@@ -268,14 +268,3 @@ Equipped with the latest technology and weaponry
   * **Palette:** Gunmetal, Warning Stripes, Red Eye.  
   * **Tokens:** Guns, heavy steps, armor, war.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/occupations/1.06.Soldier.md
-```
-
-## Gameplay Instructions
-Refer to operator/occupations/1.06.Soldier.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/occupations/1.06.Soldier.md. Complete, unabridged source of truth.

@@ -79,14 +79,3 @@ All 100 character and NPC Archetypes are organized into four primary divisions (
 * **[Savants (The Rationals)](./archetypes/1.02.Savants.md)** — *25 Archetypes focused on Science, Technology, Strategy, and Metaphysics (The Strategist through The Xeno-Surveyor)*
 * **[Archetype Signature Features](./archetypes/1.02.SignatureFeatures.md)** — *Master reference list of Signature Features for all 100 Archetypes and detailed Signature Feature mechanics*
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/1.02 ARCHETYPES.md
-```
-
-## Gameplay Instructions
-Refer to operator/1.02 ARCHETYPES.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/1.02 ARCHETYPES.md. Complete, unabridged source of truth.

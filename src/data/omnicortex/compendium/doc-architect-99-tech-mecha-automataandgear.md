@@ -363,14 +363,3 @@ When committing a new vehicle design to the master lore compendium or a characte
 
 **Lighting/Atmosphere:** Mood
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/technology/mecha/99.Tech.Mecha.AutomataAndGear.md
-```
-
-## Gameplay Instructions
-Refer to architect/technology/mecha/99.Tech.Mecha.AutomataAndGear.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/technology/mecha/99.Tech.Mecha.AutomataAndGear.md. Complete, unabridged source of truth.

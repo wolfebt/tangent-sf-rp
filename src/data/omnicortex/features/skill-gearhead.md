@@ -17,8 +17,10 @@ modifiers: []
 keywords: 'gearhead, skill, special-feature, intuitive, understanding, machinery'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Gain a **\+2 Bonus** to all Mechanical-based **Knowledge**, **Operation**, and
+  **Repair** checks.
 ---
-
 # Gearhead
 
 **Category**: Skill Features  
@@ -30,7 +32,3 @@ The character has an intuitive understanding of machinery, engines, and mechanic
 
 ## Mechanics & Benefit
 Gain a **\+2 Bonus** to all Mechanical-based **Knowledge**, **Operation**, and **Repair** checks.
-
-## Special Rules
-140
-

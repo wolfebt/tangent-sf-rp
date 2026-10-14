@@ -19,8 +19,14 @@ keywords: >-
   exceptional
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
+mechanic: >-
+  You cannot be **Flanked**. Enemies gain no bonus to Strike for positioning on
+  opposite sides of you, and Sneak Attacks that rely on Flanking (but not
+  Flat-Footed) fail to trigger.
+rules: >-
+  **Note:** This differs from standard d20 systems (where it grants extra AoOs);
+  in Tangent, this is a defensive situational awareness feature.
 ---
-
 # Combat Reflexes
 
 **Category**: Combat Features  
@@ -34,5 +40,4 @@ The character has exceptional peripheral awareness and reaction time, preventing
 You cannot be **Flanked**. Enemies gain no bonus to Strike for positioning on opposite sides of you, and Sneak Attacks that rely on Flanking (but not Flat-Footed) fail to trigger.
 
 ## Special Rules
-33
-
+**Note:** This differs from standard d20 systems (where it grants extra AoOs); in Tangent, this is a defensive situational awareness feature.

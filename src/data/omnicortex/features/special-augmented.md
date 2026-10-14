@@ -17,8 +17,12 @@ modifiers: []
 keywords: 'augmented, special, special-feature, undergone, invasive, surgery'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: You are compatible with **Standard Augmentations**.
+rules: >-
+  Upon taking this feature, you gain a "credit" of **6 Character Points (CP)**
+  worth of Augmentations effectively for free (representing the initial suite of
+  upgrades). Any cost beyond this must be paid with CP or Credits.
 ---
-
 # Augmented
 
 **Category**: Special Features  
@@ -33,4 +37,3 @@ You are compatible with **Standard Augmentations**.
 
 ## Special Rules
 Upon taking this feature, you gain a "credit" of **6 Character Points (CP)** worth of Augmentations effectively for free (representing the initial suite of upgrades). Any cost beyond this must be paid with CP or Credits.
-

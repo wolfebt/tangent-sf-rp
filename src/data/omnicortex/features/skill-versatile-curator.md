@@ -22,8 +22,11 @@ modifiers:
 keywords: 'versatile curator, skill, special-feature, trivia'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You gain "Virtual Skills" in the Knowledge category. For every point of
+  Intellect Bonus you possess, you gain 1 Rank in a Knowledge skill you do not
+  technically have, allowing you to make Trained checks.
 ---
-
 # Versatile Curator
 
 **Category**: Skill Features  
@@ -35,7 +38,3 @@ The character is a font of trivia and data.
 
 ## Mechanics & Benefit
 You gain "Virtual Skills" in the Knowledge category. For every point of Intellect Bonus you possess, you gain 1 Rank in a Knowledge skill you do not technically have, allowing you to make Trained checks.
-
-## Special Rules
-174
-

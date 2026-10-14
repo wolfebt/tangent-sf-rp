@@ -15,8 +15,10 @@ modifiers: []
 keywords: 'stout, skill, special-feature, sturdy'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Gain a **\+1 Bonus** to **ALL Stamina & Constitution Skills**, as well as
+  **Might** and **Fortitude** checks.
 ---
-
 # Stout
 
 **Category**: Skill Features  
@@ -28,7 +30,3 @@ The character is built like a tank, broad and sturdy.
 
 ## Mechanics & Benefit
 Gain a **\+1 Bonus** to **ALL Stamina & Constitution Skills**, as well as **Might** and **Fortitude** checks.
-
-## Special Rules
-171
-

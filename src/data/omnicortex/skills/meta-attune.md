@@ -1,49 +1,47 @@
 ---
 id: meta-attune
-name: Attune
+name: "Attune"
 type: meta
-subtype: metafocus
+subtype: "general"
 category: skills
-governing_attributes:
-  - Intellect
-  - Wisdom
-  - Charisma
-description: >-
-  The universal conduit skill for drawing and channeling energy. Required for
-  all Disciplines. Sets Resistance/Evasion DC, resolves Attack Rolls and Opposed
-  Countering, and expands Essence capacity.
-trained_only: true
+governing_attribute: ""
+description: "Channeling energy, sensing psionic/magical fields, and metaphysical resonance. Unlocked when character possesses any Awakened feature."
 specialties:
-  - Channeling & Conduit Regulation
-  - Setting Resistance & Evasion DCs
-  - Meta Combat Attack Rolls
-  - Counter Effect Nullification
-  - Concentration & Sustained Focus
-synergy_links:
-  - mental-metaphysics
-  - meta-dimension
-  - meta-energy
-  - meta-entropy
-  - meta-illusion
-  - meta-matter
-  - meta-mental
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'attune, meta, wisdom, metafocus, psionic, resonance'
-negative_keywords: 'mundane, anti-magic-field, unattuned'
+  - "Conduit Channeling: Opening your physical body and neural pathways to flow raw meta-energy without self-damage."
+  - "Concentration Under Stress: Sustaining an active invocation while taking direct ballistic damage or running through fire."
+  - "Spell CR Augmentation: Tightening the metaphysical weave to make your invocations vastly harder for targets to resist."
+  - "Overcoming Resistance (SR/PR): Pushing raw energy through an enemy's innate spell resistance or psionic dampeners."
+  - "Runic Circle Scribing: Drawing physical geometric runes on floors to anchor massive, long-duration rituals safely."
+  - "Metascience Calibration: Tuning sensory implants and detection crystals to measure ambient magical currents accurately."
+  - "Counter-Magic Shaping: Reading an enemy's incoming energy conduit and weaving an opposite wave to collapse their spell."
+  - "Ambient Energy Absorption: Siphoning background radiation, ley line energy, or emotional resonance to fuel casting."
+  - "Reality Anchor Stabilization: Holding your immediate 10-foot space rigid against planar incursions and reality warping."
+  - "Overcharging Invocations: Pushing the conduit beyond safe redline limits to maximize damage dice at the risk of personal burnout."
+keywords: "attune, meta, wisdom, metafocus, psionic, resonance"
+negative_keywords: "mundane, anti-magic-field, unattuned"
 ---
 
-# Attune
+### **ATTUNE (The Channel)**
 
-The universal master conduit skill for drawing, regulating, and channeling metaphysical energy from the Quantum Field, the Weave, or the Void. Required for all Disciplines.
+Attribute: Varies (Intellect for Mages/Tech, Wisdom for Priests/Psychics, Charisma for Sorcerers/Fey)  
+Type: Meta Skill  
+Attune represents the character's ability to open a conduit to their power source and shape it safely. It is the "Accuracy" and "Control" stat of the meta system.
 
-### Core Rules & Mechanics
-- **Exempt from ML Cap**: The Attune skill is **not limited by planetary Metafocus Level (ML)**.
-- **Conduit of Essence**: Your character's permanent Attune rank is added directly to their **Essence Pool**.
-- **Resistance & Evasion DC**: Sets the difficulty for targets resisting or evading your metaphysical effects:
-  $$\text{Target DC} = 10 + \text{Attune Check Modifier} + \text{Key Ability Mod}$$
-- **Meta Combat Attack Rolls**: Used for all metaphysical Strike and Attack rolls.
-- **Counter Effect**: Used in Step 1 of opposed Counter Effect checks to seize control of an incoming conduit.
-- **Concentration**: Tested when taking damage to avoid losing sustained invocations.
+* **Setting the Save CR:** When you cast an Invocation that allows a Resistance Check (Reflex, Fortitude, or Will), the CR is determined by your Attune check.  
+  * *CR Formula:* 2d10 \+ Attune Rank \+ Ability Mod  
+  * *Passive CR:* 10 \+ Attune Rank \+ Ability Mod (Used when taking 10\)  
+* **Overcoming Resistance:** If a target has Spell Resistance (SR) or Psionic Dampening, the Attune check must exceed the target's SR.  
+* **Maintaining Focus:** Attune is used for Concentration checks when taking damage while sustaining an effect.  
+* **Specialties:**  
+  * **Conduit Channeling:** Opening your physical body and neural pathways to flow raw meta-energy without self-damage.  
+  * **Concentration Under Stress:** Sustaining an active invocation while taking direct ballistic damage or running through fire.  
+  * **Spell CR Augmentation:** Tightening the metaphysical weave to make your invocations vastly harder for targets to resist.  
+  * **Overcoming Resistance (SR/PR):** Pushing raw energy through an enemy's innate spell resistance or psionic dampeners.  
+  * **Runic Circle Scribing:** Drawing physical geometric runes on floors to anchor massive, long-duration rituals safely.  
+  * **Metascience Calibration:** Tuning sensory implants and detection crystals to measure ambient magical currents accurately.  
+  * **Counter-Magic Shaping:** Reading an enemy's incoming energy conduit and weaving an opposite wave to collapse their spell.  
+  * **Ambient Energy Absorption:** Siphoning background radiation, ley line energy, or emotional resonance to fuel casting.  
+  * **Reality Anchor Stabilization:** Holding your immediate 10-foot space rigid against planar incursions and reality warping.  
+  * **Overcharging Invocations:** Pushing the conduit beyond safe redline limits to maximize damage dice at the risk of personal burnout.
+
+###

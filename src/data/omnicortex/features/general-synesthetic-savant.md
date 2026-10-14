@@ -20,8 +20,11 @@ keywords: >-
   cross-modal
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You gain Advantage on all Memory checks, Knowledge retrieval, and
+  cryptography. Your unique perception makes you highly resistant to visual
+  illusions, granting a +2 Bonus to disbelieve fake stimuli.
 ---
-
 # Synesthetic Savant
 
 **Category**: General Features  
@@ -32,7 +35,4 @@ cost_cp: 3
 The character experiences profound, cross-modal sensory wiring (e.g., seeing numbers as colors and textures). This provides a permanent, involuntary mnemonic structure for data retention.
 
 ## Mechanics & Benefit
-You gain **Advantage** on all Memory checks, Knowledge retrieval, and cryptography. Your unique perception makes you highly resistant to visual illusions, granting a **+2 Bonus** to disbelieve fake stimuli.
-
-## Special Rules
-Prerequisite: Intellect 2.
+You gain Advantage on all Memory checks, Knowledge retrieval, and cryptography. Your unique perception makes you highly resistant to visual illusions, granting a +2 Bonus to disbelieve fake stimuli.

@@ -20,8 +20,13 @@ keywords: >-
   strength
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: |-
+  Gain a **\+2 bonus** on all **Might Checks**.  
+    * *Usage:* This applies to breaking objects, lifting heavy loads, forcing doors, and resisting physical containment (such as grappling or webs). *Note: This does not apply to Attack or Damage rolls.*
+rules: >-
+  This feature is **Ranked**. It may be purchased multiple times, up to a
+  maximum rank equal to the character's Strength score.
 ---
-
 # Potent Might
 
 **Category**: Ability Features  
@@ -37,4 +42,3 @@ Gain a **\+2 bonus** on all **Might Checks**.
 
 ## Special Rules
 This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Strength score.
-

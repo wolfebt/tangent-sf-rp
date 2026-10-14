@@ -6,10 +6,8 @@ feature_category: General
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: 'Agi 3, Nimble Moves'
-description: >-
-  Acrobatic Steps is a General Feature: Ignore 30 feet of difficult terrain when
-  you move.
+prerequisites: 'Nimble Moves, Agility 3'
+description: The character bounds over debris and uneven ground.
 costs:
   cp: 3
   bp: 3
@@ -17,20 +15,18 @@ modifiers: []
 keywords: 'acrobatic steps, general, special-feature, acrobatic, feature:, ignore'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You ignore **30 feet** of difficult terrain penalties during movement. You may
+  move at full speed while balancing on narrow surfaces.
 ---
-
 # Acrobatic Steps
 
 **Category**: General Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: Agi 3, Nimble Moves
+**Prerequisite**: Nimble Moves, Agility 3
 
 ## Description
-Acrobatic Steps is a General Feature: Ignore 30 feet of difficult terrain when you move.
+The character bounds over debris and uneven ground.
 
 ## Mechanics & Benefit
-Ignore 30 feet of difficult terrain when you move.
-
-## Special Rules
-105
-
+You ignore **30 feet** of difficult terrain penalties during movement. You may move at full speed while balancing on narrow surfaces.

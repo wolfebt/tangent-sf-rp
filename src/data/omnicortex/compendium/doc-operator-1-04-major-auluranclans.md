@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 109
+order: 118
 perspective: "operator"
 entry_type: "Primary Faction"
 tl: 3
@@ -123,14 +123,3 @@ sockets:
 * **The Deep Root Forge:** Underground manufacturing vats where "iron-wood" frames are grown via nutrient-rich "sap."  
 * **The Symbiosis Spire:** A petrified-wood spire with calcified coral plating acting as the primary antenna for The Chorus.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Major.AuluranClans.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Major.AuluranClans.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Major.AuluranClans.md. Complete, unabridged source of truth.

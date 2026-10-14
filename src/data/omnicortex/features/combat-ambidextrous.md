@@ -19,8 +19,13 @@ keywords: >-
   naturally
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
----
+mechanic: >-
+  You suffer no penalties for using your off-hand. This eliminates the standard
+  penalty for using a weapon in the secondary hand.  
 
+  * **Purpose:** Essential for characters wishing to dual-wield effectively
+  without suffering severe accuracy penalties.
+---
 # Ambidextrous
 
 **Category**: Combat Features  
@@ -31,6 +36,5 @@ cost_cp: 3
 The character is naturally gifted or intensely trained to use both hands with equal proficiency.
 
 ## Mechanics & Benefit
-You suffer no penalties for using your off-hand. This eliminates the standard penalty for using a weapon in the secondary hand.
-
-
+You suffer no penalties for using your off-hand. This eliminates the standard penalty for using a weapon in the secondary hand.  
+* **Purpose:** Essential for characters wishing to dual-wield effectively without suffering severe accuracy penalties.

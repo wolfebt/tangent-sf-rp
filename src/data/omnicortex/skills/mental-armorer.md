@@ -1,39 +1,44 @@
 ---
 id: mental-armorer
-name: Armorer
+name: "Armorer"
 type: mental
-subtype: vocation
+subtype: "vocations"
 category: skills
-governing_attributes:
-  - Intellect
-  - Agility
-description: >-
-  Forging, tailoring, modifying, and repairing personal armor, tactical
-  bodysuits, hazard plating, shields, and powered exoskeletons.
-trained_only: false
+governing_attribute: "Intellect (for design) or Agility (for fine detail)"
+description: "Armorer is the skill of creating and repairing different types of armor. It reflects a character's ability to forge metal, repair damaged armor, and create new designs. Armorer is used whenever a character needs to ensure that armor is functional and effective. This can include things like repairing damaged armor to creating a new suit."
 specialties:
-  - Light Ballistic & Stealth Bodysuits
-  - Medium Tactical Carapace
-  - Heavy Powered Exosuits
-  - Energy & Deflector Shields
-  - Archaic & Ceremonial Plate
-synergy_links:
-  - mental-weaponsmith
-  - mental-mechanic
-  - combat-defense
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'armorer, mental, intellect, cognitive, expertise, fabricating'
-negative_keywords: 'mindless, instinct-only, illiterate'
+  - "Archaic Plate & Mail: Forging, quenching, and strapping tempered steel and bronze personal armor."
+  - "Ballistic Weaves & Flak Suits: Stitching layered kevlar, carbon-nanotube fabrics, and impact-dispersion vests."
+  - "Composite Ceramic Plating: Baking and inserting high-density boron-carbide strike plates into tactical rigs."
+  - "Powered Armor Exoskeletons: Servicing hydraulic actuators, frame braces, and artificial myomer musculature."
+  - "Energy Shield Harnesses: Tuning personal deflector coils, field harmonizers, and capacitor discharge belts."
+  - "Hazardous Environment Seals: Fitting airtight collars, hermetic seals, and thermal linings on void suits."
+  - "Xenotech Shell Integration: Splicing chitinous alien hides and bio-shells into functional composite armor."
+  - "Stealth Coating Application: Applying radar-absorbent paint, thermal-masking fabrics, and matte anti-glare dyes."
+  - "Custom Armor Tailoring: Resizing captured or off-the-shelf armor to perfectly fit unique alien physiologies."
+  - "Rapid Battle-Damage Patching: Hammering out dents, welding cracked plate, and cold-patching suit punctures."
+keywords: "armorer, mental, intellect, cognitive, expertise, fabricating"
+negative_keywords: "mindless, instinct-only, illiterate"
 ---
 
-# Armorer
+### **ARMORER**
 
-Forging, tailoring, modifying, and repairing personal armor, tactical bodysuits, hazard plating, shields, and powered exoskeletons.
+* **Ability:** Intellect (for design) or Agility (for fine detail)  
+* **Description:** Armorer is the skill of creating and repairing different types of armor. It reflects a character's ability to forge metal, repair damaged armor, and create new designs. Armorer is used whenever a character needs to ensure that armor is functional and effective. This can include things like repairing damaged armor to creating a new suit.   
+* **Mechanics:**  
+  * *Repair Armor:* Restore armor points (CR 15 \+ Tech Level).  
+  * *Craft Armor:* Create new armor (Time required varies).  
+  * *Fit Armor:* CR 15 to resize armor for a different species.  
+* **Specialties:**   
+  * **Archaic Plate & Mail:** Forging, quenching, and strapping tempered steel and bronze personal armor.  
+    * **Ballistic Weaves & Flak Suits:** Stitching layered kevlar, carbon-nanotube fabrics, and impact-dispersion vests.  
+    * **Composite Ceramic Plating:** Baking and inserting high-density boron-carbide strike plates into tactical rigs.  
+    * **Powered Armor Exoskeletons:** Servicing hydraulic actuators, frame braces, and artificial myomer musculature.  
+    * **Energy Shield Harnesses:** Tuning personal deflector coils, field harmonizers, and capacitor discharge belts.  
+    * **Hazardous Environment Seals:** Fitting airtight collars, hermetic seals, and thermal linings on void suits.  
+    * **Xenotech Shell Integration:** Splicing chitinous alien hides and bio-shells into functional composite armor.  
+    * **Stealth Coating Application:** Applying radar-absorbent paint, thermal-masking fabrics, and matte anti-glare dyes.  
+    * **Custom Armor Tailoring:** Resizing captured or off-the-shelf armor to perfectly fit unique alien physiologies.  
+    * **Rapid Battle-Damage Patching:** Hammering out dents, welding cracked plate, and cold-patching suit punctures.
 
-### Mechanics & Rules
-- **Governing Attribute**: Intellect (Design & Physics) or Agility (Metalworking & Fitting).
-- **Armor Repair**: DC 15 + Tech Level restores damaged Armor Points (AP) or structural integrity.
-- **Armor Fitting**: DC 15 resizes a suit of armor for an alien species with non-standard body proportions.
+  ###

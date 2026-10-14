@@ -360,14 +360,3 @@ Detailed generation tables and world-building subsystems are organized in the `.
 * **[Civilization, Economy & Infrastructure](./planetary/99.Planetary.CivilizationAndEconomy.md)** — *Sections 4–8: Tech/Metafocus Levels, Government & Law, Population Density, Trade Codes, Commodities, Cultural Aesthetics, Starports, and Character Origins*
 * **[Hazards, Adventure Hooks & Encounter Tables](./planetary/99.Planetary.HazardsAndEncounters.md)** — *Section 9: Environmental Hazards & Survival Tables, Adventure Hooks by World Type, and d10 Planetary Encounter Tables*
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/99. MODULAR PLANETARY MATRIX.md
-```
-
-## Gameplay Instructions
-Refer to architect/99. MODULAR PLANETARY MATRIX.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/99. MODULAR PLANETARY MATRIX.md. Complete, unabridged source of truth.

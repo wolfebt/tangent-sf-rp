@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useMemo, useCallback, useEffect } from 'react';
 import { useDBM } from '../DBMContext';
-import { useFolioIdentity } from './FolioIdentityContext';
+import { useFolioIdentity, DEFAULT_CHARACTER } from './FolioIdentityContext';
 import { ALL_CANONICAL_SKILLS } from '../../data/skillsData';
 import { 
   enrichItemWithModifiers, 
@@ -65,19 +65,88 @@ export const normalizeTraitName = (trait) => {
   return cleaned.replace(/\b\w/g, c => c.toUpperCase());
 };
 
-export const FolioStatsContext = createContext(null);
+export const DEFAULT_STATS_FALLBACK = {
+  computeSpentCP: () => 0,
+  economyBreakdown: {},
+  derivedStats: {
+    stamina: 0,
+    toughness: 0,
+    fortitude: 2,
+    wisdom: 0,
+    will: 2,
+    charisma: 0,
+    maxKarmaDebt: 1,
+    baseHealth: 30,
+    baseVitality: 30,
+    baseStructure: 60,
+    health: 30,
+    vitality: 30,
+    structure: 60,
+    maxKarma: 3,
+    maxAllowed: 120,
+    armorRating: 0,
+    energyShielding: 0,
+    effectiveArmorRating: 0,
+    effectiveEnergyShielding: 0,
+    armorLocations: {},
+    totalCredits: 1000,
+    tradeGoods: 0,
+    totalDebits: 0,
+    netWorth: 1000,
+    totalCashOnHand: 1000
+  },
+  computedModifiers: {
+    attributeMods: {},
+    combatMods: {},
+    saveMods: {},
+    skillMods: {},
+    identityPools: {},
+    activeFeatureModifiers: [],
+    activeTraitModifiers: [],
+    activeHindranceModifiers: [],
+    activeEquipmentModifiers: [],
+    activeSkillModifiers: []
+  },
+  saveMods: {},
+  activeFeatureModifiers: [],
+  activeTraitModifiers: [],
+  activeHindranceModifiers: [],
+  activeEquipmentModifiers: [],
+  activeSkillModifiers: [],
+  getSkillBreakdown: () => ({ total: 0 }),
+  getAttrMod: () => 0,
+  getAttrTotal: () => 2,
+  getSubAttrBase: () => 2,
+  enabledMovementModes: ['walk'],
+  calculateFullSpeciesCost: () => 0,
+  speciesComponentData: {},
+  allocatePoolSkillRank: () => {},
+  togglePoolTrait: () => {},
+  removePoolTrait: () => {},
+  togglePoolFeature: () => {},
+  removePoolFeature: () => {},
+  allocatePoolAttribute: () => {},
+  handleAddSkill: () => {},
+  handleDeleteSkill: () => {},
+  handleAddSpecialization: () => {},
+  handleUpdateSpecialization: () => {},
+  handleDeleteSpecialization: () => {}
+};
+
+export const FolioStatsContext = createContext(DEFAULT_STATS_FALLBACK);
 
 export const useFolioStats = () => {
   const context = useContext(FolioStatsContext);
   if (!context) {
     console.warn('[useFolioStats] Hook called outside of FolioStatsSliceProvider. Returning fallback empty state.');
-    return {};
+    return DEFAULT_STATS_FALLBACK;
   }
   return context;
 };
 
 export const FolioStatsSliceProvider = ({ children }) => {
-  const { characterData, setCharacterData, triggerSave } = useFolioIdentity();
+  const { characterData: rawCharacterData, setCharacterData, triggerSave } = useFolioIdentity();
+  const characterData = (rawCharacterData && typeof rawCharacterData === 'object') ? rawCharacterData : DEFAULT_CHARACTER;
   const dbContext = useDBM() || {};
   const dbData = dbContext.dbData || {};
 
@@ -123,7 +192,7 @@ export const FolioStatsSliceProvider = ({ children }) => {
     const skillMods = {};
 
     const resolveItem = (key, colName) => {
-      const val = characterData[key];
+      const val = characterData?.[key];
       if (!val) return null;
       if (typeof val === 'object' && val !== null) return val;
       return resolveCatalogItem(colName, val, dbData);
@@ -748,30 +817,30 @@ export const FolioStatsSliceProvider = ({ children }) => {
       activeSkillModifiers
     };
   }, [
-    characterData['char-archetype'],
-    characterData['char-species'],
-    characterData['char-occu'],
-    characterData['char-origin'],
-    characterData['char-faction'],
-    characterData.features,
-    characterData.traits,
-    characterData.hindrances,
-    characterData.disadvantages,
-    characterData.augmentations,
-    characterData.gear,
-    characterData.equipment,
-    characterData.weapons,
-    characterData.weaponry,
-    characterData.armor,
-    characterData.armoring,
-    characterData.other,
-    characterData.misc,
-    characterData.mecha,
-    characterData.architecture,
-    characterData.speciesAllocations,
-    characterData.occuAllocations,
-    characterData.originAllocations,
-    characterData.factionAllocations,
+    characterData?.['char-archetype'],
+    characterData?.['char-species'],
+    characterData?.['char-occu'],
+    characterData?.['char-origin'],
+    characterData?.['char-faction'],
+    characterData?.features,
+    characterData?.traits,
+    characterData?.hindrances,
+    characterData?.disadvantages,
+    characterData?.augmentations,
+    characterData?.gear,
+    characterData?.equipment,
+    characterData?.weapons,
+    characterData?.weaponry,
+    characterData?.armor,
+    characterData?.armoring,
+    characterData?.other,
+    characterData?.misc,
+    characterData?.mecha,
+    characterData?.architecture,
+    characterData?.speciesAllocations,
+    characterData?.occuAllocations,
+    characterData?.originAllocations,
+    characterData?.factionAllocations,
     dbData
   ]);
 
@@ -914,8 +983,8 @@ export const FolioStatsSliceProvider = ({ children }) => {
     }
 
     // Structure is calculated by combining Vitality and Health for non-typical anatomies
-    const speciesStr = String(characterData['char-species'] || '').toLowerCase();
-    const archetypeStr = String(characterData['char-archetype'] || '').toLowerCase();
+    const speciesStr = String(characterData?.['char-species'] || '').toLowerCase();
+    const archetypeStr = String(characterData?.['char-archetype'] || '').toLowerCase();
     const isSynthetic = speciesStr.includes('synthetic') ||
       speciesStr.includes('mekan') ||
       speciesStr.includes('construct') ||
@@ -933,7 +1002,7 @@ export const FolioStatsSliceProvider = ({ children }) => {
       : (purchasedStructure > 0 ? (baseStructure + purchasedStructure) : 60);
 
     const speciesRestProfile = getSpeciesRestProfile(characterData);
-    const lightRestsToday = parseInt(characterData.light_rests_today || 0, 10);
+    const lightRestsToday = parseInt(characterData?.light_rests_today || 0, 10);
 
     // Tangent Economic Unified Field Theory (EUFT) & Wealth Score Determination
     const wealthData = calculateCharacterWealth(characterData);
@@ -979,31 +1048,31 @@ export const FolioStatsSliceProvider = ({ children }) => {
       wealthNetLiquidPosition: wealthData.netLiquidPosition
     };
   }, [
-    characterData['attr-stamina'],
-    characterData['attr-fortitude'],
-    characterData['attr-wisdom'],
-    characterData['attr-will'],
-    characterData['attr-charisma'],
-    characterData['char-species'],
-    characterData['char-archetype'],
-    characterData['char-occu'],
-    characterData['char-origin'],
-    characterData['char-faction'],
-    characterData['tech-level'],
-    characterData['wealth-score-mod'],
-    characterData['wealth-score-override'],
-    characterData['credits'],
-    characterData['wealth-credits'],
-    characterData['trade-goods'],
-    characterData['wealth-trade-goods'],
-    characterData['debits'],
-    characterData['wealth-debits'],
-    characterData['health'],
-    characterData['vitality'],
-    characterData['structure'],
-    characterData.features,
-    characterData.disadvantages,
-    characterData.skills,
+    characterData?.['attr-stamina'],
+    characterData?.['attr-fortitude'],
+    characterData?.['attr-wisdom'],
+    characterData?.['attr-will'],
+    characterData?.['attr-charisma'],
+    characterData?.['char-species'],
+    characterData?.['char-archetype'],
+    characterData?.['char-occu'],
+    characterData?.['char-origin'],
+    characterData?.['char-faction'],
+    characterData?.['tech-level'],
+    characterData?.['wealth-score-mod'],
+    characterData?.['wealth-score-override'],
+    characterData?.['credits'],
+    characterData?.['wealth-credits'],
+    characterData?.['trade-goods'],
+    characterData?.['wealth-trade-goods'],
+    characterData?.['debits'],
+    characterData?.['wealth-debits'],
+    characterData?.['health'],
+    characterData?.['vitality'],
+    characterData?.['structure'],
+    characterData?.features,
+    characterData?.disadvantages,
+    characterData?.skills,
     getAttrMod
   ]);
 

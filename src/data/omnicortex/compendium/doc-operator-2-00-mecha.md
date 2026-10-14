@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-2-00-economatrix"
 category: "operator_rule"
 parent: "doc-operator-2-00-economatrix"
-order: 207
+order: 210
 perspective: "operator"
 entry_type: "Economatrix Catalog"
 tl: 3
@@ -369,14 +369,3 @@ Bipedal and humanoid combat platforms that bridge the gap between infantry and a
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/economatrix/2.00.Mecha.md
-```
-
-## Gameplay Instructions
-Refer to operator/economatrix/2.00.Mecha.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/economatrix/2.00.Mecha.md. Complete, unabridged source of truth.

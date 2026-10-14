@@ -15,8 +15,11 @@ modifiers: []
 keywords: 'self-sustaining, special, special-feature, require, standard, biological'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You do not need to eat or drink. You may rely on solar power, a battery
+  recharge, or magical energy, but you are immune to starvation and dehydration
+  mechanics.
 ---
-
 # Self-Sustaining
 
 **Category**: Special Features  
@@ -28,7 +31,3 @@ The character does not require standard biological fuel.
 
 ## Mechanics & Benefit
 You do not need to eat or drink. You may rely on solar power, a battery recharge, or magical energy, but you are immune to starvation and dehydration mechanics.
-
-## Special Rules
-202
-

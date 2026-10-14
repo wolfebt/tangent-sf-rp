@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-3-00-combat"
 category: "operator_rule"
 parent: "doc-operator-3-00-combat"
-order: 212
+order: 215
 perspective: "operator"
 entry_type: "Combat Module"
 tl: 3
@@ -245,14 +245,3 @@ Synth Limbs can take 50% more damage before Disabled or Destroyed but may **not*
 
 ##
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/combat/3.00.DamageAndLocations.md
-```
-
-## Gameplay Instructions
-Refer to operator/combat/3.00.DamageAndLocations.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/combat/3.00.DamageAndLocations.md. Complete, unabridged source of truth.

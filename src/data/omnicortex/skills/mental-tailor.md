@@ -1,38 +1,43 @@
 ---
 id: mental-tailor
-name: Tailor
+name: "Tailor"
 type: mental
-subtype: vocation
+subtype: "vocations"
 category: skills
-governing_attributes:
-  - Intellect
-  - Agility
-description: >-
-  Designing, patterning, cutting, sewing, and fitting garments: high fashion,
-  diplomatic uniforms, light armor under-suits, and environmental gear.
-trained_only: false
+governing_attribute: "Intelect"
+description: "Tailor is the skill of designing and creating clothing items, such as dresses, suits, or light armor or armor dressings. It reflects a character's ability to create clothing that is functional and aesthetically pleasing. Tailors are responsible for ensuring that clothing items fit well and are made from high-quality materials. This can include things like designing patterns, cutting fabric, and sewing clothing items."
 specialties:
-  - High Fashion & Haute Couture
-  - Military & Diplomatic Uniforms
-  - Light Ballistic Armor Weaving
-  - Environmental & Hazard Suits
-synergy_links:
-  - social-style
-  - mental-armorer
-  - social-disguise
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'tailor, mental, agility, intellect, cognitive, expertise'
-negative_keywords: 'mindless, instinct-only, illiterate'
+  - "High-Society Couture: Designing and hand-stitching bespoke silk suits, evening gowns, and noble court capes."
+  - "Ballistic Fabric Weaving: Splicing flexible aramid, carbon-weave, and spider-silk fibers into puncture-proof business suits."
+  - "Uniform Tailoring: Sewing military uniforms, naval tunics, and dress coats with precise ribbon and medal mounts."
+  - "Pattern Drafting & Cutting: Measuring body proportions to draft custom paper cutting patterns that fit like a second skin."
+  - "Concealed-Carry Alteration: Modifying suit linings, coat shoulders, and vests with hidden pockets to hide pistols and blades."
+  - "Space Suit Sealing & Repair: Stitching pressurized canvas layers, vulcanizing rubber joints, and replacing neck rings."
+  - "Leather & Beast-Hide Working: Curing, tooling, dyeing, and stitching heavy alien hides, boots, belts, and weapon holsters."
+  - "Quick-Change Garment Design: Creating breakaway stage costumes and reversible coats for undercover field operatives."
+  - "Embroidery & Insignia Handiwork: Hand-stitching gold-bullion crests, unit shoulder patches, and ornate religious glyphs."
+  - "Garment Mending & Alterations: Hemming trousers, taking in waists, darning fabric tears, and reinforcing stress seams."
+keywords: "tailor, mental, agility, intellect, cognitive, expertise"
+negative_keywords: "mindless, instinct-only, illiterate"
 ---
 
-# Tailor
+### **TAILOR**
 
-Designing, patterning, cutting, sewing, and fitting garments: high fashion, diplomatic uniforms, light armor under-suits, and environmental gear.
+* **Ability:** Intelect  
+* **Description:** Tailor is the skill of designing and creating clothing items, such as dresses, suits, or light armor or armor dressings. It reflects a character's ability to create clothing that is functional and aesthetically pleasing. Tailors are responsible for ensuring that clothing items fit well and are made from high-quality materials. This can include things like designing patterns, cutting fabric, and sewing clothing items.   
+* **Mechanics:**  
+  * *Craft Outfit:* CR 15 (Common) to CR 25 (High Fashion/Armored).  
+  * *Disguise Prep:* CR 20 to alter clothing to fit a disguise.  
+* **Specialties:**   
+  * **High-Society Couture:** Designing and hand-stitching bespoke silk suits, evening gowns, and noble court capes.  
+    * **Ballistic Fabric Weaving:** Splicing flexible aramid, carbon-weave, and spider-silk fibers into puncture-proof business suits.  
+    * **Uniform Tailoring:** Sewing military uniforms, naval tunics, and dress coats with precise ribbon and medal mounts.  
+    * **Pattern Drafting & Cutting:** Measuring body proportions to draft custom paper cutting patterns that fit like a second skin.  
+    * **Concealed-Carry Alteration:** Modifying suit linings, coat shoulders, and vests with hidden pockets to hide pistols and blades.  
+    * **Space Suit Sealing & Repair:** Stitching pressurized canvas layers, vulcanizing rubber joints, and replacing neck rings.  
+    * **Leather & Beast-Hide Working:** Curing, tooling, dyeing, and stitching heavy alien hides, boots, belts, and weapon holsters.  
+    * **Quick-Change Garment Design:** Creating breakaway stage costumes and reversible coats for undercover field operatives.  
+    * **Embroidery & Insignia Handiwork:** Hand-stitching gold-bullion crests, unit shoulder patches, and ornate religious glyphs.  
+    * **Garment Mending & Alterations:** Hemming trousers, taking in waists, darning fabric tears, and reinforcing stress seams.
 
-### Mechanics & Rules
-- **Governing Attribute**: Intellect or Agility
-- **Craft Bespoke Outfit**: DC 15 (Standard civilian garment) to DC 25 (High-society aristocratic dress granting social bonuses).
-- **Disguise Tailoring**: DC 20 modifies uniforms or coats with hidden pockets and altered silhouettes to aid disguise checks.
+  ###

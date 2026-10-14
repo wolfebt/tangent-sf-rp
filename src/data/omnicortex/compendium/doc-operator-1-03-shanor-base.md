@@ -1,20 +1,20 @@
 ---
 id: "doc-operator-1-03-shanor-base"
-name: "1.03 Sha'Nor (Lineage Overview)"
+name: "1.03 Sha'Nor: Sha'Nor (Base)"
 fileName: "1.03.ShaNor.Base.md"
 relPath: "operator/species/ShaNor/1.03.ShaNor.Base.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
-parent: "doc-operator-1-03-species"
-order: 74
+parent: "doc-operator-1-03-shanor"
+order: 89
 perspective: "operator"
-entry_type: "Species Lineage"
+entry_type: "Baseline Species"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.shanor.base","mechanics"]
-updatedAt: "2026-10-14T05:24:25.068Z"
+updatedAt: "2026-10-14T08:27:01.525Z"
 costs:
   bp: 0
   credits: 0
@@ -39,11 +39,11 @@ sockets:
 
 # **SHA’NOR**
 
-# **SHA’NOR**
+# **SHA’NOR (BASE)**
 
 # 
 
-**CP Cost:**&nbsp;
+**CP Cost:** 41 CP
 
 **Description:** Known as Harbingers of Entropy, Dark Hungers and Smoke Demons, the Sha’Nor are an extremely ancient species and are physically unlike any other species ever encountered. Being composed of what seems to be both some type of shifting organic material and dark matter simultaneously would indicate an other dimensional origin.
 
@@ -127,14 +127,3 @@ Special Abilities
 
 \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/ShaNor/1.03.ShaNor.Base.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/ShaNor/1.03.ShaNor.Base.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/ShaNor/1.03.ShaNor.Base.md. Complete, unabridged source of truth.

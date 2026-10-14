@@ -69,14 +69,3 @@ sockets:
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/Aulurans/1.03.Aulurans.Koda.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/Aulurans/1.03.Aulurans.Koda.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/Aulurans/1.03.Aulurans.Koda.md. Complete, unabridged source of truth.

@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-archetypal-mercenary"
-name: "1.04 Archetypal: Mercenary"
+name: "1.04 Archetypal: 11. Mercenary"
 fileName: "1.04.Archetypal.Mercenary.md"
 relPath: "operator/factions/1.04.Archetypal.Mercenary.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 135
+order: 138
 perspective: "operator"
 entry_type: "Generic Faction Template"
 tl: 3
@@ -86,14 +86,3 @@ sockets:
 * **Atmosphere Tokens:** Tactical webbing, mismatched high-end gear, drop-ships, scarred armor, ballistic plating, weapon grease.  
 * **HI-FI INK Guidance:** Military Sci-Fi, Tactical, Gritty. Dropship interiors, heavy ballistic plating, customized weaponry, ammo bandoliers, blast scarring. Tense, violent.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Archetypal.Mercenary.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Archetypal.Mercenary.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Archetypal.Mercenary.md. Complete, unabridged source of truth.

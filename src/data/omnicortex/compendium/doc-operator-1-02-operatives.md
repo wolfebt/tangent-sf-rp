@@ -522,14 +522,3 @@ The frontline demolitionist who uses chaos and high explosives to restructure th
 
 ##
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/archetypes/1.02.Operatives.md
-```
-
-## Gameplay Instructions
-Refer to operator/archetypes/1.02.Operatives.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/archetypes/1.02.Operatives.md. Complete, unabridged source of truth.

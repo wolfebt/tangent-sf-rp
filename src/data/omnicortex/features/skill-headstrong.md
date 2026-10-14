@@ -15,8 +15,10 @@ modifiers: []
 keywords: 'headstrong, skill, special-feature, stubborn, forceful'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Gain a **\+2 Bonus** to **Bluff** and **Intimidate** checks, and a **\+1
+  Bonus** to **Will Checks**.
 ---
-
 # Headstrong
 
 **Category**: Skill Features  
@@ -28,7 +30,3 @@ The character is stubborn, loud, and forceful.
 
 ## Mechanics & Benefit
 Gain a **\+2 Bonus** to **Bluff** and **Intimidate** checks, and a **\+1 Bonus** to **Will Checks**.
-
-## Special Rules
-145
-

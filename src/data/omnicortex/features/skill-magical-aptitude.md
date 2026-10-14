@@ -17,8 +17,10 @@ modifiers: []
 keywords: 'magical aptitude, skill, special-feature, arcane, theory, aren''t'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Gain a **\+2 Bonus** to **Attune** checks and a **\+1 Bonus** to **Knowledge
+  (Metaphysics)**.
 ---
-
 # Magical Aptitude
 
 **Category**: Skill Features  
@@ -30,7 +32,3 @@ The character has a knack for the arcane theory, even if they aren't a powerful 
 
 ## Mechanics & Benefit
 Gain a **\+2 Bonus** to **Attune** checks and a **\+1 Bonus** to **Knowledge (Metaphysics)**.
-
-## Special Rules
-150
-

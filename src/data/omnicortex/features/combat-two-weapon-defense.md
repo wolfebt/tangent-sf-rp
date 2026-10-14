@@ -17,8 +17,10 @@ keywords: >-
   off-hand
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
+mechanic: >-
+  When wielding two weapons (or a double weapon), gain a **\+1 Shield bonus to
+  Defense**.
 ---
-
 # Two-Weapon Defense
 
 **Category**: Combat Features  
@@ -30,7 +32,3 @@ The character uses their off-hand weapon to parry and block.
 
 ## Mechanics & Benefit
 When wielding two weapons (or a double weapon), gain a **\+1 Shield bonus to Defense**.
-
-## Special Rules
-47
-

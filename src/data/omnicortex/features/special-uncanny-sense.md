@@ -6,10 +6,10 @@ feature_category: Special
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: Acute Sense
+prerequisites: Acute Sense (in the corresponding sense)
 description: >-
-  Uncanny Sense is a Special Feature: Roll Awareness Checks with chosen sense at
-  Advantage.
+  The character’s senses are so sharp they verge on precognition. It is nearly
+  impossible to hide from them.
 costs:
   cp: 3
   bp: 3
@@ -26,20 +26,16 @@ modifiers:
 keywords: 'uncanny sense, special, special-feature, uncanny, feature:, awareness'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: You roll all **Awareness Checks** using the chosen sense with **Advantage**.
 ---
-
 # Uncanny Sense
 
 **Category**: Special Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: Acute Sense
+**Prerequisite**: Acute Sense (in the corresponding sense)
 
 ## Description
-Uncanny Sense is a Special Feature: Roll Awareness Checks with chosen sense at Advantage.
+The character’s senses are so sharp they verge on precognition. It is nearly impossible to hide from them.
 
 ## Mechanics & Benefit
-Roll Awareness Checks with chosen sense at Advantage.
-
-## Special Rules
-179
-
+You roll all **Awareness Checks** using the chosen sense with **Advantage**.

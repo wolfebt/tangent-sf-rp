@@ -7,7 +7,7 @@ isMasterDoc: true
 masterDocId: "doc-operator-3-00-combat"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 209
+order: 212
 perspective: "operator"
 entry_type: "Core Rulebook"
 tl: 3
@@ -329,14 +329,3 @@ Detailed tactical maneuvers, status conditions, hit locations, damage classifica
 * **[Damage Types](./combat/3.00.DamageTypes.md)** — *Energy (Pyro, Cryo, Spectral, Sonic, Voltic, Corrosive, Ra-D, Force Pulse), Kinetic (Blunt, Slashing, Piercing, Concussive, Bleed), and Variative (Radiant, Umbral, Elemental, Celestial, Infernal, Dimensional, Psyche)*
 * **[Vehicular Combat](./combat/3.00.VehicularCombat.md)** — *Tactical rounds, crew roles, scale modifiers, Land/Nautical/Atmospheric/Interstellar domains, siege warfare, and system failure tables*
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/3.00 COMBAT.md
-```
-
-## Gameplay Instructions
-Refer to operator/3.00 COMBAT.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/3.00 COMBAT.md. Complete, unabridged source of truth.

@@ -1,52 +1,51 @@
 ---
 id: combat-energy
-name: Energy
+name: "Energy"
 type: combat
-subtype: advanced
+subtype: "advanced"
 category: skills
-governing_attributes:
-  - Agility
-description: >-
-  Proficiency with handheld directed-energy weapons discharging coherent light,
-  ionized plasma, acoustic shockwaves, or electromagnetic arcs.
-trained_only: false
+governing_attribute: "Agility"
+description: "Proficiency with personal, directed-energy weapons such as pistols and rifles. These weapons discharge various forms of lethal energy, from searing plasma to destabilizing sonic waves. Unlike ballistic weapons, energy weapons often carry secondary effects based on their energy type2222."
 specialties:
-  - Lasers (Coherent beam and pulsed laser carbines)
-  - Plasma (Superheated gas blasters)
-  - Sonic (Acoustic disruptors and stunners)
-  - Cryo (Endothermic freeze weapons)
-  - Voltic / Arc (Electric discharge weapons)
-  - Disruptor (Molecular dissolution weapons)
-synergy_links:
-  - mental-technology
-  - mental-physics
-  - mental-weaponsmith
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'energy, combat, agility, tactical, offensive, defense'
-negative_keywords: 'pacifist, unarmed-civilian, helpless'
+  - "Laser Pistols & Carbines: Firing instant-hit coherent light beams that burn through flesh and thin sheet metal."
+  - "Plasma Rifles: Hurling bolts of superheated gas that melt through composite plate and ignite secondary fires."
+  - "Particle Beam Carbines: Firing high-velocity subatomic particle streams that deliver immense penetrating radiation trauma."
+  - "Sonic Stunners & Shatterguns: Firing concussive acoustic shockwaves that knock targets unconscious or rupture organs."
+  - "Cryo-Projectors: Spraying endothermic chemical streams that flash-freeze target limbs and shatter armor plates."
+  - "Arc & Voltic Rifles: Discharging branching lightning bolts that jump across multiple metal-armored targets and stun."
+  - "Corrosive Spray Weapons: Spraying pressurized acidic chemical streams that dissolve physical armor and melt hulls."
+  - "Grav-Pulse Blasters: Firing high-density gravitational shockwaves that throw armored targets backward off feet."
+  - "Disruptor & Disintegrator Pistols: Firing exotic matter-collapsing energy that breaks molecular bonds down to ash."
+  - "Thermal Microwave Lances: Focusing invisible microwave radiation that cooks organic targets from the inside out behind cover."
+keywords: "energy, combat, agility, tactical, offensive, defense"
+negative_keywords: "pacifist, unarmed-civilian, helpless"
 ---
 
-# Energy
+### **ENERGY**
 
-Proficiency with handheld directed-energy weapons discharging coherent light, ionized plasma, acoustic shockwaves, or electromagnetic arcs.
+* **Ability:** Agility  
+* **Description:** Proficiency with personal, directed-energy weapons such as pistols and rifles. These weapons discharge various forms of lethal energy, from searing plasma to destabilizing sonic waves. Unlike ballistic weapons, energy weapons often carry secondary effects based on their energy type2222.
 
-### Mechanics & Rules
-- **Governing Attribute**: Agility
-- **Standard Attack Roll**: `2d10 + Energy Rank + Agility Mod vs. Target Defense`.
-- **Critical Status Effects**:
-  - **Pyro (Plasma)**: Burns target for 1/2 damage on following round.
-  - **Cryo (Icer)**: Freezes target (Slow/Snare condition).
-  - **Voltic (Electricity)**: Shocks target (Stun condition).
-  - **Sonic**: Concussive force (Deafen / Stun condition).
-  - **Corrosive**: Dissolves armor (1/2 damage for next 2 rounds, reduces DR).
-  - **Grav**: High kinetic impact causing Knockback.
+* **Mechanics:**  
+  * **Attack Roll:** Standard ranged attack roll.  
+  * **Critical Effects:** In addition to increased damage, specific energy types apply status effects on a Critical Hit3:
 
-### Specialties
-- **Lasers**: High-penetration pinpoint energy beams.
-- **Plasma**: High-thermal area and burst munitions.
-- **Sonic**: Non-lethal and crowd-control acoustic emitters.
-- **Voltic**: Anti-shield and anti-synthetic arc discharge weapons.
-- **Disruptor**: High-tier tech bypassing energy shielding.
+    * *Pyro (Plasma):* Burns target for ½ damage in the following rounds.  
+    * *Cryo (Icer):* Freezes target (Slow/Snare effect).  
+    * *Voltic (Electricity):* Shocks target (Stun effect).  
+    * *Sonic:* Concussive force (Stun effect).  
+    * *Corrosive:* Dissolves armor/structure (½ damage for next 2 rounds).  
+    * *Grav:* Impact force causing Knockback.  
+* **Specialties:**  
+  * **Laser Pistols & Carbines:** Firing instant-hit coherent light beams that burn through flesh and thin sheet metal.  
+  * **Plasma Rifles:** Hurling bolts of superheated gas that melt through composite plate and ignite secondary fires.  
+  * **Particle Beam Carbines:** Firing high-velocity subatomic particle streams that deliver immense penetrating radiation trauma.  
+  * **Sonic Stunners & Shatterguns:** Firing concussive acoustic shockwaves that knock targets unconscious or rupture organs.  
+  * **Cryo-Projectors:** Spraying endothermic chemical streams that flash-freeze target limbs and shatter armor plates.  
+  * **Arc & Voltic Rifles:** Discharging branching lightning bolts that jump across multiple metal-armored targets and stun.  
+  * **Corrosive Spray Weapons:** Spraying pressurized acidic chemical streams that dissolve physical armor and melt hulls.  
+  * **Grav-Pulse Blasters:** Firing high-density gravitational shockwaves that throw armored targets backward off feet.  
+  * **Disruptor & Disintegrator Pistols:** Firing exotic matter-collapsing energy that breaks molecular bonds down to ash.  
+  * **Thermal Microwave Lances:** Focusing invisible microwave radiation that cooks organic targets from the inside out behind cover.
+
+###

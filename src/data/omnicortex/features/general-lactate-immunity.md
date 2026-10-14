@@ -18,8 +18,11 @@ modifiers: []
 keywords: 'lactate immunity, general, special-feature, character''s, physiology, clears'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You are Immune to physical fatigue caused by running, swimming, or aerobic
+  exertion. You can travel continuously at a run for days without requiring
+  rest, provided you remain calorically fueled and hydrated.
 ---
-
 # Lactate Immunity
 
 **Category**: General Features  
@@ -30,7 +33,4 @@ cost_cp: 3
 The character's physiology clears lactic acid so efficiently that they effectively never hit a lactate threshold. Their muscles do not burn or fail from prolonged standard exertion.
 
 ## Mechanics & Benefit
-You are **Immune** to physical fatigue caused by running, swimming, or aerobic exertion. You can travel continuously at a run for days without requiring rest, provided you remain calorically fueled and hydrated.
-
-## Special Rules
-Prerequisite: Endurance, Stamina 4.
+You are Immune to physical fatigue caused by running, swimming, or aerobic exertion. You can travel continuously at a run for days without requiring rest, provided you remain calorically fueled and hydrated.

@@ -8,8 +8,8 @@ is_ranked: false
 is_multiple: false
 prerequisites: 'Discipline Focus, Attune 6'
 description: >-
-  Discipline Empower is a Discipline Feature: Longer channeling time for
-  additional energy each round.
+  The character can hold and build a metaphysical charge over time, gathering
+  ambient energy to unleash a single, overwhelming effect.
 costs:
   cp: 3
   bp: 3
@@ -19,8 +19,16 @@ keywords: >-
   empower
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
----
+mechanic: >-
+  You may increase the casting time of an Invocation to gather more energy. For
+  every **Full Round** spent channeling (doing nothing but concentrating on the
+  spell), you add **\+1 Effect Die** (or \+5 to the effective Skill Check result
+  for non-damage spells) to the final release.  
 
+  * **Limit:** You may channel for a number of rounds equal to your Constitution
+  or Will modifier (whichever is higher). If interrupted (taking damage), you
+  must make a Concentration (Attune) check or lose the energy.
+---
 # Discipline Empower
 
 **Category**: Discipline Features  
@@ -28,11 +36,8 @@ cost_cp: 3
 **Prerequisite**: Discipline Focus, Attune 6
 
 ## Description
-Discipline Empower is a Discipline Feature: Longer channeling time for additional energy each round.
+The character can hold and build a metaphysical charge over time, gathering ambient energy to unleash a single, overwhelming effect.
 
 ## Mechanics & Benefit
-Longer channeling time for additional energy each round.
-
-## Special Rules
-68
-
+You may increase the casting time of an Invocation to gather more energy. For every **Full Round** spent channeling (doing nothing but concentrating on the spell), you add **\+1 Effect Die** (or \+5 to the effective Skill Check result for non-damage spells) to the final release.  
+* **Limit:** You may channel for a number of rounds equal to your Constitution or Will modifier (whichever is higher). If interrupted (taking damage), you must make a Concentration (Attune) check or lose the energy.

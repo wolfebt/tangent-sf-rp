@@ -422,14 +422,3 @@ Can a party of 4 "Middle Class" (WS 10\) characters combine funds to buy a "Weal
 
 ##
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/economy/02.Economy.UnifiedFieldTheory.md
-```
-
-## Gameplay Instructions
-Refer to architect/economy/02.Economy.UnifiedFieldTheory.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/economy/02.Economy.UnifiedFieldTheory.md. Complete, unabridged source of truth.

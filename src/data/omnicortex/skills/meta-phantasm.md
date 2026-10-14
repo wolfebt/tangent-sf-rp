@@ -1,45 +1,32 @@
 ---
 id: meta-phantasm
-name: Phantasm
+name: "Phantasm"
 type: meta
-subtype: illusion
+subtype: "illusion"
 category: skills
-governing_attributes:
-  - Wisdom
-description: >-
-  Illusion discipline: Sensory phantasms, holographic weaves, auditory
-  deception, and mirages.
-trained_only: true
+governing_attribute: ""
+description: "Illusion: Sensory phantasms, holographic weaves, auditory deception, and mirages."
 specialties:
-  - Visual Mirages
-  - Auditory Deception
-  - Sensory Hallucination
-  - Camouflage Fields
-  - Ghost Formations
-synergy_links:
-  - meta-attune
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'phantasm, meta, wisdom, metafocus, psionic, resonance'
-negative_keywords: 'mundane, anti-magic-field, unattuned'
+  []
+keywords: "phantasm, meta, wisdom, metafocus, psionic, resonance"
+negative_keywords: "mundane, anti-magic-field, unattuned"
 ---
 
-# Phantasm
+### **PHANTASM FOCUS**
 
-Illusion discipline: Sensory phantasms, holographic weaves, auditory deception, and mirages.
+Pure sensory input. Only exists in the mind or as light/sound waves.
 
-### Mechanics & Rules
-- **Governing Attribute**: Wisdom
-- **Discipline Focus**: Illusion
-- **Standard Check**: `2d10 + Phantasm Rank + Wisdom Mod vs. Target DC / Resistance`.
-- **Prerequisite**: Unlocked when character possesses the **Awakened** feature or relevant Metaphysical discipline training.
-- **Strain Resolution**: Failing an invocation check by 5+ points deals non-lethal strain fatigue.
+* **Mechanic:** Disbelief (Will Save) negates the effect entirely.
 
-### Specialties
-- **Visual**: Visual Mirages
-- **Auditory**: Auditory Deception
-- **Sensory**: Sensory Hallucination
-- **Camouflage**: Camouflage Fields
-- **Ghost**: Ghost Formations
+**Invocations:**
+
+* **Invisibility:** Bends light around a subject.  
+  * *Effect:* Subject is invisible. Attacking breaks effect. 1 min/Rank.  
+* **Image:** Creates a visual/auditory scene.  
+  * *Effect:* Stationary or scripted illusion. Complexity scales with Rank.  
+* **Silence:** Dampens sound waves.  
+  * *Effect:* Radius 10ft \+ 5ft/Rank. No sound can pass in or out.  
+* **Disguise Self:** Alters perceived appearance.  
+  * *Effect:* \+10 to Disguise checks.
+
+###

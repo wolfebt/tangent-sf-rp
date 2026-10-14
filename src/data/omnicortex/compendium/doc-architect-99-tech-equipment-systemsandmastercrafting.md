@@ -237,14 +237,3 @@ Through the explicit division of internal biological alterations (Scale 0/Nodes)
 
 ## ---
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/technology/equipment/99.Tech.Equipment.SystemsAndMastercrafting.md
-```
-
-## Gameplay Instructions
-Refer to architect/technology/equipment/99.Tech.Equipment.SystemsAndMastercrafting.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/technology/equipment/99.Tech.Equipment.SystemsAndMastercrafting.md. Complete, unabridged source of truth.

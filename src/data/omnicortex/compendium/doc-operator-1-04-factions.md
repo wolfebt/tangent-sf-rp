@@ -7,7 +7,7 @@ isMasterDoc: true
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 107
+order: 110
 perspective: "operator"
 entry_type: "Core Rulebook"
 tl: 3
@@ -120,14 +120,3 @@ Factions in Tangent represent the various organizations, groups, or affiliations
 * [1.04.Archetypal.Supernatural (24. Supernatural)](./factions/1.04.Archetypal.Supernatural.md)
 * [1.04.Archetypal.Technological (25. Technological)](./factions/1.04.Archetypal.Technological.md)
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/1.04 FACTIONS.md
-```
-
-## Gameplay Instructions
-Refer to operator/1.04 FACTIONS.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/1.04 FACTIONS.md. Complete, unabridged source of truth.

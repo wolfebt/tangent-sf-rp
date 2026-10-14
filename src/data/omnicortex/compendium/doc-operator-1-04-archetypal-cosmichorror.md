@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-archetypal-cosmichorror"
-name: "1.04 Archetypal: Cosmic Horror"
+name: "1.04 Archetypal: 06. Cosmic Horror"
 fileName: "1.04.Archetypal.CosmicHorror.md"
 relPath: "operator/factions/1.04.Archetypal.CosmicHorror.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 128
+order: 133
 perspective: "operator"
 entry_type: "Generic Faction Template"
 tl: 3
@@ -86,14 +86,3 @@ sockets:
 * **Atmosphere Tokens:** Non-Euclidean geometry, writhing shadows, dark rituals, ancient monoliths.  
 * **HI-FI INK Guidance:** Eldritch Sci-Fi, Dark Fantasy, Non-Euclidean geometry, dark rituals, ancient monoliths, writhing shadows, void-space. Maddening, terrifying.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Archetypal.CosmicHorror.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Archetypal.CosmicHorror.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Archetypal.CosmicHorror.md. Complete, unabridged source of truth.

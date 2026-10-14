@@ -1,45 +1,32 @@
 ---
 id: meta-enhancement
-name: Enhancement
+name: "Enhancement"
 type: meta
-subtype: matter
+subtype: "matter"
 category: skills
-governing_attributes:
-  - Wisdom
-description: >-
-  Matter discipline: Strengthening material bonds, hardening objects, and
-  physical reinforcement.
-trained_only: true
+governing_attribute: ""
+description: "Matter: Strengthening material bonds, hardening objects, and physical reinforcement."
 specialties:
-  - Material Hardening
-  - Weapon Tempering
-  - Armor Reinforcement
-  - Density Augmentation
-  - Tensile Boosting
-synergy_links:
-  - meta-attune
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'enhancement, meta, wisdom, metafocus, psionic, resonance'
-negative_keywords: 'mundane, anti-magic-field, unattuned'
+  []
+keywords: "enhancement, meta, wisdom, metafocus, psionic, resonance"
+negative_keywords: "mundane, anti-magic-field, unattuned"
 ---
 
-# Enhancement
+### **ENHANCEMENT FOCUS**
 
-Matter discipline: Strengthening material bonds, hardening objects, and physical reinforcement.
+Improving the structural integrity or properties of an object or creature.
 
-### Mechanics & Rules
-- **Governing Attribute**: Wisdom
-- **Discipline Focus**: Matter
-- **Standard Check**: `2d10 + Enhancement Rank + Wisdom Mod vs. Target DC / Resistance`.
-- **Prerequisite**: Unlocked when character possesses the **Awakened** feature or relevant Metaphysical discipline training.
-- **Strain Resolution**: Failing an invocation check by 5+ points deals non-lethal strain fatigue.
+* **Mechanic:** Buffs and physical upgrades.
 
-### Specialties
-- **Material**: Material Hardening
-- **Weapon**: Weapon Tempering
-- **Armor**: Armor Reinforcement
-- **Density**: Density Augmentation
-- **Tensile**: Tensile Boosting
+**Invocations:**
+
+* **Hardening/Barkskin:** Toughens skin or armor.  
+  * *Effect:* Adds \+1 DR per 3 Ranks to armor or natural skin.  
+* **Keen Edge:** Sharpens a weapon.  
+  * *Effect:* Increases Critical Threat range by 1\.  
+* **Physical Boost:** Enhances physical attributes.  
+  * *Effect:* Grants \+2 to Str, Dex, or Con for 1 min/Rank.  
+* **Repair:** Fixes structural damage.  
+  * *Effect:* Restores 1d10 Structure Points per Rank to objects/constructs.
+
+###

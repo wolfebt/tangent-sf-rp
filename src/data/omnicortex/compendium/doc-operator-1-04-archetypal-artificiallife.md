@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-archetypal-artificiallife"
-name: "1.04 Archetypal: Artificial Life"
+name: "1.04 Archetypal: 02. Artificial Life"
 fileName: "1.04.Archetypal.ArtificialLife.md"
 relPath: "operator/factions/1.04.Archetypal.ArtificialLife.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 126
+order: 129
 perspective: "operator"
 entry_type: "Generic Faction Template"
 tl: 3
@@ -86,14 +86,3 @@ sockets:
 * **Atmosphere Tokens:** Chrome, exposed wiring, server farms, glowing circuitry, flawless metal.  
 * **HI-FI INK Guidance:** Synthetic Collectives, Server farms, chrome corridors, glowing circuitry, pristine metal surfaces. Cold, calculating, emotionless, efficient.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Archetypal.ArtificialLife.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Archetypal.ArtificialLife.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Archetypal.ArtificialLife.md. Complete, unabridged source of truth.

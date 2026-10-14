@@ -254,14 +254,3 @@ From melee to disintegration.
 
 ##
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/technology/core/99.Tech.CivilizationDomains.md
-```
-
-## Gameplay Instructions
-Refer to architect/technology/core/99.Tech.CivilizationDomains.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/technology/core/99.Tech.CivilizationDomains.md. Complete, unabridged source of truth.

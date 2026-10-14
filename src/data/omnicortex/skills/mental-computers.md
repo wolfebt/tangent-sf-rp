@@ -1,40 +1,44 @@
 ---
 id: mental-computers
-name: Computers
+name: "Computers"
 type: mental
-subtype: knowledge
+subtype: "knowledges"
 category: skills
-governing_attributes:
-  - Intellect
-description: >-
-  The science of computer systems: programming, software architecture,
-  cyber-warfare, firewall intrusion, encryption, and AI interface.
-trained_only: true
+governing_attribute: "Intellect"
+description: "Computer is the skill of understanding and using computer technology. It reflects a character's ability to operate and program computers, and to understand the underlying principles of computer science. Computer is used whenever a character needs to use a computer to perform a task, whether it's to hack into a system or to analyze data. This can include things like programming, hacking, and data analysis."
 specialties:
-  - Hacking & Penetration Testing
-  - Coding & Software Development
-  - Hardware Architecture
-  - AI & Machine Intelligence Interfaces
-  - Security Systems & Encryption
-  - Data Mining & Forensics
-synergy_links:
-  - mental-electrician
-  - mental-technology
-  - mental-investigation
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'computers, mental, intellect, cognitive, expertise, hacking'
-negative_keywords: 'mindless, instinct-only, illiterate'
+  - "Network Intrusion (Hacking): Cracking firewalls, breaching intrusion detection systems, and gaining administrative root."
+  - "Cyber-Defense & Hardening: Patching zero-day vulnerabilities, setting up honeypots, and countering rival hackers."
+  - "Scripting & Process Automation: Writing rapid macros and terminal scripts to automate complex digital procedures."
+  - "AI Architecture & Training: Developing, modifying, and debugging synthetic neural networks and heuristic models."
+  - "Data Mining & Parsing: Sifting petabytes of corporate and planetary databases to extract target information."
+  - "Firmware & Low-Level Code: Interfacing with raw machine code, BIOS chips, and low-level kernel drivers."
+  - "Cryptographic Decryption: Brute-forcing and mathematically unraveling complex data encryption keys."
+  - "Neural Interface Protocols: Configuring direct cybernetic brain-machine links and wetware jacks."
+  - "Distributed Cloud Systems: Managing planetary data farms, decentralized storage hubs, and quantum cloud relays."
+  - "Counter-Forensic Scrubbing: Erasing digital fingerprints, bounce-routing terminal traces, and wiping system logs."
+keywords: "computers, mental, intellect, cognitive, expertise, hacking"
+negative_keywords: "mindless, instinct-only, illiterate"
 ---
 
-# Computers
+### **COMPUTERS**
 
-The science of computer systems: programming, software architecture, cyber-warfare, firewall intrusion, encryption, and AI interface.
+* **Ability:** Intellect  
+* **Description:** Computer is the skill of understanding and using computer technology. It reflects a character's ability to operate and program computers, and to understand the underlying principles of computer science. Computer is used whenever a character needs to use a computer to perform a task, whether it's to hack into a system or to analyze data. This can include things like programming, hacking, and data analysis.  
+* **Mechanics:**  
+  * **Operate Remote System:** CR 10 to CR 25 depending on security.  
+  * **Hacking:** CR is determined by the target system's firewall/security rating (Security Level \+ 10).  
+  * **Programming:** CR 15 (Simple Script) to CR 30+ (AI architecture).  
+* **Specialties:**   
+  * **Network Intrusion (Hacking):** Cracking firewalls, breaching intrusion detection systems, and gaining administrative root.  
+    * **Cyber-Defense & Hardening:** Patching zero-day vulnerabilities, setting up honeypots, and countering rival hackers.  
+    * **Scripting & Process Automation:** Writing rapid macros and terminal scripts to automate complex digital procedures.  
+    * **AI Architecture & Training:** Developing, modifying, and debugging synthetic neural networks and heuristic models.  
+    * **Data Mining & Parsing:** Sifting petabytes of corporate and planetary databases to extract target information.  
+    * **Firmware & Low-Level Code:** Interfacing with raw machine code, BIOS chips, and low-level kernel drivers.  
+    * **Cryptographic Decryption:** Brute-forcing and mathematically unraveling complex data encryption keys.  
+    * **Neural Interface Protocols:** Configuring direct cybernetic brain-machine links and wetware jacks.  
+    * **Distributed Cloud Systems:** Managing planetary data farms, decentralized storage hubs, and quantum cloud relays.  
+    * **Counter-Forensic Scrubbing:** Erasing digital fingerprints, bounce-routing terminal traces, and wiping system logs.
 
-### Mechanics & Rules
-- **Governing Attribute**: Intellect (Trained Only for complex hacking/programming).
-- **Operate Remote Systems**: DC 10 (Civic terminal) to DC 25 (Military command grid).
-- **Hacking / Cyber Intrusion**: Base DC equals target firewall's **Security Rating + 10**.
-- **Software Architecture**: DC 15 (Routine script) to DC 30+ (Sentient AI neural matrix).
+  ###

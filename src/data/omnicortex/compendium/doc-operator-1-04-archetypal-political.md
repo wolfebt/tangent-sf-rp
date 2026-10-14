@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-archetypal-political"
-name: "1.04 Archetypal: Political"
+name: "1.04 Archetypal: 15. Political"
 fileName: "1.04.Archetypal.Political.md"
 relPath: "operator/factions/1.04.Archetypal.Political.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 139
+order: 142
 perspective: "operator"
 entry_type: "Generic Faction Template"
 tl: 3
@@ -86,14 +86,3 @@ sockets:
 * **Atmosphere Tokens:** Holotables, pristine offices, tailored suits, massive propaganda banners, media drones.  
 * **HI-FI INK Guidance:** Political Thriller, High Society. Pristine offices, sharp suits, floating holographic data, massive digital banners. Tense, wealthy, deceitful.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Archetypal.Political.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Archetypal.Political.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Archetypal.Political.md. Complete, unabridged source of truth.

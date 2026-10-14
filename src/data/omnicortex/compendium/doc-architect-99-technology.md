@@ -275,14 +275,3 @@ All detailed Tech Level progressions, civilization domains, and hardware enginee
 * **[Equipment Framework & Economics](./technology/equipment/99.Tech.Equipment.Framework.md)** — *Epistemology of Material Assets, UDU/Tier 1 Protocol, Complexity Gates, Manufacturer Paradigms, and Productivity Engine*
 * **[Equipment Systems, Biotech & Mastercrafting](./technology/equipment/99.Tech.Equipment.SystemsAndMastercrafting.md)** — *Hardware Systems, Meta-Tech Integration, Grown Biotech Protocols, Computers, Comms, Vocation Tools, and Mastercrafting*
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/99. TECHNOLOGY.md
-```
-
-## Gameplay Instructions
-Refer to architect/99. TECHNOLOGY.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/99. TECHNOLOGY.md. Complete, unabridged source of truth.

@@ -17,8 +17,10 @@ modifiers: []
 keywords: 'spacer, skill, special-feature, raised, zero-g, vacuum'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Gain a **\+2 Bonus** to **Starship Operation** (Vocation/Pilot) and any
+  **Space Survival** checks.
 ---
-
 # Spacer
 
 **Category**: Skill Features  
@@ -30,7 +32,3 @@ The character was born or raised in the void; zero-g and vacuum are second natur
 
 ## Mechanics & Benefit
 Gain a **\+2 Bonus** to **Starship Operation** (Vocation/Pilot) and any **Space Survival** checks.
-
-## Special Rules
-168
-

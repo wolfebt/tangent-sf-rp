@@ -336,14 +336,3 @@ Listed for reference only. Remnants, ruins, and artifacts of this level are plot
 
 ## ---
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/technology/core/99.Tech.Levels.md
-```
-
-## Gameplay Instructions
-Refer to architect/technology/core/99.Tech.Levels.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/technology/core/99.Tech.Levels.md. Complete, unabridged source of truth.

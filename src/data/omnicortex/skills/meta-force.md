@@ -1,45 +1,34 @@
 ---
 id: meta-force
-name: Force
+name: "Force"
 type: meta
-subtype: energy
+subtype: "energy"
 category: skills
-governing_attributes:
-  - Wisdom
-description: >-
-  Energy discipline: Kinetic barriers, gravimetric pulses, concussive waves, and
-  physical repulsors.
-trained_only: true
+governing_attribute: ""
+description: "Energy: Kinetic barriers, gravimetric pulses, concussive waves, and physical repulsors."
 specialties:
-  - Deflective Barriers
-  - Kinetic Concussion
-  - Gravimetric Compression
-  - Repulsor Fields
-  - Shockwave Emitters
-synergy_links:
-  - meta-attune
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'force, meta, wisdom, metafocus, psionic, resonance'
-negative_keywords: 'mundane, anti-magic-field, unattuned'
+  []
+keywords: "force, meta, wisdom, metafocus, psionic, resonance"
+negative_keywords: "mundane, anti-magic-field, unattuned"
 ---
 
-# Force
+### **FORCE FOCUS**
 
-Energy discipline: Kinetic barriers, gravimetric pulses, concussive waves, and physical repulsors.
+Manipulation of pure kinetic energy and invisible constructs.
 
-### Mechanics & Rules
-- **Governing Attribute**: Wisdom
-- **Discipline Focus**: Energy
-- **Standard Check**: `2d10 + Force Rank + Wisdom Mod vs. Target DC / Resistance`.
-- **Prerequisite**: Unlocked when character possesses the **Awakened** feature or relevant Metaphysical discipline training.
-- **Strain Resolution**: Failing an invocation check by 5+ points deals non-lethal strain fatigue.
+* **Damage:** 1d8 per Discipline Stage \+ 1d8 per Invocation Rank (Force Damage).
 
-### Specialties
-- **Deflective**: Deflective Barriers
-- **Kinetic**: Kinetic Concussion
-- **Gravimetric**: Gravimetric Compression
-- **Repulsor**: Repulsor Fields
-- **Shockwave**: Shockwave Emitters
+**Invocations:**
+
+* **Telekinesis:** Move objects with the mind.  
+  * *Effect:* Move weight 25lbs x Rank.  
+* **Force Missile:** Homing shards of force.  
+  * *Effect:* Always hits (no Attack roll needed). Lower damage die (d4s).  
+* **Force Field:** Personal protection.  
+  * *Effect:* Grants Temporary HP equal to 5 x Rank.  
+* **Force Wave:** Cone of concussive force.  
+  * *Effect:* Knocks targets Prone. Resisted by Fortitude/Might.
+
+## 
+
+##

@@ -19,8 +19,11 @@ keywords: >-
   original
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You may undergo **Full Body Conversion**. You may install systems that alter
+  your Size category or basic physiology (e.g., tank treads instead of legs).
+  You gain an additional **6 CP** worth of Augmentations.
 ---
-
 # Extreme Augmentations
 
 **Category**: Special Features  
@@ -28,11 +31,7 @@ cost_cp: 3
 **Prerequisite**: Heavy Augmentations, Stamina 4
 
 ## Description
-The character is more machine (or bio-construct) than original being. They have replaced the majority of biological functions.
+The character is more machine (or bio-construct) than original being. They have replaced the majority of their biological functions.
 
 ## Mechanics & Benefit
-You may undergo Full Body Conversion. You may install systems that alter your Size category or basic physiology (e.g., tank treads instead of legs). You gain an additional 6 CP worth of Augmentations.
-
-## Special Rules
-Grants an additional 6 CP worth of Augmentations for free (+18 CP cumulative credit). Permits Full Body Conversion (FBC) chassis and radical physiological structural alterations.
-
+You may undergo **Full Body Conversion**. You may install systems that alter your Size category or basic physiology (e.g., tank treads instead of legs). You gain an additional **6 CP** worth of Augmentations.

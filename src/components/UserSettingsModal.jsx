@@ -35,7 +35,8 @@ import {
   Sun,
   Ban,
   ArrowUpToLine,
-  ArrowDownToLine
+  ArrowDownToLine,
+  Globe
 } from 'lucide-react';
 import { ComprehensiveUserGuideModal } from './UI/ComprehensiveUserGuideModal';
 import { AiConfigDrawer } from './UI/AiConfigDrawer';
@@ -79,18 +80,19 @@ const BANNER_ICON_COMPONENTS = {
 
 export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab = 'identity' }) => {
   const navigate = useNavigate();
-  const { currentUser, refreshUserHandle, userRole, isAdmin, isGM, triggerBootSplash, confirmLogout } = useAuth() || {};
+  const { currentUser, refreshUserHandle, userRole, isAdmin, isGM, hasAdminClaim, hasCloudAdminAccess, isAuthorizedEmail, triggerBootSplash, confirmLogout } = useAuth() || {};
   const canManageMarquee = Boolean(
     isAdmin || 
     isGM || 
     userRole === 'Admin' || 
     userRole === 'GM' || 
     userRole === 'Architect' || 
+    hasCloudAdminAccess ||
     !currentUser || 
     (typeof window !== 'undefined' && localStorage.getItem('omnicortex_admin_override') !== 'false')
   );
   const confirm = useConfirm();
-  const { showSuccessToast } = useToast() || {};
+  const { showSuccessToast, showWarningToast, showErrorToast } = useToast() || {};
   
   // Navigation tab: 'identity' | 'audio' | 'ai' | 'manual' | 'system' | 'broadcast'
   const [activeTab, setActiveTab] = useState(initialTab);
@@ -377,17 +379,29 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
           allowDismiss: false
         };
 
-        await Promise.all([
+        const [topRes, bottomRes] = await Promise.all([
           saveHomeBanner(topPayload, currentUser, 'top'),
           saveHomeBanner(bottomPayload, currentUser, 'bottom')
         ]);
+
+        if (topRes?.localOnly || bottomRes?.localOnly) {
+          marqueeSaveWarning = true;
+          marqueeSaveDetails = topRes?.error || bottomRes?.error || 'Cloud sync unconfirmed (saved locally)';
+        }
       } catch (err) {
         console.warn("Failed saving marquee banners in global settings save:", err);
+        marqueeSaveWarning = true;
+        marqueeSaveDetails = err?.message || 'Database connection error';
       }
     }
 
-    showSuccessToast?.('System settings saved successfully!');
-    setSaveMessage('System settings saved successfully!');
+    if (marqueeSaveWarning) {
+      showWarningToast?.(`Marquee saved locally only: ${marqueeSaveDetails}`);
+      setSaveMessage(`Settings saved locally. Note: Cloud broadcast unconfirmed (${marqueeSaveDetails})`);
+    } else {
+      showSuccessToast?.('System settings and Marquee broadcast synchronized to cloud!');
+      setSaveMessage('System settings and Marquee broadcast synchronized to cloud!');
+    }
 
     if (refreshUserHandle) {
       refreshUserHandle();
@@ -1095,6 +1109,23 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
                       ADMIN / DEV ACCESS
                     </span>
                   </div>
+
+                  {/* Cloud Synchronization Status Indicator */}
+                  {hasCloudAdminAccess ? (
+                    <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-[11px] font-mono shadow-[0_0_15px_rgba(16,185,129,0.15)]">
+                      <Globe size={14} className="text-emerald-400 shrink-0" />
+                      <span>
+                        <strong>Cloud Broadcast Sync Authorized:</strong> Changes will be published to the cloud and broadcast live across all player devices and mobile screens ({currentUser?.email || 'Cloud Admin'}).
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-amber-950/40 border border-amber-500/40 text-amber-300 text-[11px] font-mono shadow-[0_0_15px_rgba(245,158,11,0.15)]">
+                      <AlertTriangle size={14} className="text-amber-400 shrink-0" />
+                      <span>
+                        <strong>Local Preview Only:</strong> You are not signed into the authorized cloud administrator account (<code className="text-amber-200">btw.284@gmail.com</code>). Changes will only save locally to this browser until you sign in.
+                      </span>
+                    </div>
+                  )}
 
                   {/* Marquee Position Sub-Tabs: Top Marquee / Bottom Marquee */}
                   <div className="grid grid-cols-2 gap-2 p-1.5 rounded-xl bg-slate-950 border border-slate-800">

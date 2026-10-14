@@ -107,14 +107,3 @@ Quick
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/Asi/1.03.Asi.Tozen.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/Asi/1.03.Asi.Tozen.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/Asi/1.03.Asi.Tozen.md. Complete, unabridged source of truth.

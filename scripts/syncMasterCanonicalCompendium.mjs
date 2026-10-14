@@ -78,6 +78,143 @@ const CUSTOM_SUBARTICLE_ORDER = [
   '1.02.Visionaries.md',
   '1.02.Savants.md',
   '1.02.SignatureFeatures.md',
+  // 1.03 Species (Exact Master Table Order & Baseline Entries First)
+  '1.03.Aeld.md',
+  '1.03.Aeld.Alterian.md',
+  '1.03.Aeld.Doppelganger.md',
+  '1.03.Aeld.Draconian.md',
+  '1.03.Aeld.Kovian.md',
+  '1.03.Aeld.Vajar.md',
+  '1.03.Asi.md',
+  '1.03.Asi.Fey.md',
+  '1.03.Asi.Ferren.md',
+  '1.03.Asi.Frellin.md',
+  '1.03.Asi.Koban.md',
+  '1.03.Asi.Sigal.md',
+  '1.03.Asi.Tozen.md',
+  '1.03.Asi.Whisper.md',
+  '1.03.Asi.Wildling.md',
+  '1.03.Aulurans.md',
+  '1.03.Aulurans.Dar.md',
+  '1.03.Aulurans.Graa.md',
+  '1.03.Aulurans.Koda.md',
+  '1.03.Aulurans.Prokos.md',
+  '1.03.AwakenedAnimal.md',
+  '1.03.Caprian.md',
+  '1.03.Humans.md',
+  '1.03.Humans.Base.md',
+  '1.03.Humans.Aquarian.md',
+  '1.03.Humans.Argynt.md',
+  '1.03.Humans.BDren.md',
+  '1.03.Humans.Brae.md',
+  '1.03.Humans.Changeling.md',
+  '1.03.Humans.Cyberform.md',
+  '1.03.Humans.Danai.md',
+  '1.03.Humans.Draconic.md',
+  '1.03.Humans.Dwerg.md',
+  '1.03.Humans.GenE.md',
+  '1.03.Humans.Aquatican.md',
+  '1.03.Humans.Chimera.md',
+  '1.03.Humans.Davae.md',
+  '1.03.Humans.Digon.md',
+  '1.03.Humans.ImpyriumPsion.md',
+  '1.03.Humans.ImpyriumRegi.md',
+  '1.03.Humans.Janissary.md',
+  '1.03.Humans.Kheen.md',
+  '1.03.Humans.Lin.md',
+  '1.03.Humans.Nian.md',
+  '1.03.Humans.Premian.md',
+  '1.03.Humans.Rautha.md',
+  '1.03.Humans.Risakin.md',
+  '1.03.Humans.Varen.md',
+  '1.03.Jorni.md',
+  '1.03.Kitin.md',
+  '1.03.Kitin.Murex.md',
+  '1.03.Kitin.Maantene.md',
+  '1.03.Kitin.Manelli.md',
+  '1.03.Kitin.Rakne.md',
+  '1.03.Kitin.Riezen.md',
+  '1.03.Kitin.Syndess.md',
+  '1.03.Kannid.md',
+  '1.03.Kizin.md',
+  '1.03.Kongi.md',
+  '1.03.Mobula.md',
+  '1.03.Mondi.md',
+  '1.03.Orll.md',
+  '1.03.Orll.Base.md',
+  '1.03.Orll.GraOr.md',
+  '1.03.Plasm.md',
+  '1.03.Praeti.md',
+  '1.03.Progenitors.md',
+  '1.03.Progenitors.Ila.md',
+  '1.03.Progenitors.UNonn.md',
+  '1.03.Qeric.md',
+  '1.03.Sefalin.md',
+  '1.03.ShaNor.md',
+  '1.03.ShaNor.Base.md',
+  '1.03.ShaNor.Tenen.md',
+  '1.03.ShaNor.Eakren.md',
+  '1.03.Synthetics.md',
+  '1.03.Synthetics.Android.md',
+  '1.03.Synthetics.Scraps.md',
+  '1.03.Synthetics.Skins.md',
+  '1.03.Synthetics.Biomechanical.md',
+  '1.03.Synthetics.Eidolon.md',
+  '1.03.Synthetics.Aetherion.md',
+  '1.03.Synthetics.Golem.md',
+  '1.03.Synthetics.IntellectConstruct.md',
+  '1.03.Synthetics.Mekan.md',
+  '1.03.Synthetics.Protocol.md',
+  '1.03.Synthetics.SentientMachine.md',
+  '1.03.Synthetics.Shell.md',
+  '1.03.Synthetics.Swarm.md',
+  '1.03.Thorn.md',
+  '1.03.Truldan.md',
+  '1.03.Vassoth.md',
+  '1.03.Weti.md',
+  // 1.04 Factions (Exact Directory Index Order from 1.04 FACTIONS.md)
+  '1.04.Major.DraconDynasty.md',
+  '1.04.Major.Syndicate.md',
+  '1.04.Major.EntariCombine.md',
+  '1.04.Major.Coalition.md',
+  '1.04.Major.Outworlds.md',
+  '1.04.Major.Ascendancy.md',
+  '1.04.Major.MekanCollective.md',
+  '1.04.Major.AuluranClans.md',
+  '1.04.Major.KitinCollective.md',
+  '1.04.AeldProvidence.md',
+  '1.04.AeldProvidence.AlterianEnclave.md',
+  '1.04.AeldProvidence.SilvermoonVanguard.md',
+  '1.04.AeldProvidence.DraconianOrder.md',
+  '1.04.AeldProvidence.KovianTribunal.md',
+  '1.04.AeldProvidence.VajarTribes.md',
+  '1.04.Impyrium.Dominion.md',
+  '1.04.Impyrium.Radiant.md',
+  '1.04.Archetypal.Alien.md',
+  '1.04.Archetypal.ArtificialLife.md',
+  '1.04.Archetypal.Corporate.md',
+  '1.04.Archetypal.Criminal.md',
+  '1.04.Archetypal.CosmicJustice.md',
+  '1.04.Archetypal.CosmicHorror.md',
+  '1.04.Archetypal.Environmental.md',
+  '1.04.Archetypal.GeneticEngineering.md',
+  '1.04.Archetypal.HiveMind.md',
+  '1.04.Archetypal.InterstellarDiplomats.md',
+  '1.04.Archetypal.Mercenary.md',
+  '1.04.Archetypal.Military.md',
+  '1.04.Archetypal.Mutant.md',
+  '1.04.Archetypal.Planetary.md',
+  '1.04.Archetypal.Political.md',
+  '1.04.Archetypal.PostApocalyptic.md',
+  '1.04.Archetypal.Rebel.md',
+  '1.04.Archetypal.ReligiousCult.md',
+  '1.04.Archetypal.SentientIntelligence.md',
+  '1.04.Archetypal.SpaceExploration.md',
+  '1.04.Archetypal.SpacePirate.md',
+  '1.04.Archetypal.SpaceReligion.md',
+  '1.04.Archetypal.SpaceTourism.md',
+  '1.04.Archetypal.Supernatural.md',
+  '1.04.Archetypal.Technological.md',
   // 1.07 Skills
   '1.07.Physical.md',
   '1.07.Mental.Core.md',
@@ -116,9 +253,9 @@ const CUSTOM_SUBARTICLE_ORDER = [
   '3.00.DamageTypes.md',
   '3.00.VehicularCombat.md',
   // 4.00 Metaphysics
-  '4.00.Entropy.md',
   '4.00.Dimension.md',
   '4.00.Energy.md',
+  '4.00.Entropy.md',
   '4.00.Illusion.md',
   '4.00.Matter.md',
   '4.00.Mental.md',
@@ -151,39 +288,65 @@ const SPECIAL_TOKEN_LABELS = {
   'RestAndDying': 'Rest & Dying',
   'SignatureFeatures': 'Signature Features',
   'AwakenedAnimal': 'Awakened Animal',
+  'Fey': 'Fey (Base)',
   'BDren': "B'Dren",
-  'GenE': 'Gen-E (Engineered)',
+  'GenE': 'Gen-E (Base Engineered)',
   'ImpyriumPsion': 'Impyrium Psion',
   'ImpyriumRegi': 'Impyrium Regi',
+  'Varen': 'Varen (Gatekeepers)',
+  'Murex': 'Murex (Foundation Expression)',
+  'Maantene': 'Maantene (Recon Expression)',
+  'Manelli': 'Manelli (Cerebral Expression)',
+  'Rakne': 'Rakne (Infiltration Expression)',
+  'Riezen': 'Riezen (Divergent Swarm)',
+  'Syndess': 'Syndess (Pilot Expression)',
   'GraOr': "Gra'Or",
   'UNonn': "U'Nonn",
   'ShaNor': "Sha'Nor",
   'IntellectConstruct': 'Intellect Construct',
   'SentientMachine': 'Sentient Machine',
-  'AeldProvidence': 'Aeld Providence',
-  'AlterianEnclave': 'Alterian Enclave',
-  'SilvermoonVanguard': 'Silvermoon Vanguard',
-  'DraconianOrder': 'Draconian Order',
-  'KovianTribunal': 'Kovian Tribunal',
-  'VajarTribes': 'Vajar Tribes',
+  'AeldProvidence': 'Aeld Providence (The Factional Schisms)',
+  'AlterianEnclave': '1. Alterian Enclave (Celestine)',
+  'SilvermoonVanguard': '2. Silvermoon Vanguard (Doppelgangers)',
+  'DraconianOrder': '3. Draconian Order',
+  'KovianTribunal': '4. Kovian Tribunal (Nocturne)',
+  'VajarTribes': '5. Vajar Tribes (Wilder)',
+  'DraconDynasty': 'The Dracon Dynasty',
+  'Syndicate': 'Incorporated Planetary Syndication (Syndicate)',
+  'EntariCombine': 'The Entari Combine',
+  'Coalition': 'Coalition of Independent Worlds',
+  'Outworlds': 'Outworlds',
+  'Ascendancy': 'Ascendancy',
+  'MekanCollective': 'The Mekan Collective',
   'AuluranClans': 'Auluran Clans',
-  'DraconDynasty': 'Dracon Dynasty',
-  'EntariCombine': 'Entari Combine',
-  'KitinCollective': 'Kitin Collective',
-  'MekanCollective': 'Mekan Collective',
-  'ArtificialLife': 'Artificial Life',
-  'CosmicHorror': 'Cosmic Horror',
-  'CosmicJustice': 'Cosmic Justice',
-  'GeneticEngineering': 'Genetic Engineering',
-  'HiveMind': 'Hive Mind',
-  'InterstellarDiplomats': 'Interstellar Diplomats',
-  'PostApocalyptic': 'Post-Apocalyptic',
-  'ReligiousCult': 'Religious Cult',
-  'SentientIntelligence': 'Sentient Intelligence',
-  'SpaceExploration': 'Space Exploration',
-  'SpacePirate': 'Space Pirate',
-  'SpaceReligion': 'Space Religion',
-  'SpaceTourism': 'Space Tourism',
+  'KitinCollective': 'Kitin Collective (The Star Hive)',
+  'Dominion': 'Impyrium Dominion (The Shadow of the Sun)',
+  'Radiant': 'Radiant Impyrium (The Enlightened Age)',
+  'Alien': '01. Alien',
+  'ArtificialLife': '02. Artificial Life',
+  'Corporate': '03. Corporate',
+  'Criminal': '04. Criminal',
+  'CosmicJustice': '05. Cosmic Justice',
+  'CosmicHorror': '06. Cosmic Horror',
+  'Environmental': '07. Environmental',
+  'GeneticEngineering': '08. Genetic Engineering',
+  'HiveMind': '09. Hive Mind',
+  'InterstellarDiplomats': '10. Interstellar Diplomats',
+  'Mercenary': '11. Mercenary',
+  'Military': '12. Military',
+  'Mutant': '13. Mutant',
+  'Planetary': '14. Planetary',
+  'Political': '15. Political',
+  'PostApocalyptic': '16. Post-Apocalyptic',
+  'Rebel': '17. Rebel',
+  'ReligiousCult': '18. Religious Cult',
+  'SentientIntelligence': '19. Sentient Intelligence',
+  'SpaceExploration': '20. Space Exploration',
+  'SpacePirate': '21. Space Pirate',
+  'SpaceReligion': '22. Space Religion',
+  'SpaceTourism': '23. Space Tourism',
+  'Supernatural': '24. Supernatural',
+  'Technological': '25. Technological',
   'SkillChecks': 'Skill Checks',
   'SkillGroups': 'Skill Groups & Titles',
   'SkillUse': 'Skill Use',
@@ -269,10 +432,13 @@ function formatArticleDisplayName(fileObj) {
     const numPrefix = `${parts[0]}.${parts[1]}`;
     const rest = parts.slice(2).map(humanizeToken);
     if (rest.length === 1) {
+      if (fileObj.relBranch.startsWith('operator/species/')) {
+        return `${numPrefix} ${rest[0]} (Lineage Overview)`;
+      }
       return `${numPrefix} ${rest[0]}`;
     }
     if (rest.length === 2 && rest[1] === 'Base') {
-      return `${numPrefix} ${rest[0]} (Lineage Overview)`;
+      return `${numPrefix} ${rest[0]}: ${rest[0]} (Base)`;
     }
     return `${numPrefix} ${rest[0]}: ${rest.slice(1).join(' — ')}`;
   }
@@ -373,9 +539,7 @@ function resolveHierarchyMetadata(fileObj, articleId) {
 
   // 2. Special 2-level nesting in operator/species/<lineage>
   if (relBranch.startsWith('operator/species/')) {
-    const isLineageOverview =
-      parts.length === 3 ||
-      (parts.length === 4 && parts[3].toLowerCase() === 'base');
+    const isLineageOverview = parts.length === 3;
 
     if (isLineageOverview) {
       return {
@@ -390,12 +554,9 @@ function resolveHierarchyMetadata(fileObj, articleId) {
       };
     }
 
-    // Subspecies inside a lineage folder: link to its lineage overview article ID
+    // Subspecies / Baseline species inside a lineage folder: link to its lineage overview article ID
     const lineageToken = parts[2];
-    const usesBaseFile = ['humans', 'orll', 'shanor'].includes(lineageToken.toLowerCase());
-    const lineageFileName = usesBaseFile
-      ? `1.03.${lineageToken}.Base.md`
-      : `1.03.${lineageToken}.md`;
+    const lineageFileName = `1.03.${lineageToken}.md`;
     const lineageParentId = makeArticleId('operator', lineageFileName);
 
     return {
@@ -404,7 +565,7 @@ function resolveHierarchyMetadata(fileObj, articleId) {
       isMasterDoc: false,
       category,
       perspective,
-      entry_type: 'Species Variant',
+      entry_type: parts[3]?.toLowerCase() === 'base' ? 'Baseline Species' : 'Species Variant',
       subfolderKey,
       domainTag: 'species'
     };
@@ -653,9 +814,9 @@ export function syncCanonicalCompendium({ silent = false } = {}) {
         hierarchy.subfolderKey === 'architect' ? 'matrix' : 'mechanics'
       ])).filter(Boolean),
       description: content,
-      mechanic: `See full canonical text in ${fileObj.relPath}`,
-      guide: `Refer to ${fileObj.relPath} in the game rules library for complete architectural tables and system parameters.`,
-      note: `Canonical Tangent SF RP rulebook reference from ${fileObj.relPath}. Complete, unabridged source of truth.`,
+      mechanic: '',
+      guide: '',
+      note: '',
       updatedAt: stats.mtime.toISOString()
     };
 
@@ -722,18 +883,7 @@ sockets:
   allocated: []
 ---
 
-${art.description || ''}
-
-## Game Mechanics Rules
-\`\`\`
-${art.mechanic || ''}
-\`\`\`
-
-## Gameplay Instructions
-${art.guide || ''}
-
-## Designer Notes
-${art.note || ''}
+${art.description || ''}${art.mechanic ? `\n\n## Game Mechanics Rules\n\`\`\`\n${art.mechanic}\n\`\`\`` : ''}${art.guide ? `\n\n## Gameplay Instructions\n${art.guide}` : ''}${art.note ? `\n\n## Designer Notes\n${art.note}` : ''}
 `;
     fs.writeFileSync(filePath, content, 'utf8');
   }

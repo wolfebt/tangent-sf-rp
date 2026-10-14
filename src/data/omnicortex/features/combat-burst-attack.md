@@ -17,8 +17,11 @@ modifiers: []
 keywords: 'burst attack, combat, special-feature, combat-maneuver, tactical-edge, trained'
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
+mechanic: |-
+  Reduces the penalty for Auto-Fire modes by 2\.  
+    * **Short Burst:** When firing a Short Burst (3 rounds), you gain **\+2 Strike** (normally \+1).  
+    * **Spray:** You reduce the penalty for wide-angle spraying.
 ---
-
 # Burst Attack
 
 **Category**: Combat Features  
@@ -32,7 +35,3 @@ The character is trained in controlling the recoil and spray of automatic weapon
 Reduces the penalty for Auto-Fire modes by 2\.  
   * **Short Burst:** When firing a Short Burst (3 rounds), you gain **\+2 Strike** (normally \+1).  
   * **Spray:** You reduce the penalty for wide-angle spraying.
-
-## Special Rules
-Ballistic, Energy, or Heavy Weapon 22
-

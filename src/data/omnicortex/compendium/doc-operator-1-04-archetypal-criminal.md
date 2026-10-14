@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-archetypal-criminal"
-name: "1.04 Archetypal: Criminal"
+name: "1.04 Archetypal: 04. Criminal"
 fileName: "1.04.Archetypal.Criminal.md"
 relPath: "operator/factions/1.04.Archetypal.Criminal.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 130
+order: 131
 perspective: "operator"
 entry_type: "Generic Faction Template"
 tl: 3
@@ -86,14 +86,3 @@ sockets:
 * **Atmosphere Tokens:** Smoke-filled cantinas, neon-lit alleys, illegal chop-shops, unmarked crates.  
 * **HI-FI INK Guidance:** Underworld Syndicate, Gritty Cyberpunk, Neon-lit alleys, smoke-filled cantinas, illegal chop-shops. Dangerous, grim, secretive, volatile.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Archetypal.Criminal.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Archetypal.Criminal.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Archetypal.Criminal.md. Complete, unabridged source of truth.

@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-03-kitin-syndess"
-name: "1.03 Kitin: Syndess"
+name: "1.03 Kitin: Syndess (Pilot Expression)"
 fileName: "1.03.Kitin.Syndess.md"
 relPath: "operator/species/Kitin/1.03.Kitin.Syndess.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-kitin"
-order: 68
+order: 72
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
@@ -121,14 +121,3 @@ The Syndess is the "Ghost in the Machine." While the Kitin mecha and structures 
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/Kitin/1.03.Kitin.Syndess.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/Kitin/1.03.Kitin.Syndess.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/Kitin/1.03.Kitin.Syndess.md. Complete, unabridged source of truth.

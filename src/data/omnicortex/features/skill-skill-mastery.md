@@ -6,10 +6,10 @@ feature_category: Skill
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: 'Skill Focus (2), Rank 11+'
+prerequisites: 'Skill Focus (any two), Focused Skills at Rank 11+ (Expert)'
 description: >-
-  Skill Mastery is a Skill Feature: Take 10 with ALL skills at 11+ with Skill
-  Focus.
+  The character is so confident in their skills that they cannot fail under
+  pressure.
 costs:
   cp: 3
   bp: 3
@@ -24,20 +24,18 @@ modifiers:
 keywords: 'skill mastery, skill, special-feature, mastery, feature:, skills'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You may **Take 10** on checks with your Focused Skills even when rushed,
+  threatened, or in combat.
 ---
-
 # Skill Mastery
 
 **Category**: Skill Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: Skill Focus (2), Rank 11+
+**Prerequisite**: Skill Focus (any two), Focused Skills at Rank 11+ (Expert)
 
 ## Description
-Skill Mastery is a Skill Feature: Take 10 with ALL skills at 11+ with Skill Focus.
+The character is so confident in their skills that they cannot fail under pressure.
 
 ## Mechanics & Benefit
-Take 10 with ALL skills at 11+ with Skill Focus.
-
-## Special Rules
-165
-
+You may **Take 10** on checks with your Focused Skills even when rushed, threatened, or in combat.

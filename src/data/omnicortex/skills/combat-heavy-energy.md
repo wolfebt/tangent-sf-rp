@@ -1,46 +1,45 @@
 ---
 id: combat-heavy-energy
-name: Heavy Energy
+name: "Heavy Energy"
 type: combat
-subtype: advanced
+subtype: "advanced"
 category: skills
-governing_attributes:
-  - Agility
-  - Intellect
-description: >-
-  The operation of massive, high-yield energy cannons, particle lances, and
-  ship-mounted orbital bombards.
-trained_only: false
+governing_attribute: "Agility (or Intellect if integrated into vehicle/ship gunnery systems)"
+description: "The operation of massive, high-yield energy cannons. These weapons are typically vehicle-mounted, ship-mounted, or require a tripod setup due to their size and power consumption. They are designed to destroy armored vehicles, starships, and fortifications4444."
 specialties:
-  - Heavy Lasers (Ship-to-ship and anti-armor spinal lasers)
-  - Particle Beams (Subatomic particle lances)
-  - Plasma Cannons (Heavy bombardment thermal projectors)
-  - Railguns (Magnetically accelerated relativistic cannons)
-  - Turrets (Automated and manual stationary defense batteries)
-synergy_links:
-  - physical-piloting
-  - mental-engineer
-  - mental-physics
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'energy, combat, agility, tactical, offensive, defense'
-negative_keywords: 'pacifist, unarmed-civilian, helpless'
+  - "Ship-to-Ship Laser Batteries: Firing megawatt turrets to slice through starship hull plating and sensor domes."
+  - "Orbital Particle Lances: Aligning spine-mounted spinal cannons to fire devastating lance strikes through the atmosphere."
+  - "Heavy Plasma Mortars: Lobbing massive globes of burning thermonuclear plasma onto planetary siege fortresses."
+  - "Singularity Projectors: Firing unstable microscopic gravitational vortexes that crush tanks and pull down walls."
+  - "Spinal Railguns & Coilguns: Magnetically accelerating multi-ton slugs to relativistic speeds across solar distances."
+  - "Manned Fortress Energy Turrets: Manning massive energy gun emplacements on planetary defense shields."
+  - "Tachyon Beam Cannons: Firing high-energy faster-than-light particles that bypass conventional deflector shields."
+  - "Point-Defense Energy Arrays (PDC): Tracking and vaporizing incoming torpedoes and starfighters with automated pulse lasers."
+  - "Macro-Ion Cannons: Firing massive EMP and ion charges that disable starship power grids, engines, and shields without hull breach."
+  - "Coaxial Plasma Bombardment Cannons: Directing planetary bombardment salvos from orbit to obliterate coastal cities."
+keywords: "heavy energy, combat, strength, tactical, offensive, defense"
+negative_keywords: "pacifist, unarmed-civilian, helpless"
 ---
 
-# Heavy Energy
+### **HEAVY ENERGY**
 
-The operation of massive, high-yield energy cannons, particle lances, and ship-mounted orbital bombards.
+* **Ability:** Agility (or Intellect if integrated into vehicle/ship gunnery systems)  
+* **Description:** The operation of massive, high-yield energy cannons. These weapons are typically vehicle-mounted, ship-mounted, or require a tripod setup due to their size and power consumption. They are designed to destroy armored vehicles, starships, and fortifications4444.
 
-### Mechanics & Rules
-- **Governing Attribute**: Agility (or Intellect when integrated into fire-control / targeting matrices).
-- **Targeting & Accuracy**: Often interfaces with smart targeting links to mitigate extreme range penalties.
-- **Area of Effect**: Particle beams and plasma bombards strike in lines or massive burst radiuses.
-- **High Penetration**: Bypasses substantial standard armor Damage Resistance (DR).
+* **Mechanics:**  
+  * **Attack Roll:** Standard ranged attack roll, often with range penalties reduced by targeting computers (Smart Links).  
+  * **Area of Effect:** Many heavy energy weapons (like Particle Beams) strike in a line or an area blast rather than a single point.  
+  * **Penetration:** Heavy energy weapons typically possess high Penetration values, ignoring significant amounts of Damage Resistance (DR).  
+* **Specialties:**  
+  * **Ship-to-Ship Laser Batteries:** Firing megawatt turrets to slice through starship hull plating and sensor domes.  
+  * **Orbital Particle Lances:** Aligning spine-mounted spinal cannons to fire devastating lance strikes through the atmosphere.  
+  * **Heavy Plasma Mortars:** Lobbing massive globes of burning thermonuclear plasma onto planetary siege fortresses.  
+  * **Singularity Projectors:** Firing unstable microscopic gravitational vortexes that crush tanks and pull down walls.  
+  * **Spinal Railguns & Coilguns:** Magnetically accelerating multi-ton slugs to relativistic speeds across solar distances.  
+  * **Manned Fortress Energy Turrets:** Manning massive energy gun emplacements on planetary defense shields.  
+  * **Tachyon Beam Cannons:** Firing high-energy faster-than-light particles that bypass conventional deflector shields.  
+  * **Point-Defense Energy Arrays (PDC):** Tracking and vaporizing incoming torpedoes and starfighters with automated pulse lasers.  
+  * **Macro-Ion Cannons:** Firing massive EMP and ion charges that disable starship power grids, engines, and shields without hull breach.  
+  * **Coaxial Plasma Bombardment Cannons:** Directing planetary bombardment salvos from orbit to obliterate coastal cities.
 
-### Specialties
-- **Heavy Lasers**: Anti-capital and fortifications beam weaponry.
-- **Particle Beams**: Long-range relativistic particle accelerators.
-- **Plasma Cannons**: Catastrophic thermal bombards.
-- **Railguns**: Electromagnetic relativistic slug throwers.
+---

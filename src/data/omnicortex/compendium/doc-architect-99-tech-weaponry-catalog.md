@@ -407,14 +407,3 @@ These are high yield energy discharge weaponry causing considerable damage in ad
 
 \====
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/technology/weaponry/99.Tech.Weaponry.Catalog.md
-```
-
-## Gameplay Instructions
-Refer to architect/technology/weaponry/99.Tech.Weaponry.Catalog.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/technology/weaponry/99.Tech.Weaponry.Catalog.md. Complete, unabridged source of truth.

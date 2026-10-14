@@ -21,8 +21,15 @@ keywords: >-
   avoiding
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  When subjected to an effect that allows a **Resistance Check** for **Partial
+  Effect** (commonly taking half damage on a success), a successful check
+  instead results in **No Effect** (or zero damage).  
+    * *Usage:* If a dragon breathes fire (Reflex for half), a character with Evasiveness (Reflex) takes *no damage* if they succeed on the roll.
+rules: >-
+  This feature acts as a **\[Multiple\]** selection. You must purchase it
+  separately for Reflex, Fortitude, or Will.
 ---
-
 # Evasiveness
 
 **Category**: Ability Features  
@@ -38,4 +45,3 @@ When subjected to an effect that allows a **Resistance Check** for **Partial Eff
 
 ## Special Rules
 This feature acts as a **\[Multiple\]** selection. You must purchase it separately for Reflex, Fortitude, or Will.
-

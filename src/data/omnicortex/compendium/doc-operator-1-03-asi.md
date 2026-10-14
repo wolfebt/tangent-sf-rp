@@ -1,6 +1,6 @@
 ---
 id: "doc-operator-1-03-asi"
-name: "1.03 Asi"
+name: "1.03 Asi (Lineage Overview)"
 fileName: "1.03.Asi.md"
 relPath: "operator/species/Asi/1.03.Asi.md"
 isMasterDoc: false
@@ -183,14 +183,3 @@ The following index compiles all recognized Asi lineages alongside a non-Asi arb
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/Asi/1.03.Asi.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/Asi/1.03.Asi.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/Asi/1.03.Asi.md. Complete, unabridged source of truth.

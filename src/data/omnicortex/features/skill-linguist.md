@@ -15,8 +15,10 @@ modifiers: []
 keywords: 'linguist, skill, special-feature, dialects, syntax'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Gain a **\+2 Bonus** to **Language** checks. You may **Take 10** on Language
+  checks to decipher writing even under stress.
 ---
-
 # Linguist
 
 **Category**: Skill Features  
@@ -28,7 +30,3 @@ The character has an ear for dialects and syntax.
 
 ## Mechanics & Benefit
 Gain a **\+2 Bonus** to **Language** checks. You may **Take 10** on Language checks to decipher writing even under stress.
-
-## Special Rules
-148
-

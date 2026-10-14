@@ -26,8 +26,13 @@ keywords: >-
   character's
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
----
+mechanic: >-
+  You may **Take 10** on **Attune Checks** even when threatened, distracted, or
+  in combat conditions.  
 
+  * **Purpose:** Guarantees a consistent Save CR for your spells, removing the
+  risk of a low roll making your spells easy to resist.
+---
 # Focused Center
 
 **Category**: Discipline Features  
@@ -38,8 +43,5 @@ cost_cp: 3
 The character's concentration is so absolute that they can channel power reliably even in the heat of battle.
 
 ## Mechanics & Benefit
-You may **Take 10** on **Attune Checks** even when threatened, distracted, or in combat conditions.
-
-## Special Rules
-70
-
+You may **Take 10** on **Attune Checks** even when threatened, distracted, or in combat conditions.  
+* **Purpose:** Guarantees a consistent Save CR for your spells, removing the risk of a low roll making your spells easy to resist.

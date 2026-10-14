@@ -6,8 +6,11 @@ feature_category: Ability
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: Inspiring Personality
-description: 'Motivating Persona is a Ability Feature: Roll Etiquette checks with Advantage'
+prerequisites: 'Inspiring Personality, Charisma 2'
+description: >-
+  The character's presence is commanding and uplifting. When they speak, others
+  listen, and their social grace is capable of turning hostile negotiations into
+  alliances.
 costs:
   cp: 3
   bp: 3
@@ -17,18 +20,19 @@ keywords: >-
   motivating
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: |-
+  You may roll all **Etiquette Checks** with **Advantage**.  
+    * *Usage:* Roll 2d10 with Advantage (roll twice and keep the highest result) during social maneuvering and protocol checks.
 ---
-
 # Motivating Persona
 
 **Category**: Ability Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: Inspiring Personality
+**Prerequisite**: Inspiring Personality, Charisma 2
 
 ## Description
-Motivating Persona is a Ability Feature: Roll Etiquette checks with Advantage
+The character's presence is commanding and uplifting. When they speak, others listen, and their social grace is capable of turning hostile negotiations into alliances.
 
 ## Mechanics & Benefit
-Roll Etiquette checks with Advantage
-
-
+You may roll all **Etiquette Checks** with **Advantage**.  
+  * *Usage:* Roll 2d10 with Advantage (roll twice and keep the highest result) during social maneuvering and protocol checks.

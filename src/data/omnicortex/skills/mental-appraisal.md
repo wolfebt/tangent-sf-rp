@@ -1,39 +1,44 @@
 ---
 id: mental-appraisal
-name: Appraisal
+name: "Appraisal"
 type: mental
-subtype: knowledge
+subtype: "knowledges"
 category: skills
-governing_attributes:
-  - Intellect
-description: >-
-  Determining the monetary value, authenticity, craftsmanship quality, and
-  provenance of items, artifacts, antiquities, and raw materials.
-trained_only: false
+governing_attribute: "Intellect"
+description: "The skill of determining the value, authenticity, and origin of items. It allows a character to identify rare artifacts, detect forgeries, and estimate the market price of goods."
 specialties:
-  - Art & Antiquities
-  - Gems & Precious Metals
-  - Technology & Cybernetics
-  - Xenotech & Progenitor Relics
-  - Weapons & Armaments
-synergy_links:
-  - mental-trade
-  - social-barter
-  - mental-artificer
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'appraisal, mental, intellect, cognitive, expertise, assessing'
-negative_keywords: 'mindless, instinct-only, illiterate'
+  - "Antiquities & Relics: Dating and pricing ancient artifacts, dynastic treasures, and pre-collapse relics."
+  - "Gems & Exotic Minerals: Assessing crystalline purity, carats, cut, and value of rare planetary ores."
+  - "High-Tech Hardware: Evaluating internal wear, chip fabrication specs, and market value of modern computing cores."
+  - "Xenotech Artifacts: Identifying the rarity, function, and black-market pricing of unknown alien devices."
+  - "Fine Art & Holography: Spotting stylistic authenticity, provenance, and valuations in visual art and media."
+  - "Weapons & Armor Valuation: Pricing arms, determining custom modifications, and grading combat durability."
+  - "Counterfeit & Forgery Detection: Spotting faux stamps, reproduction alloys, doctored serials, and artificial aging."
+  - "Raw Industrial Commodities: Estimating bulk container loads of refined fuels, hyper-alloys, and construction composites."
+  - "Metaphysical Artifacts: Valuing enchanted talismans, psi-receptive matrices, and mana-infused items."
+  - "Salvage Bulk Valuation: Estimating the scrap yield and recovery profit of derelict ship hulls and shattered stations."
+keywords: "appraisal, mental, intellect, cognitive, expertise, assessing"
+negative_keywords: "mindless, instinct-only, illiterate"
 ---
 
-# Appraisal
+### **APPRAISAL**
 
-Determining the monetary value, authenticity, craftsmanship quality, and provenance of items, artifacts, antiquities, and raw materials.
+* **Ability:** Intellect  
+* **Description:** The skill of determining the value, authenticity, and origin of items. It allows a character to identify rare artifacts, detect forgeries, and estimate the market price of goods.  
+* **Mechanics:**  
+  * **Value Item:** CR 10 (Common) to CR 30 (Unique/Alien).  
+  * **Detect Forgery:** Opposed check vs. Forgery (Bluff/Craft).  
+  * **Identify Properties:** CR 15+ to determine what a specific device or artifact does.  
+* **Specialties:**   
+  * **Antiquities & Relics:** Dating and pricing ancient artifacts, dynastic treasures, and pre-collapse relics.  
+    * **Gems & Exotic Minerals:** Assessing crystalline purity, carats, cut, and value of rare planetary ores.  
+    * **High-Tech Hardware:** Evaluating internal wear, chip fabrication specs, and market value of modern computing cores.  
+    * **Xenotech Artifacts:** Identifying the rarity, function, and black-market pricing of unknown alien devices.  
+    * **Fine Art & Holography:** Spotting stylistic authenticity, provenance, and valuations in visual art and media.  
+    * **Weapons & Armor Valuation:** Pricing arms, determining custom modifications, and grading combat durability.  
+    * **Counterfeit & Forgery Detection:** Spotting faux stamps, reproduction alloys, doctored serials, and artificial aging.  
+    * **Raw Industrial Commodities:** Estimating bulk container loads of refined fuels, hyper-alloys, and construction composites.  
+    * **Metaphysical Artifacts:** Valuing enchanted talismans, psi-receptive matrices, and mana-infused items.  
+    * **Salvage Bulk Valuation:** Estimating the scrap yield and recovery profit of derelict ship hulls and shattered stations.
 
-### Mechanics & Rules
-- **Governing Attribute**: Intellect
-- **Value Item**: DC 10 (Common commercial goods) to DC 30 (Unique Pre-Severance / Alien relics).
-- **Detect Forgery**: Opposed check vs. Forger's **Bluff** or **Craft** roll.
-- **Identify Properties**: DC 15+ reveals technical specifications and operational functions.
+  ###

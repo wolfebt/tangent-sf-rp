@@ -15,8 +15,8 @@ modifiers: []
 keywords: 'persuasive, skill, special-feature, convincing, compelling'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: Gain a **\+2 Bonus** to **Diplomacy** and **Intimidate** checks.
 ---
-
 # Persuasive
 
 **Category**: Skill Features  
@@ -28,7 +28,3 @@ The character is convincing and compelling.
 
 ## Mechanics & Benefit
 Gain a **\+2 Bonus** to **Diplomacy** and **Intimidate** checks.
-
-## Special Rules
-156
-

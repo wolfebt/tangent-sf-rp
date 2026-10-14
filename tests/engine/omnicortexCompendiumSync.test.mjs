@@ -126,3 +126,109 @@ test('BASTION RAG: Specialized Rules and Master Catalog Datasets are Populated',
   const catChunks = JSON.parse(fs.readFileSync(catalogChunksPath, 'utf8'));
   assert(Array.isArray(catChunks) && catChunks.length >= 40, `Expected >= 40 catalog chunks, got ${catChunks.length}`);
 });
+
+test('Omnicortex Compendium: Strict Canonical Numbered Index Order & Zero Erroneous Content', async () => {
+  const { mergeSeedsWithDocs } = await import('../../src/utils/omnicortexPersistence.js');
+  const seed = JSON.parse(fs.readFileSync(seedPath, 'utf8'));
+
+  // 1. Ensure zero occurrences of non-canonical "Free Worlds Coalition" anywhere in compendiumSeed.json
+  const hasFreeWorlds = seed.some(
+    a =>
+      (a.name || '').toLowerCase().includes('free worlds coalition') ||
+      (a.description || '').toLowerCase().includes('free worlds coalition')
+  );
+  assert.equal(hasFreeWorlds, false, 'Compendium must NOT contain non-canonical "Free Worlds Coalition"');
+
+  // 2. Ensure Coalition of Independent Worlds is present with exact canonical name
+  const coalitionDoc = seed.find(a => a.id === 'doc-operator-1-04-major-coalition');
+  assert(coalitionDoc, 'doc-operator-1-04-major-coalition must exist');
+  assert.equal(coalitionDoc.name, '1.04 Major: Coalition of Independent Worlds');
+
+  // 3. Ensure Operator root chapters are strictly ordered 1.00 -> 4.00
+  const opMasters = seed
+    .filter(a => a.parent === '1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)')
+    .sort((a, b) => a.order - b.order);
+  const expectedOpMasters = [
+    '1.00 INTRODUCTION',
+    '1.01 CHARACTER CREATION',
+    '1.02 ARCHETYPES',
+    '1.03 SPECIES',
+    '1.04 FACTIONS',
+    '1.05 ORIGINS',
+    '1.06 OCCUPATIONS',
+    '1.07 SKILLS',
+    '1.08 FEATURES',
+    '1.09 HINDRANCES',
+    '1.10 SCALING',
+    '2.00 ECONOMATRIX',
+    '3.00 COMBAT',
+    '4.00 METAPHYSICS'
+  ];
+  assert.deepEqual(
+    opMasters.map(a => a.name),
+    expectedOpMasters,
+    'Operator root chapters must be in exact numbered index order 1.00 -> 4.00'
+  );
+
+  // 4. Ensure mergeSeedsWithDocs('compendium') rejects stale legacy Firestore documents
+  const pollutedFirestoreDocs = [
+    { id: 'comp-1-04-03', name: '1.04.03 Free Worlds Coalition & Frontier Alliance', description: 'Guessed content' },
+    { id: 'comp-0-01', name: '0.01 OPERATOR Reference Manual', description: 'Legacy content' }
+  ];
+  const merged = mergeSeedsWithDocs(pollutedFirestoreDocs, 'compendium');
+  assert.equal(merged.length, seed.length, 'mergeSeedsWithDocs must return only canonical seed articles');
+  assert(!merged.some(a => a.id === 'comp-1-04-03'), 'Stale Firestore doc comp-1-04-03 must be rejected');
+
+  // 5. Ensure Humans, Orll, and Sha'Nor have both Lineage Overviews and Baseline child entries first in their submenus
+  const lineageChecks = [
+    {
+      parentId: 'doc-operator-1-03-humans',
+      baseId: 'doc-operator-1-03-humans-base',
+      baseName: '1.03 Humans: Humans (Base)'
+    },
+    {
+      parentId: 'doc-operator-1-03-orll',
+      baseId: 'doc-operator-1-03-orll-base',
+      baseName: '1.03 Orll: Orll (Base)'
+    },
+    {
+      parentId: 'doc-operator-1-03-shanor',
+      baseId: 'doc-operator-1-03-shanor-base',
+      baseName: "1.03 Sha'Nor: Sha'Nor (Base)"
+    }
+  ];
+
+  for (const { parentId, baseId, baseName } of lineageChecks) {
+    const parentNode = seed.find(a => a.id === parentId);
+    assert(parentNode, `Lineage overview ${parentId} must exist`);
+    assert.equal(parentNode.parent, 'doc-operator-1-03-species');
+
+    const children = seed.filter(a => a.parent === parentId).sort((a, b) => a.order - b.order);
+    assert(children.length >= 2, `Lineage ${parentId} must have baseline + offshoot children`);
+    assert.equal(children[0].id, baseId, `First child of ${parentId} must be baseline entry ${baseId}`);
+    assert.equal(children[0].name, baseName);
+  }
+});
+
+test('Omnicortex Compendium: No Dummy File-Path Placeholders in Seed or Markdown Files', () => {
+  const seed = JSON.parse(fs.readFileSync(seedPath, 'utf8'));
+
+  // Ensure zero articles contain the dummy boilerplate file-path placeholders
+  const hasDummyMechanic = seed.some(a => (a.mechanic || '').startsWith('See full canonical text'));
+  const hasDummyGuide = seed.some(a => (a.guide || '').includes('in the game rules library for complete'));
+  const hasDummyNote = seed.some(a => (a.note || '').includes('Complete, unabridged source of truth'));
+
+  assert.equal(hasDummyMechanic, false, 'No seed article should contain dummy mechanic placeholder');
+  assert.equal(hasDummyGuide, false, 'No seed article should contain dummy guide placeholder');
+  assert.equal(hasDummyNote, false, 'No seed article should contain dummy note placeholder');
+
+  // Verify markdown files also do not contain dummy placeholders
+  const mdFiles = fs.readdirSync(compDir).filter(f => f.endsWith('.md'));
+  for (const file of mdFiles) {
+    const content = fs.readFileSync(path.join(compDir, file), 'utf8');
+    assert.equal(content.includes('See full canonical text'), false, `${file} must not contain dummy mechanic placeholder`);
+    assert.equal(content.includes('in the game rules library for complete architectural tables'), false, `${file} must not contain dummy guide placeholder`);
+    assert.equal(content.includes('Complete, unabridged source of truth'), false, `${file} must not contain dummy note placeholder`);
+  }
+});
+

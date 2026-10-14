@@ -6,10 +6,8 @@ feature_category: Combat
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: 'Vital Strike, Skill 11'
-description: >-
-  Improved Vital Strike is a Combat Feature: Deal three times the normal damage
-  on a single attack.
+prerequisites: 'Vital Strike, Combat Skill 11'
+description: A precise strike that targets vital organs.
 costs:
   cp: 3
   bp: 3
@@ -19,20 +17,18 @@ keywords: >-
   tactical-edge, improved
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
+mechanic: >-
+  As a Standard Action, make a single attack. Deal **three times (3x)** the
+  weapon's damage dice.
 ---
-
 # Improved Vital Strike
 
 **Category**: Combat Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: Vital Strike, Skill 11
+**Prerequisite**: Vital Strike, Combat Skill 11
 
 ## Description
-Improved Vital Strike is a Combat Feature: Deal three times the normal damage on a single attack.
+A precise strike that targets vital organs.
 
 ## Mechanics & Benefit
-Deal three times the normal damage on a single attack.
-
-## Special Rules
-53
-
+As a Standard Action, make a single attack. Deal **three times (3x)** the weapon's damage dice.

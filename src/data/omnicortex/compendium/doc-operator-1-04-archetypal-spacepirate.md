@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-archetypal-spacepirate"
-name: "1.04 Archetypal: Space Pirate"
+name: "1.04 Archetypal: 21. Space Pirate"
 fileName: "1.04.Archetypal.SpacePirate.md"
 relPath: "operator/factions/1.04.Archetypal.SpacePirate.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 145
+order: 148
 perspective: "operator"
 entry_type: "Generic Faction Template"
 tl: 3
@@ -86,14 +86,3 @@ sockets:
 * **Atmosphere Tokens:** Customized fast ships, boarding axes, mismatched armored coats, skull motifs, decompression scars.  
 * **HI-FI INK Guidance:** Space Pirate, Scavenged Sci-Fi. Ship interiors with customized, flashy tech mixed with junk, heavy trench coats, glowing boarding weapons, pirate insignia. Rebellious, dangerous, chaotic.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Archetypal.SpacePirate.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Archetypal.SpacePirate.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Archetypal.SpacePirate.md. Complete, unabridged source of truth.

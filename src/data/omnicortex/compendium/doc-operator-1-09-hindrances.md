@@ -7,7 +7,7 @@ isMasterDoc: true
 masterDocId: "doc-operator-1-09-hindrances"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 200
+order: 203
 perspective: "operator"
 entry_type: "Core Rulebook"
 tl: 3
@@ -466,14 +466,3 @@ The universe conspires against the character.
 *Note:* This can reduce a Karma Pool to 0 or negative (Karmic Debt), meaning the character starts every session owing the GM bad luck.
 
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/1.09 HINDRANCES.md
-```
-
-## Gameplay Instructions
-Refer to operator/1.09 HINDRANCES.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/1.09 HINDRANCES.md. Complete, unabridged source of truth.

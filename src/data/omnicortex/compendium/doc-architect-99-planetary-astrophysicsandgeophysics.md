@@ -1,6 +1,6 @@
 ---
 id: "doc-architect-99-planetary-astrophysicsandgeophysics"
-name: "99. Planetary: Astrophysics, Geophysics & Biosphere"
+name: "99. 14. Planetary: Astrophysics, Geophysics & Biosphere"
 fileName: "99.Planetary.AstrophysicsAndGeophysics.md"
 relPath: "architect/planetary/99.Planetary.AstrophysicsAndGeophysics.md"
 isMasterDoc: false
@@ -187,14 +187,3 @@ When a world features "Fallen Empires" or ancient ruins, use the Progenitor Ruin
 
 ---
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/planetary/99.Planetary.AstrophysicsAndGeophysics.md
-```
-
-## Gameplay Instructions
-Refer to architect/planetary/99.Planetary.AstrophysicsAndGeophysics.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/planetary/99.Planetary.AstrophysicsAndGeophysics.md. Complete, unabridged source of truth.

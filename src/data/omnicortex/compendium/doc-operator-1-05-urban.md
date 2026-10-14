@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-05-origins"
 category: "operator_rule"
 parent: "doc-operator-1-05-origins"
-order: 161
+order: 164
 perspective: "operator"
 entry_type: "Origin Profile"
 tl: 3
@@ -219,14 +219,3 @@ Urban characters may possess skills that help them survive in a harsh urban envi
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/origins/1.05.Urban.md
-```
-
-## Gameplay Instructions
-Refer to operator/origins/1.05.Urban.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/origins/1.05.Urban.md. Complete, unabridged source of truth.

@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-archetypal-cosmicjustice"
-name: "1.04 Archetypal: Cosmic Justice"
+name: "1.04 Archetypal: 05. Cosmic Justice"
 fileName: "1.04.Archetypal.CosmicJustice.md"
 relPath: "operator/factions/1.04.Archetypal.CosmicJustice.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 129
+order: 132
 perspective: "operator"
 entry_type: "Generic Faction Template"
 tl: 3
@@ -86,14 +86,3 @@ sockets:
 * **Atmosphere Tokens:** Polished armor, bright force-fields, shining judicial halls, clean lines.  
 * **HI-FI INK Guidance:** Galactic Paladins, Clean Sci-Fi, Shining armor, polished weapons, judicial halls, bright force-fields. Just, righteous, unwavering, bright.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Archetypal.CosmicJustice.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Archetypal.CosmicJustice.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Archetypal.CosmicJustice.md. Complete, unabridged source of truth.

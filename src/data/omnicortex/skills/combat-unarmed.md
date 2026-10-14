@@ -1,46 +1,47 @@
 ---
 id: combat-unarmed
-name: Unarmed
+name: "Unarmed"
 type: combat
-subtype: archaic
+subtype: "archaic"
 category: skills
-governing_attributes:
-  - Strength
-  - Agility
-description: >-
-  Fighting without artificial weaponry, utilizing the body for brawling, martial
-  arts, joint locks, throws, and natural species weaponry.
-trained_only: false
+governing_attribute: "Strength (for power/grappling) or Agility (for striking speed/precision)"
+description: "The ability to fight without artificial weapons, using only the body. This includes brawling, martial arts, wrestling, and the use of natural weaponry for non-human species. * **Game Mechanics:** * **Attack Roll:** 2d10 + Unarmed Rank + Str/Agi Mod vs. Target Defense. * **Damage:** Typically lower than weapons (1d4 or varies by size/species) + Strength Mod. * **Non-Lethal:** Unarmed attacks can often be chosen to deal Stun/Non-Lethal damage without penalty. * **Grapple:** Unarmed skill is used to initiate and maintain holds (Grapple checks)."
 specialties:
-  - 'Punches (Boxing, precision hand strikes)'
-  - 'Kicks (Taekwondo, sweeping leg strikes)'
-  - 'Natural Weapons (Claws, fangs, horns, tail strikes)'
-  - 'Grappling (Judo, wrestling, joint manipulation)'
-synergy_links:
-  - physical-athletics
-  - physical-acrobatics
-  - combat-defense
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'unarmed, combat, strength, tactical, offensive, defense'
-negative_keywords: 'pacifist, unarmed-civilian, helpless'
+  - "Boxing & Power Punches: Throwing crisp jabs, hooks, crosses, and uppercuts with weighted hand wraps or bare fists."
+  - "Kicks & Leg Sweeps: Snapping roundhouse kicks, front teep kicks, low shin strikes, and sweeping enemy legs."
+  - "Joint Locks & Submissions: Snapping armbars, kimuras, and heel hooks to break enemy joints and force surrenders."
+  - "Grappling & Throws: Executing hip throws, double-leg takedowns, and suplexes to slam targets into hard deckplates."
+  - "Claws & Talons (Natural): Slashing and tearing flesh and armor with native species claws, finger spikes, and talons."
+  - "Biting & Fangs (Natural): Clamping down with powerful reptilian or feline jaws, injecting venom, or tearing throats."
+  - "Horns & Headbutts (Natural): Driving heavy head-crest horns or hardened skulls straight into an opponent's face."
+  - "Tail Strikes & Sweeps (Natural): Whipping heavy muscular tails to trip enemies, strike backs, or shatter ribs."
+  - "Chokeholds & Strangles: Sinking rear-naked chokes, guillotine holds, and crushing windpipes to knock foes unconscious."
+  - "Nerve Strikes & Pressure Points: Striking vulnerable nerve clusters to temporarily paralyze limbs and drop guards."
+keywords: "unarmed, combat, strength, tactical, offensive, defense"
+negative_keywords: "pacifist, unarmed-civilian, helpless"
 ---
 
-# Unarmed
+### **UNARMED**
 
-Fighting without artificial weaponry, utilizing the body for brawling, martial arts, joint locks, throws, and natural species weaponry.
+* **Ability:** Strength (for power/grappling) or Agility (for striking speed/precision)  
+* **Description:** The ability to fight without artificial weapons, using only the body. This includes brawling, martial arts, wrestling, and the use of natural weaponry for non-human species.  
+* **Game Mechanics:**  
+  * **Attack Roll:** 2d10 \+ Unarmed Rank \+ Str/Agi Mod vs. Target Defense.  
+  * **Damage:** Typically lower than weapons (1d4 or varies by size/species) \+ Strength Mod.  
+  * **Non-Lethal:** Unarmed attacks can often be chosen to deal Stun/Non-Lethal damage without penalty.  
+  * **Grapple:** Unarmed skill is used to initiate and maintain holds (Grapple checks).  
+* **Specialties:**  
+  * **Boxing & Power Punches:** Throwing crisp jabs, hooks, crosses, and uppercuts with weighted hand wraps or bare fists.  
+  * **Kicks & Leg Sweeps:** Snapping roundhouse kicks, front teep kicks, low shin strikes, and sweeping enemy legs.  
+  * **Joint Locks & Submissions:** Snapping armbars, kimuras, and heel hooks to break enemy joints and force surrenders.  
+  * **Grappling & Throws:** Executing hip throws, double-leg takedowns, and suplexes to slam targets into hard deckplates.  
+  * **Claws & Talons (Natural):** Slashing and tearing flesh and armor with native species claws, finger spikes, and talons.  
+  * **Biting & Fangs (Natural):** Clamping down with powerful reptilian or feline jaws, injecting venom, or tearing throats.  
+  * **Horns & Headbutts (Natural):** Driving heavy head-crest horns or hardened skulls straight into an opponent's face.  
+  * **Tail Strikes & Sweeps (Natural):** Whipping heavy muscular tails to trip enemies, strike backs, or shatter ribs.  
+  * **Chokeholds & Strangles:** Sinking rear-naked chokes, guillotine holds, and crushing windpipes to knock foes unconscious.  
+  * **Nerve Strikes & Pressure Points:** Striking vulnerable nerve clusters to temporarily paralyze limbs and drop guards.
 
-### Mechanics & Rules
-- **Governing Attribute**: Strength (Power & Grappling) or Agility (Striking Speed & Precision).
-- **Standard Attack Roll**: `2d10 + Unarmed Rank + Str/Agi Mod vs. Target Defense`.
-- **Damage**: `1d4 + Strength Mod` (scales with Species natural traits or martial features).
-- **Non-Lethal Damage**: May deal non-lethal / stun damage without penalty.
-- **Grappling**: Used for opposed grapple, hold, and submission checks.
+## 
 
-### Specialties
-- **Punches**: Boxing, open-palm strikes, and rapid hand combinations.
-- **Kicks**: Powerful roundhouse, snap, and jumping kicks.
-- **Natural Weapons**: Claws, fangs, horns, and armored tail attacks for bestial and alien species.
-- **Grappling & Throws**: Takedowns, pins, locks, and throws.
+##

@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-species"
-order: 99
+order: 81
 perspective: "operator"
 entry_type: "Standalone Species"
 tl: 3
@@ -117,14 +117,3 @@ Sense (Energy)
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/1.03.Plasm.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/1.03.Plasm.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/1.03.Plasm.md. Complete, unabridged source of truth.

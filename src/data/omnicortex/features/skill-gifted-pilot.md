@@ -15,8 +15,10 @@ modifiers: []
 keywords: 'gifted pilot, skill, special-feature, vehicle, extension'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Gain a **\+2 Bonus** to Piloting checks. Increase the **Maximum Speed** of any
+  vehicle you pilot by **10%**.
 ---
-
 # Gifted Pilot
 
 **Category**: Skill Features  
@@ -28,7 +30,3 @@ The character feels the vehicle as an extension of their own body.
 
 ## Mechanics & Benefit
 Gain a **\+2 Bonus** to Piloting checks. Increase the **Maximum Speed** of any vehicle you pilot by **10%**.
-
-## Special Rules
-141
-

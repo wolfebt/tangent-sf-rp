@@ -22,8 +22,10 @@ modifiers:
 keywords: 'dead aim, combat, special-feature, combat-maneuver, tactical-edge, trades'
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
+mechanic: >-
+  If you do not move during your turn, you gain a **\+2 bonus to Strike** with
+  Ranged Weapons. This stacks with Aiming actions.
 ---
-
 # Dead Aim
 
 **Category**: Combat Features  
@@ -35,7 +37,3 @@ The character trades mobility for extreme precision.
 
 ## Mechanics & Benefit
 If you do not move during your turn, you gain a **\+2 bonus to Strike** with Ranged Weapons. This stacks with Aiming actions.
-
-## Special Rules
-37
-

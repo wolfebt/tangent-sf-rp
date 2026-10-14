@@ -38,8 +38,12 @@ modifiers:
 keywords: 'favored enemy, general, special-feature, studied, specific, creature'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Choose a creature type (e.g., Humanoid \[Human\], Beast, Synthetic,
+  Aberration). You gain a **\+2 Bonus** to **Strike**, **Damage**, **Bluff**,
+  **Insight**, and **Survival** checks against them.
+rules: '\[Multiple\] Can be taken for different creature types.'
 ---
-
 # Favored Enemy
 
 **Category**: General Features  
@@ -54,4 +58,3 @@ Choose a creature type (e.g., Humanoid \[Human\], Beast, Synthetic, Aberration).
 
 ## Special Rules
 \[Multiple\] Can be taken for different creature types.
-

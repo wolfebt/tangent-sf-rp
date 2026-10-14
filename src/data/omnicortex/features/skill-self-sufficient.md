@@ -15,8 +15,10 @@ modifiers: []
 keywords: 'self sufficient, skill, special-feature, themselves, without, support'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  Gain a **\+2 Bonus** to **Survival** checks and a **\+1 Bonus** to
+  **Fortitude** checks.
 ---
-
 # Self Sufficient
 
 **Category**: Skill Features  
@@ -28,7 +30,3 @@ The character can take care of themselves in the wild without support.
 
 ## Mechanics & Benefit
 Gain a **\+2 Bonus** to **Survival** checks and a **\+1 Bonus** to **Fortitude** checks.
-
-## Special Rules
-160
-

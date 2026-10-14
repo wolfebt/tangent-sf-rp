@@ -4257,9 +4257,9 @@ function ingestDirectoryRules(dirPath, defaultPerspective, defaultParent) {
       cost: 0,
       tags: [defaultPerspective, 'core-rules', cleanFileName.toLowerCase(), isArchitect ? 'matrix' : 'mechanics'],
       description: content,
-      mechanic: `See full canonical text in ${file}`,
-      guide: `Refer to ${file} in the game rules library for complete architectural tables and system parameters.`,
-      note: `Canonical Tangent SF RP rulebook reference from ${file}.`,
+      mechanic: '',
+      guide: '',
+      note: '',
       updatedAt: new Date().toISOString()
     };
 
@@ -4361,18 +4361,7 @@ sockets:
   allocated: []
 ---
 
-${art.description}
-
-## Game Mechanics Rules
-\`\`\`
-${art.mechanic}
-\`\`\`
-
-## Gameplay Instructions
-${art.guide}
-
-## Designer Notes
-${art.note}
+${art.description}${art.mechanic ? `\n\n## Game Mechanics Rules\n\`\`\`\n${art.mechanic}\n\`\`\`` : ''}${art.guide ? `\n\n## Gameplay Instructions\n${art.guide}` : ''}${art.note ? `\n\n## Designer Notes\n${art.note}` : ''}
 `;
   fs.writeFileSync(filePath, content, 'utf-8');
 });

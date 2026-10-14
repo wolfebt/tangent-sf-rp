@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-aeldprovidence-vajartribes"
-name: "1.04 Aeld Providence: Vajar Tribes"
+name: "1.04 Aeld Providence (The Factional Schisms): 5. Vajar Tribes (Wilder)"
 fileName: "1.04.AeldProvidence.VajarTribes.md"
 relPath: "operator/factions/1.04.AeldProvidence.VajarTribes.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-aeldprovidence"
-order: 122
+order: 125
 perspective: "operator"
 entry_type: "Primary Faction Enclave"
 tl: 3
@@ -104,14 +104,3 @@ sockets:
 * **CONTEXT:** Geothermal forges, natural caverns, massive migrating groves. Folded iron and bone weapons, shifting plate armor. Palette: Rust Red, Iron Grey, Forest Green.  
 * **ATMOSPHERE:** Kinetic, savage, terrifying, vigilant. Heavy shadows, magical luminescence (glowing amber or spirit blue runes), natural lighting.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.AeldProvidence.VajarTribes.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.AeldProvidence.VajarTribes.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.AeldProvidence.VajarTribes.md. Complete, unabridged source of truth.

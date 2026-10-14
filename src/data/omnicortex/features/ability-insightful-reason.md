@@ -19,8 +19,13 @@ keywords: >-
   analytical
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: |-
+  Gain a **\+2 bonus** on all **Logic Checks**.  
+    * *Usage:* This applies to solving puzzles, cryptanalysis, deduction, resisting illusions (disbelieving), and navigating complex bureaucratic or logical labyrinths.
+rules: >-
+  This feature is **Ranked**. It may be purchased multiple times, up to a
+  maximum rank equal to the character's Intellect score.
 ---
-
 # Insightful Reason
 
 **Category**: Ability Features  
@@ -36,4 +41,3 @@ Gain a **\+2 bonus** on all **Logic Checks**.
 
 ## Special Rules
 This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Intellect score.
-

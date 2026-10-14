@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-aeldprovidence-silvermoonvanguard"
-name: "1.04 Aeld Providence: Silvermoon Vanguard"
+name: "1.04 Aeld Providence (The Factional Schisms): 2. Silvermoon Vanguard (Doppelgangers)"
 fileName: "1.04.AeldProvidence.SilvermoonVanguard.md"
 relPath: "operator/factions/1.04.AeldProvidence.SilvermoonVanguard.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-aeldprovidence"
-order: 121
+order: 122
 perspective: "operator"
 entry_type: "Primary Faction Enclave"
 tl: 3
@@ -44,14 +44,3 @@ sockets:
 * **Mandate:** "Eradicate true evil through perfect infiltration and absolute intelligence."  
 * **Profile:** A shadow faction engineered to hunt corruption. They officially "do not exist" to the younger races. They manipulate galactic events from the shadows via assassinations and infiltration. Forced into extreme secrecy due to historical gaslighting and smear campaigns by hostile rulers.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.AeldProvidence.SilvermoonVanguard.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.AeldProvidence.SilvermoonVanguard.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.AeldProvidence.SilvermoonVanguard.md. Complete, unabridged source of truth.

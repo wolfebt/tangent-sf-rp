@@ -20,8 +20,21 @@ keywords: >-
   blocks
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
----
+mechanic: >-
+  You gain Damage Resistance (DR) 5 specifically against Bludgeoning, Crushing,
+  and Falling damage. You are completely immune to effects that specifically
+  fracture or break bones (such as the Cripple Sneak Attack feature). Because of
+  your extreme bone density, your unarmed strikes deal an additional +1 Damage.
 
+
+  &nbsp;
+
+
+  &nbsp;
+
+
+  &nbsp;
+---
 # Unbreakable Skeleton
 
 **Category**: General Features  
@@ -32,7 +45,10 @@ cost_cp: 3
 A gain-of-function mutation in the LRP5 gene blocks inhibitory proteins, causing continuous, hyperactive bone formation. The character possesses a skeleton of extreme, unyielding density.
 
 ## Mechanics & Benefit
-You gain **Damage Resistance (DR) 5** specifically against Bludgeoning, Crushing, and Falling damage. You are completely immune to effects that specifically fracture or break bones (such as the Cripple Sneak Attack feature). Because of your extreme bone density, your unarmed strikes deal an additional **+1 Damage**.
+You gain Damage Resistance (DR) 5 specifically against Bludgeoning, Crushing, and Falling damage. You are completely immune to effects that specifically fracture or break bones (such as the Cripple Sneak Attack feature). Because of your extreme bone density, your unarmed strikes deal an additional +1 Damage.
 
-## Special Rules
-Prerequisite: Tough, Stamina 3.
+&nbsp;
+
+&nbsp;
+
+&nbsp;

@@ -6,8 +6,8 @@ relPath: "operator/species/Humans/1.03.Humans.Rautha.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
-parent: "doc-operator-1-03-humans-base"
-order: 59
+parent: "doc-operator-1-03-humans"
+order: 62
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
@@ -111,14 +111,3 @@ Scent
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/Humans/1.03.Humans.Rautha.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/Humans/1.03.Humans.Rautha.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/Humans/1.03.Humans.Rautha.md. Complete, unabridged source of truth.

@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-03-kitin-murex"
-name: "1.03 Kitin: Murex"
+name: "1.03 Kitin: Murex (Foundation Expression)"
 fileName: "1.03.Kitin.Murex.md"
 relPath: "operator/species/Kitin/1.03.Kitin.Murex.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-kitin"
-order: 65
+order: 67
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
@@ -90,14 +90,3 @@ Murex are the primary audience for the psionic Chorus, moving in perfect synchro
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/Kitin/1.03.Kitin.Murex.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/Kitin/1.03.Kitin.Murex.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/Kitin/1.03.Kitin.Murex.md. Complete, unabridged source of truth.

@@ -1,45 +1,32 @@
 ---
 id: meta-shadow
-name: Shadow
+name: "Shadow"
 type: meta
-subtype: illusion
+subtype: "illusion"
 category: skills
-governing_attributes:
-  - Wisdom
-description: >-
-  Illusion discipline: Weaving darkness, shadow-stuff, optical refraction, and
-  umbral constructs.
-trained_only: true
+governing_attribute: ""
+description: "Illusion: Weaving darkness, shadow-stuff, optical refraction, and umbral constructs."
 specialties:
-  - Umbral Weaving
-  - Light Nullification
-  - Shadow Tendrils
-  - Optical Refraction
-  - Shade Cloaks
-synergy_links:
-  - meta-attune
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'shadow, meta, wisdom, metafocus, psionic, resonance'
-negative_keywords: 'mundane, anti-magic-field, unattuned'
+  []
+keywords: "shadow, meta, wisdom, metafocus, psionic, resonance"
+negative_keywords: "mundane, anti-magic-field, unattuned"
 ---
 
-# Shadow
+### **SHADOW FOCUS**
 
-Illusion discipline: Weaving darkness, shadow-stuff, optical refraction, and umbral constructs.
+Infusing illusions with quasi-reality from the Shadow Plane.
 
-### Mechanics & Rules
-- **Governing Attribute**: Wisdom
-- **Discipline Focus**: Illusion
-- **Standard Check**: `2d10 + Shadow Rank + Wisdom Mod vs. Target DC / Resistance`.
-- **Prerequisite**: Unlocked when character possesses the **Awakened** feature or relevant Metaphysical discipline training.
-- **Strain Resolution**: Failing an invocation check by 5+ points deals non-lethal strain fatigue.
+* **Mechanic:** Even if disbelieved, Shadow illusions retain 20% reality (and damage).
 
-### Specialties
-- **Umbral**: Umbral Weaving
-- **Light**: Light Nullification
-- **Shadow**: Shadow Tendrils
-- **Optical**: Optical Refraction
-- **Shade**: Shade Cloaks
+**Invocations:**
+
+* **Shadow Conjuration:** Mimics a Summoning or Evocation spell.  
+  * *Effect:* Duplicates another spell at 50% power.  
+* **Shadow Weapon:** Creates a semi-real weapon.  
+  * *Effect:* Functions as a specific melee weapon. Deals Psychic/Cold damage.  
+* **Obscuring Mist:** Creates heavy fog.  
+  * *Effect:* Blocks Line of Sight. Can be solid/sticky (Shadow).
+
+## 
+
+##

@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-synthetics"
-order: 79
+order: 93
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
@@ -93,14 +93,3 @@ sockets:
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/Synthetics/1.03.Synthetics.Android.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/Synthetics/1.03.Synthetics.Android.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/Synthetics/1.03.Synthetics.Android.md. Complete, unabridged source of truth.

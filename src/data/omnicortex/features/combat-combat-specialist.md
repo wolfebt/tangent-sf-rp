@@ -19,8 +19,11 @@ keywords: >-
   inflict
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
+mechanic: >-
+  Increase the **Damage Die type** of one specific weapon group by one step
+  (e.g., d6 becomes d8, d8 becomes d10).
+rules: '\[Multiple\] May be taken for different weapon groups.'
 ---
-
 # Combat Specialist
 
 **Category**: Combat Features  
@@ -35,4 +38,3 @@ Increase the **Damage Die type** of one specific weapon group by one step (e.g.,
 
 ## Special Rules
 \[Multiple\] May be taken for different weapon groups.
-

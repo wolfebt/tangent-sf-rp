@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-archetypal-geneticengineering"
-name: "1.04 Archetypal: Genetic Engineering"
+name: "1.04 Archetypal: 08. Genetic Engineering"
 fileName: "1.04.Archetypal.GeneticEngineering.md"
 relPath: "operator/factions/1.04.Archetypal.GeneticEngineering.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 132
+order: 135
 perspective: "operator"
 entry_type: "Generic Faction Template"
 tl: 3
@@ -86,14 +86,3 @@ sockets:
 * **Atmosphere Tokens:** Cloning vats, pristine white labs, pulsing organic incubators, bone-armor, surgical steel, mutated forms.  
 * **HI-FI INK Guidance:** Biologic Ascendants, Clinical Sci-Fi, Body Horror. Pristine white labs, glowing incubation tubes, surgical steel, asymmetrical biological growths.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Archetypal.GeneticEngineering.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Archetypal.GeneticEngineering.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Archetypal.GeneticEngineering.md. Complete, unabridged source of truth.

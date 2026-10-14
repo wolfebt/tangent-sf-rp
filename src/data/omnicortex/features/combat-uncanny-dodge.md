@@ -15,8 +15,13 @@ modifiers: []
 keywords: 'uncanny dodge, combat, special-feature, combat-maneuver, tactical-edge, reacts'
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
+mechanic: >-
+  You retain your **Agility bonus to Defense** even if you are caught
+  **Flat-Footed** or struck by an **Invisible attacker**.
+rules: >-
+  This does not negate the advantage an attacker gets from Feinting (see Greater
+  Feint).
 ---
-
 # Uncanny Dodge
 
 **Category**: Combat Features  
@@ -31,4 +36,3 @@ You retain your **Agility bonus to Defense** even if you are caught **Flat-Foote
 
 ## Special Rules
 This does not negate the advantage an attacker gets from Feinting (see Greater Feint).
-

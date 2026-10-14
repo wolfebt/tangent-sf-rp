@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-05-origins"
 category: "operator_rule"
 parent: "doc-operator-1-05-origins"
-order: 159
+order: 162
 perspective: "operator"
 entry_type: "Origin Profile"
 tl: 3
@@ -225,14 +225,3 @@ Gained increased knowledge on a topic through diligent research.
 * **PALETTE:** Server Black, LED Red/Green, Cable Grey.  
 * **TOKENS:** Servers, cables, lights, heat, humming.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/origins/1.05.Research.md
-```
-
-## Gameplay Instructions
-Refer to operator/origins/1.05.Research.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/origins/1.05.Research.md. Complete, unabridged source of truth.

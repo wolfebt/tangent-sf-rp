@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-06-criminal"
-name: "1.06 Criminal"
+name: "1.06 04. Criminal"
 fileName: "1.06.Criminal.md"
 relPath: "operator/occupations/1.06.Criminal.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-06-occupations"
 category: "operator_rule"
 parent: "doc-operator-1-06-occupations"
-order: 167
+order: 170
 perspective: "operator"
 entry_type: "Occupation Profile"
 tl: 3
@@ -242,14 +242,3 @@ Criminals may have a deep understanding of the criminal underworld and how to na
   * **Palette:** Error Red, Spark White, Metal.  
   * **Tokens:** Sparks, jagged movements, broken casing.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/occupations/1.06.Criminal.md
-```
-
-## Gameplay Instructions
-Refer to operator/occupations/1.06.Criminal.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/occupations/1.06.Criminal.md. Complete, unabridged source of truth.

@@ -6,10 +6,10 @@ feature_category: Ability
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: Evasiveness
+prerequisites: Evasiveness (in the specific Save type).
 description: >-
-  Improved Evasiveness is a Ability Feature: Failed check is still a partial
-  success (resulting in less effect, generally 1/2).
+  Even when the character fails to avoid a danger entirely, their resilience or
+  speed ensures they never take the full brunt of the impact.
 costs:
   cp: 3
   bp: 3
@@ -19,18 +19,21 @@ keywords: >-
   passive-prowess, improved
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  When subjected to an effect that allows a Resistance Check for Partial Effect,
+  a **Failed Check** results in only the **Partial Effect** (half
+  damage/effect), rather than the full effect.  
+    * *Usage:* Combined with Evasiveness, this means the character takes *no damage* on a successful save, and only *half damage* on a failed save.
 ---
-
 # Improved Evasiveness
 
 **Category**: Ability Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: Evasiveness
+**Prerequisite**: Evasiveness (in the specific Save type).
 
 ## Description
-Improved Evasiveness is a Ability Feature: Failed check is still a partial success (resulting in less effect, generally 1/2).
+Even when the character fails to avoid a danger entirely, their resilience or speed ensures they never take the full brunt of the impact.
 
 ## Mechanics & Benefit
-Failed check is still a partial success (resulting in less effect, generally 1/2).
-
-
+When subjected to an effect that allows a Resistance Check for Partial Effect, a **Failed Check** results in only the **Partial Effect** (half damage/effect), rather than the full effect.  
+  * *Usage:* Combined with Evasiveness, this means the character takes *no damage* on a successful save, and only *half damage* on a failed save.

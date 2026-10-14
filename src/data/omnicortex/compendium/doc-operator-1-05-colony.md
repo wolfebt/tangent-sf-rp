@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-05-origins"
 category: "operator_rule"
 parent: "doc-operator-1-05-origins"
-order: 153
+order: 156
 perspective: "operator"
 entry_type: "Origin Profile"
 tl: 3
@@ -223,14 +223,3 @@ Possess survival skills to navigate and explore unknown territories, and to prot
 * **PALETTE:** Construction Yellow, Grey, Laser Red.  
 * **TOKENS:** Hexagons, printers, drones, lasers, no humans.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/origins/1.05.Colony.md
-```
-
-## Gameplay Instructions
-Refer to operator/origins/1.05.Colony.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/origins/1.05.Colony.md. Complete, unabridged source of truth.

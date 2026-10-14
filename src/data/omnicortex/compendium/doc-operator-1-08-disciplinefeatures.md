@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-08-features"
 category: "operator_rule"
 parent: "doc-operator-1-08-features"
-order: 196
+order: 199
 perspective: "operator"
 entry_type: "Feature Catalog"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","features","1.08.disciplinefeatures","mechanics"]
-updatedAt: "2026-10-14T05:52:41.914Z"
+updatedAt: "2026-10-14T09:06:38.165Z"
 costs:
   bp: 0
   credits: 0
@@ -39,34 +39,32 @@ sockets:
 
 # **DISCIPLINE FEATURES**
 
-# **DISCIPLINE FEATURES**
-
 Metaphysical abilities, magic, and psionics.
 
 | FEATURE NAME | PREREQUISITE | BENEFIT / EFFECT | SPECIAL / NOTES |
 | :---- | :---- | :---- | :---- |
-| **Aptitude** | \- | \+2 to 2 Metafocus Discipline Skills. | Multiple (Key Ability) 60&nbsp; |
-| **Awakened** | \- | Access Attune and Skills of a Metafocus Discipline. | Multiple (unlocks 2 Discipline skills each) 61&nbsp; |
-| **Centering** | Attune 6, Key Ability 2 | \+2 Attune Checks (Affecting DCs). | 62 |
-| **Centering Expert** | Attune 11, Key Ability 4 | \+4 Attune Checks (Affecting DCs). | 63 |
-| **Centering Master** | Attune 16, Key Ability 6 | \+6 Attune Checks (Affecting DCs). | 64 |
-| **Discipline Focus** | Discipline Skill 6 | \+2 with chosen Discipline Skill (Affecting Severity). | Multiple 65&nbsp; |
-| **Discipline Expertise** | Discipline Focus, Skill 11 | \+4 with chosen Discipline Skill (Affecting Severity). | 66 |
-| **Discipline Mastery** | Discipline Expertise, Skill 16 | \+6 with chosen Discipline Skill (Affecting Severity). | 67 |
-| **Discipline Empower** | Discipline Focus, Attune 6 | Longer channeling time for additional energy each round. | 68 |
-| **Empowered Strike** | Attune 6 | \+1 to Strike and Damage; Attack is considered Enhanced. | Ranked (Attune) 69&nbsp; |
-| **Focused Center** | Centering, Discipline Focus | May take 10 on Attune Checks with all Disciplines Focused. | 70 |
-| **Balanced Center** | Centering Exp, Discipline Exp | May take 10 with all Discipline Checks Expertised. | 71 |
-| **Harmonious Center** | Centering Mst, Discipline Mst | All Checks with Advantage with all Disciplines Mastered. | 72 |
-| **Special Ability** | Special | An Invocation at level 1, without prerequisite Discipline Skills. | Multiple 73&nbsp; |
-| **Tech Interface** | Special | You can pilot vehicles or use computers using your Intellect instead of Agility, provided the device is appropriately designed (Psi-Tech, magi-tech, etc). | Multiple&nbsp; |
-| **Versatile Source** | Attune 6 | Attune may access a secondary meta source and/or Ability. | 74 |
+| **Aptitude** | \- | \+2 to 2 Metafocus Discipline Skills. | Multiple (Key Ability) |
+| **Awakened** | \- | Access Attune and Skills of a Metafocus Discipline. | Multiple (unlocks Discipline skills each) |
+| **Centering** | Attune 6, Key Ability 2 | \+2 Attune Checks (Affecting DCs). |  |
+| **Centering Expert** | Attune 11, Key Ability 4 | \+4 Attune Checks (Affecting DCs). |  |
+| **Centering Master** | Attune 16, Key Ability 6 | \+6 Attune Checks (Affecting DCs). |  |
+| **Discipline Focus** | Discipline Skill 6 | \+2 with chosen Discipline Skill (Affecting Severity). | Multiple |
+| **Discipline Expertise** | Discipline Focus, Skill 11 | \+4 with chosen Discipline Skill (Affecting Severity). |  |
+| **Discipline Mastery** | Discipline Expertise, Skill 16 | \+6 with chosen Discipline Skill (Affecting Severity). |  |
+| **Discipline Empower** | Discipline Focus, Attune 6 | Longer channeling time for additional energy each round. |  |
+| **Empowered Strike** | Attune 6 | \+1 to Strike and Damage; Attack is considered Enhanced. | Ranked (Attune) |
+| **Focused Center** | Centering, Discipline Focus | May take 10 on Attune Checks with all Disciplines Focused. |  |
+| **Balanced Center** | Centering Exp, Discipline Exp | May take 10 with all Discipline Checks Expertised. |  |
+| **Harmonious Center** | Centering Mst, Discipline Mst | All Checks with Advantage with all Disciplines Mastered. |  |
+| **Special Ability** | Special | An Invocation at level 1, without prerequisite Discipline Skills. | Multiple |
+| **Tech Interface** | Special | You can pilot vehicles or use computers using your Intellect instead of Agility, provided the device is appropriately designed (Psi-Tech, magi-tech, etc). | Multiple |
+| **Versatile Source** | Attune 6 | Attune may access a secondary meta source and/or Ability. |  |
 
 &nbsp;
 
 Discipline Features represent a character's connection to the metaphysical forces of the universe—whether that be the Void, the Quantum Field, Psionic Ether, or Divine Light.
 
-### 
+---
 
 ## **Aptitude**
 
@@ -77,7 +75,7 @@ Discipline Features represent a character's connection to the metaphysical force
 * **Purpose:** To demonstrate innate talent in specific areas of magic or psionics without necessarily having broad mastery.  
 * **Special:** This feature is **\[Multiple\]**. It may be selected again to apply to two different Discipline skills.
 
-### 
+---
 
 ## **Awakened**
 
@@ -89,7 +87,7 @@ Discipline Features represent a character's connection to the metaphysical force
 * **Purpose:** The entry point for all mages, psychics, and super-powered beings.  
 * **Special:** This feature is **\[Multiple\]**. Taking it a second time allows you to awaken a different Metafocus (e.g., adding *Entropy* to a character who already has *Energy*), granting access to that discipline's specific skills.
 
-### 
+---
 
 ## **Centering**
 
@@ -100,25 +98,25 @@ Discipline Features represent a character's connection to the metaphysical force
 * **Mechanics:** In Tangent, the **Attune Check** determines the **Challenge Rating (CR)** of the Saving Throw your targets must make. Therefore, this feature directly increases the difficulty of resisting your powers.  
 * **Purpose:** Essential for casters who want their spells to be difficult to resist.
 
-### 
+---
 
-  ## **Centering Expert**
+## **Centering Expert**
 
-  **Description:** The character has achieved a profound state of mental or spiritual equilibrium.
+**Description:** The character has achieved a profound state of mental or spiritual equilibrium.
 
 * **Prerequisite:** Centering, Attune 11 (Expert), Key Ability Score 4  
 * **Benefit:** The bonus to **Attune Checks** increases to **\+4**.  
 * **Special:** This replaces the bonus from *Centering*, it does not stack (it is an upgrade).
 
-  ### 
+---
 
-  ## **Centering Master**
+## **Centering Master**
 
-  **Description:** The character's control over their metaphysical connection is absolute; they are a conduit through which power flows without resistance.  
+**Description:** The character's control over their metaphysical connection is absolute; they are a conduit through which power flows without resistance.  
 * **Prerequisite:** Centering Expert, Attune 16 (Master), Key Ability Score 6  
 * **Benefit:** The bonus to **Attune Checks** increases to **\+6**.
 
-### 
+---
 
 ## **Discipline Focus**
 
@@ -129,34 +127,34 @@ Discipline Features represent a character's connection to the metaphysical force
 * **Mechanics:** In Tangent, the **Discipline Skill Check** determines the **Severity** (Damage, Duration, or Potency) of the effect. This feature directly increases the raw power of the ability.  
 * **Special:** This feature is **\[Multiple\]**; you may take it for different Discipline skills.
 
-### 
+---
 
-  ## **Discipline Expertise**
+## **Discipline Expertise**
 
-  **Description:** The character has mastered the nuances of a specific energy form.
+**Description:** The character has mastered the nuances of a specific energy form.
 
 * **Prerequisite:** Discipline Focus (in the same skill), Discipline Skill 11 (Expert)  
 * **Benefit:** The bonus to the chosen Discipline Skill increases to **\+4**.
 
-  ### 
+---
 
-  ## **Discipline Mastery**
+## **Discipline Mastery**
 
-  **Description:** The character is a virtuoso of their chosen art, capable of unleashing devastating power.  
+**Description:** The character is a virtuoso of their chosen art, capable of unleashing devastating power.  
 * **Prerequisite:** Discipline Expertise (in the same skill), Discipline Skill 16 (Master)  
 * **Benefit:** The bonus to the chosen Discipline Skill increases to **\+6**.
 
-### 
+---
 
-  ## **Discipline Empower**
+## **Discipline Empower**
 
-  **Description:** The character can hold and build a metaphysical charge over time, gathering ambient energy to unleash a single, overwhelming effect.
+**Description:** The character can hold and build a metaphysical charge over time, gathering ambient energy to unleash a single, overwhelming effect.
 
 * **Prerequisite:** Discipline Focus, Attune 6  
 * **Benefit:** You may increase the casting time of an Invocation to gather more energy. For every **Full Round** spent channeling (doing nothing but concentrating on the spell), you add **\+1 Effect Die** (or \+5 to the effective Skill Check result for non-damage spells) to the final release.  
 * **Limit:** You may channel for a number of rounds equal to your Constitution or Will modifier (whichever is higher). If interrupted (taking damage), you must make a Concentration (Attune) check or lose the energy.
 
-### 
+---
 
 ## **Empowered Strike**
 
@@ -167,7 +165,7 @@ Discipline Features represent a character's connection to the metaphysical force
 * **Effect:** The attack is considered **Enhanced** (Magical/Psionic) for the purpose of bypassing Damage Resistance (DR) that ignores mundane weapons.  
 * **Special:** This feature is **\[Ranked\]**. You may take it multiple times (up to your Attune rank limit). Rank 2 would grant \+2 Strike/Damage, etc.
 
-### 
+---
 
 ## **Focused Center**
 
@@ -177,26 +175,26 @@ Discipline Features represent a character's connection to the metaphysical force
 * **Benefit:** You may **Take 10** on **Attune Checks** even when threatened, distracted, or in combat conditions.  
 * **Purpose:** Guarantees a consistent Save CR for your spells, removing the risk of a low roll making your spells easy to resist.
 
-### 
+---
 
-  ## **Balanced Center**
+## **Balanced Center**
 
-  **Description:** The character has achieved a perfect equilibrium between the channeling of power (Attune) and the shaping of it (Discipline).
+**Description:** The character has achieved a perfect equilibrium between the channeling of power (Attune) and the shaping of it (Discipline).
 
 * **Prerequisite:** Centering Expert, Discipline Expertise (in all currently used Disciplines)  
 * **Benefit:** You may **Take 10** on **Discipline Skill Checks** even when threatened, distracted, or in combat.  
 * **Purpose:** Guarantees consistent Damage or Effect results. You no longer roll for power; you simply apply a reliable standard of devastation.
 
-  ### 
+---
 
-  ## **Harmonious Center**
+## **Harmonious Center**
 
-  **Description:** The character exists in a state of flow with the universe. Power responds to their will instantly and perfectly.  
+**Description:** The character exists in a state of flow with the universe. Power responds to their will instantly and perfectly.  
 * **Prerequisite:** Centering Master, Discipline Mastery (in all currently used Disciplines)  
 * **Benefit:** You roll **ALL** Metafocus Checks (Attune and Discipline) with **Advantage**.  
 * **Mechanics:** Roll 2d10 with Advantage for both your Accuracy/CR (Attune) and your Power/Severity (Discipline).
 
-  ### 
+---
 
 ## **Special Ability**
 
@@ -209,7 +207,7 @@ Discipline Features represent a character's connection to the metaphysical force
   * This ability functions as a standalone Skill. You can advance it with Skill Points like any other skill (Novice, Trained, etc.) to increase its power.  
 * **Special:** This feature is **\[Multiple\]**. You can take it multiple times to gain different isolated powers.
 
-### 
+---
 
 ## **Tech Interface**
 
@@ -242,14 +240,3 @@ Discipline Features represent a character's connection to the metaphysical force
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/features/1.08.DisciplineFeatures.md
-```
-
-## Gameplay Instructions
-Refer to operator/features/1.08.DisciplineFeatures.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/features/1.08.DisciplineFeatures.md. Complete, unabridged source of truth.

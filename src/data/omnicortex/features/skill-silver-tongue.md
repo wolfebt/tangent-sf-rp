@@ -17,8 +17,10 @@ modifiers: []
 keywords: 'silver tongue, skill, special-feature, exactly, defuse, situation'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  When using Diplomacy to change an NPC's attitude, you improve it by **one
+  additional step** (e.g., Hostile becomes Indifferent instead of Unfriendly).
 ---
-
 # Silver Tongue
 
 **Category**: Skill Features  
@@ -30,7 +32,3 @@ The character knows exactly what to say to defuse a situation or make a friend.
 
 ## Mechanics & Benefit
 When using Diplomacy to change an NPC's attitude, you improve it by **one additional step** (e.g., Hostile becomes Indifferent instead of Unfriendly).
-
-## Special Rules
-161
-

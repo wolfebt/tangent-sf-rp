@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 185
+order: 188
 perspective: "operator"
 entry_type: "Skill Mechanics"
 tl: 3
@@ -112,14 +112,3 @@ The learning mechanics encourage players to think about how their characters acq
 
 The GM has the final say on the availability of instructors, study materials, and the specific requirements for learning certain skills or features
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/skills/1.07.Mechanics.Learning.md
-```
-
-## Gameplay Instructions
-Refer to operator/skills/1.07.Mechanics.Learning.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/skills/1.07.Mechanics.Learning.md. Complete, unabridged source of truth.

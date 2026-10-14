@@ -341,14 +341,3 @@ Appendix A Modular Build System packages and assembly templates are organized in
 * **[Part 1: The Form Packages (The Chassis)](./companions/99.Companion.FormPackages.md)** — *Base formula and biological/synthetic/metaphysical chassis templates*
 * **[Part 2 & 3: The Function Packages & Assembly Examples](./companions/99.Companion.FunctionAndExamples.md)** — *Role/Job packages and complete pre-assembled companion builds*
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/99. MODULAR COMPANION MATRIX.md
-```
-
-## Gameplay Instructions
-Refer to architect/99. MODULAR COMPANION MATRIX.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/99. MODULAR COMPANION MATRIX.md. Complete, unabridged source of truth.

@@ -15,8 +15,12 @@ modifiers: []
 keywords: 'giant, special, special-feature, significantly, larger, average'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
----
+mechanic: >-
+  Your Size Category increases by one step (e.g., Medium to Large).  
 
+  * **Mechanics:** Gain **\+2 Strength**, increased Reach (threat range), and
+  higher carrying capacity. Suffer **\-1 to Defense** and **\-4 to Stealth**.
+---
 # Giant
 
 **Category**: Special Features  
@@ -27,8 +31,5 @@ cost_cp: 3
 The character is significantly larger than the average for their species.
 
 ## Mechanics & Benefit
-Your Size Category increases by one step (e.g., Medium to Large).
-
-## Special Rules
-193
-
+Your Size Category increases by one step (e.g., Medium to Large).  
+* **Mechanics:** Gain **\+2 Strength**, increased Reach (threat range), and higher carrying capacity. Suffer **\-1 to Defense** and **\-4 to Stealth**.

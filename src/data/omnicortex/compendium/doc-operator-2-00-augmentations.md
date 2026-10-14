@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-2-00-economatrix"
 category: "operator_rule"
 parent: "doc-operator-2-00-economatrix"
-order: 205
+order: 208
 perspective: "operator"
 entry_type: "Economatrix Catalog"
 tl: 3
@@ -475,14 +475,3 @@ Non-permanent, external harnesses that provide mechanical advantages without sur
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/economatrix/2.00.Augmentations.md
-```
-
-## Gameplay Instructions
-Refer to operator/economatrix/2.00.Augmentations.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/economatrix/2.00.Augmentations.md. Complete, unabridged source of truth.

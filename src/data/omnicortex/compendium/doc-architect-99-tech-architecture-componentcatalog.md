@@ -226,14 +226,3 @@ Structural weapon emplacements function as automated base defenses, heavy siege 
 
 ## ---
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/technology/architecture/99.Tech.Architecture.ComponentCatalog.md
-```
-
-## Gameplay Instructions
-Refer to architect/technology/architecture/99.Tech.Architecture.ComponentCatalog.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/technology/architecture/99.Tech.Architecture.ComponentCatalog.md. Complete, unabridged source of truth.

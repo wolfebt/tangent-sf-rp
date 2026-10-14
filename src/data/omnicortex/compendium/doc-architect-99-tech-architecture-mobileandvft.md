@@ -156,14 +156,3 @@ Structures are not eternal. Weather, entropy, and use degrade them.
 
 ## ---
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/technology/architecture/99.Tech.Architecture.MobileAndVFT.md
-```
-
-## Gameplay Instructions
-Refer to architect/technology/architecture/99.Tech.Architecture.MobileAndVFT.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/technology/architecture/99.Tech.Architecture.MobileAndVFT.md. Complete, unabridged source of truth.

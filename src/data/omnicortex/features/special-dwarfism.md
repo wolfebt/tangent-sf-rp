@@ -15,8 +15,13 @@ modifiers: []
 keywords: 'dwarfism, special, special-feature, significantly, smaller, average'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
----
+mechanic: >-
+  Your Size Category decreases by one step (e.g., Medium to Small).  
 
+  * **Mechanics:** Gain **\+1 to Defense**, **\+4 to Stealth**, and **\+1 to
+  Strike**. Decrease lifting/carrying capacity and movement speed (typically
+  \-10ft).
+---
 # Dwarfism
 
 **Category**: Special Features  
@@ -27,8 +32,5 @@ cost_cp: 3
 The character is significantly smaller than the average for their species.
 
 ## Mechanics & Benefit
-Your Size Category decreases by one step (e.g., Medium to Small).
-
-## Special Rules
-190
-
+Your Size Category decreases by one step (e.g., Medium to Small).  
+* **Mechanics:** Gain **\+1 to Defense**, **\+4 to Stealth**, and **\+1 to Strike**. Decrease lifting/carrying capacity and movement speed (typically \-10ft).

@@ -7,9 +7,7 @@ cost_bp: 3
 is_ranked: false
 is_multiple: false
 prerequisites: Combat Expertise
-description: >-
-  Improved Trip is a Combat Feature: +2 bonus on trip attempts, no attack of
-  opportunity.
+description: The character knows how to unbalance opponents safely.
 costs:
   cp: 3
   bp: 3
@@ -19,8 +17,10 @@ keywords: >-
   improved
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
+mechanic: >-
+  You gain a **\+2 bonus** on Trip attempts. Attempting to Trip an opponent does
+  not provoke an Attack of Opportunity.
 ---
-
 # Improved Trip
 
 **Category**: Combat Features  
@@ -28,11 +28,7 @@ cost_cp: 3
 **Prerequisite**: Combat Expertise
 
 ## Description
-Improved Trip is a Combat Feature: \+2 bonus on trip attempts, no attack of opportunity.
+The character knows how to unbalance opponents safely.
 
 ## Mechanics & Benefit
-\+2 bonus on trip attempts, no attack of opportunity.
-
-## Special Rules
-30
-
+You gain a **\+2 bonus** on Trip attempts. Attempting to Trip an opponent does not provoke an Attack of Opportunity.

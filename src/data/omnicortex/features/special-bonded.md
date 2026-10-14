@@ -17,8 +17,11 @@ modifiers: []
 keywords: 'bonded, special, special-feature, shares, profound, supernatural'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You possess a **Tele-Empathic** link with another character (PC or NPC) who
+  also possesses this feature. You can sense their strong emotions and general
+  physical state (pain, unconsciousness) regardless of distance.
 ---
-
 # Bonded
 
 **Category**: Special Features  
@@ -30,7 +33,3 @@ The character shares a profound, supernatural connection with another specific b
 
 ## Mechanics & Benefit
 You possess a **Tele-Empathic** link with another character (PC or NPC) who also possesses this feature. You can sense their strong emotions and general physical state (pain, unconsciousness) regardless of distance.
-
-## Special Rules
-184
-

@@ -7,7 +7,7 @@ cost_bp: 3
 is_ranked: false
 is_multiple: false
 prerequisites: Computer Specialist
-description: 'Digital Expert is a Skill Feature: Perform Computer Tasks in 1/2 time.'
+description: The character types at the speed of thought.
 costs:
   cp: 3
   bp: 3
@@ -15,8 +15,13 @@ modifiers: []
 keywords: 'digital expert, skill, special-feature, digital, expert, feature:'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
----
+mechanic: >-
+  You perform Computer-based tasks in **1/2 the typical time**.  
 
+  * **Usage:** Allows a hacker to break a security lock in 3 seconds (1 action)
+  rather than 6 seconds (Full Round), or write a program in hours instead of
+  days.
+---
 # Digital Expert
 
 **Category**: Skill Features  
@@ -24,11 +29,8 @@ cost_cp: 3
 **Prerequisite**: Computer Specialist
 
 ## Description
-Digital Expert is a Skill Feature: Perform Computer Tasks in 1/2 time.
+The character types at the speed of thought.
 
 ## Mechanics & Benefit
-Perform Computer Tasks in 1/2 time.
-
-## Special Rules
-135
-
+You perform Computer-based tasks in **1/2 the typical time**.  
+* **Usage:** Allows a hacker to break a security lock in 3 seconds (1 action) rather than 6 seconds (Full Round), or write a program in hours instead of days.

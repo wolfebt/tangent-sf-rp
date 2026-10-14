@@ -17,8 +17,12 @@ modifiers: []
 keywords: 'veiled threat, skill, special-feature, menace, someone, subtly'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  When you use Intimidate to force a target to act, the target **does not become
+  Hostile** toward you afterwards (they remain Indifferent or Unfriendly, but
+  terrified). Bystanders must make an Insight check vs. your Intimidate to even
+  realize a threat was made.
 ---
-
 # Veiled Threat
 
 **Category**: Skill Features  
@@ -30,7 +34,3 @@ The character can menace someone so subtly that bystanders don't notice, and the
 
 ## Mechanics & Benefit
 When you use Intimidate to force a target to act, the target **does not become Hostile** toward you afterwards (they remain Indifferent or Unfriendly, but terrified). Bystanders must make an Insight check vs. your Intimidate to even realize a threat was made.
-
-## Special Rules
-173
-

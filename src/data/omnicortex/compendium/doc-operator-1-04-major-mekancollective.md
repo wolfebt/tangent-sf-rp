@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-major-mekancollective"
-name: "1.04 Major: Mekan Collective"
+name: "1.04 Major: The Mekan Collective"
 fileName: "1.04.Major.MekanCollective.md"
 relPath: "operator/factions/1.04.Major.MekanCollective.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 114
+order: 117
 perspective: "operator"
 entry_type: "Primary Faction"
 tl: 3
@@ -138,14 +138,3 @@ sockets:
 * **The Archive Node:** A forest of black obelisks floating in an endless void. Data streams connect them like spiderwebs of electric purple light. Mekan connect here to upload memories, becoming one with the Code.  
 * **The Autofoundry Landing:** A geometric ship unfolds and reshapes upon contact with an asteroid. It roots itself with ferrofluidic tendrils, dissecting the rock with cold, laser precision.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Major.MekanCollective.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Major.MekanCollective.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Major.MekanCollective.md. Complete, unabridged source of truth.

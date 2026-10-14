@@ -24,8 +24,11 @@ modifiers:
 keywords: 'coordinated assist, general, special-feature, natural, player, leader'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  When using the **Aid Another** action (Skill Synergy), you grant an additional
+  **\+1 Bonus** to your ally's check.
+rules: 'This feature is \[Ranked\] by Intellect. (Rank 2 grants \+2, etc.).'
 ---
-
 # Coordinated Assist
 
 **Category**: General Features  
@@ -40,4 +43,3 @@ When using the **Aid Another** action (Skill Synergy), you grant an additional *
 
 ## Special Rules
 This feature is \[Ranked\] by Intellect. (Rank 2 grants \+2, etc.).
-

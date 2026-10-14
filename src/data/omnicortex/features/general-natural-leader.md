@@ -1,8 +1,8 @@
 ---
-id: combat-natural-leader
+id: general-natural-leader
 name: Natural Leader
 category: features
-feature_category: Combat
+feature_category: General
 cost_bp: 3
 is_ranked: false
 is_multiple: false
@@ -19,11 +19,14 @@ keywords: >-
   attracts
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
+mechanic: >-
+  You gain a number of **Followers** (NPCs) and potentially a **Cohort** (a
+  loyal lieutenant). The number and quality depend on your Level and Charisma
+  score. You gain a \+2 bonus to Organization/Administration checks.
 ---
-
 # Natural Leader
 
-**Category**: Combat Features  
+**Category**: General Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
 **Prerequisite**: Charisma 3, Diplomacy 6
 
@@ -32,5 +35,3 @@ The character attracts loyal followers and can manage a crew or organization eff
 
 ## Mechanics & Benefit
 You gain a number of **Followers** (NPCs) and potentially a **Cohort** (a loyal lieutenant). The number and quality depend on your Level and Charisma score. You gain a \+2 bonus to Organization/Administration checks.
-
-

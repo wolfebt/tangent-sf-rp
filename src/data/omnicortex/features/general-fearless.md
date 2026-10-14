@@ -17,8 +17,10 @@ modifiers: []
 keywords: 'fearless, general, special-feature, whether, through, madness'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You are **Immune** to Fear effects (magical, psionic, or mundane
+  intimidation).
 ---
-
 # Fearless
 
 **Category**: General Features  
@@ -30,7 +32,3 @@ Whether through madness, conditioning, or bravery, the character is immune to te
 
 ## Mechanics & Benefit
 You are **Immune** to Fear effects (magical, psionic, or mundane intimidation).
-
-## Special Rules
-97
-

@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-03-kitin-riezen"
-name: "1.03 Kitin: Riezen"
+name: "1.03 Kitin: Riezen (Divergent Swarm)"
 fileName: "1.03.Kitin.Riezen.md"
 relPath: "operator/species/Kitin/1.03.Kitin.Riezen.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-kitin"
-order: 67
+order: 71
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
@@ -99,14 +99,3 @@ The Manelli view the Riezen as a "cancer" on their genetic legacy. Because the R
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/Kitin/1.03.Kitin.Riezen.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/Kitin/1.03.Kitin.Riezen.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/Kitin/1.03.Kitin.Riezen.md. Complete, unabridged source of truth.

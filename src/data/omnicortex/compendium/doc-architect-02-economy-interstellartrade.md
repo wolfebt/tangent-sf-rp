@@ -191,14 +191,3 @@ Transporting people is a steady income source but requires Life Support modules.
 * **Mid Passage:** Standard cabin. (5,000 cr). Requires food and basic comfort.  
 * **High Passage:** Luxury suite. (10,000 cr). Demands high-quality service and entertainment.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/economy/02.Economy.InterstellarTrade.md
-```
-
-## Gameplay Instructions
-Refer to architect/economy/02.Economy.InterstellarTrade.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/economy/02.Economy.InterstellarTrade.md. Complete, unabridged source of truth.

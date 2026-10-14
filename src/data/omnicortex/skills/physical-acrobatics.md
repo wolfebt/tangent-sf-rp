@@ -1,44 +1,44 @@
 ---
 id: physical-acrobatics
-name: Acrobatics
+name: "Acrobatics"
 type: physical
-subtype: mobility
+subtype: "general"
 category: skills
-governing_attributes:
-  - Agility
-description: >-
-  The skill of performing feats of gymnastics, extraordinary balance, tumbling,
-  breaking falls, and high-agility kinetic maneuvers.
-trained_only: false
+governing_attribute: "Agility"
+description: "Acrobatics is the skill of performing feats of gymnastics, extraordinary balance, and dance (and related performance arts), and breaking falls. It is used whenever a character attempts to make a physical maneuver that requires agility, balance, and coordination. This can include things like jumping over obstacles, swinging from ropes, or performing aerial maneuvers. The ability to perform feats of gymnastics, balance, tumbling, and breaking falls. It covers keeping one's footing on slippery surfaces or tightropes and maneuvering through threatened areas without being hit."
 specialties:
-  - Tumbling (Rolling through hazardous zones)
-  - Balancing (Traversing narrow beams and wires)
-  - Tightrope Walking (High-wire traversal)
-  - Free-running / Parkour (Urban obstacle traversal)
-synergy_links:
-  - physical-athletics
-  - physical-stealth
-  - combat-defense
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'acrobatics, physical, agility, mobility, athletics, bodily-coordination'
-negative_keywords: 'sedentary, paralyzed, clumsy'
+  - "Tumbling: Executing offensive or defensive rolls across hard or hazardous terrain."
+  - "Tightrope & Ledge Balancing: Retaining equilibrium along narrow beams, girders, and razor edges."
+  - "Parkour & Free-Running: Traversing complex vertical and urban environments at full speed."
+  - "Breakfalling: Mitigating kinetic shock and impact damage from catastrophic falls."
+  - "Zero-G Maneuvering: Propelling, rotating, and anchoring oneself in microgravity or vacuum."
+  - "Escapology: Slipping bonds, manacles, energy cuffs, and narrow biological entrapments."
+  - "Wall-Running: Using kinetic momentum to traverse perpendicular surfaces briefly."
+  - "Aerial Trapeze & Swing: Calculating and grabbing ropes, cables, and swinging hazards in motion."
+  - "Dive & Roll: Clearing sudden ground-level traps, blast radii, or closing bulkheads."
+  - "Kip-Up & Rapid Recovery: Snapping instantly to one's feet from a prone state without defensive penalties."
+keywords: "acrobatics, physical, agility, mobility, athletics, bodily-coordination"
+negative_keywords: "sedentary, paralyzed, clumsy"
 ---
 
-# Acrobatics
+## **Acrobatics**
 
-The skill of performing feats of gymnastics, extraordinary balance, tumbling, breaking falls, and high-agility kinetic maneuvers.
+* **Ability:** Agility  
+* **Description:** Acrobatics is the skill of performing feats of gymnastics, extraordinary balance, and dance (and related performance arts), and breaking falls. It is used whenever a character attempts to make a physical maneuver that requires agility, balance, and coordination. This can include things like jumping over obstacles, swinging from ropes, or performing aerial maneuvers. The ability to perform feats of gymnastics, balance, tumbling, and breaking falls. It covers keeping one's footing on slippery surfaces or tightropes and maneuvering through threatened areas without being hit.  
+* **Mechanics:**  
+  * *Balance:* CR 10 (narrow surface) to CR 20+ (razor edge).  
+  * *Tumble:* CR 15 to move through an enemy's threatened area without provoking an attack.  
+  * *Break Fall:* Reduce falling damage (CR 15 ignores first 10ft).  
+* **Specialties:**   
+  * **Tumbling:** Executing offensive or defensive rolls across hard or hazardous terrain.  
+  * **Tightrope & Ledge Balancing:** Retaining equilibrium along narrow beams, girders, and razor edges.  
+  * **Parkour & Free-Running:** Traversing complex vertical and urban environments at full speed.  
+  * **Breakfalling:** Mitigating kinetic shock and impact damage from catastrophic falls.  
+  * **Zero-G Maneuvering:** Propelling, rotating, and anchoring oneself in microgravity or vacuum.  
+  * **Escapology:** Slipping bonds, manacles, energy cuffs, and narrow biological entrapments.  
+  * **Wall-Running:** Using kinetic momentum to traverse perpendicular surfaces briefly.  
+  * **Aerial Trapeze & Swing:** Calculating and grabbing ropes, cables, and swinging hazards in motion.  
+  * **Dive & Roll:** Clearing sudden ground-level traps, blast radii, or closing bulkheads.  
+  * **Kip-Up & Rapid Recovery:** Snapping instantly to one's feet from a prone state without defensive penalties.
 
-### Mechanics & Rules
-- **Governing Attribute**: Agility
-- **Balance**: DC 10 (Narrow beam) to DC 20+ (Razor edge / slippery surface).
-- **Tumble**: DC 15 to move through an enemy's threatened area without provoking an Attack of Opportunity.
-- **Break Fall**: DC 15 reduces falling damage (ignores the first 10ft of fall distance).
-
-### Specialties
-- **Tumbling**: Defensive rolls and acrobatic dodges.
-- **Balancing**: Moving across precarious ledges and shifting terrain.
-- **Tightrope Walking**: Specialized high-tension cable traversal.
-- **Parkour**: Fast momentum-based urban and structural navigation.
+##

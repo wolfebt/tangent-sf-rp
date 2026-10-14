@@ -6,8 +6,8 @@ feature_category: Combat
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: 'Agi 4, Skill 11'
-description: 'Greater Two-Weapon Fighting is a Combat Feature: Gain a third off-hand attack.'
+prerequisites: 'Agility 4, Combat Skill 11, Improved Two-Weapon Fighting'
+description: A blur of steel/energy.
 costs:
   cp: 3
   bp: 3
@@ -17,20 +17,16 @@ keywords: >-
   tactical-edge, greater
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
+mechanic: 'You gain a **third attack** with your off-hand weapon, at a **\-10 penalty**.'
 ---
-
 # Greater Two-Weapon Fighting
 
 **Category**: Combat Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: Agi 4, Skill 11
+**Prerequisite**: Agility 4, Combat Skill 11, Improved Two-Weapon Fighting
 
 ## Description
-Greater Two-Weapon Fighting is a Combat Feature: Gain a third off-hand attack.
+A blur of steel/energy.
 
 ## Mechanics & Benefit
-Gain a third off-hand attack.
-
-## Special Rules
-45
-
+You gain a **third attack** with your off-hand weapon, at a **\-10 penalty**.

@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useCallback, useMemo } from
 import { db, auth } from '../../firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { StorageService } from '../../services/storageService';
-import { useFolioIdentity } from './FolioIdentityContext';
+import { useFolioIdentity, DEFAULT_CHARACTER } from './FolioIdentityContext';
 import { useFolioStats } from './FolioStatsContext';
 import { useFolioDeathDying } from './folioDeathDyingEngine';
 import { useFolioRestRecovery } from './folioRestRecoveryEngine';
@@ -10,26 +10,64 @@ import { useFolioKarma } from './folioKarmaEngine';
 import { DEATH_AND_DYING_RULES, EXPERIENCE_RULES } from '../../engines/tangentConstants';
 import { applyExperienceAward, settleExperienceDebt } from '../../engines/tangentEntityEngines';
 
-export const FolioVitalsContext = createContext(null);
+export const DEFAULT_VITALS_FALLBACK = {
+  updateCharacterHealth: () => {},
+  updateCharacterVitality: () => {},
+  updateCharacterStructure: () => {},
+  updateCharacterHp: () => {},
+  applyCharacterDamage: () => {},
+  stabilizeCharacter: () => {},
+  advanceCharacterDeathTurn: () => {},
+  revivifyCharacter: () => {},
+  awardExperience: () => {},
+  payExperienceDebt: () => {},
+  experienceRules: EXPERIENCE_RULES,
+  deathAndDyingRules: DEATH_AND_DYING_RULES,
+  takeCharacterRest: () => {},
+  resetDailyCharacterRests: () => {},
+  updateCharacterKarma: () => {},
+  awardCharacterKarma: () => {},
+  resetCharacterKarma: () => {},
+  awardPartyKarma: () => {},
+  awardPartyExperience: () => {},
+  spendKarma: () => {},
+  gainKarma: () => {},
+  resetKarmaToMax: () => {},
+  spendPlotPoint: () => {},
+  gainPlotPoint: () => {},
+  isInActiveGame: false,
+  activeGameSession: null,
+  setInActiveGame: () => {},
+  toggleActiveGameLock: () => {},
+  applyGMConfirmedUpdate: () => {},
+  isGMConfirmed: false,
+  setIsGMConfirmed: () => {},
+  isProtectedGameStat: () => false,
+  isDynamicOperationalStat: () => false,
+  isReadOnly: false
+};
+
+export const FolioVitalsContext = createContext(DEFAULT_VITALS_FALLBACK);
 
 export const useFolioVitals = () => {
   const context = useContext(FolioVitalsContext);
   if (!context) {
     console.warn('[useFolioVitals] Hook called outside of FolioVitalsSliceProvider. Returning fallback empty state.');
-    return {};
+    return DEFAULT_VITALS_FALLBACK;
   }
   return context;
 };
 
 export const FolioVitalsSliceProvider = ({ children }) => {
   const { 
-    characterData, 
+    characterData: rawCharacterData, 
     setCharacterData, 
     personaRoster, 
     setPersonaRoster, 
     triggerSave,
     isReadOnly
   } = useFolioIdentity();
+  const characterData = (rawCharacterData && typeof rawCharacterData === 'object') ? rawCharacterData : DEFAULT_CHARACTER;
 
   const { derivedStats } = useFolioStats();
 

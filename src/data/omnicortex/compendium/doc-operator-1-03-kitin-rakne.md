@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-03-kitin-rakne"
-name: "1.03 Kitin: Rakne"
+name: "1.03 Kitin: Rakne (Infiltration Expression)"
 fileName: "1.03.Kitin.Rakne.md"
 relPath: "operator/species/Kitin/1.03.Kitin.Rakne.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-kitin"
-order: 66
+order: 70
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
@@ -98,14 +98,3 @@ The Rakne are the "Hands of the Collective." Arachno-tauric with a dual-skeletal
 
 ---
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/Kitin/1.03.Kitin.Rakne.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/Kitin/1.03.Kitin.Rakne.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/Kitin/1.03.Kitin.Rakne.md. Complete, unabridged source of truth.

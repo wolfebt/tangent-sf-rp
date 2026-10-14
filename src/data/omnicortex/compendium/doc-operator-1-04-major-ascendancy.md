@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 108
+order: 116
 perspective: "operator"
 entry_type: "Primary Faction"
 tl: 3
@@ -116,14 +116,3 @@ sockets:
 * **The Bridge of the Aurelia's Hope:** Calm, quiet efficiency under a transparent aluminum dome. Crew members in white and blue manipulate data with gestures and thought via floating holographic consoles.  
 * **The Meditation Gardens:** White marble paths through curated flora. Citizens practice mental focus while instructors levitate in the center, guiding the harmony of the Path.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Major.Ascendancy.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Major.Ascendancy.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Major.Ascendancy.md. Complete, unabridged source of truth.

@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-major-coalition"
-name: "1.04 Major: Coalition"
+name: "1.04 Major: Coalition of Independent Worlds"
 fileName: "1.04.Major.Coalition.md"
 relPath: "operator/factions/1.04.Major.Coalition.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 110
+order: 114
 perspective: "operator"
 entry_type: "Primary Faction"
 tl: 3
@@ -140,14 +140,3 @@ sockets:
 * **"Dust-Skipper" Buggy:** High-suspension fast recon 4x4.  
 * **"Leviathan" Land-Train:** Gargantuan segmented logistics crawler.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Major.Coalition.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Major.Coalition.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Major.Coalition.md. Complete, unabridged source of truth.

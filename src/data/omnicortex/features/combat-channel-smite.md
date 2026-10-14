@@ -19,8 +19,12 @@ keywords: >-
   technique
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
+mechanic: >-
+  As a Standard Action, you may cast a touch-range Invocation (Spell) and
+  deliver it through a melee weapon attack. If the melee attack hits, the target
+  suffers the weapon damage *plus* the effect of the Invocation.
+rules: 'If the attack misses, the Invocation energy is dissipated and lost.'
 ---
-
 # Channel Smite
 
 **Category**: Combat Features  
@@ -35,4 +39,3 @@ As a Standard Action, you may cast a touch-range Invocation (Spell) and deliver 
 
 ## Special Rules
 If the attack misses, the Invocation energy is dissipated and lost.
-

@@ -1,38 +1,43 @@
 ---
 id: social-style
-name: Style
+name: "Style"
 type: social
-subtype: expression
+subtype: "expression"
 category: skills
-governing_attributes:
-  - Charisma
-description: >-
-  Personal aesthetics, fashion awareness, grooming, color coordination, wearing
-  high-caste garments, and projecting an aura of power.
-trained_only: false
+governing_attribute: "Charisma"
+description: "Style is the skill of creating a unique and distinctive appearance. It reflects a character's ability to use clothing, accessories, and other techniques to create a unique and memorable look. Style is used whenever a character needs to make a good impression or to stand out from the crowd. The knowledge of fashion, grooming, and personal aesthetics. It is the ability to make an impression before speaking a word. It involves dressing appropriately for high society or looking intimidating in street armor."
 specialties:
-  - High-Society Aristocratic Fashion
-  - Streetwear & Cyberpunk Aesthetics
-  - Corporate Executive Styling
-  - Intimidating & Militaristic Presence
-  - Uniforms & Royal Heraldry
-synergy_links:
-  - mental-tailor
-  - social-diplomacy
-  - social-intimidate
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'style, social, charisma, interaction, diplomacy, influence'
-negative_keywords: 'isolated, anti-social, inarticulate'
+  - "High-Society Elegance: Selecting tailored suits, noble sashes, and jewelry that radiate immense wealth and status."
+  - "Streetwear & Cyberpunk Chic: Styling leather jackets, neon hair, combat boots, and decals for maximum street cred."
+  - "Corporate Executive Polish: Dressing in crisp, minimalist, intimidating boardroom suits that project pure competence."
+  - "Military & Uniform Crispness: Ironing razor-sharp uniform creases, polishing boots to mirrors, and aligning ribbons."
+  - "Intimidating Mercenary Look: Layering battered combat rigs, scars, and holster wear that scream hardened killer."
+  - "Subtle Blend-In (Gray Man): Selecting ultra-nondescript, beige, forgettable clothing that leaves zero mental impression."
+  - "Avant-Garde Alien Couture: Pulling off radical alien silhouettes, kinetic fabrics, and exotic off-world color clashes."
+  - "Gala Glamour: Wearing head-turning, showstopping formal eveningwear that dominates room attention instantly."
+  - "Retro & Nostalgic Vintage: Rocking period-accurate antique threads, vintage flight jackets, and classic hats."
+  - "Personal Grooming & Scent: Mastering hair styling, facial hair trimming, and signature scents that leave lasting impressions."
+keywords: "style, social, charisma, interaction, diplomacy, influence"
+negative_keywords: "isolated, anti-social, inarticulate"
 ---
 
-# Style
+### **Style**
 
-Personal aesthetics, fashion awareness, grooming, color coordination, wearing high-caste garments, and projecting an aura of power.
+* **Ability:** Charisma  
+* **Description:** Style is the skill of creating a unique and distinctive appearance. It reflects a character's ability to use clothing, accessories, and other techniques to create a unique and memorable look. Style is used whenever a character needs to make a good impression or to stand out from the crowd. The knowledge of fashion, grooming, and personal aesthetics. It is the ability to make an impression before speaking a word. It involves dressing appropriately for high society or looking intimidating in street armor.  
+* **Mechanics:**  
+  * *First Impression:* CR 15 to grant a \+2 bonus to the first **Diplomacy** or **Intimidate** check made in an encounter.  
+  * *Blend In:* Dress to match a specific social caste or group (opposed by Culture/Streetwise).  
+* **Specialties:**   
+  * **High-Society Elegance:** Selecting tailored suits, noble sashes, and jewelry that radiate immense wealth and status.  
+    * **Streetwear & Cyberpunk Chic:** Styling leather jackets, neon hair, combat boots, and decals for maximum street cred.  
+    * **Corporate Executive Polish:** Dressing in crisp, minimalist, intimidating boardroom suits that project pure competence.  
+    * **Military & Uniform Crispness:** Ironing razor-sharp uniform creases, polishing boots to mirrors, and aligning ribbons.  
+    * **Intimidating Mercenary Look:** Layering battered combat rigs, scars, and holster wear that scream hardened killer.  
+    * **Subtle Blend-In (Gray Man):** Selecting ultra-nondescript, beige, forgettable clothing that leaves zero mental impression.  
+    * **Avant-Garde Alien Couture:** Pulling off radical alien silhouettes, kinetic fabrics, and exotic off-world color clashes.  
+    * **Gala Glamour:** Wearing head-turning, showstopping formal eveningwear that dominates room attention instantly.  
+    * **Retro & Nostalgic Vintage:** Rocking period-accurate antique threads, vintage flight jackets, and classic hats.  
+    * **Personal Grooming & Scent:** Mastering hair styling, facial hair trimming, and signature scents that leave lasting impressions.
 
-### Mechanics & Rules
-- **Governing Attribute**: Charisma
-- **First Impression**: DC 15 grants a **+2 bonus** on the very first **Diplomacy** or **Intimidate** check made during an encounter.
-- **Caste Blending**: DC 15 allows dressing seamlessly to blend into high-society ballrooms or gritty underworld clubs.
+  ###

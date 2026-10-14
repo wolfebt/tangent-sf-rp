@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-03-asi-fey"
-name: "1.03 Asi: Fey"
+name: "1.03 Asi: Fey (Base)"
 fileName: "1.03.Asi.Fey.md"
 relPath: "operator/species/Asi/1.03.Asi.Fey.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-asi"
-order: 25
+order: 24
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
@@ -119,14 +119,3 @@ ANY 2 Nature oriented Features of choice
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/Asi/1.03.Asi.Fey.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/Asi/1.03.Asi.Fey.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/Asi/1.03.Asi.Fey.md. Complete, unabridged source of truth.

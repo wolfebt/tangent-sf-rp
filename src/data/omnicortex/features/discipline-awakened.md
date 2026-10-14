@@ -18,8 +18,19 @@ modifiers: []
 keywords: 'awakened, discipline, special-feature, focused-training, mastery, opened'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You gain access to the **Attune** skill (the universal skill for channeling
+  power) and **2 Discipline Skills** belonging to a specific **Metafocus
+  Discipline** (e.g., Dimension, Energy, Entropy, Illusion, Matter, or
+  Mental).  
+    * *Example:* Selecting *Awakened (Energy)* might grant access to *Attune*, *Elemental Focus*, and *Force Focus*.  
+  * **Purpose:** The entry point for all mages, psychics, and super-powered
+  beings.
+rules: >-
+  This feature is **\[Multiple\]**. Taking it a second time allows you to awaken
+  a different Metafocus (e.g., adding *Entropy* to a character who already has
+  *Energy*), granting access to that discipline's specific skills.
 ---
-
 # Awakened
 
 **Category**: Discipline Features  
@@ -31,8 +42,8 @@ The character has opened their mind or soul to a greater reality. This is the fu
 
 ## Mechanics & Benefit
 You gain access to the **Attune** skill (the universal skill for channeling power) and **2 Discipline Skills** belonging to a specific **Metafocus Discipline** (e.g., Dimension, Energy, Entropy, Illusion, Matter, or Mental).  
-  * *Example:* Selecting *Awakened (Energy)* might grant access to *Attune*, *Elemental Focus*, and *Force Focus*.
+  * *Example:* Selecting *Awakened (Energy)* might grant access to *Attune*, *Elemental Focus*, and *Force Focus*.  
+* **Purpose:** The entry point for all mages, psychics, and super-powered beings.
 
 ## Special Rules
 This feature is **\[Multiple\]**. Taking it a second time allows you to awaken a different Metafocus (e.g., adding *Entropy* to a character who already has *Energy*), granting access to that discipline's specific skills.
-

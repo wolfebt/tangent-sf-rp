@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 184
+order: 187
 perspective: "operator"
 entry_type: "Skill Category"
 tl: 3
@@ -423,14 +423,3 @@ Using a complementary skill to boost the Meta effect.
 * *Example:* Using **Anatomy (Knowledge)** to boost a **Wither (Entropy)** spell.  
 * *Mechanic:* Roll Anatomy vs CR 10\. For every 5 points over 10, gain \+1 to the Attune/Damage roll.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/skills/1.07.Metaphysics.md
-```
-
-## Gameplay Instructions
-Refer to operator/skills/1.07.Metaphysics.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/skills/1.07.Metaphysics.md. Complete, unabridged source of truth.

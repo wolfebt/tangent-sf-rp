@@ -24,8 +24,12 @@ modifiers:
 keywords: 'meticulous, skill, special-feature, exceptionally, thorough, rarely'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
----
+mechanic: >-
+  The bonus gained from taking extra time on a skill check is improved.  
 
+  * **Mechanics:** For every \+50% time added to a task, you gain a **\+3
+  Bonus** (normally \+2). This bonus scales with stages (+3, \+6, \+9 etc.).
+---
 # Meticulous
 
 **Category**: Skill Features  
@@ -36,8 +40,5 @@ cost_cp: 3
 The character is exceptionally thorough. When they take their time, they rarely fail.
 
 ## Mechanics & Benefit
-The bonus gained from taking extra time on a skill check is improved.
-
-## Special Rules
-153
-
+The bonus gained from taking extra time on a skill check is improved.  
+* **Mechanics:** For every \+50% time added to a task, you gain a **\+3 Bonus** (normally \+2). This bonus scales with stages (+3, \+6, \+9 etc.).

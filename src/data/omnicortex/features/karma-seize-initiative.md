@@ -6,7 +6,7 @@ feature_category: Karma
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: '-'
+prerequisites: None
 description: >-
   The character reacts with blazing speed when chaos erupts, acting before the
   enemy can blink.
@@ -17,13 +17,16 @@ modifiers: []
 keywords: 'seize initiative, karma, special-feature, reacts, blazing, erupts'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You automatically go **First** in the initiative order, regardless of your
+  Agility or roll.  
+    * *Conflict:* If multiple characters (allies or enemies) use this feature, they are ranked at the top of the order, sorted by their Agility scores.
 ---
-
 # Seize Initiative
 
 **Category**: Karma Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: \-
+**Prerequisite**: None
 
 ## Description
 The character reacts with blazing speed when chaos erupts, acting before the enemy can blink.
@@ -31,7 +34,3 @@ The character reacts with blazing speed when chaos erupts, acting before the ene
 ## Mechanics & Benefit
 You automatically go **First** in the initiative order, regardless of your Agility or roll.  
   * *Conflict:* If multiple characters (allies or enemies) use this feature, they are ranked at the top of the order, sorted by their Agility scores.
-
-## Special Rules
-125
-

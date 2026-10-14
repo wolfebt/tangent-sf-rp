@@ -25,7 +25,12 @@ const RulesPolicySimulator = {
     return auth != null;
   },
   isAdmin(auth) {
-    return this.isAuthenticated(auth) && (auth.token?.admin === true || auth.token?.role === 'GM');
+    return (
+      this.isAuthenticated(auth) &&
+      (auth.token?.admin === true ||
+        auth.token?.role === 'GM' ||
+        auth.token?.email === 'btw.284@gmail.com')
+    );
   },
   isOwner(auth, userId) {
     return this.isAuthenticated(auth) && auth.uid === userId;
@@ -87,8 +92,8 @@ test('Firestore Rules: Core helper functions (isAuthenticated, isAdmin, isOwner)
   );
   assert.match(
     rulesText,
-    /function\s+isAdmin\(\)\s*\{\s*return\s+isAuthenticated\(\)\s*&&\s*\(request\.auth\.token\.admin\s*==\s*true\s*\|\|\s*request\.auth\.token\.role\s*==\s*'GM'\);\s*\}/,
-    'isAdmin() must require authenticated user with admin == true or role == GM'
+    /function\s+isAdmin\(\)\s*\{\s*return\s+isAuthenticated\(\)\s*&&\s*\([\s\S]*?request\.auth\.token\.admin\s*==\s*true[\s\S]*?request\.auth\.token\.role\s*==\s*'GM'[\s\S]*?request\.auth\.token\.email\s*==\s*'btw\.284@gmail\.com'[\s\S]*?\);\s*\}/,
+    'isAdmin() must require authenticated user with admin == true, role == GM, or authorized admin email'
   );
   assert.match(
     rulesText,

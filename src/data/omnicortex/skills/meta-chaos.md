@@ -1,45 +1,33 @@
 ---
 id: meta-chaos
-name: Chaos
+name: "Chaos"
 type: meta
-subtype: entropy
+subtype: "entropy"
 category: skills
-governing_attributes:
-  - Wisdom
-description: >-
-  Entropy discipline: Accelerating decay, breaking molecular bonds, curses, and
-  destructive negative energy.
-trained_only: true
+governing_attribute: ""
+description: "Entropy: Accelerating decay, breaking molecular bonds, curses, and destructive negative energy."
 specialties:
-  - Molecular Breakdown
-  - Curse Invocations
-  - Decay Acceleration
-  - Structural Disruption
-  - Entropy Beams
-synergy_links:
-  - meta-attune
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'chaos, meta, wisdom, metafocus, psionic, resonance'
-negative_keywords: 'mundane, anti-magic-field, unattuned'
+  []
+keywords: "chaos, meta, wisdom, metafocus, psionic, resonance"
+negative_keywords: "mundane, anti-magic-field, unattuned"
 ---
 
-# Chaos
+### **CHAOS FOCUS**
 
-Entropy discipline: Accelerating decay, breaking molecular bonds, curses, and destructive negative energy.
+Acceleration of decay, luck manipulation (bad luck), and negative energy.
 
-### Mechanics & Rules
-- **Governing Attribute**: Wisdom
-- **Discipline Focus**: Entropy
-- **Standard Check**: `2d10 + Chaos Rank + Wisdom Mod vs. Target DC / Resistance`.
-- **Prerequisite**: Unlocked when character possesses the **Awakened** feature or relevant Metaphysical discipline training.
-- **Strain Resolution**: Failing an invocation check by 5+ points deals non-lethal strain fatigue.
+* **Damage:** 2d6 per Discipline Stage \+ 1d6 per Invocation Rank. (High damage, but dangerous).  
+* **Note:** Ignores hardness/DR of non-magical materials.
 
-### Specialties
-- **Molecular**: Molecular Breakdown
-- **Curse**: Curse Invocations
-- **Decay**: Decay Acceleration
-- **Structural**: Structural Disruption
-- **Entropy**: Entropy Beams
+**Invocations:**
+
+* **Wither/Touch of Death:** Melee touch attack.  
+  * *Effect:* Necrotic damage. Heals Undead.  
+* **Curse:** Inflicts Disadvantage.  
+  * *Effect:* Target rolls at Disadvantage for 1 round per Rank. Resisted by Will.  
+* **Corrosion:** Destroys physical armor.  
+  * *Effect:* Reduces target DR by 1 per Rank.  
+* **Fear:** Induces panic.  
+  * *Effect:* Target flees for 1 round per Rank. Resisted by Will.
+
+###

@@ -15,8 +15,14 @@ modifiers: []
 keywords: 'master plan, general, special-feature, tactical, genius, prepares'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
----
+mechanic: >-
+  If you have time to prepare for an encounter (minimum 1 hour), make a **Logic
+  Check**. For every point your result exceeds CR 10, you create a **Bonus
+  Pool**.  
 
+  * **Usage:** During the encounter, you can distribute these points to allies
+  (as a free action) to add to their Attack rolls or Skill checks.
+---
 # Master Plan
 
 **Category**: General Features  
@@ -27,8 +33,5 @@ cost_cp: 3
 The character is a tactical genius who prepares for every eventuality.
 
 ## Mechanics & Benefit
-If you have time to prepare for an encounter (minimum 1 hour), make a **Logic Check**. For every point your result exceeds DC 10, you create a **Bonus Pool**.
-
-## Special Rules
-103
-
+If you have time to prepare for an encounter (minimum 1 hour), make a **Logic Check**. For every point your result exceeds CR 10, you create a **Bonus Pool**.  
+* **Usage:** During the encounter, you can distribute these points to allies (as a free action) to add to their Attack rolls or Skill checks.

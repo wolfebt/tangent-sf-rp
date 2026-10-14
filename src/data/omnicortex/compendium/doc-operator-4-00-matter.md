@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-4-00-metaphysics"
 category: "operator_rule"
 parent: "doc-operator-4-00-metaphysics"
-order: 220
+order: 223
 perspective: "operator"
 entry_type: "Metaphysics Discipline"
 tl: 3
@@ -583,14 +583,3 @@ Alters the physical form to produce a specific biological enhancement (gills, cl
 * **Magnitude:** Natural Weapon Damage \= 1d6 per Stage.  
 * **Quantity:** Number of Mutations \= 1 per Stage (Max 5 CP worth per Stage).
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/metaphysics/4.00.Matter.md
-```
-
-## Gameplay Instructions
-Refer to operator/metaphysics/4.00.Matter.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/metaphysics/4.00.Matter.md. Complete, unabridged source of truth.

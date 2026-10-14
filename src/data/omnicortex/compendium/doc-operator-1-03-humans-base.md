@@ -1,15 +1,15 @@
 ---
 id: "doc-operator-1-03-humans-base"
-name: "1.03 Humans (Lineage Overview)"
+name: "1.03 Humans: Humans (Base)"
 fileName: "1.03.Humans.Base.md"
 relPath: "operator/species/Humans/1.03.Humans.Base.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
-parent: "doc-operator-1-03-species"
-order: 37
+parent: "doc-operator-1-03-humans"
+order: 40
 perspective: "operator"
-entry_type: "Species Lineage"
+entry_type: "Baseline Species"
 tl: 3
 ml: 0
 cost: 0
@@ -89,14 +89,3 @@ any Karma Feature
 
 &nbsp;
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/Humans/1.03.Humans.Base.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/Humans/1.03.Humans.Base.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/Humans/1.03.Humans.Base.md. Complete, unabridged source of truth.

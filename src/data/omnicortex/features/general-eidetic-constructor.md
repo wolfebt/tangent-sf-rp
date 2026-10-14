@@ -20,8 +20,12 @@ keywords: >-
   visual-spatial
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  After observing an area, building, or object for 1 full round, you memorize
+  its exact structural layout, dimensions, and structural columns. You gain a +4
+  Bonus to Navigation, Architecture, or Tactical checks involving that specific
+  location.
 ---
-
 # Eidetic Constructor
 
 **Category**: General Features  
@@ -32,7 +36,4 @@ cost_cp: 3
 The character possesses unparalleled visual-spatial memory. They retain "frozen frames" of complex visual stimuli and can perfectly recreate them in physical space or memory.
 
 ## Mechanics & Benefit
-After observing an area, building, or object for 1 full round, you memorize its exact structural layout, dimensions, and structural columns. You gain a **+4 Bonus** to Navigation, Architecture, or Tactical checks involving that specific location.
-
-## Special Rules
-Prerequisite: Eidetic Memory, Awareness 2.
+After observing an area, building, or object for 1 full round, you memorize its exact structural layout, dimensions, and structural columns. You gain a +4 Bonus to Navigation, Architecture, or Tactical checks involving that specific location.

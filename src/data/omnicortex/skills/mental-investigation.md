@@ -1,39 +1,43 @@
 ---
 id: mental-investigation
-name: Investigation
+name: "Investigation"
 type: mental
-subtype: knowledge
+subtype: "knowledges"
 category: skills
-governing_attributes:
-  - Intellect
-  - Wisdom
-description: >-
-  Deductive reasoning, crime scene reconstruction, forensic examination, data
-  correlation, and systematic puzzle solving.
-trained_only: false
+governing_attribute: "Intellect (sometimes Perception)"
+description: "The application of deductive reasoning, forensics, and information gathering to solve mysteries. It differs from Alertness (which is spotting things) by focusing on *analyzing* what is found."
 specialties:
-  - Forensics & Ballistic Analysis
-  - Crime Scene Reconstruction
-  - Data Profiling & Financial Auditing
-  - Cryptography & Decryption
-  - Document Research
-synergy_links:
-  - mental-alertness
-  - mental-constable
-  - mental-computers
-costs:
-  cp: 0
-  bp: 0
-modifiers: []
-keywords: 'investigation, mental, intellect, cognitive, expertise, forensics'
-negative_keywords: 'mindless, instinct-only, illiterate'
+  - "Crime Scene Reconstruction: Determining angles of fire, point of entry, sequence of events, and struggles."
+  - "Forensic Ballistics & Trauma: Matching projectile deformation, burn marks, and wound tracks to weapons."
+  - "Digital Profiling & Tracing: Piecing together target routines, communication meta-logs, and travel manifests."
+  - "Evidence Preservation: Collecting, bagging, and securing micro-traces, hairs, fibers, and chemical residue cleanly."
+  - "Interrogation Deduction: Spotting factual contradictions, nervous tics, and narrative inconsistencies during questioning."
+  - "Financial Paper Trails: Unraveling money laundering webs, hidden ledger transfers, and payment drops."
+  - "Physical Pattern Tracking: Connecting serial crimes, matching operational signatures across star systems."
+  - "Cryptanalysis: Solving handwritten ciphers, hidden dead-drop marks, and coded personal journals."
+  - "Surveillance Audio/Video Analysis: Cleaning up audio feeds, enhancing reflection data, and mapping blind spots."
+  - "Cold Case Deduction: Evaluating historical evidence files to surface overlooked facts or corrupt cover-ups."
+keywords: "investigation, mental, intellect, cognitive, expertise, forensics"
+negative_keywords: "mindless, instinct-only, illiterate"
 ---
 
-# Investigation
+### **INVESTIGATION**
 
-Deductive reasoning, crime scene reconstruction, forensic examination, data correlation, and systematic puzzle solving.
+* **Ability:** Intellect (sometimes Perception)  
+* **Description:** The application of deductive reasoning, forensics, and information gathering to solve mysteries. It differs from Alertness (which is spotting things) by focusing on *analyzing* what is found.  
+* **Mechanics:**  
+  * **Analyze Clue:** CR 15 to determine how a clue fits into the larger picture.  
+  * **Search/Forensics:** CR 15+ to find microscopic evidence or wiped data.  
+* **Specialties:**   
+  * **Crime Scene Reconstruction:** Determining angles of fire, point of entry, sequence of events, and struggles.  
+    * **Forensic Ballistics & Trauma:** Matching projectile deformation, burn marks, and wound tracks to weapons.  
+    * **Digital Profiling & Tracing:** Piecing together target routines, communication meta-logs, and travel manifests.  
+    * **Evidence Preservation:** Collecting, bagging, and securing micro-traces, hairs, fibers, and chemical residue cleanly.  
+    * **Interrogation Deduction:** Spotting factual contradictions, nervous tics, and narrative inconsistencies during questioning.  
+    * **Financial Paper Trails:** Unraveling money laundering webs, hidden ledger transfers, and payment drops.  
+    * **Physical Pattern Tracking:** Connecting serial crimes, matching operational signatures across star systems.  
+    * **Cryptanalysis:** Solving handwritten ciphers, hidden dead-drop marks, and coded personal journals.  
+    * **Surveillance Audio/Video Analysis:** Cleaning up audio feeds, enhancing reflection data, and mapping blind spots.  
+    * **Cold Case Deduction:** Evaluating historical evidence files to surface overlooked facts or corrupt cover-ups.
 
-### Mechanics & Rules
-- **Governing Attribute**: Intellect (or Perception/Wisdom for direct observation).
-- **Analyze Clues**: DC 15 to deduce the timeline and modus operandi of a crime scene.
-- **Forensic Search**: DC 15+ to detect wiped digital logs, blood spatter, or nano-residue.
+###

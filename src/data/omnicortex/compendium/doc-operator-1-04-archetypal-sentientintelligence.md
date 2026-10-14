@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-archetypal-sentientintelligence"
-name: "1.04 Archetypal: Sentient Intelligence"
+name: "1.04 Archetypal: 19. Sentient Intelligence"
 fileName: "1.04.Archetypal.SentientIntelligence.md"
 relPath: "operator/factions/1.04.Archetypal.SentientIntelligence.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 143
+order: 146
 perspective: "operator"
 entry_type: "Generic Faction Template"
 tl: 3
@@ -86,14 +86,3 @@ sockets:
 * **Atmosphere Tokens:** Endless server towers, hard-light holograms, pristine cold environments, thick fiber-optic cables.  
 * **HI-FI INK Guidance:** AI Core, Cybernetic Singularity. Cavernous rooms filled with towering servers, glowing data streams, hard-light avatars, absolute symmetry. Cold, vast, flawless.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Archetypal.SentientIntelligence.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Archetypal.SentientIntelligence.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Archetypal.SentientIntelligence.md. Complete, unabridged source of truth.

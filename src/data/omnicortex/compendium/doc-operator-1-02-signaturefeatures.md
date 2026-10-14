@@ -216,14 +216,3 @@ Requirement: Awakened Feature
 Activation: Passive  
 Effect: When you cast a metaphysical Invocation, you can choose to take a \-2 penalty to your Attune roll to warp its structure. Doing so allows you to double the range of the effect, expand its area of effect by 5 meters, or change its damage type (e.g., converting Energy damage into physical Impact damage).
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/archetypes/1.02.SignatureFeatures.md
-```
-
-## Gameplay Instructions
-Refer to operator/archetypes/1.02.SignatureFeatures.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/archetypes/1.02.SignatureFeatures.md. Complete, unabridged source of truth.

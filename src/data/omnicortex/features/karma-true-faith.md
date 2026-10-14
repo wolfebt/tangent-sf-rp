@@ -8,8 +8,8 @@ is_ranked: false
 is_multiple: false
 prerequisites: 'Believer, Devout'
 description: >-
-  True Faith is a Karma Feature: Double effects from any Karma points on behalf
-  of their Faith.
+  The character is a chosen vessel or a paragon of their belief. When they
+  expend their spiritual energy, the universe bends to ensure their success.
 costs:
   cp: 3
   bp: 3
@@ -17,8 +17,11 @@ modifiers: []
 keywords: 'true faith, karma, special-feature, feature:, double, effects'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  When you spend a **Karma Point** to modify an action that is directly in
+  service of your Faith or ethos, the numeric effect is **Doubled**.  
+    * *Mechanics:* If a Karma spend would normally grant a \+5 bonus, it grants \+10. If the GM rules a Karma spend heals damage or reduces time, that amount is doubled. *Note: This does not double the number of dice rolled for Advantage, but significantly boosts flat modifiers.*
 ---
-
 # True Faith
 
 **Category**: Karma Features  
@@ -26,11 +29,8 @@ cost_cp: 3
 **Prerequisite**: Believer, Devout
 
 ## Description
-True Faith is a Karma Feature: Double effects from any Karma points on behalf of their Faith.
+The character is a chosen vessel or a paragon of their belief. When they expend their spiritual energy, the universe bends to ensure their success.
 
 ## Mechanics & Benefit
-Double effects from any Karma points on behalf of their Faith.
-
-## Special Rules
-121
-
+When you spend a **Karma Point** to modify an action that is directly in service of your Faith or ethos, the numeric effect is **Doubled**.  
+  * *Mechanics:* If a Karma spend would normally grant a \+5 bonus, it grants \+10. If the GM rules a Karma spend heals damage or reduces time, that amount is doubled. *Note: This does not double the number of dice rolled for Advantage, but significantly boosts flat modifiers.*

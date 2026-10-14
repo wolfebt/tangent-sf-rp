@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-03-kitin-maantene"
-name: "1.03 Kitin: Maantene"
+name: "1.03 Kitin: Maantene (Recon Expression)"
 fileName: "1.03.Kitin.Maantene.md"
 relPath: "operator/species/Kitin/1.03.Kitin.Maantene.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-kitin"
-order: 63
+order: 68
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
@@ -95,14 +95,3 @@ The Maantene represent the "Recon Expression," specialized for survival in hosti
 
 ---
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/species/Kitin/1.03.Kitin.Maantene.md
-```
-
-## Gameplay Instructions
-Refer to operator/species/Kitin/1.03.Kitin.Maantene.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/species/Kitin/1.03.Kitin.Maantene.md. Complete, unabridged source of truth.

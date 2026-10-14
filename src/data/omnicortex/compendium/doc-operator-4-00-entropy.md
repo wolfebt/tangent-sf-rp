@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-4-00-metaphysics"
 category: "operator_rule"
 parent: "doc-operator-4-00-metaphysics"
-order: 216
+order: 221
 perspective: "operator"
 entry_type: "Metaphysics Discipline"
 tl: 3
@@ -651,14 +651,3 @@ Drives out possessing spirits, demons, or entities.
 * **Power:** Damage to Spirit \= 2d6 per Stage (Force/Holy).  
 * **Severity:** Save CR increases by \+1 per Stage.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/metaphysics/4.00.Entropy.md
-```
-
-## Gameplay Instructions
-Refer to operator/metaphysics/4.00.Entropy.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/metaphysics/4.00.Entropy.md. Complete, unabridged source of truth.

@@ -15,8 +15,10 @@ modifiers: []
 keywords: 'nimble moves, general, special-feature, dances, around, obstacles'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
+mechanic: >-
+  You ignore **10 feet** of difficult terrain penalties during your movement per
+  round.
 ---
-
 # Nimble Moves
 
 **Category**: General Features  
@@ -28,7 +30,3 @@ The character dances around obstacles that would slow others down.
 
 ## Mechanics & Benefit
 You ignore **10 feet** of difficult terrain penalties during your movement per round.
-
-## Special Rules
-104
-

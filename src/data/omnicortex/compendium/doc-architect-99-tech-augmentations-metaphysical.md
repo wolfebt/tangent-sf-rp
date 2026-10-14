@@ -207,14 +207,3 @@ Below is a standardized catalog of available Meta-Augs, detailing their Node req
 * **Description:** The ultimate biological replacement. The host's biological heart is removed and replaced with a spinning, frictionless Aetherium crystal turbine that pumps liquid resonance through the veins instead of blood.  
 * **Mechanic:** The user no longer ages and gains the *Ageless* and *Regeneration* (1 HP per minute) features. The user's Vitality maximum is permanently increased by \+20. However, the user becomes critically vulnerable to anti-magic: entering an established Null-Void field or being struck by a targeted Metaphysical EMP forces a CR 20 Fortitude save, or the user drops immediately to 0 Health.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in architect/technology/augmentations/99.Tech.Augmentations.Metaphysical.md
-```
-
-## Gameplay Instructions
-Refer to architect/technology/augmentations/99.Tech.Augmentations.Metaphysical.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from architect/technology/augmentations/99.Tech.Augmentations.Metaphysical.md. Complete, unabridged source of truth.

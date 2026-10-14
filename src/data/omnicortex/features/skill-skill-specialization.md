@@ -22,8 +22,16 @@ modifiers:
 keywords: 'skill specialization, skill, special-feature, drills, specific'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
----
+mechanic: >-
+  Choose a sub-category of the skill (e.g., *Firearms: Sniping* or *Computers:
+  Hacking*). You gain a separate pool of ranks in this specialization equal to
+  your base skill rank (up to \+10).  
 
+  * **Mechanics:** When making a check in that specialization, you add your
+  **Base Rank \+ Specialization Rank**. This allows you to exceed the normal
+  Skill Rank cap of 20 (reaching Pinnacle+).
+rules: '\[Multiple\] Can be taken for different skills or different sub-categories.'
+---
 # Skill Specialization
 
 **Category**: Skill Features  
@@ -34,8 +42,8 @@ cost_cp: 3
 The character drills deep into a specific niche of a broad skill.
 
 ## Mechanics & Benefit
-Choose a sub-category of the skill (e.g., *Firearms: Sniping* or *Computers: Hacking*). You gain a separate pool of ranks in this specialization equal to your base skill rank (up to \+10).
+Choose a sub-category of the skill (e.g., *Firearms: Sniping* or *Computers: Hacking*). You gain a separate pool of ranks in this specialization equal to your base skill rank (up to \+10).  
+* **Mechanics:** When making a check in that specialization, you add your **Base Rank \+ Specialization Rank**. This allows you to exceed the normal Skill Rank cap of 20 (reaching Pinnacle+).
 
 ## Special Rules
 \[Multiple\] Can be taken for different skills or different sub-categories.
-

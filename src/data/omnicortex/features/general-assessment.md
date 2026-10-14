@@ -17,8 +17,15 @@ modifiers: []
 keywords: 'assessment, general, special-feature, practiced, sizing, opposition'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
----
+mechanic: >-
+  By observing a target for 1 full round, you can determine their relative
+  threat level compared to yourself (Inferior, Equal, or Superior) and estimate
+  their highest Skill Rank category (Novice, Trained, Expert, Master,
+  Pinnacle).  
 
+  * **Purpose:** Allows players to gauge if a fight is winnable before
+  initiative is rolled.
+---
 # Assessment
 
 **Category**: General Features  
@@ -29,8 +36,5 @@ cost_cp: 3
 The character has a practiced eye for sizing up opposition. By observing a target's stance, equipment, and demeanor, they can gauge the threat level.
 
 ## Mechanics & Benefit
-By observing a target for 1 full round, you can determine their relative threat level compared to yourself (Inferior, Equal, or Superior) and estimate their highest Skill Rank category (Novice, Trained, Expert, Master, Pinnacle).
-
-## Special Rules
-This bonus lasts for the duration of the encounter or until the target successfully leaves your line of sight for more than 1 minute.
-
+By observing a target for 1 full round, you can determine their relative threat level compared to yourself (Inferior, Equal, or Superior) and estimate their highest Skill Rank category (Novice, Trained, Expert, Master, Pinnacle).  
+* **Purpose:** Allows players to gauge if a fight is winnable before initiative is rolled.

@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-archetypal-rebel"
-name: "1.04 Archetypal: Rebel"
+name: "1.04 Archetypal: 17. Rebel"
 fileName: "1.04.Archetypal.Rebel.md"
 relPath: "operator/factions/1.04.Archetypal.Rebel.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 141
+order: 144
 perspective: "operator"
 entry_type: "Generic Faction Template"
 tl: 3
@@ -86,14 +86,3 @@ sockets:
 * **Atmosphere Tokens:** Hidden bases, civilian clothing mixed with tactical web-gear, improvised explosives, spray-painted logos.  
 * **HI-FI INK Guidance:** Rebel Insurgency, Gritty Tactical. Shadowed alleyways, hidden bunkers, mismatched military gear worn over civilian clothes, spray-painted revolutionary symbols. Desperate, defiant.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Archetypal.Rebel.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Archetypal.Rebel.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Archetypal.Rebel.md. Complete, unabridged source of truth.

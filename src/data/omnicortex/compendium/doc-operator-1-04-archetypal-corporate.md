@@ -1,13 +1,13 @@
 ---
 id: "doc-operator-1-04-archetypal-corporate"
-name: "1.04 Archetypal: Corporate"
+name: "1.04 Archetypal: 03. Corporate"
 fileName: "1.04.Archetypal.Corporate.md"
 relPath: "operator/factions/1.04.Archetypal.Corporate.md"
 isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 127
+order: 130
 perspective: "operator"
 entry_type: "Generic Faction Template"
 tl: 3
@@ -86,14 +86,3 @@ sockets:
 * **Atmosphere Tokens:** Glass boardrooms, tailored suits, holographic stock tickers, neon advertising.  
 * **HI-FI INK Guidance:** Corporate Noir, Glass boardrooms, glowing data-tables, sharp suits with hidden armor, high-altitude city views. Cold, wealthy, untouchable.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Archetypal.Corporate.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Archetypal.Corporate.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Archetypal.Corporate.md. Complete, unabridged source of truth.

@@ -1,6 +1,6 @@
 ---
 id: "doc-operator-1-04-major-dracondynasty"
-name: "1.04 Major: Dracon Dynasty"
+name: "1.04 Major: The Dracon Dynasty"
 fileName: "1.04.Major.DraconDynasty.md"
 relPath: "operator/factions/1.04.Major.DraconDynasty.md"
 isMasterDoc: false
@@ -117,14 +117,3 @@ sockets:
 * **The Dragoon Patrol:** A squad of heavy Dragon-Striders moving through a city. The populace creates a wide berth, showing respect and fear.  
 * **The Wyrm-Hangar:** A cavernous bay lined with basalt where high-tech maintenance rigs service massive Walker Mecha alongside handlers tending to biological Wyverns.
 
-
-## Game Mechanics Rules
-```
-See full canonical text in operator/factions/1.04.Major.DraconDynasty.md
-```
-
-## Gameplay Instructions
-Refer to operator/factions/1.04.Major.DraconDynasty.md in the game rules library for complete architectural tables and system parameters.
-
-## Designer Notes
-Canonical Tangent SF RP rulebook reference from operator/factions/1.04.Major.DraconDynasty.md. Complete, unabridged source of truth.
