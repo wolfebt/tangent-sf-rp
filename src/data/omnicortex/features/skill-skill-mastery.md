@@ -13,7 +13,14 @@ description: >-
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: Focused Skills
+    type: take_10
+    value: 10
+    mode: competence
+    isSituational: true
+    condition: Mortal combat or severe stress
+    description: May Take 10 on all focused skills (Rank 11+) even in combat
 keywords: 'skill mastery, skill, special-feature, mastery, feature:, skills'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3

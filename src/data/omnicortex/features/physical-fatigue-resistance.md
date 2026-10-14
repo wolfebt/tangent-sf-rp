@@ -13,7 +13,16 @@ description: >-
 costs:
   cp: 2
   bp: 2
-modifiers: []
+modifiers:
+  - target: physical-endurance
+    type: save_advantage
+    value: 1
+    mode: conditional
+    isSituational: true
+    condition: Resisting fatigue and physical exhaustion
+    description: >-
+      Advantage on all checks and saves to resist fatigue and exhaustion (Roll
+      3d10, take best 2)
 keywords: 'fatigue-resistance, stamina, endurance, advantage, builder, infantry, murex'
 negative_keywords: 'exhausted, frail, low-stamina'
 cost_cp: 2

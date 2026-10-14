@@ -11,7 +11,14 @@ description: The character knows every job on the crew.
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: Vocations
+    type: virtual_ranks
+    value: 1
+    mode: conditional
+    isSituational: true
+    condition: 1 rank per Intellect bonus > 1
+    description: Virtual ranks in Vocation skills based on Intellect
 keywords: 'versatile professional, skill, special-feature'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3

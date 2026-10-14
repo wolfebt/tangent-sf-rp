@@ -11,7 +11,12 @@ description: 'Pain Tolerance is a General Feature: Make Stun checks at Advantage
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: Stun
+    type: save_advantage
+    value: 1
+    mode: inherent
+    description: Make Stun checks at Advantage (3d10 keep 2 highest)
 keywords: 'pain tolerance, general, special-feature, tolerance, feature:, advantage'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3

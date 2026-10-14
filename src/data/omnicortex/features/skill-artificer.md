@@ -13,7 +13,14 @@ description: >-
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: mental-vocations-artificer
+    type: check_advantage
+    value: 1
+    mode: conditional
+    isSituational: true
+    condition: Metacrafting and prototyping items
+    description: 'Advantage on Metacrafting and Prototyping checks (Roll 3d10, take best 2)'
 keywords: 'artificer, skill, special-feature, combines, engineering, metaphysics'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3

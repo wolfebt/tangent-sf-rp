@@ -1,0 +1,172 @@
+---
+id: "doc-architect-99-companion-functionandexamples"
+name: "99. Companion: Function Packages & Examples"
+fileName: "99.Companion.FunctionAndExamples.md"
+relPath: "architect/companions/99.Companion.FunctionAndExamples.md"
+isMasterDoc: false
+masterDocId: "doc-architect-99-modular-companion-matrix"
+category: "architect_matrix"
+parent: "doc-architect-99-modular-companion-matrix"
+order: 20
+perspective: "architect"
+entry_type: "Companion Matrix Module"
+tl: 3
+ml: 0
+cost: 0
+tags: ["architect","core-rules","modular-rule","companions","99.companion.functionandexamples","matrix"]
+updatedAt: "2026-10-14T06:04:05.810Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
+---
+
+# **COMPANION MODULAR BUILD SYSTEM: FUNCTION PACKAGES & EXAMPLES**
+
+### **PART 2: THE FUNCTION PACKAGES (THE JOB)**
+
+Select **one** function. This defines Attributes (Combat Stats) and Skills.
+
+#### **1\. The Striker (Combat Focus)**
+
+*Designed to hurt things.*
+
+* **Cost:** 25 CP  
+* **Attributes (12 CP):** \+2 Strength (or Agility), \+1 Stamina.  
+* **Skills (12 CP):**  
+  * Combat (Unarmed/Natural): Rank 5 \[4 CP\]  
+  * Athletics (Chase/Climb): Rank 5 \[4 CP\]  
+  * Intimidate: Rank 5 \[4 CP\]  
+* **Skills (1 CP):** Survival Rank 1\.
+
+#### 
+
+#### **2\. The Guardian (Defense Focus)**
+
+*Designed to protect the master.*
+
+* **Cost:** 25 CP  
+* **Attributes (12 CP):** \+2 Stamina, \+1 Strength.  
+* **Skills (8 CP):**  
+  * Combat (Grapple/Restrain): Rank 5 \[4 CP\]  
+  * Alertness (Spot Danger): Rank 5 \[4 CP\]  
+* **Features (4 CP):**  
+  * **Loyal Protector:** Take a hit for adjacent master. \[2 CP\]  
+  * **Armor Proficiency:** Can wear barding/plating. \[2 CP\]  
+* **Skills (1 CP):** Intimidate Rank 1\.
+
+#### 
+
+#### **3\. The Scout (Recon Focus)**
+
+*Designed to see without being seen.*
+
+* **Cost:** 25 CP  
+* **Attributes (12 CP):** \+2 Agility, \+1 Wisdom.  
+* **Skills (12 CP):**  
+  * Stealth: Rank 5 \[4 CP\]  
+  * Alertness: Rank 5 \[4 CP\]  
+  * Survival (Tracking): Rank 5 \[4 CP\]  
+* **Skills (1 CP):** Search Rank 1\.
+
+#### 
+
+#### **4\. The Interface (Tech/Utility Focus)**
+
+*Designed to hack, repair, or carry.*
+
+* **Cost:** 25 CP  
+* **Attributes (12 CP):** \+2 Intellect, \+1 Agility.  
+* **Skills (12 CP):**  
+  * Technology (Computers/Security): Rank 5 \[4 CP\]  
+  * Mechanics (Repair): Rank 5 \[4 CP\]  
+  * Search: Rank 5 \[4 CP\]  
+* **Skills (1 CP):** Pilot Rank 1\.
+
+#### 
+
+#### **5\. The Mount (Transport Focus)**
+
+*Designed to be ridden.*
+
+* **Cost:** 25 CP (Requires Medium or Large Size)  
+* **Attributes (12 CP):** \+2 Strength, \+1 Constitution.  
+* **Skills (8 CP):**  
+  * Athletics (Run/Jump): Rank 5 \[4 CP\]  
+  * Acrobatics (Balance): Rank 5 \[4 CP\]  
+* **Features (4 CP):**  
+  * **Sure-Footed:** Ignore difficult terrain penalties. \[2 CP\]  
+  * **Endurance:** Advantage on forced march/fatigue. \[2 CP\]  
+* **Skills (1 CP):** Survival Rank 1\.
+
+### 
+
+### 
+
+### **PART 3: ASSEMBLY EXAMPLES**
+
+**Example 1: The Cyber-Hound**
+
+* **Form:** The Predator (15 CP) \-\> *Wolf Stats*  
+* **Function:** The Guardian (25 CP) \-\> *Defense Stats*  
+* **Total:** 40 CP.
+
+&nbsp;
+
+**Example 2: The Spy Drone**
+
+* **Form:** The Rotor-Drone (15 CP) \-\> *Flying, Tiny, Immune*  
+* **Function:** The Scout (25 CP) \-\> *High Stealth/Alertness*  
+* **Total:** 40 CP.
+
+&nbsp;
+
+**Example 3: The War-Horse**
+
+* **Form:** The Heavy Beast (15 CP) \-\> *Tough, Natural Armor*  
+* **Function:** The Mount (25 CP) \-\> *Fast, Strong*  
+* **Total:** 40 CP.
+
+&nbsp;
+
+**Example 4: The Swamp Thrall**
+
+* **Form:** The Plant (15 CP) \-\> *Walking Vine, Camouflage*  
+* **Function:** The Guardian (25 CP) \-\> *Grapple, Protect*  
+* **Total:** 40 CP.
+
+&nbsp;
+
+**Example 5: The Crystal Familiar**
+
+* **Form:** The Elemental (15 CP) \-\> *Hardness, Energy Strike*  
+* **Function:** The Striker (25 CP) \-\> *High Damage*  
+* **Total:** 40 CP.
+
+
+## Game Mechanics Rules
+```
+See full canonical text in architect/companions/99.Companion.FunctionAndExamples.md
+```
+
+## Gameplay Instructions
+Refer to architect/companions/99.Companion.FunctionAndExamples.md in the game rules library for complete architectural tables and system parameters.
+
+## Designer Notes
+Canonical Tangent SF RP rulebook reference from architect/companions/99.Companion.FunctionAndExamples.md. Complete, unabridged source of truth.

@@ -4,7 +4,7 @@
  * and dynamic fog-of-war reveal polygons.
  */
 
-import { AudioService } from './audioService';
+import { AudioService } from './audioService.js';
 
 export const SENSOR_MODES = {
   standard_optical: {

@@ -1,0 +1,654 @@
+---
+id: "doc-operator-1-07-mental-vocation"
+name: "1.07 Mental: Vocation"
+fileName: "1.07.Mental.Vocation.md"
+relPath: "operator/skills/1.07.Mental.Vocation.md"
+isMasterDoc: false
+masterDocId: "doc-operator-1-07-skills"
+category: "operator_rule"
+parent: "doc-operator-1-07-skills"
+order: 180
+perspective: "operator"
+entry_type: "Skill Category"
+tl: 3
+ml: 0
+cost: 0
+tags: ["operator","core-rules","modular-rule","skills","1.07.mental.vocation","mechanics"]
+updatedAt: "2026-10-14T05:52:12.027Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
+---
+
+# **MENTAL SKILLS: VOCATION**
+
+## **VOCATION (Category)**
+
+* **Ability:** Varies (Usually Int, Wis, or Agi depending on the job)  
+* **Description:** Professional skills used to earn a living, operate commercial enterprises, or perform complex manufacturing and technical fabrication.  
+* **Starting Wealth Integration:**  
+  Characters with dedicated vocational, commercial, trade, or specialized professional training receive a permanent bonus to their starting **Wealth Score (WS)**. The character applies the bonus from their single highest qualifying skill (e.g., Vocation, Trade, Performance, Medicine, or Discipline):
+  * **Novice (Ranks 1–2):** +1 Wealth Score (Apprentice / Journeyman wages)
+  * **Practiced (Ranks 3–5):** +2 Wealth Score (Certified tradesperson, steady income)
+  * **Expert (Ranks 6–8):** +3 Wealth Score (Senior specialist, consulting rates)
+  * **Master (Ranks 9–10):** +4 Wealth Score (Renowned authority, master artisan)
+  * **Grandmaster (Ranks 11–12):** +5 Wealth Score (Guildmaster, sector-wide fame)
+
+* **Economic Unified Field Theory (EUFT) & Productivity Engine:**
+  * **The Golden Rule:** $\text{Crafting DC} = \text{Purchase DC}$. An item's intrinsic value, market price, and fabrication difficulty exist in absolute parity: $\text{Credit Value (Cr)} = 10 \times 4^{(\text{DC}/5)}$.
+  * **Raw Material Cost:** Crafting an item requires raw materials equal to **50% of the finished market value** in credits or salvaged components.
+  * **Daily Production Points (PP):** Progress per standard 8-hour workday is calculated as:
+    $$\text{Daily PP} = (\text{Crafting / Vocation Check} - 10) \times \text{Tool Multiplier}$$
+  * **Completion Target:** An item is completed when accumulated Productivity Points equal or exceed its market credit value ($\text{Target PP} = \text{Credit Value}$).
+  * **Tool Multipliers:**
+    * *Tier 0 (Improvised / Primitive):* $\times 1$
+    * *Tier 1 (Basic / Hand Tools):* $\times 10$
+    * *Tier 2 (Advanced / Professional Shop):* $\times 50$
+    * *Tier 3 (Industrial Facility / Automated Line):* $\times 200$
+    * *Tier 4 (Nanoforge / Molecular Assembly):* $\times 1,000$
+    * *Bio Cultivation (Vats / Tissue Culture):* $\times 1,000$
+    * *Tier 5 (Genesis Facility / Macro Orbital Fabricator):* $\times 5,000$
+  * **Downtime Income Generation:** For salaried work or client commissions where materials are provided by employers, a character generates daily wealth output equal to $(\text{Check} - 10) \times \text{Tool Multiplier}$ Credits, or maintains their standard lifestyle tier under their Wealth Score auto-buy limit without expenditure checks.
+
+* **Skill List & Specialties (Examples):**
+
+### 
+
+  ### **ADMINISTRATOR**
+
+* **Ability:** Intellect or Charisma  
+* **Description:** Administrator is the skill of managing and organizing people and resources. It reflects a character's ability to lead and coordinate groups of people, and to manage budgets and schedules. Administrator is used whenever a character needs to manage a team, whether it's to complete a project or to run a business. This can include things like delegating tasks, setting goals, and managing finances.   
+* **Mechanics:**  
+  * *Bureaucracy:* CR 15 to locate specific files or get a permit approved quickly.  
+  * *Logistics:* CR 20 to organize a complex supply chain or fleet movement.  
+* **Specialties:**   
+  * **Civil Bureaucracy:** Fast-tracking applications, navigating red tape, and processing government licenses.  
+    * **Colony Management:** Allocating water, housing, power, and labor to maintain frontier outpost stability.  
+    * **Corporate Personnel Management:** Organizing department heads, setting labor quotas, and resolving union strikes.  
+    * **Budgetary Auditing:** Slashing redundant expenditures and balancing municipal or corporate operational budgets.  
+    * **Military Staff Coordination:** Managing quartermaster ledgers, assignment orders, and barracks protocols.  
+    * **Public Regulatory Compliance:** Passing environmental inspections, building codes, and workplace safety checks.  
+    * **Crisis Management Protocols:** Mobilizing emergency services, setting curfews, and organizing disaster zoning.  
+    * **Records Governance:** Systematically filing, sealing, and purging organizational archives and personnel records.  
+    * **Contract Administration:** Ensuring contractors, suppliers, and third-party vendors meet project milestones.  
+    * **Inter-Department Mediation:** Resolving political gridlock and resource tug-of-wars between rival ministry heads.
+
+  ### 
+
+  ### **ALCHEMIST**
+
+* **Ability:** Intellect  
+* **Description:** Alchemist is the skill of understanding and creating potions and other magical substances. It reflects a character's ability to mix and manipulate chemicals and magical ingredients. Alchemist is used whenever a character needs to create a potion or other magical substance, whether it's to heal an injury or to create a powerful spell. This can include things like mixing ingredients, analyzing substances, and creating magical effects.   
+* **Mechanics:**  
+  * *Identify Substance:* CR 15 to identify a chemical or potion.  
+  * *Craft Compound:* CR varies (Acid CR 15, Panacea CR 25). Failure by 5 or more may cause an explosion or exposure.  
+* **Specialties:**   
+  * **Combat Stimulants:** Synthesizing adrenal boosters, coagulants, and reflex-accelerating injections.  
+    * **Panaceas & Antitoxins:** Compounding broad-spectrum antivenoms and toxin-neutralizing serums.  
+    * **Corrosive Acids & Caustics:** Formulating industrial acids capable of melting hull plating and security deadbolts.  
+    * **Incendiary Gels:** Brewing sticky, pyrophoric chemical pastes that ignite on contact with air.  
+    * **Metaphysical Potions:** Distilling liquid mana, psionic stability elixirs, and reality-anchoring tonics.  
+    * **Paralytics & Sleeping Agents:** Extracting and refining fast-acting knockout vapors and tranquilizing neurotoxins.  
+    * **Biological Preservatives:** Mixing preservation fluids to prevent organ decay and specimen degradation.  
+    * **Smoke & Gas Compounds:** Creating thick visual-obscuring smoke, tear gas, and suffocating choking dust.  
+    * **Reagent Purification:** Refining raw minerals, alien glands, and planetary botanicals into pure alchemical bases.  
+    * **Volatile Reactions Handling:** Stabilizing explosive compounds during laboratory synthesis to prevent accidental detonations.
+
+  ### 
+
+  ### **AMBASSADOR**
+
+* **Ability:** Charisma  
+* **Description:** Ambassador is the skill of negotiating and representing one's country or organization. It reflects a character's ability to communicate effectively with people from different cultures and backgrounds, negotiate treaties, and represent one's country or organization in a foreign land. Ambassador is used whenever a character needs to promote their country's interests and maintain good relations with other countries. This can include things like negotiating trade agreements, resolving disputes, and building alliances.   
+* **Mechanics:**  
+  * *Protocol:* CR 15 to know the correct etiquette for a specific alien court.  
+  * *Negotiate Treaty:* Opposed check vs. rival Ambassador.  
+* **Specialties:**   
+  * **First Contact Protocols:** Establishing non-hostile communications with uncontacted or newly awakened species.  
+    * **Bilateral Treaty Negotiation:** Drafting peace accords, borders, and non-aggression treaties between factions.  
+    * **Extradition & Prisoner Exchanges:** Negotiating the repatriation of captured spies, soldiers, and political dissidents.  
+    * **Trade Coalition Representation:** Advocating for planetary interests in interstellar trade summits and unions.  
+    * **Hostage & Ceasefire Mediation:** Brokering emergency stand-downs between warring armies under active crossfire.  
+    * **Diplomatic Immunity Defense:** Invoking extraterritoriality and sovereign status to escape local legal harassment.  
+    * **Cultural Liaison:** Educating state delegations on delicate social norms to prevent accidental declarations of war.  
+    * **Imperial Court Protocol:** Presenting credentials and conducting official state audiences before emperors and kings.  
+    * **Sanction & Embargo Negotiation:** Convincing neutral factions to cut off trade, fuel, and arms to enemy systems.  
+    * **Alliance Building:** Assembling multi-system coalitions through shared security and mutual defense pledges.
+
+  ### 
+
+  ### **ARCHITECT**
+
+* **Ability:** Intellect  
+* **Description:** Architect is the skill of designing and building structures. It reflects a character's ability to create and design buildings and other structures, design blueprints, create models, and oversee construction. Architect is used whenever a character needs to create a structure, whether it's a house, a castle, or a city. This can include things like designing layouts, creating blueprints, and managing construction crews.   
+* **Mechanics:**  
+  * *Design:* Create blueprints for a structure (CR 15 for a house, CR 30 for a space elevator).  
+  * *Assess Weakness:* CR 20 to find a structural weak point in a building (grants bonus to Demolitionist).  
+* **Specialties:**   
+  * **Arcology Design:** Engineering self-contained mega-structures housing millions with integrated air and waste loops.  
+    * **Starship Naval Architecture:** Designing structural bulkheads, internal frame load paths, and compartmental layouts.  
+    * **Bunkers & Fortifications:** Calculating reinforced blast wall thickness, subterranean depths, and bunker hardening.  
+    * **Orbital Station Design:** Designing modular docking rings, centrifuge spin hubs, and microgravity stress joints.  
+    * **Hostile-Environment Habitats:** Designing dome colonies resilient to magma, crushing oceanic depths, or toxic air.  
+    * **Acoustic & Sightline Layouts:** Structuring amphitheaters, auditoriums, and security plazas for optimal line-of-sight.  
+    * **Structural Weakness Assessment:** Identifying load-bearing pillars, shear points, and design flaws in enemy installations.  
+    * **Modular Prefab Structures:** Creating rapidly deployable, flat-pack buildings for frontier forward bases.  
+    * **Urban Transit Design:** Integrating subways, skybridges, and vehicle traffic arteries into city blueprints.  
+    * **Historic Restoration Architecture:** Reconstructing ancient ruins and historic structures using original techniques.
+
+  ### 
+
+  ### **ARCHIVIST**
+
+* **Ability:** Intellect  
+* **Description:** Archivist is the skill of preserving and organizing historical documents and artifacts. It reflects a character's ability to collect and preserve historical records and artifacts, catalog artifacts, preserve documents, and research historical events. Archivist is used whenever a character needs to preserve and make accessible historical records for future generations. This can include things like cataloging artifacts, preserving documents, and researching historical events.   
+* **Mechanics:**  
+  * *Deep Search:* CR 20 to find a specific, non-digitized record or deleted file fragment.  
+  * *Preservation:* CR 15 to restore damaged books or data drives.  
+* **Specialties:**   
+  * **Ancient Tome Preservation:** Restoring, sealing, and handling fragile parchment, papyrus, and crystalline plates.  
+    * **Data Recovery & File Reconstruction:** Extracting readable data from melted drives, corrupted memory, and shattered chips.  
+    * **Genealogical Indexing:** Tracing sprawling historical lineage charts and imperial ancestry rolls across centuries.  
+    * **Classified Document Redaction:** Scrubbing, sealing, and securely compartmentalizing state and corporate secrets.  
+    * **Library Taxonomy & Systems:** Designing efficient searchable classification systems for planetary-scale data hubs.  
+    * **Holographic & Optical Media Care:** Repairing and reading degraded microfilms, magnetic reels, and optical cubes.  
+    * **Museum Conservation:** Stabilizing archaeological artifacts against moisture, oxidation, and atmospheric decay.  
+    * **Ancient Script Transliteration:** Converting forgotten scripts into modern readable linguistic formats without data loss.  
+    * **Historical Provenance Authentication:** Verifying the unbroken chain of custody and authenticity of old historical records.  
+    * **Deep Index Searching:** Rapidly locating specific micro-records within massive, million-year-old civil repositories.
+
+  ### 
+
+  ### **ARMORER**
+
+* **Ability:** Intellect (for design) or Agility (for fine detail)  
+* **Description:** Armorer is the skill of creating and repairing different types of armor. It reflects a character's ability to forge metal, repair damaged armor, and create new designs. Armorer is used whenever a character needs to ensure that armor is functional and effective. This can include things like repairing damaged armor to creating a new suit.   
+* **Mechanics:**  
+  * *Repair Armor:* Restore armor points (CR 15 \+ Tech Level).  
+  * *Craft Armor:* Create new armor (Time required varies).  
+  * *Fit Armor:* CR 15 to resize armor for a different species.  
+* **Specialties:**   
+  * **Archaic Plate & Mail:** Forging, quenching, and strapping tempered steel and bronze personal armor.  
+    * **Ballistic Weaves & Flak Suits:** Stitching layered kevlar, carbon-nanotube fabrics, and impact-dispersion vests.  
+    * **Composite Ceramic Plating:** Baking and inserting high-density boron-carbide strike plates into tactical rigs.  
+    * **Powered Armor Exoskeletons:** Servicing hydraulic actuators, frame braces, and artificial myomer musculature.  
+    * **Energy Shield Harnesses:** Tuning personal deflector coils, field harmonizers, and capacitor discharge belts.  
+    * **Hazardous Environment Seals:** Fitting airtight collars, hermetic seals, and thermal linings on void suits.  
+    * **Xenotech Shell Integration:** Splicing chitinous alien hides and bio-shells into functional composite armor.  
+    * **Stealth Coating Application:** Applying radar-absorbent paint, thermal-masking fabrics, and matte anti-glare dyes.  
+    * **Custom Armor Tailoring:** Resizing captured or off-the-shelf armor to perfectly fit unique alien physiologies.  
+    * **Rapid Battle-Damage Patching:** Hammering out dents, welding cracked plate, and cold-patching suit punctures.
+
+  ### 
+
+  ### **ARTIST**
+
+* **Ability:** Charisma (Expression) or Wisdom (Insight) or Agility (Fine Motor)  
+* **Description:** Artist is the skill of creating art in various forms, such as painting, sculpture, or music. It reflects a character's ability to paint, sculpt, or compose music. Artist is used whenever a character needs to create works of art that are aesthetically pleasing and meaningful. This can include things like painting portraits, sculpting statues, or composing music.   
+* **Mechanics:**  
+  * *Create Work:* Check result determines the value and quality of the piece.  
+  * *Forgery:* Opposed by Appraisal.  
+* **Specialties:**   
+  * **Canvas & Mural Painting:** Mastering pigments, oil glazes, brushwork, and monumental wall fresco execution.  
+    * **Digital & Concept Illustration:** Speed-painting character concepts, environments, and schematics via digital pads.  
+    * **Hard-Light & Holographic Art:** Sculpting interactive light displays, laser murals, and volumetric art.  
+    * **Stone & Metal Sculpting:** Chiseling marble, casting bronze, and welding scrap steel into expressive sculptural forms.  
+    * **Tattooing & Bio-Art:** Inking intricate skin tattoos, dermal scarring, and implanting aesthetic bioluminescent dyes.  
+    * **Prop & Stage Design:** Crafting visual sets, theatrical props, and physical backdrops for entertainment productions.  
+    * **Artistic Forgery:** Replicating the brushstrokes, aged cracking, and pigment blends of master artists.  
+    * **Graphic Iconography & Logos:** Designing striking corporate branding, faction banners, and military unit crests.  
+    * **Calligraphy & Illumination:** Hand-inking illuminated manuscripts, ornate royal proclamations, and gilded letters.  
+    * **Ceramics & Glasswork:** Throwing functional pottery, firing porcelain, and blowing blown-glass decorative forms.
+
+  ### 
+
+  ### **ARTIFICER**
+
+* **Ability:** Intellect or Wisdom  
+* **Description:** Artificer is the skill of creating metaphysical empowered items, such as devices, potions, or enchanted weapons. It reflects a character's ability to mix special ingredients, empower weapons, and create magical effects. Artificer is used whenever a character needs to create magical or psionic items that are functional and effective. This can include things like mixing magical ingredients, enchanting weapons, and creating magical effects. The specific craft of combining technology with metaphysical (magical/psionic) energies. This is the skill used to create "enchanted" or "psi-active" items.  
+* **Mechanics:**  
+  * *Imprint Item:* Bind a spell or psionic effect to an object (CR 20 \+ Spell Level).  
+  * *Analyze Artifact:* Identify the properties of a magitech item.  
+* **Specialties:**   
+  * **Focusing Crystals:** Cutting, polishing, and aligning quartz and alien crystals to channel raw meta-currents.  
+    * **Psionic Amplifiers:** Building cranial headbands and helm arrays that boost telepathic and telekinetic range.  
+    * **Metaphysical Weapon Imbuement:** Inscribing runic channels onto blades and barrels to conduct elemental magic.  
+    * **Magitech Circuitry:** Etching silver and cold-iron traces into printed circuit boards to process arcane power.  
+    * **Golem & Construct Forging:** Animating mechanized automata using bound elemental spirits or artificial souls.  
+    * **Talisman & Amulet Crafting:** Creating defensive jewelry that stores single-charge warding or protective spells.  
+    * **Dimensional Containers:** Crafting bags, crates, and pockets that utilize folded space to hold massive volume.  
+    * **Wands & Focusing Rods:** Turning dense woods, conductive alloys, and monster bones into directional casting implements.  
+    * **Etheric Batteries:** Fabricating capacitors that store ambient mana, void discharge, or psychic residue for later use.  
+    * **Artifact Diagnostics:** Examining ancient, unknown magitech machinery to deduce activation keys and hazards.
+
+  ### 
+
+  ### **BROKER**
+
+* **Ability:** Wisdom or Charisma  
+* **Description:** Broker is the skill of negotiating and managing financial transactions. It reflects a character's ability to negotiate contracts, manage investments, and analyze financial data. Broker is used whenever a character needs to ensure that financial transactions are profitable and beneficial for their clients. This can include things like negotiating deals, managing investments, and analyzing market data.  
+* **Mechanics:**  
+  * *Appraise Market:* CR 15 to know if a commodity is selling above or below average value in this system.  
+  * *Secure Deal:* CR 20 to find a buyer for illegal or rare goods.  
+* **Specialties:**   
+  * **Black Market Contraband:** Connecting sellers of illicit narcotics, military tech, and unvetted chips with buyers.  
+    * **Securities & Equities:** Brokering large blocks of corporate stock, municipal bonds, and venture equities.  
+    * **Starship Sales & Transfers:** Arranging ownership transfers, escrows, and surveys for used civilian and naval craft.  
+    * **Mercenary Contracts:** Matching corporate and planetary clients with private military outfits and bounty hunters.  
+    * **Real Estate & Land Rights:** Brokering purchases of commercial arcology blocks, private moons, and farming lands.  
+    * **Military Arms Brokering:** Negotiating bulk surplus sales of firearms, munitions, and combat armor to third parties.  
+    * **Mining Claims & Concessions:** Trading mineral survey data and staking rights for asteroid belts and virgin planets.  
+    * **Information & Secrets Trading:** Brokering blackmail, corporate trade secrets, and military troop manifests for cash.  
+    * **Intellectual Property Licensing:** Trading patents, pharmaceutical formulas, and software source codes.  
+    * **High-Value Luxury Commodities:** Finding private collectors for vintage wines, rare furs, and exotic alien pets.
+
+  ### 
+
+  ### **CELEBRITY**
+
+* **Ability:** Charisma  
+* **Description:** Celebrity is the skill of managing one's public image and interacting with fans and the media. It reflects a character's ability to manage social interactions, give interviews, and attend public events. Celebrity is used whenever a character needs to maintain a positive public image and promote their brand.  
+* **Mechanics:**  
+  * *Work the Crowd:* CR 15 to gain access to a VIP area based on recognition.  
+  * *Spin:* CR 20 to mitigate a scandal or bad reputation event.  
+* **Specialties:**   
+  * **Holonet Streaming & Broadcast:** Presenting engaging video streams, entertaining live feeds, and hosting shows.  
+    * **Public Relations Spin:** Turning scandalous mistakes, arrests, or failures into sympathetic PR victories.  
+    * **Brand Endorsements:** Leveraging star power to sell products, gear lines, and lifestyle concepts for credits.  
+    * **Red Carpet & Gala Presence:** Navigating high-profile parties, dominating camera angles, and dazzling crowds.  
+    * **Fanbase Mobilization:** Directing millions of loyal fans to boycott corporations, vote, or crowdfund projects.  
+    * **Paparazzi Evasion:** Slipping away from aggressive media cameras, hover-drones, and tabloid trackers.  
+    * **Persona Fabrication:** Developing and maintaining a consistent, highly marketed public persona or alter ego.  
+    * **Talk Show Charm:** Dominating live interview formats, deflecting awkward queries, and landing memorable soundbites.  
+    * **Charity Gala Organizing:** Hosting multi-million-credit charity events to scrub reputations and curry public goodwill.  
+    * **VIP Access & Entourage Control:** Using celebrity status to walk past security bouncers and enter exclusive VIP spaces.
+
+  ### 
+
+  ### **CONSTABLE**
+
+* **Ability:** Wisdom or Intellect  
+* **Description:** Constable is the skill of enforcing the law and maintaining order. It reflects a character's ability to investigate crimes, make arrests, and protect citizens. Constable is used whenever a character needs to ensure that laws are upheld and that citizens are safe. This can include things like investigating crimes, making arrests, and protecting citizens.   
+* **Mechanics:**  
+  * *Procedure:* CR 15 to know the jurisdiction and rights in a specific sector.  
+  * *Collect Evidence:* CR 15 to properly bag and tag evidence without contaminating it.  
+* **Specialties:**   
+  * **Patrol Procedures:** Walking beats, spotting suspicious street activity, and projecting an authoritative presence.  
+    * **Riot & Crowd Control:** Deploying shield walls, tear gas lines, and batons to break up violent civil mobs.  
+    * **Suspect Apprehension:** Tacking down, tackling, and applying restraint cuffs to non-compliant suspects safely.  
+    * **Evidence Chain of Custody:** Documenting, bagging, and securing legal evidence to ensure courtroom admissibility.  
+    * **Tactical Breaching:** Stacking outside narcotics dens, blowing hinge bolts, and executing high-threat entries.  
+    * **Interrogation & Field Questioning:** Interviewing street witnesses and suspects to glean immediate tactical leads.  
+    * **Jurisdictional Sector Law:** Knowing legal boundaries, warrant requirements, and search rights in a given sector.  
+    * **Traffic & Checkpoint Control:** Setting up roadblock barricades, running license scans, and spotting drug mules.  
+    * **Hostage Crisis First-Response:** Containing active shooter situations and securing perimeters until negotiators arrive.  
+    * **Undercover Vice Operations:** Infiltrating low-level illegal gambling dens, chop shops, and contraband rings.
+
+  ### 
+
+  ### **COURTESAN**
+
+* **Ability:** Charisma  
+* **Description:** Courtesan is the skill of entertaining and pleasing others. It reflects a character's ability to dance, sing, or be intimate in a professional manner. Courtesan is used whenever a character needs to provide entertainment and pleasure to their clients. Professional companionship, high-society socialization, and the art of conversation and entertainment. Often overlaps with spying.  
+* **Mechanics:**  
+  * *Seduction/Charm:* Opposed by Wisdom (Insight).  
+  * *Gather Rumors:* CR 15 to pick up sensitive information during social interactions.  
+* **Specialties:**   
+  * **High-Society Etiquette:** Effortlessly fitting into noble galas, elite banquets, and decadent private revues.  
+    * **Pillow Talk & Eavesdropping:** Coaxing military secrets, executive passcodes, and hidden plots from wealthy patrons.  
+    * **Art of Witty Conversation:** Entertaining bored aristocrats and corporate moguls with captivating verbal banter.  
+    * **Sensual Seduction:** Reading physical attraction cues to make individuals feel uniquely desired and disarmed.  
+    * **Discreet Companionship:** Maintaining total professional confidentiality, inspiring profound emotional trust.  
+    * **Flattery & Ego Stroking:** Inflating fragile egos to lower defenses, win favors, and secure extravagant gifts.  
+    * **Poise & Posture Mastery:** Projecting absolute grace, physical beauty, and captivating movement across any room.  
+    * **Social Shielding:** Gracefully diverting abrasive guests away from vulnerable patrons during awkward social scenes.  
+    * **Subtle Intoxication Management:** Feigning drunkenness while keeping a razor-sharp, sober mind during late-night revels.  
+    * **Patron Psychology:** Evaluating client emotional vulnerabilities to serve as confidant, therapist, and advisor.
+
+  ### 
+
+  ### **CULINARIAN**
+
+* **Ability:** Wisdom or Agility  
+* **Description:** Culinarian is the skill of cooking and preparing food. It reflects a character's ability to prepare ingredients, cook meals, and present food. Culinarian is used whenever a character needs to create delicious and nutritious meals. This can include things like preparing ingredients, cooking meals, and presenting food.   
+* **Mechanics:**  
+  * *Prepare Meal:* CR 10 (Standard) to CR 30 (Banquet). High success grants temporary morale bonuses to those who eat.  
+  * *Identify Ingredients:* CR 15 to taste a poison or strange alien spice.  
+* **Specialties:**   
+  * **Xenofood Neutralization:** Processing, cooking, and detoxifying strange alien flora and fauna for human consumption.  
+    * **Haute Cuisine & Fine Dining:** Preparing multi-course, visually stunning gourmet meals for high nobility and executives.  
+    * **Field Ration Optimization:** Transforming bland nutrient paste and dried field rations into palatable, morale-boosting meals.  
+    * **Baking & Pastry Arts:** Crafting delicate breads, pastries, sugar art, and complex doughs with precise chemistry.  
+    * **Brewing, Fermenting & Distilling:** Crafting fine wines, ales, spirits, and fermented probiotics from local crops.  
+    * **Food Preservation & Curing:** Smoking, salting, pickling, and freeze-drying meats and produce for deep-space voyages.  
+    * **Butchery & Dressing:** Carving wild carcasses, jointing meat cleanly, and extracting edible cuts without waste.  
+    * **Flavor Balancing & Spicing:** Blending rare off-world herbs, spices, and seasonings to elevate common dishes.  
+    * **Toxin & Poison Tasting:** Identifying trace amounts of cyanide, arsenic, or spoiled proteins in served dishes by scent/taste.  
+    * **Banquet & Mass Catering:** Managing industrial kitchens to feed thousands of starship crewmen or soldiers efficiently.
+
+  ### 
+
+  ### **DEMOLITIONIST**
+
+* **Ability:** Intellect  
+* **Description:** Demolitionist is the skill of creating and using explosives. It reflects a character's ability to create bombs, set charges, and detonate explosives for various purposes. Demolitionist is used whenever a character needs to ensure that explosives are used safely and effectively. This can include things like creating bombs, disarming bombs, setting charges, and detonating explosives for various purposes.   
+* **Mechanics:**  
+  * *Set Charge:* CR 15 for simple breach, CR 25 to collapse a structure without damaging surroundings.  
+  * *Defuse:* CR depends on the bomb's complexity (usually CR 20+). Failure by 5+ triggers the device.  
+* **Specialties:**   
+  * **Structural Controlled Implosion:** Calculating load points to drop high-rise buildings and towers within their footprints.  
+    * **Combat Breaching Charges:** Setting linear shaped charges to blow open reinforced steel doors without killing the stack.  
+    * **EOD Bomb Defusal:** Tracing circuitry, bypassing anti-tamper switches, and disarming unexploded bombs under pressure.  
+    * **Commercial Mining Blasting:** Drilling and packing dynamite or plas-charges into rock faces to maximize ore fracture.  
+    * **Shaped-Charge Armor Penetration:** Rigging concentrated directional blasts to punch clean holes through bunker armor.  
+    * **Improvised Explosive Devices (IEDs):** Fashioning functional mines and bombs from fertilizer, cleaning agents, and scrap.  
+    * **Remote & Timed Detonators:** Wiring radio triggers, laser tripwires, timers, and pressure plates with fail-safes.  
+    * **Underwater & Vacuum Demolitions:** Accounting for hydro-shockwaves and explosive dissipation in the cold vacuum of space.  
+    * **Blast Mitigation & Containment:** Sandbagging, venting, and rigging blast curtains to direct explosions away from allies.  
+    * **Munitions Disposal:** Safely burning off degraded explosives, unstable gel-packs, and leaking chemical shells.
+
+  ### 
+
+  ### **ELECTRICIAN**
+
+* **Ability:** Intellect or Agility  
+* **Description:** Electrician is the skill of understanding and working with electrical systems. It reflects a character's ability to install and repair electrical systems, such as wiring, circuits, outlets, switches, and lighting fixtures. Electrician is used whenever a character needs to ensure that electrical systems are safe and functional. This can include things like installing and repairing electrical systems, such as wiring, circuits, outlets, switches, and lighting fixtures. Wiring, circuitry, and power systems. Distinct from Computers (software) and Mechanic (moving parts).  
+* **Mechanics:**  
+  * *Bypass Security:* CR 20 to hotwire an electronic lock.  
+  * *Repair Circuit:* CR 15 to fix a fried panel.  
+  * *Restore Power:* CR 20 to reroute power in a damaged ship.  
+* **Specialties:**   
+  * **High-Voltage Distribution:** Laying heavy-duty power lines, substations, and industrial 10,000-volt transformers.  
+    * **Micro-Electronics & PCBs:** Soldering surface-mount resistors, micro-chips, and delicate data bus relays.  
+    * **Ship Power Bus Routing:** Balancing primary and secondary power conduits across starship decks during combat.  
+    * **Backup Generators & Uninterruptible Power:** Installing and servicing diesel, turbine, and battery-bank backup arrays.  
+    * **Circuit Breakers & Fuses:** Diagnosing electrical overloads, short-circuits, and replacing blown primary bus fuses.  
+    * **Cyberware Interface Wiring:** Terminating neural-wire harness plugs and biocompatible conductive ports cleanly.  
+    * **Lock Relay Bypassing:** Hotwiring electronic door strikes and shorting solenoid lock tumblers with jumper wires.  
+    * **EMP Hardening:** Installing Faraday shielding, surge arresters, and shielded conduits to resist electromagnetic shocks.  
+    * **Fiber-Optic & Data Cabling:** Splicing glass optical strands and routing interference-free high-speed data trunks.  
+    * **Solar & Renewable Arrays:** Wiring photovoltaic solar panels, thermal collectors, and inverters into local grids.
+
+  ### 
+
+  ### **ENGINEER**
+
+* **Ability:** Intellect  
+* **Description:** Engineering is the skill of using scientific principles to design and build mecha, automata (simple robotics) and similar structures and mechanisms. It reflects a character's ability to apply mathematical and scientific concepts to create new products or improve existing ones. Engineers work in various industries, including mechanical, electrical, computer and architectural skills. Engineering is using various components together to craft something larger and more complex, whereas the components themselves are covered by particular skills such as Mechanical or Electrical.  
+* **Mechanics:**  
+  * *Diagnose Issue:* CR 15 to identify why the Hyperdrive isn't engaging.  
+  * *Boost System:* CR 20 to temporarily increase engine output or shield strength.  
+* **Specialties:**   
+  * **Starship FTL Propulsion:** Servicing warp field coils, hyperdrive motivators, and dimensional jump engines.  
+    * **Sublight Thruster Assemblies:** Maintaining ion drives, fusion torches, and chemical reaction thrusters.  
+    * **Life Support Systems:** Designing and overhauling oxygen scrubbers, hydroponic air loops, and waste recyclers.  
+    * **Civil Infrastructure:** Engineering water aqueducts, sewage treatment plants, suspension bridges, and dams.  
+    * **Hydraulics & Pneumatics:** Designing high-pressure fluid valves, mechanical pistons, and pneumatic seals.  
+    * **Thermal Dissipation Systems:** Engineering reactor cooling loops, cryo-jacket cooling, and radiator fin arrays.  
+    * **Industrial Automation & Assembly:** Setting up automated robotic car lines, conveyor feeds, and stamping presses.  
+    * **Structural Stress Diagnostics:** Using ultrasound and load sensors to spot metal fatigue and impending frame collapse.  
+    * **Power Plant Core Management:** Regulating magnetic containment in fusion reactors and antimatter reaction chambers.  
+    * **Heavy Crane & Rigging Mechanics:** Calculating counterweights, crane moments, and structural winching limits for massive loads.
+
+  ### 
+
+### **FARMER**
+
+* **Ability:** Wisdom or Constitution  
+* **Description:** Farmer is the skill of cultivating crops and raising livestock. It reflects a character's ability to manage soil health, plant and harvest crops, and tend to animals. Farmer is used whenever a character needs to produce food, manage agricultural operations, or work with livestock. This can include things like preparing fields, planting seeds, and ensuring animal health.  
+* **Mechanics:**  
+  * *Crop Management:* CR 15 to ensure a successful harvest despite poor conditions.  
+  * *Animal Husbandry:* CR 15 to breed or treat livestock.  
+  * *Soil Analysis:* CR 20 to determine optimal crops for a specific environment.  
+* **Specialties:**   
+  * **Hydroponics & Aeroponics:** Managing vertical water-nutrient tanks, pH balances, and LED grow-light cycles.  
+  * **Broad-Acre Grain Farming:** Operating harvesters, planting vast cereal fields, and timing seasonal crop rotations.  
+  * **Livestock Husbandry:** Breeding, grazing, birthing, and caring for domestic cattle, poultry, and alien beasts.  
+  * **Soil Chemistry & Fertilization:** Analyzing nitrogen, phosphorus, and organic loam balances to maximize crop yield.  
+  * **Agricultural Pest & Fungus Control:** Spraying organic pesticides, deploying weed controls, and countering alien locusts.  
+  * **Irrigation & Water Rights:** Digging drainage canals, operating drip-feed lines, and managing agricultural aquifers.  
+  * **Alien Crop Domestication:** Cross-breeding native wild plants to engineer edible, high-calorie domestic strains.  
+  * **Greenhouse Environmental Control:** Tuning humidity, atmospheric carbon, and thermal ceilings in sealed domes.  
+  * **Veterinary Care:** Treating domestic herd infections, setting broken animal limbs, and inoculating against rot.  
+  * **Harvest Preservation & Silos:** Drying, fumigating, and storing tons of grain against mildew, rot, and rodent pests.
+
+### 
+
+  ### **GROUNDSKEEPER**
+
+* **Ability:** Wisdom or Constitution  
+* **Description:** Groundskeeper is the skill of managing and maintaining outdoor spaces, such as parks or gardens. It reflects a character's ability to mow lawns, trim hedges, plant flowers, and maintain other outdoor features. Groundskeepers are responsible for ensuring that outdoor spaces are safe, functional, and aesthetically pleasing. This can include things like mowing lawns, trimming hedges, and planting flowers.  
+* **Mechanics:**  
+  * *Cultivate:* CR 15 to grow specific plants in a hostile environment.  
+  * *Terraform:* CR 25 to operate large scale atmosphere processors.  
+* **Specialties:**   
+  * **Landscape Gardening:** Designing flower beds, trimming hedges, laying sod, and styling ornamental gardens.  
+    * **Arboriculture & Tree Surgery:** Felling dangerous deadwood, pruning high branches, and treating tree infections.  
+    * **Estate Hardscaping:** Laying stone pathways, building retaining walls, patio pavings, and ornamental fountains.  
+    * **Turf & Heavy Lawn Machinery:** Operating commercial ride-on mowers, aerators, dethatchers, and turf rollers.  
+    * **Invasive Flora Eradication:** Identifying and systematically poisoning or uprooting choking alien weeds and vines.  
+    * **Drainage & Erosion Control:** Installing French drains, grading soil swales, and planting grass to prevent mudslides.  
+    * **Greenhouse Maintenance:** Managing glass hygiene, misting systems, and soil heating cables for rare shrubs.  
+    * **Park & Plaza Sanitation:** Clearing public leaves, emptying waste receptacles, and pressure-washing stone avenues.  
+    * **Soil & Mulch Composting:** Managing thermal compost piles, shredding yard waste, and top-dressing garden beds.  
+    * **Planetary Terraforming Planting:** Seeding hardy lichen and scrub bushes across barren rocky ground to build topsoil.
+
+  ### 
+
+  ### **HANDLER**
+
+* **Ability:** Charisma or Wisdom  
+* **Description:** Training and controlling animals or beasts.  
+* **Mechanics:**  
+  * *Train:* Long-term check to teach a creature a trick (CR 15-25).  
+  * *Control:* CR 15 to calm a spooked animal; CR 20 to command an attacking beast.  
+* **Specialties:**   
+  * **Riding Mount Training:** Breaking, saddling, and training equines, alien lizards, and quadrupeds for riding.  
+    * **Combat Attack Training:** Teaching canines and alien predators to bite on command, hold targets, and ignore gunfire.  
+    * **Beast Calming & De-Escalation:** Approaching spooked, aggressive, or wounded wild beasts without triggering an attack.  
+    * **Scent & Tracking Hounds:** Directing tracking packs to follow faint prey scent trails over difficult wilderness.  
+    * **Working Draft Animals:** Harnessing oxen and pack beasts to pull heavy wagons, plows, and artillery pieces.  
+    * **Exotic Alien Pet Taming:** Conditioning unpredictable wild fauna to live peacefully in domestic environments.  
+    * **Avian & Flying Mount Handling:** Training hawks, flying reptiles, or gliders for scouting, hunting, and aerial message delivery.  
+    * **Livestock Herding:** Maneuvering cattle and sheep herds across open ranges using whistles, mounts, and whips.  
+    * **Behavioral Obedience:** Teaching complex domestic commands, tricks, and retrieval habits to working creatures.  
+    * **Zoological Caging & Transport:** Safely securing, crating, tranquilizing, and moving massive apex predators.
+
+  ### **LABORER**
+
+* **Ability:** Strength or Constitution  
+* **Description:** Laborer is the skill of performing manual tasks, such as digging ditches, carrying heavy objects, or building structures. It reflects a character's ability to perform physical labor and complete tasks that require strength and endurance. Workers are responsible for completing manual tasks safely and efficiently. This can include things like digging ditches, carrying heavy objects, and building structures. Laborers will be knowledgeable of various tools and equipment of the trade.  
+* **Mechanics:**  
+  * *Endurance Work:* CR 15 to work a double shift without fatigue.  
+  * *Operate Heavy Machinery:* CR 10 to use forklifts, drills, or exosuits for work (not combat).  
+* **Specialties:**   
+  * **Dockworking & Stevedoring:** Unloading shipping containers, rigging cranes, and securing cargo nets on docks.  
+    * **Deep Shaft Mining:** Wielding jackhammers, swinging pickaxes, mucking ore, and timbering mine shafts.  
+    * **Heavy Demolition Work:** Smashing concrete with sledgehammers, cutting rebar, and hauling industrial rubble.  
+    * **Concrete & Composite Pouring:** Screeding wet concrete slabs, vibrating forms to clear air pockets, and raking gravel.  
+    * **Scaffolding Erection:** Clamping metal poles, laying wooden walk-boards, and anchoring safety harnesses on high walls.  
+    * **Manual Trenching & Shoveling:** Digging deep pipeline trenches, earthworks, and defense berms with shovels.  
+    * **Power Loader & Exosuit Labor:** Operating industrial hydraulic lifter rigs to move multi-ton shipping crates.  
+    * **Hazardous Waste Mucking:** Shoveling toxic slag, cleaning out chemical sludge tanks, and handling contaminated soot.  
+    * **High-G/Zero-G Physical Toil:** Shifting heavy mass under crushing high gravity or anchoring oneself while handling bulk in zero-G.  
+    * **Industrial Site Rigging:** Inspecting steel wire ropes, slinging chains, and directing forklift drivers via hand signs.
+
+  ### 
+
+  ### **MECHANIC**
+
+* **Ability:** Agility or Intellect  
+* **Description:** Mechanic is the skill of repairing and maintaining components of machines and vehicles. It reflects a character's ability to diagnose and fix mechanical problems, and to perform routine maintenance tasks. Mechanics are responsible for ensuring machines and vehicles are safe and functional. This can include things like repairing engines, replacing parts, and performing oil changes.   
+* **Mechanics:**  
+  * *Repair:* CR 15 (Simple part) to CR 30 (Rebuild engine).  
+  * *Jury-Rig:* CR 20 to make a temporary fix with inadequate tools (lasts 1d6 hours).  
+* **Specialties:**   
+  * **Internal Combustion Engines:** Rebuilding piston engines, tuning carburetors, timing camshafts, and replacing spark plugs.  
+    * **Turbines & Jet Propulsion:** Balancing compressor blades, repairing fuel injectors, and rebuilding jet burner cans.  
+    * **Drive Train & Transmission:** Replacing clutches, rebuilding planetary gearboxes, and balancing drive shafts.  
+    * **Pneumatic & Hydraulic Actuators:** Replacing blown hydraulic seals, flushing dirty brake fluid, and rebuilding rams.  
+    * **Suspension & Steering Systems:** Aligning tie-rods, replacing heavy coil springs, and servicing ball joints.  
+    * **Chassis & Body Fabrication:** Cutting out rusted sheet metal, bending roll cages, and MIG/TIG welding frames.  
+    * **Cooling & Radiator Systems:** Flushing clogged water jackets, replacing water pumps, and soldering leaking cores.  
+    * **Jury-Rigged Field Repairs:** Patching split hoses with duct tape, bypassing busted valves, and getting rigs running on scrap.  
+    * **Machine Shop Lathe Tooling:** Turning metal axles on manual lathes and milling custom replacement brackets from steel billet.  
+    * **Heavy Construction Equipment:** Servicing bulldozers, tracked excavators, and industrial rock crushers.
+
+  ### 
+
+  ### **RESEARCHER**
+
+* **Ability:** Intellect  
+* **Description:** Researcher is the skill of conducting research and analyzing data. It reflects a character's ability to gather information, analyze it, and draw conclusions. Researchers are responsible for ensuring that information is accurate and reliable. This can include things like conducting surveys, analyzing data, and writing reports.  
+* **Mechanics:**  
+  * *Conduct Experiment:* CR 20 to test a hypothesis.  
+  * *Synthesize Data:* CR 15 to combine multiple clues into a theory.  
+* **Specialties:**   
+  * **Experimental Design:** Structuring double-blind trials, control groups, and repeatable lab procedures.  
+    * **Empirical Data Modeling:** Plotting statistical regressions, identifying standard deviations, and mapping anomalies.  
+    * **Field Specimen Collection:** Sampling alien soils, extracting sterile blood samples, and gathering core geological drills.  
+    * **Literature Review & Meta-Analysis:** Reviewing thousands of published academic white papers to summarize states of knowledge.  
+    * **Hypothesis Testing:** Designing targeted scientific trials to systematically prove or disprove empirical claims.  
+    * **Statistical Error Auditing:** Spotting mathematical flukes, sample biases, and p-hacking in submitted studies.  
+    * **AI Model Validation:** Testing machine-learning models against sanitized datasets to prevent algorithmic hallucinations.  
+    * **Laboratory Safety Management:** Managing biosafety level 4 containment seals, chemical hoods, and emergency eye-washes.  
+    * **Grant Proposal Drafting:** Writing persuasive, highly structured technical pitches to secure research funding.  
+    * **Peer-Reviewed Publishing:** Drafting concise abstracts, figures, and methodology sections for publication.
+
+  ### 
+
+  ### **SALVAGER**
+
+* **Ability:** Wisdom or Intellect  
+* **Description:** Salvager is the skill of salvaging materials or items from wrecked or damaged ships, buildings, or other structures. It reflects a character's ability to identify and extract valuable materials or items from damaged structures. Salvagers are responsible for ensuring that materials or items are extracted safely and efficiently. This can include things like salvaging metal from a shipwreck, or extracting valuable items from a damaged building.   
+* **Mechanics:**  
+  * *Valuation:* CR 15 to know if a piece of junk is worth credits.  
+  * *Extraction:* CR 20 to remove a component without breaking it.  
+* **Specialties:**   
+  * **Deep Space Derelict Cutting:** Using industrial plasma torches to slice open airless starship hulls and structural spines.  
+    * **Structural Stabilization:** Bracing sagging ship decks and collapsed buildings with jacks to prevent crushing collapses.  
+    * **Hazardous Reactor Extraction:** Pulling volatile, leaking nuclear or antimatter cores out of wrecks without containment failure.  
+    * **Component De-Installation:** Unbolting high-value avionics, computers, and sensors cleanly without torching the circuits.  
+    * **Scrap Metal Grading:** Sorting high-value titanium, platinum wire, and hyper-alloys from low-value structural slag iron.  
+    * **Underwater Wreck Salvage:** Rigging lift balloons, operating sub-sea cutting torches, and pulling cargo from ocean beds.  
+    * **Urban Ruin Scavenging:** Picking clean abandoned skyscrapers and military bases for copper, wires, and functioning tech.  
+    * **Rigging & Cargo Extraction:** Winching crushed freight containers out of twisted starship holds using cables.  
+    * **Booby-Trap & Hazard Spotting:** Detecting unexploded ordinance, pressurized fuel lines, and live wiring in mangled wrecks.  
+    * **Black-Market Salvage Washing:** Grinding off corporate serial numbers, transponder tags, and repainting recovered machinery.
+
+  ### 
+
+  ### **SOLDIER**
+
+* **Ability:** Constitution or Intellect  
+* **Description:** Knowledge of military life, hierarchy, logistics, and field procedures. Does *not* replace Combat skills (shooting/hitting), but covers the *job* of being a soldier.  
+* **Mechanics:**  
+  * *Regulations:* CR 10 to know the rules of engagement.  
+  * *Field Maintenance:* CR 15 to clean and maintain gear in the field.  
+  * *Drill:* CR 15 to march or coordinate a squad efficiently.  
+* **Specialties:**   
+  * **Field Gear Maintenance:** Stripping, cleaning, and oiling service rifles, boots, and webbing to military inspection code.  
+    * **Military Regulations & Law:** Knowing the rules of engagement, uniform codes, lawful orders, and court-martial laws.  
+    * **Drill & Formation Marching:** Moving in tight lock-step formations, reacting instantly to parade and field whistle blasts.  
+    * **Entrenchment & Sandbagging:** Digging fighting holes, revetting trench walls, and filling sandbags to build firebases.  
+    * **Guard Duty & Perimeter Security:** Standing alert night watches, checking sentry passwords, and challenging intruders.  
+    * **Field Bivouac Setup:** Pitching squad tents, setting up perimeter trip-flares, and digging field latrines to hygiene specs.  
+    * **Combat Communications Protocol:** Speaking in standardized radio brevity codes, call signs, and reporting coordinates clearly.  
+    * **Unit Cohesion & Morale:** Supporting squadmates through combat fatigue, suppression panic, and the horrors of war.  
+    * **Escort Formations:** Walking security perimeters around supply convoys, VIP officers, and artillery pieces.  
+    * **Bayonet & Close-Quarters Drill:** Executing textbook thrusts, butt-strokes, and rifle parries in tight trench combat.
+
+  ### 
+
+  ### **TAILOR**
+
+* **Ability:** Intelect  
+* **Description:** Tailor is the skill of designing and creating clothing items, such as dresses, suits, or light armor or armor dressings. It reflects a character's ability to create clothing that is functional and aesthetically pleasing. Tailors are responsible for ensuring that clothing items fit well and are made from high-quality materials. This can include things like designing patterns, cutting fabric, and sewing clothing items.   
+* **Mechanics:**  
+  * *Craft Outfit:* CR 15 (Common) to CR 25 (High Fashion/Armored).  
+  * *Disguise Prep:* CR 20 to alter clothing to fit a disguise.  
+* **Specialties:**   
+  * **High-Society Couture:** Designing and hand-stitching bespoke silk suits, evening gowns, and noble court capes.  
+    * **Ballistic Fabric Weaving:** Splicing flexible aramid, carbon-weave, and spider-silk fibers into puncture-proof business suits.  
+    * **Uniform Tailoring:** Sewing military uniforms, naval tunics, and dress coats with precise ribbon and medal mounts.  
+    * **Pattern Drafting & Cutting:** Measuring body proportions to draft custom paper cutting patterns that fit like a second skin.  
+    * **Concealed-Carry Alteration:** Modifying suit linings, coat shoulders, and vests with hidden pockets to hide pistols and blades.  
+    * **Space Suit Sealing & Repair:** Stitching pressurized canvas layers, vulcanizing rubber joints, and replacing neck rings.  
+    * **Leather & Beast-Hide Working:** Curing, tooling, dyeing, and stitching heavy alien hides, boots, belts, and weapon holsters.  
+    * **Quick-Change Garment Design:** Creating breakaway stage costumes and reversible coats for undercover field operatives.  
+    * **Embroidery & Insignia Handiwork:** Hand-stitching gold-bullion crests, unit shoulder patches, and ornate religious glyphs.  
+    * **Garment Mending & Alterations:** Hemming trousers, taking in waists, darning fabric tears, and reinforcing stress seams.
+
+  ### 
+
+  ### **TRANSPORTER**
+
+* **Ability:** Agility or Wisdom  
+* **Description:** Transporter is the skill of transporting people or goods from one place to another, such as by driving, flying, or sailing. Transporters are responsible for ensuring people or goods are transported safely and efficiently. The professional moving of goods or people. Includes piloting commercial vehicles, loading cargo efficiently, and route planning.  
+* **Mechanics:**  
+  * *Load Cargo:* CR 15 to maximize cargo space or secure dangerous goods.  
+  * *Route Navigation:* CR 15 to find the fastest/safest route.  
+* **Specialties:**   
+  * **Long-Haul Space Trucking:** Piloting heavy multi-container cargo freighters across deep-space shipping routes safely.  
+    * **Armored Cash Transit:** Driving heavy security vaults and defensive bullion trucks through hostile urban zones.  
+    * **Secret Compartment Rigging:** Designing and packing false fuel tanks and hidden hull voids that evade customs scans.  
+    * **Cargo Weight Distribution:** Calculating center of gravity and tie-down strap tensions to prevent shifts in heavy seas/G-forces.  
+    * **VIP Chauffeur Services:** Driving luxury limousines smoothly while executing evasive anti-ramming driving maneuvers.  
+    * **Atmospheric Sky-Bus Transit:** Piloting mass-transit commuter hovercraft and rail cars through dense metropolitan corridors.  
+    * **Hazardous Cargo Hauling:** Driving volatile liquid-fuel tankers, radioactive canisters, and bio-hazards without incident.  
+    * **Intermodal Freight Transfer:** Operating gantry cranes, rail car switchers, and ramp docks to transfer bulk cargo quickly.  
+    * **Smuggling Blockade Runs:** Threading military intercept nets and customs patrol perimeters to deliver illicit contraband.  
+    * **Cold-Chain Courier Delivery:** Transporting delicate organs, vaccines, and living samples under strict temperature windows.
+
+  ### 
+
+  ### **WEAPONSMITH**
+
+* **Ability:** Intellect or Strength  
+* **Description:** Weaponsmith is the skill of creating and repairing weapons, such as swords, guns, or bows. It reflects a character's ability to create weapons that are functional and effective. Weaponsmiths are responsible for ensuring that weapons are made from high-quality materials and are designed to be effective in combat. This can include things like forging metal, sharpening blades, and repairing damaged weapons.  
+* **Mechanics:**  
+  * *Repair Weapon:* CR 15 to fix a jammed or broken weapon.  
+  * *Craft Weapon:* CR varies by complexity (Sword CR 15, Laser Rifle CR 25).  
+  * *Modify:* CR 20 to add a scope, silencer, or increased capacity.  
+* **Specialties:**   
+  * **Bladed Weapon Forging:** Folding, quenching, grinding, and heat-treating high-carbon steel and monomolecular edges.  
+    * **Ballistic Firearm Gunsmithing:** Rifling barrels, tuning gas blocks, polishing feed ramps, and lightening trigger pulls.  
+    * **Energy Weapon Optics & Lasers:** Aligning focusing prism lenses, polishing laser apertures, and calibrating beam diodes.  
+    * **Heavy Weapon Servicing:** Rebuilding heavy machine gun extractors, mortar bipods, and anti-tank rocket firing pins.  
+    * **Accurizing & Scope Fitting:** Bedding actions, mounting telescopic sights, and laser-boresighting long-range precision rifles.  
+    * **Ammunition Reloading & Swaging:** Pressing brass cartridges, compounding custom gunpowder loads, and swaging hollow points.  
+    * **Weapon Modifications:** Threading barrels for suppressors, mounting underbarrel shotguns, and installing extended magazines.  
+    * **Vibro & High-Frequency Blades:** Wiring ultrasonic vibrating motors and balancing resonant tungsten blades.  
+    * **Field Cleaning & Unjamming:** Rapidly drilling out squib rounds, clearing mangled brass feeds, and scraping carbon build-up.  
+    * **Exotic Material Tempering:** Machining titanium alloys, depleted uranium darts, and plasma-containment coils.
+
+  ###
+
+
+## Game Mechanics Rules
+```
+See full canonical text in operator/skills/1.07.Mental.Vocation.md
+```
+
+## Gameplay Instructions
+Refer to operator/skills/1.07.Mental.Vocation.md in the game rules library for complete architectural tables and system parameters.
+
+## Designer Notes
+Canonical Tangent SF RP rulebook reference from operator/skills/1.07.Mental.Vocation.md. Complete, unabridged source of truth.

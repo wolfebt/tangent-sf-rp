@@ -11,7 +11,12 @@ description: 'Centering Expert is a Discipline Feature: +4 Attune Checks (Affect
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: meta-attune
+    type: skill
+    value: 4
+    mode: competence
+    description: +4 to Attune Checks (Affecting DCs)
 keywords: >-
   centering expert, discipline, special-feature, focused-training, mastery,
   centering

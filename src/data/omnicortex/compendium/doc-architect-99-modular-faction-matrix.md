@@ -1,9 +1,13 @@
 ---
 id: "doc-architect-99-modular-faction-matrix"
 name: "99. MODULAR FACTION MATRIX"
+fileName: "99. MODULAR FACTION MATRIX.md"
+relPath: "architect/99. MODULAR FACTION MATRIX.md"
+isMasterDoc: true
+masterDocId: "doc-architect-99-modular-faction-matrix"
 category: "architect_matrix"
 parent: "5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)"
-order: 5
+order: 17
 perspective: "architect"
 entry_type: "Architect Matrix"
 tl: 3
@@ -284,11 +288,11 @@ Negative Prompt: outlines, black lines, borders, ink strokes, contour lines, hat
 
 ## Game Mechanics Rules
 ```
-See full canonical text in 99. MODULAR FACTION MATRIX.md
+See full canonical text in architect/99. MODULAR FACTION MATRIX.md
 ```
 
 ## Gameplay Instructions
-Refer to 99. MODULAR FACTION MATRIX.md in the game rules library for complete architectural tables and system parameters.
+Refer to architect/99. MODULAR FACTION MATRIX.md in the game rules library for complete architectural tables and system parameters.
 
 ## Designer Notes
-Canonical Tangent SF RP rulebook reference from 99. MODULAR FACTION MATRIX.md. Complete, unabridged source of truth.
+Canonical Tangent SF RP rulebook reference from architect/99. MODULAR FACTION MATRIX.md. Complete, unabridged source of truth.

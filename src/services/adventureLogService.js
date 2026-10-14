@@ -5,7 +5,7 @@
  * and custom GM narrative notes.
  */
 
-import { StorageService } from './storageService';
+import { StorageService } from './storageService.js';
 
 export const LOG_CATEGORIES = {
   ALL: 'all',
@@ -45,7 +45,7 @@ class AdventureLogManager {
       const stored = await StorageService.getItem(storageKey);
       if (Array.isArray(stored)) {
         this.logs = stored;
-      } else {
+      } else if (typeof localStorage !== 'undefined') {
         const local = localStorage.getItem(storageKey);
         if (local) {
           this.logs = JSON.parse(local);

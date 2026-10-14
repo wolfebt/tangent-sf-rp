@@ -11,7 +11,26 @@ description: The character has excellent balance and steady hands.
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: Reflex
+    type: save
+    value: 1
+    mode: inherent
+    description: +1 on Reflex Checks
+  - target: physical-acrobatics
+    type: skill
+    value: 2
+    mode: conditional
+    isSituational: true
+    condition: Balancing and ledge navigation
+    description: +2 to Acrobatics (Balancing)
+  - target: physical-athletics
+    type: skill
+    value: 2
+    mode: conditional
+    isSituational: true
+    condition: Hull and rock climbing
+    description: +2 to Athletics (Climbing)
 keywords: 'steady, skill, special-feature, excellent, balance'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3

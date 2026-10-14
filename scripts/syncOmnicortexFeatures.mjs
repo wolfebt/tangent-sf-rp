@@ -115,6 +115,118 @@ export const getFeatureById = (id) => DEFAULT_FEATURES.find(f => f.id === id);
 
 export const getFeaturesByCategory = (category) => 
   DEFAULT_FEATURES.filter(f => (f.category || '').toLowerCase() === (category || '').toLowerCase());
+
+/**
+ * Enriches a feature object with all canonical metadata (category, type, CP,
+ * description, mechanic, rules, prerequisites, modifiers, keywords, TL, ML)
+ * for Codex Matrix editing, Folio sheet rendering, or Omnicortex DBM inspection.
+ */
+export const getEnrichedFeatureData = (feature) => {
+  if (!feature) return null;
+  const rawId = (feature.id || '').toString().trim();
+  const cleanId = rawId.replace(/^(feature|trait)-/i, '').toLowerCase();
+  const rawName = (feature.name || feature.title || '').toString().trim().toLowerCase();
+
+  const canonical = DEFAULT_FEATURES.find(f => {
+    const fId = (f.id || '').toString().trim().toLowerCase();
+    const fCleanId = fId.replace(/^(feature|trait)-/i, '');
+    const fName = (f.name || f.title || '').toString().trim().toLowerCase();
+    return (rawId && fId === rawId.toLowerCase()) ||
+           (cleanId && fCleanId === cleanId) ||
+           (rawName && fName === rawName);
+  });
+
+  const name = feature.name || feature.title || canonical?.name || canonical?.title || 'Feature';
+  const category = feature.category || canonical?.category || 'General';
+  const type = feature.type || canonical?.type || category.toLowerCase();
+  const id = feature.id || canonical?.id || \`feature-\${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}\`;
+
+  const cp = feature.cp !== undefined ? Number(feature.cp) : (canonical?.cp !== undefined ? Number(canonical.cp) : 3);
+  const bp = feature.bp !== undefined ? Number(feature.bp) : (canonical?.bp !== undefined ? Number(canonical.bp) : cp);
+
+  const description = feature.description || canonical?.description || '';
+  const mechanic = feature.mechanic || feature.mechanics || canonical?.mechanic || canonical?.mechanics || '';
+  const rules = feature.rules || feature.special_rules || canonical?.rules || canonical?.special_rules || '';
+  const prerequisites = feature.prerequisites || feature.prerequisite || canonical?.prerequisites || canonical?.prerequisite || 'None';
+  const modifiers = Array.isArray(feature.modifiers) && feature.modifiers.length > 0 
+    ? feature.modifiers 
+    : (Array.isArray(canonical?.modifiers) ? canonical.modifiers : []);
+
+  const keywords = feature.keywords || canonical?.keywords || \`\${name.toLowerCase()}, \${category.toLowerCase()}\`;
+  const negative_keywords = feature.negative_keywords || canonical?.negative_keywords || '';
+  const tech_level = feature.tech_level !== undefined ? feature.tech_level : (canonical?.tech_level ?? 0);
+  const meta_level = feature.meta_level !== undefined ? feature.meta_level : (canonical?.meta_level ?? 0);
+
+  return {
+    ...(canonical || {}),
+    ...feature,
+    id,
+    name,
+    category,
+    type,
+    cp,
+    bp,
+    costs: {
+      cp,
+      bp,
+      credits: 0,
+      nodes: 0,
+      sockets: 0,
+      strain: 0,
+      focus: 0,
+      ap: 0,
+      ...(canonical?.costs || {}),
+      ...(feature.costs || {})
+    },
+    acquisition_type: feature.acquisition_type || canonical?.acquisition_type || (
+      ((feature.multi ?? canonical?.multi) || (feature.is_multiple ?? canonical?.is_multiple)) && 
+      ((feature.staged ?? canonical?.staged) || (feature.is_ranked ?? canonical?.is_ranked))
+        ? 'Multi/Staged'
+        : ((feature.staged ?? canonical?.staged) || (feature.is_ranked ?? canonical?.is_ranked))
+        ? 'Staged'
+        : ((feature.multi ?? canonical?.multi) || (feature.is_multiple ?? canonical?.is_multiple))
+        ? 'Multiple'
+        : 'Basic'
+    ),
+    feature_mode: feature.feature_mode || canonical?.feature_mode || feature.acquisition_type || canonical?.acquisition_type || (
+      ((feature.multi ?? canonical?.multi) || (feature.is_multiple ?? canonical?.is_multiple)) && 
+      ((feature.staged ?? canonical?.staged) || (feature.is_ranked ?? canonical?.is_ranked))
+        ? 'Multi/Staged'
+        : ((feature.staged ?? canonical?.staged) || (feature.is_ranked ?? canonical?.is_ranked))
+        ? 'Staged'
+        : ((feature.multi ?? canonical?.multi) || (feature.is_multiple ?? canonical?.is_multiple))
+        ? 'Multiple'
+        : 'Basic'
+    ),
+    is_ranked: feature.is_ranked !== undefined ? Boolean(feature.is_ranked) : (feature.staged !== undefined ? Boolean(feature.staged) : Boolean(canonical?.is_ranked || canonical?.staged)),
+    max_rank: feature.max_rank || canonical?.max_rank || ((feature.is_ranked || feature.staged || canonical?.is_ranked || canonical?.staged) ? 5 : undefined),
+    is_multiple: feature.is_multiple !== undefined ? Boolean(feature.is_multiple) : (feature.multi !== undefined ? Boolean(feature.multi) : Boolean(canonical?.is_multiple || canonical?.multi)),
+    multi: feature.multi !== undefined ? Boolean(feature.multi) : (feature.is_multiple !== undefined ? Boolean(feature.is_multiple) : Boolean(canonical?.multi || canonical?.is_multiple)),
+    staged: feature.staged !== undefined ? Boolean(feature.staged) : (feature.is_ranked !== undefined ? Boolean(feature.is_ranked) : Boolean(canonical?.staged || canonical?.is_ranked)),
+    prerequisites,
+    modifiers,
+    modifier_options: feature.modifier_options || canonical?.modifier_options || {
+      enabled: false,
+      mode: 'single',
+      value: 2,
+      options: []
+    },
+    selected_option_id: feature.selected_option_id || canonical?.selected_option_id || '',
+    selected_skills: Array.isArray(feature.selected_skills) ? feature.selected_skills : (Array.isArray(canonical?.selected_skills) ? canonical.selected_skills : []),
+    description,
+    mechanic,
+    rules,
+    special_rules: rules,
+    keywords,
+    negative_keywords,
+    tech_level,
+    meta_level,
+    tl: tech_level,
+    ml: meta_level,
+    notes: feature.notes || canonical?.notes || '',
+    notesList: Array.isArray(feature.notesList) ? feature.notesList : (Array.isArray(canonical?.notesList) ? canonical.notesList : [])
+  };
+};
 `;
 
   fs.writeFileSync(targetFile, outputCode, 'utf8');

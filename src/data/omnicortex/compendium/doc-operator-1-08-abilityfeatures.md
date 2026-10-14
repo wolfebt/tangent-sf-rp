@@ -1,0 +1,254 @@
+---
+id: "doc-operator-1-08-abilityfeatures"
+name: "1.08 Ability Features"
+fileName: "1.08.AbilityFeatures.md"
+relPath: "operator/features/1.08.AbilityFeatures.md"
+isMasterDoc: false
+masterDocId: "doc-operator-1-08-features"
+category: "operator_rule"
+parent: "doc-operator-1-08-features"
+order: 193
+perspective: "operator"
+entry_type: "Feature Catalog"
+tl: 3
+ml: 0
+cost: 0
+tags: ["operator","core-rules","modular-rule","features","1.08.abilityfeatures","mechanics"]
+updatedAt: "2026-10-14T05:52:41.907Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
+---
+
+# **ABILITY FEATURES**
+
+# **ABILITY FEATURES**
+
+Enhancements to base attributes, saving throws, and resistance.
+
+| FEATURE NAME | PREREQUISITE | BENEFIT / EFFECT | SPECIAL / NOTES |
+| :---- | :---- | :---- | :---- |
+| **Great Fortitude** | Stamina 1 | \+2 bonus on Fortitude checks | Ranked (Stamina) |
+| **Incredible Fortitude** | Great Fortitude | Roll Fortitude checks with Advantage |  |
+| **Lightning Reflexes** | Agility 1 | \+2 bonus on Reflex checks | Ranked (Agility) |
+| **Superb Reflexes** | Lightning Reflexes | Roll Reflex checks with Advantage |  |
+| **Potent Might** | Strength 1 | \+2 bonus on Might checks | Ranked (Strength) |
+| **Mighty Surge** | Potent Might | Roll Might checks with Advantage |  |
+| **Inspiring Personality** | Charisma 1 | \+2 bonus on Etiquette checks | Ranked (Charisma)&nbsp; |
+| **Motivating Persona** | Inspiring Personality | Roll Etiquette checks with Advantage |  |
+| **Iron Will** | Wisdom 1 | \+2 bonus on Will checks | Ranked (Wisdom)&nbsp; |
+| **Indomitable Will** | Iron Will | Roll Will checks with Advantage |  |
+| **Insightful Reason** | Intellect 1 | \+2 bonus on Logic checks | Ranked (Intellect) |
+| **Inspired Reason** | Insightful Reason | Roll Logic checks with Advantage |  |
+| **Evasiveness** | See Special | Successful Check is a full avoidance of an effect if it would be partial. | Multiple (Reflex, Fortitude, or Will) &nbsp; |
+| **Improved Evasiveness** | Evasiveness | Failed check is still a partial success (resulting in less effect, generally 1/2). |  |
+| **Tolerance** | See Special | Additional Resistance Checks made in 1/2 typical time for most effects. | Multiple (Fortitude or Will)&nbsp; |
+| **Improved Tolerance** | Tolerance | Additional Resistance Checks made in 1/4 typical time for most effects. |  |
+
+&nbsp;
+
+Ability Features represent a character's raw talent, extensive conditioning, or innate resilience. They directly modify the Core Mechanic (2d10 \+ Modifiers) by enhancing **Resistance Checks** (Saves) and **Ability Checks**.
+
+&nbsp;
+
+## **Great Fortitude**
+
+**Description:** Through vigorous conditioning or natural hardiness, the character has developed a profound resistance to physical ailments. Their body fights off toxins and trauma with exceptional efficiency.
+
+* **Prerequisite:** Stamina 1  
+* **Benefit:** Gain a **\+2 bonus** on all **Fortitude Checks**.  
+  * *Usage:* This applies to resisting poisons, diseases, radiation, physical fatigue, and metabolic hazards.  
+* **Special:** This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Stamina score. The bonuses stack (e.g., Rank 2 grants a \+4 total bonus).
+
+### 
+
+  ## **Incredible Fortitude**
+
+  **Description:** The character's physical resilience is legendary. When subjected to physical stress that would cripple a normal being, they find a reserve of strength to persevere.
+
+* **Prerequisite:** Great Fortitude, Stamina 2  
+* **Benefit:** You may roll all **Fortitude Checks** with **Advantage**.  
+  * *Usage:* Roll 2d10 with Advantage (roll twice and keep the highest result) when making a Fortitude save.  
+* **Special:** This does not replace the bonus from Great Fortitude; you add the bonus to the highest die result.
+
+### 
+
+## **Lightning Reflexes**
+
+**Description:** The character reacts to danger before they are consciously aware of it. Their nerves are wire-taut, allowing them to dodge blasts, catch falling objects, or keep their footing on shifting ground.
+
+* **Prerequisite:** Agility 1  
+* **Benefit:** Gain a **\+2 bonus** on all **Reflex Checks**.  
+  * *Usage:* This applies to dodging Area of Effect (AoE) attacks (explosions, breath weapons), maintaining balance, and avoiding sudden traps.  
+* **Special:** This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Agility score.
+
+### 
+
+  ## **Superb Reflexes**
+
+  **Description:** The character moves with a fluid, almost precognitive grace. They can weave through a hail of fire or debris with effortless speed.
+
+* **Prerequisite:** Lightning Reflexes, Agility 2  
+* **Benefit:** You may roll all **Reflex Checks** with **Advantage**.  
+  * *Usage:* Roll 2d10 with Advantage (roll twice and keep the highest result) when making a Reflex save.
+
+### 
+
+## **Potent Might**
+
+**Description:** The character knows how to apply their strength for maximum leverage and impact. Whether forcing open a blast door or holding back a crushing weight, they are far more effective than their muscle mass alone suggests.
+
+* **Prerequisite:** Strength 1  
+* **Benefit:** Gain a **\+2 bonus** on all **Might Checks**.  
+  * *Usage:* This applies to breaking objects, lifting heavy loads, forcing doors, and resisting physical containment (such as grappling or webs). *Note: This does not apply to Attack or Damage rolls.*  
+* **Special:** This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Strength score.
+
+### 
+
+  ## **Mighty Surge**
+
+  **Description:** In moments of intense physical exertion, the character can summon a surge of adrenaline to perform feats of herculean power.
+
+* **Prerequisite:** Potent Might, Strength 2  
+* **Benefit:** You may roll all **Might Checks** with **Advantage**.  
+  * *Usage:* Roll 2d10 with Advantage (roll twice and keep the highest result) when testing Strength against an obstacle or opponent.
+
+### 
+
+## **Inspiring Personality**
+
+**Description:** The character possesses a magnetic presence or an innate understanding of social dynamics. They navigate social hierarchies and interactions with practiced ease.
+
+* **Prerequisite:** Charisma 1  
+* **Benefit:** Gain a **\+2 bonus** on all **Etiquette Checks**.  
+  * *Usage:* This applies to making first impressions, avoiding social faux pas, navigating formal gatherings, and interacting with high-status NPCs without causing offense.  
+* **Special:** This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Charisma score.
+
+### 
+
+  ## **Motivating Persona**
+
+  **Description:** The character's presence is commanding and uplifting. When they speak, others listen, and their social grace is capable of turning hostile negotiations into alliances.
+
+* **Prerequisite:** Inspiring Personality, Charisma 2  
+* **Benefit:** You may roll all **Etiquette Checks** with **Advantage**.  
+  * *Usage:* Roll 2d10 with Advantage (roll twice and keep the highest result) during social maneuvering and protocol checks.
+
+### 
+
+## **Iron Will**
+
+**Description:** The character possesses a mind like a fortress. They are stubborn, focused, and resistant to fear, manipulation, or psychological trauma.
+
+* **Prerequisite:** Wisdom 1  
+* **Benefit:** Gain a **\+2 bonus** on all **Will Checks**.  
+  * *Usage:* This applies to resisting Fear effects, Mind Control, Charm, Domination, and psychological torture or intimidation.  
+* **Special:** This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Wisdom score.
+
+### 
+
+  ## **Indomitable Will**
+
+  **Description:** The character's mind is an immovable object. Attempts to control or break their spirit are met with absolute defiance.
+
+* **Prerequisite:** Iron Will, Wisdom 2  
+* **Benefit:** You may roll all **Will Checks** with **Advantage**.  
+  * *Usage:* Roll 2d10 with Advantage (roll twice and keep the highest result) when making a Will save.
+
+### 
+
+## **Insightful Reason**
+
+**Description:** The character has a sharp, analytical mind capable of making rapid deductions and seeing through complex deceptions or puzzles.
+
+* **Prerequisite:** Intellect 1  
+* **Benefit:** Gain a **\+2 bonus** on all **Logic Checks**.  
+  * *Usage:* This applies to solving puzzles, cryptanalysis, deduction, resisting illusions (disbelieving), and navigating complex bureaucratic or logical labyrinths.  
+* **Special:** This feature is **Ranked**. It may be purchased multiple times, up to a maximum rank equal to the character's Intellect score.
+
+### 
+
+  ## **Inspired Reason**
+
+  **Description:** The character experiences flashes of brilliance and intuitive leaps of logic that allow them to solve the unsolvable.
+
+* **Prerequisite:** Insightful Reason, Intellect 2  
+* **Benefit:** You may roll all **Logic Checks** with **Advantage**.  
+  * *Usage:* Roll 2d10 with Advantage (roll twice and keep the highest result) when performing tasks requiring deduction or complex reasoning.
+
+### 
+
+## **Evasiveness**
+
+**Description:** The character is adept at avoiding the brunt of area attacks or resisting the full efficacy of potent effects.
+
+* **Prerequisite:** Must possess the base Feature for the chosen Save (Lightning Reflexes, Great Fortitude, or Iron Will).  
+* **Benefit:** When subjected to an effect that allows a **Resistance Check** for **Partial Effect** (commonly taking half damage on a success), a successful check instead results in **No Effect** (or zero damage).  
+  * *Usage:* If a dragon breathes fire (Reflex for half), a character with Evasiveness (Reflex) takes *no damage* if they succeed on the roll.  
+* **Special:** This feature acts as a **\[Multiple\]** selection. You must purchase it separately for Reflex, Fortitude, or Will.
+
+### 
+
+  ## **Improved Evasiveness**
+
+  **Description:** Even when the character fails to avoid a danger entirely, their resilience or speed ensures they never take the full brunt of the impact.
+
+* **Prerequisite:** Evasiveness (in the specific Save type).  
+* **Benefit:** When subjected to an effect that allows a Resistance Check for Partial Effect, a **Failed Check** results in only the **Partial Effect** (half damage/effect), rather than the full effect.  
+  * *Usage:* Combined with Evasiveness, this means the character takes *no damage* on a successful save, and only *half damage* on a failed save.
+
+### 
+
+## **Tolerance**
+
+**Description:** The character's metabolism or psyche processes ongoing trauma much faster than the average being.
+
+* **Prerequisite:** Stamina 1 (for Physical) or Wisdom 1 (for Mental).  
+* **Benefit:** When suffering from an ongoing effect (such as poison, disease, paralysis, or mental domination) that allows periodic Resistance Checks to end the effect (e.g., "save every minute"), the time interval between checks is reduced to **1/2 the typical time**.  
+  * *Usage:* A poison that normally allows a save once per hour allows this character to save every 30 minutes.  
+* **Special:** This feature acts as a **\[Multiple\]** selection. You must choose Physical Tolerance (Fortitude) or Mental Tolerance (Will).
+
+### 
+
+  ## **Improved Tolerance**
+
+  **Description:** The character's recovery rate is supernatural. They can shake off debilitating effects in a fraction of the time it takes others.
+
+* **Prerequisite:** Tolerance (in the specific type).  
+* **Benefit:** The time interval between periodic Resistance Checks to end an ongoing effect is reduced to **1/4 the typical time**.  
+  * *Usage:* A paralysis effect that allows a save once per round might allow this character to save at the start *and* end of their turn (GM discretion on granular timing), or simply recover four times faster from long-term ailments.
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+
+## Game Mechanics Rules
+```
+See full canonical text in operator/features/1.08.AbilityFeatures.md
+```
+
+## Gameplay Instructions
+Refer to operator/features/1.08.AbilityFeatures.md in the game rules library for complete architectural tables and system parameters.
+
+## Designer Notes
+Canonical Tangent SF RP rulebook reference from operator/features/1.08.AbilityFeatures.md. Complete, unabridged source of truth.

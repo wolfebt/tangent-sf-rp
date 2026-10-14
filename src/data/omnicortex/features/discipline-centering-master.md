@@ -11,7 +11,12 @@ description: 'Centering Master is a Discipline Feature: +6 Attune Checks (Affect
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: meta-attune
+    type: skill
+    value: 6
+    mode: competence
+    description: +6 to Attune Checks (Affecting DCs)
 keywords: >-
   centering master, discipline, special-feature, focused-training, mastery,
   centering

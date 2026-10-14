@@ -390,24 +390,13 @@ export function enrichItemWithModifiers(rawItem, canonicalFallback = null) {
   }
 
   // 3. Resolve & Parse Modifiers
-  let existingMods = Array.isArray(item.modifiers) ? [...item.modifiers] : [];
-  if (existingMods.length === 0 && Array.isArray(fallback?.modifiers)) {
+  let existingMods = Array.isArray(item.modifiers) && item.modifiers.length > 0 ? [...item.modifiers] : [];
+  if (existingMods.length === 0 && Array.isArray(fallback?.modifiers) && fallback.modifiers.length > 0) {
     existingMods = [...fallback.modifiers];
   }
-  const parsedMods = parseModifiersFromText(name, mechanic, body);
-
-  // Merge modifiers without duplication
-  const finalMods = [...existingMods];
-  parsedMods.forEach(pm => {
-    const exists = finalMods.some(em => 
-      em.target === pm.target && 
-      em.type === pm.type && 
-      em.value === pm.value
-    );
-    if (!exists) {
-      finalMods.push(pm);
-    }
-  });
+  
+  // Only parse from text if no explicit modifiers are defined
+  const finalMods = existingMods.length > 0 ? existingMods : parseModifiersFromText(name, mechanic, body);
 
   // 4. Resolve Notes
   const notesArray = formatModifierNotes(finalMods, rules, { ...fallback, ...item });
@@ -473,11 +462,16 @@ export function isSkillTargetMatch(skill, targetStr) {
   const cleanId = sId.replace(/^[a-z]+-/, '').toLowerCase().trim();
   const cleanIdAlpha = cleanId.replace(/[^a-z0-9]/g, '');
 
-  if (!cleanTargetAlpha) return false;
+  const sIdLower = sId.toLowerCase().trim();
+  const sIdAlpha = sIdLower.replace(/[^a-z0-9]/g, '');
+  const cleanTargetNoPrefix = cleanTarget.replace(/^[a-z]+-/, '').replace(/^[a-z]+-/, '');
+  const cleanTargetNoPrefixAlpha = cleanTargetNoPrefix.replace(/[^a-z0-9]/g, '');
 
-  // 1. Direct name or cleanId match
+  // 1. Direct name, full sId, cleanId, or target without prefix match
+  if (sIdLower && (sIdLower === cleanTarget || sIdAlpha === cleanTargetAlpha)) return true;
   if (cleanName === cleanTarget || cleanNameAlpha === cleanTargetAlpha) return true;
-  if (cleanId && (cleanId === cleanTarget || cleanIdAlpha === cleanTargetAlpha)) return true;
+  if (cleanId && (cleanId === cleanTarget || cleanIdAlpha === cleanTargetAlpha || cleanId === cleanTargetNoPrefix || cleanIdAlpha === cleanTargetNoPrefixAlpha)) return true;
+  if (cleanName === cleanTargetNoPrefix || cleanNameAlpha === cleanTargetNoPrefixAlpha) return true;
 
   // 2. Parentheses match: e.g. "Arcane" vs "Knowledge (Arcane)"
   const inParenMatch = cleanName.match(/\(([^)]+)\)/);
@@ -703,7 +697,7 @@ export function getSkillCheckBreakdown(skill, characterData = {}, dbData = {}, e
 
   const addModifier = (mod) => {
     if (!mod || !mod.value) return;
-    const key = `${mod.source}_${mod.target}_${mod.value}`;
+    const key = `${mod.source}_${mod.target}_${mod.value}_${mod.mode || ''}_${mod.condition || ''}`;
     if (!seenModKeys.has(key)) {
       seenModKeys.add(key);
       activeModifiers.push(mod);
@@ -718,6 +712,8 @@ export function getSkillCheckBreakdown(skill, characterData = {}, dbData = {}, e
       sourceType: 'manual',
       target: skillObj.name,
       value: directMod,
+      mode: 'manual',
+      isSituational: false,
       description: `Manual Adjustment: ${directMod >= 0 ? '+' : ''}${directMod}`
     });
   }
@@ -737,13 +733,17 @@ export function getSkillCheckBreakdown(skill, characterData = {}, dbData = {}, e
           if (!m || typeof m !== 'object') return;
           const target = m.target || m.skill || '';
           const val = parseInt(m.value, 10) || 0;
-          if (m.type === 'skill' || target) {
+          if (m.type === 'skill' || m.type === 'check_advantage' || m.type === 'take_10' || m.type === 'specialization' || m.type === 'virtual_ranks' || target) {
             if (isSkillTargetMatch(skillObj, target)) {
               addModifier({
                 source: srcName,
                 sourceType: defaultSourceType,
                 target,
                 value: val,
+                mode: m.mode || 'inherent',
+                type: m.type || 'skill',
+                isSituational: Boolean(m.isSituational || m.mode === 'conditional' || m.mode === 'situational' || m.condition || m.type === 'check_advantage' || m.type === 'take_10'),
+                condition: m.condition || null,
                 description: m.description || `${srcName}: ${val >= 0 ? '+' : ''}${val} to ${target}`
               });
             }
@@ -872,9 +872,40 @@ export function getSkillCheckBreakdown(skill, characterData = {}, dbData = {}, e
     });
   });
 
-  // Calculate totals
-  const totalModifier = activeModifiers.reduce((sum, m) => sum + (m.value || 0), 0);
+  // Separate Permanent Modifiers from Situational Modifiers
+  const permanentModifiers = activeModifiers.filter(m => !m.isSituational && m.type !== 'check_advantage' && m.type !== 'take_10');
+  const situationalModifiers = activeModifiers.filter(m => m.isSituational || m.type === 'check_advantage' || m.type === 'take_10');
+
+  // Typed Bonus Resolution for Permanent Modifiers:
+  // Same typed bonuses (e.g. 'competence') do not stack; take the highest.
+  // Inherent, specialization, and manual adjustments stack.
+  const typedBonusBuckets = {};
+  let unstackedSum = 0;
+
+  permanentModifiers.forEach(m => {
+    const val = m.value || 0;
+    const mode = (m.mode || 'inherent').toLowerCase();
+
+    // Stackable types: inherent, specialization, manual, penalty
+    if (['inherent', 'specialization', 'manual', 'penalty'].includes(mode) || val < 0) {
+      unstackedSum += val;
+    } else {
+      // Typed bonuses: take highest positive bonus within each type category (e.g. competence, circumstance, equipment)
+      if (!typedBonusBuckets[mode] || val > typedBonusBuckets[mode]) {
+        typedBonusBuckets[mode] = val;
+      }
+    }
+  });
+
+  const typedBonusTotal = Object.values(typedBonusBuckets).reduce((sum, v) => sum + v, 0);
+  const totalModifier = unstackedSum + typedBonusTotal;
   const finalScore = rank + attrTotal + totalModifier;
+
+  // Advantage / Disadvantage resolution:
+  // Advantage: Roll 3d10, take best 2
+  // Disadvantage: Roll 3d10, take worse 2
+  const hasAdvantage = situationalModifiers.some(m => m.type === 'check_advantage' || /advantage/i.test(m.description || ''));
+  const hasDisadvantage = situationalModifiers.some(m => m.type === 'disadvantage' || /disadvantage/i.test(m.description || ''));
 
   return {
     skillId: sId,
@@ -890,9 +921,23 @@ export function getSkillCheckBreakdown(skill, characterData = {}, dbData = {}, e
     totalModifier,
     score: finalScore,
     modifiers: activeModifiers,
+    permanentModifiers,
+    situationalModifiers,
+    hasAdvantage,
+    hasDisadvantage,
+    typedBonusBuckets,
     equipment: associatedEquipment,
     formula: `Score (${finalScore}) = Rank (${rank}) + ${baseAttrLabel} (${attrTotal}) + Mods (${totalModifier >= 0 ? '+' : ''}${totalModifier})`,
-    rollExpression: `2d10${finalScore !== 0 ? (finalScore > 0 ? `+${finalScore}` : `${finalScore}`) : ''}`
+    rollExpression: hasAdvantage 
+      ? `3d10k2${finalScore !== 0 ? (finalScore > 0 ? `+${finalScore}` : `${finalScore}`) : ''}`
+      : hasDisadvantage
+        ? `3d10kl2${finalScore !== 0 ? (finalScore > 0 ? `+${finalScore}` : `${finalScore}`) : ''}`
+        : `2d10${finalScore !== 0 ? (finalScore > 0 ? `+${finalScore}` : `${finalScore}`) : ''}`,
+    rollDescription: hasAdvantage
+      ? `Advantage: Roll 3d10, take best 2 ${finalScore >= 0 ? `+ ${finalScore}` : finalScore}`
+      : hasDisadvantage
+        ? `Disadvantage: Roll 3d10, take worse 2 ${finalScore >= 0 ? `+ ${finalScore}` : finalScore}`
+        : `Standard: Roll 2d10 ${finalScore >= 0 ? `+ ${finalScore}` : finalScore}`
   };
 }
 

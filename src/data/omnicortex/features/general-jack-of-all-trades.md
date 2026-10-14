@@ -13,7 +13,14 @@ description: >-
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: All Skills
+    type: untrained
+    value: 0
+    mode: conditional
+    isSituational: true
+    condition: Untrained skill checks
+    description: May attempt any skill check untrained without suffering CR penalties
 keywords: 'jack-of-all-trades, versatile, untrained-skills, generalist, adaptable'
 negative_keywords: 'hyper-specialist, rigid, incompetent'
 cost_cp: 3

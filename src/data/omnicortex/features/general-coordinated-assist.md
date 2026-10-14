@@ -13,7 +13,14 @@ description: >-
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: Skill Synergy
+    type: synergy
+    value: 1
+    mode: conditional
+    isSituational: true
+    condition: Aid Another actions
+    description: +1 bonus to ally check when assisting via Skill Synergy
 keywords: 'coordinated assist, general, special-feature, natural, player, leader'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3

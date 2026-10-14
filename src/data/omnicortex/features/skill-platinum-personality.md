@@ -13,7 +13,14 @@ description: >-
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: social-manipulation
+    type: check_advantage
+    value: 1
+    mode: conditional
+    isSituational: true
+    condition: Bluff and Diplomacy interactions
+    description: 'Advantage on all Bluff and Diplomacy checks (Roll 3d10, take best 2)'
 keywords: 'platinum personality, skill, special-feature, platinum, personality, feature:'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3

@@ -11,7 +11,14 @@ description: The character is a multi-talented artist.
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: social-expression
+    type: virtual_ranks
+    value: 1
+    mode: conditional
+    isSituational: true
+    condition: 1 rank per Intellect bonus > 1
+    description: Virtual ranks in Performance skills based on Intellect
 keywords: 'versatile performer, skill, special-feature, multi-talented, artist'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3

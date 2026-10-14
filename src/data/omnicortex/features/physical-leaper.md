@@ -14,7 +14,16 @@ description: >-
 costs:
   cp: 2
   bp: 2
-modifiers: []
+modifiers:
+  - target: physical-athletics
+    type: skill
+    value: 2
+    mode: conditional
+    isSituational: true
+    condition: Jumping and leaping distance checks
+    description: >-
+      Always counts as having a running start for jumping and leaping distance
+      checks
 keywords: 'leaper, jumping, athletics, running-start, advantage, high-impact, acrobatics'
 negative_keywords: 'ponderous, earthbound, slow'
 cost_cp: 2

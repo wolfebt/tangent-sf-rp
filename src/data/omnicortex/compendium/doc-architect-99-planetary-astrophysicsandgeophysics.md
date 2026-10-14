@@ -1,0 +1,200 @@
+---
+id: "doc-architect-99-planetary-astrophysicsandgeophysics"
+name: "99. Planetary: Astrophysics, Geophysics & Biosphere"
+fileName: "99.Planetary.AstrophysicsAndGeophysics.md"
+relPath: "architect/planetary/99.Planetary.AstrophysicsAndGeophysics.md"
+isMasterDoc: false
+masterDocId: "doc-architect-99-modular-planetary-matrix"
+category: "architect_matrix"
+parent: "doc-architect-99-modular-planetary-matrix"
+order: 22
+perspective: "architect"
+entry_type: "Planetary Matrix Module"
+tl: 3
+ml: 0
+cost: 0
+tags: ["architect","core-rules","modular-rule","planetary","99.planetary.astrophysicsandgeophysics","matrix"]
+updatedAt: "2026-10-14T06:04:05.785Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
+---
+
+# **PLANETARY MATRIX: ASTROPHYSICS, GEOPHYSICS & BIOSPHERE**
+
+## **1\. Stellar Context: The Architecture of Systems**
+
+A planet’s character is fundamentally shaped by its primary star. The spectral class, luminosity, and mass of the star define the "Habitable Zone" (or Ecosphere), determining where liquid water—and thus standard life—can exist.
+
+### **1.1 Stellar Classification and Life Zones**
+
+The following table synthesizes the Morgan-Keenan classification with Tangent resource implications and system "moods."
+
+| CLASS | COLOR | MASS (SOL=1) | SYSTEM IMPLICATIONS & RESOURCES |
+| ----- | ----- | ----- | ----- |
+| **O** | Blue | \> 16.0 | Violent/Young. Systems are filled with debris, protoplanets, and high radiation. Likely mining outposts only; no native sophonts. Rare/Hostile. |
+| **B** | Blue White | 2.1–16.0 | High Energy. Intense UV radiation requires "Reflective Shell" armor upgrades. Rare biosphere development. |
+| **A** | White | 1.4–2.1 | Bright/Harsh. Settlements require polarized shielding. Often hosts "Pre-Garden" worlds or energy collection arrays (Dyson Swarms). |
+| **F** | Yellow White | 1.04–1.4 | Prime Habitation. Hotter than Sol. Biomes tend towards tropical/arid. |
+| **G** | Yellow | 0.8–1.04 | Standard. The "Sol" baseline. Earth-like worlds (Sentaris, Karkinos) are most likely found here. Optimal for Agri-Worlds. |
+| **K** | Orange | 0.45–0.8 | Long-Lived. Ideal for ancient civilizations (Elven/Alterian). Stable, cooler climates. |
+| **M** | Red | 0.08–0.45 | Dwarf Star. Planets must orbit close, leading to tidal locking (one side burnt, one frozen). Flare hazards common. "Twilight Zone" habitation (Linear Cities). |
+| **D** | White | \- | Remnant/Dead. Sites of ancient ruins or "Deep Mining" of planetary cores exposed by cataclysms. |
+
+### 
+
+### **1.2 Orbital Zones and System Anatomy**
+
+A system is divided into functional zones which dictate the type of encounters and infrastructure found.
+
+* **The Inner Zone (The Furnace):** Inner orbits where water boils. Worlds here are "Geomorteus" (dead rock) or "Geoplastic" (molten).  
+  * *Infrastructure:* Mining Outposts (Silica/Metal extraction) and Solar Power Arrays.  
+  * *Survival:* Requires Heavy Energy Shielding (TL4).  
+* **The Bio-Zone (Ecosphere):** The band permitting liquid water.  
+  * *Infrastructure:* Home to "Garden" and "Ocean" worlds like Aquatica and Almathea. Prime real estate for Agri-Worlds and Capital Worlds (e.g., Premius, Draconis).  
+* **The Outer Zone (The Deep / Cold Zone):** Outer orbits beyond the frost line.  
+  * *Infrastructure:* "Cryo" or "Ice Giants." Fuel Refining (skimming hydrogen) and Secret Research Stations (hidden in asteroid belts).  
+  * *Survival:* Requires constant thermal regulation and "Ice Farm" infrastructure.
+
+&nbsp;
+
+&nbsp;
+
+---
+
+## **2\. The Geophysical Chassis: Planetary Mechanics**
+
+This layer represents the immutable physical reality of the world. These parameters are not merely flavor text; they are the primary antagonists in an environmental survival scenario.
+
+### **2.1 Planetary Size and Gravity**
+
+Gravity is the fundamental constraint of physical existence. It dictates movement speeds, carrying capacities, and structural integrity.
+
+**Gravity Tiers, Size Classes, & Mechanics**
+
+| TIER | GRAVITY | SIZE CLASS (KM) | MOVE SPEED | CARRY CAP | COMBAT/SKILL MODIFIERS | LONG-TERM EFFECTS & FALL DMG |
+| ----- | ----- | ----- | ----- | ----- | ----- | ----- |
+| **Zero-G** | \< 0.1 | Class 1  (Tiny / Asteroid) | Fly (Base) | x10 | \-4 Attack/Skill (unless Spacer feat) | Muscle Atrophy (1d6 Str dmg/week). Inertial movement. |
+| **Low** | 0.1 – 0.7 | Class 2-3  (Small / Mars) | \+5 ft | x2 | \-2 Attack; \+2 Dex / \-2 Str | Fall dmg reduced to 1d4/10ft. |
+| **Standard** | 0.8 – 1.2 | Class 4-7  (Med/Earth) | Normal | Normal | None | Fall dmg 1d6/10ft. |
+| **High** | \> 1.2 | Class 8-9  (Large / Super Earth) | \-5 ft | x0.5 | \-2 Attack; \+2 Str / \-2 Dex | Fatigue; Fall dmg 1d8/10ft. |
+| **Extreme** | \> 2.0 | Class 10  (Giant) | Half Speed | x0.25 | \-4 to all Physical Checks | Crush Damage (1d6/minute). |
+
+**Implications:**
+
+* **Vehicular Adaptation:** On High Gravity worlds (Tavros), wheeled vehicles suffer traction penalties. "Legs \- Hexapod/Octoped" (TL3) are optimal for stability.  
+* **Architectural Adaptation:** High-G worlds require "Reinforced" construction (+10 Build CR) or low-rise bunkers. Low-G allows for spindly, soaring towers (Elven/Fey style) and excavated caverns.
+
+### 
+
+### **2.2 Atmospheric Composition**
+
+The atmosphere determines the immediate lethality of the environment and necessary survival gear.
+
+**Master Atmosphere Table**
+
+| CODE | TYPE | PRESSURE | SURVIVAL GEAR | MECHANICAL & HAZARD EFFECTS |
+| ----- | ----- | ----- | ----- | ----- |
+| **0** | Vacuum | 0.00 | Vacc Suit | Suffocation; Audio sensors fail; Radiation high. 1d6 decompression dmg/round. Silence rules apply. |
+| **1** | Trace | \< 0.1 | Vacc Suit | Fatigue checks (CON CR 15\) hourly; Suffocation over time. Pressure too low for lungs. |
+| **2** | Very Thin | 0.1 – 0.4 | Respirator | Fatigue checks during combat; Projectile ranges \+50%. |
+| **3** | Thin | 0.4 – 0.7 | Filter Mask | Breathable for natives; Altitude sickness for visitors (Fatigue CR 15/hour). |
+| **4** | Standard | 0.7 – 1.5 | None | Earth-normal. |
+| **5** | Dense | 1.5 – 2.5 | None | High stamina; "The Bends" risk on rapid ascent. \+4 Piloting checks. |
+| **6** | Tainted | Varies | Filter Mask | Pathogen/Pollutant exposure (Fort Save CR 15). E.g., Omin II (Virulent Phage). |
+| **7** | Corrosive | Varies | Hazmat Suit | 1d6 Acid damage/round to gear/flesh. Degrades Armor DR by 1/min unless Sealed. |
+| **8** | Exotic | Varies | Air Supply | Unbreathable (e.g., Methane, Chlorine). Suffocation rules apply. |
+| **9** | Dense, Tainted | High | Filter Mask | Breathable pressure but contains allergens/pollutants. |
+| **10 A** | Extreme Heat | \> 120F | Cool Suit | 1d4 dmg/10 mins (Fort Save). |
+| **11 B** | Extreme Cold | \< 0F | Thermal Suit | 1d6 dmg/10 mins (Fort Save). |
+| **12 C** | Insidious | Varies | Sealed Suit | Defeats seals over time. Extreme hazard. |
+
+### 
+
+### **2.3 Hydrology and Terrain**
+
+Hydrographics dictate planetary terrain and necessary vehicle types.
+
+* **Desert/Arid (0-9%):** Requires "Water Reclamation Systems" (TL2). Vehicles use "Tracked" or "Hover." Society relies on Moisture Vaporators or Deep Aquifer Mining. E.g., Grilious.  
+* **Dry (10-35%):** Small seas. Agriculture limited to Oases.  
+* **Wet/Oceanic (36-85%):** Standard Earth-like.  
+* **Water World (90-100%):** Requires "Hydro Induction" or "Water Propeller" propulsion. Settlements are "Floating" (TL3) or "Submersible" (TL4). Resources extracted from seabed. E.g., Aquatica.  
+* **Ice Ball:** Water locked in ice caps. Requires "Thermal Regulators" and "Ice Farm" infrastructure. E.g., Krias.  
+* **Anomalous Geography (High Meta Level):** Worlds boasting a Meta Level (ML) of 4 or higher exhibit physical manifestations of their metaphysical power. This includes strong ley lines, levitating geographical features (e.g., floating continents, suspended waterfalls), localized storms of raw Essence, or visible crystalline matrices growing naturally from the terrain. These features act as environmental hazards and strategic resources.
+
+&nbsp;
+
+&nbsp;
+
+---
+
+## **3\. The Biosphere Layer: Ecology and Alien Life**
+
+Once the physical stage is set, it must be populated with a biosphere.
+
+### **3.1 Native Life Generation Matrix**
+
+| COMPLEXITY | DOMINANT LIFE FORMS | TANGENT SPECIES CORRELATION |
+| ----- | ----- | ----- |
+| **Microbial** | Bacteria, Viruses, Algae | Phage Contamination (Omin II), Proto-life. |
+| **Vegetative** | Moss, Ferns, Fungi, Forests | Lin (Arboreal), Ferren habitats. Traits: "Climber", "Prehensile Tails". |
+| **Arthropoid** | Insects, Crustaceans, Arachnids | Riezen (Insectoid), Rakne. "Hive" social structures. |
+| **Reptilian** | Cold-blooded, Scaled beasts | Jorni (Reptile), Draconian predecessors. |
+| **Avian/Mammal** | Warm-blooded, Fur/Feather | Kannid (Canine), Frellin (Avian), Graa. |
+| **Sophont** | Tool-using, Civilization bldg | Humans, Aulurans, Elves, Gen-E. |
+
+### 
+
+### **3.2 Ecological Hazards**
+
+The biosphere is rarely benign.
+
+* **Virulent Pathogens:** "Weaponized Phage" (Type 6 Atmos) requires daily Fortitude saves (CR 15+) or "Full Environmental" suits.  
+* **Predatory Fauna:** On "Savage" worlds, fauna is Aggressive. Tables feature "Pack" tactics (Kannid) or "Ambush" predators (Rakne).  
+* **Psionic Ecology:** Worlds linked to Fey/Alterian influence may have "Awakened" biospheres (Plants with Telepathy/Obfuscate). Requires "Psi-Dampener Fields."  
+* **Scaling and Mega-Fauna:** Planetary environments dictate the physical scale of native threats. Worlds with High/Extreme Gravity or Water World (100 percent) hydrographics frequently breed Mega-Fauna. Apply a Scaling Modifier (x2 to x10) to the Damage Dice and Structure Points of these native apex predators, directly reflecting the size class of the threat.
+
+### 
+
+### **3.3 Progenitor & Relic Specification**
+
+When a world features "Fallen Empires" or ancient ruins, use the Progenitor Ruin Matrix to ensure narrative consistency across artifacts and visual descriptions.
+
+* **The Ila (Elohim):** Ancient ruins feature levitating white ceramic structures, gold-laced polymatter, and psionic violet energy signatures (ML 6). Relics are often psychoreactive, responding only to the mental commands of Awakened users.  
+* **The U'Nonn (Anunnaki):** Ruins consist of colossal, sculpted lapis lazuli and basalt ziggurats adorned with cuneiform holograms. Relics frequently feature extreme gravity manipulation, temporal distortion, and geometric force-field emitters.  
+* **The Mondi:** Architectural remains are grown from crystalline consciousness archives and feature bioluminescent patterns embedded in ethereal technology. Relics are often post-biological psychic constructs or memory-storage matrices.
+
+&nbsp;
+
+&nbsp;
+
+---
+
+
+## Game Mechanics Rules
+```
+See full canonical text in architect/planetary/99.Planetary.AstrophysicsAndGeophysics.md
+```
+
+## Gameplay Instructions
+Refer to architect/planetary/99.Planetary.AstrophysicsAndGeophysics.md in the game rules library for complete architectural tables and system parameters.
+
+## Designer Notes
+Canonical Tangent SF RP rulebook reference from architect/planetary/99.Planetary.AstrophysicsAndGeophysics.md. Complete, unabridged source of truth.

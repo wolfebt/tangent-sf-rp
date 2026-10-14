@@ -4,7 +4,7 @@
  * and resolves turn-start & movement ticks against operative saving throws.
  */
 
-import { AudioService } from './audioService';
+import { AudioService } from './audioService.js';
 
 export const HAZMAT_TYPES = {
   radiation_leak: {

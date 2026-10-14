@@ -152,9 +152,9 @@ export function parseBracketToken(rawToken) {
   if (clean.includes('|')) {
     const parts = clean.split('|').map(s => s.trim()).filter(Boolean);
     if (parts.length >= 2) {
-      // Check if left or right part contains an explicit prefix (e.g. section:, codex:, catalog:)
-      const leftHasPrefix = /^(section|codex|catalog|folio|element):/i.test(parts[0]);
-      const rightHasPrefix = /^(section|codex|catalog|folio|element):/i.test(parts[1]);
+      // Check if left or right part contains an explicit prefix (e.g. section:, codex:, catalog:, compendium:, wiki:)
+      const leftHasPrefix = /^(section|codex|catalog|folio|element|compendium|rule|rules|wiki):/i.test(parts[0]);
+      const rightHasPrefix = /^(section|codex|catalog|folio|element|compendium|rule|rules|wiki):/i.test(parts[1]);
 
       if (rightHasPrefix && !leftHasPrefix) {
         // [Display Label|prefix:target]
@@ -231,6 +231,61 @@ export function matchElementsCatalog(term, elementsCatalog = []) {
           (clean.length > 3 && el.title && clean.includes(el.title.toLowerCase()))
   );
   return found || null;
+}
+
+/**
+ * Searches dbData.compendium for a rulebook / compendium article by name, fileName, id, or clean title.
+ */
+export function matchCompendiumEntry(term, dbData = {}) {
+  if (!term || !dbData || !Array.isArray(dbData.compendium) || dbData.compendium.length === 0) return null;
+  const clean = term.trim().toLowerCase().replace(/\.md$/i, '');
+  const list = dbData.compendium;
+
+  // 1. Exact match on name, id, fileName (without .md), or stripped title
+  let found = list.find(item => {
+    const name = (item.name || '').toLowerCase();
+    const id = (item.id || '').toLowerCase();
+    const fn = (item.fileName || '').toLowerCase().replace(/\.md$/i, '');
+    const strippedName = name.replace(/^[\d.a-z_-]+\s*[—\-:]\s*/i, '').trim();
+    return name === clean || id === clean || fn === clean || strippedName === clean;
+  });
+  if (found) return found;
+
+  // 2. Substring match on name or fileName
+  if (clean.length >= 3) {
+    found = list.find(item => {
+      const name = (item.name || '').toLowerCase();
+      const fn = (item.fileName || '').toLowerCase().replace(/\.md$/i, '');
+      return name.includes(clean) || fn.includes(clean);
+    });
+    if (found) return found;
+  }
+
+  return null;
+}
+
+/**
+ * Helper to format a matched Compendium article into a resolved hyperlink target.
+ */
+function buildCompendiumResolution(item, displayLabel) {
+  const title = item.name || item.title || item.fileName || item.id;
+  const rawDesc = (item.description || item.body || '').replace(/^#+\s+.*$/gm, '').replace(/[*_`>#|]/g, ' ').replace(/\s+/g, ' ').trim();
+  const previewDesc = rawDesc ? rawDesc.slice(0, 260) + (rawDesc.length > 260 ? '…' : '') : 'Canonical rule document from the Tangent Compendium.';
+  const isArch = item.perspective === 'architect' || item.id?.startsWith('doc-architect-');
+  return {
+    targetType: 'compendium',
+    title,
+    displayLabel: displayLabel || title,
+    url: `/compendium?article=${encodeURIComponent(item.id)}`,
+    badge: isArch ? 'COMPENDIUM: ARCHITECT' : 'COMPENDIUM: OPERATOR',
+    description: previewDesc,
+    tags: [item.perspective?.toUpperCase() || 'RULEBOOK', item.entry_type, item.subfolder].filter(Boolean),
+    colorTheme: isArch ? 'amber' : 'emerald',
+    icon: 'BookOpen',
+    exists: true,
+    actionLabel: 'Open in Compendium',
+    rawEntity: item
+  };
 }
 
 /**
@@ -346,6 +401,13 @@ export function resolveHyperlinkTarget(rawToken, { elementsCatalog = [], dbData 
     }
   }
 
+  if (prefix === 'compendium' || prefix === 'rule' || prefix === 'rules' || prefix === 'wiki') {
+    const matchedComp = matchCompendiumEntry(identifier, dbData);
+    if (matchedComp) {
+      return buildCompendiumResolution(matchedComp, displayLabel);
+    }
+  }
+
   if (prefix === 'codex') {
     const matchedCodex = matchCodexEntry(identifier, dbData);
     if (matchedCodex) {
@@ -407,7 +469,16 @@ export function resolveHyperlinkTarget(rawToken, { elementsCatalog = [], dbData 
     };
   }
 
-  // Priority 3: Check Codex & Omnicortex DB
+  // Priority 3: Check Compendium Rules if identifier looks like a rule code or matches a Compendium article
+  const looksLikeRuleCode = /^(\d+\.\d+|doc-operator-|doc-architect-)/i.test(identifier.trim());
+  if (looksLikeRuleCode) {
+    const matchedCompFirst = matchCompendiumEntry(identifier, dbData);
+    if (matchedCompFirst) {
+      return buildCompendiumResolution(matchedCompFirst, displayLabel);
+    }
+  }
+
+  // Priority 4: Check Codex & Omnicortex DB
   const matchedCodex = matchCodexEntry(identifier, dbData);
   if (matchedCodex) {
     const { item, collection } = matchedCodex;
@@ -428,14 +499,20 @@ export function resolveHyperlinkTarget(rawToken, { elementsCatalog = [], dbData 
     };
   }
 
-  // Priority 4: Fallback / Unresolved
+  // Priority 5: Check Compendium Rules (general title/topic match)
+  const matchedCompFallback = matchCompendiumEntry(identifier, dbData);
+  if (matchedCompFallback) {
+    return buildCompendiumResolution(matchedCompFallback, displayLabel);
+  }
+
+  // Priority 6: Fallback / Unresolved
   return {
     targetType: 'unresolved',
     title: identifier,
     displayLabel,
     url: `/codex?search=${encodeURIComponent(identifier)}`,
     badge: 'UNRESOLVED REFERENCE',
-    description: `"${identifier}" was not found in active Sections, Elements Catalog, or Codex database.`,
+    description: `"${identifier}" was not found in active Sections, Elements Catalog, Compendium, or Codex database.`,
     tags: ['Unlinked'],
     colorTheme: 'slate',
     icon: 'HelpCircle',
@@ -597,6 +674,15 @@ export function formatBracketContextForAI(resolvedList = []) {
           (c.craft_dc || c.dc) ? `DC: ${c.craft_dc || c.dc}` : ''
         ].filter(Boolean);
         if (stats.length > 0) lines.push(`  - Mechanical Specs: ${stats.join(' | ')}`);
+      }
+      lines.push('');
+    } else if (item.targetType === 'compendium' && item.rawEntity) {
+      const comp = item.rawEntity;
+      lines.push(`• [COMPENDIUM RULEBOOK: ${item.badge}] "${item.title}"`);
+      if (comp.relPath) lines.push(`  - Source File: ${comp.relPath}`);
+      if (comp.description) {
+        const cleanRule = comp.description.replace(/\s+/g, ' ').trim();
+        lines.push(`  - Canonical Rule Excerpt: ${cleanRule.slice(0, 600)}`);
       }
       lines.push('');
     } else if (item.targetType === 'section') {

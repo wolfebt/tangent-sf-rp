@@ -1,0 +1,458 @@
+---
+id: "doc-operator-1-08-specialfeatures"
+name: "1.08 Special Features"
+fileName: "1.08.SpecialFeatures.md"
+relPath: "operator/features/1.08.SpecialFeatures.md"
+isMasterDoc: false
+masterDocId: "doc-operator-1-08-features"
+category: "operator_rule"
+parent: "doc-operator-1-08-features"
+order: 199
+perspective: "operator"
+entry_type: "Feature Catalog"
+tl: 3
+ml: 0
+cost: 0
+tags: ["operator","core-rules","modular-rule","features","1.08.specialfeatures","mechanics"]
+updatedAt: "2026-10-14T05:52:41.918Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
+---
+
+# **SPECIAL FEATURES**
+
+# **SPECIAL FEATURES**
+
+Species traits, supernatural senses, and augmentations.
+
+| FEATURE NAME | PREREQUISITE | BENEFIT / EFFECT | SPECIAL / NOTES |
+| :---- | :---- | :---- | :---- |
+| **Acute Sense** | \- | \+2 to Awareness Checks with chosen sense. | &nbsp;&nbsp; |
+| **Analytical Sense** | Acute Sense | Gain specific and detailed information from sense. | &nbsp;&nbsp; |
+| **Uncanny Sense** | Acute Sense | Roll Awareness Checks with chosen sense at Advantage. | &nbsp;&nbsp; |
+| **Augmented** | \- | Cybernetic / Biological / Meta Improvements. | &nbsp;&nbsp; |
+| **Heavy Augmentations** | Augmented | More Intensive Replacements and Enhancements. | &nbsp;&nbsp; |
+| **Extreme Augmentations** | Heavy Augmented | Replaces a majority of biological components. | &nbsp;&nbsp; |
+| **Biotechnology** | Awakened or TL4 | Imprinting, using and manipulating Living Technology. | &nbsp;&nbsp; |
+| **Bonded** | \- | Tele-Empathic connection with another. | &nbsp;&nbsp; |
+| **Companion** | Cha | Bio, Tech or other 40 CP Companion. | Rank, Multi |
+| **Familiar** | Companion | Empathically linked; know location/state | &nbsp; |
+| **Mind Link** | Companion | Telepathic link; share skills/knowledge | &nbsp;&nbsp; |
+| **Shared Senses** | Companion | Gain the senses of and sense through the other | &nbsp;&nbsp; |
+| **Danger Sense** | Wis 1 | Surprise Checks are made with Advantage. | &nbsp;&nbsp; |
+| **Dwarfism** | \- | Smaller than normal size (one category smaller). | &nbsp;&nbsp; |
+| **Eldritch Heritage** | \- | Gain a Bloodline Power (Sorcerer/Meta). | &nbsp;&nbsp; |
+| **Energy Resistance** | \- | Resistance 5 vs chosen Energy Type. | Rank (up to Immun)&nbsp;&nbsp;&nbsp; |
+| **Giant** | \- | Larger than normal size (one category larger). | &nbsp;&nbsp; |
+| **Life Support** | \- | Breathe in a non-native environment (Water, Gas, etc). | Multi |
+| **Low Light Vision** | \- | See in dim light as if bright light. | &nbsp;&nbsp; |
+| **Darksight** | \- | See in darkness (Black and White only). | &nbsp;&nbsp; |
+| **Natural Weapons** | \- | Armed with Claws, Fangs, Horns etc. | Rank |
+| **Rage** | \- | \+2 Str/Con/Will, \-2 AC, No mental skills. | Rank |
+| **Resistance** | \- | \+2 vs Disease, Poison, Magic, etc. | Multi |
+| **Scent** | \- | Detect opponents by smell (Wisdom Check). | &nbsp;&nbsp; |
+| **Self-Sustaining** | \- | Do not need to eat or drink. | &nbsp;&nbsp; |
+| **Sleepless** | \- | Do not need to sleep (immunity to sleep effects). | &nbsp;&nbsp; |
+| **Sense** | Special Ability | Sense 20 ft Radius or a 40 ft Cone (Evil, Magic, etc). | Multi |
+| **Sense, Uncontrolled** | \- | As Sense, but no off switch; 30 ft Radius / 60 ft Cone. | Multi |
+| **Sneak Attack** | Agi 2, Stealth 1 | Add Int and 1 extra die to damage if target flat footed. | Rank |
+| **Bleed** | Sneak Attack | Cause 1 point Bleed Damage per die of Sneak Attack. | &nbsp;&nbsp; |
+| **Blind** | Sneak Attack | Direct attack to a target's Sense. |  |
+| **Cripple** | Sneak Attack | Cause severe damage to a target's limb. |  |
+| **Hobble** | Sneak Attack | Reduce a target’s speed by 50% (immobilize on 2nd). |  |
+| **Technologist** | Special | Improved Technology Level in a field of study. | Multi (5+/advance) |
+| **Telepathy** | Special Ability | Mental Communication with any intelligent lifeform. |  |
+| **Wild Speech** | \- | Communicate with animals. |  |
+
+&nbsp;
+
+Special Features are often restricted by Species, Origin, or Technology Level. They represent biological realities or extensive body modification rather than simple training.
+
+### 
+
+## **Acute Sense**
+
+**Description:** The character possesses a specific sensory organ that is highly developed, far exceeding the baseline for their species. This could be eagle eyes, a bloodhound’s nose, or sensitive auditory receptors.
+
+* **Prerequisite:** Awareness 1  
+* **Benefit:** Choose one sense (Vision, Hearing, Smell, Taste, or Touch). You gain a **\+2 Bonus** to **Awareness Checks** utilizing that sense.  
+* **Special:** \[Multiple\] You may take this feature multiple times, applying it to a different sense each time.
+
+### 
+
+  ## **Analytical Sense**
+
+  **Description:** The character’s senses function like a tricorder or forensic scanner. They don't just see or smell; they analyze chemical compositions, structural stress points, and thermal gradients naturally.
+
+* **Prerequisite:** Acute Sense (in the corresponding sense), Intellect 2  
+* **Benefit:** When using your chosen Acute Sense, you gain specific, detailed scientific information. A smell isn't just "almond-like"; it is "Cyanide, distinct trace."  
+* **Mechanics:** You may use **Perception** in place of **Investigation** or **Science** checks to identify substances or analyze clues if the sensory input is available.
+
+  ### 
+
+  ## **Uncanny Sense**
+
+  **Description:** The character’s senses are so sharp they verge on precognition. It is nearly impossible to hide from them.  
+* **Prerequisite:** Acute Sense (in the corresponding sense)  
+* **Benefit:** You roll all **Awareness Checks** using the chosen sense with **Advantage**.
+
+### 
+
+## **Augmented**
+
+**Description:** The character has undergone invasive surgery to replace or enhance biological systems with cybernetics, biotechnology, or magical prosthetics.
+
+* **Prerequisite:** Available Technology Level (TL 3+)  
+* **Benefit:** You are compatible with **Standard Augmentations**.  
+* **Special:** Upon taking this feature, you gain a "credit" of **6 Character Points (CP)** worth of Augmentations effectively for free (representing the initial suite of upgrades). Any cost beyond this must be paid with CP or Credits.
+
+### 
+
+  ## **Heavy Augmentations**
+
+  **Description:** The character has replaced significant portions of their body with industrial or military-grade hardware. These modifications are often bulky, obvious, and not designed for social integration.
+
+* **Prerequisite:** Augmented, Stamina 2  
+* **Benefit:** You may install **Heavy** class Augmentations (which often have higher DR or Strength bonuses but may impose social penalties). You gain an additional **6 CP** worth of Augmentations.
+
+  ### 
+
+  ## **Extreme Augmentations**
+
+  **Description:** The character is more machine (or bio-construct) than original being. They have replaced the majority of their biological functions.  
+* **Prerequisite:** Heavy Augmentations, Stamina 4  
+* **Benefit:** You may undergo **Full Body Conversion**. You may install systems that alter your Size category or basic physiology (e.g., tank treads instead of legs). You gain an additional **6 CP** worth of Augmentations.
+
+### 
+
+## **Biotechnology**
+
+**Description:** The character is trained or naturally adapted to use "Living Technology"—grown items, symbiotic armor, and genetically engineered tools (common among Aulurans and Tyranid-like factions).
+
+* **Prerequisite:** Awakened (Psychic) OR Tech Level 4+ society.  
+* **Benefit:** You can imprint, operate, and heal Living Technology. Without this feature, Biotech items treat the user as a foreign body and may not function or may even attack the user.
+
+### 
+
+## **Bonded**
+
+**Description:** The character shares a profound, supernatural connection with another specific being.
+
+* **Prerequisite:** Charisma 2  
+* **Benefit:** You possess a **Tele-Empathic** link with another character (PC or NPC) who also possesses this feature. You can sense their strong emotions and general physical state (pain, unconsciousness) regardless of distance.
+
+### 
+
+## **Companion**
+
+**Description:** The character has a loyal follower, pet, droid, or mount.
+
+* **Prerequisite:** Charisma  
+* **Benefit:** You gain a loyal NPC ally built with **40 Character Points**.  
+* **Special:** \[Ranked\] Taking this feature again can either upgrade the existing companion (adding \+40 CP) or gain a second companion.
+
+### 
+
+  ## **Familiar**
+
+  **Description:** The companion is not just a pet, but a metaphysical extension of the character's will.
+
+* **Prerequisite:** Bonded, Companion, Awakened  
+* **Benefit:** Your Companion gains **\+20 Character Points**. You always know the exact direction and distance to your familiar.
+
+  ### 
+
+  ## **Mind Link**
+
+  **Description:** The bond deepens into a direct mental highway.  
+* **Prerequisite:** Familiar or Bonded  
+* **Benefit:** Your Companion gains **\+10 Character Points**. You possess a full **Telepathic Link** with the companion. You may share Knowledge Skills; if one knows a fact or language, the other can access it instantly.
+
+### 
+
+  ## **Shared Senses**
+
+  **Description:** The character can project their consciousness into their bond-mate.
+
+* **Prerequisite:** Familiar or Bonded  
+* **Benefit:** Your Companion gains **\+10 Character Points**. As a Standard Action, you can shift your sensory input to perceive through your companion's eyes/ears/senses. While doing so, your own body is blind/deaf.
+
+### 
+
+## **Danger Sense**
+
+**Description:** A "sixth sense" or spidey-sense that warns of immediate peril.
+
+* **Prerequisite:** Wisdom 1  
+* **Benefit:** You make all **Surprise Checks** and checks to avoid traps at **Advantage**. You are never truly "unaware" of direct danger, allowing you to act in the Surprise round.
+
+### 
+
+## **Dwarfism**
+
+**Description:** The character is significantly smaller than the average for their species.
+
+* **Prerequisite:** Species Trait or Flaw  
+* **Benefit:** Your Size Category decreases by one step (e.g., Medium to Small).  
+* **Mechanics:** Gain **\+1 to Defense**, **\+4 to Stealth**, and **\+1 to Strike**. Decrease lifting/carrying capacity and movement speed (typically \-10ft).
+
+### 
+
+## **Eldritch Heritage**
+
+**Description:** The character carries the blood of dragons, demons, fey, or gods.
+
+* **Prerequisite:** None (Background)  
+* **Benefit:** You gain a specific **Bloodline Power** or minor supernatural trait associated with your ancestor (e.g., minor energy resistance, claws, or a cantrip-level spell usable at will).
+
+### 
+
+## **Energy Resistance**
+
+**Description:** The character's physiology is resistant to a specific form of energy (Fire, Cold, Electricity, Acid, Sonic).
+
+* **Prerequisite:** None  
+* **Benefit:** Gain **Resistance 5** against one chosen energy type. (Subtract 5 from all damage of that type).  
+* **Special:** \[Ranked\] Stacks to Resistance 10, 15, etc., eventually becoming Immunity.
+
+### 
+
+## **Giant**
+
+**Description:** The character is significantly larger than the average for their species.
+
+* **Prerequisite:** Species Trait  
+* **Benefit:** Your Size Category increases by one step (e.g., Medium to Large).  
+* **Mechanics:** Gain **\+2 Strength**, increased Reach (threat range), and higher carrying capacity. Suffer **\-1 to Defense** and **\-4 to Stealth**.
+
+### 
+
+## **Life Support**
+
+**Description:** The character can survive in environments hostile to their biology.
+
+* **Prerequisite:** None  
+* **Benefit:** You can breathe and function comfortably in a specific non-native environment.  
+* **Options:** *Aquatic* (Breathe water), *Atmospheric* (Breathe exotic gas mixes), *Vacuum* (Can survive in void for limited time/hold breath 10x longer).
+
+### 
+
+## **Low Light Vision**
+
+**Description:** The character's eyes magnify ambient light.
+
+* **Prerequisite:** None  
+* **Benefit:** You can see in dim light (starlight, moonlight) as clearly as if it were bright daylight. You interpret color normally. You still cannot see in absolute darkness.
+
+### 
+
+## **Darksight**
+
+**Description:** The character sees using thermal or other non-visible spectrums.
+
+* **Prerequisite:** None  
+* **Benefit:** You can see in total darkness up to 60 feet.  
+* **Limitation:** This vision is typically black and white or monochromatic (e.g., heat vision).
+
+### 
+
+## **Natural Weapons**
+
+**Description:** The character possesses claws, fangs, horns, or a tail striker.
+
+* **Prerequisite:** None  
+* **Benefit:** You are always armed. Your Unarmed Strikes deal Lethal damage and the damage die is increased.  
+  * *Small/Medium:* 1d4 or 1d6 damage.  
+  * *Large:* 1d8 damage.  
+* **Special:** \[Ranked\] Can be taken to increase the damage die size.
+
+### 
+
+## **Rage**
+
+**Description:** The character can tap into a primal fury, ignoring safety for raw power.
+
+* **Prerequisite:** None  
+* **Benefit:** As a Free Action, enter a Rage.  
+  * **Gain:** \+2 Strength, \+2 Stamina (and temporary Health), \+2 Will.  
+  * **Suffer:** \-2 Defense. You cannot use skills requiring patience or concentration (most Mental/Tech skills).  
+  * **Duration:** Rounds equal to 4 \+ New Stamina Mod. Ends in fatigue.
+
+### 
+
+## **Resistance**
+
+**Description:** The character has a fortified immune system or supernatural resilience.
+
+* **Prerequisite:** Stamina 1  
+* **Benefit:** Gain a **\+2 Bonus** to saves against a specific hazard category: **Disease**, **Poison**, **Radiation**, or **Magic**.  
+* **Special:** \[Multiple\] Can be taken for different hazards.
+
+### 
+
+## **Scent**
+
+**Description:** The character can detect creatures and objects by smell alone.
+
+* **Prerequisite:** Wisdom 1  
+* **Benefit:** You can detect opponents within 30 feet by sense of smell. You can track creatures using **Survival** based on scent trails.
+
+### 
+
+## **Self-Sustaining**
+
+**Description:** The character does not require standard biological fuel.
+
+* **Prerequisite:** Synthetic, Plant, or Undead traits  
+* **Benefit:** You do not need to eat or drink. You may rely on solar power, a battery recharge, or magical energy, but you are immune to starvation and dehydration mechanics.
+
+### 
+
+## **Sleepless**
+
+**Description:** The character does not require sleep cycles (though they may need downtime for system diagnostics or meditation).
+
+* **Prerequisite:** Synthetic, Elf, or Special  
+* **Benefit:** You are **Immune** to magical sleep effects. You do not need 8 hours of sleep; you remain conscious during rest periods, though you must still engage in light activity to gain the benefits of a Long Rest.
+
+### 
+
+## **Sense**
+
+**Description:** The character can sense a specific type of energy or presence.
+
+* **Prerequisite:** Awakened or Species Trait  
+* **Benefit:** You can detect a specific aura (Evil, Magic, Life, Tech, Heat) within a **20 ft Radius** or a **40 ft Cone**. This requires active concentration (Standard Action).
+
+### 
+
+## **Sense, Uncontrolled**
+
+**Description:** The character is constantly bombarded by sensory input.
+
+* **Prerequisite:** Special  
+* **Benefit:** As *Sense*, but the range increases to **30 ft Radius / 60 ft Cone**.  
+* **Drawback:** It is always active ("Always On"). In areas with overwhelming presence of the sensed type (e.g., sensing Magic in a wizard's tower), the GM may impose distraction penalties.
+
+### 
+
+## **Sneak Attack**
+
+**Description:** The character knows exactly where to strike to deal maximum damage to a vulnerable target.
+
+* **Prerequisite:** Agility 2, Stealth 1  
+* **Benefit:** If you attack a target that is **Flat-Footed** or **Flanked**, you deal extra damage.  
+* **Mechanics:** Add your **Intellect Modifier** \+ **1d6 extra damage** to the roll.  
+* **Special:** \[Ranked\] Each additional rank adds \+1d6 to the damage.
+
+### 
+
+  ## **Bleed**
+
+  **Description:** A dirty fighting technique that opens veins or severs lines.
+
+* **Prerequisite:** Sneak Attack  
+* **Benefit:** When you deal Sneak Attack damage, the target also takes **1 point of Bleed damage** per die of Sneak Attack. This damage persists every round until healed/repaired.
+
+  ### 
+
+  ## **Blind**
+
+  **Description:** A precision strike to the eyes or sensors.  
+* **Prerequisite:** Sneak Attack  
+* **Benefit:** You may trade your Sneak Attack damage dice to inflict the **Blinded** condition on the target for 1d4 rounds.
+
+  ### 
+
+  ## **Cripple**
+
+  **Description:** A brutal strike to the arms or weapon systems.  
+* **Prerequisite:** Sneak Attack  
+* **Benefit:** You may trade your Sneak Attack damage dice to force the target to drop their weapon or disable one of their arms/manipulators.
+
+  ### 
+
+  ## **Hobble**
+
+  **Description:** A hamstringing strike to the legs or motive systems.  
+* **Prerequisite:** Sneak Attack  
+* **Benefit:** When you deal Sneak Attack damage, the target's **Movement Speed is reduced by 50%**. A second successful Hobble immobilizes them.
+
+### 
+
+## **Technologist**
+
+**Description:** The character is ahead of the curve, understanding technology that shouldn't exist yet. For a character to advance in their (TL Tech Level) they will require different fields of advanced study, the feature will need to be selected multiple times for various fields (minimum of five).
+
+* **Prerequisite:** Intellect 3, Technology (Knowledge) 11  
+* **Benefit:** You treat your effective **Tech Level** as one step higher for the purposes of crafting, repairing, or understanding advanced artifacts in a specific field of study.  
+  * Agriculture  
+  * Architecture  
+  * Biotechnology  
+  * Commerce  
+  * Communication  
+  * Devices  
+  * Education  
+  * Energy  
+  * Manufacturing  
+  * Materials  
+  * Medicine  
+  * Meta Sciences  
+  * Science  
+  * Society  
+  * Synthetic Intelligence  
+  * Transportation  
+  * Weaponry
+
+### 
+
+## **Telepathy**
+
+**Description:** The character can communicate mind-to-mind.
+
+* **Prerequisite:** Awakened (Mental) or Species Trait  
+* **Benefit:** You can communicate mentally with any intelligent lifeform within **Range** (usually 100ft \+).  
+* **Constraint:** You must be aware of the subject. If they are unwilling, you cannot force communication without using Discipline powers. Language barriers still apply unless you have the *Universal Translator* power.
+
+### 
+
+## **Wild Speech**
+
+**Description:** The character can speak with the beasts of the wild.
+
+* **Prerequisite:** Nature Affinity, Fey, or Druidic training  
+* **Benefit:** You can communicate with animals (Beast type) as if you shared a language. You can use **Social Skills** (Diplomacy, Bluff, Intimidate) on animals with no penalty.
+
+&nbsp;
+
+&nbsp;
+
+
+## Game Mechanics Rules
+```
+See full canonical text in operator/features/1.08.SpecialFeatures.md
+```
+
+## Gameplay Instructions
+Refer to operator/features/1.08.SpecialFeatures.md in the game rules library for complete architectural tables and system parameters.
+
+## Designer Notes
+Canonical Tangent SF RP rulebook reference from operator/features/1.08.SpecialFeatures.md. Complete, unabridged source of truth.

@@ -13,7 +13,12 @@ description: >-
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: Endurance
+    type: save
+    value: 4
+    mode: inherent
+    description: '+4 on checks to resist physical exhaustion, suffocation, and starvation'
 keywords: 'endurance, general, special-feature, exceptional, cardiovascular, health'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3

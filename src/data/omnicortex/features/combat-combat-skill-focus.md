@@ -13,7 +13,12 @@ description: >-
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: Combat Skill
+    type: skill
+    value: 2
+    mode: competence
+    description: +2 competence bonus to chosen Combat Skill per stage
 keywords: >-
   combat skill focus, combat, special-feature, combat-maneuver, tactical-edge,
   feature:

@@ -13,7 +13,14 @@ description: >-
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: All Skills
+    type: time_modifier
+    value: 1
+    mode: conditional
+    isSituational: true
+    condition: Extra time invested
+    description: +1 additional bonus per time stage invested in Meticulous Work
 keywords: 'meticulous, skill, special-feature, exceptionally, thorough, rarely'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3

@@ -1,11 +1,15 @@
 ---
 id: "doc-operator-1-09-hindrances"
 name: "1.09 HINDRANCES"
+fileName: "1.09 HINDRANCES.md"
+relPath: "operator/1.09 HINDRANCES.md"
+isMasterDoc: true
+masterDocId: "doc-operator-1-09-hindrances"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 10
+order: 200
 perspective: "operator"
-entry_type: "Core Rule"
+entry_type: "Core Rulebook"
 tl: 3
 ml: 0
 cost: 0
@@ -465,11 +469,11 @@ The universe conspires against the character.
 
 ## Game Mechanics Rules
 ```
-See full canonical text in 1.09 HINDRANCES.md
+See full canonical text in operator/1.09 HINDRANCES.md
 ```
 
 ## Gameplay Instructions
-Refer to 1.09 HINDRANCES.md in the game rules library for complete architectural tables and system parameters.
+Refer to operator/1.09 HINDRANCES.md in the game rules library for complete architectural tables and system parameters.
 
 ## Designer Notes
-Canonical Tangent SF RP rulebook reference from 1.09 HINDRANCES.md. Complete, unabridged source of truth.
+Canonical Tangent SF RP rulebook reference from operator/1.09 HINDRANCES.md. Complete, unabridged source of truth.

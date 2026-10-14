@@ -13,7 +13,14 @@ description: >-
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: social
+    type: skill
+    value: 2
+    mode: conditional
+    isSituational: true
+    condition: Where physical appearance is a factor
+    description: +2 to Social checks where physical appearance is a factor
 keywords: 'attractive, skill, special-feature, possesses, striking, physical'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3

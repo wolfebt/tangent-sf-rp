@@ -19,7 +19,7 @@ test('Omnicortex Compendium: 1-to-1 Parity between Markdown Files and compendium
   const seed = JSON.parse(fs.readFileSync(seedPath, 'utf8'));
   const mdFiles = fs.readdirSync(compDir).filter(f => f.endsWith('.md'));
 
-  assert(seed.length >= 30, `Expected at least 30 seed articles, got ${seed.length}`);
+  assert(seed.length >= 260, `Expected at least 260 modular seed articles, got ${seed.length}`);
   assert.equal(seed.length, mdFiles.length, `Expected seed count (${seed.length}) to match md files count (${mdFiles.length})`);
 
   const seedIds = new Set(seed.map(s => s.id));
@@ -28,12 +28,12 @@ test('Omnicortex Compendium: 1-to-1 Parity between Markdown Files and compendium
     assert(seedIds.has(id), `Markdown file ${file} is missing from compendiumSeed.json`);
   });
 
-  // Verify all 30 core docs from docs/game rules exist
+  // Verify all 14 Operator Master Chapters + 9 Architect Master Matrices + sample modular sub-docs
   const coreDocIds = [
     'doc-operator-1-00-introduction',
     'doc-operator-1-01-character-creation',
     'doc-operator-1-02-archetypes',
-    'doc-operator-1-03-species-work',
+    'doc-operator-1-03-species',
     'doc-operator-1-04-factions',
     'doc-operator-1-05-origins',
     'doc-operator-1-06-occupations',
@@ -44,28 +44,40 @@ test('Omnicortex Compendium: 1-to-1 Parity between Markdown Files and compendium
     'doc-operator-2-00-economatrix',
     'doc-operator-3-00-combat',
     'doc-operator-4-00-metaphysics',
+    'doc-architect-02-economy-and-wealth',
     'doc-architect-99-archetypes',
     'doc-architect-99-metaphysics',
-    'doc-architect-99-metaphysics-invocation-matrix',
-    'doc-architect-99-metaphysics-meta-tech-matrix',
     'doc-architect-99-modular-character-matrix',
     'doc-architect-99-modular-companion-matrix',
     'doc-architect-99-modular-faction-matrix',
     'doc-architect-99-modular-planetary-matrix',
     'doc-architect-99-modular-species-matrix',
-    'doc-architect-99-technology-architectural-matrix',
-    'doc-architect-99-technology-armor-matrix',
-    'doc-architect-99-technology-augmentations-matrix',
-    'doc-architect-99-technology-equipment-matrix',
-    'doc-architect-99-technology-mecha-matrix',
-    'doc-architect-99-technology-weaponry-matrix',
-    'doc-architect-99-technology'
+    'doc-architect-99-technology',
+    // Sample modular sub-documents
+    'doc-operator-1-03-aeld',
+    'doc-operator-1-03-aeld-alterian',
+    'doc-operator-1-04-aeldprovidence',
+    'doc-operator-1-07-physical',
+    'doc-architect-99-tech-mecha-forgeprotocol',
+    'doc-architect-99-metaphysics-invocationmatrix'
   ];
 
   coreDocIds.forEach(docId => {
     assert(seedIds.has(docId), `Critical game rule doc ${docId} missing from compendiumSeed.json`);
     const entry = seed.find(s => s.id === docId);
-    assert(entry && entry.description.length > 5000, `Doc ${docId} should contain full rule text`);
+    assert(entry && entry.description.length > 500, `Doc ${docId} should contain rule text`);
+  });
+
+  // Verify zero orphaned parents across all 267 articles
+  const validCategories = new Set([
+    '1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)',
+    '5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)'
+  ]);
+  seed.forEach(entry => {
+    assert(
+      validCategories.has(entry.parent) || seedIds.has(entry.parent),
+      `Article ${entry.id} has invalid/orphaned parent: ${entry.parent}`
+    );
   });
 });
 

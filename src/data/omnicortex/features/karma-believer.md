@@ -14,7 +14,14 @@ description: >-
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: All Skills
+    type: reroll
+    value: 1
+    mode: karma
+    isSituational: true
+    condition: Once per day
+    description: Reroll 1 failed skill check per day
 keywords: 'believer, karma, special-feature, possesses, profound, higher'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3

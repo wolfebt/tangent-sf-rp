@@ -1,0 +1,99 @@
+---
+id: "doc-operator-1-07-mental-core"
+name: "1.07 Mental: Core"
+fileName: "1.07.Mental.Core.md"
+relPath: "operator/skills/1.07.Mental.Core.md"
+isMasterDoc: false
+masterDocId: "doc-operator-1-07-skills"
+category: "operator_rule"
+parent: "doc-operator-1-07-skills"
+order: 178
+perspective: "operator"
+entry_type: "Skill Category"
+tl: 3
+ml: 0
+cost: 0
+tags: ["operator","core-rules","modular-rule","skills","1.07.mental.core","mechanics"]
+updatedAt: "2026-10-14T05:52:12.026Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
+---
+
+# **\- MENTAL SKILLS**
+
+# **MENTAL SKILLS**
+
+These skills utilize the character's mind, education, and sensory acuity.
+
+## 
+
+## **ALERTNESS**
+
+* **Ability:** Perception (Intellect \+ Wisdom)  
+* **Description:** Alertness is the skill of being aware of one's surroundings and noticing changes or potential threats in the environment. It reflects a character's ability to pay attention to details and react quickly to unexpected situations. Alertness is used whenever a character needs to be aware of their surroundings, whether it's to avoid danger or to gather information. This can include things like noticing a hidden door, detecting a trap, or identifying a potential ambush.  
+* **Mechanics:**  
+  * *Spot/Listen:* Opposed by Stealth.  
+  * *Search:* CR 10 (easy) to CR 30 (microscopic detail).  
+* **Specialties:**   
+  * **Visual Spotting:** Identifying hidden snipers, optical glints, camouflaged personnel, and concealed traps.  
+  * **Auditory Listening:** Eavesdropping through bulkheads, picking out hushed footsteps, and identifying weapon charging hums.  
+  * **Ambush Detection:** Sensing structural irregularities, kill-zone geometry, and unnatural environmental stillness.  
+  * **Concealed Object Search:** Uncovering secret compartments, hidden weapon holsters, false deckplates, and covert bugs.  
+  * **Scent & Pheromone Recognition:** Identifying chemical signatures, ozone leaks, and tracking alien scents.  
+  * **Sensor Feed Monitoring:** Catching blips, radar ghosting, and telemetry spikes on passive scanner consoles.  
+  * **Danger Sense & Intuition:** Reading subtle atmospheric pressure changes and gut feelings before violence erupts.  
+  * **Counter-Surveillance Awareness:** Noticing when you are being tailed, scanned, or watched from high vantage points.  
+  * **Micro-Detail Inspection:** Spotting minute hairline fractures in bulkheads, micro-cameras, and hairline tripwires.  
+  * **Motion Tracking:** Tracking high-speed peripheral movement across low-light and visual-clutter environments.
+
+## 
+
+## **ACADEMICS**
+
+* **Ability:** Intellect  
+* **Description:** Academics is the skill of knowledge acquisition and analysis. It reflects a character's ability to research and understand complex topics. Academics is used whenever a character needs to research a topic, analyze data, or draw conclusions based on evidence. This can include things like researching a new technology, analyzing an artwork or deciphering old texts.   
+* **Mechanics:**  
+  * *Research:* CR 15 to find obscure information in a library/database.  
+* **Specialties:**   
+  * **Research Methodology:** Efficiently querying galactic libraries, university databases, and scholarly compendiums.  
+  * **Critical Epistemology:** Evaluating the validity, systemic bias, and objective truth of complex source materials.  
+  * **Data Synthesis:** Cross-referencing disparate academic fields to extrapolate working theories and hypotheses.  
+  * **Scholarly Archiving:** Classifying, indexing, and citing academic literature according to galactic standards.  
+  * **Pedagogy & Instruction:** Formulating structured curricula to teach complex theoretical concepts to novices.  
+  * **Technical Writing:** Drafting comprehensive peer-reviewed papers, grant proposals, and white papers.  
+  * **Abstract Logic:** Solving complex mathematical logic gates, philosophical proofs, and systemic dilemmas.  
+  * **Linguistic Philology:** Tracing the roots, evolution, and semantic mutations of languages across galactic eras.  
+  * **Comparative Sociology:** Analyzing societal development structures across disparate humanoid and alien cultures.  
+  * **Scholastic Peer Review:** Detecting fabrication, confirmation bias, and flawed datasets in published scientific reports.
+
+##
+
+
+## Game Mechanics Rules
+```
+See full canonical text in operator/skills/1.07.Mental.Core.md
+```
+
+## Gameplay Instructions
+Refer to operator/skills/1.07.Mental.Core.md in the game rules library for complete architectural tables and system parameters.
+
+## Designer Notes
+Canonical Tangent SF RP rulebook reference from operator/skills/1.07.Mental.Core.md. Complete, unabridged source of truth.

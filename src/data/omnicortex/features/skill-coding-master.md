@@ -11,7 +11,14 @@ description: 'Coding Master is a Skill Feature: Perform Computer Tasks at Advant
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: mental-knowledges-computers
+    type: check_advantage
+    value: 1
+    mode: conditional
+    isSituational: true
+    condition: 'Programming, slicing, or network tasks'
+    description: 'Advantage on Computer tasks (Roll 3d10, take best 2)'
 keywords: 'coding master, skill, special-feature, coding, master, feature:'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3

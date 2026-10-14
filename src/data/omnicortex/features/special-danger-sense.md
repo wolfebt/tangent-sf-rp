@@ -11,7 +11,16 @@ description: A "sixth sense" or spidey-sense that warns of immediate peril.
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: mental-general-alertness
+    type: check_advantage
+    value: 1
+    mode: conditional
+    isSituational: true
+    condition: Surprise checks and trap avoidance
+    description: >-
+      Advantage on Surprise checks and checks to avoid traps (Roll 3d10, take
+      best 2)
 keywords: 'danger sense, special, special-feature, "sixth, sense", spidey-sense'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3

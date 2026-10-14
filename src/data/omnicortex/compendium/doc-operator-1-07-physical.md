@@ -1,0 +1,142 @@
+---
+id: "doc-operator-1-07-physical"
+name: "1.07 Physical"
+fileName: "1.07.Physical.md"
+relPath: "operator/skills/1.07.Physical.md"
+isMasterDoc: false
+masterDocId: "doc-operator-1-07-skills"
+category: "operator_rule"
+parent: "doc-operator-1-07-skills"
+order: 177
+perspective: "operator"
+entry_type: "Skill Category"
+tl: 3
+ml: 0
+cost: 0
+tags: ["operator","core-rules","modular-rule","skills","1.07.physical","mechanics"]
+updatedAt: "2026-10-14T05:52:12.021Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
+---
+
+# **\- PHYSICAL SKILLS**
+
+# **PHYSICAL SKILLS**
+
+These skills rely on the character's bodily fitness, coordination, and agility.
+
+## 
+
+## **Acrobatics**
+
+* **Ability:** Agility  
+* **Description:** Acrobatics is the skill of performing feats of gymnastics, extraordinary balance, and dance (and related performance arts), and breaking falls. It is used whenever a character attempts to make a physical maneuver that requires agility, balance, and coordination. This can include things like jumping over obstacles, swinging from ropes, or performing aerial maneuvers. The ability to perform feats of gymnastics, balance, tumbling, and breaking falls. It covers keeping one's footing on slippery surfaces or tightropes and maneuvering through threatened areas without being hit.  
+* **Mechanics:**  
+  * *Balance:* CR 10 (narrow surface) to CR 20+ (razor edge).  
+  * *Tumble:* CR 15 to move through an enemy's threatened area without provoking an attack.  
+  * *Break Fall:* Reduce falling damage (CR 15 ignores first 10ft).  
+* **Specialties:**   
+  * **Tumbling:** Executing offensive or defensive rolls across hard or hazardous terrain.  
+  * **Tightrope & Ledge Balancing:** Retaining equilibrium along narrow beams, girders, and razor edges.  
+  * **Parkour & Free-Running:** Traversing complex vertical and urban environments at full speed.  
+  * **Breakfalling:** Mitigating kinetic shock and impact damage from catastrophic falls.  
+  * **Zero-G Maneuvering:** Propelling, rotating, and anchoring oneself in microgravity or vacuum.  
+  * **Escapology:** Slipping bonds, manacles, energy cuffs, and narrow biological entrapments.  
+  * **Wall-Running:** Using kinetic momentum to traverse perpendicular surfaces briefly.  
+  * **Aerial Trapeze & Swing:** Calculating and grabbing ropes, cables, and swinging hazards in motion.  
+  * **Dive & Roll:** Clearing sudden ground-level traps, blast radii, or closing bulkheads.  
+  * **Kip-Up & Rapid Recovery:** Snapping instantly to one's feet from a prone state without defensive penalties.
+
+## 
+
+## **Athletics**
+
+* **Ability:** Strength  
+* **Description:** Athletics is the skill of a character's general physical capabilities – running, jumping, climbing, swimming, and other broadly physical activities. It reflects a character's overall fitness and physical prowess. Athletics is used whenever a character attempts to perform a physical feat that requires strength and endurance. A measure of general physical prowess. It encompasses running, jumping, climbing, swimming, and lifting heavy objects.  
+* **Mechanics:**  
+  * *Climb:* CR 10 (rope with knots) to CR 25 (sheer surface). Speed is usually half base speed.  
+  * *Jump:* CR equals the distance in feet (running start).  
+  * *Swim:* CR 10 (calm water) to CR 20 (stormy water). Failure by 5 or more risks drowning.  
+* **Specialties:**   
+  * **Sprinting:** Short-burst explosive acceleration over open terrain.  
+  * **Endurance Running:** Long-distance marches and prolonged pursuits without fatigue.  
+  * **Vertical & Long Jumping:** Clearing horizontal chasms and scaling sheer heights by leaping.  
+  * **Rock & Hull Climbing:** Scaling sheer cliffs, metal lattice bulkheads, and exterior starship hulls.  
+  * **Swimming & Diving:** Navigating high-viscosity liquids, aquatic currents, and submerged operations.  
+  * **Powerlifting & Hauling:** Lifting, pressing, and dragging massive bulk, collapsed beams, and heavy machinery.  
+  * **Forceful Throwing:** Hurling objects, grenades, or improvised bludgeons with maximum velocity.  
+  * **Grapple Wrestling:** Overpowering and pinning opponents through superior bodily mass and leverage.  
+  * **High-G Conditioning:** Resisting the physical and circulatory strain of high-gravity worlds and high-G acceleration.  
+  * **Breaching & Forcing:** Kicking in heavy security doors, forcing airlocks, and smashing barriers.
+
+## 
+
+## **Piloting**
+
+* **Ability:** Agility (Reaction) or Intellect (Navigation/Systems)  
+* **Description:** Piloting is the skill of operating mecha, vehicles of various types, such as aircraft, spacecraft, or boats. It reflects a character's ability to navigate, steer, and control various vehicles. Piloting is used whenever a character attempts to pilot a vehicle, whether in combat or during a peaceful journey. This can include things like flying a spaceship through an asteroid field, navigating a boat through a storm, or driving a car through a high-speed chase.   
+* **Mechanics:**  
+  * *Normal Operation:* No roll required for standard travel.  
+  * *Stunts/Combat:* CR depends on maneuver difficulty (CR 15 for sharp turns at speed, CR 25 for "threading the needle").  
+* **Specialties:**   
+  * **Wheeled & Tracked Vehicles:** Driving rovers, combat buggies, tanks, and mobile command platforms.  
+  * **Hovercraft & Grav-Speeders:** Operating repulsorlift bikes, grav-skimmers, and low-altitude platforms.  
+  * **Atmospheric Aircraft:** Flying atmospheric jets, rotorcraft, gunships, and gliders.  
+  * **Sub-Orbital Shuttles:** Piloting orbital dropships, landers, and transit shuttles through atmospheric entry.  
+  * **Starfighters & Dogfighting:** High-speed space combat, interceptor maneuvers, and close-quarters dogfights.  
+  * **Capital Ships & Freighters:** Navigating massive multi-deck vessels, bulk freighters, and naval cruisers.  
+  * **Mecha & Walkers:** Piloting bipedal or multipedal combat chassis and industrial bipedal rigs.  
+  * **Watercraft & Submersibles:** Commanding surface naval boats, aquatic hydrofoils, and deep-sea exploration pods.  
+  * **EVA Thruster Packs:** Precision thruster control during spacewalks and exterior repairs.  
+  * **Combat Stunts & Evasion:** Threading asteroid clusters, evading surface-to-air missiles, and extreme defensive barrel rolls.
+
+## 
+
+## **Stealth**
+
+* **Ability:** Agility  
+* **Description:** Stealth is the skill of moving quietly and remaining hidden from view. It reflects a character's ability to avoid detection and move silently. Stealth is used whenever a character attempts to sneak past guards, hide from enemies, or remain undetected while spying. This can include things like sneaking through a dark alley, hiding behind a tree, or crawling through a ventilation shaft. The ability to move silently and remain unseen. This is an opposed check against an observer's *Alertness*.  
+* **Mechanics:**  
+  * *Hide:* Your check becomes the CR for the enemy's Perception/Alertness check. Requires cover or concealment.  
+  * *Move Silently:* Move at half speed without penalty. Moving faster imposes penalties (-5 for full speed).  
+* **Specialties:**   
+  * **Silent Movement:** Walking, running, and shifting weight across creaky, dry, or metal grating without noise.  
+  * **Camouflage & Concealment:** Blending into natural foliage, rubble, or static shadows using environmental gear.  
+  * **Urban Infiltration:** Skulking through corporate arcologies, maintenance ducts, alleyways, and populated zones.  
+  * **Wilderness Stalking:** Approaching targets through alien jungles, tundras, or rocky outcroppings without disturbing wildlife.  
+  * **Sensor Evasion:** Avoiding infrared scanners, thermal cameras, motion trackers, and bio-scanners.  
+  * **Tailing & Shadowing:** Following marks through crowded spaceports or urban avenues without alerting them.  
+  * **Crowd Blending:** Disappearing into pedestrian traffic and public plazas via nondescript body language.  
+  * **Vibration & Scent Masking:** Evading tracking beasts and species relying on non-visual olfactory or acoustic senses.  
+  * **Quick-Cover Snapping:** Darting between cover zones while security patrols or camera sweeps cycle past.  
+  * **Infiltration Rigging:** Placing acoustic and optical cloaks over gear to silence rattling holsters and gear packs.
+
+
+## Game Mechanics Rules
+```
+See full canonical text in operator/skills/1.07.Physical.md
+```
+
+## Gameplay Instructions
+Refer to operator/skills/1.07.Physical.md in the game rules library for complete architectural tables and system parameters.
+
+## Designer Notes
+Canonical Tangent SF RP rulebook reference from operator/skills/1.07.Physical.md. Complete, unabridged source of truth.

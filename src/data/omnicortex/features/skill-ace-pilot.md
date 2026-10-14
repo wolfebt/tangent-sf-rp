@@ -11,7 +11,12 @@ description: 'Ace Pilot is a Skill Feature: +6 Piloting, +30% to Maximum Vehicle
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: physical-piloting
+    type: skill
+    value: 6
+    mode: competence
+    description: +6 competence bonus to Piloting
 keywords: 'ace pilot, skill, special-feature, feature:, piloting, maximum'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3

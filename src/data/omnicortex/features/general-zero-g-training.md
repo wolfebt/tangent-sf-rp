@@ -13,7 +13,14 @@ description: >-
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: physical-acrobatics
+    type: skill
+    value: 2
+    mode: conditional
+    isSituational: true
+    condition: Operating in Zero Gravity
+    description: +2 to Acrobatics when maneuvering in Zero-G; eliminates Zero-G penalties
 keywords: 'zero g training, general, special-feature, trained, operate, microgravity'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3

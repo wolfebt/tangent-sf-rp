@@ -1,0 +1,520 @@
+---
+id: "doc-operator-2-00-armor"
+name: "2.00 Armor"
+fileName: "2.00.Armor.md"
+relPath: "operator/economatrix/2.00.Armor.md"
+isMasterDoc: false
+masterDocId: "doc-operator-2-00-economatrix"
+category: "operator_rule"
+parent: "doc-operator-2-00-economatrix"
+order: 204
+perspective: "operator"
+entry_type: "Economatrix Catalog"
+tl: 3
+ml: 0
+cost: 0
+tags: ["operator","core-rules","modular-rule","economatrix","2.00.armor","mechanics"]
+updatedAt: "2026-10-14T05:53:10.301Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
+---
+
+# **ARMOR**
+
+# **ARMOR**
+
+## 
+
+## **Civilian and Concealable Wear (Light Grade)**
+
+*Maps to **Clothing** and **Reinforced Clothing**. minimal bulk, designed for social integration.*
+
+### 
+
+### **Synth-Leather "Jack"**
+
+Description: A textured bodysuit or jacket made from chemically treated synthetic leather. Common among spacers and urban youth.
+
+Stat Block:
+
+* **ARMOR TYPE:** Clothing, Reinforced  
+* **TL/ML:** TL 2 / ML 0  
+* **DR:** 5  
+* **SP:** 10  
+* **Penalties:** None  
+* **Locations Covered:** Torso, Arms  
+* **Special Functions / Modifiers:** **Civilian Grade** (Legal in all jurisdictions).  
+* **Wealth / Craft CR:** Wealth 1 / CR 10  
+* **Slots:** 2
+
+### 
+
+### **Ballistic Mesh**
+
+Description: Standard street-wear lined with a flexible network of plastic or metal alloys. Looks like rough civilian clothing but stops small arms.
+
+Stat Block:
+
+* **ARMOR TYPE:** Clothing, Reinforced  
+* **TL/ML:** TL 3 / ML 0  
+* **DR:** 5  
+* **SP:** 10  
+* **Penalties:** None  
+* **Locations Covered:** Torso, Legs  
+* **Special Functions / Modifiers:** **Concealable** (Detectable only with physical inspection).  
+* **Wealth / Craft CR:** Wealth 2 / CR 10  
+* **Slots:** 2
+
+### 
+
+### **Nanofiber "Cloth" Suit**
+
+Description: Tailored from advanced ballistic cloth (TL 4). Absorbs kinetic energy and spreads impact. Indistinguishable from high-end business wear.
+
+Stat Block:
+
+* **ARMOR TYPE:** Clothing, Reinforced  
+* **TL/ML:** TL 4 / ML 0  
+* **DR:** 5  
+* **SP:** 10  
+* **Penalties:** None  
+* **Locations Covered:** Torso, Arms, Legs  
+* **Special Functions / Modifiers:** **High Fashion** (+1 to Etiquette/Style checks); **Concealable**.  
+* **Wealth / Craft CR:** Wealth 4 / CR 10  
+* **Slots:** 2
+
+&nbsp;
+
+---
+
+## **Tactical & Enforcement (Medium Grade)**
+
+*Maps to **Armored Vests**, **Jackets**, and **Coats**. Offers significant protection for specific locations.*
+
+### 
+
+### **Security Vest (Standard)**
+
+Description: A semi-rigid vest made of ceramic plates over a kevlar weave. Standard issue for police and private security.
+
+Stat Block:
+
+* **ARMOR TYPE:** Armored Vest  
+* **TL/ML:** TL 3 / ML 0  
+* **DR:** 10  
+* **SP:** 20  
+* **Penalties:** None  
+* **Locations Covered:** Torso  
+* **Special Functions / Modifiers:** **Hardened** (Immune to Critical Hits from small arms).  
+* **Wealth / Craft CR:** Wealth 3 / CR 10  
+* **Slots:** 2
+
+### 
+
+### **Scout Suit / Infiltration Coat**
+
+Description: A matte-black armored long coat or bodysuit using sound-dampening polymers. Covers vital areas while allowing free movement.
+
+Stat Block:
+
+* **ARMOR TYPE:** Armored Long Coat  
+* **TL/ML:** TL 3 / ML 0  
+* **DR:** 10  
+* **SP:** 20  
+* **Penalties:** None  
+* **Locations Covered:** Torso, Arms, Legs  
+* **Special Functions / Modifiers:** **Stealthy** (+2 to Stealth checks).  
+* **Wealth / Craft CR:** Wealth 4 / CR 12  
+* **Slots:** 4
+
+### 
+
+### **Heavy Tactical Helmet**
+
+Description: Full-face protection with integrated comms and sensors.
+
+Stat Block:
+
+* **ARMOR TYPE:** Helmet, Heavy  
+* **TL/ML:** TL 3 / ML 0  
+* **DR:** 15  
+* **SP:** 15  
+* **Penalties:** \-2 Sight/Hearing (unless compensated by sensors)  
+* **Locations Covered:** Head  
+* **Special Functions / Modifiers:** **Sensor Suite** (Can house HUD/Comms).  
+* **Wealth / Craft CR:** Wealth 2 / CR 12  
+* **Slots:** 1
+
+&nbsp;
+
+---
+
+## **Military Hard Suits (Heavy Grade)**
+
+*Maps to **Full Body Armor**. Complete environmental seal and combat protection.*
+
+### 
+
+### **Infantry Plate (Trooper Armor)**
+
+Description: Rigid composite plating covering the entire body, mounted on a sealed bodysuit. The standard for most military forces (Coalition, Dynasty).
+
+Stat Block:
+
+* **ARMOR TYPE:** Full Body Armor  
+* **TL/ML:** TL 3 / ML 0  
+* **DR:** 15  
+* **SP:** 40  
+* **Penalties:** None  
+* **Locations Covered:** All (Head, Torso, Arms, Legs)  
+* **Special Functions / Modifiers:** **Environmental Seal** (6 hours air).  
+* **Wealth / Craft CR:** Wealth 4 / CR 18  
+* **Slots:** 6
+
+### 
+
+### **Survival "Hard-Suit"**
+
+Description: Ruggedized plating over a pressurized under-suit, designed for hostile environments (vacuum, toxic atmosphere).
+
+Stat Block:
+
+* **ARMOR TYPE:** Full Body Armor  
+* **TL/ML:** TL 3 / ML 0  
+* **DR:** 15  
+* **SP:** 40  
+* **Penalties:** None  
+* **Locations Covered:** All  
+* **Special Functions / Modifiers:** **Full Environmental** (Immune to gas/vacuum, 24hr Life Support).  
+* **Wealth / Craft CR:** Wealth 3 / CR 18  
+* **Slots:** 6
+
+### 
+
+### **Composite Combat Shell (Entari/Syndicate)**
+
+Description: Advanced molded ceramics that offer superior deflection. Sleek, sealed, and expensive.
+
+Stat Block:
+
+* **ARMOR TYPE:** Full Body Armor, Heavy  
+* **TL/ML:** TL 4 / ML 0  
+* **DR:** 20  
+* **SP:** 50  
+* **Penalties:** \-1 Mobility, \-5 Movement  
+* **Locations Covered:** All  
+* **Special Functions / Modifiers:** **Refractive Coating** (+2 Defense vs Lasers/Beams).  
+* **Wealth / Craft CR:** Wealth 5 / CR 22  
+* **Slots:** 8
+
+&nbsp;
+
+---
+
+## **Assault & Siege Gear (Superheavy Grade)**
+
+*Maps to **Battle Suits**. Maximum protection for heavy weapons specialists.*
+
+### 
+
+### **Heavy Assault Plate (Juggernaut)**
+
+Description: Thick slabs of ablative armor and plasteel. Turns the wearer into a walking tank.
+
+Stat Block:
+
+* **ARMOR TYPE:** Battle Suit (S. Heavy)  
+* **TL/ML:** TL 3 / ML 0  
+* **DR:** 30  
+* **SP:** 80  
+* **Penalties:** \-2 Mobility, \-10 Movement  
+* **Locations Covered:** All  
+* **Special Functions / Modifiers:** **Anchor** (Advantage on checks to resist being knocked down).  
+* **Wealth / Craft CR:** Wealth 5 / CR 25  
+* **Slots:** 10
+
+### 
+
+### **EOD / Hazard Shell**
+
+Description: Extremely bulky armor designed for bomb disposal or plasma leaks.
+
+Stat Block:
+
+* **ARMOR TYPE:** Battle Suit (S. Heavy)  
+* **TL/ML:** TL 3 / ML 0  
+* **DR:** 30  
+* **SP:** 80  
+* **Penalties:** \-2 Mobility, \-10 Movement  
+* **Locations Covered:** All  
+* **Special Functions / Modifiers:** **Blast Shielding** (Explosive/Area damage reduced by 50%).  
+* **Wealth / Craft CR:** Wealth 5 / CR 25  
+* **Slots:** 10
+
+&nbsp;
+
+---
+
+## **Powered Armor & Exoskeletons (Powered Grade)**
+
+*Maps to **Exoskeleton Battlesuits**. Motorized frames that provide massive durability.*
+
+### 
+
+### **Utility Exoskeleton (Loader)**
+
+Description: An open-frame hydraulic skeleton used for cargo loading. Offers no environmental protection but massive durability.
+
+Stat Block:
+
+* **ARMOR TYPE:** Exoskeleton Battlesuit  
+* **TL/ML:** TL 3 / ML 0  
+* **DR:** 40  
+* **SP:** 120  
+* **Penalties:** Varies (Powered)\*  
+* **Locations Covered:** All (Frame covers body)  
+* **Special Functions / Modifiers:** **Hydraulic Strength** (Set Strength to 18/+4, Lifting Capacity x2).  
+* **Wealth / Craft CR:** Wealth 4 / CR 30  
+* **Slots:** 15
+
+### 
+
+### **Battle Suit (Standard PA)**
+
+Description: A sealed, armored suit with myomer-muscle underlay. The apex of personal protection.
+
+Stat Block:
+
+* **ARMOR TYPE:** Exoskeleton Battlesuit  
+* **TL/ML:** TL 4 / ML 0  
+* **DR:** 40  
+* **SP:** 120  
+* **Penalties:** Varies (Powered)\*  
+* **Locations Covered:** All  
+* **Special Functions / Modifiers:** **Augmented Strength** (+4 Str). **Full Life Support**. **HUD Link**.  
+* **Wealth / Craft CR:** Wealth 6 / CR 30  
+* **Slots:** 15
+
+&nbsp;
+
+Here is the expansion for **Section 02.01**, adding **Subsection G: Exotic & Variant Protection**.
+
+This section covers the specialized technologies found in specific factions (Auluran Biotech, Mekan Polymatter, Alterian Magi-Tech, etc.). These items often trade raw durability for unique, active abilities or regeneration.
+
+&nbsp;
+
+---
+
+## **Exotic & Variant Protection (Advanced)**
+
+*Equipment utilizing alternative sciences such as Biology, Psionics, Magic, or Advanced Physics. These items often require specific proficiencies or biological interfaces.*
+
+## 
+
+Bio-Technology (Organic)
+
+*Grown rather than built. Common among Aulurans and deep-space survivalists. These suits are living organisms that bond with the host.*
+
+### 
+
+### **Symbiotic "Second Skin"**
+
+Description: A semi-translucent, living membrane that bonds to the wearer's epidermis. It regulates temperature, filters toxins, and seals wounds instantly.
+
+Stat Block:
+
+* **ARMOR TYPE:** Light Armor (Biotech)  
+* **TL/ML:** TL 4 / ML 0  
+* **DR:** 8 (Adaptive Flesh)  
+* **SP:** 25 (Living Tissue)  
+* **Penalties:** None  
+* **Locations Covered:** Full Body  
+* **Special Functions / Modifiers:** **Regeneration** (Restores 1 SP per minute); **Diagnosis** (+2 to Fortitude saves vs Disease/Poison).  
+* **Wealth / Craft CR:** Wealth 5 / CR 20 (Medicine/Biotech)  
+* **Slots:** 2 (Grown Nodes)
+
+### 
+
+### **Chitinous Carapace (Warrior Strain)**
+
+Description: Heavy, interlocking plates of bio-ceramic bone and insectoid chitin grown over a muscular underlay. It looks monstrous but offers superior environmental adaptation.
+
+Stat Block:
+
+* **ARMOR TYPE:** Full Body Armor (Biotech)  
+* **TL/ML:** TL 4 / ML 0  
+* **DR:** 20 (Hardened Bone)  
+* **SP:** 60 (Dense Chitin)  
+* **Penalties:** \-1 Mobility  
+* **Locations Covered:** Full Body  
+* **Special Functions / Modifiers:** **Sealed** (Water/Vacuum breathing for 4 hours); **Camouflage** (Changes color to match environment, \+2 Stealth).  
+* **Wealth / Craft CR:** Wealth 6 / CR 25 (Biotech)  
+* **Slots:** 6 (Bio-Sacks/Weapon Mounts)
+
+&nbsp;
+
+---
+
+## **Magi-Tech (Arcane)**
+
+*Manufactured by the Alterian Enclave or ancient progenitors. These items fuse circuitry with ley-lines and runes.*
+
+### 
+
+### **Warded Weave Robes**
+
+Description: High-quality ballistic cloth embroidered with threads of conductive gold and Aetherium. The runes flare with light when struck, dispersing energy.
+
+Stat Block:
+
+* **ARMOR TYPE:** Reinforced Clothing (Arcane)  
+* **TL/ML:** TL 3 / ML 3  
+* **DR:** 5 (Physical) / 10 (Energy/Magic)  
+* **SP:** 15 (Enchanted Fabric)  
+* **Penalties:** None  
+* **Locations Covered:** Torso, Arms, Legs  
+* **Special Functions / Modifiers:** **Spell Resistance** (+2 Defense vs Metaphysic Attacks); **Focus** (Counts as a Masterwork Tool for Spellcasting).  
+* **Wealth / Craft CR:** Wealth 5 / CR 22 (Arcana/Tailoring)  
+* **Slots:** 3 (Talisman Pockets)
+
+### 
+
+### **Runeguard Plate**
+
+Description: Ancient ceramic or stone-composite armor etched with glowing defensive sigils. It is heavy but resonates with the wearer's aura.
+
+Stat Block:
+
+* **ARMOR TYPE:** Battle Suit (Heavy)  
+* **TL/ML:** TL 3 / ML 4  
+* **DR:** 25 (Runed Stone)  
+* **SP:** 70 (Reinforced)  
+* **Penalties:** \-2 Mobility, \-5 Movement  
+* **Locations Covered:** Full Body  
+* **Special Functions / Modifiers:** **Aegis** (Wearer can spend 1 Karma to double DR against a single attack).  
+* **Wealth / Craft CR:** Wealth 8 / CR 30 (Metacraft)  
+* **Slots:** 6 (Crystal Sockets)
+
+&nbsp;
+
+---
+
+## **Psi-Tech (Psionic)**
+
+*Favored by the Ascendancy and Impyrium Inquisitors. These armors react to the wearer's mental state.*
+
+### 
+
+### **Crystalline Body-Glove**
+
+Description: A tight, shimmering suit made of flexible psycho-reactive crystals. It is nearly weightless but turns rigid instantly upon impact.
+
+Stat Block:
+
+* **ARMOR TYPE:** Light Armor (Psionic)  
+* **TL/ML:** TL 4 / ML 2  
+* **DR:** 10 (Reactive Crystal)  
+* **SP:** 30 (Shatter-Resistant)  
+* **Penalties:** None  
+* **Locations Covered:** Full Body  
+* **Special Functions / Modifiers:** **Mental Hardening** (+2 Willpower saves); **Psi-Link** (Can operate hands-free via thought).  
+* **Wealth / Craft CR:** Wealth 7 / CR 25 (Psionics/Engineering)  
+* **Slots:** 4 (Psi-Amp Mounts)
+
+### 
+
+### **Inquisitor's Mind-Plate**
+
+Description: Heavy composite armor laced with psychic dampeners and sensory boosters. Designed to hunt rogue psychics and entities.
+
+Stat Block:
+
+* **ARMOR TYPE:** Full Body Armor (Heavy)  
+* **TL/ML:** TL 4 / ML 3  
+* **DR:** 22 (Psycho-Conductive Alloy)  
+* **SP:** 55 (Dense)  
+* **Penalties:** \-1 Mobility  
+* **Locations Covered:** Full Body (Closed Helm)  
+* **Special Functions / Modifiers:** **Null-Field** (Wearer gains DR 10 vs Psionic Damage specifically); **Terror** (+2 Intimidate).  
+* **Wealth / Craft CR:** Wealth 8 / CR 28  
+* **Slots:** 6 (Integrated restraints/weapons)
+
+&nbsp;
+
+---
+
+## **Advanced Physics (Mekan/Tech 5\)**
+
+*The cutting edge of science, utilizing programmable matter and hard light.*
+
+### 
+
+### **Polymatter "Liquid" Suit**
+
+Description: A suit composed of millions of nanites suspended in a silver fluid. It flows over the wearer like water and can reshape itself on command.
+
+Stat Block:
+
+* **ARMOR TYPE:** Variable (Light to Medium)  
+* **TL/ML:** TL 5 / ML 0  
+* **DR:** 15 (Fluid Impact Absorption)  
+* **SP:** 40 (Self-Repairing Cloud)  
+* **Penalties:** None  
+* **Locations Covered:** Full Body  
+* **Special Functions / Modifiers:** **Morph** (Can change appearance/color to mimic any clothing or uniform as a Standard Action); **Concealment** (+4 to Hide items inside the suit).  
+* **Wealth / Craft CR:** Wealth 10 / CR 35 (Nanotech)  
+* **Slots:** 4 (Universal Ports \- can reshape to fit any module)
+
+### 
+
+### **Holophotonic Emitter Harness**
+
+Description: A lightweight harness that projects a suit of "Hard Light" armor only when combat begins. When inactive, the wearer appears unarmored.
+
+Stat Block:
+
+* **ARMOR TYPE:** Light Armor (Projected)  
+* **TL/ML:** TL 5 / ML 0  
+* **DR:** 20 (Force Field)  
+* **SP:** N/A (Uses Energy/Battery Life)  
+* **Penalties:** 0 (Weightless)  
+* **Locations Covered:** Full Body  
+* **Special Functions / Modifiers:** **Instant Don/Doff** (Armor appears/vanishes instantly); **Glow** (Stealth impossible while active unless "Dark Light" upgrade is installed).  
+* **Wealth / Craft CR:** Wealth 12 / CR 30 (Physics)  
+* **Slots:** 2 (Emitter nodes)
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+
+## Game Mechanics Rules
+```
+See full canonical text in operator/economatrix/2.00.Armor.md
+```
+
+## Gameplay Instructions
+Refer to operator/economatrix/2.00.Armor.md in the game rules library for complete architectural tables and system parameters.
+
+## Designer Notes
+Canonical Tangent SF RP rulebook reference from operator/economatrix/2.00.Armor.md. Complete, unabridged source of truth.

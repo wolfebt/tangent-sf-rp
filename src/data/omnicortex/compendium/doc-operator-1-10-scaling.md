@@ -1,11 +1,15 @@
 ---
 id: "doc-operator-1-10-scaling"
 name: "1.10 SCALING"
+fileName: "1.10 SCALING.md"
+relPath: "operator/1.10 SCALING.md"
+isMasterDoc: true
+masterDocId: "doc-operator-1-10-scaling"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 11
+order: 201
 perspective: "operator"
-entry_type: "Core Rule"
+entry_type: "Core Rulebook"
 tl: 3
 ml: 0
 cost: 0
@@ -150,11 +154,11 @@ Divide the Attacker's Combat Modifier by the Defender's Combat Modifier.
 
 ## Game Mechanics Rules
 ```
-See full canonical text in 1.10 SCALING.md
+See full canonical text in operator/1.10 SCALING.md
 ```
 
 ## Gameplay Instructions
-Refer to 1.10 SCALING.md in the game rules library for complete architectural tables and system parameters.
+Refer to operator/1.10 SCALING.md in the game rules library for complete architectural tables and system parameters.
 
 ## Designer Notes
-Canonical Tangent SF RP rulebook reference from 1.10 SCALING.md. Complete, unabridged source of truth.
+Canonical Tangent SF RP rulebook reference from operator/1.10 SCALING.md. Complete, unabridged source of truth.

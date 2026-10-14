@@ -459,8 +459,8 @@ export function getItemSockets(item) {
 
 function parseNumeric(val, fallback = 0) {
   if (val === undefined || val === null || val === '') return fallback;
-  if (typeof val === 'number') return isNaN(val) ? fallback : val;
+  if (typeof val === 'number') return !Number.isFinite(val) ? fallback : val;
   const str = String(val).replace(/,/g, '').replace(/Cr/gi, '').replace(/\+/g, '').trim();
   const num = parseFloat(str);
-  return isNaN(num) ? fallback : num;
+  return !Number.isFinite(num) ? fallback : num;
 }

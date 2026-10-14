@@ -322,6 +322,13 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
       if (catKey === 'compendium' && matchingSeed) {
         enriched.description = matchingSeed.description;
         enriched.name = matchingSeed.name || enriched.name;
+        enriched.fileName = matchingSeed.fileName || enriched.fileName;
+        enriched.relPath = matchingSeed.relPath || enriched.relPath;
+        enriched.subfolder = matchingSeed.subfolder || enriched.subfolder;
+        enriched.isMasterDoc = matchingSeed.isMasterDoc ?? enriched.isMasterDoc;
+        enriched.masterDocId = matchingSeed.masterDocId || enriched.masterDocId;
+        enriched.category = matchingSeed.category || enriched.category;
+        enriched.entry_type = matchingSeed.entry_type || enriched.entry_type;
         enriched.parent = matchingSeed.parent || enriched.parent;
         enriched.order = matchingSeed.order ?? enriched.order;
         enriched.mechanic = matchingSeed.mechanic || enriched.mechanic;

@@ -11,7 +11,12 @@ description: 'The character is a born performer, capable of holding an audience'
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: social-expression
+    type: skill
+    value: 1
+    mode: competence
+    description: +1 competence bonus to any Performance check
 keywords: 'entertaining, skill, special-feature, performer, capable, holding'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3

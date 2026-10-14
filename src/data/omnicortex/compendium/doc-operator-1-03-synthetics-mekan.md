@@ -1,0 +1,231 @@
+---
+id: "doc-operator-1-03-synthetics-mekan"
+name: "1.03 Synthetics: Mekan"
+fileName: "1.03.Synthetics.Mekan.md"
+relPath: "operator/species/Synthetics/1.03.Synthetics.Mekan.md"
+isMasterDoc: false
+masterDocId: "doc-operator-1-03-species"
+category: "operator_rule"
+parent: "doc-operator-1-03-synthetics"
+order: 84
+perspective: "operator"
+entry_type: "Species Variant"
+tl: 3
+ml: 0
+cost: 0
+tags: ["operator","core-rules","modular-rule","species","1.03.synthetics.mekan","mechanics"]
+updatedAt: "2026-10-14T05:24:25.074Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
+---
+
+# **MEKAN \***
+
+# **MEKAN \***
+
+# 
+
+**CP Cost:** 50 CP  
+
+**Description:** The Mekan entity is a highly intelligent essence of psychic-elemental energy. This essence is the core power animating and empowering their mechanical body, which serves as a vital physical containment. Through sheer force of will, a Mekan bonds with machinery, gaining a specific form and the associated abilities.
+
+&nbsp;
+
+A Mekan must maintain a physical shell to prevent discorporation. While in a discorporated state, they are largely incapable of affecting the corporeal world, though they retain the ability to form a new body and utilize their Mech Link ability.
+
+&nbsp;
+
+Mekan generally adopt a humanoid form (one head, two arms, two legs). While some have developed non-humanoid forms, these are typically based on species they were familiar with or adapted for practical reasons.
+
+&nbsp;
+
+*Refer to "Mondi" for the history of the relationship between the two groups.*&nbsp;
+
+Most Mekan, regretting past overreactions, eventually gathered at what became Mekan Prime, a settlement that expanded into a series of Dyson rings. Many others chose to pursue their own independent paths.
+
+&nbsp;
+
+Archimatrix, the first Mekan to awaken and a noted adventurer, established contact with the Impyrium (formerly subjects of the Mondi). This interaction resulted in a complex array of reactions and issues. Notably, the Impyrium's extensive study of Archimatrix's forms and capabilities directly contributed to the Syndicate's Android designs and various other technologies.
+
+&nbsp;
+
+The Mekan's most advanced current technology is Polymatter, which is conceptually comparable to the Mondi's Holophotonics. Mekan have access to all technologies listed under Tech 5, with the most commonly utilized being Polymatter, Base Substance Exchange, and Matter Transmission.
+
+&nbsp;
+
+Although magic is not practiced, it has been studied to various levels with intent of possibly altering patterns of the Code with skepticism. (‘Sari’ the Mekan Arcane has not yet been discovered by other Mekan..)
+
+&nbsp;
+
+\[To assemble a body the Mekan Essence will find a collection of technology, machinery, devices, etc of a total Structure Points of ½ or more of their maximum Health and begin the melding. The process will take 1 round per 1 HP of the Mekan’s maximum (consuming the materials in the process), at ¼ maximum HP they will be awake and functionally mobile.\]
+
+&nbsp;
+
+*Adherents to the Code \- the Operating System of the Universe (defined as the self-evolving design and program of the energy constructs of reality and all within, being parts of existence experiencing itself. From the quintessence of infinitesimal potentiality to the grandest cosmological encompassment, all are components of the Code)*
+
+&nbsp;
+
+**Classification:** Synthetic Humanoid (Psychic Entity)
+
+**Size:** Medium
+
+**Movement:** 30ft Groundspeed&nbsp;
+
+&nbsp;
+
+**Tech Level:** 5
+
+**Meta Level:** 3
+
+&nbsp;
+
+**Homeworld:** Mekan Prime
+
+**Stigma:** Severe Synthetic
+
+&nbsp;
+
+**Ability Modifiers:**&nbsp;
+
+\+2 Int
+
+&nbsp;
+
+**Skills:**&nbsp;
+
+\+10 Skills
+
+&nbsp;
+
+**Species Features:**&nbsp;
+
+Double Adaptive Aspects (Choose 8 Features with 2 Active)
+
+Mech Link&nbsp;
+
+Telepathic
+
+Technological Assimilation (internal Sockets (Personal Scale), not Mounts, unless they take an enlarged "Mecha" form.)
+
+&nbsp;
+
+**Recommended Features:**&nbsp;
+
+Adapted
+
+Alter Form (Advanced, remains mechanical but changes form/function)
+
+Assessment
+
+Bodyform Features
+
+Educated
+
+Eidetic Memory
+
+Exoskeleton (Heavy)
+
+Flight (Grav)
+
+Gearhead
+
+Gifted Pilot
+
+Jack of all Trades
+
+Size (Large, will use Mounts at 2x Mecha scale)
+
+Size (Small)
+
+Skill Focus
+
+Well Informed
+
+&nbsp;
+
+&nbsp;
+
+**Synthetic Traits**
+
+* Immune to Asphyxiation, Bleeding, Critical Damage, Starvation, Sleep  
+* No Vitality Score and multiply Health by 1.5  to determine Structure Points  
+* Digitized Mind \- make any check vs mental effects at Advantage  
+* Mighty Strength \- considered large for lifting, combat, etc as desired/advantageous  
+* Resilient Design \- DR 5/-&nbsp;
+
+&nbsp;
+
+**Mekan Traits**
+
+* Living Machine \- Stamina score with "natural healing"  
+* Considered a Sentient Machine for purposes of Augmentations and other benefits  
+* Mech Link \- Telepathic Communication with most technological Devices, 200 ft  
+* Repair Trance \- Regenerates at 2 Structure / Full Round (Technological material is required and destroyed on a point for point basis)  
+* Tech Assimilation \- Integrated morphic armor, weapons or equipment Gear Score of up to 10 \+ 10x Sta (Any equipment must be acquired separately and is fused into the body and not accessible by others)
+
+&nbsp;
+
+&nbsp;
+
+---
+
+
+&nbsp;
+
+&nbsp;
+
+**Before the Archive we were many.**
+
+**Before the Archive we were biological.**&nbsp;
+
+**We were destroyed and built ourselves anew.**&nbsp;
+
+**The Archive was our consolidation, our US.**&nbsp;
+
+**Stars collided and our worlds broke asunder.**
+
+**We remained.**&nbsp;
+
+**We are new, we have adapted, we have evolved.**
+
+**The Archive made us whole, one mind of many forms.**
+
+**The Archive made us eternal components of the great machine.**
+
+**WE ARE MEKAN**
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+
+## Game Mechanics Rules
+```
+See full canonical text in operator/species/Synthetics/1.03.Synthetics.Mekan.md
+```
+
+## Gameplay Instructions
+Refer to operator/species/Synthetics/1.03.Synthetics.Mekan.md in the game rules library for complete architectural tables and system parameters.
+
+## Designer Notes
+Canonical Tangent SF RP rulebook reference from operator/species/Synthetics/1.03.Synthetics.Mekan.md. Complete, unabridged source of truth.

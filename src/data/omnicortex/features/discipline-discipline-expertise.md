@@ -13,7 +13,12 @@ description: >-
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: Discipline
+    type: skill
+    value: 4
+    mode: competence
+    description: +4 with chosen Discipline Skill (Affecting Severity)
 keywords: >-
   discipline expertise, discipline, special-feature, focused-training, mastery,
   expertise

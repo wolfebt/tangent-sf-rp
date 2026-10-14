@@ -1,0 +1,303 @@
+---
+id: "doc-operator-1-01-karma"
+name: "1.01 Karma"
+fileName: "1.01.Karma.md"
+relPath: "operator/character_creation/1.01.Karma.md"
+isMasterDoc: false
+masterDocId: "doc-operator-1-01-character-creation"
+category: "operator_rule"
+parent: "doc-operator-1-01-character-creation"
+order: 6
+perspective: "operator"
+entry_type: "Character Creation Rule"
+tl: 3
+ml: 0
+cost: 0
+tags: ["operator","core-rules","modular-rule","character_creation","1.01.karma","mechanics"]
+updatedAt: "2026-10-14T05:54:39.326Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
+---
+
+# **KARMA**
+
+# **KARMA**
+
+The Karma is an aspect of the Tangent RPG system that provides players with a limited resource they can strategically use to influence various aspects of the game. It serves as a pool of points that can be spent to affect dice rolls, modify character actions, and even shape narrative outcomes.
+
+&nbsp;
+
+# ---
+
+# **KARMA POOL BASICS**
+
+*Characters have 3 Karma Points by default.*
+
+* *Session Reset: Karma resets to max (Default 3\) at the start of every session. It does not regenerate via rest.*  
+* *Heroic Gain: GM may award 1 Karma Point immediately for "Heroic" or "Awesome" actions.*
+
+&nbsp;
+
+## **Restoration**
+
+All Karma Points are fully restored at the start of each game session and regaining Karma Points through significant story moments (chapters) or by performing 'heroic' or awesome actions. Karma Points are not recovered by rest.
+
+&nbsp;
+
+## **Increasing**
+
+The Karmic Blessing feature allows characters to increase their maximum Karma Pool by \+1 point per rank of the feature.
+
+Otherwise the pool will be increased by possible Storyline and GM prerogative.
+
+&nbsp;
+
+## **Using Karma Points**
+
+Karma Points can be spent to activate various effects, but they will not guarantee a success. These effects are in additional to any other modifiers and will stack accordingly. Critical failures and successes may be adjusted as any other rolls following the listed mechanics.
+
+## 
+
+### **I Got This**
+
+This Karma Point expenditure option allows players to gain an advantage on any single roll.&nbsp;
+
+Declaration
+
+The player must declare they are using "I Got This" before making the roll.
+
+&nbsp;
+
+Any Single Roll
+
+It can be used on any dice roll, including ability checks, skill checks, attack rolls, saving throws, and even damage rolls. This versatility makes it a valuable tool in various situations.
+
+&nbsp;
+
+Advantage
+
+Gaining advantage means rolling the die twice and taking the higher result. This significantly increases the character's chance of success.
+
+&nbsp;
+
+### **Not What I Meant**
+
+This option of the Karma mechanic allows a player to reroll an Ability Check or a non-combat Skill Check.&nbsp;
+
+Timing
+
+The player must declare they are using "Not What I Meant" immediately after the initial roll.&nbsp;
+
+&nbsp;
+
+Scope
+
+It applies to Ability Checks (Strength, Agility, etc.) and non-combat Skill Checks (Technology, Medicine, etc.). This excludes attack rolls, damage rolls, and other combat-specific rolls.
+
+&nbsp;
+
+Acceptance
+
+The second roll's result must be accepted, even if it's worse than the first.&nbsp;
+
+## 
+
+### **Shake it Off**
+
+This Karma Point expenditure option allows characters to reduce the severity of temporary conditions affecting them.&nbsp;
+
+Temporary Conditions
+
+These are short-term effects that hinder a character's abilities or actions. Examples include being Poisoned, Stunned, or Blinded.
+
+&nbsp;
+
+Severity Stages
+
+Many conditions have severity levels, such as Poisoned (Minor, Major, Critical).
+
+&nbsp;
+
+One Stage Reduction
+
+Spending a Karma Point allows the character to reduce the condition's severity by one stage. For example, a character suffering from Major Poisoning could reduce it to Minor Poisoning.
+
+&nbsp;
+
+Timing
+
+This can be used anytime the character is suffering from a temporary condition.
+
+&nbsp;
+
+### **Second Wind**
+
+This Karma Point expenditure option allows a character to quickly refresh their abilities and resources, bypassing the need for a Light Rest.&nbsp;
+
+Replaces Light Rest
+
+A Light Rest is a short period of downtime during which characters can recover some spent abilities or regain limited uses of certain features. "Second Wind" allows a character to achieve the same benefits without needing to take a Light Rest.
+
+&nbsp;
+
+1 Full Minute
+
+Using "Second Wind" requires the character to spend 1 full minute focusing on themselves and their inner reserves. This represents the character drawing upon their willpower and determination to push through fatigue and replenish their energy.
+
+&nbsp;
+
+Specific Benefits
+
+The exact benefits of using "Second Wind" depend on the character's traits, abilities, and features. Generally, it can be used to refresh abilities that have a limited number of uses per day, such as special attacks, traits or features.
+
+&nbsp;
+
+### **So Mote it Be**
+
+This Karma Point expenditure option interacts with a character's metaphysical abilities, enhancing their power or enabling special feats.&nbsp;
+
+Metaphysics Users
+
+This option is available to characters who have access to metaphysical abilities, such as magic, psychic powers, or other supernatural forces.
+
+&nbsp;
+
+Karma Feat Activation
+
+A Karma Point can be spent to activate a Karma Feat, which is a special ability or enhancement tied to the character's metaphysical disciplines. These feats might grant temporary bonuses, unique effects, or powerful attacks.
+
+&nbsp;
+
+Skill Boost
+
+Alternatively, a Karma Point can be used to boost the effectiveness of a metaphysical skill check. This could increase the power of a spell, the range of a psychic ability, or the duration of a supernatural effect.
+
+&nbsp;
+
+Simultaneous Use
+
+The Karma Point expenditure must be declared along with the use of the metaphysical skill or feat. This means the player decides to use "So Mote it Be" at the same time they declare they are using the skill or feat, not after the roll is made.
+
+&nbsp;
+
+### **By Will Alone**
+
+This is a unique Karma Point expenditure, allowing characters to attempt actions that push the boundaries of their normal capabilities.&nbsp;
+
+GM Discretion
+
+The core of "By Will Alone" is the GM's judgment. Players propose an action, and the GM decides if it's possible within the game world and the character's potential.
+
+&nbsp;
+
+Possible but Challenging
+
+The action must be something that's not explicitly covered by the character's skills or abilities, but is theoretically achievable with extreme effort, luck, or a narrative justification. The effect could involve a nudge of a rule for one action or event in the character’s favor, the emulation of a basic feature for the event or scene and similar low-end temporary game tweaks for character agency (within GM’s approval for the ongoing story).
+
+&nbsp;
+
+Karma Point Cost
+
+Attempting the action requires spending a Karma Point, regardless of success or failure. This represents the character tapping into their inner reserves or pushing their luck.
+
+&nbsp;
+
+No Guarantee
+
+Even with a Karma Point spent, success is not guaranteed. The GM may call for an ability check, a skill check, or a unique challenge to resolve the action's outcome.
+
+&nbsp;
+
+# ---
+
+# **PLOT POINTS**
+
+Plot Points are a special resource in Tangent RPG, awarded by the GM to players who actively engage with the story and its challenges.
+
+Separate from Karma Pool
+
+Plot Points function similarly to Karma Points, allowing players to influence rolls and actions. However, they are a separate resource and do not count towards the character's Karma Pool maximum.
+
+&nbsp;
+
+## **Temporary and Specific**
+
+Plot Points are temporary and must be used within the specific scenario or story arc they were awarded in. This encourages players to use them strategically and think about how they can best contribute to the unfolding narrative.
+
+&nbsp;
+
+## **Compensation and Balance**
+
+Plot Points are often granted to characters who find themselves in situations beyond their control, as a form of compensation or to help balance the challenges they face. This can help ensure that all players have a meaningful impact on the story, even if their characters are not the most powerful or skilled.
+
+# 
+
+# ---
+
+# **NEGATIVE KARMA**
+
+Negative Karma allows characters to push their luck and potentially face consequences for their actions.
+
+&nbsp;
+
+## **GM's Discretion**
+
+The allowance of Negative Karma is entirely at the GM's discretion who will decide when and how to apply its effects, tailoring it to the specific situation and the character's actions. Incurring Negative Karma points are up to the players themselves.
+
+&nbsp;
+
+## **Spending Karma into the Negatives**
+
+Characters can choose to spend Karma Points even when they have none left, effectively going into "Karmic debt." This debt is limited to the character's Charisma score \+1.
+
+&nbsp;
+
+## **Karmic Effects**
+
+Negative Karma Points allow the GM to introduce various effects that hinder the character or benefit their opponents. These effects are typically narrative in nature, reflecting the character's misfortune or the universe balancing the scales.
+
+&nbsp;
+
+* ### **Disadvantage on Rolls**
+
+  A common Karmic effect is imposing disadvantage on the character's rolls. This means they roll twice and take the lower result, significantly reducing their chances of success.  
+  &nbsp;
+
+* ### **Rerolls**
+
+  The GM might also force the character to reroll successful rolls, introducing uncertainty and potentially turning a victory into a failure.  
+  &nbsp;
+
+* ### **NPC Benefits**
+
+  Negative Karma can also positively affect NPCs who are directly opposing the character. This could manifest as increased luck, improved skills, or unexpected advantages that help them overcome the character's efforts.
+
+
+## Game Mechanics Rules
+```
+See full canonical text in operator/character_creation/1.01.Karma.md
+```
+
+## Gameplay Instructions
+Refer to operator/character_creation/1.01.Karma.md in the game rules library for complete architectural tables and system parameters.
+
+## Designer Notes
+Canonical Tangent SF RP rulebook reference from operator/character_creation/1.01.Karma.md. Complete, unabridged source of truth.

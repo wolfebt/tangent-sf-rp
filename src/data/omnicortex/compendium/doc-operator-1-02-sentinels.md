@@ -1,0 +1,535 @@
+---
+id: "doc-operator-1-02-sentinels"
+name: "1.02 Sentinels"
+fileName: "1.02.Sentinels.md"
+relPath: "operator/archetypes/1.02.Sentinels.md"
+isMasterDoc: false
+masterDocId: "doc-operator-1-02-archetypes"
+category: "operator_rule"
+parent: "doc-operator-1-02-archetypes"
+order: 11
+perspective: "operator"
+entry_type: "Operator Archetype"
+tl: 3
+ml: 0
+cost: 0
+tags: ["operator","core-rules","modular-rule","archetypes","1.02.sentinels","mechanics"]
+updatedAt: "2026-10-14T05:53:41.200Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
+---
+
+# **SENTINELS (The Stabilizers)**
+
+Focus: Logistics, Protection, Tradition, and Economy.
+
+Sentinels are the foundation. They ensure the group survives, supplies are managed, and the line is held. They are the defenders, the providers, and the heavy infantry.
+
+### 
+
+## **THE BUREAUCRAT**
+
+The skilled administrator who ensures the smooth operation of departments or territories. They navigate red tape like a labyrinth runner.
+
+*You are the grease in the gears of civilization. While others fight with guns or magic, you fight with logistics, ensuring the team has funding, permits, and a safe harbor. Without you, they are just vagrants; with you, they are an organization.*
+
+*"Amateurs talk strategy. Professionals talk logistics. Now sign here."*
+
+* **Core Concept:** Logistics / Support / Social Tank  
+* **Recommended Occupations:** Citizen (Corporate), Representative.  
+* **Recommended Origins:** Urban, Colony, Industrial.  
+* **Recommended Factions:** Syndicate (Middle Management), Impyrium (Administration), Entari Combine.  
+* **Key Attributes:** Intellect (Primary), Charisma (Secondary).  
+* **Essential Skills:** Diplomacy, Knowledge (History), Insight, Vocation (Administration).  
+* **Signature Features:** Bureaucratic Efficiency, Master Negotiator.  
+* **Tactical Role:** Secure resources, bypass legal hurdles, manage team logistics.
+
+### 
+
+## **THE WARDEN**
+
+A protector of forests and natural habitats, skilled in both magic and combat to defend the wild.
+
+*You are the immunity of the living world. You stand between the encroaching machine and the sacred grove, wielding the raw power of nature to crush those who would despoil it. You don't just fight for a cause; you fight for existence itself.*
+
+*"The forest is not empty. It is merely holding its breath."*
+
+* **Core Concept:** Hybrid (Magic/Melee) / Defender  
+* **Recommended Occupations:** Adept, Scout (Fey/Auluran origins).  
+* **Recommended Origins:** Agricultural, Enlightened, Hostile.  
+* **Recommended Factions:** Auluran (Protector Caste), Alterian Enclave (Rangers), Entari Combine (Gardeners).  
+* **Key Attributes:** Wisdom (Primary), Strength or Agility (Secondary).  
+* **Essential Skills:** Athletics, Stealth, Knowledge (Survival), Discipline (Entropy \- Nature/Life focus).  
+* **Signature Features:** Guardian's Ward, Nature's Wrath.  
+* **Tactical Role:** Off-tank, terrain manipulation, healing support.
+
+### 
+
+## **THE MUNITIONS MAGNATE**
+
+Focuses on the trade of weapons and military equipment. They have access to cutting-edge technology and sell it at a premium.
+
+*You understand that peace is expensive, but war is profitable. You are the ultimate enabler, providing the tools of destruction that topple regimes. You are never outgunned because you supply the guns.*
+
+*"I don't pull the trigger. I just ensure it works when you do."*
+
+* **Core Concept:** Merchant / Tech / Heavy Support  
+* **Recommended Occupations:** Merchant, Criminal.  
+* **Recommended Origins:** Industrial, Urban, Militaristic.  
+* **Recommended Factions:** Syndicate (Arms Division), Coalition (Gun-Runners), Impyrium (Heirloom Brokers).  
+* **Key Attributes:** Charisma (Primary), Intellect (Secondary).  
+* **Essential Skills:** Diplomacy, Insight, Knowledge (Technology), Streetwise.  
+* **Signature Features:** Weapons Expert, Black Market Connections.  
+* **Tactical Role:** Supply the team with top-tier gear, identify enemy weaponry, negotiate with warlords.
+
+### 
+
+## **THE PROTECTOR**
+
+Protects high-profile individuals or cargo. Experienced in personal security and close-quarters combat.
+
+*You are the wall that refuses to break. Your job isn't to kill the enemy; it's to make sure your charge survives to see tomorrow. In a universe of assassins and snipers, your vigilance is the only thing keeping the mission alive.*
+
+*"Get behind me."*
+
+* **Core Concept:** Tank / Defender / Interceptor  
+* **Recommended Occupations:** Soldier, Drifter.  
+* **Recommended Origins:** Urban, Militaristic, Leisure.  
+* **Recommended Factions:** Impyrium (Praetorians), Dynasty (House Guard), Syndicate (Asset Protection).  
+* **Key Attributes:** Constitution (Primary), Perception (Secondary).  
+* **Essential Skills:** Athletics, Alertness, Intimidation, Combat (Melee/Pistol).  
+* **Signature Features:** Protective Stance, Situational Awareness.  
+* **Tactical Role:** Take damage for the team, control melee engagement zones.
+
+### 
+
+## **THE FIELD MEDIC**
+
+Provides emergency medical care under fire. Proficient in both combat and medicine.
+
+*You hold the line between life and death. When the armor fails and the screaming starts, you are the calm in the chaos. You possess the steady hands to stitch a wound while dodging plasma fire.*
+
+*"I decide who walks away from this. Don't make me regret choosing you."*
+
+* **Core Concept:** Healer / Light Infantry  
+* **Recommended Occupations:** Soldier, Specialist.  
+* **Recommended Origins:** Militaristic, Colony, Spacer.  
+* **Recommended Factions:** Coalition (Combat Medics), Auluran (Healer Caste), Outworlds (Sawbones).  
+* **Key Attributes:** Wisdom (Primary), Agility (Secondary).  
+* **Essential Skills:** Medicine, Athletics, Combat (Rifle/Pistol).  
+* **Signature Features:** Field Triage, Combat Medic.  
+* **Tactical Role:** Keep the tank alive, revive downed allies, provide light fire support.
+
+### 
+
+## **THE COMPANY MAN**
+
+Represents the company's interests, securing deals and resolving disputes. Backed by corporate resources.
+
+*You are the avatar of the megacorp. You walk into rooms and buy the building. You wield wealth and legal precedent like a cudgel, ensuring that no matter who wins the fight, your side wins the profit.*
+
+*"My client is willing to offer a generous settlement. I suggest you take it before my security team settles it for you."*
+
+* **Core Concept:** Resource Access / Face / Fixer  
+* **Recommended Occupations:** Agent, Citizen (Corporate).  
+* **Recommended Origins:** Urban, Industrial, Leisure.  
+* **Recommended Factions:** Syndicate (Executives), Entari Combine (Trade Reps), Ascendancy.  
+* **Key Attributes:** Charisma (Primary), Intellect (Secondary).  
+* **Essential Skills:** Diplomacy, Insight, Bluff, Knowledge (Business).  
+* **Signature Features:** Corporate Backing, Business Acumen.  
+* **Tactical Role:** Funding the mission, legal defense, accessing corporate restricted zones.
+
+### 
+
+## **THE DEMOLISHER**
+
+Expert in operating heavy weaponry like machine guns and rocket launchers. Provides overwhelming firepower.
+
+*You believe there is no problem that cannot be solved by the proper application of high explosives. You control the battlefield through sheer volume of fire, turning cover into concealment and enemies into memories.*
+
+*"Suppressive fire? No, I'm just clearing the room."*
+
+* **Core Concept:** DPS / Area Denial  
+* **Recommended Occupations:** Soldier, Mercenary.  
+* **Recommended Origins:** Militaristic, Hostile, Industrial.  
+* **Recommended Factions:** Coalition (Heavy Support), Impyrium (Legionnaires), Mekan (Siege Units).  
+* **Key Attributes:** Strength (Primary), Agility (Secondary).  
+* **Essential Skills:** Knowledge (Technology), Athletics, Combat (Heavy).  
+* **Signature Features:** Heavy Weapon Mastery, Explosive Expertise.  
+* **Tactical Role:** Suppressive fire, destroying vehicles, crowd control.
+
+### 
+
+## **THE SHOCK TROOPER**
+
+Disciplined soldier serving on navy vessels. Expert in boarding actions and zero-g combat.
+
+*You fight where others freeze. Vacuum, zero-g, tight corridors—this is your home. You are the tip of the spear in ship-to-ship actions, breaching hulls and taking bridges while the universe tries to kill you.*
+
+*"Gravity is a crutch. Mag-lock and load."*
+
+* **Core Concept:** Combat / Environmental Specialist  
+* **Recommended Occupations:** Soldier, Spacer.  
+* **Recommended Origins:** Spacer, Militaristic, Aquatic.  
+* **Recommended Factions:** Impyrium (Void Marines), Syndicate (Drop Troops), Dynasty (Knights).  
+* **Key Attributes:** Agility (Primary), Strength (Secondary).  
+* **Essential Skills:** Athletics, Acrobatics, Knowledge (Tactics), Combat.  
+* **Signature Features:** Zero-G Combat, Boarding Party.  
+* **Tactical Role:** Fighting in hazardous environments/vacuum, breaching ships.
+
+### 
+
+## **THE BROKER**
+
+Travels space lanes buying and selling. Keen eye for value and negotiation.
+
+*You keep the galaxy moving. You know the value of everything, from a crate of ore to a secret. You turn risks into rewards, navigating trade routes and social circles to ensure your crew always turns a profit.*
+
+*"Everything is negotiable. Even loyalty."*
+
+* **Core Concept:** Economy / Logistics / Face  
+* **Recommended Occupations:** Merchant, Spacer.  
+* **Recommended Origins:** Urban, Spacer, Colony.  
+* **Recommended Factions:** Entari Combine (Merchants), Syndicate (Traders), Alterian Enclave.  
+* **Key Attributes:** Charisma (Primary), Intellect (Secondary).  
+* **Essential Skills:** Diplomacy, Insight, Vocation (Broker).  
+* **Signature Features:** Market Savvy, Resourceful.  
+* **Tactical Role:** Funding the party, acquiring rare gear, transport logistics.
+
+### 
+
+## **THE VETERAN**
+
+Brave and disciplined, skilled in combat and tactics. The backbone of any fighting force.
+
+*You are the professional. You don't fight for glory or gold, but for the mission and the person next to you. You bring discipline, tactics, and unwavering resolve to a chaotic universe.*
+
+*"Check your corners. Stay sharp. We move on my mark."*
+
+* **Core Concept:** DPS / Tank / Reliable  
+* **Recommended Occupations:** Soldier, Mercenary.  
+* **Recommended Origins:** Militaristic, Hostile, Colony.  
+* **Recommended Factions:** Coalition (Rangers), Dynasty (Men-at-Arms), Outworlds (Survivors).  
+* **Key Attributes:** Strength or Agility (Primary), Constitution (Secondary).  
+* **Essential Skills:** Acrobatics, Alertness, Athletics, Combat (Any).  
+* **Signature Features:** Combat Expertise, Unflinching.  
+* **Tactical Role:** Frontline combat, holding ground, reliable damage output.
+
+### 
+
+## **THE FOREMAN**
+
+A stern and authoritative leader who oversees the workforce and ensures that production targets are met.
+
+*You are the iron fist of industry. You manage personnel and resources with ruthless efficiency, ensuring the job gets done regardless of the obstacles. Your word is law on the factory floor.*
+
+*"The schedule is not a suggestion. Get back to work."*
+
+* **Core Concept:** Leadership / Logistics / Intimidation  
+* **Recommended Occupations:** Citizen (Worker), Builder.  
+* **Recommended Origins:** Industrial, Colony, Urban.  
+* **Recommended Factions:** Syndicate (Labor Oversight), Outworlds (Mine Bosses), Impyrium.  
+* **Key Attributes:** Charisma (Primary), Constitution (Secondary).  
+* **Essential Skills:** Intimidation, Leadership, Diplomacy, Vocation (Administrator).  
+* **Signature Features:** Commanding Presence, Efficient Manager.  
+* **Tactical Role:** Organizing NPC labor, intimidating local workers, managing base construction.
+
+### 
+
+## **THE HOMESTEADER**
+
+A hardworking and resourceful individual determined to build a life on the frontier.
+
+*You tame the land. You don't need a replicator or a supermarket; you build what you need from the dirt up. You are the foundation upon which colonies are built, enduring where others would starve.*
+
+*"This land is hard, but I am harder."*
+
+* **Core Concept:** Survival / Crafter / Base Builder  
+* **Recommended Occupations:** Citizen (Colonist), Scout.  
+* **Recommended Origins:** Agricultural, Colony, Hostile.  
+* **Recommended Factions:** Outworlds (Colonists), Coalition (Settlers), Dracon Dynasty (Peasantry).  
+* **Key Attributes:** Constitution (Primary), Wisdom (Secondary).  
+* **Essential Skills:** Knowledge (Survival), Vocation (Farming/Laborer), Vocation (Handler), Knowledge (Nature).  
+* **Signature Features:** Self-Sufficiency, Resourceful.  
+* **Tactical Role:** Generating food/water, building fortifications, animal taming.
+
+### 
+
+## **THE LEGIONNAIRE**
+
+A disciplined and loyal soldier who serves in the Impyrium's legions. Expert in formation warfare.
+
+*You are a brick in the wall of the Empire. You fight not as an individual, but as a unit, locking shields and advancing with the inexorable weight of history behind you.*
+
+*"Strength in unity. Victory in discipline."*
+
+* **Core Concept:** Tank / Formation Fighter / Discipline  
+* **Recommended Occupations:** Soldier (Impyrium), Representative.  
+* **Recommended Origins:** Militaristic, Urban (Capital).  
+* **Recommended Factions:** Impyrium (Imperial Legion), Dynasty (Dragoons).  
+* **Key Attributes:** Constitution (Primary), Strength (Secondary).  
+* **Essential Skills:** Athletics, Intimidation, Knowledge (Tactics), Combat (Melee/Heavy).  
+* **Signature Features:** Iron Will, Legionary Training.  
+* **Tactical Role:** Holding choke points, soaking damage, providing cover bonuses to allies.
+
+### 
+
+## **THE MARSHAL**
+
+A law enforcement officer who maintains order and protects settlements in the lawless territories.
+
+*You are the law where there is no law. You carry authority in your bearing and justice in your holster. You stand between the town and the chaos, enforcing order through reputation and resolve.*
+
+*"The law doesn't stop at the city limits. It stops where I say it stops."*
+
+* **Core Concept:** Social / Combat / Crowd Control  
+* **Recommended Occupations:** Soldier, Agent.  
+* **Recommended Origins:** Colony, Hostile, Militaristic.  
+* **Recommended Factions:** Coalition (Rangers), Outworlds (Sheriffs).  
+* **Key Attributes:** Charisma (Primary), Wisdom (Secondary).  
+* **Essential Skills:** Intimidation, Diplomacy, Athletics, Combat (Pistol).  
+* **Signature Features:** Frontier Justice, Wildstalker.  
+* **Tactical Role:** De-escalating conflicts, arresting targets, tracking fugitives.
+
+### 
+
+## **THE QUARTERMASTER**
+
+A resourceful individual who manages supplies, equipment, and finances.
+
+*You make sure the guns have ammo and the engines have fuel. You are the master of inventory, finding value in scrap and ensuring the team is never caught empty-handed.*
+
+*"A soldier without bullets is just a target. I make sure you aren't targets."*
+
+* **Core Concept:** Economy / Support / Logistics  
+* **Recommended Occupations:** Merchant, Soldier.  
+* **Recommended Origins:** Militaristic, Spacer, Industrial.  
+* **Recommended Factions:** Outworlds (Scavengers), Impyrium (Logistics), Syndicate (Supply).  
+* **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
+* **Essential Skills:** Knowledge (Technology), Knowledge (Appraisal), Knowledge (Logistics), Barter.  
+* **Signature Features:** Resourceful, Master of Logistics.  
+* **Tactical Role:** Managing party inventory, sourcing specific gear, identifying loot value.
+
+### 
+
+## **THE SECURITY OFFICER**
+
+A vigilant and disciplined individual who ensures the safety and security of their post.
+
+*You see what others miss. While they relax, you watch the exits. You are the first line of defense against infiltration and sabotage, securing the perimeter with professional detachment.*
+
+*"Secure. For now."*
+
+* **Core Concept:** Perception / Defense / Area Denial  
+* **Recommended Occupations:** Soldier, Agent.  
+* **Recommended Origins:** Urban, Industrial, Leisure.  
+* **Recommended Factions:** Syndicate (Asset Protection), Entari Combine (Constables).  
+* **Key Attributes:** Wisdom (Primary), Perception (Secondary).  
+* **Essential Skills:** Alertness, Insight, Intimidation, Combat (Any).  
+* **Signature Features:** Keen Eye, Guardian.  
+* **Tactical Role:** Preventing ambushes, spotting hidden enemies, locking down areas.
+
+### 
+
+## **THE SETTLER**
+
+A hardy individual who builds and maintains settlements in untamed worlds.
+
+*You turn wilderness into home. You are skilled in the practical arts of construction and defense, creating safe havens in the most hostile environments.*
+
+*"We built this town with our own hands. We'll defend it the same way."*
+
+* **Core Concept:** Builder / Defender / Survivor  
+* **Recommended Occupations:** Citizen, Builder.  
+* **Recommended Origins:** Colony, Agricultural, Hostile.  
+* **Recommended Factions:** Outworlds, Coalition.  
+* **Key Attributes:** Constitution (Primary), Strength (Secondary).  
+* **Essential Skills:** Vocation (Laborer), Knowledge (Survival), Athletics, Combat (Rifle).  
+* **Signature Features:** Construction, Frontier Resilience.  
+* **Tactical Role:** Building cover, repairing structures, environmental survival.
+
+### 
+
+## **THE SHIPMASTER**
+
+A seasoned starship captain who commands a vessel and crew with expertise in trade and safety.
+
+*You are the master of the trade lanes. You navigate the complex web of commerce and law, ensuring your ship and cargo arrive intact and on time. You are a steady hand on the tiller of enterprise.*
+
+*"Time is money, and we are ahead of schedule."*
+
+* **Core Concept:** Logistics / Transport / Leadership  
+* **Recommended Occupations:** Merchant, Spacer.  
+* **Recommended Origins:** Spacer, Urban, Industrial.  
+* **Recommended Factions:** Outworlds (Freighters), Entari Combine (Trade Fleet), Syndicate.  
+* **Key Attributes:** Intellect (Primary), Charisma (Secondary).  
+* **Essential Skills:** Knowledge (Technology), Leadership, Diplomacy, Knowledge (Trade).  
+* **Signature Features:** Naval Expertise, Commanding Presence.  
+* **Tactical Role:** Managing ship operations, negotiating docking fees, avoiding piracy.
+
+### 
+
+## **THE MUSCLE**
+
+A hardworking individual contributing through physical labor and endurance.
+
+*You are the strength that builds empires. You lift, carry, and endure. When machines fail or finesse is not enough, you provide the raw power to move the world.*
+
+*"Heavy lifting? That's just a warm-up."*
+
+* **Core Concept:** Utility / Strength / Endurance  
+* **Recommended Occupations:** Citizen, Builder.  
+* **Recommended Origins:** Industrial, Colony, Urban.  
+* **Recommended Factions:** Syndicate (Worker Caste), Outworlds, Mekan (Drones).  
+* **Key Attributes:** Strength (Primary), Constitution (Secondary).  
+* **Essential Skills:** Athletics, Vocation (Laborer), Endurance, Knowledge (Trade).  
+* **Signature Features:** Strong Back, Skilled Worker.  
+* **Tactical Role:** Clearing debris, carrying heavy gear, grappling enemies.
+
+### 
+
+## **THE HIGH COMMANDER**
+
+A high-ranking military commander who leads legions into battle.
+
+*You are the architect of victory. You see the battlefield as a chessboard, moving units with precision and foresight. Your presence inspires discipline and courage in the face of overwhelming odds.*
+
+*"Victory is not an accident. It is engineered."*
+
+* **Core Concept:** Leadership / Strategy / Buff  
+* **Recommended Occupations:** Soldier (Officer), Noble.  
+* **Recommended Origins:** Militaristic, Urban (Capital).  
+* **Recommended Factions:** Impyrium (High Command), Dynasty (High Lord).  
+* **Key Attributes:** Intellect (Primary), Charisma (Secondary).  
+* **Essential Skills:** Leadership, Knowledge (Tactics), Athletics, Combat (Any).  
+* **Signature Features:** Tactical Mastery, Inspiring Strategist.  
+* **Tactical Role:** Mass buffing allies, coordinating large-scale battles, strategic planning.
+
+### 
+
+## **THE ARMORER**
+
+The specialist who crafts and maintains the protective shells that preserve life in high-threat zones.
+
+*You provide the safety that makes heroism possible. You know every weak point in a chest plate and every bypass in a shield generator. Without your craft, the team is just target practice.*
+
+*"Flesh is soft. Let me give you something harder."*
+
+* **Core Concept:** Crafter / Support / Defense  
+* **Recommended Occupations:** Builder, Soldier.  
+* **Recommended Origins:** Industrial, Urban, Militaristic.  
+* **Recommended Factions:** Impyrium (Forge Masters), Dynasty (Smiths), Syndicate.  
+* **Key Attributes:** Intellect (Primary), Strength (Secondary).  
+* **Essential Skills:** Vocation (Armorer), Vocation (Engineer), Knowledge (Technology), Knowledge (Appraisal).  
+* **Signature Features:** Master Vocation skillsman, Crafters Insight.  
+* **Tactical Role:** Repairing armor in the field, identifying equipment vulnerabilities, maximizing party DR.
+
+### 
+
+## **THE CULINARIAN**
+
+The essential provider of nutrition and morale, transforming scarce resources into sustaining banquets.
+
+*You are the heart of the camp. You understand that a soldier fights on their stomach and a diplomat speaks with their palate. You can find sustenance on a dead moon and hope in a warm meal.*
+
+*"A good meal can stop a war. A bad one can start it."*
+
+* **Core Concept:** Support / Morale / Survival  
+* **Recommended Occupations:** Citizen, Drifter.  
+* **Recommended Origins:** Agricultural, Leisure, Colony.  
+* **Recommended Factions:** Entari Combine (Hospitality), Auluran (Nurturers), Outworlds.  
+* **Key Attributes:** Wisdom (Primary), Charisma (Secondary).  
+* **Essential Skills:** Vocation (Culinarian), Nature, Medicine, Insight.  
+* **Signature Features:** Self-Sufficiency, Resourceful.  
+* **Tactical Role:** Buffing party recovery during rest, identifying safe/toxic flora, boosting team morale.
+
+### 
+
+## **THE BAILIFF**
+
+The officer of the court and enforcer of civil law, ensuring that order is maintained within the halls of justice.
+
+*You are the shadow of the judge. You maintain the dignity of the law through physical presence and unwavering authority. You ensure that even the most chaotic elements respect the proceedings.*
+
+*"The Court will have order. One way or another."*
+
+* **Core Concept:** Law Enforcement / Control / Tank  
+* **Recommended Occupations:** Agent, Citizen.  
+* **Recommended Origins:** Urban, Militaristic, Colony.  
+* **Recommended Factions:** Ascendancy (Judiciaries), Impyrium (Legalists), Entari Combine.  
+* **Key Attributes:** Strength (Primary), Wisdom (Secondary).  
+* **Essential Skills:** Knowledge (Investigation), Knowledge (Law), Intimidation, Melee.  
+* **Signature Features:** Law Enforcement Training, Authority Figure.  
+* **Tactical Role:** Grappling and subduing targets, protecting VIPs, enforcing social order.
+
+### 
+
+## **THE MAINTENANCE CHIEF**
+
+The veteran technician who keeps massive infrastructure systems online under impossible conditions.
+
+*You are the caretaker of the megastructure. You know the vibrations of the gravity core and the scent of a failing oxygen scrubber. You speak the language of the machine and it answers.*
+
+*"She's a bit cranky today, but I've got her settled."*
+
+* **Core Concept:** Support / Repair / Logistics  
+* **Recommended Occupations:** Builder, Spacer.  
+* **Recommended Origins:** Industrial, Spacer, Urban.  
+* **Recommended Factions:** Mekan (Maintenance Hubs), Syndicate (Grid Techs), Impyrium.  
+* **Key Attributes:** Intellect (Primary), Agility (Secondary).  
+* **Essential Skills:** Knowledge (Technology), Vocation (Engineer), Alertness, Vocation (Management).  
+* **Signature Features:** Efficient Manager, Technical Aptitude.  
+* **Tactical Role:** Maintaining base infrastructure, rapid field repair of vehicles, bypassing industrial locks.
+
+### 
+
+## **THE BEAST-HANDLER**
+
+The rugged specialist who trains and directs animals and xeno-fauna for work and war.
+
+*You understand the wild mind. You forge bonds with creatures that others view as monsters, turning their primal instincts into tactical assets. Your pack is your family and your weapon.*
+
+*"They aren't pets. They're partners."*
+
+* **Core Concept:** Pet Master / Utility / Scout  
+* **Recommended Occupations:** Scout, Drifter.  
+* **Recommended Origins:** Agricultural, Hostile, Colony.  
+* **Recommended Factions:** Auluran (Graa Handlers), Outworlds (Wranglers), Coalition.  
+* **Key Attributes:** Charisma (Primary), Wisdom (Secondary).  
+* **Essential Skills:** Vocation (Handler), Knowledge (Survival), Athletics, Insight.  
+* **Signature Features:** Animal Affinity, Spirit Walker.  
+* **Tactical Role:** Directing animal allies in combat, tracking with biological aids, navigating wilderness.
+
+## 
+
+##
+
+
+## Game Mechanics Rules
+```
+See full canonical text in operator/archetypes/1.02.Sentinels.md
+```
+
+## Gameplay Instructions
+Refer to operator/archetypes/1.02.Sentinels.md in the game rules library for complete architectural tables and system parameters.
+
+## Designer Notes
+Canonical Tangent SF RP rulebook reference from operator/archetypes/1.02.Sentinels.md. Complete, unabridged source of truth.

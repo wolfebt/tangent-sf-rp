@@ -13,7 +13,16 @@ description: >-
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: Discipline
+    type: check_advantage
+    value: 1
+    mode: competence
+    isSituational: true
+    condition: Attune and Mastered Discipline checks
+    description: >-
+      Advantage on all Attune and Mastered Discipline checks (Roll 3d10, take
+      best 2)
 keywords: >-
   harmonious center, discipline, special-feature, focused-training, mastery,
   harmonious

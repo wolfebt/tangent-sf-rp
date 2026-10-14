@@ -51,12 +51,20 @@ ruleFiles.forEach(({ fullPath, fileName, relBranch }) => {
   totalChars += content.length;
   const cleanFileName = fileName.replace(/\.md$/i, '').trim();
   const subfolderKey = relBranch.replace(/[^a-z0-9]+/g, '-') || 'core';
+  const topFolderKey = (relBranch.split('/')[0] || 'core').replace(/[^a-z0-9]+/g, '-');
   const rawSlug = cleanFileName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '');
   const normalizedSlug = rawSlug.replace(/-1$/, '');
   const articleId = `doc-${subfolderKey}-${normalizedSlug}`;
+  const topArticleId = `doc-${topFolderKey}-${normalizedSlug}`;
 
   const matchedArticle = seedData.find(
-    a => a.id === articleId || a.id === `doc-${subfolderKey}-${rawSlug}` || a.id.toLowerCase() === cleanFileName.toLowerCase()
+    a =>
+      a.id === articleId ||
+      a.id === `doc-${subfolderKey}-${rawSlug}` ||
+      a.id === topArticleId ||
+      a.id === `doc-${topFolderKey}-${rawSlug}` ||
+      (a.fileName === fileName && (a.subfolder || '').toLowerCase() === relBranch.toLowerCase()) ||
+      a.id.toLowerCase() === cleanFileName.toLowerCase()
   );
 
   if (!matchedArticle) {

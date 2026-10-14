@@ -13,7 +13,28 @@ description: >-
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: social-manipulation-bluff
+    type: skill
+    value: 2
+    mode: conditional
+    isSituational: true
+    condition: Against favored creature type
+    description: +2 to Bluff against chosen creature type
+  - target: social-manipulation-insight
+    type: skill
+    value: 2
+    mode: conditional
+    isSituational: true
+    condition: Against favored creature type
+    description: +2 to Insight against chosen creature type
+  - target: mental-knowledges-survival
+    type: skill
+    value: 2
+    mode: conditional
+    isSituational: true
+    condition: Against favored creature type
+    description: +2 to Survival against chosen creature type
 keywords: 'favored enemy, general, special-feature, studied, specific, creature'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3

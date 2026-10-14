@@ -13,7 +13,14 @@ description: >-
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: social-manipulation
+    type: take_10
+    value: 10
+    mode: conditional
+    isSituational: true
+    condition: High-stakes negotiation under stress
+    description: Take 10 or roll extra +1d10 wild die on Bluff and Diplomacy checks
 keywords: 'golden smile, skill, special-feature, golden, feature:, diplomacy'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3

@@ -11,7 +11,14 @@ description: The character drills deep into a specific niche of a broad skill.
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: chosen_skill
+    type: specialization
+    value: 1
+    mode: specialization
+    isSituational: true
+    condition: Narrow specialization focus
+    description: Adds specialization level (+1 to +10) directly to narrow domain tasks
 keywords: 'skill specialization, skill, special-feature, drills, specific'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3

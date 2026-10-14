@@ -1,0 +1,327 @@
+---
+id: "doc-architect-99-archetypes-m-r"
+name: "99. Archetypes: M – R"
+fileName: "99.Archetypes.M_R.md"
+relPath: "architect/archetypes/99.Archetypes.M_R.md"
+isMasterDoc: false
+masterDocId: "doc-architect-99-archetypes"
+category: "architect_matrix"
+parent: "doc-architect-99-archetypes"
+order: 7
+perspective: "architect"
+entry_type: "Architect Archetype Catalog"
+tl: 3
+ml: 0
+cost: 0
+tags: ["architect","core-rules","modular-rule","archetypes","99.archetypes.m_r","matrix"]
+updatedAt: "2026-10-14T06:04:05.806Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
+---
+
+# **ARCHITECT ARCHETYPES (M – R)**
+
+## **Magician**
+
+| *Magician* A magician adept is a master of arcane magic, using their knowledge and skill to cast powerful spells and create magical effects. They may specialize in a specific school of magic, such as illusion, evocation, or necromancy. Magician adepts could work as researchers, teachers, or members of magical guilds. A master of arcane magic, specializing in a particular school of magic and wielding powerful spells with precision and control. Skills: Concentration, Academics, Investigation, and any two Disciplines. Features: Arcane Specialization: Choose one school of magic. You gain a \+2 bonus to all spellcasting checks related to that school. Counterspell: You gain \+2 in using the Counterspell ability. |
+| :---- |
+
+## **Magnate**
+
+| *Magnate* A wealthy and influential business leader who controls a vast commercial empire. They are skilled in negotiation, finance, and management. Skills: Diplomacy, Insight, Leadership, and any one Knowledge skill. Features: Business Savvy: You gain a \+2 bonus to Diplomacy checks when negotiating deals or contracts. Financial Acumen: Gain \+2 bonus on Knowledge checks related to finance and economics. |
+| :---- |
+
+## **Marine Biologist**
+
+| *Marine Biologist:* A scientist studying the diverse life forms that inhabit the oceans. They are skilled in biology, ecology, and research. Skills: Academics, Investigation, Knowledge (Nature), Medicine, Alertness, Survival, Technology, Vocation (Scientist) Features: Aquatic Expertise: You gain a \+2 bonus to Knowledge (Nature) checks related to marine life and ecosystems. Researcher: You gain \+2 bonus on Investigation checks to study and analyze aquatic specimens or underwater phenomena. |
+| :---- |
+
+## **Marine**
+
+| *Marine* A disciplined and well-trained soldier who serves in the Entari navy, protecting their vessels and conducting boarding actions. Skills: Athletics, Acrobatics, Tactics, and any one Combat skill. Features: Zero-G Combat: You gain a \+2 bonus to Athletics and Acrobatics checks in zero-gravity environments. Boarding Party: Bonus of \+2 to attacks during ship boarding actions, whether attacking or defending. |
+| :---- |
+
+## **Mariner**
+
+| *Mariner:* A seasoned sailor who navigates the vast oceans with confidence and expertise. They are skilled in seafaring, navigation, and ship handling. Skills: Athletics, Knowledge (Navigation), Alertness, Piloting, Survival, Technology, Vocation (Sailor) Features: Steady Hand: You gain a \+2 bonus to Piloting checks related to navigating ships through rough waters or storms. Sea Legs: You are immune to the effects of seasickness and gain \+2 bonus on saving throws against effects that would cause you to lose your balance or become disoriented. |
+| :---- |
+
+## **Marshal**
+
+| *Marshal* A law enforcement officer who maintains order and protects settlements in the lawless territories of the Outworlds. Skills: Intimidation, Diplomacy, Athletics, and any one Combat skill. Features: Frontier Justice: You gain a \+2 bonus to Intimidation checks and \+2 bonus on any checks related to enforcing law and order in the Outworlds. Wildstalker: You gain \+2 on Survival checks to endure harsh conditions and track criminals in the wilderness. |
+| :---- |
+
+## **Medical Specialist**
+
+| *Medical Specialist* Drifters with medical training work as freelance medical specialists, offering their expertise to those in need of medical assistance in remote or dangerous locations. They may have experience in emergency medicine, surgery, or other specialized fields, providing critical care when it is needed most. Skilled healers who provide medical assistance in remote or dangerous locations, often working independently or as part of a small team. Skills: Medicine, Insight, Technology, Survival Features: Field Medic: You gain a \+2 bonus to Medicine checks to treat injuries and illnesses in challenging environments. Medical Kit: You have a well-stocked medical kit, granting \+2 bonus on any checks related to performing first aid, surgery, or diagnosing ailments. |
+| :---- |
+
+## **Medic**
+
+| *Medic* Medics are soldiers trained in battlefield medicine, providing essential medical support to their comrades during combat. They may have access to advanced medical equipment and technology, allowing them to heal injuries, stabilize critical conditions, and even perform surgery in the field. Skilled healers who provide essential medical care on the battlefield, patching up wounds and stabilizing critical injuries. Skills: Medicine, Insight, Diplomacy, any one Combat skill Features: Combat Medic: You gain a \+2 bonus to Medicine checks to stabilize dying creatures and heal injuries in combat situations. Field Surgeon: You gain \+2 bonus on any checks related to performing emergency surgery or treating severe wounds. |
+| :---- |
+
+## **Mercenary**
+
+| *Mercenary* A skilled combatant who offers their combat skills to the highest bidder, providing security, enforcement, or assault services for various clients. They may have experience with various weapons and tactics, and often possess a strong sense of loyalty to their current employer. \- Soldier Background is suitable. Mercenary Skills: Athletics, Intimidation, Tactics, any two Combat skills Features: Combat Veteran: You gain a \+2 bonus to any two Combat skills and \+2 bonus on initiative rolls. Weapon Maintenance: You are proficient with the care of a wide range of weapons and gain \+2 bonus on any checks related to maintaining weaponry. |
+| :---- |
+
+## **Merchant Prince**
+
+| *Merchant Prince* A powerful and wealthy individual with a license to explore and trade outside the limits of their civilization. They might have a vast network of contacts and resources, allowing them to broker deals and trade goods on a large scale. A wealthy and influential merchant with a license to explore and trade beyond the borders of civilization, establishing trade routes and brokering deals on a grand scale. \- Representative Background is suitable. Skills: Diplomacy, Insight, Leadership, Knowledge (History) Features: Royal Charter: You possess a royal charter or trade license, granting you safe passage and diplomatic immunity in foreign lands. Vast Network: You have a vast network of contacts and informants across the galaxy, granting \+2 bonus on any checks related to gathering information, brokering deals, or securing trade agreements. |
+| :---- |
+
+## **Merchant**
+
+| *Merchant:*  A shrewd and ambitious trader who travels the space lanes, buying and selling goods for profit. You have a keen eye for value and a knack for negotiation. You are always looking for profitable deals and are not afraid to take risks to secure a good bargain. Skills: Diplomacy, Insight, Knowledge (any), and any one Social skill. Features: Market Savvy: You gain a \+2 bonus to Diplomacy checks when negotiating prices or securing trade agreements. Resourceful: You gain \+2 bonus on Knowledge checks to identify valuable goods or assess market trends. |
+| :---- |
+
+## **Military Engineer**
+
+| *Military Engineer* A skilled engineer who designs and constructs fortifications, defenses, and siege weaponry. They are experts in technology, construction, and demolition. Skills: Technology, Vocation skill, Investigation, and any one Combat skill. Features: Fortifications: You gain a \+2 bonus to Technology and Vocation skill checks related to constructing or repairing fortifications and defenses. Demolisher: You gain \+2 on Demolitionist (Vocation) checks related to utilizing or disarming explosives. |
+| :---- |
+
+## **Military Intelligence Officer**
+
+| *Military Intelligence Officer* A skilled operative who gathers intelligence, conducts reconnaissance missions, and infiltrates enemy lines. They are experts in stealth, deception, and interrogation. Skills: Stealth, Bluff, Insight, and any one Combat skill. Features: Espionage: You gain a \+2 bonus to Stealth and Bluff checks when gathering intelligence or conducting covert operations. Interrogation: You gain \+2 bonus on Intimidation and Insight checks when interrogating prisoners or extracting information. |
+| :---- |
+
+## **Miner**
+
+| *Miner:*  A skilled laborer who extracts valuable resources from the depths of the earth. You are a master of the mines, adept at operating heavy machinery, navigating subterranean tunnels, and identifying valuable ores. Skills:  Athletics, Vocation skill, Investigation, Technology (Knowledge), Alertness, Survival, Technology, Mining (Vocation) Features: Resourceful Miner: You gain a \+2 bonus to all checks related to mining, such as operating mining equipment, identifying valuable ores, and navigating underground tunnels. Sturdy: You gain \+2 on saving throws against the effects of cave-ins and other mining hazards. |
+| :---- |
+
+## **Missionary**
+
+| *Missionary* A zealous preacher who travels the galaxy to spread their faith and convert new followers, often venturing into dangerous or uncharted territories. Skills: Diplomacy, Insight, any two Social skills Features: Divine Inspiration: You gain a \+2 bonus to Diplomacy checks when attempting to convert others to your faith or inspire religious devotion. Spiritual Guide: You gain \+2 bonus on any checks related to providing spiritual guidance, resolving religious disputes, or comforting those in need. |
+| :---- |
+
+## **Musician**
+
+| *Musician* A musician is an individual who composes, performs, or creates music. Musicians can be singers, instrumentalists, or both, and they often specialize in a specific genre or style of music. Some may specialize in playing unique instruments from various alien cultures, creating a fusion of sounds that are both exotic and captivating. A skilled instrumentalist or vocalist who creates and performs music, blending melodies and rhythms to evoke emotions and entertain audiences. Skills: Performance, Diplomacy, Insight, Knowledge (Music) Features: Virtuoso: You gain a \+2 bonus to Performance checks to play musical instruments or sing with exceptional skill. Musicality: You have a deep understanding of music theory and composition, gaining \+2 bonus on any checks related to composing new melodies, improvising solos, or identifying musical styles. |
+| :---- |
+
+## **Mutant**
+
+| *Mutant:*  A survivor who has been mutated by the harsh conditions of their hostile world, gaining unique abilities in the process. You are a survivor of the harsh realities of a hostile world, and your body has adapted to the challenges of this world. You are also an expert in your environment, and you can use your knowledge to help your people survive. Skills:  Acrobatics, Alertness, Athletics, History, Intimidation, Knowledge (Nature), Medicine, Alertness, Diplomacy, Stealth, Survival, Technology, Vocation (any) Features: Mutant Abilities: Mutation Feature available. Survival Instincts: You have a keen sense of danger, and you can more easily anticipate threats. Danger Sense Feature |
+| :---- |
+
+## **Mystic**
+
+| *Mystic* A wise and insightful mystic who can perceive glimpses of the future and offer guidance based on their visions. They are skilled in divination, spiritualism, and counseling. Skills: Concentration, Insight, Diplomacy, and any two Disciplines. Features: Prophetic Visions: Gain divine insights into future events, granting \+2 on any checks related to predicting outcomes or anticipating danger. Spiritual Advisor: You gain a \+2 bonus to Diplomacy checks when offering spiritual guidance or comfort. |
+| :---- |
+
+## **Nanotechnology Specialist**
+
+| *Nanotechnology Specialist* Has the highly specialized training needed for the manipulation of nanoscale materials and devices. They could create advanced materials with unique properties, and nanobots capable of performing various tasks, such as repairing damaged equipment or even healing injuries. A pioneer in nanoscale matter manipulation, creating advanced materials and devices with unique properties. Skills: Technology, Academics, Investigation, Knowledge (Science) Features: Nanite Manipulation: You gain a \+2 bonus to Technology checks related to designing, constructing, and controlling nanobots or other nanoscale devices. Material Creation: You can create and manipulate materials with unique properties, gaining \+2 bonus on any checks related to utilizing nanotechnology for specific applications. |
+| :---- |
+
+## **Navigator**
+
+| *Navigator* A skilled pilot and navigator who charts the course for the pirate crew, guiding their ship through treacherous asteroid fields, enemy blockades, and uncharted territories. Skills: Pilot, Navigation, any two Knowledge skills Features: Ace Pilot: You gain a \+2 bonus to Pilot checks and \+2 bonus on any checks related to maneuvering the ship at high speeds, performing evasive maneuvers, or navigating through hazardous conditions. Cartographer: You gain \+2 bonus on any checks related to creating maps, charting new territories, or recalling geographical information. |
+| :---- |
+
+## **Noble Representative**
+
+| *Noble Representative* A Noble Representative is a member of the aristocracy who represents their family, house, or planet in interstellar councils or assemblies. They use their influence, wealth, and connections to advocate for their constituents' interests and maintain relationships with other noble houses and factions. A member of the aristocracy who represents their house or planet in interstellar councils and assemblies, wielding their influence and connections to advance their constituents' interests. Skills: Diplomacy, Insight, History, Leadership Features: Noble Lineage: You gain a \+2 bonus to Diplomacy checks when interacting with other nobles or members of high society. Political Influence: You have significant political influence within your house or planet, granting \+2 bonus on any checks related to swaying opinions, resolving disputes, or enacting policies. |
+| :---- |
+
+## **Noble**
+
+| *Noble* A member of the Dynasty aristocracy, born into a position of privilege and power. They are skilled in diplomacy, leadership, and intrigue. Skills: Diplomacy, History, Insight, and any one Social skill. Features: Noble Lineage: You gain a \+2 bonus to Diplomacy checks when interacting with other nobles or members of high society. Courtly Intrigue:  gain \+2 bonus on a Bluff or Insight check when navigating social situations or uncovering plots within the Dynasty court. |
+| :---- |
+
+## **Occultist**
+
+| *Occultist* A seeker of forbidden knowledge and arcane power, delving into ancient rituals and forgotten lore to harness supernatural forces. Skills: Academics, Investigation, any four Knowledge skills Features: Forbidden Lore: You gain a \+2 bonus to Knowledge skill checks relating to the supernatural, ancient civilizations, or forbidden magic. Ritual Caster: You gain \+2 bonus on any checks related to performing rituals, summoning entities, or deciphering ancient texts. |
+| :---- |
+
+## **Officer**
+
+| *Officer* A strategic leader who commands troops and coordinates military operations, making tactical decisions and inspiring their subordinates. Skills: Leadership, Tactics, Diplomacy, any one Combat skill Features: Tactical Expertise: You gain a \+2 bonus to Tactics and Leadership checks, and \+2 bonus on any checks related to planning and executing military operations or coordinating the efforts of multiple units. Inspiring Leader: You can rally and motivate your troops, granting them to gain \+2 bonus on their next attack roll, saving throw, or ability check. You can use this feature a number of times of day equal to your Charisma \+2 (minimum of 1). |
+| :---- |
+
+## **Operative**
+
+| *Operative* A skilled agent who carries various types of dirty work. They are experts in infiltration, sabotage, and assassination. Skills: Stealth, Bluff, Technology, and any one Combat skill. Features: Undercover Operations: You gain a \+2 bonus to Stealth and Bluff checks when operating undercover. Security Expertise:  gain \+2 bonus on Technology checks to use or disable security systems. |
+| :---- |
+
+## **Oracle**
+
+| *Oracle* A seer or prophet who receives divine visions or messages, interpreting their meaning to guide and advise their followers. Skills: Insight, Diplomacy, any two Knowledge skills Features: Divine Visions: You gain a \+2 bonus to Insight checks and \+2 bonus on any checks related to interpreting prophecies, deciphering omens, or predicting future events. Spiritual Messenger: You gain \+2 bonus on any checks related to delivering divine messages, guiding your followers, or influencing others through your spiritual insights. |
+| :---- |
+
+## **Outcast**
+
+| *Outcast:*  An individual who has been exiled from their community and forced to survive on their own in the hostile world. You are an outsider, forced to live on the fringes of society. You are also a survivor, and you have learned to thrive in even the most difficult conditions. Skills:  Acrobatics, Alertness, Athletics, History, Intimidation, Knowledge (Nature), Medicine, Alertness, Diplomacy, Stealth, Survival, Technology, Vocation (any) Features: Lone Wolf: You gain a \+2 bonus to all checks related to survival and independence, such as finding food and shelter, navigating through hazardous environments, and defending yourself from threats. Resourceful: You are skilled at scavenging and making the most of limited resources, and gain \+2 bonus on checks to scrounge up necessities. |
+| :---- |
+
+## **Paladin**
+
+| *Paladin* A righteous warrior who champions justice and order, wielding their powers to vanquish evil and protect the innocent. \- likely an Adept/Soldier combination Skills: Athletics, Intimidation, any four Combat skills Features: Holy Warrior: You gain a \+2 bonus to attack rolls and damage rolls against creatures that represent a threat to life, liberty or justice. Divine Protection: You have \+5 resistance to damage from spells and other magical effects. |
+| :---- |
+
+## **Pawnbroker**
+
+| *Pawnbroker* Operates a legitimate pawnshop as a front for their illicit dealings, offering loans and buying valuables while discreetly trafficking in stolen goods. Skills: Diplomacy, Appraisal, Investigation, Knowledge (Local) Features: Appraiser: You gain a \+2 bonus to Appraisal checks to determine the value of goods, even those of questionable origin. Legitimate Business: Your pawnshop provides a cover for your illegal activities, granting \+2 bonus on any checks related to laundering money or concealing your involvement in the criminal underworld. |
+| :---- |
+
+## **Peace Negotiator**
+
+| *Peace Negotiator* A Peace Negotiator specializes in resolving conflicts and disputes between factions, planets, or species. They work to find peaceful solutions to disagreements, mediate negotiations, and prevent the escalation of conflicts into full-scale wars. A skilled mediator and diplomat who specializes in resolving conflicts and preventing the escalation of violence between factions. Skills: Diplomacy, Insight, History, Knowledge (Culture) Features: Diplomatic Immunity: You are often granted diplomatic immunity by warring factions, protecting you from harm and allowing you to travel freely in contested territories. Conflict Resolution: You gain a \+2 bonus to Diplomacy checks when mediating disputes, negotiating peace treaties, or de-escalating tensions between factions. |
+| :---- |
+
+## **Peacekeeper**
+
+| *Peacekeeper* A protector of the innocent and a champion of peace. They are skilled in combat and diplomacy, using both force and words to resolve conflict. Skills: Athletics, Diplomacy, Insight, and any one Combat skill. Features: Pacifying Presence: You gain a \+2 bonus to Diplomacy checks to de-escalate tense situations. Defensive Stance: You gain a \+2 bonus to AC while not attacking. |
+| :---- |
+
+## **Pilgrim**
+
+| *Pilgrim* A devout individual who embarks on spiritual journeys to sacred sites throughout the cosmos, seeking enlightenment and a deeper connection to their faith. Skills: Survival, Navigation, any three Knowledge skills Features: Spiritual Seeker: You gain a \+2 bonus to any two Knowledge skills related to cosmology, theology, or alien religions. Sacred Knowledge: You gain \+2 bonus on any checks related to locating or identifying sacred sites, deciphering ancient texts, or understanding spiritual teachings. |
+| :---- |
+
+## **Pilot**
+
+| *Pilot* A skilled pilot who navigates starships through treacherous asteroid fields, enemy blockades, and other hazards. Skills: Technology, Acrobatics, Alertness, and any one Combat skill. Features: Evasive Maneuvers: You gain a \+2 bonus to Acrobatics checks to avoid obstacles or enemy fire while piloting. Quick Reflexes: Gain \+2 on initiative rolls. |
+| :---- |
+
+## **Pioneer**
+
+| *Pioneer:*  A brave and adventurous individual who is always seeking out new frontiers to explore and settle. You are a trailblazer, driven by a thirst for discovery and a desire to build a new life for yourself and your community. You are skilled in survival, exploration, and leadership. Skills:  Acrobatics, Alertness, Animal Handling, Athletics, Knowledge (Nature, Technology), Medicine, Alertness, Piloting, Stealth, Survival, Technology, Vocation (any) Features: Trailblazer: You gain a \+2 bonus to all checks related to exploration, such as navigating through uncharted territory, identifying natural resources, and establishing settlements. Frontier Spirit: You have an unyielding spirit and a knack for overcoming adversity. You gain \+2 bonus on saving throws against fear and despair. |
+| :---- |
+
+## **Pirate**
+
+| *Pirate* Drifters joining a band of space pirates engage in raiding ships and stealing valuable cargo for profit. They often have experience in combat, piloting, and boarding tactics, working as part of a larger crew to achieve their goals. Renegades who prey on unsuspecting vessels, raiding cargo ships and engaging in daring heists for profit and plunder. \- Criminal Background is likely. Skills: Piloting, Acrobatics, Technology, any two Combat skills Features: Boarding Party: You gain a \+2 bonus to Acrobatics checks to board enemy vessels and \+2 bonus on any checks related to ship-to-ship combat. Pirate Code: You have a network of pirate contacts and safe havens, gaining \+2 bonus on any checks related to gathering information about potential targets or selling stolen goods on the black market. |
+| :---- |
+
+## **Planetologist**
+
+| *Planetologist* A scholar who studies the geology, climate, and ecosystems of various planets. They can provide valuable information about the habitability, resources, and potential dangers of different worlds. A scientist who studies the formation, composition, and evolution of planets, providing valuable insights into the habitability and resources of different worlds. Skills: Academics, Survival, Geology (Knowledge), Biology (Knowledge) Features: Planetary Savant: You gain a \+2 bonus to Geology (Knowledge) checks related to planetary formations and any checks related to analyzing geological samples, identifying mineral deposits, or assessing the habitability of different environments. Field Researcher: You have experience conducting field research in diverse planetary environments, gaining \+2 bonus on any checks related to navigating treacherous terrain, identifying potential hazards, or adapting to extreme conditions. |
+| :---- |
+
+## **Politician**
+
+| *Politician* A charismatic and influential figure who excels at navigating the political landscape, building alliances, and swaying public opinion to achieve their goals. Skills: Diplomacy, Bluff, Insight, Leadership Features: Political Acumen: You gain a \+2 bonus to Diplomacy and Bluff checks when engaging in political debates, negotiations, or public speaking. Influence Network: You have cultivated a network of contacts and allies within the political arena, gaining \+2 bonus on any checks related to gathering information, brokering deals, or influencing policy decisions. |
+| :---- |
+
+## **Powered Armor Trooper**
+
+| *Powered Armor Trooper* These soldiers wear advanced powered armor suits, providing them with increased strength, speed, and durability. They may be equipped with integrated weapons systems, such as shoulder-mounted missile launchers or wrist-mounted energy weapons, making them formidable opponents on the battlefield. Wears a suit of advanced powered armor, granting them enhanced strength, speed, and protection in combat. Skills: Athletics, Acrobatics, Technology, any two Combat skills Features: Powered Assault: You gain a \+2 bonus to any checks related to breaking objects, forcing doors, or overpowering opponents. Integrated Weapon Systems: Your powered armor is equipped with integrated weapons, such as missile launchers or energy cannons, granting you a \+2 bonus to attack with such weaponry. |
+| :---- |
+
+## **Praetor**
+
+| *Praetor* A high-ranking military commander who leads legions into battle, known for their tactical brilliance and unwavering resolve. Skills: Leadership, Tactics, Athletics, and any one Combat skill. Features: Tactical Mastery: You gain a \+2 bonus to Tactics checks and \+2 bonus on any checks related to commanding troops in combat. Inspiring Strategist: Your presence bolsters your troops.  grant them \+2 bonus on morale checks and saving throws against fear. |
+| :---- |
+
+## **Preservationist**
+
+| *Preservationist:*  A passionate advocate for nature and wildlife conservation. You are a guardian of the natural world, dedicated to protecting Agri-Worlds' pristine ecosystems from exploitation and destruction. You are an expert in ecology, conservation, and sustainable living. Skills: Academics, Alertness, Animal Handling, Knowledge (Nature), Medicine, Diplomacy, Stealth, Survival, Technology, Vocation (Farming) Features: Nature's Advocate: You gain a \+2 bonus to all checks related to nature, such as identifying plants and animals, navigating through the wilderness, and persuading others to protect the environment. Guardian of the Wild: You have a deep connection to nature, and you can sense when the environment is threatened, gaining a \+2 bonus on checks to determine and analyze environmental issues. |
+| :---- |
+
+## **Priest**
+
+| *Priest* A devout servant of the Impyrium's state religion, responsible for maintaining morale, conducting religious ceremonies, and ensuring loyalty among the populace. Skills: Diplomacy, Insight, History, and any one Discipline. Features: Religious Authority: You gain a \+2 bonus to Diplomacy checks when interacting with followers of the Impyrium's state religion. Spiritual Guidance: You can offer spiritual comfort and guidance. Grant \+2 bonus on any checks related to bolstering morale or resisting fear and despair. |
+| :---- |
+
+## **Privateer**
+
+| *Privateer* A skilled starship captain who operates independently, conducting raids and reconnaissance missions on behalf of the Coalition. They are skilled in piloting, navigation, and combat. Skills: Technology, Tactics, Acrobatics, and any one Combat skill. Features: Practiced Pilot: You gain a \+2 bonus to all checks to pilot starships. Evasive Maneuvers: You gain \+2 on checks to avoid enemy attacks while piloting. |
+| :---- |
+
+## **Prophet**
+
+| *Prophet* A charismatic leader who inspires and guides the cult's followers, delivering divine pronouncements and interpreting sacred texts. Skills: Leadership, Diplomacy, Insight, any one Social skill Features: Divine Inspiration: You gain a \+2 bonus to Diplomacy and Leadership checks when delivering sermons, inspiring faith, or interpreting religious doctrines. Spiritual Leader: Gain \+2 bonus on any checks related to guiding and motivating your followers, resolving disputes within the cult, or maintaining their loyalty and devotion. |
+| :---- |
+
+## **Prospector**
+
+| *Prospector* Drifters working as prospectors search for valuable resources on uncharted planets and asteroids. They often have skills in geology, mining, and resource extraction, using specialized equipment to locate and collect valuable materials. Adventurous individuals who seek out valuable resources in the depths of space, exploring asteroids, planets, and uncharted territories. Skills: Survival, Alertness, Knowledge (Geology), Technology Features: Resourceful Prospector: You gain a \+2 bonus to Alertness checks to locate valuable mineral deposits and Knowledge (Geology) checks to identify and assess the quality of resources. Surveyor: You gain \+2 bonus on any checks related to mapping terrain, analyzing geological formations, and utilizing prospecting equipment. |
+| :---- |
+
+## **Psionicologist**
+
+| *Psionicologist* A scholar who studies psionic powers and phenomena. They can provide insights into the nature of psionic abilities, their origins, and potential applications. A researcher who delves into the mysteries of psionic powers, studying their origins, applications, and potential impact on individuals and society. Skills: Academics, Insight, Medicine, Knowledge (Psionics) Features: Psionic Scholar: You gain a \+2 bonus to Knowledge (Psionics) checks and \+2 bonus on any checks related to understanding psionic phenomena, identifying different psionic abilities, or assessing the potential risks |
+| :---- |
+
+## **Quartermaster**
+
+| *Quartermaster* A resourceful and organized individual who manages the pirate crew's supplies, equipment, and finances, ensuring they have the resources they need to succeed. Skills: Technology, Appraisal, any two Knowledge skills Features: Resourceful: You gain a \+2 bonus to Technology and Appraisal checks when repairing or maintaining equipment, identifying valuable loot, or negotiating prices on the black market. Master of Logistics: You gain \+2 bonus on any checks related to managing the crew's inventory, securing supplies, or distributing loot among the crew. |
+| :---- |
+
+## **Queen**
+
+| *Queen* The central consciousness of the hive mind, responsible for guiding the collective's actions and ensuring its survival. Skills: Leadership, Insight, any four Disciplines Features: Hive Mind Control: You can exert complete control over all units within the hive mind, gaining \+2 bonus on any checks related to coordinating their actions or directing their efforts. Psychic Beacon: You can project your consciousness across vast distances, gaining \+2 bonus on any checks related to communication, surveillance, or sensing the presence of other creatures. |
+| :---- |
+
+## **Racing Pilot**
+
+| *Racing Pilot* Skilled in piloting high-speed vehicles, such as racing spaceVocation skill or hoverVocation skill, navigating challenging courses and outmaneuvering opponents. They can perform daring stunts, evade pursuers, or win high-stakes races. A daredevil pilot who thrives on the thrill of high-speed races, pushing their skills and reflexes to the limit. Skills: Pilot, Acrobatics, Technology, Alertness Features: Speed Demon: You gain a \+2 bonus to Pilot checks to maneuver your vehicle at high speeds and perform daring stunts. Adrenaline Rush: You gain \+2 bonus on any checks related to piloting under pressure or in high-stakes situations. |
+| :---- |
+
+## **Raider**
+
+| *Raider* A hardened survivor who uses force and intimidation to secure resources and protect their territory, often resorting to violence to achieve their goals. Skills: Intimidation, Athletics, any four Combat skills Features: Wasteland Warrior: You gain a \+2 bonus to any two Combat skills and \+2 bonus on any checks related to combat or survival in harsh environments. Ruthless: You gain \+2 bonus on any checks related to intimidation, interrogation, or extracting information through force. |
+| :---- |
+
+## **Ranger**
+
+| *Ranger* A hardened survivor and skilled warrior, recruited from prisons. They are experts in survival, tracking, and combat. Skills: Survival, Stealth, Athletics, and any one Combat skill. Features: Wilderness Warrior: You gain a \+2 bonus to Survival and Stealth checks in outdoor environments. Guerilla Tactics: You gain \+2 on attack rolls against enemies who are unaware of your presence. |
+| :---- |
+
+## **Reconnaissance Scout**
+
+| *Reconnaissance Scout* This scout type focuses on gathering intelligence and information about enemy forces or potential threats. They might be skilled in stealth, infiltration, and surveillance techniques, allowing them to gather crucial data without being detected. A master of stealth and observation, gathering intelligence on enemy movements and fortifications without being detected. Skills: Stealth, Alertness, Investigation, Bluff Features: Infiltrator: You gain a \+2 bonus to Stealth checks to move silently and remain undetected. Keen Observer: You have a sharp eye for detail, gaining \+2 bonus on any checks related to spotting hidden objects, tracking movements, or deciphering coded messages. |
+| :---- |
+
+## **Resource Gatherer**
+
+| *Resource Gatherer* These merchants focus on collecting and trading raw materials, such as ores, herbs, or other valuable resources. They might have specialized knowledge in identifying and locating these resources, and negotiating their value in trade. An expert in locating and extracting valuable resources from the environment, supplying raw materials to crafters and industries. Skills: Survival, Alertness, Knowledge (Nature), Athletics Features: Resourceful: You gain a \+2 bonus to Alertness checks to locate valuable resources and Knowledge (Nature) checks to identify and assess their quality. Master Gatherer: You have developed efficient techniques for extracting resources, gaining \+2 bonus on any checks related to mining, harvesting, or foraging. |
+| :---- |
+
+## **Revolutionary**
+
+| *Revolutionary* A charismatic leader who inspires and unites the rebellion, rallying the oppressed and leading the fight against the dominant power. Skills: Leadership, Diplomacy, Insight, any one Social skill Features: Inspiring Rhetoric: You gain a \+2 bonus to Diplomacy and Leadership checks when addressing crowds, rallying support, or negotiating with potential allies. Rebel Leader: You gain \+2 bonus on any checks related to organizing and leading rebel forces, inspiring morale, or planning strategic operations. |
+| :---- |
+
+## **Roboticist**
+
+| *Roboticist* A scholar who specializes in the study, design, and development of robots and robotic systems. They can create, repair, and upgrade various types of robots and drones. A master of robotics, capable of designing, building, and repairing a wide range of mechanical companions and automated assistants. Skills: Technology, Hardware, Software, Knowledge (Robotics) Features: Robotic Affinity: You gain a \+2 bonus to Technology checks when creating, repairing, or modifying robots and drones. Automation Expert: You can program robots to perform complex tasks, gaining \+2 bonus on any checks related to automating processes or controlling robotic systems. |
+| :---- |
+
+## **Robotics Engineer**
+
+| *Robotics Engineer* This character would specialize in designing, building, and programming robots and drones. They could create anything from small utility drones to large combat mechs, depending on the needs of their team or mission. A skilled engineer who designs, builds, and programs robots and autonomous drones for various purposes. Skills: Technology, Hardware, Software, Knowledge (Robotics) Features: Robotics Mastery: You gain a \+2 bonus to Technology checks related to designing, constructing, and repairing robots and drones. Artificial Intelligence: You have expertise in programming artificial intelligence, gaining \+2 bonus on any checks related to creating autonomous robots or developing AI systems. |
+| :---- |
+
+
+## Game Mechanics Rules
+```
+See full canonical text in architect/archetypes/99.Archetypes.M_R.md
+```
+
+## Gameplay Instructions
+Refer to architect/archetypes/99.Archetypes.M_R.md in the game rules library for complete architectural tables and system parameters.
+
+## Designer Notes
+Canonical Tangent SF RP rulebook reference from architect/archetypes/99.Archetypes.M_R.md. Complete, unabridged source of truth.

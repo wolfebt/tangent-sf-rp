@@ -14,7 +14,14 @@ description: >-
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: physical-piloting
+    type: check_advantage
+    value: 1
+    mode: conditional
+    isSituational: true
+    condition: 'Unpowered atmospheric flight (gliders, wingsuits)'
+    description: 'Advantage on Pilot (Unpowered) checks (Roll 3d10, take best 2)'
 keywords: 'aeronaut, skill, special-feature, specialist, unpowered, nature-assisted'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3

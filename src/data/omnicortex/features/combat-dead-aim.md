@@ -11,7 +11,14 @@ description: The character trades mobility for extreme precision.
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: Strike
+    type: combat
+    value: 2
+    mode: conditional
+    isSituational: true
+    condition: Taking no movement during your turn
+    description: +2 to Strike with ranged weapons if remaining stationary
 keywords: 'dead aim, combat, special-feature, combat-maneuver, tactical-edge, trades'
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3

@@ -1,0 +1,187 @@
+---
+id: "doc-operator-1-07-mechanics-synergyandadvantage"
+name: "1.07 Mechanics: Synergy & Advantage"
+fileName: "1.07.Mechanics.SynergyAndAdvantage.md"
+relPath: "operator/skills/1.07.Mechanics.SynergyAndAdvantage.md"
+isMasterDoc: false
+masterDocId: "doc-operator-1-07-skills"
+category: "operator_rule"
+parent: "doc-operator-1-07-skills"
+order: 190
+perspective: "operator"
+entry_type: "Skill Mechanics"
+tl: 3
+ml: 0
+cost: 0
+tags: ["operator","core-rules","modular-rule","skills","1.07.mechanics.synergyandadvantage","mechanics"]
+updatedAt: "2026-10-14T05:52:12.034Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
+---
+
+# **SKILL SYNERGY**
+
+# **SKILL SYNERGY**
+
+Skill Synergy is a mechanic in Tangent that allows characters to utilize their existing skills to gain an advantage on other skill checks. This system encourages strategic thinking and rewards players for considering how their character's various skills can complement each other.
+
+## **Using an Auxiliary Skill**
+
+When attempting a primary skill check, a character can opt to use a different but relevant skill to boost their chances of success. This auxiliary skill should logically relate to the primary skill check, demonstrating a synergistic approach to problem-solving.
+
+## **Bonus Calculation**
+
+When a character possesses relevant practical experience that assists a primary check, they gain a flat synergy bonus based on their skill ranks. This replaces complex active division during gameplay.
+
+* **Synergy Requirement:** To grant a synergy bonus, a secondary skill must have a clear, logical connection to the primary task, as approved by the GM.  
+* **Trained Synergy (5 to 9 Ranks):** If the character has at least 5 ranks in the secondary skill, they grant a flat \+2 synergy bonus to the primary check.  
+* **Expert Synergy (10+ Ranks):** If the character has 10 or more ranks in the secondary skill, they grant a flat \+4 synergy bonus to the primary check.
+
+# **Example**
+
+If a character makes a Reason (Intellect) check to decipher an ancient text and has 6 ranks in Linguistics, they add a flat \+2 synergy bonus to their Reason check.
+
+# **ADVANTAGE**
+
+# **ADVANTAGE**
+
+In Tangent, Rolling with Advantage is a powerful mechanic that significantly increases the chances of success in various situations. When you have Advantage, you roll 2d10 twice (or more, depending on the number of Advantage effects you have), and you choose the higher of the two rolls. This effectively boosts the probability of obtaining a high roll, thereby improving your odds of meeting or surpassing the Challenge Rating (CR) associated with the task or check.
+
+Rolling with Advantage is particularly useful in situations where the odds are stacked against you. When you're facing a challenging encounter or a difficult skill check, having Advantage can tip the scales in your favor. It can also be helpful when you're trying to pull off a risky maneuver or when you need to make a crucial decision.
+
+There are several ways to gain Advantage in Tangent. Some abilities and spells grant Advantage on specific rolls, while certain class features and feats can provide Advantage more broadly. Additionally, you can gain Advantage through environmental factors, such as flanking an enemy or having a clear line of sight.
+
+Rolling with Advantage is a valuable tool that can help you overcome difficult challenges and achieve your goals in Tangent. Whether you're a seasoned adventurer or a new player, learning how to use Advantage effectively will make you a more formidable opponent.
+
+## **Mechanics**
+
+### **Multiple Rolls**
+
+When rolling with Advantage, you roll 2d10 twice (or more, depending on the number of Advantage effects) and select the highest result. This effectively increases the probability of rolling a high number, improving your chances of meeting or exceeding the Challenge Rating (CR) for the task or check.
+
+### **Stacking Effects**
+
+Multiple sources of Advantage generally stack, meaning you get to roll an additional set of 2d10 (or roll an additional d10 keep highest 2) for each Advantage effect.
+
+### **Countering Disadvantage**
+
+Advantage directly counters Disadvantage. If you have both Advantage and Disadvantage on a roll, they cancel each other out, and you roll a standard 2d10 as normal.
+
+### **Karma Point**
+
+You can spend a Karma Point to gain Advantage on a single roll. This is a valuable option when you need a crucial success and are willing to expend a limited resource.
+
+## **Sources of Advantage**
+
+### **Features**
+
+Certain features, such as "Lucky" or "Improved Critical," grant Advantage on specific rolls or under certain conditions.
+
+### **Situational Factors**
+
+The GM may grant Advantage based on the specific circumstances of the situation, such as having the element of surprise, using superior tactics, or exploiting an opponent's weakness.
+
+### **Environmental Factors**
+
+Favorable environmental conditions, like elevated positioning or clear visibility, can sometimes provide Advantage.
+
+### **Tactical Consideration**
+
+#### **Important Rolls**
+
+It's generally advisable to use Advantage on rolls where success is crucial or the consequences of failure are significant.
+
+#### **Limited Resources**
+
+If Advantage is gained from a limited resource, such as Karma Points, use it strategically and prioritize the most important rolls.
+
+#### **Synergizing Effects**
+
+Consider combining Advantage with other bonuses or modifiers to further increase your chances of success.
+
+# **DISADVANTAGE**
+
+# **DISADVANTAGE**
+
+Rolling with Disadvantage presents a significant hurdle in Tangent, decreasing the likelihood of success in various situations.Rolling with Disadvantage in Tangent presents a significant hurdle for players, significantly decreasing the likelihood of success in various situations. When rolling with disadvantage, players roll two dice and must use the lower of the two results. This means that even if a player has high ability scores or modifiers, they may still have difficulty succeeding on certain checks.
+
+Overall, rolling with disadvantage is a significant hurdle for players in Tangent. It can make it more difficult to succeed on checks, hit enemies in combat, and progress through the game.
+
+## **Mechanics**
+
+### **Multiple Rolls**
+
+When rolling with Disadvantage, you roll 2d10 twice (or more, depending on the number of Disadvantage effects) and select the lowest result. This effectively increases the probability of rolling a low number, hindering your chances of meeting or exceeding the Challenge Rating (CR) for the task or check.
+
+### **Stacking Effects**
+
+Multiple sources of Disadvantage generally stack, granting an additional roll taking the worst result.
+
+### **Countering Advantage**
+
+Disadvantage directly counters Advantage. If you have both Advantage and Disadvantage on a roll, they cancel each other out, and you roll a standard 2d10 as normal.
+
+### **Karma Point**
+
+You can spend a Karma Point to eliminate one of the extra dice in the roll, mitigating the impact of Disadvantage. This is a valuable option when you want to improve your chances of success and are willing to expend a limited resource.
+
+## **Sources of Disadvantage**
+
+### **Features**
+
+Certain features, such as "Clumsy" or "Impaired," impose Disadvantage on specific rolls or under certain conditions.
+
+### **Skills**
+
+Low ranks in skills or attempting actions outside of your character's expertise can lead to Disadvantage.
+
+### **Situational Factors**
+
+The GM may impose Disadvantage based on the specific circumstances, such as being in a poorly lit area, using improvised tools, or facing a superior opponent.
+
+### **Environmental Factors**
+
+Unfavorable environmental conditions, like slippery surfaces, extreme weather, or distractions, can sometimes cause Disadvantage.
+
+### **Tactical Considerations:**
+
+Important Rolls  
+Avoid Disadvantage on rolls where success is crucial or the consequences of failure are severe.
+
+### **Limited Resources**
+
+If you must roll with Disadvantage, consider using a Karma Point to improve your odds, especially if the outcome is vital.
+
+### **Mitigating Factors**
+
+Try to minimize the impact of Disadvantage by addressing its source, if possible. For example, move to a better-lit area, use proper tools, or seek assistance from a skilled ally.
+
+
+## Game Mechanics Rules
+```
+See full canonical text in operator/skills/1.07.Mechanics.SynergyAndAdvantage.md
+```
+
+## Gameplay Instructions
+Refer to operator/skills/1.07.Mechanics.SynergyAndAdvantage.md in the game rules library for complete architectural tables and system parameters.
+
+## Designer Notes
+Canonical Tangent SF RP rulebook reference from operator/skills/1.07.Mechanics.SynergyAndAdvantage.md. Complete, unabridged source of truth.

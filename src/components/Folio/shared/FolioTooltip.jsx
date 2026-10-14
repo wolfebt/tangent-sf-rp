@@ -510,24 +510,30 @@ export const FolioTooltip = ({
               {activeModifierList.map((m, idx) => {
                 const val = typeof m === 'object' ? m.value : null;
                 const isNegative = typeof val === 'number' && val < 0;
+                const isSituational = typeof m === 'object' && Boolean(m.isSituational || m.type === 'check_advantage' || m.type === 'take_10' || m.condition);
                 const src = typeof m === 'object' ? (m.source || m.sourceType || 'Modifier') : '';
                 const desc = typeof m === 'object' ? (m.description || `${val >= 0 ? '+' : ''}${val} to ${m.target || title}`) : String(m);
+                const condition = typeof m === 'object' ? m.condition : null;
                 return (
                   <div
                     key={idx}
                     className={`px-2 py-0.5 text-[9.5px] font-mono font-medium rounded border flex items-center justify-between gap-1.5 ${
-                      isNegative
-                        ? 'bg-rose-950/70 text-rose-300 border-rose-800/70'
-                        : 'bg-cyan-950/70 text-cyan-200 border-cyan-800/70'
+                      isSituational
+                        ? 'bg-amber-950/60 text-amber-200 border-amber-800/60'
+                        : isNegative
+                          ? 'bg-rose-950/70 text-rose-300 border-rose-800/70'
+                          : 'bg-cyan-950/70 text-cyan-200 border-cyan-800/70'
                     }`}
                   >
-                    <span className="truncate" title={desc}>
-                      {src ? <strong className="text-slate-200 mr-1">[{src}]</strong> : null}
+                    <span className="truncate" title={condition ? `${desc} (${condition})` : desc}>
+                      {src ? <strong className={isSituational ? "text-amber-400 mr-1" : "text-slate-200 mr-1"}>[{src}]</strong> : null}
+                      {isSituational && <span className="text-[8px] uppercase tracking-wider bg-amber-900/60 text-amber-300 border border-amber-700/60 px-1 py-0.2 rounded mr-1 font-sans">Situational</span>}
                       {desc}
+                      {condition && <span className="text-amber-400/80 ml-1 text-[8.5px]">({condition})</span>}
                     </span>
                     {typeof val === 'number' && (
-                      <span className={`font-mono font-bold shrink-0 ${isNegative ? 'text-rose-400' : 'text-cyan-300'}`}>
-                        {val >= 0 ? `+${val}` : val}
+                      <span className={`font-mono font-bold shrink-0 ${isSituational ? 'text-amber-300' : isNegative ? 'text-rose-400' : 'text-cyan-300'}`}>
+                        {m.type === 'check_advantage' ? 'ADV (3d10k2)' : m.type === 'take_10' ? 'Take 10' : (val >= 0 ? `+${val}` : val)}
                       </span>
                     )}
                   </div>

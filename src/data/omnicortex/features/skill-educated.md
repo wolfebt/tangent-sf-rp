@@ -13,7 +13,17 @@ description: >-
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: mental-academics
+    type: skill
+    value: 2
+    mode: competence
+    description: +2 competence bonus to Academics
+  - target: Knowledge
+    type: skill
+    value: 1
+    mode: competence
+    description: +1 competence bonus to all Knowledge Skills
 keywords: 'educated, skill, special-feature, received, extensive, formal'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3

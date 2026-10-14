@@ -10,7 +10,7 @@
  * - The Mortality State at 0 HP (Unconscious, Incapacitated, Bleeding Out, Stability = CON + 5)
  */
 
-import { AudioService } from './audioService';
+import { AudioService } from './audioService.js';
 
 export function resolveAutonomousAttack(attackerToken, targetToken, actionPlan = {}) {
   // 1. Roll 2d10

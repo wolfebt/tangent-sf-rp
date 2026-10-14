@@ -5,9 +5,9 @@
  * and Environmental Hazards / Lair Actions.
  */
 
-import { rollDice } from './diceService';
-import { resolveSubAttrScore, calculateSubAttrBase } from '../utils/attributeUtils';
-import { AdventureLogService, ACTOR_TYPES } from './adventureLogService';
+import { rollDice } from './diceService.js';
+import { resolveSubAttrScore, calculateSubAttrBase } from '../utils/attributeUtils.js';
+import { AdventureLogService, ACTOR_TYPES } from './adventureLogService.js';
 
 /**
  * Standard environmental hazard and lair action presets

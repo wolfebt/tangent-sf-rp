@@ -14,7 +14,12 @@ description: >-
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: Fortitude
+    type: save
+    value: 2
+    mode: inherent
+    description: +2 on Fortitude Checks
 keywords: >-
   great fortitude, ability, special-feature, innate-talent, passive-prowess,
   through

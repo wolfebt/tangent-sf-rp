@@ -11,7 +11,12 @@ description: 'Crack Pilot is a Skill Feature: +4 Piloting, +20% to Maximum Vehic
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: physical-piloting
+    type: skill
+    value: 4
+    mode: competence
+    description: +4 competence bonus to Piloting
 keywords: 'crack pilot, skill, special-feature, feature:, piloting, maximum'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3

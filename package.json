@@ -19,11 +19,16 @@
     "sync:species-disadvantages": "node scripts/syncSpeciesDisadvantages.mjs",
     "build:data": "node scripts/buildAllBundles.mjs",
     "test:data": "node scripts/validateDataIntegrity.mjs",
-    "test:engine": "node --test \"tests/engine/*.test.mjs\" \"src/engines/__tests__/*.test.js\" \"src/services/*.test.mjs\" \"src/schemas/*.test.mjs\"",
+    "test:engine": "node --test \"tests/engine/*.test.mjs\" \"src/engines/__tests__/*.test.js\" \"src/services/*.test.mjs\" \"src/schemas/*.test.mjs\" \"src/components/VTT/tree/*.test.mjs\"",
+    "test:security": "node --test \"tests/engine/firestoreRulesSecurity.test.mjs\"",
+    "test:functions": "node --test \"tests/engine/cloudFunctions.test.mjs\"",
+    "test:fuzz": "node --test \"tests/engine/propertyFuzzSuite.test.mjs\"",
+    "test:stores": "node --test \"tests/engine/vttAndStageStores.test.mjs\" \"tests/engine/adeStoreCentralization.test.mjs\"",
     "test:e2e": "playwright test",
     "test:e2e:smoke": "playwright test tests/e2e/smoke.spec.ts",
     "test:e2e:journeys": "playwright test tests/e2e/user-journeys.spec.ts",
-    "test": "node scripts/syncMasterCanonicalCompendium.mjs && npm run test:engine && node scripts/validateDataIntegrity.mjs"
+    "test:e2e:a11y": "playwright test tests/e2e/accessibility-and-pwa.spec.ts",
+    "test": "node scripts/syncMasterCanonicalCompendium.mjs && npm run verify:rules && npm run test:engine && node scripts/validateDataIntegrity.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.51.0",

@@ -7,25 +7,300 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, '..');
 
-const PREFERRED_ARCH_ORDER = [
+const OP_PARENT = '1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)';
+const ARCH_PARENT = '5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)';
+
+const PREFERRED_OP_MASTER_ORDER = [
+  '1.00 INTRODUCTION.md',
+  '1.01 CHARACTER CREATION.md',
+  '1.02 ARCHETYPES.md',
+  '1.03 SPECIES.md',
+  '1.04 FACTIONS.md',
+  '1.05 ORIGINS.md',
+  '1.06 OCCUPATIONS.md',
+  '1.07 SKILLS.md',
+  '1.08 FEATURES.md',
+  '1.09 HINDRANCES.md',
+  '1.10 SCALING.md',
+  '2.00 ECONOMATRIX.md',
+  '3.00 COMBAT.md',
+  '4.00 METAPHYSICS.md'
+];
+
+const PREFERRED_ARCH_MASTER_ORDER = [
   '02 ECONOMY AND WEALTH.md',
-  '99. .ARCHETYPES.md',
+  '99. ARCHETYPES.md',
   '99. MODULAR CHARACTER MATRIX.md',
   '99. MODULAR SPECIES MATRIX.md',
   '99. MODULAR FACTION MATRIX.md',
   '99. MODULAR COMPANION MATRIX.md',
   '99. MODULAR PLANETARY MATRIX.md',
   '99. TECHNOLOGY.md',
-  '99. TECHNOLOGY, WEAPONRY MATRIX.md',
-  '99. TECHNOLOGY, ARMOR MATRIX.md',
-  '99. TECHNOLOGY, EQUIPMENT MATRIX.md',
-  '99. TECHNOLOGY, AUGMENTATIONS MATRIX.md',
-  '99. TECHNOLOGY, MECHA MATRIX.md',
-  '99. TECHNOLOGY, ARCHITECTURAL MATRIX.md',
-  '99. METAPHYSICS (1).md',
-  '99. METAPHYSICS, INVOCATION MATRIX (1).md',
-  '99. METAPHYSICS, META-TECH MATRIX (1).md'
+  '99. METAPHYSICS.md'
 ];
+
+const SUBFOLDER_TO_MASTER_ID = {
+  // Operator subfolders
+  'operator/character_creation': 'doc-operator-1-01-character-creation',
+  'operator/archetypes': 'doc-operator-1-02-archetypes',
+  'operator/species': 'doc-operator-1-03-species',
+  'operator/factions': 'doc-operator-1-04-factions',
+  'operator/origins': 'doc-operator-1-05-origins',
+  'operator/occupations': 'doc-operator-1-06-occupations',
+  'operator/skills': 'doc-operator-1-07-skills',
+  'operator/features': 'doc-operator-1-08-features',
+  'operator/economatrix': 'doc-operator-2-00-economatrix',
+  'operator/combat': 'doc-operator-3-00-combat',
+  'operator/metaphysics': 'doc-operator-4-00-metaphysics',
+  // Architect subfolders
+  'architect/economy': 'doc-architect-02-economy-and-wealth',
+  'architect/archetypes': 'doc-architect-99-archetypes',
+  'architect/characters': 'doc-architect-99-modular-character-matrix',
+  'architect/species': 'doc-architect-99-modular-species-matrix',
+  'architect/companions': 'doc-architect-99-modular-companion-matrix',
+  'architect/planetary': 'doc-architect-99-modular-planetary-matrix',
+  'architect/technology': 'doc-architect-99-technology',
+  'architect/metaphysics': 'doc-architect-99-metaphysics'
+};
+
+const CUSTOM_SUBARTICLE_ORDER = [
+  // 1.01 Character Creation
+  '1.01.Attributes.md',
+  '1.01.Perception.md',
+  '1.01.VitalityHealthStructure.md',
+  '1.01.Karma.md',
+  '1.01.Movement.md',
+  '1.01.RestAndDying.md',
+  '1.01.Experience.md',
+  // 1.02 Archetypes
+  '1.02.Sentinels.md',
+  '1.02.Operatives.md',
+  '1.02.Visionaries.md',
+  '1.02.Savants.md',
+  '1.02.SignatureFeatures.md',
+  // 1.07 Skills
+  '1.07.Physical.md',
+  '1.07.Mental.Core.md',
+  '1.07.Mental.Knowledge.md',
+  '1.07.Mental.Vocation.md',
+  '1.07.Social.Expression.md',
+  '1.07.Social.Manipulation.md',
+  '1.07.Combat.md',
+  '1.07.Metaphysics.md',
+  '1.07.Mechanics.Learning.md',
+  '1.07.Mechanics.SkillChecks.md',
+  '1.07.Mechanics.SkillGroups.md',
+  '1.07.Mechanics.SkillUse.md',
+  '1.07.Mechanics.Specialization.md',
+  '1.07.Mechanics.SynergyAndAdvantage.md',
+  '1.07.Mechanics.TimeAndFocus.md',
+  // 1.08 Features
+  '1.08.AbilityFeatures.md',
+  '1.08.SkillFeatures.md',
+  '1.08.CombatFeatures.md',
+  '1.08.DisciplineFeatures.md',
+  '1.08.KarmaFeatures.md',
+  '1.08.GeneralFeatures.md',
+  '1.08.SpecialFeatures.md',
+  // 2.00 Economatrix
+  '2.00.Architecture.md',
+  '2.00.Armor.md',
+  '2.00.Augmentations.md',
+  '2.00.Equipment.md',
+  '2.00.Mecha.md',
+  '2.00.WeaponModifications.md',
+  // 3.00 Combat
+  '3.00.Edge.md',
+  '3.00.StatusEffects.md',
+  '3.00.DamageAndLocations.md',
+  '3.00.DamageTypes.md',
+  '3.00.VehicularCombat.md',
+  // 4.00 Metaphysics
+  '4.00.Entropy.md',
+  '4.00.Dimension.md',
+  '4.00.Energy.md',
+  '4.00.Illusion.md',
+  '4.00.Matter.md',
+  '4.00.Mental.md',
+  // 02 Economy
+  '02.Economy.UnifiedFieldTheory.md',
+  '02.Economy.InterstellarTrade.md',
+  // 99 Technology
+  '99.Tech.Levels.md',
+  '99.Tech.CivilizationDomains.md',
+  '99.Tech.Weaponry.ForgeProtocol.md',
+  '99.Tech.Weaponry.Catalog.md',
+  '99.Tech.Armor.DesignAndCatalog.md',
+  '99.Tech.Armor.EconomyAndExemplars.md',
+  '99.Tech.Equipment.Framework.md',
+  '99.Tech.Equipment.SystemsAndMastercrafting.md',
+  '99.Tech.Augmentations.Cybernetic.md',
+  '99.Tech.Augmentations.Biological.md',
+  '99.Tech.Augmentations.Metaphysical.md',
+  '99.Tech.Mecha.ForgeProtocol.md',
+  '99.Tech.Mecha.ComponentsAndWeapons.md',
+  '99.Tech.Mecha.AutomataAndGear.md',
+  '99.Tech.Architecture.ForgeProtocol.md',
+  '99.Tech.Architecture.ComponentCatalog.md',
+  '99.Tech.Architecture.MobileAndVFT.md',
+  '99.Tech.Architecture.ExamplesAndSkins.md'
+];
+
+const SPECIAL_TOKEN_LABELS = {
+  'VitalityHealthStructure': 'Vitality, Health & Structure',
+  'RestAndDying': 'Rest & Dying',
+  'SignatureFeatures': 'Signature Features',
+  'AwakenedAnimal': 'Awakened Animal',
+  'BDren': "B'Dren",
+  'GenE': 'Gen-E (Engineered)',
+  'ImpyriumPsion': 'Impyrium Psion',
+  'ImpyriumRegi': 'Impyrium Regi',
+  'GraOr': "Gra'Or",
+  'UNonn': "U'Nonn",
+  'ShaNor': "Sha'Nor",
+  'IntellectConstruct': 'Intellect Construct',
+  'SentientMachine': 'Sentient Machine',
+  'AeldProvidence': 'Aeld Providence',
+  'AlterianEnclave': 'Alterian Enclave',
+  'SilvermoonVanguard': 'Silvermoon Vanguard',
+  'DraconianOrder': 'Draconian Order',
+  'KovianTribunal': 'Kovian Tribunal',
+  'VajarTribes': 'Vajar Tribes',
+  'AuluranClans': 'Auluran Clans',
+  'DraconDynasty': 'Dracon Dynasty',
+  'EntariCombine': 'Entari Combine',
+  'KitinCollective': 'Kitin Collective',
+  'MekanCollective': 'Mekan Collective',
+  'ArtificialLife': 'Artificial Life',
+  'CosmicHorror': 'Cosmic Horror',
+  'CosmicJustice': 'Cosmic Justice',
+  'GeneticEngineering': 'Genetic Engineering',
+  'HiveMind': 'Hive Mind',
+  'InterstellarDiplomats': 'Interstellar Diplomats',
+  'PostApocalyptic': 'Post-Apocalyptic',
+  'ReligiousCult': 'Religious Cult',
+  'SentientIntelligence': 'Sentient Intelligence',
+  'SpaceExploration': 'Space Exploration',
+  'SpacePirate': 'Space Pirate',
+  'SpaceReligion': 'Space Religion',
+  'SpaceTourism': 'Space Tourism',
+  'SkillChecks': 'Skill Checks',
+  'SkillGroups': 'Skill Groups & Titles',
+  'SkillUse': 'Skill Use',
+  'SynergyAndAdvantage': 'Synergy & Advantage',
+  'TimeAndFocus': 'Time & Focus',
+  'AbilityFeatures': 'Ability Features',
+  'CombatFeatures': 'Combat Features',
+  'DisciplineFeatures': 'Discipline Features',
+  'GeneralFeatures': 'General Features',
+  'KarmaFeatures': 'Karma Features',
+  'SkillFeatures': 'Skill Features',
+  'SpecialFeatures': 'Special Features',
+  'WeaponModifications': 'Weapon Modifications',
+  'DamageAndLocations': 'Damage & Hit Locations',
+  'DamageTypes': 'Damage Types',
+  'StatusEffects': 'Status Effects',
+  'VehicularCombat': 'Vehicular Combat',
+  'InterstellarTrade': 'Interstellar Trade & Commerce',
+  'UnifiedFieldTheory': 'Economic Unified Field Theory',
+  'A_D': 'A – D',
+  'E_L': 'E – L',
+  'M_R': 'M – R',
+  'S_Z': 'S – Z',
+  'ModuleA': 'Module A',
+  'ModuleB': 'Module B',
+  'ModuleC_E': 'Modules C–E',
+  'ModuleF_G': 'Modules F–G',
+  'TierChassis': 'The Tier Chassis',
+  'CompetencyRoles': 'Competency Roles & Matrices',
+  'BiologySoulLifepath': 'Biology, Soul & Lifepath',
+  'GenreAndVisuals': 'Genre & Visual Semiotics',
+  'FormPackages': 'Form Packages (The Chassis)',
+  'FunctionAndExamples': 'Function Packages & Examples',
+  'InvocationMatrix': 'Invocation Matrix',
+  'MetaTechMatrix': 'Meta-Tech Matrix',
+  'AstrophysicsAndGeophysics': 'Astrophysics, Geophysics & Biosphere',
+  'CivilizationAndEconomy': 'Civilization, Economy & Infrastructure',
+  'HazardsAndEncounters': 'Hazards, Hooks & Encounter Tables',
+  'ChassisAndMovement': 'Chassis Types, Size & Movement',
+  'TraitsAndDisadvantages': 'Traits Catalog & Disadvantages',
+  'CivilizationDomains': 'Civilization Aspects & Domains',
+  'Levels': 'Technology Levels (TL 0–X)',
+  'ForgeProtocol': 'Forge Protocol',
+  'ComponentCatalog': 'Component Engineering Catalog',
+  'MobileAndVFT': 'Mobile Structures & VFT',
+  'ExamplesAndSkins': 'Examples, Cultural Skins & Economics',
+  'DesignAndCatalog': 'Armor Design & Catalog',
+  'EconomyAndExemplars': 'Armor Economy & Exemplars',
+  'SystemsAndMastercrafting': 'Systems, Biotech & Mastercrafting',
+  'ComponentsAndWeapons': 'Components, VFT & Weapons',
+  'AutomataAndGear': 'Automata, Specialized Gear & Economics'
+};
+
+function humanizeToken(token) {
+  if (!token) return '';
+  if (SPECIAL_TOKEN_LABELS[token]) return SPECIAL_TOKEN_LABELS[token];
+  return token
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .replace(/_/g, '–')
+    .trim();
+}
+
+/**
+ * Formats a clean, canonical human-readable title for any rule file.
+ */
+function formatArticleDisplayName(fileObj) {
+  const cleanFileName = fileObj.fileName.replace(/\.md$/i, '').trim();
+  const isRootMaster = fileObj.relBranch === 'operator' || fileObj.relBranch === 'architect';
+
+  if (isRootMaster) {
+    return cleanFileName
+      .replace(/\s*\(\d+\)$/, '')
+      .replace(/\s*\(work\)/i, '')
+      .replace(/\.\s*\.+/, '. ')
+      .replace(/&nbsp;/gi, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  // Subfolder file: e.g. "1.01.VitalityHealthStructure", "1.03.Aeld.Alterian", "99.Tech.Mecha.ForgeProtocol"
+  const parts = cleanFileName.split('.');
+  if (parts.length >= 3 && /^\d+$/.test(parts[0]) && /^\d+$/.test(parts[1])) {
+    const numPrefix = `${parts[0]}.${parts[1]}`;
+    const rest = parts.slice(2).map(humanizeToken);
+    if (rest.length === 1) {
+      return `${numPrefix} ${rest[0]}`;
+    }
+    if (rest.length === 2 && rest[1] === 'Base') {
+      return `${numPrefix} ${rest[0]} (Lineage Overview)`;
+    }
+    return `${numPrefix} ${rest[0]}: ${rest.slice(1).join(' — ')}`;
+  }
+
+  if (parts.length >= 2 && (parts[0] === '02' || parts[0] === '99')) {
+    const numPrefix = parts[0] === '99' ? '99.' : '02';
+    const rest = parts.slice(1).map(humanizeToken);
+    if (rest[0] === 'Tech' && rest.length >= 3) {
+      return `${numPrefix} Tech (${rest[1]}): ${rest.slice(2).join(' — ')}`;
+    }
+    if (rest.length === 2) {
+      return `${numPrefix} ${rest[0]}: ${rest[1]}`;
+    }
+    return `${numPrefix} ${rest.join(': ')}`;
+  }
+
+  return cleanFileName;
+}
+
+/**
+ * Builds canonical article ID from branch and filename.
+ */
+function makeArticleId(subfolderKey, fileName) {
+  const cleanFileName = fileName.replace(/\.md$/i, '').trim();
+  const rawSlug = cleanFileName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '');
+  const normalizedSlug = rawSlug.replace(/-1$/, '');
+  return `doc-${subfolderKey}-${normalizedSlug}`;
+}
 
 /**
  * Recursively scans directory and all subdirectories for markdown (.md) rule files.
@@ -46,10 +321,12 @@ function scanRuleFiles(rulesDir) {
         !entry.name.toLowerCase().endsWith('.bak') &&
         !entry.name.startsWith('.')
       ) {
+        const normalizedRelBranch = relBranch.replace(/\\/g, '/');
         discovered.push({
           fullPath,
           fileName: entry.name,
-          relBranch: relBranch.toLowerCase()
+          relBranch: normalizedRelBranch.toLowerCase(),
+          relPath: `${normalizedRelBranch}/${entry.name}`
         });
       }
     }
@@ -60,62 +337,178 @@ function scanRuleFiles(rulesDir) {
 }
 
 /**
- * Determines parent section, category, perspective, and entry_type based on subfolder.
+ * Determines hierarchical parent, masterDocId, category, perspective, and entry_type.
  */
-function getSectionMetadata(relBranch, fileName) {
-  const branchNormalized = (relBranch || '').toLowerCase();
+function resolveHierarchyMetadata(fileObj, articleId) {
+  const relBranch = (fileObj.relBranch || '').toLowerCase();
+  const fileName = fileObj.fileName;
+  const cleanFileName = fileName.replace(/\.md$/i, '').trim();
+  const parts = cleanFileName.split('.');
 
-  if (branchNormalized === 'operator' || branchNormalized.startsWith('operator/')) {
+  const isOp = relBranch === 'operator' || relBranch.startsWith('operator/');
+  const isArch = relBranch === 'architect' || relBranch.startsWith('architect/');
+  const subfolderKey = isOp ? 'operator' : isArch ? 'architect' : 'core';
+  const rootParent = isOp ? OP_PARENT : isArch ? ARCH_PARENT : 'CORE RULES (SOURCE OF TRUTH)';
+  const category = isOp ? 'operator_rule' : isArch ? 'architect_matrix' : 'core_rule';
+  const perspective = isOp ? 'operator' : isArch ? 'architect' : 'both';
+
+  // 1. Root Master Document
+  if (relBranch === 'operator' || relBranch === 'architect') {
     return {
-      parent: '1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)',
-      category: 'operator_rule',
-      perspective: 'operator',
-      entry_type: 'Core Rule',
-      subfolderKey: 'operator'
+      parent: rootParent,
+      masterDocId: articleId,
+      isMasterDoc: true,
+      category,
+      perspective,
+      entry_type: isOp ? 'Core Rulebook' : 'Architect Matrix',
+      subfolderKey,
+      domainTag: cleanFileName.toLowerCase()
     };
   }
 
-  if (branchNormalized === 'architect' || branchNormalized.startsWith('architect/')) {
+  // Identify top-level subfolder under operator/ or architect/
+  const branchSegments = relBranch.split('/');
+  const topSubfolderKey = `${branchSegments[0]}/${branchSegments[1]}`;
+  const masterDocId = SUBFOLDER_TO_MASTER_ID[topSubfolderKey] || rootParent;
+
+  // 2. Special 2-level nesting in operator/species/<lineage>
+  if (relBranch.startsWith('operator/species/')) {
+    const isLineageOverview =
+      parts.length === 3 ||
+      (parts.length === 4 && parts[3].toLowerCase() === 'base');
+
+    if (isLineageOverview) {
+      return {
+        parent: masterDocId,
+        masterDocId,
+        isMasterDoc: false,
+        category,
+        perspective,
+        entry_type: 'Species Lineage',
+        subfolderKey,
+        domainTag: 'species'
+      };
+    }
+
+    // Subspecies inside a lineage folder: link to its lineage overview article ID
+    const lineageToken = parts[2];
+    const usesBaseFile = ['humans', 'orll', 'shanor'].includes(lineageToken.toLowerCase());
+    const lineageFileName = usesBaseFile
+      ? `1.03.${lineageToken}.Base.md`
+      : `1.03.${lineageToken}.md`;
+    const lineageParentId = makeArticleId('operator', lineageFileName);
+
     return {
-      parent: '5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)',
-      category: 'architect_matrix',
-      perspective: 'architect',
-      entry_type: 'Architect Matrix',
-      subfolderKey: 'architect'
+      parent: lineageParentId,
+      masterDocId,
+      isMasterDoc: false,
+      category,
+      perspective,
+      entry_type: 'Species Variant',
+      subfolderKey,
+      domainTag: 'species'
     };
   }
 
-  // Fallback for custom or newly added subfolders/rules
-  const cleanBranch = branchNormalized.replace(/[^a-z0-9]+/g, ' ').trim();
-  const titleBranch = cleanBranch ? cleanBranch.toUpperCase() : 'CORE';
+  // 3. Special 2-level nesting in operator/factions for AeldProvidence Enclaves
+  if (relBranch === 'operator/factions') {
+    if (cleanFileName.startsWith('1.04.AeldProvidence.') && parts.length === 4) {
+      const aeldParentId = makeArticleId('operator', '1.04.AeldProvidence.md');
+      return {
+        parent: aeldParentId,
+        masterDocId,
+        isMasterDoc: false,
+        category,
+        perspective,
+        entry_type: 'Primary Faction Enclave',
+        subfolderKey,
+        domainTag: 'factions'
+      };
+    }
+
+    const isMajorOrImpyriumOrAeld =
+      cleanFileName.startsWith('1.04.Major.') ||
+      cleanFileName.startsWith('1.04.Impyrium.') ||
+      cleanFileName === '1.04.AeldProvidence';
+    return {
+      parent: masterDocId,
+      masterDocId,
+      isMasterDoc: false,
+      category,
+      perspective,
+      entry_type: isMajorOrImpyriumOrAeld ? 'Primary Faction' : 'Generic Faction Template',
+      subfolderKey,
+      domainTag: 'factions'
+    };
+  }
+
+  // 4. All other subfolder modular documents
+  const domainName = branchSegments[1] || 'core';
+  const entryTypeMap = {
+    character_creation: 'Character Creation Rule',
+    archetypes: isOp ? 'Operator Archetype' : 'Architect Archetype Catalog',
+    species: isOp ? 'Standalone Species' : 'Species Design Matrix',
+    origins: 'Origin Profile',
+    occupations: 'Occupation Profile',
+    skills: cleanFileName.includes('.Mechanics.') ? 'Skill Mechanics' : 'Skill Category',
+    features: 'Feature Catalog',
+    economatrix: 'Economatrix Catalog',
+    combat: 'Combat Module',
+    metaphysics: isOp ? 'Metaphysics Discipline' : 'Metaphysics Matrix',
+    economy: 'Economic Matrix',
+    characters: 'Character Matrix Module',
+    companions: 'Companion Matrix Module',
+    planetary: 'Planetary Matrix Module',
+    technology: `Tech Matrix (${humanizeToken(branchSegments[2] || 'Core')})`
+  };
+
   return {
-    parent: `${titleBranch} RULES (SOURCE OF TRUTH)`,
-    category: `${(cleanBranch || 'core').replace(/\s+/g, '_')}_rule`,
-    perspective: 'both',
-    entry_type: 'Game Rule',
-    subfolderKey: cleanBranch.replace(/\s+/g, '-') || 'core'
+    parent: masterDocId,
+    masterDocId,
+    isMasterDoc: false,
+    category,
+    perspective,
+    entry_type: entryTypeMap[domainName] || (isOp ? 'Core Rule' : 'Architect Matrix'),
+    subfolderKey,
+    domainTag: domainName
   };
 }
 
 /**
- * Sorts discovered files within a branch naturally or according to canonical preferences.
+ * Sorts sibling files cleanly according to canonical Tangent rulebook order.
  */
-function sortBranchFiles(branchKey, files) {
-  if (branchKey === 'architect') {
-    return [...files].sort((a, b) => {
-      const idxA = PREFERRED_ARCH_ORDER.indexOf(a.fileName);
-      const idxB = PREFERRED_ARCH_ORDER.indexOf(b.fileName);
-      if (idxA !== -1 && idxB !== -1) return idxA - idxB;
-      if (idxA !== -1) return -1;
-      if (idxB !== -1) return 1;
-      return a.fileName.localeCompare(b.fileName, undefined, { numeric: true, sensitivity: 'base' });
-    });
+function compareSiblingFiles(a, b) {
+  // 1. Check custom sub-article order
+  const customIdxA = CUSTOM_SUBARTICLE_ORDER.indexOf(a.fileName);
+  const customIdxB = CUSTOM_SUBARTICLE_ORDER.indexOf(b.fileName);
+  if (customIdxA !== -1 && customIdxB !== -1) return customIdxA - customIdxB;
+  if (customIdxA !== -1) return -1;
+  if (customIdxB !== -1) return 1;
+
+  // 2. In 1.03 SPECIES: sort Major Lineages before Standalone Species
+  if (a.relBranch.startsWith('operator/species') && b.relBranch.startsWith('operator/species')) {
+    const aIsLineageFolder = a.relBranch !== 'operator/species';
+    const bIsLineageFolder = b.relBranch !== 'operator/species';
+    if (aIsLineageFolder !== bIsLineageFolder) {
+      return aIsLineageFolder ? -1 : 1;
+    }
   }
 
-  // Default natural collation sort (e.g. 1.00, 1.01 ... 1.10, 2.00, etc.)
-  return [...files].sort((a, b) =>
-    a.fileName.localeCompare(b.fileName, undefined, { numeric: true, sensitivity: 'base' })
-  );
+  // 3. In 1.04 FACTIONS: sort Major -> AeldProvidence -> Impyrium -> Archetypal
+  if (a.relBranch === 'operator/factions' && b.relBranch === 'operator/factions') {
+    const getFactionTier = (fn) => {
+      if (fn.startsWith('1.04.Major.')) return 1;
+      if (fn.startsWith('1.04.AeldProvidence')) return 2;
+      if (fn.startsWith('1.04.Impyrium.')) return 3;
+      if (fn.startsWith('1.04.Archetypal.')) return 4;
+      return 5;
+    };
+    const tierA = getFactionTier(a.fileName);
+    const tierB = getFactionTier(b.fileName);
+    if (tierA !== tierB) return tierA - tierB;
+  }
+
+  return a.fileName.localeCompare(b.fileName, undefined, { numeric: true, sensitivity: 'base' });
 }
 
 /**
@@ -149,78 +542,124 @@ export function syncCanonicalCompendium({ silent = false } = {}) {
     console.log(`Discovered ${rawFiles.length} markdown rule file(s) across all subfolders.`);
   }
 
-  // Group by branch for accurate ordering
-  const branchMap = new Map();
-  for (const f of rawFiles) {
-    const meta = getSectionMetadata(f.relBranch, f.fileName);
-    const branchKey = meta.subfolderKey;
-    if (!branchMap.has(branchKey)) {
-      branchMap.set(branchKey, { meta, files: [] });
-    }
-    branchMap.get(branchKey).files.push(f);
-  }
-
-  // Order branches: operator first, then architect, then any others
-  const orderedBranchKeys = Array.from(branchMap.keys()).sort((a, b) => {
-    if (a === 'operator') return -1;
-    if (b === 'operator') return 1;
-    if (a === 'architect') return -1;
-    if (b === 'architect') return 1;
-    return a.localeCompare(b);
+  // Build candidate article records first
+  const candidateNodes = rawFiles.map(fileObj => {
+    const isOp = fileObj.relBranch === 'operator' || fileObj.relBranch.startsWith('operator/');
+    const isArch = fileObj.relBranch === 'architect' || fileObj.relBranch.startsWith('architect/');
+    const subfolderKey = isOp ? 'operator' : isArch ? 'architect' : 'core';
+    const articleId = makeArticleId(subfolderKey, fileObj.fileName);
+    const hierarchy = resolveHierarchyMetadata(fileObj, articleId);
+    return {
+      fileObj,
+      articleId,
+      hierarchy
+    };
   });
 
+  // Group children by parent ID to emit in clean depth-first canonical reading order
+  const childrenByParent = new Map();
+  for (const node of candidateNodes) {
+    const p = node.hierarchy.parent;
+    if (!childrenByParent.has(p)) {
+      childrenByParent.set(p, []);
+    }
+    childrenByParent.get(p).push(node);
+  }
+
+  // Sort each parent's children list
+  for (const [parentKey, list] of childrenByParent.entries()) {
+    if (parentKey === OP_PARENT) {
+      list.sort((a, b) => {
+        const idxA = PREFERRED_OP_MASTER_ORDER.indexOf(a.fileObj.fileName);
+        const idxB = PREFERRED_OP_MASTER_ORDER.indexOf(b.fileObj.fileName);
+        if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+        if (idxA !== -1) return -1;
+        if (idxB !== -1) return 1;
+        return compareSiblingFiles(a.fileObj, b.fileObj);
+      });
+    } else if (parentKey === ARCH_PARENT) {
+      list.sort((a, b) => {
+        const idxA = PREFERRED_ARCH_MASTER_ORDER.indexOf(a.fileObj.fileName);
+        const idxB = PREFERRED_ARCH_MASTER_ORDER.indexOf(b.fileObj.fileName);
+        if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+        if (idxA !== -1) return -1;
+        if (idxB !== -1) return 1;
+        return compareSiblingFiles(a.fileObj, b.fileObj);
+      });
+    } else {
+      list.sort((a, b) => compareSiblingFiles(a.fileObj, b.fileObj));
+    }
+  }
+
+  // Depth-first traversal per perspective so sequential Next/Prev walks chapters -> sub-articles naturally
+  const orderedNodes = [];
+  const visited = new Set();
+
+  function walkTree(parentKey) {
+    const children = childrenByParent.get(parentKey) || [];
+    for (const child of children) {
+      if (visited.has(child.articleId)) continue;
+      visited.add(child.articleId);
+      orderedNodes.push(child);
+      walkTree(child.articleId);
+    }
+  }
+
+  walkTree(OP_PARENT);
+  walkTree(ARCH_PARENT);
+
+  // Include any remaining unvisited nodes as fallback
+  for (const node of candidateNodes) {
+    if (!visited.has(node.articleId)) {
+      visited.add(node.articleId);
+      orderedNodes.push(node);
+    }
+  }
+
   const finalArticles = [];
+  const branchOrderCounters = { operator: 0, architect: 0, core: 0 };
 
-  for (const branchKey of orderedBranchKeys) {
-    const { meta, files } = branchMap.get(branchKey);
-    const sortedFiles = sortBranchFiles(branchKey, files);
+  for (const { fileObj, articleId, hierarchy } of orderedNodes) {
+    const content = fs.readFileSync(fileObj.fullPath, 'utf8');
+    const stats = fs.statSync(fileObj.fullPath);
+    const cleanFileName = fileObj.fileName.replace(/\.md$/i, '').trim();
+    const docName = formatArticleDisplayName(fileObj);
 
-    sortedFiles.forEach((fileObj, idx) => {
-      const content = fs.readFileSync(fileObj.fullPath, 'utf8');
-      const stats = fs.statSync(fileObj.fullPath);
-      const cleanFileName = fileObj.fileName.replace(/\.md$/i, '').trim();
+    branchOrderCounters[hierarchy.subfolderKey] = (branchOrderCounters[hierarchy.subfolderKey] || 0) + 1;
+    const orderNum = branchOrderCounters[hierarchy.subfolderKey];
 
-      // Normalize article ID: strip non-alphanumerics, strip trailing -1 duplicate artifact
-      const rawSlug = cleanFileName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '');
-      const normalizedSlug = rawSlug.replace(/-1$/, '');
-      const articleId = `doc-${meta.subfolderKey}-${normalizedSlug}`;
+    const docArticle = {
+      id: articleId,
+      name: docName,
+      fileName: fileObj.fileName,
+      relPath: fileObj.relPath,
+      subfolder: fileObj.relBranch,
+      isMasterDoc: hierarchy.isMasterDoc,
+      masterDocId: hierarchy.masterDocId,
+      category: hierarchy.category,
+      parent: hierarchy.parent,
+      order: orderNum,
+      perspective: hierarchy.perspective,
+      entry_type: hierarchy.entry_type,
+      tl: 3,
+      ml: 0,
+      cost: 0,
+      tags: Array.from(new Set([
+        hierarchy.subfolderKey,
+        'core-rules',
+        hierarchy.isMasterDoc ? 'source-of-truth' : 'modular-rule',
+        hierarchy.domainTag,
+        cleanFileName.toLowerCase(),
+        hierarchy.subfolderKey === 'architect' ? 'matrix' : 'mechanics'
+      ])).filter(Boolean),
+      description: content,
+      mechanic: `See full canonical text in ${fileObj.relPath}`,
+      guide: `Refer to ${fileObj.relPath} in the game rules library for complete architectural tables and system parameters.`,
+      note: `Canonical Tangent SF RP rulebook reference from ${fileObj.relPath}. Complete, unabridged source of truth.`,
+      updatedAt: stats.mtime.toISOString()
+    };
 
-      // Format clean, single canonical article name without doubling
-      const docName = cleanFileName
-        .replace(/\s*\(\d+\)$/, '') // removes trailing copy index like (1)
-        .replace(/\s*\(work\)/i, '') // cleans work tag
-        .replace(/\.\s*\.+/, '. ') // fixes '99. .ARCHETYPES' -> '99. ARCHETYPES'
-        .replace(/&nbsp;/gi, ' ')
-        .replace(/\s+/g, ' ')
-        .trim();
-
-      const docArticle = {
-        id: articleId,
-        name: docName,
-        category: meta.category,
-        parent: meta.parent,
-        order: idx + 1,
-        perspective: meta.perspective,
-        entry_type: meta.entry_type,
-        tl: 3,
-        ml: 0,
-        cost: 0,
-        tags: [
-          meta.subfolderKey,
-          'core-rules',
-          'source-of-truth',
-          cleanFileName.toLowerCase(),
-          meta.subfolderKey === 'architect' ? 'matrix' : 'mechanics'
-        ],
-        description: content,
-        mechanic: `See full canonical text in ${fileObj.fileName}`,
-        guide: `Refer to ${fileObj.fileName} in the game rules library for complete architectural tables and system parameters.`,
-        note: `Canonical Tangent SF RP rulebook reference from ${fileObj.fileName}. Complete, unabridged source of truth.`,
-        updatedAt: stats.mtime.toISOString()
-      };
-
-      finalArticles.push(docArticle);
-    });
+    finalArticles.push(docArticle);
   }
 
   // Validation checks on core combat source of truth
@@ -247,6 +686,10 @@ export function syncCanonicalCompendium({ silent = false } = {}) {
     const content = `---
 id: "${art.id}"
 name: "${(art.name || '').replace(/"/g, '\\"')}"
+fileName: "${(art.fileName || '').replace(/"/g, '\\"')}"
+relPath: "${(art.relPath || '').replace(/"/g, '\\"')}"
+isMasterDoc: ${Boolean(art.isMasterDoc)}
+masterDocId: "${(art.masterDocId || '').replace(/"/g, '\\"')}"
 category: "${art.category || 'compendium'}"
 parent: "${(art.parent || '').replace(/"/g, '\\"')}"
 order: ${art.order || 0}

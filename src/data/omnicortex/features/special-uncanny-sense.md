@@ -13,7 +13,16 @@ description: >-
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: mental-general-alertness
+    type: check_advantage
+    value: 1
+    mode: conditional
+    isSituational: true
+    condition: Checks relying on chosen acute sense
+    description: >-
+      Advantage on Awareness checks relying on chosen sense (Roll 3d10, take
+      best 2)
 keywords: 'uncanny sense, special, special-feature, uncanny, feature:, awareness'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3

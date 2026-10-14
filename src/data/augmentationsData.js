@@ -3,7 +3,7 @@ import {
   getAugmentationNodes,
   getAugmentationBP,
   getAugmentationLocation
-} from '../engines/tangentComplexEngines';
+} from '../engines/tangentComplexEngines.js';
 
 /**
  * Canonical Augmentations Database for Tangent SF RP

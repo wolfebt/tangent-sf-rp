@@ -13,7 +13,14 @@ description: >-
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: meta-attune
+    type: take_10
+    value: 10
+    mode: competence
+    isSituational: true
+    condition: 'Distracted, threatened, or in combat'
+    description: Take 10 on Attune checks under stress
 keywords: >-
   focused center, discipline, special-feature, focused-training, mastery,
   character's

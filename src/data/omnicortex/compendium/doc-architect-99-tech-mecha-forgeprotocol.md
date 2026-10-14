@@ -1,0 +1,393 @@
+---
+id: "doc-architect-99-tech-mecha-forgeprotocol"
+name: "99. Tech (Mecha): Forge Protocol"
+fileName: "99.Tech.Mecha.ForgeProtocol.md"
+relPath: "architect/technology/mecha/99.Tech.Mecha.ForgeProtocol.md"
+isMasterDoc: false
+masterDocId: "doc-architect-99-technology"
+category: "architect_matrix"
+parent: "doc-architect-99-technology"
+order: 37
+perspective: "architect"
+entry_type: "Tech Matrix (mecha)"
+tl: 3
+ml: 0
+cost: 0
+tags: ["architect","core-rules","modular-rule","technology","99.tech.mecha.forgeprotocol","matrix"]
+updatedAt: "2026-10-14T06:04:05.765Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
+---
+
+# **MECHA MATRIX**
+
+## **THE STRUCTURE OF MOBILITY**
+
+### 
+
+### **The Definition of Mecha**
+
+In the Tangent system, the term **MECHA** is an all-encompassing classification. It serves as the universal mechanical umbrella covering **all** varieties of vehicles, constructs, and mobility devices. This includes, but is not limited to: personal conveyances like skateboards and hoverbikes; autonomous or remote-controlled drones; civilian cars and rovers; aquatic boats and submersibles; atmospheric aircraft; heavy bipedal walkers; and colossal interstellar spaceships. Regardless of whether a construct is powered or non-powered, operates on land, water, in the air, or within the vacuum of space, and whether it is physically piloted, remotely operated, or governed by autonomous AI, it is built and classified under the Mecha Matrix.
+
+&nbsp;
+
+**Autonomy and Sentience (The Automata Distinction):**
+
+Within this classification, any Mecha operating via an onboard AI control system is designated as an **AUTOMATA**. Automata possess low-level AI and autonomous programming (Reactive or Limited Memory) sufficient for independent operation, but they lack true sapience. If a construct houses a fully conscious, self-aware AI, it crosses the threshold from **equipment** to **entity**. Such beings are considered members of the **Synthetic** species (specifically an Intellect Construct or Sentient Machine, as appropriate for the design) and are governed by standard character and NPC creation rules.
+
+The study of this vehicular transport within the Tangent universe extends far beyond the utilitarian metrics of propulsion and cargo capacity; it is a discipline that intersects engineering, sociology, xenology, and political philosophy. A vehicle, in this context, serves as a mobile artifact of its originating civilization—a kinetic declaration of cultural values manifest in steel, ceramic, or grown biological matter.
+
+When analyzing the transportation assets of the major galactic powers, one observes a distinct bifurcation between the "Agnostic Chassis"—the fundamental, physics-compliant engineering skeleton—and the "Cultural Skin," the aesthetic and functional overlay that aligns the machine with a faction’s specific technological ethos.
+
+### 
+
+### ---
+
+### **The Matrix of Eras and Technological Sub-Strata**
+
+The efficiency, durability, and operational methodology of an item's chassis are explicitly gated by its Tech Level (TL) and its resulting Complexity Stage. The matrix of "Eras and Comparative Technology" serves as the definitive guideline for understanding the availability and sophistication of equipment across the galaxy.
+
+Technological progress in Tangent is not a rigid ladder, but a fluid spectrum deeply influenced by resource availability, environmental pressures, and cultural dogma. To provide a baseline mechanical standard before exploring the nuanced sub-strata, all materials and passive traits are broadly categorized by their primary era.
+
+&nbsp;
+
+| TL | ERA | MATERIAL COMPOSITION | PASSIVE TRAIT |
+| :---- | :---- | :---- | :---- |
+| 1-2 | Analog | Stamped Metal, Plastic | None |
+| 3 | Digital | Aluminum, Composite | **Modular:** Universal ports; share batteries/charge. |
+| 4 | Enhanced | Smart-Fabric, Nanocarbon | **Self-Repairing:** Regens 1 HP/hour. Mastery of Shields/Directed Energy. |
+| 5 | Advanced | Polymatter, Hard-Light | **Morphic / Weightless:** Instant reconfiguration and mass projection. |
+
+To accurately represent the nuance of innovation within these eras, each Tech Level is further divided into three distinct sub-strata: **Nascent (TL-)**, representing experimental and bulky prototypes; **Standard (TL)**, representing refined and mass-produced baselines; and **Advanced (TL+)**, representing optimized miniaturization bordering on the capabilities of the next era.
+
+&nbsp;
+
+**TL 0: The Stone Age (Primitive / Pre-Industrial)** Operating entirely outside of complex mechanical dependence, TL 0 equipment relies on inherent magic, survival strategies, or deep cultural dogma that rejects fragility in favor of organic strength. Materials consist of unworked stone, bone, wood, and animal hides in the Nascent stage, advancing to bronze, iron, and masonry in the Standard stage. Equipment at this tier possesses the **"Degrading"** trait, breaking easily under sustained stress, and offers minimal Damage Resistance (DR). Vehicular propulsion relies entirely on biological traction or environmental wind. (Base Cost Modifier: N/A)
+
+&nbsp;
+
+**TL 1: The Metal Age (Industrial / Mechanical)** Marking the transition from the Iron Age to the Industrial Revolution, TL 1 is characterized by the harnessing of fire for foundries, allowing for mass metallurgy. Power sources shift from muscle and wind to coal, steam, and early fossil fuels. Nascent technologies include intricate clockwork mechanisms akin to the Antikythera mechanism, complex architectural domes, alchemy, plate armor, and crossbows, as well as stationary steam engines and the printing press. Standard innovations introduce internal combustion, early photography, and rudimentary vaccines. Advanced TL 1+ borders on the digital, featuring direct current (DC) electricity, radio, biplanes, early X-Rays, and chemical weapons. Equipment here is heavy, highly durable, but imposes significant check penalties due to its unrefined ergonomics. (Base Cost Modifier: \-5 CR)
+
+&nbsp;
+
+**TL 2: The Data Age (Digital / Information)** Comparable to modern Earth, TL 2 spans from early telegraphy to the colonization of the local solar system. Power generation relies on advanced hydrocarbons, fission, and renewable infrastructure. The era is defined by global connectivity, digital networks, and the miniaturization of electronics. Ground propulsion is dominated by Roller Vehicles (wheels and tracks), while atmospheric flight relies on airfoils and chemical jet turbines. Nascent tech includes jet engines, orbital rocketry, and fission bombs. The Standard era perfects GPS, reusable rockets, and genetic sequencing. The Advanced TL 2+ tier borders on cybernetic integration, featuring quantum prototypes, functional virtual reality, nascent artificial intelligence algorithms, and prototype railguns. Protective equipment utilizes kevlar, ceramic plates, and advanced alloys, possessing a **"Ballistic Weave"** trait that highly resists piercing kinetic trauma. (Base Cost Modifier: \-5 CR)
+
+&nbsp;
+
+**TL 3: The Space Age (Stellar / The Gate Era)** The dawn of interstellar expansion, breaking the bonds of the home star system. Power is generated via Thorium reactors and Hydrogen fuel cells. A critical limitation of this era is that artificial gravity remains achievable only via spin or thrust; manipulation of gravitons is not yet mastered. TL 3 represents the galactic baseline for common trade, featuring reaction mass space flight (Ionic or Fusion), memory materials with limited shape retention, and molecular nanotechnology. Ground movement sees the introduction of GEV (Hover) technology and Mecha (Walkers) driven by myomer musculature. Advanced TL 3+ pushes the limits of thermodynamics with the discovery of Tangent Space for faster-than-light travel, holographic transceivers, and energy shields that impose massive power drains. TL 3 equipment is defined by the **"Modular"** trait, featuring universal data ports, standard charging protocols, and vacuum-ready hermetic seals. (Base Cost Modifier: \+0 CR)
+
+&nbsp;
+
+**TL 4: The Stellar Age (Galactic / The Warp Era)** The domain of high-tier galactic factions (like the Impyrium and Syndicate), characterized by a practical mastery over matter and force where standard physics are treated as a mere suggestion. Power generation shifts to antimatter, cold fusion, and Aetherium integration. This era masters gravity with artificial grav-plating, inertial dampeners, and repulsorlift hover technology. Starships feature independent Tangent Drives for FTL travel without relying on fixed gate networks. Biological limitations are bypassed via "Clinical Immortality" cellular treatments and trans-neural interfaces that turn the biological brain into a supercomputer terminal. Material science is defined by programmable materials engineered at the nanoscale. Equipment utilizes smart-fabrics, nanocarbon weaves, and phase-shift armor. All TL 4 equipment inherently possesses the **"Self-Repairing"** trait, regenerating 1 Structure Point per hour due to localized nanotech. Kinetic weaponry becomes entirely obsolete unless chemically or magnetically hyper-accelerated to keep pace with directed energy and plasma. (Base Cost Modifier: \+5 CR)
+
+&nbsp;
+
+**TL 5: The Galactic Age (Cosmic / The Singularity)** The realm of "God-Like" power (Mekan and Mondi entities), representing the apex of material science. The pillars of this era are matter-energy conversion (replicators), dimensional compression (folding space), and absolute gravitonic control. The distinction between hardware and software vanishes completely. Equipment at this tier relies heavily on two exotic technologies:
+
+* **Polymatter:** Polymatter is a synthetic, programmable substrate existing in a hyper-potential state. It is composed of true liquid metal held in a magnetic suspension that reacts instantaneously to telepathic or digital commands. Equipment forged from Polymatter possesses the **"Morphic"** trait, allowing it to reshape as a Free Action into complex mechanical forms, such as shifting from a sensory scanner into a lethal weapon. Polymatter also utilizes Base Substance Exchange, integrating ambient foreign matter (rock, steel scrap) directly into its matrix to increase its mass or repair structural damage.  
+* **Holophotonics:** Holophotonics, developed by highly advanced entities, consist of programmable hard-light constructs. Unlike visual illusions, these are tactile, functional photons capable of exerting kinetic force, bearing immense weight, and cutting through steel. Holophotonic gear grants the **"Weightless"** trait. The physical emitter is often the size of a piece of Fine jewelry (0 Sockets), carrying zero bulk when inactive, but projecting full functional mass when triggered. (Base Cost Modifier: \+10 CR)
+
+### 
+
+### 
+
+### ---
+
+### **Faction-Specific Design Philosophies**
+
+**The Syndicate (Corporate Utopia / High-Tech Sanctum):**
+
+* **Aesthetic:** "The Apple Store Cathedral." Designs are hyper-efficient, seamless, and sterile. Materials are matte white composites, brushed aluminum, and holographic interfaces.  
+* **Philosophy:** Technical Facilitation. Vehicles are integrated into the "Mesh" network. Citizens in good standing have optimum capabilities of the system. For non-citizens the features are often subscription-based; with failure to tithe resulting in "Penance Mode" (reduced functionality).  
+* **Signature:** Hexagonal tiling, cyan data-streams, anti-gravity propulsion, expensive, clean and modular construction.
+
+**The Impyrium (Stagnant Grandeur / Heirloom Industrial):**
+
+* **Aesthetic:** "Celestial Neo-Sumerian." Massive, brutalist structures clad in gold filigree and polished white marble. Vehicles look solid and imposing.  
+* **Philosophy:** Enduring Dominance. Technology is maintained by ritual as much as technical understanding. Gear relies on "Relic Sockets" that accept only ancient, authorized archeotech components, rejecting modern/alien modifications.  
+* **Signature:** Solar motifs (8 pointed star), heavy physical plating, slow but unstoppable momentum.
+
+**The Dracon Dynasty (Feudal Protection / Warmth):**
+
+* **Aesthetic:** "High-Fantasy Industrial." Heavy, blocky silhouettes reminiscent of castles or keeps. Warm lighting (orange/gold), tapestries in cockpits, and heraldic crests.  
+* **Philosophy:** Noblesse Oblige. Vehicles are built to protect the pilot and project authority. They prioritize armor and durability over speed.  
+* **Signature:** Dragon-inspired motifs (scales, crests), heavy kinetic/thermal weaponry, and "Void Castle" ship designs that prioritize structural integrity.
+
+**The Ascendancy (Enlightened Innovation / Solar Renaissance):**
+
+* **Aesthetic:** "Smart City Solarpunk." Clean curves, glass canopies, and white hulls with blue energy accents. A hopeful, forward-looking design language.  
+* **Philosophy:** Adaptive Progress. Unlike the Impyrium, they innovate rapidly. Their tech is user-friendly, heavily shielded, and designed for agility and precision.  
+* **Signature:** Variable-geometry wings, high-efficiency ion drives, and non-lethal weapon options integrated alongside lethal ones.
+
+**The Coalition & Outworlds (Used Future / Scrappy Industrial):**
+
+* **Aesthetic:** "Space Western Noir." Scavenged parts, exposed wiring, welded patch-jobs, and hazard stripes. Nothing is new; everything is repurposed.  
+* **Philosophy:** Survival Pragmatism. If it works, fly it. Redundancy is key because maintenance is sporadic.  
+* **Signature:** Asymmetrical hulls, ballistic weaponry (cheap ammo), oversized engines bolted onto frames, and "Franken-ships" made of mismatched parts.
+
+**The Alterian Enclave (Magi-Tech Refinement / Crystal Spires):**
+
+* **Aesthetic:** "Interstellar Art Nouveau." Impossible grace, solar sails, white ceramic fused with living wood, and crystalline matrices.  
+* **Philosophy:** The Long View. Vehicles are works of art designed to last centuries. Magic is treated as a rigorous science integrated into engineering.  
+* **Signature:** Silent propulsion, energy-based weaponry (Sun-Lances), and open, airy cockpit designs protected by force fields rather than glass.
+
+**The Auluran (Symbiotic Growth / Bioluminescent Jungle):**
+
+* **Aesthetic:** "Living Tech." Ships and mecha are grown, not built. Chitinous hulls, vascular corridors, and bioluminescent lighting.  
+* **Philosophy:** Biological Imperative. The vehicle is a living organism bonded to the pilot. It heals damage (Regeneration) rather than requiring repair.  
+* **Signature:** No hard angles, fluid/organic shapes, spore/acid-based weaponry, and neural-link control interfaces that require biological compatibility.
+
+**The Mekan (Geometric Logic / Pure Code):**
+
+* **Aesthetic:** "Fractal Perfection." Perfect geometric shapes (spheres, tetrahedrons), floating components held by magnetism, and shifting "polymatter" surfaces.  
+* **Philosophy:** The Code. Form follows function instantaneously. A vehicle might reconfigure its entire shape mid-combat to adapt to a threat.  
+* **Signature:** Liquid metal hulls, hard-light projections, and "Swarm" tactics where many small units act as a single large entity.
+
+**The Entari Combine (Cosmopolitan Trade / Eco-Luxury):**
+
+* **Aesthetic:** "Galactic Senate." A blend of the best features from other factions, smoothed over with a luxury finish. High-end materials, comfortable interiors, and non-threatening silhouettes.  
+* **Philosophy:** Ethical Efficiency. Technology designed for trade, diplomacy, and comfort. High reliability and low emissions.  
+* **Signature:** Universal docking rings, advanced translation/comms suites, and concealed weaponry (peaceful appearance, deadly defense).
+
+**The Thorn (Primal Growth / Rooted Defense):**
+
+* **Aesthetic:** Bark-plate, vine-wrapped tech, glowing chlorophyll veins.  
+* **Philosophy:** Primal Growth. Vehicles and mecha are highly durable, rough, and naturally camouflaged with their native environments.  
+* **Signature:** Rooted stabilizers (+2 to resist Trip/Bull Rush), woodland camouflage capabilities.
+
+**The Kitin (Hive-Resin / Swarm Logic):**
+
+* **Aesthetic:** Hive-resin composites, organic structures, green vein-piping.  
+* **Philosophy:** The Swarm. Their engineering relies on incredibly rigid yet remarkably lightweight organic construction.  
+* **Signature:** Secreted self-sealing resin, telepathic hive-mind communication integration, acoustically absorbent materials for stealth.
+
+### 
+
+### ---
+
+### **THE UNIVERSAL SCALE: MODULES VS. MOUNTS**
+
+To ensure absolute mathematical consistency across personal inventory, vehicular engineering, and architectural design, the matrix relies upon the **Universal Displacement Unit (UDU)** hierarchy. When designing architecture, ships, or planetary macro-structures, builders must manage two distinct tiers of capacity: **Modules** and **Mounts**.
+
+&nbsp;
+
+**Tier 3: The Module (Rooms & Facilities)** The **Module** is the baseline unit of macro-scale structural volume (representing roughly 400 square feet of functional space, or a 20x20 ft area, up to a Maximum 10 Tons displacement). In architectural terms, a Module represents a physical room or a massive internal facility—such as a generator room, a barracks, a medical bay, or a vehicle hangar. A building's total Size and Height determine how many Modules it can hold.
+
+&nbsp;
+
+**Tier 2: The Mount (Hardpoints & Sub-Scale Gear)** The **Mount** is a sub-scale hardpoint (Maximum 100 kg displacement). In architectural and capital-ship design, Mounts are used for functional components that do not require an entire room. This includes exterior structural armor plating, energy shield emitters, defense turrets, sensor dishes, and localized utility nodes.
+
+&nbsp;
+
+**The 10:1 Integration Rule** The UDU hierarchy relies on a strict 10:1 conversion ratio. **1 Module equals 10 Usable Mounts.** When constructing a base, an architect can dedicate a full Module to a room, or they can partition that Module into 10 external or internal Mounts to install heavy defenses, armor, and specialized gear.
+
+| Scale Category | Architectural Application | Integration Bottleneck |
+| :---- | :---- | :---- |
+| Tier 0: Nodes | Implant scale, biology. | 10 Usable Nodes \= 1 Socket |
+| Tier 1: Socket | Personal gear, handheld items. | — |
+| Tier 2: Mount | Hardpoints: Armor, Weapons, Shields, Sensors. | 1 Mount \= 10 Sockets |
+| Tier 3: Module | Facilities: Rooms, Hangars, Cores, Barracks. | 1 Module \= 10 Mounts |
+
+### 
+
+### ---
+
+#### **Dimensional Footprint and Base Complexity**
+
+Every discrete piece of equipment is assigned a Size Category, which dictates its base Structure Points (SP) and its baseline Crafting Challenge Rating (CR). This establishes the unflavored mechanical reality of the Agnostic Chassis.
+
+| Size | Common Examples | Mass | Capacity | Structure | Crafting CR |
+| :---- | :---- | :---- | :---- | :---- | :---- |
+| Fine | Data-chip, Jewelry, Piercing | \< 0.1 kg | (2 Nodes) | 2 SP | CR 5 (Simple) |
+| Diminutive | Datapad, Stim-injector, Sensor Fob | \< 1 kg | 1 Socket | 5 SP | CR 5 (Simple) |
+| Tiny | Pistol, Medkit, Hand Tool | \< 5 kg | 2 Sockets | 10 SP | CR 10 (Standard) |
+| Small | Rifle, Backpack Unit, Enviro-Suit | \< 10 kg | 4 Sockets | 20 SP | CR 15 (Advanced) |
+| Medium | Heavy Tool, Portable Generator | \< 25 kg | 8 Sockets | 40 SP | CR 20 (Expert) |
+| Mecha | Emplacement, Vehicle Weapon | \< 100 kg | Mounts | 100 SP (Medium) | CR 30 (Grandmaster) |
+| Structure | Building, Campus, Laboratory | \> 10 Tons | Modules | 500+ SP | Variable |
+
+Items classified as "Fine" possess a mass so negligible they do not consume standard Socket capacity for inventory management. They may serve as minor aesthetic additions or highly miniaturized components, though they remain subject to standard durability constraints.
+
+### 
+
+### ---
+
+#### **Integration Rules**
+
+* **Installing Personal Gear on Mecha:** A Vehicle/Mech can equip Personal-scale weapons or equipment. These take up negligible space. Up to 10 Sockets worth of items can be actively installed in a single 1 Mount hardpoint.  
+* **Storing Personal Gear:** Up to 100 Sockets worth of items could be stored in the cargo/utility bay of 1 Mount.  
+* **Garaging Mecha in Architecture:** Lower sized mecha is based on displaced mass of the Mecha vs the Module (at 10 Tons of capacity), at upper ranges (huge and larger) adapt the ratio of approximately 1 Module per Scale multiplier to garage the mecha. For large ships use the conversion of 10 Mounts to 1 Module for ease of calculation and economy of space.  
+  * **Medium** (Human Size x1 Scale, \<8ft, \<500 lbs): Requires \~0.025 Modules (40 units fit in 1 Module).  
+  * **Large** (X2 Scale, \<16ft, \<2 tons): Requires 0.50 Modules (2 units fit in 1 Module).  
+  * **Huge** (x5 Scale, \<32ft, \<16 tons): Requires 5\* Full Modules (Hangar Bay) per unit.  
+  * **Gargantuan** (x10 Scale, \<64ft, \<125 tons): Requires 10\* Full Modules (Heavy Bay) per unit.  
+  * **Colossal** (x20 Scale, \<128ft, \<1K tons): Requires 20\* Full Modules (Launch Gantry) per unit.
+
+### 
+
+### ---
+
+#### **Equipment Modification and Mastercrafting**
+
+Equipment in Tangent is inherently modular, capable of evolving alongside the character through the utilization of UDU Capacity (Sockets for Personal Gear, Mounts for Mecha, Modules for Architecture). Weapons, armor, and utility gear possess a baseline UDU Capacity derived from their Size Category.
+
+UDU Capacity allows for the installation of optics, barrel attachments, biometric locks, or payload alterations. Installing a Sniper Scope consumes 1 UDU Capacity slot and increases Range Increment by 50% while penalizing short-range strikes. Installing an Under-barrel Grenade launcher consumes 2 UDU Capacity slots.
+
+* **Standard Upgrades:** Each mundane module costs its listed UDU Capacity amount and increases the Crafting CR by \+5 (or \+10 for TL4/TL5 items).  
+* **Mastercrafting (Bonus Capacity):** High-quality manufacturing allows armor and weapons to exceed standard limits. For every 5 points an Acquisition or Crafting check exceeds the item's Base CR, the item gains 1 Bonus UDU Slot (up to a maximum of 1 per TL of the item).
+
+### 
+
+### ---
+
+**UDU Compression:** If a build requires more capacity than physically available, advanced engineering can compress the hardware at a severe premium.
+
+* **Efficient Design:** \-25% UDU Capacity cost (Round up). Adds \+5 CR.  
+* **Miniaturized:** \-50% UDU Capacity cost (Round up). Requires Tech Level \+1 over item base. Adds \+10 CR.  
+* **Integrated:** 0 UDU Capacity (Fused to chassis). Cannot be removed. Adds \+5 CR.
+
+### 
+
+### ---
+
+### **The Mecha Forge Protocol (Instructional Guide)**
+
+This section details the mechanical rules and procedural steps for constructing Mecha, Vehicles, Drones, and Starships. This protocol ensures that complexity directly correlates to financial value, build time, and battlefield capability.
+
+**Instructional Parameters:**
+
+* **Who:** Game Masters constructing world assets, combat encounters, and loot drops; Players engaging in mechanical engineering, downtime crafting, or commissioning new builds.  
+* **What:** A rigorous, sequential design matrix that explicitly links physical size, technological complexity, and tactical power to the Wealth Score (WS) requirements and Build Time parameters.  
+* **Where/When:** Utilized during pre-game preparation, world-building phases, or at the crafting table during extended downtime sessions. Must be completed before a vehicle can be fielded in play.  
+* **Why:** To ensure that all vehicular and macro-mobility assets remain mathematically viable, economically balanced, and narratively consistent within the Tangent Standard Economic Curve, preventing ludonarrative dissonance where heavy capital ships cost less than advanced sniper rifles.  
+* **How:** Execute the following step-by-step construction protocol.
+
+#### 
+
+#### **Step 1: Establish Chassis Size & Scale**
+
+Vehicles define their physical footprint by their Size Category and Scale Multiplier, which permanently dictates their baseline Structural Points (SP) and module capacity (Mounts). The Base Market CR represents the Crafting CR (and Wealth Score requirement) for a bare chassis of this size at Tech Level 3\.
+
+*Instructional Execution:* Select the desired size from the table below. Note the Scale Multiplier, as this will multiply the damage and range of all weapons equipped to this chassis.
+
+| SIZE | SCALE\* | STR/CBT MOD | STEALTH | STRUCTURE | MOUNTS | CR | EXAMPLE |
+| :---- | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
+| Miniscule | \-5ds (1/12) | \-32 / \+32 | \+20 | 5 | 0.5 | 10 | Micro-Drone |
+| Fine | \-4ds (1/6) | \-16 / \+16 | \+16 | 10 | 1 | 12 | Spy Bot |
+| Diminutive | \-3ds (1/3) | \-8 / \+8 | \+12 | 20 | 2 | 15 | Hoverboard |
+| Tiny | \-2ds (1/2) | \-4 / \+4 | \+8 | 30 | 3 | 18 | Moto-Drone |
+| Small | \-1ds (2/3) | \-2 / \+2 | \+4 | 40 | 4 | 20 | ATV, Pod |
+| Medium | \+/- 0 (Base) | 0 / 0 | 0 | 50 | 5 | 22 | Cycle, Power Armor |
+| Large | x2 | \+2 / \-2 | \-4 | 100 | 10 | 25 | Car, Walker |
+| Huge | x5 | \+4 / \-4 | \-8 | 250 | 25 | 30 | Tank, Dropship |
+| Gargantuan | x10 | \+8 / \-8 | \-16 | 500 | 50 | 35 | Corvette |
+| Colossal | x20 | \+16 / \-16 | \-32 | 1,000 | 100 | 40 | Frigate |
+| Enormous\*\* | x40 | \+32 / \-32 | NO | 2,500 | 200 | 45 | Capital Ship |
+| Titanic\*\* | x80 | \+64 / \-64 | NO | 5,000 | 400 | 50 | Colony Ship |
+| Super Gargantuan\*\* | x160 | NO | NO | 10,000 | 800 | 60 | System Dreadnought |
+| Mega Colossal\*\* | x320 | NO | NO | 20,000 | 1,600 | 80 | Dyson Node |
+
+*\* ds: Die Step (reduce die type, e.g., d10 \-\> d8). xN: Multiply dice count/value.* *\*\* Starship Scale Note: Enormous+ sizes use Proximity Damage rules (see Combat).*
+
+#### 
+
+#### **Step 2: Define Body Type & Configuration**
+
+The physical form of the chassis dictates its utility, its Handling Modifier (crucial for Piloting checks and Initiative), and its Complexity Modifier (which is added to the Base Market CR).
+
+*Instructional Execution:* Select a Frame Type. Add the Complexity CR to your running total, and record the Handling Mod, which will be used in vehicular combat.
+
+| FRAME | EXAMPLES | HANDLING MOD | COMPLEXITY |
+| :---- | :---- | :---- | :---- |
+| Creature | Minibots, Drones, Biomimetics | \+2 | \+5 CR |
+| Humanoid | Remote Bodies, Power Armor, Mecha | \+0 | \+8 CR |
+| Industrial | Construction Bots, Cargo Haulers | \-2 | \-2 CR |
+| Personal | Hoverboards, Bikes, Cars | \+0 | \+0 CR |
+| Platform | Tanks, Buses, Boats, Stations | \-4 | \+2 CR |
+| Racing | Interceptors, Speeders | \+4 | \+5 CR |
+| Walker | Heavy Mecha, Spider Tanks | \-2 | \+5 CR |
+| Winged | Fighters, Shuttles, Ornithopters | \+2 | \+2 CR |
+
+*Valuation Example:* A Medium Humanoid Power Armor (TL 3). Calculation: Medium Base (CR 22\) \+ Humanoid (CR \+8) \+ TL3 (CR \+0) \= Final Base CR 30\. It possesses \+0 Handling.
+
+#### 
+
+#### **Step 3: Implement Core Chassis Configuration (Free Systems)**
+
+To ensure the Mounts listed above are available for Payload/Weaponry, specific mandatory systems are considered integral to the chassis and DO NOT consume your Mount limit.
+
+*Instructional Execution:* Define the narrative source of the following free systems based on the Tech Level chosen:
+
+* **Primary Engine:** Power core appropriate for Tech Level/Size (e.g., Combustion for TL2, Fusion for TL3).  
+* **Basic Locomotion:** Standard movement type (Treads, Legs, Hover) providing base speed.  
+* **Control System:** Cockpit (Pilot) or Computer Core (Remote/Automata).
+
+#### 
+
+#### **Step 4: Execute System Integration and Mount Allocation**
+
+Allocate functional systems, weapons, and armor into the remaining chassis Mounts.
+
+*Instructional Execution:* Select components from Sections 1.1 through 2.4. Subtract their Mount cost from your chassis total. Add their individual CR Modifiers to your running total if upgrading.
+
+* **Weaponry Standard:** 1 Mount accepts 1 Weapon of the host's Size Category.  
+* **Weaponry Battery:** 1 Mount can house 2 Weapons (1 size smaller) or 4 Weapons (2 sizes smaller).  
+* **Spinal Weapons:** Requires All Available Mounts for an upscaled weapon, next size scale (Min. 4 Mounts).  
+* **Logistics:** 1 Mount \= 100kg of dedicated cargo storage.  
+* **Crew Capacity Rule:** A vehicle requires 1 Crew Station (1 Mount) per Tier of Scale above Medium to operate efficiently (Large \= 2 Crew, Huge \= 5 Crew, Gargantuan \= 10 Crew). This requirement can be mitigated by installing advanced AI Targeting/Piloting Computers.
+
+#### 
+
+#### **Step 5: Armor Layering & Defense Calculation**
+
+Armor provides Damage Resistance (DR) but must be scaled to the size of the Mecha.
+
+*Instructional Execution:* Choose an Armor Plating type (Section 1.2). Multiply its base Mount Cost by your Mecha's Scale Modifier. Subtract this from your total Mounts. Then, calculate your vehicle's Defense.
+
+* **Defense (CR) Formula:** Base 10 \+ Pilot's Agility Modifier \+ Vehicle Combat Mod (from Size) \+ Vehicle Handling Mod (from Body Type).
+
+#### 
+
+#### **Step 6: Finalization & The Productivity Engine (Economics)**
+
+Sum the final CR of the chassis and all applied systems. Calculate the final Credit Value and Build Time.
+
+*Instructional Execution:* \* **Value Calculation:** Plug the final CR into the formula: Value (Credits) \= 10 \* 4^(CR / 5). If purchasing, verify the character possesses a Wealth Score (WS) equal to or greater than the CR. If not, they must pay the liquid credit difference.
+
+* **Build Time:** If crafting, the Target Productivity Points (PP) required to finish the vehicle equals its Credit Value. Calculate Daily Progress: Daily PP \= (Craft Check Result \- 10\) \* Tool Tier Multiplier. Divide the Total Value by the Daily PP to find the number of days required to build the Mecha.
+
+### 
+
+### 
+
+### ---
+
+
+## Game Mechanics Rules
+```
+See full canonical text in architect/technology/mecha/99.Tech.Mecha.ForgeProtocol.md
+```
+
+## Gameplay Instructions
+Refer to architect/technology/mecha/99.Tech.Mecha.ForgeProtocol.md in the game rules library for complete architectural tables and system parameters.
+
+## Designer Notes
+Canonical Tangent SF RP rulebook reference from architect/technology/mecha/99.Tech.Mecha.ForgeProtocol.md. Complete, unabridged source of truth.

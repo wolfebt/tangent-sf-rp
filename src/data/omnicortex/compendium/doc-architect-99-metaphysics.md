@@ -1,16 +1,20 @@
 ---
 id: "doc-architect-99-metaphysics"
 name: "99. METAPHYSICS"
+fileName: "99. METAPHYSICS.md"
+relPath: "architect/99. METAPHYSICS.md"
+isMasterDoc: true
+masterDocId: "doc-architect-99-metaphysics"
 category: "architect_matrix"
 parent: "5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)"
-order: 15
+order: 44
 perspective: "architect"
 entry_type: "Architect Matrix"
 tl: 3
 ml: 0
 cost: 0
-tags: ["architect","core-rules","source-of-truth","99. metaphysics (1)","matrix"]
-updatedAt: "2026-09-12T05:03:19.010Z"
+tags: ["architect","core-rules","source-of-truth","99. metaphysics","matrix"]
+updatedAt: "2026-10-14T06:04:05.751Z"
 costs:
   bp: 0
   credits: 0
@@ -107,7 +111,7 @@ A society's Metafocus Level is independent of its Technological Level (TL). A St
 
 ### ---
 
-### **X Deific (NON–PLAYER)**
+### **X Deific (NON-PLAYER)**
 
 * **Definition:** Transcendent. The entities at this level do not manipulate reality; they *define* it.  
 * **Metaphysical Understanding:** **Omniscient.** They see the source code of the universe and can rewrite it. They create star systems, birth species, and weave dimensions.  
@@ -129,13 +133,23 @@ While this Codex defines the purity of Metaphysics, the Tangent Galaxy often ope
 
 &nbsp;
 
+---
+
+# **METAPHYSICS ARCHITECT DIRECTORY INDEX**
+
+Detailed design matrices for constructing Metaphysic Invocations and integrating Meta-Tech hardware are organized in the `./metaphysics/` directory:
+
+* **[Invocation Matrix (99.Metaphysics.InvocationMatrix.md)](./metaphysics/99.Metaphysics.InvocationMatrix.md)** — *Architectural philosophy, Invocation Data Block, CR Parameter Standards (Time, Range, Area, Duration), Scaling Algorithm, and Design Examples*
+* **[Meta-Tech Matrix (99.Metaphysics.MetaTechMatrix.md)](./metaphysics/99.Metaphysics.MetaTechMatrix.md)** — *Integration of Metaphysics and Technology, Capacity Conversion, Passive Enhancement, Invocation Devices, Vehicle/Architecture Integration, and Fabrication Economics*
+
+
 ## Game Mechanics Rules
 ```
-See full canonical text in 99. METAPHYSICS (1).md
+See full canonical text in architect/99. METAPHYSICS.md
 ```
 
 ## Gameplay Instructions
-Refer to 99. METAPHYSICS (1).md in the game rules library for complete architectural tables and system parameters.
+Refer to architect/99. METAPHYSICS.md in the game rules library for complete architectural tables and system parameters.
 
 ## Designer Notes
-Canonical Tangent SF RP rulebook reference from 99. METAPHYSICS (1).md. Complete, unabridged source of truth.
+Canonical Tangent SF RP rulebook reference from architect/99. METAPHYSICS.md. Complete, unabridged source of truth.

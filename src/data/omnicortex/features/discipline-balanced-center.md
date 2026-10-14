@@ -13,7 +13,14 @@ description: >-
 costs:
   cp: 3
   bp: 3
-modifiers: []
+modifiers:
+  - target: Discipline
+    type: take_10
+    value: 10
+    mode: competence
+    isSituational: true
+    condition: In combat
+    description: May Take 10 on all Expertised Discipline skill checks in combat
 keywords: >-
   balanced center, discipline, special-feature, focused-training, mastery,
   balanced

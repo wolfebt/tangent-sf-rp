@@ -139,6 +139,7 @@ const ReferenceTooltip = ({
     switch (resolved.targetType) {
       case 'section':
         return <Compass size={11} className="inline mr-1 opacity-70 shrink-0" />;
+      case 'compendium':
       case 'codex':
         return <BookOpen size={11} className="inline mr-1 opacity-70 shrink-0" />;
       case 'catalog':

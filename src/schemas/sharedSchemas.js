@@ -54,15 +54,15 @@ export function dbmItemToFoundryElement(dbmItem = {}, categoryKey = 'compendium'
 export function foundryElementToDbmItem(foundryElement = {}) {
   const fields = foundryElement.fields || {};
   return {
-    id: foundryElement.id || `dbm_${Date.now()}`,
-    name: foundryElement.title || 'Untitled Item',
-    description: foundryElement.content || '',
+    ...fields,
+    id: foundryElement.id || fields.id || `dbm_${Date.now()}`,
+    name: foundryElement.title || fields.name || 'Untitled Item',
+    description: foundryElement.content || fields.description || '',
     tl: fields.tl !== undefined ? fields.tl : 3,
     ml: fields.ml !== undefined ? fields.ml : 0,
     cost: fields.cost || 0,
     tags: fields.tags || [foundryElement.type || 'compendium'],
-    updatedAt: new Date().toISOString(),
-    ...fields
+    updatedAt: new Date().toISOString()
   };
 }
 

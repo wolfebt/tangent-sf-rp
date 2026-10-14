@@ -1,0 +1,188 @@
+---
+id: "doc-operator-1-08-karmafeatures"
+name: "1.08 Karma Features"
+fileName: "1.08.KarmaFeatures.md"
+relPath: "operator/features/1.08.KarmaFeatures.md"
+isMasterDoc: false
+masterDocId: "doc-operator-1-08-features"
+category: "operator_rule"
+parent: "doc-operator-1-08-features"
+order: 197
+perspective: "operator"
+entry_type: "Feature Catalog"
+tl: 3
+ml: 0
+cost: 0
+tags: ["operator","core-rules","modular-rule","features","1.08.karmafeatures","mechanics"]
+updatedAt: "2026-10-14T05:52:41.916Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
+---
+
+# **KARMA FEATURES**
+
+# **KARMA FEATURES**
+
+Manipulation of luck, faith, and the Karma pool.
+
+| FEATURE NAME | PREREQUISITE | BENEFIT / EFFECT | SPECIAL / NOTES |
+| :---- | :---- | :---- | :---- |
+| **Beginner's Luck** | Skill Rank \< 6 | Gain 5 Temporary Skill ranks for the scene (Cost: 1 KP). | 118 |
+| **Believer** | \- | Call upon one’s Faith for a Skill reroll once per day. | Ranked (Wis) 119&nbsp; |
+| **Devout** | Believer | Call upon one’s Faith for an Ability Check reroll once per day. | Ranked (Cha) 120&nbsp; |
+| **True Faith** | Believer, Devout | Double effects from any Karma points on behalf of their Faith. | 121 |
+| **Charmed** | Karma 4 | Re-roll 1 Fumble 1/day (without spending Karma Point). | 122 |
+| **Inspiration** | \- | Spend a Karma Point to benefit an ally (1kp \+ cost). | 123 |
+| **Karmic Blessing** | \- | \+2 maximum Karma points. | Multiple 124&nbsp; |
+| **Seize Initiative** | \- | Go first in combat (Cost: 1 KP). | 125 |
+| **Surge** | \- | 1 extra action in a round (Cost: 1 KP). | 126 |
+| **Ultimate Effort** | \- | Make 20 on check for 1 chosen trait (Cost: 1 KP). | Multiple 127&nbsp; |
+
+&nbsp;
+
+Karma Features represent a character's destiny, luck, divine favor, or sheer force of will. They allow players to manipulate the game mechanics in moments of crisis, spending **Karma Points (KP)** or daily uses to alter outcomes.
+
+### 
+
+## **Beginner's Luck**
+
+**Description:** The character has an uncanny knack for succeeding at things they have no business doing. When inexperienced, they rely on instinct and fortune rather than training.
+
+* **Prerequisite:** The Skill being attempted must be at **Rank 5 (Novice) or lower**.  
+* **Benefit:** You may spend **1 Karma Point** to gain **\+5 Temporary Ranks** in a specific skill for the duration of the current scene or encounter.  
+  * *Mechanics:* This effectively treats an Untrained (Rank 0\) character as a Novice (Rank 5), or a Novice as a Professional (Rank 6-10) for a short time.  
+* **Purpose:** Allows a character to fill a critical role (like piloting a shuttle or hacking a door) in an emergency even if they lack the background for it.
+
+### 
+
+## **Believer**
+
+**Description:** The character possesses a profound faith in a higher power, a philosophy, or a cosmic order. In times of need, they can draw upon this faith to guide their hand.
+
+* **Prerequisite:** Wisdom 1  
+* **Benefit:** **Once per day**, you may re-roll any single failed **Skill Check**.  
+  * *Mechanics:* This does **not** cost Karma Points. It is a daily ability refreshed after a Full Rest. You must accept the result of the second roll.  
+* **Special:** This feature is **\[Ranked\]**. Each additional rank allows an additional use per day. The maximum rank is limited by your **Wisdom** score.
+
+### 
+
+  ## **Devout**
+
+  **Description:** The character's faith is not just a belief system, but a fundamental force that strengthens their very being.
+
+* **Prerequisite:** Believer, Charisma 1  
+* **Benefit:** **Once per day**, you may re-roll any single failed **Ability Check** (e.g., Strength check to lift rubble, Constitution check to hold breath).  
+  * *Mechanics:* This is separate from the *Believer* re-rolls. It applies to raw attribute checks, not Skill checks.  
+* **Special:** This feature is **\[Ranked\]**. Each additional rank allows an additional use per day. The maximum rank is limited by your **Charisma** score.
+
+  ### 
+
+  ## **True Faith**
+
+  **Description:** The character is a chosen vessel or a paragon of their belief. When they expend their spiritual energy, the universe bends to ensure their success.  
+* **Prerequisite:** Believer, Devout  
+* **Benefit:** When you spend a **Karma Point** to modify an action that is directly in service of your Faith or ethos, the numeric effect is **Doubled**.  
+  * *Mechanics:* If a Karma spend would normally grant a \+5 bonus, it grants \+10. If the GM rules a Karma spend heals damage or reduces time, that amount is doubled. *Note: This does not double the number of dice rolled for Advantage, but significantly boosts flat modifiers.*
+
+### 
+
+## **Charmed**
+
+**Description:** The character leads a charmed life. Disasters that would doom others seem to miss them by inches.
+
+* **Prerequisite:** Maximum Karma Pool of 4+  
+* **Benefit:** **Once per day**, if you roll a **Natural 1** (Fumble/Critical Failure), you may immediately re-roll it without spending a Karma Point.  
+  * *Mechanics:* This serves as a free "safety net" against catastrophic failure.
+
+### 
+
+## **Inspiration**
+
+**Description:** The character is the heart of the team. They can lend their own luck and determination to allies, spurring them on to greatness.
+
+* **Prerequisite:** Charisma 2  
+* **Benefit:** You may spend your own **Karma Points** to grant a Karma Benefit to an **Ally**.  
+  * *Cost:* The cost is **1 KP (Transfer Cost) \+ The Cost of the Effect**.  
+  * *Example:* To give an ally *Surge* (normally 1 KP), you spend 2 KP. To give an ally *Advantage* ("I Got This", normally 1 KP), you spend 2 KP.  
+* **Purpose:** Allows support characters to keep heavy hitters active or save allies from bad rolls.
+
+### 
+
+## **Karmic Blessing**
+
+**Description:** The character has a larger destiny than most. Fate has stockpiled more luck for them to use.
+
+* **Prerequisite:** None  
+* **Benefit:** Increase your **Maximum Karma Pool** by **\+2 Points**.  
+  * *Default:* Characters typically start with 3 Max Karma. This feature raises that cap (e.g., to 5).  
+* **Limit:** Your total Maximum Karma Pool cannot exceed the sum of your Ability Scores (a very high ceiling, rarely reached).  
+* **Special:** This feature is **\[Multiple\]**. You may take it multiple times to keep expanding your pool.
+
+### 
+
+## **Seize Initiative**
+
+**Description:** The character reacts with blazing speed when chaos erupts, acting before the enemy can blink.
+
+* **Cost:** Spend **1 Karma Point** at the start of combat (before Initiative is rolled).  
+* **Benefit:** You automatically go **First** in the initiative order, regardless of your Agility or roll.  
+  * *Conflict:* If multiple characters (allies or enemies) use this feature, they are ranked at the top of the order, sorted by their Agility scores.
+
+### 
+
+## **Surge**
+
+**Description:** The character pushes their body and mind beyond standard limits, fitting more action into a moment than should be possible.
+
+* **Cost:** Spend **1 Karma Point** during your turn.  
+* **Benefit:** You gain **1 additional Standard Action** this round.  
+  * *Usage:* This allows for a Move \+ Attack \+ Attack, or Move \+ Cast Spell \+ Attack. It breaks the standard action economy.
+
+### 
+
+## **Ultimate Effort**
+
+**Description:** The character is a savant or master in a specific field. When they truly focus, failure is impossible.
+
+* **Prerequisite:** None (Must be assigned to a specific Trait/Skill/Attribute).  
+* **Cost:** Spend **1 Karma Point**.  
+* **Benefit:** Treat a specific **Non-Combat** check as if you rolled a **Natural 20**.  
+  * *Mechanics:* You do not roll. You calculate the result as: 20 \+ Skill Rank \+ Attribute Mod \+ Modifiers. This guarantees a critical success on almost any standard difficulty task.  
+* **Restriction:** This cannot be used for Attack rolls or Damage rolls. It is intended for heroic feats of strength, brilliant deductions, or masterful diplomacy.  
+* **Special:** This feature is **\[Multiple\]**. You must select which trait it applies to when purchased (e.g., *Ultimate Effort: Engineering* or *Ultimate Effort: Strength*).
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+
+## Game Mechanics Rules
+```
+See full canonical text in operator/features/1.08.KarmaFeatures.md
+```
+
+## Gameplay Instructions
+Refer to operator/features/1.08.KarmaFeatures.md in the game rules library for complete architectural tables and system parameters.
+
+## Designer Notes
+Canonical Tangent SF RP rulebook reference from operator/features/1.08.KarmaFeatures.md. Complete, unabridged source of truth.

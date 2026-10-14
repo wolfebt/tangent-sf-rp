@@ -1,11 +1,15 @@
 ---
 id: "doc-operator-1-00-introduction"
 name: "1.00 INTRODUCTION"
+fileName: "1.00 INTRODUCTION.md"
+relPath: "operator/1.00 INTRODUCTION.md"
+isMasterDoc: true
+masterDocId: "doc-operator-1-00-introduction"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
 order: 1
 perspective: "operator"
-entry_type: "Core Rule"
+entry_type: "Core Rulebook"
 tl: 3
 ml: 0
 cost: 0
@@ -202,11 +206,11 @@ Bridging abstract Wealth Scores and liquid Credits.
 
 ## Game Mechanics Rules
 ```
-See full canonical text in 1.00 INTRODUCTION.md
+See full canonical text in operator/1.00 INTRODUCTION.md
 ```
 
 ## Gameplay Instructions
-Refer to 1.00 INTRODUCTION.md in the game rules library for complete architectural tables and system parameters.
+Refer to operator/1.00 INTRODUCTION.md in the game rules library for complete architectural tables and system parameters.
 
 ## Designer Notes
-Canonical Tangent SF RP rulebook reference from 1.00 INTRODUCTION.md. Complete, unabridged source of truth.
+Canonical Tangent SF RP rulebook reference from operator/1.00 INTRODUCTION.md. Complete, unabridged source of truth.
