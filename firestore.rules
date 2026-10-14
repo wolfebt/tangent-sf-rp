@@ -10,7 +10,11 @@ service cloud.firestore {
     }
 
     function isAdmin() {
-      return isAuthenticated() && (request.auth.token.admin == true || request.auth.token.role == 'GM');
+      return isAuthenticated() && (
+        request.auth.token.admin == true || 
+        request.auth.token.role == 'GM' ||
+        request.auth.token.email == 'btw.284@gmail.com'
+      );
     }
 
     function isOwner(userId) {
