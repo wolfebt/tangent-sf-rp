@@ -462,6 +462,8 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
               }}
               aria-label="Close settings dialog"
               className="text-slate-400 hover:text-white text-xl font-bold leading-none p-1.5 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
+              aria-label="Close settings"
+              title="Close settings"
             >
               <span aria-hidden="true">&times;</span>
             </button>
