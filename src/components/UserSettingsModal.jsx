@@ -462,6 +462,8 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
               }}
               aria-label="Close settings dialog"
               className="text-slate-400 hover:text-white text-xl font-bold leading-none p-1.5 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
+              aria-label="Close settings"
+              title="Close settings"
             >
               <span aria-hidden="true">&times;</span>
             </button>
@@ -529,10 +531,11 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
 
                   {/* Public Handle */}
                   <div className="space-y-1.5">
-                    <label className="block text-[11px] font-mono font-bold text-cyan-400 uppercase tracking-wider">
+                    <label htmlFor="public-handle" className="block text-[11px] font-mono font-bold text-cyan-400 uppercase tracking-wider">
                       Public Handle / Callsign
                     </label>
                     <input
+                      id="public-handle"
                       type="text"
                       value={handle}
                       onChange={(e) => setHandle(e.target.value)}
@@ -797,6 +800,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
                       min="0"
                       max="100"
                       value={audioVolume}
+                      aria-label="Master Synthesis Volume"
                       disabled={isAudioMuted}
                       onChange={(e) => handleVolumeChange(parseInt(e.target.value, 10))}
                       className="w-full accent-cyan-400 cursor-pointer disabled:opacity-30 h-2 bg-slate-800 rounded-lg appearance-none"
