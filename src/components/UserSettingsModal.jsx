@@ -345,6 +345,9 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
       }
     }
 
+    let marqueeSaveWarning = false;
+    let marqueeSaveDetails = '';
+
     if (canManageMarquee) {
       try {
         const topRaw = [topBannerForm.line1, topBannerForm.line2, topBannerForm.line3].map(l => (typeof l === 'string' ? l.trim() : ''));
@@ -1824,6 +1827,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
               </button>
               <button
                 type="button"
+                data-testid="save-user-settings-btn"
                 onClick={handleSave}
                 className="px-5 py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/70 text-cyan-300 rounded-xl text-xs font-mono font-bold uppercase tracking-wider shadow-[0_0_12px_rgba(34,211,238,0.3)] hover:shadow-[0_0_18px_rgba(34,211,238,0.5)] transition-all cursor-pointer flex items-center gap-1.5"
               >

@@ -4,6 +4,12 @@ test.describe('Admin Marquee Controls Suite', () => {
   test.setTimeout(60000);
 
   test.beforeEach(async ({ page }) => {
+    page.on('console', (msg) => {
+      console.log(`[BROWSER ${msg.type()}]:`, msg.text());
+    });
+    page.on('pageerror', (err) => {
+      console.error(`[BROWSER PAGEERROR]:`, err);
+    });
     await page.addInitScript(() => {
       window.localStorage.setItem('userHandle', 'Architect Prime');
       window.localStorage.setItem('hasDismissedWelcome', 'true');
@@ -13,13 +19,6 @@ test.describe('Admin Marquee Controls Suite', () => {
   });
 
   test('1. Verify Admin Marquee Tab and Controls in UserSettingsModal', async ({ page }) => {
-    page.on('console', (msg) => {
-      console.log(`[BROWSER ${msg.type()}]:`, msg.text());
-    });
-    page.on('pageerror', (err) => {
-      console.error(`[BROWSER PAGEERROR]:`, err);
-    });
-
     await page.goto('/');
     await page.waitForLoadState('domcontentloaded');
 
@@ -62,10 +61,9 @@ test.describe('Admin Marquee Controls Suite', () => {
     await expect(page.locator('button:has-text("APPLY & PUBLISH MARQUEE")')).toHaveCount(0);
 
     // Save changes via modal footer Save Changes button
-    const saveBtn = page.locator('button:has-text("Save Changes")').first();
+    const saveBtn = page.getByTestId('save-user-settings-btn');
     await expect(saveBtn).toBeVisible();
-    await saveBtn.scrollIntoViewIfNeeded();
-    await saveBtn.click({ force: true });
+    await saveBtn.click();
     await expect(dialog).not.toBeVisible({ timeout: 5000 });
 
     // Verify Home banner has updated text
@@ -111,9 +109,8 @@ test.describe('Admin Marquee Controls Suite', () => {
     await expect(page.locator('button:has-text("APPLY & PUBLISH MARQUEE")')).toHaveCount(0);
 
     // Save changes via modal footer Save Changes button
-    const saveBtn = page.locator('button:has-text("Save Changes")').first();
-    await saveBtn.scrollIntoViewIfNeeded();
-    await saveBtn.click({ force: true });
+    const saveBtn = page.getByTestId('save-user-settings-btn');
+    await saveBtn.click();
     await expect(dialog).not.toBeVisible({ timeout: 5000 });
 
     // Verify Home banner shows updated text
@@ -154,7 +151,7 @@ test.describe('Admin Marquee Controls Suite', () => {
     await expect(page.locator('button:has-text("APPLY & PUBLISH MARQUEE")')).toHaveCount(0);
 
     // Save changes via modal footer Save Changes button
-    await page.locator('button:has-text("Save Changes")').click({ force: true });
+    await page.getByTestId('save-user-settings-btn').click();
     await expect(dialog).not.toBeVisible({ timeout: 8000 });
 
     // Verify that when disabled, banner is completely hidden with ZERO fallback buttons or pills
@@ -175,7 +172,8 @@ test.describe('Admin Marquee Controls Suite', () => {
     await expect(page.locator('button:has-text("ACTIVE & VISIBLE")').first()).toBeVisible();
 
     // Save changes via modal footer Save Changes button
-    await page.locator('button:has-text("Save Changes")').click({ force: true });
+    const saveBtn2 = page.getByTestId('save-user-settings-btn');
+    await saveBtn2.click();
     await expect(dialog).not.toBeVisible({ timeout: 8000 });
 
     // Verify banner is active again with ZERO buttons or controls
@@ -210,7 +208,7 @@ test.describe('Admin Marquee Controls Suite', () => {
     await expect(page.locator('button:has-text("APPLY & PUBLISH MARQUEE")')).toHaveCount(0);
 
     // Save changes via modal footer Save Changes button
-    await page.locator('button:has-text("Save Changes")').click({ force: true });
+    await page.getByTestId('save-user-settings-btn').click();
     await expect(dialog).not.toBeVisible({ timeout: 8000 });
 
     // Verify right-justified class on Home banner display
@@ -238,7 +236,7 @@ test.describe('Admin Marquee Controls Suite', () => {
     await bloomGlowBtn.click({ force: true });
 
     // Save changes via modal footer Save Changes button
-    await page.locator('button:has-text("Save Changes")').click({ force: true });
+    await page.getByTestId('save-user-settings-btn').click();
     await expect(dialog).not.toBeVisible({ timeout: 8000 });
 
     // Verify Static Fade & Glow classes on Home banner
@@ -281,7 +279,7 @@ test.describe('Admin Marquee Controls Suite', () => {
     await expect(page.locator('button:has-text("APPLY & PUBLISH MARQUEE")')).toHaveCount(0);
 
     // Save changes via modal footer Save Changes button
-    await page.locator('button:has-text("Save Changes")').click({ force: true });
+    await page.getByTestId('save-user-settings-btn').click();
     await expect(dialog).not.toBeVisible({ timeout: 8000 });
 
     // Verify Home banner badge has no icon (zero SVGs inside the badge element)
@@ -322,7 +320,7 @@ test.describe('Admin Marquee Controls Suite', () => {
     await expect(page.getByText(/Silver \(Quicksilver \/ Black Shadow\)/i)).toBeVisible();
 
     // Save changes via modal footer Save Changes button
-    await page.locator('button:has-text("Save Changes")').click({ force: true });
+    await page.getByTestId('save-user-settings-btn').click();
     await expect(dialog).not.toBeVisible({ timeout: 8000 });
 
     // Verify Home banner renders with silver text and black shadow styling
@@ -363,7 +361,7 @@ test.describe('Admin Marquee Controls Suite', () => {
     await expect(page.getByText(/TEXT-ONLY/i).first()).toBeVisible();
 
     // Save changes via modal footer Save Changes button
-    await page.locator('button:has-text("Save Changes")').click({ force: true });
+    await page.getByTestId('save-user-settings-btn').click();
     await expect(dialog).not.toBeVisible({ timeout: 8000 });
 
     // Verify Home banner has no pulsing beacon dots
@@ -394,7 +392,7 @@ test.describe('Admin Marquee Controls Suite', () => {
     await gelFrameBtn.scrollIntoViewIfNeeded();
     await gelFrameBtn.click({ force: true });
 
-    await page.locator('button:has-text("Save Changes")').click({ force: true });
+    await page.getByTestId('save-user-settings-btn').click();
     await expect(dialog).not.toBeVisible({ timeout: 8000 });
 
     // Verify beacon dots and cyber-gel background are restored
@@ -455,7 +453,7 @@ test.describe('Admin Marquee Controls Suite', () => {
     await cleanTextBtn.click({ force: true });
 
     // Save changes via modal footer Save Changes button
-    await page.locator('button:has-text("Save Changes")').click({ force: true });
+    await page.getByTestId('save-user-settings-btn').click();
     await expect(dialog).not.toBeVisible({ timeout: 8000 });
 
     // 3. Verify BOTH Top and Bottom Marquees are rendered on Home screen
@@ -498,7 +496,7 @@ test.describe('Admin Marquee Controls Suite', () => {
     await toggleBtn.click({ force: true });
     await expect(page.locator('button:has-text("DISABLED (OFFLINE)")').first()).toBeVisible();
 
-    await page.locator('button:has-text("Save Changes")').click({ force: true });
+    await page.getByTestId('save-user-settings-btn').click();
     await expect(dialog).not.toBeVisible({ timeout: 8000 });
 
     // Verify Top Marquee is still visible while Bottom Marquee is hidden
