@@ -131,6 +131,8 @@ export function resolveCortexMenu(context, appState, handlers) {
           prompt: `Analyze the ${categoryLabel} record for "${entryName}" and generate complete, canonical content for any missing or sparse fields (such as description, mechanics, and gameplay guide). Respect the Tangent SFF RPG setting rules and formulas. Current data: ${JSON.stringify(entityData || {})}`,
           context: `Category: ${categoryLabel}`,
           isAutofill: true,
+          applyTarget: 'autofill',
+          applyLabel: 'Apply to Entry',
           targetEntry: entityData
         })
       },

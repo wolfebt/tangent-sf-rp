@@ -8,9 +8,10 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  Practiced control of specialized terrain, atmospheric, or orbital transport
-  craft.
+  Piloting atmospheric hovercraft and armored rovers through corrosive dust
+  storms and boiling seas.
 modifiers: []
+mechanic: +2 Piloting
 ---
 # Pilot Skills
 
@@ -20,4 +21,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Practiced control of specialized terrain, atmospheric, or orbital transport craft.
+Piloting atmospheric hovercraft and armored rovers through corrosive dust storms and boiling seas.
+
+## Mechanics & Benefit
++2 Piloting

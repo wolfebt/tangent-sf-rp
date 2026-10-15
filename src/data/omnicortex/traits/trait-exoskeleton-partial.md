@@ -8,7 +8,12 @@ costs:
   cp: 1
   bp: 1
 description: 'DR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.'
-modifiers: []
+modifiers:
+  - target: armor-dr
+    value: 4
+    type: combat
+    mode: inherent
+    description: +4 Natural DR (Partial Exoskeleton)
 ---
 # Exoskeleton (Partial)
 
@@ -18,4 +23,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
+DR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.
+
+## Mechanics & Benefit
 DR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.

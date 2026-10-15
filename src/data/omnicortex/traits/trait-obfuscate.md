@@ -10,17 +10,23 @@ costs:
 description: >-
   Innate metaphysical masking that dampens personal presence, scrying
   signatures, and casual biological detection.
-modifiers: []
+modifiers:
+  - target: Alertness
+    value: -1
+    type: disadvantage
+    mode: situational
+    condition: Opponents scrying/tracking
+    description: Enemies suffer Disadvantage on Awareness/Investigation checks
 ---
 # Obfuscate
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
 Innate metaphysical masking that dampens personal presence, scrying signatures, and casual biological detection.
 
-## Mechanics
-Creatures attempting to detect, track, or scry upon the character suffer Disadvantage on Awareness, Investigation, and electronic sensor sweep checks unless using specialized penetrating scanners.
+## Mechanics & Benefit
+Innate metaphysical masking that dampens personal presence, scrying signatures, and casual biological detection.

@@ -10,14 +10,22 @@ costs:
 description: >-
   Chitinous shell resistant to physical trauma, energy and chemicals [base DR
   10].
-modifiers: []
+modifiers:
+  - target: armor-dr
+    type: combat
+    value: 10
+    mode: inherent
+    description: +10 DR
 ---
 # Armor (Chitinous Shell)
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Glossy obsidian chitinous shell providing natural base DR 10 against physical impacts, energy weapons, and corrosive chemicals.
+Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10].
+
+## Mechanics & Benefit
+Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10].

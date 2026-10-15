@@ -10,7 +10,13 @@ costs:
 description: >-
   Focuses on utilitarian efficiency, cutting through abstract theories to
   deliver results.
-modifiers: []
+modifiers:
+  - target: Logic
+    type: save
+    value: 2
+    mode: inherent
+    description: +2 on Logic Checks
+mechanic: +2 Logic Checks
 ---
 # Practicality
 
@@ -21,3 +27,6 @@ modifiers: []
 
 ## Description
 Focuses on utilitarian efficiency, cutting through abstract theories to deliver results.
+
+## Mechanics & Benefit
++2 Logic Checks

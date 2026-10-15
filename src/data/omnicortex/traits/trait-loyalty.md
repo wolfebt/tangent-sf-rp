@@ -10,7 +10,13 @@ costs:
 description: >-
   While they may appear to be loners, drifters/vagabonds can develop strong
   bonds of loyalty with a select few individuals or groups
-modifiers: []
+modifiers:
+  - target: Will
+    type: save_advantage
+    value: 1
+    mode: inherent
+    description: Advantage on Will Checks
+mechanic: Domination and Mind-Control Resistance Checks are made at Advantage
 ---
 # Loyalty
 
@@ -21,3 +27,6 @@ modifiers: []
 
 ## Description
 While they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups
+
+## Mechanics & Benefit
+Domination and Mind-Control Resistance Checks are made at Advantage

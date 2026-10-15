@@ -22,19 +22,26 @@ export const A11yStageFeed: React.FC<A11yStageFeedProps> = ({ mapName = 'Tactica
       const customEvent = e as CustomEvent;
       if (!customEvent.detail) return;
 
-      const { type, detail } = customEvent;
-      if (type === 'stage-token-moved') {
+      const { detail } = customEvent;
+      const eventType = detail.type || customEvent.type;
+      if (eventType === 'stage-token-moved') {
         setAnnouncement(`${detail.name || 'Operative'} repositioned to grid coordinates X ${detail.x}, Y ${detail.y}.`);
-      } else if (type === 'stage-bulkhead-toggled') {
+      } else if (eventType === 'stage-bulkhead-toggled') {
         setAnnouncement(`Bulkhead ${detail.objectId || 'door'} was ${detail.isOpen ? 'opened' : 'sealed'}.`);
-      } else if (type === 'story-foundry-node-triggered') {
+      } else if (eventType === 'story-foundry-node-triggered') {
         setAnnouncement(`Interactive node triggered: ${detail.action || 'accessed'}.`);
       }
     };
 
-    window.addEventListener('tangent-tactical-event', handleTacticalEvent);
+    const eventNames = [
+      'tangent-tactical-event',
+      'stage-token-moved',
+      'stage-bulkhead-toggled',
+      'story-foundry-node-triggered'
+    ];
+    eventNames.forEach((evt) => window.addEventListener(evt, handleTacticalEvent));
     return () => {
-      window.removeEventListener('tangent-tactical-event', handleTacticalEvent);
+      eventNames.forEach((evt) => window.removeEventListener(evt, handleTacticalEvent));
     };
   }, []);
 

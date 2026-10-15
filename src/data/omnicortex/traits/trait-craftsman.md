@@ -8,7 +8,12 @@ costs:
   cp: 1
   bp: 1
 description: +2 to Specific Vocation.
-modifiers: []
+modifiers:
+  - target: Specific Vocation
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Specific Vocation
 ---
 # Craftsman
 
@@ -18,4 +23,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
++2 to Specific Vocation.
+
+## Mechanics & Benefit
 +2 to Specific Vocation.

@@ -10,7 +10,13 @@ costs:
 description: >-
   High tolerance for atmospheric toxins, extreme temperatures, and caloric
   deprivation.
-modifiers: []
+modifiers:
+  - target: Fortitude
+    type: save
+    value: 2
+    mode: inherent
+    description: +2 on Fortitude Checks
+mechanic: +2 Fortitude Checks
 ---
 # Physical Endurance
 
@@ -21,3 +27,6 @@ modifiers: []
 
 ## Description
 High tolerance for atmospheric toxins, extreme temperatures, and caloric deprivation.
+
+## Mechanics & Benefit
++2 Fortitude Checks

@@ -8,7 +8,25 @@ costs:
   cp: 1
   bp: 1
 description: '1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).'
-modifiers: []
+modifiers:
+  - target: attr-strength
+    value: 2
+    type: attribute
+    mode: situational
+    condition: During Frenzy
+    description: +2 Strength during Frenzy
+  - target: attr-stamina
+    value: 2
+    type: attribute
+    mode: situational
+    condition: During Frenzy
+    description: +2 Stamina during Frenzy
+  - target: defense-mod
+    value: -2
+    type: combat
+    mode: situational
+    condition: During Frenzy
+    description: '-2 Defense during Frenzy'
 ---
 # Frenzy
 
@@ -18,4 +36,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
+1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).
+
+## Mechanics & Benefit
 1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).

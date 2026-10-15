@@ -8,7 +8,12 @@ costs:
   cp: 1
   bp: 1
 description: 'Base Category, Change Appearance only (+5 to Disguise).'
-modifiers: []
+modifiers:
+  - target: Disguise
+    type: skill
+    value: 5
+    mode: inherent
+    description: +5 to Disguise
 ---
 # Alter Form (Basic)
 
@@ -18,4 +23,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
+Base Category, Change Appearance only (+5 to Disguise).
+
+## Mechanics & Benefit
 Base Category, Change Appearance only (+5 to Disguise).

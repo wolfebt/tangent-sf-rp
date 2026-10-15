@@ -8,7 +8,13 @@ costs:
   cp: 1
   bp: 1
 description: May have a strong sense of ethics and corporate responsibility.
-modifiers: []
+modifiers:
+  - target: Insight
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Insight
+mechanic: +2 Insight checks and Diplomacy when acting ethically
 ---
 # Ethical awareness
 
@@ -19,3 +25,6 @@ modifiers: []
 
 ## Description
 May have a strong sense of ethics and corporate responsibility.
+
+## Mechanics & Benefit
++2 Insight checks and Diplomacy when acting ethically

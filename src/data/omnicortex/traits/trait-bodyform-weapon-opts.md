@@ -8,14 +8,22 @@ costs:
   cp: 2
   bp: 2
 description: 'Upgraded Bodyform Weapons, +1 option slot. Ranked.'
-modifiers: []
+modifiers:
+  - target: Option slot
+    type: skill
+    value: 1
+    mode: inherent
+    description: +1 to Option slot
 ---
 # Bodyform Weapon Opts
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
+Upgraded Bodyform Weapons, +1 option slot. Ranked.
+
+## Mechanics & Benefit
 Upgraded Bodyform Weapons, +1 option slot. Ranked.

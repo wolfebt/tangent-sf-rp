@@ -8,9 +8,10 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  Deep immersion in research databases, academic journals, and historical
-  archives.
+  Gained encyclopedic familiarity with specialized academic archives and
+  historical treatises.
 modifiers: []
+mechanic: +2 to a Knowledge of choice
 ---
 # Studious
 
@@ -20,4 +21,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Deep immersion in research databases, academic journals, and historical archives.
+Gained encyclopedic familiarity with specialized academic archives and historical treatises.
+
+## Mechanics & Benefit
++2 to a Knowledge of choice

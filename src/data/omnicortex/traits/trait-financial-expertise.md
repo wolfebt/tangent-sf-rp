@@ -10,7 +10,18 @@ costs:
 description: >-
   Strong understanding of financial management, budgeting, and investment
   strategies.
-modifiers: []
+modifiers:
+  - target: Business
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Business
+  - target: Appraisal
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Appraisal
+mechanic: +2 Business and Appraisal checks
 ---
 # Financial expertise
 
@@ -21,3 +32,6 @@ modifiers: []
 
 ## Description
 Strong understanding of financial management, budgeting, and investment strategies.
+
+## Mechanics & Benefit
++2 Business and Appraisal checks

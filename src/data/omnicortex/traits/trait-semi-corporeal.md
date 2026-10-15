@@ -8,7 +8,12 @@ costs:
   cp: 4
   bp: 4
 description: 'DR30 vs physical, able to Phase through solid matter, Solidify at will.'
-modifiers: []
+modifiers:
+  - target: armor-dr
+    type: combat
+    value: 30
+    mode: inherent
+    description: +30 DR
 ---
 # Semi-Corporeal
 
@@ -18,4 +23,7 @@ modifiers: []
 **CP Cost**: 4
 
 ## Description
+DR30 vs physical, able to Phase through solid matter, Solidify at will.
+
+## Mechanics & Benefit
 DR30 vs physical, able to Phase through solid matter, Solidify at will.

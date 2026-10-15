@@ -8,7 +8,13 @@ costs:
   cp: 1
   bp: 1
 description: Seem fearless and willing to take risks in order to achieve their goals
-modifiers: []
+modifiers:
+  - target: Karma
+    type: karma
+    value: 1
+    mode: inherent
+    description: +1 to Karma Pool
+mechanic: +1 Karma Point
 ---
 # Fearlessness
 
@@ -19,3 +25,6 @@ modifiers: []
 
 ## Description
 Seem fearless and willing to take risks in order to achieve their goals
+
+## Mechanics & Benefit
++1 Karma Point

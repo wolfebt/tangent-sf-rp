@@ -241,7 +241,57 @@ test('Cloud Functions [geminiProxy]: Validates auth, prompt parameter, and forwa
       validReq.res.getBody().candidates[0].content.parts[0].text,
       'Tactical mission debrief synthesized.'
     );
+
+    // Verify geminiProxy OPTIONS preflight (204), GET rejection (405), and unauthorized (401)
+    const optProxy = createMockHttpContext({ method: 'OPTIONS' });
+    await geminiProxy(optProxy.req, optProxy.res);
+    assert.equal(optProxy.res.getStatusCode(), 204);
+
+    const getProxy = createMockHttpContext({ method: 'GET' });
+    await geminiProxy(getProxy.req, getProxy.res);
+    assert.equal(getProxy.res.getStatusCode(), 405);
+
+    const unauthProxy = createMockHttpContext({ method: 'POST', body: { prompt: 'Test' } });
+    await geminiProxy(unauthProxy.req, unauthProxy.res);
+    assert.equal(unauthProxy.res.getStatusCode(), 401);
+
+    // Verify upstream 429 rate-limit status forwarding and network failure 500 handling
+    globalThis.fetch = async () => ({
+      status: 429,
+      json: async () => ({ error: { message: 'Resource exhausted' } })
+    });
+    const rateLimited = createMockHttpContext({
+      method: 'POST',
+      headers: { authorization: 'Bearer valid-player-token' },
+      body: { prompt: 'Test rate limit' }
+    });
+    await geminiProxy(rateLimited.req, rateLimited.res);
+    assert.equal(rateLimited.res.getStatusCode(), 429);
+
+    // Verify missing server credentials return 500 for both functions
+    const savedConfig = mockFunctionsConfig;
+    mockFunctionsConfig = {};
+    try {
+      const noLkCreds = createMockHttpContext({
+        method: 'POST',
+        headers: { authorization: 'Bearer valid-player-token' },
+        body: { roomName: 'room-1' }
+      });
+      await getLiveKitToken(noLkCreds.req, noLkCreds.res);
+      assert.equal(noLkCreds.res.getStatusCode(), 500);
+
+      const noGeminiCreds = createMockHttpContext({
+        method: 'POST',
+        headers: { authorization: 'Bearer valid-player-token' },
+        body: { prompt: 'Test' }
+      });
+      await geminiProxy(noGeminiCreds.req, noGeminiCreds.res);
+      assert.equal(noGeminiCreds.res.getStatusCode(), 500);
+    } finally {
+      mockFunctionsConfig = savedConfig;
+    }
   } finally {
     globalThis.fetch = origFetch;
   }
 });
+

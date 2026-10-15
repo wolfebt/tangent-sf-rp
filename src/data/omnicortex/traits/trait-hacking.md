@@ -9,6 +9,7 @@ costs:
   bp: 1
 description: Experience with hacking into computer systems and stealing information
 modifiers: []
+mechanic: +2 all checks to the Infiltration of a digital domain
 ---
 # Hacking
 
@@ -19,3 +20,6 @@ modifiers: []
 
 ## Description
 Experience with hacking into computer systems and stealing information
+
+## Mechanics & Benefit
++2 all checks to the Infiltration of a digital domain

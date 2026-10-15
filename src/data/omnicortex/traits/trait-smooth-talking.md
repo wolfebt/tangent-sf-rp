@@ -10,7 +10,13 @@ costs:
 description: >-
   Charismatic conversational flow that disarms suspicion and charms
   conversational partners.
-modifiers: []
+modifiers:
+  - target: Etiquette
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Etiquette
+mechanic: +2 Etiquette Checks
 ---
 # Smooth Talking
 
@@ -21,3 +27,6 @@ modifiers: []
 
 ## Description
 Charismatic conversational flow that disarms suspicion and charms conversational partners.
+
+## Mechanics & Benefit
++2 Etiquette Checks

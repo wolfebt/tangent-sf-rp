@@ -10,7 +10,13 @@ costs:
 description: >-
   Ability to adapt to changing circumstances and adjust plans and strategies as
   needed
-modifiers: []
+modifiers:
+  - target: A specific
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to A specific
+mechanic: '+2 to a specific Skill Check, may change assigned Skill daily'
 ---
 # Flexibility
 
@@ -21,3 +27,6 @@ modifiers: []
 
 ## Description
 Ability to adapt to changing circumstances and adjust plans and strategies as needed
+
+## Mechanics & Benefit
++2 to a specific Skill Check, may change assigned Skill daily

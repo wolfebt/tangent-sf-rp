@@ -11,6 +11,7 @@ description: >-
   Criminals may be charming and persuasive, able to talk their way out of
   difficult situations
 modifiers: []
+mechanic: +2 Bluff
 ---
 # Smooth
 
@@ -21,3 +22,6 @@ modifiers: []
 
 ## Description
 Criminals may be charming and persuasive, able to talk their way out of difficult situations
+
+## Mechanics & Benefit
++2 Bluff

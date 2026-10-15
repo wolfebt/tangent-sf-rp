@@ -10,17 +10,23 @@ costs:
 description: >-
   Once per encounter or light rest, summon an explosive reserve of physical
   adrenaline or cellular force.
-modifiers: []
+modifiers:
+  - target: Might
+    value: 1
+    type: check_advantage
+    mode: situational
+    condition: 1/Encounter
+    description: Advantage on Strength or Stamina check (1/Encounter)
 ---
 # Mighty Surge
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
 Once per encounter or light rest, summon an explosive reserve of physical adrenaline or cellular force.
 
-## Mechanics
-Once per encounter during a critical physical action, gain Advantage on a single Strength or Stamina check, attack roll, or athletic feat of power.
+## Mechanics & Benefit
+Once per encounter or light rest, summon an explosive reserve of physical adrenaline or cellular force.

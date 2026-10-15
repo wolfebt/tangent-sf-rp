@@ -8,7 +8,12 @@ costs:
   cp: 2
   bp: 2
 description: 'Make any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.'
-modifiers: []
+modifiers:
+  - target: Ny Mental Resistance
+    type: check_advantage
+    value: 1
+    mode: inherent
+    description: Advantage on Ny Mental Resistance Checks
 ---
 # Dragon Mind
 
@@ -18,4 +23,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
+Make any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.
+
+## Mechanics & Benefit
 Make any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.

@@ -10,7 +10,13 @@ costs:
 description: >-
   Often self-sufficient and able to take care of themselves without relying on
   others
-modifiers: []
+modifiers:
+  - target: Karma
+    type: karma
+    value: 1
+    mode: inherent
+    description: +1 to Karma Pool
+mechanic: +1 Karma Point
 ---
 # Self-sufficiency
 
@@ -21,3 +27,6 @@ modifiers: []
 
 ## Description
 Often self-sufficient and able to take care of themselves without relying on others
+
+## Mechanics & Benefit
++1 Karma Point

@@ -22,7 +22,7 @@ if (missingVars.length > 0 && typeof window !== 'undefined') {
   );
 }
 
-const isNodeTestEnv = typeof window === 'undefined' && !env.VITE_FIREBASE_API_KEY;
+const isNodeTestEnv = (typeof window === 'undefined' || typeof process !== 'undefined') && !env.VITE_FIREBASE_API_KEY;
 
 const firebaseConfig = {
   apiKey: env.VITE_FIREBASE_API_KEY || (isNodeTestEnv ? 'AIzaSyDummyKeyForTestingNodeEnv000' : undefined),

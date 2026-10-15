@@ -8,7 +8,13 @@ costs:
   cp: 1
   bp: 1
 description: Strong analytical and problem-solving skills
-modifiers: []
+modifiers:
+  - target: Logic
+    type: save
+    value: 2
+    mode: inherent
+    description: +2 on Logic Checks
+mechanic: +2 Logic Checks
 ---
 # Problem-Solving Skills
 
@@ -19,3 +25,6 @@ modifiers: []
 
 ## Description
 Strong analytical and problem-solving skills
+
+## Mechanics & Benefit
++2 Logic Checks

@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { analyzeCombatPacing, CANONICAL_WHISPER_CARDS } from '../../services/bastionWhisperService';
+import { analyzeCombatPacing, CANONICAL_WHISPER_CARDS, executeWhisperCardAction } from '../../services/bastionWhisperService';
 import AudioService from '../../services/audioService';
 
 const BastionWhisperDrawer = ({
@@ -10,7 +10,10 @@ const BastionWhisperDrawer = ({
   onTriggerFloatingText,
   scale = 1,
   position = { x: 0, y: 0 },
-  onBroadcastMessage
+  onBroadcastMessage,
+  onExecuteWhisperAction,
+  onUpdateTokens,
+  onSpawnTokens
 }) => {
   const [selectedCardId, setSelectedCardId] = useState(null);
   const [injectedLogs, setInjectedLogs] = useState([]);
@@ -24,8 +27,22 @@ const BastionWhisperDrawer = ({
   const handleInjectCard = (card) => {
     AudioService.playTerminalBeep(920, 0.2);
 
-    const logEntry = `[BASTION CO-GM INJECTION]: ${card.title} — ${card.description}`;
+    const actionResult = executeWhisperCardAction(card, tokens, roundNumber);
+    const logEntry = actionResult.logEntry;
+    setSelectedCardId(card.id);
     setInjectedLogs(prev => [logEntry, ...prev]);
+
+    if (onExecuteWhisperAction) {
+      onExecuteWhisperAction(actionResult);
+    }
+
+    if (onUpdateTokens && Array.isArray(actionResult.updatedTokens)) {
+      onUpdateTokens(actionResult.updatedTokens);
+    }
+
+    if (onSpawnTokens && Array.isArray(actionResult.spawnedTokens) && actionResult.spawnedTokens.length > 0) {
+      onSpawnTokens(actionResult.spawnedTokens);
+    }
 
     if (onTriggerFloatingText) {
       onTriggerFloatingText(window.innerWidth / 2, window.innerHeight / 3, `⚠️ ${card.title.toUpperCase()}`, 'karma');

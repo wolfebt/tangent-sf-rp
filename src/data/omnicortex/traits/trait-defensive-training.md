@@ -8,7 +8,17 @@ costs:
   cp: 2
   bp: 2
 description: +2 dodge bonus to Defense.
-modifiers: []
+modifiers:
+  - target: defense-mod
+    type: combat
+    value: 2
+    mode: inherent
+    description: +2 Defense
+  - target: Defense
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Defense
 ---
 # Defensive Training
 
@@ -18,4 +28,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
++2 dodge bonus to Defense.
+
+## Mechanics & Benefit
 +2 dodge bonus to Defense.

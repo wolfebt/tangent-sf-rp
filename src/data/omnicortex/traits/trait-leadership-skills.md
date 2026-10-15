@@ -8,19 +8,25 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  Natural leadership ability that inspires and coordinates starship crews under
-  critical void emergencies.
-modifiers: []
+  Maintaining crew morale, resolving hull-fever quarrels, and commanding
+  maneuvers during asteroid transit.
+modifiers:
+  - target: Leadership
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Leadership
+mechanic: +2 Leadership Checks
 ---
 # Leadership Skills
 
-**Category**: TRAITS  
-**Tier**: Basic  
-**Type**: Origin Trait  
-**CP Cost**: 1  
+**Category**: TRAITS
+**Tier**: Basic
+**Type**: Origin Trait
+**CP Cost**: 1
 
 ## Description
-Natural leadership ability that inspires and coordinates starship crews under critical void emergencies.
+Maintaining crew morale, resolving hull-fever quarrels, and commanding maneuvers during asteroid transit.
 
-## Mechanics
-+2 bonus on Leadership checks, and can grant allies Advantage on Morale saves once per encounter.
+## Mechanics & Benefit
++2 Leadership Checks

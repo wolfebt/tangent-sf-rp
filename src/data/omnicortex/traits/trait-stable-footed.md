@@ -8,7 +8,12 @@ costs:
   cp: 1
   bp: 1
 description: +4 racial Stability bonus while standing on the ground.
-modifiers: []
+modifiers:
+  - target: Stability
+    type: combat
+    value: 4
+    mode: inherent
+    description: +4 Stability
 ---
 # Stable Footed
 
@@ -18,4 +23,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
++4 racial Stability bonus while standing on the ground.
+
+## Mechanics & Benefit
 +4 racial Stability bonus while standing on the ground.

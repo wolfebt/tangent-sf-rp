@@ -8,9 +8,15 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  Self-reliant problem solving in the cold vacuum where help is light-years
-  away.
-modifiers: []
+  Self-reliance and autonomy nurtured through years of solitary deep-space
+  voyages far beyond comms reach.
+modifiers:
+  - target: Karma
+    type: karma
+    value: 1
+    mode: inherent
+    description: +1 to Karma Pool
+mechanic: +1 Karma Point
 ---
 # Independence
 
@@ -20,4 +26,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Self-reliant problem solving in the cold vacuum where help is light-years away.
+Self-reliance and autonomy nurtured through years of solitary deep-space voyages far beyond comms reach.
+
+## Mechanics & Benefit
++1 Karma Point

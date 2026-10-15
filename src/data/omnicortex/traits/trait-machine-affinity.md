@@ -8,7 +8,18 @@ costs:
   cp: 1
   bp: 1
 description: Natural aptitude for working with machinery and tools
-modifiers: []
+modifiers:
+  - target: Technology Knowledge Natural aptitude for working with machinery
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Technology Knowledge Natural aptitude for working with machinery
+  - target: Tools
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Tools
+mechanic: Additional +1 from Equipment Bonus and +2 Technology (Knowledge)
 ---
 # Machine Affinity
 
@@ -19,3 +30,6 @@ modifiers: []
 
 ## Description
 Natural aptitude for working with machinery and tools
+
+## Mechanics & Benefit
+Additional +1 from Equipment Bonus and +2 Technology (Knowledge)

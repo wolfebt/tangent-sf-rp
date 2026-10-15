@@ -8,7 +8,12 @@ costs:
   cp: 1
   bp: 1
 description: +2 racial bonus on Stealth checks.
-modifiers: []
+modifiers:
+  - target: Stealth
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Stealth
 ---
 # Sneaky
 
@@ -18,4 +23,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
++2 racial bonus on Stealth checks.
+
+## Mechanics & Benefit
 +2 racial bonus on Stealth checks.

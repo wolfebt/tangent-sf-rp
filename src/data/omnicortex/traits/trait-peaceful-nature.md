@@ -7,8 +7,11 @@ category: traits
 costs:
   cp: 1
   bp: 1
-description: Radiates serene composure that disarms hostility and calms tense standoffs.
+description: >-
+  Harmonious disposition that de-escalates hostility through tranquil presence
+  and negotiation.
 modifiers: []
+mechanic: +2 to Diplomacy for peaceful meditations
 ---
 # Peaceful Nature
 
@@ -18,4 +21,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Radiates serene composure that disarms hostility and calms tense standoffs.
+Harmonious disposition that de-escalates hostility through tranquil presence and negotiation.
+
+## Mechanics & Benefit
++2 to Diplomacy for peaceful meditations

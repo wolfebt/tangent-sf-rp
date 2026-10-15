@@ -8,7 +8,13 @@ costs:
   cp: 1
   bp: 1
 description: 'Alert and observant, constantly scanning the area for potential threats'
-modifiers: []
+modifiers:
+  - target: Alertness
+    type: take_10
+    value: 10
+    mode: inherent
+    description: May take 10 on Alertness Checks
+mechanic: May take 10 on Alertness Checks
 ---
 # Observant
 
@@ -19,3 +25,6 @@ modifiers: []
 
 ## Description
 Alert and observant, constantly scanning the area for potential threats
+
+## Mechanics & Benefit
+May take 10 on Alertness Checks

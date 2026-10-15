@@ -10,14 +10,22 @@ costs:
 description: >-
   Traverse vertical and inverted surfaces at full speed (40 ft/rd); +2 bonus on
   Climbing checks.
-modifiers: []
+modifiers:
+  - target: Climbing
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Climbing
 ---
 # Climber
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Traverse vertical walls and inverted ceilings at full ground movement speed without penalty. Gain a +2 racial bonus on Athletics (Climbing) checks.
+Traverse vertical and inverted surfaces at full speed (40 ft/rd); +2 bonus on Climbing checks.
+
+## Mechanics & Benefit
+Traverse vertical and inverted surfaces at full speed (40 ft/rd); +2 bonus on Climbing checks.

@@ -11,7 +11,13 @@ description: >-
   Merchants often possess linguistic skills, enabling them to communicate with
   customers and suppliers who speak different languages. This skill can help
   them expand their reach and negotiate better deals.
-modifiers: []
+modifiers:
+  - target: Linguistic Knowledge Merchants often possess linguistic
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Linguistic Knowledge Merchants often possess linguistic
+mechanic: +2 Linguistic Knowledge
 ---
 # Linguistics
 
@@ -22,3 +28,6 @@ modifiers: []
 
 ## Description
 Merchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals.
+
+## Mechanics & Benefit
++2 Linguistic Knowledge

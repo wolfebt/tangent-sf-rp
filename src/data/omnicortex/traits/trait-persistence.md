@@ -8,9 +8,15 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  Tireless determination that runs countless trials until a breakthrough is
-  achieved.
-modifiers: []
+  Relentless dedication that refuses to abandon stalled experiments or
+  inscrutable ciphers.
+modifiers:
+  - target: Karma
+    type: karma
+    value: 1
+    mode: inherent
+    description: +1 to Karma Pool
+mechanic: +1 Karma Point
 ---
 # Persistence
 
@@ -20,4 +26,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Tireless determination that runs countless trials until a breakthrough is achieved.
+Relentless dedication that refuses to abandon stalled experiments or inscrutable ciphers.
+
+## Mechanics & Benefit
++1 Karma Point

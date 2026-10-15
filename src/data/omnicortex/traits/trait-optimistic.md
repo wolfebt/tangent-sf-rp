@@ -7,8 +7,16 @@ category: traits
 costs:
   cp: 1
   bp: 1
-description: An unshakeable positive demeanor that inspires resilience in bleak moments.
-modifiers: []
+description: >-
+  Irrepressible cheerfulness and positive mindset that helps weather tense
+  diplomatic disputes.
+modifiers:
+  - target: Karma
+    type: karma
+    value: 1
+    mode: inherent
+    description: +1 to Karma Pool
+mechanic: +1 to Karma Pool
 ---
 # Optimistic
 
@@ -18,4 +26,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-An unshakeable positive demeanor that inspires resilience in bleak moments.
+Irrepressible cheerfulness and positive mindset that helps weather tense diplomatic disputes.
+
+## Mechanics & Benefit
++1 to Karma Pool

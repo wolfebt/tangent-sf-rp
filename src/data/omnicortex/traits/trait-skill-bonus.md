@@ -8,7 +8,12 @@ costs:
   cp: 1
   bp: 1
 description: Gain +2 racial bonus to divide amongst noted skills.
-modifiers: []
+modifiers:
+  - target: Divide amongst noted
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Divide amongst noted
 ---
 # Skill Bonus
 
@@ -18,4 +23,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
+Gain +2 racial bonus to divide amongst noted skills.
+
+## Mechanics & Benefit
 Gain +2 racial bonus to divide amongst noted skills.

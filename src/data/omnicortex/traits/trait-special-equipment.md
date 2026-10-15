@@ -11,7 +11,13 @@ description: >-
   Adepts may have access to specialized equipment or tools that enhance their
   abilities. This could include advanced weapons, cybernetic enhancements, or
   artifacts with unique properties.
-modifiers: []
+modifiers:
+  - target: equipment-bonus
+    type: combat
+    value: 2
+    mode: inherent
+    description: +2 Equipment
+mechanic: +2 Equipment
 ---
 # Special Equipment
 
@@ -22,3 +28,6 @@ modifiers: []
 
 ## Description
 Adepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.
+
+## Mechanics & Benefit
++2 Equipment

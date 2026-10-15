@@ -8,14 +8,22 @@ costs:
   cp: 2
   bp: 2
 description: All Fatigue checks are made at Advantage and at twice the interval time.
-modifiers: []
+modifiers:
+  - target: Fatigue Resistance All Fatigue
+    type: check_advantage
+    value: 1
+    mode: inherent
+    description: Advantage on Fatigue Resistance All Fatigue Checks
 ---
 # Fatigue Resistance
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-All Fatigue checks are made at Advantage and at twice the interval time, allowing relentless sustained labor and prolonged forced marches.
+All Fatigue checks are made at Advantage and at twice the interval time.
+
+## Mechanics & Benefit
+All Fatigue checks are made at Advantage and at twice the interval time.

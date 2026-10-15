@@ -10,7 +10,13 @@ costs:
 description: >-
   Skill in organizing resort logistics, hospitality staff, entertainment venues,
   and guest services.
-modifiers: []
+modifiers:
+  - target: Wealth
+    type: wealth
+    value: 1
+    mode: inherent
+    description: +1 Wealth Score
+mechanic: +1 Wealth and +1 Leadership
 ---
 # Management
 
@@ -21,3 +27,6 @@ modifiers: []
 
 ## Description
 Skill in organizing resort logistics, hospitality staff, entertainment venues, and guest services.
+
+## Mechanics & Benefit
++1 Wealth and +1 Leadership

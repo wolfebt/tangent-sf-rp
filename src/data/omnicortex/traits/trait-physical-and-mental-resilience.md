@@ -8,7 +8,13 @@ costs:
   cp: 1
   bp: 1
 description: Ability to endure harsh conditions or high-stress situations
-modifiers: []
+modifiers:
+  - target: Will
+    type: save
+    value: 1
+    mode: inherent
+    description: +1 on Will Checks
+mechanic: +1 Willpower and Fortitude
 ---
 # Physical and mental resilience
 
@@ -19,3 +25,6 @@ modifiers: []
 
 ## Description
 Ability to endure harsh conditions or high-stress situations
+
+## Mechanics & Benefit
++1 Willpower and Fortitude

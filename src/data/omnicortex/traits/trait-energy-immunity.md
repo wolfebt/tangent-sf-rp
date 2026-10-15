@@ -10,7 +10,12 @@ costs:
 description: >-
   Completely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific
   Energy.
-modifiers: []
+modifiers:
+  - target: armor-dr
+    type: combat
+    value: 20
+    mode: inherent
+    description: +20 DR
 ---
 # Energy Immunity
 
@@ -20,4 +25,7 @@ modifiers: []
 **CP Cost**: 4
 
 ## Description
+Completely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy.
+
+## Mechanics & Benefit
 Completely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy.

@@ -8,9 +8,10 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  Knows who controls each block, how to evade gang tolls, and where to fence hot
-  cargo.
+  In-depth mastery of underworld syndicates, secret black-clinic passwords, and
+  surveillance blindspots.
 modifiers: []
+mechanic: +2 Streetwise (additional +1 in Home City)
 ---
 # Streetwise
 
@@ -20,4 +21,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Knows who controls each block, how to evade gang tolls, and where to fence hot cargo.
+In-depth mastery of underworld syndicates, secret black-clinic passwords, and surveillance blindspots.
+
+## Mechanics & Benefit
++2 Streetwise (additional +1 in Home City)

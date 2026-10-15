@@ -11,6 +11,7 @@ description: >-
   Cautious and prefer to avoid unnecessary risks, especially when dealing with
   others
 modifiers: []
+mechanic: +2 Insight
 ---
 # Caution
 
@@ -21,3 +22,6 @@ modifiers: []
 
 ## Description
 Cautious and prefer to avoid unnecessary risks, especially when dealing with others
+
+## Mechanics & Benefit
++2 Insight

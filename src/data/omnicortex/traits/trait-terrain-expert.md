@@ -12,6 +12,7 @@ description: >-
   terrains, which may be taken multiple times for different terrain types.   *+2
   to Stealth, Survival and Defense in chosen Terrain* #
 modifiers: []
+mechanic: '+2 to Stealth, Survival and Defense in chosen Terrain'
 ---
 # Terrain Expert
 
@@ -22,3 +23,6 @@ modifiers: []
 
 ## Description
 Scouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #
+
+## Mechanics & Benefit
++2 to Stealth, Survival and Defense in chosen Terrain

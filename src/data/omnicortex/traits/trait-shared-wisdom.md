@@ -7,8 +7,11 @@ category: traits
 costs:
   cp: 1
   bp: 1
-description: Offers profound insight that elevates the actions of comrades.
+description: Imparting profound advice and guiding allies through precarious trials.
 modifiers: []
+mechanic: >-
+  Any Check to Aid, Guide or Instruct another (granting them a bonus) may be
+  made at Advantage
 ---
 # Shared Wisdom
 
@@ -18,4 +21,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Offers profound insight that elevates the actions of comrades.
+Imparting profound advice and guiding allies through precarious trials.
+
+## Mechanics & Benefit
+Any Check to Aid, Guide or Instruct another (granting them a bonus) may be made at Advantage

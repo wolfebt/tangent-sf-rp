@@ -13,6 +13,7 @@ description: >-
   elemental control, or advanced hacking abilities.   May be taken multiple
   times for a different Special Ability.
 modifiers: []
+mechanic: Special Ability at level 1 (which are afterwards improved as a skill)
 ---
 # Special Ability
 
@@ -23,3 +24,6 @@ modifiers: []
 
 ## Description
 Adepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability.
+
+## Mechanics & Benefit
+Special Ability at level 1 (which are afterwards improved as a skill)

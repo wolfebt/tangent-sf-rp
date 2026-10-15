@@ -8,9 +8,17 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  Deep understanding of ecological balance, crop rotation, and water
-  conservation.
-modifiers: []
+  Knowledgeable about sustainable farming practices and strives to minimize
+  environmental impact. Prioritizes organic methods and water conservation.
+modifiers:
+  - target: Any Agriculture based
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Any Agriculture based
+mechanic: >-
+  +2 to any Agriculture based checks in a prepared grow area and to prepare and
+  maintain an area.
 ---
 # Sustainable Practices
 
@@ -20,4 +28,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Deep understanding of ecological balance, crop rotation, and water conservation.
+Knowledgeable about sustainable farming practices and strives to minimize environmental impact. Prioritizes organic methods and water conservation.
+
+## Mechanics & Benefit
++2 to any Agriculture based checks in a prepared grow area and to prepare and maintain an area.

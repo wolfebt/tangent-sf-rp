@@ -10,7 +10,12 @@ costs:
 description: >-
   The supernatural chassis of ancient fey lineages connected to primal nature
   and illusion.
-modifiers: []
+modifiers:
+  - target: 'Condition: Sleep'
+    value: 0
+    type: immunity
+    mode: inherent
+    description: 'Sleepless [2 CP]'
 package_traits:
   - id: trait-ageless
     name: Ageless
@@ -45,19 +50,13 @@ package_traits:
 ---
 # Asi Base Traits
 
-**Category**: TRAITS  
-**Tier**: Elite  
-**Type**: Species Trait  
-**CP Cost**: 8  
+**Category**: TRAITS
+**Tier**: Elite
+**Type**: Species Trait
+**CP Cost**: 8
 
 ## Description
 The supernatural chassis of ancient fey lineages connected to primal nature and illusion.
 
-## Mechanics
-Includes Ageless [2 CP], Obfuscate [2 CP], Sleepless [2 CP], and Fey Affinity [2 CP]. Total package value: 8 CP.
-
-## Packaged Traits Sublist
-* **Ageless** [2 CP / Advanced]: Does not suffer penalties or show signs of physical aging.
-* **Obfuscate** [2 CP / Advanced]: Primal visual camouflage; blends into natural ambient light and sylvan environments.
-* **Sleepless** [2 CP / Advanced]: Requires no sleep; enters meditative rest solely to regain metaphysical energies.
-* **Fey Affinity** [2 CP / Advanced]: Primal nature resonance; wild animals and natural flora treat the character as friendly.
+## Mechanics & Benefit
+The supernatural chassis of ancient fey lineages connected to primal nature and illusion.

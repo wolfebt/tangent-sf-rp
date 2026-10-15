@@ -8,7 +8,13 @@ costs:
   cp: 1
   bp: 1
 description: Adheres to ethical standards in research and work.
-modifiers: []
+modifiers:
+  - target: Any Manipulation
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Any Manipulation
+mechanic: +2 to any Manipulation checks when taking an Ethical side
 ---
 # Ethical conduct
 
@@ -19,3 +25,6 @@ modifiers: []
 
 ## Description
 Adheres to ethical standards in research and work.
+
+## Mechanics & Benefit
++2 to any Manipulation checks when taking an Ethical side

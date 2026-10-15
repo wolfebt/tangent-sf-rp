@@ -8,7 +8,12 @@ costs:
   cp: 1
   bp: 1
 description: +2 bonus on combat maneuver checks made to bull rush or overrun an opponent.
-modifiers: []
+modifiers:
+  - target: Combat maneuver
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Combat maneuver
 ---
 # Relentless
 
@@ -18,4 +23,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
++2 bonus on combat maneuver checks made to bull rush or overrun an opponent.
+
+## Mechanics & Benefit
 +2 bonus on combat maneuver checks made to bull rush or overrun an opponent.

@@ -10,7 +10,14 @@ costs:
 description: >-
   Fearless enthusiasm for venturing beyond established perimeter fences into
   uncharted wilds.
-modifiers: []
+modifiers:
+  - target: Skill Choice
+    type: check_advantage
+    value: 1
+    mode: situational
+    condition: 1/Day
+    description: One Skill Check of choice at Advantage per day
+mechanic: One Skill Check at Advantage per day
 ---
 # Adventurous Spirit
 
@@ -21,3 +28,6 @@ modifiers: []
 
 ## Description
 Fearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds.
+
+## Mechanics & Benefit
+One Skill Check at Advantage per day

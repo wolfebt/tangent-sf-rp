@@ -11,6 +11,7 @@ description: >-
   Ability to resolve conflicts effectively and find solutions that satisfy all
   parties involved
 modifiers: []
+mechanic: +2 Diplomacy
 ---
 # Conflict resolution
 
@@ -21,3 +22,6 @@ modifiers: []
 
 ## Description
 Ability to resolve conflicts effectively and find solutions that satisfy all parties involved
+
+## Mechanics & Benefit
++2 Diplomacy

@@ -10,7 +10,13 @@ costs:
 description: >-
   Unpredictable in their actions and decisions, making them both intriguing
   allies and formidable adversaries   *+2 Initiative* #
-modifiers: []
+modifiers:
+  - target: initiative-mod
+    type: combat
+    value: 2
+    mode: inherent
+    description: +2 Initiative
+mechanic: +2 Initiative
 ---
 # Unpredictability
 
@@ -21,3 +27,6 @@ modifiers: []
 
 ## Description
 Unpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *+2 Initiative* #
+
+## Mechanics & Benefit
++2 Initiative

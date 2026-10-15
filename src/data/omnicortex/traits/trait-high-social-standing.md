@@ -10,7 +10,23 @@ costs:
 description: >-
   Often have a high social standing, which grants them access to better
   resources, connections, and opportunities.
-modifiers: []
+modifiers:
+  - target: Wealth Score
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Wealth Score
+  - target: Etiquette
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Etiquette
+  - target: Wealth
+    type: wealth
+    value: 2
+    mode: inherent
+    description: +2 Wealth Score
+mechanic: +2 to Wealth Score and Etiquette checks
 ---
 # High social standing
 
@@ -21,3 +37,6 @@ modifiers: []
 
 ## Description
 Often have a high social standing, which grants them access to better resources, connections, and opportunities.
+
+## Mechanics & Benefit
++2 to Wealth Score and Etiquette checks

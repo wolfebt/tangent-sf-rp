@@ -4,7 +4,7 @@
  * and space-opera narrative commentary and audio tension transitions in real time.
  */
 
-import { AudioService } from './audioService';
+import { AudioService } from './audioService.js';
 
 /**
  * Generates immediate narrative commentary for key combat events.

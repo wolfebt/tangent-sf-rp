@@ -10,7 +10,13 @@ costs:
 description: >-
   Honest and trustworthy, able to maintain a high level of integrity in their
   work
-modifiers: []
+modifiers:
+  - target: Karma
+    type: karma
+    value: 1
+    mode: inherent
+    description: +1 to Karma Pool
+mechanic: +1 Karma
 ---
 # Integrity
 
@@ -21,3 +27,6 @@ modifiers: []
 
 ## Description
 Honest and trustworthy, able to maintain a high level of integrity in their work
+
+## Mechanics & Benefit
++1 Karma

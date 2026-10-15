@@ -11,7 +11,13 @@ description: >-
   Merchants have the ability to accurately assess the value of items, whether
   it's rare artifacts, technology, or resources. They can quickly determine the
   worth of goods and negotiate fair prices.
-modifiers: []
+modifiers:
+  - target: Any Appraisal
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Any Appraisal
+mechanic: +2 to any Appraisal check
 ---
 # Appraisal
 
@@ -22,3 +28,6 @@ modifiers: []
 
 ## Description
 Merchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.
+
+## Mechanics & Benefit
++2 to any Appraisal check

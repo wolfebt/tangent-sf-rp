@@ -165,3 +165,33 @@ test('useUILayoutStore: Tripartite panel widths, Zen mode collapsing, 2D/3D view
   assert.equal(state.selectedTokenId, 'tok-hero-1');
   assert.equal(state.targetTokenId, 'tok-boss-1');
 });
+
+test('FirestoreDebouncer: Y.Doc update observation, debounce scheduling, and destroy lifecycle', async () => {
+  // Provide minimal window polyfill for FirestoreDebouncer timer/listener bindings in Node
+  if (typeof globalThis.window === 'undefined') {
+    globalThis.window = {
+      setTimeout: globalThis.setTimeout.bind(globalThis),
+      clearTimeout: globalThis.clearTimeout.bind(globalThis),
+      addEventListener: () => {}
+    };
+  }
+  const Y = await import('yjs');
+  const { FirestoreDebouncer } = await import('../../src/engine/network/FirestoreDebouncer.ts');
+
+  const yDoc = new Y.Doc();
+  const debouncer = new FirestoreDebouncer('camp-test-1', 'sess-test-1', yDoc, 5000);
+
+  assert.equal(debouncer.isFlushPending, false);
+
+  // Mutating the Y.Doc triggers the update observer and schedules a debounced flush
+  const tokensMap = yDoc.getMap('tokens');
+  tokensMap.set('tok-1', { x: 120, y: 240, hp: 30 });
+  assert.equal(debouncer.isFlushPending, true, 'Y.Doc mutation must mark flush pending');
+  assert.ok(debouncer.debounceTimer !== null, 'Debounce timer must be scheduled');
+
+  // Prevent network call during unit test teardown and verify destroy() clears timer
+  debouncer.isFlushPending = false;
+  debouncer.destroy();
+  assert.equal(debouncer.isDestroyed, true);
+});
+

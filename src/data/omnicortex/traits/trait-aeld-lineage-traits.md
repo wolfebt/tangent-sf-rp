@@ -8,7 +8,17 @@ costs:
   cp: 5
   bp: 5
 description: The foundational biological and metaphysical chassis of the elven race.
-modifiers: []
+modifiers:
+  - target: 'Meta: Arcane'
+    value: 1
+    type: discipline
+    mode: inherent
+    description: 'Awakened (Arcane) [2 CP]'
+  - target: 'Condition: Sleep'
+    value: 0
+    type: immunity
+    mode: inherent
+    description: Immune to Sleep
 package_traits:
   - id: trait-awakened-arcane
     name: Awakened (Arcane)
@@ -31,18 +41,13 @@ package_traits:
 ---
 # Aeld Lineage Traits
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 5  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 5
 
 ## Description
 The foundational biological and metaphysical chassis of the elven race.
 
-## Mechanics
-Includes Awakened (Arcane) [2 CP], Longevity / Lifespan 600+ years [1 CP], and Sleepless (Immunity to magical sleep effects) [2 CP]. Total package value: 5 CP.
-
-## Packaged Traits Sublist
-* **Awakened (Arcane)** [2 CP / Advanced]: Innate connection to arcane currents and spellcasting aptitude.
-* **Longevity (Lifespan 600+)** [1 CP / Basic]: Biological lifespan exceeding six centuries; enhanced cellular stability.
-* **Sleepless** [2 CP / Advanced]: Requires no physical sleep; immune to magical sleep effects.
+## Mechanics & Benefit
+The foundational biological and metaphysical chassis of the elven race.

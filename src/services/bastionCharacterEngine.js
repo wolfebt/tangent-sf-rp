@@ -2767,8 +2767,8 @@ export const synthesizeCharacterWithBastion = ({
     'tech-level': techLevel || 3,
     'magic-level': 3,
     'meta-level': 3,
-    health: 30 + ((finalAttrs['attr-stamina'] || 0) * 2),
-    vitality: 30 + ((finalAttrs['attr-stamina'] || 0) * 2),
+    health: 30,
+    vitality: 30,
     structure: 60,
     karma: 3,
 

@@ -8,9 +8,15 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  Talent in performance arts, music, athletics, gaming, or high-stakes social
-  recreation.
-modifiers: []
+  Excellence in musical performance, culinary arts, somatic exhibitions, or
+  creative entertainment.
+modifiers:
+  - target: A Non-Combat
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to A Non-Combat
+mechanic: +2 to a Non-Combat Skill of choice
 ---
 # Entertainment Skill
 
@@ -20,4 +26,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Talent in performance arts, music, athletics, gaming, or high-stakes social recreation.
+Excellence in musical performance, culinary arts, somatic exhibitions, or creative entertainment.
+
+## Mechanics & Benefit
++2 to a Non-Combat Skill of choice

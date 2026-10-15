@@ -8,7 +8,12 @@ costs:
   cp: 2
   bp: 2
 description: 'DR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.'
-modifiers: []
+modifiers:
+  - target: armor-dr
+    type: combat
+    value: 10
+    mode: inherent
+    description: +10 DR
 ---
 # Energy Resist
 
@@ -18,4 +23,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
+DR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.
+
+## Mechanics & Benefit
 DR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.

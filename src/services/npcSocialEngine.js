@@ -4,7 +4,7 @@
  * Intimidation, and Bribery social skill checks during encounters.
  */
 
-import { AudioService } from './audioService';
+import { AudioService } from './audioService.js';
 
 export const DISPOSITION_TIERS = {
   hostile: { id: 'hostile', min: 0, max: 25, label: 'Hostile', color: 'text-red-400', icon: '😡' },

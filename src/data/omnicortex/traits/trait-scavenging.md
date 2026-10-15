@@ -10,7 +10,13 @@ costs:
 description: >-
   Excel at scavenging and salvaging useful items from abandoned places or
   wreckage, making the most out of limited resources
-modifiers: []
+modifiers:
+  - target: Salvage
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Salvage
+mechanic: +2 Salvage checks
 ---
 # Scavenging
 
@@ -21,3 +27,6 @@ modifiers: []
 
 ## Description
 Excel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources
+
+## Mechanics & Benefit
++2 Salvage checks

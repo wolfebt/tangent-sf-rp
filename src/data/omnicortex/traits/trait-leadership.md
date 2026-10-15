@@ -7,8 +7,11 @@ category: traits
 costs:
   cp: 1
   bp: 1
-description: Inspirational command presence that organizes groups and rallies morale.
+description: >-
+  Guiding fellow colonists through crises and establishing order in remote
+  settlements.
 modifiers: []
+mechanic: +2 Leadership
 ---
 # Leadership
 
@@ -18,4 +21,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Inspirational command presence that organizes groups and rallies morale.
+Guiding fellow colonists through crises and establishing order in remote settlements.
+
+## Mechanics & Benefit
++2 Leadership

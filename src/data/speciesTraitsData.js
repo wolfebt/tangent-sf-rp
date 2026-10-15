@@ -77,7 +77,7 @@ export const SPECIES_TRAITS_BASIC = [
       }
     ],
     "package_traits": [],
-    "body": "# Aggressiveness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Combat\n**CP Cost**: 1\n\n## Description\nDecisive tactical aggression in combat, granting +1 bonus to intimidation and breach actions.",
+    "body": "# Aggressiveness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Combat\n**CP Cost**: 1\n\n## Description\nDecisive tactical aggression in combat, granting +1 bonus to intimidation and breach actions.\n\n## Mechanics & Benefit\nDecisive tactical aggression in combat, granting +1 bonus to intimidation and breach actions.",
     "notes": "[Modifier] +1 to Intimidation\n[Modifier] +1 to Breach\n[Rule] Basic Combat (1 CP).",
     "notesList": [
       "[Modifier] +1 to Intimidation",
@@ -116,7 +116,7 @@ export const SPECIES_TRAITS_BASIC = [
       }
     ],
     "package_traits": [],
-    "body": "# Alter Form (Basic)\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nBase Category, Change Appearance only (+5 to Disguise).",
+    "body": "# Alter Form (Basic)\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nBase Category, Change Appearance only (+5 to Disguise).\n\n## Mechanics & Benefit\nBase Category, Change Appearance only (+5 to Disguise).",
     "notes": "[Modifier] +5 to Disguise\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
       "[Modifier] +5 to Disguise",
@@ -146,6 +146,13 @@ export const SPECIES_TRAITS_BASIC = [
     "special_rules": "Basic Species Trait (1 CP).",
     "modifiers": [
       {
+        "target": "move-swim",
+        "type": "combat",
+        "value": 10,
+        "mode": "inherent",
+        "description": "+10 Swim Speed"
+      },
+      {
         "target": "Swim Speed",
         "type": "skill",
         "value": 10,
@@ -154,9 +161,10 @@ export const SPECIES_TRAITS_BASIC = [
       }
     ],
     "package_traits": [],
-    "body": "# Amphibious\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nBreathe Air and Water equally well, +10 to Swim Speed.",
-    "notes": "[Modifier] +10 to Swim Speed\n[Rule] Basic Species Trait (1 CP).",
+    "body": "# Amphibious\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nBreathe Air and Water equally well, +10 to Swim Speed.\n\n## Mechanics & Benefit\nBreathe Air and Water equally well, +10 to Swim Speed.",
+    "notes": "[Modifier] +10 Swim Speed\n[Modifier] +10 to Swim Speed\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
+      "[Modifier] +10 Swim Speed",
       "[Modifier] +10 to Swim Speed",
       "[Rule] Basic Species Trait (1 CP)."
     ]
@@ -182,11 +190,20 @@ export const SPECIES_TRAITS_BASIC = [
     "mechanic": "+2 dodge bonus to AC when in a specific terrain type.",
     "rules": "Basic Species Trait (1 CP).",
     "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "AC when in a specific terrain type",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to AC when in a specific terrain type"
+      }
+    ],
     "package_traits": [],
-    "body": "# Bonded Terrain\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 dodge bonus to AC when in a specific terrain type.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Bonded Terrain\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 dodge bonus to AC when in a specific terrain type.\n\n## Mechanics & Benefit\n+2 dodge bonus to AC when in a specific terrain type.",
+    "notes": "[Modifier] +2 to AC when in a specific terrain type\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to AC when in a specific terrain type",
       "[Rule] Basic Species Trait (1 CP)."
     ]
   },
@@ -279,7 +296,7 @@ export const SPECIES_TRAITS_BASIC = [
       }
     ],
     "package_traits": [],
-    "body": "# Camouflage\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nChoose a favored terrain type. +4 bonus on Stealth checks within that terrain.",
+    "body": "# Camouflage\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nChoose a favored terrain type. +4 bonus on Stealth checks within that terrain.\n\n## Mechanics & Benefit\nChoose a favored terrain type. +4 bonus on Stealth checks within that terrain.",
     "notes": "[Modifier] +4 to Stealth\n[Rule] Basic Species Trait (1 CP).\n[Prerequisite] Stealth 1",
     "notesList": [
       "[Modifier] +4 to Stealth",
@@ -308,11 +325,20 @@ export const SPECIES_TRAITS_BASIC = [
     "mechanic": "Once per Long Rest make a Reflex Check at Advantage.",
     "rules": "Basic Species Trait (1 CP).",
     "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Reflex",
+        "type": "save_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Reflex Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Cat's Luck\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nOnce per Long Rest make a Reflex Check at Advantage.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Cat's Luck\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nOnce per Long Rest make a Reflex Check at Advantage.\n\n## Mechanics & Benefit\nOnce per Long Rest make a Reflex Check at Advantage.",
+    "notes": "[Modifier] Advantage on Reflex Checks\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
+      "[Modifier] Advantage on Reflex Checks",
       "[Rule] Basic Species Trait (1 CP)."
     ]
   },
@@ -347,7 +373,7 @@ export const SPECIES_TRAITS_BASIC = [
       }
     ],
     "package_traits": [],
-    "body": "# Cave Dweller\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+4 bonus on Survival checks made underground.",
+    "body": "# Cave Dweller\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+4 bonus on Survival checks made underground.\n\n## Mechanics & Benefit\n+4 bonus on Survival checks made underground.",
     "notes": "[Modifier] +4 to Survival\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
       "[Modifier] +4 to Survival",
@@ -443,7 +469,7 @@ export const SPECIES_TRAITS_BASIC = [
       }
     ],
     "package_traits": [],
-    "body": "# Craftsman\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 to Specific Vocation.",
+    "body": "# Craftsman\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 to Specific Vocation.\n\n## Mechanics & Benefit\n+2 to Specific Vocation.",
     "notes": "[Modifier] +2 to Specific Vocation\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
       "[Modifier] +2 to Specific Vocation",
@@ -545,13 +571,21 @@ export const SPECIES_TRAITS_BASIC = [
         "value": 10,
         "mode": "inherent",
         "description": "+10 Movement"
+      },
+      {
+        "target": "Stability",
+        "type": "combat",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 Stability"
       }
     ],
     "package_traits": [],
-    "body": "# Digitigrade / Ungulated\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+10 Movement Speed and +4 Stability, Special pants and Boots needed.",
-    "notes": "[Modifier] +10 Movement\n[Rule] Basic Species Trait (1 CP).",
+    "body": "# Digitigrade / Ungulated\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+10 Movement Speed and +4 Stability, Special pants and Boots needed.\n\n## Mechanics & Benefit\n+10 Movement Speed and +4 Stability, Special pants and Boots needed.",
+    "notes": "[Modifier] +10 Movement\n[Modifier] +4 Stability\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
       "[Modifier] +10 Movement",
+      "[Modifier] +4 Stability",
       "[Rule] Basic Species Trait (1 CP)."
     ]
   },
@@ -605,11 +639,30 @@ export const SPECIES_TRAITS_BASIC = [
     "mechanic": "Once per day make a check at advantage for Bluff or Diplomacy.",
     "rules": "Basic Species Trait (1 CP).",
     "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Bluff",
+        "value": 1,
+        "type": "check_advantage",
+        "mode": "situational",
+        "condition": "1/Day",
+        "description": "Advantage on Bluff or Diplomacy check (1/Day)"
+      },
+      {
+        "target": "Diplomacy",
+        "value": 1,
+        "type": "check_advantage",
+        "mode": "situational",
+        "condition": "1/Day",
+        "description": "Advantage on Bluff or Diplomacy check (1/Day)"
+      }
+    ],
     "package_traits": [],
-    "body": "# Emissary\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nOnce per day make a check at advantage for Bluff or Diplomacy.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Emissary\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nOnce per day make a check at advantage for Bluff or Diplomacy.\n\n## Mechanics & Benefit\nOnce per day make a check at advantage for Bluff or Diplomacy.",
+    "notes": "[Modifier] Advantage on Bluff or Diplomacy check (1/Day)\n[Modifier] Advantage on Bluff or Diplomacy check (1/Day)\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
+      "[Modifier] Advantage on Bluff or Diplomacy check (1/Day)",
+      "[Modifier] Advantage on Bluff or Diplomacy check (1/Day)",
       "[Rule] Basic Species Trait (1 CP)."
     ]
   },
@@ -634,11 +687,20 @@ export const SPECIES_TRAITS_BASIC = [
     "mechanic": "DR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.",
     "rules": "Basic Species Trait (1 CP).",
     "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "armor-dr",
+        "value": 4,
+        "type": "combat",
+        "mode": "inherent",
+        "description": "+4 Natural DR (Partial Exoskeleton)"
+      }
+    ],
     "package_traits": [],
-    "body": "# Exoskeleton (Partial)\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nDR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Exoskeleton (Partial)\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nDR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.\n\n## Mechanics & Benefit\nDR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.",
+    "notes": "[Modifier] +4 Natural DR (Partial Exoskeleton)\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
+      "[Modifier] +4 Natural DR (Partial Exoskeleton)",
       "[Rule] Basic Species Trait (1 CP)."
     ]
   },
@@ -702,7 +764,7 @@ export const SPECIES_TRAITS_BASIC = [
       }
     ],
     "package_traits": [],
-    "body": "# Fragile Frame\n\n**Category**: TRAITS  \n**Tier**: Basic  \n**Type**: Disadvantage  \n**CP Cost**: -2 (Refund 2 CP)  \n\n## Description\nOutside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves.",
+    "body": "# Fragile Frame\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Disadvantage\n**CP Cost**: -2\n\n## Description\nOutside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves.\n\n## Mechanics & Benefit\nOutside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves.",
     "notes": "[Penalty] -2 to Physical\n[Rule] Basic Disadvantage (-2 CP).",
     "notesList": [
       "[Penalty] -2 to Physical",
@@ -730,11 +792,39 @@ export const SPECIES_TRAITS_BASIC = [
     "mechanic": "1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).",
     "rules": "Basic Species Trait (1 CP).",
     "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "attr-strength",
+        "value": 2,
+        "type": "attribute",
+        "mode": "situational",
+        "condition": "During Frenzy",
+        "description": "+2 Strength during Frenzy"
+      },
+      {
+        "target": "attr-stamina",
+        "value": 2,
+        "type": "attribute",
+        "mode": "situational",
+        "condition": "During Frenzy",
+        "description": "+2 Stamina during Frenzy"
+      },
+      {
+        "target": "defense-mod",
+        "value": -2,
+        "type": "combat",
+        "mode": "situational",
+        "condition": "During Frenzy",
+        "description": "-2 Defense during Frenzy"
+      }
+    ],
     "package_traits": [],
-    "body": "# Frenzy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Frenzy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).\n\n## Mechanics & Benefit\n1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).",
+    "notes": "[Modifier] +2 Strength during Frenzy\n[Modifier] +2 Stamina during Frenzy\n[Penalty] -2 Defense during Frenzy\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 Strength during Frenzy",
+      "[Modifier] +2 Stamina during Frenzy",
+      "[Penalty] -2 Defense during Frenzy",
       "[Rule] Basic Species Trait (1 CP)."
     ]
   },
@@ -769,7 +859,7 @@ export const SPECIES_TRAITS_BASIC = [
       }
     ],
     "package_traits": [],
-    "body": "# Greedy Eye\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+4 bonus on all Appraise checks.",
+    "body": "# Greedy Eye\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+4 bonus on all Appraise checks.\n\n## Mechanics & Benefit\n+4 bonus on all Appraise checks.",
     "notes": "[Modifier] +4 to Appraise\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
       "[Modifier] +4 to Appraise",
@@ -797,11 +887,36 @@ export const SPECIES_TRAITS_BASIC = [
     "mechanic": "+2 racial bonus on saving throws against poison, spells, and spell-like abilities.",
     "rules": "Basic Species Trait (1 CP).",
     "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Saving throws against poison",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Saving throws against poison"
+      },
+      {
+        "target": "Spells",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Spells"
+      },
+      {
+        "target": "Spell-like abilities",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Spell-like abilities"
+      }
+    ],
     "package_traits": [],
-    "body": "# Hardy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 racial bonus on saving throws against poison, spells, and spell-like abilities.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Hardy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 racial bonus on saving throws against poison, spells, and spell-like abilities.\n\n## Mechanics & Benefit\n+2 racial bonus on saving throws against poison, spells, and spell-like abilities.",
+    "notes": "[Modifier] +2 to Saving throws against poison\n[Modifier] +2 to Spells\n[Modifier] +2 to Spell-like abilities\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Saving throws against poison",
+      "[Modifier] +2 to Spells",
+      "[Modifier] +2 to Spell-like abilities",
       "[Rule] Basic Species Trait (1 CP)."
     ]
   },
@@ -836,7 +951,7 @@ export const SPECIES_TRAITS_BASIC = [
       }
     ],
     "package_traits": [],
-    "body": "# Healthy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+4 bonus on Fortitude saves against disease and poison",
+    "body": "# Healthy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+4 bonus on Fortitude saves against disease and poison\n\n## Mechanics & Benefit\n+4 bonus on Fortitude saves against disease and poison",
     "notes": "[Modifier] +4 on Fortitude Checks\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
       "[Modifier] +4 on Fortitude Checks",
@@ -918,7 +1033,7 @@ export const SPECIES_TRAITS_BASIC = [
       }
     ],
     "package_traits": [],
-    "body": "# Integrated\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+1 bonus on Bluff, Disguise, and Knowledge (local) checks.",
+    "body": "# Integrated\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+1 bonus on Bluff, Disguise, and Knowledge (local) checks.\n\n## Mechanics & Benefit\n+1 bonus on Bluff, Disguise, and Knowledge (local) checks.",
     "notes": "[Modifier] +1 to Bluff\n[Modifier] +1 to Disguise\n[Modifier] +1 to Knowledge local\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
       "[Modifier] +1 to Bluff",
@@ -977,11 +1092,36 @@ export const SPECIES_TRAITS_BASIC = [
     "mechanic": "+1 racial bonus on all saving throws.",
     "rules": "Basic Species Trait (1 CP).",
     "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Fortitude",
+        "type": "save",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 on all saving throws"
+      },
+      {
+        "target": "Reflex",
+        "type": "save",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 on all saving throws"
+      },
+      {
+        "target": "Will",
+        "type": "save",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 on all saving throws"
+      }
+    ],
     "package_traits": [],
-    "body": "# Lucky, Lesser\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+1 racial bonus on all saving throws.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Lucky, Lesser\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+1 racial bonus on all saving throws.\n\n## Mechanics & Benefit\n+1 racial bonus on all saving throws.",
+    "notes": "[Modifier] +1 on all saving throws\n[Modifier] +1 on all saving throws\n[Modifier] +1 on all saving throws\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 on all saving throws",
+      "[Modifier] +1 on all saving throws",
+      "[Modifier] +1 on all saving throws",
       "[Rule] Basic Species Trait (1 CP)."
     ]
   },
@@ -1006,11 +1146,20 @@ export const SPECIES_TRAITS_BASIC = [
     "mechanic": "+2 natural armor bonus.",
     "rules": "Basic Species Trait (1 CP).",
     "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "armor-dr",
+        "type": "combat",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 armor"
+      }
+    ],
     "package_traits": [],
-    "body": "# Natural Armor\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 natural armor bonus.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Natural Armor\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 natural armor bonus.\n\n## Mechanics & Benefit\n+2 natural armor bonus.",
+    "notes": "[Modifier] +2 armor\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 armor",
       "[Rule] Basic Species Trait (1 CP)."
     ]
   },
@@ -1182,18 +1331,11 @@ export const SPECIES_TRAITS_BASIC = [
     "special_rules": "Basic Species Trait (1 CP).",
     "modifiers": [
       {
-        "target": "Psionic",
+        "target": "Manelli Psionic",
         "type": "skill",
         "value": -2,
         "mode": "penalty",
-        "description": "-2 to Psionic"
-      },
-      {
-        "target": "Attune",
-        "type": "skill",
-        "value": -2,
-        "mode": "penalty",
-        "description": "-2 to Attune"
+        "description": "-2 to Manelli Psionic"
       },
       {
         "target": "Wisdom",
@@ -1201,23 +1343,14 @@ export const SPECIES_TRAITS_BASIC = [
         "value": -2,
         "mode": "penalty",
         "description": "-2 to Wisdom"
-      },
-      {
-        "target": "Manelli Psionic",
-        "type": "skill",
-        "value": -2,
-        "mode": "penalty",
-        "description": "-2 to Manelli Psionic"
       }
     ],
     "package_traits": [],
-    "body": "# Psionic Interference (The Static)\n\n**Category**: TRAITS  \n**Tier**: Basic  \n**Type**: Species Trait  \n**CP Cost**: 1  \n\n## Description\nDiscordant psionic static out of tune with the Kitin Collective. Manelli within psychic range suffer a -2 penalty to Psionic and Wisdom checks; Kitin Chorus communications within 30 ft are severely disrupted and used at Disadvantage.",
-    "notes": "[Penalty] -2 to Psionic\n[Penalty] -2 to Attune\n[Penalty] -2 to Wisdom\n[Penalty] -2 to Manelli Psionic\n[Rule] Basic Species Trait (1 CP).\n[Prerequisite] Resonant / Chaotic Psionic Aura",
+    "body": "# Psionic Interference (The Static)\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nDiscordant psychic frequency imposes -2 on Manelli Psionic/Wisdom checks; Kitin Chorus communication in immediate vicinity is disrupted and rolled at Disadvantage.\n\n## Mechanics & Benefit\nDiscordant psychic frequency imposes -2 on Manelli Psionic/Wisdom checks; Kitin Chorus communication in immediate vicinity is disrupted and rolled at Disadvantage.",
+    "notes": "[Penalty] -2 to Manelli Psionic\n[Penalty] -2 to Wisdom\n[Rule] Basic Species Trait (1 CP).\n[Prerequisite] Resonant / Chaotic Psionic Aura",
     "notesList": [
-      "[Penalty] -2 to Psionic",
-      "[Penalty] -2 to Attune",
-      "[Penalty] -2 to Wisdom",
       "[Penalty] -2 to Manelli Psionic",
+      "[Penalty] -2 to Wisdom",
       "[Rule] Basic Species Trait (1 CP).",
       "[Prerequisite] Resonant / Chaotic Psionic Aura"
     ]
@@ -1311,7 +1444,7 @@ export const SPECIES_TRAITS_BASIC = [
       }
     ],
     "package_traits": [],
-    "body": "# Relentless\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 bonus on combat maneuver checks made to bull rush or overrun an opponent.",
+    "body": "# Relentless\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 bonus on combat maneuver checks made to bull rush or overrun an opponent.\n\n## Mechanics & Benefit\n+2 bonus on combat maneuver checks made to bull rush or overrun an opponent.",
     "notes": "[Modifier] +2 to Combat maneuver\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
       "[Modifier] +2 to Combat maneuver",
@@ -1341,18 +1474,34 @@ export const SPECIES_TRAITS_BASIC = [
     "special_rules": "Basic Species Trait (1 CP).",
     "modifiers": [
       {
-        "target": "Athletics",
+        "target": "Saves to avoid fatigue",
         "type": "skill",
-        "value": 2,
+        "value": 4,
         "mode": "inherent",
-        "description": "+2 to Athletics"
+        "description": "+4 to Saves to avoid fatigue"
+      },
+      {
+        "target": "Exhaustion",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Exhaustion"
+      },
+      {
+        "target": "Ill effects from running",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Ill effects from running"
       }
     ],
     "package_traits": [],
-    "body": "# Runner\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running",
-    "notes": "[Modifier] +2 to Athletics\n[Rule] Basic Species Trait (1 CP).\n[Prerequisite] Strength 1, Agility 1, Stamina 1",
+    "body": "# Runner\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running\n\n## Mechanics & Benefit\n+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running",
+    "notes": "[Modifier] +4 to Saves to avoid fatigue\n[Modifier] +4 to Exhaustion\n[Modifier] +4 to Ill effects from running\n[Rule] Basic Species Trait (1 CP).\n[Prerequisite] Strength 1, Agility 1, Stamina 1",
     "notesList": [
-      "[Modifier] +2 to Athletics",
+      "[Modifier] +4 to Saves to avoid fatigue",
+      "[Modifier] +4 to Exhaustion",
+      "[Modifier] +4 to Ill effects from running",
       "[Rule] Basic Species Trait (1 CP).",
       "[Prerequisite] Strength 1, Agility 1, Stamina 1"
     ]
@@ -1395,7 +1544,7 @@ export const SPECIES_TRAITS_BASIC = [
       }
     ],
     "package_traits": [],
-    "body": "# Scent\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nIdentify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).",
+    "body": "# Scent\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nIdentify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).\n\n## Mechanics & Benefit\nIdentify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).",
     "notes": "[Modifier] +4 to Track\n[Modifier] +4 to Medical Diagnosis as Analytical Sense of Smell\n[Rule] Basic Species Trait (1 CP).\n[Prerequisite] Wisdom 1",
     "notesList": [
       "[Modifier] +4 to Track",
@@ -1427,13 +1576,6 @@ export const SPECIES_TRAITS_BASIC = [
     "special_rules": "Basic Species Trait (1 CP).",
     "modifiers": [
       {
-        "target": "Stealth when in Shadowy or Dim area",
-        "type": "skill",
-        "value": 5,
-        "mode": "inherent",
-        "description": "+5 to Stealth when in Shadowy or Dim area"
-      },
-      {
         "target": "Stealth when in Shadowy",
         "type": "skill",
         "value": 5,
@@ -1449,10 +1591,9 @@ export const SPECIES_TRAITS_BASIC = [
       }
     ],
     "package_traits": [],
-    "body": "# Shadow Affinity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nGain +5 to Stealth when in Shadowy or Dim area.",
-    "notes": "[Modifier] +5 to Stealth when in Shadowy or Dim area\n[Modifier] +5 to Stealth when in Shadowy\n[Modifier] +5 to Dim area\n[Rule] Basic Species Trait (1 CP).",
+    "body": "# Shadow Affinity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nGain +5 to Stealth when in Shadowy or Dim area.\n\n## Mechanics & Benefit\nGain +5 to Stealth when in Shadowy or Dim area.",
+    "notes": "[Modifier] +5 to Stealth when in Shadowy\n[Modifier] +5 to Dim area\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
-      "[Modifier] +5 to Stealth when in Shadowy or Dim area",
       "[Modifier] +5 to Stealth when in Shadowy",
       "[Modifier] +5 to Dim area",
       "[Rule] Basic Species Trait (1 CP)."
@@ -1508,11 +1649,20 @@ export const SPECIES_TRAITS_BASIC = [
     "mechanic": "Pick two skills. Gain +2 racial bonus on both. Represents past lives.",
     "rules": "Basic Species Trait (1 CP).",
     "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Both",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Both"
+      }
+    ],
     "package_traits": [],
-    "body": "# Shards of the Past\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nPick two skills. Gain +2 racial bonus on both. Represents past lives.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Shards of the Past\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nPick two skills. Gain +2 racial bonus on both. Represents past lives.\n\n## Mechanics & Benefit\nPick two skills. Gain +2 racial bonus on both. Represents past lives.",
+    "notes": "[Modifier] +2 to Both\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Both",
       "[Rule] Basic Species Trait (1 CP)."
     ]
   },
@@ -1583,7 +1733,7 @@ export const SPECIES_TRAITS_BASIC = [
       }
     ],
     "package_traits": [],
-    "body": "# Silver Tongued\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 bonus on Diplomacy and Bluff. Can shift attitude up to three steps.",
+    "body": "# Silver Tongued\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 bonus on Diplomacy and Bluff. Can shift attitude up to three steps.\n\n## Mechanics & Benefit\n+2 bonus on Diplomacy and Bluff. Can shift attitude up to three steps.",
     "notes": "[Modifier] +2 to Diplomacy\n[Modifier] +2 to Bluff\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
       "[Modifier] +2 to Diplomacy",
@@ -1612,11 +1762,20 @@ export const SPECIES_TRAITS_BASIC = [
     "mechanic": "Gain +2 racial bonus to divide amongst noted skills.",
     "rules": "Basic Species Trait (1 CP).",
     "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Divide amongst noted",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Divide amongst noted"
+      }
+    ],
     "package_traits": [],
-    "body": "# Skill Bonus\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nGain +2 racial bonus to divide amongst noted skills.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Skill Bonus\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nGain +2 racial bonus to divide amongst noted skills.\n\n## Mechanics & Benefit\nGain +2 racial bonus to divide amongst noted skills.",
+    "notes": "[Modifier] +2 to Divide amongst noted\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Divide amongst noted",
       "[Rule] Basic Species Trait (1 CP)."
     ]
   },
@@ -1641,11 +1800,20 @@ export const SPECIES_TRAITS_BASIC = [
     "mechanic": "+2 racial bonus on Stealth checks.",
     "rules": "Basic Species Trait (1 CP).",
     "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Stealth"
+      }
+    ],
     "package_traits": [],
-    "body": "# Sneaky\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 racial bonus on Stealth checks.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Sneaky\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 racial bonus on Stealth checks.\n\n## Mechanics & Benefit\n+2 racial bonus on Stealth checks.",
+    "notes": "[Modifier] +2 to Stealth\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Stealth",
       "[Rule] Basic Species Trait (1 CP)."
     ]
   },
@@ -1699,11 +1867,20 @@ export const SPECIES_TRAITS_BASIC = [
     "mechanic": "+4 racial Stability bonus while standing on the ground.",
     "rules": "Basic Species Trait (1 CP).",
     "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Stability",
+        "type": "combat",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 Stability"
+      }
+    ],
     "package_traits": [],
-    "body": "# Stable Footed\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+4 racial Stability bonus while standing on the ground.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Stable Footed\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+4 racial Stability bonus while standing on the ground.\n\n## Mechanics & Benefit\n+4 racial Stability bonus while standing on the ground.",
+    "notes": "[Modifier] +4 Stability\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
+      "[Modifier] +4 Stability",
       "[Rule] Basic Species Trait (1 CP)."
     ]
   },
@@ -1730,11 +1907,11 @@ export const SPECIES_TRAITS_BASIC = [
     "special_rules": "Basic Species Trait (1 CP).",
     "modifiers": [
       {
-        "target": "Perception",
+        "target": "Alertness",
         "type": "skill",
         "value": 2,
         "mode": "inherent",
-        "description": "+2 to Perception"
+        "description": "+2 to Alertness"
       },
       {
         "target": "Stealth",
@@ -1745,10 +1922,10 @@ export const SPECIES_TRAITS_BASIC = [
       }
     ],
     "package_traits": [],
-    "body": "# Stalker\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nGain +2 bonus to Perception and Stealth checks versus one target.",
-    "notes": "[Modifier] +2 to Perception\n[Modifier] +2 to Stealth\n[Rule] Basic Species Trait (1 CP).",
+    "body": "# Stalker\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nGain +2 bonus to Perception and Stealth checks versus one target.\n\n## Mechanics & Benefit\nGain +2 bonus to Perception and Stealth checks versus one target.",
+    "notes": "[Modifier] +2 to Alertness\n[Modifier] +2 to Stealth\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
-      "[Modifier] +2 to Perception",
+      "[Modifier] +2 to Alertness",
       "[Modifier] +2 to Stealth",
       "[Rule] Basic Species Trait (1 CP)."
     ]
@@ -1849,7 +2026,7 @@ export const SPECIES_TRAITS_BASIC = [
       }
     ],
     "package_traits": [],
-    "body": "# Tail\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 to Trip and Balance Checks and usable as a Club.",
+    "body": "# Tail\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 to Trip and Balance Checks and usable as a Club.\n\n## Mechanics & Benefit\n+2 to Trip and Balance Checks and usable as a Club.",
     "notes": "[Modifier] +2 to Trip\n[Modifier] +2 to Balance\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
       "[Modifier] +2 to Trip",
@@ -1907,11 +2084,28 @@ export const SPECIES_TRAITS_BASIC = [
     "mechanic": "+2 racial bonus on Diplomacy and Sense Motive checks.",
     "rules": "Basic Species Trait (1 CP).",
     "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Diplomacy",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Diplomacy"
+      },
+      {
+        "target": "Insight",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Insight"
+      }
+    ],
     "package_traits": [],
-    "body": "# Urbanite\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 racial bonus on Diplomacy and Sense Motive checks.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Urbanite\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 racial bonus on Diplomacy and Sense Motive checks.\n\n## Mechanics & Benefit\n+2 racial bonus on Diplomacy and Sense Motive checks.",
+    "notes": "[Modifier] +2 to Diplomacy\n[Modifier] +2 to Insight\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Diplomacy",
+      "[Modifier] +2 to Insight",
       "[Rule] Basic Species Trait (1 CP)."
     ]
   },
@@ -2079,11 +2273,26 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "The foundational biological and metaphysical chassis of the elven race.",
     "description": "The foundational biological and metaphysical chassis of the elven race.",
-    "mechanics": "Includes Awakened (Arcane) [2 CP], Longevity / Lifespan 600+ years [1 CP], and Sleepless (Immunity to magical sleep effects) [2 CP]. Total package value: 5 CP.",
-    "mechanic": "Includes Awakened (Arcane) [2 CP], Longevity / Lifespan 600+ years [1 CP], and Sleepless (Immunity to magical sleep effects) [2 CP]. Total package value: 5 CP.",
+    "mechanics": "The foundational biological and metaphysical chassis of the elven race.",
+    "mechanic": "The foundational biological and metaphysical chassis of the elven race.",
     "rules": "Advanced Species Trait (5 CP).",
     "special_rules": "Advanced Species Trait (5 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Meta: Arcane",
+        "value": 1,
+        "type": "discipline",
+        "mode": "inherent",
+        "description": "Awakened (Arcane) [2 CP]"
+      },
+      {
+        "target": "Condition: Sleep",
+        "value": 0,
+        "type": "immunity",
+        "mode": "inherent",
+        "description": "Immune to Sleep"
+      }
+    ],
     "package_traits": [
       {
         "id": "trait-awakened-arcane",
@@ -2110,9 +2319,11 @@ export const SPECIES_TRAITS_ADVANCED = [
         "cp": 2
       }
     ],
-    "body": "# Aeld Lineage Traits\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 5  \n\n## Description\nThe foundational biological and metaphysical chassis of the elven race.\n\n## Mechanics\nIncludes Awakened (Arcane) [2 CP], Longevity / Lifespan 600+ years [1 CP], and Sleepless (Immunity to magical sleep effects) [2 CP]. Total package value: 5 CP.\n\n## Packaged Traits Sublist\n* **Awakened (Arcane)** [2 CP / Advanced]: Innate connection to arcane currents and spellcasting aptitude.\n* **Longevity (Lifespan 600+)** [1 CP / Basic]: Biological lifespan exceeding six centuries; enhanced cellular stability.\n* **Sleepless** [2 CP / Advanced]: Requires no physical sleep; immune to magical sleep effects.",
-    "notes": "[Rule] Advanced Species Trait (5 CP).",
+    "body": "# Aeld Lineage Traits\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 5\n\n## Description\nThe foundational biological and metaphysical chassis of the elven race.\n\n## Mechanics & Benefit\nThe foundational biological and metaphysical chassis of the elven race.",
+    "notes": "[Modifier] Awakened (Arcane) [2 CP]\n[Modifier] Immune to Sleep\n[Rule] Advanced Species Trait (5 CP).",
     "notesList": [
+      "[Modifier] Awakened (Arcane) [2 CP]",
+      "[Modifier] Immune to Sleep",
       "[Rule] Advanced Species Trait (5 CP)."
     ]
   },
@@ -2166,11 +2377,20 @@ export const SPECIES_TRAITS_ADVANCED = [
     "mechanic": "+4 racial bonus on Perception checks and immune to flanking.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Alertness",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Alertness"
+      }
+    ],
     "package_traits": [],
-    "body": "# All-Around Vision\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+4 racial bonus on Perception checks and immune to flanking.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# All-Around Vision\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+4 racial bonus on Perception checks and immune to flanking.\n\n## Mechanics & Benefit\n+4 racial bonus on Perception checks and immune to flanking.",
+    "notes": "[Modifier] +4 to Alertness\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] +4 to Alertness",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -2195,11 +2415,20 @@ export const SPECIES_TRAITS_ADVANCED = [
     "mechanic": "Base Category, Change Appearance (+5 Disguise)/gender/adjust minor traits.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Disguise",
+        "type": "skill",
+        "value": 5,
+        "mode": "inherent",
+        "description": "+5 to Disguise"
+      }
+    ],
     "package_traits": [],
-    "body": "# Alter Form (Adv)\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nBase Category, Change Appearance (+5 Disguise)/gender/adjust minor traits.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Alter Form (Adv)\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nBase Category, Change Appearance (+5 Disguise)/gender/adjust minor traits.\n\n## Mechanics & Benefit\nBase Category, Change Appearance (+5 Disguise)/gender/adjust minor traits.",
+    "notes": "[Modifier] +5 to Disguise\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] +5 to Disguise",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -2253,11 +2482,21 @@ export const SPECIES_TRAITS_ADVANCED = [
     "mechanic": "+1 size category for Combat, Strength or other checks while in water.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "attr-strength",
+        "value": 2,
+        "type": "attribute",
+        "mode": "situational",
+        "condition": "In Water",
+        "description": "+1 Size Category for Strength/Combat checks in water"
+      }
+    ],
     "package_traits": [],
-    "body": "# Aquatic Strength\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+1 size category for Combat, Strength or other checks while in water.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Aquatic Strength\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+1 size category for Combat, Strength or other checks while in water.\n\n## Mechanics & Benefit\n+1 size category for Combat, Strength or other checks while in water.",
+    "notes": "[Modifier] +1 Size Category for Strength/Combat checks in water\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] +1 Size Category for Strength/Combat checks in water",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -2282,11 +2521,28 @@ export const SPECIES_TRAITS_ADVANCED = [
     "mechanic": "+4 racial bonus on Swim checks and may take 10 on swimming checks.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Athletics",
+        "type": "take_10",
+        "value": 10,
+        "mode": "inherent",
+        "description": "May take 10 on Athletics Checks"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Athletics"
+      }
+    ],
     "package_traits": [],
-    "body": "# Aquatic\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+4 racial bonus on Swim checks and may take 10 on swimming checks.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Aquatic\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+4 racial bonus on Swim checks and may take 10 on swimming checks.\n\n## Mechanics & Benefit\n+4 racial bonus on Swim checks and may take 10 on swimming checks.",
+    "notes": "[Modifier] May take 10 on Athletics Checks\n[Modifier] +4 to Athletics\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] May take 10 on Athletics Checks",
+      "[Modifier] +4 to Athletics",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -2777,11 +3033,20 @@ export const SPECIES_TRAITS_ADVANCED = [
     "mechanic": "Upgraded Bodyform Armor, +1 option slot. Ranked.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Option slot",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Option slot"
+      }
+    ],
     "package_traits": [],
-    "body": "# Bodyform Armor Options\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nUpgraded Bodyform Armor, +1 option slot. Ranked.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Bodyform Armor Options\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nUpgraded Bodyform Armor, +1 option slot. Ranked.\n\n## Mechanics & Benefit\nUpgraded Bodyform Armor, +1 option slot. Ranked.",
+    "notes": "[Modifier] +1 to Option slot\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] +1 to Option slot",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -2806,11 +3071,20 @@ export const SPECIES_TRAITS_ADVANCED = [
     "mechanic": "Upgraded Bodyform Armor, +1 option slot. Ranked.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Option slot",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Option slot"
+      }
+    ],
     "package_traits": [],
-    "body": "# Bodyform Armor Opts\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nUpgraded Bodyform Armor, +1 option slot. Ranked.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Bodyform Armor Opts\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nUpgraded Bodyform Armor, +1 option slot. Ranked.\n\n## Mechanics & Benefit\nUpgraded Bodyform Armor, +1 option slot. Ranked.",
+    "notes": "[Modifier] +1 to Option slot\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] +1 to Option slot",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -2951,11 +3225,20 @@ export const SPECIES_TRAITS_ADVANCED = [
     "mechanic": "Upgraded Bodyform Weapons, +1 option slot. Ranked.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Option slot",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Option slot"
+      }
+    ],
     "package_traits": [],
-    "body": "# Bodyform Weapon Options\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nUpgraded Bodyform Weapons, +1 option slot. Ranked.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Bodyform Weapon Options\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nUpgraded Bodyform Weapons, +1 option slot. Ranked.\n\n## Mechanics & Benefit\nUpgraded Bodyform Weapons, +1 option slot. Ranked.",
+    "notes": "[Modifier] +1 to Option slot\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] +1 to Option slot",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -2980,11 +3263,20 @@ export const SPECIES_TRAITS_ADVANCED = [
     "mechanic": "Upgraded Bodyform Weapons, +1 option slot. Ranked.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Option slot",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Option slot"
+      }
+    ],
     "package_traits": [],
-    "body": "# Bodyform Weapon Opts\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nUpgraded Bodyform Weapons, +1 option slot. Ranked.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Bodyform Weapon Opts\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nUpgraded Bodyform Weapons, +1 option slot. Ranked.\n\n## Mechanics & Benefit\nUpgraded Bodyform Weapons, +1 option slot. Ranked.",
+    "notes": "[Modifier] +1 to Option slot\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] +1 to Option slot",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -3067,11 +3359,20 @@ export const SPECIES_TRAITS_ADVANCED = [
     "mechanic": "Changes color, +5 Stealth or may take 10 on Stealth checks.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Stealth",
+        "type": "take_10",
+        "value": 10,
+        "mode": "inherent",
+        "description": "May take 10 on Stealth Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Chameleon\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nChanges color, +5 Stealth or may take 10 on Stealth checks.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Chameleon\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nChanges color, +5 Stealth or may take 10 on Stealth checks.\n\n## Mechanics & Benefit\nChanges color, +5 Stealth or may take 10 on Stealth checks.",
+    "notes": "[Modifier] May take 10 on Stealth Checks\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] May take 10 on Stealth Checks",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -3096,11 +3397,20 @@ export const SPECIES_TRAITS_ADVANCED = [
     "mechanic": "Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10].",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "armor-dr",
+        "type": "combat",
+        "value": 10,
+        "mode": "inherent",
+        "description": "+10 DR"
+      }
+    ],
     "package_traits": [],
-    "body": "# Armor (Chitinous Shell)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nGlossy obsidian chitinous shell providing natural base DR 10 against physical impacts, energy weapons, and corrosive chemicals.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Exoskeletal Physiology",
+    "body": "# Armor (Chitinous Shell)\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nChitinous shell resistant to physical trauma, energy and chemicals [base DR 10].\n\n## Mechanics & Benefit\nChitinous shell resistant to physical trauma, energy and chemicals [base DR 10].",
+    "notes": "[Modifier] +10 DR\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Exoskeletal Physiology",
     "notesList": [
+      "[Modifier] +10 DR",
       "[Rule] Advanced Species Trait (2 CP).",
       "[Prerequisite] Exoskeletal Physiology"
     ]
@@ -3157,13 +3467,6 @@ export const SPECIES_TRAITS_ADVANCED = [
     "special_rules": "Advanced Species Trait (2 CP).",
     "modifiers": [
       {
-        "target": "Athletics Climbing",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Athletics Climbing"
-      },
-      {
         "target": "Climbing",
         "type": "skill",
         "value": 2,
@@ -3172,13 +3475,12 @@ export const SPECIES_TRAITS_ADVANCED = [
       }
     ],
     "package_traits": [],
-    "body": "# Climber\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nTraverse vertical walls and inverted ceilings at full ground movement speed without penalty. Gain a +2 racial bonus on Athletics (Climbing) checks.",
-    "notes": "[Modifier] +2 to Athletics Climbing\n[Modifier] +2 to Climbing\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Agility 1, Athletics 1",
+    "body": "# Climber\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nTraverse vertical and inverted surfaces at full speed (40 ft/rd); +2 bonus on Climbing checks.\n\n## Mechanics & Benefit\nTraverse vertical and inverted surfaces at full speed (40 ft/rd); +2 bonus on Climbing checks.",
+    "notes": "[Modifier] +2 to Climbing\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Athletics 1",
     "notesList": [
-      "[Modifier] +2 to Athletics Climbing",
       "[Modifier] +2 to Climbing",
       "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Agility 1, Athletics 1"
+      "[Prerequisite] Athletics 1"
     ]
   },
   {
@@ -3260,11 +3562,28 @@ export const SPECIES_TRAITS_ADVANCED = [
     "mechanic": "+2 dodge bonus to Defense.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "defense-mod",
+        "type": "combat",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 Defense"
+      },
+      {
+        "target": "Defense",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Defense"
+      }
+    ],
     "package_traits": [],
-    "body": "# Defensive Training\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+2 dodge bonus to Defense.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Defensive Training\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+2 dodge bonus to Defense.\n\n## Mechanics & Benefit\n+2 dodge bonus to Defense.",
+    "notes": "[Modifier] +2 Defense\n[Modifier] +2 to Defense\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] +2 Defense",
+      "[Modifier] +2 to Defense",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -3376,11 +3695,20 @@ export const SPECIES_TRAITS_ADVANCED = [
     "mechanic": "Make any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Ny Mental Resistance",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Ny Mental Resistance Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Dragon Mind\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nMake any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Dragon Mind\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nMake any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.\n\n## Mechanics & Benefit\nMake any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.",
+    "notes": "[Modifier] Advantage on Ny Mental Resistance Checks\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] Advantage on Ny Mental Resistance Checks",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -3405,11 +3733,20 @@ export const SPECIES_TRAITS_ADVANCED = [
     "mechanic": "Make Awareness Checks with Advantage. Req: Dragonkin, Awareness 11.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Wareness",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Wareness Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Dragon Senses\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nMake Awareness Checks with Advantage. Req: Dragonkin, Awareness 11.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Dragon Senses\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nMake Awareness Checks with Advantage. Req: Dragonkin, Awareness 11.\n\n## Mechanics & Benefit\nMake Awareness Checks with Advantage. Req: Dragonkin, Awareness 11.",
+    "notes": "[Modifier] Advantage on Wareness Checks\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] Advantage on Wareness Checks",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -3434,11 +3771,20 @@ export const SPECIES_TRAITS_ADVANCED = [
     "mechanic": "Combined endoskeleton and exoskeleton providing natural Damage Reduction (DR +5).",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "armor-dr",
+        "type": "combat",
+        "value": 5,
+        "mode": "inherent",
+        "description": "+5 DR"
+      }
+    ],
     "package_traits": [],
-    "body": "# Dual Skeletal Structure\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nA sophisticated dual-skeletal framework uniting an articulated internal endoskeleton with a segmented outer chitinous shell, providing natural DR +5 against all physical and kinetic trauma.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Endoskeleton and Exoskeleton",
+    "body": "# Dual Skeletal Structure\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nCombined endoskeleton and exoskeleton providing natural Damage Reduction (DR +5).\n\n## Mechanics & Benefit\nCombined endoskeleton and exoskeleton providing natural Damage Reduction (DR +5).",
+    "notes": "[Modifier] +5 DR\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Endoskeleton and Exoskeleton",
     "notesList": [
+      "[Modifier] +5 DR",
       "[Rule] Advanced Species Trait (2 CP).",
       "[Prerequisite] Endoskeleton and Exoskeleton"
     ]
@@ -3464,11 +3810,20 @@ export const SPECIES_TRAITS_ADVANCED = [
     "mechanic": "DR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "armor-dr",
+        "type": "combat",
+        "value": 10,
+        "mode": "inherent",
+        "description": "+10 DR"
+      }
+    ],
     "package_traits": [],
-    "body": "# Energy Resist\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nDR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Energy Resist\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nDR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.\n\n## Mechanics & Benefit\nDR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.",
+    "notes": "[Modifier] +10 DR\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] +10 DR",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -3553,11 +3908,20 @@ export const SPECIES_TRAITS_ADVANCED = [
     "mechanic": "DR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "armor-dr",
+        "value": 6,
+        "type": "combat",
+        "mode": "inherent",
+        "description": "+6 Natural DR (Light Exoskeleton)"
+      }
+    ],
     "package_traits": [],
-    "body": "# Exoskeleton (Light)\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nDR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Insectoid, Crustacean, or Synthetic Physiology",
+    "body": "# Exoskeleton (Light)\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nDR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.\n\n## Mechanics & Benefit\nDR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.",
+    "notes": "[Modifier] +6 Natural DR (Light Exoskeleton)\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Insectoid, Crustacean, or Synthetic Physiology",
     "notesList": [
+      "[Modifier] +6 Natural DR (Light Exoskeleton)",
       "[Rule] Advanced Species Trait (2 CP).",
       "[Prerequisite] Insectoid, Crustacean, or Synthetic Physiology"
     ]
@@ -3613,11 +3977,20 @@ export const SPECIES_TRAITS_ADVANCED = [
     "mechanic": "All Fatigue checks are made at Advantage and at twice the interval time.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Fatigue Resistance All Fatigue",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Fatigue Resistance All Fatigue Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Fatigue Resistance\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nAll Fatigue checks are made at Advantage and at twice the interval time, allowing relentless sustained labor and prolonged forced marches.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Robust Physiology or Inexhaustible Stamina",
+    "body": "# Fatigue Resistance\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nAll Fatigue checks are made at Advantage and at twice the interval time.\n\n## Mechanics & Benefit\nAll Fatigue checks are made at Advantage and at twice the interval time.",
+    "notes": "[Modifier] Advantage on Fatigue Resistance All Fatigue Checks\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Robust Physiology or Inexhaustible Stamina",
     "notesList": [
+      "[Modifier] Advantage on Fatigue Resistance All Fatigue Checks",
       "[Rule] Advanced Species Trait (2 CP).",
       "[Prerequisite] Robust Physiology or Inexhaustible Stamina"
     ]
@@ -3769,11 +4142,20 @@ export const SPECIES_TRAITS_ADVANCED = [
     "mechanic": "+4 racial bonus on Linguistics checks.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Language",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Language"
+      }
+    ],
     "package_traits": [],
-    "body": "# Gifted Linguist\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+4 racial bonus on Linguistics checks.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Gifted Linguist\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+4 racial bonus on Linguistics checks.\n\n## Mechanics & Benefit\n+4 racial bonus on Linguistics checks.",
+    "notes": "[Modifier] +4 to Language\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] +4 to Language",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -3827,11 +4209,20 @@ export const SPECIES_TRAITS_ADVANCED = [
     "mechanic": "Basic telepathic receptivity to follow Collective commands and synchronize with hive leadership.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Saves against external mental coercion",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Saves against external mental coercion"
+      }
+    ],
     "package_traits": [],
     "body": "# Hive-Link (Minor)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nBasic telepathic receptivity to follow Collective commands. Receives mental broadcasts within 5 miles, synchronizes Initiative with commanders, and gains +2 saves against external mental coercion.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Kitin Genome or Swarm Attunement",
+    "notes": "[Modifier] +2 to Saves against external mental coercion\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Kitin Genome or Swarm Attunement",
     "notesList": [
+      "[Modifier] +2 to Saves against external mental coercion",
       "[Rule] Advanced Species Trait (2 CP).",
       "[Prerequisite] Kitin Genome or Swarm Attunement"
     ]
@@ -3947,11 +4338,22 @@ export const SPECIES_TRAITS_ADVANCED = [
     "mechanic": "Always counts as a running start; all checks for jumping, leaping, and controlled dropping made at advantage.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "physical-athletics",
+        "type": "skill",
+        "value": 2,
+        "mode": "conditional",
+        "isSituational": true,
+        "condition": "Jumping and leaping distance checks",
+        "description": "Always counts as having a running start for jumping and leaping distance checks"
+      }
+    ],
     "package_traits": [],
     "body": "# Leaper\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nHigh-impact hydraulic leg anatomy allows the creature to always count as having a running start for jump distance, and grants Advantage on all checks for jumping, leaping, and dropping.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Athletics 1 or Agility 2",
+    "notes": "[Modifier] Always counts as having a running start for jumping and leaping distance checks\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Athletics 1 or Agility 2",
     "notesList": [
+      "[Modifier] Always counts as having a running start for jumping and leaping distance checks",
       "[Rule] Advanced Species Trait (2 CP).",
       "[Prerequisite] Athletics 1 or Agility 2"
     ]
@@ -4036,11 +4438,36 @@ export const SPECIES_TRAITS_ADVANCED = [
     "mechanic": "+2 racial bonus on all saving throws.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Fortitude",
+        "type": "save",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 on all saving throws"
+      },
+      {
+        "target": "Reflex",
+        "type": "save",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 on all saving throws"
+      },
+      {
+        "target": "Will",
+        "type": "save",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 on all saving throws"
+      }
+    ],
     "package_traits": [],
-    "body": "# Lucky, Greater\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+2 racial bonus on all saving throws.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Lucky, Greater\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+2 racial bonus on all saving throws.\n\n## Mechanics & Benefit\n+2 racial bonus on all saving throws.",
+    "notes": "[Modifier] +2 on all saving throws\n[Modifier] +2 on all saving throws\n[Modifier] +2 on all saving throws\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] +2 on all saving throws",
+      "[Modifier] +2 on all saving throws",
+      "[Modifier] +2 on all saving throws",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -4082,7 +4509,7 @@ export const SPECIES_TRAITS_ADVANCED = [
       }
     ],
     "package_traits": [],
-    "body": "# Master Tinker\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+2 bonus on Disable Device and Engineering.",
+    "body": "# Master Tinker\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+2 bonus on Disable Device and Engineering.\n\n## Mechanics & Benefit\n+2 bonus on Disable Device and Engineering.",
     "notes": "[Modifier] +2 to Disable Device\n[Modifier] +2 to Engineering\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
       "[Modifier] +2 to Disable Device",
@@ -4107,17 +4534,27 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Once per encounter or light rest, summon an explosive reserve of physical adrenaline or cellular force.",
     "description": "Once per encounter or light rest, summon an explosive reserve of physical adrenaline or cellular force.",
-    "mechanics": "Once per encounter during a critical physical action, gain Advantage on a single Strength or Stamina check, attack roll, or athletic feat of power.",
-    "mechanic": "Once per encounter during a critical physical action, gain Advantage on a single Strength or Stamina check, attack roll, or athletic feat of power.",
+    "mechanics": "Once per encounter or light rest, summon an explosive reserve of physical adrenaline or cellular force.",
+    "mechanic": "Once per encounter or light rest, summon an explosive reserve of physical adrenaline or cellular force.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Might",
+        "value": 1,
+        "type": "check_advantage",
+        "mode": "situational",
+        "condition": "1/Encounter",
+        "description": "Advantage on Strength or Stamina check (1/Encounter)"
+      }
+    ],
     "package_traits": [],
-    "body": "# Mighty Surge\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nOnce per encounter or light rest, summon an explosive reserve of physical adrenaline or cellular force.\n\n## Mechanics\nOnce per encounter during a critical physical action, gain Advantage on a single Strength or Stamina check, attack roll, or athletic feat of power.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Potent Might",
+    "body": "# Mighty Surge\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nOnce per encounter or light rest, summon an explosive reserve of physical adrenaline or cellular force.\n\n## Mechanics & Benefit\nOnce per encounter or light rest, summon an explosive reserve of physical adrenaline or cellular force.",
+    "notes": "[Modifier] Advantage on Strength or Stamina check (1/Encounter)\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Potent Might, Strength 2",
     "notesList": [
+      "[Modifier] Advantage on Strength or Stamina check (1/Encounter)",
       "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Potent Might"
+      "[Prerequisite] Potent Might, Strength 2"
     ]
   },
   {
@@ -4270,15 +4707,25 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Innate metaphysical masking that dampens personal presence, scrying signatures, and casual biological detection.",
     "description": "Innate metaphysical masking that dampens personal presence, scrying signatures, and casual biological detection.",
-    "mechanics": "Creatures attempting to detect, track, or scry upon the character suffer Disadvantage on Awareness, Investigation, and electronic sensor sweep checks unless using specialized penetrating scanners.",
-    "mechanic": "Creatures attempting to detect, track, or scry upon the character suffer Disadvantage on Awareness, Investigation, and electronic sensor sweep checks unless using specialized penetrating scanners.",
+    "mechanics": "Innate metaphysical masking that dampens personal presence, scrying signatures, and casual biological detection.",
+    "mechanic": "Innate metaphysical masking that dampens personal presence, scrying signatures, and casual biological detection.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Alertness",
+        "value": -1,
+        "type": "disadvantage",
+        "mode": "situational",
+        "condition": "Opponents scrying/tracking",
+        "description": "Enemies suffer Disadvantage on Awareness/Investigation checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Obfuscate\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nInnate metaphysical masking that dampens personal presence, scrying signatures, and casual biological detection.\n\n## Mechanics\nCreatures attempting to detect, track, or scry upon the character suffer Disadvantage on Awareness, Investigation, and electronic sensor sweep checks unless using specialized penetrating scanners.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Obfuscate\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nInnate metaphysical masking that dampens personal presence, scrying signatures, and casual biological detection.\n\n## Mechanics & Benefit\nInnate metaphysical masking that dampens personal presence, scrying signatures, and casual biological detection.",
+    "notes": "[Penalty] Enemies suffer Disadvantage on Awareness/Investigation checks\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Penalty] Enemies suffer Disadvantage on Awareness/Investigation checks",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -4417,11 +4864,20 @@ export const SPECIES_TRAITS_ADVANCED = [
     "mechanic": "Fully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Certain",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Certain Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Prehensile Limbs\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nFully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Prehensile Limbs\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nFully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage.\n\n## Mechanics & Benefit\nFully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage.",
+    "notes": "[Modifier] Advantage on Certain Checks\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] Advantage on Certain Checks",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -4463,7 +4919,7 @@ export const SPECIES_TRAITS_ADVANCED = [
       }
     ],
     "package_traits": [],
-    "body": "# Prehensile Tail\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+2 to Climbing and Balance checks and usable as an off-hand. Special Pants.",
+    "body": "# Prehensile Tail\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+2 to Climbing and Balance checks and usable as an off-hand. Special Pants.\n\n## Mechanics & Benefit\n+2 to Climbing and Balance checks and usable as an off-hand. Special Pants.",
     "notes": "[Modifier] +2 to Climbing\n[Modifier] +2 to Balance\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
       "[Modifier] +2 to Climbing",
@@ -4502,7 +4958,7 @@ export const SPECIES_TRAITS_ADVANCED = [
       }
     ],
     "package_traits": [],
-    "body": "# Property Boon\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nSpecial equipment allocation granting personal vehicle or biomorphic docking privileges, providing +4 Wealth toward property or personal mecha acquisition.",
+    "body": "# Property Boon\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nSpecial equipment allocation granting personal vehicle or biomorphic docking privileges; +4 Wealth for personal property.\n\n## Mechanics & Benefit\nSpecial equipment allocation granting personal vehicle or biomorphic docking privileges; +4 Wealth for personal property.",
     "notes": "[Modifier] +4 Wealth Score\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Specialist or Operator Standing",
     "notesList": [
       "[Modifier] +4 Wealth Score",
@@ -4533,26 +4989,18 @@ export const SPECIES_TRAITS_ADVANCED = [
     "special_rules": "Advanced Species Trait (2 CP).",
     "modifiers": [
       {
-        "target": "Willpower",
-        "type": "skill",
-        "value": 2,
+        "target": "Foreign psionic intrusions",
+        "type": "check_advantage",
+        "value": 1,
         "mode": "inherent",
-        "description": "+2 to Willpower"
-      },
-      {
-        "target": "Wisdom",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Wisdom"
+        "description": "Advantage on Foreign psionic intrusions Checks"
       }
     ],
     "package_traits": [],
-    "body": "# Psionic Gating\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nOperating within the carrier frequency of the Chorus, the operative receives +2 Mental DR and forces hostile telepathic scans and psychic intrusions to roll with Disadvantage.",
-    "notes": "[Modifier] +2 to Willpower\n[Modifier] +2 to Wisdom\n[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Psionic Gating\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nThe mind is harmonized with the cryptographic frequency filters of the Chorus, imposing Disadvantage on foreign psionic intrusions.\n\n## Mechanics & Benefit\nThe mind is harmonized with the cryptographic frequency filters of the Chorus, imposing Disadvantage on foreign psionic intrusions.",
+    "notes": "[Modifier] Advantage on Foreign psionic intrusions Checks\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
-      "[Modifier] +2 to Willpower",
-      "[Modifier] +2 to Wisdom",
+      "[Modifier] Advantage on Foreign psionic intrusions Checks",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -4577,11 +5025,20 @@ export const SPECIES_TRAITS_ADVANCED = [
     "mechanic": "Specialized quadrupedal legs for high-impact jumping, +4 Stability, and +10 ft Groundspeed.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Stability",
+        "type": "combat",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 Stability"
+      }
+    ],
     "package_traits": [],
-    "body": "# Quadruped (Leaping)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nFour specialized legs designed for high-impact jumping. Provides +4 racial Stability against trips and knockdowns, and increases Base Groundspeed by +10 feet.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Four Lower Limbs",
+    "body": "# Quadruped (Leaping)\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nSpecialized quadrupedal legs for high-impact jumping, +4 Stability, and +10 ft Groundspeed.\n\n## Mechanics & Benefit\nSpecialized quadrupedal legs for high-impact jumping, +4 Stability, and +10 ft Groundspeed.",
+    "notes": "[Modifier] +4 Stability\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Four Lower Limbs",
     "notesList": [
+      "[Modifier] +4 Stability",
       "[Rule] Advanced Species Trait (2 CP).",
       "[Prerequisite] Four Lower Limbs"
     ]
@@ -4609,6 +5066,13 @@ export const SPECIES_TRAITS_ADVANCED = [
     "special_rules": "Advanced Species Trait (2 CP).",
     "modifiers": [
       {
+        "target": "Stability",
+        "type": "combat",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 Stability"
+      },
+      {
         "target": "move-walk",
         "type": "combat",
         "value": 10,
@@ -4617,9 +5081,10 @@ export const SPECIES_TRAITS_ADVANCED = [
       }
     ],
     "package_traits": [],
-    "body": "# Quadruped\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nFour legged, +4 Stability, +10 movement speed. Special Accommodations.",
-    "notes": "[Modifier] +10 movement\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Four or More Lower Limbs",
+    "body": "# Quadruped\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nFour legged, +4 Stability, +10 movement speed. Special Accommodations.\n\n## Mechanics & Benefit\nFour legged, +4 Stability, +10 movement speed. Special Accommodations.",
+    "notes": "[Modifier] +4 Stability\n[Modifier] +10 movement\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Four or More Lower Limbs",
     "notesList": [
+      "[Modifier] +4 Stability",
       "[Modifier] +10 movement",
       "[Rule] Advanced Species Trait (2 CP).",
       "[Prerequisite] Four or More Lower Limbs"
@@ -4646,11 +5111,20 @@ export const SPECIES_TRAITS_ADVANCED = [
     "mechanic": "Use double Agility score to calculate base Initiative. Req: Racial Agility +1.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "initiative-mod",
+        "value": 2,
+        "type": "combat",
+        "mode": "inherent",
+        "description": "Double Agility bonus added to base Initiative"
+      }
+    ],
     "package_traits": [],
-    "body": "# Quick Reactions\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nUse double Agility score to calculate base Initiative. Req: Racial Agility +1.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Quick Reactions\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nUse double Agility score to calculate base Initiative. Req: Racial Agility +1.\n\n## Mechanics & Benefit\nUse double Agility score to calculate base Initiative. Req: Racial Agility +1.",
+    "notes": "[Modifier] Double Agility bonus added to base Initiative\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] Double Agility bonus added to base Initiative",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -4677,26 +5151,26 @@ export const SPECIES_TRAITS_ADVANCED = [
     "special_rules": "Advanced Species Trait (2 CP).",
     "modifiers": [
       {
-        "target": "Initiative",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Initiative"
-      },
-      {
         "target": "initiative-mod",
         "type": "combat",
         "value": 1,
         "mode": "inherent",
         "description": "+1 Initiative"
+      },
+      {
+        "target": "Initiative",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Initiative"
       }
     ],
     "package_traits": [],
-    "body": "# Quick\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nNaturally fleet and reactive reflexes grant +10 feet to Base Movement Speed and a +1 bonus to Initiative checks.",
-    "notes": "[Modifier] +1 to Initiative\n[Modifier] +1 Initiative\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Agility 1",
+    "body": "# Quick\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+10 feet to Base Movement Speed and +1 to Initiative.\n\n## Mechanics & Benefit\n+10 feet to Base Movement Speed and +1 to Initiative.",
+    "notes": "[Modifier] +1 Initiative\n[Modifier] +1 to Initiative\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Agility 1",
     "notesList": [
-      "[Modifier] +1 to Initiative",
       "[Modifier] +1 Initiative",
+      "[Modifier] +1 to Initiative",
       "[Rule] Advanced Species Trait (2 CP).",
       "[Prerequisite] Agility 1"
     ]
@@ -4722,11 +5196,20 @@ export const SPECIES_TRAITS_ADVANCED = [
     "mechanic": "All checks against ionizing radiation, cosmic rays, and fallout are made with Advantage, and radiation damage is halved.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Stamina, Survival, and physical",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Stamina, Survival, and physical Checks"
+      }
+    ],
     "package_traits": [],
     "body": "# Radiation Advantage\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nHeavy-element chitin and stabilized cellular matrices grant Advantage on all Stamina, Survival, and physical checks against ionizing radiation and fallout, while halving any raw damage or strain inflicted by radiological hazards.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "notes": "[Modifier] Advantage on Stamina, Survival, and physical Checks\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] Advantage on Stamina, Survival, and physical Checks",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -4781,11 +5264,28 @@ export const SPECIES_TRAITS_ADVANCED = [
     "mechanic": "+2 racial bonus on saving throws against mind-affecting effects and poison.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Saving throws against mind-affecting effects",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Saving throws against mind-affecting effects"
+      },
+      {
+        "target": "Poison",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Poison"
+      }
+    ],
     "package_traits": [],
-    "body": "# Resistant\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+2 racial bonus on saving throws against mind-affecting effects and poison.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Resistant\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+2 racial bonus on saving throws against mind-affecting effects and poison.\n\n## Mechanics & Benefit\n+2 racial bonus on saving throws against mind-affecting effects and poison.",
+    "notes": "[Modifier] +2 to Saving throws against mind-affecting effects\n[Modifier] +2 to Poison\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] +2 to Saving throws against mind-affecting effects",
+      "[Modifier] +2 to Poison",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -5437,11 +5937,20 @@ export const SPECIES_TRAITS_ELITE = [
     "mechanic": "Base Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.",
     "rules": "Elite Species Trait (4 CP).",
     "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Disguise",
+        "type": "skill",
+        "value": 10,
+        "mode": "inherent",
+        "description": "+10 to Disguise"
+      }
+    ],
     "package_traits": [],
-    "body": "# Alter Form (Elite)\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nBase Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.",
-    "notes": "[Rule] Elite Species Trait (4 CP).",
+    "body": "# Alter Form (Elite)\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nBase Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.\n\n## Mechanics & Benefit\nBase Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.",
+    "notes": "[Modifier] +10 to Disguise\n[Rule] Elite Species Trait (4 CP).",
     "notesList": [
+      "[Modifier] +10 to Disguise",
       "[Rule] Elite Species Trait (4 CP)."
     ]
   },
@@ -5462,11 +5971,19 @@ export const SPECIES_TRAITS_ELITE = [
     "is_ranked": false,
     "desc": "The supernatural chassis of ancient fey lineages connected to primal nature and illusion.",
     "description": "The supernatural chassis of ancient fey lineages connected to primal nature and illusion.",
-    "mechanics": "Includes Ageless [2 CP], Obfuscate [2 CP], Sleepless [2 CP], and Fey Affinity [2 CP]. Total package value: 8 CP.",
-    "mechanic": "Includes Ageless [2 CP], Obfuscate [2 CP], Sleepless [2 CP], and Fey Affinity [2 CP]. Total package value: 8 CP.",
+    "mechanics": "The supernatural chassis of ancient fey lineages connected to primal nature and illusion.",
+    "mechanic": "The supernatural chassis of ancient fey lineages connected to primal nature and illusion.",
     "rules": "Elite Species Trait (8 CP).",
     "special_rules": "Elite Species Trait (8 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Condition: Sleep",
+        "value": 0,
+        "type": "immunity",
+        "mode": "inherent",
+        "description": "Sleepless [2 CP]"
+      }
+    ],
     "package_traits": [
       {
         "id": "trait-ageless",
@@ -5501,9 +6018,10 @@ export const SPECIES_TRAITS_ELITE = [
         "cp": 2
       }
     ],
-    "body": "# Asi Base Traits\n\n**Category**: TRAITS  \n**Tier**: Elite  \n**Type**: Species Trait  \n**CP Cost**: 8  \n\n## Description\nThe supernatural chassis of ancient fey lineages connected to primal nature and illusion.\n\n## Mechanics\nIncludes Ageless [2 CP], Obfuscate [2 CP], Sleepless [2 CP], and Fey Affinity [2 CP]. Total package value: 8 CP.\n\n## Packaged Traits Sublist\n* **Ageless** [2 CP / Advanced]: Does not suffer penalties or show signs of physical aging.\n* **Obfuscate** [2 CP / Advanced]: Primal visual camouflage; blends into natural ambient light and sylvan environments.\n* **Sleepless** [2 CP / Advanced]: Requires no sleep; enters meditative rest solely to regain metaphysical energies.\n* **Fey Affinity** [2 CP / Advanced]: Primal nature resonance; wild animals and natural flora treat the character as friendly.",
-    "notes": "[Rule] Elite Species Trait (8 CP).",
+    "body": "# Asi Base Traits\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 8\n\n## Description\nThe supernatural chassis of ancient fey lineages connected to primal nature and illusion.\n\n## Mechanics & Benefit\nThe supernatural chassis of ancient fey lineages connected to primal nature and illusion.",
+    "notes": "[Modifier] Sleepless [2 CP]\n[Rule] Elite Species Trait (8 CP).",
     "notesList": [
+      "[Modifier] Sleepless [2 CP]",
       "[Rule] Elite Species Trait (8 CP)."
     ]
   },
@@ -5661,11 +6179,21 @@ export const SPECIES_TRAITS_ELITE = [
     "mechanic": "Shapechange to gain a heavy protective layer (Doubles Bodyform Armor bonus to DR).",
     "rules": "Elite Species Trait (4 CP).",
     "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "armor-dr",
+        "value": 8,
+        "type": "combat",
+        "mode": "situational",
+        "condition": "While Transformed",
+        "description": "Doubles Bodyform Armor DR (+8 DR)"
+      }
+    ],
     "package_traits": [],
-    "body": "# Bodyform Heavy Armor\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nShapechange to gain a heavy protective layer (Doubles Bodyform Armor bonus to DR).",
-    "notes": "[Rule] Elite Species Trait (4 CP).",
+    "body": "# Bodyform Heavy Armor\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nShapechange to gain a heavy protective layer (Doubles Bodyform Armor bonus to DR).\n\n## Mechanics & Benefit\nShapechange to gain a heavy protective layer (Doubles Bodyform Armor bonus to DR).",
+    "notes": "[Modifier] Doubles Bodyform Armor DR (+8 DR)\n[Rule] Elite Species Trait (4 CP).",
     "notesList": [
+      "[Modifier] Doubles Bodyform Armor DR (+8 DR)",
       "[Rule] Elite Species Trait (4 CP)."
     ]
   },
@@ -5914,11 +6442,20 @@ export const SPECIES_TRAITS_ELITE = [
     "mechanic": "Completely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy.",
     "rules": "Elite Species Trait (4 CP).",
     "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "armor-dr",
+        "type": "combat",
+        "value": 20,
+        "mode": "inherent",
+        "description": "+20 DR"
+      }
+    ],
     "package_traits": [],
-    "body": "# Energy Immunity\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nCompletely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy.",
-    "notes": "[Rule] Elite Species Trait (4 CP).",
+    "body": "# Energy Immunity\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nCompletely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy.\n\n## Mechanics & Benefit\nCompletely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy.",
+    "notes": "[Modifier] +20 DR\n[Rule] Elite Species Trait (4 CP).",
     "notesList": [
+      "[Modifier] +20 DR",
       "[Rule] Elite Species Trait (4 CP)."
     ]
   },
@@ -5972,11 +6509,20 @@ export const SPECIES_TRAITS_ELITE = [
     "mechanic": "DR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell.",
     "rules": "Elite Species Trait (4 CP).",
     "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "armor-dr",
+        "value": 8,
+        "type": "combat",
+        "mode": "inherent",
+        "description": "+8 Natural DR (Heavy Exoskeleton)"
+      }
+    ],
     "package_traits": [],
-    "body": "# Exoskeleton (Heavy)\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nDR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell.",
-    "notes": "[Rule] Elite Species Trait (4 CP).",
+    "body": "# Exoskeleton (Heavy)\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nDR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell.\n\n## Mechanics & Benefit\nDR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell.",
+    "notes": "[Modifier] +8 Natural DR (Heavy Exoskeleton)\n[Rule] Elite Species Trait (4 CP).",
     "notesList": [
+      "[Modifier] +8 Natural DR (Heavy Exoskeleton)",
       "[Rule] Elite Species Trait (4 CP)."
     ]
   },
@@ -6032,6 +6578,13 @@ export const SPECIES_TRAITS_ELITE = [
     "special_rules": "Elite Species Trait (4 CP).",
     "modifiers": [
       {
+        "target": "Stability",
+        "type": "combat",
+        "value": 8,
+        "mode": "inherent",
+        "description": "+8 Stability"
+      },
+      {
         "target": "move-walk",
         "type": "combat",
         "value": 20,
@@ -6040,9 +6593,10 @@ export const SPECIES_TRAITS_ELITE = [
       }
     ],
     "package_traits": [],
-    "body": "# Hexapedal\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nSix legged, +8 Stability, +20 movement speed. Special Accommodations.",
-    "notes": "[Modifier] +20 movement\n[Rule] Elite Species Trait (4 CP).",
+    "body": "# Hexapedal\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nSix legged, +8 Stability, +20 movement speed. Special Accommodations.\n\n## Mechanics & Benefit\nSix legged, +8 Stability, +20 movement speed. Special Accommodations.",
+    "notes": "[Modifier] +8 Stability\n[Modifier] +20 movement\n[Rule] Elite Species Trait (4 CP).",
     "notesList": [
+      "[Modifier] +8 Stability",
       "[Modifier] +20 movement",
       "[Rule] Elite Species Trait (4 CP)."
     ]
@@ -6093,11 +6647,26 @@ export const SPECIES_TRAITS_ELITE = [
     "is_ranked": false,
     "desc": "Awakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].",
     "description": "Awakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].",
-    "mechanics": "Includes Awakened (Psychic) [2 CP], Biotechnology Affinity [2 CP], Hive Connection [2 CP], and Torpor / Sleepless [2 CP]. Total package value: 8 CP.",
-    "mechanic": "Includes Awakened (Psychic) [2 CP], Biotechnology Affinity [2 CP], Hive Connection [2 CP], and Torpor / Sleepless [2 CP]. Total package value: 8 CP.",
+    "mechanics": "Awakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].",
+    "mechanic": "Awakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].",
     "rules": "Elite Species Trait (8 CP).",
     "special_rules": "Elite Species Trait (8 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Meta: Psychic",
+        "value": 1,
+        "type": "discipline",
+        "mode": "inherent",
+        "description": "Awakened (Psychic) [2 CP]"
+      },
+      {
+        "target": "Condition: Sleep",
+        "value": 0,
+        "type": "immunity",
+        "mode": "inherent",
+        "description": "Torpor / Sleepless"
+      }
+    ],
     "package_traits": [
       {
         "id": "trait-awakened-psychic",
@@ -6132,9 +6701,11 @@ export const SPECIES_TRAITS_ELITE = [
         "cp": 2
       }
     ],
-    "body": "# Kitin Base Traits\n\n**Category**: TRAITS  \n**Tier**: Elite  \n**Type**: Species Trait  \n**CP Cost**: 8  \n\n## Description\nThe fundamental biological and psionic heritage shared across all Kitin Strains.\n\n## Mechanics\nIncludes Awakened (Psychic) [2 CP], Biotechnology Affinity [2 CP], Hive Connection [2 CP], and Torpor / Sleepless [2 CP]. Total package value: 8 CP.\n\n## Packaged Traits Sublist\n* **Awakened (Psychic)** [2 CP / Advanced]: Conductors and receptors of the Hive psionic Chorus.\n* **Biotechnology Affinity** [2 CP / Advanced]: Innate affinity for manipulating living symbiotic technology and glandular synthesis.\n* **Hive Connection / Hive-Link** [2 CP / Advanced]: Constant telepathic connection and pheromonal telemetry to the Collective.\n* **Torpor / Sleepless** [2 CP / Advanced]: Requires only 4 hours of conscious torpor; immune to sleep effects.",
-    "notes": "[Rule] Elite Species Trait (8 CP).",
+    "body": "# Kitin Base Traits\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 8\n\n## Description\nAwakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].\n\n## Mechanics & Benefit\nAwakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].",
+    "notes": "[Modifier] Awakened (Psychic) [2 CP]\n[Modifier] Torpor / Sleepless\n[Rule] Elite Species Trait (8 CP).",
     "notesList": [
+      "[Modifier] Awakened (Psychic) [2 CP]",
+      "[Modifier] Torpor / Sleepless",
       "[Rule] Elite Species Trait (8 CP)."
     ]
   },
@@ -6243,11 +6814,33 @@ export const SPECIES_TRAITS_ELITE = [
     "is_ranked": false,
     "desc": "The godlike chassis of the cosmic precursor architects.",
     "description": "The godlike chassis of the cosmic precursor architects.",
-    "mechanics": "Includes Awakened x6 across all metaphysical disciplines [12 CP], Mind Speech / Telepathy [2 CP], Telekinesis [2 CP], Fast Heal [2 CP], Regeneration [2 CP], Ageless [2 CP], and Immortal [4 CP]. Total package value: 26 CP.",
-    "mechanic": "Includes Awakened x6 across all metaphysical disciplines [12 CP], Mind Speech / Telepathy [2 CP], Telekinesis [2 CP], Fast Heal [2 CP], Regeneration [2 CP], Ageless [2 CP], and Immortal [4 CP]. Total package value: 26 CP.",
+    "mechanics": "The godlike chassis of the cosmic precursor architects.",
+    "mechanic": "The godlike chassis of the cosmic precursor architects.",
     "rules": "Elite Species Trait (26 CP).",
     "special_rules": "Elite Species Trait (26 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "All Disciplines",
+        "value": 6,
+        "type": "discipline",
+        "mode": "inherent",
+        "description": "Awakened x6 across all metaphysical disciplines"
+      },
+      {
+        "target": "Telepathy",
+        "value": 1,
+        "type": "special_ability",
+        "mode": "inherent",
+        "description": "Mind Speech / Telepathy [2 CP]"
+      },
+      {
+        "target": "Telekinesis",
+        "value": 1,
+        "type": "special_ability",
+        "mode": "inherent",
+        "description": "Telekinesis [2 CP]"
+      }
+    ],
     "package_traits": [
       {
         "id": "trait-awakened-all",
@@ -6306,9 +6899,12 @@ export const SPECIES_TRAITS_ELITE = [
         "cp": 4
       }
     ],
-    "body": "# Progenitor Heritage Base\n\n**Category**: TRAITS  \n**Tier**: Elite  \n**Type**: Species Trait  \n**CP Cost**: 26  \n\n## Description\nThe godlike chassis of the cosmic precursor architects.\n\n## Mechanics\nIncludes Awakened x6 across all metaphysical disciplines [12 CP], Mind Speech / Telepathy [2 CP], Telekinesis [2 CP], Fast Heal [2 CP], Regeneration [2 CP], Ageless [2 CP], and Immortal [4 CP]. Total package value: 26 CP.\n\n## Packaged Traits Sublist\n* **Awakened x6 (Omni-Discipline Metaphysics)** [12 CP / Advanced]: Total mastery across all 6 metaphysical traditions (Arcane, Cosmic, Dimension, Nature, Psychic, Void).\n* **Mind Speech (Telepathy)** [2 CP / Advanced]: Unbounded telepathic communication to any subject within 500 ft.\n* **Telekinesis** [2 CP / Advanced]: Effortless cognitive manipulation of matter and physical force at distance.\n* **Fast Heal** [2 CP / Advanced]: Rapid recovery of Health and Vitality during short respite.\n* **Regeneration** [2 CP / Advanced]: Continuous cell restoration; regrows severed limbs, organs, and tissues over time.\n* **Ageless** [2 CP / Advanced]: Immortal lifespan immune to physical deterioration, aging penalties, or senility.\n* **Immortal** [4 CP / Elite]: Cannot die of natural causes; completely immune to biological toxins and pathogens.",
-    "notes": "[Rule] Elite Species Trait (26 CP).",
+    "body": "# Progenitor Heritage Base\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 26\n\n## Description\nThe godlike chassis of the cosmic precursor architects.\n\n## Mechanics & Benefit\nThe godlike chassis of the cosmic precursor architects.",
+    "notes": "[Modifier] Awakened x6 across all metaphysical disciplines\n[Modifier] Mind Speech / Telepathy [2 CP]\n[Modifier] Telekinesis [2 CP]\n[Rule] Elite Species Trait (26 CP).",
     "notesList": [
+      "[Modifier] Awakened x6 across all metaphysical disciplines",
+      "[Modifier] Mind Speech / Telepathy [2 CP]",
+      "[Modifier] Telekinesis [2 CP]",
       "[Rule] Elite Species Trait (26 CP)."
     ]
   },
@@ -6336,10 +6932,10 @@ export const SPECIES_TRAITS_ELITE = [
     "modifiers": [],
     "package_traits": [],
     "body": "# Regeneration\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nWill regrow lost Limbs and Organs with recovery of Health.",
-    "notes": "[Rule] Elite Species Trait (4 CP).\n[Prerequisite] Fast Heal, Sta 4",
+    "notes": "[Rule] Elite Species Trait (4 CP).\n[Prerequisite] Fast Heal, Stamina 4",
     "notesList": [
       "[Rule] Elite Species Trait (4 CP).",
-      "[Prerequisite] Fast Heal, Sta 4"
+      "[Prerequisite] Fast Heal, Stamina 4"
     ]
   },
   {
@@ -6373,7 +6969,7 @@ export const SPECIES_TRAITS_ELITE = [
       }
     ],
     "package_traits": [],
-    "body": "# Self Revivifying\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\n1/day attempt to resurrect. Cost: 1 Karma, Con Check Diff 20. Req: Immortal.",
+    "body": "# Self Revivifying\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\n1/day attempt to resurrect. Cost: 1 Karma, Con Check Diff 20. Req: Immortal.\n\n## Mechanics & Benefit\n1/day attempt to resurrect. Cost: 1 Karma, Con Check Diff 20. Req: Immortal.",
     "notes": "[Modifier] +1 to Karma Pool\n[Rule] Elite Species Trait (4 CP).",
     "notesList": [
       "[Modifier] +1 to Karma Pool",
@@ -6401,11 +6997,20 @@ export const SPECIES_TRAITS_ELITE = [
     "mechanic": "DR30 vs physical, able to Phase through solid matter, Solidify at will.",
     "rules": "Elite Species Trait (4 CP).",
     "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "armor-dr",
+        "type": "combat",
+        "value": 30,
+        "mode": "inherent",
+        "description": "+30 DR"
+      }
+    ],
     "package_traits": [],
-    "body": "# Semi-Corporeal\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nDR30 vs physical, able to Phase through solid matter, Solidify at will.",
-    "notes": "[Rule] Elite Species Trait (4 CP).",
+    "body": "# Semi-Corporeal\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nDR30 vs physical, able to Phase through solid matter, Solidify at will.\n\n## Mechanics & Benefit\nDR30 vs physical, able to Phase through solid matter, Solidify at will.",
+    "notes": "[Modifier] +30 DR\n[Rule] Elite Species Trait (4 CP).",
     "notesList": [
+      "[Modifier] +30 DR",
       "[Rule] Elite Species Trait (4 CP)."
     ]
   },
@@ -6455,11 +7060,40 @@ export const SPECIES_TRAITS_ELITE = [
     "is_ranked": false,
     "desc": "The fundamental mechanical and digitized chassis of artificial sentient entities.",
     "description": "The fundamental mechanical and digitized chassis of artificial sentient entities.",
-    "mechanics": "Immune to Asphyxiation, Bleeding, Critical Damage, Starvation, Sleep, and biological ailments [9 CP]; Repair Required (cannot heal naturally without mechanical maintenance or bionics) [-3 CP]; Digitized Mind (+Advantage vs mental influence) [2 CP]; Robotic Strength (counts one size larger for lifting/grappling) [2 CP]; Resilient Design (DR 5/- vs physical damage) [2 CP]; Low-Light Vision [2 CP]. Total package value: 14 CP.",
-    "mechanic": "Immune to Asphyxiation, Bleeding, Critical Damage, Starvation, Sleep, and biological ailments [9 CP]; Repair Required (cannot heal naturally without mechanical maintenance or bionics) [-3 CP]; Digitized Mind (+Advantage vs mental influence) [2 CP]; Robotic Strength (counts one size larger for lifting/grappling) [2 CP]; Resilient Design (DR 5/- vs physical damage) [2 CP]; Low-Light Vision [2 CP]. Total package value: 14 CP.",
+    "mechanics": "The fundamental mechanical and digitized chassis of artificial sentient entities.",
+    "mechanic": "The fundamental mechanical and digitized chassis of artificial sentient entities.",
     "rules": "Elite Species Trait (14 CP).",
     "special_rules": "Elite Species Trait (14 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "armor-dr",
+        "value": 5,
+        "type": "combat",
+        "mode": "inherent",
+        "description": "DR 5/- vs physical damage (Resilient Design)"
+      },
+      {
+        "target": "Condition: Asphyxiation",
+        "value": 0,
+        "type": "immunity",
+        "mode": "inherent",
+        "description": "Immune to Asphyxiation"
+      },
+      {
+        "target": "Condition: Bleeding",
+        "value": 0,
+        "type": "immunity",
+        "mode": "inherent",
+        "description": "Immune to Bleeding"
+      },
+      {
+        "target": "Condition: Sleep",
+        "value": 0,
+        "type": "immunity",
+        "mode": "inherent",
+        "description": "Immune to Sleep"
+      }
+    ],
     "package_traits": [
       {
         "id": "trait-synthetic-immunities",
@@ -6510,9 +7144,13 @@ export const SPECIES_TRAITS_ELITE = [
         "cp": 2
       }
     ],
-    "body": "# Synthetic Base Traits\n\n**Category**: TRAITS  \n**Tier**: Elite  \n**Type**: Species Trait  \n**CP Cost**: 14  \n\n## Description\nThe fundamental mechanical and digitized chassis of artificial sentient entities.\n\n## Mechanics\nImmune to Asphyxiation, Bleeding, Critical Damage, Starvation, Sleep, and biological ailments [9 CP]; Repair Required (cannot heal naturally without mechanical maintenance or bionics) [-3 CP]; Digitized Mind (+Advantage vs mental influence) [2 CP]; Robotic Strength (counts one size larger for lifting/grappling) [2 CP]; Resilient Design (DR 5/- vs physical damage) [2 CP]; Low-Light Vision [2 CP]. Total package value: 14 CP.\n\n## Packaged Traits Sublist\n* **Synthetic Biological Immunities** [9 CP / Elite]: Total immunity to asphyxiation, bleed, critical hit extra damage, starvation, sleep, disease, poisons, and biological needs.\n* **Repair Required (No Vitality)** [-3 CP / Disadvantage]: Possesses no Vitality; Health is multiplied by 1.5 for Structure Points; cannot heal naturally and requires technical repairs.\n* **Digitized Mind** [2 CP / Advanced]: Silicon neural substrate grants Advantage on all resistance saves against mind-affecting and psionic influence.\n* **Robotic Strength** [2 CP / Advanced]: Heavy hydraulic actuators allow lifting, carrying, and grappling as if one size category larger.\n* **Resilient Design (DR 5/-)** [2 CP / Advanced]: Hardened metallic alloy frame provides passive Damage Reduction 5/- against physical strikes.\n* **Low-Light Optical Array** [2 CP / Advanced]: High-resolution multispectral optical sensors providing enhanced vision in low-light and infrared.",
-    "notes": "[Rule] Elite Species Trait (14 CP).",
+    "body": "# Synthetic Base Traits\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 14\n\n## Description\nThe fundamental mechanical and digitized chassis of artificial sentient entities.\n\n## Mechanics & Benefit\nThe fundamental mechanical and digitized chassis of artificial sentient entities.",
+    "notes": "[Modifier] DR 5/- vs physical damage (Resilient Design)\n[Modifier] Immune to Asphyxiation\n[Modifier] Immune to Bleeding\n[Modifier] Immune to Sleep\n[Rule] Elite Species Trait (14 CP).",
     "notesList": [
+      "[Modifier] DR 5/- vs physical damage (Resilient Design)",
+      "[Modifier] Immune to Asphyxiation",
+      "[Modifier] Immune to Bleeding",
+      "[Modifier] Immune to Sleep",
       "[Rule] Elite Species Trait (14 CP)."
     ]
   },
@@ -6651,15 +7289,32 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Ability to analyze data and information to make informed decisions",
     "description": "Ability to analyze data and information to make informed decisions",
-    "mechanics": "Ability to analyze data and information to make informed decisions",
-    "mechanic": "Ability to analyze data and information to make informed decisions",
+    "mechanics": "+2 Alertness",
+    "mechanic": "+2 Alertness",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Alertness Ability to analyze data",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Alertness Ability to analyze data"
+      },
+      {
+        "target": "Information to make informed decisions",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Information to make informed decisions"
+      }
+    ],
     "package_traits": [],
-    "body": "# Analytical\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to analyze data and information to make informed decisions",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Analytical\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to analyze data and information to make informed decisions\n\n## Mechanics & Benefit\n+2 Alertness",
+    "notes": "[Modifier] +2 to Alertness Ability to analyze data\n[Modifier] +2 to Information to make informed decisions\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Alertness Ability to analyze data",
+      "[Modifier] +2 to Information to make informed decisions",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -6680,15 +7335,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Merchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.",
     "description": "Merchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.",
-    "mechanics": "Merchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.",
-    "mechanic": "Merchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.",
+    "mechanics": "+2 to any Appraisal check",
+    "mechanic": "+2 to any Appraisal check",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Any Appraisal",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Any Appraisal"
+      }
+    ],
     "package_traits": [],
-    "body": "# Appraisal\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Appraisal\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.\n\n## Mechanics & Benefit\n+2 to any Appraisal check",
+    "notes": "[Modifier] +2 to Any Appraisal\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Any Appraisal",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -6709,15 +7373,32 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Awareness of safety protocols and ensuring that their creations are safe to use",
     "description": "Awareness of safety protocols and ensuring that their creations are safe to use",
-    "mechanics": "Awareness of safety protocols and ensuring that their creations are safe to use",
-    "mechanic": "Awareness of safety protocols and ensuring that their creations are safe to use",
+    "mechanics": "Prototyping Checks gain a +4 bonus",
+    "mechanic": "Prototyping Checks gain a +4 bonus",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Awareness of safety protocols",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Awareness of safety protocols"
+      },
+      {
+        "target": "Ensuring that their creations are safe to use",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Ensuring that their creations are safe to use"
+      }
+    ],
     "package_traits": [],
-    "body": "# Attention to Safety\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAwareness of safety protocols and ensuring that their creations are safe to use",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Attention to Safety\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAwareness of safety protocols and ensuring that their creations are safe to use\n\n## Mechanics & Benefit\nPrototyping Checks gain a +4 bonus",
+    "notes": "[Modifier] +4 to Awareness of safety protocols\n[Modifier] +4 to Ensuring that their creations are safe to use\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +4 to Awareness of safety protocols",
+      "[Modifier] +4 to Ensuring that their creations are safe to use",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -6738,13 +7419,13 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Experience with breaking and entering into secure locations",
     "description": "Experience with breaking and entering into secure locations",
-    "mechanics": "Experience with breaking and entering into secure locations",
-    "mechanic": "Experience with breaking and entering into secure locations",
+    "mechanics": "+2 all checks to the Infiltration of a physical location",
+    "mechanic": "+2 all checks to the Infiltration of a physical location",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# B&E\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nExperience with breaking and entering into secure locations",
+    "body": "# B&E\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nExperience with breaking and entering into secure locations\n\n## Mechanics & Benefit\n+2 all checks to the Infiltration of a physical location",
     "notes": "[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Occupational Trait (1 CP)."
@@ -6796,15 +7477,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Cautious and prefer to avoid unnecessary risks, especially when dealing with others",
     "description": "Cautious and prefer to avoid unnecessary risks, especially when dealing with others",
-    "mechanics": "Cautious and prefer to avoid unnecessary risks, especially when dealing with others",
-    "mechanic": "Cautious and prefer to avoid unnecessary risks, especially when dealing with others",
+    "mechanics": "+2 Insight",
+    "mechanic": "+2 Insight",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Insight",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Insight"
+      }
+    ],
     "package_traits": [],
-    "body": "# Caution\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nCautious and prefer to avoid unnecessary risks, especially when dealing with others",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Caution\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nCautious and prefer to avoid unnecessary risks, especially when dealing with others\n\n## Mechanics & Benefit\n+2 Insight",
+    "notes": "[Modifier] +2 to Insight\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Insight",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -6825,15 +7515,32 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Effective communicators, able to convey complex ideas and information clearly and persuasively.",
     "description": "Effective communicators, able to convey complex ideas and information clearly and persuasively.",
-    "mechanics": "Effective communicators, able to convey complex ideas and information clearly and persuasively.",
-    "mechanic": "Effective communicators, able to convey complex ideas and information clearly and persuasively.",
+    "mechanics": "+2 Culture and Language checks",
+    "mechanic": "+2 Culture and Language checks",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Culture",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Culture"
+      },
+      {
+        "target": "Language",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Language"
+      }
+    ],
     "package_traits": [],
-    "body": "# Communication\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nEffective communicators, able to convey complex ideas and information clearly and persuasively.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Communication\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nEffective communicators, able to convey complex ideas and information clearly and persuasively.\n\n## Mechanics & Benefit\n+2 Culture and Language checks",
+    "notes": "[Modifier] +2 to Culture\n[Modifier] +2 to Language\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Culture",
+      "[Modifier] +2 to Language",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -6854,15 +7561,32 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Comfortable in the spotlight",
     "description": "Comfortable in the spotlight",
-    "mechanics": "Comfortable in the spotlight",
-    "mechanic": "Comfortable in the spotlight",
+    "mechanics": "+2 Willpower",
+    "mechanic": "+2 Willpower",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Will",
+        "type": "save",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 on Will Checks"
+      },
+      {
+        "target": "Willpower Comfortable in the spotlight",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Willpower Comfortable in the spotlight"
+      }
+    ],
     "package_traits": [],
-    "body": "# Confident\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nComfortable in the spotlight",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Confident\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nComfortable in the spotlight\n\n## Mechanics & Benefit\n+2 Willpower",
+    "notes": "[Modifier] +2 on Will Checks\n[Modifier] +2 to Willpower Comfortable in the spotlight\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 on Will Checks",
+      "[Modifier] +2 to Willpower Comfortable in the spotlight",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -6883,15 +7607,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Ability to resolve conflicts effectively and find solutions that satisfy all parties involved",
     "description": "Ability to resolve conflicts effectively and find solutions that satisfy all parties involved",
-    "mechanics": "Ability to resolve conflicts effectively and find solutions that satisfy all parties involved",
-    "mechanic": "Ability to resolve conflicts effectively and find solutions that satisfy all parties involved",
+    "mechanics": "+2 Diplomacy",
+    "mechanic": "+2 Diplomacy",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Diplomacy",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Diplomacy"
+      }
+    ],
     "package_traits": [],
-    "body": "# Conflict resolution\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to resolve conflicts effectively and find solutions that satisfy all parties involved",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Conflict resolution\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to resolve conflicts effectively and find solutions that satisfy all parties involved\n\n## Mechanics & Benefit\n+2 Diplomacy",
+    "notes": "[Modifier] +2 to Diplomacy\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Diplomacy",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -6912,15 +7645,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Has a thirst for knowledge and is committed to lifelong learning.",
     "description": "Has a thirst for knowledge and is committed to lifelong learning.",
-    "mechanics": "Has a thirst for knowledge and is committed to lifelong learning.",
-    "mechanic": "Has a thirst for knowledge and is committed to lifelong learning.",
+    "mechanics": "All Learning Checks are made at Advantage",
+    "mechanic": "All Learning Checks are made at Advantage",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Continuous Learning All Learning",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Continuous Learning All Learning Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Continuous Learning\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHas a thirst for knowledge and is committed to lifelong learning.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Continuous Learning\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHas a thirst for knowledge and is committed to lifelong learning.\n\n## Mechanics & Benefit\nAll Learning Checks are made at Advantage",
+    "notes": "[Modifier] Advantage on Continuous Learning All Learning Checks\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] Advantage on Continuous Learning All Learning Checks",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -6941,15 +7683,40 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Able to remain calm and focused even in high-pressure situations",
     "description": "Able to remain calm and focused even in high-pressure situations",
-    "mechanics": "Able to remain calm and focused even in high-pressure situations",
-    "mechanic": "Able to remain calm and focused even in high-pressure situations",
+    "mechanics": "+2 Willpower",
+    "mechanic": "+2 Willpower",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Will",
+        "type": "save",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 on Will Checks"
+      },
+      {
+        "target": "Willpower Able to remain calm",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Willpower Able to remain calm"
+      },
+      {
+        "target": "Focused even in high-pressure situations",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Focused even in high-pressure situations"
+      }
+    ],
     "package_traits": [],
-    "body": "# Cool\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to remain calm and focused even in high-pressure situations",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Cool\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to remain calm and focused even in high-pressure situations\n\n## Mechanics & Benefit\n+2 Willpower",
+    "notes": "[Modifier] +2 on Will Checks\n[Modifier] +2 to Willpower Able to remain calm\n[Modifier] +2 to Focused even in high-pressure situations\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 on Will Checks",
+      "[Modifier] +2 to Willpower Able to remain calm",
+      "[Modifier] +2 to Focused even in high-pressure situations",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -6970,15 +7737,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Skilled at coming up with new ideas",
     "description": "Skilled at coming up with new ideas",
-    "mechanics": "Skilled at coming up with new ideas",
-    "mechanic": "Skilled at coming up with new ideas",
+    "mechanics": "+1 Karma Point",
+    "mechanic": "+1 Karma Point",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Karma Pool"
+      }
+    ],
     "package_traits": [],
-    "body": "# Creative\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nSkilled at coming up with new ideas",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Creative\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nSkilled at coming up with new ideas\n\n## Mechanics & Benefit\n+1 Karma Point",
+    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Karma Pool",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -6999,15 +7775,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Possess strong critical thinking skills.",
     "description": "Possess strong critical thinking skills.",
-    "mechanics": "Possess strong critical thinking skills.",
-    "mechanic": "Possess strong critical thinking skills.",
+    "mechanics": "+1 Karma Point",
+    "mechanic": "+1 Karma Point",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Karma Pool"
+      }
+    ],
     "package_traits": [],
-    "body": "# Critical thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nPossess strong critical thinking skills.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Critical thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nPossess strong critical thinking skills.\n\n## Mechanics & Benefit\n+1 Karma Point",
+    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Karma Pool",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -7028,15 +7813,32 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Merchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.",
     "description": "Merchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.",
-    "mechanics": "Merchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.",
-    "mechanic": "Merchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.",
+    "mechanics": "+2 Culture Knowledge",
+    "mechanic": "+2 Culture Knowledge",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Culture Knowledge Merchants are culturally aware",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Culture Knowledge Merchants are culturally aware"
+      },
+      {
+        "target": "Sensitive",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Sensitive"
+      }
+    ],
     "package_traits": [],
-    "body": "# Cultural Awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Cultural Awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.\n\n## Mechanics & Benefit\n+2 Culture Knowledge",
+    "notes": "[Modifier] +2 to Culture Knowledge Merchants are culturally aware\n[Modifier] +2 to Sensitive\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Culture Knowledge Merchants are culturally aware",
+      "[Modifier] +2 to Sensitive",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -7057,15 +7859,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Rely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies",
     "description": "Rely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies",
-    "mechanics": "Rely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies",
-    "mechanic": "Rely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies",
+    "mechanics": "Additional +1 to appropriate maneuvers from having Edge",
+    "mechanic": "Additional +1 to appropriate maneuvers from having Edge",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Appropriate maneuvers from having Edge",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Appropriate maneuvers from having Edge"
+      }
+    ],
     "package_traits": [],
-    "body": "# Cunning\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nRely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Cunning\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nRely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies\n\n## Mechanics & Benefit\nAdditional +1 to appropriate maneuvers from having Edge",
+    "notes": "[Modifier] +1 to Appropriate maneuvers from having Edge\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Appropriate maneuvers from having Edge",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -7086,15 +7897,32 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Disguise, impersonation, and deception",
     "description": "Disguise, impersonation, and deception",
-    "mechanics": "Disguise, impersonation, and deception",
-    "mechanic": "Disguise, impersonation, and deception",
+    "mechanics": "+2 Disguise and Cover Checks",
+    "mechanic": "+2 Disguise and Cover Checks",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Disguise",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Disguise"
+      },
+      {
+        "target": "Cover",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Cover"
+      }
+    ],
     "package_traits": [],
-    "body": "# Deception\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nDisguise, impersonation, and deception",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Deception\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nDisguise, impersonation, and deception\n\n## Mechanics & Benefit\n+2 Disguise and Cover Checks",
+    "notes": "[Modifier] +2 to Disguise\n[Modifier] +2 to Cover\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Disguise",
+      "[Modifier] +2 to Cover",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -7115,15 +7943,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Disciplined and able to follow orders without question, even in high-pressure situations",
     "description": "Disciplined and able to follow orders without question, even in high-pressure situations",
-    "mechanics": "Disciplined and able to follow orders without question, even in high-pressure situations",
-    "mechanic": "Disciplined and able to follow orders without question, even in high-pressure situations",
+    "mechanics": "+2 Soldier Vocation",
+    "mechanic": "+2 Soldier Vocation",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Soldier Vocation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Soldier Vocation"
+      }
+    ],
     "package_traits": [],
-    "body": "# Discipline\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nDisciplined and able to follow orders without question, even in high-pressure situations",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Discipline\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nDisciplined and able to follow orders without question, even in high-pressure situations\n\n## Mechanics & Benefit\n+2 Soldier Vocation",
+    "notes": "[Modifier] +2 to Soldier Vocation\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Soldier Vocation",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -7144,15 +7981,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Ability to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states",
     "description": "Ability to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states",
-    "mechanics": "Ability to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states",
-    "mechanic": "Ability to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states",
+    "mechanics": "+2 Insight",
+    "mechanic": "+2 Insight",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Insight",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Insight"
+      }
+    ],
     "package_traits": [],
-    "body": "# Emotional intelligence\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Emotional intelligence\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states\n\n## Mechanics & Benefit\n+2 Insight",
+    "notes": "[Modifier] +2 to Insight\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Insight",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -7173,15 +8019,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "High levels of energy and enthusiasm",
     "description": "High levels of energy and enthusiasm",
-    "mechanics": "High levels of energy and enthusiasm",
-    "mechanic": "High levels of energy and enthusiasm",
+    "mechanics": "+1 Karma Point",
+    "mechanic": "+1 Karma Point",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Karma Pool"
+      }
+    ],
     "package_traits": [],
-    "body": "# Energetic\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHigh levels of energy and enthusiasm",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Energetic\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHigh levels of energy and enthusiasm\n\n## Mechanics & Benefit\n+1 Karma Point",
+    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Karma Pool",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -7202,13 +8057,13 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Adepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race.",
     "description": "Adepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race.",
-    "mechanics": "Adepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race.",
-    "mechanic": "Adepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race.",
+    "mechanics": "Able to spend a Karma Point to increase any one Ability Score by 1 point for 1 Minute, multiple points spent will increase a different Ability or the same.",
+    "mechanic": "Able to spend a Karma Point to increase any one Ability Score by 1 point for 1 Minute, multiple points spent will increase a different Ability or the same.",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Enhanced Abilities\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race.",
+    "body": "# Enhanced Abilities\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race.\n\n## Mechanics & Benefit\nAble to spend a Karma Point to increase any one Ability Score by 1 point for 1 Minute, multiple points spent will increase a different Ability or the same.",
     "notes": "[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Occupational Trait (1 CP)."
@@ -7231,15 +8086,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "May have a strong sense of ethics and corporate responsibility.",
     "description": "May have a strong sense of ethics and corporate responsibility.",
-    "mechanics": "May have a strong sense of ethics and corporate responsibility.",
-    "mechanic": "May have a strong sense of ethics and corporate responsibility.",
+    "mechanics": "+2 Insight checks and Diplomacy when acting ethically",
+    "mechanic": "+2 Insight checks and Diplomacy when acting ethically",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Insight",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Insight"
+      }
+    ],
     "package_traits": [],
-    "body": "# Ethical awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMay have a strong sense of ethics and corporate responsibility.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Ethical awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMay have a strong sense of ethics and corporate responsibility.\n\n## Mechanics & Benefit\n+2 Insight checks and Diplomacy when acting ethically",
+    "notes": "[Modifier] +2 to Insight\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Insight",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -7260,15 +8124,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Adheres to ethical standards in research and work.",
     "description": "Adheres to ethical standards in research and work.",
-    "mechanics": "Adheres to ethical standards in research and work.",
-    "mechanic": "Adheres to ethical standards in research and work.",
+    "mechanics": "+2 to any Manipulation checks when taking an Ethical side",
+    "mechanic": "+2 to any Manipulation checks when taking an Ethical side",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Any Manipulation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Any Manipulation"
+      }
+    ],
     "package_traits": [],
-    "body": "# Ethical conduct\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdheres to ethical standards in research and work.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Ethical conduct\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdheres to ethical standards in research and work.\n\n## Mechanics & Benefit\n+2 to any Manipulation checks when taking an Ethical side",
+    "notes": "[Modifier] +2 to Any Manipulation\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Any Manipulation",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -7289,13 +8162,13 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "In-depth knowledge and experience in a particular area",
     "description": "In-depth knowledge and experience in a particular area",
-    "mechanics": "In-depth knowledge and experience in a particular area",
-    "mechanic": "In-depth knowledge and experience in a particular area",
+    "mechanics": "+2 to a Skill Specialization of choice",
+    "mechanic": "+2 to a Skill Specialization of choice",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Expertise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nIn-depth knowledge and experience in a particular area",
+    "body": "# Expertise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nIn-depth knowledge and experience in a particular area\n\n## Mechanics & Benefit\n+2 to a Skill Specialization of choice",
     "notes": "[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Occupational Trait (1 CP)."
@@ -7318,15 +8191,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Has a loyal following of fans",
     "description": "Has a loyal following of fans",
-    "mechanics": "Has a loyal following of fans",
-    "mechanic": "Has a loyal following of fans",
+    "mechanics": "+2 Wealth and +1 Manipulations with Fans",
+    "mechanic": "+2 Wealth and +1 Manipulations with Fans",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Wealth",
+        "type": "wealth",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 Wealth Score"
+      }
+    ],
     "package_traits": [],
-    "body": "# Fans\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHas a loyal following of fans",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Fans\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHas a loyal following of fans\n\n## Mechanics & Benefit\n+2 Wealth and +1 Manipulations with Fans",
+    "notes": "[Modifier] +2 Wealth Score\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 Wealth Score",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -7347,15 +8229,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Seem fearless and willing to take risks in order to achieve their goals",
     "description": "Seem fearless and willing to take risks in order to achieve their goals",
-    "mechanics": "Seem fearless and willing to take risks in order to achieve their goals",
-    "mechanic": "Seem fearless and willing to take risks in order to achieve their goals",
+    "mechanics": "+1 Karma Point",
+    "mechanic": "+1 Karma Point",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Karma Pool"
+      }
+    ],
     "package_traits": [],
-    "body": "# Fearlessness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nSeem fearless and willing to take risks in order to achieve their goals",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Fearlessness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nSeem fearless and willing to take risks in order to achieve their goals\n\n## Mechanics & Benefit\n+1 Karma Point",
+    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Karma Pool",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -7376,15 +8267,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Has close relationships with other performers",
     "description": "Has close relationships with other performers",
-    "mechanics": "Has close relationships with other performers",
-    "mechanic": "Has close relationships with other performers",
+    "mechanics": "Gather Information checks made at Advantage when dealing with the entertainment scene",
+    "mechanic": "Gather Information checks made at Advantage when dealing with the entertainment scene",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Fellow Artists Gather Information",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Fellow Artists Gather Information Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Fellow Artists\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHas close relationships with other performers",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Fellow Artists\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHas close relationships with other performers\n\n## Mechanics & Benefit\nGather Information checks made at Advantage when dealing with the entertainment scene",
+    "notes": "[Modifier] Advantage on Fellow Artists Gather Information Checks\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] Advantage on Fellow Artists Gather Information Checks",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -7405,15 +8305,32 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Strong understanding of financial management, budgeting, and investment strategies.",
     "description": "Strong understanding of financial management, budgeting, and investment strategies.",
-    "mechanics": "Strong understanding of financial management, budgeting, and investment strategies.",
-    "mechanic": "Strong understanding of financial management, budgeting, and investment strategies.",
+    "mechanics": "+2 Business and Appraisal checks",
+    "mechanic": "+2 Business and Appraisal checks",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Business",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Business"
+      },
+      {
+        "target": "Appraisal",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Appraisal"
+      }
+    ],
     "package_traits": [],
-    "body": "# Financial expertise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nStrong understanding of financial management, budgeting, and investment strategies.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Financial expertise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nStrong understanding of financial management, budgeting, and investment strategies.\n\n## Mechanics & Benefit\n+2 Business and Appraisal checks",
+    "notes": "[Modifier] +2 to Business\n[Modifier] +2 to Appraisal\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Business",
+      "[Modifier] +2 to Appraisal",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -7434,15 +8351,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Ability to adapt to changing circumstances and adjust plans and strategies as needed",
     "description": "Ability to adapt to changing circumstances and adjust plans and strategies as needed",
-    "mechanics": "Ability to adapt to changing circumstances and adjust plans and strategies as needed",
-    "mechanic": "Ability to adapt to changing circumstances and adjust plans and strategies as needed",
+    "mechanics": "+2 to a specific Skill Check, may change assigned Skill daily",
+    "mechanic": "+2 to a specific Skill Check, may change assigned Skill daily",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "A specific",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to A specific"
+      }
+    ],
     "package_traits": [],
-    "body": "# Flexibility\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to adapt to changing circumstances and adjust plans and strategies as needed",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Flexibility\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to adapt to changing circumstances and adjust plans and strategies as needed\n\n## Mechanics & Benefit\n+2 to a specific Skill Check, may change assigned Skill daily",
+    "notes": "[Modifier] +2 to A specific\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to A specific",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -7463,15 +8389,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Values independence and self-expression",
     "description": "Values independence and self-expression",
-    "mechanics": "Values independence and self-expression",
-    "mechanic": "Values independence and self-expression",
+    "mechanics": "Domination and Mind-Control Resistance Checks are made at Advantage",
+    "mechanic": "Domination and Mind-Control Resistance Checks are made at Advantage",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Will",
+        "type": "save_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Will Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Freedom\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nValues independence and self-expression",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Freedom\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nValues independence and self-expression\n\n## Mechanics & Benefit\nDomination and Mind-Control Resistance Checks are made at Advantage",
+    "notes": "[Modifier] Advantage on Will Checks\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] Advantage on Will Checks",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -7492,13 +8427,13 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Values having a good time and making others happy",
     "description": "Values having a good time and making others happy",
-    "mechanics": "Values having a good time and making others happy",
-    "mechanic": "Values having a good time and making others happy",
+    "mechanics": "Regain a Karma Point when a crowd enjoys your performance",
+    "mechanic": "Regain a Karma Point when a crowd enjoys your performance",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Fun\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nValues having a good time and making others happy",
+    "body": "# Fun\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nValues having a good time and making others happy\n\n## Mechanics & Benefit\nRegain a Karma Point when a crowd enjoys your performance",
     "notes": "[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Occupational Trait (1 CP)."
@@ -7521,15 +8456,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Good at devising clever solutions",
     "description": "Good at devising clever solutions",
-    "mechanics": "Good at devising clever solutions",
-    "mechanic": "Good at devising clever solutions",
+    "mechanics": "+1 Karma Point",
+    "mechanic": "+1 Karma Point",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Karma Pool"
+      }
+    ],
     "package_traits": [],
-    "body": "# Guile\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nGood at devising clever solutions",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Guile\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nGood at devising clever solutions\n\n## Mechanics & Benefit\n+1 Karma Point",
+    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Karma Pool",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -7550,13 +8494,13 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Experience with hacking into computer systems and stealing information",
     "description": "Experience with hacking into computer systems and stealing information",
-    "mechanics": "Experience with hacking into computer systems and stealing information",
-    "mechanic": "Experience with hacking into computer systems and stealing information",
+    "mechanics": "+2 all checks to the Infiltration of a digital domain",
+    "mechanic": "+2 all checks to the Infiltration of a digital domain",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Hacking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nExperience with hacking into computer systems and stealing information",
+    "body": "# Hacking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nExperience with hacking into computer systems and stealing information\n\n## Mechanics & Benefit\n+2 all checks to the Infiltration of a digital domain",
     "notes": "[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Occupational Trait (1 CP)."
@@ -7579,13 +8523,13 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Adepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.",
     "description": "Adepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.",
-    "mechanics": "Adepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.",
-    "mechanic": "Adepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.",
+    "mechanics": "Gains access to purchase Sensory Features - Night Vision Line, Scent, Acute Senses and Sense Features (still must be purchased but Considered Recommended)",
+    "mechanic": "Gains access to purchase Sensory Features - Night Vision Line, Scent, Acute Senses and Sense Features (still must be purchased but Considered Recommended)",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Heightened Senses\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.",
+    "body": "# Heightened Senses\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.\n\n## Mechanics & Benefit\nGains access to purchase Sensory Features - Night Vision Line, Scent, Acute Senses and Sense Features (still must be purchased but Considered Recommended)",
     "notes": "[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Occupational Trait (1 CP)."
@@ -7637,15 +8581,40 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Often have a high social standing, which grants them access to better resources, connections, and opportunities.",
     "description": "Often have a high social standing, which grants them access to better resources, connections, and opportunities.",
-    "mechanics": "Often have a high social standing, which grants them access to better resources, connections, and opportunities.",
-    "mechanic": "Often have a high social standing, which grants them access to better resources, connections, and opportunities.",
+    "mechanics": "+2 to Wealth Score and Etiquette checks",
+    "mechanic": "+2 to Wealth Score and Etiquette checks",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Wealth Score",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Wealth Score"
+      },
+      {
+        "target": "Etiquette",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Etiquette"
+      },
+      {
+        "target": "Wealth",
+        "type": "wealth",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 Wealth Score"
+      }
+    ],
     "package_traits": [],
-    "body": "# High social standing\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nOften have a high social standing, which grants them access to better resources, connections, and opportunities.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# High social standing\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nOften have a high social standing, which grants them access to better resources, connections, and opportunities.\n\n## Mechanics & Benefit\n+2 to Wealth Score and Etiquette checks",
+    "notes": "[Modifier] +2 to Wealth Score\n[Modifier] +2 to Etiquette\n[Modifier] +2 Wealth Score\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Wealth Score",
+      "[Modifier] +2 to Etiquette",
+      "[Modifier] +2 Wealth Score",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -7666,15 +8635,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Honest and trustworthy, able to maintain a high level of integrity in their work",
     "description": "Honest and trustworthy, able to maintain a high level of integrity in their work",
-    "mechanics": "Honest and trustworthy, able to maintain a high level of integrity in their work",
-    "mechanic": "Honest and trustworthy, able to maintain a high level of integrity in their work",
+    "mechanics": "+1 Karma",
+    "mechanic": "+1 Karma",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Karma Pool"
+      }
+    ],
     "package_traits": [],
-    "body": "# Integrity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHonest and trustworthy, able to maintain a high level of integrity in their work",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Integrity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHonest and trustworthy, able to maintain a high level of integrity in their work\n\n## Mechanics & Benefit\n+1 Karma",
+    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Karma Pool",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -7695,15 +8673,32 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Gathering information, analyzing data, and conducting surveillance",
     "description": "Gathering information, analyzing data, and conducting surveillance",
-    "mechanics": "Gathering information, analyzing data, and conducting surveillance",
-    "mechanic": "Gathering information, analyzing data, and conducting surveillance",
+    "mechanics": "+2 Investigation and Gather Information",
+    "mechanic": "+2 Investigation and Gather Information",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Investigation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Investigation"
+      },
+      {
+        "target": "Gather Information",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Gather Information"
+      }
+    ],
     "package_traits": [],
-    "body": "# Investigation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nGathering information, analyzing data, and conducting surveillance",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Investigation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nGathering information, analyzing data, and conducting surveillance\n\n## Mechanics & Benefit\n+2 Investigation and Gather Information",
+    "notes": "[Modifier] +2 to Investigation\n[Modifier] +2 to Gather Information\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Investigation",
+      "[Modifier] +2 to Gather Information",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -7724,17 +8719,28 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Possess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group",
     "description": "Possess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group",
-    "mechanics": "Possess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group",
-    "mechanic": "Possess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group",
+    "mechanics": "May use any skill without formal training",
+    "mechanic": "May use any skill without formal training",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "All Skills",
+        "type": "untrained",
+        "value": 0,
+        "mode": "conditional",
+        "isSituational": true,
+        "condition": "Untrained skill checks",
+        "description": "May attempt any skill check untrained without suffering CR penalties"
+      }
+    ],
     "package_traits": [],
-    "body": "# Jack-of-All-Trades\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nPossess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).\n[Prerequisite] Intellect 1 or Wisdom 1",
+    "body": "# Jack-of-All-Trades\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nPossess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group\n\n## Mechanics & Benefit\nMay use any skill without formal training",
+    "notes": "[Modifier] May attempt any skill check untrained without suffering CR penalties\n[Rule] Basic Occupational Trait (1 CP).\n[Prerequisite] Intellect 2",
     "notesList": [
+      "[Modifier] May attempt any skill check untrained without suffering CR penalties",
       "[Rule] Basic Occupational Trait (1 CP).",
-      "[Prerequisite] Intellect 1 or Wisdom 1"
+      "[Prerequisite] Intellect 2"
     ]
   },
   {
@@ -7754,15 +8760,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Scouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.",
     "description": "Scouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.",
-    "mechanics": "Scouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.",
-    "mechanic": "Scouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.",
+    "mechanics": "Take 10 on Alertness Checks",
+    "mechanic": "Take 10 on Alertness Checks",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Alertness",
+        "type": "take_10",
+        "value": 10,
+        "mode": "inherent",
+        "description": "May take 10 on Alertness Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Keen Observation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nScouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Keen Observation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nScouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.\n\n## Mechanics & Benefit\nTake 10 on Alertness Checks",
+    "notes": "[Modifier] May take 10 on Alertness Checks\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] May take 10 on Alertness Checks",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -7783,15 +8798,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Fluency in multiple languages",
     "description": "Fluency in multiple languages",
-    "mechanics": "Fluency in multiple languages",
-    "mechanic": "Fluency in multiple languages",
+    "mechanics": "+2 Linguistic Knowledge",
+    "mechanic": "+2 Linguistic Knowledge",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Linguistic Knowledge Fluency in multiple languages",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Linguistic Knowledge Fluency in multiple languages"
+      }
+    ],
     "package_traits": [],
-    "body": "# Languages\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nFluency in multiple languages",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Languages\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nFluency in multiple languages\n\n## Mechanics & Benefit\n+2 Linguistic Knowledge",
+    "notes": "[Modifier] +2 to Linguistic Knowledge Fluency in multiple languages\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Linguistic Knowledge Fluency in multiple languages",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -7812,15 +8836,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Merchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals.",
     "description": "Merchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals.",
-    "mechanics": "Merchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals.",
-    "mechanic": "Merchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals.",
+    "mechanics": "+2 Linguistic Knowledge",
+    "mechanic": "+2 Linguistic Knowledge",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Linguistic Knowledge Merchants often possess linguistic",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Linguistic Knowledge Merchants often possess linguistic"
+      }
+    ],
     "package_traits": [],
-    "body": "# Linguistics\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Linguistics\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals.\n\n## Mechanics & Benefit\n+2 Linguistic Knowledge",
+    "notes": "[Modifier] +2 to Linguistic Knowledge Merchants often possess linguistic\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Linguistic Knowledge Merchants often possess linguistic",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -7841,15 +8874,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Merchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs.",
     "description": "Merchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs.",
-    "mechanics": "Merchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs.",
-    "mechanic": "Merchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs.",
+    "mechanics": "+2 Wealth Checks",
+    "mechanic": "+2 Wealth Checks",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Wealth",
+        "type": "wealth",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 Wealth Score"
+      }
+    ],
     "package_traits": [],
-    "body": "# Logistics\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Logistics\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs.\n\n## Mechanics & Benefit\n+2 Wealth Checks",
+    "notes": "[Modifier] +2 Wealth Score\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 Wealth Score",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -7870,15 +8912,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "While they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups",
     "description": "While they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups",
-    "mechanics": "While they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups",
-    "mechanic": "While they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups",
+    "mechanics": "Domination and Mind-Control Resistance Checks are made at Advantage",
+    "mechanic": "Domination and Mind-Control Resistance Checks are made at Advantage",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Will",
+        "type": "save_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Will Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Loyalty\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nWhile they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Loyalty\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nWhile they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups\n\n## Mechanics & Benefit\nDomination and Mind-Control Resistance Checks are made at Advantage",
+    "notes": "[Modifier] Advantage on Will Checks\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] Advantage on Will Checks",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -7899,15 +8950,32 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Natural aptitude for working with machinery and tools",
     "description": "Natural aptitude for working with machinery and tools",
-    "mechanics": "Natural aptitude for working with machinery and tools",
-    "mechanic": "Natural aptitude for working with machinery and tools",
+    "mechanics": "Additional +1 from Equipment Bonus and +2 Technology (Knowledge)",
+    "mechanic": "Additional +1 from Equipment Bonus and +2 Technology (Knowledge)",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Technology Knowledge Natural aptitude for working with machinery",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Technology Knowledge Natural aptitude for working with machinery"
+      },
+      {
+        "target": "Tools",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Tools"
+      }
+    ],
     "package_traits": [],
-    "body": "# Machine Affinity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nNatural aptitude for working with machinery and tools",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Machine Affinity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nNatural aptitude for working with machinery and tools\n\n## Mechanics & Benefit\nAdditional +1 from Equipment Bonus and +2 Technology (Knowledge)",
+    "notes": "[Modifier] +2 to Technology Knowledge Natural aptitude for working with machinery\n[Modifier] +2 to Tools\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Technology Knowledge Natural aptitude for working with machinery",
+      "[Modifier] +2 to Tools",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -7928,15 +8996,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Many adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.",
     "description": "Many adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.",
-    "mechanics": "Many adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.",
-    "mechanic": "Many adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.",
+    "mechanics": "+2 Unarmed Combat",
+    "mechanic": "+2 Unarmed Combat",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Unarmed Combat Many adepts are highly",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Unarmed Combat Many adepts are highly"
+      }
+    ],
     "package_traits": [],
-    "body": "# Martial Arts Mastery\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMany adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Martial Arts Mastery\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMany adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.\n\n## Mechanics & Benefit\n+2 Unarmed Combat",
+    "notes": "[Modifier] +2 to Unarmed Combat Many adepts are highly\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Unarmed Combat Many adepts are highly",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -7957,15 +9034,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Adepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.",
     "description": "Adepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.",
-    "mechanics": "Adepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.",
-    "mechanic": "Adepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.",
+    "mechanics": "+2 to a Metafocus Discipline",
+    "mechanic": "+2 to a Metafocus Discipline",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "A Metafocus Discipline",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to A Metafocus Discipline"
+      }
+    ],
     "package_traits": [],
-    "body": "# Mastery of a Discipline\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Mastery of a Discipline\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.\n\n## Mechanics & Benefit\n+2 to a Metafocus Discipline",
+    "notes": "[Modifier] +2 to A Metafocus Discipline\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to A Metafocus Discipline",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -7986,15 +9072,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Comprehensive understanding of physics",
     "description": "Comprehensive understanding of physics",
-    "mechanics": "Comprehensive understanding of physics",
-    "mechanic": "Comprehensive understanding of physics",
+    "mechanics": "+2 to Engineering",
+    "mechanic": "+2 to Engineering",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Engineering Comprehensive understanding of physics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Engineering Comprehensive understanding of physics"
+      }
+    ],
     "package_traits": [],
-    "body": "# Mecha-Physics\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nComprehensive understanding of physics",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Mecha-Physics\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nComprehensive understanding of physics\n\n## Mechanics & Benefit\n+2 to Engineering",
+    "notes": "[Modifier] +2 to Engineering Comprehensive understanding of physics\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Engineering Comprehensive understanding of physics",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8015,15 +9110,32 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Withstand psychological challenges",
     "description": "Withstand psychological challenges",
-    "mechanics": "Withstand psychological challenges",
-    "mechanic": "Withstand psychological challenges",
+    "mechanics": "+2 Willpower Checks",
+    "mechanic": "+2 Willpower Checks",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Will",
+        "type": "save",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 on Will Checks"
+      },
+      {
+        "target": "Willpower",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Willpower"
+      }
+    ],
     "package_traits": [],
-    "body": "# Mental Resilience\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nWithstand psychological challenges",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Mental Resilience\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nWithstand psychological challenges\n\n## Mechanics & Benefit\n+2 Willpower Checks",
+    "notes": "[Modifier] +2 on Will Checks\n[Modifier] +2 to Willpower\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 on Will Checks",
+      "[Modifier] +2 to Willpower",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8044,15 +9156,32 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Aware of own cognitive abilities and strategies.",
     "description": "Aware of own cognitive abilities and strategies.",
-    "mechanics": "Aware of own cognitive abilities and strategies.",
-    "mechanic": "Aware of own cognitive abilities and strategies.",
+    "mechanics": "+1 to Logic and Willpower Checks",
+    "mechanic": "+1 to Logic and Willpower Checks",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Logic",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Logic"
+      },
+      {
+        "target": "Willpower",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Willpower"
+      }
+    ],
     "package_traits": [],
-    "body": "# Metacognition\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAware of own cognitive abilities and strategies.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Metacognition\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAware of own cognitive abilities and strategies.\n\n## Mechanics & Benefit\n+1 to Logic and Willpower Checks",
+    "notes": "[Modifier] +1 to Logic\n[Modifier] +1 to Willpower\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Logic",
+      "[Modifier] +1 to Willpower",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8073,26 +9202,26 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Often on the move, traveling from place to place and exploring new territories",
     "description": "Often on the move, traveling from place to place and exploring new territories",
-    "mechanics": "Often on the move, traveling from place to place and exploring new territories",
-    "mechanic": "Often on the move, traveling from place to place and exploring new territories",
+    "mechanics": "+2 Equipment (Vehicle)",
+    "mechanic": "+2 Equipment (Vehicle)",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
     "modifiers": [
       {
-        "target": "defense-mod",
+        "target": "equipment-bonus",
         "type": "combat",
-        "value": 4,
+        "value": 2,
         "mode": "inherent",
-        "description": "+4 defense"
+        "description": "+2 Equipment"
       }
     ],
     "package_traits": [],
-    "body": "# Mobility\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nOften on the move, traveling from place to place and exploring new territories",
-    "notes": "[Modifier] +4 defense\n[Rule] Basic Occupational Trait (1 CP).\n[Prerequisite] Agi 2, Dodge",
+    "body": "# Mobility\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nOften on the move, traveling from place to place and exploring new territories\n\n## Mechanics & Benefit\n+2 Equipment (Vehicle)",
+    "notes": "[Modifier] +2 Equipment\n[Rule] Basic Occupational Trait (1 CP).\n[Prerequisite] Agility 2, Dodge",
     "notesList": [
-      "[Modifier] +4 defense",
+      "[Modifier] +2 Equipment",
       "[Rule] Basic Occupational Trait (1 CP).",
-      "[Prerequisite] Agi 2, Dodge"
+      "[Prerequisite] Agility 2, Dodge"
     ]
   },
   {
@@ -8112,15 +9241,32 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Adepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.",
     "description": "Adepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.",
-    "mechanics": "Adepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.",
-    "mechanic": "Adepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.",
+    "mechanics": "+1 Attune and +1 Insight",
+    "mechanic": "+1 Attune and +1 Insight",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Insight Adepts may have a deep connection to mystical",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Insight Adepts may have a deep connection to mystical"
+      },
+      {
+        "target": "Spiritual forces",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Spiritual forces"
+      }
+    ],
     "package_traits": [],
-    "body": "# Mystical or Spiritual Connection\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Mystical or Spiritual Connection\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.\n\n## Mechanics & Benefit\n+1 Attune and +1 Insight",
+    "notes": "[Modifier] +1 to Insight Adepts may have a deep connection to mystical\n[Modifier] +1 to Spiritual forces\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Insight Adepts may have a deep connection to mystical",
+      "[Modifier] +1 to Spiritual forces",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8141,15 +9287,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Scouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.",
     "description": "Scouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.",
-    "mechanics": "Scouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.",
-    "mechanic": "Scouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.",
+    "mechanics": "+2 Navigation (Knowledge)",
+    "mechanic": "+2 Navigation (Knowledge)",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Navigation Knowledge Scouts have excellent navigational",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Navigation Knowledge Scouts have excellent navigational"
+      }
+    ],
     "package_traits": [],
-    "body": "# Navigation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nScouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Navigation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nScouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.\n\n## Mechanics & Benefit\n+2 Navigation (Knowledge)",
+    "notes": "[Modifier] +2 to Navigation Knowledge Scouts have excellent navigational\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Navigation Knowledge Scouts have excellent navigational",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8170,15 +9325,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Alert and observant, constantly scanning the area for potential threats",
     "description": "Alert and observant, constantly scanning the area for potential threats",
-    "mechanics": "Alert and observant, constantly scanning the area for potential threats",
-    "mechanic": "Alert and observant, constantly scanning the area for potential threats",
+    "mechanics": "May take 10 on Alertness Checks",
+    "mechanic": "May take 10 on Alertness Checks",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Alertness",
+        "type": "take_10",
+        "value": 10,
+        "mode": "inherent",
+        "description": "May take 10 on Alertness Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Observant\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAlert and observant, constantly scanning the area for potential threats",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Observant\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAlert and observant, constantly scanning the area for potential threats\n\n## Mechanics & Benefit\nMay take 10 on Alertness Checks",
+    "notes": "[Modifier] May take 10 on Alertness Checks\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] May take 10 on Alertness Checks",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8199,15 +9363,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Convincing others to cooperate, negotiation, deception, and diplomacy",
     "description": "Convincing others to cooperate, negotiation, deception, and diplomacy",
-    "mechanics": "Convincing others to cooperate, negotiation, deception, and diplomacy",
-    "mechanic": "Convincing others to cooperate, negotiation, deception, and diplomacy",
+    "mechanics": "+1 Manipulation Skills and Etiquette Checks",
+    "mechanic": "+1 Manipulation Skills and Etiquette Checks",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Manipulation",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Manipulation"
+      }
+    ],
     "package_traits": [],
-    "body": "# Persuasion\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nConvincing others to cooperate, negotiation, deception, and diplomacy",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Persuasion\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nConvincing others to cooperate, negotiation, deception, and diplomacy\n\n## Mechanics & Benefit\n+1 Manipulation Skills and Etiquette Checks",
+    "notes": "[Modifier] +1 to Manipulation\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Manipulation",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8228,15 +9401,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Ability to endure harsh conditions or high-stress situations",
     "description": "Ability to endure harsh conditions or high-stress situations",
-    "mechanics": "Ability to endure harsh conditions or high-stress situations",
-    "mechanic": "Ability to endure harsh conditions or high-stress situations",
+    "mechanics": "+1 Willpower and Fortitude",
+    "mechanic": "+1 Willpower and Fortitude",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Will",
+        "type": "save",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 on Will Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Physical and mental resilience\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to endure harsh conditions or high-stress situations",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Physical and mental resilience\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to endure harsh conditions or high-stress situations\n\n## Mechanics & Benefit\n+1 Willpower and Fortitude",
+    "notes": "[Modifier] +1 on Will Checks\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 on Will Checks",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8257,15 +9439,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Physically fit and strong, can endure long periods of physical activity and combat",
     "description": "Physically fit and strong, can endure long periods of physical activity and combat",
-    "mechanics": "Physically fit and strong, can endure long periods of physical activity and combat",
-    "mechanic": "Physically fit and strong, can endure long periods of physical activity and combat",
+    "mechanics": "+1 Might and Fortitude Checks",
+    "mechanic": "+1 Might and Fortitude Checks",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Might",
+        "type": "save",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 on Might Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Physical Prowess\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nPhysically fit and strong, can endure long periods of physical activity and combat",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Physical Prowess\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nPhysically fit and strong, can endure long periods of physical activity and combat\n\n## Mechanics & Benefit\n+1 Might and Fortitude Checks",
+    "notes": "[Modifier] +1 on Might Checks\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 on Might Checks",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8286,15 +9477,32 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Most field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.",
     "description": "Most field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.",
-    "mechanics": "Most field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.",
-    "mechanic": "Most field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.",
+    "mechanics": "+2 Pilot and Navigation",
+    "mechanic": "+2 Pilot and Navigation",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Pilot",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Pilot"
+      },
+      {
+        "target": "Navigation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Navigation"
+      }
+    ],
     "package_traits": [],
-    "body": "# Pilot\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMost field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Pilot\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMost field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.\n\n## Mechanics & Benefit\n+2 Pilot and Navigation",
+    "notes": "[Modifier] +2 to Pilot\n[Modifier] +2 to Navigation\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Pilot",
+      "[Modifier] +2 to Navigation",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8315,15 +9523,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Strong analytical and problem-solving skills",
     "description": "Strong analytical and problem-solving skills",
-    "mechanics": "Strong analytical and problem-solving skills",
-    "mechanic": "Strong analytical and problem-solving skills",
+    "mechanics": "+2 Logic Checks",
+    "mechanic": "+2 Logic Checks",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Logic",
+        "type": "save",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 on Logic Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Problem-Solving Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nStrong analytical and problem-solving skills",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Problem-Solving Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nStrong analytical and problem-solving skills\n\n## Mechanics & Benefit\n+2 Logic Checks",
+    "notes": "[Modifier] +2 on Logic Checks\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 on Logic Checks",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8344,15 +9561,32 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Merchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods.",
     "description": "Merchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods.",
-    "mechanics": "Merchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods.",
-    "mechanic": "Merchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods.",
+    "mechanics": "+2 to a Knowledge or Vocation Skill",
+    "mechanic": "+2 to a Knowledge or Vocation Skill",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "A Knowledge",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to A Knowledge"
+      },
+      {
+        "target": "Vocation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Vocation"
+      }
+    ],
     "package_traits": [],
-    "body": "# Product Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Product Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods.\n\n## Mechanics & Benefit\n+2 to a Knowledge or Vocation Skill",
+    "notes": "[Modifier] +2 to A Knowledge\n[Modifier] +2 to Vocation\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to A Knowledge",
+      "[Modifier] +2 to Vocation",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8402,15 +9636,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Think on their feet, make split-second decisions, and adapt to rapidly changing situations",
     "description": "Think on their feet, make split-second decisions, and adapt to rapidly changing situations",
-    "mechanics": "Think on their feet, make split-second decisions, and adapt to rapidly changing situations",
-    "mechanic": "Think on their feet, make split-second decisions, and adapt to rapidly changing situations",
+    "mechanics": "+2 Initiative",
+    "mechanic": "+2 Initiative",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "initiative-mod",
+        "type": "combat",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 Initiative"
+      }
+    ],
     "package_traits": [],
-    "body": "# Quick Thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nThink on their feet, make split-second decisions, and adapt to rapidly changing situations",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Quick Thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nThink on their feet, make split-second decisions, and adapt to rapidly changing situations\n\n## Mechanics & Benefit\n+2 Initiative",
+    "notes": "[Modifier] +2 Initiative\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 Initiative",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8431,15 +9674,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Able to respond quickly to threats and can act decisively in high-pressure situations",
     "description": "Able to respond quickly to threats and can act decisively in high-pressure situations",
-    "mechanics": "Able to respond quickly to threats and can act decisively in high-pressure situations",
-    "mechanic": "Able to respond quickly to threats and can act decisively in high-pressure situations",
+    "mechanics": "+2 Initiative",
+    "mechanic": "+2 Initiative",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "initiative-mod",
+        "type": "combat",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 Initiative"
+      }
+    ],
     "package_traits": [],
-    "body": "# Rapid Response\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to respond quickly to threats and can act decisively in high-pressure situations",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Rapid Response\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to respond quickly to threats and can act decisively in high-pressure situations\n\n## Mechanics & Benefit\n+2 Initiative",
+    "notes": "[Modifier] +2 Initiative\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 Initiative",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8460,15 +9712,25 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Able to make weapons out of anything and can adapt to new situations quickly",
     "description": "Able to make weapons out of anything and can adapt to new situations quickly",
-    "mechanics": "Able to make weapons out of anything and can adapt to new situations quickly",
-    "mechanic": "Able to make weapons out of anything and can adapt to new situations quickly",
+    "mechanics": "Once per Day make a Skill Check of choice at Advantage",
+    "mechanic": "Once per Day make a Skill Check of choice at Advantage",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Skill Choice",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "situational",
+        "condition": "1/Day",
+        "description": "One Skill Check of choice at Advantage per day"
+      }
+    ],
     "package_traits": [],
-    "body": "# Resourceful\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to make weapons out of anything and can adapt to new situations quickly",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Resourceful\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to make weapons out of anything and can adapt to new situations quickly\n\n## Mechanics & Benefit\nOnce per Day make a Skill Check of choice at Advantage",
+    "notes": "[Modifier] One Skill Check of choice at Advantage per day\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] One Skill Check of choice at Advantage per day",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8489,8 +9751,8 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Merchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *+1 Karma Point* #",
     "description": "Merchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *+1 Karma Point* #",
-    "mechanics": "Merchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *+1 Karma Point* #",
-    "mechanic": "Merchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *+1 Karma Point* #",
+    "mechanics": "+1 Karma Point",
+    "mechanic": "+1 Karma Point",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
     "modifiers": [
@@ -8503,7 +9765,7 @@ export const OCCUPATIONAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Risk Management\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *+1 Karma Point* #",
+    "body": "# Risk Management\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *+1 Karma Point* #\n\n## Mechanics & Benefit\n+1 Karma Point",
     "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
       "[Modifier] +1 to Karma Pool",
@@ -8527,15 +9789,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Excel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources",
     "description": "Excel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources",
-    "mechanics": "Excel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources",
-    "mechanic": "Excel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources",
+    "mechanics": "+2 Salvage checks",
+    "mechanic": "+2 Salvage checks",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Salvage",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Salvage"
+      }
+    ],
     "package_traits": [],
-    "body": "# Scavenging\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nExcel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Scavenging\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nExcel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources\n\n## Mechanics & Benefit\n+2 Salvage checks",
+    "notes": "[Modifier] +2 to Salvage\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Salvage",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8556,15 +9827,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Criminals may be skilled at protecting themselves and avoiding capture by law enforcement",
     "description": "Criminals may be skilled at protecting themselves and avoiding capture by law enforcement",
-    "mechanics": "Criminals may be skilled at protecting themselves and avoiding capture by law enforcement",
-    "mechanic": "Criminals may be skilled at protecting themselves and avoiding capture by law enforcement",
+    "mechanics": "+1 Karma Point",
+    "mechanic": "+1 Karma Point",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Karma Pool"
+      }
+    ],
     "package_traits": [],
-    "body": "# Self-preservation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nCriminals may be skilled at protecting themselves and avoiding capture by law enforcement",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Self-preservation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nCriminals may be skilled at protecting themselves and avoiding capture by law enforcement\n\n## Mechanics & Benefit\n+1 Karma Point",
+    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Karma Pool",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8585,15 +9865,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Often self-sufficient and able to take care of themselves without relying on others",
     "description": "Often self-sufficient and able to take care of themselves without relying on others",
-    "mechanics": "Often self-sufficient and able to take care of themselves without relying on others",
-    "mechanic": "Often self-sufficient and able to take care of themselves without relying on others",
+    "mechanics": "+1 Karma Point",
+    "mechanic": "+1 Karma Point",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Karma Pool"
+      }
+    ],
     "package_traits": [],
-    "body": "# Self-sufficiency\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nOften self-sufficient and able to take care of themselves without relying on others",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Self-sufficiency\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nOften self-sufficient and able to take care of themselves without relying on others\n\n## Mechanics & Benefit\n+1 Karma Point",
+    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Karma Pool",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8614,15 +9903,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Criminals may be charming and persuasive, able to talk their way out of difficult situations",
     "description": "Criminals may be charming and persuasive, able to talk their way out of difficult situations",
-    "mechanics": "Criminals may be charming and persuasive, able to talk their way out of difficult situations",
-    "mechanic": "Criminals may be charming and persuasive, able to talk their way out of difficult situations",
+    "mechanics": "+2 Bluff",
+    "mechanic": "+2 Bluff",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Bluff",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Bluff"
+      }
+    ],
     "package_traits": [],
-    "body": "# Smooth\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nCriminals may be charming and persuasive, able to talk their way out of difficult situations",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Smooth\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nCriminals may be charming and persuasive, able to talk their way out of difficult situations\n\n## Mechanics & Benefit\n+2 Bluff",
+    "notes": "[Modifier] +2 to Bluff\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Bluff",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8643,13 +9941,13 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Adepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability.",
     "description": "Adepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability.",
-    "mechanics": "Adepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability.",
-    "mechanic": "Adepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability.",
+    "mechanics": "Special Ability at level 1 (which are afterwards improved as a skill)",
+    "mechanic": "Special Ability at level 1 (which are afterwards improved as a skill)",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Special Ability\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability.",
+    "body": "# Special Ability\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability.\n\n## Mechanics & Benefit\nSpecial Ability at level 1 (which are afterwards improved as a skill)",
     "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] Basic Occupational Trait (1 CP).\n[Prerequisite] None (though usually tied to Species or Origin).",
     "notesList": [
       "[Rule] Multiple: May be purchased separately for different categories/types",
@@ -8674,15 +9972,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Adepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.",
     "description": "Adepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.",
-    "mechanics": "Adepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.",
-    "mechanic": "Adepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.",
+    "mechanics": "+2 Equipment",
+    "mechanic": "+2 Equipment",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "equipment-bonus",
+        "type": "combat",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 Equipment"
+      }
+    ],
     "package_traits": [],
-    "body": "# Special Equipment\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Special Equipment\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.\n\n## Mechanics & Benefit\n+2 Equipment",
+    "notes": "[Modifier] +2 Equipment\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 Equipment",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8703,13 +10010,13 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Adepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.",
     "description": "Adepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.",
-    "mechanics": "Adepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.",
-    "mechanic": "Adepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.",
+    "mechanics": "+2 to a Skill of Choice",
+    "mechanic": "+2 to a Skill of Choice",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Specialized Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.",
+    "body": "# Specialized Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.\n\n## Mechanics & Benefit\n+2 to a Skill of Choice",
     "notes": "[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Occupational Trait (1 CP)."
@@ -8732,15 +10039,48 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Operating covertly, sneaking, hiding, and remaining undetected",
     "description": "Operating covertly, sneaking, hiding, and remaining undetected",
-    "mechanics": "Operating covertly, sneaking, hiding, and remaining undetected",
-    "mechanic": "Operating covertly, sneaking, hiding, and remaining undetected",
+    "mechanics": "+2 Stealth",
+    "mechanic": "+2 Stealth",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Stealth Operating covertly",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Stealth Operating covertly"
+      },
+      {
+        "target": "Sneaking",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Sneaking"
+      },
+      {
+        "target": "Hiding",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Hiding"
+      },
+      {
+        "target": "Remaining undetected",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Remaining undetected"
+      }
+    ],
     "package_traits": [],
-    "body": "# Stealth\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nOperating covertly, sneaking, hiding, and remaining undetected",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Stealth\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nOperating covertly, sneaking, hiding, and remaining undetected\n\n## Mechanics & Benefit\n+2 Stealth",
+    "notes": "[Modifier] +2 to Stealth Operating covertly\n[Modifier] +2 to Sneaking\n[Modifier] +2 to Hiding\n[Modifier] +2 to Remaining undetected\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Stealth Operating covertly",
+      "[Modifier] +2 to Sneaking",
+      "[Modifier] +2 to Hiding",
+      "[Modifier] +2 to Remaining undetected",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8761,15 +10101,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Skilled at developing long-term plans and strategies to achieve their goals.",
     "description": "Skilled at developing long-term plans and strategies to achieve their goals.",
-    "mechanics": "Skilled at developing long-term plans and strategies to achieve their goals.",
-    "mechanic": "Skilled at developing long-term plans and strategies to achieve their goals.",
+    "mechanics": "+2 Tactics and Logic checks",
+    "mechanic": "+2 Tactics and Logic checks",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Tactics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Tactics"
+      }
+    ],
     "package_traits": [],
-    "body": "# Strategic thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nSkilled at developing long-term plans and strategies to achieve their goals.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Strategic thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nSkilled at developing long-term plans and strategies to achieve their goals.\n\n## Mechanics & Benefit\n+2 Tactics and Logic checks",
+    "notes": "[Modifier] +2 to Tactics\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Tactics",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8790,15 +10139,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Ability to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter",
     "description": "Ability to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter",
-    "mechanics": "Ability to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter",
-    "mechanic": "Ability to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter",
+    "mechanics": "+2 Survival",
+    "mechanic": "+2 Survival",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Survival"
+      }
+    ],
     "package_traits": [],
-    "body": "# Survival\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Survival\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter\n\n## Mechanics & Benefit\n+2 Survival",
+    "notes": "[Modifier] +2 to Survival\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Survival",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8819,15 +10177,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Able to work in teams and coordinate their efforts to achieve their objectives",
     "description": "Able to work in teams and coordinate their efforts to achieve their objectives",
-    "mechanics": "Able to work in teams and coordinate their efforts to achieve their objectives",
-    "mechanic": "Able to work in teams and coordinate their efforts to achieve their objectives",
+    "mechanics": "additional +1 to Aid bonuses",
+    "mechanic": "additional +1 to Aid bonuses",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Aid bonuses",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Aid bonuses"
+      }
+    ],
     "package_traits": [],
-    "body": "# Team-Oriented\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to work in teams and coordinate their efforts to achieve their objectives",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Team-Oriented\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to work in teams and coordinate their efforts to achieve their objectives\n\n## Mechanics & Benefit\nadditional +1 to Aid bonuses",
+    "notes": "[Modifier] +1 to Aid bonuses\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Aid bonuses",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8848,15 +10215,32 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Ability to communicate effectively and collaborate with others",
     "description": "Ability to communicate effectively and collaborate with others",
-    "mechanics": "Ability to communicate effectively and collaborate with others",
-    "mechanic": "Ability to communicate effectively and collaborate with others",
+    "mechanics": "additional +1 to Aid bonuses",
+    "mechanic": "additional +1 to Aid bonuses",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Aid bonuses Ability to communicate effectively",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Aid bonuses Ability to communicate effectively"
+      },
+      {
+        "target": "Collaborate with others",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Collaborate with others"
+      }
+    ],
     "package_traits": [],
-    "body": "# Team Player\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to communicate effectively and collaborate with others",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Team Player\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to communicate effectively and collaborate with others\n\n## Mechanics & Benefit\nadditional +1 to Aid bonuses",
+    "notes": "[Modifier] +1 to Aid bonuses Ability to communicate effectively\n[Modifier] +1 to Collaborate with others\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Aid bonuses Ability to communicate effectively",
+      "[Modifier] +1 to Collaborate with others",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8877,15 +10261,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Deep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques",
     "description": "Deep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques",
-    "mechanics": "Deep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques",
-    "mechanic": "Deep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques",
+    "mechanics": "+2 Vocation Skill",
+    "mechanic": "+2 Vocation Skill",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Vocation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Vocation"
+      }
+    ],
     "package_traits": [],
-    "body": "# Technical Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nDeep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Technical Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nDeep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques\n\n## Mechanics & Benefit\n+2 Vocation Skill",
+    "notes": "[Modifier] +2 to Vocation\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Vocation",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8906,15 +10299,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Natural aptitude for understanding and operating advanced technology",
     "description": "Natural aptitude for understanding and operating advanced technology",
-    "mechanics": "Natural aptitude for understanding and operating advanced technology",
-    "mechanic": "Natural aptitude for understanding and operating advanced technology",
+    "mechanics": "+2 Technology Knowledge",
+    "mechanic": "+2 Technology Knowledge",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Technology Knowledge",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Technology Knowledge"
+      }
+    ],
     "package_traits": [],
-    "body": "# Technological Aptitude\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nNatural aptitude for understanding and operating advanced technology",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Technological Aptitude\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nNatural aptitude for understanding and operating advanced technology\n\n## Mechanics & Benefit\n+2 Technology Knowledge",
+    "notes": "[Modifier] +2 to Technology Knowledge\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Technology Knowledge",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8935,15 +10337,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Able to create, adapt, and improve technology in novel ways.",
     "description": "Able to create, adapt, and improve technology in novel ways.",
-    "mechanics": "Able to create, adapt, and improve technology in novel ways.",
-    "mechanic": "Able to create, adapt, and improve technology in novel ways.",
+    "mechanics": "Knowledge (Technology) checks made at Advantage.",
+    "mechanic": "Knowledge (Technology) checks made at Advantage.",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Technological innovation Knowledge Technology",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Technological innovation Knowledge Technology Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Technological innovation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to create, adapt, and improve technology in novel ways.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Technological innovation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to create, adapt, and improve technology in novel ways.\n\n## Mechanics & Benefit\nKnowledge (Technology) checks made at Advantage.",
+    "notes": "[Modifier] Advantage on Technological innovation Knowledge Technology Checks\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] Advantage on Technological innovation Knowledge Technology Checks",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8964,15 +10375,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Proficiency in advanced technology",
     "description": "Proficiency in advanced technology",
-    "mechanics": "Proficiency in advanced technology",
-    "mechanic": "Proficiency in advanced technology",
+    "mechanics": "Additional +1 from Equipment Bonus and +2 Technology (Knowledge)",
+    "mechanic": "Additional +1 from Equipment Bonus and +2 Technology (Knowledge)",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Technology Knowledge Proficiency in advanced technology",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Technology Knowledge Proficiency in advanced technology"
+      }
+    ],
     "package_traits": [],
-    "body": "# Technological proficiency\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nProficiency in advanced technology",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Technological proficiency\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nProficiency in advanced technology\n\n## Mechanics & Benefit\nAdditional +1 from Equipment Bonus and +2 Technology (Knowledge)",
+    "notes": "[Modifier] +2 to Technology Knowledge Proficiency in advanced technology\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Technology Knowledge Proficiency in advanced technology",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -8993,15 +10413,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Familiarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons",
     "description": "Familiarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons",
-    "mechanics": "Familiarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons",
-    "mechanic": "Familiarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons",
+    "mechanics": "+2 Technology Knowledge",
+    "mechanic": "+2 Technology Knowledge",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Technology Knowledge",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Technology Knowledge"
+      }
+    ],
     "package_traits": [],
-    "body": "# Technology\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nFamiliarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Technology\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nFamiliarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons\n\n## Mechanics & Benefit\n+2 Technology Knowledge",
+    "notes": "[Modifier] +2 to Technology Knowledge\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Technology Knowledge",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -9022,8 +10451,8 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Scouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #",
     "description": "Scouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #",
-    "mechanics": "Scouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #",
-    "mechanic": "Scouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #",
+    "mechanics": "+2 to Stealth, Survival and Defense in chosen Terrain",
+    "mechanic": "+2 to Stealth, Survival and Defense in chosen Terrain",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
     "modifiers": [
@@ -9036,7 +10465,7 @@ export const OCCUPATIONAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Terrain Expert\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nScouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #",
+    "body": "# Terrain Expert\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nScouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #\n\n## Mechanics & Benefit\n+2 to Stealth, Survival and Defense in chosen Terrain",
     "notes": "[Modifier] +2 to Stealth\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
       "[Modifier] +2 to Stealth",
@@ -9089,15 +10518,32 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *+2 Piloting and Navigation*  #",
     "description": "Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *+2 Piloting and Navigation*  #",
-    "mechanics": "Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *+2 Piloting and Navigation*  #",
-    "mechanic": "Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *+2 Piloting and Navigation*  #",
+    "mechanics": "+2 Piloting and Navigation",
+    "mechanic": "+2 Piloting and Navigation",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Piloting",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Piloting"
+      },
+      {
+        "target": "Navigation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Navigation"
+      }
+    ],
     "package_traits": [],
-    "body": "# Travel\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nPiloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *+2 Piloting and Navigation*  #",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Travel\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nPiloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *+2 Piloting and Navigation*  #\n\n## Mechanics & Benefit\n+2 Piloting and Navigation",
+    "notes": "[Modifier] +2 to Piloting\n[Modifier] +2 to Navigation\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Piloting",
+      "[Modifier] +2 to Navigation",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -9118,8 +10564,8 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Unpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *+2 Initiative* #",
     "description": "Unpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *+2 Initiative* #",
-    "mechanics": "Unpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *+2 Initiative* #",
-    "mechanic": "Unpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *+2 Initiative* #",
+    "mechanics": "+2 Initiative",
+    "mechanic": "+2 Initiative",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
     "modifiers": [
@@ -9132,7 +10578,7 @@ export const OCCUPATIONAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Unpredictability\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nUnpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *+2 Initiative* #",
+    "body": "# Unpredictability\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nUnpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *+2 Initiative* #\n\n## Mechanics & Benefit\n+2 Initiative",
     "notes": "[Modifier] +2 Initiative\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
       "[Modifier] +2 Initiative",
@@ -9156,8 +10602,8 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Has strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #",
     "description": "Has strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #",
-    "mechanics": "Has strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #",
-    "mechanic": "Has strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #",
+    "mechanics": "+2 Equipment (Hideout) and +1 Wealth",
+    "mechanic": "+2 Equipment (Hideout) and +1 Wealth",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
     "modifiers": [
@@ -9170,7 +10616,7 @@ export const OCCUPATIONAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Venues\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHas strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #",
+    "body": "# Venues\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHas strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #\n\n## Mechanics & Benefit\n+2 Equipment (Hideout) and +1 Wealth",
     "notes": "[Modifier] +1 Wealth Score\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
       "[Modifier] +1 Wealth Score",
@@ -9194,15 +10640,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Able to operate in a variety of environments, including underwater and in zero-gravity",
     "description": "Able to operate in a variety of environments, including underwater and in zero-gravity",
-    "mechanics": "Able to operate in a variety of environments, including underwater and in zero-gravity",
-    "mechanic": "Able to operate in a variety of environments, including underwater and in zero-gravity",
+    "mechanics": "+1 Karma Point",
+    "mechanic": "+1 Karma Point",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Karma Pool"
+      }
+    ],
     "package_traits": [],
-    "body": "# Versatile\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to operate in a variety of environments, including underwater and in zero-gravity",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Versatile\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to operate in a variety of environments, including underwater and in zero-gravity\n\n## Mechanics & Benefit\n+1 Karma Point",
+    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Karma Pool",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -9223,15 +10678,24 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Equipped with the latest technology and weaponry   *+2 Equipment* #",
     "description": "Equipped with the latest technology and weaponry   *+2 Equipment* #",
-    "mechanics": "Equipped with the latest technology and weaponry   *+2 Equipment* #",
-    "mechanic": "Equipped with the latest technology and weaponry   *+2 Equipment* #",
+    "mechanics": "+2 Equipment",
+    "mechanic": "+2 Equipment",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "equipment-bonus",
+        "type": "combat",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 Equipment"
+      }
+    ],
     "package_traits": [],
-    "body": "# Well-Equipped\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nEquipped with the latest technology and weaponry   *+2 Equipment* #",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Well-Equipped\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nEquipped with the latest technology and weaponry   *+2 Equipment* #\n\n## Mechanics & Benefit\n+2 Equipment",
+    "notes": "[Modifier] +2 Equipment\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 Equipment",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   }
@@ -9252,17 +10716,26 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions.",
-    "description": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions.",
-    "mechanics": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions.",
-    "mechanic": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions.",
+    "desc": "The character is able to adapt to new environments and situations quickly, making them well-suited to life in an ever-changing aquatic world.",
+    "description": "The character is able to adapt to new environments and situations quickly, making them well-suited to life in an ever-changing aquatic world.",
+    "mechanics": "+2 to a specific Skill Check, may change assigned Skill daily",
+    "mechanic": "+2 to a specific Skill Check, may change assigned Skill daily",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "A specific",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to A specific"
+      }
+    ],
     "package_traits": [],
-    "body": "# Adaptability\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nQuickly adjusts to new environments, changing protocols, and unexpected physical conditions.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Adaptability\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nThe character is able to adapt to new environments and situations quickly, making them well-suited to life in an ever-changing aquatic world.\n\n## Mechanics & Benefit\n+2 to a specific Skill Check, may change assigned Skill daily",
+    "notes": "[Modifier] +2 to A specific\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to A specific",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -9283,15 +10756,25 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Fearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds.",
     "description": "Fearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds.",
-    "mechanics": "Fearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds.",
-    "mechanic": "Fearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds.",
+    "mechanics": "One Skill Check at Advantage per day",
+    "mechanic": "One Skill Check at Advantage per day",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Skill Choice",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "situational",
+        "condition": "1/Day",
+        "description": "One Skill Check of choice at Advantage per day"
+      }
+    ],
     "package_traits": [],
-    "body": "# Adventurous Spirit\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nFearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Adventurous Spirit\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nFearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds.\n\n## Mechanics & Benefit\nOne Skill Check at Advantage per day",
+    "notes": "[Modifier] One Skill Check of choice at Advantage per day\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] One Skill Check of choice at Advantage per day",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -9310,17 +10793,26 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Systematic data deconstruction, statistical pattern recognition, and logical analysis.",
-    "description": "Systematic data deconstruction, statistical pattern recognition, and logical analysis.",
-    "mechanics": "Systematic data deconstruction, statistical pattern recognition, and logical analysis.",
-    "mechanic": "Systematic data deconstruction, statistical pattern recognition, and logical analysis.",
+    "desc": "Analyzing complex telemetry, identifying cryptographic patterns, and drawing rigorous empirical conclusions.",
+    "description": "Analyzing complex telemetry, identifying cryptographic patterns, and drawing rigorous empirical conclusions.",
+    "mechanics": "+2 Logic Checks",
+    "mechanic": "+2 Logic Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Logic",
+        "type": "save",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 on Logic Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Analytical Thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nSystematic data deconstruction, statistical pattern recognition, and logical analysis.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Analytical Thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nAnalyzing complex telemetry, identifying cryptographic patterns, and drawing rigorous empirical conclusions.\n\n## Mechanics & Benefit\n+2 Logic Checks",
+    "notes": "[Modifier] +2 on Logic Checks\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 on Logic Checks",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -9339,17 +10831,34 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Expertise in raising and caring for livestock, understanding animal behavior and nutrition.",
-    "description": "Expertise in raising and caring for livestock, understanding animal behavior and nutrition.",
-    "mechanics": "Expertise in raising and caring for livestock, understanding animal behavior and nutrition.",
-    "mechanic": "Expertise in raising and caring for livestock, understanding animal behavior and nutrition.",
+    "desc": "Expertise in raising and caring for livestock. Understands animal behavior, breeding, and nutrition. Can manage a farm with a diverse range of animals.",
+    "description": "Expertise in raising and caring for livestock. Understands animal behavior, breeding, and nutrition. Can manage a farm with a diverse range of animals.",
+    "mechanics": "+2 to Animal Handling",
+    "mechanic": "+2 to Animal Handling",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Animal Handling Expertise in raising",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Animal Handling Expertise in raising"
+      },
+      {
+        "target": "Caring for livestock",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Caring for livestock"
+      }
+    ],
     "package_traits": [],
-    "body": "# Animal Husbandry\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nExpertise in raising and caring for livestock, understanding animal behavior and nutrition.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Animal Husbandry\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nExpertise in raising and caring for livestock. Understands animal behavior, breeding, and nutrition. Can manage a farm with a diverse range of animals.\n\n## Mechanics & Benefit\n+2 to Animal Handling",
+    "notes": "[Modifier] +2 to Animal Handling Expertise in raising\n[Modifier] +2 to Caring for livestock\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Animal Handling Expertise in raising",
+      "[Modifier] +2 to Caring for livestock",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -9368,17 +10877,26 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Skilled in engineering watertight hulls, flotilla moorings, and submerged habitats.",
-    "description": "Skilled in engineering watertight hulls, flotilla moorings, and submerged habitats.",
-    "mechanics": "Skilled in engineering watertight hulls, flotilla moorings, and submerged habitats.",
-    "mechanic": "Skilled in engineering watertight hulls, flotilla moorings, and submerged habitats.",
+    "desc": "Skilled in manufacturing buildings, flotillas, submerged domes, and other water-based habitats and structures.",
+    "description": "Skilled in manufacturing buildings, flotillas, submerged domes, and other water-based habitats and structures.",
+    "mechanics": "+2 to all Construction Checks",
+    "mechanic": "+2 to all Construction Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Construction",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Construction"
+      }
+    ],
     "package_traits": [],
-    "body": "# Aquatic Construction\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nSkilled in engineering watertight hulls, flotilla moorings, and submerged habitats.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Aquatic Construction\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nSkilled in manufacturing buildings, flotillas, submerged domes, and other water-based habitats and structures.\n\n## Mechanics & Benefit\n+2 to all Construction Checks",
+    "notes": "[Modifier] +2 to Construction\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Construction",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -9399,15 +10917,24 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Meticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies.",
     "description": "Meticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies.",
-    "mechanics": "Meticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies.",
-    "mechanic": "Meticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies.",
+    "mechanics": "+2 Alertness",
+    "mechanic": "+2 Alertness",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Alertness",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Alertness"
+      }
+    ],
     "package_traits": [],
-    "body": "# Attention to Detail\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nMeticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Attention to Detail\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nMeticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies.\n\n## Mechanics & Benefit\n+2 Alertness",
+    "notes": "[Modifier] +2 to Alertness\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Alertness",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -9426,17 +10953,26 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Extensive knowledge of plants, crops, and agricultural cultivation techniques.",
-    "description": "Extensive knowledge of plants, crops, and agricultural cultivation techniques.",
-    "mechanics": "Extensive knowledge of plants, crops, and agricultural cultivation techniques.",
-    "mechanic": "Extensive knowledge of plants, crops, and agricultural cultivation techniques.",
+    "desc": "Extensive knowledge of plants, crops, and agricultural techniques. Understands the science behind growing and cultivating various types of vegetation.",
+    "description": "Extensive knowledge of plants, crops, and agricultural techniques. Understands the science behind growing and cultivating various types of vegetation.",
+    "mechanics": "+2 to Botany Checks",
+    "mechanic": "+2 to Botany Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Botany",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Botany"
+      }
+    ],
     "package_traits": [],
-    "body": "# Botanical Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nExtensive knowledge of plants, crops, and agricultural cultivation techniques.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Botanical Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nExtensive knowledge of plants, crops, and agricultural techniques. Understands the science behind growing and cultivating various types of vegetation.\n\n## Mechanics & Benefit\n+2 to Botany Checks",
+    "notes": "[Modifier] +2 to Botany\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Botany",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -9455,17 +10991,34 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Peer-review synergy and interdisciplinary communication across research teams.",
-    "description": "Peer-review synergy and interdisciplinary communication across research teams.",
-    "mechanics": "Peer-review synergy and interdisciplinary communication across research teams.",
-    "mechanic": "Peer-review synergy and interdisciplinary communication across research teams.",
+    "desc": "Working smoothly with interdisciplinary research teams and effectively sharing breakthroughs.",
+    "description": "Working smoothly with interdisciplinary research teams and effectively sharing breakthroughs.",
+    "mechanics": "additional +1 to Aid bonuses received and granted",
+    "mechanic": "additional +1 to Aid bonuses received and granted",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Aid bonuses received",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Aid bonuses received"
+      },
+      {
+        "target": "Granted",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Granted"
+      }
+    ],
     "package_traits": [],
-    "body": "# Collaboration\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPeer-review synergy and interdisciplinary communication across research teams.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Collaboration\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nWorking smoothly with interdisciplinary research teams and effectively sharing breakthroughs.\n\n## Mechanics & Benefit\nadditional +1 to Aid bonuses received and granted",
+    "notes": "[Modifier] +1 to Aid bonuses received\n[Modifier] +1 to Granted\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Aid bonuses received",
+      "[Modifier] +1 to Granted",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -9484,17 +11037,26 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Brutal self-defense instincts developed against predatory wildlife and raiders.",
-    "description": "Brutal self-defense instincts developed against predatory wildlife and raiders.",
-    "mechanics": "Brutal self-defense instincts developed against predatory wildlife and raiders.",
-    "mechanic": "Brutal self-defense instincts developed against predatory wildlife and raiders.",
+    "desc": "Hardened combat training honed against ravenous apex predators and hostile environmental hazards.",
+    "description": "Hardened combat training honed against ravenous apex predators and hostile environmental hazards.",
+    "mechanics": "+2 to a Combat Skill of choice",
+    "mechanic": "+2 to a Combat Skill of choice",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "A Combat",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to A Combat"
+      }
+    ],
     "package_traits": [],
-    "body": "# Combat Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nBrutal self-defense instincts developed against predatory wildlife and raiders.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Combat Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nHardened combat training honed against ravenous apex predators and hostile environmental hazards.\n\n## Mechanics & Benefit\n+2 to a Combat Skill of choice",
+    "notes": "[Modifier] +2 to A Combat\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to A Combat",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -9515,15 +11077,24 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Standard military drills covering marksmanship, close-quarters combat, and fireteam movement.",
     "description": "Standard military drills covering marksmanship, close-quarters combat, and fireteam movement.",
-    "mechanics": "Standard military drills covering marksmanship, close-quarters combat, and fireteam movement.",
-    "mechanic": "Standard military drills covering marksmanship, close-quarters combat, and fireteam movement.",
+    "mechanics": "+2 to a Combat Skill of choice",
+    "mechanic": "+2 to a Combat Skill of choice",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "A Combat",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to A Combat"
+      }
+    ],
     "package_traits": [],
-    "body": "# Combat Trained\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nStandard military drills covering marksmanship, close-quarters combat, and fireteam movement.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Combat Trained\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nStandard military drills covering marksmanship, close-quarters combat, and fireteam movement.\n\n## Mechanics & Benefit\n+2 to a Combat Skill of choice",
+    "notes": "[Modifier] +2 to A Combat\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to A Combat",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -9542,15 +11113,15 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Values community solidarity and possesses skills in building and maintaining relationships among local groups.",
-    "description": "Values community solidarity and possesses skills in building and maintaining relationships among local groups.",
-    "mechanics": "Values community solidarity and possesses skills in building and maintaining relationships among local groups.",
-    "mechanic": "Values community solidarity and possesses skills in building and maintaining relationships among local groups.",
+    "desc": "Values community and may have skills in building and maintaining relationships with other farmers, suppliers, and customers. Can negotiate deals, organize cooperative efforts, and foster camaraderie.",
+    "description": "Values community and may have skills in building and maintaining relationships with other farmers, suppliers, and customers. Can negotiate deals, organize cooperative efforts, and foster camaraderie.",
+    "mechanics": "Once per Day may reroll a Social Skill Check",
+    "mechanic": "Once per Day may reroll a Social Skill Check",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Community Building\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nValues community solidarity and possesses skills in building and maintaining relationships among local groups.",
+    "body": "# Community Building\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nValues community and may have skills in building and maintaining relationships with other farmers, suppliers, and customers. Can negotiate deals, organize cooperative efforts, and foster camaraderie.\n\n## Mechanics & Benefit\nOnce per Day may reroll a Social Skill Check",
     "notes": "[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Origin Trait (1 CP)."
@@ -9571,17 +11142,26 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Extensive rolodex of street informants, corporate fixers, bar owners, and dockworkers.",
-    "description": "Extensive rolodex of street informants, corporate fixers, bar owners, and dockworkers.",
-    "mechanics": "Extensive rolodex of street informants, corporate fixers, bar owners, and dockworkers.",
-    "mechanic": "Extensive rolodex of street informants, corporate fixers, bar owners, and dockworkers.",
+    "desc": "Extensive web of street informants, back-alley chop-docs, corporate middle-managers, and black-market fences.",
+    "description": "Extensive web of street informants, back-alley chop-docs, corporate middle-managers, and black-market fences.",
+    "mechanics": "Gather Information checks at Advantage",
+    "mechanic": "Gather Information checks at Advantage",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Contacts Gather Information",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Contacts Gather Information Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Contacts\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nExtensive rolodex of street informants, corporate fixers, bar owners, and dockworkers.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).\n[Prerequisite] Charisma 1",
+    "body": "# Contacts\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nExtensive web of street informants, back-alley chop-docs, corporate middle-managers, and black-market fences.\n\n## Mechanics & Benefit\nGather Information checks at Advantage",
+    "notes": "[Modifier] Advantage on Contacts Gather Information Checks\n[Rule] Basic Origin Trait (1 CP).\n[Prerequisite] Charisma 1",
     "notesList": [
+      "[Modifier] Advantage on Contacts Gather Information Checks",
       "[Rule] Basic Origin Trait (1 CP).",
       "[Prerequisite] Charisma 1"
     ]
@@ -9601,17 +11181,26 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Skill in negotiation, de-escalating tensions, and maintaining formal alliances.",
-    "description": "Skill in negotiation, de-escalating tensions, and maintaining formal alliances.",
-    "mechanics": "Skill in negotiation, de-escalating tensions, and maintaining formal alliances.",
-    "mechanic": "Skill in negotiation, de-escalating tensions, and maintaining formal alliances.",
+    "desc": "Negotiating trade pacts and peaceful relations with rival outposts and indigenous factions.",
+    "description": "Negotiating trade pacts and peaceful relations with rival outposts and indigenous factions.",
+    "mechanics": "+2 Diplomacy",
+    "mechanic": "+2 Diplomacy",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Diplomacy",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Diplomacy"
+      }
+    ],
     "package_traits": [],
-    "body": "# Diplomacy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nSkill in negotiation, de-escalating tensions, and maintaining formal alliances.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Diplomacy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nNegotiating trade pacts and peaceful relations with rival outposts and indigenous factions.\n\n## Mechanics & Benefit\n+2 Diplomacy",
+    "notes": "[Modifier] +2 to Diplomacy\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Diplomacy",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -9632,15 +11221,24 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Conditioned obedience to command structures and flawless execution of standard operating procedures.",
     "description": "Conditioned obedience to command structures and flawless execution of standard operating procedures.",
-    "mechanics": "Conditioned obedience to command structures and flawless execution of standard operating procedures.",
-    "mechanic": "Conditioned obedience to command structures and flawless execution of standard operating procedures.",
+    "mechanics": "+2 Soldier Vocation",
+    "mechanic": "+2 Soldier Vocation",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Soldier Vocation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Soldier Vocation"
+      }
+    ],
     "package_traits": [],
-    "body": "# Disciplined\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nConditioned obedience to command structures and flawless execution of standard operating procedures.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Disciplined\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nConditioned obedience to command structures and flawless execution of standard operating procedures.\n\n## Mechanics & Benefit\n+2 Soldier Vocation",
+    "notes": "[Modifier] +2 to Soldier Vocation\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Soldier Vocation",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -9661,15 +11259,24 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Intuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures.",
     "description": "Intuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures.",
-    "mechanics": "Intuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures.",
-    "mechanic": "Intuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures.",
+    "mechanics": "+2 Insight and +2 Handle Animal Checks while being Friendly to other creature",
+    "mechanic": "+2 Insight and +2 Handle Animal Checks while being Friendly to other creature",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Handle Animal",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Handle Animal"
+      }
+    ],
     "package_traits": [],
-    "body": "# Empathy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nIntuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Empathy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nIntuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures.\n\n## Mechanics & Benefit\n+2 Insight and +2 Handle Animal Checks while being Friendly to other creature",
+    "notes": "[Modifier] +2 to Handle Animal\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Handle Animal",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -9688,17 +11295,26 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Talent in performance arts, music, athletics, gaming, or high-stakes social recreation.",
-    "description": "Talent in performance arts, music, athletics, gaming, or high-stakes social recreation.",
-    "mechanics": "Talent in performance arts, music, athletics, gaming, or high-stakes social recreation.",
-    "mechanic": "Talent in performance arts, music, athletics, gaming, or high-stakes social recreation.",
+    "desc": "Excellence in musical performance, culinary arts, somatic exhibitions, or creative entertainment.",
+    "description": "Excellence in musical performance, culinary arts, somatic exhibitions, or creative entertainment.",
+    "mechanics": "+2 to a Non-Combat Skill of choice",
+    "mechanic": "+2 to a Non-Combat Skill of choice",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "A Non-Combat",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to A Non-Combat"
+      }
+    ],
     "package_traits": [],
-    "body": "# Entertainment Skill\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nTalent in performance arts, music, athletics, gaming, or high-stakes social recreation.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Entertainment Skill\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nExcellence in musical performance, culinary arts, somatic exhibitions, or creative entertainment.\n\n## Mechanics & Benefit\n+2 to a Non-Combat Skill of choice",
+    "notes": "[Modifier] +2 to A Non-Combat\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to A Non-Combat",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -9717,17 +11333,26 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Attuned to ambient shifts in barometric pressure, water currents, temperature, and atmospheric toxicity.",
-    "description": "Attuned to ambient shifts in barometric pressure, water currents, temperature, and atmospheric toxicity.",
-    "mechanics": "Attuned to ambient shifts in barometric pressure, water currents, temperature, and atmospheric toxicity.",
-    "mechanic": "Attuned to ambient shifts in barometric pressure, water currents, temperature, and atmospheric toxicity.",
+    "desc": "Highly attuned to ocean currents, pressure gradients, thermal vents, and atmospheric shifts affecting survival.",
+    "description": "Highly attuned to ocean currents, pressure gradients, thermal vents, and atmospheric shifts affecting survival.",
+    "mechanics": "+2 Alertness",
+    "mechanic": "+2 Alertness",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Alertness",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Alertness"
+      }
+    ],
     "package_traits": [],
-    "body": "# Environmental Awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nAttuned to ambient shifts in barometric pressure, water currents, temperature, and atmospheric toxicity.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Environmental Awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nHighly attuned to ocean currents, pressure gradients, thermal vents, and atmospheric shifts affecting survival.\n\n## Mechanics & Benefit\n+2 Alertness",
+    "notes": "[Modifier] +2 to Alertness\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Alertness",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -9746,15 +11371,15 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Natural talent for nurturing plants and making them thrive even in harsh soil.",
-    "description": "Natural talent for nurturing plants and making them thrive even in harsh soil.",
-    "mechanics": "Natural talent for nurturing plants and making them thrive even in harsh soil.",
-    "mechanic": "Natural talent for nurturing plants and making them thrive even in harsh soil.",
+    "desc": "Natural talent for nurturing plants and making them thrive even in challenging environments. Has a knack for identifying needs of different plants.",
+    "description": "Natural talent for nurturing plants and making them thrive even in challenging environments. Has a knack for identifying needs of different plants.",
+    "mechanics": "Checks involving nurturing and helping plants may be made at Advantage",
+    "mechanic": "Checks involving nurturing and helping plants may be made at Advantage",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Green Thumb\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nNatural talent for nurturing plants and making them thrive even in harsh soil.",
+    "body": "# Green Thumb\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nNatural talent for nurturing plants and making them thrive even in challenging environments. Has a knack for identifying needs of different plants.\n\n## Mechanics & Benefit\nChecks involving nurturing and helping plants may be made at Advantage",
     "notes": "[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Origin Trait (1 CP)."
@@ -9775,17 +11400,26 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Devotion to comrades and code of duty; willing to endure hardship for the unit.",
-    "description": "Devotion to comrades and code of duty; willing to endure hardship for the unit.",
-    "mechanics": "Devotion to comrades and code of duty; willing to endure hardship for the unit.",
-    "mechanic": "Devotion to comrades and code of duty; willing to endure hardship for the unit.",
+    "desc": "Unshakable personal code of honor, willing to lay down one’s life to protect comrades.",
+    "description": "Unshakable personal code of honor, willing to lay down one’s life to protect comrades.",
+    "mechanics": "Any One check per day at Advantage, but must be for another",
+    "mechanic": "Any One check per day at Advantage, but must be for another",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Honor-Bound Any One check per day",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Honor-Bound Any One check per day Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Honor-Bound\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nDevotion to comrades and code of duty; willing to endure hardship for the unit.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Honor-Bound\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nUnshakable personal code of honor, willing to lay down one’s life to protect comrades.\n\n## Mechanics & Benefit\nAny One check per day at Advantage, but must be for another",
+    "notes": "[Modifier] Advantage on Honor-Bound Any One check per day Checks\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] Advantage on Honor-Bound Any One check per day Checks",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -9804,17 +11438,26 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Self-reliant problem solving in the cold vacuum where help is light-years away.",
-    "description": "Self-reliant problem solving in the cold vacuum where help is light-years away.",
-    "mechanics": "Self-reliant problem solving in the cold vacuum where help is light-years away.",
-    "mechanic": "Self-reliant problem solving in the cold vacuum where help is light-years away.",
+    "desc": "Self-reliance and autonomy nurtured through years of solitary deep-space voyages far beyond comms reach.",
+    "description": "Self-reliance and autonomy nurtured through years of solitary deep-space voyages far beyond comms reach.",
+    "mechanics": "+1 Karma Point",
+    "mechanic": "+1 Karma Point",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Karma Pool"
+      }
+    ],
     "package_traits": [],
-    "body": "# Independence\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nSelf-reliant problem solving in the cold vacuum where help is light-years away.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Independence\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nSelf-reliance and autonomy nurtured through years of solitary deep-space voyages far beyond comms reach.\n\n## Mechanics & Benefit\n+1 Karma Point",
+    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Karma Pool",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -9835,15 +11478,24 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Formal academic pedagogy and comprehensive theoretical mastery in advanced sciences.",
     "description": "Formal academic pedagogy and comprehensive theoretical mastery in advanced sciences.",
-    "mechanics": "Formal academic pedagogy and comprehensive theoretical mastery in advanced sciences.",
-    "mechanic": "Formal academic pedagogy and comprehensive theoretical mastery in advanced sciences.",
+    "mechanics": "+2 Academics and +2 to a Mental Skill Specialization",
+    "mechanic": "+2 Academics and +2 to a Mental Skill Specialization",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "A Mental",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to A Mental"
+      }
+    ],
     "package_traits": [],
-    "body": "# Intellectualism\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nFormal academic pedagogy and comprehensive theoretical mastery in advanced sciences.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Intellectualism\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nFormal academic pedagogy and comprehensive theoretical mastery in advanced sciences.\n\n## Mechanics & Benefit\n+2 Academics and +2 to a Mental Skill Specialization",
+    "notes": "[Modifier] +2 to A Mental\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to A Mental",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -9862,15 +11514,15 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "A preternatural sixth sense for impending ambushes, environmental collapses, and traps.",
-    "description": "A preternatural sixth sense for impending ambushes, environmental collapses, and traps.",
-    "mechanics": "A preternatural sixth sense for impending ambushes, environmental collapses, and traps.",
-    "mechanic": "A preternatural sixth sense for impending ambushes, environmental collapses, and traps.",
+    "desc": "Heightened sixth sense allowing the operative to anticipate predatory ambushes and sudden cave-ins.",
+    "description": "Heightened sixth sense allowing the operative to anticipate predatory ambushes and sudden cave-ins.",
+    "mechanics": "Re-Roll any one failed Perception check per day",
+    "mechanic": "Re-Roll any one failed Perception check per day",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Intuition\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nA preternatural sixth sense for impending ambushes, environmental collapses, and traps.",
+    "body": "# Intuition\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nHeightened sixth sense allowing the operative to anticipate predatory ambushes and sudden cave-ins.\n\n## Mechanics & Benefit\nRe-Roll any one failed Perception check per day",
     "notes": "[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Origin Trait (1 CP)."
@@ -9891,10 +11543,10 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Natural leadership ability that inspires and coordinates starship crews under critical void emergencies.",
-    "description": "Natural leadership ability that inspires and coordinates starship crews under critical void emergencies.",
-    "mechanics": "+2 bonus on Leadership checks, and can grant allies Advantage on Morale saves once per encounter.",
-    "mechanic": "+2 bonus on Leadership checks, and can grant allies Advantage on Morale saves once per encounter.",
+    "desc": "Maintaining crew morale, resolving hull-fever quarrels, and commanding maneuvers during asteroid transit.",
+    "description": "Maintaining crew morale, resolving hull-fever quarrels, and commanding maneuvers during asteroid transit.",
+    "mechanics": "+2 Leadership Checks",
+    "mechanic": "+2 Leadership Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
     "modifiers": [
@@ -9907,7 +11559,7 @@ export const ORIGIN_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Leadership Skills\n\n**Category**: TRAITS  \n**Tier**: Basic  \n**Type**: Origin Trait  \n**CP Cost**: 1  \n\n## Description\nNatural leadership ability that inspires and coordinates starship crews under critical void emergencies.\n\n## Mechanics\n+2 bonus on Leadership checks, and can grant allies Advantage on Morale saves once per encounter.",
+    "body": "# Leadership Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nMaintaining crew morale, resolving hull-fever quarrels, and commanding maneuvers during asteroid transit.\n\n## Mechanics & Benefit\n+2 Leadership Checks",
     "notes": "[Modifier] +2 to Leadership\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
       "[Modifier] +2 to Leadership",
@@ -9929,17 +11581,26 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Inspirational command presence that organizes groups and rallies morale.",
-    "description": "Inspirational command presence that organizes groups and rallies morale.",
-    "mechanics": "Inspirational command presence that organizes groups and rallies morale.",
-    "mechanic": "Inspirational command presence that organizes groups and rallies morale.",
+    "desc": "Guiding fellow colonists through crises and establishing order in remote settlements.",
+    "description": "Guiding fellow colonists through crises and establishing order in remote settlements.",
+    "mechanics": "+2 Leadership",
+    "mechanic": "+2 Leadership",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Leadership",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Leadership"
+      }
+    ],
     "package_traits": [],
-    "body": "# Leadership\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nInspirational command presence that organizes groups and rallies morale.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Leadership\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nGuiding fellow colonists through crises and establishing order in remote settlements.\n\n## Mechanics & Benefit\n+2 Leadership",
+    "notes": "[Modifier] +2 to Leadership\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Leadership",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -9960,15 +11621,24 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Refined aesthetic tastes and familiarity with high-society etiquette and luxury commerce.",
     "description": "Refined aesthetic tastes and familiarity with high-society etiquette and luxury commerce.",
-    "mechanics": "Refined aesthetic tastes and familiarity with high-society etiquette and luxury commerce.",
-    "mechanic": "Refined aesthetic tastes and familiarity with high-society etiquette and luxury commerce.",
+    "mechanics": "+1 Wealth and +1 Diplomacy",
+    "mechanic": "+1 Wealth and +1 Diplomacy",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Wealth",
+        "type": "wealth",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 Wealth Score"
+      }
+    ],
     "package_traits": [],
-    "body": "# Lifestyle Preferences\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nRefined aesthetic tastes and familiarity with high-society etiquette and luxury commerce.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Lifestyle Preferences\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nRefined aesthetic tastes and familiarity with high-society etiquette and luxury commerce.\n\n## Mechanics & Benefit\n+1 Wealth and +1 Diplomacy",
+    "notes": "[Modifier] +1 Wealth Score\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 Wealth Score",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -9987,17 +11657,26 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Unwavering commitment that rejects subversion, psychological coercion, and bribery.",
-    "description": "Unwavering commitment that rejects subversion, psychological coercion, and bribery.",
-    "mechanics": "Unwavering commitment that rejects subversion, psychological coercion, and bribery.",
-    "mechanic": "Unwavering commitment that rejects subversion, psychological coercion, and bribery.",
+    "desc": "Steadfast fidelity to battalion and squadmates, rendering mind control and betrayal abhorrent.",
+    "description": "Steadfast fidelity to battalion and squadmates, rendering mind control and betrayal abhorrent.",
+    "mechanics": "Domination and Mind-Control Resistance Checks are made at Advantage",
+    "mechanic": "Domination and Mind-Control Resistance Checks are made at Advantage",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Will",
+        "type": "save_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Will Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Loyal\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nUnwavering commitment that rejects subversion, psychological coercion, and bribery.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Loyal\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nSteadfast fidelity to battalion and squadmates, rendering mind control and betrayal abhorrent.\n\n## Mechanics & Benefit\nDomination and Mind-Control Resistance Checks are made at Advantage",
+    "notes": "[Modifier] Advantage on Will Checks\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] Advantage on Will Checks",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -10018,15 +11697,24 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Skill in organizing resort logistics, hospitality staff, entertainment venues, and guest services.",
     "description": "Skill in organizing resort logistics, hospitality staff, entertainment venues, and guest services.",
-    "mechanics": "Skill in organizing resort logistics, hospitality staff, entertainment venues, and guest services.",
-    "mechanic": "Skill in organizing resort logistics, hospitality staff, entertainment venues, and guest services.",
+    "mechanics": "+1 Wealth and +1 Leadership",
+    "mechanic": "+1 Wealth and +1 Leadership",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Wealth",
+        "type": "wealth",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 Wealth Score"
+      }
+    ],
     "package_traits": [],
-    "body": "# Management\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nSkill in organizing resort logistics, hospitality staff, entertainment venues, and guest services.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Management\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nSkill in organizing resort logistics, hospitality staff, entertainment venues, and guest services.\n\n## Mechanics & Benefit\n+1 Wealth and +1 Leadership",
+    "notes": "[Modifier] +1 Wealth Score\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 Wealth Score",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -10045,17 +11733,42 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Innate comprehension of heavy machinery, hydraulics, conveyor grids, and turbines.",
-    "description": "Innate comprehension of heavy machinery, hydraulics, conveyor grids, and turbines.",
-    "mechanics": "Innate comprehension of heavy machinery, hydraulics, conveyor grids, and turbines.",
-    "mechanic": "Innate comprehension of heavy machinery, hydraulics, conveyor grids, and turbines.",
+    "desc": "Natural talent for working with heavy machinery, hydraulic presses, automated assembly lines, and smelters.",
+    "description": "Natural talent for working with heavy machinery, hydraulic presses, automated assembly lines, and smelters.",
+    "mechanics": "+1 to Mechanical, Electrical and Engineering Skill Checks",
+    "mechanic": "+1 to Mechanical, Electrical and Engineering Skill Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Mechanical",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Mechanical"
+      },
+      {
+        "target": "Electrical",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Electrical"
+      },
+      {
+        "target": "Engineering",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Engineering"
+      }
+    ],
     "package_traits": [],
-    "body": "# Mechanical Aptitude\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nInnate comprehension of heavy machinery, hydraulics, conveyor grids, and turbines.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Mechanical Aptitude\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nNatural talent for working with heavy machinery, hydraulic presses, automated assembly lines, and smelters.\n\n## Mechanics & Benefit\n+1 to Mechanical, Electrical and Engineering Skill Checks",
+    "notes": "[Modifier] +1 to Mechanical\n[Modifier] +1 to Electrical\n[Modifier] +1 to Engineering\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Mechanical",
+      "[Modifier] +1 to Electrical",
+      "[Modifier] +1 to Engineering",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -10074,10 +11787,10 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Mechanical skills related to farming equipment, harvesters, conveyors, and agricultural machinery.",
-    "description": "Mechanical skills related to farming equipment, harvesters, conveyors, and agricultural machinery.",
-    "mechanics": "+2 bonus on Mechanical Skill Checks and maintenance of agricultural or heavy machinery.",
-    "mechanic": "+2 bonus on Mechanical Skill Checks and maintenance of agricultural or heavy machinery.",
+    "desc": "Mechanical skills related to farming equipment and machinery. Can repair and maintain farming tools, vehicles, pumps, conveyors and other automated systems.",
+    "description": "Mechanical skills related to farming equipment and machinery. Can repair and maintain farming tools, vehicles, pumps, conveyors and other automated systems.",
+    "mechanics": "+2 to Mechanical Skill Checks",
+    "mechanic": "+2 to Mechanical Skill Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
     "modifiers": [
@@ -10090,7 +11803,7 @@ export const ORIGIN_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Mechanical Skills\n\n**Category**: TRAITS  \n**Tier**: Basic  \n**Type**: Origin Trait  \n**CP Cost**: 1  \n\n## Description\nMechanical skills related to farming equipment, harvesters, conveyors, and agricultural machinery.\n\n## Mechanics\n+2 bonus on Mechanical Skill Checks and maintenance of agricultural or heavy machinery.",
+    "body": "# Mechanical Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nMechanical skills related to farming equipment and machinery. Can repair and maintain farming tools, vehicles, pumps, conveyors and other automated systems.\n\n## Mechanics & Benefit\n+2 to Mechanical Skill Checks",
     "notes": "[Modifier] +2 to Mechanical\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
       "[Modifier] +2 to Mechanical",
@@ -10114,15 +11827,32 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Psychological resilience against isolation, sensory deprivation, fear, and pain.",
     "description": "Psychological resilience against isolation, sensory deprivation, fear, and pain.",
-    "mechanics": "Psychological resilience against isolation, sensory deprivation, fear, and pain.",
-    "mechanic": "Psychological resilience against isolation, sensory deprivation, fear, and pain.",
+    "mechanics": "+2 Willpower Checks",
+    "mechanic": "+2 Willpower Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Will",
+        "type": "save",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 on Will Checks"
+      },
+      {
+        "target": "Willpower",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Willpower"
+      }
+    ],
     "package_traits": [],
-    "body": "# Mental Toughness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPsychological resilience against isolation, sensory deprivation, fear, and pain.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Mental Toughness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPsychological resilience against isolation, sensory deprivation, fear, and pain.\n\n## Mechanics & Benefit\n+2 Willpower Checks",
+    "notes": "[Modifier] +2 on Will Checks\n[Modifier] +2 to Willpower\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 on Will Checks",
+      "[Modifier] +2 to Willpower",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -10141,17 +11871,26 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Patient pedagogical wisdom that accelerates the learning and focus of pupils and companions.",
-    "description": "Patient pedagogical wisdom that accelerates the learning and focus of pupils and companions.",
-    "mechanics": "Patient pedagogical wisdom that accelerates the learning and focus of pupils and companions.",
-    "mechanic": "Patient pedagogical wisdom that accelerates the learning and focus of pupils and companions.",
+    "desc": "Guiding pupils and imparting ancient wisdom to accelerate their intellectual and spiritual growth.",
+    "description": "Guiding pupils and imparting ancient wisdom to accelerate their intellectual and spiritual growth.",
+    "mechanics": "Those under the Enlightened character’s tutelage may make Study Checks at Advantage",
+    "mechanic": "Those under the Enlightened character’s tutelage may make Study Checks at Advantage",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Study",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Study Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Mentorship\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPatient pedagogical wisdom that accelerates the learning and focus of pupils and companions.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Mentorship\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nGuiding pupils and imparting ancient wisdom to accelerate their intellectual and spiritual growth.\n\n## Mechanics & Benefit\nThose under the Enlightened character’s tutelage may make Study Checks at Advantage",
+    "notes": "[Modifier] Advantage on Study Checks\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] Advantage on Study Checks",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -10170,17 +11909,50 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Issued military-grade armor, sidearms, and tactical field gear.",
-    "description": "Issued military-grade armor, sidearms, and tactical field gear.",
-    "mechanics": "Issued military-grade armor, sidearms, and tactical field gear.",
-    "mechanic": "Issued military-grade armor, sidearms, and tactical field gear.",
+    "desc": "Trained to utilize and field-strip military-grade ordinance and tactical armor.",
+    "description": "Trained to utilize and field-strip military-grade ordinance and tactical armor.",
+    "mechanics": "+2 Equipment",
+    "mechanic": "+2 Equipment",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "equipment-bonus",
+        "type": "combat",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 Equipment"
+      },
+      {
+        "target": "Trained to utilize",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Trained to utilize"
+      },
+      {
+        "target": "Field-strip military-grade ordinance",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Field-strip military-grade ordinance"
+      },
+      {
+        "target": "Tactical armor",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Tactical armor"
+      }
+    ],
     "package_traits": [],
-    "body": "# Milspec Gear\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nIssued military-grade armor, sidearms, and tactical field gear.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Milspec Gear\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nTrained to utilize and field-strip military-grade ordinance and tactical armor.\n\n## Mechanics & Benefit\n+2 Equipment",
+    "notes": "[Modifier] +2 Equipment\n[Modifier] +2 to Trained to utilize\n[Modifier] +2 to Field-strip military-grade ordinance\n[Modifier] +2 to Tactical armor\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 Equipment",
+      "[Modifier] +2 to Trained to utilize",
+      "[Modifier] +2 to Field-strip military-grade ordinance",
+      "[Modifier] +2 to Tactical armor",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -10201,15 +11973,24 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Concentrated mastery in civic vocations, gourmet culinary arts, or fine craftsmanship.",
     "description": "Concentrated mastery in civic vocations, gourmet culinary arts, or fine craftsmanship.",
-    "mechanics": "Concentrated mastery in civic vocations, gourmet culinary arts, or fine craftsmanship.",
-    "mechanic": "Concentrated mastery in civic vocations, gourmet culinary arts, or fine craftsmanship.",
+    "mechanics": "+2 to a Vocation Skill of choice",
+    "mechanic": "+2 to a Vocation Skill of choice",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "A Vocation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to A Vocation"
+      }
+    ],
     "package_traits": [],
-    "body": "# Non-Combat Focus\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nConcentrated mastery in civic vocations, gourmet culinary arts, or fine craftsmanship.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Non-Combat Focus\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nConcentrated mastery in civic vocations, gourmet culinary arts, or fine craftsmanship.\n\n## Mechanics & Benefit\n+2 to a Vocation Skill of choice",
+    "notes": "[Modifier] +2 to A Vocation\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to A Vocation",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -10230,13 +12011,13 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Philosophical tolerance that bridges deep cultural, religious, and alien divides.",
     "description": "Philosophical tolerance that bridges deep cultural, religious, and alien divides.",
-    "mechanics": "Philosophical tolerance that bridges deep cultural, religious, and alien divides.",
-    "mechanic": "Philosophical tolerance that bridges deep cultural, religious, and alien divides.",
+    "mechanics": "Reduce all Stigma Penalties with others by the Enlightened character’s Wisdom score for both parties",
+    "mechanic": "Reduce all Stigma Penalties with others by the Enlightened character’s Wisdom score for both parties",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Open-Mindedness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPhilosophical tolerance that bridges deep cultural, religious, and alien divides.",
+    "body": "# Open-Mindedness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPhilosophical tolerance that bridges deep cultural, religious, and alien divides.\n\n## Mechanics & Benefit\nReduce all Stigma Penalties with others by the Enlightened character’s Wisdom score for both parties",
     "notes": "[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Origin Trait (1 CP)."
@@ -10257,17 +12038,26 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "An unshakeable positive demeanor that inspires resilience in bleak moments.",
-    "description": "An unshakeable positive demeanor that inspires resilience in bleak moments.",
-    "mechanics": "An unshakeable positive demeanor that inspires resilience in bleak moments.",
-    "mechanic": "An unshakeable positive demeanor that inspires resilience in bleak moments.",
+    "desc": "Irrepressible cheerfulness and positive mindset that helps weather tense diplomatic disputes.",
+    "description": "Irrepressible cheerfulness and positive mindset that helps weather tense diplomatic disputes.",
+    "mechanics": "+1 to Karma Pool",
+    "mechanic": "+1 to Karma Pool",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Karma Pool"
+      }
+    ],
     "package_traits": [],
-    "body": "# Optimistic\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nAn unshakeable positive demeanor that inspires resilience in bleak moments.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Optimistic\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nIrrepressible cheerfulness and positive mindset that helps weather tense diplomatic disputes.\n\n## Mechanics & Benefit\n+1 to Karma Pool",
+    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Karma Pool",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -10286,17 +12076,26 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Radiates serene composure that disarms hostility and calms tense standoffs.",
-    "description": "Radiates serene composure that disarms hostility and calms tense standoffs.",
-    "mechanics": "Radiates serene composure that disarms hostility and calms tense standoffs.",
-    "mechanic": "Radiates serene composure that disarms hostility and calms tense standoffs.",
+    "desc": "Harmonious disposition that de-escalates hostility through tranquil presence and negotiation.",
+    "description": "Harmonious disposition that de-escalates hostility through tranquil presence and negotiation.",
+    "mechanics": "+2 to Diplomacy for peaceful meditations",
+    "mechanic": "+2 to Diplomacy for peaceful meditations",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Diplomacy for peaceful meditations",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Diplomacy for peaceful meditations"
+      }
+    ],
     "package_traits": [],
-    "body": "# Peaceful Nature\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nRadiates serene composure that disarms hostility and calms tense standoffs.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Peaceful Nature\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nHarmonious disposition that de-escalates hostility through tranquil presence and negotiation.\n\n## Mechanics & Benefit\n+2 to Diplomacy for peaceful meditations",
+    "notes": "[Modifier] +2 to Diplomacy for peaceful meditations\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Diplomacy for peaceful meditations",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -10315,17 +12114,26 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Tireless determination that runs countless trials until a breakthrough is achieved.",
-    "description": "Tireless determination that runs countless trials until a breakthrough is achieved.",
-    "mechanics": "Tireless determination that runs countless trials until a breakthrough is achieved.",
-    "mechanic": "Tireless determination that runs countless trials until a breakthrough is achieved.",
+    "desc": "Relentless dedication that refuses to abandon stalled experiments or inscrutable ciphers.",
+    "description": "Relentless dedication that refuses to abandon stalled experiments or inscrutable ciphers.",
+    "mechanics": "+1 Karma Point",
+    "mechanic": "+1 Karma Point",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Karma Pool"
+      }
+    ],
     "package_traits": [],
-    "body": "# Persistence\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nTireless determination that runs countless trials until a breakthrough is achieved.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Persistence\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nRelentless dedication that refuses to abandon stalled experiments or inscrutable ciphers.\n\n## Mechanics & Benefit\n+1 Karma Point",
+    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Karma Pool",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -10346,15 +12154,24 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "High tolerance for atmospheric toxins, extreme temperatures, and caloric deprivation.",
     "description": "High tolerance for atmospheric toxins, extreme temperatures, and caloric deprivation.",
-    "mechanics": "High tolerance for atmospheric toxins, extreme temperatures, and caloric deprivation.",
-    "mechanic": "High tolerance for atmospheric toxins, extreme temperatures, and caloric deprivation.",
+    "mechanics": "+2 Fortitude Checks",
+    "mechanic": "+2 Fortitude Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Fortitude",
+        "type": "save",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 on Fortitude Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Physical Endurance\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nHigh tolerance for atmospheric toxins, extreme temperatures, and caloric deprivation.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Physical Endurance\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nHigh tolerance for atmospheric toxins, extreme temperatures, and caloric deprivation.\n\n## Mechanics & Benefit\n+2 Fortitude Checks",
+    "notes": "[Modifier] +2 on Fortitude Checks\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 on Fortitude Checks",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -10373,17 +12190,26 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Musculoskeletal conditioning built through rigorous manual labor and heavy lifting.",
-    "description": "Musculoskeletal conditioning built through rigorous manual labor and heavy lifting.",
-    "mechanics": "Musculoskeletal conditioning built through rigorous manual labor and heavy lifting.",
-    "mechanic": "Musculoskeletal conditioning built through rigorous manual labor and heavy lifting.",
+    "desc": "Above-average muscle power developed through grueling shifts in ore refineries and foundries.",
+    "description": "Above-average muscle power developed through grueling shifts in ore refineries and foundries.",
+    "mechanics": "+2 Might Checks",
+    "mechanic": "+2 Might Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Might",
+        "type": "save",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 on Might Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Physical Strength\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nMusculoskeletal conditioning built through rigorous manual labor and heavy lifting.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Physical Strength\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nAbove-average muscle power developed through grueling shifts in ore refineries and foundries.\n\n## Mechanics & Benefit\n+2 Might Checks",
+    "notes": "[Modifier] +2 on Might Checks\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 on Might Checks",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -10402,17 +12228,26 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Practiced control of specialized terrain, atmospheric, or orbital transport craft.",
-    "description": "Practiced control of specialized terrain, atmospheric, or orbital transport craft.",
-    "mechanics": "Practiced control of specialized terrain, atmospheric, or orbital transport craft.",
-    "mechanic": "Practiced control of specialized terrain, atmospheric, or orbital transport craft.",
+    "desc": "Piloting atmospheric hovercraft and armored rovers through corrosive dust storms and boiling seas.",
+    "description": "Piloting atmospheric hovercraft and armored rovers through corrosive dust storms and boiling seas.",
+    "mechanics": "+2 Piloting",
+    "mechanic": "+2 Piloting",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Piloting",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Piloting"
+      }
+    ],
     "package_traits": [],
-    "body": "# Pilot Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPracticed control of specialized terrain, atmospheric, or orbital transport craft.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Pilot Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPiloting atmospheric hovercraft and armored rovers through corrosive dust storms and boiling seas.\n\n## Mechanics & Benefit\n+2 Piloting",
+    "notes": "[Modifier] +2 to Piloting\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Piloting",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -10433,15 +12268,24 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Focuses on utilitarian efficiency, cutting through abstract theories to deliver results.",
     "description": "Focuses on utilitarian efficiency, cutting through abstract theories to deliver results.",
-    "mechanics": "Focuses on utilitarian efficiency, cutting through abstract theories to deliver results.",
-    "mechanic": "Focuses on utilitarian efficiency, cutting through abstract theories to deliver results.",
+    "mechanics": "+2 Logic Checks",
+    "mechanic": "+2 Logic Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Logic",
+        "type": "save",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 on Logic Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Practicality\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nFocuses on utilitarian efficiency, cutting through abstract theories to deliver results.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Practicality\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nFocuses on utilitarian efficiency, cutting through abstract theories to deliver results.\n\n## Mechanics & Benefit\n+2 Logic Checks",
+    "notes": "[Modifier] +2 on Logic Checks\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 on Logic Checks",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -10460,15 +12304,15 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Exceptional critical thinking and analytical troubleshooting under duress.",
-    "description": "Exceptional critical thinking and analytical troubleshooting under duress.",
-    "mechanics": "Exceptional critical thinking and analytical troubleshooting under duress.",
-    "mechanic": "Exceptional critical thinking and analytical troubleshooting under duress.",
+    "desc": "Overcoming technical and environmental crises that arise during terraforming and settlement.",
+    "description": "Overcoming technical and environmental crises that arise during terraforming and settlement.",
+    "mechanics": "Once per Day may reroll a Mental Skill Check",
+    "mechanic": "Once per Day may reroll a Mental Skill Check",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Problem Solving\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nExceptional critical thinking and analytical troubleshooting under duress.",
+    "body": "# Problem Solving\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nOvercoming technical and environmental crises that arise during terraforming and settlement.\n\n## Mechanics & Benefit\nOnce per Day may reroll a Mental Skill Check",
     "notes": "[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Origin Trait (1 CP)."
@@ -10491,13 +12335,13 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Meticulous rationing of food, water, battery cells, and structural spare parts.",
     "description": "Meticulous rationing of food, water, battery cells, and structural spare parts.",
-    "mechanics": "Meticulous rationing of food, water, battery cells, and structural spare parts.",
-    "mechanic": "Meticulous rationing of food, water, battery cells, and structural spare parts.",
+    "mechanics": "Wealth Checks for Basic Resources made at Advantage",
+    "mechanic": "Wealth Checks for Basic Resources made at Advantage",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Resource Management\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nMeticulous rationing of food, water, battery cells, and structural spare parts.",
+    "body": "# Resource Management\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nMeticulous rationing of food, water, battery cells, and structural spare parts.\n\n## Mechanics & Benefit\nWealth Checks for Basic Resources made at Advantage",
     "notes": "[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Origin Trait (1 CP)."
@@ -10518,17 +12362,27 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Makes the most of scarce tools, improvising creative solutions under pressure.",
-    "description": "Makes the most of scarce tools, improvising creative solutions under pressure.",
-    "mechanics": "Makes the most of scarce tools, improvising creative solutions under pressure.",
-    "mechanic": "Makes the most of scarce tools, improvising creative solutions under pressure.",
+    "desc": "The character is able to make the most of limited resources and find creative solutions to problems, especially important where resources may be scarce.",
+    "description": "The character is able to make the most of limited resources and find creative solutions to problems, especially important where resources may be scarce.",
+    "mechanics": "Once per Day make a Skill Check of choice at Advantage",
+    "mechanic": "Once per Day make a Skill Check of choice at Advantage",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Skill Choice",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "situational",
+        "condition": "1/Day",
+        "description": "One Skill Check of choice at Advantage per day"
+      }
+    ],
     "package_traits": [],
-    "body": "# Resourcefulness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nMakes the most of scarce tools, improvising creative solutions under pressure.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Resourcefulness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nThe character is able to make the most of limited resources and find creative solutions to problems, especially important where resources may be scarce.\n\n## Mechanics & Benefit\nOnce per Day make a Skill Check of choice at Advantage",
+    "notes": "[Modifier] One Skill Check of choice at Advantage per day\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] One Skill Check of choice at Advantage per day",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -10547,17 +12401,26 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Willingness to gamble on razor-thin safety margins to accomplish difficult goals.",
-    "description": "Willingness to gamble on razor-thin safety margins to accomplish difficult goals.",
-    "mechanics": "Willingness to gamble on razor-thin safety margins to accomplish difficult goals.",
-    "mechanic": "Willingness to gamble on razor-thin safety margins to accomplish difficult goals.",
+    "desc": "Willing to take calculated physical risks in hazardous high-heat, high-voltage environments.",
+    "description": "Willing to take calculated physical risks in hazardous high-heat, high-voltage environments.",
+    "mechanics": "+1 Karma Point",
+    "mechanic": "+1 Karma Point",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Karma Pool"
+      }
+    ],
     "package_traits": [],
-    "body": "# Risk-Taking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nWillingness to gamble on razor-thin safety margins to accomplish difficult goals.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Risk-Taking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nWilling to take calculated physical risks in hazardous high-heat, high-voltage environments.\n\n## Mechanics & Benefit\n+1 Karma Point",
+    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Karma Pool",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -10576,17 +12439,26 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Practical applied science in xenobiology, geology, and atmospheric terraforming.",
-    "description": "Practical applied science in xenobiology, geology, and atmospheric terraforming.",
-    "mechanics": "Practical applied science in xenobiology, geology, and atmospheric terraforming.",
-    "mechanic": "Practical applied science in xenobiology, geology, and atmospheric terraforming.",
+    "desc": "Expertise in planetary geology, atmospheric biology, or agricultural terraforming.",
+    "description": "Expertise in planetary geology, atmospheric biology, or agricultural terraforming.",
+    "mechanics": "+2 to Science Knowledge",
+    "mechanic": "+2 to Science Knowledge",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Science Knowledge",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Science Knowledge"
+      }
+    ],
     "package_traits": [],
-    "body": "# Scientific Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPractical applied science in xenobiology, geology, and atmospheric terraforming.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Scientific Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nExpertise in planetary geology, atmospheric biology, or agricultural terraforming.\n\n## Mechanics & Benefit\n+2 to Science Knowledge",
+    "notes": "[Modifier] +2 to Science Knowledge\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Science Knowledge",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -10605,17 +12477,50 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Mastery over hydrofoils, submersibles, surface skiffs, and massive oceanic platforms.",
-    "description": "Mastery over hydrofoils, submersibles, surface skiffs, and massive oceanic platforms.",
-    "mechanics": "Mastery over hydrofoils, submersibles, surface skiffs, and massive oceanic platforms.",
-    "mechanic": "Mastery over hydrofoils, submersibles, surface skiffs, and massive oceanic platforms.",
+    "desc": "Operation of submersibles, high-speed hydrofoils, personal jets, and colossal floating platforms.",
+    "description": "Operation of submersibles, high-speed hydrofoils, personal jets, and colossal floating platforms.",
+    "mechanics": "+2 to all Seacraft Operation - Submersibles, Boats, Hovercraft, and Aircraft",
+    "mechanic": "+2 to all Seacraft Operation - Submersibles, Boats, Hovercraft, and Aircraft",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Seacraft Operation - Submersibles",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Seacraft Operation - Submersibles"
+      },
+      {
+        "target": "Boats",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Boats"
+      },
+      {
+        "target": "Hovercraft",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Hovercraft"
+      },
+      {
+        "target": "Aircraft",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Aircraft"
+      }
+    ],
     "package_traits": [],
-    "body": "# Sea Piloting\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nMastery over hydrofoils, submersibles, surface skiffs, and massive oceanic platforms.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Sea Piloting\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nOperation of submersibles, high-speed hydrofoils, personal jets, and colossal floating platforms.\n\n## Mechanics & Benefit\n+2 to all Seacraft Operation - Submersibles, Boats, Hovercraft, and Aircraft",
+    "notes": "[Modifier] +2 to Seacraft Operation - Submersibles\n[Modifier] +2 to Boats\n[Modifier] +2 to Hovercraft\n[Modifier] +2 to Aircraft\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Seacraft Operation - Submersibles",
+      "[Modifier] +2 to Boats",
+      "[Modifier] +2 to Hovercraft",
+      "[Modifier] +2 to Aircraft",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -10634,15 +12539,15 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Offers profound insight that elevates the actions of comrades.",
-    "description": "Offers profound insight that elevates the actions of comrades.",
-    "mechanics": "Offers profound insight that elevates the actions of comrades.",
-    "mechanic": "Offers profound insight that elevates the actions of comrades.",
+    "desc": "Imparting profound advice and guiding allies through precarious trials.",
+    "description": "Imparting profound advice and guiding allies through precarious trials.",
+    "mechanics": "Any Check to Aid, Guide or Instruct another (granting them a bonus) may be made at Advantage",
+    "mechanic": "Any Check to Aid, Guide or Instruct another (granting them a bonus) may be made at Advantage",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Shared Wisdom\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nOffers profound insight that elevates the actions of comrades.",
+    "body": "# Shared Wisdom\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nImparting profound advice and guiding allies through precarious trials.\n\n## Mechanics & Benefit\nAny Check to Aid, Guide or Instruct another (granting them a bonus) may be made at Advantage",
     "notes": "[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Origin Trait (1 CP)."
@@ -10665,15 +12570,24 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Charismatic conversational flow that disarms suspicion and charms conversational partners.",
     "description": "Charismatic conversational flow that disarms suspicion and charms conversational partners.",
-    "mechanics": "Charismatic conversational flow that disarms suspicion and charms conversational partners.",
-    "mechanic": "Charismatic conversational flow that disarms suspicion and charms conversational partners.",
+    "mechanics": "+2 Etiquette Checks",
+    "mechanic": "+2 Etiquette Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Etiquette",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Etiquette"
+      }
+    ],
     "package_traits": [],
-    "body": "# Smooth Talking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nCharismatic conversational flow that disarms suspicion and charms conversational partners.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Smooth Talking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nCharismatic conversational flow that disarms suspicion and charms conversational partners.\n\n## Mechanics & Benefit\n+2 Etiquette Checks",
+    "notes": "[Modifier] +2 to Etiquette\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Etiquette",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -10694,15 +12608,24 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Navigates dense cultural melting pots, high-rise galas, and underground speakeasies with ease.",
     "description": "Navigates dense cultural melting pots, high-rise galas, and underground speakeasies with ease.",
-    "mechanics": "Navigates dense cultural melting pots, high-rise galas, and underground speakeasies with ease.",
-    "mechanic": "Navigates dense cultural melting pots, high-rise galas, and underground speakeasies with ease.",
+    "mechanics": "+1 all Social Manipulation Skills and Culture Knowledge",
+    "mechanic": "+1 all Social Manipulation Skills and Culture Knowledge",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Social Manipulation",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Social Manipulation"
+      }
+    ],
     "package_traits": [],
-    "body": "# Social Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nNavigates dense cultural melting pots, high-rise galas, and underground speakeasies with ease.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Social Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nNavigates dense cultural melting pots, high-rise galas, and underground speakeasies with ease.\n\n## Mechanics & Benefit\n+1 all Social Manipulation Skills and Culture Knowledge",
+    "notes": "[Modifier] +1 to Social Manipulation\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Social Manipulation",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -10721,17 +12644,26 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Deep technical expertise in metallurgy, industrial chemistry, or structural fabrication.",
-    "description": "Deep technical expertise in metallurgy, industrial chemistry, or structural fabrication.",
-    "mechanics": "Deep technical expertise in metallurgy, industrial chemistry, or structural fabrication.",
-    "mechanic": "Deep technical expertise in metallurgy, industrial chemistry, or structural fabrication.",
+    "desc": "Deep technical specialization in metallurgy, chemical processing, or structural robotics.",
+    "description": "Deep technical specialization in metallurgy, chemical processing, or structural robotics.",
+    "mechanics": "+2 to a Vocation Specialization",
+    "mechanic": "+2 to a Vocation Specialization",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "A Vocation Specialization",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to A Vocation Specialization"
+      }
+    ],
     "package_traits": [],
-    "body": "# Specialized Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nDeep technical expertise in metallurgy, industrial chemistry, or structural fabrication.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Specialized Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nDeep technical specialization in metallurgy, chemical processing, or structural robotics.\n\n## Mechanics & Benefit\n+2 to a Vocation Specialization",
+    "notes": "[Modifier] +2 to A Vocation Specialization\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to A Vocation Specialization",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -10750,17 +12682,34 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Attuned to metaphysical resonances, ley conduits, and unseen psychic currents.",
-    "description": "Attuned to metaphysical resonances, ley conduits, and unseen psychic currents.",
-    "mechanics": "Attuned to metaphysical resonances, ley conduits, and unseen psychic currents.",
-    "mechanic": "Attuned to metaphysical resonances, ley conduits, and unseen psychic currents.",
+    "desc": "Strong metaphysical attunement to ley lines, astral resonance, and psychic currents.",
+    "description": "Strong metaphysical attunement to ley lines, astral resonance, and psychic currents.",
+    "mechanics": "+1 to Attune and one Metafocus Skill",
+    "mechanic": "+1 to Attune and one Metafocus Skill",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Attune"
+      },
+      {
+        "target": "One Metafocus",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to One Metafocus"
+      }
+    ],
     "package_traits": [],
-    "body": "# Spiritual Awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nAttuned to metaphysical resonances, ley conduits, and unseen psychic currents.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Spiritual Awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nStrong metaphysical attunement to ley lines, astral resonance, and psychic currents.\n\n## Mechanics & Benefit\n+1 to Attune and one Metafocus Skill",
+    "notes": "[Modifier] +1 to Attune\n[Modifier] +1 to One Metafocus\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Attune",
+      "[Modifier] +1 to One Metafocus",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -10779,15 +12728,15 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Battlefield tactical assessment and mission operation planning.",
-    "description": "Battlefield tactical assessment and mission operation planning.",
-    "mechanics": "Battlefield tactical assessment and mission operation planning.",
-    "mechanic": "Battlefield tactical assessment and mission operation planning.",
+    "desc": "Deep understanding of tactical staging, supply lines, crossfire corridors, and coordinated assaults.",
+    "description": "Deep understanding of tactical staging, supply lines, crossfire corridors, and coordinated assaults.",
+    "mechanics": "Those following the plan will receive a bonus pool to be used during the operation equal to the characters Intellect Score + 2",
+    "mechanic": "Those following the plan will receive a bonus pool to be used during the operation equal to the characters Intellect Score + 2",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Strategic\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nBattlefield tactical assessment and mission operation planning.",
+    "body": "# Strategic\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nDeep understanding of tactical staging, supply lines, crossfire corridors, and coordinated assaults.\n\n## Mechanics & Benefit\nThose following the plan will receive a bonus pool to be used during the operation equal to the characters Intellect Score + 2",
     "notes": "[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Origin Trait (1 CP)."
@@ -10808,17 +12757,34 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Dirty fighting techniques optimized for claustrophobic alleys, elevator cabs, and crowded subway cars.",
-    "description": "Dirty fighting techniques optimized for claustrophobic alleys, elevator cabs, and crowded subway cars.",
-    "mechanics": "Dirty fighting techniques optimized for claustrophobic alleys, elevator cabs, and crowded subway cars.",
-    "mechanic": "Dirty fighting techniques optimized for claustrophobic alleys, elevator cabs, and crowded subway cars.",
+    "desc": "Vicious close-quarters brawl techniques using brass knuckles, concealed shivs, and dirty tactics in tight alleys.",
+    "description": "Vicious close-quarters brawl techniques using brass knuckles, concealed shivs, and dirty tactics in tight alleys.",
+    "mechanics": "+1 Unarmed Combat and Defense",
+    "mechanic": "+1 Unarmed Combat and Defense",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Unarmed Combat",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Unarmed Combat"
+      },
+      {
+        "target": "Defense",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Defense"
+      }
+    ],
     "package_traits": [],
-    "body": "# Street Fighting\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nDirty fighting techniques optimized for claustrophobic alleys, elevator cabs, and crowded subway cars.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Street Fighting\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nVicious close-quarters brawl techniques using brass knuckles, concealed shivs, and dirty tactics in tight alleys.\n\n## Mechanics & Benefit\n+1 Unarmed Combat and Defense",
+    "notes": "[Modifier] +1 to Unarmed Combat\n[Modifier] +1 to Defense\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Unarmed Combat",
+      "[Modifier] +1 to Defense",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -10837,17 +12803,26 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Knows who controls each block, how to evade gang tolls, and where to fence hot cargo.",
-    "description": "Knows who controls each block, how to evade gang tolls, and where to fence hot cargo.",
-    "mechanics": "Knows who controls each block, how to evade gang tolls, and where to fence hot cargo.",
-    "mechanic": "Knows who controls each block, how to evade gang tolls, and where to fence hot cargo.",
+    "desc": "In-depth mastery of underworld syndicates, secret black-clinic passwords, and surveillance blindspots.",
+    "description": "In-depth mastery of underworld syndicates, secret black-clinic passwords, and surveillance blindspots.",
+    "mechanics": "+2 Streetwise (additional +1 in Home City)",
+    "mechanic": "+2 Streetwise (additional +1 in Home City)",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "In Home City",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to In Home City"
+      }
+    ],
     "package_traits": [],
-    "body": "# Streetwise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nKnows who controls each block, how to evade gang tolls, and where to fence hot cargo.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Streetwise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nIn-depth mastery of underworld syndicates, secret black-clinic passwords, and surveillance blindspots.\n\n## Mechanics & Benefit\n+2 Streetwise (additional +1 in Home City)",
+    "notes": "[Modifier] +1 to In Home City\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to In Home City",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -10866,17 +12841,26 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Deep immersion in research databases, academic journals, and historical archives.",
-    "description": "Deep immersion in research databases, academic journals, and historical archives.",
-    "mechanics": "Deep immersion in research databases, academic journals, and historical archives.",
-    "mechanic": "Deep immersion in research databases, academic journals, and historical archives.",
+    "desc": "Gained encyclopedic familiarity with specialized academic archives and historical treatises.",
+    "description": "Gained encyclopedic familiarity with specialized academic archives and historical treatises.",
+    "mechanics": "+2 to a Knowledge of choice",
+    "mechanic": "+2 to a Knowledge of choice",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "A Knowledge of choice",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to A Knowledge of choice"
+      }
+    ],
     "package_traits": [],
-    "body": "# Studious\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nDeep immersion in research databases, academic journals, and historical archives.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Studious\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nGained encyclopedic familiarity with specialized academic archives and historical treatises.\n\n## Mechanics & Benefit\n+2 to a Knowledge of choice",
+    "notes": "[Modifier] +2 to A Knowledge of choice\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to A Knowledge of choice",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -10895,17 +12879,26 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Honed instincts for foraging, navigating wilderness, and finding shelter in hostile terrain.",
-    "description": "Honed instincts for foraging, navigating wilderness, and finding shelter in hostile terrain.",
-    "mechanics": "Honed instincts for foraging, navigating wilderness, and finding shelter in hostile terrain.",
-    "mechanic": "Honed instincts for foraging, navigating wilderness, and finding shelter in hostile terrain.",
+    "desc": "Survival skills honed from living and working in remote or harsh environments. Can navigate and forage for resources, making them self-sufficient.",
+    "description": "Survival skills honed from living and working in remote or harsh environments. Can navigate and forage for resources, making them self-sufficient.",
+    "mechanics": "+2 Survival Skill Checks",
+    "mechanic": "+2 Survival Skill Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Survival"
+      }
+    ],
     "package_traits": [],
-    "body": "# Survival Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nHoned instincts for foraging, navigating wilderness, and finding shelter in hostile terrain.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Survival Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nSurvival skills honed from living and working in remote or harsh environments. Can navigate and forage for resources, making them self-sufficient.\n\n## Mechanics & Benefit\n+2 Survival Skill Checks",
+    "notes": "[Modifier] +2 to Survival\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Survival",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -10924,17 +12917,26 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Deep understanding of ecological balance, crop rotation, and water conservation.",
-    "description": "Deep understanding of ecological balance, crop rotation, and water conservation.",
-    "mechanics": "Deep understanding of ecological balance, crop rotation, and water conservation.",
-    "mechanic": "Deep understanding of ecological balance, crop rotation, and water conservation.",
+    "desc": "Knowledgeable about sustainable farming practices and strives to minimize environmental impact. Prioritizes organic methods and water conservation.",
+    "description": "Knowledgeable about sustainable farming practices and strives to minimize environmental impact. Prioritizes organic methods and water conservation.",
+    "mechanics": "+2 to any Agriculture based checks in a prepared grow area and to prepare and maintain an area.",
+    "mechanic": "+2 to any Agriculture based checks in a prepared grow area and to prepare and maintain an area.",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Any Agriculture based",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Any Agriculture based"
+      }
+    ],
     "package_traits": [],
-    "body": "# Sustainable Practices\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nDeep understanding of ecological balance, crop rotation, and water conservation.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Sustainable Practices\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nKnowledgeable about sustainable farming practices and strives to minimize environmental impact. Prioritizes organic methods and water conservation.\n\n## Mechanics & Benefit\n+2 to any Agriculture based checks in a prepared grow area and to prepare and maintain an area.",
+    "notes": "[Modifier] +2 to Any Agriculture based\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Any Agriculture based",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -10955,15 +12957,24 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Practiced coordination in gang work, shift labor, and complex multi-person tasks.",
     "description": "Practiced coordination in gang work, shift labor, and complex multi-person tasks.",
-    "mechanics": "Practiced coordination in gang work, shift labor, and complex multi-person tasks.",
-    "mechanic": "Practiced coordination in gang work, shift labor, and complex multi-person tasks.",
+    "mechanics": "additional +1 to Aid bonuses",
+    "mechanic": "additional +1 to Aid bonuses",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Aid bonuses",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Aid bonuses"
+      }
+    ],
     "package_traits": [],
-    "body": "# Teamwork\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPracticed coordination in gang work, shift labor, and complex multi-person tasks.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Teamwork\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPracticed coordination in gang work, shift labor, and complex multi-person tasks.\n\n## Mechanics & Benefit\nadditional +1 to Aid bonuses",
+    "notes": "[Modifier] +1 to Aid bonuses\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Aid bonuses",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -10982,17 +12993,34 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Intimate familiarity with consumer neural nets, public datagrids, and ubiquitous urban tech.",
-    "description": "Intimate familiarity with consumer neural nets, public datagrids, and ubiquitous urban tech.",
-    "mechanics": "Intimate familiarity with consumer neural nets, public datagrids, and ubiquitous urban tech.",
-    "mechanic": "Intimate familiarity with consumer neural nets, public datagrids, and ubiquitous urban tech.",
+    "desc": "Everyday expertise with neural datalinks, cybernetic interfaces, personal comm-arrays, and citywide grids.",
+    "description": "Everyday expertise with neural datalinks, cybernetic interfaces, personal comm-arrays, and citywide grids.",
+    "mechanics": "+2 to Knowledges of Computer and Technology",
+    "mechanic": "+2 to Knowledges of Computer and Technology",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Knowledges of Computer",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Knowledges of Computer"
+      },
+      {
+        "target": "Technology",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Technology"
+      }
+    ],
     "package_traits": [],
-    "body": "# Tech-Savvy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nIntimate familiarity with consumer neural nets, public datagrids, and ubiquitous urban tech.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Tech-Savvy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nEveryday expertise with neural datalinks, cybernetic interfaces, personal comm-arrays, and citywide grids.\n\n## Mechanics & Benefit\n+2 to Knowledges of Computer and Technology",
+    "notes": "[Modifier] +2 to Knowledges of Computer\n[Modifier] +2 to Technology\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Knowledges of Computer",
+      "[Modifier] +2 to Technology",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -11011,17 +13039,42 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Practical hands-on maintenance for hardware, wiring, and mechanical assemblies.",
-    "description": "Practical hands-on maintenance for hardware, wiring, and mechanical assemblies.",
-    "mechanics": "Practical hands-on maintenance for hardware, wiring, and mechanical assemblies.",
-    "mechanic": "Practical hands-on maintenance for hardware, wiring, and mechanical assemblies.",
+    "desc": "Repairing air recyclers, EVA suits, and life-support units under extreme pressure.",
+    "description": "Repairing air recyclers, EVA suits, and life-support units under extreme pressure.",
+    "mechanics": "+1 to Mechanical, Electrical and Engineering Skill Checks",
+    "mechanic": "+1 to Mechanical, Electrical and Engineering Skill Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Mechanical",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Mechanical"
+      },
+      {
+        "target": "Electrical",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Electrical"
+      },
+      {
+        "target": "Engineering",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Engineering"
+      }
+    ],
     "package_traits": [],
-    "body": "# Technical Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPractical hands-on maintenance for hardware, wiring, and mechanical assemblies.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Technical Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nRepairing air recyclers, EVA suits, and life-support units under extreme pressure.\n\n## Mechanics & Benefit\n+1 to Mechanical, Electrical and Engineering Skill Checks",
+    "notes": "[Modifier] +1 to Mechanical\n[Modifier] +1 to Electrical\n[Modifier] +1 to Engineering\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Mechanical",
+      "[Modifier] +1 to Electrical",
+      "[Modifier] +1 to Engineering",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -11042,24 +13095,32 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Tough and resilient, able to withstand harsh conditions, physical punishment, and grueling military training.",
     "description": "Tough and resilient, able to withstand harsh conditions, physical punishment, and grueling military training.",
-    "mechanics": "+2 bonus to all Stamina checks made to resist physical trauma, fatigue, and pain.",
-    "mechanic": "+2 bonus to all Stamina checks made to resist physical trauma, fatigue, and pain.",
+    "mechanics": "+1 Fortitude and Willpower Checks",
+    "mechanic": "+1 Fortitude and Willpower Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
     "modifiers": [
       {
-        "target": "Stamina",
-        "type": "skill",
-        "value": 2,
+        "target": "Fortitude",
+        "type": "save",
+        "value": 1,
         "mode": "inherent",
-        "description": "+2 to Stamina"
+        "description": "+1 on Fortitude Checks"
+      },
+      {
+        "target": "Willpower",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Willpower"
       }
     ],
     "package_traits": [],
-    "body": "# Tough\n\n**Category**: TRAITS  \n**Tier**: Basic  \n**Type**: Origin Trait  \n**CP Cost**: 1  \n\n## Description\nTough and resilient, able to withstand harsh conditions, physical punishment, and grueling military training.\n\n## Mechanics\n+2 bonus to all Stamina checks made to resist physical trauma, fatigue, and pain.",
-    "notes": "[Modifier] +2 to Stamina\n[Rule] Basic Origin Trait (1 CP).\n[Prerequisite] Stamina 1",
+    "body": "# Tough\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nTough and resilient, able to withstand harsh conditions, physical punishment, and grueling military training.\n\n## Mechanics & Benefit\n+1 Fortitude and Willpower Checks",
+    "notes": "[Modifier] +1 on Fortitude Checks\n[Modifier] +1 to Willpower\n[Rule] Basic Origin Trait (1 CP).\n[Prerequisite] Stamina 1",
     "notesList": [
-      "[Modifier] +2 to Stamina",
+      "[Modifier] +1 on Fortitude Checks",
+      "[Modifier] +1 to Willpower",
       "[Rule] Basic Origin Trait (1 CP).",
       "[Prerequisite] Stamina 1"
     ]
@@ -11079,17 +13140,34 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Physical endurance and psychological grit hardened by harsh living conditions.",
-    "description": "Physical endurance and psychological grit hardened by harsh living conditions.",
-    "mechanics": "Physical endurance and psychological grit hardened by harsh living conditions.",
-    "mechanic": "Physical endurance and psychological grit hardened by harsh living conditions.",
+    "desc": "Withstanding microgravity bone loss, cosmic radiation exposure, and rapid cabin pressure fluctuations.",
+    "description": "Withstanding microgravity bone loss, cosmic radiation exposure, and rapid cabin pressure fluctuations.",
+    "mechanics": "+1 Fortitude and Willpower Checks",
+    "mechanic": "+1 Fortitude and Willpower Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Fortitude",
+        "type": "save",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 on Fortitude Checks"
+      },
+      {
+        "target": "Willpower",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Willpower"
+      }
+    ],
     "package_traits": [],
-    "body": "# Toughness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPhysical endurance and psychological grit hardened by harsh living conditions.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Toughness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nWithstanding microgravity bone loss, cosmic radiation exposure, and rapid cabin pressure fluctuations.\n\n## Mechanics & Benefit\n+1 Fortitude and Willpower Checks",
+    "notes": "[Modifier] +1 on Fortitude Checks\n[Modifier] +1 to Willpower\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 on Fortitude Checks",
+      "[Modifier] +1 to Willpower",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -11108,17 +13186,34 @@ export const ORIGIN_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Parkour roof-running, subway tunneling, and vanishing into thick metropolitan crowds.",
-    "description": "Parkour roof-running, subway tunneling, and vanishing into thick metropolitan crowds.",
-    "mechanics": "Parkour roof-running, subway tunneling, and vanishing into thick metropolitan crowds.",
-    "mechanic": "Parkour roof-running, subway tunneling, and vanishing into thick metropolitan crowds.",
+    "desc": "Acrobatic freerunning across neon rooftops, blending invisibly into crowds, and evasion of police drones.",
+    "description": "Acrobatic freerunning across neon rooftops, blending invisibly into crowds, and evasion of police drones.",
+    "mechanics": "+2 Athletics and Stealth Skills (in Urban and developed areas)",
+    "mechanic": "+2 Athletics and Stealth Skills (in Urban and developed areas)",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Athletics"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Stealth"
+      }
+    ],
     "package_traits": [],
-    "body": "# Urban Survival\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nParkour roof-running, subway tunneling, and vanishing into thick metropolitan crowds.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Urban Survival\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nAcrobatic freerunning across neon rooftops, blending invisibly into crowds, and evasion of police drones.\n\n## Mechanics & Benefit\n+2 Athletics and Stealth Skills (in Urban and developed areas)",
+    "notes": "[Modifier] +2 to Athletics\n[Modifier] +2 to Stealth\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Athletics",
+      "[Modifier] +2 to Stealth",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -11169,17 +13264,26 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions.",
-    "description": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions.",
-    "mechanics": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions.",
-    "mechanic": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions.",
+    "desc": "The character is able to adapt to new environments and situations quickly, making them well-suited to life in an ever-changing aquatic world.",
+    "description": "The character is able to adapt to new environments and situations quickly, making them well-suited to life in an ever-changing aquatic world.",
+    "mechanics": "+2 to a specific Skill Check, may change assigned Skill daily",
+    "mechanic": "+2 to a specific Skill Check, may change assigned Skill daily",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "A specific",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to A specific"
+      }
+    ],
     "package_traits": [],
-    "body": "# Adaptability\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nQuickly adjusts to new environments, changing protocols, and unexpected physical conditions.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Adaptability\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nThe character is able to adapt to new environments and situations quickly, making them well-suited to life in an ever-changing aquatic world.\n\n## Mechanics & Benefit\n+2 to a specific Skill Check, may change assigned Skill daily",
+    "notes": "[Modifier] +2 to A specific\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to A specific",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -11316,15 +13420,25 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Fearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds.",
     "description": "Fearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds.",
-    "mechanics": "Fearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds.",
-    "mechanic": "Fearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds.",
+    "mechanics": "One Skill Check at Advantage per day",
+    "mechanic": "One Skill Check at Advantage per day",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Skill Choice",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "situational",
+        "condition": "1/Day",
+        "description": "One Skill Check of choice at Advantage per day"
+      }
+    ],
     "package_traits": [],
-    "body": "# Adventurous Spirit\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nFearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Adventurous Spirit\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nFearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds.\n\n## Mechanics & Benefit\nOne Skill Check at Advantage per day",
+    "notes": "[Modifier] One Skill Check of choice at Advantage per day\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] One Skill Check of choice at Advantage per day",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -11345,11 +13459,26 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "The foundational biological and metaphysical chassis of the elven race.",
     "description": "The foundational biological and metaphysical chassis of the elven race.",
-    "mechanics": "Includes Awakened (Arcane) [2 CP], Longevity / Lifespan 600+ years [1 CP], and Sleepless (Immunity to magical sleep effects) [2 CP]. Total package value: 5 CP.",
-    "mechanic": "Includes Awakened (Arcane) [2 CP], Longevity / Lifespan 600+ years [1 CP], and Sleepless (Immunity to magical sleep effects) [2 CP]. Total package value: 5 CP.",
+    "mechanics": "The foundational biological and metaphysical chassis of the elven race.",
+    "mechanic": "The foundational biological and metaphysical chassis of the elven race.",
     "rules": "Advanced Species Trait (5 CP).",
     "special_rules": "Advanced Species Trait (5 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Meta: Arcane",
+        "value": 1,
+        "type": "discipline",
+        "mode": "inherent",
+        "description": "Awakened (Arcane) [2 CP]"
+      },
+      {
+        "target": "Condition: Sleep",
+        "value": 0,
+        "type": "immunity",
+        "mode": "inherent",
+        "description": "Immune to Sleep"
+      }
+    ],
     "package_traits": [
       {
         "id": "trait-awakened-arcane",
@@ -11376,9 +13505,11 @@ export const ALL_CANONICAL_TRAITS = [
         "cp": 2
       }
     ],
-    "body": "# Aeld Lineage Traits\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 5  \n\n## Description\nThe foundational biological and metaphysical chassis of the elven race.\n\n## Mechanics\nIncludes Awakened (Arcane) [2 CP], Longevity / Lifespan 600+ years [1 CP], and Sleepless (Immunity to magical sleep effects) [2 CP]. Total package value: 5 CP.\n\n## Packaged Traits Sublist\n* **Awakened (Arcane)** [2 CP / Advanced]: Innate connection to arcane currents and spellcasting aptitude.\n* **Longevity (Lifespan 600+)** [1 CP / Basic]: Biological lifespan exceeding six centuries; enhanced cellular stability.\n* **Sleepless** [2 CP / Advanced]: Requires no physical sleep; immune to magical sleep effects.",
-    "notes": "[Rule] Advanced Species Trait (5 CP).",
+    "body": "# Aeld Lineage Traits\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 5\n\n## Description\nThe foundational biological and metaphysical chassis of the elven race.\n\n## Mechanics & Benefit\nThe foundational biological and metaphysical chassis of the elven race.",
+    "notes": "[Modifier] Awakened (Arcane) [2 CP]\n[Modifier] Immune to Sleep\n[Rule] Advanced Species Trait (5 CP).",
     "notesList": [
+      "[Modifier] Awakened (Arcane) [2 CP]",
+      "[Modifier] Immune to Sleep",
       "[Rule] Advanced Species Trait (5 CP)."
     ]
   },
@@ -11449,7 +13580,7 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Aggressiveness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Combat\n**CP Cost**: 1\n\n## Description\nDecisive tactical aggression in combat, granting +1 bonus to intimidation and breach actions.",
+    "body": "# Aggressiveness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Combat\n**CP Cost**: 1\n\n## Description\nDecisive tactical aggression in combat, granting +1 bonus to intimidation and breach actions.\n\n## Mechanics & Benefit\nDecisive tactical aggression in combat, granting +1 bonus to intimidation and breach actions.",
     "notes": "[Modifier] +1 to Intimidation\n[Modifier] +1 to Breach\n[Rule] Basic Combat (1 CP).",
     "notesList": [
       "[Modifier] +1 to Intimidation",
@@ -11478,11 +13609,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "+4 racial bonus on Perception checks and immune to flanking.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Alertness",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Alertness"
+      }
+    ],
     "package_traits": [],
-    "body": "# All-Around Vision\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+4 racial bonus on Perception checks and immune to flanking.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# All-Around Vision\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+4 racial bonus on Perception checks and immune to flanking.\n\n## Mechanics & Benefit\n+4 racial bonus on Perception checks and immune to flanking.",
+    "notes": "[Modifier] +4 to Alertness\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] +4 to Alertness",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -11507,11 +13647,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "Base Category, Change Appearance (+5 Disguise)/gender/adjust minor traits.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Disguise",
+        "type": "skill",
+        "value": 5,
+        "mode": "inherent",
+        "description": "+5 to Disguise"
+      }
+    ],
     "package_traits": [],
-    "body": "# Alter Form (Adv)\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nBase Category, Change Appearance (+5 Disguise)/gender/adjust minor traits.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Alter Form (Adv)\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nBase Category, Change Appearance (+5 Disguise)/gender/adjust minor traits.\n\n## Mechanics & Benefit\nBase Category, Change Appearance (+5 Disguise)/gender/adjust minor traits.",
+    "notes": "[Modifier] +5 to Disguise\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] +5 to Disguise",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -11546,7 +13695,7 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Alter Form (Basic)\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nBase Category, Change Appearance only (+5 to Disguise).",
+    "body": "# Alter Form (Basic)\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nBase Category, Change Appearance only (+5 to Disguise).\n\n## Mechanics & Benefit\nBase Category, Change Appearance only (+5 to Disguise).",
     "notes": "[Modifier] +5 to Disguise\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
       "[Modifier] +5 to Disguise",
@@ -11574,11 +13723,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "Base Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.",
     "rules": "Elite Species Trait (4 CP).",
     "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Disguise",
+        "type": "skill",
+        "value": 10,
+        "mode": "inherent",
+        "description": "+10 to Disguise"
+      }
+    ],
     "package_traits": [],
-    "body": "# Alter Form (Elite)\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nBase Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.",
-    "notes": "[Rule] Elite Species Trait (4 CP).",
+    "body": "# Alter Form (Elite)\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nBase Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.\n\n## Mechanics & Benefit\nBase Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.",
+    "notes": "[Modifier] +10 to Disguise\n[Rule] Elite Species Trait (4 CP).",
     "notesList": [
+      "[Modifier] +10 to Disguise",
       "[Rule] Elite Species Trait (4 CP)."
     ]
   },
@@ -11634,6 +13792,13 @@ export const ALL_CANONICAL_TRAITS = [
     "special_rules": "Basic Species Trait (1 CP).",
     "modifiers": [
       {
+        "target": "move-swim",
+        "type": "combat",
+        "value": 10,
+        "mode": "inherent",
+        "description": "+10 Swim Speed"
+      },
+      {
         "target": "Swim Speed",
         "type": "skill",
         "value": 10,
@@ -11642,9 +13807,10 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Amphibious\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nBreathe Air and Water equally well, +10 to Swim Speed.",
-    "notes": "[Modifier] +10 to Swim Speed\n[Rule] Basic Species Trait (1 CP).",
+    "body": "# Amphibious\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nBreathe Air and Water equally well, +10 to Swim Speed.\n\n## Mechanics & Benefit\nBreathe Air and Water equally well, +10 to Swim Speed.",
+    "notes": "[Modifier] +10 Swim Speed\n[Modifier] +10 to Swim Speed\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
+      "[Modifier] +10 Swim Speed",
       "[Modifier] +10 to Swim Speed",
       "[Rule] Basic Species Trait (1 CP)."
     ]
@@ -11666,15 +13832,32 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Ability to analyze data and information to make informed decisions",
     "description": "Ability to analyze data and information to make informed decisions",
-    "mechanics": "Ability to analyze data and information to make informed decisions",
-    "mechanic": "Ability to analyze data and information to make informed decisions",
+    "mechanics": "+2 Alertness",
+    "mechanic": "+2 Alertness",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Alertness Ability to analyze data",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Alertness Ability to analyze data"
+      },
+      {
+        "target": "Information to make informed decisions",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Information to make informed decisions"
+      }
+    ],
     "package_traits": [],
-    "body": "# Analytical\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to analyze data and information to make informed decisions",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Analytical\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to analyze data and information to make informed decisions\n\n## Mechanics & Benefit\n+2 Alertness",
+    "notes": "[Modifier] +2 to Alertness Ability to analyze data\n[Modifier] +2 to Information to make informed decisions\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Alertness Ability to analyze data",
+      "[Modifier] +2 to Information to make informed decisions",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -11693,17 +13876,26 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Systematic data deconstruction, statistical pattern recognition, and logical analysis.",
-    "description": "Systematic data deconstruction, statistical pattern recognition, and logical analysis.",
-    "mechanics": "Systematic data deconstruction, statistical pattern recognition, and logical analysis.",
-    "mechanic": "Systematic data deconstruction, statistical pattern recognition, and logical analysis.",
+    "desc": "Analyzing complex telemetry, identifying cryptographic patterns, and drawing rigorous empirical conclusions.",
+    "description": "Analyzing complex telemetry, identifying cryptographic patterns, and drawing rigorous empirical conclusions.",
+    "mechanics": "+2 Logic Checks",
+    "mechanic": "+2 Logic Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Logic",
+        "type": "save",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 on Logic Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Analytical Thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nSystematic data deconstruction, statistical pattern recognition, and logical analysis.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Analytical Thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nAnalyzing complex telemetry, identifying cryptographic patterns, and drawing rigorous empirical conclusions.\n\n## Mechanics & Benefit\n+2 Logic Checks",
+    "notes": "[Modifier] +2 on Logic Checks\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 on Logic Checks",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -11722,17 +13914,34 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Expertise in raising and caring for livestock, understanding animal behavior and nutrition.",
-    "description": "Expertise in raising and caring for livestock, understanding animal behavior and nutrition.",
-    "mechanics": "Expertise in raising and caring for livestock, understanding animal behavior and nutrition.",
-    "mechanic": "Expertise in raising and caring for livestock, understanding animal behavior and nutrition.",
+    "desc": "Expertise in raising and caring for livestock. Understands animal behavior, breeding, and nutrition. Can manage a farm with a diverse range of animals.",
+    "description": "Expertise in raising and caring for livestock. Understands animal behavior, breeding, and nutrition. Can manage a farm with a diverse range of animals.",
+    "mechanics": "+2 to Animal Handling",
+    "mechanic": "+2 to Animal Handling",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Animal Handling Expertise in raising",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Animal Handling Expertise in raising"
+      },
+      {
+        "target": "Caring for livestock",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Caring for livestock"
+      }
+    ],
     "package_traits": [],
-    "body": "# Animal Husbandry\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nExpertise in raising and caring for livestock, understanding animal behavior and nutrition.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Animal Husbandry\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nExpertise in raising and caring for livestock. Understands animal behavior, breeding, and nutrition. Can manage a farm with a diverse range of animals.\n\n## Mechanics & Benefit\n+2 to Animal Handling",
+    "notes": "[Modifier] +2 to Animal Handling Expertise in raising\n[Modifier] +2 to Caring for livestock\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Animal Handling Expertise in raising",
+      "[Modifier] +2 to Caring for livestock",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -11753,15 +13962,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Merchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.",
     "description": "Merchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.",
-    "mechanics": "Merchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.",
-    "mechanic": "Merchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.",
+    "mechanics": "+2 to any Appraisal check",
+    "mechanic": "+2 to any Appraisal check",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Any Appraisal",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Any Appraisal"
+      }
+    ],
     "package_traits": [],
-    "body": "# Appraisal\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Appraisal\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.\n\n## Mechanics & Benefit\n+2 to any Appraisal check",
+    "notes": "[Modifier] +2 to Any Appraisal\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Any Appraisal",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -11786,11 +14004,28 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "+4 racial bonus on Swim checks and may take 10 on swimming checks.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Athletics",
+        "type": "take_10",
+        "value": 10,
+        "mode": "inherent",
+        "description": "May take 10 on Athletics Checks"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Athletics"
+      }
+    ],
     "package_traits": [],
-    "body": "# Aquatic\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+4 racial bonus on Swim checks and may take 10 on swimming checks.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Aquatic\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+4 racial bonus on Swim checks and may take 10 on swimming checks.\n\n## Mechanics & Benefit\n+4 racial bonus on Swim checks and may take 10 on swimming checks.",
+    "notes": "[Modifier] May take 10 on Athletics Checks\n[Modifier] +4 to Athletics\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] May take 10 on Athletics Checks",
+      "[Modifier] +4 to Athletics",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -11809,17 +14044,26 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Skilled in engineering watertight hulls, flotilla moorings, and submerged habitats.",
-    "description": "Skilled in engineering watertight hulls, flotilla moorings, and submerged habitats.",
-    "mechanics": "Skilled in engineering watertight hulls, flotilla moorings, and submerged habitats.",
-    "mechanic": "Skilled in engineering watertight hulls, flotilla moorings, and submerged habitats.",
+    "desc": "Skilled in manufacturing buildings, flotillas, submerged domes, and other water-based habitats and structures.",
+    "description": "Skilled in manufacturing buildings, flotillas, submerged domes, and other water-based habitats and structures.",
+    "mechanics": "+2 to all Construction Checks",
+    "mechanic": "+2 to all Construction Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Construction",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Construction"
+      }
+    ],
     "package_traits": [],
-    "body": "# Aquatic Construction\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nSkilled in engineering watertight hulls, flotilla moorings, and submerged habitats.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Aquatic Construction\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nSkilled in manufacturing buildings, flotillas, submerged domes, and other water-based habitats and structures.\n\n## Mechanics & Benefit\n+2 to all Construction Checks",
+    "notes": "[Modifier] +2 to Construction\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Construction",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -11844,11 +14088,21 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "+1 size category for Combat, Strength or other checks while in water.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "attr-strength",
+        "value": 2,
+        "type": "attribute",
+        "mode": "situational",
+        "condition": "In Water",
+        "description": "+1 Size Category for Strength/Combat checks in water"
+      }
+    ],
     "package_traits": [],
-    "body": "# Aquatic Strength\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+1 size category for Combat, Strength or other checks while in water.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Aquatic Strength\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+1 size category for Combat, Strength or other checks while in water.\n\n## Mechanics & Benefit\n+1 size category for Combat, Strength or other checks while in water.",
+    "notes": "[Modifier] +1 Size Category for Strength/Combat checks in water\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] +1 Size Category for Strength/Combat checks in water",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -11873,11 +14127,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10].",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "armor-dr",
+        "type": "combat",
+        "value": 10,
+        "mode": "inherent",
+        "description": "+10 DR"
+      }
+    ],
     "package_traits": [],
-    "body": "# Armor (Chitinous Shell)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nGlossy obsidian chitinous shell providing natural base DR 10 against physical impacts, energy weapons, and corrosive chemicals.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Exoskeletal Physiology",
+    "body": "# Armor (Chitinous Shell)\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nChitinous shell resistant to physical trauma, energy and chemicals [base DR 10].\n\n## Mechanics & Benefit\nChitinous shell resistant to physical trauma, energy and chemicals [base DR 10].",
+    "notes": "[Modifier] +10 DR\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Exoskeletal Physiology",
     "notesList": [
+      "[Modifier] +10 DR",
       "[Rule] Advanced Species Trait (2 CP).",
       "[Prerequisite] Exoskeletal Physiology"
     ]
@@ -11899,11 +14162,19 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "The supernatural chassis of ancient fey lineages connected to primal nature and illusion.",
     "description": "The supernatural chassis of ancient fey lineages connected to primal nature and illusion.",
-    "mechanics": "Includes Ageless [2 CP], Obfuscate [2 CP], Sleepless [2 CP], and Fey Affinity [2 CP]. Total package value: 8 CP.",
-    "mechanic": "Includes Ageless [2 CP], Obfuscate [2 CP], Sleepless [2 CP], and Fey Affinity [2 CP]. Total package value: 8 CP.",
+    "mechanics": "The supernatural chassis of ancient fey lineages connected to primal nature and illusion.",
+    "mechanic": "The supernatural chassis of ancient fey lineages connected to primal nature and illusion.",
     "rules": "Elite Species Trait (8 CP).",
     "special_rules": "Elite Species Trait (8 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Condition: Sleep",
+        "value": 0,
+        "type": "immunity",
+        "mode": "inherent",
+        "description": "Sleepless [2 CP]"
+      }
+    ],
     "package_traits": [
       {
         "id": "trait-ageless",
@@ -11938,9 +14209,10 @@ export const ALL_CANONICAL_TRAITS = [
         "cp": 2
       }
     ],
-    "body": "# Asi Base Traits\n\n**Category**: TRAITS  \n**Tier**: Elite  \n**Type**: Species Trait  \n**CP Cost**: 8  \n\n## Description\nThe supernatural chassis of ancient fey lineages connected to primal nature and illusion.\n\n## Mechanics\nIncludes Ageless [2 CP], Obfuscate [2 CP], Sleepless [2 CP], and Fey Affinity [2 CP]. Total package value: 8 CP.\n\n## Packaged Traits Sublist\n* **Ageless** [2 CP / Advanced]: Does not suffer penalties or show signs of physical aging.\n* **Obfuscate** [2 CP / Advanced]: Primal visual camouflage; blends into natural ambient light and sylvan environments.\n* **Sleepless** [2 CP / Advanced]: Requires no sleep; enters meditative rest solely to regain metaphysical energies.\n* **Fey Affinity** [2 CP / Advanced]: Primal nature resonance; wild animals and natural flora treat the character as friendly.",
-    "notes": "[Rule] Elite Species Trait (8 CP).",
+    "body": "# Asi Base Traits\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 8\n\n## Description\nThe supernatural chassis of ancient fey lineages connected to primal nature and illusion.\n\n## Mechanics & Benefit\nThe supernatural chassis of ancient fey lineages connected to primal nature and illusion.",
+    "notes": "[Modifier] Sleepless [2 CP]\n[Rule] Elite Species Trait (8 CP).",
     "notesList": [
+      "[Modifier] Sleepless [2 CP]",
       "[Rule] Elite Species Trait (8 CP)."
     ]
   },
@@ -11961,15 +14233,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Meticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies.",
     "description": "Meticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies.",
-    "mechanics": "Meticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies.",
-    "mechanic": "Meticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies.",
+    "mechanics": "+2 Alertness",
+    "mechanic": "+2 Alertness",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Alertness",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Alertness"
+      }
+    ],
     "package_traits": [],
-    "body": "# Attention to Detail\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nMeticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Attention to Detail\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nMeticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies.\n\n## Mechanics & Benefit\n+2 Alertness",
+    "notes": "[Modifier] +2 to Alertness\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Alertness",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -11990,15 +14271,32 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Awareness of safety protocols and ensuring that their creations are safe to use",
     "description": "Awareness of safety protocols and ensuring that their creations are safe to use",
-    "mechanics": "Awareness of safety protocols and ensuring that their creations are safe to use",
-    "mechanic": "Awareness of safety protocols and ensuring that their creations are safe to use",
+    "mechanics": "Prototyping Checks gain a +4 bonus",
+    "mechanic": "Prototyping Checks gain a +4 bonus",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Awareness of safety protocols",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Awareness of safety protocols"
+      },
+      {
+        "target": "Ensuring that their creations are safe to use",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Ensuring that their creations are safe to use"
+      }
+    ],
     "package_traits": [],
-    "body": "# Attention to Safety\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAwareness of safety protocols and ensuring that their creations are safe to use",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Attention to Safety\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAwareness of safety protocols and ensuring that their creations are safe to use\n\n## Mechanics & Benefit\nPrototyping Checks gain a +4 bonus",
+    "notes": "[Modifier] +4 to Awareness of safety protocols\n[Modifier] +4 to Ensuring that their creations are safe to use\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +4 to Awareness of safety protocols",
+      "[Modifier] +4 to Ensuring that their creations are safe to use",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -12383,13 +14681,13 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Experience with breaking and entering into secure locations",
     "description": "Experience with breaking and entering into secure locations",
-    "mechanics": "Experience with breaking and entering into secure locations",
-    "mechanic": "Experience with breaking and entering into secure locations",
+    "mechanics": "+2 all checks to the Infiltration of a physical location",
+    "mechanic": "+2 all checks to the Infiltration of a physical location",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# B&E\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nExperience with breaking and entering into secure locations",
+    "body": "# B&E\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nExperience with breaking and entering into secure locations\n\n## Mechanics & Benefit\n+2 all checks to the Infiltration of a physical location",
     "notes": "[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Occupational Trait (1 CP)."
@@ -12709,11 +15007,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "Upgraded Bodyform Armor, +1 option slot. Ranked.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Option slot",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Option slot"
+      }
+    ],
     "package_traits": [],
-    "body": "# Bodyform Armor Options\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nUpgraded Bodyform Armor, +1 option slot. Ranked.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Bodyform Armor Options\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nUpgraded Bodyform Armor, +1 option slot. Ranked.\n\n## Mechanics & Benefit\nUpgraded Bodyform Armor, +1 option slot. Ranked.",
+    "notes": "[Modifier] +1 to Option slot\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] +1 to Option slot",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -12738,11 +15045,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "Upgraded Bodyform Armor, +1 option slot. Ranked.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Option slot",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Option slot"
+      }
+    ],
     "package_traits": [],
-    "body": "# Bodyform Armor Opts\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nUpgraded Bodyform Armor, +1 option slot. Ranked.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Bodyform Armor Opts\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nUpgraded Bodyform Armor, +1 option slot. Ranked.\n\n## Mechanics & Benefit\nUpgraded Bodyform Armor, +1 option slot. Ranked.",
+    "notes": "[Modifier] +1 to Option slot\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] +1 to Option slot",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -12767,11 +15083,21 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "Shapechange to gain a heavy protective layer (Doubles Bodyform Armor bonus to DR).",
     "rules": "Elite Species Trait (4 CP).",
     "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "armor-dr",
+        "value": 8,
+        "type": "combat",
+        "mode": "situational",
+        "condition": "While Transformed",
+        "description": "Doubles Bodyform Armor DR (+8 DR)"
+      }
+    ],
     "package_traits": [],
-    "body": "# Bodyform Heavy Armor\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nShapechange to gain a heavy protective layer (Doubles Bodyform Armor bonus to DR).",
-    "notes": "[Rule] Elite Species Trait (4 CP).",
+    "body": "# Bodyform Heavy Armor\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nShapechange to gain a heavy protective layer (Doubles Bodyform Armor bonus to DR).\n\n## Mechanics & Benefit\nShapechange to gain a heavy protective layer (Doubles Bodyform Armor bonus to DR).",
+    "notes": "[Modifier] Doubles Bodyform Armor DR (+8 DR)\n[Rule] Elite Species Trait (4 CP).",
     "notesList": [
+      "[Modifier] Doubles Bodyform Armor DR (+8 DR)",
       "[Rule] Elite Species Trait (4 CP)."
     ]
   },
@@ -12883,11 +15209,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "Upgraded Bodyform Weapons, +1 option slot. Ranked.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Option slot",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Option slot"
+      }
+    ],
     "package_traits": [],
-    "body": "# Bodyform Weapon Options\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nUpgraded Bodyform Weapons, +1 option slot. Ranked.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Bodyform Weapon Options\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nUpgraded Bodyform Weapons, +1 option slot. Ranked.\n\n## Mechanics & Benefit\nUpgraded Bodyform Weapons, +1 option slot. Ranked.",
+    "notes": "[Modifier] +1 to Option slot\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] +1 to Option slot",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -12912,11 +15247,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "Upgraded Bodyform Weapons, +1 option slot. Ranked.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Option slot",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Option slot"
+      }
+    ],
     "package_traits": [],
-    "body": "# Bodyform Weapon Opts\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nUpgraded Bodyform Weapons, +1 option slot. Ranked.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Bodyform Weapon Opts\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nUpgraded Bodyform Weapons, +1 option slot. Ranked.\n\n## Mechanics & Benefit\nUpgraded Bodyform Weapons, +1 option slot. Ranked.",
+    "notes": "[Modifier] +1 to Option slot\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] +1 to Option slot",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -12970,11 +15314,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "+2 dodge bonus to AC when in a specific terrain type.",
     "rules": "Basic Species Trait (1 CP).",
     "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "AC when in a specific terrain type",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to AC when in a specific terrain type"
+      }
+    ],
     "package_traits": [],
-    "body": "# Bonded Terrain\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 dodge bonus to AC when in a specific terrain type.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Bonded Terrain\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 dodge bonus to AC when in a specific terrain type.\n\n## Mechanics & Benefit\n+2 dodge bonus to AC when in a specific terrain type.",
+    "notes": "[Modifier] +2 to AC when in a specific terrain type\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to AC when in a specific terrain type",
       "[Rule] Basic Species Trait (1 CP)."
     ]
   },
@@ -13022,17 +15375,26 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Extensive knowledge of plants, crops, and agricultural cultivation techniques.",
-    "description": "Extensive knowledge of plants, crops, and agricultural cultivation techniques.",
-    "mechanics": "Extensive knowledge of plants, crops, and agricultural cultivation techniques.",
-    "mechanic": "Extensive knowledge of plants, crops, and agricultural cultivation techniques.",
+    "desc": "Extensive knowledge of plants, crops, and agricultural techniques. Understands the science behind growing and cultivating various types of vegetation.",
+    "description": "Extensive knowledge of plants, crops, and agricultural techniques. Understands the science behind growing and cultivating various types of vegetation.",
+    "mechanics": "+2 to Botany Checks",
+    "mechanic": "+2 to Botany Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Botany",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Botany"
+      }
+    ],
     "package_traits": [],
-    "body": "# Botanical Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nExtensive knowledge of plants, crops, and agricultural cultivation techniques.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Botanical Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nExtensive knowledge of plants, crops, and agricultural techniques. Understands the science behind growing and cultivating various types of vegetation.\n\n## Mechanics & Benefit\n+2 to Botany Checks",
+    "notes": "[Modifier] +2 to Botany\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Botany",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -13125,7 +15487,7 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Camouflage\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nChoose a favored terrain type. +4 bonus on Stealth checks within that terrain.",
+    "body": "# Camouflage\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nChoose a favored terrain type. +4 bonus on Stealth checks within that terrain.\n\n## Mechanics & Benefit\nChoose a favored terrain type. +4 bonus on Stealth checks within that terrain.",
     "notes": "[Modifier] +4 to Stealth\n[Rule] Basic Species Trait (1 CP).\n[Prerequisite] Stealth 1",
     "notesList": [
       "[Modifier] +4 to Stealth",
@@ -13193,11 +15555,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "Once per Long Rest make a Reflex Check at Advantage.",
     "rules": "Basic Species Trait (1 CP).",
     "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Reflex",
+        "type": "save_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Reflex Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Cat's Luck\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nOnce per Long Rest make a Reflex Check at Advantage.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Cat's Luck\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nOnce per Long Rest make a Reflex Check at Advantage.\n\n## Mechanics & Benefit\nOnce per Long Rest make a Reflex Check at Advantage.",
+    "notes": "[Modifier] Advantage on Reflex Checks\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
+      "[Modifier] Advantage on Reflex Checks",
       "[Rule] Basic Species Trait (1 CP)."
     ]
   },
@@ -13218,15 +15589,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Cautious and prefer to avoid unnecessary risks, especially when dealing with others",
     "description": "Cautious and prefer to avoid unnecessary risks, especially when dealing with others",
-    "mechanics": "Cautious and prefer to avoid unnecessary risks, especially when dealing with others",
-    "mechanic": "Cautious and prefer to avoid unnecessary risks, especially when dealing with others",
+    "mechanics": "+2 Insight",
+    "mechanic": "+2 Insight",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Insight",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Insight"
+      }
+    ],
     "package_traits": [],
-    "body": "# Caution\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nCautious and prefer to avoid unnecessary risks, especially when dealing with others",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Caution\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nCautious and prefer to avoid unnecessary risks, especially when dealing with others\n\n## Mechanics & Benefit\n+2 Insight",
+    "notes": "[Modifier] +2 to Insight\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Insight",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -13261,7 +15641,7 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Cave Dweller\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+4 bonus on Survival checks made underground.",
+    "body": "# Cave Dweller\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+4 bonus on Survival checks made underground.\n\n## Mechanics & Benefit\n+4 bonus on Survival checks made underground.",
     "notes": "[Modifier] +4 to Survival\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
       "[Modifier] +4 to Survival",
@@ -13289,11 +15669,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "Changes color, +5 Stealth or may take 10 on Stealth checks.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Stealth",
+        "type": "take_10",
+        "value": 10,
+        "mode": "inherent",
+        "description": "May take 10 on Stealth Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Chameleon\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nChanges color, +5 Stealth or may take 10 on Stealth checks.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Chameleon\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nChanges color, +5 Stealth or may take 10 on Stealth checks.\n\n## Mechanics & Benefit\nChanges color, +5 Stealth or may take 10 on Stealth checks.",
+    "notes": "[Modifier] May take 10 on Stealth Checks\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] May take 10 on Stealth Checks",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -13378,13 +15767,6 @@ export const ALL_CANONICAL_TRAITS = [
     "special_rules": "Advanced Species Trait (2 CP).",
     "modifiers": [
       {
-        "target": "Athletics Climbing",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Athletics Climbing"
-      },
-      {
         "target": "Climbing",
         "type": "skill",
         "value": 2,
@@ -13393,13 +15775,12 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Climber\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nTraverse vertical walls and inverted ceilings at full ground movement speed without penalty. Gain a +2 racial bonus on Athletics (Climbing) checks.",
-    "notes": "[Modifier] +2 to Athletics Climbing\n[Modifier] +2 to Climbing\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Agility 1, Athletics 1",
+    "body": "# Climber\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nTraverse vertical and inverted surfaces at full speed (40 ft/rd); +2 bonus on Climbing checks.\n\n## Mechanics & Benefit\nTraverse vertical and inverted surfaces at full speed (40 ft/rd); +2 bonus on Climbing checks.",
+    "notes": "[Modifier] +2 to Climbing\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Athletics 1",
     "notesList": [
-      "[Modifier] +2 to Athletics Climbing",
       "[Modifier] +2 to Climbing",
       "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Agility 1, Athletics 1"
+      "[Prerequisite] Athletics 1"
     ]
   },
   {
@@ -13417,17 +15798,34 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Peer-review synergy and interdisciplinary communication across research teams.",
-    "description": "Peer-review synergy and interdisciplinary communication across research teams.",
-    "mechanics": "Peer-review synergy and interdisciplinary communication across research teams.",
-    "mechanic": "Peer-review synergy and interdisciplinary communication across research teams.",
+    "desc": "Working smoothly with interdisciplinary research teams and effectively sharing breakthroughs.",
+    "description": "Working smoothly with interdisciplinary research teams and effectively sharing breakthroughs.",
+    "mechanics": "additional +1 to Aid bonuses received and granted",
+    "mechanic": "additional +1 to Aid bonuses received and granted",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Aid bonuses received",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Aid bonuses received"
+      },
+      {
+        "target": "Granted",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Granted"
+      }
+    ],
     "package_traits": [],
-    "body": "# Collaboration\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPeer-review synergy and interdisciplinary communication across research teams.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Collaboration\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nWorking smoothly with interdisciplinary research teams and effectively sharing breakthroughs.\n\n## Mechanics & Benefit\nadditional +1 to Aid bonuses received and granted",
+    "notes": "[Modifier] +1 to Aid bonuses received\n[Modifier] +1 to Granted\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Aid bonuses received",
+      "[Modifier] +1 to Granted",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -13446,17 +15844,26 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Brutal self-defense instincts developed against predatory wildlife and raiders.",
-    "description": "Brutal self-defense instincts developed against predatory wildlife and raiders.",
-    "mechanics": "Brutal self-defense instincts developed against predatory wildlife and raiders.",
-    "mechanic": "Brutal self-defense instincts developed against predatory wildlife and raiders.",
+    "desc": "Hardened combat training honed against ravenous apex predators and hostile environmental hazards.",
+    "description": "Hardened combat training honed against ravenous apex predators and hostile environmental hazards.",
+    "mechanics": "+2 to a Combat Skill of choice",
+    "mechanic": "+2 to a Combat Skill of choice",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "A Combat",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to A Combat"
+      }
+    ],
     "package_traits": [],
-    "body": "# Combat Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nBrutal self-defense instincts developed against predatory wildlife and raiders.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Combat Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nHardened combat training honed against ravenous apex predators and hostile environmental hazards.\n\n## Mechanics & Benefit\n+2 to a Combat Skill of choice",
+    "notes": "[Modifier] +2 to A Combat\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to A Combat",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -13477,15 +15884,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Standard military drills covering marksmanship, close-quarters combat, and fireteam movement.",
     "description": "Standard military drills covering marksmanship, close-quarters combat, and fireteam movement.",
-    "mechanics": "Standard military drills covering marksmanship, close-quarters combat, and fireteam movement.",
-    "mechanic": "Standard military drills covering marksmanship, close-quarters combat, and fireteam movement.",
+    "mechanics": "+2 to a Combat Skill of choice",
+    "mechanic": "+2 to a Combat Skill of choice",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "A Combat",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to A Combat"
+      }
+    ],
     "package_traits": [],
-    "body": "# Combat Trained\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nStandard military drills covering marksmanship, close-quarters combat, and fireteam movement.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Combat Trained\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nStandard military drills covering marksmanship, close-quarters combat, and fireteam movement.\n\n## Mechanics & Benefit\n+2 to a Combat Skill of choice",
+    "notes": "[Modifier] +2 to A Combat\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to A Combat",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -13535,15 +15951,32 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Effective communicators, able to convey complex ideas and information clearly and persuasively.",
     "description": "Effective communicators, able to convey complex ideas and information clearly and persuasively.",
-    "mechanics": "Effective communicators, able to convey complex ideas and information clearly and persuasively.",
-    "mechanic": "Effective communicators, able to convey complex ideas and information clearly and persuasively.",
+    "mechanics": "+2 Culture and Language checks",
+    "mechanic": "+2 Culture and Language checks",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Culture",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Culture"
+      },
+      {
+        "target": "Language",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Language"
+      }
+    ],
     "package_traits": [],
-    "body": "# Communication\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nEffective communicators, able to convey complex ideas and information clearly and persuasively.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Communication\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nEffective communicators, able to convey complex ideas and information clearly and persuasively.\n\n## Mechanics & Benefit\n+2 Culture and Language checks",
+    "notes": "[Modifier] +2 to Culture\n[Modifier] +2 to Language\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Culture",
+      "[Modifier] +2 to Language",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -13562,15 +15995,15 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Values community solidarity and possesses skills in building and maintaining relationships among local groups.",
-    "description": "Values community solidarity and possesses skills in building and maintaining relationships among local groups.",
-    "mechanics": "Values community solidarity and possesses skills in building and maintaining relationships among local groups.",
-    "mechanic": "Values community solidarity and possesses skills in building and maintaining relationships among local groups.",
+    "desc": "Values community and may have skills in building and maintaining relationships with other farmers, suppliers, and customers. Can negotiate deals, organize cooperative efforts, and foster camaraderie.",
+    "description": "Values community and may have skills in building and maintaining relationships with other farmers, suppliers, and customers. Can negotiate deals, organize cooperative efforts, and foster camaraderie.",
+    "mechanics": "Once per Day may reroll a Social Skill Check",
+    "mechanic": "Once per Day may reroll a Social Skill Check",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Community Building\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nValues community solidarity and possesses skills in building and maintaining relationships among local groups.",
+    "body": "# Community Building\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nValues community and may have skills in building and maintaining relationships with other farmers, suppliers, and customers. Can negotiate deals, organize cooperative efforts, and foster camaraderie.\n\n## Mechanics & Benefit\nOnce per Day may reroll a Social Skill Check",
     "notes": "[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Origin Trait (1 CP)."
@@ -13593,15 +16026,32 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Comfortable in the spotlight",
     "description": "Comfortable in the spotlight",
-    "mechanics": "Comfortable in the spotlight",
-    "mechanic": "Comfortable in the spotlight",
+    "mechanics": "+2 Willpower",
+    "mechanic": "+2 Willpower",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Will",
+        "type": "save",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 on Will Checks"
+      },
+      {
+        "target": "Willpower Comfortable in the spotlight",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Willpower Comfortable in the spotlight"
+      }
+    ],
     "package_traits": [],
-    "body": "# Confident\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nComfortable in the spotlight",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Confident\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nComfortable in the spotlight\n\n## Mechanics & Benefit\n+2 Willpower",
+    "notes": "[Modifier] +2 on Will Checks\n[Modifier] +2 to Willpower Comfortable in the spotlight\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 on Will Checks",
+      "[Modifier] +2 to Willpower Comfortable in the spotlight",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -13622,15 +16072,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Ability to resolve conflicts effectively and find solutions that satisfy all parties involved",
     "description": "Ability to resolve conflicts effectively and find solutions that satisfy all parties involved",
-    "mechanics": "Ability to resolve conflicts effectively and find solutions that satisfy all parties involved",
-    "mechanic": "Ability to resolve conflicts effectively and find solutions that satisfy all parties involved",
+    "mechanics": "+2 Diplomacy",
+    "mechanic": "+2 Diplomacy",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Diplomacy",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Diplomacy"
+      }
+    ],
     "package_traits": [],
-    "body": "# Conflict resolution\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to resolve conflicts effectively and find solutions that satisfy all parties involved",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Conflict resolution\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to resolve conflicts effectively and find solutions that satisfy all parties involved\n\n## Mechanics & Benefit\n+2 Diplomacy",
+    "notes": "[Modifier] +2 to Diplomacy\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Diplomacy",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -13678,17 +16137,26 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Extensive rolodex of street informants, corporate fixers, bar owners, and dockworkers.",
-    "description": "Extensive rolodex of street informants, corporate fixers, bar owners, and dockworkers.",
-    "mechanics": "Extensive rolodex of street informants, corporate fixers, bar owners, and dockworkers.",
-    "mechanic": "Extensive rolodex of street informants, corporate fixers, bar owners, and dockworkers.",
+    "desc": "Extensive web of street informants, back-alley chop-docs, corporate middle-managers, and black-market fences.",
+    "description": "Extensive web of street informants, back-alley chop-docs, corporate middle-managers, and black-market fences.",
+    "mechanics": "Gather Information checks at Advantage",
+    "mechanic": "Gather Information checks at Advantage",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Contacts Gather Information",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Contacts Gather Information Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Contacts\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nExtensive rolodex of street informants, corporate fixers, bar owners, and dockworkers.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).\n[Prerequisite] Charisma 1",
+    "body": "# Contacts\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nExtensive web of street informants, back-alley chop-docs, corporate middle-managers, and black-market fences.\n\n## Mechanics & Benefit\nGather Information checks at Advantage",
+    "notes": "[Modifier] Advantage on Contacts Gather Information Checks\n[Rule] Basic Origin Trait (1 CP).\n[Prerequisite] Charisma 1",
     "notesList": [
+      "[Modifier] Advantage on Contacts Gather Information Checks",
       "[Rule] Basic Origin Trait (1 CP).",
       "[Prerequisite] Charisma 1"
     ]
@@ -13710,15 +16178,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Has a thirst for knowledge and is committed to lifelong learning.",
     "description": "Has a thirst for knowledge and is committed to lifelong learning.",
-    "mechanics": "Has a thirst for knowledge and is committed to lifelong learning.",
-    "mechanic": "Has a thirst for knowledge and is committed to lifelong learning.",
+    "mechanics": "All Learning Checks are made at Advantage",
+    "mechanic": "All Learning Checks are made at Advantage",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Continuous Learning All Learning",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Continuous Learning All Learning Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Continuous Learning\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHas a thirst for knowledge and is committed to lifelong learning.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Continuous Learning\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHas a thirst for knowledge and is committed to lifelong learning.\n\n## Mechanics & Benefit\nAll Learning Checks are made at Advantage",
+    "notes": "[Modifier] Advantage on Continuous Learning All Learning Checks\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] Advantage on Continuous Learning All Learning Checks",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -13739,15 +16216,40 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Able to remain calm and focused even in high-pressure situations",
     "description": "Able to remain calm and focused even in high-pressure situations",
-    "mechanics": "Able to remain calm and focused even in high-pressure situations",
-    "mechanic": "Able to remain calm and focused even in high-pressure situations",
+    "mechanics": "+2 Willpower",
+    "mechanic": "+2 Willpower",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Will",
+        "type": "save",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 on Will Checks"
+      },
+      {
+        "target": "Willpower Able to remain calm",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Willpower Able to remain calm"
+      },
+      {
+        "target": "Focused even in high-pressure situations",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Focused even in high-pressure situations"
+      }
+    ],
     "package_traits": [],
-    "body": "# Cool\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to remain calm and focused even in high-pressure situations",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Cool\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to remain calm and focused even in high-pressure situations\n\n## Mechanics & Benefit\n+2 Willpower",
+    "notes": "[Modifier] +2 on Will Checks\n[Modifier] +2 to Willpower Able to remain calm\n[Modifier] +2 to Focused even in high-pressure situations\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 on Will Checks",
+      "[Modifier] +2 to Willpower Able to remain calm",
+      "[Modifier] +2 to Focused even in high-pressure situations",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -13782,7 +16284,7 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Craftsman\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 to Specific Vocation.",
+    "body": "# Craftsman\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 to Specific Vocation.\n\n## Mechanics & Benefit\n+2 to Specific Vocation.",
     "notes": "[Modifier] +2 to Specific Vocation\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
       "[Modifier] +2 to Specific Vocation",
@@ -13806,15 +16308,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Skilled at coming up with new ideas",
     "description": "Skilled at coming up with new ideas",
-    "mechanics": "Skilled at coming up with new ideas",
-    "mechanic": "Skilled at coming up with new ideas",
+    "mechanics": "+1 Karma Point",
+    "mechanic": "+1 Karma Point",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Karma Pool"
+      }
+    ],
     "package_traits": [],
-    "body": "# Creative\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nSkilled at coming up with new ideas",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Creative\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nSkilled at coming up with new ideas\n\n## Mechanics & Benefit\n+1 Karma Point",
+    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Karma Pool",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -13864,15 +16375,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Possess strong critical thinking skills.",
     "description": "Possess strong critical thinking skills.",
-    "mechanics": "Possess strong critical thinking skills.",
-    "mechanic": "Possess strong critical thinking skills.",
+    "mechanics": "+1 Karma Point",
+    "mechanic": "+1 Karma Point",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Karma Pool"
+      }
+    ],
     "package_traits": [],
-    "body": "# Critical thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nPossess strong critical thinking skills.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Critical thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nPossess strong critical thinking skills.\n\n## Mechanics & Benefit\n+1 Karma Point",
+    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Karma Pool",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -13893,15 +16413,32 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Merchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.",
     "description": "Merchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.",
-    "mechanics": "Merchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.",
-    "mechanic": "Merchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.",
+    "mechanics": "+2 Culture Knowledge",
+    "mechanic": "+2 Culture Knowledge",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Culture Knowledge Merchants are culturally aware",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Culture Knowledge Merchants are culturally aware"
+      },
+      {
+        "target": "Sensitive",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Sensitive"
+      }
+    ],
     "package_traits": [],
-    "body": "# Cultural Awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Cultural Awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.\n\n## Mechanics & Benefit\n+2 Culture Knowledge",
+    "notes": "[Modifier] +2 to Culture Knowledge Merchants are culturally aware\n[Modifier] +2 to Sensitive\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Culture Knowledge Merchants are culturally aware",
+      "[Modifier] +2 to Sensitive",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -13922,15 +16459,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Rely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies",
     "description": "Rely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies",
-    "mechanics": "Rely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies",
-    "mechanic": "Rely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies",
+    "mechanics": "Additional +1 to appropriate maneuvers from having Edge",
+    "mechanic": "Additional +1 to appropriate maneuvers from having Edge",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Appropriate maneuvers from having Edge",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Appropriate maneuvers from having Edge"
+      }
+    ],
     "package_traits": [],
-    "body": "# Cunning\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nRely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Cunning\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nRely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies\n\n## Mechanics & Benefit\nAdditional +1 to appropriate maneuvers from having Edge",
+    "notes": "[Modifier] +1 to Appropriate maneuvers from having Edge\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Appropriate maneuvers from having Edge",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -14018,15 +16564,32 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Disguise, impersonation, and deception",
     "description": "Disguise, impersonation, and deception",
-    "mechanics": "Disguise, impersonation, and deception",
-    "mechanic": "Disguise, impersonation, and deception",
+    "mechanics": "+2 Disguise and Cover Checks",
+    "mechanic": "+2 Disguise and Cover Checks",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Disguise",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Disguise"
+      },
+      {
+        "target": "Cover",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Cover"
+      }
+    ],
     "package_traits": [],
-    "body": "# Deception\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nDisguise, impersonation, and deception",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Deception\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nDisguise, impersonation, and deception\n\n## Mechanics & Benefit\n+2 Disguise and Cover Checks",
+    "notes": "[Modifier] +2 to Disguise\n[Modifier] +2 to Cover\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Disguise",
+      "[Modifier] +2 to Cover",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -14051,11 +16614,28 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "+2 dodge bonus to Defense.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "defense-mod",
+        "type": "combat",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 Defense"
+      },
+      {
+        "target": "Defense",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Defense"
+      }
+    ],
     "package_traits": [],
-    "body": "# Defensive Training\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+2 dodge bonus to Defense.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Defensive Training\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+2 dodge bonus to Defense.\n\n## Mechanics & Benefit\n+2 dodge bonus to Defense.",
+    "notes": "[Modifier] +2 Defense\n[Modifier] +2 to Defense\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] +2 Defense",
+      "[Modifier] +2 to Defense",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -14087,13 +16667,21 @@ export const ALL_CANONICAL_TRAITS = [
         "value": 10,
         "mode": "inherent",
         "description": "+10 Movement"
+      },
+      {
+        "target": "Stability",
+        "type": "combat",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 Stability"
       }
     ],
     "package_traits": [],
-    "body": "# Digitigrade / Ungulated\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+10 Movement Speed and +4 Stability, Special pants and Boots needed.",
-    "notes": "[Modifier] +10 Movement\n[Rule] Basic Species Trait (1 CP).",
+    "body": "# Digitigrade / Ungulated\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+10 Movement Speed and +4 Stability, Special pants and Boots needed.\n\n## Mechanics & Benefit\n+10 Movement Speed and +4 Stability, Special pants and Boots needed.",
+    "notes": "[Modifier] +10 Movement\n[Modifier] +4 Stability\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
       "[Modifier] +10 Movement",
+      "[Modifier] +4 Stability",
       "[Rule] Basic Species Trait (1 CP)."
     ]
   },
@@ -14112,17 +16700,26 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Skill in negotiation, de-escalating tensions, and maintaining formal alliances.",
-    "description": "Skill in negotiation, de-escalating tensions, and maintaining formal alliances.",
-    "mechanics": "Skill in negotiation, de-escalating tensions, and maintaining formal alliances.",
-    "mechanic": "Skill in negotiation, de-escalating tensions, and maintaining formal alliances.",
+    "desc": "Negotiating trade pacts and peaceful relations with rival outposts and indigenous factions.",
+    "description": "Negotiating trade pacts and peaceful relations with rival outposts and indigenous factions.",
+    "mechanics": "+2 Diplomacy",
+    "mechanic": "+2 Diplomacy",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Diplomacy",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Diplomacy"
+      }
+    ],
     "package_traits": [],
-    "body": "# Diplomacy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nSkill in negotiation, de-escalating tensions, and maintaining formal alliances.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Diplomacy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nNegotiating trade pacts and peaceful relations with rival outposts and indigenous factions.\n\n## Mechanics & Benefit\n+2 Diplomacy",
+    "notes": "[Modifier] +2 to Diplomacy\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Diplomacy",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -14143,15 +16740,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Disciplined and able to follow orders without question, even in high-pressure situations",
     "description": "Disciplined and able to follow orders without question, even in high-pressure situations",
-    "mechanics": "Disciplined and able to follow orders without question, even in high-pressure situations",
-    "mechanic": "Disciplined and able to follow orders without question, even in high-pressure situations",
+    "mechanics": "+2 Soldier Vocation",
+    "mechanic": "+2 Soldier Vocation",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Soldier Vocation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Soldier Vocation"
+      }
+    ],
     "package_traits": [],
-    "body": "# Discipline\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nDisciplined and able to follow orders without question, even in high-pressure situations",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Discipline\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nDisciplined and able to follow orders without question, even in high-pressure situations\n\n## Mechanics & Benefit\n+2 Soldier Vocation",
+    "notes": "[Modifier] +2 to Soldier Vocation\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Soldier Vocation",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -14172,15 +16778,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Conditioned obedience to command structures and flawless execution of standard operating procedures.",
     "description": "Conditioned obedience to command structures and flawless execution of standard operating procedures.",
-    "mechanics": "Conditioned obedience to command structures and flawless execution of standard operating procedures.",
-    "mechanic": "Conditioned obedience to command structures and flawless execution of standard operating procedures.",
+    "mechanics": "+2 Soldier Vocation",
+    "mechanic": "+2 Soldier Vocation",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Soldier Vocation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Soldier Vocation"
+      }
+    ],
     "package_traits": [],
-    "body": "# Disciplined\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nConditioned obedience to command structures and flawless execution of standard operating procedures.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Disciplined\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nConditioned obedience to command structures and flawless execution of standard operating procedures.\n\n## Mechanics & Benefit\n+2 Soldier Vocation",
+    "notes": "[Modifier] +2 to Soldier Vocation\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Soldier Vocation",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -14379,11 +16994,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "Make any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Ny Mental Resistance",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Ny Mental Resistance Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Dragon Mind\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nMake any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Dragon Mind\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nMake any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.\n\n## Mechanics & Benefit\nMake any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.",
+    "notes": "[Modifier] Advantage on Ny Mental Resistance Checks\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] Advantage on Ny Mental Resistance Checks",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -14408,11 +17032,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "Make Awareness Checks with Advantage. Req: Dragonkin, Awareness 11.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Wareness",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Wareness Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Dragon Senses\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nMake Awareness Checks with Advantage. Req: Dragonkin, Awareness 11.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Dragon Senses\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nMake Awareness Checks with Advantage. Req: Dragonkin, Awareness 11.\n\n## Mechanics & Benefit\nMake Awareness Checks with Advantage. Req: Dragonkin, Awareness 11.",
+    "notes": "[Modifier] Advantage on Wareness Checks\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] Advantage on Wareness Checks",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -14545,11 +17178,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "Combined endoskeleton and exoskeleton providing natural Damage Reduction (DR +5).",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "armor-dr",
+        "type": "combat",
+        "value": 5,
+        "mode": "inherent",
+        "description": "+5 DR"
+      }
+    ],
     "package_traits": [],
-    "body": "# Dual Skeletal Structure\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nA sophisticated dual-skeletal framework uniting an articulated internal endoskeleton with a segmented outer chitinous shell, providing natural DR +5 against all physical and kinetic trauma.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Endoskeleton and Exoskeleton",
+    "body": "# Dual Skeletal Structure\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nCombined endoskeleton and exoskeleton providing natural Damage Reduction (DR +5).\n\n## Mechanics & Benefit\nCombined endoskeleton and exoskeleton providing natural Damage Reduction (DR +5).",
+    "notes": "[Modifier] +5 DR\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Endoskeleton and Exoskeleton",
     "notesList": [
+      "[Modifier] +5 DR",
       "[Rule] Advanced Species Trait (2 CP).",
       "[Prerequisite] Endoskeleton and Exoskeleton"
     ]
@@ -14575,11 +17217,30 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "Once per day make a check at advantage for Bluff or Diplomacy.",
     "rules": "Basic Species Trait (1 CP).",
     "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Bluff",
+        "value": 1,
+        "type": "check_advantage",
+        "mode": "situational",
+        "condition": "1/Day",
+        "description": "Advantage on Bluff or Diplomacy check (1/Day)"
+      },
+      {
+        "target": "Diplomacy",
+        "value": 1,
+        "type": "check_advantage",
+        "mode": "situational",
+        "condition": "1/Day",
+        "description": "Advantage on Bluff or Diplomacy check (1/Day)"
+      }
+    ],
     "package_traits": [],
-    "body": "# Emissary\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nOnce per day make a check at advantage for Bluff or Diplomacy.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Emissary\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nOnce per day make a check at advantage for Bluff or Diplomacy.\n\n## Mechanics & Benefit\nOnce per day make a check at advantage for Bluff or Diplomacy.",
+    "notes": "[Modifier] Advantage on Bluff or Diplomacy check (1/Day)\n[Modifier] Advantage on Bluff or Diplomacy check (1/Day)\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
+      "[Modifier] Advantage on Bluff or Diplomacy check (1/Day)",
+      "[Modifier] Advantage on Bluff or Diplomacy check (1/Day)",
       "[Rule] Basic Species Trait (1 CP)."
     ]
   },
@@ -14600,15 +17261,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Ability to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states",
     "description": "Ability to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states",
-    "mechanics": "Ability to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states",
-    "mechanic": "Ability to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states",
+    "mechanics": "+2 Insight",
+    "mechanic": "+2 Insight",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Insight",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Insight"
+      }
+    ],
     "package_traits": [],
-    "body": "# Emotional intelligence\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Emotional intelligence\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states\n\n## Mechanics & Benefit\n+2 Insight",
+    "notes": "[Modifier] +2 to Insight\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Insight",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -14629,15 +17299,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Intuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures.",
     "description": "Intuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures.",
-    "mechanics": "Intuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures.",
-    "mechanic": "Intuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures.",
+    "mechanics": "+2 Insight and +2 Handle Animal Checks while being Friendly to other creature",
+    "mechanic": "+2 Insight and +2 Handle Animal Checks while being Friendly to other creature",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Handle Animal",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Handle Animal"
+      }
+    ],
     "package_traits": [],
-    "body": "# Empathy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nIntuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Empathy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nIntuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures.\n\n## Mechanics & Benefit\n+2 Insight and +2 Handle Animal Checks while being Friendly to other creature",
+    "notes": "[Modifier] +2 to Handle Animal\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Handle Animal",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -14658,15 +17337,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "High levels of energy and enthusiasm",
     "description": "High levels of energy and enthusiasm",
-    "mechanics": "High levels of energy and enthusiasm",
-    "mechanic": "High levels of energy and enthusiasm",
+    "mechanics": "+1 Karma Point",
+    "mechanic": "+1 Karma Point",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Karma Pool"
+      }
+    ],
     "package_traits": [],
-    "body": "# Energetic\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHigh levels of energy and enthusiasm",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Energetic\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHigh levels of energy and enthusiasm\n\n## Mechanics & Benefit\n+1 Karma Point",
+    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Karma Pool",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -14749,11 +17437,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "Completely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy.",
     "rules": "Elite Species Trait (4 CP).",
     "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "armor-dr",
+        "type": "combat",
+        "value": 20,
+        "mode": "inherent",
+        "description": "+20 DR"
+      }
+    ],
     "package_traits": [],
-    "body": "# Energy Immunity\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nCompletely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy.",
-    "notes": "[Rule] Elite Species Trait (4 CP).",
+    "body": "# Energy Immunity\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nCompletely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy.\n\n## Mechanics & Benefit\nCompletely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy.",
+    "notes": "[Modifier] +20 DR\n[Rule] Elite Species Trait (4 CP).",
     "notesList": [
+      "[Modifier] +20 DR",
       "[Rule] Elite Species Trait (4 CP)."
     ]
   },
@@ -14778,11 +17475,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "DR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "armor-dr",
+        "type": "combat",
+        "value": 10,
+        "mode": "inherent",
+        "description": "+10 DR"
+      }
+    ],
     "package_traits": [],
-    "body": "# Energy Resist\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nDR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Energy Resist\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nDR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.\n\n## Mechanics & Benefit\nDR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.",
+    "notes": "[Modifier] +10 DR\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] +10 DR",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -14803,13 +17509,13 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Adepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race.",
     "description": "Adepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race.",
-    "mechanics": "Adepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race.",
-    "mechanic": "Adepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race.",
+    "mechanics": "Able to spend a Karma Point to increase any one Ability Score by 1 point for 1 Minute, multiple points spent will increase a different Ability or the same.",
+    "mechanic": "Able to spend a Karma Point to increase any one Ability Score by 1 point for 1 Minute, multiple points spent will increase a different Ability or the same.",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Enhanced Abilities\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race.",
+    "body": "# Enhanced Abilities\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race.\n\n## Mechanics & Benefit\nAble to spend a Karma Point to increase any one Ability Score by 1 point for 1 Minute, multiple points spent will increase a different Ability or the same.",
     "notes": "[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Occupational Trait (1 CP)."
@@ -14890,17 +17596,26 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Talent in performance arts, music, athletics, gaming, or high-stakes social recreation.",
-    "description": "Talent in performance arts, music, athletics, gaming, or high-stakes social recreation.",
-    "mechanics": "Talent in performance arts, music, athletics, gaming, or high-stakes social recreation.",
-    "mechanic": "Talent in performance arts, music, athletics, gaming, or high-stakes social recreation.",
+    "desc": "Excellence in musical performance, culinary arts, somatic exhibitions, or creative entertainment.",
+    "description": "Excellence in musical performance, culinary arts, somatic exhibitions, or creative entertainment.",
+    "mechanics": "+2 to a Non-Combat Skill of choice",
+    "mechanic": "+2 to a Non-Combat Skill of choice",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "A Non-Combat",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to A Non-Combat"
+      }
+    ],
     "package_traits": [],
-    "body": "# Entertainment Skill\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nTalent in performance arts, music, athletics, gaming, or high-stakes social recreation.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Entertainment Skill\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nExcellence in musical performance, culinary arts, somatic exhibitions, or creative entertainment.\n\n## Mechanics & Benefit\n+2 to a Non-Combat Skill of choice",
+    "notes": "[Modifier] +2 to A Non-Combat\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to A Non-Combat",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -14919,17 +17634,26 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Attuned to ambient shifts in barometric pressure, water currents, temperature, and atmospheric toxicity.",
-    "description": "Attuned to ambient shifts in barometric pressure, water currents, temperature, and atmospheric toxicity.",
-    "mechanics": "Attuned to ambient shifts in barometric pressure, water currents, temperature, and atmospheric toxicity.",
-    "mechanic": "Attuned to ambient shifts in barometric pressure, water currents, temperature, and atmospheric toxicity.",
+    "desc": "Highly attuned to ocean currents, pressure gradients, thermal vents, and atmospheric shifts affecting survival.",
+    "description": "Highly attuned to ocean currents, pressure gradients, thermal vents, and atmospheric shifts affecting survival.",
+    "mechanics": "+2 Alertness",
+    "mechanic": "+2 Alertness",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Alertness",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Alertness"
+      }
+    ],
     "package_traits": [],
-    "body": "# Environmental Awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nAttuned to ambient shifts in barometric pressure, water currents, temperature, and atmospheric toxicity.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Environmental Awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nHighly attuned to ocean currents, pressure gradients, thermal vents, and atmospheric shifts affecting survival.\n\n## Mechanics & Benefit\n+2 Alertness",
+    "notes": "[Modifier] +2 to Alertness\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Alertness",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -14979,15 +17703,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "May have a strong sense of ethics and corporate responsibility.",
     "description": "May have a strong sense of ethics and corporate responsibility.",
-    "mechanics": "May have a strong sense of ethics and corporate responsibility.",
-    "mechanic": "May have a strong sense of ethics and corporate responsibility.",
+    "mechanics": "+2 Insight checks and Diplomacy when acting ethically",
+    "mechanic": "+2 Insight checks and Diplomacy when acting ethically",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Insight",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Insight"
+      }
+    ],
     "package_traits": [],
-    "body": "# Ethical awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMay have a strong sense of ethics and corporate responsibility.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Ethical awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMay have a strong sense of ethics and corporate responsibility.\n\n## Mechanics & Benefit\n+2 Insight checks and Diplomacy when acting ethically",
+    "notes": "[Modifier] +2 to Insight\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Insight",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -15008,15 +17741,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Adheres to ethical standards in research and work.",
     "description": "Adheres to ethical standards in research and work.",
-    "mechanics": "Adheres to ethical standards in research and work.",
-    "mechanic": "Adheres to ethical standards in research and work.",
+    "mechanics": "+2 to any Manipulation checks when taking an Ethical side",
+    "mechanic": "+2 to any Manipulation checks when taking an Ethical side",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Any Manipulation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Any Manipulation"
+      }
+    ],
     "package_traits": [],
-    "body": "# Ethical conduct\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdheres to ethical standards in research and work.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Ethical conduct\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdheres to ethical standards in research and work.\n\n## Mechanics & Benefit\n+2 to any Manipulation checks when taking an Ethical side",
+    "notes": "[Modifier] +2 to Any Manipulation\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Any Manipulation",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -15041,11 +17783,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "DR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell.",
     "rules": "Elite Species Trait (4 CP).",
     "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "armor-dr",
+        "value": 8,
+        "type": "combat",
+        "mode": "inherent",
+        "description": "+8 Natural DR (Heavy Exoskeleton)"
+      }
+    ],
     "package_traits": [],
-    "body": "# Exoskeleton (Heavy)\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nDR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell.",
-    "notes": "[Rule] Elite Species Trait (4 CP).",
+    "body": "# Exoskeleton (Heavy)\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nDR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell.\n\n## Mechanics & Benefit\nDR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell.",
+    "notes": "[Modifier] +8 Natural DR (Heavy Exoskeleton)\n[Rule] Elite Species Trait (4 CP).",
     "notesList": [
+      "[Modifier] +8 Natural DR (Heavy Exoskeleton)",
       "[Rule] Elite Species Trait (4 CP)."
     ]
   },
@@ -15070,11 +17821,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "DR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "armor-dr",
+        "value": 6,
+        "type": "combat",
+        "mode": "inherent",
+        "description": "+6 Natural DR (Light Exoskeleton)"
+      }
+    ],
     "package_traits": [],
-    "body": "# Exoskeleton (Light)\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nDR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Insectoid, Crustacean, or Synthetic Physiology",
+    "body": "# Exoskeleton (Light)\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nDR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.\n\n## Mechanics & Benefit\nDR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.",
+    "notes": "[Modifier] +6 Natural DR (Light Exoskeleton)\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Insectoid, Crustacean, or Synthetic Physiology",
     "notesList": [
+      "[Modifier] +6 Natural DR (Light Exoskeleton)",
       "[Rule] Advanced Species Trait (2 CP).",
       "[Prerequisite] Insectoid, Crustacean, or Synthetic Physiology"
     ]
@@ -15100,11 +17860,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "DR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.",
     "rules": "Basic Species Trait (1 CP).",
     "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "armor-dr",
+        "value": 4,
+        "type": "combat",
+        "mode": "inherent",
+        "description": "+4 Natural DR (Partial Exoskeleton)"
+      }
+    ],
     "package_traits": [],
-    "body": "# Exoskeleton (Partial)\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nDR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Exoskeleton (Partial)\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nDR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.\n\n## Mechanics & Benefit\nDR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.",
+    "notes": "[Modifier] +4 Natural DR (Partial Exoskeleton)\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
+      "[Modifier] +4 Natural DR (Partial Exoskeleton)",
       "[Rule] Basic Species Trait (1 CP)."
     ]
   },
@@ -15125,13 +17894,13 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "In-depth knowledge and experience in a particular area",
     "description": "In-depth knowledge and experience in a particular area",
-    "mechanics": "In-depth knowledge and experience in a particular area",
-    "mechanic": "In-depth knowledge and experience in a particular area",
+    "mechanics": "+2 to a Skill Specialization of choice",
+    "mechanic": "+2 to a Skill Specialization of choice",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Expertise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nIn-depth knowledge and experience in a particular area",
+    "body": "# Expertise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nIn-depth knowledge and experience in a particular area\n\n## Mechanics & Benefit\n+2 to a Skill Specialization of choice",
     "notes": "[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Occupational Trait (1 CP)."
@@ -15154,15 +17923,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Has a loyal following of fans",
     "description": "Has a loyal following of fans",
-    "mechanics": "Has a loyal following of fans",
-    "mechanic": "Has a loyal following of fans",
+    "mechanics": "+2 Wealth and +1 Manipulations with Fans",
+    "mechanic": "+2 Wealth and +1 Manipulations with Fans",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Wealth",
+        "type": "wealth",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 Wealth Score"
+      }
+    ],
     "package_traits": [],
-    "body": "# Fans\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHas a loyal following of fans",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Fans\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHas a loyal following of fans\n\n## Mechanics & Benefit\n+2 Wealth and +1 Manipulations with Fans",
+    "notes": "[Modifier] +2 Wealth Score\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 Wealth Score",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -15247,11 +18025,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "All Fatigue checks are made at Advantage and at twice the interval time.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Fatigue Resistance All Fatigue",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Fatigue Resistance All Fatigue Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Fatigue Resistance\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nAll Fatigue checks are made at Advantage and at twice the interval time, allowing relentless sustained labor and prolonged forced marches.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Robust Physiology or Inexhaustible Stamina",
+    "body": "# Fatigue Resistance\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nAll Fatigue checks are made at Advantage and at twice the interval time.\n\n## Mechanics & Benefit\nAll Fatigue checks are made at Advantage and at twice the interval time.",
+    "notes": "[Modifier] Advantage on Fatigue Resistance All Fatigue Checks\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Robust Physiology or Inexhaustible Stamina",
     "notesList": [
+      "[Modifier] Advantage on Fatigue Resistance All Fatigue Checks",
       "[Rule] Advanced Species Trait (2 CP).",
       "[Prerequisite] Robust Physiology or Inexhaustible Stamina"
     ]
@@ -15273,15 +18060,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Seem fearless and willing to take risks in order to achieve their goals",
     "description": "Seem fearless and willing to take risks in order to achieve their goals",
-    "mechanics": "Seem fearless and willing to take risks in order to achieve their goals",
-    "mechanic": "Seem fearless and willing to take risks in order to achieve their goals",
+    "mechanics": "+1 Karma Point",
+    "mechanic": "+1 Karma Point",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Karma Pool"
+      }
+    ],
     "package_traits": [],
-    "body": "# Fearlessness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nSeem fearless and willing to take risks in order to achieve their goals",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Fearlessness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nSeem fearless and willing to take risks in order to achieve their goals\n\n## Mechanics & Benefit\n+1 Karma Point",
+    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Karma Pool",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -15302,15 +18098,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Has close relationships with other performers",
     "description": "Has close relationships with other performers",
-    "mechanics": "Has close relationships with other performers",
-    "mechanic": "Has close relationships with other performers",
+    "mechanics": "Gather Information checks made at Advantage when dealing with the entertainment scene",
+    "mechanic": "Gather Information checks made at Advantage when dealing with the entertainment scene",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Fellow Artists Gather Information",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Fellow Artists Gather Information Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Fellow Artists\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHas close relationships with other performers",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Fellow Artists\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHas close relationships with other performers\n\n## Mechanics & Benefit\nGather Information checks made at Advantage when dealing with the entertainment scene",
+    "notes": "[Modifier] Advantage on Fellow Artists Gather Information Checks\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] Advantage on Fellow Artists Gather Information Checks",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -15389,15 +18194,32 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Strong understanding of financial management, budgeting, and investment strategies.",
     "description": "Strong understanding of financial management, budgeting, and investment strategies.",
-    "mechanics": "Strong understanding of financial management, budgeting, and investment strategies.",
-    "mechanic": "Strong understanding of financial management, budgeting, and investment strategies.",
+    "mechanics": "+2 Business and Appraisal checks",
+    "mechanic": "+2 Business and Appraisal checks",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Business",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Business"
+      },
+      {
+        "target": "Appraisal",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Appraisal"
+      }
+    ],
     "package_traits": [],
-    "body": "# Financial expertise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nStrong understanding of financial management, budgeting, and investment strategies.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Financial expertise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nStrong understanding of financial management, budgeting, and investment strategies.\n\n## Mechanics & Benefit\n+2 Business and Appraisal checks",
+    "notes": "[Modifier] +2 to Business\n[Modifier] +2 to Appraisal\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Business",
+      "[Modifier] +2 to Appraisal",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -15418,15 +18240,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Ability to adapt to changing circumstances and adjust plans and strategies as needed",
     "description": "Ability to adapt to changing circumstances and adjust plans and strategies as needed",
-    "mechanics": "Ability to adapt to changing circumstances and adjust plans and strategies as needed",
-    "mechanic": "Ability to adapt to changing circumstances and adjust plans and strategies as needed",
+    "mechanics": "+2 to a specific Skill Check, may change assigned Skill daily",
+    "mechanic": "+2 to a specific Skill Check, may change assigned Skill daily",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "A specific",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to A specific"
+      }
+    ],
     "package_traits": [],
-    "body": "# Flexibility\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to adapt to changing circumstances and adjust plans and strategies as needed",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Flexibility\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to adapt to changing circumstances and adjust plans and strategies as needed\n\n## Mechanics & Benefit\n+2 to a specific Skill Check, may change assigned Skill daily",
+    "notes": "[Modifier] +2 to A specific\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to A specific",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -15519,7 +18350,7 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Fragile Frame\n\n**Category**: TRAITS  \n**Tier**: Basic  \n**Type**: Disadvantage  \n**CP Cost**: -2 (Refund 2 CP)  \n\n## Description\nOutside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves.",
+    "body": "# Fragile Frame\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Disadvantage\n**CP Cost**: -2\n\n## Description\nOutside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves.\n\n## Mechanics & Benefit\nOutside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves.",
     "notes": "[Penalty] -2 to Physical\n[Rule] Basic Disadvantage (-2 CP).",
     "notesList": [
       "[Penalty] -2 to Physical",
@@ -15543,15 +18374,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Values independence and self-expression",
     "description": "Values independence and self-expression",
-    "mechanics": "Values independence and self-expression",
-    "mechanic": "Values independence and self-expression",
+    "mechanics": "Domination and Mind-Control Resistance Checks are made at Advantage",
+    "mechanic": "Domination and Mind-Control Resistance Checks are made at Advantage",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Will",
+        "type": "save_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Will Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Freedom\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nValues independence and self-expression",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Freedom\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nValues independence and self-expression\n\n## Mechanics & Benefit\nDomination and Mind-Control Resistance Checks are made at Advantage",
+    "notes": "[Modifier] Advantage on Will Checks\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] Advantage on Will Checks",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -15576,11 +18416,39 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).",
     "rules": "Basic Species Trait (1 CP).",
     "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "attr-strength",
+        "value": 2,
+        "type": "attribute",
+        "mode": "situational",
+        "condition": "During Frenzy",
+        "description": "+2 Strength during Frenzy"
+      },
+      {
+        "target": "attr-stamina",
+        "value": 2,
+        "type": "attribute",
+        "mode": "situational",
+        "condition": "During Frenzy",
+        "description": "+2 Stamina during Frenzy"
+      },
+      {
+        "target": "defense-mod",
+        "value": -2,
+        "type": "combat",
+        "mode": "situational",
+        "condition": "During Frenzy",
+        "description": "-2 Defense during Frenzy"
+      }
+    ],
     "package_traits": [],
-    "body": "# Frenzy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Frenzy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).\n\n## Mechanics & Benefit\n1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).",
+    "notes": "[Modifier] +2 Strength during Frenzy\n[Modifier] +2 Stamina during Frenzy\n[Penalty] -2 Defense during Frenzy\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 Strength during Frenzy",
+      "[Modifier] +2 Stamina during Frenzy",
+      "[Penalty] -2 Defense during Frenzy",
       "[Rule] Basic Species Trait (1 CP)."
     ]
   },
@@ -15601,13 +18469,13 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Values having a good time and making others happy",
     "description": "Values having a good time and making others happy",
-    "mechanics": "Values having a good time and making others happy",
-    "mechanic": "Values having a good time and making others happy",
+    "mechanics": "Regain a Karma Point when a crowd enjoys your performance",
+    "mechanic": "Regain a Karma Point when a crowd enjoys your performance",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Fun\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nValues having a good time and making others happy",
+    "body": "# Fun\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nValues having a good time and making others happy\n\n## Mechanics & Benefit\nRegain a Karma Point when a crowd enjoys your performance",
     "notes": "[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Occupational Trait (1 CP)."
@@ -15702,11 +18570,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "+4 racial bonus on Linguistics checks.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Language",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Language"
+      }
+    ],
     "package_traits": [],
-    "body": "# Gifted Linguist\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+4 racial bonus on Linguistics checks.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Gifted Linguist\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+4 racial bonus on Linguistics checks.\n\n## Mechanics & Benefit\n+4 racial bonus on Linguistics checks.",
+    "notes": "[Modifier] +4 to Language\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] +4 to Language",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -15741,7 +18618,7 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Greedy Eye\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+4 bonus on all Appraise checks.",
+    "body": "# Greedy Eye\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+4 bonus on all Appraise checks.\n\n## Mechanics & Benefit\n+4 bonus on all Appraise checks.",
     "notes": "[Modifier] +4 to Appraise\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
       "[Modifier] +4 to Appraise",
@@ -15763,15 +18640,15 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Natural talent for nurturing plants and making them thrive even in harsh soil.",
-    "description": "Natural talent for nurturing plants and making them thrive even in harsh soil.",
-    "mechanics": "Natural talent for nurturing plants and making them thrive even in harsh soil.",
-    "mechanic": "Natural talent for nurturing plants and making them thrive even in harsh soil.",
+    "desc": "Natural talent for nurturing plants and making them thrive even in challenging environments. Has a knack for identifying needs of different plants.",
+    "description": "Natural talent for nurturing plants and making them thrive even in challenging environments. Has a knack for identifying needs of different plants.",
+    "mechanics": "Checks involving nurturing and helping plants may be made at Advantage",
+    "mechanic": "Checks involving nurturing and helping plants may be made at Advantage",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Green Thumb\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nNatural talent for nurturing plants and making them thrive even in harsh soil.",
+    "body": "# Green Thumb\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nNatural talent for nurturing plants and making them thrive even in challenging environments. Has a knack for identifying needs of different plants.\n\n## Mechanics & Benefit\nChecks involving nurturing and helping plants may be made at Advantage",
     "notes": "[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Origin Trait (1 CP)."
@@ -15794,15 +18671,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Good at devising clever solutions",
     "description": "Good at devising clever solutions",
-    "mechanics": "Good at devising clever solutions",
-    "mechanic": "Good at devising clever solutions",
+    "mechanics": "+1 Karma Point",
+    "mechanic": "+1 Karma Point",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Karma Pool"
+      }
+    ],
     "package_traits": [],
-    "body": "# Guile\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nGood at devising clever solutions",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Guile\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nGood at devising clever solutions\n\n## Mechanics & Benefit\n+1 Karma Point",
+    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Karma Pool",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -15823,13 +18709,13 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Experience with hacking into computer systems and stealing information",
     "description": "Experience with hacking into computer systems and stealing information",
-    "mechanics": "Experience with hacking into computer systems and stealing information",
-    "mechanic": "Experience with hacking into computer systems and stealing information",
+    "mechanics": "+2 all checks to the Infiltration of a digital domain",
+    "mechanic": "+2 all checks to the Infiltration of a digital domain",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Hacking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nExperience with hacking into computer systems and stealing information",
+    "body": "# Hacking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nExperience with hacking into computer systems and stealing information\n\n## Mechanics & Benefit\n+2 all checks to the Infiltration of a digital domain",
     "notes": "[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Occupational Trait (1 CP)."
@@ -15856,11 +18742,36 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "+2 racial bonus on saving throws against poison, spells, and spell-like abilities.",
     "rules": "Basic Species Trait (1 CP).",
     "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Saving throws against poison",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Saving throws against poison"
+      },
+      {
+        "target": "Spells",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Spells"
+      },
+      {
+        "target": "Spell-like abilities",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Spell-like abilities"
+      }
+    ],
     "package_traits": [],
-    "body": "# Hardy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 racial bonus on saving throws against poison, spells, and spell-like abilities.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Hardy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 racial bonus on saving throws against poison, spells, and spell-like abilities.\n\n## Mechanics & Benefit\n+2 racial bonus on saving throws against poison, spells, and spell-like abilities.",
+    "notes": "[Modifier] +2 to Saving throws against poison\n[Modifier] +2 to Spells\n[Modifier] +2 to Spell-like abilities\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Saving throws against poison",
+      "[Modifier] +2 to Spells",
+      "[Modifier] +2 to Spell-like abilities",
       "[Rule] Basic Species Trait (1 CP)."
     ]
   },
@@ -15895,7 +18806,7 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Healthy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+4 bonus on Fortitude saves against disease and poison",
+    "body": "# Healthy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+4 bonus on Fortitude saves against disease and poison\n\n## Mechanics & Benefit\n+4 bonus on Fortitude saves against disease and poison",
     "notes": "[Modifier] +4 on Fortitude Checks\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
       "[Modifier] +4 on Fortitude Checks",
@@ -15919,13 +18830,13 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Adepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.",
     "description": "Adepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.",
-    "mechanics": "Adepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.",
-    "mechanic": "Adepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.",
+    "mechanics": "Gains access to purchase Sensory Features - Night Vision Line, Scent, Acute Senses and Sense Features (still must be purchased but Considered Recommended)",
+    "mechanic": "Gains access to purchase Sensory Features - Night Vision Line, Scent, Acute Senses and Sense Features (still must be purchased but Considered Recommended)",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Heightened Senses\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.",
+    "body": "# Heightened Senses\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.\n\n## Mechanics & Benefit\nGains access to purchase Sensory Features - Night Vision Line, Scent, Acute Senses and Sense Features (still must be purchased but Considered Recommended)",
     "notes": "[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Occupational Trait (1 CP)."
@@ -15954,6 +18865,13 @@ export const ALL_CANONICAL_TRAITS = [
     "special_rules": "Elite Species Trait (4 CP).",
     "modifiers": [
       {
+        "target": "Stability",
+        "type": "combat",
+        "value": 8,
+        "mode": "inherent",
+        "description": "+8 Stability"
+      },
+      {
         "target": "move-walk",
         "type": "combat",
         "value": 20,
@@ -15962,9 +18880,10 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Hexapedal\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nSix legged, +8 Stability, +20 movement speed. Special Accommodations.",
-    "notes": "[Modifier] +20 movement\n[Rule] Elite Species Trait (4 CP).",
+    "body": "# Hexapedal\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nSix legged, +8 Stability, +20 movement speed. Special Accommodations.\n\n## Mechanics & Benefit\nSix legged, +8 Stability, +20 movement speed. Special Accommodations.",
+    "notes": "[Modifier] +8 Stability\n[Modifier] +20 movement\n[Rule] Elite Species Trait (4 CP).",
     "notesList": [
+      "[Modifier] +8 Stability",
       "[Modifier] +20 movement",
       "[Rule] Elite Species Trait (4 CP)."
     ]
@@ -16015,15 +18934,40 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Often have a high social standing, which grants them access to better resources, connections, and opportunities.",
     "description": "Often have a high social standing, which grants them access to better resources, connections, and opportunities.",
-    "mechanics": "Often have a high social standing, which grants them access to better resources, connections, and opportunities.",
-    "mechanic": "Often have a high social standing, which grants them access to better resources, connections, and opportunities.",
+    "mechanics": "+2 to Wealth Score and Etiquette checks",
+    "mechanic": "+2 to Wealth Score and Etiquette checks",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Wealth Score",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Wealth Score"
+      },
+      {
+        "target": "Etiquette",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Etiquette"
+      },
+      {
+        "target": "Wealth",
+        "type": "wealth",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 Wealth Score"
+      }
+    ],
     "package_traits": [],
-    "body": "# High social standing\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nOften have a high social standing, which grants them access to better resources, connections, and opportunities.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# High social standing\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nOften have a high social standing, which grants them access to better resources, connections, and opportunities.\n\n## Mechanics & Benefit\n+2 to Wealth Score and Etiquette checks",
+    "notes": "[Modifier] +2 to Wealth Score\n[Modifier] +2 to Etiquette\n[Modifier] +2 Wealth Score\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Wealth Score",
+      "[Modifier] +2 to Etiquette",
+      "[Modifier] +2 Wealth Score",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -16137,11 +19081,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "Basic telepathic receptivity to follow Collective commands and synchronize with hive leadership.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Saves against external mental coercion",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Saves against external mental coercion"
+      }
+    ],
     "package_traits": [],
     "body": "# Hive-Link (Minor)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nBasic telepathic receptivity to follow Collective commands. Receives mental broadcasts within 5 miles, synchronizes Initiative with commanders, and gains +2 saves against external mental coercion.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Kitin Genome or Swarm Attunement",
+    "notes": "[Modifier] +2 to Saves against external mental coercion\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Kitin Genome or Swarm Attunement",
     "notesList": [
+      "[Modifier] +2 to Saves against external mental coercion",
       "[Rule] Advanced Species Trait (2 CP).",
       "[Prerequisite] Kitin Genome or Swarm Attunement"
     ]
@@ -16191,17 +19144,26 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Devotion to comrades and code of duty; willing to endure hardship for the unit.",
-    "description": "Devotion to comrades and code of duty; willing to endure hardship for the unit.",
-    "mechanics": "Devotion to comrades and code of duty; willing to endure hardship for the unit.",
-    "mechanic": "Devotion to comrades and code of duty; willing to endure hardship for the unit.",
+    "desc": "Unshakable personal code of honor, willing to lay down one’s life to protect comrades.",
+    "description": "Unshakable personal code of honor, willing to lay down one’s life to protect comrades.",
+    "mechanics": "Any One check per day at Advantage, but must be for another",
+    "mechanic": "Any One check per day at Advantage, but must be for another",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Honor-Bound Any One check per day",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Honor-Bound Any One check per day Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Honor-Bound\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nDevotion to comrades and code of duty; willing to endure hardship for the unit.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Honor-Bound\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nUnshakable personal code of honor, willing to lay down one’s life to protect comrades.\n\n## Mechanics & Benefit\nAny One check per day at Advantage, but must be for another",
+    "notes": "[Modifier] Advantage on Honor-Bound Any One check per day Checks\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] Advantage on Honor-Bound Any One check per day Checks",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -16279,17 +19241,26 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Self-reliant problem solving in the cold vacuum where help is light-years away.",
-    "description": "Self-reliant problem solving in the cold vacuum where help is light-years away.",
-    "mechanics": "Self-reliant problem solving in the cold vacuum where help is light-years away.",
-    "mechanic": "Self-reliant problem solving in the cold vacuum where help is light-years away.",
+    "desc": "Self-reliance and autonomy nurtured through years of solitary deep-space voyages far beyond comms reach.",
+    "description": "Self-reliance and autonomy nurtured through years of solitary deep-space voyages far beyond comms reach.",
+    "mechanics": "+1 Karma Point",
+    "mechanic": "+1 Karma Point",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Karma Pool"
+      }
+    ],
     "package_traits": [],
-    "body": "# Independence\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nSelf-reliant problem solving in the cold vacuum where help is light-years away.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Independence\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nSelf-reliance and autonomy nurtured through years of solitary deep-space voyages far beyond comms reach.\n\n## Mechanics & Benefit\n+1 Karma Point",
+    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Karma Pool",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -16338,7 +19309,7 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Integrated\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+1 bonus on Bluff, Disguise, and Knowledge (local) checks.",
+    "body": "# Integrated\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+1 bonus on Bluff, Disguise, and Knowledge (local) checks.\n\n## Mechanics & Benefit\n+1 bonus on Bluff, Disguise, and Knowledge (local) checks.",
     "notes": "[Modifier] +1 to Bluff\n[Modifier] +1 to Disguise\n[Modifier] +1 to Knowledge local\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
       "[Modifier] +1 to Bluff",
@@ -16364,15 +19335,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Honest and trustworthy, able to maintain a high level of integrity in their work",
     "description": "Honest and trustworthy, able to maintain a high level of integrity in their work",
-    "mechanics": "Honest and trustworthy, able to maintain a high level of integrity in their work",
-    "mechanic": "Honest and trustworthy, able to maintain a high level of integrity in their work",
+    "mechanics": "+1 Karma",
+    "mechanic": "+1 Karma",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Karma Pool"
+      }
+    ],
     "package_traits": [],
-    "body": "# Integrity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHonest and trustworthy, able to maintain a high level of integrity in their work",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Integrity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHonest and trustworthy, able to maintain a high level of integrity in their work\n\n## Mechanics & Benefit\n+1 Karma",
+    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Karma Pool",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -16393,15 +19373,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Formal academic pedagogy and comprehensive theoretical mastery in advanced sciences.",
     "description": "Formal academic pedagogy and comprehensive theoretical mastery in advanced sciences.",
-    "mechanics": "Formal academic pedagogy and comprehensive theoretical mastery in advanced sciences.",
-    "mechanic": "Formal academic pedagogy and comprehensive theoretical mastery in advanced sciences.",
+    "mechanics": "+2 Academics and +2 to a Mental Skill Specialization",
+    "mechanic": "+2 Academics and +2 to a Mental Skill Specialization",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "A Mental",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to A Mental"
+      }
+    ],
     "package_traits": [],
-    "body": "# Intellectualism\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nFormal academic pedagogy and comprehensive theoretical mastery in advanced sciences.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Intellectualism\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nFormal academic pedagogy and comprehensive theoretical mastery in advanced sciences.\n\n## Mechanics & Benefit\n+2 Academics and +2 to a Mental Skill Specialization",
+    "notes": "[Modifier] +2 to A Mental\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to A Mental",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -16420,15 +19409,15 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "A preternatural sixth sense for impending ambushes, environmental collapses, and traps.",
-    "description": "A preternatural sixth sense for impending ambushes, environmental collapses, and traps.",
-    "mechanics": "A preternatural sixth sense for impending ambushes, environmental collapses, and traps.",
-    "mechanic": "A preternatural sixth sense for impending ambushes, environmental collapses, and traps.",
+    "desc": "Heightened sixth sense allowing the operative to anticipate predatory ambushes and sudden cave-ins.",
+    "description": "Heightened sixth sense allowing the operative to anticipate predatory ambushes and sudden cave-ins.",
+    "mechanics": "Re-Roll any one failed Perception check per day",
+    "mechanic": "Re-Roll any one failed Perception check per day",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Intuition\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nA preternatural sixth sense for impending ambushes, environmental collapses, and traps.",
+    "body": "# Intuition\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nHeightened sixth sense allowing the operative to anticipate predatory ambushes and sudden cave-ins.\n\n## Mechanics & Benefit\nRe-Roll any one failed Perception check per day",
     "notes": "[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Origin Trait (1 CP)."
@@ -16451,15 +19440,32 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Gathering information, analyzing data, and conducting surveillance",
     "description": "Gathering information, analyzing data, and conducting surveillance",
-    "mechanics": "Gathering information, analyzing data, and conducting surveillance",
-    "mechanic": "Gathering information, analyzing data, and conducting surveillance",
+    "mechanics": "+2 Investigation and Gather Information",
+    "mechanic": "+2 Investigation and Gather Information",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Investigation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Investigation"
+      },
+      {
+        "target": "Gather Information",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Gather Information"
+      }
+    ],
     "package_traits": [],
-    "body": "# Investigation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nGathering information, analyzing data, and conducting surveillance",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Investigation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nGathering information, analyzing data, and conducting surveillance\n\n## Mechanics & Benefit\n+2 Investigation and Gather Information",
+    "notes": "[Modifier] +2 to Investigation\n[Modifier] +2 to Gather Information\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Investigation",
+      "[Modifier] +2 to Gather Information",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -16480,17 +19486,28 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Possess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group",
     "description": "Possess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group",
-    "mechanics": "Possess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group",
-    "mechanic": "Possess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group",
+    "mechanics": "May use any skill without formal training",
+    "mechanic": "May use any skill without formal training",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "All Skills",
+        "type": "untrained",
+        "value": 0,
+        "mode": "conditional",
+        "isSituational": true,
+        "condition": "Untrained skill checks",
+        "description": "May attempt any skill check untrained without suffering CR penalties"
+      }
+    ],
     "package_traits": [],
-    "body": "# Jack-of-All-Trades\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nPossess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).\n[Prerequisite] Intellect 1 or Wisdom 1",
+    "body": "# Jack-of-All-Trades\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nPossess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group\n\n## Mechanics & Benefit\nMay use any skill without formal training",
+    "notes": "[Modifier] May attempt any skill check untrained without suffering CR penalties\n[Rule] Basic Occupational Trait (1 CP).\n[Prerequisite] Intellect 2",
     "notesList": [
+      "[Modifier] May attempt any skill check untrained without suffering CR penalties",
       "[Rule] Basic Occupational Trait (1 CP).",
-      "[Prerequisite] Intellect 1 or Wisdom 1"
+      "[Prerequisite] Intellect 2"
     ]
   },
   {
@@ -16510,15 +19527,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Scouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.",
     "description": "Scouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.",
-    "mechanics": "Scouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.",
-    "mechanic": "Scouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.",
+    "mechanics": "Take 10 on Alertness Checks",
+    "mechanic": "Take 10 on Alertness Checks",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Alertness",
+        "type": "take_10",
+        "value": 10,
+        "mode": "inherent",
+        "description": "May take 10 on Alertness Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Keen Observation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nScouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Keen Observation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nScouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.\n\n## Mechanics & Benefit\nTake 10 on Alertness Checks",
+    "notes": "[Modifier] May take 10 on Alertness Checks\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] May take 10 on Alertness Checks",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -16539,11 +19565,26 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Awakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].",
     "description": "Awakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].",
-    "mechanics": "Includes Awakened (Psychic) [2 CP], Biotechnology Affinity [2 CP], Hive Connection [2 CP], and Torpor / Sleepless [2 CP]. Total package value: 8 CP.",
-    "mechanic": "Includes Awakened (Psychic) [2 CP], Biotechnology Affinity [2 CP], Hive Connection [2 CP], and Torpor / Sleepless [2 CP]. Total package value: 8 CP.",
+    "mechanics": "Awakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].",
+    "mechanic": "Awakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].",
     "rules": "Elite Species Trait (8 CP).",
     "special_rules": "Elite Species Trait (8 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Meta: Psychic",
+        "value": 1,
+        "type": "discipline",
+        "mode": "inherent",
+        "description": "Awakened (Psychic) [2 CP]"
+      },
+      {
+        "target": "Condition: Sleep",
+        "value": 0,
+        "type": "immunity",
+        "mode": "inherent",
+        "description": "Torpor / Sleepless"
+      }
+    ],
     "package_traits": [
       {
         "id": "trait-awakened-psychic",
@@ -16578,9 +19619,11 @@ export const ALL_CANONICAL_TRAITS = [
         "cp": 2
       }
     ],
-    "body": "# Kitin Base Traits\n\n**Category**: TRAITS  \n**Tier**: Elite  \n**Type**: Species Trait  \n**CP Cost**: 8  \n\n## Description\nThe fundamental biological and psionic heritage shared across all Kitin Strains.\n\n## Mechanics\nIncludes Awakened (Psychic) [2 CP], Biotechnology Affinity [2 CP], Hive Connection [2 CP], and Torpor / Sleepless [2 CP]. Total package value: 8 CP.\n\n## Packaged Traits Sublist\n* **Awakened (Psychic)** [2 CP / Advanced]: Conductors and receptors of the Hive psionic Chorus.\n* **Biotechnology Affinity** [2 CP / Advanced]: Innate affinity for manipulating living symbiotic technology and glandular synthesis.\n* **Hive Connection / Hive-Link** [2 CP / Advanced]: Constant telepathic connection and pheromonal telemetry to the Collective.\n* **Torpor / Sleepless** [2 CP / Advanced]: Requires only 4 hours of conscious torpor; immune to sleep effects.",
-    "notes": "[Rule] Elite Species Trait (8 CP).",
+    "body": "# Kitin Base Traits\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 8\n\n## Description\nAwakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].\n\n## Mechanics & Benefit\nAwakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].",
+    "notes": "[Modifier] Awakened (Psychic) [2 CP]\n[Modifier] Torpor / Sleepless\n[Rule] Elite Species Trait (8 CP).",
     "notesList": [
+      "[Modifier] Awakened (Psychic) [2 CP]",
+      "[Modifier] Torpor / Sleepless",
       "[Rule] Elite Species Trait (8 CP)."
     ]
   },
@@ -16601,15 +19644,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Fluency in multiple languages",
     "description": "Fluency in multiple languages",
-    "mechanics": "Fluency in multiple languages",
-    "mechanic": "Fluency in multiple languages",
+    "mechanics": "+2 Linguistic Knowledge",
+    "mechanic": "+2 Linguistic Knowledge",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Linguistic Knowledge Fluency in multiple languages",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Linguistic Knowledge Fluency in multiple languages"
+      }
+    ],
     "package_traits": [],
-    "body": "# Languages\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nFluency in multiple languages",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Languages\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nFluency in multiple languages\n\n## Mechanics & Benefit\n+2 Linguistic Knowledge",
+    "notes": "[Modifier] +2 to Linguistic Knowledge Fluency in multiple languages\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Linguistic Knowledge Fluency in multiple languages",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -16628,17 +19680,26 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Inspirational command presence that organizes groups and rallies morale.",
-    "description": "Inspirational command presence that organizes groups and rallies morale.",
-    "mechanics": "Inspirational command presence that organizes groups and rallies morale.",
-    "mechanic": "Inspirational command presence that organizes groups and rallies morale.",
+    "desc": "Guiding fellow colonists through crises and establishing order in remote settlements.",
+    "description": "Guiding fellow colonists through crises and establishing order in remote settlements.",
+    "mechanics": "+2 Leadership",
+    "mechanic": "+2 Leadership",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Leadership",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Leadership"
+      }
+    ],
     "package_traits": [],
-    "body": "# Leadership\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nInspirational command presence that organizes groups and rallies morale.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Leadership\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nGuiding fellow colonists through crises and establishing order in remote settlements.\n\n## Mechanics & Benefit\n+2 Leadership",
+    "notes": "[Modifier] +2 to Leadership\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Leadership",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -16657,10 +19718,10 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Natural leadership ability that inspires and coordinates starship crews under critical void emergencies.",
-    "description": "Natural leadership ability that inspires and coordinates starship crews under critical void emergencies.",
-    "mechanics": "+2 bonus on Leadership checks, and can grant allies Advantage on Morale saves once per encounter.",
-    "mechanic": "+2 bonus on Leadership checks, and can grant allies Advantage on Morale saves once per encounter.",
+    "desc": "Maintaining crew morale, resolving hull-fever quarrels, and commanding maneuvers during asteroid transit.",
+    "description": "Maintaining crew morale, resolving hull-fever quarrels, and commanding maneuvers during asteroid transit.",
+    "mechanics": "+2 Leadership Checks",
+    "mechanic": "+2 Leadership Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
     "modifiers": [
@@ -16673,7 +19734,7 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Leadership Skills\n\n**Category**: TRAITS  \n**Tier**: Basic  \n**Type**: Origin Trait  \n**CP Cost**: 1  \n\n## Description\nNatural leadership ability that inspires and coordinates starship crews under critical void emergencies.\n\n## Mechanics\n+2 bonus on Leadership checks, and can grant allies Advantage on Morale saves once per encounter.",
+    "body": "# Leadership Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nMaintaining crew morale, resolving hull-fever quarrels, and commanding maneuvers during asteroid transit.\n\n## Mechanics & Benefit\n+2 Leadership Checks",
     "notes": "[Modifier] +2 to Leadership\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
       "[Modifier] +2 to Leadership",
@@ -16701,11 +19762,22 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "Always counts as a running start; all checks for jumping, leaping, and controlled dropping made at advantage.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "physical-athletics",
+        "type": "skill",
+        "value": 2,
+        "mode": "conditional",
+        "isSituational": true,
+        "condition": "Jumping and leaping distance checks",
+        "description": "Always counts as having a running start for jumping and leaping distance checks"
+      }
+    ],
     "package_traits": [],
     "body": "# Leaper\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nHigh-impact hydraulic leg anatomy allows the creature to always count as having a running start for jump distance, and grants Advantage on all checks for jumping, leaping, and dropping.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Athletics 1 or Agility 2",
+    "notes": "[Modifier] Always counts as having a running start for jumping and leaping distance checks\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Athletics 1 or Agility 2",
     "notesList": [
+      "[Modifier] Always counts as having a running start for jumping and leaping distance checks",
       "[Rule] Advanced Species Trait (2 CP).",
       "[Prerequisite] Athletics 1 or Agility 2"
     ]
@@ -16727,15 +19799,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Refined aesthetic tastes and familiarity with high-society etiquette and luxury commerce.",
     "description": "Refined aesthetic tastes and familiarity with high-society etiquette and luxury commerce.",
-    "mechanics": "Refined aesthetic tastes and familiarity with high-society etiquette and luxury commerce.",
-    "mechanic": "Refined aesthetic tastes and familiarity with high-society etiquette and luxury commerce.",
+    "mechanics": "+1 Wealth and +1 Diplomacy",
+    "mechanic": "+1 Wealth and +1 Diplomacy",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Wealth",
+        "type": "wealth",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 Wealth Score"
+      }
+    ],
     "package_traits": [],
-    "body": "# Lifestyle Preferences\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nRefined aesthetic tastes and familiarity with high-society etiquette and luxury commerce.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Lifestyle Preferences\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nRefined aesthetic tastes and familiarity with high-society etiquette and luxury commerce.\n\n## Mechanics & Benefit\n+1 Wealth and +1 Diplomacy",
+    "notes": "[Modifier] +1 Wealth Score\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 Wealth Score",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -16786,15 +19867,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Merchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals.",
     "description": "Merchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals.",
-    "mechanics": "Merchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals.",
-    "mechanic": "Merchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals.",
+    "mechanics": "+2 Linguistic Knowledge",
+    "mechanic": "+2 Linguistic Knowledge",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Linguistic Knowledge Merchants often possess linguistic",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Linguistic Knowledge Merchants often possess linguistic"
+      }
+    ],
     "package_traits": [],
-    "body": "# Linguistics\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Linguistics\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals.\n\n## Mechanics & Benefit\n+2 Linguistic Knowledge",
+    "notes": "[Modifier] +2 to Linguistic Knowledge Merchants often possess linguistic\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Linguistic Knowledge Merchants often possess linguistic",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -16815,15 +19905,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Merchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs.",
     "description": "Merchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs.",
-    "mechanics": "Merchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs.",
-    "mechanic": "Merchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs.",
+    "mechanics": "+2 Wealth Checks",
+    "mechanic": "+2 Wealth Checks",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Wealth",
+        "type": "wealth",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 Wealth Score"
+      }
+    ],
     "package_traits": [],
-    "body": "# Logistics\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Logistics\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs.\n\n## Mechanics & Benefit\n+2 Wealth Checks",
+    "notes": "[Modifier] +2 Wealth Score\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 Wealth Score",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -16900,17 +19999,26 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Unwavering commitment that rejects subversion, psychological coercion, and bribery.",
-    "description": "Unwavering commitment that rejects subversion, psychological coercion, and bribery.",
-    "mechanics": "Unwavering commitment that rejects subversion, psychological coercion, and bribery.",
-    "mechanic": "Unwavering commitment that rejects subversion, psychological coercion, and bribery.",
+    "desc": "Steadfast fidelity to battalion and squadmates, rendering mind control and betrayal abhorrent.",
+    "description": "Steadfast fidelity to battalion and squadmates, rendering mind control and betrayal abhorrent.",
+    "mechanics": "Domination and Mind-Control Resistance Checks are made at Advantage",
+    "mechanic": "Domination and Mind-Control Resistance Checks are made at Advantage",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Will",
+        "type": "save_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Will Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Loyal\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nUnwavering commitment that rejects subversion, psychological coercion, and bribery.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Loyal\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nSteadfast fidelity to battalion and squadmates, rendering mind control and betrayal abhorrent.\n\n## Mechanics & Benefit\nDomination and Mind-Control Resistance Checks are made at Advantage",
+    "notes": "[Modifier] Advantage on Will Checks\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] Advantage on Will Checks",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -16931,15 +20039,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "While they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups",
     "description": "While they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups",
-    "mechanics": "While they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups",
-    "mechanic": "While they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups",
+    "mechanics": "Domination and Mind-Control Resistance Checks are made at Advantage",
+    "mechanic": "Domination and Mind-Control Resistance Checks are made at Advantage",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Will",
+        "type": "save_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Will Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Loyalty\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nWhile they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Loyalty\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nWhile they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups\n\n## Mechanics & Benefit\nDomination and Mind-Control Resistance Checks are made at Advantage",
+    "notes": "[Modifier] Advantage on Will Checks\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] Advantage on Will Checks",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -16964,11 +20081,36 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "+2 racial bonus on all saving throws.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Fortitude",
+        "type": "save",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 on all saving throws"
+      },
+      {
+        "target": "Reflex",
+        "type": "save",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 on all saving throws"
+      },
+      {
+        "target": "Will",
+        "type": "save",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 on all saving throws"
+      }
+    ],
     "package_traits": [],
-    "body": "# Lucky, Greater\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+2 racial bonus on all saving throws.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Lucky, Greater\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+2 racial bonus on all saving throws.\n\n## Mechanics & Benefit\n+2 racial bonus on all saving throws.",
+    "notes": "[Modifier] +2 on all saving throws\n[Modifier] +2 on all saving throws\n[Modifier] +2 on all saving throws\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] +2 on all saving throws",
+      "[Modifier] +2 on all saving throws",
+      "[Modifier] +2 on all saving throws",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -16993,11 +20135,36 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "+1 racial bonus on all saving throws.",
     "rules": "Basic Species Trait (1 CP).",
     "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Fortitude",
+        "type": "save",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 on all saving throws"
+      },
+      {
+        "target": "Reflex",
+        "type": "save",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 on all saving throws"
+      },
+      {
+        "target": "Will",
+        "type": "save",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 on all saving throws"
+      }
+    ],
     "package_traits": [],
-    "body": "# Lucky, Lesser\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+1 racial bonus on all saving throws.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Lucky, Lesser\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+1 racial bonus on all saving throws.\n\n## Mechanics & Benefit\n+1 racial bonus on all saving throws.",
+    "notes": "[Modifier] +1 on all saving throws\n[Modifier] +1 on all saving throws\n[Modifier] +1 on all saving throws\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 on all saving throws",
+      "[Modifier] +1 on all saving throws",
+      "[Modifier] +1 on all saving throws",
       "[Rule] Basic Species Trait (1 CP)."
     ]
   },
@@ -17018,15 +20185,32 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Natural aptitude for working with machinery and tools",
     "description": "Natural aptitude for working with machinery and tools",
-    "mechanics": "Natural aptitude for working with machinery and tools",
-    "mechanic": "Natural aptitude for working with machinery and tools",
+    "mechanics": "Additional +1 from Equipment Bonus and +2 Technology (Knowledge)",
+    "mechanic": "Additional +1 from Equipment Bonus and +2 Technology (Knowledge)",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Technology Knowledge Natural aptitude for working with machinery",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Technology Knowledge Natural aptitude for working with machinery"
+      },
+      {
+        "target": "Tools",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Tools"
+      }
+    ],
     "package_traits": [],
-    "body": "# Machine Affinity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nNatural aptitude for working with machinery and tools",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Machine Affinity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nNatural aptitude for working with machinery and tools\n\n## Mechanics & Benefit\nAdditional +1 from Equipment Bonus and +2 Technology (Knowledge)",
+    "notes": "[Modifier] +2 to Technology Knowledge Natural aptitude for working with machinery\n[Modifier] +2 to Tools\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Technology Knowledge Natural aptitude for working with machinery",
+      "[Modifier] +2 to Tools",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -17047,15 +20231,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Skill in organizing resort logistics, hospitality staff, entertainment venues, and guest services.",
     "description": "Skill in organizing resort logistics, hospitality staff, entertainment venues, and guest services.",
-    "mechanics": "Skill in organizing resort logistics, hospitality staff, entertainment venues, and guest services.",
-    "mechanic": "Skill in organizing resort logistics, hospitality staff, entertainment venues, and guest services.",
+    "mechanics": "+1 Wealth and +1 Leadership",
+    "mechanic": "+1 Wealth and +1 Leadership",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Wealth",
+        "type": "wealth",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 Wealth Score"
+      }
+    ],
     "package_traits": [],
-    "body": "# Management\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nSkill in organizing resort logistics, hospitality staff, entertainment venues, and guest services.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Management\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nSkill in organizing resort logistics, hospitality staff, entertainment venues, and guest services.\n\n## Mechanics & Benefit\n+1 Wealth and +1 Leadership",
+    "notes": "[Modifier] +1 Wealth Score\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 Wealth Score",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -17076,15 +20269,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Many adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.",
     "description": "Many adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.",
-    "mechanics": "Many adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.",
-    "mechanic": "Many adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.",
+    "mechanics": "+2 Unarmed Combat",
+    "mechanic": "+2 Unarmed Combat",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Unarmed Combat Many adepts are highly",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Unarmed Combat Many adepts are highly"
+      }
+    ],
     "package_traits": [],
-    "body": "# Martial Arts Mastery\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMany adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Martial Arts Mastery\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMany adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.\n\n## Mechanics & Benefit\n+2 Unarmed Combat",
+    "notes": "[Modifier] +2 to Unarmed Combat Many adepts are highly\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Unarmed Combat Many adepts are highly",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -17126,7 +20328,7 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Master Tinker\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+2 bonus on Disable Device and Engineering.",
+    "body": "# Master Tinker\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+2 bonus on Disable Device and Engineering.\n\n## Mechanics & Benefit\n+2 bonus on Disable Device and Engineering.",
     "notes": "[Modifier] +2 to Disable Device\n[Modifier] +2 to Engineering\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
       "[Modifier] +2 to Disable Device",
@@ -17151,15 +20353,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Adepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.",
     "description": "Adepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.",
-    "mechanics": "Adepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.",
-    "mechanic": "Adepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.",
+    "mechanics": "+2 to a Metafocus Discipline",
+    "mechanic": "+2 to a Metafocus Discipline",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "A Metafocus Discipline",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to A Metafocus Discipline"
+      }
+    ],
     "package_traits": [],
-    "body": "# Mastery of a Discipline\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Mastery of a Discipline\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.\n\n## Mechanics & Benefit\n+2 to a Metafocus Discipline",
+    "notes": "[Modifier] +2 to A Metafocus Discipline\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to A Metafocus Discipline",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -17180,15 +20391,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Comprehensive understanding of physics",
     "description": "Comprehensive understanding of physics",
-    "mechanics": "Comprehensive understanding of physics",
-    "mechanic": "Comprehensive understanding of physics",
+    "mechanics": "+2 to Engineering",
+    "mechanic": "+2 to Engineering",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Engineering Comprehensive understanding of physics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Engineering Comprehensive understanding of physics"
+      }
+    ],
     "package_traits": [],
-    "body": "# Mecha-Physics\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nComprehensive understanding of physics",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Mecha-Physics\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nComprehensive understanding of physics\n\n## Mechanics & Benefit\n+2 to Engineering",
+    "notes": "[Modifier] +2 to Engineering Comprehensive understanding of physics\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Engineering Comprehensive understanding of physics",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -17207,17 +20427,42 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Innate comprehension of heavy machinery, hydraulics, conveyor grids, and turbines.",
-    "description": "Innate comprehension of heavy machinery, hydraulics, conveyor grids, and turbines.",
-    "mechanics": "Innate comprehension of heavy machinery, hydraulics, conveyor grids, and turbines.",
-    "mechanic": "Innate comprehension of heavy machinery, hydraulics, conveyor grids, and turbines.",
+    "desc": "Natural talent for working with heavy machinery, hydraulic presses, automated assembly lines, and smelters.",
+    "description": "Natural talent for working with heavy machinery, hydraulic presses, automated assembly lines, and smelters.",
+    "mechanics": "+1 to Mechanical, Electrical and Engineering Skill Checks",
+    "mechanic": "+1 to Mechanical, Electrical and Engineering Skill Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Mechanical",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Mechanical"
+      },
+      {
+        "target": "Electrical",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Electrical"
+      },
+      {
+        "target": "Engineering",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Engineering"
+      }
+    ],
     "package_traits": [],
-    "body": "# Mechanical Aptitude\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nInnate comprehension of heavy machinery, hydraulics, conveyor grids, and turbines.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Mechanical Aptitude\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nNatural talent for working with heavy machinery, hydraulic presses, automated assembly lines, and smelters.\n\n## Mechanics & Benefit\n+1 to Mechanical, Electrical and Engineering Skill Checks",
+    "notes": "[Modifier] +1 to Mechanical\n[Modifier] +1 to Electrical\n[Modifier] +1 to Engineering\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Mechanical",
+      "[Modifier] +1 to Electrical",
+      "[Modifier] +1 to Engineering",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -17236,10 +20481,10 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Mechanical skills related to farming equipment, harvesters, conveyors, and agricultural machinery.",
-    "description": "Mechanical skills related to farming equipment, harvesters, conveyors, and agricultural machinery.",
-    "mechanics": "+2 bonus on Mechanical Skill Checks and maintenance of agricultural or heavy machinery.",
-    "mechanic": "+2 bonus on Mechanical Skill Checks and maintenance of agricultural or heavy machinery.",
+    "desc": "Mechanical skills related to farming equipment and machinery. Can repair and maintain farming tools, vehicles, pumps, conveyors and other automated systems.",
+    "description": "Mechanical skills related to farming equipment and machinery. Can repair and maintain farming tools, vehicles, pumps, conveyors and other automated systems.",
+    "mechanics": "+2 to Mechanical Skill Checks",
+    "mechanic": "+2 to Mechanical Skill Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
     "modifiers": [
@@ -17252,7 +20497,7 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Mechanical Skills\n\n**Category**: TRAITS  \n**Tier**: Basic  \n**Type**: Origin Trait  \n**CP Cost**: 1  \n\n## Description\nMechanical skills related to farming equipment, harvesters, conveyors, and agricultural machinery.\n\n## Mechanics\n+2 bonus on Mechanical Skill Checks and maintenance of agricultural or heavy machinery.",
+    "body": "# Mechanical Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nMechanical skills related to farming equipment and machinery. Can repair and maintain farming tools, vehicles, pumps, conveyors and other automated systems.\n\n## Mechanics & Benefit\n+2 to Mechanical Skill Checks",
     "notes": "[Modifier] +2 to Mechanical\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
       "[Modifier] +2 to Mechanical",
@@ -17276,15 +20521,32 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Withstand psychological challenges",
     "description": "Withstand psychological challenges",
-    "mechanics": "Withstand psychological challenges",
-    "mechanic": "Withstand psychological challenges",
+    "mechanics": "+2 Willpower Checks",
+    "mechanic": "+2 Willpower Checks",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Will",
+        "type": "save",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 on Will Checks"
+      },
+      {
+        "target": "Willpower",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Willpower"
+      }
+    ],
     "package_traits": [],
-    "body": "# Mental Resilience\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nWithstand psychological challenges",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Mental Resilience\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nWithstand psychological challenges\n\n## Mechanics & Benefit\n+2 Willpower Checks",
+    "notes": "[Modifier] +2 on Will Checks\n[Modifier] +2 to Willpower\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 on Will Checks",
+      "[Modifier] +2 to Willpower",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -17305,15 +20567,32 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Psychological resilience against isolation, sensory deprivation, fear, and pain.",
     "description": "Psychological resilience against isolation, sensory deprivation, fear, and pain.",
-    "mechanics": "Psychological resilience against isolation, sensory deprivation, fear, and pain.",
-    "mechanic": "Psychological resilience against isolation, sensory deprivation, fear, and pain.",
+    "mechanics": "+2 Willpower Checks",
+    "mechanic": "+2 Willpower Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Will",
+        "type": "save",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 on Will Checks"
+      },
+      {
+        "target": "Willpower",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Willpower"
+      }
+    ],
     "package_traits": [],
-    "body": "# Mental Toughness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPsychological resilience against isolation, sensory deprivation, fear, and pain.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Mental Toughness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPsychological resilience against isolation, sensory deprivation, fear, and pain.\n\n## Mechanics & Benefit\n+2 Willpower Checks",
+    "notes": "[Modifier] +2 on Will Checks\n[Modifier] +2 to Willpower\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 on Will Checks",
+      "[Modifier] +2 to Willpower",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -17332,17 +20611,26 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Patient pedagogical wisdom that accelerates the learning and focus of pupils and companions.",
-    "description": "Patient pedagogical wisdom that accelerates the learning and focus of pupils and companions.",
-    "mechanics": "Patient pedagogical wisdom that accelerates the learning and focus of pupils and companions.",
-    "mechanic": "Patient pedagogical wisdom that accelerates the learning and focus of pupils and companions.",
+    "desc": "Guiding pupils and imparting ancient wisdom to accelerate their intellectual and spiritual growth.",
+    "description": "Guiding pupils and imparting ancient wisdom to accelerate their intellectual and spiritual growth.",
+    "mechanics": "Those under the Enlightened character’s tutelage may make Study Checks at Advantage",
+    "mechanic": "Those under the Enlightened character’s tutelage may make Study Checks at Advantage",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Study",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Study Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Mentorship\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPatient pedagogical wisdom that accelerates the learning and focus of pupils and companions.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Mentorship\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nGuiding pupils and imparting ancient wisdom to accelerate their intellectual and spiritual growth.\n\n## Mechanics & Benefit\nThose under the Enlightened character’s tutelage may make Study Checks at Advantage",
+    "notes": "[Modifier] Advantage on Study Checks\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] Advantage on Study Checks",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -17363,15 +20651,32 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Aware of own cognitive abilities and strategies.",
     "description": "Aware of own cognitive abilities and strategies.",
-    "mechanics": "Aware of own cognitive abilities and strategies.",
-    "mechanic": "Aware of own cognitive abilities and strategies.",
+    "mechanics": "+1 to Logic and Willpower Checks",
+    "mechanic": "+1 to Logic and Willpower Checks",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Logic",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Logic"
+      },
+      {
+        "target": "Willpower",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Willpower"
+      }
+    ],
     "package_traits": [],
-    "body": "# Metacognition\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAware of own cognitive abilities and strategies.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Metacognition\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAware of own cognitive abilities and strategies.\n\n## Mechanics & Benefit\n+1 to Logic and Willpower Checks",
+    "notes": "[Modifier] +1 to Logic\n[Modifier] +1 to Willpower\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Logic",
+      "[Modifier] +1 to Willpower",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -17392,17 +20697,27 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Once per encounter or light rest, summon an explosive reserve of physical adrenaline or cellular force.",
     "description": "Once per encounter or light rest, summon an explosive reserve of physical adrenaline or cellular force.",
-    "mechanics": "Once per encounter during a critical physical action, gain Advantage on a single Strength or Stamina check, attack roll, or athletic feat of power.",
-    "mechanic": "Once per encounter during a critical physical action, gain Advantage on a single Strength or Stamina check, attack roll, or athletic feat of power.",
+    "mechanics": "Once per encounter or light rest, summon an explosive reserve of physical adrenaline or cellular force.",
+    "mechanic": "Once per encounter or light rest, summon an explosive reserve of physical adrenaline or cellular force.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Might",
+        "value": 1,
+        "type": "check_advantage",
+        "mode": "situational",
+        "condition": "1/Encounter",
+        "description": "Advantage on Strength or Stamina check (1/Encounter)"
+      }
+    ],
     "package_traits": [],
-    "body": "# Mighty Surge\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nOnce per encounter or light rest, summon an explosive reserve of physical adrenaline or cellular force.\n\n## Mechanics\nOnce per encounter during a critical physical action, gain Advantage on a single Strength or Stamina check, attack roll, or athletic feat of power.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Potent Might",
+    "body": "# Mighty Surge\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nOnce per encounter or light rest, summon an explosive reserve of physical adrenaline or cellular force.\n\n## Mechanics & Benefit\nOnce per encounter or light rest, summon an explosive reserve of physical adrenaline or cellular force.",
+    "notes": "[Modifier] Advantage on Strength or Stamina check (1/Encounter)\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Potent Might, Strength 2",
     "notesList": [
+      "[Modifier] Advantage on Strength or Stamina check (1/Encounter)",
       "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Potent Might"
+      "[Prerequisite] Potent Might, Strength 2"
     ]
   },
   {
@@ -17420,17 +20735,50 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Issued military-grade armor, sidearms, and tactical field gear.",
-    "description": "Issued military-grade armor, sidearms, and tactical field gear.",
-    "mechanics": "Issued military-grade armor, sidearms, and tactical field gear.",
-    "mechanic": "Issued military-grade armor, sidearms, and tactical field gear.",
+    "desc": "Trained to utilize and field-strip military-grade ordinance and tactical armor.",
+    "description": "Trained to utilize and field-strip military-grade ordinance and tactical armor.",
+    "mechanics": "+2 Equipment",
+    "mechanic": "+2 Equipment",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "equipment-bonus",
+        "type": "combat",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 Equipment"
+      },
+      {
+        "target": "Trained to utilize",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Trained to utilize"
+      },
+      {
+        "target": "Field-strip military-grade ordinance",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Field-strip military-grade ordinance"
+      },
+      {
+        "target": "Tactical armor",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Tactical armor"
+      }
+    ],
     "package_traits": [],
-    "body": "# Milspec Gear\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nIssued military-grade armor, sidearms, and tactical field gear.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Milspec Gear\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nTrained to utilize and field-strip military-grade ordinance and tactical armor.\n\n## Mechanics & Benefit\n+2 Equipment",
+    "notes": "[Modifier] +2 Equipment\n[Modifier] +2 to Trained to utilize\n[Modifier] +2 to Field-strip military-grade ordinance\n[Modifier] +2 to Tactical armor\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 Equipment",
+      "[Modifier] +2 to Trained to utilize",
+      "[Modifier] +2 to Field-strip military-grade ordinance",
+      "[Modifier] +2 to Tactical armor",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -17525,26 +20873,26 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Often on the move, traveling from place to place and exploring new territories",
     "description": "Often on the move, traveling from place to place and exploring new territories",
-    "mechanics": "Often on the move, traveling from place to place and exploring new territories",
-    "mechanic": "Often on the move, traveling from place to place and exploring new territories",
+    "mechanics": "+2 Equipment (Vehicle)",
+    "mechanic": "+2 Equipment (Vehicle)",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
     "modifiers": [
       {
-        "target": "defense-mod",
+        "target": "equipment-bonus",
         "type": "combat",
-        "value": 4,
+        "value": 2,
         "mode": "inherent",
-        "description": "+4 defense"
+        "description": "+2 Equipment"
       }
     ],
     "package_traits": [],
-    "body": "# Mobility\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nOften on the move, traveling from place to place and exploring new territories",
-    "notes": "[Modifier] +4 defense\n[Rule] Basic Occupational Trait (1 CP).\n[Prerequisite] Agi 2, Dodge",
+    "body": "# Mobility\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nOften on the move, traveling from place to place and exploring new territories\n\n## Mechanics & Benefit\n+2 Equipment (Vehicle)",
+    "notes": "[Modifier] +2 Equipment\n[Rule] Basic Occupational Trait (1 CP).\n[Prerequisite] Agility 2, Dodge",
     "notesList": [
-      "[Modifier] +4 defense",
+      "[Modifier] +2 Equipment",
       "[Rule] Basic Occupational Trait (1 CP).",
-      "[Prerequisite] Agi 2, Dodge"
+      "[Prerequisite] Agility 2, Dodge"
     ]
   },
   {
@@ -17624,15 +20972,32 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Adepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.",
     "description": "Adepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.",
-    "mechanics": "Adepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.",
-    "mechanic": "Adepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.",
+    "mechanics": "+1 Attune and +1 Insight",
+    "mechanic": "+1 Attune and +1 Insight",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Insight Adepts may have a deep connection to mystical",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Insight Adepts may have a deep connection to mystical"
+      },
+      {
+        "target": "Spiritual forces",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Spiritual forces"
+      }
+    ],
     "package_traits": [],
-    "body": "# Mystical or Spiritual Connection\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Mystical or Spiritual Connection\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.\n\n## Mechanics & Benefit\n+1 Attune and +1 Insight",
+    "notes": "[Modifier] +1 to Insight Adepts may have a deep connection to mystical\n[Modifier] +1 to Spiritual forces\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Insight Adepts may have a deep connection to mystical",
+      "[Modifier] +1 to Spiritual forces",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -17657,11 +21022,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "+2 natural armor bonus.",
     "rules": "Basic Species Trait (1 CP).",
     "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "armor-dr",
+        "type": "combat",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 armor"
+      }
+    ],
     "package_traits": [],
-    "body": "# Natural Armor\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 natural armor bonus.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Natural Armor\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 natural armor bonus.\n\n## Mechanics & Benefit\n+2 natural armor bonus.",
+    "notes": "[Modifier] +2 armor\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 armor",
       "[Rule] Basic Species Trait (1 CP)."
     ]
   },
@@ -17711,15 +21085,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Scouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.",
     "description": "Scouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.",
-    "mechanics": "Scouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.",
-    "mechanic": "Scouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.",
+    "mechanics": "+2 Navigation (Knowledge)",
+    "mechanic": "+2 Navigation (Knowledge)",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Navigation Knowledge Scouts have excellent navigational",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Navigation Knowledge Scouts have excellent navigational"
+      }
+    ],
     "package_traits": [],
-    "body": "# Navigation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nScouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Navigation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nScouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.\n\n## Mechanics & Benefit\n+2 Navigation (Knowledge)",
+    "notes": "[Modifier] +2 to Navigation Knowledge Scouts have excellent navigational\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Navigation Knowledge Scouts have excellent navigational",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -17827,15 +21210,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Concentrated mastery in civic vocations, gourmet culinary arts, or fine craftsmanship.",
     "description": "Concentrated mastery in civic vocations, gourmet culinary arts, or fine craftsmanship.",
-    "mechanics": "Concentrated mastery in civic vocations, gourmet culinary arts, or fine craftsmanship.",
-    "mechanic": "Concentrated mastery in civic vocations, gourmet culinary arts, or fine craftsmanship.",
+    "mechanics": "+2 to a Vocation Skill of choice",
+    "mechanic": "+2 to a Vocation Skill of choice",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "A Vocation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to A Vocation"
+      }
+    ],
     "package_traits": [],
-    "body": "# Non-Combat Focus\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nConcentrated mastery in civic vocations, gourmet culinary arts, or fine craftsmanship.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Non-Combat Focus\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nConcentrated mastery in civic vocations, gourmet culinary arts, or fine craftsmanship.\n\n## Mechanics & Benefit\n+2 to a Vocation Skill of choice",
+    "notes": "[Modifier] +2 to A Vocation\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to A Vocation",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -17885,15 +21277,25 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Innate metaphysical masking that dampens personal presence, scrying signatures, and casual biological detection.",
     "description": "Innate metaphysical masking that dampens personal presence, scrying signatures, and casual biological detection.",
-    "mechanics": "Creatures attempting to detect, track, or scry upon the character suffer Disadvantage on Awareness, Investigation, and electronic sensor sweep checks unless using specialized penetrating scanners.",
-    "mechanic": "Creatures attempting to detect, track, or scry upon the character suffer Disadvantage on Awareness, Investigation, and electronic sensor sweep checks unless using specialized penetrating scanners.",
+    "mechanics": "Innate metaphysical masking that dampens personal presence, scrying signatures, and casual biological detection.",
+    "mechanic": "Innate metaphysical masking that dampens personal presence, scrying signatures, and casual biological detection.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Alertness",
+        "value": -1,
+        "type": "disadvantage",
+        "mode": "situational",
+        "condition": "Opponents scrying/tracking",
+        "description": "Enemies suffer Disadvantage on Awareness/Investigation checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Obfuscate\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nInnate metaphysical masking that dampens personal presence, scrying signatures, and casual biological detection.\n\n## Mechanics\nCreatures attempting to detect, track, or scry upon the character suffer Disadvantage on Awareness, Investigation, and electronic sensor sweep checks unless using specialized penetrating scanners.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Obfuscate\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nInnate metaphysical masking that dampens personal presence, scrying signatures, and casual biological detection.\n\n## Mechanics & Benefit\nInnate metaphysical masking that dampens personal presence, scrying signatures, and casual biological detection.",
+    "notes": "[Penalty] Enemies suffer Disadvantage on Awareness/Investigation checks\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Penalty] Enemies suffer Disadvantage on Awareness/Investigation checks",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -17914,15 +21316,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Alert and observant, constantly scanning the area for potential threats",
     "description": "Alert and observant, constantly scanning the area for potential threats",
-    "mechanics": "Alert and observant, constantly scanning the area for potential threats",
-    "mechanic": "Alert and observant, constantly scanning the area for potential threats",
+    "mechanics": "May take 10 on Alertness Checks",
+    "mechanic": "May take 10 on Alertness Checks",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Alertness",
+        "type": "take_10",
+        "value": 10,
+        "mode": "inherent",
+        "description": "May take 10 on Alertness Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Observant\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAlert and observant, constantly scanning the area for potential threats",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Observant\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAlert and observant, constantly scanning the area for potential threats\n\n## Mechanics & Benefit\nMay take 10 on Alertness Checks",
+    "notes": "[Modifier] May take 10 on Alertness Checks\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] May take 10 on Alertness Checks",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -17943,13 +21354,13 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Philosophical tolerance that bridges deep cultural, religious, and alien divides.",
     "description": "Philosophical tolerance that bridges deep cultural, religious, and alien divides.",
-    "mechanics": "Philosophical tolerance that bridges deep cultural, religious, and alien divides.",
-    "mechanic": "Philosophical tolerance that bridges deep cultural, religious, and alien divides.",
+    "mechanics": "Reduce all Stigma Penalties with others by the Enlightened character’s Wisdom score for both parties",
+    "mechanic": "Reduce all Stigma Penalties with others by the Enlightened character’s Wisdom score for both parties",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Open-Mindedness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPhilosophical tolerance that bridges deep cultural, religious, and alien divides.",
+    "body": "# Open-Mindedness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPhilosophical tolerance that bridges deep cultural, religious, and alien divides.\n\n## Mechanics & Benefit\nReduce all Stigma Penalties with others by the Enlightened character’s Wisdom score for both parties",
     "notes": "[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Origin Trait (1 CP)."
@@ -17970,17 +21381,26 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "An unshakeable positive demeanor that inspires resilience in bleak moments.",
-    "description": "An unshakeable positive demeanor that inspires resilience in bleak moments.",
-    "mechanics": "An unshakeable positive demeanor that inspires resilience in bleak moments.",
-    "mechanic": "An unshakeable positive demeanor that inspires resilience in bleak moments.",
+    "desc": "Irrepressible cheerfulness and positive mindset that helps weather tense diplomatic disputes.",
+    "description": "Irrepressible cheerfulness and positive mindset that helps weather tense diplomatic disputes.",
+    "mechanics": "+1 to Karma Pool",
+    "mechanic": "+1 to Karma Pool",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Karma Pool"
+      }
+    ],
     "package_traits": [],
-    "body": "# Optimistic\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nAn unshakeable positive demeanor that inspires resilience in bleak moments.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Optimistic\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nIrrepressible cheerfulness and positive mindset that helps weather tense diplomatic disputes.\n\n## Mechanics & Benefit\n+1 to Karma Pool",
+    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Karma Pool",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -18057,17 +21477,26 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Radiates serene composure that disarms hostility and calms tense standoffs.",
-    "description": "Radiates serene composure that disarms hostility and calms tense standoffs.",
-    "mechanics": "Radiates serene composure that disarms hostility and calms tense standoffs.",
-    "mechanic": "Radiates serene composure that disarms hostility and calms tense standoffs.",
+    "desc": "Harmonious disposition that de-escalates hostility through tranquil presence and negotiation.",
+    "description": "Harmonious disposition that de-escalates hostility through tranquil presence and negotiation.",
+    "mechanics": "+2 to Diplomacy for peaceful meditations",
+    "mechanic": "+2 to Diplomacy for peaceful meditations",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Diplomacy for peaceful meditations",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Diplomacy for peaceful meditations"
+      }
+    ],
     "package_traits": [],
-    "body": "# Peaceful Nature\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nRadiates serene composure that disarms hostility and calms tense standoffs.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Peaceful Nature\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nHarmonious disposition that de-escalates hostility through tranquil presence and negotiation.\n\n## Mechanics & Benefit\n+2 to Diplomacy for peaceful meditations",
+    "notes": "[Modifier] +2 to Diplomacy for peaceful meditations\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Diplomacy for peaceful meditations",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -18086,17 +21515,26 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Tireless determination that runs countless trials until a breakthrough is achieved.",
-    "description": "Tireless determination that runs countless trials until a breakthrough is achieved.",
-    "mechanics": "Tireless determination that runs countless trials until a breakthrough is achieved.",
-    "mechanic": "Tireless determination that runs countless trials until a breakthrough is achieved.",
+    "desc": "Relentless dedication that refuses to abandon stalled experiments or inscrutable ciphers.",
+    "description": "Relentless dedication that refuses to abandon stalled experiments or inscrutable ciphers.",
+    "mechanics": "+1 Karma Point",
+    "mechanic": "+1 Karma Point",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Karma Pool"
+      }
+    ],
     "package_traits": [],
-    "body": "# Persistence\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nTireless determination that runs countless trials until a breakthrough is achieved.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Persistence\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nRelentless dedication that refuses to abandon stalled experiments or inscrutable ciphers.\n\n## Mechanics & Benefit\n+1 Karma Point",
+    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Karma Pool",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -18117,15 +21555,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Convincing others to cooperate, negotiation, deception, and diplomacy",
     "description": "Convincing others to cooperate, negotiation, deception, and diplomacy",
-    "mechanics": "Convincing others to cooperate, negotiation, deception, and diplomacy",
-    "mechanic": "Convincing others to cooperate, negotiation, deception, and diplomacy",
+    "mechanics": "+1 Manipulation Skills and Etiquette Checks",
+    "mechanic": "+1 Manipulation Skills and Etiquette Checks",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Manipulation",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Manipulation"
+      }
+    ],
     "package_traits": [],
-    "body": "# Persuasion\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nConvincing others to cooperate, negotiation, deception, and diplomacy",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Persuasion\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nConvincing others to cooperate, negotiation, deception, and diplomacy\n\n## Mechanics & Benefit\n+1 Manipulation Skills and Etiquette Checks",
+    "notes": "[Modifier] +1 to Manipulation\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Manipulation",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -18201,15 +21648,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Ability to endure harsh conditions or high-stress situations",
     "description": "Ability to endure harsh conditions or high-stress situations",
-    "mechanics": "Ability to endure harsh conditions or high-stress situations",
-    "mechanic": "Ability to endure harsh conditions or high-stress situations",
+    "mechanics": "+1 Willpower and Fortitude",
+    "mechanic": "+1 Willpower and Fortitude",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Will",
+        "type": "save",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 on Will Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Physical and mental resilience\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to endure harsh conditions or high-stress situations",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Physical and mental resilience\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to endure harsh conditions or high-stress situations\n\n## Mechanics & Benefit\n+1 Willpower and Fortitude",
+    "notes": "[Modifier] +1 on Will Checks\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 on Will Checks",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -18230,15 +21686,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "High tolerance for atmospheric toxins, extreme temperatures, and caloric deprivation.",
     "description": "High tolerance for atmospheric toxins, extreme temperatures, and caloric deprivation.",
-    "mechanics": "High tolerance for atmospheric toxins, extreme temperatures, and caloric deprivation.",
-    "mechanic": "High tolerance for atmospheric toxins, extreme temperatures, and caloric deprivation.",
+    "mechanics": "+2 Fortitude Checks",
+    "mechanic": "+2 Fortitude Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Fortitude",
+        "type": "save",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 on Fortitude Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Physical Endurance\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nHigh tolerance for atmospheric toxins, extreme temperatures, and caloric deprivation.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Physical Endurance\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nHigh tolerance for atmospheric toxins, extreme temperatures, and caloric deprivation.\n\n## Mechanics & Benefit\n+2 Fortitude Checks",
+    "notes": "[Modifier] +2 on Fortitude Checks\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 on Fortitude Checks",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -18288,15 +21753,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Physically fit and strong, can endure long periods of physical activity and combat",
     "description": "Physically fit and strong, can endure long periods of physical activity and combat",
-    "mechanics": "Physically fit and strong, can endure long periods of physical activity and combat",
-    "mechanic": "Physically fit and strong, can endure long periods of physical activity and combat",
+    "mechanics": "+1 Might and Fortitude Checks",
+    "mechanic": "+1 Might and Fortitude Checks",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Might",
+        "type": "save",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 on Might Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Physical Prowess\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nPhysically fit and strong, can endure long periods of physical activity and combat",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Physical Prowess\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nPhysically fit and strong, can endure long periods of physical activity and combat\n\n## Mechanics & Benefit\n+1 Might and Fortitude Checks",
+    "notes": "[Modifier] +1 on Might Checks\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 on Might Checks",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -18315,17 +21789,26 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Musculoskeletal conditioning built through rigorous manual labor and heavy lifting.",
-    "description": "Musculoskeletal conditioning built through rigorous manual labor and heavy lifting.",
-    "mechanics": "Musculoskeletal conditioning built through rigorous manual labor and heavy lifting.",
-    "mechanic": "Musculoskeletal conditioning built through rigorous manual labor and heavy lifting.",
+    "desc": "Above-average muscle power developed through grueling shifts in ore refineries and foundries.",
+    "description": "Above-average muscle power developed through grueling shifts in ore refineries and foundries.",
+    "mechanics": "+2 Might Checks",
+    "mechanic": "+2 Might Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Might",
+        "type": "save",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 on Might Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Physical Strength\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nMusculoskeletal conditioning built through rigorous manual labor and heavy lifting.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Physical Strength\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nAbove-average muscle power developed through grueling shifts in ore refineries and foundries.\n\n## Mechanics & Benefit\n+2 Might Checks",
+    "notes": "[Modifier] +2 on Might Checks\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 on Might Checks",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -18346,15 +21829,32 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Most field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.",
     "description": "Most field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.",
-    "mechanics": "Most field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.",
-    "mechanic": "Most field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.",
+    "mechanics": "+2 Pilot and Navigation",
+    "mechanic": "+2 Pilot and Navigation",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Pilot",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Pilot"
+      },
+      {
+        "target": "Navigation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Navigation"
+      }
+    ],
     "package_traits": [],
-    "body": "# Pilot\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMost field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Pilot\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMost field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.\n\n## Mechanics & Benefit\n+2 Pilot and Navigation",
+    "notes": "[Modifier] +2 to Pilot\n[Modifier] +2 to Navigation\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Pilot",
+      "[Modifier] +2 to Navigation",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -18373,17 +21873,26 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Practiced control of specialized terrain, atmospheric, or orbital transport craft.",
-    "description": "Practiced control of specialized terrain, atmospheric, or orbital transport craft.",
-    "mechanics": "Practiced control of specialized terrain, atmospheric, or orbital transport craft.",
-    "mechanic": "Practiced control of specialized terrain, atmospheric, or orbital transport craft.",
+    "desc": "Piloting atmospheric hovercraft and armored rovers through corrosive dust storms and boiling seas.",
+    "description": "Piloting atmospheric hovercraft and armored rovers through corrosive dust storms and boiling seas.",
+    "mechanics": "+2 Piloting",
+    "mechanic": "+2 Piloting",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Piloting",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Piloting"
+      }
+    ],
     "package_traits": [],
-    "body": "# Pilot Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPracticed control of specialized terrain, atmospheric, or orbital transport craft.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Pilot Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPiloting atmospheric hovercraft and armored rovers through corrosive dust storms and boiling seas.\n\n## Mechanics & Benefit\n+2 Piloting",
+    "notes": "[Modifier] +2 to Piloting\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Piloting",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -18463,15 +21972,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Focuses on utilitarian efficiency, cutting through abstract theories to deliver results.",
     "description": "Focuses on utilitarian efficiency, cutting through abstract theories to deliver results.",
-    "mechanics": "Focuses on utilitarian efficiency, cutting through abstract theories to deliver results.",
-    "mechanic": "Focuses on utilitarian efficiency, cutting through abstract theories to deliver results.",
+    "mechanics": "+2 Logic Checks",
+    "mechanic": "+2 Logic Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Logic",
+        "type": "save",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 on Logic Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Practicality\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nFocuses on utilitarian efficiency, cutting through abstract theories to deliver results.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Practicality\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nFocuses on utilitarian efficiency, cutting through abstract theories to deliver results.\n\n## Mechanics & Benefit\n+2 Logic Checks",
+    "notes": "[Modifier] +2 on Logic Checks\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 on Logic Checks",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -18496,11 +22014,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "Fully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Certain",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Certain Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Prehensile Limbs\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nFully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Prehensile Limbs\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nFully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage.\n\n## Mechanics & Benefit\nFully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage.",
+    "notes": "[Modifier] Advantage on Certain Checks\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] Advantage on Certain Checks",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -18542,7 +22069,7 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Prehensile Tail\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+2 to Climbing and Balance checks and usable as an off-hand. Special Pants.",
+    "body": "# Prehensile Tail\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+2 to Climbing and Balance checks and usable as an off-hand. Special Pants.\n\n## Mechanics & Benefit\n+2 to Climbing and Balance checks and usable as an off-hand. Special Pants.",
     "notes": "[Modifier] +2 to Climbing\n[Modifier] +2 to Balance\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
       "[Modifier] +2 to Climbing",
@@ -18565,15 +22092,15 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Exceptional critical thinking and analytical troubleshooting under duress.",
-    "description": "Exceptional critical thinking and analytical troubleshooting under duress.",
-    "mechanics": "Exceptional critical thinking and analytical troubleshooting under duress.",
-    "mechanic": "Exceptional critical thinking and analytical troubleshooting under duress.",
+    "desc": "Overcoming technical and environmental crises that arise during terraforming and settlement.",
+    "description": "Overcoming technical and environmental crises that arise during terraforming and settlement.",
+    "mechanics": "Once per Day may reroll a Mental Skill Check",
+    "mechanic": "Once per Day may reroll a Mental Skill Check",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Problem Solving\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nExceptional critical thinking and analytical troubleshooting under duress.",
+    "body": "# Problem Solving\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nOvercoming technical and environmental crises that arise during terraforming and settlement.\n\n## Mechanics & Benefit\nOnce per Day may reroll a Mental Skill Check",
     "notes": "[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Origin Trait (1 CP)."
@@ -18596,15 +22123,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Strong analytical and problem-solving skills",
     "description": "Strong analytical and problem-solving skills",
-    "mechanics": "Strong analytical and problem-solving skills",
-    "mechanic": "Strong analytical and problem-solving skills",
+    "mechanics": "+2 Logic Checks",
+    "mechanic": "+2 Logic Checks",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Logic",
+        "type": "save",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 on Logic Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Problem-Solving Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nStrong analytical and problem-solving skills",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Problem-Solving Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nStrong analytical and problem-solving skills\n\n## Mechanics & Benefit\n+2 Logic Checks",
+    "notes": "[Modifier] +2 on Logic Checks\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 on Logic Checks",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -18625,15 +22161,32 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Merchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods.",
     "description": "Merchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods.",
-    "mechanics": "Merchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods.",
-    "mechanic": "Merchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods.",
+    "mechanics": "+2 to a Knowledge or Vocation Skill",
+    "mechanic": "+2 to a Knowledge or Vocation Skill",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "A Knowledge",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to A Knowledge"
+      },
+      {
+        "target": "Vocation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Vocation"
+      }
+    ],
     "package_traits": [],
-    "body": "# Product Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Product Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods.\n\n## Mechanics & Benefit\n+2 to a Knowledge or Vocation Skill",
+    "notes": "[Modifier] +2 to A Knowledge\n[Modifier] +2 to Vocation\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to A Knowledge",
+      "[Modifier] +2 to Vocation",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -18683,11 +22236,33 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "The godlike chassis of the cosmic precursor architects.",
     "description": "The godlike chassis of the cosmic precursor architects.",
-    "mechanics": "Includes Awakened x6 across all metaphysical disciplines [12 CP], Mind Speech / Telepathy [2 CP], Telekinesis [2 CP], Fast Heal [2 CP], Regeneration [2 CP], Ageless [2 CP], and Immortal [4 CP]. Total package value: 26 CP.",
-    "mechanic": "Includes Awakened x6 across all metaphysical disciplines [12 CP], Mind Speech / Telepathy [2 CP], Telekinesis [2 CP], Fast Heal [2 CP], Regeneration [2 CP], Ageless [2 CP], and Immortal [4 CP]. Total package value: 26 CP.",
+    "mechanics": "The godlike chassis of the cosmic precursor architects.",
+    "mechanic": "The godlike chassis of the cosmic precursor architects.",
     "rules": "Elite Species Trait (26 CP).",
     "special_rules": "Elite Species Trait (26 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "All Disciplines",
+        "value": 6,
+        "type": "discipline",
+        "mode": "inherent",
+        "description": "Awakened x6 across all metaphysical disciplines"
+      },
+      {
+        "target": "Telepathy",
+        "value": 1,
+        "type": "special_ability",
+        "mode": "inherent",
+        "description": "Mind Speech / Telepathy [2 CP]"
+      },
+      {
+        "target": "Telekinesis",
+        "value": 1,
+        "type": "special_ability",
+        "mode": "inherent",
+        "description": "Telekinesis [2 CP]"
+      }
+    ],
     "package_traits": [
       {
         "id": "trait-awakened-all",
@@ -18746,9 +22321,12 @@ export const ALL_CANONICAL_TRAITS = [
         "cp": 4
       }
     ],
-    "body": "# Progenitor Heritage Base\n\n**Category**: TRAITS  \n**Tier**: Elite  \n**Type**: Species Trait  \n**CP Cost**: 26  \n\n## Description\nThe godlike chassis of the cosmic precursor architects.\n\n## Mechanics\nIncludes Awakened x6 across all metaphysical disciplines [12 CP], Mind Speech / Telepathy [2 CP], Telekinesis [2 CP], Fast Heal [2 CP], Regeneration [2 CP], Ageless [2 CP], and Immortal [4 CP]. Total package value: 26 CP.\n\n## Packaged Traits Sublist\n* **Awakened x6 (Omni-Discipline Metaphysics)** [12 CP / Advanced]: Total mastery across all 6 metaphysical traditions (Arcane, Cosmic, Dimension, Nature, Psychic, Void).\n* **Mind Speech (Telepathy)** [2 CP / Advanced]: Unbounded telepathic communication to any subject within 500 ft.\n* **Telekinesis** [2 CP / Advanced]: Effortless cognitive manipulation of matter and physical force at distance.\n* **Fast Heal** [2 CP / Advanced]: Rapid recovery of Health and Vitality during short respite.\n* **Regeneration** [2 CP / Advanced]: Continuous cell restoration; regrows severed limbs, organs, and tissues over time.\n* **Ageless** [2 CP / Advanced]: Immortal lifespan immune to physical deterioration, aging penalties, or senility.\n* **Immortal** [4 CP / Elite]: Cannot die of natural causes; completely immune to biological toxins and pathogens.",
-    "notes": "[Rule] Elite Species Trait (26 CP).",
+    "body": "# Progenitor Heritage Base\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 26\n\n## Description\nThe godlike chassis of the cosmic precursor architects.\n\n## Mechanics & Benefit\nThe godlike chassis of the cosmic precursor architects.",
+    "notes": "[Modifier] Awakened x6 across all metaphysical disciplines\n[Modifier] Mind Speech / Telepathy [2 CP]\n[Modifier] Telekinesis [2 CP]\n[Rule] Elite Species Trait (26 CP).",
     "notesList": [
+      "[Modifier] Awakened x6 across all metaphysical disciplines",
+      "[Modifier] Mind Speech / Telepathy [2 CP]",
+      "[Modifier] Telekinesis [2 CP]",
       "[Rule] Elite Species Trait (26 CP)."
     ]
   },
@@ -18783,7 +22361,7 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Property Boon\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nSpecial equipment allocation granting personal vehicle or biomorphic docking privileges, providing +4 Wealth toward property or personal mecha acquisition.",
+    "body": "# Property Boon\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nSpecial equipment allocation granting personal vehicle or biomorphic docking privileges; +4 Wealth for personal property.\n\n## Mechanics & Benefit\nSpecial equipment allocation granting personal vehicle or biomorphic docking privileges; +4 Wealth for personal property.",
     "notes": "[Modifier] +4 Wealth Score\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Specialist or Operator Standing",
     "notesList": [
       "[Modifier] +4 Wealth Score",
@@ -18814,26 +22392,18 @@ export const ALL_CANONICAL_TRAITS = [
     "special_rules": "Advanced Species Trait (2 CP).",
     "modifiers": [
       {
-        "target": "Willpower",
-        "type": "skill",
-        "value": 2,
+        "target": "Foreign psionic intrusions",
+        "type": "check_advantage",
+        "value": 1,
         "mode": "inherent",
-        "description": "+2 to Willpower"
-      },
-      {
-        "target": "Wisdom",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Wisdom"
+        "description": "Advantage on Foreign psionic intrusions Checks"
       }
     ],
     "package_traits": [],
-    "body": "# Psionic Gating\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nOperating within the carrier frequency of the Chorus, the operative receives +2 Mental DR and forces hostile telepathic scans and psychic intrusions to roll with Disadvantage.",
-    "notes": "[Modifier] +2 to Willpower\n[Modifier] +2 to Wisdom\n[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Psionic Gating\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nThe mind is harmonized with the cryptographic frequency filters of the Chorus, imposing Disadvantage on foreign psionic intrusions.\n\n## Mechanics & Benefit\nThe mind is harmonized with the cryptographic frequency filters of the Chorus, imposing Disadvantage on foreign psionic intrusions.",
+    "notes": "[Modifier] Advantage on Foreign psionic intrusions Checks\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
-      "[Modifier] +2 to Willpower",
-      "[Modifier] +2 to Wisdom",
+      "[Modifier] Advantage on Foreign psionic intrusions Checks",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -18860,18 +22430,11 @@ export const ALL_CANONICAL_TRAITS = [
     "special_rules": "Basic Species Trait (1 CP).",
     "modifiers": [
       {
-        "target": "Psionic",
+        "target": "Manelli Psionic",
         "type": "skill",
         "value": -2,
         "mode": "penalty",
-        "description": "-2 to Psionic"
-      },
-      {
-        "target": "Attune",
-        "type": "skill",
-        "value": -2,
-        "mode": "penalty",
-        "description": "-2 to Attune"
+        "description": "-2 to Manelli Psionic"
       },
       {
         "target": "Wisdom",
@@ -18879,23 +22442,14 @@ export const ALL_CANONICAL_TRAITS = [
         "value": -2,
         "mode": "penalty",
         "description": "-2 to Wisdom"
-      },
-      {
-        "target": "Manelli Psionic",
-        "type": "skill",
-        "value": -2,
-        "mode": "penalty",
-        "description": "-2 to Manelli Psionic"
       }
     ],
     "package_traits": [],
-    "body": "# Psionic Interference (The Static)\n\n**Category**: TRAITS  \n**Tier**: Basic  \n**Type**: Species Trait  \n**CP Cost**: 1  \n\n## Description\nDiscordant psionic static out of tune with the Kitin Collective. Manelli within psychic range suffer a -2 penalty to Psionic and Wisdom checks; Kitin Chorus communications within 30 ft are severely disrupted and used at Disadvantage.",
-    "notes": "[Penalty] -2 to Psionic\n[Penalty] -2 to Attune\n[Penalty] -2 to Wisdom\n[Penalty] -2 to Manelli Psionic\n[Rule] Basic Species Trait (1 CP).\n[Prerequisite] Resonant / Chaotic Psionic Aura",
+    "body": "# Psionic Interference (The Static)\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nDiscordant psychic frequency imposes -2 on Manelli Psionic/Wisdom checks; Kitin Chorus communication in immediate vicinity is disrupted and rolled at Disadvantage.\n\n## Mechanics & Benefit\nDiscordant psychic frequency imposes -2 on Manelli Psionic/Wisdom checks; Kitin Chorus communication in immediate vicinity is disrupted and rolled at Disadvantage.",
+    "notes": "[Penalty] -2 to Manelli Psionic\n[Penalty] -2 to Wisdom\n[Rule] Basic Species Trait (1 CP).\n[Prerequisite] Resonant / Chaotic Psionic Aura",
     "notesList": [
-      "[Penalty] -2 to Psionic",
-      "[Penalty] -2 to Attune",
-      "[Penalty] -2 to Wisdom",
       "[Penalty] -2 to Manelli Psionic",
+      "[Penalty] -2 to Wisdom",
       "[Rule] Basic Species Trait (1 CP).",
       "[Prerequisite] Resonant / Chaotic Psionic Aura"
     ]
@@ -18923,6 +22477,13 @@ export const ALL_CANONICAL_TRAITS = [
     "special_rules": "Advanced Species Trait (2 CP).",
     "modifiers": [
       {
+        "target": "Stability",
+        "type": "combat",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 Stability"
+      },
+      {
         "target": "move-walk",
         "type": "combat",
         "value": 10,
@@ -18931,9 +22492,10 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Quadruped\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nFour legged, +4 Stability, +10 movement speed. Special Accommodations.",
-    "notes": "[Modifier] +10 movement\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Four or More Lower Limbs",
+    "body": "# Quadruped\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nFour legged, +4 Stability, +10 movement speed. Special Accommodations.\n\n## Mechanics & Benefit\nFour legged, +4 Stability, +10 movement speed. Special Accommodations.",
+    "notes": "[Modifier] +4 Stability\n[Modifier] +10 movement\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Four or More Lower Limbs",
     "notesList": [
+      "[Modifier] +4 Stability",
       "[Modifier] +10 movement",
       "[Rule] Advanced Species Trait (2 CP).",
       "[Prerequisite] Four or More Lower Limbs"
@@ -18960,11 +22522,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "Specialized quadrupedal legs for high-impact jumping, +4 Stability, and +10 ft Groundspeed.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Stability",
+        "type": "combat",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 Stability"
+      }
+    ],
     "package_traits": [],
-    "body": "# Quadruped (Leaping)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nFour specialized legs designed for high-impact jumping. Provides +4 racial Stability against trips and knockdowns, and increases Base Groundspeed by +10 feet.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Four Lower Limbs",
+    "body": "# Quadruped (Leaping)\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nSpecialized quadrupedal legs for high-impact jumping, +4 Stability, and +10 ft Groundspeed.\n\n## Mechanics & Benefit\nSpecialized quadrupedal legs for high-impact jumping, +4 Stability, and +10 ft Groundspeed.",
+    "notes": "[Modifier] +4 Stability\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Four Lower Limbs",
     "notesList": [
+      "[Modifier] +4 Stability",
       "[Rule] Advanced Species Trait (2 CP).",
       "[Prerequisite] Four Lower Limbs"
     ]
@@ -18992,26 +22563,26 @@ export const ALL_CANONICAL_TRAITS = [
     "special_rules": "Advanced Species Trait (2 CP).",
     "modifiers": [
       {
-        "target": "Initiative",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Initiative"
-      },
-      {
         "target": "initiative-mod",
         "type": "combat",
         "value": 1,
         "mode": "inherent",
         "description": "+1 Initiative"
+      },
+      {
+        "target": "Initiative",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Initiative"
       }
     ],
     "package_traits": [],
-    "body": "# Quick\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nNaturally fleet and reactive reflexes grant +10 feet to Base Movement Speed and a +1 bonus to Initiative checks.",
-    "notes": "[Modifier] +1 to Initiative\n[Modifier] +1 Initiative\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Agility 1",
+    "body": "# Quick\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+10 feet to Base Movement Speed and +1 to Initiative.\n\n## Mechanics & Benefit\n+10 feet to Base Movement Speed and +1 to Initiative.",
+    "notes": "[Modifier] +1 Initiative\n[Modifier] +1 to Initiative\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Agility 1",
     "notesList": [
-      "[Modifier] +1 to Initiative",
       "[Modifier] +1 Initiative",
+      "[Modifier] +1 to Initiative",
       "[Rule] Advanced Species Trait (2 CP).",
       "[Prerequisite] Agility 1"
     ]
@@ -19037,11 +22608,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "Use double Agility score to calculate base Initiative. Req: Racial Agility +1.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "initiative-mod",
+        "value": 2,
+        "type": "combat",
+        "mode": "inherent",
+        "description": "Double Agility bonus added to base Initiative"
+      }
+    ],
     "package_traits": [],
-    "body": "# Quick Reactions\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nUse double Agility score to calculate base Initiative. Req: Racial Agility +1.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Quick Reactions\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nUse double Agility score to calculate base Initiative. Req: Racial Agility +1.\n\n## Mechanics & Benefit\nUse double Agility score to calculate base Initiative. Req: Racial Agility +1.",
+    "notes": "[Modifier] Double Agility bonus added to base Initiative\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] Double Agility bonus added to base Initiative",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -19062,15 +22642,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Think on their feet, make split-second decisions, and adapt to rapidly changing situations",
     "description": "Think on their feet, make split-second decisions, and adapt to rapidly changing situations",
-    "mechanics": "Think on their feet, make split-second decisions, and adapt to rapidly changing situations",
-    "mechanic": "Think on their feet, make split-second decisions, and adapt to rapidly changing situations",
+    "mechanics": "+2 Initiative",
+    "mechanic": "+2 Initiative",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "initiative-mod",
+        "type": "combat",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 Initiative"
+      }
+    ],
     "package_traits": [],
-    "body": "# Quick Thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nThink on their feet, make split-second decisions, and adapt to rapidly changing situations",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Quick Thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nThink on their feet, make split-second decisions, and adapt to rapidly changing situations\n\n## Mechanics & Benefit\n+2 Initiative",
+    "notes": "[Modifier] +2 Initiative\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 Initiative",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -19095,11 +22684,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "All checks against ionizing radiation, cosmic rays, and fallout are made with Advantage, and radiation damage is halved.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Stamina, Survival, and physical",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Stamina, Survival, and physical Checks"
+      }
+    ],
     "package_traits": [],
     "body": "# Radiation Advantage\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nHeavy-element chitin and stabilized cellular matrices grant Advantage on all Stamina, Survival, and physical checks against ionizing radiation and fallout, while halving any raw damage or strain inflicted by radiological hazards.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "notes": "[Modifier] Advantage on Stamina, Survival, and physical Checks\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] Advantage on Stamina, Survival, and physical Checks",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -19120,15 +22718,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Able to respond quickly to threats and can act decisively in high-pressure situations",
     "description": "Able to respond quickly to threats and can act decisively in high-pressure situations",
-    "mechanics": "Able to respond quickly to threats and can act decisively in high-pressure situations",
-    "mechanic": "Able to respond quickly to threats and can act decisively in high-pressure situations",
+    "mechanics": "+2 Initiative",
+    "mechanic": "+2 Initiative",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "initiative-mod",
+        "type": "combat",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 Initiative"
+      }
+    ],
     "package_traits": [],
-    "body": "# Rapid Response\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to respond quickly to threats and can act decisively in high-pressure situations",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Rapid Response\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to respond quickly to threats and can act decisively in high-pressure situations\n\n## Mechanics & Benefit\n+2 Initiative",
+    "notes": "[Modifier] +2 Initiative\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 Initiative",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -19214,10 +22821,10 @@ export const ALL_CANONICAL_TRAITS = [
     "modifiers": [],
     "package_traits": [],
     "body": "# Regeneration\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nWill regrow lost Limbs and Organs with recovery of Health.",
-    "notes": "[Rule] Elite Species Trait (4 CP).\n[Prerequisite] Fast Heal, Sta 4",
+    "notes": "[Rule] Elite Species Trait (4 CP).\n[Prerequisite] Fast Heal, Stamina 4",
     "notesList": [
       "[Rule] Elite Species Trait (4 CP).",
-      "[Prerequisite] Fast Heal, Sta 4"
+      "[Prerequisite] Fast Heal, Stamina 4"
     ]
   },
   {
@@ -19251,7 +22858,7 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Relentless\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 bonus on combat maneuver checks made to bull rush or overrun an opponent.",
+    "body": "# Relentless\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 bonus on combat maneuver checks made to bull rush or overrun an opponent.\n\n## Mechanics & Benefit\n+2 bonus on combat maneuver checks made to bull rush or overrun an opponent.",
     "notes": "[Modifier] +2 to Combat maneuver\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
       "[Modifier] +2 to Combat maneuver",
@@ -19309,11 +22916,28 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "+2 racial bonus on saving throws against mind-affecting effects and poison.",
     "rules": "Advanced Species Trait (2 CP).",
     "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Saving throws against mind-affecting effects",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Saving throws against mind-affecting effects"
+      },
+      {
+        "target": "Poison",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Poison"
+      }
+    ],
     "package_traits": [],
-    "body": "# Resistant\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+2 racial bonus on saving throws against mind-affecting effects and poison.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Resistant\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+2 racial bonus on saving throws against mind-affecting effects and poison.\n\n## Mechanics & Benefit\n+2 racial bonus on saving throws against mind-affecting effects and poison.",
+    "notes": "[Modifier] +2 to Saving throws against mind-affecting effects\n[Modifier] +2 to Poison\n[Rule] Advanced Species Trait (2 CP).",
     "notesList": [
+      "[Modifier] +2 to Saving throws against mind-affecting effects",
+      "[Modifier] +2 to Poison",
       "[Rule] Advanced Species Trait (2 CP)."
     ]
   },
@@ -19334,13 +22958,13 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Meticulous rationing of food, water, battery cells, and structural spare parts.",
     "description": "Meticulous rationing of food, water, battery cells, and structural spare parts.",
-    "mechanics": "Meticulous rationing of food, water, battery cells, and structural spare parts.",
-    "mechanic": "Meticulous rationing of food, water, battery cells, and structural spare parts.",
+    "mechanics": "Wealth Checks for Basic Resources made at Advantage",
+    "mechanic": "Wealth Checks for Basic Resources made at Advantage",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Resource Management\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nMeticulous rationing of food, water, battery cells, and structural spare parts.",
+    "body": "# Resource Management\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nMeticulous rationing of food, water, battery cells, and structural spare parts.\n\n## Mechanics & Benefit\nWealth Checks for Basic Resources made at Advantage",
     "notes": "[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Origin Trait (1 CP)."
@@ -19363,15 +22987,25 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Able to make weapons out of anything and can adapt to new situations quickly",
     "description": "Able to make weapons out of anything and can adapt to new situations quickly",
-    "mechanics": "Able to make weapons out of anything and can adapt to new situations quickly",
-    "mechanic": "Able to make weapons out of anything and can adapt to new situations quickly",
+    "mechanics": "Once per Day make a Skill Check of choice at Advantage",
+    "mechanic": "Once per Day make a Skill Check of choice at Advantage",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Skill Choice",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "situational",
+        "condition": "1/Day",
+        "description": "One Skill Check of choice at Advantage per day"
+      }
+    ],
     "package_traits": [],
-    "body": "# Resourceful\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to make weapons out of anything and can adapt to new situations quickly",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Resourceful\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to make weapons out of anything and can adapt to new situations quickly\n\n## Mechanics & Benefit\nOnce per Day make a Skill Check of choice at Advantage",
+    "notes": "[Modifier] One Skill Check of choice at Advantage per day\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] One Skill Check of choice at Advantage per day",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -19390,17 +23024,27 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Makes the most of scarce tools, improvising creative solutions under pressure.",
-    "description": "Makes the most of scarce tools, improvising creative solutions under pressure.",
-    "mechanics": "Makes the most of scarce tools, improvising creative solutions under pressure.",
-    "mechanic": "Makes the most of scarce tools, improvising creative solutions under pressure.",
+    "desc": "The character is able to make the most of limited resources and find creative solutions to problems, especially important where resources may be scarce.",
+    "description": "The character is able to make the most of limited resources and find creative solutions to problems, especially important where resources may be scarce.",
+    "mechanics": "Once per Day make a Skill Check of choice at Advantage",
+    "mechanic": "Once per Day make a Skill Check of choice at Advantage",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Skill Choice",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "situational",
+        "condition": "1/Day",
+        "description": "One Skill Check of choice at Advantage per day"
+      }
+    ],
     "package_traits": [],
-    "body": "# Resourcefulness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nMakes the most of scarce tools, improvising creative solutions under pressure.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Resourcefulness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nThe character is able to make the most of limited resources and find creative solutions to problems, especially important where resources may be scarce.\n\n## Mechanics & Benefit\nOnce per Day make a Skill Check of choice at Advantage",
+    "notes": "[Modifier] One Skill Check of choice at Advantage per day\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] One Skill Check of choice at Advantage per day",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -19421,8 +23065,8 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Merchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *+1 Karma Point* #",
     "description": "Merchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *+1 Karma Point* #",
-    "mechanics": "Merchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *+1 Karma Point* #",
-    "mechanic": "Merchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *+1 Karma Point* #",
+    "mechanics": "+1 Karma Point",
+    "mechanic": "+1 Karma Point",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
     "modifiers": [
@@ -19435,7 +23079,7 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Risk Management\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *+1 Karma Point* #",
+    "body": "# Risk Management\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *+1 Karma Point* #\n\n## Mechanics & Benefit\n+1 Karma Point",
     "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
       "[Modifier] +1 to Karma Pool",
@@ -19457,17 +23101,26 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Willingness to gamble on razor-thin safety margins to accomplish difficult goals.",
-    "description": "Willingness to gamble on razor-thin safety margins to accomplish difficult goals.",
-    "mechanics": "Willingness to gamble on razor-thin safety margins to accomplish difficult goals.",
-    "mechanic": "Willingness to gamble on razor-thin safety margins to accomplish difficult goals.",
+    "desc": "Willing to take calculated physical risks in hazardous high-heat, high-voltage environments.",
+    "description": "Willing to take calculated physical risks in hazardous high-heat, high-voltage environments.",
+    "mechanics": "+1 Karma Point",
+    "mechanic": "+1 Karma Point",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Karma Pool"
+      }
+    ],
     "package_traits": [],
-    "body": "# Risk-Taking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nWillingness to gamble on razor-thin safety margins to accomplish difficult goals.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Risk-Taking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nWilling to take calculated physical risks in hazardous high-heat, high-voltage environments.\n\n## Mechanics & Benefit\n+1 Karma Point",
+    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Karma Pool",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -19523,18 +23176,34 @@ export const ALL_CANONICAL_TRAITS = [
     "special_rules": "Basic Species Trait (1 CP).",
     "modifiers": [
       {
-        "target": "Athletics",
+        "target": "Saves to avoid fatigue",
         "type": "skill",
-        "value": 2,
+        "value": 4,
         "mode": "inherent",
-        "description": "+2 to Athletics"
+        "description": "+4 to Saves to avoid fatigue"
+      },
+      {
+        "target": "Exhaustion",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Exhaustion"
+      },
+      {
+        "target": "Ill effects from running",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Ill effects from running"
       }
     ],
     "package_traits": [],
-    "body": "# Runner\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running",
-    "notes": "[Modifier] +2 to Athletics\n[Rule] Basic Species Trait (1 CP).\n[Prerequisite] Strength 1, Agility 1, Stamina 1",
+    "body": "# Runner\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running\n\n## Mechanics & Benefit\n+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running",
+    "notes": "[Modifier] +4 to Saves to avoid fatigue\n[Modifier] +4 to Exhaustion\n[Modifier] +4 to Ill effects from running\n[Rule] Basic Species Trait (1 CP).\n[Prerequisite] Strength 1, Agility 1, Stamina 1",
     "notesList": [
-      "[Modifier] +2 to Athletics",
+      "[Modifier] +4 to Saves to avoid fatigue",
+      "[Modifier] +4 to Exhaustion",
+      "[Modifier] +4 to Ill effects from running",
       "[Rule] Basic Species Trait (1 CP).",
       "[Prerequisite] Strength 1, Agility 1, Stamina 1"
     ]
@@ -19556,15 +23225,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Excel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources",
     "description": "Excel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources",
-    "mechanics": "Excel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources",
-    "mechanic": "Excel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources",
+    "mechanics": "+2 Salvage checks",
+    "mechanic": "+2 Salvage checks",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Salvage",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Salvage"
+      }
+    ],
     "package_traits": [],
-    "body": "# Scavenging\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nExcel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Scavenging\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nExcel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources\n\n## Mechanics & Benefit\n+2 Salvage checks",
+    "notes": "[Modifier] +2 to Salvage\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Salvage",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -19606,7 +23284,7 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Scent\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nIdentify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).",
+    "body": "# Scent\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nIdentify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).\n\n## Mechanics & Benefit\nIdentify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).",
     "notes": "[Modifier] +4 to Track\n[Modifier] +4 to Medical Diagnosis as Analytical Sense of Smell\n[Rule] Basic Species Trait (1 CP).\n[Prerequisite] Wisdom 1",
     "notesList": [
       "[Modifier] +4 to Track",
@@ -19630,17 +23308,26 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Practical applied science in xenobiology, geology, and atmospheric terraforming.",
-    "description": "Practical applied science in xenobiology, geology, and atmospheric terraforming.",
-    "mechanics": "Practical applied science in xenobiology, geology, and atmospheric terraforming.",
-    "mechanic": "Practical applied science in xenobiology, geology, and atmospheric terraforming.",
+    "desc": "Expertise in planetary geology, atmospheric biology, or agricultural terraforming.",
+    "description": "Expertise in planetary geology, atmospheric biology, or agricultural terraforming.",
+    "mechanics": "+2 to Science Knowledge",
+    "mechanic": "+2 to Science Knowledge",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Science Knowledge",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Science Knowledge"
+      }
+    ],
     "package_traits": [],
-    "body": "# Scientific Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPractical applied science in xenobiology, geology, and atmospheric terraforming.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Scientific Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nExpertise in planetary geology, atmospheric biology, or agricultural terraforming.\n\n## Mechanics & Benefit\n+2 to Science Knowledge",
+    "notes": "[Modifier] +2 to Science Knowledge\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Science Knowledge",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -19659,17 +23346,50 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Mastery over hydrofoils, submersibles, surface skiffs, and massive oceanic platforms.",
-    "description": "Mastery over hydrofoils, submersibles, surface skiffs, and massive oceanic platforms.",
-    "mechanics": "Mastery over hydrofoils, submersibles, surface skiffs, and massive oceanic platforms.",
-    "mechanic": "Mastery over hydrofoils, submersibles, surface skiffs, and massive oceanic platforms.",
+    "desc": "Operation of submersibles, high-speed hydrofoils, personal jets, and colossal floating platforms.",
+    "description": "Operation of submersibles, high-speed hydrofoils, personal jets, and colossal floating platforms.",
+    "mechanics": "+2 to all Seacraft Operation - Submersibles, Boats, Hovercraft, and Aircraft",
+    "mechanic": "+2 to all Seacraft Operation - Submersibles, Boats, Hovercraft, and Aircraft",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Seacraft Operation - Submersibles",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Seacraft Operation - Submersibles"
+      },
+      {
+        "target": "Boats",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Boats"
+      },
+      {
+        "target": "Hovercraft",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Hovercraft"
+      },
+      {
+        "target": "Aircraft",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Aircraft"
+      }
+    ],
     "package_traits": [],
-    "body": "# Sea Piloting\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nMastery over hydrofoils, submersibles, surface skiffs, and massive oceanic platforms.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Sea Piloting\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nOperation of submersibles, high-speed hydrofoils, personal jets, and colossal floating platforms.\n\n## Mechanics & Benefit\n+2 to all Seacraft Operation - Submersibles, Boats, Hovercraft, and Aircraft",
+    "notes": "[Modifier] +2 to Seacraft Operation - Submersibles\n[Modifier] +2 to Boats\n[Modifier] +2 to Hovercraft\n[Modifier] +2 to Aircraft\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Seacraft Operation - Submersibles",
+      "[Modifier] +2 to Boats",
+      "[Modifier] +2 to Hovercraft",
+      "[Modifier] +2 to Aircraft",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -19704,7 +23424,7 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Self Revivifying\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\n1/day attempt to resurrect. Cost: 1 Karma, Con Check Diff 20. Req: Immortal.",
+    "body": "# Self Revivifying\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\n1/day attempt to resurrect. Cost: 1 Karma, Con Check Diff 20. Req: Immortal.\n\n## Mechanics & Benefit\n1/day attempt to resurrect. Cost: 1 Karma, Con Check Diff 20. Req: Immortal.",
     "notes": "[Modifier] +1 to Karma Pool\n[Rule] Elite Species Trait (4 CP).",
     "notesList": [
       "[Modifier] +1 to Karma Pool",
@@ -19728,15 +23448,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Criminals may be skilled at protecting themselves and avoiding capture by law enforcement",
     "description": "Criminals may be skilled at protecting themselves and avoiding capture by law enforcement",
-    "mechanics": "Criminals may be skilled at protecting themselves and avoiding capture by law enforcement",
-    "mechanic": "Criminals may be skilled at protecting themselves and avoiding capture by law enforcement",
+    "mechanics": "+1 Karma Point",
+    "mechanic": "+1 Karma Point",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Karma Pool"
+      }
+    ],
     "package_traits": [],
-    "body": "# Self-preservation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nCriminals may be skilled at protecting themselves and avoiding capture by law enforcement",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Self-preservation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nCriminals may be skilled at protecting themselves and avoiding capture by law enforcement\n\n## Mechanics & Benefit\n+1 Karma Point",
+    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Karma Pool",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -19757,15 +23486,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Often self-sufficient and able to take care of themselves without relying on others",
     "description": "Often self-sufficient and able to take care of themselves without relying on others",
-    "mechanics": "Often self-sufficient and able to take care of themselves without relying on others",
-    "mechanic": "Often self-sufficient and able to take care of themselves without relying on others",
+    "mechanics": "+1 Karma Point",
+    "mechanic": "+1 Karma Point",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Karma Pool"
+      }
+    ],
     "package_traits": [],
-    "body": "# Self-sufficiency\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nOften self-sufficient and able to take care of themselves without relying on others",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Self-sufficiency\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nOften self-sufficient and able to take care of themselves without relying on others\n\n## Mechanics & Benefit\n+1 Karma Point",
+    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Karma Pool",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -19790,11 +23528,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "DR30 vs physical, able to Phase through solid matter, Solidify at will.",
     "rules": "Elite Species Trait (4 CP).",
     "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "armor-dr",
+        "type": "combat",
+        "value": 30,
+        "mode": "inherent",
+        "description": "+30 DR"
+      }
+    ],
     "package_traits": [],
-    "body": "# Semi-Corporeal\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nDR30 vs physical, able to Phase through solid matter, Solidify at will.",
-    "notes": "[Rule] Elite Species Trait (4 CP).",
+    "body": "# Semi-Corporeal\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nDR30 vs physical, able to Phase through solid matter, Solidify at will.\n\n## Mechanics & Benefit\nDR30 vs physical, able to Phase through solid matter, Solidify at will.",
+    "notes": "[Modifier] +30 DR\n[Rule] Elite Species Trait (4 CP).",
     "notesList": [
+      "[Modifier] +30 DR",
       "[Rule] Elite Species Trait (4 CP)."
     ]
   },
@@ -19821,13 +23568,6 @@ export const ALL_CANONICAL_TRAITS = [
     "special_rules": "Basic Species Trait (1 CP).",
     "modifiers": [
       {
-        "target": "Stealth when in Shadowy or Dim area",
-        "type": "skill",
-        "value": 5,
-        "mode": "inherent",
-        "description": "+5 to Stealth when in Shadowy or Dim area"
-      },
-      {
         "target": "Stealth when in Shadowy",
         "type": "skill",
         "value": 5,
@@ -19843,10 +23583,9 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Shadow Affinity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nGain +5 to Stealth when in Shadowy or Dim area.",
-    "notes": "[Modifier] +5 to Stealth when in Shadowy or Dim area\n[Modifier] +5 to Stealth when in Shadowy\n[Modifier] +5 to Dim area\n[Rule] Basic Species Trait (1 CP).",
+    "body": "# Shadow Affinity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nGain +5 to Stealth when in Shadowy or Dim area.\n\n## Mechanics & Benefit\nGain +5 to Stealth when in Shadowy or Dim area.",
+    "notes": "[Modifier] +5 to Stealth when in Shadowy\n[Modifier] +5 to Dim area\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
-      "[Modifier] +5 to Stealth when in Shadowy or Dim area",
       "[Modifier] +5 to Stealth when in Shadowy",
       "[Modifier] +5 to Dim area",
       "[Rule] Basic Species Trait (1 CP)."
@@ -19902,11 +23641,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "Pick two skills. Gain +2 racial bonus on both. Represents past lives.",
     "rules": "Basic Species Trait (1 CP).",
     "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Both",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Both"
+      }
+    ],
     "package_traits": [],
-    "body": "# Shards of the Past\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nPick two skills. Gain +2 racial bonus on both. Represents past lives.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Shards of the Past\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nPick two skills. Gain +2 racial bonus on both. Represents past lives.\n\n## Mechanics & Benefit\nPick two skills. Gain +2 racial bonus on both. Represents past lives.",
+    "notes": "[Modifier] +2 to Both\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Both",
       "[Rule] Basic Species Trait (1 CP)."
     ]
   },
@@ -19925,15 +23673,15 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Offers profound insight that elevates the actions of comrades.",
-    "description": "Offers profound insight that elevates the actions of comrades.",
-    "mechanics": "Offers profound insight that elevates the actions of comrades.",
-    "mechanic": "Offers profound insight that elevates the actions of comrades.",
+    "desc": "Imparting profound advice and guiding allies through precarious trials.",
+    "description": "Imparting profound advice and guiding allies through precarious trials.",
+    "mechanics": "Any Check to Aid, Guide or Instruct another (granting them a bonus) may be made at Advantage",
+    "mechanic": "Any Check to Aid, Guide or Instruct another (granting them a bonus) may be made at Advantage",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Shared Wisdom\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nOffers profound insight that elevates the actions of comrades.",
+    "body": "# Shared Wisdom\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nImparting profound advice and guiding allies through precarious trials.\n\n## Mechanics & Benefit\nAny Check to Aid, Guide or Instruct another (granting them a bonus) may be made at Advantage",
     "notes": "[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Origin Trait (1 CP)."
@@ -20006,7 +23754,7 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Silver Tongued\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 bonus on Diplomacy and Bluff. Can shift attitude up to three steps.",
+    "body": "# Silver Tongued\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 bonus on Diplomacy and Bluff. Can shift attitude up to three steps.\n\n## Mechanics & Benefit\n+2 bonus on Diplomacy and Bluff. Can shift attitude up to three steps.",
     "notes": "[Modifier] +2 to Diplomacy\n[Modifier] +2 to Bluff\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
       "[Modifier] +2 to Diplomacy",
@@ -20035,11 +23783,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "Gain +2 racial bonus to divide amongst noted skills.",
     "rules": "Basic Species Trait (1 CP).",
     "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Divide amongst noted",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Divide amongst noted"
+      }
+    ],
     "package_traits": [],
-    "body": "# Skill Bonus\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nGain +2 racial bonus to divide amongst noted skills.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Skill Bonus\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nGain +2 racial bonus to divide amongst noted skills.\n\n## Mechanics & Benefit\nGain +2 racial bonus to divide amongst noted skills.",
+    "notes": "[Modifier] +2 to Divide amongst noted\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Divide amongst noted",
       "[Rule] Basic Species Trait (1 CP)."
     ]
   },
@@ -20090,15 +23847,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Criminals may be charming and persuasive, able to talk their way out of difficult situations",
     "description": "Criminals may be charming and persuasive, able to talk their way out of difficult situations",
-    "mechanics": "Criminals may be charming and persuasive, able to talk their way out of difficult situations",
-    "mechanic": "Criminals may be charming and persuasive, able to talk their way out of difficult situations",
+    "mechanics": "+2 Bluff",
+    "mechanic": "+2 Bluff",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Bluff",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Bluff"
+      }
+    ],
     "package_traits": [],
-    "body": "# Smooth\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nCriminals may be charming and persuasive, able to talk their way out of difficult situations",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Smooth\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nCriminals may be charming and persuasive, able to talk their way out of difficult situations\n\n## Mechanics & Benefit\n+2 Bluff",
+    "notes": "[Modifier] +2 to Bluff\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Bluff",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -20119,15 +23885,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Charismatic conversational flow that disarms suspicion and charms conversational partners.",
     "description": "Charismatic conversational flow that disarms suspicion and charms conversational partners.",
-    "mechanics": "Charismatic conversational flow that disarms suspicion and charms conversational partners.",
-    "mechanic": "Charismatic conversational flow that disarms suspicion and charms conversational partners.",
+    "mechanics": "+2 Etiquette Checks",
+    "mechanic": "+2 Etiquette Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Etiquette",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Etiquette"
+      }
+    ],
     "package_traits": [],
-    "body": "# Smooth Talking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nCharismatic conversational flow that disarms suspicion and charms conversational partners.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Smooth Talking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nCharismatic conversational flow that disarms suspicion and charms conversational partners.\n\n## Mechanics & Benefit\n+2 Etiquette Checks",
+    "notes": "[Modifier] +2 to Etiquette\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Etiquette",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -20152,11 +23927,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "+2 racial bonus on Stealth checks.",
     "rules": "Basic Species Trait (1 CP).",
     "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Stealth"
+      }
+    ],
     "package_traits": [],
-    "body": "# Sneaky\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 racial bonus on Stealth checks.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Sneaky\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 racial bonus on Stealth checks.\n\n## Mechanics & Benefit\n+2 racial bonus on Stealth checks.",
+    "notes": "[Modifier] +2 to Stealth\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Stealth",
       "[Rule] Basic Species Trait (1 CP)."
     ]
   },
@@ -20206,15 +23990,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Navigates dense cultural melting pots, high-rise galas, and underground speakeasies with ease.",
     "description": "Navigates dense cultural melting pots, high-rise galas, and underground speakeasies with ease.",
-    "mechanics": "Navigates dense cultural melting pots, high-rise galas, and underground speakeasies with ease.",
-    "mechanic": "Navigates dense cultural melting pots, high-rise galas, and underground speakeasies with ease.",
+    "mechanics": "+1 all Social Manipulation Skills and Culture Knowledge",
+    "mechanic": "+1 all Social Manipulation Skills and Culture Knowledge",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Social Manipulation",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Social Manipulation"
+      }
+    ],
     "package_traits": [],
-    "body": "# Social Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nNavigates dense cultural melting pots, high-rise galas, and underground speakeasies with ease.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Social Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nNavigates dense cultural melting pots, high-rise galas, and underground speakeasies with ease.\n\n## Mechanics & Benefit\n+1 all Social Manipulation Skills and Culture Knowledge",
+    "notes": "[Modifier] +1 to Social Manipulation\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Social Manipulation",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -20235,13 +24028,13 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Adepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability.",
     "description": "Adepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability.",
-    "mechanics": "Adepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability.",
-    "mechanic": "Adepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability.",
+    "mechanics": "Special Ability at level 1 (which are afterwards improved as a skill)",
+    "mechanic": "Special Ability at level 1 (which are afterwards improved as a skill)",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Special Ability\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability.",
+    "body": "# Special Ability\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability.\n\n## Mechanics & Benefit\nSpecial Ability at level 1 (which are afterwards improved as a skill)",
     "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] Basic Occupational Trait (1 CP).\n[Prerequisite] None (though usually tied to Species or Origin).",
     "notesList": [
       "[Rule] Multiple: May be purchased separately for different categories/types",
@@ -20266,15 +24059,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Adepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.",
     "description": "Adepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.",
-    "mechanics": "Adepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.",
-    "mechanic": "Adepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.",
+    "mechanics": "+2 Equipment",
+    "mechanic": "+2 Equipment",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "equipment-bonus",
+        "type": "combat",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 Equipment"
+      }
+    ],
     "package_traits": [],
-    "body": "# Special Equipment\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Special Equipment\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.\n\n## Mechanics & Benefit\n+2 Equipment",
+    "notes": "[Modifier] +2 Equipment\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 Equipment",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -20293,17 +24095,26 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Deep technical expertise in metallurgy, industrial chemistry, or structural fabrication.",
-    "description": "Deep technical expertise in metallurgy, industrial chemistry, or structural fabrication.",
-    "mechanics": "Deep technical expertise in metallurgy, industrial chemistry, or structural fabrication.",
-    "mechanic": "Deep technical expertise in metallurgy, industrial chemistry, or structural fabrication.",
+    "desc": "Deep technical specialization in metallurgy, chemical processing, or structural robotics.",
+    "description": "Deep technical specialization in metallurgy, chemical processing, or structural robotics.",
+    "mechanics": "+2 to a Vocation Specialization",
+    "mechanic": "+2 to a Vocation Specialization",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "A Vocation Specialization",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to A Vocation Specialization"
+      }
+    ],
     "package_traits": [],
-    "body": "# Specialized Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nDeep technical expertise in metallurgy, industrial chemistry, or structural fabrication.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Specialized Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nDeep technical specialization in metallurgy, chemical processing, or structural robotics.\n\n## Mechanics & Benefit\n+2 to a Vocation Specialization",
+    "notes": "[Modifier] +2 to A Vocation Specialization\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to A Vocation Specialization",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -20324,13 +24135,13 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Adepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.",
     "description": "Adepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.",
-    "mechanics": "Adepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.",
-    "mechanic": "Adepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.",
+    "mechanics": "+2 to a Skill of Choice",
+    "mechanic": "+2 to a Skill of Choice",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Specialized Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.",
+    "body": "# Specialized Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.\n\n## Mechanics & Benefit\n+2 to a Skill of Choice",
     "notes": "[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Occupational Trait (1 CP)."
@@ -20351,17 +24162,34 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Attuned to metaphysical resonances, ley conduits, and unseen psychic currents.",
-    "description": "Attuned to metaphysical resonances, ley conduits, and unseen psychic currents.",
-    "mechanics": "Attuned to metaphysical resonances, ley conduits, and unseen psychic currents.",
-    "mechanic": "Attuned to metaphysical resonances, ley conduits, and unseen psychic currents.",
+    "desc": "Strong metaphysical attunement to ley lines, astral resonance, and psychic currents.",
+    "description": "Strong metaphysical attunement to ley lines, astral resonance, and psychic currents.",
+    "mechanics": "+1 to Attune and one Metafocus Skill",
+    "mechanic": "+1 to Attune and one Metafocus Skill",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Attune"
+      },
+      {
+        "target": "One Metafocus",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to One Metafocus"
+      }
+    ],
     "package_traits": [],
-    "body": "# Spiritual Awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nAttuned to metaphysical resonances, ley conduits, and unseen psychic currents.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Spiritual Awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nStrong metaphysical attunement to ley lines, astral resonance, and psychic currents.\n\n## Mechanics & Benefit\n+1 to Attune and one Metafocus Skill",
+    "notes": "[Modifier] +1 to Attune\n[Modifier] +1 to One Metafocus\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Attune",
+      "[Modifier] +1 to One Metafocus",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -20386,11 +24214,20 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "+4 racial Stability bonus while standing on the ground.",
     "rules": "Basic Species Trait (1 CP).",
     "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Stability",
+        "type": "combat",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 Stability"
+      }
+    ],
     "package_traits": [],
-    "body": "# Stable Footed\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+4 racial Stability bonus while standing on the ground.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Stable Footed\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+4 racial Stability bonus while standing on the ground.\n\n## Mechanics & Benefit\n+4 racial Stability bonus while standing on the ground.",
+    "notes": "[Modifier] +4 Stability\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
+      "[Modifier] +4 Stability",
       "[Rule] Basic Species Trait (1 CP)."
     ]
   },
@@ -20417,11 +24254,11 @@ export const ALL_CANONICAL_TRAITS = [
     "special_rules": "Basic Species Trait (1 CP).",
     "modifiers": [
       {
-        "target": "Perception",
+        "target": "Alertness",
         "type": "skill",
         "value": 2,
         "mode": "inherent",
-        "description": "+2 to Perception"
+        "description": "+2 to Alertness"
       },
       {
         "target": "Stealth",
@@ -20432,10 +24269,10 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Stalker\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nGain +2 bonus to Perception and Stealth checks versus one target.",
-    "notes": "[Modifier] +2 to Perception\n[Modifier] +2 to Stealth\n[Rule] Basic Species Trait (1 CP).",
+    "body": "# Stalker\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nGain +2 bonus to Perception and Stealth checks versus one target.\n\n## Mechanics & Benefit\nGain +2 bonus to Perception and Stealth checks versus one target.",
+    "notes": "[Modifier] +2 to Alertness\n[Modifier] +2 to Stealth\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
-      "[Modifier] +2 to Perception",
+      "[Modifier] +2 to Alertness",
       "[Modifier] +2 to Stealth",
       "[Rule] Basic Species Trait (1 CP)."
     ]
@@ -20486,15 +24323,48 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Operating covertly, sneaking, hiding, and remaining undetected",
     "description": "Operating covertly, sneaking, hiding, and remaining undetected",
-    "mechanics": "Operating covertly, sneaking, hiding, and remaining undetected",
-    "mechanic": "Operating covertly, sneaking, hiding, and remaining undetected",
+    "mechanics": "+2 Stealth",
+    "mechanic": "+2 Stealth",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Stealth Operating covertly",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Stealth Operating covertly"
+      },
+      {
+        "target": "Sneaking",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Sneaking"
+      },
+      {
+        "target": "Hiding",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Hiding"
+      },
+      {
+        "target": "Remaining undetected",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Remaining undetected"
+      }
+    ],
     "package_traits": [],
-    "body": "# Stealth\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nOperating covertly, sneaking, hiding, and remaining undetected",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Stealth\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nOperating covertly, sneaking, hiding, and remaining undetected\n\n## Mechanics & Benefit\n+2 Stealth",
+    "notes": "[Modifier] +2 to Stealth Operating covertly\n[Modifier] +2 to Sneaking\n[Modifier] +2 to Hiding\n[Modifier] +2 to Remaining undetected\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Stealth Operating covertly",
+      "[Modifier] +2 to Sneaking",
+      "[Modifier] +2 to Hiding",
+      "[Modifier] +2 to Remaining undetected",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -20513,15 +24383,15 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Battlefield tactical assessment and mission operation planning.",
-    "description": "Battlefield tactical assessment and mission operation planning.",
-    "mechanics": "Battlefield tactical assessment and mission operation planning.",
-    "mechanic": "Battlefield tactical assessment and mission operation planning.",
+    "desc": "Deep understanding of tactical staging, supply lines, crossfire corridors, and coordinated assaults.",
+    "description": "Deep understanding of tactical staging, supply lines, crossfire corridors, and coordinated assaults.",
+    "mechanics": "Those following the plan will receive a bonus pool to be used during the operation equal to the characters Intellect Score + 2",
+    "mechanic": "Those following the plan will receive a bonus pool to be used during the operation equal to the characters Intellect Score + 2",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Strategic\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nBattlefield tactical assessment and mission operation planning.",
+    "body": "# Strategic\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nDeep understanding of tactical staging, supply lines, crossfire corridors, and coordinated assaults.\n\n## Mechanics & Benefit\nThose following the plan will receive a bonus pool to be used during the operation equal to the characters Intellect Score + 2",
     "notes": "[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
       "[Rule] Basic Origin Trait (1 CP)."
@@ -20544,15 +24414,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Skilled at developing long-term plans and strategies to achieve their goals.",
     "description": "Skilled at developing long-term plans and strategies to achieve their goals.",
-    "mechanics": "Skilled at developing long-term plans and strategies to achieve their goals.",
-    "mechanic": "Skilled at developing long-term plans and strategies to achieve their goals.",
+    "mechanics": "+2 Tactics and Logic checks",
+    "mechanic": "+2 Tactics and Logic checks",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Tactics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Tactics"
+      }
+    ],
     "package_traits": [],
-    "body": "# Strategic thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nSkilled at developing long-term plans and strategies to achieve their goals.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Strategic thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nSkilled at developing long-term plans and strategies to achieve their goals.\n\n## Mechanics & Benefit\n+2 Tactics and Logic checks",
+    "notes": "[Modifier] +2 to Tactics\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Tactics",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -20571,17 +24450,34 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Dirty fighting techniques optimized for claustrophobic alleys, elevator cabs, and crowded subway cars.",
-    "description": "Dirty fighting techniques optimized for claustrophobic alleys, elevator cabs, and crowded subway cars.",
-    "mechanics": "Dirty fighting techniques optimized for claustrophobic alleys, elevator cabs, and crowded subway cars.",
-    "mechanic": "Dirty fighting techniques optimized for claustrophobic alleys, elevator cabs, and crowded subway cars.",
+    "desc": "Vicious close-quarters brawl techniques using brass knuckles, concealed shivs, and dirty tactics in tight alleys.",
+    "description": "Vicious close-quarters brawl techniques using brass knuckles, concealed shivs, and dirty tactics in tight alleys.",
+    "mechanics": "+1 Unarmed Combat and Defense",
+    "mechanic": "+1 Unarmed Combat and Defense",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Unarmed Combat",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Unarmed Combat"
+      },
+      {
+        "target": "Defense",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Defense"
+      }
+    ],
     "package_traits": [],
-    "body": "# Street Fighting\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nDirty fighting techniques optimized for claustrophobic alleys, elevator cabs, and crowded subway cars.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Street Fighting\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nVicious close-quarters brawl techniques using brass knuckles, concealed shivs, and dirty tactics in tight alleys.\n\n## Mechanics & Benefit\n+1 Unarmed Combat and Defense",
+    "notes": "[Modifier] +1 to Unarmed Combat\n[Modifier] +1 to Defense\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Unarmed Combat",
+      "[Modifier] +1 to Defense",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -20629,17 +24525,26 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Knows who controls each block, how to evade gang tolls, and where to fence hot cargo.",
-    "description": "Knows who controls each block, how to evade gang tolls, and where to fence hot cargo.",
-    "mechanics": "Knows who controls each block, how to evade gang tolls, and where to fence hot cargo.",
-    "mechanic": "Knows who controls each block, how to evade gang tolls, and where to fence hot cargo.",
+    "desc": "In-depth mastery of underworld syndicates, secret black-clinic passwords, and surveillance blindspots.",
+    "description": "In-depth mastery of underworld syndicates, secret black-clinic passwords, and surveillance blindspots.",
+    "mechanics": "+2 Streetwise (additional +1 in Home City)",
+    "mechanic": "+2 Streetwise (additional +1 in Home City)",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "In Home City",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to In Home City"
+      }
+    ],
     "package_traits": [],
-    "body": "# Streetwise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nKnows who controls each block, how to evade gang tolls, and where to fence hot cargo.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Streetwise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nIn-depth mastery of underworld syndicates, secret black-clinic passwords, and surveillance blindspots.\n\n## Mechanics & Benefit\n+2 Streetwise (additional +1 in Home City)",
+    "notes": "[Modifier] +1 to In Home City\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to In Home City",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -20658,17 +24563,26 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Deep immersion in research databases, academic journals, and historical archives.",
-    "description": "Deep immersion in research databases, academic journals, and historical archives.",
-    "mechanics": "Deep immersion in research databases, academic journals, and historical archives.",
-    "mechanic": "Deep immersion in research databases, academic journals, and historical archives.",
+    "desc": "Gained encyclopedic familiarity with specialized academic archives and historical treatises.",
+    "description": "Gained encyclopedic familiarity with specialized academic archives and historical treatises.",
+    "mechanics": "+2 to a Knowledge of choice",
+    "mechanic": "+2 to a Knowledge of choice",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "A Knowledge of choice",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to A Knowledge of choice"
+      }
+    ],
     "package_traits": [],
-    "body": "# Studious\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nDeep immersion in research databases, academic journals, and historical archives.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Studious\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nGained encyclopedic familiarity with specialized academic archives and historical treatises.\n\n## Mechanics & Benefit\n+2 to a Knowledge of choice",
+    "notes": "[Modifier] +2 to A Knowledge of choice\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to A Knowledge of choice",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -20689,15 +24603,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Ability to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter",
     "description": "Ability to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter",
-    "mechanics": "Ability to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter",
-    "mechanic": "Ability to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter",
+    "mechanics": "+2 Survival",
+    "mechanic": "+2 Survival",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Survival"
+      }
+    ],
     "package_traits": [],
-    "body": "# Survival\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Survival\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter\n\n## Mechanics & Benefit\n+2 Survival",
+    "notes": "[Modifier] +2 to Survival\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Survival",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -20716,17 +24639,26 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Honed instincts for foraging, navigating wilderness, and finding shelter in hostile terrain.",
-    "description": "Honed instincts for foraging, navigating wilderness, and finding shelter in hostile terrain.",
-    "mechanics": "Honed instincts for foraging, navigating wilderness, and finding shelter in hostile terrain.",
-    "mechanic": "Honed instincts for foraging, navigating wilderness, and finding shelter in hostile terrain.",
+    "desc": "Survival skills honed from living and working in remote or harsh environments. Can navigate and forage for resources, making them self-sufficient.",
+    "description": "Survival skills honed from living and working in remote or harsh environments. Can navigate and forage for resources, making them self-sufficient.",
+    "mechanics": "+2 Survival Skill Checks",
+    "mechanic": "+2 Survival Skill Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Survival"
+      }
+    ],
     "package_traits": [],
-    "body": "# Survival Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nHoned instincts for foraging, navigating wilderness, and finding shelter in hostile terrain.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Survival Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nSurvival skills honed from living and working in remote or harsh environments. Can navigate and forage for resources, making them self-sufficient.\n\n## Mechanics & Benefit\n+2 Survival Skill Checks",
+    "notes": "[Modifier] +2 to Survival\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Survival",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -20745,17 +24677,26 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Deep understanding of ecological balance, crop rotation, and water conservation.",
-    "description": "Deep understanding of ecological balance, crop rotation, and water conservation.",
-    "mechanics": "Deep understanding of ecological balance, crop rotation, and water conservation.",
-    "mechanic": "Deep understanding of ecological balance, crop rotation, and water conservation.",
+    "desc": "Knowledgeable about sustainable farming practices and strives to minimize environmental impact. Prioritizes organic methods and water conservation.",
+    "description": "Knowledgeable about sustainable farming practices and strives to minimize environmental impact. Prioritizes organic methods and water conservation.",
+    "mechanics": "+2 to any Agriculture based checks in a prepared grow area and to prepare and maintain an area.",
+    "mechanic": "+2 to any Agriculture based checks in a prepared grow area and to prepare and maintain an area.",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Any Agriculture based",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Any Agriculture based"
+      }
+    ],
     "package_traits": [],
-    "body": "# Sustainable Practices\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nDeep understanding of ecological balance, crop rotation, and water conservation.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Sustainable Practices\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nKnowledgeable about sustainable farming practices and strives to minimize environmental impact. Prioritizes organic methods and water conservation.\n\n## Mechanics & Benefit\n+2 to any Agriculture based checks in a prepared grow area and to prepare and maintain an area.",
+    "notes": "[Modifier] +2 to Any Agriculture based\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Any Agriculture based",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -20922,11 +24863,40 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "The fundamental mechanical and digitized chassis of artificial sentient entities.",
     "description": "The fundamental mechanical and digitized chassis of artificial sentient entities.",
-    "mechanics": "Immune to Asphyxiation, Bleeding, Critical Damage, Starvation, Sleep, and biological ailments [9 CP]; Repair Required (cannot heal naturally without mechanical maintenance or bionics) [-3 CP]; Digitized Mind (+Advantage vs mental influence) [2 CP]; Robotic Strength (counts one size larger for lifting/grappling) [2 CP]; Resilient Design (DR 5/- vs physical damage) [2 CP]; Low-Light Vision [2 CP]. Total package value: 14 CP.",
-    "mechanic": "Immune to Asphyxiation, Bleeding, Critical Damage, Starvation, Sleep, and biological ailments [9 CP]; Repair Required (cannot heal naturally without mechanical maintenance or bionics) [-3 CP]; Digitized Mind (+Advantage vs mental influence) [2 CP]; Robotic Strength (counts one size larger for lifting/grappling) [2 CP]; Resilient Design (DR 5/- vs physical damage) [2 CP]; Low-Light Vision [2 CP]. Total package value: 14 CP.",
+    "mechanics": "The fundamental mechanical and digitized chassis of artificial sentient entities.",
+    "mechanic": "The fundamental mechanical and digitized chassis of artificial sentient entities.",
     "rules": "Elite Species Trait (14 CP).",
     "special_rules": "Elite Species Trait (14 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "armor-dr",
+        "value": 5,
+        "type": "combat",
+        "mode": "inherent",
+        "description": "DR 5/- vs physical damage (Resilient Design)"
+      },
+      {
+        "target": "Condition: Asphyxiation",
+        "value": 0,
+        "type": "immunity",
+        "mode": "inherent",
+        "description": "Immune to Asphyxiation"
+      },
+      {
+        "target": "Condition: Bleeding",
+        "value": 0,
+        "type": "immunity",
+        "mode": "inherent",
+        "description": "Immune to Bleeding"
+      },
+      {
+        "target": "Condition: Sleep",
+        "value": 0,
+        "type": "immunity",
+        "mode": "inherent",
+        "description": "Immune to Sleep"
+      }
+    ],
     "package_traits": [
       {
         "id": "trait-synthetic-immunities",
@@ -20977,9 +24947,13 @@ export const ALL_CANONICAL_TRAITS = [
         "cp": 2
       }
     ],
-    "body": "# Synthetic Base Traits\n\n**Category**: TRAITS  \n**Tier**: Elite  \n**Type**: Species Trait  \n**CP Cost**: 14  \n\n## Description\nThe fundamental mechanical and digitized chassis of artificial sentient entities.\n\n## Mechanics\nImmune to Asphyxiation, Bleeding, Critical Damage, Starvation, Sleep, and biological ailments [9 CP]; Repair Required (cannot heal naturally without mechanical maintenance or bionics) [-3 CP]; Digitized Mind (+Advantage vs mental influence) [2 CP]; Robotic Strength (counts one size larger for lifting/grappling) [2 CP]; Resilient Design (DR 5/- vs physical damage) [2 CP]; Low-Light Vision [2 CP]. Total package value: 14 CP.\n\n## Packaged Traits Sublist\n* **Synthetic Biological Immunities** [9 CP / Elite]: Total immunity to asphyxiation, bleed, critical hit extra damage, starvation, sleep, disease, poisons, and biological needs.\n* **Repair Required (No Vitality)** [-3 CP / Disadvantage]: Possesses no Vitality; Health is multiplied by 1.5 for Structure Points; cannot heal naturally and requires technical repairs.\n* **Digitized Mind** [2 CP / Advanced]: Silicon neural substrate grants Advantage on all resistance saves against mind-affecting and psionic influence.\n* **Robotic Strength** [2 CP / Advanced]: Heavy hydraulic actuators allow lifting, carrying, and grappling as if one size category larger.\n* **Resilient Design (DR 5/-)** [2 CP / Advanced]: Hardened metallic alloy frame provides passive Damage Reduction 5/- against physical strikes.\n* **Low-Light Optical Array** [2 CP / Advanced]: High-resolution multispectral optical sensors providing enhanced vision in low-light and infrared.",
-    "notes": "[Rule] Elite Species Trait (14 CP).",
+    "body": "# Synthetic Base Traits\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 14\n\n## Description\nThe fundamental mechanical and digitized chassis of artificial sentient entities.\n\n## Mechanics & Benefit\nThe fundamental mechanical and digitized chassis of artificial sentient entities.",
+    "notes": "[Modifier] DR 5/- vs physical damage (Resilient Design)\n[Modifier] Immune to Asphyxiation\n[Modifier] Immune to Bleeding\n[Modifier] Immune to Sleep\n[Rule] Elite Species Trait (14 CP).",
     "notesList": [
+      "[Modifier] DR 5/- vs physical damage (Resilient Design)",
+      "[Modifier] Immune to Asphyxiation",
+      "[Modifier] Immune to Bleeding",
+      "[Modifier] Immune to Sleep",
       "[Rule] Elite Species Trait (14 CP)."
     ]
   },
@@ -21137,7 +25111,7 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Tail\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 to Trip and Balance Checks and usable as a Club.",
+    "body": "# Tail\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 to Trip and Balance Checks and usable as a Club.\n\n## Mechanics & Benefit\n+2 to Trip and Balance Checks and usable as a Club.",
     "notes": "[Modifier] +2 to Trip\n[Modifier] +2 to Balance\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
       "[Modifier] +2 to Trip",
@@ -21162,15 +25136,32 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Ability to communicate effectively and collaborate with others",
     "description": "Ability to communicate effectively and collaborate with others",
-    "mechanics": "Ability to communicate effectively and collaborate with others",
-    "mechanic": "Ability to communicate effectively and collaborate with others",
+    "mechanics": "additional +1 to Aid bonuses",
+    "mechanic": "additional +1 to Aid bonuses",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Aid bonuses Ability to communicate effectively",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Aid bonuses Ability to communicate effectively"
+      },
+      {
+        "target": "Collaborate with others",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Collaborate with others"
+      }
+    ],
     "package_traits": [],
-    "body": "# Team Player\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to communicate effectively and collaborate with others",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Team Player\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to communicate effectively and collaborate with others\n\n## Mechanics & Benefit\nadditional +1 to Aid bonuses",
+    "notes": "[Modifier] +1 to Aid bonuses Ability to communicate effectively\n[Modifier] +1 to Collaborate with others\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Aid bonuses Ability to communicate effectively",
+      "[Modifier] +1 to Collaborate with others",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -21191,15 +25182,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Able to work in teams and coordinate their efforts to achieve their objectives",
     "description": "Able to work in teams and coordinate their efforts to achieve their objectives",
-    "mechanics": "Able to work in teams and coordinate their efforts to achieve their objectives",
-    "mechanic": "Able to work in teams and coordinate their efforts to achieve their objectives",
+    "mechanics": "additional +1 to Aid bonuses",
+    "mechanic": "additional +1 to Aid bonuses",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Aid bonuses",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Aid bonuses"
+      }
+    ],
     "package_traits": [],
-    "body": "# Team-Oriented\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to work in teams and coordinate their efforts to achieve their objectives",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Team-Oriented\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to work in teams and coordinate their efforts to achieve their objectives\n\n## Mechanics & Benefit\nadditional +1 to Aid bonuses",
+    "notes": "[Modifier] +1 to Aid bonuses\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Aid bonuses",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -21220,15 +25220,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Practiced coordination in gang work, shift labor, and complex multi-person tasks.",
     "description": "Practiced coordination in gang work, shift labor, and complex multi-person tasks.",
-    "mechanics": "Practiced coordination in gang work, shift labor, and complex multi-person tasks.",
-    "mechanic": "Practiced coordination in gang work, shift labor, and complex multi-person tasks.",
+    "mechanics": "additional +1 to Aid bonuses",
+    "mechanic": "additional +1 to Aid bonuses",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Aid bonuses",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Aid bonuses"
+      }
+    ],
     "package_traits": [],
-    "body": "# Teamwork\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPracticed coordination in gang work, shift labor, and complex multi-person tasks.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Teamwork\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPracticed coordination in gang work, shift labor, and complex multi-person tasks.\n\n## Mechanics & Benefit\nadditional +1 to Aid bonuses",
+    "notes": "[Modifier] +1 to Aid bonuses\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Aid bonuses",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -21247,17 +25256,34 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Intimate familiarity with consumer neural nets, public datagrids, and ubiquitous urban tech.",
-    "description": "Intimate familiarity with consumer neural nets, public datagrids, and ubiquitous urban tech.",
-    "mechanics": "Intimate familiarity with consumer neural nets, public datagrids, and ubiquitous urban tech.",
-    "mechanic": "Intimate familiarity with consumer neural nets, public datagrids, and ubiquitous urban tech.",
+    "desc": "Everyday expertise with neural datalinks, cybernetic interfaces, personal comm-arrays, and citywide grids.",
+    "description": "Everyday expertise with neural datalinks, cybernetic interfaces, personal comm-arrays, and citywide grids.",
+    "mechanics": "+2 to Knowledges of Computer and Technology",
+    "mechanic": "+2 to Knowledges of Computer and Technology",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Knowledges of Computer",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Knowledges of Computer"
+      },
+      {
+        "target": "Technology",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Technology"
+      }
+    ],
     "package_traits": [],
-    "body": "# Tech-Savvy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nIntimate familiarity with consumer neural nets, public datagrids, and ubiquitous urban tech.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Tech-Savvy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nEveryday expertise with neural datalinks, cybernetic interfaces, personal comm-arrays, and citywide grids.\n\n## Mechanics & Benefit\n+2 to Knowledges of Computer and Technology",
+    "notes": "[Modifier] +2 to Knowledges of Computer\n[Modifier] +2 to Technology\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Knowledges of Computer",
+      "[Modifier] +2 to Technology",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -21278,15 +25304,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Deep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques",
     "description": "Deep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques",
-    "mechanics": "Deep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques",
-    "mechanic": "Deep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques",
+    "mechanics": "+2 Vocation Skill",
+    "mechanic": "+2 Vocation Skill",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Vocation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Vocation"
+      }
+    ],
     "package_traits": [],
-    "body": "# Technical Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nDeep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Technical Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nDeep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques\n\n## Mechanics & Benefit\n+2 Vocation Skill",
+    "notes": "[Modifier] +2 to Vocation\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Vocation",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -21305,17 +25340,42 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Practical hands-on maintenance for hardware, wiring, and mechanical assemblies.",
-    "description": "Practical hands-on maintenance for hardware, wiring, and mechanical assemblies.",
-    "mechanics": "Practical hands-on maintenance for hardware, wiring, and mechanical assemblies.",
-    "mechanic": "Practical hands-on maintenance for hardware, wiring, and mechanical assemblies.",
+    "desc": "Repairing air recyclers, EVA suits, and life-support units under extreme pressure.",
+    "description": "Repairing air recyclers, EVA suits, and life-support units under extreme pressure.",
+    "mechanics": "+1 to Mechanical, Electrical and Engineering Skill Checks",
+    "mechanic": "+1 to Mechanical, Electrical and Engineering Skill Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Mechanical",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Mechanical"
+      },
+      {
+        "target": "Electrical",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Electrical"
+      },
+      {
+        "target": "Engineering",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Engineering"
+      }
+    ],
     "package_traits": [],
-    "body": "# Technical Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPractical hands-on maintenance for hardware, wiring, and mechanical assemblies.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Technical Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nRepairing air recyclers, EVA suits, and life-support units under extreme pressure.\n\n## Mechanics & Benefit\n+1 to Mechanical, Electrical and Engineering Skill Checks",
+    "notes": "[Modifier] +1 to Mechanical\n[Modifier] +1 to Electrical\n[Modifier] +1 to Engineering\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Mechanical",
+      "[Modifier] +1 to Electrical",
+      "[Modifier] +1 to Engineering",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -21336,15 +25396,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Natural aptitude for understanding and operating advanced technology",
     "description": "Natural aptitude for understanding and operating advanced technology",
-    "mechanics": "Natural aptitude for understanding and operating advanced technology",
-    "mechanic": "Natural aptitude for understanding and operating advanced technology",
+    "mechanics": "+2 Technology Knowledge",
+    "mechanic": "+2 Technology Knowledge",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Technology Knowledge",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Technology Knowledge"
+      }
+    ],
     "package_traits": [],
-    "body": "# Technological Aptitude\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nNatural aptitude for understanding and operating advanced technology",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Technological Aptitude\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nNatural aptitude for understanding and operating advanced technology\n\n## Mechanics & Benefit\n+2 Technology Knowledge",
+    "notes": "[Modifier] +2 to Technology Knowledge\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Technology Knowledge",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -21365,15 +25434,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Able to create, adapt, and improve technology in novel ways.",
     "description": "Able to create, adapt, and improve technology in novel ways.",
-    "mechanics": "Able to create, adapt, and improve technology in novel ways.",
-    "mechanic": "Able to create, adapt, and improve technology in novel ways.",
+    "mechanics": "Knowledge (Technology) checks made at Advantage.",
+    "mechanic": "Knowledge (Technology) checks made at Advantage.",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Technological innovation Knowledge Technology",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Technological innovation Knowledge Technology Checks"
+      }
+    ],
     "package_traits": [],
-    "body": "# Technological innovation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to create, adapt, and improve technology in novel ways.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Technological innovation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to create, adapt, and improve technology in novel ways.\n\n## Mechanics & Benefit\nKnowledge (Technology) checks made at Advantage.",
+    "notes": "[Modifier] Advantage on Technological innovation Knowledge Technology Checks\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] Advantage on Technological innovation Knowledge Technology Checks",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -21394,15 +25472,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Proficiency in advanced technology",
     "description": "Proficiency in advanced technology",
-    "mechanics": "Proficiency in advanced technology",
-    "mechanic": "Proficiency in advanced technology",
+    "mechanics": "Additional +1 from Equipment Bonus and +2 Technology (Knowledge)",
+    "mechanic": "Additional +1 from Equipment Bonus and +2 Technology (Knowledge)",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Technology Knowledge Proficiency in advanced technology",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Technology Knowledge Proficiency in advanced technology"
+      }
+    ],
     "package_traits": [],
-    "body": "# Technological proficiency\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nProficiency in advanced technology",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Technological proficiency\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nProficiency in advanced technology\n\n## Mechanics & Benefit\nAdditional +1 from Equipment Bonus and +2 Technology (Knowledge)",
+    "notes": "[Modifier] +2 to Technology Knowledge Proficiency in advanced technology\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Technology Knowledge Proficiency in advanced technology",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -21423,15 +25510,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Familiarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons",
     "description": "Familiarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons",
-    "mechanics": "Familiarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons",
-    "mechanic": "Familiarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons",
+    "mechanics": "+2 Technology Knowledge",
+    "mechanic": "+2 Technology Knowledge",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Technology Knowledge",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Technology Knowledge"
+      }
+    ],
     "package_traits": [],
-    "body": "# Technology\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nFamiliarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Technology\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nFamiliarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons\n\n## Mechanics & Benefit\n+2 Technology Knowledge",
+    "notes": "[Modifier] +2 to Technology Knowledge\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Technology Knowledge",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -21481,8 +25577,8 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Scouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #",
     "description": "Scouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #",
-    "mechanics": "Scouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #",
-    "mechanic": "Scouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #",
+    "mechanics": "+2 to Stealth, Survival and Defense in chosen Terrain",
+    "mechanic": "+2 to Stealth, Survival and Defense in chosen Terrain",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
     "modifiers": [
@@ -21495,7 +25591,7 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Terrain Expert\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nScouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #",
+    "body": "# Terrain Expert\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nScouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #\n\n## Mechanics & Benefit\n+2 to Stealth, Survival and Defense in chosen Terrain",
     "notes": "[Modifier] +2 to Stealth\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
       "[Modifier] +2 to Stealth",
@@ -21607,24 +25703,32 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Tough and resilient, able to withstand harsh conditions, physical punishment, and grueling military training.",
     "description": "Tough and resilient, able to withstand harsh conditions, physical punishment, and grueling military training.",
-    "mechanics": "+2 bonus to all Stamina checks made to resist physical trauma, fatigue, and pain.",
-    "mechanic": "+2 bonus to all Stamina checks made to resist physical trauma, fatigue, and pain.",
+    "mechanics": "+1 Fortitude and Willpower Checks",
+    "mechanic": "+1 Fortitude and Willpower Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
     "modifiers": [
       {
-        "target": "Stamina",
-        "type": "skill",
-        "value": 2,
+        "target": "Fortitude",
+        "type": "save",
+        "value": 1,
         "mode": "inherent",
-        "description": "+2 to Stamina"
+        "description": "+1 on Fortitude Checks"
+      },
+      {
+        "target": "Willpower",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Willpower"
       }
     ],
     "package_traits": [],
-    "body": "# Tough\n\n**Category**: TRAITS  \n**Tier**: Basic  \n**Type**: Origin Trait  \n**CP Cost**: 1  \n\n## Description\nTough and resilient, able to withstand harsh conditions, physical punishment, and grueling military training.\n\n## Mechanics\n+2 bonus to all Stamina checks made to resist physical trauma, fatigue, and pain.",
-    "notes": "[Modifier] +2 to Stamina\n[Rule] Basic Origin Trait (1 CP).\n[Prerequisite] Stamina 1",
+    "body": "# Tough\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nTough and resilient, able to withstand harsh conditions, physical punishment, and grueling military training.\n\n## Mechanics & Benefit\n+1 Fortitude and Willpower Checks",
+    "notes": "[Modifier] +1 on Fortitude Checks\n[Modifier] +1 to Willpower\n[Rule] Basic Origin Trait (1 CP).\n[Prerequisite] Stamina 1",
     "notesList": [
-      "[Modifier] +2 to Stamina",
+      "[Modifier] +1 on Fortitude Checks",
+      "[Modifier] +1 to Willpower",
       "[Rule] Basic Origin Trait (1 CP).",
       "[Prerequisite] Stamina 1"
     ]
@@ -21644,17 +25748,34 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Physical endurance and psychological grit hardened by harsh living conditions.",
-    "description": "Physical endurance and psychological grit hardened by harsh living conditions.",
-    "mechanics": "Physical endurance and psychological grit hardened by harsh living conditions.",
-    "mechanic": "Physical endurance and psychological grit hardened by harsh living conditions.",
+    "desc": "Withstanding microgravity bone loss, cosmic radiation exposure, and rapid cabin pressure fluctuations.",
+    "description": "Withstanding microgravity bone loss, cosmic radiation exposure, and rapid cabin pressure fluctuations.",
+    "mechanics": "+1 Fortitude and Willpower Checks",
+    "mechanic": "+1 Fortitude and Willpower Checks",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Fortitude",
+        "type": "save",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 on Fortitude Checks"
+      },
+      {
+        "target": "Willpower",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Willpower"
+      }
+    ],
     "package_traits": [],
-    "body": "# Toughness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPhysical endurance and psychological grit hardened by harsh living conditions.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Toughness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nWithstanding microgravity bone loss, cosmic radiation exposure, and rapid cabin pressure fluctuations.\n\n## Mechanics & Benefit\n+1 Fortitude and Willpower Checks",
+    "notes": "[Modifier] +1 on Fortitude Checks\n[Modifier] +1 to Willpower\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 on Fortitude Checks",
+      "[Modifier] +1 to Willpower",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -21734,15 +25855,32 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *+2 Piloting and Navigation*  #",
     "description": "Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *+2 Piloting and Navigation*  #",
-    "mechanics": "Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *+2 Piloting and Navigation*  #",
-    "mechanic": "Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *+2 Piloting and Navigation*  #",
+    "mechanics": "+2 Piloting and Navigation",
+    "mechanic": "+2 Piloting and Navigation",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Piloting",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Piloting"
+      },
+      {
+        "target": "Navigation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Navigation"
+      }
+    ],
     "package_traits": [],
-    "body": "# Travel\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nPiloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *+2 Piloting and Navigation*  #",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Travel\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nPiloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *+2 Piloting and Navigation*  #\n\n## Mechanics & Benefit\n+2 Piloting and Navigation",
+    "notes": "[Modifier] +2 to Piloting\n[Modifier] +2 to Navigation\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Piloting",
+      "[Modifier] +2 to Navigation",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -21822,8 +25960,8 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Unpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *+2 Initiative* #",
     "description": "Unpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *+2 Initiative* #",
-    "mechanics": "Unpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *+2 Initiative* #",
-    "mechanic": "Unpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *+2 Initiative* #",
+    "mechanics": "+2 Initiative",
+    "mechanic": "+2 Initiative",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
     "modifiers": [
@@ -21836,7 +25974,7 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Unpredictability\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nUnpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *+2 Initiative* #",
+    "body": "# Unpredictability\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nUnpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *+2 Initiative* #\n\n## Mechanics & Benefit\n+2 Initiative",
     "notes": "[Modifier] +2 Initiative\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
       "[Modifier] +2 Initiative",
@@ -21858,17 +25996,34 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Parkour roof-running, subway tunneling, and vanishing into thick metropolitan crowds.",
-    "description": "Parkour roof-running, subway tunneling, and vanishing into thick metropolitan crowds.",
-    "mechanics": "Parkour roof-running, subway tunneling, and vanishing into thick metropolitan crowds.",
-    "mechanic": "Parkour roof-running, subway tunneling, and vanishing into thick metropolitan crowds.",
+    "desc": "Acrobatic freerunning across neon rooftops, blending invisibly into crowds, and evasion of police drones.",
+    "description": "Acrobatic freerunning across neon rooftops, blending invisibly into crowds, and evasion of police drones.",
+    "mechanics": "+2 Athletics and Stealth Skills (in Urban and developed areas)",
+    "mechanic": "+2 Athletics and Stealth Skills (in Urban and developed areas)",
     "rules": "Basic Origin Trait (1 CP).",
     "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Athletics"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Stealth"
+      }
+    ],
     "package_traits": [],
-    "body": "# Urban Survival\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nParkour roof-running, subway tunneling, and vanishing into thick metropolitan crowds.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Urban Survival\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nAcrobatic freerunning across neon rooftops, blending invisibly into crowds, and evasion of police drones.\n\n## Mechanics & Benefit\n+2 Athletics and Stealth Skills (in Urban and developed areas)",
+    "notes": "[Modifier] +2 to Athletics\n[Modifier] +2 to Stealth\n[Rule] Basic Origin Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Athletics",
+      "[Modifier] +2 to Stealth",
       "[Rule] Basic Origin Trait (1 CP)."
     ]
   },
@@ -21893,11 +26048,28 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "+2 racial bonus on Diplomacy and Sense Motive checks.",
     "rules": "Basic Species Trait (1 CP).",
     "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Diplomacy",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Diplomacy"
+      },
+      {
+        "target": "Insight",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Insight"
+      }
+    ],
     "package_traits": [],
-    "body": "# Urbanite\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 racial bonus on Diplomacy and Sense Motive checks.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Urbanite\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 racial bonus on Diplomacy and Sense Motive checks.\n\n## Mechanics & Benefit\n+2 racial bonus on Diplomacy and Sense Motive checks.",
+    "notes": "[Modifier] +2 to Diplomacy\n[Modifier] +2 to Insight\n[Rule] Basic Species Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 to Diplomacy",
+      "[Modifier] +2 to Insight",
       "[Rule] Basic Species Trait (1 CP)."
     ]
   },
@@ -22062,8 +26234,8 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Has strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #",
     "description": "Has strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #",
-    "mechanics": "Has strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #",
-    "mechanic": "Has strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #",
+    "mechanics": "+2 Equipment (Hideout) and +1 Wealth",
+    "mechanic": "+2 Equipment (Hideout) and +1 Wealth",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
     "modifiers": [
@@ -22076,7 +26248,7 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Venues\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHas strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #",
+    "body": "# Venues\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHas strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #\n\n## Mechanics & Benefit\n+2 Equipment (Hideout) and +1 Wealth",
     "notes": "[Modifier] +1 Wealth Score\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
       "[Modifier] +1 Wealth Score",
@@ -22100,15 +26272,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Able to operate in a variety of environments, including underwater and in zero-gravity",
     "description": "Able to operate in a variety of environments, including underwater and in zero-gravity",
-    "mechanics": "Able to operate in a variety of environments, including underwater and in zero-gravity",
-    "mechanic": "Able to operate in a variety of environments, including underwater and in zero-gravity",
+    "mechanics": "+1 Karma Point",
+    "mechanic": "+1 Karma Point",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Karma Pool"
+      }
+    ],
     "package_traits": [],
-    "body": "# Versatile\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to operate in a variety of environments, including underwater and in zero-gravity",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Versatile\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to operate in a variety of environments, including underwater and in zero-gravity\n\n## Mechanics & Benefit\n+1 Karma Point",
+    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +1 to Karma Pool",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -22217,15 +26398,24 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Equipped with the latest technology and weaponry   *+2 Equipment* #",
     "description": "Equipped with the latest technology and weaponry   *+2 Equipment* #",
-    "mechanics": "Equipped with the latest technology and weaponry   *+2 Equipment* #",
-    "mechanic": "Equipped with the latest technology and weaponry   *+2 Equipment* #",
+    "mechanics": "+2 Equipment",
+    "mechanic": "+2 Equipment",
     "rules": "Basic Occupational Trait (1 CP).",
     "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "equipment-bonus",
+        "type": "combat",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 Equipment"
+      }
+    ],
     "package_traits": [],
-    "body": "# Well-Equipped\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nEquipped with the latest technology and weaponry   *+2 Equipment* #",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Well-Equipped\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nEquipped with the latest technology and weaponry   *+2 Equipment* #\n\n## Mechanics & Benefit\n+2 Equipment",
+    "notes": "[Modifier] +2 Equipment\n[Rule] Basic Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 Equipment",
       "[Rule] Basic Occupational Trait (1 CP)."
     ]
   },
@@ -22359,4 +26549,3 @@ export const getEnrichedTraitData = (trait) => {
     modifiers
   };
 };
-

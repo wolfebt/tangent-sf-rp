@@ -10,14 +10,22 @@ costs:
 description: >-
   Combined endoskeleton and exoskeleton providing natural Damage Reduction (DR
   +5).
-modifiers: []
+modifiers:
+  - target: armor-dr
+    type: combat
+    value: 5
+    mode: inherent
+    description: +5 DR
 ---
 # Dual Skeletal Structure
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-A sophisticated dual-skeletal framework uniting an articulated internal endoskeleton with a segmented outer chitinous shell, providing natural DR +5 against all physical and kinetic trauma.
+Combined endoskeleton and exoskeleton providing natural Damage Reduction (DR +5).
+
+## Mechanics & Benefit
+Combined endoskeleton and exoskeleton providing natural Damage Reduction (DR +5).

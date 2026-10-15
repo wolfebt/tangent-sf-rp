@@ -9,6 +9,7 @@ costs:
   bp: 1
 description: Experience with breaking and entering into secure locations
 modifiers: []
+mechanic: +2 all checks to the Infiltration of a physical location
 ---
 # B&E
 
@@ -19,3 +20,6 @@ modifiers: []
 
 ## Description
 Experience with breaking and entering into secure locations
+
+## Mechanics & Benefit
++2 all checks to the Infiltration of a physical location

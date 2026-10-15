@@ -8,7 +8,17 @@ costs:
   cp: 4
   bp: 4
 description: 'Six legged, +8 Stability, +20 movement speed. Special Accommodations.'
-modifiers: []
+modifiers:
+  - target: Stability
+    type: combat
+    value: 8
+    mode: inherent
+    description: +8 Stability
+  - target: move-walk
+    type: combat
+    value: 20
+    mode: inherent
+    description: +20 movement
 ---
 # Hexapedal
 
@@ -18,4 +28,7 @@ modifiers: []
 **CP Cost**: 4
 
 ## Description
+Six legged, +8 Stability, +20 movement speed. Special Accommodations.
+
+## Mechanics & Benefit
 Six legged, +8 Stability, +20 movement speed. Special Accommodations.

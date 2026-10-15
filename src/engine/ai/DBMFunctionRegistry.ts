@@ -1,11 +1,11 @@
-﻿/**
+/**
  * @file DBMFunctionRegistry.ts
  * @description Stage 7 Inter-AI Tool Calling & DBM Function Registry.
  * Provides Gemini tool declarations and client-side execution dispatchers enabling
  * AIME and BASTION to cross-consult on statblocks, combat odds, called shots, and Omnicortex lore.
  */
 
-import { BastionAgent } from './BastionAgent';
+import { BastionAgent } from './BastionAgent.ts';
 
 export interface FunctionCallDefinition {
   name: string;
@@ -105,23 +105,55 @@ export class DBMFunctionRegistryService {
       }
 
       case 'resolve_called_shot': {
-        const { targetLocation, incomingDamage, armorDr } = tool.args;
+        const { targetLocation, incomingDamage, armorDr, targetMaxHp = 30 } = tool.args;
         const netDamage = Math.max(0, incomingDamage - armorDr);
-        let traumaEffect = 'No major trauma';
+        const disabledThreshold = Math.ceil(targetMaxHp / 3);
+        const destroyedThreshold = Math.ceil((targetMaxHp * 2) / 3);
 
+        const penaltyMap: Record<string, number> = {
+          torso: 0,
+          head: -2,
+          arms: -2,
+          limbs: -1,
+          legs: -1,
+          sensors: -3,
+          optics: -3
+        };
+        const saveMap: Record<string, string> = {
+          head: 'Reason Save vs Damage',
+          torso: 'Fortitude Save vs Damage',
+          arms: 'Reflex Save vs Damage',
+          limbs: 'Might Save vs Damage',
+          legs: 'Might Save vs Damage',
+          sensors: 'Reason Save vs Damage',
+          optics: 'Reason Save vs Damage'
+        };
+
+        let traumaEffect = 'No major trauma';
         if (targetLocation === 'head' && netDamage > 8) {
           traumaEffect = 'Concussion / Sensory Disorientation (-2 to all actions)';
-        } else if (targetLocation === 'limbs' && netDamage > 6) {
-          traumaEffect = 'Locomotive Impairment (Movement speed halved)';
-        } else if (targetLocation === 'sensors' && netDamage > 4) {
-          traumaEffect = 'Sensor Blindness (Loss of target tracking)';
+        } else if ((targetLocation === 'limbs' || targetLocation === 'legs' || targetLocation === 'arms') && netDamage > 6) {
+          traumaEffect = 'Locomotive / Limb Impairment (Movement speed halved or -4 attack)';
+        } else if ((targetLocation === 'sensors' || targetLocation === 'optics') && netDamage > 4) {
+          traumaEffect = 'Sensor Blindness (Loss of target tracking, -4 ranged checks)';
         }
+
+        const limbStatus = netDamage >= destroyedThreshold
+          ? 'DESTROYED'
+          : netDamage >= disabledThreshold
+            ? 'DISABLED'
+            : 'INTACT';
 
         return {
           netDamage,
           targetLocation,
+          attackPenalty: penaltyMap[targetLocation] ?? -2,
+          saveRequired: saveMap[targetLocation] ?? 'Fortitude Save vs Damage',
+          limbStatus,
+          disabledThreshold,
+          destroyedThreshold,
           traumaEffect,
-          requiresMajorWoundCheck: netDamage >= 10
+          requiresMajorWoundCheck: netDamage >= disabledThreshold
         };
       }
 

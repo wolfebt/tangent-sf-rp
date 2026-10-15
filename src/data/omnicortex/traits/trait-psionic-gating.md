@@ -10,14 +10,22 @@ costs:
 description: >-
   The mind is harmonized with the cryptographic frequency filters of the Chorus,
   imposing Disadvantage on foreign psionic intrusions.
-modifiers: []
+modifiers:
+  - target: Foreign psionic intrusions
+    type: check_advantage
+    value: 1
+    mode: inherent
+    description: Advantage on Foreign psionic intrusions Checks
 ---
 # Psionic Gating
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Operating within the carrier frequency of the Chorus, the operative receives +2 Mental DR and forces hostile telepathic scans and psychic intrusions to roll with Disadvantage.
+The mind is harmonized with the cryptographic frequency filters of the Chorus, imposing Disadvantage on foreign psionic intrusions.
+
+## Mechanics & Benefit
+The mind is harmonized with the cryptographic frequency filters of the Chorus, imposing Disadvantage on foreign psionic intrusions.

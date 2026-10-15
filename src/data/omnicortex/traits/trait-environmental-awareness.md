@@ -8,9 +8,10 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  Attuned to ambient shifts in barometric pressure, water currents, temperature,
-  and atmospheric toxicity.
+  Highly attuned to ocean currents, pressure gradients, thermal vents, and
+  atmospheric shifts affecting survival.
 modifiers: []
+mechanic: +2 Alertness
 ---
 # Environmental Awareness
 
@@ -20,4 +21,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Attuned to ambient shifts in barometric pressure, water currents, temperature, and atmospheric toxicity.
+Highly attuned to ocean currents, pressure gradients, thermal vents, and atmospheric shifts affecting survival.
+
+## Mechanics & Benefit
++2 Alertness

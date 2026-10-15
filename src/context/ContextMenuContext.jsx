@@ -130,21 +130,33 @@ export const ContextMenuProvider = ({ children }) => {
     });
 
     try {
-      const apiKey = getGeminiApiKey();
-      if (!apiKey) {
-        throw new Error('No Gemini API Key found. Configure your API key in Settings (⚙️) to activate BASTION Tactical AI.');
-      }
-
       let generatedResult = '';
+      let rawGeneratedFields = null;
 
-      if (isAutofill && targetEntry && dbmContext?.currentCategoryConfig) {
-        // Use selective field generation
-        const fields = await generateSelectiveFields({
-          currentConfig: dbmContext.currentCategoryConfig,
-          editFormData: targetEntry,
-          targetFields: ['description', 'mechanic', 'guide', 'note']
+      if (isAutofill && targetEntry) {
+        const candidateFields = ['description', 'mechanic', 'guide', 'note'];
+        const missingFields = candidateFields.filter(f => {
+          const val = targetEntry[f];
+          return val === undefined || val === null || String(val).trim() === '';
         });
-        generatedResult = fields;
+        const selectedFields = missingFields.length > 0 ? missingFields : candidateFields;
+
+        const fieldsRes = await generateSelectiveFields({
+          selectedFields,
+          currentValues: targetEntry,
+          userPrompt: prompt || `Fill in missing mechanical descriptions and tactical notes for ${targetEntry.name || targetEntry.title || 'this entry'}.`,
+          elementType: dbmContext?.currentCategoryConfig?.label || 'Element',
+          currentConfig: dbmContext?.currentCategoryConfig,
+          editFormData: targetEntry,
+          targetFields: selectedFields
+        });
+
+        if (fieldsRes && fieldsRes.success === false) {
+          throw new Error(fieldsRes.error || 'BASTION selective field generation failed.');
+        }
+
+        rawGeneratedFields = fieldsRes?.generated || fieldsRes?.data || fieldsRes;
+        generatedResult = rawGeneratedFields;
       } else {
         const response = await sendBastionChatMessage({
           prompt,
@@ -157,11 +169,12 @@ export const ContextMenuProvider = ({ children }) => {
         ...prev,
         isLoading: false,
         result: generatedResult,
-        onApply: applyTarget ? (res) => {
+        onApply: (applyTarget || isAutofill) ? (res) => {
           if (applyTarget === 'bio' && folioContext?.updateIdentity) {
             folioContext.updateIdentity('concept', res);
           } else if (isAutofill && dbmContext?.saveEntry && targetEntry) {
-            dbmContext.saveEntry({ ...targetEntry, ...generatedResult });
+            const payloadToMerge = rawGeneratedFields || res?.generated || res?.data || (typeof res === 'object' ? res : {});
+            dbmContext.saveEntry({ ...targetEntry, ...payloadToMerge });
           }
         } : null
       }));

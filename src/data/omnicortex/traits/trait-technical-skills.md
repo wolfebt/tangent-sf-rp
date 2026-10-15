@@ -8,9 +8,25 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  Practical hands-on maintenance for hardware, wiring, and mechanical
-  assemblies.
-modifiers: []
+  Repairing air recyclers, EVA suits, and life-support units under extreme
+  pressure.
+modifiers:
+  - target: Mechanical
+    type: skill
+    value: 1
+    mode: inherent
+    description: +1 to Mechanical
+  - target: Electrical
+    type: skill
+    value: 1
+    mode: inherent
+    description: +1 to Electrical
+  - target: Engineering
+    type: skill
+    value: 1
+    mode: inherent
+    description: +1 to Engineering
+mechanic: '+1 to Mechanical, Electrical and Engineering Skill Checks'
 ---
 # Technical Skills
 
@@ -20,4 +36,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Practical hands-on maintenance for hardware, wiring, and mechanical assemblies.
+Repairing air recyclers, EVA suits, and life-support units under extreme pressure.
+
+## Mechanics & Benefit
++1 to Mechanical, Electrical and Engineering Skill Checks

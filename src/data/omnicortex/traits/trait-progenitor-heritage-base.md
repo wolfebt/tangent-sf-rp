@@ -8,7 +8,22 @@ costs:
   cp: 26
   bp: 26
 description: The godlike chassis of the cosmic precursor architects.
-modifiers: []
+modifiers:
+  - target: All Disciplines
+    value: 6
+    type: discipline
+    mode: inherent
+    description: Awakened x6 across all metaphysical disciplines
+  - target: Telepathy
+    value: 1
+    type: special_ability
+    mode: inherent
+    description: 'Mind Speech / Telepathy [2 CP]'
+  - target: Telekinesis
+    value: 1
+    type: special_ability
+    mode: inherent
+    description: 'Telekinesis [2 CP]'
 package_traits:
   - id: trait-awakened-all
     name: Awakened x6 (Omni-Discipline Metaphysics)
@@ -65,22 +80,13 @@ package_traits:
 ---
 # Progenitor Heritage Base
 
-**Category**: TRAITS  
-**Tier**: Elite  
-**Type**: Species Trait  
-**CP Cost**: 26  
+**Category**: TRAITS
+**Tier**: Elite
+**Type**: Species Trait
+**CP Cost**: 26
 
 ## Description
 The godlike chassis of the cosmic precursor architects.
 
-## Mechanics
-Includes Awakened x6 across all metaphysical disciplines [12 CP], Mind Speech / Telepathy [2 CP], Telekinesis [2 CP], Fast Heal [2 CP], Regeneration [2 CP], Ageless [2 CP], and Immortal [4 CP]. Total package value: 26 CP.
-
-## Packaged Traits Sublist
-* **Awakened x6 (Omni-Discipline Metaphysics)** [12 CP / Advanced]: Total mastery across all 6 metaphysical traditions (Arcane, Cosmic, Dimension, Nature, Psychic, Void).
-* **Mind Speech (Telepathy)** [2 CP / Advanced]: Unbounded telepathic communication to any subject within 500 ft.
-* **Telekinesis** [2 CP / Advanced]: Effortless cognitive manipulation of matter and physical force at distance.
-* **Fast Heal** [2 CP / Advanced]: Rapid recovery of Health and Vitality during short respite.
-* **Regeneration** [2 CP / Advanced]: Continuous cell restoration; regrows severed limbs, organs, and tissues over time.
-* **Ageless** [2 CP / Advanced]: Immortal lifespan immune to physical deterioration, aging penalties, or senility.
-* **Immortal** [4 CP / Elite]: Cannot die of natural causes; completely immune to biological toxins and pathogens.
+## Mechanics & Benefit
+The godlike chassis of the cosmic precursor architects.

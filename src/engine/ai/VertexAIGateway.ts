@@ -26,7 +26,7 @@ export interface AIGatewayResponse<T = any> {
 }
 
 class VertexAIGatewayService {
-  private endpointUrl: string = '/api/ai/vertex-proxy';
+  private endpointUrl: string = '/geminiProxy';
   private appCheckToken: string | null = null;
   private authToken: string | null = null;
   private requestCount: number = 0;
@@ -36,6 +36,12 @@ class VertexAIGatewayService {
   public setTokens(appCheckToken: string | null, authToken: string | null) {
     this.appCheckToken = appCheckToken;
     this.authToken = authToken;
+  }
+
+  public setEndpointUrl(url: string) {
+    if (url && url.trim()) {
+      this.endpointUrl = url.trim();
+    }
   }
 
   /**
@@ -55,7 +61,7 @@ class VertexAIGatewayService {
   }
 
   /**
-   * Dispatches a structured prompt to Gemini Vertex AI via Cloud Function proxy.
+   * Dispatches a structured prompt to Gemini via Cloud Function proxy (geminiProxy).
    */
   public async generateContent<T = any>(
     prompt: string,
@@ -83,34 +89,60 @@ class VertexAIGatewayService {
     }
 
     try {
-      // In web browser environment, attempt fetch to Cloud Function proxy
+      const generationConfig: Record<string, any> = {
+        temperature: options.temperature ?? 0.7,
+        maxOutputTokens: options.maxOutputTokens ?? 2048
+      };
+      if (options.responseMimeType) {
+        generationConfig.responseMimeType = options.responseMimeType;
+      }
+      if (options.responseSchema) {
+        generationConfig.responseSchema = options.responseSchema;
+      }
+
       const response = await fetch(this.endpointUrl, {
         method: 'POST',
         headers,
         body: JSON.stringify({
           prompt,
-          model: options.model || 'gemini-1.5-flash',
+          model: options.model || 'gemini-2.0-flash',
           temperature: options.temperature ?? 0.7,
           maxOutputTokens: options.maxOutputTokens ?? 2048,
           responseMimeType: options.responseMimeType || 'text/plain',
           responseSchema: options.responseSchema,
+          generationConfig,
           tools: options.tools
         })
       });
 
       if (!response.ok) {
-        if (response.status === 403) {
-          console.warn('[VertexAIGateway] 403 Forbidden - AppCheck or Auth missing. Falling back to simulation.');
+        if (response.status === 401 || response.status === 403) {
+          console.warn('[VertexAIGateway] Auth/AppCheck missing or rejected. Falling back to simulation.');
           return this.fallbackSimulation<T>(prompt, options, startTime);
         }
         throw new Error(`HTTP error ${response.status}: ${response.statusText}`);
       }
 
       const json = await response.json();
+      const candidateText = json?.candidates?.[0]?.content?.parts?.[0]?.text;
+      let parsedData = json.data;
+      if (!parsedData && candidateText) {
+        if (options.responseMimeType === 'application/json') {
+          try {
+            const clean = candidateText.replace(/^```json\s*/i, '').replace(/```$/i, '').trim();
+            parsedData = JSON.parse(clean);
+          } catch {
+            parsedData = candidateText;
+          }
+        } else {
+          parsedData = candidateText;
+        }
+      }
+
       return {
         success: true,
-        data: json.data,
-        text: json.text || (typeof json.data === 'string' ? json.data : JSON.stringify(json.data)),
+        data: parsedData,
+        text: json.text || candidateText || (typeof parsedData === 'string' ? parsedData : JSON.stringify(parsedData)),
         isSimulated: false,
         latencyMs: Math.round(performance.now() - startTime)
       };
@@ -135,8 +167,25 @@ class VertexAIGatewayService {
       fallbackData = {
         name: 'Synthesized Operative',
         species: 'Human',
-        stats: { strength: 12, agility: 14, intellect: 13, perception: 15, willpower: 11, tech: 14 },
-        skills: { Firearms: 4, Electronics: 3, Athletics: 2, Perception: 3 },
+        attributes: { strength: 3, agility: 4, stamina: 3, intellect: 2, wisdom: 3, charisma: 3 },
+        stats: { strength: 3, agility: 4, stamina: 3, intellect: 2, wisdom: 3, charisma: 3 },
+        skills: {
+          Firearms: 5,
+          Athletics: 5,
+          Perception: 4,
+          Electronics: 4,
+          Stealth: 4,
+          FirstAid: 4,
+          Demolitions: 4,
+          Piloting: 4,
+          Survival: 4,
+          Melee: 5,
+          Engineering: 4,
+          Tactics: 4,
+          Medicine: 4,
+          Security: 5
+        },
+        vitals: { health: 30, vitality: 30, structure: 60 },
         totalBp: 150,
         isValid: true
       };

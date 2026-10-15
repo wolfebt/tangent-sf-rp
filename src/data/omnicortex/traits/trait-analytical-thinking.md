@@ -8,9 +8,15 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  Systematic data deconstruction, statistical pattern recognition, and logical
-  analysis.
-modifiers: []
+  Analyzing complex telemetry, identifying cryptographic patterns, and drawing
+  rigorous empirical conclusions.
+modifiers:
+  - target: Logic
+    type: save
+    value: 2
+    mode: inherent
+    description: +2 on Logic Checks
+mechanic: +2 Logic Checks
 ---
 # Analytical Thinking
 
@@ -20,4 +26,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Systematic data deconstruction, statistical pattern recognition, and logical analysis.
+Analyzing complex telemetry, identifying cryptographic patterns, and drawing rigorous empirical conclusions.
+
+## Mechanics & Benefit
++2 Logic Checks

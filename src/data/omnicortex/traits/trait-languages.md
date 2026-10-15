@@ -8,7 +8,13 @@ costs:
   cp: 1
   bp: 1
 description: Fluency in multiple languages
-modifiers: []
+modifiers:
+  - target: Linguistic Knowledge Fluency in multiple languages
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Linguistic Knowledge Fluency in multiple languages
+mechanic: +2 Linguistic Knowledge
 ---
 # Languages
 
@@ -19,3 +25,6 @@ modifiers: []
 
 ## Description
 Fluency in multiple languages
+
+## Mechanics & Benefit
++2 Linguistic Knowledge

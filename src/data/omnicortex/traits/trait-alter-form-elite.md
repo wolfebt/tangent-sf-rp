@@ -8,7 +8,12 @@ costs:
   cp: 4
   bp: 4
 description: 'Base Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.'
-modifiers: []
+modifiers:
+  - target: Disguise
+    type: skill
+    value: 10
+    mode: inherent
+    description: +10 to Disguise
 ---
 # Alter Form (Elite)
 
@@ -18,4 +23,7 @@ modifiers: []
 **CP Cost**: 4
 
 ## Description
+Base Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.
+
+## Mechanics & Benefit
 Base Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.

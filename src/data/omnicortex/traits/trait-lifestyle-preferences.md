@@ -10,7 +10,13 @@ costs:
 description: >-
   Refined aesthetic tastes and familiarity with high-society etiquette and
   luxury commerce.
-modifiers: []
+modifiers:
+  - target: Wealth
+    type: wealth
+    value: 1
+    mode: inherent
+    description: +1 Wealth Score
+mechanic: +1 Wealth and +1 Diplomacy
 ---
 # Lifestyle Preferences
 
@@ -21,3 +27,6 @@ modifiers: []
 
 ## Description
 Refined aesthetic tastes and familiarity with high-society etiquette and luxury commerce.
+
+## Mechanics & Benefit
++1 Wealth and +1 Diplomacy

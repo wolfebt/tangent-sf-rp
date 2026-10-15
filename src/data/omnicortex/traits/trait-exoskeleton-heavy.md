@@ -10,7 +10,12 @@ costs:
 description: >-
   DR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or
   Shell.
-modifiers: []
+modifiers:
+  - target: armor-dr
+    value: 8
+    type: combat
+    mode: inherent
+    description: +8 Natural DR (Heavy Exoskeleton)
 ---
 # Exoskeleton (Heavy)
 
@@ -20,4 +25,7 @@ modifiers: []
 **CP Cost**: 4
 
 ## Description
+DR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell.
+
+## Mechanics & Benefit
 DR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell.

@@ -8,14 +8,27 @@ costs:
   cp: 2
   bp: 2
 description: +10 feet to Base Movement Speed and +1 to Initiative.
-modifiers: []
+modifiers:
+  - target: initiative-mod
+    type: combat
+    value: 1
+    mode: inherent
+    description: +1 Initiative
+  - target: Initiative
+    type: skill
+    value: 1
+    mode: inherent
+    description: +1 to Initiative
 ---
 # Quick
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Naturally fleet and reactive reflexes grant +10 feet to Base Movement Speed and a +1 bonus to Initiative checks.
++10 feet to Base Movement Speed and +1 to Initiative.
+
+## Mechanics & Benefit
++10 feet to Base Movement Speed and +1 to Initiative.

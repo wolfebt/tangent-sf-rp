@@ -68,12 +68,30 @@ export function parseModifiersFromText(name = '', text = '', body = '') {
     }
   };
 
-  // 1. Saving Throw Bonuses & Penalties (e.g., "+2 bonus on all Fortitude Checks", "-2 to Will saves")
-  const saveRegex = /([+-]?\d+)\s*(?:bonus|penalty)?\s*(?:on|to)\s*(?:all\s*)?(Fortitude|Reflex|Will|Willpower|Concentration)\s*(?:Checks?|Saves?)/gi;
+  // 1. All Saving Throws (e.g., "+1 racial bonus on all saving throws", "+2 bonus to all saves")
+  const allSavesRegex = /([+-]?\d+)\s*(?:racial|dodge|competence|trained|inherent)?\s*(?:bonus|penalty)?\s*(?:on|to)\s*all\s*(?:saving\s*throws?|saves?)/gi;
   let match;
+  while ((match = allSavesRegex.exec(combined)) !== null) {
+    const val = parseInt(match[1], 10);
+    if (!isNaN(val)) {
+      ['Fortitude', 'Reflex', 'Will'].forEach(target => {
+        addMod({
+          target,
+          type: 'save',
+          value: val,
+          mode: 'inherent',
+          description: `${val >= 0 ? '+' : ''}${val} on all saving throws`
+        });
+      });
+    }
+  }
+
+  // 2. Specific Saving Throw Bonuses & Penalties (e.g., "+2 bonus on all Fortitude Checks", "+2 Willpower", "+2 Logic Checks", "+2 Might Checks")
+  const saveRegex = /([+-]?\d+)\s*(?:racial|dodge|competence|trained|inherent)?\s*(?:bonus|penalty)?\s*(?:on|to)?\s*(?:all\s*)?(Fortitude|Reflex|Will|Willpower|Concentration|Reaction|Might|Logic|Reason)\s*(?:Checks?|Saves?)?/gi;
   while ((match = saveRegex.exec(combined)) !== null) {
     const val = parseInt(match[1], 10);
-    const target = SAVE_TARGETS[match[2].toLowerCase()] || match[2];
+    const rawTarget = match[2].toLowerCase();
+    const target = SAVE_TARGETS[rawTarget] || (match[2].charAt(0).toUpperCase() + match[2].slice(1));
     if (!isNaN(val)) {
       addMod({
         target,
@@ -85,22 +103,83 @@ export function parseModifiersFromText(name = '', text = '', body = '') {
     }
   }
 
-  // 2. Advantage / Disadvantage on Checks / Saves
-  const advRegex = /(?:roll|gain|make)\s*(?:all\s*)?(?:checks?\s*with\s*Advantage|Advantage\s*on\s*(?:all\s*)?(Fortitude|Reflex|Will|Willpower|Logic|Memory)\s*checks?|(Fortitude|Reflex|Will|Willpower|Logic|Memory)\s*checks?\s*(?:with|at)\s*Advantage)/gi;
+  // 3. Advantage / Disadvantage on Checks / Saves
+  const advOnRegex = /(?:roll|gain|make)?\s*Advantage\s+on\s+(?:all\s*)?(?:a\s*)?(?:single\s*)?([A-Za-z\s/,&-]+?)\s*(?:checks?|saves?|actions?|rolls?|\.|$)/gi;
   let advMatch;
-  while ((advMatch = advRegex.exec(combined)) !== null) {
-    const rawTarget = advMatch[1] || advMatch[2];
-    if (rawTarget) {
-      const isSave = ['fortitude', 'reflex', 'will', 'willpower'].includes(rawTarget.toLowerCase());
-      const target = SAVE_TARGETS[rawTarget.toLowerCase()] || rawTarget;
+  while ((advMatch = advOnRegex.exec(combined)) !== null) {
+    const rawTarget = advMatch[1].trim();
+    if (rawTarget && rawTarget.length >= 3 && rawTarget.length <= 50 && !['all', 'each', 'any', 'one'].includes(rawTarget.toLowerCase())) {
+      let target = rawTarget;
+      let isSave = ['fortitude', 'reflex', 'will', 'willpower', 'domination', 'mind-control'].some(s => rawTarget.toLowerCase().includes(s));
+      if (/domination|mind-control/i.test(rawTarget)) {
+        target = 'Will';
+        isSave = true;
+      } else {
+        target = SAVE_TARGETS[rawTarget.toLowerCase()] || (rawTarget.charAt(0).toUpperCase() + rawTarget.slice(1));
+      }
+      if (target === 'Perception') target = 'Alertness';
+      if (target === 'Sense Motive') target = 'Insight';
+      if (target === 'Linguistics') target = 'Language';
+      if (target === 'Swim' || target === 'Swimming') target = 'Athletics';
       addMod({
         target,
         type: isSave ? 'save_advantage' : 'check_advantage',
         value: 1,
         mode: 'inherent',
-        description: `Advantage on ${rawTarget} Checks`
+        description: `Advantage on ${target} Checks`
       });
     }
+  }
+
+  const targetAdvRegex = /(?:all\s+)?(?:checks\s+involving\s+)?([A-Za-z/&-]+(?:\s+[A-Za-z/&-]+){0,3})\s+(?:checks?|saves?|resistance\s+checks?)\s*(?:are\s+|may\s+be\s+)?(?:made\s+)?(?:with|at)\s+Advantage/gi;
+  while ((advMatch = targetAdvRegex.exec(combined)) !== null) {
+    const rawTarget = advMatch[1].replace(/^(?:you\s+|may\s+|roll\s+|make\s+|take\s+|your\s+|their\s+|a\s+|all\s+)+/i, '').trim();
+    if (rawTarget && rawTarget.length >= 3 && rawTarget.length <= 50 && !['all', 'each', 'any', 'one', 'a'].includes(rawTarget.toLowerCase())) {
+      let target = rawTarget;
+      let isSave = ['fortitude', 'reflex', 'will', 'willpower', 'domination', 'mind-control'].some(s => rawTarget.toLowerCase().includes(s));
+      if (/domination|mind-control/i.test(rawTarget)) {
+        target = 'Will';
+        isSave = true;
+      } else {
+        target = SAVE_TARGETS[rawTarget.toLowerCase()] || (rawTarget.charAt(0).toUpperCase() + rawTarget.slice(1));
+      }
+      if (target === 'Perception') target = 'Alertness';
+      if (target === 'Sense Motive') target = 'Insight';
+      if (target === 'Linguistics') target = 'Language';
+      if (target === 'Swim' || target === 'Swimming') target = 'Athletics';
+      addMod({
+        target,
+        type: isSave ? 'save_advantage' : 'check_advantage',
+        value: 1,
+        mode: 'inherent',
+        description: `Advantage on ${target} Checks`
+      });
+    }
+  }
+
+  const shieldDefRegex = /Shield\s+bonus\s+to\s+Defense\s+(?:increases\s+to\s+|is\s+)?\+?(\d+)/gi;
+  while ((match = shieldDefRegex.exec(combined)) !== null) {
+    const val = parseInt(match[1], 10);
+    if (!isNaN(val) && val > 0) {
+      addMod({
+        target: 'defense-mod',
+        type: 'combat',
+        value: val,
+        mode: 'inherent',
+        description: `+${val} Shield bonus to Defense`
+      });
+    }
+  }
+
+  if (/(?:once\s+per\s+day\s+)?(?:make\s+)?(?:one|a)\s+skill\s+check\s+(?:of\s+choice\s+)?(?:at|with)\s+advantage/i.test(combined)) {
+    addMod({
+      target: 'Skill Choice',
+      type: 'check_advantage',
+      value: 1,
+      mode: 'situational',
+      condition: '1/Day',
+      description: 'One Skill Check of choice at Advantage per day'
+    });
   }
 
   if (/rolls?\s*all\s*checks\s*with\s*Disadvantage/i.test(combined)) {
@@ -113,16 +192,82 @@ export function parseModifiersFromText(name = '', text = '', body = '') {
     });
   }
 
-  // 3. Specific Skill Bonuses / Penalties (e.g., "+5 to Disguise", "+1 bonus to intimidation and breach", "-2 Penalty to Insight")
-  const skillRegex = /([+-]\d+)\s*(?:bonus|penalty)?\s*(?:to|on)\s*(?:checks\s+involving\s*)?([A-Za-z\s/,&-]+?)(?:\s*(?:checks?|actions?|skills?|saves?|saving throws?|rolls?|\.|$))/gi;
+  // 4. Take 10 on Checks (e.g., "May take 10 on Stealth Checks", "may take 10 on swimming checks")
+  const take10Regex = /(?:may\s+)?take\s+10\s+on\s+([A-Za-z\s/,&-]+?)\s*checks?/gi;
+  while ((match = take10Regex.exec(combined)) !== null) {
+    const rawSkill = match[1].trim();
+    if (rawSkill.length >= 3 && rawSkill.length <= 40) {
+      let cap = rawSkill.charAt(0).toUpperCase() + rawSkill.slice(1);
+      if (cap.toLowerCase() === 'swimming' || cap.toLowerCase() === 'swim') cap = 'Athletics';
+      addMod({
+        target: cap,
+        type: 'take_10',
+        value: 10,
+        mode: 'inherent',
+        description: `May take 10 on ${cap} Checks`
+      });
+    }
+  }
+
+  // 5. Tactical & Combat Stats (Initiative, Defense, Evasion, DR, Armor, Movement, Stability)
+  const combatRegex = /([+-]?\d+)\s*(?:racial|dodge|natural|armor|equipment|shield|circumstance)?\s*(?:bonus|penalty)?\s*(?:to|on)?\s*(Initiative|Defense|Evasion|DR|Armor|Movement|Walk|Speed|Stability|Swim Speed|Equipment)/gi;
+  while ((match = combatRegex.exec(combined)) !== null) {
+    const val = parseInt(match[1], 10);
+    const stat = match[2].toLowerCase();
+    const statMap = {
+      'initiative': 'initiative-mod',
+      'defense': 'defense-mod',
+      'evasion': 'evasion-mod',
+      'armor': 'armor-dr',
+      'dr': 'armor-dr',
+      'movement': 'move-walk',
+      'walk': 'move-walk',
+      'speed': 'move-walk',
+      'swim speed': 'move-swim',
+      'stability': 'Stability',
+      'equipment': 'equipment-bonus'
+    };
+    const targetKey = statMap[stat] || stat;
+    addMod({
+      target: targetKey,
+      type: 'combat',
+      value: val,
+      mode: 'inherent',
+      description: `${val >= 0 ? '+' : ''}${val} ${match[2]}`
+    });
+  }
+
+  // 6. Direct Damage Reduction (e.g. "DR 10", "DR +5", "base DR 10", "natural Damage Reduction (DR +5)")
+  const drRegex = /(?:natural\s+)?(?:damage\s+reduction|DR)\s*(?:of\s*|\+\s*|:\s*)?([+-]?\d+)/gi;
+  while ((match = drRegex.exec(combined)) !== null) {
+    const val = parseInt(match[1], 10);
+    if (!isNaN(val) && val !== 0) {
+      addMod({
+        target: 'armor-dr',
+        type: 'combat',
+        value: val,
+        mode: 'inherent',
+        description: `${val >= 0 ? '+' : ''}${val} DR`
+      });
+    }
+  }
+
+  // 7. Specific Skill Bonuses / Penalties (e.g., "+5 to Disguise", "+2 Alertness", "+2 Diplomacy", "+1 bonus to intimidation and breach", "-2 Penalty to Insight")
+  const skillRegex = /([+-]\d+)\s*(?:racial|competence|trained|inherent|dodge|equipment|appearance)?\s*(?:bonus|penalty)?\s*(?:to|on)?\s*(?:checks\s+involving\s*)?([A-Za-z\s/,&-]+?)(?:\s*(?:checks?|actions?|skills?|saves?|saving throws?|rolls?|\.|$))/gi;
   while ((match = skillRegex.exec(combined)) !== null) {
     const val = parseInt(match[1], 10);
     const rawTarget = match[2].trim();
     const lower = rawTarget.toLowerCase();
     
-    // Skip targets that belong to saves, karma, wealth, tech level, or generic words
+    // Skip targets that belong to saves, karma, wealth, tech level, combat, or generic words
+    const skipList = [
+      'will', 'fortitude', 'reflex', 'might', 'logic', 'reason', 'wealth', 'tech level', 
+      'karma', 'all', 'each', 'all fortitude', 'all reflex', 'all will', 'all saving',
+      'stability', 'defense', 'initiative', 'armor', 'evasion', 'points', 'point', 
+      'damage', 'die', 'dice', 'action', 'actions', 'round', 'rounds', 'meter', 'meters'
+    ];
     if (
-      !['will', 'fortitude', 'reflex', 'wealth', 'tech level', 'karma', 'all', 'each', 'all fortitude', 'all reflex', 'all will'].includes(lower) &&
+      !skipList.includes(lower) &&
       rawTarget.length >= 3 &&
       rawTarget.length <= 80
     ) {
@@ -130,8 +275,13 @@ export function parseModifiersFromText(name = '', text = '', body = '') {
       const subTargets = rawTarget.split(/\s+and\s+|\s+or\s+|\s*,\s*|\s*\/\s*/i).map(s => s.replace(/^(?:all|or|and)\s+/i, '').trim()).filter(Boolean);
       subTargets.forEach(st => {
         const stLower = st.toLowerCase();
-        if (!['will', 'fortitude', 'reflex', 'wealth', 'tech level', 'karma', 'all', 'each'].includes(stLower) && st.length >= 3) {
-          const capitalized = st.charAt(0).toUpperCase() + st.slice(1);
+        if (!skipList.includes(stLower) && st.length >= 3) {
+          let capitalized = st.charAt(0).toUpperCase() + st.slice(1);
+          // Canonical aliases
+          if (capitalized === 'Perception') capitalized = 'Alertness';
+          if (capitalized === 'Sense Motive') capitalized = 'Insight';
+          if (capitalized === 'Linguistics') capitalized = 'Language';
+          if (capitalized === 'Swim' || capitalized === 'Swimming') capitalized = 'Athletics';
           addMod({
             target: capitalized,
             type: 'skill',
@@ -144,10 +294,31 @@ export function parseModifiersFromText(name = '', text = '', body = '') {
     }
   }
 
-  // 4. Karma adjustments (e.g., "-2 to Karma Pool", "+1 Karma")
-  const karmaMatch = combined.match(/([+-]?\d+)\s*(?:to\s*)?Karma\s*(?:Pool)?/i);
-  if (karmaMatch) {
-    const val = parseInt(karmaMatch[1], 10);
+  // 8. Parenthetical Skill Bonuses (e.g., "(+5 Disguise)", "(+10 Disguise)", "(+2 Alertness)")
+  const parenSkillRegex = /\(\s*([+-]\d+)\s+(?:to\s+)?([A-Za-z\s/,&-]+?)\s*\)/gi;
+  while ((match = parenSkillRegex.exec(rawCombined)) !== null) {
+    const val = parseInt(match[1], 10);
+    const rawTarget = match[2].trim();
+    const lower = rawTarget.toLowerCase();
+    if (!['will', 'fortitude', 'reflex', 'wealth', 'tech level', 'karma', 'bp', 'cp', 'minute', 'minutes', 'hour', 'hours'].includes(lower) && rawTarget.length >= 3 && rawTarget.length <= 40) {
+      let capitalized = rawTarget.charAt(0).toUpperCase() + rawTarget.slice(1);
+      if (capitalized === 'Perception') capitalized = 'Alertness';
+      if (capitalized === 'Sense Motive') capitalized = 'Insight';
+      if (capitalized === 'Linguistics') capitalized = 'Language';
+      addMod({
+        target: capitalized,
+        type: 'skill',
+        value: val,
+        mode: val >= 0 ? 'inherent' : 'penalty',
+        description: `${val >= 0 ? '+' : ''}${val} to ${capitalized}`
+      });
+    }
+  }
+
+  // 9. Karma adjustments (e.g., "-2 to Karma Pool", "+1 Karma", "Karma Pool by +2 Points")
+  const karmaRegex = /(?:([+-]?\d+)\s*(?:to\s*)?Karma\s*(?:Pool|\s*Points)?|Karma\s*(?:Pool)?\s*(?:by\s*)?([+-]?\d+))/gi;
+  while ((match = karmaRegex.exec(combined)) !== null) {
+    const val = parseInt(match[1] || match[2], 10);
     if (!isNaN(val)) {
       addMod({
         target: 'Karma',
@@ -159,7 +330,7 @@ export function parseModifiersFromText(name = '', text = '', body = '') {
     }
   }
 
-  // 5. Tech Level Modifiers (e.g. "-1 Tech Level")
+  // 10. Tech Level Modifiers (e.g. "-1 Tech Level")
   const tlMatch = combined.match(/([+-]?\d+)\s*Tech\s*Level/i);
   if (tlMatch) {
     const val = parseInt(tlMatch[1], 10);
@@ -174,10 +345,10 @@ export function parseModifiersFromText(name = '', text = '', body = '') {
     }
   }
 
-  // 6. Wealth Modifiers (e.g. "-4 to Wealth Score")
-  const wealthMatch = combined.match(/([+-]?\d+)\s*(?:to\s*)?Wealth(?:\s*Score)?/i);
-  if (wealthMatch) {
-    const val = parseInt(wealthMatch[1], 10);
+  // 11. Wealth Modifiers (e.g. "-4 to Wealth Score", "+2 Wealth", "+2 Bonus to Wealth", "Wealth Score by +3")
+  const wealthRegex = /(?:([+-]?\d+)\s*(?:racial|competence|inherent|permanent)?\s*(?:bonus\s+to\s+|to\s+)?Wealth(?:\s*Score|\s*checks)?|Wealth(?:\s*Score)?\s*(?:by\s*)?([+-]?\d+))/gi;
+  while ((match = wealthRegex.exec(combined)) !== null) {
+    const val = parseInt(match[1] || match[2], 10);
     if (!isNaN(val)) {
       addMod({
         target: 'Wealth',
@@ -189,32 +360,7 @@ export function parseModifiersFromText(name = '', text = '', body = '') {
     }
   }
 
-  // 7. Tactical & Combat Stats (Initiative, Defense, Evasion, DR)
-  const combatRegex = /([+-]?\d+)\s*(?:to\s*)?(Initiative|Defense|Evasion|DR|Armor|Movement|Walk|Speed)/gi;
-  while ((match = combatRegex.exec(combined)) !== null) {
-    const val = parseInt(match[1], 10);
-    const stat = match[2].toLowerCase();
-    const statMap = {
-      'initiative': 'initiative-mod',
-      'defense': 'defense-mod',
-      'evasion': 'evasion-mod',
-      'armor': 'armor-dr',
-      'dr': 'armor-dr',
-      'movement': 'move-walk',
-      'walk': 'move-walk',
-      'speed': 'move-walk'
-    };
-    const targetKey = statMap[stat] || stat;
-    addMod({
-      target: targetKey,
-      type: 'combat',
-      value: val,
-      mode: 'inherent',
-      description: `${val >= 0 ? '+' : ''}${val} ${match[2]}`
-    });
-  }
-
-  // 8. Conditions
+  // 12. Conditions
   if (/\bSickened\b/i.test(combined) && !/(?:immune to|resists?)\s+sickened/i.test(combined)) {
     addMod({
       target: 'Condition: Sickened',

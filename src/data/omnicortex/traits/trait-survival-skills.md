@@ -8,9 +8,15 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  Honed instincts for foraging, navigating wilderness, and finding shelter in
-  hostile terrain.
-modifiers: []
+  Survival skills honed from living and working in remote or harsh environments.
+  Can navigate and forage for resources, making them self-sufficient.
+modifiers:
+  - target: Survival
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Survival
+mechanic: +2 Survival Skill Checks
 ---
 # Survival Skills
 
@@ -20,4 +26,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Honed instincts for foraging, navigating wilderness, and finding shelter in hostile terrain.
+Survival skills honed from living and working in remote or harsh environments. Can navigate and forage for resources, making them self-sufficient.
+
+## Mechanics & Benefit
++2 Survival Skill Checks

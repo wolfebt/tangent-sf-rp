@@ -10,6 +10,7 @@ import {
 import { DEFAULT_OCCUPATIONS } from '../../src/data/occupationsData.js';
 import { DEFAULT_FACTIONS } from '../../src/data/factionsData.js';
 import { DEFAULT_FEATURES } from '../../src/data/featuresData.js';
+import { isSkillTargetMatch } from '../../src/engines/tangentModifierEngine.js';
 
 test('Features System: Synonym Resolution & Alias Mapping', () => {
   // Check lowercase keys in FEATURE_SYNONYMS
@@ -269,7 +270,7 @@ test('Features System: 15 New Feature Additions Dataset Parity & Integrity', () 
     if (spec.expectedModTargets) {
       for (const target of spec.expectedModTargets) {
         assert(
-          feat.modifiers.some(m => m.target.toLowerCase() === target.toLowerCase()),
+          feat.modifiers.some(m => isSkillTargetMatch(m.target, target) || m.target.toLowerCase() === target.toLowerCase()),
           `Feature ${spec.name} should include modifier target ${target}`
         );
       }

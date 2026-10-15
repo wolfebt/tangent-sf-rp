@@ -11,14 +11,27 @@ description: >-
   Discordant psychic frequency imposes -2 on Manelli Psionic/Wisdom checks;
   Kitin Chorus communication in immediate vicinity is disrupted and rolled at
   Disadvantage.
-modifiers: []
+modifiers:
+  - target: Manelli Psionic
+    type: skill
+    value: -2
+    mode: penalty
+    description: '-2 to Manelli Psionic'
+  - target: Wisdom
+    type: skill
+    value: -2
+    mode: penalty
+    description: '-2 to Wisdom'
 ---
 # Psionic Interference (The Static)
 
-**Category**: TRAITS  
-**Tier**: Basic  
-**Type**: Species Trait  
-**CP Cost**: 1  
+**Category**: TRAITS
+**Tier**: Basic
+**Type**: Species Trait
+**CP Cost**: 1
 
 ## Description
-Discordant psionic static out of tune with the Kitin Collective. Manelli within psychic range suffer a -2 penalty to Psionic and Wisdom checks; Kitin Chorus communications within 30 ft are severely disrupted and used at Disadvantage.
+Discordant psychic frequency imposes -2 on Manelli Psionic/Wisdom checks; Kitin Chorus communication in immediate vicinity is disrupted and rolled at Disadvantage.
+
+## Mechanics & Benefit
+Discordant psychic frequency imposes -2 on Manelli Psionic/Wisdom checks; Kitin Chorus communication in immediate vicinity is disrupted and rolled at Disadvantage.

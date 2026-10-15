@@ -8,9 +8,15 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  Extensive rolodex of street informants, corporate fixers, bar owners, and
-  dockworkers.
-modifiers: []
+  Extensive web of street informants, back-alley chop-docs, corporate
+  middle-managers, and black-market fences.
+modifiers:
+  - target: Contacts Gather Information
+    type: check_advantage
+    value: 1
+    mode: inherent
+    description: Advantage on Contacts Gather Information Checks
+mechanic: Gather Information checks at Advantage
 ---
 # Contacts
 
@@ -20,4 +26,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Extensive rolodex of street informants, corporate fixers, bar owners, and dockworkers.
+Extensive web of street informants, back-alley chop-docs, corporate middle-managers, and black-market fences.
+
+## Mechanics & Benefit
+Gather Information checks at Advantage

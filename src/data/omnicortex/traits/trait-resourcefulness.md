@@ -7,8 +7,17 @@ category: traits
 costs:
   cp: 1
   bp: 1
-description: 'Makes the most of scarce tools, improvising creative solutions under pressure.'
-modifiers: []
+description: >-
+  The character is able to make the most of limited resources and find creative
+  solutions to problems, especially important where resources may be scarce.
+modifiers:
+  - target: Skill Choice
+    type: check_advantage
+    value: 1
+    mode: situational
+    condition: 1/Day
+    description: One Skill Check of choice at Advantage per day
+mechanic: Once per Day make a Skill Check of choice at Advantage
 ---
 # Resourcefulness
 
@@ -18,4 +27,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Makes the most of scarce tools, improvising creative solutions under pressure.
+The character is able to make the most of limited resources and find creative solutions to problems, especially important where resources may be scarce.
+
+## Mechanics & Benefit
+Once per Day make a Skill Check of choice at Advantage

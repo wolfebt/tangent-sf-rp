@@ -242,7 +242,12 @@ export const CodexDatasetDashboard = ({
               </div>
             </div>
 
-            <button type="button" className="text-slate-400 hover:text-white p-1">
+            <button
+              type="button"
+              aria-label={isGuidanceOpen ? 'Collapse Canonical Rules Manual' : 'Expand Canonical Rules Manual'}
+              title={isGuidanceOpen ? 'Collapse Canonical Rules Manual' : 'Expand Canonical Rules Manual'}
+              className="text-slate-400 hover:text-white p-1"
+            >
               {isGuidanceOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
             </button>
           </div>

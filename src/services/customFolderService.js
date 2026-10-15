@@ -5,7 +5,7 @@
  * Persists to localStorage and StorageService with reactive window event broadcasting.
  */
 
-import { StorageService } from './storageService';
+import { StorageService } from './storageService.js';
 
 const FOLDERS_KEY = 'tangent_custom_folders';
 const ASSIGNMENTS_KEY = 'tangent_custom_folder_assignments';
@@ -37,6 +37,7 @@ function notifyUpdate() {
  * @returns {Array<{ id: string, name: string, color: string, targetType: string, createdAt: string, updatedAt: string, sortOrder: number }>}
  */
 export function getFolders() {
+  if (typeof localStorage === 'undefined') return [];
   try {
     const raw = localStorage.getItem(FOLDERS_KEY);
     if (raw) {
@@ -53,6 +54,7 @@ export function getFolders() {
  * Persists folders list
  */
 export function saveFolders(folders) {
+  if (typeof localStorage === 'undefined') return;
   try {
     const data = Array.isArray(folders) ? folders : [];
     localStorage.setItem(FOLDERS_KEY, JSON.stringify(data));
@@ -138,6 +140,7 @@ export function deleteFolder(folderId) {
  * @returns {Record<string, string>}
  */
 export function getItemFolderAssignments() {
+  if (typeof localStorage === 'undefined') return {};
   try {
     const raw = localStorage.getItem(ASSIGNMENTS_KEY);
     if (raw) {
@@ -154,6 +157,7 @@ export function getItemFolderAssignments() {
  * Persists the item -> folderId map
  */
 export function saveItemFolderAssignments(assignments) {
+  if (typeof localStorage === 'undefined') return;
   try {
     const data = assignments && typeof assignments === 'object' ? assignments : {};
     localStorage.setItem(ASSIGNMENTS_KEY, JSON.stringify(data));

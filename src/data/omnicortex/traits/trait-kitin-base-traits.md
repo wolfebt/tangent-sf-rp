@@ -10,7 +10,17 @@ costs:
 description: >-
   Awakened (Psychic) [2], Biotechnology [2], Hive Connection [2],
   Sleepless/Torpor [2].
-modifiers: []
+modifiers:
+  - target: 'Meta: Psychic'
+    value: 1
+    type: discipline
+    mode: inherent
+    description: 'Awakened (Psychic) [2 CP]'
+  - target: 'Condition: Sleep'
+    value: 0
+    type: immunity
+    mode: inherent
+    description: Torpor / Sleepless
 package_traits:
   - id: trait-awakened-psychic
     name: Awakened (Psychic)
@@ -41,19 +51,13 @@ package_traits:
 ---
 # Kitin Base Traits
 
-**Category**: TRAITS  
-**Tier**: Elite  
-**Type**: Species Trait  
-**CP Cost**: 8  
+**Category**: TRAITS
+**Tier**: Elite
+**Type**: Species Trait
+**CP Cost**: 8
 
 ## Description
-The fundamental biological and psionic heritage shared across all Kitin Strains.
+Awakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].
 
-## Mechanics
-Includes Awakened (Psychic) [2 CP], Biotechnology Affinity [2 CP], Hive Connection [2 CP], and Torpor / Sleepless [2 CP]. Total package value: 8 CP.
-
-## Packaged Traits Sublist
-* **Awakened (Psychic)** [2 CP / Advanced]: Conductors and receptors of the Hive psionic Chorus.
-* **Biotechnology Affinity** [2 CP / Advanced]: Innate affinity for manipulating living symbiotic technology and glandular synthesis.
-* **Hive Connection / Hive-Link** [2 CP / Advanced]: Constant telepathic connection and pheromonal telemetry to the Collective.
-* **Torpor / Sleepless** [2 CP / Advanced]: Requires only 4 hours of conscious torpor; immune to sleep effects.
+## Mechanics & Benefit
+Awakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].

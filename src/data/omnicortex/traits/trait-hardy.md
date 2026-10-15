@@ -10,7 +10,22 @@ costs:
 description: >-
   +2 racial bonus on saving throws against poison, spells, and spell-like
   abilities.
-modifiers: []
+modifiers:
+  - target: Saving throws against poison
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Saving throws against poison
+  - target: Spells
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Spells
+  - target: Spell-like abilities
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Spell-like abilities
 ---
 # Hardy
 
@@ -20,4 +35,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
++2 racial bonus on saving throws against poison, spells, and spell-like abilities.
+
+## Mechanics & Benefit
 +2 racial bonus on saving throws against poison, spells, and spell-like abilities.

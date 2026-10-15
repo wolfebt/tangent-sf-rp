@@ -8,7 +8,12 @@ costs:
   cp: 1
   bp: 1
 description: Pick two skills. Gain +2 racial bonus on both. Represents past lives.
-modifiers: []
+modifiers:
+  - target: Both
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Both
 ---
 # Shards of the Past
 
@@ -18,4 +23,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
+Pick two skills. Gain +2 racial bonus on both. Represents past lives.
+
+## Mechanics & Benefit
 Pick two skills. Gain +2 racial bonus on both. Represents past lives.

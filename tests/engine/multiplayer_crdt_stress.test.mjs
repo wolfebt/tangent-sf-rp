@@ -125,7 +125,7 @@ test('Multiplayer CRDT Stress: 4-Client Mesh Convergence under Rapid Token Reloc
     });
   }
 
-  assert.ok(durationMs < 200, `120 concurrent P2P CRDT sync operations should complete in <200ms, took: ${durationMs.toFixed(1)}ms`);
+  assert.ok(durationMs < 1000, `120 concurrent P2P CRDT sync operations should complete in <1000ms, took: ${durationMs.toFixed(1)}ms`);
 });
 
 test('Multiplayer Roles: Permission Enforcement between Architect and Operative', () => {

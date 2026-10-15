@@ -11,7 +11,18 @@ description: >-
   Adepts may have a deep connection to mystical or spiritual forces. They may
   draw power from these sources having a heightened awareness of the unseen
   world.
-modifiers: []
+modifiers:
+  - target: Insight Adepts may have a deep connection to mystical
+    type: skill
+    value: 1
+    mode: inherent
+    description: +1 to Insight Adepts may have a deep connection to mystical
+  - target: Spiritual forces
+    type: skill
+    value: 1
+    mode: inherent
+    description: +1 to Spiritual forces
+mechanic: +1 Attune and +1 Insight
 ---
 # Mystical or Spiritual Connection
 
@@ -22,3 +33,6 @@ modifiers: []
 
 ## Description
 Adepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.
+
+## Mechanics & Benefit
++1 Attune and +1 Insight

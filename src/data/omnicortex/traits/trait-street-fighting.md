@@ -8,9 +8,10 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  Dirty fighting techniques optimized for claustrophobic alleys, elevator cabs,
-  and crowded subway cars.
+  Vicious close-quarters brawl techniques using brass knuckles, concealed shivs,
+  and dirty tactics in tight alleys.
 modifiers: []
+mechanic: +1 Unarmed Combat and Defense
 ---
 # Street Fighting
 
@@ -20,4 +21,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Dirty fighting techniques optimized for claustrophobic alleys, elevator cabs, and crowded subway cars.
+Vicious close-quarters brawl techniques using brass knuckles, concealed shivs, and dirty tactics in tight alleys.
+
+## Mechanics & Benefit
++1 Unarmed Combat and Defense

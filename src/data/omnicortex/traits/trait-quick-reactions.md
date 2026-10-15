@@ -8,7 +8,12 @@ costs:
   cp: 2
   bp: 2
 description: 'Use double Agility score to calculate base Initiative. Req: Racial Agility +1.'
-modifiers: []
+modifiers:
+  - target: initiative-mod
+    value: 2
+    type: combat
+    mode: inherent
+    description: Double Agility bonus added to base Initiative
 ---
 # Quick Reactions
 
@@ -18,4 +23,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
+Use double Agility score to calculate base Initiative. Req: Racial Agility +1.
+
+## Mechanics & Benefit
 Use double Agility score to calculate base Initiative. Req: Racial Agility +1.

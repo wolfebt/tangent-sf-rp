@@ -8,7 +8,17 @@ costs:
   cp: 1
   bp: 1
 description: +2 bonus on Diplomacy and Bluff. Can shift attitude up to three steps.
-modifiers: []
+modifiers:
+  - target: Diplomacy
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Diplomacy
+  - target: Bluff
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Bluff
 ---
 # Silver Tongued
 
@@ -18,4 +28,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
++2 bonus on Diplomacy and Bluff. Can shift attitude up to three steps.
+
+## Mechanics & Benefit
 +2 bonus on Diplomacy and Bluff. Can shift attitude up to three steps.

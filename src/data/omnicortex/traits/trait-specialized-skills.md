@@ -12,6 +12,7 @@ description: >-
   or mystical arts. They may have extensive training and knowledge in their
   chosen field, allowing them to excel in their profession.
 modifiers: []
+mechanic: +2 to a Skill of Choice
 ---
 # Specialized Skills
 
@@ -22,3 +23,6 @@ modifiers: []
 
 ## Description
 Adepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.
+
+## Mechanics & Benefit
++2 to a Skill of Choice

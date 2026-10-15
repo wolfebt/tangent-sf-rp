@@ -8,9 +8,15 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  Unwavering commitment that rejects subversion, psychological coercion, and
-  bribery.
-modifiers: []
+  Steadfast fidelity to battalion and squadmates, rendering mind control and
+  betrayal abhorrent.
+modifiers:
+  - target: Will
+    type: save_advantage
+    value: 1
+    mode: inherent
+    description: Advantage on Will Checks
+mechanic: Domination and Mind-Control Resistance Checks are made at Advantage
 ---
 # Loyal
 
@@ -20,4 +26,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Unwavering commitment that rejects subversion, psychological coercion, and bribery.
+Steadfast fidelity to battalion and squadmates, rendering mind control and betrayal abhorrent.
+
+## Mechanics & Benefit
+Domination and Mind-Control Resistance Checks are made at Advantage

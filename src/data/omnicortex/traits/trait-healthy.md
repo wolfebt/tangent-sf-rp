@@ -8,7 +8,12 @@ costs:
   cp: 1
   bp: 1
 description: +4 bonus on Fortitude saves against disease and poison
-modifiers: []
+modifiers:
+  - target: Fortitude
+    type: save
+    value: 4
+    mode: inherent
+    description: +4 on Fortitude Checks
 ---
 # Healthy
 
@@ -18,4 +23,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
++4 bonus on Fortitude saves against disease and poison
+
+## Mechanics & Benefit
 +4 bonus on Fortitude saves against disease and poison

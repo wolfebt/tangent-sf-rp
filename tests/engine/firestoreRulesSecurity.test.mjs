@@ -1,21 +1,49 @@
 /**
  * @file firestoreRulesSecurity.test.mjs
- * @description Automated Security Rules Audit & RBAC Policy Simulation Suite for firestore.rules.
+ * @description Automated Security Rules Audit, RBAC Policy Simulation & @firebase/rules-unit-testing Suite for firestore.rules.
  * Verifies helper predicates, Omnicortex reference collection protections, broadcast system_settings
  * admin-only write guards, Persona/Character ownership isolation, Story Foundry RBAC, Commlink channel
- * protections, and explicit catch-all deny rules.
+ * protections, explicit catch-all deny rules, and live Firestore Emulator rule enforcement when active.
  */
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import net from 'node:net';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {
+  initializeTestEnvironment,
+  assertSucceeds,
+  assertFails
+} from '@firebase/rules-unit-testing';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const RULES_PATH = path.resolve(__dirname, '../../firestore.rules');
 const rulesText = fs.readFileSync(RULES_PATH, 'utf-8');
+
+/**
+ * Checks if a local Firestore Emulator TCP port is listening so live emulator tests run automatically when active
+ */
+function checkEmulatorPort(host = '127.0.0.1', port = 8080, timeoutMs = 250) {
+  return new Promise((resolve) => {
+    const socket = new net.Socket();
+    let settled = false;
+    const finish = (ok) => {
+      if (!settled) {
+        settled = true;
+        socket.destroy();
+        resolve(ok);
+      }
+    };
+    socket.setTimeout(timeoutMs);
+    socket.once('connect', () => finish(true));
+    socket.once('timeout', () => finish(false));
+    socket.once('error', () => finish(false));
+    socket.connect(port, host);
+  });
+}
 
 /**
  * Reference evaluator modeling the exact helper predicates and collection access policies in firestore.rules
@@ -77,13 +105,17 @@ const RulesPolicySimulator = {
   canDeleteChannel(auth, channelId, resourceData = {}) {
     return (
       this.isAuthenticated(auth) &&
-      ! /^public_.*/.test(channelId) &&
+      !/^public_.*/.test(channelId) &&
       (resourceData.createdById === auth.uid || this.isAdmin(auth))
     );
   }
 };
 
 test('Firestore Rules: Core helper functions (isAuthenticated, isAdmin, isOwner) are strictly defined', () => {
+  assert.equal(typeof initializeTestEnvironment, 'function', '@firebase/rules-unit-testing must be installed');
+  assert.equal(typeof assertSucceeds, 'function');
+  assert.equal(typeof assertFails, 'function');
+
   assert.match(rulesText, /rules_version\s*=\s*'2';/, 'Must use Firestore Rules v2');
   assert.match(
     rulesText,
@@ -205,10 +237,68 @@ test('Firestore Rules: Story Foundry assets, Universe state, Commlink public cha
     'Non-creator player cannot delete another user channel'
   );
 
+  // Story Foundry collections (/user_stories, /story_elements, /story_maps) enforce creator/author ownership
+  assert.match(
+    rulesText,
+    /match\s+\/story_maps\/\{mapId\}\s*\{[\s\S]*?allow\s+create:\s*if\s+isAuthenticated\(\)\s*&&\s*\(request\.resource\.data\.authorUid\s*==\s*request\.auth\.uid\s*\|\|\s*request\.resource\.data\.creatorId\s*==\s*request\.auth\.uid\);/,
+    '/story_maps/{mapId} must bind creation to authorUid or creatorId'
+  );
+  assert.match(
+    rulesText,
+    /match\s+\/story_elements\/\{elementId\}\s*\{[\s\S]*?allow\s+update,\s*delete:\s*if\s+isAuthenticated\(\)\s*&&\s*\(resource\.data\.authorUid\s*==\s*request\.auth\.uid\s*\|\|\s*resource\.data\.creatorId\s*==\s*request\.auth\.uid\s*\|\|\s*isAdmin\(\)\);/,
+    '/story_elements/{elementId} must restrict update/delete to author, creator, or admin'
+  );
+  assert.match(
+    rulesText,
+    /match\s+\/messages\/\{messageId\}\s*\{[\s\S]*?request\.resource\.data\.senderId\s*==\s*request\.auth\.uid\s*\|\|\s*isAdmin\(\)/,
+    'Commlink channel messages must prevent senderId spoofing'
+  );
+
+  // Story asset modification policy simulation
+  assert.equal(RulesPolicySimulator.canModifyStoryAsset(alice, { authorUid: 'alice' }), true);
+  assert.equal(RulesPolicySimulator.canModifyStoryAsset(alice, { creatorId: 'bob' }), false);
+  assert.equal(RulesPolicySimulator.canModifyStoryAsset(gm, { creatorId: 'bob' }), true);
+
   // Final catch-all explicit deny
   assert.match(
     rulesText,
     /match\s+\/\{document=\*\*\}\s*\{\s*allow\s+read,\s*write:\s*if\s+false;\s*\}/,
     'Must conclude with explicit catch-all deny rule'
   );
+});
+
+test('Firestore Rules [@firebase/rules-unit-testing]: Live emulator evaluation when FIRESTORE_EMULATOR_HOST is reachable', async (t) => {
+  const envHost = process.env.FIRESTORE_EMULATOR_HOST || '127.0.0.1:8080';
+  const [host, portStr] = envHost.split(':');
+  const port = Number(portStr) || 8080;
+  const isEmulatorReachable = await checkEmulatorPort(host, port);
+
+  if (!isEmulatorReachable) {
+    t.diagnostic(
+      `Firestore Emulator not listening on ${host}:${port}; static AST & RBAC policy simulator assertions passed.`
+    );
+    return;
+  }
+
+  const testEnv = await initializeTestEnvironment({
+    projectId: 'tangent-sf-rp-rules-test',
+    firestore: {
+      host,
+      port,
+      rules: rulesText
+    }
+  });
+
+  try {
+    const anonDb = testEnv.unauthenticatedContext().firestore();
+    const playerDb = testEnv.authenticatedContext('alice').firestore();
+    const gmDb = testEnv.authenticatedContext('gm-prime', { role: 'GM' }).firestore();
+
+    await assertFails(playerDb.collection('system_settings').doc('banner').set({ text: 'Hacked' }));
+    await assertSucceeds(gmDb.collection('system_settings').doc('banner').set({ text: 'Official Broadcast' }));
+    await assertSucceeds(anonDb.collection('species').doc('human').get());
+    await assertFails(playerDb.collection('species').doc('human').set({ name: 'Mutated' }));
+  } finally {
+    await testEnv.cleanup();
+  }
 });

@@ -7,8 +7,11 @@ category: traits
 costs:
   cp: 1
   bp: 1
-description: Peer-review synergy and interdisciplinary communication across research teams.
+description: >-
+  Working smoothly with interdisciplinary research teams and effectively sharing
+  breakthroughs.
 modifiers: []
+mechanic: additional +1 to Aid bonuses received and granted
 ---
 # Collaboration
 
@@ -18,4 +21,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Peer-review synergy and interdisciplinary communication across research teams.
+Working smoothly with interdisciplinary research teams and effectively sharing breakthroughs.
+
+## Mechanics & Benefit
+additional +1 to Aid bonuses received and granted

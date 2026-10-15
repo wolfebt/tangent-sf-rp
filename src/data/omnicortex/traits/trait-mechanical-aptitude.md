@@ -8,9 +8,25 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  Innate comprehension of heavy machinery, hydraulics, conveyor grids, and
-  turbines.
-modifiers: []
+  Natural talent for working with heavy machinery, hydraulic presses, automated
+  assembly lines, and smelters.
+modifiers:
+  - target: Mechanical
+    type: skill
+    value: 1
+    mode: inherent
+    description: +1 to Mechanical
+  - target: Electrical
+    type: skill
+    value: 1
+    mode: inherent
+    description: +1 to Electrical
+  - target: Engineering
+    type: skill
+    value: 1
+    mode: inherent
+    description: +1 to Engineering
+mechanic: '+1 to Mechanical, Electrical and Engineering Skill Checks'
 ---
 # Mechanical Aptitude
 
@@ -20,4 +36,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Innate comprehension of heavy machinery, hydraulics, conveyor grids, and turbines.
+Natural talent for working with heavy machinery, hydraulic presses, automated assembly lines, and smelters.
+
+## Mechanics & Benefit
++1 to Mechanical, Electrical and Engineering Skill Checks

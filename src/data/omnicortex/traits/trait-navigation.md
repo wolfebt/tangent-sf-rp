@@ -11,7 +11,13 @@ description: >-
   Scouts have excellent navigational skills, both in space and on planetary
   surfaces. They can plot courses, read maps, and use navigational tools
   effectively.
-modifiers: []
+modifiers:
+  - target: Navigation Knowledge Scouts have excellent navigational
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Navigation Knowledge Scouts have excellent navigational
+mechanic: +2 Navigation (Knowledge)
 ---
 # Navigation
 
@@ -22,3 +28,6 @@ modifiers: []
 
 ## Description
 Scouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.
+
+## Mechanics & Benefit
++2 Navigation (Knowledge)

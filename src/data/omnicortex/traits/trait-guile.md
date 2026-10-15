@@ -8,7 +8,13 @@ costs:
   cp: 1
   bp: 1
 description: Good at devising clever solutions
-modifiers: []
+modifiers:
+  - target: Karma
+    type: karma
+    value: 1
+    mode: inherent
+    description: +1 to Karma Pool
+mechanic: +1 Karma Point
 ---
 # Guile
 
@@ -19,3 +25,6 @@ modifiers: []
 
 ## Description
 Good at devising clever solutions
+
+## Mechanics & Benefit
++1 Karma Point

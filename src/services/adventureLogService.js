@@ -71,7 +71,9 @@ class AdventureLogManager {
       // Keep most recent 500 logs to preserve performance and storage limits
       const trimmed = this.logs.slice(-500);
       await StorageService.setItem(storageKey, trimmed);
-      localStorage.setItem(storageKey, JSON.stringify(trimmed));
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem(storageKey, JSON.stringify(trimmed));
+      }
     } catch (e) {
       console.warn('[AdventureLogService] Persistence error:', e);
     }

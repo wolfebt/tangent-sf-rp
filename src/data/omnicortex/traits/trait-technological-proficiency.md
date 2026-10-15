@@ -8,7 +8,13 @@ costs:
   cp: 1
   bp: 1
 description: Proficiency in advanced technology
-modifiers: []
+modifiers:
+  - target: Technology Knowledge Proficiency in advanced technology
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Technology Knowledge Proficiency in advanced technology
+mechanic: Additional +1 from Equipment Bonus and +2 Technology (Knowledge)
 ---
 # Technological proficiency
 
@@ -19,3 +25,6 @@ modifiers: []
 
 ## Description
 Proficiency in advanced technology
+
+## Mechanics & Benefit
+Additional +1 from Equipment Bonus and +2 Technology (Knowledge)

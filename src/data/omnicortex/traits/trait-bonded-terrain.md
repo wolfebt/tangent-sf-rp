@@ -8,7 +8,12 @@ costs:
   cp: 1
   bp: 1
 description: +2 dodge bonus to AC when in a specific terrain type.
-modifiers: []
+modifiers:
+  - target: AC when in a specific terrain type
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to AC when in a specific terrain type
 ---
 # Bonded Terrain
 
@@ -18,4 +23,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
++2 dodge bonus to AC when in a specific terrain type.
+
+## Mechanics & Benefit
 +2 dodge bonus to AC when in a specific terrain type.

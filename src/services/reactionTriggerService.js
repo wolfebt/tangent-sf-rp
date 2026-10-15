@@ -4,7 +4,7 @@
  * and handles opportunity strike interrupts.
  */
 
-import { AudioService } from './audioService';
+import { AudioService } from './audioService.js';
 
 /**
  * Checks whether moving a token from (fromX, fromY) to (toX, toY) triggers

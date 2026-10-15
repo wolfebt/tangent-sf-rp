@@ -12,6 +12,9 @@ description: >-
   that others cannot. This could include heightened vision, hearing, smell, or
   even the ability to sense energy or auras.
 modifiers: []
+mechanic: >-
+  Gains access to purchase Sensory Features - Night Vision Line, Scent, Acute
+  Senses and Sense Features (still must be purchased but Considered Recommended)
 ---
 # Heightened Senses
 
@@ -22,3 +25,6 @@ modifiers: []
 
 ## Description
 Adepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.
+
+## Mechanics & Benefit
+Gains access to purchase Sensory Features - Night Vision Line, Scent, Acute Senses and Sense Features (still must be purchased but Considered Recommended)

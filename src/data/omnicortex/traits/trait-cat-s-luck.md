@@ -8,7 +8,12 @@ costs:
   cp: 1
   bp: 1
 description: Once per Long Rest make a Reflex Check at Advantage.
-modifiers: []
+modifiers:
+  - target: Reflex
+    type: save_advantage
+    value: 1
+    mode: inherent
+    description: Advantage on Reflex Checks
 ---
 # Cat's Luck
 
@@ -18,4 +23,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
+Once per Long Rest make a Reflex Check at Advantage.
+
+## Mechanics & Benefit
 Once per Long Rest make a Reflex Check at Advantage.

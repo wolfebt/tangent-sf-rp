@@ -8,7 +8,17 @@ costs:
   cp: 1
   bp: 1
 description: Gain +2 bonus to Perception and Stealth checks versus one target.
-modifiers: []
+modifiers:
+  - target: Alertness
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Alertness
+  - target: Stealth
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Stealth
 ---
 # Stalker
 
@@ -18,4 +28,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
+Gain +2 bonus to Perception and Stealth checks versus one target.
+
+## Mechanics & Benefit
 Gain +2 bonus to Perception and Stealth checks versus one target.

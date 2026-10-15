@@ -8,9 +8,15 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  Quickly adjusts to new environments, changing protocols, and unexpected
-  physical conditions.
-modifiers: []
+  The character is able to adapt to new environments and situations quickly,
+  making them well-suited to life in an ever-changing aquatic world.
+modifiers:
+  - target: A specific
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to A specific
+mechanic: '+2 to a specific Skill Check, may change assigned Skill daily'
 ---
 # Adaptability
 
@@ -20,4 +26,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Quickly adjusts to new environments, changing protocols, and unexpected physical conditions.
+The character is able to adapt to new environments and situations quickly, making them well-suited to life in an ever-changing aquatic world.
+
+## Mechanics & Benefit
++2 to a specific Skill Check, may change assigned Skill daily

@@ -8,9 +8,17 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  Patient pedagogical wisdom that accelerates the learning and focus of pupils
-  and companions.
-modifiers: []
+  Guiding pupils and imparting ancient wisdom to accelerate their intellectual
+  and spiritual growth.
+modifiers:
+  - target: Study
+    type: check_advantage
+    value: 1
+    mode: inherent
+    description: Advantage on Study Checks
+mechanic: >-
+  Those under the Enlightened character’s tutelage may make Study Checks at
+  Advantage
 ---
 # Mentorship
 
@@ -20,4 +28,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Patient pedagogical wisdom that accelerates the learning and focus of pupils and companions.
+Guiding pupils and imparting ancient wisdom to accelerate their intellectual and spiritual growth.
+
+## Mechanics & Benefit
+Those under the Enlightened character’s tutelage may make Study Checks at Advantage

@@ -8,9 +8,10 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  A preternatural sixth sense for impending ambushes, environmental collapses,
-  and traps.
+  Heightened sixth sense allowing the operative to anticipate predatory ambushes
+  and sudden cave-ins.
 modifiers: []
+mechanic: Re-Roll any one failed Perception check per day
 ---
 # Intuition
 
@@ -20,4 +21,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-A preternatural sixth sense for impending ambushes, environmental collapses, and traps.
+Heightened sixth sense allowing the operative to anticipate predatory ambushes and sudden cave-ins.
+
+## Mechanics & Benefit
+Re-Roll any one failed Perception check per day

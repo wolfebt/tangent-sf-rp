@@ -98,18 +98,85 @@ export const parseRollCommand = (command) => {
 };
 
 const GEMINI_FLASH_MODELS = [
-  'gemini-3.6-flash',
-  'gemini-3.5-flash',
-  'gemini-flash-latest',
+  'gemini-2.5-flash',
   'gemini-2.0-flash',
-  'gemini-flash-lite-latest'
+  'gemini-flash-latest',
+  'gemini-flash-lite-latest',
+  'gemini-3.6-flash',
+  'gemini-3.5-flash'
 ];
 
 /**
- * Attempts to fetch content from Google Generative AI API with automatic model fallbacks (FLASH models only)
+ * Attempts to fetch content from Local LLM Router, Cloud Function geminiProxy, or Google Generative AI API
+ * with automatic model fallbacks (FLASH models only)
  */
 export const fetchGeminiContent = async (apiKey, requestBody) => {
+  // 1. Check for Local Inference (llama.cpp -> Ollama automated cascade) if configured in UserSettings
+  const preferredPlatform = (typeof localStorage !== 'undefined' && localStorage.getItem('aiPlatform')) || 'gemini';
+  const configuredEndpoint = typeof localStorage !== 'undefined' ? localStorage.getItem('customEndpoint') : null;
+
+  if (!apiKey && (preferredPlatform === 'custom' || preferredPlatform === 'local' || configuredEndpoint)) {
+    try {
+      const { resolveIntelligenceTier, callAutomatedInferencePipeline } = await import('./aimeTierRouter.ts');
+      const sysText = requestBody?.systemInstruction?.parts?.[0]?.text || '';
+      const userParts = (requestBody?.contents || [])
+        .map(c => (c.parts || []).map(p => p.text || '').join('\n'))
+        .join('\n\n');
+      const fullPrompt = sysText ? `${sysText}\n\n${userParts}` : userParts;
+      const enforceJson = requestBody?.generationConfig?.responseMimeType === 'application/json';
+      const tierConfig = resolveIntelligenceTier({ actionText: userParts });
+
+      const pipelineResult = await callAutomatedInferencePipeline({
+        llamaEndpoint: configuredEndpoint || 'http://localhost:8080',
+        ollamaEndpoint: 'http://localhost:11434',
+        prompt: fullPrompt,
+        tier: tierConfig,
+        enforceJson
+      });
+
+      if (pipelineResult && pipelineResult.text) {
+        return {
+          candidates: [
+            {
+              content: {
+                parts: [{ text: pipelineResult.text }]
+              }
+            }
+          ]
+        };
+      }
+    } catch (localErr) {
+      console.warn('[BASTION] Local inference cascade unavailable, falling back:', localErr);
+    }
+  }
+
+  // 2. If no browser API key, check for authenticated Cloud Function geminiProxy
   if (!apiKey) {
+    const idToken = typeof localStorage !== 'undefined' ? localStorage.getItem('firebaseIdToken') : null;
+    const proxyUrl = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_GEMINI_PROXY_URL) || '/geminiProxy';
+    if (idToken) {
+      try {
+        const proxyRes = await fetch(proxyUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${idToken}`
+          },
+          body: JSON.stringify({
+            model: GEMINI_FLASH_MODELS[0],
+            contents: requestBody?.contents,
+            systemInstruction: requestBody?.systemInstruction,
+            generationConfig: requestBody?.generationConfig
+          })
+        });
+        if (proxyRes.ok) {
+          return await proxyRes.json();
+        }
+      } catch (proxyErr) {
+        console.warn('[BASTION] Cloud Function geminiProxy fallback error:', proxyErr);
+      }
+    }
+
     throw new Error('No Gemini API key available. Please check your key in Settings or obtain one from https://aistudio.google.com/app/apikey');
   }
 
@@ -171,7 +238,7 @@ export const fetchGeminiContent = async (apiKey, requestBody) => {
 export const sendBastionChatMessage = async ({ prompt, history = [], contextData = null }) => {
   const apiKey = getGeminiApiKey();
   await loadCompendiumSeedDataset().catch(() => {});
-  const ragResults = queryOmnicortexRAG(prompt, 2);
+  const ragResults = queryOmnicortexRAG(prompt, 5);
   const ragContext = formatRagContextForBastion(ragResults);
 
   if (!apiKey) {
@@ -234,7 +301,8 @@ export const sendBastionChatMessage = async ({ prompt, history = [], contextData
     console.warn("BASTION API Error:", err);
     return {
       text: `[BASTION LOCAL COGNITION]: System Alert - ${err.message || 'API request failed'}.\n\n` +
-        (ragResults.length > 0 ? `Retrieved Canonical Context:\n${ragResults[0].chunk.title}: ${ragResults[0].chunk.text}` : 'Running in local fallback mode.')
+        (ragResults.length > 0 ? `Retrieved Canonical Context:\n${ragResults[0].chunk.title}: ${ragResults[0].chunk.text}` : 'Running in local fallback mode.'),
+      ragResults
     };
   }
 };
@@ -242,80 +310,92 @@ export const sendBastionChatMessage = async ({ prompt, history = [], contextData
 /**
  * Selective Field Generation with BASTION
  * Generates content ONLY for checked fields; leaves unselected fields unmapped/untouched.
- * @param {Object} params
- * @param {Array<string>} params.selectedFields - Array of field keys to generate (e.g. ['title', 'content'])
- * @param {Object} params.currentValues - Current values of fields { title, type, content }
- * @param {string} params.userPrompt - Generation instruction/theme
- * @param {string} params.elementType - Active element type (e.g. NPC, Encounter, Story Arc)
+ * Supports both canonical ({ selectedFields, currentValues, userPrompt, elementType })
+ * and ContextMenu alias ({ targetFields, editFormData, customInstruction, currentConfig }) parameters.
  */
 export const generateSelectiveFields = async ({
   selectedFields = [],
-  currentValues = {},
+  targetFields = [],
+  currentValues = null,
+  editFormData = null,
   userPrompt = '',
-  elementType = 'Element',
-  componentType = 'Element',
+  customInstruction = '',
+  elementType = '',
+  componentType = '',
+  currentConfig = null,
   campaignContext = {}
-}) => {
-  const activeElementType = elementType || componentType || 'Element';
-  if (selectedFields.length === 0) {
+} = {}) => {
+  const resolvedFields = Array.isArray(selectedFields) && selectedFields.length > 0
+    ? selectedFields
+    : (Array.isArray(targetFields) ? targetFields : []);
+  const resolvedValues = currentValues || editFormData || {};
+  const activeElementType = elementType || componentType || currentConfig?.label || 'Element';
+  const resolvedPrompt = (userPrompt || customInstruction || resolvedValues.name || resolvedValues.title || '').trim();
+
+  if (resolvedFields.length === 0) {
     return { success: false, error: 'No fields were selected for BASTION generation.' };
   }
 
-  if (!userPrompt || !userPrompt.trim()) {
+  if (!resolvedPrompt) {
     return { success: false, error: 'BASTION generation prompt is required. Please enter instructions or select a theme preset.' };
   }
 
   const apiKey = getGeminiApiKey();
 
   // Extract surrounding campaign parameters if provided
-  const tl = campaignContext.techLevel ?? currentValues.tl ?? 3;
-  const ml = campaignContext.metaLevel ?? currentValues.ml ?? 1;
+  const tl = campaignContext.techLevel ?? resolvedValues.tl ?? resolvedValues.tech_level ?? 3;
+  const ml = campaignContext.metaLevel ?? resolvedValues.ml ?? resolvedValues.meta_level ?? 1;
   const project = campaignContext.projectName || 'Tangent Universe';
   const parentNode = campaignContext.activeNodeTitle || '';
 
   // If generating a Character or Character Persona, synthesize the 5 canonical database pillars
-  const isCharacterType = ['Character', 'Character Persona', 'Persona', 'NPC'].includes(activeElementType);
+  const isCharacterType = /character|persona|npc|operative|adversary|personnel/i.test(activeElementType);
   let characterSynthesis = null;
   if (isCharacterType) {
     characterSynthesis = synthesizeCharacterWithBastion({
-      prompt: userPrompt,
+      prompt: resolvedPrompt,
       techLevel: tl,
-      preferredArchetype: currentValues['char-archetype'] || null,
-      preferredSpecies: currentValues['char-species'] || null,
-      preferredFaction: currentValues['char-faction'] || null,
-      preferredOrigin: currentValues['char-origin'] || null,
-      preferredOccupation: currentValues['char-occu'] || null
+      preferredArchetype: resolvedValues['char-archetype'] || null,
+      preferredSpecies: resolvedValues['char-species'] || null,
+      preferredFaction: resolvedValues['char-faction'] || null,
+      preferredOrigin: resolvedValues['char-origin'] || null,
+      preferredOccupation: resolvedValues['char-occu'] || null
     });
   }
 
   // If no API Key, return structured simulation fallback for selected fields ONLY
   if (!apiKey) {
     const fallbackResults = {};
+    const entryName = resolvedValues.name || resolvedValues.title || resolvedPrompt;
     const titles = {
-      'Story Arc': `The ${userPrompt || 'Derelict Nebula'} Crisis`,
-      'Character': characterSynthesis?.character['char-name'] || `Commander ${userPrompt || 'Vane'}, Tangent Operative`,
-      'Location': `Outpost ${userPrompt || 'Zeta-9'} Sector`,
-      'Encounter': `Ambush at ${userPrompt || 'Perimeter Gamma'}`,
-      'Faction': `The ${userPrompt || 'Obsidian Syndicate'}`,
-      'Species': `The ${userPrompt || 'Kaelen'} Species`,
-      'Equipment': `TL-${tl} ${userPrompt || 'Tactical Scanner'}`,
-      'Weaponry': `TL-${tl} ${userPrompt || 'Plasma Rifle'}`
+      'Story Arc': `The ${entryName || 'Derelict Nebula'} Crisis`,
+      'Character': characterSynthesis?.character['char-name'] || `Commander ${entryName || 'Vane'}, Tangent Operative`,
+      'Location': `Outpost ${entryName || 'Zeta-9'} Sector`,
+      'Encounter': `Ambush at ${entryName || 'Perimeter Gamma'}`,
+      'Faction': `The ${entryName || 'Obsidian Syndicate'}`,
+      'Species': `The ${entryName || 'Kaelen'} Species`,
+      'Equipment': `TL-${tl} ${entryName || 'Tactical Scanner'}`,
+      'Weaponry': `TL-${tl} ${entryName || 'Plasma Rifle'}`
     };
 
-    selectedFields.forEach(field => {
+    resolvedFields.forEach(field => {
       // If synthesizing a character, draw directly from the 5 pillars database result
       if (characterSynthesis?.character && characterSynthesis.character[field] !== undefined) {
         fallbackResults[field] = characterSynthesis.character[field];
       } else if (['title', 'name', 'char-name'].includes(field)) {
-        fallbackResults[field] = characterSynthesis?.character['char-name'] || titles[activeElementType] || `${userPrompt || 'Tactical'} ${activeElementType || 'Module'}`;
+        fallbackResults[field] = characterSynthesis?.character['char-name'] || titles[activeElementType] || `${entryName || 'Tactical'} ${activeElementType || 'Module'}`;
       } else if (['type', 'category'].includes(field)) {
         fallbackResults[field] = activeElementType || 'Standard';
       } else if (['content', 'description'].includes(field)) {
         fallbackResults[field] = isCharacterType
           ? characterSynthesis?.character?.backstory || `[BASTION TACTICAL OPERATIVE]\nPillars: ${characterSynthesis?.pillars?.archetype?.name} · ${characterSynthesis?.pillars?.species?.name} · ${characterSynthesis?.pillars?.faction?.name} · ${characterSynthesis?.pillars?.origin?.name} · ${characterSynthesis?.pillars?.occupation?.name}`
-          : `[BASTION TACTICAL BRIEFING - ${project.toUpperCase()}]\nOverview: Entry generated for "${userPrompt || 'Standard Concept'}" under Tech Level ${tl} protocols and Meta Level ${ml} attunements${parentNode ? ` within parent node "${parentNode}"` : ''}. Grounded in Tangent SFF RPG mechanics.`;
-      } else if (['notes', 'char-motive', 'char-concept', 'char-style'].includes(field)) {
-        fallbackResults[field] = characterSynthesis?.character[field] || `Operative profile details generated based on prompt "${userPrompt || 'Tactical Operative'}". Grounded in campaign context (${project}, TL-${tl}).`;
+          : `[BASTION TACTICAL BRIEFING - ${project.toUpperCase()}]\nOverview: Entry generated for "${entryName}" under Tech Level ${tl} protocols and Meta Level ${ml} attunements${parentNode ? ` within parent node "${parentNode}"` : ''}. Grounded in Tangent SFF RPG mechanics.`;
+      } else if (['mechanic', 'mechanics'].includes(field)) {
+        fallbackResults[field] = `2d10 Dual Resolution check (Unopposed Baseline CR 15, Defender wins ties). Calibrated for TL-${tl} / ML-${ml}.`;
+      } else if (['guide'].includes(field)) {
+        fallbackResults[field] = `Tactical Deployment Guide for ${entryName}: Utilize cover (+2 Half / +4 Full) and Skill Tier action economy.`;
+      } else if (['note', 'notes', 'char-motive', 'char-concept', 'char-style'].includes(field)) {
+        fallbackResults[field] = characterSynthesis?.character[field] || `Architect Note: Profile details generated for "${entryName}". Grounded in campaign context (${project}, TL-${tl}).`;
       } else if (['char-archetype', 'archetype'].includes(field)) {
         fallbackResults[field] = characterSynthesis?.pillars?.archetype?.name || 'The Sentinel';
       } else if (['char-species', 'species'].includes(field)) {
@@ -326,18 +406,34 @@ export const generateSelectiveFields = async ({
         fallbackResults[field] = characterSynthesis?.pillars?.origin?.name || 'Urban';
       } else if (['char-occu', 'occupation'].includes(field)) {
         fallbackResults[field] = characterSynthesis?.pillars?.occupation?.name || 'Soldier';
-      } else if (['tl'].includes(field)) {
+      } else if (['tl', 'tech_level'].includes(field)) {
         fallbackResults[field] = Number(tl);
-      } else if (['ml'].includes(field)) {
+      } else if (['ml', 'meta_level'].includes(field)) {
         fallbackResults[field] = Number(ml);
+      } else if (field === 'vitals' && characterSynthesis?.character) {
+        fallbackResults[field] = {
+          health: characterSynthesis.character.health ?? 30,
+          vitality: characterSynthesis.character.vitality ?? 30,
+          structure: characterSynthesis.character.structure ?? 60
+        };
+      } else if (field === 'fivePillars' && characterSynthesis?.pillars) {
+        fallbackResults[field] = {
+          archetype: characterSynthesis.pillars.archetype?.name,
+          species: characterSynthesis.pillars.species?.name,
+          faction: characterSynthesis.pillars.faction?.name,
+          origin: characterSynthesis.pillars.origin?.name,
+          occupation: characterSynthesis.pillars.occupation?.name
+        };
+      } else if (field === 'stats' && characterSynthesis?.rawAttributes) {
+        fallbackResults[field] = characterSynthesis.rawAttributes;
       } else if (['laws_of_physics', 'history', 'geography', 'biosphere', 'culture', 'points_of_interest', 'inhabitants', 'origin', 'practices', 'narrative-backstory', 'narrative-psychology', 'narrative-arcs', 'narrative-relationships', 'narrative-secrets', 'role', 'summary', 'primaryConflict', 'nicknames', 'socialClass', 'currentResidence', 'appearance', 'voice', 'clothing', 'mannerisms', 'positiveTraits', 'negativeTraits', 'likesDislikes', 'hobbies', 'personalityType', 'backstory', 'definingTrauma', 'greatestAccomplishment', 'childhoodEvents', 'keyRelationships', 'romanticHistory', 'worldview', 'theLie', 'theTruth', 'deepestFear', 'goals', 'stakes', 'plotHooks', 'tags'].includes(field)) {
-        fallbackResults[field] = characterSynthesis?.character[field] || `Narrative details generated for "${userPrompt || 'this element'}". Grounded in campaign context (${project}, TL-${tl}, ML-${ml}).`;
+        fallbackResults[field] = characterSynthesis?.character[field] || `Narrative details generated for "${entryName}". Grounded in campaign context (${project}, TL-${tl}, ML-${ml}).`;
       } else {
-        fallbackResults[field] = `Generated ${field} for ${userPrompt || 'Standard'}`;
+        fallbackResults[field] = `Generated ${field} for ${entryName || 'Standard'}`;
       }
     });
 
-    return { success: true, generated: fallbackResults };
+    return { success: true, generated: fallbackResults, data: fallbackResults };
   }
 
   try {
@@ -366,18 +462,18 @@ ${parentNode ? `- Surrounding Scenario Element Node: "${parentNode}"` : ''}
 ${characterPillarsContext}
 
 The user is editing a story module element of type "${activeElementType}".
-User Prompt / Instruction: "${userPrompt || 'Generate detailed content appropriate for this element'}"
+User Prompt / Instruction: "${resolvedPrompt || 'Generate detailed content appropriate for this element'}"
 
 Current field values:
-${JSON.stringify(currentValues, null, 2)}
+${JSON.stringify(resolvedValues, null, 2)}
 
-CRITICAL REQUIREMENT: Generate content ONLY for the following selected fields: ${JSON.stringify(selectedFields)}.
+CRITICAL REQUIREMENT: Generate content ONLY for the following selected fields: ${JSON.stringify(resolvedFields)}.
 Do NOT generate or include any fields that are not in this selected fields list.
 
-Return ONLY a valid, parseable JSON object where the keys match the selected fields (${selectedFields.join(', ')}).
+Return ONLY a valid, parseable JSON object where the keys match the selected fields (${resolvedFields.join(', ')}).
 Example JSON format:
 {
-  ${selectedFields.map(f => f === 'content' ? `"content": "<p>HTML formatted content here...</p>"` : `"${f}": "Generated text"`).join(',\n  ')}
+  ${resolvedFields.map(f => f === 'content' ? `"content": "<p>HTML formatted content here...</p>"` : `"${f}": "Generated text"`).join(',\n  ')}
 }
 Do not wrap in markdown backticks if possible, or use standard json formatting.
 `;
@@ -422,13 +518,13 @@ Do not wrap in markdown backticks if possible, or use standard json formatting.
 
     // Filter to ONLY selected fields
     const finalGenerated = {};
-    selectedFields.forEach(field => {
+    resolvedFields.forEach(field => {
       if (parsedData[field] !== undefined) {
         finalGenerated[field] = parsedData[field];
       }
     });
 
-    return { success: true, generated: finalGenerated };
+    return { success: true, generated: finalGenerated, data: finalGenerated };
   } catch (err) {
     console.warn("BASTION Generation Error:", err);
     return { success: false, error: err.message };

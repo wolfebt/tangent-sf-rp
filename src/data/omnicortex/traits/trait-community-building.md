@@ -8,9 +8,11 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  Values community solidarity and possesses skills in building and maintaining
-  relationships among local groups.
+  Values community and may have skills in building and maintaining relationships
+  with other farmers, suppliers, and customers. Can negotiate deals, organize
+  cooperative efforts, and foster camaraderie.
 modifiers: []
+mechanic: Once per Day may reroll a Social Skill Check
 ---
 # Community Building
 
@@ -20,4 +22,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Values community solidarity and possesses skills in building and maintaining relationships among local groups.
+Values community and may have skills in building and maintaining relationships with other farmers, suppliers, and customers. Can negotiate deals, organize cooperative efforts, and foster camaraderie.
+
+## Mechanics & Benefit
+Once per Day may reroll a Social Skill Check

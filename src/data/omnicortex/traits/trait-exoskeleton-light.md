@@ -10,7 +10,12 @@ costs:
 description: >-
   DR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or
   Plating.
-modifiers: []
+modifiers:
+  - target: armor-dr
+    value: 6
+    type: combat
+    mode: inherent
+    description: +6 Natural DR (Light Exoskeleton)
 ---
 # Exoskeleton (Light)
 
@@ -20,4 +25,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
+DR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.
+
+## Mechanics & Benefit
 DR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.

@@ -10,7 +10,13 @@ costs:
 description: >-
   Able to operate in a variety of environments, including underwater and in
   zero-gravity
-modifiers: []
+modifiers:
+  - target: Karma
+    type: karma
+    value: 1
+    mode: inherent
+    description: +1 to Karma Pool
+mechanic: +1 Karma Point
 ---
 # Versatile
 
@@ -21,3 +27,6 @@ modifiers: []
 
 ## Description
 Able to operate in a variety of environments, including underwater and in zero-gravity
+
+## Mechanics & Benefit
++1 Karma Point

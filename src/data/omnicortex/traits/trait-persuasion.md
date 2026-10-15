@@ -8,7 +8,13 @@ costs:
   cp: 1
   bp: 1
 description: 'Convincing others to cooperate, negotiation, deception, and diplomacy'
-modifiers: []
+modifiers:
+  - target: Manipulation
+    type: skill
+    value: 1
+    mode: inherent
+    description: +1 to Manipulation
+mechanic: +1 Manipulation Skills and Etiquette Checks
 ---
 # Persuasion
 
@@ -19,3 +25,6 @@ modifiers: []
 
 ## Description
 Convincing others to cooperate, negotiation, deception, and diplomacy
+
+## Mechanics & Benefit
++1 Manipulation Skills and Etiquette Checks

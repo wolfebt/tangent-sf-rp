@@ -10,7 +10,13 @@ costs:
 description: >-
   Concentrated mastery in civic vocations, gourmet culinary arts, or fine
   craftsmanship.
-modifiers: []
+modifiers:
+  - target: A Vocation
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to A Vocation
+mechanic: +2 to a Vocation Skill of choice
 ---
 # Non-Combat Focus
 
@@ -21,3 +27,6 @@ modifiers: []
 
 ## Description
 Concentrated mastery in civic vocations, gourmet culinary arts, or fine craftsmanship.
+
+## Mechanics & Benefit
++2 to a Vocation Skill of choice

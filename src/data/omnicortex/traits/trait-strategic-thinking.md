@@ -8,7 +8,13 @@ costs:
   cp: 1
   bp: 1
 description: Skilled at developing long-term plans and strategies to achieve their goals.
-modifiers: []
+modifiers:
+  - target: Tactics
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Tactics
+mechanic: +2 Tactics and Logic checks
 ---
 # Strategic thinking
 
@@ -19,3 +25,6 @@ modifiers: []
 
 ## Description
 Skilled at developing long-term plans and strategies to achieve their goals.
+
+## Mechanics & Benefit
++2 Tactics and Logic checks

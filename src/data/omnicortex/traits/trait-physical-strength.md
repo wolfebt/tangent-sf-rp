@@ -8,9 +8,15 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  Musculoskeletal conditioning built through rigorous manual labor and heavy
-  lifting.
-modifiers: []
+  Above-average muscle power developed through grueling shifts in ore refineries
+  and foundries.
+modifiers:
+  - target: Might
+    type: save
+    value: 2
+    mode: inherent
+    description: +2 on Might Checks
+mechanic: +2 Might Checks
 ---
 # Physical Strength
 
@@ -20,4 +26,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Musculoskeletal conditioning built through rigorous manual labor and heavy lifting.
+Above-average muscle power developed through grueling shifts in ore refineries and foundries.
+
+## Mechanics & Benefit
++2 Might Checks

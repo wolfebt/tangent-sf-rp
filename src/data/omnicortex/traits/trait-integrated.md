@@ -8,7 +8,22 @@ costs:
   cp: 1
   bp: 1
 description: '+1 bonus on Bluff, Disguise, and Knowledge (local) checks.'
-modifiers: []
+modifiers:
+  - target: Bluff
+    type: skill
+    value: 1
+    mode: inherent
+    description: +1 to Bluff
+  - target: Disguise
+    type: skill
+    value: 1
+    mode: inherent
+    description: +1 to Disguise
+  - target: Knowledge local
+    type: skill
+    value: 1
+    mode: inherent
+    description: +1 to Knowledge local
 ---
 # Integrated
 
@@ -18,4 +33,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
++1 bonus on Bluff, Disguise, and Knowledge (local) checks.
+
+## Mechanics & Benefit
 +1 bonus on Bluff, Disguise, and Knowledge (local) checks.

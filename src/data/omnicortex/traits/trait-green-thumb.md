@@ -7,8 +7,11 @@ category: traits
 costs:
   cp: 1
   bp: 1
-description: Natural talent for nurturing plants and making them thrive even in harsh soil.
+description: >-
+  Natural talent for nurturing plants and making them thrive even in challenging
+  environments. Has a knack for identifying needs of different plants.
 modifiers: []
+mechanic: Checks involving nurturing and helping plants may be made at Advantage
 ---
 # Green Thumb
 
@@ -18,4 +21,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Natural talent for nurturing plants and making them thrive even in harsh soil.
+Natural talent for nurturing plants and making them thrive even in challenging environments. Has a knack for identifying needs of different plants.
+
+## Mechanics & Benefit
+Checks involving nurturing and helping plants may be made at Advantage

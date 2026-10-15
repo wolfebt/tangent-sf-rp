@@ -8,7 +8,18 @@ costs:
   cp: 1
   bp: 1
 description: 'Disguise, impersonation, and deception'
-modifiers: []
+modifiers:
+  - target: Disguise
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Disguise
+  - target: Cover
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Cover
+mechanic: +2 Disguise and Cover Checks
 ---
 # Deception
 
@@ -19,3 +30,6 @@ modifiers: []
 
 ## Description
 Disguise, impersonation, and deception
+
+## Mechanics & Benefit
++2 Disguise and Cover Checks

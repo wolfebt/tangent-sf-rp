@@ -8,7 +8,13 @@ costs:
   cp: 1
   bp: 1
 description: High levels of energy and enthusiasm
-modifiers: []
+modifiers:
+  - target: Karma
+    type: karma
+    value: 1
+    mode: inherent
+    description: +1 to Karma Pool
+mechanic: +1 Karma Point
 ---
 # Energetic
 
@@ -19,3 +25,6 @@ modifiers: []
 
 ## Description
 High levels of energy and enthusiasm
+
+## Mechanics & Benefit
++1 Karma Point

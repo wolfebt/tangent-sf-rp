@@ -8,9 +8,10 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  Practical applied science in xenobiology, geology, and atmospheric
+  Expertise in planetary geology, atmospheric biology, or agricultural
   terraforming.
 modifiers: []
+mechanic: +2 to Science Knowledge
 ---
 # Scientific Knowledge
 
@@ -20,4 +21,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Practical applied science in xenobiology, geology, and atmospheric terraforming.
+Expertise in planetary geology, atmospheric biology, or agricultural terraforming.
+
+## Mechanics & Benefit
++2 to Science Knowledge

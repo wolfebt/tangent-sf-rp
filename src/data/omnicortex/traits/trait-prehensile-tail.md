@@ -8,7 +8,17 @@ costs:
   cp: 2
   bp: 2
 description: +2 to Climbing and Balance checks and usable as an off-hand. Special Pants.
-modifiers: []
+modifiers:
+  - target: Climbing
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Climbing
+  - target: Balance
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Balance
 ---
 # Prehensile Tail
 
@@ -18,4 +28,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
++2 to Climbing and Balance checks and usable as an off-hand. Special Pants.
+
+## Mechanics & Benefit
 +2 to Climbing and Balance checks and usable as an off-hand. Special Pants.

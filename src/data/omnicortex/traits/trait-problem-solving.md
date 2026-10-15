@@ -7,8 +7,11 @@ category: traits
 costs:
   cp: 1
   bp: 1
-description: Exceptional critical thinking and analytical troubleshooting under duress.
+description: >-
+  Overcoming technical and environmental crises that arise during terraforming
+  and settlement.
 modifiers: []
+mechanic: Once per Day may reroll a Mental Skill Check
 ---
 # Problem Solving
 
@@ -18,4 +21,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Exceptional critical thinking and analytical troubleshooting under duress.
+Overcoming technical and environmental crises that arise during terraforming and settlement.
+
+## Mechanics & Benefit
+Once per Day may reroll a Mental Skill Check

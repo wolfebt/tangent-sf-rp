@@ -10,14 +10,22 @@ costs:
 description: >-
   Specialized quadrupedal legs for high-impact jumping, +4 Stability, and +10 ft
   Groundspeed.
-modifiers: []
+modifiers:
+  - target: Stability
+    type: combat
+    value: 4
+    mode: inherent
+    description: +4 Stability
 ---
 # Quadruped (Leaping)
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Four specialized legs designed for high-impact jumping. Provides +4 racial Stability against trips and knockdowns, and increases Base Groundspeed by +10 feet.
+Specialized quadrupedal legs for high-impact jumping, +4 Stability, and +10 ft Groundspeed.
+
+## Mechanics & Benefit
+Specialized quadrupedal legs for high-impact jumping, +4 Stability, and +10 ft Groundspeed.

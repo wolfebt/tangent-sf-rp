@@ -8,7 +8,13 @@ costs:
   cp: 1
   bp: 1
 description: 'Equipped with the latest technology and weaponry   *+2 Equipment* #'
-modifiers: []
+modifiers:
+  - target: equipment-bonus
+    type: combat
+    value: 2
+    mode: inherent
+    description: +2 Equipment
+mechanic: +2 Equipment
 ---
 # Well-Equipped
 
@@ -19,3 +25,6 @@ modifiers: []
 
 ## Description
 Equipped with the latest technology and weaponry   *+2 Equipment* #
+
+## Mechanics & Benefit
++2 Equipment

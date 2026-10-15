@@ -8,7 +8,17 @@ costs:
   cp: 1
   bp: 1
 description: +2 to Trip and Balance Checks and usable as a Club.
-modifiers: []
+modifiers:
+  - target: Trip
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Trip
+  - target: Balance
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Balance
 ---
 # Tail
 
@@ -18,4 +28,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
++2 to Trip and Balance Checks and usable as a Club.
+
+## Mechanics & Benefit
 +2 to Trip and Balance Checks and usable as a Club.

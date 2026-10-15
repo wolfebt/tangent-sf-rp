@@ -8,8 +8,8 @@ class ProceduralSciFiAudio {
     this.ctx = null;
     this.masterGain = null;
     this.droneOsc = null;
-    this.muted = typeof window !== 'undefined' ? localStorage.getItem('tangent_audio_muted') === 'true' : false;
-    this.volume = typeof window !== 'undefined' ? parseFloat(localStorage.getItem('tangent_audio_volume') || '0.35') : 0.35;
+    this.muted = typeof localStorage !== 'undefined' ? localStorage.getItem('tangent_audio_muted') === 'true' : false;
+    this.volume = typeof localStorage !== 'undefined' ? parseFloat(localStorage.getItem('tangent_audio_volume') || '0.35') : 0.35;
   }
 
   init() {

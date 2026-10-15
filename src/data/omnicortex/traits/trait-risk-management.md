@@ -11,7 +11,13 @@ description: >-
   Merchants are skilled at assessing and managing risks. They can anticipate
   potential challenges and develop contingency plans to mitigate losses.   *+1
   Karma Point* #
-modifiers: []
+modifiers:
+  - target: Karma
+    type: karma
+    value: 1
+    mode: inherent
+    description: +1 to Karma Pool
+mechanic: +1 Karma Point
 ---
 # Risk Management
 
@@ -22,3 +28,6 @@ modifiers: []
 
 ## Description
 Merchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *+1 Karma Point* #
+
+## Mechanics & Benefit
++1 Karma Point

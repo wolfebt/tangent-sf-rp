@@ -8,7 +8,13 @@ costs:
   cp: 1
   bp: 1
 description: Comprehensive understanding of physics
-modifiers: []
+modifiers:
+  - target: Engineering Comprehensive understanding of physics
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Engineering Comprehensive understanding of physics
+mechanic: +2 to Engineering
 ---
 # Mecha-Physics
 
@@ -19,3 +25,6 @@ modifiers: []
 
 ## Description
 Comprehensive understanding of physics
+
+## Mechanics & Benefit
++2 to Engineering

@@ -8,7 +8,13 @@ costs:
   cp: 1
   bp: 1
 description: 'Able to create, adapt, and improve technology in novel ways.'
-modifiers: []
+modifiers:
+  - target: Technological innovation Knowledge Technology
+    type: check_advantage
+    value: 1
+    mode: inherent
+    description: Advantage on Technological innovation Knowledge Technology Checks
+mechanic: Knowledge (Technology) checks made at Advantage.
 ---
 # Technological innovation
 
@@ -19,3 +25,6 @@ modifiers: []
 
 ## Description
 Able to create, adapt, and improve technology in novel ways.
+
+## Mechanics & Benefit
+Knowledge (Technology) checks made at Advantage.

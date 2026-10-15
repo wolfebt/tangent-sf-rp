@@ -8,7 +8,13 @@ costs:
   cp: 1
   bp: 1
 description: 'Often on the move, traveling from place to place and exploring new territories'
-modifiers: []
+modifiers:
+  - target: equipment-bonus
+    type: combat
+    value: 2
+    mode: inherent
+    description: +2 Equipment
+mechanic: +2 Equipment (Vehicle)
 ---
 # Mobility
 
@@ -19,3 +25,6 @@ modifiers: []
 
 ## Description
 Often on the move, traveling from place to place and exploring new territories
+
+## Mechanics & Benefit
++2 Equipment (Vehicle)

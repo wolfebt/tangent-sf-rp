@@ -10,7 +10,13 @@ costs:
 description: >-
   Physically fit and strong, can endure long periods of physical activity and
   combat
-modifiers: []
+modifiers:
+  - target: Might
+    type: save
+    value: 1
+    mode: inherent
+    description: +1 on Might Checks
+mechanic: +1 Might and Fortitude Checks
 ---
 # Physical Prowess
 
@@ -21,3 +27,6 @@ modifiers: []
 
 ## Description
 Physically fit and strong, can endure long periods of physical activity and combat
+
+## Mechanics & Benefit
++1 Might and Fortitude Checks

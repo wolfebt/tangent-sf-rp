@@ -10,7 +10,13 @@ costs:
 description: >-
   Standard military drills covering marksmanship, close-quarters combat, and
   fireteam movement.
-modifiers: []
+modifiers:
+  - target: A Combat
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to A Combat
+mechanic: +2 to a Combat Skill of choice
 ---
 # Combat Trained
 
@@ -21,3 +27,6 @@ modifiers: []
 
 ## Description
 Standard military drills covering marksmanship, close-quarters combat, and fireteam movement.
+
+## Mechanics & Benefit
++2 to a Combat Skill of choice

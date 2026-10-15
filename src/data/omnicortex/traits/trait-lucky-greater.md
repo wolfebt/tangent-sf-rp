@@ -8,7 +8,22 @@ costs:
   cp: 2
   bp: 2
 description: +2 racial bonus on all saving throws.
-modifiers: []
+modifiers:
+  - target: Fortitude
+    type: save
+    value: 2
+    mode: inherent
+    description: +2 on all saving throws
+  - target: Reflex
+    type: save
+    value: 2
+    mode: inherent
+    description: +2 on all saving throws
+  - target: Will
+    type: save
+    value: 2
+    mode: inherent
+    description: +2 on all saving throws
 ---
 # Lucky, Greater
 
@@ -18,4 +33,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
++2 racial bonus on all saving throws.
+
+## Mechanics & Benefit
 +2 racial bonus on all saving throws.

@@ -10,8 +10,21 @@
  */
 
 import { v4 as uuidv4 } from 'uuid';
-import { formatExportFilename } from '../context/CampaignContext';
-import { AudioService } from './audioService';
+import { AudioService } from './audioService.js';
+
+const formatExportFilename = (name, type, ext) => {
+  const cleanName = (name || 'untitled')
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9_-]/g, '_')
+    .replace(/_+/g, '_');
+  const cleanType = (type || 'file')
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9_-]/g, '_');
+  const cleanExt = ext.startsWith('.') ? ext : `.${ext}`;
+  return `${cleanName}-${cleanType}${cleanExt}`;
+};
 
 export const MODULE_PACKAGE_SCHEMA_VERSION = '2.0.0';
 

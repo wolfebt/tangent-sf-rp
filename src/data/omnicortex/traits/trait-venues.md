@@ -10,7 +10,13 @@ costs:
 description: >-
   Has strong ties to certain performance venues   *+2 Equipment (Hideout) and +1
   Wealth* #
-modifiers: []
+modifiers:
+  - target: Wealth
+    type: wealth
+    value: 1
+    mode: inherent
+    description: +1 Wealth Score
+mechanic: +2 Equipment (Hideout) and +1 Wealth
 ---
 # Venues
 
@@ -21,3 +27,6 @@ modifiers: []
 
 ## Description
 Has strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #
+
+## Mechanics & Benefit
++2 Equipment (Hideout) and +1 Wealth

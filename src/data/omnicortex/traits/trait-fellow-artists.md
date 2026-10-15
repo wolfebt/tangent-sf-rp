@@ -8,7 +8,15 @@ costs:
   cp: 1
   bp: 1
 description: Has close relationships with other performers
-modifiers: []
+modifiers:
+  - target: Fellow Artists Gather Information
+    type: check_advantage
+    value: 1
+    mode: inherent
+    description: Advantage on Fellow Artists Gather Information Checks
+mechanic: >-
+  Gather Information checks made at Advantage when dealing with the
+  entertainment scene
 ---
 # Fellow Artists
 
@@ -19,3 +27,6 @@ modifiers: []
 
 ## Description
 Has close relationships with other performers
+
+## Mechanics & Benefit
+Gather Information checks made at Advantage when dealing with the entertainment scene

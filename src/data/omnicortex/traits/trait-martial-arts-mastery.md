@@ -11,7 +11,13 @@ description: >-
   Many adepts are highly skilled in martial arts, using their physical prowess
   and combat techniques to overcome opponents. They may have trained in various
   styles and have a deep understanding of the body's mechanics.
-modifiers: []
+modifiers:
+  - target: Unarmed Combat Many adepts are highly
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Unarmed Combat Many adepts are highly
+mechanic: +2 Unarmed Combat
 ---
 # Martial Arts Mastery
 
@@ -22,3 +28,6 @@ modifiers: []
 
 ## Description
 Many adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.
+
+## Mechanics & Benefit
++2 Unarmed Combat

@@ -10,7 +10,13 @@ costs:
 description: >-
   Navigates dense cultural melting pots, high-rise galas, and underground
   speakeasies with ease.
-modifiers: []
+modifiers:
+  - target: Social Manipulation
+    type: skill
+    value: 1
+    mode: inherent
+    description: +1 to Social Manipulation
+mechanic: +1 all Social Manipulation Skills and Culture Knowledge
 ---
 # Social Skills
 
@@ -21,3 +27,6 @@ modifiers: []
 
 ## Description
 Navigates dense cultural melting pots, high-rise galas, and underground speakeasies with ease.
+
+## Mechanics & Benefit
++1 all Social Manipulation Skills and Culture Knowledge

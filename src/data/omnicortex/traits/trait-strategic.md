@@ -7,8 +7,13 @@ category: traits
 costs:
   cp: 1
   bp: 1
-description: Battlefield tactical assessment and mission operation planning.
+description: >-
+  Deep understanding of tactical staging, supply lines, crossfire corridors, and
+  coordinated assaults.
 modifiers: []
+mechanic: >-
+  Those following the plan will receive a bonus pool to be used during the
+  operation equal to the characters Intellect Score + 2
 ---
 # Strategic
 
@@ -18,4 +23,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Battlefield tactical assessment and mission operation planning.
+Deep understanding of tactical staging, supply lines, crossfire corridors, and coordinated assaults.
+
+## Mechanics & Benefit
+Those following the plan will receive a bonus pool to be used during the operation equal to the characters Intellect Score + 2

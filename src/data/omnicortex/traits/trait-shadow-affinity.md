@@ -8,7 +8,17 @@ costs:
   cp: 1
   bp: 1
 description: Gain +5 to Stealth when in Shadowy or Dim area.
-modifiers: []
+modifiers:
+  - target: Stealth when in Shadowy
+    type: skill
+    value: 5
+    mode: inherent
+    description: +5 to Stealth when in Shadowy
+  - target: Dim area
+    type: skill
+    value: 5
+    mode: inherent
+    description: +5 to Dim area
 ---
 # Shadow Affinity
 
@@ -18,4 +28,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
+Gain +5 to Stealth when in Shadowy or Dim area.
+
+## Mechanics & Benefit
 Gain +5 to Stealth when in Shadowy or Dim area.

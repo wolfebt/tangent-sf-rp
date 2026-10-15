@@ -8,7 +8,12 @@ costs:
   cp: 2
   bp: 2
 description: 'Changes color, +5 Stealth or may take 10 on Stealth checks.'
-modifiers: []
+modifiers:
+  - target: Stealth
+    type: take_10
+    value: 10
+    mode: inherent
+    description: May take 10 on Stealth Checks
 ---
 # Chameleon
 
@@ -18,4 +23,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
+Changes color, +5 Stealth or may take 10 on Stealth checks.
+
+## Mechanics & Benefit
 Changes color, +5 Stealth or may take 10 on Stealth checks.

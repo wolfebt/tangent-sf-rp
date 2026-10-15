@@ -8,7 +8,13 @@ costs:
   cp: 1
   bp: 1
 description: Skilled at coming up with new ideas
-modifiers: []
+modifiers:
+  - target: Karma
+    type: karma
+    value: 1
+    mode: inherent
+    description: +1 to Karma Pool
+mechanic: +1 Karma Point
 ---
 # Creative
 
@@ -19,3 +25,6 @@ modifiers: []
 
 ## Description
 Skilled at coming up with new ideas
+
+## Mechanics & Benefit
++1 Karma Point

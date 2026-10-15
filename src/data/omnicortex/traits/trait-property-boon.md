@@ -10,14 +10,22 @@ costs:
 description: >-
   Special equipment allocation granting personal vehicle or biomorphic docking
   privileges; +4 Wealth for personal property.
-modifiers: []
+modifiers:
+  - target: Wealth
+    type: wealth
+    value: 4
+    mode: inherent
+    description: +4 Wealth Score
 ---
 # Property Boon
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Special equipment allocation granting personal vehicle or biomorphic docking privileges, providing +4 Wealth toward property or personal mecha acquisition.
+Special equipment allocation granting personal vehicle or biomorphic docking privileges; +4 Wealth for personal property.
+
+## Mechanics & Benefit
+Special equipment allocation granting personal vehicle or biomorphic docking privileges; +4 Wealth for personal property.

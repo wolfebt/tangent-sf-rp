@@ -10,7 +10,17 @@ costs:
 description: >-
   Identify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of
   Smell).
-modifiers: []
+modifiers:
+  - target: Track
+    type: skill
+    value: 4
+    mode: inherent
+    description: +4 to Track
+  - target: Medical Diagnosis as Analytical Sense of Smell
+    type: skill
+    value: 4
+    mode: inherent
+    description: +4 to Medical Diagnosis as Analytical Sense of Smell
 ---
 # Scent
 
@@ -20,4 +30,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
+Identify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).
+
+## Mechanics & Benefit
 Identify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).

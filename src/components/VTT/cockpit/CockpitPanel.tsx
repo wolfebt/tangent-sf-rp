@@ -26,6 +26,8 @@ import { MechaCompanionDeck } from './MechaCompanionDeck';
 import { GMInspector } from './GMInspector';
 import { PopoutPortal } from './PopoutPortal';
 import { AimeCockpitDeck } from './AimeCockpitDeck';
+import { queryOmnicortexRAG } from '../../../services/omnicortexVectorRag';
+import { parseRollCommand } from '../../../services/bastionService.js';
 
 export const CockpitPanel: React.FC = () => {
   const { 
@@ -48,6 +50,30 @@ export const CockpitPanel: React.FC = () => {
   const [fieldNotes, setFieldNotes] = useState<string>(() => {
     return localStorage.getItem('tangent_vtt_notes') || '';
   });
+
+  // Bastion HQ Tactical Rules & Logistics State
+  const [bastionRuleQuery, setBastionRuleQuery] = useState<string>('2d10 dual resolution opposed defense');
+  const [bastionRollInput, setBastionRollInput] = useState<string>('/roll 2d10+4 vs 15');
+  const [bastionRollResult, setBastionRollResult] = useState<any>(null);
+  const [strongholdSystems, setStrongholdSystems] = useState<Record<string, boolean>>({
+    perimeterShields: true,
+    orbitalDropBeacon: true,
+    medBayAutodoc: true,
+    omnicortexUplink: true
+  });
+
+  const bastionRagResults = React.useMemo(() => {
+    return queryOmnicortexRAG(bastionRuleQuery || '2d10 combat resolution', 3);
+  }, [bastionRuleQuery]);
+
+  const handleBastionRoll = () => {
+    const res = parseRollCommand(bastionRollInput.trim().startsWith('/roll') ? bastionRollInput.trim() : `/roll ${bastionRollInput.trim()}`);
+    setBastionRollResult(res);
+  };
+
+  const toggleStrongholdSystem = (key: string) => {
+    setStrongholdSystems(prev => ({ ...prev, [key]: !prev[key] }));
+  };
 
   const handleNotesChange = (val: string) => {
     setFieldNotes(val);
@@ -337,24 +363,129 @@ export const CockpitPanel: React.FC = () => {
           <MechaCompanionDeck />
         )}
 
-        {/* TAB: BASTION HQ — COMMAND & LOGISTICS */}
+        {/* TAB: BASTION HQ — COMMAND, TACTICAL RULES & LOGISTICS */}
         {activeCockpitTab === 'bastion' && (
-          <div className="p-6 rounded-lg bg-slate-950/60 border border-slate-800 text-center space-y-2">
-            <div className="flex justify-center mb-2">
-              <div className="p-3 rounded-full bg-amber-950/40 border border-amber-500/30">
-                <Shield size={24} className="text-amber-400" />
+          <div className="space-y-3 text-xs font-mono">
+            {/* Header Banner */}
+            <div className="p-3 rounded-lg bg-slate-950/80 border border-amber-500/40 flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 rounded-lg bg-amber-950/60 border border-amber-500/40">
+                  <Shield size={18} className="text-amber-400" />
+                </div>
+                <div>
+                  <p className="text-amber-300 font-bold uppercase tracking-wider text-[11px]">
+                    Bastion HQ — Command &amp; Rules Engine
+                  </p>
+                  <p className="text-slate-400 text-[10px] font-sans">
+                    Omnicortex v6 Vector RAG, 2d10 Dual Resolution &amp; Garrison Readiness
+                  </p>
+                </div>
+              </div>
+              <span className="px-2 py-0.5 rounded text-[9px] bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 font-bold">
+                ONLINE
+              </span>
+            </div>
+
+            {/* 2d10 Dual Resolution Roll Tester */}
+            <div className="p-3 rounded-lg bg-slate-950/60 border border-slate-800 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] uppercase font-bold text-cyan-400">
+                  🎲 2d10 Dual Resolution Resolver
+                </span>
+                <span className="text-[9px] text-slate-500">Defender Wins Ties</span>
+              </div>
+              <div className="flex gap-1.5">
+                <input
+                  type="text"
+                  value={bastionRollInput}
+                  onChange={(e) => setBastionRollInput(e.target.value)}
+                  placeholder="/roll 2d10+4 vs 15"
+                  className="flex-1 bg-slate-900 border border-slate-700 rounded px-2 py-1 text-[11px] text-slate-200 focus:outline-none focus:border-amber-500/60"
+                />
+                <button
+                  type="button"
+                  onClick={handleBastionRoll}
+                  className="px-2.5 py-1 rounded bg-amber-600/80 hover:bg-amber-500 text-black font-bold text-[10px] uppercase cursor-pointer"
+                >
+                  Roll
+                </button>
+              </div>
+              {bastionRollResult && !bastionRollResult.error && (
+                <div className="p-2 rounded bg-slate-900/90 border border-slate-800 text-[10px] space-y-1">
+                  <div className="flex justify-between">
+                    <span className="text-slate-400">
+                      Dice: [{bastionRollResult.d1}, {bastionRollResult.d2}] ({bastionRollResult.modifier >= 0 ? `+${bastionRollResult.modifier}` : bastionRollResult.modifier})
+                    </span>
+                    <span className="font-bold text-amber-300">Total: {bastionRollResult.total}</span>
+                  </div>
+                  <div className="text-cyan-300 font-bold">{bastionRollResult.outcomeText}</div>
+                  <div className="text-slate-400 font-sans text-[10px]">{bastionRollResult.degreeDetails}</div>
+                </div>
+              )}
+            </div>
+
+            {/* Omnicortex Canonical Rulebook RAG Lookup */}
+            <div className="p-3 rounded-lg bg-slate-950/60 border border-slate-800 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] uppercase font-bold text-amber-400">
+                  📚 Omnicortex Canonical RAG Lookup
+                </span>
+                <span className="text-[9px] text-slate-500">Top {bastionRagResults.length} Chunks</span>
+              </div>
+              <input
+                type="text"
+                value={bastionRuleQuery}
+                onChange={(e) => setBastionRuleQuery(e.target.value)}
+                placeholder="Search combat, karma, economatrix, species..."
+                className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-[11px] text-slate-200 focus:outline-none focus:border-amber-500/60"
+              />
+              <div className="space-y-1.5 max-h-44 overflow-y-auto pr-1">
+                {bastionRagResults.map(({ chunk, score }) => (
+                  <div key={chunk.id} className="p-2 rounded bg-slate-900/80 border border-slate-800/90 space-y-0.5">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-[10px] font-bold text-amber-300 truncate">{chunk.title}</span>
+                      <span className="text-[9px] px-1.5 py-0.2 rounded bg-slate-800 text-slate-400 uppercase shrink-0">
+                        {chunk.category} ({(score * 100).toFixed(0)}%)
+                      </span>
+                    </div>
+                    <p className="text-[10px] text-slate-300 font-sans leading-snug line-clamp-3">
+                      {chunk.text}
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
-            <p className="text-slate-200 text-xs font-mono font-bold uppercase tracking-wider">
-              Bastion HQ — Command & Logistics
-            </p>
-            <p className="text-slate-400 text-[11px] font-sans">
-              Stronghold upgrades, perimeter defenses, orbital supply strikes, and faction garrisons.
-            </p>
-            <div className="pt-2">
-              <span className="inline-block px-2.5 py-0.5 rounded text-[10px] font-mono text-amber-400/80 bg-amber-950/40 border border-amber-800/40">
-                MODULE IN DEVELOPMENT
+
+            {/* Stronghold & Garrison Logistics */}
+            <div className="p-3 rounded-lg bg-slate-950/60 border border-slate-800 space-y-2">
+              <span className="text-[10px] uppercase font-bold text-emerald-400 block">
+                🛰️ Stronghold &amp; Garrison Systems
               </span>
+              <div className="grid grid-cols-2 gap-1.5">
+                {[
+                  { key: 'perimeterShields', label: 'Perimeter Shields' },
+                  { key: 'orbitalDropBeacon', label: 'Orbital Supply Drop' },
+                  { key: 'medBayAutodoc', label: 'Med-Bay Autodoc' },
+                  { key: 'omnicortexUplink', label: 'Omnicortex Uplink' }
+                ].map((sys) => {
+                  const active = strongholdSystems[sys.key];
+                  return (
+                    <button
+                      key={sys.key}
+                      type="button"
+                      onClick={() => toggleStrongholdSystem(sys.key)}
+                      className={`p-1.5 rounded border text-left transition-colors cursor-pointer flex items-center justify-between ${
+                        active
+                          ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-300'
+                          : 'bg-slate-900/60 border-slate-800 text-slate-500'
+                      }`}
+                    >
+                      <span className="text-[10px] truncate">{sys.label}</span>
+                      <span className="text-[9px] font-bold">{active ? 'ON' : 'OFF'}</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
         )}

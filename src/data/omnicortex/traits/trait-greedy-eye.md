@@ -8,7 +8,12 @@ costs:
   cp: 1
   bp: 1
 description: +4 bonus on all Appraise checks.
-modifiers: []
+modifiers:
+  - target: Appraise
+    type: skill
+    value: 4
+    mode: inherent
+    description: +4 to Appraise
 ---
 # Greedy Eye
 
@@ -18,4 +23,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
++4 bonus on all Appraise checks.
+
+## Mechanics & Benefit
 +4 bonus on all Appraise checks.

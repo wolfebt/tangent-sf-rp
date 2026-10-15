@@ -10,7 +10,13 @@ costs:
 description: >-
   Intuitive emotional resonance that perceives the underlying drives and moods
   of sapient beings and creatures.
-modifiers: []
+modifiers:
+  - target: Handle Animal
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Handle Animal
+mechanic: +2 Insight and +2 Handle Animal Checks while being Friendly to other creature
 ---
 # Empathy
 
@@ -21,3 +27,6 @@ modifiers: []
 
 ## Description
 Intuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures.
+
+## Mechanics & Benefit
++2 Insight and +2 Handle Animal Checks while being Friendly to other creature

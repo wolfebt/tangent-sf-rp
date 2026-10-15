@@ -12,6 +12,7 @@ description: >-
   honed their abilities within this discipline and can utilize them more
   effectively.
 modifiers: []
+mechanic: +2 to a Metafocus Discipline
 ---
 # Mastery of a Discipline
 
@@ -22,3 +23,6 @@ modifiers: []
 
 ## Description
 Adepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.
+
+## Mechanics & Benefit
++2 to a Metafocus Discipline

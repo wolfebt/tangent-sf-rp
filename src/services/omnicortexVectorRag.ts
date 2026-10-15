@@ -31,11 +31,12 @@ export const CANONICAL_FOUNDATIONAL_CHUNKS: RuleChunk[] = [
     category: 'combat',
     title: 'Dual Resolution & Target Number Architecture',
     citation: 'Omnicortex 3.00 Combat Matrix',
-    tags: ['combat', 'dice', 'target number', '2d10', 'resolution', 'margin of success', 'attack', 'defense'],
-    text: `TANGENT uses a Dual-Resolution mechanic:
-- Core Action Checks: 2d10 + Attribute Modifier + Skill Rank vs. Target Number (TN / DC).
-- Target Number formula: Baseline TN = 11 + Secondary Defense / Resistance Rating.
-- Margin of Success: Net result above TN determines effectiveness (+5 = Superior, +10 = Masterful).
+    tags: ['combat', 'dice', 'target number', '2d10', 'resolution', 'margin of success', 'attack', 'defense', 'cr 15'],
+    text: `TANGENT uses a 2d10 Dual-Resolution mechanic:
+- Core Action Checks: 2d10 + Attribute Modifier + Skill Rank vs. Target Defense or Challenge Rating (CR).
+- Opposed Combat Rolls: Attacker rolls 2d10 + Combat Skill + Attribute Mod vs. Defender's Defense Check (2d10 + Defense Skill + Agility Mod). DEFENDER WINS ALL TIES.
+- Unopposed Baseline: Static difficulty baseline is CR 15 (Average difficulty for a Medium target at Short range, modified by Size, Range, and Movement).
+- Margin of Success: Net result above Target Defense / CR determines effectiveness (+5 = Superior, +10 = Masterful).
 - Critical Success: Rolling Double 10s (natural 20) triggers maximum strike damage + automatic bonus tactical action.
 - Critical Fumble: Rolling Double 1s (natural 2) triggers weapon jam, stance break, or environmental hazard check.`
   },
@@ -405,22 +406,36 @@ export const CANONICAL_RULES_COMPENDIUM: RuleChunk[] = [
   ...buildSpecializedRuleChunks()
 ];
 
+// Build Global Vocabulary across all chunks with O(1) term-to-index map
+let VOCABULARY: string[] = [];
+let VOCABULARY_INDEX: Map<string, number> = new Map();
+
 /**
  * Computes a fast normalized pseudo-embedding term frequency vector for text similarity
  */
 function computeTermVector(text: string, vocabulary: string[]): number[] {
   const words = text.toLowerCase().replace(/[^a-z0-9_\-\s]/g, ' ').split(/\s+/).filter(Boolean);
   const vector = new Array(vocabulary.length).fill(0);
-  const wordFreq: Record<string, number> = {};
+  if (words.length === 0) return vector;
 
+  const wordFreq: Record<string, number> = {};
   for (const w of words) {
     wordFreq[w] = (wordFreq[w] || 0) + 1;
   }
 
-  for (let i = 0; i < vocabulary.length; i++) {
-    const term = vocabulary[i];
-    if (wordFreq[term]) {
-      vector[i] = wordFreq[term] / words.length;
+  if (vocabulary === VOCABULARY && VOCABULARY_INDEX.size === vocabulary.length) {
+    for (const [term, count] of Object.entries(wordFreq)) {
+      const idx = VOCABULARY_INDEX.get(term);
+      if (idx !== undefined) {
+        vector[idx] = count / words.length;
+      }
+    }
+  } else {
+    for (let i = 0; i < vocabulary.length; i++) {
+      const term = vocabulary[i];
+      if (wordFreq[term]) {
+        vector[i] = wordFreq[term] / words.length;
+      }
     }
   }
 
@@ -431,33 +446,44 @@ function computeTermVector(text: string, vocabulary: string[]): number[] {
  * Computes Cosine Similarity between two numeric vectors
  */
 function cosineSimilarity(vecA: number[], vecB: number[]): number {
-  if (vecA.length !== vecB.length || vecA.length === 0) return 0;
+  const minLen = Math.min(vecA.length, vecB.length);
+  if (minLen === 0) return 0;
 
   let dotProduct = 0;
   let normA = 0;
   let normB = 0;
 
   for (let i = 0; i < vecA.length; i++) {
-    dotProduct += vecA[i] * vecB[i];
     normA += vecA[i] * vecA[i];
+  }
+  for (let i = 0; i < vecB.length; i++) {
     normB += vecB[i] * vecB[i];
+  }
+  for (let i = 0; i < minLen; i++) {
+    dotProduct += vecA[i] * vecB[i];
   }
 
   if (normA === 0 || normB === 0) return 0;
   return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
 }
 
-// Build Global Vocabulary across all chunks
-let VOCABULARY: string[] = [];
-
 function recomputeEmbeddings() {
   const ALL_TEXT = CANONICAL_RULES_COMPENDIUM.map(c => `${c.title} ${c.tags.join(' ')} ${c.text}`).join(' ');
   VOCABULARY = Array.from(new Set(
     ALL_TEXT.toLowerCase().replace(/[^a-z0-9_\-\s]/g, ' ').split(/\s+/).filter(w => w.length > 2)
   ));
+  VOCABULARY_INDEX = new Map(VOCABULARY.map((term, idx) => [term, idx]));
 
   for (const chunk of CANONICAL_RULES_COMPENDIUM) {
     if (!chunk.embedding) {
+      const fullText = `${chunk.title} ${chunk.tags.join(' ')} ${chunk.text}`;
+      chunk.embedding = computeTermVector(fullText, VOCABULARY);
+    } else if (chunk.embedding.length < VOCABULARY.length) {
+      // Pad existing prefix-aligned embedding vector to match expanded VOCABULARY dimension
+      const prevLen = chunk.embedding.length;
+      chunk.embedding.length = VOCABULARY.length;
+      chunk.embedding.fill(0, prevLen);
+    } else if (chunk.embedding.length !== VOCABULARY.length) {
       const fullText = `${chunk.title} ${chunk.tags.join(' ')} ${chunk.text}`;
       chunk.embedding = computeTermVector(fullText, VOCABULARY);
     }

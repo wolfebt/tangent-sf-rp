@@ -6,6 +6,7 @@
  */
 
 import { VertexAIGateway } from './VertexAIGateway.ts';
+import { synthesizeCharacterWithBastion } from '../../services/bastionCharacterEngine.js';
 
 export interface TangentAttributeStats {
   strength: number;
@@ -24,6 +25,21 @@ export interface TangentCharacterDraft {
   skills: Record<string, number>;
   traits?: string[];
   augmentations?: string[];
+  features?: string[];
+  weapons?: string[];
+  armor?: string[];
+  vitals?: {
+    health: number;
+    vitality: number;
+    structure: number;
+  };
+  pillars?: {
+    archetype: string;
+    species: string;
+    faction: string;
+    origin: string;
+    occupation: string;
+  };
 }
 
 export interface BastionValidationResult {
@@ -53,23 +69,39 @@ export class BastionRulesAgent {
   private readonly SKILL_COST_PER_RANK = 1;
 
   /**
-   * Generates a fully compliant Tangent character statblock with structured output.
+   * Generates a fully compliant Tangent character statblock grounded in the 5-Pillar Character Engine
+   * with structured output and 150 BP validation middleware.
    */
   public async generateStatblock(
     concept: string,
     species: string = 'Human',
     techLevel: number = 3
   ): Promise<{ draft: TangentCharacterDraft; validation: BastionValidationResult }> {
+    // 1. Run deterministic 5-Pillar Character Synthesis Engine as canonical foundation
+    const pillarSynth: any = (synthesizeCharacterWithBastion as any)({
+      prompt: concept || 'Tactical Operative',
+      preferredSpecies: species && species !== 'Human' ? species : undefined,
+      techLevel
+    });
+
+    const synthChar: any = pillarSynth?.character || {};
+    const synthPillars: any = pillarSynth?.pillars;
+
     const prompt = `
 Generate a canonical Tangent SFF RPG character conforming strictly to 150 Character Points (CP).
 Concept: "${concept}"
-Species: "${species}"
+Species: "${synthPillars?.species?.name || species}"
+Archetype: "${synthPillars?.archetype?.name || 'The Operative'}"
+Faction: "${synthPillars?.faction?.name || 'Independent'}"
+Origin: "${synthPillars?.origin?.name || 'Urban'}"
+Occupation: "${synthPillars?.occupation?.name || 'Operative'}"
 Tech Level: TL${techLevel}
 
 Rules:
 - 6 Core Attributes: Strength, Agility, Stamina, Intellect, Wisdom, Charisma.
 - Baseline attributes start at 0 (soft cap +4 at creation). Each +1 costs 5 CP.
 - Skills cost 1 CP per rank (max rank 5 for starting characters).
+- Base Vitals: 30 Vitality, 30 Health (60 Structure for Synthetics/Mecha). Stamina provides Toughness DR, not flat VP/HP.
 - Total CP spent must be exactly 150.
 `;
 
@@ -100,62 +132,96 @@ Rules:
     };
 
     const response = await VertexAIGateway.generateContent(prompt, {
-      model: 'gemini-1.5-pro',
-      temperature: 0.2, // Low temperature for mathematical precision
+      model: 'gemini-2.0-flash',
+      temperature: 0.2,
       responseMimeType: 'application/json',
       responseSchema: schema
     });
 
+    const canonicalPillarsSummary = synthPillars ? {
+      archetype: synthPillars.archetype?.name || 'The Operative',
+      species: synthPillars.species?.name || species,
+      faction: synthPillars.faction?.name || 'Independent',
+      origin: synthPillars.origin?.name || 'Urban',
+      occupation: synthPillars.occupation?.name || 'Operative'
+    } : undefined;
+
+    // Build skill map from 5-Pillar synthesis
+    const pillarSkillsMap: Record<string, number> = {};
+    if (Array.isArray(synthChar.skills)) {
+      for (const sk of synthChar.skills) {
+        if (sk && sk.name && typeof sk.rank === 'number') {
+          pillarSkillsMap[sk.name] = sk.rank;
+        }
+      }
+    }
+
     let draft: TangentCharacterDraft;
-    if (response.data && response.data.attributes) {
+    if (response.data && response.data.attributes && !response.isSimulated) {
       draft = {
-        name: response.data.name || 'Operative',
-        species: response.data.species || species,
+        name: response.data.name || synthChar['char-name'] || 'Operative',
+        species: response.data.species || synthPillars?.species?.name || species,
         background: response.data.background || concept,
         attributes: response.data.attributes,
-        skills: response.data.skills || {},
+        skills: Object.keys(response.data.skills || {}).length > 0 ? response.data.skills : pillarSkillsMap,
         traits: [],
-        augmentations: []
+        augmentations: [],
+        features: Array.isArray(synthChar.features) ? synthChar.features.map((f: any) => f.name || String(f)) : [],
+        weapons: Array.isArray(synthChar.weapons) ? synthChar.weapons.map((w: any) => w.name || String(w)) : [],
+        armor: Array.isArray(synthChar.armor) ? synthChar.armor.map((a: any) => a.name || String(a)) : [],
+        vitals: { health: 30, vitality: 30, structure: 60 },
+        pillars: canonicalPillarsSummary
       };
     } else {
-      // Deterministic 150 BP template fallback
+      // Deterministic 5-Pillar Character Synthesis fallback
+      const rawAttrs = pillarSynth?.rawAttributes || {};
       draft = {
-        name: 'Vanguard Operator',
-        species: species,
+        name: synthChar['char-name'] || 'Vanguard Operator',
+        species: synthPillars?.species?.name || species,
         background: concept,
         attributes: {
-          strength: 3, // 15 BP
-          agility: 4,  // 20 BP
-          stamina: 3,  // 15 BP
-          intellect: 2,// 10 BP
-          wisdom: 3,   // 15 BP
-          charisma: 3  // 15 BP (Total Attr = 90 BP)
+          strength: Math.max(0, Number(rawAttrs['attr-strength'] ?? 2)),
+          agility: Math.max(0, Number(rawAttrs['attr-agility'] ?? 2)),
+          stamina: Math.max(0, Number(rawAttrs['attr-stamina'] ?? 2)),
+          intellect: Math.max(0, Number(rawAttrs['attr-intellect'] ?? 1)),
+          wisdom: Math.max(0, Number(rawAttrs['attr-wisdom'] ?? 1)),
+          charisma: Math.max(0, Number(rawAttrs['attr-charisma'] ?? 1))
         },
-        skills: {
-          Firearms: 5,     // 5 BP
-          Athletics: 5,    // 5 BP
-          Perception: 4,   // 4 BP
-          Electronics: 4,  // 4 BP
-          Stealth: 4,      // 4 BP
-          FirstAid: 4,     // 4 BP
-          Demolitions: 4,  // 4 BP
-          Piloting: 4,     // 4 BP
-          Survival: 4,     // 4 BP
-          Melee: 5,        // 5 BP
-          Engineering: 4,  // 4 BP
-          Tactics: 4,      // 4 BP
-          Medicine: 4,     // 4 BP
-          Security: 5      // 5 BP (Total Skills = 60 BP)
+        skills: Object.keys(pillarSkillsMap).length > 0 ? pillarSkillsMap : {
+          Firearms: 5,
+          Athletics: 5,
+          Perception: 4,
+          Electronics: 4,
+          Stealth: 4,
+          FirstAid: 4,
+          Demolitions: 4,
+          Piloting: 4,
+          Survival: 4,
+          Melee: 5,
+          Engineering: 4,
+          Tactics: 4,
+          Medicine: 4,
+          Security: 5
         },
         traits: [],
-        augmentations: []
+        augmentations: [],
+        features: Array.isArray(synthChar.features) ? synthChar.features.map((f: any) => f.name || String(f)) : [],
+        weapons: Array.isArray(synthChar.weapons) ? synthChar.weapons.map((w: any) => w.name || String(w)) : [],
+        armor: Array.isArray(synthChar.armor) ? synthChar.armor.map((a: any) => a.name || String(a)) : [],
+        vitals: {
+          health: synthChar.health ?? 30,
+          vitality: synthChar.vitality ?? 30,
+          structure: synthChar.structure ?? 60
+        },
+        pillars: canonicalPillarsSummary
       };
     }
 
     // Run post-generation mathematical validation middleware
-    const validation = this.validateAndBalanceBp(draft);
+    let validation = this.validateAndBalanceBp(draft);
     if (validation.correctedDraft) {
       draft = validation.correctedDraft;
+      validation = this.validateAndBalanceBp(draft);
     }
 
     return { draft, validation };
@@ -194,18 +260,30 @@ Rules:
       errors.push(`Statblock unspent CP: spent ${totalBpSpent} CP out of ${this.MAX_BP} available.`);
     }
 
-    // Self-balancing middleware: if under or over, adjust the highest or lowest skill
+    // Self-balancing middleware: if under or over, adjust skills across the skill map
     let correctedDraft: TangentCharacterDraft | undefined;
     if (totalBpSpent !== this.MAX_BP) {
       correctedDraft = JSON.parse(JSON.stringify(draft));
-      const delta = this.MAX_BP - totalBpSpent;
-      const skillAdjust = Math.round(delta / this.SKILL_COST_PER_RANK);
+      let remainingDelta = this.MAX_BP - totalBpSpent;
 
-      if (correctedDraft && correctedDraft.skills) {
-        const skillEntries = Object.entries(correctedDraft.skills);
-        if (skillEntries.length > 0) {
-          const [firstSkill, rank] = skillEntries[0];
-          correctedDraft.skills[firstSkill] = Math.max(0, (rank as number) + skillAdjust);
+      if (correctedDraft) {
+        if (!correctedDraft.skills || Object.keys(correctedDraft.skills).length === 0) {
+          correctedDraft.skills = { Perception: 0 };
+        }
+        const skillKeys = Object.keys(correctedDraft.skills);
+        if (remainingDelta > 0) {
+          // Add remaining BP to the first skill (1 BP per skill rank)
+          const firstSkill = skillKeys[0];
+          correctedDraft.skills[firstSkill] = (correctedDraft.skills[firstSkill] || 0) + Math.round(remainingDelta / this.SKILL_COST_PER_RANK);
+        } else if (remainingDelta < 0) {
+          // Subtract excess BP across skills until remainingDelta == 0
+          for (const sk of skillKeys) {
+            if (remainingDelta >= 0) break;
+            const currentRank = correctedDraft.skills[sk] || 0;
+            const reduction = Math.min(currentRank, Math.abs(Math.round(remainingDelta / this.SKILL_COST_PER_RANK)));
+            correctedDraft.skills[sk] = currentRank - reduction;
+            remainingDelta += reduction * this.SKILL_COST_PER_RANK;
+          }
         }
       }
     }

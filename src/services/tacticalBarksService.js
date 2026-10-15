@@ -4,7 +4,7 @@
  * for NPCs and adversaries during live VTT tactical combat.
  */
 
-import { AudioService } from './audioService';
+import { AudioService } from './audioService.js';
 
 export const BARK_CATEGORIES = {
   engaging: [

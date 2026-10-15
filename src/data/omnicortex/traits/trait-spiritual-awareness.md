@@ -7,8 +7,21 @@ category: traits
 costs:
   cp: 1
   bp: 1
-description: 'Attuned to metaphysical resonances, ley conduits, and unseen psychic currents.'
-modifiers: []
+description: >-
+  Strong metaphysical attunement to ley lines, astral resonance, and psychic
+  currents.
+modifiers:
+  - target: Attune
+    type: skill
+    value: 1
+    mode: inherent
+    description: +1 to Attune
+  - target: One Metafocus
+    type: skill
+    value: 1
+    mode: inherent
+    description: +1 to One Metafocus
+mechanic: +1 to Attune and one Metafocus Skill
 ---
 # Spiritual Awareness
 
@@ -18,4 +31,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Attuned to metaphysical resonances, ley conduits, and unseen psychic currents.
+Strong metaphysical attunement to ley lines, astral resonance, and psychic currents.
+
+## Mechanics & Benefit
++1 to Attune and one Metafocus Skill

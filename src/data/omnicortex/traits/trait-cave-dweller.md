@@ -8,7 +8,12 @@ costs:
   cp: 1
   bp: 1
 description: +4 bonus on Survival checks made underground.
-modifiers: []
+modifiers:
+  - target: Survival
+    type: skill
+    value: 4
+    mode: inherent
+    description: +4 to Survival
 ---
 # Cave Dweller
 
@@ -18,4 +23,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
++4 bonus on Survival checks made underground.
+
+## Mechanics & Benefit
 +4 bonus on Survival checks made underground.

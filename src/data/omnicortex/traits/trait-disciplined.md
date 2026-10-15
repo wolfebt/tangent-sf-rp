@@ -11,6 +11,7 @@ description: >-
   Conditioned obedience to command structures and flawless execution of standard
   operating procedures.
 modifiers: []
+mechanic: +2 Soldier Vocation
 ---
 # Disciplined
 
@@ -21,3 +22,6 @@ modifiers: []
 
 ## Description
 Conditioned obedience to command structures and flawless execution of standard operating procedures.
+
+## Mechanics & Benefit
++2 Soldier Vocation

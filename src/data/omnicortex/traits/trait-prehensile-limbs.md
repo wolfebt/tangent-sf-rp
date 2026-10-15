@@ -10,7 +10,12 @@ costs:
 description: >-
   Fully Prehensile tentacles/off-hands/limbs, make certain checks with
   Advantage.
-modifiers: []
+modifiers:
+  - target: Certain
+    type: check_advantage
+    value: 1
+    mode: inherent
+    description: Advantage on Certain Checks
 ---
 # Prehensile Limbs
 
@@ -20,4 +25,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
+Fully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage.
+
+## Mechanics & Benefit
 Fully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage.

@@ -8,7 +8,13 @@ costs:
   cp: 1
   bp: 1
 description: Has a thirst for knowledge and is committed to lifelong learning.
-modifiers: []
+modifiers:
+  - target: Continuous Learning All Learning
+    type: check_advantage
+    value: 1
+    mode: inherent
+    description: Advantage on Continuous Learning All Learning Checks
+mechanic: All Learning Checks are made at Advantage
 ---
 # Continuous Learning
 
@@ -19,3 +25,6 @@ modifiers: []
 
 ## Description
 Has a thirst for knowledge and is committed to lifelong learning.
+
+## Mechanics & Benefit
+All Learning Checks are made at Advantage

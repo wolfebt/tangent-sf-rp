@@ -156,3 +156,204 @@ export const analyzeCombatPacing = (tokens = [], roundNumber = 1, eventHistory =
     suggestedCards
   };
 };
+
+/**
+ * Executes the mechanical VTT state mutation for a selected Whisper Card.
+ * Produces deterministic token updates, reinforcement spawns, hazard zones, or progress clocks.
+ *
+ * @param {Object|string} cardOrId - Whisper card object or canonical card ID
+ * @param {Array} tokens - Current VTT combat tokens
+ * @param {number} roundNumber - Current combat round
+ * @returns {Object} Mechanical execution payload for VTT state synchronization
+ */
+export const executeWhisperCardAction = (cardOrId, tokens = [], roundNumber = 1) => {
+  const card = typeof cardOrId === 'string'
+    ? CANONICAL_WHISPER_CARDS.find(c => c.id === cardOrId) || CANONICAL_WHISPER_CARDS[0]
+    : (cardOrId || CANONICAL_WHISPER_CARDS[0]);
+
+  const safeTokens = Array.isArray(tokens) ? tokens.map(t => ({
+    ...t,
+    conditions: Array.isArray(t.conditions) ? [...t.conditions] : []
+  })) : [];
+
+  const spawnedTokens = [];
+  let hazardZone = null;
+  let progressClock = null;
+  let socialTransition = null;
+  let partyKarmaDelta = 0;
+  let enemyDefenseDelta = 0;
+  let encounterMutation = { type: 'GENERIC_INJECTION', roundNumber };
+
+  switch (card.id) {
+    case 'reinforcement_incursion': {
+      const baseId = `drop_trooper_r${roundNumber}`;
+      spawnedTokens.push(
+        {
+          id: `${baseId}_alpha`,
+          name: 'Rival Drop-Trooper Alpha',
+          type: 'adversary',
+          isEnemy: true,
+          tier: 1,
+          health: { current: 30, max: 30 },
+          vitality: { current: 30, max: 30 },
+          defenseDc: 14,
+          armorDr: 4,
+          x: 120,
+          y: 120,
+          conditions: ['Orbital Insertion']
+        },
+        {
+          id: `${baseId}_beta`,
+          name: 'Rival Drop-Trooper Beta',
+          type: 'adversary',
+          isEnemy: true,
+          tier: 1,
+          health: { current: 30, max: 30 },
+          vitality: { current: 30, max: 30 },
+          defenseDc: 14,
+          armorDr: 4,
+          x: 180,
+          y: 120,
+          conditions: ['Orbital Insertion']
+        }
+      );
+      encounterMutation = {
+        type: 'SPAWN_REINFORCEMENTS',
+        count: spawnedTokens.length,
+        roundNumber
+      };
+      break;
+    }
+
+    case 'environmental_surge': {
+      hazardZone = {
+        id: `hazard_coolant_r${roundNumber}`,
+        label: 'Superheated Coolant Rupture',
+        radiusMeters: 3,
+        damagePerRound: 4,
+        damageType: 'thermal',
+        coverBonusDc: 2,
+        roundCreated: roundNumber
+      };
+      safeTokens.forEach(t => {
+        if (!t.isDead && !t.conditions.includes('Smoke Cover (+2 DC)')) {
+          t.conditions.push('Smoke Cover (+2 DC)');
+        }
+      });
+      encounterMutation = {
+        type: 'SPAWN_HAZARD_ZONE',
+        hazardZone,
+        roundNumber
+      };
+      break;
+    }
+
+    case 'adversary_parley': {
+      socialTransition = {
+        active: true,
+        dispositionShift: 1,
+        partyLeverageBonus: 1,
+        parleyRound: roundNumber
+      };
+      safeTokens.forEach(t => {
+        if ((t.isEnemy || t.type === 'adversary' || t.type === 'enemy') && !t.isDead) {
+          if (!t.conditions.includes('Parley Stance (Hold Fire)')) {
+            t.conditions.push('Parley Stance (Hold Fire)');
+          }
+        }
+      });
+      encounterMutation = {
+        type: 'SOCIAL_PARLEY',
+        leverageBonus: 1,
+        roundNumber
+      };
+      break;
+    }
+
+    case 'terminal_countdown': {
+      progressClock = {
+        id: `clock_terminal_purge_r${roundNumber}`,
+        title: 'Mainframe Core Purge',
+        totalSegments: 3,
+        filledSegments: 0,
+        remainingRounds: 3,
+        checkSkill: 'Cybernetics',
+        checkCr: 14,
+        roundStarted: roundNumber
+      };
+      encounterMutation = {
+        type: 'START_PROGRESS_CLOCK',
+        segments: 3,
+        checkSkill: 'Cybernetics',
+        cr: 14,
+        roundNumber
+      };
+      break;
+    }
+
+    case 'tactical_retreat': {
+      safeTokens.forEach(t => {
+        if ((t.isEnemy || t.type === 'adversary' || t.type === 'enemy') && !t.isDead) {
+          if (!t.conditions.includes('Full Cover (+4 DC)')) {
+            t.conditions.push('Full Cover (+4 DC)');
+          }
+          t.defenseDcBonus = (t.defenseDcBonus || 0) + 4;
+        }
+      });
+      encounterMutation = {
+        type: 'ENEMY_TACTICAL_RETREAT',
+        defenseDcBonus: 4,
+        durationRounds: 1,
+        roundNumber
+      };
+      break;
+    }
+
+    case 'heroic_inspiration': {
+      partyKarmaDelta = 1;
+      enemyDefenseDelta = -2;
+      safeTokens.forEach(t => {
+        if (Boolean(t.linkedHeroId) && !t.isDead) {
+          t.karma = (typeof t.karma === 'number' ? t.karma : 1) + 1;
+          if (!t.conditions.includes('Karmic Breakthrough (+1 Karma)')) {
+            t.conditions.push('Karmic Breakthrough (+1 Karma)');
+          }
+        } else if ((t.isEnemy || t.type === 'adversary' || t.type === 'enemy') && !t.isDead) {
+          if (!t.conditions.includes('Shield Weakpoint (-2 DC)')) {
+            t.conditions.push('Shield Weakpoint (-2 DC)');
+          }
+          t.defenseDcBonus = (t.defenseDcBonus || 0) - 2;
+        }
+      });
+      encounterMutation = {
+        type: 'HEROIC_BREAKTHROUGH',
+        partyKarmaDelta: 1,
+        enemyDefenseDelta: -2,
+        roundNumber
+      };
+      break;
+    }
+
+    default:
+      break;
+  }
+
+  const updatedTokens = [...safeTokens, ...spawnedTokens];
+  const logEntry = `[BASTION CO-GM INJECTION]: ${card.title} — ${card.description} (${card.actionEffect})`;
+
+  return {
+    cardId: card.id,
+    title: card.title,
+    actionEffect: card.actionEffect,
+    logEntry,
+    spawnedTokens,
+    updatedTokens,
+    hazardZone,
+    progressClock,
+    socialTransition,
+    partyKarmaDelta,
+    enemyDefenseDelta,
+    encounterMutation
+  };
+};
+

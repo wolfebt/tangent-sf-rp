@@ -10,7 +10,13 @@ costs:
 description: >-
   Think on their feet, make split-second decisions, and adapt to rapidly
   changing situations
-modifiers: []
+modifiers:
+  - target: initiative-mod
+    type: combat
+    value: 2
+    mode: inherent
+    description: +2 Initiative
+mechanic: +2 Initiative
 ---
 # Quick Thinking
 
@@ -21,3 +27,6 @@ modifiers: []
 
 ## Description
 Think on their feet, make split-second decisions, and adapt to rapidly changing situations
+
+## Mechanics & Benefit
++2 Initiative

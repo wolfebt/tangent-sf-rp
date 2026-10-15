@@ -8,9 +8,15 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  Willingness to gamble on razor-thin safety margins to accomplish difficult
-  goals.
-modifiers: []
+  Willing to take calculated physical risks in hazardous high-heat, high-voltage
+  environments.
+modifiers:
+  - target: Karma
+    type: karma
+    value: 1
+    mode: inherent
+    description: +1 to Karma Pool
+mechanic: +1 Karma Point
 ---
 # Risk-Taking
 
@@ -20,4 +26,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Willingness to gamble on razor-thin safety margins to accomplish difficult goals.
+Willing to take calculated physical risks in hazardous high-heat, high-voltage environments.
+
+## Mechanics & Benefit
++1 Karma Point

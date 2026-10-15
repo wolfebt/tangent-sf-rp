@@ -10,17 +10,28 @@ costs:
 description: >-
   Tough and resilient, able to withstand harsh conditions, physical punishment,
   and grueling military training.
-modifiers: []
+modifiers:
+  - target: Fortitude
+    type: save
+    value: 1
+    mode: inherent
+    description: +1 on Fortitude Checks
+  - target: Willpower
+    type: skill
+    value: 1
+    mode: inherent
+    description: +1 to Willpower
+mechanic: +1 Fortitude and Willpower Checks
 ---
 # Tough
 
-**Category**: TRAITS  
-**Tier**: Basic  
-**Type**: Origin Trait  
-**CP Cost**: 1  
+**Category**: TRAITS
+**Tier**: Basic
+**Type**: Origin Trait
+**CP Cost**: 1
 
 ## Description
 Tough and resilient, able to withstand harsh conditions, physical punishment, and grueling military training.
 
-## Mechanics
-+2 bonus to all Stamina checks made to resist physical trauma, fatigue, and pain.
+## Mechanics & Benefit
++1 Fortitude and Willpower Checks

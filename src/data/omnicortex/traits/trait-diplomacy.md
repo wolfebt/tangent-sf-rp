@@ -8,9 +8,10 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  Skill in negotiation, de-escalating tensions, and maintaining formal
-  alliances.
+  Negotiating trade pacts and peaceful relations with rival outposts and
+  indigenous factions.
 modifiers: []
+mechanic: +2 Diplomacy
 ---
 # Diplomacy
 
@@ -20,4 +21,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Skill in negotiation, de-escalating tensions, and maintaining formal alliances.
+Negotiating trade pacts and peaceful relations with rival outposts and indigenous factions.
+
+## Mechanics & Benefit
++2 Diplomacy

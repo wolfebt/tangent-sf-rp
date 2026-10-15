@@ -10,7 +10,13 @@ costs:
 description: >-
   Able to respond quickly to threats and can act decisively in high-pressure
   situations
-modifiers: []
+modifiers:
+  - target: initiative-mod
+    type: combat
+    value: 2
+    mode: inherent
+    description: +2 Initiative
+mechanic: +2 Initiative
 ---
 # Rapid Response
 
@@ -21,3 +27,6 @@ modifiers: []
 
 ## Description
 Able to respond quickly to threats and can act decisively in high-pressure situations
+
+## Mechanics & Benefit
++2 Initiative

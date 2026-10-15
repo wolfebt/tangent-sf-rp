@@ -8,7 +8,13 @@ costs:
   cp: 1
   bp: 1
 description: Possess strong critical thinking skills.
-modifiers: []
+modifiers:
+  - target: Karma
+    type: karma
+    value: 1
+    mode: inherent
+    description: +1 to Karma Pool
+mechanic: +1 Karma Point
 ---
 # Critical thinking
 
@@ -19,3 +25,6 @@ modifiers: []
 
 ## Description
 Possess strong critical thinking skills.
+
+## Mechanics & Benefit
++1 Karma Point

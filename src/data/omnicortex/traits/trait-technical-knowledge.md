@@ -10,7 +10,13 @@ costs:
 description: >-
   Deep understanding of the technical aspects of their craft, including
   knowledge of materials, tools, and techniques
-modifiers: []
+modifiers:
+  - target: Vocation
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Vocation
+mechanic: +2 Vocation Skill
 ---
 # Technical Knowledge
 
@@ -21,3 +27,6 @@ modifiers: []
 
 ## Description
 Deep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques
+
+## Mechanics & Benefit
++2 Vocation Skill

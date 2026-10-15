@@ -8,9 +8,10 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  Mastery over hydrofoils, submersibles, surface skiffs, and massive oceanic
-  platforms.
+  Operation of submersibles, high-speed hydrofoils, personal jets, and colossal
+  floating platforms.
 modifiers: []
+mechanic: '+2 to all Seacraft Operation - Submersibles, Boats, Hovercraft, and Aircraft'
 ---
 # Sea Piloting
 
@@ -20,4 +21,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Mastery over hydrofoils, submersibles, surface skiffs, and massive oceanic platforms.
+Operation of submersibles, high-speed hydrofoils, personal jets, and colossal floating platforms.
+
+## Mechanics & Benefit
++2 to all Seacraft Operation - Submersibles, Boats, Hovercraft, and Aircraft

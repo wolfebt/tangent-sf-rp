@@ -11,6 +11,7 @@ description: >-
   Piloting spacecraft, driving ground vehicles, and navigating through
   unfamiliar terrain   *+2 Piloting and Navigation*  #
 modifiers: []
+mechanic: +2 Piloting and Navigation
 ---
 # Travel
 
@@ -21,3 +22,6 @@ modifiers: []
 
 ## Description
 Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *+2 Piloting and Navigation*  #
+
+## Mechanics & Benefit
++2 Piloting and Navigation

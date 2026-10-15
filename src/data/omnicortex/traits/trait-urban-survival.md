@@ -8,9 +8,20 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  Parkour roof-running, subway tunneling, and vanishing into thick metropolitan
-  crowds.
-modifiers: []
+  Acrobatic freerunning across neon rooftops, blending invisibly into crowds,
+  and evasion of police drones.
+modifiers:
+  - target: Athletics
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Athletics
+  - target: Stealth
+    type: skill
+    value: 2
+    mode: inherent
+    description: +2 to Stealth
+mechanic: +2 Athletics and Stealth Skills (in Urban and developed areas)
 ---
 # Urban Survival
 
@@ -20,4 +31,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Parkour roof-running, subway tunneling, and vanishing into thick metropolitan crowds.
+Acrobatic freerunning across neon rooftops, blending invisibly into crowds, and evasion of police drones.
+
+## Mechanics & Benefit
++2 Athletics and Stealth Skills (in Urban and developed areas)
