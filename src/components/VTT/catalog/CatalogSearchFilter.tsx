@@ -45,6 +45,7 @@ export const CatalogSearchFilter: React.FC<CatalogSearchFilterProps> = ({
             onClick={() => onSearchChange('')}
             className="absolute right-2 text-slate-500 hover:text-slate-300 transition-colors"
             title="Clear search"
+            aria-label="Clear search"
           >
             <X size={12} />
           </button>
