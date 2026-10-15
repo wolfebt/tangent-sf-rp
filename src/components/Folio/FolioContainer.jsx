@@ -54,12 +54,7 @@ const FolioContainer = () => {
   const { currentUser, userHandle, confirmLogout, loginWithGoogle } = useAuth();
   const confirm = useConfirm();
   const { openDiceRoller, isDiceOpen, closeDiceRoller } = useDice();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return window.innerWidth < 768; // Mobile: rail is expanded by default when Folio opens
-    }
-    return false;
-  });
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   // Modal States
@@ -868,29 +863,30 @@ const FolioContainer = () => {
         onChange={onFileChange}
       />
 
-      {/* Mobile Sidebar Overlay Toggle */}
-      {isCharacterSelected && (
-        <div className={`fixed inset-0 z-40 bg-black/60 md:hidden ${isSidebarOpen ? 'block' : 'hidden'}`} onClick={() => setIsSidebarOpen(false)} />
+      {/* Mobile Sidebar Overlay Backdrop when expanded */}
+      {isCharacterSelected && isSidebarOpen && (
+        <div
+          className="fixed inset-0 z-30 bg-black/60 md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
       )}
 
       {/* Sidebar Navigation */}
       {isCharacterSelected && (
-        <div className={`fixed md:relative z-40 h-full transition-transform md:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-          <FolioSidebar
-            viewMode={viewMode}
-            setViewMode={setViewMode}
-            activeTab={activeTab}
-            setActiveTab={(tab) => handleSelectTab(tab)}
-            charName={characterData['char-name']}
-            onOpenRoster={() => setIsRosterOpen(true)}
-            onOpenAugmentationsCatalog={() => handleOpenSelectorModal('augmentations', 'Augmentations', 'augmentations')}
-            onOpenMetaphysicsModal={() => setIsMetaphysicsOpen(true)}
-            onSave={handleManualSave}
-            saveStatus={cloudSaveStatus}
-            onClose={() => setIsSidebarOpen(false)}
-            isMobileOpen={isSidebarOpen}
-          />
-        </div>
+        <FolioSidebar
+          viewMode={viewMode}
+          setViewMode={setViewMode}
+          activeTab={activeTab}
+          setActiveTab={(tab) => handleSelectTab(tab)}
+          charName={characterData['char-name']}
+          onOpenRoster={() => setIsRosterOpen(true)}
+          onOpenAugmentationsCatalog={() => handleOpenSelectorModal('augmentations', 'Augmentations', 'augmentations')}
+          onOpenMetaphysicsModal={() => setIsMetaphysicsOpen(true)}
+          onSave={handleManualSave}
+          saveStatus={cloudSaveStatus}
+          onClose={() => setIsSidebarOpen(false)}
+          isMobileOpen={isSidebarOpen}
+        />
       )}
 
       {/* Main Content Area */}

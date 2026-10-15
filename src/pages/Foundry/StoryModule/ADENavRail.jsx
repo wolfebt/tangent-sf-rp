@@ -196,9 +196,9 @@ export const ADENavRail = ({
 
   return (
     <>
-      {/* Desktop In-Flow Sizing Anchor (prevents center workspace layout shifts while hovering, reserves space when pinned) */}
+      {/* In-Flow Sizing Anchor (prevents center workspace layout shifts while hovering, reserves space when pinned or collapsed) */}
       <div
-        className={`hidden md:block shrink-0 h-full pointer-events-none transition-all duration-200 ease-out ${
+        className={`shrink-0 h-full pointer-events-none transition-all duration-200 ease-out ${
           isPinned ? 'w-56 sm:w-60' : 'w-14 sm:w-16'
         }`}
         aria-hidden="true"
@@ -211,10 +211,10 @@ export const ADENavRail = ({
           setIsHovered(false);
           setHoveredItem(null);
         }}
-        className={`fixed md:absolute top-0 bottom-0 left-0 h-full bg-[#080c14]/98 backdrop-blur-xl border-r border-slate-800/90 flex flex-col justify-between py-2 px-1 select-none z-30 font-sans transition-all duration-200 ease-out ${
+        className={`absolute top-0 bottom-0 left-0 h-full bg-[#080c14]/98 backdrop-blur-xl border-r border-slate-800/90 flex flex-col justify-between py-2 px-1 select-none font-sans transition-all duration-200 ease-out ${
           isExpanded 
-            ? 'w-56 sm:w-60 shadow-[12px_0_35px_rgba(0,0,0,0.85)] border-slate-700/80' 
-            : 'w-14 sm:w-16 shadow-xl'
+            ? 'w-56 sm:w-60 shadow-[12px_0_35px_rgba(0,0,0,0.85)] border-slate-700/80 z-40' 
+            : 'w-14 sm:w-16 shadow-xl z-30'
         }`}
       >
         {/* Top Section: Workspaces */}
