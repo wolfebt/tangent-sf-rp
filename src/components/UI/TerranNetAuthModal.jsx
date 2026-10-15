@@ -65,6 +65,7 @@ export const TerranNetAuthModal = ({ isOpen, onClose }) => {
             onClick={handleGuestDismiss}
             className="text-slate-400 hover:text-white text-xl font-bold leading-none p-1.5 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
             title="Dismiss to Local Mode"
+            aria-label="Dismiss to Local Mode"
           >
             <X size={18} />
           </button>
