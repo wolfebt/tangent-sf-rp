@@ -70,6 +70,7 @@ export const Toast = ({
             className="tangent-toast-close"
             onClick={onClose}
             aria-label="Close notification"
+            title="Close notification"
           >
             <X size={16} />
           </button>
