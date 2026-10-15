@@ -90,6 +90,8 @@ export default function SessionRecapModal({
           <button
             onClick={onClose}
             className="p-1.5 text-slate-400 hover:text-red-400 hover:bg-red-950/40 rounded-lg transition-colors cursor-pointer"
+            aria-label="Close modal"
+            title="Close"
           >
             <X className="w-5 h-5" />
           </button>
