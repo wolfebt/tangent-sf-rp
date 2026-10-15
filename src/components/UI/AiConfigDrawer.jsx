@@ -198,7 +198,7 @@ export const AiConfigDrawer = ({
           {/* Primary Key Input (Gemini) */}
           <div className="space-y-1.5 pt-2 border-t border-slate-800">
             <div className="flex items-center justify-between">
-              <label className="text-[11px] font-mono font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
+              <label htmlFor="geminiApiKey" className="text-[11px] font-mono font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
                 <Key size={13} />
                 <span>Google Gemini API Key</span>
               </label>
@@ -215,6 +215,7 @@ export const AiConfigDrawer = ({
 
             <div className="relative">
               <input
+                id="geminiApiKey"
                 type={showGeminiKey ? "text" : "password"}
                 value={geminiApiKey}
                 onChange={(e) => setGeminiApiKey(e.target.value)}
@@ -243,7 +244,7 @@ export const AiConfigDrawer = ({
           {(aiPlatform !== 'gemini') && (
             <div className="space-y-1.5 pt-2 border-t border-slate-800 animate-fadeIn">
               <div className="flex items-center justify-between">
-                <label className="text-[11px] font-mono font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+                <label htmlFor="otherAiApiKey" className="text-[11px] font-mono font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
                   <Key size={13} />
                   <span>{aiPlatform === 'openai' ? 'OpenAI' : aiPlatform === 'anthropic' ? 'Anthropic' : 'Custom'} API Key</span>
                 </label>
@@ -251,6 +252,7 @@ export const AiConfigDrawer = ({
 
               <div className="relative">
                 <input
+                  id="otherAiApiKey"
                   type={showOtherKey ? "text" : "password"}
                   value={otherAiApiKey}
                   onChange={(e) => setOtherAiApiKey(e.target.value)}
@@ -273,11 +275,12 @@ export const AiConfigDrawer = ({
           {/* Custom Endpoint URL if custom platform selected */}
           {aiPlatform === 'custom' && (
             <div className="space-y-1.5 pt-2 animate-fadeIn">
-              <label className="text-[11px] font-mono font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+              <label htmlFor="customEndpoint" className="text-[11px] font-mono font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
                 <Globe size={13} />
                 <span>Inference Endpoint URL</span>
               </label>
               <input
+                id="customEndpoint"
                 type="text"
                 value={customEndpoint || ''}
                 onChange={(e) => setCustomEndpoint && setCustomEndpoint(e.target.value)}
