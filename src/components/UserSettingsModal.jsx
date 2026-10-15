@@ -456,6 +456,8 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
               </div>
             </div>
             <button
+              aria-label="Close Settings"
+              title="Close Settings"
               onClick={() => {
                 AudioService.playTerminalBeep(900, 0.02);
                 onClose();
