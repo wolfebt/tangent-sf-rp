@@ -150,17 +150,33 @@ exports.geminiProxy = functions.https.onRequest(async (req, res) => {
       return res.status(500).json({ error: 'Server configuration error: Gemini API key missing.' });
     }
 
-    const { prompt, model = 'gemini-1.5-flash', systemInstruction, reportType } = req.body || {};
-    if (!prompt) {
+    const {
+      prompt,
+      contents,
+      model = 'gemini-2.5-flash',
+      systemInstruction,
+      generationConfig,
+      tools,
+      reportType
+    } = req.body || {};
+
+    const hasContents = Array.isArray(contents) && contents.length > 0;
+    if (!prompt && !hasContents) {
       return res.status(400).json({ error: 'Prompt is required for reporting generation.' });
     }
 
     console.log(`[geminiProxy] Generating report (${reportType || 'general'}) for user: ${decodedUser.uid}`);
 
     const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiKey}`;
+    const normalizedSystemInstruction = systemInstruction
+      ? (typeof systemInstruction === 'string' ? { parts: [{ text: systemInstruction }] } : systemInstruction)
+      : undefined;
+
     const payload = {
-      contents: [{ parts: [{ text: prompt }] }],
-      ...(systemInstruction ? { systemInstruction: { parts: [{ text: systemInstruction }] } } : {})
+      contents: hasContents ? contents : [{ parts: [{ text: prompt }] }],
+      ...(normalizedSystemInstruction ? { systemInstruction: normalizedSystemInstruction } : {}),
+      ...(generationConfig ? { generationConfig } : {}),
+      ...(tools ? { tools } : {})
     };
 
     const fetchResponse = await fetch(endpoint, {
