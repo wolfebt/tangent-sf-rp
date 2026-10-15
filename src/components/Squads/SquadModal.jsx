@@ -176,6 +176,7 @@ export const SquadModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
               onClick={onClose}
               className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-700 transition-colors cursor-pointer"
               title="Close modal"
+              aria-label="Close modal"
             >
               <X size={16} />
             </button>

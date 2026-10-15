@@ -92,7 +92,9 @@ export const CreateSquadModal = ({ isOpen, onClose, onCreated }) => {
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors"
+            className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors cursor-pointer"
+            title="Close modal"
+            aria-label="Close modal"
           >
             <X size={16} />
           </button>
