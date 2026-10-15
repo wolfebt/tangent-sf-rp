@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useDeferredValue } from 'react';
 import { 
   Plus, 
   Search, 
@@ -36,6 +36,8 @@ export const CodexDatasetDashboard = ({
   onOpenIngestion
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
+  // ⚡ Bolt: Defer search term to prevent main thread blocking during rapid typing
+  const deferredSearchTerm = useDeferredValue(searchTerm);
   const [tlFilter, setTlFilter] = useState('ALL');
   const [kwCategoryFilter, setKwCategoryFilter] = useState('ALL'); // 'ALL' | 'directives' | 'railguards'
   const [viewMode, setViewMode] = useState('cards'); // 'cards' | 'table'
@@ -94,8 +96,8 @@ export const CodexDatasetDashboard = ({
         const hasNegKw = Array.isArray(item.negative_keywords) ? item.negative_keywords.length > 0 : !!(item.negative_keywords && String(item.negative_keywords).trim());
         if (!hasNegKw) return false;
       }
-      if (!searchTerm.trim()) return true;
-      const term = searchTerm.toLowerCase();
+      if (!deferredSearchTerm.trim()) return true;
+      const term = deferredSearchTerm.toLowerCase();
       const name = (item.name || item.title || '').toLowerCase();
       const desc = (item.description || item.mechanic || '').toLowerCase();
       const cat = (item.category || item.type || '').toString().toLowerCase();
@@ -103,7 +105,7 @@ export const CodexDatasetDashboard = ({
       const negKw = (item.negative_keywords ? String(item.negative_keywords) : '').toLowerCase();
       return name.includes(term) || desc.includes(term) || cat.includes(term) || kw.includes(term) || negKw.includes(term);
     });
-  }, [records, tlFilter, kwCategoryFilter, searchTerm]);
+  }, [records, tlFilter, kwCategoryFilter, deferredSearchTerm]);
 
   // Formula sandbox for property matrices
   const sandboxCalculations = useMemo(() => {
