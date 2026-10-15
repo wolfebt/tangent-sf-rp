@@ -715,7 +715,7 @@ const FlagPersonaLftModal = ({ isOpen, onClose, personas = [], currentUser, exis
               </p>
             </div>
           </div>
-          <button type="button" onClick={onClose} className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer">
+          <button type="button" onClick={onClose} aria-label="Close" title="Close" className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer">
             <X size={15} />
           </button>
         </div>
@@ -877,7 +877,7 @@ const FlagSquadLfpModal = ({ isOpen, onClose, squads = [], currentUser, onSave, 
               </p>
             </div>
           </div>
-          <button type="button" onClick={onClose} className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer">
+          <button type="button" onClick={onClose} aria-label="Close" title="Close" className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer">
             <X size={15} />
           </button>
         </div>
