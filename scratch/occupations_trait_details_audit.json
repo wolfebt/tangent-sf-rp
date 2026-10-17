@@ -1,0 +1,1199 @@
+[
+  {
+    "name": "Adept",
+    "id": "occupation-adept",
+    "trait_count": 10,
+    "traits": [
+      {
+        "id": "trait-enhanced-abilities",
+        "name": "Enhanced Abilities",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Adepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race."
+      },
+      {
+        "id": "trait-heightened-senses",
+        "name": "Heightened Senses",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Adepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras."
+      },
+      {
+        "id": "trait-martial-arts-mastery",
+        "name": "Martial Arts Mastery",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Many adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics."
+      },
+      {
+        "id": "trait-mastery-of-a-discipline",
+        "name": "Mastery of a Discipline",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Adepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively."
+      },
+      {
+        "id": "trait-mystical-or-spiritual-connection",
+        "name": "Mystical or Spiritual Connection",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Adepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world."
+      },
+      {
+        "id": "trait-resourcefulness",
+        "name": "Resourcefulness",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Makes the most of scarce tools, improvising creative solutions under pressure."
+      },
+      {
+        "id": "trait-special-equipment",
+        "name": "Special Equipment",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Adepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties."
+      },
+      {
+        "id": "trait-special-ability",
+        "name": "Special Ability",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Adepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability."
+      },
+      {
+        "id": "trait-specialized-skills",
+        "name": "Specialized Skills",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Adepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession."
+      },
+      {
+        "id": "trait-versatility",
+        "name": "Versatility",
+        "tier": "Basic",
+        "type": "General",
+        "description": "Adaptable skill set allowing the character to perform a wide variety of tasks without specialized tools or preparation."
+      }
+    ]
+  },
+  {
+    "name": "Agent",
+    "id": "occupation-agent",
+    "trait_count": 15,
+    "traits": [
+      {
+        "id": "trait-adaptability",
+        "name": "Adaptability",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions."
+      },
+      {
+        "id": "trait-combat-skills",
+        "name": "Combat Skills",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Brutal self-defense instincts developed against predatory wildlife and raiders."
+      },
+      {
+        "id": "trait-deception",
+        "name": "Deception",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Disguise, impersonation, and deception"
+      },
+      {
+        "id": "trait-guile",
+        "name": "Guile",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Good at devising clever solutions"
+      },
+      {
+        "id": "trait-investigation",
+        "name": "Investigation",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Gathering information, analyzing data, and conducting surveillance"
+      },
+      {
+        "id": "trait-languages",
+        "name": "Languages",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Fluency in multiple languages"
+      },
+      {
+        "id": "trait-mental-resilience",
+        "name": "Mental Resilience",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Withstand psychological challenges"
+      },
+      {
+        "id": "trait-networking",
+        "name": "Networking",
+        "tier": "Basic",
+        "type": "Social",
+        "description": "A wide network of professional and informal contacts across industries, syndicates, and governments for information and resource gathering."
+      },
+      {
+        "id": "trait-persuasion",
+        "name": "Persuasion",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Convincing others to cooperate, negotiation, deception, and diplomacy"
+      },
+      {
+        "id": "trait-physical-fitness",
+        "name": "Physical Fitness",
+        "tier": "Basic",
+        "type": "Physical",
+        "description": "Superior cardiovascular endurance, stamina, and physical conditioning, granting bonuses on long-distance athletics checks."
+      },
+      {
+        "id": "trait-quick-thinking",
+        "name": "Quick Thinking",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Think on their feet, make split-second decisions, and adapt to rapidly changing situations"
+      },
+      {
+        "id": "trait-stealth",
+        "name": "Stealth",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Operating covertly, sneaking, hiding, and remaining undetected"
+      },
+      {
+        "id": "trait-survival-skills",
+        "name": "Survival Skills",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Honed instincts for foraging, navigating wilderness, and finding shelter in hostile terrain."
+      },
+      {
+        "id": "trait-technology",
+        "name": "Technology",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Familiarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons"
+      },
+      {
+        "id": "trait-travel",
+        "name": "Travel",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *+2 Piloting and Navigation*  #"
+      }
+    ]
+  },
+  {
+    "name": "Builder",
+    "id": "occupation-builder",
+    "trait_count": 15,
+    "traits": [
+      {
+        "id": "trait-adaptability",
+        "name": "Adaptability",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions."
+      },
+      {
+        "id": "trait-attention-to-detail",
+        "name": "Attention to Detail",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Meticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies."
+      },
+      {
+        "id": "trait-attention-to-safety",
+        "name": "Attention to Safety",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Awareness of safety protocols and ensuring that their creations are safe to use"
+      },
+      {
+        "id": "trait-business-acumen",
+        "name": "Business Acumen",
+        "tier": "Basic",
+        "type": "Mental",
+        "description": "Keen understanding of market dynamics, trade valuation, credit arbitration, and contract law."
+      },
+      {
+        "id": "trait-creativity",
+        "name": "Creativity",
+        "tier": "Basic",
+        "type": "Mental",
+        "description": "Ingenious problem solving and out-of-the-box thinking when crafting, engineering, or improvising solutions."
+      },
+      {
+        "id": "trait-environmental-awareness",
+        "name": "Environmental Awareness",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Attuned to ambient shifts in barometric pressure, water currents, temperature, and atmospheric toxicity."
+      },
+      {
+        "id": "trait-mecha-physics",
+        "name": "Mecha-Physics",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Comprehensive understanding of physics"
+      },
+      {
+        "id": "trait-machine-affinity",
+        "name": "Machine Affinity",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Natural aptitude for working with machinery and tools"
+      },
+      {
+        "id": "trait-patience",
+        "name": "Patience",
+        "tier": "Basic",
+        "type": "Mental",
+        "description": "Methodical and disciplined mental focus that excels during extended research, stakeouts, and precision crafting."
+      },
+      {
+        "id": "trait-persistence",
+        "name": "Persistence",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Tireless determination that runs countless trials until a breakthrough is achieved."
+      },
+      {
+        "id": "trait-problem-solving-skills",
+        "name": "Problem-Solving Skills",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Strong analytical and problem-solving skills"
+      },
+      {
+        "id": "trait-teamwork",
+        "name": "Teamwork",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Practiced coordination in gang work, shift labor, and complex multi-person tasks."
+      },
+      {
+        "id": "trait-technical-knowledge",
+        "name": "Technical Knowledge",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Deep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques"
+      },
+      {
+        "id": "trait-technological-aptitude",
+        "name": "Technological Aptitude",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Natural aptitude for understanding and operating advanced technology"
+      },
+      {
+        "id": "trait-time-management",
+        "name": "Time Management",
+        "tier": "Basic",
+        "type": "Mental",
+        "description": "Mastery of operational logistics, prioritizing tasks, and maximizing productivity during downtime."
+      }
+    ]
+  },
+  {
+    "name": "Citizen",
+    "id": "occupation-citizen",
+    "trait_count": 10,
+    "traits": [
+      {
+        "id": "trait-adaptability",
+        "name": "Adaptability",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions."
+      },
+      {
+        "id": "trait-communication",
+        "name": "Communication",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Effective communicators, able to convey complex ideas and information clearly and persuasively."
+      },
+      {
+        "id": "trait-ethical-awareness",
+        "name": "Ethical awareness",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "May have a strong sense of ethics and corporate responsibility."
+      },
+      {
+        "id": "trait-financial-expertise",
+        "name": "Financial expertise",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Strong understanding of financial management, budgeting, and investment strategies."
+      },
+      {
+        "id": "trait-high-social-standing",
+        "name": "High social standing",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Often have a high social standing, which grants them access to better resources, connections, and opportunities."
+      },
+      {
+        "id": "trait-management",
+        "name": "Management",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Skill in organizing resort logistics, hospitality staff, entertainment venues, and guest services."
+      },
+      {
+        "id": "trait-negotiation",
+        "name": "Negotiation",
+        "tier": "Basic",
+        "type": "Social",
+        "description": "Adept at bargaining, contract dispute resolution, diplomacy, and finding mutually agreeable compromise."
+      },
+      {
+        "id": "trait-networking",
+        "name": "Networking",
+        "tier": "Basic",
+        "type": "Social",
+        "description": "A wide network of professional and informal contacts across industries, syndicates, and governments for information and resource gathering."
+      },
+      {
+        "id": "trait-problem-solving",
+        "name": "Problem Solving",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Exceptional critical thinking and analytical troubleshooting under duress."
+      },
+      {
+        "id": "trait-strategic-thinking",
+        "name": "Strategic thinking",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Skilled at developing long-term plans and strategies to achieve their goals."
+      }
+    ]
+  },
+  {
+    "name": "Criminal",
+    "id": "occupation-criminal",
+    "trait_count": 12,
+    "traits": [
+      {
+        "id": "trait-aggressiveness",
+        "name": "Aggressiveness",
+        "tier": "Basic",
+        "type": "Combat",
+        "description": "Decisive tactical aggression in combat, granting +1 bonus to intimidation and breach actions."
+      },
+      {
+        "id": "trait-b-e",
+        "name": "B&E",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Experience with breaking and entering into secure locations"
+      },
+      {
+        "id": "trait-combat-training",
+        "name": "Combat Training",
+        "tier": "Basic",
+        "type": "Combat",
+        "description": "Extensive formal training in tactical firearms, CQB weapon drills, and battlefield maneuvering."
+      },
+      {
+        "id": "trait-deception",
+        "name": "Deception",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Disguise, impersonation, and deception"
+      },
+      {
+        "id": "trait-hacking",
+        "name": "Hacking",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Experience with hacking into computer systems and stealing information"
+      },
+      {
+        "id": "trait-networking",
+        "name": "Networking",
+        "tier": "Basic",
+        "type": "Social",
+        "description": "A wide network of professional and informal contacts across industries, syndicates, and governments for information and resource gathering."
+      },
+      {
+        "id": "trait-resourcefulness",
+        "name": "Resourcefulness",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Makes the most of scarce tools, improvising creative solutions under pressure."
+      },
+      {
+        "id": "trait-risk-taking",
+        "name": "Risk-Taking",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Willingness to gamble on razor-thin safety margins to accomplish difficult goals."
+      },
+      {
+        "id": "trait-self-preservation",
+        "name": "Self-preservation",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Criminals may be skilled at protecting themselves and avoiding capture by law enforcement"
+      },
+      {
+        "id": "trait-smooth",
+        "name": "Smooth",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Criminals may be charming and persuasive, able to talk their way out of difficult situations"
+      },
+      {
+        "id": "trait-stalker",
+        "name": "Stalker",
+        "tier": "Basic",
+        "type": "Species Trait",
+        "description": "Gain +2 bonus to Perception and Stealth checks versus one target."
+      },
+      {
+        "id": "trait-street-smarts",
+        "name": "Street Smarts",
+        "tier": "Basic",
+        "type": "Social",
+        "description": "Familiarity with underworld hierarchy, shadow markets, slang, and avoiding law enforcement radar."
+      }
+    ]
+  },
+  {
+    "name": "Drifter",
+    "id": "occupation-drifter",
+    "trait_count": 16,
+    "traits": [
+      {
+        "id": "trait-adaptability",
+        "name": "Adaptability",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions."
+      },
+      {
+        "id": "trait-adventurous-spirit",
+        "name": "Adventurous Spirit",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Fearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds."
+      },
+      {
+        "id": "trait-aggressiveness",
+        "name": "Aggressiveness",
+        "tier": "Basic",
+        "type": "Combat",
+        "description": "Decisive tactical aggression in combat, granting +1 bonus to intimidation and breach actions."
+      },
+      {
+        "id": "trait-caution",
+        "name": "Caution",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Cautious and prefer to avoid unnecessary risks, especially when dealing with others"
+      },
+      {
+        "id": "trait-combat-training",
+        "name": "Combat Training",
+        "tier": "Basic",
+        "type": "Combat",
+        "description": "Extensive formal training in tactical firearms, CQB weapon drills, and battlefield maneuvering."
+      },
+      {
+        "id": "trait-fearlessness",
+        "name": "Fearlessness",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Seem fearless and willing to take risks in order to achieve their goals"
+      },
+      {
+        "id": "trait-jack-of-all-trades",
+        "name": "Jack-of-All-Trades",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Possess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group"
+      },
+      {
+        "id": "trait-loyalty",
+        "name": "Loyalty",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "While they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups"
+      },
+      {
+        "id": "trait-mobility",
+        "name": "Mobility",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Often on the move, traveling from place to place and exploring new territories"
+      },
+      {
+        "id": "trait-resourcefulness",
+        "name": "Resourcefulness",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Makes the most of scarce tools, improvising creative solutions under pressure."
+      },
+      {
+        "id": "trait-scavenging",
+        "name": "Scavenging",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Excel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources"
+      },
+      {
+        "id": "trait-self-sufficiency",
+        "name": "Self-sufficiency",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Often self-sufficient and able to take care of themselves without relying on others"
+      },
+      {
+        "id": "trait-stalker",
+        "name": "Stalker",
+        "tier": "Basic",
+        "type": "Species Trait",
+        "description": "Gain +2 bonus to Perception and Stealth checks versus one target."
+      },
+      {
+        "id": "trait-street-smarts",
+        "name": "Street Smarts",
+        "tier": "Basic",
+        "type": "Social",
+        "description": "Familiarity with underworld hierarchy, shadow markets, slang, and avoiding law enforcement radar."
+      },
+      {
+        "id": "trait-survival",
+        "name": "Survival",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Ability to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter"
+      },
+      {
+        "id": "trait-unpredictability",
+        "name": "Unpredictability",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Unpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *+2 Initiative* #"
+      }
+    ]
+  },
+  {
+    "name": "Entertainer",
+    "id": "occupation-entertainer",
+    "trait_count": 10,
+    "traits": [
+      {
+        "id": "trait-adaptability",
+        "name": "Adaptability",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions."
+      },
+      {
+        "id": "trait-charismatic",
+        "name": "Charismatic",
+        "tier": "Basic",
+        "type": "Social",
+        "description": "Natural charm and magnetism that puts strangers at ease and bolsters leadership checks."
+      },
+      {
+        "id": "trait-confident",
+        "name": "Confident",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Comfortable in the spotlight"
+      },
+      {
+        "id": "trait-creative",
+        "name": "Creative",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Skilled at coming up with new ideas"
+      },
+      {
+        "id": "trait-energetic",
+        "name": "Energetic",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "High levels of energy and enthusiasm"
+      },
+      {
+        "id": "trait-fans",
+        "name": "Fans",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Has a loyal following of fans"
+      },
+      {
+        "id": "trait-fellow-artists",
+        "name": "Fellow Artists",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Has close relationships with other performers"
+      },
+      {
+        "id": "trait-freedom",
+        "name": "Freedom",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Values independence and self-expression"
+      },
+      {
+        "id": "trait-fun",
+        "name": "Fun",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Values having a good time and making others happy"
+      },
+      {
+        "id": "trait-venues",
+        "name": "Venues",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Has strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #"
+      }
+    ]
+  },
+  {
+    "name": "Merchant",
+    "id": "occupation-merchant",
+    "trait_count": 12,
+    "traits": [
+      {
+        "id": "trait-adaptability",
+        "name": "Adaptability",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions."
+      },
+      {
+        "id": "trait-appraisal",
+        "name": "Appraisal",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Merchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices."
+      },
+      {
+        "id": "trait-business-acumen",
+        "name": "Business Acumen",
+        "tier": "Basic",
+        "type": "Mental",
+        "description": "Keen understanding of market dynamics, trade valuation, credit arbitration, and contract law."
+      },
+      {
+        "id": "trait-charismatic",
+        "name": "Charismatic",
+        "tier": "Basic",
+        "type": "Social",
+        "description": "Natural charm and magnetism that puts strangers at ease and bolsters leadership checks."
+      },
+      {
+        "id": "trait-cultural-awareness",
+        "name": "Cultural Awareness",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Merchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds."
+      },
+      {
+        "id": "trait-linguistics",
+        "name": "Linguistics",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Merchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals."
+      },
+      {
+        "id": "trait-logistics",
+        "name": "Logistics",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Merchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs."
+      },
+      {
+        "id": "trait-negotiation",
+        "name": "Negotiation",
+        "tier": "Basic",
+        "type": "Social",
+        "description": "Adept at bargaining, contract dispute resolution, diplomacy, and finding mutually agreeable compromise."
+      },
+      {
+        "id": "trait-networking",
+        "name": "Networking",
+        "tier": "Basic",
+        "type": "Social",
+        "description": "A wide network of professional and informal contacts across industries, syndicates, and governments for information and resource gathering."
+      },
+      {
+        "id": "trait-product-knowledge",
+        "name": "Product Knowledge",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Merchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods."
+      },
+      {
+        "id": "trait-resourcefulness",
+        "name": "Resourcefulness",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Makes the most of scarce tools, improvising creative solutions under pressure."
+      },
+      {
+        "id": "trait-risk-management",
+        "name": "Risk Management",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Merchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *+1 Karma Point* #"
+      }
+    ]
+  },
+  {
+    "name": "Representative",
+    "id": "occupation-representative",
+    "trait_count": 10,
+    "traits": [
+      {
+        "id": "trait-analytical",
+        "name": "Analytical",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Ability to analyze data and information to make informed decisions"
+      },
+      {
+        "id": "trait-conflict-resolution",
+        "name": "Conflict resolution",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Ability to resolve conflicts effectively and find solutions that satisfy all parties involved"
+      },
+      {
+        "id": "trait-creativity",
+        "name": "Creativity",
+        "tier": "Basic",
+        "type": "Mental",
+        "description": "Ingenious problem solving and out-of-the-box thinking when crafting, engineering, or improvising solutions."
+      },
+      {
+        "id": "trait-emotional-intelligence",
+        "name": "Emotional intelligence",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Ability to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states"
+      },
+      {
+        "id": "trait-flexibility",
+        "name": "Flexibility",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Ability to adapt to changing circumstances and adjust plans and strategies as needed"
+      },
+      {
+        "id": "trait-integrity",
+        "name": "Integrity",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Honest and trustworthy, able to maintain a high level of integrity in their work"
+      },
+      {
+        "id": "trait-languages",
+        "name": "Languages",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Fluency in multiple languages"
+      },
+      {
+        "id": "trait-negotiation",
+        "name": "Negotiation",
+        "tier": "Basic",
+        "type": "Social",
+        "description": "Adept at bargaining, contract dispute resolution, diplomacy, and finding mutually agreeable compromise."
+      },
+      {
+        "id": "trait-networking",
+        "name": "Networking",
+        "tier": "Basic",
+        "type": "Social",
+        "description": "A wide network of professional and informal contacts across industries, syndicates, and governments for information and resource gathering."
+      },
+      {
+        "id": "trait-time-management",
+        "name": "Time Management",
+        "tier": "Basic",
+        "type": "Mental",
+        "description": "Mastery of operational logistics, prioritizing tasks, and maximizing productivity during downtime."
+      }
+    ]
+  },
+  {
+    "name": "Scholar",
+    "id": "occupation-scholar",
+    "trait_count": 10,
+    "traits": [
+      {
+        "id": "trait-adaptability",
+        "name": "Adaptability",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions."
+      },
+      {
+        "id": "trait-attention-to-detail",
+        "name": "Attention to Detail",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Meticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies."
+      },
+      {
+        "id": "trait-collaboration",
+        "name": "Collaboration",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Peer-review synergy and interdisciplinary communication across research teams."
+      },
+      {
+        "id": "trait-continuous-learning",
+        "name": "Continuous Learning",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Has a thirst for knowledge and is committed to lifelong learning."
+      },
+      {
+        "id": "trait-critical-thinking",
+        "name": "Critical thinking",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Possess strong critical thinking skills."
+      },
+      {
+        "id": "trait-ethical-conduct",
+        "name": "Ethical conduct",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Adheres to ethical standards in research and work."
+      },
+      {
+        "id": "trait-metacognition",
+        "name": "Metacognition",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Aware of own cognitive abilities and strategies."
+      },
+      {
+        "id": "trait-patience",
+        "name": "Patience",
+        "tier": "Basic",
+        "type": "Mental",
+        "description": "Methodical and disciplined mental focus that excels during extended research, stakeouts, and precision crafting."
+      },
+      {
+        "id": "trait-problem-solving",
+        "name": "Problem Solving",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Exceptional critical thinking and analytical troubleshooting under duress."
+      },
+      {
+        "id": "trait-technological-innovation",
+        "name": "Technological innovation",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Able to create, adapt, and improve technology in novel ways."
+      }
+    ]
+  },
+  {
+    "name": "Scout",
+    "id": "occupation-scout",
+    "trait_count": 13,
+    "traits": [
+      {
+        "id": "trait-adaptability",
+        "name": "Adaptability",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions."
+      },
+      {
+        "id": "trait-camouflage",
+        "name": "Camouflage",
+        "tier": "Basic",
+        "type": "Species Trait",
+        "description": "Choose a favored terrain type. +4 bonus on Stealth checks within that terrain."
+      },
+      {
+        "id": "trait-combat-training",
+        "name": "Combat Training",
+        "tier": "Basic",
+        "type": "Combat",
+        "description": "Extensive formal training in tactical firearms, CQB weapon drills, and battlefield maneuvering."
+      },
+      {
+        "id": "trait-curiosity",
+        "name": "Curiosity",
+        "tier": "Advanced",
+        "type": "Species Trait",
+        "description": "An insatiable drive to explore the unknown, analyze anomalous phenomena, and investigate new discoveries."
+      },
+      {
+        "id": "trait-independence",
+        "name": "Independence",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Self-reliant problem solving in the cold vacuum where help is light-years away."
+      },
+      {
+        "id": "trait-keen-observation",
+        "name": "Keen Observation",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Scouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings."
+      },
+      {
+        "id": "trait-navigation",
+        "name": "Navigation",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Scouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively."
+      },
+      {
+        "id": "trait-physical-fitness",
+        "name": "Physical Fitness",
+        "tier": "Basic",
+        "type": "Physical",
+        "description": "Superior cardiovascular endurance, stamina, and physical conditioning, granting bonuses on long-distance athletics checks."
+      },
+      {
+        "id": "trait-pilot",
+        "name": "Pilot",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Most field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations."
+      },
+      {
+        "id": "trait-resourcefulness",
+        "name": "Resourcefulness",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Makes the most of scarce tools, improvising creative solutions under pressure."
+      },
+      {
+        "id": "trait-stalker",
+        "name": "Stalker",
+        "tier": "Basic",
+        "type": "Species Trait",
+        "description": "Gain +2 bonus to Perception and Stealth checks versus one target."
+      },
+      {
+        "id": "trait-survival-skills",
+        "name": "Survival Skills",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Honed instincts for foraging, navigating wilderness, and finding shelter in hostile terrain."
+      },
+      {
+        "id": "trait-terrain-expert",
+        "name": "Terrain Expert",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Scouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #"
+      }
+    ]
+  },
+  {
+    "name": "Soldier",
+    "id": "occupation-soldier",
+    "trait_count": 16,
+    "traits": [
+      {
+        "id": "trait-adaptability",
+        "name": "Adaptability",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions."
+      },
+      {
+        "id": "trait-attention-to-detail",
+        "name": "Attention to Detail",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Meticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies."
+      },
+      {
+        "id": "trait-combat-training",
+        "name": "Combat Training",
+        "tier": "Basic",
+        "type": "Combat",
+        "description": "Extensive formal training in tactical firearms, CQB weapon drills, and battlefield maneuvering."
+      },
+      {
+        "id": "trait-cool",
+        "name": "Cool",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Able to remain calm and focused even in high-pressure situations"
+      },
+      {
+        "id": "trait-cunning",
+        "name": "Cunning",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Rely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies"
+      },
+      {
+        "id": "trait-discipline",
+        "name": "Discipline",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Disciplined and able to follow orders without question, even in high-pressure situations"
+      },
+      {
+        "id": "trait-loyal",
+        "name": "Loyal",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Unwavering commitment that rejects subversion, psychological coercion, and bribery."
+      },
+      {
+        "id": "trait-observant",
+        "name": "Observant",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Alert and observant, constantly scanning the area for potential threats"
+      },
+      {
+        "id": "trait-physical-prowess",
+        "name": "Physical Prowess",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Physically fit and strong, can endure long periods of physical activity and combat"
+      },
+      {
+        "id": "trait-rapid-response",
+        "name": "Rapid Response",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Able to respond quickly to threats and can act decisively in high-pressure situations"
+      },
+      {
+        "id": "trait-resourceful",
+        "name": "Resourceful",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Able to make weapons out of anything and can adapt to new situations quickly"
+      },
+      {
+        "id": "trait-stalker",
+        "name": "Stalker",
+        "tier": "Basic",
+        "type": "Species Trait",
+        "description": "Gain +2 bonus to Perception and Stealth checks versus one target."
+      },
+      {
+        "id": "trait-strategic",
+        "name": "Strategic",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Battlefield tactical assessment and mission operation planning."
+      },
+      {
+        "id": "trait-team-oriented",
+        "name": "Team-Oriented",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Able to work in teams and coordinate their efforts to achieve their objectives"
+      },
+      {
+        "id": "trait-versatile",
+        "name": "Versatile",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Able to operate in a variety of environments, including underwater and in zero-gravity"
+      },
+      {
+        "id": "trait-well-equipped",
+        "name": "Well-Equipped",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Equipped with the latest technology and weaponry   *+2 Equipment* #"
+      }
+    ]
+  },
+  {
+    "name": "Specialist",
+    "id": "occupation-specialist",
+    "trait_count": 9,
+    "traits": [
+      {
+        "id": "trait-adaptability",
+        "name": "Adaptability",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions."
+      },
+      {
+        "id": "trait-expertise",
+        "name": "Expertise",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "In-depth knowledge and experience in a particular area"
+      },
+      {
+        "id": "trait-leadership",
+        "name": "Leadership",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Inspirational command presence that organizes groups and rallies morale."
+      },
+      {
+        "id": "trait-physical-and-mental-resilience",
+        "name": "Physical and mental resilience",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Ability to endure harsh conditions or high-stress situations"
+      },
+      {
+        "id": "trait-problem-solving",
+        "name": "Problem Solving",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Exceptional critical thinking and analytical troubleshooting under duress."
+      },
+      {
+        "id": "trait-resourcefulness",
+        "name": "Resourcefulness",
+        "tier": "Basic",
+        "type": "Origin Trait",
+        "description": "Makes the most of scarce tools, improvising creative solutions under pressure."
+      },
+      {
+        "id": "trait-team-player",
+        "name": "Team Player",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Ability to communicate effectively and collaborate with others"
+      },
+      {
+        "id": "trait-technological-proficiency",
+        "name": "Technological proficiency",
+        "tier": "Basic",
+        "type": "Occupational Trait",
+        "description": "Proficiency in advanced technology"
+      },
+      {
+        "id": "trait-versatility",
+        "name": "Versatility",
+        "tier": "Basic",
+        "type": "General",
+        "description": "Adaptable skill set allowing the character to perform a wide variety of tasks without specialized tools or preparation."
+      }
+    ]
+  }
+]

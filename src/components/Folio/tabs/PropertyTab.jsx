@@ -18,6 +18,11 @@ import {
   Scale
 } from 'lucide-react';
 import { scaleCarryingCapacity } from '../../../engines/tangentScalingEngine';
+import { 
+  calculateCreditValue, 
+  calculateDCFromCredits, 
+  resolveItemCostDC 
+} from '../../../engines/tangentItemEngines';
 import FolioTooltip from '../shared/FolioTooltip';
 
 const PROPERTY_CONFIG = {
@@ -162,7 +167,10 @@ export const PropertyTab = ({
         name: '',
         qty: 1,
         weight: 0,
-        cost: 0,
+        craft_dc: 10,
+        purchase_dc: 10,
+        cost: 160,
+        credit_value: 160,
         tl: characterData['tech-level'] || '3',
         description: '',
         notes: ''
@@ -232,10 +240,12 @@ export const PropertyTab = ({
             {list.map((item, idx) => {
               const isObj = typeof item === 'object' && item !== null;
               const name = isObj ? (item.name || item.title || 'Item') : String(item);
-              const cp = isObj && item.cp !== undefined ? item.cp : null;
+              const itemDC = isObj ? resolveItemCostDC(item) : 10;
               const qty = isObj && item.qty !== undefined ? item.qty : 1;
               const weight = isObj && item.weight !== undefined ? item.weight : '';
-              const cost = isObj && item.cost !== undefined ? item.cost : '';
+              const cost = isObj && (item.cost !== undefined || item.credit_value !== undefined || item.price !== undefined)
+                ? (item.cost ?? item.credit_value ?? item.price)
+                : calculateCreditValue(itemDC);
               const tl = isObj && item.tl !== undefined ? item.tl : '';
               const damage = isObj && item.damage ? item.damage : '';
               const resistance = isObj && item.resistance ? item.resistance : '';
@@ -257,8 +267,9 @@ export const PropertyTab = ({
                           badge={config.title}
                           badgeColor={config.color === 'emerald' ? 'emerald' : config.color === 'amber' ? 'amber' : config.color === 'purple' ? 'purple' : 'cyan'}
                           description={item.description || item.desc || item.summary || 'No description provided.'}
-                          cost={cost ? `${cost} Cr` : cp ? `${cp} CP` : undefined}
+                          cost={`${(parseInt(cost, 10) || 0).toLocaleString()} Cr`}
                           modifiers={[
+                            { label: 'Craft/Buy DC', value: `DC ${itemDC}` },
                             ...(damage ? [{ label: 'Damage', value: damage }] : []),
                             ...(resistance ? [{ label: 'DR', value: resistance }] : []),
                             ...(weight ? [{ label: 'Weight', value: `${weight} lbs` }] : []),
@@ -273,11 +284,12 @@ export const PropertyTab = ({
                       )}
                     </div>
 
-                    {cp !== null && cp > 0 && (
-                      <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-amber-950 border border-amber-800 text-amber-300 shrink-0">
-                        {cp} CP
-                      </span>
-                    )}
+                    <span
+                      className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-800 text-cyan-300 shrink-0"
+                      title="Crafting DC = Purchase DC = Cost DC"
+                    >
+                      DC {itemDC}
+                    </span>
 
                     {damage && (
                       <button
@@ -320,18 +332,61 @@ export const PropertyTab = ({
                       </div>
                     )}
 
-                    {cost !== '' && (
-                      <div className="flex items-center gap-1 text-[10px] font-mono text-slate-400">
-                        <span className="text-slate-500">Cost:</span>
-                        <input
-                          type="text"
-                          value={cost}
-                          onChange={(e) => handleUpdateItemField(idx, 'cost', e.target.value)}
-                          placeholder="Cr"
-                          className="w-14 bg-slate-900 border border-slate-700 rounded px-1 py-0.5 text-center text-slate-200"
-                        />
-                      </div>
-                    )}
+                    <div className="flex items-center gap-1 text-[10px] font-mono text-slate-400">
+                      <span className="text-cyan-400 font-bold" title="Crafting DC = Purchase DC = Cost DC">DC:</span>
+                      <input
+                        type="number"
+                        value={itemDC}
+                        onChange={(e) => {
+                          const val = parseInt(e.target.value, 10);
+                          const updated = [...list];
+                          const target = typeof updated[idx] === 'object' ? { ...updated[idx] } : { name: updated[idx] };
+                          if (!isNaN(val)) {
+                            const cr = calculateCreditValue(val);
+                            target.craft_dc = val;
+                            target.purchase_dc = val;
+                            target.cost = cr;
+                            target.credit_value = cr;
+                          } else {
+                            target.craft_dc = '';
+                            target.purchase_dc = '';
+                          }
+                          updated[idx] = target;
+                          updateField(config.key, updated);
+                        }}
+                        placeholder="DC"
+                        className="w-12 bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded px-1 py-0.5 text-center text-cyan-300"
+                        title="Crafting/Purchase DC"
+                      />
+                    </div>
+
+                    <div className="flex items-center gap-1 text-[10px] font-mono text-slate-400">
+                      <span className="text-amber-400 font-bold" title="Tangent Standard Curve Credit Value">Cost:</span>
+                      <input
+                        type="number"
+                        value={cost}
+                        onChange={(e) => {
+                          const val = parseInt(e.target.value, 10);
+                          const updated = [...list];
+                          const target = typeof updated[idx] === 'object' ? { ...updated[idx] } : { name: updated[idx] };
+                          if (!isNaN(val)) {
+                            const dc = calculateDCFromCredits(val);
+                            target.cost = val;
+                            target.credit_value = val;
+                            target.craft_dc = dc;
+                            target.purchase_dc = dc;
+                          } else {
+                            target.cost = '';
+                            target.credit_value = '';
+                          }
+                          updated[idx] = target;
+                          updateField(config.key, updated);
+                        }}
+                        placeholder="Cr"
+                        className="w-16 bg-slate-900 border border-slate-700 focus:border-amber-400 rounded px-1 py-0.5 text-center text-amber-300 font-semibold"
+                        title="Cost in Credits (Cr)"
+                      />
+                    </div>
                   </div>
 
                   <div className="flex items-center justify-end gap-1 shrink-0">

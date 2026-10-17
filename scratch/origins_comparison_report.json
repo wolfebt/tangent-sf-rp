@@ -1,0 +1,984 @@
+[
+  {
+    "origin": "AGRICULTURAL",
+    "traits": [
+      {
+        "status": "EXACT",
+        "canonName": "Animal Husbandry",
+        "canonMechanic": "",
+        "systemId": "trait-animal-husbandry",
+        "systemName": "Animal Husbandry",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Expertise in raising and caring for livestock, understanding animal behavior and nutrition."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Botanical Knowledge",
+        "canonMechanic": "\\+2 to Botany Checks",
+        "systemId": "trait-botanical-knowledge",
+        "systemName": "Botanical Knowledge",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Extensive knowledge of plants, crops, and agricultural cultivation techniques."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Community Building",
+        "canonMechanic": "Once per Day may reroll a Social Skill Check",
+        "systemId": "trait-community-building",
+        "systemName": "Community Building",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Values community solidarity and possesses skills in building and maintaining relationships among local groups."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Green Thumb",
+        "canonMechanic": "Checks involving nurturing and helping plants may be made at Advantage",
+        "systemId": "trait-green-thumb",
+        "systemName": "Green Thumb",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Natural talent for nurturing plants and making them thrive even in harsh soil."
+      },
+      {
+        "status": "MISSING",
+        "canonName": "Mechanical Skills",
+        "canonMechanic": "\\+2 to Mechanical Skill Checks",
+        "systemId": null,
+        "systemName": null
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Resourcefulness",
+        "canonMechanic": "Once per Day make a Skill Check of choice at Advantage",
+        "systemId": "trait-resourcefulness",
+        "systemName": "Resourcefulness",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Makes the most of scarce tools, improvising creative solutions under pressure."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Survival Skills",
+        "canonMechanic": "\\+2 Survival Skill Checks",
+        "systemId": "trait-survival-skills",
+        "systemName": "Survival Skills",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Honed instincts for foraging, navigating wilderness, and finding shelter in hostile terrain."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Sustainable Practices",
+        "canonMechanic": "\\+2 to any Agriculture based checks in a prepared grow area and to prepare and maintain an area.",
+        "systemId": "trait-sustainable-practices",
+        "systemName": "Sustainable Practices",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Deep understanding of ecological balance, crop rotation, and water conservation."
+      }
+    ]
+  },
+  {
+    "origin": "AQUATIC",
+    "traits": [
+      {
+        "status": "EXACT",
+        "canonName": "Adaptability",
+        "canonMechanic": "\\+2 to a specific Skill Check, may change assigned Skill daily",
+        "systemId": "trait-adaptability",
+        "systemName": "Adaptability",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Aquatic Construction",
+        "canonMechanic": "\\+2 to all Construction Checks",
+        "systemId": "trait-aquatic-construction",
+        "systemName": "Aquatic Construction",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Skilled in engineering watertight hulls, flotilla moorings, and submerged habitats."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Curiosity",
+        "canonMechanic": "Regain a Karma Point on the first encounter when dealing with something new during the session \\- creature, area, technology, etc.",
+        "systemId": "trait-curiosity",
+        "systemName": "Curiosity",
+        "systemTier": "Advanced",
+        "systemType": "Species Trait",
+        "systemMechanics": "+4 bonus on Diplomacy checks to gather information, and Knowledge checks."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Empathy",
+        "canonMechanic": "\\+2 Insight and \\+2 Handle Animal Checks while being Friendly to other creature",
+        "systemId": "trait-empathy",
+        "systemName": "Empathy",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Intuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Environmental Awareness",
+        "canonMechanic": "\\+2 Alertness",
+        "systemId": "trait-environmental-awareness",
+        "systemName": "Environmental Awareness",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Attuned to ambient shifts in barometric pressure, water currents, temperature, and atmospheric toxicity."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Sea Piloting",
+        "canonMechanic": "\\+2 to all Seacraft Operation \\- Submersibles, Boats, Hovercraft, and Aircraft",
+        "systemId": "trait-sea-piloting",
+        "systemName": "Sea Piloting",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Mastery over hydrofoils, submersibles, surface skiffs, and massive oceanic platforms."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Resourcefulness",
+        "canonMechanic": "Once per Day make a Skill Check of choice at Advantage",
+        "systemId": "trait-resourcefulness",
+        "systemName": "Resourcefulness",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Makes the most of scarce tools, improvising creative solutions under pressure."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Survival Skills",
+        "canonMechanic": "\\+2 Survival Skill Checks",
+        "systemId": "trait-survival-skills",
+        "systemName": "Survival Skills",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Honed instincts for foraging, navigating wilderness, and finding shelter in hostile terrain."
+      }
+    ]
+  },
+  {
+    "origin": "COLONY",
+    "traits": [
+      {
+        "status": "EXACT",
+        "canonName": "Adaptability",
+        "canonMechanic": "\\+2 to a specific Skill Check, may change assigned Skill daily",
+        "systemId": "trait-adaptability",
+        "systemName": "Adaptability",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Adventurous Spirit",
+        "canonMechanic": "One Skill Check at Advantage per day",
+        "systemId": "trait-adventurous-spirit",
+        "systemName": "Adventurous Spirit",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Fearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Community Building",
+        "canonMechanic": "Once per Day may reroll a Social Skill Check",
+        "systemId": "trait-community-building",
+        "systemName": "Community Building",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Values community solidarity and possesses skills in building and maintaining relationships among local groups."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Diplomacy",
+        "canonMechanic": "\\+2 Diplomacy",
+        "systemId": "trait-diplomacy",
+        "systemName": "Diplomacy",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Skill in negotiation, de-escalating tensions, and maintaining formal alliances."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Leadership",
+        "canonMechanic": "\\+2 Leadership",
+        "systemId": "trait-leadership",
+        "systemName": "Leadership",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Inspirational command presence that organizes groups and rallies morale."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Problem Solving",
+        "canonMechanic": "Once per Day may reroll a Mental Skill Check",
+        "systemId": "trait-problem-solving",
+        "systemName": "Problem Solving",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Exceptional critical thinking and analytical troubleshooting under duress."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Resource Management",
+        "canonMechanic": "Wealth Checks for Basic Resources made at Advantage",
+        "systemId": "trait-resource-management",
+        "systemName": "Resource Management",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Meticulous rationing of food, water, battery cells, and structural spare parts."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Scientific Knowledge",
+        "canonMechanic": "\\+2 to Science Knowledge",
+        "systemId": "trait-scientific-knowledge",
+        "systemName": "Scientific Knowledge",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Practical applied science in xenobiology, geology, and atmospheric terraforming."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Survival Skills",
+        "canonMechanic": "\\+2 Survival Skill Checks",
+        "systemId": "trait-survival-skills",
+        "systemName": "Survival Skills",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Honed instincts for foraging, navigating wilderness, and finding shelter in hostile terrain."
+      }
+    ]
+  },
+  {
+    "origin": "ENLIGHTENED",
+    "traits": [
+      {
+        "status": "EXACT",
+        "canonName": "Empathy",
+        "canonMechanic": "\\+2 Insight and \\+2 Handle Animal Checks while being Friendly",
+        "systemId": "trait-empathy",
+        "systemName": "Empathy",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Intuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Curiosity",
+        "canonMechanic": "Regain a Karma Point on the first encounter when dealing with something new during the session \\- creature, area, technology, etc.",
+        "systemId": "trait-curiosity",
+        "systemName": "Curiosity",
+        "systemTier": "Advanced",
+        "systemType": "Species Trait",
+        "systemMechanics": "+4 bonus on Diplomacy checks to gather information, and Knowledge checks."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Mentorship",
+        "canonMechanic": "Those under the Enlightened character’s tutelage may make Study Checks at Advantage",
+        "systemId": "trait-mentorship",
+        "systemName": "Mentorship",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Patient pedagogical wisdom that accelerates the learning and focus of pupils and companions."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Open-Mindedness",
+        "canonMechanic": "Reduce all Stigma Penalties with others by the Enlightened character’s Wisdom score for both parties",
+        "systemId": "trait-open-mindedness",
+        "systemName": "Open-Mindedness",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Philosophical tolerance that bridges deep cultural, religious, and alien divides."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Peaceful Nature",
+        "canonMechanic": "\\+2 to Diplomacy for peaceful meditations",
+        "systemId": "trait-peaceful-nature",
+        "systemName": "Peaceful Nature",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Radiates serene composure that disarms hostility and calms tense standoffs."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Problem-Solving Skills",
+        "canonMechanic": "Once per Day may reroll a Mental Skill Check",
+        "systemId": "trait-problem-solving-skills",
+        "systemName": "Problem-Solving Skills",
+        "systemTier": "Basic",
+        "systemType": "Occupational Trait",
+        "systemMechanics": "Strong analytical and problem-solving skills"
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Shared Wisdom",
+        "canonMechanic": "Any Check to Aid, Guide or Instruct another (granting them a bonus) may be made at Advantage",
+        "systemId": "trait-shared-wisdom",
+        "systemName": "Shared Wisdom",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Offers profound insight that elevates the actions of comrades."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Spiritual Awareness",
+        "canonMechanic": "\\+1 to Attune and one Metafocus Skill",
+        "systemId": "trait-spiritual-awareness",
+        "systemName": "Spiritual Awareness",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Attuned to metaphysical resonances, ley conduits, and unseen psychic currents."
+      }
+    ]
+  },
+  {
+    "origin": "HOSTILE",
+    "traits": [
+      {
+        "status": "EXACT",
+        "canonName": "Combat Skills",
+        "canonMechanic": "\\+2 to a Combat Skill of choice",
+        "systemId": "trait-combat-skills",
+        "systemName": "Combat Skills",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Brutal self-defense instincts developed against predatory wildlife and raiders."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Intuition",
+        "canonMechanic": "Re-Roll any one failed Perception check per day",
+        "systemId": "trait-intuition",
+        "systemName": "Intuition",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "A preternatural sixth sense for impending ambushes, environmental collapses, and traps."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Mental Toughness",
+        "canonMechanic": "\\+2 Willpower Checks",
+        "systemId": "trait-mental-toughness",
+        "systemName": "Mental Toughness",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Psychological resilience against isolation, sensory deprivation, fear, and pain."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Physical Endurance",
+        "canonMechanic": "\\+2 Fortitude Checks",
+        "systemId": "trait-physical-endurance",
+        "systemName": "Physical Endurance",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "High tolerance for atmospheric toxins, extreme temperatures, and caloric deprivation."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Pilot Skills",
+        "canonMechanic": "\\+2 Piloting",
+        "systemId": "trait-pilot-skills",
+        "systemName": "Pilot Skills",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Practiced control of specialized terrain, atmospheric, or orbital transport craft."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Resourcefulness",
+        "canonMechanic": "Once per Day make a Skill Check of choice at Advantage",
+        "systemId": "trait-resourcefulness",
+        "systemName": "Resourcefulness",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Makes the most of scarce tools, improvising creative solutions under pressure."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Survival Skills",
+        "canonMechanic": "\\+2 Survival Skill Checks",
+        "systemId": "trait-survival-skills",
+        "systemName": "Survival Skills",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Honed instincts for foraging, navigating wilderness, and finding shelter in hostile terrain."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Technical Skills",
+        "canonMechanic": "\\+1 to Mechanical, Electrical and Engineering Skill Checks",
+        "systemId": "trait-technical-skills",
+        "systemName": "Technical Skills",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Practical hands-on maintenance for hardware, wiring, and mechanical assemblies."
+      }
+    ]
+  },
+  {
+    "origin": "INDUSTRIAL",
+    "traits": [
+      {
+        "status": "EXACT",
+        "canonName": "Adaptability",
+        "canonMechanic": "",
+        "systemId": "trait-adaptability",
+        "systemName": "Adaptability",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Mechanical Aptitude",
+        "canonMechanic": "",
+        "systemId": "trait-mechanical-aptitude",
+        "systemName": "Mechanical Aptitude",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Innate comprehension of heavy machinery, hydraulics, conveyor grids, and turbines."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Physical Strength",
+        "canonMechanic": "",
+        "systemId": "trait-physical-strength",
+        "systemName": "Physical Strength",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Musculoskeletal conditioning built through rigorous manual labor and heavy lifting."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Practicality",
+        "canonMechanic": "",
+        "systemId": "trait-practicality",
+        "systemName": "Practicality",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Focuses on utilitarian efficiency, cutting through abstract theories to deliver results."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Problem-Solving Skills",
+        "canonMechanic": "",
+        "systemId": "trait-problem-solving-skills",
+        "systemName": "Problem-Solving Skills",
+        "systemTier": "Basic",
+        "systemType": "Occupational Trait",
+        "systemMechanics": "Strong analytical and problem-solving skills"
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Resourcefulness",
+        "canonMechanic": "",
+        "systemId": "trait-resourcefulness",
+        "systemName": "Resourcefulness",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Makes the most of scarce tools, improvising creative solutions under pressure."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Risk-Taking",
+        "canonMechanic": "",
+        "systemId": "trait-risk-taking",
+        "systemName": "Risk-Taking",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Willingness to gamble on razor-thin safety margins to accomplish difficult goals."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Specialized Knowledge",
+        "canonMechanic": "",
+        "systemId": "trait-specialized-knowledge",
+        "systemName": "Specialized Knowledge",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Deep technical expertise in metallurgy, industrial chemistry, or structural fabrication."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Teamwork",
+        "canonMechanic": "",
+        "systemId": "trait-teamwork",
+        "systemName": "Teamwork",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Practiced coordination in gang work, shift labor, and complex multi-person tasks."
+      }
+    ]
+  },
+  {
+    "origin": "LEISURE",
+    "traits": [
+      {
+        "status": "EXACT",
+        "canonName": "Adaptability",
+        "canonMechanic": "\\+2 to a specific Skill Check, may change assigned Skill daily",
+        "systemId": "trait-adaptability",
+        "systemName": "Adaptability",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Diplomacy",
+        "canonMechanic": "\\+2 Diplomacy",
+        "systemId": "trait-diplomacy",
+        "systemName": "Diplomacy",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Skill in negotiation, de-escalating tensions, and maintaining formal alliances."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Entertainment Skill",
+        "canonMechanic": "\\+2 to a Non-Combat Skill of choice",
+        "systemId": "trait-entertainment-skill",
+        "systemName": "Entertainment Skill",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Talent in performance arts, music, athletics, gaming, or high-stakes social recreation."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Lifestyle Preferences",
+        "canonMechanic": "\\+1 Wealth and \\+1 Diplomacy",
+        "systemId": "trait-lifestyle-preferences",
+        "systemName": "Lifestyle Preferences",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Refined aesthetic tastes and familiarity with high-society etiquette and luxury commerce."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Non-Combat Focus",
+        "canonMechanic": "\\+2 to a Vocation Skill of choice",
+        "systemId": "trait-non-combat-focus",
+        "systemName": "Non-Combat Focus",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Concentrated mastery in civic vocations, gourmet culinary arts, or fine craftsmanship."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Optimistic",
+        "canonMechanic": "\\+1 to Karma Pool",
+        "systemId": "trait-optimistic",
+        "systemName": "Optimistic",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "An unshakeable positive demeanor that inspires resilience in bleak moments."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Management",
+        "canonMechanic": "\\+1 Wealth and \\+1 Leadership",
+        "systemId": "trait-management",
+        "systemName": "Management",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Skill in organizing resort logistics, hospitality staff, entertainment venues, and guest services."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Resourcefulness",
+        "canonMechanic": "Once per Day make a Skill Check of choice at Advantage",
+        "systemId": "trait-resourcefulness",
+        "systemName": "Resourcefulness",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Makes the most of scarce tools, improvising creative solutions under pressure."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Smooth talking",
+        "canonMechanic": "\\+2 Etiquette Checks",
+        "systemId": "trait-smooth-talking",
+        "systemName": "Smooth Talking",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Charismatic conversational flow that disarms suspicion and charms conversational partners."
+      }
+    ]
+  },
+  {
+    "origin": "MILITARISTIC",
+    "traits": [
+      {
+        "status": "EXACT",
+        "canonName": "Combat Trained",
+        "canonMechanic": "\\+2 to a Combat Skill of choice",
+        "systemId": "trait-combat-trained",
+        "systemName": "Combat Trained",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Standard military drills covering marksmanship, close-quarters combat, and fireteam movement."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Disciplined",
+        "canonMechanic": "\\+2 Soldier Vocation",
+        "systemId": "trait-disciplined",
+        "systemName": "Disciplined",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Conditioned obedience to command structures and flawless execution of standard operating procedures."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Honor-bound",
+        "canonMechanic": "Any One check per day at Advantage, but must be for another",
+        "systemId": "trait-honor-bound",
+        "systemName": "Honor-Bound",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Devotion to comrades and code of duty; willing to endure hardship for the unit."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Leadership",
+        "canonMechanic": "\\+2 Leadership Checks",
+        "systemId": "trait-leadership",
+        "systemName": "Leadership",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Inspirational command presence that organizes groups and rallies morale."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Loyal",
+        "canonMechanic": "Domination and Mind-Control Resistance Checks are made at Advantage",
+        "systemId": "trait-loyal",
+        "systemName": "Loyal",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Unwavering commitment that rejects subversion, psychological coercion, and bribery."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Milspec Gear",
+        "canonMechanic": "\\+2 Equipment",
+        "systemId": "trait-milspec-gear",
+        "systemName": "Milspec Gear",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Issued military-grade armor, sidearms, and tactical field gear."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Pilot Skills",
+        "canonMechanic": "\\+2 Piloting",
+        "systemId": "trait-pilot-skills",
+        "systemName": "Pilot Skills",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Practiced control of specialized terrain, atmospheric, or orbital transport craft."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Strategic",
+        "canonMechanic": "Those following the plan will receive a bonus pool to be used during the operation equal to the characters Intellect Score \\+2",
+        "systemId": "trait-strategic",
+        "systemName": "Strategic",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Battlefield tactical assessment and mission operation planning."
+      },
+      {
+        "status": "FUZZY",
+        "canonName": "Tough",
+        "canonMechanic": "\\+1 Fortitude and Willpower Checks",
+        "systemId": "trait-mental-toughness",
+        "systemName": "Mental Toughness",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Psychological resilience against isolation, sensory deprivation, fear, and pain."
+      }
+    ]
+  },
+  {
+    "origin": "RESEARCH",
+    "traits": [
+      {
+        "status": "EXACT",
+        "canonName": "Adaptability",
+        "canonMechanic": "\\+2 to a specific Skill Check, may change assigned Skill daily",
+        "systemId": "trait-adaptability",
+        "systemName": "Adaptability",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Analytical thinking",
+        "canonMechanic": "\\+2 Logic Checks",
+        "systemId": "trait-analytical-thinking",
+        "systemName": "Analytical Thinking",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Systematic data deconstruction, statistical pattern recognition, and logical analysis."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Attention to detail",
+        "canonMechanic": "\\+2 Alertness",
+        "systemId": "trait-attention-to-detail",
+        "systemName": "Attention to Detail",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Meticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Collaboration",
+        "canonMechanic": "additional \\+1 to Aid bonuses received and granted",
+        "systemId": "trait-collaboration",
+        "systemName": "Collaboration",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Peer-review synergy and interdisciplinary communication across research teams."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Curiosity",
+        "canonMechanic": "Regain a Karma Point on the first encounter when dealing with something new during the session \\- creature, area, technology, etc.",
+        "systemId": "trait-curiosity",
+        "systemName": "Curiosity",
+        "systemTier": "Advanced",
+        "systemType": "Species Trait",
+        "systemMechanics": "+4 bonus on Diplomacy checks to gather information, and Knowledge checks."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Intellectualism",
+        "canonMechanic": "\\+2 Academics and \\+2 to a Mental Skill Specialization",
+        "systemId": "trait-intellectualism",
+        "systemName": "Intellectualism",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Formal academic pedagogy and comprehensive theoretical mastery in advanced sciences."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Persistence",
+        "canonMechanic": "\\+1 Karma Point",
+        "systemId": "trait-persistence",
+        "systemName": "Persistence",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Tireless determination that runs countless trials until a breakthrough is achieved."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Problem-solving",
+        "canonMechanic": "Once per Day may reroll a Mental Skill Check",
+        "systemId": "trait-problem-solving",
+        "systemName": "Problem Solving",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Exceptional critical thinking and analytical troubleshooting under duress."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Studious",
+        "canonMechanic": "\\+2 to a Knowledge of choice",
+        "systemId": "trait-studious",
+        "systemName": "Studious",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Deep immersion in research databases, academic journals, and historical archives."
+      }
+    ]
+  },
+  {
+    "origin": "SPACER",
+    "traits": [
+      {
+        "status": "EXACT",
+        "canonName": "Combat Training",
+        "canonMechanic": "\\+2 to a Combat Skill of choice",
+        "systemId": "trait-combat-training",
+        "systemName": "Combat Training",
+        "systemTier": "Basic",
+        "systemType": "Combat",
+        "systemMechanics": "Extensive formal training in tactical firearms, CQB weapon drills, and battlefield maneuvering."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Independence",
+        "canonMechanic": "\\+1 Karma Point",
+        "systemId": "trait-independence",
+        "systemName": "Independence",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Self-reliant problem solving in the cold vacuum where help is light-years away."
+      },
+      {
+        "status": "FUZZY",
+        "canonName": "Leadership Skills",
+        "canonMechanic": "\\+2 Leadership Checks",
+        "systemId": "trait-leadership",
+        "systemName": "Leadership",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Inspirational command presence that organizes groups and rallies morale."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Pilot Skills",
+        "canonMechanic": "\\+2 Piloting",
+        "systemId": "trait-pilot-skills",
+        "systemName": "Pilot Skills",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Practiced control of specialized terrain, atmospheric, or orbital transport craft."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Resourcefulness",
+        "canonMechanic": "Once per Day make a Skill Check of choice at Advantage",
+        "systemId": "trait-resourcefulness",
+        "systemName": "Resourcefulness",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Makes the most of scarce tools, improvising creative solutions under pressure."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Smooth Talking",
+        "canonMechanic": "\\+2 Bluff",
+        "systemId": "trait-smooth-talking",
+        "systemName": "Smooth Talking",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Charismatic conversational flow that disarms suspicion and charms conversational partners."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Technical Skills",
+        "canonMechanic": "\\+1 to Mechanical, Electrical and Engineering Skill Checks",
+        "systemId": "trait-technical-skills",
+        "systemName": "Technical Skills",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Practical hands-on maintenance for hardware, wiring, and mechanical assemblies."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Toughness",
+        "canonMechanic": "\\+1 Fortitude and Willpower Checks",
+        "systemId": "trait-toughness",
+        "systemName": "Toughness",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Physical endurance and psychological grit hardened by harsh living conditions."
+      }
+    ]
+  },
+  {
+    "origin": "URBAN",
+    "traits": [
+      {
+        "status": "EXACT",
+        "canonName": "Adaptability",
+        "canonMechanic": "\\+2 to a specific Skill Check, may change assigned Skill daily",
+        "systemId": "trait-adaptability",
+        "systemName": "Adaptability",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Contacts",
+        "canonMechanic": "Gather Information checks at Advantage",
+        "systemId": "trait-contacts",
+        "systemName": "Contacts",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Extensive rolodex of street informants, corporate fixers, bar owners, and dockworkers."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Resourceful",
+        "canonMechanic": "Once per Day make a Skill Check of choice at Advantage",
+        "systemId": "trait-resourceful",
+        "systemName": "Resourceful",
+        "systemTier": "Basic",
+        "systemType": "Occupational Trait",
+        "systemMechanics": "Able to make weapons out of anything and can adapt to new situations quickly"
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Social Skills",
+        "canonMechanic": "\\+1 all Social Manipulation Skills and Culture Knowledge",
+        "systemId": "trait-social-skills",
+        "systemName": "Social Skills",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Navigates dense cultural melting pots, high-rise galas, and underground speakeasies with ease."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Street Fighting",
+        "canonMechanic": "\\+1 Unarmed Combat and Defense",
+        "systemId": "trait-street-fighting",
+        "systemName": "Street Fighting",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Dirty fighting techniques optimized for claustrophobic alleys, elevator cabs, and crowded subway cars."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Streetwise",
+        "canonMechanic": "\\+2 Streetwise (additional \\+1 in Home City)",
+        "systemId": "trait-streetwise",
+        "systemName": "Streetwise",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Knows who controls each block, how to evade gang tolls, and where to fence hot cargo."
+      },
+      {
+        "status": "EXACT",
+        "canonName": "Tech-Savvy",
+        "canonMechanic": "\\+2 to Knowledges of Computer and Technology",
+        "systemId": "trait-tech-savvy",
+        "systemName": "Tech-Savvy",
+        "systemTier": "Basic",
+        "systemType": "Origin Trait",
+        "systemMechanics": "Intimate familiarity with consumer neural nets, public datagrids, and ubiquitous urban tech."
+      },
+      {
+        "status": "FUZZY",
+        "canonName": "Urban Survival Skills",
+        "canonMechanic": "City, density, skyscrapers, crowds, traffic.",
+        "systemId": "trait-survival",
+        "systemName": "Survival",
+        "systemTier": "Basic",
+        "systemType": "Occupational Trait",
+        "systemMechanics": "Ability to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter"
+      }
+    ]
+  }
+]

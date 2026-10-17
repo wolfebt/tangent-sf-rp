@@ -1,0 +1,880 @@
+[
+  {
+    "id": "occupation-adept",
+    "name": "Adept",
+    "canonTraitCount": 10,
+    "codeTraitCount": 10,
+    "canonTraits": [
+      "Enhanced Abilities",
+      "Heightened Senses",
+      "Martial Arts Mastery",
+      "Mastery of a Discipline",
+      "Mystical or Spiritual Connection",
+      "Resourcefulness",
+      "Special Equipment",
+      "Special Ability",
+      "Specialized Skills",
+      "Versatility"
+    ],
+    "codeTraits": [
+      "trait-enhanced-abilities",
+      "trait-heightened-senses",
+      "trait-martial-arts-mastery",
+      "trait-mastery-of-a-discipline",
+      "trait-mystical-or-spiritual-connection",
+      "trait-resourcefulness",
+      "trait-special-equipment",
+      "trait-special-ability",
+      "trait-specialized-skills",
+      "trait-versatility"
+    ],
+    "canonProfSkills": "Disciplines (Attune or any known Metafocus Skill)\n\n&nbsp;",
+    "codeProfSkills": [
+      "Disciplines (Attune or any known Metafocus Skill)"
+    ],
+    "canonRecFeatures": "Discipline (Awakened or Special Ability Feature is required)\n\n&nbsp;",
+    "codeRecFeatures": [
+      "Discipline Features",
+      "Acute Sense",
+      "Scent",
+      "Darksight",
+      "Low Light Vision"
+    ],
+    "canonArchetypes": [
+      "Combatant",
+      "Psionic",
+      "Psychic",
+      "Mystic",
+      "Magician",
+      "Sorcerer",
+      "Priest",
+      "Shaman"
+    ],
+    "codeArchetypes": [
+      "Combatant",
+      "Psionic",
+      "Psychic",
+      "Mystic",
+      "Magician",
+      "Sorcerer",
+      "Priest",
+      "Shaman"
+    ]
+  },
+  {
+    "id": "occupation-agent",
+    "name": "Agent",
+    "canonTraitCount": 15,
+    "codeTraitCount": 15,
+    "canonTraits": [
+      "Adaptability",
+      "Combat Skills",
+      "Deception",
+      "Guile",
+      "Investigation",
+      "Languages",
+      "Mental Resilience",
+      "Networking",
+      "Persuasion",
+      "Physical Fitness",
+      "Quick Thinking",
+      "Stealth",
+      "Survival Skills",
+      "Technology",
+      "Travel"
+    ],
+    "codeTraits": [
+      "trait-adaptability",
+      "trait-combat-skills",
+      "trait-deception",
+      "trait-guile",
+      "trait-investigation",
+      "trait-languages",
+      "trait-mental-resilience",
+      "trait-networking",
+      "trait-persuasion",
+      "trait-physical-fitness",
+      "trait-quick-thinking",
+      "trait-stealth",
+      "trait-survival-skills",
+      "trait-technology",
+      "trait-travel"
+    ],
+    "canonProfSkills": "Insight, Alertness, Bluff, Stealth and one Social or Vocation Skill\n\n&nbsp;",
+    "codeProfSkills": [
+      "Insight",
+      "Alertness",
+      "Bluff",
+      "Stealth and one Social or Vocation Skill"
+    ],
+    "canonRecFeatures": "General\n\n&nbsp;",
+    "codeRecFeatures": [
+      "General Features"
+    ],
+    "canonArchetypes": [
+      "Spy",
+      "Intelligence Officer",
+      "Cybernetic Infiltrator",
+      "Law Enforcement",
+      "Psionic Operative",
+      "Bounty Hunter"
+    ],
+    "codeArchetypes": [
+      "Spy",
+      "Intelligence Officer",
+      "Cybernetic Infiltrator",
+      "Law Enforcement",
+      "Psionic Operative",
+      "Bounty Hunter"
+    ]
+  },
+  {
+    "id": "occupation-builder",
+    "name": "Builder",
+    "canonTraitCount": 15,
+    "codeTraitCount": 15,
+    "canonTraits": [
+      "Adaptability",
+      "Attention to Detail",
+      "Attention to Safety",
+      "Business Acumen",
+      "Creativity",
+      "Environmental Awareness",
+      "Mecha-Physics",
+      "Machine Affinity",
+      "Patience",
+      "Persistence",
+      "Problem-Solving Skills",
+      "Teamwork",
+      "Technical Knowledge",
+      "Technological Aptitude",
+      "Time Management"
+    ],
+    "codeTraits": [
+      "trait-adaptability",
+      "trait-attention-to-detail",
+      "trait-attention-to-safety",
+      "trait-business-acumen",
+      "trait-creativity",
+      "trait-environmental-awareness",
+      "trait-mecha-physics",
+      "trait-machine-affinity",
+      "trait-patience",
+      "trait-persistence",
+      "trait-problem-solving-skills",
+      "trait-teamwork",
+      "trait-technical-knowledge",
+      "trait-technological-aptitude",
+      "trait-time-management"
+    ],
+    "canonProfSkills": "Any Vocation Skills\n\n&nbsp;",
+    "codeProfSkills": [
+      "Any Vocation Skills"
+    ],
+    "canonRecFeatures": "Skill\n\n&nbsp;",
+    "codeRecFeatures": [
+      "Skill Features"
+    ],
+    "canonArchetypes": [
+      "Starship Engineer",
+      "Cybernetic Technician",
+      "Nanotechnology Specialist",
+      "Habitat Architect",
+      "Weaponsmith",
+      "Robotics Engineer",
+      "Matter Manipulator"
+    ],
+    "codeArchetypes": [
+      "Starship Engineer",
+      "Cybernetic Technician",
+      "Nanotechnology Specialist",
+      "Habitat Architect",
+      "Weaponsmith",
+      "Robotics Engineer",
+      "Matter Manipulator"
+    ]
+  },
+  {
+    "id": "occupation-citizen",
+    "name": "Citizen",
+    "canonTraitCount": 20,
+    "codeTraitCount": 10,
+    "canonTraits": [
+      "Adaptability",
+      "Communication",
+      "Ethical awareness",
+      "Financial expertise",
+      "High social standing",
+      "Management",
+      "Negotiation",
+      "Networking",
+      "Problem-solving",
+      "Strategic thinking",
+      "Hands-on experience",
+      "Low Social Standing",
+      "Loyalty",
+      "Physical Strength",
+      "Practical",
+      "Resilience",
+      "Resourcefulness",
+      "Safety-conscious",
+      "Teamwork",
+      "Technical"
+    ],
+    "codeTraits": [
+      "trait-adaptability",
+      "trait-communication",
+      "trait-ethical-awareness",
+      "trait-financial-expertise",
+      "trait-high-social-standing",
+      "trait-management",
+      "trait-negotiation",
+      "trait-networking",
+      "trait-problem-solving",
+      "trait-strategic-thinking"
+    ],
+    "canonProfSkills": "Any Non-Combat Skills\n\n&nbsp;",
+    "codeProfSkills": [
+      "Any Non-Combat Skills"
+    ],
+    "canonRecFeatures": "General\n\n&nbsp;",
+    "codeRecFeatures": [
+      "General Features"
+    ],
+    "canonArchetypes": [
+      "Advocate",
+      "Artist",
+      "Entrepreneur",
+      "Journalist",
+      "Scientist",
+      "Laborer",
+      "Medic",
+      "Pilot",
+      "Technician",
+      "Bureaucrat"
+    ],
+    "codeArchetypes": [
+      "Advocate",
+      "Artist",
+      "Entrepreneur",
+      "Journalist",
+      "Scientist",
+      "Laborer",
+      "Medic",
+      "Pilot",
+      "Technician",
+      "Bureaucrat",
+      "Corporate Drone"
+    ]
+  },
+  {
+    "id": "occupation-criminal",
+    "name": "Criminal",
+    "canonTraitCount": 12,
+    "codeTraitCount": 12,
+    "canonTraits": [
+      "Aggressiveness",
+      "B\\&E",
+      "Combat Training",
+      "Deception",
+      "Hacking",
+      "Networking",
+      "Resourcefulness",
+      "Risk-taking",
+      "Self-preservation",
+      "Smooth",
+      "Stalker",
+      "Street smarts"
+    ],
+    "codeTraits": [
+      "trait-aggressiveness",
+      "trait-b-e",
+      "trait-combat-training",
+      "trait-deception",
+      "trait-hacking",
+      "trait-networking",
+      "trait-resourcefulness",
+      "trait-risk-taking",
+      "trait-self-preservation",
+      "trait-smooth",
+      "trait-stalker",
+      "trait-street-smarts"
+    ],
+    "canonProfSkills": "Bluff, Diplomacy, Awareness, Stealth and one Knowledge or Vocation\n\n&nbsp;",
+    "codeProfSkills": [
+      "Bluff",
+      "Diplomacy",
+      "Awareness",
+      "Stealth and one Knowledge or Vocation"
+    ],
+    "canonRecFeatures": "Skill\n\n&nbsp;",
+    "codeRecFeatures": [
+      "Skill Features",
+      "Underworld Connections",
+      "Connected"
+    ],
+    "canonArchetypes": [
+      "Smuggler",
+      "Fixer",
+      "Assassin",
+      "Forger",
+      "Crime Boss",
+      "Tech Thief",
+      "Saboteur",
+      "Information Broker",
+      "Arms Dealer",
+      "Slaver",
+      "Hacker"
+    ],
+    "codeArchetypes": [
+      "Smuggler",
+      "Fixer",
+      "Assassin",
+      "Forger",
+      "Crime Boss",
+      "Tech Thief",
+      "Saboteur",
+      "Information Broker",
+      "Arms Dealer",
+      "Slaver",
+      "Hacker"
+    ]
+  },
+  {
+    "id": "occupation-drifter",
+    "name": "Drifter",
+    "canonTraitCount": 16,
+    "codeTraitCount": 16,
+    "canonTraits": [
+      "Adaptability",
+      "Adventurous Spirit",
+      "Aggressiveness",
+      "Caution",
+      "Combat Training",
+      "Fearlessness",
+      "Jack-of-All-Trades",
+      "Loyalty",
+      "Mobility",
+      "Resourcefulness",
+      "Scavenging",
+      "Self-sufficiency",
+      "Stalker",
+      "Street Smarts",
+      "Survival",
+      "Unpredictability"
+    ],
+    "codeTraits": [
+      "trait-adaptability",
+      "trait-adventurous-spirit",
+      "trait-aggressiveness",
+      "trait-caution",
+      "trait-combat-training",
+      "trait-fearlessness",
+      "trait-jack-of-all-trades",
+      "trait-loyalty",
+      "trait-mobility",
+      "trait-resourcefulness",
+      "trait-scavenging",
+      "trait-self-sufficiency",
+      "trait-stalker",
+      "trait-street-smarts",
+      "trait-survival",
+      "trait-unpredictability"
+    ],
+    "canonProfSkills": "Pilot, Survival and any three Knowledge or Vocation Skills\n\n&nbsp;",
+    "codeProfSkills": [
+      "Pilot",
+      "Survival and any three Knowledge or Vocation Skills"
+    ],
+    "canonRecFeatures": "General\n\n&nbsp;",
+    "codeRecFeatures": [
+      "General Features"
+    ],
+    "canonArchetypes": [
+      "Scavenger",
+      "Smuggler",
+      "Bounty Hunter",
+      "Spy",
+      "Space Trucker",
+      "Mercenary",
+      "Bounty Hunter",
+      "Explorer",
+      "Space Pirate",
+      "Salvage Expert",
+      "Prospector",
+      "Freelance Mechanic",
+      "Information Broker",
+      "Bodyguard",
+      "Medical Specialist"
+    ],
+    "codeArchetypes": [
+      "Scavenger",
+      "Smuggler",
+      "Bounty Hunter",
+      "Spy",
+      "Space Trucker",
+      "Mercenary",
+      "Explorer",
+      "Space Pirate",
+      "Salvage Expert",
+      "Prospector",
+      "Freelance Mechanic",
+      "Information Broker",
+      "Bodyguard",
+      "Medical Specialist"
+    ]
+  },
+  {
+    "id": "occupation-entertainer",
+    "name": "Entertainer",
+    "canonTraitCount": 10,
+    "codeTraitCount": 10,
+    "canonTraits": [
+      "Adaptable",
+      "Charismatic",
+      "Confident",
+      "Creative",
+      "Energetic",
+      "Fans",
+      "Fellow Artists",
+      "Freedom",
+      "Fun",
+      "Venues"
+    ],
+    "codeTraits": [
+      "trait-adaptability",
+      "trait-charismatic",
+      "trait-confident",
+      "trait-creative",
+      "trait-energetic",
+      "trait-fans",
+      "trait-fellow-artists",
+      "trait-freedom",
+      "trait-fun",
+      "trait-venues"
+    ],
+    "canonProfSkills": "Any Expression Skills\n\n&nbsp;",
+    "codeProfSkills": [
+      "Any Expression Skills"
+    ],
+    "canonRecFeatures": "Skill\n\n&nbsp;",
+    "codeRecFeatures": [
+      "Skill Features",
+      "Social Features"
+    ],
+    "canonArchetypes": [
+      "Holographic Performer",
+      "Psionic Entertainer",
+      "Circus Performer",
+      "Comedian",
+      "Dancer",
+      "Storyteller",
+      "Musician",
+      "Actor",
+      "Courtesan"
+    ],
+    "codeArchetypes": [
+      "Holographic Performer",
+      "Psionic Entertainer",
+      "Circus Performer",
+      "Comedian",
+      "Dancer",
+      "Storyteller",
+      "Musician",
+      "Actor",
+      "Courtesan"
+    ]
+  },
+  {
+    "id": "occupation-merchant",
+    "name": "Merchant",
+    "canonTraitCount": 12,
+    "codeTraitCount": 12,
+    "canonTraits": [
+      "Adaptability",
+      "Appraisal",
+      "Business Acumen",
+      "Charismatic",
+      "Cultural Awareness",
+      "Linguistics",
+      "Logistics",
+      "Negotiation",
+      "Networking",
+      "Product Knowledge",
+      "Resourcefulness",
+      "Risk Management"
+    ],
+    "codeTraits": [
+      "trait-adaptability",
+      "trait-appraisal",
+      "trait-business-acumen",
+      "trait-charismatic",
+      "trait-cultural-awareness",
+      "trait-linguistics",
+      "trait-logistics",
+      "trait-negotiation",
+      "trait-networking",
+      "trait-product-knowledge",
+      "trait-resourcefulness",
+      "trait-risk-management"
+    ],
+    "canonProfSkills": "Any Manipulation Skills\n\n&nbsp;",
+    "codeProfSkills": [
+      "Any Manipulation Skills"
+    ],
+    "canonRecFeatures": "Skill\n\n&nbsp;",
+    "codeRecFeatures": [
+      "Skill Features",
+      "Connected"
+    ],
+    "canonArchetypes": [
+      "Store Owner",
+      "Traveling Merchant",
+      "Merchant Prince",
+      "Smuggler",
+      "Resource Gatherer",
+      "Diplomatic Trader",
+      "Fence",
+      "Information Broker",
+      "Art Dealer",
+      "Curator",
+      "Arms Dealer",
+      "Pawnbroker"
+    ],
+    "codeArchetypes": [
+      "Store Owner",
+      "Traveling Merchant",
+      "Merchant Prince",
+      "Smuggler",
+      "Resource Gatherer",
+      "Diplomatic Trader",
+      "Fence",
+      "Information Broker",
+      "Art Dealer",
+      "Curator",
+      "Arms Dealer",
+      "Pawnbroker"
+    ]
+  },
+  {
+    "id": "occupation-representative",
+    "name": "Representative",
+    "canonTraitCount": 10,
+    "codeTraitCount": 10,
+    "canonTraits": [
+      "Analytical",
+      "Conflict resolution",
+      "Creativity",
+      "Emotional intelligence",
+      "Flexibility",
+      "Integrity",
+      "Languages",
+      "Negotiation",
+      "Networking",
+      "Time Management"
+    ],
+    "codeTraits": [
+      "trait-analytical",
+      "trait-conflict-resolution",
+      "trait-creativity",
+      "trait-emotional-intelligence",
+      "trait-flexibility",
+      "trait-integrity",
+      "trait-languages",
+      "trait-negotiation",
+      "trait-networking",
+      "trait-time-management"
+    ],
+    "canonProfSkills": "Any Manipulation Skills\n\n&nbsp;",
+    "codeProfSkills": [
+      "Any Manipulation Skills"
+    ],
+    "canonRecFeatures": "Skill\n\n&nbsp;",
+    "codeRecFeatures": [
+      "Skill Features",
+      "Social Features"
+    ],
+    "canonArchetypes": [
+      "Interstellar Diplomat",
+      "Trade Envoy",
+      "Peace Negotiator",
+      "Intelligence Liaison",
+      "Cultural Ambassador",
+      "Corporate Administrator"
+    ],
+    "codeArchetypes": [
+      "Interstellar Diplomat",
+      "Trade Envoy",
+      "Peace Negotiator",
+      "Intelligence Liaison",
+      "Cultural Ambassador",
+      "Corporate Administrator"
+    ]
+  },
+  {
+    "id": "occupation-scholar",
+    "name": "Scholar",
+    "canonTraitCount": 10,
+    "codeTraitCount": 10,
+    "canonTraits": [
+      "Adaptability",
+      "Attention to detail",
+      "Collaboration",
+      "Continuous Learning",
+      "Critical thinking",
+      "Ethical conduct",
+      "Metacognition",
+      "Patience",
+      "Problem-solving",
+      "Technological innovation"
+    ],
+    "codeTraits": [
+      "trait-adaptability",
+      "trait-attention-to-detail",
+      "trait-collaboration",
+      "trait-continuous-learning",
+      "trait-critical-thinking",
+      "trait-ethical-conduct",
+      "trait-metacognition",
+      "trait-patience",
+      "trait-problem-solving",
+      "trait-technological-innovation"
+    ],
+    "canonProfSkills": "Any Knowledge Skills\n\n&nbsp;",
+    "codeProfSkills": [
+      "Any Knowledge Skills"
+    ],
+    "canonRecFeatures": "Skill\n\n&nbsp;",
+    "codeRecFeatures": [
+      "Skill Features",
+      "Mental Features"
+    ],
+    "canonArchetypes": [
+      "Xenology Expert",
+      "Geneticist",
+      "Linguistics Specialist",
+      "Historian",
+      "Astrophysicist",
+      "Cybernetics Expert",
+      "Planetologist",
+      "Psionicologist",
+      "Roboticist",
+      "Scientist",
+      "Archaeologist",
+      "Cosmologist"
+    ],
+    "codeArchetypes": [
+      "Xenology Expert",
+      "Geneticist",
+      "Linguistics Specialist",
+      "Historian",
+      "Astrophysicist",
+      "Cybernetics Expert",
+      "Planetologist",
+      "Psionicologist",
+      "Roboticist",
+      "Scientist",
+      "Archaeologist",
+      "Cosmologist"
+    ]
+  },
+  {
+    "id": "occupation-scout",
+    "name": "Scout",
+    "canonTraitCount": 13,
+    "codeTraitCount": 13,
+    "canonTraits": [
+      "Adaptability",
+      "Camouflage",
+      "Combat Training",
+      "Curiosity",
+      "Independence",
+      "Keen Observation",
+      "Navigation",
+      "Physical Fitness",
+      "Pilot",
+      "Resourcefulness",
+      "Stalker",
+      "Survival Skills",
+      "Terrain Expert"
+    ],
+    "codeTraits": [
+      "trait-adaptability",
+      "trait-camouflage",
+      "trait-combat-training",
+      "trait-curiosity",
+      "trait-independence",
+      "trait-keen-observation",
+      "trait-navigation",
+      "trait-physical-fitness",
+      "trait-pilot",
+      "trait-resourcefulness",
+      "trait-stalker",
+      "trait-survival-skills",
+      "trait-terrain-expert"
+    ],
+    "canonProfSkills": "Alertness, Pilot, Stealth, Survival and one Knowledge or Vocation Skill\n\n&nbsp;",
+    "codeProfSkills": [
+      "Alertness",
+      "Pilot",
+      "Stealth",
+      "Survival and one Knowledge or Vocation Skill"
+    ],
+    "canonRecFeatures": "General\n\n&nbsp;",
+    "codeRecFeatures": [
+      "General Features",
+      "Acute Sense"
+    ],
+    "canonArchetypes": [
+      "Space Scout",
+      "Planetary Scout",
+      "Reconnaissance Scout",
+      "Urban Scout",
+      "Wilderness Scout"
+    ],
+    "codeArchetypes": [
+      "Space Scout",
+      "Planetary Scout",
+      "Reconnaissance Scout",
+      "Urban Scout",
+      "Wilderness Scout"
+    ]
+  },
+  {
+    "id": "occupation-soldier",
+    "name": "Soldier",
+    "canonTraitCount": 16,
+    "codeTraitCount": 16,
+    "canonTraits": [
+      "Adaptable",
+      "Attention to Detail",
+      "Combat Training",
+      "Cool",
+      "Cunning",
+      "Discipline",
+      "Loyal",
+      "Observant",
+      "Physical Prowess",
+      "Rapid Response",
+      "Resourceful",
+      "Stalker",
+      "Strategic",
+      "Team-Oriented",
+      "Versatile",
+      "Well-Equipped"
+    ],
+    "codeTraits": [
+      "trait-adaptability",
+      "trait-attention-to-detail",
+      "trait-combat-training",
+      "trait-cool",
+      "trait-cunning",
+      "trait-discipline",
+      "trait-loyal",
+      "trait-observant",
+      "trait-physical-prowess",
+      "trait-rapid-response",
+      "trait-resourceful",
+      "trait-stalker",
+      "trait-strategic",
+      "trait-team-oriented",
+      "trait-versatile",
+      "trait-well-equipped"
+    ],
+    "canonProfSkills": "Any Combat Skills\n\n&nbsp;",
+    "codeProfSkills": [
+      "Any Combat Skills"
+    ],
+    "canonRecFeatures": "Combat\n\n&nbsp;",
+    "codeRecFeatures": [
+      "Combat Features"
+    ],
+    "canonArchetypes": [
+      "Infantry",
+      "Heavy Weapons Specialist",
+      "Sniper",
+      "Tactical Officer",
+      "Medic",
+      "Powered Armor Trooper",
+      "Special Forces",
+      "Empowered"
+    ],
+    "codeArchetypes": [
+      "Infantry",
+      "Heavy Weapons Specialist",
+      "Sniper",
+      "Tactical Officer",
+      "Medic",
+      "Powered Armor Trooper",
+      "Special Forces",
+      "Empowered"
+    ]
+  },
+  {
+    "id": "occupation-specialist",
+    "name": "Specialist",
+    "canonTraitCount": 9,
+    "codeTraitCount": 9,
+    "canonTraits": [
+      "Adaptability",
+      "Expertise",
+      "Leadership",
+      "Physical and mental resilience",
+      "Problem-Solving",
+      "Resourcefulness",
+      "Team Player",
+      "Technological proficiency",
+      "Versatility"
+    ],
+    "codeTraits": [
+      "trait-adaptability",
+      "trait-expertise",
+      "trait-leadership",
+      "trait-physical-and-mental-resilience",
+      "trait-problem-solving",
+      "trait-resourcefulness",
+      "trait-team-player",
+      "trait-technological-proficiency",
+      "trait-versatility"
+    ],
+    "canonProfSkills": "Any five Physical, Knowledge or Vocation Skills within specialized training\n\n&nbsp;",
+    "codeProfSkills": [
+      "Any five Physical",
+      "Knowledge or Vocation Skills within specialized training"
+    ],
+    "canonRecFeatures": "Skill\n\n&nbsp;",
+    "codeRecFeatures": [
+      "Skill Features"
+    ],
+    "canonArchetypes": [
+      "Doctor",
+      "Engineer",
+      "Roboticist",
+      "Cybersecurity Expert",
+      "Biotechnologist",
+      "Space Pilot",
+      "Explorer",
+      "Smuggler",
+      "Bounty Hunter",
+      "Racing Pilot",
+      "Extreme Athlete",
+      "Gamer",
+      "Artist"
+    ],
+    "codeArchetypes": [
+      "Doctor",
+      "Engineer",
+      "Roboticist",
+      "Cybersecurity Expert",
+      "Biotechnologist",
+      "Space Pilot",
+      "Explorer",
+      "Smuggler",
+      "Bounty Hunter",
+      "Racing Pilot",
+      "Extreme Athlete",
+      "Gamer",
+      "Artist"
+    ]
+  }
+]

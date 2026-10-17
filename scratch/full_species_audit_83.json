@@ -1,0 +1,2835 @@
+[
+  {
+    "id": "species-aeld-alterian",
+    "name": "Alterian",
+    "file": "species-aeld-alterian.md",
+    "canon": {
+      "lineNum": 19,
+      "rawName": "\\- ALTERIAN",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+1 Agi \\[4\\] \\+1 Int \\[4\\]",
+      "skillsCol": "\\+20 \\[16\\]",
+      "traitsCol": "Aeld Traits \\[5\\]",
+      "stigmaCol": "Minor Xeno (-1)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 28,
+    "computedBP": 33,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 8,
+      "skillsBP": 16,
+      "traitsBP": 10,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 1
+    },
+    "traits": [
+      "trait-ageless",
+      "trait-amphibious",
+      "trait-awakened-arcane",
+      "trait-longevity",
+      "trait-reduced-sustenance",
+      "trait-sleepless"
+    ]
+  },
+  {
+    "id": "species-aeld-doppelganger",
+    "name": "Doppelganger (Shifter)",
+    "file": "species-aeld-doppelganger.md",
+    "canon": {
+      "lineNum": 20,
+      "rawName": "\\- DOPPELGANGER",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+1 Cha \\[4\\]",
+      "skillsCol": "\\+5 \\[4\\]",
+      "traitsCol": "Aeld Traits \\[5\\] Alter Form (Humanoid \\- Special Ability) \\[1\\] Sense Evil \\[4\\]",
+      "stigmaCol": "Shifter (-2) Xeno (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 10,
+    "computedBP": 15,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 4,
+      "skillsBP": 4,
+      "traitsBP": 11,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-aeld-lineage-traits",
+      "trait-ageless",
+      "trait-alter-form-adv",
+      "trait-alter-form-basic",
+      "trait-emissary"
+    ]
+  },
+  {
+    "id": "species-aeld-draconian",
+    "name": "Draconian (Scaled Aeld)",
+    "file": "species-aeld-draconian.md",
+    "canon": {
+      "lineNum": 21,
+      "rawName": "\\- DRACONIAN",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+1 Int \\[4\\]",
+      "skillsCol": "\\+10 \\[8\\]",
+      "traitsCol": "Aeld Traits \\[5\\] Dragonkin Traits \\[6\\] \\+1 Feature \\[3\\]",
+      "stigmaCol": "Dragonkin (-4) Xeno (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 13,
+    "computedBP": 19,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 4,
+      "skillsBP": 8,
+      "traitsBP": 13,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 6
+    },
+    "traits": [
+      "trait-aeld-lineage-traits",
+      "trait-dragonkin-traits",
+      "trait-natural-weapons"
+    ]
+  },
+  {
+    "id": "species-aeld-kovian",
+    "name": "Kovian",
+    "file": "species-aeld-kovian.md",
+    "canon": {
+      "lineNum": 22,
+      "rawName": "\\- KOVIAN",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+1 Int \\[4\\] \\+1 Any \\[4\\] \\-1 Cha \\[-5\\]",
+      "skillsCol": "\\+10 Disc \\[8\\]",
+      "traitsCol": "Aeld Traits \\[5\\]&nbsp;",
+      "stigmaCol": "Xeno (-2) Supremacist (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 12,
+    "computedBP": 16,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 0,
+      "skillsBP": 8,
+      "traitsBP": 12,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-aeld-lineage-traits",
+      "trait-energy-resist",
+      "trait-dark-sight",
+      "trait-resistant",
+      "trait-reduced-sustenance"
+    ]
+  },
+  {
+    "id": "species-aeld-vajar",
+    "name": "Vajar (Wilder)",
+    "file": "species-aeld-vajar.md",
+    "canon": {
+      "lineNum": 23,
+      "rawName": "\\- VAJAR",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+2 Ability \\[8\\]",
+      "skillsCol": "\\+10 \\[8\\]",
+      "traitsCol": "Awakened (Nature) \\[2\\] Ageless \\[2\\] Immune to Sleep \\[2\\] Alter Forms (Adv. Animal \\- Special Ability) \\[2\\] Mutation (Animalistic) \\[3\\]",
+      "stigmaCol": "Feral (-4) Xeno (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 19,
+    "computedBP": 13,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 0,
+      "skillsBP": 8,
+      "traitsBP": 11,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 6
+    },
+    "traits": [
+      "trait-adapted",
+      "trait-ageless",
+      "trait-alter-form-adv",
+      "trait-bodyform-mutation",
+      "trait-awakened-nature",
+      "trait-sleepless"
+    ]
+  },
+  {
+    "id": "species-asi-ferren",
+    "name": "Ferren",
+    "file": "species-asi-ferren.md",
+    "canon": {
+      "lineNum": 25,
+      "rawName": "\\- FERREN",
+      "typeCol": "Fey (3)",
+      "attrCol": "\\+1 Agi \\[4\\]",
+      "skillsCol": "\\+5 \\[4\\]",
+      "traitsCol": "Asi Traits \\[8\\] Prehensile Tail \\[1\\] Climber \\[2\\] Quick \\[2\\] Adapted (Arboreal) \\[1\\] Fast Move \\[2\\]",
+      "stigmaCol": "Fey (-2) Xeno (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 18,
+    "computedBP": 32,
+    "breakdown": {
+      "typeBP": 3,
+      "sizeBP": 2,
+      "movementBP": 2,
+      "attributeBP": 4,
+      "skillsBP": 4,
+      "traitsBP": 21,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-adapted",
+      "trait-ageless",
+      "trait-asi-base-traits",
+      "trait-climber",
+      "trait-immortal",
+      "trait-prehensile-tail",
+      "trait-quick"
+    ]
+  },
+  {
+    "id": "species-asi-fey-base",
+    "name": "Fey (Base)",
+    "file": "species-asi-fey-base.md",
+    "canon": {
+      "lineNum": 26,
+      "rawName": "\\- FEY (BASE)",
+      "typeCol": "Fey (3)",
+      "attrCol": "\\+1 Cha \\[4\\]",
+      "skillsCol": "\\+10 \\[8\\]",
+      "traitsCol": "Asi Traits \\[8\\] Diminutive \\[6\\] Awakened (Nature) \\[2\\] Flight \\[4\\]",
+      "stigmaCol": "Xeno (-2) Fae (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 27,
+    "computedBP": 39,
+    "breakdown": {
+      "typeBP": 3,
+      "sizeBP": 6,
+      "movementBP": 4,
+      "attributeBP": 4,
+      "skillsBP": 8,
+      "traitsBP": 18,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-asi-base-traits",
+      "trait-awakened-nature",
+      "trait-flight",
+      "trait-immortal"
+    ]
+  },
+  {
+    "id": "species-asi-frellin",
+    "name": "Frellin",
+    "file": "species-asi-frellin.md",
+    "canon": {
+      "lineNum": 27,
+      "rawName": "\\- FRELLIN",
+      "typeCol": "Avian Fey (3)",
+      "attrCol": "\\+1 Int \\[4\\] \\+1 Cha \\[4\\]",
+      "skillsCol": "\\+10 \\[8\\]",
+      "traitsCol": "Asi Traits \\[8\\] Tiny \\[4\\] Awakened (Arcane) \\[2\\] Telepathy (Special Ability) \\[4\\] Flight \\[4\\] Darksight \\[2\\]",
+      "stigmaCol": "Xeno (-2) Animal (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 31,
+    "computedBP": 47,
+    "breakdown": {
+      "typeBP": 3,
+      "sizeBP": 4,
+      "movementBP": 4,
+      "attributeBP": 8,
+      "skillsBP": 8,
+      "traitsBP": 24,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-ageless",
+      "trait-asi-base-traits",
+      "trait-awakened-arcane",
+      "trait-dark-sight",
+      "trait-flight",
+      "trait-immortal",
+      "trait-mind-speech"
+    ]
+  },
+  {
+    "id": "species-asi-koban",
+    "name": "Koban",
+    "file": "species-asi-koban.md",
+    "canon": {
+      "lineNum": 28,
+      "rawName": "\\- KOBAN",
+      "typeCol": "Shifter Fey (3)",
+      "attrCol": "\\+1 Ability \\[4\\]",
+      "skillsCol": "\\-",
+      "traitsCol": "Asi Traits \\[8\\] Small/Med \\[2\\] Climber \\[2\\] Alter Form (Humanoid \\- Special Ability) \\[1\\] Awakened (Nature) \\[2\\]",
+      "stigmaCol": "Animal (-2) Xeno (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 12,
+    "computedBP": 24,
+    "breakdown": {
+      "typeBP": 3,
+      "sizeBP": 2,
+      "movementBP": 0,
+      "attributeBP": 0,
+      "skillsBP": 0,
+      "traitsBP": 23,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-ageless",
+      "trait-alter-form-adv",
+      "trait-alter-form-basic",
+      "trait-alternate-form",
+      "trait-asi-base-traits",
+      "trait-awakened-nature",
+      "trait-climber",
+      "trait-immortal"
+    ]
+  },
+  {
+    "id": "species-asi-sigal",
+    "name": "Sigal",
+    "file": "species-asi-sigal.md",
+    "canon": {
+      "lineNum": 29,
+      "rawName": "\\- SIGAL",
+      "typeCol": "Elemental Fey (3)",
+      "attrCol": "\\+1 Int \\[4\\] \\-8 Str \\[-40\\]",
+      "skillsCol": "\\+10 Disc \\[8\\]",
+      "traitsCol": "Asi Traits \\[8\\] Diminutive \\[6\\] Awakened (Energy/Illusion) \\[4\\] Flight (TK) \\[4\\] Non-Living \\[4\\] TK (Special Ability) \\[2\\] Perfect Memory \\[2\\]",
+      "stigmaCol": "Severe Xeno (-6)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 66,
+    "computedBP": 8,
+    "breakdown": {
+      "typeBP": 3,
+      "sizeBP": 6,
+      "movementBP": 4,
+      "attributeBP": -28,
+      "skillsBP": 8,
+      "traitsBP": 21,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 6
+    },
+    "traits": [
+      "trait-asi-base-traits",
+      "trait-awakened-energy-illusion",
+      "trait-non-living",
+      "trait-shards-of-the-past",
+      "trait-awakened-arcane",
+      "trait-flight"
+    ]
+  },
+  {
+    "id": "species-asi-tozen",
+    "name": "Tozen",
+    "file": "species-asi-tozen.md",
+    "canon": {
+      "lineNum": 30,
+      "rawName": "\\- TOZEN",
+      "typeCol": "Centaur Fey (3)",
+      "attrCol": "\\+1 Agi \\[4\\] \\+1 Wis \\[4\\]",
+      "skillsCol": "\\-",
+      "traitsCol": "Asi Traits \\[8\\] Awakened (Natural Wisdom) \\[2\\] Quadruped \\[2\\] Quick \\[2\\]",
+      "stigmaCol": "Xeno (-2) Seclusionist (-1)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 17,
+    "computedBP": 25,
+    "breakdown": {
+      "typeBP": 3,
+      "sizeBP": 2,
+      "movementBP": 0,
+      "attributeBP": 8,
+      "skillsBP": 0,
+      "traitsBP": 15,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 3
+    },
+    "traits": [
+      "trait-asi-base-traits",
+      "trait-awakened-nature",
+      "trait-quadruped",
+      "trait-quick-reactions",
+      "trait-stable-footed"
+    ]
+  },
+  {
+    "id": "species-asi-whisper",
+    "name": "Whisper",
+    "file": "species-asi-whisper.md",
+    "canon": {
+      "lineNum": 31,
+      "rawName": "\\- WHISPER",
+      "typeCol": "Shifter Fey (3)",
+      "attrCol": "\\+1 Cha \\[4\\]",
+      "skillsCol": "\\-",
+      "traitsCol": "Asi Traits \\[8\\] Med/Fine \\[0\\] Alter Form (Wisp \\-Special Ability) \\[4\\] Awakened (Nature) \\[2\\] Silent \\[2\\] Flight \\[4\\]",
+      "stigmaCol": "Fey (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 14,
+    "computedBP": 26,
+    "breakdown": {
+      "typeBP": 3,
+      "sizeBP": 0,
+      "movementBP": 4,
+      "attributeBP": 4,
+      "skillsBP": 0,
+      "traitsBP": 17,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 2
+    },
+    "traits": [
+      "trait-alter-form-adv",
+      "trait-asi-base-traits",
+      "trait-awakened-nature",
+      "trait-flight",
+      "trait-silent-hunter"
+    ]
+  },
+  {
+    "id": "species-asi-wildling",
+    "name": "Wildling",
+    "file": "species-asi-wildling.md",
+    "canon": {
+      "lineNum": 32,
+      "rawName": "\\- WILDLING",
+      "typeCol": "Shifter Fey (3)",
+      "attrCol": "\\+1 Ability \\[4\\]",
+      "skillsCol": "\\-",
+      "traitsCol": "Asi Traits \\[8\\] Animal Affinity \\[2\\] Climber \\[2\\] Alter Form (Animal) \\[2\\] Awakened (Nature) \\[2\\]",
+      "stigmaCol": "Animal (-2) Xeno (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 14,
+    "computedBP": 27,
+    "breakdown": {
+      "typeBP": 3,
+      "sizeBP": 2,
+      "movementBP": 2,
+      "attributeBP": 0,
+      "skillsBP": 0,
+      "traitsBP": 24,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-ageless",
+      "trait-alter-form-adv",
+      "trait-alternate-form",
+      "trait-fey-affinity",
+      "trait-asi-base-traits",
+      "trait-awakened-nature",
+      "trait-climber",
+      "trait-immortal"
+    ]
+  },
+  {
+    "id": "species-auluran-dar",
+    "name": "Dar (Auluran Hunter)",
+    "file": "species-auluran-dar.md",
+    "canon": {
+      "lineNum": 34,
+      "rawName": "\\- DAR",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+1 Agi \\[4\\] \\+1 Ability \\[4\\]",
+      "skillsCol": "\\+5 \\[4\\]",
+      "traitsCol": "Auluran \\[9\\] Awakened (Psychic) \\[2\\] Climber \\[2\\] Martial Arts \\[2\\] Quick \\[2\\]",
+      "stigmaCol": "Xeno (-2)",
+      "totalCol": "21"
+    },
+    "fmCostsBP": 15,
+    "computedBP": 22,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 4,
+      "skillsBP": 4,
+      "traitsBP": 16,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 2
+    },
+    "traits": [
+      "trait-auluran-base-traits",
+      "trait-awakened-psychic",
+      "trait-climber",
+      "trait-bonus-feature",
+      "trait-quick"
+    ]
+  },
+  {
+    "id": "species-auluran-graa",
+    "name": "Graa (Auluran Heavy)",
+    "file": "species-auluran-graa.md",
+    "canon": {
+      "lineNum": 35,
+      "rawName": "\\- GRAA",
+      "typeCol": "Beast (1)",
+      "attrCol": "\\+1 Agi \\[4\\] \\+2 Ability \\[8\\]",
+      "skillsCol": "\\-",
+      "traitsCol": "Auluran \\[9\\] Large \\[2\\] Armless \\[-4\\] Quick \\[2\\] Martial Arts \\[2\\] Quadruped \\[2\\] \\+1 Feature \\[3\\]",
+      "stigmaCol": "Animal (-2) Xeno (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 19,
+    "computedBP": 15,
+    "breakdown": {
+      "typeBP": 1,
+      "sizeBP": 2,
+      "movementBP": 0,
+      "attributeBP": 4,
+      "skillsBP": 0,
+      "traitsBP": 16,
+      "disadvantagesRefund": 4,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-auluran-base-traits",
+      "trait-bonus-feature",
+      "trait-prehensile-tail",
+      "trait-quadruped",
+      "trait-quick"
+    ]
+  },
+  {
+    "id": "species-auluran-koda",
+    "name": "Koda (Auluran Worker)",
+    "file": "species-auluran-koda.md",
+    "canon": {
+      "lineNum": 36,
+      "rawName": "\\- KODA",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+1 Agi \\[4\\] \\+1 Str \\[4\\]",
+      "skillsCol": "\\-",
+      "traitsCol": "Auluran \\[9\\] Digitigrade \\[1\\] Climber \\[2\\] Quick \\[2\\] Martial Arts \\[2\\] Biotechnology \\[2\\]",
+      "stigmaCol": "Xeno (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 12,
+    "computedBP": 23,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 8,
+      "skillsBP": 0,
+      "traitsBP": 17,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 2
+    },
+    "traits": [
+      "trait-auluran-base-traits",
+      "trait-master-tinker",
+      "trait-climber",
+      "trait-digitigrade-ungulated",
+      "trait-bonus-feature",
+      "trait-quick"
+    ]
+  },
+  {
+    "id": "species-auluran-prokos",
+    "name": "Prokos (Auluran Biform)",
+    "file": "species-auluran-prokos.md",
+    "canon": {
+      "lineNum": 37,
+      "rawName": "\\- PROKOS",
+      "typeCol": "Biform (Humanoid \\- Beast) (0)",
+      "attrCol": "\\+1 Int \\[4\\]",
+      "skillsCol": "\\-",
+      "traitsCol": "Auluran \\[9\\] Digitigrade \\[1\\] Climber \\[2\\] Quick \\[2\\] Adapted (Cold) \\[1\\] Alternate Form (Special Ability) \\[2\\] Improved Great Fortitude \\[2\\]",
+      "stigmaCol": "Xeno (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 10,
+    "computedBP": 20,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 4,
+      "skillsBP": 0,
+      "traitsBP": 18,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 2
+    },
+    "traits": [
+      "trait-adapted",
+      "trait-alternate-form",
+      "trait-auluran-base-traits",
+      "trait-climber",
+      "trait-digitigrade-ungulated",
+      "trait-healthy",
+      "trait-quick"
+    ]
+  },
+  {
+    "id": "species-awakened-animal",
+    "name": "Awakened Animal",
+    "file": "species-awakened-animal.md",
+    "canon": {
+      "lineNum": 38,
+      "rawName": "AWAKENED ANIMAL",
+      "typeCol": "Beast (1)",
+      "attrCol": "PC Stats",
+      "skillsCol": "\\-",
+      "traitsCol": "Animal Body (Features/Disadvantages based on species)",
+      "stigmaCol": "Beast (-4)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 10,
+    "computedBP": 2,
+    "breakdown": {
+      "typeBP": 1,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 0,
+      "skillsBP": 0,
+      "traitsBP": 5,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-natural-weapons",
+      "trait-focused-study",
+      "trait-mind-speech"
+    ]
+  },
+  {
+    "id": "species-caprian",
+    "name": "Caprian",
+    "file": "species-caprian.md",
+    "canon": {
+      "lineNum": 39,
+      "rawName": "CAPRIAN",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+1 Sta \\[4\\]",
+      "skillsCol": "\\+5 \\[4\\]",
+      "traitsCol": "Ungulate Legs \\[1\\] Uncanny Senses (Hearing/Sight) \\[4\\] Quick \\[2\\]",
+      "stigmaCol": "Xeno (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 10,
+    "computedBP": 13,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 4,
+      "skillsBP": 4,
+      "traitsBP": 7,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 2
+    },
+    "traits": [
+      "trait-natural-weapons",
+      "trait-quick",
+      "trait-all-around-vision",
+      "trait-digitigrade-ungulated"
+    ]
+  },
+  {
+    "id": "species-human-base",
+    "name": "Human (Base)",
+    "file": "species-human-base.md",
+    "canon": {
+      "lineNum": 41,
+      "rawName": "\\- HUMANS (BASE)",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\-",
+      "skillsCol": "\\+10 \\[8\\]",
+      "traitsCol": "\\+1 Feature \\[2\\]",
+      "stigmaCol": "\\-",
+      "totalCol": ""
+    },
+    "fmCostsBP": 10,
+    "computedBP": 10,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 0,
+      "skillsBP": 8,
+      "traitsBP": 2,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 0
+    },
+    "traits": [
+      "trait-adaptability",
+      "trait-bonus-feature"
+    ]
+  },
+  {
+    "id": "species-human-aquarian",
+    "name": "Aquarian Human",
+    "file": "species-human-aquarian.md",
+    "canon": {
+      "lineNum": 42,
+      "rawName": "\\- AQUARIAN",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+1 Ability \\[4\\]",
+      "skillsCol": "\\-",
+      "traitsCol": "Adapted (Aquatic) \\[1\\] Amphibious \\[1\\] Aquatic Strength \\[2\\] Specialized Senses \\[2\\] Swimming \\[2\\] \\+1 Feature \\[3\\]",
+      "stigmaCol": "Aquatic Xeno (-3)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 11,
+    "computedBP": 7,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 2,
+      "attributeBP": 0,
+      "skillsBP": 0,
+      "traitsBP": 8,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 3
+    },
+    "traits": [
+      "trait-adapted",
+      "trait-amphibious",
+      "trait-aquatic-strength",
+      "trait-aquatic",
+      "trait-blind-sense"
+    ]
+  },
+  {
+    "id": "species-human-argynt",
+    "name": "Argynt Human",
+    "file": "species-human-argynt.md",
+    "canon": {
+      "lineNum": 43,
+      "rawName": "\\- ARGYNT",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+1 Int \\[4\\]",
+      "skillsCol": "\\+5 \\[4\\]",
+      "traitsCol": "Improved Great Fortitude \\[2\\]",
+      "stigmaCol": "Blue Skin (-1)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 10,
+    "computedBP": 13,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 4,
+      "skillsBP": 4,
+      "traitsBP": 6,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 1
+    },
+    "traits": [
+      "trait-natural-armor",
+      "trait-healthy",
+      "trait-longevity",
+      "trait-adapted",
+      "trait-reduced-sustenance"
+    ]
+  },
+  {
+    "id": "species-human-bdren",
+    "name": "B’Dren Human",
+    "file": "species-human-bdren.md",
+    "canon": {
+      "lineNum": 44,
+      "rawName": "\\- B’DREN",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+1 Agi \\[4\\] \\+1 Ability \\[4\\]",
+      "skillsCol": "\\-",
+      "traitsCol": "Low Light Vision \\[1\\] Quick \\[2\\]",
+      "stigmaCol": "\\-",
+      "totalCol": ""
+    },
+    "fmCostsBP": 11,
+    "computedBP": 9,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 4,
+      "skillsBP": 0,
+      "traitsBP": 5,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 0
+    },
+    "traits": [
+      "trait-blind-sense",
+      "trait-low-light-vision",
+      "trait-quick"
+    ]
+  },
+  {
+    "id": "species-human-brae",
+    "name": "Brae Human",
+    "file": "species-human-brae.md",
+    "canon": {
+      "lineNum": 45,
+      "rawName": "\\- BRAE",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+1 Agi \\[4\\] \\+1 Ability \\[4\\]",
+      "skillsCol": "\\+10 \\[8\\]",
+      "traitsCol": "Small Size \\[2\\] Climber \\[2\\]",
+      "stigmaCol": "\\-",
+      "totalCol": ""
+    },
+    "fmCostsBP": 21,
+    "computedBP": 20,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 2,
+      "movementBP": 0,
+      "attributeBP": 4,
+      "skillsBP": 8,
+      "traitsBP": 6,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 0
+    },
+    "traits": [
+      "trait-climber",
+      "trait-quick",
+      "trait-longevity"
+    ]
+  },
+  {
+    "id": "species-human-changeling",
+    "name": "Changeling (Doppelganger Hybrid)",
+    "file": "species-human-changeling.md",
+    "canon": {
+      "lineNum": 46,
+      "rawName": "\\- CHANGELING",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+1 Cha \\[4\\]",
+      "skillsCol": "\\+5 \\[4\\]",
+      "traitsCol": "Alter Form (Minor) \\[1\\]",
+      "stigmaCol": "Shifter (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 10,
+    "computedBP": 8,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 4,
+      "skillsBP": 4,
+      "traitsBP": 2,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 2
+    },
+    "traits": [
+      "trait-alter-form-basic",
+      "trait-emissary"
+    ]
+  },
+  {
+    "id": "species-human-cyberform",
+    "name": "Cyberform Human",
+    "file": "species-human-cyberform.md",
+    "canon": {
+      "lineNum": 47,
+      "rawName": "\\- CYBERFORM",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+2 Int \\[8\\]",
+      "skillsCol": "\\+10 \\[8\\]",
+      "traitsCol": "Augmented (Body Comp, PicoSurgeons, Smart Link) \\[6\\] Bodyform Acclimation \\[2\\] Companion (AI) \\[3\\]",
+      "stigmaCol": "Xeno (-2) Augmented (-4)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 17,
+    "computedBP": 17,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 8,
+      "skillsBP": 8,
+      "traitsBP": 7,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 6
+    },
+    "traits": [
+      "trait-ageless",
+      "trait-synthetic-armor-opts",
+      "trait-bodyform-adaptation",
+      "trait-bonus-feature"
+    ]
+  },
+  {
+    "id": "species-human-danai",
+    "name": "Danai (Davae Hybrid)",
+    "file": "species-human-danai.md",
+    "canon": {
+      "lineNum": 48,
+      "rawName": "\\- DANAI",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+1 Int \\[4\\]",
+      "skillsCol": "\\-",
+      "traitsCol": "Awakened (Mental) \\[2\\] Biotechnology \\[2\\] Hive Connection \\[2\\] \\+1 Feature \\[3\\]",
+      "stigmaCol": "Minor Xeno (-1)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 10,
+    "computedBP": 11,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 4,
+      "skillsBP": 0,
+      "traitsBP": 8,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 1
+    },
+    "traits": [
+      "trait-ageless",
+      "trait-awakened-mental",
+      "trait-master-tinker",
+      "trait-hive-connection"
+    ]
+  },
+  {
+    "id": "species-human-draconic",
+    "name": "Draconic Human",
+    "file": "species-human-draconic.md",
+    "canon": {
+      "lineNum": 49,
+      "rawName": "\\- DRACONIC",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+1 Ability \\[4\\]",
+      "skillsCol": "\\-",
+      "traitsCol": "Dragonkin Traits \\[6\\] Status (Dynasty) \\[3\\] \\+1 Feature \\[3\\]",
+      "stigmaCol": "Draconic (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 10,
+    "computedBP": 7,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 0,
+      "skillsBP": 0,
+      "traitsBP": 9,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 2
+    },
+    "traits": [
+      "trait-dragonkin-traits",
+      "trait-energy-resist",
+      "trait-sociable"
+    ]
+  },
+  {
+    "id": "species-human-dwerg",
+    "name": "Dwerg Human",
+    "file": "species-human-dwerg.md",
+    "canon": {
+      "lineNum": 50,
+      "rawName": "\\- DWERG",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+1 Str \\[4\\] \\+1 Sta \\[4\\]",
+      "skillsCol": "\\+10 Voc \\[8\\]",
+      "traitsCol": "Mighty Surge \\[2\\]",
+      "stigmaCol": "Minor Xeno (-1)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 18,
+    "computedBP": 19,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 8,
+      "skillsBP": 8,
+      "traitsBP": 4,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 1
+    },
+    "traits": [
+      "trait-natural-armor",
+      "trait-mighty-surge",
+      "trait-hardy"
+    ]
+  },
+  {
+    "id": "species-gene-aquatican",
+    "name": "Aquatican (Gen-E)",
+    "file": "species-gene-aquatican.md",
+    "canon": {
+      "lineNum": 52,
+      "rawName": "AQUATICAN",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+1 Ability \\[4\\]",
+      "skillsCol": "\\+5 \\[4\\]",
+      "traitsCol": "Adapted (Aquatic) \\[1\\] Amphibious \\[1\\] Natural Swim Speed \\[2\\] Swimmer \\[2\\]",
+      "stigmaCol": "Aquatic Xeno (-3)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 14,
+    "computedBP": 7,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 2,
+      "attributeBP": 0,
+      "skillsBP": 4,
+      "traitsBP": 4,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 3
+    },
+    "traits": [
+      "trait-adapted",
+      "trait-amphibious",
+      "trait-aquatic"
+    ]
+  },
+  {
+    "id": "species-gene-chimera",
+    "name": "Chimera (Gen-E)",
+    "file": "species-gene-chimera.md",
+    "canon": {
+      "lineNum": 53,
+      "rawName": "CHIMERA",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+2 Ability \\[8\\]",
+      "skillsCol": "\\+5 \\[4\\]",
+      "traitsCol": "\\+2 Species/Special Features (any) \\[4\\] Mutation \\[3\\]",
+      "stigmaCol": "Genetic (-2) Beastial (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 12,
+    "computedBP": 4,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 0,
+      "skillsBP": 4,
+      "traitsBP": 4,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-bodyform-mutation",
+      "trait-longevity"
+    ]
+  },
+  {
+    "id": "species-gene-davae",
+    "name": "Davae (Gen-E)",
+    "file": "species-gene-davae.md",
+    "canon": {
+      "lineNum": 54,
+      "rawName": "DAVAE",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+1 Int \\[4\\] \\+1 Ability \\[4\\]",
+      "skillsCol": "\\+5 Focus \\[4\\]",
+      "traitsCol": "Awakened (Psychic) \\[2\\] Telepathy \\[4\\] Biotechnology \\[2\\] Hive Connection \\[2\\] \\+2 Features \\[6\\]",
+      "stigmaCol": "Xeno (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 14,
+    "computedBP": 17,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 4,
+      "skillsBP": 4,
+      "traitsBP": 11,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 2
+    },
+    "traits": [
+      "trait-ageless",
+      "trait-awakened-psychic",
+      "trait-master-tinker",
+      "trait-hive-connection",
+      "trait-reduced-sustenance",
+      "trait-mind-speech"
+    ]
+  },
+  {
+    "id": "species-gene-digon",
+    "name": "Digon (Gen-E)",
+    "file": "species-gene-digon.md",
+    "canon": {
+      "lineNum": 55,
+      "rawName": "DIGON",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+1 Str \\+1 Agi \\+1 Sta \\[12\\] \\-1 Int \\-1 Cha \\[-10\\]",
+      "skillsCol": "\\+5 \\[4\\]",
+      "traitsCol": "Brutal \\[2\\] Exoskeleton (Partial) \\[1\\] Rage \\[3\\]",
+      "stigmaCol": "Xeno (-2) Savage (-4)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 29,
+    "computedBP": 8,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 2,
+      "movementBP": 0,
+      "attributeBP": 4,
+      "skillsBP": 4,
+      "traitsBP": 4,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 6
+    },
+    "traits": [
+      "trait-brutal",
+      "trait-frenzy",
+      "trait-exoskeleton-partial"
+    ]
+  },
+  {
+    "id": "species-gene-base",
+    "name": "Gen-E (Base Engineered Human)",
+    "file": "species-gene-base.md",
+    "canon": {
+      "lineNum": 56,
+      "rawName": "GEN-E",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+2 Ability \\[8\\]",
+      "skillsCol": "\\+5 \\[4\\]",
+      "traitsCol": "\\+1 Feature \\[3\\]",
+      "stigmaCol": "\\-",
+      "totalCol": ""
+    },
+    "fmCostsBP": 14,
+    "computedBP": 9,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 0,
+      "skillsBP": 4,
+      "traitsBP": 5,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 0
+    },
+    "traits": [
+      "trait-adapted",
+      "trait-bonus-feature",
+      "trait-healthy",
+      "trait-longevity"
+    ]
+  },
+  {
+    "id": "species-gene-impyrium-psion",
+    "name": "Impyrium Psion (Gen-E)",
+    "file": "species-gene-impyrium-psion.md",
+    "canon": {
+      "lineNum": 57,
+      "rawName": "IMPYRIUM PSION",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+1 Wis \\[4\\] \\+1 Ability \\[4\\]",
+      "skillsCol": "\\+10 \\[8\\]",
+      "traitsCol": "Awakened (Psychic) \\[2\\] Status (Impyrium) \\[3\\]",
+      "stigmaCol": "\\-",
+      "totalCol": ""
+    },
+    "fmCostsBP": 20,
+    "computedBP": 19,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 4,
+      "skillsBP": 8,
+      "traitsBP": 7,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 0
+    },
+    "traits": [
+      "trait-awakened-psychic",
+      "trait-resistant",
+      "trait-mind-speech",
+      "trait-sociable"
+    ]
+  },
+  {
+    "id": "species-gene-impyrium-regi",
+    "name": "Impyrium Regi (Gen-E)",
+    "file": "species-gene-impyrium-regi.md",
+    "canon": {
+      "lineNum": 58,
+      "rawName": "IMPYRIUM REGI",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+2 Int \\[8\\]",
+      "skillsCol": "\\+20 \\[16\\]",
+      "traitsCol": "Adaptive Aspects \\[2\\] Awakened (Psychic) \\[2\\] Status (Nobility) \\[3\\]",
+      "stigmaCol": "\\-",
+      "totalCol": ""
+    },
+    "fmCostsBP": 28,
+    "computedBP": 29,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 8,
+      "skillsBP": 16,
+      "traitsBP": 5,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 0
+    },
+    "traits": [
+      "trait-adaptive-features",
+      "trait-sociable",
+      "trait-awakened-psychic"
+    ]
+  },
+  {
+    "id": "species-gene-janissary",
+    "name": "Janissary (Gen-E)",
+    "file": "species-gene-janissary.md",
+    "canon": {
+      "lineNum": 59,
+      "rawName": "JANISSARY",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+2 Ability \\[8\\] \\-1 Cha \\[-5\\]",
+      "skillsCol": "\\+20 Combat \\[16\\]",
+      "traitsCol": "Augmented \\[3\\] \\+1 Combat Feature \\[2\\]",
+      "stigmaCol": "Xeno (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 30,
+    "computedBP": 16,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": -4,
+      "skillsBP": 16,
+      "traitsBP": 6,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 2
+    },
+    "traits": [
+      "trait-adapted",
+      "trait-synthetic-armor-opts",
+      "trait-focused-study",
+      "trait-resistant"
+    ]
+  },
+  {
+    "id": "species-human-kheen",
+    "name": "Kheen Human",
+    "file": "species-human-kheen.md",
+    "canon": {
+      "lineNum": 60,
+      "rawName": "\\- KHEEN",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+2 Ability \\[8\\]",
+      "skillsCol": "\\+5 \\[4\\]",
+      "traitsCol": "Low Light Vision \\[1\\]",
+      "stigmaCol": "\\-",
+      "totalCol": ""
+    },
+    "fmCostsBP": 15,
+    "computedBP": 10,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 0,
+      "skillsBP": 4,
+      "traitsBP": 6,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 0
+    },
+    "traits": [
+      "trait-awakened-arcane",
+      "trait-longevity",
+      "trait-low-light-vision",
+      "trait-reduced-sustenance"
+    ]
+  },
+  {
+    "id": "species-asi-frellin",
+    "name": "Frellin",
+    "file": "species-asi-frellin.md",
+    "canon": {
+      "lineNum": 61,
+      "rawName": "\\- LIN",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+1 Int \\[4\\]",
+      "skillsCol": "\\+10 \\[8\\]",
+      "traitsCol": "Adapted (Arboreal) \\[1\\] Awakened (Nature/Psychic) \\[2\\] Biotech \\[2\\] Climber \\[2\\] Prehensile Tail \\[1\\]",
+      "stigmaCol": "Xeno (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 31,
+    "computedBP": 47,
+    "breakdown": {
+      "typeBP": 3,
+      "sizeBP": 4,
+      "movementBP": 4,
+      "attributeBP": 8,
+      "skillsBP": 8,
+      "traitsBP": 24,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-ageless",
+      "trait-asi-base-traits",
+      "trait-awakened-arcane",
+      "trait-dark-sight",
+      "trait-flight",
+      "trait-immortal",
+      "trait-mind-speech"
+    ]
+  },
+  {
+    "id": "species-aeld-draconian",
+    "name": "Draconian (Scaled Aeld)",
+    "file": "species-aeld-draconian.md",
+    "canon": {
+      "lineNum": 62,
+      "rawName": "\\- NIAN",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+1 Str \\[4\\] \\+1 Sta \\[4\\] \\-1 Cha \\[-5\\]",
+      "skillsCol": "\\-",
+      "traitsCol": "Brutal \\[2\\] Exoskeleton (Partial) \\[1\\]",
+      "stigmaCol": "\\-",
+      "totalCol": ""
+    },
+    "fmCostsBP": 13,
+    "computedBP": 19,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 4,
+      "skillsBP": 8,
+      "traitsBP": 13,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 6
+    },
+    "traits": [
+      "trait-aeld-lineage-traits",
+      "trait-dragonkin-traits",
+      "trait-natural-weapons"
+    ]
+  },
+  {
+    "id": "species-human-premian",
+    "name": "Premian Human",
+    "file": "species-human-premian.md",
+    "canon": {
+      "lineNum": 63,
+      "rawName": "\\- PREMIAN",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+1 Ability \\[4\\]",
+      "skillsCol": "\\+10 \\[8\\]",
+      "traitsCol": "\\-",
+      "stigmaCol": "\\-",
+      "totalCol": ""
+    },
+    "fmCostsBP": 15,
+    "computedBP": 13,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 0,
+      "skillsBP": 8,
+      "traitsBP": 5,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 0
+    },
+    "traits": [
+      "trait-focused-study",
+      "trait-longevity",
+      "trait-silver-tongued",
+      "trait-integrated"
+    ]
+  },
+  {
+    "id": "species-human-rautha",
+    "name": "Rautha Human",
+    "file": "species-human-rautha.md",
+    "canon": {
+      "lineNum": 64,
+      "rawName": "\\- RAUTHA",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+2 Agi \\[8\\] \\+2 Sta \\[8\\]",
+      "skillsCol": "\\+10 \\[8\\]",
+      "traitsCol": "Fast \\[2\\] Jumper \\[1\\] Low Light \\[1\\] Prehensile Tail \\[1\\] Scent \\[1\\]",
+      "stigmaCol": "Xeno (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 27,
+    "computedBP": 30,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 16,
+      "skillsBP": 8,
+      "traitsBP": 8,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 2
+    },
+    "traits": [
+      "trait-scent",
+      "trait-quick",
+      "trait-leaper",
+      "trait-low-light-vision",
+      "trait-prehensile-tail"
+    ]
+  },
+  {
+    "id": "species-human-risakin",
+    "name": "Risakin (Giant Folk)",
+    "file": "species-human-risakin.md",
+    "canon": {
+      "lineNum": 65,
+      "rawName": "\\- RISAKIN",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+2 Str \\[8\\] \\+2 Sta \\[8\\]",
+      "skillsCol": "\\+10 \\[8\\]",
+      "traitsCol": "Large \\[2\\] \\+2 Features \\[6\\]",
+      "stigmaCol": "Xeno (-2) Giant (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 27,
+    "computedBP": 25,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 2,
+      "movementBP": 0,
+      "attributeBP": 16,
+      "skillsBP": 8,
+      "traitsBP": 3,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-powerful-charge",
+      "trait-natural-armor"
+    ]
+  },
+  {
+    "id": "species-human-varen",
+    "name": "Varen (Gatekeeper)",
+    "file": "species-human-varen.md",
+    "canon": {
+      "lineNum": 66,
+      "rawName": "\\- VAREN  (Gatekeepers)",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+1 Int \\[4\\] \\+1 Ability \\[4\\]",
+      "skillsCol": "\\+10 \\[8\\]",
+      "traitsCol": "Awakened (Dimension/Psychic) \\[2\\] Indomitable Will \\[2\\] Teleportal (Special Ability) \\[3\\] Homing (Special Ability) \\[3\\]",
+      "stigmaCol": "\\-",
+      "totalCol": ""
+    },
+    "fmCostsBP": 20,
+    "computedBP": 18,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 4,
+      "skillsBP": 8,
+      "traitsBP": 6,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 0
+    },
+    "traits": [
+      "trait-awakened-dimension",
+      "trait-resistant",
+      "trait-longevity"
+    ]
+  },
+  {
+    "id": "species-jorni",
+    "name": "Jorni",
+    "file": "species-jorni.md",
+    "canon": {
+      "lineNum": 67,
+      "rawName": "JORNI",
+      "typeCol": "Reptile (0)",
+      "attrCol": "\\+1 Str \\[4\\] \\+1 Sta \\[4\\]",
+      "skillsCol": "\\-",
+      "traitsCol": "Climber \\[2\\] Digitigrade \\[1\\] Fast Heal \\[2\\] Long Prehensile Tail \\[2\\] Regeneration \\[4\\] Swimmer \\[2\\]",
+      "stigmaCol": "Xeno (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 15,
+    "computedBP": 25,
+    "breakdown": {
+      "typeBP": 1,
+      "sizeBP": 0,
+      "movementBP": 2,
+      "attributeBP": 8,
+      "skillsBP": 0,
+      "traitsBP": 16,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 2
+    },
+    "traits": [
+      "trait-amphibious",
+      "trait-climber",
+      "trait-digitigrade-ungulated",
+      "trait-fast-heal",
+      "trait-prehensile-tail",
+      "trait-regeneration",
+      "trait-aquatic",
+      "trait-venom"
+    ]
+  },
+  {
+    "id": "species-kitin-maantene",
+    "name": "Maantene (Recon Expression)",
+    "file": "species-kitin-maantene.md",
+    "canon": {
+      "lineNum": 69,
+      "rawName": "MAANTENE (Recon Expression)",
+      "typeCol": "Insectoid Aberration (Quadruped) (1)",
+      "attrCol": "+2 Agi [4] +1 Sta [4] -1 Cha [-4]",
+      "skillsCol": "+10 Any [8]",
+      "traitsCol": "Awakened (Psychic) [2] Leaper [2] Dual Skeletal Structure [2] Armor (DR 10) [2] Enhanced Strength [2] Camouflage (Active) [4] Quadruped (Leaping) [2] Multidextrous (4 Arms) [4] Torpor [2] Uncanny Senses (Vibration) [2]",
+      "stigmaCol": "Severe Xeno (-4)",
+      "totalCol": "40 BP"
+    },
+    "fmCostsBP": 40,
+    "computedBP": 37,
+    "breakdown": {
+      "typeBP": 1,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 8,
+      "skillsBP": 8,
+      "traitsBP": 24,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-active-camouflage",
+      "trait-awakened-psychic",
+      "trait-chitinous-shell-armor",
+      "trait-dual-skeletal-structure",
+      "trait-enhanced-strength",
+      "trait-leaper",
+      "trait-multidextrous-4-arms",
+      "trait-quadruped-leaping",
+      "trait-torpor-universal",
+      "trait-uncanny-senses-vibration"
+    ]
+  },
+  {
+    "id": "species-kitin-manelli",
+    "name": "Manelli (Cerebral Expression)",
+    "file": "species-kitin-manelli.md",
+    "canon": {
+      "lineNum": 70,
+      "rawName": "MANELLI (Cerebral Expression)",
+      "typeCol": "Humanoid (Mimetic Mimicry) (0)",
+      "attrCol": "+2 Int [8] +2 Wis [8] +1 Cha [4]",
+      "skillsCol": "+10 Any [8]",
+      "traitsCol": "Mimetic Form [2] Awakened (Psionic) [2] Genetic Memory [2] Hive-Link [2] Torpor [2] Blind Sense (Scent/EM) [2] Enhanced Biotechnology [0]",
+      "stigmaCol": "Minor Xeno (hidden) (-2) / Severe Xeno (revealed) (-4)",
+      "totalCol": "39 BP"
+    },
+    "fmCostsBP": 39,
+    "computedBP": 44,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 20,
+      "skillsBP": 8,
+      "traitsBP": 20,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-blind-sense-scent-em",
+      "trait-enhanced-biotechnology",
+      "trait-genetic-memory",
+      "trait-hive-link",
+      "trait-kitin-base-traits",
+      "trait-mimetic-form",
+      "trait-torpor-universal"
+    ]
+  },
+  {
+    "id": "species-kitin-rakne",
+    "name": "Rakne (Infiltration Expression)",
+    "file": "species-kitin-rakne.md",
+    "canon": {
+      "lineNum": 71,
+      "rawName": "RAKNE (Infiltration Expression)",
+      "typeCol": "Insectoid Aberration (Arachno-Tauric) (1)",
+      "attrCol": "+2 Str [4] +2 Agi [4] -1 Sta [-4] -1 Cha [-4]",
+      "skillsCol": "+10 Any [8]",
+      "traitsCol": "Multidextrous (4 Arms) [4] Climber [2] Dual Skeletal Structure [2] Armor (DR 10) [2] Enhanced Strength [2] Resin Secretion [2] Weaver [2] Torpor [2] Uncanny Senses (Vibration) [2] Camouflage [2] Quick [2] Quadruped [2]",
+      "stigmaCol": "Severe Xeno / Monstrous (-4)",
+      "totalCol": "40 BP"
+    },
+    "fmCostsBP": 40,
+    "computedBP": 40,
+    "breakdown": {
+      "typeBP": 1,
+      "sizeBP": 0,
+      "movementBP": 2,
+      "attributeBP": 8,
+      "skillsBP": 8,
+      "traitsBP": 25,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-camouflage",
+      "trait-chitinous-shell-armor",
+      "trait-climber",
+      "trait-dual-skeletal-structure",
+      "trait-enhanced-strength",
+      "trait-multidextrous-4-arms",
+      "trait-quadruped",
+      "trait-quick",
+      "trait-resin-secretion",
+      "trait-torpor-universal",
+      "trait-uncanny-senses-vibration",
+      "trait-weaver"
+    ]
+  },
+  {
+    "id": "species-kitin-riezen",
+    "name": "Riezen (Divergent Swarm)",
+    "file": "species-kitin-riezen.md",
+    "canon": {
+      "lineNum": 72,
+      "rawName": "RIEZEN (Divergent Swarm)",
+      "typeCol": "Insect Ooze (Swarm) (4)",
+      "attrCol": "+2 Agi [8] -2 Cha [-8]",
+      "skillsCol": "-",
+      "traitsCol": "Hive Mind [2] Telepathic [2] Host Zombification [2] Psionic Interference [1] Fast Heal & Regeneration [2] Honey & Paper Manufacture [1] Sleepless [2] Adapted Features [2] Blind Sight [2] Exoskeleton (Light) [2]",
+      "stigmaCol": "Severe Xeno, Monstrous",
+      "totalCol": "24 BP"
+    },
+    "fmCostsBP": 24,
+    "computedBP": 26,
+    "breakdown": {
+      "typeBP": 6,
+      "sizeBP": 2,
+      "movementBP": 4,
+      "attributeBP": 0,
+      "skillsBP": 0,
+      "traitsBP": 18,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-adaptive-features",
+      "trait-blind-sight-swarm",
+      "trait-exoskeleton-light",
+      "trait-hive-mind-swarm",
+      "trait-honey-paper-manufacture",
+      "trait-host-zombification",
+      "trait-psionic-interference-static",
+      "trait-sleepless",
+      "trait-fast-heal",
+      "trait-telepathic"
+    ]
+  },
+  {
+    "id": "species-kitin-syndess",
+    "name": "Syndess (Pilot Expression)",
+    "file": "species-kitin-syndess.md",
+    "canon": {
+      "lineNum": 73,
+      "rawName": "SYNDESS (Pilot Expression)",
+      "typeCol": "Insectoid Larva (Integration Strain) (1)",
+      "attrCol": "+2 Int [10] +2 Agi [10] -2 Str [-10] -2 Sta [-10]",
+      "skillsCol": "+10 Any [10]",
+      "traitsCol": "Synaptic Integration [2] Multidextrous (Many-Limbed) [2] G-Force Immunity [2] Torpor [2] Blind Sense (EM/Vibration) [2] Dual Skeletal Structure [2] Armor (DR 10) [2] Climber [2] Awakened (Psionic) [2] Genetic Memory [2] Hive-Link [2] Enhanced Biotechnology [0] Property Boon [2]",
+      "stigmaCol": "Fragile Frame (-2), Minor Xeno (hidden) / Severe Xeno (exposed)",
+      "totalCol": "39 BP"
+    },
+    "fmCostsBP": 39,
+    "computedBP": 33,
+    "breakdown": {
+      "typeBP": 1,
+      "sizeBP": 2,
+      "movementBP": 2,
+      "attributeBP": 0,
+      "skillsBP": 8,
+      "traitsBP": 24,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-awakened-psychic",
+      "trait-blind-sense-em-vibration",
+      "trait-chitinous-shell-armor",
+      "trait-climber",
+      "trait-dual-skeletal-structure",
+      "trait-enhanced-biotechnology",
+      "trait-fragile-frame",
+      "trait-g-force-immunity",
+      "trait-genetic-memory",
+      "trait-hive-link",
+      "trait-multidextrous-many-limbed",
+      "trait-property-boon",
+      "trait-synaptic-integration",
+      "trait-torpor-universal"
+    ]
+  },
+  {
+    "id": "species-kitin-murex",
+    "name": "Murex (Foundation Expression)",
+    "file": "species-kitin-murex.md",
+    "canon": {
+      "lineNum": 74,
+      "rawName": "MUREX (Foundation Expression)",
+      "typeCol": "Insectoid Aberration (Humanoid) (1)",
+      "attrCol": "+2 Str [8] +2 Sta [8] -1 Wis [-4] -1 Cha [-4]",
+      "skillsCol": "+10 Any [8]",
+      "traitsCol": "Multidextrous (4 Arms) [4] Dual Skeletal Structure [2] Armor (DR 10) [2] Enhanced Strength [2] Fatigue Resistance [2] Pheromonal Synthesis [2] Quick [2] Climber [2] Hive-Link (Minor) [2] Resin Secretion [2] Torpor [2]",
+      "stigmaCol": "Severe Xeno (-4)",
+      "totalCol": "34 BP"
+    },
+    "fmCostsBP": 34,
+    "computedBP": 39,
+    "breakdown": {
+      "typeBP": 1,
+      "sizeBP": 0,
+      "movementBP": 2,
+      "attributeBP": 8,
+      "skillsBP": 8,
+      "traitsBP": 24,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-chitinous-shell-armor",
+      "trait-climber",
+      "trait-dual-skeletal-structure",
+      "trait-enhanced-strength",
+      "trait-fatigue-resistance",
+      "trait-hive-link-minor",
+      "trait-multidextrous-4-arms",
+      "trait-pheromonal-synthesis",
+      "trait-quick",
+      "trait-resin-secretion",
+      "trait-torpor-universal"
+    ]
+  },
+  {
+    "id": "species-kannid",
+    "name": "Kannid",
+    "file": "species-kannid.md",
+    "canon": {
+      "lineNum": 75,
+      "rawName": "KANNID",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+1 Agi \\[4\\] \\+1 Sta \\[4\\]",
+      "skillsCol": "\\-",
+      "traitsCol": "Digitigrade \\[1\\] Quick \\[2\\] Uncanny Senses (Scent/Hearing) \\[8\\]",
+      "stigmaCol": "Xeno (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 10,
+    "computedBP": 12,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 8,
+      "skillsBP": 0,
+      "traitsBP": 6,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 2
+    },
+    "traits": [
+      "trait-digitigrade-ungulated",
+      "trait-swarming",
+      "trait-quick",
+      "trait-scent"
+    ]
+  },
+  {
+    "id": "species-kizin",
+    "name": "Kizin",
+    "file": "species-kizin.md",
+    "canon": {
+      "lineNum": 76,
+      "rawName": "KIZIN",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+1 Int \\[4\\] \\+1 Agi \\[4\\]",
+      "skillsCol": "\\+5 \\[4\\]",
+      "traitsCol": "Digitigrade \\[1\\] Low Light Vision \\[1\\] Scent \\[1\\]",
+      "stigmaCol": "Xeno (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 15,
+    "computedBP": 16,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 8,
+      "skillsBP": 4,
+      "traitsBP": 6,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 2
+    },
+    "traits": [
+      "trait-scent",
+      "trait-digitigrade-ungulated",
+      "trait-low-light-vision",
+      "trait-natural-weapons",
+      "trait-silent-hunter"
+    ]
+  },
+  {
+    "id": "species-kongi",
+    "name": "Kongi",
+    "file": "species-kongi.md",
+    "canon": {
+      "lineNum": 77,
+      "rawName": "KONGI",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+2 Str \\[8\\] \\+1 Agi \\[4\\]",
+      "skillsCol": "\\-",
+      "traitsCol": "Climber \\[2\\] Low Light \\[1\\] Mighty Surge \\[2\\] Prehensile Tail/Feet \\[3\\] Scent \\[1\\] Climb Speed \\[2\\]",
+      "stigmaCol": "Minor Xeno (-1)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 21,
+    "computedBP": 24,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 2,
+      "movementBP": 2,
+      "attributeBP": 12,
+      "skillsBP": 0,
+      "traitsBP": 9,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 1
+    },
+    "traits": [
+      "trait-scent",
+      "trait-climber",
+      "trait-low-light-vision",
+      "trait-mighty-surge",
+      "trait-patagia",
+      "trait-prehensile-limbs"
+    ]
+  },
+  {
+    "id": "species-mobula",
+    "name": "Mobula",
+    "file": "species-mobula.md",
+    "canon": {
+      "lineNum": 78,
+      "rawName": "MOBULA",
+      "typeCol": "Biform (Humanoid \\- Beast) (1)",
+      "attrCol": "\\+1 Agi \\[4\\] \\+1 Sta \\[4\\]",
+      "skillsCol": "\\-",
+      "traitsCol": "Adapted (Aquatic) \\[1\\] Amphibious \\[1\\] Alternate Form (Special Ability) \\[2\\] Echolocation \\[2\\] Uncanny Sense (Vision) \\[4\\] Swim Speed \\[2\\]",
+      "stigmaCol": "Severe Xeno (-4)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 16,
+    "computedBP": 19,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 6,
+      "attributeBP": 8,
+      "skillsBP": 0,
+      "traitsBP": 9,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-adapted",
+      "trait-alternate-form",
+      "trait-amphibious",
+      "trait-blind-sense",
+      "trait-aquatic",
+      "trait-low-light-vision"
+    ]
+  },
+  {
+    "id": "species-mondi",
+    "name": "Mondi",
+    "file": "species-mondi.md",
+    "canon": {
+      "lineNum": 79,
+      "rawName": "MONDI",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+2 Int \\[8\\]",
+      "skillsCol": "\\+10 Disc \\[8\\]",
+      "traitsCol": "Awakened (Psychic) \\[2\\] Telepathic \\[4\\] Adaptive Aspects \\[2\\] Flight (TK) \\[4\\]",
+      "stigmaCol": "Xeno (-2), Luminescent (-1)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 24,
+    "computedBP": 34,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 4,
+      "attributeBP": 8,
+      "skillsBP": 8,
+      "traitsBP": 17,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 3
+    },
+    "traits": [
+      "trait-adaptive-features",
+      "trait-ageless",
+      "trait-awakened-psychic",
+      "trait-shadow-blending",
+      "trait-flight",
+      "trait-immortal",
+      "trait-mind-speech"
+    ]
+  },
+  {
+    "id": "species-orll-base",
+    "name": "Orll",
+    "file": "species-orll-base.md",
+    "canon": {
+      "lineNum": 80,
+      "rawName": "ORLL",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+2 Str \\+2 Sta \\[16\\] \\-1 Int \\-1 Cha \\[-10\\]",
+      "skillsCol": "\\+5 \\[4\\]",
+      "traitsCol": "Exoskeleton (Light) \\[2\\] Rage \\[3\\]",
+      "stigmaCol": "Savage (-4), Xeno (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 33,
+    "computedBP": 13,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 2,
+      "movementBP": 0,
+      "attributeBP": 8,
+      "skillsBP": 4,
+      "traitsBP": 5,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 6
+    },
+    "traits": [
+      "trait-exoskeleton-light",
+      "trait-brutal",
+      "trait-frenzy"
+    ]
+  },
+  {
+    "id": "species-orll-graor",
+    "name": "Gra'or",
+    "file": "species-orll-graor.md",
+    "canon": {
+      "lineNum": 81,
+      "rawName": "\\- GRA'OR",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+2 Str \\[8\\] \\+2 Sta \\[8\\] \\-1 Cha \\[-5\\]",
+      "skillsCol": "\\+5 \\[4\\]",
+      "traitsCol": "Chloroplast \\[2\\] Exoskeleton \\[2\\]",
+      "stigmaCol": "Xeno (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 28,
+    "computedBP": 22,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 2,
+      "movementBP": 0,
+      "attributeBP": 12,
+      "skillsBP": 4,
+      "traitsBP": 6,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 2
+    },
+    "traits": [
+      "trait-chloroplast",
+      "trait-exoskeleton-light",
+      "trait-fast-heal"
+    ]
+  },
+  {
+    "id": "species-plasm",
+    "name": "Plasm",
+    "file": "species-plasm.md",
+    "canon": {
+      "lineNum": 82,
+      "rawName": "PLASM",
+      "typeCol": "Ooze (4)",
+      "attrCol": "\\-",
+      "skillsCol": "\\+10 \\[8\\]",
+      "traitsCol": "Adaptive Aspects \\[2\\] Alter Form (Adv) (Special Ability) \\[2\\] Awakened (Cosmic) \\[2\\] Bodyform Adaptation \\[2\\] Fast Heal \\[2\\] Regen \\[4\\] Telepathic \\[4\\]",
+      "stigmaCol": "Severe Xeno (-4)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 17,
+    "computedBP": 26,
+    "breakdown": {
+      "typeBP": 6,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 0,
+      "skillsBP": 8,
+      "traitsBP": 16,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-adaptive-features",
+      "trait-alter-form-adv",
+      "trait-awakened-cosmic",
+      "trait-bodyform-adaptation",
+      "trait-fast-heal",
+      "trait-regeneration",
+      "trait-mind-speech"
+    ]
+  },
+  {
+    "id": "species-praeti",
+    "name": "Praeti",
+    "file": "species-praeti.md",
+    "canon": {
+      "lineNum": 83,
+      "rawName": "PRAETI",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+2 Ability \\[8\\]",
+      "skillsCol": "\\+10 \\[8\\]",
+      "traitsCol": "Uncanny Sense (Vision) \\[4\\] Flight (Winged) \\[4\\]",
+      "stigmaCol": "Xeno (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 22,
+    "computedBP": 19,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 4,
+      "attributeBP": 0,
+      "skillsBP": 8,
+      "traitsBP": 9,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 2
+    },
+    "traits": [
+      "trait-flight",
+      "trait-quick",
+      "trait-patagia",
+      "trait-all-around-vision"
+    ]
+  },
+  {
+    "id": "species-progenitor-ila",
+    "name": "Ila (Progenitor Archon)",
+    "file": "species-progenitor-ila.md",
+    "canon": {
+      "lineNum": 85,
+      "rawName": "\\- ILA",
+      "typeCol": "Entity (24)",
+      "attrCol": "\\+4 Int \\[16\\]",
+      "skillsCol": "\\+40 \\[32\\]",
+      "traitsCol": "Progenitor \\[26\\] Corporeal as desired \\[4\\] Large Size \\[2\\] Flicker Movement \\[4\\]",
+      "stigmaCol": "Deific (-6) Xeno (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 96,
+    "computedBP": 118,
+    "breakdown": {
+      "typeBP": 24,
+      "sizeBP": 2,
+      "movementBP": 4,
+      "attributeBP": 32,
+      "skillsBP": 32,
+      "traitsBP": 32,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 8
+    },
+    "traits": [
+      "trait-semi-corporeal",
+      "trait-awakened-dimension",
+      "trait-progenitor-heritage-base"
+    ]
+  },
+  {
+    "id": "species-progenitor-unonn",
+    "name": "U’Nonn (Progenitor Sovereign)",
+    "file": "species-progenitor-unonn.md",
+    "canon": {
+      "lineNum": 86,
+      "rawName": "\\- U’NONN",
+      "typeCol": "Aberration (1)",
+      "attrCol": "\\+4 Int \\[16\\] \\+6 Ability \\[24\\]",
+      "skillsCol": "\\+40 \\[32\\]",
+      "traitsCol": "Progenitor \\[26\\] Large Size \\[2\\]",
+      "stigmaCol": "Deific (-6) Xeno (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 81,
+    "computedBP": 79,
+    "breakdown": {
+      "typeBP": 1,
+      "sizeBP": 2,
+      "movementBP": 4,
+      "attributeBP": 16,
+      "skillsBP": 32,
+      "traitsBP": 32,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 8
+    },
+    "traits": [
+      "trait-resistant",
+      "trait-synthetic-tech-assim",
+      "trait-progenitor-heritage-base"
+    ]
+  },
+  {
+    "id": "species-qeric",
+    "name": "Qeric",
+    "file": "species-qeric.md",
+    "canon": {
+      "lineNum": 87,
+      "rawName": "QERIC",
+      "typeCol": "Beast (1)",
+      "attrCol": "\\+1 Agi \\[4\\] \\+1 Cha \\[4\\]",
+      "skillsCol": "\\-",
+      "traitsCol": "Small \\[2\\] Climbing \\[2\\] Patagia \\[1\\] Multidextrous \\[2\\] Uncanny Senses (Scent) \\[4\\] Climb Speed \\[2\\]",
+      "stigmaCol": "Severe Xeno (-4)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 16,
+    "computedBP": 16,
+    "breakdown": {
+      "typeBP": 1,
+      "sizeBP": 2,
+      "movementBP": 3,
+      "attributeBP": 8,
+      "skillsBP": 0,
+      "traitsBP": 6,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-climber",
+      "trait-additional-limbs",
+      "trait-patagia",
+      "trait-scent"
+    ]
+  },
+  {
+    "id": "species-sefalin",
+    "name": "Sefalin",
+    "file": "species-sefalin.md",
+    "canon": {
+      "lineNum": 88,
+      "rawName": "SEFALIN",
+      "typeCol": "Aberration (1)",
+      "attrCol": "\\-",
+      "skillsCol": "\\+5 \\[4\\]",
+      "traitsCol": "Adapted (Deep Sea) \\[1\\] Awakened (Psychic) \\[2\\] Amphibious \\[1\\] Biotech \\[2\\] Chameleon \\[2\\] Fast Heal \\[2\\] Tentacles \\[2\\] Quick \\[2\\] Regen \\[4\\]",
+      "stigmaCol": "Xeno (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 14,
+    "computedBP": 23,
+    "breakdown": {
+      "typeBP": 1,
+      "sizeBP": 0,
+      "movementBP": 2,
+      "attributeBP": 0,
+      "skillsBP": 4,
+      "traitsBP": 18,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 2
+    },
+    "traits": [
+      "trait-adapted",
+      "trait-amphibious",
+      "trait-awakened-psychic",
+      "trait-enhanced-biotechnology",
+      "trait-chameleon",
+      "trait-fast-heal",
+      "trait-quick",
+      "trait-regeneration",
+      "trait-prehensile-limbs"
+    ]
+  },
+  {
+    "id": "species-shanor-base",
+    "name": "Sha'nor",
+    "file": "species-shanor-base.md",
+    "canon": {
+      "lineNum": 89,
+      "rawName": "SHA’NOR",
+      "typeCol": "Aberration (1)",
+      "attrCol": "\\+1 Wis \\[4\\] \\+1 Ability \\[4\\]",
+      "skillsCol": "\\+10 \\[8\\]",
+      "traitsCol": "Ageless \\[2\\] Alter Form (Advanced \\- Special Ability) \\[2\\] Awakened (Void) \\[2\\] Bodyform \\[2\\] Fast Heal \\[2\\] Immortal \\[4\\] Non-Typical Anatomy \\[4\\] Regen \\[4\\] Semi-Corporeal \\[4\\] Telepathic \\[4\\] Flight \\[4\\] Vampiric \\[-4\\]",
+      "stigmaCol": "Monstrous (-6) Xeno (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 30,
+    "computedBP": 41,
+    "breakdown": {
+      "typeBP": 1,
+      "sizeBP": 0,
+      "movementBP": 4,
+      "attributeBP": 4,
+      "skillsBP": 8,
+      "traitsBP": 32,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 8
+    },
+    "traits": [
+      "trait-ageless",
+      "trait-alter-form-adv",
+      "trait-awakened-void",
+      "trait-fast-heal",
+      "trait-flight",
+      "trait-immortal",
+      "trait-adaptive-features",
+      "trait-regeneration",
+      "trait-semi-corporeal",
+      "trait-mind-speech",
+      "trait-vampiric-power"
+    ]
+  },
+  {
+    "id": "species-shanor-tenen",
+    "name": "Tenen (Sha’nor Spectral)",
+    "file": "species-shanor-tenen.md",
+    "canon": {
+      "lineNum": 90,
+      "rawName": "\\- TENEN",
+      "typeCol": "Spectral (1)",
+      "attrCol": "\\+1 Ability \\[4\\]",
+      "skillsCol": "\\+10 \\[8\\]",
+      "traitsCol": "Ageless \\[2\\] Alter Form (Advanced \\- Special Ability) \\[2\\] Awakened (Void) \\[2\\] Bodyform \\[2\\] Fast Heal \\[2\\] Immortal \\[4\\] Non-Typical Anatomy \\[4\\] Regen \\[4\\] Semi-Corporeal \\[4\\] Telepathic \\[4\\] Flight \\[4\\]",
+      "stigmaCol": "Xeno (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 42,
+    "computedBP": 38,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 4,
+      "attributeBP": 0,
+      "skillsBP": 8,
+      "traitsBP": 28,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 2
+    },
+    "traits": [
+      "trait-ageless",
+      "trait-alter-form-adv",
+      "trait-awakened-void",
+      "trait-fast-heal",
+      "trait-flight",
+      "trait-immortal",
+      "trait-adaptive-features",
+      "trait-regeneration",
+      "trait-semi-corporeal",
+      "trait-telepathic"
+    ]
+  },
+  {
+    "id": "species-shanor-eakren",
+    "name": "Eakren (Corrupted Aberration)",
+    "file": "species-shanor-eakren.md",
+    "canon": {
+      "lineNum": 91,
+      "rawName": "\\- EAKREN",
+      "typeCol": "Aberration (1)",
+      "attrCol": "PC Stats",
+      "skillsCol": "\\-",
+      "traitsCol": "Corrupted Traits \\[Varies\\] Mutation \\[Varies\\] Origin Traits \\[Varies\\]",
+      "stigmaCol": "Monstrous (-4)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 10,
+    "computedBP": 1,
+    "breakdown": {
+      "typeBP": 1,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 0,
+      "skillsBP": 0,
+      "traitsBP": 4,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-bodyform-mutation",
+      "trait-awakened-void"
+    ]
+  },
+  {
+    "id": "species-synthetic-android",
+    "name": "Android",
+    "file": "species-synthetic-android.md",
+    "canon": {
+      "lineNum": 93,
+      "rawName": "\\- ANDROID",
+      "typeCol": "Synthetic (15)",
+      "attrCol": "\\+1 Int \\[4\\] \\+2 Ability \\[8\\] \\-1 Cha \\[-5\\]",
+      "skillsCol": "\\+10 \\[8\\]",
+      "traitsCol": "Synthetic \\[14\\]&nbsp;&nbsp;",
+      "stigmaCol": "\\-",
+      "totalCol": ""
+    },
+    "fmCostsBP": 42,
+    "computedBP": 42,
+    "breakdown": {
+      "typeBP": 15,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 0,
+      "skillsBP": 8,
+      "traitsBP": 19,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 0
+    },
+    "traits": [
+      "trait-resistant",
+      "trait-natural-armor",
+      "trait-powerful-charge",
+      "trait-synthetic-base-traits"
+    ]
+  },
+  {
+    "id": "species-synthetic-scrap",
+    "name": "Scrap (Junkframe Synthetic)",
+    "file": "species-synthetic-scrap.md",
+    "canon": {
+      "lineNum": 94,
+      "rawName": "SCRAP",
+      "typeCol": "Synthetic (15)",
+      "attrCol": "\\+3 Any \\[12\\] \\-2 Cha \\[-10\\]",
+      "skillsCol": "\\+10 \\[8\\]",
+      "traitsCol": "Synthetic \\[14\\]  Heavy Augmentation \\[4\\]",
+      "stigmaCol": "Synthetic (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 47,
+    "computedBP": 35,
+    "breakdown": {
+      "typeBP": 15,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": -8,
+      "skillsBP": 8,
+      "traitsBP": 22,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 2
+    },
+    "traits": [
+      "trait-fast-heal",
+      "trait-synthetic-armor-opts",
+      "trait-exoskeleton-heavy",
+      "trait-synthetic-base-traits"
+    ]
+  },
+  {
+    "id": "species-synthetic-skin",
+    "name": "Skin (Infiltrator Synthetic)",
+    "file": "species-synthetic-skin.md",
+    "canon": {
+      "lineNum": 95,
+      "rawName": "SKIN",
+      "typeCol": "Synthetic (15)",
+      "attrCol": "\\+2 Any \\[8\\]",
+      "skillsCol": "\\+10 \\[8\\]",
+      "traitsCol": "Synthetic \\[14\\]  Alter Self (Advanced) \\[2\\]",
+      "stigmaCol": "Secret (-6)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 29,
+    "computedBP": 34,
+    "breakdown": {
+      "typeBP": 15,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 0,
+      "skillsBP": 8,
+      "traitsBP": 17,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 6
+    },
+    "traits": [
+      "trait-alter-form-adv",
+      "trait-synthetic-base-traits",
+      "trait-alter-form-basic"
+    ]
+  },
+  {
+    "id": "species-synthetic-biomechanical",
+    "name": "Biomechanical Synthetic",
+    "file": "species-synthetic-biomechanical.md",
+    "canon": {
+      "lineNum": 96,
+      "rawName": "\\- BIOMECHANICAL",
+      "typeCol": "Synthetic (15)",
+      "attrCol": "\\+2 Ability \\[8\\] \\-2 Cha \\[-10\\]",
+      "skillsCol": "\\+20 \\[16\\]",
+      "traitsCol": "Synthetic \\[14\\]  Adaptive Aspects \\[2\\]",
+      "stigmaCol": "Xeno (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 51,
+    "computedBP": 41,
+    "breakdown": {
+      "typeBP": 15,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": -8,
+      "skillsBP": 16,
+      "traitsBP": 20,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 2
+    },
+    "traits": [
+      "trait-adaptive-features",
+      "trait-autotroph",
+      "trait-fast-heal",
+      "trait-synthetic-base-traits"
+    ]
+  },
+  {
+    "id": "species-synthetic-eidolon",
+    "name": "Eidolon (Aetherion Specialist)",
+    "file": "species-synthetic-eidolon.md",
+    "canon": {
+      "lineNum": 97,
+      "rawName": "\\- EIDOLON  (Aetherion)",
+      "typeCol": "Synthetic (15)",
+      "attrCol": "\\-",
+      "skillsCol": "\\-",
+      "traitsCol": "Synthetic \\[14\\]  TL 5 / ML 5 \\[20\\]",
+      "stigmaCol": "Synthetic (-2) Severe Xeno (-6)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 42,
+    "computedBP": 53,
+    "breakdown": {
+      "typeBP": 15,
+      "sizeBP": 0,
+      "movementBP": 4,
+      "attributeBP": 8,
+      "skillsBP": 8,
+      "traitsBP": 26,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 8
+    },
+    "traits": [
+      "trait-mind-speech",
+      "trait-energy-immunity",
+      "trait-chloroplast",
+      "trait-synthetic-base-traits",
+      "trait-synthetic-exotic-opt"
+    ]
+  },
+  {
+    "id": "species-synthetic-golem",
+    "name": "Golem (Arcane Construct)",
+    "file": "species-synthetic-golem.md",
+    "canon": {
+      "lineNum": 98,
+      "rawName": "\\- GOLEM",
+      "typeCol": "Synthetic (15)",
+      "attrCol": "\\+6 Phys \\[24\\] \\-2 Int \\-2 Cha \\[-20\\]",
+      "skillsCol": "\\+10 \\[8\\]",
+      "traitsCol": "Synthetic \\[14\\]  High Meta and Lower Technology used to design and build.",
+      "stigmaCol": "Severe (-4)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 70,
+    "computedBP": 53,
+    "breakdown": {
+      "typeBP": 15,
+      "sizeBP": 2,
+      "movementBP": 0,
+      "attributeBP": 8,
+      "skillsBP": 8,
+      "traitsBP": 24,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-energy-absorption",
+      "trait-resistant",
+      "trait-exoskeleton-heavy",
+      "trait-synthetic-base-traits"
+    ]
+  },
+  {
+    "id": "species-synthetic-intellect",
+    "name": "Intellect Construct (Pure AI)",
+    "file": "species-synthetic-intellect.md",
+    "canon": {
+      "lineNum": 99,
+      "rawName": "\\- INTELLECT",
+      "typeCol": "Synthetic (15)",
+      "attrCol": "\\+2 Int \\[8\\] \\+8 Mental \\[32\\] No Phys \\[-75\\]",
+      "skillsCol": "\\+40 \\[32\\]",
+      "traitsCol": "Synthetic \\[14\\]  Communications \\[2\\] Companion (Remotes) \\[3\\] Small Size \\[2\\]",
+      "stigmaCol": "Severe (-4)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 187,
+    "computedBP": 22,
+    "breakdown": {
+      "typeBP": 15,
+      "sizeBP": 4,
+      "movementBP": 4,
+      "attributeBP": -48,
+      "skillsBP": 32,
+      "traitsBP": 19,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-mind-speech",
+      "trait-bonus-feature",
+      "trait-quick-reactions",
+      "trait-synthetic-base-traits"
+    ]
+  },
+  {
+    "id": "species-synthetic-mekan",
+    "name": "Mekan (Assimilation Unit)",
+    "file": "species-synthetic-mekan.md",
+    "canon": {
+      "lineNum": 100,
+      "rawName": "\\- MEKAN",
+      "typeCol": "Synthetic (15) / Entity (-)",
+      "attrCol": "\\+2 Int \\[8\\]",
+      "skillsCol": "\\+10 \\[8\\]",
+      "traitsCol": "Synthetic \\[14\\]  Double Adaptive Aspects \\[4\\] Telepathic \\[4\\] Tech Assimilation (Special Ability) \\[4\\] Technopathic/Technokinetic (Special Ability) \\[6\\]",
+      "stigmaCol": "Severe (-4)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 32,
+    "computedBP": 50,
+    "breakdown": {
+      "typeBP": 15,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 8,
+      "skillsBP": 8,
+      "traitsBP": 23,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-adapted",
+      "trait-adaptive-features",
+      "trait-synthetic-base-traits",
+      "trait-synthetic-tech-assim",
+      "trait-mind-speech"
+    ]
+  },
+  {
+    "id": "species-synthetic-protocol",
+    "name": "Protocol (Task Automaton)",
+    "file": "species-synthetic-protocol.md",
+    "canon": {
+      "lineNum": 101,
+      "rawName": "\\- PROTOCOL",
+      "typeCol": "Synthetic (15)",
+      "attrCol": "\\+4 Ability \\[16\\] \\-2 Cha \\[-10\\]",
+      "skillsCol": "\\+10 \\[8\\]",
+      "traitsCol": "Synthetic \\[14\\]  Adaptive Aspects \\[2\\] Tech Assimilation (Special Ability) \\[4\\]",
+      "stigmaCol": "Severe (-4) Anti-Organic (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 51,
+    "computedBP": 30,
+    "breakdown": {
+      "typeBP": 15,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": -8,
+      "skillsBP": 8,
+      "traitsBP": 21,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 6
+    },
+    "traits": [
+      "trait-adaptive-features",
+      "trait-emissary",
+      "trait-synthetic-base-traits",
+      "trait-synthetic-tech-assim"
+    ]
+  },
+  {
+    "id": "species-synthetic-sentient-machine",
+    "name": "Sentient Machine (Free Droid)",
+    "file": "species-synthetic-sentient-machine.md",
+    "canon": {
+      "lineNum": 102,
+      "rawName": "\\- SENTIENT MACHINE",
+      "typeCol": "Synthetic (15)",
+      "attrCol": "\\+3 Phys \\[12\\] \\-2 Cha \\[-10\\]",
+      "skillsCol": "\\+10 \\[8\\]",
+      "traitsCol": "Synthetic \\[14\\]&nbsp;&nbsp;",
+      "stigmaCol": "Synthetic (-4)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 45,
+    "computedBP": 45,
+    "breakdown": {
+      "typeBP": 15,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 4,
+      "skillsBP": 8,
+      "traitsBP": 22,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-master-tinker",
+      "trait-powerful-charge",
+      "trait-exoskeleton-heavy",
+      "trait-synthetic-base-traits"
+    ]
+  },
+  {
+    "id": "species-synthetic-shell",
+    "name": "Shell (Transferred Organic)",
+    "file": "species-synthetic-shell.md",
+    "canon": {
+      "lineNum": 103,
+      "rawName": "\\- SHELL",
+      "typeCol": "Synthetic (15)",
+      "attrCol": "Varies",
+      "skillsCol": "\\-",
+      "traitsCol": "Synthetic \\[14\\]  Housing for Organic Consciousness",
+      "stigmaCol": "Synthetic (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 32,
+    "computedBP": 43,
+    "breakdown": {
+      "typeBP": 15,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 0,
+      "skillsBP": 8,
+      "traitsBP": 22,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 2
+    },
+    "traits": [
+      "trait-self-revivifying",
+      "trait-synthetic-aux-core",
+      "trait-synthetic-base-traits"
+    ]
+  },
+  {
+    "id": "species-synthetic-swarm",
+    "name": "Swarm (Micro-Drone Synthetic)",
+    "file": "species-synthetic-swarm.md",
+    "canon": {
+      "lineNum": 104,
+      "rawName": "\\- SWARM",
+      "typeCol": "Ooze (4)",
+      "attrCol": "\\+1 Int \\[4\\] \\-8 Str \\[-40\\]",
+      "skillsCol": "\\+10 Disc \\[8\\]",
+      "traitsCol": "Synthetic \\[14\\]  Hive Mind \\[2\\] Fine Size \\[6\\]",
+      "stigmaCol": "Severe (-4)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 78,
+    "computedBP": 25,
+    "breakdown": {
+      "typeBP": 15,
+      "sizeBP": 6,
+      "movementBP": 4,
+      "attributeBP": -28,
+      "skillsBP": 8,
+      "traitsBP": 24,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-semi-corporeal",
+      "trait-hive-connection",
+      "trait-flight",
+      "trait-synthetic-base-traits"
+    ]
+  },
+  {
+    "id": "species-thorn",
+    "name": "Thorn",
+    "file": "species-thorn.md",
+    "canon": {
+      "lineNum": 105,
+      "rawName": "THORN",
+      "typeCol": "Verdant (9)",
+      "attrCol": "\\+2 Ability \\[8\\]",
+      "skillsCol": "\\-",
+      "traitsCol": "Adaptive Aspects \\[2\\] Ageless \\[2\\] Alter Form \\[1\\] Atmosphere Variant \\[1\\] Awakened \\[2\\] Chloroplast \\[2\\] Fast Heal \\[2\\] Immortal \\[4\\] Non-Typical Anatomy \\[4\\] Regen \\[4\\] Verdant \\[1\\]",
+      "stigmaCol": "Severe Xeno (-4)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 24,
+    "computedBP": 30,
+    "breakdown": {
+      "typeBP": 9,
+      "sizeBP": 0,
+      "movementBP": 0,
+      "attributeBP": 0,
+      "skillsBP": 0,
+      "traitsBP": 25,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-adaptive-features",
+      "trait-ageless",
+      "trait-alter-form-adv",
+      "trait-aquatic",
+      "trait-adapted",
+      "trait-awakened-nature",
+      "trait-chloroplast",
+      "trait-fast-heal",
+      "trait-immortal",
+      "trait-regeneration",
+      "trait-autotroph"
+    ]
+  },
+  {
+    "id": "species-truldan",
+    "name": "Truldan",
+    "file": "species-truldan.md",
+    "canon": {
+      "lineNum": 106,
+      "rawName": "TRULDAN",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+1 Sta \\[4\\] \\+1 Agi \\[4\\] \\+1 Str \\[4\\]",
+      "skillsCol": "\\-",
+      "traitsCol": "Amphibious \\[1\\] Chameleon \\[2\\] Exoskeleton (Light) \\[2\\] Fast Heal \\[2\\] Reach \\[1\\] Regeneration \\[4\\]",
+      "stigmaCol": "Severe Xeno (-4)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 16,
+    "computedBP": 22,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 0,
+      "movementBP": 2,
+      "attributeBP": 12,
+      "skillsBP": 0,
+      "traitsBP": 12,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-amphibious",
+      "trait-chameleon",
+      "trait-exoskeleton-light",
+      "trait-fast-heal",
+      "trait-reach",
+      "trait-regeneration"
+    ]
+  },
+  {
+    "id": "species-vassoth",
+    "name": "Vassoth",
+    "file": "species-vassoth.md",
+    "canon": {
+      "lineNum": 107,
+      "rawName": "VASSOTH",
+      "typeCol": "Humanoid (0)",
+      "attrCol": "\\+1 Str \\[4\\] \\+1 Agi \\[4\\]",
+      "skillsCol": "\\-",
+      "traitsCol": "Large (12-18ft) \\[2\\] Awakened \\[2\\] Constriction \\[2\\] Venom \\[2\\]",
+      "stigmaCol": "Severe Xeno (-4)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 10,
+    "computedBP": 12,
+    "breakdown": {
+      "typeBP": 0,
+      "sizeBP": 2,
+      "movementBP": 0,
+      "attributeBP": 8,
+      "skillsBP": 0,
+      "traitsBP": 6,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 4
+    },
+    "traits": [
+      "trait-awakened-nature",
+      "trait-constriction",
+      "trait-venom"
+    ]
+  },
+  {
+    "id": "species-weti",
+    "name": "Weti",
+    "file": "species-weti.md",
+    "canon": {
+      "lineNum": 108,
+      "rawName": "WETI",
+      "typeCol": "Beast (1)",
+      "attrCol": "\\+1 Agi \\[4\\]",
+      "skillsCol": "\\+10 \\[8\\]",
+      "traitsCol": "Tiny \\[4\\] Climbing \\[2\\] Prehensile Tail \\[1\\] Quick \\[2\\]",
+      "stigmaCol": "Beast (-4) Xeno (-2)",
+      "totalCol": ""
+    },
+    "fmCostsBP": 21,
+    "computedBP": 19,
+    "breakdown": {
+      "typeBP": 1,
+      "sizeBP": 4,
+      "movementBP": 2,
+      "attributeBP": 4,
+      "skillsBP": 8,
+      "traitsBP": 6,
+      "disadvantagesRefund": 0,
+      "stigmaRefund": 6
+    },
+    "traits": [
+      "trait-climber",
+      "trait-prehensile-tail",
+      "trait-quick"
+    ]
+  }
+]

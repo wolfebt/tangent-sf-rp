@@ -1,0 +1,1112 @@
+{
+  "timestamp": "2026-10-12T07:14:34.061Z",
+  "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
+  "diagnostics": {
+    "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
+    "nodeVersion": "v24.18.0",
+    "platform": "win32",
+    "arch": "x64",
+    "appName": "tangent-sfr",
+    "appVersion": "1.0.0",
+    "type": "module",
+    "scripts": [
+      "dev",
+      "build",
+      "typecheck",
+      "lint",
+      "preview",
+      "deploy",
+      "deploy:rules",
+      "deploy:all",
+      "sync:compendium",
+      "verify:rules",
+      "sync:species",
+      "sync:species-traits",
+      "sync:species-disadvantages",
+      "build:data",
+      "test:data",
+      "test:engine",
+      "test:e2e",
+      "test:e2e:smoke",
+      "test:e2e:journeys",
+      "test"
+    ],
+    "dependencies": {
+      "@google/genai": "^2.25.0",
+      "@modelcontextprotocol/sdk": "^1.31.0",
+      "@sqlite.org/sqlite-wasm": "^3.53.0-build1",
+      "dompurify": "^3.4.13",
+      "firebase": "^12.16.0",
+      "glob": "^13.0.6",
+      "gray-matter": "^4.0.3",
+      "immer": "^11.1.15",
+      "konva": "^10.3.0",
+      "livekit-client": "^2.22.2",
+      "lucide-react": "^1.31.0",
+      "marked": "^18.0.9",
+      "pixi.js": "^8.20.1",
+      "react": "^19.2.7",
+      "react-dom": "^19.2.7",
+      "react-konva": "^19.2.5",
+      "react-markdown": "^10.1.0",
+      "react-quill-new": "^3.8.3",
+      "react-router-dom": "^7.18.1",
+      "react-split": "^2.0.14",
+      "remark-gfm": "^4.0.1",
+      "three": "^0.185.1",
+      "uuid": "^14.0.1",
+      "yjs": "^13.6.32",
+      "zod": "^4.4.3",
+      "zustand": "^5.0.15"
+    },
+    "devDependencies": {
+      "@playwright/test": "^1.51.0",
+      "@tailwindcss/vite": "^4.3.3",
+      "@types/react-dom": "^19.2.5",
+      "@types/three": "^0.185.4",
+      "@vitejs/plugin-react": "^6.0.3",
+      "firebase-admin": "^14.2.0",
+      "tailwindcss": "^4.3.3",
+      "typescript": "~6.0.2",
+      "vite": "^8.1.1",
+      "vite-plugin-pwa": "^1.3.0",
+      "workbox-core": "^7.4.1",
+      "workbox-precaching": "^7.4.1",
+      "workbox-routing": "^7.4.1",
+      "workbox-strategies": "^7.4.1",
+      "workbox-window": "^7.4.1"
+    },
+    "git": {
+      "isRepo": true,
+      "branch": "main",
+      "lastCommit": "0a462e4 - feat(guide): modularize Comprehensive User Guide into interactive chapters with fast search, topic filters, and dedicated wiki view (2026-10-12 01:48:53 -0500)",
+      "hasUncommittedChanges": true
+    },
+    "playwright": {
+      "isInstalled": true,
+      "version": "^1.51.0",
+      "configFile": "playwright.config.ts",
+      "testDir": "./tests/e2e",
+      "specFilesCount": 4,
+      "projects": [
+        "chromium-webgl",
+        "mobile-tablet"
+      ],
+      "webServer": {
+        "command": "npm run preview -- --host 127.0.0.1 --port 4173",
+        "url": "http://127.0.0.1:4173"
+      }
+    },
+    "memoryUsageMB": {
+      "rss": "74.95",
+      "heapUsed": "18.60"
+    }
+  },
+  "routes": {
+    "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
+    "reactAppRoutes": [
+      {
+        "path": "/",
+        "element": "<Dashboard />"
+      },
+      {
+        "path": "/dashboard",
+        "element": "<SearchPreservingRedirect to=\"/\" />"
+      },
+      {
+        "path": "/network",
+        "element": "<NetworkPage />"
+      },
+      {
+        "path": "/network/*",
+        "element": "<NetworkPage />"
+      },
+      {
+        "path": "/comms",
+        "element": "<NetworkRedirect defaultView=\"comms\" />"
+      },
+      {
+        "path": "/chat",
+        "element": "<NetworkRedirect defaultView=\"comms\" />"
+      },
+      {
+        "path": "/teams",
+        "element": "<NetworkRedirect defaultView=\"squads\" />"
+      },
+      {
+        "path": "/groups",
+        "element": "<NetworkRedirect defaultView=\"squads\" />"
+      },
+      {
+        "path": "/squads",
+        "element": "<NetworkRedirect defaultView=\"squads\" />"
+      },
+      {
+        "path": "/codex",
+        "element": "<CodexApp />"
+      },
+      {
+        "path": "/codex/*",
+        "element": "<CodexApp />"
+      },
+      {
+        "path": "/compendium",
+        "element": "<Compendium />"
+      },
+      {
+        "path": "/compendium/*",
+        "element": "<Compendium />"
+      },
+      {
+        "path": "/rules",
+        "element": "<SearchPreservingRedirect to=\"/compendium\" />"
+      },
+      {
+        "path": "/rules/*",
+        "element": "<SearchPreservingRedirect to=\"/compendium\" />"
+      },
+      {
+        "path": "/dbm",
+        "element": "<DBM />"
+      },
+      {
+        "path": "/folio",
+        "element": "<Folio />"
+      },
+      {
+        "path": "/roster",
+        "element": "<SearchPreservingRedirect to=\"/folio\" />"
+      },
+      {
+        "path": "/live-studio",
+        "element": "<SearchPreservingRedirect to=\"/foundry/live\" />"
+      },
+      {
+        "path": "/ade-stage",
+        "element": "<SearchPreservingRedirect to=\"/foundry/live\" />"
+      },
+      {
+        "path": "/map-maker",
+        "element": "<SearchPreservingRedirect to=\"/foundry/map\" />"
+      },
+      {
+        "path": "/mapmaker",
+        "element": "<SearchPreservingRedirect to=\"/foundry/map\" />"
+      },
+      {
+        "path": "/vtt-ops",
+        "element": "<VttOpsRedirect />"
+      },
+      {
+        "path": "/stage",
+        "element": "<StageView defaultRole=\"architect\" />"
+      },
+      {
+        "path": "/vtt",
+        "element": "<StageView defaultRole=\"operative\" />"
+      },
+      {
+        "path": "/spectator/:mapId",
+        "element": "<PlayerSpectatorView />"
+      },
+      {
+        "path": "/foundry/*",
+        "element": "<FoundryApp />"
+      },
+      {
+        "path": "/ade/*",
+        "element": "<SearchPreservingRedirect to=\"/foundry\" />"
+      },
+      {
+        "path": "/ade",
+        "element": "<SearchPreservingRedirect to=\"/foundry\" />"
+      },
+      {
+        "path": "/ade-studio/*",
+        "element": "<SearchPreservingRedirect to=\"/foundry\" />"
+      },
+      {
+        "path": "/ade-studio",
+        "element": "<SearchPreservingRedirect to=\"/foundry\" />"
+      },
+      {
+        "path": "/story-foundry",
+        "element": "<SearchPreservingRedirect to=\"/foundry\" />"
+      },
+      {
+        "path": "/campaign-builder",
+        "element": "<SearchPreservingRedirect to=\"/foundry\" />"
+      }
+    ],
+    "foundryRoutes": [
+      {
+        "path": "/",
+        "element": "<StoryModule />"
+      },
+      {
+        "path": "mission-control",
+        "element": "<FoundryRouteRedirect view=\"mission_control\" />"
+      },
+      {
+        "path": "dashboard",
+        "element": "<FoundryRouteRedirect view=\"mission_control\" />"
+      },
+      {
+        "path": "hub",
+        "element": "<FoundryRouteRedirect view=\"mission_control\" />"
+      },
+      {
+        "path": "live",
+        "element": "<FoundryRouteRedirect view=\"stage\" tab=\"run\" />"
+      },
+      {
+        "path": "live-studio",
+        "element": "<FoundryRouteRedirect view=\"stage\" tab=\"run\" />"
+      },
+      {
+        "path": "ade-stage",
+        "element": "<FoundryRouteRedirect view=\"stage\" tab=\"run\" />"
+      },
+      {
+        "path": "live-studio-standalone",
+        "element": "<FoundryRouteRedirect view=\"stage\" tab=\"run\" />"
+      },
+      {
+        "path": "vtt",
+        "element": "<FoundryRouteRedirect view=\"stage\" tab=\"run\" />"
+      },
+      {
+        "path": "stage-vtt",
+        "element": "<FoundryRouteRedirect view=\"stage\" tab=\"run\" />"
+      },
+      {
+        "path": "director",
+        "element": "<FoundryRouteRedirect view=\"stage\" tab=\"run\" />"
+      },
+      {
+        "path": "stage",
+        "element": "<ADEStage />"
+      },
+      {
+        "path": "ade",
+        "element": "<StoryModule />"
+      },
+      {
+        "path": "story",
+        "element": "<StoryModule />"
+      },
+      {
+        "path": "interactive",
+        "element": "<FoundryRouteRedirect view=\"scenarios\" tab=\"play\" />"
+      },
+      {
+        "path": "gems",
+        "element": "<FoundryRouteRedirect view=\"scenarios\" tab=\"gems\" />"
+      },
+      {
+        "path": "narrative",
+        "element": "<FoundryRouteRedirect view=\"scenarios\" tab=\"write\" />"
+      },
+      {
+        "path": "scripts",
+        "element": "<FoundryRouteRedirect view=\"stage\" tab=\"scripts\" />"
+      },
+      {
+        "path": "presets",
+        "element": "<FoundryRouteRedirect view=\"stage\" tab=\"scripts\" />"
+      },
+      {
+        "path": "automation",
+        "element": "<FoundryRouteRedirect view=\"stage\" tab=\"scripts\" />"
+      },
+      {
+        "path": "assets",
+        "element": "<FoundryRouteRedirect view=\"elements\" />"
+      },
+      {
+        "path": "elements",
+        "element": "<FoundryRouteRedirect view=\"elements\" />"
+      },
+      {
+        "path": "gallery",
+        "element": "<FoundryRouteRedirect view=\"elements\" />"
+      },
+      {
+        "path": "graph",
+        "element": "<FoundryRouteRedirect view=\"scenarios\" tab=\"graph\" />"
+      },
+      {
+        "path": "tactical",
+        "element": "<FoundryRouteRedirect view=\"stage\" tab=\"encounters\" />"
+      },
+      {
+        "path": "control-panel",
+        "element": "<FoundryRouteRedirect view=\"stage\" tab=\"encounters\" />"
+      },
+      {
+        "path": "catalog",
+        "element": "<Dashboard />"
+      },
+      {
+        "path": "map",
+        "element": "<MapMaker />"
+      },
+      {
+        "path": "map-maker",
+        "element": "<MapMaker />"
+      },
+      {
+        "path": "map-maker-legacy",
+        "element": "<MapMaker />"
+      },
+      {
+        "path": "vtt-options",
+        "element": "<VttOptionsRedirect />"
+      },
+      {
+        "path": "aime",
+        "element": "<AIME />"
+      },
+      {
+        "path": "view/:mapId",
+        "element": "<PlayerSpectatorView />"
+      },
+      {
+        "path": "spectator/:mapId",
+        "element": "<PlayerSpectatorView />"
+      }
+    ],
+    "pageModules": [
+      "src/pages/Codex/CodexAiSynthesizerModal.jsx",
+      "src/pages/Codex/CodexApp.jsx",
+      "src/pages/Codex/codexAssetBridge.js",
+      "src/pages/Codex/codexConfig.js",
+      "src/pages/Codex/CodexDatasetDashboard.jsx",
+      "src/pages/Codex/codexDatasetGuidance.js",
+      "src/pages/Codex/CodexIngestionEngine.jsx",
+      "src/pages/Codex/CodexIngestionModal.jsx",
+      "src/pages/Codex/CodexMatrixBuilder.jsx",
+      "src/pages/Codex/codexPromptRegistry.js",
+      "src/pages/Codex/CodexSidebar.jsx",
+      "src/pages/Codex/components/ArchetypeConfigurator.jsx",
+      "src/pages/Codex/components/ArchitectureBlueprintConfigurator.jsx",
+      "src/pages/Codex/components/ArmorCoverageSelector.jsx",
+      "src/pages/Codex/components/AugmentationNodeConfigurator.jsx",
+      "src/pages/Codex/components/codexStudioIntegration/EconomatrixStudioWorkflow.jsx",
+      "src/pages/Codex/components/codexStudioIntegration/index.js",
+      "src/pages/Codex/components/codexStudioIntegration/PlanetaryCivilizationWorkflow.jsx",
+      "src/pages/Codex/components/codexStudioIntegration/ScalingStudioWorkflow.jsx",
+      "src/pages/Codex/components/codexStudioIntegration/TechnologyStudioWorkflow.jsx",
+      "src/pages/Codex/components/CompanionPackageSelector.jsx",
+      "src/pages/Codex/components/ComputedOutputPanel.jsx",
+      "src/pages/Codex/components/CraftingTimeTable.jsx",
+      "src/pages/Codex/components/EquipmentCategoryConfigurator.jsx",
+      "src/pages/Codex/components/index.js",
+      "src/pages/Codex/components/InvocationParameterConfigurator.jsx",
+      "src/pages/Codex/components/MechaChassisConfigurator.jsx",
+      "src/pages/Codex/components/MetaTechImbuementConfigurator.jsx",
+      "src/pages/Codex/components/ModularStatBlockConfigurator.jsx",
+      "src/pages/Codex/components/OccupationConfigurator.jsx",
+      "src/pages/Codex/components/OriginConfigurator.jsx",
+      "src/pages/Codex/components/PlanetaryDesignConfigurator.jsx",
+      "src/pages/Codex/components/SpeciesTraitSelector.jsx",
+      "src/pages/Codex/components/UDUCapacityMeter.jsx",
+      "src/pages/Codex/components/WeaponModStacker.jsx",
+      "src/pages/Codex/EconomatrixDashboard.jsx",
+      "src/pages/Codex/hooks/useComputedState.js",
+      "src/pages/Codex/ScalingCodex.jsx",
+      "src/pages/Codex/TechnologyCodex.jsx",
+      "src/pages/CommsPage.jsx",
+      "src/pages/Compendium/CompendiumApp.jsx",
+      "src/pages/Compendium/OmnicortexCatalogView.jsx",
+      "src/pages/Compendium.jsx",
+      "src/pages/DBM.jsx",
+      "src/pages/Folio.jsx",
+      "src/pages/Foundry/AIME/AIME.jsx",
+      "src/pages/Foundry/AIME/AIMEChatBox.jsx",
+      "src/pages/Foundry/assetContracts.js",
+      "src/pages/Foundry/Dashboard/Dashboard.jsx",
+      "src/pages/Foundry/Dashboard/DashboardCatalogPanel.jsx",
+      "src/pages/Foundry/Dashboard/ModuleMissionControl.jsx",
+      "src/pages/Foundry/ElementForge/components/AimeGuidanceDeck.jsx",
+      "src/pages/Foundry/ElementForge/components/AimeThreeTierStack.jsx",
+      "src/pages/Foundry/ElementForge/components/AssetHubDeck.jsx",
+      "src/pages/Foundry/ElementForge/components/assetHubUtils.js",
+      "src/pages/Foundry/ElementForge/components/ModularCharacterAssembler.jsx",
+      "src/pages/Foundry/ElementForge/components/NpcScriptBuilder.jsx",
+      "src/pages/Foundry/ElementForge/EditElementModal.jsx",
+      "src/pages/Foundry/ElementForge/ElementForge.jsx",
+      "src/pages/Foundry/ElementForge/elementSchemas.js",
+      "src/pages/Foundry/ElementForge/ElementSelectorModal.jsx",
+      "src/pages/Foundry/FoundryApp.jsx",
+      "src/pages/Foundry/hooks/useWaypointEngine.js",
+      "src/pages/Foundry/MapMaker/components/AssetStudioTab.tsx",
+      "src/pages/Foundry/MapMaker/components/MapMaker3DPreviewModal.jsx",
+      "src/pages/Foundry/MapMaker/components/MapMakerTabBar.jsx",
+      "src/pages/Foundry/MapMaker/components/PcgAiStudioTab.tsx",
+      "src/pages/Foundry/MapMaker/components/VttExportTab.tsx",
+      "src/pages/Foundry/MapMaker/hooks/useMapCanvasEvents.js",
+      "src/pages/Foundry/MapMaker/hooks/useMapHistory.js",
+      "src/pages/Foundry/MapMaker/map/AoEResolutionModal.jsx",
+      "src/pages/Foundry/MapMaker/map/ArchitectAssetCockpit.jsx",
+      "src/pages/Foundry/MapMaker/map/ArchitectConsoleRail.jsx",
+      "src/pages/Foundry/MapMaker/map/ArchitectDirectorDeck.jsx",
+      "src/pages/Foundry/MapMaker/map/AssetDrawingStudio.jsx",
+      "src/pages/Foundry/MapMaker/map/CombatResolutionModal.jsx",
+      "src/pages/Foundry/MapMaker/map/ConditionManagerModal.jsx",
+      "src/pages/Foundry/MapMaker/map/DraggablePanel.jsx",
+      "src/pages/Foundry/MapMaker/map/FolioHeroTokenDrawer.jsx",
+      "src/pages/Foundry/MapMaker/map/HazmatVolumeManagerModal.jsx",
+      "src/pages/Foundry/MapMaker/map/InteractiveObjectModal.jsx",
+      "src/pages/Foundry/MapMaker/map/landmassGenerator.js",
+      "src/pages/Foundry/MapMaker/map/MapActionEconomyDrawer.jsx",
+      "src/pages/Foundry/MapMaker/map/MapAssetCatalog.js",
+      "src/pages/Foundry/MapMaker/map/MapAssetManagerModal.jsx",
+      "src/pages/Foundry/MapMaker/map/MapConstants.js",
+      "src/pages/Foundry/MapMaker/map/MapKeyPanel.jsx",
+      "src/pages/Foundry/MapMaker/map/MapLayersPanel.jsx",
+      "src/pages/Foundry/MapMaker/map/MapMetadataPanel.jsx",
+      "src/pages/Foundry/MapMaker/map/MapObjectNode.jsx",
+      "src/pages/Foundry/MapMaker/map/MapTextures.js",
+      "src/pages/Foundry/MapMaker/map/MapToolbar.jsx",
+      "src/pages/Foundry/MapMaker/map/MapToolsPanel.jsx",
+      "src/pages/Foundry/MapMaker/map/MapUnderlayCalibrationModal.jsx",
+      "src/pages/Foundry/MapMaker/map/MapWallNode.jsx",
+      "src/pages/Foundry/MapMaker/map/OmnicortexAssetDrawer.jsx",
+      "src/pages/Foundry/MapMaker/map/OperativeCockpitRail.jsx",
+      "src/pages/Foundry/MapMaker/map/OperativeTacticalHud.jsx",
+      "src/pages/Foundry/MapMaker/map/ReactionPromptModal.jsx",
+      "src/pages/Foundry/MapMaker/map/ScenarioObjectivesModal.jsx",
+      "src/pages/Foundry/MapMaker/map/StarshipBridgeModal.jsx",
+      "src/pages/Foundry/MapMaker/map/StatusGemsModal.jsx",
+      "src/pages/Foundry/MapMaker/map/StoryElementModal.jsx",
+      "src/pages/Foundry/MapMaker/map/StoryElementsDrawer.jsx",
+      "src/pages/Foundry/MapMaker/map/UvttImportModal.jsx",
+      "src/pages/Foundry/MapMaker/map/VttCommandDrawer.jsx",
+      "src/pages/Foundry/MapMaker/map/VttOptionsModal.jsx",
+      "src/pages/Foundry/MapMaker/map/VttSquadManagementModal.jsx",
+      "src/pages/Foundry/MapMaker/map/VttTeamManagementModal.jsx",
+      "src/pages/Foundry/MapMaker/map/WaypointRulerOverlay.jsx",
+      "src/pages/Foundry/MapMaker/MapMaker.jsx",
+      "src/pages/Foundry/MapMaker/PlayerSpectatorView.jsx",
+      "src/pages/Foundry/MapMaker/VttOptionsPage.jsx",
+      "src/pages/Foundry/PresetsAndScripts/components/AssetSelectionCatalogRail.jsx",
+      "src/pages/Foundry/PresetsAndScripts/components/AtmosphericsWorkbench.jsx",
+      "src/pages/Foundry/PresetsAndScripts/components/CombatModifiersWorkbench.jsx",
+      "src/pages/Foundry/PresetsAndScripts/components/MacroSandboxStudio.jsx",
+      "src/pages/Foundry/PresetsAndScripts/components/ScriptsTelemetryHeader.jsx",
+      "src/pages/Foundry/PresetsAndScripts/components/TrapsAndHazardsWorkbench.jsx",
+      "src/pages/Foundry/PresetsAndScripts/components/UnitRoutinesWorkbench.jsx",
+      "src/pages/Foundry/PresetsAndScripts/constants/atmosphericPresets.js",
+      "src/pages/Foundry/PresetsAndScripts/constants/macroTemplates.js",
+      "src/pages/Foundry/PresetsAndScripts/PresetsAndScriptsDashboard.jsx",
+      "src/pages/Foundry/PresetsAndScripts/utils/assetAggregator.js",
+      "src/pages/Foundry/Stage/stageStore.ts",
+      "src/pages/Foundry/Stage/stageTypes.ts",
+      "src/pages/Foundry/Stage/StageWorkspace.jsx",
+      "src/pages/Foundry/Stage/tabs/AnchorsTab.jsx",
+      "src/pages/Foundry/Stage/tabs/EncountersTab.jsx",
+      "src/pages/Foundry/Stage/tabs/EnvironmentTab.jsx",
+      "src/pages/Foundry/Stage/tabs/FlowTab.jsx",
+      "src/pages/Foundry/Stage/tabs/RunTab.jsx",
+      "src/pages/Foundry/Stage/tabs/ScriptsTab.jsx",
+      "src/pages/Foundry/Stage/tabs/SetupTab.jsx",
+      "src/pages/Foundry/Stage/vttModuleCompilerService.js",
+      "src/pages/Foundry/store/adeStore.ts",
+      "src/pages/Foundry/StoryModule/ADENavRail.jsx",
+      "src/pages/Foundry/StoryModule/ADETopToolbar.jsx",
+      "src/pages/Foundry/StoryModule/CreateScenarioModal.jsx",
+      "src/pages/Foundry/StoryModule/exportUtils.js",
+      "src/pages/Foundry/StoryModule/guidanceGemsConfig.js",
+      "src/pages/Foundry/StoryModule/GuidanceGemsModal.jsx",
+      "src/pages/Foundry/StoryModule/interactivePlayService.js",
+      "src/pages/Foundry/StoryModule/panels/ActiveModifiersPillBar.jsx",
+      "src/pages/Foundry/StoryModule/panels/FireteamVitalsBar.jsx",
+      "src/pages/Foundry/StoryModule/panels/GuidanceGemsPanel.jsx",
+      "src/pages/Foundry/StoryModule/panels/LorebookDossierModal.jsx",
+      "src/pages/Foundry/StoryModule/panels/ScenarioCanvasSwitch.jsx",
+      "src/pages/Foundry/StoryModule/panels/TacticalStageViewport.jsx",
+      "src/pages/Foundry/StoryModule/panels/useScenarioOperations.js",
+      "src/pages/Foundry/StoryModule/ScenarioCockpitDock.jsx",
+      "src/pages/Foundry/StoryModule/ScenarioOutlinerTree.jsx",
+      "src/pages/Foundry/StoryModule/ScenarioPane.jsx",
+      "src/pages/Foundry/StoryModule/scratchbookService.js",
+      "src/pages/Foundry/StoryModule/StoryElementExtractorModal.jsx",
+      "src/pages/Foundry/StoryModule/StoryModule.jsx",
+      "src/pages/Foundry/StoryModule/toolbar/NewStoryModal.jsx",
+      "src/pages/Foundry/StoryModule/toolbar/ToolbarBreadcrumb.jsx",
+      "src/pages/Foundry/StoryModule/toolbar/ToolbarProjectMenu.jsx",
+      "src/pages/Foundry/StoryModule/toolbar/ToolbarQuickActions.jsx",
+      "src/pages/Foundry/StoryModule/toolbar/useModuleHealth.js",
+      "src/pages/Foundry/StoryModule/workspaces/AimeCanvasSculptor.jsx",
+      "src/pages/Foundry/StoryModule/workspaces/ArchitectIdeationModal.jsx",
+      "src/pages/Foundry/StoryModule/workspaces/EpistemicPlayPanel.jsx",
+      "src/pages/Foundry/StoryModule/workspaces/graph/GraphAimeTools.jsx",
+      "src/pages/Foundry/StoryModule/workspaces/graph/GraphCanvas.jsx",
+      "src/pages/Foundry/StoryModule/workspaces/graph/GraphEdgeWire.jsx",
+      "src/pages/Foundry/StoryModule/workspaces/graph/GraphInspectorDrawer.jsx",
+      "src/pages/Foundry/StoryModule/workspaces/graph/GraphMinimap.jsx",
+      "src/pages/Foundry/StoryModule/workspaces/graph/GraphNodeCard.jsx",
+      "src/pages/Foundry/StoryModule/workspaces/graph/GraphPlaySimulator.jsx",
+      "src/pages/Foundry/StoryModule/workspaces/graph/GraphToolbar.jsx",
+      "src/pages/Foundry/StoryModule/workspaces/graph/graphUtils.js",
+      "src/pages/Foundry/StoryModule/workspaces/InteractiveBookView.jsx",
+      "src/pages/Foundry/StoryModule/workspaces/InteractiveStoryStudio.jsx",
+      "src/pages/Foundry/StoryModule/workspaces/OsrControlPanelDeck.jsx",
+      "src/pages/Foundry/StoryModule/workspaces/StoryGallery.jsx",
+      "src/pages/Foundry/StoryModule/workspaces/StoryWeaver.jsx",
+      "src/pages/Foundry/StoryModule/workspaces/VisualStoryGraph.jsx",
+      "src/pages/Foundry/Weaver/tabs/BrainstormTab.jsx",
+      "src/pages/Foundry/Weaver/tabs/ElementsTab.jsx",
+      "src/pages/Foundry/Weaver/tabs/GemsTab.jsx",
+      "src/pages/Foundry/Weaver/tabs/WeaverGraphTab.jsx",
+      "src/pages/Foundry/Weaver/WeaverWorkspace.jsx",
+      "src/pages/Home.jsx",
+      "src/pages/NetworkPage.jsx",
+      "src/pages/SquadsPage.jsx",
+      "src/pages/TeamsPage.jsx"
+    ],
+    "detectedRouteFiles": [
+      "src/components/VTT/hooks/useCombatController.ts",
+      "src/components/VTT/hooks/useDesignModeController.ts",
+      "src/components/VTT/hooks/useMapIngestion.ts",
+      "src/constants/routes.js",
+      "src/services/aimeTierRouter.ts"
+    ],
+    "cloudFunctions": [
+      "functions/index.js"
+    ]
+  },
+  "schemas": {
+    "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
+    "totalSchemasDetected": 11,
+    "detectedSchemas": [
+      {
+        "file": "src/pages/Foundry/ElementForge/elementSchemas.js",
+        "priority": "canonical",
+        "totalBytes": 34471,
+        "snippet": "/**\n * @file elementSchemas.js\n * @description Element Input Schemas & Field Definitions for Story Foundry & AIME Creative Suite.\n * Grounded in \"The Art of AI Crafting\" Layer 2 (Traits - The Objective Reality).\n * Defines the 7 Core Element Modules and supports legacy RPG extensions.\n */\n\nexport const AIME_CORE_MODULES = [\n  {\n    type: 'World Anvil',\n    canonicalType: 'World',\n    ext: '.world',\n    icon: '🌍',\n    pillStyle: 'bg-sky-500/20 text-sky-300 border-sky-500/40',\n    description: 'Establishes foundational world, factions, history timeline, and unique physics.'\n  },\n  {\n    type: 'Persona Maker',\n    canonicalType: 'Persona',\n    ext: '.persona',\n    icon: '👤',\n    pillStyle: 'bg-purple-500/20 text-purple-300 border-purple-500/40',\n    description: 'Creates detailed characters, archetypes, motivations, flaws, and relationships.'\n  },\n  {\n    type: 'Setting Architect',\n    canonicalType: 'Setting',\n    ext: '.setting',\n    icon: '🏛️',\n    pillStyle: 'bg-rose-500/20 text-rose-300 border-rose-500/40',\n    description: 'Designs specific geographic, architectural, and demographic locations.'\n  },\n  {\n    type: 'Species Creator',\n    canonicalType: 'Species',\n    ext: '.species',\n    icon: '🧬',\n    pillStyle: 'bg-fuchsia-500/20 text-fuchsia-300 border-fuchsia-500/40',\n    description: 'Fleshes out sentient species, xenobiology, powers, behavior, and habitats.'\n  },\n  {\n    type: 'Technology Forge',\n    canonicalType: 'Technology',\n    ext: '.tech',\n    icon: '⚙️',\n    pillStyle: 'bg-amber-500/20 text-amber-300 border-amber-500/40',\n    description: 'Defines technologies, tech levels, power sources, and societal impact.'\n  },\n  {\n    type: 'Philosophy Scribe',\n    canonicalType: 'Philosophy',\n    ext: '.philosophy',\n    icon: '📜',\n    pillStyle: 'bg-indigo-500/20 text-indigo-300 border-indigo-500/40',\n    description: 'Codifies religions, belief systems, rituals, iconography, and social influence.'\n  },\n  {\n    type: 'Scene Builder',\n    canonicalType: 'Scene',\n    ext: '.scene',\n    icon: '🎬',\n    pillStyle: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',\n    description: 'Constructs narrative scenes, sluglines, sensory details, and key interactivity.'\n  }\n];\n\nexport const AIME_CORE_ELEMENT_TYPES = AIME_CORE_MODULES.map(m => m.type);\n\nexport const ELEMENT_TYPES = [\n  // 7 Core AIME Modules\n  'World Anvil', 'Persona Maker', 'Setting Architect', 'Species Creator', \n  'Technology Forge', 'Philosophy Scribe', 'Scene Builder',\n  // Canonical Single-Word Aliases & RPG Extensions\n  'Persona', 'Scene', 'Setting', 'World', 'Species', 'Technology', 'Philosophy',\n  'Story Arc', 'Adventure', 'Faction', 'Encounter', 'Item', 'Clue', 'Handout', 'Map', 'Custom', 'Universe'\n];\n\n/**\n * Returns canonical file extension for an element type.\n */\nexport const getElementFileExtension = (type = '') => {\n  const norm = (type || '').toLowerCase();\n  if (norm.includes('persona')) return '.persona';\n  if (norm.includes('world') || norm.includes('anvil"
+      },
+      {
+        "file": "firestore.rules",
+        "priority": "canonical",
+        "totalBytes": 17711,
+        "snippet": "rules_version = '2';\nservice cloud.firestore {\n  match /databases/{database}/documents {\n\n    // =========================================================================\n    // HELPER FUNCTIONS\n    // =========================================================================\n    function isAuthenticated() {\n      return request.auth != null;\n    }\n\n    function isAdmin() {\n      return isAuthenticated() && (request.auth.token.admin == true || request.auth.token.role == 'GM');\n    }\n\n    function isOwner(userId) {\n      return isAuthenticated() && request.auth.uid == userId;\n    }\n\n    // =========================================================================\n    // 1. OMNICORTEX (DBM) REFERENCE COLLECTIONS: Public Read, Admin/GM Write\n    // =========================================================================\n    match /archetypes/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /architecture/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /area/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /armoring/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /attributes/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /augmentation_type/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /augmentations/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /availability/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /body_location/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /classification/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /compendium/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /component/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /conditions/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /creator/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /critical_effect/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /critical_failure_effect/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /critical_success_effect/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /cybernetics/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /damage_types/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /design/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /disadvantages/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /disciplines/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /economatrix/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /effect/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /equipment/{document} { allow read: if true; allow write: if isAdmin(); }\n    matc"
+      },
+      {
+        "file": "src/components/Folio/schema.js",
+        "priority": "detected",
+        "totalBytes": 14751,
+        "snippet": "import { z } from 'zod';\r\n\r\nexport const traitItemSchema = z.union([\r\n  z.object({\r\n    id: z.string().optional(),\r\n    name: z.string().optional().default('Unnamed Trait'),\r\n    cp: z.union([z.number(), z.string()]).optional().default(0),\r\n    category: z.string().optional(),\r\n    description: z.string().optional(),\r\n    mechanic: z.string().optional(),\r\n    notes: z.string().optional()\r\n  }).passthrough(),\r\n  z.string()\r\n]);\r\n\r\nexport const inventoryItemSchema = z.union([\r\n  z.object({\r\n    id: z.string().optional(),\r\n    name: z.string().optional().default('Unnamed Item'),\r\n    qty: z.union([z.number(), z.string()]).optional().default(1),\r\n    weight: z.union([z.number(), z.string()]).optional().default(0),\r\n    cost: z.union([z.number(), z.string()]).optional().default(0),\r\n    tl: z.union([z.string(), z.number()]).optional(),\r\n    description: z.string().optional(),\r\n    notes: z.string().optional()\r\n  }).passthrough(),\r\n  z.string()\r\n]);\r\n\r\nexport const attackSchema = z.union([\r\n  z.object({\r\n    id: z.string().optional(),\r\n    name: z.string().optional().default('Attack'),\r\n    range: z.union([z.string(), z.number()]).optional(),\r\n    damage: z.union([z.string(), z.number()]).optional(),\r\n    score: z.union([z.string(), z.number()]).optional(),\r\n    weaponId: z.union([z.string(), z.number()]).nullable().optional(),\r\n    type: z.string().optional(),\r\n    notes: z.string().optional()\r\n  }).passthrough(),\r\n  z.string()\r\n]);\r\n\r\nexport const noteItemSchema = z.union([\r\n  z.object({\r\n    id: z.string().optional(),\r\n    title: z.string().optional(),\r\n    text: z.string().optional().default('')\r\n  }).passthrough(),\r\n  z.string()\r\n]);\r\n\r\nexport const specializationItemSchema = z.union([\r\n  z.object({\r\n    id: z.string().optional(),\r\n    name: z.string().optional().default('Unnamed Specialization'),\r\n    baseSkillId: z.string().optional().default(''),\r\n    rank: z.union([z.number(), z.string()]).transform(val => Math.min(10, Math.max(0, typeof val === 'string' ? parseInt(val, 10) || 0 : val))).optional().default(0),\r\n    mod: z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseInt(val, 10) || 0 : val).optional().default(0),\r\n    category: z.string().optional()\r\n  }).passthrough(),\r\n  z.string()\r\n]);\r\n\r\nexport const trackedModificationSchema = z.object({\r\n  id: z.string().optional(),\r\n  timestamp: z.string().optional(),\r\n  field: z.string().optional().default(''),\r\n  fieldLabel: z.string().optional().default(''),\r\n  oldValue: z.any().optional(),\r\n  newValue: z.any().optional(),\r\n  playerNote: z.string().optional().default(''),\r\n  status: z.enum(['pending', 'accepted', 'refused', 'adjusted']).optional().default('pending'),\r\n  gmFeedback: z.string().nullable().optional().default(''),\r\n  reviewedAt: z.string().nullable().optional()\r\n}).passthrough();\r\n\r\nexport const companionSchema = z.object({\r\n  id: z.string().optional(),\r\n  name: z.string().optional().default('Unnamed Companion'),\r\n  chassisType: z.enum(['biological', 's"
+      },
+      {
+        "file": "src/engine/migration/migrate_omnicortex_schema.mjs",
+        "priority": "detected",
+        "totalBytes": 4821,
+        "snippet": "/**\n * @file migrate_omnicortex_schema.mjs\n * @description Stage 8 Omnicortex & Folio Data Migration CLI Runner.\n * Executes chunked batch commits (<= 500 writes) with exponential backoff,\n * dry-run validation, and detailed telemetry logging.\n */\n\nimport { adaptLegacyElement, validateAdaptedElement } from './legacyElementAdapters.js';\n\nconst BATCH_SIZE_LIMIT = 500;\nconst MAX_RETRIES = 3;\n\n/**\n * Runs the migration process over an array of legacy documents.\n * @param {object[]} documents - Raw legacy entries\n * @param {object} options - Configuration options\n * @returns {Promise<object>} Migration result summary\n */\nexport async function runMigration(documents, options = { dryRun: false, verbose: true }) {\n  const startTime = Date.now();\n  const summary = {\n    totalDocuments: documents.length,\n    processedCount: 0,\n    validCount: 0,\n    errorCount: 0,\n    batchesCount: 0,\n    isDryRun: options.dryRun,\n    errors: [],\n    durationMs: 0\n  };\n\n  if (options.verbose) {\n    console.log(`[Migration] Starting Omnicortex Schema Migration...`);\n    console.log(`[Migration] Mode: ${options.dryRun ? 'DRY-RUN (Simulated)' : 'PRODUCTION COMMIT'}`);\n    console.log(`[Migration] Total Documents: ${documents.length}`);\n  }\n\n  // 1. Process & Normalize all documents\n  const normalizedDocs = [];\n  for (let i = 0; i < documents.length; i++) {\n    const raw = documents[i];\n    try {\n      const adapted = adaptLegacyElement(raw);\n      const validation = validateAdaptedElement(adapted);\n\n      if (validation.isValid) {\n        normalizedDocs.push(adapted);\n        summary.validCount++;\n      } else {\n        summary.errorCount++;\n        summary.errors.push({ id: raw.id || `idx-${i}`, errors: validation.errors });\n      }\n    } catch (err) {\n      summary.errorCount++;\n      summary.errors.push({ id: raw?.id || `idx-${i}`, errors: [err.message] });\n    }\n    summary.processedCount++;\n  }\n\n  // 2. Chunk into batches of <= 500 writes\n  const batches = [];\n  for (let i = 0; i < normalizedDocs.length; i += BATCH_SIZE_LIMIT) {\n    batches.push(normalizedDocs.slice(i, i + BATCH_SIZE_LIMIT));\n  }\n  summary.batchesCount = batches.length;\n\n  if (options.verbose) {\n    console.log(`[Migration] Normalized ${summary.validCount} valid documents into ${batches.length} batches.`);\n  }\n\n  // 3. Commit batches with exponential backoff\n  for (let batchIdx = 0; batchIdx < batches.length; batchIdx++) {\n    const currentBatch = batches[batchIdx];\n    let attempts = 0;\n    let success = false;\n\n    while (attempts < MAX_RETRIES && !success) {\n      attempts++;\n      try {\n        if (options.verbose) {\n          console.log(`[Migration] Committing Batch ${batchIdx + 1}/${batches.length} (${currentBatch.length} docs)...`);\n        }\n\n        if (!options.dryRun) {\n          // In live Firestore environment:\n          // const batch = writeBatch(firestore);\n          // currentBatch.forEach(doc => batch.set(docRef, doc));\n          // await batch.commit();\n        }\n\n        // Simulate "
+      },
+      {
+        "file": "src/engine/migration/tangentSchemaAdapters.js",
+        "priority": "detected",
+        "totalBytes": 236,
+        "snippet": "/**\n * @file tangentSchemaAdapters.js\n * @description Backward-compatibility forwarding module pointing to legacyElementAdapters.js.\n */\n\nexport * from './legacyElementAdapters.js';\nexport { default } from './legacyElementAdapters.js';\n"
+      },
+      {
+        "file": "src/pages/Foundry/Stage/stageTypes.ts",
+        "priority": "detected",
+        "totalBytes": 2731,
+        "snippet": "/**\n * @file stageTypes.ts\n * @description Core TypeScript contracts and schemas for the ADE STAGE compiler and runtime workspace.\n * Stage binds foundational assets (Maps, Stories, Elements) through manifest-only anchors, triggers,\n * encounters, environmental modifiers, and reactive automations.\n */\n\nexport type StageAnchorKind = 'waypoint' | 'object' | 'region' | 'spawn';\n\nexport interface StageAnchor {\n  id: string;\n  name?: string;\n  kind: StageAnchorKind;\n  ref?: string; // Optional pointer to an existing map waypoint or object ID\n  pos?: {\n    x: number;\n    y: number;\n    w?: number;\n    h?: number;\n  };\n  elementIds: string[];\n  beatRef?: {\n    scenarioId: string;\n    beatIndex: number;\n  };\n  note?: string;\n}\n\nexport type StageTriggerEvent = 'enter' | 'leave' | 'interact' | 'beat' | 'flag' | 'timer';\n\nexport type StageTriggerAction =\n  | { type: 'REVEAL_BEAT'; scenarioId?: string; beatIndex?: number; prompt?: string }\n  | { type: 'ADVANCE_SCENARIO'; targetScenarioId: string }\n  | { type: 'TRIGGER_AIME'; prompt?: string; readAloudText?: string }\n  | { type: 'SET_FLAG'; key: string; value: any; scope?: 'global' | 'scenario' | 'operative' }\n  | { type: 'SPAWN_ELEMENT' | 'DESPAWN_ELEMENT'; elementId: string; anchorId?: string; x?: number; y?: number }\n  | { type: 'APPLY_MODIFIER'; modifierId: string }\n  | { type: 'RUN_MACRO'; scriptId: string };\n\nexport interface StageTrigger {\n  id: string;\n  name?: string;\n  anchorId: string;\n  on: StageTriggerEvent;\n  when?: string; // Condition expression evaluated via evaluateConditionExpression()\n  actions: StageTriggerAction[];\n  gmConfirm?: boolean; // Requires GM approval chip before execution\n  isTriggered?: boolean;\n}\n\nexport interface StageEnvironment {\n  lighting?: any;\n  weather?: string;\n  atmosphericPresetId?: string;\n  modifierIds: string[];\n  ambientAudio?: string;\n}\n\nexport interface StageEncounter {\n  id: string;\n  label: string;\n  anchorId?: string;\n  tokenElementIds: string[];\n  active: boolean;\n  notes?: string;\n}\n\nexport interface StageMacroBinding {\n  id: string;\n  scriptId: string;\n  on?: string;\n}\n\nexport interface StageManifest {\n  id: string;\n  title: string;\n  mapId: string; // Asset ref (Map Editor); multiple stages can share the same mapId\n  storyId?: string; // Asset ref (Weaver scenario or universe story)\n  scenarioIds: string[]; // Ordered scenario progression\n  anchors: StageAnchor[]; // Manifest-only anchors; never mutated back to the underlying map asset\n  triggers: StageTrigger[];\n  environment: StageEnvironment;\n  encounters: StageEncounter[];\n  variables: Record<string, boolean | number | string>; // Seeds storyFlags in adeStore\n  macros: StageMacroBinding[];\n  createdAt: number;\n  updatedAt: number;\n}\n"
+      },
+      {
+        "file": "src/schemas/assetUnitSchema.ts",
+        "priority": "detected",
+        "totalBytes": 14379,
+        "snippet": "/**\n * @file assetUnitSchema.ts\n * @description Canonical Polymorphic AssetUnit Schema for Tangent SF Cartography.\n * Validates all map assets: terrain brushes, doodads, tokens, creatures,\n * vehicles, hazards, and wall portals with exhaustive VTT metadata.\n */\n\nimport { z } from 'zod';\n\nexport const ASSET_CATEGORIES = [\n  'terrain_brush',\n  'doodad',\n  'token',\n  'creature',\n  'vehicle',\n  'hazard',\n  'wall_portal'\n] as const;\nexport type AssetCategory = (typeof ASSET_CATEGORIES)[number];\nexport const AssetCategorySchema = z.enum(ASSET_CATEGORIES);\n\nexport const AUTO_TILE_ALGORITHMS = [\n  'none',\n  'marching_squares_4bit',\n  'marching_squares_8bit',\n  'wang_tiles'\n] as const;\nexport type AutoTileAlgorithm = (typeof AUTO_TILE_ALGORITHMS)[number];\nexport const AutoTileAlgorithmSchema = z.enum(AUTO_TILE_ALGORITHMS);\n\nexport const STAGE_Z_LAYERS = [\n  'background_map',      // ZLayer 0\n  'underlay_debris',     // ZLayer 10\n  'interactive_objects', // ZLayer 15\n  'tokens',              // ZLayer 20\n  'roof_canopy',         // ZLayer 30\n  'dynamic_fx',          // ZLayer 40\n  'lighting_darkness',   // ZLayer 50\n  'fog_of_war',          // ZLayer 60\n  'foreground_ui'       // ZLayer 70\n] as const;\nexport type StageZLayerName = (typeof STAGE_Z_LAYERS)[number];\nexport const StageZLayerNameSchema = z.enum(STAGE_Z_LAYERS);\n\nexport const SURFACE_MATERIALS = [\n  'metal_deck',\n  'stone_masonry',\n  'dirt_packed',\n  'sand_loose',\n  'water_shallow',\n  'water_deep',\n  'ice_slick',\n  'organic_flesh',\n  'plasma_fluid',\n  'acid_corrosive',\n  'glass_translucent'\n] as const;\nexport type SurfaceMaterialType = (typeof SURFACE_MATERIALS)[number];\nexport const SurfaceMaterialTypeSchema = z.enum(SURFACE_MATERIALS);\n\nexport const COVER_RATINGS = [\n  'none',\n  'quarter_cover',\n  'half_cover',\n  'three_quarters',\n  'full_cover'\n] as const;\nexport type CoverRating = (typeof COVER_RATINGS)[number];\nexport const CoverRatingSchema = z.enum(COVER_RATINGS);\n\n// Visual Variants & Shader Customization Schema\nexport const VisualVariantsSchema = z.object({\n  thumbnail: z.string().default(''),\n  baseTexture: z.string().default(''),\n  variants: z.array(z.string()).default([]),\n  normalMap: z.string().optional(),\n  roughnessMap: z.string().optional(),\n  auto_tile: AutoTileAlgorithmSchema.default('none'),\n  customization: z.object({\n    tintColor: z.string().optional(),\n    hueRotation: z.number().min(0).max(360).optional(),\n    saturation: z.number().min(0).max(5).optional(),\n    brightness: z.number().min(0).max(5).optional(),\n    contrast: z.number().min(0).max(5).optional()\n  }).optional(),\n  stateTextures: z.object({\n    pristine: z.string().optional(),\n    damaged: z.string().optional(),\n    destroyed: z.string().optional(),\n    overgrown: z.string().optional(),\n    corrupted: z.string().optional()\n  }).optional()\n});\nexport type VisualVariants = z.infer<typeof VisualVariantsSchema>;\n\n// Category-Specific Sub-Properties Schemas\nexport const TerrainPropertiesSchema = z.object({\n  mate"
+      },
+      {
+        "file": "src/schemas/sharedSchemas.js",
+        "priority": "detected",
+        "totalBytes": 15798,
+        "snippet": "/**\n * TANGENT SFF RP: Canonical Unified Cross-Module Schema & Adapters\n * Provides seamless bidirectional data transformation between:\n * 1. Omnicortex DBM Catalog Items\n * 2. Story Foundry Creative Elements\n * 3. Persona Folio Characters & Operatives\n * 4. Battlemap Tactical Tokens\n */\n\nimport { z } from 'zod';\n\n// Canonical Core Attribute Keys\nexport const CANONICAL_ATTRIBUTES = [\n  'strength',\n  'agility',\n  'stamina',\n  'intellect',\n  'wisdom',\n  'charisma'\n];\n\n/**\n * Standardizes an entity name across formats ('name', 'char-name', 'title', 'label')\n */\nexport function extractCanonicalName(entity = {}) {\n  return entity.name || entity['char-name'] || entity.title || entity.label || 'Unnamed Entity';\n}\n\n/**\n * Converts an Omnicortex DBM Item into a Story Foundry Element\n */\nexport function dbmItemToFoundryElement(dbmItem = {}, categoryKey = 'compendium') {\n  const name = extractCanonicalName(dbmItem);\n  return {\n    id: dbmItem.id || `elem_${categoryKey}_${Date.now()}`,\n    type: categoryKey === 'species' ? 'Species' : categoryKey === 'occupations' ? 'Occupation' : categoryKey === 'factions' ? 'Faction' : 'Lore',\n    title: name,\n    content: dbmItem.description || dbmItem.content || dbmItem.summary || '',\n    fields: {\n      tl: dbmItem.tl || dbmItem.techLevel || 3,\n      ml: dbmItem.ml || dbmItem.metaLevel || 0,\n      cost: dbmItem.cost || dbmItem.price || 0,\n      category: categoryKey,\n      tags: dbmItem.tags || [categoryKey],\n      ...dbmItem\n    },\n    updatedAt: new Date().toISOString()\n  };\n}\n\n/**\n * Converts a Story Foundry Element into an Omnicortex DBM Item\n */\nexport function foundryElementToDbmItem(foundryElement = {}) {\n  const fields = foundryElement.fields || {};\n  return {\n    id: foundryElement.id || `dbm_${Date.now()}`,\n    name: foundryElement.title || 'Untitled Item',\n    description: foundryElement.content || '',\n    tl: fields.tl !== undefined ? fields.tl : 3,\n    ml: fields.ml !== undefined ? fields.ml : 0,\n    cost: fields.cost || 0,\n    tags: fields.tags || [foundryElement.type || 'compendium'],\n    updatedAt: new Date().toISOString(),\n    ...fields\n  };\n}\n\n/**\n * Converts a Persona Folio Character into a Story Foundry Persona Element\n */\nexport function folioCharacterToFoundryPersona(character = {}) {\n  const name = character['char-name'] || character.name || 'Operative';\n  const speciesStr = String(character['char-species'] || character.species || '').toLowerCase();\n  const archetypeStr = String(character['char-archetype'] || character.archetype || '').toLowerCase();\n  const isSynthetic = Boolean(\n    character.isSynthetic ?? character.is_synthetic ?? (\n      speciesStr.includes('synthetic') || speciesStr.includes('mekan') || \n      speciesStr.includes('construct') || speciesStr.includes('golem') || \n      speciesStr.includes('ooze') || speciesStr.includes('undead') ||\n      speciesStr.includes('mecha') || speciesStr.includes('robot') || speciesStr.includes('drone') ||\n      archetypeStr.includes('synthetic')\n    "
+      },
+      {
+        "file": "src/schemas/vttWallSchema.js",
+        "priority": "detected",
+        "totalBytes": 6082,
+        "snippet": "/**\r\n * vttWallSchema.js\r\n * Comprehensive schema and helper functions for Tangent SF RP Wall & Barrier Geometry.\r\n */\r\n\r\nexport const WALL_TYPES = {\r\n  SOLID: 'solid',         // Blocks movement, line-of-sight, and light\r\n  DOOR: 'door',           // Toggleable portal (open/closed/locked) with breach HP & cyber hack DC\r\n  WINDOW: 'window',       // Blocks movement; allows sight and light\r\n  ETHEREAL: 'ethereal',   // Blocks physical movement; allows meta-attunement sight\r\n  ONE_WAY: 'one_way'      // Blocks sight from p1->p2, allows from p2->p1\r\n};\r\n\r\nexport const DOOR_STATES = {\r\n  CLOSED: 'closed',\r\n  OPEN: 'open',\r\n  LOCKED: 'locked',\r\n  BREACHED: 'breached'\r\n};\r\n\r\n/**\r\n * Creates a new standardized wall segment\r\n */\r\nexport const createWallSegment = (p1, p2, type = WALL_TYPES.SOLID, options = {}) => {\r\n  const isDoor = type === WALL_TYPES.DOOR;\r\n  return {\r\n    id: options.id || `wall_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,\r\n    p1: { x: Math.round(p1.x), y: Math.round(p1.y) },\r\n    p2: { x: Math.round(p2.x), y: Math.round(p2.y) },\r\n    type,\r\n    doorState: isDoor ? (options.doorState || DOOR_STATES.CLOSED) : null,\r\n    isOpen: isDoor ? options.doorState === DOOR_STATES.OPEN : false,\r\n    isLocked: isDoor ? options.doorState === DOOR_STATES.LOCKED : false,\r\n    label: options.label || (isDoor ? 'Bulkhead Door' : 'Reinforced Wall'),\r\n    breachHp: options.breachHp !== undefined ? options.breachHp : (isDoor ? 40 : 120),\r\n    maxBreachHp: options.maxBreachHp !== undefined ? options.maxBreachHp : (isDoor ? 40 : 120),\r\n    hackDc: isDoor ? (options.hackDc || 14) : null,\r\n    athleticsDc: isDoor ? (options.athleticsDc || 16) : 24,\r\n    color: options.color || (isDoor ? '#f59e0b' : (type === WALL_TYPES.WINDOW ? '#38bdf8' : '#e2e8f0')),\r\n    isSecret: options.isSecret || false\r\n  };\r\n};\r\n\r\n/**\r\n * Toggles a door segment state (Closed -> Open -> Closed)\r\n */\r\nexport const toggleDoorState = (wall) => {\r\n  if (wall.type !== WALL_TYPES.DOOR || wall.doorState === DOOR_STATES.BREACHED) {\r\n    return wall;\r\n  }\r\n  if (wall.doorState === DOOR_STATES.LOCKED) {\r\n    return wall; // Must unlock before toggling\r\n  }\r\n  const nextState = wall.doorState === DOOR_STATES.OPEN ? DOOR_STATES.CLOSED : DOOR_STATES.OPEN;\r\n  return {\r\n    ...wall,\r\n    doorState: nextState,\r\n    isOpen: nextState === DOOR_STATES.OPEN\r\n  };\r\n};\r\n\r\n/**\r\n * Applies damage to a wall or door segment and triggers breach if HP reaches 0\r\n */\r\nexport const damageWallSegment = (wall, damageAmount) => {\r\n  const nextHp = Math.max(0, (wall.breachHp || 0) - damageAmount);\r\n  const isBreached = nextHp === 0;\r\n  return {\r\n    ...wall,\r\n    breachHp: nextHp,\r\n    doorState: isBreached ? DOOR_STATES.BREACHED : wall.doorState,\r\n    isOpen: isBreached ? true : wall.isOpen\r\n  };\r\n};\r\n\r\n/**\r\n * Determines if a wall currently blocks line-of-sight based on type and door state\r\n */\r\nexport const doesWallBlockVision = (wall, sensorMode = 'standard_optical') => {\r\n  if (wall.type === WALL_"
+      },
+      {
+        "file": "src/services/aimeVttSchemaService.ts",
+        "priority": "detected",
+        "totalBytes": 19402,
+        "snippet": "/**\n * @file aimeVttSchemaService.ts\n * @description RAG-augmented generation of canonical .persona and .scene schemas for the VTT.\n * Integrates Omnicortex rules retrieval with Gemini API structured JSON generation,\n * translating user creative mandates into ready-to-deploy Stage tokens and maps.\n */\n\nimport { getGeminiApiKey, fetchGeminiContent } from './bastionService.js';\nimport { queryOmnicortexRAG, formatRagContextForAIME } from './omnicortexVectorRag.ts';\nimport type { StaticEntity } from '../engine/state/VolatileSharder.ts';\n\n// ── SCHEMA DEFINITIONS ──\n\nexport interface AimePersonaSchema {\n  id: string;\n  type: 'Persona';\n  name: string;\n  archetype: string;\n  oneLinePitch: string;\n  physicalDescription: string;\n  personalityMannerisms: string;\n  backgroundHistory: string;\n  goalsMotivations: string;\n  strengthsFlaws: string;\n  roleInStory: string;\n  relationships: string;\n  \n  // Tactical MCM & Mechanics\n  mcmTier: number;\n  mcmDesignation: 'Adversary' | 'Ally' | 'Companion' | 'Neutral';\n  mcmChassis: 'Combatant' | 'Specialist' | 'Socialite' | 'Balanced';\n  mcmRole: 'Bruiser' | 'Commando' | 'Sniper' | 'Guardian' | 'Slicer' | 'Medic' | 'Boss';\n  \n  // Vitals & Attributes\n  health: number;\n  vitality: number;\n  structure?: number;\n  karma: number;\n  techLevel: number;\n  magicLevel: number;\n  armorDr: number;\n  speedFt: number;\n  \n  attacks: Array<{\n    name: string;\n    damageFormula: string;\n    rangeFt: number;\n    type: string;\n  }>;\n  gear: string[];\n  features: string[];\n}\n\nexport interface AimeSceneSchema {\n  id: string;\n  type: 'Scene';\n  sceneName: string;\n  location: string;\n  sensoryDetails: string;\n  moodAtmosphere: string;\n  keyObjects: string;\n  sceneBeats: string[];\n  readAloud: string;\n  \n  // Tactical Stage Map Specifications\n  suggestedLighting: {\n    ambientColor: string;\n    darkness: number;\n    lights: Array<{\n      x: number;\n      y: number;\n      color: string;\n      radius: number;\n    }>;\n  };\n  suggestedObjects: Array<{\n    id: string;\n    name: string;\n    type: 'bulkhead' | 'terminal' | 'loot_container' | 'cover';\n    x: number;\n    y: number;\n  }>;\n  suggestedTokens: Array<{\n    id: string;\n    name: string;\n    archetype: string;\n    designation: 'Adversary' | 'Ally' | 'Neutral';\n    x: number;\n    y: number;\n    hp: number;\n    techLevel: number;\n  }>;\n}\n\nexport interface GeneratePersonaOptions {\n  prompt: string;\n  archetype?: string;\n  species?: string;\n  techLevel?: number;\n  mcmDesignation?: 'Adversary' | 'Ally' | 'Companion' | 'Neutral';\n  mcmRole?: 'Bruiser' | 'Commando' | 'Sniper' | 'Guardian' | 'Slicer' | 'Medic' | 'Boss';\n  threatTier?: number;\n  apiKey?: string;\n}\n\nexport interface GenerateSceneOptions {\n  prompt: string;\n  location?: string;\n  environmentType?: string;\n  techLevel?: number;\n  threatTier?: number;\n  apiKey?: string;\n}\n\n// ── GEMINI JSON SCHEMAS ──\n\nconst PERSONA_JSON_SCHEMA = {\n  type: \"OBJECT\",\n  properties: {\n    name: { type: \"STRING\" },\n    archetype: { type: \"STRING\" },\n    o"
+      },
+      {
+        "file": "src/utils/tangentSchemaAdapters.js",
+        "priority": "detected",
+        "totalBytes": 19187,
+        "snippet": "// ═══════════════════════════════════════════════════════════\n// TANGENT SF RP — OMNICORTEX SCHEMA ADAPTER & NORMALIZER\n// Bidirectional conversion between flat legacy documents and\n// modern consolidated nested NoSQL maps and universal arrays.\n// ═══════════════════════════════════════════════════════════\n\nexport const PROPERTY_CATEGORIES = new Set([\n  'augmentations',\n  'augmentation',\n  'armoring',\n  'armor',\n  'weaponry',\n  'weapons',\n  'gear',\n  'equipment',\n  'mecha',\n  'architecture',\n  'other',\n  'other_property',\n  'personal_property'\n]);\n\nexport const isPropertyCategory = (category) => {\n  if (!category) return false;\n  return PROPERTY_CATEGORIES.has(String(category).toLowerCase().trim());\n};\n\n/**\n * Normalizes any legacy or modern Omnicortex item into a guaranteed structured object.\n * Hardware/UDU fields (credits, nodes, sockets, modifications, critical_details)\n * are strictly restricted to property assets (augmentations, armor, weapons, gear, mecha, architecture).\n *\n * @param {object} item - Raw database document or form data\n * @param {string} [categoryHint] - Optional category override\n * @returns {object} Normalized item\n */\nexport function normalizeOmnicortexItem(item, categoryHint = null) {\n  const isProp = isPropertyCategory(item?.category || item?.collection || categoryHint);\n\n  if (!item || typeof item !== 'object') {\n    if (isProp) {\n      return {\n        costs: { bp: 0, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0 },\n        modifiers: [],\n        modifications: [],\n        critical_details: { score: '', effect: [], success_effect: [], failure_effect: [] },\n        sockets: { max: 0, used: 0, tier: 'Socket', allocated: [] }\n      };\n    }\n    return {\n      costs: { bp: 0 },\n      modifiers: []\n    };\n  }\n\n  const normalized = { ...item };\n\n  // 1. Costs & Economy Consolidation\n  const costs = { ...(item.costs || {}) };\n  const bpVal = parseNumeric(item.bp ?? item.cp ?? item.cp_cost ?? item.cost_cp ?? item.bp_chassis ?? item.cost_bp ?? item.cp_refund ?? costs.bp, 0);\n\n  if (isProp) {\n    if (costs.bp === undefined) costs.bp = bpVal;\n    if (costs.credits === undefined) {\n      costs.credits = parseNumeric(item.credits ?? item.cost ?? item.price ?? item.cost_credits, 0);\n    }\n    if (costs.nodes === undefined) {\n      costs.nodes = parseNumeric(item.node_cost ?? item.nodes, 0);\n    }\n    if (costs.sockets === undefined) {\n      costs.sockets = parseNumeric(item.socket_cost ?? item.sockets_cost ?? item.sockets_used, 0);\n    }\n    if (costs.strain === undefined) {\n      costs.strain = parseNumeric(item.cost_essence ?? item.essence_cost ?? item.strain_cost ?? item.strain, 0);\n    }\n    if (costs.focus === undefined) {\n      costs.focus = parseNumeric(item.focus_cost ?? item.focus, 0);\n    }\n    if (costs.ap === undefined) {\n      costs.ap = parseNumeric(item.ap_cost ?? item.ap, 0);\n    }\n    normalized.costs = costs;\n  } else {\n    // Non-property items: strictly BP/CP cost, zero hardware economy\n    norma"
+      }
+    ]
+  },
+  "diff": {
+    "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
+    "stagedOnly": false,
+    "statusOrDiff": " M src/components/Folio/FolioContainer.jsx\n M src/components/Folio/views/RosterCatalogView.jsx\n M src/components/Hub/drawers/FolioRosterDrawer.jsx\n M src/context/folio/FolioIdentityContext.jsx\n M src/pages/Foundry/Dashboard/DashboardCatalogPanel.jsx\n M src/utils/personaValidationUtils.js\n M tests/engine/personaLifecycle.test.mjs\n?? inspection-screenshots/\n?? scratch/\n",
+    "diffStat": " src/components/Folio/FolioContainer.jsx            |  24 ++-\n src/components/Folio/views/RosterCatalogView.jsx   |   4 +-\n src/components/Hub/drawers/FolioRosterDrawer.jsx   |   2 +-\n src/context/folio/FolioIdentityContext.jsx         | 230 +++++++++++++++------\n .../Foundry/Dashboard/DashboardCatalogPanel.jsx    |   2 +-\n src/utils/personaValidationUtils.js                |  70 ++++++-\n tests/engine/personaLifecycle.test.mjs             |  65 ++++++\n 7 files changed, 318 insertions(+), 79 deletions(-)\n"
+  },
+  "e2e_tests": {
+    "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
+    "configFile": "playwright.config.ts",
+    "config": {
+      "testDir": "./tests/e2e",
+      "baseURL": "http://127.0.0.1:4173",
+      "timeout": 45000,
+      "projects": [
+        "chromium-webgl",
+        "mobile-tablet"
+      ],
+      "webServer": {
+        "command": "npm run preview -- --host 127.0.0.1 --port 4173",
+        "url": "http://127.0.0.1:4173"
+      }
+    },
+    "totalSpecFiles": 4,
+    "totalTestsCount": 21,
+    "specFiles": [
+      {
+        "file": "tests/e2e/dice-roller.spec.ts",
+        "fileName": "dice-roller.spec.ts",
+        "sizeBytes": 9910,
+        "lastModified": "2026-10-10T21:36:36.197Z",
+        "suiteCount": 1,
+        "testCount": 5,
+        "suites": [
+          {
+            "title": "Dice Roller Dock E2E Verification",
+            "line": 3,
+            "tests": [
+              {
+                "title": "Opens DiceRollerDock, clicks CHECK, and verifies generated numbers and telemetry",
+                "line": 4,
+                "mode": "default"
+              },
+              {
+                "title": "Base Score in Dice Roller Dock enforces minimum of 0 and maximum of 50",
+                "line": 56,
+                "mode": "default"
+              },
+              {
+                "title": "Ad-Hoc Modifier in Dice Roller Dock enforces minimum of -20 and maximum of +20",
+                "line": 105,
+                "mode": "default"
+              },
+              {
+                "title": "On mobile layout, Telemetry starts directly under the RESET button without space",
+                "line": 172,
+                "mode": "default"
+              },
+              {
+                "title": "Desktop output block contents expand down to bottom of modal",
+                "line": 217,
+                "mode": "default"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "file": "tests/e2e/marquee-admin.spec.ts",
+        "fileName": "marquee-admin.spec.ts",
+        "sizeBytes": 24669,
+        "lastModified": "2026-10-11T01:52:08.592Z",
+        "suiteCount": 1,
+        "testCount": 8,
+        "suites": [
+          {
+            "title": "Admin Marquee Controls Suite",
+            "line": 3,
+            "tests": [
+              {
+                "title": "1. Verify Admin Marquee Tab and Controls in UserSettingsModal",
+                "line": 15,
+                "mode": "default"
+              },
+              {
+                "title": "2. Verify Quick Presets Are Removed and Multi-Line Transmission Persists Without In-Marquee Controls",
+                "line": 79,
+                "mode": "default"
+              },
+              {
+                "title": "3. Verify Disabling Banner Hides it Completely (No Fallback Buttons or Pills)",
+                "line": 132,
+                "mode": "default"
+              },
+              {
+                "title": "4. Verify Ticker Justification (Left vs Right) and Static Dynamics (Fade & Glow)",
+                "line": 186,
+                "mode": "default"
+              },
+              {
+                "title": "5. Verify Option of No Category Icon (None / No Icon)",
+                "line": 258,
+                "mode": "default"
+              },
+              {
+                "title": "6. Verify Silver Color Theme With Black Shadow",
+                "line": 301,
+                "mode": "default"
+              },
+              {
+                "title": "7. Verify Option of Background (Current) or Clean Text Only (No Frame, Pulsing Dots, or Gel Background)",
+                "line": 342,
+                "mode": "default"
+              },
+              {
+                "title": "8. Verify Independent Top and Bottom Marquees with Modal Sub-Tabs",
+                "line": 405,
+                "mode": "default"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "file": "tests/e2e/smoke.spec.ts",
+        "fileName": "smoke.spec.ts",
+        "sizeBytes": 3250,
+        "lastModified": "2026-10-10T15:41:29.273Z",
+        "suiteCount": 1,
+        "testCount": 4,
+        "suites": [
+          {
+            "title": "Tangent SF RP — Enterprise Smoke & Health Suite",
+            "line": 3,
+            "tests": [
+              {
+                "title": "1. Core Application Boot & Route Integrity",
+                "line": 13,
+                "mode": "default"
+              },
+              {
+                "title": "2. Tactical Stage (VTT) & WebGL Canvas Mount Lifecycle",
+                "line": 38,
+                "mode": "default"
+              },
+              {
+                "title": "3. Persona Folio Roster & Sheet Navigation",
+                "line": 67,
+                "mode": "default"
+              },
+              {
+                "title": "4. Omnicortex DBM Compendium Browsing",
+                "line": 79,
+                "mode": "default"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "file": "tests/e2e/user-journeys.spec.ts",
+        "fileName": "user-journeys.spec.ts",
+        "sizeBytes": 4073,
+        "lastModified": "2026-10-08T07:59:54.410Z",
+        "suiteCount": 1,
+        "testCount": 4,
+        "suites": [
+          {
+            "title": "Tangent SF RP — Fortune 500 Enterprise User Journeys",
+            "line": 3,
+            "tests": [
+              {
+                "title": "Journey 1: The Stage — 2D/3D Viewport Switching & Canvas Integrity",
+                "line": 13,
+                "mode": "default"
+              },
+              {
+                "title": "Journey 2: Persona Folio & Accessible Modal Focus Trapping",
+                "line": 48,
+                "mode": "default"
+              },
+              {
+                "title": "Journey 3: Omnicortex DBM Search & Compendium Categorization",
+                "line": 68,
+                "mode": "default"
+              },
+              {
+                "title": "Journey 4: WebGL Context Loss Sentinel Diagnostic Reporting",
+                "line": 82,
+                "mode": "default"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "artifacts": {
+      "htmlReport": {
+        "exists": true,
+        "path": "playwright-report/index.html",
+        "lastGenerated": "2026-10-11T14:52:54.902Z"
+      },
+      "testResultsDirExists": true,
+      "totalArtifactFiles": 1
+    }
+  },
+  "live_pages": {
+    "/": {
+      "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
+      "targetUrl": "http://127.0.0.1:4173/",
+      "httpStatus": 200,
+      "pageTitle": "Tangent SF RP",
+      "serverReachable": true,
+      "status": "LOADED",
+      "domMetrics": {
+        "mainExists": true,
+        "headingText": "TANGENT SCIENCE FANTASY ENGINE",
+        "canvases": [
+          {
+            "index": 0,
+            "width": 1280,
+            "height": 720,
+            "clientWidth": 1280,
+            "clientHeight": 720,
+            "hasWebGL": false,
+            "isContextLost": false
+          }
+        ],
+        "dialogs": [],
+        "elementCounts": {
+          "buttons": 16,
+          "inputs": 1,
+          "links": 1,
+          "images": 0
+        }
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "consoleWarnings": [],
+      "screenshot": null
+    },
+    "/stage": {
+      "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
+      "targetUrl": "http://127.0.0.1:4173/stage",
+      "httpStatus": 200,
+      "pageTitle": "Tangent SF RP",
+      "serverReachable": true,
+      "status": "LOADED",
+      "domMetrics": {
+        "mainExists": true,
+        "headingText": "TANGENT SCIENCE FANTASY ENGINE",
+        "canvases": [
+          {
+            "index": 0,
+            "width": 1280,
+            "height": 720,
+            "clientWidth": 1280,
+            "clientHeight": 720,
+            "hasWebGL": false,
+            "isContextLost": false
+          }
+        ],
+        "dialogs": [],
+        "elementCounts": {
+          "buttons": 20,
+          "inputs": 3,
+          "links": 1,
+          "images": 0
+        }
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "consoleWarnings": [
+        {
+          "type": "warning",
+          "text": "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio"
+        },
+        {
+          "type": "warning",
+          "text": "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio"
+        }
+      ],
+      "screenshot": null
+    },
+    "/folio": {
+      "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
+      "targetUrl": "http://127.0.0.1:4173/folio",
+      "httpStatus": 200,
+      "pageTitle": "Tangent SF RP",
+      "serverReachable": true,
+      "status": "LOADED",
+      "domMetrics": {
+        "mainExists": true,
+        "headingText": "TANGENT SCIENCE FANTASY ENGINE",
+        "canvases": [
+          {
+            "index": 0,
+            "width": 1280,
+            "height": 720,
+            "clientWidth": 1280,
+            "clientHeight": 720,
+            "hasWebGL": false,
+            "isContextLost": false
+          }
+        ],
+        "dialogs": [],
+        "elementCounts": {
+          "buttons": 22,
+          "inputs": 1,
+          "links": 1,
+          "images": 0
+        }
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "consoleWarnings": [],
+      "screenshot": null
+    },
+    "/dbm": {
+      "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
+      "targetUrl": "http://127.0.0.1:4173/dbm",
+      "httpStatus": 200,
+      "pageTitle": "Tangent SF RP",
+      "serverReachable": true,
+      "status": "LOADED",
+      "domMetrics": {
+        "mainExists": true,
+        "headingText": "TANGENT SCIENCE FANTASY ENGINE",
+        "canvases": [
+          {
+            "index": 0,
+            "width": 1280,
+            "height": 720,
+            "clientWidth": 1280,
+            "clientHeight": 720,
+            "hasWebGL": false,
+            "isContextLost": false
+          }
+        ],
+        "dialogs": [],
+        "elementCounts": {
+          "buttons": 16,
+          "inputs": 1,
+          "links": 1,
+          "images": 0
+        }
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "consoleWarnings": [],
+      "screenshot": null
+    },
+    "/story-foundry": {
+      "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
+      "targetUrl": "http://127.0.0.1:4173/story-foundry",
+      "httpStatus": 200,
+      "pageTitle": "Tangent SF RP",
+      "serverReachable": true,
+      "status": "LOADED",
+      "domMetrics": {
+        "mainExists": true,
+        "headingText": "TANGENT SCIENCE FANTASY ENGINE",
+        "canvases": [
+          {
+            "index": 0,
+            "width": 1280,
+            "height": 720,
+            "clientWidth": 1280,
+            "clientHeight": 720,
+            "hasWebGL": false,
+            "isContextLost": false
+          }
+        ],
+        "dialogs": [],
+        "elementCounts": {
+          "buttons": 20,
+          "inputs": 3,
+          "links": 1,
+          "images": 0
+        }
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "consoleWarnings": [
+        {
+          "type": "warning",
+          "text": "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio"
+        },
+        {
+          "type": "warning",
+          "text": "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio"
+        }
+      ],
+      "screenshot": null
+    }
+  },
+  "e2e_results": {
+    "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
+    "status": "PASSED",
+    "exitCode": 0,
+    "durationSeconds": "75.32",
+    "summary": {
+      "total": 8,
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "flaky": 0
+    },
+    "passedTests": [
+      {
+        "file": "smoke.spec.ts",
+        "title": "1. Core Application Boot & Route Integrity",
+        "project": "chromium-webgl",
+        "durationMs": 8815
+      },
+      {
+        "file": "smoke.spec.ts",
+        "title": "2. Tactical Stage (VTT) & WebGL Canvas Mount Lifecycle",
+        "project": "chromium-webgl",
+        "durationMs": 18479
+      },
+      {
+        "file": "smoke.spec.ts",
+        "title": "3. Persona Folio Roster & Sheet Navigation",
+        "project": "chromium-webgl",
+        "durationMs": 7863
+      },
+      {
+        "file": "smoke.spec.ts",
+        "title": "4. Omnicortex DBM Compendium Browsing",
+        "project": "chromium-webgl",
+        "durationMs": 15177
+      },
+      {
+        "file": "smoke.spec.ts",
+        "title": "1. Core Application Boot & Route Integrity",
+        "project": "mobile-tablet",
+        "durationMs": 3716
+      },
+      {
+        "file": "smoke.spec.ts",
+        "title": "2. Tactical Stage (VTT) & WebGL Canvas Mount Lifecycle",
+        "project": "mobile-tablet",
+        "durationMs": 5860
+      },
+      {
+        "file": "smoke.spec.ts",
+        "title": "3. Persona Folio Roster & Sheet Navigation",
+        "project": "mobile-tablet",
+        "durationMs": 2653
+      },
+      {
+        "file": "smoke.spec.ts",
+        "title": "4. Omnicortex DBM Compendium Browsing",
+        "project": "mobile-tablet",
+        "durationMs": 2512
+      }
+    ],
+    "failedTests": [],
+    "globalErrors": []
+  }
+}

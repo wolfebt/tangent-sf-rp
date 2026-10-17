@@ -17,7 +17,16 @@ import {
   ARMOR_MODULES,
   MANUFACTURER_SKINS
 } from './tangentConstants.js';
-import { calculateCreditValue, calculateMaterialCost, calculateAllCraftingTiers, getComplexityTier } from './tangentEconEngine.js';
+import { 
+  calculateCreditValue, 
+  calculateDCFromCredits,
+  resolveItemCostDC,
+  calculateMaterialCost, 
+  calculateAllCraftingTiers, 
+  getComplexityTier 
+} from './tangentEconEngine.js';
+
+export { calculateCreditValue, calculateDCFromCredits, resolveItemCostDC };
 
 // ═══════════════════════════════════════════════════════════
 // 1. EQUIPMENT FORGE ENGINE (PLAN 17)

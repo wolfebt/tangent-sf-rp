@@ -108,6 +108,7 @@ export const isFolioPersonaDeleted = (docIdOrChar, tombstones = null) => {
  */
 export const isPersonaEmptyTemplate = (char) => {
   if (!char || typeof char !== 'object') return true;
+  if (char.isNewBlank) return false;
 
   const name = (char['char-name'] || char.name || '').trim();
   const isDefaultName = !name || name.toLowerCase() === 'unnamed persona' || name.toLowerCase() === 'unnamed operative';

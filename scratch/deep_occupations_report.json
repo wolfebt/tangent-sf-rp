@@ -1,0 +1,145 @@
+[
+  {
+    "id": "occupation-adept",
+    "name": "Adept",
+    "base_ws_equip": 4,
+    "has_base_ws_in_data": false,
+    "has_base_ws_in_md": false,
+    "trait_count": 10,
+    "archetypes_count": 8,
+    "prof_skills_count": 1,
+    "rec_features_count": 5
+  },
+  {
+    "id": "occupation-agent",
+    "name": "Agent",
+    "base_ws_equip": 2,
+    "has_base_ws_in_data": false,
+    "has_base_ws_in_md": false,
+    "trait_count": 15,
+    "archetypes_count": 6,
+    "prof_skills_count": 4,
+    "rec_features_count": 1
+  },
+  {
+    "id": "occupation-builder",
+    "name": "Builder",
+    "base_ws_equip": 3,
+    "has_base_ws_in_data": false,
+    "has_base_ws_in_md": false,
+    "trait_count": 15,
+    "archetypes_count": 7,
+    "prof_skills_count": 1,
+    "rec_features_count": 1
+  },
+  {
+    "id": "occupation-citizen",
+    "name": "Citizen",
+    "base_ws_equip": 2,
+    "has_base_ws_in_data": false,
+    "has_base_ws_in_md": false,
+    "trait_count": 10,
+    "archetypes_count": 11,
+    "prof_skills_count": 1,
+    "rec_features_count": 1
+  },
+  {
+    "id": "occupation-criminal",
+    "name": "Criminal",
+    "base_ws_equip": 4,
+    "has_base_ws_in_data": false,
+    "has_base_ws_in_md": false,
+    "trait_count": 12,
+    "archetypes_count": 11,
+    "prof_skills_count": 4,
+    "rec_features_count": 3
+  },
+  {
+    "id": "occupation-drifter",
+    "name": "Drifter",
+    "base_ws_equip": 1,
+    "has_base_ws_in_data": false,
+    "has_base_ws_in_md": false,
+    "trait_count": 16,
+    "archetypes_count": 14,
+    "prof_skills_count": 2,
+    "rec_features_count": 1
+  },
+  {
+    "id": "occupation-entertainer",
+    "name": "Entertainer",
+    "base_ws_equip": 5,
+    "has_base_ws_in_data": false,
+    "has_base_ws_in_md": false,
+    "trait_count": 10,
+    "archetypes_count": 9,
+    "prof_skills_count": 1,
+    "rec_features_count": 2
+  },
+  {
+    "id": "occupation-merchant",
+    "name": "Merchant",
+    "base_ws_equip": 5,
+    "has_base_ws_in_data": false,
+    "has_base_ws_in_md": false,
+    "trait_count": 12,
+    "archetypes_count": 12,
+    "prof_skills_count": 1,
+    "rec_features_count": 2
+  },
+  {
+    "id": "occupation-representative",
+    "name": "Representative",
+    "base_ws_equip": 6,
+    "has_base_ws_in_data": false,
+    "has_base_ws_in_md": false,
+    "trait_count": 10,
+    "archetypes_count": 6,
+    "prof_skills_count": 1,
+    "rec_features_count": 2
+  },
+  {
+    "id": "occupation-scholar",
+    "name": "Scholar",
+    "base_ws_equip": 3,
+    "has_base_ws_in_data": false,
+    "has_base_ws_in_md": false,
+    "trait_count": 10,
+    "archetypes_count": 12,
+    "prof_skills_count": 1,
+    "rec_features_count": 2
+  },
+  {
+    "id": "occupation-scout",
+    "name": "Scout",
+    "base_ws_equip": 1,
+    "has_base_ws_in_data": false,
+    "has_base_ws_in_md": false,
+    "trait_count": 13,
+    "archetypes_count": 5,
+    "prof_skills_count": 4,
+    "rec_features_count": 2
+  },
+  {
+    "id": "occupation-soldier",
+    "name": "Soldier",
+    "base_ws_equip": 1,
+    "has_base_ws_in_data": false,
+    "has_base_ws_in_md": false,
+    "trait_count": 16,
+    "archetypes_count": 8,
+    "prof_skills_count": 1,
+    "rec_features_count": 1
+  },
+  {
+    "id": "occupation-specialist",
+    "name": "Specialist",
+    "base_ws_equip": 3,
+    "has_base_ws_in_data": false,
+    "has_base_ws_in_md": false,
+    "trait_count": 9,
+    "archetypes_count": 13,
+    "prof_skills_count": 2,
+    "rec_features_count": 1
+  }
+]

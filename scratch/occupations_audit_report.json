@@ -1,0 +1,1603 @@
+{
+  "common_traits": [
+    {
+      "id": "trait-background",
+      "name": "Background",
+      "category": "traits",
+      "trait_type": "Occupational Trait",
+      "trait_tier": "Basic",
+      "classification": "Mental",
+      "bp": 1,
+      "description": "The character may select additional training from another Occupation fitting the character's backstory. This does not grant any additional Professional Skill points or Recommended Features from the other Profession. May be taken multiple times granting a different Trait in the chosen Background Occupation, traits may now be chosen from the primary and background Occupation. Gain one Trait from a SECONDARY Chosen Occupation.",
+      "costs": {
+        "bp": 1,
+        "credits": 0,
+        "nodes": 0,
+        "sockets": 0,
+        "strain": 0,
+        "focus": 0,
+        "ap": 0
+      }
+    },
+    {
+      "id": "trait-trade-tools",
+      "name": "Trade Tools",
+      "category": "traits",
+      "trait_type": "Occupational Trait",
+      "trait_tier": "Basic",
+      "classification": "Physical",
+      "bp": 1,
+      "description": "Helps cover general gear the character would have for their Occupation. The character's additional equipment will depend on their specific job within their profession. +2 Equipment",
+      "modifiers": [
+        {
+          "target": "equipment",
+          "value": 2,
+          "type": "other",
+          "mode": "inherent"
+        }
+      ],
+      "costs": {
+        "bp": 1,
+        "credits": 0,
+        "nodes": 0,
+        "sockets": 0,
+        "strain": 0,
+        "focus": 0,
+        "ap": 0
+      }
+    },
+    {
+      "id": "trait-high-pay",
+      "name": "High Pay",
+      "category": "traits",
+      "trait_type": "Occupational Trait",
+      "trait_tier": "Basic",
+      "classification": "Social",
+      "bp": 1,
+      "description": "Benefit for doing their job well. +2 Wealth",
+      "modifiers": [
+        {
+          "target": "wealth",
+          "value": 2,
+          "type": "other",
+          "mode": "inherent"
+        }
+      ],
+      "costs": {
+        "bp": 1,
+        "credits": 0,
+        "nodes": 0,
+        "sockets": 0,
+        "strain": 0,
+        "focus": 0,
+        "ap": 0
+      }
+    },
+    {
+      "id": "trait-professionalism",
+      "name": "Professionalism",
+      "category": "traits",
+      "trait_type": "Occupational Trait",
+      "trait_tier": "Basic",
+      "classification": "Social",
+      "bp": 1,
+      "description": "Benefit of being known to do their job well. +2 Reputation",
+      "modifiers": [
+        {
+          "target": "reputation",
+          "value": 2,
+          "type": "other",
+          "mode": "inherent"
+        }
+      ],
+      "costs": {
+        "bp": 1,
+        "credits": 0,
+        "nodes": 0,
+        "sockets": 0,
+        "strain": 0,
+        "focus": 0,
+        "ap": 0
+      }
+    }
+  ],
+  "occupations": [
+    {
+      "id": "occupation-adept",
+      "name": "Adept",
+      "skill_points": 20,
+      "professional_skills": [
+        "Disciplines (Attune or any known Metafocus Skill)"
+      ],
+      "recommended_features": [
+        "Discipline Features",
+        "Acute Sense",
+        "Scent",
+        "Darksight",
+        "Low Light Vision"
+      ],
+      "archetypes": [
+        "Combatant",
+        "Psionic",
+        "Psychic",
+        "Mystic",
+        "Magician",
+        "Sorcerer",
+        "Priest",
+        "Shaman"
+      ],
+      "traits": [
+        "trait-enhanced-abilities",
+        "trait-heightened-senses",
+        "trait-martial-arts-mastery",
+        "trait-mastery-of-a-discipline",
+        "trait-mystical-or-spiritual-connection",
+        "trait-resourcefulness",
+        "trait-special-equipment",
+        "trait-special-ability",
+        "trait-specialized-skills",
+        "trait-versatility"
+      ],
+      "traits_analysis": [
+        {
+          "slug": "trait-enhanced-abilities",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-heightened-senses",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-martial-arts-mastery",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-mastery-of-a-discipline",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-mystical-or-spiritual-connection",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-resourcefulness",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-special-equipment",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-special-ability",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-specialized-skills",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-versatility",
+          "inCode": true,
+          "onDisk": true
+        }
+      ],
+      "md_traits": [
+        "trait-enhanced-abilities",
+        "trait-heightened-senses",
+        "trait-martial-arts-mastery",
+        "trait-mastery-of-a-discipline",
+        "trait-mystical-or-spiritual-connection",
+        "trait-resourcefulness",
+        "trait-special-equipment",
+        "trait-special-ability",
+        "trait-specialized-skills",
+        "trait-versatility"
+      ]
+    },
+    {
+      "id": "occupation-agent",
+      "name": "Agent",
+      "skill_points": 20,
+      "professional_skills": [
+        "Insight",
+        "Alertness",
+        "Bluff",
+        "Stealth and one Social or Vocation Skill"
+      ],
+      "recommended_features": [
+        "General Features"
+      ],
+      "archetypes": [
+        "Spy",
+        "Intelligence Officer",
+        "Cybernetic Infiltrator",
+        "Law Enforcement",
+        "Psionic Operative",
+        "Bounty Hunter"
+      ],
+      "traits": [
+        "trait-adaptability",
+        "trait-combat-skills",
+        "trait-deception",
+        "trait-guile",
+        "trait-investigation",
+        "trait-languages",
+        "trait-mental-resilience",
+        "trait-networking",
+        "trait-persuasion",
+        "trait-physical-fitness",
+        "trait-quick-thinking",
+        "trait-stealth",
+        "trait-survival-skills",
+        "trait-technology",
+        "trait-travel"
+      ],
+      "traits_analysis": [
+        {
+          "slug": "trait-adaptability",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-combat-skills",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-deception",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-guile",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-investigation",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-languages",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-mental-resilience",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-networking",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-persuasion",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-physical-fitness",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-quick-thinking",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-stealth",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-survival-skills",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-technology",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-travel",
+          "inCode": true,
+          "onDisk": true
+        }
+      ],
+      "md_traits": [
+        "trait-adaptability",
+        "trait-combat-skills",
+        "trait-deception",
+        "trait-guile",
+        "trait-investigation",
+        "trait-languages",
+        "trait-mental-resilience",
+        "trait-networking",
+        "trait-persuasion",
+        "trait-physical-fitness",
+        "trait-quick-thinking",
+        "trait-stealth",
+        "trait-survival-skills",
+        "trait-technology",
+        "trait-travel"
+      ]
+    },
+    {
+      "id": "occupation-builder",
+      "name": "Builder",
+      "skill_points": 20,
+      "professional_skills": [
+        "Any Vocation Skills"
+      ],
+      "recommended_features": [
+        "Skill Features"
+      ],
+      "archetypes": [
+        "Starship Engineer",
+        "Cybernetic Technician",
+        "Nanotechnology Specialist",
+        "Habitat Architect",
+        "Weaponsmith",
+        "Robotics Engineer",
+        "Matter Manipulator"
+      ],
+      "traits": [
+        "trait-adaptability",
+        "trait-attention-to-detail",
+        "trait-attention-to-safety",
+        "trait-business-acumen",
+        "trait-creativity",
+        "trait-environmental-awareness",
+        "trait-mecha-physics",
+        "trait-machine-affinity",
+        "trait-patience",
+        "trait-persistence",
+        "trait-problem-solving-skills",
+        "trait-teamwork",
+        "trait-technical-knowledge",
+        "trait-technological-aptitude",
+        "trait-time-management"
+      ],
+      "traits_analysis": [
+        {
+          "slug": "trait-adaptability",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-attention-to-detail",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-attention-to-safety",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-business-acumen",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-creativity",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-environmental-awareness",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-mecha-physics",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-machine-affinity",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-patience",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-persistence",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-problem-solving-skills",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-teamwork",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-technical-knowledge",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-technological-aptitude",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-time-management",
+          "inCode": true,
+          "onDisk": true
+        }
+      ],
+      "md_traits": [
+        "trait-adaptability",
+        "trait-attention-to-detail",
+        "trait-attention-to-safety",
+        "trait-business-acumen",
+        "trait-creativity",
+        "trait-environmental-awareness",
+        "trait-mecha-physics",
+        "trait-machine-affinity",
+        "trait-patience",
+        "trait-persistence",
+        "trait-problem-solving-skills",
+        "trait-teamwork",
+        "trait-technical-knowledge",
+        "trait-technological-aptitude",
+        "trait-time-management"
+      ]
+    },
+    {
+      "id": "occupation-citizen",
+      "name": "Citizen",
+      "skill_points": 20,
+      "professional_skills": [
+        "Any Non-Combat Skills"
+      ],
+      "recommended_features": [
+        "General Features"
+      ],
+      "archetypes": [
+        "Advocate",
+        "Artist",
+        "Entrepreneur",
+        "Journalist",
+        "Scientist",
+        "Laborer",
+        "Medic",
+        "Pilot",
+        "Technician",
+        "Bureaucrat",
+        "Corporate Drone"
+      ],
+      "traits": [
+        "trait-adaptability",
+        "trait-communication",
+        "trait-ethical-awareness",
+        "trait-financial-expertise",
+        "trait-high-social-standing",
+        "trait-management",
+        "trait-negotiation",
+        "trait-networking",
+        "trait-problem-solving",
+        "trait-strategic-thinking"
+      ],
+      "traits_analysis": [
+        {
+          "slug": "trait-adaptability",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-communication",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-ethical-awareness",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-financial-expertise",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-high-social-standing",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-management",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-negotiation",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-networking",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-problem-solving",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-strategic-thinking",
+          "inCode": true,
+          "onDisk": true
+        }
+      ],
+      "md_traits": [
+        "trait-adaptability",
+        "trait-communication",
+        "trait-ethical-awareness",
+        "trait-financial-expertise",
+        "trait-high-social-standing",
+        "trait-management",
+        "trait-negotiation",
+        "trait-networking",
+        "trait-problem-solving",
+        "trait-strategic-thinking"
+      ]
+    },
+    {
+      "id": "occupation-criminal",
+      "name": "Criminal",
+      "skill_points": 20,
+      "professional_skills": [
+        "Bluff",
+        "Diplomacy",
+        "Awareness",
+        "Stealth and one Knowledge or Vocation"
+      ],
+      "recommended_features": [
+        "Skill Features",
+        "Underworld Connections",
+        "Connected"
+      ],
+      "archetypes": [
+        "Smuggler",
+        "Fixer",
+        "Assassin",
+        "Forger",
+        "Crime Boss",
+        "Tech Thief",
+        "Saboteur",
+        "Information Broker",
+        "Arms Dealer",
+        "Slaver",
+        "Hacker"
+      ],
+      "traits": [
+        "trait-aggressiveness",
+        "trait-b-e",
+        "trait-combat-training",
+        "trait-deception",
+        "trait-hacking",
+        "trait-networking",
+        "trait-resourcefulness",
+        "trait-risk-taking",
+        "trait-self-preservation",
+        "trait-smooth",
+        "trait-stalker",
+        "trait-street-smarts"
+      ],
+      "traits_analysis": [
+        {
+          "slug": "trait-aggressiveness",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-b-e",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-combat-training",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-deception",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-hacking",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-networking",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-resourcefulness",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-risk-taking",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-self-preservation",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-smooth",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-stalker",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-street-smarts",
+          "inCode": true,
+          "onDisk": true
+        }
+      ],
+      "md_traits": [
+        "trait-aggressiveness",
+        "trait-b-e",
+        "trait-combat-training",
+        "trait-deception",
+        "trait-hacking",
+        "trait-networking",
+        "trait-resourcefulness",
+        "trait-risk-taking",
+        "trait-self-preservation",
+        "trait-smooth",
+        "trait-stalker",
+        "trait-street-smarts"
+      ]
+    },
+    {
+      "id": "occupation-drifter",
+      "name": "Drifter",
+      "skill_points": 20,
+      "professional_skills": [
+        "Pilot",
+        "Survival and any three Knowledge or Vocation Skills"
+      ],
+      "recommended_features": [
+        "General Features"
+      ],
+      "archetypes": [
+        "Scavenger",
+        "Smuggler",
+        "Bounty Hunter",
+        "Spy",
+        "Space Trucker",
+        "Mercenary",
+        "Explorer",
+        "Space Pirate",
+        "Salvage Expert",
+        "Prospector",
+        "Freelance Mechanic",
+        "Information Broker",
+        "Bodyguard",
+        "Medical Specialist"
+      ],
+      "traits": [
+        "trait-adaptability",
+        "trait-adventurous-spirit",
+        "trait-aggressiveness",
+        "trait-caution",
+        "trait-combat-training",
+        "trait-fearlessness",
+        "trait-jack-of-all-trades",
+        "trait-loyalty",
+        "trait-mobility",
+        "trait-resourcefulness",
+        "trait-scavenging",
+        "trait-self-sufficiency",
+        "trait-stalker",
+        "trait-street-smarts",
+        "trait-survival",
+        "trait-unpredictability"
+      ],
+      "traits_analysis": [
+        {
+          "slug": "trait-adaptability",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-adventurous-spirit",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-aggressiveness",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-caution",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-combat-training",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-fearlessness",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-jack-of-all-trades",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-loyalty",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-mobility",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-resourcefulness",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-scavenging",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-self-sufficiency",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-stalker",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-street-smarts",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-survival",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-unpredictability",
+          "inCode": true,
+          "onDisk": true
+        }
+      ],
+      "md_traits": [
+        "trait-adaptability",
+        "trait-adventurous-spirit",
+        "trait-aggressiveness",
+        "trait-caution",
+        "trait-combat-training",
+        "trait-fearlessness",
+        "trait-jack-of-all-trades",
+        "trait-loyalty",
+        "trait-mobility",
+        "trait-resourcefulness",
+        "trait-scavenging",
+        "trait-self-sufficiency",
+        "trait-stalker",
+        "trait-street-smarts",
+        "trait-survival",
+        "trait-unpredictability"
+      ]
+    },
+    {
+      "id": "occupation-entertainer",
+      "name": "Entertainer",
+      "skill_points": 20,
+      "professional_skills": [
+        "Any Expression Skills"
+      ],
+      "recommended_features": [
+        "Skill Features",
+        "Social Features"
+      ],
+      "archetypes": [
+        "Holographic Performer",
+        "Psionic Entertainer",
+        "Circus Performer",
+        "Comedian",
+        "Dancer",
+        "Storyteller",
+        "Musician",
+        "Actor",
+        "Courtesan"
+      ],
+      "traits": [
+        "trait-adaptability",
+        "trait-charismatic",
+        "trait-confident",
+        "trait-creative",
+        "trait-energetic",
+        "trait-fans",
+        "trait-fellow-artists",
+        "trait-freedom",
+        "trait-fun",
+        "trait-venues"
+      ],
+      "traits_analysis": [
+        {
+          "slug": "trait-adaptability",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-charismatic",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-confident",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-creative",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-energetic",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-fans",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-fellow-artists",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-freedom",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-fun",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-venues",
+          "inCode": true,
+          "onDisk": true
+        }
+      ],
+      "md_traits": [
+        "trait-adaptability",
+        "trait-charismatic",
+        "trait-confident",
+        "trait-creative",
+        "trait-energetic",
+        "trait-fans",
+        "trait-fellow-artists",
+        "trait-freedom",
+        "trait-fun",
+        "trait-venues"
+      ]
+    },
+    {
+      "id": "occupation-merchant",
+      "name": "Merchant",
+      "skill_points": 20,
+      "professional_skills": [
+        "Any Manipulation Skills"
+      ],
+      "recommended_features": [
+        "Skill Features",
+        "Connected"
+      ],
+      "archetypes": [
+        "Store Owner",
+        "Traveling Merchant",
+        "Merchant Prince",
+        "Smuggler",
+        "Resource Gatherer",
+        "Diplomatic Trader",
+        "Fence",
+        "Information Broker",
+        "Art Dealer",
+        "Curator",
+        "Arms Dealer",
+        "Pawnbroker"
+      ],
+      "traits": [
+        "trait-adaptability",
+        "trait-appraisal",
+        "trait-business-acumen",
+        "trait-charismatic",
+        "trait-cultural-awareness",
+        "trait-linguistics",
+        "trait-logistics",
+        "trait-negotiation",
+        "trait-networking",
+        "trait-product-knowledge",
+        "trait-resourcefulness",
+        "trait-risk-management"
+      ],
+      "traits_analysis": [
+        {
+          "slug": "trait-adaptability",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-appraisal",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-business-acumen",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-charismatic",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-cultural-awareness",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-linguistics",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-logistics",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-negotiation",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-networking",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-product-knowledge",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-resourcefulness",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-risk-management",
+          "inCode": true,
+          "onDisk": true
+        }
+      ],
+      "md_traits": [
+        "trait-adaptability",
+        "trait-appraisal",
+        "trait-business-acumen",
+        "trait-charismatic",
+        "trait-cultural-awareness",
+        "trait-linguistics",
+        "trait-logistics",
+        "trait-negotiation",
+        "trait-networking",
+        "trait-product-knowledge",
+        "trait-resourcefulness",
+        "trait-risk-management"
+      ]
+    },
+    {
+      "id": "occupation-representative",
+      "name": "Representative",
+      "skill_points": 20,
+      "professional_skills": [
+        "Any Manipulation Skills"
+      ],
+      "recommended_features": [
+        "Skill Features",
+        "Social Features"
+      ],
+      "archetypes": [
+        "Interstellar Diplomat",
+        "Trade Envoy",
+        "Peace Negotiator",
+        "Intelligence Liaison",
+        "Cultural Ambassador",
+        "Corporate Administrator"
+      ],
+      "traits": [
+        "trait-analytical",
+        "trait-conflict-resolution",
+        "trait-creativity",
+        "trait-emotional-intelligence",
+        "trait-flexibility",
+        "trait-integrity",
+        "trait-languages",
+        "trait-negotiation",
+        "trait-networking",
+        "trait-time-management"
+      ],
+      "traits_analysis": [
+        {
+          "slug": "trait-analytical",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-conflict-resolution",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-creativity",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-emotional-intelligence",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-flexibility",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-integrity",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-languages",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-negotiation",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-networking",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-time-management",
+          "inCode": true,
+          "onDisk": true
+        }
+      ],
+      "md_traits": [
+        "trait-analytical",
+        "trait-conflict-resolution",
+        "trait-creativity",
+        "trait-emotional-intelligence",
+        "trait-flexibility",
+        "trait-integrity",
+        "trait-languages",
+        "trait-negotiation",
+        "trait-networking",
+        "trait-time-management"
+      ]
+    },
+    {
+      "id": "occupation-scholar",
+      "name": "Scholar",
+      "skill_points": 20,
+      "professional_skills": [
+        "Any Knowledge Skills"
+      ],
+      "recommended_features": [
+        "Skill Features",
+        "Mental Features"
+      ],
+      "archetypes": [
+        "Xenology Expert",
+        "Geneticist",
+        "Linguistics Specialist",
+        "Historian",
+        "Astrophysicist",
+        "Cybernetics Expert",
+        "Planetologist",
+        "Psionicologist",
+        "Roboticist",
+        "Scientist",
+        "Archaeologist",
+        "Cosmologist"
+      ],
+      "traits": [
+        "trait-adaptability",
+        "trait-attention-to-detail",
+        "trait-collaboration",
+        "trait-continuous-learning",
+        "trait-critical-thinking",
+        "trait-ethical-conduct",
+        "trait-metacognition",
+        "trait-patience",
+        "trait-problem-solving",
+        "trait-technological-innovation"
+      ],
+      "traits_analysis": [
+        {
+          "slug": "trait-adaptability",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-attention-to-detail",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-collaboration",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-continuous-learning",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-critical-thinking",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-ethical-conduct",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-metacognition",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-patience",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-problem-solving",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-technological-innovation",
+          "inCode": true,
+          "onDisk": true
+        }
+      ],
+      "md_traits": [
+        "trait-adaptability",
+        "trait-attention-to-detail",
+        "trait-collaboration",
+        "trait-continuous-learning",
+        "trait-critical-thinking",
+        "trait-ethical-conduct",
+        "trait-metacognition",
+        "trait-patience",
+        "trait-problem-solving",
+        "trait-technological-innovation"
+      ]
+    },
+    {
+      "id": "occupation-scout",
+      "name": "Scout",
+      "skill_points": 20,
+      "professional_skills": [
+        "Alertness",
+        "Pilot",
+        "Stealth",
+        "Survival and one Knowledge or Vocation Skill"
+      ],
+      "recommended_features": [
+        "General Features",
+        "Acute Sense"
+      ],
+      "archetypes": [
+        "Space Scout",
+        "Planetary Scout",
+        "Reconnaissance Scout",
+        "Urban Scout",
+        "Wilderness Scout"
+      ],
+      "traits": [
+        "trait-adaptability",
+        "trait-camouflage",
+        "trait-combat-training",
+        "trait-curiosity",
+        "trait-independence",
+        "trait-keen-observation",
+        "trait-navigation",
+        "trait-physical-fitness",
+        "trait-pilot",
+        "trait-resourcefulness",
+        "trait-stalker",
+        "trait-survival-skills",
+        "trait-terrain-expert"
+      ],
+      "traits_analysis": [
+        {
+          "slug": "trait-adaptability",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-camouflage",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-combat-training",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-curiosity",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-independence",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-keen-observation",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-navigation",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-physical-fitness",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-pilot",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-resourcefulness",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-stalker",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-survival-skills",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-terrain-expert",
+          "inCode": true,
+          "onDisk": true
+        }
+      ],
+      "md_traits": [
+        "trait-adaptability",
+        "trait-camouflage",
+        "trait-combat-training",
+        "trait-curiosity",
+        "trait-independence",
+        "trait-keen-observation",
+        "trait-navigation",
+        "trait-physical-fitness",
+        "trait-pilot",
+        "trait-resourcefulness",
+        "trait-stalker",
+        "trait-survival-skills",
+        "trait-terrain-expert"
+      ]
+    },
+    {
+      "id": "occupation-soldier",
+      "name": "Soldier",
+      "skill_points": 20,
+      "professional_skills": [
+        "Any Combat Skills"
+      ],
+      "recommended_features": [
+        "Combat Features"
+      ],
+      "archetypes": [
+        "Infantry",
+        "Heavy Weapons Specialist",
+        "Sniper",
+        "Tactical Officer",
+        "Medic",
+        "Powered Armor Trooper",
+        "Special Forces",
+        "Empowered"
+      ],
+      "traits": [
+        "trait-adaptability",
+        "trait-attention-to-detail",
+        "trait-combat-training",
+        "trait-cool",
+        "trait-cunning",
+        "trait-discipline",
+        "trait-loyal",
+        "trait-observant",
+        "trait-physical-prowess",
+        "trait-rapid-response",
+        "trait-resourceful",
+        "trait-stalker",
+        "trait-strategic",
+        "trait-team-oriented",
+        "trait-versatile",
+        "trait-well-equipped"
+      ],
+      "traits_analysis": [
+        {
+          "slug": "trait-adaptability",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-attention-to-detail",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-combat-training",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-cool",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-cunning",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-discipline",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-loyal",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-observant",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-physical-prowess",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-rapid-response",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-resourceful",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-stalker",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-strategic",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-team-oriented",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-versatile",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-well-equipped",
+          "inCode": true,
+          "onDisk": true
+        }
+      ],
+      "md_traits": [
+        "trait-adaptability",
+        "trait-attention-to-detail",
+        "trait-combat-training",
+        "trait-cool",
+        "trait-cunning",
+        "trait-discipline",
+        "trait-loyal",
+        "trait-observant",
+        "trait-physical-prowess",
+        "trait-rapid-response",
+        "trait-resourceful",
+        "trait-stalker",
+        "trait-strategic",
+        "trait-team-oriented",
+        "trait-versatile",
+        "trait-well-equipped"
+      ]
+    },
+    {
+      "id": "occupation-specialist",
+      "name": "Specialist",
+      "skill_points": 20,
+      "professional_skills": [
+        "Any five Physical",
+        "Knowledge or Vocation Skills within specialized training"
+      ],
+      "recommended_features": [
+        "Skill Features"
+      ],
+      "archetypes": [
+        "Doctor",
+        "Engineer",
+        "Roboticist",
+        "Cybersecurity Expert",
+        "Biotechnologist",
+        "Space Pilot",
+        "Explorer",
+        "Smuggler",
+        "Bounty Hunter",
+        "Racing Pilot",
+        "Extreme Athlete",
+        "Gamer",
+        "Artist"
+      ],
+      "traits": [
+        "trait-adaptability",
+        "trait-expertise",
+        "trait-leadership",
+        "trait-physical-and-mental-resilience",
+        "trait-problem-solving",
+        "trait-resourcefulness",
+        "trait-team-player",
+        "trait-technological-proficiency",
+        "trait-versatility"
+      ],
+      "traits_analysis": [
+        {
+          "slug": "trait-adaptability",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-expertise",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-leadership",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-physical-and-mental-resilience",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-problem-solving",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-resourcefulness",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-team-player",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-technological-proficiency",
+          "inCode": true,
+          "onDisk": true
+        },
+        {
+          "slug": "trait-versatility",
+          "inCode": true,
+          "onDisk": true
+        }
+      ],
+      "md_traits": [
+        "trait-adaptability",
+        "trait-expertise",
+        "trait-leadership",
+        "trait-physical-and-mental-resilience",
+        "trait-problem-solving",
+        "trait-resourcefulness",
+        "trait-team-player",
+        "trait-technological-proficiency",
+        "trait-versatility"
+      ]
+    }
+  ]
+}

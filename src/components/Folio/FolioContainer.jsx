@@ -27,7 +27,7 @@ import { getEnrichedAugmentationData } from '../../data/augmentationsData';
 import { getEnrichedHindranceData } from '../../data/speciesDisadvantagesData';
 import { enrichItemWithModifiers } from '../../engines/tangentModifierEngine';
 import { AudioService } from '../../services/audioService';
-import { getFolioTombstones, isFolioPersonaDeleted } from '../../utils/personaValidationUtils';
+import { getFolioTombstones, isFolioPersonaDeleted, isPersonaEmptyTemplate } from '../../utils/personaValidationUtils';
 import RosterCatalogView from './views/RosterCatalogView';
 import FeaturesHubView from './views/FeaturesHubView';
 import PropertyHubView from './views/PropertyHubView';
@@ -79,7 +79,7 @@ const FolioContainer = () => {
   const fileInputRef = useRef(null);
 
   const {
-    activeTab,
+    activeTab: rawActiveTab,
     setActiveTab,
     isCharacterSelected,
     characterData,
@@ -138,6 +138,8 @@ const FolioContainer = () => {
     setViewMode,
     togglePersonaVttLock
   } = useFolio();
+
+  const activeTab = (typeof rawActiveTab === 'string' && rawActiveTab) ? rawActiveTab : 'identity';
 
   const [isTrackedModsOpen, setIsTrackedModsOpen] = useState(false);
   const [toast, setToast] = useState(null);
@@ -237,16 +239,34 @@ const FolioContainer = () => {
     handleSelectTab('catalog', null, true, false);
   }, [handleSelectTab]);
 
+  const handleCreateNewBlankCharacter = useCallback(async ({ saveCurrent = true } = {}) => {
+    const curDocId = characterData?.['character-doc-id'] || characterData?.id;
+    if (saveCurrent && curDocId && !isPersonaEmptyTemplate(characterData)) {
+      try {
+        await saveCurrentToRoster?.(characterData);
+      } catch (e) {
+        console.warn('Could not auto-save current persona before creating new blank:', e);
+      }
+    }
+
+    const newDocId = handleNewCharacter?.();
+    if (newDocId) {
+      handleSelectTab('identity', newDocId, true, false);
+    } else {
+      handleSelectTab('identity', null, true, false);
+    }
+  }, [characterData, saveCurrentToRoster, handleNewCharacter, handleSelectTab]);
+
   const handleFolioBack = useCallback(() => {
     if (viewMode === 'play') {
       setViewMode('builder');
       return;
     }
-    if (activeTab.startsWith('features-')) {
+    if (activeTab?.startsWith('features-')) {
       handleSelectTab('features');
       return;
     }
-    if (activeTab.startsWith('property-') || activeTab === 'combat-gear') {
+    if (activeTab?.startsWith('property-') || activeTab === 'combat-gear') {
       handleSelectTab('property');
       return;
     }
@@ -899,9 +919,9 @@ const FolioContainer = () => {
           backTitle={
             viewMode === 'play'
               ? 'Return to Folio Builder'
-              : activeTab.startsWith('features-')
+              : activeTab?.startsWith('features-')
               ? 'Return to Aspects Hub & Overview'
-              : activeTab.startsWith('property-') || activeTab === 'combat-gear'
+              : (activeTab?.startsWith('property-') || activeTab === 'combat-gear')
               ? 'Return to Property Hub'
               : activeTab !== 'catalog'
               ? 'Return to Persona Catalog'
@@ -926,6 +946,53 @@ const FolioContainer = () => {
                 {isSidebarOpen ? <PanelLeftClose size={13} /> : <PanelLeftOpen size={13} className="text-cyan-400" />}
                 <span>Rail</span>
               </button>
+            ) : null
+          }
+          rightSlot={
+            isCharacterSelected && activeTab !== 'catalog' ? (
+              <div className="flex items-center gap-1.5 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1200, 0.03);
+                    handleManualSave();
+                  }}
+                  disabled={cloudSaveStatus === 'saving'}
+                  className={`min-h-[28px] px-2.5 py-1 rounded-md text-[11px] font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer border shadow-xs select-none active:scale-95 ${
+                    cloudSaveStatus === 'saving'
+                      ? 'bg-amber-950/70 border-amber-500/60 text-amber-300 animate-pulse'
+                      : cloudSaveStatus === 'saved'
+                      ? 'bg-emerald-950/70 border-emerald-500/60 text-emerald-300 hover:bg-emerald-900/60 shadow-[0_0_8px_rgba(16,185,129,0.2)]'
+                      : cloudSaveStatus === 'error'
+                      ? 'bg-red-950/70 border-red-500/60 text-red-300 hover:bg-red-900/60'
+                      : 'bg-cyan-950/70 border-cyan-500/50 text-cyan-300 hover:bg-cyan-900/60 shadow-[0_0_8px_rgba(6,182,212,0.2)]'
+                  }`}
+                  title={
+                    cloudSaveStatus === 'saving'
+                      ? 'Syncing Persona to Cloud Vault...'
+                      : cloudSaveStatus === 'saved'
+                      ? `Cloud Synced (${lastSavedTime ? new Date(lastSavedTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : 'Saved'})`
+                      : cloudSaveStatus === 'offline'
+                      ? 'Saved to Local Roster (Sign in for Cloud Sync)'
+                      : 'Save Persona to Roster and Cloud'
+                  }
+                  aria-label="Save Persona to Cloud"
+                >
+                  <Save size={13} className={cloudSaveStatus === 'saving' ? 'animate-spin text-amber-400' : 'text-emerald-400'} />
+                  <span>
+                    {cloudSaveStatus === 'saving'
+                      ? 'Saving...'
+                      : cloudSaveStatus === 'saved'
+                      ? 'Cloud Synced'
+                      : cloudSaveStatus === 'offline'
+                      ? 'Save Local'
+                      : 'Save to Cloud'}
+                  </span>
+                  {cloudSaveStatus === 'saved' && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]" />
+                  )}
+                </button>
+              </div>
             ) : null
           }
         />
@@ -1003,8 +1070,7 @@ const FolioContainer = () => {
                 handleSelectCharacter(docId, 'identity');
               }}
               onNewCharacter={() => {
-                handleNewCharacter();
-                handleSelectTab('identity');
+                handleCreateNewBlankCharacter({ saveCurrent: true });
               }}
               onGuidedCreator={() => {
                 setIsGuidedCreatorOpen(true);
@@ -1056,7 +1122,7 @@ const FolioContainer = () => {
                   onOpenAssetModal={handleOpenAssetModal}
                 />
               )}
-              {(activeTab === 'features' || activeTab.startsWith('features-') || activeTab === 'abilities') && (
+              {(activeTab === 'features' || activeTab?.startsWith('features-') || activeTab === 'abilities') && (
                 <FeaturesTab
                   activeSection={
                     activeTab === 'features' ? 'overview' :
@@ -1091,9 +1157,9 @@ const FolioContainer = () => {
                   onOpenAssetModal={handleOpenAssetModal}
                 />
               )}
-              {(activeTab.startsWith('property-') || activeTab === 'combat-gear') && (
+              {(activeTab?.startsWith('property-') || activeTab === 'combat-gear') && (
                 <PropertyTab
-                  activeSection={activeTab === 'combat-gear' ? 'gear' : activeTab.replace('property-', '')}
+                  activeSection={activeTab === 'combat-gear' ? 'gear' : (activeTab?.replace('property-', '') || 'gear')}
                   onBackToHub={() => handleSelectTab('property')}
                   onNavigate={(tabId) => handleSelectTab(tabId)}
                   onOpenSelectorModal={handleOpenSelectorModal}
@@ -1145,7 +1211,10 @@ const FolioContainer = () => {
       <ConfirmationModal
         isOpen={isConfirmOpen}
         onClose={() => setIsConfirmOpen(false)}
-        onConfirm={handleNewCharacter}
+        onConfirm={async () => {
+          setIsConfirmOpen(false);
+          await handleCreateNewBlankCharacter({ saveCurrent: false });
+        }}
         title="Reset Persona Sheet"
         message="Are you sure you want to start a new character? Unsaved changes will be cleared."
       />
@@ -1187,8 +1256,7 @@ const FolioContainer = () => {
               setIsRosterOpen(false);
             }}
             onNewCharacter={() => {
-              handleNewCharacter();
-              handleSelectTab('identity');
+              handleCreateNewBlankCharacter({ saveCurrent: true });
               setIsRosterOpen(false);
             }}
             onGuidedCreator={() => {
@@ -1229,8 +1297,11 @@ const FolioContainer = () => {
           <GuidedCreatorModal
             isOpen={isGuidedCreatorOpen}
             onClose={() => setIsGuidedCreatorOpen(false)}
-            onCharacterCreated={() => {
-              handleSelectTab('identity');
+            onCharacterCreated={(createdDocId) => {
+              if (createdDocId) {
+                switchRosterCharacter(createdDocId);
+              }
+              handleSelectTab('identity', createdDocId);
             }}
           />
         )}

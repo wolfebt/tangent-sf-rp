@@ -36,6 +36,53 @@ export function calculateCreditValue(dc) {
 export const calculateTSCValue = calculateCreditValue;
 
 /**
+ * Calculate Crafting / Purchase DC from Credit Value via the Tangent Standard Curve (TSC) inverse formula.
+ * The Golden Rule of Tangent Wealth: Crafting DC = Purchase DC = Cost DC.
+ * Formula: DC = round(2.5 * log2(max(10, credits) / 10))
+ * @param {number} credits - Market credit value
+ * @returns {number} Crafting / Purchase DC (integer >= 0)
+ */
+export function calculateDCFromCredits(credits) {
+  const numCr = Math.max(10, Number(credits) || 0);
+  return Math.max(0, Math.round(2.5 * Math.log2(numCr / 10)));
+}
+
+export const calculateItemDC = calculateDCFromCredits;
+export const calculatePurchaseDC = calculateDCFromCredits;
+export const calculateCraftingDC = calculateDCFromCredits;
+
+/**
+ * Resolves the operational/complexity Cost DC (Crafting DC / Purchase DC) for any catalog or inventory item.
+ * Follows the Golden Rule of Tangent Wealth: Purchase DC = Crafting DC = Cost DC.
+ * @param {object} item - Item object
+ * @returns {number} Crafting / Purchase DC
+ */
+export function resolveItemCostDC(item) {
+  if (!item || typeof item !== 'object') return 10;
+  if (item.craft_dc !== undefined && item.craft_dc !== null && item.craft_dc !== '') {
+    return Math.max(0, parseInt(item.craft_dc, 10) || 0);
+  }
+  if (item.purchase_dc !== undefined && item.purchase_dc !== null && item.purchase_dc !== '') {
+    return Math.max(0, parseInt(item.purchase_dc, 10) || 0);
+  }
+  if (item.craftDc !== undefined && item.craftDc !== null && item.craftDc !== '') {
+    return Math.max(0, parseInt(item.craftDc, 10) || 0);
+  }
+  if (item.cost_dc !== undefined && item.cost_dc !== null && item.cost_dc !== '') {
+    return Math.max(0, parseInt(item.cost_dc, 10) || 0);
+  }
+  if (item.dc !== undefined && item.dc !== null && item.dc !== '') {
+    return Math.max(0, parseInt(item.dc, 10) || 0);
+  }
+  const cr = item.costs?.credits ?? item.creditCost ?? item.credit_cost ?? item.credits ?? item.credit_value ?? item.cost ?? item.price;
+  if (cr !== undefined && cr !== null && cr !== '') {
+    return calculateDCFromCredits(cr);
+  }
+  return 10; // Default baseline DC 10 (160 Cr) for standard equipment
+}
+
+
+/**
  * Calculate raw material cost required to fabricate an item (50% of market value).
  * @param {number} creditValue - Total market credit value
  * @returns {number} Material cost in credits

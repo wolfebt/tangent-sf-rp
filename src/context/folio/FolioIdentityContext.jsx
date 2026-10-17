@@ -216,7 +216,7 @@ export const DEFAULT_IDENTITY_FALLBACK = {
   applyOriginAdjustments: () => {},
   applyFactionAdjustments: () => {},
   applyIdentitySelection: () => {},
-  applyGuidedCharacter: () => {},
+  applyGuidedCharacter: async () => null,
   isLocked: false,
   folioPhase: 'creation',
   isReadyForVTT: false,
@@ -1036,8 +1036,10 @@ export const FolioIdentitySliceProvider = ({ children }) => {
     const docId = `char_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
     const blank = sanitizeSubAttributes({
       ...DEFAULT_CHARACTER,
+      'char-name': 'New Operative',
       'character-doc-id': docId,
-      id: docId
+      id: docId,
+      isNewBlank: true
     });
     setCharacterData(blank);
     StorageService.setItem('personaFolioData', blank);
@@ -1045,8 +1047,22 @@ export const FolioIdentitySliceProvider = ({ children }) => {
       localStorage.setItem('personaFolioData', JSON.stringify(blank));
       localStorage.setItem('tangent_folio_character', JSON.stringify(blank));
     } catch (e) {}
+
+    const tombstones = getFolioTombstones();
+    setPersonaRoster(prev => {
+      const cleanPrev = prev.filter(p => !isFolioPersonaDeleted(p, tombstones));
+      const next = [...cleanPrev, blank];
+      StorageService.setItem('personaRoster', next);
+      try {
+        localStorage.setItem('personaRoster', JSON.stringify(next));
+        localStorage.setItem('tangent_folio_roster', JSON.stringify(next));
+      } catch (e) {}
+      return next;
+    });
+
     setActiveTab('identity');
     AudioService.playTerminalBeep(1000, 0.03);
+    return docId;
   }, []);
 
   const handleSaveLocal = useCallback(() => {
@@ -1200,12 +1216,13 @@ export const FolioIdentitySliceProvider = ({ children }) => {
     });
   }, [dbData, triggerSave]);
 
-  const applyGuidedCharacter = useCallback((draft) => {
-    if (!draft) return;
+  const applyGuidedCharacter = useCallback(async (draft) => {
+    if (!draft) return null;
     const sanitized = sanitizeSubAttributes(sanitizeCharacterSkills(draft));
     setCharacterData(sanitized);
-    triggerSave(sanitized);
-  }, [triggerSave]);
+    const saved = await saveCurrentToRoster(sanitized);
+    return saved;
+  }, [saveCurrentToRoster]);
 
   // VTT Lifecycle & Lock Controls
   const isLocked = Boolean(characterData.is_locked);

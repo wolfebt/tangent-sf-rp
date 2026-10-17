@@ -53,6 +53,8 @@ import { DEFAULT_SPECIES_TRAITS } from '../data/speciesTraitsData.js';
 
 import {
   calculateCreditValue,
+  calculateDCFromCredits,
+  resolveItemCostDC,
   calculateMaterialCost,
   calculateAllCraftingTiers,
   getComplexityTier,
@@ -2320,14 +2322,11 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
   const startingCP = parseInt(characterData['starting-cp'] || 150, 10);
   const itemizedList = [];
 
-  // Helper for safe CP extraction
+  // Helper for safe CP extraction (Strictly checks cp and cost_cp; does NOT treat item.cost as CP since item.cost represents Credits)
   const getItemCP = (item, defaultCost = 0) => {
     if (typeof item === 'object' && item !== null) {
       if (item.cp !== undefined && item.cp !== null && item.cp !== '') {
         return parseInt(item.cp, 10) || 0;
-      }
-      if (item.cost !== undefined && item.cost !== null && item.cost !== '') {
-        return parseInt(item.cost, 10) || 0;
       }
       if (item.cost_cp !== undefined && item.cost_cp !== null && item.cost_cp !== '') {
         return parseInt(item.cost_cp, 10) || 0;
@@ -2997,28 +2996,43 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
     });
   });
 
-  // 12. Personal Property / Gear / Weapons / Armor / Mecha / Other
+  // 12. Personal Property (Weaponry, Armoring, Gear, Mecha, Architecture, Other)
+  // Canon Rule: Personal property items DO NOT use Character Points (0 CP). They are acquired
+  // via Credits, Wealth Score Auto-Buy limit, downtime crafting, or background packages.
   let equipmentCost = 0;
   const equipCategories = [
-    { key: 'gear', category: 'Gear' },
-    { key: 'weapons', category: 'Weaponry' },
-    { key: 'armor', category: 'Armoring' },
-    { key: 'mecha', category: 'Mecha' },
-    { key: 'other', category: 'Other Property' }
+    { key: 'gear', altKey: 'equipment', category: 'Gear' },
+    { key: 'weapons', altKey: 'weaponry', category: 'Weaponry' },
+    { key: 'armor', altKey: 'armoring', category: 'Armoring' },
+    { key: 'mecha', altKey: 'mech', category: 'Mecha' },
+    { key: 'architecture', altKey: 'structures', category: 'Architecture' },
+    { key: 'other', altKey: 'misc', category: 'Other Property' }
   ];
 
-  equipCategories.forEach(({ key, category }) => {
-    const list = Array.isArray(characterData[key]) ? characterData[key] : [];
-    list.forEach((item) => {
-      const name = typeof item === 'object' ? (item.name || 'Unnamed Item') : item;
-      const cost = getItemCP(item, 0);
-      equipmentCost += cost;
+  equipCategories.forEach(({ key, altKey, category }) => {
+    let list = characterData[key];
+    if (!list && altKey) list = characterData[altKey];
+    if (typeof list === 'string' && list.trim()) {
+      try { list = JSON.parse(list); } catch { list = []; }
+    }
+    const items = Array.isArray(list) ? list : [];
+    items.forEach((item) => {
+      const isObj = typeof item === 'object' && item !== null;
+      const name = isObj ? (item.name || item.title || item.id || 'Unnamed Item') : String(item);
+      const dc = isObj ? resolveItemCostDC(item) : 10;
+      const rawCredits = isObj
+        ? (item.cost ?? item.credits ?? item.credit_value ?? item.costs?.credits ?? calculateCreditValue(dc))
+        : calculateCreditValue(dc);
+      const numCr = Math.max(0, parseInt(rawCredits, 10) || 0);
+
       itemizedList.push({
         category,
         item: name,
-        val: 'Item Purchase',
-        costVal: cost,
-        cost: `${cost} CP`
+        val: `DC ${dc} • ${numCr.toLocaleString()} Cr`,
+        costVal: 0,
+        cost: '0 CP',
+        creditVal: numCr,
+        dc
       });
     });
   });
@@ -3266,6 +3280,7 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
     awakenedCost,
     invocationsCost,
     augmentationsCost,
+    equipmentCost,
     techLevel,
     techLevelCost,
     metaLevel,

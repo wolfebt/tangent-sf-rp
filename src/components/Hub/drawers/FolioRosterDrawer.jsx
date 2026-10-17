@@ -131,10 +131,10 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
           <button
             onClick={() => {
               AudioService.playTerminalBeep(1300, 0.03);
-              handleNewCharacter();
-              if (onOpenSheet) onOpenSheet();
+              const newDocId = handleNewCharacter();
+              if (onOpenSheet) onOpenSheet(newDocId);
               else if (onOpenDrawer) onOpenDrawer('persona-sheet');
-              else navigate('/folio');
+              else navigate(newDocId ? `/folio?tab=identity&char=${newDocId}` : '/folio');
             }}
             className="px-3 py-1.5 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-white rounded-lg text-xs font-mono font-bold uppercase shadow transition-all flex items-center gap-1.5"
           >
@@ -252,10 +252,10 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
               </p>
               <button
                 onClick={() => {
-                  handleNewCharacter();
-                  if (onOpenSheet) onOpenSheet();
+                  const newDocId = handleNewCharacter();
+                  if (onOpenSheet) onOpenSheet(newDocId);
                   else if (onOpenDrawer) onOpenDrawer('persona-sheet');
-                  else navigate('/folio');
+                  else navigate(newDocId ? `/folio?tab=identity&char=${newDocId}` : '/folio');
                 }}
                 className="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-500 text-white font-mono text-xs font-bold uppercase rounded-lg shadow inline-flex items-center gap-1.5"
               >

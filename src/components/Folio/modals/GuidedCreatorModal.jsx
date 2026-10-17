@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useFolio } from '../../../context/FolioContext';
+import { useAuth } from '../../../context/AuthContext';
 import { showToast } from '../../../context/ToastContext';
 import { db } from '../../../firebase';
 import { collection, getDocs } from 'firebase/firestore';
@@ -7,7 +8,7 @@ import {
   X, ChevronRight, ChevronLeft, Check, Search, Shield, Target, User, Sparkles, BookOpen, 
   Layers, Plus, Compass, Dna, Bot, RefreshCw, Wand2, ArrowRight, Zap,
   Briefcase, Sword, Package, Boxes, Scale, Trash2, Minus, Building2,
-  Tag, AlertTriangle, Info, CheckCircle2, Sliders, HelpCircle
+  Tag, AlertTriangle, Info, CheckCircle2, Sliders, HelpCircle, Cloud, CloudOff
 } from 'lucide-react';
 import { DEFAULT_SKILLS } from '../../../data/skillsData';
 import { DEFAULT_FEATURES, FEATURE_CATEGORIES } from '../../../data/featuresData';
@@ -48,6 +49,11 @@ import {
   formatWeightWithConversion,
   getWeightConversion
 } from '../../../engines/tangentMeasurementEngine';
+import { 
+  calculateCreditValue, 
+  calculateDCFromCredits, 
+  resolveItemCostDC 
+} from '../../../engines/tangentEconEngine';
 import { formatSpeciesTrait, getInherentSpeciesTraits } from '../../../utils/speciesDisplayUtils';
 
 /**
@@ -248,9 +254,11 @@ const fetchCollectionWithFallback = async (primaryPath, fallbackPath) => {
 
 const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
   const { applyGuidedCharacter } = useFolio();
+  const { currentUser, userHandle, loginWithGoogle } = useAuth();
   const [currentStep, setCurrentStep] = useState(0);
   const [draft, setDraft] = useState(INITIAL_DRAFT);
   const [bpRemaining, setBpRemaining] = useState(150);
+  const [isFinalizing, setIsFinalizing] = useState(false);
 
   // BASTION Auto-Synthesizer state
   const [bastionPrompt, setBastionPrompt] = useState('');
@@ -282,7 +290,10 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
     category: 'gear',
     qty: 1,
     weight: 0.5,
-    cost: 50,
+    craft_dc: 10,
+    purchase_dc: 10,
+    cost: 160,
+    credit_value: 160,
     notes: '',
     tl: 3,
     ml: 0,
@@ -828,21 +839,39 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
       payload[`skill-${cleanId}-name`] = sName;
     });
 
-    const syncedPayload = syncIdentitySettingLevels(payload, dbData);
-    const success = await applyGuidedCharacter(syncedPayload);
-    if (success) {
-      onClose();
-      if (onCharacterCreated) {
-        onCharacterCreated(docId);
+    setIsFinalizing(true);
+    try {
+      const syncedPayload = syncIdentitySettingLevels(payload, dbData);
+      const success = await applyGuidedCharacter(syncedPayload);
+      if (success) {
+        onClose();
+        if (onCharacterCreated) {
+          onCharacterCreated(docId);
+        }
+        setTimeout(() => {
+          setCurrentStep(0);
+          setDraft(INITIAL_DRAFT);
+          setSelectedSpeciesObj(null);
+          setSelectedArchetypeObj(null);
+          setChassisApplied(false);
+          setBastionSynthesisReport(null);
+        }, 300);
+      } else {
+        showToast({
+          type: 'error',
+          title: 'Deployment Failed',
+          message: 'Unable to save operative dossier to Folio. Please verify persona details and try again.'
+        });
       }
-      setTimeout(() => {
-        setCurrentStep(0);
-        setDraft(INITIAL_DRAFT);
-        setSelectedSpeciesObj(null);
-        setSelectedArchetypeObj(null);
-        setChassisApplied(false);
-        setBastionSynthesisReport(null);
-      }, 300);
+    } catch (err) {
+      console.error('[GuidedCreatorModal] handleFinish error:', err);
+      showToast({
+        type: 'error',
+        title: 'Deployment Error',
+        message: err.message || 'An error occurred during Cloud & Folio deployment.'
+      });
+    } finally {
+      setIsFinalizing(false);
     }
   };
 
@@ -1335,14 +1364,28 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
       const existing = typeof currentList[existingIndex] === 'object' ? { ...currentList[existingIndex] } : { name: currentList[existingIndex] };
       existing.qty = (parseInt(existing.qty || existing.quantity || 1, 10)) + 1;
       currentList[existingIndex] = existing;
-    } else {
+      const costCr = parseInt(item.cost ?? item.price ?? item.credit_value ?? item.costs?.credits ?? 50, 10) || 0;
+      const dcVal = item.craft_dc !== undefined && item.craft_dc !== null && item.craft_dc !== ''
+        ? parseInt(item.craft_dc, 10)
+        : (item.purchase_dc !== undefined && item.purchase_dc !== null && item.purchase_dc !== ''
+          ? parseInt(item.purchase_dc, 10)
+          : calculateDCFromCredits(costCr));
+
       currentList.push({
         id: item.id || `prop_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
         name: item.name || item.id || 'Unnamed Item',
         category: category,
         qty: item.qty || 1,
         weight: parseFloat(item.weight ?? item.wt ?? item.mass ?? 0.5) || 0,
-        cost: parseInt(item.cost ?? item.price ?? 50, 10) || 0,
+        craft_dc: dcVal,
+        purchase_dc: dcVal,
+        cost: costCr,
+        credit_value: costCr,
+        costs: {
+          credits: costCr,
+          bp: 0,
+          cp: 0
+        },
         tl: item.tl || item.tech_level || 3,
         ml: item.ml || item.meta_level || 0,
         recommended_tl: normalizeChipList(item.recommended_tl),
@@ -1392,13 +1435,26 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
     const catKey = cat === 'weaponry' ? 'weapons' : cat === 'armoring' ? 'armor' : cat === 'mech' ? 'mecha' : cat;
     const currentList = Array.isArray(draft[catKey]) ? [...draft[catKey]] : [];
 
+    const costCr = Math.max(0, parseInt(customPropertyForm.cost, 10) || 0);
+    const dcVal = customPropertyForm.craft_dc !== undefined && customPropertyForm.craft_dc !== ''
+      ? Math.max(0, parseInt(customPropertyForm.craft_dc, 10) || 0)
+      : calculateDCFromCredits(costCr);
+
     currentList.push({
       id: `prop_custom_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
       name: customPropertyForm.name.trim(),
       category: cat,
       qty: Math.max(1, parseInt(customPropertyForm.qty, 10) || 1),
       weight: Math.max(0, parseFloat(customPropertyForm.weight) || 0),
-      cost: Math.max(0, parseInt(customPropertyForm.cost, 10) || 0),
+      craft_dc: dcVal,
+      purchase_dc: dcVal,
+      cost: costCr,
+      credit_value: costCr,
+      costs: {
+        credits: costCr,
+        bp: 0,
+        cp: 0
+      },
       tl: Math.min(5, Math.max(0, parseInt(customPropertyForm.tl, 10) || 3)),
       ml: Math.min(5, Math.max(0, parseInt(customPropertyForm.ml, 10) || 0)),
       recommended_tl: normalizeChipList(customPropertyForm.recommended_tl),
@@ -1415,7 +1471,10 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
       category: cat,
       qty: 1,
       weight: 0.5,
-      cost: 50,
+      craft_dc: 10,
+      purchase_dc: 10,
+      cost: 160,
+      credit_value: 160,
       notes: '',
       tl: 3,
       ml: 0,
@@ -1430,12 +1489,12 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
 
   const handleAddStarterKit = () => {
     const starterItems = [
-      { cat: 'weapons', name: 'Laser Pistol', weight: 3, cost: 500, tl: 3, damage: '2d6 Energy', description: 'Standard military and civilian directed-energy sidearm.' },
-      { cat: 'armor', name: 'Ballistic Mesh Vest', weight: 6, cost: 450, tl: 3, armor: 'AV 3', description: 'Flexible ballistic fiber torso protection against kinetic and energy lacerations.' },
-      { cat: 'gear', name: 'Standard Field Commlink', weight: 0.5, cost: 150, tl: 3, description: 'Secure multi-band planetary communicator and micro-data slate.' },
-      { cat: 'gear', name: 'Trauma Medkit', weight: 2, cost: 250, tl: 3, description: 'Emergency surgical foam, dermal sealants, and biomonitor injector.' },
-      { cat: 'gear', name: 'Omni-Tool Utility Rig', weight: 1.5, cost: 200, tl: 3, description: 'High-frequency rotary head, laser welder, and micro-diagnostics scanner.' },
-      { cat: 'other', name: 'Emergency Ration Packs (x7)', weight: 3.5, qty: 7, cost: 70, tl: 3, description: 'Standard high-nutrient compact planetary survival paste.' }
+      { cat: 'weapons', name: 'Laser Pistol', weight: 3, craft_dc: 14, purchase_dc: 14, cost: 500, credit_value: 500, tl: 3, damage: '2d6 Energy', description: 'Standard military and civilian directed-energy sidearm.' },
+      { cat: 'armor', name: 'Ballistic Mesh Vest', weight: 6, craft_dc: 14, purchase_dc: 14, cost: 450, credit_value: 450, tl: 3, armor: 'AV 3', description: 'Flexible ballistic fiber torso protection against kinetic and energy lacerations.' },
+      { cat: 'gear', name: 'Standard Field Commlink', weight: 0.5, craft_dc: 10, purchase_dc: 10, cost: 150, credit_value: 150, tl: 3, description: 'Secure multi-band planetary communicator and micro-data slate.' },
+      { cat: 'gear', name: 'Trauma Medkit', weight: 2, craft_dc: 12, purchase_dc: 12, cost: 250, credit_value: 250, tl: 3, description: 'Emergency surgical foam, dermal sealants, and biomonitor injector.' },
+      { cat: 'gear', name: 'Omni-Tool Utility Rig', weight: 1.5, craft_dc: 11, purchase_dc: 11, cost: 200, credit_value: 200, tl: 3, description: 'High-frequency rotary head, laser welder, and micro-diagnostics scanner.' },
+      { cat: 'other', name: 'Emergency Ration Packs (x7)', weight: 3.5, qty: 7, craft_dc: 7, purchase_dc: 7, cost: 70, credit_value: 70, tl: 3, description: 'Standard high-nutrient compact planetary survival paste.' }
     ];
 
     setDraft(prev => {
@@ -4141,7 +4200,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                   <option value="other">Other Property (other)</option>
                 </select>
               </div>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 <div>
                   <label className="text-[11px] text-slate-400 block mb-1">Qty</label>
                   <input
@@ -4149,7 +4208,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                     min="1"
                     value={customPropertyForm.qty}
                     onChange={e => setCustomPropertyForm(p => ({ ...p, qty: e.target.value }))}
-                    className="w-full bg-slate-950 border border-slate-700 rounded p-1.5 text-white outline-none focus:border-cyan-500 text-center font-mono"
+                    className="w-full bg-slate-950 border border-slate-700 rounded p-1.5 text-white outline-none focus:border-cyan-500 text-center font-mono text-xs"
                   />
                 </div>
                 <div>
@@ -4160,17 +4219,59 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                     min="0"
                     value={customPropertyForm.weight}
                     onChange={e => setCustomPropertyForm(p => ({ ...p, weight: e.target.value }))}
-                    className="w-full bg-slate-950 border border-slate-700 rounded p-1.5 text-white outline-none focus:border-cyan-500 text-center font-mono"
+                    className="w-full bg-slate-950 border border-slate-700 rounded p-1.5 text-white outline-none focus:border-cyan-500 text-center font-mono text-xs"
                   />
                 </div>
                 <div>
-                  <label className="text-[11px] text-slate-400 block mb-1">Cost (Cr)</label>
+                  <label className="text-[11px] text-cyan-400 font-bold block mb-1" title="Crafting DC = Purchase DC = Cost DC">Craft/Buy DC</label>
                   <input
                     type="number"
                     min="0"
-                    value={customPropertyForm.cost}
-                    onChange={e => setCustomPropertyForm(p => ({ ...p, cost: e.target.value }))}
-                    className="w-full bg-slate-950 border border-slate-700 rounded p-1.5 text-white outline-none focus:border-cyan-500 text-center font-mono"
+                    value={customPropertyForm.craft_dc !== undefined ? customPropertyForm.craft_dc : ''}
+                    onChange={e => {
+                      const val = e.target.value;
+                      if (val === '') {
+                        setCustomPropertyForm(p => ({ ...p, craft_dc: '', purchase_dc: '' }));
+                      } else {
+                        const dcNum = parseInt(val, 10);
+                        const crVal = !isNaN(dcNum) ? calculateCreditValue(dcNum) : 0;
+                        setCustomPropertyForm(p => ({
+                          ...p,
+                          craft_dc: dcNum,
+                          purchase_dc: dcNum,
+                          cost: crVal,
+                          credit_value: crVal
+                        }));
+                      }
+                    }}
+                    className="w-full bg-slate-950 border border-slate-700 rounded p-1.5 text-cyan-300 outline-none focus:border-cyan-500 text-center font-mono text-xs"
+                    title="Crafting DC = Purchase DC = Cost DC"
+                  />
+                </div>
+                <div>
+                  <label className="text-[11px] text-amber-400 font-bold block mb-1" title="Tangent Standard Curve Credit Value">Cost (Cr)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={customPropertyForm.cost !== undefined ? customPropertyForm.cost : ''}
+                    onChange={e => {
+                      const val = e.target.value;
+                      if (val === '') {
+                        setCustomPropertyForm(p => ({ ...p, cost: '', credit_value: '' }));
+                      } else {
+                        const crNum = parseInt(val, 10);
+                        const dcVal = !isNaN(crNum) ? calculateDCFromCredits(crNum) : 0;
+                        setCustomPropertyForm(p => ({
+                          ...p,
+                          cost: crNum,
+                          credit_value: crNum,
+                          craft_dc: dcVal,
+                          purchase_dc: dcVal
+                        }));
+                      }
+                    }}
+                    className="w-full bg-slate-950 border border-slate-700 rounded p-1.5 text-amber-300 outline-none focus:border-cyan-500 text-center font-mono text-xs"
+                    title="Cost in Credits (Cr)"
                   />
                 </div>
               </div>
@@ -4332,6 +4433,8 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
 
                   const itemTL = parseInt(item.tl || item.tech_level || 3, 10);
                   const itemML = parseInt(item.ml || item.meta_level || 0, 10);
+                  const itemDC = resolveItemCostDC(item);
+                  const itemCr = parseInt(item.cost || item.price || item.credit_value || 0, 10) || calculateCreditValue(itemDC);
                   const recTL = item.recommended_tl || item.tl || '2, 3';
                   const recML = item.recommended_ml || item.ml || '0';
                   const exceedsTL = itemTL > (draft.technologyLevel ?? 3);
@@ -4357,6 +4460,9 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                         <div className="min-w-0 flex-1">
                           <div className="font-bold text-slate-200 flex items-center gap-1.5 flex-wrap">
                             <span>{item.name || item.id}</span>
+                            <span className="text-[9px] font-mono text-cyan-300 bg-cyan-950/80 px-1.5 py-0.5 rounded border border-cyan-800" title={`Crafting/Purchase DC: ${itemDC}`}>
+                              DC {itemDC}
+                            </span>
                             <span className="text-[9px] font-mono text-cyan-400 bg-cyan-950/80 px-1.5 py-0.5 rounded border border-cyan-800">
                               TL{itemTL}
                             </span>
@@ -4438,8 +4544,11 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                         </div>
 
                         <div className="text-right shrink-0">
+                          <span className="font-mono font-bold text-cyan-400 text-[11px] block" title="Crafting & Purchase DC">
+                            DC {itemDC}
+                          </span>
                           <span className="font-mono font-bold text-amber-300 text-xs block">
-                            {(parseInt(item.cost || item.price || 0, 10)).toLocaleString()} Cr
+                            {itemCr.toLocaleString()} Cr
                           </span>
                           <span className="font-mono text-[10px] text-slate-400 block">
                             {parseFloat(item.weight || item.wt || 0) || 0} lbs
@@ -4512,7 +4621,8 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                           const itemName = typeof item === 'object' ? (item.name || item.id || 'Item') : String(item);
                           const qty = parseInt(item.qty || item.quantity || 1, 10) || 1;
                           const wt = parseFloat(item.weight || item.wt || 0) || 0;
-                          const cost = parseInt(item.cost || item.price || 0, 10) || 0;
+                          const itemDC = resolveItemCostDC(item);
+                          const cost = parseInt(item.cost || item.price || item.credit_value || 0, 10) || calculateCreditValue(itemDC);
                           const totalWt = Math.round(wt * qty * 10) / 10;
                           const totalCost = cost * qty;
 
@@ -4524,6 +4634,9 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                               <div className="flex-1 min-w-0">
                                 <div className="font-bold text-slate-200 truncate flex items-center gap-1.5">
                                   <span>{itemName}</span>
+                                  <span className="text-[9px] font-mono text-cyan-300 bg-cyan-950/80 px-1 rounded border border-cyan-800" title={`Crafting/Purchase DC: ${itemDC}`}>
+                                    DC {itemDC}
+                                  </span>
                                   {item.tl !== undefined && (
                                     <span className="text-[9px] font-mono text-cyan-400 bg-cyan-950/60 px-1 rounded">
                                       TL{item.tl}
@@ -4533,6 +4646,8 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                                 <div className="text-[10px] text-slate-400 font-mono flex items-center gap-2 mt-0.5">
                                   <span>{totalWt} lbs</span>
                                   {qty > 1 && <span className="text-slate-500">({wt} ea)</span>}
+                                  <span>•</span>
+                                  <span className="text-cyan-300 font-semibold">DC {itemDC}</span>
                                   <span>•</span>
                                   <span className="text-amber-300 font-semibold">{totalCost.toLocaleString()} Cr</span>
                                   {item.damage && <span className="text-red-400">⚔️ {item.damage}</span>}
@@ -4643,6 +4758,44 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
           <h3 className="text-2xl font-black text-emerald-400 uppercase tracking-widest">Initialization Matrix Complete</h3>
           <p className="text-slate-400 mt-1 text-sm">Review your persona parameters before deploying to the Persona Folio.</p>
         </div>
+        
+        {/* Cloud Persistence Readiness Status */}
+        {currentUser?.uid ? (
+          <div className="flex items-center justify-between p-3.5 rounded-xl border border-emerald-500/40 bg-gradient-to-r from-emerald-950/60 via-slate-900 to-emerald-950/40 text-emerald-200 text-xs font-mono shadow-md">
+            <div className="flex items-center gap-2.5">
+              <Cloud size={18} className="text-emerald-400 shrink-0" />
+              <div>
+                <span className="font-bold text-white block">Terran Net Cloud Vault Ready</span>
+                <span className="text-slate-300 text-[11px]">
+                  Authenticated as <span className="text-emerald-300 font-bold">{userHandle ? `@${userHandle}` : (currentUser.displayName || currentUser.email)}</span>. Finalizing will persist this operative directly to Cloud Storage and your local Roster.
+                </span>
+              </div>
+            </div>
+            <span className="px-2.5 py-1 rounded bg-emerald-900/80 border border-emerald-500/50 text-[10px] uppercase font-bold text-emerald-300 shrink-0 shadow-xs flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              Cloud Sync Active
+            </span>
+          </div>
+        ) : (
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-xl border border-amber-500/40 bg-gradient-to-r from-amber-950/60 via-slate-900 to-amber-950/40 text-amber-200 text-xs font-mono shadow-md">
+            <div className="flex items-center gap-2.5">
+              <CloudOff size={18} className="text-amber-400 shrink-0" />
+              <div>
+                <span className="font-bold text-white block">Local Storage Mode</span>
+                <span className="text-slate-300 text-[11px]">
+                  Sign in with Google to enable cross-device cloud persistence and save directly to Terran Net Cloud Storage.
+                </span>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={loginWithGoogle}
+              className="px-3.5 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-lg uppercase text-[11px] shrink-0 transition-colors shadow-xs cursor-pointer flex items-center gap-1.5"
+            >
+              <span>Sign In with Google</span>
+            </button>
+          </div>
+        )}
         
         <div className="bg-slate-900/80 border border-slate-700 p-6 rounded-xl space-y-5 shadow-xl flex-1 overflow-y-auto pr-2">
           <div className="grid grid-cols-2 gap-4 border-b border-slate-800 pb-4">
@@ -5250,9 +5403,10 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                 ) : (
                   <button
                     onClick={handleFinish}
-                    className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-bold uppercase tracking-wider text-xs shadow-[0_0_15px_rgba(16,185,129,0.3)] transition-all flex items-center gap-2 cursor-pointer"
+                    disabled={isFinalizing}
+                    className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-bold uppercase tracking-wider text-xs shadow-[0_0_15px_rgba(16,185,129,0.3)] transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <Check size={16} /> Finalize & Deploy to Folio
+                    <Check size={16} /> {isFinalizing ? 'Saving to Cloud & Folio...' : currentUser?.uid ? 'Finalize & Save to Cloud' : 'Finalize & Deploy to Folio'}
                   </button>
                 )}
               </div>

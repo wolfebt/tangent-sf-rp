@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="100%" height="100%">
+  <defs>
+    <!-- Cyan Globe Atmospheric Glow -->
+    <radialGradient id="atmoGlow2" cx="50%" cy="50%" r="50%">
+      <stop offset="65%" stop-color="#22d3ee" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#0891b2" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Cyan Globe Spherical Surface -->
+    <radialGradient id="globeGrad2" cx="36%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#cffafe" />
+      <stop offset="20%" stop-color="#38bdf8" />
+      <stop offset="55%" stop-color="#06b6d4" />
+      <stop offset="85%" stop-color="#0891b2" />
+      <stop offset="100%" stop-color="#083344" />
+    </radialGradient>
+
+    <!-- Globe Sphere 3D Shadow Crescent -->
+    <radialGradient id="sphereShadow2" cx="72%" cy="75%" r="65%">
+      <stop offset="0%" stop-color="#021526" stop-opacity="0.9" />
+      <stop offset="55%" stop-color="#021526" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#021526" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Silver Ring Gradient -->
+    <linearGradient id="silverRingGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#94a3b8" />
+      <stop offset="16%" stop-color="#ffffff" />
+      <stop offset="35%" stop-color="#cbd5e1" />
+      <stop offset="50%" stop-color="#475569" />
+      <stop offset="68%" stop-color="#f8fafc" />
+      <stop offset="86%" stop-color="#94a3b8" />
+      <stop offset="100%" stop-color="#334155" />
+    </linearGradient>
+
+    <!-- Silver Ring Highlight -->
+    <linearGradient id="silverHighlight2" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95" />
+      <stop offset="45%" stop-color="#e2e8f0" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#475569" stop-opacity="0.9" />
+    </linearGradient>
+
+    <!-- Text Silver Gradient -->
+    <linearGradient id="silverText2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="40%" stop-color="#f1f5f9" />
+      <stop offset="70%" stop-color="#cbd5e1" />
+      <stop offset="100%" stop-color="#94a3b8" />
+    </linearGradient>
+
+    <radialGradient id="ringShadowOnBack2" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+    </radialGradient>
+
+    <clipPath id="globeClip2">
+      <circle cx="128" cy="98" r="60" />
+    </clipPath>
+  </defs>
+
+  <!-- Outer Atmospheric Halo -->
+  <circle cx="128" cy="98" r="74" fill="url(#atmoGlow2)" />
+
+  <!-- Tilted System Group (Planet Center at 128, 98; Tilted -20 deg) -->
+  <g id="planetarySystem">
+    <!-- 1. BACK SECTION OF SILVER RINGS (y <= 98) -->
+    <g transform="rotate(-20 128 98)">
+      <g clip-path="polygon(0 0, 256 0, 256 98, 0 98)">
+        <!-- Outer Telemetry Trace -->
+        <ellipse cx="128" cy="98" rx="122" ry="36" fill="none" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.35" stroke-dasharray="8 5" />
+        <!-- Main Silver Ring -->
+        <ellipse cx="128" cy="98" rx="114" ry="33" fill="none" stroke="url(#silverRingGrad2)" stroke-width="14" />
+        <!-- Cassini Division -->
+        <ellipse cx="128" cy="98" rx="107" ry="31" fill="none" stroke="#020617" stroke-width="2" />
+        <!-- Secondary Inner Silver Ring -->
+        <ellipse cx="128" cy="98" rx="97" ry="27.5" fill="none" stroke="url(#silverHighlight2)" stroke-width="6" />
+        <!-- Innermost Silver Ringlet -->
+        <ellipse cx="128" cy="98" rx="84" ry="23" fill="none" stroke="#f1f5f9" stroke-width="2.5" stroke-opacity="0.6" />
+        <!-- Shadow cast by planet onto rear ring -->
+        <ellipse cx="138" cy="94" rx="42" ry="24" fill="url(#ringShadowOnBack2)" />
+      </g>
+    </g>
+
+    <!-- 2. CYAN GLOBE (PLANET BODY) -->
+    <circle cx="128" cy="98" r="60" fill="url(#globeGrad2)" />
+
+    <!-- Planetary Surface Bands & Atmosphere (Clipped) -->
+    <g clip-path="url(#globeClip2)">
+      <!-- Latitude Bands -->
+      <path d="M 50 82 Q 128 106 206 82 Q 128 94 50 82 Z" fill="#a5f3fc" fill-opacity="0.3" />
+      <path d="M 54 104 Q 128 128 202 104 Q 128 116 54 104 Z" fill="#0891b2" fill-opacity="0.4" />
+      <path d="M 62 124 Q 128 144 194 124 Q 128 134 62 124 Z" fill="#67e8f9" fill-opacity="0.25" />
+      <!-- North Polar Frost -->
+      <ellipse cx="128" cy="46" rx="34" ry="10" fill="#e0f2fe" fill-opacity="0.3" />
+      <!-- Ring Shadow onto Globe Surface -->
+      <path d="M 68 90 Q 128 108 188 90 Q 128 100 68 90 Z" fill="#021526" fill-opacity="0.55" />
+      <!-- 3D Spherical Shadow -->
+      <circle cx="128" cy="98" r="60" fill="url(#sphereShadow2)" />
+      <!-- Specular Rim -->
+      <circle cx="128" cy="98" r="59" fill="none" stroke="#e0f2fe" stroke-width="2" stroke-opacity="0.7" />
+    </g>
+
+    <!-- 3. FRONT SECTION OF SILVER RINGS (y > 98) -->
+    <g transform="rotate(-20 128 98)">
+      <g clip-path="polygon(0 98, 256 98, 256 256, 0 256)">
+        <!-- Outer Telemetry Trace -->
+        <ellipse cx="128" cy="98" rx="122" ry="36" fill="none" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.35" stroke-dasharray="8 5" />
+        <!-- Main Silver Ring -->
+        <ellipse cx="128" cy="98" rx="114" ry="33" fill="none" stroke="url(#silverRingGrad2)" stroke-width="14" />
+        <!-- Gleaming Specular Edge -->
+        <ellipse cx="128" cy="98" rx="120" ry="34.8" fill="none" stroke="#ffffff" stroke-width="1.2" stroke-opacity="0.9" />
+        <!-- Cassini Division -->
+        <ellipse cx="128" cy="98" rx="107" ry="31" fill="none" stroke="#020617" stroke-width="2" />
+        <!-- Secondary Inner Silver Ring -->
+        <ellipse cx="128" cy="98" rx="97" ry="27.5" fill="none" stroke="url(#silverHighlight2)" stroke-width="6" />
+        <!-- Innermost Silver Ringlet -->
+        <ellipse cx="128" cy="98" rx="84" ry="23" fill="none" stroke="#f1f5f9" stroke-width="2.5" stroke-opacity="0.6" />
+      </g>
+    </g>
+  </g>
+
+  <!-- 4. "TANGENT" BRANDING -->
+  <g id="brandLabel" transform="translate(0, 10)">
+    <!-- High contrast backing plate for cross-browser / light-and-dark visibility -->
+    <rect x="22" y="186" width="212" height="42" rx="10" fill="#030712" fill-opacity="0.88" stroke="#38bdf8" stroke-width="1.5" />
+    
+    <!-- Corner Sci-Fi Tech Accents on Plate -->
+    <line x1="28" y1="192" x2="38" y2="192" stroke="#22d3ee" stroke-width="1.5" />
+    <line x1="28" y1="192" x2="28" y2="202" stroke="#22d3ee" stroke-width="1.5" />
+    <line x1="228" y1="192" x2="218" y2="192" stroke="#22d3ee" stroke-width="1.5" />
+    <line x1="228" y1="192" x2="228" y2="202" stroke="#22d3ee" stroke-width="1.5" />
+    <line x1="28" y1="222" x2="38" y2="222" stroke="#22d3ee" stroke-width="1.5" />
+    <line x1="28" y1="222" x2="28" y2="212" stroke="#22d3ee" stroke-width="1.5" />
+    <line x1="228" y1="222" x2="218" y2="222" stroke="#22d3ee" stroke-width="1.5" />
+    <line x1="228" y1="222" x2="228" y2="212" stroke="#22d3ee" stroke-width="1.5" />
+
+    <!-- Cyan Indicator Pips -->
+    <circle cx="44" cy="207" r="3" fill="#22d3ee" />
+    <circle cx="212" cy="207" r="3" fill="#22d3ee" />
+
+    <!-- "TANGENT" Bold High-Legibility Text -->
+    <text
+      x="128"
+      y="218"
+      text-anchor="middle"
+      fill="url(#silverText2)"
+      font-family="'Orbitron', 'Inter', system-ui, -apple-system, sans-serif"
+      font-size="28"
+      font-weight="900"
+      letter-spacing="5"
+      style="text-transform: uppercase;"
+    >TANGENT</text>
+  </g>
+</svg>

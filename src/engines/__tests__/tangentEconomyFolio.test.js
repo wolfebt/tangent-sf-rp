@@ -751,6 +751,126 @@ describe('Tangent SF RP — Folio CP Economy & Species Package Asset Accounting'
     });
   });
 
+  describe('Personal Property CP Exemption, DC & Credit Valuation', () => {
+    it('does NOT charge CP for weapons, armor, gear, mecha, architecture, or other property', () => {
+      const char = {
+        'starting-cp': 150,
+        'weapons': [
+          { name: 'Laser Pistol', cost: 500, tl: 3, damage: '2d6 Energy' }
+        ],
+        'armor': [
+          { name: 'Ballistic Mesh Vest', cost: 450, tl: 3, armor: 'AV 3' }
+        ],
+        'gear': [
+          { name: 'Standard Field Commlink', cost: 150, tl: 3 },
+          { name: 'Trauma Medkit', cost: 250, tl: 3 },
+          { name: 'Omni-Tool Utility Rig', cost: 200, tl: 3 }
+        ],
+        'other': [
+          { name: 'Emergency Ration Packs (x7)', cost: 70, tl: 3, qty: 7 }
+        ],
+        'mecha': [
+          { name: 'Cycle (Rugged Wilderness)', cost: 20, tl: 1 }
+        ],
+        'architecture': [
+          { name: 'Armory Facility Module', cost: 2000, tl: 3 }
+        ]
+      };
+
+      const breakdown = computeEconomyBreakdown(char);
+
+      // Property NEVER costs CP!
+      assert.strictEqual(breakdown.equipmentCost, 0, 'Equipment CP cost must strictly be 0 CP');
+      assert.strictEqual(breakdown.spentCP, 0, 'Total spent CP must be 0 for a character who only has property');
+      assert.strictEqual(breakdown.remainingCP, 150, 'Remaining CP should remain 150');
+
+      // Verify all items are recorded with costVal 0, '0 CP', and marked with DC and Cr
+      const laserPistol = breakdown.itemizedList.find(i => i.item === 'Laser Pistol');
+      assert.ok(laserPistol);
+      assert.strictEqual(laserPistol.category, 'Weaponry');
+      assert.strictEqual(laserPistol.costVal, 0);
+      assert.strictEqual(laserPistol.cost, '0 CP');
+      assert.strictEqual(laserPistol.val, 'DC 14 • 500 Cr');
+      assert.strictEqual(laserPistol.creditVal, 500);
+      assert.strictEqual(laserPistol.dc, 14);
+
+      const commlink = breakdown.itemizedList.find(i => i.item === 'Standard Field Commlink');
+      assert.ok(commlink);
+      assert.strictEqual(commlink.category, 'Gear');
+      assert.strictEqual(commlink.costVal, 0);
+      assert.strictEqual(commlink.cost, '0 CP');
+      assert.strictEqual(commlink.val, 'DC 10 • 150 Cr');
+      assert.strictEqual(commlink.creditVal, 150);
+      assert.strictEqual(commlink.dc, 10);
+
+      const vest = breakdown.itemizedList.find(i => i.item === 'Ballistic Mesh Vest');
+      assert.ok(vest);
+      assert.strictEqual(vest.category, 'Armoring');
+      assert.strictEqual(vest.costVal, 0);
+      assert.strictEqual(vest.cost, '0 CP');
+      assert.strictEqual(vest.val, 'DC 14 • 450 Cr');
+
+      const rations = breakdown.itemizedList.find(i => i.item === 'Emergency Ration Packs (x7)');
+      assert.ok(rations);
+      assert.strictEqual(rations.category, 'Other Property');
+      assert.strictEqual(rations.costVal, 0);
+      assert.strictEqual(rations.cost, '0 CP');
+      assert.strictEqual(rations.val, 'DC 7 • 70 Cr');
+    });
+
+    it('respects pre-existing explicit craft_dc and purchase_dc on property items', () => {
+      const char = {
+        'starting-cp': 150,
+        'weapons': [
+          { name: 'Custom Rail Rifle', craft_dc: 18, purchase_dc: 18, cost: 800 }
+        ]
+      };
+      const breakdown = computeEconomyBreakdown(char);
+      const rifle = breakdown.itemizedList.find(i => i.item === 'Custom Rail Rifle');
+      assert.ok(rifle);
+      assert.strictEqual(rifle.dc, 18);
+      assert.strictEqual(rifle.val, 'DC 18 • 800 Cr');
+      assert.strictEqual(rifle.cost, '0 CP');
+      assert.strictEqual(breakdown.spentCP, 0);
+    });
+
+    it('verifies all 6 property categories calculate DC and Credits with 0 CP charge', () => {
+      const char = {
+        'starting-cp': 150,
+        'weapons': [{ name: 'Plasma Carbine', cost: 1600 }],
+        'armor': [{ name: 'Titanium Weave Suit', cost: 640 }],
+        'gear': [{ name: 'Field Medkit', cost: 250 }],
+        'mecha': [{ name: 'Scout Hovercraft', cost: 40960 }],
+        'architecture': [{ name: 'Safehouse Apartment', cost: 10240 }],
+        'other': [{ name: 'Nanite Repair Gel', cost: 160 }]
+      };
+      const breakdown = computeEconomyBreakdown(char);
+      assert.strictEqual(breakdown.equipmentCost, 0);
+      assert.strictEqual(breakdown.spentCP, 0);
+      assert.strictEqual(breakdown.remainingCP, 150);
+
+      const itemsToCheck = [
+        { name: 'Plasma Carbine', cat: 'Weaponry', dc: 18, cr: 1600 },
+        { name: 'Titanium Weave Suit', cat: 'Armoring', dc: 15, cr: 640 },
+        { name: 'Field Medkit', cat: 'Gear', dc: 12, cr: 250 },
+        { name: 'Scout Hovercraft', cat: 'Mecha', dc: 30, cr: 40960 },
+        { name: 'Safehouse Apartment', cat: 'Architecture', dc: 25, cr: 10240 },
+        { name: 'Nanite Repair Gel', cat: 'Other Property', dc: 10, cr: 160 }
+      ];
+
+      for (const t of itemsToCheck) {
+        const found = breakdown.itemizedList.find(i => i.item === t.name);
+        assert.ok(found, `Expected ${t.name} in itemized list`);
+        assert.strictEqual(found.category, t.cat);
+        assert.strictEqual(found.costVal, 0);
+        assert.strictEqual(found.cost, '0 CP');
+        assert.strictEqual(found.dc, t.dc);
+        assert.strictEqual(found.creditVal, t.cr);
+        assert.strictEqual(found.val, `DC ${t.dc} • ${t.cr.toLocaleString()} Cr`);
+      }
+    });
+  });
+
 });
 
 

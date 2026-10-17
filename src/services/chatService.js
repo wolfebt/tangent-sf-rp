@@ -18,6 +18,7 @@ import { auth, db } from '../firebase.js';
 import { StorageService } from './storageService.js';
 import { 
   getFolioTombstones, 
+  addFolioTombstone,
   isFolioPersonaDeleted, 
   isPersonaEmptyTemplate, 
   getEffectiveUserHandle 
