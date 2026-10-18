@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, MessageSquare, Plus, Maximize2, Radio, Users, Lock, Shield, Hash, Settings, UserPlus } from 'lucide-react';
+import { X, MessageSquare, Plus, Maximize2, Radio, Users, Lock, Shield, Hash, Settings, UserPlus, BookOpen } from 'lucide-react';
 import { useChat } from '../../context/ChatContext';
 import { CommsNavRail } from '../Chat/CommsNavRail';
 import { ChannelSidebar } from '../Chat/ChannelSidebar';
@@ -9,6 +9,7 @@ import { PersonaAuditLogSidebar } from '../Chat/PersonaAuditLogSidebar';
 import { CommsVttPanel } from '../Chat/CommsVttPanel';
 import { MessageView } from '../Chat/MessageView';
 import { MessageInput } from '../Chat/MessageInput';
+import { ArchitectDocketBlock } from '../Chat/ArchitectDocketBlock';
 import { CreateChannelModal } from '../Chat/CreateChannelModal';
 import { GameGroupModal } from '../Groups/GameGroupModal';
 import { QuickTeamInviteModal } from '../Chat/QuickTeamInviteModal';
@@ -19,6 +20,7 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
   const { 
     activeChannel, 
+    activeChannelGroup,
     messages, 
     loadingMessages, 
     activeNavTab, 
@@ -28,6 +30,7 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
   const [isQuickInviteOpen, setIsQuickInviteOpen] = useState(false);
+  const [showDocket, setShowDocket] = useState(false);
   const [mobilePane, setMobilePane] = useState('chat'); // 'channels' | 'chat'
 
   // ESC key listener to close modal
@@ -84,7 +87,7 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
               </div>
             </div>
 
-            {/* Right: Controls (Mobile toggle, Teams, Maximize, Close) */}
+            {/* Right: Controls (Mobile toggle, Docket, Teams, Maximize, Close) */}
             <div className="flex items-center gap-1.5 shrink-0">
               {/* Mobile Channels / Chat Toggle */}
               <button
@@ -97,6 +100,24 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
               >
                 <Hash size={12} />
                 <span>{mobilePane === 'channels' ? 'CHAT' : 'CHANNELS'}</span>
+              </button>
+
+              {/* Tactical Docket Toggle */}
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1100, 0.02);
+                  setShowDocket(prev => !prev);
+                }}
+                className={`hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-mono font-bold border transition-all cursor-pointer ${
+                  showDocket
+                    ? 'bg-rose-950/90 text-rose-200 border-rose-400/80 shadow-sm'
+                    : 'bg-rose-950/30 hover:bg-rose-950/60 text-rose-300 border-rose-500/50'
+                }`}
+                title="Toggle Tactical Docket (Objectives & Visual Recon)"
+              >
+                <BookOpen size={13} />
+                <span>DOCKET</span>
               </button>
 
               {/* Quick Team Invite Button */}
@@ -243,6 +264,15 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
               />
               <MessageInput isCompact />
             </div>
+
+            {/* Collapsible Tactical Docket */}
+            {showDocket && (
+              <ArchitectDocketBlock
+                channel={activeChannel}
+                group={activeChannelGroup}
+                onClose={() => setShowDocket(false)}
+              />
+            )}
           </div>
         </div>
       </div>

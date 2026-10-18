@@ -132,7 +132,9 @@ service cloud.firestore {
       allow create: if isAuthenticated();
       allow update: if isAuthenticated() && (
         resource.data.creatorId == request.auth.uid 
+        || (resource.data.coArchitects != null && request.auth.uid in resource.data.coArchitects)
         || (resource.data.members != null && request.auth.uid in resource.data.members)
+        || (request.resource.data.members != null && request.auth.uid in request.resource.data.members && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['members', 'memberDetails', 'updatedAt', 'channelId']))
         || isAdmin()
       );
       allow delete: if isAuthenticated() && (resource.data.creatorId == request.auth.uid || isAdmin());
@@ -157,10 +159,14 @@ service cloud.firestore {
     match /lft_personas/{lftId} {
       allow read: if isAuthenticated();
       allow create, update: if isAuthenticated() && (
-        request.resource.data.userId == request.auth.uid || isAdmin()
+        request.resource.data.userId == request.auth.uid
+        || request.resource.data.operatorUid == request.auth.uid
+        || isAdmin()
       );
       allow delete: if isAuthenticated() && (
-        resource.data.userId == request.auth.uid || isAdmin()
+        resource.data.userId == request.auth.uid
+        || resource.data.operatorUid == request.auth.uid
+        || isAdmin()
       );
     }
 
@@ -239,6 +245,7 @@ service cloud.firestore {
                        || channelId.matches('public_.*')
                        || resource.data.createdById == request.auth.uid 
                        || (resource.data.members != null && request.auth.uid in resource.data.members)
+                       || ((channelId.matches('group_chan_.*') || channelId.matches('dm_.*')) && request.resource.data.members != null && request.auth.uid in request.resource.data.members)
                        || isAdmin()
                      );
       allow delete: if isAuthenticated() && (
@@ -259,7 +266,9 @@ service cloud.firestore {
                          || isAdmin()
                        ));
         allow create: if isAuthenticated() && (
-                         request.resource.data.senderId == request.auth.uid || isAdmin()
+                         request.resource.data.senderId == request.auth.uid
+                         || request.resource.data.senderId == 'system'
+                         || isAdmin()
                        ) && (
                          channelId.matches('public_.*')
                          || (exists(/databases/$(database)/documents/channels/$(channelId)) && (
@@ -270,7 +279,12 @@ service cloud.firestore {
                             ))
                          || isAdmin()
                        );
-        allow update, delete: if isAuthenticated() && (resource.data.senderId == request.auth.uid || isAdmin());
+        allow update: if isAuthenticated() && (
+                         resource.data.senderId == request.auth.uid
+                         || request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reactions', 'updatedAt', 'inviteStatus'])
+                         || isAdmin()
+                       );
+        allow delete: if isAuthenticated() && (resource.data.senderId == request.auth.uid || isAdmin());
       }
     }
 

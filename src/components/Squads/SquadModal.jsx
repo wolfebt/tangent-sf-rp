@@ -100,15 +100,21 @@ export const SquadModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
   };
 
   const handleSendInvite = async (targetUser) => {
-    if (!activeGroup || !currentUser) return;
+    if (!activeGroup || !currentUser || !targetUser) return;
+    const tUid = targetUser.uid || targetUser.userId || targetUser.id;
+    const tHandle = targetUser.userHandle || targetUser.handle || targetUser.displayName || 'Operator';
     try {
-      setInviteStatusMap(prev => ({ ...prev, [targetUser.uid]: 'sending' }));
-      await sendInvite(activeGroup.id, targetUser);
+      setInviteStatusMap(prev => ({ ...prev, [tUid]: 'sending' }));
+      await sendInvite({
+        groupId: activeGroup.id,
+        targetUserId: tUid,
+        targetUserHandle: tHandle
+      });
       AudioService.playTerminalBeep(1300, 0.03);
-      setInviteStatusMap(prev => ({ ...prev, [targetUser.uid]: 'sent' }));
+      setInviteStatusMap(prev => ({ ...prev, [tUid]: 'sent' }));
     } catch (err) {
       console.error('Send invite error:', err);
-      setInviteStatusMap(prev => ({ ...prev, [targetUser.uid]: 'error' }));
+      setInviteStatusMap(prev => ({ ...prev, [tUid]: 'error' }));
     }
   };
 

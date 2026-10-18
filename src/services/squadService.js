@@ -29,7 +29,87 @@ const generateInviteCode = () => {
   return result;
 };
 
+// Extract canonical enrolled character members from a group's memberDetails
+const buildCharacterMembersFromGroup = (groupData) => {
+  if (!groupData || !groupData.memberDetails) return [];
+  const list = [];
+  const seen = new Set();
+
+  Object.entries(groupData.memberDetails).forEach(([uid, detail]) => {
+    if (!detail || !detail.persona) return;
+    const p = detail.persona;
+    const pId = p.id || p['character-doc-id'] || p.docId || p.name;
+    if (!pId || seen.has(`${uid}_${pId}`)) return;
+    seen.add(`${uid}_${pId}`);
+
+    list.push({
+      id: pId,
+      'character-doc-id': pId,
+      name: p.name || p['char-name'] || 'Persona',
+      species: p.species || p['char-species'] || 'Human',
+      role: p.role || p['char-concept'] || p['char-occu'] || 'Specialist',
+      avatar: p.avatar || null,
+      health: p.health || 30,
+      currentHealth: p.currentHealth ?? p.current_health ?? 30,
+      vitality: p.vitality || 30,
+      currentVitality: p.currentVitality ?? p.current_vitality ?? 30,
+      locked: Boolean(p.locked || detail.isLockedForPlay),
+      ownerUid: uid,
+      ownerHandle: detail.handle || detail.userHandle || 'Operator',
+      squadRole: detail.role || (groupData.creatorId === uid ? 'Architect' : 'Operator')
+    });
+  });
+
+  return list;
+};
+
+// Sort Tactical Docket blocks: pinned items first, then newest first
+const sortArchitectBlocks = (blocks = []) => {
+  if (!Array.isArray(blocks)) return [];
+  return [...blocks].sort((a, b) => {
+    if (Boolean(a?.isPinned) !== Boolean(b?.isPinned)) {
+      return a?.isPinned ? -1 : 1;
+    }
+    const timeA = a?.createdAt ? new Date(a.createdAt).getTime() : 0;
+    const timeB = b?.createdAt ? new Date(b.createdAt).getTime() : 0;
+    return timeB - timeA;
+  });
+};
+
 export const SquadService = {
+  // Synchronize squad members & enrolled character personas onto the linked group channel
+  async syncChannelRoster(groupId, groupDataOverride = null) {
+    if (!groupId || !db) return;
+    try {
+      let groupData = groupDataOverride;
+      if (!groupData) {
+        const groupRef = doc(db, 'game_groups', groupId);
+        const snap = await getDoc(groupRef);
+        if (snap.exists()) {
+          groupData = { id: snap.id, ...snap.data() };
+        }
+      }
+      if (!groupData) return;
+
+      const channelId = groupData.channelId || `group_chan_${groupId}`;
+      const channelRef = doc(db, 'channels', channelId);
+      const memberUids = Array.from(new Set([
+        ...(Array.isArray(groupData.members) ? groupData.members : []),
+        groupData.creatorId,
+        ...(groupData.memberDetails ? Object.keys(groupData.memberDetails) : [])
+      ].filter(Boolean)));
+      const characterMembers = buildCharacterMembersFromGroup(groupData);
+
+      await updateDoc(channelRef, {
+        members: memberUids,
+        characterMembers,
+        updatedAt: serverTimestamp()
+      }).catch(() => {});
+    } catch (err) {
+      console.warn('[SquadService] syncChannelRoster warning:', err);
+    }
+  },
+
   // 1. Create a new Game Group and automatically provision a tied-in channel
   async createGroup({
     name,
@@ -64,6 +144,7 @@ export const SquadService = {
         name: persona['char-name'] || persona.name || 'Unnamed Persona',
         species: persona['char-species'] || persona.species || 'Human',
         role: persona['char-concept'] || persona['char-occu'] || persona.occupation || 'Specialist',
+        avatar: persona.avatar || null,
         health: persona.health || 30,
         currentHealth: persona.current_health ?? (persona.current_hp ?? 30),
         vitality: persona.vitality || 30,
@@ -113,6 +194,7 @@ export const SquadService = {
           displayName: `🛡️ ${cleanName}`,
           topic: `Default Active Team frequency for: ${cleanName}`,
           type: 'group',
+          addressingMode: 'persona',
           groupId: groupId,
           groupName: cleanName,
           isPublic: false,
@@ -120,6 +202,7 @@ export const SquadService = {
           createdAt: serverTimestamp(),
           updatedAt: serverTimestamp(),
           members: [currentUser.uid],
+          characterMembers: buildCharacterMembersFromGroup(groupData),
           lastMessage: {
             text: `Active Team Frequency initialized for ${cleanName}.`,
             senderHandle: 'SYSTEM RELAY',
@@ -164,6 +247,7 @@ export const SquadService = {
         group.creatorId,
         currentUser?.uid
       ].filter(Boolean)));
+      const characterMembers = buildCharacterMembersFromGroup(group);
 
       if (!snap.exists()) {
         const channelData = {
@@ -172,6 +256,7 @@ export const SquadService = {
           displayName: `🛡️ ${cleanName}`,
           topic: `Default Active Team frequency for: ${cleanName}`,
           type: 'group',
+          addressingMode: 'persona',
           groupId: group.id,
           groupName: cleanName,
           isPublic: false,
@@ -179,6 +264,7 @@ export const SquadService = {
           createdAt: serverTimestamp(),
           updatedAt: serverTimestamp(),
           members: memberUids,
+          characterMembers,
           lastMessage: {
             text: `Default Active Team Frequency initialized for ${cleanName}.`,
             senderHandle: 'SYSTEM RELAY',
@@ -190,9 +276,11 @@ export const SquadService = {
         const existingData = snap.data();
         const existingMembers = Array.isArray(existingData.members) ? existingData.members : [];
         const missing = memberUids.filter(u => !existingMembers.includes(u));
-        if (missing.length > 0) {
+        const existingChars = Array.isArray(existingData.characterMembers) ? existingData.characterMembers : [];
+        if (missing.length > 0 || (characterMembers.length > 0 && existingChars.length !== characterMembers.length)) {
           await updateDoc(channelRef, {
-            members: [...existingMembers, ...missing],
+            members: Array.from(new Set([...existingMembers, ...missing])),
+            characterMembers,
             updatedAt: serverTimestamp()
           });
         }
@@ -294,8 +382,26 @@ export const SquadService = {
     if (!groupId || !targetUserId) throw new Error('Missing group or target user ID');
     if (!currentUser) throw new Error('Must be logged in to send invite');
 
-    const inviteId = `invite_${groupId}_${targetUserId}_${Date.now()}`;
-    const inviterHandle = currentUser.displayName || currentUser.email || 'Operator';
+    const inviterHandle = currentUser.displayName || currentUser.email?.split('@')[0] || 'Operator';
+
+    // Check if an active pending invite already exists for this group + targetUser
+    let inviteId = `invite_${groupId}_${targetUserId}_${Date.now()}`;
+    if (db) {
+      try {
+        const existingQ = query(
+          collection(db, 'group_invites'),
+          where('groupId', '==', groupId),
+          where('toUserId', '==', targetUserId),
+          where('status', '==', 'pending')
+        );
+        const existingSnap = await getDocs(existingQ);
+        if (!existingSnap.empty) {
+          inviteId = existingSnap.docs[0].id;
+        }
+      } catch (e) {
+        // Proceed with new invite ID
+      }
+    }
 
     // Retrieve group snapshot to embed rich metadata in the invite
     let groupMeta = {
@@ -357,23 +463,45 @@ export const SquadService = {
         const inviteRef = doc(db, 'group_invites', inviteId);
         await setDoc(inviteRef, inviteData);
 
-        // Ensure parent DM channel document exists prior to writing transmission
+        // Ensure parent DM channel document exists and deliver interactive squad_invite message card
         try {
-          await ChatService.getOrCreateDirectMessageChannel(currentUser, {
-            uid: targetUserId,
-            userHandle: targetUserHandle || 'Operator'
-          });
+          const dmChan = await ChatService.getOrCreateDirectMessageChannel(
+            currentUser,
+            {
+              uid: targetUserId,
+              userHandle: targetUserHandle || 'Operator'
+            },
+            { addressingMode: 'operator' }
+          );
 
-          const notifChannelId = `dm_${[currentUser.uid, targetUserId].sort().join('_')}`;
+          const notifChannelId = dmChan?.id || `dm_player_${[currentUser.uid, targetUserId].sort().join('_')}`;
           const notifRef = collection(db, 'channels', notifChannelId, 'messages');
           await addDoc(notifRef, {
-            text: `[SQUAD INVITATION] You have been invited to join fireteam "${groupMeta.name}" by @${inviterHandle}. Check your Game Squads drawer to review and confirm.`,
-            type: 'system',
-            senderId: 'system',
-            senderHandle: 'SYSTEM RELAY',
+            text: `[SQUAD INVITATION] You have been invited to join fireteam "${groupMeta.name}" by @${inviterHandle}.`,
+            type: 'squad_invite',
+            inviteId: inviteId,
+            groupId: groupId,
+            groupName: groupMeta.name,
+            groupMetadata: groupMeta,
+            inviteStatus: 'pending',
+            senderId: currentUser.uid,
+            senderUid: currentUser.uid,
+            senderHandle: inviterHandle,
+            senderMode: 'OOC',
             createdAt: serverTimestamp(),
             createdLocalAt: new Date().toISOString()
           });
+
+          const dmDocRef = doc(db, 'channels', notifChannelId);
+          await updateDoc(dmDocRef, {
+            updatedAt: serverTimestamp(),
+            lastMessage: {
+              text: `🛡️ Squad Invitation: ${groupMeta.name}`,
+              senderHandle: inviterHandle,
+              senderUid: currentUser.uid,
+              timestamp: new Date().toISOString()
+            }
+          }).catch(() => {});
         } catch (e) {
           console.warn('[GroupService] DM invite message delivery fallback:', e);
         }
@@ -434,7 +562,7 @@ export const SquadService = {
     }
   },
 
-  // 5. Respond to Invite (Accept or Decline)
+  // 5. Respond to Invite (Accept or Decline) or Direct LFP Join
   async respondToInvite({
     inviteId,
     groupId,
@@ -444,16 +572,23 @@ export const SquadService = {
     isLockedForPlay = false
   }) {
     if (!inviteId || !currentUser) throw new Error('Invalid invite response payload');
+    const isDirectJoin = String(inviteId).startsWith('direct_join_');
 
     if (db) {
-      const inviteRef = doc(db, 'group_invites', inviteId);
-      await updateDoc(inviteRef, {
-        status: accept ? 'accepted' : 'declined',
-        respondedAt: new Date().toISOString()
-      });
+      if (!isDirectJoin) {
+        try {
+          const inviteRef = doc(db, 'group_invites', inviteId);
+          await updateDoc(inviteRef, {
+            status: accept ? 'accepted' : 'declined',
+            respondedAt: new Date().toISOString()
+          });
+        } catch (err) {
+          console.warn('[SquadService] Invite doc update skipped or failed:', err);
+        }
+      }
 
       if (accept && groupId) {
-        const userHandle = currentUser.displayName || currentUser.email || 'Operator';
+        const userHandle = currentUser.displayName || currentUser.email?.split('@')[0] || 'Operator';
         const memberData = {
           userId: currentUser.uid,
           handle: userHandle,
@@ -465,10 +600,12 @@ export const SquadService = {
             name: persona['char-name'] || persona.name || 'Persona',
             species: persona['char-species'] || persona.species || 'Human',
             role: persona['char-concept'] || persona['char-occu'] || persona.occupation || 'Specialist',
+            avatar: persona.avatar || null,
             health: persona.health || 30,
             currentHealth: persona.current_health ?? (persona.current_hp ?? 30),
             vitality: persona.vitality || 30,
-            currentVitality: persona.current_vitality ?? 30
+            currentVitality: persona.current_vitality ?? 30,
+            locked: Boolean(isLockedForPlay)
           } : null
         };
 
@@ -480,21 +617,24 @@ export const SquadService = {
           updatedAt: new Date().toISOString()
         });
 
-        // Add member to tied-in channel
-        const groupSnap = await getDoc(groupRef);
-        if (groupSnap.exists()) {
-          const groupInfo = groupSnap.data();
-          const channelId = groupInfo.channelId || `group_chan_${groupId}`;
-          const channelRef = doc(db, 'channels', channelId);
-          await updateDoc(channelRef, {
-            members: arrayUnion(currentUser.uid)
-          }).catch(() => {});
-        }
+        // Sync tied-in channel members & characterMembers
+        await this.syncChannelRoster(groupId);
       }
+    }
+
+    // Update local invite cache
+    if (!isDirectJoin) {
+      try {
+        const cachedInvites = (await StorageService.getItem('tangent_group_invites')) || [];
+        const updatedInvites = cachedInvites.map(i =>
+          i.id === inviteId ? { ...i, status: accept ? 'accepted' : 'declined' } : i
+        );
+        await StorageService.setItem('tangent_group_invites', updatedInvites);
+      } catch (e) {}
     }
   },
 
-  // 6. Join a group directly using an Invite Code (e.g. GRP-ABC123)
+  // 6. Join a group directly using an Invite Code (e.g. SQD-ABC123)
   async joinGroupByCode({
     inviteCode,
     currentUser,
@@ -552,7 +692,7 @@ export const SquadService = {
       throw new Error(`Squad is at maximum capacity (${groupData.maxMembers} operators).`);
     }
 
-    const userHandle = currentUser.displayName || currentUser.email || 'Operator';
+    const userHandle = currentUser.displayName || currentUser.email?.split('@')[0] || 'Operator';
     const memberData = {
       userId: currentUser.uid,
       handle: userHandle,
@@ -564,11 +704,22 @@ export const SquadService = {
         name: persona['char-name'] || persona.name || 'Persona',
         species: persona['char-species'] || persona.species || 'Human',
         role: persona['char-concept'] || persona['char-occu'] || persona.occupation || 'Specialist',
+        avatar: persona.avatar || null,
         health: persona.health || 30,
         currentHealth: persona.current_health ?? (persona.current_hp ?? 30),
         vitality: persona.vitality || 30,
-        currentVitality: persona.current_vitality ?? 30
+        currentVitality: persona.current_vitality ?? 30,
+        locked: Boolean(isLockedForPlay)
       } : null
+    };
+
+    const updatedGroup = {
+      ...groupData,
+      members: [...(groupData.members || []), currentUser.uid],
+      memberDetails: {
+        ...(groupData.memberDetails || {}),
+        [currentUser.uid]: memberData
+      }
     };
 
     // Update group document in Firestore if possible
@@ -581,25 +732,12 @@ export const SquadService = {
           updatedAt: new Date().toISOString()
         });
 
-        // Grant access to tied-in channel
-        const channelId = groupData.channelId || `group_chan_${groupDocId}`;
-        const channelRef = doc(db, 'channels', channelId);
-        await updateDoc(channelRef, {
-          members: arrayUnion(currentUser.uid)
-        }).catch(() => {});
+        // Grant access to tied-in channel & sync characterMembers
+        await this.syncChannelRoster(groupDocId, updatedGroup);
       } catch (err) {
         console.warn('[GroupService] Firestore join update fallback to local cache:', err);
       }
     }
-
-    const updatedGroup = {
-      ...groupData,
-      members: [...(groupData.members || []), currentUser.uid],
-      memberDetails: {
-        ...(groupData.memberDetails || {}),
-        [currentUser.uid]: memberData
-      }
-    };
 
     // Update local cache
     try {
@@ -622,6 +760,7 @@ export const SquadService = {
       name: persona['char-name'] || persona.name || 'Persona',
       species: persona['char-species'] || persona.species || 'Human',
       role: persona['char-concept'] || persona['char-occu'] || persona.occupation || 'Specialist',
+      avatar: persona.avatar || null,
       health: persona.health || 30,
       currentHealth: persona.current_health ?? (persona.current_hp ?? 30),
       vitality: persona.vitality || 30,
@@ -634,6 +773,7 @@ export const SquadService = {
         [`memberDetails.${userId}.persona`]: personaPayload,
         updatedAt: new Date().toISOString()
       });
+      await this.syncChannelRoster(groupId);
     }
   },
 
@@ -763,12 +903,12 @@ export const SquadService = {
             updatedAt: new Date().toISOString()
           });
 
-          if (data.channelId) {
-            const channelRef = doc(db, 'channels', data.channelId);
-            await updateDoc(channelRef, {
-              members: arrayRemove(userId)
-            }).catch(() => {});
-          }
+          await this.syncChannelRoster(groupId, {
+            ...data,
+            id: groupId,
+            members: updatedMembers,
+            memberDetails: updatedDetails
+          });
         }
       } catch (err) {
         console.warn('[GroupService] Failed to discharge member:', err);
@@ -868,12 +1008,12 @@ export const SquadService = {
           updatedAt: new Date().toISOString()
         });
 
-        if (data.channelId) {
-          const channelRef = doc(db, 'channels', data.channelId);
-          await updateDoc(channelRef, {
-            members: arrayRemove(userId)
-          }).catch(() => {});
-        }
+        await this.syncChannelRoster(groupId, {
+          ...data,
+          id: groupId,
+          members: updatedMembers,
+          memberDetails: updatedDetails
+        });
       }
     }
   },
@@ -1221,7 +1361,7 @@ export const SquadService = {
     }
   },
 
-  // 22. Architect Docket: Save (Add / Update) Text Block or Image Handout
+  // 22. Architect Docket: Save (Add / Update) Text Block, Checklist, or Image Handout
   async saveArchitectBlock({ channelId, groupId, block, currentUser }) {
     if (!channelId && !groupId) return;
     const targetId = channelId || `group_chan_${groupId}`;
@@ -1229,14 +1369,21 @@ export const SquadService = {
     const blockId = block.id || `blk_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
     const newBlock = {
       id: blockId,
-      type: block.type || 'text', // 'text' | 'image'
+      type: block.type || 'text', // 'text' | 'image' | 'checklist'
       title: block.title ? block.title.trim() : 'Tactical Briefing',
-      tag: block.tag || 'Objective', // 'Objective' | 'Intel' | 'Hazard' | 'Lore' | 'Briefing'
+      tag: block.tag || 'Objective', // 'Objective' | 'Intel' | 'Hazard' | 'Lore' | 'Briefing' | 'Recon'
       content: block.content || '',
       imageUrl: block.imageUrl || '',
       caption: block.caption || '',
-      createdById: currentUser?.uid || 'architect',
-      createdByHandle: currentUser?.displayName || currentUser?.email?.split('@')[0] || 'Architect',
+      status: block.status || 'active', // 'active' | 'completed' | 'failed'
+      isPinned: Boolean(block.isPinned),
+      checklist: Array.isArray(block.checklist) ? block.checklist : [],
+      visibility: block.visibility || 'all', // 'all' | 'classified'
+      visibleToPersonaIds: Array.isArray(block.visibleToPersonaIds) ? block.visibleToPersonaIds : [],
+      visibleToUserIds: Array.isArray(block.visibleToUserIds) ? block.visibleToUserIds : [],
+      acknowledgedBy: Array.isArray(block.acknowledgedBy) ? block.acknowledgedBy : [],
+      createdById: block.createdById || currentUser?.uid || 'architect',
+      createdByHandle: block.createdByHandle || currentUser?.displayName || currentUser?.email?.split('@')[0] || 'Architect',
       createdAt: block.createdAt || new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
@@ -1248,10 +1395,15 @@ export const SquadService = {
         const snap = await getDoc(channelRef);
         if (snap.exists()) {
           const currentBlocks = Array.isArray(snap.data().architectBlocks) ? snap.data().architectBlocks : [];
-          const exists = currentBlocks.some(b => b.id === blockId);
-          const updated = exists 
-            ? currentBlocks.map(b => b.id === blockId ? newBlock : b)
-            : [newBlock, ...currentBlocks];
+          const existing = currentBlocks.find(b => b.id === blockId);
+          if (existing && (!block.acknowledgedBy || block.acknowledgedBy.length === 0) && Array.isArray(existing.acknowledgedBy)) {
+            newBlock.acknowledgedBy = existing.acknowledgedBy;
+          }
+          const updated = sortArchitectBlocks(
+            existing
+              ? currentBlocks.map(b => b.id === blockId ? newBlock : b)
+              : [newBlock, ...currentBlocks]
+          );
           await updateDoc(channelRef, {
             architectBlocks: updated,
             updatedAt: serverTimestamp()
@@ -1266,13 +1418,120 @@ export const SquadService = {
     try {
       const cacheKey = `tangent_architect_blocks_${targetId}`;
       const cached = (await StorageService.getItem(cacheKey)) || [];
-      const updated = cached.some(b => b.id === blockId)
-        ? cached.map(b => b.id === blockId ? newBlock : b)
-        : [newBlock, ...cached];
+      const existing = cached.find(b => b.id === blockId);
+      if (existing && (!block.acknowledgedBy || block.acknowledgedBy.length === 0) && Array.isArray(existing.acknowledgedBy)) {
+        newBlock.acknowledgedBy = existing.acknowledgedBy;
+      }
+      const updated = sortArchitectBlocks(
+        existing
+          ? cached.map(b => b.id === blockId ? newBlock : b)
+          : [newBlock, ...cached]
+      );
       await StorageService.setItem(cacheKey, updated);
     } catch (e) {}
 
     return newBlock;
+  },
+
+  // 22b. Architect Docket: Toggle Operative / Character Acknowledgment (ACK) on a Block
+  async toggleArchitectBlockAck({ channelId, groupId, blockId, currentUser, persona = null }) {
+    if ((!channelId && !groupId) || !blockId || !currentUser?.uid) return;
+    const targetId = channelId || `group_chan_${groupId}`;
+    const uid = currentUser.uid;
+    const handle = currentUser.displayName || currentUser.email?.split('@')[0] || 'Operator';
+    const personaId = persona?.['character-doc-id'] || persona?.id || null;
+    const personaName = persona?.['char-name'] || persona?.name || null;
+
+    const applyAckToggle = (blocks = []) => {
+      return blocks.map(b => {
+        if (b.id !== blockId) return b;
+        const currentAcks = Array.isArray(b.acknowledgedBy) ? b.acknowledgedBy : [];
+        const hasAcked = currentAcks.some(a => a.uid === uid);
+        const nextAcks = hasAcked
+          ? currentAcks.filter(a => a.uid !== uid)
+          : [
+              ...currentAcks,
+              {
+                uid,
+                handle,
+                personaId,
+                personaName,
+                at: new Date().toISOString()
+              }
+            ];
+        return {
+          ...b,
+          acknowledgedBy: nextAcks,
+          updatedAt: new Date().toISOString()
+        };
+      });
+    };
+
+    if (db) {
+      try {
+        const channelRef = doc(db, 'channels', targetId);
+        const snap = await getDoc(channelRef);
+        if (snap.exists()) {
+          const currentBlocks = Array.isArray(snap.data().architectBlocks) ? snap.data().architectBlocks : [];
+          const updated = applyAckToggle(currentBlocks);
+          await updateDoc(channelRef, {
+            architectBlocks: updated,
+            updatedAt: serverTimestamp()
+          });
+        }
+      } catch (err) {
+        console.warn('[SquadService] Failed to toggle docket ACK:', err);
+      }
+    }
+
+    try {
+      const cacheKey = `tangent_architect_blocks_${targetId}`;
+      const cached = (await StorageService.getItem(cacheKey)) || [];
+      await StorageService.setItem(cacheKey, applyAckToggle(cached));
+    } catch (e) {}
+  },
+
+  // 22c. Architect Docket: Toggle a Checklist Sub-Task Item or Block Status / Pin
+  async toggleArchitectChecklistItem({ channelId, groupId, blockId, itemId }) {
+    if ((!channelId && !groupId) || !blockId || !itemId) return;
+    const targetId = channelId || `group_chan_${groupId}`;
+
+    const applyChecklistToggle = (blocks = []) => {
+      return blocks.map(b => {
+        if (b.id !== blockId) return b;
+        const checklist = (Array.isArray(b.checklist) ? b.checklist : []).map(item =>
+          item.id === itemId ? { ...item, completed: !item.completed } : item
+        );
+        return {
+          ...b,
+          checklist,
+          updatedAt: new Date().toISOString()
+        };
+      });
+    };
+
+    if (db) {
+      try {
+        const channelRef = doc(db, 'channels', targetId);
+        const snap = await getDoc(channelRef);
+        if (snap.exists()) {
+          const currentBlocks = Array.isArray(snap.data().architectBlocks) ? snap.data().architectBlocks : [];
+          const updated = applyChecklistToggle(currentBlocks);
+          await updateDoc(channelRef, {
+            architectBlocks: updated,
+            updatedAt: serverTimestamp()
+          });
+        }
+      } catch (err) {
+        console.warn('[SquadService] Failed to toggle docket checklist item:', err);
+      }
+    }
+
+    try {
+      const cacheKey = `tangent_architect_blocks_${targetId}`;
+      const cached = (await StorageService.getItem(cacheKey)) || [];
+      await StorageService.setItem(cacheKey, applyChecklistToggle(cached));
+    } catch (e) {}
   },
 
   // 23. Architect Docket: Delete Text Block or Image Handout
@@ -1317,7 +1576,7 @@ export const SquadService = {
       try {
         const cacheKey = `tangent_architect_blocks_${targetId}`;
         const cached = (await StorageService.getItem(cacheKey)) || [];
-        callback(cached);
+        callback(sortArchitectBlocks(cached));
       } catch (e) {
         callback([]);
       }
@@ -1332,7 +1591,8 @@ export const SquadService = {
       const channelRef = doc(db, 'channels', targetId);
       const unsub = onSnapshot(channelRef, (snap) => {
         if (snap.exists()) {
-          const blocks = Array.isArray(snap.data().architectBlocks) ? snap.data().architectBlocks : [];
+          const rawBlocks = Array.isArray(snap.data().architectBlocks) ? snap.data().architectBlocks : [];
+          const blocks = sortArchitectBlocks(rawBlocks);
           StorageService.setItem(`tangent_architect_blocks_${targetId}`, blocks).catch(() => {});
           callback(blocks);
         } else {

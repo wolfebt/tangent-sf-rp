@@ -16,21 +16,22 @@ import { CommLinkDock } from './components/UI/CommLinkDock';
 import { CommandPalette } from './components/UI/CommandPalette';
 import { ErrorBoundary } from './components/UI/ErrorBoundary';
 import { RingedPlanetLogo } from './components/UI/RingedPlanetLogo';
+import { lazyWithRetry } from './utils/lazyWithRetry';
 
-// Lazy Loaded Top-Level Routes for Optimal Bundle Performance
-const Dashboard = lazy(() => import('./pages/Home'));
+// Lazy Loaded Top-Level Routes for Optimal Bundle Performance (Resilient to Deployment Chunk Changes)
+const Dashboard = lazyWithRetry(() => import('./pages/Home'));
 const Home = Dashboard;
-const CodexApp = lazy(() => import('./pages/Codex/CodexApp'));
-const Compendium = lazy(() => import('./pages/Compendium'));
-const DBM = lazy(() => import('./pages/DBM'));
-const Folio = lazy(() => import('./pages/Folio'));
-const FoundryApp = lazy(() => import('./pages/Foundry/FoundryApp'));
-const PlayerSpectatorView = lazy(() => import('./pages/Foundry/MapMaker/PlayerSpectatorView'));
-const NetworkPage = lazy(() => import('./pages/NetworkPage'));
-const CommsPage = lazy(() => import('./pages/CommsPage'));
-const SquadsPage = lazy(() => import('./pages/SquadsPage'));
+const CodexApp = lazyWithRetry(() => import('./pages/Codex/CodexApp'));
+const Compendium = lazyWithRetry(() => import('./pages/Compendium'));
+const DBM = lazyWithRetry(() => import('./pages/DBM'));
+const Folio = lazyWithRetry(() => import('./pages/Folio'));
+const FoundryApp = lazyWithRetry(() => import('./pages/Foundry/FoundryApp'));
+const PlayerSpectatorView = lazyWithRetry(() => import('./pages/Foundry/MapMaker/PlayerSpectatorView'));
+const NetworkPage = lazyWithRetry(() => import('./pages/NetworkPage'));
+const CommsPage = lazyWithRetry(() => import('./pages/CommsPage'));
+const SquadsPage = lazyWithRetry(() => import('./pages/SquadsPage'));
 const TeamsPage = SquadsPage;
-const StageView = lazy(() => import('./components/VTT/TripartiteStageView'));
+const StageView = lazyWithRetry(() => import('./components/VTT/TripartiteStageView'));
 
 const VttOpsRedirect = () => {
   const location = useLocation();

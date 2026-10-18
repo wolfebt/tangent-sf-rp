@@ -728,18 +728,26 @@ export const DBMContainer = () => {
                 : 'Return to Tangent Dashboard'
             }
             className="mb-2 rounded-xl"
+            leftSlot={
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1100, 0.02);
+                  if (setIsSidebarOpen) setIsSidebarOpen(prev => !prev);
+                }}
+                className={`md:hidden px-2 py-1 rounded-md flex items-center justify-center transition-all cursor-pointer select-none border font-mono font-bold text-xs uppercase tracking-wider active:scale-95 touch-manipulation shrink-0 shadow-xs ${
+                  isSidebarOpen
+                    ? 'bg-cyan-500/25 border-cyan-400 text-cyan-200 shadow-[0_0_10px_rgba(34,211,238,0.3)]'
+                    : 'bg-slate-900 hover:bg-slate-800 border-cyan-900/60 hover:border-cyan-500/50 text-cyan-400 hover:text-cyan-300'
+                }`}
+                title="Toggle Omnicortex Navigation Rail"
+                aria-label="Toggle Omnicortex Navigation Rail"
+              >
+                <Menu size={13} />
+              </button>
+            }
             rightSlot={
               <div className="flex items-center gap-1.5 shrink-0">
-                {/* Mobile Rail Toggle Button */}
-                <button
-                  type="button"
-                  onClick={() => setIsSidebarOpen && setIsSidebarOpen(prev => !prev)}
-                  className="md:hidden px-2 py-1 bg-slate-900 border border-cyan-900/60 rounded text-cyan-400 text-xs font-bold cursor-pointer"
-                  title="Toggle Omnicortex Navigation Rail"
-                >
-                  <Menu size={13} />
-                </button>
-
                 {/* Master Access Badge */}
                 <button
                   type="button"

@@ -499,81 +499,95 @@ export const ChannelSidebar = ({
     );
 
     const membersList = [];
-    const seenKeys = new Set();
+    const seenUids = new Set();
 
-    // 1. Matched group member details (from GroupService / Firestore game_groups)
+    const computeCharPresence = (userDoc, isSelf, personaId) => {
+      const isOnline = Boolean(userDoc?.isOnline || isSelf);
+      if (!isOnline) return 'offline';
+      const activeCharId = userDoc?.activePersona?.id || userDoc?.currentActivity?.personaId;
+      const inThisSquad =
+        (matchedGroup?.id && userDoc?.currentActivity?.groupId === matchedGroup.id) ||
+        userDoc?.currentActivity?.channelId === channel.id ||
+        (personaId && activeCharId === personaId);
+      return inThisSquad ? 'deployed' : 'on_call';
+    };
+
+    // 1. Matched group member details (strictly the enrolled persona per member)
     if (matchedGroup?.memberDetails) {
       Object.keys(matchedGroup.memberDetails).forEach(uid => {
         const detail = matchedGroup.memberDetails[uid];
         if (!detail) return;
         const memberUid = detail.userId || detail.uid || uid;
+        if (seenUids.has(memberUid)) return;
+        seenUids.add(memberUid);
+
         const userDoc = userDirectory.find(u => u.uid === memberUid);
         const isSelf = memberUid === currentUser?.uid;
         const isOnline = Boolean(userDoc?.isOnline || isSelf);
         const handle = detail.handle || detail.userHandle || userDoc?.userHandle || userDoc?.displayName || (isSelf ? (currentUser?.displayName || currentUser?.email?.split('@')[0]) : 'Operator');
-        const role = detail.role || (memberUid === matchedGroup.creatorId ? 'GM' : 'Operator');
+        const isGM = memberUid === matchedGroup.creatorId || (Array.isArray(matchedGroup.coArchitects) && matchedGroup.coArchitects.includes(memberUid));
+        const role = detail.role || (isGM ? 'GM' : 'Operative');
         const persona = detail.persona;
 
         const personaId = persona?.id || persona?.['character-doc-id'] || null;
         const personaName = persona?.name || persona?.['char-name'] || null;
-        const key = personaId ? `persona-${personaId}` : `op-${memberUid}`;
+        const characterPresence = computeCharPresence(userDoc, isSelf, personaId);
 
-        if (!seenKeys.has(key)) {
-          seenKeys.add(key);
-          membersList.push({
-            id: key,
-            memberUid,
-            personaId,
-            name: personaName || handle,
-            personaName,
-            operatorHandle: handle,
-            species: persona?.species || persona?.['char-species'] || null,
-            concept: persona?.role || persona?.['char-concept'] || persona?.['char-occu'] || null,
-            avatar: persona?.avatar || null,
-            teamRole: role,
-            isOnline,
-            isSelf,
-            hasPersona: Boolean(personaName)
-          });
-        }
+        membersList.push({
+          id: personaId ? `persona-${personaId}-${memberUid}` : `op-${memberUid}`,
+          memberUid,
+          personaId,
+          name: personaName || handle,
+          personaName,
+          operatorHandle: handle,
+          species: persona?.species || persona?.['char-species'] || null,
+          concept: persona?.role || persona?.['char-concept'] || persona?.['char-occu'] || null,
+          avatar: persona?.avatar || null,
+          teamRole: role,
+          isOnline,
+          characterPresence,
+          isSelf,
+          hasPersona: Boolean(personaName)
+        });
       });
     }
 
-    // 2. Channel characterMembers (from CreateChannelModal or chatService)
+    // 2. Channel characterMembers (from CreateChannelModal or squadService.syncChannelRoster)
     if (Array.isArray(channel.characterMembers)) {
       channel.characterMembers.forEach(cm => {
         if (!cm) return;
-        const personaId = cm.id || cm['character-doc-id'] || cm.name;
-        const key = `persona-${personaId}`;
-        if (!seenKeys.has(key)) {
-          seenKeys.add(key);
-          const ownerUid = cm.ownerUid;
-          const userDoc = ownerUid ? userDirectory.find(u => u.uid === ownerUid) : null;
-          const isSelf = ownerUid === currentUser?.uid;
-          const isOnline = Boolean(userDoc?.isOnline || isSelf);
-          const handle = cm.ownerHandle || userDoc?.userHandle || userDoc?.displayName || (isSelf ? (currentUser?.displayName || currentUser?.email?.split('@')[0]) : 'Operator');
-          const pName = cm.name || cm['char-name'] || 'Persona';
+        const ownerUid = cm.ownerUid;
+        if (ownerUid && seenUids.has(ownerUid)) return;
+        if (ownerUid) seenUids.add(ownerUid);
 
-          membersList.push({
-            id: key,
-            memberUid: ownerUid,
-            personaId,
-            name: pName,
-            personaName: pName,
-            operatorHandle: handle,
-            species: cm.species || cm['char-species'] || null,
-            concept: cm.role || cm['char-concept'] || cm['char-occu'] || null,
-            avatar: cm.avatar || null,
-            teamRole: cm.teamRole || (ownerUid === channel.createdById ? 'Leader' : 'Operator'),
-            isOnline,
-            isSelf,
-            hasPersona: true
-          });
-        }
+        const personaId = cm.id || cm['character-doc-id'] || cm.name;
+        const userDoc = ownerUid ? userDirectory.find(u => u.uid === ownerUid) : null;
+        const isSelf = ownerUid === currentUser?.uid;
+        const isOnline = Boolean(userDoc?.isOnline || isSelf);
+        const handle = cm.ownerHandle || userDoc?.userHandle || userDoc?.displayName || (isSelf ? (currentUser?.displayName || currentUser?.email?.split('@')[0]) : 'Operator');
+        const pName = cm.name || cm['char-name'] || 'Persona';
+        const characterPresence = computeCharPresence(userDoc, isSelf, personaId);
+
+        membersList.push({
+          id: `persona-${personaId}-${ownerUid || pName}`,
+          memberUid: ownerUid,
+          personaId,
+          name: pName,
+          personaName: pName,
+          operatorHandle: handle,
+          species: cm.species || cm['char-species'] || null,
+          concept: cm.role || cm['char-concept'] || cm['char-occu'] || null,
+          avatar: cm.avatar || null,
+          teamRole: cm.teamRole || (ownerUid === channel.createdById ? 'GM' : 'Operative'),
+          isOnline,
+          characterPresence,
+          isSelf,
+          hasPersona: true
+        });
       });
     }
 
-    // 3. Fallback for UIDs in channel.members or matchedGroup.members
+    // 3. Fallback for UIDs in channel.members or matchedGroup.members without an assigned persona (Reserve Operators / GM)
     const allUids = new Set([
       ...(Array.isArray(channel.members) ? channel.members : []),
       ...(matchedGroup && Array.isArray(matchedGroup.members) ? matchedGroup.members : [])
@@ -582,60 +596,32 @@ export const ChannelSidebar = ({
     if (matchedGroup?.creatorId) allUids.add(matchedGroup.creatorId);
 
     allUids.forEach(uid => {
-      const alreadyHasEntry = membersList.some(m => m.memberUid === uid);
-      if (!alreadyHasEntry) {
+      if (!seenUids.has(uid)) {
+        seenUids.add(uid);
         const userDoc = userDirectory.find(u => u.uid === uid);
         const isSelf = uid === currentUser?.uid;
         const isOnline = Boolean(userDoc?.isOnline || isSelf);
         const handle = userDoc?.userHandle || userDoc?.displayName || (isSelf ? (currentUser?.displayName || currentUser?.email?.split('@')[0]) : 'Operator');
-        const role = (matchedGroup && uid === matchedGroup.creatorId) || uid === channel.createdById ? 'GM' : 'Operator';
+        const isGM = (matchedGroup && uid === matchedGroup.creatorId) || uid === channel.createdById;
+        const role = isGM ? 'GM' : 'Reserve';
+        const characterPresence = computeCharPresence(userDoc, isSelf, null);
 
-        const userChars = Array.isArray(userDoc?.characters) ? userDoc.characters : [];
-        if (userChars.length > 0) {
-          userChars.forEach(uc => {
-            const cId = uc.id || uc['character-doc-id'] || uc.name;
-            const key = `persona-${cId}`;
-            if (!seenKeys.has(key)) {
-              seenKeys.add(key);
-              const pName = uc.name || uc['char-name'] || 'Persona';
-              membersList.push({
-                id: key,
-                memberUid: uid,
-                personaId: cId,
-                name: pName,
-                personaName: pName,
-                operatorHandle: handle,
-                species: uc.species || uc['char-species'] || null,
-                concept: uc.role || uc['char-concept'] || uc['char-occu'] || null,
-                avatar: uc.avatar || null,
-                teamRole: role,
-                isOnline,
-                isSelf,
-                hasPersona: true
-              });
-            }
-          });
-        } else {
-          const key = `op-${uid}`;
-          if (!seenKeys.has(key)) {
-            seenKeys.add(key);
-            membersList.push({
-              id: key,
-              memberUid: uid,
-              personaId: null,
-              name: handle,
-              personaName: null,
-              operatorHandle: handle,
-              species: null,
-              concept: null,
-              avatar: null,
-              teamRole: role,
-              isOnline,
-              isSelf,
-              hasPersona: false
-            });
-          }
-        }
+        membersList.push({
+          id: `op-${uid}`,
+          memberUid: uid,
+          personaId: null,
+          name: handle,
+          personaName: null,
+          operatorHandle: handle,
+          species: null,
+          concept: isGM ? 'Architect Command' : 'Unassigned Operative',
+          avatar: null,
+          teamRole: role,
+          isOnline,
+          characterPresence,
+          isSelf,
+          hasPersona: false
+        });
       }
     });
 
@@ -647,9 +633,9 @@ export const ChannelSidebar = ({
     const isActive = activeChannelId === channel.id;
     const unread = unreadCounts[channel.id] || 0;
     const isUnread = !isActive && unread > 0;
+    const { matchedGroup, membersList } = resolveTeamData(channel);
     const canDelete = channel.createdById === currentUser?.uid || isAdmin || channel.createdById?.startsWith('local_') || Boolean(matchedGroup?.creatorId === currentUser?.uid);
     const canEdit = canDelete;
-    const { matchedGroup, membersList } = resolveTeamData(channel);
     const isRosterCollapsed = Boolean(collapsedRosters[channel.id]);
 
     return (
@@ -892,9 +878,19 @@ export const ChannelSidebar = ({
                         )}
                         <span
                           className={`absolute -bottom-0.5 -right-0.5 w-1.5 h-1.5 rounded-full border border-black ${
-                            member.isOnline ? 'bg-emerald-400 shadow-[0_0_4px_#10b981]' : 'bg-slate-600'
+                            member.characterPresence === 'deployed'
+                              ? 'bg-emerald-400 shadow-[0_0_4px_#10b981]'
+                              : member.characterPresence === 'on_call'
+                              ? 'bg-amber-400 shadow-[0_0_4px_#f59e0b]'
+                              : 'bg-slate-600'
                           }`}
-                          title={member.isOnline ? 'Online' : 'Offline'}
+                          title={
+                            member.characterPresence === 'deployed'
+                              ? 'DEPLOYED (Active in Squad)'
+                              : member.characterPresence === 'on_call'
+                              ? 'ON-CALL (Operator Online)'
+                              : 'STASIS (Offline)'
+                          }
                         />
                       </div>
 
@@ -903,6 +899,19 @@ export const ChannelSidebar = ({
                         <div className="flex items-center gap-1.5">
                           <span className="font-mono font-bold text-[11px] text-white truncate">
                             {member.name}
+                          </span>
+                          <span className={`text-[7px] px-1 py-0.1 rounded font-mono font-bold uppercase shrink-0 ${
+                            member.characterPresence === 'deployed'
+                              ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                              : member.characterPresence === 'on_call'
+                              ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                              : 'bg-slate-800/80 text-slate-400 border border-slate-700'
+                          }`}>
+                            {member.characterPresence === 'deployed'
+                              ? 'DEPLOYED'
+                              : member.characterPresence === 'on_call'
+                              ? 'ON-CALL'
+                              : 'STASIS'}
                           </span>
                           {member.isSelf && (
                             <span className="text-[7.5px] px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-mono font-bold">

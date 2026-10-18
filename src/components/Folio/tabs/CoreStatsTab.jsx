@@ -1725,105 +1725,70 @@ const CoreStatsTab = () => {
                   </button>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5">
-                  {/* Wealth Score (WS) */}
-                  <FolioTooltip
-                    title={`Wealth Score: ${wealthScore}`}
-                    badge={statusName}
-                    badgeColor="amber"
-                    description={`Represents personal economic leverage, liquid credit access, and commercial baseline. Items up to ${autoBuyCr.toLocaleString()} Cr are purchased automatically without financial rolls or lifestyle strain.`}
-                    formula={formulaText}
-                    cost={`Auto-Buy: ${autoBuyCr.toLocaleString()} Cr`}
-                    tags={['Wealth Score', statusName, `${autoBuyCr.toLocaleString()} Cr Auto-Buy`, 'EUFT Golden Rule']}
-                  >
-                    <div className="flex items-center justify-between bg-slate-800/40 px-2 py-1 rounded border border-slate-700/80 gap-2 hover:border-amber-500/40 transition-colors">
-                      <div className="flex flex-col min-w-0">
+                {/* Unified Wealth Score & Financial Status Block */}
+                <FolioTooltip
+                  title={`Wealth Score: ${wealthScore} (${statusName})`}
+                  badge="EUFT Baseline"
+                  badgeColor="amber"
+                  description={`Base WS ${breakdown.occupationBase ?? 2} (${breakdown.occupation || 'Standard'}). Standard lifestyle: ${wealthStatus?.lifestyle || 'Stable dwelling'}. Net worth benchmark is ${wealthStatus?.netWorth || '~25k Cr'}. Single-transaction auto-buy threshold is ${autoBuyCr.toLocaleString()} Cr (Crafting DC ≤ ${wealthScore}) without depletion checks or lifestyle reduction.`}
+                  formula={formulaText}
+                  cost={`Auto-Buy: ${autoBuyCr.toLocaleString()} Cr | Net: ${wealthStatus?.netWorth || '~25k Cr'}`}
+                  tags={['Wealth Score', statusName, `${autoBuyCr.toLocaleString()} Cr Auto-Buy`, 'EUFT Golden Rule', wealthStatus?.lifestyle || 'Standard']}
+                >
+                  <div className="flex flex-col justify-between bg-slate-800/40 px-2.5 py-1.5 rounded border border-slate-700/80 gap-1.5 hover:border-amber-500/40 transition-colors">
+                    {/* Row 1: Wealth Score & Status / Net */}
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2 min-w-0">
                         <div className="flex items-center gap-1.5">
                           <span className="text-[11px] font-bold uppercase tracking-wider text-amber-300 leading-tight">
                             Wealth Score
                           </span>
                           <span className="text-[8.5px] text-slate-400 font-mono">(WS)</span>
                         </div>
-                        <span className="text-[8.5px] font-mono leading-none text-slate-400 truncate">
-                          Base {breakdown.occupationBase ?? 2} | {breakdown.occupation || 'Occu'}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-1 shrink-0">
-                        {isSheetLocked ? (
-                          <span className="text-sm font-mono font-bold text-amber-300 px-1 py-0.5">
-                            {wealthScore}
-                          </span>
-                        ) : (
-                          <div className="flex items-center gap-1">
-                            <span className="text-sm font-mono font-bold text-amber-300">
+                        <div className="flex items-center gap-1 shrink-0 ml-1">
+                          {isSheetLocked ? (
+                            <span className="text-sm font-mono font-bold text-amber-300 px-1 py-0.5">
                               {wealthScore}
                             </span>
-                            <input
-                              type="number"
-                              title="Custom / situational Wealth Score modifier"
-                              placeholder="±Mod"
-                              value={customWealthMod || ''}
-                              onChange={(e) => updateField('wealth-score-mod', parseInt(e.target.value, 10) || 0)}
-                              className="w-10 h-6 bg-slate-950 border border-slate-700 focus:border-amber-400 rounded px-1 py-0.5 text-[10px] font-mono text-center font-bold text-slate-100 outline-none transition-colors"
-                            />
-                          </div>
-                        )}
+                          ) : (
+                            <div className="flex items-center gap-1">
+                              <span className="text-sm font-mono font-bold text-amber-300">
+                                {wealthScore}
+                              </span>
+                              <input
+                                type="number"
+                                title="Custom / situational Wealth Score modifier"
+                                placeholder="±Mod"
+                                value={customWealthMod || ''}
+                                onChange={(e) => updateField('wealth-score-mod', parseInt(e.target.value, 10) || 0)}
+                                className="w-10 h-6 bg-slate-950 border border-slate-700 focus:border-amber-400 rounded px-1 py-0.5 text-[10px] font-mono text-center font-bold text-slate-100 outline-none transition-colors"
+                              />
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  </FolioTooltip>
 
-                  {/* Financial Status Benchmark */}
-                  <FolioTooltip
-                    title={`Financial Status: ${statusName}`}
-                    badge="Benchmark Tier"
-                    badgeColor="amber"
-                    description={`Standard lifestyle: ${wealthStatus?.lifestyle || 'Stable dwelling'}. Net worth benchmark is ${wealthStatus?.netWorth || '~25k Cr'}. Single-transaction auto-buy threshold is ${autoBuyCr.toLocaleString()} Cr.`}
-                    formula={`Status Tier determined by WS range (${wealthStatus?.wsMin ?? 10}–${wealthStatus?.wsMax ?? 14})`}
-                    cost={`Net Worth: ${wealthStatus?.netWorth || '~25k Cr'}`}
-                    tags={['Financial Status', statusName, wealthStatus?.lifestyle || 'Standard']}
-                  >
-                    <div className="flex items-center justify-between bg-slate-800/40 px-2 py-1 rounded border border-slate-700/80 gap-2 hover:border-amber-500/40 transition-colors">
-                      <div className="flex flex-col min-w-0">
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-slate-300 leading-tight">
-                          Status Ranking
+                      <div className="flex items-center gap-2 shrink-0">
+                        <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded border shrink-0 ${getStatusBadgeStyle(statusName)}`}>
+                          {statusName}
                         </span>
-                        <span className="text-[8.5px] font-mono leading-none text-slate-400 truncate">
+                        <span className="text-[9px] font-mono text-slate-400 shrink-0">
                           Net: {wealthStatus?.netWorth || '~25k Cr'}
                         </span>
                       </div>
-                      <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded border shrink-0 ${getStatusBadgeStyle(statusName)}`}>
-                        {statusName}
+                    </div>
+
+                    {/* Row 2: Occupation Base & Single Purchase */}
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-[8.5px] font-mono leading-none text-slate-400 truncate">
+                        Base {breakdown.occupationBase ?? 2} | {breakdown.occupation || 'Occu'}
+                      </span>
+                      <span className="text-[9px] font-mono text-slate-400 shrink-0">
+                        Single Purchase: {autoBuyCr >= 1000000 ? `${(autoBuyCr / 1000000).toFixed(1)}M Cr` : autoBuyCr >= 1000 ? `${(autoBuyCr / 1000).toFixed(1)}k Cr` : `${autoBuyCr} Cr`}
                       </span>
                     </div>
-                  </FolioTooltip>
-
-                  {/* Credit Auto-Buy Limit */}
-                  <FolioTooltip
-                    title="Auto-Buy Credit Limit"
-                    badge="Liquidity Threshold"
-                    badgeColor="cyan"
-                    description={`Under Tangent EUFT, any gear, service, or vehicle component with a market cost at or below ${autoBuyCr.toLocaleString()} Cr (Crafting DC ≤ ${wealthScore}) is auto-purchased without depletion checks or lifestyle reduction. Items exceeding this cost incur a Liquidity Gap.`}
-                    formula={`Auto-Buy Limit = ${autoBuyCr.toLocaleString()} Cr | TSC Base = ${creditValue.toLocaleString()} Cr`}
-                    cost="0 Liquidity Drag"
-                    tags={['Auto-Buy', `${autoBuyCr.toLocaleString()} Cr`, 'TSC Parity']}
-                  >
-                    <div className="flex items-center justify-between bg-slate-800/40 px-2 py-1 rounded border border-slate-700/80 gap-2 hover:border-amber-500/40 transition-colors">
-                      <div className="flex flex-col min-w-0">
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-300 leading-tight">
-                          Auto-Buy Limit
-                        </span>
-                        <span className="text-[8.5px] font-mono leading-none text-slate-400 truncate">
-                          Single Purchase
-                        </span>
-                      </div>
-                      <div className="text-right shrink-0">
-                        <span className="text-xs font-mono font-bold text-cyan-300">
-                          {autoBuyCr >= 1000000 ? `${(autoBuyCr / 1000000).toFixed(1)}M Cr` : autoBuyCr >= 1000 ? `${(autoBuyCr / 1000).toFixed(1)}k Cr` : `${autoBuyCr} Cr`}
-                        </span>
-                      </div>
-                    </div>
-                  </FolioTooltip>
-                </div>
+                  </div>
+                </FolioTooltip>
 
                 {/* ═══════════════════════════════════════════════════════════ */}
                 {/* ACCORDIONS: CREDITS (LIQUID ASSETS) & DEBITS (LIABILITIES) */}

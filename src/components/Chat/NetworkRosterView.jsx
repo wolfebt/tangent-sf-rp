@@ -5,16 +5,10 @@ import {
   MessageSquare, 
   Shield, 
   User, 
-  Circle, 
   ChevronDown, 
   ChevronRight, 
   Radio, 
-  Sparkles, 
-  ExternalLink,
-  Clock,
-  UserCheck,
   Activity,
-  Heart,
   UserPlus
 } from 'lucide-react';
 import { useChat } from '../../context/ChatContext';
@@ -23,6 +17,47 @@ import { useGroup } from '../../context/GroupContext';
 import { AudioService } from '../../services/audioService';
 import { getEffectiveUserHandle } from '../../utils/personaValidationUtils';
 import { QuickTeamInviteModal } from './QuickTeamInviteModal';
+
+const PRESENCE_BADGE = {
+  online: {
+    label: 'ONLINE',
+    dot: 'bg-emerald-400 animate-soft-badge-glow shadow-[0_0_6px_#10b981]',
+    pill: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+  },
+  idle: {
+    label: 'IDLE',
+    dot: 'bg-amber-400 shadow-[0_0_6px_#f59e0b]',
+    pill: 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+  },
+  dnd: {
+    label: 'DND',
+    dot: 'bg-rose-500 shadow-[0_0_6px_#f43f5e]',
+    pill: 'bg-rose-500/20 text-rose-300 border-rose-500/40'
+  },
+  offline: {
+    label: 'OFFLINE',
+    dot: 'bg-slate-600',
+    pill: 'bg-slate-800 text-slate-500 border-slate-700'
+  }
+};
+
+const CHAR_PRESENCE_BADGE = {
+  deployed: {
+    label: 'DEPLOYED',
+    dot: 'bg-emerald-400 animate-soft-badge-glow shadow-[0_0_6px_#10b981]',
+    pill: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+  },
+  on_call: {
+    label: 'ON-CALL',
+    dot: 'bg-amber-400 shadow-[0_0_6px_#f59e0b]',
+    pill: 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+  },
+  offline: {
+    label: 'STASIS',
+    dot: 'bg-slate-600',
+    pill: 'bg-slate-800 text-slate-500 border-slate-700'
+  }
+};
 
 export const NetworkRosterView = ({ isCompact = false }) => {
   const { 
@@ -37,13 +72,22 @@ export const NetworkRosterView = ({ isCompact = false }) => {
     newOperatorLogins = [],
     clearNewOperatorLogins,
     allUserPersonas = [],
-    togglePersonaNetworkEngaged
+    togglePersonaNetworkEngaged,
+    manualPresenceStatus = 'online',
+    setManualPresenceStatus,
+    customStatusMessage = '',
+    setCustomStatusMessage
   } = useChat();
   const { currentUser } = useAuth();
   const { groups = [] } = useGroup() || {};
 
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
   const [selectedInviteUser, setSelectedInviteUser] = useState(null);
+  const [statusInput, setStatusInput] = useState(customStatusMessage || '');
+
+  useEffect(() => {
+    setStatusInput(customStatusMessage || '');
+  }, [customStatusMessage]);
 
   useEffect(() => {
     // Auto-clear new operator login banner after viewing roster
@@ -94,7 +138,11 @@ export const NetworkRosterView = ({ isCompact = false }) => {
   };
 
   const formatLastSeen = (user) => {
-    if (user.isOnline) return 'Active Now';
+    if (user.isOnline) {
+      if (user.activity?.label) return user.activity.label;
+      return 'Active Now';
+    }
+    if (user.lastSeenText) return user.lastSeenText;
     if (user.lastSeen?.toDate) {
       return user.lastSeen.toDate().toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
     }
@@ -111,7 +159,7 @@ export const NetworkRosterView = ({ isCompact = false }) => {
       const hasMatchingPersona = Array.isArray(u.characters) && u.characters.some(c => 
         matchesSearch(c.name) || matchesSearch(c.role) || matchesSearch(c.species)
       );
-      return matchesSearch(handle) || hasMatchingPersona;
+      return matchesSearch(handle) || matchesSearch(u.statusMessage) || matchesSearch(u.activity?.label) || hasMatchingPersona;
     });
   }, [onlineOperators, searchQuery]);
 
@@ -141,13 +189,16 @@ export const NetworkRosterView = ({ isCompact = false }) => {
   const renderOperatorCard = (user, isOnline) => {
     const isSelf = currentUser && currentUser.uid === user.uid;
     const handle = getEffectiveUserHandle(user);
-    const isExpanded = expandedOperators[user.uid] ?? false; // default collapsed
+    const isExpanded = expandedOperators[user.uid] ?? false;
     const charList = isSelf 
       ? (allUserPersonas.length > 0 ? allUserPersonas : (Array.isArray(user.characters) ? user.characters : []))
       : (Array.isArray(user.characters) ? user.characters : []);
     const engagedCount = isSelf 
       ? charList.filter(p => p.networkEngaged || p.isNetworkEngaged).length 
       : charList.length;
+
+    const pState = isOnline ? (user.presenceState || 'online') : 'offline';
+    const badge = PRESENCE_BADGE[pState] || PRESENCE_BADGE.offline;
 
     return (
       <div 
@@ -179,10 +230,8 @@ export const NetworkRosterView = ({ isCompact = false }) => {
                 {handle.substring(0, 2).toUpperCase()}
               </div>
               <span 
-                className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-black ${
-                  isOnline ? 'bg-emerald-400 animate-soft-badge-glow shadow-[0_0_6px_#10b981]' : 'bg-slate-600'
-                }`}
-                title={isOnline ? 'Online' : 'Offline'}
+                className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-black ${badge.dot}`}
+                title={badge.label}
               />
             </div>
 
@@ -196,14 +245,26 @@ export const NetworkRosterView = ({ isCompact = false }) => {
                     YOU
                   </span>
                 )}
-                <span className={`text-[9px] font-mono px-1 py-0.2 rounded font-bold ${
-                  isOnline ? 'bg-emerald-500/20 text-emerald-300' : 'bg-slate-800 text-slate-500'
-                }`}>
-                  {isOnline ? 'ONLINE' : 'OFFLINE'}
+                <span className={`text-[8.5px] font-mono px-1.5 py-0.2 rounded border font-bold ${badge.pill}`}>
+                  {badge.label}
                 </span>
               </div>
-              <p className="text-[9.5px] font-mono text-slate-500 truncate">
-                {formatLastSeen(user)} • {isSelf ? `${engagedCount} / ${charList.length} Engaged` : `${charList.length} Persona${charList.length === 1 ? '' : 's'}`}
+
+              {user.statusMessage && (
+                <p className="text-[9.5px] font-sans italic text-cyan-300/90 truncate">
+                  "{user.statusMessage}"
+                </p>
+              )}
+
+              <p className="text-[9.5px] font-mono text-slate-400 truncate flex items-center gap-1">
+                {isOnline && user.activity?.label && (
+                  <Activity size={9} className="text-cyan-400 shrink-0" />
+                )}
+                <span className="truncate">{formatLastSeen(user)}</span>
+                <span>•</span>
+                <span className="shrink-0">
+                  {isSelf ? `${engagedCount}/${charList.length} Engaged` : `${charList.length} Persona${charList.length === 1 ? '' : 's'}`}
+                </span>
               </p>
             </div>
           </div>
@@ -229,7 +290,7 @@ export const NetworkRosterView = ({ isCompact = false }) => {
                 type="button"
                 onClick={() => handleMessageOperator(user)}
                 className="px-2 py-1 rounded-lg bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 hover:border-cyan-400 text-cyan-200 text-[10px] font-mono font-bold flex items-center gap-1 transition-all shadow-sm shrink-0 cursor-pointer"
-                title={`Open Player Operator DM with @${handle} (${isOnline ? 'Online' : 'Offline'})`}
+                title={`Open Player Operator DM with @${handle} (${badge.label})`}
               >
                 <MessageSquare size={11} />
                 <span>DM</span>
@@ -323,6 +384,9 @@ export const NetworkRosterView = ({ isCompact = false }) => {
   const renderPersonaCard = (persona) => {
     const isSelf = currentUser && currentUser.uid === persona.ownerUid;
     const isOnline = Boolean(persona.isOnline);
+    const charPresence = persona.characterPresence || (isOnline ? 'on_call' : 'offline');
+    const cBadge = CHAR_PRESENCE_BADGE[charPresence] || CHAR_PRESENCE_BADGE.offline;
+    const squads = Array.isArray(persona.enrolledSquads) ? persona.enrolledSquads : [];
 
     return (
       <div 
@@ -339,9 +403,8 @@ export const NetworkRosterView = ({ isCompact = false }) => {
               🎭
             </div>
             <span 
-              className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-black ${
-                isOnline ? 'bg-emerald-400 animate-soft-badge-glow shadow-[0_0_6px_#10b981]' : 'bg-slate-600'
-              }`}
+              className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-black ${cBadge.dot}`}
+              title={cBadge.label}
             />
           </div>
 
@@ -349,6 +412,9 @@ export const NetworkRosterView = ({ isCompact = false }) => {
             <div className="flex items-center gap-1.5 flex-wrap">
               <span className={`font-bold truncate ${isOnline ? 'text-purple-200' : 'text-slate-300'}`}>
                 {persona.name}
+              </span>
+              <span className={`px-1.5 py-0.2 rounded text-[8px] font-bold border ${cBadge.pill}`}>
+                {cBadge.label}
               </span>
               <span className="text-[9.5px] text-slate-400 truncate">
                 by @{persona.ownerHandle}
@@ -359,9 +425,19 @@ export const NetworkRosterView = ({ isCompact = false }) => {
                 </span>
               )}
             </div>
-            <span className="text-[10px] text-slate-400 block truncate">
-              {persona.species} • {persona.role}
-            </span>
+            <div className="flex items-center gap-1.5 flex-wrap mt-0.5">
+              <span className="text-[10px] text-slate-400 truncate">
+                {persona.species} • {persona.role}
+              </span>
+              {squads.map(sq => (
+                <span
+                  key={sq.id}
+                  className="px-1.5 py-0.1 rounded bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 text-[8.5px] font-bold"
+                >
+                  🛡 {sq.name}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -402,7 +478,7 @@ export const NetworkRosterView = ({ isCompact = false }) => {
               type="button"
               onClick={() => handleMessagePersona(persona.targetUser, persona)}
               className="px-2.5 py-1 rounded-lg bg-purple-950 hover:bg-purple-900 border border-purple-500/60 text-purple-200 text-[10px] font-bold flex items-center gap-1 transition-all cursor-pointer"
-              title={`Message ${persona.name} (${isOnline ? 'Online' : 'Offline'})`}
+              title={`Message ${persona.name} (${cBadge.label})`}
             >
               <Shield size={11} />
               <span>WHISPER</span>
@@ -417,7 +493,7 @@ export const NetworkRosterView = ({ isCompact = false }) => {
     <div className="h-full flex flex-col bg-[#0b1019] text-slate-100 select-none overflow-hidden font-sans border-r border-slate-800/80">
       {/* Top Header & Fast Search */}
       <div className="p-3 border-b border-slate-800 space-y-2.5 bg-gradient-to-b from-slate-900/90 to-transparent shrink-0">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <div className="p-1.5 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300">
               <Users size={15} />
@@ -431,7 +507,54 @@ export const NetworkRosterView = ({ isCompact = false }) => {
               </span>
             </div>
           </div>
+
+          {/* Operator Self-Status Selector */}
+          {currentUser && setManualPresenceStatus && (
+            <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800">
+              {(['online', 'idle', 'dnd']).map(st => {
+                const cfg = PRESENCE_BADGE[st];
+                const active = manualPresenceStatus === st;
+                return (
+                  <button
+                    key={st}
+                    type="button"
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1200, 0.02);
+                      setManualPresenceStatus(st);
+                    }}
+                    className={`px-1.5 py-0.5 rounded text-[8.5px] font-mono font-bold flex items-center gap-1 transition-all cursor-pointer ${
+                      active ? cfg.pill + ' border' : 'text-slate-500 hover:text-slate-300'
+                    }`}
+                    title={`Set your Operator Presence to ${cfg.label}`}
+                  >
+                    <span className={`w-1.5 h-1.5 rounded-full ${cfg.dot}`} />
+                    <span>{cfg.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
         </div>
+
+        {/* Custom Operator Status Note Input */}
+        {currentUser && setCustomStatusMessage && (
+          <div className="flex items-center gap-1.5">
+            <input
+              type="text"
+              value={statusInput}
+              onChange={(e) => setStatusInput(e.target.value)}
+              onBlur={() => setCustomStatusMessage(statusInput.trim())}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.currentTarget.blur();
+                }
+              }}
+              maxLength={60}
+              placeholder="Set custom status note (e.g. LFG Sector 7 / AFK 5m)..."
+              className="w-full px-2.5 py-1 bg-slate-950/70 border border-slate-800/90 rounded-lg text-[10.5px] font-mono text-cyan-200 placeholder-slate-600 focus:outline-none focus:border-cyan-500/50"
+            />
+          </div>
+        )}
 
         {/* New Operator Login Alert Banner */}
         {hasNewOperatorLogins && newOperatorLogins.length > 0 && (

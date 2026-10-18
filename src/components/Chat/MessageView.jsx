@@ -66,7 +66,10 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
     onlineOperators = [],
     offlineOperators = [],
     selectedPersona,
-    speakingMode
+    speakingMode,
+    replyingToMessage,
+    setReplyingToMessage,
+    toggleMessageReaction
   } = useChat();
   const { 
     isConnected: isVoiceConnected, 
@@ -74,7 +77,13 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
     connectToVoiceRoom, 
     disconnectVoiceRoom 
   } = useVoiceChat();
-  const { groups = [], selectGroup } = useGroup();
+  const { 
+    groups = [], 
+    selectGroup, 
+    openInviteConfirmation, 
+    declineInvite,
+    toggleArchitectBlockAck
+  } = useGroup() || {};
   const { toast } = useToast() || { toast: () => {} };
   
   const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
@@ -84,6 +93,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
   const [userSearchQuery, setUserSearchQuery] = useState('');
   const [isOfflineCollapsed, setIsOfflineCollapsed] = useState(true);
   const [isQuickInviteOpen, setIsQuickInviteOpen] = useState(false);
+  const [preselectedInviteUser, setPreselectedInviteUser] = useState(null);
   const [copiedMessageId, setCopiedMessageId] = useState(null);
   
   const containerRef = useRef(null);
@@ -105,7 +115,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
   const isCharacterDirect = isDirectChannel && (activeChannel?.recipientType === 'character' || Boolean(activeChannel?.targetPersona) || activeChannel?.id?.startsWith('dm_char_'));
   
   const linkedTeam = isTeamChannel 
-    ? (groups.find(g => g.id === activeChannel?.groupId || g.channelId === activeChannel?.id) || null)
+    ? (groups.find(g => g.id === activeChannel?.groupId || g.channelId === activeChannel?.id || `group_chan_${g.id}` === activeChannel?.id) || null)
     : null;
 
   // Filtered Roster lists for accessible users menu
@@ -121,6 +131,14 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
     );
   }, [activeChannelUsers?.personas, userSearchQuery]);
 
+  const deployedAndOnCallTeamPersonas = useMemo(() => {
+    return filteredTeamPersonas.filter(p => p.characterPresence !== 'offline');
+  }, [filteredTeamPersonas]);
+
+  const stasisTeamPersonas = useMemo(() => {
+    return filteredTeamPersonas.filter(p => p.characterPresence === 'offline');
+  }, [filteredTeamPersonas]);
+
   const filteredOnlineOps = useMemo(() => {
     const list = onlineOperators || [];
     if (!userSearchQuery.trim()) return list;
@@ -128,6 +146,8 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
     return list.filter(u => 
       (u.userHandle && u.userHandle.toLowerCase().includes(q)) ||
       (u.displayName && u.displayName.toLowerCase().includes(q)) ||
+      (u.statusMessage && u.statusMessage.toLowerCase().includes(q)) ||
+      (u.activity?.label && u.activity.label.toLowerCase().includes(q)) ||
       (Array.isArray(u.characters) && u.characters.some(c => (c.name && c.name.toLowerCase().includes(q)) || (c.role && c.role.toLowerCase().includes(q))))
     );
   }, [onlineOperators, userSearchQuery]);
@@ -466,7 +486,185 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
       );
     }
 
-    // 5. System Notification Message
+    // 5. Interactive Squad Invite Card
+    if (msg.type === 'squad_invite') {
+      const inviteId = msg.inviteId || msg.metadata?.inviteId;
+      const groupId = msg.groupId || msg.metadata?.groupId;
+      const groupName = msg.groupName || msg.metadata?.groupName || 'Tactical Squad';
+      const faction = msg.faction || msg.metadata?.faction || 'Independent';
+      const joinCode = msg.joinCode || msg.metadata?.joinCode;
+      const matchedGrp = groups.find(g => g.id === groupId);
+      const isAlreadyMember = Boolean(currentUser?.uid && matchedGrp?.members?.includes(currentUser.uid));
+      const inviteStatus = msg.inviteStatus || 'pending';
+
+      return (
+        <div className="mt-1 p-3 rounded-xl bg-gradient-to-r from-emerald-950/80 via-slate-950 to-slate-950 border border-emerald-500/60 shadow-[0_0_20px_rgba(16,185,129,0.15)] font-mono text-xs space-y-2">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <div className="p-1.5 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                <Shield size={14} />
+              </div>
+              <div>
+                <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider block">
+                  TACTICAL SQUAD COMMISSION
+                </span>
+                <span className="text-sm font-bold text-white">{groupName}</span>
+              </div>
+            </div>
+            <span className="px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-300 text-[9.5px] font-bold">
+              {faction}
+            </span>
+          </div>
+
+          <p className="text-slate-300 font-sans text-xs leading-relaxed">
+            {msg.text || `You have been invited to join "${groupName}". Select a character persona from your Folio to deploy into this squad.`}
+          </p>
+
+          {joinCode && (
+            <div className="text-[10px] text-slate-400">
+              JOIN CODE: <strong className="text-cyan-300 tracking-widest">{joinCode}</strong>
+            </div>
+          )}
+
+          <div className="flex items-center gap-2 pt-1">
+            {isAlreadyMember || inviteStatus === 'accepted' ? (
+              <button
+                type="button"
+                onClick={() => {
+                  const targetChanId = matchedGrp?.channelId || (groupId ? `group_chan_${groupId}` : null);
+                  if (targetChanId) selectChannel(targetChanId);
+                }}
+                className="px-3 py-1.5 rounded-lg bg-emerald-600/30 hover:bg-emerald-600/50 border border-emerald-500/60 text-emerald-200 font-bold text-[10.5px] flex items-center gap-1.5 cursor-pointer"
+              >
+                <CheckCircle2 size={12} />
+                <span>ENROLLED IN SQUAD — OPEN FREQUENCY</span>
+              </button>
+            ) : inviteStatus === 'declined' ? (
+              <span className="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-slate-500 text-[10px] font-bold">
+                COMMISSION DECLINED
+              </span>
+            ) : !isSelf ? (
+              <>
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1400, 0.03);
+                    openInviteConfirmation?.({
+                      id: inviteId || `direct_join_${groupId}`,
+                      groupId,
+                      groupName,
+                      fromUserId: msg.senderUid || msg.senderId,
+                      fromUserHandle: msg.operatorHandle || msg.senderHandle || 'Architect'
+                    });
+                  }}
+                  className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold text-[10.5px] shadow-md transition-all cursor-pointer"
+                >
+                  REVIEW & ACCEPT COMMISSION
+                </button>
+                {inviteId && (
+                  <button
+                    type="button"
+                    onClick={() => declineInvite?.(inviteId)}
+                    className="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 text-[10.5px] font-bold transition-colors cursor-pointer"
+                  >
+                    DECLINE
+                  </button>
+                )}
+              </>
+            ) : (
+              <span className="text-[10px] text-emerald-400/80 italic">
+                Commission transmitted to recipient.
+              </span>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    // 6. Tactical Docket Directive Pulse Card
+    if (msg.type === 'docket_directive' && msg.metadata) {
+      const meta = msg.metadata;
+      const checklist = Array.isArray(meta.checklist) ? meta.checklist : [];
+      const acks = Array.isArray(meta.acknowledgedBy) ? meta.acknowledgedBy : [];
+
+      return (
+        <div className="mt-1 p-3 rounded-xl bg-gradient-to-r from-rose-950/70 via-slate-950 to-slate-950 border border-rose-500/60 shadow-[0_0_20px_rgba(244,63,94,0.15)] font-mono text-xs space-y-2">
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            <div className="flex items-center gap-1.5">
+              <span className="px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 text-[9px] font-bold uppercase">
+                TACTICAL DOCKET // {(meta.category || 'INTEL').toUpperCase()}
+              </span>
+              {meta.status && (
+                <span className="px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-[9px] font-bold uppercase">
+                  {meta.status.toUpperCase()}
+                </span>
+              )}
+            </div>
+            {meta.checklistSummary && (
+              <span className="text-[10px] text-amber-300 font-bold">
+                CHECKLIST: {meta.checklistSummary}
+              </span>
+            )}
+          </div>
+
+          <div className="font-bold text-white text-xs sm:text-sm">
+            {meta.title}
+          </div>
+
+          {meta.content && (
+            <div className="text-slate-200 font-sans text-xs leading-relaxed bg-slate-900/70 p-2 rounded-lg border border-slate-800">
+              <ChatParser text={meta.content} />
+            </div>
+          )}
+
+          {checklist.length > 0 && (
+            <div className="space-y-1 pt-0.5">
+              {checklist.map((item, i) => (
+                <div key={item.id || i} className="flex items-center gap-1.5 text-[11px] font-sans">
+                  <span className={item.done ? 'text-emerald-400' : 'text-slate-500'}>
+                    {item.done ? '☑' : '☐'}
+                  </span>
+                  <span className={item.done ? 'line-through text-slate-500' : 'text-slate-200'}>
+                    {item.text}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {meta.blockId && toggleArchitectBlockAck && currentUser && (
+            <div className="flex items-center justify-between pt-1 border-t border-slate-800/80">
+              <span className="text-[9.5px] text-slate-400">
+                {acks.length > 0 ? `Acknowledged by ${acks.length} operative(s)` : 'Awaiting squad acknowledgment'}
+              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1500, 0.025);
+                  toggleArchitectBlockAck({
+                    channelId: activeChannel?.id,
+                    groupId: meta.groupId || linkedTeam?.id,
+                    blockId: meta.blockId,
+                    ackEntry: {
+                      uid: currentUser.uid,
+                      operatorHandle: userHandle || currentUser.displayName || 'Operative',
+                      personaId: selectedPersona?.id || selectedPersona?.['character-doc-id'] || null,
+                      personaName: selectedPersona?.name || selectedPersona?.['char-name'] || userHandle || 'Operative'
+                    }
+                  });
+                }}
+                className="px-2.5 py-1 rounded-lg bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/50 text-emerald-200 text-[10px] font-bold flex items-center gap-1 cursor-pointer"
+              >
+                <Check size={10} />
+                <span>ACK DIRECTIVE</span>
+              </button>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // 7. System Notification Message
     if (msg.type === 'system') {
       return (
         <div className="p-1.5 rounded-lg bg-slate-900/60 border border-slate-800 text-xs font-mono text-cyan-300 flex items-center gap-2">
@@ -476,7 +674,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
       );
     }
 
-    // 6. Standard Text or In-Character Dialogue (High-contrast, crisp 13.5px text)
+    // 8. Standard Text or In-Character Dialogue (High-contrast, crisp 13.5px text)
     return (
       <div className={`text-xs sm:text-sm leading-snug ${
         msg.isIC ? 'text-slate-100 font-sans font-medium' : 'text-slate-200 font-sans'
@@ -549,7 +747,10 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
               {(isTeamChannel || isDirectChannel || groups.length > 0) && (
                 <button
                   type="button"
-                  onClick={() => setIsQuickInviteOpen(true)}
+                  onClick={() => {
+                    setPreselectedInviteUser(null);
+                    setIsQuickInviteOpen(true);
+                  }}
                   className="px-2.5 py-1 rounded-lg bg-emerald-600/25 hover:bg-emerald-600/40 text-emerald-300 border border-emerald-500/50 text-[10.5px] font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
                   title="Invite Operators to Team / Copy Shareable Join Link"
                 >
@@ -725,7 +926,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                 <Users size={12} />
                 <span>
                   {isTeamChannel 
-                    ? `${activeChannelUsers?.personas?.length || 0} Team Personas` 
+                    ? `${activeChannelUsers?.personas?.length || 0} Squad Characters` 
                     : `${onlineOperators?.length || 0} Active Operators`}
                 </span>
               </button>
@@ -798,7 +999,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
             const isIC = Boolean(msg.isIC);
             const isDice = msg.type === 'dice_roll';
             const isNarrative = msg.type === 'narrative_action';
-            const isSystem = msg.type === 'system';
+            const isSystem = msg.type === 'system' || msg.type === 'squad_invite' || msg.type === 'docket_directive';
             const persona = msg.personaDetails;
 
             // Check if this message should be grouped with the previous message
@@ -809,7 +1010,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
               (prevMsg.personaDetails?.id || prevMsg.personaDetails?.name) === (persona?.id || persona?.name)
             );
             const timeDiffMs = prevMsg ? Math.abs(getMessageTimeMs(msg) - getMessageTimeMs(prevMsg)) : Infinity;
-            const isGrouped = isSameSender && timeDiffMs < 5 * 60 * 1000 && !isDice && !isSystem && prevMsg.type !== 'system';
+            const isGrouped = isSameSender && timeDiffMs < 5 * 60 * 1000 && !isDice && !isSystem && !msg.replyTo && prevMsg.type !== 'system' && prevMsg.type !== 'squad_invite' && prevMsg.type !== 'docket_directive';
 
             // Style B: Sharp left accent border styling
             const borderAccentClass = isDice
@@ -822,6 +1023,10 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
               ? 'border-l-4 border-l-cyan-500/80 bg-cyan-950/10'
               : 'border-l-4 border-l-slate-700 bg-slate-900/30';
 
+            const reactionEntries = msg.reactions && typeof msg.reactions === 'object'
+              ? Object.entries(msg.reactions).filter(([, data]) => Array.isArray(data?.uids) && data.uids.length > 0)
+              : [];
+
             return (
               <div
                 key={msg.id || idx}
@@ -831,6 +1036,39 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
               >
                 {/* Floating Hover Action Bar (Clean, uncluttered, revealed on hover/focus) */}
                 <div className="absolute right-2 -top-3 hidden group-hover:flex items-center gap-1 bg-slate-900/95 border border-slate-700/80 rounded-lg p-0.5 shadow-lg z-20 backdrop-blur-sm select-none">
+                  {/* Quick Emoji Reactions */}
+                  {msg.id && toggleMessageReaction && (
+                    <div className="flex items-center gap-0.5 border-r border-slate-800 pr-1 mr-0.5">
+                      {['👍', '🎯', '⚡', '🎲', '🔥'].map(emoji => (
+                        <button
+                          key={emoji}
+                          type="button"
+                          onClick={() => toggleMessageReaction(msg.id, emoji)}
+                          className="p-0.5 px-1 rounded hover:bg-slate-800 text-[10px] transition-transform hover:scale-110 cursor-pointer"
+                          title={`React ${emoji}`}
+                        >
+                          {emoji}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Quote Reply */}
+                  {setReplyingToMessage && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        AudioService.playTerminalBeep(1150, 0.015);
+                        setReplyingToMessage(msg);
+                      }}
+                      className="px-1.5 py-0.5 rounded hover:bg-slate-800 text-slate-400 hover:text-cyan-300 text-[9px] font-mono font-bold flex items-center gap-0.5 transition-colors cursor-pointer"
+                      title="Quote-Reply to this transmission"
+                    >
+                      <CornerDownRight size={10} />
+                      <span>REPLY</span>
+                    </button>
+                  )}
+
                   {/* Copy Text */}
                   <button
                     type="button"
@@ -848,11 +1086,11 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                       onClick={() => {
                         startDirectMessage({
                           uid: msg.senderUid,
-                          userHandle: msg.senderHandle || 'Operator'
+                          userHandle: msg.operatorHandle || msg.senderHandle || 'Operator'
                         }, null);
                       }}
                       className="px-1.5 py-0.5 rounded hover:bg-cyan-950 text-slate-400 hover:text-cyan-300 text-[9px] font-mono font-bold flex items-center gap-1 transition-colors cursor-pointer"
-                      title={`Open Direct Comms with @${msg.senderHandle}`}
+                      title={`Open Direct Comms with @${msg.operatorHandle || msg.senderHandle}`}
                     >
                       <User size={10} />
                       <span>DM</span>
@@ -866,7 +1104,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                       onClick={() => {
                         startDirectMessage({
                           uid: msg.senderUid,
-                          userHandle: msg.senderHandle || 'Operator'
+                          userHandle: msg.operatorHandle || msg.senderHandle || 'Operator'
                         }, persona);
                       }}
                       className="px-1.5 py-0.5 rounded hover:bg-purple-950 text-purple-300 hover:text-purple-100 text-[9px] font-mono font-bold flex items-center gap-1 transition-colors cursor-pointer"
@@ -876,19 +1114,37 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                     </button>
                   )}
 
-                  {/* Invite to Team */}
+                  {/* Invite to Team (passes sender as preselectedInviteUser!) */}
                   {!isSelf && msg.senderUid && groups.length > 0 && (
                     <button
                       type="button"
-                      onClick={() => setIsQuickInviteOpen(true)}
+                      onClick={() => {
+                        setPreselectedInviteUser({
+                          uid: msg.senderUid,
+                          userHandle: msg.operatorHandle || msg.senderHandle || 'Operator',
+                          displayName: msg.operatorHandle || msg.senderHandle || 'Operator'
+                        });
+                        setIsQuickInviteOpen(true);
+                      }}
                       className="px-1.5 py-0.5 rounded hover:bg-emerald-950 text-emerald-400 hover:text-emerald-200 text-[9px] font-mono font-bold flex items-center gap-1 transition-colors cursor-pointer"
-                      title="Invite to Tactical Squad"
+                      title={`Invite @${msg.operatorHandle || msg.senderHandle} to Tactical Squad`}
                     >
                       <UserPlus size={10} />
                       <span>INVITE</span>
                     </button>
                   )}
                 </div>
+
+                {/* Quote-Reply Reference Header */}
+                {msg.replyTo && (
+                  <div className="mb-1 pl-7 flex items-center gap-1.5 text-[10px] font-mono text-slate-400 truncate">
+                    <CornerDownRight size={11} className="text-cyan-400 shrink-0" />
+                    <span className="font-bold text-cyan-300 shrink-0">@{msg.replyTo.senderHandle}:</span>
+                    <span className="truncate italic text-slate-400 bg-slate-900/70 px-1.5 py-0.2 rounded border border-slate-800">
+                      "{msg.replyTo.snippet}"
+                    </span>
+                  </div>
+                )}
 
                 {/* Message Header (Shown only if NOT grouped consecutively) */}
                 {!isGrouped && (
@@ -964,8 +1220,34 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                 )}
 
                 {/* Body Content */}
-                <div className={`${isGrouped ? 'pl-7' : 'pl-7'} min-w-0`}>
+                <div className="pl-7 min-w-0">
                   {renderMessageContent(msg)}
+
+                  {/* Emoji Reactions Bar */}
+                  {reactionEntries.length > 0 && (
+                    <div className="flex items-center gap-1 flex-wrap mt-1.5 select-none">
+                      {reactionEntries.map(([emoji, data]) => {
+                        const myReaction = Boolean(currentUser?.uid && data.uids.includes(currentUser.uid));
+                        const handles = Array.isArray(data.handles) ? data.handles.join(', ') : '';
+                        return (
+                          <button
+                            key={emoji}
+                            type="button"
+                            onClick={() => toggleMessageReaction?.(msg.id, emoji)}
+                            className={`px-1.5 py-0.5 rounded-full text-[10px] font-mono font-bold border flex items-center gap-1 transition-all cursor-pointer ${
+                              myReaction
+                                ? 'bg-cyan-500/20 text-cyan-200 border-cyan-500/60 shadow-sm'
+                                : 'bg-slate-900/80 text-slate-400 border-slate-800 hover:border-slate-700'
+                            }`}
+                            title={handles ? `Reacted by: ${handles}` : 'Toggle reaction'}
+                          >
+                            <span>{emoji}</span>
+                            <span>{data.uids.length}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
               </div>
             );
@@ -1032,7 +1314,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                     type="text"
                     value={userSearchQuery}
                     onChange={(e) => setUserSearchQuery(e.target.value)}
-                    placeholder={isTeamChannel ? "Filter squad personas..." : "Filter network operators..."}
+                    placeholder={isTeamChannel ? "Filter squad characters..." : "Filter network operators..."}
                     className="w-full pl-7 pr-3 py-1.5 rounded-lg bg-slate-900/90 border border-slate-800 text-slate-200 placeholder-slate-500 text-[11px] focus:outline-none focus:border-cyan-500/60"
                   />
                   {userSearchQuery && (
@@ -1048,93 +1330,234 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
               </div>
 
               {/* Roster List Scroll Area */}
-              <div className="flex-1 overflow-y-auto p-2.5 space-y-3 no-scrollbar">
-                {/* ── If Team Channel: Display Enrolled Personas as primary ── */}
+              <div className="flex-1 overflow-y-auto p-2.5 space-y-3.5 no-scrollbar">
+                {/* ── If Team Channel: Strictly Display Squad's Enrolled Characters + Architect Command + Reserve Operators ── */}
                 {isTeamChannel ? (
                   <>
+                    {/* 1. ARCHITECT COMMAND */}
+                    {Array.isArray(activeChannelUsers?.architectCommand) && activeChannelUsers.architectCommand.length > 0 && (
+                      <div className="space-y-1.5">
+                        <div className="flex items-center justify-between text-[10px] text-amber-400 font-bold uppercase tracking-wider px-1">
+                          <span>ARCHITECT COMMAND ({activeChannelUsers.architectCommand.length})</span>
+                          <span className="text-[8.5px] text-slate-500">GM / Lead</span>
+                        </div>
+                        {activeChannelUsers.architectCommand.map(arch => {
+                          const isSelf = currentUser && arch.uid === currentUser.uid;
+                          const dotColor = arch.presenceState === 'online'
+                            ? 'bg-emerald-400 shadow-[0_0_6px_#10b981]'
+                            : arch.presenceState === 'dnd'
+                            ? 'bg-rose-500 shadow-[0_0_6px_#f43f5e]'
+                            : arch.presenceState === 'idle'
+                            ? 'bg-amber-400 shadow-[0_0_6px_#f59e0b]'
+                            : 'bg-slate-600';
+                          return (
+                            <div
+                              key={arch.uid}
+                              className="p-2 rounded-xl bg-amber-950/20 border border-amber-500/40 flex items-center justify-between gap-2"
+                            >
+                              <div className="flex items-center gap-2 min-w-0">
+                                <div className="relative shrink-0">
+                                  <div className="w-7 h-7 rounded-lg bg-amber-950 border border-amber-500/50 flex items-center justify-center text-amber-300 font-bold text-xs">
+                                    👑
+                                  </div>
+                                  <span className={`absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full border border-black ${dotColor}`} />
+                                </div>
+                                <div className="min-w-0">
+                                  <div className="flex items-center gap-1.5">
+                                    <span className="font-bold text-amber-200 text-xs truncate">@{arch.userHandle}</span>
+                                    <span className="px-1.5 py-0.1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[8px] font-bold uppercase">
+                                      {arch.commandTitle}
+                                    </span>
+                                  </div>
+                                  <span className="text-[9.5px] text-slate-400 block truncate">
+                                    {arch.isOnline ? (arch.activity?.label || 'Command Relay Active') : arch.lastSeenText}
+                                  </span>
+                                </div>
+                              </div>
+                              {!isSelf && (
+                                <button
+                                  type="button"
+                                  onClick={() => startDirectMessage(arch.user, null)}
+                                  className="px-2 py-0.5 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-amber-300 text-[9px] font-bold cursor-pointer shrink-0"
+                                >
+                                  DM
+                                </button>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+
+                    {/* 2. DEPLOYED & ON-CALL TEAM CHARACTERS */}
                     <div className="space-y-1.5">
                       <div className="flex items-center justify-between text-[10px] text-emerald-400 font-bold uppercase tracking-wider px-1">
                         <span className="flex items-center gap-1.5">
                           <Shield size={11} />
-                          <span>TEAM PERSONAS ({filteredTeamPersonas.length})</span>
+                          <span>ACTIVE SQUAD CHARACTERS ({deployedAndOnCallTeamPersonas.length})</span>
                         </span>
-                        <span className="text-[9px] text-slate-500">Addressing</span>
+                        <span className="text-[9px] text-slate-500">Enrolled</span>
                       </div>
 
-                      {filteredTeamPersonas.length === 0 ? (
+                      {deployedAndOnCallTeamPersonas.length === 0 ? (
                         <div className="p-3 text-center text-slate-500 text-[11px] italic bg-slate-900/30 rounded-lg border border-slate-800/50">
-                          {userSearchQuery ? 'No matching personas found.' : 'No character personas enrolled in this team.'}
+                          {userSearchQuery ? 'No matching squad characters online.' : 'No squad characters currently deployed or on-call.'}
                         </div>
                       ) : (
-                        filteredTeamPersonas.map((p) => {
+                        deployedAndOnCallTeamPersonas.map((p) => {
                           const isSelf = currentUser && p.ownerUid === currentUser.uid;
+                          const isDeployed = p.characterPresence === 'deployed';
+                          const maxHp = Number(p.health) || 30;
+                          const curHp = Number(p.current_health ?? maxHp);
+                          const hpPct = Math.max(0, Math.min(100, Math.round((curHp / maxHp) * 100)));
+
                           return (
                             <div
                               key={p.id || p.name}
-                              className="p-2 rounded-xl bg-slate-900/70 hover:bg-slate-900 border border-emerald-500/30 hover:border-emerald-500/60 transition-all flex items-center justify-between gap-2 shadow-sm group"
+                              className={`p-2.5 rounded-xl border transition-all space-y-1.5 shadow-sm ${
+                                isDeployed
+                                  ? 'bg-slate-900/80 border-emerald-500/50 shadow-[0_0_12px_rgba(16,185,129,0.1)]'
+                                  : 'bg-slate-900/50 border-amber-500/35'
+                              }`}
                             >
-                              <div className="flex items-center gap-2 min-w-0">
-                                <div className="w-7 h-7 rounded-lg bg-emerald-950/80 border border-emerald-500/50 flex items-center justify-center text-emerald-300 font-bold text-xs shrink-0">
-                                  {p.avatar ? (
-                                    <img src={p.avatar} alt={p.name} className="w-full h-full object-cover rounded-lg" />
-                                  ) : (
-                                    <span>🎭</span>
-                                  )}
-                                </div>
-                                <div className="min-w-0">
-                                  <div className="flex items-center gap-1.5">
-                                    <span className="font-bold text-slate-100 text-xs truncate">{p.name}</span>
-                                    {isSelf && <span className="text-[9px] text-emerald-400 font-bold">(YOU)</span>}
+                              <div className="flex items-center justify-between gap-2">
+                                <div className="flex items-center gap-2 min-w-0">
+                                  <div className="relative shrink-0">
+                                    <div className="w-8 h-8 rounded-lg bg-emerald-950/80 border border-emerald-500/50 flex items-center justify-center text-emerald-300 font-bold text-xs overflow-hidden">
+                                      {p.avatar ? (
+                                        <img src={p.avatar} alt={p.name} className="w-full h-full object-cover" />
+                                      ) : (
+                                        <span>🎭</span>
+                                      )}
+                                    </div>
+                                    <span
+                                      className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-black ${
+                                        isDeployed
+                                          ? 'bg-emerald-400 animate-soft-badge-glow shadow-[0_0_6px_#10b981]'
+                                          : 'bg-amber-400 shadow-[0_0_6px_#f59e0b]'
+                                      }`}
+                                    />
                                   </div>
-                                  <div className="flex items-center gap-1.5 text-[10px] text-slate-400 truncate">
-                                    <span className="text-emerald-400/90">{p.role || p.species || 'Specialist'}</span>
-                                    <span className="text-slate-600">•</span>
-                                    <span className="text-slate-400 truncate">@{p.ownerHandle || 'Operator'}</span>
+                                  <div className="min-w-0">
+                                    <div className="flex items-center gap-1.5 flex-wrap">
+                                      <span className="font-bold text-slate-100 text-xs truncate">{p.name}</span>
+                                      <span className={`px-1.5 py-0.1 rounded text-[8px] font-bold border ${
+                                        isDeployed
+                                          ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+                                          : 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                                      }`}>
+                                        {isDeployed ? 'DEPLOYED' : 'ON-CALL'}
+                                      </span>
+                                      {isSelf && <span className="text-[8.5px] text-cyan-400 font-bold">(YOU)</span>}
+                                    </div>
+                                    <div className="flex items-center gap-1.5 text-[10px] text-slate-400 truncate">
+                                      <span className="text-emerald-400/90">{p.role || p.species || 'Specialist'}</span>
+                                      <span className="text-slate-600">•</span>
+                                      <span className="text-slate-400 truncate">@{p.ownerHandle || 'Operator'}</span>
+                                    </div>
                                   </div>
                                 </div>
+
+                                {!isSelf && p.ownerUid && (
+                                  <div className="flex items-center gap-1 shrink-0">
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        AudioService.playTerminalBeep(1200, 0.02);
+                                        startDirectMessage({ uid: p.ownerUid, userHandle: p.ownerHandle }, p);
+                                      }}
+                                      className="p-1 px-1.5 rounded bg-purple-950/60 hover:bg-purple-900 border border-purple-500/40 text-purple-300 text-[9px] font-bold cursor-pointer"
+                                      title={`Whisper directly to character ${p.name}`}
+                                    >
+                                      WHISPER
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        AudioService.playTerminalBeep(1200, 0.02);
+                                        startDirectMessage({ uid: p.ownerUid, userHandle: p.ownerHandle }, null);
+                                      }}
+                                      className="p-1 px-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[9px] font-bold cursor-pointer"
+                                      title={`DM Operator @${p.ownerHandle}`}
+                                    >
+                                      DM
+                                    </button>
+                                  </div>
+                                )}
                               </div>
 
-                              {/* Action buttons */}
-                              {!isSelf && p.ownerUid && (
-                                <div className="flex items-center gap-1 shrink-0">
-                                  <button
-                                    type="button"
-                                    onClick={() => {
-                                      AudioService.playTerminalBeep(1200, 0.02);
-                                      startDirectMessage({ uid: p.ownerUid, userHandle: p.ownerHandle }, p);
-                                    }}
-                                    className="p-1 px-1.5 rounded bg-purple-950/60 hover:bg-purple-900 border border-purple-500/40 text-purple-300 text-[9.5px] font-bold flex items-center gap-1 transition-colors cursor-pointer"
-                                    title={`Whisper directly to persona ${p.name}`}
-                                  >
-                                    <span>WHISPER</span>
-                                  </button>
-                                  <button
-                                    type="button"
-                                    onClick={() => {
-                                      AudioService.playTerminalBeep(1200, 0.02);
-                                      startDirectMessage({ uid: p.ownerUid, userHandle: p.ownerHandle }, null);
-                                    }}
-                                    className="p-1 px-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[9.5px] font-bold flex items-center gap-1 transition-colors cursor-pointer"
-                                    title={`DM Player @${p.ownerHandle}`}
-                                  >
-                                    <span>DM</span>
-                                  </button>
+                              {/* Compact Vitals Telemetry Bar */}
+                              <div className="flex items-center gap-2 pt-0.5">
+                                <div className="flex-1 h-1.5 rounded-full bg-slate-950 overflow-hidden border border-slate-800">
+                                  <div
+                                    className={`h-full transition-all ${
+                                      hpPct > 50 ? 'bg-emerald-500' : hpPct > 25 ? 'bg-amber-500' : 'bg-rose-500'
+                                    }`}
+                                    style={{ width: `${hpPct}%` }}
+                                  />
                                 </div>
-                              )}
+                                <span className="text-[9px] text-slate-400 shrink-0">
+                                  {curHp}/{maxHp} HP
+                                </span>
+                              </div>
                             </div>
                           );
                         })
                       )}
                     </div>
 
-                    {/* Team Operators Section */}
-                    {activeChannelUsers.operators.length > 0 && (
+                    {/* 3. STASIS TEAM CHARACTERS (OFFLINE) */}
+                    {stasisTeamPersonas.length > 0 && (
+                      <div className="space-y-1.5 pt-2 border-t border-slate-800/80">
+                        <div className="flex items-center justify-between text-[10px] text-slate-400 font-bold uppercase tracking-wider px-1">
+                          <span>STASIS SQUAD CHARACTERS ({stasisTeamPersonas.length})</span>
+                          <span className="text-[8.5px] text-slate-500">Operator Offline</span>
+                        </div>
+                        <div className="space-y-1">
+                          {stasisTeamPersonas.map(p => (
+                            <div
+                              key={p.id || p.name}
+                              className="p-2 rounded-xl bg-slate-950/60 border border-slate-800/80 flex items-center justify-between gap-2 text-slate-400"
+                            >
+                              <div className="flex items-center gap-2 min-w-0">
+                                <div className="w-7 h-7 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-xs shrink-0 opacity-60">
+                                  🎭
+                                </div>
+                                <div className="min-w-0">
+                                  <div className="flex items-center gap-1.5">
+                                    <span className="font-bold text-slate-300 text-xs truncate">{p.name}</span>
+                                    <span className="px-1.5 py-0.1 rounded bg-slate-800 text-slate-500 text-[8px] font-bold">
+                                      STASIS
+                                    </span>
+                                  </div>
+                                  <span className="text-[9.5px] text-slate-500 block truncate">
+                                    @{p.ownerHandle} • {p.lastSeenText || 'Offline'}
+                                  </span>
+                                </div>
+                              </div>
+                              {p.ownerUid && p.ownerUid !== currentUser?.uid && (
+                                <button
+                                  type="button"
+                                  onClick={() => startDirectMessage({ uid: p.ownerUid, userHandle: p.ownerHandle }, p)}
+                                  className="px-1.5 py-0.5 rounded bg-slate-900 hover:bg-slate-800 border border-slate-800 text-[9px] text-slate-400 hover:text-purple-300 cursor-pointer"
+                                >
+                                  LEAVE NOTE
+                                </button>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* 4. RESERVE OPERATORS (Joined Squad without an assigned character yet) */}
+                    {Array.isArray(activeChannelUsers?.reserveOperators) && activeChannelUsers.reserveOperators.length > 0 && (
                       <div className="space-y-1.5 pt-2 border-t border-slate-800/80">
                         <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider px-1 block">
-                          SQUAD OPERATORS ({activeChannelUsers.operators.length})
+                          RESERVE OPERATORS — NO CHARACTER ASSIGNED ({activeChannelUsers.reserveOperators.length})
                         </span>
                         <div className="space-y-1">
-                          {activeChannelUsers.operators.map((u) => {
+                          {activeChannelUsers.reserveOperators.map((u) => {
                             const isSelf = currentUser && u.uid === currentUser.uid;
                             return (
                               <div
@@ -1150,7 +1573,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                                   <button
                                     type="button"
                                     onClick={() => startDirectMessage(u, null)}
-                                    className="text-[9.5px] text-cyan-400 hover:text-cyan-200"
+                                    className="text-[9.5px] text-cyan-400 hover:text-cyan-200 cursor-pointer"
                                   >
                                     DM
                                   </button>
@@ -1166,7 +1589,10 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                     <div className="pt-2">
                       <button
                         type="button"
-                        onClick={() => setIsQuickInviteOpen(true)}
+                        onClick={() => {
+                          setPreselectedInviteUser(null);
+                          setIsQuickInviteOpen(true);
+                        }}
                         className="w-full py-2 px-3 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-sm"
                       >
                         <UserPlus size={13} />
@@ -1175,7 +1601,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                     </div>
                   </>
                 ) : (
-                  /* ── If Standard Channel: Display Online & Network Operators ── */
+                  /* ── If Standard / Public Channel: Display 4-State Online & Offline Operators ── */
                   <>
                     <div className="space-y-1.5">
                       <div className="flex items-center justify-between text-[10px] text-cyan-400 font-bold uppercase tracking-wider px-1">
@@ -1194,27 +1620,42 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                         filteredOnlineOps.map((user) => {
                           const isSelf = currentUser && user.uid === currentUser.uid;
                           const primaryPersona = Array.isArray(user.characters) && user.characters.length > 0 ? user.characters[0] : null;
+                          const pState = user.presenceState || 'online';
+                          const dotClass = pState === 'dnd'
+                            ? 'bg-rose-500 shadow-[0_0_6px_#f43f5e]'
+                            : pState === 'idle'
+                            ? 'bg-amber-400 shadow-[0_0_6px_#f59e0b]'
+                            : 'bg-emerald-400 shadow-[0_0_6px_#10b981]';
+                          const stateBadge = pState === 'dnd' ? 'DND' : pState === 'idle' ? 'IDLE' : 'ONLINE';
+
                           return (
                             <div
                               key={user.uid}
                               className="p-2 rounded-xl bg-slate-900/70 hover:bg-slate-900 border border-slate-800 hover:border-cyan-500/40 transition-all flex items-center justify-between gap-2 shadow-sm"
                             >
                               <div className="flex items-center gap-2 min-w-0">
-                                <div className="w-7 h-7 rounded-lg bg-cyan-950/80 border border-cyan-500/50 flex items-center justify-center text-cyan-300 font-bold text-xs shrink-0">
-                                  <User size={13} />
+                                <div className="relative shrink-0">
+                                  <div className="w-7 h-7 rounded-lg bg-cyan-950/80 border border-cyan-500/50 flex items-center justify-center text-cyan-300 font-bold text-xs">
+                                    <User size={13} />
+                                  </div>
+                                  <span className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-black ${dotClass}`} />
                                 </div>
                                 <div className="min-w-0">
                                   <div className="flex items-center gap-1.5">
                                     <span className="font-bold text-slate-100 text-xs truncate">@{user.userHandle || user.displayName}</span>
+                                    <span className="text-[8px] px-1 py-0.1 rounded bg-slate-800 text-slate-300 font-bold">
+                                      {stateBadge}
+                                    </span>
                                     {isSelf && <span className="text-[9px] text-cyan-400 font-bold">(YOU)</span>}
                                   </div>
-                                  {primaryPersona ? (
-                                    <span className="text-[10px] text-purple-300/90 block truncate">
-                                      🎭 {primaryPersona.name || primaryPersona['char-name']} ({primaryPersona.role || primaryPersona.species || 'Persona'})
+                                  {user.statusMessage && (
+                                    <span className="text-[9.5px] italic text-cyan-300/90 block truncate">
+                                      "{user.statusMessage}"
                                     </span>
-                                  ) : (
-                                    <span className="text-[10px] text-emerald-400 block">Operator Active</span>
                                   )}
+                                  <span className="text-[9.5px] text-slate-400 block truncate">
+                                    {user.activity?.label || (primaryPersona ? `🎭 ${primaryPersona.name}` : 'Connected to Terran Net')}
+                                  </span>
                                 </div>
                               </div>
 
@@ -1232,17 +1673,17 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                                   >
                                     <span>DM</span>
                                   </button>
-                                  {primaryPersona && (
+                                  {groups.length > 0 && (
                                     <button
                                       type="button"
                                       onClick={() => {
-                                        AudioService.playTerminalBeep(1200, 0.02);
-                                        startDirectMessage(user, primaryPersona);
+                                        setPreselectedInviteUser(user);
+                                        setIsQuickInviteOpen(true);
                                       }}
-                                      className="p-1 px-1.5 rounded bg-purple-950/60 hover:bg-purple-900 border border-purple-500/40 text-purple-300 text-[9.5px] font-bold flex items-center gap-1 transition-colors cursor-pointer"
-                                      title={`Whisper to ${primaryPersona.name}`}
+                                      className="p-1 px-1.5 rounded bg-emerald-950/60 hover:bg-emerald-900 border border-emerald-500/40 text-emerald-300 text-[9.5px] font-bold flex items-center gap-1 transition-colors cursor-pointer"
+                                      title={`Invite @${user.userHandle} to Squad`}
                                     >
-                                      <span>WHISPER</span>
+                                      <UserPlus size={10} />
                                     </button>
                                   )}
                                 </div>
@@ -1272,14 +1713,19 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                                 key={user.uid}
                                 className="px-2 py-1.5 rounded-lg bg-slate-950/60 border border-slate-900 flex items-center justify-between text-[11px] text-slate-400"
                               >
-                                <div className="flex items-center gap-1.5 truncate">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-slate-700" />
-                                  <span className="truncate">@{user.userHandle || user.displayName}</span>
+                                <div className="min-w-0">
+                                  <div className="flex items-center gap-1.5 truncate">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-slate-700 shrink-0" />
+                                    <span className="truncate font-bold">@{user.userHandle || user.displayName}</span>
+                                  </div>
+                                  <span className="text-[9px] text-slate-600 block pl-3">
+                                    {user.lastSeenText || 'Offline'}
+                                  </span>
                                 </div>
                                 <button
                                   type="button"
                                   onClick={() => startDirectMessage(user, null)}
-                                  className="text-[9.5px] text-slate-400 hover:text-cyan-300"
+                                  className="text-[9.5px] text-slate-400 hover:text-cyan-300 cursor-pointer shrink-0"
                                 >
                                   DM
                                 </button>
@@ -1302,7 +1748,10 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
               {(isTeamChannel || isDirectChannel || groups.length > 0) && (
                 <button
                   type="button"
-                  onClick={() => setIsQuickInviteOpen(true)}
+                  onClick={() => {
+                    setPreselectedInviteUser(null);
+                    setIsQuickInviteOpen(true);
+                  }}
                   className="w-full py-2 px-3 rounded-xl bg-emerald-600/25 hover:bg-emerald-600/40 text-emerald-300 border border-emerald-500/40 font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-sm"
                 >
                   <UserPlus size={13} />
@@ -1343,8 +1792,12 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
       {isQuickInviteOpen && (
         <QuickTeamInviteModal
           isOpen={isQuickInviteOpen}
-          onClose={() => setIsQuickInviteOpen(false)}
+          onClose={() => {
+            setIsQuickInviteOpen(false);
+            setPreselectedInviteUser(null);
+          }}
           defaultGroupId={activeChannel?.groupId || linkedTeam?.id}
+          preselectedUser={preselectedInviteUser}
         />
       )}
 
@@ -1371,3 +1824,4 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
 };
 
 export default MessageView;
+

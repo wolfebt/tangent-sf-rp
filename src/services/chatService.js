@@ -240,6 +240,10 @@ export const ChatService = {
             ? `🎲 ${messagePayload.senderHandle} rolled ${messagePayload.metadata?.result || 'dice'}` 
             : messagePayload.type === 'persona_log_entry'
             ? `📋 ${messagePayload.summary || 'Telemetry recorded'}`
+            : messagePayload.type === 'docket_directive'
+            ? `📌 [DOCKET DIRECTIVE] ${messagePayload.docketBlock?.title || 'Briefing'}`
+            : messagePayload.type === 'squad_invite'
+            ? `🛡️ [SQUAD INVITE] ${messagePayload.groupName || 'Fireteam'}`
             : (messagePayload.text?.substring(0, 80) || 'Transmission'),
           senderHandle: messagePayload.senderHandle || 'Unknown',
           senderId: messagePayload.senderId || '',
@@ -254,15 +258,24 @@ export const ChatService = {
   },
 
   // Create or retrieve a 1-on-1 Direct Message Channel (supports separate Player vs Character commlines)
-  async getOrCreateDirectMessageChannel(currentUser, targetUser, targetPersona = null) {
+  async getOrCreateDirectMessageChannel(currentUser, targetUser, targetPersonaOrOptions = null) {
     if (!currentUser || !targetUser) throw new Error('Both users are required for DM');
 
     const sortedUids = [currentUser.uid, targetUser.uid].sort();
     const currentHandle = getEffectiveUserHandle(currentUser);
     const targetHandle = getEffectiveUserHandle(targetUser);
 
+    const targetPersona = (
+      targetPersonaOrOptions &&
+      typeof targetPersonaOrOptions === 'object' &&
+      !targetPersonaOrOptions.addressingMode &&
+      (targetPersonaOrOptions.name || targetPersonaOrOptions['char-name'] || targetPersonaOrOptions['character-doc-id'] || targetPersonaOrOptions.id)
+    )
+      ? targetPersonaOrOptions
+      : (targetPersonaOrOptions?.persona || null);
+
     let channelId = '';
-    let isCharacterDM = Boolean(targetPersona);
+    const isCharacterDM = Boolean(targetPersona) && targetPersonaOrOptions?.addressingMode !== 'operator';
 
     if (isCharacterDM) {
       const pRawId = targetPersona['character-doc-id'] || targetPersona.id || targetPersona.name || 'char';
@@ -304,6 +317,7 @@ export const ChatService = {
         ? `In-Character Direct Comms with ${personaName} (${personaSpecies} ${personaRole} • Played by @${targetHandle})`
         : `Direct Operator Comms with @${targetHandle} (Player / OOC Comms)`,
       type: 'direct',
+      addressingMode: isCharacterDM ? 'persona' : 'operator',
       recipientType: isCharacterDM ? 'character' : 'player', // 'player' | 'character'
       isPublic: false,
       targetPersona: isCharacterDM ? {
@@ -348,7 +362,7 @@ export const ChatService = {
   },
 
   // Create a Custom Channel or Group Chat
-  async createCustomChannel({ name, topic, isPublic = true, type = 'custom', members = [], characterMembers = [], currentUser }) {
+  async createCustomChannel({ name, topic, isPublic = true, type = 'custom', addressingMode = 'operator', members = [], characterMembers = [], currentUser }) {
     if (!name || !name.trim()) throw new Error('Channel name is required');
 
     const effectiveUser = currentUser || {
@@ -373,6 +387,7 @@ export const ChatService = {
       displayName: displayName,
       topic: topic || (type === 'group' ? 'Tactical Operator Group Frequency' : 'Custom operations channel'),
       type: type, // 'custom' | 'group'
+      addressingMode: type === 'group' ? 'persona' : (addressingMode || 'operator'),
       isPublic: Boolean(isPublic),
       createdById: effectiveUser.uid,
       createdAt: nowIso,
@@ -412,23 +427,61 @@ export const ChatService = {
     return channelData;
   },
 
-  // Check if a user document represents an active online state
-  isUserOnline(uData) {
-    if (!uData) return false;
-    if (uData.status === 'offline') return false;
-    if (uData.status === 'online') {
-      const lastSeenMs = uData.lastSeen?.toDate 
-        ? uData.lastSeen.toDate().getTime() 
-        : uData.lastSeenLocal 
-        ? new Date(uData.lastSeenLocal).getTime() 
-        : 0;
-      // Active within last 5 minutes (300,000 ms) or freshly set
-      if (!lastSeenMs || (Date.now() - lastSeenMs < 300000)) return true;
+  // Evaluate 4-state Operator presence ('online' | 'idle' | 'dnd' | 'offline')
+  getUserPresenceState(uData) {
+    if (!uData) return 'offline';
+    const rawStatus = uData.presenceState || uData.status || 'offline';
+    if (rawStatus === 'offline' || rawStatus === 'invisible') return 'offline';
+
+    const lastSeenMs = uData.lastSeen?.toDate
+      ? uData.lastSeen.toDate().getTime()
+      : uData.lastSeenLocal
+      ? new Date(uData.lastSeenLocal).getTime()
+      : 0;
+
+    // Stale heartbeat beyond 5 minutes (300,000 ms) -> offline
+    if (lastSeenMs && Date.now() - lastSeenMs > 300000) {
+      return 'offline';
     }
-    return false;
+
+    if (rawStatus === 'dnd') return 'dnd';
+    if (rawStatus === 'idle') return 'idle';
+    if (rawStatus === 'online') {
+      // If no heartbeat update in 3.5 minutes, show as idle
+      if (lastSeenMs && Date.now() - lastSeenMs > 210000) {
+        return 'idle';
+      }
+      return 'online';
+    }
+    return 'offline';
   },
 
-  // Update online presence status in Firestore
+  // Check if a user document represents an active online state (includes 'online', 'idle', and 'dnd')
+  isUserOnline(uData) {
+    const state = ChatService.getUserPresenceState(uData);
+    return state === 'online' || state === 'idle' || state === 'dnd';
+  },
+
+  // Format relative last-seen time for offline/idle telemetry
+  formatLastSeen(uData) {
+    if (!uData) return 'Offline';
+    const lastSeenMs = uData.lastSeen?.toDate
+      ? uData.lastSeen.toDate().getTime()
+      : uData.lastSeenLocal
+      ? new Date(uData.lastSeenLocal).getTime()
+      : 0;
+    if (!lastSeenMs) return 'Offline';
+    const diffSec = Math.max(0, Math.floor((Date.now() - lastSeenMs) / 1000));
+    if (diffSec < 60) return 'Just now';
+    const diffMin = Math.floor(diffSec / 60);
+    if (diffMin < 60) return `${diffMin}m ago`;
+    const diffHr = Math.floor(diffMin / 60);
+    if (diffHr < 24) return `${diffHr}h ago`;
+    const diffDays = Math.floor(diffHr / 24);
+    return `${diffDays}d ago`;
+  },
+
+  // Update online presence status & live activity telemetry in Firestore
   async updateUserPresence(currentUser, status = 'online', extra = {}) {
     if (!currentUser?.uid || !db) return;
     try {
@@ -440,14 +493,29 @@ export const ChatService = {
         email: currentUser.email
       });
 
+      const effectiveStatus = status === 'invisible' ? 'offline' : status;
+
       const payload = {
-        status: status, // 'online' | 'offline' | 'idle'
+        status: effectiveStatus, // 'online' | 'idle' | 'dnd' | 'offline'
+        presenceState: effectiveStatus,
         lastSeen: serverTimestamp(),
         lastSeenLocal: now.toISOString(),
         displayName: currentUser.displayName || currentUser.email || 'Operator',
         userHandle: effectiveHandle,
         photoURL: currentUser.photoURL || null
       };
+
+      if (extra.statusMessage !== undefined) {
+        payload.statusMessage = String(extra.statusMessage || '').slice(0, 100);
+      }
+
+      if (extra.activity !== undefined) {
+        payload.activity = extra.activity;
+      }
+
+      if (extra.activeSquadId !== undefined) {
+        payload.activeSquadId = extra.activeSquadId;
+      }
 
       const tombstones = getFolioTombstones();
       if (extra.activePersona && !isPersonaEmptyTemplate(extra.activePersona) && !isFolioPersonaDeleted(extra.activePersona, tombstones)) {
@@ -475,7 +543,7 @@ export const ChatService = {
     }
   },
 
-  // Real-time listener for user directory and presence
+  // Real-time listener for user directory and presence (Zero Read-Amplification)
   subscribeToUsersPresence(currentUserId, callback) {
     // 1. Immediately emit cached directory if available
     StorageService.getItem('tangent_users_presence_cache', null).then(cached => {
@@ -485,8 +553,8 @@ export const ChatService = {
     }).catch(() => {});
 
     const usersRef = collection(db, 'users');
-    return onSnapshot(usersRef, async (snapshot) => {
-      const userMap = new Map();
+    return onSnapshot(usersRef, (snapshot) => {
+      const userList = [];
       const tombstones = getFolioTombstones();
 
       snapshot.forEach(d => {
@@ -494,15 +562,23 @@ export const ChatService = {
         if (Array.isArray(uData.deletedPersonaIds) && uData.deletedPersonaIds.length > 0) {
           addFolioTombstone(uData.deletedPersonaIds);
         }
-        const online = ChatService.isUserOnline(uData);
+        const presenceState = ChatService.getUserPresenceState(uData);
+        const online = presenceState === 'online' || presenceState === 'idle' || presenceState === 'dnd';
         const effectiveHandle = getEffectiveUserHandle({ ...uData, uid: d.id });
+        const activePersonaId = uData.currentPersona?.id || uData.currentPersona?.['character-doc-id'] || null;
+        const activePersonaName = uData.currentPersona?.name || null;
 
         const userChars = [];
-        // Priority 1: If user doc has explicit clean personas array, use it
         if (Array.isArray(uData.personas) && uData.personas.length > 0) {
           uData.personas.forEach(p => {
             const pId = p.id || p['character-doc-id'] || p.name;
             if (p.name && !isFolioPersonaDeleted(pId, tombstones) && !isPersonaEmptyTemplate(p) && !p.isDeleted) {
+              const isActivelyPiloted = Boolean(
+                online && (
+                  (activePersonaId && pId === activePersonaId) ||
+                  (activePersonaName && p.name === activePersonaName)
+                )
+              );
               userChars.push({
                 id: pId,
                 name: p.name || p['char-name'] || 'Persona',
@@ -511,90 +587,27 @@ export const ChatService = {
                 avatar: p.avatar || null,
                 ownerUid: d.id,
                 ownerHandle: effectiveHandle,
-                isOnline: online
+                isOnline: online,
+                ownerPresenceState: presenceState,
+                isActivelyPiloted,
+                characterPresence: !online ? 'offline' : isActivelyPiloted ? 'deployed' : 'on_call'
               });
             }
           });
         }
 
-        userMap.set(d.id, {
+        userList.push({
           uid: d.id,
           ...uData,
           userHandle: effectiveHandle,
+          presenceState,
           isOnline: online,
+          lastSeenFormatted: ChatService.formatLastSeen(uData),
+          statusMessage: uData.statusMessage || '',
+          activity: uData.activity || null,
           characters: userChars
         });
       });
-
-      // Discover any missing users from game groups to ensure ALL users in the system are listed
-      try {
-        const groupsRef = collection(db, 'game_groups');
-        const groupsSnap = await getDocs(groupsRef);
-        groupsSnap.forEach(gDoc => {
-          const gData = gDoc.data();
-          const allGroupUids = [
-            ...(Array.isArray(gData.members) ? gData.members : []),
-            gData.creatorId,
-            ...(gData.memberDetails ? Object.keys(gData.memberDetails) : [])
-          ].filter(Boolean);
-
-          allGroupUids.forEach(uid => {
-            if (!userMap.has(uid)) {
-              const mDetail = gData.memberDetails?.[uid];
-              const effectiveHandle = getEffectiveUserHandle({
-                userHandle: mDetail?.userHandle,
-                displayName: mDetail?.displayName,
-                uid
-              });
-              userMap.set(uid, {
-                uid: uid,
-                displayName: mDetail?.displayName || 'Operator',
-                userHandle: effectiveHandle,
-                isOnline: false,
-                status: 'offline',
-                characters: []
-              });
-            }
-          });
-        });
-      } catch (e) {
-        // Safe fallback
-      }
-
-      // For users without characters in user doc, check subcollections (skipping current user to avoid stale overwrite)
-      const userList = Array.from(userMap.values());
-      await Promise.all(userList.map(async (u) => {
-        // If user already has characters or is current user (who gets active folio in context), skip subcollection crawl
-        if (u.characters.length > 0 || (currentUserId && u.uid === currentUserId)) {
-          return;
-        }
-
-        try {
-          const personasRef = collection(db, `users/${u.uid}/personas`);
-          const pSnap = await getDocs(personasRef);
-          pSnap.forEach(pDoc => {
-            const p = pDoc.data();
-            const pId = pDoc.id || p['character-doc-id'] || p.name;
-            const pName = p['char-name'] || p.name;
-            if (pName && !isFolioPersonaDeleted(pId, tombstones) && !isPersonaEmptyTemplate(p) && !p.isDeleted) {
-              if (!u.characters.some(c => (c.id || c['character-doc-id'] || c.name) === pId)) {
-                u.characters.push({
-                  id: pId,
-                  name: pName,
-                  species: p['char-species'] || p.species || 'Human',
-                  role: p['char-concept'] || p.role || p['char-occu'] || 'Specialist',
-                  avatar: p.avatar || null,
-                  ownerUid: u.uid,
-                  ownerHandle: u.userHandle || 'Operator',
-                  isOnline: u.isOnline
-                });
-              }
-            }
-          });
-        } catch (err) {
-          // Subcollection read may be restricted if not public; gracefully ignored
-        }
-      }));
 
       callback(userList);
       StorageService.setItem('tangent_users_presence_cache', userList).catch(() => {});
@@ -872,6 +885,74 @@ export const ChatService = {
     } catch (err) {
       console.warn('[ChatService] Failed to update lastMessage after clearing:', err);
     }
+  },
+
+  // Broadcast or clear real-time typing status on a channel
+  async setChannelTypingStatus(channelId, currentUser, speakingPersona = null, isTyping = true) {
+    if (!channelId || !currentUser?.uid || !db) return;
+    try {
+      const channelRef = doc(db, 'channels', channelId);
+      const handle = getEffectiveUserHandle(currentUser);
+      const personaName = speakingPersona?.['char-name'] || speakingPersona?.name || null;
+
+      await updateDoc(channelRef, {
+        [`typingUsers.${currentUser.uid}`]: isTyping
+          ? {
+              uid: currentUser.uid,
+              handle,
+              personaName,
+              isTyping: true,
+              updatedAt: Date.now()
+            }
+          : null
+      }).catch(() => {});
+    } catch (e) {
+      // Non-critical ephemeral state
+    }
+  },
+
+  // Toggle an emoji reaction on a channel message
+  async toggleMessageReaction(channelId, messageId, emoji, currentUser) {
+    if (!channelId || !messageId || !emoji || !currentUser?.uid || !db) return;
+    try {
+      const msgRef = doc(db, 'channels', channelId, 'messages', messageId);
+      const snap = await getDoc(msgRef);
+      if (!snap.exists()) return;
+      const data = snap.data();
+      const reactions = { ...(data.reactions || {}) };
+      const existingUsers = Array.isArray(reactions[emoji]) ? [...reactions[emoji]] : [];
+      const hasReacted = existingUsers.includes(currentUser.uid);
+
+      if (hasReacted) {
+        const nextUsers = existingUsers.filter(id => id !== currentUser.uid);
+        if (nextUsers.length === 0) {
+          delete reactions[emoji];
+        } else {
+          reactions[emoji] = nextUsers;
+        }
+      } else {
+        reactions[emoji] = [...existingUsers, currentUser.uid];
+      }
+
+      await updateDoc(msgRef, {
+        reactions,
+        updatedAt: new Date().toISOString()
+      });
+    } catch (err) {
+      console.warn('[ChatService] Failed to toggle reaction:', err);
+    }
+  },
+
+  // Update status on an interactive squad_invite message card in a DM channel
+  async updateInviteMessageStatus(channelId, messageId, inviteStatus) {
+    if (!channelId || !messageId || !inviteStatus || !db) return;
+    try {
+      const msgRef = doc(db, 'channels', channelId, 'messages', messageId);
+      await updateDoc(msgRef, {
+        inviteStatus,
+        updatedAt: new Date().toISOString()
+      }).catch(() => {});
+    } catch (e) {}
   }
 };
 

@@ -33,20 +33,21 @@ import FeaturesHubView from './views/FeaturesHubView';
 import PropertyHubView from './views/PropertyHubView';
 import TacticalPlayView from './views/TacticalPlayView';
 import { BreadcrumbNav } from '../UI/BreadcrumbNav';
+import { lazyWithRetry } from '../../utils/lazyWithRetry';
 
-// Lazy Loaded Heavy Modals & Drawers (Optimized Cold-Load Code Splitting)
-const CustomSelectorModal = React.lazy(() => import('./modals/CustomSelectorModal'));
-const AssetModal = React.lazy(() => import('./modals/AssetModal'));
-const MetaphysicsModal = React.lazy(() => import('./modals/MetaphysicsModal'));
-const GuidedCreatorModal = React.lazy(() => import('./modals/GuidedCreatorModal'));
-const PrintFolio = React.lazy(() => import('./print/PrintFolio'));
-const EconomyModal = React.lazy(() => import('./modals/EconomyModal'));
-const RosterModal = React.lazy(() => import('./modals/RosterModal'));
-const BastionDrawer = React.lazy(() => import('./BastionDrawer'));
-const FolioGuideModal = React.lazy(() => import('./FolioGuideModal'));
-const UserSettingsModal = React.lazy(() => import('../UserSettingsModal'));
-const TrackedModificationsModal = React.lazy(() => import('./modals/TrackedModificationsModal'));
-const PreviewModal = React.lazy(() => import('./modals/PreviewModal'));
+// Lazy Loaded Heavy Modals & Drawers (Optimized Cold-Load Code Splitting with Stale Chunk Recovery)
+const CustomSelectorModal = lazyWithRetry(() => import('./modals/CustomSelectorModal'));
+const AssetModal = lazyWithRetry(() => import('./modals/AssetModal'));
+const MetaphysicsModal = lazyWithRetry(() => import('./modals/MetaphysicsModal'));
+const GuidedCreatorModal = lazyWithRetry(() => import('./modals/GuidedCreatorModal'));
+const PrintFolio = lazyWithRetry(() => import('./print/PrintFolio'));
+const EconomyModal = lazyWithRetry(() => import('./modals/EconomyModal'));
+const RosterModal = lazyWithRetry(() => import('./modals/RosterModal'));
+const BastionDrawer = lazyWithRetry(() => import('./BastionDrawer'));
+const FolioGuideModal = lazyWithRetry(() => import('./FolioGuideModal'));
+const UserSettingsModal = lazyWithRetry(() => import('../UserSettingsModal'));
+const TrackedModificationsModal = lazyWithRetry(() => import('./modals/TrackedModificationsModal'));
+const PreviewModal = lazyWithRetry(() => import('./modals/PreviewModal'));
 
 const FolioContainer = () => {
   const navigate = useNavigate();

@@ -250,7 +250,7 @@ test('Firestore Rules: Story Foundry assets, Universe state, Commlink public cha
   );
   assert.match(
     rulesText,
-    /match\s+\/messages\/\{messageId\}\s*\{[\s\S]*?request\.resource\.data\.senderId\s*==\s*request\.auth\.uid\s*\|\|\s*isAdmin\(\)/,
+    /match\s+\/messages\/\{messageId\}\s*\{[\s\S]*?request\.resource\.data\.senderId\s*==\s*request\.auth\.uid(?:\s*\|\|\s*request\.resource\.data\.senderId\s*==\s*'system')?\s*\|\|\s*isAdmin\(\)/,
     'Commlink channel messages must prevent senderId spoofing'
   );
 

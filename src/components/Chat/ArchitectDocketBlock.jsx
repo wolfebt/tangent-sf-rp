@@ -6,21 +6,23 @@ import {
   Trash2, 
   X, 
   Maximize2, 
-  ExternalLink, 
-  AlertTriangle, 
-  Shield, 
-  Crown, 
-  Sparkles, 
   BookOpen, 
-  Crosshair, 
   Radio, 
-  ChevronRight, 
-  ChevronDown,
   Upload,
   Link,
-  Check
+  Check,
+  Pin,
+  Edit3,
+  Lock,
+  Eye,
+  CheckSquare,
+  Square,
+  CheckCircle2,
+  XCircle,
+  Clock
 } from 'lucide-react';
 import { useGroup } from '../../context/GroupContext';
+import { useChat } from '../../context/ChatContext';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import { AudioService } from '../../services/audioService.js';
@@ -34,6 +36,33 @@ const BLOCK_TAGS = [
   { label: 'Briefing', color: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' }
 ];
 
+const FILTER_TABS = [
+  { id: 'all', label: 'ALL' },
+  { id: 'objective', label: 'OBJECTIVES' },
+  { id: 'intel', label: 'INTEL' },
+  { id: 'hazard', label: 'HAZARDS' },
+  { id: 'recon', label: 'RECON' },
+  { id: 'lore', label: 'LORE' }
+];
+
+const STATUS_CONFIG = {
+  active: {
+    label: 'ACTIVE',
+    color: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/40',
+    icon: Clock
+  },
+  completed: {
+    label: 'COMPLETE',
+    color: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
+    icon: CheckCircle2
+  },
+  failed: {
+    label: 'COMPROMISED',
+    color: 'bg-rose-500/20 text-rose-300 border-rose-500/40',
+    icon: XCircle
+  }
+};
+
 export const ArchitectDocketBlock = ({ 
   channel, 
   group, 
@@ -43,25 +72,46 @@ export const ArchitectDocketBlock = ({
   onToggleCollapse 
 }) => {
   const { toast } = useToast();
-  const { currentUser, isAdmin } = useAuth();
+  const { currentUser, isAdmin, userHandle } = useAuth();
   const { 
+    activeGroup,
     saveArchitectBlock, 
     deleteArchitectBlock, 
+    toggleArchitectBlockAck,
+    toggleArchitectChecklistItem,
     subscribeToArchitectBlocks,
-    isUserArchitect,
-    isUserCoArchitect,
     canManageTeam 
   } = useGroup() || {};
 
+  const {
+    activeChannelGroup,
+    squadEnrolledPersona,
+    selectedPersona,
+    allUserPersonas = [],
+    pulseDocketBlockToChat
+  } = useChat() || {};
+
+  const effectiveGroup = group || activeChannelGroup || activeGroup || null;
+  const channelId = channel?.id || effectiveGroup?.channelId;
+  const groupId = effectiveGroup?.id || channel?.groupId;
+
   const [internalBlocks, setInternalBlocks] = useState([]);
   const blocks = externalBlocks !== undefined ? externalBlocks : internalBlocks;
+  const [activeFilter, setActiveFilter] = useState('all');
   const [activeModal, setActiveModal] = useState(null); // 'text' | 'image' | null
+  const [editingBlockId, setEditingBlockId] = useState(null);
   const [lightboxImage, setLightboxImage] = useState(null);
 
-  // Form states for new block
+  // Form states for text/directive block
   const [textTag, setTextTag] = useState('Objective');
   const [textTitle, setTextTitle] = useState('');
   const [textContent, setTextContent] = useState('');
+  const [blockStatus, setBlockStatus] = useState('active');
+  const [blockPinned, setBlockPinned] = useState(false);
+  const [blockVisibility, setBlockVisibility] = useState('all'); // 'all' | 'classified'
+  const [visibleToPersonaIds, setVisibleToPersonaIds] = useState([]);
+  const [checklistItems, setChecklistItems] = useState([]);
+  const [newChecklistText, setNewChecklistText] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
   // Form states for image handout
@@ -71,21 +121,84 @@ export const ArchitectDocketBlock = ({
   const [imageMode, setImageMode] = useState('url'); // 'url' | 'upload'
   const fileInputRef = useRef(null);
 
-  const channelId = channel?.id;
-  const groupId = group?.id || channel?.groupId;
-
-  // Check if current user is an Architect or Co-Architect
+  // Check if current user is an Architect or Co-Architect for this Squad / Channel
   const canEdit = useMemo(() => {
     if (isAdmin) return true;
-    if (group) {
-      if (canManageTeam) return canManageTeam(group);
-      return group.creatorId === currentUser?.uid || group.coArchitectId === currentUser?.uid;
+    const uid = currentUser?.uid;
+    if (!uid) return false;
+    if (effectiveGroup) {
+      if (typeof canManageTeam === 'function') {
+        try {
+          if (canManageTeam(effectiveGroup)) return true;
+        } catch (_) {}
+      } else if (Boolean(canManageTeam) && activeGroup?.id === effectiveGroup.id) {
+        return true;
+      }
+      if (effectiveGroup.leaderId === uid || effectiveGroup.creatorId === uid) return true;
+      if (effectiveGroup.coArchitectId === uid) return true;
+      if (Array.isArray(effectiveGroup.coArchitects) && effectiveGroup.coArchitects.includes(uid)) return true;
     }
-    if (channel) {
-      return channel.createdById === currentUser?.uid;
-    }
+    if (channel && channel.createdById === uid) return true;
     return false;
-  }, [group, channel, currentUser, isAdmin, canManageTeam]);
+  }, [effectiveGroup, activeGroup?.id, channel, currentUser?.uid, isAdmin, canManageTeam]);
+
+  // Enrolled Squad Characters for Classified targeting
+  const squadPersonas = useMemo(() => {
+    const list = [];
+    const seen = new Set();
+    if (effectiveGroup?.memberDetails && typeof effectiveGroup.memberDetails === 'object') {
+      Object.entries(effectiveGroup.memberDetails).forEach(([uid, detail]) => {
+        const p = detail?.persona;
+        if (!p) return;
+        const pid = p.id || p['character-doc-id'] || p.docId || `${uid}_${p.name}`;
+        if (!seen.has(pid)) {
+          seen.add(pid);
+          list.push({
+            id: pid,
+            name: p.name || p['char-name'] || 'Operative',
+            role: p.role || p['char-concept'] || 'Specialist',
+            ownerUid: uid,
+            ownerHandle: detail.handle || effectiveGroup.memberNames?.[uid] || 'Operator'
+          });
+        }
+      });
+    }
+    if (Array.isArray(channel?.characterMembers)) {
+      channel.characterMembers.forEach(cm => {
+        if (!cm) return;
+        const pid = cm.id || cm['character-doc-id'] || cm.name;
+        if (pid && !seen.has(pid)) {
+          seen.add(pid);
+          list.push({
+            id: pid,
+            name: cm.name || cm['char-name'] || 'Operative',
+            role: cm.role || cm['char-concept'] || 'Specialist',
+            ownerUid: cm.ownerUid || null,
+            ownerHandle: cm.ownerHandle || 'Operator'
+          });
+        }
+      });
+    }
+    return list;
+  }, [effectiveGroup, channel?.characterMembers]);
+
+  // Set of current user's persona IDs for Classified visibility matching
+  const myPersonaIdSet = useMemo(() => {
+    const set = new Set();
+    if (squadEnrolledPersona) {
+      const id = squadEnrolledPersona.id || squadEnrolledPersona['character-doc-id'];
+      if (id) set.add(id);
+    }
+    if (selectedPersona) {
+      const id = selectedPersona.id || selectedPersona['character-doc-id'];
+      if (id) set.add(id);
+    }
+    (allUserPersonas || []).forEach(p => {
+      const id = p.id || p['character-doc-id'];
+      if (id) set.add(id);
+    });
+    return set;
+  }, [squadEnrolledPersona, selectedPersona, allUserPersonas]);
 
   // Subscribe to real-time blocks for this channel / group
   useEffect(() => {
@@ -104,12 +217,103 @@ export const ArchitectDocketBlock = ({
     };
   }, [channelId, groupId, externalBlocks, subscribeToArchitectBlocks]);
 
-  const handleCreateTextBlock = async (e) => {
+  // Filter blocks by visibility & active category tab
+  const visibleBlocks = useMemo(() => {
+    return (blocks || []).filter(block => {
+      // 1. Classified visibility check
+      if (block.visibility === 'classified' && !canEdit) {
+        const allowedPersonas = Array.isArray(block.visibleToPersonaIds) ? block.visibleToPersonaIds : [];
+        const allowedUids = Array.isArray(block.visibleToUids) ? block.visibleToUids : [];
+        const uidMatch = currentUser?.uid && allowedUids.includes(currentUser.uid);
+        const personaMatch = allowedPersonas.some(pid => myPersonaIdSet.has(pid));
+        if (!uidMatch && !personaMatch) return false;
+      }
+
+      // 2. Category tab filter
+      if (activeFilter === 'all') return true;
+      const cat = (block.tag || block.category || '').toLowerCase();
+      if (activeFilter === 'recon') {
+        return block.type === 'image' || cat === 'recon';
+      }
+      if (activeFilter === 'objective') {
+        return cat === 'objective' || cat === 'briefing';
+      }
+      return cat === activeFilter;
+    });
+  }, [blocks, canEdit, currentUser?.uid, myPersonaIdSet, activeFilter]);
+
+  const resetTextModal = () => {
+    setEditingBlockId(null);
+    setTextTag('Objective');
+    setTextTitle('');
+    setTextContent('');
+    setBlockStatus('active');
+    setBlockPinned(false);
+    setBlockVisibility('all');
+    setVisibleToPersonaIds([]);
+    setChecklistItems([]);
+    setNewChecklistText('');
+  };
+
+  const openEditBlockModal = (block) => {
+    AudioService.playTerminalBeep(1200, 0.02);
+    setEditingBlockId(block.id);
+    if (block.type === 'image') {
+      setImageTitle(block.title || '');
+      setImageCaption(block.caption || '');
+      setImageUrl(block.imageUrl || '');
+      setBlockPinned(Boolean(block.isPinned));
+      setBlockVisibility(block.visibility || 'all');
+      setVisibleToPersonaIds(Array.isArray(block.visibleToPersonaIds) ? block.visibleToPersonaIds : []);
+      setActiveModal('image');
+    } else {
+      setTextTag(block.tag || block.category || 'Objective');
+      setTextTitle(block.title || '');
+      setTextContent(block.content || '');
+      setBlockStatus(block.status || 'active');
+      setBlockPinned(Boolean(block.isPinned));
+      setBlockVisibility(block.visibility || 'all');
+      setVisibleToPersonaIds(Array.isArray(block.visibleToPersonaIds) ? block.visibleToPersonaIds : []);
+      setChecklistItems(Array.isArray(block.checklist) ? block.checklist : []);
+      setNewChecklistText('');
+      setActiveModal('text');
+    }
+  };
+
+  const handleAddChecklistItem = () => {
+    if (!newChecklistText.trim()) return;
+    setChecklistItems(prev => [
+      ...prev,
+      { id: `chk_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`, text: newChecklistText.trim(), done: false }
+    ]);
+    setNewChecklistText('');
+  };
+
+  const handleRemoveChecklistItem = (itemId) => {
+    setChecklistItems(prev => prev.filter(i => i.id !== itemId));
+  };
+
+  const togglePersonaTarget = (personaId) => {
+    setVisibleToPersonaIds(prev =>
+      prev.includes(personaId) ? prev.filter(id => id !== personaId) : [...prev, personaId]
+    );
+  };
+
+  const handleSaveTextBlock = async (e) => {
     e.preventDefault();
     if (!textTitle.trim()) {
       toast({ type: 'error', text: 'Provide a title for the briefing block.' });
       return;
     }
+
+    // If user typed a checklist item but didn't click '+', include it automatically
+    const finalChecklist = newChecklistText.trim()
+      ? [...checklistItems, { id: `chk_${Date.now()}`, text: newChecklistText.trim(), done: false }]
+      : checklistItems;
+
+    const allowedUids = squadPersonas
+      .filter(sp => visibleToPersonaIds.includes(sp.id) && sp.ownerUid)
+      .map(sp => sp.ownerUid);
 
     setSubmitting(true);
     try {
@@ -117,17 +321,23 @@ export const ArchitectDocketBlock = ({
         channelId,
         groupId,
         block: {
+          id: editingBlockId || undefined,
           type: 'text',
           tag: textTag,
+          category: textTag,
           title: textTitle.trim(),
           content: textContent.trim(),
-          createdAt: new Date().toISOString()
+          status: blockStatus,
+          isPinned: blockPinned,
+          visibility: blockVisibility,
+          visibleToPersonaIds: blockVisibility === 'classified' ? visibleToPersonaIds : [],
+          visibleToUids: blockVisibility === 'classified' ? allowedUids : [],
+          checklist: finalChecklist
         }
       });
       AudioService.playTerminalBeep(1400, 0.04);
-      toast({ type: 'success', text: 'Briefing block added to Tactical Docket.' });
-      setTextTitle('');
-      setTextContent('');
+      toast({ type: 'success', text: editingBlockId ? 'Docket directive updated.' : 'Directive pinned to Tactical Docket.' });
+      resetTextModal();
       setActiveModal(null);
     } catch (err) {
       toast({ type: 'error', text: 'Failed to save briefing block.' });
@@ -143,21 +353,32 @@ export const ArchitectDocketBlock = ({
       return;
     }
 
+    const allowedUids = squadPersonas
+      .filter(sp => visibleToPersonaIds.includes(sp.id) && sp.ownerUid)
+      .map(sp => sp.ownerUid);
+
     setSubmitting(true);
     try {
       await saveArchitectBlock({
         channelId,
         groupId,
         block: {
+          id: editingBlockId || undefined,
           type: 'image',
+          tag: 'Recon',
+          category: 'Recon',
           title: imageTitle.trim() || 'Visual Recon Handout',
           imageUrl: imageUrl.trim(),
           caption: imageCaption.trim(),
-          createdAt: new Date().toISOString()
+          isPinned: blockPinned,
+          visibility: blockVisibility,
+          visibleToPersonaIds: blockVisibility === 'classified' ? visibleToPersonaIds : [],
+          visibleToUids: blockVisibility === 'classified' ? allowedUids : []
         }
       });
       AudioService.playTerminalBeep(1400, 0.04);
-      toast({ type: 'success', text: 'Visual handout pinned to Tactical Docket.' });
+      toast({ type: 'success', text: editingBlockId ? 'Visual handout updated.' : 'Visual handout pinned to Tactical Docket.' });
+      setEditingBlockId(null);
       setImageTitle('');
       setImageCaption('');
       setImageUrl('');
@@ -167,6 +388,61 @@ export const ArchitectDocketBlock = ({
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const handleQuickTogglePin = async (block) => {
+    if (!canEdit) return;
+    AudioService.playTerminalBeep(1300, 0.02);
+    await saveArchitectBlock({
+      channelId,
+      groupId,
+      block: {
+        ...block,
+        isPinned: !block.isPinned
+      }
+    });
+  };
+
+  const handleQuickCycleStatus = async (block) => {
+    if (!canEdit) return;
+    const order = ['active', 'completed', 'failed'];
+    const nextStatus = order[(order.indexOf(block.status || 'active') + 1) % order.length];
+    AudioService.playTerminalBeep(1350, 0.02);
+    await saveArchitectBlock({
+      channelId,
+      groupId,
+      block: {
+        ...block,
+        status: nextStatus
+      }
+    });
+  };
+
+  const handleToggleAck = async (block) => {
+    if (!currentUser) return;
+    AudioService.playTerminalBeep(1500, 0.025);
+    const activeP = squadEnrolledPersona || selectedPersona;
+    await toggleArchitectBlockAck?.({
+      channelId,
+      groupId,
+      blockId: block.id,
+      ackEntry: {
+        uid: currentUser.uid,
+        operatorHandle: userHandle || currentUser.displayName || 'Operative',
+        personaId: activeP?.id || activeP?.['character-doc-id'] || null,
+        personaName: activeP?.name || activeP?.['char-name'] || userHandle || 'Operative'
+      }
+    });
+  };
+
+  const handleToggleChecklist = async (block, itemId) => {
+    AudioService.playTerminalBeep(1420, 0.02);
+    await toggleArchitectChecklistItem?.({
+      channelId,
+      groupId,
+      blockId: block.id,
+      itemId
+    });
   };
 
   const handleFileUpload = (e) => {
@@ -201,7 +477,7 @@ export const ArchitectDocketBlock = ({
   return (
     <aside className="w-80 lg:w-96 flex flex-col h-full bg-[#090d16] border-l border-slate-800 shrink-0 font-mono text-xs select-none">
       {/* ── Docket Header ── */}
-      <div className="p-3 border-b border-slate-800 bg-slate-950/80 flex items-center justify-between gap-2">
+      <div className="p-3 border-b border-slate-800 bg-slate-950/90 flex items-center justify-between gap-2">
         <div className="flex items-center gap-2 min-w-0">
           <div className="p-1.5 rounded-lg bg-rose-500/20 text-rose-300 border border-rose-500/40 shrink-0">
             <BookOpen size={14} />
@@ -212,11 +488,11 @@ export const ArchitectDocketBlock = ({
                 TACTICAL DOCKET
               </span>
               <span className="px-1.5 py-0.2 rounded-full bg-rose-950/60 text-rose-300 border border-rose-500/40 text-[8.5px] font-bold">
-                {blocks.length}
+                {visibleBlocks.length}
               </span>
             </div>
             <span className="text-[9.5px] text-slate-400 block truncate">
-              {canEdit ? 'Lead Architect Handouts & Directives' : 'Architect Directives & Visual Intel'}
+              {canEdit ? 'Architect Command Handouts & Objectives' : 'Squad Directives & Visual Recon'}
             </span>
           </div>
         </div>
@@ -235,6 +511,27 @@ export const ArchitectDocketBlock = ({
         </div>
       </div>
 
+      {/* ── Category Filter Bar ── */}
+      <div className="px-2.5 py-1.5 bg-slate-950/80 border-b border-slate-800/80 flex items-center gap-1 overflow-x-auto no-scrollbar shrink-0">
+        {FILTER_TABS.map(tab => (
+          <button
+            key={tab.id}
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(1050, 0.015);
+              setActiveFilter(tab.id);
+            }}
+            className={`px-2 py-0.5 rounded-md text-[9px] font-bold tracking-wider transition-all shrink-0 cursor-pointer ${
+              activeFilter === tab.id
+                ? 'bg-rose-500/25 text-rose-200 border border-rose-500/50 shadow-sm'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
       {/* ── Architect Quick Creation Bar (Visible if Architect / Co-Architect) ── */}
       {canEdit && (
         <div className="p-2.5 bg-slate-950/60 border-b border-slate-800/80 flex items-center gap-2 shrink-0">
@@ -242,78 +539,151 @@ export const ArchitectDocketBlock = ({
             type="button"
             onClick={() => {
               AudioService.playTerminalBeep(1100, 0.02);
+              resetTextModal();
               setActiveModal('text');
             }}
-            className="flex-1 py-1.5 px-2 rounded-xl bg-amber-950/40 hover:bg-amber-900/60 border border-amber-500/40 text-amber-200 text-[10.5px] font-bold flex items-center justify-center gap-1.5 transition-all shadow-sm cursor-pointer"
+            className="flex-1 py-1.5 px-2 rounded-xl bg-amber-950/40 hover:bg-amber-900/60 border border-amber-500/40 text-amber-200 text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all shadow-sm cursor-pointer"
           >
             <FileText size={12} />
-            <span>+ TEXT BLOCK</span>
+            <span>+ DIRECTIVE</span>
           </button>
 
           <button
             type="button"
             onClick={() => {
               AudioService.playTerminalBeep(1100, 0.02);
+              setEditingBlockId(null);
+              setImageTitle('');
+              setImageCaption('');
+              setImageUrl('');
+              setBlockPinned(false);
+              setBlockVisibility('all');
+              setVisibleToPersonaIds([]);
               setActiveModal('image');
             }}
-            className="flex-1 py-1.5 px-2 rounded-xl bg-rose-950/40 hover:bg-rose-900/60 border border-rose-500/40 text-rose-200 text-[10.5px] font-bold flex items-center justify-center gap-1.5 transition-all shadow-sm cursor-pointer"
+            className="flex-1 py-1.5 px-2 rounded-xl bg-rose-950/40 hover:bg-rose-900/60 border border-rose-500/40 text-rose-200 text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all shadow-sm cursor-pointer"
           >
             <ImageIcon size={12} />
-            <span>+ IMAGE RECON</span>
+            <span>+ VISUAL RECON</span>
           </button>
         </div>
       )}
 
       {/* ── Docket Scrollable Feed ── */}
       <div className="flex-1 overflow-y-auto p-3 space-y-3 no-scrollbar">
-        {blocks.length === 0 ? (
+        {visibleBlocks.length === 0 ? (
           <div className="p-8 rounded-2xl bg-slate-950/50 border border-dashed border-slate-800 text-center space-y-2 my-auto">
             <BookOpen size={24} className="mx-auto text-slate-600" />
-            <p className="text-slate-300 font-bold text-[11px]">No Tactical Handouts Pinned</p>
+            <p className="text-slate-300 font-bold text-[11px]">No Tactical Directives Found</p>
             <p className="text-slate-500 text-[10px] leading-relaxed">
               {canEdit 
-                ? 'Insert mission objectives, lore excerpts, or image handouts for your fireteam.' 
-                : 'The Architect has not pinned any briefing blocks or maps to this frequency yet.'}
+                ? 'Insert mission objectives, checklists, classified intel, or visual handouts for your fireteam.' 
+                : 'The Architect has not pinned any briefing blocks or maps to this category yet.'}
             </p>
           </div>
         ) : (
-          blocks.map((block) => {
+          visibleBlocks.map((block) => {
             const isImage = block.type === 'image';
-            const tagMatch = BLOCK_TAGS.find(t => t.label.toLowerCase() === (block.tag || '').toLowerCase()) || BLOCK_TAGS[0];
+            const tagLabel = block.tag || block.category || (isImage ? 'Recon' : 'Objective');
+            const tagMatch = BLOCK_TAGS.find(t => t.label.toLowerCase() === tagLabel.toLowerCase()) || BLOCK_TAGS[0];
+            const statusCfg = STATUS_CONFIG[block.status || 'active'] || STATUS_CONFIG.active;
+            const StatusIcon = statusCfg.icon;
+            const checklist = Array.isArray(block.checklist) ? block.checklist : [];
+            const acks = Array.isArray(block.acknowledgedBy) ? block.acknowledgedBy : [];
+            const hasMyAck = Boolean(currentUser?.uid && acks.some(a => a.uid === currentUser.uid));
+            const isClassified = block.visibility === 'classified';
 
             return (
               <div
                 key={block.id}
-                className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-slate-700 transition-all space-y-2 group shadow-sm"
+                className={`p-3 rounded-xl bg-slate-950/90 border transition-all space-y-2.5 group shadow-sm ${
+                  block.isPinned
+                    ? 'border-amber-500/50 shadow-[0_0_20px_rgba(245,158,11,0.1)]'
+                    : isClassified
+                    ? 'border-purple-500/40'
+                    : 'border-slate-800 hover:border-slate-700'
+                }`}
               >
                 {/* Block Header */}
                 <div className="flex items-start justify-between gap-1.5">
-                  <div className="flex items-center gap-2 min-w-0">
-                    {isImage ? (
-                      <span className="px-1.5 py-0.2 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 text-[8.5px] font-bold shrink-0">
-                        IMAGE RECON
-                      </span>
-                    ) : (
-                      <span className={`px-1.5 py-0.2 rounded text-[8.5px] font-bold border shrink-0 ${tagMatch.color}`}>
-                        {block.tag || 'Objective'}
+                  <div className="flex items-center gap-1.5 flex-wrap min-w-0">
+                    {block.isPinned && (
+                      <span className="p-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 shrink-0" title="Pinned Directive">
+                        <Pin size={10} />
                       </span>
                     )}
 
-                    <span className="font-bold text-white text-[11px] truncate block">
-                      {block.title}
-                    </span>
+                    {isClassified && (
+                      <span className="px-1.5 py-0.2 rounded bg-purple-500/20 text-purple-300 border border-purple-500/40 text-[8.5px] font-bold flex items-center gap-0.5 shrink-0" title="Classified Eyes-Only Intel">
+                        <Lock size={9} />
+                        <span>CLASSIFIED</span>
+                      </span>
+                    )}
+
+                    {isImage ? (
+                      <span className="px-1.5 py-0.2 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 text-[8.5px] font-bold shrink-0">
+                        RECON
+                      </span>
+                    ) : (
+                      <span className={`px-1.5 py-0.2 rounded text-[8.5px] font-bold border shrink-0 ${tagMatch.color}`}>
+                        {tagLabel.toUpperCase()}
+                      </span>
+                    )}
+
+                    {!isImage && (
+                      <button
+                        type="button"
+                        disabled={!canEdit}
+                        onClick={() => handleQuickCycleStatus(block)}
+                        className={`px-1.5 py-0.2 rounded text-[8.5px] font-bold border flex items-center gap-1 shrink-0 ${statusCfg.color} ${
+                          canEdit ? 'cursor-pointer hover:brightness-125' : 'cursor-default'
+                        }`}
+                        title={canEdit ? 'Click to cycle Objective status (Active / Complete / Compromised)' : statusCfg.label}
+                      >
+                        <StatusIcon size={9} />
+                        <span>{statusCfg.label}</span>
+                      </button>
+                    )}
                   </div>
 
+                  {/* Architect Action Controls */}
                   {canEdit && (
-                    <button
-                      type="button"
-                      onClick={() => handleDeleteBlock(block.id)}
-                      className="opacity-0 group-hover:opacity-100 p-1 text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 rounded transition-all cursor-pointer shrink-0"
-                      title="Delete Entry"
-                    >
-                      <Trash2 size={11} />
-                    </button>
+                    <div className="flex items-center gap-0.5 shrink-0">
+                      <button
+                        type="button"
+                        onClick={() => handleQuickTogglePin(block)}
+                        className={`p-1 rounded transition-colors cursor-pointer ${
+                          block.isPinned ? 'text-amber-400 bg-amber-500/15' : 'text-slate-500 hover:text-amber-300 hover:bg-slate-900'
+                        }`}
+                        title={block.isPinned ? 'Unpin Directive' : 'Pin Directive to Top'}
+                      >
+                        <Pin size={11} />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => openEditBlockModal(block)}
+                        className="p-1 text-slate-500 hover:text-cyan-300 hover:bg-slate-900 rounded transition-colors cursor-pointer"
+                        title="Edit Directive"
+                      >
+                        <Edit3 size={11} />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteBlock(block.id)}
+                        className="p-1 text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 rounded transition-colors cursor-pointer"
+                        title="Delete Entry"
+                      >
+                        <Trash2 size={11} />
+                      </button>
+                    </div>
                   )}
+                </div>
+
+                {/* Title */}
+                <div className={`font-bold text-[11.5px] leading-snug ${
+                  block.status === 'completed' ? 'line-through text-slate-400' : 'text-white'
+                }`}>
+                  {block.title}
                 </div>
 
                 {/* Block Body: Text vs Image */}
@@ -345,15 +715,98 @@ export const ArchitectDocketBlock = ({
                     )}
                   </div>
                 ) : (
-                  <div className="text-[11px] text-slate-300 font-sans leading-relaxed whitespace-pre-wrap bg-slate-900/60 p-2.5 rounded-lg border border-slate-800/80">
-                    <ChatParser text={block.content} />
+                  block.content && (
+                    <div className="text-[11px] text-slate-300 font-sans leading-relaxed whitespace-pre-wrap bg-slate-900/60 p-2.5 rounded-lg border border-slate-800/80">
+                      <ChatParser text={block.content} />
+                    </div>
+                  )
+                )}
+
+                {/* Interactive Sub-Objective Checklist */}
+                {checklist.length > 0 && (
+                  <div className="space-y-1 bg-slate-900/40 p-2 rounded-lg border border-slate-800/70">
+                    <div className="flex items-center justify-between text-[9px] text-slate-400 font-bold uppercase mb-1">
+                      <span>SUB-OBJECTIVES</span>
+                      <span className="text-cyan-400">
+                        {checklist.filter(i => i.done).length}/{checklist.length}
+                      </span>
+                    </div>
+                    {checklist.map(item => (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => handleToggleChecklist(block, item.id)}
+                        className="w-full flex items-start gap-2 text-left py-0.5 px-1 rounded hover:bg-slate-800/60 transition-colors cursor-pointer"
+                      >
+                        {item.done ? (
+                          <CheckSquare size={12} className="text-emerald-400 shrink-0 mt-0.5" />
+                        ) : (
+                          <Square size={12} className="text-slate-500 shrink-0 mt-0.5" />
+                        )}
+                        <span className={`text-[10.5px] font-sans leading-tight ${
+                          item.done ? 'line-through text-slate-500' : 'text-slate-200'
+                        }`}>
+                          {item.text}
+                        </span>
+                      </button>
+                    ))}
                   </div>
                 )}
 
-                {/* Footer metadata */}
-                <div className="flex items-center justify-between text-[9px] text-slate-500 pt-1 border-t border-slate-900">
-                  <span>By @{block.createdByHandle || 'Architect'}</span>
-                  <span>{new Date(block.createdAt || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                {/* Acknowledged By Pills */}
+                {acks.length > 0 && (
+                  <div className="flex items-center gap-1 flex-wrap pt-0.5">
+                    <span className="text-[8.5px] text-slate-500 uppercase font-bold">ACK:</span>
+                    {acks.map(ack => (
+                      <span
+                        key={ack.uid}
+                        className="px-1.5 py-0.2 rounded-full bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 text-[8.5px] font-bold flex items-center gap-0.5"
+                        title={`Acknowledged by ${ack.personaName} (@${ack.operatorHandle})`}
+                      >
+                        <Check size={8} />
+                        <span>{ack.personaName || ack.operatorHandle}</span>
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {/* Footer Actions & Metadata */}
+                <div className="flex items-center justify-between gap-2 text-[9px] text-slate-500 pt-1.5 border-t border-slate-900">
+                  <div className="truncate">
+                    <span>@{block.createdByHandle || 'Architect'}</span>
+                    <span className="mx-1">•</span>
+                    <span>{new Date(block.createdAt || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                  </div>
+
+                  <div className="flex items-center gap-1 shrink-0">
+                    {/* Operative ACK Toggle */}
+                    <button
+                      type="button"
+                      onClick={() => handleToggleAck(block)}
+                      className={`px-2 py-0.5 rounded text-[9px] font-bold border flex items-center gap-1 transition-all cursor-pointer ${
+                        hasMyAck
+                          ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50'
+                          : 'bg-slate-900 hover:bg-slate-800 text-slate-300 border-slate-700'
+                      }`}
+                      title="Acknowledge receipt of this directive as your Squad Character"
+                    >
+                      <Check size={9} />
+                      <span>{hasMyAck ? 'ACKED' : 'ACK'}</span>
+                    </button>
+
+                    {/* Architect Pulse to Comms */}
+                    {canEdit && pulseDocketBlockToChat && (
+                      <button
+                        type="button"
+                        onClick={() => pulseDocketBlockToChat(block, effectiveGroup)}
+                        className="px-2 py-0.5 rounded bg-cyan-950/60 hover:bg-cyan-900/70 text-cyan-300 border border-cyan-500/40 text-[9px] font-bold flex items-center gap-1 transition-all cursor-pointer"
+                        title="Broadcast this Directive Card to Squad Comms Feed"
+                      >
+                        <Radio size={9} />
+                        <span>PULSE</span>
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             );
@@ -361,29 +814,33 @@ export const ArchitectDocketBlock = ({
         )}
       </div>
 
-      {/* ── MODAL: Insert Text Block ── */}
+      {/* ── MODAL: Insert / Edit Text Directive Block ── */}
       {activeModal === 'text' && (
         <div className="fixed inset-0 z-[250] flex items-center justify-center bg-black/85 backdrop-blur-md p-4 select-none font-mono animate-fade-in">
-          <div className="bg-[#0b121d] border border-amber-500/50 rounded-2xl w-full max-w-md overflow-hidden shadow-[0_0_50px_rgba(245,158,11,0.25)] flex flex-col text-slate-100">
-            <div className="p-3.5 border-b border-slate-800 bg-gradient-to-r from-slate-900 to-amber-950/40 flex items-center justify-between">
+          <div className="bg-[#0b121d] border border-amber-500/50 rounded-2xl w-full max-w-lg max-h-[90vh] overflow-hidden shadow-[0_0_50px_rgba(245,158,11,0.25)] flex flex-col text-slate-100">
+            <div className="p-3.5 border-b border-slate-800 bg-gradient-to-r from-slate-900 to-amber-950/40 flex items-center justify-between shrink-0">
               <div className="flex items-center gap-2">
                 <FileText size={16} className="text-amber-400" />
                 <h3 className="font-bold text-xs uppercase tracking-wider text-white">
-                  INSERT DIRECTIVE / TEXT BLOCK
+                  {editingBlockId ? 'EDIT TACTICAL DIRECTIVE' : 'NEW TACTICAL DIRECTIVE / OBJECTIVE'}
                 </h3>
               </div>
-              <button type="button" onClick={() => setActiveModal(null)} className="p-1 rounded text-slate-400 hover:text-white cursor-pointer">
+              <button
+                type="button"
+                onClick={() => {
+                  resetTextModal();
+                  setActiveModal(null);
+                }}
+                className="p-1 rounded text-slate-400 hover:text-white cursor-pointer"
+              >
                 <X size={14} />
               </button>
             </div>
 
-            <form onSubmit={handleCreateTextBlock} className="p-4 space-y-3.5">
-              {/* Tag selector */}
-              <div className="space-y-1">
-                <label className="text-[10px] font-bold text-amber-300 uppercase block">
-                  CATEGORY TAG:
-                </label>
-                <div className="flex items-center gap-1.5 flex-wrap">
+            <form onSubmit={handleSaveTextBlock} className="p-4 space-y-3.5 overflow-y-auto">
+              {/* Tag & Pin & Status Row */}
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <div className="flex items-center gap-1 flex-wrap">
                   {BLOCK_TAGS.map(t => (
                     <button
                       key={t.label}
@@ -397,12 +854,42 @@ export const ArchitectDocketBlock = ({
                     </button>
                   ))}
                 </div>
+
+                <button
+                  type="button"
+                  onClick={() => setBlockPinned(prev => !prev)}
+                  className={`px-2 py-0.5 rounded text-[10px] font-bold border flex items-center gap-1 cursor-pointer ${
+                    blockPinned
+                      ? 'bg-amber-500/20 text-amber-300 border-amber-500/50'
+                      : 'bg-slate-900 text-slate-400 border-slate-800'
+                  }`}
+                >
+                  <Pin size={10} />
+                  <span>{blockPinned ? 'PINNED' : 'PIN'}</span>
+                </button>
+              </div>
+
+              {/* Status Selector */}
+              <div className="flex items-center gap-1.5">
+                <span className="text-[10px] font-bold text-slate-400 uppercase mr-1">STATUS:</span>
+                {Object.entries(STATUS_CONFIG).map(([key, cfg]) => (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => setBlockStatus(key)}
+                    className={`px-2 py-0.5 rounded text-[9.5px] font-bold border transition-all cursor-pointer ${
+                      blockStatus === key ? cfg.color : 'bg-slate-900 border-slate-800 text-slate-500'
+                    }`}
+                  >
+                    {cfg.label}
+                  </button>
+                ))}
               </div>
 
               {/* Title */}
               <div className="space-y-1">
                 <label className="text-[10px] font-bold text-slate-300 uppercase block">
-                  ENTRY TITLE:
+                  DIRECTIVE TITLE:
                 </label>
                 <input
                   type="text"
@@ -417,11 +904,10 @@ export const ArchitectDocketBlock = ({
               {/* Content */}
               <div className="space-y-1">
                 <label className="text-[10px] font-bold text-slate-300 uppercase block">
-                  DIRECTIVE TEXT / BRIEFING INTEL:
+                  BRIEFING INTEL / DETAILS:
                 </label>
                 <textarea
-                  rows={4}
-                  required
+                  rows={3}
                   value={textContent}
                   onChange={(e) => setTextContent(e.target.value)}
                   placeholder="Type briefing details, security warnings, or lore notes..."
@@ -429,10 +915,123 @@ export const ArchitectDocketBlock = ({
                 />
               </div>
 
+              {/* Sub-Objective Checklist Builder */}
+              <div className="space-y-1.5 bg-slate-950/70 p-2.5 rounded-xl border border-slate-800">
+                <label className="text-[10px] font-bold text-cyan-300 uppercase block">
+                  TACTICAL CHECKLIST (OPTIONAL):
+                </label>
+                <div className="flex items-center gap-1.5">
+                  <input
+                    type="text"
+                    value={newChecklistText}
+                    onChange={(e) => setNewChecklistText(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        handleAddChecklistItem();
+                      }
+                    }}
+                    placeholder="Add sub-objective step..."
+                    className="flex-1 px-2.5 py-1 bg-slate-900 border border-slate-800 rounded-lg text-xs text-white focus:outline-none focus:border-cyan-400 font-sans"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleAddChecklistItem}
+                    className="px-2.5 py-1 rounded-lg bg-cyan-600/30 hover:bg-cyan-600/50 border border-cyan-500/40 text-cyan-200 text-[10px] font-bold cursor-pointer"
+                  >
+                    + ADD
+                  </button>
+                </div>
+
+                {checklistItems.length > 0 && (
+                  <div className="space-y-1 pt-1 max-h-28 overflow-y-auto">
+                    {checklistItems.map((item) => (
+                      <div key={item.id} className="flex items-center justify-between gap-2 px-2 py-1 rounded bg-slate-900/80 text-[11px]">
+                        <span className="truncate font-sans text-slate-200">{item.text}</span>
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveChecklistItem(item.id)}
+                          className="text-slate-500 hover:text-rose-400 cursor-pointer"
+                        >
+                          <X size={12} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Visibility: Public to Squad vs Classified Eyes-Only */}
+              <div className="space-y-2 bg-slate-950/70 p-2.5 rounded-xl border border-slate-800">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-bold text-slate-300 uppercase">CLEARANCE VISIBILITY:</span>
+                  <div className="flex items-center gap-1">
+                    <button
+                      type="button"
+                      onClick={() => setBlockVisibility('all')}
+                      className={`px-2 py-0.5 rounded text-[9.5px] font-bold border flex items-center gap-1 cursor-pointer ${
+                        blockVisibility === 'all'
+                          ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+                          : 'bg-slate-900 text-slate-400 border-slate-800'
+                      }`}
+                    >
+                      <Eye size={10} />
+                      <span>ALL SQUAD</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setBlockVisibility('classified')}
+                      className={`px-2 py-0.5 rounded text-[9.5px] font-bold border flex items-center gap-1 cursor-pointer ${
+                        blockVisibility === 'classified'
+                          ? 'bg-purple-500/25 text-purple-200 border-purple-500/50'
+                          : 'bg-slate-900 text-slate-400 border-slate-800'
+                      }`}
+                    >
+                      <Lock size={10} />
+                      <span>CLASSIFIED</span>
+                    </button>
+                  </div>
+                </div>
+
+                {blockVisibility === 'classified' && (
+                  <div className="space-y-1 pt-1 border-t border-slate-800/80">
+                    <span className="text-[9.5px] text-purple-300 block">
+                      Select Squad Characters cleared to decrypt this directive:
+                    </span>
+                    {squadPersonas.length === 0 ? (
+                      <p className="text-[9.5px] text-slate-500 italic">No squad characters enrolled yet.</p>
+                    ) : (
+                      <div className="flex items-center gap-1.5 flex-wrap pt-0.5">
+                        {squadPersonas.map(sp => {
+                          const selected = visibleToPersonaIds.includes(sp.id);
+                          return (
+                            <button
+                              key={sp.id}
+                              type="button"
+                              onClick={() => togglePersonaTarget(sp.id)}
+                              className={`px-2 py-0.5 rounded-lg text-[9.5px] font-bold border transition-all cursor-pointer ${
+                                selected
+                                  ? 'bg-purple-600/30 text-purple-200 border-purple-400'
+                                  : 'bg-slate-900 text-slate-400 border-slate-800'
+                              }`}
+                            >
+                              🎭 {sp.name} (@{sp.ownerHandle})
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
               <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-800">
                 <button
                   type="button"
-                  onClick={() => setActiveModal(null)}
+                  onClick={() => {
+                    resetTextModal();
+                    setActiveModal(null);
+                  }}
                   className="px-3 py-1.5 rounded-lg bg-slate-900 text-slate-400 text-xs font-bold hover:text-white cursor-pointer"
                 >
                   Cancel
@@ -440,9 +1039,9 @@ export const ArchitectDocketBlock = ({
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-4 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold text-xs shadow-md transition-all cursor-pointer"
+                  className="px-4 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-md transition-all cursor-pointer"
                 >
-                  {submitting ? 'PINNING...' : 'PIN TO DOCKET'}
+                  {submitting ? 'SAVING...' : (editingBlockId ? 'SAVE CHANGES' : 'PIN DIRECTIVE')}
                 </button>
               </div>
             </form>
@@ -450,7 +1049,7 @@ export const ArchitectDocketBlock = ({
         </div>
       )}
 
-      {/* ── MODAL: Insert Image Handout ── */}
+      {/* ── MODAL: Insert / Edit Image Handout ── */}
       {activeModal === 'image' && (
         <div className="fixed inset-0 z-[250] flex items-center justify-center bg-black/85 backdrop-blur-md p-4 select-none font-mono animate-fade-in">
           <div className="bg-[#0b121d] border border-rose-500/50 rounded-2xl w-full max-w-md overflow-hidden shadow-[0_0_50px_rgba(244,63,94,0.25)] flex flex-col text-slate-100">
@@ -458,7 +1057,7 @@ export const ArchitectDocketBlock = ({
               <div className="flex items-center gap-2">
                 <ImageIcon size={16} className="text-rose-400" />
                 <h3 className="font-bold text-xs uppercase tracking-wider text-white">
-                  PIN VISUAL RECON / IMAGE HANDOUT
+                  {editingBlockId ? 'EDIT VISUAL RECON HANDOUT' : 'PIN VISUAL RECON / IMAGE HANDOUT'}
                 </h3>
               </div>
               <button type="button" onClick={() => setActiveModal(null)} className="p-1 rounded text-slate-400 hover:text-white cursor-pointer">
@@ -568,7 +1167,7 @@ export const ArchitectDocketBlock = ({
                   disabled={submitting || !imageUrl}
                   className="px-4 py-1.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs shadow-md transition-all disabled:opacity-50 cursor-pointer"
                 >
-                  {submitting ? 'PINNING...' : 'PIN IMAGE'}
+                  {submitting ? 'SAVING...' : (editingBlockId ? 'SAVE HANDOUT' : 'PIN IMAGE')}
                 </button>
               </div>
             </form>

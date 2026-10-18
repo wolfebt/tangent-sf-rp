@@ -46,9 +46,14 @@ export const MessageInput = ({ isCompact = false }) => {
     setSpeakingMode, 
     selectedPersona, 
     setSelectedPersona,
+    squadEnrolledPersona,
     activeChannel,
     broadcastToVtt,
     setBroadcastToVtt,
+    replyingToMessage,
+    setReplyingToMessage,
+    notifyTyping,
+    activeTypingUsers = [],
     isTeamChannel: checkIsTeam,
     isStandardChannel: checkIsStandard
   } = useChat();
@@ -217,6 +222,13 @@ export const MessageInput = ({ isCompact = false }) => {
   const activePersonaConcept = selectedPersona?.['char-concept'] || selectedPersona?.role || selectedPersona?.['char-occu'] || 'Specialist';
   const activePersonaHP = selectedPersona?.current_health ?? (selectedPersona?.current_hp ?? 30);
   const activePersonaMaxHP = selectedPersona?.health ?? (selectedPersona?.base_hp ?? 30);
+  const activePersonaId = selectedPersona?.['character-doc-id'] || selectedPersona?.id;
+  const isEnrolledSquadPersona = Boolean(
+    isTeam && squadEnrolledPersona && (
+      (activePersonaId && (squadEnrolledPersona['character-doc-id'] || squadEnrolledPersona.id) === activePersonaId) ||
+      (activePersonaName && (squadEnrolledPersona['char-name'] || squadEnrolledPersona.name || '').toLowerCase() === activePersonaName.toLowerCase())
+    )
+  );
 
   return (
     <div className="p-2 sm:p-3 bg-[#0a0e17] border-t border-slate-800 text-slate-200 select-none relative z-10">
@@ -289,6 +301,38 @@ export const MessageInput = ({ isCompact = false }) => {
             </div>
           )}
 
+          {/* ── Live Typing Indicator & Quote-Reply Preview Banner ── */}
+          {activeTypingUsers && activeTypingUsers.length > 0 && (
+            <div className="flex items-center gap-1.5 mb-1.5 px-2 py-0.5 text-[10px] font-mono text-cyan-400/90 animate-pulse">
+              <span className="inline-flex gap-0.5">
+                <span className="w-1 h-1 rounded-full bg-cyan-400 animate-bounce" />
+                <span className="w-1 h-1 rounded-full bg-cyan-400 animate-bounce [animation-delay:150ms]" />
+                <span className="w-1 h-1 rounded-full bg-cyan-400 animate-bounce [animation-delay:300ms]" />
+              </span>
+              <span>
+                {activeTypingUsers.map(t => t.name).join(', ')}{' '}
+                {activeTypingUsers.length === 1 ? 'is transmitting...' : 'are transmitting...'}
+              </span>
+            </div>
+          )}
+
+          {replyingToMessage && (
+            <div className="flex items-center justify-between gap-2 mb-2 px-2.5 py-1.5 rounded-lg bg-slate-950/90 border border-cyan-500/40 text-[10px] font-mono text-slate-300">
+              <div className="flex items-center gap-1.5 min-w-0 truncate">
+                <span className="text-cyan-400 font-bold shrink-0">↩ REPLYING TO {replyingToMessage.senderName}:</span>
+                <span className="text-slate-400 italic truncate">&ldquo;{replyingToMessage.text}&rdquo;</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setReplyingToMessage?.(null)}
+                className="p-0.5 rounded hover:bg-slate-800 text-slate-400 hover:text-white shrink-0 cursor-pointer"
+                title="Cancel reply"
+              >
+                <X size={12} />
+              </button>
+            </div>
+          )}
+
           {/* ── Streamlined Composer Top Bar: Unified Identity Switcher & Compact Quick-Tools ── */}
           <div className="flex items-center justify-between gap-2 mb-2 text-xs font-mono">
             {/* Unified Speaking Identity Switcher Pill */}
@@ -318,7 +362,7 @@ export const MessageInput = ({ isCompact = false }) => {
                     </span>
                     {isTeam && (
                       <span className="text-[8.5px] px-1 py-0.2 bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 rounded font-bold uppercase ml-0.5">
-                        SQUAD PERSONA
+                        {isEnrolledSquadPersona ? '★ SQUAD ENROLLED' : 'SQUAD PERSONA'}
                       </span>
                     )}
                   </>
@@ -355,7 +399,7 @@ export const MessageInput = ({ isCompact = false }) => {
                     <div className="text-[9.5px] font-mono mt-1">
                       {isTeam ? (
                         <span className="text-emerald-400 font-semibold">
-                          🛡️ Team Channel: Character Personas addressed by default
+                          🛡️ Team Channel: Auto-bound to enrolled Squad Persona
                         </span>
                       ) : isStandard ? (
                         <span className="text-cyan-400 font-semibold">
@@ -411,6 +455,10 @@ export const MessageInput = ({ isCompact = false }) => {
                           const pName = p['char-name'] || p.name || 'Persona';
                           const pRole = p['char-concept'] || p.role || p['char-occu'] || 'Agent';
                           const isSelected = speakingMode === 'IC' && (selectedPersona?.['character-doc-id'] || selectedPersona?.id) === pId;
+                          const isSquadEnrolledThis = isTeam && squadEnrolledPersona && (
+                            (squadEnrolledPersona['character-doc-id'] || squadEnrolledPersona.id) === pId ||
+                            (squadEnrolledPersona['char-name'] || squadEnrolledPersona.name || '').toLowerCase() === pName.toLowerCase()
+                          );
 
                           return (
                             <div
@@ -430,7 +478,14 @@ export const MessageInput = ({ isCompact = false }) => {
                               <div className="flex items-center gap-2 min-w-0">
                                 <span className="text-xs">🎭</span>
                                 <div className="min-w-0">
-                                  <span className="font-bold text-[11px] block truncate">{pName}</span>
+                                  <div className="flex items-center gap-1">
+                                    <span className="font-bold text-[11px] block truncate">{pName}</span>
+                                    {isSquadEnrolledThis && (
+                                      <span className="text-[8px] px-1 py-0.1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold shrink-0">
+                                        ★ SQUAD
+                                      </span>
+                                    )}
+                                  </div>
                                   <span className="text-[9px] text-slate-400 block truncate">{pRole}</span>
                                 </div>
                               </div>
@@ -647,7 +702,10 @@ export const MessageInput = ({ isCompact = false }) => {
               ref={inputRef}
               type="text"
               value={text}
-              onChange={(e) => setText(e.target.value)}
+              onChange={(e) => {
+                setText(e.target.value);
+                if (e.target.value.trim()) notifyTyping?.();
+              }}
               onKeyDown={handleKeyDown}
               onClick={() => {
                 if (!currentUser) openAuthModal?.();

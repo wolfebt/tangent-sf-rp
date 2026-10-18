@@ -136,9 +136,27 @@ export const SquadProvider = ({ children }) => {
     return newGroup;
   }, [currentUser, activePersona, personaRoster, roster]);
 
-  // Send Direct Invite to an Operator
-  const sendInvite = useCallback(async ({ groupId, targetUserId, targetUserHandle }) => {
-    const targetGroup = groups.find(g => g.id === groupId) || activeGroup;
+  // Send Direct Invite to an Operator (supports both object payload and positional (groupId, targetUser) args)
+  const sendInvite = useCallback(async (groupIdOrParams, maybeTargetUser) => {
+    let resolvedGroupId = null;
+    let resolvedTargetUserId = null;
+    let resolvedTargetUserHandle = 'Operator';
+
+    if (typeof groupIdOrParams === 'object' && groupIdOrParams !== null) {
+      resolvedGroupId = groupIdOrParams.groupId;
+      resolvedTargetUserId = groupIdOrParams.targetUserId || groupIdOrParams.targetUser?.uid || groupIdOrParams.uid;
+      resolvedTargetUserHandle = groupIdOrParams.targetUserHandle || groupIdOrParams.targetUser?.userHandle || groupIdOrParams.targetUser?.displayName || 'Operator';
+    } else {
+      resolvedGroupId = groupIdOrParams;
+      if (typeof maybeTargetUser === 'object' && maybeTargetUser !== null) {
+        resolvedTargetUserId = maybeTargetUser.uid || maybeTargetUser.userId || maybeTargetUser.id;
+        resolvedTargetUserHandle = maybeTargetUser.userHandle || maybeTargetUser.handle || maybeTargetUser.displayName || 'Operator';
+      } else if (typeof maybeTargetUser === 'string') {
+        resolvedTargetUserId = maybeTargetUser;
+      }
+    }
+
+    const targetGroup = groups.find(g => g.id === resolvedGroupId) || activeGroup;
     if (!targetGroup) throw new Error('Game group not found');
 
     AudioService.playTerminalBeep(1300, 0.03);
@@ -146,8 +164,8 @@ export const SquadProvider = ({ children }) => {
       groupId: targetGroup.id,
       groupName: targetGroup.name,
       channelId: targetGroup.channelId,
-      targetUserId,
-      targetUserHandle,
+      targetUserId: resolvedTargetUserId,
+      targetUserHandle: resolvedTargetUserHandle,
       currentUser
     });
   }, [groups, activeGroup, currentUser]);
@@ -368,6 +386,8 @@ export const SquadProvider = ({ children }) => {
     subscribeToLFTPersonas: SquadService.subscribeToLFTPersonas,
     saveArchitectBlock: (params) => SquadService.saveArchitectBlock({ ...params, currentUser }),
     deleteArchitectBlock: SquadService.deleteArchitectBlock,
+    toggleArchitectBlockAck: (params) => SquadService.toggleArchitectBlockAck({ ...params, currentUser, persona: params?.persona || activePersona }),
+    toggleArchitectChecklistItem: SquadService.toggleArchitectChecklistItem,
     subscribeToArchitectBlocks: SquadService.subscribeToArchitectBlocks,
     isUserArchitect,
     isUserCoArchitect,

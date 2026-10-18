@@ -163,7 +163,7 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
       <div className={`bg-[#121824] border rounded-xl w-[96vw] max-w-7xl p-4 sm:p-6 shadow-[0_0_30px_rgba(34,211,238,0.2)] text-slate-100 space-y-6 flex flex-col max-h-[96vh] sm:max-h-[96dvh] ${isOver ? 'border-red-500/80 ring-2 ring-red-500/60' : 'border-cyan-500/60'}`}>
         
         {/* Header */}
-        <div className="flex justify-between items-center border-b border-cyan-900/60 pb-3">
+        <div className="flex justify-between items-center border-b border-cyan-900/60 pb-3 shrink-0">
           <div className="flex items-center gap-3">
             <h3 className="text-base font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2">
               <span>💎</span> Character Point &amp; Award Point Economy
@@ -185,7 +185,7 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
 
         {/* Over-Budget Alert Banner */}
         {isOver && (
-          <div className="bg-red-950/90 border border-red-500/80 rounded-lg p-3 flex items-center justify-between text-red-200 shadow-[0_0_15px_rgba(239,68,68,0.4)] animate-pulse">
+          <div className="bg-red-950/90 border border-red-500/80 rounded-lg p-3 flex items-center justify-between text-red-200 shadow-[0_0_15px_rgba(239,68,68,0.4)] animate-pulse shrink-0">
             <div className="flex items-center gap-2.5">
               <span className="text-xl">⚠️</span>
               <div className="flex flex-col">
@@ -204,7 +204,7 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
         )}
 
         {/* CP & AP Overview Summary Cards (Counters) */}
-        <div className={`grid grid-cols-2 sm:grid-cols-4 gap-3 text-center bg-slate-900/90 p-3.5 rounded-lg border ${isOver ? 'border-red-500/70 ring-1 ring-red-500/40 shadow-[0_0_10px_rgba(239,68,68,0.2)]' : 'border-slate-800'}`}>
+        <div className={`grid grid-cols-2 sm:grid-cols-4 gap-3 text-center bg-slate-900/90 p-3.5 rounded-lg border shrink-0 ${isOver ? 'border-red-500/70 ring-1 ring-red-500/40 shadow-[0_0_10px_rgba(239,68,68,0.2)]' : 'border-slate-800'}`}>
           <div className="flex flex-col">
             <label className="text-[9.5px] uppercase font-bold text-slate-400 mb-1">
               Starting CP (Creation)
@@ -271,11 +271,11 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex border-b border-slate-800 overflow-x-auto no-scrollbar gap-1">
+        <div className="flex border-b border-slate-800 overflow-x-auto no-scrollbar gap-1 shrink-0">
           <button
             type="button"
             onClick={() => setActiveTab('experience')}
-            className={`px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors border-b-2 cursor-pointer flex items-center gap-1.5 ${
+            className={`px-4 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors border-b-2 cursor-pointer flex items-center gap-1.5 shrink-0 whitespace-nowrap ${
               activeTab === 'experience'
                 ? 'border-emerald-400 text-emerald-300 bg-slate-900/60'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
@@ -286,7 +286,7 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
           <button
             type="button"
             onClick={() => setActiveTab('pools')}
-            className={`px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors border-b-2 cursor-pointer flex items-center gap-1.5 ${
+            className={`px-4 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors border-b-2 cursor-pointer flex items-center gap-1.5 shrink-0 whitespace-nowrap ${
               activeTab === 'pools'
                 ? 'border-cyan-400 text-cyan-300 bg-slate-900/60'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
@@ -297,19 +297,19 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
           <button
             type="button"
             onClick={() => setActiveTab('itemized')}
-            className={`px-4 py-2 text-xs font-bold uppercase tracking-wider transition-colors border-b-2 cursor-pointer ${
+            className={`px-4 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors border-b-2 cursor-pointer flex items-center gap-1.5 shrink-0 whitespace-nowrap ${
               activeTab === 'itemized'
                 ? 'border-cyan-400 text-cyan-300 bg-slate-900/60'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
             }`}
           >
-            Itemized Expenditures ({itemizedList.length})
+            <span>📋</span> Itemized Expenditures ({itemizedList.length})
           </button>
         </div>
 
         {/* TAB 1: ADVANCEMENT POINTS (AP) */}
         {activeTab === 'experience' && (
-          <div className="space-y-4 overflow-y-auto pr-1 flex-1">
+          <div className="space-y-4 overflow-y-auto pr-1 flex-1 min-h-0">
             
             {/* The Increment Rule (CRITICAL) Callout Banner */}
             <div className="bg-amber-950/40 border border-amber-500/50 rounded-lg p-3 space-y-1">
@@ -565,7 +565,7 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
 
         {/* TAB 2: IDENTITY POINT POOLS */}
         {activeTab === 'pools' && (
-          <div className="space-y-5 overflow-y-auto pr-1 flex-1">
+          <div className="space-y-5 overflow-y-auto pr-1 flex-1 min-h-0">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
               {/* 1. OCCUPATION CARD */}
