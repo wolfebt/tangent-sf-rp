@@ -936,7 +936,7 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
   return (
     <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#090d16] font-mono select-none">
       {/* ── UNIFIED SCENARIO CONTEXT BAR (Consolidated Single Line) ── */}
-      <div className="px-3 py-1.5 border-b border-slate-800 bg-[#090e1a] flex items-center justify-between gap-2.5 shrink-0 flex-wrap text-xs font-mono">
+      <div className="relative z-30 px-3 py-1.5 border-b border-slate-800 bg-[#090e1a] flex items-center justify-between gap-2.5 shrink-0 flex-wrap text-xs font-mono">
         {/* Left: Mode Pulldown + Document Pulldown + Outliner Toggle + Canvas/Outline Switch */}
         <div className="flex items-center gap-2 flex-wrap">
           {/* Mode Pulldown (When provided by parent WeaverWorkspace) */}
@@ -960,7 +960,7 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
             </button>
 
             {isDocDropdownOpen && (
-              <div className="absolute left-0 mt-1.5 w-72 bg-slate-900/98 border border-cyan-500/40 rounded-2xl shadow-2xl py-1.5 z-[130] backdrop-blur-2xl text-xs font-mono divide-y divide-slate-800/80 animate-in fade-in slide-in-from-top-2 duration-150">
+              <div className="absolute left-0 mt-1.5 w-72 bg-[#0b101b] border border-cyan-500/40 rounded-2xl shadow-[0_16px_48px_rgba(0,0,0,0.95)] py-1.5 z-[130] text-xs font-mono divide-y divide-slate-800/80 animate-in fade-in slide-in-from-top-2 duration-150">
                 {/* 1. Point of View */}
                 <div className="p-2.5 space-y-1.5">
                   <div className="flex items-center justify-between text-[10px] uppercase font-bold text-purple-400 tracking-wider">

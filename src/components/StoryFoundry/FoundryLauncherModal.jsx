@@ -241,6 +241,17 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
     onClose();
   };
 
+  const handleDeleteStory = async (e, story) => {
+    if (e) e.stopPropagation();
+    const targetName = story?.projectName || 'Untitled Story';
+    if (await confirmTypedDeletion(targetName, 'story module project')) {
+      if (story?.id && deleteStoryProject) {
+        await deleteStoryProject(story.id);
+        toast({ type: 'info', title: 'STORY DELETED', text: `Deleted story module "${targetName}".` });
+      }
+    }
+  };
+
   const handleImportElementToWorkingStory = (elem) => {
     if (!elem) return;
     const importedNode = {
@@ -660,6 +671,15 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                             >
                               Clone
                             </button>
+                            {storySourceTab === 'my_stories' && (
+                              <button
+                                onClick={(e) => handleDeleteStory(e, story)}
+                                className="px-2 py-1 bg-rose-950/60 hover:bg-rose-900 text-rose-300 hover:text-white border border-rose-500/40 rounded text-[10px] font-bold uppercase transition-colors cursor-pointer"
+                                title="Delete story module project"
+                              >
+                                Delete
+                              </button>
+                            )}
                           </div>
 
                           {storySourceTab === 'my_stories' ? (
@@ -764,6 +784,15 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                                 >
                                   Clone
                                 </button>
+                                {storySourceTab === 'my_stories' && (
+                                  <button
+                                    onClick={(e) => handleDeleteStory(e, story)}
+                                    className="px-2 py-1 bg-rose-950/60 hover:bg-rose-900 text-rose-300 hover:text-white border border-rose-500/40 rounded text-[10px] font-bold uppercase cursor-pointer"
+                                    title="Delete story module project"
+                                  >
+                                    Delete
+                                  </button>
+                                )}
                                 <button
                                   onClick={() => {
                                     openStory(story.id);

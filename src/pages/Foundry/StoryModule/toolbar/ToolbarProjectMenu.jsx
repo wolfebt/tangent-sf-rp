@@ -122,9 +122,20 @@ export default function ToolbarProjectMenu({
     const currentTitle = universeState?.projectName || 'Untitled Story';
     if (await confirmTypedDeletion(currentTitle, 'story module project')) {
       if (universeState?.id) {
-        deleteStoryProject(universeState.id);
+        await deleteStoryProject(universeState.id);
       }
-      createNewStory("New Story Module");
+    }
+  };
+
+  const handleDeleteStoryItem = async (e, story) => {
+    e.stopPropagation();
+    setIsFileMenuOpen(false);
+    AudioService.playTerminalBeep(800, 0.04);
+    const targetTitle = story?.projectName || story?.title || 'Untitled Story';
+    if (await confirmTypedDeletion(targetTitle, 'story module project')) {
+      if (story?.id) {
+        await deleteStoryProject(story.id);
+      }
     }
   };
 
@@ -192,7 +203,7 @@ export default function ToolbarProjectMenu({
         </button>
 
         {isFileMenuOpen && (
-          <div className="absolute left-0 mt-1.5 w-72 bg-slate-900/98 border border-cyan-500/40 rounded-2xl shadow-2xl py-1.5 z-50 backdrop-blur-2xl text-xs font-mono divide-y divide-slate-800 animate-in fade-in slide-in-from-top-2 duration-150">
+          <div className="absolute left-0 mt-1.5 w-72 bg-[#0b101b] border border-cyan-500/40 rounded-2xl shadow-[0_16px_48px_rgba(0,0,0,0.95)] py-1.5 z-50 text-xs font-mono divide-y divide-slate-800 animate-in fade-in slide-in-from-top-2 duration-150">
             {/* Active Module Header & Rename Input */}
             <div className="px-3 py-2 bg-slate-950/70 rounded-t-2xl">
               <div className="flex items-center justify-between gap-2 mb-1.5">
@@ -230,8 +241,8 @@ export default function ToolbarProjectMenu({
               />
             </div>
 
-            {/* Switch Story Module (if multiple) */}
-            {storyCatalog && storyCatalog.length > 1 && (
+            {/* Switch Story Module */}
+            {storyCatalog && storyCatalog.length > 0 && (
               <div className="py-1">
                 <div className="px-3 py-1 text-[10px] uppercase font-bold text-cyan-400/70 tracking-wider flex items-center justify-between">
                   <span>Switch Module</span>
@@ -241,25 +252,38 @@ export default function ToolbarProjectMenu({
                   {storyCatalog.map(s => {
                     const isActive = s.id === universeState?.id;
                     return (
-                      <button
+                      <div
                         key={s.id}
-                        onClick={() => {
-                          AudioService.playTerminalBeep(1100, 0.02);
-                          if (s.id) openStory(s.id);
-                          setIsFileMenuOpen(false);
-                        }}
-                        className={`w-full text-left px-3.5 py-1.5 flex items-center justify-between text-xs transition-colors cursor-pointer ${
+                        className={`w-full px-3.5 py-1.5 flex items-center justify-between gap-1.5 text-xs transition-colors ${
                           isActive 
                             ? 'bg-cyan-950/80 text-cyan-300 font-bold border-l-2 border-cyan-400' 
                             : 'hover:bg-slate-800/70 text-slate-300 hover:text-white'
                         }`}
                       >
-                        <div className="flex items-center gap-2 truncate">
-                          <BookOpen size={12} className={isActive ? 'text-cyan-400' : 'text-slate-500'} />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            AudioService.playTerminalBeep(1100, 0.02);
+                            if (s.id) openStory(s.id);
+                            setIsFileMenuOpen(false);
+                          }}
+                          className="flex items-center gap-2 truncate flex-1 text-left cursor-pointer"
+                        >
+                          <BookOpen size={12} className={isActive ? 'text-cyan-400 shrink-0' : 'text-slate-500 shrink-0'} />
                           <span className="truncate">{s.projectName || s.title || 'Untitled Story'}</span>
+                        </button>
+                        <div className="flex items-center gap-1 shrink-0">
+                          {isActive && <Check size={12} className="text-cyan-400 shrink-0" />}
+                          <button
+                            type="button"
+                            onClick={(e) => handleDeleteStoryItem(e, s)}
+                            className="p-1 text-slate-500 hover:text-red-400 hover:bg-red-950/60 rounded transition-colors cursor-pointer"
+                            title={`Delete "${s.projectName || s.title || 'Untitled Story'}"`}
+                          >
+                            <Trash2 size={11} />
+                          </button>
                         </div>
-                        {isActive && <Check size={12} className="text-cyan-400 shrink-0 ml-1.5" />}
-                      </button>
+                      </div>
                     );
                   })}
                 </div>

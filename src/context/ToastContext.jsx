@@ -76,6 +76,11 @@ export const ToastProvider = ({ children }) => {
   const showWarningToast = useCallback((msg, title) => toast(typeof msg === 'object' ? { type: 'warning', ...msg } : { type: 'warning', text: msg, title }), [toast]);
   const showInfoToast = useCallback((msg, title) => toast(typeof msg === 'object' ? { type: 'info', ...msg } : { type: 'info', text: msg, title }), [toast]);
 
+  toast.showSuccess = showSuccessToast;
+  toast.showError = showErrorToast;
+  toast.showWarning = showWarningToast;
+  toast.showInfo = showInfoToast;
+
   useEffect(() => {
     _globalToastDispatcher = toast;
     return () => {

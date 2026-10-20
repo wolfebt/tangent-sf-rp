@@ -126,6 +126,7 @@ export default function ModuleMissionControl({
 
   // Local state for Shifted Studio Bar functions
   const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
+  const [isToolsMenuOpen, setIsToolsMenuOpen] = useState(false);
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [titleInput, setTitleInput] = useState(universeState?.projectName || 'Untitled Story');
   const [isNewStoryModalOpen, setIsNewStoryModalOpen] = useState(false);
@@ -136,6 +137,7 @@ export default function ModuleMissionControl({
   const [isImporting, setIsImporting] = useState(false);
 
   const fileMenuRef = useRef(null);
+  const toolsMenuRef = useRef(null);
   const storyFileInputRef = useRef(null);
   const ingestionFileInputRef = useRef(null);
 
@@ -143,11 +145,14 @@ export default function ModuleMissionControl({
     setTitleInput(universeState?.projectName || 'Untitled Story');
   }, [universeState?.projectName]);
 
-  // Click outside listener for project menu
+  // Click outside listener for project & tools menus
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (fileMenuRef.current && !fileMenuRef.current.contains(e.target)) {
         setIsFileMenuOpen(false);
+      }
+      if (toolsMenuRef.current && !toolsMenuRef.current.contains(e.target)) {
+        setIsToolsMenuOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -263,10 +268,23 @@ export default function ModuleMissionControl({
     const currentTitle = universeState?.projectName || 'Untitled Story';
     if (await confirmTypedDeletion(currentTitle, 'story module project')) {
       if (universeState?.id) {
-        deleteStoryProject(universeState.id);
+        await deleteStoryProject(universeState.id);
       }
-      createNewStory("New Story Module");
-      toast?.showInfo?.("Active module reset to New Story Module");
+      toast?.showInfo?.(`Deleted story module "${currentTitle}"`);
+    }
+  };
+
+  // Delete specific story module from catalog switcher
+  const handleDeleteStoryItem = async (e, story) => {
+    e.stopPropagation();
+    setIsFileMenuOpen(false);
+    AudioService.playTerminalBeep(800, 0.04);
+    const targetTitle = story?.projectName || story?.title || 'Untitled Story';
+    if (await confirmTypedDeletion(targetTitle, 'story module project')) {
+      if (story?.id) {
+        await deleteStoryProject(story.id);
+      }
+      toast?.showInfo?.(`Deleted story module "${targetTitle}"`);
     }
   };
 
@@ -503,6 +521,16 @@ export default function ModuleMissionControl({
                     </option>
                   )}
                 </select>
+                {universeState?.id && (
+                  <button
+                    type="button"
+                    onClick={handleDeleteActiveStory}
+                    className="p-1 text-slate-500 hover:text-rose-400 hover:bg-rose-950/50 rounded transition-colors cursor-pointer shrink-0"
+                    title={`Delete active module "${universeState?.projectName || 'Untitled Story'}"`}
+                  >
+                    <Trash2 size={12} />
+                  </button>
+                )}
               </div>
 
               {/* Create New Module Button */}
@@ -555,7 +583,7 @@ export default function ModuleMissionControl({
       )}
 
       {/* ── SECTION 2: CONSOLIDATED ADE MASTER COCKPIT BAR (Shifted from ADE Studio Bar) ── */}
-      <div className="mb-6 p-3 sm:p-4 rounded-2xl bg-[#0c121e] border border-cyan-500/30 shadow-2xl backdrop-blur-2xl flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-3 font-mono shrink-0">
+      <div className="relative z-40 mb-6 p-3 sm:p-4 rounded-2xl bg-[#0c121e] border border-cyan-500/30 shadow-2xl flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-3 font-mono shrink-0">
         {/* Left Deck: Identity, Title, Project Menu, Cloud Status */}
         <div className="flex items-center gap-2 flex-wrap">
           {/* Brand Indicator */}
@@ -604,6 +632,7 @@ export default function ModuleMissionControl({
               type="button"
               onClick={() => {
                 AudioService.playTerminalBeep(1100, 0.02);
+                setIsToolsMenuOpen(false);
                 setIsFileMenuOpen(prev => !prev);
               }}
               className={`px-2.5 py-1 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer border ${
@@ -641,7 +670,7 @@ export default function ModuleMissionControl({
             </button>
 
             {isFileMenuOpen && (
-              <div className="absolute top-full left-0 mt-1.5 w-64 bg-slate-900/98 border border-cyan-500/40 rounded-xl shadow-2xl z-50 text-xs font-mono divide-y divide-slate-800/80 backdrop-blur-2xl">
+              <div className="absolute top-full left-0 mt-1.5 w-64 bg-[#0b101b] border border-cyan-500/40 rounded-xl shadow-[0_16px_48px_rgba(0,0,0,0.95)] z-50 text-xs font-mono divide-y divide-slate-800/80">
                 {/* Module Creation & Switcher */}
                 <div className="py-1">
                   <button
@@ -652,6 +681,55 @@ export default function ModuleMissionControl({
                     <span>New Story Module...</span>
                   </button>
                 </div>
+
+                {/* Switch Story Module */}
+                {storyCatalog && storyCatalog.length > 0 && (
+                  <div className="py-1">
+                    <div className="px-3.5 py-1 text-[10px] uppercase font-bold text-cyan-400/70 tracking-wider flex items-center justify-between">
+                      <span>Switch Module</span>
+                      <span className="text-slate-500">{storyCatalog.length}</span>
+                    </div>
+                    <div className="max-h-36 overflow-y-auto custom-scrollbar my-0.5">
+                      {storyCatalog.map(s => {
+                        const isActive = s.id === universeState?.id;
+                        return (
+                          <div
+                            key={s.id}
+                            className={`w-full px-3.5 py-1.5 flex items-center justify-between gap-1.5 text-xs transition-colors ${
+                              isActive
+                                ? 'bg-cyan-950/80 text-cyan-300 font-bold border-l-2 border-cyan-400'
+                                : 'hover:bg-slate-800/70 text-slate-300 hover:text-white'
+                            }`}
+                          >
+                            <button
+                              type="button"
+                              onClick={() => {
+                                AudioService.playTerminalBeep(1100, 0.02);
+                                if (s.id) openStory(s.id);
+                                setIsFileMenuOpen(false);
+                              }}
+                              className="flex items-center gap-2 truncate flex-1 text-left cursor-pointer"
+                            >
+                              <BookOpen size={12} className={isActive ? 'text-cyan-400 shrink-0' : 'text-slate-500 shrink-0'} />
+                              <span className="truncate">{s.projectName || s.title || 'Untitled Story'}</span>
+                            </button>
+                            <div className="flex items-center gap-1 shrink-0">
+                              {isActive && <Check size={12} className="text-cyan-400 shrink-0" />}
+                              <button
+                                type="button"
+                                onClick={(e) => handleDeleteStoryItem(e, s)}
+                                className="p-1 text-slate-500 hover:text-rose-400 hover:bg-rose-950/60 rounded transition-colors cursor-pointer"
+                                title={`Delete "${s.projectName || s.title || 'Untitled Story'}"`}
+                              >
+                                <Trash2 size={11} />
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
 
                 {/* Save, Load & Exports */}
                 <div className="py-1">
@@ -777,191 +855,309 @@ export default function ModuleMissionControl({
           </div>
         </div>
 
-        {/* Right Deck: Health Badge, Perspective Switcher, Launchers & Modals */}
-        <div className="flex items-center gap-2 flex-wrap shrink-0">
-          {/* Module Health Badge (Click opens Preflight / Compiler) */}
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1100, 0.05);
-              onOpenCompiler?.();
-            }}
-            className={`px-2.5 py-1 rounded-xl text-xs font-mono font-bold tracking-wider transition-all flex items-center gap-1.5 cursor-pointer border ${moduleHealth.color}`}
-            title={`Module Health: ${moduleHealth.score}%\n${[...moduleHealth.issues, ...moduleHealth.warnings].join('\n') || 'All systems nominal'}\nClick to inspect in Preflight / Compiler`}
+        {/* Center Deck: Ultra-Compact Inline Telemetry Strip */}
+        <div className="flex items-center gap-1.5 flex-wrap text-[11px] font-mono">
+          {/* 1. Module Readiness Pill */}
+          <div
+            className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-slate-950/90 border border-cyan-500/30 shadow-inner"
+            title={`Module Readiness: ${readinessScore}% Pre-Flight`}
           >
-            <span className="w-2 h-2 rounded-full animate-pulse bg-current" />
-            <span>{moduleHealth.score}%</span>
-            <span className="text-[10px] opacity-75">HEALTH</span>
-          </button>
+            <Activity size={11} className="text-cyan-400 shrink-0" />
+            <span className="text-[10px] uppercase text-cyan-400/80 font-bold hidden sm:inline">Readiness</span>
+            <span className="font-black text-white">{readinessScore}%</span>
+            <div className="w-8 bg-slate-800 h-1.5 rounded-full overflow-hidden shrink-0">
+              <div
+                className={`h-full transition-all duration-500 ${
+                  readinessScore >= 80 ? 'bg-cyan-400' : readinessScore >= 50 ? 'bg-amber-400' : 'bg-rose-400'
+                }`}
+                style={{ width: `${readinessScore}%` }}
+              />
+            </div>
+          </div>
 
-          {/* Dual Perspective Mode Toggle: ARCHITECT vs OPERATOR */}
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(perspectiveMode === 'architect' ? 1400 : 900, 0.03);
-              togglePerspectiveMode();
-            }}
-            className={`px-2.5 py-1 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer border ${
-              perspectiveMode === 'operator'
-                ? 'bg-amber-950/80 border-amber-400 text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.3)]'
-                : 'bg-indigo-950/80 border-indigo-400 text-indigo-300 shadow-[0_0_12px_rgba(99,102,241,0.3)]'
-            }`}
-            title={perspectiveMode === 'operator' 
-              ? "Operator Perspective: Player-safe session running. Click to switch to Architect." 
-              : "Architect Perspective: Full GM authoring, structuring & secrets. Click to switch to Operator."}
+          {/* 2. Scenarios & Beats Pill */}
+          <div
+            className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-slate-950/90 border border-slate-800 hover:border-purple-500/40 transition-colors"
+            title={`Scenarios & Beats: ${scenarios.length} Nodes (${scenariosWithBeats} with tactical beats, ${scenariosWithMaps} mapped)`}
           >
-            <span>{perspectiveMode === 'operator' ? '🎮' : '📐'}</span>
-            <span>{perspectiveMode === 'operator' ? 'OPERATOR' : 'ARCHITECT'}</span>
-          </button>
+            <BookOpen size={11} className="text-purple-400 shrink-0" />
+            <span className="font-bold text-white">{scenarios.length}</span>
+            <span className="text-[10px] text-slate-400">Nodes</span>
+            <span className="text-[9px] text-purple-300/80 bg-purple-950/60 px-1 py-0.2 rounded border border-purple-500/20">
+              {scenariosWithBeats}b·{scenariosWithMaps}m
+            </span>
+          </div>
 
-          {/* Prep Stage VTT Package / Compiler Button */}
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1100, 0.05);
-              onOpenCompiler?.();
-            }}
-            className="px-2.5 py-1 bg-slate-900/90 hover:bg-slate-800 text-cyan-300 border border-cyan-500/50 hover:border-cyan-400 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
-            title="Compile Story, Maps, and Elements into a prepped Stage VTT package"
+          {/* 3. Tactical Sectors Pill */}
+          <div
+            className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-slate-950/90 border border-slate-800 hover:border-sky-500/40 transition-colors"
+            title={`Tactical Sectors: ${maps.length} Maps (${maps.reduce((acc, m) => acc + (m.walls?.length || 0), 0)} vector wall loops active)`}
           >
-            <Wrench size={13} className="text-cyan-400" />
-            <span>STAGE COMPILER</span>
-          </button>
+            <Map size={11} className="text-sky-400 shrink-0" />
+            <span className="font-bold text-white">{maps.length}</span>
+            <span className="text-[10px] text-slate-400">Maps</span>
+            <span className="text-[9px] text-sky-300/80 bg-sky-950/60 px-1 py-0.2 rounded border border-sky-500/20">
+              {maps.reduce((acc, m) => acc + (m.walls?.length || 0), 0)}w
+            </span>
+          </div>
 
-          {/* The Stage VTT In-Situ Launcher */}
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1400, 0.05);
-              if (onSwitchView) {
-                onSwitchView('stage', 'run');
-              } else {
-                navigate(`/foundry/live?scenarioId=${targetScenarioId}&mapId=${targetMapId}`);
-              }
-            }}
-            className="px-3 py-1 bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 border border-cyan-400 text-white rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_12px_rgba(34,211,238,0.4)] cursor-pointer"
-            title="Open in-situ The Stage VTT (Stage Compiler & Live Session Director)"
+          {/* 4. Assets & Scripts Pill */}
+          <div
+            className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-slate-950/90 border border-slate-800 hover:border-amber-500/40 transition-colors"
+            title={`Assets & Scripts: ${elementsCount} Elements (${scriptedNpcsCount} automated NPC routines configured)`}
           >
-            <Sparkles size={13} />
-            <span>THE STAGE VTT</span>
-          </button>
-
-          {/* Standalone Fullscreen VTT Launcher */}
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1400, 0.05);
-              window.open(`/stage?mapId=${encodeURIComponent(targetMapId)}&scenarioId=${encodeURIComponent(targetScenarioId)}`, '_blank');
-            }}
-            className="px-3 py-1 bg-slate-900/90 hover:bg-slate-800 text-slate-200 hover:text-cyan-300 border border-slate-700 hover:border-cyan-400 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
-            title="Launch standalone full-screen VTT in new window/tab for live play"
-          >
-            <ExternalLink size={13} />
-            <span>STANDALONE VTT</span>
-          </button>
-
-          {/* Tactical Utilities Cluster */}
-          <div className="flex items-center bg-slate-900 border border-slate-800 rounded-xl p-0.5 gap-0.5 shadow-sm">
-            {/* Cronicle Living Memory */}
-            <button
-              type="button"
-              onClick={() => onOpenCronicle?.()}
-              className="px-2 py-1 rounded-lg text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer text-purple-400 hover:text-purple-200 hover:bg-slate-800/80"
-              title="Open Cronicle Living Memory & Scenario State Tracker"
-            >
-              <span>📜</span>
-              <span className="hidden 2xl:inline text-[10px]">CRONICLE</span>
-            </button>
-
-            {/* Scratchbook */}
-            <button
-              type="button"
-              onClick={() => onOpenScratchbook?.()}
-              className="px-2 py-1 rounded-lg text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer text-cyan-400 hover:text-cyan-200 hover:bg-slate-800/80"
-              title="Open ADE Scratchbook (Session Notes & Working Memory)"
-            >
-              <span>📝</span>
-              <span className="hidden 2xl:inline text-[10px]">NOTES</span>
-            </button>
-
-            {/* Print Spread */}
-            <button
-              type="button"
-              onClick={() => onOpenPrintModal?.()}
-              className="px-2 py-1 rounded-lg text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer text-slate-300 hover:text-white hover:bg-slate-800/80"
-              title="Selective Print & Publishing Studio"
-            >
-              <Printer size={13} className="text-cyan-400" />
-            </button>
-
-            {/* ADE User Guide */}
-            <button
-              type="button"
-              onClick={() => onOpenGuide?.()}
-              className="px-2 py-1 rounded-lg text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer text-slate-300 hover:text-white hover:bg-slate-800/80"
-              title="ADE Master User Guide & Manual"
-            >
-              <Compass size={13} className="text-amber-400" />
-            </button>
+            <Cpu size={11} className="text-amber-400 shrink-0" />
+            <span className="font-bold text-white">{elementsCount}</span>
+            <span className="text-[10px] text-slate-400">Elements</span>
+            <span className="text-[9px] text-amber-300/80 bg-amber-950/60 px-1 py-0.2 rounded border border-amber-500/20">
+              {scriptedNpcsCount}s
+            </span>
           </div>
         </div>
-      </div>
 
-      {/* ── SECTION 3: TOP METRICS ROW: READINESS SCORE & STATS ── */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 shrink-0">
-        {/* Scorecard */}
-        <div className="p-4 rounded-2xl bg-[#0e1422] border border-cyan-500/30 relative overflow-hidden shadow-lg flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-[11px] font-mono uppercase tracking-wider text-cyan-400 font-bold">Module Readiness</span>
-            <Activity size={16} className="text-cyan-400" />
-          </div>
-          <div className="flex items-baseline gap-2">
-            <span className="text-4xl font-mono font-black text-white">{readinessScore}%</span>
-            <span className="text-xs text-slate-400">Pre-Flight</span>
-          </div>
-          <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden mt-3">
-            <div 
-              className={`h-full transition-all duration-500 ${
-                readinessScore >= 80 ? 'bg-cyan-400' : readinessScore >= 50 ? 'bg-amber-400' : 'bg-rose-400'
+        {/* Right Deck: Consolidated Stage, Diagnostics & Tactical Tools Pulldown */}
+        <div className="flex items-center gap-2 shrink-0">
+          <div className="relative" ref={toolsMenuRef}>
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1100, 0.02);
+                setIsFileMenuOpen(false);
+                setIsToolsMenuOpen(prev => !prev);
+              }}
+              className={`px-3 py-1 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer border ${
+                isToolsMenuOpen
+                  ? 'bg-cyan-950 text-cyan-200 border-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.35)]'
+                  : 'bg-slate-900/90 hover:bg-slate-800 text-slate-200 border-slate-700 hover:border-cyan-400 shadow-sm'
               }`}
-              style={{ width: `${readinessScore}%` }}
-            />
-          </div>
-        </div>
+              title="Stage VTT Launchers, Compiler, Perspective Mode & Tactical Utilities"
+            >
+              {/* Inline Health Indicator */}
+              <span className="flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-slate-950/90 border border-slate-800">
+                <span
+                  className={`w-2 h-2 rounded-full animate-pulse ${
+                    moduleHealth.score >= 80
+                      ? 'bg-emerald-400'
+                      : moduleHealth.score >= 50
+                      ? 'bg-amber-400'
+                      : 'bg-red-400'
+                  }`}
+                />
+                <span
+                  className={`text-[10px] ${
+                    moduleHealth.score >= 80
+                      ? 'text-emerald-400'
+                      : moduleHealth.score >= 50
+                      ? 'text-amber-400'
+                      : 'text-red-400'
+                  }`}
+                >
+                  {moduleHealth.score}%
+                </span>
+              </span>
 
-        {/* Narrative Metric */}
-        <div className="p-4 rounded-2xl bg-[#0e1422] border border-slate-800 flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-1">
-            <span className="text-[11px] font-mono uppercase tracking-wider text-purple-400 font-bold">Scenarios & Beats</span>
-            <BookOpen size={16} className="text-purple-400" />
-          </div>
-          <div className="text-2xl font-mono font-black text-white">{scenarios.length} Nodes</div>
-          <div className="text-[11px] text-slate-400 mt-1">
-            {scenariosWithBeats} with tactical beats ({scenariosWithMaps} mapped)
-          </div>
-        </div>
+              {/* Inline Perspective Indicator */}
+              <span
+                className={`text-[10px] px-1.5 py-0.5 rounded-md border ${
+                  perspectiveMode === 'operator'
+                    ? 'bg-amber-950/80 border-amber-500/40 text-amber-300'
+                    : 'bg-indigo-950/80 border-indigo-500/40 text-indigo-300'
+                }`}
+              >
+                {perspectiveMode === 'operator' ? '🎮 OPERATOR' : '📐 ARCHITECT'}
+              </span>
 
-        {/* Spatial Maps Metric */}
-        <div className="p-4 rounded-2xl bg-[#0e1422] border border-slate-800 flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-1">
-            <span className="text-[11px] font-mono uppercase tracking-wider text-sky-400 font-bold">Tactical Sectors</span>
-            <Map size={16} className="text-sky-400" />
-          </div>
-          <div className="text-2xl font-mono font-black text-white">{maps.length} Maps</div>
-          <div className="text-[11px] text-slate-400 mt-1">
-            {maps.reduce((acc, m) => acc + (m.walls?.length || 0), 0)} vector wall loops active
-          </div>
-        </div>
+              <span className="flex items-center gap-1 text-cyan-300">
+                <Sparkles size={13} className="text-cyan-400" />
+                <span>STAGE & TOOLS</span>
+              </span>
 
-        {/* Assets & Automation Metric */}
-        <div className="p-4 rounded-2xl bg-[#0e1422] border border-slate-800 flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-1">
-            <span className="text-[11px] font-mono uppercase tracking-wider text-amber-400 font-bold">Assets & Scripts</span>
-            <Cpu size={16} className="text-amber-400" />
-          </div>
-          <div className="text-2xl font-mono font-black text-white">{elementsCount} Elements</div>
-          <div className="text-[11px] text-slate-400 mt-1">
-            {scriptedNpcsCount} automated NPC routines configured
+              <ChevronDown
+                size={11}
+                className={`text-slate-400 transition-transform duration-200 ${
+                  isToolsMenuOpen ? 'rotate-180 text-cyan-400' : ''
+                }`}
+              />
+            </button>
+
+            {isToolsMenuOpen && (
+              <div className="absolute top-full right-0 mt-1.5 w-72 bg-[#0b101b] border border-cyan-500/40 rounded-xl shadow-[0_16px_48px_rgba(0,0,0,0.95)] z-50 text-xs font-mono divide-y divide-slate-800/80">
+                {/* Section 1: Diagnostics & Perspective */}
+                <div className="py-1.5">
+                  <div className="px-3.5 py-1 text-[10px] uppercase font-bold text-cyan-400/70 tracking-wider">
+                    Diagnostics & Perspective
+                  </div>
+
+                  {/* Module Health Badge Action */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1100, 0.05);
+                      setIsToolsMenuOpen(false);
+                      onOpenCompiler?.();
+                    }}
+                    className="w-full text-left px-3.5 py-1.5 hover:bg-slate-800/80 flex items-center justify-between gap-2 transition-colors cursor-pointer"
+                    title={`Module Health: ${moduleHealth.score}%\n${[...moduleHealth.issues, ...moduleHealth.warnings].join('\n') || 'All systems nominal'}`}
+                  >
+                    <div className="flex items-center gap-2 text-slate-200">
+                      <Activity size={13} className="text-cyan-400 shrink-0" />
+                      <span>Module Health Check</span>
+                    </div>
+                    <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold border ${moduleHealth.color}`}>
+                      {moduleHealth.score}% HEALTH
+                    </span>
+                  </button>
+
+                  {/* Dual Perspective Mode Toggle: ARCHITECT vs OPERATOR */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      AudioService.playTerminalBeep(perspectiveMode === 'architect' ? 1400 : 900, 0.03);
+                      togglePerspectiveMode();
+                    }}
+                    className="w-full text-left px-3.5 py-1.5 hover:bg-slate-800/80 flex items-center justify-between gap-2 transition-colors cursor-pointer"
+                    title={
+                      perspectiveMode === 'operator'
+                        ? 'Operator Perspective: Player-safe session running. Click to switch to Architect.'
+                        : 'Architect Perspective: Full GM authoring, structuring & secrets. Click to switch to Operator.'
+                    }
+                  >
+                    <div className="flex items-center gap-2 text-slate-200">
+                      <span>{perspectiveMode === 'operator' ? '🎮' : '📐'}</span>
+                      <span>Perspective Mode</span>
+                    </div>
+                    <span
+                      className={`px-2 py-0.5 rounded-md text-[10px] font-bold uppercase border ${
+                        perspectiveMode === 'operator'
+                          ? 'bg-amber-950/80 border-amber-400 text-amber-300'
+                          : 'bg-indigo-950/80 border-indigo-400 text-indigo-300'
+                      }`}
+                    >
+                      {perspectiveMode === 'operator' ? 'OPERATOR' : 'ARCHITECT'}
+                    </span>
+                  </button>
+                </div>
+
+                {/* Section 2: Stage VTT & Compilation */}
+                <div className="py-1.5">
+                  <div className="px-3.5 py-1 text-[10px] uppercase font-bold text-cyan-400/70 tracking-wider">
+                    Stage VTT & Deployment
+                  </div>
+
+                  {/* Prep Stage VTT Package / Compiler */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1100, 0.05);
+                      setIsToolsMenuOpen(false);
+                      onOpenCompiler?.();
+                    }}
+                    className="w-full text-left px-3.5 py-1.5 hover:bg-cyan-950/60 text-cyan-300 hover:text-white flex items-center gap-2 transition-colors cursor-pointer"
+                    title="Compile Story, Maps, and Elements into a prepped Stage VTT package"
+                  >
+                    <Wrench size={13} className="text-cyan-400 shrink-0" />
+                    <span>Stage Compiler</span>
+                  </button>
+
+                  {/* The Stage VTT In-Situ Launcher */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1400, 0.05);
+                      setIsToolsMenuOpen(false);
+                      if (onSwitchView) {
+                        onSwitchView('stage', 'run');
+                      } else {
+                        navigate(`/foundry/live?scenarioId=${targetScenarioId}&mapId=${targetMapId}`);
+                      }
+                    }}
+                    className="w-full text-left px-3.5 py-1.5 hover:bg-purple-950/60 text-purple-300 hover:text-white flex items-center gap-2 transition-colors cursor-pointer font-bold"
+                    title="Open in-situ The Stage VTT (Stage Compiler & Live Session Director)"
+                  >
+                    <Sparkles size={13} className="text-purple-400 shrink-0" />
+                    <span>The Stage VTT (In-Situ)</span>
+                  </button>
+
+                  {/* Standalone Fullscreen VTT Launcher */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1400, 0.05);
+                      setIsToolsMenuOpen(false);
+                      window.open(`/stage?mapId=${encodeURIComponent(targetMapId)}&scenarioId=${encodeURIComponent(targetScenarioId)}`, '_blank');
+                    }}
+                    className="w-full text-left px-3.5 py-1.5 hover:bg-cyan-950/60 text-slate-200 hover:text-cyan-300 flex items-center gap-2 transition-colors cursor-pointer"
+                    title="Launch standalone full-screen VTT in new window/tab for live play"
+                  >
+                    <ExternalLink size={13} className="text-cyan-400 shrink-0" />
+                    <span>Standalone VTT (New Tab)</span>
+                  </button>
+                </div>
+
+                {/* Section 3: Tactical Utilities */}
+                <div className="py-1.5">
+                  <div className="px-3.5 py-1 text-[10px] uppercase font-bold text-cyan-400/70 tracking-wider">
+                    Tactical Utilities
+                  </div>
+
+                  {/* Cronicle Living Memory */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsToolsMenuOpen(false);
+                      onOpenCronicle?.();
+                    }}
+                    className="w-full text-left px-3.5 py-1.5 hover:bg-purple-950/50 text-purple-300 hover:text-purple-200 flex items-center gap-2 transition-colors cursor-pointer"
+                    title="Open Cronicle Living Memory & Scenario State Tracker"
+                  >
+                    <span className="w-3.5 text-center shrink-0">📜</span>
+                    <span>Cronicle Living Memory</span>
+                  </button>
+
+                  {/* Scratchbook */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsToolsMenuOpen(false);
+                      onOpenScratchbook?.();
+                    }}
+                    className="w-full text-left px-3.5 py-1.5 hover:bg-cyan-950/50 text-cyan-300 hover:text-cyan-200 flex items-center gap-2 transition-colors cursor-pointer"
+                    title="Open ADE Scratchbook (Session Notes & Working Memory)"
+                  >
+                    <span className="w-3.5 text-center shrink-0">📝</span>
+                    <span>Scratchbook & Notes</span>
+                  </button>
+
+                  {/* Print Spread */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsToolsMenuOpen(false);
+                      onOpenPrintModal?.();
+                    }}
+                    className="w-full text-left px-3.5 py-1.5 hover:bg-slate-800 text-slate-200 hover:text-white flex items-center gap-2 transition-colors cursor-pointer"
+                    title="Selective Print & Publishing Studio"
+                  >
+                    <Printer size={13} className="text-cyan-400 shrink-0" />
+                    <span>Print & Publish Studio</span>
+                  </button>
+
+                  {/* ADE User Guide */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsToolsMenuOpen(false);
+                      onOpenGuide?.();
+                    }}
+                    className="w-full text-left px-3.5 py-1.5 hover:bg-slate-800 text-slate-200 hover:text-white flex items-center gap-2 transition-colors cursor-pointer"
+                    title="ADE Master User Guide & Manual"
+                  >
+                    <Compass size={13} className="text-amber-400 shrink-0" />
+                    <span>ADE User Guide & Manual</span>
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -289,7 +289,7 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
       >
         
         {/* Header */}
-        <div className="px-6 py-4 bg-[#0d1117] border-b border-[#0D5C63]/60 flex items-center justify-between">
+        <div className="relative z-30 px-6 py-4 bg-[#0d1117] border-b border-[#0D5C63]/60 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-600 to-cyan-600 flex items-center justify-center text-lg shadow-[0_0_12px_rgba(34,211,238,0.3)]">
               ✏️
@@ -318,7 +318,7 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
               </button>
 
               {isFileMenuOpen && (
-                <div className="absolute right-0 mt-1.5 w-56 bg-slate-900/98 border border-cyan-500/40 rounded-xl shadow-2xl py-1.5 z-50 backdrop-blur-2xl text-xs font-mono divide-y divide-slate-800 animate-in fade-in slide-in-from-top-2 duration-150">
+                <div className="absolute right-0 mt-1.5 w-56 bg-[#0b101b] border border-cyan-500/40 rounded-xl shadow-[0_16px_48px_rgba(0,0,0,0.95)] py-1.5 z-50 text-xs font-mono divide-y divide-slate-800 animate-in fade-in slide-in-from-top-2 duration-150">
                   <div className="py-1">
                     <button
                       type="button"

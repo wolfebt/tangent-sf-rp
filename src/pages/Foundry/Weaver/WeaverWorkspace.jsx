@@ -108,7 +108,7 @@ export default function WeaverWorkspace({
       </button>
 
       {isTabDropdownOpen && (
-        <div className="absolute left-0 mt-1.5 w-56 bg-slate-900/98 border border-cyan-500/40 rounded-2xl shadow-2xl py-1.5 z-[120] backdrop-blur-2xl text-xs font-mono divide-y divide-slate-800/80 animate-in fade-in slide-in-from-top-2 duration-150">
+        <div className="absolute left-0 mt-1.5 w-56 bg-[#0b101b] border border-cyan-500/40 rounded-2xl shadow-[0_16px_48px_rgba(0,0,0,0.95)] py-1.5 z-[120] text-xs font-mono divide-y divide-slate-800/80 animate-in fade-in slide-in-from-top-2 duration-150">
           <div className="px-3 py-1 text-[10px] uppercase font-bold text-cyan-400/80 tracking-wider">
             Weaver Mode
           </div>

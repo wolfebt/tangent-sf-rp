@@ -71,6 +71,38 @@ const DEFAULT_UNIVERSE_STATE = {
   updatedAt: new Date().toISOString()
 };
 
+const DELETED_STORY_IDS_KEY = 'tangent_deleted_story_ids';
+
+const getDeletedStoryIds = () => {
+  try {
+    const raw = localStorage.getItem(DELETED_STORY_IDS_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return new Set(Array.isArray(parsed) ? parsed : []);
+  } catch {
+    return new Set();
+  }
+};
+
+const markStoryIdDeleted = (storyId) => {
+  if (!storyId) return;
+  try {
+    const set = getDeletedStoryIds();
+    set.add(storyId);
+    localStorage.setItem(DELETED_STORY_IDS_KEY, JSON.stringify(Array.from(set)));
+  } catch {}
+};
+
+const unmarkStoryIdDeleted = (storyId) => {
+  if (!storyId) return;
+  try {
+    const set = getDeletedStoryIds();
+    if (set.has(storyId)) {
+      set.delete(storyId);
+      localStorage.setItem(DELETED_STORY_IDS_KEY, JSON.stringify(Array.from(set)));
+    }
+  } catch {}
+};
+
 export const StoryProvider = ({ children }) => {
   // Global Universe State — primary source is Firestore; StorageService/IndexedDB is secondary offline cache
   const [universeState, setUniverseState] = useState(() => {
@@ -134,7 +166,7 @@ export const StoryProvider = ({ children }) => {
 
         if (!isMounted) return;
 
-        if (cachedUniverse && cachedUniverse.id) {
+        if (cachedUniverse && cachedUniverse.id && !getDeletedStoryIds().has(cachedUniverse.id)) {
           isSyncingFromFirestore.current = true;
           if (cachedUniverse.updatedAt) {
             lastSyncedCloudUpdatedAtRef.current = cachedUniverse.updatedAt;
@@ -148,7 +180,11 @@ export const StoryProvider = ({ children }) => {
         }
 
         if (Array.isArray(cachedStories) && cachedStories.length > 0) {
-          setStoryCatalog(cachedStories);
+          const deletedIds = getDeletedStoryIds();
+          const filteredCachedStories = cachedStories.filter(s => s && !deletedIds.has(s.id));
+          if (filteredCachedStories.length > 0) {
+            setStoryCatalog(filteredCachedStories);
+          }
         }
 
         if (Array.isArray(cachedMaps) && cachedMaps.length > 0) {
@@ -211,10 +247,12 @@ export const StoryProvider = ({ children }) => {
 
   const isDirtyRef = useRef(isDirty);
   const universeStateRef = useRef(universeState);
+  const storyCatalogRef = useRef(storyCatalog);
   useEffect(() => {
     isDirtyRef.current = isDirty;
     universeStateRef.current = universeState;
-  }, [isDirty, universeState]);
+    storyCatalogRef.current = storyCatalog;
+  }, [isDirty, universeState, storyCatalog]);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
@@ -330,10 +368,13 @@ export const StoryProvider = ({ children }) => {
     // Fetch user stories from Cloud DB
     const storiesCol = collection(db, 'user_stories');
     getDocs(storiesCol).then((snap) => {
-      const stories = snap.docs.map(d => ({ ...d.data(), id: d.id }));
+      const deletedIds = getDeletedStoryIds();
+      const stories = snap.docs
+        .map(d => ({ ...d.data(), id: d.id }))
+        .filter(s => !deletedIds.has(s.id));
       if (stories.length > 0) {
         setStoryCatalog(prev => {
-          const map = new Map(prev.map(s => [s.id, s]));
+          const map = new Map(prev.filter(s => !deletedIds.has(s.id)).map(s => [s.id, s]));
           stories.forEach(s => map.set(s.id, s));
           const merged = Array.from(map.values());
           StorageService.setItem('tangent_story_catalog', merged);
@@ -660,6 +701,7 @@ export const StoryProvider = ({ children }) => {
     }
 
     const currentProjectId = universeState.id || 'proj_default_universe';
+    unmarkStoryIdDeleted(currentProjectId);
     const updatedState = {
       ...universeState,
       id: currentProjectId,
@@ -675,6 +717,7 @@ export const StoryProvider = ({ children }) => {
       const updatedCatalog = exists
         ? prev.map(s => s.id === currentProjectId ? updatedState : s)
         : [...prev, updatedState];
+      storyCatalogRef.current = updatedCatalog;
       StorageService.setItem('tangent_story_catalog', updatedCatalog);
       return updatedCatalog;
     });
@@ -1585,6 +1628,7 @@ export const StoryProvider = ({ children }) => {
   // Story Project Catalog Lifecycle Helpers
   const createNewStory = (name, description = '') => {
     const newId = `proj_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+    unmarkStoryIdDeleted(newId);
     const overviewElem = attachCreatorTag({
       id: `elem_${Date.now()}_1`,
       title: `${name || 'Story'} Overview`,
@@ -1607,14 +1651,17 @@ export const StoryProvider = ({ children }) => {
 
     isSyncingFromFirestore.current = true;
     lastSyncedCloudUpdatedAtRef.current = newStory.updatedAt;
+    universeStateRef.current = newStory;
     setUniverseState(newStory);
-    setActiveScenarioId(`elem_${Date.now()}_1`);
+    StorageService.setItem('tangent_universe_state', newStory);
+    setActiveScenarioId(overviewElem.id);
     setActiveMapId(null);
     setIsDirty(false);
     setSyncConflict(null);
 
     setStoryCatalog(prev => {
       const updated = [newStory, ...prev.filter(s => s.id !== newId)];
+      storyCatalogRef.current = updated;
       StorageService.setItem('tangent_story_catalog', updated);
       return updated;
     });
@@ -1629,10 +1676,12 @@ export const StoryProvider = ({ children }) => {
   const openStory = (storyId) => {
     const target = storyCatalog.find(s => s.id === storyId) || publicStoryCatalog.find(s => s.id === storyId);
     if (target) {
-      const isOwner = !currentUser || target.ownerId === currentUser.uid;
+      const isOwner = !currentUser || !target.ownerId || target.ownerId === currentUser.uid;
       isSyncingFromFirestore.current = true;
       lastSyncedCloudUpdatedAtRef.current = target.updatedAt || null;
+      universeStateRef.current = target;
       setUniverseState(target);
+      StorageService.setItem('tangent_universe_state', target);
       setIsDirty(false);
       setSyncConflict(null);
       setIsStoryReadOnly(!isOwner);
@@ -1661,12 +1710,80 @@ export const StoryProvider = ({ children }) => {
   };
 
   const deleteStoryProject = async (storyId) => {
-    setStoryCatalog(prev => {
-      const updated = prev.filter(s => s.id !== storyId);
-      StorageService.setItem('tangent_story_catalog', updated);
-      return updated;
-    });
+    if (!storyId) return;
 
+    // 1. Mark storyId as deleted so it won't resurrect from cache or cloud sync
+    markStoryIdDeleted(storyId);
+
+    const isDeletingActive = universeStateRef.current?.id === storyId;
+
+    // 2. Cancel any pending debounced auto-save if deleting the currently active story
+    if (isDeletingActive) {
+      debouncedSaveRef.current?.cancel();
+    }
+
+    // 3. Remove from storyCatalog and handle active story fallback
+    const currentCatalog = Array.isArray(storyCatalogRef.current) ? storyCatalogRef.current : storyCatalog;
+    const remaining = currentCatalog.filter(s => s.id !== storyId);
+
+    if (isDeletingActive) {
+      if (remaining.length > 0) {
+        const nextStory = remaining[0];
+        const isOwner = !currentUser || !nextStory.ownerId || nextStory.ownerId === currentUser.uid;
+        isSyncingFromFirestore.current = true;
+        lastSyncedCloudUpdatedAtRef.current = nextStory.updatedAt || null;
+        universeStateRef.current = nextStory;
+        setUniverseState(nextStory);
+        StorageService.setItem('tangent_universe_state', nextStory);
+        setIsDirty(false);
+        setSyncConflict(null);
+        setIsStoryReadOnly(!isOwner);
+        setActiveScenarioId(nextStory.scenarios?.length > 0 ? nextStory.scenarios[0].id : null);
+        setActiveMapId(nextStory.maps?.length > 0 ? nextStory.maps[0].id : null);
+        storyCatalogRef.current = remaining;
+        setStoryCatalog(remaining);
+        StorageService.setItem('tangent_story_catalog', remaining);
+      } else {
+        const freshDefaultId = storyId === 'proj_default_universe'
+          ? `proj_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`
+          : 'proj_default_universe';
+        unmarkStoryIdDeleted(freshDefaultId);
+        const fallback = {
+          ...DEFAULT_UNIVERSE_STATE,
+          id: freshDefaultId,
+          updatedAt: new Date().toISOString()
+        };
+        isSyncingFromFirestore.current = true;
+        lastSyncedCloudUpdatedAtRef.current = fallback.updatedAt;
+        universeStateRef.current = fallback;
+        setUniverseState(fallback);
+        StorageService.setItem('tangent_universe_state', fallback);
+        setIsDirty(false);
+        setSyncConflict(null);
+        setIsStoryReadOnly(false);
+        setActiveScenarioId(fallback.scenarios?.[0]?.id || null);
+        setActiveMapId(null);
+        storyCatalogRef.current = [fallback];
+        setStoryCatalog([fallback]);
+        StorageService.setItem('tangent_story_catalog', [fallback]);
+      }
+
+      if (typeof window !== 'undefined' && window.location.search.includes(storyId) && window.history.replaceState) {
+        try {
+          const url = new URL(window.location.href);
+          if (url.searchParams.get('storyId') === storyId) {
+            url.searchParams.delete('storyId');
+            window.history.replaceState({}, '', url.pathname + url.search);
+          }
+        } catch {}
+      }
+    } else {
+      storyCatalogRef.current = remaining;
+      setStoryCatalog(remaining);
+      StorageService.setItem('tangent_story_catalog', remaining);
+    }
+
+    // 4. Delete from Firestore user_stories collection
     if (currentUser) {
       try {
         await deleteDoc(doc(db, 'user_stories', storyId));

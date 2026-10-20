@@ -467,7 +467,7 @@ export const ScenarioCockpitDockPanel = ({
       {/* Main Content Column of Right Dock */}
       <div className="flex-1 min-w-0 flex flex-col h-full overflow-hidden bg-slate-900/90">
         {/* Dock Content Header */}
-        <div className="p-2 border-b border-slate-800 bg-slate-950/90 flex items-center justify-between gap-1 shrink-0 font-mono">
+        <div className="relative z-30 p-2 border-b border-slate-800 bg-slate-950/90 flex items-center justify-between gap-1 shrink-0 font-mono">
           <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider">
             {dockTab === 'inspector' && (
               <span className="text-cyan-300 flex items-center gap-1">
@@ -509,7 +509,7 @@ export const ScenarioCockpitDockPanel = ({
                 </button>
 
                 {isFileMenuOpen && (
-                  <div className="absolute right-0 mt-1 w-52 bg-slate-900/98 border border-cyan-500/40 rounded-xl shadow-2xl py-1 z-50 backdrop-blur-2xl text-xs font-mono divide-y divide-slate-800 animate-in fade-in slide-in-from-top-2 duration-150">
+                  <div className="absolute right-0 mt-1 w-52 bg-[#0b101b] border border-cyan-500/40 rounded-xl shadow-[0_16px_48px_rgba(0,0,0,0.95)] py-1 z-50 text-xs font-mono divide-y divide-slate-800 animate-in fade-in slide-in-from-top-2 duration-150">
                     <div className="py-1">
                       <button
                         type="button"
