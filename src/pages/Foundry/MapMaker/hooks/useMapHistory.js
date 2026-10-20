@@ -16,6 +16,7 @@ export const useMapHistory = ({ currentMap, lines, tokens, terrains, objects, te
       walls: walls || [],
       lights: lights || [],
       fog: fog || [],
+      chunkInstances: currentMap?.chunkInstances || [],
       layers: mapLayers,
       description: actionDescription,
       timestamp: Date.now()
@@ -37,6 +38,7 @@ export const useMapHistory = ({ currentMap, lines, tokens, terrains, objects, te
       walls: walls || [], 
       lights: lights || [], 
       fog: fog || [], 
+      chunkInstances: currentMap?.chunkInstances || [],
       layers: mapLayers,
       description: lastActionDescription,
       timestamp: Date.now()
@@ -60,6 +62,7 @@ export const useMapHistory = ({ currentMap, lines, tokens, terrains, objects, te
       walls: walls || [], 
       lights: lights || [], 
       fog: fog || [], 
+      chunkInstances: currentMap?.chunkInstances || [],
       layers: mapLayers,
       description: lastActionDescription,
       timestamp: Date.now()

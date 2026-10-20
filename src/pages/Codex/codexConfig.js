@@ -153,9 +153,9 @@ export const CODEX_MATRICES = [
       craft_dc: 18,
       durability: 200,
       cost: 1500,
-      power_grid: 'Standard Fusion Matrix',
+      power_grid: '',
       security_level: 'High Security (Tier 3)',
-      primary_purpose: 'Tactical Outpost',
+      primary_purpose: '',
       description: '',
       mechanic: '',
       note: '',
@@ -946,7 +946,7 @@ export const CODEX_MATRICES = [
       sizeCategory: 'Medium',
       size: 'Medium',
       isSynthetic: false,
-      tacticalBehaviors: ['Defensive Anchor'],
+      tacticalBehaviors: [],
       tech_level: 3,
       meta_level: 1,
       threat_rating: 15,
@@ -1345,12 +1345,12 @@ export const CODEX_MATRICES = [
       tl: 3,
       metaLevel: 1,
       ml: 1,
-      dominant_faction: 'Independent',
+      dominant_faction: '',
       planet_type: 'Terrestrial Bio-World',
       survey_dc: 20,
       domainRatings: {},
-      settlements: 'Nova Prime (Arcology Capital), Outpost 99',
-      hazards: 'Corrosive Dust Storms, Solar Flares',
+      settlements: '',
+      hazards: '',
       description: '',
       mechanic: '',
       note: '',
@@ -1409,9 +1409,8 @@ export const CODEX_MATRICES = [
       species_type: 'Humanoid',
       type: 'Humanoid',
       size: 'Medium',
-      movement_modes: ['normal'],
-      movement: 'normal',
-      budget_level: 'Standard',
+      movement_modes: [],
+      movement: [],
       bonus_str: 0,
       bonus_agi: 0,
       bonus_sta: 0,
@@ -1434,7 +1433,6 @@ export const CODEX_MATRICES = [
     },
     fields: [
       { name: 'name', label: 'Species / Lineage Name', type: 'text', required: true, placeholder: 'E.g., Vesperian Void-Stalkers' },
-      { name: 'budget_level', label: 'Budget Tier', type: 'select', options: ['Standard', 'Advanced', 'Monster'] },
       { name: 'species_type', label: 'Species Chassis Type', type: 'select', options: ['Aberration', 'Beast', 'Dragon', 'Elemental', 'Entity', 'Fey', 'Humanoid', 'Mythical', 'Ooze', 'Planar', 'Synthetic', 'Undead', 'Verdant'] },
       { name: 'size', label: 'Size Category', type: 'select', options: ['Miniscule', 'Fine', 'Diminutive', 'Tiny', 'Small', 'Medium', 'Large', 'Huge', 'Gargantuan', 'Colossal', 'Enormous', 'Titanic', 'Super Gargantuan', 'Mega Colossal'] },
       { name: 'description', label: 'Physiology, Culture & Evolutionary Origin', type: 'textarea', aiEnabled: true },
@@ -1448,9 +1446,7 @@ export const CODEX_MATRICES = [
       { name: 'keywords', label: 'Guidance Keywords', type: 'text', placeholder: 'E.g., predatory, arboreal, psionic, cyber-compatible' },
       { name: 'negative_keywords', label: 'Negative Keywords & Railguards', type: 'text', placeholder: 'E.g., heavy armor, aquatic, brute force, cybernetics' }
     ],
-    budgets: [
-      { id: 'species_bp', label: 'Species Character Points', type: 'custom', max: 20, unit: 'CP', color: '#10b981' }
-    ],
+    budgets: [],
     computedOutputs: [],
     computeOnSave: (formData, engines) => {
       if (engines?.entities?.computeSpeciesStats) {
@@ -1834,8 +1830,8 @@ export const CODEX_MATRICES = [
     defaultValues: {
       name: '',
       faction_type: 'Major Polity',
-      archetype: 'Frontier Industrialists / Kleptocratic Republic',
-      prominent_species: 'Humans',
+      archetype: '',
+      prominent_species: '',
       capital_world: '',
       tech_level: 3,
       tl: 3,
@@ -1944,11 +1940,11 @@ export const CODEX_MATRICES = [
       { name: 'negative_keywords', label: 'Negative Keywords & Railguards', type: 'text', placeholder: 'E.g., pacifist, primitive, psionic-taboo' },
       { name: 'mechanic', label: 'Faction-Specific Rules & Mechanical Perks', type: 'textarea', placeholder: 'Special rule effects, reputation tracks, or faction-specific bonuses...' },
 
-      // 7. Visual Synthesis Protocols (HI-FI INK)
-      { name: 'setting_style', label: 'HI-FI INK Setting Style', type: 'text', placeholder: 'E.g., Dieselpunk, Used Future, Frontier Industrialists, Blocky and Functional' },
-      { name: 'context_palette', label: 'Visual Context & Color Palette', type: 'textarea', placeholder: 'E.g., Brutalist prefabs, heavy refineries, hazard stripes. Palette: Dust Brown, Faded Denim, Olive Drab' },
-      { name: 'lighting_mood', label: 'Lighting, Atmosphere & Tone', type: 'textarea', placeholder: 'E.g., Industrial decay, smog-choked, oppressive low-key industrial lighting, sodium vapor' },
-      { name: 'image_prompt', label: 'AI Image Prompt Guidance', type: 'textarea', placeholder: 'Detailed cinematic prompt for AI concept rendering...' },
+      // 7. Visual Synthesis Protocols (HIFI CHROMA)
+      { name: 'setting_style', label: 'HIFI CHROMA Setting Style (SETTING STYLE)', type: 'text', placeholder: 'E.g., Dieselpunk, Used Future, Frontier Industrialists, Blocky and Functional' },
+      { name: 'context_palette', label: 'HIFI CHROMA Context & Color Palette (CONTEXT)', type: 'textarea', placeholder: 'E.g., Brutalist prefabs, heavy refineries, hazard stripes. Palette: Dust Brown, Faded Denim, Olive Drab' },
+      { name: 'lighting_mood', label: 'HIFI CHROMA Atmosphere & Lighting (ATMOSPHERE)', type: 'textarea', placeholder: 'E.g., Industrial decay, smog-choked, oppressive low-key industrial lighting, sodium vapor' },
+      { name: 'image_prompt', label: 'HIFI CHROMA Modular Image Prompt', type: 'textarea', placeholder: '[CONTENT PROMPT] SUBJECT: ... NARRATIVE: ... [GUIDANCE PROMPT] SETTING STYLE: ... CONTEXT: ... ATMOSPHERE: ... [RENDERING PROMPT] ...' },
 
       // 8. Expansion Modules & GM Notes
       { name: 'scene_vignettes', label: 'Signature Scene Vignettes', type: 'textarea', placeholder: 'E.g., The Marshal Garrison, The Refinery Floor, The Hab-Block Stacks...' },

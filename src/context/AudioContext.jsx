@@ -1,11 +1,11 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import { AudioService } from '../services/audioService';
 
-const AudioContext = createContext(null);
+const AudioContext = globalThis.__TANGENT_AUDIO_CONTEXT__ || (globalThis.__TANGENT_AUDIO_CONTEXT__ = createContext(null));
 
 export const useAudio = () => {
   const ctx = useContext(AudioContext);
-  if (!ctx) throw new Error('useAudio must be used inside <AudioProvider>');
+  if (!ctx) return { isMuted: AudioService.muted, toggleMute: () => AudioService.toggleMute() };
   return ctx;
 };
 

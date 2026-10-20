@@ -21,14 +21,11 @@ import { getEnrichedInvocationData } from '../data/invocationsData';
 import { getEnrichedAugmentationData } from '../data/augmentationsData';
 import { getEnrichedHindranceData } from '../data/speciesDisadvantagesData';
 
-const ContextMenuContext = createContext(null);
+const ContextMenuContext = globalThis.__TANGENT_CONTEXT_MENU_CONTEXT__ || (globalThis.__TANGENT_CONTEXT_MENU_CONTEXT__ = createContext(null));
 
 export const useContextMenu = () => {
   const context = useContext(ContextMenuContext);
-  if (!context) {
-    throw new Error('useContextMenu must be used within a ContextMenuProvider');
-  }
-  return context;
+  return context || {};
 };
 
 export const ContextMenuProvider = ({ children }) => {

@@ -13,6 +13,7 @@ export const MAP_TYPES = [
 
 export const SIDEBAR_TOOLS = [
   { id: 'select', label: 'Select / Move', icon: 'Pointer' },
+  { id: 'chunk', label: 'Map Chunk / Prefab', icon: 'Blocks' },
   { id: 'wall', label: 'Wall & Door', icon: 'Shield' },
   { id: 'terrain', label: 'Terrain Brush', icon: 'Paintbrush' },
   { id: 'object', label: 'Place Object / Prop', icon: 'Box' },

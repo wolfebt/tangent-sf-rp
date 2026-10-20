@@ -363,7 +363,7 @@ export const OmnicortexNavRail = ({
           setIsHovered(false);
           setHoveredItem(null);
         }}
-        className={`fixed md:absolute top-0 bottom-0 left-0 h-full bg-[#070a12]/98 backdrop-blur-xl border-r border-slate-800/90 flex flex-col justify-between py-2 px-1 select-none z-40 font-sans transition-all duration-200 ease-out ${
+        className={`absolute top-0 bottom-0 left-0 h-full bg-[#070a12]/98 backdrop-blur-xl border-r border-slate-800/90 flex flex-col justify-between py-2 px-1 select-none z-40 font-sans transition-all duration-200 ease-out ${
           isExpanded 
             ? 'w-56 sm:w-60 shadow-[12px_0_35px_rgba(0,0,0,0.85)] border-slate-700/80' 
             : 'w-14 sm:w-16 shadow-lg'
@@ -382,7 +382,7 @@ export const OmnicortexNavRail = ({
               OMNICORTEX
             </span>
             <span className="text-[8.5px] font-mono px-1.5 py-0.2 rounded bg-cyan-950/60 border border-cyan-500/30 text-cyan-300 font-bold">
-              {totalAssetsCount}
+              SECTIONS
             </span>
           </div>
           <div className="flex items-center gap-1 shrink-0">
@@ -402,6 +402,17 @@ export const OmnicortexNavRail = ({
             >
               <Pin size={11} className={`transition-transform duration-200 ${isPinned ? 'rotate-45 text-cyan-300' : 'text-slate-400 hover:text-slate-200'}`} />
             </button>
+            {onCloseMobile && (
+              <button
+                type="button"
+                onClick={onCloseMobile}
+                className="md:hidden p-1 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+                title="Close Navigation Rail"
+                aria-label="Close Navigation Rail"
+              >
+                <X size={12} />
+              </button>
+            )}
           </div>
         </div>
 
@@ -447,22 +458,13 @@ export const OmnicortexNavRail = ({
                   <span className={`absolute left-0 top-1.5 bottom-1.5 w-1 rounded-r-full ${theme.bar}`} />
                 )}
 
-                {/* Icon Container with Badge */}
+                {/* Icon Container */}
                 <div
                   className={`relative w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center shrink-0 border transition-all ${
                     isItemActive ? theme.activeBox : theme.iconBox
                   }`}
                 >
                   <Icon size={16} />
-
-                  {/* Record Counter Badge */}
-                  {count > 0 && (
-                    <span
-                      className={`absolute -top-1 -right-1 px-1 min-w-[14px] h-[14px] rounded-full font-mono text-[8px] font-bold flex items-center justify-center shadow-sm ${theme.badge}`}
-                    >
-                      {count > 999 ? `${Math.floor(count / 1000)}k` : count}
-                    </span>
-                  )}
                 </div>
 
                 {/* Label & Descriptive Text to the Right of Icon (Collapsed in mini drawer, expanded on hover) */}
@@ -481,11 +483,6 @@ export const OmnicortexNavRail = ({
                     >
                       {section.shortLabel === 'DISADV' ? 'DISADVANTAGES' : section.shortLabel}
                     </span>
-                    {count > 0 && (
-                      <span className="text-[9px] font-mono font-bold text-slate-400 shrink-0">
-                        {count}
-                      </span>
-                    )}
                   </div>
                   <span className="text-[9px] text-slate-400/80 truncate font-mono leading-tight mt-0.5">
                     {section.label}
@@ -692,7 +689,7 @@ export const OmnicortexNavRail = ({
       {/* ── DEVELOPER FIELDS VERTICAL MENU (Strictly Dev Mode) ── */}
       {isAdmin && isDevPanelOpen && (
         <aside
-          className="fixed md:relative z-30 md:z-10 top-0 bottom-0 left-14 sm:left-16 md:left-0 w-72 sm:w-80 bg-[#080d18]/98 backdrop-blur-2xl border-r border-amber-500/40 shadow-[12px_0_35px_rgba(0,0,0,0.85)] flex flex-col p-3 select-none font-sans animate-in slide-in-from-left-4 duration-200 shrink-0 h-full"
+          className="absolute md:relative z-30 md:z-10 top-0 bottom-0 left-14 sm:left-16 md:left-0 w-72 sm:w-80 bg-[#080d18]/98 backdrop-blur-2xl border-r border-amber-500/40 shadow-[12px_0_35px_rgba(0,0,0,0.85)] flex flex-col p-3 select-none font-sans animate-in slide-in-from-left-4 duration-200 shrink-0 h-full"
         >
           {/* Header Banner - Matching Screenshot media_1790164338449.png */}
           <div className="p-2.5 rounded-xl bg-amber-950/40 border border-amber-500/60 flex items-center justify-between shadow-[0_0_15px_rgba(245,158,11,0.15)] shrink-0">

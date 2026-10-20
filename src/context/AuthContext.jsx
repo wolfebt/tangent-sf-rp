@@ -6,9 +6,9 @@ import { SystemBootSplash } from '../components/UI/SystemBootSplash';
 import { TerranNetAuthModal } from '../components/UI/TerranNetAuthModal';
 import { useConfirm } from './ConfirmContext';
 
-const AuthContext = createContext();
+const AuthContext = globalThis.__TANGENT_AUTH_CONTEXT__ || (globalThis.__TANGENT_AUTH_CONTEXT__ = createContext({}));
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => useContext(AuthContext) || {};
 
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);

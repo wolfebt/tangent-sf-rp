@@ -42,6 +42,17 @@ export const CodexDatasetDashboard = ({
   const [isGuidanceOpen, setIsGuidanceOpen] = useState(true);
   const [activeSectionId, setActiveSectionId] = useState(null);
   const [sandboxDc, setSandboxDc] = useState(18);
+  const [copiedId, setCopiedId] = useState(null);
+
+  const handleCopyBracketLink = (e, item) => {
+    e.stopPropagation();
+    const entryName = (item.name || item.title || 'Entry').trim();
+    const linkToken = `[[${entryName}]]`;
+    navigator.clipboard?.writeText(linkToken);
+    AudioService.playTerminalBeep(1300, 0.02);
+    setCopiedId(item.id || entryName);
+    setTimeout(() => setCopiedId(null), 2000);
+  };
 
   const guidance = useMemo(() => getGuidanceForDataset(matrix.id), [matrix.id]);
   const isProperty = guidance?.isProperty ?? (matrix.computedOutputs && matrix.computedOutputs.length > 0);
@@ -517,6 +528,14 @@ export const CodexDatasetDashboard = ({
                     <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                       <button
                         type="button"
+                        onClick={(e) => handleCopyBracketLink(e, item)}
+                        className="px-1.5 py-0.5 rounded-lg bg-slate-950 hover:bg-slate-800 text-cyan-400 hover:text-cyan-200 text-[10px] font-mono font-bold border border-cyan-500/30"
+                        title={`Copy [[${item.name || item.title}]] link for chats`}
+                      >
+                        {copiedId === (item.id || item.name || item.title) ? '✓' : '[[Link]]'}
+                      </button>
+                      <button
+                        type="button"
                         onClick={(e) => {
                           e.stopPropagation();
                           onDuplicateItem(item);
@@ -605,6 +624,14 @@ export const CodexDatasetDashboard = ({
                   )}
                   <td className="p-3 text-right">
                     <div className="flex items-center justify-end gap-1.5" onClick={e => e.stopPropagation()}>
+                      <button
+                        type="button"
+                        onClick={(e) => handleCopyBracketLink(e, item)}
+                        className="px-1.5 py-0.5 rounded bg-slate-950 hover:bg-slate-800 text-cyan-400 hover:text-cyan-200 text-[10px] font-mono font-bold border border-cyan-500/30"
+                        title={`Copy [[${item.name || item.title}]] link for chats`}
+                      >
+                        {copiedId === (item.id || item.name || item.title) ? '✓' : '[[Link]]'}
+                      </button>
                       <button
                         type="button"
                         onClick={() => onEditItem(item)}

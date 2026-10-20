@@ -71,6 +71,7 @@ export const MessageInput = ({ isCompact = false }) => {
   const [isIdentityDropdownOpen, setIsIdentityDropdownOpen] = useState(false);
   const [isDicePopoverOpen, setIsDicePopoverOpen] = useState(false);
   const [isRpgMenuOpen, setIsRpgMenuOpen] = useState(false);
+  const [slashSelectedIndex, setSlashSelectedIndex] = useState(0);
   
   // Quick Dice Form State
   const [diceExpr, setDiceExpr] = useState('2d10');
@@ -78,6 +79,40 @@ export const MessageInput = ({ isCompact = false }) => {
   const [rollLabel, setRollLabel] = useState('');
 
   const inputRef = useRef(null);
+
+  const SLASH_COMMANDS = useMemo(() => [
+    { cmd: '/roll 2d10', trigger: '/roll', label: 'Roll 2d10 Check', desc: 'Execute standard Tangent 2d10 tactical check', badge: 'DICE' },
+    { cmd: '/roll 2d10+4 ', trigger: '/r', label: 'Roll 2d10 + Modifier', desc: 'Roll 2d10 with modifier and optional check label', badge: 'DICE' },
+    { cmd: '/me ', trigger: '/me', label: 'Narrative Action (/me)', desc: 'Perform an In-Character physical action or emote', badge: 'RP' },
+    { cmd: '/ooc ', trigger: '/ooc', label: 'Out-of-Character Remark (/ooc)', desc: 'Send an OOC operator note without leaving IC mode', badge: 'OOC' },
+    { cmd: '/ic', trigger: '/ic', label: 'Switch to In-Character Mode', desc: `Bind transmitter to Folio Persona (${selectedPersona?.['char-name'] || selectedPersona?.name || 'Persona'})`, badge: 'MODE', instant: true },
+    { cmd: '[Hyperdrive] ', trigger: '/codex', label: 'Insert Codex Lore Link', desc: 'Reference an interactive HoloNet Codex entry in chat', badge: 'LORE' }
+  ], [selectedPersona]);
+
+  const matchingSlashCommands = useMemo(() => {
+    if (!text.startsWith('/')) return [];
+    const token = text.split(' ')[0].toLowerCase();
+    // Only show palette while typing the command token itself (before first space)
+    if (text.includes(' ')) return [];
+    return SLASH_COMMANDS.filter(c => c.trigger.startsWith(token) || c.cmd.toLowerCase().startsWith(token));
+  }, [text, SLASH_COMMANDS]);
+
+  useEffect(() => {
+    setSlashSelectedIndex(0);
+  }, [matchingSlashCommands.length]);
+
+  const applySlashCommand = (item) => {
+    if (!item) return;
+    AudioService.playTerminalBeep(1200, 0.02);
+    if (item.instant && item.trigger === '/ic') {
+      setSpeakingMode('IC');
+      setText('');
+      inputRef.current?.focus();
+      return;
+    }
+    setText(item.cmd);
+    inputRef.current?.focus();
+  };
 
   // Collect all available personas from Folio catalog / roster / active characterData
   const allPersonas = useMemo(() => {
@@ -125,11 +160,45 @@ export const MessageInput = ({ isCompact = false }) => {
     if (!text.trim() || isReadOnlyChannel) return;
 
     const msgToSend = text.trim();
+    if (msgToSend.toLowerCase() === '/ic') {
+      setSpeakingMode('IC');
+      setText('');
+      return;
+    }
+    if (msgToSend.toLowerCase() === '/ooc') {
+      setSpeakingMode('OOC');
+      setText('');
+      return;
+    }
+
     setText('');
     await sendMessage(msgToSend);
   };
 
   const handleKeyDown = (e) => {
+    if (matchingSlashCommands.length > 0) {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setSlashSelectedIndex(prev => (prev + 1) % matchingSlashCommands.length);
+        return;
+      }
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setSlashSelectedIndex(prev => (prev - 1 + matchingSlashCommands.length) % matchingSlashCommands.length);
+        return;
+      }
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        applySlashCommand(matchingSlashCommands[slashSelectedIndex] || matchingSlashCommands[0]);
+        return;
+      }
+      if (e.key === 'Enter' && !e.shiftKey && text.trim() === '/') {
+        e.preventDefault();
+        applySlashCommand(matchingSlashCommands[slashSelectedIndex] || matchingSlashCommands[0]);
+        return;
+      }
+    }
+
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSend();
@@ -698,6 +767,42 @@ export const MessageInput = ({ isCompact = false }) => {
 
           {/* ── Main Message Transmission Bar ── */}
           <form onSubmit={handleSend} className="relative flex items-center">
+            {/* Interactive / Slash Command Autocomplete Palette */}
+            {matchingSlashCommands.length > 0 && (
+              <div className="absolute left-0 right-0 bottom-full mb-2 bg-[#0b111c]/98 border border-cyan-500/40 rounded-xl shadow-[0_0_30px_rgba(0,0,0,0.85)] p-1.5 z-50 font-mono text-xs animate-in fade-in duration-100">
+                <div className="px-2 py-1 flex items-center justify-between text-[9.5px] text-slate-400 border-b border-slate-800/80 mb-1">
+                  <span className="font-bold text-cyan-400 uppercase tracking-wider">TACTICAL SLASH COMMANDS</span>
+                  <span>↑↓ Navigate • Tab Autocomplete</span>
+                </div>
+                <div className="space-y-0.5 max-h-48 overflow-y-auto no-scrollbar">
+                  {matchingSlashCommands.map((item, idx) => {
+                    const isSelected = idx === slashSelectedIndex;
+                    return (
+                      <button
+                        key={item.trigger}
+                        type="button"
+                        onClick={() => applySlashCommand(item)}
+                        onMouseEnter={() => setSlashSelectedIndex(idx)}
+                        className={`w-full px-2.5 py-1.5 rounded-lg flex items-center justify-between gap-3 text-left transition-colors cursor-pointer ${
+                          isSelected
+                            ? 'bg-cyan-950/80 border border-cyan-500/50 text-white'
+                            : 'hover:bg-slate-900 text-slate-300 border border-transparent'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2 min-w-0">
+                          <span className="font-bold text-cyan-300 shrink-0">{item.trigger}</span>
+                          <span className="text-[10.5px] text-slate-400 truncate">{item.desc}</span>
+                        </div>
+                        <span className="px-1.5 py-0.2 rounded bg-slate-900 border border-slate-700 text-[9px] font-bold text-slate-300 shrink-0">
+                          {item.badge}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
             <input
               ref={inputRef}
               type="text"

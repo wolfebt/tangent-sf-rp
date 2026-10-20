@@ -4,14 +4,11 @@ import { useFolio } from './FolioContext';
 import { SquadService } from '../services/squadService';
 import { AudioService } from '../services/audioService';
 
-export const SquadContext = createContext();
+export const SquadContext = globalThis.__TANGENT_SQUAD_CONTEXT__ || (globalThis.__TANGENT_SQUAD_CONTEXT__ = createContext({}));
 
 export const useSquad = () => {
   const context = useContext(SquadContext);
-  if (!context) {
-    throw new Error('useSquad must be used within a SquadProvider');
-  }
-  return context;
+  return context || {};
 };
 
 export const useGroup = useSquad;

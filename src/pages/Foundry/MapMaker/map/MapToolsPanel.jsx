@@ -35,9 +35,11 @@ import {
   Type,
   ChevronLeft,
   ChevronRight,
-  Package
+  Package,
+  Blocks
 } from 'lucide-react';
 import { useUILayoutStore } from '../../../../components/VTT/store/uiLayoutStore';
+import { ChunkToolDrawerContent } from './ChunkToolDrawerContent';
 
 const MapToolsPanel = ({
   showToolsPanel, setShowToolsPanel,
@@ -81,7 +83,22 @@ const MapToolsPanel = ({
   onOpenOmnicortexDrawer,
   onOpenLandmassGenerator,
   onOpenUvttImport,
-  onOpenLayersPanel
+  onOpenLayersPanel,
+  selectedChunk,
+  setSelectedChunk,
+  chunkRotationDeg = 0,
+  setChunkRotationDeg,
+  chunkFlipX = false,
+  setChunkFlipX,
+  chunkFlipY = false,
+  setChunkFlipY,
+  chunkSettings,
+  setChunkSettings,
+  chunkSlotOverrides,
+  setChunkSlotOverrides,
+  magneticSnapEnabled = true,
+  setMagneticSnapEnabled,
+  onOpenChunkStudio
 }) => {
   const storePace = useUILayoutStore((s) => s.rulerSelectedPace);
   const storeSetPace = useUILayoutStore((s) => s.setRulerSelectedPace);
@@ -120,6 +137,27 @@ const MapToolsPanel = ({
 
   const renderToolSubPanel = () => {
     switch (activeTool) {
+      case 'chunk':
+        return (
+          <ChunkToolDrawerContent
+            customChunks={customAssets?.chunks || []}
+            selectedChunk={selectedChunk}
+            onSelectChunk={setSelectedChunk}
+            chunkRotationDeg={chunkRotationDeg}
+            onSetChunkRotationDeg={setChunkRotationDeg}
+            chunkFlipX={chunkFlipX}
+            onSetChunkFlipX={setChunkFlipX}
+            chunkFlipY={chunkFlipY}
+            onSetChunkFlipY={setChunkFlipY}
+            chunkSettings={chunkSettings}
+            onSetChunkSettings={setChunkSettings}
+            chunkSlotOverrides={chunkSlotOverrides}
+            onSetChunkSlotOverrides={setChunkSlotOverrides}
+            magneticSnapEnabled={magneticSnapEnabled}
+            onSetMagneticSnapEnabled={setMagneticSnapEnabled}
+            onOpenChunkStudio={onOpenChunkStudio}
+          />
+        );
       case 'wall':
         return (
           <div className="flex flex-col gap-2.5">
@@ -757,6 +795,7 @@ const MapToolsPanel = ({
                 {t.id === 'fog' && <Eye size={18} />}
                 {t.id === 'eraser' && <Sparkles size={18} />}
                 {t.id === 'select' && <MousePointer size={18} />}
+                {t.id === 'chunk' && <Blocks size={18} />}
 
                 {/* Active Left Indicator Bar */}
                 {isActive && (

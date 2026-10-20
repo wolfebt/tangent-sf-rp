@@ -11,7 +11,8 @@ import {
   Volume2,
   VolumeX,
   HelpCircle,
-  Pin
+  Pin,
+  Map
 } from 'lucide-react';
 import { useSquad, useGroup } from '../../context/SquadContext';
 import { useChat } from '../../context/ChatContext';
@@ -93,42 +94,41 @@ export const SquadsNavRail = ({
       id: 'roster',
       label: 'ROSTER',
       sublabel: 'Active Squad Operators',
-      icon: Users,
-      badge: memberCount > 0 ? `${memberCount}` : null,
-      badgeColor: 'bg-emerald-500 text-black font-bold'
+      icon: Users
+    },
+    {
+      id: 'tactical',
+      label: 'STAGE VTT',
+      sublabel: 'Tactical Briefing & VTT',
+      icon: Map
     },
     {
       id: 'directory',
       label: 'SQUADS',
       sublabel: 'Squads & Public Parties',
-      icon: Globe,
-      badge: groupCount > 0 ? `${groupCount}` : null,
-      badgeColor: 'bg-emerald-500/30 text-emerald-300 border border-emerald-500/50'
+      icon: Globe
     },
     {
       id: 'invites',
       label: 'INVITES',
       sublabel: 'Join Codes & Dispatch',
       icon: UserPlus,
-      badge: inviteCount > 0 ? `${inviteCount}!` : null,
-      badgeColor: 'bg-amber-500 text-black font-extrabold animate-soft-badge-glow'
+      pulse: inviteCount > 0,
+      pulseClass: 'animate-nav-pulse-amber'
     },
     {
       id: 'comms',
       label: 'COMMS',
       sublabel: 'Encrypted Squad Frequency',
       icon: Radio,
-      badge: squadUnread > 0 ? `${squadUnread}` : (activeGroup?.channelId ? 'LIVE' : null),
-      badgeColor: squadUnread > 0 
-        ? 'bg-amber-400 text-black font-extrabold animate-soft-badge-glow shadow-[0_0_8px_rgba(245,158,11,0.7)]' 
-        : 'bg-cyan-500/30 text-cyan-300 border border-cyan-500/50 text-[8px]'
+      pulse: squadUnread > 0,
+      pulseClass: 'animate-nav-pulse-amber'
     },
     {
       id: 'settings',
       label: 'CONFIG',
       sublabel: 'Squad Policies & Permissions',
-      icon: Settings,
-      badge: null
+      icon: Settings
     }
   ];
 
@@ -268,11 +268,9 @@ export const SquadsNavRail = ({
                     className={isActive ? 'text-emerald-300' : 'text-slate-400 group-hover:text-emerald-400 transition-colors'}
                   />
 
-                  {/* Top-Right Badge */}
-                  {item.badge && (
-                    <span className={`absolute -top-1 -right-1 px-1 min-w-[14px] h-[14px] rounded-full font-mono text-[8px] font-bold flex items-center justify-center shadow-sm ${item.badgeColor}`}>
-                      {item.badge}
-                    </span>
+                  {/* Top-Right Pulse Indicator */}
+                  {item.pulse && (
+                    <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-amber-400 animate-soft-badge-glow shadow-[0_0_6px_#f59e0b]" />
                   )}
                 </div>
 
@@ -290,11 +288,6 @@ export const SquadsNavRail = ({
                     >
                       {item.label}
                     </span>
-                    {item.badge && (
-                      <span className={`text-[8.5px] font-mono font-bold px-1.5 py-0.2 rounded-full ${item.badgeColor}`}>
-                        {item.badge}
-                      </span>
-                    )}
                   </div>
                   <span className="text-[9px] text-slate-400/80 truncate font-mono leading-tight mt-0.5">
                     {item.sublabel}

@@ -2,13 +2,13 @@ import React, { createContext, useContext, useState, useCallback, useEffect } fr
 import { createPortal } from 'react-dom';
 import { CheckCircle2, AlertTriangle, AlertOctagon, Info, X } from 'lucide-react';
 
-const ToastContext = createContext(null);
+const ToastContext = globalThis.__TANGENT_TOAST_CONTEXT__ || (globalThis.__TANGENT_TOAST_CONTEXT__ = createContext(null));
 
 let _globalToastDispatcher = null;
 
 export const useToast = () => {
   const ctx = useContext(ToastContext);
-  if (!ctx) throw new Error('useToast must be used inside <ToastProvider>');
+  if (!ctx) return { toast: showToast };
   return ctx;
 };
 

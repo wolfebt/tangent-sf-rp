@@ -20,7 +20,14 @@ import {
   Activity,
   ExternalLink,
   Sparkles,
-  Crown
+  Crown,
+  Copy,
+  Check,
+  Play,
+  Map,
+  Volume2,
+  Mic,
+  MicOff
 } from 'lucide-react';
 import { useChat } from '../../context/ChatContext';
 import { useVoiceChat } from '../../context/VoiceChatContext';
@@ -30,13 +37,15 @@ import { AudioService } from '../../services/audioService.js';
 import { useConfirm } from '../../context/ConfirmContext';
 import { ChannelSettingsModal } from './ChannelSettingsModal';
 import { QuickTeamInviteModal } from './QuickTeamInviteModal';
+import { TransceiverDeck } from '../Network/TransceiverDeck';
 
 /**
  * @component ChannelSidebar
- * @description Flat 3-Section Comms Directory (Organization A):
- * 1. DIRECT COMMS (Player Commlines & Character Whispers)
- * 2. TACTICAL TEAMS (Enrolled Squads & Quick Invites)
- * 3. HOLONET RELAYS (Public Community Channels)
+ * @description Zone 2 (280px-320px Left Context Tree) of the 4-Zone SOTA Gaming Comm Center.
+ * Supports Dual-Context Modes:
+ *  - HoloNet Home Mode: Direct Whispers, Public HoloNet Relays, Live Voice Lounges, Tactical Teams, Custom Channels
+ *  - Squad Server Mode: Squad Banner Header (with Squad Switcher, Invite Code & VTT Launch), Squad Command Views, Squad Channels & Squad Voice Lounge
+ * Anchors the persistent <TransceiverDeck /> at the bottom.
  */
 export const ChannelSidebar = ({ 
   onOpenCreateModal, 
@@ -44,6 +53,11 @@ export const ChannelSidebar = ({
   onOpenTeamModal, 
   onSwitchToTeams,
   onSelectChannel,
+  serverContext = 'holonet', // 'holonet' | 'squad'
+  activeStageMode = 'comms', // 'comms' | 'squad_command'
+  activeSquadTab = 'roster', // 'roster' | 'tactical' | 'invites' | 'settings' | 'directory'
+  onSelectSquadCommandTab,
+  onReturnToCommsStream,
   isCompact = false 
 }) => {
   const confirm = useConfirm();
@@ -68,17 +82,31 @@ export const ChannelSidebar = ({
   const { 
     isConnected: isVoiceConnected, 
     currentRoomName, 
+    roomDisplayName,
+    participants: voiceParticipants = [],
+    activeSpeakers = [],
+    isSpeaking,
     connectToVoiceRoom, 
     disconnectVoiceRoom 
   } = useVoiceChat();
-  const { currentUser, isAdmin } = useAuth();
-  const { groups = [], selectGroup } = useGroup() || {};
+  const { currentUser, userHandle, isAdmin } = useAuth();
+  const { groups = [], activeGroup, selectGroup, pendingInvites = [] } = useGroup() || {};
   const navigate = useNavigate();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [settingsChannel, setSettingsChannel] = useState(null);
   const [isQuickInviteOpen, setIsQuickInviteOpen] = useState(false);
   const [selectedInviteGroupId, setSelectedInviteGroupId] = useState(null);
+  const [copiedSquadCode, setCopiedSquadCode] = useState(false);
+
+  const handleCopySquadCode = (code, e) => {
+    e?.stopPropagation();
+    if (!code) return;
+    navigator.clipboard.writeText(code);
+    AudioService.playTerminalBeep(1250, 0.03);
+    setCopiedSquadCode(true);
+    setTimeout(() => setCopiedSquadCode(false), 2000);
+  };
 
   // Per-team roster collapse tracking (default is expanded / visible)
   const [collapsedRosters, setCollapsedRosters] = useState({});
@@ -1021,273 +1049,642 @@ export const ChannelSidebar = ({
     );
   };
 
+  // Resolve active squad's primary channel when in Squad Server Mode
+  const activeSquadChannel = useMemo(() => {
+    if (!activeGroup) return null;
+    const chanId = activeGroup.channelId || `group_chan_${activeGroup.id}`;
+    return (
+      teamChannels.find(
+        (c) =>
+          c.id === chanId ||
+          c.groupId === activeGroup.id ||
+          c.name?.toLowerCase() ===
+            activeGroup.name?.toLowerCase().replace(/[^a-z0-9_-]/g, '-')
+      ) || {
+        id: chanId,
+        name: activeGroup.name?.toLowerCase().replace(/[^a-z0-9_-]/g, '-') || 'squad-comms',
+        displayName: `${activeGroup.name} Comms`,
+        type: 'group',
+        groupId: activeGroup.id
+      }
+    );
+  }, [activeGroup, teamChannels]);
+
+  const activeSquadVoiceRoom = activeSquadChannel
+    ? `tangent_freq_${activeSquadChannel.id}`
+    : activeGroup
+    ? `tangent_squad_${activeGroup.id}`
+    : 'tangent_freq_public_general';
+
+  const isSquadVoiceConnected =
+    isVoiceConnected && currentRoomName === activeSquadVoiceRoom;
+
   return (
     <div className="h-full flex flex-col bg-[#080c14] border-r border-slate-800 text-slate-200 select-none">
-      {/* ── Top Header & Fast Search ── */}
-      <div className="p-3 border-b border-slate-800 space-y-2 bg-[#0a0f1a]">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="p-1 rounded-lg bg-cyan-500/20 border border-cyan-500/40 text-cyan-300">
-              <Radio size={14} className="animate-soft-back-glow" />
-            </div>
-            <div>
-              <span className="text-xs font-mono font-bold tracking-wider text-slate-100 uppercase block">
-                COMMLINK RELAY
-              </span>
-              <span className="text-[9.5px] font-mono text-cyan-400 block font-bold">
-                TACTICAL MATRIX
-              </span>
-            </div>
-          </div>
+      {/* ══════════════════════════════════════════════════════════════════════
+          MODE B: SQUAD SERVER COMMAND & FREQUENCY TREE
+          ══════════════════════════════════════════════════════════════════════ */}
+      {serverContext === 'squad' && activeGroup ? (
+        <>
+          {/* 1. Squad Server Banner Header (with Squad Switcher, Invite Code & VTT Launch) */}
+          <div className="p-3 border-b border-emerald-500/30 bg-gradient-to-b from-emerald-950/40 via-[#0a131c] to-[#080c14] space-y-2.5 shrink-0">
+            <div className="flex items-start justify-between gap-2">
+              <div className="min-w-0 flex-1">
+                {groups.length > 1 ? (
+                  <div className="relative">
+                    <select
+                      value={activeGroup.id}
+                      onChange={(e) => {
+                        AudioService.playTerminalBeep(1150, 0.02);
+                        selectGroup?.(e.target.value);
+                      }}
+                      className="w-full bg-slate-950/90 border border-emerald-500/50 text-emerald-200 font-mono font-bold text-xs px-2.5 py-1.5 rounded-lg appearance-none pr-6 cursor-pointer focus:outline-none focus:border-emerald-400 truncate"
+                      title="Switch Active Tactical Squad"
+                    >
+                      {groups.map((g) => (
+                        <option key={g.id} value={g.id} className="bg-slate-950 text-slate-100">
+                          🛡️ {g.name} ({g.members?.length || 1})
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown
+                      size={12}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 text-emerald-400 pointer-events-none"
+                    />
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <div className="p-1.5 rounded-lg bg-emerald-500/20 border border-emerald-500/50 text-emerald-300 shrink-0">
+                      <Shield size={14} />
+                    </div>
+                    <div className="min-w-0">
+                      <span className="text-xs font-mono font-extrabold text-white truncate block">
+                        {activeGroup.name}
+                      </span>
+                      <span className="text-[9.5px] font-mono text-emerald-400 block">
+                        {activeGroup.status || 'Active Fireteam'} • {activeGroup.members?.length || 1} Ops
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </div>
 
-          <button
-            type="button"
-            onClick={onOpenCreateModal}
-            className="flex items-center gap-1 px-2.5 py-1 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-mono font-bold transition-all shadow-sm cursor-pointer"
-            title="Create Custom Frequency or Direct Message"
-          >
-            <Plus size={13} />
-            <span>NEW</span>
-          </button>
-        </div>
-
-        {/* Unified Search Input */}
-        <div className="relative">
-          <Search size={13} className="absolute left-2.5 top-2.5 text-slate-500" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search comms, operators, or squads..."
-            className="w-full pl-8 pr-3 py-1.5 bg-slate-950 border border-slate-800 rounded-lg text-xs font-mono text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-all"
-          />
-        </div>
-      </div>
-
-      {/* ── Flat 3-Section Directory (Organization A) ── */}
-      <div className="flex-1 overflow-y-auto p-2 space-y-3 no-scrollbar">
-        {/* 1. DIRECT COMMS (Player & Character Whispers) */}
-        <div className="space-y-1">
-          <div 
-            onClick={() => toggleSection('direct')}
-            className={`flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold uppercase tracking-wider rounded-lg hover:bg-slate-900/50 cursor-pointer transition-colors ${
-              directUnreadCount > 0 ? 'text-amber-300' : 'text-cyan-400'
-            }`}
-          >
-            <span className="flex items-center gap-1.5">
-              {collapsedSections.direct ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
-              <MessageSquare size={12} />
-              <span>DIRECT COMMS</span>
-              {directUnreadCount > 0 && (
-                <span className="px-1.5 py-0.2 bg-amber-400 text-black text-[8.5px] font-mono font-black rounded-full shadow-[0_0_8px_rgba(245,158,11,0.7)] animate-soft-badge-glow">
-                  {directUnreadCount} NEW
-                </span>
-              )}
-            </span>
-            <span className="text-slate-500 text-[10px]">{allDirectChannels.length}</span>
-          </div>
-
-          {!collapsedSections.direct && (
-            <div className="space-y-0.5 pl-1.5">
-              {filteredDirect.length === 0 ? (
-                <div className="px-2.5 py-1 text-[10px] text-slate-500 font-mono italic">
-                  {searchQuery ? 'No matching direct comms.' : 'No direct whispers open. Click NEW to message an operator or persona.'}
-                </div>
-              ) : (
-                filteredDirect.map(renderChannelItem)
+              {/* 1-Click Invite Code Badge */}
+              {activeGroup.inviteCode && (
+                <button
+                  type="button"
+                  onClick={(e) => handleCopySquadCode(activeGroup.inviteCode, e)}
+                  className="px-2 py-1 rounded-lg bg-slate-950/90 border border-emerald-500/40 hover:border-emerald-400 text-[9.5px] font-mono font-bold text-emerald-300 flex items-center gap-1 shrink-0 cursor-pointer transition-colors"
+                  title="Copy 6-Character Squad Invite Code"
+                >
+                  <span>{activeGroup.inviteCode}</span>
+                  {copiedSquadCode ? (
+                    <Check size={10} className="text-emerald-400" />
+                  ) : (
+                    <Copy size={10} />
+                  )}
+                </button>
               )}
             </div>
-          )}
-        </div>
 
-        {/* 2. TACTICAL TEAMS (Enrolled Squads & Invite Access) */}
-        <div className="space-y-1">
-          <div 
-            onClick={() => toggleSection('teams')}
-            className={`flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold uppercase tracking-wider rounded-lg hover:bg-slate-900/50 cursor-pointer transition-colors ${
-              teamsUnreadCount > 0 ? 'text-amber-300' : 'text-emerald-400'
-            }`}
-          >
-            <span className="flex items-center gap-1.5">
-              {collapsedSections.teams ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
-              <Shield size={12} />
-              <span>TACTICAL TEAMS</span>
-              <span className="px-1 py-0.2 bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-[8px] rounded font-mono font-bold tracking-tight">
-                PERSONAS
-              </span>
-              {teamsUnreadCount > 0 && (
-                <span className="px-1.5 py-0.2 bg-amber-400 text-black text-[8.5px] font-mono font-black rounded-full shadow-[0_0_8px_rgba(245,158,11,0.7)] animate-soft-badge-glow">
-                  {teamsUnreadCount} NEW
-                </span>
-              )}
-            </span>
+            {/* Quick Launch Stage VTT & Invite Action Row */}
             <div className="flex items-center gap-1.5">
               <button
                 type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
+                onClick={() => {
+                  AudioService.playTerminalBeep(1400, 0.04);
+                  navigate('/stage');
+                }}
+                className="flex-1 py-1.5 px-2.5 rounded-lg bg-gradient-to-r from-amber-600/90 to-amber-500/90 hover:from-amber-500 hover:to-amber-400 text-black font-mono font-extrabold text-[10px] flex items-center justify-center gap-1.5 shadow-[0_0_12px_rgba(245,158,11,0.3)] transition-all cursor-pointer"
+                title="Deploy Fireteam to Stage VTT"
+              >
+                <Play size={11} className="fill-current" />
+                <span>DEPLOY TO VTT STAGE</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedInviteGroupId(activeGroup.id);
                   setIsQuickInviteOpen(true);
                 }}
-                className="px-1.5 py-0.2 rounded bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/40 text-emerald-300 text-[9px] font-bold flex items-center gap-1"
-                title="Dispatch Team Invite"
+                className="p-1.5 rounded-lg bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/50 text-emerald-300 cursor-pointer transition-colors"
+                title="Invite Operator to Squad"
               >
-                <UserPlus size={10} />
-                <span>INVITE</span>
+                <UserPlus size={13} />
               </button>
-              <span className="text-slate-500 text-[10px]">{teamChannels.length}</span>
             </div>
           </div>
 
-          {!collapsedSections.teams && (
-            <div className="space-y-0.5 pl-1.5">
-              {filteredTeams.length === 0 ? (
-                <div className="p-2 rounded-lg bg-slate-950/60 border border-slate-900 text-center space-y-1.5">
-                  <p className="text-[10px] text-slate-400 font-mono">No tactical fireteams active.</p>
+          {/* 2. Squad Server Navigation Tree */}
+          <div className="flex-1 overflow-y-auto p-2 space-y-3.5 no-scrollbar font-mono">
+            {/* Section A: SQUAD COMMAND & OPERATIONS */}
+            <div className="space-y-1">
+              <div className="px-2 py-0.5 text-[9.5px] font-bold uppercase tracking-wider text-emerald-400/90 flex items-center justify-between">
+                <span>SQUAD COMMAND</span>
+                <span className="text-[8.5px] text-slate-500">OPERATIONS</span>
+              </div>
+
+              {[
+                {
+                  id: 'roster',
+                  label: 'Party Roster & Loadouts',
+                  icon: Users,
+                  badge: activeGroup.members?.length || 1
+                },
+                {
+                  id: 'tactical',
+                  label: 'Tactical Briefing & VTT',
+                  icon: Map,
+                  badge: 'STAGE'
+                },
+                {
+                  id: 'invites',
+                  label: 'Invites & Dispatch',
+                  icon: UserPlus,
+                  badge: pendingInvites.length > 0 ? `${pendingInvites.length}!` : null,
+                  isAlert: pendingInvites.length > 0
+                },
+                {
+                  id: 'settings',
+                  label: 'Squad Configuration',
+                  icon: Settings
+                }
+              ].map((item) => {
+                const Icon = item.icon;
+                const isSelected =
+                  activeStageMode === 'squad_command' && activeSquadTab === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1150, 0.02);
+                      onSelectSquadCommandTab?.(item.id);
+                    }}
+                    className={`w-full px-2.5 py-1.5 rounded-lg text-xs flex items-center justify-between gap-2 transition-all cursor-pointer border ${
+                      isSelected
+                        ? 'bg-emerald-950/60 border-l-4 border-l-emerald-400 border-emerald-500/50 text-emerald-100 font-bold shadow-sm'
+                        : 'border-transparent text-slate-300 hover:bg-slate-900/70 hover:text-white'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2 min-w-0">
+                      <Icon
+                        size={13}
+                        className={isSelected ? 'text-emerald-400' : 'text-slate-400'}
+                      />
+                      <span className="truncate text-[11.5px]">{item.label}</span>
+                    </div>
+                    {item.badge && (
+                      <span
+                        className={`px-1.5 py-0.1 rounded-full text-[8.5px] font-bold ${
+                          item.isAlert
+                            ? 'bg-amber-400 text-black animate-soft-badge-glow'
+                            : item.badge === 'STAGE'
+                            ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                            : 'bg-emerald-500/20 text-emerald-300'
+                        }`}
+                      >
+                        {item.badge}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Section B: SQUAD TEXT FREQUENCIES */}
+            <div className="space-y-1 pt-1 border-t border-slate-800/80">
+              <div className="px-2 py-0.5 text-[9.5px] font-bold uppercase tracking-wider text-cyan-400 flex items-center justify-between">
+                <span>SQUAD FREQUENCIES</span>
+                <span className="px-1 py-0.1 rounded bg-emerald-500/15 text-emerald-300 text-[8px]">
+                  🎭 IC PERSONAS
+                </span>
+              </div>
+
+              {activeSquadChannel && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    selectChannel(activeSquadChannel.id);
+                    onReturnToCommsStream?.();
+                    onSelectChannel?.();
+                  }}
+                  className={`w-full px-2.5 py-2 rounded-lg text-left flex items-center justify-between gap-2 transition-all cursor-pointer border ${
+                    activeStageMode === 'comms' &&
+                    activeChannelId === activeSquadChannel.id
+                      ? 'bg-emerald-950/50 border-l-4 border-l-emerald-400 border-emerald-500/50 text-emerald-100 font-bold shadow-sm'
+                      : 'border-slate-800/70 bg-slate-950/60 text-slate-200 hover:bg-slate-900'
+                  }`}
+                >
+                  <div className="flex items-center gap-2 min-w-0">
+                    <Hash size={14} className="text-emerald-400 shrink-0" />
+                    <div className="min-w-0">
+                      <div className="text-xs truncate">
+                        {activeSquadChannel.displayName || `#${activeSquadChannel.name}`}
+                      </div>
+                      <div className="text-[9.5px] text-slate-400 truncate">
+                        Primary Encrypted Squad Relay
+                      </div>
+                    </div>
+                  </div>
+                  {(unreadCounts[activeSquadChannel.id] || 0) > 0 && (
+                    <span className="px-1.5 py-0.2 rounded-full bg-amber-400 text-black text-[9px] font-black">
+                      {unreadCounts[activeSquadChannel.id]}
+                    </span>
+                  )}
+                </button>
+              )}
+            </div>
+
+            {/* Section C: SQUAD VOICE LOUNGE (Always Visible with Live Occupancy!) */}
+            <div className="space-y-1.5 pt-1 border-t border-slate-800/80">
+              <div className="px-2 py-0.5 text-[9.5px] font-bold uppercase tracking-wider text-emerald-400 flex items-center justify-between">
+                <span className="flex items-center gap-1.5">
+                  <Volume2 size={12} />
+                  <span>VOICE LOUNGE</span>
+                </span>
+                <span className="text-[8.5px] text-slate-400">
+                  {isSquadVoiceConnected
+                    ? `${voiceParticipants.length + 1} Connected`
+                    : 'Standby'}
+                </span>
+              </div>
+
+              <div className="p-2.5 rounded-xl bg-slate-950/90 border border-slate-800/90 space-y-2">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <div
+                      className={`p-1.5 rounded-lg border ${
+                        isSquadVoiceConnected
+                          ? 'bg-emerald-500/25 border-emerald-500/60 text-emerald-300 animate-soft-back-glow'
+                          : 'bg-slate-900 border-slate-800 text-slate-400'
+                      }`}
+                    >
+                      <Radio size={13} />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="text-[11px] font-bold text-slate-100 truncate">
+                        {activeGroup.name} Tactical Radio
+                      </div>
+                      <div className="text-[9px] text-slate-400">
+                        {isSquadVoiceConnected ? 'Connected • Live Opus' : 'Click Join to connect voice'}
+                      </div>
+                    </div>
+                  </div>
+
                   <button
                     type="button"
                     onClick={() => {
-                      if (onSwitchToTeams) {
-                        onSwitchToTeams();
+                      if (isSquadVoiceConnected) {
+                        disconnectVoiceRoom();
                       } else {
-                        navigate('/network?view=teams');
+                        connectToVoiceRoom(
+                          activeSquadVoiceRoom,
+                          `${activeGroup.name} Radio`
+                        );
                       }
                     }}
-                    className="px-2 py-1 rounded bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 border border-emerald-500/40 text-[9.5px] font-bold font-mono transition-colors cursor-pointer inline-flex items-center gap-1"
+                    className={`px-2.5 py-1 rounded-lg text-[10px] font-bold cursor-pointer transition-all shrink-0 border ${
+                      isSquadVoiceConnected
+                        ? 'bg-rose-950/80 hover:bg-rose-900 border-rose-500/60 text-rose-200'
+                        : 'bg-emerald-600/25 hover:bg-emerald-600/40 border-emerald-500/50 text-emerald-300'
+                    }`}
                   >
-                    <span>OPEN TEAMS WORKSTATION</span>
-                    <ExternalLink size={10} />
+                    {isSquadVoiceConnected ? 'LEAVE' : 'JOIN VOICE'}
                   </button>
                 </div>
-              ) : (
-                filteredTeams.map(renderTeamCard)
-              )}
-            </div>
-          )}
-        </div>
 
-        {/* 3. HOLONET FREQUENCIES (Public Global Rooms) */}
-        <div className="space-y-1">
-          <div 
-            onClick={() => toggleSection('public')}
-            className={`flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold uppercase tracking-wider rounded-lg hover:bg-slate-900/50 cursor-pointer transition-colors ${
-              publicUnreadCount > 0 ? 'text-amber-300' : 'text-slate-400'
-            }`}
-          >
-            <span className="flex items-center gap-1.5">
-              {collapsedSections.public ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
-              <Globe size={12} className={publicUnreadCount > 0 ? 'text-amber-400' : 'text-cyan-400'} />
-              <span>HOLONET FREQUENCIES</span>
-              <span className="px-1 py-0.2 bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 text-[8px] rounded font-mono font-bold tracking-tight">
-                OPERATORS
-              </span>
-              {publicUnreadCount > 0 && (
-                <span className="px-1.5 py-0.2 bg-amber-400 text-black text-[8.5px] font-mono font-black rounded-full shadow-[0_0_8px_rgba(245,158,11,0.7)] animate-soft-badge-glow">
-                  {publicUnreadCount} NEW
-                </span>
-              )}
-            </span>
-            <span className="text-slate-500 text-[10px]">{publicChannels.length}</span>
-          </div>
+                {/* Live Voice Participants Tree */}
+                {isSquadVoiceConnected && (
+                  <div className="pl-2 pt-1.5 border-t border-slate-800/80 space-y-1">
+                    {/* Self */}
+                    <div className="flex items-center justify-between px-2 py-1 rounded-lg bg-slate-900/70 text-[10.5px]">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <span
+                          className={`w-2 h-2 rounded-full ${
+                            isSpeaking
+                              ? 'bg-emerald-400 shadow-[0_0_6px_#10b981]'
+                              : 'bg-cyan-400'
+                          }`}
+                        />
+                        <span className="font-bold text-white truncate">
+                          @{userHandle || currentUser?.displayName || 'You'}
+                        </span>
+                      </div>
+                      <span className="text-[8.5px] text-emerald-400">
+                        {isSpeaking ? 'SPEAKING' : 'LIVE'}
+                      </span>
+                    </div>
 
-          {!collapsedSections.public && (
-            <div className="space-y-0.5 pl-1.5">
-              {filteredPublic.map(renderChannelItem)}
-            </div>
-          )}
-        </div>
-
-        {/* 4. CUSTOM FREQUENCIES (Operator & Encrypted Channels) */}
-        {customChannels.length > 0 && (
-          <div className="space-y-1">
-            <div 
-              onClick={() => toggleSection('custom')}
-              className={`flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold uppercase tracking-wider rounded-lg hover:bg-slate-900/50 cursor-pointer transition-colors ${
-                customUnreadCount > 0 ? 'text-amber-300' : 'text-purple-400'
-              }`}
-            >
-              <span className="flex items-center gap-1.5">
-                {collapsedSections.custom ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
-                <Hash size={12} className={customUnreadCount > 0 ? 'text-amber-400' : 'text-purple-400'} />
-                <span>CUSTOM FREQUENCIES</span>
-                <span className="px-1 py-0.2 bg-purple-500/15 text-purple-300 border border-purple-500/30 text-[8px] rounded font-mono font-bold tracking-tight">
-                  OPERATOR
-                </span>
-                {customUnreadCount > 0 && (
-                  <span className="px-1.5 py-0.2 bg-amber-400 text-black text-[8.5px] font-mono font-black rounded-full shadow-[0_0_8px_rgba(245,158,11,0.7)] animate-soft-badge-glow">
-                    {customUnreadCount} NEW
-                  </span>
-                )}
-              </span>
-              <div className="flex items-center gap-1.5">
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onOpenCreateModal?.();
-                  }}
-                  className="px-1.5 py-0.2 rounded bg-purple-950/80 hover:bg-purple-900 border border-purple-500/40 text-purple-300 text-[9px] font-bold flex items-center gap-1 cursor-pointer"
-                  title="Create New Custom Frequency"
-                >
-                  <Plus size={10} />
-                  <span>NEW</span>
-                </button>
-                <span className="text-slate-500 text-[10px]">{customChannels.length}</span>
-              </div>
-            </div>
-
-            {!collapsedSections.custom && (
-              <div className="space-y-0.5 pl-1.5">
-                {filteredCustom.length === 0 ? (
-                  <div className="px-2.5 py-1 text-[10px] text-slate-500 font-mono italic">
-                    {searchQuery ? 'No matching custom comms.' : 'No custom channels match filter.'}
+                    {/* Remote Participants */}
+                    {voiceParticipants.map((vp) => {
+                      const speaking =
+                        activeSpeakers.includes(vp.identity) || vp.isSpeaking;
+                      return (
+                        <div
+                          key={vp.identity}
+                          className="flex items-center justify-between px-2 py-1 rounded-lg bg-slate-900/70 text-[10.5px]"
+                        >
+                          <div className="flex items-center gap-2 min-w-0">
+                            <span
+                              className={`w-2 h-2 rounded-full ${
+                                speaking
+                                  ? 'bg-emerald-400 shadow-[0_0_6px_#10b981]'
+                                  : 'bg-slate-500'
+                              }`}
+                            />
+                            <span className="font-bold text-slate-200 truncate">
+                              {vp.name}
+                            </span>
+                          </div>
+                          {speaking && (
+                            <span className="text-[8.5px] text-emerald-400 font-bold">
+                              SPEAKING
+                            </span>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
-                ) : (
-                  filteredCustom.map(renderChannelItem)
                 )}
               </div>
-            )}
-          </div>
-        )}
-
-        {/* 5. AUDIT TELEMETRY LOGS (Optional Collapsed) */}
-        {filteredAudit.length > 0 && (
-          <div className="space-y-1 pt-1 border-t border-slate-800/80">
-            <div 
-              onClick={() => toggleSection('audit')}
-              className={`flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold uppercase tracking-wider rounded-lg hover:bg-slate-900/50 cursor-pointer transition-colors ${
-                auditUnreadCount > 0 ? 'text-amber-300' : 'text-amber-400/80'
-              }`}
-            >
-              <span className="flex items-center gap-1.5">
-                {collapsedSections.audit ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
-                <Activity size={12} />
-                <span>PERSONA AUDIT LOGS</span>
-                {auditUnreadCount > 0 && (
-                  <span className="px-1.5 py-0.2 bg-amber-400 text-black text-[8.5px] font-mono font-black rounded-full shadow-[0_0_8px_rgba(245,158,11,0.7)] animate-soft-badge-glow">
-                    {auditUnreadCount} NEW
-                  </span>
-                )}
-              </span>
-              <span className="text-slate-500 text-[10px]">{filteredAudit.length}</span>
             </div>
 
-            {!collapsedSections.audit && (
-              <div className="space-y-0.5 pl-1.5">
-                {filteredAudit.map(renderChannelItem)}
+            {/* Section D: ACTIVE FIRETEAM ROSTER PREVIEW */}
+            {activeSquadChannel && (
+              <div className="pt-1 border-t border-slate-800/80">
+                {renderTeamCard(activeSquadChannel)}
               </div>
             )}
           </div>
-        )}
-      </div>
+        </>
+      ) : (
+        /* ══════════════════════════════════════════════════════════════════════
+           MODE A: HOLONET HOME & GLOBAL FREQUENCY DIRECTORY
+           ══════════════════════════════════════════════════════════════════════ */
+        <>
+          {/* ── Top Header & Fast Search ── */}
+          <div className="p-3 border-b border-slate-800 space-y-2 bg-[#0a0f1a] shrink-0">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="p-1 rounded-lg bg-cyan-500/20 border border-cyan-500/40 text-cyan-300">
+                  <Radio size={14} className="animate-soft-back-glow" />
+                </div>
+                <div>
+                  <span className="text-xs font-mono font-bold tracking-wider text-slate-100 uppercase block">
+                    HOLONET RELAY
+                  </span>
+                  <span className="text-[9.5px] font-mono text-cyan-400 block font-bold">
+                    GLOBAL & DIRECT COMMS
+                  </span>
+                </div>
+              </div>
 
-      {/* Bottom Status bar */}
-      <div className="p-2.5 border-t border-slate-800 bg-slate-950 flex items-center justify-between text-[10px] font-mono text-slate-500">
-        <div className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-soft-badge-glow shadow-[0_0_6px_#10b981]"></span>
-          <span className="text-slate-400 font-bold">QUANTUM RELAY ACTIVE</span>
-        </div>
-        <span className="text-cyan-400 font-bold">AES-GCM-256</span>
-      </div>
+              <button
+                type="button"
+                onClick={onOpenCreateModal}
+                className="flex items-center gap-1 px-2.5 py-1 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-mono font-bold transition-all shadow-sm cursor-pointer"
+                title="Create Custom Frequency or Direct Message"
+              >
+                <Plus size={13} />
+                <span>NEW</span>
+              </button>
+            </div>
+
+            {/* Unified Search Input */}
+            <div className="relative">
+              <Search size={13} className="absolute left-2.5 top-2.5 text-slate-500" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search comms, operators, or squads..."
+                className="w-full pl-8 pr-3 py-1.5 bg-slate-950 border border-slate-800 rounded-lg text-xs font-mono text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-all"
+              />
+            </div>
+          </div>
+
+          {/* ── Flat Directory Sections ── */}
+          <div className="flex-1 overflow-y-auto p-2 space-y-3 no-scrollbar">
+            {/* 1. DIRECT COMMS (Player & Character Whispers) */}
+            <div className="space-y-1">
+              <div 
+                onClick={() => toggleSection('direct')}
+                className={`flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold uppercase tracking-wider rounded-lg hover:bg-slate-900/50 cursor-pointer transition-colors ${
+                  directUnreadCount > 0 ? 'text-amber-300' : 'text-cyan-400'
+                }`}
+              >
+                <span className="flex items-center gap-1.5">
+                  {collapsedSections.direct ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
+                  <MessageSquare size={12} />
+                  <span>DIRECT WHISPERS</span>
+                  {directUnreadCount > 0 && (
+                    <span className="px-1.5 py-0.2 bg-amber-400 text-black text-[8.5px] font-mono font-black rounded-full shadow-[0_0_8px_rgba(245,158,11,0.7)] animate-soft-badge-glow">
+                      {directUnreadCount} NEW
+                    </span>
+                  )}
+                </span>
+                <span className="text-slate-500 text-[10px]">{allDirectChannels.length}</span>
+              </div>
+
+              {!collapsedSections.direct && (
+                <div className="space-y-0.5 pl-1.5">
+                  {filteredDirect.length === 0 ? (
+                    <div className="px-2.5 py-1 text-[10px] text-slate-500 font-mono italic">
+                      {searchQuery ? 'No matching direct comms.' : 'No direct whispers open. Click NEW to message an operator or persona.'}
+                    </div>
+                  ) : (
+                    filteredDirect.map(renderChannelItem)
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* 2. HOLONET FREQUENCIES (Public Global Rooms) */}
+            <div className="space-y-1">
+              <div 
+                onClick={() => toggleSection('public')}
+                className={`flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold uppercase tracking-wider rounded-lg hover:bg-slate-900/50 cursor-pointer transition-colors ${
+                  publicUnreadCount > 0 ? 'text-amber-300' : 'text-slate-400'
+                }`}
+              >
+                <span className="flex items-center gap-1.5">
+                  {collapsedSections.public ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
+                  <Globe size={12} className={publicUnreadCount > 0 ? 'text-amber-400' : 'text-cyan-400'} />
+                  <span>HOLONET FREQUENCIES</span>
+                  <span className="px-1 py-0.2 bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 text-[8px] rounded font-mono font-bold tracking-tight">
+                    OPERATORS
+                  </span>
+                  {publicUnreadCount > 0 && (
+                    <span className="px-1.5 py-0.2 bg-amber-400 text-black text-[8.5px] font-mono font-black rounded-full shadow-[0_0_8px_rgba(245,158,11,0.7)] animate-soft-badge-glow">
+                      {publicUnreadCount} NEW
+                    </span>
+                  )}
+                </span>
+                <span className="text-slate-500 text-[10px]">{publicChannels.length}</span>
+              </div>
+
+              {!collapsedSections.public && (
+                <div className="space-y-0.5 pl-1.5">
+                  {filteredPublic.map(renderChannelItem)}
+                </div>
+              )}
+            </div>
+
+            {/* 3. TACTICAL TEAMS (Enrolled Squads & Invite Access) */}
+            <div className="space-y-1">
+              <div 
+                onClick={() => toggleSection('teams')}
+                className={`flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold uppercase tracking-wider rounded-lg hover:bg-slate-900/50 cursor-pointer transition-colors ${
+                  teamsUnreadCount > 0 ? 'text-amber-300' : 'text-emerald-400'
+                }`}
+              >
+                <span className="flex items-center gap-1.5">
+                  {collapsedSections.teams ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
+                  <Shield size={12} />
+                  <span>TACTICAL TEAMS</span>
+                  <span className="px-1 py-0.2 bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-[8px] rounded font-mono font-bold tracking-tight">
+                    PERSONAS
+                  </span>
+                  {teamsUnreadCount > 0 && (
+                    <span className="px-1.5 py-0.2 bg-amber-400 text-black text-[8.5px] font-mono font-black rounded-full shadow-[0_0_8px_rgba(245,158,11,0.7)] animate-soft-badge-glow">
+                      {teamsUnreadCount} NEW
+                    </span>
+                  )}
+                </span>
+                <div className="flex items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsQuickInviteOpen(true);
+                    }}
+                    className="px-1.5 py-0.2 rounded bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/40 text-emerald-300 text-[9px] font-bold flex items-center gap-1"
+                    title="Dispatch Team Invite"
+                  >
+                    <UserPlus size={10} />
+                    <span>INVITE</span>
+                  </button>
+                  <span className="text-slate-500 text-[10px]">{teamChannels.length}</span>
+                </div>
+              </div>
+
+              {!collapsedSections.teams && (
+                <div className="space-y-0.5 pl-1.5">
+                  {filteredTeams.length === 0 ? (
+                    <div className="p-2 rounded-lg bg-slate-950/60 border border-slate-900 text-center space-y-1.5">
+                      <p className="text-[10px] text-slate-400 font-mono">No tactical fireteams active.</p>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (onSwitchToTeams) {
+                            onSwitchToTeams();
+                          } else {
+                            navigate('/network?view=teams');
+                          }
+                        }}
+                        className="px-2 py-1 rounded bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 border border-emerald-500/40 text-[9.5px] font-bold font-mono transition-colors cursor-pointer inline-flex items-center gap-1"
+                      >
+                        <span>BROWSE / CREATE SQUADS</span>
+                        <ExternalLink size={10} />
+                      </button>
+                    </div>
+                  ) : (
+                    filteredTeams.map(renderTeamCard)
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* 4. CUSTOM FREQUENCIES (Operator & Encrypted Channels) */}
+            {customChannels.length > 0 && (
+              <div className="space-y-1">
+                <div 
+                  onClick={() => toggleSection('custom')}
+                  className={`flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold uppercase tracking-wider rounded-lg hover:bg-slate-900/50 cursor-pointer transition-colors ${
+                    customUnreadCount > 0 ? 'text-amber-300' : 'text-purple-400'
+                  }`}
+                >
+                  <span className="flex items-center gap-1.5">
+                    {collapsedSections.custom ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
+                    <Hash size={12} className={customUnreadCount > 0 ? 'text-amber-400' : 'text-purple-400'} />
+                    <span>CUSTOM FREQUENCIES</span>
+                    <span className="px-1 py-0.2 bg-purple-500/15 text-purple-300 border border-purple-500/30 text-[8px] rounded font-mono font-bold tracking-tight">
+                      OPERATOR
+                    </span>
+                    {customUnreadCount > 0 && (
+                      <span className="px-1.5 py-0.2 bg-amber-400 text-black text-[8.5px] font-mono font-black rounded-full shadow-[0_0_8px_rgba(245,158,11,0.7)] animate-soft-badge-glow">
+                        {customUnreadCount} NEW
+                      </span>
+                    )}
+                  </span>
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onOpenCreateModal?.();
+                      }}
+                      className="px-1.5 py-0.2 rounded bg-purple-950/80 hover:bg-purple-900 border border-purple-500/40 text-purple-300 text-[9px] font-bold flex items-center gap-1 cursor-pointer"
+                      title="Create New Custom Frequency"
+                    >
+                      <Plus size={10} />
+                      <span>NEW</span>
+                    </button>
+                    <span className="text-slate-500 text-[10px]">{customChannels.length}</span>
+                  </div>
+                </div>
+
+                {!collapsedSections.custom && (
+                  <div className="space-y-0.5 pl-1.5">
+                    {filteredCustom.length === 0 ? (
+                      <div className="px-2.5 py-1 text-[10px] text-slate-500 font-mono italic">
+                        {searchQuery ? 'No matching custom comms.' : 'No custom channels match filter.'}
+                      </div>
+                    ) : (
+                      filteredCustom.map(renderChannelItem)
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* 5. AUDIT TELEMETRY LOGS (Optional Collapsed) */}
+            {filteredAudit.length > 0 && (
+              <div className="space-y-1 pt-1 border-t border-slate-800/80">
+                <div 
+                  onClick={() => toggleSection('audit')}
+                  className={`flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold uppercase tracking-wider rounded-lg hover:bg-slate-900/50 cursor-pointer transition-colors ${
+                    auditUnreadCount > 0 ? 'text-amber-300' : 'text-amber-400/80'
+                  }`}
+                >
+                  <span className="flex items-center gap-1.5">
+                    {collapsedSections.audit ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
+                    <Activity size={12} />
+                    <span>PERSONA AUDIT LOGS</span>
+                    {auditUnreadCount > 0 && (
+                      <span className="px-1.5 py-0.2 bg-amber-400 text-black text-[8.5px] font-mono font-black rounded-full shadow-[0_0_8px_rgba(245,158,11,0.7)] animate-soft-badge-glow">
+                        {auditUnreadCount} NEW
+                      </span>
+                    )}
+                  </span>
+                  <span className="text-slate-500 text-[10px]">{filteredAudit.length}</span>
+                </div>
+
+                {!collapsedSections.audit && (
+                  <div className="space-y-0.5 pl-1.5">
+                    {filteredAudit.map(renderChannelItem)}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </>
+      )}
+
+      {/* ── Persistent Operator, Persona & Voice Transceiver Deck ── */}
+      <TransceiverDeck />
 
       {/* Settings Modal */}
       {settingsChannel && (

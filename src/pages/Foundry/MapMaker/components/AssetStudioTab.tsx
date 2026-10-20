@@ -39,9 +39,10 @@ import { showToast } from '../../../../context/ToastContext';
 
 export interface AssetStudioTabProps {
   onStampAssetOnMap: (unit: AssetUnit) => void;
+  onOpenChunkStudio?: () => void;
 }
 
-export const AssetStudioTab: React.FC<AssetStudioTabProps> = ({ onStampAssetOnMap }) => {
+export const AssetStudioTab: React.FC<AssetStudioTabProps> = ({ onStampAssetOnMap, onOpenChunkStudio }) => {
   // Master asset list: starts with core seed units
   const [assets, setAssets] = useState<AssetUnit[]>(() => {
     try {
@@ -202,6 +203,17 @@ export const AssetStudioTab: React.FC<AssetStudioTabProps> = ({ onStampAssetOnMa
         </div>
 
         <div className="flex items-center space-x-2">
+          {onOpenChunkStudio && (
+            <button
+              type="button"
+              onClick={onOpenChunkStudio}
+              className="flex items-center space-x-1.5 px-3 py-1.5 rounded bg-emerald-700 hover:bg-emerald-600 text-white font-mono text-xs font-semibold transition-all shadow-md shadow-emerald-950/60 cursor-pointer"
+              title="Open Map Chunk Forge Studio (Multi-Tile Prefabs & Construction Points)"
+            >
+              <Box className="w-3.5 h-3.5" />
+              <span>Chunk Forge Studio</span>
+            </button>
+          )}
           {selectedUnit && (
             <>
               <button

@@ -48,9 +48,9 @@ import {
 } from '../data/supportingCatalogsData';
 import { StorageService } from '../services/storageService';
 
-const DBMContext = createContext(null);
+const DBMContext = globalThis.__TANGENT_DBM_CONTEXT__ || (globalThis.__TANGENT_DBM_CONTEXT__ = createContext(null));
 
-export const useDBM = () => useContext(DBMContext);
+export const useDBM = () => useContext(DBMContext) || {};
 
 export {
   TOMBSTONES_KEY,

@@ -45,8 +45,10 @@ import {
   Sliders,
   Moon,
   Scissors,
-  Cpu
+  Cpu,
+  Blocks
 } from 'lucide-react';
+import { ChunkToolDrawerContent } from './ChunkToolDrawerContent';
 import AudioService from '../../../../services/audioService';
 import { VttEventBus } from '../../../../utils/vttEventBus';
 
@@ -129,7 +131,23 @@ export const ArchitectConsoleRail = ({
   onOpenAssetStudio,
   onOpenAssetIngestion,
   onOpenSpriteSheetCutter,
-  onOpenUvttImport
+  onOpenUvttImport,
+  // Map Chunk / Prefab Stamp Tool Props
+  selectedChunk,
+  setSelectedChunk,
+  chunkRotationDeg = 0,
+  setChunkRotationDeg,
+  chunkFlipX = false,
+  setChunkFlipX,
+  chunkFlipY = false,
+  setChunkFlipY,
+  chunkSettings,
+  setChunkSettings,
+  chunkSlotOverrides,
+  setChunkSlotOverrides,
+  magneticSnapEnabled = true,
+  setMagneticSnapEnabled,
+  onOpenChunkStudio
 }) => {
   const [selectedCatalogScale, setSelectedCatalogScale] = useState(currentMapScale);
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -371,6 +389,27 @@ export const ArchitectConsoleRail = ({
 
     // 3. Cartography Sub-Panels based on activeTool
     switch (activeTool) {
+      case 'chunk':
+        return (
+          <ChunkToolDrawerContent
+            customChunks={customAssets?.chunks || []}
+            selectedChunk={selectedChunk}
+            onSelectChunk={setSelectedChunk}
+            chunkRotationDeg={chunkRotationDeg}
+            onSetChunkRotationDeg={setChunkRotationDeg}
+            chunkFlipX={chunkFlipX}
+            onSetChunkFlipX={setChunkFlipX}
+            chunkFlipY={chunkFlipY}
+            onSetChunkFlipY={setChunkFlipY}
+            chunkSettings={chunkSettings}
+            onSetChunkSettings={setChunkSettings}
+            chunkSlotOverrides={chunkSlotOverrides}
+            onSetChunkSlotOverrides={setChunkSlotOverrides}
+            magneticSnapEnabled={magneticSnapEnabled}
+            onSetMagneticSnapEnabled={setMagneticSnapEnabled}
+            onOpenChunkStudio={onOpenChunkStudio}
+          />
+        );
       case 'wall':
         return (
           <div className="flex flex-col gap-2.5">
@@ -969,6 +1008,7 @@ export const ArchitectConsoleRail = ({
                 {t.id === 'fog' && <Eye size={18} />}
                 {t.id === 'eraser' && <Sparkles size={18} />}
                 {t.id === 'select' && <MousePointer size={18} />}
+                {t.id === 'chunk' && <Blocks size={18} />}
 
                 {/* Active Indicator */}
                 {isActive && (

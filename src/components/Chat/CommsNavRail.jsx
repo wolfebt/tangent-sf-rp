@@ -97,8 +97,6 @@ export const CommsNavRail = ({ onOpenCreateModal, onOpenSquadModal, onOpenTeamMo
       label: 'FREQS',
       sublabel: 'Channels Matrix',
       icon: Radio,
-      badge: totalUnreadCount > 0 ? totalUnreadCount : null,
-      badgeColor: 'bg-amber-400 text-black font-extrabold shadow-[0_0_8px_rgba(245,158,11,0.7)] animate-soft-badge-glow',
       pulse: totalUnreadCount > 0,
       pulseClass: 'animate-nav-pulse-amber'
     },
@@ -107,10 +105,6 @@ export const CommsNavRail = ({ onOpenCreateModal, onOpenSquadModal, onOpenTeamMo
       label: 'ROSTER',
       sublabel: 'Operators & Personas',
       icon: Users,
-      badge: effectiveHasNewLogins 
-        ? (effectiveNewLogins.length > 0 ? `+${effectiveNewLogins.length}` : 'NEW')
-        : (onlineOperators.length > 0 ? `${onlineOperators.length}` : null),
-      badgeColor: effectiveHasNewLogins ? 'bg-emerald-400 text-black animate-soft-badge-glow shadow-[0_0_8px_rgba(16,185,129,0.7)]' : 'bg-emerald-500 text-black',
       badgeDot: true,
       pulse: effectiveHasNewLogins,
       pulseClass: 'animate-nav-pulse-emerald'
@@ -120,12 +114,6 @@ export const CommsNavRail = ({ onOpenCreateModal, onOpenSquadModal, onOpenTeamMo
       label: 'TEAMS',
       sublabel: 'Active Team Comms',
       icon: Shield,
-      badge: pendingInvites.length > 0 
-        ? `${pendingInvites.length} NEW` 
-        : (teamChannels.length > 0 ? teamChannels.length : null),
-      badgeColor: pendingInvites.length > 0
-        ? 'bg-amber-400 text-black font-bold animate-soft-badge-glow shadow-[0_0_8px_rgba(245,158,11,0.7)]'
-        : 'bg-emerald-500/30 text-emerald-300 border border-emerald-500/50',
       pulse: pendingInvites.length > 0,
       pulseClass: 'animate-nav-pulse-amber'
     },
@@ -133,9 +121,7 @@ export const CommsNavRail = ({ onOpenCreateModal, onOpenSquadModal, onOpenTeamMo
       id: 'vtt',
       label: 'STAGE',
       sublabel: 'Tactical Viewport',
-      icon: Map,
-      badge: 'VTT',
-      badgeColor: 'bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[8px]'
+      icon: Map
     },
     {
       id: 'logs',
@@ -182,9 +168,7 @@ export const CommsNavRail = ({ onOpenCreateModal, onOpenSquadModal, onOpenTeamMo
                 COMMLINK
               </span>
               {totalUnreadCount > 0 && (
-                <span className="text-[8px] font-mono px-1.5 py-0.2 rounded bg-amber-400 text-black font-bold">
-                  {totalUnreadCount}
-                </span>
+                <span className="w-2 h-2 rounded-full bg-amber-400 animate-soft-badge-glow shadow-[0_0_6px_#f59e0b] shrink-0" />
               )}
             </div>
             <div className="flex items-center gap-1 shrink-0">
@@ -306,11 +290,9 @@ export const CommsNavRail = ({ onOpenCreateModal, onOpenSquadModal, onOpenTeamMo
                     }
                   />
 
-                  {/* Top-Right Badge */}
-                  {item.badge && (
-                    <span className={`absolute -top-1 -right-1 px-1 min-w-[14px] h-[14px] rounded-full font-mono text-[8px] font-bold flex items-center justify-center shadow-sm ${item.badgeColor}`}>
-                      {item.badge}
-                    </span>
+                  {/* Top-Right Pulse Indicator */}
+                  {item.pulse && (
+                    <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-amber-400 animate-soft-badge-glow shadow-[0_0_6px_#f59e0b]" />
                   )}
                 </div>
 
@@ -332,11 +314,6 @@ export const CommsNavRail = ({ onOpenCreateModal, onOpenSquadModal, onOpenTeamMo
                     >
                       {item.label}
                     </span>
-                    {item.badge && (
-                      <span className={`text-[8.5px] font-mono font-bold px-1.5 py-0.2 rounded-full ${item.badgeColor}`}>
-                        {item.badge}
-                      </span>
-                    )}
                   </div>
                   <span className="text-[9px] text-slate-400/80 truncate font-mono leading-tight mt-0.5">
                     {item.sublabel}

@@ -257,10 +257,10 @@ export const DATASET_GUIDANCE = {
     subtitle: 'Biological, Genetic & Synthetic Lineage Architecture',
     category: 'Biological & Synthetic Lineages',
     isProperty: false, // NON-PROPERTY
-    overview: 'Species define biological and cultural lineages. Species creation uses a standardized 20 Character Point (CP) point-buy budget. Species do NOT have fabrication costs or build DCs.',
+    overview: 'Species define biological and cultural lineages. Species Character Point (CP) cost is dynamically calculated from the selected chassis, physical scale, movement modes, attributes, biological traits, and disadvantages. Species do NOT have fabrication costs or build DCs.',
     canonicalRules: [
-      { id: 'RULE-CHAR-01', title: 'Species 20 CP Budget Standard', summary: 'Standard playable species are engineered with an exact net balance of 20 Character Points (CP).' },
-      { id: 'RULE-CHAR-02', title: 'Trait & Disadvantage Balance', summary: 'Positive biological traits cost CP; racial disadvantages rebate CP to expand trait allowances.' }
+      { id: 'RULE-CHAR-01', title: 'Dynamic Species CP Cost', summary: 'Species Character Point (CP) total is determined directly by the traits, chassis, and attributes added to the lineage.' },
+      { id: 'RULE-CHAR-02', title: 'Trait & Disadvantage Balance', summary: 'Positive biological traits add to the CP cost; racial disadvantages and stigmas rebate CP.' }
     ],
     sections: [
       {
@@ -277,15 +277,9 @@ export const DATASET_GUIDANCE = {
         name: 'Inherent Biological Traits & Flaws',
         description: 'Sensory advantages (Darkvision, Thermal), natural armor, elemental resistances, and physiological vulnerabilities.',
         tips: [
-          'Traits consume points from the 20 CP budget.',
-          'Disadvantages grant bonus CP (up to +10 CP max rebate) to balance expensive traits.'
+          'Traits add points to the species CP total.',
+          'Disadvantages grant CP rebates to offset expensive traits.'
         ]
-      },
-      {
-        id: 'budget_balance',
-        name: 'Point-Buy Balance Engine (20 CP Target)',
-        description: 'Dynamic verification ensuring the species adheres to canonical Tangent balance guidelines.',
-        formula: 'Net CP = Positive Traits (CP) - Disadvantage Rebates (CP) = Target 20 CP'
       }
     ]
   },

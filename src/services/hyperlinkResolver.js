@@ -11,6 +11,7 @@
  */
 
 import { ROUTES } from '../constants/routes.js';
+import compendiumSeedData from '../data/compendiumSeed.json' with { type: 'json' };
 
 /**
  * Platform Section dictionary with aliases, paths, badges, and descriptions.
@@ -18,7 +19,7 @@ import { ROUTES } from '../constants/routes.js';
 export const SECTION_REGISTRY = {
   folio: {
     key: 'folio',
-    aliases: ['folio', 'persona', 'character', 'characters', 'sheet', 'operative', 'operatives'],
+    aliases: ['folio', 'persona', 'persona folio', 'character sheet', 'operative sheet', 'sheet', 'operative', 'operatives', 'roster'],
     label: 'Persona Folio',
     url: ROUTES.FOLIO || '/folio',
     badge: 'PLATFORM SECTION',
@@ -196,15 +197,24 @@ export function matchPlatformSection(term) {
   if (!term) return null;
   const cleanTerm = term.trim().toLowerCase();
 
+  // 1. Exact match against section key or official full label
   for (const section of Object.values(SECTION_REGISTRY)) {
-    if (section.key === cleanTerm || section.aliases.some(alias => alias === cleanTerm)) {
+    if (section.key === cleanTerm || section.label.toLowerCase() === cleanTerm) {
       return section;
     }
   }
 
-  // Fuzzy check: e.g. "persona folio" or "the codex"
+  // 2. Exact match against defined aliases
   for (const section of Object.values(SECTION_REGISTRY)) {
-    if (cleanTerm.includes(section.key) || section.aliases.some(alias => cleanTerm.includes(alias))) {
+    if (section.aliases.some(alias => alias.toLowerCase() === cleanTerm)) {
+      return section;
+    }
+  }
+
+  // 3. Whole phrase check: only if cleanTerm contains the full official section label (e.g. "view persona folio")
+  for (const section of Object.values(SECTION_REGISTRY)) {
+    const fullLabel = section.label.toLowerCase();
+    if (fullLabel.length > 5 && cleanTerm.includes(fullLabel)) {
       return section;
     }
   }
@@ -234,29 +244,47 @@ export function matchElementsCatalog(term, elementsCatalog = []) {
 }
 
 /**
- * Searches dbData.compendium for a rulebook / compendium article by name, fileName, id, or clean title.
+ * Searches dbData.compendium (with compendiumSeedData fallback) for a rulebook / compendium article by name, fileName, id, or clean title.
  */
 export function matchCompendiumEntry(term, dbData = {}) {
-  if (!term || !dbData || !Array.isArray(dbData.compendium) || dbData.compendium.length === 0) return null;
+  if (!term) return null;
   const clean = term.trim().toLowerCase().replace(/\.md$/i, '');
-  const list = dbData.compendium;
+  const list = (Array.isArray(dbData?.compendium) && dbData.compendium.length > 0)
+    ? dbData.compendium
+    : (Array.isArray(compendiumSeedData) ? compendiumSeedData : []);
 
-  // 1. Exact match on name, id, fileName (without .md), or stripped title
+  if (list.length === 0) return null;
+
+  // 1. Exact match on name, id, fileName (without .md), or stripped title (e.g. "1.01 CHARACTER CREATION" -> "CHARACTER CREATION")
   let found = list.find(item => {
     const name = (item.name || '').toLowerCase();
     const id = (item.id || '').toLowerCase();
     const fn = (item.fileName || '').toLowerCase().replace(/\.md$/i, '');
-    const strippedName = name.replace(/^[\d.a-z_-]+\s*[—\-:]\s*/i, '').trim();
+    const strippedName = name.replace(/^[\d.a-z_-]+\s*([—\-:]\s*)?/i, '').trim();
     return name === clean || id === clean || fn === clean || strippedName === clean;
   });
   if (found) return found;
 
-  // 2. Substring match on name or fileName
+  // 2. Prefix match on rule code (e.g. "1.01" or "01.01" matching master "1.01 CHARACTER CREATION")
+  const codeMatch = clean.match(/^0?(\d+\.\d+)/);
+  if (codeMatch) {
+    const code = codeMatch[1];
+    found = list.find(item => {
+      const name = (item.name || '').toLowerCase();
+      const id = (item.id || '').toLowerCase();
+      return (name.startsWith(code + ' ') || id.includes(code.replace('.', '-'))) && 
+             (item.isMasterDoc || item.masterDocId === item.id || item.parent?.includes('SOURCE OF TRUTH'));
+    });
+    if (found) return found;
+  }
+
+  // 3. Substring match on name or fileName or stripped title
   if (clean.length >= 3) {
     found = list.find(item => {
       const name = (item.name || '').toLowerCase();
       const fn = (item.fileName || '').toLowerCase().replace(/\.md$/i, '');
-      return name.includes(clean) || fn.includes(clean);
+      const strippedName = name.replace(/^[\d.a-z_-]+\s*([—\-:]\s*)?/i, '').trim();
+      return name.includes(clean) || fn.includes(clean) || (clean.length >= 4 && strippedName.includes(clean));
     });
     if (found) return found;
   }
@@ -265,13 +293,334 @@ export function matchCompendiumEntry(term, dbData = {}) {
 }
 
 /**
- * Helper to format a matched Compendium article into a resolved hyperlink target.
+ * Assembles all available options (rules entry default, associated platform tools, sub-rules, parent rules)
+ * for a compendium article.
  */
-function buildCompendiumResolution(item, displayLabel) {
+export function getAvailableOptionsForCompendium(item, dbData = {}) {
+  const options = [];
+  const list = (Array.isArray(dbData?.compendium) && dbData.compendium.length > 0)
+    ? dbData.compendium
+    : (Array.isArray(compendiumSeedData) ? compendiumSeedData : []);
+
+  const primaryTitle = item.name || item.title || item.fileName || item.id;
+  const isArch = item.perspective === 'architect' || item.id?.startsWith('doc-architect-');
+
+  // 1. Primary Default Option: The full rules entry
+  options.push({
+    id: item.id || 'default-rule',
+    title: primaryTitle,
+    label: `${primaryTitle} (Rules Entry)`,
+    sublabel: isArch ? 'Master Architect Rulebook Document' : 'Master Operator Rulebook Document',
+    url: `/compendium?article=${encodeURIComponent(item.id)}`,
+    targetType: 'compendium',
+    badge: 'RULES ENTRY (DEFAULT)',
+    icon: 'BookOpen',
+    isDefault: true,
+    description: item.description || ''
+  });
+
+  const normId = (item.id || '').toLowerCase();
+  const normName = (item.name || '').toLowerCase();
+  const normTags = Array.isArray(item.tags) ? item.tags.map(t => String(t).toLowerCase()) : [];
+
+  // 2. Associated Platform Tools / Sections (Cross-Module Integration)
+  if (
+    normId.includes('character-creation') || 
+    normId.includes('1-01') || 
+    normName.includes('character creation') ||
+    normTags.includes('character_creation') ||
+    normTags.includes('1.01 character creation')
+  ) {
+    options.push({
+      id: 'section-folio',
+      title: 'Persona Folio',
+      label: 'Persona Folio (Builder)',
+      sublabel: 'Interactive Operative Character Sheet & Builder',
+      url: '/folio',
+      targetType: 'section',
+      badge: 'PLATFORM BUILDER',
+      icon: 'User'
+    });
+  }
+
+  if (
+    normId.includes('combat') || 
+    normId.includes('3-00') || 
+    normName.includes('combat') ||
+    normTags.includes('combat')
+  ) {
+    options.push({
+      id: 'section-stage',
+      title: 'Tactical VTT Stage',
+      label: 'Tactical VTT Stage',
+      sublabel: 'Interactive Battlemap, Grid, Tokens & Action Deck',
+      url: '/stage',
+      targetType: 'section',
+      badge: 'TACTICAL CANVAS',
+      icon: 'Compass'
+    });
+  }
+
+  if (
+    normId.includes('species') || 
+    normName.includes('species') ||
+    normTags.includes('species')
+  ) {
+    options.push({
+      id: 'section-codex-species',
+      title: 'Terran Codex — Species',
+      label: 'Codex: Species Directory',
+      sublabel: 'Biological Profiles, Traits & Heritage',
+      url: '/codex?category=species',
+      targetType: 'codex',
+      badge: 'CODEX DIRECTORY',
+      icon: 'Database'
+    });
+    options.push({
+      id: 'section-folio-species',
+      title: 'Persona Folio',
+      label: 'Persona Folio (Select Species)',
+      sublabel: 'Apply Species Traits in Character Folio',
+      url: '/folio',
+      targetType: 'section',
+      badge: 'FOLIO BUILDER',
+      icon: 'User'
+    });
+  }
+
+  if (
+    normId.includes('occupation') || 
+    normName.includes('occupation') ||
+    normTags.includes('occupations')
+  ) {
+    options.push({
+      id: 'section-codex-occupations',
+      title: 'Terran Codex — Occupations',
+      label: 'Codex: Occupations Directory',
+      sublabel: 'Career Skill Packages & Features',
+      url: '/codex?category=occupations',
+      targetType: 'codex',
+      badge: 'CODEX DIRECTORY',
+      icon: 'Database'
+    });
+  }
+
+  if (
+    normId.includes('faction') || 
+    normName.includes('faction') ||
+    normTags.includes('factions')
+  ) {
+    options.push({
+      id: 'section-codex-factions',
+      title: 'Terran Codex — Factions',
+      label: 'Codex: Factions Matrix',
+      sublabel: 'Galactic Allegiances, Influence & Assets',
+      url: '/codex?category=factions',
+      targetType: 'codex',
+      badge: 'CODEX DIRECTORY',
+      icon: 'Database'
+    });
+  }
+
+  if (
+    normId.includes('economatrix') || 
+    normId.includes('2-00') || 
+    normName.includes('economy') ||
+    normName.includes('equipment') ||
+    normTags.includes('economy')
+  ) {
+    options.push({
+      id: 'section-codex-weaponry',
+      title: 'Terran Codex — Armory & Gear',
+      label: 'Codex: Arsenal & Equipment',
+      sublabel: 'Weapons, Armor, Augmentations & Tech Levels',
+      url: '/codex?category=weaponry',
+      targetType: 'codex',
+      badge: 'CODEX DIRECTORY',
+      icon: 'Database'
+    });
+  }
+
+  if (
+    normId.includes('architect') || 
+    normId.includes('modular') ||
+    normName.includes('architect') ||
+    normTags.includes('architect')
+  ) {
+    options.push({
+      id: 'section-foundry',
+      title: 'Story Foundry / ADE',
+      label: 'Story Foundry / ADE',
+      sublabel: 'Adventure Development Environment & Scenarios',
+      url: '/foundry',
+      targetType: 'section',
+      badge: 'PLATFORM ADE',
+      icon: 'Sparkles'
+    });
+  }
+
+  // 3. Child Sub-Rules / Modules (if this is a master or parent doc)
+  const childDocs = list.filter(c => 
+    c.id !== item.id && 
+    (c.parent === item.id || c.masterDocId === item.id)
+  );
+
+  for (const child of childDocs) {
+    const rawChildName = child.name || child.title || child.fileName || child.id;
+    const cleanLabel = rawChildName.replace(/^[\d.a-z_-]+\s*([—\-:]\s*)?/i, '').trim() || rawChildName;
+    options.push({
+      id: child.id,
+      title: rawChildName,
+      label: cleanLabel,
+      sublabel: child.entry_type || 'Sub-Rule Module',
+      url: `/compendium?article=${encodeURIComponent(child.id)}`,
+      targetType: 'compendium',
+      badge: 'SUB-RULE',
+      icon: 'FileText',
+      description: child.description || ''
+    });
+  }
+
+  // 4. Parent Rule and Siblings (if this is a child rule)
+  if (item.parent && item.parent !== item.id) {
+    const parentDoc = list.find(p => p.id === item.parent || p.name === item.parent);
+    if (parentDoc && parentDoc.id !== item.id) {
+      const pName = parentDoc.name || parentDoc.title || parentDoc.id;
+      options.push({
+        id: `parent-${parentDoc.id}`,
+        title: pName,
+        label: pName,
+        sublabel: 'Parent Master Rulebook',
+        url: `/compendium?article=${encodeURIComponent(parentDoc.id)}`,
+        targetType: 'compendium',
+        badge: 'PARENT RULE',
+        icon: 'BookOpen'
+      });
+
+      const siblings = list.filter(s => 
+        s.id !== item.id && 
+        s.id !== parentDoc.id && 
+        (s.parent === parentDoc.id || s.masterDocId === parentDoc.id)
+      );
+      for (const sib of siblings) {
+        const rawSibName = sib.name || sib.title || sib.id;
+        const cleanSibLabel = rawSibName.replace(/^[\d.a-z_-]+\s*([—\-:]\s*)?/i, '').trim() || rawSibName;
+        options.push({
+          id: sib.id,
+          title: rawSibName,
+          label: cleanSibLabel,
+          sublabel: sib.entry_type || 'Sibling Module',
+          url: `/compendium?article=${encodeURIComponent(sib.id)}`,
+          targetType: 'compendium',
+          badge: 'RELATED MODULE',
+          icon: 'FileText'
+        });
+      }
+    }
+  }
+
+  return options;
+}
+
+/**
+ * Assembles available options for a Platform Section.
+ */
+export function getAvailableOptionsForPlatformSection(section, dbData = {}) {
+  const options = [];
+  const list = (Array.isArray(dbData?.compendium) && dbData.compendium.length > 0)
+    ? dbData.compendium
+    : (Array.isArray(compendiumSeedData) ? compendiumSeedData : []);
+
+  options.push({
+    id: `section-${section.key}`,
+    title: section.label,
+    label: section.label,
+    sublabel: 'Primary Platform Application',
+    url: section.url,
+    targetType: 'section',
+    badge: 'PLATFORM SECTION (DEFAULT)',
+    icon: section.icon || 'Compass',
+    isDefault: true
+  });
+
+  if (section.key === 'folio') {
+    const charRule = list.find(c => c.id === 'doc-operator-1-01-character-creation' || (c.name || '').includes('1.01 CHARACTER CREATION'));
+    if (charRule) {
+      options.push({
+        id: charRule.id,
+        title: charRule.name || '1.01 CHARACTER CREATION',
+        label: '1.01 Character Creation Rules',
+        sublabel: 'Canonical 150 CP Creation Protocol',
+        url: `/compendium?article=${encodeURIComponent(charRule.id)}`,
+        targetType: 'compendium',
+        badge: 'RULES ENTRY',
+        icon: 'BookOpen'
+      });
+    }
+    options.push({
+      id: 'folio-roster',
+      title: 'Hero Roster Drawer',
+      label: 'Operative Roster',
+      sublabel: 'View and switch active operatives',
+      url: '/folio',
+      targetType: 'section',
+      badge: 'ROSTER',
+      icon: 'Users'
+    });
+  }
+
+  if (section.key === 'stage') {
+    const combatRule = list.find(c => c.id === 'doc-operator-3-00-combat' || (c.name || '').includes('3.00 COMBAT'));
+    if (combatRule) {
+      options.push({
+        id: combatRule.id,
+        title: combatRule.name || '3.00 COMBAT',
+        label: '3.00 Combat Rules',
+        sublabel: 'Initiative, Action Economy & Resolution',
+        url: `/compendium?article=${encodeURIComponent(combatRule.id)}`,
+        targetType: 'compendium',
+        badge: 'RULES ENTRY',
+        icon: 'BookOpen'
+      });
+    }
+  }
+
+  if (section.key === 'codex') {
+    options.push({
+      id: 'codex-species',
+      title: 'Species Catalog',
+      label: 'Species Directory',
+      sublabel: 'Explore all extraterrestrial & synthetic species',
+      url: '/codex?category=species',
+      targetType: 'codex',
+      badge: 'CATALOG',
+      icon: 'Database'
+    });
+    options.push({
+      id: 'codex-weapons',
+      title: 'Weaponry & Armory',
+      label: 'Armory Directory',
+      sublabel: 'Ballistic, energy & exotic weapons',
+      url: '/codex?category=weaponry',
+      targetType: 'codex',
+      badge: 'CATALOG',
+      icon: 'Database'
+    });
+  }
+
+  return options;
+}
+
+/**
+ * Helper to format a matched Compendium article into a resolved hyperlink target with available options.
+ */
+export function buildCompendiumResolution(item, displayLabel, dbData = {}) {
   const title = item.name || item.title || item.fileName || item.id;
   const rawDesc = (item.description || item.body || '').replace(/^#+\s+.*$/gm, '').replace(/[*_`>#|]/g, ' ').replace(/\s+/g, ' ').trim();
   const previewDesc = rawDesc ? rawDesc.slice(0, 260) + (rawDesc.length > 260 ? '…' : '') : 'Canonical rule document from the Tangent Compendium.';
   const isArch = item.perspective === 'architect' || item.id?.startsWith('doc-architect-');
+  const options = getAvailableOptionsForCompendium(item, dbData);
+
   return {
     targetType: 'compendium',
     title,
@@ -283,8 +632,31 @@ function buildCompendiumResolution(item, displayLabel) {
     colorTheme: isArch ? 'amber' : 'emerald',
     icon: 'BookOpen',
     exists: true,
-    actionLabel: 'Open in Compendium',
-    rawEntity: item
+    actionLabel: 'Open Rules Entry',
+    rawEntity: item,
+    options
+  };
+}
+
+/**
+ * Helper to format a matched Platform Section into a resolved target with available options.
+ */
+export function buildSectionResolution(section, displayLabel, dbData = {}) {
+  const options = getAvailableOptionsForPlatformSection(section, dbData);
+  return {
+    targetType: 'section',
+    title: section.label,
+    displayLabel,
+    url: section.url,
+    badge: section.badge,
+    description: section.description,
+    tags: section.tags,
+    colorTheme: section.colorTheme,
+    icon: section.icon,
+    exists: true,
+    actionLabel: 'Jump to Section',
+    rawEntity: section,
+    options
   };
 }
 
@@ -364,20 +736,7 @@ export function resolveHyperlinkTarget(rawToken, { elementsCatalog = [], dbData 
   if (prefix === 'section') {
     const matchedSection = matchPlatformSection(identifier);
     if (matchedSection) {
-      return {
-        targetType: 'section',
-        title: matchedSection.label,
-        displayLabel,
-        url: matchedSection.url,
-        badge: matchedSection.badge,
-        description: matchedSection.description,
-        tags: matchedSection.tags,
-        colorTheme: matchedSection.colorTheme,
-        icon: matchedSection.icon,
-        exists: true,
-        actionLabel: 'Jump to Section',
-        rawEntity: matchedSection
-      };
+      return buildSectionResolution(matchedSection, displayLabel, dbData);
     }
   }
 
@@ -404,7 +763,7 @@ export function resolveHyperlinkTarget(rawToken, { elementsCatalog = [], dbData 
   if (prefix === 'compendium' || prefix === 'rule' || prefix === 'rules' || prefix === 'wiki') {
     const matchedComp = matchCompendiumEntry(identifier, dbData);
     if (matchedComp) {
-      return buildCompendiumResolution(matchedComp, displayLabel);
+      return buildCompendiumResolution(matchedComp, displayLabel, dbData);
     }
   }
 
@@ -431,26 +790,22 @@ export function resolveHyperlinkTarget(rawToken, { elementsCatalog = [], dbData 
   }
 
   // 2. AUTO-RESOLUTION (When no prefix or unknown prefix)
-  // Priority 1: Check Platform Section
-  const matchedSection = matchPlatformSection(identifier);
-  if (matchedSection) {
-    return {
-      targetType: 'section',
-      title: matchedSection.label,
-      displayLabel,
-      url: matchedSection.url,
-      badge: matchedSection.badge,
-      description: matchedSection.description,
-      tags: matchedSection.tags,
-      colorTheme: matchedSection.colorTheme,
-      icon: matchedSection.icon,
-      exists: true,
-      actionLabel: 'Jump to Section',
-      rawEntity: matchedSection
-    };
+  // Priority 1: Check Compendium Rules if identifier looks like a rule code or master compendium ID
+  const looksLikeRuleCode = /^(\d+\.\d+|doc-operator-|doc-architect-|rule-|0\d+\.)/i.test(identifier.trim());
+  if (looksLikeRuleCode) {
+    const matchedCompFirst = matchCompendiumEntry(identifier, dbData);
+    if (matchedCompFirst) {
+      return buildCompendiumResolution(matchedCompFirst, displayLabel, dbData);
+    }
   }
 
-  // Priority 2: Check Elements Catalog
+  // Priority 2: Check Platform Section
+  const matchedSection = matchPlatformSection(identifier);
+  if (matchedSection) {
+    return buildSectionResolution(matchedSection, displayLabel, dbData);
+  }
+
+  // Priority 3: Check Elements Catalog
   const matchedElement = matchElementsCatalog(identifier, elementsCatalog);
   if (matchedElement) {
     return {
@@ -467,15 +822,6 @@ export function resolveHyperlinkTarget(rawToken, { elementsCatalog = [], dbData 
       actionLabel: 'Inspect in Catalog',
       rawEntity: matchedElement
     };
-  }
-
-  // Priority 3: Check Compendium Rules if identifier looks like a rule code or matches a Compendium article
-  const looksLikeRuleCode = /^(\d+\.\d+|doc-operator-|doc-architect-)/i.test(identifier.trim());
-  if (looksLikeRuleCode) {
-    const matchedCompFirst = matchCompendiumEntry(identifier, dbData);
-    if (matchedCompFirst) {
-      return buildCompendiumResolution(matchedCompFirst, displayLabel);
-    }
   }
 
   // Priority 4: Check Codex & Omnicortex DB
@@ -499,10 +845,10 @@ export function resolveHyperlinkTarget(rawToken, { elementsCatalog = [], dbData 
     };
   }
 
-  // Priority 5: Check Compendium Rules (general title/topic match)
+  // Priority 5: Check Compendium Rules (general title/topic fallback e.g. "Character Creation" or "Vehicular Combat")
   const matchedCompFallback = matchCompendiumEntry(identifier, dbData);
   if (matchedCompFallback) {
-    return buildCompendiumResolution(matchedCompFallback, displayLabel);
+    return buildCompendiumResolution(matchedCompFallback, displayLabel, dbData);
   }
 
   // Priority 6: Fallback / Unresolved

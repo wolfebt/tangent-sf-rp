@@ -5,12 +5,14 @@ import {
   Cpu, 
   Download,
   Sparkles,
-  ArrowRight
+  ArrowRight,
+  Blocks
 } from 'lucide-react';
 
 export const MAP_STUDIO_TABS = [
   { id: 'canvas', label: 'Tactical Canvas', icon: Map, badge: 'Live' },
   { id: 'assets', label: 'Asset Studio & Forge', icon: FolderTree, badge: 'Catalog' },
+  { id: 'chunks', label: 'Chunk Forge Studio', icon: Blocks, badge: 'Prefabs' },
   { id: 'pcg', label: 'PCG & AI Co-Pilot', icon: Cpu, badge: 'Procedural' },
   { id: 'export', label: 'Universal VTT Export', icon: Download, badge: '.dd2vtt' }
 ];

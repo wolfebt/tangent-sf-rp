@@ -18,6 +18,7 @@ import {
   Wrench,
   BookOpen,
   ChevronRight,
+  ChevronDown,
   Sparkles,
   Sliders,
   Layers,
@@ -106,6 +107,8 @@ import {
   ArchitectureBlueprintConfigurator,
   SpeciesTraitSelector,
   GeneticsNavRail,
+  GENETICS_NAV_ITEMS,
+  calculateSpeciesState,
   ModularStatBlockConfigurator,
   CompanionPackageSelector,
   InvocationParameterConfigurator,
@@ -454,6 +457,7 @@ const SPECIES_EXCLUDED_FIELDS = new Set([
   'prerequisite',
   'prerequisites',
   'type',
+  'budget_level',
   ...NON_PROPERTY_EXCLUDED_FIELDS
 ]);
 
@@ -606,19 +610,25 @@ export const AssetStudio = ({
   onDelete = null,
   onDuplicate = null,
   devMode = true,
-  isAdmin = true,
+  isAdmin: propIsAdmin,
   saveEntry: directSaveEntry = null,
   deleteEntry: directDeleteEntry = null,
   dbData: propDbData = null
 }) => {
   const { dbData: contextDbData, saveEntry: contextSaveEntry, deleteEntry: contextDeleteEntry } = useDBM() || {};
-  const { currentUser } = useAuth();
+  const { currentUser, isAdmin: authIsAdmin, isGM: authIsGM, userRole } = useAuth() || {};
+  const isAuthorizedRole = Boolean(
+    propIsAdmin !== undefined
+      ? propIsAdmin
+      : (authIsAdmin || authIsGM || ['architect', 'admin', 'gm'].includes(String(userRole || '').toLowerCase()))
+  );
+  const isAdmin = isAuthorizedRole;
   const dbData = propDbData || contextDbData || {};
   const saveEntry = directSaveEntry || contextSaveEntry;
   const deleteEntry = directDeleteEntry || contextDeleteEntry;
 
   // Resolve target item and key
-  const activeItem = initialData || selectedItem || {};
+  const activeItem = useMemo(() => initialData || selectedItem || {}, [initialData, selectedItem]);
   const resolvedKey = currentKey || activeItem.category || activeItem.collection || 'species';
 
   // Resolve canonical matrix
@@ -734,24 +744,18 @@ export const AssetStudio = ({
     return Array.from(fieldsMap.values());
   }, [matrix, activeCategoryConfig, isProperty, isSpeciesStudio]);
 
-  // View & Edit mode state
-  const [isEditMode, setLocalIsEditMode] = useState(propIsEditMode);
-  useEffect(() => {
-    setLocalIsEditMode(propIsEditMode);
-  }, [propIsEditMode]);
-
-  const handleToggleEditMode = (val) => {
-    setLocalIsEditMode(val);
-    if (setIsEditMode) setIsEditMode(val);
-  };
+  // View & Edit mode state: Architect / Edit is default when authorized by roles
+  const isEditMode = Boolean(isAdmin);
 
   // Studio Sub-Tab navigation state: 'specs' | 'mechanics' | 'narrative' | 'relational' | 'inspector'
   const [activeStudioTab, setActiveStudioTab] = useState('specs');
   const [activeGeneticsTab, setActiveGeneticsTab] = useState('chassis');
+  const [isGeneticsBranchOpen, setIsGeneticsBranchOpen] = useState(true);
   const [loreViewMode, setLoreViewMode] = useState('preview');
-  const [isGuidanceOpen, setIsGuidanceOpen] = useState(false);
+  const [isGuidanceOpen, setIsGuidanceOpen] = useState(true);
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
   const [isIngestionModalOpen, setIsIngestionModalOpen] = useState(false);
+  const [copiedBracketLink, setCopiedBracketLink] = useState(false);
   const [activeSelectorField, setActiveSelectorField] = useState(null);
   const [hoveredRailItem, setHoveredRailItem] = useState(null);
   const railHoverTimerRef = useRef(null);
@@ -792,9 +796,7 @@ export const AssetStudio = ({
 
   // Synchronize when activeItem or matrix changes
   useEffect(() => {
-    if (activeItem && Object.keys(activeItem).length > 0) {
-      setFormData(adaptItemToCodexFormData(activeItem, matrix));
-    }
+    setFormData(adaptItemToCodexFormData(activeItem, matrix));
   }, [activeItem, matrix]);
 
   // Reactive live computed state hook
@@ -907,14 +909,17 @@ export const AssetStudio = ({
           next.social_stigma = value;
           next.stigma = value;
         } else if (name === 'movement') {
-          next.movement = value;
-          next.movement_modes = Array.isArray(value) ? value : [value];
-        } else if (name === 'movement_modes') {
-          const list = Array.isArray(value) ? value : (value ? [value] : []);
+          const list = Array.isArray(value) ? value.filter(Boolean) : (value ? [value] : []);
+          next.movement = list;
           next.movement_modes = list;
-          next.movement = list[0] || 'species_movement-bipedal';
-        } else if (name === 'traits') {
-          next.traits = Array.isArray(value) ? value : [];
+        } else if (name === 'movement_modes') {
+          const list = Array.isArray(value) ? value.filter(Boolean) : (value ? [value] : []);
+          next.movement_modes = list;
+          next.movement = list;
+        } else if (name === 'traits' || name === 'trait') {
+          const list = Array.isArray(value) ? value : [];
+          next.traits = list;
+          next.trait = list;
         }
       }
 
@@ -1232,7 +1237,8 @@ export const AssetStudio = ({
         icon: mechanicsTabConfig.icon,
         color: mechanicsTabConfig.color,
         activeBg: mechanicsTabConfig.activeBg,
-        activeBorder: mechanicsTabConfig.activeBorder
+        activeBorder: mechanicsTabConfig.activeBorder,
+        subItems: isSpeciesStudio ? GENETICS_NAV_ITEMS : null
       }
     ];
 
@@ -1336,6 +1342,74 @@ export const AssetStudio = ({
     return items;
   }, [mechanicsTabConfig, devMode, matrix.id, isProperty]);
 
+  const speciesSummary = useMemo(() => {
+    if (!isSpeciesStudio) return null;
+    try {
+      return calculateSpeciesState(formData);
+    } catch {
+      return null;
+    }
+  }, [isSpeciesStudio, formData]);
+
+  const getGeneticsSubCount = useCallback((subId) => {
+    if (!speciesSummary) return null;
+    if (subId === 'chassis') {
+      const nonDefaultType = speciesSummary.selectedType && speciesSummary.selectedType !== 'Humanoid' ? 1 : 0;
+      const nonDefaultSize = speciesSummary.selectedSize && speciesSummary.selectedSize !== 'Medium' ? 1 : 0;
+      return (nonDefaultType + nonDefaultSize) || null;
+    }
+    if (subId === 'traits') return speciesSummary.selectedTraits?.length || null;
+    if (subId === 'attributes') {
+      const attrCount = Object.values(speciesSummary.attributes || {}).filter(v => v !== 0).length;
+      const bundleCount = speciesSummary.skillBundles > 0 ? 1 : 0;
+      const specSkills = formData.specific_skill_bonuses?.length || 0;
+      return (attrCount + bundleCount + specSkills) || null;
+    }
+    if (subId === 'features') {
+      return ((speciesSummary.cleanedInherentFeatures?.length || 0) + (speciesSummary.cleanedRecommendedFeatures?.length || 0)) || null;
+    }
+    if (subId === 'movement') return speciesSummary.selectedModes?.length || null;
+    if (subId === 'stigma') return (speciesSummary.selectedStigma && speciesSummary.selectedStigma !== 'None') ? 1 : null;
+    if (subId === 'disadvantages') return speciesSummary.selectedDisadvantages?.length || null;
+    if (subId === 'modifiers') return formData.modifiers?.length || null;
+    return null;
+  }, [speciesSummary, formData.specific_skill_bonuses, formData.modifiers]);
+
+  const formatSummaryChip = useCallback((item) => {
+    if (!item) return '';
+    if (typeof item === 'object') {
+      const base = item.name || item.title || item.label || item.id || '';
+      const choice = item.choiceLabel || (Array.isArray(item.choice) ? item.choice.join(', ') : item.choice);
+      const cleanBase = String(base)
+        .replace(/^(trait|feature|ability|species_movement|movement|disadvantage|flaw)[-_]/i, '')
+        .replace(/[-_]/g, ' ')
+        .replace(/\b\w/g, c => c.toUpperCase());
+      return choice ? `${cleanBase} (${choice})` : cleanBase;
+    }
+    return String(item)
+      .replace(/^(trait|feature|ability|species_movement|movement|disadvantage|flaw)[-_]/i, '')
+      .replace(/[-_]/g, ' ')
+      .replace(/\b\w/g, c => c.toUpperCase());
+  }, []);
+
+  const handleCopyBracketLink = useCallback(() => {
+    const entryTitle = (formData.name || formData.title || activeItem?.name || activeItem?.title || matrix.name || 'Entry').trim();
+    const linkToken = `[[${entryTitle}]]`;
+    navigator.clipboard?.writeText(linkToken);
+    AudioService.playTerminalBeep(1300, 0.02);
+    setCopiedBracketLink(true);
+    showToast({
+      type: 'success',
+      title: 'Bracket Link Copied',
+      text: `Copied ${linkToken} for direct reference in chats & dossiers.`
+    });
+    setTimeout(() => setCopiedBracketLink(false), 2000);
+  }, [formData.name, formData.title, activeItem?.name, activeItem?.title, matrix.name]);
+
+  const visibleGuidanceSections = useMemo(() => {
+    return (guidance?.sections || []).filter(sec => sec.id !== 'budget_balance');
+  }, [guidance]);
+
   const content = (
     <div className={`bg-[#070a13] flex flex-col overflow-hidden text-slate-100 w-full h-full min-w-0 min-h-0 ${
       isModal 
@@ -1377,28 +1451,24 @@ export const AssetStudio = ({
 
         {/* Header Action Controls */}
         <div className="flex flex-wrap items-center gap-2">
-          {/* Folio & Story Transfer Bar */}
-          <StudioTransferBar item={formData} categoryKey={matrix.targetCollection} />
-
-          {/* Edit / Read-Only Dossier Mode Toggle */}
-          {isAdmin && (
-            <button
-              type="button"
-              onClick={() => {
-                AudioService.playTerminalBeep(1100, 0.02);
-                handleToggleEditMode(!isEditMode);
-              }}
-              className={`px-3 py-1.5 rounded-xl border text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer ${
-                isEditMode
-                  ? 'bg-amber-950/80 border-amber-500/50 text-amber-300 shadow-sm'
-                  : 'bg-slate-900 border-slate-700 text-slate-400 hover:text-white'
-              }`}
-              title={isEditMode ? 'Switch to Read-Only Dossier View' : 'Switch to Interactive Edit Studio'}
-            >
-              <Wrench size={13} />
-              <span>{isEditMode ? 'Edit Mode' : 'Dossier View'}</span>
-            </button>
-          )}
+          {/* Copy [[Link]] Reference for Chats */}
+          <button
+            type="button"
+            onClick={handleCopyBracketLink}
+            className={`px-3 py-1.5 rounded-xl border text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+              copiedBracketLink
+                ? 'bg-emerald-950/90 border-emerald-500/60 text-emerald-300 shadow-[0_0_10px_rgba(16,185,129,0.25)]'
+                : 'bg-slate-900 hover:bg-slate-800 border-cyan-500/40 text-cyan-300'
+            }`}
+            title={`Copy [[${formData.name || formData.title || activeItem?.name || matrix.name}]] bracket link for direct reference in chats`}
+          >
+            {copiedBracketLink ? (
+              <CheckCircle size={13} className="text-emerald-400" />
+            ) : (
+              <Copy size={13} className="text-cyan-400" />
+            )}
+            <span>{copiedBracketLink ? 'Copied [[Link]]' : '[[Link]]'}</span>
+          </button>
 
           {/* Canonical Guidance Drawer Toggle */}
           {guidance && (
@@ -1413,14 +1483,14 @@ export const AssetStudio = ({
                   ? 'bg-cyan-950 border-cyan-400 text-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.3)]'
                   : 'bg-slate-900 border-slate-700 text-slate-300 hover:bg-slate-800'
               }`}
-              title="Toggle canonical section rulebook guidance"
+              title="Toggle canonical section rulebook guidance & live summary"
             >
               <BookOpen size={13} className="text-cyan-400" />
               <span className="hidden md:inline">Rules & Guidance</span>
             </button>
           )}
 
-          {/* BASTION AI Synthesizer */}
+          {/* BASTION AI Modal Trigger (Synthesizer & Ingestion) */}
           <button
             type="button"
             onClick={() => {
@@ -1428,24 +1498,10 @@ export const AssetStudio = ({
               setIsAiModalOpen(true);
             }}
             className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-cyan-950 to-blue-950 hover:from-cyan-900 hover:to-blue-900 border border-cyan-500/50 text-cyan-300 text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-sm transition-all cursor-pointer"
-            title="Synthesize blueprint with BASTION Tactical Cognition"
+            title="BASTION Synthesizer & Ingestion Studio"
           >
             <Bot size={13} className="text-cyan-400" />
-            <span className="hidden sm:inline">BASTION Synthesizer</span>
-          </button>
-
-          {/* BASTION Ingestion Studio */}
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1200, 0.03);
-              setIsIngestionModalOpen(true);
-            }}
-            className="px-2.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer"
-            title="Parse documents or text with BASTION Ingestion Studio"
-          >
-            <Cpu size={13} className="text-amber-400" />
-            <span className="hidden sm:inline">Ingestion</span>
+            <span className="hidden sm:inline">BASTION AI</span>
           </button>
 
           {/* Studio Close Button */}
@@ -1462,7 +1518,7 @@ export const AssetStudio = ({
         </div>
       </header>
 
-      {/* ── Guidance Drawer (Collapsible) ── */}
+      {/* ── Guidance & Live Summary Drawer ── */}
       {isGuidanceOpen && guidance && (
         <div className="bg-slate-950 border-b border-cyan-500/30 p-4 animate-fade-in shrink-0">
           <div className="flex items-center justify-between mb-2">
@@ -1477,13 +1533,110 @@ export const AssetStudio = ({
           <p className="text-xs text-slate-300 leading-relaxed mb-3">
             {guidance.overview}
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 text-[11px] font-mono">
-            {guidance.sections?.map((sec, idx) => (
-              <div key={idx} className="p-2 rounded-lg bg-slate-900/80 border border-slate-800">
-                <div className="text-amber-400 font-bold mb-0.5">{sec.name || sec.title}</div>
-                <div className="text-slate-400 text-[10px] leading-snug">{sec.description || sec.guidance}</div>
-              </div>
-            ))}
+          <div className={`grid grid-cols-1 ${visibleGuidanceSections.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-2 lg:grid-cols-3'} gap-2.5 text-[11px] font-mono`}>
+            {visibleGuidanceSections.map((sec, idx) => {
+              const isSpeciesChassisBlock = isSpeciesStudio && speciesSummary && sec.id === 'chassis_type';
+              const isSpeciesInherentBlock = isSpeciesStudio && speciesSummary && sec.id === 'traits';
+
+              const attrEntries = isSpeciesChassisBlock
+                ? Object.entries(speciesSummary.attributes || {}).filter(([_, val]) => Number(val) !== 0)
+                : [];
+
+              return (
+                <div key={sec.id || idx} className="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
+                  <div>
+                    <div className="text-amber-400 font-bold mb-0.5">{sec.name || sec.title}</div>
+                    <div className="text-slate-400 text-[10px] leading-snug">{sec.description || sec.guidance}</div>
+                  </div>
+
+                  {isSpeciesChassisBlock && (
+                    <div className="pt-2 border-t border-slate-800/90 flex flex-wrap items-center gap-1.5 text-[10px]">
+                      <span className="px-2 py-0.5 rounded bg-sky-950/70 border border-sky-500/40 text-sky-300 font-bold">
+                        Chassis: {speciesSummary.selectedType} ({speciesSummary.bpData?.breakdown?.typeBP ?? 0} CP)
+                      </span>
+                      <span className="px-2 py-0.5 rounded bg-cyan-950/70 border border-cyan-500/40 text-cyan-300 font-bold">
+                        Size: {speciesSummary.selectedSize} ({(speciesSummary.bpData?.breakdown?.sizeBP ?? 0) >= 0 ? `+${speciesSummary.bpData?.breakdown?.sizeBP ?? 0}` : speciesSummary.bpData?.breakdown?.sizeBP} CP)
+                      </span>
+                      <span className="px-2 py-0.5 rounded bg-amber-950/70 border border-amber-500/40 text-amber-300">
+                        Speed: {speciesSummary.bpData?.speedsFormatted || 'Ground 30 ft'}
+                      </span>
+                      {attrEntries.length > 0 && (
+                        <span className="px-2 py-0.5 rounded bg-emerald-950/70 border border-emerald-500/40 text-emerald-300 font-bold">
+                          Attrs: {attrEntries.map(([k, v]) => `${k.toUpperCase()} ${Number(v) >= 0 ? `+${v}` : v}`).join(', ')}
+                        </span>
+                      )}
+                      {speciesSummary.skillBundles > 0 && (
+                        <span className="px-2 py-0.5 rounded bg-emerald-950/70 border border-emerald-500/40 text-emerald-300">
+                          Skill Pool: +{speciesSummary.skillBundles * 5} SP
+                        </span>
+                      )}
+                      <span className="px-2 py-0.5 rounded bg-purple-950/70 border border-purple-500/40 text-purple-300 font-bold ml-auto">
+                        Package Cost: {speciesSummary.bpData?.totalBPUsed ?? 0} CP
+                      </span>
+                    </div>
+                  )}
+
+                  {isSpeciesInherentBlock && (
+                    <div className="pt-2 border-t border-slate-800/90 space-y-1.5 text-[10px]">
+                      <div className="flex flex-wrap items-center gap-1">
+                        <span className="text-slate-400 font-bold uppercase mr-1">
+                          Traits ({speciesSummary.selectedTraits.length}):
+                        </span>
+                        {speciesSummary.selectedTraits.length > 0 ? (
+                          speciesSummary.selectedTraits.map((tr, tIdx) => (
+                            <span
+                              key={tIdx}
+                              className="px-1.5 py-0.5 rounded bg-purple-950/70 border border-purple-500/40 text-purple-200"
+                            >
+                              {formatSummaryChip(tr)}
+                            </span>
+                          ))
+                        ) : (
+                          <span className="text-slate-500 italic">None</span>
+                        )}
+                      </div>
+
+                      {speciesSummary.cleanedInherentFeatures?.length > 0 && (
+                        <div className="flex flex-wrap items-center gap-1">
+                          <span className="text-slate-400 font-bold uppercase mr-1">
+                            Inherent Features ({speciesSummary.cleanedInherentFeatures.length}):
+                          </span>
+                          {speciesSummary.cleanedInherentFeatures.map((feat, fIdx) => (
+                            <span
+                              key={fIdx}
+                              className="px-1.5 py-0.5 rounded bg-emerald-950/70 border border-emerald-500/40 text-emerald-200"
+                            >
+                              {formatSummaryChip(feat)}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+
+                      {(speciesSummary.selectedDisadvantages?.length > 0 || (speciesSummary.selectedStigma && speciesSummary.selectedStigma !== 'None')) && (
+                        <div className="flex flex-wrap items-center gap-1">
+                          <span className="text-slate-400 font-bold uppercase mr-1">
+                            Flaws / Stigma:
+                          </span>
+                          {speciesSummary.selectedDisadvantages.map((flaw, dIdx) => (
+                            <span
+                              key={dIdx}
+                              className="px-1.5 py-0.5 rounded bg-red-950/70 border border-red-500/40 text-red-200"
+                            >
+                              {formatSummaryChip(flaw)}
+                            </span>
+                          ))}
+                          {speciesSummary.selectedStigma && speciesSummary.selectedStigma !== 'None' && (
+                            <span className="px-1.5 py-0.5 rounded bg-rose-950/70 border border-rose-500/40 text-rose-200">
+                              Stigma: {speciesSummary.selectedStigma}
+                            </span>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       )}
@@ -1491,17 +1644,17 @@ export const AssetStudio = ({
       {/* ── Studio Body with Left Navigation Rail + Workbench Viewport ── */}
       <div className="flex-1 flex overflow-hidden min-h-0">
 
-        {/* ── Standardized Left Navigation Rail (Platform Style) ── */}
+        {/* ── Standardized Left Navigation Sidebar with Expanding Subcategory Branch ── */}
         <nav 
           aria-label="Studio Sub-Sections"
-          className="w-18 sm:w-20 shrink-0 bg-[#070a12]/95 backdrop-blur-md border-r border-slate-800/90 flex flex-col items-center justify-between py-2.5 px-1 select-none z-20 font-sans shadow-lg"
+          className="w-40 sm:w-44 shrink-0 bg-[#070a12]/95 backdrop-blur-md border-r border-slate-800/90 flex flex-col justify-between py-2.5 px-2 select-none z-20 font-sans shadow-lg"
         >
-          {/* Top Section: Matrix Brand Crest + Nav Buttons */}
-          <div className="flex flex-col items-center gap-1.5 w-full overflow-y-auto no-scrollbar min-h-0">
+          {/* Top Section: Matrix Brand Crest + Category & Expanding Subcategory Branch */}
+          <div className="flex flex-col gap-1.5 w-full overflow-y-auto no-scrollbar min-h-0">
             {/* Top Matrix Crest / Icon */}
-            <div className="flex flex-col items-center justify-center py-1 mb-0.5">
+            <div className="flex items-center gap-2.5 px-1.5 py-1 mb-1 border-b border-slate-800/80 pb-2">
               <div 
-                className="w-9 h-9 sm:w-9.5 sm:h-9.5 rounded-xl border flex items-center justify-center shadow-lg transition-transform hover:scale-105"
+                className="w-8 h-8 rounded-xl border flex items-center justify-center shrink-0 shadow-lg"
                 style={{
                   background: `${matrix.color || '#10b981'}18`,
                   borderColor: `${matrix.color || '#10b981'}50`,
@@ -1509,97 +1662,175 @@ export const AssetStudio = ({
                 }}
                 title={`${matrix.name} • ${matrix.badge}`}
               >
-                <Icon size={18} />
+                <Icon size={16} />
               </div>
-              <div className="w-6 h-px bg-slate-800/80 mt-1.5" />
+              <div className="min-w-0 flex-1">
+                <div className="font-mono text-[10px] font-bold uppercase tracking-wider text-slate-200 truncate">
+                  {matrix.name}
+                </div>
+                <div className="font-mono text-[8.5px] text-slate-500 uppercase truncate">
+                  {matrix.badge}
+                </div>
+              </div>
             </div>
 
-            {/* Nav Rail Buttons (Stacked Icon + Monospace Label Underneath) */}
+            {/* Nav Rail Category Buttons + Expanding Subcategory Branches */}
             {navRailItems.map(item => {
               const ItemIcon = item.icon;
-              const isActive = activeStudioTab === item.id;
+              const isActive = activeStudioTab === item.id || (item.id === 'mechanics' && activeStudioTab === 'genetics');
+              const hasSubItems = Array.isArray(item.subItems) && item.subItems.length > 0;
+              const isBranchExpanded = hasSubItems && (isActive ? isGeneticsBranchOpen : false);
+
               return (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => {
-                    AudioService.playTerminalBeep(1100, 0.02);
-                    setActiveStudioTab(item.id);
-                  }}
-                  onMouseEnter={(e) => {
-                    const rect = e.currentTarget.getBoundingClientRect();
-                    if (railHoverTimerRef.current) clearTimeout(railHoverTimerRef.current);
-                    railHoverTimerRef.current = setTimeout(() => {
-                      setHoveredRailItem({ item, rect });
-                    }, 1000);
-                  }}
-                  onMouseLeave={() => {
-                    if (railHoverTimerRef.current) clearTimeout(railHoverTimerRef.current);
-                    setHoveredRailItem(null);
-                  }}
-                  title={`${item.label} • ${item.sublabel}`}
-                  className={`group relative w-full py-1.5 px-0.5 rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer select-none border ${
-                    isActive 
-                      ? `${item.activeBg || 'bg-slate-800/80'} ${item.activeBorder || 'border-cyan-500/60'} shadow-[0_0_15px_rgba(6,182,212,0.25)]`
-                      : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/70 border-transparent hover:border-slate-800/80'
-                  }`}
-                >
-                  {/* Left Glowing Indicator Bar */}
-                  {isActive && (
-                    <span 
-                      className="absolute -left-1 top-2 bottom-2 w-1 rounded-r-full shadow-[0_0_8px_rgba(6,182,212,0.8)]"
-                      style={{ backgroundColor: item.color || matrix.color }}
-                    />
-                  )}
-
-                  {/* Icon Container Box matching top buttons */}
-                  <div 
-                    className={`w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-lg flex items-center justify-center shrink-0 border transition-all ${
-                      isActive ? 'border-cyan-400/80 shadow-sm' : 'border-slate-800 group-hover:border-slate-700 bg-slate-950/60'
+                <div key={item.id} className="flex flex-col gap-0.5 w-full">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1100, 0.02);
+                      if (hasSubItems) {
+                        if (isActive) {
+                          setIsGeneticsBranchOpen(prev => !prev);
+                        } else {
+                          setActiveStudioTab(item.id);
+                          setIsGeneticsBranchOpen(true);
+                        }
+                      } else {
+                        setActiveStudioTab(item.id);
+                      }
+                    }}
+                    onMouseEnter={(e) => {
+                      const rect = e.currentTarget.getBoundingClientRect();
+                      if (railHoverTimerRef.current) clearTimeout(railHoverTimerRef.current);
+                      railHoverTimerRef.current = setTimeout(() => {
+                        setHoveredRailItem({ item, rect });
+                      }, 1000);
+                    }}
+                    onMouseLeave={() => {
+                      if (railHoverTimerRef.current) clearTimeout(railHoverTimerRef.current);
+                      setHoveredRailItem(null);
+                    }}
+                    title={`${item.label} • ${item.sublabel}`}
+                    className={`group relative w-full px-2 py-1.5 rounded-xl flex items-center justify-between gap-2 transition-all cursor-pointer select-none border ${
+                      isActive 
+                        ? `${item.activeBg || 'bg-slate-800/80'} ${item.activeBorder || 'border-cyan-500/60'} shadow-[0_0_15px_rgba(6,182,212,0.2)]`
+                        : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/70 border-transparent hover:border-slate-800/80'
                     }`}
-                    style={isActive ? { background: `${item.color || matrix.color}25`, borderColor: `${item.color || matrix.color}80` } : {}}
                   >
-                    <ItemIcon size={17} style={{ color: isActive ? (item.color || matrix.color) : undefined }} className={isActive ? '' : 'text-slate-400 group-hover:text-slate-200'} />
-                  </div>
+                    {/* Left Glowing Indicator Bar */}
+                    {isActive && (
+                      <span 
+                        className="absolute -left-1 top-2 bottom-2 w-1 rounded-r-full shadow-[0_0_8px_rgba(6,182,212,0.8)]"
+                        style={{ backgroundColor: item.color || matrix.color }}
+                      />
+                    )}
 
-                  {/* Monospace Visible Label Underneath Icon */}
-                  <span className={`font-mono text-[8.5px] sm:text-[9px] uppercase tracking-wider text-center mt-1 truncate max-w-full px-0.5 leading-tight select-none ${
-                    isActive ? 'font-extrabold' : 'text-slate-400 group-hover:text-slate-200'
-                  }`} style={isActive ? { color: item.color || matrix.color } : {}}>
-                    {item.shortLabel || item.label}
-                  </span>
-                </button>
+                    <div className="flex items-center gap-2 min-w-0">
+                      <div 
+                        className={`w-6 h-6 rounded-lg flex items-center justify-center shrink-0 border transition-all ${
+                          isActive ? 'border-cyan-400/80 shadow-sm' : 'border-slate-800 group-hover:border-slate-700 bg-slate-950/60'
+                        }`}
+                        style={isActive ? { background: `${item.color || matrix.color}25`, borderColor: `${item.color || matrix.color}80` } : {}}
+                      >
+                        <ItemIcon size={13} style={{ color: isActive ? (item.color || matrix.color) : undefined }} className={isActive ? '' : 'text-slate-400 group-hover:text-slate-200'} />
+                      </div>
+
+                      <span
+                        className={`font-mono text-[10px] uppercase tracking-wider truncate leading-tight select-none ${
+                          isActive ? 'font-extrabold' : 'text-slate-400 group-hover:text-slate-200 font-semibold'
+                        }`}
+                        style={isActive ? { color: item.color || matrix.color } : {}}
+                      >
+                        {item.shortLabel || item.label}
+                      </span>
+                    </div>
+
+                    {hasSubItems && (
+                      <ChevronDown
+                        size={13}
+                        className={`shrink-0 transition-transform duration-200 ${
+                          isBranchExpanded ? 'rotate-180 text-purple-300' : 'text-slate-500'
+                        }`}
+                      />
+                    )}
+                  </button>
+
+                  {/* Expanding Branch Under Category for Subcategories */}
+                  {hasSubItems && isBranchExpanded && (
+                    <div className="relative pl-2.5 ml-3 my-1 flex flex-col gap-1 border-l-2 border-purple-500/40 animate-fade-in">
+                      {item.subItems.map((subItem) => {
+                        const SubIcon = subItem.icon;
+                        const isSubActive = isActive && activeGeneticsTab === subItem.id;
+                        const subCount = getGeneticsSubCount(subItem.id);
+
+                        return (
+                          <button
+                            key={subItem.id}
+                            type="button"
+                            onClick={() => {
+                              AudioService.playTerminalBeep(1100, 0.02);
+                              handleGeneticsTabChange(subItem.id);
+                            }}
+                            title={`${subItem.name} • ${subItem.desc}`}
+                            className={`group/sub relative w-full px-2 py-1.5 rounded-lg text-left font-mono text-[9.5px] font-bold uppercase tracking-wider transition-all flex items-center justify-between gap-1.5 cursor-pointer border ${
+                              isSubActive
+                                ? 'bg-purple-950/80 text-purple-200 border-purple-400/70 shadow-[0_0_10px_rgba(168,85,247,0.25)]'
+                                : 'bg-slate-900/40 text-slate-400 border-slate-800/60 hover:text-slate-100 hover:bg-slate-800/70 hover:border-slate-700'
+                            }`}
+                          >
+                            {/* Horizontal Branch Connector Tick */}
+                            <span
+                              className="absolute -left-2.5 top-1/2 -translate-y-1/2 w-2 h-0.5"
+                              style={{ backgroundColor: isSubActive ? subItem.color : 'rgba(168, 85, 247, 0.35)' }}
+                            />
+                            <div className="flex items-center gap-1.5 min-w-0">
+                              <div
+                                className={`w-5 h-5 rounded-md flex items-center justify-center shrink-0 border transition-colors ${
+                                  isSubActive ? 'border-purple-400/70' : 'border-slate-800 bg-slate-950/60 group-hover/sub:border-slate-700'
+                                }`}
+                                style={isSubActive ? { background: `${subItem.color}25`, borderColor: `${subItem.color}80` } : {}}
+                              >
+                                <SubIcon size={11} style={{ color: isSubActive ? subItem.color : undefined }} className={isSubActive ? '' : 'text-slate-400 group-hover/sub:text-slate-200'} />
+                              </div>
+                              <span
+                                className="truncate"
+                                style={isSubActive ? { color: subItem.color } : {}}
+                              >
+                                {subItem.shortLabel || subItem.name}
+                              </span>
+                            </div>
+
+                            {subCount !== null && subCount > 0 && (
+                              <span className="px-1.5 py-0.2 rounded-full bg-purple-500/25 border border-purple-500/40 text-purple-200 font-mono text-[8.5px] font-bold shrink-0">
+                                {subCount}
+                              </span>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
               );
             })}
           </div>
 
-          {/* Bottom Rail System Metadata / Status */}
-          <div className="w-full flex flex-col items-center gap-1.5 pt-2 border-t border-slate-800/80 mt-auto shrink-0">
-            <div className="flex items-center gap-1 text-[9px] font-mono text-slate-400 uppercase tracking-wider">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="truncate max-w-[60px]">{matrix.name}</span>
-            </div>
-            <div className="text-[8px] font-mono text-slate-500 truncate max-w-full text-center">
-              COL: {matrix.targetCollection}
-            </div>
-            <div 
-              className="text-[8px] font-mono px-1 py-0.5 rounded font-bold uppercase tracking-wider text-center w-full truncate"
-              style={{ background: `${matrix.color}20`, color: matrix.color }}
-            >
-              {matrix.badge}
+          {/* Bottom Rail System Metadata / Package Cost Status */}
+          <div className="w-full flex flex-col gap-1.5 pt-2 border-t border-slate-800/80 mt-auto shrink-0">
+            {isSpeciesStudio && speciesSummary && (
+              <div className="w-full px-2 py-1.5 rounded-lg bg-purple-950/60 border border-purple-500/40 flex items-center justify-between text-[9.5px] font-mono">
+                <span className="text-slate-300 uppercase font-bold">Package Cost</span>
+                <span className="text-emerald-400 font-bold">{speciesSummary.bpData?.totalBPUsed ?? 0} CP</span>
+              </div>
+            )}
+            <div className="flex items-center justify-between text-[8.5px] font-mono text-slate-400 uppercase tracking-wider px-0.5">
+              <span className="flex items-center gap-1 truncate">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+                <span className="truncate">{matrix.name}</span>
+              </span>
+              <span className="text-slate-500 truncate ml-1">{matrix.targetCollection}</span>
             </div>
           </div>
         </nav>
-
-        {/* ── Nested Genetics Navigation Rail (Beside Studio Main Nav Rail) ── */}
-        {isSpeciesStudio && (activeStudioTab === 'mechanics' || activeStudioTab === 'genetics') && (
-          <GeneticsNavRail
-            formData={formData}
-            activeTab={activeGeneticsTab}
-            onTabChange={handleGeneticsTabChange}
-            isNested={true}
-          />
-        )}
 
         {/* ── Main Studio Workbench (Left Forms + Right Live Metrics) ── */}
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 pb-12 sm:pb-16 flex flex-col lg:flex-row gap-6 min-h-0">
@@ -2803,6 +3034,7 @@ export const AssetStudio = ({
         isOpen={isAiModalOpen}
         onClose={() => setIsAiModalOpen(false)}
         matrix={matrix}
+        initialDatasetKey={matrix.targetCollection || 'equipment'}
         onApplyGeneratedData={(aiData) => {
           setFormData(prev => ({
             ...prev,
@@ -2810,6 +3042,11 @@ export const AssetStudio = ({
             name: aiData.name || prev.name,
             description: aiData.description || prev.description
           }));
+          AudioService.playTerminalBeep(1400, 0.05);
+        }}
+        onApplyIngestedEntry={(ingestedItem) => {
+          const adapted = adaptItemToCodexFormData(ingestedItem, matrix);
+          setFormData(prev => ({ ...prev, ...adapted }));
           AudioService.playTerminalBeep(1400, 0.05);
         }}
       />

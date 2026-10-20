@@ -30,7 +30,7 @@ export const ModularStatBlockConfigurator = ({ formData = {}, onChange }) => {
   const selectedBossType = formData.bossType ?? formData.boss_type ?? 'Standard';
   const selectedSize = formData.sizeCategory ?? formData.size ?? 'Medium';
   const isSynthetic = !!(formData.isSynthetic || formData.species === 'Synthetic');
-  const selectedBehaviors = Array.isArray(formData.tacticalBehaviors) ? formData.tacticalBehaviors : (formData.tactical_behaviors || ['Defensive Anchor']);
+  const selectedBehaviors = Array.isArray(formData.tacticalBehaviors) ? formData.tacticalBehaviors : (Array.isArray(formData.tactical_behaviors) ? formData.tactical_behaviors : []);
 
   // Compute live stat block
   const combatBlock = useMemo(() => {

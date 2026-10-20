@@ -6,14 +6,11 @@ import { useAuth } from './AuthContext';
 import { useFolio } from './FolioContext';
 import { getEffectiveUserHandle } from '../utils/personaValidationUtils';
 
-const VoiceChatContext = createContext(null);
+const VoiceChatContext = globalThis.__TANGENT_VOICE_CONTEXT__ || (globalThis.__TANGENT_VOICE_CONTEXT__ = createContext(null));
 
 export const useVoiceChat = () => {
   const context = useContext(VoiceChatContext);
-  if (!context) {
-    throw new Error('useVoiceChat must be used within a VoiceChatProvider');
-  }
-  return context;
+  return context || {};
 };
 
 export const VoiceChatProvider = ({ children }) => {

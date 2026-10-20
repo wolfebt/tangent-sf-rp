@@ -1,30 +1,22 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { 
   Radio, 
   Shield, 
   Users, 
   Plus, 
-  Share2, 
-  Copy, 
-  Check, 
-  QrCode, 
-  Lock, 
   HelpCircle,
-  ExternalLink,
-  ChevronRight,
-  MessageSquare,
-  Globe
+  Compass
 } from 'lucide-react';
 import { useChat } from '../context/ChatContext';
 import { useSquad } from '../context/SquadContext';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
-import { useConfirm } from '../context/ConfirmContext';
 import { AudioService } from '../services/audioService';
 
 import { CommsPage } from './CommsPage';
 import { SquadsPage } from './SquadsPage';
+import { NetworkServerRail } from '../components/Network/NetworkServerRail';
 import { NetworkRosterView } from '../components/Chat/NetworkRosterView';
 import { CommunityNetworkingView } from '../components/Community/CommunityNetworkingView';
 import { CreateChannelModal } from '../components/Chat/CreateChannelModal';
@@ -34,53 +26,45 @@ import { ComprehensiveUserGuideModal } from '../components/UI/ComprehensiveUserG
 
 /**
  * @file NetworkPage.jsx
- * @description Consolidated primary workstation for Terran Data Network:
- * Unifies Tactical Squads/Teams, CommLink Frequency Channels, Community Networking, and Operator Roster Presence.
+ * @description SOTA 4-Zone Gaming Comm Center Workstation for Terran Data Network:
+ * - Zone 1 (64px): NetworkServerRail (HoloNet Home, Enrolled Squad Crests, Recruitment LFG, Operators)
+ * - Zone 2 (260px): Dual-Context Channel & Squad Command Tree + Bottom Transceiver Deck
+ * - Zone 3 (Flex-1): Primary Active Stage (Message Stream, Squad Roster/VTT Briefing, LFG Hub, or Operator Directory)
+ * - Zone 4 (300px): Collapsible Context Inspector Drawer (Roster, Docket, Stage, Audit)
  */
 export const NetworkPage = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const { toast } = useToast();
-  const confirm = useConfirm();
 
   // Route & View Management
   const initialViewParam = searchParams.get('view');
+  const initialTabParam = searchParams.get('tab');
   const hasJoinParam = !!searchParams.get('join');
-  const hasSquadTabParam = !!searchParams.get('tab') && ['roster', 'directory', 'invites', 'tactical', 'settings'].includes(searchParams.get('tab'));
-  
+  const validSquadTabs = ['roster', 'directory', 'invites', 'tactical', 'comms', 'settings'];
+  const hasSquadTabParam = !!initialTabParam && validSquadTabs.includes(initialTabParam);
+
   const defaultView = (hasJoinParam || hasSquadTabParam || initialViewParam === 'squads' || initialViewParam === 'teams')
     ? 'squads'
     : (initialViewParam === 'community' || initialViewParam === 'networking' ? 'community' : (initialViewParam === 'roster' ? 'roster' : 'comms'));
 
   const [activeView, setActiveView] = useState(defaultView);
+  const [activeSquadNavTab, setActiveSquadNavTab] = useState(
+    hasJoinParam ? 'invites' : (hasSquadTabParam ? initialTabParam : 'roster')
+  );
   const [isCreateChannelModalOpen, setIsCreateChannelModalOpen] = useState(false);
   const [isCreateSquadModalOpen, setIsCreateSquadModalOpen] = useState(false);
   const [isGuideModalOpen, setIsGuideModalOpen] = useState(false);
   const [commsMobileView, setCommsMobileView] = useState('chat'); // 'sidebar' | 'chat'
-  const [copiedLink, setCopiedLink] = useState(false);
-
-  // Synchronize view state if URL query param changes
-  useEffect(() => {
-    const viewParam = searchParams.get('view');
-    if (viewParam === 'squads' || viewParam === 'teams') {
-      setActiveView('squads');
-    } else if (viewParam === 'community' || viewParam === 'networking') {
-      setActiveView('community');
-    } else if (viewParam === 'roster') {
-      setActiveView('roster');
-    } else if (viewParam === 'comms' || viewParam === 'chat') {
-      setActiveView('comms');
-    }
-  }, [searchParams]);
 
   // Contexts
   const { 
-    activeChannel, 
     totalUnreadCount = 0, 
     hasNewOperatorLogins = false, 
-    newOperatorLogins = [], 
     clearNewOperatorLogins,
-    onlineOperators = []
+    onlineOperators = [],
+    selectChannel,
+    activeChannelId
   } = useChat() || {};
 
   const {
@@ -99,163 +83,179 @@ export const NetworkPage = () => {
 
   const effectiveSquads = squads.length > 0 ? squads : groups;
   const effectiveActiveSquad = activeSquad || activeGroup;
+  const effectiveSelectSquad = selectSquad || selectGroup;
 
-  const { currentUser } = useAuth() || {};
+  // Synchronize view & squad tab state if URL query param changes
+  useEffect(() => {
+    const viewParam = searchParams.get('view');
+    const tabParam = searchParams.get('tab');
+    const joinParam = searchParams.get('join');
 
-  const handleSelectView = (viewKey) => {
+    if (joinParam) {
+      setActiveView('squads');
+      setActiveSquadNavTab('invites');
+      return;
+    }
+
+    if (viewParam === 'squads' || viewParam === 'teams') {
+      setActiveView('squads');
+      if (tabParam && validSquadTabs.includes(tabParam)) {
+        setActiveSquadNavTab(tabParam);
+      }
+    } else if (viewParam === 'community' || viewParam === 'networking') {
+      setActiveView('community');
+    } else if (viewParam === 'roster') {
+      setActiveView('roster');
+    } else if (viewParam === 'comms' || viewParam === 'chat') {
+      setActiveView('comms');
+    }
+  }, [searchParams]);
+
+  // Derived 4-Zone Server Context
+  const serverContext = activeView === 'squads' || activeView === 'teams'
+    ? 'squad'
+    : activeView === 'community'
+    ? 'discovery'
+    : activeView === 'roster'
+    ? 'directory'
+    : 'holonet';
+
+  const handleSelectView = useCallback((viewKey, optionalTab) => {
     AudioService.playTerminalBeep(1150, 0.02);
     if (viewKey === 'roster' && hasNewOperatorLogins) {
       clearNewOperatorLogins?.();
     }
     const targetKey = viewKey === 'teams' ? 'squads' : viewKey;
     setActiveView(targetKey);
+    if (optionalTab) {
+      setActiveSquadNavTab(optionalTab);
+    }
     setSearchParams(prev => {
       const next = new URLSearchParams(prev);
       next.set('view', targetKey);
+      if (targetKey === 'squads' && (optionalTab || activeSquadNavTab)) {
+        next.set('tab', optionalTab || activeSquadNavTab);
+      } else if (targetKey !== 'squads') {
+        next.delete('tab');
+      }
       return next;
     });
-  };
+  }, [hasNewOperatorLogins, clearNewOperatorLogins, activeSquadNavTab, setSearchParams]);
 
-  const handleCopySquadLink = () => {
-    if (!effectiveActiveSquad?.inviteCode) return;
-    const origin = typeof window !== 'undefined' ? window.location.origin : '';
-    const shareUrl = `${origin}/network?view=squads&join=${effectiveActiveSquad.inviteCode}`;
-    navigator.clipboard.writeText(shareUrl);
-    AudioService.playTerminalBeep(1250, 0.03);
-    setCopiedLink(true);
-    toast?.({ type: 'success', text: 'Squad invite link copied to clipboard.' });
-    setTimeout(() => setCopiedLink(false), 2000);
-  };
+  // Zone 1 Rail Context Switch Handler
+  const handleSelectRailContext = useCallback((ctxKey) => {
+    if (ctxKey === 'holonet') {
+      handleSelectView('comms');
+    } else if (ctxKey === 'squad') {
+      handleSelectView('squads', activeSquadNavTab || 'roster');
+    } else if (ctxKey === 'discovery') {
+      handleSelectView('community');
+    } else if (ctxKey === 'directory') {
+      handleSelectView('roster');
+    }
+  }, [handleSelectView, activeSquadNavTab]);
+
+  // 1-Click Squad Crest Selection from Zone 1 Rail
+  const handleSelectSquadFromRail = useCallback((squad) => {
+    if (!squad) return;
+    effectiveSelectSquad?.(squad.id);
+    // If squad has a dedicated comm channel and user is switching squads, sync channel
+    if (squad.channelId && activeSquadNavTab === 'comms' && activeChannelId !== squad.channelId) {
+      selectChannel?.(squad.channelId);
+    }
+    handleSelectView('squads', activeSquadNavTab || 'roster');
+  }, [effectiveSelectSquad, activeSquadNavTab, activeChannelId, selectChannel, handleSelectView]);
+
+  // Zone 2 Squad Command Tree Navigation Handler
+  const handleSelectSquadNavTab = useCallback((tabId) => {
+    setActiveSquadNavTab(tabId);
+    if (tabId === 'comms' && effectiveActiveSquad?.channelId && activeChannelId !== effectiveActiveSquad.channelId) {
+      selectChannel?.(effectiveActiveSquad.channelId);
+    }
+    setSearchParams(prev => {
+      const next = new URLSearchParams(prev);
+      next.set('view', 'squads');
+      next.set('tab', tabId);
+      return next;
+    });
+  }, [effectiveActiveSquad?.channelId, activeChannelId, selectChannel, setSearchParams]);
 
   return (
     <div className="h-full w-full flex flex-col bg-[#070b13] text-slate-100 font-sans overflow-hidden select-none">
-      {/* ── Master Unified Station Header ── */}
-      <header className="px-2.5 sm:px-4 py-1.5 sm:py-2 bg-slate-950 border-b border-slate-800/90 flex items-center justify-between gap-1.5 sm:gap-2.5 text-xs font-mono shrink-0 shadow-md z-20">
-        {/* Left: Station Identity & Mode Switcher */}
-        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-          <div className="flex items-center gap-1.5 shrink-0">
-            <div className="relative flex items-center justify-center">
-              <Radio size={14} className="text-emerald-400" />
-              <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-emerald-400 animate-soft-badge-glow" />
-            </div>
-            <span className="text-white font-bold tracking-wider hidden lg:inline">
-              TERRAN DATA NETWORK
-            </span>
-          </div>
+      {/* ── Mobile-Only Compact Navigation Header (< md screens) ──
+          On desktop (>= 768px), Zone 1 (NetworkServerRail) + Zone 3's single 48px Context Header
+          replace this bar so 100% of vertical height goes to the 4-Zone Comm Center. */}
+      <header className="md:hidden px-2.5 py-1.5 bg-slate-950 border-b border-slate-800/90 flex items-center justify-between gap-1.5 text-xs font-mono shrink-0 shadow-md z-20">
+        <div className="flex items-center gap-1 bg-slate-900/90 p-0.5 rounded-xl border border-slate-800 overflow-x-auto no-scrollbar">
+          <button
+            type="button"
+            onClick={() => handleSelectView('comms')}
+            className={`px-2 py-1 rounded-lg text-[10px] font-bold flex items-center gap-1 transition-all cursor-pointer ${
+              activeView === 'comms'
+                ? 'bg-amber-950/80 text-amber-300 border border-amber-500/50'
+                : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <Radio size={11} className={activeView === 'comms' ? 'text-amber-400' : 'text-slate-400'} />
+            <span>COMMS</span>
+            {totalUnreadCount > 0 && (
+              <span className="px-1 rounded bg-amber-500 text-black font-extrabold text-[8.5px]">
+                {totalUnreadCount}
+              </span>
+            )}
+          </button>
 
-          <div className="hidden lg:block h-4 w-px bg-slate-800" />
+          <button
+            type="button"
+            onClick={() => handleSelectView('squads')}
+            className={`px-2 py-1 rounded-lg text-[10px] font-bold flex items-center gap-1 transition-all cursor-pointer ${
+              activeView === 'squads' || activeView === 'teams'
+                ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/50'
+                : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <Shield size={11} className={activeView === 'squads' || activeView === 'teams' ? 'text-emerald-400' : 'text-slate-400'} />
+            <span>SQUADS</span>
+            {pendingInvites.length > 0 && (
+              <span className="px-1 rounded bg-amber-400 text-black font-extrabold text-[8.5px]">
+                {pendingInvites.length}!
+              </span>
+            )}
+          </button>
 
-          {/* Segmented View Mode Switcher */}
-          <div className="flex items-center gap-0.5 sm:gap-1 bg-slate-900/90 p-0.5 sm:p-1 rounded-xl border border-slate-800 shrink-0">
-            <button
-              type="button"
-              onClick={() => handleSelectView('comms')}
-              className={`px-2 sm:px-3 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold flex items-center gap-1 sm:gap-1.5 transition-all cursor-pointer ${
-                activeView === 'comms'
-                  ? 'bg-amber-950/80 text-amber-300 border border-amber-500/50 shadow-[0_0_12px_rgba(245,158,11,0.25)]'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
-              }`}
-            >
-              <Radio size={11} className={activeView === 'comms' ? 'text-amber-400' : 'text-slate-400'} />
-              <span className="hidden xs:inline">COMMLINK</span>
-              <span className="xs:hidden">COMMS</span>
-              {totalUnreadCount > 0 && (
-                <span className="px-1.5 py-0.2 rounded bg-amber-500 text-black font-extrabold text-[8.5px] sm:text-[9px] animate-soft-badge-glow shadow-[0_0_8px_rgba(245,158,11,0.6)]">
-                  {totalUnreadCount}
-                </span>
-              )}
-            </button>
+          <button
+            type="button"
+            onClick={() => handleSelectView('community')}
+            className={`px-2 py-1 rounded-lg text-[10px] font-bold flex items-center gap-1 transition-all cursor-pointer ${
+              activeView === 'community'
+                ? 'bg-purple-950/80 text-purple-300 border border-purple-500/50'
+                : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <Compass size={11} className={activeView === 'community' ? 'text-purple-400' : 'text-slate-400'} />
+            <span>LFG</span>
+          </button>
 
-            <button
-              type="button"
-              onClick={() => handleSelectView('squads')}
-              className={`px-2 sm:px-3 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold flex items-center gap-1 sm:gap-1.5 transition-all cursor-pointer ${
-                activeView === 'squads' || activeView === 'teams'
-                  ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/50 shadow-[0_0_12px_rgba(16,185,129,0.25)]'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
-              }`}
-            >
-              <Shield size={11} className={activeView === 'squads' || activeView === 'teams' ? 'text-emerald-400' : 'text-slate-400'} />
-              <span>SQUADS</span>
-              {pendingInvites.length > 0 ? (
-                <span className="px-1.5 py-0.2 rounded bg-amber-400 text-black font-extrabold text-[8.5px] sm:text-[9px] animate-soft-badge-glow shadow-[0_0_8px_rgba(245,158,11,0.6)]">
-                  {pendingInvites.length}!
-                </span>
-              ) : effectiveSquads.length > 0 ? (
-                <span className="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 text-[8.5px] sm:text-[9px] font-mono">
-                  {effectiveSquads.length}
-                </span>
-              ) : null}
-            </button>
-
-            <button
-              type="button"
-              onClick={() => handleSelectView('roster')}
-              className={`px-2 sm:px-3 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold flex items-center gap-1 sm:gap-1.5 transition-all cursor-pointer ${
-                activeView === 'roster'
-                  ? 'bg-cyan-950/80 text-cyan-300 border border-cyan-500/50 shadow-[0_0_12px_rgba(34,211,238,0.25)]'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
-              }`}
-            >
-              <Users size={11} className={activeView === 'roster' ? 'text-cyan-400' : 'text-slate-400'} />
-              <span className="hidden sm:inline">OPERATORS</span>
-              <span className="sm:hidden">ROSTER</span>
-              {onlineOperators.length > 0 && (
-                <span className="px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-300 text-[8.5px] sm:text-[9px] font-mono">
-                  {onlineOperators.length}
-                </span>
-              )}
-            </button>
-
-            <button
-              type="button"
-              onClick={() => handleSelectView('community')}
-              className={`px-2 sm:px-3 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold flex items-center gap-1 sm:gap-1.5 transition-all cursor-pointer ${
-                activeView === 'community'
-                  ? 'bg-purple-950/80 text-purple-300 border border-purple-500/50 shadow-[0_0_12px_rgba(168,85,247,0.25)]'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
-              }`}
-            >
-              <Globe size={11} className={activeView === 'community' ? 'text-purple-400' : 'text-slate-400'} />
-              <span className="hidden xs:inline">COMMUNITY</span>
-              <span className="xs:hidden">NET</span>
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={() => handleSelectView('roster')}
+            className={`px-2 py-1 rounded-lg text-[10px] font-bold flex items-center gap-1 transition-all cursor-pointer ${
+              activeView === 'roster'
+                ? 'bg-cyan-950/80 text-cyan-300 border border-cyan-500/50'
+                : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <Users size={11} className={activeView === 'roster' ? 'text-cyan-400' : 'text-slate-400'} />
+            <span>OPS</span>
+            {onlineOperators.length > 0 && (
+              <span className="px-1 rounded bg-cyan-500/20 text-cyan-300 text-[8.5px] font-mono">
+                {onlineOperators.length}
+              </span>
+            )}
+          </button>
         </div>
 
-        {/* Right: Contextual Controls & Quick Actions */}
-        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-          {/* Active Context Label (large screens only) */}
-          {activeView === 'comms' && activeChannel && (
-            <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-[11px]">
-              <span className="text-slate-500">FREQ:</span>
-              <span className="text-amber-300 font-bold truncate max-w-[130px]">
-                {activeChannel.displayName || `#${activeChannel.name}`}
-              </span>
-              {activeChannel.isPublic === false && (
-                <Lock size={10} className="text-amber-400" />
-              )}
-            </div>
-          )}
-
-          {activeView === 'teams' && activeGroup && (
-            <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-[11px]">
-              <span className="text-slate-500">SQUAD:</span>
-              <span className="text-emerald-300 font-bold truncate max-w-[130px]">
-                {activeGroup.name}
-              </span>
-              <button
-                type="button"
-                onClick={handleCopySquadLink}
-                className="text-slate-400 hover:text-emerald-300 p-0.5 transition-colors cursor-pointer"
-                title="Copy squad invite link"
-              >
-                {copiedLink ? <Check size={11} className="text-emerald-400" /> : <Copy size={11} />}
-              </button>
-            </div>
-          )}
-
-          {/* Comms Mobile Switcher Toggle (< md screens) */}
+        <div className="flex items-center gap-1 shrink-0">
           {activeView === 'comms' && (
             <button
               type="button"
@@ -263,73 +263,40 @@ export const NetworkPage = () => {
                 AudioService.playTerminalBeep(1000, 0.02);
                 setCommsMobileView(prev => prev === 'sidebar' ? 'chat' : 'sidebar');
               }}
-              className="md:hidden px-2 py-1 rounded-lg bg-slate-900 border border-slate-700 hover:border-amber-500/50 text-amber-300 font-bold text-[10px] sm:text-[10.5px] flex items-center gap-1 transition-colors cursor-pointer"
-              title="Toggle between channels directory and message thread"
+              className="px-2 py-1 rounded-lg bg-slate-900 border border-slate-700 text-amber-300 font-bold text-[10px] flex items-center gap-1 cursor-pointer"
             >
               <Radio size={11} />
               <span>{commsMobileView === 'sidebar' ? 'CHAT' : 'FREQS'}</span>
             </button>
           )}
-
-          {/* Quick Creation Triggers */}
-          {(activeView === 'comms' || activeView === 'roster' || activeView === 'community') && (
-            <button
-              type="button"
-              onClick={() => setIsCreateChannelModalOpen(true)}
-              className="p-1.5 sm:px-2.5 sm:py-1 rounded-lg bg-amber-950/60 hover:bg-amber-900/60 border border-amber-500/40 text-amber-300 font-bold text-[11px] flex items-center gap-1 shadow-sm transition-all cursor-pointer"
-              title="Create New Channel"
-            >
-              <Plus size={13} />
-              <span className="hidden sm:inline">NEW CHANNEL</span>
-            </button>
-          )}
-
-          {(activeView === 'squads' || activeView === 'teams') && (
-            <button
-              type="button"
-              onClick={() => setIsCreateSquadModalOpen(true)}
-              className="p-1.5 sm:px-2.5 sm:py-1 rounded-lg bg-emerald-950/60 hover:bg-emerald-900/60 border border-emerald-500/40 text-emerald-300 font-bold text-[11px] flex items-center gap-1 shadow-sm transition-all cursor-pointer"
-              title="Create New Squad"
-            >
-              <Plus size={13} />
-              <span className="hidden sm:inline">NEW SQUAD</span>
-            </button>
-          )}
-
-          {/* Station Guide */}
           <button
             type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1200, 0.02);
-              setIsGuideModalOpen(true);
-            }}
-            className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-cyan-300 border border-slate-800 transition-colors cursor-pointer"
-            title="Open Network Operations Guide"
+            onClick={() => setIsGuideModalOpen(true)}
+            className="p-1.5 rounded-lg bg-slate-900 text-slate-400 border border-slate-800 cursor-pointer"
+            title="Operations Guide"
           >
-            <HelpCircle size={14} />
+            <HelpCircle size={13} />
           </button>
         </div>
       </header>
 
       {/* ── High-Visibility Pending Squad Commission Alert Banner ── */}
       {pendingInvites && pendingInvites.length > 0 && (
-        <div className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-emerald-950 via-[#0a1820] to-slate-950 border-b border-emerald-500/50 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono shrink-0 shadow-lg z-10 animate-in slide-in-from-top duration-200">
+        <div className="px-3 sm:px-4 py-1.5 bg-gradient-to-r from-emerald-950 via-[#0a1820] to-slate-950 border-b border-emerald-500/50 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono shrink-0 shadow-lg z-10 animate-in slide-in-from-top duration-200">
           <div className="flex items-center gap-2 min-w-0">
             <div className="p-1 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shrink-0">
               <Shield size={14} className="animate-pulse" />
             </div>
-            <div className="min-w-0">
-              <div className="flex items-center gap-1.5 flex-wrap">
-                <span className="font-bold text-emerald-300 uppercase tracking-wide text-[10.5px] sm:text-[11px]">
-                  COMMISSION:
-                </span>
-                <span className="text-white font-bold truncate max-w-[160px] sm:max-w-none">
-                  "{pendingInvites[0].groupName || pendingInvites[0].squadName}"
-                </span>
-                <span className="text-slate-400 text-[10px] hidden xs:inline">
-                  from @{pendingInvites[0].fromUserHandle || 'Operator'}
-                </span>
-              </div>
+            <div className="min-w-0 flex items-center gap-1.5 flex-wrap">
+              <span className="font-bold text-emerald-300 uppercase tracking-wide text-[10.5px] sm:text-[11px]">
+                COMMISSION DISPATCH:
+              </span>
+              <span className="text-white font-bold truncate max-w-[180px] sm:max-w-none">
+                "{pendingInvites[0].groupName || pendingInvites[0].squadName}"
+              </span>
+              <span className="text-slate-400 text-[10px] hidden xs:inline">
+                from @{pendingInvites[0].fromUserHandle || 'Operator'}
+              </span>
             </div>
           </div>
 
@@ -337,14 +304,14 @@ export const NetworkPage = () => {
             <button
               type="button"
               onClick={() => openInviteConfirmation(pendingInvites[0])}
-              className="px-2.5 sm:px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-bold text-[11px] sm:text-xs shadow-sm cursor-pointer transition-colors"
+              className="px-2.5 sm:px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-bold text-[11px] shadow-sm cursor-pointer transition-colors"
             >
               REVIEW
             </button>
             <button
               type="button"
               onClick={() => declineInvite(pendingInvites[0].id)}
-              className="px-2 sm:px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-700 rounded-lg text-[11px] sm:text-xs cursor-pointer transition-colors"
+              className="px-2 sm:px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-700 rounded-lg text-[11px] cursor-pointer transition-colors"
             >
               DECLINE
             </button>
@@ -352,65 +319,116 @@ export const NetworkPage = () => {
         </div>
       )}
 
-      {/* ── Consolidated Workstation Body ── */}
+      {/* ── SOTA 4-Zone Comm Center Workstation Body ── */}
       <div className="flex-1 flex min-h-0 overflow-hidden relative">
-        {/* VIEW 1: COMMLINK RELAY */}
-        {activeView === 'comms' && (
-          <div className="flex-1 flex min-h-0 h-full overflow-hidden">
-            <CommsPage
-              hideHeader={true}
-              onSwitchToTeams={() => handleSelectView('squads')}
-              mobileViewOverride={commsMobileView}
-              setMobileViewOverride={setCommsMobileView}
-            />
-          </div>
-        )}
+        {/* ZONE 1: Far-Left Server & Hub Switcher Rail (64px on Desktop) */}
+        <div className="hidden md:flex h-full shrink-0">
+          <NetworkServerRail
+            activeContext={serverContext}
+            onSelectContext={handleSelectRailContext}
+            activeSquadId={effectiveActiveSquad?.id}
+            onSelectSquad={handleSelectSquadFromRail}
+            onOpenCreateSquad={() => setIsCreateSquadModalOpen(true)}
+            onOpenGuide={() => setIsGuideModalOpen(true)}
+          />
+        </div>
 
-        {/* VIEW 2: TACTICAL SQUADS & FIRETEAMS */}
-        {(activeView === 'squads' || activeView === 'teams') && (
-          <div className="flex-1 flex min-h-0 h-full overflow-hidden">
-            <SquadsPage
-              hideHeader={true}
-              onSwitchToComms={() => handleSelectView('comms')}
-            />
-          </div>
-        )}
+        {/* ZONES 2, 3 & 4: Active Context Stage */}
+        <div className="flex-1 flex min-w-0 min-h-0 h-full overflow-hidden relative">
+          {/* MODE A: HOLONET COMMS RELAY (Zone 2 Channel Tree + Zone 3 Stream + Zone 4 Inspector) */}
+          {serverContext === 'holonet' && (
+            <div className="flex-1 flex min-h-0 h-full overflow-hidden">
+              <CommsPage
+                hideHeader={true}
+                serverContext="holonet"
+                onSwitchToTeams={() => handleSelectView('squads', 'roster')}
+                mobileViewOverride={commsMobileView}
+                setMobileViewOverride={setCommsMobileView}
+              />
+            </div>
+          )}
 
-        {/* VIEW 3: LIVE OPERATOR & PERSONA DIRECTORY */}
-        {activeView === 'roster' && (
-          <div className="flex-1 flex flex-col min-h-0 h-full overflow-hidden bg-[#090d16]">
-            <NetworkRosterView />
-          </div>
-        )}
+          {/* MODE B: TACTICAL SQUAD SERVER (Zone 2 Squad Command Tree + Zone 3 Squad Stage / Comms + Zone 4 Inspector) */}
+          {serverContext === 'squad' && (
+            <>
+              {/* Desktop 4-Zone Unified Squad Workstation */}
+              <div className="hidden md:flex flex-1 min-h-0 h-full overflow-hidden">
+                <CommsPage
+                  hideHeader={true}
+                  serverContext="squad"
+                  activeSquadNavTab={activeSquadNavTab}
+                  onSelectSquadNavTab={handleSelectSquadNavTab}
+                  onSwitchToTeams={() => handleSelectSquadNavTab('roster')}
+                  renderStageOverride={
+                    activeSquadNavTab !== 'comms' ? (
+                      <SquadsPage
+                        hideHeader={true}
+                        hideLeftRail={true}
+                        controlledTab={activeSquadNavTab}
+                        onTabChange={handleSelectSquadNavTab}
+                        onSwitchToComms={() => handleSelectSquadNavTab('comms')}
+                      />
+                    ) : null
+                  }
+                />
+              </div>
 
-        {/* VIEW 4: COMMUNITY NETWORKING (LFS & LFP) */}
-        {activeView === 'community' && (
-          <div className="flex-1 flex flex-col min-h-0 h-full overflow-hidden bg-[#070b13]">
-            <CommunityNetworkingView
-              onNavigateToSquad={(squadId) => {
-                (selectSquad || selectGroup)?.(squadId);
-                handleSelectView('squads');
-              }}
-            />
-          </div>
-        )}
+              {/* Mobile Squads View (< md screens) */}
+              <div className="md:hidden flex-1 flex min-h-0 h-full overflow-hidden">
+                <SquadsPage
+                  hideHeader={true}
+                  controlledTab={activeSquadNavTab}
+                  onTabChange={handleSelectSquadNavTab}
+                  onSwitchToComms={() => handleSelectView('comms')}
+                />
+              </div>
+            </>
+          )}
+
+          {/* MODE C: UNIFIED RECRUITMENT & LFG DISCOVERY HUB */}
+          {serverContext === 'discovery' && (
+            <div className="flex-1 flex flex-col min-h-0 h-full overflow-hidden bg-[#070b13]">
+              <CommunityNetworkingView
+                onNavigateToSquad={(squadId) => {
+                  effectiveSelectSquad?.(squadId);
+                  handleSelectView('squads', 'roster');
+                }}
+                onOpenCreateSquad={() => setIsCreateSquadModalOpen(true)}
+              />
+            </div>
+          )}
+
+          {/* MODE D: LIVE OPERATOR & PERSONA DIRECTORY */}
+          {serverContext === 'directory' && (
+            <div className="flex-1 flex flex-col min-h-0 h-full overflow-hidden bg-[#090d16]">
+              <NetworkRosterView
+                fullStageMode={true}
+                onSelectChannel={() => handleSelectView('comms')}
+              />
+            </div>
+          )}
+        </div>
       </div>
 
       {/* ── Modals & Overlays ── */}
-      <CreateChannelModal
-        isOpen={isCreateChannelModalOpen}
-        onClose={() => {
-          setIsCreateChannelModalOpen(false);
-          if (activeView !== 'comms') {
-            handleSelectView('comms');
-          }
-        }}
-      />
+      {isCreateChannelModalOpen && (
+        <CreateChannelModal
+          isOpen={isCreateChannelModalOpen}
+          onClose={() => {
+            setIsCreateChannelModalOpen(false);
+            if (activeView !== 'comms') {
+              handleSelectView('comms');
+            }
+          }}
+        />
+      )}
 
-      <CreateSquadModal
-        isOpen={isCreateSquadModalOpen}
-        onClose={() => setIsCreateSquadModalOpen(false)}
-      />
+      {isCreateSquadModalOpen && (
+        <CreateSquadModal
+          isOpen={isCreateSquadModalOpen}
+          onClose={() => setIsCreateSquadModalOpen(false)}
+        />
+      )}
 
       {reviewingInvite && (
         <SquadInviteConfirmationModal
@@ -420,11 +438,13 @@ export const NetworkPage = () => {
         />
       )}
 
-      <ComprehensiveUserGuideModal
-        isOpen={isGuideModalOpen}
-        onClose={() => setIsGuideModalOpen(false)}
-        initialTab={(activeView === 'squads' || activeView === 'teams') ? 'squads' : 'comms'}
-      />
+      {isGuideModalOpen && (
+        <ComprehensiveUserGuideModal
+          isOpen={isGuideModalOpen}
+          onClose={() => setIsGuideModalOpen(false)}
+          initialTab={(activeView === 'squads' || activeView === 'teams') ? 'squads' : 'comms'}
+        />
+      )}
     </div>
   );
 };

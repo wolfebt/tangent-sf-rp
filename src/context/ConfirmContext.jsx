@@ -2,13 +2,13 @@ import React, { createContext, useContext, useState, useCallback, useRef, useEff
 import { createPortal } from 'react-dom';
 import { AlertTriangle, Trash2, X, Check, ShieldAlert } from 'lucide-react';
 
-const ConfirmContext = createContext(null);
+const ConfirmContext = globalThis.__TANGENT_CONFIRM_CONTEXT__ || (globalThis.__TANGENT_CONFIRM_CONTEXT__ = createContext(null));
 
 let _globalConfirmDispatcher = null;
 
 export const useConfirm = () => {
   const ctx = useContext(ConfirmContext);
-  if (!ctx) throw new Error('useConfirm must be used inside <ConfirmProvider>');
+  if (!ctx) return showConfirm;
   return ctx.confirm;
 };
 

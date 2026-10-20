@@ -1,4 +1,5 @@
 import { MAP_TYPES, MASTER_TERRAINS, MASTER_OBJECTS, SCALE_METADATA_SCHEMAS } from './MapConstants';
+import { SCIENCE_FANTASY_SEED_CHUNKS } from '../../../../data/seed_chunks/science_fantasy_chunks';
 
 /**
  * Get all terrain brush types for a specific scale (or all if 'All'), including custom user terrains.
@@ -94,4 +95,24 @@ export function getScaleMetadataDefaults(scaleType) {
  */
 export function isLODZoomOut(scaleZoom) {
   return scaleZoom < 0.65;
+}
+
+/**
+ * Get all map chunk blueprints (custom + built-in seed chunks), optionally filtered by category.
+ */
+export function getChunksForScale(scaleType = 'All', categoryFilter = 'All', customChunks = []) {
+  const allChunks = [...(customChunks || []), ...SCIENCE_FANTASY_SEED_CHUNKS];
+  if (!categoryFilter || categoryFilter === 'All') {
+    return allChunks;
+  }
+  return allChunks.filter(c => c.category === categoryFilter);
+}
+
+/**
+ * Look up a chunk blueprint by chunkId across custom and built-in seed catalogs.
+ */
+export function getChunkById(chunkId, customChunks = []) {
+  const customMatch = (customChunks || []).find(c => c.chunkId === chunkId || c.id === chunkId);
+  if (customMatch) return customMatch;
+  return SCIENCE_FANTASY_SEED_CHUNKS.find(c => c.chunkId === chunkId) || null;
 }

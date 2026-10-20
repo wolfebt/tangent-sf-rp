@@ -79,26 +79,7 @@ export const MobileBottomNav = () => {
 
   const activeId = getActiveId();
 
-  const getBadge = (id) => {
-    if (id === 'folio') {
-      const count = (personaRoster && personaRoster.length > 0) ? personaRoster.length : (roster?.length || 0);
-      return count > 0 ? count : null;
-    }
-    if (id === 'ade') {
-      const total = (universeState?.scenarios?.length || 0) + (mapsCatalog?.length || universeState?.maps?.length || 0);
-      return total > 0 ? total : null;
-    }
-    if (id === 'network') {
-      if (totalUnreadCount > 0) return totalUnreadCount;
-      if (pendingInvites?.length > 0) return `${pendingInvites.length}!`;
-      if (hasNewOperatorLogins) return newOperatorLogins.length > 0 ? `+${newOperatorLogins.length}` : 'NEW';
-      return (groups && groups.length > 0) ? groups.length : null;
-    }
-    if (id === 'hub') {
-      return pendingInvites.length > 0 ? pendingInvites.length : null;
-    }
-    return null;
-  };
+  const getBadge = () => null;
 
   return (
     <nav
@@ -172,19 +153,13 @@ export const MobileBottomNav = () => {
               }`} />
             )}
 
-            {/* Icon + Badge */}
+            {/* Icon + Pulse Dot */}
             <div className={`relative flex items-center justify-center p-0.5 rounded-md ${
               isNetworkPulsing ? `transition-none ${networkPulseClass}` : 'transition-all'
             }`}>
               <Icon size={16} className={`transition-transform ${isActive ? 'scale-110' : ''} ${isNetworkPulsing ? 'text-current' : ''}`} />
-              {badge !== null && (
-                <span className={`absolute -top-1.5 -right-2.5 min-w-[14px] h-[14px] px-1 rounded-full text-[8px] font-bold font-mono flex items-center justify-center shadow-[0_0_6px_rgba(34,211,238,0.6)] ${
-                  isNetworkItem && hasNewOperatorLogins && totalUnreadCount === 0
-                    ? 'bg-emerald-400 text-black'
-                    : 'bg-cyan-400 text-slate-950'
-                } ${isNetworkPulsing ? 'animate-soft-badge-glow' : ''}`}>
-                  {badge > 9 ? '9+' : badge}
-                </span>
+              {isNetworkItem && totalUnreadCount > 0 && (
+                <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-amber-400 animate-soft-badge-glow shadow-[0_0_6px_#f59e0b]" />
               )}
             </div>
 

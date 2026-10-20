@@ -6,7 +6,7 @@ import { useCampaign } from '../../context/CampaignContext';
 import { useDBM } from '../../context/DBMContext';
 import { AudioService } from '../../services/audioService';
 import { resolveHyperlinkTarget } from '../../services/hyperlinkResolver.js';
-import { ExternalLink, Compass, BookOpen, Layers, HelpCircle, ArrowUpRight } from 'lucide-react';
+import { ExternalLink, Compass, BookOpen, Layers, HelpCircle, ArrowUpRight, User, Database, FileText } from 'lucide-react';
 
 const THEME_STYLES = {
   emerald: {
@@ -46,6 +46,7 @@ const ReferenceTooltip = ({
   const [coords, setCoords] = useState({ top: 0, left: 0, placement: 'bottom' });
   const triggerRef = useRef(null);
   const popoverRef = useRef(null);
+  const leaveTimerRef = useRef(null);
 
   const navigate = useNavigate();
   const campaignContext = useCampaign();
@@ -62,6 +63,27 @@ const ReferenceTooltip = ({
 
   const theme = THEME_STYLES[resolved.colorTheme] || THEME_STYLES.cyan;
 
+  const handleMouseEnter = useCallback(() => {
+    if (leaveTimerRef.current) {
+      clearTimeout(leaveTimerRef.current);
+      leaveTimerRef.current = null;
+    }
+    setIsOpen(true);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    if (leaveTimerRef.current) clearTimeout(leaveTimerRef.current);
+    leaveTimerRef.current = setTimeout(() => {
+      setIsOpen(false);
+    }, 180);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (leaveTimerRef.current) clearTimeout(leaveTimerRef.current);
+    };
+  }, []);
+
   const updatePosition = useCallback(() => {
     if (!triggerRef.current) return;
     const triggerRect = triggerRef.current.getBoundingClientRect();
@@ -70,8 +92,8 @@ const ReferenceTooltip = ({
     const viewportHeight = window.innerHeight;
 
     const popoverRect = popoverRef.current?.getBoundingClientRect();
-    const popoverWidth = popoverRect?.width || 280;
-    const popoverHeight = popoverRect?.height || 200;
+    const popoverWidth = popoverRect?.width || 320;
+    const popoverHeight = popoverRect?.height || 220;
 
     const spaceAbove = triggerRect.top - margin;
     const spaceBelow = viewportHeight - triggerRect.bottom - margin;
@@ -117,36 +139,50 @@ const ReferenceTooltip = ({
     }
   }, [isOpen, updatePosition]);
 
-  // Execute hyperlink operation
-  const handleTriggerOperation = (e) => {
+  // Execute hyperlink operation (navigating to default option or chosen sub-option)
+  const handleTriggerOperation = useCallback((e, targetOption = null) => {
     e.preventDefault();
     e.stopPropagation();
-    AudioService.playTerminalBeep(900, 0.03);
+    if (leaveTimerRef.current) {
+      clearTimeout(leaveTimerRef.current);
+      leaveTimerRef.current = null;
+    }
     setIsOpen(false);
+    AudioService.playTerminalBeep(900, 0.03);
+
+    const target = targetOption || resolved;
 
     if (typeof onLinkClick === 'function') {
-      onLinkClick(resolved);
+      onLinkClick(target);
       return;
     }
 
-    if (resolved.url) {
-      navigate(resolved.url);
+    if (target.url) {
+      navigate(target.url);
     }
-  };
+  }, [navigate, onLinkClick, resolved]);
 
-  // Render micro-icon based on target type
-  const renderIcon = () => {
-    switch (resolved.targetType) {
-      case 'section':
-        return <Compass size={11} className="inline mr-1 opacity-70 shrink-0" />;
-      case 'compendium':
-      case 'codex':
-        return <BookOpen size={11} className="inline mr-1 opacity-70 shrink-0" />;
-      case 'catalog':
-        return <Layers size={11} className="inline mr-1 opacity-70 shrink-0" />;
-      default:
-        return null;
+  // Render micro-icon based on target type and icon name
+  const renderIcon = (type = resolved.targetType, iconName = null) => {
+    if (iconName === 'User' || (type === 'section' && iconName !== 'Compass')) {
+      return <User size={11} className="inline mr-1 opacity-80 shrink-0" />;
     }
+    if (iconName === 'Compass' || type === 'stage') {
+      return <Compass size={11} className="inline mr-1 opacity-80 shrink-0" />;
+    }
+    if (iconName === 'Database' || type === 'codex') {
+      return <Database size={11} className="inline mr-1 opacity-80 shrink-0" />;
+    }
+    if (iconName === 'Layers' || type === 'catalog') {
+      return <Layers size={11} className="inline mr-1 opacity-80 shrink-0" />;
+    }
+    if (iconName === 'FileText') {
+      return <FileText size={11} className="inline mr-1 opacity-80 shrink-0" />;
+    }
+    if (type === 'compendium') {
+      return <BookOpen size={11} className="inline mr-1 opacity-80 shrink-0" />;
+    }
+    return <ArrowUpRight size={11} className="inline mr-1 opacity-80 shrink-0" />;
   };
 
   return (
@@ -154,16 +190,16 @@ const ReferenceTooltip = ({
       ref={triggerRef}
       className={`reference-highlight-container inline-flex items-baseline align-baseline select-none mx-0.5 ${className}`.trim()}
       style={style}
-      onMouseEnter={() => setIsOpen(true)}
-      onMouseLeave={() => setIsOpen(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <button
         type="button"
-        onClick={handleTriggerOperation}
+        onClick={(e) => handleTriggerOperation(e, null)}
         className={`reference-highlight-text inline-flex items-center gap-0.5 px-1 py-0.2 rounded-sm font-semibold cursor-pointer transition-all duration-150 align-baseline ${theme.text}`}
-        title={`[${resolved.badge}] Click to ${resolved.actionLabel || 'navigate'}`}
+        title={`[${resolved.badge}] Click to ${resolved.actionLabel || 'open rules entry'}`}
       >
-        {renderIcon()}
+        {renderIcon(resolved.targetType, resolved.icon)}
         <span>{resolved.displayLabel || resolved.title}</span>
         <ArrowUpRight size={10} className="inline ml-0.5 opacity-60" />
       </button>
@@ -172,15 +208,15 @@ const ReferenceTooltip = ({
         <div 
           ref={popoverRef}
           role="tooltip"
-          className={`glass-pane animate-fade-in fixed z-[999999] w-72 bg-slate-950/95 border ${theme.border} shadow-[0_10px_35px_rgba(0,0,0,0.8)] rounded-xl overflow-hidden text-left max-h-[calc(100vh-2rem)] overflow-y-auto font-sans`}
+          className={`glass-pane animate-fade-in fixed z-[999999] w-80 bg-slate-950/98 border ${theme.border} shadow-[0_12px_40px_rgba(0,0,0,0.9)] rounded-xl overflow-hidden text-left max-h-[calc(100vh-2rem)] overflow-y-auto font-sans`}
           style={{ 
             top: `${coords.top}px`, 
             left: `${coords.left}px`, 
             transform: coords.placement === 'top' ? 'translate(-50%, -100%)' : 'translate(-50%, 0%)',
             zIndex: 999999
           }}
-          onMouseEnter={() => setIsOpen(true)}
-          onMouseLeave={() => setIsOpen(false)}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
         >
           {/* Popover Header */}
           <div className="bg-slate-900/90 p-3 border-b border-slate-800">
@@ -194,12 +230,12 @@ const ReferenceTooltip = ({
 
           {/* Popover Body */}
           <div className="p-3 bg-slate-950/90 space-y-2.5">
-            <p className="text-xs text-slate-300 leading-relaxed line-clamp-4 m-0 font-sans">
+            <p className="text-xs text-slate-300 leading-relaxed line-clamp-3 m-0 font-sans">
               {resolved.description}
             </p>
 
             {resolved.tags && resolved.tags.length > 0 && (
-              <div className="flex flex-wrap gap-1 pt-1">
+              <div className="flex flex-wrap gap-1 pt-0.5">
                 {resolved.tags.map(tag => (
                   <span 
                     key={tag} 
@@ -211,14 +247,79 @@ const ReferenceTooltip = ({
               </div>
             )}
 
-            {/* Action Trigger Button */}
+            {/* Available Options Directory (as Selectable Links) */}
+            {resolved.options && resolved.options.length > 0 && (
+              <div className="pt-2 border-t border-slate-800/80">
+                <div className="flex items-center justify-between mb-1.5 px-0.5">
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">
+                    Available Options ({resolved.options.length})
+                  </span>
+                  <span className="text-[9px] font-mono text-cyan-400/80">
+                    Selectable Links
+                  </span>
+                </div>
+
+                <div className="space-y-1.5 max-h-56 overflow-y-auto pr-0.5 reference-options-scroll">
+                  {resolved.options.map((option, idx) => {
+                    const isDefault = Boolean(option.isDefault);
+                    return (
+                      <button
+                        key={option.id || idx}
+                        type="button"
+                        onClick={(e) => handleTriggerOperation(e, option)}
+                        className={`w-full text-left p-1.5 rounded-lg border transition-all flex items-start gap-2 cursor-pointer group select-none ${
+                          isDefault
+                            ? 'bg-emerald-950/50 hover:bg-emerald-900/70 border-emerald-500/60 hover:border-emerald-400 text-emerald-200 shadow-[0_0_12px_rgba(16,185,129,0.2)]'
+                            : 'bg-slate-900/80 hover:bg-slate-800/95 border-slate-800 hover:border-cyan-500/50 text-slate-200'
+                        }`}
+                        title={`Select option: ${option.title || option.label}`}
+                      >
+                        <div className={`mt-0.5 shrink-0 ${isDefault ? 'text-emerald-400' : 'text-slate-400 group-hover:text-cyan-300'}`}>
+                          {renderIcon(option.targetType, option.icon)}
+                        </div>
+
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between gap-1.5">
+                            <span className={`text-[11px] font-semibold truncate ${
+                              isDefault ? 'text-emerald-300 group-hover:text-emerald-200 font-bold' : 'text-slate-200 group-hover:text-cyan-200'
+                            }`}>
+                              {option.label || option.title}
+                            </span>
+
+                            <span className={`text-[8.5px] font-mono uppercase font-bold px-1.5 py-0.2 rounded border shrink-0 ${
+                              isDefault
+                                ? 'bg-emerald-900/80 border-emerald-400/70 text-emerald-300'
+                                : 'bg-slate-950 border-slate-700/80 text-slate-400 group-hover:border-cyan-500/40 group-hover:text-cyan-300'
+                            }`}>
+                              {option.badge || (isDefault ? 'DEFAULT' : 'OPTION')}
+                            </span>
+                          </div>
+
+                          {option.sublabel && (
+                            <p className="text-[10px] text-slate-400 group-hover:text-slate-300 truncate m-0 font-sans mt-0.5">
+                              {option.sublabel}
+                            </p>
+                          )}
+                        </div>
+
+                        <ArrowUpRight size={11} className={`mt-0.5 shrink-0 opacity-70 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 ${
+                          isDefault ? 'text-emerald-400 opacity-100' : 'text-slate-500 group-hover:text-cyan-300 group-hover:opacity-100'
+                        }`} />
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Primary Action Button (Default Option) */}
             <div className="pt-2 border-t border-slate-800/80">
               <button
                 type="button"
-                onClick={handleTriggerOperation}
+                onClick={(e) => handleTriggerOperation(e, null)}
                 className={`w-full py-1.5 px-3 rounded-lg text-xs font-bold font-mono uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all cursor-pointer ${theme.button}`}
               >
-                <span>{resolved.actionLabel || 'Navigate'}</span>
+                <span>{resolved.actionLabel || 'Open Rules Entry'}</span>
                 <ExternalLink size={12} />
               </button>
             </div>

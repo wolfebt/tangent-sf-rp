@@ -874,7 +874,7 @@ const FolioContainer = () => {
   }, [handleManualSave, handleOpenAssetModal]);
 
   return (
-    <div className="flex h-full w-full bg-[#0d1117] text-slate-100 overflow-hidden font-sans relative">
+    <div className="flex flex-col h-full w-full bg-[#0d1117] text-slate-100 overflow-hidden font-sans relative">
       {/* Hidden File Input for Loading Files */}
       <input
         type="file"
@@ -884,121 +884,123 @@ const FolioContainer = () => {
         onChange={onFileChange}
       />
 
-      {/* Mobile Sidebar Overlay Backdrop when expanded */}
-      {isCharacterSelected && isSidebarOpen && (
-        <div
-          className="fixed inset-0 z-30 bg-black/60 md:hidden"
-          onClick={() => setIsSidebarOpen(false)}
-        />
-      )}
-
-      {/* Sidebar Navigation */}
-      {isCharacterSelected && (
-        <FolioSidebar
-          viewMode={viewMode}
-          setViewMode={setViewMode}
-          activeTab={activeTab}
-          setActiveTab={(tab) => handleSelectTab(tab)}
-          charName={characterData['char-name']}
-          onOpenRoster={() => setIsRosterOpen(true)}
-          onOpenAugmentationsCatalog={() => handleOpenSelectorModal('augmentations', 'Augmentations', 'augmentations')}
-          onOpenMetaphysicsModal={() => setIsMetaphysicsOpen(true)}
-          onSave={handleManualSave}
-          saveStatus={cloudSaveStatus}
-          onClose={() => setIsSidebarOpen(false)}
-          isMobileOpen={isSidebarOpen}
-        />
-      )}
-
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#0d1117] min-w-0">
-        {/* Breadcrumb Navigation & Workspace Controls Bar */}
-        <BreadcrumbNav
-          items={getFolioBreadcrumbs()}
-          onBack={handleFolioBack}
-          showBack={!isCharacterSelected || activeTab === 'catalog'}
-          backTitle={
-            viewMode === 'play'
-              ? 'Return to Folio Builder'
-              : activeTab?.startsWith('features-')
-              ? 'Return to Aspects Hub & Overview'
-              : (activeTab?.startsWith('property-') || activeTab === 'combat-gear')
-              ? 'Return to Property Hub'
-              : activeTab !== 'catalog'
-              ? 'Return to Persona Catalog'
-              : 'Return to Tangent SF RP Dashboard'
-          }
-          leftSlot={
-            isCharacterSelected ? (
+      {/* Breadcrumb Navigation & Workspace Controls Bar (Across Top) */}
+      <BreadcrumbNav
+        items={getFolioBreadcrumbs()}
+        onBack={handleFolioBack}
+        showBack={!isCharacterSelected || activeTab === 'catalog'}
+        backTitle={
+          viewMode === 'play'
+            ? 'Return to Folio Builder'
+            : activeTab?.startsWith('features-')
+            ? 'Return to Aspects Hub & Overview'
+            : (activeTab?.startsWith('property-') || activeTab === 'combat-gear')
+            ? 'Return to Property Hub'
+            : activeTab !== 'catalog'
+            ? 'Return to Persona Catalog'
+            : 'Return to Tangent SF RP Dashboard'
+        }
+        leftSlot={
+          isCharacterSelected ? (
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1100, 0.02);
+                setIsSidebarOpen(prev => !prev);
+              }}
+              className={`min-h-[28px] px-2.5 py-1 rounded-md flex items-center gap-1.5 transition-all cursor-pointer select-none border font-mono font-bold text-[11px] uppercase tracking-wider active:scale-95 touch-manipulation md:hidden shrink-0 shadow-xs ${
+                isSidebarOpen
+                  ? 'bg-cyan-500/25 border-cyan-300 text-cyan-100 shadow-[0_0_10px_rgba(34,211,238,0.3)]'
+                  : 'bg-slate-900/95 hover:bg-cyan-950/80 border-cyan-500/40 hover:border-cyan-400 text-cyan-300'
+              }`}
+              title={isSidebarOpen ? 'Close Folio Guide Rail' : 'Open Folio Guide Rail'}
+              aria-label={isSidebarOpen ? 'Close Folio Guide Rail' : 'Open Folio Guide Rail'}
+            >
+              {isSidebarOpen ? <PanelLeftClose size={13} /> : <PanelLeftOpen size={13} className="text-cyan-400" />}
+              <span>Rail</span>
+            </button>
+          ) : null
+        }
+        rightSlot={
+          isCharacterSelected && activeTab !== 'catalog' ? (
+            <div className="flex items-center gap-1.5 shrink-0">
               <button
                 type="button"
                 onClick={() => {
-                  AudioService.playTerminalBeep(1100, 0.02);
-                  setIsSidebarOpen(prev => !prev);
+                  AudioService.playTerminalBeep(1200, 0.03);
+                  handleManualSave();
                 }}
-                className={`min-h-[28px] px-2.5 py-1 rounded-md flex items-center gap-1.5 transition-all cursor-pointer select-none border font-mono font-bold text-[11px] uppercase tracking-wider active:scale-95 touch-manipulation md:hidden shrink-0 shadow-xs ${
-                  isSidebarOpen
-                    ? 'bg-cyan-500/25 border-cyan-300 text-cyan-100 shadow-[0_0_10px_rgba(34,211,238,0.3)]'
-                    : 'bg-slate-900/95 hover:bg-cyan-950/80 border-cyan-500/40 hover:border-cyan-400 text-cyan-300'
+                disabled={cloudSaveStatus === 'saving'}
+                className={`min-h-[28px] px-2.5 py-1 rounded-md text-[11px] font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer border shadow-xs select-none active:scale-95 ${
+                  cloudSaveStatus === 'saving'
+                    ? 'bg-amber-950/70 border-amber-500/60 text-amber-300 animate-pulse'
+                    : cloudSaveStatus === 'saved'
+                    ? 'bg-emerald-950/70 border-emerald-500/60 text-emerald-300 hover:bg-emerald-900/60 shadow-[0_0_8px_rgba(16,185,129,0.2)]'
+                    : cloudSaveStatus === 'error'
+                    ? 'bg-red-950/70 border-red-500/60 text-red-300 hover:bg-red-900/60'
+                    : 'bg-cyan-950/70 border-cyan-500/50 text-cyan-300 hover:bg-cyan-900/60 shadow-[0_0_8px_rgba(6,182,212,0.2)]'
                 }`}
-                title={isSidebarOpen ? 'Close Folio Guide Rail' : 'Open Folio Guide Rail'}
-                aria-label={isSidebarOpen ? 'Close Folio Guide Rail' : 'Open Folio Guide Rail'}
+                title={
+                  cloudSaveStatus === 'saving'
+                    ? 'Syncing Persona to Cloud Vault...'
+                    : cloudSaveStatus === 'saved'
+                    ? `Cloud Synced (${lastSavedTime ? new Date(lastSavedTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : 'Saved'})`
+                    : cloudSaveStatus === 'offline'
+                    ? 'Saved to Local Roster (Sign in for Cloud Sync)'
+                    : 'Save Persona to Roster and Cloud'
+                }
+                aria-label="Save Persona to Cloud"
               >
-                {isSidebarOpen ? <PanelLeftClose size={13} /> : <PanelLeftOpen size={13} className="text-cyan-400" />}
-                <span>Rail</span>
+                <Save size={13} className={cloudSaveStatus === 'saving' ? 'animate-spin text-amber-400' : 'text-emerald-400'} />
+                <span>
+                  {cloudSaveStatus === 'saving'
+                    ? 'Saving...'
+                    : cloudSaveStatus === 'saved'
+                    ? 'Cloud Synced'
+                    : cloudSaveStatus === 'offline'
+                    ? 'Save Local'
+                    : 'Save to Cloud'}
+                </span>
+                {cloudSaveStatus === 'saved' && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]" />
+                )}
               </button>
-            ) : null
-          }
-          rightSlot={
-            isCharacterSelected && activeTab !== 'catalog' ? (
-              <div className="flex items-center gap-1.5 shrink-0">
-                <button
-                  type="button"
-                  onClick={() => {
-                    AudioService.playTerminalBeep(1200, 0.03);
-                    handleManualSave();
-                  }}
-                  disabled={cloudSaveStatus === 'saving'}
-                  className={`min-h-[28px] px-2.5 py-1 rounded-md text-[11px] font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer border shadow-xs select-none active:scale-95 ${
-                    cloudSaveStatus === 'saving'
-                      ? 'bg-amber-950/70 border-amber-500/60 text-amber-300 animate-pulse'
-                      : cloudSaveStatus === 'saved'
-                      ? 'bg-emerald-950/70 border-emerald-500/60 text-emerald-300 hover:bg-emerald-900/60 shadow-[0_0_8px_rgba(16,185,129,0.2)]'
-                      : cloudSaveStatus === 'error'
-                      ? 'bg-red-950/70 border-red-500/60 text-red-300 hover:bg-red-900/60'
-                      : 'bg-cyan-950/70 border-cyan-500/50 text-cyan-300 hover:bg-cyan-900/60 shadow-[0_0_8px_rgba(6,182,212,0.2)]'
-                  }`}
-                  title={
-                    cloudSaveStatus === 'saving'
-                      ? 'Syncing Persona to Cloud Vault...'
-                      : cloudSaveStatus === 'saved'
-                      ? `Cloud Synced (${lastSavedTime ? new Date(lastSavedTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : 'Saved'})`
-                      : cloudSaveStatus === 'offline'
-                      ? 'Saved to Local Roster (Sign in for Cloud Sync)'
-                      : 'Save Persona to Roster and Cloud'
-                  }
-                  aria-label="Save Persona to Cloud"
-                >
-                  <Save size={13} className={cloudSaveStatus === 'saving' ? 'animate-spin text-amber-400' : 'text-emerald-400'} />
-                  <span>
-                    {cloudSaveStatus === 'saving'
-                      ? 'Saving...'
-                      : cloudSaveStatus === 'saved'
-                      ? 'Cloud Synced'
-                      : cloudSaveStatus === 'offline'
-                      ? 'Save Local'
-                      : 'Save to Cloud'}
-                  </span>
-                  {cloudSaveStatus === 'saved' && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]" />
-                  )}
-                </button>
-              </div>
-            ) : null
-          }
-        />
+            </div>
+          ) : null
+        }
+      />
 
-        {/* Public Read-Only Banner */}
+      {/* Main Workspace Layout with Folio Guide Rail and Content */}
+      <div className="flex-1 flex overflow-hidden relative min-h-0">
+        {/* Mobile Sidebar Overlay Backdrop when expanded */}
+        {isCharacterSelected && isSidebarOpen && (
+          <div
+            className="fixed inset-0 z-30 bg-black/60 md:hidden"
+            onClick={() => setIsSidebarOpen(false)}
+          />
+        )}
+
+        {/* Sidebar Navigation (Guide Rail moved down under breadcrumb trail) */}
+        {isCharacterSelected && (
+          <FolioSidebar
+            viewMode={viewMode}
+            setViewMode={setViewMode}
+            activeTab={activeTab}
+            setActiveTab={(tab) => handleSelectTab(tab)}
+            charName={characterData['char-name']}
+            onOpenRoster={() => setIsRosterOpen(true)}
+            onOpenAugmentationsCatalog={() => handleOpenSelectorModal('augmentations', 'Augmentations', 'augmentations')}
+            onOpenMetaphysicsModal={() => setIsMetaphysicsOpen(true)}
+            onSave={handleManualSave}
+            saveStatus={cloudSaveStatus}
+            onClose={() => setIsSidebarOpen(false)}
+            isMobileOpen={isSidebarOpen}
+          />
+        )}
+
+        {/* Main Content Area */}
+        <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#0d1117] min-w-0">
+          {/* Public Read-Only Banner */}
         {isReadOnly && (
           <div className="bg-amber-950/90 border-b border-amber-500/50 px-4 py-2 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-amber-200 shrink-0 shadow-lg">
             <div className="flex items-center gap-2">
@@ -1176,6 +1178,7 @@ const FolioContainer = () => {
             </>
           )}
         </div>
+      </div>
       </div>
 
       {/* Modals & Drawers */}

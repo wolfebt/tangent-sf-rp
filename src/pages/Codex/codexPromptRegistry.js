@@ -435,7 +435,7 @@ export const OMNICORTEX_DATASETS = [
     targetCollection: 'factions',
     icon: Building,
     color: '#10b981',
-    description: 'Parse raw faction documentation into comprehensive JSON documents covering the 7 canonical sections: Overview & Themes, Core Identity, Sociological Profile & Governance, Strategic Assets & Military Doctrine, Game Mechanics (20pt Skill Package, Archetypes, 1 CP Discount Features), Visual Synthesis Protocols (HI-FI INK), and Expansion Modules.',
+    description: 'Parse raw faction documentation into comprehensive JSON documents covering the 7 canonical sections: Overview & Themes, Core Identity, Sociological Profile & Governance, Strategic Assets & Military Doctrine, Game Mechanics (20pt Skill Package, Archetypes, 1 CP Discount Features), Visual Synthesis Protocols (HIFI CHROMA), and Expansion Modules.',
     promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX FACTION PARSER
 
 **ROLE:** You are an expert worldbuilding archivist and data engineer for Tangent SFF RPG. Your task is to parse raw faction documentation (from Major Factions, Minor Factions, Polities, or Custom Lore) into strict, comprehensive JSON documents for the OMNICORTEX database.
@@ -448,7 +448,7 @@ export const OMNICORTEX_DATASETS = [
 - **Section III. Sociological Profile:** Ideology & Culture (Core Beliefs, Social Structure, View on Outsiders, Law & Order) and Governance (Government Type, Leadership, Succession).
 - **Section IV. Strategic Assets:** Economy & Tech (Tech Level 0-5, Meta Level 0-5, Wealth Modifier, Primary Exports, Economic Model) and Military Profile (Combat Doctrine, Key Formations, Naval Assets, Unique Tech/Materials).
 - **Section V. Mechanics (Game Data):** Prominent Species, Classification / Faction Type, Faction Skill Package (20 Points Allocation), Typical Archetypes, Recommended Features (1 CP Discount), Bonus Features / Origin & Profession Traits.
-- **Section VI. Visual Synthesis Protocols (HI-FI INK):** Setting Style, Context & Color Palette, Lighting & Atmospheric Mood, AI Image Generation Prompt.
+- **Section VI. Visual Synthesis Protocols (HIFI CHROMA):** Setting Style (SETTING STYLE), Context & Color Palette (CONTEXT), Lighting & Atmospheric Mood (ATMOSPHERE), HIFI CHROMA AI Image Generation Prompt.
 - **Section VII. Expansion Modules (Optional):** Scene Vignettes, Sub-Factions, Key Locations, Vehicular Assets, GM Campaign Hooks & Secrets.
 
 **JSON SCHEMA:**
@@ -511,10 +511,10 @@ export const OMNICORTEX_DATASETS = [
     "origin_profession_traits": [
       "String (Origin, career, or rank traits with game rules, e.g. 'Penal Recruit (Ranger): Advantage on Willpower saves vs Fear; Disadvantage on Social checks against Coalition Authority')"
     ],
-    "setting_style": "String (HI-FI INK visual genre, e.g. 'Dieselpunk, Used Future, Frontier Industrialists, Blocky and Functional')",
-    "context_palette": "String (Architectural silhouettes, environmental context, and color palette, e.g. 'Brutalist prefabs, heavy refineries, hazard stripes; Palette: Dust Brown, Faded Denim, Olive Drab')",
-    "lighting_mood": "String (Visual atmosphere, interior lighting, and tone, e.g. 'Industrial decay, smog-choked, oppressive low-key industrial lighting, sodium vapor')",
-    "image_prompt": "String (Comprehensive AI image prompt for cinematic rendering of faction scenes and operatives)",
+    "setting_style": "String (HIFI CHROMA SETTING STYLE visual genre, e.g. 'Dieselpunk, Used Future, Frontier Industrialists, Blocky and Functional')",
+    "context_palette": "String (HIFI CHROMA CONTEXT architectural silhouettes, environmental context, and color palette, e.g. 'Brutalist prefabs, heavy refineries, hazard stripes; Palette: Dust Brown, Faded Denim, Olive Drab')",
+    "lighting_mood": "String (HIFI CHROMA ATMOSPHERE visual atmosphere, interior lighting, and tone, e.g. 'Industrial decay, smog-choked, oppressive low-key industrial lighting, sodium vapor')",
+    "image_prompt": "String (Comprehensive HIFI CHROMA modular AI image prompt for cinematic rendering of faction scenes and operatives)",
     "attitude": "String (Default demeanor in diplomacy and negotiations)",
     "goals": "String (Short-term and long-term strategic plans)",
     "social_strengths": "String (Institutional advantages, industrial scale, intelligence networks)",
@@ -544,7 +544,7 @@ export const OMNICORTEX_DATASETS = [
 1. **Snake Case Keys:** Use snake_case for all multi-word keys (e.g. driving_mandate, social_structure, symbol_sigil, tech_level, prominent_species).
 2. **20-Point Skill Packages:** Preserve the exact skill points allocations in the \`skill_package\` array.
 3. **Recommended Features Discount:** Extract recommended features into \`recommended_features\` (players receive these at a 1 CP discount).
-4. **HI-FI INK Protocols:** Accurately extract the visual synthesis protocols into \`setting_style\`, \`context_palette\`, \`lighting_mood\`, and \`image_prompt\`.
+4. **HIFI CHROMA Protocols:** Accurately extract the HIFI CHROMA visual synthesis protocols into \`setting_style\` (SETTING STYLE), \`context_palette\` (CONTEXT), \`lighting_mood\` (ATMOSPHERE), and \`image_prompt\` (complete HIFI CHROMA modular prompt).
 5. **Clean Numeric Levels:** Ensure \`tech_level\` and \`meta_level\` are integer numbers (0-5).
 6. **Output Requirement:** Output ONLY the valid JSON array of objects. Do NOT wrap in conversational prose.
 

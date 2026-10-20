@@ -23,9 +23,9 @@ import {
   TreeHistoryManager
 } from '../utils/scenarioTreeEngine.js';
 
-const StoryContext = createContext();
+const StoryContext = globalThis.__TANGENT_STORY_CONTEXT__ || (globalThis.__TANGENT_STORY_CONTEXT__ = createContext({}));
 
-export const useStory = () => useContext(StoryContext);
+export const useStory = () => useContext(StoryContext) || {};
 export const useCampaign = useStory;
 
 // Helper to format filenames as {name}-{type}.{ext}
@@ -57,7 +57,7 @@ const DEFAULT_UNIVERSE_STATE = {
     }
   ],
   maps: [],
-  customAssets: { terrains: [], objects: [] },
+  customAssets: { terrains: [], objects: [], chunks: [] },
   creativeState: {
     gems: [],
     storyCards: [],
@@ -1338,6 +1338,49 @@ export const StoryProvider = ({ children }) => {
     });
   };
 
+  const addCustomChunk = (chunk) => {
+    const taggedChunk = attachCreatorTag(chunk, localStorage.getItem('userHandle'), currentUser);
+    setUniverseState(prev => {
+      const custom = prev.customAssets || { terrains: [], objects: [], chunks: [] };
+      const existingChunks = custom.chunks || [];
+      return {
+        ...prev,
+        customAssets: {
+          ...custom,
+          chunks: [...existingChunks, { ...taggedChunk, isCustom: true }]
+        }
+      };
+    });
+  };
+
+  const updateCustomChunk = (chunkId, updates) => {
+    setUniverseState(prev => {
+      const custom = prev.customAssets || { terrains: [], objects: [], chunks: [] };
+      const existingChunks = custom.chunks || [];
+      return {
+        ...prev,
+        customAssets: {
+          ...custom,
+          chunks: existingChunks.map(c => (c.chunkId === chunkId || c.id === chunkId) ? { ...c, ...updates, updatedAt: new Date().toISOString() } : c)
+        }
+      };
+    });
+  };
+
+  const deleteCustomChunk = (chunkId) => {
+    setUniverseState(prev => {
+      const custom = prev.customAssets || { terrains: [], objects: [], chunks: [] };
+      const existingChunks = custom.chunks || [];
+      return {
+        ...prev,
+        customAssets: {
+          ...custom,
+          chunks: existingChunks.filter(c => c.chunkId !== chunkId && c.id !== chunkId)
+        }
+      };
+    });
+  };
+
   const updateCreativeState = (updates) => {
     setIsDirty(true);
     setUniverseState(prev => ({
@@ -1556,7 +1599,7 @@ export const StoryProvider = ({ children }) => {
       description: description || '',
       scenarios: [overviewElem],
       maps: [],
-      customAssets: { terrains: [], objects: [] },
+      customAssets: { terrains: [], objects: [], chunks: [] },
       cronicle: createDefaultCronicleState(name || 'Untitled Story Project'),
       updatedAt: new Date().toISOString()
     };
@@ -1867,6 +1910,9 @@ export const StoryProvider = ({ children }) => {
     addCustomObject,
     updateCustomObject,
     deleteCustomObject,
+    addCustomChunk,
+    updateCustomChunk,
+    deleteCustomChunk,
     isStoryReadOnly,
     publicStoryCatalog,
     toggleStoryVisibility,

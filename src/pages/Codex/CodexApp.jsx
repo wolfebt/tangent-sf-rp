@@ -578,12 +578,14 @@ export const CodexApp = () => {
 
       </main>
 
-      {/* AIME AI Synthesizer Modal */}
+      {/* AIME AI Synthesizer & Ingestion Modal */}
       <CodexAiSynthesizerModal
         isOpen={isAiModalOpen}
         onClose={() => setIsAiModalOpen(false)}
         matrix={currentMatrix}
+        initialDatasetKey={parsingDatasetKey}
         onApplyGeneratedData={handleApplyAiData}
+        onApplyIngestedEntry={handleApplyAiData}
       />
 
       {/* Omnicortex Focused Ingestion Studio Modal */}

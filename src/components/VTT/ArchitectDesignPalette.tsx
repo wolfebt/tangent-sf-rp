@@ -45,8 +45,15 @@ import {
   ChevronRight,
   ChevronLeft,
   Scissors,
-  Sliders
+  Sliders,
+  Blocks,
+  RotateCw,
+  FlipHorizontal,
+  FlipVertical,
+  Compass as CompassIcon
 } from 'lucide-react';
+import { SCIENCE_FANTASY_SEED_CHUNKS } from '../../data/seed_chunks/science_fantasy_chunks';
+import { getNorthCardinalDirection, type ChunkRotationDeg } from '../../schemas/mapChunkSchema';
 import { AudioService } from '../../services/audioService';
 import { 
   type AtmosphericWeatherType, 
@@ -68,6 +75,7 @@ export type ArchitectDesignTool =
   | 'text' 
   | 'hazard' 
   | 'light'
+  | 'chunk'
   | 'ruler' 
   | 'eraser';
 
@@ -392,6 +400,13 @@ export interface ArchitectDesignPaletteProps {
   onOpenAssetStudio?: () => void;
   onOpenAssetIngestion?: () => void;
   onOpenSpriteSheetCutter?: () => void;
+  onOpenChunkStudio?: () => void;
+  chunkRotationDeg?: ChunkRotationDeg;
+  setChunkRotationDeg?: (deg: ChunkRotationDeg | ((prev: ChunkRotationDeg) => ChunkRotationDeg)) => void;
+  chunkFlipX?: boolean;
+  setChunkFlipX?: (flip: boolean | ((prev: boolean) => boolean)) => void;
+  chunkFlipY?: boolean;
+  setChunkFlipY?: (flip: boolean | ((prev: boolean) => boolean)) => void;
 }
 
 export const ArchitectDesignPalette: React.FC<ArchitectDesignPaletteProps> = ({
@@ -462,8 +477,25 @@ export const ArchitectDesignPalette: React.FC<ArchitectDesignPaletteProps> = ({
   onOpenUnderlayModal,
   onOpenAssetStudio,
   onOpenAssetIngestion,
-  onOpenSpriteSheetCutter
+  onOpenSpriteSheetCutter,
+  onOpenChunkStudio,
+  chunkRotationDeg: extChunkRotationDeg,
+  setChunkRotationDeg: extSetChunkRotationDeg,
+  chunkFlipX: extChunkFlipX,
+  setChunkFlipX: extSetChunkFlipX,
+  chunkFlipY: extChunkFlipY,
+  setChunkFlipY: extSetChunkFlipY
 }) => {
+  const [localChunkRotationDeg, setLocalChunkRotationDeg] = useState<ChunkRotationDeg>(0);
+  const [localChunkFlipX, setLocalChunkFlipX] = useState(false);
+  const [localChunkFlipY, setLocalChunkFlipY] = useState(false);
+
+  const chunkRotationDeg = extChunkRotationDeg ?? localChunkRotationDeg;
+  const setChunkRotationDeg = extSetChunkRotationDeg ?? setLocalChunkRotationDeg;
+  const chunkFlipX = extChunkFlipX ?? localChunkFlipX;
+  const setChunkFlipX = extSetChunkFlipX ?? setLocalChunkFlipX;
+  const chunkFlipY = extChunkFlipY ?? localChunkFlipY;
+  const setChunkFlipY = extSetChunkFlipY ?? setLocalChunkFlipY;
   const storeSelectedPace = useUILayoutStore((state) => state.rulerSelectedPace);
   const storeSetSelectedPace = useUILayoutStore((state) => state.setRulerSelectedPace);
   const activeRulerPace = rulerSelectedPace || storeSelectedPace || 'walk';
@@ -570,6 +602,7 @@ export const ArchitectDesignPalette: React.FC<ArchitectDesignPaletteProps> = ({
   const ALL_TOOLS: { id: ArchitectDesignTool; label: string; icon: any; category: 'construct' | 'dressing' | 'annotate'; hotkey?: string }[] = [
     { id: 'select', label: 'Select', icon: MousePointer, category: 'annotate', hotkey: 'V' },
     { id: 'wall', label: 'Wall', icon: Shield, category: 'construct', hotkey: 'W' },
+    { id: 'chunk', label: 'Chunk', icon: Blocks, category: 'construct', hotkey: 'K' },
     { id: 'terrain', label: 'Terrain', icon: Layers, category: 'construct', hotkey: 'T' },
     { id: 'fill', label: 'Flooring', icon: PaintBucket, category: 'construct', hotkey: 'F' },
     { id: 'pencil', label: 'Sketch', icon: Edit3, category: 'annotate', hotkey: 'P' },
@@ -849,6 +882,118 @@ export const ArchitectDesignPalette: React.FC<ArchitectDesignPaletteProps> = ({
             <p className="text-[10px] text-slate-400 italic">
               Click and drag across the canvas to draw wall segments. Automatically integrates into BVH raycasting tree.
             </p>
+          </div>
+        )}
+
+        {/* SUBPANEL 1B: MAP CHUNK / PREFAB STAMP & D4 TRANSFORMATION */}
+        {activeTool === 'chunk' && (
+          <div className="bg-slate-950/70 border border-cyan-500/40 rounded-xl p-3 space-y-2.5">
+            <div className="flex justify-between items-center">
+              <span className="text-xs font-bold text-cyan-300 uppercase flex items-center gap-1.5">
+                <Blocks size={13} /> Map Chunk Prefabs
+              </span>
+              {onOpenChunkStudio && (
+                <button
+                  onClick={onOpenChunkStudio}
+                  className="px-2 py-0.5 rounded bg-cyan-600/20 hover:bg-cyan-600/30 border border-cyan-500/40 text-cyan-300 text-[9px] font-bold uppercase cursor-pointer"
+                >
+                  + Chunk Forge
+                </button>
+              )}
+            </div>
+
+            {/* D4 Orientation & Flip Controls */}
+            <div className="bg-slate-900/90 border border-slate-800 rounded-lg p-2 space-y-1.5">
+              <div className="flex items-center justify-between text-[9px]">
+                <span className="text-slate-400 font-bold uppercase flex items-center gap-1">
+                  <CompassIcon size={10} className="text-amber-400" /> North Orientation:
+                </span>
+                <span className="px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-500/40 text-amber-300 font-bold">
+                  NORTH: {getNorthCardinalDirection(chunkRotationDeg)} ({chunkRotationDeg}°)
+                </span>
+              </div>
+              <div className="grid grid-cols-3 gap-1 text-[9px]">
+                <button
+                  onClick={() => setChunkRotationDeg(((chunkRotationDeg + 90) % 360) as ChunkRotationDeg)}
+                  className="py-1 px-1.5 rounded bg-cyan-950/70 hover:bg-cyan-900 border border-cyan-500/40 text-cyan-300 font-bold flex items-center justify-center gap-1 cursor-pointer"
+                  title="Rotate 90° Clockwise (R)"
+                >
+                  <RotateCw size={10} /> +90° CW
+                </button>
+                <button
+                  onClick={() => setChunkFlipX(!chunkFlipX)}
+                  className={`py-1 px-1.5 rounded border font-bold flex items-center justify-center gap-1 cursor-pointer ${
+                    chunkFlipX
+                      ? 'bg-amber-600 text-black border-amber-400'
+                      : 'bg-slate-950 border-slate-700 text-slate-300 hover:border-cyan-500/40'
+                  }`}
+                  title="Flip Horizontal (X)"
+                >
+                  <FlipHorizontal size={10} /> Flip H
+                </button>
+                <button
+                  onClick={() => setChunkFlipY(!chunkFlipY)}
+                  className={`py-1 px-1.5 rounded border font-bold flex items-center justify-center gap-1 cursor-pointer ${
+                    chunkFlipY
+                      ? 'bg-amber-600 text-black border-amber-400'
+                      : 'bg-slate-950 border-slate-700 text-slate-300 hover:border-cyan-500/40'
+                  }`}
+                  title="Flip Vertical (Y)"
+                >
+                  <FlipVertical size={10} /> Flip V
+                </button>
+              </div>
+            </div>
+
+            {/* Seed Chunks Quick Selector */}
+            <div className="space-y-1 max-h-48 overflow-y-auto pr-1">
+              {SCIENCE_FANTASY_SEED_CHUNKS.map((chunk) => {
+                const isSelected = selectedStamp?.id === chunk.chunkId;
+                const socketsCount = (chunk.constructionPoints || []).filter(cp => cp.kind === 'perimeter_socket').length;
+                const slotsCount = (chunk.constructionPoints || []).filter(cp => cp.kind === 'internal_slot').length;
+                return (
+                  <button
+                    key={chunk.chunkId}
+                    onClick={() =>
+                      onSelectStamp({
+                        id: chunk.chunkId,
+                        category: 'chunks',
+                        label: chunk.name,
+                        desc: chunk.description || `${chunk.widthCells}×${chunk.heightCells} Modular Chunk`,
+                        type: 'chunk',
+                        subType: chunk.category,
+                        icon: Blocks,
+                        color: '#06b6d4',
+                        defaultProps: {
+                          chunkId: chunk.chunkId,
+                          rotationDeg: chunkRotationDeg,
+                          flipX: chunkFlipX,
+                          flipY: chunkFlipY,
+                          powerState: chunk.defaultSettings.powerState,
+                          securityTier: chunk.defaultSettings.securityTier,
+                          conditionState: chunk.defaultSettings.conditionState,
+                        },
+                      })
+                    }
+                    className={`w-full p-2 rounded-lg border text-left transition-all flex items-center justify-between cursor-pointer ${
+                      isSelected
+                        ? 'bg-cyan-950/80 border-cyan-400 text-cyan-200 shadow-[0_0_8px_rgba(6,182,212,0.3)]'
+                        : 'bg-slate-900/80 border-slate-800 text-slate-300 hover:border-slate-700'
+                    }`}
+                  >
+                    <div className="min-w-0 flex-1 pr-2">
+                      <div className="text-[10px] font-bold truncate">{chunk.name}</div>
+                      <div className="text-[9px] text-slate-400 truncate">
+                        {chunk.widthCells}×{chunk.heightCells} cells • {socketsCount} sockets • {slotsCount} slots
+                      </div>
+                    </div>
+                    <span className="px-1.5 py-0.5 rounded bg-slate-950 border border-slate-700 text-[8px] text-cyan-400 font-bold uppercase shrink-0">
+                      {chunk.category}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
         )}
 

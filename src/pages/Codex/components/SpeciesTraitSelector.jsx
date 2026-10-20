@@ -146,7 +146,7 @@ export const GENETICS_NAV_ITEMS = [
     shortLabel: 'CHASSIS',
     icon: Dna,
     color: '#38bdf8',
-    desc: 'Species Type Chassis, Physical Scale, Budget Tier & Combat Modifiers'
+    desc: 'Species Type Chassis, Physical Scale & Combat Modifiers'
   },
   {
     id: 'traits',
@@ -257,9 +257,18 @@ export const calculateSpeciesState = (formData = {}) => {
   const selectedType = normalizeSpeciesType(formData.species_type || formData.type);
   const selectedSize = normalizeSpeciesSize(formData.size || formData.species_size);
   const selectedBudget = normalizeSpeciesBudget(formData.budget_level);
-  const selectedModes = Array.isArray(formData.movement_modes) ? formData.movement_modes : (formData.movement ? [formData.movement] : ['species_movement-bipedal']);
+  const rawModes = Array.isArray(formData.movement_modes)
+    ? formData.movement_modes
+    : Array.isArray(formData.movement)
+    ? formData.movement
+    : (formData.movement && formData.movement !== 'normal' ? [formData.movement] : []);
+  const selectedModes = rawModes.filter(Boolean);
 
-  const rawTraits = Array.isArray(formData.traits) ? formData.traits : [];
+  const rawTraits = Array.isArray(formData.traits) && formData.traits.length > 0
+    ? formData.traits
+    : Array.isArray(formData.trait)
+    ? formData.trait
+    : [];
   const rawInherentFeatures = Array.isArray(formData.inherent_features) ? formData.inherent_features : [];
   const rawRecommendedFeatures = Array.isArray(formData.recommended_features) ? formData.recommended_features : [];
 
@@ -350,6 +359,8 @@ export const GeneticsNavRail = ({
   onHoverItem = null
 }) => {
   const {
+    selectedType,
+    selectedSize,
     selectedTraits,
     cleanedInherentFeatures,
     cleanedRecommendedFeatures,
@@ -384,7 +395,7 @@ export const GeneticsNavRail = ({
           const ItemIcon = item.icon;
           const isActive = activeTab === item.id;
           const itemCount = item.id === 'chassis'
-            ? 1
+            ? ((selectedType !== 'Humanoid' ? 1 : 0) + (selectedSize !== 'Medium' ? 1 : 0) || null)
             : item.id === 'traits' 
             ? selectedTraits.length 
             : item.id === 'attributes'
@@ -506,14 +517,10 @@ export const GeneticsNavRail = ({
       <div className={`${isNested ? 'flex' : 'hidden md:flex'} w-full flex-col items-center gap-1 pt-2 border-t border-slate-800/80 mt-auto`}>
         <div className="text-[8px] font-mono text-slate-500 uppercase tracking-wider flex items-center gap-1">
           <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
-          <span>GEN CP</span>
+          <span>PKG COST</span>
         </div>
         <div
-          className={`text-[8.5px] font-mono px-1 py-0.5 rounded font-bold uppercase tracking-wider text-center w-full truncate border ${
-            bpData.isOverBudget 
-              ? 'bg-red-950/80 text-red-400 border-red-500/40 shadow-[0_0_8px_rgba(239,68,68,0.3)] animate-pulse' 
-              : 'bg-purple-950/60 text-purple-300 border-purple-500/30'
-          }`}
+          className="text-[8.5px] font-mono px-1 py-0.5 rounded font-bold uppercase tracking-wider text-center w-full truncate border bg-purple-950/60 text-purple-300 border-purple-500/30"
         >
           {bpData.totalBPUsed} CP
         </div>
@@ -556,8 +563,17 @@ export const SpeciesTraitSelector = ({
   const selectedType = normalizeSpeciesType(formData.species_type || formData.type);
   const selectedSize = normalizeSpeciesSize(formData.size || formData.species_size);
   const selectedBudget = normalizeSpeciesBudget(formData.budget_level);
-  const selectedModes = Array.isArray(formData.movement_modes) ? formData.movement_modes : (formData.movement ? [formData.movement] : ['species_movement-bipedal']);
-  const rawTraits = Array.isArray(formData.traits) ? formData.traits : [];
+  const rawModes = Array.isArray(formData.movement_modes)
+    ? formData.movement_modes
+    : Array.isArray(formData.movement)
+    ? formData.movement
+    : (formData.movement && formData.movement !== 'normal' ? [formData.movement] : []);
+  const selectedModes = rawModes.filter(Boolean);
+  const rawTraits = Array.isArray(formData.traits) && formData.traits.length > 0
+    ? formData.traits
+    : Array.isArray(formData.trait)
+    ? formData.trait
+    : [];
   const rawInherentFeatures = Array.isArray(formData.inherent_features) ? formData.inherent_features : [];
   const rawRecommendedFeatures = Array.isArray(formData.recommended_features) ? formData.recommended_features : [];
 
@@ -917,7 +933,6 @@ export const SpeciesTraitSelector = ({
     let updated;
     if (exists) {
       updated = selectedModes.filter(m => resolveMovementId(typeof m === 'string' ? m : m?.id) !== canonicalModeId);
-      if (updated.length === 0) updated = ['species_movement-bipedal'];
     } else {
       const isExclusiveGround = ['fast', 'very_fast', 'slow', 'ponderous', 'movement-fast', 'movement-very-fast', 'movement-slow', 'movement-ponderous'].includes(canonicalModeId) || ['fast', 'very_fast', 'slow', 'ponderous'].includes(modeId);
       if (isExclusiveGround) {
@@ -929,7 +944,7 @@ export const SpeciesTraitSelector = ({
       }
     }
     onChange('movement_modes', updated);
-    onChange('movement', updated[0] || 'species_movement-bipedal');
+    onChange('movement', updated);
   };
 
   const handleStigmaChange = (newStigma) => {
@@ -1170,8 +1185,6 @@ export const SpeciesTraitSelector = ({
               Species Genetics & CP Configurator
             </h3>
             <div className="flex items-center gap-2 text-[10px] text-slate-400 mt-0.5 flex-wrap">
-              <span>Budget: <strong className="text-purple-300">{bpData.budgetMin}–{bpData.budgetMax} CP</strong> ({selectedBudget})</span>
-              <span className="text-slate-600">•</span>
               <span>Chassis: <strong className="text-sky-300">{selectedType}</strong></span>
               <span className="text-slate-600">•</span>
               <span>Scale: <strong className="text-sky-300">{selectedSize}</strong></span>
@@ -1187,21 +1200,13 @@ export const SpeciesTraitSelector = ({
           </div>
         </div>
 
-        {/* Live CP Progress Meter */}
-        <div className="flex items-center gap-3 bg-slate-950/80 px-3 py-1.5 rounded-xl border border-slate-700">
+        {/* Live Package Cost Meter */}
+        <div className="flex items-center gap-3 bg-slate-950/80 px-3.5 py-1.5 rounded-xl border border-slate-700">
           <div className="text-right">
-            <span className="text-[10px] text-slate-400 uppercase font-bold block">Character Points</span>
-            <span className={`text-sm font-bold ${bpData.isOverBudget ? 'text-red-400 animate-pulse' : 'text-emerald-400'}`}>
-              {bpData.totalBPUsed} / {bpData.budgetMax} CP
+            <span className="text-[10px] text-slate-400 uppercase font-bold block">Package Cost</span>
+            <span className="text-sm font-bold text-emerald-400">
+              {bpData.totalBPUsed} CP
             </span>
-          </div>
-          <div className="w-24 bg-slate-800 h-2.5 rounded-full overflow-hidden border border-slate-700">
-            <div 
-              className={`h-full transition-all duration-300 ${
-                bpData.isOverBudget ? 'bg-red-500' : (bpPercent > 80 ? 'bg-amber-400' : 'bg-purple-500')
-              }`}
-              style={{ width: `${Math.min(100, bpPercent)}%` }}
-            />
           </div>
         </div>
       </div>
@@ -1233,27 +1238,8 @@ export const SpeciesTraitSelector = ({
             <span className="text-[10px] text-slate-400 font-mono">BASTION Species Foundation</span>
           </div>
 
-          {/* Budget Level & Species Type Row */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {/* Budget Level */}
-            <div>
-              <label className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
-                Budget Tier
-              </label>
-              <select
-                value={selectedBudget}
-                onChange={(e) => onChange('budget_level', e.target.value)}
-                className="w-full p-2 bg-slate-950 border border-sky-500/40 rounded-xl text-xs text-sky-200 focus:outline-none focus:border-sky-400 font-mono"
-              >
-                {Object.keys(SPECIES_BUDGET_LEVELS).map(lvl => (
-                  <option key={lvl} value={lvl}>{SPECIES_BUDGET_LEVELS[lvl].name} ({SPECIES_BUDGET_LEVELS[lvl].min}-{SPECIES_BUDGET_LEVELS[lvl].max} CP)</option>
-                ))}
-              </select>
-              <span className="text-[10px] text-slate-500 mt-1 block">
-                Target: {SPECIES_BUDGET_LEVELS[selectedBudget]?.desc || 'Standard galactic species budget'}
-              </span>
-            </div>
-
+          {/* Species Type & Size Category Row */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {/* Species Type (Chassis) */}
             <div>
               <label className="text-[10px] uppercase font-bold text-slate-400 flex items-center justify-between mb-1">
@@ -1378,7 +1364,7 @@ export const SpeciesTraitSelector = ({
               <span className="px-1.5 py-0.5 rounded bg-sky-950/70 border border-sky-500/40 text-sky-300 font-bold">Advanced: 2 CP</span>
               <span className="px-1.5 py-0.5 rounded bg-purple-950/70 border border-purple-500/40 text-purple-300 font-bold">Elite: 4 CP</span>
               <span className="text-slate-400 font-mono text-[10px]">
-                • Deducted from Species Budget ({bpData.budgetMin}–{bpData.budgetMax} CP)
+                • Package Cost: {bpData.totalBPUsed} CP
               </span>
             </div>
           </div>
@@ -1732,6 +1718,11 @@ export const SpeciesTraitSelector = ({
               </span>
             </div>
             <div className="flex flex-wrap gap-1.5">
+              {selectedModes.length === 0 && (
+                <span className="text-[11px] text-slate-500 italic font-mono">
+                  No custom locomotion modes equipped (Standard Ground 30 ft baseline)
+                </span>
+              )}
               {selectedModes.map(modeId => {
                 const canonicalId = resolveMovementId(modeId);
                 const match = getMovementById(canonicalId) || DEFAULT_SPECIES_MOVEMENT.find(m => m.id === modeId || m.id === canonicalId || m.name.toLowerCase() === String(modeId).toLowerCase()) || {
@@ -2163,7 +2154,7 @@ export const SpeciesTraitSelector = ({
                   <AlertTriangle size={14} className="text-red-400" />
                   <span>Create Custom Species Flaw</span>
                 </span>
-                <span className="text-[10px] text-slate-400">Adds custom refund directly to CP budget</span>
+                <span className="text-[10px] text-slate-400">Adds custom refund directly to Package Cost</span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -2363,8 +2354,8 @@ export const SpeciesTraitSelector = ({
               <span className="text-xs font-bold text-slate-200 uppercase tracking-wider">
                 Itemized Character Point Breakdown
               </span>
-              <span className={`text-xs font-bold font-mono ${bpData.isOverBudget ? 'text-red-400' : 'text-emerald-400'}`}>
-                {bpData.totalBPUsed} / {bpData.budgetMax} CP Used
+              <span className="text-xs font-bold font-mono text-emerald-400">
+                Package Cost: {bpData.totalBPUsed} CP
               </span>
             </div>
 
@@ -2452,22 +2443,14 @@ export const SpeciesTraitSelector = ({
               </div>
             </div>
 
-            {/* Live CP Progress & Close */}
+            {/* Live Package Cost & Close */}
             <div className="flex items-center gap-4">
               <div className="bg-slate-950/80 px-3.5 py-1.5 rounded-xl border border-slate-700 flex items-center gap-3">
                 <div className="text-right">
-                  <span className="text-[10px] text-slate-400 uppercase font-bold block">Current Budget</span>
-                  <span className={`text-sm font-bold ${bpData.isOverBudget ? 'text-red-400 animate-pulse' : 'text-emerald-400'}`}>
-                    {bpData.totalBPUsed} / {bpData.budgetMax} CP
+                  <span className="text-[10px] text-slate-400 uppercase font-bold block">Package Cost</span>
+                  <span className="text-sm font-bold text-emerald-400">
+                    {bpData.totalBPUsed} CP
                   </span>
-                </div>
-                <div className="w-24 bg-slate-800 h-2.5 rounded-full overflow-hidden border border-slate-700">
-                  <div 
-                    className={`h-full transition-all duration-300 ${
-                      bpData.isOverBudget ? 'bg-red-500' : (bpPercent > 80 ? 'bg-amber-400' : 'bg-purple-500')
-                    }`}
-                    style={{ width: `${Math.min(100, bpPercent)}%` }}
-                  />
                 </div>
               </div>
 

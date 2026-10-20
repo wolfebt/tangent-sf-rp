@@ -230,6 +230,26 @@ export const adaptItemToCodexFormData = (item, matrix) => {
     base.size = cleanSize || 'Medium';
     base.species_size = cleanSize || 'Medium';
 
+    // Harmonize Movement Modes (ensure blank species start with [])
+    const rawModes = Array.isArray(item.movement_modes) && item.movement_modes.length > 0
+      ? item.movement_modes
+      : Array.isArray(item.movement)
+      ? item.movement
+      : (typeof item.movement === 'string' && item.movement.trim() && item.movement !== 'normal' ? [item.movement.trim()] : []);
+    base.movement_modes = rawModes.filter(Boolean);
+    base.movement = base.movement_modes;
+
+    // Harmonize Traits across traits / trait / species_traits
+    const rawTraits = Array.isArray(item.traits) && item.traits.length > 0
+      ? item.traits
+      : Array.isArray(item.trait) && item.trait.length > 0
+      ? item.trait
+      : Array.isArray(item.species_traits) && item.species_traits.length > 0
+      ? item.species_traits
+      : [];
+    base.traits = rawTraits;
+    base.trait = rawTraits;
+
     // Recommendations & AI Guidance Keywords
     const seed = findCanonicalSeed(item, DEFAULT_SPECIES);
     const itemRecFactions = parseListField(item.recommended_factions);
@@ -617,6 +637,23 @@ export const adaptCodexToOmnicortexItem = (formData, computedValues, matrix) => 
     const sizeVal = formData.size || formData.species_size || 'Medium';
     payload.size = sizeVal;
     payload.species_size = sizeVal;
+
+    const syncedModes = Array.isArray(formData.movement_modes)
+      ? formData.movement_modes.filter(Boolean)
+      : Array.isArray(formData.movement)
+      ? formData.movement.filter(Boolean)
+      : (typeof formData.movement === 'string' && formData.movement.trim() && formData.movement !== 'normal' ? [formData.movement.trim()] : []);
+    payload.movement_modes = syncedModes;
+    payload.movement = syncedModes;
+
+    const syncedTraits = Array.isArray(formData.traits)
+      ? formData.traits
+      : Array.isArray(formData.trait)
+      ? formData.trait
+      : [];
+    payload.traits = syncedTraits;
+    payload.trait = syncedTraits;
+    payload.species_traits = syncedTraits;
 
     payload.recommended_factions = Array.isArray(formData.recommended_factions) ? formData.recommended_factions : [];
     payload.recommended_origins = Array.isArray(formData.recommended_origins) ? formData.recommended_origins : [];

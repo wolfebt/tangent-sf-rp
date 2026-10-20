@@ -172,6 +172,11 @@ export const GuidanceRail = ({
                       {item.badge}
                     </span>
                   )}
+
+                  {/* Top-Right Pulse Indicator */}
+                  {item.pulse && (!item.badge || item.badge === '') && (
+                    <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-amber-400 border border-black animate-soft-badge-glow shadow-[0_0_6px_#f59e0b]" />
+                  )}
                 </div>
 
                 {/* Visible Color-Coded Monospace Label Underneath Icon */}

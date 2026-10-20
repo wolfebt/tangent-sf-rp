@@ -26,3 +26,26 @@
   font-size: 0.8rem;
   line-height: 1.45;
 }
+
+.reference-options-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(56, 189, 248, 0.3) rgba(15, 23, 42, 0.6);
+}
+
+.reference-options-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.reference-options-scroll::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 4px;
+}
+
+.reference-options-scroll::-webkit-scrollbar-thumb {
+  background: rgba(56, 189, 248, 0.3);
+  border-radius: 4px;
+}
+
+.reference-options-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(56, 189, 248, 0.6);
+}

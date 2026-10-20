@@ -26,6 +26,7 @@ import { useToast } from '../../context/ToastContext';
 import { AudioService } from '../../services/audioService';
 import { QuickSquadInviteModal } from '../Chat/QuickSquadInviteModal';
 import { SquadInviteConfirmationModal } from '../Squads/SquadInviteConfirmationModal';
+import { SquadDirectoryTab } from '../Squads/tabs/SquadDirectoryTab';
 
 const TACTICAL_ROLES = [
   'Vanguard',
@@ -38,12 +39,16 @@ const TACTICAL_ROLES = [
   'Psionic / Mystic'
 ];
 
-export const CommunityNetworkingView = ({ onNavigateToSquad }) => {
+export const CommunityNetworkingView = ({ onNavigateToSquad, onOpenCreateSquad }) => {
   const { toast } = useToast();
   const { currentUser } = useAuth();
   const { 
     squads = [],
     groups = [], 
+    activeSquad,
+    activeGroup,
+    selectSquad,
+    selectGroup,
     subscribeToLFPGroups, 
     subscribeToLFTPersonas, 
     flagSquadLFP, 
@@ -54,15 +59,26 @@ export const CommunityNetworkingView = ({ onNavigateToSquad }) => {
     joinByCode
   } = useSquad() || {};
   const effectiveSquads = squads.length > 0 ? squads : groups;
+  const effectiveActiveSquad = activeSquad || activeGroup;
+  const effectiveSelectSquad = selectSquad || selectGroup;
 
   const { personaRoster = [], roster = [] } = useFolio() || {};
   const myPersonas = personaRoster.length > 0 ? personaRoster : roster;
 
-  // Active Tab: 'lfs' (Looking for Squad) | 'lfp' (Looking for Persons)
+  // Active Tab: 'lfs' (Looking for Squad) | 'lfp' (Looking for Persons) | 'directory' (All Squads & Join Code)
   const [activeTab, setActiveTab] = useState('lfs');
   const isLfs = activeTab === 'lfs' || activeTab === 'lft';
+  const isLfp = activeTab === 'lfp';
+  const isDirectory = activeTab === 'directory';
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedRoleFilter, setSelectedRoleFilter] = useState('ALL');
+
+  // Squad Directory & Join By Code state
+  const [directorySearch, setDirectorySearch] = useState('');
+  const [directoryFilter, setDirectoryFilter] = useState('all');
+  const [joinCodeInput, setJoinCodeInput] = useState('');
+  const [joinLoading, setJoinLoading] = useState(false);
+  const [joinError, setJoinError] = useState(null);
 
   // Live Subscription Data
   const [lftPersonas, setLftPersonas] = useState([]);
@@ -144,6 +160,45 @@ export const CommunityNetworkingView = ({ onNavigateToSquad }) => {
     });
   }, [lfpGroups, searchQuery, selectedRoleFilter]);
 
+  // Filter full Squad Directory list
+  const filteredDirectory = useMemo(() => {
+    return effectiveSquads.filter(g => {
+      const matchesSearch = !directorySearch.trim() || 
+        g.name?.toLowerCase().includes(directorySearch.toLowerCase()) ||
+        g.description?.toLowerCase().includes(directorySearch.toLowerCase()) ||
+        g.campaignTitle?.toLowerCase().includes(directorySearch.toLowerCase());
+
+      if (!matchesSearch) return false;
+
+      if (directoryFilter === 'recruiting') return g.status === 'Recruiting';
+      if (directoryFilter === 'mine') {
+        const isMember = (g.members || []).some(m => (typeof m === 'string' ? m === currentUser?.uid : (m?.userId || m?.uid || m?.id) === currentUser?.uid));
+        return isMember || g.creatorId === currentUser?.uid || g.architectId === currentUser?.uid;
+      }
+      return true;
+    });
+  }, [effectiveSquads, directorySearch, directoryFilter, currentUser?.uid]);
+
+  const handleJoinByCodeSubmit = async (e) => {
+    e.preventDefault();
+    if (!joinCodeInput.trim()) return;
+    setJoinLoading(true);
+    setJoinError(null);
+    try {
+      const joined = await joinByCode(joinCodeInput.trim());
+      AudioService.playTerminalBeep(1500, 0.04);
+      setJoinCodeInput('');
+      if (joined) {
+        effectiveSelectSquad?.(joined.id);
+        onNavigateToSquad?.(joined.id);
+      }
+    } catch (err) {
+      setJoinError(err.message || 'Failed to join squad with provided code.');
+    } finally {
+      setJoinLoading(false);
+    }
+  };
+
   const handleWithdrawLFT = async (personaId) => {
     try {
       AudioService.playTerminalBeep(900, 0.03);
@@ -173,31 +228,31 @@ export const CommunityNetworkingView = ({ onNavigateToSquad }) => {
 
   return (
     <div className="flex-1 flex flex-col min-h-0 bg-[#070b13] text-slate-100 font-sans select-none overflow-hidden">
-      {/* ── Sub-header Navigation & Controls ── */}
-      <div className="p-3 sm:p-4 border-b border-slate-800 bg-slate-950/90 flex flex-wrap items-center justify-between gap-3 shrink-0">
-        <div className="flex items-center gap-3">
+      {/* ── Unified 48px Recruitment & Discovery Hub Header ── */}
+      <div className="px-3 sm:px-4 py-2 border-b border-slate-800 bg-slate-950/95 flex flex-wrap items-center justify-between gap-2.5 shrink-0">
+        <div className="flex items-center gap-2.5 flex-wrap">
           <div className="flex items-center gap-2">
-            <Radio size={16} className="text-cyan-400" />
-            <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-white">
-              COMMUNITY NETWORKING &amp; RECRUITMENT
+            <Radio size={15} className="text-purple-400" />
+            <h2 className="text-xs sm:text-sm font-mono font-bold uppercase tracking-wider text-white">
+              RECRUITMENT &amp; LFG HUB
             </h2>
           </div>
 
-          {/* 2-Tab Switcher: LFS vs LFP */}
-          <div className="flex items-center gap-1 bg-slate-900 p-0.5 rounded-xl border border-slate-800">
+          {/* 3-Tab Switcher: LFS vs LFP vs Full Squad Registry & Join Code */}
+          <div className="flex items-center gap-1 bg-slate-900 p-0.5 rounded-xl border border-slate-800 overflow-x-auto no-scrollbar">
             <button
               type="button"
               onClick={() => {
                 AudioService.playTerminalBeep(1100, 0.02);
                 setActiveTab('lfs');
               }}
-              className={`px-3 py-1 rounded-lg text-xs font-mono font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+              className={`px-2.5 py-1 rounded-lg text-[11px] font-mono font-bold flex items-center gap-1.5 transition-all cursor-pointer shrink-0 ${
                 isLfs
                   ? 'bg-purple-950/80 text-purple-300 border border-purple-500/50 shadow-[0_0_12px_rgba(168,85,247,0.3)]'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
-              <span>LOOKING FOR SQUAD (LFS)</span>
+              <span>PERSONAS LFG (LFS)</span>
               <span className="px-1.5 py-0.2 rounded-full bg-purple-500/20 text-purple-300 text-[9px]">
                 {lftPersonas.length}
               </span>
@@ -209,99 +264,164 @@ export const CommunityNetworkingView = ({ onNavigateToSquad }) => {
                 AudioService.playTerminalBeep(1100, 0.02);
                 setActiveTab('lfp');
               }}
-              className={`px-3 py-1 rounded-lg text-xs font-mono font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-                !isLfs
+              className={`px-2.5 py-1 rounded-lg text-[11px] font-mono font-bold flex items-center gap-1.5 transition-all cursor-pointer shrink-0 ${
+                isLfp
                   ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/50 shadow-[0_0_12px_rgba(16,185,129,0.3)]'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
-              <span>LOOKING FOR PERSONAS (LFP)</span>
+              <span>RECRUITING SQUADS (LFP)</span>
               <span className="px-1.5 py-0.2 rounded-full bg-emerald-500/20 text-emerald-300 text-[9px]">
                 {lfpGroups.length}
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1100, 0.02);
+                setActiveTab('directory');
+              }}
+              className={`px-2.5 py-1 rounded-lg text-[11px] font-mono font-bold flex items-center gap-1.5 transition-all cursor-pointer shrink-0 ${
+                isDirectory
+                  ? 'bg-cyan-950/80 text-cyan-300 border border-cyan-500/50 shadow-[0_0_12px_rgba(34,211,238,0.3)]'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              <Shield size={12} className={isDirectory ? 'text-cyan-400' : 'text-slate-500'} />
+              <span>SQUAD REGISTRY &amp; JOIN CODE</span>
+              <span className="px-1.5 py-0.2 rounded-full bg-cyan-500/20 text-cyan-300 text-[9px]">
+                {effectiveSquads.length}
               </span>
             </button>
           </div>
         </div>
 
-        {/* Primary Action Button */}
+        {/* Primary Action Buttons */}
         <div className="flex items-center gap-2">
-          {isLfs ? (
+          {isLfs && (
             <button
               type="button"
               onClick={() => {
                 AudioService.playTerminalBeep(1200, 0.02);
                 setIsFlagLftModalOpen(true);
               }}
-              className="px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-mono font-bold text-xs flex items-center gap-1.5 shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all cursor-pointer"
+              className="px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-mono font-bold text-xs flex items-center gap-1.5 shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all cursor-pointer"
             >
-              <Plus size={14} />
-              <span>FLAG PERSONA FOR LFS</span>
+              <Plus size={13} />
+              <span>FLAG PERSONA LFG</span>
             </button>
-          ) : (
+          )}
+          {isLfp && (
             <button
               type="button"
               onClick={() => {
                 AudioService.playTerminalBeep(1200, 0.02);
                 setIsFlagLfpModalOpen(true);
               }}
-              className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-mono font-bold text-xs flex items-center gap-1.5 shadow-[0_0_15px_rgba(16,185,129,0.3)] transition-all cursor-pointer"
+              className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-mono font-bold text-xs flex items-center gap-1.5 shadow-[0_0_15px_rgba(16,185,129,0.3)] transition-all cursor-pointer"
             >
-              <Plus size={14} />
-              <span>FLAG SQUAD FOR LFP</span>
+              <Plus size={13} />
+              <span>POST SQUAD VACANCY</span>
+            </button>
+          )}
+          {onOpenCreateSquad && (
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1300, 0.03);
+                onOpenCreateSquad();
+              }}
+              className="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 font-mono font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer"
+            >
+              <Shield size={13} />
+              <span>NEW SQUAD</span>
             </button>
           )}
         </div>
       </div>
 
-      {/* ── Search & Tactical Role Filter Bar ── */}
-      <div className="p-3 bg-slate-950/60 border-b border-slate-800/80 flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
-        <div className="relative flex-1 min-w-[220px] max-w-md">
-          <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder={isLfs ? 'Search personas by name, species, role, or operator...' : 'Search squads by name, campaign, or needed roles...'}
-            className="w-full pl-8 pr-3 py-1.5 bg-slate-900 border border-slate-800 rounded-xl text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-500/50"
-          />
-        </div>
+      {/* ── Search & Tactical Role Filter Bar (LFS / LFP tabs) ── */}
+      {!isDirectory && (
+        <div className="p-3 bg-slate-950/60 border-b border-slate-800/80 flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
+          <div className="relative flex-1 min-w-[220px] max-w-md">
+            <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder={isLfs ? 'Search personas by name, species, role, or operator...' : 'Search squads by name, campaign, or needed roles...'}
+              className="w-full pl-8 pr-3 py-1.5 bg-slate-900 border border-slate-800 rounded-xl text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-500/50"
+            />
+          </div>
 
-        {/* Role Pills */}
-        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
-          <span className="text-[10px] text-slate-500 font-bold uppercase shrink-0 flex items-center gap-1">
-            <Filter size={10} />
-            <span>ROLE:</span>
-          </span>
-          <button
-            type="button"
-            onClick={() => setSelectedRoleFilter('ALL')}
-            className={`px-2 py-0.5 rounded text-[10px] font-bold transition-colors cursor-pointer shrink-0 ${
-              selectedRoleFilter === 'ALL'
-                ? 'bg-cyan-500 text-black'
-                : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
-            }`}
-          >
-            ALL
-          </button>
-          {['Vanguard', 'Medic', 'Tech', 'Recon', 'Heavy', 'Infiltrator', 'Specialist'].map(role => (
+          {/* Role Pills */}
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+            <span className="text-[10px] text-slate-500 font-bold uppercase shrink-0 flex items-center gap-1">
+              <Filter size={10} />
+              <span>ROLE:</span>
+            </span>
             <button
-              key={role}
               type="button"
-              onClick={() => setSelectedRoleFilter(role)}
+              onClick={() => setSelectedRoleFilter('ALL')}
               className={`px-2 py-0.5 rounded text-[10px] font-bold transition-colors cursor-pointer shrink-0 ${
-                selectedRoleFilter === role
+                selectedRoleFilter === 'ALL'
                   ? 'bg-cyan-500 text-black'
                   : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
               }`}
             >
-              {role}
+              ALL
             </button>
-          ))}
+            {['Vanguard', 'Medic', 'Tech', 'Recon', 'Heavy', 'Infiltrator', 'Specialist'].map(role => (
+              <button
+                key={role}
+                type="button"
+                onClick={() => setSelectedRoleFilter(role)}
+                className={`px-2 py-0.5 rounded text-[10px] font-bold transition-colors cursor-pointer shrink-0 ${
+                  selectedRoleFilter === role
+                    ? 'bg-cyan-500 text-black'
+                    : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
+                }`}
+              >
+                {role}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* ── Main Tab Views ── */}
-      <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
+      {/* ──TAB 3: FULL SQUAD REGISTRY & 6-CHAR JOIN CODE (Embedded SquadDirectoryTab) ── */}
+      {isDirectory && (
+        <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
+          <SquadDirectoryTab
+            directorySearch={directorySearch}
+            setDirectorySearch={setDirectorySearch}
+            directoryFilter={directoryFilter}
+            setDirectoryFilter={setDirectoryFilter}
+            joinCodeInput={joinCodeInput}
+            setJoinCodeInput={setJoinCodeInput}
+            handleJoinByCodeSubmit={handleJoinByCodeSubmit}
+            joinLoading={joinLoading}
+            joinError={joinError}
+            filteredDirectory={filteredDirectory}
+            currentUser={currentUser}
+            activeGroup={effectiveActiveSquad}
+            selectGroup={(groupId) => {
+              effectiveSelectSquad?.(groupId);
+              onNavigateToSquad?.(groupId);
+            }}
+            setActiveTab={() => {
+              if (effectiveActiveSquad) onNavigateToSquad?.(effectiveActiveSquad.id);
+            }}
+            joinByCode={joinByCode}
+            toast={toast}
+          />
+        </div>
+      )}
+
+      {/* ── Main Tab Views (LFS & LFP) ── */}
+      {!isDirectory && (
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
         
         {/* TAB 1: LOOKING FOR SQUAD (LFS) */}
         {isLfs && (
@@ -598,7 +718,8 @@ export const CommunityNetworkingView = ({ onNavigateToSquad }) => {
           </div>
         )}
 
-      </div>
+        </div>
+      )}
 
       {/* ── MODAL 1: Flag Persona For LFT ── */}
       {isFlagLftModalOpen && (

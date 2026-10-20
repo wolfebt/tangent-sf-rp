@@ -107,7 +107,6 @@ export const ADENavRail = ({
       description: 'Design Tactical Vector Grids, Line-of-Sight Walls & Smart Props',
       icon: MapIcon,
       colorTheme: 'cyan',
-      badge: mapsCount > 0 ? `${mapsCount}` : null,
       onClick: () => {
         if (onSwitchView) onSwitchView('map');
       }
@@ -133,7 +132,6 @@ export const ADENavRail = ({
       description: 'Story Asset & Elements Repository (Personas, Places, Items & Modifiers)',
       icon: Box,
       colorTheme: 'emerald',
-      badge: elementsCount > 0 ? `${elementsCount}` : (totalGalleryCount > 0 ? `${totalGalleryCount}` : null),
       onClick: () => {
         if (onSwitchView) onSwitchView('elements');
       }
@@ -147,7 +145,6 @@ export const ADENavRail = ({
       sublabel: 'Living Memory',
       description: 'Timeline Deck & Narrative Event Log',
       icon: '📜',
-      badge: pendingCronicleCount > 0 ? `${pendingCronicleCount}` : null,
       badgePulse: pendingCronicleCount > 0,
       colorTheme: 'amber',
       onClick: onOpenCronicle
@@ -362,15 +359,6 @@ export const ADENavRail = ({
                   ) : (
                     <Icon size={16} />
                   )}
-
-                  {/* Badge */}
-                  {item.badge && (
-                    <span
-                      className={`absolute -top-1 -right-1 px-1 min-w-[14px] h-[14px] rounded-full font-mono text-[8px] font-bold flex items-center justify-center shadow-md ${theme.badge}`}
-                    >
-                      {item.badge}
-                    </span>
-                  )}
                 </div>
 
                 {/* Label to the Right */}
@@ -387,11 +375,6 @@ export const ADENavRail = ({
                     >
                       {item.label}
                     </span>
-                    {item.badge && (
-                      <span className={`text-[8.5px] font-mono font-bold px-1.5 py-0.2 rounded-full ${theme.badge}`}>
-                        {item.badge}
-                      </span>
-                    )}
                   </div>
                   <span className="text-[9px] text-slate-400/80 truncate font-mono leading-tight mt-0.5">
                     {item.sublabel}
@@ -433,14 +416,8 @@ export const ADENavRail = ({
                     <Icon size={13} />
                   )}
 
-                  {item.badge && (
-                    <span
-                      className={`absolute -top-1 -right-1 px-1 min-w-[13px] h-[13px] rounded-full font-mono text-[8px] font-bold flex items-center justify-center shadow-md ${theme.badge} ${
-                        item.badgePulse ? 'animate-pulse' : ''
-                      }`}
-                    >
-                      {item.badge}
-                    </span>
+                  {item.badgePulse && (
+                    <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-amber-400 animate-soft-badge-glow shadow-[0_0_6px_#f59e0b]" />
                   )}
                 </div>
 
@@ -453,11 +430,6 @@ export const ADENavRail = ({
                     <span className="font-mono text-[10px] font-bold uppercase tracking-wider truncate leading-tight text-slate-300 group-hover:text-white">
                       {item.label}
                     </span>
-                    {item.badge && (
-                      <span className={`text-[8px] font-mono font-bold px-1.5 py-0.2 rounded-full ${theme.badge}`}>
-                        {item.badge}
-                      </span>
-                    )}
                   </div>
                   <span className="text-[8.5px] text-slate-500 group-hover:text-slate-400 truncate font-mono leading-tight mt-0.5">
                     {item.sublabel}

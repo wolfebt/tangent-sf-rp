@@ -67,7 +67,7 @@ export {
 };
 
 // Primary Unified Facade Context
-export const FolioContext = createContext(null);
+export const FolioContext = globalThis.__TANGENT_FOLIO_CONTEXT__ || (globalThis.__TANGENT_FOLIO_CONTEXT__ = createContext(null));
 
 export const useFolio = () => {
   const context = useContext(FolioContext);

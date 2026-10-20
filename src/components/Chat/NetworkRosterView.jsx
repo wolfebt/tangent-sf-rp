@@ -59,7 +59,7 @@ const CHAR_PRESENCE_BADGE = {
   }
 };
 
-export const NetworkRosterView = ({ isCompact = false }) => {
+export const NetworkRosterView = ({ isCompact = false, fullStageMode = false, onSelectChannel }) => {
   const { 
     userDirectory = [], 
     onlineOperators = [], 
@@ -83,6 +83,7 @@ export const NetworkRosterView = ({ isCompact = false }) => {
 
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
   const [selectedInviteUser, setSelectedInviteUser] = useState(null);
+  const [inspectedOperator, setInspectedOperator] = useState(null);
   const [statusInput, setStatusInput] = useState(customStatusMessage || '');
 
   useEffect(() => {
@@ -124,11 +125,13 @@ export const NetworkRosterView = ({ isCompact = false }) => {
   const handleMessageOperator = (user) => {
     AudioService.playTerminalBeep(1350, 0.03);
     startDirectMessage(user, null);
+    onSelectChannel?.();
   };
 
   const handleMessagePersona = (user, persona) => {
     AudioService.playTerminalBeep(1400, 0.03);
     startDirectMessage(user, persona);
+    onSelectChannel?.();
   };
 
   // Filter helper for search query
@@ -199,14 +202,24 @@ export const NetworkRosterView = ({ isCompact = false }) => {
 
     const pState = isOnline ? (user.presenceState || 'online') : 'offline';
     const badge = PRESENCE_BADGE[pState] || PRESENCE_BADGE.offline;
+    const isInspected = fullStageMode && inspectedOperator?.uid === user.uid;
 
     return (
       <div 
         key={user.uid}
+        onClick={() => {
+          if (fullStageMode) {
+            setInspectedOperator(user);
+          }
+        }}
         className={`p-2.5 rounded-xl border transition-all ${
-          isOnline
-            ? 'bg-slate-900/80 border-emerald-500/40 shadow-[0_0_15px_rgba(16,185,129,0.08)]'
-            : 'bg-slate-950/60 border-slate-800 text-slate-400'
+          fullStageMode ? 'cursor-pointer' : ''
+        } ${
+          isInspected
+            ? 'bg-cyan-950/40 border-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.2)]'
+            : isOnline
+            ? 'bg-slate-900/80 border-emerald-500/40 hover:border-emerald-400/70 shadow-[0_0_15px_rgba(16,185,129,0.08)]'
+            : 'bg-slate-950/60 border-slate-800 hover:border-slate-700 text-slate-400'
         }`}
       >
         {/* Operator Header */}
@@ -614,97 +627,226 @@ export const NetworkRosterView = ({ isCompact = false }) => {
         </div>
       </div>
 
-      {/* Main Roster List: Online at the Top Section! */}
-      <div className="flex-1 overflow-y-auto p-2.5 space-y-4 no-scrollbar">
-        {/* ── SECTION 1: ONLINE OPERATORS & PERSONAS (TOP OF LIST) ── */}
-        <div className="space-y-2">
-          <button
-            type="button"
-            onClick={() => toggleSection('online')}
-            className="w-full flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider bg-emerald-950/30 hover:bg-emerald-950/50 border border-emerald-500/30 rounded-lg transition-colors cursor-pointer text-left"
-          >
-            <span className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-soft-badge-glow shadow-[0_0_6px_#10b981]" />
-              <span>ONLINE NETWORK ENTITIES</span>
-            </span>
-            <span className="flex items-center gap-1.5">
-              <span className="text-[9px] text-emerald-400/90 font-bold">
-                {filterMode === 'personas' ? filteredOnlinePersonas.length : filteredOnlineOperators.length} ACTIVE
+      {/* Main Roster Body (Grid + Optional Right Dossier Inspector in fullStageMode) */}
+      <div className="flex-1 flex min-h-0 overflow-hidden">
+        {/* Left/Center Scrollable Entity Grid */}
+        <div className="flex-1 overflow-y-auto p-2.5 sm:p-4 space-y-4 no-scrollbar">
+          {/* ── SECTION 1: ONLINE OPERATORS & PERSONAS (TOP OF LIST) ── */}
+          <div className="space-y-2.5">
+            <button
+              type="button"
+              onClick={() => toggleSection('online')}
+              className="w-full flex items-center justify-between px-2.5 py-1.5 text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider bg-emerald-950/30 hover:bg-emerald-950/50 border border-emerald-500/30 rounded-lg transition-colors cursor-pointer text-left"
+            >
+              <span className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-soft-badge-glow shadow-[0_0_6px_#10b981]" />
+                <span>ONLINE NETWORK ENTITIES</span>
               </span>
-              <ChevronDown 
-                size={12} 
-                className={`transition-transform duration-200 text-emerald-400 ${collapsedSections.online ? '-rotate-90' : ''}`} 
-              />
-            </span>
-          </button>
+              <span className="flex items-center gap-1.5">
+                <span className="text-[9px] text-emerald-400/90 font-bold">
+                  {filterMode === 'personas' ? filteredOnlinePersonas.length : filteredOnlineOperators.length} ACTIVE
+                </span>
+                <ChevronDown 
+                  size={12} 
+                  className={`transition-transform duration-200 text-emerald-400 ${collapsedSections.online ? '-rotate-90' : ''}`} 
+                />
+              </span>
+            </button>
 
-          {!collapsedSections.online && (
-            <div className="space-y-2">
-              {filterMode === 'personas' ? (
-                filteredOnlinePersonas.length === 0 ? (
-                  <div className="p-3 rounded-lg bg-slate-950/40 border border-slate-800 text-[10.5px] font-mono text-slate-500 italic text-center">
-                    No personas online right now.
-                  </div>
+            {!collapsedSections.online && (
+              <div className={fullStageMode ? 'grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-2.5' : 'space-y-2'}>
+                {filterMode === 'personas' ? (
+                  filteredOnlinePersonas.length === 0 ? (
+                    <div className="col-span-full p-4 rounded-xl bg-slate-950/40 border border-slate-800 text-[10.5px] font-mono text-slate-500 italic text-center">
+                      No personas online right now.
+                    </div>
+                  ) : (
+                    filteredOnlinePersonas.map(renderPersonaCard)
+                  )
                 ) : (
-                  filteredOnlinePersonas.map(renderPersonaCard)
-                )
-              ) : (
-                filteredOnlineOperators.length === 0 ? (
-                  <div className="p-3 rounded-lg bg-slate-950/40 border border-slate-800 text-[10.5px] font-mono text-slate-500 italic text-center">
-                    No other operators online right now.
-                  </div>
+                  filteredOnlineOperators.length === 0 ? (
+                    <div className="col-span-full p-4 rounded-xl bg-slate-950/40 border border-slate-800 text-[10.5px] font-mono text-slate-500 italic text-center">
+                      No other operators online right now.
+                    </div>
+                  ) : (
+                    filteredOnlineOperators.map(u => renderOperatorCard(u, true))
+                  )
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* ── SECTION 2: OFFLINE OPERATORS & PERSONAS (BELOW) ── */}
+          <div className="space-y-2.5 pt-2 border-t border-slate-800/80">
+            <button
+              type="button"
+              onClick={() => toggleSection('offline')}
+              className="w-full flex items-center justify-between px-2.5 py-1.5 text-[10px] font-mono font-bold text-slate-400 hover:text-slate-300 uppercase tracking-wider bg-slate-900/40 hover:bg-slate-900/70 border border-slate-800 rounded-lg transition-colors cursor-pointer text-left"
+            >
+              <span className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-slate-600" />
+                <span>OFFLINE NETWORK ENTITIES</span>
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="text-[9px] text-slate-500 font-bold">
+                  {filterMode === 'personas' ? filteredOfflinePersonas.length : filteredOfflineOperators.length} REGISTERED
+                </span>
+                <ChevronDown 
+                  size={12} 
+                  className={`transition-transform duration-200 text-slate-500 ${collapsedSections.offline ? '-rotate-90' : ''}`} 
+                />
+              </span>
+            </button>
+
+            {!collapsedSections.offline && (
+              <div className={fullStageMode ? 'grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-2.5' : 'space-y-2'}>
+                {filterMode === 'personas' ? (
+                  filteredOfflinePersonas.length === 0 ? (
+                    <div className="col-span-full p-4 rounded-xl bg-slate-950/40 border border-slate-800 text-[10.5px] font-mono text-slate-500 italic text-center">
+                      No offline personas found.
+                    </div>
+                  ) : (
+                    filteredOfflinePersonas.map(renderPersonaCard)
+                  )
                 ) : (
-                  filteredOnlineOperators.map(u => renderOperatorCard(u, true))
-                )
-              )}
-            </div>
-          )}
+                  filteredOfflineOperators.length === 0 ? (
+                    <div className="col-span-full p-4 rounded-xl bg-slate-950/40 border border-slate-800 text-[10.5px] font-mono text-slate-500 italic text-center">
+                      No offline operators registered.
+                    </div>
+                  ) : (
+                    filteredOfflineOperators.map(u => renderOperatorCard(u, false))
+                  )
+                )}
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* ── SECTION 2: OFFLINE OPERATORS & PERSONAS (BELOW) ── */}
-        <div className="space-y-2 pt-2 border-t border-slate-800/80">
-          <button
-            type="button"
-            onClick={() => toggleSection('offline')}
-            className="w-full flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold text-slate-400 hover:text-slate-300 uppercase tracking-wider bg-slate-900/40 hover:bg-slate-900/70 border border-slate-800 rounded-lg transition-colors cursor-pointer text-left"
-          >
-            <span className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-slate-600" />
-              <span>OFFLINE NETWORK ENTITIES</span>
-            </span>
-            <span className="flex items-center gap-1.5">
-              <span className="text-[9px] text-slate-500 font-bold">
-                {filterMode === 'personas' ? filteredOfflinePersonas.length : filteredOfflineOperators.length} REGISTERED
-              </span>
-              <ChevronDown 
-                size={12} 
-                className={`transition-transform duration-200 text-slate-500 ${collapsedSections.offline ? '-rotate-90' : ''}`} 
-              />
-            </span>
-          </button>
+        {/* Right-Hand Operator & Persona Dossier Inspector (Full Stage Mode on Desktop) */}
+        {fullStageMode && (
+          <aside className="hidden lg:flex w-[320px] shrink-0 border-l border-slate-800/90 bg-slate-950/90 flex-col overflow-y-auto p-4 space-y-4 font-mono">
+            {inspectedOperator ? (() => {
+              const handle = getEffectiveUserHandle(inspectedOperator);
+              const isSelf = currentUser && currentUser.uid === inspectedOperator.uid;
+              const isOnline = Boolean(inspectedOperator.isOnline);
+              const pState = isOnline ? (inspectedOperator.presenceState || 'online') : 'offline';
+              const badge = PRESENCE_BADGE[pState] || PRESENCE_BADGE.offline;
+              const charList = isSelf
+                ? (allUserPersonas.length > 0 ? allUserPersonas : (Array.isArray(inspectedOperator.characters) ? inspectedOperator.characters : []))
+                : (Array.isArray(inspectedOperator.characters) ? inspectedOperator.characters : []);
 
-          {!collapsedSections.offline && (
-            <div className="space-y-2">
-              {filterMode === 'personas' ? (
-                filteredOfflinePersonas.length === 0 ? (
-                  <div className="p-3 rounded-lg bg-slate-950/40 border border-slate-800 text-[10.5px] font-mono text-slate-500 italic text-center">
-                    No offline personas found.
+              return (
+                <>
+                  <div className="flex items-start justify-between gap-2 pb-3 border-b border-slate-800">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className="relative shrink-0">
+                        <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-950 to-slate-900 border border-cyan-500/40 flex items-center justify-center font-bold text-sm text-cyan-200">
+                          {handle.substring(0, 2).toUpperCase()}
+                        </div>
+                        <span className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-black ${badge.dot}`} />
+                      </div>
+                      <div className="min-w-0">
+                        <h4 className="text-sm font-bold text-white truncate">@{handle}</h4>
+                        <span className={`inline-block mt-0.5 text-[9px] px-1.5 py-0.2 rounded border font-bold ${badge.pill}`}>
+                          {badge.label}
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                ) : (
-                  filteredOfflinePersonas.map(renderPersonaCard)
-                )
-              ) : (
-                filteredOfflineOperators.length === 0 ? (
-                  <div className="p-3 rounded-lg bg-slate-950/40 border border-slate-800 text-[10.5px] font-mono text-slate-500 italic text-center">
-                    No offline operators registered.
+
+                  {inspectedOperator.statusMessage && (
+                    <div className="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 text-[11px] font-sans italic text-cyan-200">
+                      "{inspectedOperator.statusMessage}"
+                    </div>
+                  )}
+
+                  <div className="space-y-1 text-[10.5px] text-slate-400">
+                    <div className="flex items-center justify-between">
+                      <span className="text-slate-500">TELEMETRY:</span>
+                      <span className="text-slate-200 font-bold">{formatLastSeen(inspectedOperator)}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-slate-500">REGISTERED PERSONAS:</span>
+                      <span className="text-purple-300 font-bold">{charList.length}</span>
+                    </div>
                   </div>
-                ) : (
-                  filteredOfflineOperators.map(u => renderOperatorCard(u, false))
-                )
-              )}
-            </div>
-          )}
-        </div>
+
+                  {/* Direct Actions */}
+                  {!isSelf && (
+                    <div className="grid grid-cols-2 gap-2 pt-1">
+                      <button
+                        type="button"
+                        onClick={() => handleMessageOperator(inspectedOperator)}
+                        className="py-2 px-2.5 rounded-xl bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-200 text-[10.5px] font-bold flex items-center justify-center gap-1.5 cursor-pointer transition-all"
+                      >
+                        <MessageSquare size={12} />
+                        <span>PLAYER DM</span>
+                      </button>
+                      {groups.length > 0 && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSelectedInviteUser(inspectedOperator);
+                            setIsInviteModalOpen(true);
+                          }}
+                          className="py-2 px-2.5 rounded-xl bg-emerald-950 hover:bg-emerald-900 border border-emerald-500/50 text-emerald-200 text-[10.5px] font-bold flex items-center justify-center gap-1.5 cursor-pointer transition-all"
+                        >
+                          <UserPlus size={12} />
+                          <span>SQUAD INVITE</span>
+                        </button>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Registered Folio Personas */}
+                  <div className="space-y-2 pt-2 border-t border-slate-800">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-purple-300 block">
+                      REGISTERED FOLIO PERSONAS ({charList.length})
+                    </span>
+                    {charList.length === 0 ? (
+                      <div className="p-3 rounded-xl bg-slate-900/40 border border-slate-800 text-[10px] text-slate-500 italic">
+                        No public personas broadcast by this operator.
+                      </div>
+                    ) : (
+                      <div className="space-y-2">
+                        {charList.map(c => {
+                          const cId = c.id || c['character-doc-id'] || c.name;
+                          return (
+                            <div key={cId} className="p-2.5 rounded-xl bg-slate-900/70 border border-purple-500/30 space-y-2">
+                              <div className="flex items-center justify-between gap-2">
+                                <div className="min-w-0">
+                                  <span className="text-xs font-bold text-purple-200 block truncate">🎭 {c.name}</span>
+                                  <span className="text-[9.5px] text-slate-400 block truncate">{c.species} • {c.role}</span>
+                                </div>
+                                {!isSelf && (
+                                  <button
+                                    type="button"
+                                    onClick={() => handleMessagePersona(inspectedOperator, c)}
+                                    className="px-2 py-1 rounded-lg bg-purple-900/80 hover:bg-purple-800 border border-purple-500/50 text-purple-100 text-[9.5px] font-bold shrink-0 cursor-pointer"
+                                  >
+                                    WHISPER IC
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                </>
+              );
+            })() : (
+              <div className="my-auto text-center space-y-2 p-4">
+                <Users size={28} className="mx-auto text-cyan-500/40" />
+                <p className="text-xs font-bold text-slate-300">OPERATOR DOSSIER INSPECTOR</p>
+                <p className="text-[10.5px] text-slate-500 font-sans leading-relaxed">
+                  Select any Operator card on the left to inspect their live telemetry, registered Folio Personas, and initiate direct OOC or In-Character Whispers.
+                </p>
+              </div>
+            )}
+          </aside>
+        )}
       </div>
 
       {/* Bottom Status bar */}

@@ -167,6 +167,42 @@ describe('Hyperlink Resolver Engine', () => {
       assert.equal(res.exists, false);
       assert.equal(res.displayLabel, 'Unknown Secret Relic');
     });
+
+    it('resolves [1.01 character creation] to Compendium rules with default rules entry and selectable options', () => {
+      const res = resolveHyperlinkTarget('[1.01 character creation]', { elementsCatalog: mockCatalog, dbData: mockDbData });
+      assert.equal(res.targetType, 'compendium');
+      assert.equal(res.title, '1.01 CHARACTER CREATION');
+      assert.equal(res.url, '/compendium?article=doc-operator-1-01-character-creation');
+      assert.equal(res.badge, 'COMPENDIUM: OPERATOR');
+      assert.ok(res.options && res.options.length >= 8, 'Must have at least 8 available options');
+
+      // Default option must be the rules entry
+      const defaultOption = res.options[0];
+      assert.equal(defaultOption.isDefault, true);
+      assert.equal(defaultOption.targetType, 'compendium');
+      assert.equal(defaultOption.url, '/compendium?article=doc-operator-1-01-character-creation');
+
+      // Must include Persona Folio as an available platform builder option
+      const folioOption = res.options.find(o => o.url === '/folio' || o.id === 'section-folio');
+      assert.ok(folioOption, 'Must include Persona Folio as selectable platform builder option');
+      assert.equal(folioOption.targetType, 'section');
+
+      // Must include sub-rules (Attributes, Movement, Perception, etc.)
+      const attrOption = res.options.find(o => o.url.includes('doc-operator-1-01-attributes'));
+      assert.ok(attrOption, 'Must include 1.01 Attributes sub-rule');
+      assert.equal(attrOption.targetType, 'compendium');
+      assert.equal(attrOption.badge, 'SUB-RULE');
+
+      const vitalsOption = res.options.find(o => o.url.includes('doc-operator-1-01-vitalityhealthstructure'));
+      assert.ok(vitalsOption, 'Must include 1.01 Vitality, Health & Structure sub-rule');
+    });
+
+    it('resolves [Character Creation] without rule number to the rules entry', () => {
+      const res = resolveHyperlinkTarget('[Character Creation]', { elementsCatalog: mockCatalog, dbData: mockDbData });
+      assert.equal(res.targetType, 'compendium');
+      assert.equal(res.title, '1.01 CHARACTER CREATION');
+      assert.equal(res.url, '/compendium?article=doc-operator-1-01-character-creation');
+    });
   });
 
   describe('AI Ingestion Bracket Reference Engine', () => {

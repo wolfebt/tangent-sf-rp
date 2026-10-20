@@ -14,14 +14,11 @@ import {
 } from '../utils/personaValidationUtils';
 import { showToast } from './ToastContext';
 
-const ChatContext = createContext();
+const ChatContext = globalThis.__TANGENT_CHAT_CONTEXT__ || (globalThis.__TANGENT_CHAT_CONTEXT__ = createContext({}));
 
 export const useChat = () => {
   const context = useContext(ChatContext);
-  if (!context) {
-    throw new Error('useChat must be used within a ChatProvider');
-  }
-  return context;
+  return context || {};
 };
 
 export const isTeamChannel = (channel) => {

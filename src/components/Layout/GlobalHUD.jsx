@@ -399,13 +399,6 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap max-w-[130px] truncate">
                   {isFolio && folio?.characterData?.['char-name'] ? folio.characterData['char-name'] : 'PERSONA'}
                 </span>
-                {heroCount > 0 && (
-                  <span className={`px-1 py-0.2 rounded text-[10px] font-mono leading-none ${
-                    isFolio ? 'bg-cyan-400/30 text-cyan-200' : 'bg-slate-800 text-slate-400'
-                  }`}>
-                    {heroCount}
-                  </span>
-                )}
               </button>
 
               {/* NETWORK */}
@@ -418,17 +411,18 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 relative ${
                   isNetwork
                     ? 'bg-emerald-500/20 text-emerald-300 border-emerald-400/70 shadow-[0_0_12px_rgba(16,185,129,0.35)]'
+                    : totalUnreadCount > 0
+                    ? 'bg-slate-900/80 text-amber-300 border-amber-500/60 shadow-[0_0_12px_rgba(245,158,11,0.25)] animate-nav-pulse-amber'
                     : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-emerald-300 border-slate-700/80 hover:border-emerald-500/50'
                 }`}
-                title="Tactical Squads & Operator Network (/network)"
+                title={totalUnreadCount > 0 ? 'Tactical Squads & Operator Network (Unread Messages)' : 'Tactical Squads & Operator Network (/network)'}
               >
-                <Radio size={14} className={isNetwork ? 'text-emerald-300' : 'text-emerald-400'} />
+                <Radio size={14} className={isNetwork ? 'text-emerald-300' : totalUnreadCount > 0 ? 'text-amber-400' : 'text-emerald-400'} />
                 <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">NETWORK</span>
-                {networkBadge && (
-                  <span className={`px-1 py-0.2 rounded text-[10px] font-mono leading-none ${
-                    hasNetworkPulse ? 'bg-amber-500 text-black font-extrabold animate-pulse' : 'bg-slate-800 text-slate-300'
-                  }`}>
-                    {networkBadge}
+                {totalUnreadCount > 0 && (
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
                   </span>
                 )}
               </button>

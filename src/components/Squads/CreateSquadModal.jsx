@@ -16,10 +16,10 @@ import { useFolio } from '../../context/FolioContext';
 import { AudioService } from '../../services/audioService';
 
 export const CreateSquadModal = ({ isOpen, onClose, onCreated }) => {
-  const { createSquad, createGroup } = useSquad();
+  const { createSquad, createGroup } = useSquad() || {};
   const createSquadFn = createSquad || createGroup;
-  const { storyCatalog, universeState } = useStory();
-  const { personaRoster, roster, activePersona } = useFolio();
+  const { storyCatalog = [], universeState } = useStory() || {};
+  const { personaRoster = [], roster = [], activePersona } = useFolio() || {};
 
   const allPersonas = personaRoster || roster || [];
 

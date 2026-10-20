@@ -52,7 +52,8 @@ const TreeArticleItem = ({
   onOpenEdit,
   className,
   prefix = '📜 ',
-  subtitle = null
+  subtitle = null,
+  showChevronSlot = false
 }) => {
   const interactions = useItemInteractions({
     onSelect,
@@ -66,20 +67,26 @@ const TreeArticleItem = ({
 
   return (
     <div className="flex items-center gap-0.5 w-full min-w-0">
-      {hasChildren && onToggleExpand && (
+      {hasChildren && onToggleExpand ? (
         <button
           type="button"
           onClick={(e) => {
             e.stopPropagation();
             onToggleExpand(item.id);
           }}
-          className="p-1 rounded hover:bg-slate-800 text-slate-400 hover:text-cyan-300 transition-colors cursor-pointer shrink-0"
+          className="w-[21px] h-6 flex items-center justify-center rounded hover:bg-slate-800 text-slate-400 hover:text-cyan-300 transition-colors cursor-pointer shrink-0"
           title={isExpanded ? 'Collapse Sub-Articles' : `Expand ${childrenCount} Sub-Articles`}
           aria-label={isExpanded ? 'Collapse Sub-Articles' : 'Expand Sub-Articles'}
         >
           {isExpanded ? <ChevronDown size={13} /> : <ChevronRight size={13} />}
         </button>
-      )}
+      ) : showChevronSlot ? (
+        <span
+          onClick={onSelect}
+          className="w-[21px] h-6 shrink-0 cursor-pointer"
+          aria-hidden="true"
+        />
+      ) : null}
       <button
         {...interactions}
         className={className}
@@ -107,20 +114,7 @@ const TreeArticleItem = ({
               GENERIC
             </span>
           )}
-          {hasChildren && (
-            <span
-              onClick={(e) => {
-                if (onToggleExpand) {
-                  e.stopPropagation();
-                  onToggleExpand(item.id);
-                }
-              }}
-              className="text-[10px] bg-slate-800/90 hover:bg-slate-700 px-1.5 py-0.5 rounded text-cyan-400 font-mono shrink-0 border border-slate-700/70"
-              title={`${childrenCount} modular sub-articles`}
-            >
-              {childrenCount}
-            </span>
-          )}
+
         </div>
       </button>
     </div>
@@ -162,6 +156,7 @@ const HierarchicalArticleNode = ({
         childrenCount={totalDescendants}
         isExpanded={isExpanded}
         onToggleExpand={children.length > 0 ? onToggleExpand : null}
+        showChevronSlot={true}
         prefix={prefix}
         onSelect={() => {
           onSelectArticle(item);
@@ -1516,9 +1511,6 @@ export const DBMWikiView = ({
               : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400 group-hover:bg-emerald-500/20 group-hover:border-emerald-400'
           }`}>
             <span className="text-sm leading-none">📘</span>
-            <span className="absolute -top-1.5 -right-1.5 px-1 min-w-[14px] h-[14px] rounded-full font-mono text-[8px] font-bold flex items-center justify-center shadow-md bg-emerald-500 text-black">
-              {opCount}
-            </span>
           </div>
 
           {/* Label */}
@@ -1555,9 +1547,6 @@ export const DBMWikiView = ({
               : 'bg-amber-500/10 border-amber-500/30 text-amber-400 group-hover:bg-amber-500/20 group-hover:border-amber-400'
           }`}>
             <span className="text-sm leading-none">🏛️</span>
-            <span className="absolute -top-1.5 -right-1.5 px-1 min-w-[14px] h-[14px] rounded-full font-mono text-[8px] font-bold flex items-center justify-center shadow-md bg-amber-500 text-black">
-              {archCount}
-            </span>
           </div>
 
           {/* Label */}
@@ -1596,9 +1585,6 @@ export const DBMWikiView = ({
               : 'bg-cyan-500/10 border-cyan-500/30 text-cyan-400 group-hover:bg-cyan-500/20 group-hover:border-cyan-400'
           }`}>
             <RingedPlanetLogo size={18} />
-            <span className="absolute -top-1.5 -right-1.5 px-1 min-w-[14px] h-[14px] rounded-full font-mono text-[8px] font-bold flex items-center justify-center shadow-md bg-cyan-400 text-black">
-              {USER_GUIDE_SECTIONS.length}
-            </span>
           </div>
 
           {/* Label */}

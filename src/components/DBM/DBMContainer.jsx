@@ -696,8 +696,70 @@ export const DBMContainer = () => {
 
   return (
     <div className="flex flex-col h-full w-full bg-[#0d1117] text-slate-100 font-sans overflow-hidden">
-      {/* Main App Layout with Standardized Omnicortex Navigation Rail */}
-      <div className="flex-1 flex overflow-hidden relative">
+      {/* Breadcrumb Navigation Bar spanning full width above guide rail and content */}
+      <BreadcrumbNav
+        items={getDBMBreadcrumbs()}
+        onBack={handleDBMBack}
+        backTitle={
+          isEntryModalOpen || selectedItem
+            ? `Return to ${activeSubcategory ? (subConfig?.label || activeSubcategory) : (parentConfig?.label || activeCategory)} Directory`
+            : activeSubcategory
+            ? `Return to ${parentConfig?.label || activeCategory} Overview`
+            : activeCategory !== 'species'
+            ? 'Return to Species Directory'
+            : 'Return to Tangent Dashboard'
+        }
+        leftSlot={
+          <button
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(1100, 0.02);
+              if (setIsSidebarOpen) setIsSidebarOpen(prev => !prev);
+            }}
+            className={`md:hidden px-2 py-1 rounded-md flex items-center justify-center transition-all cursor-pointer select-none border font-mono font-bold text-xs uppercase tracking-wider active:scale-95 touch-manipulation shrink-0 shadow-xs ${
+              isSidebarOpen
+                ? 'bg-cyan-500/25 border-cyan-400 text-cyan-200 shadow-[0_0_10px_rgba(34,211,238,0.3)]'
+                : 'bg-slate-900 hover:bg-slate-800 border-cyan-900/60 hover:border-cyan-500/50 text-cyan-400 hover:text-cyan-300'
+            }`}
+            title="Toggle Omnicortex Navigation Rail"
+            aria-label="Toggle Omnicortex Navigation Rail"
+          >
+            <Menu size={13} />
+          </button>
+        }
+        rightSlot={
+          <div className="flex items-center gap-1.5 shrink-0">
+            {/* Master Access Badge */}
+            <button
+              type="button"
+              onClick={() => toggleAdminOverride && toggleAdminOverride()}
+              className={`px-2 py-0.5 rounded text-[11px] font-mono font-bold uppercase tracking-wider border transition-all flex items-center gap-1 cursor-pointer ${
+                isAdmin
+                  ? 'bg-amber-950/60 border-amber-500/60 text-amber-300'
+                  : 'bg-slate-900 border-slate-800 text-slate-400'
+              }`}
+              title={isAdmin ? 'Master Developer Access Active' : 'Player View (Read Only)'}
+            >
+              <Crown size={11} className={isAdmin ? 'text-amber-400' : 'text-slate-500'} />
+              <span className="hidden sm:inline">{isAdmin ? 'ADMIN' : 'VIEW'}</span>
+            </button>
+
+            {/* Bastion AI Assistant Button */}
+            <button
+              type="button"
+              onClick={() => setIsBastionOpen(true)}
+              className="px-2 py-0.5 rounded text-[11px] font-mono font-bold uppercase tracking-wider bg-emerald-950/60 border border-emerald-500/50 text-emerald-300 hover:bg-emerald-900/60 transition-colors flex items-center gap-1 cursor-pointer"
+              title="Open Bastion AI"
+            >
+              <Bot size={11} className="text-emerald-400" />
+              <span className="hidden sm:inline">Bastion</span>
+            </button>
+          </div>
+        }
+      />
+
+      {/* Main App Layout with Standardized Omnicortex Navigation Rail (Guide Rail moved down under breadcrumbs) */}
+      <div className="flex-1 flex overflow-hidden relative min-h-0">
         {/* Standardized Omnicortex Navigation Rail (Replaces legacy DBMSidebar drawer) */}
         <OmnicortexNavRail
           activeSectionKey={activeCategory || currentKey}
@@ -714,69 +776,6 @@ export const DBMContainer = () => {
 
         {/* Right Main Content Panel */}
         <section className={`flex-1 flex flex-col overflow-hidden relative min-w-0 ${isEntryModalOpen ? 'p-0' : 'p-3 sm:p-4 pb-4 sm:pb-5'}`}>
-          {/* Breadcrumb Navigation Bar */}
-          <BreadcrumbNav
-            items={getDBMBreadcrumbs()}
-            onBack={handleDBMBack}
-            backTitle={
-              isEntryModalOpen || selectedItem
-                ? `Return to ${activeSubcategory ? (subConfig?.label || activeSubcategory) : (parentConfig?.label || activeCategory)} Directory`
-                : activeSubcategory
-                ? `Return to ${parentConfig?.label || activeCategory} Overview`
-                : activeCategory !== 'species'
-                ? 'Return to Species Directory'
-                : 'Return to Tangent Dashboard'
-            }
-            className="mb-2 rounded-xl"
-            leftSlot={
-              <button
-                type="button"
-                onClick={() => {
-                  AudioService.playTerminalBeep(1100, 0.02);
-                  if (setIsSidebarOpen) setIsSidebarOpen(prev => !prev);
-                }}
-                className={`md:hidden px-2 py-1 rounded-md flex items-center justify-center transition-all cursor-pointer select-none border font-mono font-bold text-xs uppercase tracking-wider active:scale-95 touch-manipulation shrink-0 shadow-xs ${
-                  isSidebarOpen
-                    ? 'bg-cyan-500/25 border-cyan-400 text-cyan-200 shadow-[0_0_10px_rgba(34,211,238,0.3)]'
-                    : 'bg-slate-900 hover:bg-slate-800 border-cyan-900/60 hover:border-cyan-500/50 text-cyan-400 hover:text-cyan-300'
-                }`}
-                title="Toggle Omnicortex Navigation Rail"
-                aria-label="Toggle Omnicortex Navigation Rail"
-              >
-                <Menu size={13} />
-              </button>
-            }
-            rightSlot={
-              <div className="flex items-center gap-1.5 shrink-0">
-                {/* Master Access Badge */}
-                <button
-                  type="button"
-                  onClick={() => toggleAdminOverride && toggleAdminOverride()}
-                  className={`px-2 py-0.5 rounded text-[11px] font-mono font-bold uppercase tracking-wider border transition-all flex items-center gap-1 cursor-pointer ${
-                    isAdmin
-                      ? 'bg-amber-950/60 border-amber-500/60 text-amber-300'
-                      : 'bg-slate-900 border-slate-800 text-slate-400'
-                  }`}
-                  title={isAdmin ? 'Master Developer Access Active' : 'Player View (Read Only)'}
-                >
-                  <Crown size={11} className={isAdmin ? 'text-amber-400' : 'text-slate-500'} />
-                  <span className="hidden sm:inline">{isAdmin ? 'ADMIN' : 'VIEW'}</span>
-                </button>
-
-                {/* Bastion AI Assistant Button */}
-                <button
-                  type="button"
-                  onClick={() => setIsBastionOpen(true)}
-                  className="px-2 py-0.5 rounded text-[11px] font-mono font-bold uppercase tracking-wider bg-emerald-950/60 border border-emerald-500/50 text-emerald-300 hover:bg-emerald-900/60 transition-colors flex items-center gap-1 cursor-pointer"
-                  title="Open Bastion AI"
-                >
-                  <Bot size={11} className="text-emerald-400" />
-                  <span className="hidden sm:inline">Bastion</span>
-                </button>
-              </div>
-            }
-          />
-
           {/* Subcategory Pills Bar (Handles both Canonical Parent Categories AND Developer Field Groups) */}
           {(() => {
             // When an asset studio is active, suppress subcategory pills to maximize vertical space

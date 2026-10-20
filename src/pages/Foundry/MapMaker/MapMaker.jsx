@@ -52,6 +52,21 @@ import { PcgAiStudioTab } from './components/PcgAiStudioTab';
 import { VttExportTab } from './components/VttExportTab';
 import { MobileTacticalBlocker } from '../../../components/StoryFoundry/MobileTacticalBlocker';
 import { useIsMobile } from '../../../hooks/useIsMobile';
+import { ChunkStudioModal } from './components/ChunkStudioModal';
+import { ChunkGhostPreviewOverlay } from './map/ChunkGhostPreviewOverlay';
+import { PlacedChunkInspectorBar } from './map/PlacedChunkInspectorBar';
+import { SCIENCE_FANTASY_SEED_CHUNKS } from '../../../data/seed_chunks/science_fantasy_chunks';
+import {
+  compileChunkToMapElements,
+  transformChunkBlueprint,
+  computeWorldPerimeterSockets,
+  findBestSocketSnap,
+  weldChunkWallsAndDoors,
+  retransformPlacedChunkInstance,
+  explodeChunkInstance,
+  deletePlacedChunkInstance,
+  extractChunkFromMapSelection
+} from '../../../services/mapChunkCompilerService';
 
 const TerrainImageNode = ({ t, isEraser, isLocked, onErase }) => {
   const [imageObj, setImageObj] = useState(null);
@@ -264,7 +279,10 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
     deleteCustomTerrain,
     addCustomObject,
     updateCustomObject,
-    deleteCustomObject
+    deleteCustomObject,
+    addCustomChunk,
+    updateCustomChunk,
+    deleteCustomChunk
   } = useCampaign();
 
   // Bi-directional synchronization with ?mapId= URL parameter
@@ -303,6 +321,22 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
   const [activeStudioTab, setActiveStudioTab] = useState('canvas'); // 'canvas' | 'assets' | 'pcg' | 'export'
   const [isRightRailCollapsed, setIsRightRailCollapsed] = useState(false);
   const [isRightRailPinned, setIsRightRailPinned] = useState(false);
+
+  // Hybrid Chunk / Tile System State
+  const [selectedChunk, setSelectedChunk] = useState(() => SCIENCE_FANTASY_SEED_CHUNKS[0] || null);
+  const [chunkRotationDeg, setChunkRotationDeg] = useState(0);
+  const [chunkFlipX, setChunkFlipX] = useState(false);
+  const [chunkFlipY, setChunkFlipY] = useState(false);
+  const [magneticSnapEnabled, setMagneticSnapEnabled] = useState(true);
+  const [chunkSettings, setChunkSettings] = useState(() => ({
+    powerState: 'nominal',
+    securityTier: 2,
+    conditionState: 'pristine',
+    biomeThemeOverride: 'chunk_default',
+    customParameters: {}
+  }));
+  const [chunkSlotOverrides, setChunkSlotOverrides] = useState({});
+  const [chunkStudioInitialBlueprint, setChunkStudioInitialBlueprint] = useState(null);
 
   const handleOpenInStage = () => {
     AudioService.playTerminalBeep(1200, 0.03);
@@ -640,6 +674,167 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
   const lights = currentMap?.lights || [];
   const fog = currentMap?.fog || [];
   const mapLayers = currentMap?.layers || DEFAULT_LAYERS;
+  const chunkInstances = currentMap?.chunkInstances || [];
+  const allAvailableChunks = React.useMemo(() => {
+    const customList = universeState?.customAssets?.chunks || [];
+    return [...customList, ...SCIENCE_FANTASY_SEED_CHUNKS];
+  }, [universeState?.customAssets?.chunks]);
+
+  const handleStampChunkAtPos = (pos) => {
+    if (!currentMap || !selectedChunk) return;
+    const gSize = Math.max(15, gridSize || 50);
+    let targetCol = Math.floor(pos.x / gSize);
+    let targetRow = Math.floor(pos.y / gSize);
+
+    let snapMatch = null;
+    if (magneticSnapEnabled && chunkInstances.length > 0) {
+      snapMatch = findBestSocketSnap(
+        selectedChunk,
+        targetCol,
+        targetRow,
+        gSize,
+        chunkRotationDeg,
+        chunkFlipX,
+        chunkFlipY,
+        chunkInstances,
+        allAvailableChunks
+      );
+      if (snapMatch) {
+        targetCol = snapMatch.snappedCol;
+        targetRow = snapMatch.snappedRow;
+      }
+    }
+
+    const compiled = compileChunkToMapElements(selectedChunk, {
+      targetCol,
+      targetRow,
+      gridSize: gSize,
+      rotationDeg: chunkRotationDeg,
+      flipX: chunkFlipX,
+      flipY: chunkFlipY,
+      settings: chunkSettings,
+      slotOverrides: chunkSlotOverrides
+    });
+
+    // Gather existing world sockets for automatic door welding
+    const existingSockets = [];
+    for (const inst of chunkInstances) {
+      const bp = inst.blueprintSnapshot || allAvailableChunks.find(b => b.chunkId === inst.chunkId);
+      if (!bp) continue;
+      const transExisting = transformChunkBlueprint(bp, inst.rotationDeg, inst.flipX, inst.flipY);
+      existingSockets.push(
+        ...computeWorldPerimeterSockets(
+          transExisting,
+          inst.col * gSize,
+          inst.row * gSize,
+          gSize,
+          inst.instanceId
+        )
+      );
+    }
+
+    const weldedWalls = weldChunkWallsAndDoors(
+      walls,
+      compiled.walls,
+      compiled.worldSockets,
+      existingSockets
+    );
+
+    updateMap(activeMapId, {
+      terrains: [...terrains, ...compiled.terrains],
+      walls: weldedWalls,
+      objects: [...objects, ...compiled.objects],
+      lights: [...lights, ...compiled.lights],
+      chunkInstances: [...chunkInstances, compiled.instanceRecord]
+    });
+
+    if (compiled.objects[0]) {
+      setSelectedId(compiled.objects[0].id);
+    } else if (compiled.terrains[0]) {
+      setSelectedId(compiled.terrains[0].id);
+    }
+
+    AudioService.playTerminalBeep(1040, 0.06);
+    showToast({
+      type: 'success',
+      text: `Stamped "${selectedChunk.name}" (North: ${compiled.instanceRecord.northSide}${snapMatch ? ' • Socket Welded!' : ''})`
+    });
+  };
+
+  const handleRetransformChunkInstance = (instanceId, updates) => {
+    if (!currentMap) return;
+    recordHistory('Transform Placed Chunk');
+    const updatedMap = retransformPlacedChunkInstance(
+      currentMap,
+      instanceId,
+      updates,
+      allAvailableChunks
+    );
+    updateMap(activeMapId, {
+      terrains: updatedMap.terrains,
+      walls: updatedMap.walls,
+      objects: updatedMap.objects,
+      lights: updatedMap.lights,
+      chunkInstances: updatedMap.chunkInstances
+    });
+    AudioService.playTerminalBeep(960, 0.04);
+  };
+
+  const handleExplodeChunkInstance = (instanceId) => {
+    if (!currentMap) return;
+    recordHistory('Unpack Chunk to Standalone Tiles');
+    const updatedMap = explodeChunkInstance(currentMap, instanceId);
+    updateMap(activeMapId, {
+      terrains: updatedMap.terrains,
+      walls: updatedMap.walls,
+      objects: updatedMap.objects,
+      lights: updatedMap.lights,
+      chunkInstances: updatedMap.chunkInstances
+    });
+    showToast({ type: 'info', text: 'Unpacked chunk instance into standalone tiles, walls, and props.' });
+  };
+
+  const handleDeleteChunkInstance = (instanceId) => {
+    if (!currentMap) return;
+    recordHistory('Delete Placed Chunk');
+    const updatedMap = deletePlacedChunkInstance(currentMap, instanceId);
+    updateMap(activeMapId, {
+      terrains: updatedMap.terrains,
+      walls: updatedMap.walls,
+      objects: updatedMap.objects,
+      lights: updatedMap.lights,
+      chunkInstances: updatedMap.chunkInstances
+    });
+    setSelectedId(null);
+    showToast({ type: 'info', text: 'Deleted placed chunk instance.' });
+  };
+
+  const handleSaveInstanceAsBlueprint = (chunkInstance) => {
+    const baseBp =
+      chunkInstance.blueprintSnapshot ||
+      allAvailableChunks.find(b => b.chunkId === chunkInstance.chunkId);
+    if (!baseBp) return;
+    const baked = transformChunkBlueprint(
+      baseBp,
+      chunkInstance.rotationDeg,
+      chunkInstance.flipX,
+      chunkInstance.flipY
+    );
+    const customVariant = {
+      ...baked,
+      chunkId: `chunk_custom_${Date.now()}`,
+      name: `${baseBp.name} (${chunkInstance.northSide} Variant)`,
+      defaultSettings: { ...chunkInstance.settings },
+      isCustom: true,
+      updatedAt: new Date().toISOString()
+    };
+    if (addCustomChunk) addCustomChunk(customVariant);
+    setSelectedChunk(customVariant);
+    showToast({
+      type: 'success',
+      text: `Saved "${customVariant.name}" to your Custom Chunk Library!`
+    });
+  };
   const { undoStack, redoStack, recordHistory, handleUndo, handleRedo } = useMapHistory({
     currentMap, lines, tokens, terrains, objects, texts, walls, lights, fog, mapLayers, updateMap, activeMapId
   });
@@ -649,15 +844,125 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
     isDrawing,
     handleWheel, handleMouseDown, handleMouseMove, handleMouseUp,
     wallStartPoint, wallPreviewEnd, rulerWaypoints, rulerPointer, clearRuler,
-    zoomBy, panBy
+    zoomBy, panBy, chunkPointerPos, chunkCaptureMarquee, setChunkCaptureMarquee
   } = useMapCanvasEvents({
     currentMap, activeMapId, updateMap, recordHistory,
     activeTool, lines, terrains, walls, fog, objects, tokens, texts, lights,
     pencilColor, pencilWidth, selectedTerrain, terrainWidth, selectedObjectType,
     selectedWallType, doorLockDc,
     selectedLightColor, selectedLightRadius, selectedLightAnimation,
-    tokenType, tokenLabelInput, tokenOmnicortexData, textLabelInput, textColor, textSize
+    tokenType, tokenLabelInput, tokenOmnicortexData, textLabelInput, textColor, textSize,
+    onStampChunk: handleStampChunkAtPos
   });
+
+  // Compute live Ghost Preview & Magnetic Socket Snap for activeTool === 'chunk'
+  const chunkGhostPreviewData = React.useMemo(() => {
+    if (activeTool !== 'chunk' || !selectedChunk || !chunkPointerPos) return null;
+    const gSize = Math.max(15, gridSize || 50);
+    let targetCol = Math.floor(chunkPointerPos.x / gSize);
+    let targetRow = Math.floor(chunkPointerPos.y / gSize);
+
+    let snapCandidate = null;
+    if (magneticSnapEnabled && chunkInstances.length > 0) {
+      snapCandidate = findBestSocketSnap(
+        selectedChunk,
+        targetCol,
+        targetRow,
+        gSize,
+        chunkRotationDeg,
+        chunkFlipX,
+        chunkFlipY,
+        chunkInstances,
+        allAvailableChunks
+      );
+      if (snapCandidate) {
+        targetCol = snapCandidate.snappedCol;
+        targetRow = snapCandidate.snappedRow;
+      }
+    }
+
+    const transformedBlueprint = transformChunkBlueprint(
+      selectedChunk,
+      chunkRotationDeg,
+      chunkFlipX,
+      chunkFlipY
+    );
+    const originX = targetCol * gSize;
+    const originY = targetRow * gSize;
+    const worldSockets = computeWorldPerimeterSockets(
+      transformedBlueprint,
+      originX,
+      originY,
+      gSize,
+      'ghost'
+    );
+
+    return {
+      originX,
+      originY,
+      targetCol,
+      targetRow,
+      transformedBlueprint,
+      worldSockets,
+      snapCandidate
+    };
+  }, [
+    activeTool,
+    selectedChunk,
+    chunkPointerPos,
+    gridSize,
+    magneticSnapEnabled,
+    chunkInstances,
+    chunkRotationDeg,
+    chunkFlipX,
+    chunkFlipY,
+    allAvailableChunks
+  ]);
+
+  // Identify if the currently selected element belongs to a PlacedChunkInstance
+  const selectedChunkInstance = React.useMemo(() => {
+    if (!selectedId || !chunkInstances.length) return null;
+    const directInst = chunkInstances.find(inst => inst.instanceId === selectedId);
+    if (directInst) return directInst;
+
+    const matchEl =
+      objects.find(o => o.id === selectedId) ||
+      walls.find(w => w.id === selectedId) ||
+      terrains.find(t => t.id === selectedId) ||
+      lights.find(l => l.id === selectedId);
+    if (matchEl?.chunkInstanceId) {
+      return chunkInstances.find(inst => inst.instanceId === matchEl.chunkInstanceId) || null;
+    }
+    return null;
+  }, [selectedId, chunkInstances, objects, walls, terrains, lights]);
+
+  const handleCaptureMarqueeAsChunk = () => {
+    if (!currentMap || !chunkCaptureMarquee) return;
+    const minX = Math.min(chunkCaptureMarquee.startX, chunkCaptureMarquee.endX);
+    const minY = Math.min(chunkCaptureMarquee.startY, chunkCaptureMarquee.endY);
+    const width = Math.max(50, Math.abs(chunkCaptureMarquee.endX - chunkCaptureMarquee.startX));
+    const height = Math.max(50, Math.abs(chunkCaptureMarquee.endY - chunkCaptureMarquee.startY));
+
+    const capturedBp = extractChunkFromMapSelection(
+      currentMap,
+      { x: minX, y: minY, width, height },
+      Math.max(15, gridSize || 50),
+      {
+        name: `${currentMap.title || 'Sector'} Module (${Math.round(width / (gridSize || 50))}x${Math.round(height / (gridSize || 50))})`,
+        category: 'custom',
+        scale: currentMap.type || 'Interior'
+      }
+    );
+    if (addCustomChunk) addCustomChunk(capturedBp);
+    setSelectedChunk(capturedBp);
+    setChunkStudioInitialBlueprint(capturedBp);
+    setChunkCaptureMarquee(null);
+    setActiveStudioTab('chunks');
+    showToast({
+      type: 'success',
+      text: `Captured ${capturedBp.widthCells}×${capturedBp.heightCells} region as Map Chunk! Opened in Chunk Forge Studio.`
+    });
+  };
 
   // Calculate dynamic Line-of-Sight visibility polygon for the active / selected token
   const activeVisionToken = tokens.find(t => t.id === selectedId) || tokens[0];
@@ -970,6 +1275,41 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
     const handleKeyDown = (e) => {
       const tag = e.target.tagName ? e.target.tagName.toLowerCase() : '';
       if (tag === 'input' || tag === 'textarea' || e.target.isContentEditable) {
+        return;
+      }
+
+      if (e.key === 'r' || e.key === 'R') {
+        if (activeTool === 'chunk') {
+          setChunkRotationDeg(prev => ((prev + 90) % 360));
+          return;
+        } else if (selectedChunkInstance) {
+          handleRetransformChunkInstance(selectedChunkInstance.instanceId, {
+            rotationDeg: ((selectedChunkInstance.rotationDeg + 90) % 360)
+          });
+          return;
+        }
+      } else if (e.key === 'x' || e.key === 'X') {
+        if (activeTool === 'chunk') {
+          setChunkFlipX(prev => !prev);
+          return;
+        } else if (selectedChunkInstance) {
+          handleRetransformChunkInstance(selectedChunkInstance.instanceId, {
+            flipX: !selectedChunkInstance.flipX
+          });
+          return;
+        }
+      } else if (e.key === 'y' || e.key === 'Y') {
+        if (activeTool === 'chunk') {
+          setChunkFlipY(prev => !prev);
+          return;
+        } else if (selectedChunkInstance) {
+          handleRetransformChunkInstance(selectedChunkInstance.instanceId, {
+            flipY: !selectedChunkInstance.flipY
+          });
+          return;
+        }
+      } else if (e.key === 'b' || e.key === 'B') {
+        setActiveTool(prev => (prev === 'chunk' ? 'select' : 'chunk'));
         return;
       }
 
@@ -1578,6 +1918,43 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
         initialTab="map-maker"
       />
 
+
+      {/* Post-Placement Chunk Instance Inspector Bar */}
+      {selectedChunkInstance && (
+        <PlacedChunkInspectorBar
+          chunkInstance={selectedChunkInstance}
+          onRetransformInstance={handleRetransformChunkInstance}
+          onExplodeInstance={handleExplodeChunkInstance}
+          onSaveInstanceAsBlueprint={handleSaveInstanceAsBlueprint}
+          onDeleteInstance={handleDeleteChunkInstance}
+        />
+      )}
+
+      {/* In-Situ Marquee Region Capture Banner */}
+      {chunkCaptureMarquee && !chunkCaptureMarquee.active && (
+        <div className="relative z-[82] bg-emerald-950/95 px-3 py-1.5 border-b border-emerald-400/60 flex items-center justify-between text-xs font-mono text-emerald-100">
+          <span>
+            📐 Selected Map Region ({Math.max(1, Math.round(Math.abs(chunkCaptureMarquee.endX - chunkCaptureMarquee.startX) / (gridSize || 50)))}×
+            {Math.max(1, Math.round(Math.abs(chunkCaptureMarquee.endY - chunkCaptureMarquee.startY) / (gridSize || 50)))} cells) ready to package as a reusable Map Chunk!
+          </span>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handleCaptureMarqueeAsChunk}
+              className="px-3 py-1 rounded bg-emerald-500 hover:bg-emerald-400 text-black font-bold cursor-pointer shadow-sm"
+            >
+              Save Selection as Map Chunk
+            </button>
+            <button
+              type="button"
+              onClick={() => setChunkCaptureMarquee(null)}
+              className="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 cursor-pointer"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Unified Selected Element Inspector Bar (Objects, Units, Portals) */}
       {selectedId && (() => {
@@ -2196,6 +2573,14 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
                   </Group>
                 )}
 
+                {/* Hybrid Chunk / Tile Ghost Preview & Marquee Capture Overlay */}
+                <ChunkGhostPreviewOverlay
+                  activeTool={activeTool}
+                  ghostPreviewData={chunkGhostPreviewData}
+                  gridSize={Math.max(15, gridSize || 50)}
+                  chunkCaptureMarquee={chunkCaptureMarquee}
+                />
+
                 {/* Tactical Waypoint Movement Ruler Overlay */}
                 <WaypointRulerOverlay
                   waypoints={rulerWaypoints}
@@ -2326,6 +2711,21 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
             onOpenAssetStudio={() => setActiveStudioTab('assets')}
             onOpenAssetIngestion={() => setIsAssetManagerOpen(true)}
             onOpenUvttImport={() => setIsUvttModalOpen(true)}
+            selectedChunk={selectedChunk}
+            setSelectedChunk={setSelectedChunk}
+            chunkRotationDeg={chunkRotationDeg}
+            setChunkRotationDeg={setChunkRotationDeg}
+            chunkFlipX={chunkFlipX}
+            setChunkFlipX={setChunkFlipX}
+            chunkFlipY={chunkFlipY}
+            setChunkFlipY={setChunkFlipY}
+            chunkSettings={chunkSettings}
+            setChunkSettings={setChunkSettings}
+            chunkSlotOverrides={chunkSlotOverrides}
+            setChunkSlotOverrides={setChunkSlotOverrides}
+            magneticSnapEnabled={magneticSnapEnabled}
+            setMagneticSnapEnabled={setMagneticSnapEnabled}
+            onOpenChunkStudio={() => setActiveStudioTab('chunks')}
           />
         )}
       </div>
@@ -2333,7 +2733,44 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
 
       {/* Tab: Asset Studio & Property Forge */}
       {activeStudioTab === 'assets' && (
-        <AssetStudioTab onStampAssetOnMap={handleStampAssetOnMap} />
+        <AssetStudioTab onStampAssetOnMap={handleStampAssetOnMap} onOpenChunkStudio={() => setActiveStudioTab('chunks')} />
+      )}
+
+      {/* Tab: Chunk Forge Studio & Construction Point Workbench */}
+      {activeStudioTab === 'chunks' && (
+        <ChunkStudioModal
+          isEmbeddedTab={true}
+          initialChunk={chunkStudioInitialBlueprint || selectedChunk}
+          customChunks={universeState?.customAssets?.chunks || []}
+          onSaveChunk={(savedChunk) => {
+            const exists = (universeState?.customAssets?.chunks || []).some(
+              c => c.chunkId === savedChunk.chunkId
+            );
+            if (exists && updateCustomChunk) {
+              updateCustomChunk(savedChunk.chunkId, savedChunk);
+            } else if (addCustomChunk) {
+              addCustomChunk(savedChunk);
+            }
+            setSelectedChunk(savedChunk);
+          }}
+          onDeleteChunk={(chunkId) => {
+            if (deleteCustomChunk) deleteCustomChunk(chunkId);
+          }}
+          onSelectChunkToStamp={(chunk, initialTransform) => {
+            setSelectedChunk(chunk);
+            if (initialTransform) {
+              setChunkRotationDeg(initialTransform.rotationDeg || 0);
+              setChunkFlipX(Boolean(initialTransform.flipX));
+              setChunkFlipY(Boolean(initialTransform.flipY));
+            }
+            setActiveTool('chunk');
+            setActiveStudioTab('canvas');
+            showToast({
+              type: 'info',
+              text: `Ready to stamp "${chunk.name}" on canvas! Hover & click to place (R: rotate 90° CW, X/Y: flip).`
+            });
+          }}
+        />
       )}
 
       {/* Tab: PCG & AI Co-Pilot */}

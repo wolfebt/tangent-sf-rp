@@ -34,7 +34,8 @@ export const useMapCanvasEvents = ({
   tokenOmnicortexData,
   textLabelInput,
   textColor,
-  textSize
+  textSize,
+  onStampChunk
 }) => {
   const [scale, setScale] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -45,6 +46,8 @@ export const useMapCanvasEvents = ({
   const [wallPreviewEnd, setWallPreviewEnd] = useState(null);
   const [rulerWaypoints, setRulerWaypoints] = useState([]);
   const [rulerPointer, setRulerPointer] = useState(null);
+  const [chunkPointerPos, setChunkPointerPos] = useState(null);
+  const [chunkCaptureMarquee, setChunkCaptureMarquee] = useState(null);
 
   // Global safety listener to release panning/drawing if mouse leaves canvas or context menu opens
   useEffect(() => {
@@ -93,6 +96,26 @@ export const useMapCanvasEvents = ({
 
     if (e.evt.button === 0 && currentMap) {
       const pos = e.target.getStage().getRelativePointerPosition();
+
+      if (activeTool === 'chunk') {
+        if (onStampChunk) {
+          recordHistory();
+          onStampChunk(pos);
+        }
+        return;
+      }
+
+      if (activeTool === 'select' && e.evt.shiftKey) {
+        setIsDrawing(true);
+        setChunkCaptureMarquee({
+          startX: pos.x,
+          startY: pos.y,
+          endX: pos.x,
+          endY: pos.y,
+          active: true
+        });
+        return;
+      }
 
       if (['pencil', 'terrain', 'fog', 'object', 'token', 'text', 'wall', 'hazard', 'light'].includes(activeTool)) {
         recordHistory();
@@ -221,7 +244,15 @@ export const useMapCanvasEvents = ({
         setRulerPointer(point);
       }
 
+      if (activeTool === 'chunk') {
+        setChunkPointerPos(point);
+      }
+
       if (isDrawing) {
+        if (chunkCaptureMarquee?.active) {
+          setChunkCaptureMarquee(prev => (prev ? { ...prev, endX: point.x, endY: point.y } : null));
+          return;
+        }
         if (activeTool === 'wall') {
           setWallPreviewEnd(point);
         } else if (activeTool === 'pencil') {
@@ -250,6 +281,9 @@ export const useMapCanvasEvents = ({
   const handleMouseUp = () => {
     if (isPanning) setIsPanning(false);
     if (isDrawing) {
+      if (chunkCaptureMarquee?.active) {
+        setChunkCaptureMarquee(prev => (prev ? { ...prev, active: false } : null));
+      }
       if (activeTool === 'wall' && wallStartPoint && wallPreviewEnd) {
         const dist = Math.hypot(wallPreviewEnd.x - wallStartPoint.x, wallPreviewEnd.y - wallStartPoint.y);
         if (dist > 10) {
@@ -292,6 +326,9 @@ export const useMapCanvasEvents = ({
     rulerPointer,
     clearRuler,
     zoomBy,
-    panBy
+    panBy,
+    chunkPointerPos,
+    chunkCaptureMarquee,
+    setChunkCaptureMarquee
   };
 };

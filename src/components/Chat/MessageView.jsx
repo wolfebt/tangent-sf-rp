@@ -32,7 +32,9 @@ import {
   Check,
   CornerDownRight,
   Search,
-  X
+  X,
+  BookOpen,
+  Map
 } from 'lucide-react';
 import ChatParser from '../UI/ChatParser';
 import { useAuth } from '../../context/AuthContext';
@@ -49,10 +51,21 @@ import { QuickTeamInviteModal } from './QuickTeamInviteModal';
 /**
  * @component MessageView
  * @description Clear, high-contrast, compact tactical sci-fi ledger for chat messages.
- * Features smart message grouping, crisp typography, clean left accent borders,
- * inline team invite actions, channel context indicators, and accessible users roster menu.
+ * Features a single consolidated 48px Context Header (saving ~170px vertical space),
+ * smart message grouping, interactive Operator/Persona Dossier Popover cards,
+ * and unified Zone 4 Right Inspector Drawer toggles.
  */
-export const MessageView = ({ messages = [], loading = false, activeChannel }) => {
+export const MessageView = ({
+  messages = [],
+  loading = false,
+  activeChannel,
+  activeInspectorTab = null,
+  onToggleInspectorTab = null,
+  docketBlocksCount = 0,
+  uncheckedDocketCount = 0,
+  onBackToSidebar = null,
+  onOpenSquadHub = null
+}) => {
   const { currentUser, userHandle } = useAuth();
   const { 
     startDirectMessage, 
@@ -65,6 +78,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
     activeChannelUsers,
     onlineOperators = [],
     offlineOperators = [],
+    userDirectory = [],
     selectedPersona,
     speakingMode,
     replyingToMessage,
@@ -95,6 +109,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
   const [isQuickInviteOpen, setIsQuickInviteOpen] = useState(false);
   const [preselectedInviteUser, setPreselectedInviteUser] = useState(null);
   const [copiedMessageId, setCopiedMessageId] = useState(null);
+  const [inspectedSender, setInspectedSender] = useState(null);
   
   const containerRef = useRef(null);
 
@@ -688,10 +703,26 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
     <div className="flex-1 flex overflow-hidden relative bg-[#090d16]">
       {/* Center Messages Column */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        {/* ── Channel Header Banner ── */}
+        {/* ── Single Consolidated 48px Channel Header Banner (Replaces 4 Stacked Headers) ── */}
         {activeChannel && (
-          <div className="px-3.5 sm:px-4 py-2 bg-slate-950/95 border-b border-slate-800 flex items-center justify-between gap-2 shrink-0 shadow-sm z-10">
-            <div className="min-w-0 flex items-center gap-2.5">
+          <div className="px-3 sm:px-4 h-12 bg-slate-950/95 border-b border-slate-800/90 flex items-center justify-between gap-2 shrink-0 shadow-sm z-10">
+            <div className="min-w-0 flex items-center gap-2 sm:gap-2.5 flex-1">
+              {/* Mobile Back Button to Channels */}
+              {onBackToSidebar && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1000, 0.02);
+                    onBackToSidebar();
+                  }}
+                  className="md:hidden flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-900 border border-slate-700 hover:border-cyan-500/50 text-cyan-300 font-bold text-[10px] font-mono shrink-0 transition-colors cursor-pointer"
+                  title="Back to Channels list"
+                >
+                  <ChevronLeft size={13} />
+                  <span>FREQS</span>
+                </button>
+              )}
+
               {/* Channel Glyph Icon */}
               <div className={`p-1.5 rounded-lg border shrink-0 ${
                 isTeamChannel 
@@ -703,47 +734,58 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                   : 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40'
               }`}>
                 {isTeamChannel ? (
-                  <Shield size={15} />
+                  <Shield size={14} />
                 ) : isDirectChannel ? (
-                  <User size={15} />
+                  <User size={14} />
                 ) : isPersonaLogChannel ? (
-                  <Activity size={15} />
+                  <Activity size={14} />
                 ) : (
-                  <Radio size={15} />
+                  <Radio size={14} />
                 )}
               </div>
 
-              <div className="min-w-0">
-                <div className="flex items-center gap-2">
-                  <h3 className="text-xs sm:text-sm font-bold font-mono text-slate-100 flex items-center gap-1.5 truncate">
-                    <span>{activeChannel.displayName || `#${activeChannel.name}`}</span>
-                    {activeChannel.isPublic === false && (
-                      <Lock size={12} className="text-amber-400 shrink-0" title="Private Encrypted Frequency" />
-                    )}
-                  </h3>
-
-                  {isTeamChannel && (
-                    <span className="px-1.5 py-0.2 bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[9px] rounded font-mono font-bold uppercase shrink-0">
-                      SQUAD
-                    </span>
+              <div className="min-w-0 flex items-center gap-2 flex-1">
+                <h3 className="text-xs sm:text-sm font-bold font-mono text-slate-100 flex items-center gap-1.5 truncate shrink-0">
+                  <span className="truncate max-w-[160px] sm:max-w-[240px]">
+                    {activeChannel.displayName || `#${activeChannel.name}`}
+                  </span>
+                  {activeChannel.isPublic === false && (
+                    <Lock size={11} className="text-amber-400 shrink-0" title="Private Encrypted Frequency" />
                   )}
+                </h3>
 
-                  {isPersonaLogChannel && (
-                    <span className="px-1.5 py-0.2 bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[9px] rounded font-mono font-bold uppercase shrink-0">
-                      TELEMETRY
-                    </span>
-                  )}
-                </div>
+                {/* Addressing Mode Pill */}
+                <span className={`hidden sm:inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase border shrink-0 ${
+                  isTeamChannel
+                    ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+                    : isDirectChannel && isCharacterDirect
+                    ? 'bg-purple-500/20 text-purple-300 border-purple-500/40'
+                    : isPersonaLogChannel
+                    ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                    : 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30'
+                }`}>
+                  <span>
+                    {isTeamChannel
+                      ? '🎭 SQUAD IC'
+                      : isDirectChannel && isCharacterDirect
+                      ? '🎭 PERSONA DM'
+                      : isPersonaLogChannel
+                      ? 'TELEMETRY'
+                      : '👤 OPERATORS'}
+                  </span>
+                </span>
 
-                <p className="text-[10px] sm:text-[10.5px] font-mono text-slate-400 truncate">
-                  {activeChannel.topic || (isDirectChannel ? 'Direct encrypted point-to-point frequency' : 'Quantum transmission frequency')}
-                </p>
+                {activeChannel.topic && (
+                  <span className="hidden xl:inline text-[11px] font-mono text-slate-500 truncate border-l border-slate-800 pl-2">
+                    {activeChannel.topic}
+                  </span>
+                )}
               </div>
             </div>
 
-            {/* Header Actions (Prominent Team Invite, Voice, Settings, Info) */}
-            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 font-mono text-xs">
-              {/* Prominent Invite Operator Button (Always visible on Team Channels & DMs) */}
+            {/* Header Actions & Zone 4 Contextual Inspector Toggles */}
+            <div className="flex items-center gap-1.5 shrink-0 font-mono text-xs">
+              {/* Invite Operator Button */}
               {(isTeamChannel || isDirectChannel || groups.length > 0) && (
                 <button
                   type="button"
@@ -751,24 +793,11 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                     setPreselectedInviteUser(null);
                     setIsQuickInviteOpen(true);
                   }}
-                  className="px-2.5 py-1 rounded-lg bg-emerald-600/25 hover:bg-emerald-600/40 text-emerald-300 border border-emerald-500/50 text-[10.5px] font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
-                  title="Invite Operators to Team / Copy Shareable Join Link"
+                  className="px-2 py-1 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/35 text-emerald-300 border border-emerald-500/50 text-[10px] font-bold transition-all flex items-center gap-1 cursor-pointer"
+                  title="Invite Operators to Squad / Copy Join Link"
                 >
                   <UserPlus size={12} className="text-emerald-400" />
-                  <span className="hidden sm:inline">INVITE TO SQUAD</span>
-                  <span className="sm:hidden">INVITE</span>
-                </button>
-              )}
-
-              {linkedTeam && (
-                <button
-                  type="button"
-                  onClick={handleOpenTeamModal}
-                  className="hidden md:flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700 hover:border-emerald-500/40 text-slate-300 hover:text-emerald-300 text-[10.5px] font-bold transition-colors cursor-pointer"
-                  title="Open Squad Management Hub"
-                >
-                  <Users size={12} />
-                  <span>HUB</span>
+                  <span className="hidden lg:inline">INVITE</span>
                 </button>
               )}
 
@@ -784,7 +813,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                       connectToVoiceRoom(targetRoom, activeChannel.displayName || activeChannel.name);
                     }
                   }}
-                  className={`px-2.5 py-1 rounded-lg text-[10.5px] font-bold transition-all flex items-center gap-1.5 cursor-pointer border ${
+                  className={`px-2 py-1 rounded-lg text-[10px] font-bold transition-all flex items-center gap-1 cursor-pointer border ${
                     isVoiceConnected && currentRoomName === `tangent_freq_${activeChannel.id}`
                       ? 'bg-emerald-600/30 text-emerald-300 border-emerald-500/60 shadow-[0_0_12px_rgba(16,185,129,0.4)] animate-soft-back-glow'
                       : 'bg-slate-900 hover:bg-cyan-950 text-cyan-300 hover:text-cyan-200 border-slate-700 hover:border-cyan-500/40'
@@ -796,10 +825,10 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                   }
                 >
                   <Radio size={12} className={isVoiceConnected && currentRoomName === `tangent_freq_${activeChannel.id}` ? 'animate-spin text-emerald-400' : 'text-cyan-400'} />
-                  <span className="hidden sm:inline">
+                  <span className="hidden md:inline">
                     {isVoiceConnected && currentRoomName === `tangent_freq_${activeChannel.id}`
-                      ? 'VOICE ACTIVE'
-                      : 'VOICE COMMS'}
+                      ? 'VOICE LIVE'
+                      : 'VOICE'}
                   </span>
                 </button>
               )}
@@ -808,128 +837,148 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                 <button
                   type="button"
                   onClick={() => setIsSettingsModalOpen(true)}
-                  className="px-2 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-cyan-300 text-[10.5px] font-bold font-mono transition-colors cursor-pointer flex items-center gap-1.5 shadow-sm"
-                  title="Configure / Edit Frequency Details & Name"
+                  className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-cyan-300 transition-colors cursor-pointer"
+                  title="Edit Frequency Details & Name"
                 >
                   <Edit3 size={12} className="text-cyan-400" />
-                  <span className="hidden sm:inline">EDIT</span>
                 </button>
               )}
 
-              {/* Accessible Users & Roster Button */}
-              <button
-                type="button"
-                onClick={() => {
-                  AudioService.playTerminalBeep(1150, 0.02);
-                  setIsUsersDrawerOpen(prev => !prev || usersDrawerTab !== 'users');
-                  setUsersDrawerTab('users');
-                }}
-                className={`px-2.5 py-1 rounded-lg border text-[11px] font-mono font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-sm ${
-                  isUsersDrawerOpen && usersDrawerTab === 'users'
-                    ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/60 shadow-[0_0_10px_rgba(6,182,212,0.25)]'
-                    : 'bg-slate-900 text-slate-300 border-slate-700 hover:text-cyan-300 hover:border-cyan-500/40'
-                }`}
-                title="Toggle Accessible Users & Roster Menu"
-              >
-                <Users size={13} className={isUsersDrawerOpen && usersDrawerTab === 'users' ? 'text-cyan-400' : 'text-slate-400'} />
-                <span className="hidden sm:inline">USERS</span>
-                <span className="px-1.5 py-0.2 rounded-full text-[9px] bg-slate-800 text-cyan-300 border border-slate-700 font-bold">
-                  {isTeamChannel ? (activeChannelUsers?.personas?.length || 0) : (onlineOperators?.length || 0)}
-                </span>
-              </button>
+              <div className="h-4 w-px bg-slate-800 mx-0.5" />
 
-              {/* Channel Dossier & Technical Specs Button */}
-              <button
-                type="button"
-                onClick={() => {
-                  AudioService.playTerminalBeep(1150, 0.02);
-                  if (isUsersDrawerOpen && usersDrawerTab === 'dossier') {
-                    setIsUsersDrawerOpen(false);
-                  } else {
-                    setIsUsersDrawerOpen(true);
-                    setUsersDrawerTab('dossier');
-                  }
-                }}
-                className={`p-1.5 rounded-lg border text-[10.5px] font-bold flex items-center gap-1 transition-colors cursor-pointer ${
-                  isUsersDrawerOpen && usersDrawerTab === 'dossier'
-                    ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/50 shadow-sm'
-                    : 'bg-slate-900 text-slate-400 border-slate-700 hover:text-cyan-300'
-                }`}
-                title="Toggle Frequency Dossier & Technical Specs"
-              >
-                <Info size={13} />
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* ── Active Chat Context Banner ── */}
-        {activeChannel && (
-          <div className="px-3.5 sm:px-4 py-1.5 bg-[#090e18] border-b border-slate-800/80 flex items-center justify-between gap-3 text-xs font-mono shrink-0 shadow-inner">
-            <div className="flex items-center gap-2 min-w-0">
-              <span className={`px-2 py-0.5 rounded text-[9.5px] font-bold uppercase tracking-wider border shrink-0 flex items-center gap-1.5 ${
-                isTeamChannel
-                  ? 'bg-emerald-950/90 text-emerald-300 border-emerald-500/60 shadow-[0_0_8px_rgba(16,185,129,0.2)]'
-                  : isDirectChannel
-                  ? 'bg-purple-950/90 text-purple-300 border-purple-500/60'
-                  : isPersonaLogChannel
-                  ? 'bg-amber-950/90 text-amber-300 border-amber-500/60'
-                  : 'bg-cyan-950/90 text-cyan-300 border-cyan-500/60 shadow-[0_0_8px_rgba(6,182,212,0.2)]'
-              }`}>
-                <span className={`w-1.5 h-1.5 rounded-full ${
-                  isTeamChannel ? 'bg-emerald-400 animate-soft-badge-glow shadow-[0_0_6px_#10b981]' : isDirectChannel ? 'bg-purple-400' : isPersonaLogChannel ? 'bg-amber-400' : 'bg-cyan-400 animate-soft-badge-glow shadow-[0_0_6px_#22d3ee]'
-                }`} />
-                <span>
-                  {isTeamChannel 
-                    ? 'TEAM FREQUENCY • ADDRESSING PERSONAS' 
-                    : isDirectChannel 
-                    ? (isCharacterDirect ? 'DIRECT COMMS • ADDRESSING PERSONA' : 'DIRECT COMMS • ADDRESSING OPERATOR')
-                    : isPersonaLogChannel 
-                    ? 'AUDIT TELEMETRY • READ ONLY' 
-                    : 'STANDARD RELAY • ADDRESSING OPERATORS'}
-                </span>
-              </span>
-
-              <div className="hidden md:flex items-center gap-1.5 text-slate-400 text-[11px] truncate">
-                <span className="text-slate-600">|</span>
-                <span className="text-slate-500">Addressing Context:</span>
-                {isTeamChannel ? (
-                  <span className="text-emerald-300 font-semibold flex items-center gap-1 truncate">
-                    <span>🎭 Persona (In-Character)</span>
-                    <span className="text-slate-500 text-[10px] truncate">
-                      (Transmitting as: {selectedPersona?.['char-name'] || selectedPersona?.name || 'Active Character'})
+              {/* Zone 4 Unified Inspector Toggles */}
+              {onToggleInspectorTab ? (
+                <div className="flex items-center gap-1 bg-slate-900/90 p-0.5 rounded-xl border border-slate-800">
+                  {/* 1. Roster Toggle */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1150, 0.02);
+                      onToggleInspectorTab('roster');
+                    }}
+                    className={`px-2 py-1 rounded-lg text-[10px] font-bold flex items-center gap-1 transition-all cursor-pointer ${
+                      activeInspectorTab === 'roster'
+                        ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-sm'
+                        : 'text-slate-400 hover:text-slate-200'
+                    }`}
+                    title="Toggle Channel / Squad Roster Inspector"
+                  >
+                    <Users size={12} />
+                    <span className="hidden md:inline">ROSTER</span>
+                    <span className="px-1 py-0.1 rounded-full text-[8.5px] bg-slate-800 text-cyan-300">
+                      {isTeamChannel ? (activeChannelUsers?.personas?.length || 0) : (onlineOperators?.length || 0)}
                     </span>
-                  </span>
-                ) : (
-                  <span className="text-cyan-300 font-semibold flex items-center gap-1 truncate">
-                    <span>👤 Operator (Out-of-Character)</span>
-                    <span className="text-slate-500 text-[10px] truncate">
-                      (Transmitting as: @{userHandle || currentUser?.displayName || 'Operator'})
-                    </span>
-                  </span>
-                )}
-              </div>
-            </div>
+                  </button>
 
-            {/* Quick Link to Users Menu Drawer */}
-            <div className="flex items-center gap-2 shrink-0">
-              <button
-                type="button"
-                onClick={() => {
-                  AudioService.playTerminalBeep(1100, 0.02);
-                  setIsUsersDrawerOpen(true);
-                  setUsersDrawerTab('users');
-                }}
-                className="text-[10.5px] text-cyan-400 hover:text-cyan-200 underline decoration-cyan-500/50 flex items-center gap-1.5 cursor-pointer font-bold"
-                title="Open Accessible Users & Participants Menu"
-              >
-                <Users size={12} />
-                <span>
-                  {isTeamChannel 
-                    ? `${activeChannelUsers?.personas?.length || 0} Squad Characters` 
-                    : `${onlineOperators?.length || 0} Active Operators`}
-                </span>
-              </button>
+                  {/* 2. Tactical Docket Toggle (with Unchecked Alert Pulse!) */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1150, 0.02);
+                      onToggleInspectorTab('docket');
+                    }}
+                    className={`px-2 py-1 rounded-lg text-[10px] font-bold flex items-center gap-1 transition-all cursor-pointer ${
+                      uncheckedDocketCount > 0
+                        ? 'bg-amber-950/80 text-amber-200 border border-amber-500/80 animate-nav-pulse-amber'
+                        : activeInspectorTab === 'docket'
+                        ? 'bg-rose-950/90 text-rose-200 border border-rose-500/60 shadow-sm'
+                        : 'text-slate-400 hover:text-rose-300'
+                    }`}
+                    title="Toggle Architect Tactical Docket"
+                  >
+                    <BookOpen size={12} className={uncheckedDocketCount > 0 ? 'text-amber-300' : 'text-rose-400'} />
+                    <span className="hidden sm:inline">DOCKET</span>
+                    {uncheckedDocketCount > 0 ? (
+                      <span className="px-1 py-0.1 rounded-full bg-amber-400 text-black text-[8.5px] font-black">
+                        {uncheckedDocketCount}!
+                      </span>
+                    ) : docketBlocksCount > 0 ? (
+                      <span className="px-1 py-0.1 rounded-full bg-slate-800 text-rose-300 text-[8.5px]">
+                        {docketBlocksCount}
+                      </span>
+                    ) : null}
+                  </button>
+
+                  {/* 3. VTT Stage Telemetry Toggle */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1150, 0.02);
+                      onToggleInspectorTab('vtt');
+                    }}
+                    className={`p-1.5 rounded-lg text-[10px] font-bold flex items-center gap-1 transition-all cursor-pointer ${
+                      activeInspectorTab === 'vtt'
+                        ? 'bg-amber-950 text-amber-300 border border-amber-500/60 shadow-sm'
+                        : 'text-slate-400 hover:text-amber-300'
+                    }`}
+                    title="Toggle Stage VTT Telemetry Panel"
+                  >
+                    <Map size={12} />
+                  </button>
+
+                  {/* 4. Audit / Channel Info Toggle */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1150, 0.02);
+                      onToggleInspectorTab('audit');
+                    }}
+                    className={`p-1.5 rounded-lg text-[10px] font-bold flex items-center gap-1 transition-all cursor-pointer ${
+                      activeInspectorTab === 'audit'
+                        ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-sm'
+                        : 'text-slate-400 hover:text-cyan-300'
+                    }`}
+                    title="Toggle Channel Dossier & Persona Audit Log"
+                  >
+                    <Info size={12} />
+                  </button>
+                </div>
+              ) : (
+                /* Fallback for standalone / CommLinkDock view */
+                <>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1150, 0.02);
+                      setIsUsersDrawerOpen(prev => !prev || usersDrawerTab !== 'users');
+                      setUsersDrawerTab('users');
+                    }}
+                    className={`px-2.5 py-1 rounded-lg border text-[11px] font-mono font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-sm ${
+                      isUsersDrawerOpen && usersDrawerTab === 'users'
+                        ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/60 shadow-[0_0_10px_rgba(6,182,212,0.25)]'
+                        : 'bg-slate-900 text-slate-300 border-slate-700 hover:text-cyan-300 hover:border-cyan-500/40'
+                    }`}
+                    title="Toggle Accessible Users & Roster Menu"
+                  >
+                    <Users size={13} className={isUsersDrawerOpen && usersDrawerTab === 'users' ? 'text-cyan-400' : 'text-slate-400'} />
+                    <span className="hidden sm:inline">USERS</span>
+                    <span className="px-1.5 py-0.2 rounded-full text-[9px] bg-slate-800 text-cyan-300 border border-slate-700 font-bold">
+                      {isTeamChannel ? (activeChannelUsers?.personas?.length || 0) : (onlineOperators?.length || 0)}
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1150, 0.02);
+                      if (isUsersDrawerOpen && usersDrawerTab === 'dossier') {
+                        setIsUsersDrawerOpen(false);
+                      } else {
+                        setIsUsersDrawerOpen(true);
+                        setUsersDrawerTab('dossier');
+                      }
+                    }}
+                    className={`p-1.5 rounded-lg border text-[10.5px] font-bold flex items-center gap-1 transition-colors cursor-pointer ${
+                      isUsersDrawerOpen && usersDrawerTab === 'dossier'
+                        ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/50 shadow-sm'
+                        : 'bg-slate-900 text-slate-400 border-slate-700 hover:text-cyan-300'
+                    }`}
+                    title="Toggle Frequency Dossier & Technical Specs"
+                  >
+                    <Info size={13} />
+                  </button>
+                </>
+              )}
             </div>
           </div>
         )}
@@ -1149,7 +1198,24 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                 {/* Message Header (Shown only if NOT grouped consecutively) */}
                 {!isGrouped && (
                   <div className="flex items-center justify-between gap-2 mb-0.5">
-                    <div className="flex items-center gap-2 flex-wrap min-w-0">
+                    <div
+                      onClick={() => {
+                        if (msg.type === 'system') return;
+                        AudioService.playTerminalBeep(1200, 0.015);
+                        const opUser = userDirectory.find(u => u.uid === msg.senderUid || u.uid === msg.senderId) || null;
+                        setInspectedSender({
+                          uid: msg.senderUid || msg.senderId,
+                          operatorHandle: msg.operatorHandle || msg.senderHandle || 'Operator',
+                          persona: persona || opUser?.currentPersona || opUser?.characters?.[0] || null,
+                          isIC: Boolean(isIC || isTeamChannel),
+                          isOnline: Boolean(opUser?.isOnline || isSelf),
+                          activityLabel: opUser?.activity?.label || opUser?.statusMessage || 'Active on Terran Net',
+                          userObj: opUser
+                        });
+                      }}
+                      className="flex items-center gap-2 flex-wrap min-w-0 cursor-pointer hover:opacity-90"
+                      title="Click to inspect Operator & Persona Tactical Card"
+                    >
                       {/* Avatar Glyph */}
                       <div className={`w-5 h-5 rounded flex items-center justify-center shrink-0 font-mono font-bold text-[10px] border ${
                         isTeamChannel
@@ -1175,7 +1241,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                       {isTeamChannel ? (
                         /* Team Channel: Address Persona (Character) */
                         <>
-                          <span className="text-xs font-mono font-bold text-emerald-300 truncate">
+                          <span className="text-xs font-mono font-bold text-emerald-300 hover:underline truncate">
                             {persona?.name || msg.senderHandle || 'Persona'}
                           </span>
                           <span className="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[9px] font-mono font-bold uppercase truncate max-w-[200px]">
@@ -1188,7 +1254,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                       ) : (
                         /* Standard Channel: Address Operator (Player) */
                         <>
-                          <span className={`text-xs font-mono font-bold truncate ${
+                          <span className={`text-xs font-mono font-bold hover:underline truncate ${
                             isSelf ? 'text-cyan-300' : 'text-slate-100'
                           }`}>
                             @{msg.operatorHandle || msg.senderHandle || 'Operator'}
@@ -1253,10 +1319,134 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
             );
           })}
         </div>
+
+        {/* ── Tactical Operator & Persona Popover Card Overlay ── */}
+        {inspectedSender && (
+          <div
+            className="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center p-4"
+            onClick={() => setInspectedSender(null)}
+          >
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-sm rounded-2xl bg-slate-950 border border-cyan-500/50 shadow-[0_0_30px_rgba(6,182,212,0.25)] p-4 font-mono text-xs space-y-3 animate-in zoom-in-95 duration-150"
+            >
+              <div className="flex items-start justify-between gap-3 border-b border-slate-800 pb-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="relative shrink-0">
+                    <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-950 via-slate-900 to-emerald-950 border border-cyan-500/50 flex items-center justify-center font-extrabold text-sm text-cyan-300">
+                      {(inspectedSender.persona?.name || inspectedSender.operatorHandle || 'OP').slice(0, 2).toUpperCase()}
+                    </div>
+                    <span
+                      className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-slate-950 ${
+                        inspectedSender.isOnline ? 'bg-emerald-400' : 'bg-slate-600'
+                      }`}
+                    />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="font-extrabold text-sm text-white truncate">
+                      @{inspectedSender.operatorHandle}
+                    </div>
+                    <div className="text-[10px] text-cyan-400 truncate">
+                      {inspectedSender.activityLabel}
+                    </div>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setInspectedSender(null)}
+                  className="p-1 rounded-lg hover:bg-slate-900 text-slate-400 hover:text-white cursor-pointer"
+                >
+                  <X size={14} />
+                </button>
+              </div>
+
+              {/* Bound Folio Persona Card */}
+              {inspectedSender.persona && (
+                <div className="p-3 rounded-xl bg-emerald-950/25 border border-emerald-500/40 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[9.5px] font-bold text-emerald-400 uppercase tracking-wider">
+                      🎭 ACTIVE FOLIO PERSONA
+                    </span>
+                    <span className="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[9px] font-bold">
+                      {inspectedSender.persona.species || 'Human'}
+                    </span>
+                  </div>
+                  <div className="font-bold text-sm text-emerald-200">
+                    {inspectedSender.persona.name || inspectedSender.persona['char-name']}
+                  </div>
+                  <div className="text-[10.5px] text-slate-300">
+                    Archetype: {inspectedSender.persona.role || inspectedSender.persona['char-concept'] || 'Specialist'}
+                  </div>
+                </div>
+              )}
+
+              {/* Quick Actions */}
+              {currentUser?.uid !== inspectedSender.uid && (
+                <div className="grid grid-cols-2 gap-2 pt-1">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      startDirectMessage(
+                        inspectedSender.userObj || {
+                          uid: inspectedSender.uid,
+                          userHandle: inspectedSender.operatorHandle
+                        },
+                        null
+                      );
+                      setInspectedSender(null);
+                    }}
+                    className="px-3 py-2 rounded-xl bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-200 font-bold text-[10.5px] flex items-center justify-center gap-1.5 cursor-pointer"
+                  >
+                    <User size={12} />
+                    <span>DM OPERATOR</span>
+                  </button>
+
+                  {inspectedSender.persona && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        startDirectMessage(
+                          inspectedSender.userObj || {
+                            uid: inspectedSender.uid,
+                            userHandle: inspectedSender.operatorHandle
+                          },
+                          inspectedSender.persona
+                        );
+                        setInspectedSender(null);
+                      }}
+                      className="px-3 py-2 rounded-xl bg-purple-950/80 hover:bg-purple-900 border border-purple-500/50 text-purple-200 font-bold text-[10.5px] flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      <span>🎭 WHISPER IC</span>
+                    </button>
+                  )}
+
+                  {groups.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setPreselectedInviteUser({
+                          uid: inspectedSender.uid,
+                          userHandle: inspectedSender.operatorHandle,
+                          displayName: inspectedSender.operatorHandle
+                        });
+                        setInspectedSender(null);
+                        setIsQuickInviteOpen(true);
+                      }}
+                      className="col-span-2 px-3 py-2 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/50 text-emerald-200 font-bold text-[10.5px] flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      <UserPlus size={12} />
+                      <span>INVITE TO TACTICAL SQUAD</span>
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* ── Accessible Right Drawer: Users Roster Menu & Channel Dossier ── */}
-      {isUsersDrawerOpen && activeChannel && (
+      {/* ── Accessible Right Drawer (Only used in standalone/CommLinkDock when Zone 4 Inspector is not mounted) ── */}
+      {!onToggleInspectorTab && isUsersDrawerOpen && activeChannel && (
         <aside className="w-80 sm:w-88 md:w-96 border-l border-slate-800 bg-[#080c14]/95 backdrop-blur-md flex flex-col font-mono text-xs animate-in slide-in-from-right duration-200 overflow-hidden select-none shrink-0 z-20 shadow-2xl">
           {/* Top Tabs: USERS vs DOSSIER */}
           <div className="p-2.5 pb-2 border-b border-slate-800 flex items-center justify-between gap-2 bg-slate-950/90 shrink-0">

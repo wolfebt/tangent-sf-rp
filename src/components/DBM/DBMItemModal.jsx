@@ -73,7 +73,7 @@ export const DBMItemModal = ({
   isOpen,
   onClose,
   isModal = false,
-  isEditMode = false,
+  isEditMode = true,
   setIsEditMode = () => {},
   selectedItem = null,
   editFormData = {},

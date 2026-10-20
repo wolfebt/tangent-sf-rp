@@ -52,7 +52,7 @@ export const CodexManageModal = ({
       matrix={matrix}
       initialData={initialData}
       currentKey={key}
-      isEditMode={mode !== 'view'}
+      isEditMode={Boolean(isAdmin)}
       onSaveComplete={handleSaveComplete}
       onDelete={handleDeleteComplete}
       devMode={devMode}

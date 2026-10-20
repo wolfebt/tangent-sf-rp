@@ -82,7 +82,6 @@ export const GlobalSideRail = () => {
       sublabel: 'Persona Roster & Dossiers',
       icon: Users,
       colorTheme: 'cyan',
-      badge: heroCount > 0 ? `${heroCount}` : null,
       onClick: () => {
         AudioService.playTerminalBeep(1150, 0.02);
         navigate('/folio');
@@ -94,7 +93,6 @@ export const GlobalSideRail = () => {
       sublabel: 'Omnicortex Master Database',
       icon: Database,
       colorTheme: 'amber',
-      badge: dbmTotalItems > 0 ? `${dbmTotalItems}` : null,
       onMouseEnter: () => {
         loadCompendiumCatalog();
       },
@@ -109,7 +107,6 @@ export const GlobalSideRail = () => {
       sublabel: 'Consolidated Story, Maps & Stage',
       icon: Layers,
       colorTheme: 'purple',
-      badge: (scenarioCount + mapsCount) > 0 ? `${scenarioCount + mapsCount}` : null,
       onClick: () => {
         AudioService.playTerminalBeep(1150, 0.02);
         navigate('/foundry');
@@ -127,20 +124,8 @@ export const GlobalSideRail = () => {
         : 'Tactical Squads, CommLink & Operator Relay',
       icon: Radio,
       colorTheme: 'emerald',
-      badge: totalUnreadCount > 0 
-        ? `${totalUnreadCount}` 
-        : (inviteCount > 0 
-          ? `${inviteCount}!` 
-          : (hasNewOperatorLogins 
-            ? (newOperatorLogins.length > 0 ? `+${newOperatorLogins.length}` : 'NEW') 
-            : (teamCount > 0 ? `${teamCount}` : null))),
-      badgeColor: (totalUnreadCount > 0 || inviteCount > 0)
-        ? 'bg-amber-500 text-black font-extrabold animate-soft-badge-glow shadow-[0_0_8px_rgba(245,158,11,0.7)]'
-        : (hasNewOperatorLogins ? 'bg-emerald-400 text-black animate-soft-badge-glow shadow-[0_0_8px_rgba(16,185,129,0.7)]' : undefined),
-      pulse: totalUnreadCount > 0 || inviteCount > 0 || hasNewOperatorLogins,
-      pulseClass: (totalUnreadCount > 0 || inviteCount > 0)
-        ? 'animate-nav-pulse-amber'
-        : 'animate-nav-pulse-emerald',
+      pulse: totalUnreadCount > 0,
+      pulseClass: 'animate-nav-pulse-amber',
       onClick: () => {
         AudioService.playTerminalBeep(1150, 0.02);
         if (hasNewOperatorLogins && totalUnreadCount === 0) {

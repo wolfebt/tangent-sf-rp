@@ -1,13 +1,10 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 
-const DiceContext = createContext();
+const DiceContext = globalThis.__TANGENT_DICE_CONTEXT__ || (globalThis.__TANGENT_DICE_CONTEXT__ = createContext({}));
 
 export const useDice = () => {
   const context = useContext(DiceContext);
-  if (!context) {
-    throw new Error('useDice must be used within a DiceProvider');
-  }
-  return context;
+  return context || {};
 };
 
 export const DiceProvider = ({ children }) => {

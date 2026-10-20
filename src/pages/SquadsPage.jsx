@@ -26,7 +26,10 @@ import {
   HelpCircle,
   Clock,
   ChevronRight,
-  Compass
+  Compass,
+  Map,
+  CheckCircle2,
+  MessageSquare
 } from 'lucide-react';
 import { useSquad } from '../context/SquadContext';
 import { useChat } from '../context/ChatContext';
@@ -45,17 +48,21 @@ import { SquadDirectoryTab } from '../components/Squads/tabs/SquadDirectoryTab';
 import { SquadInvitesTab } from '../components/Squads/tabs/SquadInvitesTab';
 import { SquadCommsTab } from '../components/Squads/tabs/SquadCommsTab';
 import { SquadSettingsTab } from '../components/Squads/tabs/SquadSettingsTab';
+import { SquadTacticalTab } from '../components/Squads/tabs/SquadTacticalTab';
 import { SquadInviteConfirmationModal } from '../components/Squads/SquadInviteConfirmationModal';
 
 /**
  * @file SquadsPage.jsx
  * @description Dedicated primary workstation for Game Squads & Tactical Fireteams.
- * Features a persistent SquadsNavRail, real-time squad roster, public directory,
- * invite command center with QR codes, tied-in encrypted tactical comms,
- * and direct one-click deployment into The Stage VTT.
+ * Features a persistent SquadsNavRail (or integrates into Zone 3 of the 4-Zone Comm Center),
+ * real-time squad roster, Mission Ready Check bar, Tactical Stage VTT tab, public directory,
+ * invite command center with QR codes, and tied-in encrypted tactical comms.
  */
 export const SquadsPage = ({
   hideHeader = false,
+  hideLeftRail = false,
+  controlledTab,
+  onTabChange,
   onSwitchToComms,
   initialTab: propInitialTab
 }) => {
@@ -108,7 +115,8 @@ export const SquadsPage = ({
     deleteSquad,
     deleteGroup,
     updateSquad,
-    updateGroup
+    updateGroup,
+    togglePersonaPlayLock
   } = useSquad() || {};
 
   const effectiveSquads = squads.length > 0 ? squads : groups;
@@ -131,10 +139,17 @@ export const SquadsPage = ({
   const { personaRoster = [], roster = [], activePersona } = useFolio() || {};
   const { storyCatalog = [] } = useStory() || {};
 
+  // Sync controlledTab from parent 4-Zone Workstation
+  useEffect(() => {
+    if (controlledTab && ['roster', 'directory', 'invites', 'comms', 'tactical', 'settings'].includes(controlledTab)) {
+      setActiveTab(controlledTab);
+    }
+  }, [controlledTab]);
+
   // Sync tab with URL search parameter
   useEffect(() => {
     const tabParam = searchParams.get('tab');
-    if (tabParam && ['roster', 'directory', 'invites', 'comms', 'settings'].includes(tabParam)) {
+    if (tabParam && ['roster', 'directory', 'invites', 'comms', 'tactical', 'settings'].includes(tabParam)) {
       setActiveTab(tabParam);
     }
   }, [searchParams]);
@@ -161,6 +176,7 @@ export const SquadsPage = ({
 
   const handleSelectTab = (tabId) => {
     setActiveTab(tabId);
+    onTabChange?.(tabId);
     setSearchParams(prev => {
       const next = new URLSearchParams(prev);
       next.set('tab', tabId);
@@ -359,21 +375,24 @@ export const SquadsPage = ({
 
       {/* Main Workstation Container */}
       <div className="flex-1 flex flex-col md:flex-row min-h-0 overflow-hidden relative">
-        {/* Left Navigation Rail (Hidden on mobile to eliminate page crunch) */}
-        <div className="hidden md:flex h-full shrink-0">
-          <SquadsNavRail
-            activeTab={activeTab}
-            onSelectTab={handleSelectTab}
-            onOpenCreateModal={() => setIsCreateModalOpen(true)}
-            onOpenGuideModal={() => setIsGuideModalOpen(true)}
-          />
-        </div>
+        {/* Left Navigation Rail (Hidden on mobile or when embedded in 4-Zone Workstation) */}
+        {!hideLeftRail && (
+          <div className="hidden md:flex h-full shrink-0">
+            <SquadsNavRail
+              activeTab={activeTab}
+              onSelectTab={handleSelectTab}
+              onOpenCreateModal={() => setIsCreateModalOpen(true)}
+              onOpenGuideModal={() => setIsGuideModalOpen(true)}
+            />
+          </div>
+        )}
 
         {/* Mobile Horizontal Sub-Tab Strip (< md screens) */}
         <div className="md:hidden bg-slate-950/95 border-b border-slate-800/90 px-2.5 py-1.5 flex items-center justify-between gap-1.5 shrink-0 z-10 font-mono text-xs">
           <div className="flex items-center gap-1 overflow-x-auto no-scrollbar py-0.5 min-w-0">
             {[
               { id: 'roster', label: 'ROSTER', icon: Users, badge: effectiveActiveSquad?.members?.length },
+              { id: 'tactical', label: 'STAGE VTT', icon: Shield, badge: 'VTT' },
               { id: 'directory', label: 'SQUADS', icon: Globe, badge: effectiveSquads.length > 0 ? effectiveSquads.length : null },
               { id: 'invites', label: 'INVITES', icon: UserPlus, badge: pendingInvites.length > 0 ? `${pendingInvites.length}!` : null, isAlert: pendingInvites.length > 0 },
               { id: 'comms', label: 'COMMS', icon: Radio },
@@ -430,6 +449,110 @@ export const SquadsPage = ({
 
         {/* Main Routed Content Panel */}
         <main className="flex-1 flex flex-col min-w-0 h-full overflow-hidden bg-[#090d16] relative">
+          {/* 48px Single Squad Command & Mission Ready Check Header (when embedded) */}
+          {hideHeader && (
+            <div className="h-12 px-3 sm:px-4 bg-slate-950/95 border-b border-slate-800/90 flex items-center justify-between gap-2 shrink-0 font-mono text-xs z-10">
+              <div className="flex items-center gap-2 min-w-0">
+                <Shield size={15} className="text-emerald-400 shrink-0" />
+                {effectiveSquads.length > 0 ? (
+                  <div className="relative">
+                    <select
+                      value={effectiveActiveSquad?.id || ''}
+                      onChange={(e) => {
+                        AudioService.playTerminalBeep(1100, 0.02);
+                        effectiveSelectSquad(e.target.value);
+                      }}
+                      className="bg-emerald-950/70 border border-emerald-500/40 text-emerald-200 font-bold px-2.5 py-1 rounded-lg appearance-none pr-6 cursor-pointer focus:outline-none focus:border-emerald-400 text-xs truncate max-w-[160px] sm:max-w-[220px]"
+                    >
+                      {effectiveSquads.map(s => (
+                        <option key={s.id} value={s.id} className="bg-slate-900 text-slate-100">
+                          {s.name} ({s.members?.length || 0} Ops)
+                        </option>
+                      ))}
+                    </select>
+                    <span className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-emerald-400 text-[9px]">▼</span>
+                  </div>
+                ) : (
+                  <span className="text-slate-400 font-bold text-xs">NO ENROLLED SQUAD</span>
+                )}
+
+                {effectiveActiveSquad?.inviteCode && (
+                  <button
+                    type="button"
+                    onClick={handleCopyCode}
+                    className="hidden sm:flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-900 border border-slate-800 hover:border-emerald-500/40 text-[10px] text-slate-300 hover:text-emerald-300 transition-colors cursor-pointer"
+                    title="Copy Squad Invite Code"
+                  >
+                    <span className="text-slate-500">JOIN CODE:</span>
+                    <span className="font-bold text-emerald-300">{effectiveActiveSquad.inviteCode}</span>
+                    {copiedCode ? <Check size={11} className="text-emerald-400" /> : <Copy size={11} />}
+                  </button>
+                )}
+              </div>
+
+              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                {/* Interactive Mission Ready Check / Loadout Lock Toggle */}
+                {effectiveActiveSquad && currentUser && (
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      const nextLocked = !currentMemberDetail?.isLockedForPlay;
+                      AudioService.playTerminalBeep(nextLocked ? 1450 : 950, 0.03);
+                      try {
+                        await togglePersonaPlayLock?.(effectiveActiveSquad.id, currentUser.uid, nextLocked);
+                        toast?.({
+                          type: nextLocked ? 'success' : 'info',
+                          text: nextLocked
+                            ? 'Persona Loadout LOCKED & READY for Mission Deployment!'
+                            : 'Persona Loadout unlocked for modification.'
+                        });
+                      } catch (err) {
+                        toast?.({ type: 'error', text: err.message || 'Could not update ready state.' });
+                      }
+                    }}
+                    className={`px-2.5 py-1 rounded-lg font-bold text-[10.5px] flex items-center gap-1.5 border transition-all cursor-pointer ${
+                      currentMemberDetail?.isLockedForPlay
+                        ? 'bg-emerald-600/25 border-emerald-400 text-emerald-200 shadow-[0_0_12px_rgba(16,185,129,0.3)]'
+                        : 'bg-slate-900 hover:bg-slate-800 border-slate-700 text-slate-300 hover:text-emerald-300'
+                    }`}
+                    title="Lock your enrolled Folio Persona & signal Ready for Mission"
+                  >
+                    <span className={`w-2 h-2 rounded-full ${currentMemberDetail?.isLockedForPlay ? 'bg-emerald-400 animate-pulse' : 'bg-slate-500'}`} />
+                    <span>{currentMemberDetail?.isLockedForPlay ? 'READY (LOCKED)' : 'READY CHECK'}</span>
+                  </button>
+                )}
+
+                {onSwitchToComms && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1200, 0.02);
+                      onSwitchToComms();
+                    }}
+                    className="px-2.5 py-1 rounded-lg bg-amber-950/60 hover:bg-amber-900/70 border border-amber-500/40 text-amber-300 font-bold text-[10.5px] flex items-center gap-1 transition-colors cursor-pointer"
+                    title="Return to Live Squad Comms Channel"
+                  >
+                    <Radio size={12} />
+                    <span className="hidden xs:inline">SQUAD COMMS</span>
+                  </button>
+                )}
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1300, 0.03);
+                    setIsCreateModalOpen(true);
+                  }}
+                  className="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[10.5px] flex items-center gap-1 shadow-sm transition-colors cursor-pointer"
+                  title="Commission New Squad"
+                >
+                  <Plus size={12} />
+                  <span className="hidden sm:inline">NEW SQUAD</span>
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* TAB 1: SQUAD ROSTER */}
           {activeTab === 'roster' && (
             <SquadRosterTab
@@ -445,11 +568,19 @@ export const SquadsPage = ({
               kickMember={kickMember}
               updateMemberRole={updateMemberRole}
               setIsCreateModalOpen={setIsCreateModalOpen}
-              setActiveTab={setActiveTab}
+              setActiveTab={handleSelectTab}
             />
           )}
 
-          {/* TAB 2: SQUADS DIRECTORY & JOIN */}
+          {/* TAB 2: TACTICAL BRIEFING & VTT LAUNCHPAD */}
+          {activeTab === 'tactical' && (
+            <SquadTacticalTab
+              activeGroup={effectiveActiveSquad}
+              navigate={navigate}
+            />
+          )}
+
+          {/* TAB 3: SQUADS DIRECTORY & JOIN */}
           {activeTab === 'directory' && (
             <SquadDirectoryTab
               directorySearch={directorySearch}
@@ -465,13 +596,13 @@ export const SquadsPage = ({
               currentUser={currentUser}
               activeGroup={effectiveActiveSquad}
               selectGroup={effectiveSelectSquad}
-              setActiveTab={setActiveTab}
+              setActiveTab={handleSelectTab}
               joinByCode={joinByCode}
               toast={toast}
             />
           )}
 
-          {/* TAB 3: INVITE COMMAND CENTER */}
+          {/* TAB 4: INVITE COMMAND CENTER */}
           {activeTab === 'invites' && (
             <SquadInvitesTab
               activeGroup={effectiveActiveSquad}
@@ -494,7 +625,7 @@ export const SquadsPage = ({
             />
           )}
 
-          {/* TAB 4: SQUAD COMMS FREQUENCY FEED */}
+          {/* TAB 5: SQUAD COMMS FREQUENCY FEED */}
           {activeTab === 'comms' && (
             <SquadCommsTab
               activeGroup={effectiveActiveSquad}
@@ -503,7 +634,7 @@ export const SquadsPage = ({
             />
           )}
 
-          {/* TAB 5: SQUAD SETTINGS & POLICIES */}
+          {/* TAB 6: SQUAD SETTINGS & POLICIES */}
           {activeTab === 'settings' && (
             <SquadSettingsTab
               activeGroup={effectiveActiveSquad}

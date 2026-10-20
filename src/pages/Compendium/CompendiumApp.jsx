@@ -94,22 +94,22 @@ export const CompendiumApp = () => {
         setSelectedItem(match);
         setActiveItemCategoryKey('compendium');
         setEditFormData({ ...match });
-        setIsEditMode(false);
+        setIsEditMode(Boolean(isAdmin));
         setIsEntryModalOpen(true);
       }
     } else if (!articleParam && isEntryModalOpen) {
       setIsEntryModalOpen(false);
       setSelectedItem(null);
     }
-  }, [searchParams, currentRulesItems, selectedItem?.id, isEntryModalOpen]);
+  }, [searchParams, currentRulesItems, selectedItem?.id, isEntryModalOpen, isAdmin]);
 
   // Handle open item for viewing / inspecting
-  const handleOpenItem = (item, catKey = currentRulesKey, edit = false) => {
+  const handleOpenItem = (item, catKey = currentRulesKey) => {
     AudioService.playTerminalBeep(1100, 0.02);
     setSelectedItem(item);
     setActiveItemCategoryKey(catKey);
     setEditFormData(item ? { ...item } : { name: '', description: '' });
-    setIsEditMode(isAdmin && edit ? true : false);
+    setIsEditMode(Boolean(isAdmin));
     setIsEntryModalOpen(true);
 
     if (item?.id) {
