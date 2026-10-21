@@ -46,6 +46,10 @@ tech_level: 4
 meta_level: 3
 keywords: 'inquisitor''s mind-plate, armor, defense, dr-25, heavy-armor, tl-4'
 negative_keywords: 'unarmored, fragile, naked, high-acrobatics'
+collection: armoring
+armor_class: Heavyweight
+armor_type: Heavyweight
+mobility_penalty: 0
 ---
 Heavy armor worn by Ascendancy Inquisitors with built-in psi-amplifiers and anti-telepathic dampeners.
 

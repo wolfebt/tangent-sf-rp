@@ -69,7 +69,9 @@ import {
   HelpCircle,
   CheckCircle2,
   AlertTriangle,
-  XCircle
+  XCircle,
+  ChevronDown,
+  Download
 } from 'lucide-react';
 
 import TacticalStageViewport from '../panels/TacticalStageViewport';
@@ -94,7 +96,9 @@ export const InteractiveStoryStudio = ({
   activeNode: propActiveNode, 
   onSelectScenario,
   linkedMap: propLinkedMap,
-  allAvailableMaps: propAllAvailableMaps
+  allAvailableMaps: propAllAvailableMaps,
+  modePulldown = null,
+  stageHandoff = null
 }) => {
   // Campaign & Story Context
   const campaign = useCampaign() || {};
@@ -855,33 +859,38 @@ Respond in 2-3 concise in-character sentences.`;
 
   const activeBeat = beats.length > 0 ? beats[beats.length - 1] : null;
 
+  // Popover state for streamlined single-row toolbar menus
+  const [isOperativeMenuOpen, setIsOperativeMenuOpen] = useState(false);
+  const [isEngineMenuOpen, setIsEngineMenuOpen] = useState(false);
+  const operativeMenuRef = useRef(null);
+  const engineMenuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (operativeMenuRef.current && !operativeMenuRef.current.contains(e.target)) {
+        setIsOperativeMenuOpen(false);
+      }
+      if (engineMenuRef.current && !engineMenuRef.current.contains(e.target)) {
+        setIsEngineMenuOpen(false);
+      }
+    };
+    window.addEventListener('pointerdown', handleClickOutside, true);
+    return () => window.removeEventListener('pointerdown', handleClickOutside, true);
+  }, []);
+
+  const vramTelemetry = calculateVramTelemetry(selectedLodTier);
+
   return (
     <div className="flex-1 flex flex-col h-full w-full overflow-hidden bg-[#080c14] font-mono select-none">
-      {/* ── TOP INTEGRATED HEADER: SCENARIO & DATABASE PERSONA SELECTOR ── */}
-      <div className="p-2 border-b border-slate-800 bg-slate-950 flex items-center justify-between gap-2.5 shrink-0 flex-wrap text-xs z-20">
-        {/* Left: Scenario Selector & Presentation Switcher */}
-        <div className="flex items-center gap-2 min-w-0">
-          <BookOpen size={14} className="text-amber-400 shrink-0" />
-          <select
-            value={activeScenario?.id || ''}
-            onChange={(e) => {
-              const val = e.target.value;
-              setSelectedScenarioId(val);
-              if (onSelectScenario) onSelectScenario(val);
-              if (setActiveScenarioId) setActiveScenarioId(val);
-            }}
-            className="bg-slate-900 border border-slate-700 text-cyan-300 font-bold px-2 py-1 rounded-lg outline-none focus:border-cyan-400 text-xs max-w-[170px] md:max-w-[210px] truncate cursor-pointer"
-            title="Select Scenario to Play"
-          >
-            {allFoundryScenarios.map(s => (
-              <option key={s.id} value={s.id} className="bg-slate-900 text-slate-100">
-                {s.title || 'Untitled Scenario'} ({s.type || 'Scene'})
-              </option>
-            ))}
-          </select>
+      {/* ── UNIFIED SINGLE-ROW GLASS-COCKPIT INTERACTIVE PLAY TOOLBAR ── */}
+      <div className="px-3 py-1.5 border-b border-slate-800 bg-slate-950/95 flex items-center justify-between gap-2 shrink-0 flex-wrap text-xs z-30 relative">
+        {/* Left Cluster: Mode Pulldown + Layout Switcher + Operative Pulldown + Epistemic + Engine/Session Pulldown */}
+        <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap min-w-0">
+          {/* 1. Weaver Mode Pulldown (when embedded in WeaverWorkspace) */}
+          {modePulldown}
 
-          {/* Presentation Mode Selector: Book Mode vs Fullscreen Play vs Split View vs Fullscreen Stage */}
-          <div className="flex items-center bg-slate-900 border border-slate-800 rounded-xl p-0.5 text-xs ml-1">
+          {/* 2. Presentation Mode Switcher: Book / Play / Split / Stage */}
+          <div className="flex items-center bg-slate-900 border border-slate-800 rounded-xl p-0.5 text-xs">
             <button
               type="button"
               onClick={() => setLayoutMode('book_mode')}
@@ -934,146 +943,295 @@ Respond in 2-3 concise in-character sentences.`;
               <Swords size={11} />
               <span className="hidden sm:inline">Stage</span>
             </button>
+
+            {/* Inline Split Ratio Presets when Split View is active */}
+            {layoutMode === 'split' && (
+              <div className="hidden xl:flex items-center gap-0.5 bg-slate-950 px-1 py-0.5 ml-1 rounded-lg border border-emerald-500/30 text-[9px] font-bold">
+                <button
+                  type="button"
+                  onClick={() => setSplitRatio('story_bias')}
+                  className={`px-1 py-0.2 rounded cursor-pointer ${splitRatio === 'story_bias' ? 'bg-emerald-500/30 text-emerald-300 font-extrabold' : 'text-slate-400 hover:text-white'}`}
+                  title="75% Story / 25% Stage"
+                >
+                  75/25
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSplitRatio('50_50')}
+                  className={`px-1 py-0.2 rounded cursor-pointer ${splitRatio === '50_50' ? 'bg-emerald-500/30 text-emerald-300 font-extrabold' : 'text-slate-400 hover:text-white'}`}
+                  title="50% Story / 50% Stage"
+                >
+                  50/50
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSplitRatio('stage_bias')}
+                  className={`px-1 py-0.2 rounded cursor-pointer ${splitRatio === 'stage_bias' ? 'bg-emerald-500/30 text-emerald-300 font-extrabold' : 'text-slate-400 hover:text-white'}`}
+                  title="25% Story / 75% Stage"
+                >
+                  25/75
+                </button>
+              </div>
+            )}
           </div>
 
-          {/* Split Ratio Presets */}
-          {layoutMode === 'split' && (
-            <div className="hidden lg:flex items-center gap-0.5 bg-slate-950 px-1 py-0.5 rounded-lg border border-emerald-500/30 text-[9px] font-bold">
-              <button
-                type="button"
-                onClick={() => setSplitRatio('story_bias')}
-                className={`px-1.5 py-0.2 rounded ${splitRatio === 'story_bias' ? 'bg-emerald-500/30 text-emerald-300 font-extrabold' : 'text-slate-400'}`}
-                title="75% Story / 25% Stage"
-              >
-                75/25
-              </button>
-              <button
-                type="button"
-                onClick={() => setSplitRatio('50_50')}
-                className={`px-1.5 py-0.2 rounded ${splitRatio === '50_50' ? 'bg-emerald-500/30 text-emerald-300 font-extrabold' : 'text-slate-400'}`}
-                title="50% Story / 50% Stage"
-              >
-                50/50
-              </button>
-              <button
-                type="button"
-                onClick={() => setSplitRatio('stage_bias')}
-                className={`px-1.5 py-0.2 rounded ${splitRatio === 'stage_bias' ? 'bg-emerald-500/30 text-emerald-300 font-extrabold' : 'text-slate-400'}`}
-                title="25% Story / 75% Stage"
-              >
-                25/75
-              </button>
-            </div>
-          )}
-        </div>
-
-        {/* Center/Right: Database Persona Selector & Party Controls */}
-        <div className="flex items-center gap-2 flex-wrap">
-          {/* Database Personas Selector */}
-          <div className="flex items-center gap-1.5 bg-slate-900 border border-slate-800 rounded-xl px-2 py-0.5 text-xs">
-            <Database size={11} className="text-cyan-400 shrink-0" />
-            <span className="text-[10px] text-slate-400 uppercase font-bold hidden xl:inline">Operative DB:</span>
-            <select
-              value={selectedOperativeId}
-              onChange={(e) => setSelectedOperativeId(e.target.value)}
-              className="bg-transparent border-none text-slate-200 font-bold text-xs outline-none max-w-[160px] md:max-w-[190px] truncate cursor-pointer"
-              title="Select Operative from Database Content"
-            >
-              {allDatabasePersonas.map(p => (
-                <option key={p.id} value={p.id} className="bg-slate-900 text-slate-100">
-                  {p.name} [{p.sourceLabel}]
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Party Mode: Solo by default vs Group */}
-          <div className="flex items-center bg-slate-900 border border-slate-800 rounded-xl p-0.5 text-xs">
-            <button
-              type="button"
-              onClick={() => setPartyMode('solo')}
-              className={`px-2 py-0.5 rounded-lg font-bold flex items-center gap-1 transition-all cursor-pointer ${
-                partyMode === 'solo'
-                  ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-              title="Solo Operative Mode (Default)"
-            >
-              <User size={11} />
-              <span>Solo</span>
-            </button>
+          {/* 3. Consolidated Operative, Party & Role Dropdown */}
+          <div className="relative" ref={operativeMenuRef}>
             <button
               type="button"
               onClick={() => {
-                setPartyMode('group');
-                if (operatives.length < 2 && allDatabasePersonas.length > 1) {
-                  setOperatives(allDatabasePersonas.slice(0, 3));
-                }
+                AudioService.playTerminalBeep(1000, 0.02);
+                setIsEngineMenuOpen(false);
+                setIsOperativeMenuOpen(prev => !prev);
               }}
-              className={`px-2 py-0.5 rounded-lg font-bold flex items-center gap-1 transition-all cursor-pointer ${
+              className="px-2.5 py-1 bg-slate-900 hover:bg-slate-850 text-slate-200 border border-slate-700/80 hover:border-cyan-500/50 rounded-xl text-xs font-mono font-bold tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
+              title="Select Active Operative, Solo/Squad Party Mode & GM Director Role"
+            >
+              {partyMode === 'group' ? <Users size={12} className="text-purple-400 shrink-0" /> : <User size={12} className="text-cyan-400 shrink-0" />}
+              <span className="max-w-[110px] sm:max-w-[140px] truncate text-slate-100">
+                {activeOperative?.name || 'Operative'}
+              </span>
+              <span className={`text-[9px] px-1.5 py-0.2 rounded uppercase font-extrabold ${
                 partyMode === 'group'
-                  ? 'bg-purple-950 text-purple-300 border border-purple-500/60'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-              title="Fireteam Squad Mode"
-            >
-              <Users size={11} />
-              <span>Squad</span>
+                  ? 'bg-purple-950/90 text-purple-300 border border-purple-500/40'
+                  : 'bg-cyan-950/90 text-cyan-300 border border-cyan-500/40'
+              }`}>
+                {partyMode === 'group' ? 'Squad' : 'Solo'}
+              </span>
+              {directorMode === 'director' && (
+                <span className="text-[9px] px-1 py-0.2 rounded bg-rose-950 text-rose-300 border border-rose-500/50 uppercase font-extrabold">
+                  GM
+                </span>
+              )}
+              <ChevronDown size={11} className={`text-slate-400 transition-transform duration-150 ${isOperativeMenuOpen ? 'rotate-180 text-cyan-400' : ''}`} />
             </button>
+
+            {isOperativeMenuOpen && (
+              <div className="absolute left-0 mt-1.5 w-72 bg-[#0b101b] border border-cyan-500/40 rounded-2xl shadow-[0_16px_48px_rgba(0,0,0,0.95)] p-3 z-[130] text-xs font-mono space-y-3 animate-in fade-in slide-in-from-top-2 duration-150">
+                {/* Database Persona Select */}
+                <div className="space-y-1">
+                  <label className="text-[10px] uppercase font-bold text-cyan-400 tracking-wider flex items-center gap-1.5">
+                    <Database size={11} />
+                    <span>Operative Database</span>
+                  </label>
+                  <select
+                    value={selectedOperativeId}
+                    onChange={(e) => setSelectedOperativeId(e.target.value)}
+                    className="w-full bg-slate-950 border border-slate-700 hover:border-cyan-500/50 text-slate-100 font-bold text-xs rounded-lg px-2 py-1.5 outline-none cursor-pointer"
+                  >
+                    {allDatabasePersonas.map(p => (
+                      <option key={p.id} value={p.id} className="bg-slate-950 text-slate-100">
+                        {p.name} [{p.sourceLabel}]
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Party Mode: Solo vs Squad */}
+                <div className="space-y-1 pt-2 border-t border-slate-800/80">
+                  <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">
+                    Party Formation
+                  </span>
+                  <div className="grid grid-cols-2 gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() => setPartyMode('solo')}
+                      className={`py-1.5 px-2 rounded-lg font-bold flex items-center justify-center gap-1.5 border transition-all cursor-pointer ${
+                        partyMode === 'solo'
+                          ? 'bg-cyan-950 text-cyan-300 border-cyan-500/60 shadow-xs'
+                          : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      <User size={11} />
+                      <span>Solo Operative</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setPartyMode('group');
+                        if (operatives.length < 2 && allDatabasePersonas.length > 1) {
+                          setOperatives(allDatabasePersonas.slice(0, 3));
+                        }
+                      }}
+                      className={`py-1.5 px-2 rounded-lg font-bold flex items-center justify-center gap-1.5 border transition-all cursor-pointer ${
+                        partyMode === 'group'
+                          ? 'bg-purple-950 text-purple-300 border-purple-500/60 shadow-xs'
+                          : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      <Users size={11} />
+                      <span>Fireteam Squad</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Session Role: Solo Play vs GM Director */}
+                <div className="space-y-1 pt-2 border-t border-slate-800/80">
+                  <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">
+                    Session Authority Mode
+                  </span>
+                  <div className="grid grid-cols-2 gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() => setDirectorMode('solo')}
+                      className={`py-1.5 px-2 rounded-lg font-bold flex items-center justify-center gap-1.5 border transition-all cursor-pointer ${
+                        directorMode === 'solo'
+                          ? 'bg-cyan-950 text-cyan-300 border-cyan-500/60'
+                          : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      <Play size={10} />
+                      <span>Solo Play</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setDirectorMode('director')}
+                      className={`py-1.5 px-2 rounded-lg font-bold flex items-center justify-center gap-1.5 border transition-all cursor-pointer ${
+                        directorMode === 'director'
+                          ? 'bg-rose-950 text-rose-300 border-rose-500/60'
+                          : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      <Radio size={11} />
+                      <span>GM Director</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Hardware Mitigation & Level-of-Detail (LOD) Tiering */}
-          <div className="flex items-center gap-1.5 bg-slate-900 border border-slate-800 rounded-xl px-2 py-0.5 text-xs" title="Level-of-Detail (LOD) Hardware Mitigation & KV-Cache GQA Compression">
-            <Cpu size={11} className="text-cyan-400 shrink-0" />
-            <select
-              value={selectedLodTier}
-              onChange={(e) => setSelectedLodTier(e.target.value)}
-              className="bg-transparent border-none text-slate-200 font-mono text-xs outline-none cursor-pointer"
-              title="Select Inference LOD Tier"
-            >
-              <option value="auto" className="bg-slate-900 text-slate-100">Auto LOD (Adaptive)</option>
-              <option value="tier1_hero" className="bg-slate-900 text-slate-100">LOD-1: 8B Q4_K_M (Hero/Boss)</option>
-              <option value="tier2_tactical" className="bg-slate-900 text-slate-100">LOD-2: 3B Q4_K_M (Tactical)</option>
-              <option value="tier3_ambient" className="bg-slate-900 text-slate-100">LOD-3: 1B Q4_K_M (Ambient)</option>
-            </select>
-            <span 
-              className="text-[9px] px-1.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-800/60 text-cyan-300 font-mono hidden xl:inline" 
-              title="Automated Cascade: llama.cpp -> Ollama -> Cloud Fallback | 75% GQA KV Cache Reduction"
-            >
-              {calculateVramTelemetry(selectedLodTier).badge} • {calculateVramTelemetry(selectedLodTier).fits8GbVram ? '✓ Fits 8GB' : 'High VRAM'} • GQA ~{calculateVramTelemetry(selectedLodTier).gqaSavingsMb}MB saved
-            </span>
-          </div>
-
-          {/* Epistemic Interrogation Toggle */}
+          {/* 4. Epistemic Investigation Toggle */}
           <button
             type="button"
             onClick={() => setIsEpistemicConsoleOpen(prev => !prev)}
-            className={`px-2 py-1 rounded-xl text-[10px] font-bold border transition-all cursor-pointer flex items-center gap-1 ${
+            className={`px-2.5 py-1 rounded-xl text-xs font-bold border transition-all cursor-pointer flex items-center gap-1.5 ${
               isEpistemicConsoleOpen
                 ? 'bg-amber-500/20 text-amber-300 border-amber-500/60 shadow-[0_0_8px_rgba(245,158,11,0.25)]'
-                : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
+                : 'bg-slate-900 border-slate-800 text-slate-300 hover:text-white hover:border-slate-700'
             }`}
             title="Toggle Epistemic Interrogation & Deduction Console"
           >
-            <Brain size={11} className={isEpistemicConsoleOpen ? 'text-amber-400 animate-pulse' : 'text-slate-400'} />
-            <span className="hidden md:inline">Epistemic Investigation</span>
+            <Brain size={12} className={isEpistemicConsoleOpen ? 'text-amber-400 animate-pulse' : 'text-amber-400/80'} />
+            <span className="hidden md:inline">Epistemic</span>
           </button>
 
-          {/* Director Mode */}
-          <button
-            type="button"
-            onClick={() => setDirectorMode(prev => prev === 'solo' ? 'director' : 'solo')}
-            className={`px-2 py-1 rounded-xl text-[10px] font-bold border transition-all cursor-pointer flex items-center gap-1 ${
-              directorMode === 'director'
-                ? 'bg-rose-950/80 text-rose-300 border-rose-500/60 shadow-[0_0_8px_rgba(244,63,94,0.2)]'
-                : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
-            }`}
-            title="Toggle GM Director Overseer mode with stage chat broadcast"
-          >
-            <Radio size={11} className={directorMode === 'director' ? 'animate-pulse text-rose-400' : ''} />
-            <span className="hidden md:inline">{directorMode === 'director' ? 'GM DIRECTOR' : 'SOLO PLAY'}</span>
-          </button>
+          {/* 5. Consolidated Scenario, LOD Engine & Session Actions Dropdown */}
+          <div className="relative" ref={engineMenuRef}>
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1000, 0.02);
+                setIsOperativeMenuOpen(false);
+                setIsEngineMenuOpen(prev => !prev);
+              }}
+              className="px-2.5 py-1 bg-slate-900 hover:bg-slate-850 text-slate-200 border border-slate-700/80 hover:border-cyan-500/50 rounded-xl text-xs font-mono font-bold tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
+              title="Scenario Target, Inference LOD Tiering & Session Actions"
+            >
+              <Cpu size={12} className="text-cyan-400 shrink-0" />
+              <span className="hidden sm:inline text-slate-200">Session &amp; LOD</span>
+              <span className="text-[9px] px-1.5 py-0.2 rounded bg-cyan-950/80 border border-cyan-800/60 text-cyan-300 font-mono">
+                {vramTelemetry.badge.split(' ')[0]}
+              </span>
+              <ChevronDown size={11} className={`text-slate-400 transition-transform duration-150 ${isEngineMenuOpen ? 'rotate-180 text-cyan-400' : ''}`} />
+            </button>
 
+            {isEngineMenuOpen && (
+              <div className="absolute left-0 mt-1.5 w-80 bg-[#0b101b] border border-cyan-500/40 rounded-2xl shadow-[0_16px_48px_rgba(0,0,0,0.95)] p-3 z-[130] text-xs font-mono space-y-3 animate-in fade-in slide-in-from-top-2 duration-150">
+                {/* Active Scenario Selector */}
+                <div className="space-y-1">
+                  <label className="text-[10px] uppercase font-bold text-amber-400 tracking-wider flex items-center gap-1.5">
+                    <BookOpen size={11} />
+                    <span>Active Scenario Node</span>
+                  </label>
+                  <select
+                    value={activeScenario?.id || ''}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setSelectedScenarioId(val);
+                      if (onSelectScenario) onSelectScenario(val);
+                      if (setActiveScenarioId) setActiveScenarioId(val);
+                    }}
+                    className="w-full bg-slate-950 border border-slate-700 hover:border-amber-500/50 text-cyan-300 font-bold text-xs rounded-lg px-2 py-1.5 outline-none cursor-pointer"
+                  >
+                    {allFoundryScenarios.map(s => (
+                      <option key={s.id} value={s.id} className="bg-slate-950 text-slate-100">
+                        {s.title || 'Untitled Scenario'} ({s.type || 'Scene'})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Hardware Mitigation & LOD Tiering */}
+                <div className="space-y-1.5 pt-2 border-t border-slate-800/80">
+                  <label className="text-[10px] uppercase font-bold text-cyan-400 tracking-wider flex items-center gap-1.5">
+                    <Cpu size={11} />
+                    <span>Inference LOD Tiering</span>
+                  </label>
+                  <select
+                    value={selectedLodTier}
+                    onChange={(e) => setSelectedLodTier(e.target.value)}
+                    className="w-full bg-slate-950 border border-slate-700 hover:border-cyan-500/50 text-slate-100 text-xs rounded-lg px-2 py-1.5 outline-none cursor-pointer"
+                  >
+                    <option value="auto" className="bg-slate-950 text-slate-100">Auto LOD (Adaptive)</option>
+                    <option value="tier1_hero" className="bg-slate-950 text-slate-100">LOD-1: 8B Q4_K_M (Hero/Boss)</option>
+                    <option value="tier2_tactical" className="bg-slate-950 text-slate-100">LOD-2: 3B Q4_K_M (Tactical)</option>
+                    <option value="tier3_ambient" className="bg-slate-950 text-slate-100">LOD-3: 1B Q4_K_M (Ambient)</option>
+                  </select>
+                  <div className="text-[10px] px-2 py-1 rounded-lg bg-cyan-950/60 border border-cyan-800/50 text-cyan-300 flex items-center justify-between">
+                    <span>{vramTelemetry.badge}</span>
+                    <span>{vramTelemetry.fits8GbVram ? '✓ Fits 8GB' : 'High VRAM'} • ~{vramTelemetry.gqaSavingsMb}MB saved</span>
+                  </div>
+                </div>
+
+                {/* Session Transcript & Commit Actions */}
+                <div className="space-y-1 pt-2 border-t border-slate-800/80">
+                  <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">
+                    Session &amp; Transcript Actions
+                  </span>
+                  <button
+                    type="button"
+                    disabled={beats.length === 0}
+                    onClick={() => {
+                      setIsEngineMenuOpen(false);
+                      handleCommitToStoryWeaver();
+                    }}
+                    className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-cyan-950/60 text-cyan-300 disabled:opacity-40 flex items-center gap-2 transition-colors cursor-pointer"
+                  >
+                    <FileText size={12} />
+                    <span>Commit Beats to Story Weaver</span>
+                  </button>
+                  <button
+                    type="button"
+                    disabled={beats.length === 0}
+                    onClick={() => {
+                      setIsEngineMenuOpen(false);
+                      handleExportMarkdown();
+                    }}
+                    className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-slate-800 text-slate-200 disabled:opacity-40 flex items-center gap-2 transition-colors cursor-pointer"
+                  >
+                    <Download size={12} className="text-amber-400" />
+                    <span>Export Session Markdown (.md)</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsEngineMenuOpen(false);
+                      handleResetSession();
+                    }}
+                    className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-red-950/60 text-red-400 flex items-center gap-2 transition-colors cursor-pointer"
+                  >
+                    <RotateCcw size={12} />
+                    <span>Reset Timeline Beats</span>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Right Cluster: Ambient Audio, Reset & Stage Handoff */}
+        <div className="flex items-center gap-1.5 shrink-0">
           {/* Ambient Audio Toggle */}
           <button
             type="button"
@@ -1088,37 +1246,18 @@ Respond in 2-3 concise in-character sentences.`;
             {isAmbientDroneActive ? <Volume2 size={13} /> : <VolumeX size={13} />}
           </button>
 
-          {/* Markdown & Commit Actions */}
-          {beats.length > 0 && (
-            <div className="flex items-center gap-1">
-              <button
-                type="button"
-                onClick={handleCommitToStoryWeaver}
-                className="px-2 py-1 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded-lg text-[10px] font-bold flex items-center gap-1 transition-all cursor-pointer"
-                title="Commit narrative beats into Story Weaver manuscript"
-              >
-                <FileText size={10} />
-                <span className="hidden xl:inline">Weaver</span>
-              </button>
-              <button
-                type="button"
-                onClick={handleExportMarkdown}
-                className="px-2 py-1 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 rounded-lg text-[10px] font-bold transition-all cursor-pointer"
-                title="Export session transcript as Markdown (.md)"
-              >
-                MD
-              </button>
-            </div>
-          )}
-
+          {/* Quick Reset Timeline Beats */}
           <button
             type="button"
             onClick={handleResetSession}
-            className="p-1 text-slate-500 hover:text-red-400 rounded transition-colors cursor-pointer"
+            className="p-1.5 bg-slate-900 hover:bg-red-950/50 border border-slate-800 hover:border-red-500/40 text-slate-400 hover:text-red-300 rounded-lg transition-colors cursor-pointer"
             title="Reset Timeline Beats"
           >
             <RotateCcw size={13} />
           </button>
+
+          {/* Stage Handoff (When passed from WeaverWorkspace) */}
+          {stageHandoff}
         </div>
       </div>
 

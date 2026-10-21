@@ -41,6 +41,8 @@ sockets:
 tech_level: 3
 keywords: 'main battle tank (standard), mecha, vehicle, huge, industrial, tl-3'
 negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
+meta_level: 0
+design_dc: 30
 ---
 Tracked armored combat vehicle mounting a massive kinetic cannon and heavy frontal composite plating.
 

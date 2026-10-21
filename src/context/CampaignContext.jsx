@@ -6,6 +6,7 @@ import { attachCreatorTag } from '../utils/creatorUtils';
 import { createDebouncedSaver } from '../utils/debounceUtils';
 import { commitChunkedBatches, sanitizeFirestoreData } from '../utils/firestoreUtils';
 import { StorageService } from '../services/storageService';
+import { normalizeElementType } from '../pages/Foundry/ElementForge/elementSchemas';
 import {
   createDefaultCronicleState,
   applyCronicleDelta,
@@ -145,7 +146,12 @@ export const StoryProvider = ({ children }) => {
   const [elementsCatalog, setElementsCatalog] = useState(() => {
     try {
       const saved = localStorage.getItem('tangent_elements_catalog');
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          return parsed.map(e => (e && e.type ? { ...e, type: normalizeElementType(e.type) } : e));
+        }
+      }
     } catch (e) {
       console.warn('Failed to parse elements catalog from localStorage:', e);
     }
@@ -192,7 +198,7 @@ export const StoryProvider = ({ children }) => {
         }
 
         if (Array.isArray(cachedElements) && cachedElements.length > 0) {
-          setElementsCatalog(cachedElements);
+          setElementsCatalog(cachedElements.map(e => (e && e.type ? { ...e, type: normalizeElementType(e.type) } : e)));
         }
       } catch (err) {
         console.warn('[CampaignContext] Failed to hydrate local cache from StorageService:', err);
@@ -386,7 +392,10 @@ export const StoryProvider = ({ children }) => {
     // Fetch elements library from Cloud DB
     const elementsCol = collection(db, 'story_elements');
     getDocs(elementsCol).then((snap) => {
-      const elems = snap.docs.map(d => ({ ...d.data(), id: d.id }));
+      const elems = snap.docs.map(d => {
+        const data = d.data();
+        return { ...data, id: d.id, ...(data?.type ? { type: normalizeElementType(data.type) } : {}) };
+      });
       if (elems.length > 0) {
         setElementsCatalog(prev => {
           const map = new Map(prev.map(e => [e.id, e]));

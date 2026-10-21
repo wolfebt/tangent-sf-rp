@@ -30,7 +30,7 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
-tech_level: 0
+tech_level: 3
 meta_level: 0
 stage: Standard
 keywords: 'prehensile foot, augmentation, prosthetic, standard, tl-3, general'

@@ -25,7 +25,7 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 1
   used: 0
   tier: Socket
   allocated: []
@@ -35,6 +35,9 @@ keywords: >-
   thermal blanket (reflective), gear, personal-property, tl-2, high-efficiency,
   thermal
 negative_keywords: 'primitive-stone, immaterial, intangible'
+gear_type: General
+base_dc: 2
+design_dc: 2
 ---
 High-efficiency thermal retention foil reflecting 98% of radiated body heat.
 

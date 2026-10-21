@@ -61,14 +61,14 @@ describe('Tangent SF RP — Phase 5 Economatrix & Technology Dashboards Engine (
     });
 
     it('derives live Character Wealth Score (WS) and breakdown from character sheet data', () => {
-      // Scenario 1: Merchant from Leisure world, Syndicate faction, TL 4, Trade Rank 7
-      // Merchant (base 5) + Leisure (+3) + Syndicate (+4) + TL4 (+4) + Trade R7 (Expert +3) = WS 19 (Affluent)
+      // Scenario 1: Merchant from Leisure world, Syndicate faction, TL 4, Trade Rank 12 (Expert)
+      // Merchant (base 5) + Leisure (+3) + Syndicate (+4) + TL4 (+4) + Trade R12 (Expert +3) = WS 19 (Affluent)
       const heroA = calculateCharacterWealth({
         'char-occu': 'Merchant',
         'char-origin': 'Leisure',
         'char-faction': 'Syndicate',
         'tech-level': 4,
-        'skill-mental-trade-rank': 7
+        'skill-mental-trade-rank': 12
       });
 
       assert.equal(heroA.computedWS, 19);
@@ -94,14 +94,14 @@ describe('Tangent SF RP — Phase 5 Economatrix & Technology Dashboards Engine (
       assert.equal(heroB.statusName, 'Impoverished');
       assert.equal(heroB.autoBuyCr, 30);
 
-      // Scenario 3: Mekan Sovereign Representative on Industrial world, TL 5 with Master Vocation
-      // Representative (base 6) + Industrial (+2) + Mekan (+6) + TL5 (+8) + Vocation R9 (+4) = WS 26 (Wealthy)
+      // Scenario 3: Mekan Sovereign Representative on Industrial world, TL 5 with Master Vocation (Rank 17)
+      // Representative (base 6) + Industrial (+2) + Mekan (+6) + TL5 (+8) + Vocation R17 (+4) = WS 26 (Wealthy)
       const heroC = calculateCharacterWealth({
         'char-occu': 'Representative',
         'char-origin': 'Industrial',
         'char-faction': 'Mekan Sovereign Dominion',
         'tech-level': 5,
-        'skill-vocation-rank': 9
+        'skill-vocation-rank': 17
       });
 
       assert.equal(heroC.computedWS, 26);
@@ -134,6 +134,26 @@ describe('Tangent SF RP — Phase 5 Economatrix & Technology Dashboards Engine (
       assert.equal(heroE.breakdown.factionMod, 4);
       assert.equal(heroE.computedWS, 17);
       assert.equal(heroE.statusName, 'Affluent');
+
+      // Scenario 6: Secondary Trade Skills (Rank 6+) & Traits/Features (High Pay +2, Benefit (Wealth) +3/rank, Debt -2)
+      // Merchant (5) + Colony (0) + Coalition (0) + TL3 (2) + Trade R12 (+3 primary) + Engineering R7 (+1 secondary) + High Pay (+2) + Benefit Wealth R2 (+6) + Debt (-2) = WS 17
+      const heroF = calculateCharacterWealth({
+        'char-occu': 'Merchant',
+        'char-origin': 'Colony',
+        'char-faction': 'Coalition',
+        'tech-level': 3,
+        'skill-mental-trade-rank': 12,
+        'skill-mental-engineering-rank': 7,
+        'traits': [{ id: 'trait-high-pay', name: 'High Pay' }],
+        'features': [{ name: 'Benefit (Wealth)', rank: 2 }],
+        'hindrances': [{ name: 'Debt' }]
+      });
+
+      assert.equal(heroF.breakdown.primarySkillBonus, 3);
+      assert.equal(heroF.breakdown.secondarySkillBonus, 1);
+      assert.equal(heroF.breakdown.skillBonus, 4);
+      assert.equal(heroF.breakdown.traitFeatureMod, 6); // +2 + 6 - 2 = +6
+      assert.equal(heroF.computedWS, 17);
     });
 
     it('aggregates liquid credits, trade goods, debits, and net liquidity position', () => {
@@ -161,10 +181,16 @@ describe('Tangent SF RP — Phase 5 Economatrix & Technology Dashboards Engine (
       const autoBuy = calculateLiquidityGap(15, 20);
       assert.equal(autoBuy.liquidGapCost, 0);
 
-      // If Item DC > WS -> gap is ItemValue - WSValue
-      // DC 20 (2560 Cr) vs WS 10 (Middle Class autoBuy 600 Cr) -> gap = 1960 Cr
+      // If Item DC > WS -> gap is ItemValue - ExactWSValue
+      // DC 20 (2560 Cr) vs WS 10 (Value(10) = 160 Cr) -> gap = 2400 Cr
       const gap = calculateLiquidityGap(20, 10);
-      assert.equal(gap.liquidGapCost, 1960);
+      assert.equal(gap.liquidGapCost, 2400);
+      assert.equal(gap.tierAutoBuyLimit, 600);
+
+      // Intra-bracket gap: DC 18 (1470 Cr) vs WS 15 (Value(15) = 640 Cr, Affluent ceiling 2500 Cr) -> gap = 830 Cr
+      const intraBracketGap = calculateLiquidityGap(18, 15);
+      assert.equal(intraBracketGap.isAutoBuy, false);
+      assert.equal(intraBracketGap.liquidGapCost, 830);
     });
 
     it('applies liquidity drag fence rates for legal, black market, and scrap', () => {

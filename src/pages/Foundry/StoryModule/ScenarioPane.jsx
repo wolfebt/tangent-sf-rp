@@ -100,7 +100,8 @@ export default function ScenarioPane({
     }))
   );
 
-  const dockTab = activeCockpitDeck || storeCockpitDeck || 'inspector';
+  const rawDockTab = activeCockpitDeck || storeCockpitDeck || 'inspector';
+  const dockTab = rawDockTab === 'aime' ? 'inspector' : rawDockTab;
   const setDockTab = (tab) => {
     setStoreCockpitDeck(tab);
     if (onSelectCockpitDeck) onSelectCockpitDeck(tab);

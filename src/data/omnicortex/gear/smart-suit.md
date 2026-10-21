@@ -29,7 +29,7 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 8
   used: 0
   tier: Socket
   allocated: []
@@ -39,6 +39,9 @@ keywords: >-
   smart suit (adaptive nanotech), gear, personal-property, tl-4, nanotech,
   dynamically
 negative_keywords: 'primitive-stone, immaterial, intangible'
+gear_type: General
+base_dc: 20
+design_dc: 20
 ---
 Nanotech weave that dynamically identifies and adapts to environmental hazards.
 

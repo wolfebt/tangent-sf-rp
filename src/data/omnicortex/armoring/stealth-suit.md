@@ -1,16 +1,18 @@
 ---
 id: stealth-suit
 name: Stealth Suit
-category: armoring
+category: Lightweight
 dr: 5
-durability: '10'
-description: "Penalty: None\r\nLocations: All\r\nSockets: 2"
-sp: 10
+durability: 15
+description: >-
+  Form-fitting thermal-baffled infiltration bodysuit with sound-dampening soles
+  and chameleon weave.
+sp: 15
 coverage: Sealed
 costs:
   cp: 0
   bp: 0
-  credits: 0
+  credits: 485
   nodes: 0
   sockets: 0
   strain: 0
@@ -24,16 +26,31 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 3
   used: 0
   tier: Socket
   allocated: []
-tech_level: 0
+tech_level: 3
 meta_level: 0
 keywords: 'stealth suit, armor, defense, dr-5, light-armor, tl-3'
 negative_keywords: 'unarmored, fragile, naked'
+collection: armoring
+armor_class: Lightweight
+armor_type: Light Armor
+mobility_penalty: 0
+body_locations:
+  - Head
+  - Torso
+  - Arms
+  - Legs
+craft_dc: 14
+design_dc: 14
+cost: 485
+component_slots: 3
+mechanic: >-
+  DR 5, SP 15. Penalty: None. Locations: Head, Torso, Arms, Legs. Base Sockets:
+  3.
 ---
-Category: LIGHT Armor
-Penalty: None
-Locations: All
-Sockets: 2
+Form-fitting thermal-baffled infiltration bodysuit with sound-dampening soles and chameleon weave.
+
+**Mechanics:** DR 5, SP 15. Penalty: None. Locations: Head, Torso, Arms, Legs. Base Sockets: 3.

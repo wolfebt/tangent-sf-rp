@@ -2,8 +2,8 @@
 id: weapon-servo-rig
 name: Weapon Servo Rig
 category: mecha
-cost: 640
-craft_dc: 15
+cost: 2560
+craft_dc: 20
 description: Side/back harness for 2H heavy weapons.
 frame: Humanoid
 size: Large
@@ -11,7 +11,7 @@ domain: Ground
 costs:
   cp: 0
   bp: 0
-  credits: 640
+  credits: 2560
   nodes: 0
   sockets: 0
   strain: 0
@@ -29,10 +29,14 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
-tech_level: 0
+tech_level: 3
 meta_level: 0
 keywords: 'weapon servo rig, mecha, vehicle, large, humanoid, tl-3'
 negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
+design_dc: 20
+sp: 40
+dr: 10
+mechanic: ''
 ---
 Category: **12.1 Mechanics of the Wearable**
 

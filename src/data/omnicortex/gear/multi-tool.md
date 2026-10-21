@@ -25,7 +25,7 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 1
   used: 0
   tier: Socket
   allocated: []
@@ -35,6 +35,9 @@ keywords: >-
   multi-tool (pocket utility), gear, personal-property, tl-3, foldable,
   precision
 negative_keywords: 'primitive-stone, immaterial, intangible'
+gear_type: General
+base_dc: 10
+design_dc: 10
 ---
 Foldable precision alloy multi-tool with wire-strippers, blades, and sensors.
 

@@ -62,7 +62,7 @@ export default function ToolbarBreadcrumb({
       case 'elements':
       case 'gallery':
       case 'assets':
-        return { label: 'Story Elements', icon: Hammer, color: 'text-emerald-400' };
+        return { label: 'Element Forge', icon: Hammer, color: 'text-emerald-400' };
       case 'map':
       case 'map-maker':
         return { label: 'Map Architect', icon: MapIcon, color: 'text-indigo-400' };
@@ -80,7 +80,8 @@ export default function ToolbarBreadcrumb({
     if (activeView === 'scenarios') {
       if (scenarioWorkspaceTab === 'play') return 'Play Mode';
       if (scenarioWorkspaceTab === 'graph') return 'Story Graph';
-      if (scenarioWorkspaceTab === 'gems') return 'Guidance Gems';
+      if (scenarioWorkspaceTab === 'brainstorm' || scenarioWorkspaceTab === 'gems') return 'Brainstorm';
+      if (scenarioWorkspaceTab === 'elements') return 'Elements';
       if (scenarioWorkspaceTab === 'write') return 'Manuscript';
       return scenarioWorkspaceTab;
     }

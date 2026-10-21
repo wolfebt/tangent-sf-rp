@@ -27,7 +27,7 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 4
   used: 0
   tier: Socket
   allocated: []
@@ -37,6 +37,9 @@ keywords: >-
   fusion cutter (heavy torch), gear, personal-property, tl-3, industrial,
   high-temperature
 negative_keywords: 'primitive-stone, immaterial, intangible'
+gear_type: General
+base_dc: 15
+design_dc: 15
 ---
 Industrial high-temperature plasma arc cutter slicing through hardened hull plating.
 

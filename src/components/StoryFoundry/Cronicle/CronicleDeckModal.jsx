@@ -31,8 +31,6 @@ import CronicleTimelineTab from './tabs/CronicleTimelineTab';
 import CronicleDeltaReviewTab from './tabs/CronicleDeltaReviewTab';
 import CronicleWorkingCopiesTab from './tabs/CronicleWorkingCopiesTab';
 import CronicleScratchbookDocTab from './tabs/CronicleScratchbookDocTab';
-import CronicleAggregatedElementsTab from './tabs/CronicleAggregatedElementsTab';
-import CronicleScratchbookNotesTab from './tabs/CronicleScratchbookNotesTab';
 
 export default function CronicleDeckModal({ 
   isOpen, 
@@ -58,28 +56,24 @@ export default function CronicleDeckModal({
     triggerStorySave
   } = useStory();
 
-  // ── MASTER DECK MODE: 'living_memory' | 'scratchbook' ──
-  const [deckMode, setDeckMode] = useState(initialMode);
-
-  // Active sub-tabs per deck mode
-  // living_memory: 'working_memory' | 'deltas' | 'personas' | 'world' | 'timeline' | 'working_copies'
+  // Unified Cronicle sub-tabs:
+  // 'working_memory' | 'deltas' | 'personas' | 'world' | 'timeline' | 'working_copies' | 'scratchbook_doc'
   const [memoryTab, setMemoryTab] = useState('working_memory');
-  // scratchbook: 'scratchbook_doc' | 'aggregated_elements' | 'scratchbook_notes'
-  const [scratchTab, setScratchTab] = useState('scratchbook_doc');
 
-  // Synchronize mode/tab if passed or modal re-opens
+  // Synchronize initial tab if passed or modal re-opens
   useEffect(() => {
-    if (initialMode) {
-      setDeckMode(initialMode);
-    }
     if (initialTab) {
-      if (['working_memory', 'deltas', 'personas', 'world', 'timeline', 'working_copies'].includes(initialTab)) {
-        setDeckMode('living_memory');
+      if (initialTab === 'scratchbook_notes') {
+        setMemoryTab('working_memory');
+      } else if (initialTab === 'aggregated_elements') {
+        setMemoryTab('working_copies');
+      } else {
         setMemoryTab(initialTab);
-      } else if (['scratchbook_doc', 'aggregated_elements', 'scratchbook_notes'].includes(initialTab)) {
-        setDeckMode('scratchbook');
-        setScratchTab(initialTab);
       }
+    } else if (initialMode === 'scratchbook') {
+      setMemoryTab('scratchbook_doc');
+    } else {
+      setMemoryTab('working_memory');
     }
   }, [initialMode, initialTab, isOpen]);
 
@@ -505,17 +499,14 @@ export default function CronicleDeckModal({
             <div>
               <div className="flex items-center gap-2 flex-wrap">
                 <h2 className="text-sm sm:text-base font-bold uppercase tracking-wider text-amber-300 font-mono">
-                  CRONICLE: Persistent Memory &amp; Story Scratchbook
+                  CRONICLE: Living Memory &amp; Campaign Dossier
                 </h2>
                 <span className="px-2 py-0.5 rounded bg-cyan-950 border border-cyan-500/40 text-[10px] font-mono font-bold text-cyan-300 uppercase">
                   Story Prefix: {cronicle?.storyPrefix || 'story'}
                 </span>
-                <span className="px-2 py-0.5 rounded bg-purple-950 border border-purple-500/40 text-[10px] font-mono font-bold text-purple-300 uppercase">
-                  {elementsUsed.length} Elements Used
-                </span>
               </div>
               <p className="text-[10px] sm:text-[11px] text-slate-400 font-mono">
-                Single Source of Truth • Living Memory Deck • Aggregated Elements Document • GM Directives
+                Single Source of Truth • Living Memory • Working Copies • GM Directives &amp; Compiled Dossier
               </p>
             </div>
           </div>
@@ -526,7 +517,7 @@ export default function CronicleDeckModal({
               type="button"
               onClick={handleCopyScratchbookMarkdown}
               className="px-2.5 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer shadow-sm"
-              title="Copy complete compiled Scratchbook Markdown to clipboard"
+              title="Copy complete compiled Cronicle Markdown to clipboard"
             >
               {copiedDoc ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} className="text-amber-400" />}
               <span className="hidden sm:inline">{copiedDoc ? 'Copied!' : 'Copy MD'}</span>
@@ -536,7 +527,7 @@ export default function CronicleDeckModal({
               type="button"
               onClick={handleDownloadScratchbook}
               className="px-2.5 py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 hover:text-white rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer shadow-sm"
-              title="Download compiled Scratchbook as a Markdown (.md) file"
+              title="Download compiled Cronicle as a Markdown (.md) file"
             >
               <Download size={12} />
               <span className="hidden sm:inline">Download .MD</span>
@@ -568,304 +559,218 @@ export default function CronicleDeckModal({
           </div>
         </div>
 
-        {/* ── MASTER DECK SWITCHER ── */}
-        <div className="px-5 py-2.5 bg-[#0e131f] border-b border-slate-800 flex items-center gap-3 shrink-0">
+        {/* ── UNIFIED CRONICLE NAVIGATION TABS ── */}
+        <div className="px-5 py-2.5 bg-[#101623] border-b border-slate-800 flex flex-wrap gap-1.5 shrink-0">
           <button
             type="button"
-            onClick={() => setDeckMode('living_memory')}
-            className={`px-4 py-2 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer shadow-sm ${
-              deckMode === 'living_memory'
-                ? 'bg-gradient-to-r from-cyan-600 to-cyan-500 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]'
-                : 'bg-slate-900/80 text-slate-400 border border-slate-800 hover:text-slate-200'
+            onClick={() => setMemoryTab('working_memory')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+              memoryTab === 'working_memory'
+                ? 'bg-amber-950 text-amber-300 border border-amber-500/80 shadow-[0_0_12px_rgba(245,158,11,0.3)]'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
             }`}
           >
-            <Brain size={14} />
-            <span>Living Memory Deck</span>
+            <Brain size={13} />
+            <span>Working Memory &amp; Notes</span>
           </button>
 
           <button
             type="button"
-            onClick={() => setDeckMode('scratchbook')}
-            className={`px-4 py-2 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer shadow-sm ${
-              deckMode === 'scratchbook'
-                ? 'bg-gradient-to-r from-purple-600 to-amber-500 text-white shadow-[0_0_15px_rgba(168,85,247,0.4)]'
-                : 'bg-slate-900/80 text-slate-400 border border-slate-800 hover:text-slate-200'
+            onClick={() => setMemoryTab('deltas')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+              memoryTab === 'deltas'
+                ? 'bg-amber-950 text-amber-300 border border-amber-500/80 shadow-[0_0_12px_rgba(245,158,11,0.3)]'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
             }`}
           >
-            <FileText size={14} />
-            <span>Story Scratchbook &amp; Elements</span>
+            <Activity size={13} />
+            <span>Pending Deltas</span>
+            {pendingDeltas.length > 0 && (
+              <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse ml-0.5" />
+            )}
           </button>
-        </div>
 
-        {/* ── SUB-NAVIGATION TABS (Contextual to active deck mode) ── */}
-        <div className="px-5 py-2 bg-[#101623] border-b border-slate-800 flex flex-wrap gap-1.5 shrink-0">
-          
-          {/* SUB-TABS: LIVING MEMORY DECK */}
-          {deckMode === 'living_memory' && (
-            <>
-              <button
-                type="button"
-                onClick={() => setMemoryTab('working_memory')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
-                  memoryTab === 'working_memory'
-                    ? 'bg-amber-950 text-amber-300 border border-amber-500/80 shadow-[0_0_12px_rgba(245,158,11,0.3)]'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-                }`}
-              >
-                <Brain size={13} />
-                <span>Working Memory</span>
-              </button>
+          <button
+            type="button"
+            onClick={() => setMemoryTab('personas')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+              memoryTab === 'personas'
+                ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/80 shadow-[0_0_12px_rgba(34,211,238,0.3)]'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+            }`}
+          >
+            <Users size={13} />
+            <span>Persona Matrix</span>
+          </button>
 
-              <button
-                type="button"
-                onClick={() => setMemoryTab('deltas')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
-                  memoryTab === 'deltas'
-                    ? 'bg-amber-950 text-amber-300 border border-amber-500/80 shadow-[0_0_12px_rgba(245,158,11,0.3)]'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-                }`}
-              >
-                <Activity size={13} />
-                <span>Pending Deltas ({pendingDeltas.length})</span>
-                {pendingDeltas.length > 0 && (
-                  <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse ml-0.5" />
-                )}
-              </button>
+          <button
+            type="button"
+            onClick={() => setMemoryTab('world')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+              memoryTab === 'world'
+                ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/80 shadow-[0_0_12px_rgba(16,185,129,0.3)]'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+            }`}
+          >
+            <Globe size={13} />
+            <span>World State</span>
+          </button>
 
-              <button
-                type="button"
-                onClick={() => setMemoryTab('personas')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
-                  memoryTab === 'personas'
-                    ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/80 shadow-[0_0_12px_rgba(34,211,238,0.3)]'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-                }`}
-              >
-                <Users size={13} />
-                <span>Persona Matrix ({Object.keys(personas).length})</span>
-              </button>
+          <button
+            type="button"
+            onClick={() => setMemoryTab('timeline')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+              memoryTab === 'timeline'
+                ? 'bg-indigo-950 text-indigo-300 border border-indigo-500/80 shadow-[0_0_12px_rgba(99,102,241,0.3)]'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+            }`}
+          >
+            <Clock size={13} />
+            <span>Timeline</span>
+          </button>
 
-              <button
-                type="button"
-                onClick={() => setMemoryTab('world')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
-                  memoryTab === 'world'
-                    ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/80 shadow-[0_0_12px_rgba(16,185,129,0.3)]'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-                }`}
-              >
-                <Globe size={13} />
-                <span>World Anvil ({Object.keys(locations).length})</span>
-              </button>
+          <button
+            type="button"
+            onClick={() => setMemoryTab('working_copies')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+              memoryTab === 'working_copies'
+                ? 'bg-purple-950 text-purple-300 border border-purple-500/80 shadow-[0_0_12px_rgba(168,85,247,0.3)]'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+            }`}
+          >
+            <Copy size={13} />
+            <span>Working Copies &amp; Elements</span>
+          </button>
 
-              <button
-                type="button"
-                onClick={() => setMemoryTab('timeline')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
-                  memoryTab === 'timeline'
-                    ? 'bg-indigo-950 text-indigo-300 border border-indigo-500/80 shadow-[0_0_12px_rgba(99,102,241,0.3)]'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-                }`}
-              >
-                <Clock size={13} />
-                <span>Timeline ({timeline.length})</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setMemoryTab('working_copies')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
-                  memoryTab === 'working_copies'
-                    ? 'bg-purple-950 text-purple-300 border border-purple-500/80 shadow-[0_0_12px_rgba(168,85,247,0.3)]'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-                }`}
-              >
-                <Copy size={13} />
-                <span>Working Copies ({Object.keys(workingCopies).length})</span>
-              </button>
-            </>
-          )}
-
-          {/* SUB-TABS: SCRATCHBOOK & AGGREGATED ELEMENTS */}
-          {deckMode === 'scratchbook' && (
-            <>
-              <button
-                type="button"
-                onClick={() => setScratchTab('scratchbook_doc')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
-                  scratchTab === 'scratchbook_doc'
-                    ? 'bg-amber-950/90 text-amber-300 border border-amber-500/80 shadow-[0_0_12px_rgba(245,158,11,0.3)]'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-                }`}
-              >
-                <FileText size={13} />
-                <span>Compiled Scratchbook (.md)</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setScratchTab('aggregated_elements')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
-                  scratchTab === 'aggregated_elements'
-                    ? 'bg-purple-950/90 text-purple-300 border border-purple-500/80 shadow-[0_0_12px_rgba(168,85,247,0.3)]'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-                }`}
-              >
-                <Boxes size={13} />
-                <span>Aggregated Elements ({elementsUsed.length})</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setScratchTab('scratchbook_notes')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
-                  scratchTab === 'scratchbook_notes'
-                    ? 'bg-cyan-950/90 text-cyan-300 border border-cyan-500/80 shadow-[0_0_12px_rgba(6,182,212,0.3)]'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-                }`}
-              >
-                <Edit3 size={13} />
-                <span>GM Directives &amp; Notes</span>
-              </button>
-            </>
-          )}
-
+          <button
+            type="button"
+            onClick={() => setMemoryTab('scratchbook_doc')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+              memoryTab === 'scratchbook_doc'
+                ? 'bg-amber-950/90 text-amber-300 border border-amber-500/80 shadow-[0_0_12px_rgba(245,158,11,0.3)]'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+            }`}
+          >
+            <FileText size={13} />
+            <span>Compiled Dossier (.md)</span>
+          </button>
         </div>
 
         {/* ── MAIN CONTENT VIEWPORT ── */}
         <div className="flex-1 overflow-y-auto p-4 sm:p-6">
-          {deckMode === 'living_memory' && (
-            <>
-              {memoryTab === 'working_memory' && (
-                <CronicleWorkingMemoryTab
-                  workingMemory={workingMemory}
-                  updateWorkingMemory={updateWorkingMemory}
-                  locations={locations}
-                  personas={personas}
-                  contextPreview={contextPreview}
-                />
-              )}
-
-              {memoryTab === 'deltas' && (
-                <CronicleDeltaReviewTab
-                  pendingDeltas={pendingDeltas}
-                  acceptPendingDelta={acceptPendingDelta}
-                  rejectPendingDelta={rejectPendingDelta}
-                  acceptAllPendingDeltas={acceptAllPendingDeltas}
-                  clearPendingDeltas={clearPendingDeltas}
-                />
-              )}
-
-              {memoryTab === 'personas' && (
-                <CroniclePersonasTab
-                  personas={personas}
-                  newPersonaName={newPersonaName}
-                  setNewPersonaName={setNewPersonaName}
-                  newPersonaRole={newPersonaRole}
-                  setNewPersonaRole={setNewPersonaRole}
-                  handleCreatePersona={handleCreatePersona}
-                  handleDeletePersona={handleDeletePersona}
-                  applyCronicleDelta={applyCronicleDelta}
-                  traitInputs={traitInputs}
-                  setTraitInputs={setTraitInputs}
-                  inventoryInputs={inventoryInputs}
-                  setInventoryInputs={setInventoryInputs}
-                  handleAddPersonaTrait={handleAddPersonaTrait}
-                  handleRemovePersonaTrait={handleRemovePersonaTrait}
-                  handleAddInventoryItem={handleAddInventoryItem}
-                  handleRemoveInventoryItem={handleRemoveInventoryItem}
-                  handleUpdateRelationship={handleUpdateRelationship}
-                />
-              )}
-
-              {memoryTab === 'world' && (
-                <CronicleWorldTab
-                  locations={locations}
-                  personas={personas}
-                  newLocationName={newLocationName}
-                  setNewLocationName={setNewLocationName}
-                  newLocationState={newLocationState}
-                  setNewLocationState={setNewLocationState}
-                  newLocationFaction={newLocationFaction}
-                  setNewLocationFaction={setNewLocationFaction}
-                  handleCreateLocation={handleCreateLocation}
-                  handleDeleteLocation={handleDeleteLocation}
-                  applyCronicleDelta={applyCronicleDelta}
-                  hazardInputs={hazardInputs}
-                  setHazardInputs={setHazardInputs}
-                  handleAddHazard={handleAddHazard}
-                  handleRemoveHazard={handleRemoveHazard}
-                />
-              )}
-
-              {memoryTab === 'timeline' && (
-                <CronicleTimelineTab
-                  timeline={timeline}
-                  newTimelineTitle={newTimelineTitle}
-                  setNewTimelineTitle={setNewTimelineTitle}
-                  newTimelineSummary={newTimelineSummary}
-                  setNewTimelineSummary={setNewTimelineSummary}
-                  newTimelineEntities={newTimelineEntities}
-                  setNewTimelineEntities={setNewTimelineEntities}
-                  handleAddTimelineEvent={handleAddTimelineEvent}
-                  handleDeleteTimelineEvent={handleDeleteTimelineEvent}
-                />
-              )}
-
-              {memoryTab === 'working_copies' && (
-                <CronicleWorkingCopiesTab
-                  workingCopies={workingCopies}
-                  elementsCatalog={elementsCatalog}
-                  storyPrefix={cronicle?.storyPrefix}
-                  selectedElementToClone={selectedElementToClone}
-                  setSelectedElementToClone={setSelectedElementToClone}
-                  handleCloneSelectedElement={handleCloneSelectedElement}
-                  handleDeleteWorkingCopy={handleDeleteWorkingCopy}
-                />
-              )}
-            </>
+          {memoryTab === 'working_memory' && (
+            <CronicleWorkingMemoryTab
+              workingMemory={workingMemory}
+              updateWorkingMemory={updateWorkingMemory}
+              locations={locations}
+              personas={personas}
+              contextPreview={contextPreview}
+              scratchNotes={scratchNotes}
+              setScratchNotes={setScratchNotes}
+              isNotesSaved={isNotesSaved}
+              handleSaveScratchNotes={handleSaveScratchNotes}
+              handleInsertSnippet={handleInsertSnippet}
+            />
           )}
 
-          {deckMode === 'scratchbook' && (
-            <div className="h-full flex flex-col space-y-4">
-              {scratchTab === 'scratchbook_doc' && (
-                <CronicleScratchbookDocTab
-                  compiledScratchbookMarkdown={compiledScratchbookMarkdown}
-                  displayedMarkdown={displayedMarkdown}
-                  elementsCount={elementsUsed.length}
-                  scenariosCount={universeState?.scenarios?.length || 0}
-                  copiedDoc={copiedDoc}
-                  handleCopyScratchbookMarkdown={handleCopyScratchbookMarkdown}
-                  handleDownloadScratchbook={handleDownloadScratchbook}
-                  onNavigateToNotes={() => setScratchTab('scratchbook_notes')}
-                />
-              )}
+          {memoryTab === 'deltas' && (
+            <CronicleDeltaReviewTab
+              pendingDeltas={pendingDeltas}
+              acceptPendingDelta={acceptPendingDelta}
+              rejectPendingDelta={rejectPendingDelta}
+              acceptAllPendingDeltas={acceptAllPendingDeltas}
+              clearPendingDeltas={clearPendingDeltas}
+            />
+          )}
 
-              {scratchTab === 'aggregated_elements' && (
-                <CronicleAggregatedElementsTab
-                  elementsUsed={elementsUsed}
-                  elementSearch={elementSearch}
-                  setElementSearch={setElementSearch}
-                  elementTypeFilter={elementTypeFilter}
-                  setElementTypeFilter={setElementTypeFilter}
-                  availableElementTypes={availableElementTypes}
-                  filteredElements={filteredElements}
-                  workingCopies={workingCopies}
-                  clonedFeedback={clonedFeedback}
-                  handleCloneAggregatedElement={handleCloneAggregatedElement}
-                />
-              )}
+          {memoryTab === 'personas' && (
+            <CroniclePersonasTab
+              personas={personas}
+              newPersonaName={newPersonaName}
+              setNewPersonaName={setNewPersonaName}
+              newPersonaRole={newPersonaRole}
+              setNewPersonaRole={setNewPersonaRole}
+              handleCreatePersona={handleCreatePersona}
+              handleDeletePersona={handleDeletePersona}
+              applyCronicleDelta={applyCronicleDelta}
+              traitInputs={traitInputs}
+              setTraitInputs={setTraitInputs}
+              inventoryInputs={inventoryInputs}
+              setInventoryInputs={setInventoryInputs}
+              handleAddPersonaTrait={handleAddPersonaTrait}
+              handleRemovePersonaTrait={handleRemovePersonaTrait}
+              handleAddInventoryItem={handleAddInventoryItem}
+              handleRemoveInventoryItem={handleRemoveInventoryItem}
+              handleUpdateRelationship={handleUpdateRelationship}
+            />
+          )}
 
-              {scratchTab === 'scratchbook_notes' && (
-                <CronicleScratchbookNotesTab
-                  scratchNotes={scratchNotes}
-                  setScratchNotes={setScratchNotes}
-                  isNotesSaved={isNotesSaved}
-                  handleSaveScratchNotes={handleSaveScratchNotes}
-                  handleInsertSnippet={handleInsertSnippet}
-                />
-              )}
-            </div>
+          {memoryTab === 'world' && (
+            <CronicleWorldTab
+              locations={locations}
+              personas={personas}
+              newLocationName={newLocationName}
+              setNewLocationName={setNewLocationName}
+              newLocationState={newLocationState}
+              setNewLocationState={setNewLocationState}
+              newLocationFaction={newLocationFaction}
+              setNewLocationFaction={setNewLocationFaction}
+              handleCreateLocation={handleCreateLocation}
+              handleDeleteLocation={handleDeleteLocation}
+              applyCronicleDelta={applyCronicleDelta}
+              hazardInputs={hazardInputs}
+              setHazardInputs={setHazardInputs}
+              handleAddHazard={handleAddHazard}
+              handleRemoveHazard={handleRemoveHazard}
+            />
+          )}
+
+          {memoryTab === 'timeline' && (
+            <CronicleTimelineTab
+              timeline={timeline}
+              newTimelineTitle={newTimelineTitle}
+              setNewTimelineTitle={setNewTimelineTitle}
+              newTimelineSummary={newTimelineSummary}
+              setNewTimelineSummary={setNewTimelineSummary}
+              newTimelineEntities={newTimelineEntities}
+              setNewTimelineEntities={setNewTimelineEntities}
+              handleAddTimelineEvent={handleAddTimelineEvent}
+              handleDeleteTimelineEvent={handleDeleteTimelineEvent}
+            />
+          )}
+
+          {memoryTab === 'working_copies' && (
+            <CronicleWorkingCopiesTab
+              workingCopies={workingCopies}
+              elementsCatalog={elementsCatalog}
+              storyPrefix={cronicle?.storyPrefix}
+              selectedElementToClone={selectedElementToClone}
+              setSelectedElementToClone={setSelectedElementToClone}
+              handleCloneSelectedElement={handleCloneSelectedElement}
+              handleDeleteWorkingCopy={handleDeleteWorkingCopy}
+              elementsUsed={elementsUsed}
+              elementSearch={elementSearch}
+              setElementSearch={setElementSearch}
+              elementTypeFilter={elementTypeFilter}
+              setElementTypeFilter={setElementTypeFilter}
+              availableElementTypes={availableElementTypes}
+              filteredElements={filteredElements}
+              clonedFeedback={clonedFeedback}
+              handleCloneAggregatedElement={handleCloneAggregatedElement}
+            />
+          )}
+
+          {memoryTab === 'scratchbook_doc' && (
+            <CronicleScratchbookDocTab
+              compiledScratchbookMarkdown={compiledScratchbookMarkdown}
+              displayedMarkdown={displayedMarkdown}
+              elementsCount={elementsUsed.length}
+              scenariosCount={universeState?.scenarios?.length || 0}
+              copiedDoc={copiedDoc}
+              handleCopyScratchbookMarkdown={handleCopyScratchbookMarkdown}
+              handleDownloadScratchbook={handleDownloadScratchbook}
+              onNavigateToNotes={() => setMemoryTab('working_memory')}
+            />
           )}
         </div>
       </div>

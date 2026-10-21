@@ -39,6 +39,8 @@ sockets:
 tech_level: 3
 keywords: 'modular heavy battle walker (mech), mecha, vehicle, huge, walker, tl-3'
 negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
+meta_level: 0
+design_dc: 30
 ---
 10-meter tall bipedal war machine with modular weapon hardpoints for missiles, autocannons, and lasers.
 

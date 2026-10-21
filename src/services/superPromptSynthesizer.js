@@ -21,7 +21,7 @@ export function buildStaticRulesPrefix({ campaignName = '', folioCharacter = nul
     '• Dual Resolution: Checks resolve via 2d10 + Attribute Mod + Skill Rank vs. TN (Target Number = 11 + Defense). Critical success on double 10s (natural 20), fumble on double 1s (natural 2). Margin of success (+5 Superior, +10 Masterful) dictates tactical advantage.',
     '• Called Shots & 33.3% Trauma: Anatomy targeting (-2 Head, -2 Arms, -1 Legs, -3 Optics). Major Wound Trauma triggers at >= 33.3% Target Max HP in a single strike, inflicting anatomical impairment.',
     '• Tech Levels (TL 0–5): TL-0 Primitive/Archaic, TL-1 Industrial, TL-2 Advanced Electronic, TL-3 Interstellar/Cybernetic (Galactic baseline), TL-4 Nanotech/Hard-Light, TL-5 Progenitor/Precursor.',
-    '• Economatrix Unified Cost: Cost = Base * (2^TL) * (1.5^ML).',
+    '• Economatrix TSC & Golden Rule: Value (Credits) = 10 * 4^(DC / 5); Purchase DC = Crafting DC = Cost DC; Auto-Buy when Item DC <= Wealth Score; Liquidity Gap = Value(Item DC) - Value(Character WS).',
     '• Tactical Stances: Guard (+2 Armor DR), Aim (+2 To-Hit), Overcharge (+6 DMG / +2 Heat/Fatigue).'
   ];
 

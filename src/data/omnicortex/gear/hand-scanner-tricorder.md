@@ -29,7 +29,7 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 2
   used: 0
   tier: Socket
   allocated: []
@@ -37,6 +37,9 @@ tech_level: 3
 meta_level: 0
 keywords: 'hand scanner (multispectral), gear, personal-property, tl-3, handheld, active'
 negative_keywords: 'primitive-stone, immaterial, intangible'
+gear_type: General
+base_dc: 15
+design_dc: 15
 ---
 Handheld active sensor array analyzing biological, radiation, and geological signatures.
 

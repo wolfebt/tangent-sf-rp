@@ -27,7 +27,7 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 1
   used: 0
   tier: Socket
   allocated: []
@@ -37,6 +37,9 @@ keywords: >-
   stim-shot (combat adrenaline), gear, personal-property, tl-3, neural,
   stimulant
 negative_keywords: 'primitive-stone, immaterial, intangible'
+gear_type: General
+base_dc: 5
+design_dc: 5
 ---
 Neural stimulant injector purging fatigue and trauma shock.
 

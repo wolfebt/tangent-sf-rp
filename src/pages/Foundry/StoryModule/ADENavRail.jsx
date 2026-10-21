@@ -25,28 +25,46 @@ import {
   Cpu,
   Map as MapIcon,
   Tv2,
-  Pin
+  Pin,
+  PenTool,
+  Lightbulb,
+  Layers,
+  Network,
+  ChevronDown,
+  Check
 } from 'lucide-react';
 import { AudioService } from '../../../services/audioService';
 import { ADE_THEMES as THEMES } from '../../../constants/adeThemes';
+import { ELEMENT_TYPES, normalizeElementType, getTypePillStyle } from '../ElementForge/elementSchemas';
+import { useAdeStore } from '../store/adeStore';
+import { useStory } from '../../../context/CampaignContext';
 
 export const ADENavRail = ({
   activeView = 'scenarios',
   onSwitchView,
   activeScenarioWorkspaceTab = 'weaver',
   onSelectScenarioWorkspaceTab,
+  activeElementType: propActiveElementType,
+  onSelectElementType,
+  elementsCatalog: propElementsCatalog,
   elementsCount = 0,
   mapsCount = 0,
   modifiersCount = 0,
   pendingCronicleCount = 0,
   onOpenCronicle,
-  onOpenScratchbook,
   onOpenPrintModal,
   onOpenGuide,
   isTreeExpanded = true,
   onToggleTreeExpanded
 }) => {
   const navigate = useNavigate();
+  const { elementsCatalog: contextElementsCatalog } = useStory() || {};
+  const storeActiveElementType = useAdeStore((state) => state.activeElementType);
+  const setStoreActiveElementType = useAdeStore((state) => state.setActiveElementType);
+
+  const elementsCatalog = propElementsCatalog || contextElementsCatalog || [];
+  const activeElementType = normalizeElementType(propActiveElementType || storeActiveElementType || ELEMENT_TYPES[0]);
+
   const [hoveredItem, setHoveredItem] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
   const [isPinned, setIsPinned] = useState(() => {
@@ -57,6 +75,59 @@ export const ADENavRail = ({
       return false;
     }
   });
+  const [isWeaverBranchesOpen, setIsWeaverBranchesOpen] = useState(true);
+  const [isElementsBranchesOpen, setIsElementsBranchesOpen] = useState(true);
+
+  const normalizedWeaverTab = (() => {
+    const t = activeScenarioWorkspaceTab || 'write';
+    if (t === 'manuscript' || t === 'weaver' || t === 'outline' || t === 'genesis' || t === 'canvas') return 'write';
+    if (t === 'gems') return 'brainstorm';
+    if (t === 'interactive') return 'play';
+    return t;
+  })();
+
+  const weaverModeBranches = [
+    {
+      id: 'write',
+      label: 'Write & Author',
+      description: 'Manuscript canvas with inline AI assistant & element drag-and-drop',
+      icon: PenTool,
+      color: 'text-cyan-400',
+      activeCls: 'bg-cyan-950/80 text-cyan-200 border-cyan-500/50 shadow-[0_0_10px_rgba(6,182,212,0.15)]'
+    },
+    {
+      id: 'brainstorm',
+      label: 'Brainstorm',
+      description: 'Dual-scope ideation & Guidance Gems directives for story scenarios and world elements',
+      icon: Lightbulb,
+      color: 'text-amber-400',
+      activeCls: 'bg-amber-950/70 text-amber-200 border-amber-500/50 shadow-[0_0_10px_rgba(245,158,11,0.15)]'
+    },
+    {
+      id: 'elements',
+      label: 'Elements',
+      description: 'World elements palette with drag-and-drop tokens to story prose',
+      icon: Layers,
+      color: 'text-blue-400',
+      activeCls: 'bg-blue-950/70 text-blue-200 border-blue-500/50 shadow-[0_0_10px_rgba(59,130,246,0.15)]'
+    },
+    {
+      id: 'graph',
+      label: 'Asset Graph',
+      description: 'Asset interconnection graph showing relationships between elements',
+      icon: Network,
+      color: 'text-emerald-400',
+      activeCls: 'bg-emerald-950/70 text-emerald-200 border-emerald-500/50 shadow-[0_0_10px_rgba(16,185,129,0.15)]'
+    },
+    {
+      id: 'play',
+      label: 'Interactive Play',
+      description: 'Granular interactive story studio driven by Folio personas & dice checks',
+      icon: Play,
+      color: 'text-purple-400',
+      activeCls: 'bg-purple-950/70 text-purple-200 border-purple-500/50 shadow-[0_0_10px_rgba(168,85,247,0.15)]'
+    }
+  ];
 
   const togglePin = (e) => {
     e?.stopPropagation?.();
@@ -100,6 +171,18 @@ export const ADENavRail = ({
       }
     },
     {
+      id: 'elements',
+      aliasIds: ['gallery', 'elements'],
+      label: 'ELEMENT FORGE',
+      sublabel: 'Story Elements',
+      description: 'Story Asset & Elements Repository (Personas, Places, Items & Modifiers)',
+      icon: Box,
+      colorTheme: 'emerald',
+      onClick: () => {
+        if (onSwitchView) onSwitchView('elements');
+      }
+    },
+    {
       id: 'map',
       aliasIds: ['map-maker', 'mapmaker'],
       label: 'MAP',
@@ -123,18 +206,6 @@ export const ADENavRail = ({
         if (onSwitchView) onSwitchView('stage', 'setup');
         else if (onSelectScenarioWorkspaceTab) onSelectScenarioWorkspaceTab('stage');
       }
-    },
-    {
-      id: 'elements',
-      aliasIds: ['gallery', 'elements'],
-      label: 'ELEMENTS',
-      sublabel: 'Story Elements',
-      description: 'Story Asset & Elements Repository (Personas, Places, Items & Modifiers)',
-      icon: Box,
-      colorTheme: 'emerald',
-      onClick: () => {
-        if (onSwitchView) onSwitchView('elements');
-      }
     }
   ];
 
@@ -142,21 +213,12 @@ export const ADENavRail = ({
     {
       id: 'cronicle',
       label: 'CRONICLE',
-      sublabel: 'Living Memory',
-      description: 'Timeline Deck & Narrative Event Log',
+      sublabel: 'Living Memory & Notes',
+      description: 'Living Memory Deck, Working Copies, GM Directives & Compiled Dossier',
       icon: '📜',
       badgePulse: pendingCronicleCount > 0,
       colorTheme: 'amber',
       onClick: onOpenCronicle
-    },
-    {
-      id: 'scratch',
-      label: 'SCRATCH',
-      sublabel: 'Scratchbook',
-      description: 'Project Notes & Fast Aggregated Elements Document',
-      icon: '📓',
-      colorTheme: 'emerald',
-      onClick: onOpenScratchbook
     },
     {
       id: 'print',
@@ -321,66 +383,218 @@ export const ADENavRail = ({
             })();
             const theme = THEMES[item.colorTheme] || THEMES.cyan;
             const Icon = item.icon;
+            const isWeaverItem = item.id === 'scenarios';
+            const isElementsItem = item.id === 'elements';
 
             return (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => handleSelectWorkspace(item)}
-                onMouseEnter={(e) => {
-                  const rect = e.currentTarget.getBoundingClientRect();
-                  setHoveredItem({ item, theme, rect });
-                }}
-                onMouseLeave={() => setHoveredItem(null)}
-                className={`group relative w-full h-8.5 sm:h-9 rounded-xl flex items-center transition-all cursor-pointer border shrink-0 ${
-                  isDesktopOnly ? 'hidden md:flex' : ''
-                } ${
-                  isExpanded ? 'px-2 justify-start' : 'px-1 justify-center'
-                } ${
-                  isActive
-                    ? theme.activeBtn
-                    : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/70 border-transparent hover:border-slate-800/80'
-                }`}
-                title={isExpanded ? undefined : `${item.label} • ${item.sublabel}`}
-              >
-                {/* Active Left Indicator Bar */}
-                {isActive && (
-                  <span className={`absolute left-0 top-1.5 bottom-1.5 w-1 rounded-r-full ${theme.bar}`} />
-                )}
-
-                {/* Icon Container */}
-                <div
-                  className={`relative w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center shrink-0 border transition-all ${
-                    isActive ? theme.activeBox : theme.iconBox
+              <React.Fragment key={item.id}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (isWeaverItem) {
+                      setIsWeaverBranchesOpen(true);
+                    }
+                    if (isElementsItem) {
+                      setIsElementsBranchesOpen(true);
+                    }
+                    handleSelectWorkspace(item);
+                  }}
+                  onMouseEnter={(e) => {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    setHoveredItem({ item, theme, rect });
+                  }}
+                  onMouseLeave={() => setHoveredItem(null)}
+                  className={`group relative w-full h-8.5 sm:h-9 rounded-xl flex items-center transition-all cursor-pointer border shrink-0 ${
+                    isDesktopOnly ? 'hidden md:flex' : ''
+                  } ${
+                    isExpanded ? 'px-2 justify-start' : 'px-1 justify-center'
+                  } ${
+                    isActive
+                      ? theme.activeBtn
+                      : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/70 border-transparent hover:border-slate-800/80'
                   }`}
+                  title={isExpanded ? undefined : `${item.label} • ${item.sublabel}`}
                 >
-                  {typeof Icon === 'string' ? (
-                    <span className="text-sm">{Icon}</span>
-                  ) : (
-                    <Icon size={16} />
+                  {/* Active Left Indicator Bar */}
+                  {isActive && (
+                    <span className={`absolute left-0 top-1.5 bottom-1.5 w-1 rounded-r-full ${theme.bar}`} />
                   )}
-                </div>
 
-                {/* Label to the Right */}
-                <div
-                  className={`flex flex-col min-w-0 flex-1 text-left transition-all duration-200 overflow-hidden ${
-                    isExpanded ? 'opacity-100 ml-2.5 max-w-[170px]' : 'opacity-0 max-w-0 pointer-events-none'
-                  }`}
-                >
-                  <div className="flex items-center justify-between gap-1">
-                    <span
-                      className={`font-mono text-[11px] font-bold uppercase tracking-wider truncate leading-tight ${
-                        isActive ? theme.activeLabel : 'text-slate-200 group-hover:text-white'
-                      }`}
-                    >
-                      {item.label}
+                  {/* Icon Container */}
+                  <div
+                    className={`relative w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center shrink-0 border transition-all ${
+                      isActive ? theme.activeBox : theme.iconBox
+                    }`}
+                  >
+                    {typeof Icon === 'string' ? (
+                      <span className="text-sm">{Icon}</span>
+                    ) : (
+                      <Icon size={16} />
+                    )}
+                  </div>
+
+                  {/* Label to the Right */}
+                  <div
+                    className={`flex flex-col min-w-0 flex-1 text-left transition-all duration-200 overflow-hidden ${
+                      isExpanded ? 'opacity-100 ml-2.5 max-w-[170px]' : 'opacity-0 max-w-0 pointer-events-none'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-1">
+                      <span
+                        className={`font-mono text-[11px] font-bold uppercase tracking-wider truncate leading-tight ${
+                          isActive ? theme.activeLabel : 'text-slate-200 group-hover:text-white'
+                        }`}
+                      >
+                        {item.label}
+                      </span>
+                      {isWeaverItem && (
+                        <span
+                          role="button"
+                          tabIndex={-1}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            AudioService.playTerminalBeep(1000, 0.02);
+                            setIsWeaverBranchesOpen(prev => !prev);
+                          }}
+                          className="p-0.5 rounded hover:bg-slate-800/80 text-slate-400 hover:text-cyan-300 transition-colors"
+                          title={isWeaverBranchesOpen ? "Collapse Weaver Modes" : "Expand Weaver Modes"}
+                        >
+                          <ChevronDown size={11} className={`transition-transform duration-150 ${isWeaverBranchesOpen ? '' : '-rotate-90'}`} />
+                        </span>
+                      )}
+                      {isElementsItem && (
+                        <span
+                          role="button"
+                          tabIndex={-1}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            AudioService.playTerminalBeep(1000, 0.02);
+                            setIsElementsBranchesOpen(prev => !prev);
+                          }}
+                          className="p-0.5 rounded hover:bg-slate-800/80 text-slate-400 hover:text-emerald-300 transition-colors"
+                          title={isElementsBranchesOpen ? "Collapse Element Categories" : "Expand Element Categories"}
+                        >
+                          <ChevronDown size={11} className={`transition-transform duration-150 ${isElementsBranchesOpen ? '' : '-rotate-90'}`} />
+                        </span>
+                      )}
+                    </div>
+                    <span className="text-[9px] text-slate-400/80 truncate font-mono leading-tight mt-0.5">
+                      {item.sublabel}
                     </span>
                   </div>
-                  <span className="text-[9px] text-slate-400/80 truncate font-mono leading-tight mt-0.5">
-                    {item.sublabel}
-                  </span>
-                </div>
-              </button>
+                </button>
+
+                {/* Weaver Mode Branches under WEAVER */}
+                {isWeaverItem && isExpanded && isWeaverBranchesOpen && (
+                  <div className="ml-5 pl-2.5 border-l border-cyan-500/30 flex flex-col gap-0.5 my-0.5 shrink-0">
+                    {weaverModeBranches.map((branch) => {
+                      const BranchIcon = branch.icon;
+                      const isBranchActive = isActive && normalizedWeaverTab === branch.id;
+
+                      return (
+                        <button
+                          key={branch.id}
+                          type="button"
+                          onClick={() => {
+                            AudioService.playTerminalBeep(1100, 0.02);
+                            if (!isPinned) {
+                              setIsHovered(false);
+                              setHoveredItem(null);
+                            }
+                            if (onSelectScenarioWorkspaceTab) {
+                              onSelectScenarioWorkspaceTab(branch.id);
+                            } else if (onSwitchView) {
+                              onSwitchView('scenarios', branch.id);
+                            }
+                          }}
+                          onMouseEnter={(e) => {
+                            const rect = e.currentTarget.getBoundingClientRect();
+                            setHoveredItem({
+                              item: { label: branch.label, sublabel: `Weaver • ${branch.label}`, description: branch.description },
+                              theme,
+                              rect
+                            });
+                          }}
+                          onMouseLeave={() => setHoveredItem(null)}
+                          className={`group/branch relative w-full py-1 px-2 rounded-lg flex items-center justify-between gap-1.5 text-left transition-all cursor-pointer border ${
+                            isBranchActive
+                              ? branch.activeCls
+                              : 'border-transparent text-slate-400 hover:text-slate-100 hover:bg-slate-900/70'
+                          }`}
+                        >
+                          {/* Horizontal Tree Branch Connector Tick */}
+                          <span className="absolute -left-2.5 top-1/2 -translate-y-1/2 w-2 h-px bg-cyan-500/30 pointer-events-none" />
+
+                          <div className="flex items-center gap-2 min-w-0">
+                            <BranchIcon size={12} className={`shrink-0 ${isBranchActive ? branch.color : 'text-slate-500 group-hover/branch:text-slate-300'}`} />
+                            <span className={`font-mono text-[10px] uppercase tracking-wider truncate ${isBranchActive ? 'font-bold' : 'font-medium'}`}>
+                              {branch.label}
+                            </span>
+                          </div>
+                          {isBranchActive && <Check size={11} className="text-cyan-400 shrink-0" />}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Consolidated Element Type Branches under ELEMENT FORGE */}
+                {isElementsItem && isExpanded && isElementsBranchesOpen && (
+                  <div className="ml-5 pl-2.5 border-l border-emerald-500/30 flex flex-col gap-0.5 my-0.5 shrink-0">
+                    {ELEMENT_TYPES.map((elType) => {
+                      const isBranchActive = isActive && activeElementType === elType;
+
+                      return (
+                        <button
+                          key={elType}
+                          type="button"
+                          onClick={() => {
+                            AudioService.playTerminalBeep(1100, 0.02);
+                            if (!isPinned) {
+                              setIsHovered(false);
+                              setHoveredItem(null);
+                            }
+                            if (setStoreActiveElementType) {
+                              setStoreActiveElementType(elType);
+                            }
+                            if (onSelectElementType) {
+                              onSelectElementType(elType);
+                            } else if (onSwitchView) {
+                              onSwitchView('elements');
+                            }
+                          }}
+                          onMouseEnter={(e) => {
+                            const rect = e.currentTarget.getBoundingClientRect();
+                            setHoveredItem({
+                              item: {
+                                label: elType,
+                                sublabel: `Element Forge • ${elType}`,
+                                description: `Browse and forge ${elType} story elements`
+                              },
+                              theme,
+                              rect
+                            });
+                          }}
+                          onMouseLeave={() => setHoveredItem(null)}
+                          className={`group/branch relative w-full py-1 px-2 rounded-lg flex items-center justify-between gap-1.5 text-left transition-all cursor-pointer border ${
+                            isBranchActive
+                              ? `${getTypePillStyle(elType)} shadow-[0_0_10px_rgba(16,185,129,0.15)]`
+                              : 'border-transparent text-slate-400 hover:text-slate-100 hover:bg-slate-900/70'
+                          }`}
+                        >
+                          {/* Horizontal Tree Branch Connector Tick */}
+                          <span className="absolute -left-2.5 top-1/2 -translate-y-1/2 w-2 h-px bg-emerald-500/30 pointer-events-none" />
+
+                          <span className={`font-mono text-[10px] uppercase tracking-wider truncate ${isBranchActive ? 'font-bold' : 'font-medium'}`}>
+                            {elType}
+                          </span>
+                          {isBranchActive && <Check size={11} className="text-emerald-400 shrink-0" />}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </React.Fragment>
             );
           })}
 

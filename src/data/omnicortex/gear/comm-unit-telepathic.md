@@ -27,7 +27,7 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 2
   used: 0
   tier: Socket
   allocated: []
@@ -37,6 +37,9 @@ keywords: >-
   comm unit (telepathic bio-node), gear, personal-property, tl-5, organic,
   psycho-resonant
 negative_keywords: 'primitive-stone, immaterial, intangible'
+gear_type: General
+base_dc: 25
+design_dc: 25
 ---
 Organic psycho-resonant crystal allowing silent psychic transmission across space.
 

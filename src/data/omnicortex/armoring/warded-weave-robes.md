@@ -45,6 +45,10 @@ tech_level: 3
 meta_level: 2
 keywords: 'warded weave robes, armor, defense, dr-8, light-armor, tl-3'
 negative_keywords: 'unarmored, fragile, naked'
+collection: armoring
+armor_class: Lightweight
+armor_type: Lightweight
+mobility_penalty: 0
 ---
 Silken robes embroidered with conductive resonant sigils designed to disperse metaphysical and thermal energy.
 

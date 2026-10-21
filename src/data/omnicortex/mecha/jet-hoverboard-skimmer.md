@@ -39,6 +39,8 @@ sockets:
 tech_level: 3
 keywords: 'jet-powered hoverboard (skimmer), mecha, vehicle, small, personal, tl-3'
 negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
+meta_level: 0
+design_dc: 10
 ---
 Repulsor hover-board skimming 1 foot above terrain using directed micro-turbines.
 

@@ -8,7 +8,7 @@
  *   sourced from persons, items, or locations within the gallery.
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { 
   Box, 
   Map as MapIcon, 
@@ -29,13 +29,14 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import ElementForge from '../../ElementForge/ElementForge';
+import { normalizeElementType } from '../../ElementForge/elementSchemas';
 import { useStory } from '../../../../context/CampaignContext';
 import { useConfirm } from '../../../../context/ConfirmContext';
 import { AudioService } from '../../../../services/audioService';
 import { ModifierService, MODIFIER_PRESETS } from '../../../../services/modifierService';
 import { useNavigate } from 'react-router-dom';
 
-export const StoryGallery = ({ onBackToStory, onOpenCompiler }) => {
+export const StoryGallery = ({ onBackToStory, onOpenCompiler, activeElementType, onSelectElementType }) => {
   const navigate = useNavigate();
   const confirm = useConfirm();
   const { 
@@ -53,6 +54,12 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler }) => {
   } = useStory();
 
   const [activeTab, setActiveTab] = useState('elements'); // 'elements' | 'maps' | 'modifiers'
+
+  useEffect(() => {
+    if (activeElementType) {
+      setActiveTab('elements');
+    }
+  }, [activeElementType]);
   const [modifierFilterCategory, setModifierFilterCategory] = useState('all');
   const [isNewModifierModalOpen, setIsNewModifierModalOpen] = useState(false);
 
@@ -86,11 +93,11 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler }) => {
 
   // Gallery Personas & Items for source derivation
   const galleryPersonas = useMemo(() => {
-    return (elementsCatalog || []).filter(e => e.type === 'Persona');
+    return (elementsCatalog || []).filter(e => normalizeElementType(e.type) === 'Persona');
   }, [elementsCatalog]);
 
   const galleryItems = useMemo(() => {
-    return (elementsCatalog || []).filter(e => e.type === 'Item');
+    return (elementsCatalog || []).filter(e => normalizeElementType(e.type) === 'Item');
   }, [elementsCatalog]);
 
   // Filtered Modifiers
@@ -237,7 +244,7 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler }) => {
           </div>
           <div>
             <h2 className="text-xs font-mono font-bold tracking-wider uppercase text-emerald-300 flex items-center gap-2">
-              <span>STORY ELEMENTS</span>
+              <span>ELEMENT FORGE</span>
               <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-500/40">
                 Story Asset Repository
               </span>
@@ -260,10 +267,7 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler }) => {
             }`}
           >
             <Box size={12} />
-            <span>Elements</span>
-            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-slate-800 text-slate-300">
-              {elementsCatalog?.length || 0}
-            </span>
+            <span>Element Forge</span>
           </button>
 
           <button
@@ -280,9 +284,6 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler }) => {
           >
             <MapIcon size={12} />
             <span>Tactical Maps</span>
-            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-slate-800 text-slate-300">
-              {allMaps.length}
-            </span>
           </button>
 
           <button
@@ -299,9 +300,6 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler }) => {
           >
             <Sliders size={12} />
             <span>Situational Modifiers</span>
-            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-slate-800 text-slate-300">
-              {galleryModifiers.length}
-            </span>
           </button>
         </div>
 
@@ -338,7 +336,12 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler }) => {
       <div className="flex-1 min-h-0 w-full overflow-hidden">
         {/* TAB 1: STORY ELEMENTS (ElementForge full view) */}
         {activeTab === 'elements' && (
-          <ElementForge onBackToStory={onBackToStory} />
+          <ElementForge
+            onBackToStory={onBackToStory}
+            activeType={activeElementType}
+            onSelectType={onSelectElementType}
+            hideSidebar
+          />
         )}
 
         {/* TAB 2: TACTICAL MAPS */}
@@ -347,7 +350,7 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler }) => {
             <div className="flex items-center justify-between pb-2 border-b border-slate-800">
               <div>
                 <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-300">
-                  Gallery Maps & Encounter Sectors ({allMaps.length})
+                  Gallery Maps & Encounter Sectors
                 </h3>
                 <p className="text-[11px] text-slate-400 font-sans mt-0.5">
                   Tactical sectors, battlemaps, and encounter zones compiled into the story module.

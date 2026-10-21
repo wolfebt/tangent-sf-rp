@@ -105,9 +105,6 @@ export default function ElementsTab({ activeNode, onInsertElementMention }) {
           <div>
             <h2 className="text-xs font-bold text-cyan-300 uppercase tracking-wider flex items-center gap-1.5">
               <span>Elements Palette</span>
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-800">
-                {filteredElements.length} Available
-              </span>
             </h2>
             <p className="text-[10px] text-slate-400">
               Drag elements into the story canvas to create live narrative links

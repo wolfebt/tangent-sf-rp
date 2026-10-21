@@ -107,8 +107,26 @@ export const CommunityNetworkingView = ({ onNavigateToSquad, onOpenCreateSquad }
 
   // Determine user's Architect squads for recruiting
   const architectSquads = useMemo(() => {
-    return (groups || []).filter(g => canManageTeam ? canManageTeam(g) : (g.creatorId === currentUser?.uid));
-  }, [groups, currentUser, canManageTeam]);
+    const uid = currentUser?.uid;
+    if (!uid) return [];
+    return (effectiveSquads || []).filter(g => {
+      if (!g) return false;
+      if (typeof canManageTeam === 'function') {
+        try {
+          return Boolean(canManageTeam(g));
+        } catch (_) {}
+      }
+      if (g.creatorId === uid || g.leaderId === uid || g.architectId === uid || g.coArchitectId === uid) {
+        return true;
+      }
+      if (Array.isArray(g.coArchitects) && g.coArchitects.includes(uid)) {
+        return true;
+      }
+      const memberDetail = g.memberDetails?.[uid] || (Array.isArray(g.members) ? g.members.find(m => typeof m === 'object' && (m?.userId === uid || m?.uid === uid || m?.id === uid)) : null);
+      const role = memberDetail?.role;
+      return role === 'Architect' || role === 'GM' || role === 'Leader' || role === 'Co-Architect' || role === 'Co-GM';
+    });
+  }, [effectiveSquads, currentUser?.uid, canManageTeam]);
 
   // Check if current user has an active LFT persona
   const myLftEntry = useMemo(() => {
@@ -117,8 +135,16 @@ export const CommunityNetworkingView = ({ onNavigateToSquad, onOpenCreateSquad }
 
   // Check if current user's squads are flagged for LFP
   const myLfpSquads = useMemo(() => {
-    return lfpGroups.filter(g => g.creatorId === currentUser?.uid || g.coArchitectId === currentUser?.uid);
-  }, [lfpGroups, currentUser]);
+    const uid = currentUser?.uid;
+    if (!uid) return [];
+    return lfpGroups.filter(g => (
+      g.creatorId === uid ||
+      g.leaderId === uid ||
+      g.architectId === uid ||
+      g.coArchitectId === uid ||
+      (Array.isArray(g.coArchitects) && g.coArchitects.includes(uid))
+    ));
+  }, [lfpGroups, currentUser?.uid]);
 
   // Filtered LFT Personas
   const filteredLFT = useMemo(() => {

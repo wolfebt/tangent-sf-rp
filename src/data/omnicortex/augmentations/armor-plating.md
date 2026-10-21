@@ -2,19 +2,21 @@
 id: armor-plating
 name: Armor Plating
 category: augmentations
-cost: 15
-design_dc: 1
-craft_dc: 1
-description: Tiered DR 10 / 20 / 40\.
+cost: 640
+design_dc: 15
+craft_dc: 15
+description: >-
+  Integrated external armor plating (+15% Base Chassis Cost, +5 DR, 5 Nodes, 1
+  CP).
 bp_cost: 1
 dr: 10
 stigma: None
 type: Prosthetic
 costs:
-  cp: 0
-  bp: 0
-  credits: 15
-  nodes: 0
+  cp: 1
+  bp: 1
+  credits: 640
+  nodes: 5
   sockets: 0
   strain: 0
   focus: 0
@@ -31,7 +33,7 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
-tech_level: 0
+tech_level: 3
 meta_level: 0
 stage: Standard
 keywords: 'armor plating, augmentation, prosthetic, standard, tl-3, general'

@@ -4,6 +4,8 @@ import FolioTooltip from '../shared/FolioTooltip';
 import { useFolio } from '../../../context/FolioContext';
 import { useConfirm } from '../../../context/ConfirmContext';
 import { useDice } from '../../../context/DiceContext';
+import { showToast } from '../../../context/ToastContext';
+import { resolveWealthCycleRollover } from '../../../engines/tangentEconEngine';
 import { Dices, ChevronDown, ChevronRight, Plus, Trash2, Coins, Receipt, Pencil, Check } from 'lucide-react';
 
 // Lazy Loaded Rules & Codex Modals
@@ -390,6 +392,9 @@ const CoreStatsTab = () => {
       id: `debt-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
       amount: 0,
       debtor: '',
+      repaymentCycle: 'Next Pay Cycle (Monthly)',
+      status: 'active',
+      missedCycles: 0,
       notes: ''
     };
     const updated = [...current, newDebit];
@@ -410,6 +415,38 @@ const CoreStatsTab = () => {
     const updated = current.filter((_, i) => i !== index);
     updateField('debits', updated);
     updateField('wealth-debits', updated);
+  };
+
+  const handleCycleDebtRollover = (mode = 'rollover', targetIdx = null) => {
+    const current = getArrayFromData('debits', 'wealth-debits');
+    if (current.length === 0) return;
+    const currentWS = derivedStats?.wealthScore ?? 10;
+    const result = resolveWealthCycleRollover(current, currentWS, {
+      mode,
+      targetDebtId: targetIdx
+    });
+    updateField('debits', result.updatedDebits);
+    updateField('wealth-debits', result.updatedDebits);
+
+    if (mode === 'full') {
+      showToast({
+        type: 'success',
+        title: 'Wealth Cycle Rollover — Debt Paid Off',
+        text: `Settled ${result.totalPaidCr.toLocaleString()} Cr of debt (${result.remainingDebtCr.toLocaleString()} Cr remaining).`
+      });
+    } else if (mode === 'rollover' || mode === 'partial') {
+      showToast({
+        type: 'info',
+        title: 'Wealth Cycle Rollover — Partial / WS Settlement',
+        text: `Applied ${result.totalPaidCr.toLocaleString()} Cr from WS rollover capacity (${result.remainingDebtCr.toLocaleString()} Cr remaining for next cycle).`
+      });
+    } else if (mode === 'unpaid' || mode === 'issue') {
+      showToast({
+        type: 'warning',
+        title: 'Cycle Debt Unpaid — Repercussions Active',
+        text: `Debt (${result.remainingDebtCr.toLocaleString()} Cr) remains unpaid on ledger. Delinquent status imposes -2 WS and creditor escalation.`
+      });
+    }
   };
 
   return (
@@ -1700,7 +1737,8 @@ const CoreStatsTab = () => {
               }
             };
 
-            const formulaText = `WS ${wealthScore} = Occu Base (${breakdown.occupationBase ?? 2}) + Origin (${(breakdown.originMod ?? 0) >= 0 ? '+' : ''}${breakdown.originMod ?? 0}) + Faction (${(breakdown.factionMod ?? 0) >= 0 ? '+' : ''}${breakdown.factionMod ?? 0}) + TL (${(breakdown.tlMod ?? 0) >= 0 ? '+' : ''}${breakdown.tlMod ?? 0}) + Vocation (${(breakdown.skillBonus ?? 0) >= 0 ? '+' : ''}${breakdown.skillBonus ?? 0})${customWealthMod !== 0 ? ` + Mod (${customWealthMod >= 0 ? '+' : ''}${customWealthMod})` : ''}`;
+            const traitFeatureMod = breakdown.traitFeatureMod ?? 0;
+            const formulaText = `WS ${wealthScore} = Occu Base (${breakdown.occupationBase ?? 2}) + Origin (${(breakdown.originMod ?? 0) >= 0 ? '+' : ''}${breakdown.originMod ?? 0}) + Faction (${(breakdown.factionMod ?? 0) >= 0 ? '+' : ''}${breakdown.factionMod ?? 0}) + TL (${(breakdown.tlMod ?? 0) >= 0 ? '+' : ''}${breakdown.tlMod ?? 0}) + Vocation (${(breakdown.skillBonus ?? 0) >= 0 ? '+' : ''}${breakdown.skillBonus ?? 0})${traitFeatureMod !== 0 ? ` + Traits/Feats (${traitFeatureMod >= 0 ? '+' : ''}${traitFeatureMod})` : ''}${customWealthMod !== 0 ? ` + Mod (${customWealthMod >= 0 ? '+' : ''}${customWealthMod})` : ''}`;
 
             return (
               <div className="bg-slate-900/60 border border-amber-900/50 rounded-lg p-2 space-y-1.5 shadow-sm">
@@ -2075,104 +2113,172 @@ const CoreStatsTab = () => {
                             </span>
                           </div>
                         ) : (
-                          <div className="space-y-1">
-                            {debits.map((item, idx) => (
-                              <div 
-                                key={item.id || idx}
-                                className="bg-slate-900/80 p-1.5 rounded border border-slate-700/80 flex flex-wrap sm:flex-nowrap items-center gap-1.5 text-xs hover:border-rose-500/40 transition-colors"
-                              >
-                                {/* Amount (Cr) */}
-                                <div className="w-28 shrink-0">
-                                  {isRowReadOnly(item, idx) ? (
-                                    <span className="text-[11px] font-mono font-bold text-rose-300 block">
-                                      -{(Number(item.amount) || 0).toLocaleString()} Cr
-                                    </span>
-                                  ) : (
-                                    <div className="relative flex items-center">
+                          <div className="space-y-1.5">
+                            {/* Wealth Cycle Rollover Bar */}
+                            {!isSheetLocked && (
+                              <div className="p-2 rounded bg-slate-900/90 border border-amber-800/50 flex flex-wrap items-center justify-between gap-2 text-[10px] font-mono">
+                                <div className="text-slate-300">
+                                  <span className="font-bold text-amber-300 uppercase">Cycle Wealth Rollover:</span>{' '}
+                                  <span>Pay off debt (or part up to <strong className="text-cyan-300">{creditValue.toLocaleString()} Cr</strong> WS capacity), or mark unpaid issue.</span>
+                                </div>
+                                <div className="flex flex-wrap items-center gap-1">
+                                  <button
+                                    type="button"
+                                    onClick={() => handleCycleDebtRollover('rollover')}
+                                    className="px-2 py-0.5 rounded bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 font-bold cursor-pointer transition-colors"
+                                    title={`Apply cycle WS purchasing power (${creditValue.toLocaleString()} Cr) toward active debts`}
+                                  >
+                                    ↻ Rollover Pay ({creditValue.toLocaleString()} Cr)
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleCycleDebtRollover('full')}
+                                    className="px-2 py-0.5 rounded bg-emerald-950 hover:bg-emerald-900 border border-emerald-500/50 text-emerald-300 font-bold cursor-pointer transition-colors"
+                                    title="Pay off all outstanding cycle debts in full"
+                                  >
+                                    ✓ Pay All Off
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleCycleDebtRollover('unpaid')}
+                                    className="px-2 py-0.5 rounded bg-rose-950 hover:bg-rose-900 border border-rose-500/50 text-rose-300 font-bold cursor-pointer transition-colors"
+                                    title="Debt not paid this cycle due to an issue or default — debt remains with -2 WS & creditor repercussions"
+                                  >
+                                    ⚠️ Unpaid / Issue
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+
+                            {debits.map((item, idx) => {
+                              const isDelinquent = item.status === 'delinquent' || (Number(item.missedCycles) || 0) > 0;
+                              return (
+                                <div 
+                                  key={item.id || idx}
+                                  className={`bg-slate-900/80 p-1.5 rounded border flex flex-wrap sm:flex-nowrap items-center gap-1.5 text-xs transition-colors ${
+                                    isDelinquent
+                                      ? 'border-rose-500/70 bg-rose-950/20'
+                                      : 'border-slate-700/80 hover:border-rose-500/40'
+                                  }`}
+                                >
+                                  {/* Amount (Cr) */}
+                                  <div className="w-28 shrink-0">
+                                    {isRowReadOnly(item, idx) ? (
+                                      <span className="text-[11px] font-mono font-bold text-rose-300 block">
+                                        -{(Number(item.amount) || 0).toLocaleString()} Cr
+                                      </span>
+                                    ) : (
+                                      <div className="relative flex items-center">
+                                        <input
+                                          type="number"
+                                          min="0"
+                                          placeholder="Debt (Cr)"
+                                          value={item.amount ?? 0}
+                                          onChange={(e) => handleUpdateDebit(idx, 'amount', parseInt(e.target.value, 10) || 0)}
+                                          className="w-full bg-slate-950 border border-slate-700 focus:border-rose-400 rounded px-1.5 py-1 text-[10px] font-mono text-right font-bold text-rose-300 outline-none transition-colors"
+                                          title="Amount owed in Credits"
+                                        />
+                                        <span className="ml-1 text-[9px] font-mono text-slate-400">Cr</span>
+                                      </div>
+                                    )}
+                                  </div>
+
+                                  {/* Debtor / Creditor & Cycle Badge */}
+                                  <div className="w-40 shrink-0">
+                                    {isRowReadOnly(item, idx) ? (
+                                      <div className="truncate">
+                                        <span className="text-[11px] font-bold text-slate-200 truncate block">
+                                          {item.debtor || 'Unspecified Creditor'}
+                                        </span>
+                                        <span className={`text-[9px] font-mono block truncate ${isDelinquent ? 'text-rose-400 font-bold' : 'text-amber-300/80'}`}>
+                                          {isDelinquent
+                                            ? `⚠️ Delinquent (${item.missedCycles || 1}x missed • -2 WS)`
+                                            : (item.repaymentCycle || 'Due: Next Cycle')}
+                                        </span>
+                                      </div>
+                                    ) : (
                                       <input
-                                        type="number"
-                                        min="0"
-                                        placeholder="Debt (Cr)"
-                                        value={item.amount ?? 0}
-                                        onChange={(e) => handleUpdateDebit(idx, 'amount', parseInt(e.target.value, 10) || 0)}
-                                        className="w-full bg-slate-950 border border-slate-700 focus:border-rose-400 rounded px-1.5 py-1 text-[10px] font-mono text-right font-bold text-rose-300 outline-none transition-colors"
-                                        title="Amount owed in Credits"
+                                        type="text"
+                                        placeholder="Debtor / Creditor..."
+                                        value={item.debtor || ''}
+                                        onChange={(e) => handleUpdateDebit(idx, 'debtor', e.target.value)}
+                                        className="w-full bg-slate-950 border border-slate-700 focus:border-rose-400 rounded px-2 py-1 text-[11px] text-slate-100 outline-none transition-colors"
                                       />
-                                      <span className="ml-1 text-[9px] font-mono text-slate-400">Cr</span>
+                                    )}
+                                  </div>
+
+                                  {/* Notes / Terms */}
+                                  <div className="flex-1 min-w-[140px]">
+                                    {isRowReadOnly(item, idx) ? (
+                                      <span className="text-[10px] text-slate-400 truncate block italic">
+                                        {item.notes || 'No terms noted'}
+                                      </span>
+                                    ) : (
+                                      <input
+                                        type="text"
+                                        placeholder="Terms, collateral, repayment cycles, interest notes..."
+                                        value={item.notes || ''}
+                                        onChange={(e) => handleUpdateDebit(idx, 'notes', e.target.value)}
+                                        className="w-full bg-slate-950 border border-slate-700 focus:border-rose-400 rounded px-2 py-1 text-[10px] text-slate-300 outline-none transition-colors"
+                                      />
+                                    )}
+                                  </div>
+
+                                  {/* Per-row Rollover & Edit / Done / Delete actions */}
+                                  {!isSheetLocked && (
+                                    <div className="flex items-center gap-0.5 shrink-0">
+                                      {isRowReadOnly(item, idx) ? (
+                                        <>
+                                          <button
+                                            type="button"
+                                            onClick={() => handleCycleDebtRollover('rollover', idx)}
+                                            className="px-1.5 py-0.5 rounded bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-700/50 text-[9px] font-mono text-cyan-300 cursor-pointer shrink-0"
+                                            title="Rollover: Apply WS purchasing power toward this debt"
+                                          >
+                                            Pay
+                                          </button>
+                                          <button
+                                            type="button"
+                                            onClick={() => handleCycleDebtRollover('unpaid', idx)}
+                                            className="px-1.5 py-0.5 rounded bg-rose-950/80 hover:bg-rose-900 border border-rose-700/50 text-[9px] font-mono text-rose-300 cursor-pointer shrink-0"
+                                            title="Mark unpaid / issue for this cycle (triggers -2 WS delinquent repercussion)"
+                                          >
+                                            Issue
+                                          </button>
+                                          <button
+                                            type="button"
+                                            onClick={() => toggleRowEditing(item, idx)}
+                                            className="p-1 text-slate-500 hover:text-rose-300 transition-colors cursor-pointer shrink-0"
+                                            title="Edit debt"
+                                          >
+                                            <Pencil className="w-3.5 h-3.5" />
+                                          </button>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <button
+                                            type="button"
+                                            onClick={() => toggleRowEditing(item, idx)}
+                                            className="p-1 text-slate-500 hover:text-emerald-400 transition-colors cursor-pointer shrink-0"
+                                            title="Done editing"
+                                          >
+                                            <Check className="w-3.5 h-3.5" />
+                                          </button>
+                                          <button
+                                            type="button"
+                                            onClick={() => handleDeleteDebit(idx)}
+                                            className="p-1 text-slate-500 hover:text-red-400 transition-colors cursor-pointer shrink-0"
+                                            title="Remove debt"
+                                          >
+                                            <Trash2 className="w-3.5 h-3.5" />
+                                          </button>
+                                        </>
+                                      )}
                                     </div>
                                   )}
                                 </div>
-
-                                {/* Debtor / Creditor */}
-                                <div className="w-36 shrink-0">
-                                  {isRowReadOnly(item, idx) ? (
-                                    <span className="text-[11px] font-bold text-slate-200 truncate block">
-                                      {item.debtor || 'Unspecified Creditor'}
-                                    </span>
-                                  ) : (
-                                    <input
-                                      type="text"
-                                      placeholder="Debtor / Creditor..."
-                                      value={item.debtor || ''}
-                                      onChange={(e) => handleUpdateDebit(idx, 'debtor', e.target.value)}
-                                      className="w-full bg-slate-950 border border-slate-700 focus:border-rose-400 rounded px-2 py-1 text-[11px] text-slate-100 outline-none transition-colors"
-                                    />
-                                  )}
-                                </div>
-
-                                {/* Notes / Terms */}
-                                <div className="flex-1 min-w-[140px]">
-                                  {isRowReadOnly(item, idx) ? (
-                                    <span className="text-[10px] text-slate-400 truncate block italic">
-                                      {item.notes || 'No terms noted'}
-                                    </span>
-                                  ) : (
-                                    <input
-                                      type="text"
-                                      placeholder="Terms, collateral, repayment cycles, interest notes..."
-                                      value={item.notes || ''}
-                                      onChange={(e) => handleUpdateDebit(idx, 'notes', e.target.value)}
-                                      className="w-full bg-slate-950 border border-slate-700 focus:border-rose-400 rounded px-2 py-1 text-[10px] text-slate-300 outline-none transition-colors"
-                                    />
-                                  )}
-                                </div>
-
-                                {/* Edit / Done / Delete actions */}
-                                {!isSheetLocked && (
-                                  <div className="flex items-center gap-0.5 shrink-0">
-                                    {isRowReadOnly(item, idx) ? (
-                                      <button
-                                        type="button"
-                                        onClick={() => toggleRowEditing(item, idx)}
-                                        className="p-1 text-slate-500 hover:text-rose-300 transition-colors cursor-pointer shrink-0"
-                                        title="Edit debt"
-                                      >
-                                        <Pencil className="w-3.5 h-3.5" />
-                                      </button>
-                                    ) : (
-                                      <>
-                                        <button
-                                          type="button"
-                                          onClick={() => toggleRowEditing(item, idx)}
-                                          className="p-1 text-slate-500 hover:text-emerald-400 transition-colors cursor-pointer shrink-0"
-                                          title="Done editing"
-                                        >
-                                          <Check className="w-3.5 h-3.5" />
-                                        </button>
-                                        <button
-                                          type="button"
-                                          onClick={() => handleDeleteDebit(idx)}
-                                          className="p-1 text-slate-500 hover:text-red-400 transition-colors cursor-pointer shrink-0"
-                                          title="Remove debt"
-                                        >
-                                          <Trash2 className="w-3.5 h-3.5" />
-                                        </button>
-                                      </>
-                                    )}
-                                  </div>
-                                )}
-                              </div>
-                            ))}
+                              );
+                            })}
 
                             {/* Subtotal row */}
                             <div className="flex justify-between items-center px-2 py-1 text-[10px] font-mono text-slate-400 border-t border-slate-800">

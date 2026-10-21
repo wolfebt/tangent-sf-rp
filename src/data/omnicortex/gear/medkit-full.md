@@ -25,7 +25,7 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 4
   used: 0
   tier: Socket
   allocated: []
@@ -35,6 +35,9 @@ keywords: >-
   medkit (full field kit), gear, personal-property, tl-3, comprehensive,
   paramedic
 negative_keywords: 'primitive-stone, immaterial, intangible'
+gear_type: General
+base_dc: 10
+design_dc: 10
 ---
 Comprehensive paramedic field kit with diagnostic wand, cauterizer, and stims.
 

@@ -26,7 +26,7 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 2
   used: 0
   tier: Socket
   allocated: []
@@ -36,6 +36,9 @@ keywords: >-
   basic cyberdeck processor, gear, personal-property, tl-3, entry-level,
   processing
 negative_keywords: 'primitive-stone, immaterial, intangible'
+gear_type: General
+base_dc: 10
+design_dc: 10
 ---
 Entry-level processing unit capable of running basic software scripts.
 

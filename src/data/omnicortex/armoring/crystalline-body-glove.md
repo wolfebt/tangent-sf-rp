@@ -46,6 +46,10 @@ tech_level: 4
 meta_level: 1
 keywords: 'crystalline body-glove, armor, defense, dr-14, medium-armor, tl-4'
 negative_keywords: 'unarmored, fragile, naked'
+collection: armoring
+armor_class: Lightweight
+armor_type: Lightweight
+mobility_penalty: 0
 ---
 Alterian flexible crystal suit that hardens instantaneously upon kinetic or thermal impact, dispersing shockwaves.
 

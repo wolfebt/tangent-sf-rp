@@ -27,7 +27,7 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 1
   used: 0
   tier: Socket
   allocated: []
@@ -37,6 +37,9 @@ keywords: >-
   comm-link (subdermal / ear-piece), gear, personal-property, tl-2, short-range,
   encrypted
 negative_keywords: 'primitive-stone, immaterial, intangible'
+gear_type: General
+base_dc: 5
+design_dc: 5
 ---
 Short-range encrypted audio transceiver.
 

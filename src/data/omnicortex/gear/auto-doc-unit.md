@@ -27,7 +27,7 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 8
   used: 0
   tier: Socket
   allocated: []
@@ -37,6 +37,9 @@ keywords: >-
   auto-doc unit (robotic pod), gear, personal-property, tl-4, automated,
   surgical
 negative_keywords: 'primitive-stone, immaterial, intangible'
+gear_type: General
+base_dc: 20
+design_dc: 20
 ---
 Automated surgical and trauma treatment station with micro-manipulator arms.
 

@@ -1,16 +1,18 @@
 ---
 id: jewelry-fine
-name: Jewelry (Fine)
-category: armoring
+name: Jewelry (Fine / Artifice)
+category: Jewelry
 dr: 0
-durability: '2'
-description: "Penalty: None\r\nLocations: None\r\nSockets: 2 Nodes"
+durability: 2
+description: >-
+  Precious metal rings, amulets, or torcs suitable for high-society display or
+  metaphysical attunement.
 sp: 2
-coverage: Standard
+coverage: Partial
 costs:
   cp: 0
   bp: 0
-  credits: 0
+  credits: 160
   nodes: 0
   sockets: 0
   strain: 0
@@ -28,12 +30,22 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
-tech_level: 0
-meta_level: 0
+tech_level: 1
+meta_level: 1
 keywords: 'jewelry (fine), armor, defense, dr-4, light-armor, tl-3'
 negative_keywords: 'unarmored, fragile, naked'
+collection: armoring
+armor_class: Jewelry
+armor_type: Jewelry
+mobility_penalty: 0
+body_locations:
+  - Arms
+craft_dc: 10
+design_dc: 10
+cost: 160
+component_slots: 0
+mechanic: 'DR 0, SP 2. Fine jewelry or metaphysical focus item.'
 ---
-Category: LIGHT Armor
-Penalty: None
-Locations: None
-Sockets: 2 Nodes
+Precious metal rings, amulets, or torcs suitable for high-society display or metaphysical attunement.
+
+**Mechanics:** DR 0, SP 2. Fine jewelry or metaphysical focus item.

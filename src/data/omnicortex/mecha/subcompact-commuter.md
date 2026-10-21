@@ -37,6 +37,8 @@ sockets:
 tech_level: 3
 keywords: 'subcompact electric commuter, mecha, vehicle, medium, personal, tl-3'
 negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
+meta_level: 0
+design_dc: 10
 ---
 The ubiquitous automated pod car of futuristic metropolitan arcologies.
 

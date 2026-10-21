@@ -127,18 +127,18 @@ export const TOOL_TIERS = [
 // ═══════════════════════════════════════════════════════════
 
 export const FINANCIAL_STATUS_TABLE = [
-  { name: 'Indebted', wsMin: 0, wsMax: 0, autoBuyCr: 0, netWorth: 'Negative', lifestyle: 'Debt slavery / prison' },
-  { name: 'Impoverished', wsMin: 1, wsMax: 4, autoBuyCr: 30, netWorth: '<500 Cr', lifestyle: 'Homeless / squatter' },
-  { name: 'Struggling', wsMin: 5, wsMax: 9, autoBuyCr: 150, netWorth: '~2k Cr', lifestyle: 'Shared slum room' },
-  { name: 'Middle Class', wsMin: 10, wsMax: 14, autoBuyCr: 600, netWorth: '~25k Cr', lifestyle: 'Private apartment' },
-  { name: 'Affluent', wsMin: 15, wsMax: 19, autoBuyCr: 2500, netWorth: '~200k Cr', lifestyle: 'High-end condo' },
-  { name: 'Wealthy', wsMin: 20, wsMax: 29, autoBuyCr: 40000, netWorth: '~5M Cr', lifestyle: 'Large estate, servants' },
-  { name: 'Hegemon', wsMin: 30, wsMax: 39, autoBuyCr: 650000, netWorth: '~100M Cr', lifestyle: 'Penthouse, small corp' },
-  { name: 'Industrialist', wsMin: 40, wsMax: 49, autoBuyCr: 10000000, netWorth: '~2B Cr', lifestyle: 'Megacorp exec' },
-  { name: 'Dynastic', wsMin: 50, wsMax: 59, autoBuyCr: 167000000, netWorth: '~50B Cr', lifestyle: 'CEO / Nobility' },
-  { name: 'System Lord', wsMin: 60, wsMax: 69, autoBuyCr: 2600000000, netWorth: '~500B Cr', lifestyle: 'Rules solar system' },
-  { name: 'Sector Ruler', wsMin: 70, wsMax: 79, autoBuyCr: 42000000000, netWorth: '~10T Cr', lifestyle: 'Rules star cluster' },
-  { name: 'Faction Ruler', wsMin: 80, wsMax: 999, autoBuyCr: 600000000000, netWorth: '~1 Quad Cr', lifestyle: 'Emperor / god-king' }
+  { name: 'Indebted', wsMin: 0, wsMax: 0, autoBuyMinCr: 0, autoBuyCr: 0, autoBuyRange: '0 Cr', netWorth: 'Negative', lifestyle: 'Debt slavery / prison' },
+  { name: 'Impoverished', wsMin: 1, wsMax: 4, autoBuyMinCr: 10, autoBuyCr: 30, autoBuyRange: '10 – 30 Cr', netWorth: '<500 Cr', lifestyle: 'Homeless / squatter' },
+  { name: 'Struggling', wsMin: 5, wsMax: 9, autoBuyMinCr: 40, autoBuyCr: 150, autoBuyRange: '40 – 150 Cr', netWorth: '~2k Cr', lifestyle: 'Shared slum room' },
+  { name: 'Middle Class', wsMin: 10, wsMax: 14, autoBuyMinCr: 160, autoBuyCr: 600, autoBuyRange: '160 – 600 Cr', netWorth: '~25k Cr', lifestyle: 'Private apartment' },
+  { name: 'Affluent', wsMin: 15, wsMax: 19, autoBuyMinCr: 640, autoBuyCr: 2500, autoBuyRange: '640 – 2,500 Cr', netWorth: '~200k Cr', lifestyle: 'High-end condo' },
+  { name: 'Wealthy', wsMin: 20, wsMax: 29, autoBuyMinCr: 2560, autoBuyCr: 40000, autoBuyRange: '2.5K – 40K Cr', netWorth: '~5M Cr', lifestyle: 'Large estate, servants' },
+  { name: 'Hegemon', wsMin: 30, wsMax: 39, autoBuyMinCr: 40960, autoBuyCr: 650000, autoBuyRange: '41K – 650K Cr', netWorth: '~100M Cr', lifestyle: 'Penthouse, small corp' },
+  { name: 'Industrialist', wsMin: 40, wsMax: 49, autoBuyMinCr: 655360, autoBuyCr: 10000000, autoBuyRange: '650K – 10M Cr', netWorth: '~2B Cr', lifestyle: 'Megacorp exec' },
+  { name: 'Dynastic', wsMin: 50, wsMax: 59, autoBuyMinCr: 10485760, autoBuyCr: 167000000, autoBuyRange: '10M – 167M Cr', netWorth: '~50B Cr', lifestyle: 'CEO / Nobility' },
+  { name: 'System Lord', wsMin: 60, wsMax: 69, autoBuyMinCr: 167772160, autoBuyCr: 2600000000, autoBuyRange: '167M – 2.6B Cr', netWorth: '~500B Cr', lifestyle: 'Rules solar system' },
+  { name: 'Sector Ruler', wsMin: 70, wsMax: 79, autoBuyMinCr: 2684354560, autoBuyCr: 42000000000, autoBuyRange: '2.6B – 42B Cr', netWorth: '~10T Cr', lifestyle: 'Rules star cluster' },
+  { name: 'Faction Ruler', wsMin: 80, wsMax: 999, autoBuyMinCr: 42949672960, autoBuyCr: 600000000000, autoBuyRange: '42B – 600B+ Cr', netWorth: '~1 Quad Cr', lifestyle: 'Emperor / god-king' }
 ];
 
 // ═══════════════════════════════════════════════════════════
@@ -231,11 +231,11 @@ export const ORIGIN_WEALTH_MODS = {
 // ═══════════════════════════════════════════════════════════
 
 export const SKILL_STAGE_WEALTH_BONUS = [
-  { stage: 'Novice', minRank: 1, maxRank: 2, bonus: 1, description: 'Apprentice / entry wages' },
-  { stage: 'Practiced', minRank: 3, maxRank: 5, bonus: 2, description: 'Certified tradesperson' },
-  { stage: 'Expert', minRank: 6, maxRank: 8, bonus: 3, description: 'Senior specialist' },
-  { stage: 'Master', minRank: 9, maxRank: 10, bonus: 4, description: 'Renowned master artisan' },
-  { stage: 'Grandmaster', minRank: 11, maxRank: 999, bonus: 5, description: 'Sector guildmaster' }
+  { stage: 'Novice', minRank: 1, maxRank: 5, bonus: 1, description: 'Apprentice / entry wages' },
+  { stage: 'Trained', minRank: 6, maxRank: 10, bonus: 2, description: 'Certified tradesperson / living wage' },
+  { stage: 'Expert', minRank: 11, maxRank: 15, bonus: 3, description: 'Senior specialist / local sector renown' },
+  { stage: 'Master', minRank: 16, maxRank: 19, bonus: 4, description: 'Renowned master artisan' },
+  { stage: 'Pinnacle', minRank: 20, maxRank: 999, bonus: 5, description: 'Sector guildmaster / pinnacle virtuoso' }
 ];
 
 export const QUALIFYING_WEALTH_SKILLS = [
@@ -246,6 +246,34 @@ export const QUALIFYING_WEALTH_SKILLS = [
   'performance', 'acting', 'comedy', 'dancing', 'keyboard', 'percussion',
   'singing', 'string', 'wind', 'style', 'discipline'
 ];
+
+export const WEALTH_TRAIT_FEATURE_MODS = {
+  'benefit (wealth)': 3,
+  'benefit: wealth': 3,
+  'general-benefit-wealth': 3,
+  'benefit-wealth': 3,
+  'benefit (status)': 2,
+  'benefit: status': 2,
+  'general-benefit-status': 2,
+  'benefit-status': 2,
+  'high pay': 2,
+  'trait-high-pay': 2,
+  'high social standing': 2,
+  'trait-high-social-standing': 2,
+  'property boon': 4,
+  'trait-property-boon': 4,
+  'fans': 2,
+  'trait-fans': 2,
+  'lifestyle preference': 1,
+  'trait-lifestyle-preference': 1,
+  'management': 1,
+  'trait-management': 1,
+  'venues': 1,
+  'trait-venues': 1,
+  'debt': -2,
+  'hindrance-debt': -2,
+  'flaw-debt': -2
+};
 
 // ═══════════════════════════════════════════════════════════
 // FACTION WEALTH MODIFIERS

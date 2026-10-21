@@ -43,6 +43,10 @@ tech_level: 4
 meta_level: 0
 keywords: 'nanofiber "cloth" suit, armor, defense, dr-5, light-armor, tl-4'
 negative_keywords: 'unarmored, fragile, naked'
+collection: armoring
+armor_class: Lightweight
+armor_type: Lightweight
+mobility_penalty: 0
 ---
 Tailored from advanced ballistic cloth (TL 4). Absorbs kinetic energy and spreads impact. Indistinguishable from high-end business wear.
 

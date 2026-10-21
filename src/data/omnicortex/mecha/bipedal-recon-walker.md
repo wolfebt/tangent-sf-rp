@@ -39,6 +39,8 @@ sockets:
 tech_level: 3
 keywords: 'bipedal recon walker, mecha, vehicle, large, walker, tl-3'
 negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
+meta_level: 0
+design_dc: 25
 ---
 Fast, agile scout walker with reverse chicken-leg joints and high-gain sensory mast.
 

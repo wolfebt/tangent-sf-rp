@@ -68,7 +68,12 @@ import { DEFAULT_SPECIES_TYPES } from '../../data/speciesTypesData';
 import { ALL_CANONICAL_TRAITS, SPECIES_TRAITS_BASIC, SPECIES_TRAITS_ADVANCED, SPECIES_TRAITS_ELITE, getEnrichedTraitData } from '../../data/speciesTraitsData';
 import { DEFAULT_WEAPONRY } from '../../data/weaponryData';
 import { DEFAULT_ARMORING } from '../../data/armoringData';
+import { DEFAULT_GEAR } from '../../data/gearData';
+import { DEFAULT_MECHA } from '../../data/mechaData';
+import { DEFAULT_ARCHITECTURE } from '../../data/architectureData';
+import { DEFAULT_OTHER_PROPERTY } from '../../data/otherPropertyData';
 import { DEFAULT_AUGMENTATIONS, getEnrichedAugmentationData } from '../../data/augmentationsData';
+import { mergeSeedsWithDocs } from '../../utils/omnicortexPersistence';
 import { DEFAULT_INVOCATIONS, getEnrichedInvocationData } from '../../data/invocationsData';
 import { DEFAULT_SPECIES_SIZES, getSizeTierIndex } from '../../data/speciesSizeData';
 import { DEFAULT_SPECIES_MOVEMENT, getMovementClassification, getMovementClassificationOrderIndex } from '../../data/speciesMovementData';
@@ -133,16 +138,19 @@ const FALLBACK_CATALOG_DATA = {
   weapons: DEFAULT_WEAPONRY,
   armoring: DEFAULT_ARMORING,
   armor: DEFAULT_ARMORING,
-  gear: DEFAULT_WEAPONRY,
-  equipment: DEFAULT_WEAPONRY,
+  gear: DEFAULT_GEAR,
+  equipment: DEFAULT_GEAR,
+  mecha: DEFAULT_MECHA,
+  architecture: DEFAULT_ARCHITECTURE,
+  other: DEFAULT_OTHER_PROPERTY,
+  other_property: DEFAULT_OTHER_PROPERTY,
   occupations: DEFAULT_OCCUPATIONS,
   origins: DEFAULT_ORIGINS,
   factions: DEFAULT_FACTIONS,
   invocations: DEFAULT_INVOCATIONS,
   augmentation_type: DEFAULT_AUGMENTATION_TYPES,
   body_location: DEFAULT_BODY_LOCATIONS,
-  special_abilities: [],
-  mecha: []
+  special_abilities: []
 };
 
 // Canonical category rank mappings for intelligent sorting
@@ -334,11 +342,14 @@ export const UniversalCatalogModal = ({
   const lineageDropdownRef = useRef(null);
   const [sortOption, setSortOption] = useState('recommended'); // 'recommended' | 'az' | 'za' | 'cost_desc' | 'cost_asc' | 'tl_desc'
 
-  // Property financing / Debt override modal state
+  // Property financing / Debt override / Wealth Check modal state
   const [financingItem, setFinancingItem] = useState(null);
   const [debtAmount, setDebtAmount] = useState(0);
   const [debtorName, setDebtorName] = useState('Merchant Syndicate Financing');
+  const [repaymentCycle, setRepaymentCycle] = useState('Next Pay Cycle (Monthly)');
   const [debtNotes, setDebtNotes] = useState('');
+  const [wealthCheckMod, setWealthCheckMod] = useState(0);
+  const [wealthCheckResult, setWealthCheckResult] = useState(null);
 
   // Close lineage dropdown on click outside or escape key
   useEffect(() => {
@@ -512,8 +523,9 @@ export const UniversalCatalogModal = ({
       const colRef = collection(db, canonicalColKey);
       unsub = onSnapshot(colRef, (snapshot) => {
         if (!snapshot.empty) {
-          const list = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-          if (isMounted) setCloudItems(list);
+          const rawList = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+          const mergedList = mergeSeedsWithDocs(rawList, canonicalColKey);
+          if (isMounted) setCloudItems(mergedList);
         } else {
           // Fallback to local default data if cloud collection is empty
           const fallback = FALLBACK_CATALOG_DATA[canonicalColKey] || [];
@@ -988,11 +1000,14 @@ export const UniversalCatalogModal = ({
       if (isPropertyCol && characterData) {
         const wealthPrereq = checkPropertyWealthPrerequisite(resolvedItem, characterData);
         if (!wealthPrereq.isAutoBuy) {
-          // Item Cost DC exceeds Wealth Score -> Trigger Financing & Debt Override Dialog
+          // Item Cost DC exceeds Wealth Score -> Trigger Wealth Check & Financing Dialog
           setFinancingItem({ item: resolvedItem, prereq: wealthPrereq });
           setDebtAmount(wealthPrereq.gapCost);
           setDebtorName('Merchant Syndicate Financing');
-          setDebtNotes(`Financing for ${resolvedItem.name || resolvedItem.title || 'Property Asset'} (Cost DC ${wealthPrereq.itemDC} vs WS ${wealthPrereq.playerWS})`);
+          setRepaymentCycle('Next Pay Cycle (Monthly)');
+          setDebtNotes(`Liquidity Gap debt for ${resolvedItem.name || resolvedItem.title || 'Property Asset'} (Cost DC ${wealthPrereq.itemDC} vs WS ${wealthPrereq.playerWS}) — Due next cycle`);
+          setWealthCheckMod(0);
+          setWealthCheckResult(null);
           return;
         }
       }
@@ -1003,6 +1018,62 @@ export const UniversalCatalogModal = ({
       onClose();
     }
   }, [isMulti, onSelectItem, onClose, canonicalColKey, pillarFeatureSets, characterData, isPropertyCol]);
+
+  // Handle rolling a 2d10 + Wealth Score check against Item Cost DC
+  const handleRollWealthCheck = useCallback(() => {
+    if (!financingItem) return;
+    const d1 = Math.floor(Math.random() * 10) + 1;
+    const d2 = Math.floor(Math.random() * 10) + 1;
+    const baseRoll = d1 + d2;
+    const ws = Number(financingItem.prereq.playerWS) || 0;
+    const mod = Number(wealthCheckMod) || 0;
+    const targetDC = Number(financingItem.prereq.itemDC) || 10;
+    const total = baseRoll + ws + mod;
+    const margin = total - targetDC;
+    const isSuccess = total >= targetDC;
+    const degrees = Math.trunc(margin / 5);
+    setWealthCheckResult({
+      d1,
+      d2,
+      baseRoll,
+      ws,
+      mod,
+      total,
+      targetDC,
+      margin,
+      degrees,
+      isSuccess
+    });
+  }, [financingItem, wealthCheckMod]);
+
+  // Handle confirming acquisition via successful Wealth Check (Combined Option 1 & 3: Incurs Debt of Liquidity Gap for Next Cycle)
+  const handleConfirmWealthCheck = useCallback((isDirectOverride = false) => {
+    if (!financingItem) return;
+    if (!isDirectOverride && !wealthCheckResult?.isSuccess) return;
+    const confirmedDebtAmount = Math.max(1, Number(debtAmount) || financingItem.prereq.gapCost);
+    const cycleLabel = repaymentCycle || 'Next Pay Cycle (Monthly)';
+    const itemLabel = financingItem.item.name || financingItem.item.title || 'Property Asset';
+    const itemWithFinancing = {
+      ...financingItem.item,
+      __financing: {
+        method: 'debt',
+        viaWealthCheck: Boolean(wealthCheckResult?.isSuccess),
+        rollTotal: wealthCheckResult?.total ?? null,
+        amount: confirmedDebtAmount,
+        debtor: debtorName.trim() || 'Merchant Syndicate Financing',
+        repaymentCycle: cycleLabel,
+        notes: debtNotes.trim() || `Liquidity Gap debt for ${itemLabel} (Cost DC ${financingItem.prereq.itemDC} vs WS ${financingItem.prereq.playerWS}) — Due: ${cycleLabel}`,
+        itemDC: financingItem.prereq.itemDC,
+        playerWS: financingItem.prereq.playerWS
+      }
+    };
+    setFinancingItem(null);
+    setWealthCheckResult(null);
+    if (onSelectItem) {
+      onSelectItem(itemWithFinancing);
+    }
+    onClose();
+  }, [financingItem, wealthCheckResult, debtAmount, debtorName, repaymentCycle, debtNotes, onSelectItem, onClose]);
 
   // Handle confirming liquid credit payment for property acquisition
   const handleConfirmLiquidPayment = useCallback(() => {
@@ -1024,27 +1095,10 @@ export const UniversalCatalogModal = ({
     onClose();
   }, [financingItem, onSelectItem, onClose]);
 
-  // Handle confirming credit debt override for property acquisition
+  // Handle confirming credit debt override (GM / Direct Override without passing roll)
   const handleConfirmDebtOverride = useCallback(() => {
-    if (!financingItem) return;
-    const confirmedDebtAmount = Math.max(1, Number(debtAmount) || financingItem.prereq.gapCost);
-    const itemWithFinancing = {
-      ...financingItem.item,
-      __financing: {
-        method: 'debt',
-        amount: confirmedDebtAmount,
-        debtor: debtorName.trim() || 'Merchant Syndicate Financing',
-        notes: debtNotes.trim() || `Financing for ${financingItem.item.name || financingItem.item.title || 'Property Asset'} (Cost DC ${financingItem.prereq.itemDC} vs WS ${financingItem.prereq.playerWS})`,
-        itemDC: financingItem.prereq.itemDC,
-        playerWS: financingItem.prereq.playerWS
-      }
-    };
-    setFinancingItem(null);
-    if (onSelectItem) {
-      onSelectItem(itemWithFinancing);
-    }
-    onClose();
-  }, [financingItem, debtAmount, debtorName, debtNotes, onSelectItem, onClose]);
+    handleConfirmWealthCheck(true);
+  }, [handleConfirmWealthCheck]);
 
   // Handle confirming multi-selection
   const handleConfirmMulti = useCallback(() => {
@@ -1131,7 +1185,7 @@ export const UniversalCatalogModal = ({
             DC {itemDC}
           </span>
           <span className="px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-600/70 text-emerald-300 font-semibold">
-            {creditVal.toLocaleString()} ¢
+            {creditVal.toLocaleString()} Ꞓ
           </span>
           {item.damage && <span className="px-1.5 py-0.5 rounded bg-red-950/70 border border-red-800/60 text-red-300 font-bold">DMG: {item.damage}</span>}
           {item.range && <span className="px-1.5 py-0.5 rounded bg-blue-950/70 border border-blue-800/60 text-blue-300">RNG: {item.range}</span>}
@@ -1149,7 +1203,7 @@ export const UniversalCatalogModal = ({
             DC {itemDC}
           </span>
           <span className="px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-600/70 text-emerald-300 font-semibold">
-            {creditVal.toLocaleString()} ¢
+            {creditVal.toLocaleString()} Ꞓ
           </span>
           {item.defense !== undefined && <span className="px-1.5 py-0.5 rounded bg-emerald-950/70 border border-emerald-800/60 text-emerald-300 font-bold">DEF: +{item.defense}</span>}
           {item.dr !== undefined && <span className="px-1.5 py-0.5 rounded bg-cyan-950/70 border border-cyan-800/60 text-cyan-300 font-bold">DR: {item.dr}</span>}
@@ -1332,7 +1386,7 @@ export const UniversalCatalogModal = ({
           )}
           {credCost !== undefined && credCost !== null && credCost !== '' && (
             <span className="px-1.5 py-0.5 rounded bg-emerald-950/70 border border-emerald-800/60 text-emerald-300">
-              {Number(credCost).toLocaleString()} ¢
+              {Number(credCost).toLocaleString()} Ꞓ
             </span>
           )}
         </div>
@@ -1347,7 +1401,7 @@ export const UniversalCatalogModal = ({
             DC {itemDC}
           </span>
           <span className="px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-600/70 text-emerald-300 font-semibold">
-            {creditVal.toLocaleString()} ¢
+            {creditVal.toLocaleString()} Ꞓ
           </span>
           {item.class && <span className="px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-800/60 text-amber-300 font-bold">Class: {item.class}</span>}
           {item.armor !== undefined && <span className="px-1.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-800/60 text-cyan-300">Armor: {item.armor}</span>}
@@ -1364,7 +1418,7 @@ export const UniversalCatalogModal = ({
             DC {itemDC}
           </span>
           <span className="px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-600/70 text-emerald-300 font-semibold">
-            {creditVal.toLocaleString()} ¢
+            {creditVal.toLocaleString()} Ꞓ
           </span>
           {item.category && <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700">{item.category}</span>}
           {item.tech_level !== undefined && <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-400">TL {item.tech_level}</span>}
@@ -1374,7 +1428,7 @@ export const UniversalCatalogModal = ({
     return (
       <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-slate-400">
         {item.category && <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700">{item.category}</span>}
-        {item.cost && <span className="text-amber-300">{item.cost} ¢</span>}
+        {item.cost && <span className="text-amber-300">{item.cost} Ꞓ</span>}
       </div>
     );
   };
@@ -1845,23 +1899,7 @@ export const UniversalCatalogModal = ({
                                 <div className={`font-bold flex items-center gap-1.5 transition-colors ${isPropertyGap ? 'text-amber-200 group-hover:text-amber-100' : isPrereqUnmet ? 'text-slate-400 group-hover:text-slate-200' : 'text-slate-100 group-hover:text-cyan-300'}`}>
                                   <span>{item.name || item.title || item.id}</span>
                                   <PillarMarkerDots recommendations={itemPillars} />
-                                  {isPropertyGap ? (
-                                    <span 
-                                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider bg-amber-950/90 border border-amber-600/80 text-amber-300 font-bold shadow-sm" 
-                                      title={`Liquidity Gap: ${prereqResult.gapCost?.toLocaleString() || 0} Cr (Debt Override Available)`}
-                                    >
-                                      <Coins className="w-3 h-3 text-amber-400 shrink-0" />
-                                      <span>Gap: {prereqResult.gapCost?.toLocaleString() || 0} Cr</span>
-                                    </span>
-                                  ) : isPropertyItem && !isPrereqUnmet && characterData ? (
-                                    <span 
-                                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider bg-emerald-950/90 border border-emerald-600/80 text-emerald-300 font-bold shadow-sm" 
-                                      title={`Auto-Buy: Cost DC ${prereqResult.itemDC} ≤ Wealth Score ${prereqResult.playerWS}`}
-                                    >
-                                      <Check className="w-3 h-3 text-emerald-400 shrink-0" />
-                                      <span>Auto-Buy</span>
-                                    </span>
-                                  ) : isPrereqUnmet ? (
+                                  {!isPropertyItem && isPrereqUnmet ? (
                                     <span 
                                       className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider bg-rose-950/90 border border-rose-600/80 text-rose-300 font-bold shadow-sm" 
                                       title={`Missing: ${prereqResult.unmetReasons.join(', ')}`}
@@ -1932,11 +1970,12 @@ export const UniversalCatalogModal = ({
                                 e.stopPropagation();
                                 handleItemClick(item);
                               }}
+                              title={isPropertyGap ? `Wealth Check / Liquidity Gap: ${prereqResult.gapCost?.toLocaleString() || 0} Ꞓ (Cost DC ${prereqResult.itemDC} vs WS ${prereqResult.playerWS})` : undefined}
                               className={`px-3 py-1 rounded text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center gap-1 ${
                                 isSelected
                                   ? 'bg-cyan-500 text-slate-950 font-black shadow-[0_0_10px_rgba(34,211,238,0.5)]'
                                   : isPropertyGap
-                                  ? 'bg-amber-950/80 hover:bg-amber-900 border border-amber-500/80 text-amber-300 hover:text-white shadow-[0_0_8px_rgba(245,158,11,0.2)]'
+                                  ? 'bg-amber-950/80 hover:bg-amber-900 border border-amber-500/80 text-amber-300 hover:text-white shadow-[0_0_8px_rgba(245,158,11,0.2)] font-mono'
                                   : isPropertyItem && !isPrereqUnmet
                                   ? 'bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/80 text-emerald-300 hover:text-white shadow-[0_0_8px_rgba(16,185,129,0.2)]'
                                   : isPrereqUnmet
@@ -1952,8 +1991,8 @@ export const UniversalCatalogModal = ({
                                 'Selected'
                               ) : isPropertyGap ? (
                                 <>
-                                  <Scale className="w-3 h-3 text-amber-400" />
-                                  <span>Finance / Debt</span>
+                                  <Coins className="w-3 h-3 text-amber-400 shrink-0" />
+                                  <span>Gap: {prereqResult.gapCost?.toLocaleString() || 0} Ꞓ</span>
                                 </>
                               ) : isPropertyItem && !isPrereqUnmet ? (
                                 <>
@@ -2034,25 +2073,7 @@ export const UniversalCatalogModal = ({
                         <span className="px-2 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-800/60 text-[10px] font-mono text-cyan-300 uppercase tracking-wide">
                           {getItemCategory(item, canonicalColKey)}
                         </span>
-                        {isPropertyGap ? (
-                          <span 
-                            className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wide bg-amber-950/90 border border-amber-600/80 text-amber-300 font-bold shadow-sm" 
-                            title={`Liquidity Gap: ${prereqResult.gapCost?.toLocaleString() || 0} Cr (Debt Override Available)`}
-                          >
-                            <Coins className="w-3 h-3 text-amber-400 shrink-0" />
-                            <span className="truncate max-w-[170px] sm:max-w-[210px]">
-                              Gap: {prereqResult.gapCost?.toLocaleString() || 0} Cr
-                            </span>
-                          </span>
-                        ) : isPropertyItem && !isPrereqUnmet && characterData ? (
-                          <span 
-                            className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wide bg-emerald-950/80 border border-emerald-600/60 text-emerald-300 font-bold shadow-sm" 
-                            title={`Auto-Buy: Cost DC ${prereqResult.itemDC} ≤ Wealth Score ${prereqResult.playerWS}`}
-                          >
-                            <Check className="w-3 h-3 text-emerald-400 shrink-0" />
-                            <span>Auto-Buy</span>
-                          </span>
-                        ) : isPrereqUnmet ? (
+                        {!isPropertyItem && isPrereqUnmet ? (
                           <span 
                             className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wide bg-rose-950/90 border border-rose-600/80 text-rose-300 font-bold shadow-sm" 
                             title={`Missing requirement: ${prereqResult.unmetReasons.join(' | ')}`}
@@ -2137,15 +2158,7 @@ export const UniversalCatalogModal = ({
                     </div>
 
                     {/* Unmet Requirement Alert Box */}
-                    {isPropertyGap ? (
-                      <div className="mb-2.5 p-2 rounded-lg bg-amber-950/30 border border-amber-600/60 text-[11px] font-mono text-amber-200 flex items-start gap-1.5 shadow-inner">
-                        <Scale className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
-                        <div className="leading-tight">
-                          <span className="font-bold text-amber-300">Liquidity Gap: </span>
-                          <span>Cost DC {prereqResult.itemDC} &gt; WS {prereqResult.playerWS} ({prereqResult.gapCost?.toLocaleString()} Cr gap). Select to pay cash or take credit debt override.</span>
-                        </div>
-                      </div>
-                    ) : isPrereqUnmet ? (
+                    {!isPropertyItem && isPrereqUnmet ? (
                       <div className="mb-2.5 p-2 rounded-lg bg-rose-950/40 border border-rose-800/70 text-[11px] font-mono text-rose-300 flex items-start gap-1.5 shadow-inner">
                         <AlertTriangle className="w-3.5 h-3.5 text-rose-400 shrink-0 mt-0.5" />
                         <div className="leading-tight">
@@ -2188,11 +2201,12 @@ export const UniversalCatalogModal = ({
                             e.stopPropagation();
                             handleItemClick(item);
                           }}
+                          title={isPropertyGap ? `Wealth Check / Liquidity Gap: ${prereqResult.gapCost?.toLocaleString() || 0} Ꞓ (Cost DC ${prereqResult.itemDC} vs WS ${prereqResult.playerWS})` : undefined}
                           className={`px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer ${
                             isSelected
                               ? 'bg-cyan-500 text-slate-950 font-black shadow-[0_0_12px_rgba(34,211,238,0.6)]'
                               : isPropertyGap
-                              ? 'bg-amber-950/80 hover:bg-amber-900 border border-amber-500/80 text-amber-300 hover:text-white shadow-[0_0_10px_rgba(245,158,11,0.2)]'
+                              ? 'bg-amber-950/80 hover:bg-amber-900 border border-amber-500/80 text-amber-300 hover:text-white shadow-[0_0_10px_rgba(245,158,11,0.2)] font-mono'
                               : isPropertyItem && !isPrereqUnmet
                               ? 'bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/80 text-emerald-300 hover:text-white shadow-[0_0_10px_rgba(16,185,129,0.2)]'
                               : isPrereqUnmet
@@ -2211,8 +2225,8 @@ export const UniversalCatalogModal = ({
                             </>
                           ) : isPropertyGap ? (
                             <>
-                              <Scale className="w-3.5 h-3.5 text-amber-400" />
-                              <span>Finance / Debt</span>
+                              <Coins className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                              <span>Gap: {prereqResult.gapCost?.toLocaleString() || 0} Ꞓ</span>
                             </>
                           ) : isPropertyItem && !isPrereqUnmet ? (
                             <>
@@ -2284,7 +2298,7 @@ export const UniversalCatalogModal = ({
           </div>
         </div>
 
-        {/* PROPERTY FINANCING & CREDIT DEBT OVERRIDE DIALOG */}
+        {/* WEALTH CHECK & PROPERTY FINANCING DIALOG */}
         {financingItem && (
           <div className="fixed inset-0 z-[400] flex items-start sm:items-center justify-center bg-black/85 backdrop-blur-md p-4 pt-10 sm:pt-16 pb-8 overflow-y-auto animate-in fade-in duration-200">
             <div className="bg-[#0b101a] border-2 border-cyan-400/80 rounded-2xl w-full max-w-2xl my-auto max-h-[calc(100vh-4rem)] text-slate-100 shadow-[0_0_40px_rgba(6,182,212,0.3)] overflow-hidden flex flex-col">
@@ -2292,19 +2306,19 @@ export const UniversalCatalogModal = ({
               <div className="px-5 py-4 bg-slate-950 border-b border-amber-900/50 flex justify-between items-center">
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-lg bg-amber-950 border border-amber-500/60 flex items-center justify-center text-amber-300 shadow-md">
-                    <Scale className="w-5 h-5 text-amber-400" />
+                    <Coins className="w-5 h-5 text-amber-400" />
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
                       <h3 className="text-sm font-bold uppercase tracking-wider text-amber-300">
-                        Property Acquisition &amp; Financing
+                        Wealth Check &amp; Property Acquisition
                       </h3>
                       <span className="px-2 py-0.5 rounded bg-amber-950/80 border border-amber-700/60 text-[10px] font-mono text-amber-300 font-bold">
                         Cost DC {financingItem.prereq.itemDC}
                       </span>
                     </div>
                     <p className="text-xs text-slate-400 mt-0.5">
-                      Acquiring <span className="text-white font-semibold">{financingItem.item.name || financingItem.item.title || 'Property Asset'}</span> requires covering the Liquidity Gap.
+                      Acquiring <span className="text-white font-semibold">{financingItem.item.name || financingItem.item.title || 'Property Asset'}</span> requires a Wealth Check or covering the Liquidity Gap.
                     </p>
                   </div>
                 </div>
@@ -2322,7 +2336,7 @@ export const UniversalCatalogModal = ({
                 {/* Golden Rule Context Banner */}
                 <div className="p-3 rounded-xl bg-amber-950/20 border border-amber-500/40 text-xs text-amber-200/90 leading-relaxed font-mono">
                   <span className="font-bold text-amber-300 uppercase tracking-wide">The Golden Rule of Tangent Wealth: </span>
-                  Items with Cost DC &le; Wealth Score are Auto-Bought freely without spending credits. When Cost DC ({financingItem.prereq.itemDC}) exceeds Wealth Score ({financingItem.prereq.playerWS}), the operative must cover the Liquidity Gap using liquid credits or by securing a credit debt override.
+                  Items with Cost DC &le; Wealth Score are Auto-Bought freely without spending credits. When Cost DC ({financingItem.prereq.itemDC}) exceeds Wealth Score ({financingItem.prereq.playerWS}), the operative may <strong>pass a Wealth Check to purchase on credit</strong> (incurring a Debt of the Liquidity Gap difference to be paid off next cycle when wealth rolls over), or <strong>pay the Liquidity Gap directly</strong> with liquid credits.
                 </div>
 
                 {/* Valuation & Leverage Matrix */}
@@ -2330,15 +2344,15 @@ export const UniversalCatalogModal = ({
                   <div className="p-2.5 rounded-lg bg-slate-950/80 border border-slate-800">
                     <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">Item Value</span>
                     <span className="text-sm font-bold font-mono text-white mt-0.5 block">
-                      {financingItem.prereq.itemCreditValue.toLocaleString()} Cr
+                      {financingItem.prereq.itemCreditValue.toLocaleString()} Ꞓ
                     </span>
                     <span className="text-[9.5px] font-mono text-slate-500">DC {financingItem.prereq.itemDC}</span>
                   </div>
 
                   <div className="p-2.5 rounded-lg bg-slate-950/80 border border-slate-800">
-                    <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">Auto-Buy Limit</span>
+                    <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">WS Purchasing Power</span>
                     <span className="text-sm font-bold font-mono text-cyan-300 mt-0.5 block">
-                      {financingItem.prereq.autoBuyLimit.toLocaleString()} Cr
+                      {financingItem.prereq.autoBuyLimit.toLocaleString()} Ꞓ
                     </span>
                     <span className="text-[9.5px] font-mono text-cyan-500">WS {financingItem.prereq.playerWS} ({playerWSStatus?.name || 'Status'})</span>
                   </div>
@@ -2346,15 +2360,15 @@ export const UniversalCatalogModal = ({
                   <div className="p-2.5 rounded-lg bg-amber-950/40 border border-amber-600/60 shadow-sm">
                     <span className="text-[10px] font-mono text-amber-300 font-bold uppercase tracking-wider block">Liquidity Gap</span>
                     <span className="text-sm font-bold font-mono text-amber-400 mt-0.5 block">
-                      {financingItem.prereq.gapCost.toLocaleString()} Cr
+                      {financingItem.prereq.gapCost.toLocaleString()} Ꞓ
                     </span>
-                    <span className="text-[9.5px] font-mono text-amber-400/80">To Be Covered</span>
+                    <span className="text-[9.5px] font-mono text-amber-400/80">Difference / Debt</span>
                   </div>
 
                   <div className="p-2.5 rounded-lg bg-slate-950/80 border border-slate-800">
                     <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">Liquid Reserves</span>
                     <span className={`text-sm font-bold font-mono mt-0.5 block ${playerLiquidCredits >= financingItem.prereq.gapCost ? 'text-emerald-400' : 'text-rose-400'}`}>
-                      {playerLiquidCredits.toLocaleString()} Cr
+                      {playerLiquidCredits.toLocaleString()} Ꞓ
                     </span>
                     <span className="text-[9.5px] font-mono text-slate-500">Avail. Credits</span>
                   </div>
@@ -2366,7 +2380,184 @@ export const UniversalCatalogModal = ({
                     Select Acquisition Method:
                   </span>
 
-                  {/* Option 1: Pay Liquid Credits */}
+                  {/* Option 1 (Combined 1 & 3): Roll Wealth Check & Credit Leverage (Incurs Debt for Next Cycle) */}
+                  <div className="p-4 rounded-xl bg-slate-900/60 border border-cyan-500/50 space-y-3.5 shadow-md">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div className="space-y-1">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <Sparkles className="w-4 h-4 text-cyan-400" />
+                          <span className="text-xs font-bold text-cyan-300 uppercase tracking-wider">
+                            Option 1: Roll Wealth Check &amp; Credit Leverage
+                          </span>
+                          <span className="px-1.5 py-0.2 rounded bg-cyan-950 border border-cyan-600/60 text-cyan-300 font-mono text-[9px] font-bold">
+                            2d10 + WS {financingItem.prereq.playerWS} vs DC {financingItem.prereq.itemDC}
+                          </span>
+                          <span className="px-1.5 py-0.2 rounded bg-amber-950 border border-amber-600/60 text-amber-300 font-mono text-[9px] font-bold">
+                            Incurs Cycle Debt
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-slate-300 leading-relaxed">
+                          On a <strong className="text-emerald-300">successful Wealth Check</strong> against Cost DC <strong className="text-amber-300 font-mono">{financingItem.prereq.itemDC}</strong>, the character purchases the item on credit and incurs a <strong className="text-amber-300">Debt of the Liquidity Gap difference ({financingItem.prereq.gapCost.toLocaleString()} Ꞓ)</strong> to be paid off next cycle. When wealth rolls over, it pays off the debt (or part), unless unpaid or disrupted (leaving remaining debt with repercussions).
+                        </p>
+                      </div>
+
+                      <div className="flex items-center gap-2 shrink-0">
+                        <div className="flex items-center gap-1 text-[10px] font-mono text-slate-400">
+                          <span>Mod:</span>
+                          <input
+                            type="number"
+                            value={wealthCheckMod}
+                            onChange={(e) => setWealthCheckMod(parseInt(e.target.value, 10) || 0)}
+                            className="w-12 bg-slate-950 border border-slate-700 focus:border-cyan-400 rounded px-1.5 py-1 text-center text-cyan-300 font-bold outline-none"
+                            title="Situational or Trait Wealth Check Modifier"
+                          />
+                        </div>
+                        <button
+                          type="button"
+                          onClick={handleRollWealthCheck}
+                          className="px-3.5 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-[0_0_12px_rgba(34,211,238,0.35)] cursor-pointer"
+                        >
+                          <span>🎲 Roll Check</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {wealthCheckResult && (
+                      <div className={`p-3 rounded-lg border flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+                        wealthCheckResult.isSuccess
+                          ? 'bg-emerald-950/50 border-emerald-500/60 text-emerald-200'
+                          : 'bg-rose-950/50 border-rose-500/60 text-rose-200'
+                      }`}>
+                        <div className="font-mono text-xs space-y-0.5">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className={`font-black uppercase tracking-wider ${wealthCheckResult.isSuccess ? 'text-emerald-300' : 'text-rose-300'}`}>
+                              {wealthCheckResult.isSuccess ? '✓ Wealth Check Passed — Credit Approved!' : '✕ Wealth Check Failed — Credit Denied'}
+                            </span>
+                            <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-950/80 border border-slate-700">
+                              Total: <strong>{wealthCheckResult.total}</strong> vs DC {wealthCheckResult.targetDC} ({wealthCheckResult.margin >= 0 ? `+${wealthCheckResult.margin}` : wealthCheckResult.margin})
+                            </span>
+                          </div>
+                          <div className="text-[10px] text-slate-300">
+                            2d10 ({wealthCheckResult.d1} + {wealthCheckResult.d2} = {wealthCheckResult.baseRoll}) + WS ({wealthCheckResult.ws}){wealthCheckResult.mod !== 0 ? ` + Mod (${wealthCheckResult.mod >= 0 ? `+${wealthCheckResult.mod}` : wealthCheckResult.mod})` : ''} = <strong>{wealthCheckResult.total}</strong>
+                            {wealthCheckResult.isSuccess
+                              ? ` • Incurs ${(Number(debtAmount) || financingItem.prereq.gapCost).toLocaleString()} Ꞓ debt due ${repaymentCycle}`
+                              : ' • Cannot finance via standard credit line'}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Integrated Credit Debt & Repayment Cycle Terms */}
+                    <div className="p-3 rounded-lg bg-slate-950/70 border border-amber-500/30 space-y-2.5">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-1.5">
+                          <CreditCard className="w-3.5 h-3.5 text-amber-400" />
+                          <span className="text-[10.5px] font-bold uppercase tracking-wider text-amber-300">
+                            Cycle Debt &amp; Repayment Terms
+                          </span>
+                        </div>
+                        <span className="text-[10px] font-mono text-slate-400">
+                          WS Rollover Capacity: <strong className="text-cyan-300">{financingItem.prereq.autoBuyLimit.toLocaleString()} Ꞓ / cycle</strong>
+                        </span>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                        <div>
+                          <label className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block mb-1">
+                            Debt Difference (Credits Ꞓ)
+                          </label>
+                          <input
+                            type="number"
+                            min="1"
+                            value={debtAmount}
+                            onChange={(e) => setDebtAmount(Math.max(1, parseInt(e.target.value, 10) || 0))}
+                            className="w-full bg-slate-900 border border-amber-500/50 focus:border-amber-400 rounded-lg px-2.5 py-1.5 text-xs font-mono text-amber-300 outline-none"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block mb-1">
+                            Repayment Cycle / Schedule
+                          </label>
+                          <select
+                            value={repaymentCycle}
+                            onChange={(e) => setRepaymentCycle(e.target.value)}
+                            className="w-full bg-slate-900 border border-slate-700 focus:border-amber-400 rounded-lg px-2 py-1.5 text-xs text-amber-200 font-mono outline-none cursor-pointer"
+                          >
+                            <option value="Next Pay Cycle (Monthly)">Next Pay Cycle (Monthly)</option>
+                            <option value="Bi-Weekly Pay Schedule">Bi-Weekly Pay Schedule</option>
+                            <option value="Post-Mission / Contract Payout">Post-Mission / Contract Payout</option>
+                            <option value="Quarterly Fiscal Rollover">Quarterly Fiscal Rollover</option>
+                            <option value="Custom Terms / GM Schedule">Custom Terms / GM Schedule</option>
+                          </select>
+                        </div>
+
+                        <div>
+                          <label className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block mb-1">
+                            Creditor / Syndicate
+                          </label>
+                          <input
+                            type="text"
+                            value={debtorName}
+                            onChange={(e) => setDebtorName(e.target.value)}
+                            placeholder="e.g. Merchant Syndicate Financing"
+                            className="w-full bg-slate-900 border border-slate-700 focus:border-amber-400 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 outline-none"
+                          />
+                        </div>
+
+                        <div className="sm:col-span-3">
+                          <label className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block mb-1">
+                            Debt Rollover &amp; Repercussion Memo
+                          </label>
+                          <input
+                            type="text"
+                            value={debtNotes}
+                            onChange={(e) => setDebtNotes(e.target.value)}
+                            placeholder="Notes on cycle rollover payoff, collateral, or default repercussions..."
+                            className="w-full bg-slate-900 border border-slate-700 focus:border-amber-400 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 outline-none"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col sm:flex-row items-center justify-between gap-2 pt-2 border-t border-slate-800/80">
+                        <span className="text-[11px] font-mono text-slate-400">
+                          Existing Debts: <span className="text-white font-bold">{playerTotalDebts.toLocaleString()} Ꞓ</span> &rarr; New Cycle Debt: <span className="text-amber-300 font-bold">{(playerTotalDebts + (Number(debtAmount) || 0)).toLocaleString()} Ꞓ</span>
+                        </span>
+
+                        <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto justify-end">
+                          <button
+                            type="button"
+                            onClick={handleConfirmDebtOverride}
+                            className="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-amber-950/60 border border-amber-700/50 text-amber-300/90 hover:text-amber-200 font-mono text-[10px] uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer"
+                            title="GM / High-Risk Override: Force acquisition and incur debt even without passing a Wealth Check"
+                          >
+                            <Scale className="w-3 h-3" />
+                            <span>GM / Unapproved Debt Override</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            disabled={!wealthCheckResult?.isSuccess}
+                            onClick={() => handleConfirmWealthCheck(false)}
+                            className={`px-4 py-2 rounded-lg font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
+                              wealthCheckResult?.isSuccess
+                                ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-[0_0_15px_rgba(16,185,129,0.4)] cursor-pointer'
+                                : 'bg-slate-800 text-slate-500 border border-slate-700 cursor-not-allowed'
+                            }`}
+                          >
+                            <Check className="w-3.5 h-3.5" />
+                            <span>
+                              {wealthCheckResult?.isSuccess
+                                ? 'Acquire & Incur Cycle Debt'
+                                : 'Pass Wealth Check to Acquire'}
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Option 2: Pay Liquid Credits */}
                   <div className={`p-4 rounded-xl border transition-all ${
                     playerLiquidCredits >= financingItem.prereq.gapCost
                       ? 'bg-slate-900/60 border-emerald-500/40 hover:border-emerald-400'
@@ -2377,7 +2568,7 @@ export const UniversalCatalogModal = ({
                         <div className="flex items-center gap-2">
                           <Coins className="w-4 h-4 text-emerald-400" />
                           <span className="text-xs font-bold text-white uppercase tracking-wider">
-                            Option 1: Pay Liquid Credits
+                            Option 2: Pay Liquid Credits Directly (No Debt)
                           </span>
                           {playerLiquidCredits >= financingItem.prereq.gapCost ? (
                             <span className="px-1.5 py-0.2 rounded bg-emerald-950 border border-emerald-600/60 text-emerald-300 font-mono text-[9px] font-bold">
@@ -2385,12 +2576,12 @@ export const UniversalCatalogModal = ({
                             </span>
                           ) : (
                             <span className="px-1.5 py-0.2 rounded bg-rose-950 border border-rose-600/60 text-rose-300 font-mono text-[9px] font-bold">
-                              Shortfall: {(financingItem.prereq.gapCost - playerLiquidCredits).toLocaleString()} Cr
+                              Shortfall: {(financingItem.prereq.gapCost - playerLiquidCredits).toLocaleString()} Ꞓ
                             </span>
                           )}
                         </div>
                         <p className="text-[11px] text-slate-400">
-                          Deduct <span className="font-mono text-emerald-300 font-bold">{financingItem.prereq.gapCost.toLocaleString()} Cr</span> directly from your liquid credit reserves (remaining: {(playerLiquidCredits - financingItem.prereq.gapCost).toLocaleString()} Cr).
+                          Deduct <span className="font-mono text-emerald-300 font-bold">{financingItem.prereq.gapCost.toLocaleString()} Ꞓ</span> directly from your liquid credit reserves with zero debt incurred (remaining: {(playerLiquidCredits - financingItem.prereq.gapCost).toLocaleString()} Ꞓ).
                         </p>
                       </div>
 
@@ -2406,79 +2597,6 @@ export const UniversalCatalogModal = ({
                       >
                         <Check className="w-3.5 h-3.5" />
                         <span>Pay Credits &amp; Acquire</span>
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Option 2: Take Credit Debt (Override) */}
-                  <div className="p-4 rounded-xl bg-slate-900/60 border border-amber-500/50 space-y-3 shadow-md">
-                    <div className="flex items-center gap-2">
-                      <CreditCard className="w-4 h-4 text-amber-400" />
-                      <span className="text-xs font-bold text-amber-300 uppercase tracking-wider">
-                        Option 2: Take Credit Debt (Prerequisite Override)
-                      </span>
-                      <span className="px-1.5 py-0.2 rounded bg-amber-950 border border-amber-600/60 text-amber-300 font-mono text-[9px] font-bold">
-                        Financing
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-slate-300 leading-relaxed">
-                      Incur a financial debt obligation to override the Wealth Score prerequisite. This will automatically record a debit entry under your character's Financial Register.
-                    </p>
-
-                    {/* Debt Input Fields */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                      <div>
-                        <label className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block mb-1">
-                          Debt Amount (Credits)
-                        </label>
-                        <input
-                          type="number"
-                          min="1"
-                          value={debtAmount}
-                          onChange={(e) => setDebtAmount(Math.max(1, parseInt(e.target.value, 10) || 0))}
-                          className="w-full bg-slate-950 border border-amber-500/50 focus:border-amber-400 rounded-lg px-2.5 py-1.5 text-xs font-mono text-amber-300 outline-none"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block mb-1">
-                          Debtor / Creditor Syndicate
-                        </label>
-                        <input
-                          type="text"
-                          value={debtorName}
-                          onChange={(e) => setDebtorName(e.target.value)}
-                          placeholder="e.g. Merchant Syndicate Financing"
-                          className="w-full bg-slate-950 border border-slate-700 focus:border-amber-400 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 outline-none"
-                        />
-                      </div>
-
-                      <div className="sm:col-span-2">
-                        <label className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block mb-1">
-                          Debt Terms / Memo Notes
-                        </label>
-                        <input
-                          type="text"
-                          value={debtNotes}
-                          onChange={(e) => setDebtNotes(e.target.value)}
-                          placeholder="Notes on debt terms or collateral..."
-                          className="w-full bg-slate-950 border border-slate-700 focus:border-amber-400 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 outline-none"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row items-center justify-between gap-2 pt-2 border-t border-slate-800">
-                      <span className="text-[11px] font-mono text-slate-400">
-                        Existing Debts: <span className="text-white font-bold">{playerTotalDebts.toLocaleString()} Cr</span> &rarr; New: <span className="text-amber-300 font-bold">{(playerTotalDebts + (Number(debtAmount) || 0)).toLocaleString()} Cr</span>
-                      </span>
-
-                      <button
-                        type="button"
-                        onClick={handleConfirmDebtOverride}
-                        className="w-full sm:w-auto px-4 py-2 bg-amber-600 hover:bg-amber-500 text-slate-950 font-black rounded-lg text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-[0_0_15px_rgba(245,158,11,0.4)] cursor-pointer"
-                      >
-                        <Scale className="w-3.5 h-3.5" />
-                        <span>Confirm Debt Override &amp; Acquire</span>
                       </button>
                     </div>
                   </div>

@@ -339,6 +339,23 @@ export const SquadProvider = ({ children }) => {
 
   const canManageTeam = isUserArchitect || isUserCoArchitect;
 
+  const canUserManageGroup = useCallback((groupObj = activeGroup) => {
+    const uid = currentUser?.uid;
+    if (!groupObj || !uid) return false;
+    if (groupObj.creatorId === uid || groupObj.leaderId === uid || groupObj.architectId === uid || groupObj.coArchitectId === uid) {
+      return true;
+    }
+    if (Array.isArray(groupObj.coArchitects) && groupObj.coArchitects.includes(uid)) {
+      return true;
+    }
+    const detail = groupObj.memberDetails?.[uid] ||
+      (Array.isArray(groupObj.members)
+        ? groupObj.members.find(m => typeof m === 'object' && (m?.userId === uid || m?.uid === uid || m?.id === uid))
+        : null);
+    const role = detail?.role;
+    return role === 'Architect' || role === 'GM' || role === 'Leader' || role === 'Co-Architect' || role === 'Co-GM';
+  }, [activeGroup, currentUser?.uid]);
+
   const value = {
     // Standardized Squad Names
     squads: groups,
@@ -389,6 +406,7 @@ export const SquadProvider = ({ children }) => {
     isUserArchitect,
     isUserCoArchitect,
     canManageTeam,
+    canUserManageGroup,
     ensureTeamFrequency: (targetGroup) => SquadService.ensureTeamFrequency(targetGroup, currentUser)
   };
 

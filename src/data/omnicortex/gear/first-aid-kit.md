@@ -25,7 +25,7 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 4
   used: 0
   tier: Socket
   allocated: []
@@ -33,6 +33,9 @@ tech_level: 2
 meta_level: 0
 keywords: 'first aid kit, gear, personal-property, tl-2, bandages, antiseptics'
 negative_keywords: 'primitive-stone, immaterial, intangible'
+gear_type: General
+base_dc: 5
+design_dc: 5
 ---
 Bandages, antiseptics, tourniquets, and basic splints.
 

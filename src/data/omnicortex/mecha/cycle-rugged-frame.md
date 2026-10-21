@@ -5,7 +5,7 @@ name: Cycle (Rugged Wilderness)
 domain: Ground
 size: Medium
 frame: Personal
-cost: 20
+cost: 17
 craft_dc: 2
 sp: 20
 dr: 4
@@ -18,7 +18,7 @@ mechanic: Movement x2 on roads/trails. Includes cargo rack (holds 2 Slots).
 costs:
   cp: 0
   bp: 0
-  credits: 20
+  credits: 17
   nodes: 0
   sockets: 0
   strain: 0
@@ -39,6 +39,8 @@ sockets:
 tech_level: 1
 keywords: 'cycle (rugged wilderness), mecha, vehicle, medium, personal, tl-1'
 negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
+meta_level: 0
+design_dc: 2
 ---
 Ruggedized bicycle frame with suspension and cargo rack for wilderness traversal.
 

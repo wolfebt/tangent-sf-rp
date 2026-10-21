@@ -28,7 +28,7 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 4
   used: 0
   tier: Socket
   allocated: []
@@ -38,6 +38,9 @@ keywords: >-
   advanced ai cyberdeck processor, gear, personal-property, tl-5,
   state-of-the-art, neuro-synthetic
 negative_keywords: 'primitive-stone, immaterial, intangible'
+gear_type: General
+base_dc: 25
+design_dc: 25
 ---
 State-of-the-art neuro-synthetic crystalline processor designed to host True AI agents.
 

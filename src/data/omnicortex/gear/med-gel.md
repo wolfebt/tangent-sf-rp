@@ -25,7 +25,7 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 1
   used: 0
   tier: Socket
   allocated: []
@@ -33,6 +33,9 @@ tech_level: 3
 meta_level: 0
 keywords: 'med-gel (bio-foam sealant), gear, personal-property, tl-3, aerosol, antiseptic'
 negative_keywords: 'primitive-stone, immaterial, intangible'
+gear_type: General
+base_dc: 10
+design_dc: 10
 ---
 Aerosol antiseptic bio-foam that seals puncture wounds and knits torn flesh.
 

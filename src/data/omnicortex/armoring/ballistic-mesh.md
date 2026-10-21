@@ -42,6 +42,10 @@ tech_level: 3
 meta_level: 0
 keywords: 'ballistic mesh suit, armor, defense, dr-5, light-armor, tl-3'
 negative_keywords: 'unarmored, fragile, naked'
+collection: armoring
+armor_class: Lightweight
+armor_type: Lightweight
+mobility_penalty: 0
 ---
 Standard street-wear lined with a flexible network of plastic or metal alloys. Stops small arms fire while appearing as normal clothing.
 

@@ -15,7 +15,8 @@ import {
   SCENARIO_GUIDE_MODULES, 
   CUSTOM_ELEMENT_SCHEMA,
   getTypePillStyle,
-  getElementFileExtension
+  getElementFileExtension,
+  normalizeElementType
 } from '../../src/pages/Foundry/ElementForge/elementSchemas.js';
 
 import { 
@@ -60,6 +61,23 @@ describe('Phase 1: Custom Codex Schema & Ingestion Integration', () => {
     // 5. Visual styling badge helper
     const pillStyle = getTypePillStyle('Custom');
     assert.ok(pillStyle.includes('teal'), `Pill style should use teal styling: ${pillStyle}`);
+
+    // 6. Consolidated canonical element types without AIME module duplicates
+    assert.equal(ELEMENT_TYPES.length, 17);
+    assert.ok(!ELEMENT_TYPES.includes('World Anvil'));
+    assert.ok(!ELEMENT_TYPES.includes('Persona Maker'));
+    assert.ok(!ELEMENT_TYPES.includes('Setting Architect'));
+    assert.ok(!ELEMENT_TYPES.includes('Species Creator'));
+    assert.ok(!ELEMENT_TYPES.includes('Technology Forge'));
+    assert.ok(!ELEMENT_TYPES.includes('Philosophy Scribe'));
+    assert.ok(!ELEMENT_TYPES.includes('Scene Builder'));
+    assert.equal(normalizeElementType('World Anvil'), 'World');
+    assert.equal(normalizeElementType('Persona Maker'), 'Persona');
+    assert.equal(normalizeElementType('Setting Architect'), 'Setting');
+    assert.equal(normalizeElementType('Species Creator'), 'Species');
+    assert.equal(normalizeElementType('Technology Forge'), 'Technology');
+    assert.equal(normalizeElementType('Philosophy Scribe'), 'Philosophy');
+    assert.equal(normalizeElementType('Scene Builder'), 'Scene');
   });
 
   test('elementIngestionService parses Custom Codex markdown files', () => {

@@ -1,16 +1,18 @@
 ---
 id: utility-harness
-name: Utility Harness
+name: Utility Harness / Webbing
 category: gear
-dr: '0'
-durability: '5'
-description: "Penalty: None\r\nLocations: None\r\nSockets: 1"
+dr: 0
+durability: 5
+description: >-
+  Load-bearing tactical webbing and modular belt harness providing attachment
+  points and quick-draw pouches.
 size: Small
 workspace_scale: Bench
 costs:
   cp: 0
   bp: 0
-  credits: 0
+  credits: 40
   nodes: 0
   sockets: 0
   strain: 0
@@ -24,16 +26,25 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 1
   used: 0
   tier: Socket
   allocated: []
-tech_level: 0
+tech_level: 2
 meta_level: 0
-keywords: "utility harness, gear, personal-property, tl-3, penalty:, none\r\nlocations:"
+keywords: 'utility harness, webbing, tactical belt, gear, survival, tl-2'
 negative_keywords: 'primitive-stone, immaterial, intangible'
+gear_type: Survival & Field
+craft_dc: 5
+base_dc: 5
+cost: 40
+sp: 5
+weight: 1.5
+mechanic: >-
+  DR 0, SP 5. Provides 1 modular Socket and +2 Carrying Capacity for
+  belt-mounted gear.
+design_dc: 5
 ---
-Category: LIGHT Armor
-Penalty: None
-Locations: None
-Sockets: 1
+Load-bearing tactical webbing and modular belt harness providing attachment points and quick-draw pouches.
+
+**Mechanics:** DR 0, SP 5. Provides 1 modular Socket and +2 Carrying Capacity for belt-mounted gear.

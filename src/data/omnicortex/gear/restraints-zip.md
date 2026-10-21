@@ -25,7 +25,7 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 1
   used: 0
   tier: Socket
   allocated: []
@@ -35,6 +35,9 @@ keywords: >-
   zip restraints (pack of 10), gear, personal-property, tl-2, high-tensile,
   locking
 negative_keywords: 'primitive-stone, immaterial, intangible'
+gear_type: General
+base_dc: 2
+design_dc: 2
 ---
 High-tensile nylon locking ties for securing prisoners.
 

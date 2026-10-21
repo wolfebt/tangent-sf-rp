@@ -28,7 +28,7 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 2
   used: 0
   tier: Socket
   allocated: []
@@ -36,6 +36,9 @@ tech_level: 3
 meta_level: 0
 keywords: 'standard datapad, gear, personal-property, tl-3, personal, touchscreen'
 negative_keywords: 'primitive-stone, immaterial, intangible'
+gear_type: General
+base_dc: 5
+design_dc: 5
 ---
 Personal touchscreen computing tablet for accessing maps, local data networks, and files.
 

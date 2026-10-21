@@ -61,6 +61,7 @@ export interface ADEStoreState {
   activeView: AdeView;
   storyWorkspaceTab: StoryWorkspaceTab;
   stageWorkspaceTab: StageWorkspaceTab;
+  activeElementType: string;
   viewportSplit: ViewportSplit;
   activeGuideSection: GuideSection;
   activeCockpitDeck: CockpitDeck;
@@ -85,6 +86,7 @@ export interface ADEStoreState {
   setActiveView: (view: AdeView) => void;
   setStoryWorkspaceTab: (tab: StoryWorkspaceTab) => void;
   setStageWorkspaceTab: (tab: StageWorkspaceTab) => void;
+  setActiveElementType: (type: string) => void;
   setViewportSplit: (split: ViewportSplit) => void;
   setActiveGuideSection: (section: GuideSection) => void;
   setActiveCockpitDeck: (deck: CockpitDeck) => void;
@@ -201,6 +203,7 @@ export const useADEStore = create<ADEStoreState>()(
         activeView: 'mission_control',
         storyWorkspaceTab: 'weaver',
         stageWorkspaceTab: 'setup',
+        activeElementType: 'Persona',
         viewportSplit: 'side_by_side',
         activeGuideSection: 'scenarios',
         activeCockpitDeck: 'inspector',
@@ -251,6 +254,7 @@ export const useADEStore = create<ADEStoreState>()(
         setActiveView: (view) => set({ activeView: view }),
         setStoryWorkspaceTab: (tab) => set({ storyWorkspaceTab: tab }),
         setStageWorkspaceTab: (tab) => set({ stageWorkspaceTab: tab }),
+        setActiveElementType: (type) => set({ activeElementType: type }),
         setViewportSplit: (split) => set({ viewportSplit: split }),
         setActiveGuideSection: (section) => set({ activeGuideSection: section }),
         setActiveCockpitDeck: (deck) => set({ activeCockpitDeck: deck }),

@@ -41,6 +41,8 @@ sockets:
 tech_level: 4
 keywords: 'advanced grav-tank, mecha, vehicle, huge, industrial, tl-4'
 negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
+meta_level: 0
+design_dc: 35
 ---
 Floating armored fortress moving effortlessly across water, mud, and minefields armed with particle beams.
 

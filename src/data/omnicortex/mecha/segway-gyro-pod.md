@@ -37,6 +37,8 @@ sockets:
 tech_level: 3
 keywords: 'segway / gyro-pod, mecha, vehicle, small, personal, tl-3'
 negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
+meta_level: 0
+design_dc: 3
 ---
 Self-balancing personal mover for arcology station or city concourse transit.
 

@@ -219,6 +219,12 @@ export function resolveItemCostDC(item) {
   if (item.craft_dc !== undefined && item.craft_dc !== null && item.craft_dc !== '') {
     return Math.max(0, parseInt(item.craft_dc, 10) || 0);
   }
+  if (item.design_dc !== undefined && item.design_dc !== null && item.design_dc !== '') {
+    return Math.max(0, parseInt(item.design_dc, 10) || 0);
+  }
+  if (item.base_dc !== undefined && item.base_dc !== null && item.base_dc !== '') {
+    return Math.max(0, parseInt(item.base_dc, 10) || 0);
+  }
   if (item.craftDc !== undefined && item.craftDc !== null && item.craftDc !== '') {
     return Math.max(0, parseInt(item.craftDc, 10) || 0);
   }
@@ -231,13 +237,25 @@ export function resolveItemCostDC(item) {
   if (item.dc !== undefined && item.dc !== null && item.dc !== '') {
     return Math.max(0, parseInt(item.dc, 10) || 0);
   }
-  const cr = item.costs?.credits ?? item.creditCost ?? item.credit_cost ?? item.credits ?? item.cost ?? item.price;
-  if (cr !== undefined && cr !== null && cr !== '') {
-    const numCr = Math.max(0, Number(cr) || 0);
-    return Math.max(0, Math.round(2.5 * Math.log2(Math.max(10, numCr) / 10)));
+  const crCandidates = [
+    item.costs?.credits,
+    item.creditCost,
+    item.credit_cost,
+    item.credits,
+    item.credit_value,
+    item.cost,
+    item.price
+  ];
+  const validCr = crCandidates.find(c => c !== undefined && c !== null && c !== '' && Number(c) > 0);
+  if (validCr !== undefined) {
+    const numCr = Math.max(10, Number(validCr) || 10);
+    return Math.max(0, Math.round(2.5 * Math.log2(numCr / 10)));
   }
-  if (item.cp !== undefined && item.cp !== null && item.cp !== '') {
+  if (item.cp !== undefined && item.cp !== null && item.cp !== '' && Number(item.cp) > 0) {
     return Math.max(0, Math.round((Number(item.cp) || 0) * 2));
+  }
+  if (item.tech_level !== undefined && item.tech_level !== null && Number(item.tech_level) > 0) {
+    return Math.max(5, Number(item.tech_level) * 5);
   }
   return 10; // Default baseline DC 10 (160 Cr) for standard equipment
 }

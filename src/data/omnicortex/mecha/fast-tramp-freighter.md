@@ -41,6 +41,8 @@ sockets:
 tech_level: 3
 keywords: 'fast tramp freighter, mecha, vehicle, gargantuan, platform, tl-3'
 negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
+meta_level: 0
+design_dc: 40
 ---
 Modified light cargo ship with oversized sublight engines, shielded smuggling compartments, and defensive turrets.
 

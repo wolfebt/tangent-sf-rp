@@ -2,18 +2,20 @@
 id: shielding
 name: Shielding
 category: augmentations
-cost: 25
-design_dc: 3
-craft_dc: 3
-description: Full EMP shielding for limb.
+cost: 640
+design_dc: 15
+craft_dc: 15
+description: >-
+  EMP and radiation hardening for cybernetic systems (+25% Base Cost, +4 vs
+  Ion/EMP, 1 Node, 1 CP).
 bp_cost: 1
 stigma: None
 type: Prosthetic
 costs:
-  cp: 0
-  bp: 0
-  credits: 25
-  nodes: 0
+  cp: 1
+  bp: 1
+  credits: 640
+  nodes: 1
   sockets: 0
   strain: 0
   focus: 0
@@ -30,7 +32,7 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
-tech_level: 0
+tech_level: 3
 meta_level: 0
 stage: Standard
 keywords: 'shielding, augmentation, prosthetic, standard, tl-3, general'

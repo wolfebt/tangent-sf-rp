@@ -41,6 +41,10 @@ tech_level: 3
 meta_level: 0
 keywords: 'heavy tactical helmet, armor, defense, dr-15, medium-armor, tl-3'
 negative_keywords: 'unarmored, fragile, naked'
+collection: armoring
+armor_class: Mediumweight
+armor_type: Mediumweight
+mobility_penalty: 0
 ---
 Full-face protection with integrated comms and sensor housing.
 

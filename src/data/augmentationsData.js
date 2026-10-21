@@ -1,10 +1,3 @@
-import {
-  getAugmentationStage,
-  getAugmentationNodes,
-  getAugmentationBP,
-  getAugmentationLocation
-} from '../engines/tangentComplexEngines.js';
-
 /**
  * Canonical Augmentations Database for Tangent SF RP
  * Auto-generated from src/data/omnicortex/augmentations/
@@ -16,11 +9,14 @@ export const DEFAULT_AUGMENTATIONS = [
     "id": "accelerator",
     "name": "Accelerator",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "+4 Initiative (stacks with Improved Init).",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -31,20 +27,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "+4 Initiative (stacks with Improved Init).",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** +4 Initiative (stacks with Improved Init).\r\n**Nodes:** 2",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "accelerator, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** +4 Initiative (stacks with Improved Init).\r\n**Nodes:** 2"
   },
   {
     "id": "adrenaline-shield",
     "name": "Adrenaline Shield",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "10 temp Vitality when hit (Free action).",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -55,20 +68,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "10 temp Vitality when hit (Free action).",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** 10 temp Vitality when hit (Free action).\r\n**Nodes:** 5",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "adrenaline shield, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** 10 temp Vitality when hit (Free action).\r\n**Nodes:** 5"
   },
   {
     "id": "aether-node",
     "name": "Aether-Node",
     "category": "augmentations",
-    "augmentation_type": "Esoteric",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 163840,
+    "design_dc": 35,
+    "craft_dc": 35,
+    "description": "Access 1 Metafocus (No Awakened req).",
+    "stigma": "None",
+    "type": "Esoteric",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 163840,
       "nodes": 0,
@@ -79,20 +109,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Access 1 Metafocus (No Awakened req).",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Access 1 Metafocus (No Awakened req).\r\n**BP:** 4",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "aether-node, augmentation, esoteric, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Access 1 Metafocus (No Awakened req).\r\n**CP:** 4"
   },
   {
     "id": "air-supply",
     "name": "Air Supply",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic Armor",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Internal compressed air; 60 mins of Oxygen.",
+    "stigma": "None",
+    "type": "Cybernetic Armor",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -103,20 +150,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Internal compressed air; 60 mins of Oxygen.",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Internal compressed air; 60 mins of Oxygen.\r\n**Nodes:** 5",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "air supply, augmentation, cybernetic armor, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Internal compressed air; 60 mins of Oxygen.\r\n**Nodes:** 5"
   },
   {
     "id": "alterable-bioform",
     "name": "Alterable Bioform",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "As Alter Form.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -127,20 +191,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "As Alter Form.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** As Alter Form.\r\n**Nodes:** 5",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "alterable bioform, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** As Alter Form.\r\n**Nodes:** 5"
   },
   {
     "id": "amplified-hearing",
     "name": "Amplified Hearing",
     "category": "augmentations",
-    "augmentation_type": "Sensory",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "+2 Hearing Awareness checks.",
+    "stigma": "None",
+    "type": "Sensory",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -151,20 +232,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "+2 Hearing Awareness checks.",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** +2 Hearing Awareness checks.\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "amplified hearing, augmentation, sensory, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** +2 Hearing Awareness checks.\r\n**Nodes:** 1"
   },
   {
     "id": "anti-flare",
     "name": "Anti-Flare",
     "category": "augmentations",
-    "augmentation_type": "Sensory",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 160,
+    "design_dc": 10,
+    "craft_dc": 10,
+    "description": "Counter Bright-Light Blindness.",
+    "stigma": "None",
+    "type": "Sensory",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 160,
       "nodes": 0,
@@ -175,20 +273,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Counter Bright-Light Blindness.",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Counter Bright-Light Blindness.\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "anti-flare, augmentation, sensory, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Counter Bright-Light Blindness.\r\n**Nodes:** 1"
   },
   {
     "id": "anti-shock",
     "name": "Anti-Shock",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic Armor",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "Electricity Resistance 10, Augments impervious.",
+    "stigma": "None",
+    "type": "Cybernetic Armor",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -199,20 +314,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Electricity Resistance 10, Augments impervious.",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Electricity Resistance 10, Augments impervious.\r\n**Nodes:** 4",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "anti-shock, augmentation, cybernetic armor, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Electricity Resistance 10, Augments impervious.\r\n**Nodes:** 4"
   },
   {
     "id": "anti-stun-implant",
     "name": "Anti-Stun Implant",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "Immune to Stun conditions.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -223,23 +355,42 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Immune to Stun conditions.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Immune to Stun conditions.\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "anti-stun implant, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Immune to Stun conditions.\r\n**Nodes:** 1"
   },
   {
     "id": "armor-plating",
     "name": "Armor Plating",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Integrated external armor plating (+15% Base Chassis Cost, +5 DR, 5 Nodes, 1 CP).",
+    "bp_cost": 1,
+    "dr": 10,
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
-      "bp": 0,
-      "credits": 15,
-      "nodes": 0,
+      "cp": 1,
+      "bp": 1,
+      "credits": 640,
+      "nodes": 5,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -247,20 +398,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Tiered DR 10 / 20 / 40\\.",
-    "body": "Category: **4.3 Limb Upgrades (1 BP Per Upgrade)**\r\n\r\n**Effect:** Tiered DR 10 / 20 / 40\\.\r\n**Nodes:** 5",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "armor plating, augmentation, prosthetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Tiered DR 10 / 20 / 40\\.\r\n**Nodes:** 5"
   },
   {
     "id": "battle-gauntlet",
     "name": "Battle Gauntlet",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 40,
+    "design_dc": 5,
+    "craft_dc": 5,
+    "description": "Reinforced gauntlet. 1d6 Blunt. DR 10\\. Single or pair.",
+    "dr": 10,
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 40,
       "nodes": 0,
@@ -271,20 +440,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Reinforced gauntlet. 1d6 Blunt. DR 10\\. Single or pair.",
-    "body": "Category: **12.1 Mechanics of the Wearable**\r\n\r\n**Location:** Arm\r\n**Nodes:** 8 (Each)\r\n**Description:** Reinforced gauntlet. 1d6 Blunt. DR 10\\. Single or pair.",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "battle gauntlet, augmentation, cybernetic, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **12.1 Mechanics of the Wearable**\r\n\r\n**Location:** Arm\r\n**Nodes:** 8 (Each)\r\n**Description:** Reinforced gauntlet. 1d6 Blunt. DR 10\\. Single or pair."
   },
   {
     "id": "behavioral-inhibitor",
     "name": "Behavioral Inhibitor",
     "category": "augmentations",
-    "augmentation_type": "Neural",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Forcibly blocks specific programmed actions.",
+    "stigma": "None",
+    "type": "Neural",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -295,20 +481,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Forcibly blocks specific programmed actions.",
-    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Forcibly blocks specific programmed actions.\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "behavioral inhibitor, augmentation, neural, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Forcibly blocks specific programmed actions.\r\n**Nodes:** 1"
   },
   {
     "id": "biomonitor",
     "name": "Biomonitor",
     "category": "augmentations",
-    "augmentation_type": "Fashionware",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 160,
+    "design_dc": 10,
+    "craft_dc": 10,
+    "description": "Vitals readout. +2 to Resist Torture/Drugs.",
+    "stigma": "None",
+    "type": "Fashionware",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 160,
       "nodes": 0,
@@ -319,20 +522,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Vitals readout. +2 to Resist Torture/Drugs.",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Vitals readout. +2 to Resist Torture/Drugs.",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "biomonitor, augmentation, fashionware, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Vitals readout. +2 to Resist Torture/Drugs."
   },
   {
     "id": "bionic-enhancement",
     "name": "Bionic Enhancement",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic Armor",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "+1/+2/+3 Stamina.",
+    "stigma": "None",
+    "type": "Cybernetic Armor",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -343,20 +563,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "+1/+2/+3 Stamina.",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** +1/+2/+3 Stamina.\r\n**Nodes:** 10",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "bionic enhancement, augmentation, cybernetic armor, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** +1/+2/+3 Stamina.\r\n**Nodes:** 10"
   },
   {
     "id": "biotech-emulator",
     "name": "Biotech Emulator",
     "category": "augmentations",
-    "augmentation_type": "Bioware",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "Use Biotechnology as if Psychic.",
+    "stigma": "None",
+    "type": "Bioware",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -367,20 +604,34 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Use Biotechnology as if Psychic.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Use Biotechnology as if Psychic.\r\n**Nodes:** 2",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "biotech emulator, augmentation, bioware, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Use Biotechnology as if Psychic.\r\n**Nodes:** 2"
   },
   {
     "id": "bite",
     "name": "Bite",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 1,
+    "damage": "1d6",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 0,
       "nodes": 0,
@@ -391,20 +642,41 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "",
-    "body": "Category: MELEE",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 0,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "bite, augmentation, cybernetic, standard, tl-1, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "craft_dc": 0,
+    "design_dc": 0,
+    "cost": 0,
+    "body": "Category: MELEE"
   },
   {
     "id": "blade-fist-claws",
     "name": "Blade Fist / Claws",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "1d8 Slashing; Retractable.",
+    "bp_cost": 1,
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -415,20 +687,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "1d8 Slashing; Retractable.",
-    "body": "Category: **4.2 Hand & Foot Options (1 BP Per Option)**\r\n\r\n**Effect:** 1d8 Slashing; Retractable.\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "blade fist / claws, augmentation, prosthetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** 1d8 Slashing; Retractable.\r\n**Nodes:** 1"
   },
   {
     "id": "body-computer",
     "name": "Body Computer",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "Take 10 on Computer at Advantage / Half time.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -439,20 +728,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Take 10 on Computer at Advantage / Half time.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Take 10 on Computer at Advantage / Half time.\r\n**Nodes:** 2",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "body computer, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Take 10 on Computer at Advantage / Half time.\r\n**Nodes:** 2"
   },
   {
     "id": "body-conversion",
     "name": "Body Conversion",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Extreme",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 40960,
+    "design_dc": 30,
+    "craft_dc": 30,
+    "description": "Non-Typical Anatomy + Synth chassis use.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 40960,
       "nodes": 0,
@@ -463,20 +769,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Non-Typical Anatomy + Synth chassis use.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Non-Typical Anatomy + Synth chassis use.\r\n**Nodes:** 30",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Extreme",
     "keywords": "body conversion, augmentation, cybernetic, extreme, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Non-Typical Anatomy + Synth chassis use.\r\n**Nodes:** 30"
   },
   {
     "id": "body-weapons",
     "name": "Body Weapons",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic Armor",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "Retractable Fangs or Claws (Organic/Bio).",
+    "stigma": "None",
+    "type": "Cybernetic Armor",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -487,20 +810,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Retractable Fangs or Claws (Organic/Bio).",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Retractable Fangs or Claws (Organic/Bio).\r\n**Nodes:** 2",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "body weapons, augmentation, cybernetic armor, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Retractable Fangs or Claws (Organic/Bio).\r\n**Nodes:** 2"
   },
   {
     "id": "bodyform-nodes",
     "name": "Bodyform Nodes",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "Grants Bodyform Feature: Multiple (Sta).",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -511,20 +851,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Grants Bodyform Feature: Multiple (Sta).",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Grants Bodyform Feature: Multiple (Sta).\r\n**Nodes:** 10",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "bodyform nodes, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Grants Bodyform Feature: Multiple (Sta).\r\n**Nodes:** 10"
   },
   {
     "id": "breathing-filter",
     "name": "Breathing Filter",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic Armor",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Smoke/Gas filtration (Advantage vs airborne).",
+    "stigma": "None",
+    "type": "Cybernetic Armor",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -535,20 +892,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Smoke/Gas filtration (Advantage vs airborne).",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Smoke/Gas filtration (Advantage vs airborne).\r\n**Nodes:** 2",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "breathing filter, augmentation, cybernetic armor, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Smoke/Gas filtration (Advantage vs airborne).\r\n**Nodes:** 2"
   },
   {
     "id": "bug-detector",
     "name": "Bug Detector",
     "category": "augmentations",
-    "augmentation_type": "Sensory",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Sweep 30ft for active transmissions.",
+    "stigma": "None",
+    "type": "Sensory",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -559,20 +933,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Sweep 30ft for active transmissions.",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Sweep 30ft for active transmissions.\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "bug detector, augmentation, sensory, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Sweep 30ft for active transmissions.\r\n**Nodes:** 1"
   },
   {
     "id": "chameleon-skin",
     "name": "Chameleon Skin",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "Active camo-weave. +4 Stealth (Stationary).",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -583,20 +974,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Active camo-weave. +4 Stealth (Stationary).",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Active camo-weave. +4 Stealth (Stationary).\r\n**Nodes:** 4",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "chameleon skin, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Active camo-weave. +4 Stealth (Stationary).\r\n**Nodes:** 4"
   },
   {
     "id": "chemskins",
     "name": "ChemSkins",
     "category": "augmentations",
-    "augmentation_type": "Fashionware",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 160,
+    "design_dc": 10,
+    "craft_dc": 10,
+    "description": "Color and pattern changing skin tints.",
+    "stigma": "None",
+    "type": "Fashionware",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 160,
       "nodes": 0,
@@ -607,20 +1015,34 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Color and pattern changing skin tints.",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Color and pattern changing skin tints.",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "chemskins, augmentation, fashionware, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Color and pattern changing skin tints."
   },
   {
     "id": "claws",
     "name": "Claws",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 1,
+    "damage": "1d6",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 0,
       "nodes": 0,
@@ -631,20 +1053,41 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "",
-    "body": "Category: MELEE",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 0,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "claws, augmentation, cybernetic, standard, tl-1, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "craft_dc": 0,
+    "design_dc": 0,
+    "cost": 0,
+    "body": "Category: MELEE"
   },
   {
     "id": "climbing-claws",
     "name": "Climbing Claws",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "+2 to Athletics (Climbing).",
+    "bp_cost": 1,
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -655,20 +1098,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "+2 to Athletics (Climbing).",
-    "body": "Category: **4.2 Hand & Foot Options (1 BP Per Option)**\r\n\r\n**Effect:** +2 to Athletics (Climbing).\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "climbing claws, augmentation, prosthetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** +2 to Athletics (Climbing).\r\n**Nodes:** 1"
   },
   {
     "id": "comm-implant",
     "name": "Comm Implant",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic Armor",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 160,
+    "design_dc": 10,
+    "craft_dc": 10,
+    "description": "Coded transceiver (Continental range/Network).",
+    "stigma": "None",
+    "type": "Cybernetic Armor",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 160,
       "nodes": 0,
@@ -679,20 +1139,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Coded transceiver (Continental range/Network).",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Coded transceiver (Continental range/Network).\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "comm implant, augmentation, cybernetic armor, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Coded transceiver (Continental range/Network).\r\n**Nodes:** 1"
   },
   {
     "id": "contraceptive-implant",
     "name": "Contraceptive Implant",
     "category": "augmentations",
-    "augmentation_type": "Fashionware",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 40,
+    "design_dc": 5,
+    "craft_dc": 5,
+    "description": "Regulates fertility with perfect reliability.",
+    "stigma": "None",
+    "type": "Fashionware",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 40,
       "nodes": 0,
@@ -703,20 +1180,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Regulates fertility with perfect reliability.",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Regulates fertility with perfect reliability.",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "contraceptive implant, augmentation, fashionware, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Regulates fertility with perfect reliability."
   },
   {
     "id": "control-chips",
     "name": "Control Chips",
     "category": "augmentations",
-    "augmentation_type": "Neural",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "Circuits for emotional/mental control.",
+    "stigma": "None",
+    "type": "Neural",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -727,20 +1221,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Circuits for emotional/mental control.",
-    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Circuits for emotional/mental control.\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "control chips, augmentation, neural, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Circuits for emotional/mental control.\r\n**Nodes:** 1"
   },
   {
     "id": "cyber-jack",
     "name": "Cyber Jack",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "Operate over Comm: Smart Link, Comm Implant.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -751,20 +1262,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Operate over Comm: Smart Link, Comm Implant.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Operate over Comm: Smart Link, Comm Implant.\r\n**Nodes:** 2",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "cyber jack, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Operate over Comm: Smart Link, Comm Implant.\r\n**Nodes:** 2"
   },
   {
     "id": "cyber-vox",
     "name": "Cyber-Vox",
     "category": "augmentations",
-    "augmentation_type": "Fashionware",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 40,
+    "design_dc": 5,
+    "craft_dc": 5,
+    "description": "Basic voice synthesizer. Replicates digital tones.",
+    "stigma": "None",
+    "type": "Fashionware",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 40,
       "nodes": 0,
@@ -775,20 +1303,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Basic voice synthesizer. Replicates digital tones.",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Basic voice synthesizer. Replicates digital tones.",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "cyber-vox, augmentation, fashionware, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Basic voice synthesizer. Replicates digital tones."
   },
   {
     "id": "cybersnake-whip",
     "name": "Cybersnake / Whip",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "10ft reach; 2d6 Slashing damage.",
+    "bp_cost": 1,
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -799,20 +1345,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "10ft reach; 2d6 Slashing damage.",
-    "body": "Category: **4.2 Hand & Foot Options (1 BP Per Option)**\r\n\r\n**Effect:** 10ft reach; 2d6 Slashing damage.\r\n**Nodes:** 4",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "cybersnake / whip, augmentation, prosthetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** 10ft reach; 2d6 Slashing damage.\r\n**Nodes:** 4"
   },
   {
     "id": "data-archive",
     "name": "Data Archive",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "As Jack of all Trades Feature.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -823,20 +1386,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "As Jack of all Trades Feature.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** As Jack of all Trades Feature.\r\n**Nodes:** 2",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "data archive, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** As Jack of all Trades Feature.\r\n**Nodes:** 2"
   },
   {
     "id": "data-bank",
     "name": "Data Bank",
     "category": "augmentations",
-    "augmentation_type": "Neural",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Secure storage for 1,000+ Yottabytes.",
+    "stigma": "None",
+    "type": "Neural",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -847,20 +1427,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Secure storage for 1,000+ Yottabytes.",
-    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Secure storage for 1,000+ Yottabytes.\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "data bank, augmentation, neural, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Secure storage for 1,000+ Yottabytes.\r\n**Nodes:** 1"
   },
   {
     "id": "deadman-s-switch",
     "name": "Deadman's Switch",
     "category": "augmentations",
-    "augmentation_type": "Neural",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Trigger signal/bomb upon heart stopping.",
+    "stigma": "None",
+    "type": "Neural",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -871,20 +1468,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Trigger signal/bomb upon heart stopping.",
-    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Trigger signal/bomb upon heart stopping.\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "deadman's switch, augmentation, neural, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Trigger signal/bomb upon heart stopping.\r\n**Nodes:** 1"
   },
   {
     "id": "dermal-armor",
     "name": "Dermal Armor",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic Armor",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "See Integrated Cybernetic Armor (Section 5.1).",
+    "stigma": "None",
+    "type": "Cybernetic Armor",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -895,20 +1509,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "See Integrated Cybernetic Armor (Section 5.1).",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** See Integrated Cybernetic Armor (Section 5.1).\r\n**Nodes:** Var",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "dermal armor, augmentation, cybernetic armor, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** See Integrated Cybernetic Armor (Section 5.1).\r\n**Nodes:** Var"
   },
   {
     "id": "dermal-weave",
     "name": "Dermal Weave",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "+10 DR, +100% Base Heal Rate.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -919,20 +1550,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "+10 DR, +100% Base Heal Rate.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** +10 DR, +100% Base Heal Rate.\r\n**Nodes:** 10",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "dermal weave, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** +10 DR, +100% Base Heal Rate.\r\n**Nodes:** 10"
   },
   {
     "id": "diagnostic-scanner",
     "name": "Diagnostic Scanner",
     "category": "augmentations",
-    "augmentation_type": "Fashionware",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 160,
+    "design_dc": 10,
+    "craft_dc": 10,
+    "description": "Medical scanner embedded in finger or palm.",
+    "stigma": "None",
+    "type": "Fashionware",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 160,
       "nodes": 0,
@@ -943,20 +1591,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Medical scanner embedded in finger or palm.",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Medical scanner embedded in finger or palm.",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "diagnostic scanner, augmentation, fashionware, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Medical scanner embedded in finger or palm."
   },
   {
     "id": "digital-encephalon",
     "name": "Digital Encephalon",
     "category": "augmentations",
-    "augmentation_type": "Neural",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "Rolling backup of memory.",
+    "stigma": "None",
+    "type": "Neural",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -967,20 +1632,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Rolling backup of memory.",
-    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Rolling backup of memory.\r\n**Nodes:** 2",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "digital encephalon, augmentation, neural, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Rolling backup of memory.\r\n**Nodes:** 2"
   },
   {
     "id": "digitigrade-leg",
     "name": "Digitigrade Leg",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "**Modifier:** As Synth Leg, +25% Cost.\r\n**Nodes:** 15",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -991,20 +1673,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "**Modifier:** As Synth Leg, +25% Cost.\r\n**Nodes:** 15",
-    "body": "Category: **4.4 Exotic Limbs (TL 4\\)**\r\n\r\n**Modifier:** As Synth Leg, +25% Cost.\r\n**Nodes:** 15",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "digitigrade leg, augmentation, cybernetic, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.4 Exotic Limbs (TL 4\\)**\r\n\r\n**Modifier:** As Synth Leg, +25% Cost.\r\n**Nodes:** 15"
   },
   {
     "id": "digitized-consc",
     "name": "Digitized Consc",
     "category": "augmentations",
-    "augmentation_type": "Esoteric",
-    "stage": "Extreme",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 163840,
+    "design_dc": 35,
+    "craft_dc": 35,
+    "description": "Consciousness migrated to another form.",
+    "stigma": "None",
+    "type": "Esoteric",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 163840,
       "nodes": 0,
@@ -1015,20 +1714,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Consciousness migrated to another form.",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Consciousness migrated to another form.\r\n**BP:** 8",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Extreme",
     "keywords": "digitized consc, augmentation, esoteric, extreme, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Consciousness migrated to another form.\r\n**CP:** 8"
   },
   {
     "id": "disguise-system",
     "name": "Disguise System",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic Armor",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "Feature Alteration Implant; As Alter Form.",
+    "stigma": "None",
+    "type": "Cybernetic Armor",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -1039,20 +1755,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Feature Alteration Implant; As Alter Form.",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Feature Alteration Implant; As Alter Form.\r\n**Nodes:** 5",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "disguise system, augmentation, cybernetic armor, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Feature Alteration Implant; As Alter Form.\r\n**Nodes:** 5"
   },
   {
     "id": "distortion-field",
     "name": "Distortion Field",
     "category": "augmentations",
-    "augmentation_type": "Esoteric",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 40960,
+    "design_dc": 30,
+    "craft_dc": 30,
+    "description": "Blur (10 Min) or Invisibility (1 Min).",
+    "stigma": "None",
+    "type": "Esoteric",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 40960,
       "nodes": 0,
@@ -1063,20 +1796,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Blur (10 Min) or Invisibility (1 Min).",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Blur (10 Min) or Invisibility (1 Min).\r\n**BP:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "distortion field, augmentation, esoteric, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Blur (10 Min) or Invisibility (1 Min).\r\n**CP:** 1"
   },
   {
     "id": "ego-overlay",
     "name": "Ego Overlay",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "Grants specific Persona Skill Ranks and traits.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -1087,20 +1837,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Grants specific Persona Skill Ranks and traits.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Grants specific Persona Skill Ranks and traits.\r\n**Nodes:** 2",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "ego overlay, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Grants specific Persona Skill Ranks and traits.\r\n**Nodes:** 2"
   },
   {
     "id": "empathic-attune",
     "name": "Empathic Attune",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "+1/+2/+3 Charisma.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -1111,20 +1878,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "+1/+2/+3 Charisma.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** +1/+2/+3 Charisma.\r\n**Nodes:** 5",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "empathic attune, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** +1/+2/+3 Charisma.\r\n**Nodes:** 5"
   },
   {
     "id": "endocrine-tuner",
     "name": "Endocrine Tuner",
     "category": "augmentations",
-    "augmentation_type": "Fashionware",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 160,
+    "design_dc": 10,
+    "craft_dc": 10,
+    "description": "Regulates mood and minor hormonal imbalances.",
+    "stigma": "None",
+    "type": "Fashionware",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 160,
       "nodes": 0,
@@ -1135,20 +1919,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Regulates mood and minor hormonal imbalances.",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Regulates mood and minor hormonal imbalances.",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "endocrine tuner, augmentation, fashionware, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Regulates mood and minor hormonal imbalances."
   },
   {
     "id": "enhanced-antibody",
     "name": "Enhanced Antibody",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic Armor",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "+100% Heal Rate, Infection Checks w/ Adv.",
+    "stigma": "None",
+    "type": "Cybernetic Armor",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -1159,20 +1960,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "+100% Heal Rate, Infection Checks w/ Adv.",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** +100% Heal Rate, Infection Checks w/ Adv.\r\n**Nodes:** 5",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "enhanced antibody, augmentation, cybernetic armor, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** +100% Heal Rate, Infection Checks w/ Adv.\r\n**Nodes:** 5"
   },
   {
     "id": "extra-shoulders",
     "name": "Extra Shoulders",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic Armor",
-    "stage": "Heavy",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "Mount 2 extra cyber arms under main (Heavy).",
+    "stigma": "None",
+    "type": "Cybernetic Armor",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -1183,20 +2001,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Mount 2 extra cyber arms under main (Heavy).",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Mount 2 extra cyber arms under main (Heavy).\r\n**Nodes:** 20",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Heavy",
     "keywords": "extra shoulders, augmentation, cybernetic armor, heavy, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Mount 2 extra cyber arms under main (Heavy).\r\n**Nodes:** 20"
   },
   {
     "id": "feat-plexus",
     "name": "Feat Plexus",
     "category": "augmentations",
-    "augmentation_type": "Esoteric",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "Socket for 4 Feature Circuits.",
+    "stigma": "None",
+    "type": "Esoteric",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -1207,20 +2042,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Socket for 4 Feature Circuits.",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Socket for 4 Feature Circuits.\r\n**BP:** 4",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "feat plexus, augmentation, esoteric, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Socket for 4 Feature Circuits.\r\n**CP:** 4"
   },
   {
     "id": "feature-circuit",
     "name": "Feature Circuit",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "Gain 1 feature (reprogrammable): Limited.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -1231,20 +2083,35 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Gain 1 feature (reprogrammable): Limited.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Gain 1 feature (reprogrammable): Limited.\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "feature circuit, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Gain 1 feature (reprogrammable): Limited.\r\n**Nodes:** 1"
   },
   {
     "id": "feet",
     "name": "Feet",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 1,
+    "damage": "1d8",
+    "description": "**Special:** Non-Lethal",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 0,
       "nodes": 0,
@@ -1255,20 +2122,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "**Special:** Non-Lethal",
-    "body": "**Special:** Non-Lethal\r\n\r\nCategory: MELEE",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 0,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "feet, augmentation, cybernetic, standard, tl-1, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "craft_dc": 0,
+    "design_dc": 0,
+    "cost": 0,
+    "body": "**Special:** Non-Lethal\r\n\r\nCategory: MELEE"
   },
   {
     "id": "fists",
     "name": "Fists",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 1,
+    "damage": "1d6",
+    "description": "**Special:** Non-Lethal",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 0,
       "nodes": 0,
@@ -1279,20 +2164,40 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "**Special:** Non-Lethal",
-    "body": "**Special:** Non-Lethal\r\n\r\nCategory: MELEE",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 0,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "fists, augmentation, cybernetic, standard, tl-1, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "craft_dc": 0,
+    "design_dc": 0,
+    "cost": 0,
+    "body": "**Special:** Non-Lethal\r\n\r\nCategory: MELEE"
   },
   {
     "id": "flash-comp",
     "name": "Flash-Comp",
     "category": "augmentations",
-    "augmentation_type": "Sensory",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Advanced strobe immunity.",
+    "stigma": "None",
+    "type": "Sensory",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -1303,20 +2208,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Advanced strobe immunity.",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Advanced strobe immunity.\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "flash-comp, augmentation, sensory, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Advanced strobe immunity.\r\n**Nodes:** 1"
   },
   {
     "id": "foot",
     "name": "Foot",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "durability": "5",
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "**Nodes:** 5\r\n**Sockets:** 0",
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -1327,20 +2250,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "**Nodes:** 5\r\n**Sockets:** 0",
-    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 5\r\n**Sockets:** 0",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "foot, augmentation, prosthetic, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 5\r\n**Sockets:** 0"
   },
   {
     "id": "forearm",
     "name": "Forearm",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "durability": "10",
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "**Nodes:** 10\r\n**Sockets:** 2\\",
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -1351,20 +2292,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "**Nodes:** 10\r\n**Sockets:** 2\\",
-    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 10\r\n**Sockets:** 2\\",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "forearm, augmentation, prosthetic, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 10\r\n**Sockets:** 2\\"
   },
   {
     "id": "forearm-shield",
     "name": "Forearm Shield",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Heavy",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Collapsible shield (Small/Large/Tower).",
+    "bp_cost": 1,
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -1375,20 +2334,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Collapsible shield (Small/Large/Tower).",
-    "body": "Category: **4.3 Limb Upgrades (1 BP Per Upgrade)**\r\n\r\n**Effect:** Collapsible shield (Small/Large/Tower).\r\n**Nodes:** 3",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Heavy",
     "keywords": "forearm shield, augmentation, prosthetic, heavy, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Collapsible shield (Small/Large/Tower).\r\n**Nodes:** 3"
   },
   {
     "id": "forearm-weapon",
     "name": "Forearm Weapon",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Heavy",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Retractable 1H weapon (Requires 2 Sockets).",
+    "bp_cost": 1,
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -1399,20 +2376,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Retractable 1H weapon (Requires 2 Sockets).",
-    "body": "Category: **4.3 Limb Upgrades (1 BP Per Upgrade)**\r\n\r\n**Effect:** Retractable 1H weapon (Requires 2 Sockets).\r\n**Nodes:** 0",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Heavy",
     "keywords": "forearm weapon, augmentation, prosthetic, heavy, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Retractable 1H weapon (Requires 2 Sockets).\r\n**Nodes:** 0"
   },
   {
     "id": "fortified-skeleton",
     "name": "Fortified Skeleton",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic Armor",
-    "stage": "Heavy",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 40960,
+    "design_dc": 30,
+    "craft_dc": 30,
+    "description": "DR 10, +1 Strength, DR 20 vs falls.",
+    "dr": 10,
+    "stigma": "None",
+    "type": "Cybernetic Armor",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 40960,
       "nodes": 0,
@@ -1423,20 +2418,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "DR 10, +1 Strength, DR 20 vs falls.",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** DR 10, +1 Strength, DR 20 vs falls.\r\n**Nodes:** 15",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Heavy",
     "keywords": "fortified skeleton, augmentation, cybernetic armor, heavy, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** DR 10, +1 Strength, DR 20 vs falls.\r\n**Nodes:** 15"
   },
   {
     "id": "frequency-scanner",
     "name": "Frequency Scanner",
     "category": "augmentations",
-    "augmentation_type": "Sensory",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Wide-band radio and mesh scanner.",
+    "stigma": "None",
+    "type": "Sensory",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -1447,20 +2459,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Wide-band radio and mesh scanner.",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Wide-band radio and mesh scanner.\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "frequency scanner, augmentation, sensory, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Wide-band radio and mesh scanner.\r\n**Nodes:** 1"
   },
   {
     "id": "frictionless-skin",
     "name": "Frictionless Skin",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic Armor",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "Excretes polymer. Advantage to escape grapple.",
+    "stigma": "None",
+    "type": "Cybernetic Armor",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -1471,20 +2500,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Excretes polymer. Advantage to escape grapple.",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Excretes polymer. Advantage to escape grapple.\r\n**Nodes:** 3",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "frictionless skin, augmentation, cybernetic armor, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Excretes polymer. Advantage to escape grapple.\r\n**Nodes:** 3"
   },
   {
     "id": "full-arm-assembly",
     "name": "Full Arm Assembly",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "durability": "30",
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "**Nodes:** 30\r\n**Sockets:** 3",
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -1495,20 +2542,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "**Nodes:** 30\r\n**Sockets:** 3",
-    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 30\r\n**Sockets:** 3",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "full arm assembly, augmentation, prosthetic, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 30\r\n**Sockets:** 3"
   },
   {
     "id": "full-leg-assembly",
     "name": "Full Leg Assembly",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "durability": "40",
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "**Nodes:** 40\r\n**Sockets:** 4",
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -1519,20 +2584,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "**Nodes:** 40\r\n**Sockets:** 4",
-    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 40\r\n**Sockets:** 4",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "full leg assembly, augmentation, prosthetic, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 40\r\n**Sockets:** 4"
   },
   {
     "id": "ghost-jack",
     "name": "Ghost Jack",
     "category": "augmentations",
-    "augmentation_type": "Neural",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "Interface for digitized consciousness chips.",
+    "stigma": "None",
+    "type": "Neural",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -1543,20 +2625,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Interface for digitized consciousness chips.",
-    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Interface for digitized consciousness chips.\r\n**Nodes:** 2",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "ghost jack, augmentation, neural, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Interface for digitized consciousness chips.\r\n**Nodes:** 2"
   },
   {
     "id": "gills",
     "name": "Gills",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic Armor",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "Breathe in water indefinitely (Restricted).",
+    "stigma": "None",
+    "type": "Cybernetic Armor",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -1567,20 +2666,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Breathe in water indefinitely (Restricted).",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Breathe in water indefinitely (Restricted).\r\n**Nodes:** 5",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "gills, augmentation, cybernetic armor, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Breathe in water indefinitely (Restricted).\r\n**Nodes:** 5"
   },
   {
     "id": "grappler-hand",
     "name": "Grappler Hand",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Heavy",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "50m monocable with multi-grapple.",
+    "bp_cost": 1,
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -1591,20 +2708,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "50m monocable with multi-grapple.",
-    "body": "Category: **4.2 Hand & Foot Options (1 BP Per Option)**\r\n\r\n**Effect:** 50m monocable with multi-grapple.\r\n**Nodes:** 3",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Heavy",
     "keywords": "grappler hand, augmentation, prosthetic, heavy, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** 50m monocable with multi-grapple.\r\n**Nodes:** 3"
   },
   {
     "id": "gravity-attenuator",
     "name": "Gravity Attenuator",
     "category": "augmentations",
-    "augmentation_type": "Esoteric",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "Changes ground plane, Climb +20, Jump +10.",
+    "stigma": "None",
+    "type": "Esoteric",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -1615,20 +2749,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Changes ground plane, Climb +20, Jump +10.",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Changes ground plane, Climb +20, Jump +10.\r\n**BP:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "gravity attenuator, augmentation, esoteric, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Changes ground plane, Climb +20, Jump +10.\r\n**CP:** 1"
   },
   {
     "id": "gripper-foot",
     "name": "Gripper Foot",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Reduce movement penalties by half.",
+    "bp_cost": 1,
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -1639,20 +2791,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Reduce movement penalties by half.",
-    "body": "Category: **4.2 Hand & Foot Options (1 BP Per Option)**\r\n\r\n**Effect:** Reduce movement penalties by half.\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "gripper foot, augmentation, prosthetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** Reduce movement penalties by half.\r\n**Nodes:** 1"
   },
   {
     "id": "hammer-fist",
     "name": "Hammer Fist",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "1d8 Blunt Unarmed Damage.",
+    "bp_cost": 1,
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -1663,20 +2833,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "1d8 Blunt Unarmed Damage.",
-    "body": "Category: **4.2 Hand & Foot Options (1 BP Per Option)**\r\n\r\n**Effect:** 1d8 Blunt Unarmed Damage.\r\n**Nodes:** 2",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "hammer fist, augmentation, prosthetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** 1d8 Blunt Unarmed Damage.\r\n**Nodes:** 2"
   },
   {
     "id": "hand",
     "name": "Hand",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 844,
+    "durability": "5",
+    "design_dc": 16,
+    "craft_dc": 16,
+    "description": "**Nodes:** 5\r\n**Sockets:** 0",
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 844,
       "nodes": 0,
@@ -1687,20 +2875,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "**Nodes:** 5\r\n**Sockets:** 0",
-    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 5\r\n**Sockets:** 0",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "hand, augmentation, prosthetic, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 5\r\n**Sockets:** 0"
   },
   {
     "id": "hollow-fangs",
     "name": "Hollow Fangs",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic Armor",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "1d4 Piercing. Wired directly to a Poison Sac.",
+    "stigma": "None",
+    "type": "Cybernetic Armor",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -1711,20 +2916,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "1d4 Piercing. Wired directly to a Poison Sac.",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** 1d4 Piercing. Wired directly to a Poison Sac.\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "hollow fangs, augmentation, cybernetic armor, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** 1d4 Piercing. Wired directly to a Poison Sac.\r\n**Nodes:** 1"
   },
   {
     "id": "holo-tattoos",
     "name": "Holo-Tattoos",
     "category": "augmentations",
-    "augmentation_type": "Fashionware",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Subdermal projectors for floating 3D holograms.",
+    "stigma": "None",
+    "type": "Fashionware",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -1735,20 +2957,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Subdermal projectors for floating 3D holograms.",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Subdermal projectors for floating 3D holograms.",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "holo-tattoos, augmentation, fashionware, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Subdermal projectors for floating 3D holograms."
   },
   {
     "id": "holophotonic-gear",
     "name": "Holophotonic Gear",
     "category": "augmentations",
-    "augmentation_type": "Esoteric",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "Implanted Holophotonic Emitter.",
+    "stigma": "None",
+    "type": "Esoteric",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -1759,20 +2998,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Implanted Holophotonic Emitter.",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Implanted Holophotonic Emitter.\r\n**BP:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "holophotonic gear, augmentation, esoteric, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Implanted Holophotonic Emitter.\r\n**CP:** 1"
   },
   {
     "id": "hydraulic-rams",
     "name": "Hydraulic Rams",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "+2/+4/+6 Strength for Grapple/Damage only.",
+    "bp_cost": 1,
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -1783,20 +3040,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "+2/+4/+6 Strength for Grapple/Damage only.",
-    "body": "Category: **4.3 Limb Upgrades (1 BP Per Upgrade)**\r\n\r\n**Effect:** +2/+4/+6 Strength for Grapple/Damage only.\r\n**Nodes:** 8",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "hydraulic rams, augmentation, prosthetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** +2/+4/+6 Strength for Grapple/Damage only.\r\n**Nodes:** 8"
   },
   {
     "id": "id-chip",
     "name": "ID Chip",
     "category": "augmentations",
-    "augmentation_type": "Fashionware",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 40,
+    "design_dc": 5,
+    "craft_dc": 5,
+    "description": "Subdermal identity, licenses, and banking.",
+    "stigma": "None",
+    "type": "Fashionware",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 40,
       "nodes": 0,
@@ -1807,20 +3081,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Subdermal identity, licenses, and banking.",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Subdermal identity, licenses, and banking.",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "id chip, augmentation, fashionware, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Subdermal identity, licenses, and banking."
   },
   {
     "id": "image-enhance",
     "name": "Image Enhance",
     "category": "augmentations",
-    "augmentation_type": "Sensory",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "+2 Sight Awareness checks.",
+    "stigma": "None",
+    "type": "Sensory",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -1831,20 +3122,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "+2 Sight Awareness checks.",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** +2 Sight Awareness checks.\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "image enhance, augmentation, sensory, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** +2 Sight Awareness checks.\r\n**Nodes:** 1"
   },
   {
     "id": "inertial-nullifier",
     "name": "Inertial Nullifier",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "Treat falls as 50ft less.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -1855,20 +3163,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Treat falls as 50ft less.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Treat falls as 50ft less.\r\n**Nodes:** 5",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "inertial nullifier, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Treat falls as 50ft less.\r\n**Nodes:** 5"
   },
   {
     "id": "injector-unit",
     "name": "Injector Unit",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic Armor",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "2 mini-injectors with 4 doses each.",
+    "stigma": "None",
+    "type": "Cybernetic Armor",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -1879,20 +3204,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "2 mini-injectors with 4 doses each.",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** 2 mini-injectors with 4 doses each.\r\n**Nodes:** 2",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "injector unit, augmentation, cybernetic armor, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** 2 mini-injectors with 4 doses each.\r\n**Nodes:** 2"
   },
   {
     "id": "insectoid-limb",
     "name": "Insectoid Limb",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "**Modifier:** As Synth Arm/Leg, +50% Cost, +5 DC.\r\n**Nodes:** 12",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -1903,20 +3245,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "**Modifier:** As Synth Arm/Leg, +50% Cost, +5 DC.\r\n**Nodes:** 12",
-    "body": "Category: **4.4 Exotic Limbs (TL 4\\)**\r\n\r\n**Modifier:** As Synth Arm/Leg, +50% Cost, +5 DC.\r\n**Nodes:** 12",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "insectoid limb, augmentation, cybernetic, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.4 Exotic Limbs (TL 4\\)**\r\n\r\n**Modifier:** As Synth Arm/Leg, +50% Cost, +5 DC.\r\n**Nodes:** 12"
   },
   {
     "id": "interface-sliver",
     "name": "Interface Sliver",
     "category": "augmentations",
-    "augmentation_type": "Esoteric",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Dedicated Cyberjack for 1 Mecha.",
+    "stigma": "None",
+    "type": "Esoteric",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -1927,20 +3286,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Dedicated Cyberjack for 1 Mecha.",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Dedicated Cyberjack for 1 Mecha.\r\n**BP:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "interface sliver, augmentation, esoteric, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Dedicated Cyberjack for 1 Mecha.\r\n**CP:** 1"
   },
   {
     "id": "internal-gyroscope",
     "name": "Internal Gyroscope",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic Armor",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Always know up/down. Adv on Balance.",
+    "stigma": "None",
+    "type": "Cybernetic Armor",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -1951,20 +3327,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Always know up/down. Adv on Balance.",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Always know up/down. Adv on Balance.\r\n**Nodes:** 2",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "internal gyroscope, augmentation, cybernetic armor, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Always know up/down. Adv on Balance.\r\n**Nodes:** 2"
   },
   {
     "id": "jump-boost-legs",
     "name": "Jump Boost (Legs)",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Heavy",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "+10 to Jump checks (Requires Pair).",
+    "bp_cost": 1,
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -1975,20 +3369,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "+10 to Jump checks (Requires Pair).",
-    "body": "Category: **4.3 Limb Upgrades (1 BP Per Upgrade)**\r\n\r\n**Effect:** +10 to Jump checks (Requires Pair).\r\n**Nodes:** 4",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Heavy",
     "keywords": "jump boost (legs), augmentation, prosthetic, heavy, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** +10 to Jump checks (Requires Pair).\r\n**Nodes:** 4"
   },
   {
     "id": "kinetic-shield",
     "name": "Kinetic Shield",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 40960,
+    "design_dc": 30,
+    "craft_dc": 30,
+    "description": "Absorbs 40 dmg before recharge.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 40960,
       "nodes": 0,
@@ -1999,20 +3410,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Absorbs 40 dmg before recharge.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Absorbs 40 dmg before recharge.\r\n**Nodes:** 10",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "kinetic shield, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Absorbs 40 dmg before recharge.\r\n**Nodes:** 10"
   },
   {
     "id": "laser-eye",
     "name": "Laser (Eye)",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "2d6 Energy damage with 20ft range.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -2023,20 +3451,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "2d6 Energy damage with 20ft range.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** 2d6 Energy damage with 20ft range.\r\n**Nodes:** 2",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "laser (eye), augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** 2d6 Energy damage with 20ft range.\r\n**Nodes:** 2"
   },
   {
     "id": "light-tattoo",
     "name": "Light Tattoo",
     "category": "augmentations",
-    "augmentation_type": "Fashionware",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 40,
+    "design_dc": 5,
+    "craft_dc": 5,
+    "description": "Bioluminescent or animated decorative tattoos.",
+    "stigma": "None",
+    "type": "Fashionware",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 40,
       "nodes": 0,
@@ -2047,20 +3492,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Bioluminescent or animated decorative tattoos.",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Bioluminescent or animated decorative tattoos.",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "light tattoo, augmentation, fashionware, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Bioluminescent or animated decorative tattoos."
   },
   {
     "id": "lower-leg",
     "name": "Lower Leg",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 1470,
+    "durability": "15",
+    "design_dc": 18,
+    "craft_dc": 18,
+    "description": "**Nodes:** 15\r\n**Sockets:** 2\\",
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 1470,
       "nodes": 0,
@@ -2071,20 +3534,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "**Nodes:** 15\r\n**Sockets:** 2\\",
-    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 15\r\n**Sockets:** 2\\",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "lower leg, augmentation, prosthetic, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 15\r\n**Sockets:** 2\\"
   },
   {
     "id": "magnetic-grip",
     "name": "Magnetic Grip",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Electro-magnets; can walk on metal hulls.",
+    "bp_cost": 1,
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -2095,20 +3576,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Electro-magnets; can walk on metal hulls.",
-    "body": "Category: **4.3 Limb Upgrades (1 BP Per Upgrade)**\r\n\r\n**Effect:** Electro-magnets; can walk on metal hulls.\r\n**Nodes:** 2",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "magnetic grip, augmentation, prosthetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Electro-magnets; can walk on metal hulls.\r\n**Nodes:** 2"
   },
   {
     "id": "magnetic-piercings",
     "name": "Magnetic Piercings",
     "category": "augmentations",
-    "augmentation_type": "Fashionware",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 40,
+    "design_dc": 5,
+    "craft_dc": 5,
+    "description": "Subdermal anchors for modular jewelry.",
+    "stigma": "None",
+    "type": "Fashionware",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 40,
       "nodes": 0,
@@ -2119,20 +3617,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Subdermal anchors for modular jewelry.",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Subdermal anchors for modular jewelry.",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "magnetic piercings, augmentation, fashionware, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Subdermal anchors for modular jewelry."
   },
   {
     "id": "matter-recon-forge",
     "name": "Matter Recon Forge",
     "category": "augmentations",
-    "augmentation_type": "Esoteric",
-    "stage": "Extreme",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 655360,
+    "design_dc": 40,
+    "craft_dc": 40,
+    "description": "Resurrects from single cell in 1d4 days.",
+    "stigma": "None",
+    "type": "Esoteric",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 655360,
       "nodes": 0,
@@ -2143,20 +3658,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Resurrects from single cell in 1d4 days.",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Resurrects from single cell in 1d4 days.\r\n**BP:** 5",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Extreme",
     "keywords": "matter recon forge, augmentation, esoteric, extreme, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Resurrects from single cell in 1d4 days.\r\n**CP:** 5"
   },
   {
     "id": "mech-link",
     "name": "Mech Link",
     "category": "augmentations",
-    "augmentation_type": "Neural",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "Mind-to-machine. +1 to +5 Pilot skills.",
+    "stigma": "None",
+    "type": "Neural",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -2167,20 +3699,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Mind-to-machine. +1 to +5 Pilot skills.",
-    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Mind-to-machine. +1 to +5 Pilot skills.\r\n**Nodes:** 2",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "mech link, augmentation, neural, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Mind-to-machine. +1 to +5 Pilot skills.\r\n**Nodes:** 2"
   },
   {
     "id": "micro-missile-launcher",
     "name": "Micro-Missile Launcher",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Heavy",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "Holds 4 mini-missiles (Arm/Shoulder).",
+    "bp_cost": 1,
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -2191,20 +3741,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Holds 4 mini-missiles (Arm/Shoulder).",
-    "body": "Category: **4.3 Limb Upgrades (1 BP Per Upgrade)**\r\n\r\n**Effect:** Holds 4 mini-missiles (Arm/Shoulder).\r\n**Nodes:** 5",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Heavy",
     "keywords": "micro-missile launcher, augmentation, prosthetic, heavy, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Holds 4 mini-missiles (Arm/Shoulder).\r\n**Nodes:** 5"
   },
   {
     "id": "micro-optics",
     "name": "Micro-optics",
     "category": "augmentations",
-    "augmentation_type": "Sensory",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Microscopic Vision.",
+    "stigma": "None",
+    "type": "Sensory",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -2215,20 +3782,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Microscopic Vision.",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Microscopic Vision.\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "micro-optics, augmentation, sensory, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Microscopic Vision.\r\n**Nodes:** 1"
   },
   {
     "id": "muscle-bone-weave",
     "name": "Muscle/Bone Weave",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic Armor",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "Advanced myomer integration. +1/+2/+3 Str.",
+    "stigma": "None",
+    "type": "Cybernetic Armor",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -2239,20 +3823,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Advanced myomer integration. +1/+2/+3 Str.",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Advanced myomer integration. +1/+2/+3 Str.\r\n**Nodes:** 12",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "muscle/bone weave, augmentation, cybernetic armor, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Advanced myomer integration. +1/+2/+3 Str.\r\n**Nodes:** 12"
   },
   {
     "id": "myomer-weave",
     "name": "Myomer Weave",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "Extreme strength without bulk. +4 Might.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -2263,20 +3864,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Extreme strength without bulk. +4 Might.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Extreme strength without bulk. +4 Might.\r\n**Nodes:** 15",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "myomer weave, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Extreme strength without bulk. +4 Might.\r\n**Nodes:** 15"
   },
   {
     "id": "nano-groomers",
     "name": "Nano Groomers",
     "category": "augmentations",
-    "augmentation_type": "Fashionware",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Automated skin, hair, and hygiene maintenance.",
+    "stigma": "None",
+    "type": "Fashionware",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -2287,20 +3905,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Automated skin, hair, and hygiene maintenance.",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Automated skin, hair, and hygiene maintenance.",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "nano groomers, augmentation, fashionware, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Automated skin, hair, and hygiene maintenance."
   },
   {
     "id": "nerve-hardwire",
     "name": "Nerve Hardwire",
     "category": "augmentations",
-    "augmentation_type": "Neural",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "Overclocks nervous system. +1/+2/+3 Agility.",
+    "stigma": "None",
+    "type": "Neural",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -2311,20 +3946,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Overclocks nervous system. +1/+2/+3 Agility.",
-    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Overclocks nervous system. +1/+2/+3 Agility.\r\n**Nodes:** 5",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "nerve hardwire, augmentation, neural, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Overclocks nervous system. +1/+2/+3 Agility.\r\n**Nodes:** 5"
   },
   {
     "id": "nerve-splicing",
     "name": "Nerve Splicing",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "Damaged nerves reroute; Immune to paralysis.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -2335,20 +3987,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Damaged nerves reroute; Immune to paralysis.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Damaged nerves reroute; Immune to paralysis.\r\n**Nodes:** 5",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "nerve splicing, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Damaged nerves reroute; Immune to paralysis.\r\n**Nodes:** 5"
   },
   {
     "id": "neural-processor",
     "name": "Neural Processor",
     "category": "augmentations",
-    "augmentation_type": "Neural",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Foundation for CPU mods; +1 Logic.",
+    "stigma": "None",
+    "type": "Neural",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -2359,20 +4028,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Foundation for CPU mods; +1 Logic.",
-    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Foundation for CPU mods; +1 Logic.\r\n**Nodes:** 3",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "neural processor, augmentation, neural, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Foundation for CPU mods; +1 Logic.\r\n**Nodes:** 3"
   },
   {
     "id": "nightvision",
     "name": "Nightvision",
     "category": "augmentations",
-    "augmentation_type": "Sensory",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Night Vision 60ft.",
+    "stigma": "None",
+    "type": "Sensory",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -2383,20 +4069,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Night Vision 60ft.",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Night Vision 60ft.\r\n**Nodes:** 2",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "nightvision, augmentation, sensory, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Night Vision 60ft.\r\n**Nodes:** 2"
   },
   {
     "id": "nootropic-enhancer",
     "name": "Nootropic Enhancer",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "+1/+2/+3 Intelligence.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -2407,20 +4110,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "+1/+2/+3 Intelligence.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** +1/+2/+3 Intelligence.\r\n**Nodes:** 5",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "nootropic enhancer, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** +1/+2/+3 Intelligence.\r\n**Nodes:** 5"
   },
   {
     "id": "nu-tek-tvskin",
     "name": "Nu-Tek TVSkin",
     "category": "augmentations",
-    "augmentation_type": "Fashionware",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Skin acts as a programmable vidscreen.",
+    "stigma": "None",
+    "type": "Fashionware",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -2431,20 +4151,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Skin acts as a programmable vidscreen.",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Skin acts as a programmable vidscreen.",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "nu-tek tvskin, augmentation, fashionware, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Skin acts as a programmable vidscreen."
   },
   {
     "id": "nugenic-nodes",
     "name": "NuGenic Nodes",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 40960,
+    "design_dc": 30,
+    "craft_dc": 30,
+    "description": "Longevity / DNA Cleanse / Bio-Renewal.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 40960,
       "nodes": 0,
@@ -2455,20 +4192,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Longevity / DNA Cleanse / Bio-Renewal.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Longevity / DNA Cleanse / Bio-Renewal.\r\n**Nodes:** 10",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "nugenic nodes, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Longevity / DNA Cleanse / Bio-Renewal.\r\n**Nodes:** 10"
   },
   {
     "id": "nutrient-processor",
     "name": "Nutrient Processor",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic Armor",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Extract nutrition from any organic. 1/4 rations.",
+    "stigma": "None",
+    "type": "Cybernetic Armor",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -2479,20 +4233,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Extract nutrition from any organic. 1/4 rations.",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Extract nutrition from any organic. 1/4 rations.\r\n**Nodes:** 4",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "nutrient processor, augmentation, cybernetic armor, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Extract nutrition from any organic. 1/4 rations.\r\n**Nodes:** 4"
   },
   {
     "id": "ocular-drone",
     "name": "Ocular Drone",
     "category": "augmentations",
-    "augmentation_type": "Sensory",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "Cyber-eye detaches to act as remote spy cam.",
+    "stigma": "None",
+    "type": "Sensory",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -2503,20 +4274,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Cyber-eye detaches to act as remote spy cam.",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Cyber-eye detaches to act as remote spy cam.\r\n**Nodes:** 3",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "ocular drone, augmentation, sensory, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Cyber-eye detaches to act as remote spy cam.\r\n**Nodes:** 3"
   },
   {
     "id": "optical-camo",
     "name": "Optical Camo",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 40960,
+    "design_dc": 30,
+    "craft_dc": 30,
+    "description": "Advanced total spectrum cloaking.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 40960,
       "nodes": 0,
@@ -2527,20 +4315,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Advanced total spectrum cloaking.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Advanced total spectrum cloaking.\r\n**Nodes:** 5",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "optical camo, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Advanced total spectrum cloaking.\r\n**Nodes:** 5"
   },
   {
     "id": "pain-filter",
     "name": "Pain Filter",
     "category": "augmentations",
-    "augmentation_type": "Neural",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Counters Sense of Pain / Negate Wound penalty.",
+    "stigma": "None",
+    "type": "Neural",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -2551,20 +4356,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Counters Sense of Pain / Negate Wound penalty.",
-    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Counters Sense of Pain / Negate Wound penalty.\r\n**Nodes:** 2",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "pain filter, augmentation, neural, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Counters Sense of Pain / Negate Wound penalty.\r\n**Nodes:** 2"
   },
   {
     "id": "phase-shift-gen",
     "name": "Phase Shift Gen",
     "category": "augmentations",
-    "augmentation_type": "Esoteric",
-    "stage": "Extreme",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 163840,
+    "design_dc": 35,
+    "craft_dc": 35,
+    "description": "Temporary intangibility to bypass matter.",
+    "stigma": "None",
+    "type": "Esoteric",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 163840,
       "nodes": 0,
@@ -2575,20 +4397,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Temporary intangibility to bypass matter.",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Temporary intangibility to bypass matter.\r\n**BP:** 4",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Extreme",
     "keywords": "phase shift gen, augmentation, esoteric, extreme, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Temporary intangibility to bypass matter.\r\n**CP:** 4"
   },
   {
     "id": "pheromone-emitters",
     "name": "Pheromone Emitters",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "Advantage on Charm/Diplomacy checks.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -2599,20 +4438,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Advantage on Charm/Diplomacy checks.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Advantage on Charm/Diplomacy checks.\r\n**Nodes:** 3",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "pheromone emitters, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Advantage on Charm/Diplomacy checks.\r\n**Nodes:** 3"
   },
   {
     "id": "picosurgeons",
     "name": "PicoSurgeons",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "Grants Fast Heal Feature.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -2623,20 +4479,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Grants Fast Heal Feature.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Grants Fast Heal Feature.\r\n**Nodes:** 8",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "picosurgeons, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Grants Fast Heal Feature.\r\n**Nodes:** 8"
   },
   {
     "id": "poison-gland-sac",
     "name": "Poison Gland/Sac",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic Armor",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "Holds 8 doses of toxin.",
+    "stigma": "None",
+    "type": "Cybernetic Armor",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -2647,20 +4520,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Holds 8 doses of toxin.",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Holds 8 doses of toxin.\r\n**Nodes:** 3",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "poison gland/sac, augmentation, cybernetic armor, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Holds 8 doses of toxin.\r\n**Nodes:** 3"
   },
   {
     "id": "polymatter-surg",
     "name": "Polymatter Surg",
     "category": "augmentations",
-    "augmentation_type": "Esoteric",
-    "stage": "Heavy",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 40960,
+    "design_dc": 30,
+    "craft_dc": 30,
+    "description": "Grants Fast Heal and Regeneration Features.",
+    "stigma": "None",
+    "type": "Esoteric",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 40960,
       "nodes": 0,
@@ -2671,20 +4561,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Grants Fast Heal and Regeneration Features.",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Grants Fast Heal and Regeneration Features.\r\n**BP:** 4",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Heavy",
     "keywords": "polymatter surg, augmentation, esoteric, heavy, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Grants Fast Heal and Regeneration Features.\r\n**CP:** 4"
   },
   {
     "id": "prehensile-foot",
     "name": "Prehensile Foot",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "Usable as off-hand (-2 penalty).",
+    "bp_cost": 1,
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -2695,20 +4603,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Usable as off-hand (-2 penalty).",
-    "body": "Category: **4.2 Hand & Foot Options (1 BP Per Option)**\r\n\r\n**Effect:** Usable as off-hand (-2 penalty).\r\n**Nodes:** 2",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "prehensile foot, augmentation, prosthetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** Usable as off-hand (-2 penalty).\r\n**Nodes:** 2"
   },
   {
     "id": "programmable-bio",
     "name": "Programmable Bio",
     "category": "augmentations",
-    "augmentation_type": "Esoteric",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "As Alter Form (Advanced).",
+    "stigma": "None",
+    "type": "Esoteric",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -2719,20 +4644,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "As Alter Form (Advanced).",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** As Alter Form (Advanced).\r\n**BP:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "programmable bio, augmentation, esoteric, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** As Alter Form (Advanced).\r\n**CP:** 1"
   },
   {
     "id": "prosthetic-skull",
     "name": "Prosthetic Skull",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Heavy",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "durability": "20 (x2 Hardened)",
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "**Nodes:** 10\r\n**Sockets:** 1",
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -2743,20 +4686,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "**Nodes:** 10\r\n**Sockets:** 1",
-    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 10\r\n**Sockets:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Heavy",
     "keywords": "prosthetic skull, augmentation, prosthetic, heavy, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 10\r\n**Sockets:** 1"
   },
   {
     "id": "prosthetic-torso",
     "name": "Prosthetic Torso",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Heavy",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 40960,
+    "durability": "100 (x2 Hardened)",
+    "design_dc": 30,
+    "craft_dc": 30,
+    "description": "**Nodes:** 50\r\n**Sockets:** 5",
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 40960,
       "nodes": 0,
@@ -2767,20 +4728,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "**Nodes:** 50\r\n**Sockets:** 5",
-    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 50\r\n**Sockets:** 5",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Heavy",
     "keywords": "prosthetic torso, augmentation, prosthetic, heavy, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 50\r\n**Sockets:** 5"
   },
   {
     "id": "psi-implant",
     "name": "Psi Implant",
     "category": "augmentations",
-    "augmentation_type": "Esoteric",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 40960,
+    "design_dc": 30,
+    "craft_dc": 30,
+    "description": "Awakened (Mental); Grants 100 Essence.",
+    "stigma": "None",
+    "type": "Esoteric",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 40960,
       "nodes": 0,
@@ -2791,20 +4769,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Awakened (Mental); Grants 100 Essence.",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Awakened (Mental); Grants 100 Essence.\r\n**BP:** 4",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "psi implant, augmentation, esoteric, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Awakened (Mental); Grants 100 Essence.\r\n**CP:** 4"
   },
   {
     "id": "psychotropic-act",
     "name": "Psychotropic Act",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "+1/+2/+3 Wisdom.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -2815,20 +4810,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "+1/+2/+3 Wisdom.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** +1/+2/+3 Wisdom.\r\n**Nodes:** 5",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "psychotropic act, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** +1/+2/+3 Wisdom.\r\n**Nodes:** 5"
   },
   {
     "id": "quantum-storage",
     "name": "Quantum Storage",
     "category": "augmentations",
-    "augmentation_type": "Esoteric",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 40960,
+    "design_dc": 30,
+    "craft_dc": 30,
+    "description": "Dimensional pocket; stores up to 100kg.",
+    "stigma": "None",
+    "type": "Esoteric",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 40960,
       "nodes": 0,
@@ -2839,20 +4851,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Dimensional pocket; stores up to 100kg.",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Dimensional pocket; stores up to 100kg.\r\n**BP:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "quantum storage, augmentation, esoteric, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Dimensional pocket; stores up to 100kg.\r\n**CP:** 1"
   },
   {
     "id": "quick-change-mount",
     "name": "Quick-Change Mount",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Heavy",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Swap modular hands/tools as a Swift Action.",
+    "bp_cost": 1,
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -2863,20 +4893,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Swap modular hands/tools as a Swift Action.",
-    "body": "Category: **4.3 Limb Upgrades (1 BP Per Upgrade)**\r\n\r\n**Effect:** Swap modular hands/tools as a Swift Action.\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Heavy",
     "keywords": "quick-change mount, augmentation, prosthetic, heavy, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Swap modular hands/tools as a Swift Action.\r\n**Nodes:** 1"
   },
   {
     "id": "radar-sonar",
     "name": "Radar / Sonar",
     "category": "augmentations",
-    "augmentation_type": "Sensory",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "Grants Blindsense 30ft.",
+    "stigma": "None",
+    "type": "Sensory",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -2887,20 +4934,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Grants Blindsense 30ft.",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Grants Blindsense 30ft.\r\n**Nodes:** 3",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "radar / sonar, augmentation, sensory, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Grants Blindsense 30ft.\r\n**Nodes:** 3"
   },
   {
     "id": "radiation-shielding",
     "name": "Radiation Shielding",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic Armor",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "Internal lead/polymer. Adv vs Radiation.",
+    "stigma": "None",
+    "type": "Cybernetic Armor",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -2911,20 +4975,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Internal lead/polymer. Adv vs Radiation.",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Internal lead/polymer. Adv vs Radiation.\r\n**Nodes:** 5",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "radiation shielding, augmentation, cybernetic armor, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Internal lead/polymer. Adv vs Radiation.\r\n**Nodes:** 5"
   },
   {
     "id": "rage-implant",
     "name": "Rage Implant",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "Adrenal override. Grants the Rage feature.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -2935,20 +5016,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Adrenal override. Grants the Rage feature.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Adrenal override. Grants the Rage feature.\r\n**Nodes:** 2",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "rage implant, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Adrenal override. Grants the Rage feature.\r\n**Nodes:** 2"
   },
   {
     "id": "redundant-organs",
     "name": "Redundant Organs",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic Armor",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "Advantage on Fortitude saves vs Critical Hits.",
+    "stigma": "None",
+    "type": "Cybernetic Armor",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -2959,20 +5057,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Advantage on Fortitude saves vs Critical Hits.",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Advantage on Fortitude saves vs Critical Hits.\r\n**Nodes:** 10",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "redundant organs, augmentation, cybernetic armor, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Advantage on Fortitude saves vs Critical Hits.\r\n**Nodes:** 10"
   },
   {
     "id": "reflex-co-proc",
     "name": "Reflex Co-Proc",
     "category": "augmentations",
-    "augmentation_type": "Neural",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "Advantage on Reflex Saves vs hazards.",
+    "stigma": "None",
+    "type": "Neural",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -2983,20 +5098,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Advantage on Reflex Saves vs hazards.",
-    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Advantage on Reflex Saves vs hazards.\r\n**Nodes:** 3",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "reflex co-proc, augmentation, neural, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Advantage on Reflex Saves vs hazards.\r\n**Nodes:** 3"
   },
   {
     "id": "scrambler",
     "name": "Scrambler",
     "category": "augmentations",
-    "augmentation_type": "Sensory",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "Military grade encryption.",
+    "stigma": "None",
+    "type": "Sensory",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -3007,20 +5139,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Military grade encryption.",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Military grade encryption.\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "scrambler, augmentation, sensory, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Military grade encryption.\r\n**Nodes:** 1"
   },
   {
     "id": "sectional-joint",
     "name": "Sectional Joint",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "Limb can detach (requires CPU).",
+    "bp_cost": 1,
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -3031,20 +5181,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Limb can detach (requires CPU).",
-    "body": "Category: **4.3 Limb Upgrades (1 BP Per Upgrade)**\r\n\r\n**Effect:** Limb can detach (requires CPU).\r\n**Nodes:** 3",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "sectional joint, augmentation, prosthetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Limb can detach (requires CPU).\r\n**Nodes:** 3"
   },
   {
     "id": "sensory-recorder",
     "name": "Sensory Recorder",
     "category": "augmentations",
-    "augmentation_type": "Sensory",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "Records all 5 sensations (SimStim).",
+    "stigma": "None",
+    "type": "Sensory",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -3055,20 +5222,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Records all 5 sensations (SimStim).",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Records all 5 sensations (SimStim).\r\n**Nodes:** 2",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "sensory recorder, augmentation, sensory, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Records all 5 sensations (SimStim).\r\n**Nodes:** 2"
   },
   {
     "id": "sensory-shunt",
     "name": "Sensory Shunt",
     "category": "augmentations",
-    "augmentation_type": "Neural",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Selectively turn off specific physical senses.",
+    "stigma": "None",
+    "type": "Neural",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -3079,20 +5263,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Selectively turn off specific physical senses.",
-    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Selectively turn off specific physical senses.\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "sensory shunt, augmentation, neural, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Selectively turn off specific physical senses.\r\n**Nodes:** 1"
   },
   {
     "id": "servo-arm",
     "name": "Servo-Arm",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "Fully articulated manipulator. Often paired.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -3103,23 +5304,41 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Fully articulated manipulator. Often paired.",
-    "body": "Category: **12.1 Mechanics of the Wearable**\r\n\r\n**Location:** Torso (Back)\r\n**Nodes:** 25\r\n**Description:** Fully articulated manipulator. Often paired.",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "servo-arm, augmentation, cybernetic, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **12.1 Mechanics of the Wearable**\r\n\r\n**Location:** Torso (Back)\r\n**Nodes:** 25\r\n**Description:** Fully articulated manipulator. Often paired."
   },
   {
     "id": "shielding",
     "name": "Shielding",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "EMP and radiation hardening for cybernetic systems (+25% Base Cost, +4 vs Ion/EMP, 1 Node, 1 CP).",
+    "bp_cost": 1,
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
-      "bp": 0,
-      "credits": 25,
-      "nodes": 0,
+      "cp": 1,
+      "bp": 1,
+      "credits": 640,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -3127,20 +5346,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Full EMP shielding for limb.",
-    "body": "Category: **4.3 Limb Upgrades (1 BP Per Upgrade)**\r\n\r\n**Effect:** Full EMP shielding for limb.\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "shielding, augmentation, prosthetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Full EMP shielding for limb.\r\n**Nodes:** 1"
   },
   {
     "id": "shift-tacts",
     "name": "Shift-tacts",
     "category": "augmentations",
-    "augmentation_type": "Fashionware",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 40,
+    "design_dc": 5,
+    "craft_dc": 5,
+    "description": "Color-changing or patterned contact lenses.",
+    "stigma": "None",
+    "type": "Fashionware",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 40,
       "nodes": 0,
@@ -3151,20 +5387,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Color-changing or patterned contact lenses.",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Color-changing or patterned contact lenses.",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "shift-tacts, augmentation, fashionware, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Color-changing or patterned contact lenses."
   },
   {
     "id": "shock-knuckles",
     "name": "Shock-Knuckles",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "1d6 Voltic + Stun chance.",
+    "bp_cost": 1,
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -3175,20 +5429,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "1d6 Voltic + Stun chance.",
-    "body": "Category: **4.2 Hand & Foot Options (1 BP Per Option)**\r\n\r\n**Effect:** 1d6 Voltic + Stun chance.\r\n**Nodes:** 2",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "shock-knuckles, augmentation, prosthetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** 1d6 Voltic + Stun chance.\r\n**Nodes:** 2"
   },
   {
     "id": "skate-foot",
     "name": "Skate Foot",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Integrated wheels; Run speed +50%.",
+    "bp_cost": 1,
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -3199,20 +5471,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Integrated wheels; Run speed +50%.",
-    "body": "Category: **4.2 Hand & Foot Options (1 BP Per Option)**\r\n\r\n**Effect:** Integrated wheels; Run speed +50%.\r\n**Nodes:** 3",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "skate foot, augmentation, prosthetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** Integrated wheels; Run speed +50%.\r\n**Nodes:** 3"
   },
   {
     "id": "skill-circuitry",
     "name": "Skill Circuitry",
     "category": "augmentations",
-    "augmentation_type": "Neural",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "+2/+4/+6 to one skill (Reprogrammable).",
+    "stigma": "None",
+    "type": "Neural",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -3223,20 +5512,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "+2/+4/+6 to one skill (Reprogrammable).",
-    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** +2/+4/+6 to one skill (Reprogrammable).\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "skill circuitry, augmentation, neural, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** +2/+4/+6 to one skill (Reprogrammable).\r\n**Nodes:** 1"
   },
   {
     "id": "skill-plexus",
     "name": "Skill Plexus",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "Socket for 4 Skill Circuits.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -3247,20 +5553,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Socket for 4 Skill Circuits.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Socket for 4 Skill Circuits.\r\n**Nodes:** 3",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "skill plexus, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Socket for 4 Skill Circuits.\r\n**Nodes:** 3"
   },
   {
     "id": "skinlike-synthskin",
     "name": "Skinlike / Synthskin",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "Looks real (DC 25 Awareness to spot).",
+    "bp_cost": 1,
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -3271,20 +5595,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Looks real (DC 25 Awareness to spot).",
-    "body": "Category: **4.3 Limb Upgrades (1 BP Per Upgrade)**\r\n\r\n**Effect:** Looks real (DC 25 Awareness to spot).\r\n**Nodes:** 0",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "skinlike / synthskin, augmentation, prosthetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Looks real (DC 25 Awareness to spot).\r\n**Nodes:** 0"
   },
   {
     "id": "skinwatch",
     "name": "Skinwatch",
     "category": "augmentations",
-    "augmentation_type": "Fashionware",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 40,
+    "design_dc": 5,
+    "craft_dc": 5,
+    "description": "Subdermal LED timepiece and calendar.",
+    "stigma": "None",
+    "type": "Fashionware",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 40,
       "nodes": 0,
@@ -3295,20 +5636,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Subdermal LED timepiece and calendar.",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Subdermal LED timepiece and calendar.",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "skinwatch, augmentation, fashionware, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Subdermal LED timepiece and calendar."
   },
   {
     "id": "skull-plating",
     "name": "Skull Plating",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic Armor",
-    "stage": "Heavy",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Head armor. 1 Critical Hit to Normal/day.",
+    "stigma": "None",
+    "type": "Cybernetic Armor",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -3319,20 +5677,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Head armor. 1 Critical Hit to Normal/day.",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Head armor. 1 Critical Hit to Normal/day.\r\n**Nodes:** 4",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Heavy",
     "keywords": "skull plating, augmentation, cybernetic armor, heavy, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Head armor. 1 Critical Hit to Normal/day.\r\n**Nodes:** 4"
   },
   {
     "id": "smart-goggles",
     "name": "Smart Goggles",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 160,
+    "design_dc": 10,
+    "craft_dc": 10,
+    "description": "Image Enhance, HUD, and Zoom.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 160,
       "nodes": 0,
@@ -3343,20 +5718,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Image Enhance, HUD, and Zoom.",
-    "body": "Category: **12.1 Mechanics of the Wearable**\r\n\r\n**Location:** Head\r\n**Nodes:** 5\r\n**Description:** Image Enhance, HUD, and Zoom.",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "smart goggles, augmentation, cybernetic, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **12.1 Mechanics of the Wearable**\r\n\r\n**Location:** Head\r\n**Nodes:** 5\r\n**Description:** Image Enhance, HUD, and Zoom."
   },
   {
     "id": "smart-link",
     "name": "Smart Link",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "Wireless Mech Link with +2 Gear bonus.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -3367,20 +5759,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Wireless Mech Link with +2 Gear bonus.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Wireless Mech Link with +2 Gear bonus.\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "smart link, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Wireless Mech Link with +2 Gear bonus.\r\n**Nodes:** 1"
   },
   {
     "id": "smuggling-compartment",
     "name": "Smuggling Compartment",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Hidden storage for Tiny items.",
+    "bp_cost": 1,
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -3391,20 +5801,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Hidden storage for Tiny items.",
-    "body": "Category: **4.3 Limb Upgrades (1 BP Per Upgrade)**\r\n\r\n**Effect:** Hidden storage for Tiny items.\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "smuggling compartment, augmentation, prosthetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Hidden storage for Tiny items.\r\n**Nodes:** 1"
   },
   {
     "id": "sound-damper",
     "name": "Sound Damper",
     "category": "augmentations",
-    "augmentation_type": "Sensory",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 160,
+    "design_dc": 10,
+    "craft_dc": 10,
+    "description": "Immune to loud noise/deafening.",
+    "stigma": "None",
+    "type": "Sensory",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 160,
       "nodes": 0,
@@ -3415,20 +5842,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Immune to loud noise/deafening.",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Immune to loud noise/deafening.\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "sound damper, augmentation, sensory, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Immune to loud noise/deafening.\r\n**Nodes:** 1"
   },
   {
     "id": "speed-boost-legs",
     "name": "Speed Boost (Legs)",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "+10/+20/+30 Ground Move (Requires Pair).",
+    "bp_cost": 1,
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -3439,20 +5884,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "+10/+20/+30 Ground Move (Requires Pair).",
-    "body": "Category: **4.3 Limb Upgrades (1 BP Per Upgrade)**\r\n\r\n**Effect:** +10/+20/+30 Ground Move (Requires Pair).\r\n**Nodes:** 5",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "speed boost (legs), augmentation, prosthetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** +10/+20/+30 Ground Move (Requires Pair).\r\n**Nodes:** 5"
   },
   {
     "id": "spike-fist-needle",
     "name": "Spike Fist / Needle",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "1d8 Piercing; can link to Poison Sac.",
+    "bp_cost": 1,
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -3463,20 +5926,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "1d8 Piercing; can link to Poison Sac.",
-    "body": "Category: **4.2 Hand & Foot Options (1 BP Per Option)**\r\n\r\n**Effect:** 1d8 Piercing; can link to Poison Sac.\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "spike fist / needle, augmentation, prosthetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** 1d8 Piercing; can link to Poison Sac.\r\n**Nodes:** 1"
   },
   {
     "id": "stabilizer",
     "name": "Stabilizer",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic Armor",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "Automatically Stabilize from dying.",
+    "stigma": "None",
+    "type": "Cybernetic Armor",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -3487,20 +5967,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Automatically Stabilize from dying.",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Automatically Stabilize from dying.\r\n**Nodes:** 3",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "stabilizer, augmentation, cybernetic armor, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Automatically Stabilize from dying.\r\n**Nodes:** 3"
   },
   {
     "id": "subdermal-pocket",
     "name": "Subdermal Pocket",
     "category": "augmentations",
-    "augmentation_type": "Fashionware",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 160,
+    "design_dc": 10,
+    "craft_dc": 10,
+    "description": "2x4 inch concealed pocket for data chips.",
+    "stigma": "None",
+    "type": "Fashionware",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 160,
       "nodes": 0,
@@ -3511,20 +6008,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "2x4 inch concealed pocket for data chips.",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** 2x4 inch concealed pocket for data chips.",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "subdermal pocket, augmentation, fashionware, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** 2x4 inch concealed pocket for data chips."
   },
   {
     "id": "surrogate-uplink",
     "name": "Surrogate Uplink",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "Virtually Remote a Synthetic Body.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -3535,20 +6049,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Virtually Remote a Synthetic Body.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Virtually Remote a Synthetic Body.\r\n**Nodes:** 2",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "surrogate uplink, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Virtually Remote a Synthetic Body.\r\n**Nodes:** 2"
   },
   {
     "id": "synaptic-accelerator",
     "name": "Synaptic Accelerator",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "Push past bio-limits. +1 Action Point 1/day.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -3559,20 +6090,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Push past bio-limits. +1 Action Point 1/day.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Push past bio-limits. +1 Action Point 1/day.\r\n**Nodes:** 3",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "synaptic accelerator, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Push past bio-limits. +1 Action Point 1/day.\r\n**Nodes:** 3"
   },
   {
     "id": "synaptic-mask",
     "name": "Synaptic Mask",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 10240,
+    "design_dc": 25,
+    "craft_dc": 25,
+    "description": "Checks vs Mental Effects at Advantage.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 10240,
       "nodes": 0,
@@ -3583,20 +6131,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Checks vs Mental Effects at Advantage.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Checks vs Mental Effects at Advantage.\r\n**Nodes:** 2",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "synaptic mask, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Checks vs Mental Effects at Advantage.\r\n**Nodes:** 2"
   },
   {
     "id": "synth-organ",
     "name": "Synth Organ",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "durability": "Internal",
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "**Nodes:** 5\r\n**Sockets:** 0",
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -3607,20 +6173,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "**Nodes:** 5\r\n**Sockets:** 0",
-    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 5\r\n**Sockets:** 0",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "synth organ, augmentation, prosthetic, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 5\r\n**Sockets:** 0"
   },
   {
     "id": "synth-tentacle",
     "name": "Synth Tentacle",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 163840,
+    "design_dc": 35,
+    "craft_dc": 35,
+    "description": "**Modifier:** As Synth Arm, +100% Cost, +10 DC.\r\n**Nodes:** 15",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 163840,
       "nodes": 0,
@@ -3631,20 +6214,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "**Modifier:** As Synth Arm, +100% Cost, +10 DC.\r\n**Nodes:** 15",
-    "body": "Category: **4.4 Exotic Limbs (TL 4\\)**\r\n\r\n**Modifier:** As Synth Arm, +100% Cost, +10 DC.\r\n**Nodes:** 15",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "synth tentacle, augmentation, cybernetic, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.4 Exotic Limbs (TL 4\\)**\r\n\r\n**Modifier:** As Synth Arm, +100% Cost, +10 DC.\r\n**Nodes:** 15"
   },
   {
     "id": "synth-wing",
     "name": "Synth Wing",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 40960,
+    "design_dc": 30,
+    "craft_dc": 30,
+    "description": "**Modifier:** As Leg (Flight), +100% Cost, +5 DC.\r\n**Nodes:** 20",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 40960,
       "nodes": 0,
@@ -3655,20 +6255,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "**Modifier:** As Leg (Flight), +100% Cost, +5 DC.\r\n**Nodes:** 20",
-    "body": "Category: **4.4 Exotic Limbs (TL 4\\)**\r\n\r\n**Modifier:** As Leg (Flight), +100% Cost, +5 DC.\r\n**Nodes:** 20",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "synth wing, augmentation, cybernetic, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.4 Exotic Limbs (TL 4\\)**\r\n\r\n**Modifier:** As Leg (Flight), +100% Cost, +5 DC.\r\n**Nodes:** 20"
   },
   {
     "id": "tail",
     "name": "Tail",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic Armor",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Decorative or Prehensile (-4 Str, -2 Dex).",
+    "stigma": "None",
+    "type": "Cybernetic Armor",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -3679,20 +6296,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Decorative or Prehensile (-4 Str, -2 Dex).",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Decorative or Prehensile (-4 Str, -2 Dex).\r\n**Nodes:** 5",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "tail, augmentation, cybernetic armor, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Decorative or Prehensile (-4 Str, -2 Dex).\r\n**Nodes:** 5"
   },
   {
     "id": "targeting",
     "name": "Targeting",
     "category": "augmentations",
-    "augmentation_type": "Sensory",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "Sync to Smart Link. +2 Ranged Attack.",
+    "stigma": "None",
+    "type": "Sensory",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -3703,20 +6337,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Sync to Smart Link. +2 Ranged Attack.",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Sync to Smart Link. +2 Ranged Attack.\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "targeting, augmentation, sensory, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Sync to Smart Link. +2 Ranged Attack.\r\n**Nodes:** 1"
   },
   {
     "id": "tech-hair",
     "name": "Tech-Hair",
     "category": "augmentations",
-    "augmentation_type": "Fashionware",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 160,
+    "design_dc": 10,
+    "craft_dc": 10,
+    "description": "Color/light emitting hair; styleable via app.",
+    "stigma": "None",
+    "type": "Fashionware",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 160,
       "nodes": 0,
@@ -3727,20 +6378,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Color/light emitting hair; styleable via app.",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Color/light emitting hair; styleable via app.",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "tech-hair, augmentation, fashionware, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Color/light emitting hair; styleable via app."
   },
   {
     "id": "teleoptic",
     "name": "Teleoptic",
     "category": "augmentations",
-    "augmentation_type": "Sensory",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Telescopic zoom. Range penalties 1/2.",
+    "stigma": "None",
+    "type": "Sensory",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -3751,20 +6419,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Telescopic zoom. Range penalties 1/2.",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Telescopic zoom. Range penalties 1/2.\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "teleoptic, augmentation, sensory, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Telescopic zoom. Range penalties 1/2.\r\n**Nodes:** 1"
   },
   {
     "id": "telescoping-limb",
     "name": "Telescoping Limb",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Heavy",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "Grants +5ft Reach.",
+    "bp_cost": 1,
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -3775,20 +6461,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Grants +5ft Reach.",
-    "body": "Category: **4.3 Limb Upgrades (1 BP Per Upgrade)**\r\n\r\n**Effect:** Grants +5ft Reach.\r\n**Nodes:** 4",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Heavy",
     "keywords": "telescoping limb, augmentation, prosthetic, heavy, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Grants +5ft Reach.\r\n**Nodes:** 4"
   },
   {
     "id": "temporal-stutter",
     "name": "Temporal Stutter",
     "category": "augmentations",
-    "augmentation_type": "Esoteric",
-    "stage": "Extreme",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 163840,
+    "design_dc": 35,
+    "craft_dc": 35,
+    "description": "Extra turn (Time Stop) 1/day.",
+    "stigma": "None",
+    "type": "Esoteric",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 163840,
       "nodes": 0,
@@ -3799,20 +6502,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Extra turn (Time Stop) 1/day.",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Extra turn (Time Stop) 1/day.\r\n**BP:** 6",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Extreme",
     "keywords": "temporal stutter, augmentation, esoteric, extreme, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Extra turn (Time Stop) 1/day.\r\n**CP:** 6"
   },
   {
     "id": "thermograph",
     "name": "Thermograph",
     "category": "augmentations",
-    "augmentation_type": "Sensory",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "See IR and heat patterns.",
+    "stigma": "None",
+    "type": "Sensory",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -3823,20 +6543,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "See IR and heat patterns.",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** See IR and heat patterns.\r\n**Nodes:** 2",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "thermograph, augmentation, sensory, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** See IR and heat patterns.\r\n**Nodes:** 2"
   },
   {
     "id": "tool-hand",
     "name": "Tool Hand",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Heavy",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Multi-purpose or +2 Vocation bonus.",
+    "bp_cost": 1,
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -3847,20 +6585,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Multi-purpose or +2 Vocation bonus.",
-    "body": "Category: **4.2 Hand & Foot Options (1 BP Per Option)**\r\n\r\n**Effect:** Multi-purpose or +2 Vocation bonus.\r\n**Nodes:** 2",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Heavy",
     "keywords": "tool hand, augmentation, prosthetic, heavy, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** Multi-purpose or +2 Vocation bonus.\r\n**Nodes:** 2"
   },
   {
     "id": "tracking-scanner",
     "name": "Tracking Scanner",
     "category": "augmentations",
-    "augmentation_type": "Sensory",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "Retinal crosshairs. Move penalties 1/2.",
+    "stigma": "None",
+    "type": "Sensory",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -3871,20 +6626,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Retinal crosshairs. Move penalties 1/2.",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Retinal crosshairs. Move penalties 1/2.\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "tracking scanner, augmentation, sensory, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Retinal crosshairs. Move penalties 1/2.\r\n**Nodes:** 1"
   },
   {
     "id": "trans-cerebral",
     "name": "Trans-Cerebral",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Extreme",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 40960,
+    "design_dc": 30,
+    "craft_dc": 30,
+    "description": "Brain transplant into other body/system.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 40960,
       "nodes": 0,
@@ -3895,20 +6667,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Brain transplant into other body/system.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Brain transplant into other body/system.\r\n**Nodes:** 5",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Extreme",
     "keywords": "trans-cerebral, augmentation, cybernetic, extreme, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Brain transplant into other body/system.\r\n**Nodes:** 5"
   },
   {
     "id": "translator-implant",
     "name": "Translator Implant",
     "category": "augmentations",
-    "augmentation_type": "Neural",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 160,
+    "design_dc": 10,
+    "craft_dc": 10,
+    "description": "Contains most Languages/Dialects.",
+    "stigma": "None",
+    "type": "Neural",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 160,
       "nodes": 0,
@@ -3919,20 +6708,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Contains most Languages/Dialects.",
-    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Contains most Languages/Dialects.\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "translator implant, augmentation, neural, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Contains most Languages/Dialects.\r\n**Nodes:** 1"
   },
   {
     "id": "trauma-response",
     "name": "Trauma Response",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic Armor",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 2560,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "description": "Auto-administers meds; Heals 1d6.",
+    "stigma": "None",
+    "type": "Cybernetic Armor",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 2560,
       "nodes": 0,
@@ -3943,20 +6749,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Auto-administers meds; Heals 1d6.",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Auto-administers meds; Heals 1d6.\r\n**Nodes:** 4",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "trauma response, augmentation, cybernetic armor, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Auto-administers meds; Heals 1d6.\r\n**Nodes:** 4"
   },
   {
     "id": "turn-on-nails",
     "name": "Turn-On Nails",
     "category": "augmentations",
-    "augmentation_type": "Fashionware",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 160,
+    "design_dc": 10,
+    "craft_dc": 10,
+    "description": "Nails that change color, length, or pattern.",
+    "stigma": "None",
+    "type": "Fashionware",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 160,
       "nodes": 0,
@@ -3967,20 +6790,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Nails that change color, length, or pattern.",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Nails that change color, length, or pattern.",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "turn-on nails, augmentation, fashionware, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Nails that change color, length, or pattern."
   },
   {
     "id": "upper-arm",
     "name": "Upper Arm",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 4457,
+    "durability": "15",
+    "design_dc": 22,
+    "craft_dc": 22,
+    "description": "**Nodes:** 15\r\n**Sockets:** 3\\\\",
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 4457,
       "nodes": 0,
@@ -3991,20 +6832,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "**Nodes:** 15\r\n**Sockets:** 3\\\\",
-    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 15\r\n**Sockets:** 3\\\\",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "upper arm, augmentation, prosthetic, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 15\r\n**Sockets:** 3\\\\"
   },
   {
     "id": "upper-leg-thigh",
     "name": "Upper Leg (Thigh)",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Negligible",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 4457,
+    "durability": "20",
+    "design_dc": 22,
+    "craft_dc": 22,
+    "description": "**Nodes:** 20\r\n**Sockets:** 4\\\\",
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 4457,
       "nodes": 0,
@@ -4015,20 +6874,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "**Nodes:** 20\r\n**Sockets:** 4\\\\",
-    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 20\r\n**Sockets:** 4\\\\",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Negligible",
     "keywords": "upper leg (thigh), augmentation, prosthetic, negligible, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 20\r\n**Sockets:** 4\\\\"
   },
   {
     "id": "voice-disguiser",
     "name": "Voice Disguiser",
     "category": "augmentations",
-    "augmentation_type": "Sensory",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Perfect mimicry; +4 Bluff (Audio).",
+    "stigma": "None",
+    "type": "Sensory",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -4039,20 +6915,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Perfect mimicry; +4 Bluff (Audio).",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Perfect mimicry; +4 Bluff (Audio).\r\n**Nodes:** 1",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "voice disguiser, augmentation, sensory, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Perfect mimicry; +4 Bluff (Audio).\r\n**Nodes:** 1"
   },
   {
     "id": "water-refiltration",
     "name": "Water Refiltration",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic Armor",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Triples survival time without water.",
+    "stigma": "None",
+    "type": "Cybernetic Armor",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -4063,20 +6956,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Triples survival time without water.",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Triples survival time without water.\r\n**Nodes:** 3",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "water refiltration, augmentation, cybernetic armor, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Triples survival time without water.\r\n**Nodes:** 3"
   },
   {
     "id": "weapon-hand",
     "name": "Weapon Hand",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Heavy",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 160,
+    "design_dc": 10,
+    "craft_dc": 10,
+    "description": "Non-retractable weapon replacement.",
+    "bp_cost": 1,
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 160,
       "nodes": 0,
@@ -4087,20 +6998,38 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Non-retractable weapon replacement.",
-    "body": "Category: **4.2 Hand & Foot Options (1 BP Per Option)**\r\n\r\n**Effect:** Non-retractable weapon replacement.\r\n**Nodes:** 0",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Heavy",
     "keywords": "weapon hand, augmentation, prosthetic, heavy, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** Non-retractable weapon replacement.\r\n**Nodes:** 0"
   },
   {
     "id": "web-foot",
     "name": "Web Foot",
     "category": "augmentations",
-    "augmentation_type": "Prosthetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 640,
+    "design_dc": 15,
+    "craft_dc": 15,
+    "description": "Swim Speed +50%.",
+    "bp_cost": 1,
+    "stigma": "None",
+    "type": "Prosthetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 640,
       "nodes": 0,
@@ -4111,20 +7040,37 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Swim Speed +50%.",
-    "body": "Category: **4.2 Hand & Foot Options (1 BP Per Option)**\r\n\r\n**Effect:** Swim Speed +50%.\r\n**Nodes:** 2",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "web foot, augmentation, prosthetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** Swim Speed +50%.\r\n**Nodes:** 2"
   },
   {
     "id": "xr-imager",
     "name": "XR Imager",
     "category": "augmentations",
-    "augmentation_type": "Cybernetic",
-    "stage": "Standard",
-    "body_location": "General",
-    "tech_level": 3,
+    "cost": 40960,
+    "design_dc": 30,
+    "craft_dc": 30,
+    "description": "Terahertz radiation. See thru objects to 10ft.",
+    "stigma": "None",
+    "type": "Cybernetic",
     "costs": {
+      "cp": 0,
       "bp": 0,
       "credits": 40960,
       "nodes": 0,
@@ -4135,104 +7081,32 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Terahertz radiation. See thru objects to 10ft.",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Terahertz radiation. See thru objects to 10ft.\r\n**Nodes:** 3",
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "tech_level": 3,
+    "meta_level": 0,
+    "stage": "Standard",
     "keywords": "xr imager, augmentation, cybernetic, standard, tl-3, general",
-    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive"
+    "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Terahertz radiation. See thru objects to 10ft.\r\n**Nodes:** 3"
   }
 ];
 export const getAugmentationById = (id) => DEFAULT_AUGMENTATIONS.find(a => a.id === id);
-
-/**
- * Normalizes and enriches an augmentation item to guarantee full matrix compatibility
- * across Persona Folio, Codex Matrix Studio, and DBM Omnicortex catalogs.
- *
- * @param {object|string} augmentation - Augmentation object or name string
- * @returns {object} Canonical enriched augmentation record
- */
-export const getEnrichedAugmentationData = (augmentation) => {
-  if (!augmentation) return null;
-  const rawName = typeof augmentation === 'object' ? (augmentation.name || augmentation.title || augmentation.id || '') : String(augmentation);
-  const rawId = typeof augmentation === 'object' ? (augmentation.id || '') : '';
-  const cleanLookup = rawName.toLowerCase().replace(/^(aug:|cyber:|cyberware:)\s*/i, '').trim();
-  const cleanId = rawId.toLowerCase().replace(/^(aug:|cyber:|cyberware:)\s*/i, '').trim();
-
-  const canonical = DEFAULT_AUGMENTATIONS.find(a => 
-    (cleanId && (a.id.toLowerCase() === cleanId || a.id.toLowerCase().replace(/^aug-/, '') === cleanId)) ||
-    (cleanLookup && (a.name.toLowerCase() === cleanLookup || a.id.toLowerCase() === cleanLookup.replace(/[^a-z0-9]+/g, '-')))
+export const getEnrichedAugmentationData = (item) => {
+  if (!item) return null;
+  const key = (item.id || item.name || '').toString().toLowerCase().trim();
+  const match = DEFAULT_AUGMENTATIONS.find(
+    a => a.id.toLowerCase() === key || (a.name && a.name.toLowerCase() === key)
   );
-
-  const obj = typeof augmentation === 'object' ? augmentation : {};
-  const id = obj.id || canonical?.id || `aug-${cleanLookup.replace(/[^a-z0-9]+/g, '-') || Date.now()}`;
-  const name = obj.name || canonical?.name || rawName || 'Augmentation';
-  const category = 'augmentations';
-  const augmentation_type = obj.augmentation_type || obj.type || canonical?.augmentation_type || 'Cybernetic';
-  const stage = obj.stage || (typeof getAugmentationStage === 'function' ? getAugmentationStage(obj || canonical) : (canonical?.stage || 'Standard'));
-  const body_location = obj.body_location || obj.location || (typeof getAugmentationLocation === 'function' ? getAugmentationLocation(obj || canonical) : (canonical?.body_location || 'General'));
-  const tech_level = Number(obj.tech_level ?? obj.tl ?? canonical?.tech_level ?? 3) || 3;
-  const meta_level = Number(obj.meta_level ?? obj.ml ?? canonical?.meta_level ?? 0) || 0;
-  const description = obj.description || obj.desc || canonical?.description || canonical?.body || '';
-  const mechanic = obj.mechanic || obj.mechanics || obj.rules || canonical?.mechanic || canonical?.body || '';
-  const body = obj.body || canonical?.body || mechanic || description;
-  const keywords = obj.keywords || canonical?.keywords || '';
-  const negative_keywords = obj.negative_keywords || canonical?.negative_keywords || '';
-
-  const nodes = Number(obj.nodes ?? obj.costs?.nodes ?? (typeof getAugmentationNodes === 'function' ? getAugmentationNodes(obj || canonical) : (canonical?.costs?.nodes ?? 1))) || 1;
-  const sockets = Number(obj.sockets ?? obj.costs?.sockets ?? canonical?.sockets ?? canonical?.costs?.sockets ?? 0) || 0;
-  const strain = Number(obj.strain ?? obj.costs?.strain ?? canonical?.strain ?? canonical?.costs?.strain ?? 0) || 0;
-  const credits = Number(obj.credits ?? obj.costs?.credits ?? obj.cost ?? canonical?.credits ?? canonical?.costs?.credits ?? 0) || 0;
-  const bp = Number(obj.bp ?? obj.costs?.bp ?? (typeof getAugmentationBP === 'function' ? getAugmentationBP(obj || canonical) : (canonical?.costs?.bp ?? 0))) || 0;
-  const cp = Number(obj.cp ?? obj.costs?.cp ?? bp ?? 1) || 1;
-
-  return {
-    ...(canonical || {}),
-    ...obj,
-    id,
-    name,
-    category,
-    type: augmentation_type,
-    augmentation_type,
-    stage,
-    body_location,
-    location: body_location,
-    tech_level,
-    tl: tech_level,
-    meta_level,
-    ml: meta_level,
-    description,
-    desc: description,
-    mechanic,
-    mechanics: mechanic,
-    body,
-    keywords,
-    negative_keywords,
-    nodes,
-    sockets,
-    strain,
-    credits,
-    cost: credits,
-    bp,
-    cp,
-    costs: {
-      bp,
-      cp,
-      credits,
-      nodes,
-      sockets,
-      strain,
-      focus: Number(obj.costs?.focus ?? canonical?.costs?.focus ?? 0) || 0,
-      ap: Number(obj.costs?.ap ?? canonical?.costs?.ap ?? 0) || 0,
-      ...(canonical?.costs || {}),
-      ...(obj.costs || {})
-    },
-    modifiers: Array.isArray(obj.modifiers) ? obj.modifiers : (canonical?.modifiers || []),
-    modifications: Array.isArray(obj.modifications) ? obj.modifications : (canonical?.modifications || []),
-    recommended_species: Array.isArray(obj.recommended_species) ? obj.recommended_species : (canonical?.recommended_species || []),
-    recommended_factions: Array.isArray(obj.recommended_factions) ? obj.recommended_factions : (canonical?.recommended_factions || []),
-    recommended_origins: Array.isArray(obj.recommended_origins) ? obj.recommended_origins : (canonical?.recommended_origins || []),
-    recommended_occupations: Array.isArray(obj.recommended_occupations) ? obj.recommended_occupations : (canonical?.recommended_occupations || []),
-    recommended_tl: Array.isArray(obj.recommended_tl) ? obj.recommended_tl : (canonical?.recommended_tl || [`TL ${tech_level}`]),
-    recommended_ml: Array.isArray(obj.recommended_ml) ? obj.recommended_ml : (canonical?.recommended_ml || [`ML ${meta_level}`])
-  };
+  return match ? { ...match, ...item } : item;
 };
-

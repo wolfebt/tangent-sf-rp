@@ -8550,17 +8550,26 @@ export const OCCUPATIONAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Higher compensation and retainer fees for elite vocational service.",
-    "description": "Higher compensation and retainer fees for elite vocational service.",
-    "mechanics": "Higher compensation and retainer fees for elite vocational service.",
-    "mechanic": "Higher compensation and retainer fees for elite vocational service.",
+    "desc": "Higher compensation and retainer fees for elite vocational service. (+2 Wealth)",
+    "description": "Higher compensation and retainer fees for elite vocational service. (+2 Wealth)",
+    "mechanics": "+2 Wealth Score",
+    "mechanic": "+2 Wealth Score",
     "rules": "Basic Common Occupational Trait (1 CP).",
     "special_rules": "Basic Common Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Wealth",
+        "type": "wealth",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 Wealth Score"
+      }
+    ],
     "package_traits": [],
-    "body": "# High Pay\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Common Occupational Trait\n**CP Cost**: 1\n\n## Description\nHigher compensation and retainer fees for elite vocational service.",
-    "notes": "[Rule] Basic Common Occupational Trait (1 CP).",
+    "body": "# High Pay\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Common Occupational Trait\n**CP Cost**: 1\n\n## Description\nHigher compensation and retainer fees for elite vocational service.\n\n## Mechanics & Benefit\n+2 Wealth Score",
+    "notes": "[Modifier] +2 Wealth Score\n[Rule] Basic Common Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 Wealth Score",
       "[Rule] Basic Common Occupational Trait (1 CP)."
     ]
   },
@@ -18903,17 +18912,26 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Higher compensation and retainer fees for elite vocational service.",
-    "description": "Higher compensation and retainer fees for elite vocational service.",
-    "mechanics": "Higher compensation and retainer fees for elite vocational service.",
-    "mechanic": "Higher compensation and retainer fees for elite vocational service.",
+    "desc": "Higher compensation and retainer fees for elite vocational service. (+2 Wealth)",
+    "description": "Higher compensation and retainer fees for elite vocational service. (+2 Wealth)",
+    "mechanics": "+2 Wealth Score",
+    "mechanic": "+2 Wealth Score",
     "rules": "Basic Common Occupational Trait (1 CP).",
     "special_rules": "Basic Common Occupational Trait (1 CP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Wealth",
+        "type": "wealth",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 Wealth Score"
+      }
+    ],
     "package_traits": [],
-    "body": "# High Pay\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Common Occupational Trait\n**CP Cost**: 1\n\n## Description\nHigher compensation and retainer fees for elite vocational service.",
-    "notes": "[Rule] Basic Common Occupational Trait (1 CP).",
+    "body": "# High Pay\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Common Occupational Trait\n**CP Cost**: 1\n\n## Description\nHigher compensation and retainer fees for elite vocational service.\n\n## Mechanics & Benefit\n+2 Wealth Score",
+    "notes": "[Modifier] +2 Wealth Score\n[Rule] Basic Common Occupational Trait (1 CP).",
     "notesList": [
+      "[Modifier] +2 Wealth Score",
       "[Rule] Basic Common Occupational Trait (1 CP)."
     ]
   },

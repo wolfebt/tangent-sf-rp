@@ -27,7 +27,7 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 2
   used: 0
   tier: Socket
   allocated: []
@@ -37,6 +37,9 @@ keywords: >-
   mag restraints (electronic), gear, personal-property, tl-3, biometric,
   magnetic
 negative_keywords: 'primitive-stone, immaterial, intangible'
+gear_type: General
+base_dc: 10
+design_dc: 10
 ---
 Biometric magnetic lock cuffs for high-security prisoner containment.
 

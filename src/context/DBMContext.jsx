@@ -18,6 +18,10 @@ import { ALL_CANONICAL_SKILLS } from '../data/skillsData';
 import { DEFAULT_SPECIES_DISADVANTAGES } from '../data/speciesDisadvantagesData';
 import { DEFAULT_WEAPONRY } from '../data/weaponryData';
 import { DEFAULT_ARMORING } from '../data/armoringData';
+import { DEFAULT_GEAR } from '../data/gearData';
+import { DEFAULT_MECHA } from '../data/mechaData';
+import { DEFAULT_ARCHITECTURE } from '../data/architectureData';
+import { DEFAULT_OTHER_PROPERTY } from '../data/otherPropertyData';
 import { DEFAULT_AUGMENTATIONS } from '../data/augmentationsData';
 import { DEFAULT_INVOCATIONS } from '../data/invocationsData';
 import { DEFAULT_SPECIES_SIZES } from '../data/speciesSizeData';
@@ -105,6 +109,10 @@ export const DBMProvider = ({ children }) => {
     disadvantages: filterInitialData(DEFAULT_SPECIES_DISADVANTAGES, 'disadvantages'),
     weaponry: filterInitialData(DEFAULT_WEAPONRY, 'weaponry'),
     armoring: filterInitialData(DEFAULT_ARMORING, 'armoring'),
+    gear: filterInitialData(DEFAULT_GEAR, 'gear'),
+    mecha: filterInitialData(DEFAULT_MECHA, 'mecha'),
+    architecture: filterInitialData(DEFAULT_ARCHITECTURE, 'architecture'),
+    other: filterInitialData(DEFAULT_OTHER_PROPERTY, 'other'),
     augmentations: filterInitialData(DEFAULT_AUGMENTATIONS, 'augmentations'),
     invocations: filterInitialData(DEFAULT_INVOCATIONS, 'invocations'),
     augmentation_type: filterInitialData(DEFAULT_AUGMENTATION_TYPES, 'augmentation_type'),

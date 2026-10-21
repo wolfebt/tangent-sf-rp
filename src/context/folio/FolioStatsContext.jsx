@@ -1071,7 +1071,13 @@ export const FolioStatsSliceProvider = ({ children }) => {
     characterData?.['vitality'],
     characterData?.['structure'],
     characterData?.features,
+    characterData?.traits,
+    characterData?.hindrances,
     characterData?.disadvantages,
+    characterData?.['pool-faction-features'],
+    characterData?.['pool-occu-traits'],
+    characterData?.['pool-origin-traits'],
+    characterData?.['pool-species-traits'],
     characterData?.skills,
     getAttrMod
   ]);

@@ -25,7 +25,7 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 8
   used: 0
   tier: Socket
   allocated: []
@@ -33,6 +33,9 @@ tech_level: 3
 meta_level: 0
 keywords: 'enviro suit, gear, personal-property, tl-3, containment, protecting'
 negative_keywords: 'primitive-stone, immaterial, intangible'
+gear_type: General
+base_dc: 15
+design_dc: 15
 ---
 Full body containment suit protecting against vacuum and radiation hazards.
 

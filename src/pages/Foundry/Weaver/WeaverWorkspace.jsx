@@ -13,18 +13,9 @@
  *   6. Play: Granular interactive story studio driven by Folio personas, decision matrix, and dice checks.
  */
 
-import React, { useMemo, useState, useRef, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import { 
-  PenTool, 
-  Lightbulb, 
-  Sparkles, 
-  Layers, 
-  Network, 
-  Play, 
-  BookOpen,
-  ArrowRight,
-  ChevronDown,
-  Check
+  ArrowRight
 } from 'lucide-react';
 import StoryWeaver from '../StoryModule/workspaces/StoryWeaver';
 import InteractiveStoryStudio from '../StoryModule/workspaces/InteractiveStoryStudio';
@@ -32,9 +23,7 @@ import BrainstormTab from './tabs/BrainstormTab';
 import GemsTab from './tabs/GemsTab';
 import ElementsTab from './tabs/ElementsTab';
 import WeaverGraphTab from './tabs/WeaverGraphTab';
-import { useAdeStore } from '../store/adeStore';
 import { useStory } from '../../../context/CampaignContext';
-import { AudioService } from '../../../services/audioService';
 
 export default function WeaverWorkspace({
   activeNode,
@@ -49,101 +38,15 @@ export default function WeaverWorkspace({
   handleDeleteElement,
   locationPath
 }) {
-  const { universeState, getActiveGemsText } = useStory();
+  const { getActiveGemsText } = useStory();
 
   // Normalize legacy tab names
   const currentTab = useMemo(() => {
     if (activeTab === 'manuscript' || activeTab === 'weaver' || activeTab === 'outline' || activeTab === 'genesis') return 'write';
+    if (activeTab === 'gems') return 'brainstorm';
     if (activeTab === 'interactive') return 'play';
     return activeTab || 'write';
   }, [activeTab]);
-
-  const tabs = [
-    { id: 'write', label: 'Write & Author', icon: PenTool, color: 'text-cyan-400' },
-    { id: 'brainstorm', label: 'Brainstorm', icon: Lightbulb, color: 'text-amber-400' },
-    { id: 'gems', label: 'Guidance Gems', icon: Sparkles, color: 'text-rose-400' },
-    { id: 'elements', label: 'Elements', icon: Layers, color: 'text-blue-400' },
-    { id: 'graph', label: 'Asset Graph', icon: Network, color: 'text-emerald-400' },
-    { id: 'play', label: 'Interactive Play', icon: Play, color: 'text-purple-400' }
-  ];
-
-  const [isTabDropdownOpen, setIsTabDropdownOpen] = useState(false);
-  const tabDropdownRef = useRef(null);
-
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (tabDropdownRef.current && !tabDropdownRef.current.contains(e.target)) {
-        setIsTabDropdownOpen(false);
-      }
-    };
-    window.addEventListener('pointerdown', handleClickOutside, true);
-    return () => window.removeEventListener('pointerdown', handleClickOutside, true);
-  }, []);
-
-  const handleTabChange = (tabId) => {
-    AudioService.playTerminalBeep(1100, 0.02);
-    if (onSelectTab) {
-      onSelectTab(tabId);
-    }
-  };
-
-  const activeTabObj = tabs.find(t => t.id === currentTab) || tabs[0];
-  const ActiveIcon = activeTabObj.icon;
-
-  const renderModePulldown = () => (
-    <div className="relative" ref={tabDropdownRef}>
-      <button
-        type="button"
-        onClick={(e) => {
-          e.stopPropagation();
-          AudioService.playTerminalBeep(1000, 0.02);
-          setIsTabDropdownOpen(prev => !prev);
-        }}
-        className="px-2.5 py-1 bg-slate-900 hover:bg-slate-850 text-slate-200 border border-slate-700/80 hover:border-cyan-500/50 rounded-xl text-xs font-mono font-bold tracking-wider transition-all flex items-center gap-2 cursor-pointer shadow-sm active:scale-95"
-        title="Switch Story Weaver Workspace Mode"
-      >
-        <ActiveIcon size={13} className={activeTabObj.color} />
-        <span className="uppercase text-slate-100 font-bold">{activeTabObj.label}</span>
-        <ChevronDown size={11} className={`text-slate-400 transition-transform duration-200 ${isTabDropdownOpen ? 'rotate-180 text-cyan-400' : ''}`} />
-      </button>
-
-      {isTabDropdownOpen && (
-        <div className="absolute left-0 mt-1.5 w-56 bg-[#0b101b] border border-cyan-500/40 rounded-2xl shadow-[0_16px_48px_rgba(0,0,0,0.95)] py-1.5 z-[120] text-xs font-mono divide-y divide-slate-800/80 animate-in fade-in slide-in-from-top-2 duration-150">
-          <div className="px-3 py-1 text-[10px] uppercase font-bold text-cyan-400/80 tracking-wider">
-            Weaver Mode
-          </div>
-          <div className="py-1">
-            {tabs.map((tab) => {
-              const Icon = tab.icon;
-              const isActive = currentTab === tab.id;
-
-              return (
-                <button
-                  key={tab.id}
-                  type="button"
-                  onClick={() => {
-                    handleTabChange(tab.id);
-                    setIsTabDropdownOpen(false);
-                  }}
-                  className={`w-full text-left px-3.5 py-2 flex items-center justify-between text-xs transition-colors cursor-pointer ${
-                    isActive
-                      ? 'bg-cyan-950/80 text-cyan-300 font-bold border-l-2 border-cyan-400'
-                      : 'hover:bg-slate-800/70 text-slate-300 hover:text-white'
-                  }`}
-                >
-                  <div className="flex items-center gap-2">
-                    <Icon size={13} className={isActive ? tab.color : 'text-slate-500'} />
-                    <span className="uppercase tracking-wider">{tab.label}</span>
-                  </div>
-                  {isActive && <Check size={12} className="text-cyan-400 shrink-0 ml-1.5" />}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      )}
-    </div>
-  );
 
   const renderStageHandoff = () => (
     onSwitchView ? (
@@ -161,17 +64,7 @@ export default function WeaverWorkspace({
 
   return (
     <div className="flex-1 h-full w-full bg-[#080d16] flex flex-col overflow-hidden font-mono text-slate-100">
-      {/* ── WEAVER WORKSPACE SUB-NAVIGATION BAR (Shown when not in Write & Author mode) ── */}
-      {currentTab !== 'write' && (
-        <div className="bg-[#090e1a] border-b border-slate-800 p-1.5 px-3 flex items-center justify-between gap-3 shrink-0 shadow-sm relative">
-          {renderModePulldown()}
-          <div className="flex items-center gap-2 shrink-0">
-            {renderStageHandoff()}
-          </div>
-        </div>
-      )}
-
-      {/* ── TAB VIEWPORTS ── */}
+      {/* ── TAB VIEWPORTS (Switched via WEAVER branches in the left Guide Rail) ── */}
       <div className="flex-1 flex overflow-hidden min-h-0 relative">
         {/* TAB 1: WRITE & AUTHOR (Text Canvas with AIME Co-Pilot & Drag-and-Drop) */}
         {currentTab === 'write' && (
@@ -184,7 +77,6 @@ export default function WeaverWorkspace({
               handleOpenAddModal={handleOpenAddModal}
               handleDeleteElement={handleDeleteElement}
               locationPath={locationPath}
-              modePulldown={renderModePulldown()}
               stageHandoff={renderStageHandoff()}
             />
           </div>
@@ -227,6 +119,7 @@ export default function WeaverWorkspace({
               }}
               linkedMap={linkedMap}
               allAvailableMaps={allAvailableMaps}
+              stageHandoff={renderStageHandoff()}
             />
           </div>
         )}

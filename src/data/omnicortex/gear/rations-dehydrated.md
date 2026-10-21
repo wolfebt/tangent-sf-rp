@@ -25,7 +25,7 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 1
   used: 0
   tier: Socket
   allocated: []
@@ -35,6 +35,9 @@ keywords: >-
   rations (dehydrated pack), gear, personal-property, tl-2, nutrient-dense,
   synthetic
 negative_keywords: 'primitive-stone, immaterial, intangible'
+gear_type: General
+base_dc: 0
+design_dc: 0
 ---
 Nutrient-dense synthetic ration blocks sustaining an operative for 1 day.
 

@@ -80,6 +80,8 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
     setScenarioWorkspaceTab,
     stageWorkspaceTab,
     setStageWorkspaceTab,
+    activeElementType,
+    setActiveElementType,
     modals,
     setModal,
     cronicleInitialMode,
@@ -101,6 +103,8 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
       setScenarioWorkspaceTab: state.setStoryWorkspaceTab,
       stageWorkspaceTab: state.stageWorkspaceTab,
       setStageWorkspaceTab: state.setStageWorkspaceTab,
+      activeElementType: state.activeElementType,
+      setActiveElementType: state.setActiveElementType,
       modals: state.modals,
       setModal: state.setModal,
       cronicleInitialMode: state.cronicleInitialMode,
@@ -147,16 +151,11 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
   // Global AIME Co-Pilot toggle listener
   useEffect(() => {
     const handleAimeToggle = () => {
-      if (activeView === 'scenarios') {
-        setActiveCockpitDeck('aime');
-        setIsRightDockOpen(true);
-      } else {
-        setModal('floatingAime', true);
-      }
+      setModal('floatingAime', true);
     };
     window.addEventListener('toggle-aime-copilot', handleAimeToggle);
     return () => window.removeEventListener('toggle-aime-copilot', handleAimeToggle);
-  }, [activeView]);
+  }, [setModal]);
 
   useEffect(() => {
     if (mapIdParam && setActiveMapId && activeMapId !== mapIdParam) {
@@ -274,9 +273,9 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
     } else if (newView === 'interactive') {
       resolvedView = 'scenarios';
       resolvedTargetTab = 'play';
-    } else if (newView === 'gems') {
+    } else if (newView === 'gems' || newView === 'brainstorm') {
       resolvedView = 'scenarios';
-      resolvedTargetTab = 'gems';
+      resolvedTargetTab = 'brainstorm';
     } else if (newView === 'graph') {
       resolvedView = 'scenarios';
       resolvedTargetTab = 'graph';
@@ -349,6 +348,12 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
     return allMaps.find(m => m.id === activeMapId) || allMaps[0] || null;
   }, [activeNode, mapsCatalog, universeState?.maps, activeMapId]);
 
+  useEffect(() => {
+    const handleExportMdEvent = () => exportElementMarkdown(activeNode, universeState);
+    window.addEventListener('export-scenario-markdown', handleExportMdEvent);
+    return () => window.removeEventListener('export-scenario-markdown', handleExportMdEvent);
+  }, [activeNode, universeState]);
+
   return (
     <div className="flex flex-col h-full w-full bg-[#0d1117] text-slate-100 overflow-hidden font-sans relative select-none">
       {/* ── UNIFIED 3-ZONE GLASS-COCKPIT ADE TOOLBAR WITH BREADCRUMBS ── */}
@@ -368,14 +373,9 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
           onToggleGuide={setIsGuideOpen}
           isSettingsOpen={isSettingsOpen}
           onToggleSettings={setIsSettingsOpen}
-          isCronicleOpen={isCronicleOpen && cronicleInitialMode === 'living_memory'}
+          isCronicleOpen={isCronicleOpen}
           onToggleCronicle={(open) => {
             if (open) setCronicleInitialMode('living_memory');
-            setIsCronicleOpen(open);
-          }}
-          isScratchbookOpen={isCronicleOpen && cronicleInitialMode === 'scratchbook'}
-          onToggleScratchbook={(open) => {
-            if (open) setCronicleInitialMode('scratchbook');
             setIsCronicleOpen(open);
           }}
           isCompilerOpen={isCompilerOpen}
@@ -401,16 +401,18 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
           onSwitchView={handleSwitchView}
           activeScenarioWorkspaceTab={scenarioWorkspaceTab}
           onSelectScenarioWorkspaceTab={handleSelectScenarioWorkspaceTab}
+          activeElementType={activeElementType}
+          onSelectElementType={(elType) => {
+            if (setActiveElementType) setActiveElementType(elType);
+            handleSwitchView('elements');
+          }}
+          elementsCatalog={elementsCatalog}
           elementsCount={elementsCatalog?.length || 0}
           mapsCount={universeState?.maps?.length || 0}
           modifiersCount={universeState?.galleryModifiers?.length || 0}
           pendingCronicleCount={cronicle?.history?.length || 0}
           onOpenCronicle={() => {
             setCronicleInitialMode('living_memory');
-            setIsCronicleOpen(true);
-          }}
-          onOpenScratchbook={() => {
-            setCronicleInitialMode('scratchbook');
             setIsCronicleOpen(true);
           }}
           onOpenPrintModal={() => setIsPrintModalOpen(true)}
@@ -440,10 +442,6 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
               activeNode={activeNode}
               onOpenCronicle={() => {
                 setCronicleInitialMode('living_memory');
-                setIsCronicleOpen(true);
-              }}
-              onOpenScratchbook={() => {
-                setCronicleInitialMode('scratchbook');
                 setIsCronicleOpen(true);
               }}
               onOpenPrintModal={() => setIsPrintModalOpen(true)}
@@ -560,6 +558,8 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
             <StoryGallery
               onBackToStory={() => handleSwitchView('scenarios')}
               onOpenCompiler={() => setIsCompilerOpen(true)}
+              activeElementType={activeElementType}
+              onSelectElementType={setActiveElementType}
             />
           </div>
         )}
@@ -591,8 +591,8 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
         )}
       </div>
 
-      {/* Floating Movable AIME Co-Pilot Chat Window (For views other than Scenarios) */}
-      {isFloatingAimeOpen && activeView !== 'scenarios' && (
+      {/* Floating Movable / Dockable AIME Co-Pilot Chat Window */}
+      {isFloatingAimeOpen && (
         <AIMEChatBox
           onClose={() => setIsFloatingAimeOpen(false)}
           activeNode={activeNode}

@@ -50,11 +50,11 @@ async function syncAllToFirestore() {
     const fileId = relFile.split(/[/\\]/).pop().replace(/\.md$/i, '');
     const docId = data.id || fileId;
 
-    // Determine target collection
-    let collectionName = data.category;
+    // Determine target collection from folder hierarchy first so subcategories (e.g. armoring category: 'Lightweight') sync to their parent collection
+    const parts = relFile.split(/[/\\]/);
+    let collectionName = parts.length > 1 ? parts[0] : data.category;
     if (!collectionName) {
-      const parts = relFile.split(/[/\\]/);
-      collectionName = parts[0];
+      collectionName = data.collection || 'compendium';
     }
 
 

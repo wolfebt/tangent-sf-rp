@@ -9,6 +9,13 @@ const projectRoot = path.resolve(__dirname, '..');
 const omniRoot = path.join(projectRoot, 'src', 'data', 'omnicortex');
 const staticDataRoot = path.join(projectRoot, 'src', 'data');
 
+// Canonical Tangent Standard Curve (TSC) Formula: Value = round(10 * 4^(DC / 5))
+function tscCredits(dc) {
+  const numDc = Number(dc) || 0;
+  if (numDc < 0) return 10;
+  return Math.round(10 * Math.pow(4, numDc / 5));
+}
+
 // 1. Weaponry Sync & Cost Backfill
 function syncWeaponry() {
   const dir = path.join(omniRoot, 'weaponry');
@@ -24,31 +31,36 @@ function syncWeaponry() {
 
     const id = data.id || f.replace(/\.md$/, '');
     const name = data.name || data.title || id;
-    const tl = parseInt(data.tech_level || data.tl || 3, 10) || 3;
-    const craftDc = parseInt(data.craft_dc || data.dc || (12 + tl * 2), 10);
-    const credits = data.costs?.credits || data.cost || data.price || (craftDc * 50);
-    const bp = data.costs?.bp || (tl >= 4 ? 4 : (tl === 3 ? 2 : 1));
+    const tl = data.tech_level !== undefined ? parseInt(data.tech_level, 10) : (parseInt(data.tl || 2, 10) || 2);
+    const craftDc = data.craft_dc !== undefined ? parseInt(data.craft_dc, 10) : (data.dc !== undefined ? parseInt(data.dc, 10) : (5 + tl * 5));
+    const credits = (data.costs?.credits > 0 ? data.costs.credits : null) || (data.cost > 0 ? data.cost : null) || tscCredits(craftDc);
+    const bp = data.costs?.bp ?? 0;
 
     const itemObj = {
+      ...data,
       id,
       name,
       category: 'weaponry',
-      weapon_type: data.weapon_type || data.category || 'Ranged',
-      damage: data.damage || data.damage_dice || '2d8',
+      weapon_type: data.weapon_type || data.classification || 'Ranged',
+      damage: data.damage || data.damage_dice || '2d6',
       damage_type: data.damage_type || 'Kinetic',
-      range: data.range || '50 ft',
+      range: data.range || '50ft',
       rate_of_fire: data.rate_of_fire || data.rof || 'Single',
-      ammo_capacity: data.ammo_capacity || data.capacity || '10 rds',
+      ammo: data.ammo || data.ammunition || '-',
+      ammunition: data.ammunition || data.ammo || '-',
       tech_level: tl,
       craft_dc: craftDc,
+      design_dc: data.design_dc ?? craftDc,
+      cost: credits,
       costs: {
+        cp: data.costs?.cp || 0,
         bp,
         credits,
         nodes: data.costs?.nodes || 0,
         sockets: data.costs?.sockets || 0,
         strain: 0,
         focus: 0,
-        ap: data.costs?.ap || 2
+        ap: data.costs?.ap || 1
       },
       modifiers: Array.isArray(data.modifiers) ? data.modifiers : [],
       modifications: Array.isArray(data.modifications) ? data.modifications : [],
@@ -90,25 +102,32 @@ function syncArmoring() {
 
     const id = data.id || f.replace(/\.md$/, '');
     const name = data.name || data.title || id;
-    const tl = parseInt(data.tech_level || data.tl || 3, 10) || 3;
-    const craftDc = parseInt(data.craft_dc || data.dc || (14 + tl * 2), 10);
-    const credits = data.costs?.credits || data.cost || data.price || (craftDc * 60);
-    const bp = data.costs?.bp || (tl >= 4 ? 4 : 2);
+    const tl = data.tech_level !== undefined ? parseInt(data.tech_level, 10) : (parseInt(data.tl || 2, 10) || 2);
+    const craftDc = data.craft_dc !== undefined ? parseInt(data.craft_dc, 10) : (data.design_dc !== undefined ? parseInt(data.design_dc, 10) : (5 + tl * 5));
+    const credits = (data.costs?.credits > 0 ? data.costs.credits : null) || (data.cost > 0 ? data.cost : null) || tscCredits(craftDc);
+    const bp = data.costs?.bp ?? 0;
 
     const itemObj = {
+      ...data,
       id,
       name,
-      category: 'armoring',
+      collection: 'armoring',
+      category: data.category || 'Mediumweight',
+      armor_class: data.armor_class || data.category || 'Mediumweight',
       armor_type: data.armor_type || data.category || 'Body Armor',
-      dr: data.dr || data.damage_reduction || 4,
-      durability: data.durability || 40,
+      dr: data.dr ?? data.damage_reduction ?? 5,
+      sp: data.sp ?? data.durability ?? 15,
+      durability: data.durability ?? data.sp ?? 15,
       tech_level: tl,
       craft_dc: craftDc,
+      design_dc: data.design_dc ?? craftDc,
+      cost: credits,
       costs: {
+        cp: data.costs?.cp || 0,
         bp,
         credits,
         nodes: data.costs?.nodes || 0,
-        sockets: data.costs?.sockets || 2,
+        sockets: data.costs?.sockets || 0,
         strain: 0,
         focus: 0,
         ap: 0
@@ -155,14 +174,15 @@ function syncAugmentations() {
     const name = data.name || data.title || id;
 
     const itemObj = {
+      ...data,
       id,
       name,
       category: 'augmentations',
       augmentation_type: data.augmentation_type || data.type || 'Cybernetic',
       stage: data.stage || 'Standard',
-      body_location: data.body_location || 'General',
-      tech_level: data.tech_level || 3,
-      costs: data.costs || { bp: 3, credits: 1500, nodes: 1, sockets: 1, strain: 1, focus: 0, ap: 0 },
+      body_location: data.body_location || data.location || 'General',
+      tech_level: data.tech_level ?? 3,
+      costs: data.costs || { bp: 1, credits: 640, nodes: 1, sockets: 0, strain: 0, focus: 0, ap: 0 },
       modifiers: Array.isArray(data.modifiers) ? data.modifiers : [],
       modifications: Array.isArray(data.modifications) ? data.modifications : [],
       description: data.description || '',
@@ -182,6 +202,14 @@ function syncAugmentations() {
 
 export const DEFAULT_AUGMENTATIONS = ${JSON.stringify(items, null, 2)};
 export const getAugmentationById = (id) => DEFAULT_AUGMENTATIONS.find(a => a.id === id);
+export const getEnrichedAugmentationData = (item) => {
+  if (!item) return null;
+  const key = (item.id || item.name || '').toString().toLowerCase().trim();
+  const match = DEFAULT_AUGMENTATIONS.find(
+    a => a.id.toLowerCase() === key || (a.name && a.name.toLowerCase() === key)
+  );
+  return match ? { ...match, ...item } : item;
+};
 `;
 
   fs.writeFileSync(path.join(staticDataRoot, 'augmentationsData.js'), outputCode, 'utf8');

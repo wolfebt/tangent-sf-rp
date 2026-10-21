@@ -1020,29 +1020,6 @@ export const ScenarioCockpitDockPanel = ({
             World
           </span>
         </button>
-
-        {/* TAB 4: AIME Assistant */}
-        <button
-          type="button"
-          onClick={() => {
-            AudioService.playTerminalBeep(1100, 0.02);
-            setDockTab('aime');
-          }}
-          className={`w-11 py-2 px-1 rounded-xl flex flex-col items-center justify-center gap-1 transition-all group relative cursor-pointer ${
-            dockTab === 'aime'
-              ? 'bg-amber-500/20 text-amber-300 border border-amber-500/80 shadow-[0_0_12px_rgba(245,158,11,0.25)]'
-              : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900 border border-transparent'
-          }`}
-          title="AI Story Assistant & Overseer"
-        >
-          {dockTab === 'aime' && (
-            <span className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-amber-400 rounded-l shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
-          )}
-          <Sparkles size={16} className={dockTab === 'aime' ? 'text-amber-300' : 'text-slate-400 group-hover:text-amber-300'} />
-          <span className="text-[9px] font-bold tracking-tight uppercase leading-none font-mono">
-            AIME
-          </span>
-        </button>
       </div>
     </aside>
   );

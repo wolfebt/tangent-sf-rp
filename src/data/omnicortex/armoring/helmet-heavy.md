@@ -1,16 +1,18 @@
 ---
 id: helmet-heavy
-name: 'Helmet, Heavy'
-category: armoring
+name: Helmet (Heavy)
+category: Mediumweight
 dr: 15
-durability: '10'
-description: "Penalty: -2 Sight/Hearing\r\nLocations: H\r\nSockets: 2"
-sp: 10
-coverage: Standard
+durability: 15
+description: >-
+  Fully enclosed heavy tactical helmet with reinforced faceplate and ballistic
+  visor.
+sp: 15
+coverage: Partial
 costs:
   cp: 0
   bp: 0
-  credits: 0
+  credits: 279
   nodes: 0
   sockets: 0
   strain: 0
@@ -24,16 +26,26 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 2
   used: 0
   tier: Socket
   allocated: []
-tech_level: 0
+tech_level: 3
 meta_level: 0
 keywords: 'helmet, heavy, armor, defense, dr-15, medium-armor, tl-3'
 negative_keywords: 'unarmored, fragile, naked'
+collection: armoring
+armor_class: Mediumweight
+armor_type: Medium Armor
+mobility_penalty: 0
+body_locations:
+  - Head
+craft_dc: 12
+design_dc: 12
+cost: 279
+component_slots: 2
+mechanic: 'DR 15, SP 15. Penalty: -1 Perception. Locations: Head. Base Sockets: 2.'
 ---
-Category: MEDIUM Armor
-Penalty: -2 Sight/Hearing
-Locations: H
-Sockets: 2
+Fully enclosed heavy tactical helmet with reinforced faceplate and ballistic visor.
+
+**Mechanics:** DR 15, SP 15. Penalty: -1 Perception. Locations: Head. Base Sockets: 2.

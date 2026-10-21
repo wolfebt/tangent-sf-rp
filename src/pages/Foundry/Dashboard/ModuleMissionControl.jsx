@@ -1100,7 +1100,7 @@ export default function ModuleMissionControl({
                     Tactical Utilities
                   </div>
 
-                  {/* Cronicle Living Memory */}
+                  {/* Cronicle Living Memory & Notes */}
                   <button
                     type="button"
                     onClick={() => {
@@ -1108,24 +1108,10 @@ export default function ModuleMissionControl({
                       onOpenCronicle?.();
                     }}
                     className="w-full text-left px-3.5 py-1.5 hover:bg-purple-950/50 text-purple-300 hover:text-purple-200 flex items-center gap-2 transition-colors cursor-pointer"
-                    title="Open Cronicle Living Memory & Scenario State Tracker"
+                    title="Open Cronicle Living Memory, GM Directives & Compiled Dossier"
                   >
                     <span className="w-3.5 text-center shrink-0">📜</span>
-                    <span>Cronicle Living Memory</span>
-                  </button>
-
-                  {/* Scratchbook */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIsToolsMenuOpen(false);
-                      onOpenScratchbook?.();
-                    }}
-                    className="w-full text-left px-3.5 py-1.5 hover:bg-cyan-950/50 text-cyan-300 hover:text-cyan-200 flex items-center gap-2 transition-colors cursor-pointer"
-                    title="Open ADE Scratchbook (Session Notes & Working Memory)"
-                  >
-                    <span className="w-3.5 text-center shrink-0">📝</span>
-                    <span>Scratchbook & Notes</span>
+                    <span>Cronicle Living Memory &amp; Notes</span>
                   </button>
 
                   {/* Print Spread */}
@@ -1170,7 +1156,7 @@ export default function ModuleMissionControl({
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {/* Pillar 1: Narrative Foundry */}
+          {/* Pillar: Narrative Foundry */}
           <div 
             onClick={() => {
               if (onSwitchView) onSwitchView('scenarios');
@@ -1182,64 +1168,17 @@ export default function ModuleMissionControl({
               <div className="w-10 h-10 rounded-xl bg-purple-950/60 border border-purple-500/40 text-purple-300 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
                 <BookOpen size={20} />
               </div>
-              <h3 className="text-sm font-bold text-white group-hover:text-purple-300 transition-colors">1. Narrative Foundry</h3>
+              <h3 className="text-sm font-bold text-white group-hover:text-purple-300 transition-colors">Narrative Foundry</h3>
               <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">
                 Draft manuscripts, OSR tactical 2-page spreads, branching choice simulators & story webs.
               </p>
             </div>
             <div className="mt-4 pt-3 border-t border-purple-500/20 flex items-center justify-between text-[11px] font-mono text-purple-400 font-bold">
               <span>Enter Weaver ↗</span>
-              <span className="text-[10px] text-slate-500">⌘1</span>
             </div>
           </div>
 
-          {/* Pillar 2: Map Architect */}
-          <div 
-            onClick={() => {
-              if (onSwitchView) onSwitchView('map');
-              else handleLaunchPillar('maps', '/foundry/map');
-            }}
-            className="p-4 rounded-2xl bg-[#0c121e]/90 hover:bg-[#131b2c] border border-sky-500/30 hover:border-sky-400 transition-all cursor-pointer group flex flex-col justify-between shadow-md"
-          >
-            <div>
-              <div className="w-10 h-10 rounded-xl bg-sky-950/60 border border-sky-500/40 text-sky-300 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
-                <Map size={20} />
-              </div>
-              <h3 className="text-sm font-bold text-white group-hover:text-sky-300 transition-colors">2. Map Architect</h3>
-              <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">
-                Design tactical sector grids, line-of-sight walls, dynamic lighting & auto-routed waypoints.
-              </p>
-            </div>
-            <div className="mt-4 pt-3 border-t border-sky-500/20 flex items-center justify-between text-[11px] font-mono text-sky-400 font-bold">
-              <span>Enter Designer ↗</span>
-              <span className="text-[10px] text-slate-500">⌘2</span>
-            </div>
-          </div>
-
-          {/* Pillar 3: The Stage VTT */}
-          <div 
-            onClick={() => {
-              if (onSwitchView) onSwitchView('stage');
-              else handleLaunchPillar('stage', '/foundry/stage');
-            }}
-            className="p-4 rounded-2xl bg-[#0c121e]/90 hover:bg-[#131b2c] border border-purple-500/30 hover:border-purple-400 transition-all cursor-pointer group flex flex-col justify-between shadow-md"
-          >
-            <div>
-              <div className="w-10 h-10 rounded-xl bg-purple-950/60 border border-purple-500/40 text-purple-300 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
-                <Sparkles size={20} />
-              </div>
-              <h3 className="text-sm font-bold text-white group-hover:text-purple-300 transition-colors">3. The Stage VTT</h3>
-              <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">
-                Compile stage manifests, bind map anchors, wire trigger flow, and direct live tactical VTT sessions.
-              </p>
-            </div>
-            <div className="mt-4 pt-3 border-t border-purple-500/20 flex items-center justify-between text-[11px] font-mono text-purple-400 font-bold">
-              <span>Enter Stage VTT ↗</span>
-              <span className="text-[10px] text-slate-500">⌘3</span>
-            </div>
-          </div>
-
-          {/* Pillar 4: Asset & DBM Forge */}
+          {/* Pillar: Element Forge */}
           <div 
             onClick={() => {
               if (onSwitchView) onSwitchView('elements');
@@ -1251,14 +1190,57 @@ export default function ModuleMissionControl({
               <div className="w-10 h-10 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
                 <Database size={20} />
               </div>
-              <h3 className="text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">4. Asset & DBM Forge</h3>
+              <h3 className="text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">Element Forge</h3>
               <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">
                 Ingest standalone ELEMENTS.md files, manage bestiaries, gear, factions & two-way DBM sync.
               </p>
             </div>
             <div className="mt-4 pt-3 border-t border-emerald-500/20 flex items-center justify-between text-[11px] font-mono text-emerald-400 font-bold">
               <span>Enter Forge ↗</span>
-              <span className="text-[10px] text-slate-500">⌘4</span>
+            </div>
+          </div>
+
+          {/* Pillar: Map Architect */}
+          <div 
+            onClick={() => {
+              if (onSwitchView) onSwitchView('map');
+              else handleLaunchPillar('maps', '/foundry/map');
+            }}
+            className="p-4 rounded-2xl bg-[#0c121e]/90 hover:bg-[#131b2c] border border-sky-500/30 hover:border-sky-400 transition-all cursor-pointer group flex flex-col justify-between shadow-md"
+          >
+            <div>
+              <div className="w-10 h-10 rounded-xl bg-sky-950/60 border border-sky-500/40 text-sky-300 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+                <Map size={20} />
+              </div>
+              <h3 className="text-sm font-bold text-white group-hover:text-sky-300 transition-colors">Map Architect</h3>
+              <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">
+                Design tactical sector grids, line-of-sight walls, dynamic lighting & auto-routed waypoints.
+              </p>
+            </div>
+            <div className="mt-4 pt-3 border-t border-sky-500/20 flex items-center justify-between text-[11px] font-mono text-sky-400 font-bold">
+              <span>Enter Designer ↗</span>
+            </div>
+          </div>
+
+          {/* Pillar: The Stage VTT */}
+          <div 
+            onClick={() => {
+              if (onSwitchView) onSwitchView('stage');
+              else handleLaunchPillar('stage', '/foundry/stage');
+            }}
+            className="p-4 rounded-2xl bg-[#0c121e]/90 hover:bg-[#131b2c] border border-purple-500/30 hover:border-purple-400 transition-all cursor-pointer group flex flex-col justify-between shadow-md"
+          >
+            <div>
+              <div className="w-10 h-10 rounded-xl bg-purple-950/60 border border-purple-500/40 text-purple-300 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+                <Sparkles size={20} />
+              </div>
+              <h3 className="text-sm font-bold text-white group-hover:text-purple-300 transition-colors">The Stage VTT</h3>
+              <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">
+                Compile stage manifests, bind map anchors, wire trigger flow, and direct live tactical VTT sessions.
+              </p>
+            </div>
+            <div className="mt-4 pt-3 border-t border-purple-500/20 flex items-center justify-between text-[11px] font-mono text-purple-400 font-bold">
+              <span>Enter Stage VTT ↗</span>
             </div>
           </div>
         </div>

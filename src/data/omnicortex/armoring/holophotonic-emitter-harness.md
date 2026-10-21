@@ -44,6 +44,10 @@ tech_level: 5
 meta_level: 0
 keywords: 'holophotonic emitter harness, armor, defense, dr-30, heavy-armor, tl-5'
 negative_keywords: 'unarmored, fragile, naked, high-acrobatics'
+collection: armoring
+armor_class: Mediumweight
+armor_type: Mediumweight
+mobility_penalty: 0
 ---
 Lightweight wearable harness projecting a rigid barrier of solid hard-light around the user, absorbing high-caliber projectiles and energy beams.
 

@@ -768,7 +768,7 @@ export const EconomatrixDashboard = ({ onOpenBuilder }) => {
                     <tr key={row.name} className="hover:bg-slate-800/30">
                       <td className="py-2 px-3 font-bold text-amber-300">WS {row.wsMin ?? row.minWS}–{(row.wsMax ?? row.maxWS) >= 999 ? '80+' : (row.wsMax ?? row.maxWS)}</td>
                       <td className="py-2 px-3 font-bold text-slate-200">{row.name}</td>
-                      <td className="py-2 px-3 font-bold text-emerald-300">{row.autoBuyCr !== undefined ? (row.autoBuyCr > 0 ? `${row.autoBuyCr.toLocaleString()} Cr` : '0 Cr') : row.purchasingLimit}</td>
+                      <td className="py-2 px-3 font-bold text-emerald-300">{row.autoBuyRange || (row.autoBuyCr !== undefined ? (row.autoBuyCr > 0 ? `${row.autoBuyCr.toLocaleString()} Cr` : '0 Cr') : row.purchasingLimit)}</td>
                       <td className="py-2 px-3 text-purple-300">{row.netWorth}</td>
                       <td className="py-2 px-3 text-[11px] text-slate-400">{row.lifestyle}</td>
                     </tr>

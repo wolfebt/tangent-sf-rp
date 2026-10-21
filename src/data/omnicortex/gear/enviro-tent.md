@@ -29,7 +29,7 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 8
   used: 0
   tier: Socket
   allocated: []
@@ -39,6 +39,9 @@ keywords: >-
   enviro-tent (hermetic shelter), gear, personal-property, tl-3, inflatable,
   hermetically
 negative_keywords: 'primitive-stone, immaterial, intangible'
+gear_type: General
+base_dc: 15
+design_dc: 15
 ---
 Inflatable hermetically sealed shelter with air scrubbers sheltering 4 operatives.
 

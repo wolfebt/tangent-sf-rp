@@ -28,7 +28,7 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 4
   used: 0
   tier: Socket
   allocated: []
@@ -38,6 +38,9 @@ keywords: >-
   upgraded cyberdeck processor, gear, personal-property, tl-4, high-speed,
   quantum
 negative_keywords: 'primitive-stone, immaterial, intangible'
+gear_type: General
+base_dc: 15
+design_dc: 15
 ---
 High-speed quantum co-processing unit capable of executing expert software programs.
 

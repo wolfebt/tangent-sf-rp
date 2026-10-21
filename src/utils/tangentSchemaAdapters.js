@@ -61,8 +61,18 @@ export function normalizeOmnicortexItem(item, categoryHint = null) {
 
   if (isProp) {
     if (costs.bp === undefined) costs.bp = bpVal;
-    if (costs.credits === undefined) {
-      costs.credits = parseNumeric(item.credits ?? item.cost ?? item.price ?? item.cost_credits, 0);
+    const explicitCredits = parseNumeric(item.credits ?? item.cost ?? item.price ?? item.cost_credits, 0);
+    if (!costs.credits || costs.credits === 0) {
+      if (explicitCredits > 0) {
+        costs.credits = explicitCredits;
+      } else {
+        const rawDc = item.craft_dc ?? item.design_dc ?? item.base_dc ?? item.dc;
+        if (rawDc !== undefined && rawDc !== null && rawDc !== '' && Number(rawDc) >= 0) {
+          costs.credits = Math.round(10 * Math.pow(4, Number(rawDc) / 5));
+        } else {
+          costs.credits = 0;
+        }
+      }
     }
     if (costs.nodes === undefined) {
       costs.nodes = parseNumeric(item.node_cost ?? item.nodes, 0);
@@ -399,10 +409,15 @@ export function exportOmnicortexItem(formData) {
 
 export function getItemCosts(item) {
   if (!item) return { bp: 0, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0 };
+  const rawDc = item.craft_dc ?? item.design_dc ?? item.base_dc ?? item.dc;
+  const fallbackTscCredits = (rawDc !== undefined && rawDc !== null && rawDc !== '' && Number(rawDc) > 0)
+    ? Math.round(10 * Math.pow(4, Number(rawDc) / 5))
+    : 0;
   if (item.costs && typeof item.costs === 'object') {
+    const rawCr = Number(item.costs.credits || 0) || Number(item.cost || item.price || 0) || fallbackTscCredits;
     return {
       bp: Number(item.costs.bp ?? item.cp ?? item.cp_cost ?? 0),
-      credits: Number(item.costs.credits ?? item.cost ?? item.price ?? 0),
+      credits: rawCr,
       nodes: Number(item.costs.nodes ?? item.node_cost ?? 0),
       sockets: Number(item.costs.sockets ?? item.socket_cost ?? 0),
       strain: Number(item.costs.strain ?? item.strain_cost ?? 0),
@@ -410,9 +425,10 @@ export function getItemCosts(item) {
       ap: Number(item.costs.ap ?? item.ap_cost ?? item.ap ?? 0)
     };
   }
+  const rawCr = parseNumeric(item.cost ?? item.price ?? item.cost_credits, 0) || fallbackTscCredits;
   return {
     bp: parseNumeric(item.bp ?? item.cp ?? item.cp_cost ?? item.cost_cp, 0),
-    credits: parseNumeric(item.cost ?? item.price ?? item.cost_credits, 0),
+    credits: rawCr,
     nodes: parseNumeric(item.node_cost, 0),
     sockets: parseNumeric(item.socket_cost ?? item.sockets_used, 0),
     strain: parseNumeric(item.strain_cost ?? item.strain, 0),
@@ -460,7 +476,7 @@ export function getItemSockets(item) {
 function parseNumeric(val, fallback = 0) {
   if (val === undefined || val === null || val === '') return fallback;
   if (typeof val === 'number') return !Number.isFinite(val) ? fallback : val;
-  const str = String(val).replace(/,/g, '').replace(/Cr/gi, '').replace(/\+/g, '').trim();
+  const str = String(val).replace(/,/g, '').replace(/Cr/gi, '').replace(/[¢Ꞓ]/g, '').replace(/\+/g, '').trim();
   const num = parseFloat(str);
   return !Number.isFinite(num) ? fallback : num;
 }

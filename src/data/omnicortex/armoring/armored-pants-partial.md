@@ -1,16 +1,18 @@
 ---
 id: armored-pants-partial
 name: Armored Pants (Partial)
-category: armoring
-dr: 10
-durability: '10'
-description: "Penalty: None\r\nLocations: L\r\nSockets: 2"
+category: Lightweight
+dr: 5
+durability: 10
+description: >-
+  Tactical cargo trousers reinforced with articulated knee and thigh trauma
+  plates.
 sp: 10
 coverage: Partial
 costs:
   cp: 0
   bp: 0
-  credits: 0
+  credits: 279
   nodes: 0
   sockets: 0
   strain: 0
@@ -24,16 +26,26 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 3
   used: 0
   tier: Socket
   allocated: []
-tech_level: 0
+tech_level: 2
 meta_level: 0
 keywords: 'armored pants (partial), armor, defense, dr-10, medium-armor, tl-3'
 negative_keywords: 'unarmored, fragile, naked'
+collection: armoring
+armor_class: Lightweight
+armor_type: Light Armor
+mobility_penalty: 0
+body_locations:
+  - Legs
+craft_dc: 12
+design_dc: 12
+cost: 279
+component_slots: 3
+mechanic: 'DR 5, SP 10. Penalty: None. Locations: Legs. Base Sockets: 3.'
 ---
-Category: MEDIUM Armor
-Penalty: None
-Locations: L
-Sockets: 2
+Tactical cargo trousers reinforced with articulated knee and thigh trauma plates.
+
+**Mechanics:** DR 5, SP 10. Penalty: None. Locations: Legs. Base Sockets: 3.

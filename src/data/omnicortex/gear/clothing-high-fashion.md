@@ -27,7 +27,7 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 8
   used: 0
   tier: Socket
   allocated: []
@@ -35,6 +35,9 @@ tech_level: 3
 meta_level: 0
 keywords: 'clothing (high fashion), gear, personal-property, tl-3, designer, social'
 negative_keywords: 'primitive-stone, immaterial, intangible'
+gear_type: General
+base_dc: 15
+design_dc: 15
 ---
 Designer social attire woven from luminescent and tailored prestige fabrics.
 

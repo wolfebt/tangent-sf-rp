@@ -70,7 +70,7 @@ export const FolioInventorySliceProvider = ({ children }) => {
         [key]: [...currentList, cleanItem]
       };
 
-      // Property Wealth Acquisition Settlement (Credits Deduction or Debt Addition)
+      // Property Wealth Acquisition Settlement (Credits Deduction or Cycle Debt Addition)
       if (financing) {
         if (financing.method === 'credits') {
           const currentCreds = Number(prev['credits'] ?? prev['wealth-credits'] ?? 0);
@@ -78,19 +78,26 @@ export const FolioInventorySliceProvider = ({ children }) => {
           const newCreds = Math.max(0, currentCreds - payAmt);
           updates.credits = newCreds;
           updates['wealth-credits'] = newCreds;
-        } else if (financing.method === 'debt') {
+        } else if (financing.method === 'debt' || financing.method === 'wealth_check') {
           const rawDebits = prev['debits'] ?? prev['wealth-debits'];
           const currentDebits = Array.isArray(rawDebits) ? [...rawDebits] : [];
-          const debtAmt = Number(financing.amount) || 0;
-          const newDebit = {
-            id: `debt-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
-            amount: debtAmt,
-            debtor: financing.debtor || 'Credit Guild / Bastion Bank',
-            notes: financing.notes || `Financing for ${cleanItem.name || 'property'}`
-          };
-          const updatedDebits = [...currentDebits, newDebit];
-          updates.debits = updatedDebits;
-          updates['wealth-debits'] = updatedDebits;
+          const debtAmt = Number(financing.amount ?? financing.gapCost) || 0;
+          if (debtAmt > 0) {
+            const cycleLabel = financing.repaymentCycle || 'Next Pay Cycle (Monthly)';
+            const newDebit = {
+              id: `debt-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+              amount: debtAmt,
+              initialAmount: debtAmt,
+              debtor: financing.debtor || 'Merchant Syndicate Financing',
+              repaymentCycle: cycleLabel,
+              status: 'active',
+              missedCycles: 0,
+              notes: financing.notes || `Liquidity Gap debt for ${cleanItem.name || 'property'} — Due: ${cycleLabel}`
+            };
+            const updatedDebits = [...currentDebits, newDebit];
+            updates.debits = updatedDebits;
+            updates['wealth-debits'] = updatedDebits;
+          }
         }
       }
 
@@ -162,13 +169,14 @@ export const FolioInventorySliceProvider = ({ children }) => {
           title: 'Liquid Credits Paid',
           text: `Paid ${payAmt.toLocaleString()} Cr for "${cleanItem.name || 'Property'}".`
         });
-      } else if (financing.method === 'debt') {
-        const debtAmt = Number(financing.amount) || 0;
-        const debtor = financing.debtor || 'Credit Guild / Bastion Bank';
+      } else if (financing.method === 'debt' || financing.method === 'wealth_check') {
+        const debtAmt = Number(financing.amount ?? financing.gapCost) || 0;
+        const debtor = financing.debtor || 'Merchant Syndicate Financing';
+        const cycleLabel = financing.repaymentCycle || 'Next Pay Cycle (Monthly)';
         showToast({
           type: 'info',
-          title: 'Credit Debt Incurred',
-          text: `Credit Debt Incurred: Added ${debtAmt.toLocaleString()} Cr debt from "${debtor}" for "${cleanItem.name || 'Property'}".`
+          title: financing.viaWealthCheck ? 'Wealth Check Passed — Cycle Debt Incurred' : 'Credit Debt Incurred',
+          text: `${financing.viaWealthCheck ? `Wealth Check (${financing.rollTotal} vs DC ${financing.itemDC}) approved: ` : ''}Added ${debtAmt.toLocaleString()} Cr debt from "${debtor}" (${cycleLabel}) for "${cleanItem.name || 'Property'}".`
         });
       }
     }
@@ -223,7 +231,7 @@ export const FolioInventorySliceProvider = ({ children }) => {
 
       const updates = { [targetKey]: currentList };
 
-      // Property Wealth Acquisition Settlement (Credits Deduction or Debt Addition)
+      // Property Wealth Acquisition Settlement (Credits Deduction or Cycle Debt Addition)
       if (financing) {
         if (financing.method === 'credits') {
           const currentCreds = Number(prev['credits'] ?? prev['wealth-credits'] ?? 0);
@@ -231,19 +239,26 @@ export const FolioInventorySliceProvider = ({ children }) => {
           const newCreds = Math.max(0, currentCreds - payAmt);
           updates.credits = newCreds;
           updates['wealth-credits'] = newCreds;
-        } else if (financing.method === 'debt') {
+        } else if (financing.method === 'debt' || financing.method === 'wealth_check') {
           const rawDebits = prev['debits'] ?? prev['wealth-debits'];
           const currentDebits = Array.isArray(rawDebits) ? [...rawDebits] : [];
-          const debtAmt = Number(financing.amount) || 0;
-          const newDebit = {
-            id: `debt-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
-            amount: debtAmt,
-            debtor: financing.debtor || 'Credit Guild / Bastion Bank',
-            notes: financing.notes || `Financing for ${normalizedItem.name || 'property'}`
-          };
-          const updatedDebits = [...currentDebits, newDebit];
-          updates.debits = updatedDebits;
-          updates['wealth-debits'] = updatedDebits;
+          const debtAmt = Number(financing.amount ?? financing.gapCost) || 0;
+          if (debtAmt > 0) {
+            const cycleLabel = financing.repaymentCycle || 'Next Pay Cycle (Monthly)';
+            const newDebit = {
+              id: `debt-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+              amount: debtAmt,
+              initialAmount: debtAmt,
+              debtor: financing.debtor || 'Merchant Syndicate Financing',
+              repaymentCycle: cycleLabel,
+              status: 'active',
+              missedCycles: 0,
+              notes: financing.notes || `Liquidity Gap debt for ${normalizedItem.name || 'property'} — Due: ${cycleLabel}`
+            };
+            const updatedDebits = [...currentDebits, newDebit];
+            updates.debits = updatedDebits;
+            updates['wealth-debits'] = updatedDebits;
+          }
         }
       }
 
@@ -292,13 +307,14 @@ export const FolioInventorySliceProvider = ({ children }) => {
           title: 'Liquid Credits Paid',
           text: `Paid ${payAmt.toLocaleString()} Cr for "${normalizedItem.name || 'Property'}".`
         });
-      } else if (financing.method === 'debt') {
-        const debtAmt = Number(financing.amount) || 0;
-        const debtor = financing.debtor || 'Credit Guild / Bastion Bank';
+      } else if (financing.method === 'debt' || financing.method === 'wealth_check') {
+        const debtAmt = Number(financing.amount ?? financing.gapCost) || 0;
+        const debtor = financing.debtor || 'Merchant Syndicate Financing';
+        const cycleLabel = financing.repaymentCycle || 'Next Pay Cycle (Monthly)';
         showToast({
           type: 'info',
-          title: 'Credit Debt Incurred',
-          text: `Credit Debt Incurred: Added ${debtAmt.toLocaleString()} Cr debt from "${debtor}" for "${normalizedItem.name || 'Property'}".`
+          title: financing.viaWealthCheck ? 'Wealth Check Passed — Cycle Debt Incurred' : 'Credit Debt Incurred',
+          text: `${financing.viaWealthCheck ? `Wealth Check (${financing.rollTotal} vs DC ${financing.itemDC}) approved: ` : ''}Added ${debtAmt.toLocaleString()} Cr debt from "${debtor}" (${cycleLabel}) for "${normalizedItem.name || 'Property'}".`
         });
       }
     }

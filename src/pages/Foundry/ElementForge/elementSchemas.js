@@ -67,13 +67,51 @@ export const AIME_CORE_MODULES = [
 export const AIME_CORE_ELEMENT_TYPES = AIME_CORE_MODULES.map(m => m.type);
 
 export const ELEMENT_TYPES = [
-  // 7 Core AIME Modules
-  'World Anvil', 'Persona Maker', 'Setting Architect', 'Species Creator', 
-  'Technology Forge', 'Philosophy Scribe', 'Scene Builder',
-  // Canonical Single-Word Aliases & RPG Extensions
-  'Persona', 'Scene', 'Setting', 'World', 'Species', 'Technology', 'Philosophy',
-  'Story Arc', 'Adventure', 'Faction', 'Encounter', 'Item', 'Clue', 'Handout', 'Map', 'Custom', 'Universe'
+  'Persona',
+  'Scene',
+  'Setting',
+  'World',
+  'Species',
+  'Technology',
+  'Philosophy',
+  'Story Arc',
+  'Adventure',
+  'Faction',
+  'Encounter',
+  'Item',
+  'Clue',
+  'Handout',
+  'Map',
+  'Custom',
+  'Universe'
 ];
+
+export const ELEMENT_TYPE_ALIASES = {
+  'World Anvil': 'World',
+  'Persona Maker': 'Persona',
+  'Setting Architect': 'Setting',
+  'Species Creator': 'Species',
+  'Technology Forge': 'Technology',
+  'Philosophy Scribe': 'Philosophy',
+  'Scene Builder': 'Scene',
+  'Custom Codex': 'Custom',
+  'Custom Element': 'Custom'
+};
+
+/**
+ * Normalizes legacy or AIME module element type names into their canonical single-word type.
+ */
+export const normalizeElementType = (type = '') => {
+  if (!type) return 'Custom';
+  const trimmed = String(type).trim();
+  if (ELEMENT_TYPE_ALIASES[trimmed]) return ELEMENT_TYPE_ALIASES[trimmed];
+  const lower = trimmed.toLowerCase();
+  for (const [alias, canonical] of Object.entries(ELEMENT_TYPE_ALIASES)) {
+    if (alias.toLowerCase() === lower) return canonical;
+  }
+  const matched = ELEMENT_TYPES.find(t => t.toLowerCase() === lower);
+  return matched || trimmed;
+};
 
 /**
  * Returns canonical file extension for an element type.

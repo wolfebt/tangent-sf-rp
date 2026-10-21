@@ -27,7 +27,7 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 2
   used: 0
   tier: Socket
   allocated: []
@@ -37,6 +37,9 @@ keywords: >-
   biotech device (generic chassis), gear, personal-property, tl-4, rather,
   manufactured
 negative_keywords: 'primitive-stone, immaterial, intangible'
+gear_type: General
+base_dc: 20
+design_dc: 20
 ---
 Grown rather than manufactured device with organic neural pathways.
 

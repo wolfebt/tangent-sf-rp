@@ -67,14 +67,15 @@ export const CANONICAL_FOUNDATIONAL_CHUNKS: RuleChunk[] = [
   {
     id: 'rule-economatrix-pricing',
     category: 'economatrix',
-    title: 'Economatrix Unified Cost Equation',
+    title: 'Economatrix Tangent Standard Curve (TSC) & Golden Rule of Wealth',
     citation: 'Codex 2.00 Economatrix Matrix',
-    tags: ['economatrix', 'pricing', 'cost', 'tech level', 'meta level', 'crafting', 'credits', 'value'],
-    text: `The Universal Economic Unified Theory (EUT) determines item value using the dual-exponential equation:
-Cost (Credits) = Base_Cost * (2^TL) * (1.5^ML)
-- TL: Tech Level (0 to 5+). Every +1 TL doubles manufacturing baseline value.
-- ML: Metaphysics Level (0 to 5). Every +1 ML increases value by 50% due to exotic psi/aether containment materials.
-- 7-Tier Crafting Timetable: Tier 1 (1 hour) up to Tier 7 (Megastructure / Months).`
+    tags: ['economatrix', 'pricing', 'cost', 'tech level', 'meta level', 'crafting', 'credits', 'value', 'wealth score', 'liquidity gap'],
+    text: `The Tangent Economic Unified Field Theory (EUFT) determines item value using the Tangent Standard Curve (TSC):
+Value (Credits) = 10 * 4^(DC / 5)
+- The Golden Rule of Tangent Wealth: Purchase DC = Crafting DC = Cost DC.
+- Auto-Buy Threshold: Any item with Cost DC <= Character Wealth Score (WS) is acquired automatically without depleting liquid Credits.
+- Liquidity Gap: When Item Cost DC > Character WS, Liquid Cost = Value(Item DC) - Value(Character WS).
+- 7-Tier Crafting Productivity Engine: Daily PP = (Craft Check - 10) * Tool Tier Multiplier (x1 Improvised to x5,000 Genesis).`
   },
   {
     id: 'rule-tech-levels-spectrum',

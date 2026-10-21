@@ -8,6 +8,10 @@ import { DEFAULT_SPECIES_SIZES } from '../src/data/speciesSizeData.js';
 import { DEFAULT_SPECIES_MOVEMENT } from '../src/data/speciesMovementData.js';
 import { DEFAULT_WEAPONRY } from '../src/data/weaponryData.js';
 import { DEFAULT_ARMORING } from '../src/data/armoringData.js';
+import { DEFAULT_GEAR } from '../src/data/gearData.js';
+import { DEFAULT_MECHA } from '../src/data/mechaData.js';
+import { DEFAULT_ARCHITECTURE } from '../src/data/architectureData.js';
+import { DEFAULT_OTHER_PROPERTY } from '../src/data/otherPropertyData.js';
 import { DEFAULT_AUGMENTATIONS } from '../src/data/augmentationsData.js';
 import { DEFAULT_INVOCATIONS } from '../src/data/invocationsData.js';
 import { ALL_CANONICAL_SKILLS } from '../src/data/skillsData.js';
@@ -45,8 +49,8 @@ assert(DEFAULT_SPECIES_DISADVANTAGES.length >= 32, 'Disadvantages count parity',
 assert(DEFAULT_FACTIONS.length === 41, 'Factions count parity', `Expected 41, got ${DEFAULT_FACTIONS.length}`);
 assert(DEFAULT_SPECIES_SIZES.length === 14, 'Species Sizes count parity', `Expected 14, got ${DEFAULT_SPECIES_SIZES.length}`);
 assert(DEFAULT_SPECIES_MOVEMENT.length >= 50, 'Species Movement modes count', `Expected >= 50, got ${DEFAULT_SPECIES_MOVEMENT.length}`);
-assert(DEFAULT_WEAPONRY.length === 75, 'Weaponry count parity', `Expected 75, got ${DEFAULT_WEAPONRY.length}`);
-assert(DEFAULT_ARMORING.length === 37, 'Armoring count parity', `Expected 37, got ${DEFAULT_ARMORING.length}`);
+assert(DEFAULT_WEAPONRY.length === 102, 'Weaponry count parity', `Expected 102, got ${DEFAULT_WEAPONRY.length}`);
+assert(DEFAULT_ARMORING.length === 52, 'Armoring count parity', `Expected 52, got ${DEFAULT_ARMORING.length}`);
 assert(DEFAULT_AUGMENTATIONS.length === 172, 'Augmentations count parity', `Expected 172, got ${DEFAULT_AUGMENTATIONS.length}`);
 assert(DEFAULT_INVOCATIONS.length === 137, 'Invocations count parity', `Expected 137, got ${DEFAULT_INVOCATIONS.length}`);
 assert(compendiumSeedData.length >= 30, 'Compendium articles count', `Expected >= 30, got ${compendiumSeedData.length}`);
@@ -376,8 +380,23 @@ assert(modRate >= 75, `Species Modifier Population Rate: ${populatedSpeciesMods}
 
 // 4. Equipment Baseline Costs Verification
 console.log('\n[4/5] Testing Equipment & Invocation Cost Integrity...');
-const weaponsWithCost = DEFAULT_WEAPONRY.filter(w => (w.costs?.credits || 0) > 0);
-assert(weaponsWithCost.length === DEFAULT_WEAPONRY.length, `Weaponry cost coverage: ${weaponsWithCost.length}/${DEFAULT_WEAPONRY.length} items`);
+const weaponsWithCost = DEFAULT_WEAPONRY.filter(w => (w.costs?.credits || w.cost || 0) > 0 && w.craft_dc !== undefined);
+assert(weaponsWithCost.length === DEFAULT_WEAPONRY.length, `Weaponry cost & DC coverage: ${weaponsWithCost.length}/${DEFAULT_WEAPONRY.length} items`);
+
+const armoringWithCost = DEFAULT_ARMORING.filter(a => (a.costs?.credits || a.cost || 0) > 0 && a.craft_dc > 0);
+assert(armoringWithCost.length === DEFAULT_ARMORING.length, `Armoring cost & DC coverage: ${armoringWithCost.length}/${DEFAULT_ARMORING.length} items`);
+
+const gearWithCost = DEFAULT_GEAR.filter(g => (g.costs?.credits || g.cost || 0) > 0 && g.craft_dc !== undefined);
+assert(gearWithCost.length === DEFAULT_GEAR.length, `Gear cost & DC coverage: ${gearWithCost.length}/${DEFAULT_GEAR.length} items`);
+
+const mechaWithCost = DEFAULT_MECHA.filter(m => (m.costs?.credits || m.cost || 0) > 0 && m.craft_dc > 0);
+assert(mechaWithCost.length === DEFAULT_MECHA.length, `Mecha cost & DC coverage: ${mechaWithCost.length}/${DEFAULT_MECHA.length} items`);
+
+const archWithCost = DEFAULT_ARCHITECTURE.filter(a => (a.costs?.credits || a.cost || 0) > 0 && a.craft_dc > 0);
+assert(archWithCost.length === DEFAULT_ARCHITECTURE.length, `Architecture cost & DC coverage: ${archWithCost.length}/${DEFAULT_ARCHITECTURE.length} items`);
+
+const otherWithCost = DEFAULT_OTHER_PROPERTY.filter(o => (o.costs?.credits || o.cost || 0) > 0 && o.craft_dc !== undefined);
+assert(otherWithCost.length === DEFAULT_OTHER_PROPERTY.length, `Other Property cost & DC coverage: ${otherWithCost.length}/${DEFAULT_OTHER_PROPERTY.length} items`);
 
 const invocationsWithStrain = DEFAULT_INVOCATIONS.filter(i => (i.costs?.strain || 0) > 0);
 assert(invocationsWithStrain.length === DEFAULT_INVOCATIONS.length, `Invocations strain cost coverage: ${invocationsWithStrain.length}/${DEFAULT_INVOCATIONS.length} items`);

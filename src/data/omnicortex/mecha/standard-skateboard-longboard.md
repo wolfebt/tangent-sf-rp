@@ -5,7 +5,7 @@ name: Standard Skateboard / Longboard
 domain: Ground
 size: Tiny
 frame: Personal
-cost: 10
+cost: 13
 craft_dc: 1
 sp: 10
 dr: 2
@@ -18,7 +18,7 @@ mechanic: Movement x1.5 on paved streets. Manual propulsion.
 costs:
   cp: 0
   bp: 0
-  credits: 10
+  credits: 13
   nodes: 0
   sockets: 0
   strain: 0
@@ -39,6 +39,8 @@ sockets:
 tech_level: 1
 keywords: 'standard skateboard / longboard, mecha, vehicle, tiny, personal, tl-1'
 negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
+meta_level: 0
+design_dc: 1
 ---
 Urban deck for quick transit on paved surfaces. Grants increased movement on smooth, flat terrain.
 

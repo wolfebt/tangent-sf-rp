@@ -27,7 +27,7 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 2
   used: 0
   tier: Socket
   allocated: []
@@ -37,6 +37,9 @@ keywords: >-
   omni-tool (programmable holographic), gear, personal-property, tl-4,
   forearm-mounted, holographic
 negative_keywords: 'primitive-stone, immaterial, intangible'
+gear_type: General
+base_dc: 15
+design_dc: 15
 ---
 Forearm-mounted holographic and micro-fabrication apparatus replicating power tools.
 

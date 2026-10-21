@@ -29,7 +29,7 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 2
   used: 0
   tier: Socket
   allocated: []
@@ -39,6 +39,9 @@ keywords: >-
   regen-tank (bacta submersion), gear, personal-property, tl-4, medical,
   submersion
 negative_keywords: 'primitive-stone, immaterial, intangible'
+gear_type: General
+base_dc: 25
+design_dc: 25
 ---
 Medical submersion vat filled with accelerated nutrient fluid for deep cellular regeneration.
 

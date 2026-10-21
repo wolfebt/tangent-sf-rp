@@ -19,16 +19,7 @@ export default function CronicleScratchbookDocTab({
       <div className="flex flex-wrap items-center justify-between gap-3 p-3 bg-slate-900/90 border border-slate-800 rounded-xl text-xs font-mono">
         <div className="flex items-center gap-4 flex-wrap">
           <span className="text-amber-300 font-bold flex items-center gap-1.5">
-            <FileText size={14} /> Full Scratchbook MD
-          </span>
-          <span className="text-slate-400">
-            Words: <strong className="text-white">{wordCount}</strong>
-          </span>
-          <span className="text-slate-400">
-            Elements: <strong className="text-purple-300">{elementsCount}</strong>
-          </span>
-          <span className="text-slate-400">
-            Scenarios: <strong className="text-cyan-300">{scenariosCount}</strong>
+            <FileText size={14} /> Compiled Cronicle Dossier (.md)
           </span>
         </div>
 
@@ -59,7 +50,7 @@ export default function CronicleScratchbookDocTab({
               title="Jump to edit GM directives & notes"
             >
               <Edit3 size={12} />
-              <span>Edit GM Notes</span>
+              <span>Edit GM Directives</span>
             </button>
           )}
         </div>

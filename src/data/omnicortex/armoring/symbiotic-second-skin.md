@@ -46,6 +46,10 @@ tech_level: 4
 meta_level: 0
 keywords: 'symbiotic "second skin", armor, defense, dr-12, medium-armor, tl-4'
 negative_keywords: 'unarmored, fragile, naked'
+collection: armoring
+armor_class: Lightweight
+armor_type: Lightweight
+mobility_penalty: 0
 ---
 Living Auluran bioweave suit that bonds to the wearer's epidermis, flexing naturally and regenerating cellular tears.
 

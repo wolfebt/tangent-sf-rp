@@ -29,7 +29,7 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 4
   used: 0
   tier: Socket
   allocated: []
@@ -37,6 +37,9 @@ tech_level: 4
 meta_level: 0
 keywords: 'portable nurse drone, gear, personal-property, tl-4, hovering, triage'
 negative_keywords: 'primitive-stone, immaterial, intangible'
+gear_type: General
+base_dc: 15
+design_dc: 15
 ---
 Hovering triage assistant equipped with diagnostic sensors and surgical supply dispensers.
 

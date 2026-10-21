@@ -1,7 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCampaign } from '../../../context/CampaignContext';
-import { ELEMENT_TYPES, getTypePillStyle, SCENARIO_GUIDE_MODULES, getElementFileExtension } from './elementSchemas';
+import { ELEMENT_TYPES, getTypePillStyle, SCENARIO_GUIDE_MODULES, getElementFileExtension, normalizeElementType } from './elementSchemas';
+import { useAdeStore } from '../store/adeStore';
 import EditElementModal from './EditElementModal';
 import { ArtistHubModal } from '../../../components/StoryFoundry/ArtistHubModal';
 import AimeGuidanceButton from '../../../components/StoryFoundry/AimeGuidanceButton';
@@ -16,11 +17,21 @@ import { downloadAimeAssetFile, downloadAimeAssetBundle, batchIngestAimeFiles } 
 import { useDBM } from '../../../context/DBMContext';
 import { pullElementFromOmnicortexDBM } from '../../../utils/storyAssetAdapter.js';
 
-export const ElementForge = ({ onBackToStory }) => {
+export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSelectType, hideSidebar = false }) => {
   const navigate = useNavigate();
   const { elementsCatalog, updateSavedElement, deleteSavedElement, saveElementToCloud } = useCampaign();
+  const storeActiveElementType = useAdeStore((state) => state.activeElementType);
+  const setStoreActiveElementType = useAdeStore((state) => state.setActiveElementType);
   
-  const [activeType, setActiveType] = useState(ELEMENT_TYPES[0]);
+  const [localActiveType, setLocalActiveType] = useState(ELEMENT_TYPES[0]);
+  const activeType = normalizeElementType(propActiveType || storeActiveElementType || localActiveType || ELEMENT_TYPES[0]);
+
+  const setActiveType = (nextType) => {
+    const normalized = normalizeElementType(nextType);
+    setLocalActiveType(normalized);
+    if (setStoreActiveElementType) setStoreActiveElementType(normalized);
+    if (onSelectType) onSelectType(normalized);
+  };
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isArtistHubOpen, setIsArtistHubOpen] = useState(false);
   const [isScenarioGuideModalOpen, setIsScenarioGuideModalOpen] = useState(false);
@@ -38,8 +49,12 @@ export const ElementForge = ({ onBackToStory }) => {
     let count = 0;
     for (const res of results) {
       if (res.success && res.element) {
-        await updateSavedElement(res.element.id, res.element);
-        await saveElementToCloud(res.element);
+        const normalizedElem = {
+          ...res.element,
+          type: normalizeElementType(res.element.type)
+        };
+        await updateSavedElement(normalizedElem.id, normalizedElem);
+        await saveElementToCloud(normalizedElem);
         count++;
       }
     }
@@ -128,7 +143,7 @@ export const ElementForge = ({ onBackToStory }) => {
 
   // Filter elements by active type and search term
   const filteredElements = (elementsCatalog || []).filter(el => {
-    if (el.type !== activeType) return false;
+    if (normalizeElementType(el.type) !== activeType) return false;
     if (searchTerm && !el.title?.toLowerCase().includes(searchTerm.toLowerCase())) return false;
     return true;
   });
@@ -145,13 +160,20 @@ export const ElementForge = ({ onBackToStory }) => {
   };
 
   const handleEdit = (el) => {
-    setSelectedElement(el);
+    setSelectedElement({
+      ...el,
+      type: normalizeElementType(el.type)
+    });
     setIsEditModalOpen(true);
   };
 
   const handleSave = async (updatedElement) => {
-    await updateSavedElement(updatedElement.id, updatedElement);
-    await saveElementToCloud(updatedElement);
+    const normalized = {
+      ...updatedElement,
+      type: normalizeElementType(updatedElement.type)
+    };
+    await updateSavedElement(normalized.id, normalized);
+    await saveElementToCloud(normalized);
     setIsEditModalOpen(false);
     setSelectedElement(null);
   };
@@ -244,38 +266,31 @@ Output Format: Provide structured markdown with rich sections, atmospheric read-
       <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-amber-600/10 rounded-full blur-[120px] pointer-events-none"></div>
       <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-cyan-600/10 rounded-full blur-[100px] pointer-events-none"></div>
 
-      {/* Left Sidebar for Element Types */}
-      <aside className="w-64 h-full bg-[#0d1117]/80 backdrop-blur-xl border-r border-slate-800/60 flex flex-col shrink-0 p-4 gap-2 overflow-y-auto relative z-10">
-        <div className="text-[10px] font-bold text-cyan-400/80 uppercase tracking-widest px-2 mb-2 border-b border-slate-800 pb-2 flex items-center justify-between">
-          <span>Element Types</span>
-          <span className="text-slate-500 font-mono text-[9px]">{ELEMENT_TYPES.length} Categories</span>
-        </div>
-        
-        {ELEMENT_TYPES.map(type => {
-          const isActive = activeType === type;
-          const count = elementsCatalog?.filter(e => e.type === type).length || 0;
-          return (
-            <button
-              key={type}
-              onClick={() => { setActiveType(type); setSearchTerm(''); }}
-              className={`w-full text-left px-3 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 flex items-center justify-between group border ${
-                isActive
-                  ? `${getTypePillStyle(type)} shadow-[0_0_15px_rgba(245,158,11,0.15)] ring-1 ring-amber-500/30`
-                  : 'bg-slate-900/60 text-slate-400 border-slate-800/80 hover:text-white hover:bg-slate-800/80 hover:border-slate-700/60'
-              }`}
-            >
-              <span className="truncate">{type}</span>
-              <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold transition-colors ${
-                isActive
-                  ? 'bg-black/40 text-amber-200 border border-amber-500/30'
-                  : 'bg-slate-800/80 text-slate-500 group-hover:text-cyan-300'
-              }`}>
-                {count}
-              </span>
-            </button>
-          );
-        })}
-      </aside>
+      {/* Left Sidebar for Element Types (only shown when standalone outside ADE Nav Rail) */}
+      {!hideSidebar && (
+        <aside className="w-64 h-full bg-[#0d1117]/80 backdrop-blur-xl border-r border-slate-800/60 flex flex-col shrink-0 p-4 gap-2 overflow-y-auto relative z-10">
+          <div className="text-[10px] font-bold text-cyan-400/80 uppercase tracking-widest px-2 mb-2 border-b border-slate-800 pb-2 flex items-center justify-between">
+            <span>Element Types</span>
+          </div>
+          
+          {ELEMENT_TYPES.map(type => {
+            const isActive = activeType === type;
+            return (
+              <button
+                key={type}
+                onClick={() => { setActiveType(type); setSearchTerm(''); }}
+                className={`w-full text-left px-3 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 flex items-center justify-between group border ${
+                  isActive
+                    ? `${getTypePillStyle(type)} shadow-[0_0_15px_rgba(245,158,11,0.15)] ring-1 ring-amber-500/30`
+                    : 'bg-slate-900/60 text-slate-400 border-slate-800/80 hover:text-white hover:bg-slate-800/80 hover:border-slate-700/60'
+                }`}
+              >
+                <span className="truncate">{type}</span>
+              </button>
+            );
+          })}
+        </aside>
+      )}
 
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col h-full overflow-hidden p-8 relative z-10">
@@ -293,9 +308,22 @@ Output Format: Provide structured markdown with rich sections, atmospheric read-
                 <span>Story Canvas</span>
               </button>
             )}
-            <span className={`text-xs px-3 py-1.5 rounded-full font-bold uppercase tracking-wider ${getTypePillStyle(activeType)}`}>
-              {activeType}
-            </span>
+            <select
+              value={activeType}
+              onChange={(e) => {
+                setActiveType(e.target.value);
+                setSearchTerm('');
+              }}
+              aria-label="Select Element Category"
+              className={`text-xs px-3 py-1.5 rounded-full font-bold uppercase tracking-wider border cursor-pointer outline-none ${getTypePillStyle(activeType)}`}
+              title="Switch Element Category (or use the ELEMENT FORGE branches in the left studio rail)"
+            >
+              {ELEMENT_TYPES.map((type) => (
+                <option key={type} value={type} className="bg-slate-950 text-slate-200 font-mono">
+                  {type.toUpperCase()}
+                </option>
+              ))}
+            </select>
             <div>
               <h1 className="text-xl sm:text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600 tracking-wider uppercase">
                 {activeType} Elements
@@ -377,10 +405,10 @@ Output Format: Provide structured markdown with rich sections, atmospheric read-
                   showToast({ type: 'success', text: `Exported ${filteredElements.length} ${activeType} elements to .aime bundle!` });
                 }}
                 className="px-3.5 py-2 bg-slate-900 hover:bg-slate-800 border border-amber-500/40 text-amber-300 hover:text-amber-200 font-bold rounded-xl text-xs uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
-                title={`Export all ${filteredElements.length} ${activeType} elements as a portable .aime bundle`}
+                title={`Export all ${activeType} elements as a portable .aime bundle`}
               >
                 <Sparkles size={13} className="text-amber-400" />
-                <span className="hidden sm:inline">Export .aime ({filteredElements.length})</span>
+                <span className="hidden sm:inline">Export .aime</span>
               </button>
             )}
 
@@ -393,7 +421,7 @@ Output Format: Provide structured markdown with rich sections, atmospheric read-
                 title={`Import existing canonical ${activeType} entries from Omnicortex DBM`}
               >
                 <Database size={14} className="text-cyan-400" />
-                <span className="hidden sm:inline">DBM Sync ({matchingDbmItems.length})</span>
+                <span className="hidden sm:inline">DBM Sync</span>
               </button>
             )}
 

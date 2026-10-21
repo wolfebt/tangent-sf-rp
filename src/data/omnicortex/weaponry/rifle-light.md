@@ -11,12 +11,12 @@ wielding: Two-Handed
 costs:
   cp: 0
   bp: 0
-  credits: 0
+  credits: 640
   nodes: 0
   sockets: 0
   strain: 0
   focus: 0
-  ap: 0
+  ap: 2
 modifiers: []
 modifications: []
 critical_details:
@@ -25,13 +25,29 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 4
   used: 0
   tier: Socket
   allocated: []
 tech_level: 2
 meta_level: 0
-keywords: 'rifle, light, weapon, ranged, kinetic, tl-2, firearms'
-negative_keywords: 'grappling, clinch, unarmed'
+keywords: 'rifle, light, weapon, ballistic rifle, kinetic, tl-2'
+negative_keywords: 'unarmed, grapple'
+weapon_type: Ballistic Rifle
+size: Medium
+ammunition: '60'
+rate_of_fire: Single
+craft_dc: 15
+design_dc: 15
+cost: 640
+special: High Capacity
+description: Lightweight high-capacity carbine or assault rifle.
+mechanic: >-
+  Damage: 1d8 (Kinetic) | Range: 200ft | Ammo: 60 | Special: High Capacity |
+  Craft DC: 15 (640 Cr)
 ---
-Category: BALLISTIC RIFLES
+Lightweight high-capacity carbine or assault rifle.
+
+**Special:** High Capacity
+
+Category: BALLISTIC RIFLE

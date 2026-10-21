@@ -157,28 +157,12 @@ export default function ToolbarQuickActions({
               ? 'bg-amber-950 text-amber-200 border border-amber-500/60 shadow-[0_0_8px_rgba(245,158,11,0.3)]'
               : 'text-amber-400/90 hover:text-amber-200 hover:bg-slate-800/80 border border-transparent'
           }`}
-          title="Cronicle Living Memory Deck"
+          title="Cronicle Living Memory, GM Directives & Compiled Dossier"
         >
           <span>📜</span>
           {pendingCronicleCount > 0 && (
-            <span className="text-[10px] px-1 rounded-full bg-amber-500 text-black font-mono font-bold animate-pulse">
-              {pendingCronicleCount}
-            </span>
+            <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
           )}
-        </button>
-
-        {/* Scratchbook */}
-        <button
-          type="button"
-          onClick={() => onToggleScratchbook?.(true)}
-          className={`px-2 py-1 rounded-lg text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1 cursor-pointer ${
-            isScratchbookOpen
-              ? 'bg-emerald-950 text-emerald-200 border border-emerald-500/60 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
-              : 'text-emerald-400 hover:text-emerald-200 hover:bg-slate-800/80 border border-transparent'
-          }`}
-          title="Project Scratchbook & Aggregated Elements Document"
-        >
-          <span>📓</span>
         </button>
 
         {/* Print */}

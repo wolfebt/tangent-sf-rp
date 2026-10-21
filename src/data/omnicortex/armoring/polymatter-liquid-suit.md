@@ -46,6 +46,10 @@ tech_level: 5
 meta_level: 0
 keywords: 'polymatter "liquid" suit, armor, defense, dr-20, heavy-armor, tl-5'
 negative_keywords: 'unarmored, fragile, naked, high-acrobatics'
+collection: armoring
+armor_class: Lightweight
+armor_type: Lightweight
+mobility_penalty: 0
 ---
 Nanofabricated morphic fluid suit that flows over the user's body in seconds, adapting to any environmental or combat threat.
 

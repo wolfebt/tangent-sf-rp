@@ -26,10 +26,13 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
-tech_level: 1
+tech_level: 0
 meta_level: 0
-stage: Standard
+stage: Negligible
 keywords: 'claws, augmentation, cybernetic, standard, tl-1, general'
 negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
+craft_dc: 0
+design_dc: 0
+cost: 0
 ---
 Category: MELEE

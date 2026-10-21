@@ -25,7 +25,7 @@ critical_details:
   success_effect: []
   failure_effect: []
 sockets:
-  max: 0
+  max: 4
   used: 0
   tier: Socket
   allocated: []
@@ -33,6 +33,9 @@ tech_level: 3
 meta_level: 0
 keywords: 'mag-boots, gear, personal-property, tl-3, electromagnetic, securing'
 negative_keywords: 'primitive-stone, immaterial, intangible'
+gear_type: General
+base_dc: 10
+design_dc: 10
 ---
 Electromagnetic clamp boots securing feet to ferrous hull surfaces.
 

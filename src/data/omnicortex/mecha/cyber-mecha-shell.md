@@ -29,10 +29,14 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
-tech_level: 0
+tech_level: 4
 meta_level: 0
 keywords: 'cyber-mecha shell, mecha, vehicle, large, humanoid, tl-3'
 negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
+design_dc: 40
+sp: 200
+dr: 80
+mechanic: ''
 ---
 Category: **12.1 Mechanics of the Wearable**
 

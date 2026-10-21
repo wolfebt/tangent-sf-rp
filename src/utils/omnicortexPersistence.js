@@ -17,6 +17,10 @@ import { ALL_CANONICAL_SKILLS } from '../data/skillsData.js';
 import { DEFAULT_SPECIES_DISADVANTAGES } from '../data/speciesDisadvantagesData.js';
 import { DEFAULT_WEAPONRY } from '../data/weaponryData.js';
 import { DEFAULT_ARMORING } from '../data/armoringData.js';
+import { DEFAULT_GEAR } from '../data/gearData.js';
+import { DEFAULT_MECHA } from '../data/mechaData.js';
+import { DEFAULT_ARCHITECTURE } from '../data/architectureData.js';
+import { DEFAULT_OTHER_PROPERTY } from '../data/otherPropertyData.js';
 import { DEFAULT_AUGMENTATIONS } from '../data/augmentationsData.js';
 import { DEFAULT_INVOCATIONS } from '../data/invocationsData.js';
 import { DEFAULT_SPECIES_SIZES } from '../data/speciesSizeData.js';
@@ -352,6 +356,64 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
         enriched.notesList = matchingSeed.notesList || enriched.notesList;
       }
 
+      if (['weaponry', 'weapons', 'armoring', 'armor', 'gear', 'equipment', 'mecha', 'architecture', 'other', 'augmentations'].includes(catKey) && matchingSeed) {
+        const docCredits = Number(doc.costs?.credits || doc.cost || 0);
+        const seedCredits = Number(matchingSeed.costs?.credits || matchingSeed.cost || 0);
+        const docHasValidDc = doc.craft_dc !== undefined && doc.craft_dc !== null && doc.craft_dc !== '' && (Number(doc.craft_dc) > 0 || seedCredits <= 10);
+
+        if (!docHasValidDc || (docCredits === 0 && seedCredits > 0)) {
+          enriched.craft_dc = matchingSeed.craft_dc ?? matchingSeed.design_dc ?? enriched.craft_dc;
+          enriched.design_dc = matchingSeed.design_dc ?? matchingSeed.craft_dc ?? enriched.design_dc;
+          enriched.base_dc = matchingSeed.base_dc ?? matchingSeed.craft_dc ?? enriched.base_dc;
+          enriched.cost = seedCredits || enriched.cost;
+          enriched.costs = {
+            ...(matchingSeed.costs || {}),
+            ...(doc.costs || {}),
+            credits: seedCredits || docCredits
+          };
+        }
+
+        if ((!enriched.tech_level || Number(enriched.tech_level) === 0) && matchingSeed.tech_level) {
+          enriched.tech_level = matchingSeed.tech_level;
+        }
+        if ((!enriched.sockets || !enriched.sockets.max) && matchingSeed.sockets?.max > 0) {
+          enriched.sockets = { ...matchingSeed.sockets, ...(doc.sockets || {}), max: matchingSeed.sockets.max };
+        }
+        if (catKey === 'weaponry' || catKey === 'weapons') {
+          enriched.weapon_type = matchingSeed.weapon_type || enriched.weapon_type;
+          enriched.classification = matchingSeed.classification || enriched.classification;
+          enriched.damage = matchingSeed.damage || enriched.damage;
+          enriched.damage_type = matchingSeed.damage_type || enriched.damage_type;
+          enriched.range = matchingSeed.range || enriched.range;
+          enriched.ammo = matchingSeed.ammo || enriched.ammo;
+          enriched.ammunition = matchingSeed.ammunition || enriched.ammunition;
+          enriched.wielding = matchingSeed.wielding || enriched.wielding;
+          enriched.size = matchingSeed.size || enriched.size;
+          enriched.special = matchingSeed.special || enriched.special;
+          enriched.description = matchingSeed.description || enriched.description;
+          enriched.mechanic = matchingSeed.mechanic || enriched.mechanic;
+        }
+        if (catKey === 'armoring' || catKey === 'armor') {
+          enriched.category = matchingSeed.category || enriched.category;
+          enriched.armor_class = matchingSeed.armor_class || matchingSeed.category || enriched.armor_class;
+          enriched.armor_type = matchingSeed.armor_type || enriched.armor_type;
+          enriched.dr = matchingSeed.dr ?? enriched.dr;
+          enriched.sp = matchingSeed.sp ?? enriched.sp;
+          enriched.durability = matchingSeed.durability ?? enriched.durability;
+          enriched.body_locations = matchingSeed.body_locations || enriched.body_locations;
+          enriched.coverage = matchingSeed.coverage || enriched.coverage;
+          enriched.mobility_penalty = matchingSeed.mobility_penalty ?? enriched.mobility_penalty;
+          enriched.description = matchingSeed.description || enriched.description;
+          enriched.mechanic = matchingSeed.mechanic || enriched.mechanic;
+        }
+        if (catKey === 'gear' || catKey === 'equipment' || catKey === 'mecha' || catKey === 'architecture' || catKey === 'other') {
+          enriched.description = matchingSeed.description || enriched.description;
+          enriched.mechanic = matchingSeed.mechanic || enriched.mechanic;
+          enriched.sp = matchingSeed.sp ?? enriched.sp;
+          enriched.dr = matchingSeed.dr ?? enriched.dr;
+        }
+      }
+
       if (catKey === 'compendium' && matchingSeed) {
         enriched.description = matchingSeed.description;
         enriched.name = matchingSeed.name || enriched.name;
@@ -436,8 +498,12 @@ export const getFallbackSeedForCategory = (catK) => {
   if (catK === 'traits' || catK === 'trait') return ALL_CANONICAL_TRAITS;
   if (catK === 'skills') return ALL_CANONICAL_SKILLS;
   if (catK === 'disadvantages') return DEFAULT_SPECIES_DISADVANTAGES;
-  if (catK === 'weaponry') return DEFAULT_WEAPONRY;
-  if (catK === 'armoring') return DEFAULT_ARMORING;
+  if (catK === 'weaponry' || catK === 'weapons') return DEFAULT_WEAPONRY;
+  if (catK === 'armoring' || catK === 'armor') return DEFAULT_ARMORING;
+  if (catK === 'gear' || catK === 'equipment') return DEFAULT_GEAR;
+  if (catK === 'mecha') return DEFAULT_MECHA;
+  if (catK === 'architecture') return DEFAULT_ARCHITECTURE;
+  if (catK === 'other' || catK === 'other_property') return DEFAULT_OTHER_PROPERTY;
   if (catK === 'augmentations') return DEFAULT_AUGMENTATIONS;
   if (catK === 'invocations') return DEFAULT_INVOCATIONS;
 

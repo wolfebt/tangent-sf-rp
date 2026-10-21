@@ -2141,11 +2141,15 @@ const PerceptionEssenceMovementModal = ({
                 </div>
 
                 <div className="p-2.5 rounded-lg bg-slate-900/90 border border-slate-700/80 flex flex-col justify-between">
-                  <span className="text-[10px] text-slate-400 font-bold uppercase">6. Custom Mod</span>
+                  <span className="text-[10px] text-slate-400 font-bold uppercase">6. Traits / Mod</span>
                   <div className="text-base font-bold text-yellow-300 my-0.5">
-                    {(wealthBreakdown.customMod ?? 0) >= 0 ? `+${wealthBreakdown.customMod ?? 0}` : wealthBreakdown.customMod}
+                    {((wealthBreakdown.traitFeatureMod ?? 0) + (wealthBreakdown.customMod ?? 0)) >= 0
+                      ? `+${(wealthBreakdown.traitFeatureMod ?? 0) + (wealthBreakdown.customMod ?? 0)}`
+                      : (wealthBreakdown.traitFeatureMod ?? 0) + (wealthBreakdown.customMod ?? 0)}
                   </div>
-                  <span className="text-[9.5px] text-slate-400 truncate">Situational / GM</span>
+                  <span className="text-[9.5px] text-slate-400 truncate" title={wealthBreakdown.traitFeatureSources?.map(s => `${s.name} (${s.mod >= 0 ? '+' : ''}${s.mod})`).join(', ') || 'Situational / GM'}>
+                    {wealthBreakdown.traitFeatureSources?.length > 0 ? wealthBreakdown.traitFeatureSources.map(s => s.name).join(', ') : 'Situational / GM'}
+                  </span>
                 </div>
               </div>
             </div>
@@ -2196,7 +2200,7 @@ const PerceptionEssenceMovementModal = ({
                             {tier.wsMin === tier.wsMax ? tier.wsMin : `${tier.wsMin}–${tier.wsMax >= 999 ? '80+' : tier.wsMax}`}
                           </td>
                           <td className="py-2 px-3 text-cyan-300">
-                            {tier.autoBuyCr > 0 ? `${tier.autoBuyCr.toLocaleString()} Cr` : '0 Cr'}
+                            {tier.autoBuyRange || (tier.autoBuyCr > 0 ? `${tier.autoBuyCr.toLocaleString()} Cr` : '0 Cr')}
                           </td>
                           <td className="py-2 px-3 text-slate-300">{tier.netWorth}</td>
                           <td className="py-2 px-3 font-sans text-slate-400 text-[11px]">{tier.lifestyle}</td>
@@ -2362,7 +2366,7 @@ const PerceptionEssenceMovementModal = ({
                       <p className="mt-1 text-[11px] font-sans text-slate-300">
                         {isAuto
                           ? `The item cost is at or below the character's single-purchase threshold. It is acquired automatically without financial tests, bookkeeping, or debt.`
-                          : `The item exceeds the character's auto-buy capacity by ${simResult.liquidGapCost.toLocaleString()} Cr. The character must cover this Liquidity Gap via liquid credits, mission patrons, or asset liquidation.`}
+                          : `The item exceeds the character's auto-buy capacity by ${simResult.liquidGapCost.toLocaleString()} Cr. On a successful Wealth Check (2d10 + WS vs DC ${simItemDC}), the character can purchase the item and incurs a ${simResult.liquidGapCost.toLocaleString()} Cr cycle debt to be paid off when wealth rolls over next cycle (or may pay ${simResult.liquidGapCost.toLocaleString()} Cr directly from liquid credits).`}
                       </p>
                     </div>
                   );

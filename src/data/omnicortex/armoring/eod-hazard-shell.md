@@ -47,6 +47,9 @@ tech_level: 3
 meta_level: 0
 keywords: 'eod / hazard shell, armor, defense, dr-30, heavy-armor, tl-3'
 negative_keywords: 'unarmored, fragile, naked, high-acrobatics'
+collection: armoring
+armor_class: Heavyweight
+armor_type: Heavyweight
 ---
 Bulky specialized armor designed for bomb disposal, plasma containment, and extreme radiation environments.
 

@@ -44,6 +44,10 @@ tech_level: 3
 meta_level: 0
 keywords: 'survival "hard-suit", armor, defense, dr-15, medium-armor, tl-3'
 negative_keywords: 'unarmored, fragile, naked'
+collection: armoring
+armor_class: Heavyweight
+armor_type: Heavyweight
+mobility_penalty: 0
 ---
 Ruggedized plating over a pressurized under-suit, designed for hostile environments (vacuum, radiation, toxic atmosphere).
 

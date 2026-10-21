@@ -37,6 +37,8 @@ sockets:
 tech_level: 4
 keywords: 'officer''s hover platform, mecha, vehicle, small, platform, tl-4'
 negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
+meta_level: 0
+design_dc: 15
 ---
 Floating armored command disk keeping overseers elevated above the fray.
 

@@ -2,10 +2,12 @@
 id: polymatter-struct
 name: Polymatter Struct
 category: architecture
-cost: 25
-design_dc: 3
-craft_dc: 3
-description: Morphic Implant or Replacement (limited).
+cost: 10240
+design_dc: 25
+craft_dc: 25
+description: >-
+  Programmable polymatter structural matrix capable of dynamic
+  self-reconfiguration (+25% Base Cost).
 footprint: Medium
 height_class: Single
 frame: Standard
@@ -14,7 +16,7 @@ security_level: Open
 costs:
   cp: 0
   bp: 0
-  credits: 25
+  credits: 10240
   nodes: 0
   sockets: 0
   strain: 0
@@ -32,10 +34,16 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
-tech_level: 0
+tech_level: 5
 meta_level: 0
 keywords: 'polymatter struct, architecture, structure, standard, tl-3, morphic'
 negative_keywords: 'mobile-infantry, personal-weapon, portable-trinket'
+sp: 500
+dr: 30
+mechanic: >-
+  TL5 Polymatter architecture. Allows structural reconfiguration as a 1-minute
+  action. Craft DC 25 (10,240 Cr base).
+style: Standard
 ---
 Category: **9\. TL5 Advanced Augmentations**
 

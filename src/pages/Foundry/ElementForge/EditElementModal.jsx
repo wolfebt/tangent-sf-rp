@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { ELEMENT_TYPES, ELEMENT_SCHEMAS, getElementFileExtension } from './elementSchemas';
+import { ELEMENT_TYPES, ELEMENT_SCHEMAS, getElementFileExtension, normalizeElementType } from './elementSchemas';
 import { downloadAimeAssetFile } from '../../../services/aimeAssetFileService';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
@@ -143,7 +143,7 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
 
   useEffect(() => {
     if (element) {
-      setType(element.type || 'Scenario');
+      setType(normalizeElementType(element.type || 'Persona'));
       setTitle(element.title || '');
       setContent(element.content || '');
       setImageUrl(element.imageUrl || '');

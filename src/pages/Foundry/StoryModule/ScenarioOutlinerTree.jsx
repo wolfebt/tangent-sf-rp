@@ -695,7 +695,7 @@ export const ScenarioOutlinerRail = ({
       onDragOver={handleRailDragOver}
       onDragLeave={handleRailDragLeave}
       onDrop={handleRailDrop}
-      className="h-full flex flex-col bg-slate-900 border-r border-slate-800 transition-all duration-200 z-10 shrink-0 w-64 xl:w-72 relative"
+      className="h-full flex flex-col bg-slate-900 border-r border-slate-800 transition-all duration-200 z-10 shrink-0 w-64 xl:w-72 relative overflow-hidden"
     >
       {/* Hidden File Input for Element & Scenario Imports */}
       <input
@@ -726,15 +726,15 @@ export const ScenarioOutlinerRail = ({
       )}
 
       {/* Outliner Dual-Tab Header */}
-      <div className="p-2 border-b border-slate-800 flex justify-between items-center bg-slate-950/90 shrink-0 gap-1 font-mono">
-        <div className="flex items-center bg-slate-900 border border-slate-800 rounded-lg p-0.5">
+      <div className="p-2 border-b border-slate-800 flex justify-between items-center bg-slate-950/90 shrink-0 gap-1.5 font-mono">
+        <div className="flex items-center bg-slate-900 border border-slate-800 rounded-lg p-0.5 min-w-0">
           <button
             type="button"
             onClick={() => {
               AudioService.playTerminalBeep(1000, 0.02);
               setOutlinerTab('scenarios');
             }}
-            className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer ${
+            className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer shrink-0 ${
               outlinerTab === 'scenarios'
                 ? 'bg-cyan-600 text-white shadow-sm'
                 : 'text-slate-400 hover:text-slate-200'
@@ -750,7 +750,7 @@ export const ScenarioOutlinerRail = ({
               AudioService.playTerminalBeep(1000, 0.02);
               setOutlinerTab('elements');
             }}
-            className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer ${
+            className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer shrink-0 ${
               outlinerTab === 'elements'
                 ? 'bg-emerald-600 text-white shadow-sm'
                 : 'text-slate-400 hover:text-slate-200'
@@ -759,70 +759,91 @@ export const ScenarioOutlinerRail = ({
           >
             <Box size={11} />
             <span>Elements</span>
-            <span className="text-[8px] px-1 py-0.1 rounded-full bg-slate-950/60 text-emerald-300 font-mono">
-              {elementsCatalog?.length || 0}
-            </span>
           </button>
         </div>
 
-        {/* Global Import Action */}
-        <button
-          type="button"
-          onClick={() => fileInputRef.current?.click()}
-          className="p-1 px-1.5 text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-colors flex items-center gap-1 cursor-pointer shrink-0"
-          title="Import Elements or Scenarios (.aime, .json, .md files)"
-        >
-          <Upload size={10} className="text-cyan-400" />
-          <span className="hidden sm:inline">Import</span>
-        </button>
-
-        {outlinerTab === 'scenarios' && (
-          <div className="flex items-center gap-1">
-            <button 
-              type="button"
-              onClick={() => undoScenarioTree?.()}
-              className="p-1 text-slate-400 hover:text-cyan-300 hover:bg-slate-800 rounded transition-colors cursor-pointer"
-              title="Undo Scenario Hierarchy (Ctrl+Z)"
-            >
-              <Undo2 size={12} />
-            </button>
-            <button 
-              type="button"
-              onClick={() => redoScenarioTree?.()}
-              className="p-1 text-slate-400 hover:text-cyan-300 hover:bg-slate-800 rounded transition-colors cursor-pointer"
-              title="Redo Scenario Hierarchy (Ctrl+Y)"
-            >
-              <Redo2 size={12} />
-            </button>
-            <button 
-              type="button"
-              onClick={() => handleOpenAddModal(activeScenarioId)}
-              className="px-2 py-1 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 text-[10px] font-bold rounded-lg uppercase transition-colors flex items-center gap-1 cursor-pointer shrink-0"
-              title="Add Root or Sub-Scenario Node"
-            >
-              <Plus size={11} />
-              <span>Add</span>
-            </button>
-          </div>
+        {/* Primary Add / New Action */}
+        {outlinerTab === 'scenarios' ? (
+          <button 
+            type="button"
+            onClick={() => handleOpenAddModal(activeScenarioId)}
+            className="px-2 py-1 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 text-[10px] font-bold rounded-lg uppercase transition-colors flex items-center gap-1 cursor-pointer shrink-0 shadow-xs"
+            title="Add Root or Sub-Scenario Node"
+          >
+            <Plus size={11} />
+            <span>Add</span>
+          </button>
+        ) : (
+          <button 
+            type="button"
+            onClick={() => {
+              setEditingModalElement({
+                id: uuidv4(),
+                type: outlinerElementTypeFilter !== 'All' ? outlinerElementTypeFilter : 'Persona',
+                title: 'New World Element',
+                fields: {},
+                content: ''
+              });
+              setIsEditElementModalOpen(true);
+            }}
+            className="px-2 py-1 bg-emerald-950 hover:bg-emerald-900 border border-emerald-500/50 text-emerald-300 text-[10px] font-bold rounded-lg uppercase transition-colors flex items-center gap-1 cursor-pointer shrink-0 shadow-xs"
+            title="Create New World Element"
+          >
+            <Plus size={11} />
+            <span>New</span>
+          </button>
         )}
       </div>
 
-      {/* Filter & Wiki Structure Controls */}
+      {/* Filter & Quick Action Controls */}
       <div className="px-2 py-1.5 border-b border-slate-800 bg-slate-950/40 shrink-0 space-y-1.5 font-mono">
-        <div className="flex items-center gap-1.5 bg-slate-900 border border-slate-800 rounded-lg px-2 py-1 text-xs">
-          <Search size={12} className="text-slate-500 shrink-0" />
-          <input
-            type="text"
-            value={searchFilter}
-            onChange={(e) => setSearchFilter(e.target.value)}
-            placeholder={outlinerTab === 'scenarios' ? "Filter scenarios..." : "Filter elements..."}
-            className="bg-transparent text-xs text-slate-200 placeholder-slate-600 outline-none w-full font-mono"
-          />
-          {searchFilter && (
-            <button onClick={() => setSearchFilter('')} className="text-slate-500 hover:text-slate-300 text-[10px] cursor-pointer">
-              ✕
-            </button>
+        <div className="flex items-center gap-1">
+          <div className="flex-1 min-w-0 flex items-center gap-1.5 bg-slate-900 border border-slate-800 rounded-lg px-2 py-1 text-xs">
+            <Search size={12} className="text-slate-500 shrink-0" />
+            <input
+              type="text"
+              value={searchFilter}
+              onChange={(e) => setSearchFilter(e.target.value)}
+              placeholder={outlinerTab === 'scenarios' ? "Filter scenarios..." : "Filter elements..."}
+              className="bg-transparent text-xs text-slate-200 placeholder-slate-600 outline-none w-full font-mono min-w-0"
+            />
+            {searchFilter && (
+              <button onClick={() => setSearchFilter('')} className="text-slate-500 hover:text-slate-300 text-[10px] cursor-pointer shrink-0">
+                ✕
+              </button>
+            )}
+          </div>
+
+          {outlinerTab === 'scenarios' && (
+            <>
+              <button 
+                type="button"
+                onClick={() => undoScenarioTree?.()}
+                className="p-1.5 text-slate-400 hover:text-cyan-300 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-lg transition-colors cursor-pointer shrink-0"
+                title="Undo Scenario Hierarchy (Ctrl+Z)"
+              >
+                <Undo2 size={12} />
+              </button>
+              <button 
+                type="button"
+                onClick={() => redoScenarioTree?.()}
+                className="p-1.5 text-slate-400 hover:text-cyan-300 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-lg transition-colors cursor-pointer shrink-0"
+                title="Redo Scenario Hierarchy (Ctrl+Y)"
+              >
+                <Redo2 size={12} />
+              </button>
+            </>
           )}
+
+          {/* Global Import Action */}
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            className="p-1.5 text-slate-300 hover:text-white bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-cyan-500/40 rounded-lg transition-colors flex items-center justify-center cursor-pointer shrink-0"
+            title="Import Elements or Scenarios (.aime, .json, .md files)"
+          >
+            <Upload size={12} className="text-cyan-400" />
+          </button>
         </div>
 
         {outlinerTab === 'elements' && (
@@ -850,30 +871,6 @@ export const ScenarioOutlinerRail = ({
               >
                 <List size={10} />
                 <span>List</span>
-              </button>
-            </div>
-
-            <div className="flex items-center gap-1.5 shrink-0">
-              <span className="text-[9px] text-slate-500 truncate">
-                {filteredOutlinerElements.length} element(s)
-              </span>
-              <button 
-                type="button"
-                onClick={() => {
-                  setEditingModalElement({
-                    id: uuidv4(),
-                    type: outlinerElementTypeFilter !== 'All' ? outlinerElementTypeFilter : 'Persona',
-                    title: 'New World Element',
-                    fields: {},
-                    content: ''
-                  });
-                  setIsEditElementModalOpen(true);
-                }}
-                className="px-2 py-0.5 bg-emerald-950 hover:bg-emerald-900 border border-emerald-500/50 text-emerald-300 text-[10px] font-bold rounded-lg uppercase transition-colors flex items-center gap-1 cursor-pointer shrink-0 shadow-sm"
-                title="Create New World Element"
-              >
-                <Plus size={11} />
-                <span>New</span>
               </button>
             </div>
           </div>
@@ -970,9 +967,6 @@ export const ScenarioOutlinerRail = ({
                       </span>
                       <span className="text-xs">{cat.icon}</span>
                       <span className="font-bold text-slate-200 text-[11px] truncate">{cat.label}</span>
-                      <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-slate-800 text-slate-400 font-mono">
-                        {catElements.length}
-                      </span>
                     </div>
                     <button
                       type="button"

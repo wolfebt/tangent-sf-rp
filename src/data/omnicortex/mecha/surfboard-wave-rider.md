@@ -5,7 +5,7 @@ name: Surfboard / Wave-Rider
 domain: Aquatic
 size: Medium
 frame: Personal
-cost: 20
+cost: 17
 craft_dc: 2
 sp: 15
 dr: 2
@@ -16,7 +16,7 @@ mechanic: Speed equal to current speed. Requires Athletics (Swim) to maneuver.
 costs:
   cp: 0
   bp: 0
-  credits: 20
+  credits: 17
   nodes: 0
   sockets: 0
   strain: 0
@@ -37,6 +37,8 @@ sockets:
 tech_level: 1
 keywords: 'surfboard / wave-rider, mecha, vehicle, medium, personal, tl-1'
 negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
+meta_level: 0
+design_dc: 2
 ---
 Composite hydrodynamic board for riding wave energy and coastal currents.
 

@@ -76,11 +76,20 @@ export default function ToolbarProjectMenu({
   const handleOpenExport = onOpenModuleExport || (() => useAdeStore.getState().setModal('moduleExport', true));
   const handleOpenImport = onOpenModuleImport || (() => useAdeStore.getState().setModal('moduleImport', true));
   const handleOpenCompilerAction = onOpenCompiler || (() => useAdeStore.getState().setModal('compiler', true));
-  const handleTogglePrint = onTogglePrintModal || (() => window.dispatchEvent(new CustomEvent('open-ade-print')));
+  const handleTogglePrint = onTogglePrintModal || (() => {
+    useAdeStore.getState().setModal('print', true);
+    window.dispatchEvent(new CustomEvent('open-ade-print'));
+  });
   const handleExportMd = onExportMarkdown || (() => window.dispatchEvent(new CustomEvent('export-scenario-markdown')));
   const handleToggleCatalogAction = onToggleCatalog || (() => useAdeStore.getState().setModal('catalog', true));
-  const handleToggleGuideAction = onToggleGuide || (() => window.dispatchEvent(new CustomEvent('open-guide-modal')));
-  const handleToggleSettingsAction = onToggleSettings || (() => window.dispatchEvent(new CustomEvent('open-settings-modal')));
+  const handleToggleGuideAction = onToggleGuide || (() => {
+    useAdeStore.getState().setModal('guide', true);
+    window.dispatchEvent(new CustomEvent('open-guide-modal'));
+  });
+  const handleToggleSettingsAction = onToggleSettings || (() => {
+    useAdeStore.getState().setModal('settings', true);
+    window.dispatchEvent(new CustomEvent('open-settings-modal'));
+  });
   const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [titleInput, setTitleInput] = useState(universeState?.projectName || 'Untitled Story');

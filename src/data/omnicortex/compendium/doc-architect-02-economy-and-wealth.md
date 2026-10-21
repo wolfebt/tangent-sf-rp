@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","source-of-truth","02 economy and wealth","matrix"]
-updatedAt: "2026-10-14T06:04:05.817Z"
+updatedAt: "2026-10-21T11:42:13.233Z"
 costs:
   bp: 0
   credits: 0
@@ -179,8 +179,12 @@ An additional Skill of level 6+ may be accounted to aid in Trade per each of the
 ### *The Liquidity Gap and Friction Mechanics*
 
 A common failure point in abstract wealth systems is the "infinite money loop," where players attempt to use their passive Wealth Score to acquire high-value items for free and immediately sell them for infinite cash.4 Tangent mitigates this via strict friction mechanics, ensuring "Loot" (liquid Credits) remains a vital gameplay reward at all tiers.4  
-**The Liquidity Constraint (The Gap Rule):** When a character seeks an item with a DC exceeding their Wealth Score, their passive income cannot cover the transaction.4 They must bridge the gap with liquid Credits.3 The required liquid cost is calculated by subtracting the Credit value of the character's Wealth Score from the Credit value of the desired item's DC.4  
-For example, if an Affluent character (WS 15, Auto-Buy Limit \~640 Cr) wishes to purchase an advanced Stealth Suit (DC 18, Value \~1,470 Cr), the character applies their WS 15 leverage to cover the base lifestyle cost, leaving a remainder of 830 Credits that must be paid in liquid cash from their adventuring savings.4  
+**The Liquidity Constraint (The Gap Rule & Wealth Check Financing):** When a character seeks an item with a DC exceeding their Wealth Score, their passive income cannot automatically cover the full transaction.4 The difference is the **Liquidity Gap**, calculated by subtracting the Credit value of the character's Wealth Score from the Credit value of the desired item's DC.4  
+To acquire the item, the character may either:
+1. **Roll a Wealth Check ($2\text{d}10 + \text{WS}$ vs. Item Cost DC):** On a successful Wealth Check, the character can purchase the item on credit, **incurring a Debt of the Liquidity Gap difference** to be paid off on the next financial cycle (month, pay schedule, or mission cycle). When the character's wealth rolls over, they will normally pay off the debt (or part of it), unless they do not or there is an issue—in which case the unpaid debt remains with likely repercussions ($-2\text{ WS}$ delinquent debt penalty, interest, or creditor enforcement).
+2. **Pay Liquid Credits Directly:** Pay the Liquidity Gap difference directly from liquid Credits with zero debt incurred.
+
+For example, if an Affluent character (WS 15, Purchasing Power \~640 Cr) wishes to purchase an advanced Stealth Suit (DC 18, Value \~1,470 Cr), the character applies their WS 15 leverage to cover the base 640 Cr, leaving a Liquidity Gap of 830 Credits that is either paid in liquid cash or financed as a cycle debt via a successful DC 18 Wealth Check.4  
 **Liquidity Drag (The Fence Rate):** To further prevent market abuse, the economy imposes Liquidity Drag.4 In real-world economics and RPG simulations, the "Buy" price and "Sell" price are never identical due to fencing effort, market saturation, and legality.4 The Sell Price of an item is heavily reduced:
 
 * Legal goods sell at 50% of Total Value.4  

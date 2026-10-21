@@ -41,6 +41,10 @@ tech_level: 3
 meta_level: 0
 keywords: 'security vest (standard), armor, defense, dr-10, medium-armor, tl-3'
 negative_keywords: 'unarmored, fragile, naked'
+collection: armoring
+armor_class: Mediumweight
+armor_type: Mediumweight
+mobility_penalty: 0
 ---
 A semi-rigid vest made of ceramic plates over a kevlar weave. Standard issue for police and private security.
 
