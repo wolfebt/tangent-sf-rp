@@ -34,7 +34,8 @@ import {
   Search,
   X,
   BookOpen,
-  Map
+  Map,
+  Crown
 } from 'lucide-react';
 import ChatParser from '../UI/ChatParser';
 import { useAuth } from '../../context/AuthContext';
@@ -505,7 +506,7 @@ export const MessageView = ({
     if (msg.type === 'squad_invite') {
       const inviteId = msg.inviteId || msg.metadata?.inviteId;
       const groupId = msg.groupId || msg.metadata?.groupId;
-      const groupName = msg.groupName || msg.metadata?.groupName || 'Tactical Squad';
+      const groupName = msg.groupName || msg.metadata?.groupName || 'Tactical Team';
       const faction = msg.faction || msg.metadata?.faction || 'Independent';
       const joinCode = msg.joinCode || msg.metadata?.joinCode;
       const matchedGrp = groups.find(g => g.id === groupId);
@@ -521,7 +522,7 @@ export const MessageView = ({
               </div>
               <div>
                 <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider block">
-                  TACTICAL SQUAD COMMISSION
+                  TACTICAL TEAM COMMISSION
                 </span>
                 <span className="text-sm font-bold text-white">{groupName}</span>
               </div>
@@ -532,7 +533,7 @@ export const MessageView = ({
           </div>
 
           <p className="text-slate-300 font-sans text-xs leading-relaxed">
-            {msg.text || `You have been invited to join "${groupName}". Select a character persona from your Folio to deploy into this squad.`}
+            {msg.text || `You have been invited to join "${groupName}". Select a character persona from your Folio to deploy into this team.`}
           </p>
 
           {joinCode && (
@@ -552,7 +553,7 @@ export const MessageView = ({
                 className="px-3 py-1.5 rounded-lg bg-emerald-600/30 hover:bg-emerald-600/50 border border-emerald-500/60 text-emerald-200 font-bold text-[10.5px] flex items-center gap-1.5 cursor-pointer"
               >
                 <CheckCircle2 size={12} />
-                <span>ENROLLED IN SQUAD — OPEN FREQUENCY</span>
+                <span>ENROLLED IN TEAM — OPEN FREQUENCY</span>
               </button>
             ) : inviteStatus === 'declined' ? (
               <span className="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-slate-500 text-[10px] font-bold">
@@ -650,7 +651,7 @@ export const MessageView = ({
           {meta.blockId && toggleArchitectBlockAck && currentUser && (
             <div className="flex items-center justify-between pt-1 border-t border-slate-800/80">
               <span className="text-[9.5px] text-slate-400">
-                {acks.length > 0 ? `Acknowledged by ${acks.length} operative(s)` : 'Awaiting squad acknowledgment'}
+                {acks.length > 0 ? `Acknowledged by ${acks.length} operative(s)` : 'Awaiting team acknowledgment'}
               </span>
               <button
                 type="button"
@@ -689,10 +690,14 @@ export const MessageView = ({
       );
     }
 
-    // 8. Standard Text or In-Character Dialogue (High-contrast, crisp 13.5px text)
+    // 8. Standard Text, Architect Directive, or In-Character Dialogue (High-contrast, crisp 13.5px text)
     return (
       <div className={`text-xs sm:text-sm leading-snug ${
-        msg.isIC ? 'text-slate-100 font-sans font-medium' : 'text-slate-200 font-sans'
+        msg.isArchitect || msg.senderType === 'architect' || msg.type === 'architect_transmission'
+          ? 'text-amber-100 font-sans font-medium'
+          : msg.isIC
+          ? 'text-slate-100 font-sans font-medium'
+          : 'text-slate-200 font-sans'
       }`}>
         <ChatParser text={msg.text || ''} />
       </div>
@@ -766,7 +771,7 @@ export const MessageView = ({
                 }`}>
                   <span>
                     {isTeamChannel
-                      ? '🎭 SQUAD IC'
+                      ? '🎭 TEAM IC'
                       : isDirectChannel && isCharacterDirect
                       ? '🎭 PERSONA DM'
                       : isPersonaLogChannel
@@ -785,8 +790,8 @@ export const MessageView = ({
 
             {/* Header Actions & Zone 4 Contextual Inspector Toggles */}
             <div className="flex items-center gap-1.5 shrink-0 font-mono text-xs">
-              {/* Invite Operator Button */}
-              {(isTeamChannel || isDirectChannel || groups.length > 0) && (
+              {/* Invite Operator Button (Team Channels Only) */}
+              {isTeamChannel && (
                 <button
                   type="button"
                   onClick={() => {
@@ -794,7 +799,7 @@ export const MessageView = ({
                     setIsQuickInviteOpen(true);
                   }}
                   className="px-2 py-1 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/35 text-emerald-300 border border-emerald-500/50 text-[10px] font-bold transition-all flex items-center gap-1 cursor-pointer"
-                  title="Invite Operators to Squad / Copy Join Link"
+                  title="Invite Operators to Team / Copy Join Link"
                 >
                   <UserPlus size={12} className="text-emerald-400" />
                   <span className="hidden lg:inline">INVITE</span>
@@ -861,7 +866,7 @@ export const MessageView = ({
                         ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-sm'
                         : 'text-slate-400 hover:text-slate-200'
                     }`}
-                    title="Toggle Channel / Squad Roster Inspector"
+                    title="Toggle Channel / Team Roster Inspector"
                   >
                     <Users size={12} />
                     <span className="hidden md:inline">ROSTER</span>
@@ -1046,6 +1051,7 @@ export const MessageView = ({
           {messages.map((msg, idx) => {
             const isSelf = currentUser && msg.senderId === currentUser.uid;
             const isIC = Boolean(msg.isIC);
+            const isArchitect = Boolean(msg.isArchitect || msg.senderType === 'architect' || msg.type === 'architect_transmission');
             const isDice = msg.type === 'dice_roll';
             const isNarrative = msg.type === 'narrative_action';
             const isSystem = msg.type === 'system' || msg.type === 'squad_invite' || msg.type === 'docket_directive';
@@ -1053,8 +1059,10 @@ export const MessageView = ({
 
             // Check if this message should be grouped with the previous message
             const prevMsg = idx > 0 ? messages[idx - 1] : null;
+            const prevIsArchitect = Boolean(prevMsg && (prevMsg.isArchitect || prevMsg.senderType === 'architect' || prevMsg.type === 'architect_transmission'));
             const isSameSender = prevMsg && (
               prevMsg.senderId === msg.senderId &&
+              prevIsArchitect === isArchitect &&
               prevMsg.isIC === msg.isIC &&
               (prevMsg.personaDetails?.id || prevMsg.personaDetails?.name) === (persona?.id || persona?.name)
             );
@@ -1064,6 +1072,8 @@ export const MessageView = ({
             // Style B: Sharp left accent border styling
             const borderAccentClass = isDice
               ? 'border-l-4 border-l-amber-500/80 bg-slate-900/50'
+              : isArchitect
+              ? 'border-l-4 border-l-amber-400/90 bg-amber-950/20'
               : isIC
               ? 'border-l-4 border-l-purple-500/80 bg-purple-950/15'
               : isTeamChannel
@@ -1176,7 +1186,7 @@ export const MessageView = ({
                         setIsQuickInviteOpen(true);
                       }}
                       className="px-1.5 py-0.5 rounded hover:bg-emerald-950 text-emerald-400 hover:text-emerald-200 text-[9px] font-mono font-bold flex items-center gap-1 transition-colors cursor-pointer"
-                      title={`Invite @${msg.operatorHandle || msg.senderHandle} to Tactical Squad`}
+                      title={`Invite @${msg.operatorHandle || msg.senderHandle} to Tactical Team`}
                     >
                       <UserPlus size={10} />
                       <span>INVITE</span>
@@ -1218,7 +1228,9 @@ export const MessageView = ({
                     >
                       {/* Avatar Glyph */}
                       <div className={`w-5 h-5 rounded flex items-center justify-center shrink-0 font-mono font-bold text-[10px] border ${
-                        isTeamChannel
+                        isArchitect
+                          ? 'bg-amber-950/90 border-amber-500/70 text-amber-300 shadow-[0_0_8px_rgba(245,158,11,0.2)]'
+                          : isTeamChannel
                           ? 'bg-emerald-950/80 border-emerald-500/60 text-emerald-300'
                           : isIC 
                           ? 'bg-purple-950 border-purple-500/60 text-purple-300' 
@@ -1226,7 +1238,9 @@ export const MessageView = ({
                           ? 'bg-cyan-950 border-cyan-500/60 text-cyan-300' 
                           : 'bg-slate-800 border-slate-700 text-slate-400'
                       }`}>
-                        {isTeamChannel ? (
+                        {isArchitect ? (
+                          <Crown size={11} className="text-amber-400" />
+                        ) : isTeamChannel ? (
                           (persona?.name || msg.senderHandle || 'P').charAt(0).toUpperCase()
                         ) : isIC ? (
                           (persona?.name || 'O').charAt(0).toUpperCase()
@@ -1238,7 +1252,20 @@ export const MessageView = ({
                       </div>
 
                       {/* Sender Name & Badges */}
-                      {isTeamChannel ? (
+                      {isArchitect ? (
+                        /* Architect / Gamemaster / Referee Authority Header */
+                        <>
+                          <span className="text-xs font-mono font-bold text-amber-300 hover:underline truncate">
+                            ARCHITECT
+                          </span>
+                          <span className="px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[9px] font-mono font-bold uppercase truncate">
+                            {msg.architectDetails?.role || 'GM // REFEREE'}
+                          </span>
+                          <span className="text-[10px] font-mono text-slate-400">
+                            (@{msg.operatorHandle || msg.senderHandle || 'Operator'})
+                          </span>
+                        </>
+                      ) : isTeamChannel ? (
                         /* Team Channel: Address Persona (Character) */
                         <>
                           <span className="text-xs font-mono font-bold text-emerald-300 hover:underline truncate">
@@ -1435,7 +1462,7 @@ export const MessageView = ({
                       className="col-span-2 px-3 py-2 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/50 text-emerald-200 font-bold text-[10.5px] flex items-center justify-center gap-1.5 cursor-pointer"
                     >
                       <UserPlus size={12} />
-                      <span>INVITE TO TACTICAL SQUAD</span>
+                      <span>INVITE TO TACTICAL TEAM</span>
                     </button>
                   )}
                 </div>
@@ -1504,7 +1531,7 @@ export const MessageView = ({
                     type="text"
                     value={userSearchQuery}
                     onChange={(e) => setUserSearchQuery(e.target.value)}
-                    placeholder={isTeamChannel ? "Filter squad characters..." : "Filter network operators..."}
+                    placeholder={isTeamChannel ? "Filter team characters..." : "Filter network operators..."}
                     className="w-full pl-7 pr-3 py-1.5 rounded-lg bg-slate-900/90 border border-slate-800 text-slate-200 placeholder-slate-500 text-[11px] focus:outline-none focus:border-cyan-500/60"
                   />
                   {userSearchQuery && (
@@ -1584,14 +1611,14 @@ export const MessageView = ({
                       <div className="flex items-center justify-between text-[10px] text-emerald-400 font-bold uppercase tracking-wider px-1">
                         <span className="flex items-center gap-1.5">
                           <Shield size={11} />
-                          <span>ACTIVE SQUAD CHARACTERS ({deployedAndOnCallTeamPersonas.length})</span>
+                          <span>ACTIVE TEAM CHARACTERS ({deployedAndOnCallTeamPersonas.length})</span>
                         </span>
                         <span className="text-[9px] text-slate-500">Enrolled</span>
                       </div>
 
                       {deployedAndOnCallTeamPersonas.length === 0 ? (
                         <div className="p-3 text-center text-slate-500 text-[11px] italic bg-slate-900/30 rounded-lg border border-slate-800/50">
-                          {userSearchQuery ? 'No matching squad characters online.' : 'No squad characters currently deployed or on-call.'}
+                          {userSearchQuery ? 'No matching team characters online.' : 'No team characters currently deployed or on-call.'}
                         </div>
                       ) : (
                         deployedAndOnCallTeamPersonas.map((p) => {
@@ -1700,7 +1727,7 @@ export const MessageView = ({
                     {stasisTeamPersonas.length > 0 && (
                       <div className="space-y-1.5 pt-2 border-t border-slate-800/80">
                         <div className="flex items-center justify-between text-[10px] text-slate-400 font-bold uppercase tracking-wider px-1">
-                          <span>STASIS SQUAD CHARACTERS ({stasisTeamPersonas.length})</span>
+                          <span>STASIS TEAM CHARACTERS ({stasisTeamPersonas.length})</span>
                           <span className="text-[8.5px] text-slate-500">Operator Offline</span>
                         </div>
                         <div className="space-y-1">
@@ -1786,7 +1813,7 @@ export const MessageView = ({
                         className="w-full py-2 px-3 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-sm"
                       >
                         <UserPlus size={13} />
-                        <span>INVITE OPERATOR TO SQUAD</span>
+                        <span>INVITE OPERATOR TO TEAM</span>
                       </button>
                     </div>
                   </>
@@ -1871,7 +1898,7 @@ export const MessageView = ({
                                         setIsQuickInviteOpen(true);
                                       }}
                                       className="p-1 px-1.5 rounded bg-emerald-950/60 hover:bg-emerald-900 border border-emerald-500/40 text-emerald-300 text-[9.5px] font-bold flex items-center gap-1 transition-colors cursor-pointer"
-                                      title={`Invite @${user.userHandle} to Squad`}
+                                      title={`Invite @${user.userHandle} to Team`}
                                     >
                                       <UserPlus size={10} />
                                     </button>
@@ -1945,7 +1972,7 @@ export const MessageView = ({
                   className="w-full py-2 px-3 rounded-xl bg-emerald-600/25 hover:bg-emerald-600/40 text-emerald-300 border border-emerald-500/40 font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-sm"
                 >
                   <UserPlus size={13} />
-                  <span>INVITE OPERATOR TO SQUAD</span>
+                  <span>INVITE OPERATOR TO TEAM</span>
                 </button>
               )}
 

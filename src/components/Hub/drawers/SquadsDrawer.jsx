@@ -104,7 +104,7 @@ export const SquadsDrawer = ({ onClose }) => {
       }
     } catch (err) {
       console.error('Join squad failed:', err);
-      setJoinError(err.message || 'Failed to join squad with provided code.');
+      setJoinError(err.message || 'Failed to join team with provided code.');
     } finally {
       setJoinLoading(false);
     }
@@ -122,14 +122,14 @@ export const SquadsDrawer = ({ onClose }) => {
             <div>
               <div className="flex items-center gap-2">
                 <h2 className="text-sm font-mono font-bold text-slate-100 uppercase tracking-wider">
-                  GAME SQUADS
+                  GAME TEAMS
                 </h2>
                 <span className="px-2 py-0.2 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-mono font-bold">
                   {effectiveSquads.length} Active
                 </span>
               </div>
               <p className="text-[11px] text-slate-400 font-mono mt-0.5">
-                Fireteams, tabletop campaigns, and tied-in encrypted comm frequencies.
+                Teams, tabletop campaigns, and tied-in encrypted comm frequencies.
               </p>
             </div>
           </div>
@@ -144,7 +144,7 @@ export const SquadsDrawer = ({ onClose }) => {
               className="px-3 py-1.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-mono font-bold text-xs rounded-lg shadow flex items-center gap-1.5 transition-all cursor-pointer"
             >
               <Plus size={14} />
-              <span>NEW SQUAD</span>
+              <span>NEW TEAM</span>
             </button>
             {onClose && (
               <button
@@ -166,7 +166,7 @@ export const SquadsDrawer = ({ onClose }) => {
             type="text"
             value={inviteCodeInput}
             onChange={(e) => setInviteCodeInput(e.target.value.toUpperCase())}
-            placeholder="Enter Squad Invite Code (e.g. SQD-XXXXXX)..."
+            placeholder="Enter Team Invite Code (e.g. SQD-XXXXXX)..."
             className="flex-1 px-2.5 py-1.5 bg-slate-950 border border-slate-800 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500 uppercase tracking-widest text-[11px]"
           />
           <button
@@ -192,7 +192,7 @@ export const SquadsDrawer = ({ onClose }) => {
             <div className="flex items-center justify-between text-amber-300 font-bold">
               <span className="flex items-center gap-1.5">
                 <UserPlus size={14} />
-                <span>INCOMING SQUAD INVITATIONS ({pendingInvites.length})</span>
+                <span>INCOMING TEAM INVITATIONS ({pendingInvites.length})</span>
               </span>
               <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
             </div>
@@ -238,9 +238,9 @@ export const SquadsDrawer = ({ onClose }) => {
           {effectiveSquads.length === 0 ? (
             <div className="py-12 px-4 rounded-xl bg-slate-900/40 border border-dashed border-slate-800 text-center space-y-2 font-mono">
               <Users size={28} className="mx-auto text-slate-600" />
-              <p className="text-xs text-slate-400 uppercase">NO ACTIVE SQUADS</p>
+              <p className="text-xs text-slate-400 uppercase">NO ACTIVE TEAMS</p>
               <p className="text-[11px] text-slate-500 max-w-sm mx-auto">
-                Create a tactical squad to organize your tabletop fireteam, assign personas, share invite codes, and tune into tied-in encrypted channels.
+                Create a tactical team to organize your tabletop team, assign personas, share invite codes, and tune into tied-in encrypted channels.
               </p>
               <button
                 type="button"
@@ -248,7 +248,7 @@ export const SquadsDrawer = ({ onClose }) => {
                 className="mt-2 px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-lg uppercase tracking-wider inline-flex items-center gap-1.5 shadow cursor-pointer"
               >
                 <Plus size={13} />
-                <span>Establish Fireteam</span>
+                <span>Establish Team</span>
               </button>
             </div>
           ) : (
@@ -308,7 +308,7 @@ export const SquadsDrawer = ({ onClose }) => {
                       type="button"
                       onClick={(e) => handleOpenTiedInComms(squad, e)}
                       className="px-2.5 py-1.5 rounded-lg bg-slate-800/90 hover:bg-cyan-600/30 text-cyan-300 border border-slate-700 hover:border-cyan-500/40 text-[11px] font-mono font-bold transition-all flex items-center gap-1 cursor-pointer"
-                      title="Open Tied-in Squad Channel"
+                      title="Open Tied-in Team Channel"
                     >
                       <Radio size={12} />
                       <span>Comms</span>

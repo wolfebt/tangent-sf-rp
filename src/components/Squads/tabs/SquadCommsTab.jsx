@@ -47,7 +47,7 @@ export const SquadCommsTab = ({
           </span>
           <span className="text-slate-600 hidden sm:inline">|</span>
           <span className="text-[10.5px] text-slate-400 truncate hidden sm:inline">
-            FREQ: {activeGroup?.channelId || activeChannel?.name || 'squad_freq'}
+            FREQ: {activeGroup?.channelId || activeChannel?.name || 'team_freq'}
           </span>
         </div>
 
@@ -64,7 +64,7 @@ export const SquadCommsTab = ({
                 ? 'bg-rose-950/80 text-rose-200 border-rose-400/80 shadow-[0_0_12px_rgba(244,63,94,0.3)]'
                 : 'bg-rose-950/30 hover:bg-rose-950/60 text-rose-300 border-rose-500/50'
             }`}
-            title="Toggle Squad Tactical Docket (Objectives, Checklists & Handouts)"
+            title="Toggle Team Tactical Docket (Objectives, Checklists & Handouts)"
           >
             <BookOpen size={12} />
             <span>TACTICAL DOCKET</span>

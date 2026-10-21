@@ -1,6 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import {
   Users,
+  User,
+  Sparkles,
   BookOpen,
   Map,
   Activity,
@@ -48,11 +50,16 @@ export const NetworkInspectorDrawer = ({
     activeChannelUsers,
     onlineOperators = [],
     offlineOperators = [],
+    onlinePersonas = [],
+    offlinePersonas = [],
     startDirectMessage
   } = useChat() || {};
 
   const [searchQuery, setSearchQuery] = useState('');
   const [offlineCollapsed, setOfflineCollapsed] = useState(true);
+  const [operatorsBranchOpen, setOperatorsBranchOpen] = useState(true);
+  const [personasBranchOpen, setPersonasBranchOpen] = useState(true);
+  const [offlinePersonasCollapsed, setOfflinePersonasCollapsed] = useState(true);
 
   const isTeam = useMemo(() => {
     if (!activeChannel) return false;
@@ -106,6 +113,30 @@ export const NetworkInspectorDrawer = ({
         u.displayName?.toLowerCase().includes(q)
     );
   }, [offlineOperators, searchQuery]);
+
+  const filteredOnlineNetworkPersonas = useMemo(() => {
+    if (!searchQuery.trim()) return onlinePersonas;
+    const q = searchQuery.toLowerCase().trim();
+    return onlinePersonas.filter(
+      (p) =>
+        p.name?.toLowerCase().includes(q) ||
+        p.role?.toLowerCase().includes(q) ||
+        p.species?.toLowerCase().includes(q) ||
+        p.ownerHandle?.toLowerCase().includes(q)
+    );
+  }, [onlinePersonas, searchQuery]);
+
+  const filteredOfflineNetworkPersonas = useMemo(() => {
+    if (!searchQuery.trim()) return offlinePersonas;
+    const q = searchQuery.toLowerCase().trim();
+    return offlinePersonas.filter(
+      (p) =>
+        p.name?.toLowerCase().includes(q) ||
+        p.role?.toLowerCase().includes(q) ||
+        p.species?.toLowerCase().includes(q) ||
+        p.ownerHandle?.toLowerCase().includes(q)
+    );
+  }, [offlinePersonas, searchQuery]);
 
   if (!activeTab) return null;
 
@@ -231,7 +262,7 @@ export const NetworkInspectorDrawer = ({
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder={
                     isTeam
-                      ? 'Filter squad characters...'
+                      ? 'Filter team characters...'
                       : 'Filter network operators...'
                   }
                   className="w-full pl-7 pr-6 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-200 placeholder-slate-500 text-[11px] focus:outline-none focus:border-cyan-500"
@@ -309,20 +340,20 @@ export const NetworkInspectorDrawer = ({
                       </div>
                     )}
 
-                  {/* Active Squad Characters */}
+                  {/* Active Team Characters */}
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between text-[10px] text-emerald-400 font-bold uppercase tracking-wider px-1">
                       <span className="flex items-center gap-1.5">
                         <Shield size={11} />
                         <span>
-                          ACTIVE FIRETEAM ({activeTeamPersonas.length})
+                          ACTIVE TEAM ({activeTeamPersonas.length})
                         </span>
                       </span>
                     </div>
 
                     {activeTeamPersonas.length === 0 ? (
                       <div className="p-3 text-center text-slate-500 text-[11px] italic bg-slate-900/30 rounded-lg border border-slate-800/50">
-                        No squad characters currently deployed.
+                        No team characters currently deployed.
                       </div>
                     ) : (
                       activeTeamPersonas.map((p) => {
@@ -433,122 +464,261 @@ export const NetworkInspectorDrawer = ({
                   )}
                 </>
               ) : (
-                <>
-                  {/* Online Network Operators */}
-                  <div className="space-y-1.5">
-                    <div className="flex items-center justify-between text-[10px] text-cyan-400 font-bold uppercase tracking-wider px-1">
-                      <span>ONLINE OPERATORS ({filteredOnlineOps.length})</span>
-                    </div>
-
-                    {filteredOnlineOps.map((op) => {
-                      const isSelf = currentUser && op.uid === currentUser.uid;
-                      const activeChar =
-                        op.currentPersona || op.characters?.[0] || null;
-                      return (
-                        <div
-                          key={op.uid}
-                          className="p-2 rounded-xl bg-slate-900/70 border border-slate-800 hover:border-cyan-500/40 transition-all space-y-1.5"
-                        >
-                          <div className="flex items-center justify-between gap-2">
-                            <div className="flex items-center gap-2 min-w-0">
-                              <div className="relative shrink-0">
-                                <div className="w-7 h-7 rounded-lg bg-cyan-950 border border-cyan-500/40 flex items-center justify-center text-cyan-300 font-bold text-[10px]">
-                                  {(op.userHandle || 'OP')
-                                    .slice(0, 2)
-                                    .toUpperCase()}
-                                </div>
-                                <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 border border-black" />
-                              </div>
-                              <div className="min-w-0">
-                                <div className="flex items-center gap-1">
-                                  <span className="font-bold text-slate-100 text-xs truncate">
-                                    @{op.userHandle}
-                                  </span>
-                                  {isSelf && (
-                                    <span className="px-1 py-0.1 rounded bg-cyan-500/20 text-cyan-300 text-[8px] font-bold">
-                                      YOU
-                                    </span>
-                                  )}
-                                </div>
-                                {activeChar ? (
-                                  <div className="text-[9.5px] text-emerald-400 truncate">
-                                    🎭 {activeChar.name} ({activeChar.role || activeChar.species})
-                                  </div>
-                                ) : (
-                                  <div className="text-[9.5px] text-slate-400 truncate">
-                                    {op.statusMessage ||
-                                      op.activity?.label ||
-                                      'Connected to Terran Net'}
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-
-                            {!isSelf && (
-                              <div className="flex items-center gap-1 shrink-0">
-                                <button
-                                  type="button"
-                                  onClick={() => startDirectMessage?.(op, null)}
-                                  className="p-1.5 rounded-lg bg-slate-950 hover:bg-cyan-950 border border-slate-800 hover:border-cyan-500/50 text-cyan-300 cursor-pointer"
-                                  title={`Direct Message @${op.userHandle}`}
-                                >
-                                  <MessageSquare size={11} />
-                                </button>
-                                {onInviteUser && (
-                                  <button
-                                    type="button"
-                                    onClick={() => onInviteUser(op)}
-                                    className="p-1.5 rounded-lg bg-slate-950 hover:bg-emerald-950 border border-slate-800 hover:border-emerald-500/50 text-emerald-300 cursor-pointer"
-                                    title={`Invite @${op.userHandle} to Squad`}
-                                  >
-                                    <UserPlus size={11} />
-                                  </button>
-                                )}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      );
-                    })}
+                <div className="space-y-2">
+                  {/* Root Node: ROSTER */}
+                  <div className="flex items-center justify-between px-2 py-1 rounded-lg bg-slate-900/80 border border-cyan-500/30 text-[10px] font-bold uppercase tracking-wider text-cyan-300">
+                    <span className="flex items-center gap-1.5">
+                      <Users size={11} className="text-cyan-400" />
+                      <span>ROSTER</span>
+                    </span>
+                    <span className="text-[8.5px] text-slate-400">
+                      {filteredOnlineOps.length} Ops • {filteredOnlineNetworkPersonas.length} Personas
+                    </span>
                   </div>
 
-                  {/* Offline Operators */}
-                  {filteredOfflineOps.length > 0 && (
-                    <div className="space-y-1.5 pt-1 border-t border-slate-800/80">
+                  {/* Tree Trunk under ROSTER */}
+                  <div className="ml-2 pl-2 border-l-2 border-cyan-500/35 space-y-3 pt-0.5">
+                    {/* Branch 1: OPERATORS */}
+                    <div className="relative space-y-1.5 before:content-[''] before:absolute before:-left-2 before:top-3 before:w-1.5 before:h-[2px] before:bg-cyan-500/35">
                       <button
                         type="button"
-                        onClick={() => setOfflineCollapsed((prev) => !prev)}
-                        className="w-full flex items-center justify-between text-[10px] text-slate-500 hover:text-slate-300 font-bold uppercase tracking-wider px-1 cursor-pointer"
+                        onClick={() => setOperatorsBranchOpen((prev) => !prev)}
+                        className="w-full flex items-center justify-between px-2 py-1 rounded-lg bg-slate-950/70 border border-cyan-500/30 hover:border-cyan-400 text-[10px] text-cyan-300 font-bold uppercase tracking-wider cursor-pointer"
                       >
-                        <span>OFFLINE ({filteredOfflineOps.length})</span>
-                        {offlineCollapsed ? (
-                          <ChevronRight size={12} />
-                        ) : (
-                          <ChevronDown size={12} />
-                        )}
+                        <span className="flex items-center gap-1.5">
+                          {operatorsBranchOpen ? <ChevronDown size={11} /> : <ChevronRight size={11} />}
+                          <User size={11} className="text-cyan-400" />
+                          <span>OPERATORS</span>
+                        </span>
+                        <span className="text-[9px] text-emerald-300">
+                          {filteredOnlineOps.length} ONLINE
+                        </span>
                       </button>
 
-                      {!offlineCollapsed &&
-                        filteredOfflineOps.map((op) => (
-                          <div
-                            key={op.uid}
-                            className="p-2 rounded-xl bg-slate-950/60 border border-slate-800/60 flex items-center justify-between gap-2 opacity-70"
-                          >
-                            <span className="font-bold text-slate-400 text-xs truncate">
-                              @{op.userHandle}
-                            </span>
-                            <button
-                              type="button"
-                              onClick={() => startDirectMessage?.(op, null)}
-                              className="px-2 py-0.5 rounded bg-slate-900 text-slate-400 hover:text-cyan-300 border border-slate-800 text-[9px] font-bold cursor-pointer"
-                            >
-                              MESSAGE
-                            </button>
-                          </div>
-                        ))}
+                      {operatorsBranchOpen && (
+                        <div className="ml-2 pl-2 border-l border-cyan-500/25 space-y-1.5 pt-0.5">
+                          {filteredOnlineOps.map((op) => {
+                            const isSelf = currentUser && op.uid === currentUser.uid;
+                            const activeChar =
+                              op.currentPersona || op.characters?.[0] || null;
+                            return (
+                              <div
+                                key={op.uid}
+                                className="p-2 rounded-xl bg-slate-900/70 border border-slate-800 hover:border-cyan-500/40 transition-all space-y-1.5"
+                              >
+                                <div className="flex items-center justify-between gap-2">
+                                  <div className="flex items-center gap-2 min-w-0">
+                                    <div className="relative shrink-0">
+                                      <div className="w-7 h-7 rounded-lg bg-cyan-950 border border-cyan-500/40 flex items-center justify-center text-cyan-300 font-bold text-[10px]">
+                                        {(op.userHandle || 'OP')
+                                          .slice(0, 2)
+                                          .toUpperCase()}
+                                      </div>
+                                      <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 border border-black" />
+                                    </div>
+                                    <div className="min-w-0">
+                                      <div className="flex items-center gap-1">
+                                        <span className="font-bold text-slate-100 text-xs truncate">
+                                          @{op.userHandle}
+                                        </span>
+                                        {isSelf && (
+                                          <span className="px-1 py-0.1 rounded bg-cyan-500/20 text-cyan-300 text-[8px] font-bold">
+                                            YOU
+                                          </span>
+                                        )}
+                                      </div>
+                                      {activeChar ? (
+                                        <div className="text-[9.5px] text-emerald-400 truncate">
+                                          🎭 {activeChar.name} ({activeChar.role || activeChar.species})
+                                        </div>
+                                      ) : (
+                                        <div className="text-[9.5px] text-slate-400 truncate">
+                                          {op.statusMessage ||
+                                            op.activity?.label ||
+                                            'Connected to Terran Net'}
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
+
+                                  {!isSelf && (
+                                    <div className="flex items-center gap-1 shrink-0">
+                                      <button
+                                        type="button"
+                                        onClick={() => startDirectMessage?.(op, null)}
+                                        className="p-1.5 rounded-lg bg-slate-950 hover:bg-cyan-950 border border-slate-800 hover:border-cyan-500/50 text-cyan-300 cursor-pointer"
+                                        title={`Direct Message @${op.userHandle}`}
+                                      >
+                                        <MessageSquare size={11} />
+                                      </button>
+                                      {onInviteUser && (
+                                        <button
+                                          type="button"
+                                          onClick={() => onInviteUser(op)}
+                                          className="p-1.5 rounded-lg bg-slate-950 hover:bg-emerald-950 border border-slate-800 hover:border-emerald-500/50 text-emerald-300 cursor-pointer"
+                                          title={`Invite @${op.userHandle} to Team`}
+                                        >
+                                          <UserPlus size={11} />
+                                        </button>
+                                      )}
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          })}
+
+                          {/* Offline Operators */}
+                          {filteredOfflineOps.length > 0 && (
+                            <div className="space-y-1.5 pt-1">
+                              <button
+                                type="button"
+                                onClick={() => setOfflineCollapsed((prev) => !prev)}
+                                className="w-full flex items-center justify-between text-[9.5px] text-slate-500 hover:text-slate-300 font-bold uppercase tracking-wider px-1 cursor-pointer"
+                              >
+                                <span>OFFLINE OPERATORS ({filteredOfflineOps.length})</span>
+                                {offlineCollapsed ? (
+                                  <ChevronRight size={11} />
+                                ) : (
+                                  <ChevronDown size={11} />
+                                )}
+                              </button>
+
+                              {!offlineCollapsed &&
+                                filteredOfflineOps.map((op) => (
+                                  <div
+                                    key={op.uid}
+                                    className="p-2 rounded-xl bg-slate-950/60 border border-slate-800/60 flex items-center justify-between gap-2 opacity-70"
+                                  >
+                                    <span className="font-bold text-slate-400 text-xs truncate">
+                                      @{op.userHandle}
+                                    </span>
+                                    <button
+                                      type="button"
+                                      onClick={() => startDirectMessage?.(op, null)}
+                                      className="px-2 py-0.5 rounded bg-slate-900 text-slate-400 hover:text-cyan-300 border border-slate-800 text-[9px] font-bold cursor-pointer"
+                                    >
+                                      MESSAGE
+                                    </button>
+                                  </div>
+                                ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
-                  )}
-                </>
+
+                    {/* Branch 2: PERSONAS */}
+                    <div className="relative space-y-1.5 before:content-[''] before:absolute before:-left-2 before:top-3 before:w-1.5 before:h-[2px] before:bg-cyan-500/35">
+                      <button
+                        type="button"
+                        onClick={() => setPersonasBranchOpen((prev) => !prev)}
+                        className="w-full flex items-center justify-between px-2 py-1 rounded-lg bg-slate-950/70 border border-purple-500/30 hover:border-purple-400 text-[10px] text-purple-300 font-bold uppercase tracking-wider cursor-pointer"
+                      >
+                        <span className="flex items-center gap-1.5">
+                          {personasBranchOpen ? <ChevronDown size={11} /> : <ChevronRight size={11} />}
+                          <Sparkles size={11} className="text-purple-400" />
+                          <span>PERSONAS</span>
+                        </span>
+                        <span className="text-[9px] text-purple-300">
+                          {filteredOnlineNetworkPersonas.length} ACTIVE
+                        </span>
+                      </button>
+
+                      {personasBranchOpen && (
+                        <div className="ml-2 pl-2 border-l border-purple-500/25 space-y-1.5 pt-0.5">
+                          {filteredOnlineNetworkPersonas.length === 0 ? (
+                            <div className="p-2 text-[10px] text-slate-500 italic bg-slate-950/40 rounded-lg border border-slate-800/60">
+                              No active personas engaged on the network.
+                            </div>
+                          ) : (
+                            filteredOnlineNetworkPersonas.map((p) => {
+                              const isSelf = currentUser && p.ownerUid === currentUser.uid;
+                              return (
+                                <div
+                                  key={p.id || p.name}
+                                  className="p-2 rounded-xl bg-slate-900/70 border border-purple-500/30 hover:border-purple-500/60 transition-all flex items-center justify-between gap-2"
+                                >
+                                  <div className="flex items-center gap-2 min-w-0">
+                                    <div className="relative shrink-0">
+                                      <div className="w-7 h-7 rounded-lg bg-purple-950 border border-purple-500/40 flex items-center justify-center text-xs">
+                                        🎭
+                                      </div>
+                                      <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 border border-black" />
+                                    </div>
+                                    <div className="min-w-0">
+                                      <div className="font-bold text-purple-200 text-xs truncate">
+                                        {p.name}
+                                      </div>
+                                      <div className="text-[9.5px] text-slate-400 truncate">
+                                        {p.species} • {p.role} (@{p.ownerHandle})
+                                      </div>
+                                    </div>
+                                  </div>
+                                  {!isSelf && p.targetUser && (
+                                    <button
+                                      type="button"
+                                      onClick={() => startDirectMessage?.(p.targetUser, p)}
+                                      className="px-2 py-1 rounded-lg bg-purple-950 hover:bg-purple-900 border border-purple-500/50 text-purple-200 text-[9px] font-bold cursor-pointer shrink-0"
+                                    >
+                                      WHISPER
+                                    </button>
+                                  )}
+                                </div>
+                              );
+                            })
+                          )}
+
+                          {filteredOfflineNetworkPersonas.length > 0 && (
+                            <div className="space-y-1.5 pt-1">
+                              <button
+                                type="button"
+                                onClick={() => setOfflinePersonasCollapsed((prev) => !prev)}
+                                className="w-full flex items-center justify-between text-[9.5px] text-slate-500 hover:text-slate-300 font-bold uppercase tracking-wider px-1 cursor-pointer"
+                              >
+                                <span>STASIS PERSONAS ({filteredOfflineNetworkPersonas.length})</span>
+                                {offlinePersonasCollapsed ? (
+                                  <ChevronRight size={11} />
+                                ) : (
+                                  <ChevronDown size={11} />
+                                )}
+                              </button>
+
+                              {!offlinePersonasCollapsed &&
+                                filteredOfflineNetworkPersonas.map((p) => {
+                                  const isSelf = currentUser && p.ownerUid === currentUser.uid;
+                                  return (
+                                    <div
+                                      key={p.id || p.name}
+                                      className="p-2 rounded-xl bg-slate-950/60 border border-slate-800/60 flex items-center justify-between gap-2 opacity-75"
+                                    >
+                                      <div className="min-w-0">
+                                        <div className="font-bold text-slate-300 text-xs truncate">
+                                          🎭 {p.name}
+                                        </div>
+                                        <div className="text-[9px] text-slate-500 truncate">
+                                          {p.species} • @{p.ownerHandle}
+                                        </div>
+                                      </div>
+                                      {!isSelf && p.targetUser && (
+                                        <button
+                                          type="button"
+                                          onClick={() => startDirectMessage?.(p.targetUser, p)}
+                                          className="px-2 py-0.5 rounded bg-slate-900 text-slate-400 hover:text-purple-300 border border-slate-800 text-[9px] font-bold cursor-pointer shrink-0"
+                                        >
+                                          WHISPER
+                                        </button>
+                                      )}
+                                    </div>
+                                  );
+                                })}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
               )}
             </div>
           </div>

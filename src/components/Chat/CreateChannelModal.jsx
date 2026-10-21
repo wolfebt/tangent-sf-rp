@@ -175,19 +175,6 @@ export const CreateChannelModal = ({ isOpen, onClose }) => {
             <MessageSquare size={14} />
             <span>DIRECT MESSAGE (1-ON-1)</span>
           </button>
-
-          <button
-            type="button"
-            onClick={() => setActiveTab('group')}
-            className={`flex-1 py-2 rounded-lg flex items-center justify-center gap-1.5 font-bold transition-all ${
-              activeTab === 'group'
-                ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40 shadow-sm'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            <Users size={14} />
-            <span>TEAM GROUP</span>
-          </button>
         </div>
 
         {/* Modal Body */}
@@ -319,14 +306,14 @@ export const CreateChannelModal = ({ isOpen, onClose }) => {
                 <div className="space-y-3 pt-2 border-t border-slate-800">
                   <div className="flex items-center justify-between">
                     <label className="block text-slate-200 font-bold uppercase tracking-wider text-xs">
-                      🎭 Personas in Group ({selectedCharacters.length} Selected)
+                      🎭 Personas in Team ({selectedCharacters.length} Selected)
                     </label>
                     <span className="text-[10px] text-emerald-400 font-bold">
                       Cross-Character Comms
                     </span>
                   </div>
                   <p className="text-[10.5px] text-slate-400">
-                    Select personas across your roster and other operators to join this group frequency:
+                    Select personas across your roster and other operators to join this team frequency:
                   </p>
 
                   {/* Character Search */}

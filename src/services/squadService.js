@@ -122,8 +122,8 @@ export const SquadService = {
     currentUser,
     persona = null
   }) {
-    if (!name || !name.trim()) throw new Error('Game group name is required');
-    if (!currentUser) throw new Error('You must be logged in to create a game group');
+    if (!name || !name.trim()) throw new Error('Team name is required');
+    if (!currentUser) throw new Error('You must be logged in to create a team');
 
     const groupId = `group_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
     const inviteCode = generateInviteCode();
@@ -231,7 +231,7 @@ export const SquadService = {
   async ensureTeamFrequency(group, currentUser) {
     if (!group || !group.id) return null;
 
-    const cleanName = group.name || 'Operator Squad';
+    const cleanName = group.name || 'Operator Team';
     const channelId = group.channelId || `group_chan_${group.id}`;
 
     if (!db) {
@@ -335,7 +335,7 @@ export const SquadService = {
       // Ensure all enrolled teams have a default active frequency provisioned
       combined.forEach(g => {
         if (!g.channelId) {
-          GroupService.ensureTeamFrequency(g, currentUser);
+          SquadService.ensureTeamFrequency(g, currentUser);
         }
       });
       StorageService.setItem('tangent_game_groups', combined);
@@ -379,7 +379,7 @@ export const SquadService = {
     targetUserHandle,
     currentUser
   }) {
-    if (!groupId || !targetUserId) throw new Error('Missing group or target user ID');
+    if (!groupId || !targetUserId) throw new Error('Missing team or target user ID');
     if (!currentUser) throw new Error('Must be logged in to send invite');
 
     const inviterHandle = currentUser.displayName || currentUser.email?.split('@')[0] || 'Operator';
@@ -405,7 +405,7 @@ export const SquadService = {
 
     // Retrieve group snapshot to embed rich metadata in the invite
     let groupMeta = {
-      name: groupName || 'Game Squad',
+      name: groupName || 'Game Team',
       description: '',
       campaignTitle: '',
       status: 'Recruiting',
@@ -421,7 +421,7 @@ export const SquadService = {
         if (gSnap.exists()) {
           const gData = gSnap.data();
           groupMeta = {
-            name: gData.name || groupName || 'Game Squad',
+            name: gData.name || groupName || 'Game Team',
             description: gData.description || '',
             campaignTitle: gData.campaignTitle || '',
             status: gData.status || 'Recruiting',
@@ -477,7 +477,7 @@ export const SquadService = {
           const notifChannelId = dmChan?.id || `dm_player_${[currentUser.uid, targetUserId].sort().join('_')}`;
           const notifRef = collection(db, 'channels', notifChannelId, 'messages');
           await addDoc(notifRef, {
-            text: `[SQUAD INVITATION] You have been invited to join fireteam "${groupMeta.name}" by @${inviterHandle}.`,
+            text: `[TEAM INVITATION] You have been invited to join team "${groupMeta.name}" by @${inviterHandle}.`,
             type: 'squad_invite',
             inviteId: inviteId,
             groupId: groupId,
@@ -496,7 +496,7 @@ export const SquadService = {
           await updateDoc(dmDocRef, {
             updatedAt: serverTimestamp(),
             lastMessage: {
-              text: `🛡️ Squad Invitation: ${groupMeta.name}`,
+              text: `🛡️ Team Invitation: ${groupMeta.name}`,
               senderHandle: inviterHandle,
               senderUid: currentUser.uid,
               timestamp: new Date().toISOString()
@@ -642,7 +642,7 @@ export const SquadService = {
     isLockedForPlay = false
   }) {
     if (!inviteCode || !inviteCode.trim()) throw new Error('Invite code is required');
-    if (!currentUser) throw new Error('Must be logged in to join a group');
+    if (!currentUser) throw new Error('Must be logged in to join a team');
 
     const cleanCode = inviteCode.trim().toUpperCase();
 
@@ -681,7 +681,7 @@ export const SquadService = {
     }
 
     if (!groupData) {
-      throw new Error(`No active game squad found for invite code "${cleanCode}".`);
+      throw new Error(`No active team found for invite code "${cleanCode}".`);
     }
 
     if (groupData.members && groupData.members.includes(currentUser.uid)) {
@@ -689,7 +689,7 @@ export const SquadService = {
     }
 
     if (groupData.members && groupData.maxMembers && groupData.members.length >= groupData.maxMembers) {
-      throw new Error(`Squad is at maximum capacity (${groupData.maxMembers} operators).`);
+      throw new Error(`Team is at maximum capacity (${groupData.maxMembers} operators).`);
     }
 
     const userHandle = currentUser.displayName || currentUser.email?.split('@')[0] || 'Operator';
@@ -803,7 +803,7 @@ export const SquadService = {
               channelUpdates.groupName = updates.name.trim();
             }
             if (updates.description !== undefined) {
-              channelUpdates.topic = updates.description.trim() || `Tied-in Squad frequency for Game Group: ${updates.name || data.name}`;
+              channelUpdates.topic = updates.description.trim() || `Tied-in Team frequency for: ${updates.name || data.name}`;
             }
             await updateDoc(channelRef, channelUpdates).catch(() => {});
           }
@@ -1047,7 +1047,7 @@ export const SquadService = {
     if (db) {
       const groupRef = doc(db, 'game_groups', groupId);
       const groupSnap = await getDoc(groupRef);
-      if (!groupSnap.exists()) throw new Error('Squad not found');
+      if (!groupSnap.exists()) throw new Error('Team not found');
       const data = groupSnap.data();
 
       // Ensure caller is the current Architect / creator
@@ -1056,7 +1056,7 @@ export const SquadService = {
       }
 
       const targetDetail = data.memberDetails?.[newArchitectUserId];
-      if (!targetDetail) throw new Error('Target operator is not enrolled in this squad');
+      if (!targetDetail) throw new Error('Target operator is not enrolled in this team');
       targetUserHandle = targetDetail.handle || targetDetail.userHandle || 'Architect';
 
       const updatedDetails = { ...(data.memberDetails || {}) };

@@ -60,10 +60,10 @@ export const SquadRosterTab = ({
           </div>
           <div className="space-y-1 max-w-md">
             <h3 className="font-mono text-base font-bold text-white uppercase tracking-wider">
-              NO ACTIVE TACTICAL SQUAD
+              NO ACTIVE TACTICAL TEAM
             </h3>
             <p className="text-xs text-slate-400 font-sans">
-              You are not currently synchronized with an active team. Form a new squad or browse existing public campaigns.
+              You are not currently synchronized with an active team. Form a new team or browse existing public campaigns.
             </p>
           </div>
           <div className="flex items-center gap-3 pt-2">
@@ -72,7 +72,7 @@ export const SquadRosterTab = ({
               onClick={() => setIsCreateModalOpen(true)}
               className="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-mono text-xs font-bold shadow-md transition-all cursor-pointer"
             >
-              + CREATE SQUAD
+              + CREATE TEAM
             </button>
             <button
               type="button"
@@ -107,7 +107,7 @@ export const SquadRosterTab = ({
             )}
           </div>
           <p className="text-xs text-slate-300 max-w-2xl font-sans">
-            {activeGroup.description || 'Dedicated tactical squad coordinating on Terran-net communications.'}
+            {activeGroup.description || 'Dedicated tactical team coordinating on Terran-net communications.'}
           </p>
         </div>
 
@@ -127,7 +127,7 @@ export const SquadRosterTab = ({
             type="button"
             onClick={() => setShowEnlargedQr(prev => !prev)}
             className="p-1.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-emerald-500/50 text-slate-200 hover:text-emerald-300 transition-all cursor-pointer"
-            title="Display Squad QR Code"
+            title="Display Team QR Code"
           >
             <QrCode size={16} />
           </button>
@@ -142,13 +142,13 @@ export const SquadRosterTab = ({
               src={`https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(
                 `${typeof window !== 'undefined' ? window.location.origin : ''}/network?view=teams&join=${activeGroup.inviteCode}`
               )}`}
-              alt="Squad Join QR"
+              alt="Team Join QR"
               className="w-28 h-28"
             />
           </div>
           <div className="space-y-2 text-center sm:text-left">
             <span className="font-mono text-xs font-bold text-emerald-300 uppercase tracking-wider block">
-              FAST MOBILE SQUAD RECRUITMENT
+              FAST MOBILE TEAM RECRUITMENT
             </span>
             <p className="text-xs text-slate-400 max-w-md">
               Have fellow players scan this QR code with their mobile device to instantly bind to <strong className="text-white">{activeGroup.name}</strong> and sync their persona roster.
@@ -165,7 +165,7 @@ export const SquadRosterTab = ({
         <div className="flex items-center justify-between">
           <h3 className="font-mono text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
             <Users size={14} className="text-emerald-400" />
-            <span>SQUAD OPERATORS & PERSONAS</span>
+            <span>TEAM OPERATORS & PERSONAS</span>
           </h3>
           <span className="text-[11px] font-mono text-slate-500">
             {activeGroup.members?.length || 0} / {activeGroup.maxMembers || 6} SLOTS
@@ -250,11 +250,11 @@ export const SquadRosterTab = ({
                         });
                         if (ok) {
                           kickMember(activeGroup.id, memberId);
-                          toast({ type: 'info', text: `${memberHandle} removed from squad.` });
+                          toast({ type: 'info', text: `${memberHandle} removed from team.` });
                         }
                       }}
                       className="text-slate-500 hover:text-rose-400 p-1 transition-colors cursor-pointer"
-                      title="Remove operator from squad"
+                      title="Remove operator from team"
                     >
                       <Trash2 size={13} />
                     </button>
@@ -397,7 +397,7 @@ export const SquadRosterTab = ({
                         if (newRole === 'Architect') {
                           const ok = await confirm({
                             title: 'Hand Off Lead Architect Role',
-                            message: `Are you sure you want to hand off primary squad leadership to ${memberHandle}? You will step down to Co-Architect, and ${memberHandle} will take over as the Lead Architect of ${activeGroup.name}.`,
+                            message: `Are you sure you want to hand off primary team leadership to ${memberHandle}? You will step down to Co-Architect, and ${memberHandle} will take over as the Lead Architect of ${activeGroup.name}.`,
                             confirmLabel: 'Hand Off Role',
                             danger: true
                           });

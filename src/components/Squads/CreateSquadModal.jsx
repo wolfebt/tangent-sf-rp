@@ -37,7 +37,7 @@ export const CreateSquadModal = ({ isOpen, onClose, onCreated }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name.trim()) {
-      setError('Please provide a team or game group name.');
+      setError('Please provide a team name.');
       return;
     }
 
@@ -64,8 +64,8 @@ export const CreateSquadModal = ({ isOpen, onClose, onCreated }) => {
       }
       onClose();
     } catch (err) {
-      console.error('Failed to establish squad:', err);
-      setError(err.message || 'Failed to establish tactical squad.');
+      console.error('Failed to establish team:', err);
+      setError(err.message || 'Failed to establish tactical team.');
     } finally {
       setSubmitting(false);
     }
@@ -82,10 +82,10 @@ export const CreateSquadModal = ({ isOpen, onClose, onCreated }) => {
             </div>
             <div>
               <h2 className="text-sm font-mono font-bold tracking-wider text-slate-100 uppercase">
-                COMMISSION TACTICAL SQUAD
+                COMMISSION TACTICAL TEAM
               </h2>
               <span className="text-[11px] font-mono text-cyan-400">
-                Form a tactical squad with linked Holonet comms and invite codes
+                Form a tactical team with linked Holonet comms and invite codes
               </span>
             </div>
           </div>
@@ -106,10 +106,10 @@ export const CreateSquadModal = ({ isOpen, onClose, onCreated }) => {
             </div>
           )}
 
-          {/* Group Name */}
+          {/* Team Name */}
           <div>
             <label className="block text-slate-300 font-bold mb-1 uppercase tracking-wider">
-              Team / Group Name *
+              Team Name *
             </label>
             <input
               type="text"
@@ -124,7 +124,7 @@ export const CreateSquadModal = ({ isOpen, onClose, onCreated }) => {
           {/* Description */}
           <div>
             <label className="block text-slate-300 font-bold mb-1 uppercase tracking-wider">
-              Mission Brief / Group Description
+              Mission Brief / Team Description
             </label>
             <textarea
               rows={2}
@@ -164,7 +164,7 @@ export const CreateSquadModal = ({ isOpen, onClose, onCreated }) => {
                 onChange={(e) => setMaxMembers(e.target.value)}
                 className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-slate-200 focus:outline-none focus:border-cyan-500"
               >
-                <option value="4">4 Operators (Standard Fireteam)</option>
+                <option value="4">4 Operators (Standard Team)</option>
                 <option value="6">6 Operators (Tactical Team)</option>
                 <option value="8">8 Operators (Platoon Strike)</option>
                 <option value="12">12 Operators (Battalion Raid)</option>
@@ -249,7 +249,7 @@ export const CreateSquadModal = ({ isOpen, onClose, onCreated }) => {
               className="w-full py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 disabled:opacity-40 text-white font-mono font-bold rounded-xl shadow-[0_0_15px_rgba(34,211,238,0.3)] transition-all flex items-center justify-center gap-2"
             >
               <Sparkles size={15} />
-              <span>{submitting ? 'COMMISSIONING SQUAD...' : 'INITIALIZE TACTICAL SQUAD & COMMS'}</span>
+              <span>{submitting ? 'COMMISSIONING TEAM...' : 'INITIALIZE TACTICAL TEAM & COMMS'}</span>
             </button>
           </div>
         </form>

@@ -32,13 +32,18 @@ export const CommsPage = ({
   serverContext = 'holonet',
   activeStageMode = 'comms',
   activeSquadTab = 'roster',
+  activeSquadNavTab,
   onSelectSquadCommandTab,
+  onSelectSquadNavTab,
   onReturnToCommsStream,
   onSwitchToTeams,
+  onOpenCreateSquad,
   mobileViewOverride,
   setMobileViewOverride,
   renderStageOverride = null
 }) => {
+  const effectiveSquadTab = activeSquadNavTab || activeSquadTab || 'roster';
+  const effectiveOnSelectSquadTab = onSelectSquadNavTab || onSelectSquadCommandTab;
   const { 
     activeChannel, 
     messages, 
@@ -216,7 +221,7 @@ export const CommsPage = ({
       <div className="flex-1 flex min-h-0 overflow-hidden relative">
         {/* Optional Standalone CommsNavRail (Hidden when unified NetworkServerRail is active) */}
         {!hideLeftRail && (
-          <div className="hidden md:flex h-full shrink-0">
+          <div className="hidden md:flex h-full shrink-0 relative z-40">
             <CommsNavRail
               onOpenCreateModal={() => setIsCreateModalOpen(true)}
               onOpenSquadModal={() => (onSwitchToTeams ? onSwitchToTeams() : setIsTeamModalOpen(true))}
@@ -230,27 +235,41 @@ export const CommsPage = ({
           mobileView === 'sidebar' ? 'flex' : 'hidden md:flex'
         }`}>
           <div className="flex-1 min-h-0 overflow-hidden relative">
-            <ChannelSidebar
-              serverContext={serverContext}
-              activeStageMode={activeStageMode}
-              activeSquadTab={activeSquadTab}
-              onSelectSquadCommandTab={(tabId) => {
-                onSelectSquadCommandTab?.(tabId);
-                setMobileView('chat');
-              }}
-              onReturnToCommsStream={() => {
-                onReturnToCommsStream?.();
-                setMobileView('chat');
-              }}
-              onOpenCreateModal={() => setIsCreateModalOpen(true)}
-              onOpenSquadModal={() => (onSwitchToTeams ? onSwitchToTeams() : setIsTeamModalOpen(true))}
-              onOpenTeamModal={() => (onSwitchToTeams ? onSwitchToTeams() : setIsTeamModalOpen(true))}
-              onSwitchToTeams={onSwitchToTeams}
-              onSelectChannel={() => {
-                onReturnToCommsStream?.();
-                setMobileView('chat');
-              }}
-            />
+            {!hideLeftRail && activeNavTab === 'roster' ? (
+              <NetworkRosterView />
+            ) : !hideLeftRail && activeNavTab === 'teams' ? (
+              <SquadSummarySidebar
+                onOpenCreateModal={() => setIsCreateModalOpen(true)}
+                onOpenSquadModal={() => (onSwitchToTeams ? onSwitchToTeams() : setIsTeamModalOpen(true))}
+              />
+            ) : serverContext !== 'squad' && activeNavTab === 'vtt' ? (
+              <CommsVttPanel />
+            ) : serverContext !== 'squad' && activeNavTab === 'logs' ? (
+              <PersonaAuditLogSidebar />
+            ) : (
+              <ChannelSidebar
+                serverContext={serverContext}
+                activeStageMode={activeStageMode}
+                activeSquadTab={effectiveSquadTab}
+                onSelectSquadCommandTab={(tabId) => {
+                  effectiveOnSelectSquadTab?.(tabId);
+                  setMobileView('chat');
+                }}
+                onReturnToCommsStream={() => {
+                  onReturnToCommsStream?.();
+                  setMobileView('chat');
+                }}
+                onOpenCreateModal={() => setIsCreateModalOpen(true)}
+                onOpenCreateSquad={onOpenCreateSquad || (() => setIsTeamModalOpen(true))}
+                onOpenSquadModal={() => (onOpenCreateSquad ? onOpenCreateSquad() : (onSwitchToTeams ? onSwitchToTeams() : setIsTeamModalOpen(true)))}
+                onOpenTeamModal={() => (onOpenCreateSquad ? onOpenCreateSquad() : (onSwitchToTeams ? onSwitchToTeams() : setIsTeamModalOpen(true)))}
+                onSwitchToTeams={onSwitchToTeams}
+                onSelectChannel={() => {
+                  onReturnToCommsStream?.();
+                  setMobileView('chat');
+                }}
+              />
+            )}
           </div>
         </div>
 

@@ -112,7 +112,7 @@ export const SquadProvider = ({ children }) => {
     isPublic,
     persona
   }) => {
-    if (!currentUser) throw new Error('You must be logged in to create a game group.');
+    if (!currentUser) throw new Error('You must be logged in to create a team.');
     
     const chosenPersona = persona || activePersona || (personaRoster?.[0] || roster?.[0]);
     
@@ -154,7 +154,7 @@ export const SquadProvider = ({ children }) => {
     }
 
     const targetGroup = groups.find(g => g.id === resolvedGroupId) || activeGroup;
-    if (!targetGroup) throw new Error('Game group not found');
+    if (!targetGroup) throw new Error('Team not found');
 
     AudioService.playTerminalBeep(1300, 0.03);
     return await SquadService.sendGroupInvite({

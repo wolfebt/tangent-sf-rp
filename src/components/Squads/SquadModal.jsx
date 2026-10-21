@@ -148,7 +148,7 @@ export const SquadModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
             <div className="min-w-0">
               <div className="flex items-center gap-2">
                 <h2 className="text-sm sm:text-base font-mono font-bold tracking-wider text-slate-100 uppercase truncate">
-                  {activeGroup ? activeGroup.name : 'TACTICAL SQUADS'}
+                  {activeGroup ? activeGroup.name : 'TACTICAL TEAMS'}
                 </h2>
                 {activeGroup && (
                   <span className="px-2 py-0.2 rounded-full text-[9px] font-mono font-bold border uppercase bg-cyan-500/20 text-cyan-300 border-cyan-500/40 shrink-0">
@@ -157,7 +157,7 @@ export const SquadModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
                 )}
               </div>
               <span className="text-[10.5px] font-mono text-slate-400 block truncate">
-                {activeGroup ? `${activeGroup.members?.length || 0} Operators Commissioned` : 'No Active Squad Selected'}
+                {activeGroup ? `${activeGroup.members?.length || 0} Operators Commissioned` : 'No Active Team Selected'}
               </span>
             </div>
           </div>

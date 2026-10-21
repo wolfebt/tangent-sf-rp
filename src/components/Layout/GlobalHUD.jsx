@@ -415,7 +415,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                     ? 'bg-slate-900/80 text-amber-300 border-amber-500/60 shadow-[0_0_12px_rgba(245,158,11,0.25)] animate-nav-pulse-amber'
                     : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-emerald-300 border-slate-700/80 hover:border-emerald-500/50'
                 }`}
-                title={totalUnreadCount > 0 ? 'Tactical Squads & Operator Network (Unread Messages)' : 'Tactical Squads & Operator Network (/network)'}
+                title={totalUnreadCount > 0 ? 'Tactical Teams & Operator Network (Unread Messages)' : 'Tactical Teams & Operator Network (/network)'}
               >
                 <Radio size={14} className={isNetwork ? 'text-emerald-300' : totalUnreadCount > 0 ? 'text-amber-400' : 'text-emerald-400'} />
                 <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">NETWORK</span>
@@ -703,7 +703,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                           </span>
                         )}
                       </div>
-                      <div className="text-[10px] text-slate-400">Tactical Squads, CommLink & Operator Relay</div>
+                      <div className="text-[10px] text-slate-400">Tactical Teams, CommLink & Operator Relay</div>
                     </div>
                   </button>
                 </div>

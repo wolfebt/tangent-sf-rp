@@ -92,7 +92,7 @@ export const QuickSquadInviteModal = ({
   const handleCopyLink = () => {
     if (!currentSelectedSquad?.inviteCode) return;
     const origin = typeof window !== 'undefined' ? window.location.origin : '';
-    const shareUrl = `${origin}/network?view=squads&join=${currentSelectedSquad.inviteCode}`;
+    const shareUrl = `${origin}/network?view=teams&join=${currentSelectedSquad.inviteCode}`;
     navigator.clipboard.writeText(shareUrl);
     AudioService.playTerminalBeep(1250, 0.03);
     setCopiedLink(true);
@@ -124,7 +124,7 @@ export const QuickSquadInviteModal = ({
       toast({
         type: 'success',
         title: 'COMMISSION DISPATCHED',
-        text: `Squad invite dispatched to @${targetHandle} for ${currentSelectedSquad.name}.`
+        text: `Team invite dispatched to @${targetHandle} for ${currentSelectedSquad.name}.`
       });
     } catch (err) {
       console.error('Dispatch invite error:', err);
@@ -132,7 +132,7 @@ export const QuickSquadInviteModal = ({
       toast({
         type: 'error',
         title: 'DISPATCH FAILED',
-        text: err.message || 'Could not send squad invite.'
+        text: err.message || 'Could not send team invite.'
       });
     }
   };
@@ -189,10 +189,10 @@ export const QuickSquadInviteModal = ({
             <div>
               <div className="flex items-center gap-2">
                 <h2 className="text-xs sm:text-sm font-mono font-bold tracking-wider text-slate-100 uppercase">
-                  DISPATCH SQUAD INVITATION
+                  DISPATCH TEAM INVITATION
                 </h2>
                 <span className="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[9px] font-mono font-bold">
-                  FAST SQUAD LINK
+                  FAST TEAM LINK
                 </span>
               </div>
               <p className="text-[10px] sm:text-[11px] font-mono text-slate-400 mt-0.5">
@@ -217,7 +217,7 @@ export const QuickSquadInviteModal = ({
           {effectiveSquads.length > 1 && (
             <div className="space-y-1">
               <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-                TARGET SQUAD / FIRETEAM:
+                TARGET TEAM:
               </label>
               <select
                 value={selectedSquadId}
@@ -307,14 +307,14 @@ export const QuickSquadInviteModal = ({
                     <div className="p-1.5 bg-white rounded-lg shrink-0">
                       <img 
                         src={`https://api.qrserver.com/v1/create-qr-code/?size=96x96&data=${encodeURIComponent(
-                          `${typeof window !== 'undefined' ? window.location.origin : ''}/network?view=squads&join=${currentSelectedSquad.inviteCode}`
+                          `${typeof window !== 'undefined' ? window.location.origin : ''}/network?view=teams&join=${currentSelectedSquad.inviteCode}`
                         )}`}
                         alt="Join QR"
                         className="w-20 h-20"
                       />
                     </div>
                     <div className="space-y-1">
-                      <span className="text-[11px] font-bold text-purple-300 block">SCAN TO JOIN SQUAD</span>
+                      <span className="text-[11px] font-bold text-purple-300 block">SCAN TO JOIN TEAM</span>
                       <p className="text-[10px] text-slate-400">
                         Scan from mobile camera to instantly open and bind to <strong className="text-white">{currentSelectedSquad.name}</strong>.
                       </p>
@@ -370,7 +370,7 @@ export const QuickSquadInviteModal = ({
                 <div className="space-y-1.5 max-h-52 overflow-y-auto pr-1 no-scrollbar">
                   {candidateUsers.length === 0 ? (
                     <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-900 text-center text-slate-500 text-[11px] font-mono">
-                      {searchQuery ? 'No matching operators found.' : 'All online operators are already members of this squad.'}
+                      {searchQuery ? 'No matching operators found.' : 'All online operators are already members of this team.'}
                     </div>
                   ) : (
                     candidateUsers.map(user => {
@@ -492,9 +492,9 @@ export const QuickSquadInviteModal = ({
           ) : (
             <div className="p-6 rounded-xl bg-slate-950/60 border border-slate-900 text-center space-y-2">
               <Shield size={24} className="mx-auto text-slate-600" />
-              <p className="text-slate-400 text-xs font-bold">No Tactical Squads Found</p>
+              <p className="text-slate-400 text-xs font-bold">No Tactical Teams Found</p>
               <p className="text-slate-500 text-[10px]">
-                Create a squad in the Squads module to generate invite credentials.
+                Create a team in the Teams module to generate invite credentials.
               </p>
             </div>
           )}

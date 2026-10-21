@@ -79,7 +79,7 @@ export const SquadSummarySidebar = ({
           </div>
           <div className="min-w-0">
             <h3 className="font-mono text-xs font-bold text-slate-100 uppercase tracking-wider truncate">
-              TACTICAL SQUADS
+              TACTICAL TEAMS
             </h3>
             <span className="text-[10px] font-mono text-slate-500 block truncate">
               {groups.length} Registered Comm Frequencies
@@ -96,7 +96,7 @@ export const SquadSummarySidebar = ({
               else navigate('/teams?action=new');
             }}
             className="p-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-emerald-500/60 text-slate-300 hover:text-emerald-300 transition-colors cursor-pointer"
-            title="Create New Tactical Squad"
+            title="Create New Tactical Team"
           >
             <Plus size={13} />
           </button>
@@ -147,7 +147,7 @@ export const SquadSummarySidebar = ({
       {groups.length > 1 && (
         <div className="px-3 pt-2.5 shrink-0">
           <label className="text-[9.5px] font-mono text-slate-500 uppercase tracking-wider block mb-1">
-            ACTIVE DEPLOYMENT SQUAD
+            ACTIVE DEPLOYMENT TEAM
           </label>
           <select
             value={activeGroup?.id || ''}
@@ -212,7 +212,7 @@ export const SquadSummarySidebar = ({
                     }`}
                   >
                     <Radio size={12} className={isCurrentChannelTuned ? 'animate-soft-back-glow text-cyan-400' : hasUnread ? 'text-amber-400 animate-soft-back-glow' : ''} />
-                    <span>{isCurrentChannelTuned ? 'SQUAD FREQUENCY TUNED' : 'TUNE TO SQUAD CHANNEL'}</span>
+                    <span>{isCurrentChannelTuned ? 'TEAM FREQUENCY TUNED' : 'TUNE TO TEAM CHANNEL'}</span>
                     {hasUnread && (
                       <span className="px-1.5 py-0.2 rounded-full bg-amber-400 text-black text-[9px] font-black animate-soft-badge-glow shadow-[0_0_6px_rgba(245,158,11,0.7)]">
                         {squadUnread} NEW
@@ -310,7 +310,7 @@ export const SquadSummarySidebar = ({
             >
               <div className="flex items-center gap-1.5">
                 <Shield size={13} className="text-emerald-400 group-hover:scale-110 transition-transform" />
-                <span>OPEN SQUAD DOSSIER</span>
+                <span>OPEN TEAM DOSSIER</span>
               </div>
               <ChevronRight size={13} className="group-hover:translate-x-0.5 transition-transform" />
             </button>
@@ -318,13 +318,13 @@ export const SquadSummarySidebar = ({
         ) : (
           <div className="p-6 text-center text-slate-500 space-y-3">
             <Users size={28} className="mx-auto text-slate-600" />
-            <p className="text-xs font-mono">No active tactical squad deployed.</p>
+            <p className="text-xs font-mono">No active tactical team deployed.</p>
             <button
               type="button"
               onClick={handleNavigateToTeams}
               className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition-colors cursor-pointer"
             >
-              JOIN OR CREATE SQUAD
+              JOIN OR CREATE TEAM
             </button>
           </div>
         )}

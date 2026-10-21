@@ -120,8 +120,8 @@ export const GlobalSideRail = () => {
         : totalUnreadCount > 0
         ? `${totalUnreadCount} Unseen Messages`
         : inviteCount > 0
-        ? `${inviteCount} Pending Squad Invite${inviteCount > 1 ? 's' : ''}`
-        : 'Tactical Squads, CommLink & Operator Relay',
+        ? `${inviteCount} Pending Team Invite${inviteCount > 1 ? 's' : ''}`
+        : 'Tactical Teams, CommLink & Operator Relay',
       icon: Radio,
       colorTheme: 'emerald',
       pulse: totalUnreadCount > 0,

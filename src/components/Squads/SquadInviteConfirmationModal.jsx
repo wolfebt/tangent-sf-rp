@@ -51,7 +51,7 @@ export const SquadInviteConfirmationModal = ({ isOpen, onClose, invite }) => {
   if (!isOpen || !invite) return null;
 
   const metadata = invite.groupMetadata || {};
-  const groupName = invite.groupName || metadata.name || 'Tactical Fireteam';
+  const groupName = invite.groupName || metadata.name || 'Tactical Team';
   const gmHandle = invite.fromUserHandle || metadata.creatorHandle || 'Architect';
   const campaignTitle = metadata.campaignTitle || '';
   const description = metadata.description || 'Tactical operations and mission chatter.';
@@ -112,7 +112,7 @@ export const SquadInviteConfirmationModal = ({ isOpen, onClose, invite }) => {
                 </span>
               </div>
               <p className="text-[11px] font-mono text-slate-400 mt-0.5">
-                Review fireteam dossier &amp; select your deploying persona
+                Review team dossier &amp; select your deploying persona
               </p>
             </div>
           </div>
@@ -169,7 +169,7 @@ export const SquadInviteConfirmationModal = ({ isOpen, onClose, invite }) => {
             <div className="p-4 rounded-xl bg-red-950/40 border border-red-500/50 space-y-3">
               <div className="flex items-center gap-2 text-red-400 font-bold text-xs uppercase tracking-wider">
                 <AlertTriangle size={16} />
-                <span>DECLINE FIRETEAM COMMISSION?</span>
+                <span>DECLINE TEAM COMMISSION?</span>
               </div>
               <p className="text-slate-300 text-[11px] leading-relaxed">
                 Are you sure you want to decline this commission from <strong className="text-white">@{gmHandle}</strong> for team <strong className="text-white">"{groupName}"</strong>? The invitation will be dismissed from your inbox.
@@ -198,7 +198,7 @@ export const SquadInviteConfirmationModal = ({ isOpen, onClose, invite }) => {
               <div className="flex items-center justify-between">
                 <label className="block text-slate-300 font-bold uppercase tracking-wider text-[11px] flex items-center gap-1.5">
                   <Sparkles size={13} className="text-cyan-400" />
-                  <span>Assign Persona to Fireteam</span>
+                  <span>Assign Persona to Team</span>
                 </label>
                 <span className="text-[10px] text-slate-500">
                   {allPersonas.length} Available in Folio
@@ -363,7 +363,7 @@ export const SquadInviteConfirmationModal = ({ isOpen, onClose, invite }) => {
                   className="px-5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 disabled:opacity-40 text-white text-xs font-mono font-bold transition-all flex items-center gap-1.5 shadow-[0_0_20px_rgba(16,185,129,0.3)] cursor-pointer"
                 >
                   <Check size={14} />
-                  <span>{submitting ? 'DEPLOYING...' : isFull ? 'SQUAD CAPACITY FULL' : 'CONFIRM & DEPLOY TO SQUAD'}</span>
+                  <span>{submitting ? 'DEPLOYING...' : isFull ? 'TEAM CAPACITY FULL' : 'CONFIRM & DEPLOY TO TEAM'}</span>
                 </button>
               </div>
             </>

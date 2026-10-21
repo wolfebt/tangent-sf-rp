@@ -16,7 +16,8 @@ import {
   Radio,
   Zap,
   Check,
-  Key
+  Key,
+  Crown
 } from 'lucide-react';
 import { useChat } from '../../context/ChatContext';
 import { useFolio } from '../../context/FolioContext';
@@ -48,6 +49,8 @@ export const MessageInput = ({ isCompact = false }) => {
     setSelectedPersona,
     squadEnrolledPersona,
     activeChannel,
+    activeChannelGroup,
+    isCurrentChannelArchitect,
     broadcastToVtt,
     setBroadcastToVtt,
     replyingToMessage,
@@ -80,14 +83,23 @@ export const MessageInput = ({ isCompact = false }) => {
 
   const inputRef = useRef(null);
 
-  const SLASH_COMMANDS = useMemo(() => [
-    { cmd: '/roll 2d10', trigger: '/roll', label: 'Roll 2d10 Check', desc: 'Execute standard Tangent 2d10 tactical check', badge: 'DICE' },
-    { cmd: '/roll 2d10+4 ', trigger: '/r', label: 'Roll 2d10 + Modifier', desc: 'Roll 2d10 with modifier and optional check label', badge: 'DICE' },
-    { cmd: '/me ', trigger: '/me', label: 'Narrative Action (/me)', desc: 'Perform an In-Character physical action or emote', badge: 'RP' },
-    { cmd: '/ooc ', trigger: '/ooc', label: 'Out-of-Character Remark (/ooc)', desc: 'Send an OOC operator note without leaving IC mode', badge: 'OOC' },
-    { cmd: '/ic', trigger: '/ic', label: 'Switch to In-Character Mode', desc: `Bind transmitter to Folio Persona (${selectedPersona?.['char-name'] || selectedPersona?.name || 'Persona'})`, badge: 'MODE', instant: true },
-    { cmd: '[Hyperdrive] ', trigger: '/codex', label: 'Insert Codex Lore Link', desc: 'Reference an interactive HoloNet Codex entry in chat', badge: 'LORE' }
-  ], [selectedPersona]);
+  const SLASH_COMMANDS = useMemo(() => {
+    const base = [
+      { cmd: '/roll 2d10', trigger: '/roll', label: 'Roll 2d10 Check', desc: 'Execute standard Tangent 2d10 tactical check', badge: 'DICE' },
+      { cmd: '/roll 2d10+4 ', trigger: '/r', label: 'Roll 2d10 + Modifier', desc: 'Roll 2d10 with modifier and optional check label', badge: 'DICE' },
+      { cmd: '/me ', trigger: '/me', label: 'Narrative Action (/me)', desc: 'Perform an In-Character physical action or emote', badge: 'RP' },
+      { cmd: '/ooc ', trigger: '/ooc', label: 'Out-of-Character Remark (/ooc)', desc: 'Send an OOC operator note without leaving IC mode', badge: 'OOC' },
+      { cmd: '/ic', trigger: '/ic', label: 'Switch to In-Character Mode', desc: `Bind transmitter to Folio Persona (${selectedPersona?.['char-name'] || selectedPersona?.name || 'Persona'})`, badge: 'MODE', instant: true },
+      { cmd: '[Hyperdrive] ', trigger: '/codex', label: 'Insert Codex Lore Link', desc: 'Reference an interactive HoloNet Codex entry in chat', badge: 'LORE' }
+    ];
+    if (isCurrentChannelArchitect) {
+      base.splice(5, 0,
+        { cmd: '/architect', trigger: '/architect', label: 'Switch to Architect Mode (GM / Referee)', desc: 'Transmit as Team Creator / Gamemaster / Referee', badge: 'GM', instant: true },
+        { cmd: '/gm ', trigger: '/gm', label: 'Architect Broadcast (/gm)', desc: 'Send an official Gamemaster / Referee ruling or narration', badge: 'GM' }
+      );
+    }
+    return base;
+  }, [selectedPersona, isCurrentChannelArchitect]);
 
   const matchingSlashCommands = useMemo(() => {
     if (!text.startsWith('/')) return [];
@@ -106,6 +118,12 @@ export const MessageInput = ({ isCompact = false }) => {
     AudioService.playTerminalBeep(1200, 0.02);
     if (item.instant && item.trigger === '/ic') {
       setSpeakingMode('IC');
+      setText('');
+      inputRef.current?.focus();
+      return;
+    }
+    if (item.instant && item.trigger === '/architect' && isCurrentChannelArchitect) {
+      setSpeakingMode('ARCHITECT');
       setText('');
       inputRef.current?.focus();
       return;
@@ -167,6 +185,11 @@ export const MessageInput = ({ isCompact = false }) => {
     }
     if (msgToSend.toLowerCase() === '/ooc') {
       setSpeakingMode('OOC');
+      setText('');
+      return;
+    }
+    if ((msgToSend.toLowerCase() === '/architect' || msgToSend.toLowerCase() === '/gm') && isCurrentChannelArchitect) {
+      setSpeakingMode('ARCHITECT');
       setText('');
       return;
     }
@@ -233,7 +256,9 @@ export const MessageInput = ({ isCompact = false }) => {
     try {
       const isAdv = rollAdvantage === 'adv';
       const isDis = rollAdvantage === 'dis';
-      const cName = (speakingMode === 'IC' || isTeam) && selectedPersona
+      const cName = speakingMode === 'ARCHITECT' && isCurrentChannelArchitect
+        ? `ARCHITECT (@${userHandle || 'Operator'})`
+        : (speakingMode === 'IC' || isTeam) && selectedPersona
         ? (selectedPersona['char-name'] || selectedPersona.name || 'Persona')
         : (userHandle || 'Operator');
 
@@ -415,13 +440,23 @@ export const MessageInput = ({ isCompact = false }) => {
                   setIsRpgMenuOpen(false);
                 }}
                 className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg border font-bold text-xs transition-all cursor-pointer shadow-sm ${
-                  speakingMode === 'IC'
+                  speakingMode === 'ARCHITECT' && isCurrentChannelArchitect
+                    ? 'bg-amber-950/75 hover:bg-amber-900/80 border-amber-500/60 text-amber-200 shadow-[0_0_10px_rgba(245,158,11,0.2)]'
+                    : speakingMode === 'IC'
                     ? 'bg-purple-950/60 hover:bg-purple-900/70 border-purple-500/50 text-purple-200'
                     : 'bg-slate-950 hover:bg-slate-900 border-slate-700 hover:border-cyan-500/50 text-cyan-300'
                 }`}
-                title="Click to toggle speaking identity (Player OOC vs In-Character Persona)"
+                title="Click to toggle speaking identity (Player OOC, In-Character Persona, or Architect GM / Referee)"
               >
-                {speakingMode === 'IC' ? (
+                {speakingMode === 'ARCHITECT' && isCurrentChannelArchitect ? (
+                  <>
+                    <Crown size={13} className="text-amber-400" />
+                    <span>ARCHITECT: @{userHandle || 'Operator'}</span>
+                    <span className="text-[8.5px] px-1.5 py-0.2 bg-amber-500/25 text-amber-300 border border-amber-500/40 rounded font-bold uppercase ml-0.5">
+                      GM // REFEREE
+                    </span>
+                  </>
+                ) : speakingMode === 'IC' ? (
                   <>
                     <Shield size={13} className="text-purple-400" />
                     <span>IC: {activePersonaName}</span>
@@ -431,7 +466,7 @@ export const MessageInput = ({ isCompact = false }) => {
                     </span>
                     {isTeam && (
                       <span className="text-[8.5px] px-1 py-0.2 bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 rounded font-bold uppercase ml-0.5">
-                        {isEnrolledSquadPersona ? '★ SQUAD ENROLLED' : 'SQUAD PERSONA'}
+                        {isEnrolledSquadPersona ? '★ TEAM ENROLLED' : 'TEAM PERSONA'}
                       </span>
                     )}
                   </>
@@ -453,7 +488,7 @@ export const MessageInput = ({ isCompact = false }) => {
 
               {/* Identity Picker Popover */}
               {isIdentityDropdownOpen && (
-                <div className="absolute left-0 bottom-full mb-1.5 w-76 bg-[#0c111a] border border-slate-700 rounded-xl shadow-2xl p-2.5 space-y-2 z-50 animate-in fade-in zoom-in-95 duration-150">
+                <div className="absolute left-0 bottom-full mb-1.5 w-80 bg-[#0c111a] border border-slate-700 rounded-xl shadow-2xl p-2.5 space-y-2 z-50 animate-in fade-in zoom-in-95 duration-150">
                   <div className="pb-1.5 border-b border-slate-800">
                     <div className="flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                       <span>SELECT TRANSMITTING IDENTITY</span>
@@ -468,7 +503,7 @@ export const MessageInput = ({ isCompact = false }) => {
                     <div className="text-[9.5px] font-mono mt-1">
                       {isTeam ? (
                         <span className="text-emerald-400 font-semibold">
-                          🛡️ Team Channel: Auto-bound to enrolled Squad Persona
+                          🛡️ Team Channel: Auto-bound to enrolled Team Persona
                         </span>
                       ) : isStandard ? (
                         <span className="text-cyan-400 font-semibold">
@@ -506,6 +541,40 @@ export const MessageInput = ({ isCompact = false }) => {
                     </div>
                     {speakingMode === 'OOC' && <Check size={14} className="text-cyan-400" />}
                   </div>
+
+                  {/* Option 1B: ARCHITECT (Gamemaster / Referee) - Available to Team/Channel Creator */}
+                  {isCurrentChannelArchitect && (
+                    <div
+                      onClick={() => {
+                        AudioService.playTerminalBeep(1350, 0.025);
+                        setSpeakingMode('ARCHITECT');
+                        setIsIdentityDropdownOpen(false);
+                      }}
+                      className={`p-2 rounded-lg flex items-center justify-between cursor-pointer transition-colors ${
+                        speakingMode === 'ARCHITECT'
+                          ? 'bg-amber-950/70 border border-amber-500/60 text-amber-200 shadow-[0_0_10px_rgba(245,158,11,0.18)]'
+                          : 'bg-slate-900/60 border border-amber-500/30 text-amber-200/90 hover:bg-amber-950/40'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2 min-w-0">
+                        <div className="w-6 h-6 rounded bg-amber-950/90 border border-amber-500/40 flex items-center justify-center text-amber-400 shrink-0">
+                          <Crown size={12} />
+                        </div>
+                        <div className="min-w-0">
+                          <div className="flex items-center gap-1.5">
+                            <span className="font-bold text-xs text-amber-300">ARCHITECT</span>
+                            <span className="text-[8px] px-1 py-0.1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold uppercase shrink-0">
+                              GM // REFEREE
+                            </span>
+                          </div>
+                          <span className="text-[9.5px] text-slate-400 block truncate">
+                            Gamemaster / Referee (@{userHandle || 'Operator'})
+                          </span>
+                        </div>
+                      </div>
+                      {speakingMode === 'ARCHITECT' && <Check size={14} className="text-amber-400 shrink-0" />}
+                    </div>
+                  )}
 
                   {/* Option 2: Folio Personas (IC) */}
                   <div className="pt-1 space-y-1">
@@ -551,7 +620,7 @@ export const MessageInput = ({ isCompact = false }) => {
                                     <span className="font-bold text-[11px] block truncate">{pName}</span>
                                     {isSquadEnrolledThis && (
                                       <span className="text-[8px] px-1 py-0.1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold shrink-0">
-                                        ★ SQUAD
+                                        ★ TEAM
                                       </span>
                                     )}
                                   </div>
@@ -600,14 +669,24 @@ export const MessageInput = ({ isCompact = false }) => {
                     setIsIdentityDropdownOpen(false);
                   }}
                   className="p-1.5 px-2 rounded-lg bg-slate-950 hover:bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white font-bold text-[10.5px] flex items-center gap-1 transition-colors cursor-pointer"
-                  title="RPG Formatting (/me, /ooc, [Codex])"
+                  title="RPG Formatting (/me, /ooc, /gm, [Codex])"
                 >
                   <Sparkles size={12} className="text-purple-400" />
                   <span className="hidden sm:inline">RPG</span>
                 </button>
 
                 {isRpgMenuOpen && (
-                  <div className="absolute right-0 bottom-full mb-1.5 w-44 bg-[#0c111a] border border-slate-700 rounded-xl shadow-2xl p-1.5 space-y-1 z-50 animate-in fade-in duration-100 text-xs">
+                  <div className="absolute right-0 bottom-full mb-1.5 w-48 bg-[#0c111a] border border-slate-700 rounded-xl shadow-2xl p-1.5 space-y-1 z-50 animate-in fade-in duration-100 text-xs">
+                    {isCurrentChannelArchitect && (
+                      <button
+                        type="button"
+                        onClick={() => insertRpgSnippet('/gm')}
+                        className="w-full text-left p-1.5 rounded-lg hover:bg-amber-950 text-amber-300 font-bold flex items-center justify-between cursor-pointer"
+                      >
+                        <span>/gm [Ruling]</span>
+                        <span className="text-[9px] text-amber-400/80">Architect</span>
+                      </button>
+                    )}
                     <button
                       type="button"
                       onClick={() => insertRpgSnippet('/me')}
@@ -818,20 +897,24 @@ export const MessageInput = ({ isCompact = false }) => {
               placeholder={
                 !currentUser
                   ? `[GUEST READ-ONLY] Click or sign in to transmit into ${activeChannel?.displayName || 'frequency'}...`
-                  : isTeam
-                    ? `[SQUAD FREQ] Transmit as persona ${activePersonaName} into ${activeChannel?.displayName || 'frequency'}...`
-                    : isStandard
-                      ? `[STANDARD RELAY] Transmit as operator @${userHandle || 'Operator'} into ${activeChannel?.displayName || 'frequency'}...`
-                      : speakingMode === 'IC'
-                        ? `Transmit as persona ${activePersonaName} into ${activeChannel?.displayName || 'frequency'}...`
-                        : `Transmit as operator @${userHandle || 'Operator'} into ${activeChannel?.displayName || 'frequency'}...`
+                  : speakingMode === 'ARCHITECT' && isCurrentChannelArchitect
+                    ? `[ARCHITECT // GM] Transmit referee directive or narration into ${activeChannel?.displayName || 'frequency'}...`
+                    : isTeam && speakingMode !== 'OOC'
+                      ? `[TEAM FREQ] Transmit as persona ${activePersonaName} into ${activeChannel?.displayName || 'frequency'}...`
+                      : isStandard && speakingMode !== 'IC'
+                        ? `[STANDARD RELAY] Transmit as operator @${userHandle || 'Operator'} into ${activeChannel?.displayName || 'frequency'}...`
+                        : speakingMode === 'IC'
+                          ? `Transmit as persona ${activePersonaName} into ${activeChannel?.displayName || 'frequency'}...`
+                          : `Transmit as operator @${userHandle || 'Operator'} into ${activeChannel?.displayName || 'frequency'}...`
               }
               className={`w-full pl-3.5 pr-12 py-2.5 bg-slate-950 border rounded-xl text-xs sm:text-sm font-mono placeholder-slate-500 focus:outline-none transition-all shadow-inner ${
                 !currentUser
                   ? 'border-amber-500/30 focus:border-amber-400 focus:ring-1 focus:ring-amber-400/30 text-amber-100 placeholder-amber-400/50'
-                  : speakingMode === 'IC'
-                    ? 'border-purple-500/50 focus:border-purple-400 focus:ring-1 focus:ring-purple-400/30 text-purple-100'
-                    : 'border-slate-800 focus:border-cyan-500/60 focus:ring-1 focus:ring-cyan-500/30 text-slate-100'
+                  : speakingMode === 'ARCHITECT' && isCurrentChannelArchitect
+                    ? 'border-amber-500/60 focus:border-amber-400 focus:ring-1 focus:ring-amber-400/30 text-amber-100'
+                    : speakingMode === 'IC'
+                      ? 'border-purple-500/50 focus:border-purple-400 focus:ring-1 focus:ring-purple-400/30 text-purple-100'
+                      : 'border-slate-800 focus:border-cyan-500/60 focus:ring-1 focus:ring-cyan-500/30 text-slate-100'
               }`}
             />
 
@@ -849,9 +932,11 @@ export const MessageInput = ({ isCompact = false }) => {
                 !currentUser
                   ? 'bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold shadow-[0_0_10px_rgba(245,158,11,0.3)]'
                   : text.trim()
-                    ? speakingMode === 'IC'
-                      ? 'bg-purple-600 hover:bg-purple-500 text-white shadow-[0_0_12px_rgba(168,85,247,0.3)]'
-                      : 'bg-cyan-600 hover:bg-cyan-500 text-white shadow-[0_0_12px_rgba(6,182,212,0.3)]'
+                    ? speakingMode === 'ARCHITECT' && isCurrentChannelArchitect
+                      ? 'bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold shadow-[0_0_12px_rgba(245,158,11,0.35)]'
+                      : speakingMode === 'IC'
+                        ? 'bg-purple-600 hover:bg-purple-500 text-white shadow-[0_0_12px_rgba(168,85,247,0.3)]'
+                        : 'bg-cyan-600 hover:bg-cyan-500 text-white shadow-[0_0_12px_rgba(6,182,212,0.3)]'
                     : 'bg-slate-900 text-slate-600 cursor-not-allowed'
               }`}
               title={!currentUser ? "Sign In to Transmit" : "Send Transmission (Enter)"}

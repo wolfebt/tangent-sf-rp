@@ -193,7 +193,7 @@ export const CommunityNetworkingView = ({ onNavigateToSquad, onOpenCreateSquad }
         onNavigateToSquad?.(joined.id);
       }
     } catch (err) {
-      setJoinError(err.message || 'Failed to join squad with provided code.');
+      setJoinError(err.message || 'Failed to join team with provided code.');
     } finally {
       setJoinLoading(false);
     }
@@ -220,9 +220,9 @@ export const CommunityNetworkingView = ({ onNavigateToSquad, onOpenCreateSquad }
         groupId,
         active: false
       });
-      toast({ type: 'info', text: 'Squad vacancy notice closed.' });
+      toast({ type: 'info', text: 'Team vacancy notice closed.' });
     } catch (err) {
-      toast({ type: 'error', text: 'Failed to update squad status.' });
+      toast({ type: 'error', text: 'Failed to update team status.' });
     }
   };
 
@@ -234,11 +234,11 @@ export const CommunityNetworkingView = ({ onNavigateToSquad, onOpenCreateSquad }
           <div className="flex items-center gap-2">
             <Radio size={15} className="text-purple-400" />
             <h2 className="text-xs sm:text-sm font-mono font-bold uppercase tracking-wider text-white">
-              RECRUITMENT &amp; LFG HUB
+              RECRUITMENT &amp; LFT HUB
             </h2>
           </div>
 
-          {/* 3-Tab Switcher: LFS vs LFP vs Full Squad Registry & Join Code */}
+          {/* 3-Tab Switcher: LFT vs LFP vs Full Team Registry & Join Code */}
           <div className="flex items-center gap-1 bg-slate-900 p-0.5 rounded-xl border border-slate-800 overflow-x-auto no-scrollbar">
             <button
               type="button"
@@ -252,7 +252,7 @@ export const CommunityNetworkingView = ({ onNavigateToSquad, onOpenCreateSquad }
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
-              <span>PERSONAS LFG (LFS)</span>
+              <span>PERSONAS LFT</span>
               <span className="px-1.5 py-0.2 rounded-full bg-purple-500/20 text-purple-300 text-[9px]">
                 {lftPersonas.length}
               </span>
@@ -270,7 +270,7 @@ export const CommunityNetworkingView = ({ onNavigateToSquad, onOpenCreateSquad }
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
-              <span>RECRUITING SQUADS (LFP)</span>
+              <span>RECRUITING TEAMS (LFP)</span>
               <span className="px-1.5 py-0.2 rounded-full bg-emerald-500/20 text-emerald-300 text-[9px]">
                 {lfpGroups.length}
               </span>
@@ -289,7 +289,7 @@ export const CommunityNetworkingView = ({ onNavigateToSquad, onOpenCreateSquad }
               }`}
             >
               <Shield size={12} className={isDirectory ? 'text-cyan-400' : 'text-slate-500'} />
-              <span>SQUAD REGISTRY &amp; JOIN CODE</span>
+              <span>TEAM REGISTRY &amp; JOIN CODE</span>
               <span className="px-1.5 py-0.2 rounded-full bg-cyan-500/20 text-cyan-300 text-[9px]">
                 {effectiveSquads.length}
               </span>
@@ -309,7 +309,7 @@ export const CommunityNetworkingView = ({ onNavigateToSquad, onOpenCreateSquad }
               className="px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-mono font-bold text-xs flex items-center gap-1.5 shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all cursor-pointer"
             >
               <Plus size={13} />
-              <span>FLAG PERSONA LFG</span>
+              <span>FLAG PERSONA LFT</span>
             </button>
           )}
           {isLfp && (
@@ -322,7 +322,7 @@ export const CommunityNetworkingView = ({ onNavigateToSquad, onOpenCreateSquad }
               className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-mono font-bold text-xs flex items-center gap-1.5 shadow-[0_0_15px_rgba(16,185,129,0.3)] transition-all cursor-pointer"
             >
               <Plus size={13} />
-              <span>POST SQUAD VACANCY</span>
+              <span>POST TEAM VACANCY</span>
             </button>
           )}
           {onOpenCreateSquad && (
@@ -335,13 +335,13 @@ export const CommunityNetworkingView = ({ onNavigateToSquad, onOpenCreateSquad }
               className="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 font-mono font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer"
             >
               <Shield size={13} />
-              <span>NEW SQUAD</span>
+              <span>NEW TEAM</span>
             </button>
           )}
         </div>
       </div>
 
-      {/* ── Search & Tactical Role Filter Bar (LFS / LFP tabs) ── */}
+      {/* ── Search & Tactical Role Filter Bar (LFT / LFP tabs) ── */}
       {!isDirectory && (
         <div className="p-3 bg-slate-950/60 border-b border-slate-800/80 flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
           <div className="relative flex-1 min-w-[220px] max-w-md">
@@ -350,7 +350,7 @@ export const CommunityNetworkingView = ({ onNavigateToSquad, onOpenCreateSquad }
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={isLfs ? 'Search personas by name, species, role, or operator...' : 'Search squads by name, campaign, or needed roles...'}
+              placeholder={isLfs ? 'Search personas by name, species, role, or operator...' : 'Search teams by name, campaign, or needed roles...'}
               className="w-full pl-8 pr-3 py-1.5 bg-slate-900 border border-slate-800 rounded-xl text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-500/50"
             />
           </div>
@@ -423,24 +423,24 @@ export const CommunityNetworkingView = ({ onNavigateToSquad, onOpenCreateSquad }
       {!isDirectory && (
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
         
-        {/* TAB 1: LOOKING FOR SQUAD (LFS) */}
+        {/* TAB 1: LOOKING FOR TEAM (LFT) */}
         {isLfs && (
           <div className="space-y-4">
             {/* Header info */}
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-xs font-mono font-bold text-slate-300 uppercase tracking-wider">
-                  DEPLOYMENT-READY PERSONAS SEEKING SQUAD COMMISSIONS ({filteredLFT.length})
+                  DEPLOYMENT-READY PERSONAS SEEKING TEAM COMMISSIONS ({filteredLFT.length})
                 </h3>
                 <p className="text-[11px] text-slate-500 font-sans mt-0.5">
-                  Operators broadcasting availability for tactical fireteam recruitment and mission ops.
+                  Operators broadcasting availability for tactical team recruitment and mission ops.
                 </p>
               </div>
 
               {myLftEntry && (
                 <div className="p-2 px-3 rounded-xl bg-purple-950/40 border border-purple-500/40 flex items-center gap-3">
                   <div className="text-left">
-                    <span className="text-[9px] text-purple-400 font-mono uppercase font-bold block">YOUR ACTIVE LFS BROADCAST</span>
+                    <span className="text-[9px] text-purple-400 font-mono uppercase font-bold block">YOUR ACTIVE LFT BROADCAST</span>
                     <span className="text-xs font-bold text-white font-mono">{myLftEntry.name}</span>
                   </div>
                   <button
@@ -457,9 +457,9 @@ export const CommunityNetworkingView = ({ onNavigateToSquad, onOpenCreateSquad }
             {filteredLFT.length === 0 ? (
               <div className="p-10 rounded-2xl bg-slate-900/40 border border-dashed border-slate-800 text-center space-y-2">
                 <Sparkles size={28} className="mx-auto text-purple-400/60" />
-                <p className="text-slate-300 font-mono text-xs font-bold">No Personas Currently Broadcast on LFS</p>
+                <p className="text-slate-300 font-mono text-xs font-bold">No Personas Currently Broadcast on LFT</p>
                 <p className="text-slate-500 text-[11px] max-w-md mx-auto">
-                  Flag your Folio character sheet above to signal Architects across the network that you are ready for squad operations.
+                  Flag your Folio character sheet above to signal Architects across the network that you are ready for team operations.
                 </p>
               </div>
             ) : (
@@ -538,7 +538,7 @@ export const CommunityNetworkingView = ({ onNavigateToSquad, onOpenCreateSquad }
                             onClick={() => handleWithdrawLFT(item.personaId)}
                             className="w-full py-1.5 rounded-xl bg-slate-950 hover:bg-rose-950/60 border border-slate-800 hover:border-rose-500/40 text-slate-400 hover:text-rose-300 text-xs font-mono font-bold transition-all cursor-pointer"
                           >
-                            WITHDRAW FROM LFS
+                            WITHDRAW FROM LFT
                           </button>
                         ) : (
                           <button
@@ -573,7 +573,7 @@ export const CommunityNetworkingView = ({ onNavigateToSquad, onOpenCreateSquad }
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-xs font-mono font-bold text-slate-300 uppercase tracking-wider">
-                  ACTIVE SQUADS RECRUITING PERSONAS ({filteredLFP.length})
+                  ACTIVE TEAMS RECRUITING PERSONAS ({filteredLFP.length})
                 </h3>
                 <p className="text-[11px] text-slate-500 font-sans mt-0.5">
                   Lead Architects recruiting operators and character personas for campaign missions.
@@ -583,7 +583,7 @@ export const CommunityNetworkingView = ({ onNavigateToSquad, onOpenCreateSquad }
               {myLfpSquads.length > 0 && (
                 <div className="p-2 px-3 rounded-xl bg-emerald-950/40 border border-emerald-500/40 flex items-center gap-3">
                   <div className="text-left">
-                    <span className="text-[9px] text-emerald-400 font-mono uppercase font-bold block">YOUR RECRUITING SQUAD</span>
+                    <span className="text-[9px] text-emerald-400 font-mono uppercase font-bold block">YOUR RECRUITING TEAM</span>
                     <span className="text-xs font-bold text-white font-mono">{myLfpSquads[0].name}</span>
                   </div>
                   <button
@@ -600,9 +600,9 @@ export const CommunityNetworkingView = ({ onNavigateToSquad, onOpenCreateSquad }
             {filteredLFP.length === 0 ? (
               <div className="p-10 rounded-2xl bg-slate-900/40 border border-dashed border-slate-800 text-center space-y-2">
                 <Shield size={28} className="mx-auto text-emerald-400/60" />
-                <p className="text-slate-300 font-mono text-xs font-bold">No Squads Actively Recruiting</p>
+                <p className="text-slate-300 font-mono text-xs font-bold">No Teams Actively Recruiting</p>
                 <p className="text-slate-500 text-[11px] max-w-md mx-auto">
-                  Architects can flag their fireteam above to advertise open slots and sought-after tactical roles.
+                  Architects can flag their team above to advertise open slots and sought-after tactical roles.
                 </p>
               </div>
             ) : (
@@ -691,7 +691,7 @@ export const CommunityNetworkingView = ({ onNavigateToSquad, onOpenCreateSquad }
                             className="w-full py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)] cursor-pointer"
                           >
                             <Shield size={12} />
-                            <span>JOIN SQUAD WITH PERSONA</span>
+                            <span>JOIN TEAM WITH PERSONA</span>
                           </button>
                         )}
 
@@ -829,7 +829,7 @@ const FlagPersonaLftModal = ({ isOpen, onClose, personas = [], currentUser, exis
             </div>
             <div>
               <h3 className="text-sm font-bold text-white uppercase tracking-wider">
-                FLAG PERSONA AS LOOKING FOR SQUAD (LFS)
+                FLAG PERSONA AS LOOKING FOR TEAM (LFT)
               </h3>
               <p className="text-[11px] text-slate-400">
                 Broadcast availability to Architects recruiting for active campaigns
@@ -914,7 +914,7 @@ const FlagPersonaLftModal = ({ isOpen, onClose, personas = [], currentUser, exis
 
           <div className="p-3 rounded-xl bg-purple-950/20 border border-purple-500/30 text-[10.5px] text-purple-300 flex items-center gap-2">
             <Sparkles size={14} className="shrink-0" />
-            <span>Architects across the Terran Data Network can review your sheet summary and send direct squad invitations.</span>
+            <span>Architects across the Terran Data Network can review your sheet summary and send direct team invitations.</span>
           </div>
 
           <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-800">
@@ -930,7 +930,7 @@ const FlagPersonaLftModal = ({ isOpen, onClose, personas = [], currentUser, exis
               disabled={submitting || personas.length === 0}
               className="px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-all shadow-[0_0_15px_rgba(168,85,247,0.3)] disabled:opacity-50 cursor-pointer"
             >
-              {submitting ? 'BROADCASTING...' : 'BROADCAST TO LFS'}
+              {submitting ? 'BROADCASTING...' : 'BROADCAST TO LFT'}
             </button>
           </div>
         </form>
@@ -940,7 +940,7 @@ const FlagPersonaLftModal = ({ isOpen, onClose, personas = [], currentUser, exis
 };
 
 /**
- * Modal to Flag / Update a Squad as Looking For Persons
+ * Modal to Flag / Update a Team as Looking For Persons
  */
 const FlagSquadLfpModal = ({ isOpen, onClose, squads = [], currentUser, onSave, toast }) => {
   const [selectedGroupId, setSelectedGroupId] = useState(squads[0]?.id || '');
@@ -958,7 +958,7 @@ const FlagSquadLfpModal = ({ isOpen, onClose, squads = [], currentUser, onSave, 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!selectedGroupId) {
-      toast({ type: 'error', text: 'Select a squad to flag for recruitment.' });
+      toast({ type: 'error', text: 'Select a team to flag for recruitment.' });
       return;
     }
 
@@ -972,10 +972,10 @@ const FlagSquadLfpModal = ({ isOpen, onClose, squads = [], currentUser, onSave, 
         active: true
       });
       AudioService.playTerminalBeep(1400, 0.05);
-      toast({ type: 'success', text: 'Squad vacancy notice broadcast to LFP feed!' });
+      toast({ type: 'success', text: 'Team vacancy notice broadcast to LFP feed!' });
       onClose();
     } catch (err) {
-      toast({ type: 'error', text: 'Failed to broadcast squad vacancy.' });
+      toast({ type: 'error', text: 'Failed to broadcast team vacancy.' });
     } finally {
       setSubmitting(false);
     }
@@ -991,10 +991,10 @@ const FlagSquadLfpModal = ({ isOpen, onClose, squads = [], currentUser, onSave, 
             </div>
             <div>
               <h3 className="text-sm font-bold text-white uppercase tracking-wider">
-                FLAG SQUAD AS LOOKING FOR PERSONAS (LFP)
+                FLAG TEAM AS LOOKING FOR PERSONAS (LFP)
               </h3>
               <p className="text-[11px] text-slate-400">
-                Advertise open squad vacancies &amp; sought-after character roles
+                Advertise open team vacancies &amp; sought-after character roles
               </p>
             </div>
           </div>
@@ -1004,14 +1004,14 @@ const FlagSquadLfpModal = ({ isOpen, onClose, squads = [], currentUser, onSave, 
         </div>
 
         <form onSubmit={handleSubmit} className="p-5 space-y-4 overflow-y-auto">
-          {/* Squad selector */}
+          {/* Team selector */}
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-emerald-300 uppercase block">
-              SELECT ARCHITECT FIRETEAM / SQUAD:
+              SELECT ARCHITECT TEAM:
             </label>
             {squads.length === 0 ? (
               <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-400">
-                You do not lead or co-manage any squads yet. Create a squad in the Squads module first.
+                You do not lead or co-manage any teams yet. Create a team in the Teams module first.
               </div>
             ) : (
               <select
@@ -1097,7 +1097,7 @@ const FlagSquadLfpModal = ({ isOpen, onClose, squads = [], currentUser, onSave, 
               disabled={submitting || squads.length === 0}
               className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)] disabled:opacity-50 cursor-pointer"
             >
-              {submitting ? 'BROADCASTING...' : 'BROADCAST SQUAD VACANCY'}
+              {submitting ? 'BROADCASTING...' : 'BROADCAST TEAM VACANCY'}
             </button>
           </div>
         </form>

@@ -74,6 +74,8 @@ export const ChatProvider = ({ children }) => {
   const [channelPersonaOverrides, setChannelPersonaOverrides] = useState({});
   const [directSortMode, setDirectSortMode] = useState('alphabetical'); // 'alphabetical' | 'recent'
   const [activeNavTab, setActiveNavTab] = useState('matrix'); // 'matrix' | 'roster' | 'teams' | 'vtt' | 'logs' | 'settings'
+  const [activeFreqBranch, setActiveFreqBranch] = useState('all'); // 'all' | 'holonet' | 'whispers'
+  const [activeRosterBranch, setActiveRosterBranch] = useState('all'); // 'all' | 'operators' | 'personas'
   const [broadcastToVtt, setBroadcastToVtt] = useState(false);
   const [replyingToMessage, setReplyingToMessage] = useState(null);
 
@@ -229,6 +231,52 @@ export const ChatProvider = ({ children }) => {
       `group_chan_${g.id}` === ch.id
     ) || null;
   }, [channels, activeChannelId, groups]);
+
+  // Determine whether currentUser is the Creator / Architect (Gamemaster / Referee) of the active group or channel
+  const isCurrentChannelArchitect = useMemo(() => {
+    if (!currentUser?.uid) return false;
+    const uid = currentUser.uid;
+    const ch = channels.find(c => c.id === activeChannelId);
+
+    if (activeChannelGroup) {
+      if (
+        activeChannelGroup.leaderId === uid ||
+        activeChannelGroup.creatorId === uid ||
+        activeChannelGroup.ownerId === uid ||
+        (Array.isArray(activeChannelGroup.coArchitects) && activeChannelGroup.coArchitects.includes(uid)) ||
+        ['Prime Architect', 'Co-Architect', 'Architect'].includes(activeChannelGroup.memberDetails?.[uid]?.role)
+      ) {
+        return true;
+      }
+      return false;
+    }
+
+    if (ch?.createdById && ch.createdById === uid) return true;
+
+    if (activeGroup && (
+      activeGroup.leaderId === uid ||
+      activeGroup.creatorId === uid ||
+      activeGroup.ownerId === uid ||
+      (Array.isArray(activeGroup.coArchitects) && activeGroup.coArchitects.includes(uid))
+    )) {
+      return true;
+    }
+
+    return (groups || []).some(g =>
+      g.leaderId === uid ||
+      g.creatorId === uid ||
+      g.ownerId === uid ||
+      (Array.isArray(g.coArchitects) && g.coArchitects.includes(uid))
+    );
+  }, [currentUser?.uid, activeChannelGroup, channels, activeChannelId, activeGroup, groups]);
+
+  // Reset speakingMode from ARCHITECT if switching to a group channel where user is not the Architect
+  useEffect(() => {
+    if (speakingMode === 'ARCHITECT' && !isCurrentChannelArchitect) {
+      const ch = channels.find(c => c.id === activeChannelId);
+      setSpeakingMode(isTeamChannel(ch) ? 'IC' : 'OOC');
+    }
+  }, [speakingMode, isCurrentChannelArchitect, channels, activeChannelId]);
 
   // Enrolled character specifically assigned by currentUser to the active Team channel's squad
   const squadEnrolledPersona = useMemo(() => {
@@ -1128,13 +1176,14 @@ export const ChatProvider = ({ children }) => {
 
     // Auto-adjust speaking mode based on channel addressing convention:
     // Team channels address Personas (IC). Standard channels address Operators (OOC).
+    // Preserve ARCHITECT mode if already selected (effect will reset if not Architect of target channel).
     const targetChan = channels.find(c => c.id === channelId);
     if (targetChan) {
       const mode = getChannelAddressingMode(targetChan);
       if (mode === 'persona') {
-        setSpeakingMode('IC');
+        setSpeakingMode(prev => prev === 'ARCHITECT' ? 'ARCHITECT' : 'IC');
       } else {
-        setSpeakingMode('OOC');
+        setSpeakingMode(prev => prev === 'ARCHITECT' ? 'ARCHITECT' : 'OOC');
       }
     }
   }, [channels, markChannelAsRead]);
@@ -1157,16 +1206,19 @@ export const ChatProvider = ({ children }) => {
     if (now - lastTypingSentRef.current < 2500) return;
     lastTypingSentRef.current = now;
 
+    const isArchitect = speakingMode === 'ARCHITECT' && isCurrentChannelArchitect;
     const isTeam = isTeamChannel(activeChannel);
-    const effectiveIsIC = isTeam ? (speakingMode !== 'OOC') : (speakingMode === 'IC');
+    const effectiveIsIC = !isArchitect && (isTeam ? (speakingMode !== 'OOC') : (speakingMode === 'IC'));
     const activeP = selectedPersona || squadEnrolledPersona || currentUserCharacters[0];
     const operatorHandle = userHandle || currentUser?.displayName || currentUser?.email || 'Operator';
-    const displayName = (effectiveIsIC && activeP)
+    const displayName = isArchitect
+      ? `ARCHITECT (@${operatorHandle})`
+      : (effectiveIsIC && activeP)
       ? (activeP.name || activeP['char-name'] || operatorHandle)
       : operatorHandle;
 
     ChatService.setChannelTypingStatus(activeChannelId, currentUser, displayName, true);
-  }, [currentUser, activeChannelId, activeChannel, speakingMode, selectedPersona, squadEnrolledPersona, currentUserCharacters, userHandle]);
+  }, [currentUser, activeChannelId, activeChannel, speakingMode, isCurrentChannelArchitect, selectedPersona, squadEnrolledPersona, currentUserCharacters, userHandle]);
 
   // Active typing users in current channel (within last 6 seconds, excluding self)
   const activeTypingUsers = useMemo(() => {
@@ -1215,14 +1267,17 @@ export const ChatProvider = ({ children }) => {
 
     const targetChan = channels.find(c => c.id === channelId) || activeChannel;
     const channelMode = getChannelAddressingMode(targetChan);
+    const isArchitect = speakingMode === 'ARCHITECT' && isCurrentChannelArchitect;
     const isTeam = channelMode === 'persona';
-    const effectiveIsIC = isTeam ? (speakingMode !== 'OOC') : (speakingMode === 'IC');
+    const effectiveIsIC = !isArchitect && (isTeam ? (speakingMode !== 'OOC') : (speakingMode === 'IC'));
     const activeP = selectedPersona || squadEnrolledPersona || currentUserCharacters[0];
     const hasPersona = Boolean(activeP && (activeP.name || activeP['char-name']));
 
     const operatorHandle = userHandle || currentUser?.displayName || currentUser?.email || 'Operator';
     const isIC = Boolean(effectiveIsIC && hasPersona);
-    const displayName = isIC 
+    const displayName = isArchitect
+      ? `ARCHITECT (@${operatorHandle})`
+      : isIC 
       ? (activeP.name || activeP['char-name'] || activeP.identity?.name || operatorHandle) 
       : operatorHandle;
 
@@ -1240,11 +1295,18 @@ export const ChatProvider = ({ children }) => {
       type: 'dice_roll',
       senderId: currentUser?.uid || 'anon',
       senderUid: currentUser?.uid || null,
-      senderHandle: displayName,
+      senderHandle: isArchitect ? operatorHandle : displayName,
       operatorHandle: operatorHandle,
-      senderType: isIC ? 'persona' : 'operator',
+      senderType: isArchitect ? 'architect' : (isIC ? 'persona' : 'operator'),
       addressingMode: channelMode,
       isIC: isIC,
+      isArchitect: isArchitect,
+      architectDetails: isArchitect ? {
+        title: 'ARCHITECT // GM',
+        role: 'Gamemaster / Referee',
+        groupName: activeChannelGroup?.name || activeGroup?.name || null,
+        operatorHandle
+      } : null,
       broadcastToVtt: Boolean(broadcastToVtt),
       personaDetails: isIC ? {
         id: activeP['character-doc-id'] || activeP.id,
@@ -1280,7 +1342,7 @@ export const ChatProvider = ({ children }) => {
 
     AudioService.playTerminalBeep(1550, 0.04);
     await ChatService.sendMessage(channelId, payload);
-  }, [activeChannelId, channels, activeChannel, currentUser, userHandle, speakingMode, selectedPersona, squadEnrolledPersona, currentUserCharacters, broadcastToVtt, openAuthModal, showToast]);
+  }, [activeChannelId, channels, activeChannel, activeChannelGroup, activeGroup, currentUser, userHandle, speakingMode, isCurrentChannelArchitect, selectedPersona, squadEnrolledPersona, currentUserCharacters, broadcastToVtt, openAuthModal, showToast]);
 
   const sendMessage = useCallback(async (text, customPayload = {}) => {
     let rawText = text;
@@ -1324,19 +1386,31 @@ export const ChatProvider = ({ children }) => {
     const targetChan = channels.find(c => c.id === targetChannelId) || activeChannel;
     const channelMode = getChannelAddressingMode(targetChan);
     const isTeam = channelMode === 'persona';
-    const effectiveIsIC = extra.isIC !== undefined 
-      ? Boolean(extra.isIC)
-      : (isTeam ? (speakingMode !== 'OOC') : (speakingMode === 'IC'));
+
+    const isSlashArchitect = isCurrentChannelArchitect && (trimmed.startsWith('/architect ') || trimmed.startsWith('/gm '));
+    const isArchitect = Boolean(
+      extra.isArchitect !== undefined
+        ? extra.isArchitect
+        : ((speakingMode === 'ARCHITECT' && isCurrentChannelArchitect) || isSlashArchitect)
+    );
+
+    const effectiveIsIC = !isArchitect && (
+      extra.isIC !== undefined 
+        ? Boolean(extra.isIC)
+        : (isTeam ? (speakingMode !== 'OOC') : (speakingMode === 'IC'))
+    );
 
     const activeP = extra.persona || selectedPersona || squadEnrolledPersona || currentUserCharacters[0];
     const hasPersona = Boolean(activeP && (activeP.name || activeP['char-name']));
     const operatorHandle = userHandle || currentUser?.displayName || currentUser?.email || 'Anonymous Operator';
     const isIC = Boolean(effectiveIsIC && hasPersona);
 
-    // 2. RPG command: /me or /act or /ooc
-    let messageType = isIC ? 'ic_transmission' : 'text';
+    // 2. RPG command: /me or /act or /ooc or /architect or /gm
+    let messageType = isArchitect ? 'architect_transmission' : (isIC ? 'ic_transmission' : 'text');
     let cleanText = rawText;
-    if (trimmed.startsWith('/me ') || trimmed.startsWith('/act ')) {
+    if (isSlashArchitect) {
+      cleanText = trimmed.replace(/^\/(architect|gm)\s+/, '');
+    } else if (trimmed.startsWith('/me ') || trimmed.startsWith('/act ')) {
       messageType = 'narrative_action';
       cleanText = trimmed.replace(/^\/(me|act)\s+/, '');
     } else if (trimmed.startsWith('/ooc ')) {
@@ -1356,11 +1430,22 @@ export const ChatProvider = ({ children }) => {
       type: extra.type || messageType,
       senderId: currentUser?.uid || 'anon',
       senderUid: currentUser?.uid || null,
-      senderHandle: isIC ? (activeP.name || activeP['char-name'] || activeP.identity?.name || operatorHandle) : operatorHandle,
+      senderHandle: isArchitect
+        ? operatorHandle
+        : isIC
+        ? (activeP.name || activeP['char-name'] || activeP.identity?.name || operatorHandle)
+        : operatorHandle,
       operatorHandle: operatorHandle,
-      senderType: isIC ? 'persona' : 'operator',
+      senderType: isArchitect ? 'architect' : (isIC ? 'persona' : 'operator'),
       addressingMode: channelMode,
       isIC: isIC,
+      isArchitect: isArchitect,
+      architectDetails: isArchitect ? {
+        title: 'ARCHITECT // GM',
+        role: 'Gamemaster / Referee',
+        groupName: activeChannelGroup?.name || activeGroup?.name || null,
+        operatorHandle
+      } : null,
       replyTo: replyPayload,
       broadcastToVtt: Boolean(broadcastToVtt),
       personaDetails: isIC ? {
@@ -1384,7 +1469,7 @@ export const ChatProvider = ({ children }) => {
 
     AudioService.playTerminalBeep(1450, 0.02);
     await ChatService.sendMessage(targetChannelId, payload);
-  }, [activeChannelId, channels, activeChannel, currentUser, userHandle, speakingMode, selectedPersona, squadEnrolledPersona, currentUserCharacters, sendDiceRoll, broadcastToVtt, replyingToMessage, openAuthModal, showToast]);
+  }, [activeChannelId, channels, activeChannel, activeChannelGroup, activeGroup, currentUser, userHandle, speakingMode, isCurrentChannelArchitect, selectedPersona, squadEnrolledPersona, currentUserCharacters, sendDiceRoll, broadcastToVtt, replyingToMessage, openAuthModal, showToast]);
 
   // Pulse an Architect Docket Block directive card directly into the Squad's Comms channel
   const pulseDocketBlockToChat = useCallback(async (block, groupObj = null) => {
@@ -1404,11 +1489,18 @@ export const ChatProvider = ({ children }) => {
       senderUid: currentUser.uid,
       senderHandle: operatorHandle,
       operatorHandle,
-      senderType: 'operator',
+      senderType: 'architect',
+      isArchitect: true,
+      architectDetails: {
+        title: 'ARCHITECT // GM',
+        role: 'Gamemaster / Referee',
+        groupName: grp?.name || null,
+        operatorHandle
+      },
       isIC: false,
       metadata: {
         groupId: grp?.id || null,
-        groupName: grp?.name || 'Squad',
+        groupName: grp?.name || 'Team',
         blockId: block.id,
         title: block.title,
         category: block.category || 'Intel',
@@ -1542,6 +1634,10 @@ export const ChatProvider = ({ children }) => {
     setDirectSortMode,
     activeNavTab,
     setActiveNavTab,
+    activeFreqBranch,
+    setActiveFreqBranch,
+    activeRosterBranch,
+    setActiveRosterBranch,
     broadcastToVtt,
     setBroadcastToVtt,
     pendingCharacterNotes,
@@ -1556,6 +1652,7 @@ export const ChatProvider = ({ children }) => {
     activeChannel,
     activeChannelId,
     activeChannelGroup,
+    isCurrentChannelArchitect,
     squadEnrolledPersona,
     selectChannel,
     messages,

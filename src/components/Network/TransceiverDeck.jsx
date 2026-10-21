@@ -14,7 +14,8 @@ import {
   Check,
   Volume2,
   Sparkles,
-  Activity
+  Activity,
+  Crown
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useChat } from '../../context/ChatContext';
@@ -50,6 +51,7 @@ export const TransceiverDeck = () => {
     setSpeakingMode,
     selectedPersona,
     setSelectedPersona,
+    isCurrentChannelArchitect,
     manualPresenceStatus = 'online',
     setManualPresenceStatus,
     customStatusMessage = '',
@@ -203,12 +205,12 @@ export const TransceiverDeck = () => {
         </div>
       )}
 
-      {/* ── POPOVER 2: BOUND FOLIO PERSONA & IC/OOC SWITCHER ── */}
+      {/* ── POPOVER 2: BOUND FOLIO PERSONA & IC/OOC/ARCHITECT SWITCHER ── */}
       {activePopover === 'persona' && (
         <div className="absolute bottom-full left-2 right-2 mb-2 p-3 rounded-xl bg-slate-950 border border-emerald-500/50 shadow-2xl z-50 space-y-2.5 animate-in fade-in slide-in-from-bottom-2 duration-150">
           <div className="flex items-center justify-between border-b border-slate-800 pb-1.5">
             <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">
-              TRANSMISSION IDENTITY (IC / OOC)
+              TRANSMISSION IDENTITY
             </span>
             <button
               type="button"
@@ -220,38 +222,59 @@ export const TransceiverDeck = () => {
           </div>
 
           {/* Mode Toggle */}
-          <div className="grid grid-cols-2 gap-1.5">
-            <button
-              type="button"
-              onClick={() => {
-                AudioService.playTerminalBeep(1150, 0.02);
-                setSpeakingMode?.('OOC');
-                setActivePopover(null);
-              }}
-              className={`px-2.5 py-1.5 rounded-lg border text-[10.5px] font-bold flex items-center justify-center gap-1.5 cursor-pointer transition-all ${
-                speakingMode === 'OOC'
-                  ? 'bg-cyan-950 border-cyan-400 text-cyan-200 shadow-sm'
-                  : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              <User size={12} />
-              <span>👤 OOC OPERATOR</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                AudioService.playTerminalBeep(1250, 0.02);
-                setSpeakingMode?.('IC');
-                setActivePopover(null);
-              }}
-              className={`px-2.5 py-1.5 rounded-lg border text-[10.5px] font-bold flex items-center justify-center gap-1.5 cursor-pointer transition-all ${
-                speakingMode === 'IC'
-                  ? 'bg-emerald-950 border-emerald-400 text-emerald-200 shadow-sm'
-                  : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              <span>🎭 IC PERSONA</span>
-            </button>
+          <div className="space-y-1.5">
+            <div className="grid grid-cols-2 gap-1.5">
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1150, 0.02);
+                  setSpeakingMode?.('OOC');
+                  setActivePopover(null);
+                }}
+                className={`px-2.5 py-1.5 rounded-lg border text-[10.5px] font-bold flex items-center justify-center gap-1.5 cursor-pointer transition-all ${
+                  speakingMode === 'OOC'
+                    ? 'bg-cyan-950 border-cyan-400 text-cyan-200 shadow-sm'
+                    : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                <User size={12} />
+                <span>👤 OOC OPERATOR</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1250, 0.02);
+                  setSpeakingMode?.('IC');
+                  setActivePopover(null);
+                }}
+                className={`px-2.5 py-1.5 rounded-lg border text-[10.5px] font-bold flex items-center justify-center gap-1.5 cursor-pointer transition-all ${
+                  speakingMode === 'IC'
+                    ? 'bg-emerald-950 border-emerald-400 text-emerald-200 shadow-sm'
+                    : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                <span>🎭 IC PERSONA</span>
+              </button>
+            </div>
+
+            {isCurrentChannelArchitect && (
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1350, 0.025);
+                  setSpeakingMode?.('ARCHITECT');
+                  setActivePopover(null);
+                }}
+                className={`w-full px-2.5 py-1.5 rounded-lg border text-[10.5px] font-bold flex items-center justify-center gap-1.5 cursor-pointer transition-all ${
+                  speakingMode === 'ARCHITECT'
+                    ? 'bg-amber-950/90 border-amber-400 text-amber-200 shadow-[0_0_10px_rgba(245,158,11,0.2)]'
+                    : 'bg-slate-900 border-amber-500/30 text-amber-300/90 hover:bg-amber-950/40'
+                }`}
+              >
+                <Crown size={12} className="text-amber-400" />
+                <span>ARCHITECT // GM (Referee)</span>
+              </button>
+            )}
           </div>
 
           {/* Persona Selector List */}
@@ -455,12 +478,12 @@ export const TransceiverDeck = () => {
             />
           </button>
 
-          {/* Identity Stack -> Clickable to switch IC/OOC & Persona */}
+          {/* Identity Stack -> Clickable to switch IC/OOC/ARCHITECT & Persona */}
           <button
             type="button"
             onClick={() => handleTogglePopover('persona')}
             className="min-w-0 flex-1 text-left px-1.5 py-0.5 rounded-lg hover:bg-slate-900/90 transition-colors cursor-pointer group"
-            title="Click to switch Speaking Identity (OOC Operator vs IC Folio Persona)"
+            title="Click to switch Speaking Identity (OOC Operator, IC Folio Persona, or Architect GM / Referee)"
           >
             <div className="flex items-center gap-1 min-w-0">
               <span className="font-bold text-[11px] text-slate-100 truncate">
@@ -473,7 +496,12 @@ export const TransceiverDeck = () => {
             </div>
 
             <div className="flex items-center gap-1 min-w-0">
-              {speakingMode === 'IC' && activePersonaName ? (
+              {speakingMode === 'ARCHITECT' && isCurrentChannelArchitect ? (
+                <span className="text-[9.5px] font-bold text-amber-400 truncate flex items-center gap-1">
+                  <Crown size={10} className="text-amber-400 shrink-0" />
+                  <span className="truncate">ARCHITECT // GM</span>
+                </span>
+              ) : speakingMode === 'IC' && activePersonaName ? (
                 <span className="text-[9.5px] font-bold text-emerald-400 truncate flex items-center gap-1">
                   <span>🎭 IC:</span>
                   <span className="truncate">{activePersonaName}</span>

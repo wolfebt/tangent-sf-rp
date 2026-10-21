@@ -32,7 +32,7 @@ export const SquadDirectoryTab = ({
               type="text"
               value={directorySearch}
               onChange={(e) => setDirectorySearch(e.target.value)}
-              placeholder="Search squad title, campaign, or keywords..."
+              placeholder="Search team title, campaign, or keywords..."
               className="w-full pl-9 pr-3 py-2 bg-slate-900/90 border border-slate-800 rounded-xl text-xs font-mono text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500/60"
             />
           </div>
@@ -138,7 +138,7 @@ export const SquadDirectoryTab = ({
                 </div>
 
                 <p className="text-xs text-slate-400 font-sans line-clamp-2">
-                  {group.description || 'Terran-net tactical fireteam.'}
+                  {group.description || 'Terran-net tactical team.'}
                 </p>
               </div>
 
@@ -246,7 +246,7 @@ export const SquadDirectoryTab = ({
                       }}
                       className="px-2.5 py-1 rounded-lg bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/40 text-emerald-300 text-[10.5px] font-mono font-bold transition-all cursor-pointer"
                     >
-                      {isSelected ? 'ACTIVE SQUAD' : 'ACTIVATE'}
+                      {isSelected ? 'ACTIVE TEAM' : 'ACTIVATE'}
                     </button>
                   ) : (
                     <button
@@ -257,12 +257,12 @@ export const SquadDirectoryTab = ({
                           selectGroup(group.id);
                           setActiveTab('roster');
                         } catch (e) {
-                          toast({ type: 'error', text: e.message || 'Failed to join squad.' });
+                          toast({ type: 'error', text: e.message || 'Failed to join team.' });
                         }
                       }}
                       className="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[10.5px] font-mono font-bold transition-all cursor-pointer"
                     >
-                      JOIN SQUAD
+                      JOIN TEAM
                     </button>
                   )}
                 </div>

@@ -41,16 +41,17 @@ export const NetworkPage = () => {
   const initialViewParam = searchParams.get('view');
   const initialTabParam = searchParams.get('tab');
   const hasJoinParam = !!searchParams.get('join');
-  const validSquadTabs = ['roster', 'directory', 'invites', 'tactical', 'comms', 'settings'];
+  const validSquadTabs = ['roster', 'directory', 'lfg', 'invites', 'tactical', 'comms', 'settings'];
   const hasSquadTabParam = !!initialTabParam && validSquadTabs.includes(initialTabParam);
+  const isInitialLfgView = initialViewParam === 'community' || initialViewParam === 'networking';
 
-  const defaultView = (hasJoinParam || hasSquadTabParam || initialViewParam === 'squads' || initialViewParam === 'teams')
+  const defaultView = (hasJoinParam || hasSquadTabParam || isInitialLfgView || initialViewParam === 'squads' || initialViewParam === 'teams')
     ? 'squads'
-    : (initialViewParam === 'community' || initialViewParam === 'networking' ? 'community' : (initialViewParam === 'roster' ? 'roster' : 'comms'));
+    : (initialViewParam === 'roster' ? 'roster' : 'comms');
 
   const [activeView, setActiveView] = useState(defaultView);
   const [activeSquadNavTab, setActiveSquadNavTab] = useState(
-    hasJoinParam ? 'invites' : (hasSquadTabParam ? initialTabParam : 'roster')
+    hasJoinParam ? 'invites' : (isInitialLfgView ? 'lfg' : (hasSquadTabParam ? initialTabParam : 'roster'))
   );
   const [isCreateChannelModalOpen, setIsCreateChannelModalOpen] = useState(false);
   const [isCreateSquadModalOpen, setIsCreateSquadModalOpen] = useState(false);
@@ -63,6 +64,8 @@ export const NetworkPage = () => {
     hasNewOperatorLogins = false, 
     clearNewOperatorLogins,
     onlineOperators = [],
+    publicChannels = [],
+    activeChannel,
     selectChannel,
     activeChannelId
   } = useChat() || {};
@@ -103,7 +106,8 @@ export const NetworkPage = () => {
         setActiveSquadNavTab(tabParam);
       }
     } else if (viewParam === 'community' || viewParam === 'networking') {
-      setActiveView('community');
+      setActiveView('squads');
+      setActiveSquadNavTab('lfg');
     } else if (viewParam === 'roster') {
       setActiveView('roster');
     } else if (viewParam === 'comms' || viewParam === 'chat') {
@@ -111,11 +115,23 @@ export const NetworkPage = () => {
     }
   }, [searchParams]);
 
+  // Ensure a Team channel never stays displayed when viewing COMMLINK ('comms')
+  useEffect(() => {
+    if (activeView === 'comms') {
+      const isTeamChan =
+        activeChannel?.type === 'group' ||
+        Boolean(activeChannel?.groupId) ||
+        String(activeChannelId || '').startsWith('group_chan_');
+      if (isTeamChan && selectChannel) {
+        const fallbackId = publicChannels[0]?.id || 'public_general';
+        selectChannel(fallbackId);
+      }
+    }
+  }, [activeView, activeChannel?.type, activeChannel?.groupId, activeChannelId, publicChannels, selectChannel]);
+
   // Derived 4-Zone Server Context
   const serverContext = activeView === 'squads' || activeView === 'teams'
     ? 'squad'
-    : activeView === 'community'
-    ? 'discovery'
     : activeView === 'roster'
     ? 'directory'
     : 'holonet';
@@ -125,16 +141,18 @@ export const NetworkPage = () => {
     if (viewKey === 'roster' && hasNewOperatorLogins) {
       clearNewOperatorLogins?.();
     }
-    const targetKey = viewKey === 'teams' ? 'squads' : viewKey;
+    const isLfg = viewKey === 'community' || viewKey === 'networking';
+    const targetKey = (viewKey === 'teams' || isLfg) ? 'squads' : viewKey;
+    const resolvedTab = isLfg ? 'lfg' : optionalTab;
     setActiveView(targetKey);
-    if (optionalTab) {
-      setActiveSquadNavTab(optionalTab);
+    if (resolvedTab) {
+      setActiveSquadNavTab(resolvedTab);
     }
     setSearchParams(prev => {
       const next = new URLSearchParams(prev);
       next.set('view', targetKey);
-      if (targetKey === 'squads' && (optionalTab || activeSquadNavTab)) {
-        next.set('tab', optionalTab || activeSquadNavTab);
+      if (targetKey === 'squads' && (resolvedTab || activeSquadNavTab)) {
+        next.set('tab', resolvedTab || activeSquadNavTab);
       } else if (targetKey !== 'squads') {
         next.delete('tab');
       }
@@ -144,7 +162,7 @@ export const NetworkPage = () => {
 
   // Zone 1 Rail Context Switch Handler
   const handleSelectRailContext = useCallback((ctxKey) => {
-    if (ctxKey === 'holonet') {
+    if (ctxKey === 'holonet' || ctxKey === 'stage' || ctxKey === 'audit') {
       handleSelectView('comms');
     } else if (ctxKey === 'squad') {
       handleSelectView('squads', activeSquadNavTab || 'roster');
@@ -157,11 +175,12 @@ export const NetworkPage = () => {
 
   // 1-Click Squad Crest Selection from Zone 1 Rail
   const handleSelectSquadFromRail = useCallback((squad) => {
-    if (!squad) return;
-    effectiveSelectSquad?.(squad.id);
-    // If squad has a dedicated comm channel and user is switching squads, sync channel
-    if (squad.channelId && activeSquadNavTab === 'comms' && activeChannelId !== squad.channelId) {
-      selectChannel?.(squad.channelId);
+    if (squad?.id) {
+      effectiveSelectSquad?.(squad.id);
+      // If squad has a dedicated comm channel and user is switching squads, sync channel
+      if (squad.channelId && activeSquadNavTab === 'comms' && activeChannelId !== squad.channelId) {
+        selectChannel?.(squad.channelId);
+      }
     }
     handleSelectView('squads', activeSquadNavTab || 'roster');
   }, [effectiveSelectSquad, activeSquadNavTab, activeChannelId, selectChannel, handleSelectView]);
@@ -197,7 +216,7 @@ export const NetworkPage = () => {
             }`}
           >
             <Radio size={11} className={activeView === 'comms' ? 'text-amber-400' : 'text-slate-400'} />
-            <span>COMMS</span>
+            <span>FREQS</span>
             {totalUnreadCount > 0 && (
               <span className="px-1 rounded bg-amber-500 text-black font-extrabold text-[8.5px]">
                 {totalUnreadCount}
@@ -215,25 +234,12 @@ export const NetworkPage = () => {
             }`}
           >
             <Shield size={11} className={activeView === 'squads' || activeView === 'teams' ? 'text-emerald-400' : 'text-slate-400'} />
-            <span>SQUADS</span>
+            <span>TEAMS</span>
             {pendingInvites.length > 0 && (
               <span className="px-1 rounded bg-amber-400 text-black font-extrabold text-[8.5px]">
                 {pendingInvites.length}!
               </span>
             )}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => handleSelectView('community')}
-            className={`px-2 py-1 rounded-lg text-[10px] font-bold flex items-center gap-1 transition-all cursor-pointer ${
-              activeView === 'community'
-                ? 'bg-purple-950/80 text-purple-300 border border-purple-500/50'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            <Compass size={11} className={activeView === 'community' ? 'text-purple-400' : 'text-slate-400'} />
-            <span>LFG</span>
           </button>
 
           <button
@@ -246,7 +252,7 @@ export const NetworkPage = () => {
             }`}
           >
             <Users size={11} className={activeView === 'roster' ? 'text-cyan-400' : 'text-slate-400'} />
-            <span>OPS</span>
+            <span>ROSTER</span>
             {onlineOperators.length > 0 && (
               <span className="px-1 rounded bg-cyan-500/20 text-cyan-300 text-[8.5px] font-mono">
                 {onlineOperators.length}
@@ -322,12 +328,18 @@ export const NetworkPage = () => {
       {/* ── SOTA 4-Zone Comm Center Workstation Body ── */}
       <div className="flex-1 flex min-h-0 overflow-hidden relative">
         {/* ZONE 1: Far-Left Server & Hub Switcher Rail (64px on Desktop) */}
-        <div className="hidden md:flex h-full shrink-0">
+        <div className="hidden md:flex h-full shrink-0 relative z-40">
           <NetworkServerRail
             activeContext={serverContext}
+            serverContext={serverContext}
+            squads={effectiveSquads}
             onSelectContext={handleSelectRailContext}
+            onSelectHolonet={() => handleSelectRailContext('holonet')}
+            onSelectDiscovery={() => handleSelectRailContext('discovery')}
+            onSelectDirectory={() => handleSelectRailContext('directory')}
             activeSquadId={effectiveActiveSquad?.id}
             onSelectSquad={handleSelectSquadFromRail}
+            onOpenCreateChannel={() => setIsCreateChannelModalOpen(true)}
             onOpenCreateSquad={() => setIsCreateSquadModalOpen(true)}
             onOpenGuide={() => setIsGuideModalOpen(true)}
           />
@@ -340,6 +352,7 @@ export const NetworkPage = () => {
             <div className="flex-1 flex min-h-0 h-full overflow-hidden">
               <CommsPage
                 hideHeader={true}
+                hideLeftRail={true}
                 serverContext="holonet"
                 onSwitchToTeams={() => handleSelectView('squads', 'roster')}
                 mobileViewOverride={commsMobileView}
@@ -355,10 +368,16 @@ export const NetworkPage = () => {
               <div className="hidden md:flex flex-1 min-h-0 h-full overflow-hidden">
                 <CommsPage
                   hideHeader={true}
+                  hideLeftRail={true}
                   serverContext="squad"
+                  activeStageMode={activeSquadNavTab === 'comms' ? 'comms' : 'squad_command'}
+                  activeSquadTab={activeSquadNavTab}
                   activeSquadNavTab={activeSquadNavTab}
+                  onSelectSquadCommandTab={handleSelectSquadNavTab}
                   onSelectSquadNavTab={handleSelectSquadNavTab}
+                  onReturnToCommsStream={() => handleSelectSquadNavTab('comms')}
                   onSwitchToTeams={() => handleSelectSquadNavTab('roster')}
+                  onOpenCreateSquad={() => setIsCreateSquadModalOpen(true)}
                   renderStageOverride={
                     activeSquadNavTab !== 'comms' ? (
                       <SquadsPage

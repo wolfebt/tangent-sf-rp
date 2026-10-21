@@ -12,7 +12,8 @@ import {
   VolumeX,
   HelpCircle,
   Pin,
-  Map
+  Map,
+  Compass
 } from 'lucide-react';
 import { useSquad, useGroup } from '../../context/SquadContext';
 import { useChat } from '../../context/ChatContext';
@@ -93,7 +94,7 @@ export const SquadsNavRail = ({
     {
       id: 'roster',
       label: 'ROSTER',
-      sublabel: 'Active Squad Operators',
+      sublabel: 'Active Team Operators',
       icon: Users
     },
     {
@@ -103,9 +104,15 @@ export const SquadsNavRail = ({
       icon: Map
     },
     {
+      id: 'lfg',
+      label: 'RECRUIT LFT',
+      sublabel: 'Recruitment & LFT Hub',
+      icon: Compass
+    },
+    {
       id: 'directory',
-      label: 'SQUADS',
-      sublabel: 'Squads & Public Parties',
+      label: 'TEAMS',
+      sublabel: 'Teams & Public Parties',
       icon: Globe
     },
     {
@@ -119,7 +126,7 @@ export const SquadsNavRail = ({
     {
       id: 'comms',
       label: 'COMMS',
-      sublabel: 'Encrypted Squad Frequency',
+      sublabel: 'Encrypted Team Frequency',
       icon: Radio,
       pulse: squadUnread > 0,
       pulseClass: 'animate-nav-pulse-amber'
@@ -127,7 +134,7 @@ export const SquadsNavRail = ({
     {
       id: 'settings',
       label: 'CONFIG',
-      sublabel: 'Squad Policies & Permissions',
+      sublabel: 'Team Policies & Permissions',
       icon: Settings
     }
   ];
@@ -165,7 +172,7 @@ export const SquadsNavRail = ({
           >
             <div className="flex items-center gap-1.5 min-w-0">
               <span className="font-mono text-[10px] font-extrabold text-emerald-400 uppercase tracking-widest truncate">
-                SQUADS
+                TEAMS
               </span>
               {inviteCount > 0 && (
                 <span className="text-[8px] font-mono px-1.5 py-0.2 rounded bg-amber-400 text-black font-extrabold animate-pulse">
@@ -175,7 +182,7 @@ export const SquadsNavRail = ({
             </div>
             <div className="flex items-center gap-1 shrink-0">
               <span className="text-[8px] font-mono text-slate-500 uppercase tracking-wider hidden sm:inline">
-                FIRETEAMS
+                COMMAND
               </span>
               <button
                 type="button"
@@ -193,14 +200,14 @@ export const SquadsNavRail = ({
             </div>
           </div>
 
-          {/* Top Brand Squad Crest Button */}
+          {/* Top Brand Team Crest Button */}
           <button
             type="button"
             onClick={() => handleTabClick('roster')}
             className={`group relative w-full h-8.5 sm:h-9 rounded-xl flex items-center transition-all cursor-pointer border shrink-0 bg-gradient-to-br from-emerald-950/80 via-slate-900 to-teal-950/80 border-emerald-500/50 shadow-[0_0_12px_rgba(16,185,129,0.25)] hover:scale-[1.02] ${
               isExpanded ? 'px-2 justify-start' : 'px-1 justify-center'
             }`}
-            title={isExpanded ? undefined : (activeGroup ? `Active Squad: ${activeGroup.name}` : "Tangent Game Squads Station")}
+            title={isExpanded ? undefined : (activeGroup ? `Active Team: ${activeGroup.name}` : "Tangent Game Teams Station")}
           >
             <div className="relative w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center shrink-0 border border-emerald-500/40 bg-emerald-950/60">
               <Shield size={16} className="text-emerald-400 group-hover:animate-soft-badge-glow" />
@@ -214,7 +221,7 @@ export const SquadsNavRail = ({
             >
               <div className="flex items-center justify-between gap-1">
                 <span className="font-mono text-[11px] font-bold uppercase tracking-wider truncate leading-tight text-emerald-300">
-                  {activeGroup ? activeGroup.name : 'SQUAD STATION'}
+                  {activeGroup ? activeGroup.name : 'TEAM STATION'}
                 </span>
                 <span className="text-[8px] font-mono px-1 py-0.2 rounded bg-emerald-950 border border-emerald-500/30 text-emerald-300 font-bold shrink-0">
                   NET
@@ -314,7 +321,7 @@ export const SquadsNavRail = ({
             className={`group relative w-full h-8.5 sm:h-9 rounded-xl flex items-center transition-all cursor-pointer border shrink-0 bg-gradient-to-r from-emerald-600/80 to-teal-600/80 hover:from-emerald-500 hover:to-teal-500 border-emerald-400/40 text-white shadow-[0_0_12px_rgba(16,185,129,0.3)] ${
               isExpanded ? 'px-2 justify-start' : 'px-1 justify-center'
             }`}
-            title={isExpanded ? undefined : "Create New Tactical Squad"}
+            title={isExpanded ? undefined : "Create New Tactical Team"}
           >
             <div className="w-7.5 h-7.5 sm:w-8 sm:h-8 flex items-center justify-center shrink-0">
               <Plus size={16} />
@@ -325,10 +332,10 @@ export const SquadsNavRail = ({
               }`}
             >
               <span className="font-mono text-[10.5px] font-bold uppercase tracking-wider truncate leading-tight">
-                NEW SQUAD
+                NEW TEAM
               </span>
               <span className="text-[8.5px] text-emerald-200/80 truncate font-mono leading-tight mt-0.5">
-                Create Fireteam
+                Create Team
               </span>
             </div>
           </button>
@@ -378,7 +385,7 @@ export const SquadsNavRail = ({
               className={`group relative w-full h-8.5 sm:h-9 rounded-xl flex items-center transition-colors cursor-pointer border border-transparent text-slate-500 hover:text-slate-200 hover:bg-slate-900 shrink-0 ${
                 isExpanded ? 'px-2 justify-start' : 'px-1 justify-center'
               }`}
-              title={isExpanded ? undefined : "Squad Operations Manual"}
+              title={isExpanded ? undefined : "Team Operations Manual"}
             >
               <div className="w-7.5 h-7.5 sm:w-8 sm:h-8 flex items-center justify-center shrink-0">
                 <HelpCircle size={15} />

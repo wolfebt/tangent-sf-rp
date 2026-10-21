@@ -50,6 +50,7 @@ import { SquadCommsTab } from '../components/Squads/tabs/SquadCommsTab';
 import { SquadSettingsTab } from '../components/Squads/tabs/SquadSettingsTab';
 import { SquadTacticalTab } from '../components/Squads/tabs/SquadTacticalTab';
 import { SquadInviteConfirmationModal } from '../components/Squads/SquadInviteConfirmationModal';
+import { CommunityNetworkingView } from '../components/Community/CommunityNetworkingView';
 
 /**
  * @file SquadsPage.jsx
@@ -141,7 +142,7 @@ export const SquadsPage = ({
 
   // Sync controlledTab from parent 4-Zone Workstation
   useEffect(() => {
-    if (controlledTab && ['roster', 'directory', 'invites', 'comms', 'tactical', 'settings'].includes(controlledTab)) {
+    if (controlledTab && ['roster', 'directory', 'lfg', 'invites', 'comms', 'tactical', 'settings'].includes(controlledTab)) {
       setActiveTab(controlledTab);
     }
   }, [controlledTab]);
@@ -149,7 +150,7 @@ export const SquadsPage = ({
   // Sync tab with URL search parameter
   useEffect(() => {
     const tabParam = searchParams.get('tab');
-    if (tabParam && ['roster', 'directory', 'invites', 'comms', 'tactical', 'settings'].includes(tabParam)) {
+    if (tabParam && ['roster', 'directory', 'lfg', 'invites', 'comms', 'tactical', 'settings'].includes(tabParam)) {
       setActiveTab(tabParam);
     }
   }, [searchParams]);
@@ -217,8 +218,8 @@ export const SquadsPage = ({
         setActiveTab('roster');
       }
     } catch (err) {
-      console.error('Join squad failed:', err);
-      setJoinError(err.message || 'Failed to join squad with provided code.');
+      console.error('Join team failed:', err);
+      setJoinError(err.message || 'Failed to join team with provided code.');
     } finally {
       setJoinLoading(false);
     }
@@ -293,11 +294,11 @@ export const SquadsPage = ({
             <div className="flex items-center gap-2 text-slate-400 min-w-0">
               <span className="text-emerald-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
                 <Shield size={14} className="text-emerald-400" />
-                <span className="hidden sm:inline">GAME SQUADS & FIRETEAMS</span>
+                <span className="hidden sm:inline">GAME TEAMS & FIRETEAMS</span>
               </span>
               <span className="text-slate-600">/</span>
 
-              {/* Active Squad Selector Dropdown */}
+              {/* Active Team Selector Dropdown */}
               {effectiveSquads.length > 0 ? (
                 <div className="relative group">
                   <select
@@ -320,11 +321,11 @@ export const SquadsPage = ({
                 </div>
               ) : (
                 <span className="px-2 py-0.5 rounded-md bg-slate-900 border border-slate-700 text-slate-400 font-bold">
-                  NO ACTIVE SQUAD
+                  NO ACTIVE TEAM
                 </span>
               )}
 
-              {/* Active Squad Status Badge */}
+              {/* Active Team Status Badge */}
               {effectiveActiveSquad?.status && (
                 <span className={`hidden md:inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[9px] font-bold border ${
                   effectiveActiveSquad.status === 'Recruiting'
@@ -344,7 +345,7 @@ export const SquadsPage = ({
                   type="button"
                   onClick={handleCopyCode}
                   className="hidden lg:flex items-center gap-1 px-2 py-0.5 rounded bg-slate-900/90 border border-slate-700 hover:border-emerald-500/40 text-[9.5px] font-mono text-slate-300 hover:text-emerald-300 transition-colors"
-                  title="Click to copy Squad Invite Code"
+                  title="Click to copy Team Invite Code"
                 >
                   <span className="text-slate-500">CODE:</span>
                   <span className="font-bold text-emerald-300">{effectiveActiveSquad.inviteCode}</span>
@@ -356,7 +357,7 @@ export const SquadsPage = ({
 
           {/* Right Station Fast Action Buttons */}
           <div className="flex items-center gap-2 text-[11px] font-mono shrink-0">
-            {/* Create Squad Button */}
+            {/* Create Team Button */}
             <button
               type="button"
               onClick={() => {
@@ -364,10 +365,10 @@ export const SquadsPage = ({
                 setIsCreateModalOpen(true);
               }}
               className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold shadow-sm transition-all cursor-pointer"
-              title="Create a New Tactical Squad"
+              title="Create a New Tactical Team"
             >
               <Plus size={13} />
-              <span className="hidden xs:inline">NEW SQUAD</span>
+              <span className="hidden xs:inline">NEW TEAM</span>
             </button>
           </div>
         </header>
@@ -393,7 +394,8 @@ export const SquadsPage = ({
             {[
               { id: 'roster', label: 'ROSTER', icon: Users, badge: effectiveActiveSquad?.members?.length },
               { id: 'tactical', label: 'STAGE VTT', icon: Shield, badge: 'VTT' },
-              { id: 'directory', label: 'SQUADS', icon: Globe, badge: effectiveSquads.length > 0 ? effectiveSquads.length : null },
+              { id: 'lfg', label: 'RECRUIT LFT', icon: Compass, badge: 'LFT' },
+              { id: 'directory', label: 'TEAMS', icon: Globe, badge: effectiveSquads.length > 0 ? effectiveSquads.length : null },
               { id: 'invites', label: 'INVITES', icon: UserPlus, badge: pendingInvites.length > 0 ? `${pendingInvites.length}!` : null, isAlert: pendingInvites.length > 0 },
               { id: 'comms', label: 'COMMS', icon: Radio },
               { id: 'settings', label: 'CONFIG', icon: Settings }
@@ -440,7 +442,7 @@ export const SquadsPage = ({
                 setIsCreateModalOpen(true);
               }}
               className="p-1.5 rounded-lg bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 hover:bg-emerald-900 transition-colors cursor-pointer"
-              title="Create New Squad"
+              title="Create New Team"
             >
               <Plus size={13} />
             </button>
@@ -449,7 +451,7 @@ export const SquadsPage = ({
 
         {/* Main Routed Content Panel */}
         <main className="flex-1 flex flex-col min-w-0 h-full overflow-hidden bg-[#090d16] relative">
-          {/* 48px Single Squad Command & Mission Ready Check Header (when embedded) */}
+          {/* 48px Single Team Command & Mission Ready Check Header (when embedded) */}
           {hideHeader && (
             <div className="h-12 px-3 sm:px-4 bg-slate-950/95 border-b border-slate-800/90 flex items-center justify-between gap-2 shrink-0 font-mono text-xs z-10">
               <div className="flex items-center gap-2 min-w-0">
@@ -473,7 +475,7 @@ export const SquadsPage = ({
                     <span className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-emerald-400 text-[9px]">▼</span>
                   </div>
                 ) : (
-                  <span className="text-slate-400 font-bold text-xs">NO ENROLLED SQUAD</span>
+                  <span className="text-slate-400 font-bold text-xs">NO ENROLLED TEAM</span>
                 )}
 
                 {effectiveActiveSquad?.inviteCode && (
@@ -481,7 +483,7 @@ export const SquadsPage = ({
                     type="button"
                     onClick={handleCopyCode}
                     className="hidden sm:flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-900 border border-slate-800 hover:border-emerald-500/40 text-[10px] text-slate-300 hover:text-emerald-300 transition-colors cursor-pointer"
-                    title="Copy Squad Invite Code"
+                    title="Copy Team Invite Code"
                   >
                     <span className="text-slate-500">JOIN CODE:</span>
                     <span className="font-bold text-emerald-300">{effectiveActiveSquad.inviteCode}</span>
@@ -530,10 +532,10 @@ export const SquadsPage = ({
                       onSwitchToComms();
                     }}
                     className="px-2.5 py-1 rounded-lg bg-amber-950/60 hover:bg-amber-900/70 border border-amber-500/40 text-amber-300 font-bold text-[10.5px] flex items-center gap-1 transition-colors cursor-pointer"
-                    title="Return to Live Squad Comms Channel"
+                    title="Return to Live Team Comms Channel"
                   >
                     <Radio size={12} />
-                    <span className="hidden xs:inline">SQUAD COMMS</span>
+                    <span className="hidden xs:inline">TEAM COMMS</span>
                   </button>
                 )}
 
@@ -544,10 +546,10 @@ export const SquadsPage = ({
                     setIsCreateModalOpen(true);
                   }}
                   className="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[10.5px] flex items-center gap-1 shadow-sm transition-colors cursor-pointer"
-                  title="Commission New Squad"
+                  title="Commission New Team"
                 >
                   <Plus size={12} />
-                  <span className="hidden sm:inline">NEW SQUAD</span>
+                  <span className="hidden sm:inline">NEW TEAM</span>
                 </button>
               </div>
             </div>
@@ -578,6 +580,19 @@ export const SquadsPage = ({
               activeGroup={effectiveActiveSquad}
               navigate={navigate}
             />
+          )}
+
+          {/* TAB 2B: RECRUITMENT & LFT HUB */}
+          {activeTab === 'lfg' && (
+            <div className="flex-1 min-h-0 h-full overflow-hidden">
+              <CommunityNetworkingView
+                onNavigateToSquad={(squadId) => {
+                  effectiveSelectSquad?.(squadId);
+                  handleSelectTab('roster');
+                }}
+                onOpenCreateSquad={() => setIsCreateModalOpen(true)}
+              />
+            </div>
           )}
 
           {/* TAB 3: SQUADS DIRECTORY & JOIN */}

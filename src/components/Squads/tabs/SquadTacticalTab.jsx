@@ -19,7 +19,7 @@ export const SquadTacticalTab = ({
               {activeGroup ? `${activeGroup.name} VTT Operations` : 'Tactical Battlemap Synchronizer'}
             </h2>
             <p className="text-xs text-slate-300 font-sans max-w-xl">
-              Synchronize team token coordinates, initiative logs, line-of-sight fog-of-war, and live dice resolution across all active players in this squad.
+              Synchronize team token coordinates, initiative logs, line-of-sight fog-of-war, and live dice resolution across all active players in this team.
             </p>
           </div>
 

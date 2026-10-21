@@ -59,7 +59,7 @@ export const SquadInvitesTab = ({
           <div className="space-y-1">
             <h3 className="font-mono text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
               <UserPlus size={16} className="text-emerald-400" />
-              <span>SHAREABLE SQUAD CREDENTIALS</span>
+              <span>SHAREABLE TEAM CREDENTIALS</span>
             </h3>
             <p className="text-xs text-slate-400 font-sans">
               Distribute instant join access to fellow operators via alphanumeric codes, direct links, or mobile QR code.
@@ -129,7 +129,7 @@ export const SquadInvitesTab = ({
                         src={`https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(
                           `${typeof window !== 'undefined' ? window.location.origin : ''}/network?view=teams&join=${activeGroup.inviteCode}`
                         )}`}
-                        alt="Join Squad QR"
+                        alt="Join Team QR"
                         className="w-20 h-20"
                       />
                     </div>
@@ -150,7 +150,7 @@ export const SquadInvitesTab = ({
             </div>
           ) : (
             <div className="p-4 rounded-xl bg-slate-950/50 border border-dashed border-slate-800 text-center text-xs text-slate-500 font-mono">
-              Select or create a squad first to provision invite credentials.
+              Select or create a team first to provision invite credentials.
             </div>
           )}
         </div>
@@ -164,7 +164,7 @@ export const SquadInvitesTab = ({
                 <span>DISPATCH OPERATOR INVITATIONS</span>
               </h3>
               <p className="text-xs text-slate-400 font-sans">
-                Search network operator registry and dispatch direct squad membership transmissions.
+                Search network operator registry and dispatch direct team membership transmissions.
               </p>
             </div>
 
@@ -248,7 +248,7 @@ export const SquadInvitesTab = ({
                           ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/40'
                           : 'bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/40 text-cyan-300'
                       }`}
-                      title={status === 'sent' ? 'Invitation transmitted' : 'Send squad invitation to this operator'}
+                      title={status === 'sent' ? 'Invitation transmitted' : 'Send team invitation to this operator'}
                     >
                       {status === 'sent' ? 'INVITED' : status === 'sending' ? 'TRANSMITTING...' : 'DISPATCH'}
                     </button>
@@ -293,7 +293,7 @@ export const SquadInvitesTab = ({
           {/* Incoming Invites */}
           <div className="p-4 rounded-2xl bg-slate-900/40 border border-slate-800 space-y-3">
             <span className="text-[11px] font-mono font-bold text-amber-300 uppercase tracking-wider block">
-              INCOMING SQUAD CALLS
+              INCOMING TEAM CALLS
             </span>
             {pendingInvites.length > 0 ? (
               pendingInvites.map(inv => (
