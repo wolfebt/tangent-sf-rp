@@ -232,7 +232,7 @@ export const OMNICORTEX_SECTIONS = [
     icon: Landmark,
     colorTheme: 'indigo',
     isParent: true,
-    subItems: ['planetary_design', 'universe', 'setting', 'philosophy', 'scene'],
+    subItems: ['planetary_design', 'world', 'universe', 'setting', 'philosophy', 'scene'],
     sublabel: 'Planetary Specs, Universe & Settings'
   }
 ];
@@ -556,7 +556,7 @@ export const OmnicortexNavRail = ({
                 const rect = e.currentTarget.getBoundingClientRect();
                 setHoveredItem({
                   label: 'DEVELOPER FIELDS',
-                  sublabel: '5 Groups · 43 Schema Tables',
+                  sublabel: `${DEVELOPMENT_FIELDS_GROUPS.length} Groups · ${DEVELOPMENT_FIELDS_REGISTRY.length} Schema Tables`,
                   desc: 'Toggle the Developer Fields drawer for Core Rules, Tech, Economy, Anatomy, Metaphysics, Crafting, and Spheres',
                   rect
                 });
@@ -569,7 +569,7 @@ export const OmnicortexNavRail = ({
                   ? 'bg-amber-500/25 border-amber-400 text-amber-200 shadow-[0_0_12px_rgba(245,158,11,0.4)]'
                   : 'bg-amber-950/50 hover:bg-amber-900/60 border-amber-500/50 text-amber-300 hover:text-amber-100'
               }`}
-              title={isExpanded ? undefined : "Developer Fields (43 Schema Tables)"}
+              title={isExpanded ? undefined : `Developer Fields (${DEVELOPMENT_FIELDS_REGISTRY.length} Schema Tables)`}
             >
               <div className="w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center shrink-0">
                 <Wrench size={15} className={isDevPanelOpen ? 'rotate-45 transition-transform' : 'transition-transform'} />
@@ -586,11 +586,11 @@ export const OmnicortexNavRail = ({
                     DEV FIELDS
                   </span>
                   <span className="text-[8.5px] font-mono px-1 rounded bg-amber-500/20 text-amber-300 font-bold shrink-0">
-                    43
+                    {DEVELOPMENT_FIELDS_REGISTRY.length}
                   </span>
                 </div>
                 <span className="text-[8.5px] text-amber-400/80 truncate font-mono leading-tight mt-0.5">
-                  5 Schema Groups
+                  {DEVELOPMENT_FIELDS_GROUPS.length} Schema Groups
                 </span>
               </div>
             </button>

@@ -146,15 +146,18 @@ const CatalogVirtualRow = ({ item, visibleColumns, handleOpenItem, isAdmin, hand
           </span>
         )}
       </div>
-      {otherCols.map(col => (
-        <div
-          key={col}
-          className="flex-1 min-w-[110px] text-slate-400 truncate text-xs"
-          title={typeof item[col] === 'string' ? item[col] : undefined}
-        >
-          {formatCellValue(item[col])}
-        </div>
-      ))}
+      {otherCols.map(col => {
+        const cellVal = item[col] ?? (col === 'type' ? item.species_type : (col === 'cp' ? (item.cp ?? item.bp ?? item.costs?.cp ?? item.costs?.bp) : undefined));
+        return (
+          <div
+            key={col}
+            className="flex-1 min-w-[110px] text-slate-400 truncate text-xs"
+            title={typeof cellVal === 'string' ? cellVal : undefined}
+          >
+            {formatCellValue(cellVal)}
+          </div>
+        );
+      })}
     </div>
   );
 };
@@ -189,15 +192,18 @@ const CatalogTableRow = ({ item, visibleColumns, handleOpenItem, isAdmin, handle
           )}
         </div>
       </td>
-      {otherCols.map(col => (
-        <td
-          key={col}
-          className="p-3 text-slate-400 truncate max-w-xs"
-          title={typeof (item[col] ?? (col === 'type' ? item.species_type : undefined)) === 'string' ? (item[col] ?? item.species_type) : undefined}
-        >
-          {formatCellValue(item[col] ?? (col === 'type' ? item.species_type : undefined))}
-        </td>
-      ))}
+      {otherCols.map(col => {
+        const cellVal = item[col] ?? (col === 'type' ? item.species_type : (col === 'cp' ? (item.cp ?? item.bp ?? item.costs?.cp ?? item.costs?.bp) : undefined));
+        return (
+          <td
+            key={col}
+            className="p-3 text-slate-400 truncate max-w-xs"
+            title={typeof cellVal === 'string' ? cellVal : undefined}
+          >
+            {formatCellValue(cellVal)}
+          </td>
+        );
+      })}
     </tr>
   );
 };

@@ -94,10 +94,11 @@ export const categoryConfig = {
         label: 'TYPES',
         viewType: 'table',
         hideFromMenu: true,
-        directory_columns: ['name', 'bp', 'senses', 'immunities', 'description'],
+        directory_columns: ['name', 'cp', 'senses', 'immunities', 'description'],
         fields: {
             name: { type: 'text', required: true, label: 'Type Name' },
-            bp: { type: 'number', label: 'Character Points (CP)', default: 0 },
+            cp: { type: 'number', label: 'Character Points (CP)', default: 0 },
+            bp: { type: 'number', label: 'Legacy BP', default: 0 },
             senses: { type: 'text', label: 'Senses' },
             immunities: { type: 'text', label: 'Immunities & Defenses' },
             fortification: { type: 'text', label: 'Fortification' },
@@ -113,10 +114,11 @@ export const categoryConfig = {
         label: 'SIZES',
         viewType: 'table',
         hideFromMenu: true,
-        directory_columns: ['name', 'bp', 'scaling_display', 'strength_mod', 'combat_mod', 'stealth_mod', 'height_length_range', 'weight_range', 'description'],
+        directory_columns: ['name', 'cp', 'scaling_display', 'strength_mod', 'combat_mod', 'stealth_mod', 'height_length_range', 'weight_range', 'description'],
         fields: {
             name: { type: 'text', required: true, label: 'Size Category' },
-            bp: { type: 'number', label: 'Character Points (CP)', default: 0 },
+            cp: { type: 'number', label: 'Character Points (CP)', default: 0 },
+            bp: { type: 'number', label: 'Legacy BP', default: 0 },
             scaling: { type: 'number', label: 'Scaling Ratio' },
             scaling_display: { type: 'text', label: 'Scaling Display' },
             strength_mod: { type: 'number', label: 'Strength Modifier' },
@@ -134,10 +136,11 @@ export const categoryConfig = {
         label: 'MOVEMENTS',
         viewType: 'table',
         hideFromMenu: true,
-        directory_columns: ['name', 'bp', 'speed', 'description'],
+        directory_columns: ['name', 'cp', 'speed', 'description'],
         fields: {
             name: { type: 'text', required: true, label: 'Movement Mode' },
-            bp: { type: 'number', label: 'Character Points (CP)', default: 0 },
+            cp: { type: 'number', label: 'Character Points (CP)', default: 0 },
+            bp: { type: 'number', label: 'Legacy BP', default: 0 },
             speed: { type: 'number', label: 'Speed (ft)' },
             base_speed: { type: 'text', label: 'Speed Display / Pace' },
             description: { type: 'textarea', aiEnabled: true, label: 'Description' },
@@ -149,12 +152,13 @@ export const categoryConfig = {
         label: 'SPECIES TRAITS',
         viewType: 'table',
         hideFromMenu: true,
-        directory_columns: ['name', 'bp', 'tier', 'type', 'isPurchasable', 'description'],
+        directory_columns: ['name', 'cp', 'tier', 'type', 'isPurchasable', 'description'],
         fields: {
             name: { type: 'text', required: true, label: 'Trait Name' },
             isPurchasable: { type: 'radio', label: 'Purchasable by Character', options: ['No', 'Yes'], default: 'No' },
             cpCost: { type: 'select', label: 'CP Cost (if Purchasable)', options: [1, 2, 4], default: 1 },
-            bp: { type: 'number', label: 'Character Points (CP)', default: 1 },
+            cp: { type: 'number', label: 'Character Points (CP)', default: 1 },
+            bp: { type: 'number', label: 'Legacy BP', default: 1 },
             tier: { type: 'select', label: 'Trait Tier', options: ['Basic', 'Advanced', 'Elite'], default: 'Basic' },
             type: { type: 'select', label: 'Category / Domain', options: ['Physical', 'Defensive', 'Trained', 'Sensory', 'Mental', 'Movement', 'Meta', 'General'] },
             prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
@@ -189,7 +193,7 @@ export const categoryConfig = {
             recommended_origins: { type: 'multiselect', source: 'origins', label: 'Recommended Origins', manageable: true },
             recommended_occupations: { type: 'multiselect', source: 'occupations', label: 'Recommended Occupations', manageable: true },
             recommended_skills: { type: 'multiselect', source: 'skills', label: 'Recommended Skills', manageable: true },
-            recommended_features: { type: 'multiselect', source: 'features', label: 'Recommended Features (-1 BP Discount)', manageable: true },
+            recommended_features: { type: 'multiselect', source: 'features', label: 'Recommended Features (-1 CP Discount)', manageable: true },
             bonus_features: { type: 'multiselect', label: 'Bonus Features' },
             keywords: { type: 'text', label: 'Guidance Keywords' },
             negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' },
@@ -251,7 +255,7 @@ export const categoryConfig = {
             recommended_factions: { type: 'multiselect', source: 'factions', label: 'Recommended Factions', manageable: true },
             recommended_occupations: { type: 'multiselect', source: 'occupations', label: 'Recommended Occupations', manageable: true },
             recommended_skills: { type: 'multiselect', source: 'skills', label: 'Recommended Society Skills', manageable: true },
-            recommended_features: { type: 'multiselect', source: 'features', label: 'Recommended Features (-1 BP Discount)', manageable: true },
+            recommended_features: { type: 'multiselect', source: 'features', label: 'Recommended Features (-1 CP Discount)', manageable: true },
             keywords: { type: 'tags', label: 'Positive Directives / Keywords', placeholder: 'e.g. subterranean, mining, low-gravity' },
             negative_keywords: { type: 'tags', label: 'Negative Directives / Railguards', placeholder: 'e.g. aquatic, zero-g, stealth' },
             description: { type: 'textarea', aiEnabled: true, label: 'Technical Overview & Environment' },
@@ -287,7 +291,7 @@ export const categoryConfig = {
             recommended_factions: { type: 'multiselect', source: 'factions', label: 'Recommended Factions', manageable: true },
             recommended_origins: { type: 'multiselect', source: 'origins', label: 'Recommended Origins', manageable: true },
             recommended_skills: { type: 'multiselect', source: 'skills', label: 'Recommended Professional Skills', manageable: true },
-            recommended_features: { type: 'multiselect', source: 'features', label: 'Recommended Features (-1 BP Discount)', manageable: true },
+            recommended_features: { type: 'multiselect', source: 'features', label: 'Recommended Features (-1 CP Discount)', manageable: true },
             keywords: { type: 'tags', label: 'Positive Directives / Keywords', placeholder: 'e.g. covert, tactical, cybernetic' },
             negative_keywords: { type: 'tags', label: 'Negative Directives / Railguards', placeholder: 'e.g. brute force, heavy armor, primitive' },
             traits: { type: 'multiselect', source: 'traits', label: 'Occupational Traits' },
@@ -318,21 +322,21 @@ export const categoryConfig = {
             quote: { type: 'text', label: 'Mantra / Quote' },
             primary_attribute: { 
                 type: 'select', 
-                label: 'Primary Attribute (+3 / 15 BP)',
+                label: 'Primary Attribute (+3 / 15 CP)',
                 options: ['Strength', 'Agility', 'Constitution', 'Intellect', 'Perception', 'Charisma', 'Willpower', 'Wisdom']
             },
             secondary_attribute: { 
                 type: 'select', 
-                label: 'Secondary Attribute (+2 / 10 BP)',
+                label: 'Secondary Attribute (+2 / 10 CP)',
                 options: ['Strength', 'Agility', 'Constitution', 'Intellect', 'Perception', 'Charisma', 'Willpower', 'Wisdom']
             },
             essential_skills: { type: 'multiselect', source: 'skills', label: 'Essential Skills (Priority 4 Trained + 6 Novice)', manageable: true },
-            signature_features: { type: 'multiselect', source: 'features', label: 'Signature Features (13 BP Package)', manageable: true },
+            signature_features: { type: 'multiselect', source: 'features', label: 'Signature Features (13 CP Package)', manageable: true },
             tactical_role: { type: 'textarea', label: 'Tactical Role & Field Operations' },
             recommended_occupations: { type: 'multiselect', source: 'occupations', label: 'Recommended Occupations', manageable: true },
             recommended_origins: { type: 'multiselect', source: 'origins', label: 'Recommended Origins', manageable: true },
             recommended_factions: { type: 'multiselect', source: 'factions', label: 'Recommended Factions', manageable: true },
-            bp_chassis: { type: 'number', label: 'Chassis Allocation Budget (BP)', default: 80 },
+            bp_chassis: { type: 'number', label: 'Chassis Allocation Budget (CP)', default: 80 },
             description: { type: 'textarea', aiEnabled: true, label: 'Full Description & Flavor' },
             full_text: { type: 'textarea', label: 'Full Rules Text & Lore (1.02 Archetypes.md)' },
             note: { type: 'textarea', label: 'Architect Notes' },
@@ -474,9 +478,10 @@ export const categoryConfig = {
         label: 'WORLD DESIGN',
         isParent: true,
         viewType: 'landing',
-        subItems: ['planetary_design', 'universe', 'philosophy', 'factions', 'technology', 'setting', 'scene'],
+        subItems: ['planetary_design', 'world', 'universe', 'philosophy', 'factions', 'technology', 'setting', 'scene'],
         subcategories: {
             planetary_design: { label: 'PLANETARY SPECS' },
+            world: { label: 'WORLDS' },
             universe: { label: 'UNIVERSE' },
             philosophy: { label: 'PHILOSOPHY & RELIGION' },
             factions: {
@@ -960,6 +965,7 @@ export const categoryConfig = {
             manufacturing: { type: 'select', source: 'society_manufacturing', label: 'Manufacturing', manageable: true },
             materials: { type: 'select', source: 'society_materials', label: 'Materials', manageable: true },
             medicine: { type: 'select', source: 'society_medicine', label: 'Medicine', manageable: true },
+            society: { type: 'select', source: 'society_society', label: 'Structure', manageable: true },
             synthetics: { type: 'select', source: 'society_synthetics', label: 'Synthetics', manageable: true },
             weaponry: { type: 'select', source: 'society_weaponry', label: 'Weaponry', manageable: true },
             mechanic: { type: 'textarea' },
@@ -1130,7 +1136,7 @@ export const categoryConfig = {
     },
     world: {
         label: 'WORLDS',
-        hideFromMenu: true,
+        hideFromMenu: false,
         viewType: 'table',
         parent: 'world_design',
         directory_columns: ['name', 'universe', 'description'],
@@ -1455,6 +1461,65 @@ export const categoryConfig = {
             mechanic: { type: 'textarea' },
             note: { type: 'textarea' }
         }
+    },
+    rules: {
+        label: 'CORE RULES & MECHANICS',
+        hideFromMenu: true,
+        viewType: 'table',
+        directory_columns: ['name', 'category', 'summary', 'description'],
+        fields: {
+            name: { type: 'text', required: true, label: 'Rule Title' },
+            category: { type: 'text', label: 'Rules Subsystem / Domain', default: 'rules' },
+            summary: { type: 'textarea', label: 'Brief Summary / Overview' },
+            description: { type: 'textarea', aiEnabled: true, label: 'Rulebook Mechanics (Markdown)' },
+            mechanic: { type: 'textarea', label: 'Core Formula / Resolution Mechanic' },
+            tags: { type: 'text', label: 'Index Tags' },
+            note: { type: 'textarea', label: 'Architect Notes' }
+        }
+    },
+    conditions: {
+        label: 'TACTICAL CONDITIONS',
+        hideFromMenu: true,
+        viewType: 'table',
+        directory_columns: ['name', 'category', 'description'],
+        fields: {
+            name: { type: 'text', required: true, label: 'Condition Name' },
+            category: { type: 'text', label: 'Condition Category', default: 'conditions' },
+            description: { type: 'textarea', aiEnabled: true, label: 'Mechanical Effect & Duration' },
+            cure: { type: 'textarea', label: 'Cure / Removal Check (DC & Skill)' },
+            mechanic: { type: 'textarea', label: 'Game Mechanics' },
+            modifiers: { type: 'modifiers_list', label: 'Condition Modifiers' },
+            note: { type: 'textarea', label: 'Architect Notes' }
+        }
+    },
+    damage_types: {
+        label: 'DAMAGE TYPES & PROFILES',
+        hideFromMenu: true,
+        viewType: 'table',
+        directory_columns: ['name', 'category', 'description'],
+        fields: {
+            name: { type: 'text', required: true, label: 'Damage Type / Energy Profile' },
+            category: { type: 'text', label: 'Profile Category', default: 'damage_types' },
+            description: { type: 'textarea', aiEnabled: true, label: 'Description & Lore' },
+            mechanic: { type: 'textarea', label: 'Damage Mechanics & Special Properties' },
+            resistances: { type: 'textarea', label: 'Resistances & Vulnerabilities' },
+            note: { type: 'textarea', label: 'Architect Notes' }
+        }
+    },
+    maneuvers: {
+        label: 'COMBAT MANEUVERS',
+        hideFromMenu: true,
+        viewType: 'table',
+        directory_columns: ['name', 'action_type', 'category', 'description'],
+        fields: {
+            name: { type: 'text', required: true, label: 'Maneuver Name' },
+            action_type: { type: 'text', label: 'Action Type (Standard, Movement, Reaction, Free)' },
+            category: { type: 'text', label: 'Maneuver Category', default: 'maneuvers' },
+            description: { type: 'textarea', aiEnabled: true, label: 'Description' },
+            mechanic: { type: 'textarea', label: 'Mechanical Resolution' },
+            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true, label: 'Prerequisites' },
+            note: { type: 'textarea', label: 'Architect Notes' }
+        }
     }
 };
 
@@ -1497,6 +1562,7 @@ export const DEVELOPMENT_FIELDS_REGISTRY = [
   { key: 'modifier', group: 'system', label: 'Modifiers', icon: '⚙️', desc: 'Constant, situational, and bonus modifiers altering character statistics and capabilities.' },
   { key: 'technology', group: 'system', label: 'Technology Profiles', icon: '⚡', desc: 'Tech Level (TL 0-5) baseline profiles, technological milestones, and era complexity DCs.' },
   { key: 'economatrix', group: 'system', label: 'Economatrix Commodities', icon: '💎', desc: 'Commodities, trade routes, lifestyles, resource units, and economic valuation formulas.' },
+  { key: 'rules', group: 'system', label: 'Core Game Rules & Mechanics', icon: '📜', desc: 'Authoritative rules compendium, situational rulings, and core mechanical subsystems.' },
 
   // Species, Anatomy & Traits
   { key: 'species_type', group: 'species_anatomy', label: 'Species Types', icon: '🧬', desc: 'Biological and synthetic classifications (Humanoid, Cybernetic, Xenobiological, etc.).' },
@@ -1515,6 +1581,9 @@ export const DEVELOPMENT_FIELDS_REGISTRY = [
   { key: 'critical_effect', group: 'metaphysics_combat', label: 'Critical Effects', icon: '💥', desc: 'Weapon critical strike outcome tables and lingering conditions.' },
   { key: 'critical_success_effect', group: 'metaphysics_combat', label: 'Critical Success Effects', icon: '🌟', desc: 'Bonus outcomes on natural/critical successes in spells and weapons.' },
   { key: 'critical_failure_effect', group: 'metaphysics_combat', label: 'Critical Failure Effects', icon: '⚠️', desc: 'Mishap, backlash, and fumble outcome tables on critical failures.' },
+  { key: 'conditions', group: 'metaphysics_combat', label: 'Tactical Conditions & Status Effects', icon: '🩺', desc: 'Tactical status conditions (Bleeding, Blinded, Burning, Stunned, etc.) and removal DCs.' },
+  { key: 'damage_types', group: 'metaphysics_combat', label: 'Damage Types & Energy Profiles', icon: '⚡', desc: 'Kinetic, energy, environmental, and exotic damage type profiles and immunities.' },
+  { key: 'maneuvers', group: 'metaphysics_combat', label: 'Combat Maneuvers & Tactical Actions', icon: '🤺', desc: 'Tactical combat actions, offensive maneuvers, defensive reactions, and action costs.' },
 
   // Equipment, Crafting & Manufacturing
   { key: 'gear_category', group: 'equipment_crafting', label: 'Gear Categories', icon: '🎒', desc: 'Categorical grouping for general adventuring supplies, tools, and electronics.' },
@@ -1543,6 +1612,7 @@ export const DEVELOPMENT_FIELDS_REGISTRY = [
   { key: 'society_medicine', group: 'societies_spheres', label: 'Society: Medicine', icon: '💉', desc: 'Healthcare infrastructure, cellular regeneration, trauma care, and panaceas.' },
   { key: 'society_society', group: 'societies_spheres', label: 'Society: Structure', icon: '⚖️', desc: 'Government models, legal systems, social stratification, and caste frameworks.' },
   { key: 'society_synthetics', group: 'societies_spheres', label: 'Society: Synthetics', icon: '🤖', desc: 'Artificial intelligence, android rights, synthetic biology, and cybernetics.' },
+  { key: 'society_weaponry', group: 'societies_spheres', label: 'Society: Weaponry', icon: '⚔️', desc: 'Military doctrines, planetary defense grids, ordinance, and arms advancement.' },
 ];
 
 export const isDevelopmentField = (key) => DEVELOPMENT_FIELDS_REGISTRY.some(f => f.key === key);

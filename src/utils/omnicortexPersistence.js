@@ -47,7 +47,15 @@ import {
   DEFAULT_COMPONENTS,
   DEFAULT_PREREQUISITES,
   DEFAULT_MODIFIERS,
-  DEFAULT_SOCIETAL_ENTRIES
+  DEFAULT_SOCIETAL_ENTRIES,
+  DEFAULT_TECHNOLOGY,
+  DEFAULT_ECONOMATRIX,
+  DEFAULT_CONDITIONS,
+  DEFAULT_DAMAGE_TYPES,
+  DEFAULT_DISCIPLINES,
+  DEFAULT_MANEUVERS,
+  DEFAULT_RULES,
+  DEFAULT_MASTER_SOCIETIES
 } from '../data/supportingCatalogsData.js';
 
 import compendiumSeedData from '../data/compendiumSeed.json' with { type: 'json' };
@@ -587,6 +595,7 @@ export const getFallbackSeedForCategory = (catK) => {
   if (catK === 'invocations') return DEFAULT_INVOCATIONS;
 
   // Supporting & Developer Reference Categories
+  if (catK === 'disciplines' || catK === 'discipline') return DEFAULT_DISCIPLINES;
   if (catK === 'augmentation_type') return DEFAULT_AUGMENTATION_TYPES;
   if (catK === 'body_location') return DEFAULT_BODY_LOCATIONS;
   if (catK === 'area') return DEFAULT_AREA_PATTERNS;
@@ -608,10 +617,16 @@ export const getFallbackSeedForCategory = (catK) => {
   if (catK === 'component') return DEFAULT_COMPONENTS;
   if (catK === 'prerequisite' || catK === 'prerequisites') return DEFAULT_PREREQUISITES;
   if (catK === 'modifier' || catK === 'modifiers') return DEFAULT_MODIFIERS;
+  if (catK === 'technology') return DEFAULT_TECHNOLOGY;
+  if (catK === 'economatrix') return DEFAULT_ECONOMATRIX;
+  if (catK === 'rules') return DEFAULT_RULES;
+  if (catK === 'conditions') return DEFAULT_CONDITIONS;
+  if (catK === 'damage_types') return DEFAULT_DAMAGE_TYPES;
+  if (catK === 'maneuvers') return DEFAULT_MANEUVERS;
   if (catK && typeof catK === 'string' && catK.startsWith('society_')) {
     return DEFAULT_SOCIETAL_ENTRIES.filter(e => e.category === catK || e.sphere_key === catK);
   }
-  if (catK === 'societies') return DEFAULT_SOCIETAL_ENTRIES;
+  if (catK === 'societies') return DEFAULT_MASTER_SOCIETIES;
 
   return [];
 };

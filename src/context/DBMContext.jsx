@@ -48,7 +48,15 @@ import {
   DEFAULT_COMPONENTS,
   DEFAULT_PREREQUISITES,
   DEFAULT_MODIFIERS,
-  DEFAULT_SOCIETAL_ENTRIES
+  DEFAULT_SOCIETAL_ENTRIES,
+  DEFAULT_TECHNOLOGY,
+  DEFAULT_ECONOMATRIX,
+  DEFAULT_CONDITIONS,
+  DEFAULT_DAMAGE_TYPES,
+  DEFAULT_DISCIPLINES,
+  DEFAULT_MANEUVERS,
+  DEFAULT_RULES,
+  DEFAULT_MASTER_SOCIETIES
 } from '../data/supportingCatalogsData';
 import { StorageService } from '../services/storageService';
 
@@ -92,52 +100,85 @@ import {
 
 
 export const DBMProvider = ({ children }) => {
-  const [dbData, setDbData] = useState(() => ({
-    compendium: filterInitialData(getFallbackSeedForCategory('compendium'), 'compendium'),
-    archetypes: filterInitialData(DEFAULT_ARCHETYPES, 'archetypes'),
-    species: filterInitialData(DEFAULT_SPECIES, 'species'),
-    species_type: filterInitialData(DEFAULT_SPECIES_TYPES, 'species_type'),
-    species_size: filterInitialData(DEFAULT_SPECIES_SIZES, 'species_size'),
-    species_movement: filterInitialData(DEFAULT_SPECIES_MOVEMENT, 'species_movement'),
-    occupations: filterInitialData(DEFAULT_OCCUPATIONS, 'occupations'),
-    origins: filterInitialData(DEFAULT_ORIGINS, 'origins'),
-    factions: filterInitialData(DEFAULT_FACTIONS, 'factions'),
-    features: filterInitialData(DEFAULT_FEATURES, 'features'),
-    trait: filterInitialData(ALL_CANONICAL_TRAITS, 'trait'),
-    traits: filterInitialData(ALL_CANONICAL_TRAITS, 'traits'),
-    skills: filterInitialData(ALL_CANONICAL_SKILLS, 'skills'),
-    disadvantages: filterInitialData(DEFAULT_SPECIES_DISADVANTAGES, 'disadvantages'),
-    weaponry: filterInitialData(DEFAULT_WEAPONRY, 'weaponry'),
-    armoring: filterInitialData(DEFAULT_ARMORING, 'armoring'),
-    gear: filterInitialData(DEFAULT_GEAR, 'gear'),
-    mecha: filterInitialData(DEFAULT_MECHA, 'mecha'),
-    architecture: filterInitialData(DEFAULT_ARCHITECTURE, 'architecture'),
-    other: filterInitialData(DEFAULT_OTHER_PROPERTY, 'other'),
-    augmentations: filterInitialData(DEFAULT_AUGMENTATIONS, 'augmentations'),
-    invocations: filterInitialData(DEFAULT_INVOCATIONS, 'invocations'),
-    augmentation_type: filterInitialData(DEFAULT_AUGMENTATION_TYPES, 'augmentation_type'),
-    body_location: filterInitialData(DEFAULT_BODY_LOCATIONS, 'body_location'),
-    area: filterInitialData(DEFAULT_AREA_PATTERNS, 'area'),
-    effect: filterInitialData(DEFAULT_EFFECT_TYPES, 'effect'),
-    range: filterInitialData(DEFAULT_RANGES, 'range'),
-    target: filterInitialData(DEFAULT_TARGET_SPECIFICATIONS, 'target'),
-    critical_effect: filterInitialData(DEFAULT_CRITICAL_EFFECTS, 'critical_effect'),
-    critical_success_effect: filterInitialData(DEFAULT_CRITICAL_SUCCESS_EFFECTS, 'critical_success_effect'),
-    critical_failure_effect: filterInitialData(DEFAULT_CRITICAL_FAILURE_EFFECTS, 'critical_failure_effect'),
-    material: filterInitialData(DEFAULT_MATERIALS, 'material'),
-    resistance: filterInitialData(DEFAULT_RESISTANCES, 'resistance'),
-    mode: filterInitialData(DEFAULT_MODES, 'mode'),
-    special: filterInitialData(DEFAULT_SPECIALS, 'special'),
-    availability: filterInitialData(DEFAULT_AVAILABILITY, 'availability'),
-    gear_category: filterInitialData(DEFAULT_GEAR_CATEGORIES, 'gear_category'),
-    classification: filterInitialData(DEFAULT_CLASSIFICATIONS, 'classification'),
-    creator: filterInitialData(DEFAULT_CREATORS, 'creator'),
-    design: filterInitialData(DEFAULT_DESIGNS, 'design'),
-    component: filterInitialData(DEFAULT_COMPONENTS, 'component'),
-    prerequisite: filterInitialData(DEFAULT_PREREQUISITES, 'prerequisite'),
-    modifier: filterInitialData(DEFAULT_MODIFIERS, 'modifier'),
-    societies: filterInitialData(DEFAULT_SOCIETAL_ENTRIES, 'societies')
-  }));
+  const [dbData, setDbData] = useState(() => {
+    const initial = {
+      compendium: filterInitialData(getFallbackSeedForCategory('compendium'), 'compendium'),
+      archetypes: filterInitialData(DEFAULT_ARCHETYPES, 'archetypes'),
+      species: filterInitialData(DEFAULT_SPECIES, 'species'),
+      species_type: filterInitialData(DEFAULT_SPECIES_TYPES, 'species_type'),
+      species_size: filterInitialData(DEFAULT_SPECIES_SIZES, 'species_size'),
+      species_movement: filterInitialData(DEFAULT_SPECIES_MOVEMENT, 'species_movement'),
+      occupations: filterInitialData(DEFAULT_OCCUPATIONS, 'occupations'),
+      origins: filterInitialData(DEFAULT_ORIGINS, 'origins'),
+      factions: filterInitialData(DEFAULT_FACTIONS, 'factions'),
+      features: filterInitialData(DEFAULT_FEATURES, 'features'),
+      trait: filterInitialData(ALL_CANONICAL_TRAITS, 'trait'),
+      traits: filterInitialData(ALL_CANONICAL_TRAITS, 'traits'),
+      skills: filterInitialData(ALL_CANONICAL_SKILLS, 'skills'),
+      disadvantages: filterInitialData(DEFAULT_SPECIES_DISADVANTAGES, 'disadvantages'),
+      weaponry: filterInitialData(DEFAULT_WEAPONRY, 'weaponry'),
+      armoring: filterInitialData(DEFAULT_ARMORING, 'armoring'),
+      gear: filterInitialData(DEFAULT_GEAR, 'gear'),
+      mecha: filterInitialData(DEFAULT_MECHA, 'mecha'),
+      architecture: filterInitialData(DEFAULT_ARCHITECTURE, 'architecture'),
+      other: filterInitialData(DEFAULT_OTHER_PROPERTY, 'other'),
+      augmentations: filterInitialData(DEFAULT_AUGMENTATIONS, 'augmentations'),
+      invocations: filterInitialData(DEFAULT_INVOCATIONS, 'invocations'),
+      augmentation_type: filterInitialData(DEFAULT_AUGMENTATION_TYPES, 'augmentation_type'),
+      body_location: filterInitialData(DEFAULT_BODY_LOCATIONS, 'body_location'),
+      disciplines: filterInitialData(DEFAULT_DISCIPLINES, 'disciplines'),
+      area: filterInitialData(DEFAULT_AREA_PATTERNS, 'area'),
+      effect: filterInitialData(DEFAULT_EFFECT_TYPES, 'effect'),
+      range: filterInitialData(DEFAULT_RANGES, 'range'),
+      target: filterInitialData(DEFAULT_TARGET_SPECIFICATIONS, 'target'),
+      critical_effect: filterInitialData(DEFAULT_CRITICAL_EFFECTS, 'critical_effect'),
+      critical_success_effect: filterInitialData(DEFAULT_CRITICAL_SUCCESS_EFFECTS, 'critical_success_effect'),
+      critical_failure_effect: filterInitialData(DEFAULT_CRITICAL_FAILURE_EFFECTS, 'critical_failure_effect'),
+      material: filterInitialData(DEFAULT_MATERIALS, 'material'),
+      resistance: filterInitialData(DEFAULT_RESISTANCES, 'resistance'),
+      mode: filterInitialData(DEFAULT_MODES, 'mode'),
+      special: filterInitialData(DEFAULT_SPECIALS, 'special'),
+      availability: filterInitialData(DEFAULT_AVAILABILITY, 'availability'),
+      gear_category: filterInitialData(DEFAULT_GEAR_CATEGORIES, 'gear_category'),
+      classification: filterInitialData(DEFAULT_CLASSIFICATIONS, 'classification'),
+      creator: filterInitialData(DEFAULT_CREATORS, 'creator'),
+      design: filterInitialData(DEFAULT_DESIGNS, 'design'),
+      component: filterInitialData(DEFAULT_COMPONENTS, 'component'),
+      prerequisite: filterInitialData(DEFAULT_PREREQUISITES, 'prerequisite'),
+      modifier: filterInitialData(DEFAULT_MODIFIERS, 'modifier'),
+      technology: filterInitialData(DEFAULT_TECHNOLOGY, 'technology'),
+      economatrix: filterInitialData(DEFAULT_ECONOMATRIX, 'economatrix'),
+      rules: filterInitialData(DEFAULT_RULES, 'rules'),
+      conditions: filterInitialData(DEFAULT_CONDITIONS, 'conditions'),
+      damage_types: filterInitialData(DEFAULT_DAMAGE_TYPES, 'damage_types'),
+      maneuvers: filterInitialData(DEFAULT_MANEUVERS, 'maneuvers'),
+      societies: filterInitialData(DEFAULT_MASTER_SOCIETIES, 'societies')
+    };
+
+    [
+      'society_agriculture',
+      'society_architecture',
+      'society_biotechnology',
+      'society_commerce',
+      'society_communication',
+      'society_devices',
+      'society_education',
+      'society_energy',
+      'society_manufacturing',
+      'society_materials',
+      'society_medicine',
+      'society_society',
+      'society_synthetics',
+      'society_weaponry'
+    ].forEach(sphereKey => {
+      const sphereSeeds = DEFAULT_SOCIETAL_ENTRIES.filter(
+        e => e.category === sphereKey || e.sphere_key === sphereKey
+      );
+      initial[sphereKey] = filterInitialData(sphereSeeds, sphereKey);
+    });
+
+    return initial;
+  });
   const [currentUser, setCurrentUser] = useState(auth?.currentUser || null);
   const [isLoading, setIsLoading] = useState(false);
   const [loadError, setLoadError] = useState(null);
