@@ -42,16 +42,13 @@ tech_level: 4 (Neural Mesh & Bio-Computing)
 meta_level: 4 (Hive Psionics)
 homeworld: Davae Hive Laboratories
 costs:
-  cp: 17
-  bp: 17
+  cp: 24
+  bp: 24
 modifiers:
   - target: Intellect
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 17
-cp: 17
-bp: 17
 description: >-
   Davae are telepathically networked transhumans engineered with oversized
   craniums and bioluminescent neurological nodes.
@@ -77,6 +74,9 @@ recommended_occupations:
 keywords: 'hive-psion, neural-mesh, cranial-expansion, bio-computing, telepathic-network'
 negative_keywords: 'physical-labor, brute-force, solitary-isolation, psionic-null'
 species_traits: *ref_0
+cp: 24
+bp: 24
+cp_cost: 24
 ---
 
 # Davae (Hive Psion Transhuman)

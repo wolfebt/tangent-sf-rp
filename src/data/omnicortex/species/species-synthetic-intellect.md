@@ -55,8 +55,8 @@ tech_level: 5 (Singularity Computing)
 meta_level: 2 (Digital Psionics)
 homeworld: Data Spires & Mothership Cores
 costs:
-  cp: 22
-  bp: 22
+  cp: 18
+  bp: 18
 modifiers:
   - target: Intellect
     value: 4
@@ -94,9 +94,6 @@ modifiers:
     value: 8
     type: skill
     mode: size_modifier
-cp_cost: 22
-cp: 22
-bp: 22
 description: >-
   Intellect Constructs are disembodied artificial intelligences housed in
   floating core chassis or drone bodies, commanding battlefield drones and
@@ -123,6 +120,9 @@ keywords: >-
   computing-singularity
 negative_keywords: 'physical-endurance, melee-brawler, heavy-armor'
 species_traits: *ref_0
+cp: 18
+bp: 18
+cp_cost: 18
 ---
 
 # Intellect Construct (Autonomous Mind Core)
@@ -141,7 +141,7 @@ Intellect Constructs are disembodied artificial intelligences housed in floating
 - **Stigma**: Severe Synthetic (-4)
 
 ## Mechanics & Statblock
-- **CP Cost**: 187 CP
+- **CP Cost**: 18 CP
 - **Inherent Modifiers**: +4 Intellect, +2 Wisdom, +2 Charisma, -10 Strength, -5 Agility, -5 Stamina
 - **Bonus Skills**: +40 Skill Points
 - **Inherent Features**: Synthetic Base Traits, Comms Array Mastery (Instant Holo-Link), Companion Remotes (Commands 2 Drone Units), Hyper-Threading Logic Engine

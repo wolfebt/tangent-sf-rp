@@ -68,9 +68,6 @@ modifiers:
     value: -2
     type: attribute
     mode: inherent
-cp_cost: 26
-cp: 26
-bp: 26
 description: >-
   The Riezen are a divergent swarm of thousands of fine-sized insects acting as
   a singular psionic entity. Born of planetary NBC fallout, they exist outside
@@ -106,6 +103,9 @@ keywords: >-
   fast-heal-regeneration, nbc-survivor, toxic-cloud
 negative_keywords: 'orderly-chorus, solitary-humanoid, rigid-endoskeleton'
 species_traits: *ref_0
+cp: 26
+bp: 26
+cp_cost: 26
 ---
 
 # Riezen (Kitin Divergent Swarm / Insect Ooze)

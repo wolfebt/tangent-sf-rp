@@ -43,16 +43,13 @@ tech_level: 4 (High-Density Directive Processing)
 meta_level: 0 (Null)
 homeworld: Megacorp Headquarters
 costs:
-  cp: 30
-  bp: 30
+  cp: 50
+  bp: 50
 modifiers:
   - target: Charisma
     value: -2
     type: attribute
     mode: inherent
-cp_cost: 30
-cp: 30
-bp: 30
 description: >-
   Protocol units are dedicated administrative, medical, or security automatons
   built with rigid programming directives and extensive skill libraries.
@@ -77,6 +74,9 @@ keywords: >-
   etiquette
 negative_keywords: 'rogue-anarchy, combat-frenzy, wilderness'
 species_traits: *ref_0
+cp: 50
+bp: 50
+cp_cost: 50
 ---
 
 # Protocol (Specialized Directive Unit)

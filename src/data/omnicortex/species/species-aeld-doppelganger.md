@@ -49,16 +49,13 @@ tech_level: 3 (Adaptive Technology)
 meta_level: 3 (Metamorphic Psionics)
 homeworld: Nomadic / Diaspora
 costs:
-  cp: 14
-  bp: 14
+  cp: 16
+  bp: 16
 modifiers:
   - target: Charisma
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 14
-cp: 14
-bp: 14
 description: >-
   Doppelgangers are an enigmatic elven offshoot possessing mutable cellular
   matrices. They can alter their physical form to mimic other humanoids
@@ -88,6 +85,9 @@ species_traits:
   - trait-aeld-lineage-traits
   - trait-alter-form-basic
   - trait-wyrm-senses
+cp: 16
+bp: 16
+cp_cost: 16
 ---
 
 # Doppelganger (Shifter Aeld)

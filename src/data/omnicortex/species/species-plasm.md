@@ -38,12 +38,9 @@ tech_level: 3 (Bio-Polymer Containment Suits)
 meta_level: 4 (Cosmic Fluidity)
 homeworld: Plasm Ooze Oceans of Ooz-Prime
 costs:
-  cp: 26
-  bp: 26
+  cp: 28
+  bp: 28
 modifiers: []
-cp_cost: 26
-cp: 26
-bp: 26
 description: >-
   Sentient, translucent amorphous slime entities able to flow through sealed
   vents, reshape their mass into pseudo-limbs, and regenerate from fluid
@@ -70,6 +67,9 @@ recommended_occupations:
 keywords: 'amorphous-ooze, vent-flow, shape-molding, fluid-regeneration, acid-immunity'
 negative_keywords: 'rigid-armor, fixed-clothing, skeletal'
 species_traits: *ref_0
+cp: 28
+bp: 28
+cp_cost: 28
 ---
 
 # Plasm (Amorphous Ooze Entity)
@@ -88,7 +88,7 @@ Sentient, translucent amorphous slime entities able to flow through sealed vents
 - **Stigma**: Severe Xeno (-4)
 
 ## Mechanics & Statblock
-- **CP Cost**: 17 CP
+- **CP Cost**: 28 CP
 - **Inherent Modifiers**: None
 - **Bonus Skills**: +10 Skill Points
 - **Inherent Features**: Adaptive Aspects (Acid / Thermal Immunity), Alter Form (Amorphous Slime / Pseudo-Humanoid), Awakened (Cosmic), Bodyform Adaptation (Squeeze through any opening), Fast Healing, Regeneration (3 HP/rnd), Telepathic (100ft)

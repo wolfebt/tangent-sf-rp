@@ -40,12 +40,9 @@ tech_level: 4 (Genetic Engineering & Gene-Splicing)
 meta_level: 1 (Cellular Potential)
 homeworld: Neo-Genesis Laboratories
 costs:
-  cp: 9
-  bp: 9
+  cp: 20
+  bp: 20
 modifiers: []
-cp_cost: 9
-cp: 9
-bp: 9
 description: >-
   Gen-E transhumans are laboratory-engineered humans designed without congenital
   defects, carrying optimized immune systems and modular genetic code.
@@ -72,6 +69,9 @@ keywords: >-
   athletic
 negative_keywords: 'primitive, bio-purist, degenerative-defects, superstition'
 species_traits: *ref_0
+cp: 20
+bp: 20
+cp_cost: 20
 ---
 
 # Gen-E (Standard Engineered Transhuman)

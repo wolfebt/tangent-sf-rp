@@ -41,16 +41,13 @@ tech_level: 4 (Void Siphons & Dark Matter Taps)
 meta_level: 5 (Void Reality-Warping)
 homeworld: The Abyssal Rift of Null-Space
 costs:
-  cp: 41
-  bp: 41
+  cp: 49
+  bp: 49
 modifiers:
   - target: Wisdom
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 41
-cp: 41
-bp: 41
 description: >-
   Sha'nor are semi-corporeal shadow and void beings dwelling in cosmic rifts.
   Immortal and telepathic, they sustain themselves on ambient essence and deep
@@ -80,6 +77,9 @@ recommended_occupations:
 keywords: 'void-aberration, dark-matter, semi-corporeal, entropy-harbinger, phase-shift'
 negative_keywords: 'solar-radiance, biological-healing, clumsy'
 species_traits: *ref_0
+cp: 49
+bp: 49
+cp_cost: 49
 ---
 
 # Sha'nor (Void Aberration)

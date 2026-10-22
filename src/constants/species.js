@@ -538,18 +538,18 @@ export const SPECIES_DISADVANTAGES = [
 ];
 
 export const SPECIES_ATTRIBUTE_MODIFIERS = [
-  { id: 'improved_strength', name: 'Improved Strength', bp: 5, attribute: 'Strength', code: 'STR', value: 1, type: 'Attribute', effect: '+1 racial bonus to Strength.' },
-  { id: 'improved_agility', name: 'Improved Agility', bp: 5, attribute: 'Agility', code: 'AGI', value: 1, type: 'Attribute', effect: '+1 racial bonus to Agility.' },
-  { id: 'improved_constitution', name: 'Improved Constitution', alias: 'Improved Stamina', bp: 5, attribute: 'Stamina', code: 'STA', value: 1, type: 'Attribute', effect: '+1 racial bonus to Constitution (Stamina).' },
-  { id: 'improved_intellect', name: 'Improved Intellect', bp: 5, attribute: 'Intellect', code: 'INT', value: 1, type: 'Attribute', effect: '+1 racial bonus to Intellect.' },
-  { id: 'improved_wisdom', name: 'Improved Wisdom', bp: 5, attribute: 'Wisdom', code: 'WIS', value: 1, type: 'Attribute', effect: '+1 racial bonus to Wisdom.' },
-  { id: 'improved_charisma', name: 'Improved Charisma', bp: 5, attribute: 'Charisma', code: 'CHA', value: 1, type: 'Attribute', effect: '+1 racial bonus to Charisma.' },
+  { id: 'improved_strength', name: 'Improved Strength', bp: 5, attribute: 'Strength', code: 'STR', value: 1, type: 'Attribute', effect: '+1 racial bonus to Strength (5 CP).' },
+  { id: 'improved_agility', name: 'Improved Agility', bp: 5, attribute: 'Agility', code: 'AGI', value: 1, type: 'Attribute', effect: '+1 racial bonus to Agility (5 CP).' },
+  { id: 'improved_constitution', name: 'Improved Constitution', alias: 'Improved Stamina', bp: 5, attribute: 'Stamina', code: 'STA', value: 1, type: 'Attribute', effect: '+1 racial bonus to Constitution / Stamina (5 CP).' },
+  { id: 'improved_intellect', name: 'Improved Intellect', bp: 5, attribute: 'Intellect', code: 'INT', value: 1, type: 'Attribute', effect: '+1 racial bonus to Intellect (5 CP).' },
+  { id: 'improved_wisdom', name: 'Improved Wisdom', bp: 5, attribute: 'Wisdom', code: 'WIS', value: 1, type: 'Attribute', effect: '+1 racial bonus to Wisdom (5 CP).' },
+  { id: 'improved_charisma', name: 'Improved Charisma', bp: 5, attribute: 'Charisma', code: 'CHA', value: 1, type: 'Attribute', effect: '+1 racial bonus to Charisma (5 CP).' },
   { id: 'reduced_ability', name: 'Reduced Ability', bp: -5, refundBP: 5, value: -1, type: 'Attribute', effect: 'Penalties to Ability Scores (+5 CP refund per -1 to Ability Scores).' }
 ];
 
 export const SPECIES_SKILL_MODIFIERS = [
-  { id: 'species_skill_bundle', name: 'Skill Points (+5)', bp: 5, value: 5, costPerPoint: 1, type: 'Skills', effect: '+5 Species Skill Points (Specific Skill Set or a Listed Group).' },
-  { id: 'species_skill_point', name: 'Skill Point (+1)', bp: 1, value: 1, costPerPoint: 1, type: 'Skills', effect: '+1 Species Skill Point.' }
+  { id: 'species_skill_bundle', name: 'Skill Points (+5)', bp: 5, value: 5, costPerPoint: 1, type: 'Skills', effect: '+5 Species Skill Points (Specific Skill Set or a Listed Group, 5 CP).' },
+  { id: 'species_skill_point', name: 'Skill Point (+1)', bp: 1, value: 1, costPerPoint: 1, type: 'Skills', effect: '+1 Species Skill Point (1 CP).' }
 ];
 
 export const SPECIES_COMPONENT_RULES = {

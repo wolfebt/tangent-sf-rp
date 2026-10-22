@@ -43,12 +43,9 @@ tech_level: 3 (Sub-Surface Habitats & Hydro-Drives)
 meta_level: 1 (Oceanic Echo)
 homeworld: Thalassa (Ocean World)
 costs:
-  cp: 7
-  bp: 7
+  cp: 12
+  bp: 12
 modifiers: []
-cp_cost: 7
-cp: 7
-bp: 7
 description: >-
   Aquarians are oceanic-adapted humans with gill slits, webbed digits, and
   pressurized vascular systems suited for pelagic trenches and coastal orbital
@@ -72,6 +69,9 @@ recommended_occupations:
 keywords: 'aquatic, hydro-thrusters, diving, coastal-settler, pelagic-life'
 negative_keywords: 'arid-desert, heavy-foundry, claustrophobia'
 species_traits: *ref_0
+cp: 12
+bp: 12
+cp_cost: 12
 ---
 
 # Aquarian Human (Water Variant)

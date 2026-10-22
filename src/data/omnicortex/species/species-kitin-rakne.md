@@ -67,8 +67,8 @@ tech_level: 3 (Tactical)
 meta_level: 3 (Instinctual)
 homeworld: Kitin Hive Worlds / Subterranean Spire-Warren
 costs:
-  cp: 40
-  bp: 40
+  cp: 44
+  bp: 44
 modifiers:
   - target: Strength
     value: 2
@@ -86,9 +86,6 @@ modifiers:
     value: -1
     type: attribute
     mode: inherent
-cp_cost: 40
-cp: 40
-bp: 40
 description: >-
   The Rakne are an intimidating Arachno-tauric species classified as an
   Insectoid Aberration. Serving as the "Hands of the Collective," their
@@ -126,6 +123,9 @@ keywords: >-
   dual-skeletal, resin-weaver, climber, tremorsense, high-tensile-webbing,
   obsidian-chitin, collective-hands
 negative_keywords: 'diplomatic-court, baseline-humanoid, fragile, open-plains'
+cp: 44
+bp: 44
+cp_cost: 44
 ---
 
 # Rakne (Kitin Infiltration Expression / Arachno-Tauric)

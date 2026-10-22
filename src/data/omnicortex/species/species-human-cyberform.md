@@ -43,16 +43,13 @@ tech_level: 4 (Advanced Cybernetics & Neural Sockets)
 meta_level: 0 (Null / Technological Optimization)
 homeworld: Cygnus Arcologies & Orbital Rings
 costs:
-  cp: 17
-  bp: 17
+  cp: 21
+  bp: 21
 modifiers:
   - target: Intellect
     value: 2
     type: attribute
     mode: inherent
-cp_cost: 17
-cp: 17
-bp: 17
 description: >-
   Cyberforms are transhumans who have replaced upwards of 60% of their organic
   bodies with cybernetic augmentations, internal processors, and sub-dermal
@@ -78,6 +75,9 @@ keywords: >-
   nanite-repair
 negative_keywords: 'nature-magic, emp-vulnerable, biological-purist, low-tech'
 species_traits: *ref_0
+cp: 21
+bp: 21
+cp_cost: 21
 ---
 
 # Cyberform Human (Transhuman Cyborg)

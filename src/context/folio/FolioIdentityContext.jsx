@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useCallback, useEffect, useMemo, useRef } from 'react';
-import { db, auth } from '../../firebase';
+import { db, auth, isFirestoreQuotaExhausted, handleFirestoreQuotaError } from '../../firebase';
 import { collection, doc, setDoc, getDocs, onSnapshot, deleteDoc, arrayUnion } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useDBM } from '../DBMContext';
@@ -234,7 +234,7 @@ export const DEFAULT_IDENTITY_FALLBACK = {
   trackedModifications: []
 };
 
-export const FolioIdentityContext = createContext(DEFAULT_IDENTITY_FALLBACK);
+export const FolioIdentityContext = globalThis.__TANGENT_FOLIO_IDENTITY_CONTEXT__ || (globalThis.__TANGENT_FOLIO_IDENTITY_CONTEXT__ = createContext(DEFAULT_IDENTITY_FALLBACK));
 
 export const useFolioIdentity = () => {
   const ctx = useContext(FolioIdentityContext);
@@ -335,7 +335,7 @@ export const FolioIdentitySliceProvider = ({ children }) => {
   // Debounced auto-sync to Firestore for active character edits
   const saveToCloudDebounced = useCallback((targetData) => {
     const user = auth?.currentUser;
-    if (!user?.uid || !targetData) return;
+    if (!user?.uid || !targetData || isFirestoreQuotaExhausted()) return;
     const docId = targetData['character-doc-id'] || targetData.id;
     if (!docId) return;
 
@@ -349,6 +349,10 @@ export const FolioIdentitySliceProvider = ({ children }) => {
     }
 
     cloudSaveTimeoutRef.current = setTimeout(async () => {
+      if (isFirestoreQuotaExhausted()) {
+        setCloudSaveStatus('saved');
+        return;
+      }
       try {
         setCloudSaveStatus('saving');
         const ref = doc(db, 'users', user.uid, 'personas', docId);
@@ -363,16 +367,19 @@ export const FolioIdentitySliceProvider = ({ children }) => {
         setCloudSaveStatus('saved');
         setLastSavedTime(new Date());
       } catch (err) {
-        console.warn('[FolioIdentity] Cloud auto-save failed:', err);
+        if (handleFirestoreQuotaError(err)) {
+          setCloudSaveStatus('saved');
+          return;
+        }
         setCloudSaveStatus('error');
       }
-    }, 800);
+    }, 1200);
   }, []);
 
   // Real-time bidirectional synchronization with Firestore
   useEffect(() => {
     const user = currentUser;
-    if (!user?.uid || !db) {
+    if (!user?.uid || !db || isFirestoreQuotaExhausted()) {
       isInitialCloudSyncCompleteRef.current = false;
       return;
     }
@@ -403,7 +410,7 @@ export const FolioIdentitySliceProvider = ({ children }) => {
         }
       }
     }, (err) => {
-      console.warn('[FolioIdentity] User doc snapshot error:', err);
+      handleFirestoreQuotaError(err);
     });
 
     // 2. Real-time Subscriptions to User's Persona Dossiers
@@ -536,7 +543,10 @@ export const FolioIdentitySliceProvider = ({ children }) => {
       isInitialCloudSyncCompleteRef.current = true;
       setCloudSaveStatus('saved');
     }, (err) => {
-      console.warn('[FolioIdentity] Personas snapshot error:', err);
+      if (handleFirestoreQuotaError(err)) {
+        setCloudSaveStatus('saved');
+        return;
+      }
       setCloudSaveStatus('error');
     });
 
@@ -607,11 +617,35 @@ export const FolioIdentitySliceProvider = ({ children }) => {
     }
   }, [characterData, saveToCloudDebounced]);
 
+  // Auto-heal legacy baked species modifiers and residual archetype attributes on live state / HMR reload
+  useEffect(() => {
+    if (!characterData) return;
+    if (characterData._needsCloudHealSave) {
+      const { _needsCloudHealSave, ...cleanHealed } = characterData;
+      const finalized = { ...cleanHealed, _attrHealedV3: true };
+      setCharacterData(finalized);
+      triggerSave(finalized);
+      return;
+    }
+    if (!characterData._attrHealedV3) {
+      const healed = sanitizeSubAttributes(characterData);
+      if (healed !== characterData) {
+        const { _needsCloudHealSave, ...cleanHealed } = healed;
+        const finalized = { ...cleanHealed, _attrHealedV3: true };
+        setCharacterData(finalized);
+        if (_needsCloudHealSave) {
+          triggerSave(finalized);
+        }
+      }
+    }
+  }, [characterData, triggerSave]);
+
   const updateField = useCallback((field, value) => {
     setCharacterData(prev => {
       // 1. If updating identity selection
       if (['char-species', 'char-archetype', 'char-occu', 'char-secondary-occu', 'char-origin', 'char-secondary-origin', 'char-faction'].includes(field)) {
-        const transitioned = applyIdentityFieldTransition(prev, field, value, dbData);
+        const transitionOpts = field === 'char-archetype' && value ? { applyPreBuild: true } : {};
+        const transitioned = applyIdentityFieldTransition(prev, field, value, dbData, transitionOpts);
         triggerSave(transitioned);
         return transitioned;
       }

@@ -43,16 +43,13 @@ tech_level: 3 (Cosmetic Synthesis)
 meta_level: 2 (Empathic Resonance)
 homeworld: Various Cosmopolitan Stations
 costs:
-  cp: 8
-  bp: 8
+  cp: 10
+  bp: 10
 modifiers:
   - target: Charisma
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 8
-cp: 8
-bp: 8
 description: >-
   Changelings are human-aeld hybrids carrying dormant shifter alleles. They can
   subtly alter their facial structure, voice, and eye pigments to adopt distinct
@@ -74,6 +71,9 @@ recommended_occupations:
 keywords: 'hybrid-shifter, persona-mimic, social-chameleon, subtle, disguise'
 negative_keywords: 'obvious, honest, rigid, static-features'
 species_traits: *ref_0
+cp: 10
+bp: 10
+cp_cost: 10
 ---
 
 # Changeling (Human-Aeld Hybrid)

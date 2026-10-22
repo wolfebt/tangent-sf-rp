@@ -258,11 +258,35 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
 
   const fallbackSeeds = getFallbackSeedForCategory(catKey);
   if (fallbackSeeds && fallbackSeeds.length > 0) {
+    const normalizeShortName = (val) =>
+      String(val || '')
+        .toLowerCase()
+        .replace(/\s*\(.*?\)\s*/g, '')
+        .replace(/\s+human$/i, '')
+        .trim();
+
     const seedMap = new Map();
     fallbackSeeds.forEach(seed => {
-      if (seed.id) seedMap.set(seed.id.toString().toLowerCase().trim(), seed);
-      if (seed.name) seedMap.set(seed.name.toString().toLowerCase().trim(), seed);
-      if (seed.title) seedMap.set(seed.title.toString().toLowerCase().trim(), seed);
+      if (seed.id) {
+        const sId = seed.id.toString().toLowerCase().trim();
+        seedMap.set(sId, seed);
+      }
+      if (seed.name) {
+        const sName = seed.name.toString().toLowerCase().trim();
+        seedMap.set(sName, seed);
+        const shortName = normalizeShortName(sName);
+        if (shortName && !seedMap.has(shortName)) {
+          seedMap.set(shortName, seed);
+        }
+      }
+      if (seed.title) {
+        const sTitle = seed.title.toString().toLowerCase().trim();
+        seedMap.set(sTitle, seed);
+        const shortTitle = normalizeShortName(sTitle);
+        if (shortTitle && !seedMap.has(shortTitle)) {
+          seedMap.set(shortTitle, seed);
+        }
+      }
     });
 
     // Hydrate existing docs with newly added schema fields and recommendations if missing or empty in Firestore/local storage
@@ -274,7 +298,11 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
 
       const docName = (doc.name || '').toString().toLowerCase().trim();
       const docTitle = (doc.title || '').toString().toLowerCase().trim();
-      const matchingSeed = seedMap.get(docId) || (docName ? seedMap.get(docName) : null) || (docTitle ? seedMap.get(docTitle) : null);
+      const shortDocName = normalizeShortName(docName || docTitle);
+      const matchingSeed = seedMap.get(docId) ||
+        (docName ? seedMap.get(docName) : null) ||
+        (docTitle ? seedMap.get(docTitle) : null) ||
+        (shortDocName ? seedMap.get(shortDocName) : null);
       if (!matchingSeed) return doc;
 
       let enriched = { ...doc };
@@ -288,7 +316,18 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
         'recommended_skills',
         'recommended_features',
         'recommended_tl',
-        'recommended_ml'
+        'recommended_ml',
+        'inherent_attribute_modifiers',
+        'specific_skill_bonuses',
+        'bonus_skill_choices',
+        'inherent_features',
+        'bonus_feature_choices',
+        'traits',
+        'species_traits',
+        'movement_modes',
+        'movement',
+        'disadvantages',
+        'hindrances'
       ];
 
       for (const field of arrayFields) {
@@ -298,6 +337,46 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
         const hasSeedVal = Array.isArray(seedVal) ? seedVal.length > 0 : Boolean(seedVal);
         if (!hasDocVal && hasSeedVal) {
           enriched[field] = seedVal;
+        }
+      }
+
+      if ((catKey === 'species' || catKey === 'char-species') && matchingSeed) {
+        if (!enriched.type && matchingSeed.type) enriched.type = matchingSeed.type;
+        if (!enriched.species_type && (matchingSeed.species_type || matchingSeed.type)) {
+          enriched.species_type = matchingSeed.species_type || matchingSeed.type;
+        }
+        if (!enriched.size && matchingSeed.size) enriched.size = matchingSeed.size;
+        if (!enriched.species_size && (matchingSeed.species_size || matchingSeed.size)) {
+          enriched.species_size = matchingSeed.species_size || matchingSeed.size;
+        }
+        if (!enriched.social_stigma && (matchingSeed.social_stigma || matchingSeed.stigma)) {
+          enriched.social_stigma = matchingSeed.social_stigma || matchingSeed.stigma;
+        }
+        if ((!enriched.bonus_attribute_points || Number(enriched.bonus_attribute_points) === 0) && Number(matchingSeed.bonus_attribute_points) > 0) {
+          enriched.bonus_attribute_points = matchingSeed.bonus_attribute_points;
+        }
+        if ((!enriched.bonus_skills || Number(enriched.bonus_skills) === 0) && Number(matchingSeed.bonus_skills) > 0) {
+          enriched.bonus_skills = matchingSeed.bonus_skills;
+        }
+        if ((!enriched.bonus_features || Number(enriched.bonus_features) === 0) && Number(matchingSeed.bonus_features) > 0) {
+          enriched.bonus_features = matchingSeed.bonus_features;
+        }
+        if ((!Array.isArray(enriched.modifiers) || enriched.modifiers.length === 0) && Array.isArray(matchingSeed.modifiers) && matchingSeed.modifiers.length > 0) {
+          enriched.modifiers = matchingSeed.modifiers;
+        }
+        if ((!enriched.cp || Number(enriched.cp) === 0) && Number(matchingSeed.cp) > 0) {
+          enriched.cp = matchingSeed.cp;
+          enriched.bp = matchingSeed.bp ?? matchingSeed.cp;
+          enriched.cp_cost = matchingSeed.cp_cost ?? matchingSeed.cp;
+          enriched.costs = { ...(matchingSeed.costs || {}), ...(enriched.costs || {}), cp: matchingSeed.cp, bp: matchingSeed.bp ?? matchingSeed.cp };
+        }
+        if (docId === 'species-gene-digon') {
+          enriched.size = matchingSeed.size;
+          enriched.modifiers = matchingSeed.modifiers;
+          enriched.cp = matchingSeed.cp;
+          enriched.bp = matchingSeed.bp;
+          enriched.cp_cost = matchingSeed.cp_cost;
+          enriched.costs = matchingSeed.costs;
         }
       }
 
@@ -486,14 +565,14 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
 
 export const getFallbackSeedForCategory = (catK) => {
   if (catK === 'compendium' || catK === 'rules_codex') return cachedCompendiumSeed || [];
-  if (catK === 'archetypes') return DEFAULT_ARCHETYPES;
-  if (catK === 'species') return DEFAULT_SPECIES;
+  if (catK === 'archetypes' || catK === 'char-archetype') return DEFAULT_ARCHETYPES;
+  if (catK === 'species' || catK === 'char-species') return DEFAULT_SPECIES;
   if (catK === 'species_type') return DEFAULT_SPECIES_TYPES;
   if (catK === 'species_size') return DEFAULT_SPECIES_SIZES;
   if (catK === 'species_movement') return DEFAULT_SPECIES_MOVEMENT;
-  if (catK === 'occupations') return DEFAULT_OCCUPATIONS;
-  if (catK === 'origins') return DEFAULT_ORIGINS;
-  if (catK === 'factions') return DEFAULT_FACTIONS;
+  if (catK === 'occupations' || catK === 'char-occu') return DEFAULT_OCCUPATIONS;
+  if (catK === 'origins' || catK === 'char-origin') return DEFAULT_ORIGINS;
+  if (catK === 'factions' || catK === 'char-faction') return DEFAULT_FACTIONS;
   if (catK === 'features') return DEFAULT_FEATURES;
   if (catK === 'traits' || catK === 'trait') return ALL_CANONICAL_TRAITS;
   if (catK === 'skills') return ALL_CANONICAL_SKILLS;

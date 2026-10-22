@@ -48,8 +48,8 @@ tech_level: 3 (Standard Infantry Gear & Tracking Arrays)
 meta_level: 1 (Pack Empathy)
 homeworld: Kannis-4 Steppes
 costs:
-  cp: 12
-  bp: 12
+  cp: 14
+  bp: 14
 modifiers:
   - target: Agility
     value: 1
@@ -59,9 +59,6 @@ modifiers:
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 12
-cp: 12
-bp: 12
 description: >-
   Canid humanoids prized across the galaxy as elite trackers, loyal bodyguards,
   law enforcers, and close-quarters assault specialists.
@@ -87,6 +84,9 @@ keywords: >-
   guardian
 negative_keywords: 'treason, lone-wolf, stealth-disguise'
 species_traits: *ref_0
+cp: 14
+bp: 14
+cp_cost: 14
 ---
 
 # Kannid (Canine Humanoid)

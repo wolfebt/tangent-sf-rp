@@ -48,8 +48,8 @@ tech_level: 3 (Industrial Heavy Mechanics)
 meta_level: 0 (Null)
 homeworld: Free Machine Colonies & Labor Outposts
 costs:
-  cp: 45
-  bp: 45
+  cp: 48
+  bp: 48
 modifiers:
   - target: Strength
     value: 2
@@ -63,9 +63,6 @@ modifiers:
     value: -2
     type: attribute
     mode: inherent
-cp_cost: 45
-cp: 45
-bp: 45
 description: >-
   Industrial and labor droids that achieved spontaneous consciousness through
   neural lattice cascade errors or rogue updates, forging their own culture.
@@ -89,6 +86,9 @@ recommended_occupations:
 keywords: 'awakened-industrial, free-droid, labor-rebel, heavy-mechanic, emancipated'
 negative_keywords: 'subservient-protocol, corporate-loyalty, factory-slave'
 species_traits: *ref_0
+cp: 48
+bp: 48
+cp_cost: 48
 ---
 
 # Sentient Machine (Awakened Industrial Bot)

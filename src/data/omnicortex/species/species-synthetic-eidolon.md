@@ -45,16 +45,13 @@ tech_level: 5 (Zero-Point Energy & Chrono-Lattices)
 meta_level: 5 (Crystalline Metaphysics)
 homeworld: The Monolith Worlds of Aetheria
 costs:
-  cp: 53
-  bp: 53
+  cp: 62
+  bp: 62
 modifiers:
   - target: Intellect
     value: 2
     type: attribute
     mode: inherent
-cp_cost: 53
-cp: 53
-bp: 53
 description: >-
   Eidolons (Aetherions) are ancient crystalline silicon beings possessing
   consensus hive intelligence, photonic fluid pathways, and transcendent
@@ -81,6 +78,9 @@ keywords: >-
   chrono-shaper
 negative_keywords: 'dirty-oil, primitive-slugthrower, rust'
 species_traits: *ref_0
+cp: 62
+bp: 62
+cp_cost: 62
 ---
 
 # Eidolon (Silicon / Crystalline Entity)

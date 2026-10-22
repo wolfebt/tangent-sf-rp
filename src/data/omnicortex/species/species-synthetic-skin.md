@@ -43,12 +43,9 @@ tech_level: 4 (Bio-Synthetic Weave & Organic Cloaking)
 meta_level: 1 (Neural Empathy)
 homeworld: Covert Black Labs
 costs:
-  cp: 34
-  bp: 34
+  cp: 46
+  bp: 46
 modifiers: []
-cp_cost: 34
-cp: 34
-bp: 34
 description: >-
   Skins are advanced bio-synthetic androids covered in warm, synthetic flesh,
   simulated vascular systems, and emotional emulators designed to pass as
@@ -72,6 +69,9 @@ keywords: >-
   sleeper-unit
 negative_keywords: 'clunky-metal, obvious-robot, conspicuous'
 species_traits: *ref_0
+cp: 46
+bp: 46
+cp_cost: 46
 ---
 
 # Skin (Synthetic Replicant / Infiltrator)

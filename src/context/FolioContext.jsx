@@ -235,7 +235,7 @@ const FolioFacadeBridge = ({ children }) => {
   );
 };
 
-// Complete Provider Tree
+// Complete Provider Tree (HMR-safe singleton context bridge)
 export const FolioProvider = ({ children }) => {
   return (
     <FolioIdentitySliceProvider>

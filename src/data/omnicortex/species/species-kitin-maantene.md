@@ -59,8 +59,8 @@ tech_level: 3 (Environmental)
 meta_level: 3 (Awakened)
 homeworld: Kitin Hive Worlds / Arid Frontier Warrens
 costs:
-  cp: 37
-  bp: 37
+  cp: 41
+  bp: 41
 modifiers:
   - target: Agility
     value: 2
@@ -74,9 +74,6 @@ modifiers:
     value: -1
     type: attribute
     mode: inherent
-cp_cost: 37
-cp: 37
-bp: 37
 description: >-
   The Maantene represent the "Recon Expression" of the Kitin Collective,
   specialized for survival in hostile frontiers. Quadrupedal with mantis-like
@@ -112,6 +109,9 @@ keywords: >-
   four-arms, dual-skeletal, torpor, vibration-sense, vanta-black, arid-predator,
   collective-recon
 negative_keywords: 'individualism, diplomatic-court, fragile, sleep-vulnerable'
+cp: 41
+bp: 41
+cp_cost: 41
 ---
 
 # Maantene (Kitin Recon Expression / Quadruped)

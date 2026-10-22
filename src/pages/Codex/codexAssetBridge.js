@@ -8,24 +8,38 @@
 
 import { getMatrixById } from './codexConfig.js';
 import { normalizeOmnicortexItem, exportOmnicortexItem } from '../../utils/tangentSchemaAdapters.js';
+import { calculateSpeciesBP } from '../../engines/tangentEntityEngines.js';
 import { DEFAULT_SPECIES } from '../../data/speciesData.js';
 import { DEFAULT_FACTIONS } from '../../data/factionsData.js';
 import { DEFAULT_ORIGINS } from '../../data/originsData.js';
 import { DEFAULT_OCCUPATIONS } from '../../data/occupationsData.js';
 import { DEFAULT_INVOCATIONS } from '../../data/invocationsData.js';
 
+const normalizeSpeciesMatchName = (val) =>
+  String(val || '')
+    .toLowerCase()
+    .replace(/\s*\(.*?\)\s*/g, '')
+    .replace(/\s+human$/i, '')
+    .trim();
+
 const findCanonicalSeed = (item, dataset) => {
   if (!item || !Array.isArray(dataset)) return null;
   const matchId = (item.id || '').toString().toLowerCase().trim();
   const matchName = (item.name || '').toString().toLowerCase().trim();
   const matchTitle = (item.title || '').toString().toLowerCase().trim();
+  const normMatchName = normalizeSpeciesMatchName(matchName || matchTitle);
+  const slugSuffix = normMatchName ? `-${normMatchName.replace(/[^a-z0-9]+/g, '-')}` : '';
+
   return dataset.find(d => {
     const sId = (d.id || '').toString().toLowerCase().trim();
     const sName = (d.name || '').toString().toLowerCase().trim();
     const sTitle = (d.title || '').toString().toLowerCase().trim();
+    const normSeedName = normalizeSpeciesMatchName(sName || sTitle);
     return (sId && sId === matchId) ||
            (sName && (sName === matchName || sName === matchTitle)) ||
-           (sTitle && (sTitle === matchName || sTitle === matchTitle));
+           (sTitle && (sTitle === matchName || sTitle === matchTitle)) ||
+           (normMatchName && normSeedName && normSeedName === normMatchName) ||
+           (slugSuffix && sId.endsWith(slugSuffix));
   }) || null;
 };
 
@@ -213,16 +227,19 @@ export const adaptItemToCodexFormData = (item, matrix) => {
     base.modifications = item.modifications.map(m => typeof m === 'object' ? (m.id || m.name) : m);
   }
 
-  // Harmonize Species Chassis Type & Size
+  // Harmonize Species Chassis Type, Size, Traits, Pools, Features, Disadvantages & Stigma
   if (resolvedMatrix.id === 'species') {
-    const rawChassis = item.species_type || (Array.isArray(item.type) ? item.type[0] : item.type) || base.species_type || 'Humanoid';
+    const seed = findCanonicalSeed(item, DEFAULT_SPECIES);
+    const modsArray = Array.isArray(item.modifiers) ? item.modifiers : [];
+
+    const rawChassis = item.species_type || (Array.isArray(item.type) ? item.type[0] : item.type) || seed?.species_type || seed?.type || base.species_type || 'Humanoid';
     const cleanChassis = typeof rawChassis === 'string' && rawChassis.startsWith('species_type-')
       ? rawChassis.replace('species_type-', '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
       : (Array.isArray(rawChassis) ? rawChassis[0] : rawChassis);
     base.species_type = cleanChassis || 'Humanoid';
     base.type = cleanChassis || 'Humanoid';
 
-    const rawSize = item.size || item.species_size || base.size || 'Medium';
+    const rawSize = item.size || item.species_size || seed?.size || seed?.species_size || base.size || 'Medium';
     const firstSize = Array.isArray(rawSize) ? rawSize[0] : (typeof rawSize === 'object' && rawSize !== null ? (rawSize.name || rawSize.value || rawSize.id) : rawSize);
     const cleanSize = typeof firstSize === 'string' && firstSize.startsWith('species_size-')
       ? firstSize.replace('species_size-', '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
@@ -233,9 +250,13 @@ export const adaptItemToCodexFormData = (item, matrix) => {
     // Harmonize Movement Modes (ensure blank species start with [])
     const rawModes = Array.isArray(item.movement_modes) && item.movement_modes.length > 0
       ? item.movement_modes
-      : Array.isArray(item.movement)
+      : Array.isArray(item.movement) && item.movement.length > 0
       ? item.movement
-      : (typeof item.movement === 'string' && item.movement.trim() && item.movement !== 'normal' ? [item.movement.trim()] : []);
+      : (typeof item.movement === 'string' && item.movement.trim() && item.movement !== 'normal'
+        ? [item.movement.trim()]
+        : (Array.isArray(seed?.movement_modes) && seed.movement_modes.length > 0
+          ? seed.movement_modes
+          : (Array.isArray(seed?.movement) ? seed.movement : [])));
     base.movement_modes = rawModes.filter(Boolean);
     base.movement = base.movement_modes;
 
@@ -246,12 +267,111 @@ export const adaptItemToCodexFormData = (item, matrix) => {
       ? item.trait
       : Array.isArray(item.species_traits) && item.species_traits.length > 0
       ? item.species_traits
-      : [];
+      : (Array.isArray(seed?.traits) && seed.traits.length > 0 ? seed.traits : []);
     base.traits = rawTraits;
     base.trait = rawTraits;
+    base.species_traits = rawTraits;
 
-    // Recommendations & AI Guidance Keywords
-    const seed = findCanonicalSeed(item, DEFAULT_SPECIES);
+    // Harmonize Disadvantages / Hindrances & Social Stigma
+    const modDisadvantages = modsArray.filter(m => m && m.type === 'disadvantage').map(m => m.target || m.name || m.id).filter(Boolean);
+    const rawDisadvantages = (Array.isArray(item.disadvantages) && item.disadvantages.length > 0)
+      ? item.disadvantages
+      : (Array.isArray(item.hindrances) && item.hindrances.length > 0)
+      ? item.hindrances
+      : (modDisadvantages.length > 0
+        ? modDisadvantages
+        : (Array.isArray(seed?.disadvantages) ? seed.disadvantages : []));
+    base.disadvantages = rawDisadvantages;
+    base.hindrances = rawDisadvantages;
+
+    const resolvedStigma = item.social_stigma || item.stigma || seed?.social_stigma || seed?.stigma || base.social_stigma || base.stigma || 'None';
+    base.social_stigma = resolvedStigma;
+    base.stigma = resolvedStigma;
+
+    // Harmonize Inherent Attribute Modifiers & Attribute Pools from item, modifiers array, or canonical seed
+    const modInherentAttrs = modsArray
+      .filter(m => m && m.type === 'attribute' && m.mode === 'inherent')
+      .map(m => ({ attribute: m.target || m.attribute, bonus: Number(m.value ?? m.bonus ?? 0) }));
+    const rawAttrMods = (Array.isArray(item.attribute_modifiers) && item.attribute_modifiers.length > 0)
+      ? item.attribute_modifiers
+      : (Array.isArray(item.inherent_attribute_modifiers) && item.inherent_attribute_modifiers.length > 0)
+      ? item.inherent_attribute_modifiers
+      : (modInherentAttrs.length > 0)
+      ? modInherentAttrs
+      : (Array.isArray(seed?.inherent_attribute_modifiers) && seed.inherent_attribute_modifiers.length > 0)
+      ? seed.inherent_attribute_modifiers
+      : [];
+    if (rawAttrMods.length > 0) {
+      base.attribute_modifiers = rawAttrMods;
+      base.inherent_attribute_modifiers = rawAttrMods;
+      const attrObj = { ...(base.attributes || {}) };
+      rawAttrMods.forEach(mod => {
+        const attr = String(mod.attribute || mod.target || '').toLowerCase();
+        const bonus = Number(mod.bonus ?? mod.value ?? 0);
+        if (attr.startsWith('str') && !base.bonus_str) { base.bonus_str = bonus; attrObj.str = bonus; }
+        else if ((attr.startsWith('agi') || attr.startsWith('dex')) && !base.bonus_agi) { base.bonus_agi = bonus; attrObj.agi = bonus; }
+        else if ((attr.startsWith('sta') || attr.startsWith('con')) && !base.bonus_sta) { base.bonus_sta = bonus; attrObj.sta = bonus; }
+        else if (attr.startsWith('int') && !base.bonus_int) { base.bonus_int = bonus; attrObj.int = bonus; }
+        else if (attr.startsWith('wis') && !base.bonus_wis) { base.bonus_wis = bonus; attrObj.wis = bonus; }
+        else if (attr.startsWith('cha') && !base.bonus_cha) { base.bonus_cha = bonus; attrObj.cha = bonus; }
+      });
+      base.attributes = attrObj;
+    }
+
+    const modAttrPool = modsArray
+      .filter(m => m && m.type === 'attribute' && m.mode === 'bonus_pool')
+      .reduce((sum, m) => sum + Number(m.value ?? m.bonus ?? 0), 0);
+    const resolvedAttrPool = (Number(item.bonus_attribute_points) > 0 ? Number(item.bonus_attribute_points) : undefined)
+      ?? (modAttrPool > 0 ? modAttrPool : undefined)
+      ?? seed?.bonus_attribute_points
+      ?? 0;
+    base.bonus_attribute_points = Number(resolvedAttrPool) || 0;
+
+    // Harmonize Skill Pools & Specific Skill Bonuses
+    const modSkillPool = modsArray
+      .filter(m => m && m.type === 'skill' && m.mode === 'bonus_pool')
+      .reduce((sum, m) => sum + Number(m.value ?? m.bonus ?? 0), 0);
+    const rawBonusSkills = (Number(item.bonus_skills) > 0 ? Number(item.bonus_skills) : undefined)
+      ?? (Number(item.bonus_skill_points) > 0 ? Number(item.bonus_skill_points) : undefined)
+      ?? (modSkillPool > 0 ? modSkillPool : undefined)
+      ?? seed?.bonus_skills
+      ?? 0;
+    if (!base.skill_bundles && Number(rawBonusSkills) > 0) {
+      base.skill_bundles = Math.floor(Number(rawBonusSkills) / 5);
+      base.bonus_skills = Number(rawBonusSkills);
+    } else if (base.skill_bundles > 0 && !base.bonus_skills) {
+      base.bonus_skills = Number(base.skill_bundles) * 5;
+    }
+
+    const modSpecificSkills = modsArray
+      .filter(m => m && m.type === 'skill' && m.mode === 'inherent')
+      .map(m => ({ skill_id: m.target || m.skill_id, bonus: Number(m.value ?? m.bonus ?? 0) }));
+    base.specific_skill_bonuses = (Array.isArray(item.specific_skill_bonuses) && item.specific_skill_bonuses.length > 0)
+      ? item.specific_skill_bonuses
+      : (modSpecificSkills.length > 0
+        ? modSpecificSkills
+        : (Array.isArray(seed?.specific_skill_bonuses) ? seed.specific_skill_bonuses : []));
+
+    // Harmonize Granted Features (inherent_features) & Feature Pools (bonus_features)
+    const modInherentFeatures = modsArray
+      .filter(m => m && m.type === 'feature' && m.mode === 'inherent')
+      .map(m => m.target || m.name || m.id)
+      .filter(Boolean);
+    base.inherent_features = (Array.isArray(item.inherent_features) && item.inherent_features.length > 0)
+      ? item.inherent_features
+      : (modInherentFeatures.length > 0
+        ? modInherentFeatures
+        : (Array.isArray(seed?.inherent_features) ? seed.inherent_features : []));
+
+    const modFeaturePool = modsArray
+      .filter(m => m && m.type === 'feature' && m.mode === 'bonus_pool')
+      .reduce((sum, m) => sum + Number(m.value ?? m.bonus ?? 0), 0);
+    const resolvedBonusFeatures = (Number(item.bonus_features) > 0 ? Number(item.bonus_features) : undefined)
+      ?? (modFeaturePool > 0 ? modFeaturePool : undefined)
+      ?? seed?.bonus_features
+      ?? 0;
+    base.bonus_features = Number(resolvedBonusFeatures) || 0;
+
     const itemRecFactions = parseListField(item.recommended_factions);
     base.recommended_factions = itemRecFactions.length > 0 ? itemRecFactions : parseListField(seed?.recommended_factions || base.recommended_factions);
 
@@ -264,8 +384,14 @@ export const adaptItemToCodexFormData = (item, matrix) => {
     const itemRecSkills = parseListField(item.recommended_skills);
     base.recommended_skills = itemRecSkills.length > 0 ? itemRecSkills : parseListField(seed?.recommended_skills || base.recommended_skills);
 
+    const modRecFeatures = modsArray
+      .filter(m => m && m.type === 'feature' && m.mode === 'recommended')
+      .map(m => m.target || m.name || m.id)
+      .filter(Boolean);
     const itemRecFeatures = parseListField(item.recommended_features);
-    base.recommended_features = itemRecFeatures.length > 0 ? itemRecFeatures : parseListField(seed?.recommended_features || base.recommended_features);
+    base.recommended_features = itemRecFeatures.length > 0
+      ? itemRecFeatures
+      : (modRecFeatures.length > 0 ? modRecFeatures : parseListField(seed?.recommended_features || base.recommended_features));
 
     base.keywords = (typeof item.keywords === 'string' && item.keywords.trim())
       ? item.keywords
@@ -273,6 +399,17 @@ export const adaptItemToCodexFormData = (item, matrix) => {
     base.negative_keywords = (typeof item.negative_keywords === 'string' && item.negative_keywords.trim())
       ? item.negative_keywords
       : (seed?.negative_keywords || base.negative_keywords || '');
+
+    // Dynamically compute and synchronize the authoritative species package CP/BP cost
+    const speciesBp = calculateSpeciesBP(base);
+    base.cp = speciesBp.totalCPUsed;
+    base.bp = speciesBp.totalBPUsed;
+    base.cp_cost = speciesBp.totalCPUsed;
+    base.costs = {
+      ...(base.costs || {}),
+      cp: speciesBp.totalCPUsed,
+      bp: speciesBp.totalBPUsed
+    };
   }
 
   // Harmonize Factions Fields
@@ -655,6 +792,45 @@ export const adaptCodexToOmnicortexItem = (formData, computedValues, matrix) => 
     payload.trait = syncedTraits;
     payload.species_traits = syncedTraits;
 
+    // Synchronize species attribute modifiers, pools, features, disadvantages, stigma, and skill bundles
+    if (Array.isArray(formData.attribute_modifiers)) {
+      payload.attribute_modifiers = formData.attribute_modifiers;
+      payload.inherent_attribute_modifiers = formData.attribute_modifiers;
+    } else if (Array.isArray(formData.inherent_attribute_modifiers)) {
+      payload.inherent_attribute_modifiers = formData.inherent_attribute_modifiers;
+      payload.attribute_modifiers = formData.inherent_attribute_modifiers;
+    }
+    if (formData.bonus_attribute_points !== undefined) {
+      payload.bonus_attribute_points = Number(formData.bonus_attribute_points) || 0;
+    }
+    if (formData.skill_bundles !== undefined) {
+      payload.skill_bundles = Number(formData.skill_bundles) || 0;
+      payload.bonus_skills = formData.bonus_skills !== undefined
+        ? Number(formData.bonus_skills)
+        : (Number(formData.skill_bundles) || 0) * 5;
+    } else if (formData.bonus_skills !== undefined) {
+      payload.bonus_skills = Number(formData.bonus_skills) || 0;
+      payload.skill_bundles = Math.floor(payload.bonus_skills / 5);
+    }
+    if (Array.isArray(formData.specific_skill_bonuses)) {
+      payload.specific_skill_bonuses = formData.specific_skill_bonuses;
+    }
+    if (Array.isArray(formData.inherent_features)) {
+      payload.inherent_features = formData.inherent_features;
+    }
+    if (formData.bonus_features !== undefined) {
+      payload.bonus_features = Number(formData.bonus_features) || 0;
+    }
+    const syncedDisadvantages = Array.isArray(formData.disadvantages)
+      ? formData.disadvantages
+      : (Array.isArray(formData.hindrances) ? formData.hindrances : []);
+    payload.disadvantages = syncedDisadvantages;
+    payload.hindrances = syncedDisadvantages;
+    if (formData.social_stigma !== undefined || formData.stigma !== undefined) {
+      payload.social_stigma = formData.social_stigma || formData.stigma || 'None';
+      payload.stigma = payload.social_stigma;
+    }
+
     payload.recommended_factions = Array.isArray(formData.recommended_factions) ? formData.recommended_factions : [];
     payload.recommended_origins = Array.isArray(formData.recommended_origins) ? formData.recommended_origins : [];
     payload.recommended_occupations = Array.isArray(formData.recommended_occupations) ? formData.recommended_occupations : [];
@@ -662,6 +838,17 @@ export const adaptCodexToOmnicortexItem = (formData, computedValues, matrix) => 
     payload.recommended_features = Array.isArray(formData.recommended_features) ? formData.recommended_features : [];
     payload.keywords = typeof formData.keywords === 'string' ? formData.keywords.trim() : (formData.keywords || '');
     payload.negative_keywords = typeof formData.negative_keywords === 'string' ? formData.negative_keywords.trim() : (formData.negative_keywords || '');
+
+    // Dynamically compute and persist package CP/BP cost from all components
+    const bpData = calculateSpeciesBP({ ...formData, ...payload });
+    payload.cp = bpData.totalCPUsed;
+    payload.bp = bpData.totalBPUsed;
+    payload.cp_cost = bpData.totalCPUsed;
+    payload.costs = {
+      ...(payload.costs || {}),
+      cp: bpData.totalCPUsed,
+      bp: bpData.totalBPUsed
+    };
   }
 
   // Ensure faction recommendations, directives, and railguards are synchronized

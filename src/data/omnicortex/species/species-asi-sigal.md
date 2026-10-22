@@ -39,8 +39,8 @@ tech_level: 4 (Photonic & Energy Resonators)
 meta_level: 5 (Pure Energy Metaphysics)
 homeworld: The Solar Auroras of Lumina
 costs:
-  cp: 8
-  bp: 8
+  cp: 3
+  bp: 3
 modifiers:
   - target: Intellect
     value: 1
@@ -62,9 +62,6 @@ modifiers:
     value: 12
     type: skill
     mode: size_modifier
-cp_cost: 8
-cp: 8
-bp: 8
 description: >-
   Sigal are diminutive, non-corporeal elemental wisps of concentrated
   consciousness and photon energy. While physically frail, their intellect,
@@ -93,6 +90,9 @@ keywords: >-
   radiant
 negative_keywords: 'melee-combat, physical-strength, heavy-armor, primitive, mud'
 species_traits: *ref_0
+cp: 3
+bp: 3
+cp_cost: 3
 ---
 
 # Sigal (Elemental Fey)
@@ -111,7 +111,7 @@ Sigal are diminutive, non-corporeal elemental wisps of concentrated consciousnes
 - **Stigma**: Severe Xeno (-6)
 
 ## Mechanics & Statblock
-- **CP Cost**: 66 CP
+- **CP Cost**: 3 CP
 - **Inherent Modifiers**: +1 Intellect, -8 Strength
 - **Bonus Skills**: +10 Skill Points
 - **Inherent Features**: Asi Base Traits, Diminutive Size, Awakened (Energy/Illusion), Telekinetic Flight, Non-Living (Energy Entity), Telekinesis (Special Ability), Perfect Memory

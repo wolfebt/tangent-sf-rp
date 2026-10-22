@@ -52,8 +52,8 @@ tech_level: 4 (Optronic Cores & Piezoelectric Myomer)
 meta_level: 0 (Null)
 homeworld: Autonomous Foundry Stations
 costs:
-  cp: 42
-  bp: 42
+  cp: 54
+  bp: 54
 modifiers:
   - target: Intellect
     value: 1
@@ -63,9 +63,6 @@ modifiers:
     value: -1
     type: attribute
     mode: inherent
-cp_cost: 42
-cp: 42
-bp: 42
 description: >-
   Androids are synthetic humanoids constructed with optronic neural networks,
   myomer musculature, and modular sub-systems. Immune to fatigue and disease,
@@ -86,6 +83,9 @@ recommended_occupations:
 keywords: 'optronic-chassis, myomer-muscle, modular-hardware, tireless, emotion-neutral'
 negative_keywords: 'biological-disease, starvation, nature-magic'
 species_traits: *ref_0
+cp: 54
+bp: 54
+cp_cost: 54
 ---
 
 # Android (Synthetic Humanoid)

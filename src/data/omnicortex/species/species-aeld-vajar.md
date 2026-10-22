@@ -50,12 +50,9 @@ tech_level: 2 (Biomimetic Crafting)
 meta_level: 4 (Primal Shamanism & Biomorphism)
 homeworld: Vajara Prime (The Untamed Jungle)
 costs:
-  cp: 21
-  bp: 21
+  cp: 35
+  bp: 35
 modifiers: []
-cp_cost: 21
-cp: 21
-bp: 21
 description: >-
   Vajar are feral, nature-attuned Aeld who rejected urbanization for deep forest
   symbiotic living. They wield shapeshifting and animalistic biomodifications
@@ -83,6 +80,9 @@ recommended_occupations:
 keywords: 'feral, primal, tracker, wilderness, survivalist, predator, agile, tribal'
 negative_keywords: 'high-tech, urbanite, heavy-armor, bureaucratic, academic'
 species_traits: *ref_0
+cp: 35
+bp: 35
+cp_cost: 35
 ---
 
 # Vajar (Wilder Aeld)

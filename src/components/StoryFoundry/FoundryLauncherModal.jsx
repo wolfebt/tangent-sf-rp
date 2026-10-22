@@ -4,6 +4,7 @@ import { exportElementJSON, exportElementMarkdown, exportElementPDF } from '../.
 import EditElementModal from '../../pages/Foundry/ElementForge/EditElementModal';
 import { ELEMENT_TYPES } from '../../pages/Foundry/ElementForge/elementSchemas';
 import { attachCreatorTag } from '../../utils/creatorUtils';
+import { generateTempHandle } from '../../utils/personaValidationUtils';
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 import { useToast } from '../../context/ToastContext';
 
@@ -124,7 +125,8 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
       list = list.filter(story => 
         (story.projectName && story.projectName.toLowerCase().includes(q)) ||
         (story.description && story.description.toLowerCase().includes(q)) ||
-        (story.authorEmail && story.authorEmail.toLowerCase().includes(q))
+        (story.authorHandle && story.authorHandle.toLowerCase().includes(q)) ||
+        (story.creatorHandle && story.creatorHandle.toLowerCase().includes(q))
       );
     }
 
@@ -167,7 +169,8 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
         (elem.title && elem.title.toLowerCase().includes(q)) ||
         (elem.type && elem.type.toLowerCase().includes(q)) ||
         (elem.content && elem.content.toLowerCase().includes(q)) ||
-        (elem.authorEmail && elem.authorEmail.toLowerCase().includes(q))
+        (elem.authorHandle && elem.authorHandle.toLowerCase().includes(q)) ||
+        (elem.creatorHandle && elem.creatorHandle.toLowerCase().includes(q))
       );
     }
 
@@ -186,7 +189,7 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
         return (a.type || '').localeCompare(b.type || '');
       }
       if (elementSortBy === 'author') {
-        return (a.authorEmail || '').localeCompare(b.authorEmail || '');
+        return (a.authorHandle || a.creatorHandle || '').localeCompare(b.authorHandle || b.creatorHandle || '');
       }
       return 0;
     });
@@ -203,7 +206,8 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
       list = list.filter(m => 
         (m.title && m.title.toLowerCase().includes(q)) ||
         (m.type && m.type.toLowerCase().includes(q)) ||
-        (m.authorEmail && m.authorEmail.toLowerCase().includes(q))
+        (m.authorHandle && m.authorHandle.toLowerCase().includes(q)) ||
+        (m.creatorHandle && m.creatorHandle.toLowerCase().includes(q))
       );
     }
 
@@ -615,7 +619,7 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                                 </button>
                               ) : (
                                 <span className="px-2 py-0.5 bg-amber-950/80 text-amber-300 border border-amber-600/50 rounded text-[9px] font-mono font-bold truncate max-w-[130px]">
-                                  ✍️ {story.authorEmail ? `@${story.authorEmail.split('@')[0]}` : (story.authorHandle || story.creatorHandle || 'Community')}
+                                  ✍️ @{story.authorHandle || story.creatorHandle || (story.authorUid ? generateTempHandle(story.authorUid) : 'Community')}
                                 </span>
                               )}
                             </div>
@@ -770,7 +774,7 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                               </div>
                             </td>
                             <td className="py-2.5 px-3 whitespace-nowrap font-mono text-xs text-slate-300">
-                              {story.authorEmail ? `@${story.authorEmail.split('@')[0]}` : (story.authorHandle || story.creatorHandle || 'Community')}
+                              @{story.authorHandle || story.creatorHandle || (story.authorUid ? generateTempHandle(story.authorUid) : 'Community')}
                             </td>
                             <td className="py-2.5 px-3 whitespace-nowrap font-mono text-xs text-slate-400">
                               <span className="text-amber-400 font-bold">{elemCount}</span> elems • <span className="text-cyan-400 font-bold">{mapCount}</span> maps
@@ -896,8 +900,8 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                             <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-800 text-amber-400 shrink-0">
                               {elem.type || 'Element'}
                             </span>
-                            <span className="text-[9px] text-slate-500 font-mono truncate" title={elem.authorEmail}>
-                              {elem.authorEmail ? `@${elem.authorEmail.split('@')[0]}` : 'Catalog'}
+                            <span className="text-[9px] text-slate-500 font-mono truncate" title={elem.authorHandle || 'Catalog'}>
+                              @{elem.authorHandle || elem.creatorHandle || (elem.authorUid ? generateTempHandle(elem.authorUid) : 'Catalog')}
                             </span>
                           </div>
 
@@ -1055,8 +1059,8 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                             <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-800 text-emerald-400 shrink-0">
                               {mapElem.type || 'Sector'}
                             </span>
-                            <span className="text-[9px] text-slate-500 font-mono truncate" title={mapElem.authorEmail}>
-                              {mapElem.authorEmail ? `@${mapElem.authorEmail.split('@')[0]}` : 'Catalog'}
+                            <span className="text-[9px] text-slate-500 font-mono truncate" title={mapElem.authorHandle || 'Catalog'}>
+                              @{mapElem.authorHandle || mapElem.creatorHandle || (mapElem.authorUid ? generateTempHandle(mapElem.authorUid) : 'Catalog')}
                             </span>
                           </div>
 

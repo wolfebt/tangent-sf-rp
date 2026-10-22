@@ -4,6 +4,8 @@ import { doc, onSnapshot, setDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db, loginWithGoogle, logout } from '../firebase';
 import { SystemBootSplash } from '../components/UI/SystemBootSplash';
 import { TerranNetAuthModal } from '../components/UI/TerranNetAuthModal';
+import { OperatorHandlePromptModal } from '../components/UI/OperatorHandlePromptModal';
+import { generateTempHandle, isTemporaryHandle, getEffectiveUserHandle } from '../utils/personaValidationUtils';
 import { useConfirm } from './ConfirmContext';
 
 const AuthContext = globalThis.__TANGENT_AUTH_CONTEXT__ || (globalThis.__TANGENT_AUTH_CONTEXT__ = createContext({}));
@@ -15,7 +17,12 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [showSplash, setShowSplash] = useState(true);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isHandleModalOpen, setIsHandleModalOpen] = useState(false);
   const [userHandle, setUserHandle] = useState(localStorage.getItem('userHandle') || '');
+  const [emailOptIn, setEmailOptIn] = useState(() => {
+    const stored = localStorage.getItem('emailOptIn');
+    return stored !== null ? stored === 'true' : null;
+  });
   const [customClaims, setCustomClaims] = useState({});
   const [hasAdminClaim, setHasAdminClaim] = useState(false);
   // Default to true so Key Developer has complete master access by default at this stage
@@ -23,6 +30,8 @@ export const AuthProvider = ({ children }) => {
 
   const openAuthModal = () => setIsAuthModalOpen(true);
   const closeAuthModal = () => setIsAuthModalOpen(false);
+  const openHandleModal = () => setIsHandleModalOpen(true);
+  const closeHandleModal = () => setIsHandleModalOpen(false);
   const triggerBootSplash = () => setShowSplash(true);
 
   const refreshUserHandle = () => {
@@ -69,33 +78,64 @@ export const AuthProvider = ({ children }) => {
           userUnsub = onSnapshot(userDocRef, (docSnap) => {
             if (docSnap.exists()) {
               const data = docSnap.data();
-              if (data.userHandle) {
+              const hasSetHandle = data.handleSet === true;
+
+              if (data.userHandle && !data.userHandle.includes('@')) {
                 localStorage.setItem('userHandle', data.userHandle);
                 setUserHandle(data.userHandle);
               } else {
-                const effectiveHandle = localStorage.getItem('userHandle') || user.displayName || (user.email ? user.email.split('@')[0] : 'Operator');
-                setUserHandle(effectiveHandle);
-                localStorage.setItem('userHandle', effectiveHandle);
-                setDoc(userDocRef, { userHandle: effectiveHandle }, { merge: true }).catch(() => {});
+                // Operator without a current handle is assigned a random 8-digit alphanumeric string as a temporary handle
+                const tempHandle = generateTempHandle(user.uid);
+                setUserHandle(tempHandle);
+                localStorage.setItem('userHandle', tempHandle);
+                setDoc(userDocRef, { 
+                  userHandle: tempHandle,
+                  displayName: tempHandle,
+                  isTempHandle: true,
+                  handleSet: false
+                }, { merge: true }).catch(() => {});
               }
+
+              if (data.emailOptIn !== undefined) {
+                setEmailOptIn(Boolean(data.emailOptIn));
+                localStorage.setItem('emailOptIn', String(data.emailOptIn));
+              }
+
+              // Prompt for a handle if it has not been set yet, or if it is currently a temporary handle
+              if (!hasSetHandle && (!data.userHandle || isTemporaryHandle(data.userHandle) || data.isTempHandle)) {
+                setIsHandleModalOpen(true);
+              }
+
               if (data.userContactInfo !== undefined) localStorage.setItem('userContactInfo', data.userContactInfo);
               if (data.geminiApiKey !== undefined) localStorage.setItem('geminiApiKey', data.geminiApiKey);
               if (data.aiPlatform !== undefined) localStorage.setItem('aiPlatform', data.aiPlatform);
               if (data.otherAiApiKey !== undefined) localStorage.setItem('otherAiApiKey', data.otherAiApiKey);
             } else {
-              const initialHandle = localStorage.getItem('userHandle') || user.displayName || (user.email ? user.email.split('@')[0] : 'Operator');
-              setUserHandle(initialHandle);
-              localStorage.setItem('userHandle', initialHandle);
+              // First time registration: Assign a random 8-digit alphanumeric string as temporary handle
+              const tempHandle = generateTempHandle(user.uid);
+              setUserHandle(tempHandle);
+              localStorage.setItem('userHandle', tempHandle);
+              localStorage.setItem('handleSet', 'false');
+
+              // Register user in 'users' collection so they appear on the network roster immediately
               setDoc(userDocRef, {
                 uid: user.uid,
-                displayName: user.displayName || user.email || 'Operator',
-                userHandle: initialHandle,
-                email: user.email || '',
+                displayName: tempHandle,
+                userHandle: tempHandle,
+                isTempHandle: true,
+                handleSet: false,
+                email: user.email || '', // Backend purpose only: actual ID, firebase login, platform emails
+                emailOptIn: true,
                 photoURL: user.photoURL || null,
                 status: 'online',
+                presenceState: 'online',
                 lastSeen: serverTimestamp(),
-                lastSeenLocal: new Date().toISOString()
+                lastSeenLocal: new Date().toISOString(),
+                createdAt: serverTimestamp()
               }, { merge: true }).catch(() => {});
+
+              // Prompt for a handle and email list opt-in on first login
+              setIsHandleModalOpen(true);
             }
           }, (err) => {
             console.warn("Error fetching user profile settings from Firestore:", err);
@@ -143,7 +183,8 @@ export const AuthProvider = ({ children }) => {
     ? (customClaims.role || 'Architect')
     : (adminOverride ? 'Architect' : 'Operator');
 
-  const displayIdentity = userHandle || (currentUser ? (currentUser.displayName || currentUser.email) : '');
+  // Always use handles for operators, never expose email
+  const displayIdentity = userHandle ? `@${userHandle}` : `@${getEffectiveUserHandle(currentUser)}`;
 
   const confirm = useConfirm();
 
@@ -166,6 +207,7 @@ export const AuthProvider = ({ children }) => {
     currentUser,
     userHandle,
     displayIdentity,
+    emailOptIn,
     isAdmin,
     isGM,
     userRole,
@@ -181,6 +223,9 @@ export const AuthProvider = ({ children }) => {
     isAuthModalOpen,
     openAuthModal,
     closeAuthModal,
+    isHandleModalOpen,
+    openHandleModal,
+    closeHandleModal,
     triggerBootSplash
   };
 
@@ -194,7 +239,17 @@ export const AuthProvider = ({ children }) => {
         isOpen={isAuthModalOpen}
         onClose={closeAuthModal}
       />
+      <OperatorHandlePromptModal
+        isOpen={isHandleModalOpen}
+        onClose={closeHandleModal}
+        currentUser={currentUser}
+        currentHandle={userHandle}
+        currentEmailOptIn={emailOptIn}
+        onSaveSuccess={({ handle: newHandle, emailOptIn: newOptIn }) => {
+          setUserHandle(newHandle);
+          setEmailOptIn(newOptIn);
+        }}
+      />
     </AuthContext.Provider>
   );
 };
-

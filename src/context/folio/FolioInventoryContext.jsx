@@ -23,7 +23,7 @@ export const DEFAULT_INVENTORY_FALLBACK = {
   clonePublicPersona: () => {}
 };
 
-export const FolioInventoryContext = createContext(DEFAULT_INVENTORY_FALLBACK);
+export const FolioInventoryContext = globalThis.__TANGENT_FOLIO_INVENTORY_CONTEXT__ || (globalThis.__TANGENT_FOLIO_INVENTORY_CONTEXT__ = createContext(DEFAULT_INVENTORY_FALLBACK));
 
 export const useFolioInventory = () => {
   const context = useContext(FolioInventoryContext);

@@ -802,7 +802,7 @@ export const AssetStudio = ({
   // Reactive live computed state hook
   const { computedValues, isCalculating } = useComputedState(matrix, formData);
 
-  const handleFieldChange = (name, value) => {
+  const handleFieldChange = useCallback((name, value) => {
     setFormData(prev => {
       const next = { ...prev, [name]: value };
 
@@ -825,7 +825,7 @@ export const AssetStudio = ({
           const attrList = Array.isArray(value) ? value : [];
           next.attribute_modifiers = attrList;
           next.inherent_attribute_modifiers = attrList;
-          const otherMods = (next.modifiers || []).filter(m => m.type !== 'attribute');
+          const otherMods = (next.modifiers || []).filter(m => !(m.type === 'attribute' && m.mode === 'inherent'));
           const newAttrMods = attrList.map(a => ({
             target: a.attribute || a.target || a.name || 'Strength',
             type: 'attribute',
@@ -833,12 +833,27 @@ export const AssetStudio = ({
             mode: 'inherent'
           }));
           next.modifiers = [...otherMods, ...newAttrMods];
+        } else if (name === 'bonus_attribute_points') {
+          const poolPts = Math.max(0, Number(value) || 0);
+          next.bonus_attribute_points = poolPts;
+          const otherMods = (next.modifiers || []).filter(m => !(m.type === 'attribute' && m.mode === 'bonus_pool'));
+          next.modifiers = poolPts > 0
+            ? [...otherMods, { target: 'Any Attribute', type: 'attribute', value: poolPts, mode: 'bonus_pool' }]
+            : otherMods;
+        } else if (name === 'skill_bundles' || name === 'bonus_skills') {
+          const pts = name === 'skill_bundles' ? (Math.max(0, Number(value) || 0) * 5) : Math.max(0, Number(value) || 0);
+          next.bonus_skills = pts;
+          next.skill_bundles = Math.floor(pts / 5);
+          const otherMods = (next.modifiers || []).filter(m => !(m.type === 'skill' && m.mode === 'bonus_pool'));
+          next.modifiers = pts > 0
+            ? [...otherMods, { target: 'Any Skill', type: 'skill', value: pts, mode: 'bonus_pool' }]
+            : otherMods;
         } else if (name === 'specific_skill_bonuses') {
           const skillList = Array.isArray(value) ? value : [];
           next.specific_skill_bonuses = skillList;
-          const otherMods = (next.modifiers || []).filter(m => m.type !== 'skill');
+          const otherMods = (next.modifiers || []).filter(m => !(m.type === 'skill' && m.mode === 'inherent'));
           const newSkillMods = skillList.map(s => ({
-            target: s.skill || s.target || s.name || 'Athletics',
+            target: s.skill_id || s.skill || s.target || s.name || 'Athletics',
             type: 'skill',
             value: Number(s.bonus ?? s.value ?? 1),
             mode: 'inherent'
@@ -855,6 +870,13 @@ export const AssetStudio = ({
             mode: 'inherent'
           }));
           next.modifiers = [...otherMods, ...newFeatMods];
+        } else if (name === 'bonus_features') {
+          const featPool = Math.max(0, Number(value) || 0);
+          next.bonus_features = featPool;
+          const otherMods = (next.modifiers || []).filter(m => !(m.type === 'feature' && m.mode === 'bonus_pool'));
+          next.modifiers = featPool > 0
+            ? [...otherMods, { target: 'General Feature', type: 'feature', value: featPool, mode: 'bonus_pool' }]
+            : otherMods;
         } else if (name === 'recommended_features') {
           const recList = Array.isArray(value) ? value : [];
           next.recommended_features = recList;
@@ -870,16 +892,24 @@ export const AssetStudio = ({
           // When UniversalModifiersWidget updates modifiers, synchronize back into specific fields
           const mods = Array.isArray(value) ? value : [];
           next.modifiers = mods;
-          next.attribute_modifiers = mods.filter(m => m.type === 'attribute').map(m => ({
+          next.attribute_modifiers = mods.filter(m => m.type === 'attribute' && m.mode === 'inherent').map(m => ({
             attribute: m.target,
             bonus: Number(m.value) || 1
           }));
           next.inherent_attribute_modifiers = next.attribute_modifiers;
-          next.specific_skill_bonuses = mods.filter(m => m.type === 'skill' && m.mode !== 'group_choice' && m.mode !== 'choice_pool').map(m => ({
+          const attrPoolMods = mods.filter(m => m.type === 'attribute' && m.mode === 'bonus_pool');
+          next.bonus_attribute_points = attrPoolMods.reduce((sum, m) => sum + (Number(m.value) || 0), 0);
+          next.specific_skill_bonuses = mods.filter(m => m.type === 'skill' && m.mode === 'inherent').map(m => ({
+            skill_id: m.target,
             skill: m.target,
             bonus: Number(m.value) || 1
           }));
+          const skillPoolMods = mods.filter(m => m.type === 'skill' && m.mode === 'bonus_pool');
+          next.bonus_skills = skillPoolMods.reduce((sum, m) => sum + (Number(m.value) || 0), 0);
+          next.skill_bundles = Math.floor(next.bonus_skills / 5);
           next.inherent_features = mods.filter(m => m.type === 'feature' && m.mode === 'inherent').map(m => m.target);
+          const featPoolMods = mods.filter(m => m.type === 'feature' && m.mode === 'bonus_pool');
+          next.bonus_features = featPoolMods.reduce((sum, m) => sum + (Number(m.value) || 0), 0);
           next.recommended_features = mods.filter(m => m.type === 'feature' && m.mode === 'recommended').map(m => m.target);
 
           // Synchronize group choice and options pool into modifier_options
@@ -925,7 +955,7 @@ export const AssetStudio = ({
 
       return next;
     });
-  };
+  }, [isSpeciesStudio]);
 
   const handleResetForm = () => {
     AudioService.playTerminalBeep(900, 0.03);
@@ -1533,14 +1563,45 @@ export const AssetStudio = ({
           <p className="text-xs text-slate-300 leading-relaxed mb-3">
             {guidance.overview}
           </p>
-          <div className={`grid grid-cols-1 ${visibleGuidanceSections.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-2 lg:grid-cols-3'} gap-2.5 text-[11px] font-mono`}>
+          <div className={`grid grid-cols-1 ${visibleGuidanceSections.length === 1 ? '' : visibleGuidanceSections.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-2 lg:grid-cols-3'} gap-2.5 text-[11px] font-mono`}>
             {visibleGuidanceSections.map((sec, idx) => {
               const isSpeciesChassisBlock = isSpeciesStudio && speciesSummary && sec.id === 'chassis_type';
-              const isSpeciesInherentBlock = isSpeciesStudio && speciesSummary && sec.id === 'traits';
 
               const attrEntries = isSpeciesChassisBlock
                 ? Object.entries(speciesSummary.attributes || {}).filter(([_, val]) => Number(val) !== 0)
                 : [];
+              const extraMovements = isSpeciesChassisBlock
+                ? (speciesSummary.bpData?.itemized?.movement || []).filter(m => m && m.id !== 'normal' && m.id !== 'bipedal')
+                : [];
+              const specificSkills = isSpeciesChassisBlock
+                ? (Array.isArray(formData.specific_skill_bonuses) ? formData.specific_skill_bonuses : [])
+                : [];
+              const traitsList = isSpeciesChassisBlock
+                ? (speciesSummary.bpData?.itemized?.traits?.length > 0
+                  ? speciesSummary.bpData.itemized.traits
+                  : (speciesSummary.selectedTraits || []).map(tr => ({ name: formatSummaryChip(tr), bp: 1 })))
+                : [];
+              const featuresList = isSpeciesChassisBlock
+                ? (speciesSummary.bpData?.itemized?.features?.length > 0
+                  ? speciesSummary.bpData.itemized.features
+                  : (speciesSummary.cleanedInherentFeatures || []).map(feat => ({ name: formatSummaryChip(feat), bp: 3 })))
+                : [];
+              const recFeaturesList = isSpeciesChassisBlock
+                ? (Array.isArray(formData.recommended_features) && formData.recommended_features.length > 0
+                  ? formData.recommended_features
+                  : (speciesSummary.cleanedRecommendedFeatures || []))
+                : [];
+              const flawsList = isSpeciesChassisBlock
+                ? (speciesSummary.bpData?.itemized?.disadvantages?.length > 0
+                  ? speciesSummary.bpData.itemized.disadvantages
+                  : (speciesSummary.selectedDisadvantages || []).map(flaw => ({ name: formatSummaryChip(flaw), refundBP: 2 })))
+                : [];
+              const skillPoolPoints = isSpeciesChassisBlock
+                ? (speciesSummary.bpData?.itemized?.skills?.points ?? (speciesSummary.skillBundles * 5))
+                : 0;
+              const skillPoolCP = isSpeciesChassisBlock
+                ? (speciesSummary.bpData?.breakdown?.skillsBP ?? (speciesSummary.skillBundles * 5))
+                : 0;
 
               return (
                 <div key={sec.id || idx} className="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
@@ -1551,87 +1612,114 @@ export const AssetStudio = ({
 
                   {isSpeciesChassisBlock && (
                     <div className="pt-2 border-t border-slate-800/90 flex flex-wrap items-center gap-1.5 text-[10px]">
+                      {/* Chassis Type */}
                       <span className="px-2 py-0.5 rounded bg-sky-950/70 border border-sky-500/40 text-sky-300 font-bold">
                         Chassis: {speciesSummary.selectedType} ({speciesSummary.bpData?.breakdown?.typeBP ?? 0} CP)
                       </span>
+
+                      {/* Size */}
                       <span className="px-2 py-0.5 rounded bg-cyan-950/70 border border-cyan-500/40 text-cyan-300 font-bold">
                         Size: {speciesSummary.selectedSize} ({(speciesSummary.bpData?.breakdown?.sizeBP ?? 0) >= 0 ? `+${speciesSummary.bpData?.breakdown?.sizeBP ?? 0}` : speciesSummary.bpData?.breakdown?.sizeBP} CP)
                       </span>
-                      <span className="px-2 py-0.5 rounded bg-amber-950/70 border border-amber-500/40 text-amber-300">
-                        Speed: {speciesSummary.bpData?.speedsFormatted || 'Ground 30 ft'}
+
+                      {/* Base Speed & Locomotion Modes */}
+                      <span className="px-2 py-0.5 rounded bg-amber-950/70 border border-amber-500/40 text-amber-300 font-bold">
+                        Speed: {speciesSummary.bpData?.speedsFormatted || 'Ground 30 ft'} ({(speciesSummary.bpData?.breakdown?.movementBP ?? 0) >= 0 ? `+${speciesSummary.bpData?.breakdown?.movementBP ?? 0}` : speciesSummary.bpData?.breakdown?.movementBP} CP)
                       </span>
+                      {extraMovements.map((m, mIdx) => (
+                        <span
+                          key={`mov-${mIdx}`}
+                          className="px-2 py-0.5 rounded bg-amber-950/60 border border-amber-500/30 text-amber-200"
+                        >
+                          Move: {m.name} <span className="text-amber-400 font-bold">({m.bp >= 0 ? `+${m.bp}` : m.bp} CP)</span>
+                        </span>
+                      ))}
+
+                      {/* Inherent Attribute Modifiers */}
                       {attrEntries.length > 0 && (
                         <span className="px-2 py-0.5 rounded bg-emerald-950/70 border border-emerald-500/40 text-emerald-300 font-bold">
-                          Attrs: {attrEntries.map(([k, v]) => `${k.toUpperCase()} ${Number(v) >= 0 ? `+${v}` : v}`).join(', ')}
+                          Attrs: {attrEntries.map(([k, v]) => `${k.toUpperCase()} ${Number(v) >= 0 ? `+${v}` : v}`).join(', ')} ({(speciesSummary.bpData?.breakdown?.fixedAttributeBP ?? 0) >= 0 ? `+${speciesSummary.bpData?.breakdown?.fixedAttributeBP ?? 0}` : speciesSummary.bpData?.breakdown?.fixedAttributeBP} CP)
                         </span>
                       )}
-                      {speciesSummary.skillBundles > 0 && (
-                        <span className="px-2 py-0.5 rounded bg-emerald-950/70 border border-emerald-500/40 text-emerald-300">
-                          Skill Pool: +{speciesSummary.skillBundles * 5} SP
+
+                      {/* Flexible Attribute Pool */}
+                      {speciesSummary.bonusAttributePoints > 0 && (
+                        <span className="px-2 py-0.5 rounded bg-emerald-950/70 border border-emerald-500/40 text-emerald-300 font-bold">
+                          Attr Pool: +{speciesSummary.bonusAttributePoints} AP (+{speciesSummary.bonusAttributePoints * 5} CP)
                         </span>
                       )}
-                      <span className="px-2 py-0.5 rounded bg-purple-950/70 border border-purple-500/40 text-purple-300 font-bold ml-auto">
+
+                      {/* Skill Pool & Specific Skill Bonuses */}
+                      {skillPoolPoints > 0 && (
+                        <span className="px-2 py-0.5 rounded bg-emerald-950/70 border border-emerald-500/40 text-emerald-300 font-bold">
+                          Skill Pool: +{skillPoolPoints} SP (+{skillPoolCP} CP)
+                        </span>
+                      )}
+                      {specificSkills.map((sk, sIdx) => {
+                        const skName = formatSummaryChip(sk.skill_id || sk.skill || sk.name || sk);
+                        const skBonus = Number(sk.bonus ?? sk.value ?? 2);
+                        return (
+                          <span
+                            key={`sk-${sIdx}`}
+                            className="px-2 py-0.5 rounded bg-teal-950/70 border border-teal-500/40 text-teal-200"
+                          >
+                            Skill: {skName} {skBonus >= 0 ? `+${skBonus}` : skBonus}
+                          </span>
+                        );
+                      })}
+
+                      {/* Species Traits (1, 2, or 4 CP) */}
+                      {traitsList.map((tr, tIdx) => (
+                        <span
+                          key={`tr-${tIdx}`}
+                          className="px-2 py-0.5 rounded bg-purple-950/70 border border-purple-500/40 text-purple-200"
+                        >
+                          Trait: {tr.name} <span className="text-purple-400 font-bold">({tr.bp >= 0 ? `+${tr.bp}` : tr.bp} CP)</span>
+                        </span>
+                      ))}
+
+                      {/* Inherent Features, Feature Pool & Recommended Features */}
+                      {featuresList.map((feat, fIdx) => (
+                        <span
+                          key={`ft-${fIdx}`}
+                          className="px-2 py-0.5 rounded bg-indigo-950/70 border border-indigo-500/40 text-indigo-200"
+                        >
+                          Feature: {feat.name} <span className="text-indigo-400 font-bold">(+{feat.bp ?? 3} CP)</span>
+                        </span>
+                      ))}
+                      {speciesSummary.bonusFeatures > 0 && (
+                        <span className="px-2 py-0.5 rounded bg-indigo-950/70 border border-indigo-500/40 text-indigo-200 font-bold">
+                          Feature Pool: +{speciesSummary.bonusFeatures} Feat{speciesSummary.bonusFeatures > 1 ? 's' : ''} (+{speciesSummary.bonusFeatures * 3} CP)
+                        </span>
+                      )}
+                      {recFeaturesList.map((rf, rfIdx) => (
+                        <span
+                          key={`rf-${rfIdx}`}
+                          className="px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700 text-slate-300"
+                        >
+                          Rec. Feat: {formatSummaryChip(rf)} <span className="text-slate-400">(0 CP)</span>
+                        </span>
+                      ))}
+
+                      {/* Disadvantages / Flaws & Social Stigma (Refunds) */}
+                      {flawsList.map((flaw, dIdx) => (
+                        <span
+                          key={`flaw-${dIdx}`}
+                          className="px-2 py-0.5 rounded bg-red-950/70 border border-red-500/40 text-red-200"
+                        >
+                          Flaw: {flaw.name} <span className="text-red-400 font-bold">(-{flaw.refundBP ?? 2} CP)</span>
+                        </span>
+                      ))}
+                      {speciesSummary.selectedStigma && speciesSummary.selectedStigma !== 'None' && (
+                        <span className="px-2 py-0.5 rounded bg-rose-950/70 border border-rose-500/40 text-rose-200">
+                          Stigma: {speciesSummary.selectedStigma} <span className="text-rose-400 font-bold">(-{speciesSummary.bpData?.breakdown?.stigmaRefund ?? 0} CP)</span>
+                        </span>
+                      )}
+
+                      {/* Total Species Package Cost at the End */}
+                      <span className="px-2.5 py-0.5 rounded bg-purple-950/90 border border-purple-400/60 text-purple-200 font-bold ml-auto shadow-sm">
                         Package Cost: {speciesSummary.bpData?.totalBPUsed ?? 0} CP
                       </span>
-                    </div>
-                  )}
-
-                  {isSpeciesInherentBlock && (
-                    <div className="pt-2 border-t border-slate-800/90 space-y-1.5 text-[10px]">
-                      <div className="flex flex-wrap items-center gap-1">
-                        <span className="text-slate-400 font-bold uppercase mr-1">
-                          Traits ({speciesSummary.selectedTraits.length}):
-                        </span>
-                        {speciesSummary.selectedTraits.length > 0 ? (
-                          speciesSummary.selectedTraits.map((tr, tIdx) => (
-                            <span
-                              key={tIdx}
-                              className="px-1.5 py-0.5 rounded bg-purple-950/70 border border-purple-500/40 text-purple-200"
-                            >
-                              {formatSummaryChip(tr)}
-                            </span>
-                          ))
-                        ) : (
-                          <span className="text-slate-500 italic">None</span>
-                        )}
-                      </div>
-
-                      {speciesSummary.cleanedInherentFeatures?.length > 0 && (
-                        <div className="flex flex-wrap items-center gap-1">
-                          <span className="text-slate-400 font-bold uppercase mr-1">
-                            Inherent Features ({speciesSummary.cleanedInherentFeatures.length}):
-                          </span>
-                          {speciesSummary.cleanedInherentFeatures.map((feat, fIdx) => (
-                            <span
-                              key={fIdx}
-                              className="px-1.5 py-0.5 rounded bg-emerald-950/70 border border-emerald-500/40 text-emerald-200"
-                            >
-                              {formatSummaryChip(feat)}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-
-                      {(speciesSummary.selectedDisadvantages?.length > 0 || (speciesSummary.selectedStigma && speciesSummary.selectedStigma !== 'None')) && (
-                        <div className="flex flex-wrap items-center gap-1">
-                          <span className="text-slate-400 font-bold uppercase mr-1">
-                            Flaws / Stigma:
-                          </span>
-                          {speciesSummary.selectedDisadvantages.map((flaw, dIdx) => (
-                            <span
-                              key={dIdx}
-                              className="px-1.5 py-0.5 rounded bg-red-950/70 border border-red-500/40 text-red-200"
-                            >
-                              {formatSummaryChip(flaw)}
-                            </span>
-                          ))}
-                          {speciesSummary.selectedStigma && speciesSummary.selectedStigma !== 'None' && (
-                            <span className="px-1.5 py-0.5 rounded bg-rose-950/70 border border-rose-500/40 text-rose-200">
-                              Stigma: {speciesSummary.selectedStigma}
-                            </span>
-                          )}
-                        </div>
-                      )}
                     </div>
                   )}
                 </div>

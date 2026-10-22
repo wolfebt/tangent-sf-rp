@@ -50,8 +50,8 @@ tech_level: 3 (Sensory Scanners & Covert Tech)
 meta_level: 2 (Intuitive Psionics)
 homeworld: Kizina Enclaves
 costs:
-  cp: 16
-  bp: 16
+  cp: 19
+  bp: 19
 modifiers:
   - target: Intellect
     value: 1
@@ -61,9 +61,6 @@ modifiers:
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 16
-cp: 16
-bp: 16
 description: >-
   Sleek feline humanoids known for sharp intellects, stealth, curiosity, and
   forensic deductive abilities.
@@ -88,6 +85,9 @@ recommended_occupations:
 keywords: 'feline-intellect, forensic-investigator, stealth, deductive, agile, curious'
 negative_keywords: 'brute-force, heavy-armor, reckless'
 species_traits: *ref_0
+cp: 19
+bp: 19
+cp_cost: 19
 ---
 
 # Kizin (Feline Scout)

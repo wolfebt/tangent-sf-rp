@@ -42,8 +42,8 @@ tech_level: 3 (Miniaturized Mechanics)
 meta_level: 1 (Agile Flow)
 homeworld: Brae Warren Habitats
 costs:
-  cp: 20
-  bp: 20
+  cp: 28
+  bp: 28
 modifiers:
   - target: Agility
     value: 1
@@ -61,9 +61,6 @@ modifiers:
     value: 4
     type: skill
     mode: size_modifier
-cp_cost: 20
-cp: 20
-bp: 20
 description: >-
   Brae are compact, diminutive humans (standing 3 to 4 feet tall) who evolved
   aboard generational colony ships and tight subterranean refinery tubes.
@@ -85,6 +82,9 @@ recommended_occupations:
 keywords: 'diminutive, generational-ship, conduit-crawler, compact-tinkerer, nimble'
 negative_keywords: 'heavy-combat, towering, brute-force'
 species_traits: *ref_0
+cp: 28
+bp: 28
+cp_cost: 28
 ---
 
 # Brae Human (Small Stature Variant)

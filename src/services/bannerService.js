@@ -1,5 +1,6 @@
 import { doc, onSnapshot, setDoc } from 'firebase/firestore';
 import { db } from '../firebase.js';
+import { getEffectiveUserHandle } from '../utils/personaValidationUtils.js';
 
 export const BANNER_COLOR_THEMES = {
   amber: {
@@ -602,7 +603,7 @@ export const saveHomeBanner = async (newConfig, user = null, position = 'top') =
     message: normalizedLines.join(' // ') || newConfig.message || 'NO TRANSMISSION ENTERED',
     updatedAt: now,
     _localUpdatedAt: nowMillis,
-    updatedBy: user?.displayName || user?.email || 'Operator'
+    updatedBy: getEffectiveUserHandle(user)
   };
 
   // 1. Immediately cache locally

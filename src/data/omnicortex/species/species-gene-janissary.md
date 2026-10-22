@@ -48,16 +48,13 @@ tech_level: 4 (Syndicate Black-Ops Tech)
 meta_level: 1 (Tactical Focus)
 homeworld: Syndicate Citadel Academies
 costs:
-  cp: 16
-  bp: 16
+  cp: 29
+  bp: 29
 modifiers:
   - target: Charisma
     value: -1
     type: attribute
     mode: inherent
-cp_cost: 16
-cp: 16
-bp: 16
 description: >-
   The Janissaries are precision-crafted corporate enforcers possessing
   surgically implanted targeters, adrenal pumps, and uncompromising tactical
@@ -84,6 +81,9 @@ keywords: >-
   tactical-discipline, obedience
 negative_keywords: 'creative-freethinking, rebellious, pacifist, emotional-expression'
 species_traits: *ref_0
+cp: 29
+bp: 29
+cp_cost: 29
 ---
 
 # Janissary (Syndicate Elite Enforcer)

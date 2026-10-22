@@ -39,16 +39,13 @@ tech_level: 3 (Standard)
 meta_level: 1 (Sensory Focus)
 homeworld: Noctis Rim Colonies
 costs:
-  cp: 9
-  bp: 9
+  cp: 15
+  bp: 15
 modifiers:
   - target: Agility
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 9
-cp: 9
-bp: 9
 description: >-
   B’Dren are slender humans native to tidally locked or twilight worlds. They
   possess dilated tapetum lucidum eyes providing superior nocturnal vision and
@@ -71,6 +68,9 @@ recommended_occupations:
 keywords: 'nocturnal, twilight-world, tapetum-eyes, low-light-reflex, dark-adapted'
 negative_keywords: 'blinding-sunlight, open-plains, desert-heat'
 species_traits: *ref_0
+cp: 15
+bp: 15
+cp_cost: 15
 ---
 
 # B’Dren Human (Nocturnal Variant)
@@ -89,7 +89,7 @@ B’Dren are slender humans native to tidally locked or twilight worlds. They po
 - **Stigma**: None
 
 ## Mechanics & Statblock
-- **CP Cost**: 11 CP
+- **CP Cost**: 15 CP
 - **Inherent Modifiers**: +1 Agility
 - **Bonus Skills**: +0 Skill Points
 - **Inherent Features**: Low Light Vision, Quick (+5ft Movement), Echo Sensitivity

@@ -66,8 +66,8 @@ tech_level: 4 (Integration)
 meta_level: 4 (Resonant with the Manelli)
 homeworld: Kitin Hive Worlds / Spire Foundries & Mecha Vaults
 costs:
-  cp: 33
-  bp: 33
+  cp: 35
+  bp: 35
 modifiers:
   - target: Intellect
     value: 2
@@ -85,9 +85,6 @@ modifiers:
     value: -2
     type: attribute
     mode: inherent
-cp_cost: 33
-cp: 33
-bp: 33
 description: >-
   The Syndess is the "Integration Expression," a specialized pilot strain
   resembling an elongated, multi-segmented larva roughly 3 feet long. Serving as
@@ -129,6 +126,9 @@ keywords: >-
   synaptic-integration, ghost-in-the-machine, chorus-synchronization,
   multidextrous-many-limbed, g-force-immunity
 negative_keywords: 'mechanical-cockpit, manual-controls, solitary-pilot'
+cp: 35
+bp: 35
+cp_cost: 35
 ---
 
 # Syndess (Kitin Pilot Expression / Multi-segmented Integration Strain)

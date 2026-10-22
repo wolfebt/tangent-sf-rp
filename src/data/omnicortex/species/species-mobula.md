@@ -41,8 +41,8 @@ tech_level: 3 (Hydro-Resonance Equipment)
 meta_level: 2 (Sonic Metaphysics)
 homeworld: The Oceanic Gas Giant of Pelagia
 costs:
-  cp: 19
-  bp: 19
+  cp: 21
+  bp: 21
 modifiers:
   - target: Agility
     value: 1
@@ -52,9 +52,6 @@ modifiers:
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 19
-cp: 19
-bp: 19
 description: >-
   Aquatic-aerial biforms with winged patagia, sonar echolocation, and the
   ability to glide through atmospheric currents or dive into oceanic depths.
@@ -81,6 +78,9 @@ keywords: >-
   gas-giant
 negative_keywords: 'confined-corridors, arid-desert, subterranean'
 species_traits: *ref_0
+cp: 21
+bp: 21
+cp_cost: 21
 ---
 
 # Mobula (Manta Biform)
@@ -99,7 +99,7 @@ Aquatic-aerial biforms with winged patagia, sonar echolocation, and the ability 
 - **Stigma**: Severe Xeno (-4)
 
 ## Mechanics & Statblock
-- **CP Cost**: 16 CP
+- **CP Cost**: 21 CP
 - **Inherent Modifiers**: +1 Agility, +1 Stamina
 - **Bonus Skills**: +0 Skill Points
 - **Inherent Features**: Adapted (Aquatic), Amphibious, Alternate Form (Manta Ray Flight Form), Echolocation (60ft Sonar), Uncanny Sense (Underwater Vision), Swim / Glide Speed (40ft)

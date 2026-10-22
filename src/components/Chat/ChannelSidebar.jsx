@@ -35,6 +35,7 @@ import { useVoiceChat } from '../../context/VoiceChatContext';
 import { useAuth } from '../../context/AuthContext';
 import { useGroup } from '../../context/GroupContext';
 import { AudioService } from '../../services/audioService.js';
+import { getEffectiveUserHandle } from '../../utils/personaValidationUtils';
 import { useConfirm } from '../../context/ConfirmContext';
 import { ChannelSettingsModal } from './ChannelSettingsModal';
 import { QuickTeamInviteModal } from './QuickTeamInviteModal';
@@ -566,7 +567,7 @@ export const ChannelSidebar = ({
         const userDoc = userDirectory.find(u => u.uid === memberUid);
         const isSelf = memberUid === currentUser?.uid;
         const isOnline = Boolean(userDoc?.isOnline || isSelf);
-        const handle = detail.handle || detail.userHandle || userDoc?.userHandle || userDoc?.displayName || (isSelf ? (currentUser?.displayName || currentUser?.email?.split('@')[0]) : 'Operator');
+        const handle = detail.handle || detail.userHandle || (userDoc ? getEffectiveUserHandle(userDoc) : (isSelf ? getEffectiveUserHandle(currentUser) : 'Operator'));
         const isGM = memberUid === matchedGroup.creatorId || (Array.isArray(matchedGroup.coArchitects) && matchedGroup.coArchitects.includes(memberUid));
         const role = detail.role || (isGM ? 'GM' : 'Operative');
         const persona = detail.persona;
@@ -606,7 +607,7 @@ export const ChannelSidebar = ({
         const userDoc = ownerUid ? userDirectory.find(u => u.uid === ownerUid) : null;
         const isSelf = ownerUid === currentUser?.uid;
         const isOnline = Boolean(userDoc?.isOnline || isSelf);
-        const handle = cm.ownerHandle || userDoc?.userHandle || userDoc?.displayName || (isSelf ? (currentUser?.displayName || currentUser?.email?.split('@')[0]) : 'Operator');
+        const handle = cm.ownerHandle || (userDoc ? getEffectiveUserHandle(userDoc) : (isSelf ? getEffectiveUserHandle(currentUser) : 'Operator'));
         const pName = cm.name || cm['char-name'] || 'Persona';
         const characterPresence = computeCharPresence(userDoc, isSelf, personaId);
 
@@ -643,7 +644,7 @@ export const ChannelSidebar = ({
         const userDoc = userDirectory.find(u => u.uid === uid);
         const isSelf = uid === currentUser?.uid;
         const isOnline = Boolean(userDoc?.isOnline || isSelf);
-        const handle = userDoc?.userHandle || userDoc?.displayName || (isSelf ? (currentUser?.displayName || currentUser?.email?.split('@')[0]) : 'Operator');
+        const handle = userDoc ? getEffectiveUserHandle(userDoc) : (isSelf ? getEffectiveUserHandle(currentUser) : 'Operator');
         const isGM = (matchedGroup && uid === matchedGroup.creatorId) || uid === channel.createdById;
         const role = isGM ? 'GM' : 'Reserve';
         const characterPresence = computeCharPresence(userDoc, isSelf, null);

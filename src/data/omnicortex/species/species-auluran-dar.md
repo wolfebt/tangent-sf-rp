@@ -47,16 +47,13 @@ tech_level: 3 (Bio-Tech Weapons & Neural Symbionts)
 meta_level: 2 (Bio-Psionics)
 homeworld: Aulura Prime (The Spore Arcologies)
 costs:
-  cp: 26
-  bp: 26
+  cp: 34
+  bp: 34
 modifiers:
   - target: Agility
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 26
-cp: 26
-bp: 26
 description: >-
   The Dar are the hunter and scout caste of the Auluran race. Feline, arboreal,
   and biologically sophisticated, they wield living symbiote weapons and
@@ -85,6 +82,9 @@ keywords: >-
   psychic
 negative_keywords: 'clumsy, heavy-armor, aquatic, cybernetic-dependent, pacifist'
 species_traits: *ref_0
+cp: 34
+bp: 34
+cp_cost: 34
 ---
 
 # Dar (Auluran Hunter Caste)

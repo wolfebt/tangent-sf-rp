@@ -50,6 +50,8 @@ import {
 import { DEFAULT_SPECIES } from '../data/speciesData.js';
 import { ALL_CANONICAL_SKILLS } from '../data/skillsData.js';
 import { DEFAULT_SPECIES_TRAITS } from '../data/speciesTraitsData.js';
+import { DEFAULT_FEATURES } from '../data/featuresData.js';
+import { DEFAULT_SPECIES_DISADVANTAGES } from '../data/speciesDisadvantagesData.js';
 
 import {
   calculateCreditValue,
@@ -281,6 +283,8 @@ export function calculateSpeciesSpeeds(movementSelections = ['normal'], size = '
  * @returns {object} Total BP breakdown, itemized components, and budget validation
  */
 export function calculateSpeciesBP(params = {}) {
+  const modsArray = Array.isArray(params.modifiers) ? params.modifiers : [];
+
   // Normalize parameters
   let type = params.type || params.species_type || 'Humanoid';
   let size = params.size || params.species_size || 'Medium';
@@ -292,7 +296,7 @@ export function calculateSpeciesBP(params = {}) {
     ...(Array.isArray(params.species_traits) ? params.species_traits : []),
     ...(Array.isArray(params.inherent_traits) ? params.inherent_traits : [])
   ];
-  // Legacy support: ONLY include items from inherent_features if they explicitly represent a species trait
+  // Legacy support: ONLY include items from inherent_features in traits if they explicitly represent a species trait
   if (Array.isArray(params.inherent_features)) {
     params.inherent_features.forEach(item => {
       const id = typeof item === 'object' ? (item.id || item.name || '') : String(item);
@@ -301,20 +305,45 @@ export function calculateSpeciesBP(params = {}) {
       }
     });
   }
+  const stripCategoryPrefix = (str) => String(str || '')
+    .toLowerCase()
+    .trim()
+    .replace(/^trait-species-/, '')
+    .replace(/^(trait|feature|ability|discipline|physical|defensive|special|combat|sensory|general|meta|karma|skill|social)[-_]/, '')
+    .replace(/-/g, '_');
+
   const seenTraitKeys = new Set();
+  const seenTraitSlugs = new Set();
   const traits = [];
   rawTraits.forEach(item => {
     const rawId = typeof item === 'object' ? (item.id || item.code || item.name || '') : String(item);
     const cleanKey = rawId.toLowerCase().trim().replace(/^trait-species-/, '').replace(/^trait-/, '').replace(/-/g, '_');
+    const cleanSlug = stripCategoryPrefix(rawId);
     if (cleanKey && !seenTraitKeys.has(cleanKey)) {
       seenTraitKeys.add(cleanKey);
+      if (cleanSlug) seenTraitSlugs.add(cleanSlug);
       traits.push(item);
     }
   });
-  let disadvantages = [
+
+  const rawDisadvantages = [
     ...(Array.isArray(params.disadvantages) ? params.disadvantages : []),
-    ...(Array.isArray(params.inherent_disadvantages) ? params.inherent_disadvantages : [])
+    ...(Array.isArray(params.inherent_disadvantages) ? params.inherent_disadvantages : []),
+    ...(Array.isArray(params.hindrances) ? params.hindrances : []),
+    ...(Array.isArray(params.flaws) ? params.flaws : []),
+    ...modsArray.filter(m => m && m.type === 'disadvantage').map(m => m.target || m.name || m.id).filter(Boolean)
   ];
+  const seenDisKeys = new Set();
+  const disadvantages = [];
+  rawDisadvantages.forEach(item => {
+    const rawId = typeof item === 'object' ? (item.id || item.code || item.name || '') : String(item);
+    const cleanKey = rawId.toLowerCase().trim().replace(/^disadvantage-species-/, '').replace(/^disadvantage-/, '').replace(/^hindrance-/, '').replace(/-/g, '_');
+    if (cleanKey && !seenDisKeys.has(cleanKey)) {
+      seenDisKeys.add(cleanKey);
+      disadvantages.push(item);
+    }
+  });
+
   let budgetLevel = params.budgetLevel || params.budget_level || 'Standard';
 
   // Normalize type
@@ -353,50 +382,85 @@ export function calculateSpeciesBP(params = {}) {
     return m?.id || 'normal';
   });
 
-  // Normalize attributes from object (supporting con/dex aliases and full names)
-  if (params.attributes && typeof params.attributes === 'object') {
-    Object.entries(params.attributes).forEach(([k, v]) => {
-      const key = String(k).toLowerCase();
-      const val = Number(v || 0);
-      if (key.startsWith('str')) attributes.str = (attributes.str || 0) + val;
-      else if (key.startsWith('agi') || key.startsWith('dex')) attributes.agi = (attributes.agi || 0) + val;
-      else if (key.startsWith('sta') || key.startsWith('con')) attributes.sta = (attributes.sta || 0) + val;
-      else if (key.startsWith('int')) attributes.int = (attributes.int || 0) + val;
-      else if (key.startsWith('wis')) attributes.wis = (attributes.wis || 0) + val;
-      else if (key.startsWith('cha')) attributes.cha = (attributes.cha || 0) + val;
-    });
-  }
+  // Resolve Fixed Attribute Modifiers without double-counting duplicate representations
+  const addAttrVal = (targetObj, keyStr, rawVal) => {
+    const key = String(keyStr || '').toLowerCase().trim();
+    const val = Number(rawVal || 0);
+    if (!val || isNaN(val)) return;
+    if (key.startsWith('str')) targetObj.str = (targetObj.str || 0) + val;
+    else if (key.startsWith('agi') || key.startsWith('dex')) targetObj.agi = (targetObj.agi || 0) + val;
+    else if (key.startsWith('sta') || key.startsWith('con')) targetObj.sta = (targetObj.sta || 0) + val;
+    else if (key.startsWith('int')) targetObj.int = (targetObj.int || 0) + val;
+    else if (key.startsWith('wis')) targetObj.wis = (targetObj.wis || 0) + val;
+    else if (key.startsWith('cha')) targetObj.cha = (targetObj.cha || 0) + val;
+  };
 
-  // Support skill points directly from bonus_skills, bonus_skill_points, skillPoints, or skill_points
-  const rawPoints = params.bonus_skills ?? params.bonus_skill_points ?? params.skillPoints ?? params.skill_points;
-  if (rawPoints !== undefined && rawPoints !== null) {
-    const numPoints = Number(rawPoints);
-    if (!isNaN(numPoints) && !skillBundles) {
-      skillBundles = Math.floor(numPoints / 5);
+  if (params.attributes && typeof params.attributes === 'object') {
+    Object.entries(params.attributes).forEach(([k, v]) => addAttrVal(attributes, k, v));
+  }
+  const hasAttrsFromMap = Object.values(attributes).some(v => Number(v || 0) !== 0);
+
+  if (!hasAttrsFromMap) {
+    const hasFlatBonusAttrs = ['bonus_str', 'bonus_agi', 'bonus_sta', 'bonus_int', 'bonus_wis', 'bonus_cha']
+      .some(k => Number(params[k] || 0) !== 0);
+    if (hasFlatBonusAttrs) {
+      addAttrVal(attributes, 'str', params.bonus_str);
+      addAttrVal(attributes, 'agi', params.bonus_agi);
+      addAttrVal(attributes, 'sta', params.bonus_sta);
+      addAttrVal(attributes, 'int', params.bonus_int);
+      addAttrVal(attributes, 'wis', params.bonus_wis);
+      addAttrVal(attributes, 'cha', params.bonus_cha);
+    } else {
+      const attrModList = (Array.isArray(params.attribute_modifiers) && params.attribute_modifiers.length > 0)
+        ? params.attribute_modifiers
+        : (Array.isArray(params.inherent_attribute_modifiers) && params.inherent_attribute_modifiers.length > 0)
+        ? params.inherent_attribute_modifiers
+        : modsArray.filter(m => m && m.type === 'attribute' && m.mode === 'inherent');
+      attrModList.forEach(mod => {
+        if (!mod) return;
+        addAttrVal(attributes, mod.attribute || mod.attr || mod.target, mod.bonus ?? mod.value ?? 0);
+      });
     }
   }
 
-  // Inherent attributes from species modifiers array
-  if (Array.isArray(params.inherent_attribute_modifiers)) {
-    params.inherent_attribute_modifiers.forEach(mod => {
-      const attr = String(mod.attribute || mod.attr || '').toLowerCase();
-      const bonus = Number(mod.bonus || mod.value || 0);
-      if (attr.startsWith('str')) attributes.str = (attributes.str || 0) + bonus;
-      else if (attr.startsWith('agi') || attr.startsWith('dex')) attributes.agi = (attributes.agi || 0) + bonus;
-      else if (attr.startsWith('sta') || attr.startsWith('con')) attributes.sta = (attributes.sta || 0) + bonus;
-      else if (attr.startsWith('int')) attributes.int = (attributes.int || 0) + bonus;
-      else if (attr.startsWith('wis')) attributes.wis = (attributes.wis || 0) + bonus;
-      else if (attr.startsWith('cha')) attributes.cha = (attributes.cha || 0) + bonus;
+  // Resolve Flexible Attribute Pool Points (5 CP per primary/physical/mental/any attribute point, 1 CP per sub-attribute point)
+  let attrPoolPrimaryPts = Number(params.bonus_attribute_points || 0) +
+    Number(params.bonus_attribute_points_physical || 0) +
+    Number(params.bonus_attribute_points_mental || 0) +
+    Number(params.bonus_attribute_points_primary || 0);
+  const attrPoolSubPts = Number(params.bonus_attribute_points_sub || 0);
+  if (attrPoolPrimaryPts === 0 && attrPoolSubPts === 0) {
+    modsArray.filter(m => m && m.type === 'attribute' && m.mode === 'bonus_pool').forEach(m => {
+      const targetStr = String(m.target || '').toLowerCase();
+      if (targetStr.includes('sub')) {
+        // handled if sub pool
+      } else {
+        attrPoolPrimaryPts += Number(m.value || m.bonus || 0);
+      }
     });
   }
+  const attributePoolBP = (attrPoolPrimaryPts * 5) + (attrPoolSubPts * 1);
 
-  // Bonus attributes flat fields
-  if (params.bonus_str) attributes.str = (attributes.str || 0) + Number(params.bonus_str);
-  if (params.bonus_agi) attributes.agi = (attributes.agi || 0) + Number(params.bonus_agi);
-  if (params.bonus_sta) attributes.sta = (attributes.sta || 0) + Number(params.bonus_sta);
-  if (params.bonus_int) attributes.int = (attributes.int || 0) + Number(params.bonus_int);
-  if (params.bonus_wis) attributes.wis = (attributes.wis || 0) + Number(params.bonus_wis);
-  if (params.bonus_cha) attributes.cha = (attributes.cha || 0) + Number(params.bonus_cha);
+  // Support skill points & skill pools from skillBundles, bonus_skills, bonus_skill_points, skillPoints, skill_points, or modifiers
+  let skillPoolPoints = 0;
+  if (Number(skillBundles) > 0) {
+    skillPoolPoints = Number(skillBundles) * 5;
+  } else {
+    let rawPoints = params.bonus_skills ?? params.bonus_skill_points ?? params.skillPoints ?? params.skill_points;
+    if (rawPoints === undefined || rawPoints === null) {
+      const modSkillPools = modsArray.filter(m => m && m.type === 'skill' && m.mode === 'bonus_pool');
+      if (modSkillPools.length > 0) {
+        rawPoints = modSkillPools.reduce((sum, m) => sum + Number(m.value || m.bonus || 0), 0);
+      }
+    }
+    if (rawPoints !== undefined && rawPoints !== null) {
+      const numPoints = Number(rawPoints);
+      if (!isNaN(numPoints) && numPoints > 0) {
+        skillPoolPoints = numPoints;
+        skillBundles = Math.floor(numPoints / 5);
+      }
+    }
+  }
 
   // 1. Species Type BP (Multi-Type Support & Duplicate Trait Refund)
   const rawTypes = Array.isArray(type) ? type : (type ? [type] : ['Humanoid']);
@@ -455,20 +519,33 @@ export function calculateSpeciesBP(params = {}) {
   const calculatedSpeeds = speedData.speeds;
   const speedsFormatted = speedData.speedsFormatted;
 
-  // 4. Attribute Modifiers (Modular Matrix: 1 point = 4 BP, -1 point = -4 BP refund)
-  let attributeBP = 0;
+  // 4. Attribute Modifiers & Attribute Pools (1 point = 5 CP, -1 point = -5 CP refund)
+  let fixedAttributeBP = 0;
   const itemizedAttributes = [];
   for (const attr of ['str', 'agi', 'sta', 'int', 'wis', 'cha']) {
     const val = Number(attributes[attr] || 0);
     if (val !== 0) {
-      const bpVal = val * 4;
-      attributeBP += bpVal;
-      itemizedAttributes.push({ attr: attr.toUpperCase(), value: val, bp: bpVal });
+      const bpVal = val * 5;
+      fixedAttributeBP += bpVal;
+      itemizedAttributes.push({ attr: attr.toUpperCase(), value: val, bp: bpVal, cp: bpVal });
     }
   }
+  if (attributePoolBP !== 0) {
+    const totalPoolPts = attrPoolPrimaryPts + attrPoolSubPts;
+    itemizedAttributes.push({
+      attr: 'ATTR POOL',
+      value: totalPoolPts,
+      bp: attributePoolBP,
+      cp: attributePoolBP,
+      isPool: true
+    });
+  }
+  const attributeBP = fixedAttributeBP + attributePoolBP;
 
-  // 5. Skill Points (Modular Matrix: Each +5 bundle costs 4 BP / 0.8 BP per point)
-  const skillsBP = Math.max(0, Number(skillBundles || 0)) * 4;
+  // 5. Skill Points & Skill Pools (Each +5 bundle costs 5 CP / 1 CP per skill point)
+  const skillsBP = Number(skillBundles) > 0 && skillPoolPoints === Number(skillBundles) * 5
+    ? Math.max(0, Number(skillBundles || 0)) * 5
+    : Math.max(0, Math.round(skillPoolPoints));
 
   // 6. Traits Catalog (Basic 1 BP, Advanced 2 BP, Elite 4 BP)
   let traitsBP = 0;
@@ -528,18 +605,88 @@ export function calculateSpeciesBP(params = {}) {
     }
   }
 
-  // 7. Disadvantages (Reduce BP)
+  // 6b. Granted Features (inherent_features) & Feature Pools (bonus_features)
+  let grantedFeaturesBP = 0;
+  const itemizedFeatures = [];
+  const rawInherentFeatures = (Array.isArray(params.inherent_features) && params.inherent_features.length > 0)
+    ? params.inherent_features
+    : modsArray.filter(m => m && m.type === 'feature' && m.mode === 'inherent').map(m => m.target || m.name || m.id).filter(Boolean);
+  const seenFeatureKeys = new Set();
+  const allFeaturesCatalog = Array.isArray(DEFAULT_FEATURES) ? DEFAULT_FEATURES : [];
+
+  rawInherentFeatures.forEach(f => {
+    const rawFeatId = typeof f === 'object' ? (f.id || f.code || f.name || '') : String(f || '');
+    const lowerId = rawFeatId.toLowerCase().trim();
+    if (!lowerId) return;
+    // Skip items that are actually species traits or mirrors of already-counted species traits
+    if (lowerId.startsWith('trait-') || lowerId.includes('trait')) return;
+    const cleanKey = lowerId.replace(/^feature-/, '').replace(/-/g, '_');
+    const cleanSlug = stripCategoryPrefix(lowerId);
+    if (seenTraitKeys.has(cleanKey) || seenTraitSlugs.has(cleanSlug)) return;
+    if (cleanSlug === 'awakened' && seenTraitSlugs.has('awakened_psychic')) return;
+    if (cleanSlug === 'telepathy' && seenTraitSlugs.has('telepathic')) return;
+    if (cleanSlug === 'swarm_fast_heal_regeneration' && seenTraitSlugs.has('fast_heal')) return;
+    if (cleanSlug === 'adaptive_aspects' && seenTraitSlugs.has('adaptive_features')) return;
+    if (cleanSlug === 'blind_sight' && seenTraitSlugs.has('blind_sight_swarm')) return;
+    if (seenFeatureKeys.has(cleanKey)) return;
+    seenFeatureKeys.add(cleanKey);
+
+    const foundFeat = allFeaturesCatalog.find(item => {
+      if (!item) return false;
+      const itemId = (item.id || '').toLowerCase().trim();
+      const itemName = (item.name || '').toLowerCase().trim();
+      const itemSlug = stripCategoryPrefix(itemId);
+      return itemId === lowerId || itemName === lowerId || itemId.replace(/-/g, '_') === cleanKey || (cleanSlug && itemSlug === cleanSlug);
+    });
+
+    const featBP = Number(foundFeat?.cp ?? foundFeat?.bp ?? (typeof f === 'object' ? (f.cp ?? f.bp) : undefined) ?? 3);
+    grantedFeaturesBP += featBP;
+    itemizedFeatures.push({
+      id: foundFeat?.id || rawFeatId,
+      name: foundFeat?.name || (typeof f === 'object' ? (f.name || f.id) : rawFeatId),
+      bp: featBP,
+      cp: featBP,
+      isPool: false
+    });
+  });
+
+  let rawBonusFeatures = params.bonus_features ?? params.bonus_feature_points ?? params.feature_pool;
+  if (rawBonusFeatures === undefined || rawBonusFeatures === null) {
+    const modFeaturePools = modsArray.filter(m => m && m.type === 'feature' && m.mode === 'bonus_pool');
+    if (modFeaturePools.length > 0) {
+      rawBonusFeatures = modFeaturePools.reduce((sum, m) => sum + Number(m.value || m.bonus || 0), 0);
+    }
+  }
+  const bonusFeatureCount = Math.max(0, Number(rawBonusFeatures || 0));
+  const featurePoolBP = bonusFeatureCount * 3;
+  if (bonusFeatureCount > 0) {
+    itemizedFeatures.push({
+      id: 'feature_pool',
+      name: `Feature Pool (+${bonusFeatureCount} Feature${bonusFeatureCount > 1 ? 's' : ''})`,
+      count: bonusFeatureCount,
+      bp: featurePoolBP,
+      cp: featurePoolBP,
+      isPool: true
+    });
+  }
+  const featuresBP = grantedFeaturesBP + featurePoolBP;
+
+  // 7. Disadvantages / Hindrances / Flaws (Reduce BP)
   let disadvantagesRefund = 0;
   const itemizedDisadvantages = [];
+  const allDisadvantagesCatalog = [
+    ...(Array.isArray(SPECIES_DISADVANTAGES) ? SPECIES_DISADVANTAGES : []),
+    ...(Array.isArray(DEFAULT_SPECIES_DISADVANTAGES) ? DEFAULT_SPECIES_DISADVANTAGES : [])
+  ];
   if (Array.isArray(disadvantages)) {
     for (const d of disadvantages) {
       const disId = typeof d === 'string' ? d : (d?.id || d?.code || d?.name);
-      const cleanDisId = (disId || '').toString().toLowerCase().replace(/^disadvantage-species-/, '').replace(/^disadvantage-/, '').replace(/-/g, '_');
+      const cleanDisId = (disId || '').toString().toLowerCase().replace(/^disadvantage-species-/, '').replace(/^disadvantage-/, '').replace(/^hindrance-/, '').replace(/-/g, '_');
       const rawQuery = (disId || '').toString().trim().toLowerCase();
       const normQuery = rawQuery.replace(/[^a-z0-9]/g, '');
 
       // 1. Exact ID or Exact Name Match
-      let found = SPECIES_DISADVANTAGES.find(item => {
+      let found = allDisadvantagesCatalog.find(item => {
         if (!item) return false;
         if (item.id === disId || item.code === disId || item.id === cleanDisId) return true;
         const itemName = (item.name || '').toLowerCase();
@@ -548,7 +695,7 @@ export function calculateSpeciesBP(params = {}) {
 
       // 2. Normalized Name Match
       if (!found) {
-        found = SPECIES_DISADVANTAGES.find(item => {
+        found = allDisadvantagesCatalog.find(item => {
           if (!item || !item.name) return false;
           const itemNorm = item.name.toLowerCase().replace(/[^a-z0-9]/g, '');
           return itemNorm === normQuery;
@@ -557,7 +704,7 @@ export function calculateSpeciesBP(params = {}) {
 
       // 3. Substring match
       if (!found) {
-        const candidates = SPECIES_DISADVANTAGES.filter(item => {
+        const candidates = allDisadvantagesCatalog.filter(item => {
           if (!item || !item.name) return false;
           const itemName = item.name.toLowerCase();
           return itemName.includes(rawQuery) || rawQuery.includes(itemName);
@@ -569,18 +716,18 @@ export function calculateSpeciesBP(params = {}) {
       }
 
       if (found) {
-        const refVal = Number(found.refundBP || Math.abs(found.costBP) || 0);
+        const refVal = Number(found.refundBP ?? found.cp_refund ?? Math.abs(found.costBP ?? found.cp ?? found.bp ?? 0));
         disadvantagesRefund += refVal;
-        itemizedDisadvantages.push({ id: found.id, name: found.name, refundBP: refVal, type: found.type });
-      } else if (typeof d === 'object' && (d.refundBP || d.costBP)) {
-        const refVal = Number(d.refundBP || Math.abs(d.costBP));
+        itemizedDisadvantages.push({ id: found.id, name: found.name, refundBP: refVal, type: found.type || found.classification || 'Physical' });
+      } else if (typeof d === 'object' && (d.refundBP !== undefined || d.costBP !== undefined || d.cp_refund !== undefined)) {
+        const refVal = Number(d.refundBP ?? d.cp_refund ?? Math.abs(d.costBP || 0));
         disadvantagesRefund += refVal;
         itemizedDisadvantages.push({ id: d.id || 'custom_dis', name: d.name || 'Custom Disadvantage', refundBP: refVal, type: d.type || 'Physical' });
       }
     }
   }
 
-  // 7. Social Stigma CP Rebate (BASTION Rules: Minor -1, Typical -2, Severe -4, Extreme -6)
+  // 8. Social Stigma CP Rebate (BASTION Rules: Minor -1, Typical -2, Severe -4, Extreme -6)
   let stigmaRefund = 0;
   const rawStigmaStr = String(params.social_stigma || params.stigma || '').trim();
   if (rawStigmaStr && rawStigmaStr !== 'None' && !rawStigmaStr.toLowerCase().startsWith('none')) {
@@ -601,7 +748,7 @@ export function calculateSpeciesBP(params = {}) {
     }
   }
 
-  let calculatedNetBP = typeBP + sizeBP + movementBP + attributeBP + skillsBP + traitsBP - disadvantagesRefund - stigmaRefund;
+  let calculatedNetBP = typeBP + sizeBP + movementBP + attributeBP + skillsBP + traitsBP + featuresBP - disadvantagesRefund - stigmaRefund;
 
   // If explicit cost is given and calculated components were empty
   if (params.costs?.bp !== undefined && calculatedNetBP === 0 && Number(params.costs.bp) > 0) {
@@ -635,10 +782,20 @@ export function calculateSpeciesBP(params = {}) {
       movementBP,
       attributeCP: attributeBP,
       attributeBP,
+      fixedAttributeCP: fixedAttributeBP,
+      fixedAttributeBP,
+      attributePoolCP: attributePoolBP,
+      attributePoolBP,
       skillsCP: skillsBP,
       skillsBP,
       traitsCP: traitsBP,
       traitsBP,
+      featuresCP: featuresBP,
+      featuresBP,
+      grantedFeaturesCP: grantedFeaturesBP,
+      grantedFeaturesBP,
+      featurePoolCP: featurePoolBP,
+      featurePoolBP,
       disadvantagesRefund,
       stigmaRefund
     },
@@ -648,8 +805,9 @@ export function calculateSpeciesBP(params = {}) {
       movement: itemizedMovement,
       speeds: calculatedSpeeds,
       attributes: itemizedAttributes,
-      skills: { bundles: skillBundles, bp: skillsBP, cp: skillsBP },
+      skills: { bundles: skillBundles, points: skillPoolPoints, bp: skillsBP, cp: skillsBP },
       traits: itemizedTraits,
+      features: itemizedFeatures,
       disadvantages: itemizedDisadvantages,
       stigma: { text: rawStigmaStr, refundBP: stigmaRefund, refundCP: stigmaRefund }
     }
@@ -682,7 +840,9 @@ export function calculateFullSpeciesCost(speciesInput, dbData = {}) {
         attributeBP: 0,
         skillsBP: 0,
         traitsBP: 0,
-        disadvantagesRefund: 0
+        featuresBP: 0,
+        disadvantagesRefund: 0,
+        stigmaRefund: 0
       },
       itemizedList: [],
       summaryText: 'No Species (0 CP)'
@@ -694,22 +854,39 @@ export function calculateFullSpeciesCost(speciesInput, dbData = {}) {
   if (typeof speciesInput === 'string') {
     const list = (dbData.species && dbData.species.length > 0) ? dbData.species : DEFAULT_SPECIES;
     const query = speciesInput.trim().toLowerCase();
-    speciesObj = list.find(s => 
-      (s.name || '').toLowerCase() === query || 
-      (s.title || '').toLowerCase() === query || 
-      (s.id || '').toLowerCase() === query ||
-      (Array.isArray(s.aliases) && s.aliases.some(a => a.toLowerCase() === query)) ||
-      (query.includes('celestine') && (s.id.includes('alterian') || s.name.toLowerCase().includes('alterian'))) ||
-      (query.includes('nocturne') && (s.id.includes('kovian') || s.name.toLowerCase().includes('kovian')))
-    ) || { name: speciesInput };
+    speciesObj = list.find(s => {
+      const sName = (s.name || '').toLowerCase().trim();
+      const sTitle = (s.title || '').toLowerCase().trim();
+      const sId = (s.id || '').toLowerCase().trim();
+      const sBaseName = sName.replace(/\s*\(.*?\)\s*/g, '').replace(/\s+human$/i, '').trim();
+      return sName === query ||
+        sTitle === query ||
+        sId === query ||
+        sBaseName === query ||
+        sId.endsWith(`-${query.replace(/[^a-z0-9]+/g, '-')}`) ||
+        (Array.isArray(s.aliases) && s.aliases.some(a => a.toLowerCase() === query)) ||
+        (query.includes('celestine') && (sId.includes('alterian') || sName.includes('alterian'))) ||
+        (query.includes('nocturne') && (sId.includes('kovian') || sName.includes('kovian')));
+    }) || { name: speciesInput };
   }
 
   const speciesName = speciesObj.name || speciesObj.title || (typeof speciesInput === 'string' ? speciesInput : 'Unknown Species');
 
-  // Compute BP/CP breakdown
+  // Compute BP/CP breakdown from all listed species package components
   const bpData = calculateSpeciesBP(speciesObj);
 
-  // If explicit cp/cost is specified in catalog, use document standard or computed total
+  const hasCalculatedComponents =
+    bpData.totalCPUsed > 0 ||
+    bpData.breakdown.typeBP > 0 ||
+    bpData.breakdown.sizeBP > 0 ||
+    bpData.breakdown.movementBP > 0 ||
+    bpData.breakdown.attributeBP !== 0 ||
+    bpData.breakdown.skillsBP > 0 ||
+    bpData.breakdown.traitsBP > 0 ||
+    bpData.breakdown.featuresBP > 0 ||
+    bpData.breakdown.disadvantagesRefund > 0 ||
+    bpData.breakdown.stigmaRefund > 0;
+
   const explicitCost = (speciesObj.costs?.cp !== undefined && speciesObj.costs?.cp !== null)
     ? Number(speciesObj.costs.cp)
     : ((speciesObj.costs?.bp !== undefined && speciesObj.costs?.bp !== null)
@@ -717,7 +894,9 @@ export function calculateFullSpeciesCost(speciesInput, dbData = {}) {
       : ((speciesObj.cp_cost !== undefined && speciesObj.cp_cost !== null)
         ? Number(speciesObj.cp_cost)
         : ((speciesObj.cp !== undefined && speciesObj.cp !== null) ? Number(speciesObj.cp) : null)));
-  const finalCost = explicitCost !== null && !isNaN(explicitCost) ? explicitCost : (bpData.totalCPUsed ?? bpData.totalBPUsed);
+  const finalCost = hasCalculatedComponents
+    ? (bpData.totalCPUsed ?? bpData.totalBPUsed)
+    : (explicitCost !== null && !isNaN(explicitCost) ? explicitCost : (bpData.totalCPUsed ?? bpData.totalBPUsed));
 
   const itemizedList = [];
   if (bpData.breakdown.typeBP > 0) {
@@ -733,13 +912,16 @@ export function calculateFullSpeciesCost(speciesInput, dbData = {}) {
     itemizedList.push({ category: 'Attribute Modifiers', name: `${bpData.breakdown.attributeBP >= 0 ? '+' : ''}${bpData.breakdown.attributeBP} CP`, bp: bpData.breakdown.attributeBP, cp: bpData.breakdown.attributeBP });
   }
   if (bpData.breakdown.skillsBP > 0) {
-    itemizedList.push({ category: 'Skill Points', name: `${bpData.breakdown.skillsBP} CP`, bp: bpData.breakdown.skillsBP, cp: bpData.breakdown.skillsBP });
+    itemizedList.push({ category: 'Skill Pool', name: `${bpData.breakdown.skillsBP} CP`, bp: bpData.breakdown.skillsBP, cp: bpData.breakdown.skillsBP });
   }
   if (bpData.breakdown.traitsBP > 0) {
     itemizedList.push({ category: 'Species Traits', name: `${bpData.itemized.traits.length} Traits (${bpData.breakdown.traitsBP} CP)`, bp: bpData.breakdown.traitsBP, cp: bpData.breakdown.traitsBP });
   }
+  if (bpData.breakdown.featuresBP > 0) {
+    itemizedList.push({ category: 'Features & Pools', name: `${bpData.breakdown.featuresBP} CP`, bp: bpData.breakdown.featuresBP, cp: bpData.breakdown.featuresBP });
+  }
   if (bpData.breakdown.disadvantagesRefund > 0) {
-    itemizedList.push({ category: 'Disadvantages (Refund)', name: `-${bpData.breakdown.disadvantagesRefund} CP`, bp: -bpData.breakdown.disadvantagesRefund, cp: -bpData.breakdown.disadvantagesRefund });
+    itemizedList.push({ category: 'Hindrances / Flaws (Refund)', name: `-${bpData.breakdown.disadvantagesRefund} CP`, bp: -bpData.breakdown.disadvantagesRefund, cp: -bpData.breakdown.disadvantagesRefund });
   }
   if (bpData.breakdown.stigmaRefund > 0) {
     itemizedList.push({ category: 'Social Stigma (Rebate)', name: `-${bpData.breakdown.stigmaRefund} CP (${bpData.itemized.stigma?.text || 'Stigma'})`, bp: -bpData.breakdown.stigmaRefund, cp: -bpData.breakdown.stigmaRefund });
@@ -752,6 +934,7 @@ export function calculateFullSpeciesCost(speciesInput, dbData = {}) {
   if (bpData.breakdown.attributeBP) summaryParts.push(`Attr: ${bpData.breakdown.attributeBP} CP`);
   if (bpData.breakdown.skillsBP) summaryParts.push(`Skills: ${bpData.breakdown.skillsBP} CP`);
   if (bpData.breakdown.traitsBP) summaryParts.push(`Traits: ${bpData.breakdown.traitsBP} CP`);
+  if (bpData.breakdown.featuresBP) summaryParts.push(`Features: ${bpData.breakdown.featuresBP} CP`);
   if (bpData.breakdown.disadvantagesRefund) summaryParts.push(`Refund: -${bpData.breakdown.disadvantagesRefund} CP`);
   if (bpData.breakdown.stigmaRefund) summaryParts.push(`Stigma: -${bpData.breakdown.stigmaRefund} CP`);
 
@@ -1106,11 +1289,11 @@ export function calculateCompanionBP({
     }
   }
 
-  // 3. Custom Attributes (4 BP per +1)
+  // 3. Custom Attributes (5 BP per +1)
   if (attributes && typeof attributes === 'object') {
     for (const attr of ['str', 'agi', 'sta', 'int', 'wis', 'cha']) {
       const val = Number(attributes[attr] || 0);
-      bpTotal += val * 4;
+      bpTotal += val * 5;
     }
   }
 

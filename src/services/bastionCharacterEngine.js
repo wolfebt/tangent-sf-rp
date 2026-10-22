@@ -57,7 +57,7 @@ const mapToAttrKey = (name) => {
   if (lower.includes('agility') || lower.includes('reflex')) return 'attr-agility';
   if (lower.includes('stamina') || lower.includes('fortitude') || lower.includes('con')) return 'attr-stamina';
   if (lower.includes('intellect') || lower.includes('logic') || lower.includes('reason')) return 'attr-intellect';
-  if (lower.includes('wisdom') || lower.includes('will')) return 'attr-wisdom';
+  if (lower.includes('wisdom') || lower.includes('will') || lower.includes('perception')) return 'attr-wisdom';
   if (lower.includes('charisma') || lower.includes('etiquette') || lower.includes('social')) return 'attr-charisma';
   return 'attr-strength';
 };
@@ -77,7 +77,8 @@ export const CONCEPT_ARCHETYPE_MAP = {
   blacksmith: 'The Armorer',
   crafter: 'The Maker',
   engineer: 'The Technician',
-  tank: 'The Shock Trooper',
+  tank: 'The Protector',
+  sentinel: 'The Protector',
   paladin: 'The Protector',
   defender: 'The Protector',
   assassin: 'The Silent Blade',
@@ -1266,11 +1267,6 @@ export const derivePillarAttributes = ({ archetype, species }) => {
 
   baseScores[primKey] = (baseScores[primKey] || 0) + 3;
   baseScores[secKey] = (baseScores[secKey] || 0) + 2;
-
-  // Add 1 point to stamina if not already allocated for vitals buffer
-  if (baseScores['attr-stamina'] === 0) {
-    baseScores['attr-stamina'] = 1;
-  }
 
   // Apply Species inherent attribute modifiers
   const speciesMods = {};
@@ -2676,7 +2672,7 @@ export const synthesizeCharacterWithBastion = ({
 
   // 1. Pillar 1: Archetype (The Anchor)
   const archetype = preferredArchetype
-    ? (archetypesList.find(a => a.name === preferredArchetype || a.id === preferredArchetype) || findClosestArchetype(prompt, archetypesList))
+    ? (archetypesList.find(a => a.name === preferredArchetype || a.id === preferredArchetype) || findClosestArchetype(`${preferredArchetype} ${prompt}`, archetypesList))
     : findClosestArchetype(prompt, archetypesList);
 
   const occuHint = preferredOccupation
@@ -2717,7 +2713,22 @@ export const synthesizeCharacterWithBastion = ({
 
   const attrData = derivePillarAttributes({ archetype, species });
   const activeRawAttrs = rawAttributes ? { ...rawAttributes } : attrData.rawAttributes;
-  const finalAttrs = rulesLedger.finalAttributes;
+  const purchasedBaseAttrs = {
+    'attr-strength': Number(activeRawAttrs['attr-strength'] || 0),
+    'attr-agility': Number(activeRawAttrs['attr-agility'] || 0),
+    'attr-stamina': Number(activeRawAttrs['attr-stamina'] || 0),
+    'attr-intellect': Number(activeRawAttrs['attr-intellect'] || 0),
+    'attr-wisdom': Number(activeRawAttrs['attr-wisdom'] || 0),
+    'attr-charisma': Number(activeRawAttrs['attr-charisma'] || 0),
+    'attr-might': ((Number(activeRawAttrs['attr-strength'] || 0)) * 2) + 2,
+    'attr-reflex': ((Number(activeRawAttrs['attr-agility'] || 0)) * 2) + 2,
+    'attr-fortitude': ((Number(activeRawAttrs['attr-stamina'] || 0)) * 2) + 2,
+    'attr-logic': ((Number(activeRawAttrs['attr-intellect'] || 0)) * 2) + 2,
+    'attr-reason': ((Number(activeRawAttrs['attr-intellect'] || 0)) * 2) + 2,
+    'attr-will': ((Number(activeRawAttrs['attr-wisdom'] || 0)) * 2) + 2,
+    'attr-willpower': ((Number(activeRawAttrs['attr-wisdom'] || 0)) * 2) + 2,
+    'attr-etiquette': ((Number(activeRawAttrs['attr-charisma'] || 0)) * 2) + 2
+  };
 
   const skillData = derivePillarSkills({ archetype, species, faction, origin, occupation, skillsList, techLevel, metaLevel: 3 });
   const traitFeatData = derivePillarTraitsAndFeatures({ archetype, species, faction, origin, occupation, featuresList, traitsList, techLevel, metaLevel: 3 });
@@ -2775,10 +2786,15 @@ export const synthesizeCharacterWithBastion = ({
     // Narrative & Pillar Identity
     ...narrativeData,
 
-    // Attributes & Sub-Attributes
-    ...finalAttrs,
+    // Attributes & Sub-Attributes (Purchased Base Attributes; species/identity modifiers are applied dynamically by FolioStatsContext)
+    ...purchasedBaseAttrs,
 
     // Skill Allocations & Bindings
+    archetypeAllocations: {
+      attributes: { ...(attrData.archetypeRawAttrs || {}) },
+      skills: {},
+      features: traitFeatData.features.filter(f => f.source === 'archetype').map(f => f.name)
+    },
     speciesAllocations: enrichedSpeciesAllocations,
     originAllocations: enrichedOriginAllocations,
     factionAllocations: enrichedFactionAllocations,

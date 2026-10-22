@@ -108,7 +108,7 @@ export const NetworkRosterView = ({ isCompact = false, fullStageMode = false, on
     operatorsBranch: false,
     personasBranch: false,
     onlineOperators: false,
-    offlineOperators: true,
+    offlineOperators: false,
     onlinePersonas: false,
     offlinePersonas: true
   });
@@ -537,7 +537,7 @@ export const NetworkRosterView = ({ isCompact = false, fullStageMode = false, on
                 NETWORK ROSTER
               </h3>
               <span className="text-[9.5px] font-mono text-emerald-400 block">
-                {onlineOperators.length} OPERATORS ACTIVE NOW
+                {onlineOperators.length} ACTIVE NOW // {userDirectory.length} REGISTERED OPERATORS
               </span>
             </div>
           </div>

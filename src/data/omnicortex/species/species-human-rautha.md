@@ -46,8 +46,8 @@ tech_level: 3 (Bio-Scanners & Lightweight Stealth Armor)
 meta_level: 2 (Predator Sense)
 homeworld: Rautha Prime
 costs:
-  cp: 30
-  bp: 30
+  cp: 36
+  bp: 36
 modifiers:
   - target: Agility
     value: 2
@@ -57,9 +57,6 @@ modifiers:
     value: 2
     type: attribute
     mode: inherent
-cp_cost: 30
-cp: 30
-bp: 30
 description: >-
   Feline-influenced human transhumans bred for high-speed reconnaissance, urban
   parkour, and stealth operations.
@@ -83,6 +80,9 @@ recommended_occupations:
 keywords: 'feline-reflexes, parkour, urban-predator, stealth-recon, desert-hunter'
 negative_keywords: 'slow, clumsy, heavy-armor, aquatic'
 species_traits: *ref_0
+cp: 36
+bp: 36
+cp_cost: 36
 ---
 
 # Rautha Human (Predator Variant)

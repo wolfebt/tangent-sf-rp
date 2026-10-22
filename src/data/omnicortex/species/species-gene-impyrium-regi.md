@@ -41,16 +41,13 @@ tech_level: 4 (Imperial Regalia & Grav-Chairs)
 meta_level: 4 (Command Metaphysics)
 homeworld: Imperia Core
 costs:
-  cp: 29
-  bp: 29
+  cp: 35
+  bp: 35
 modifiers:
   - target: Intellect
     value: 2
     type: attribute
     mode: inherent
-cp_cost: 29
-cp: 29
-bp: 29
 description: >-
   The apex of imperial bio-engineering: peerless aristocrats endowed with
   heightened intellect, natural psionic dominance, and undisputed political
@@ -75,6 +72,9 @@ keywords: >-
   gene-perfection
 negative_keywords: 'manual-labor, dirty-wastelands, subservient, scavenger'
 species_traits: *ref_0
+cp: 35
+bp: 35
+cp_cost: 35
 ---
 
 # Impyrium Regi (Imperial High Blood)
@@ -93,7 +93,7 @@ The apex of imperial bio-engineering: peerless aristocrats endowed with heighten
 - **Stigma**: None
 
 ## Mechanics & Statblock
-- **CP Cost**: 28 CP
+- **CP Cost**: 35 CP
 - **Inherent Modifiers**: +2 Intellect
 - **Bonus Skills**: +20 Skill Points
 - **Inherent Features**: Adaptive Aspects, Awakened (Psionic), Status (Imperial Nobility), Aristocratic Immunity

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import DraggablePanel from '../../pages/Foundry/MapMaker/map/DraggablePanel';
 import { useFolio } from '../../context/FolioContext';
 import { sendBastionChatMessage, parseRollCommand, generateSelectiveFields } from '../../services/bastionService';
@@ -165,6 +165,34 @@ const BastionDrawer = ({ isOpen, onClose }) => {
   }, [stagedPrompt]);
 
   const activeArchetype = stagedArchetype || archetypeRecs[0]?.archetype || DEFAULT_ARCHETYPES[0];
+
+  // Sync stagedRawAttrs to the activeArchetype's Primary (+3) and Secondary (+2) attributes whenever activeArchetype changes
+  useEffect(() => {
+    if (!activeArchetype) return;
+    const mapAttrKey = (name) => {
+      const lower = String(name || '').toLowerCase().trim();
+      if (lower.includes('strength') || lower.includes('might') || lower === 'str') return 'attr-strength';
+      if (lower.includes('agility') || lower.includes('reflex') || lower === 'agi') return 'attr-agility';
+      if (lower.includes('stamina') || lower.includes('con') || lower.includes('fortitude') || lower === 'sta') return 'attr-stamina';
+      if (lower.includes('intellect') || lower.includes('logic') || lower.includes('reason') || lower === 'int') return 'attr-intellect';
+      if (lower.includes('wisdom') || lower.includes('will') || lower.includes('perception') || lower === 'wis') return 'attr-wisdom';
+      if (lower.includes('charisma') || lower.includes('etiquette') || lower === 'cha') return 'attr-charisma';
+      return null;
+    };
+    const primKey = mapAttrKey(activeArchetype.primary_attribute) || 'attr-agility';
+    const secKey = mapAttrKey(activeArchetype.secondary_attribute) || 'attr-intellect';
+    const nextAttrs = {
+      'attr-strength': 0,
+      'attr-agility': 0,
+      'attr-stamina': 0,
+      'attr-intellect': 0,
+      'attr-wisdom': 0,
+      'attr-charisma': 0
+    };
+    nextAttrs[primKey] = (nextAttrs[primKey] || 0) + 3;
+    nextAttrs[secKey] = (nextAttrs[secKey] || 0) + 2;
+    setStagedRawAttrs(nextAttrs);
+  }, [activeArchetype?.name]);
 
   const speciesRecs = useMemo(() => {
     return getSpeciesRecommendations(activeArchetype, stagedPrompt, DEFAULT_SPECIES, 3);

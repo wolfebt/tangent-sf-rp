@@ -46,8 +46,8 @@ tech_level: 2 (Bio-Loomed Weaves & Organic Tools)
 meta_level: 3 (Primal Fey Illusion)
 homeworld: Sylvanna (The Canopied World)
 costs:
-  cp: 26
-  bp: 26
+  cp: 28
+  bp: 28
 modifiers:
   - target: Agility
     value: 1
@@ -65,9 +65,6 @@ modifiers:
     value: 4
     type: skill
     mode: size_modifier
-cp_cost: 26
-cp: 26
-bp: 26
 description: >-
   Ferren are nimble, tail-bearing fey creatures adapted to high-canopy
   ecosystems. Inquisitive and fleet-footed, they traverse vertical cityscapes
@@ -98,6 +95,9 @@ species_traits:
   - trait-climber
   - trait-prehensile-tail
   - trait-quick
+cp: 28
+bp: 28
+cp_cost: 28
 ---
 
 # Ferren (Arboreal Fey)

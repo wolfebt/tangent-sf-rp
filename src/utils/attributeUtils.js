@@ -9,6 +9,9 @@
  * Sub-Attributes (Attribute Checks): Might, Reflex, Fortitude, Reason/Logic, Willpower, Etiquette
  */
 
+import { DEFAULT_ARCHETYPES } from '../data/archetypesData.js';
+import { DEFAULT_SPECIES } from '../data/speciesData.js';
+
 export const PRIMARY_TO_SUB_ATTR = {
   'attr-strength': 'attr-might',
   'attr-agility': 'attr-reflex',
@@ -89,9 +92,23 @@ export const resolveSubAttrScore = (subKey, charData = {}, primaryScoreOverride 
   return calculatedBase;
 };
 
+const mapNameToPrimaryAttrKey = (name) => {
+  if (!name) return null;
+  const lower = String(name).toLowerCase().trim();
+  if (lower.startsWith('attr-')) return lower;
+  if (lower.includes('strength') || lower.includes('might')) return 'attr-strength';
+  if (lower.includes('agility') || lower.includes('reflex')) return 'attr-agility';
+  if (lower.includes('stamina') || lower.includes('constitution') || lower.includes('fortitude')) return 'attr-stamina';
+  if (lower.includes('intellect') || lower.includes('logic') || lower.includes('reason')) return 'attr-intellect';
+  if (lower.includes('wisdom') || lower.includes('will')) return 'attr-wisdom';
+  if (lower.includes('charisma') || lower.includes('etiquette')) return 'attr-charisma';
+  return null;
+};
+
 /**
  * Sanitizes character attributes so that all 6 primary attributes and 6 sub-attributes
  * are initialized and healed to their proper canonical base values if missing, 0, or null.
+ * Also heals legacy baked species inherent modifiers and residual archetype attributes.
  * Also keeps alias keys (attr-logic <-> attr-reason, attr-will <-> attr-willpower) in sync.
  * @param {object} charData 
  * @returns {object}
@@ -99,6 +116,98 @@ export const resolveSubAttrScore = (subKey, charData = {}, primaryScoreOverride 
 export const sanitizeSubAttributes = (charData) => {
   if (!charData || typeof charData !== 'object') return charData;
   const result = { ...charData };
+  let changed = false;
+
+  // Heal legacy baked species inherent modifiers and residual archetype attributes
+  const archName = String(result['char-archetype'] || '').trim();
+  if (archName && !result._attrHealedV3) {
+    const archLower = archName.toLowerCase();
+    const archObj = DEFAULT_ARCHETYPES.find(a =>
+      (a.name || '').toLowerCase() === archLower ||
+      (a.id || '').toLowerCase() === archLower
+    );
+    const spName = String(result['char-species'] || '').trim();
+    const spLower = spName.toLowerCase();
+    const spObj = spName
+      ? DEFAULT_SPECIES.find(s =>
+          (s.name || '').toLowerCase() === spLower ||
+          (s.title || '').toLowerCase() === spLower ||
+          (s.id || '').toLowerCase() === spLower
+        )
+      : null;
+
+    if (archObj) {
+      const primKey = mapNameToPrimaryAttrKey(archObj.primary_attribute);
+      const secKey = mapNameToPrimaryAttrKey(archObj.secondary_attribute);
+      if (primKey && secKey) {
+        const spMods = {};
+        if (spObj && Array.isArray(spObj.inherent_attribute_modifiers)) {
+          spObj.inherent_attribute_modifiers.forEach(m => {
+            const aName = typeof m === 'object' ? (m.attribute || m.name) : String(m);
+            const bonus = typeof m === 'object' ? (m.bonus ?? m.value ?? 1) : 1;
+            const k = mapNameToPrimaryAttrKey(aName);
+            if (k) spMods[k] = (spMods[k] || 0) + bonus;
+          });
+        }
+
+        const getPoolPts = (attrKey) => (
+          (parseInt(result.speciesAllocations?.attributes?.[attrKey] || 0, 10) || 0) +
+          (parseInt(result.occuAllocations?.attributes?.[attrKey] || 0, 10) || 0) +
+          (parseInt(result.originAllocations?.attributes?.[attrKey] || 0, 10) || 0) +
+          (parseInt(result.factionAllocations?.attributes?.[attrKey] || 0, 10) || 0)
+        );
+
+        const getExpectedBase = (attrKey) => (
+          getPoolPts(attrKey) +
+          (attrKey === primKey ? 3 : 0) +
+          (attrKey === secKey ? 2 : 0)
+        );
+
+        const curPrim = parseInt(result[primKey] || 0, 10) || 0;
+        const curSec = parseInt(result[secKey] || 0, 10) || 0;
+        const hasSpMods = Object.values(spMods).some(v => v !== 0);
+        const hasBakedSpeciesMods = hasSpMods &&
+          curPrim === getExpectedBase(primKey) + (spMods[primKey] || 0) &&
+          curSec === getExpectedBase(secKey) + (spMods[secKey] || 0) &&
+          ((spMods[primKey] || 0) !== 0 || (spMods[secKey] || 0) !== 0 ||
+            SUB_ATTRIBUTE_PAIRS.some(({ prim }) => (spMods[prim] || 0) > 0 && (parseInt(result[prim] || 0, 10) || 0) >= getExpectedBase(prim) + spMods[prim]));
+
+        const hasEmptyArchAlloc = !result.archetypeAllocations?.attributes ||
+          Object.keys(result.archetypeAllocations.attributes).length === 0;
+        const hasResidualOtherArch = hasEmptyArchAlloc &&
+          curPrim === getExpectedBase(primKey) &&
+          curSec === getExpectedBase(secKey) &&
+          SUB_ATTRIBUTE_PAIRS.some(({ prim }) => prim !== primKey && prim !== secKey && (parseInt(result[prim] || 0, 10) || 0) >= 2 + getPoolPts(prim));
+
+        if (hasBakedSpeciesMods || hasResidualOtherArch) {
+          SUB_ATTRIBUTE_PAIRS.forEach(({ sub, alias, prim }) => {
+            const oldPVal = parseInt(result[prim] || 0, 10) || 0;
+            const oldSubBase = calculateSubAttrBase(oldPVal);
+            const curSubVal = parseInt(result[sub], 10);
+            const purchasedSubDelta = (!isNaN(curSubVal) && curSubVal > oldSubBase) ? (curSubVal - oldSubBase) : 0;
+
+            const newPVal = getExpectedBase(prim);
+            const newSubVal = calculateSubAttrBase(newPVal) + purchasedSubDelta;
+
+            result[prim] = newPVal;
+            result[sub] = newSubVal;
+            if (alias) {
+              result[alias] = newSubVal;
+            }
+          });
+          result.archetypeAllocations = {
+            skills: {},
+            features: [],
+            ...(result.archetypeAllocations || {}),
+            attributes: { [primKey]: 3, [secKey]: 2 }
+          };
+          result._attrHealedV3 = true;
+          result._needsCloudHealSave = true;
+          changed = true;
+        }
+      }
+    }
+  }
 
   SUB_ATTRIBUTE_PAIRS.forEach(({ sub, alias, prim }) => {
     const pVal = parseInt(result[prim] || 0, 10);
@@ -115,11 +224,15 @@ export const sanitizeSubAttributes = (charData) => {
       resolvedSubVal = calculatedBase;
     }
 
-    result[sub] = resolvedSubVal;
-    if (alias) {
+    if (result[sub] !== resolvedSubVal) {
+      result[sub] = resolvedSubVal;
+      changed = true;
+    }
+    if (alias && result[alias] !== resolvedSubVal) {
       result[alias] = resolvedSubVal;
+      changed = true;
     }
   });
 
-  return result;
+  return changed ? result : charData;
 };

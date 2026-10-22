@@ -41,16 +41,13 @@ tech_level: 4 (Biomechanical Synthesis)
 meta_level: 2 (Cyber-Psionics)
 homeworld: Bio-Mech Nexus Habitats
 costs:
-  cp: 41
-  bp: 41
+  cp: 53
+  bp: 53
 modifiers:
   - target: Charisma
     value: -2
     type: attribute
     mode: inherent
-cp_cost: 41
-cp: 41
-bp: 41
 description: >-
   Biomechanical synthetics fuse vat-grown organic muscle and vascular organs
   with titanium endoskeletons and optronic neural processors.
@@ -74,6 +71,9 @@ keywords: >-
   organ-sleeve
 negative_keywords: 'pure-organic, purist-tech, anti-cyborg'
 species_traits: *ref_0
+cp: 53
+bp: 53
+cp_cost: 53
 ---
 
 # Biomechanical (Cyber-Organic Hybrid)

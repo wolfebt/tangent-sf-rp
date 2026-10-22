@@ -42,12 +42,9 @@ tech_level: 2 (Adapted Gear)
 meta_level: 2 (Primal Sentience)
 homeworld: Uplift Habitats & Nature Sanctuaries
 costs:
-  cp: 2
-  bp: 2
+  cp: 12
+  bp: 12
 modifiers: []
-cp_cost: 2
-cp: 2
-bp: 2
 description: >-
   Uplifted canines, felines, ursines, and avians granted full sapience and
   tactical communication through cybernetic collars or bio-genetic uplift
@@ -72,6 +69,9 @@ keywords: >-
   companion-fighter
 negative_keywords: 'fine-tools, speech-inhibited, corporate-executive'
 species_traits: *ref_0
+cp: 12
+bp: 12
+cp_cost: 12
 ---
 
 # Awakened Animal (Uplifted Beast)

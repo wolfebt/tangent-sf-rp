@@ -283,18 +283,31 @@ const CoreStatsTab = () => {
 
   const essenceTotal = primaryAttrsTotal + metaSkillsTotal;
 
+  const getGrantedPoolPts = (attrId) => (
+    (parseInt(characterData?.speciesAllocations?.attributes?.[attrId] || 0, 10) || 0) +
+    (parseInt(characterData?.occuAllocations?.attributes?.[attrId] || 0, 10) || 0) +
+    (parseInt(characterData?.originAllocations?.attributes?.[attrId] || 0, 10) || 0) +
+    (parseInt(characterData?.factionAllocations?.attributes?.[attrId] || 0, 10) || 0)
+  );
+
   // Handler for primary attribute changes (FolioContext automatically shifts sub-attribute base while preserving delta)
   const handlePrimaryChange = (attrId, value) => {
-    const val = parseInt(value, 10) || 0;
-    updateField(attrId, val);
+    const val = Math.max(0, parseInt(value, 10) || 0);
+    updateField(attrId, val + getGrantedPoolPts(attrId));
   };
 
   const handleSubAttrChange = (subAttrId, value) => {
     const val = parseInt(value, 10) || 0;
-    updateField(subAttrId, val);
     const attrConfig = ATTRIBUTES.find(a => a.id === subAttrId);
+    const primaryId = attrConfig?.primaryId;
+    const pVal = primaryId ? getNum(primaryId) : 0;
+    const unmodifiedBase = (pVal * 2) + 2;
+    const effectiveBase = getSubAttrBase(subAttrId);
+    const purchasedDelta = val - effectiveBase;
+    const storedVal = unmodifiedBase + purchasedDelta;
+    updateField(subAttrId, storedVal);
     if (attrConfig?.aliasId) {
-      updateField(attrConfig.aliasId, val);
+      updateField(attrConfig.aliasId, storedVal);
     }
   };
 
@@ -490,6 +503,7 @@ const CoreStatsTab = () => {
                   {ATTRIBUTES.map((attr) => {
                     const isSub = attr.sub;
                     const calculatedSubBase = isSub ? getSubAttrBase(attr.id) : 0;
+                    const unmodifiedSubBase = isSub && attr.primaryId ? ((getNum(attr.primaryId) * 2) + 2) : 2;
                     const explicitVal = isSub
                       ? (characterData[attr.id] !== undefined && characterData[attr.id] !== null && characterData[attr.id] !== ''
                           ? parseInt(characterData[attr.id], 10)
@@ -497,40 +511,45 @@ const CoreStatsTab = () => {
                               ? parseInt(characterData[attr.aliasId], 10)
                               : null))
                       : null;
+                    const purchasedSubBonus = (isSub && explicitVal !== null && !isNaN(explicitVal) && explicitVal > 0)
+                      ? Math.max(0, explicitVal - unmodifiedSubBase)
+                      : 0;
                     const rawBase = isSub 
-                      ? ((explicitVal !== null && !isNaN(explicitVal) && explicitVal > calculatedSubBase) ? explicitVal : calculatedSubBase)
-                      : getNum(attr.id);
+                      ? (calculatedSubBase + purchasedSubBonus)
+                      : Math.max(0, getNum(attr.id) - getGrantedPoolPts(attr.id));
                     const mod = getAttrMod(attr.id);
                     const total = getAttrTotal(attr.id);
 
-                    // Calculate detailed breakdown sources for the tooltip
+                    // Calculate detailed breakdown sources for the tooltip: attribute modifier (source)
                     const attrSources = [];
-                    if (!isSub) {
-                      const userMod = parseInt(characterData[`${attr.id}-mod`] || 0, 10);
-                      if (userMod !== 0) {
-                        attrSources.push({ name: 'Direct Modifier Input', val: userMod });
+                    if (isSub && attr.primaryId) {
+                      const pMod = getAttrMod(attr.primaryId);
+                      if (pMod !== 0) {
+                        const primaryAttrConfig = ATTRIBUTES.find(a => a.id === attr.primaryId);
+                        const primaryAttrName = primaryAttrConfig?.name || attr.primaryId.replace('attr-', '');
+                        attrSources.push({
+                          val: pMod * 2,
+                          source: `${primaryAttrName} Modifier (${pMod > 0 ? `+${pMod}` : pMod} × 2)`,
+                          name: `${primaryAttrName} Modifier (${pMod > 0 ? `+${pMod}` : pMod} × 2)`,
+                          isSituational: false
+                        });
                       }
-                      const speciesAlloc = characterData.speciesAllocations?.attributes?.[attr.id] || 0;
-                      if (speciesAlloc !== 0) {
-                        attrSources.push({ name: 'Species Lineage Bonus', val: speciesAlloc });
-                      }
-                      const identityMod = computedModifiers?.attributeMods?.[attr.id] || 0;
-                      const remainingIdentityMod = identityMod - speciesAlloc;
-                      if (remainingIdentityMod !== 0) {
-                        attrSources.push({ name: 'Features, Traits & Cybernetics', val: remainingIdentityMod });
-                      }
-                    } else {
-                      let saveMod = 0;
-                      if (attr.id === 'attr-fortitude') saveMod = computedModifiers?.saveMods?.Fortitude || 0;
-                      else if (attr.id === 'attr-reflex') saveMod = computedModifiers?.saveMods?.Reflex || 0;
-                      else if (attr.id === 'attr-will' || attr.id === 'attr-willpower') saveMod = computedModifiers?.saveMods?.Will || 0;
-                      if (saveMod !== 0) {
-                        attrSources.push({ name: 'Save Specialization Bonus', val: saveMod });
-                      }
-                      const userMod = parseInt(characterData[`${attr.id}-mod`] || 0, 10);
-                      if (userMod !== 0) {
-                        attrSources.push({ name: 'Direct Modifier Input', val: userMod });
-                      }
+                    }
+                    const trackedSources = [
+                      ...(computedModifiers?.attributeModSources?.[attr.id] || []),
+                      ...(attr.aliasId ? (computedModifiers?.attributeModSources?.[attr.aliasId] || []) : [])
+                    ];
+                    trackedSources.forEach(src => {
+                      attrSources.push(src);
+                    });
+                    const userMod = parseInt(characterData[`${attr.id}-mod`] || (attr.aliasId ? characterData[`${attr.aliasId}-mod`] : 0) || 0, 10);
+                    if (userMod !== 0) {
+                      attrSources.push({
+                        val: userMod,
+                        source: 'Direct Modifier Input',
+                        name: 'Direct Modifier Input',
+                        isSituational: false
+                      });
                     }
 
                     const attrBreakdown = {

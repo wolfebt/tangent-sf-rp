@@ -46,8 +46,8 @@ tech_level: 3 (Miniaturized Sensor Rigs)
 meta_level: 1 (Intuitive Agility)
 homeworld: Weti Tree Canopies & Starship Ductwork
 costs:
-  cp: 19
-  bp: 19
+  cp: 22
+  bp: 22
 modifiers:
   - target: Agility
     value: 1
@@ -65,9 +65,6 @@ modifiers:
     value: 8
     type: skill
     mode: size_modifier
-cp_cost: 19
-cp: 19
-bp: 19
 description: >-
   Tiny, hyper-intelligent simian creatures standing barely 18 inches tall,
   celebrated for repairing starship conduits, espionage, and rapid climbing.
@@ -90,6 +87,9 @@ recommended_occupations:
 keywords: '18-inch-simian, duct-repair, gremlin-mechanic, tiny-infiltrator, hyper-agile'
 negative_keywords: 'heavy-combat, high-strength, lumbering'
 species_traits: *ref_0
+cp: 22
+bp: 22
+cp_cost: 22
 ---
 
 # Weti (Simian Scout)

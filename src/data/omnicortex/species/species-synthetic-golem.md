@@ -47,8 +47,8 @@ tech_level: 2 (Arcane Masonry & Runic Seals)
 meta_level: 4 (Runic Core Animation)
 homeworld: Sanctum Vaults & Ancient Spire Ruins
 costs:
-  cp: 53
-  bp: 53
+  cp: 57
+  bp: 57
 modifiers:
   - target: Strength
     value: 3
@@ -78,9 +78,6 @@ modifiers:
     value: -4
     type: skill
     mode: size_modifier
-cp_cost: 53
-cp: 53
-bp: 53
 description: >-
   Constructed from enchanted alloys, granite, or obsidian and animated by arcane
   runic cores, Golems are unstoppable heavy sentinels.
@@ -103,6 +100,9 @@ keywords: >-
   unstoppable
 negative_keywords: 'agile-acrobatics, hacking, subtle-espionage'
 species_traits: *ref_0
+cp: 57
+bp: 57
+cp_cost: 57
 ---
 
 # Golem (Arcane / Heavy Magitech Construct)

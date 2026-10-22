@@ -35,12 +35,9 @@ tech_level: 4 (Cortical Stacks & Sleeves)
 meta_level: 1 (Residual Soul)
 homeworld: Resleeve Clinics & Transhuman Stations
 costs:
-  cp: 43
-  bp: 43
+  cp: 55
+  bp: 55
 modifiers: []
-cp_cost: 43
-cp: 43
-bp: 43
 description: >-
   Shells are synthetic sleeve bodies inhabited by digitized organic
   consciousnesses (transferred via cortical neural stacks upon biological
@@ -65,6 +62,9 @@ keywords: >-
   sleeve-swap
 negative_keywords: 'permanent-death-fear, natural-aging, bio-purist'
 species_traits: *ref_0
+cp: 55
+bp: 55
+cp_cost: 55
 ---
 
 # Shell (Sleeve for Organic Mind)

@@ -3,6 +3,7 @@ import { db, auth } from '../firebase';
 import { doc, setDoc, onSnapshot, collection, getDocs, getDoc, deleteDoc, writeBatch } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import { attachCreatorTag } from '../utils/creatorUtils';
+import { getEffectiveUserHandle } from '../utils/personaValidationUtils';
 import { createDebouncedSaver } from '../utils/debounceUtils';
 import { commitChunkedBatches, sanitizeFirestoreData } from '../utils/firestoreUtils';
 import { StorageService } from '../services/storageService';
@@ -298,6 +299,8 @@ export const StoryProvider = ({ children }) => {
         title: cleanTitle,
         updatedAt: new Date().toISOString(),
         authorEmail: user?.email || 'Local User',
+      authorHandle: user ? getEffectiveUserHandle(user) : 'Local User',
+        authorHandle: user ? getEffectiveUserHandle(user) : 'Local User',
         authorUid: user?.uid || 'local',
         creatorId: user?.uid || 'local',
         storyId: universeStateRef.current?.id || 'proj_default_universe'
@@ -336,6 +339,7 @@ export const StoryProvider = ({ children }) => {
       ...m,
       updatedAt: new Date().toISOString(),
       authorEmail: user?.email || 'Local User',
+      authorHandle: user ? getEffectiveUserHandle(user) : 'Local User',
       authorUid: user?.uid || 'local',
       creatorId: user?.uid || 'local',
       storyId: universeStateRef.current?.id || 'proj_default_universe'
@@ -909,6 +913,7 @@ export const StoryProvider = ({ children }) => {
         ...taggedNode,
         updatedAt: new Date().toISOString(),
         authorEmail: currentUser.email || 'Anonymous',
+        authorHandle: getEffectiveUserHandle(currentUser),
         authorUid: currentUser.uid
       };
       await setDoc(doc(db, 'story_elements', elementNode.id), sanitizeFirestoreData(payload));
@@ -1855,6 +1860,7 @@ export const StoryProvider = ({ children }) => {
           ...taggedUpdates,
           updatedAt: new Date().toISOString(),
           authorEmail: currentUser?.email || 'Local User',
+          authorHandle: currentUser ? getEffectiveUserHandle(currentUser) : 'Local User',
           authorUid: currentUser?.uid || 'local'
         }, localStorage.getItem('userHandle'), currentUser);
         updated.unshift(updatedElem);

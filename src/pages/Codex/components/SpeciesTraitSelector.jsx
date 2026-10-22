@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { 
   Dna, 
   Sparkles, 
@@ -287,7 +287,9 @@ export const calculateSpeciesState = (formData = {}) => {
     }
   });
 
-  const selectedDisadvantages = Array.isArray(formData.disadvantages) ? formData.disadvantages : [];
+  const selectedDisadvantages = Array.isArray(formData.disadvantages) && formData.disadvantages.length > 0
+    ? formData.disadvantages
+    : (Array.isArray(formData.hindrances) ? formData.hindrances : []);
   const selectedStigma = typeof formData.social_stigma === 'string'
     ? formData.social_stigma
     : typeof formData.stigma === 'string'
@@ -306,8 +308,14 @@ export const calculateSpeciesState = (formData = {}) => {
     wis: Number(formData.bonus_wis || formData.attributes?.wis || 0),
     cha: Number(formData.bonus_cha || formData.attributes?.cha || 0)
   };
-  if (Array.isArray(formData.attribute_modifiers)) {
-    formData.attribute_modifiers.forEach(mod => {
+  const modsList = Array.isArray(formData.modifiers) ? formData.modifiers : [];
+  const rawAttrMods = (Array.isArray(formData.attribute_modifiers) && formData.attribute_modifiers.length > 0)
+    ? formData.attribute_modifiers
+    : (Array.isArray(formData.inherent_attribute_modifiers) && formData.inherent_attribute_modifiers.length > 0)
+    ? formData.inherent_attribute_modifiers
+    : modsList.filter(m => m && m.type === 'attribute' && m.mode === 'inherent');
+  if (Array.isArray(rawAttrMods)) {
+    rawAttrMods.forEach(mod => {
       const attr = String(mod.attribute || mod.target || '').toLowerCase();
       const bonus = Number(mod.bonus ?? mod.value ?? 0);
       if (attr.startsWith('str') && !base.str) base.str = bonus;
@@ -319,19 +327,40 @@ export const calculateSpeciesState = (formData = {}) => {
     });
   }
 
-  const skillBundles = formData.skill_bundles || 0;
+  const modAttrPool = modsList
+    .filter(m => m && m.type === 'attribute' && m.mode === 'bonus_pool')
+    .reduce((sum, m) => sum + Number(m.value ?? m.bonus ?? 0), 0);
+  const bonusAttributePoints = Number(formData.bonus_attribute_points ?? (modAttrPool > 0 ? modAttrPool : 0)) || 0;
+
+  const modSkillPool = modsList
+    .filter(m => m && m.type === 'skill' && m.mode === 'bonus_pool')
+    .reduce((sum, m) => sum + Number(m.value ?? m.bonus ?? 0), 0);
+  const rawBonusSkills = Number(formData.bonus_skills ?? formData.bonus_skill_points ?? (modSkillPool > 0 ? modSkillPool : 0)) || 0;
+  const skillBundles = (formData.skill_bundles !== undefined && formData.skill_bundles !== 0)
+    ? Number(formData.skill_bundles)
+    : Math.floor(rawBonusSkills / 5);
+
+  const modFeaturePool = modsList
+    .filter(m => m && m.type === 'feature' && m.mode === 'bonus_pool')
+    .reduce((sum, m) => sum + Number(m.value ?? m.bonus ?? 0), 0);
+  const bonusFeatures = Number(formData.bonus_features ?? (modFeaturePool > 0 ? modFeaturePool : 0)) || 0;
 
   const bpData = calculateSpeciesBP({
     type: selectedType,
     size: selectedSize,
     movementModes: selectedModes,
     attributes: base,
+    bonus_attribute_points: bonusAttributePoints,
     skillBundles,
+    bonus_skills: rawBonusSkills || (skillBundles * 5),
     traits: selectedTraits,
+    inherent_features: cleanedInherentFeatures,
+    bonus_features: bonusFeatures,
     disadvantages: selectedDisadvantages,
     budgetLevel: selectedBudget,
     social_stigma: selectedStigma,
-    stigma: selectedStigma
+    stigma: selectedStigma,
+    modifiers: modsList
   });
 
   return {
@@ -346,7 +375,9 @@ export const calculateSpeciesState = (formData = {}) => {
     selectedDisadvantages,
     selectedStigma,
     attributes: base,
+    bonusAttributePoints,
     skillBundles,
+    bonusFeatures,
     bpData
   };
 };
@@ -367,7 +398,9 @@ export const GeneticsNavRail = ({
     selectedDisadvantages,
     selectedStigma,
     attributes,
+    bonusAttributePoints,
     skillBundles,
+    bonusFeatures,
     selectedModes,
     bpData
   } = useMemo(() => calculateSpeciesState(formData), [formData]);
@@ -399,9 +432,9 @@ export const GeneticsNavRail = ({
             : item.id === 'traits' 
             ? selectedTraits.length 
             : item.id === 'attributes'
-            ? (Object.values(attributes).filter(v => v !== 0).length + (skillBundles > 0 ? 1 : 0) + (formData.specific_skill_bonuses?.length || 0) || null)
+            ? (Object.values(attributes).filter(v => v !== 0).length + (bonusAttributePoints > 0 ? 1 : 0) + (skillBundles > 0 ? 1 : 0) + (formData.specific_skill_bonuses?.length || 0) || null)
             : item.id === 'features'
-            ? ((cleanedInherentFeatures?.length || 0) + (cleanedRecommendedFeatures?.length || 0) || null)
+            ? ((cleanedInherentFeatures?.length || 0) + (bonusFeatures > 0 ? 1 : 0) + (cleanedRecommendedFeatures?.length || 0) || null)
             : item.id === 'movement' 
             ? selectedModes.length 
             : item.id === 'stigma'
@@ -560,22 +593,33 @@ export const SpeciesTraitSelector = ({
   const [customFlawType, setCustomFlawType] = useState('Physical');
   const [customFlawDesc, setCustomFlawDesc] = useState('');
 
+  const onChangeRef = useRef(onChange);
+  onChangeRef.current = onChange;
+
   const selectedType = normalizeSpeciesType(formData.species_type || formData.type);
   const selectedSize = normalizeSpeciesSize(formData.size || formData.species_size);
   const selectedBudget = normalizeSpeciesBudget(formData.budget_level);
-  const rawModes = Array.isArray(formData.movement_modes)
-    ? formData.movement_modes
-    : Array.isArray(formData.movement)
-    ? formData.movement
-    : (formData.movement && formData.movement !== 'normal' ? [formData.movement] : []);
-  const selectedModes = rawModes.filter(Boolean);
-  const rawTraits = Array.isArray(formData.traits) && formData.traits.length > 0
-    ? formData.traits
-    : Array.isArray(formData.trait)
-    ? formData.trait
-    : [];
-  const rawInherentFeatures = Array.isArray(formData.inherent_features) ? formData.inherent_features : [];
-  const rawRecommendedFeatures = Array.isArray(formData.recommended_features) ? formData.recommended_features : [];
+  const selectedModes = useMemo(() => {
+    const rawModes = Array.isArray(formData.movement_modes)
+      ? formData.movement_modes
+      : Array.isArray(formData.movement)
+      ? formData.movement
+      : (formData.movement && formData.movement !== 'normal' ? [formData.movement] : []);
+    return rawModes.filter(Boolean);
+  }, [formData.movement_modes, formData.movement]);
+  const rawTraits = useMemo(() => (
+    Array.isArray(formData.traits) && formData.traits.length > 0
+      ? formData.traits
+      : Array.isArray(formData.trait)
+      ? formData.trait
+      : []
+  ), [formData.traits, formData.trait]);
+  const rawInherentFeatures = useMemo(() => (
+    Array.isArray(formData.inherent_features) ? formData.inherent_features : []
+  ), [formData.inherent_features]);
+  const rawRecommendedFeatures = useMemo(() => (
+    Array.isArray(formData.recommended_features) ? formData.recommended_features : []
+  ), [formData.recommended_features]);
 
   // Separate traits from features: legacy traits in inherent_features belong in traits
   const traitsFromInherent = useMemo(() => rawInherentFeatures.filter(isSpeciesTraitIdentifier), [rawInherentFeatures]);
@@ -597,18 +641,23 @@ export const SpeciesTraitSelector = ({
 
   // Auto-sync legacy data: migrate traits out of inherent_features and purge non-canonical features
   useEffect(() => {
+    if (typeof onChangeRef.current !== 'function') return;
     if (traitsFromInherent.length > 0 && (!formData.traits || formData.traits.length === 0)) {
-      onChange('traits', selectedTraits);
+      onChangeRef.current('traits', selectedTraits);
     }
     if (rawInherentFeatures.length !== cleanedInherentFeatures.length) {
-      onChange('inherent_features', cleanedInherentFeatures);
+      onChangeRef.current('inherent_features', cleanedInherentFeatures);
     }
     if (rawRecommendedFeatures.length !== cleanedRecommendedFeatures.length) {
-      onChange('recommended_features', cleanedRecommendedFeatures);
+      onChangeRef.current('recommended_features', cleanedRecommendedFeatures);
     }
-  }, [traitsFromInherent.length, formData.traits, selectedTraits, rawInherentFeatures.length, cleanedInherentFeatures, rawRecommendedFeatures.length, cleanedRecommendedFeatures, onChange]);
+  }, [traitsFromInherent.length, formData.traits, selectedTraits, rawInherentFeatures.length, cleanedInherentFeatures, rawRecommendedFeatures.length, cleanedRecommendedFeatures]);
 
-  const selectedDisadvantages = Array.isArray(formData.disadvantages) ? formData.disadvantages : [];
+  const selectedDisadvantages = useMemo(() => (
+    Array.isArray(formData.disadvantages) && formData.disadvantages.length > 0
+      ? formData.disadvantages
+      : (Array.isArray(formData.hindrances) ? formData.hindrances : [])
+  ), [formData.disadvantages, formData.hindrances]);
   const selectedStigma = typeof formData.social_stigma === 'string'
     ? formData.social_stigma
     : typeof formData.stigma === 'string'
@@ -628,8 +677,13 @@ export const SpeciesTraitSelector = ({
       wis: Number(formData.bonus_wis || formData.attributes?.wis || 0),
       cha: Number(formData.bonus_cha || formData.attributes?.cha || 0)
     };
-    if (Array.isArray(formData.attribute_modifiers)) {
-      formData.attribute_modifiers.forEach(mod => {
+    const rawAttrMods = (Array.isArray(formData.attribute_modifiers) && formData.attribute_modifiers.length > 0)
+      ? formData.attribute_modifiers
+      : (Array.isArray(formData.inherent_attribute_modifiers) && formData.inherent_attribute_modifiers.length > 0)
+      ? formData.inherent_attribute_modifiers
+      : (Array.isArray(formData.modifiers) ? formData.modifiers.filter(m => m && m.type === 'attribute' && m.mode === 'inherent') : []);
+    if (Array.isArray(rawAttrMods)) {
+      rawAttrMods.forEach(mod => {
         const attr = String(mod.attribute || mod.target || '').toLowerCase();
         const bonus = Number(mod.bonus ?? mod.value ?? 0);
         if (attr.startsWith('str') && !base.str) base.str = bonus;
@@ -641,25 +695,49 @@ export const SpeciesTraitSelector = ({
       });
     }
     return base;
-  }, [formData.bonus_str, formData.bonus_agi, formData.bonus_sta, formData.bonus_int, formData.bonus_wis, formData.bonus_cha, formData.attributes, formData.attribute_modifiers]);
+  }, [formData.bonus_str, formData.bonus_agi, formData.bonus_sta, formData.bonus_int, formData.bonus_wis, formData.bonus_cha, formData.attributes, formData.attribute_modifiers, formData.inherent_attribute_modifiers, formData.modifiers]);
 
-  const skillBundles = formData.skill_bundles || 0;
+  const modsList = useMemo(() => (
+    Array.isArray(formData.modifiers) ? formData.modifiers : []
+  ), [formData.modifiers]);
+  const modAttrPool = modsList
+    .filter(m => m && m.type === 'attribute' && m.mode === 'bonus_pool')
+    .reduce((sum, m) => sum + Number(m.value ?? m.bonus ?? 0), 0);
+  const bonusAttributePoints = Number(formData.bonus_attribute_points ?? (modAttrPool > 0 ? modAttrPool : 0)) || 0;
 
-  // Real-time calculation including Social Stigma CP rebate (features do NOT cost species CP)
+  const modSkillPool = modsList
+    .filter(m => m && m.type === 'skill' && m.mode === 'bonus_pool')
+    .reduce((sum, m) => sum + Number(m.value ?? m.bonus ?? 0), 0);
+  const rawBonusSkills = Number(formData.bonus_skills ?? formData.bonus_skill_points ?? (modSkillPool > 0 ? modSkillPool : 0)) || 0;
+  const skillBundles = (formData.skill_bundles !== undefined && formData.skill_bundles !== 0)
+    ? Number(formData.skill_bundles)
+    : Math.floor(rawBonusSkills / 5);
+
+  const modFeaturePool = modsList
+    .filter(m => m && m.type === 'feature' && m.mode === 'bonus_pool')
+    .reduce((sum, m) => sum + Number(m.value ?? m.bonus ?? 0), 0);
+  const bonusFeatures = Number(formData.bonus_features ?? (modFeaturePool > 0 ? modFeaturePool : 0)) || 0;
+
+  // Real-time calculation including Type, Size, Movement, Attributes, Pools, Traits, Features, Hindrances & Stigma
   const bpData = useMemo(() => {
     return calculateSpeciesBP({
       type: selectedType,
       size: selectedSize,
       movementModes: selectedModes,
       attributes,
+      bonus_attribute_points: bonusAttributePoints,
       skillBundles,
+      bonus_skills: rawBonusSkills || (skillBundles * 5),
       traits: selectedTraits,
+      inherent_features: cleanedInherentFeatures,
+      bonus_features: bonusFeatures,
       disadvantages: selectedDisadvantages,
       budgetLevel: selectedBudget,
       social_stigma: selectedStigma,
-      stigma: selectedStigma
+      stigma: selectedStigma,
+      modifiers: modsList
     });
-  }, [selectedType, selectedSize, selectedModes, attributes, skillBundles, selectedTraits, selectedDisadvantages, selectedBudget, selectedStigma]);
+  }, [selectedType, selectedSize, selectedModes, attributes, bonusAttributePoints, skillBundles, rawBonusSkills, selectedTraits, cleanedInherentFeatures, bonusFeatures, selectedDisadvantages, selectedBudget, selectedStigma, modsList]);
 
   const combatMods = useMemo(() => {
     return calculateSpeciesCombatModifiers(selectedSize);
@@ -667,11 +745,12 @@ export const SpeciesTraitSelector = ({
 
   // Keep parent form's CP in sync with calculated total
   useEffect(() => {
+    if (typeof onChangeRef.current !== 'function') return;
     if (bpData?.totalBPUsed !== undefined && formData.cp !== bpData.totalBPUsed) {
-      onChange('cp', bpData.totalBPUsed);
-      onChange('cp_cost', bpData.totalBPUsed);
+      onChangeRef.current('cp', bpData.totalBPUsed);
+      onChangeRef.current('cp_cost', bpData.totalBPUsed);
     }
-  }, [bpData.totalBPUsed, formData.cp, onChange]);
+  }, [bpData.totalBPUsed, formData.cp]);
 
   // Attribute stepper
   const updateAttribute = (attr, delta) => {
@@ -1455,7 +1534,7 @@ export const SpeciesTraitSelector = ({
           {activeEquippedTraitsList.length > 0 && (
             <div className="p-2.5 rounded-xl bg-purple-950/20 border border-purple-500/30 flex flex-wrap items-center gap-2">
               <span className="text-[10px] font-bold uppercase tracking-wider text-purple-300 flex items-center gap-1 mr-1">
-                <CheckCircle2 size={13} /> Equipped ({activeEquippedTraitsList.length}):
+                <CheckCircle2 size={13} /> Equipped ({activeEquippedTraitsList.length} • +{bpData.breakdown?.traitsBP || 0} CP):
               </span>
               <div className="flex flex-wrap items-center gap-1.5">
                 {activeEquippedTraitsList.map((t, idx) => (
@@ -1464,6 +1543,9 @@ export const SpeciesTraitSelector = ({
                     className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-slate-900/90 border border-purple-500/40 text-[11px] text-slate-200"
                   >
                     <span className="font-semibold">{t.name}</span>
+                    <span className="text-[9.5px] font-mono px-1 py-0.2 rounded bg-purple-950/90 border border-purple-500/50 text-purple-300 font-bold">
+                      {t.bp} CP
+                    </span>
                     {t.choiceLabel && (
                       <span className="text-[9.5px] font-mono px-1.5 py-0.2 rounded bg-purple-900/70 border border-purple-400/50 text-purple-200 font-bold">
                         {t.choiceLabel}
@@ -1514,7 +1596,7 @@ export const SpeciesTraitSelector = ({
               <Activity size={16} />
               <span className="font-bold uppercase tracking-wider">Biological Attribute Bonuses & Skill Proficiencies</span>
             </div>
-            <span className="text-[10px] text-slate-400 font-mono">1 Attribute pt = 5 CP • 1 Skill pt = 1 CP</span>
+            <span className="text-[10px] text-slate-400 font-mono">1 Attribute pt = 5 CP • +5 Skill Pool Bundle = 5 CP</span>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -1560,16 +1642,47 @@ export const SpeciesTraitSelector = ({
             })}
           </div>
 
-          {/* Skill Point Bundles */}
+          {/* Flexible Attribute Pool Points */}
           <div className="p-3 bg-slate-950/70 border border-slate-800 rounded-xl flex items-center justify-between">
             <div>
-              <span className="text-xs font-bold text-slate-200 block">+5 Skill Points Bundle (5 CP)</span>
-              <span className="text-[10px] text-slate-400">Add bundles of 5 racial skill points for custom proficiencies (1 CP per skill pt)</span>
+              <span className="text-xs font-bold text-slate-200 block">Flexible Attribute Pool (5 CP per point)</span>
+              <span className="text-[10px] text-slate-400">Unassigned racial attribute points chosen by the operative during character creation (+1 Attribute Mod per point)</span>
             </div>
             <div className="flex items-center gap-3">
               <button
                 type="button"
-                onClick={() => onChange('skill_bundles', Math.max(0, skillBundles - 1))}
+                onClick={() => onChange('bonus_attribute_points', Math.max(0, bonusAttributePoints - 1))}
+                className="p-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 cursor-pointer"
+              >
+                <Minus size={13} />
+              </button>
+              <span className="text-sm font-bold text-emerald-300 font-mono">
+                +{bonusAttributePoints} AP ({bonusAttributePoints * 5} CP)
+              </span>
+              <button
+                type="button"
+                onClick={() => onChange('bonus_attribute_points', bonusAttributePoints + 1)}
+                className="p-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 cursor-pointer"
+              >
+                <Plus size={13} />
+              </button>
+            </div>
+          </div>
+
+          {/* Skill Point Bundles */}
+          <div className="p-3 bg-slate-950/70 border border-slate-800 rounded-xl flex items-center justify-between">
+            <div>
+              <span className="text-xs font-bold text-slate-200 block">+5 Skill Points Pool Bundle (5 CP)</span>
+              <span className="text-[10px] text-slate-400">Add bundles of 5 racial skill pool points for flexible operative proficiencies (5 CP per +5 skill pts / 1 CP per pt)</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => {
+                  const nextBundles = Math.max(0, skillBundles - 1);
+                  onChange('skill_bundles', nextBundles);
+                  onChange('bonus_skills', nextBundles * 5);
+                }}
                 className="p-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 cursor-pointer"
               >
                 <Minus size={13} />
@@ -1579,7 +1692,11 @@ export const SpeciesTraitSelector = ({
               </span>
               <button
                 type="button"
-                onClick={() => onChange('skill_bundles', skillBundles + 1)}
+                onClick={() => {
+                  const nextBundles = skillBundles + 1;
+                  onChange('skill_bundles', nextBundles);
+                  onChange('bonus_skills', nextBundles * 5);
+                }}
                 className="p-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 cursor-pointer"
               >
                 <Plus size={13} />
@@ -1620,26 +1737,55 @@ export const SpeciesTraitSelector = ({
             <div className="flex items-center justify-between text-xs">
               <div className="flex items-center gap-2 text-purple-300">
                 <BookOpen size={16} />
-                <span className="font-bold uppercase tracking-wider">Granted & Recommended Species Features</span>
+                <span className="font-bold uppercase tracking-wider">Granted Features, Feature Pool & Recommendations</span>
               </div>
               <span className="text-[10px] text-emerald-400 font-mono font-bold bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-500/30">
-                0 CP Species Cost
+                +{bpData.breakdown?.featuresBP || 0} CP Package Cost
               </span>
             </div>
             <p className="text-[11px] text-slate-300 leading-relaxed font-sans">
-              Features in a Species build are character perks from the Omnicortex Features Catalog and do not cost Species Character Points (0 CP). Species CP is strictly allotted to Species Traits (1, 2, and 4 CP), Attributes, Skills, and Movement.
+              Granted Features (inherent features) and Flexible Feature Pools (3 CP per bonus feature) are included in the species Package Cost. Recommended Features are optional suggestions during character creation (0 CP species cost).
             </p>
+          </div>
+
+          {/* Flexible Feature Pool Stepper */}
+          <div className="p-3 bg-slate-950/70 border border-slate-800 rounded-xl flex items-center justify-between">
+            <div>
+              <span className="text-xs font-bold text-slate-200 block">Flexible Feature Pool (3 CP per feature)</span>
+              <span className="text-[10px] text-slate-400">Bonus general features chosen by the operative during character creation</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => onChange('bonus_features', Math.max(0, bonusFeatures - 1))}
+                className="p-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 cursor-pointer"
+              >
+                <Minus size={13} />
+              </button>
+              <span className="text-sm font-bold text-emerald-300 font-mono">
+                +{bonusFeatures} {bonusFeatures === 1 ? 'Feature' : 'Features'} ({bonusFeatures * 3} CP)
+              </span>
+              <button
+                type="button"
+                onClick={() => onChange('bonus_features', bonusFeatures + 1)}
+                className="p-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 cursor-pointer"
+              >
+                <Plus size={13} />
+              </button>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Granted / Inherent Features */}
             <div className="p-3.5 bg-slate-950/70 border border-slate-800 rounded-xl space-y-2">
-              <div>
-                <span className="text-xs font-bold text-emerald-300 block uppercase tracking-wider flex items-center gap-1.5">
-                  <Sparkles size={14} className="text-emerald-400" />
-                  <span>Granted Features (Free / Inherent)</span>
-                </span>
-                <span className="text-[10.5px] text-slate-400">Naturally and permanently granted to operatives of this species for 0 CP</span>
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="text-xs font-bold text-emerald-300 block uppercase tracking-wider flex items-center gap-1.5">
+                    <Sparkles size={14} className="text-emerald-400" />
+                    <span>Granted Features (Inherent)</span>
+                  </span>
+                  <span className="text-[10.5px] text-slate-400">Automatically granted to operatives of this species (+{bpData.breakdown?.grantedFeaturesBP || 0} CP)</span>
+                </div>
               </div>
               <FeaturesSelector
                 value={cleanedInherentFeatures}
@@ -2378,12 +2524,14 @@ export const SpeciesTraitSelector = ({
               <div className="p-2 rounded-lg bg-slate-900/60 border border-slate-800">
                 <span className="text-slate-500 text-[10px] block uppercase">Attributes</span>
                 <span className="font-bold text-emerald-300">{bpData.breakdown?.attributeBP >= 0 ? `+${bpData.breakdown?.attributeBP || 0}` : bpData.breakdown?.attributeBP} CP</span>
-                <span className="text-[9px] text-slate-400 block truncate">Biological stats</span>
+                <span className="text-[9px] text-slate-400 block truncate">
+                  {bonusAttributePoints > 0 ? `Stats & +${bonusAttributePoints} AP Pool` : 'Biological stats'}
+                </span>
               </div>
               <div className="p-2 rounded-lg bg-slate-900/60 border border-slate-800">
-                <span className="text-slate-500 text-[10px] block uppercase">Skill Bundles</span>
+                <span className="text-slate-500 text-[10px] block uppercase">Skill Pool</span>
                 <span className="font-bold text-emerald-300">+{bpData.breakdown?.skillsBP || 0} CP</span>
-                <span className="text-[9px] text-slate-400 block truncate">{skillBundles * 5} pts</span>
+                <span className="text-[9px] text-slate-400 block truncate">{bpData.itemized?.skills?.points ?? (skillBundles * 5)} pts</span>
               </div>
               <div className="p-2 rounded-lg bg-slate-900/60 border border-slate-800">
                 <span className="text-slate-500 text-[10px] block uppercase">Racial Traits</span>
@@ -2391,14 +2539,76 @@ export const SpeciesTraitSelector = ({
                 <span className="text-[9px] text-slate-400 block truncate">{selectedTraits.length} traits</span>
               </div>
               <div className="p-2 rounded-lg bg-slate-900/60 border border-slate-800">
-                <span className="text-slate-500 text-[10px] block uppercase">Stigma Rebate</span>
-                <span className="font-bold text-emerald-400">-{stigmaTotalPenalty} CP</span>
-                <span className="text-[9px] text-slate-400 block truncate">{selectedStigma || 'None'}</span>
+                <span className="text-slate-500 text-[10px] block uppercase">Features & Pools</span>
+                <span className="font-bold text-purple-300">+{bpData.breakdown?.featuresBP || 0} CP</span>
+                <span className="text-[9px] text-slate-400 block truncate">
+                  {cleanedInherentFeatures.length} granted{bonusFeatures > 0 ? `, +${bonusFeatures} pool` : ''}
+                </span>
               </div>
               <div className="p-2 rounded-lg bg-slate-900/60 border border-slate-800">
-                <span className="text-slate-500 text-[10px] block uppercase">Flaws Refund</span>
-                <span className="font-bold text-emerald-400">-{bpData.breakdown?.disadvantagesRefund || 0} CP</span>
-                <span className="text-[9px] text-slate-400 block truncate">{selectedDisadvantages.length} flaws</span>
+                <span className="text-slate-500 text-[10px] block uppercase">Stigma & Flaws</span>
+                <span className="font-bold text-emerald-400">-{(bpData.breakdown?.stigmaRefund || 0) + (bpData.breakdown?.disadvantagesRefund || 0)} CP</span>
+                <span className="text-[9px] text-slate-400 block truncate">{selectedDisadvantages.length} flaws • {selectedStigma || 'None'}</span>
+              </div>
+            </div>
+
+            {/* Detailed Itemized Line-Item List */}
+            <div className="pt-2 border-t border-slate-800/80 space-y-1.5 text-[11px] font-mono">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">
+                Line-Item CP Ledger (Chassis, Size, Movements, Attributes, Pools, Traits & Refunds)
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                <span className="px-2 py-0.5 rounded bg-sky-950/60 border border-sky-500/30 text-sky-200">
+                  Type: {bpData.itemized?.type?.name || selectedType} ({bpData.breakdown?.typeBP || 0} CP)
+                </span>
+                <span className="px-2 py-0.5 rounded bg-cyan-950/60 border border-cyan-500/30 text-cyan-200">
+                  Size: {bpData.itemized?.size?.name || selectedSize} ({bpData.breakdown?.sizeBP >= 0 ? `+${bpData.breakdown?.sizeBP || 0}` : bpData.breakdown?.sizeBP} CP)
+                </span>
+                {(bpData.itemized?.movement || []).map((m, idx) => (
+                  <span key={`mov-${idx}`} className="px-2 py-0.5 rounded bg-amber-950/60 border border-amber-500/30 text-amber-200">
+                    Move: {m.name} ({m.bp >= 0 ? `+${m.bp}` : m.bp} CP)
+                  </span>
+                ))}
+                {(bpData.itemized?.attributes || []).map((a, idx) => (
+                  <span key={`attr-${idx}`} className="px-2 py-0.5 rounded bg-emerald-950/60 border border-emerald-500/30 text-emerald-200">
+                    {a.attribute} {a.value >= 0 ? `+${a.value}` : a.value} ({a.bp >= 0 ? `+${a.bp}` : a.bp} CP)
+                  </span>
+                ))}
+                {bonusAttributePoints > 0 && (
+                  <span className="px-2 py-0.5 rounded bg-emerald-950/60 border border-emerald-500/30 text-emerald-200">
+                    Attribute Pool: +{bonusAttributePoints} AP (+{bonusAttributePoints * 5} CP)
+                  </span>
+                )}
+                {(bpData.itemized?.skills?.points > 0) && (
+                  <span className="px-2 py-0.5 rounded bg-emerald-950/60 border border-emerald-500/30 text-emerald-200">
+                    Skill Pool: +{bpData.itemized.skills.points} SP (+{bpData.breakdown?.skillsBP || 0} CP)
+                  </span>
+                )}
+                {(bpData.itemized?.traits || []).map((tr, idx) => (
+                  <span key={`tr-${idx}`} className="px-2 py-0.5 rounded bg-purple-950/60 border border-purple-500/30 text-purple-200">
+                    Trait: {tr.name} ({tr.bp >= 0 ? `+${tr.bp}` : tr.bp} CP)
+                  </span>
+                ))}
+                {(bpData.itemized?.features || []).map((ft, idx) => (
+                  <span key={`ft-${idx}`} className="px-2 py-0.5 rounded bg-indigo-950/60 border border-indigo-500/30 text-indigo-200">
+                    Feature: {ft.name} (+{ft.bp ?? 3} CP)
+                  </span>
+                ))}
+                {bonusFeatures > 0 && (
+                  <span className="px-2 py-0.5 rounded bg-indigo-950/60 border border-indigo-500/30 text-indigo-200">
+                    Feature Pool: +{bonusFeatures} Feat{bonusFeatures > 1 ? 's' : ''} (+{bonusFeatures * 3} CP)
+                  </span>
+                )}
+                {(bpData.itemized?.disadvantages || []).map((flaw, idx) => (
+                  <span key={`flaw-${idx}`} className="px-2 py-0.5 rounded bg-red-950/60 border border-red-500/30 text-red-200">
+                    Flaw: {flaw.name} (-{flaw.refundBP ?? 2} CP)
+                  </span>
+                ))}
+                {(bpData.breakdown?.stigmaRefund > 0) && (
+                  <span className="px-2 py-0.5 rounded bg-rose-950/60 border border-rose-500/30 text-rose-200">
+                    Stigma: {selectedStigma} (-{bpData.breakdown.stigmaRefund} CP)
+                  </span>
+                )}
               </div>
             </div>
           </div>

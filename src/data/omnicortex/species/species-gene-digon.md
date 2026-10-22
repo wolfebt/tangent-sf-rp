@@ -79,9 +79,6 @@ modifiers:
     value: -4
     type: skill
     mode: size_modifier
-cp_cost: 8
-cp: 8
-bp: 8
 description: >-
   Brutal, hulking bio-engineered shock troops bred by the Impyrium for planetary
   boarding actions and trench warfare.
@@ -106,6 +103,9 @@ keywords: >-
   boarding-party
 negative_keywords: 'subtle-espionage, delicate-craft, diplomacy, psionics, agile-flight'
 species_traits: *ref_0
+cp: 8
+bp: 8
+cp_cost: 8
 ---
 
 # Digon (Imperial Heavy Shock Trooper)
@@ -124,7 +124,7 @@ Brutal, hulking bio-engineered shock troops bred by the Impyrium for planetary b
 - **Stigma**: Xeno (-2), Savage (-4)
 
 ## Mechanics & Statblock
-- **CP Cost**: 29 CP
+- **CP Cost**: 8 CP
 - **Inherent Modifiers**: +1 Strength, +1 Agility, +1 Stamina, -1 Intellect, -1 Charisma
 - **Bonus Skills**: +5 Skill Points
 - **Inherent Features**: Brutal (+3 Melee Damage), Exoskeleton (Partial Sub-dermal Plates DR 3/-), Combat Rage (1/Encounter)

@@ -38,12 +38,9 @@ tech_level: 2 (Living Botanical Tools)
 meta_level: 4 (Verdant Metaphysics)
 homeworld: The Great Arboreal Bloom of Thorn-7
 costs:
-  cp: 30
-  bp: 30
+  cp: 40
+  bp: 40
 modifiers: []
-cp_cost: 30
-cp: 30
-bp: 30
 description: >-
   Sentient, ambulatory humanoid plant beings made of interwoven thorny briars,
   floral cores, and photosynthetic sap.
@@ -74,6 +71,9 @@ recommended_occupations:
 keywords: 'plant-humanoid, briar-armor, photosynthetic-sap, root-communion, verdant'
 negative_keywords: 'fire, industrial-pollution, herbicide'
 species_traits: *ref_0
+cp: 40
+bp: 40
+cp_cost: 40
 ---
 
 # Thorn (Verdant Plant Entity)

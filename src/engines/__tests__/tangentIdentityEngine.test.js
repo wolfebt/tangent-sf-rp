@@ -12,6 +12,7 @@ import {
   resolveIdentityPillarsSettingLevels,
   syncIdentitySettingLevels
 } from '../tangentIdentityEngine.js';
+import { sanitizeSubAttributes } from '../../utils/attributeUtils.js';
 
 describe('Tangent SF RP — Identity Transition & Trait Synchronization Engine', () => {
 
@@ -654,6 +655,73 @@ describe('Tangent SF RP — Identity Transition & Trait Synchronization Engine',
       // Species ML5 is higher than Faction ML2 -> ML5 remains highest
       assert.strictEqual(updated['base-meta-level'], 5);
       assert.strictEqual(updated['meta-level'], 5);
+    });
+
+    it('applySpeciesTransition does not bake species inherent_attribute_modifiers into purchased base attributes', () => {
+      const legionnaireBase = {
+        ...sampleBaseCharacter,
+        'char-archetype': 'The Legionnaire',
+        'attr-strength': 2,
+        'attr-agility': 0,
+        'attr-stamina': 3,
+        'attr-intellect': 0,
+        'attr-wisdom': 0,
+        'attr-charisma': 0
+      };
+      const updated = applySpeciesTransition(legionnaireBase, 'Digon (Gen-E)');
+      assert.strictEqual(updated['char-species'], 'Digon (Gen-E)');
+      assert.strictEqual(updated['attr-strength'], 2, 'Purchased Strength base must remain 2 (+1 Digon mod is applied dynamically)');
+      assert.strictEqual(updated['attr-agility'], 0, 'Purchased Agility base must remain 0 (+1 Digon mod is applied dynamically)');
+      assert.strictEqual(updated['attr-stamina'], 3, 'Purchased Stamina base must remain 3 (+1 Digon mod is applied dynamically)');
+      assert.strictEqual(updated['attr-intellect'], 0, 'Purchased Intellect base must remain 0 (-1 Digon mod is applied dynamically)');
+      assert.strictEqual(updated['attr-wisdom'], 0, 'Purchased Wisdom base must remain 0');
+      assert.strictEqual(updated['attr-charisma'], 0, 'Purchased Charisma base must remain 0 (-1 Digon mod is applied dynamically)');
+    });
+
+    it('sanitizeSubAttributes heals legacy baked species modifiers and residual archetype attributes (Baratar regression)', () => {
+      const legacyBaratar = {
+        ...sampleBaseCharacter,
+        'char-name': 'Baratar',
+        'char-archetype': 'The Legionnaire',
+        'char-species': 'Digon (Gen-E)',
+        'attr-strength': 3,
+        'attr-agility': 1,
+        'attr-stamina': 4,
+        'attr-intellect': 2,
+        'attr-wisdom': 0,
+        'attr-charisma': 0,
+        'attr-might': 8,
+        'attr-reflex': 4,
+        'attr-fortitude': 10,
+        'attr-logic': 6,
+        'attr-reason': 6,
+        'attr-will': 2,
+        'attr-willpower': 2,
+        'attr-etiquette': 2,
+        archetypeAllocations: { attributes: {}, skills: {}, features: [] }
+      };
+
+      const healed = sanitizeSubAttributes(legacyBaratar);
+      assert.strictEqual(healed['attr-strength'], 2, 'Strength base healed to Legionnaire +2');
+      assert.strictEqual(healed['attr-agility'], 0, 'Agility base healed to 0');
+      assert.strictEqual(healed['attr-stamina'], 3, 'Stamina base healed to Legionnaire +3');
+      assert.strictEqual(healed['attr-intellect'], 0, 'Residual Armorer Intellect healed to 0');
+      assert.strictEqual(healed['attr-wisdom'], 0, 'Wisdom base remains 0');
+      assert.strictEqual(healed['attr-charisma'], 0, 'Charisma base remains 0');
+      assert.strictEqual(healed['attr-might'], 6, 'Might base updated to (2*2)+2 = 6');
+      assert.strictEqual(healed['attr-reflex'], 2, 'Reflex base updated to (0*2)+2 = 2');
+      assert.strictEqual(healed['attr-fortitude'], 8, 'Fortitude base updated to (3*2)+2 = 8');
+      assert.strictEqual(healed['attr-logic'], 2, 'Logic base updated to (0*2)+2 = 2');
+      assert.strictEqual(healed['attr-will'], 2, 'Will base remains 2');
+      assert.strictEqual(healed['attr-etiquette'], 2, 'Etiquette base remains 2');
+      assert.deepStrictEqual(healed.archetypeAllocations.attributes, {
+        'attr-stamina': 3,
+        'attr-strength': 2
+      });
+
+      // Calling sanitizeSubAttributes again on an already-valid character must return the identical object reference
+      const secondPass = sanitizeSubAttributes(healed);
+      assert.strictEqual(secondPass, healed, 'Must return identical reference when no changes are required');
     });
   });
 });

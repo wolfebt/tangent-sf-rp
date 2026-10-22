@@ -46,8 +46,8 @@ tech_level: 2 (Heavy Ballistic Scrap Guns & Cleavers)
 meta_level: 0 (Null)
 homeworld: Orll Prime Badlands
 costs:
-  cp: 13
-  bp: 13
+  cp: 16
+  bp: 16
 modifiers:
   - target: Strength
     value: 2
@@ -77,9 +77,6 @@ modifiers:
     value: -4
     type: skill
     mode: size_modifier
-cp_cost: 13
-cp: 13
-bp: 13
 description: >-
   Fierce, armored insectoid-humanoid berserkers revered for their devastating
   physical power and terrifying combat rages.
@@ -101,6 +98,9 @@ recommended_occupations:
 keywords: 'insectoid-berserker, brutal-strength, chitin-hide, combat-rage, scrap-weapons'
 negative_keywords: 'diplomacy, delicate-tech, scholar, peaceful'
 species_traits: *ref_0
+cp: 16
+bp: 16
+cp_cost: 16
 ---
 
 # Orll (Brute Insectoid Humanoid)

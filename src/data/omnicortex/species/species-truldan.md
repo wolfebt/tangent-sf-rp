@@ -42,8 +42,8 @@ tech_level: 3 (Swamp Camouflage Suits & Harpoon Launchers)
 meta_level: 1 (Cellular Adaptation)
 homeworld: Trulda Mangrove Archipelago
 costs:
-  cp: 22
-  bp: 22
+  cp: 25
+  bp: 25
 modifiers:
   - target: Stamina
     value: 1
@@ -57,9 +57,6 @@ modifiers:
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 22
-cp: 22
-bp: 22
 description: >-
   Robust amphibian humanoids possessing color-shifting skin, long prehensile
   tongue strikes, and rapid aquatic regeneration.
@@ -86,6 +83,9 @@ keywords: >-
   regeneration
 negative_keywords: 'dry-desert, heavy-metal, fire'
 species_traits: *ref_0
+cp: 25
+bp: 25
+cp_cost: 25
 ---
 
 # Truldan (Amphibious Chameleonfolk)
@@ -104,7 +104,7 @@ Robust amphibian humanoids possessing color-shifting skin, long prehensile tongu
 - **Stigma**: Severe Xeno (-4)
 
 ## Mechanics & Statblock
-- **CP Cost**: 16 CP
+- **CP Cost**: 25 CP
 - **Inherent Modifiers**: +1 Stamina, +1 Agility, +1 Strength
 - **Bonus Skills**: +0 Skill Points
 - **Inherent Features**: Amphibious, Chameleon (+3 Stealth in natural environments), Exoskeleton (Light Scales DR 2/-), Fast Heal, Reach (+5ft Melee Reach with Tongue/Limbs), Regeneration (2 HP/rnd)

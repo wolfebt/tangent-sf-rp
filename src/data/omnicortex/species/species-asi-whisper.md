@@ -42,16 +42,13 @@ tech_level: 3 (Optical Mirage Tech)
 meta_level: 4 (Ethereal Illusion)
 homeworld: The Shrouded Veil
 costs:
-  cp: 26
-  bp: 26
+  cp: 27
+  bp: 27
 modifiers:
   - target: Charisma
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 26
-cp: 26
-bp: 26
 description: >-
   Whispers are enigmatic beings able to dissolve into glowing spheres of soft
   light or manifest as ghostly humanoid silhouettes. They pass through locks and
@@ -77,6 +74,9 @@ recommended_occupations:
 keywords: 'ethereal, intangible, light-form, phantasmal, stealth, infiltration, soundless'
 negative_keywords: 'loud, heavy-infantry, conspicuous, physical-labor'
 species_traits: *ref_0
+cp: 27
+bp: 27
+cp_cost: 27
 ---
 
 # Whisper (Wisp Shifter)

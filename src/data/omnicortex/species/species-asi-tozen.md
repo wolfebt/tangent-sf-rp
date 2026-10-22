@@ -45,8 +45,8 @@ tech_level: 2 (Arboreal Bowcraft & Astronomy)
 meta_level: 3 (Astral Nature Divination)
 homeworld: Plains of Eldoria
 costs:
-  cp: 25
-  bp: 25
+  cp: 27
+  bp: 27
 modifiers:
   - target: Agility
     value: 1
@@ -68,9 +68,6 @@ modifiers:
     value: -4
     type: skill
     mode: size_modifier
-cp_cost: 25
-cp: 25
-bp: 25
 description: >-
   Tozen are proud centauroid fey combining humanoid torsos with equine bodies.
   Revered for their wisdom, astronomical precision, and nomadic independence,
@@ -95,6 +92,9 @@ recommended_occupations:
 keywords: 'centauroid, fleet-footed, astronomy, archery, open-steppes, proud, nomadic'
 negative_keywords: 'indoor-confined, starship-ductwork, urbanite, cramped-cockpits'
 species_traits: *ref_0
+cp: 27
+bp: 27
+cp_cost: 27
 ---
 
 # Tozen (Centaur Fey)

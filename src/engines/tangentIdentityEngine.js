@@ -400,16 +400,8 @@ export const applySpeciesTransition = (characterData, newSpeciesInput, dbData = 
   let updated = { ...characterData, 'char-species': newSpeciesName };
   const allSkillsList = (dbData.skills && dbData.skills.length > 0) ? dbData.skills : ALL_CANONICAL_SKILLS;
 
-  // 1. Revert previous species inherent attribute modifiers
-  if (prevSpeciesObj && Array.isArray(prevSpeciesObj.inherent_attribute_modifiers)) {
-    prevSpeciesObj.inherent_attribute_modifiers.forEach(m => {
-      const attr = typeof m === 'object' ? (m.attribute || m.name) : String(m).split(/[:+(]/)[0].trim();
-      const bonus = typeof m === 'object' ? (m.bonus ?? m.value ?? 1) : (parseInt(String(m).replace(/[^0-9-]/g, ''), 10) || 1);
-      if (attr) {
-        updated = removeOrDecrementAttribute(updated, attr, bonus);
-      }
-    });
-  }
+  // 1. Species inherent attribute modifiers are evaluated dynamically as modifiers in FolioStatsContext
+  // and must NOT be baked into purchased base attributes (updated['attr-*']).
 
   // 2. Revert previous speciesAllocations (attributes & skills)
   if (characterData.speciesAllocations) {
@@ -702,32 +694,8 @@ export const applySpeciesTransition = (characterData, newSpeciesInput, dbData = 
       });
     }
 
-    // Inherent Attribute Modifiers
-    if (Array.isArray(newSpeciesObj.inherent_attribute_modifiers)) {
-      newSpeciesObj.inherent_attribute_modifiers.forEach(m => {
-        const attr = typeof m === 'object' ? (m.attribute || m.name) : String(m).split(/[:+(]/)[0].trim();
-        const bonus = typeof m === 'object' ? (m.bonus ?? m.value ?? 1) : (parseInt(String(m).replace(/[^0-9-]/g, ''), 10) || 1);
-        const cleanKey = mapToAttrKey(attr);
-        if (cleanKey) {
-          const cur = parseInt(updated[cleanKey] || 0, 10);
-          const nextVal = Math.max(0, cur + bonus);
-          updated[cleanKey] = nextVal;
-          const subKey = PRIMARY_TO_SUB_ATTR_MAP[cleanKey];
-          if (subKey) {
-            const oldBase = (cur * 2) + 2;
-            const newBase = (nextVal * 2) + 2;
-            const rawSub = updated[subKey] !== undefined && updated[subKey] !== null && updated[subKey] !== '' ? parseInt(updated[subKey], 10) : null;
-            const hasExplicitSub = rawSub !== null && !isNaN(rawSub) && rawSub > 0;
-            const curSub = hasExplicitSub ? rawSub : oldBase;
-            const subDelta = curSub - oldBase;
-            const nextSub = Math.max(2, newBase + subDelta);
-            updated[subKey] = nextSub;
-            if (subKey === 'attr-logic') updated['attr-reason'] = nextSub;
-            if (subKey === 'attr-will') updated['attr-willpower'] = nextSub;
-          }
-        }
-      });
-    }
+    // Note: Species inherent_attribute_modifiers are resolved dynamically as modifiers in FolioStatsContext
+    // and are not baked into purchased base attributes (updated['attr-*']).
 
   } else {
     // Clearing species

@@ -10,6 +10,7 @@ import {
   HelpCircle
 } from 'lucide-react';
 import { AudioService } from '../services/audioService';
+import { getEffectiveUserHandle } from '../utils/personaValidationUtils';
 
 // Module-scoped flag: resets whenever the page is refreshed/reloaded in the browser.
 // Ensures tactical briefing opens by default on homepage load, and stays closed once dismissed until refresh.
@@ -68,7 +69,9 @@ const Home = () => {
 
   const displayIdentity = userHandle
     ? `@${userHandle}`
-    : currentUser?.displayName || currentUser?.email || 'OPERATOR';
+    : currentUser
+    ? `@${getEffectiveUserHandle(currentUser)}`
+    : 'OPERATOR';
 
   const handleSelectDrawer = (drawerId) => {
     setActiveDrawer(prev => prev === drawerId ? null : drawerId);

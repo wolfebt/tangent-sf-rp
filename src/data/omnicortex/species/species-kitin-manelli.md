@@ -62,8 +62,8 @@ tech_level: 4 (Advanced Psionic/Biomorphic)
 meta_level: 4 (Psionic)
 homeworld: Kitin Hive Worlds / Diplomatic Hubs
 costs:
-  cp: 36
-  bp: 36
+  cp: 46
+  bp: 46
 modifiers:
   - target: Intellect
     value: 2
@@ -85,9 +85,6 @@ modifiers:
     value: 2
     type: skill
     mode: conditional
-cp_cost: 36
-cp: 36
-bp: 36
 description: >-
   The Manelli are the striking and enigmatic "Face of the Collective" and
   primary Brood-Masters. Psionically steered into a mimetic humanoid form with
@@ -119,6 +116,9 @@ keywords: >-
   insectivore-omnivore
 negative_keywords: 'berserker-rage, isolation, xenophobic, individualist'
 species_traits: *ref_0
+cp: 46
+bp: 46
+cp_cost: 46
 ---
 
 # Manelli (Kitin Cerebral Expression / Mimetic Humanoid)

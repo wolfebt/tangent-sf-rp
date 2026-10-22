@@ -46,16 +46,13 @@ tech_level: 4 (Psi-Amplifier Holo-Suits)
 meta_level: 4 (High Psionics)
 homeworld: Mondis Floating Arcologies
 costs:
-  cp: 34
-  bp: 34
+  cp: 38
+  bp: 38
 modifiers:
   - target: Intellect
     value: 2
     type: attribute
     mode: inherent
-cp_cost: 34
-cp: 34
-bp: 34
 description: >-
   Slender, glowing humanoids whose feet never touch the ground, communicating
   exclusively via harmonic telepathy and telekinetic flight.
@@ -84,6 +81,9 @@ keywords: >-
   high-psionics
 negative_keywords: 'physical-brawling, dirt, manual-labor, heavy-armor'
 species_traits: *ref_0
+cp: 38
+bp: 38
+cp_cost: 38
 ---
 
 # Mondi (Psionic Luminous Entity)

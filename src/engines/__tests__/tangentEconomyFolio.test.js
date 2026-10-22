@@ -44,9 +44,9 @@ describe('Tangent SF RP — Folio CP Economy & Species Package Asset Accounting'
   });
 
   describe('Species Package Inclusivity & Economy Accounting', () => {
-    it('resolves Alterian 28 CP species package with itemized components', () => {
+    it('resolves Alterian 34 CP species package with itemized components', () => {
       const alterian = calculateFullSpeciesCost('Alterian');
-      assert.strictEqual(alterian.totalCost, 28);
+      assert.strictEqual(alterian.totalCost, 34);
       assert.ok(alterian.itemizedList.length > 0);
 
       // Inherent attributes
@@ -111,7 +111,7 @@ describe('Tangent SF RP — Folio CP Economy & Species Package Asset Accounting'
 
       // Calculate Economy simulation
       const spCost = calculateFullSpeciesCost(char['char-species']);
-      const speciesPackageCost = spCost.totalCost; // 28 CP
+      const speciesPackageCost = spCost.totalCost; // 34 CP
       const primaryAttrCost = (1 + 2 + 0 + 1 + 0 + 0) * 5; // 20 CP
       const purchasedFeaturesCost = 3; // Combat Reflexes
       const purchasedTraitsCost = 0;
@@ -119,9 +119,9 @@ describe('Tangent SF RP — Folio CP Economy & Species Package Asset Accounting'
       const hindranceRefund = 3; // Impulsive
 
       const expectedSpent = speciesPackageCost + primaryAttrCost + purchasedFeaturesCost + purchasedTraitsCost + skillCost - hindranceRefund;
-      // 28 + 20 + 3 + 0 + 3 - 3 = 51 CP
+      // 34 + 20 + 3 + 0 + 3 - 3 = 57 CP
 
-      assert.strictEqual(expectedSpent, 51);
+      assert.strictEqual(expectedSpent, 57);
 
       // Verify that all species assets are recorded with costVal === 0 and "0 [X]" cost
       const speciesFeat = char.features[0];
@@ -657,8 +657,8 @@ describe('Tangent SF RP — Folio CP Economy & Species Package Asset Accounting'
         ]
       };
       const breakdown = computeEconomyBreakdown(char);
-      // Species package is charged as a whole (Alterian = 28 CP)
-      assert.strictEqual(breakdown.speciesCost, 28);
+      // Species package is charged as a whole (Alterian = 34 CP)
+      assert.strictEqual(breakdown.speciesCost, 34);
       // Inherent traits themselves are 0 CP charged
       assert.strictEqual(breakdown.traitsCost, 0);
 

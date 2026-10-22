@@ -1,6 +1,7 @@
 import React from 'react';
 import { Search, Users, Layers, Shield, Crown } from 'lucide-react';
 import { AudioService } from '../../../services/audioService';
+import { getEffectiveUserHandle } from '../../../utils/personaValidationUtils';
 
 export const SquadDirectoryTab = ({
   directorySearch,
@@ -166,7 +167,7 @@ export const SquadDirectoryTab = ({
                     const details = (typeof rawMember === 'object' && rawMember !== null)
                       ? rawMember
                       : (group.memberDetails?.[memberId] || {});
-                    const handle = details.handle || details.displayName || details.userHandle || (memberId === currentUser?.uid ? (currentUser?.displayName || currentUser?.email?.split('@')[0]) : null) || 'Operator';
+                    const handle = details.handle || details.displayName || details.userHandle || (memberId === currentUser?.uid ? getEffectiveUserHandle(currentUser) : getEffectiveUserHandle(details));
                     const isSelf = memberId === currentUser?.uid;
                     const persona = details.persona;
                     const role = details.role || (memberId === group.creatorId ? 'GM' : 'Operator');

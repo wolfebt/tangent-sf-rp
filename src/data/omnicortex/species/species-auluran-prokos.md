@@ -37,16 +37,13 @@ tech_level: 3 (Cryo-Biotechnology)
 meta_level: 2 (Cellular Metamorphosis)
 homeworld: Prokos Tundra Outposts
 costs:
-  cp: 20
-  bp: 20
+  cp: 21
+  bp: 21
 modifiers:
   - target: Intellect
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 20
-cp: 20
-bp: 20
 description: >-
   Prokos are cold-adapted Auluran biforms from glacial fringe worlds. They can
   shift between a slender humanoid form for technology operation and a bulky
@@ -74,6 +71,9 @@ recommended_occupations:
 keywords: 'cryo-adapted, biform-shifter, tundra-hunter, dual-form, thermal-fur, resilient'
 negative_keywords: 'heat-intolerant, desert-dweller, static-form, fragile'
 species_traits: *ref_0
+cp: 21
+bp: 21
+cp_cost: 21
 ---
 
 # Prokos (Auluran Biform Shifter)
@@ -92,7 +92,7 @@ Prokos are cold-adapted Auluran biforms from glacial fringe worlds. They can shi
 - **Stigma**: Xeno (-2)
 
 ## Mechanics & Statblock
-- **CP Cost**: 10 CP
+- **CP Cost**: 21 CP
 - **Inherent Modifiers**: +1 Intellect
 - **Bonus Skills**: +0 Skill Points
 - **Inherent Features**: Auluran Base Traits, Digitigrade, Climber, Quick, Adapted (Cold Environments), Alternate Form (Humanoid / Beast Form), Improved Great Fortitude

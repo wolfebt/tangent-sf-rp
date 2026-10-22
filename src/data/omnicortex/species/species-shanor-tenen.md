@@ -38,12 +38,9 @@ tech_level: 4 (Ethereal Lattice Tech)
 meta_level: 5 (High Spectral Metaphysics)
 homeworld: The Twilight Rifts
 costs:
-  cp: 38
-  bp: 38
+  cp: 45
+  bp: 45
 modifiers: []
-cp_cost: 38
-cp: 38
-bp: 38
 description: >-
   Tenen are benign spectral Sha’nor who lack the predatory vampiric urge,
   drifting between realities as quiet chroniclers and spatial navigators.
@@ -71,6 +68,9 @@ recommended_occupations:
 keywords: 'benign-spectral, chronicler, twilight-rift, spatial-observer, intangible-glide'
 negative_keywords: 'predatory-vampire, physical-brawler, loud'
 species_traits: *ref_0
+cp: 45
+bp: 45
+cp_cost: 45
 ---
 
 # Tenen (Spectral Void Entity)

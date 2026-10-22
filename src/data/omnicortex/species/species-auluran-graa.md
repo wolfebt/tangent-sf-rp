@@ -48,8 +48,8 @@ tech_level: 2 (Symbiotic Harnesses)
 meta_level: 1 (Pheromone Network)
 homeworld: Aulura Prime
 costs:
-  cp: 15
-  bp: 15
+  cp: 26
+  bp: 26
 modifiers:
   - target: Agility
     value: 1
@@ -67,9 +67,6 @@ modifiers:
     value: -4
     type: skill
     mode: size_modifier
-cp_cost: 15
-cp: 15
-bp: 15
 description: >-
   The Graa are massive quadrupedal Auluran juggernauts. Lacking fine
   manipulative hands, they make up for it with crushing jaw power, thick hide,
@@ -98,6 +95,9 @@ negative_keywords: 'fine-manipulation, marksmanship, tool-crafting, academic, ur
 disadvantages:
   - disadvantage-species-armless
 species_traits: *ref_0
+cp: 26
+bp: 26
+cp_cost: 26
 ---
 
 # Graa (Auluran Heavy Beast Caste)

@@ -48,8 +48,8 @@ tech_level: 3 (Heavy Rigging & Mining Plasma Tools)
 meta_level: 1 (Primal Strength)
 homeworld: Kongo- Prime Mega-Jungle
 costs:
-  cp: 24
-  bp: 24
+  cp: 27
+  bp: 27
 modifiers:
   - target: Strength
     value: 2
@@ -71,9 +71,6 @@ modifiers:
     value: -4
     type: skill
     mode: size_modifier
-cp_cost: 24
-cp: 24
-bp: 24
 description: >-
   Powerful simian beings combining immense upper-body strength with prehensile
   four-limb dexterity and climbing speed.
@@ -100,6 +97,9 @@ keywords: >-
   mega-jungle
 negative_keywords: 'tiny-spaces, aerial-glide, frail'
 species_traits: *ref_0
+cp: 27
+bp: 27
+cp_cost: 27
 ---
 
 # Kongi (Simian Juggernaut)

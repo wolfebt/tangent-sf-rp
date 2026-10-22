@@ -42,12 +42,9 @@ tech_level: 4 (Deep Trench Tech)
 meta_level: 1 (Echo Resonance)
 homeworld: Syndicate Marine Arcologies
 costs:
-  cp: 7
-  bp: 7
+  cp: 13
+  bp: 13
 modifiers: []
-cp_cost: 7
-cp: 7
-bp: 7
 description: >-
   Syndicate-engineered pelagic operatives bred for underwater sabotage, deep-sea
   mining security, and submerged salvage.
@@ -73,6 +70,9 @@ keywords: >-
   underwater-sabotage
 negative_keywords: 'dehydration, desert-wasteland, fire, clumsy-on-land'
 species_traits: *ref_0
+cp: 13
+bp: 13
+cp_cost: 13
 ---
 
 # Aquatican (Syndicate Pelagic Operative)

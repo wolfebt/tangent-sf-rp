@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
-import { db, auth } from '../firebase';
+import { db, auth, isFirestoreQuotaExhausted, handleFirestoreQuotaError } from '../firebase';
 import { collection, onSnapshot, doc, setDoc, deleteDoc, getDocs } from 'firebase/firestore';
 import { categoryConfig } from '../components/DBM/categoryConfig';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -139,7 +139,7 @@ export const DBMProvider = ({ children }) => {
     societies: filterInitialData(DEFAULT_SOCIETAL_ENTRIES, 'societies')
   }));
   const [currentUser, setCurrentUser] = useState(auth?.currentUser || null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [loadError, setLoadError] = useState(null);
   const [toastMessage, setToastMessage] = useState(null);
 
@@ -169,44 +169,77 @@ export const DBMProvider = ({ children }) => {
     return () => unsubAuth();
   }, []);
 
-  // Real-time Firestore Subscriptions for all reference collections
+  // Real-time Firestore Subscriptions for core mutable collections (Quota-Safe)
   useEffect(() => {
-    setIsLoading(true);
+    if (isFirestoreQuotaExhausted()) {
+      setIsLoading(false);
+      return;
+    }
+
     const unsubs = [];
-    const allCatKeys = new Set(['rules_codex', 'compendium', 'lore', 'rules']);
+    // Subscribe only to primary user-customizable collections; static reference tables
+    // and the 300+ article compendium are already 100% locally seeded & merged with localStorage.
+    const syncedCatKeys = [
+      'archetypes',
+      'species',
+      'occupations',
+      'origins',
+      'factions',
+      'features',
+      'traits',
+      'skills',
+      'disadvantages',
+      'weaponry',
+      'armoring',
+      'gear',
+      'mecha',
+      'architecture',
+      'other',
+      'augmentations',
+      'invocations'
+    ];
 
-    Object.keys(categoryConfig).forEach(parentK => {
-      const parent = categoryConfig[parentK];
-      if (parent.viewType !== 'guide') allCatKeys.add(parentK);
-      if (parent.subcategories) {
-        Object.keys(parent.subcategories).forEach(subK => {
-          if (parent.subcategories[subK].viewType !== 'guide') {
-            allCatKeys.add(subK);
-          }
-        });
+    let pendingCount = syncedCatKeys.length;
+    let cancelled = false;
+
+    const cleanupAll = () => {
+      cancelled = true;
+      while (unsubs.length > 0) {
+        const u = unsubs.pop();
+        if (typeof u === 'function') {
+          try { u(); } catch (_) {}
+        }
       }
-    });
+    };
 
-    let pendingCount = allCatKeys.size;
-
-    allCatKeys.forEach(catK => {
+    syncedCatKeys.forEach(catK => {
+      if (cancelled || isFirestoreQuotaExhausted()) return;
       try {
         const refCol = collection(db, catK);
         const unsubRef = onSnapshot(
           refCol,
           (snapshot) => {
+            if (cancelled) return;
             const tombstones = getOmnicortexTombstones();
             const rawDocs = snapshot.docs.map(d => ({ ...d.data(), id: d.id }));
             const items = mergeSeedsWithDocs(rawDocs, catK, tombstones);
 
-            setDbData(prev => ({ ...prev, [catK]: items }));
+            setDbData(prev => ({
+              ...prev,
+              [catK]: items,
+              ...(catK === 'traits' ? { trait: items } : {})
+            }));
             pendingCount--;
             if (pendingCount <= 0) {
               setIsLoading(false);
             }
           },
           (err) => {
-            console.warn(`[DBMContext] Listener notice for collection "${catK}":`, err.message);
+            if (handleFirestoreQuotaError(err)) {
+              cleanupAll();
+              setIsLoading(false);
+              return;
+            }
             const tombstones = getOmnicortexTombstones();
             const items = mergeSeedsWithDocs([], catK, tombstones);
             setDbData(prev => ({ ...prev, [catK]: items }));
@@ -218,7 +251,11 @@ export const DBMProvider = ({ children }) => {
         );
         unsubs.push(unsubRef);
       } catch (e) {
-        console.warn(`[DBMContext] Init error on collection "${catK}":`, e);
+        if (handleFirestoreQuotaError(e)) {
+          cleanupAll();
+          setIsLoading(false);
+          return;
+        }
         const tombstones = getOmnicortexTombstones();
         const items = mergeSeedsWithDocs([], catK, tombstones);
         setDbData(prev => ({ ...prev, [catK]: items }));
@@ -230,9 +267,7 @@ export const DBMProvider = ({ children }) => {
     });
 
     return () => {
-      unsubs.forEach(unsub => {
-        if (typeof unsub === 'function') unsub();
-      });
+      cleanupAll();
     };
   }, []);
 
@@ -627,14 +662,14 @@ export const DBMProvider = ({ children }) => {
       return { ...prev, [key]: updated };
     });
 
-    // 4. Firestore persistence if authenticated
-    if (auth.currentUser || currentUser) {
+    // 4. Firestore persistence if authenticated and quota available
+    if ((auth.currentUser || currentUser) && !isFirestoreQuotaExhausted()) {
       try {
         const docRef = doc(db, key, docId);
         const cleanPayload = sanitizeFirestoreData(sanitizedEntry);
         await setDoc(docRef, cleanPayload, { merge: true });
       } catch (err) {
-        console.warn(`[DBMContext] Cloud sync notice for document "${docId}" in "${key}":`, err.message);
+        handleFirestoreQuotaError(err);
         // Do NOT rollback local state! Local storage and state have preserved the changes.
       }
     }

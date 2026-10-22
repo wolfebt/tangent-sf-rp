@@ -506,8 +506,11 @@ export function enrichItemWithModifiers(rawItem, canonicalFallback = null) {
   if (!rawItem) return null;
 
   const item = typeof rawItem === 'object' ? { ...rawItem } : { name: String(rawItem) };
-  const name = (item.name || item.title || item.id || '').trim();
+  const rawName = (item.name || item.title || item.id || '').trim();
   const fallback = canonicalFallback || resolveCanonicalCatalogItem(rawItem);
+  const name = (typeof rawItem === 'object' && item.name && !/^(trait|feature|disadvantage|aug)-/i.test(item.name))
+    ? item.name.trim()
+    : (fallback?.name || fallback?.title || rawName);
   const body = item.body || fallback?.body || '';
 
   // 1. Resolve mechanics
@@ -834,7 +837,8 @@ export function getSkillCheckBreakdown(skill, characterData = {}, dbData = {}, e
   const baseAttrLabel = attrMap[baseAttrKey] || baseAttrKey.replace('attr-', '').toUpperCase().slice(0, 3);
   const baseAttrScore = parseInt(characterData[baseAttrKey] || 0, 10);
   const baseAttrUserMod = parseInt(characterData[`${baseAttrKey}-mod`] || 0, 10);
-  const attrTotal = baseAttrScore + baseAttrUserMod;
+  const baseAttrIdentityMod = parseInt(extraOptions?.attributeMods?.[baseAttrKey] || 0, 10);
+  const attrTotal = baseAttrScore + baseAttrUserMod + baseAttrIdentityMod;
 
   // 3. Collect Modifiers from Features, Traits, Hindrances, Identity Packages, Equipment, and Direct
   const activeModifiers = [];

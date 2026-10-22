@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { useFolio } from '../../../context/FolioContext';
 import { useGroup } from '../../../context/GroupContext';
+import { getEffectiveUserHandle } from '../../../utils/personaValidationUtils';
 
 export const SquadRosterTab = ({
   activeGroup,
@@ -189,7 +190,7 @@ export const SquadRosterTab = ({
               ? rawMember
               : (activeGroup.memberDetails?.[memberId] || {});
 
-            const memberHandle = details.handle || details.displayName || details.userHandle || (memberId === currentUser?.uid ? (currentUser?.displayName || currentUser?.email?.split('@')[0]) : null) || 'Operator';
+            const memberHandle = details.handle || details.displayName || details.userHandle || (memberId === currentUser?.uid ? getEffectiveUserHandle(currentUser) : getEffectiveUserHandle(details));
             const memberRole = details.role || (memberId === activeGroup.creatorId ? 'Architect' : 'Operator');
             const isSelf = memberId === currentUser?.uid;
             const persona = details.persona || null;

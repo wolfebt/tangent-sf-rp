@@ -40,12 +40,9 @@ tech_level: 2 (Scavenged Warp Relics)
 meta_level: 3 (Chaotic Void Warping)
 homeworld: Corrupted Fringe Outposts
 costs:
-  cp: 1
-  bp: 1
+  cp: 11
+  bp: 11
 modifiers: []
-cp_cost: 1
-cp: 1
-bp: 1
 description: >-
   Eakren are mortals who were caught in catastrophic void collapses and mutated
   into chimeric aberrational humanoids.
@@ -67,6 +64,9 @@ keywords: >-
   fringe-dweller
 negative_keywords: 'pureblood-society, stable-form, pristine'
 species_traits: *ref_0
+cp: 11
+bp: 11
+cp_cost: 11
 ---
 
 # Eakren (Void-Warped Mutant)

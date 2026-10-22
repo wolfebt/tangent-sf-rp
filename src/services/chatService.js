@@ -14,7 +14,7 @@ import {
   onSnapshot, 
   serverTimestamp 
 } from 'firebase/firestore';
-import { auth, db } from '../firebase.js';
+import { auth, db, isFirestoreQuotaExhausted, handleFirestoreQuotaError } from '../firebase.js';
 import { StorageService } from './storageService.js';
 import { 
   getFolioTombstones, 
@@ -68,11 +68,14 @@ export const DEFAULT_PUBLIC_CHANNELS = [
 ];
 
 export const ChatService = {
-  // Ensure default public channels exist in Firestore
+  // Ensure default public channels exist in Firestore (runs at most once per session)
+  _channelsInitialized: false,
   async initDefaultChannels() {
-    if (!db || !auth?.currentUser) return;
+    if (!db || !auth?.currentUser || this._channelsInitialized || isFirestoreQuotaExhausted()) return;
+    this._channelsInitialized = true;
     try {
       for (const ch of DEFAULT_PUBLIC_CHANNELS) {
+        if (isFirestoreQuotaExhausted()) break;
         const docRef = doc(db, 'channels', ch.id);
         const snap = await getDoc(docRef);
         if (!snap.exists()) {
@@ -89,7 +92,7 @@ export const ChatService = {
         }
       }
     } catch (err) {
-      console.warn('[ChatService] Error verifying default channels:', err);
+      handleFirestoreQuotaError(err);
     }
   },
 
@@ -99,8 +102,16 @@ export const ChatService = {
     StorageService.getItem('tangent_channels_cache', null).then(cached => {
       if (Array.isArray(cached) && cached.length > 0) {
         callback(cached);
+      } else {
+        callback(DEFAULT_PUBLIC_CHANNELS);
       }
-    }).catch(() => {});
+    }).catch(() => {
+      callback(DEFAULT_PUBLIC_CHANNELS);
+    });
+
+    if (isFirestoreQuotaExhausted()) {
+      return () => {};
+    }
 
     if (!currentUser) {
       const q = query(
@@ -112,7 +123,7 @@ export const ChatService = {
         callback(list);
         StorageService.setItem('tangent_channels_cache', list).catch(() => {});
       }, (err) => {
-        console.warn('[ChatService] Error listening to public channels:', err);
+        handleFirestoreQuotaError(err);
       });
     }
 
@@ -138,7 +149,7 @@ export const ChatService = {
       publicList = snap.docs.map(d => ({ id: d.id, ...d.data() }));
       emitCombined();
     }, (err) => {
-      console.warn('[ChatService] Error listening to public channels:', err);
+      handleFirestoreQuotaError(err);
     });
 
     const qMember = query(
@@ -149,7 +160,7 @@ export const ChatService = {
       memberList = snap.docs.map(d => ({ id: d.id, ...d.data() }));
       emitCombined();
     }, (err) => {
-      console.warn('[ChatService] Error listening to member channels:', err);
+      handleFirestoreQuotaError(err);
     });
 
     return () => {
@@ -169,6 +180,10 @@ export const ChatService = {
       }
     }).catch(() => {});
 
+    if (isFirestoreQuotaExhausted()) {
+      return () => {};
+    }
+
     const messagesRef = collection(db, 'channels', channelId, 'messages');
     const q = query(messagesRef, orderBy('createdAt', 'asc'), limit(maxLimit));
 
@@ -180,7 +195,7 @@ export const ChatService = {
       callback(messages);
       StorageService.setItem(`tangent_messages_cache_${channelId}`, messages).catch(() => {});
     }, (err) => {
-      console.warn(`[ChatService] Error subscribing to channel ${channelId} messages:`, err);
+      handleFirestoreQuotaError(err);
     });
   },
 
@@ -482,8 +497,10 @@ export const ChatService = {
   },
 
   // Update online presence status & live activity telemetry in Firestore
+  _lastPresenceWriteTime: 0,
+  _lastPresenceSignature: '',
   async updateUserPresence(currentUser, status = 'online', extra = {}) {
-    if (!currentUser?.uid || !db) return;
+    if (!currentUser?.uid || !db || isFirestoreQuotaExhausted()) return;
     try {
       const userDocRef = doc(db, 'users', currentUser.uid);
       const now = new Date();
@@ -495,12 +512,16 @@ export const ChatService = {
 
       const effectiveStatus = status === 'invisible' ? 'offline' : status;
 
+      const safeDisplayName = (currentUser.displayName && !currentUser.displayName.includes('@'))
+        ? currentUser.displayName
+        : effectiveHandle;
+
       const payload = {
         status: effectiveStatus, // 'online' | 'idle' | 'dnd' | 'offline'
         presenceState: effectiveStatus,
         lastSeen: serverTimestamp(),
         lastSeenLocal: now.toISOString(),
-        displayName: currentUser.displayName || currentUser.email || 'Operator',
+        displayName: safeDisplayName,
         userHandle: effectiveHandle,
         photoURL: currentUser.photoURL || null
       };
@@ -537,9 +558,25 @@ export const ChatService = {
         }
       }
 
+      // Deduplicate rapid identical presence writes within 30s to conserve Firestore write quota
+      const sig = JSON.stringify({
+        uid: currentUser.uid,
+        status: effectiveStatus,
+        statusMessage: payload.statusMessage,
+        activity: payload.activity,
+        activeSquadId: payload.activeSquadId,
+        currentPersona: payload.currentPersona,
+        personasCount: payload.personas?.length
+      });
+      if (sig === this._lastPresenceSignature && (Date.now() - this._lastPresenceWriteTime) < 30000) {
+        return;
+      }
+      this._lastPresenceSignature = sig;
+      this._lastPresenceWriteTime = Date.now();
+
       await setDoc(userDocRef, payload, { merge: true });
     } catch (err) {
-      console.warn('[ChatService] Error updating user presence:', err);
+      handleFirestoreQuotaError(err);
     }
   },
 
@@ -551,6 +588,10 @@ export const ChatService = {
         callback(cached);
       }
     }).catch(() => {});
+
+    if (isFirestoreQuotaExhausted()) {
+      return () => {};
+    }
 
     const usersRef = collection(db, 'users');
     return onSnapshot(usersRef, (snapshot) => {

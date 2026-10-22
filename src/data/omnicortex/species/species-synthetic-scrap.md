@@ -41,16 +41,13 @@ tech_level: 3 (Salvage & Reclaimed Hardware)
 meta_level: 0 (Null)
 homeworld: Junk Worlds & Scrapyard Moons
 costs:
-  cp: 35
-  bp: 35
+  cp: 50
+  bp: 50
 modifiers:
   - target: Charisma
     value: -2
     type: attribute
     mode: inherent
-cp_cost: 35
-cp: 35
-bp: 35
 description: >-
   Scraps are self-assembled, autonomous synthetic beings constructed from
   recycled chassis, discarded starship components, and industrial hulls.
@@ -73,6 +70,9 @@ recommended_occupations:
 keywords: 'kit-bashed, junkframe, welded-chassis, scrapper-survivor, improvised-parts'
 negative_keywords: 'luxury-sleek, factory-standard, pureblood'
 species_traits: *ref_0
+cp: 50
+bp: 50
+cp_cost: 50
 ---
 
 # Scrap (Kit-Bashed Autonomous Frame)

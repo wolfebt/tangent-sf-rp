@@ -455,7 +455,7 @@ export const FolioTooltip = ({
                   )}
                   {attrBreakdown.mod !== 0 && (
                     <div className="flex items-center justify-between bg-slate-900/80 border border-slate-800 px-2 py-1 rounded">
-                      <span className="text-slate-400">Identity & Gear Modifiers:</span>
+                      <span className="text-slate-400">Active Modifiers Total:</span>
                       <span className={attrBreakdown.mod > 0 ? "text-emerald-300 font-bold" : "text-rose-300 font-bold"}>
                         {attrBreakdown.mod > 0 ? `+${attrBreakdown.mod}` : attrBreakdown.mod}
                       </span>
@@ -463,37 +463,46 @@ export const FolioTooltip = ({
                   )}
                 </>
               ) : (
-                <>
-                  <div className="grid grid-cols-2 gap-1.5">
-                    <div className="bg-slate-900/80 border border-slate-800 rounded px-2 py-1 flex items-center justify-between">
-                      <span className="text-slate-400">Purchased:</span>
-                      <span className="text-cyan-200 font-bold">
-                        {attrBreakdown.purchased ?? 0} ({(attrBreakdown.purchased ?? 0) * 5} CP)
-                      </span>
-                    </div>
-                    <div className="bg-slate-900/80 border border-slate-800 rounded px-2 py-1 flex items-center justify-between">
-                      <span className="text-slate-400">Bonus Mod:</span>
-                      <span className={`font-bold ${attrBreakdown.mod > 0 ? 'text-emerald-300' : attrBreakdown.mod < 0 ? 'text-rose-300' : 'text-slate-400'}`}>
-                        {attrBreakdown.mod > 0 ? `+${attrBreakdown.mod}` : attrBreakdown.mod ?? 0}
-                      </span>
-                    </div>
+                <div className="grid grid-cols-2 gap-1.5">
+                  <div className="bg-slate-900/80 border border-slate-800 rounded px-2 py-1 flex items-center justify-between">
+                    <span className="text-slate-400">Purchased:</span>
+                    <span className="text-cyan-200 font-bold">
+                      {attrBreakdown.purchased ?? 0} ({(attrBreakdown.purchased ?? 0) * 5} CP)
+                    </span>
                   </div>
-                  {attrBreakdown.sources && attrBreakdown.sources.length > 0 && (
-                    <div className="bg-slate-900/60 border border-slate-800/80 rounded p-1.5 space-y-1">
-                      <div className="text-[9px] uppercase font-bold text-slate-400">Modifier Breakdown:</div>
-                      <div className="space-y-0.5 max-h-24 overflow-y-auto">
-                        {attrBreakdown.sources.map((s, i) => (
-                          <div key={i} className="flex items-center justify-between text-[9.5px]">
-                            <span className="text-slate-300 truncate mr-2">{s.name}:</span>
-                            <span className={`shrink-0 ${s.val > 0 ? 'text-emerald-400 font-bold' : 'text-rose-400 font-bold'}`}>
-                              {s.val > 0 ? `+${s.val}` : s.val}
+                  <div className="bg-slate-900/80 border border-slate-800 rounded px-2 py-1 flex items-center justify-between">
+                    <span className="text-slate-400">Bonus Mod:</span>
+                    <span className={`font-bold ${attrBreakdown.mod > 0 ? 'text-emerald-300' : attrBreakdown.mod < 0 ? 'text-rose-300' : 'text-slate-400'}`}>
+                      {attrBreakdown.mod > 0 ? `+${attrBreakdown.mod}` : attrBreakdown.mod ?? 0}
+                    </span>
+                  </div>
+                </div>
+              )}
+              {attrBreakdown.sources && attrBreakdown.sources.length > 0 && (
+                <div className="bg-slate-900/60 border border-slate-800/80 rounded p-1.5 space-y-1">
+                  <div className="text-[9px] uppercase font-bold text-slate-400">Modifier Sources:</div>
+                  <div className="space-y-0.5 max-h-32 overflow-y-auto">
+                    {attrBreakdown.sources.map((s, i) => {
+                      const modText = s.val > 0 ? `+${s.val}` : `${s.val}`;
+                      const srcLabel = s.source || s.name || 'Modifier';
+                      const sitSuffix = s.isSituational
+                        ? (s.condition ? ` — Situational: ${s.condition}` : ' — Situational')
+                        : '';
+                      return (
+                        <div key={i} className="flex items-center justify-between text-[9.5px] py-0.2">
+                          <span className="truncate">
+                            <span className={`font-bold ${s.isSituational ? 'text-amber-300' : s.val > 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                              {modText}
+                            </span>{' '}
+                            <span className="text-slate-300">
+                              ({srcLabel}{sitSuffix})
                             </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </>
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
               )}
             </div>
           </div>

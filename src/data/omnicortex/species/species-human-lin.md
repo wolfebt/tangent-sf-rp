@@ -44,16 +44,13 @@ tech_level: 2 (Living Vine Architecture)
 meta_level: 3 (Botanical Psionics)
 homeworld: Lin-Shur Canopies
 costs:
-  cp: 23
-  bp: 23
+  cp: 26
+  bp: 26
 modifiers:
   - target: Intellect
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 23
-cp: 23
-bp: 23
 description: >-
   Tail-bearing canopy humans who merged their physiology with arboreal symbiotic
   plants to navigate colossal alien forests.
@@ -77,6 +74,9 @@ recommended_occupations:
 keywords: 'canopy-dweller, symbiotic-flora, arboreal-tail, green-worlder, athletic'
 negative_keywords: 'sterile-metal, deep-space, high-gravity'
 species_traits: *ref_0
+cp: 26
+bp: 26
+cp_cost: 26
 ---
 
 # Lin Human (Arboreal Canopy Folk)

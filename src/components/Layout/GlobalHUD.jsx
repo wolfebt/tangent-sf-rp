@@ -33,6 +33,7 @@ import { useAudio } from '../../context/AudioContext';
 import { useToast } from '../../context/ToastContext';
 import { useConfirm } from '../../context/ConfirmContext';
 import { AudioService } from '../../services/audioService';
+import { getEffectiveUserHandle } from '../../utils/personaValidationUtils';
 import { UserSettingsModal } from '../UserSettingsModal';
 import { ComprehensiveUserGuideModal } from '../UI/ComprehensiveUserGuideModal';
 import { GameGroupModal } from '../Groups/GameGroupModal';
@@ -216,7 +217,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
     }
   };
 
-  const displayIdentity = userHandle ? `@${userHandle}` : (currentUser?.displayName || currentUser?.email || 'OPERATOR');
+  const displayIdentity = userHandle ? `@${userHandle}` : (currentUser ? `@${getEffectiveUserHandle(currentUser)}` : 'OPERATOR');
   const headerRef = useRef(null);
   const hasDynamicTabs = isFolio || isFoundry;
 

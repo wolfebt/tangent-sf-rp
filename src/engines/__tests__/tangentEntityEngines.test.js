@@ -47,24 +47,60 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
         type: 'Aberration', // +1 BP
         size: 'Large', // +2 BP
         movementModes: ['flight_basic'], // +2 BP
-        attributes: { str: 2, agi: 1, sta: 0, int: -1, wis: 0, cha: 0 }, // (+2 + 1 - 1) * 4 = +8 BP
-        skillBundles: 1, // +4 BP
+        attributes: { str: 2, agi: 1, sta: 0, int: -1, wis: 0, cha: 0 }, // (+2 + 1 - 1) * 5 = +10 BP
+        skillBundles: 1, // +5 BP
         traits: ['adapted', 'camouflage'], // 1 BP + 1 BP = +2 BP
         disadvantages: ['light_sensitivity'], // -2 BP refund
         budgetLevel: 'Advanced' // max 40 BP
       });
 
-      // Total = 1 + 2 + 2 + 8 + 4 + 2 - 2 = 17 BP
-      assert.strictEqual(result.totalBPUsed, 17);
-      assert.strictEqual(result.bpRemaining, 23);
+      // Total = 1 + 2 + 2 + 10 + 5 + 2 - 2 = 20 BP
+      assert.strictEqual(result.totalBPUsed, 20);
+      assert.strictEqual(result.bpRemaining, 20);
       assert.strictEqual(result.isOverBudget, false);
       assert.strictEqual(result.breakdown.typeBP, 1);
       assert.strictEqual(result.breakdown.sizeBP, 2);
       assert.strictEqual(result.breakdown.movementBP, 2);
-      assert.strictEqual(result.breakdown.attributeBP, 8);
-      assert.strictEqual(result.breakdown.skillsBP, 4);
+      assert.strictEqual(result.breakdown.attributeBP, 10);
+      assert.strictEqual(result.breakdown.skillsBP, 5);
       assert.strictEqual(result.breakdown.traitsBP, 2);
       assert.strictEqual(result.breakdown.disadvantagesRefund, 2);
+    });
+
+    it('includes type, size, traits, granted features, movements, attribute modifiers, attribute/skill/feature pools, and refunds from stigmas and hindrances', () => {
+      const result = calculateSpeciesBP({
+        type: 'Aberration', // +1 CP
+        size: 'Large', // +2 CP
+        movementModes: ['flight_basic'], // +2 CP
+        attributes: { int: 1 }, // +5 CP fixed attribute
+        bonus_attribute_points: 2, // +10 CP attribute pool
+        bonus_skills: 10, // +10 CP skill pool (+10 SP = 2 bundles)
+        traits: ['trait-adapted', 'trait-longevity'], // 1 CP + 2 CP = +3 CP
+        inherent_features: ['ability-tough'], // +3 CP granted feature
+        bonus_features: 1, // +3 CP feature pool
+        disadvantages: ['light_sensitivity'], // -2 CP hindrance/flaw refund
+        social_stigma: 'Xeno (-2)' // -2 CP stigma refund
+      });
+
+      // Total = 1 (Type) + 2 (Size) + 2 (Movement) + 15 (Attr Mod 5 + Pool 10) + 10 (Skill Pool) + 3 (Traits) + 6 (Granted Feature 3 + Feature Pool 3) - 2 (Flaw) - 2 (Stigma) = 35 CP
+      assert.strictEqual(result.breakdown.typeBP, 1);
+      assert.strictEqual(result.breakdown.sizeBP, 2);
+      assert.strictEqual(result.breakdown.movementBP, 2);
+      assert.strictEqual(result.breakdown.fixedAttributeBP, 5);
+      assert.strictEqual(result.breakdown.attributePoolBP, 10);
+      assert.strictEqual(result.breakdown.attributeBP, 15);
+      assert.strictEqual(result.breakdown.skillsBP, 10);
+      assert.strictEqual(result.breakdown.traitsBP, 3);
+      assert.strictEqual(result.breakdown.grantedFeaturesBP, 3);
+      assert.strictEqual(result.breakdown.featurePoolBP, 3);
+      assert.strictEqual(result.breakdown.featuresBP, 6);
+      assert.strictEqual(result.breakdown.disadvantagesRefund, 2);
+      assert.strictEqual(result.breakdown.stigmaRefund, 2);
+      assert.strictEqual(result.totalCPUsed, 35);
+
+      // Verify short-name species resolution (e.g. 'Argynt' -> 'Argynt Human' = 15 CP)
+      const argyntCost = calculateFullSpeciesCost('Argynt');
+      assert.strictEqual(argyntCost.totalCost, 15);
     });
 
     it('accurately prices all 43 basic species traits at exactly 1 BP each', () => {
@@ -325,8 +361,8 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
       });
     });
 
-    it('accurately prices all species attribute modifiers (+4 BP each, -4 BP penalty) and skill points (4 BP per +5 bundle / 0.8 BP per point)', () => {
-      // Test individual +1 attributes at 4 BP each
+    it('accurately prices all species attribute modifiers (+5 BP each, -5 BP penalty) and skill points (5 BP per +5 bundle / 1 BP per point)', () => {
+      // Test individual +1 attributes at 5 BP each
       const attributes = [
         { name: 'Strength', input: { str: 1 } },
         { name: 'Agility', input: { agi: 1 } },
@@ -342,48 +378,48 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
           size: 'Medium', // 0 BP
           attributes: input
         });
-        assert.strictEqual(result.totalBPUsed, 4, `Improved ${name} (+1) should cost exactly 4 BP`);
-        assert.strictEqual(result.breakdown.attributeBP, 4);
+        assert.strictEqual(result.totalBPUsed, 5, `Improved ${name} (+1) should cost exactly 5 BP`);
+        assert.strictEqual(result.breakdown.attributeBP, 5);
       });
 
       // Test alias inputs (con, dex)
       const conResult = calculateSpeciesBP({ attributes: { con: 1 } });
-      assert.strictEqual(conResult.breakdown.attributeBP, 4);
+      assert.strictEqual(conResult.breakdown.attributeBP, 5);
 
       const dexResult = calculateSpeciesBP({ attributes: { dex: 1 } });
-      assert.strictEqual(dexResult.breakdown.attributeBP, 4);
+      assert.strictEqual(dexResult.breakdown.attributeBP, 5);
 
-      // Test Reduced Ability (-1 penalty = -4 BP refund)
+      // Test Reduced Ability (-1 penalty = -5 BP refund)
       const penaltyResult = calculateSpeciesBP({
         type: 'Humanoid',
         size: 'Medium',
-        attributes: { str: 2, int: -1 } // (2 * 4) + (-1 * 4) = 4 BP
+        attributes: { str: 2, int: -1 } // (2 * 5) + (-1 * 5) = 5 BP
       });
-      assert.strictEqual(penaltyResult.totalBPUsed, 4);
-      assert.strictEqual(penaltyResult.breakdown.attributeBP, 4);
+      assert.strictEqual(penaltyResult.totalBPUsed, 5);
+      assert.strictEqual(penaltyResult.breakdown.attributeBP, 5);
 
-      // Test Skill Points (+5 bundle = 4 BP)
+      // Test Skill Points (+5 bundle = 5 BP)
       const skillBundleResult = calculateSpeciesBP({
         skillBundles: 1
       });
-      assert.strictEqual(skillBundleResult.totalBPUsed, 4);
-      assert.strictEqual(skillBundleResult.breakdown.skillsBP, 4);
+      assert.strictEqual(skillBundleResult.totalBPUsed, 5);
+      assert.strictEqual(skillBundleResult.breakdown.skillsBP, 5);
 
       const skillPointsResult = calculateSpeciesBP({
         skill_points: 10
       });
-      assert.strictEqual(skillPointsResult.totalBPUsed, 8);
-      assert.strictEqual(skillPointsResult.breakdown.skillsBP, 8);
+      assert.strictEqual(skillPointsResult.totalBPUsed, 10);
+      assert.strictEqual(skillPointsResult.breakdown.skillsBP, 10);
     });
 
     it('calculates full species cost and breakdown from catalog documents via calculateFullSpeciesCost', () => {
       const alterianCost = calculateFullSpeciesCost('Alterian');
-      assert.strictEqual(alterianCost.totalCost, 28);
+      assert.strictEqual(alterianCost.totalCost, 34);
       assert.ok(alterianCost.itemizedList.length > 0);
       assert.ok(alterianCost.summaryText.length > 0);
 
       const baseHumanCost = calculateFullSpeciesCost('Human (Base)');
-      assert.strictEqual(baseHumanCost.totalCost, 10);
+      assert.strictEqual(baseHumanCost.totalCost, 12);
 
       const defaultHumanoid = calculateFullSpeciesCost({ type: 'Humanoid', size: 'Medium' });
       assert.strictEqual(defaultHumanoid.totalCost, 0);
@@ -393,17 +429,17 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
         species_type: 'Beast', // 1 BP
         size: 'Large', // 2 BP
         movement_modes: ['normal', 'flight_basic'], // 0 + 2 = 2 BP
-        attributes: { str: 2, agi: 2 }, // (2 + 2) * 4 = 16 BP
+        attributes: { str: 2, agi: 2 }, // (2 + 2) * 5 = 20 BP
         traits: ['Scent', 'Runner'], // 1 + 1 = 2 BP
         disadvantages: ['light_sensitivity'] // -2 BP
       };
-      // Total = 1 + 2 + 2 + 16 + 2 - 2 = 21 BP
+      // Total = 1 + 2 + 2 + 20 + 2 - 2 = 25 BP
       const customCost = calculateFullSpeciesCost(customSpecies);
-      assert.strictEqual(customCost.totalCost, 21);
+      assert.strictEqual(customCost.totalCost, 25);
       assert.strictEqual(customCost.breakdown.typeBP, 1);
       assert.strictEqual(customCost.breakdown.sizeBP, 2);
       assert.strictEqual(customCost.breakdown.movementBP, 2);
-      assert.strictEqual(customCost.breakdown.attributeBP, 16);
+      assert.strictEqual(customCost.breakdown.attributeBP, 20);
       assert.strictEqual(customCost.breakdown.traitsBP, 2);
       assert.strictEqual(customCost.breakdown.disadvantagesRefund, 2);
     });
@@ -444,13 +480,13 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
       const result = calculateSpeciesBP({
         type: 'Dragon', // +5 BP
         size: 'Huge', // +4 BP
-        attributes: { str: 3, agi: 2 }, // (3 + 2) * 4 = +20 BP
+        attributes: { str: 3, agi: 2 }, // (3 + 2) * 5 = +25 BP
         budgetLevel: 'Standard' // max 20 BP
       });
-      // Total = 5 + 4 + 20 = 29 BP > 20
-      assert.strictEqual(result.totalBPUsed, 29);
+      // Total = 5 + 4 + 25 = 34 BP > 20
+      assert.strictEqual(result.totalBPUsed, 34);
       assert.strictEqual(result.isOverBudget, true);
-      assert.strictEqual(result.bpRemaining, -9);
+      assert.strictEqual(result.bpRemaining, -14);
     });
 
     it('resolves size combat, attribute, stealth, stability, damage, and mobility modifiers correctly across all 6 sizes', () => {

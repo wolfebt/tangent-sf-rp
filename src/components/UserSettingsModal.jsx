@@ -36,13 +36,16 @@ import {
   Ban,
   ArrowUpToLine,
   ArrowDownToLine,
-  Globe
+  Globe,
+  Mail,
+  Dices
 } from 'lucide-react';
 import { ComprehensiveUserGuideModal } from './UI/ComprehensiveUserGuideModal';
 import { AiConfigDrawer } from './UI/AiConfigDrawer';
 import { BannerMessageDisplay } from './Hub/BannerMessageDisplay';
 import { AudioService } from '../services/audioService';
 import { TelemetryService } from '../services/telemetryService';
+import { generateTempHandle, getEffectiveUserHandle } from '../utils/personaValidationUtils';
 import { useConfirm } from '../context/ConfirmContext';
 import { useToast } from '../context/ToastContext';
 import { 
@@ -100,6 +103,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
   // User Profile
   const [handle, setHandle] = useState('');
   const [contactInfo, setContactInfo] = useState('');
+  const [emailOptIn, setEmailOptIn] = useState(true);
 
   // AI Configuration
   const [geminiApiKey, setGeminiApiKey] = useState('');
@@ -190,6 +194,8 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
       }
       setHandle(localStorage.getItem('userHandle') || '');
       setContactInfo(localStorage.getItem('userContactInfo') || '');
+      const storedEmailOpt = localStorage.getItem('emailOptIn');
+      setEmailOptIn(storedEmailOpt !== null ? storedEmailOpt === 'true' : true);
       setGeminiApiKey(localStorage.getItem('geminiApiKey') || '');
       setAiPlatform(localStorage.getItem('aiPlatform') || 'gemini');
       setOtherAiApiKey(localStorage.getItem('otherAiApiKey') || '');
@@ -226,6 +232,10 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
             if (data.otherAiApiKey !== undefined) {
               setOtherAiApiKey(data.otherAiApiKey);
               localStorage.setItem('otherAiApiKey', data.otherAiApiKey);
+            }
+            if (data.emailOptIn !== undefined) {
+              setEmailOptIn(Boolean(data.emailOptIn));
+              localStorage.setItem('emailOptIn', String(data.emailOptIn));
             }
             if (data.customEndpoint !== undefined) {
               setCustomEndpoint(data.customEndpoint);
@@ -315,6 +325,8 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
     const trimmedEndpoint = customEndpoint.trim();
 
     localStorage.setItem('userHandle', trimmedHandle);
+    localStorage.setItem('handleSet', 'true');
+    localStorage.setItem('emailOptIn', String(emailOptIn));
     localStorage.setItem('userContactInfo', trimmedContactInfo);
     localStorage.setItem('geminiApiKey', trimmedGeminiKey);
     localStorage.setItem('aiPlatform', aiPlatform);
@@ -329,6 +341,11 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
       try {
         const userSyncPromise = setDoc(doc(db, 'users', currentUser.uid), {
           userHandle: trimmedHandle,
+          handleSet: true,
+          isTempHandle: false,
+          displayName: trimmedHandle,
+          emailOptIn: Boolean(emailOptIn),
+          emailOptInUpdatedAt: new Date().toISOString(),
           userContactInfo: trimmedContactInfo,
           geminiApiKey: trimmedGeminiKey,
           aiPlatform: aiPlatform,
@@ -451,7 +468,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
                   SYSTEM SETTINGS &amp; CONTROLS
                 </h3>
                 <span className="text-[10px] font-mono text-slate-400">
-                  {currentUser ? `CONNECTED: ${handle || currentUser.email}` : 'LOCAL OPERATOR MODE'}
+                  {currentUser ? `CONNECTED: @${handle || getEffectiveUserHandle(currentUser)}` : 'LOCAL OPERATOR MODE'}
                 </span>
               </div>
             </div>
@@ -529,19 +546,98 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
 
                   {/* Public Handle */}
                   <div className="space-y-1.5">
-                    <label className="block text-[11px] font-mono font-bold text-cyan-400 uppercase tracking-wider">
-                      Public Handle / Callsign
-                    </label>
-                    <input
-                      type="text"
-                      value={handle}
-                      onChange={(e) => setHandle(e.target.value)}
-                      placeholder="E.g. Operator_Zero"
-                      className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 text-white p-2.5 rounded-xl text-xs font-mono outline-none transition-colors"
-                    />
+                    <div className="flex items-center justify-between">
+                      <label className="block text-[11px] font-mono font-bold text-cyan-400 uppercase tracking-wider">
+                        Public Handle / Callsign
+                      </label>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          AudioService.playTerminalBeep(1200, 0.03);
+                          setHandle(generateTempHandle());
+                        }}
+                        className="px-2 py-0.5 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 hover:border-cyan-500/50 text-cyan-300 text-[10px] font-mono font-bold flex items-center gap-1 transition-colors cursor-pointer"
+                        title="Assign random 8-digit temporary handle"
+                      >
+                        <Dices size={11} className="text-cyan-400" />
+                        <span>Roll 8-Digit Handle</span>
+                      </button>
+                    </div>
+                    <div className="relative">
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-cyan-400 font-mono font-bold text-xs">@</span>
+                      <input
+                        type="text"
+                        value={handle}
+                        onChange={(e) => setHandle(e.target.value.replace(/^@/, ''))}
+                        placeholder="E.g. Operator_Zero"
+                        className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 text-white pl-7 p-2.5 rounded-xl text-xs font-mono outline-none transition-colors"
+                      />
+                    </div>
                     <p className="text-[10px] text-slate-400 italic">
-                      Displayed on characters, campaign logs, and comms transmissions to protect your private email.
+                      Displayed on network rosters, comms transmissions, and campaign logs. Your email is strictly confidential on the backend and never exposed.
                     </p>
+                  </div>
+
+                  {/* Email Transmission List Preference (Yes/No) */}
+                  <div className="space-y-2 p-3.5 rounded-xl bg-slate-950 border border-slate-800">
+                    <div className="flex items-center justify-between">
+                      <div className="font-mono text-xs font-bold text-amber-300 uppercase flex items-center gap-1.5">
+                        <Mail size={13} className="text-amber-400" />
+                        <span>Game Intel &amp; Updates Transmission List</span>
+                      </div>
+                      <span className={`text-[9.5px] px-1.5 py-0.2 rounded font-mono font-bold border ${
+                        emailOptIn 
+                          ? 'bg-emerald-950 text-emerald-300 border-emerald-500/40' 
+                          : 'bg-slate-900 text-slate-400 border-slate-700'
+                      }`}>
+                        {emailOptIn ? 'OPTED IN' : 'ESSENTIALS ONLY'}
+                      </span>
+                    </div>
+                    <p className="text-[10.5px] text-slate-400 font-sans leading-relaxed">
+                      Receive game-related info, lore dispatches, major platform updates, and exclusive offers via email.
+                    </p>
+
+                    <div className="grid grid-cols-2 gap-2 pt-1">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          AudioService.playTerminalBeep(1100, 0.02);
+                          setEmailOptIn(true);
+                        }}
+                        className={`p-2.5 rounded-lg border text-left font-mono text-[10.5px] transition-all cursor-pointer flex items-center gap-2 ${
+                          emailOptIn === true
+                            ? 'bg-emerald-950/50 border-emerald-500/60 text-emerald-200 shadow-[0_0_12px_rgba(16,185,129,0.2)] font-bold'
+                            : 'bg-slate-900/60 border-slate-800 hover:border-slate-700 text-slate-400'
+                        }`}
+                      >
+                        <div className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center ${
+                          emailOptIn === true ? 'border-emerald-400 bg-emerald-400 text-black' : 'border-slate-600'
+                        }`}>
+                          {emailOptIn === true && <Check size={10} className="stroke-[3]" />}
+                        </div>
+                        <span>YES — Opt In</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          AudioService.playTerminalBeep(1000, 0.02);
+                          setEmailOptIn(false);
+                        }}
+                        className={`p-2.5 rounded-lg border text-left font-mono text-[10.5px] transition-all cursor-pointer flex items-center gap-2 ${
+                          emailOptIn === false
+                            ? 'bg-slate-900 border-cyan-500/50 text-slate-200 shadow-[0_0_12px_rgba(6,182,212,0.15)] font-bold'
+                            : 'bg-slate-900/60 border-slate-800 hover:border-slate-700 text-slate-400'
+                        }`}
+                      >
+                        <div className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center ${
+                          emailOptIn === false ? 'border-cyan-400 bg-cyan-400 text-black' : 'border-slate-600'
+                        }`}>
+                          {emailOptIn === false && <Check size={10} className="stroke-[3]" />}
+                        </div>
+                        <span>NO — Essentials Only</span>
+                      </button>
+                    </div>
                   </div>
 
                   {/* Contact Info */}
@@ -1118,7 +1214,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
                     <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-[11px] font-mono shadow-[0_0_15px_rgba(16,185,129,0.15)]">
                       <Globe size={14} className="text-emerald-400 shrink-0" />
                       <span>
-                        <strong>Cloud Broadcast Sync Authorized:</strong> Changes will be published to the cloud and broadcast live across all player devices and mobile screens ({currentUser?.email || 'Cloud Admin'}).
+                        <strong>Cloud Broadcast Sync Authorized:</strong> Changes will be published to the cloud and broadcast live across all player devices and mobile screens (@{getEffectiveUserHandle(currentUser)}).
                       </span>
                     </div>
                   ) : (

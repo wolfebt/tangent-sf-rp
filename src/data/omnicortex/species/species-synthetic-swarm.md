@@ -44,8 +44,8 @@ tech_level: 4 (Micro-Drone & Nanite Lattices)
 meta_level: 1 (Swarm Resonance)
 homeworld: Nano-Fabrication Cloud Platforms
 costs:
-  cp: 25
-  bp: 25
+  cp: 20
+  bp: 20
 modifiers:
   - target: Intellect
     value: 1
@@ -67,9 +67,6 @@ modifiers:
     value: 12
     type: skill
     mode: size_modifier
-cp_cost: 25
-cp: 25
-bp: 25
 description: >-
   A cloud of billions of microscopic robotic drones functioning as a singular
   distributed intelligence, able to seep through vents and infiltrate secure
@@ -95,6 +92,9 @@ keywords: >-
   dispersed
 negative_keywords: 'single-bullet-target, solid-frame, skeletal'
 species_traits: *ref_0
+cp: 20
+bp: 20
+cp_cost: 20
 ---
 
 # Swarm (Nanite / Micro-Drone Collective)

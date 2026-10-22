@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { db, auth } from '../../../firebase';
+import { db, auth, isFirestoreQuotaExhausted, handleFirestoreQuotaError } from '../../../firebase';
 import { collection, onSnapshot, doc, setDoc, deleteDoc, getDocs } from 'firebase/firestore';
 import { categoryConfig } from '../categoryConfig';
 import { commitChunkedBatches, sanitizeFirestoreData } from '../../../utils/firestoreUtils';
@@ -20,15 +20,31 @@ import {
 export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) => {
   const [dbData, setDbData] = useState(() => {
     const tombstones = getOmnicortexTombstones();
-    return {
+    const initial = {
       compendium: mergeSeedsWithDocs([], 'compendium', tombstones),
       archetypes: mergeSeedsWithDocs([], 'archetypes', tombstones),
       species: mergeSeedsWithDocs([], 'species', tombstones),
-      factions: mergeSeedsWithDocs([], 'factions', tombstones),
-      ...(currentKey ? { [currentKey]: mergeSeedsWithDocs([], currentKey, tombstones) } : {})
+      factions: mergeSeedsWithDocs([], 'factions', tombstones)
     };
+    Object.keys(categoryConfig).forEach(parentK => {
+      const parent = categoryConfig[parentK];
+      if (parent.viewType !== 'guide') {
+        initial[parentK] = mergeSeedsWithDocs([], parentK, tombstones);
+      }
+      if (parent.subcategories) {
+        Object.keys(parent.subcategories).forEach(subK => {
+          if (parent.subcategories[subK].viewType !== 'guide') {
+            initial[subK] = mergeSeedsWithDocs([], subK, tombstones);
+          }
+        });
+      }
+    });
+    if (currentKey && !initial[currentKey]) {
+      initial[currentKey] = mergeSeedsWithDocs([], currentKey, tombstones);
+    }
+    return initial;
   });
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [loadError, setLoadError] = useState(null);
   const [toastMessage, setToastMessage] = useState(null);
 
@@ -61,15 +77,12 @@ export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) =>
         }
       }
     }
-    if (!config || config.isParent || config.viewType === 'guide') {
+    if (!config || config.isParent || config.viewType === 'guide' || isFirestoreQuotaExhausted()) {
       setIsLoading(false);
       return;
     }
 
-    const unsubs = [];
-
     try {
-      // 1. Primary real-time listener for current active category
       const colRef = collection(db, currentKey);
       const unsubCurrent = onSnapshot(colRef, (snapshot) => {
         const tombstones = getOmnicortexTombstones();
@@ -78,60 +91,18 @@ export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) =>
         setDbData(prev => ({ ...prev, [currentKey]: items }));
         setIsLoading(false);
       }, (err) => {
-        console.warn(`Firestore listener error for ${currentKey}:`, err.message);
+        handleFirestoreQuotaError(err);
         const tombstones = getOmnicortexTombstones();
         const items = mergeSeedsWithDocs([], currentKey, tombstones);
         setDbData(prev => ({ ...prev, [currentKey]: items }));
-        setLoadError(`Failed to load ${currentKey}.`);
         setIsLoading(false);
-      });
-      unsubs.push(unsubCurrent);
-
-      // 2. Pre-fetch reference collections in background for relational selector parity
-      const allCatKeys = new Set(['rules_codex', 'compendium', 'factions']);
-      Object.keys(categoryConfig).forEach(parentK => {
-        const parent = categoryConfig[parentK];
-        if (parent.viewType !== 'guide') {
-          allCatKeys.add(parentK);
-        }
-        if (parent.subcategories) {
-          Object.keys(parent.subcategories).forEach(subK => {
-            if (parent.subcategories[subK].viewType !== 'guide') {
-              allCatKeys.add(subK);
-            }
-          });
-        }
-      });
-
-      // Background subscribe to non-active reference collections if unpopulated
-      allCatKeys.forEach(catK => {
-        if (catK !== currentKey) {
-          try {
-            const refCol = collection(db, catK);
-            const unsubRef = onSnapshot(refCol, (snapshot) => {
-              const tombstones = getOmnicortexTombstones();
-              const rawDocs = snapshot.docs.map(d => ({ ...d.data(), id: d.id }));
-              const items = mergeSeedsWithDocs(rawDocs, catK, tombstones);
-              setDbData(prev => ({ ...prev, [catK]: items }));
-            }, (err) => {
-              const tombstones = getOmnicortexTombstones();
-              const items = mergeSeedsWithDocs([], catK, tombstones);
-              setDbData(prev => ({ ...prev, [catK]: items }));
-            });
-            unsubs.push(unsubRef);
-          } catch (e) {
-            // Ignore background init errors
-          }
-        }
       });
 
       return () => {
-        unsubs.forEach(unsub => {
-          if (typeof unsub === 'function') unsub();
-        });
+        if (typeof unsubCurrent === 'function') unsubCurrent();
       };
     } catch (e) {
-      console.warn(`Firestore listener init error for ${currentKey}:`, e);
+      handleFirestoreQuotaError(e);
       setIsLoading(false);
     }
   }, [currentKey]);
@@ -181,7 +152,7 @@ export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) =>
       return { ...prev, [key]: updated };
     });
 
-    if (!auth?.currentUser && !currentUser) {
+    if ((!auth?.currentUser && !currentUser) || isFirestoreQuotaExhausted()) {
       setToastMessage({
         type: 'success',
         title: 'Saved Locally',
@@ -201,12 +172,12 @@ export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) =>
       });
       return true;
     } catch (err) {
-      console.warn(`Firestore saveEntry failed for document ${docId} (preserved in local storage):`, err.message);
+      handleFirestoreQuotaError(err);
       // DO NOT ROLL BACK! Local storage and state already have the user's edits!
       setToastMessage({
         type: 'info',
         title: 'Saved Locally',
-        text: `"${sanitizedEntry.name || sanitizedEntry.title || docId}" saved locally (cloud sync unavailable: ${err.message}).`
+        text: `"${sanitizedEntry.name || sanitizedEntry.title || docId}" saved locally.`
       });
       return true;
     }

@@ -48,16 +48,13 @@ tech_level: 3 (Bio-Hybrid Devices)
 meta_level: 3 (Telepathic Linkage)
 homeworld: Danai Enclaves
 costs:
-  cp: 11
-  bp: 11
+  cp: 12
+  bp: 12
 modifiers:
   - target: Intellect
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 11
-cp: 11
-bp: 11
 description: >-
   Danai are genetic chimeras born from human and Davae transhumans. They display
   gentle bioluminescent patterns and natural mental connections to bio-synthetic
@@ -81,6 +78,9 @@ recommended_occupations:
 keywords: 'empathic-diplomat, bio-resonance, gentle-glow, mediator, hybrid-psion'
 negative_keywords: 'brutality, isolation, violent-outburst'
 species_traits: *ref_0
+cp: 12
+bp: 12
+cp_cost: 12
 ---
 
 # Danai (Human-Davae Hybrid)

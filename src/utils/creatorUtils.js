@@ -1,3 +1,5 @@
+import { getEffectiveUserHandle } from './personaValidationUtils';
+
 /**
  * Utility functions for tagging assets with creator and contributor handles.
  */
@@ -10,7 +12,10 @@
  * @returns {string} - Formatted handle tag (e.g. `@Operator_Zero`)
  */
 export const getCreatorHandleTag = (userHandle, currentUser) => {
-  let handle = userHandle || (typeof window !== 'undefined' ? localStorage.getItem('userHandle') : '') || currentUser?.displayName || currentUser?.email || 'Anonymous';
+  let handle = userHandle || (typeof window !== 'undefined' ? localStorage.getItem('userHandle') : '');
+  if (!handle && currentUser) {
+    handle = getEffectiveUserHandle(currentUser);
+  }
   handle = String(handle || 'Anonymous').trim();
   if (!handle) handle = 'Anonymous';
   return handle.startsWith('@') ? handle : `@${handle}`;

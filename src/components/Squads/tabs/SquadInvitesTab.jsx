@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { UserPlus, Search, Copy, Check, QrCode, Send, Radio } from 'lucide-react';
+import { getEffectiveUserHandle } from '../../../utils/personaValidationUtils';
 
 export const SquadInvitesTab = ({
   activeGroup,
@@ -191,7 +192,7 @@ export const SquadInvitesTab = ({
               type="text"
               value={userSearchQuery}
               onChange={(e) => setUserSearchQuery(e.target.value)}
-              placeholder="Search operator handle or email..."
+              placeholder="Search operator handle..."
               className="w-full pl-8 pr-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs font-mono text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-500/50"
             />
           </div>
@@ -205,6 +206,7 @@ export const SquadInvitesTab = ({
               candidateUsers.map(user => {
                 const status = inviteStatusMap[user.uid];
                 const isSelected = selectedUserUids.has(user.uid);
+                const effectiveHandle = getEffectiveUserHandle(user);
 
                 return (
                   <div 
@@ -231,11 +233,13 @@ export const SquadInvitesTab = ({
 
                       <div className="min-w-0">
                         <span className="font-bold text-slate-200 truncate block">
-                          {user.displayName || user.email || 'Operator'}
+                          @{effectiveHandle}
                         </span>
-                        <span className="text-[10px] text-slate-500 truncate block">
-                          @{user.handle || 'operator'}
-                        </span>
+                        {user.displayName && !user.displayName.includes('@') && user.displayName !== effectiveHandle && (
+                          <span className="text-[10px] text-slate-500 truncate block">
+                            {user.displayName}
+                          </span>
+                        )}
                       </div>
                     </div>
 

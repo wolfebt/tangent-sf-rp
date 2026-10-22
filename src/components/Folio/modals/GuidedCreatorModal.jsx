@@ -55,6 +55,7 @@ import {
   resolveItemCostDC 
 } from '../../../engines/tangentEconEngine';
 import { formatSpeciesTrait, getInherentSpeciesTraits } from '../../../utils/speciesDisplayUtils';
+import { getEffectiveUserHandle } from '../../../utils/personaValidationUtils';
 
 /**
  * Normalizes input list into an array of clean string labels.
@@ -137,7 +138,7 @@ const mapAttrToDraftKey = (attrName) => {
   if (lower.includes('agility') || lower.includes('reflex')) return 'agility';
   if (lower.includes('stamina') || lower.includes('constitution') || lower.includes('fortitude')) return 'stamina';
   if (lower.includes('intellect') || lower.includes('logic') || lower.includes('technology') || lower.includes('history')) return 'intellect';
-  if (lower.includes('wisdom') || lower.includes('will') || lower.includes('insight') || lower.includes('spirit')) return 'wisdom';
+  if (lower.includes('wisdom') || lower.includes('will') || lower.includes('insight') || lower.includes('spirit') || lower.includes('perception')) return 'wisdom';
   if (lower.includes('charisma') || lower.includes('etiquette') || lower.includes('social')) return 'charisma';
   return null;
 };
@@ -797,6 +798,19 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
       'attr-etiquette': etiqScore,
 
       // Allocations metadata
+      archetypeAllocations: (() => {
+        if (!selectedArchetypeObj) return { skills: {}, attributes: {}, features: [] };
+        const pKey = mapAttrToDraftKey(selectedArchetypeObj.primary_attribute);
+        const sKey = mapAttrToDraftKey(selectedArchetypeObj.secondary_attribute);
+        const archAttrs = {};
+        if (pKey) archAttrs[`attr-${pKey}`] = 3;
+        if (sKey) archAttrs[`attr-${sKey}`] = 2;
+        return {
+          attributes: archAttrs,
+          skills: {},
+          features: [...(selectedArchetypeObj.signature_features || [])]
+        };
+      })(),
       speciesAllocations: draft.speciesAllocations || { skills: {}, traits: [], features: [], attributes: {} },
       originAllocations: draft.originAllocations || { skills: {}, traits: [], features: [] },
       factionAllocations: draft.factionAllocations || { skills: {}, traits: [], features: [] },
@@ -885,7 +899,15 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
     const secKey = mapAttrToDraftKey(arch.secondary_attribute);
 
     setDraft(prev => {
-      const next = { ...prev };
+      const next = {
+        ...prev,
+        strength: 0,
+        agility: 0,
+        stamina: 0,
+        intellect: 0,
+        wisdom: 0,
+        charisma: 0
+      };
       next['char-archetype'] = arch.name;
       if (primKey) next[primKey] = 3;
       if (secKey) next[secKey] = 2;
@@ -960,6 +982,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
           stamina: rawAttributes?.['attr-stamina'] ?? 0,
           intellect: rawAttributes?.['attr-intellect'] ?? 0,
           wisdom: rawAttributes?.['attr-wisdom'] ?? 0,
+          charisma: rawAttributes?.['attr-charisma'] ?? 0,
           technologyLevel: character['tech-level'] || 3,
           metaLevel: character['magic-level'] ?? character['meta-level'] ?? 3,
           baseTechLevel: character['base-tech-level'] || 3,
@@ -1018,11 +1041,12 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
       role: data.role || '',
       summary: data.summary || '',
       backstory: data.backstory || '',
-      strength: data.strength ?? data.rawAttributes?.['attr-strength'] ?? 0,
-      agility: data.agility ?? data.rawAttributes?.['attr-agility'] ?? 0,
-      stamina: data.stamina ?? data.rawAttributes?.['attr-stamina'] ?? 0,
-      intellect: data.intellect ?? data.rawAttributes?.['attr-intellect'] ?? 0,
-      wisdom: data.wisdom ?? data.rawAttributes?.['attr-wisdom'] ?? 0,
+      strength: data.strength ?? data.rawAttributes?.['attr-strength'] ?? data['attr-strength'] ?? 0,
+      agility: data.agility ?? data.rawAttributes?.['attr-agility'] ?? data['attr-agility'] ?? 0,
+      stamina: data.stamina ?? data.rawAttributes?.['attr-stamina'] ?? data['attr-stamina'] ?? 0,
+      intellect: data.intellect ?? data.rawAttributes?.['attr-intellect'] ?? data['attr-intellect'] ?? 0,
+      wisdom: data.wisdom ?? data.rawAttributes?.['attr-wisdom'] ?? data['attr-wisdom'] ?? 0,
+      charisma: data.charisma ?? data.rawAttributes?.['attr-charisma'] ?? data['attr-charisma'] ?? 0,
       technologyLevel: data.technologyLevel ?? data['tech-level'] ?? 3,
       metaLevel: data.metaLevel ?? data['magic-level'] ?? data['meta-level'] ?? 3,
       baseTechLevel: data.baseTechLevel ?? data['base-tech-level'] ?? 3,
@@ -1087,7 +1111,6 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
     const arch = selectedArchetypeObj || (dbData.archetypes || []).find(a => a.name === draft['char-archetype']);
     const prim = mapAttrToDraftKey(arch?.primary_attribute) || 'agility';
     const sec = mapAttrToDraftKey(arch?.secondary_attribute) || 'intellect';
-    const tertiary = (prim !== 'stamina' && sec !== 'stamina') ? 'stamina' : (prim !== 'strength' && sec !== 'strength' ? 'strength' : 'wisdom');
 
     setDraft(prev => ({
       ...prev,
@@ -1098,10 +1121,9 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
       wisdom: 0,
       charisma: 0,
       [prim]: 3,
-      [sec]: 2,
-      [tertiary]: 1
+      [sec]: 2
     }));
-    setBastionNotice(`Allocated Archetype Standard Attributes: ${prim.toUpperCase()} (+3), ${sec.toUpperCase()} (+2), ${tertiary.toUpperCase()} (+1) [30 CP].`);
+    setBastionNotice(`Allocated Archetype Standard Attributes: ${prim.toUpperCase()} (+3), ${sec.toUpperCase()} (+2) [25 CP].`);
   };
 
   const handleApplyBalancedAttributeSplit = () => {
@@ -4767,7 +4789,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
               <div>
                 <span className="font-bold text-white block">Terran Net Cloud Vault Ready</span>
                 <span className="text-slate-300 text-[11px]">
-                  Authenticated as <span className="text-emerald-300 font-bold">{userHandle ? `@${userHandle}` : (currentUser.displayName || currentUser.email)}</span>. Finalizing will persist this operative directly to Cloud Storage and your local Roster.
+                  Authenticated as <span className="text-emerald-300 font-bold">@{userHandle || getEffectiveUserHandle(currentUser)}</span>. Finalizing will persist this operative directly to Cloud Storage and your local Roster.
                 </span>
               </div>
             </div>

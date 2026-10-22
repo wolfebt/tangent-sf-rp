@@ -44,16 +44,13 @@ tech_level: 4 (FTL & Slipstream Gate Tech)
 meta_level: 4 (Spatial Metaphysics)
 homeworld: Varen Gate Arcologies
 costs:
-  cp: 18
-  bp: 18
+  cp: 26
+  bp: 26
 modifiers:
   - target: Intellect
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 18
-cp: 18
-bp: 18
 description: >-
   Varen are spacefaring humans attuned to hyper-space corridors and ancient
   gateway networks, possessing innate teleportation and spatial recall powers.
@@ -77,6 +74,9 @@ keywords: >-
   cosmic-recall
 negative_keywords: 'ground-bound, claustrophobic, tech-phobic'
 species_traits: *ref_0
+cp: 26
+bp: 26
+cp_cost: 26
 ---
 
 # Varen (Warp Gatekeeper Human)

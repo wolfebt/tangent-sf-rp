@@ -45,16 +45,13 @@ tech_level: 3 (Forge-Tech & Arcane Metallurgy)
 meta_level: 3 (Draconic Sorcery)
 homeworld: Drakon Prime
 costs:
-  cp: 19
-  bp: 19
+  cp: 22
+  bp: 22
 modifiers:
   - target: Intellect
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 19
-cp: 19
-bp: 19
 description: >-
   Draconians bridge ancient elven grace with the primal draconic essence.
   Scaled, proud, and martial, they serve as warrior-philosophers and guardians
@@ -84,6 +81,9 @@ species_traits:
   - trait-aeld-lineage-traits
   - trait-dragonkin-traits
   - trait-natural-weapons
+cp: 22
+bp: 22
+cp_cost: 22
 ---
 
 # Draconian (Scaled Aeld)

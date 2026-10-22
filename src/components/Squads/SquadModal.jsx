@@ -18,6 +18,7 @@ import { useStory } from '../../context/CampaignContext';
 import { useToast } from '../../context/ToastContext';
 import { useConfirm } from '../../context/ConfirmContext';
 import { AudioService } from '../../services/audioService';
+import { getEffectiveUserHandle } from '../../utils/personaValidationUtils';
 
 import { SquadRosterTab } from './tabs/SquadRosterTab';
 import { SquadInvitesTab } from './tabs/SquadInvitesTab';
@@ -121,10 +122,11 @@ export const SquadModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
   const filteredUserDirectory = userDirectory.filter(u => {
     if (!userSearchQuery.trim()) return true;
     const query = userSearchQuery.toLowerCase();
+    const handle = getEffectiveUserHandle(u).toLowerCase();
     return (
       (u.displayName && u.displayName.toLowerCase().includes(query)) ||
       (u.handle && u.handle.toLowerCase().includes(query)) ||
-      (u.email && u.email.toLowerCase().includes(query))
+      handle.includes(query)
     );
   });
 

@@ -41,12 +41,9 @@ tech_level: 4 (Splice Genomics)
 meta_level: 1 (Animalistic Resonance)
 homeworld: Bio-Foundry Laboratories
 costs:
-  cp: 4
-  bp: 4
+  cp: 15
+  bp: 15
 modifiers: []
-cp_cost: 4
-cp: 4
-bp: 4
 description: >-
   Spliced humans bearing animalistic genetic sequences granting horns, claws,
   reinforced skin, or thermal vision.
@@ -70,6 +67,9 @@ keywords: >-
   predator-reflex
 negative_keywords: 'high-society-diplomat, pureblood-supremacy, delicate'
 species_traits: *ref_0
+cp: 15
+bp: 15
+cp_cost: 15
 ---
 
 # Chimera (Splice Transhuman)

@@ -22,6 +22,7 @@ import { useChat } from '../../context/ChatContext';
 import { useVoiceChat } from '../../context/VoiceChatContext';
 import { useFolio } from '../../context/FolioContext';
 import { AudioService } from '../../services/audioService';
+import { getEffectiveUserHandle } from '../../utils/personaValidationUtils';
 
 const PTT_KEY_OPTIONS = [
   { label: 'V Key', code: 'KeyV' },
@@ -102,11 +103,7 @@ export const TransceiverDeck = () => {
     });
   }, [personaRoster, roster]);
 
-  const effectiveHandle =
-    userHandle ||
-    currentUser?.displayName ||
-    currentUser?.email?.split('@')[0] ||
-    'Guest_Op';
+  const effectiveHandle = userHandle || getEffectiveUserHandle(currentUser);
 
   const activePersonaName =
     selectedPersona?.['char-name'] || selectedPersona?.name || null;

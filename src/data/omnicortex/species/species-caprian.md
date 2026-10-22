@@ -43,16 +43,13 @@ tech_level: 3 (High-Altitude Climbing Rigs & Kinetic Carbines)
 meta_level: 1 (Mountain Resonance)
 homeworld: Capra Crags (The Vertical World)
 costs:
-  cp: 13
-  bp: 13
+  cp: 15
+  bp: 15
 modifiers:
   - target: Stamina
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 13
-cp: 13
-bp: 13
 description: >-
   Horned, ungulate humanoids renowned as mountaineers, high-gravity scouts, and
   perimeter wardens.
@@ -75,6 +72,9 @@ recommended_occupations:
 keywords: 'caprine, mountaineer, ungulate-legs, high-gravity, perimeter-warden, horns'
 negative_keywords: 'flat-plains, oceanic, slow, uncoordinated'
 species_traits: *ref_0
+cp: 15
+bp: 15
+cp_cost: 15
 ---
 
 # Caprian (Caprine Humanoid)

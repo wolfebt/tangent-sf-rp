@@ -43,8 +43,8 @@ tech_level: 1 (Enchanted Flora)
 meta_level: 5 (High Fey Metaphysics)
 homeworld: The Feywild Reliquary
 costs:
-  cp: 31
-  bp: 31
+  cp: 34
+  bp: 34
 modifiers:
   - target: Charisma
     value: 1
@@ -62,9 +62,6 @@ modifiers:
     value: 12
     type: skill
     mode: size_modifier
-cp_cost: 31
-cp: 31
-bp: 31
 description: >-
   Base Fey are diminutive, winged beings of pure elemental and natural
   resonance. Mischievous, radiant, and immortal, they navigate mortal
@@ -89,6 +86,9 @@ negative_keywords: 'cold-iron, heavy-machinery, industrial, blunt, scientific-ri
 species_traits:
   - trait-asi-base-traits
   - trait-awakened-nature
+cp: 34
+bp: 34
+cp_cost: 34
 ---
 
 # Fey (Base Asi)

@@ -208,7 +208,17 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
   const dbm = useDBM();
   const isSheetLocked = Boolean(isLocked && !isPlayerOverride);
 
-  const [dbOptions, setDbOptions] = useState({});
+  const dbOptions = useMemo(() => ({
+    species: dbm?.dbData?.species || DEFAULT_SPECIES,
+    occupations: dbm?.dbData?.occupations || DEFAULT_OCCUPATIONS,
+    origins: dbm?.dbData?.origins || DEFAULT_ORIGINS,
+    factions: dbm?.dbData?.factions || DEFAULT_FACTIONS,
+    archetypes: dbm?.dbData?.archetypes || DEFAULT_ARCHETYPES,
+    skills: dbm?.dbData?.skills || ALL_CANONICAL_SKILLS,
+    features: dbm?.dbData?.features || DEFAULT_FEATURES,
+    traits: dbm?.dbData?.traits || ALL_CANONICAL_TRAITS,
+    trait: dbm?.dbData?.trait || ALL_CANONICAL_TRAITS
+  }), [dbm?.dbData]);
   const [manualMode, setManualMode] = useState({});
   const [expandedCards, setExpandedCards] = useState({
     archetype: true,
@@ -453,30 +463,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
     setInspectItem({ item, categoryKey, title: title || item.name || item.title || 'Entry Details' });
   };
 
-  useEffect(() => {
-    const paths = ['species', 'occupations', 'origins', 'factions', 'archetypes', 'skills', 'features', 'traits', 'trait'];
-    const unsubs = paths.map(path => {
-      try {
-        const colRef = collection(db, path);
-        return onSnapshot(colRef, (snap) => {
-          const items = snap.docs.map(doc => ({ name: doc.data().name || doc.id, ...doc.data(), id: doc.id }));
-          setDbOptions(prev => ({ ...prev, [path]: items }));
-        }, (e) => {
-          console.warn(`Failed to load ${path} options`, e);
-          setDbOptions(prev => ({ ...prev, [path]: [] }));
-        });
-      } catch (err) {
-        console.warn(`Failed to subscribe to ${path}`, err);
-        return () => {};
-      }
-    });
-
-    return () => {
-      unsubs.forEach(unsub => {
-        if (typeof unsub === 'function') unsub();
-      });
-    };
-  }, []);
+  // Reference catalog options are provided synchronously by DBMContext (dbOptions memo above)
 
   useEffect(() => {
     // Automatically set manual mode if value doesn't match dbOptions

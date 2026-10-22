@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { useChat } from '../../context/ChatContext';
 import { useAuth } from '../../context/AuthContext';
+import { getEffectiveUserHandle } from '../../utils/personaValidationUtils';
 import { useConfirm } from '../../context/ConfirmContext';
 import { useToast, showToast } from '../../context/ToastContext';
 import { ChatService } from '../../services/chatService.js';
@@ -302,7 +303,7 @@ export const ChannelSettingsModal = ({ isOpen, onClose, channel, messages = [] }
 
   const currentMembersList = Array.isArray(targetChannel.members) ? targetChannel.members : [];
   const nonMembers = userDirectory.filter(u => !currentMembersList.includes(u.uid) && (
-    (u.userHandle || u.displayName || u.email || '').toLowerCase().includes(searchUser.toLowerCase())
+    getEffectiveUserHandle(u).toLowerCase().includes(searchUser.toLowerCase())
   ));
 
   return (
@@ -529,7 +530,7 @@ export const ChannelSettingsModal = ({ isOpen, onClose, channel, messages = [] }
                 <div className="max-h-44 overflow-y-auto space-y-1.5 bg-slate-950 p-2 rounded-lg border border-slate-800">
                   {currentMembersList.map(memberUid => {
                     const userMeta = userDirectory.find(u => u.uid === memberUid);
-                    const handle = userMeta?.userHandle || userMeta?.displayName || userMeta?.email || (memberUid === currentUser?.uid ? 'You' : memberUid.substring(0, 10));
+                    const handle = userMeta ? getEffectiveUserHandle(userMeta) : (memberUid === currentUser?.uid ? 'You' : memberUid.substring(0, 10));
                     const isSelf = memberUid === currentUser?.uid;
 
                     return (
@@ -577,7 +578,7 @@ export const ChannelSettingsModal = ({ isOpen, onClose, channel, messages = [] }
                       <p className="text-[11px] text-slate-500 italic p-1">No operators available to invite.</p>
                     ) : (
                       nonMembers.map(u => {
-                        const handle = u.userHandle || u.displayName || u.email || 'Operator';
+                        const handle = getEffectiveUserHandle(u);
                         return (
                           <div
                             key={u.uid}

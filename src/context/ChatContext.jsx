@@ -302,19 +302,21 @@ export const ChatProvider = ({ children }) => {
   useEffect(() => {
     const override = activeChannelId ? channelPersonaOverrides[activeChannelId] : null;
     if (override) {
-      setSelectedPersona(override);
+      setSelectedPersona(prev => (prev === override ? prev : override));
       return;
     }
     if (squadEnrolledPersona) {
-      setSelectedPersona(squadEnrolledPersona);
+      setSelectedPersona(prev => (prev === squadEnrolledPersona ? prev : squadEnrolledPersona));
       return;
     }
-    if (folioActivePersona && (!selectedPersona || selectedPersona.id === (folioActivePersona['character-doc-id'] || folioActivePersona.id))) {
-      setSelectedPersona(folioActivePersona);
+    const folioDocId = folioActivePersona ? (folioActivePersona['character-doc-id'] || folioActivePersona.id) : null;
+    const selectedDocId = selectedPersona ? (selectedPersona['character-doc-id'] || selectedPersona.id) : null;
+    if (folioActivePersona && (!selectedPersona || selectedDocId === folioDocId)) {
+      setSelectedPersona(prev => (prev === folioActivePersona ? prev : folioActivePersona));
     } else if (!selectedPersona && currentUserCharacters.length > 0) {
       setSelectedPersona(currentUserCharacters[0]);
     }
-  }, [activeChannelId, channelPersonaOverrides, squadEnrolledPersona, folioActivePersona, currentUserCharacters]);
+  }, [activeChannelId, channelPersonaOverrides, squadEnrolledPersona, folioActivePersona, currentUserCharacters, selectedPersona]);
 
   // Initialize default channels in Firestore once an authenticated user is connected or on mount
   useEffect(() => {
@@ -769,11 +771,14 @@ export const ChatProvider = ({ children }) => {
     // Ensure current user is ALWAYS present in the directory even before Firestore syncs
     if (currentUser && !seenUids.has(currentUser.uid)) {
       seenUids.add(currentUser.uid);
+      const selfHandle = userHandle || getEffectiveUserHandle(currentUser);
+      const safeDisplayName = (currentUser.displayName && !currentUser.displayName.includes('@')) 
+        ? currentUser.displayName 
+        : selfHandle;
       list.unshift({
         uid: currentUser.uid,
-        email: currentUser.email,
-        displayName: currentUser.displayName || currentUser.email || 'Operator',
-        userHandle: userHandle || getEffectiveUserHandle(currentUser),
+        displayName: safeDisplayName,
+        userHandle: selfHandle,
         isOnline: manualPresenceStatus !== 'offline',
         presenceState: manualPresenceStatus || 'online',
         statusMessage: customStatusMessage || '',
@@ -1210,7 +1215,7 @@ export const ChatProvider = ({ children }) => {
     const isTeam = isTeamChannel(activeChannel);
     const effectiveIsIC = !isArchitect && (isTeam ? (speakingMode !== 'OOC') : (speakingMode === 'IC'));
     const activeP = selectedPersona || squadEnrolledPersona || currentUserCharacters[0];
-    const operatorHandle = userHandle || currentUser?.displayName || currentUser?.email || 'Operator';
+    const operatorHandle = userHandle || getEffectiveUserHandle(currentUser);
     const displayName = isArchitect
       ? `ARCHITECT (@${operatorHandle})`
       : (effectiveIsIC && activeP)
@@ -1273,7 +1278,7 @@ export const ChatProvider = ({ children }) => {
     const activeP = selectedPersona || squadEnrolledPersona || currentUserCharacters[0];
     const hasPersona = Boolean(activeP && (activeP.name || activeP['char-name']));
 
-    const operatorHandle = userHandle || currentUser?.displayName || currentUser?.email || 'Operator';
+    const operatorHandle = userHandle || getEffectiveUserHandle(currentUser);
     const isIC = Boolean(effectiveIsIC && hasPersona);
     const displayName = isArchitect
       ? `ARCHITECT (@${operatorHandle})`
@@ -1402,7 +1407,7 @@ export const ChatProvider = ({ children }) => {
 
     const activeP = extra.persona || selectedPersona || squadEnrolledPersona || currentUserCharacters[0];
     const hasPersona = Boolean(activeP && (activeP.name || activeP['char-name']));
-    const operatorHandle = userHandle || currentUser?.displayName || currentUser?.email || 'Anonymous Operator';
+    const operatorHandle = userHandle || getEffectiveUserHandle(currentUser);
     const isIC = Boolean(effectiveIsIC && hasPersona);
 
     // 2. RPG command: /me or /act or /ooc or /architect or /gm

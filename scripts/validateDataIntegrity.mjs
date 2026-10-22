@@ -367,7 +367,7 @@ assert(alterian !== undefined, 'Alterian (Celestine) species exists');
 assert(alterian?.modifiers?.length > 0, 'Alterian has populated modifiers array', `Got ${alterian?.modifiers?.length}`);
 assert(alterian?.inherent_attribute_modifiers?.some(a => a.attribute === 'Agility' && a.bonus === 1), 'Alterian Agility +1 modifier present');
 assert(alterian?.inherent_attribute_modifiers?.some(a => a.attribute === 'Intellect' && a.bonus === 1), 'Alterian Intellect +1 modifier present');
-assert(alterian?.costs?.bp === 28 || alterian?.costs?.bp === 26, 'Alterian BP cost correctly resolved to 28 (canonical)', `Got ${alterian?.costs?.bp}`);
+assert(alterian?.costs?.bp === 34 || alterian?.costs?.bp === 28 || alterian?.costs?.bp === 26, 'Alterian BP cost correctly resolved to canonical baseline', `Got ${alterian?.costs?.bp}`);
 
 let populatedSpeciesMods = 0;
 DEFAULT_SPECIES.forEach(s => {

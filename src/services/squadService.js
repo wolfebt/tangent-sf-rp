@@ -18,6 +18,7 @@ import {
 import { db } from '../firebase';
 import { StorageService } from './storageService';
 import { ChatService } from './chatService';
+import { getEffectiveUserHandle } from '../utils/personaValidationUtils';
 
 // Helper to generate a random 6-character alphanumeric squad invite code
 const generateInviteCode = () => {
@@ -128,7 +129,7 @@ export const SquadService = {
     const groupId = `group_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
     const inviteCode = generateInviteCode();
     const cleanName = name.trim();
-    const userHandle = currentUser.displayName || currentUser.email || 'Operator';
+    const userHandle = getEffectiveUserHandle(currentUser);
 
     // Channel ID for tied-in group comms
     const channelId = `group_chan_${groupId}`;
@@ -382,7 +383,7 @@ export const SquadService = {
     if (!groupId || !targetUserId) throw new Error('Missing team or target user ID');
     if (!currentUser) throw new Error('Must be logged in to send invite');
 
-    const inviterHandle = currentUser.displayName || currentUser.email?.split('@')[0] || 'Operator';
+    const inviterHandle = getEffectiveUserHandle(currentUser);
 
     // Check if an active pending invite already exists for this group + targetUser
     let inviteId = `invite_${groupId}_${targetUserId}_${Date.now()}`;
@@ -588,7 +589,7 @@ export const SquadService = {
       }
 
       if (accept && groupId) {
-        const userHandle = currentUser.displayName || currentUser.email?.split('@')[0] || 'Operator';
+        const userHandle = getEffectiveUserHandle(currentUser);
         const memberData = {
           userId: currentUser.uid,
           handle: userHandle,
@@ -692,7 +693,7 @@ export const SquadService = {
       throw new Error(`Team is at maximum capacity (${groupData.maxMembers} operators).`);
     }
 
-    const userHandle = currentUser.displayName || currentUser.email?.split('@')[0] || 'Operator';
+    const userHandle = getEffectiveUserHandle(currentUser);
     const memberData = {
       userId: currentUser.uid,
       handle: userHandle,
@@ -1383,7 +1384,7 @@ export const SquadService = {
       visibleToUserIds: Array.isArray(block.visibleToUserIds) ? block.visibleToUserIds : [],
       acknowledgedBy: Array.isArray(block.acknowledgedBy) ? block.acknowledgedBy : [],
       createdById: block.createdById || currentUser?.uid || 'architect',
-      createdByHandle: block.createdByHandle || currentUser?.displayName || currentUser?.email?.split('@')[0] || 'Architect',
+      createdByHandle: block.createdByHandle || getEffectiveUserHandle(currentUser),
       createdAt: block.createdAt || new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
@@ -1438,7 +1439,7 @@ export const SquadService = {
     if ((!channelId && !groupId) || !blockId || !currentUser?.uid) return;
     const targetId = channelId || `group_chan_${groupId}`;
     const uid = currentUser.uid;
-    const handle = currentUser.displayName || currentUser.email?.split('@')[0] || 'Operator';
+    const handle = getEffectiveUserHandle(currentUser);
     const personaId = persona?.['character-doc-id'] || persona?.id || null;
     const personaName = persona?.['char-name'] || persona?.name || null;
 

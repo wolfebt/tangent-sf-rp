@@ -52,8 +52,8 @@ tech_level: '3 (Magi-Tech: Solar Sails, Crystalline Laminates, Aetherium Refinem
 meta_level: '4 (High Magic: The Flow)'
 homeworld: Altheria (The Gilded World)
 costs:
-  cp: 28
-  bp: 28
+  cp: 34
+  bp: 34
 modifiers:
   - target: Agility
     value: 1
@@ -63,9 +63,6 @@ modifiers:
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 28
-cp: 28
-bp: 28
 description: >-
   The Alterian Aeld are graceful, exceptionally long-lived scholars, diplomats,
   and magi-tech pioneers. They harmonize technology with arcane metaphysics,
@@ -92,6 +89,9 @@ keywords: >-
 negative_keywords: 'brute-force, heavy-armor, reckless, technophile-cybernetics, short-sighted'
 species_traits:
   - trait-aeld-lineage-traits
+cp: 34
+bp: 34
+cp_cost: 34
 ---
 
 # Celestine (Alterian Aeld)

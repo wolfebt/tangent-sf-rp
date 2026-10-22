@@ -35,12 +35,9 @@ tech_level: 3 (Standard Interstellar Fusion & Ballistics)
 meta_level: 1 (Variable / Latent Potential)
 homeworld: 'Earth / Sol System (and 1,000+ colony worlds)'
 costs:
-  cp: 10
-  bp: 10
+  cp: 12
+  bp: 12
 modifiers: []
-cp_cost: 10
-cp: 10
-bp: 10
 description: >-
   Humans are the adaptable, ubiquitous baseline of the known galaxy. Driven by
   restless ambition and resilience, their versatility allows them to thrive in
@@ -68,6 +65,9 @@ recommended_occupations:
 keywords: 'adaptable, ubiquitous, ambitious, versatile, tenacious, core-lineage'
 negative_keywords: 'environmental-extremophile, biologically-inflexible'
 species_traits: *ref_0
+cp: 12
+bp: 12
+cp_cost: 12
 ---
 
 # Human (Standard Baseline)

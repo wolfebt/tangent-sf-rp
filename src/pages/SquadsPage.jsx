@@ -51,6 +51,7 @@ import { SquadSettingsTab } from '../components/Squads/tabs/SquadSettingsTab';
 import { SquadTacticalTab } from '../components/Squads/tabs/SquadTacticalTab';
 import { SquadInviteConfirmationModal } from '../components/Squads/SquadInviteConfirmationModal';
 import { CommunityNetworkingView } from '../components/Community/CommunityNetworkingView';
+import { getEffectiveUserHandle } from '../utils/personaValidationUtils';
 
 /**
  * @file SquadsPage.jsx
@@ -278,11 +279,11 @@ export const SquadsPage = ({
   const filteredUserDirectory = useMemo(() => {
     if (!userSearchQuery.trim()) return userDirectory.slice(0, 8);
     const q = userSearchQuery.toLowerCase();
-    return userDirectory.filter(u => 
-      u.displayName?.toLowerCase().includes(q) || 
-      u.email?.toLowerCase().includes(q) ||
-      u.handle?.toLowerCase().includes(q)
-    );
+    return userDirectory.filter(u => {
+      const handle = getEffectiveUserHandle(u).toLowerCase();
+      const displayName = (u.displayName && !u.displayName.includes('@')) ? u.displayName.toLowerCase() : '';
+      return handle.includes(q) || displayName.includes(q);
+    });
   }, [userDirectory, userSearchQuery]);
 
   return (

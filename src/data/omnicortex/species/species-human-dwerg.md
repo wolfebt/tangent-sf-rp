@@ -46,8 +46,8 @@ tech_level: 3 (Heavy Metallurgy & Kinetic Forges)
 meta_level: 1 (Earth / Mineral Resonance)
 homeworld: Nidavellir Asteroid Belt
 costs:
-  cp: 19
-  bp: 19
+  cp: 23
+  bp: 23
 modifiers:
   - target: Strength
     value: 1
@@ -57,9 +57,6 @@ modifiers:
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 19
-cp: 19
-bp: 19
 description: >-
   Stocky, broad-shouldered heavy-world humans renowned for foundry work,
   starship armor plating, and asteroid mining.
@@ -81,6 +78,9 @@ recommended_occupations:
 keywords: 'asteroid-miner, forge-craft, dense-bone, foundry-armor, tenacious, blacksmith'
 negative_keywords: 'graceful-aerial, swimming, frail'
 species_traits: *ref_0
+cp: 23
+bp: 23
+cp_cost: 23
 ---
 
 # Dwerg Human (Forge Folk)

@@ -95,12 +95,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 28,
-      "bp": 28
+      "cp": 34,
+      "bp": 34
     },
-    "cp": 28,
-    "bp": 28,
-    "cp_cost": 28,
+    "cp": 34,
+    "bp": 34,
+    "cp_cost": 34,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Agility",
@@ -206,12 +206,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 14,
-      "bp": 14
+      "cp": 16,
+      "bp": 16
     },
-    "cp": 14,
-    "bp": 14,
-    "cp_cost": 14,
+    "cp": 16,
+    "bp": 16,
+    "cp_cost": 16,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Charisma",
@@ -312,12 +312,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 19,
-      "bp": 19
+      "cp": 22,
+      "bp": 22
     },
-    "cp": 19,
-    "bp": 19,
-    "cp_cost": 19,
+    "cp": 22,
+    "bp": 22,
+    "cp_cost": 22,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",
@@ -416,12 +416,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 13,
-      "bp": 13
+      "cp": 21,
+      "bp": 21
     },
-    "cp": 13,
-    "bp": 13,
-    "cp_cost": 13,
+    "cp": 21,
+    "bp": 21,
+    "cp_cost": 21,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",
@@ -526,12 +526,12 @@ export const DEFAULT_SPECIES = [
     "disadvantages": [],
     "modifiers": [],
     "costs": {
-      "cp": 21,
-      "bp": 21
+      "cp": 35,
+      "bp": 35
     },
-    "cp": 21,
-    "bp": 21,
-    "cp_cost": 21,
+    "cp": 35,
+    "bp": 35,
+    "cp_cost": 35,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Agility",
@@ -656,12 +656,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 26,
-      "bp": 26
+      "cp": 28,
+      "bp": 28
     },
-    "cp": 26,
-    "bp": 26,
-    "cp_cost": 26,
+    "cp": 28,
+    "bp": 28,
+    "cp_cost": 28,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Agility",
@@ -773,12 +773,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 31,
-      "bp": 31
+      "cp": 34,
+      "bp": 34
     },
-    "cp": 31,
-    "bp": 31,
-    "cp_cost": 31,
+    "cp": 34,
+    "bp": 34,
+    "cp_cost": 34,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Charisma",
@@ -898,12 +898,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 37,
-      "bp": 37
+      "cp": 41,
+      "bp": 41
     },
-    "cp": 37,
-    "bp": 37,
-    "cp_cost": 37,
+    "cp": 41,
+    "bp": 41,
+    "cp_cost": 41,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",
@@ -1015,12 +1015,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 18,
-      "bp": 18
+      "cp": 24,
+      "bp": 24
     },
-    "cp": 18,
-    "bp": 18,
-    "cp_cost": 18,
+    "cp": 24,
+    "bp": 24,
+    "cp_cost": 24,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Agility",
@@ -1146,12 +1146,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 8,
-      "bp": 8
+      "cp": 3,
+      "bp": 3
     },
-    "cp": 8,
-    "bp": 8,
-    "cp_cost": 8,
+    "cp": 3,
+    "bp": 3,
+    "cp_cost": 3,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",
@@ -1204,7 +1204,7 @@ export const DEFAULT_SPECIES = [
     "keywords": "elemental, photon, telekinesis, high-intellect, non-corporeal, eidetic-memory, radiant",
     "negative_keywords": "melee-combat, physical-strength, heavy-armor, primitive, mud",
     "description": "Sigal are diminutive, non-corporeal elemental wisps of concentrated consciousness and photon energy. While physically frail, their intellect, perfect memory, and telekinetic mastery are staggering.",
-    "body": "# Sigal (Elemental Fey)\n\n## Description\nSigal are diminutive, non-corporeal elemental wisps of concentrated consciousness and photon energy. While physically frail, their intellect, perfect memory, and telekinetic mastery are staggering.\n\n## Core Identity\n- **Lineage**: Asi (Fey Lineages)\n- **Type**: species_type-fey\n- **Size**: species_size-diminutive\n- **Movement**: Flight 60 ft\n- **Homeworld**: The Solar Auroras of Lumina\n- **Tech Level**: 4 (Photonic & Energy Resonators)\n- **Meta Level**: 5 (Pure Energy Metaphysics)\n- **Stigma**: Severe Xeno (-6)\n\n## Mechanics & Statblock\n- **CP Cost**: 66 CP\n- **Inherent Modifiers**: +1 Intellect, -8 Strength\n- **Bonus Skills**: +10 Skill Points\n- **Inherent Features**: Asi Base Traits, Diminutive Size, Awakened (Energy/Illusion), Telekinetic Flight, Non-Living (Energy Entity), Telekinesis (Special Ability), Perfect Memory\n- **Recommended Features**: feature-phase-shift\n\n## Roleplay & Society\nSigal are diminutive, non-corporeal elemental wisps of concentrated consciousness and photon energy. While physically frail, their intellect, perfect memory, and telekinetic mastery are staggering."
+    "body": "# Sigal (Elemental Fey)\n\n## Description\nSigal are diminutive, non-corporeal elemental wisps of concentrated consciousness and photon energy. While physically frail, their intellect, perfect memory, and telekinetic mastery are staggering.\n\n## Core Identity\n- **Lineage**: Asi (Fey Lineages)\n- **Type**: species_type-fey\n- **Size**: species_size-diminutive\n- **Movement**: Flight 60 ft\n- **Homeworld**: The Solar Auroras of Lumina\n- **Tech Level**: 4 (Photonic & Energy Resonators)\n- **Meta Level**: 5 (Pure Energy Metaphysics)\n- **Stigma**: Severe Xeno (-6)\n\n## Mechanics & Statblock\n- **CP Cost**: 3 CP\n- **Inherent Modifiers**: +1 Intellect, -8 Strength\n- **Bonus Skills**: +10 Skill Points\n- **Inherent Features**: Asi Base Traits, Diminutive Size, Awakened (Energy/Illusion), Telekinetic Flight, Non-Living (Energy Entity), Telekinesis (Special Ability), Perfect Memory\n- **Recommended Features**: feature-phase-shift\n\n## Roleplay & Society\nSigal are diminutive, non-corporeal elemental wisps of concentrated consciousness and photon energy. While physically frail, their intellect, perfect memory, and telekinetic mastery are staggering."
   },
   {
     "id": "species-asi-tozen",
@@ -1269,12 +1269,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 25,
-      "bp": 25
+      "cp": 27,
+      "bp": 27
     },
-    "cp": 25,
-    "bp": 25,
-    "cp_cost": 25,
+    "cp": 27,
+    "bp": 27,
+    "cp_cost": 27,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Agility",
@@ -1376,12 +1376,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 26,
-      "bp": 26
+      "cp": 27,
+      "bp": 27
     },
-    "cp": 26,
-    "bp": 26,
-    "cp_cost": 26,
+    "cp": 27,
+    "bp": 27,
+    "cp_cost": 27,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Charisma",
@@ -1488,12 +1488,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 23,
-      "bp": 23
+      "cp": 29,
+      "bp": 29
     },
-    "cp": 23,
-    "bp": 23,
-    "cp_cost": 23,
+    "cp": 29,
+    "bp": 29,
+    "cp_cost": 29,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Agility",
@@ -1593,12 +1593,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 26,
-      "bp": 26
+      "cp": 34,
+      "bp": 34
     },
-    "cp": 26,
-    "bp": 26,
-    "cp_cost": 26,
+    "cp": 34,
+    "bp": 34,
+    "cp_cost": 34,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Agility",
@@ -1723,12 +1723,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 15,
-      "bp": 15
+      "cp": 26,
+      "bp": 26
     },
-    "cp": 15,
-    "bp": 15,
-    "cp_cost": 15,
+    "cp": 26,
+    "bp": 26,
+    "cp_cost": 26,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Agility",
@@ -1836,12 +1836,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 23,
-      "bp": 23
+      "cp": 25,
+      "bp": 25
     },
-    "cp": 23,
-    "bp": 23,
-    "cp_cost": 23,
+    "cp": 25,
+    "bp": 25,
+    "cp_cost": 25,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Agility",
@@ -1944,12 +1944,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 20,
-      "bp": 20
+      "cp": 21,
+      "bp": 21
     },
-    "cp": 20,
-    "bp": 20,
-    "cp_cost": 20,
+    "cp": 21,
+    "bp": 21,
+    "cp_cost": 21,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",
@@ -1998,7 +1998,7 @@ export const DEFAULT_SPECIES = [
     "keywords": "cryo-adapted, biform-shifter, tundra-hunter, dual-form, thermal-fur, resilient",
     "negative_keywords": "heat-intolerant, desert-dweller, static-form, fragile",
     "description": "Prokos are cold-adapted Auluran biforms from glacial fringe worlds. They can shift between a slender humanoid form for technology operation and a bulky furred predator form for tundra survival.",
-    "body": "# Prokos (Auluran Biform Shifter)\n\n## Description\nProkos are cold-adapted Auluran biforms from glacial fringe worlds. They can shift between a slender humanoid form for technology operation and a bulky furred predator form for tundra survival.\n\n## Core Identity\n- **Lineage**: Aulurans\n- **Type**: species_type-humanoid\n- **Size**: species_size-medium\n- **Movement**: Ground 30 ft\n- **Homeworld**: Prokos Tundra Outposts\n- **Tech Level**: 3 (Cryo-Biotechnology)\n- **Meta Level**: 2 (Cellular Metamorphosis)\n- **Stigma**: Xeno (-2)\n\n## Mechanics & Statblock\n- **CP Cost**: 10 CP\n- **Inherent Modifiers**: +1 Intellect\n- **Bonus Skills**: +0 Skill Points\n- **Inherent Features**: Auluran Base Traits, Digitigrade, Climber, Quick, Adapted (Cold Environments), Alternate Form (Humanoid / Beast Form), Improved Great Fortitude\n- **Recommended Features**: feature-primal-regeneration\n\n## Roleplay & Society\nProkos are cold-adapted Auluran biforms from glacial fringe worlds. They can shift between a slender humanoid form for technology operation and a bulky furred predator form for tundra survival."
+    "body": "# Prokos (Auluran Biform Shifter)\n\n## Description\nProkos are cold-adapted Auluran biforms from glacial fringe worlds. They can shift between a slender humanoid form for technology operation and a bulky furred predator form for tundra survival.\n\n## Core Identity\n- **Lineage**: Aulurans\n- **Type**: species_type-humanoid\n- **Size**: species_size-medium\n- **Movement**: Ground 30 ft\n- **Homeworld**: Prokos Tundra Outposts\n- **Tech Level**: 3 (Cryo-Biotechnology)\n- **Meta Level**: 2 (Cellular Metamorphosis)\n- **Stigma**: Xeno (-2)\n\n## Mechanics & Statblock\n- **CP Cost**: 21 CP\n- **Inherent Modifiers**: +1 Intellect\n- **Bonus Skills**: +0 Skill Points\n- **Inherent Features**: Auluran Base Traits, Digitigrade, Climber, Quick, Adapted (Cold Environments), Alternate Form (Humanoid / Beast Form), Improved Great Fortitude\n- **Recommended Features**: feature-primal-regeneration\n\n## Roleplay & Society\nProkos are cold-adapted Auluran biforms from glacial fringe worlds. They can shift between a slender humanoid form for technology operation and a bulky furred predator form for tundra survival."
   },
   {
     "id": "species-gene-aquatican",
@@ -2029,12 +2029,12 @@ export const DEFAULT_SPECIES = [
     "disadvantages": [],
     "modifiers": [],
     "costs": {
-      "cp": 7,
-      "bp": 7
+      "cp": 13,
+      "bp": 13
     },
-    "cp": 7,
-    "bp": 7,
-    "cp_cost": 7,
+    "cp": 13,
+    "bp": 13,
+    "cp_cost": 13,
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 1,
     "specific_skill_bonuses": [
@@ -2113,12 +2113,12 @@ export const DEFAULT_SPECIES = [
     "disadvantages": [],
     "modifiers": [],
     "costs": {
-      "cp": 4,
-      "bp": 4
+      "cp": 15,
+      "bp": 15
     },
-    "cp": 4,
-    "bp": 4,
-    "cp_cost": 4,
+    "cp": 15,
+    "bp": 15,
+    "cp_cost": 15,
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 2,
     "specific_skill_bonuses": [
@@ -2211,12 +2211,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 17,
-      "bp": 17
+      "cp": 24,
+      "bp": 24
     },
-    "cp": 17,
-    "bp": 17,
-    "cp_cost": 17,
+    "cp": 24,
+    "bp": 24,
+    "cp_cost": 24,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",
@@ -2418,7 +2418,7 @@ export const DEFAULT_SPECIES = [
     "keywords": "shock-trooper, reinforced-skeleton, heavy-infantry, high-pain-threshold, boarding-party",
     "negative_keywords": "subtle-espionage, delicate-craft, diplomacy, psionics, agile-flight",
     "description": "Brutal, hulking bio-engineered shock troops bred by the Impyrium for planetary boarding actions and trench warfare.",
-    "body": "# Digon (Imperial Heavy Shock Trooper)\n\n## Description\nBrutal, hulking bio-engineered shock troops bred by the Impyrium for planetary boarding actions and trench warfare.\n\n## Core Identity\n- **Lineage**: Engineered Humans (Gen-E)\n- **Type**: species_type-humanoid\n- **Size**: species_size-large\n- **Movement**: Ground 30 ft\n- **Homeworld**: Imperial Barracks Worlds\n- **Tech Level**: 3 (Imperial Heavy Ordinance)\n- **Meta Level**: 0 (Null)\n- **Stigma**: Xeno (-2), Savage (-4)\n\n## Mechanics & Statblock\n- **CP Cost**: 29 CP\n- **Inherent Modifiers**: +1 Strength, +1 Agility, +1 Stamina, -1 Intellect, -1 Charisma\n- **Bonus Skills**: +5 Skill Points\n- **Inherent Features**: Brutal (+3 Melee Damage), Exoskeleton (Partial Sub-dermal Plates DR 3/-), Combat Rage (1/Encounter)\n- **Recommended Features**: feature-combat-rage\n\n## Roleplay & Society\nBrutal, hulking bio-engineered shock troops bred by the Impyrium for planetary boarding actions and trench warfare."
+    "body": "# Digon (Imperial Heavy Shock Trooper)\n\n## Description\nBrutal, hulking bio-engineered shock troops bred by the Impyrium for planetary boarding actions and trench warfare.\n\n## Core Identity\n- **Lineage**: Engineered Humans (Gen-E)\n- **Type**: species_type-humanoid\n- **Size**: species_size-large\n- **Movement**: Ground 30 ft\n- **Homeworld**: Imperial Barracks Worlds\n- **Tech Level**: 3 (Imperial Heavy Ordinance)\n- **Meta Level**: 0 (Null)\n- **Stigma**: Xeno (-2), Savage (-4)\n\n## Mechanics & Statblock\n- **CP Cost**: 8 CP\n- **Inherent Modifiers**: +1 Strength, +1 Agility, +1 Stamina, -1 Intellect, -1 Charisma\n- **Bonus Skills**: +5 Skill Points\n- **Inherent Features**: Brutal (+3 Melee Damage), Exoskeleton (Partial Sub-dermal Plates DR 3/-), Combat Rage (1/Encounter)\n- **Recommended Features**: feature-combat-rage\n\n## Roleplay & Society\nBrutal, hulking bio-engineered shock troops bred by the Impyrium for planetary boarding actions and trench warfare."
   },
   {
     "id": "species-gene-base",
@@ -2450,12 +2450,12 @@ export const DEFAULT_SPECIES = [
     "disadvantages": [],
     "modifiers": [],
     "costs": {
-      "cp": 9,
-      "bp": 9
+      "cp": 20,
+      "bp": 20
     },
-    "cp": 9,
-    "bp": 9,
-    "cp_cost": 9,
+    "cp": 20,
+    "bp": 20,
+    "cp_cost": 20,
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 2,
     "specific_skill_bonuses": [
@@ -2544,12 +2544,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 19,
-      "bp": 19
+      "cp": 27,
+      "bp": 27
     },
-    "cp": 19,
-    "bp": 19,
-    "cp_cost": 19,
+    "cp": 27,
+    "bp": 27,
+    "cp_cost": 27,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Wisdom",
@@ -2602,7 +2602,7 @@ export const DEFAULT_SPECIES = [
     "keywords": "inquisitor, telepathy, precognition, imperial-authority, mental-domination, battle-psion",
     "negative_keywords": "physical-labor, anti-authoritarian, tech-hack, primitive",
     "description": "Bred in imperial gen-vaults, Impyrium Psions serve the Throne as telepathic judges, interrogators, and battle-psions.",
-    "body": "# Impyrium Psion (Imperial Inquisitor)\n\n## Description\nBred in imperial gen-vaults, Impyrium Psions serve the Throne as telepathic judges, interrogators, and battle-psions.\n\n## Core Identity\n- **Lineage**: Engineered Humans (Gen-E)\n- **Type**: species_type-humanoid\n- **Size**: species_size-medium\n- **Movement**: Ground 30 ft\n- **Homeworld**: Imperia Core\n- **Tech Level**: 4 (Imperial Psionic Relics & Force Armor)\n- **Meta Level**: 4 (Imperial High Psionics)\n- **Stigma**: None\n\n## Mechanics & Statblock\n- **CP Cost**: 20 CP\n- **Inherent Modifiers**: +1 Wisdom\n- **Bonus Skills**: +10 Skill Points\n- **Inherent Features**: Awakened (Psionic), Status (Impyrium Authority), Mind Wipe Resistance, Psychic Aura\n- **Recommended Features**: feature-thought-probe\n\n## Roleplay & Society\nBred in imperial gen-vaults, Impyrium Psions serve the Throne as telepathic judges, interrogators, and battle-psions."
+    "body": "# Impyrium Psion (Imperial Inquisitor)\n\n## Description\nBred in imperial gen-vaults, Impyrium Psions serve the Throne as telepathic judges, interrogators, and battle-psions.\n\n## Core Identity\n- **Lineage**: Engineered Humans (Gen-E)\n- **Type**: species_type-humanoid\n- **Size**: species_size-medium\n- **Movement**: Ground 30 ft\n- **Homeworld**: Imperia Core\n- **Tech Level**: 4 (Imperial Psionic Relics & Force Armor)\n- **Meta Level**: 4 (Imperial High Psionics)\n- **Stigma**: None\n\n## Mechanics & Statblock\n- **CP Cost**: 27 CP\n- **Inherent Modifiers**: +1 Wisdom\n- **Bonus Skills**: +10 Skill Points\n- **Inherent Features**: Awakened (Psionic), Status (Impyrium Authority), Mind Wipe Resistance, Psychic Aura\n- **Recommended Features**: feature-thought-probe\n\n## Roleplay & Society\nBred in imperial gen-vaults, Impyrium Psions serve the Throne as telepathic judges, interrogators, and battle-psions."
   },
   {
     "id": "species-gene-impyrium-regi",
@@ -2639,12 +2639,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 29,
-      "bp": 29
+      "cp": 35,
+      "bp": 35
     },
-    "cp": 29,
-    "bp": 29,
-    "cp_cost": 29,
+    "cp": 35,
+    "bp": 35,
+    "cp_cost": 35,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",
@@ -2698,7 +2698,7 @@ export const DEFAULT_SPECIES = [
     "keywords": "high-blood, aristocracy, imperial-regalia, command-aura, intellect, gene-perfection",
     "negative_keywords": "manual-labor, dirty-wastelands, subservient, scavenger",
     "description": "The apex of imperial bio-engineering: peerless aristocrats endowed with heightened intellect, natural psionic dominance, and undisputed political authority.",
-    "body": "# Impyrium Regi (Imperial High Blood)\n\n## Description\nThe apex of imperial bio-engineering: peerless aristocrats endowed with heightened intellect, natural psionic dominance, and undisputed political authority.\n\n## Core Identity\n- **Lineage**: Engineered Humans (Gen-E)\n- **Type**: species_type-humanoid\n- **Size**: species_size-medium\n- **Movement**: Ground 30 ft\n- **Homeworld**: Imperia Core\n- **Tech Level**: 4 (Imperial Regalia & Grav-Chairs)\n- **Meta Level**: 4 (Command Metaphysics)\n- **Stigma**: None\n\n## Mechanics & Statblock\n- **CP Cost**: 28 CP\n- **Inherent Modifiers**: +2 Intellect\n- **Bonus Skills**: +20 Skill Points\n- **Inherent Features**: Adaptive Aspects, Awakened (Psionic), Status (Imperial Nobility), Aristocratic Immunity\n- **Recommended Features**: feature-royal-command\n\n## Roleplay & Society\nThe apex of imperial bio-engineering: peerless aristocrats endowed with heightened intellect, natural psionic dominance, and undisputed political authority."
+    "body": "# Impyrium Regi (Imperial High Blood)\n\n## Description\nThe apex of imperial bio-engineering: peerless aristocrats endowed with heightened intellect, natural psionic dominance, and undisputed political authority.\n\n## Core Identity\n- **Lineage**: Engineered Humans (Gen-E)\n- **Type**: species_type-humanoid\n- **Size**: species_size-medium\n- **Movement**: Ground 30 ft\n- **Homeworld**: Imperia Core\n- **Tech Level**: 4 (Imperial Regalia & Grav-Chairs)\n- **Meta Level**: 4 (Command Metaphysics)\n- **Stigma**: None\n\n## Mechanics & Statblock\n- **CP Cost**: 35 CP\n- **Inherent Modifiers**: +2 Intellect\n- **Bonus Skills**: +20 Skill Points\n- **Inherent Features**: Adaptive Aspects, Awakened (Psionic), Status (Imperial Nobility), Aristocratic Immunity\n- **Recommended Features**: feature-royal-command\n\n## Roleplay & Society\nThe apex of imperial bio-engineering: peerless aristocrats endowed with heightened intellect, natural psionic dominance, and undisputed political authority."
   },
   {
     "id": "species-gene-janissary",
@@ -2737,12 +2737,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 16,
-      "bp": 16
+      "cp": 29,
+      "bp": 29
     },
-    "cp": 16,
-    "bp": 16,
-    "cp_cost": 16,
+    "cp": 29,
+    "bp": 29,
+    "cp_cost": 29,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Charisma",
@@ -2839,12 +2839,12 @@ export const DEFAULT_SPECIES = [
     "disadvantages": [],
     "modifiers": [],
     "costs": {
-      "cp": 7,
-      "bp": 7
+      "cp": 12,
+      "bp": 12
     },
-    "cp": 7,
-    "bp": 7,
-    "cp_cost": 7,
+    "cp": 12,
+    "bp": 12,
+    "cp_cost": 12,
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 1,
     "specific_skill_bonuses": [
@@ -2934,12 +2934,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 13,
-      "bp": 13
+      "cp": 15,
+      "bp": 15
     },
-    "cp": 13,
-    "bp": 13,
-    "cp_cost": 13,
+    "cp": 15,
+    "bp": 15,
+    "cp_cost": 15,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",
@@ -3031,12 +3031,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 9,
-      "bp": 9
+      "cp": 15,
+      "bp": 15
     },
-    "cp": 9,
-    "bp": 9,
-    "cp_cost": 9,
+    "cp": 15,
+    "bp": 15,
+    "cp_cost": 15,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Agility",
@@ -3088,7 +3088,7 @@ export const DEFAULT_SPECIES = [
     "keywords": "nocturnal, twilight-world, tapetum-eyes, low-light-reflex, dark-adapted",
     "negative_keywords": "blinding-sunlight, open-plains, desert-heat",
     "description": "B’Dren are slender humans native to tidally locked or twilight worlds. They possess dilated tapetum lucidum eyes providing superior nocturnal vision and rapid motor reflexes.",
-    "body": "# B’Dren Human (Nocturnal Variant)\n\n## Description\nB’Dren are slender humans native to tidally locked or twilight worlds. They possess dilated tapetum lucidum eyes providing superior nocturnal vision and rapid motor reflexes.\n\n## Core Identity\n- **Lineage**: Humans (Core & Variants)\n- **Type**: species_type-humanoid\n- **Size**: species_size-medium\n- **Movement**: Ground 30 ft\n- **Homeworld**: Noctis Rim Colonies\n- **Tech Level**: 3 (Standard)\n- **Meta Level**: 1 (Sensory Focus)\n- **Stigma**: None\n\n## Mechanics & Statblock\n- **CP Cost**: 11 CP\n- **Inherent Modifiers**: +1 Agility\n- **Bonus Skills**: +0 Skill Points\n- **Inherent Features**: Low Light Vision, Quick (+5ft Movement), Echo Sensitivity\n- **Recommended Features**: feature-quick\n\n## Roleplay & Society\nB’Dren are slender humans native to tidally locked or twilight worlds. They possess dilated tapetum lucidum eyes providing superior nocturnal vision and rapid motor reflexes."
+    "body": "# B’Dren Human (Nocturnal Variant)\n\n## Description\nB’Dren are slender humans native to tidally locked or twilight worlds. They possess dilated tapetum lucidum eyes providing superior nocturnal vision and rapid motor reflexes.\n\n## Core Identity\n- **Lineage**: Humans (Core & Variants)\n- **Type**: species_type-humanoid\n- **Size**: species_size-medium\n- **Movement**: Ground 30 ft\n- **Homeworld**: Noctis Rim Colonies\n- **Tech Level**: 3 (Standard)\n- **Meta Level**: 1 (Sensory Focus)\n- **Stigma**: None\n\n## Mechanics & Statblock\n- **CP Cost**: 15 CP\n- **Inherent Modifiers**: +1 Agility\n- **Bonus Skills**: +0 Skill Points\n- **Inherent Features**: Low Light Vision, Quick (+5ft Movement), Echo Sensitivity\n- **Recommended Features**: feature-quick\n\n## Roleplay & Society\nB’Dren are slender humans native to tidally locked or twilight worlds. They possess dilated tapetum lucidum eyes providing superior nocturnal vision and rapid motor reflexes."
   },
   {
     "id": "species-human-brae",
@@ -3143,12 +3143,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 20,
-      "bp": 20
+      "cp": 28,
+      "bp": 28
     },
-    "cp": 20,
-    "bp": 20,
-    "cp_cost": 20,
+    "cp": 28,
+    "bp": 28,
+    "cp_cost": 28,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Agility",
@@ -3238,12 +3238,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 8,
-      "bp": 8
+      "cp": 10,
+      "bp": 10
     },
-    "cp": 8,
-    "bp": 8,
-    "cp_cost": 8,
+    "cp": 10,
+    "bp": 10,
+    "cp_cost": 10,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Charisma",
@@ -3336,12 +3336,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 17,
-      "bp": 17
+      "cp": 21,
+      "bp": 21
     },
-    "cp": 17,
-    "bp": 17,
-    "cp_cost": 17,
+    "cp": 21,
+    "bp": 21,
+    "cp_cost": 21,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",
@@ -3436,12 +3436,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 11,
-      "bp": 11
+      "cp": 12,
+      "bp": 12
     },
-    "cp": 11,
-    "bp": 11,
-    "cp_cost": 11,
+    "cp": 12,
+    "bp": 12,
+    "cp_cost": 12,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",
@@ -3532,12 +3532,12 @@ export const DEFAULT_SPECIES = [
     "disadvantages": [],
     "modifiers": [],
     "costs": {
-      "cp": 7,
-      "bp": 7
+      "cp": 12,
+      "bp": 12
     },
-    "cp": 7,
-    "bp": 7,
-    "cp_cost": 7,
+    "cp": 12,
+    "bp": 12,
+    "cp_cost": 12,
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 1,
     "specific_skill_bonuses": [
@@ -3629,12 +3629,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 19,
-      "bp": 19
+      "cp": 23,
+      "bp": 23
     },
-    "cp": 19,
-    "bp": 19,
-    "cp_cost": 19,
+    "cp": 23,
+    "bp": 23,
+    "cp_cost": 23,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Strength",
@@ -3721,12 +3721,12 @@ export const DEFAULT_SPECIES = [
     "disadvantages": [],
     "modifiers": [],
     "costs": {
-      "cp": 10,
-      "bp": 10
+      "cp": 12,
+      "bp": 12
     },
-    "cp": 10,
-    "bp": 10,
-    "cp_cost": 10,
+    "cp": 12,
+    "bp": 12,
+    "cp_cost": 12,
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
     "specific_skill_bonuses": [],
@@ -3804,12 +3804,12 @@ export const DEFAULT_SPECIES = [
     "disadvantages": [],
     "modifiers": [],
     "costs": {
-      "cp": 10,
-      "bp": 10
+      "cp": 21,
+      "bp": 21
     },
-    "cp": 10,
-    "bp": 10,
-    "cp_cost": 10,
+    "cp": 21,
+    "bp": 21,
+    "cp_cost": 21,
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 2,
     "specific_skill_bonuses": [
@@ -3901,12 +3901,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 23,
-      "bp": 23
+      "cp": 26,
+      "bp": 26
     },
-    "cp": 23,
-    "bp": 23,
-    "cp_cost": 23,
+    "cp": 26,
+    "bp": 26,
+    "cp_cost": 26,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",
@@ -4010,12 +4010,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 8,
-      "bp": 8
+      "cp": 9,
+      "bp": 9
     },
-    "cp": 8,
-    "bp": 8,
-    "cp_cost": 8,
+    "cp": 9,
+    "bp": 9,
+    "cp_cost": 9,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Strength",
@@ -4069,7 +4069,7 @@ export const DEFAULT_SPECIES = [
     "keywords": "calcified-armor, abrasive-badlands, rugged-survivor, heavy-slugthrower, tough",
     "negative_keywords": "aristocratic, delicate, indoor-sedentary",
     "description": "Hardened frontier humans whose bones and skin grew calcified armor plating in response to hyper-abrasive mineral environments.",
-    "body": "# Nian Human (Armored Variant)\n\n## Description\nHardened frontier humans whose bones and skin grew calcified armor plating in response to hyper-abrasive mineral environments.\n\n## Core Identity\n- **Lineage**: Humans (Core & Variants)\n- **Type**: species_type-humanoid\n- **Size**: species_size-medium\n- **Movement**: Ground 30 ft\n- **Homeworld**: Nia Frontier Badlands\n- **Tech Level**: 3 (Ballistics & Heavy Exosuits)\n- **Meta Level**: 0 (Null)\n- **Stigma**: None\n\n## Mechanics & Statblock\n- **CP Cost**: 16 CP\n- **Inherent Modifiers**: +1 Strength, +1 Stamina, -1 Charisma\n- **Bonus Skills**: +0 Skill Points\n- **Inherent Features**: Brutal (+2 Melee Damage), Exoskeleton (Partial Chitinous Plates DR 2/-), Pain Tolerance\n- **Recommended Features**: feature-brutal\n\n## Roleplay & Society\nHardened frontier humans whose bones and skin grew calcified armor plating in response to hyper-abrasive mineral environments."
+    "body": "# Nian Human (Armored Variant)\n\n## Description\nHardened frontier humans whose bones and skin grew calcified armor plating in response to hyper-abrasive mineral environments.\n\n## Core Identity\n- **Lineage**: Humans (Core & Variants)\n- **Type**: species_type-humanoid\n- **Size**: species_size-medium\n- **Movement**: Ground 30 ft\n- **Homeworld**: Nia Frontier Badlands\n- **Tech Level**: 3 (Ballistics & Heavy Exosuits)\n- **Meta Level**: 0 (Null)\n- **Stigma**: None\n\n## Mechanics & Statblock\n- **CP Cost**: 9 CP\n- **Inherent Modifiers**: +1 Strength, +1 Stamina, -1 Charisma\n- **Bonus Skills**: +0 Skill Points\n- **Inherent Features**: Brutal (+2 Melee Damage), Exoskeleton (Partial Chitinous Plates DR 2/-), Pain Tolerance\n- **Recommended Features**: feature-brutal\n\n## Roleplay & Society\nHardened frontier humans whose bones and skin grew calcified armor plating in response to hyper-abrasive mineral environments."
   },
   {
     "id": "species-human-premian",
@@ -4101,12 +4101,12 @@ export const DEFAULT_SPECIES = [
     "disadvantages": [],
     "modifiers": [],
     "costs": {
-      "cp": 13,
-      "bp": 13
+      "cp": 20,
+      "bp": 20
     },
-    "cp": 13,
-    "bp": 13,
-    "cp_cost": 13,
+    "cp": 20,
+    "bp": 20,
+    "cp_cost": 20,
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 1,
     "specific_skill_bonuses": [
@@ -4205,12 +4205,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 30,
-      "bp": 30
+      "cp": 36,
+      "bp": 36
     },
-    "cp": 30,
-    "bp": 30,
-    "cp_cost": 30,
+    "cp": 36,
+    "bp": 36,
+    "cp_cost": 36,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Agility",
@@ -4330,12 +4330,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 25,
-      "bp": 25
+      "cp": 31,
+      "bp": 31
     },
-    "cp": 25,
-    "bp": 25,
-    "cp_cost": 25,
+    "cp": 31,
+    "bp": 31,
+    "cp_cost": 31,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Strength",
@@ -4427,12 +4427,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 18,
-      "bp": 18
+      "cp": 26,
+      "bp": 26
     },
-    "cp": 18,
-    "bp": 18,
-    "cp_cost": 18,
+    "cp": 26,
+    "bp": 26,
+    "cp_cost": 26,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",
@@ -4519,12 +4519,12 @@ export const DEFAULT_SPECIES = [
     "disadvantages": [],
     "modifiers": [],
     "costs": {
-      "cp": 2,
-      "bp": 2
+      "cp": 12,
+      "bp": 12
     },
-    "cp": 2,
-    "bp": 2,
-    "cp_cost": 2,
+    "cp": 12,
+    "bp": 12,
+    "cp_cost": 12,
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 2,
     "specific_skill_bonuses": [
@@ -4615,12 +4615,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 13,
-      "bp": 13
+      "cp": 15,
+      "bp": 15
     },
-    "cp": 13,
-    "bp": 13,
-    "cp_cost": 13,
+    "cp": 15,
+    "bp": 15,
+    "cp_cost": 15,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Stamina",
@@ -4741,12 +4741,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 22,
-      "bp": 22
+      "cp": 26,
+      "bp": 26
     },
-    "cp": 22,
-    "bp": 22,
-    "cp_cost": 22,
+    "cp": 26,
+    "bp": 26,
+    "cp_cost": 26,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Strength",
@@ -4858,12 +4858,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 25,
-      "bp": 25
+      "cp": 27,
+      "bp": 27
     },
-    "cp": 25,
-    "bp": 25,
-    "cp_cost": 25,
+    "cp": 27,
+    "bp": 27,
+    "cp_cost": 27,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Strength",
@@ -4972,12 +4972,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 12,
-      "bp": 12
+      "cp": 14,
+      "bp": 14
     },
-    "cp": 12,
-    "bp": 12,
-    "cp_cost": 12,
+    "cp": 14,
+    "bp": 14,
+    "cp_cost": 14,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Agility",
@@ -5088,12 +5088,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 16,
-      "bp": 16
+      "cp": 19,
+      "bp": 19
     },
-    "cp": 16,
-    "bp": 16,
-    "cp_cost": 16,
+    "cp": 19,
+    "bp": 19,
+    "cp_cost": 19,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",
@@ -5227,12 +5227,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 24,
-      "bp": 24
+      "cp": 27,
+      "bp": 27
     },
-    "cp": 24,
-    "bp": 24,
-    "cp_cost": 24,
+    "cp": 27,
+    "bp": 27,
+    "cp_cost": 27,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Strength",
@@ -5343,12 +5343,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 19,
-      "bp": 19
+      "cp": 21,
+      "bp": 21
     },
-    "cp": 19,
-    "bp": 19,
-    "cp_cost": 19,
+    "cp": 21,
+    "bp": 21,
+    "cp_cost": 21,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Agility",
@@ -5400,7 +5400,7 @@ export const DEFAULT_SPECIES = [
     "keywords": "manta-biform, aerial-glide, sonar-echolocation, pelagic-dive, winged, gas-giant",
     "negative_keywords": "confined-corridors, arid-desert, subterranean",
     "description": "Aquatic-aerial biforms with winged patagia, sonar echolocation, and the ability to glide through atmospheric currents or dive into oceanic depths.",
-    "body": "# Mobula (Manta Biform)\n\n## Description\nAquatic-aerial biforms with winged patagia, sonar echolocation, and the ability to glide through atmospheric currents or dive into oceanic depths.\n\n## Core Identity\n- **Lineage**: Independent Xenotypes\n- **Type**: species_type-humanoid\n- **Size**: species_size-medium\n- **Movement**: Ground 30 ft, Swim 30 ft, Flight 60 ft\n- **Homeworld**: The Oceanic Gas Giant of Pelagia\n- **Tech Level**: 3 (Hydro-Resonance Equipment)\n- **Meta Level**: 2 (Sonic Metaphysics)\n- **Stigma**: Severe Xeno (-4)\n\n## Mechanics & Statblock\n- **CP Cost**: 16 CP\n- **Inherent Modifiers**: +1 Agility, +1 Stamina\n- **Bonus Skills**: +0 Skill Points\n- **Inherent Features**: Adapted (Aquatic), Amphibious, Alternate Form (Manta Ray Flight Form), Echolocation (60ft Sonar), Uncanny Sense (Underwater Vision), Swim / Glide Speed (40ft)\n- **Recommended Features**: feature-echolocation\n\n## Roleplay & Society\nAquatic-aerial biforms with winged patagia, sonar echolocation, and the ability to glide through atmospheric currents or dive into oceanic depths."
+    "body": "# Mobula (Manta Biform)\n\n## Description\nAquatic-aerial biforms with winged patagia, sonar echolocation, and the ability to glide through atmospheric currents or dive into oceanic depths.\n\n## Core Identity\n- **Lineage**: Independent Xenotypes\n- **Type**: species_type-humanoid\n- **Size**: species_size-medium\n- **Movement**: Ground 30 ft, Swim 30 ft, Flight 60 ft\n- **Homeworld**: The Oceanic Gas Giant of Pelagia\n- **Tech Level**: 3 (Hydro-Resonance Equipment)\n- **Meta Level**: 2 (Sonic Metaphysics)\n- **Stigma**: Severe Xeno (-4)\n\n## Mechanics & Statblock\n- **CP Cost**: 21 CP\n- **Inherent Modifiers**: +1 Agility, +1 Stamina\n- **Bonus Skills**: +0 Skill Points\n- **Inherent Features**: Adapted (Aquatic), Amphibious, Alternate Form (Manta Ray Flight Form), Echolocation (60ft Sonar), Uncanny Sense (Underwater Vision), Swim / Glide Speed (40ft)\n- **Recommended Features**: feature-echolocation\n\n## Roleplay & Society\nAquatic-aerial biforms with winged patagia, sonar echolocation, and the ability to glide through atmospheric currents or dive into oceanic depths."
   },
   {
     "id": "species-mondi",
@@ -5445,12 +5445,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 34,
-      "bp": 34
+      "cp": 38,
+      "bp": 38
     },
-    "cp": 34,
-    "bp": 34,
-    "cp_cost": 34,
+    "cp": 38,
+    "bp": 38,
+    "cp_cost": 38,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",
@@ -5583,12 +5583,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 13,
-      "bp": 13
+      "cp": 16,
+      "bp": 16
     },
-    "cp": 13,
-    "bp": 13,
-    "cp_cost": 13,
+    "cp": 16,
+    "bp": 16,
+    "cp_cost": 16,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Strength",
@@ -5690,12 +5690,12 @@ export const DEFAULT_SPECIES = [
     "disadvantages": [],
     "modifiers": [],
     "costs": {
-      "cp": 26,
-      "bp": 26
+      "cp": 28,
+      "bp": 28
     },
-    "cp": 26,
-    "bp": 26,
-    "cp_cost": 26,
+    "cp": 28,
+    "bp": 28,
+    "cp_cost": 28,
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
     "specific_skill_bonuses": [
@@ -5742,7 +5742,7 @@ export const DEFAULT_SPECIES = [
     "keywords": "amorphous-ooze, vent-flow, shape-molding, fluid-regeneration, acid-immunity",
     "negative_keywords": "rigid-armor, fixed-clothing, skeletal",
     "description": "Sentient, translucent amorphous slime entities able to flow through sealed vents, reshape their mass into pseudo-limbs, and regenerate from fluid droplets.",
-    "body": "# Plasm (Amorphous Ooze Entity)\n\n## Description\nSentient, translucent amorphous slime entities able to flow through sealed vents, reshape their mass into pseudo-limbs, and regenerate from fluid droplets.\n\n## Core Identity\n- **Lineage**: Independent Xenotypes\n- **Type**: species_type-ooze\n- **Size**: species_size-medium\n- **Movement**: Ground 30 ft, Slither 25 ft\n- **Homeworld**: Plasm Ooze Oceans of Ooz-Prime\n- **Tech Level**: 3 (Bio-Polymer Containment Suits)\n- **Meta Level**: 4 (Cosmic Fluidity)\n- **Stigma**: Severe Xeno (-4)\n\n## Mechanics & Statblock\n- **CP Cost**: 17 CP\n- **Inherent Modifiers**: None\n- **Bonus Skills**: +10 Skill Points\n- **Inherent Features**: Adaptive Aspects (Acid / Thermal Immunity), Alter Form (Amorphous Slime / Pseudo-Humanoid), Awakened (Cosmic), Bodyform Adaptation (Squeeze through any opening), Fast Healing, Regeneration (3 HP/rnd), Telepathic (100ft)\n- **Recommended Features**: feature-engulf-attack\n\n## Roleplay & Society\nSentient, translucent amorphous slime entities able to flow through sealed vents, reshape their mass into pseudo-limbs, and regenerate from fluid droplets."
+    "body": "# Plasm (Amorphous Ooze Entity)\n\n## Description\nSentient, translucent amorphous slime entities able to flow through sealed vents, reshape their mass into pseudo-limbs, and regenerate from fluid droplets.\n\n## Core Identity\n- **Lineage**: Independent Xenotypes\n- **Type**: species_type-ooze\n- **Size**: species_size-medium\n- **Movement**: Ground 30 ft, Slither 25 ft\n- **Homeworld**: Plasm Ooze Oceans of Ooz-Prime\n- **Tech Level**: 3 (Bio-Polymer Containment Suits)\n- **Meta Level**: 4 (Cosmic Fluidity)\n- **Stigma**: Severe Xeno (-4)\n\n## Mechanics & Statblock\n- **CP Cost**: 28 CP\n- **Inherent Modifiers**: None\n- **Bonus Skills**: +10 Skill Points\n- **Inherent Features**: Adaptive Aspects (Acid / Thermal Immunity), Alter Form (Amorphous Slime / Pseudo-Humanoid), Awakened (Cosmic), Bodyform Adaptation (Squeeze through any opening), Fast Healing, Regeneration (3 HP/rnd), Telepathic (100ft)\n- **Recommended Features**: feature-engulf-attack\n\n## Roleplay & Society\nSentient, translucent amorphous slime entities able to flow through sealed vents, reshape their mass into pseudo-limbs, and regenerate from fluid droplets."
   },
   {
     "id": "species-praeti",
@@ -5774,12 +5774,12 @@ export const DEFAULT_SPECIES = [
     "disadvantages": [],
     "modifiers": [],
     "costs": {
-      "cp": 19,
-      "bp": 19
+      "cp": 31,
+      "bp": 31
     },
-    "cp": 19,
-    "bp": 19,
-    "cp_cost": 19,
+    "cp": 31,
+    "bp": 31,
+    "cp_cost": 31,
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 2,
     "specific_skill_bonuses": [
@@ -5897,12 +5897,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 16,
-      "bp": 16
+      "cp": 18,
+      "bp": 18
     },
-    "cp": 16,
-    "bp": 16,
-    "cp_cost": 16,
+    "cp": 18,
+    "bp": 18,
+    "cp_cost": 18,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Agility",
@@ -5954,7 +5954,7 @@ export const DEFAULT_SPECIES = [
     "keywords": "patagial-glider, tiny-charmer, canopy-scamper, charismatic, acrobatic, friendly",
     "negative_keywords": "heavy-infantry, slugthrower, terrifying",
     "description": "Small, charismatic mammalian quadrupeds with patagial gliding membranes who navigate high-canopy habitats and urban catwalks.",
-    "body": "# Qeric (Gliding Beastfolk)\n\n## Description\nSmall, charismatic mammalian quadrupeds with patagial gliding membranes who navigate high-canopy habitats and urban catwalks.\n\n## Core Identity\n- **Lineage**: Independent Xenotypes\n- **Type**: species_type-beast\n- **Size**: species_size-small\n- **Movement**: Ground 30 ft, Climb 30 ft, Glide 30 ft\n- **Homeworld**: Qerica Jungle Spires\n- **Tech Level**: 2 (Lightweight Harnesses)\n- **Meta Level**: 1 (Animalistic Empathy)\n- **Stigma**: Severe Xeno (-4)\n\n## Mechanics & Statblock\n- **CP Cost**: 16 CP\n- **Inherent Modifiers**: +1 Agility, +1 Charisma\n- **Bonus Skills**: +0 Skill Points\n- **Inherent Features**: Small Size, Climbing, Patagia (Glide 30ft), Multidextrous, Uncanny Senses (Acute Scent), Climb Speed (30ft)\n- **Recommended Features**: feature-tree-glider\n\n## Roleplay & Society\nSmall, charismatic mammalian quadrupeds with patagial gliding membranes who navigate high-canopy habitats and urban catwalks."
+    "body": "# Qeric (Gliding Beastfolk)\n\n## Description\nSmall, charismatic mammalian quadrupeds with patagial gliding membranes who navigate high-canopy habitats and urban catwalks.\n\n## Core Identity\n- **Lineage**: Independent Xenotypes\n- **Type**: species_type-beast\n- **Size**: species_size-small\n- **Movement**: Ground 30 ft, Climb 30 ft, Glide 30 ft\n- **Homeworld**: Qerica Jungle Spires\n- **Tech Level**: 2 (Lightweight Harnesses)\n- **Meta Level**: 1 (Animalistic Empathy)\n- **Stigma**: Severe Xeno (-4)\n\n## Mechanics & Statblock\n- **CP Cost**: 18 CP\n- **Inherent Modifiers**: +1 Agility, +1 Charisma\n- **Bonus Skills**: +0 Skill Points\n- **Inherent Features**: Small Size, Climbing, Patagia (Glide 30ft), Multidextrous, Uncanny Senses (Acute Scent), Climb Speed (30ft)\n- **Recommended Features**: feature-tree-glider\n\n## Roleplay & Society\nSmall, charismatic mammalian quadrupeds with patagial gliding membranes who navigate high-canopy habitats and urban catwalks."
   },
   {
     "id": "species-sefalin",
@@ -5997,12 +5997,12 @@ export const DEFAULT_SPECIES = [
     "disadvantages": [],
     "modifiers": [],
     "costs": {
-      "cp": 23,
-      "bp": 23
+      "cp": 24,
+      "bp": 24
     },
-    "cp": 23,
-    "bp": 23,
-    "cp_cost": 23,
+    "cp": 24,
+    "bp": 24,
+    "cp_cost": 24,
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
     "specific_skill_bonuses": [
@@ -6046,7 +6046,7 @@ export const DEFAULT_SPECIES = [
     "keywords": "cephalopod-humanoid, chromatophore-skin, multi-tentacle, trench-genius, bio-tech",
     "negative_keywords": "arid-desert, rigid, clumsy",
     "description": "Tentacled cephalopod humanoids from abyssal trenches possessing dynamic chromatophore skin, rapid limb regeneration, and formidable intellects.",
-    "body": "# Sefalin (Cephalopod Aberration)\n\n## Description\nTentacled cephalopod humanoids from abyssal trenches possessing dynamic chromatophore skin, rapid limb regeneration, and formidable intellects.\n\n## Core Identity\n- **Lineage**: Independent Xenotypes\n- **Type**: species_type-aberration\n- **Size**: species_size-medium\n- **Movement**: Ground 30 ft, Swim 30 ft\n- **Homeworld**: Sefalia Ocean Trench Capitals\n- **Tech Level**: 4 (Bio-Organic Submersibles & Neural Syringes)\n- **Meta Level**: 3 (Aquatic Psionics)\n- **Stigma**: Xeno (-2)\n\n## Mechanics & Statblock\n- **CP Cost**: 14 CP\n- **Inherent Modifiers**: None\n- **Bonus Skills**: +5 Skill Points\n- **Inherent Features**: Adapted (Deep Sea / Pelagic), Awakened (Psychic), Amphibious, Biotech Affinity, Chameleon Skin (+4 Stealth), Fast Healing, Tentacles (4 Prehensile Grasping Limbs), Quick Movement, Regeneration (3 HP/rnd)\n- **Recommended Features**: feature-chameleon-skin\n\n## Roleplay & Society\nTentacled cephalopod humanoids from abyssal trenches possessing dynamic chromatophore skin, rapid limb regeneration, and formidable intellects."
+    "body": "# Sefalin (Cephalopod Aberration)\n\n## Description\nTentacled cephalopod humanoids from abyssal trenches possessing dynamic chromatophore skin, rapid limb regeneration, and formidable intellects.\n\n## Core Identity\n- **Lineage**: Independent Xenotypes\n- **Type**: species_type-aberration\n- **Size**: species_size-medium\n- **Movement**: Ground 30 ft, Swim 30 ft\n- **Homeworld**: Sefalia Ocean Trench Capitals\n- **Tech Level**: 4 (Bio-Organic Submersibles & Neural Syringes)\n- **Meta Level**: 3 (Aquatic Psionics)\n- **Stigma**: Xeno (-2)\n\n## Mechanics & Statblock\n- **CP Cost**: 24 CP\n- **Inherent Modifiers**: None\n- **Bonus Skills**: +5 Skill Points\n- **Inherent Features**: Adapted (Deep Sea / Pelagic), Awakened (Psychic), Amphibious, Biotech Affinity, Chameleon Skin (+4 Stealth), Fast Healing, Tentacles (4 Prehensile Grasping Limbs), Quick Movement, Regeneration (3 HP/rnd)\n- **Recommended Features**: feature-chameleon-skin\n\n## Roleplay & Society\nTentacled cephalopod humanoids from abyssal trenches possessing dynamic chromatophore skin, rapid limb regeneration, and formidable intellects."
   },
   {
     "id": "species-thorn",
@@ -6092,12 +6092,12 @@ export const DEFAULT_SPECIES = [
     "disadvantages": [],
     "modifiers": [],
     "costs": {
-      "cp": 30,
-      "bp": 30
+      "cp": 40,
+      "bp": 40
     },
-    "cp": 30,
-    "bp": 30,
-    "cp_cost": 30,
+    "cp": 40,
+    "bp": 40,
+    "cp_cost": 40,
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 2,
     "specific_skill_bonuses": [
@@ -6200,12 +6200,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 22,
-      "bp": 22
+      "cp": 25,
+      "bp": 25
     },
-    "cp": 22,
-    "bp": 22,
-    "cp_cost": 22,
+    "cp": 25,
+    "bp": 25,
+    "cp_cost": 25,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Stamina",
@@ -6261,7 +6261,7 @@ export const DEFAULT_SPECIES = [
     "keywords": "amphibious, chameleon-camouflage, prehensile-tongue, mangrove-stalker, regeneration",
     "negative_keywords": "dry-desert, heavy-metal, fire",
     "description": "Robust amphibian humanoids possessing color-shifting skin, long prehensile tongue strikes, and rapid aquatic regeneration.",
-    "body": "# Truldan (Amphibious Chameleonfolk)\n\n## Description\nRobust amphibian humanoids possessing color-shifting skin, long prehensile tongue strikes, and rapid aquatic regeneration.\n\n## Core Identity\n- **Lineage**: Independent Xenotypes\n- **Type**: species_type-humanoid\n- **Size**: species_size-medium\n- **Movement**: Ground 30 ft, Swim 30 ft\n- **Homeworld**: Trulda Mangrove Archipelago\n- **Tech Level**: 3 (Swamp Camouflage Suits & Harpoon Launchers)\n- **Meta Level**: 1 (Cellular Adaptation)\n- **Stigma**: Severe Xeno (-4)\n\n## Mechanics & Statblock\n- **CP Cost**: 16 CP\n- **Inherent Modifiers**: +1 Stamina, +1 Agility, +1 Strength\n- **Bonus Skills**: +0 Skill Points\n- **Inherent Features**: Amphibious, Chameleon (+3 Stealth in natural environments), Exoskeleton (Light Scales DR 2/-), Fast Heal, Reach (+5ft Melee Reach with Tongue/Limbs), Regeneration (2 HP/rnd)\n- **Recommended Features**: feature-adhesive-tongue-strike\n\n## Roleplay & Society\nRobust amphibian humanoids possessing color-shifting skin, long prehensile tongue strikes, and rapid aquatic regeneration."
+    "body": "# Truldan (Amphibious Chameleonfolk)\n\n## Description\nRobust amphibian humanoids possessing color-shifting skin, long prehensile tongue strikes, and rapid aquatic regeneration.\n\n## Core Identity\n- **Lineage**: Independent Xenotypes\n- **Type**: species_type-humanoid\n- **Size**: species_size-medium\n- **Movement**: Ground 30 ft, Swim 30 ft\n- **Homeworld**: Trulda Mangrove Archipelago\n- **Tech Level**: 3 (Swamp Camouflage Suits & Harpoon Launchers)\n- **Meta Level**: 1 (Cellular Adaptation)\n- **Stigma**: Severe Xeno (-4)\n\n## Mechanics & Statblock\n- **CP Cost**: 25 CP\n- **Inherent Modifiers**: +1 Stamina, +1 Agility, +1 Strength\n- **Bonus Skills**: +0 Skill Points\n- **Inherent Features**: Amphibious, Chameleon (+3 Stealth in natural environments), Exoskeleton (Light Scales DR 2/-), Fast Heal, Reach (+5ft Melee Reach with Tongue/Limbs), Regeneration (2 HP/rnd)\n- **Recommended Features**: feature-adhesive-tongue-strike\n\n## Roleplay & Society\nRobust amphibian humanoids possessing color-shifting skin, long prehensile tongue strikes, and rapid aquatic regeneration."
   },
   {
     "id": "species-vassoth",
@@ -6322,12 +6322,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 12,
-      "bp": 12
+      "cp": 14,
+      "bp": 14
     },
-    "cp": 12,
-    "bp": 12,
-    "cp_cost": 12,
+    "cp": 14,
+    "bp": 14,
+    "cp_cost": 14,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Strength",
@@ -6384,7 +6384,7 @@ export const DEFAULT_SPECIES = [
     "keywords": "serpentine-colossus, crushing-constriction, heat-sensing-pits, venom, massive",
     "negative_keywords": "stealth-in-crowds, pilot-small-cockpit, tiny",
     "description": "Colossal 12-to-18 foot serpentine beings with humanoid upper torsos, wielding crushing constriction power, heat-sensing pits, and venomous strikes.",
-    "body": "# Vassoth (Serpentine Colossus)\n\n## Description\nColossal 12-to-18 foot serpentine beings with humanoid upper torsos, wielding crushing constriction power, heat-sensing pits, and venomous strikes.\n\n## Core Identity\n- **Lineage**: Independent Xenotypes\n- **Type**: species_type-humanoid\n- **Size**: species_size-large\n- **Movement**: Slither 25 ft\n- **Homeworld**: Vass-Tor Dunes & Ruins\n- **Tech Level**: 3 (Heavy Tail-Mount Harnesses & Plasma Blasters)\n- **Meta Level**: 3 (Serpentine Sorcery)\n- **Stigma**: Severe Xeno (-4)\n\n## Mechanics & Statblock\n- **CP Cost**: 10 CP\n- **Inherent Modifiers**: +1 Strength, +1 Agility\n- **Bonus Skills**: +0 Skill Points\n- **Inherent Features**: Large Size (12-18ft serpentine body, Reach 10ft), Awakened (Serpentine Metaphysics), Constriction (Deals double damage on successful grapple hold), Venomous Fangs (Paralytic Poison DC 15)\n- **Recommended Features**: feature-constriction\n\n## Roleplay & Society\nColossal 12-to-18 foot serpentine beings with humanoid upper torsos, wielding crushing constriction power, heat-sensing pits, and venomous strikes."
+    "body": "# Vassoth (Serpentine Colossus)\n\n## Description\nColossal 12-to-18 foot serpentine beings with humanoid upper torsos, wielding crushing constriction power, heat-sensing pits, and venomous strikes.\n\n## Core Identity\n- **Lineage**: Independent Xenotypes\n- **Type**: species_type-humanoid\n- **Size**: species_size-large\n- **Movement**: Slither 25 ft\n- **Homeworld**: Vass-Tor Dunes & Ruins\n- **Tech Level**: 3 (Heavy Tail-Mount Harnesses & Plasma Blasters)\n- **Meta Level**: 3 (Serpentine Sorcery)\n- **Stigma**: Severe Xeno (-4)\n\n## Mechanics & Statblock\n- **CP Cost**: 14 CP\n- **Inherent Modifiers**: +1 Strength, +1 Agility\n- **Bonus Skills**: +0 Skill Points\n- **Inherent Features**: Large Size (12-18ft serpentine body, Reach 10ft), Awakened (Serpentine Metaphysics), Constriction (Deals double damage on successful grapple hold), Venomous Fangs (Paralytic Poison DC 15)\n- **Recommended Features**: feature-constriction\n\n## Roleplay & Society\nColossal 12-to-18 foot serpentine beings with humanoid upper torsos, wielding crushing constriction power, heat-sensing pits, and venomous strikes."
   },
   {
     "id": "species-weti",
@@ -6440,12 +6440,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 19,
-      "bp": 19
+      "cp": 22,
+      "bp": 22
     },
-    "cp": 19,
-    "bp": 19,
-    "cp_cost": 19,
+    "cp": 22,
+    "bp": 22,
+    "cp_cost": 22,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Agility",
@@ -6567,12 +6567,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 37,
-      "bp": 37
+      "cp": 41,
+      "bp": 41
     },
-    "cp": 37,
-    "bp": 37,
-    "cp_cost": 37,
+    "cp": 41,
+    "bp": 41,
+    "cp_cost": 41,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Agility",
@@ -6712,12 +6712,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 36,
-      "bp": 36
+      "cp": 46,
+      "bp": 46
     },
-    "cp": 36,
-    "bp": 36,
-    "cp_cost": 36,
+    "cp": 46,
+    "bp": 46,
+    "cp_cost": 46,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",
@@ -6866,12 +6866,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 39,
-      "bp": 39
+      "cp": 43,
+      "bp": 43
     },
-    "cp": 39,
-    "bp": 39,
-    "cp_cost": 39,
+    "cp": 43,
+    "bp": 43,
+    "cp_cost": 43,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Strength",
@@ -7026,12 +7026,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 40,
-      "bp": 40
+      "cp": 44,
+      "bp": 44
     },
-    "cp": 40,
-    "bp": 40,
-    "cp_cost": 40,
+    "cp": 44,
+    "bp": 44,
+    "cp_cost": 44,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Strength",
@@ -7321,12 +7321,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 33,
-      "bp": 33
+      "cp": 35,
+      "bp": 35
     },
-    "cp": 33,
-    "bp": 33,
-    "cp_cost": 33,
+    "cp": 35,
+    "bp": 35,
+    "cp_cost": 35,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",
@@ -7476,12 +7476,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 118,
-      "bp": 118
+      "cp": 134,
+      "bp": 134
     },
-    "cp": 118,
-    "bp": 118,
-    "cp_cost": 118,
+    "cp": 134,
+    "bp": 134,
+    "cp_cost": 134,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",
@@ -7603,12 +7603,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 79,
-      "bp": 79
+      "cp": 121,
+      "bp": 121
     },
-    "cp": 79,
-    "bp": 79,
-    "cp_cost": 79,
+    "cp": 121,
+    "bp": 121,
+    "cp_cost": 121,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",
@@ -7684,12 +7684,12 @@ export const DEFAULT_SPECIES = [
     "disadvantages": [],
     "modifiers": [],
     "costs": {
-      "cp": 1,
-      "bp": 1
+      "cp": 11,
+      "bp": 11
     },
-    "cp": 1,
-    "bp": 1,
-    "cp_cost": 1,
+    "cp": 11,
+    "bp": 11,
+    "cp_cost": 11,
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 2,
     "specific_skill_bonuses": [
@@ -7791,12 +7791,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 41,
-      "bp": 41
+      "cp": 49,
+      "bp": 49
     },
-    "cp": 41,
-    "bp": 41,
-    "cp_cost": 41,
+    "cp": 49,
+    "bp": 49,
+    "cp_cost": 49,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Wisdom",
@@ -7891,12 +7891,12 @@ export const DEFAULT_SPECIES = [
     "disadvantages": [],
     "modifiers": [],
     "costs": {
-      "cp": 38,
-      "bp": 38
+      "cp": 45,
+      "bp": 45
     },
-    "cp": 38,
-    "bp": 38,
-    "cp_cost": 38,
+    "cp": 45,
+    "bp": 45,
+    "cp_cost": 45,
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 1,
     "specific_skill_bonuses": [
@@ -7986,12 +7986,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 42,
-      "bp": 42
+      "cp": 54,
+      "bp": 54
     },
-    "cp": 42,
-    "bp": 42,
-    "cp_cost": 42,
+    "cp": 54,
+    "bp": 54,
+    "cp_cost": 54,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",
@@ -8092,12 +8092,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 41,
-      "bp": 41
+      "cp": 53,
+      "bp": 53
     },
-    "cp": 41,
-    "bp": 41,
-    "cp_cost": 41,
+    "cp": 53,
+    "bp": 53,
+    "cp_cost": 53,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Charisma",
@@ -8188,12 +8188,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 53,
-      "bp": 53
+      "cp": 62,
+      "bp": 62
     },
-    "cp": 53,
-    "bp": 53,
-    "cp_cost": 53,
+    "cp": 62,
+    "bp": 62,
+    "cp_cost": 62,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",
@@ -8323,12 +8323,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 53,
-      "bp": 53
+      "cp": 57,
+      "bp": 57
     },
-    "cp": 53,
-    "bp": 53,
-    "cp_cost": 53,
+    "cp": 57,
+    "bp": 57,
+    "cp_cost": 57,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Strength",
@@ -8475,12 +8475,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 22,
-      "bp": 22
+      "cp": 18,
+      "bp": 18
     },
-    "cp": 22,
-    "bp": 22,
-    "cp_cost": 22,
+    "cp": 18,
+    "bp": 18,
+    "cp_cost": 18,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",
@@ -8559,7 +8559,7 @@ export const DEFAULT_SPECIES = [
     "keywords": "disembodied-mind, floating-core, drone-commander, digital-psionics, computing-singularity",
     "negative_keywords": "physical-endurance, melee-brawler, heavy-armor",
     "description": "Intellect Constructs are disembodied artificial intelligences housed in floating core chassis or drone bodies, commanding battlefield drones and networks.",
-    "body": "# Intellect Construct (Autonomous Mind Core)\n\n## Description\nIntellect Constructs are disembodied artificial intelligences housed in floating core chassis or drone bodies, commanding battlefield drones and networks.\n\n## Core Identity\n- **Lineage**: Synthetics\n- **Type**: species_type-synthetic\n- **Size**: species_size-tiny\n- **Movement**: Flight 60 ft\n- **Homeworld**: Data Spires & Mothership Cores\n- **Tech Level**: 5 (Singularity Computing)\n- **Meta Level**: 2 (Digital Psionics)\n- **Stigma**: Severe Synthetic (-4)\n\n## Mechanics & Statblock\n- **CP Cost**: 187 CP\n- **Inherent Modifiers**: +4 Intellect, +2 Wisdom, +2 Charisma, -10 Strength, -5 Agility, -5 Stamina\n- **Bonus Skills**: +40 Skill Points\n- **Inherent Features**: Synthetic Base Traits, Comms Array Mastery (Instant Holo-Link), Companion Remotes (Commands 2 Drone Units), Hyper-Threading Logic Engine\n- **Recommended Features**: feature-quantum-decryption\n\n## Roleplay & Society\nIntellect Constructs are disembodied artificial intelligences housed in floating core chassis or drone bodies, commanding battlefield drones and networks."
+    "body": "# Intellect Construct (Autonomous Mind Core)\n\n## Description\nIntellect Constructs are disembodied artificial intelligences housed in floating core chassis or drone bodies, commanding battlefield drones and networks.\n\n## Core Identity\n- **Lineage**: Synthetics\n- **Type**: species_type-synthetic\n- **Size**: species_size-tiny\n- **Movement**: Flight 60 ft\n- **Homeworld**: Data Spires & Mothership Cores\n- **Tech Level**: 5 (Singularity Computing)\n- **Meta Level**: 2 (Digital Psionics)\n- **Stigma**: Severe Synthetic (-4)\n\n## Mechanics & Statblock\n- **CP Cost**: 18 CP\n- **Inherent Modifiers**: +4 Intellect, +2 Wisdom, +2 Charisma, -10 Strength, -5 Agility, -5 Stamina\n- **Bonus Skills**: +40 Skill Points\n- **Inherent Features**: Synthetic Base Traits, Comms Array Mastery (Instant Holo-Link), Companion Remotes (Commands 2 Drone Units), Hyper-Threading Logic Engine\n- **Recommended Features**: feature-quantum-decryption\n\n## Roleplay & Society\nIntellect Constructs are disembodied artificial intelligences housed in floating core chassis or drone bodies, commanding battlefield drones and networks."
   },
   {
     "id": "species-synthetic-mekan",
@@ -8600,12 +8600,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 50,
-      "bp": 50
+      "cp": 54,
+      "bp": 54
     },
-    "cp": 50,
-    "bp": 50,
-    "cp_cost": 50,
+    "cp": 54,
+    "bp": 54,
+    "cp_cost": 54,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",
@@ -8704,12 +8704,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 30,
-      "bp": 30
+      "cp": 50,
+      "bp": 50
     },
-    "cp": 30,
-    "bp": 30,
-    "cp_cost": 30,
+    "cp": 50,
+    "bp": 50,
+    "cp_cost": 50,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Charisma",
@@ -8800,12 +8800,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 35,
-      "bp": 35
+      "cp": 50,
+      "bp": 50
     },
-    "cp": 35,
-    "bp": 35,
-    "cp_cost": 35,
+    "cp": 50,
+    "bp": 50,
+    "cp_cost": 50,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Charisma",
@@ -8909,12 +8909,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 45,
-      "bp": 45
+      "cp": 48,
+      "bp": 48
     },
-    "cp": 45,
-    "bp": 45,
-    "cp_cost": 45,
+    "cp": 48,
+    "bp": 48,
+    "cp_cost": 48,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Strength",
@@ -9007,12 +9007,12 @@ export const DEFAULT_SPECIES = [
     "disadvantages": [],
     "modifiers": [],
     "costs": {
-      "cp": 43,
-      "bp": 43
+      "cp": 55,
+      "bp": 55
     },
-    "cp": 43,
-    "bp": 43,
-    "cp_cost": 43,
+    "cp": 55,
+    "bp": 55,
+    "cp_cost": 55,
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 2,
     "specific_skill_bonuses": [],
@@ -9080,12 +9080,12 @@ export const DEFAULT_SPECIES = [
     "disadvantages": [],
     "modifiers": [],
     "costs": {
-      "cp": 34,
-      "bp": 34
+      "cp": 46,
+      "bp": 46
     },
-    "cp": 34,
-    "bp": 34,
-    "cp_cost": 34,
+    "cp": 46,
+    "bp": 46,
+    "cp_cost": 46,
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 2,
     "specific_skill_bonuses": [
@@ -9198,12 +9198,12 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "cp": 25,
-      "bp": 25
+      "cp": 20,
+      "bp": 20
     },
-    "cp": 25,
-    "bp": 25,
-    "cp_cost": 25,
+    "cp": 20,
+    "bp": 20,
+    "cp_cost": 20,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",

@@ -44,8 +44,8 @@ tech_level: 3 (Living Habitat Architecture)
 meta_level: 1 (Cellular Attunement)
 homeworld: Aulura Prime
 costs:
-  cp: 23
-  bp: 23
+  cp: 25
+  bp: 25
 modifiers:
   - target: Agility
     value: 1
@@ -55,9 +55,6 @@ modifiers:
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 23
-cp: 23
-bp: 23
 description: >-
   The Koda are the artisan and bio-architect caste of the Aulurans, possessing
   enhanced muscular density, digitigrade agility, and an innate knack for
@@ -86,6 +83,9 @@ keywords: >-
   athletic
 negative_keywords: 'sedentary, fragile, metallic-machinery, technophobia'
 species_traits: *ref_0
+cp: 25
+bp: 25
+cp_cost: 25
 ---
 
 # Koda (Auluran Builder Caste)

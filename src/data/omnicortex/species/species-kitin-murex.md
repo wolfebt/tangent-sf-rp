@@ -63,8 +63,8 @@ tech_level: 3 (Industrial)
 meta_level: 2 (Resonant)
 homeworld: Kitin Hive Worlds / Spire Infrastructure & Hive-Warrens
 costs:
-  cp: 39
-  bp: 39
+  cp: 43
+  bp: 43
 modifiers:
   - target: Strength
     value: 2
@@ -82,9 +82,6 @@ modifiers:
     value: -1
     type: attribute
     mode: inherent
-cp_cost: 39
-cp: 39
-bp: 39
 description: >-
   The Murex are the "General Purpose" Foundation Expression of the Kitin
   Collective. Serving as the builders and heavy infantry that form the backbone
@@ -123,6 +120,9 @@ keywords: >-
   hive-infrastructure, four-arms, dual-skeletal, fatigue-resistance,
   pheromonal-synthesis, matte-obsidian
 negative_keywords: 'individualist, diplomatic-ambassador, frail'
+cp: 43
+bp: 43
+cp_cost: 43
 ---
 
 # Murex (Kitin Foundation Expression / General Purpose Builder & Infantry)

@@ -47,8 +47,8 @@ tech_level: 1 (Bone & Root Tools)
 meta_level: 3 (Symbiotic Totemism)
 homeworld: Untamed Wildlands
 costs:
-  cp: 23
-  bp: 23
+  cp: 29
+  bp: 29
 modifiers:
   - target: Strength
     value: -2
@@ -62,9 +62,6 @@ modifiers:
     value: 4
     type: skill
     mode: size_modifier
-cp_cost: 23
-cp: 23
-bp: 23
 description: >-
   Wildlings are feral offshoots of the Koban fey lineage who live in communion
   with apex predators, shifting effortlessly into diverse mammalian forms to
@@ -94,6 +91,9 @@ species_traits:
   - trait-climber
   - trait-alter-form-adv
   - trait-awakened-nature
+cp: 29
+bp: 29
+cp_cost: 29
 ---
 
 # Wildling (Koban Lineage)

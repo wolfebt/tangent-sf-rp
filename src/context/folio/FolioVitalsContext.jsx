@@ -47,7 +47,7 @@ export const DEFAULT_VITALS_FALLBACK = {
   isReadOnly: false
 };
 
-export const FolioVitalsContext = createContext(DEFAULT_VITALS_FALLBACK);
+export const FolioVitalsContext = globalThis.__TANGENT_FOLIO_VITALS_CONTEXT__ || (globalThis.__TANGENT_FOLIO_VITALS_CONTEXT__ = createContext(DEFAULT_VITALS_FALLBACK));
 
 export const useFolioVitals = () => {
   const context = useContext(FolioVitalsContext);

@@ -51,8 +51,8 @@ tech_level: 3 (Bio-Thermal Tech & Slugthrowers)
 meta_level: 1 (Regenerative Vitality)
 homeworld: Jorn-Tor Swamps
 costs:
-  cp: 25
-  bp: 25
+  cp: 27
+  bp: 27
 modifiers:
   - target: Strength
     value: 1
@@ -62,9 +62,6 @@ modifiers:
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 25
-cp: 25
-bp: 25
 description: >-
   Reptilian swamp hunters possessing extraordinary regenerative biology, capable
   of re-growing severed limbs and enduring lethal trauma.
@@ -90,6 +87,9 @@ recommended_occupations:
 keywords: 'reptilian, rapid-regeneration, swamp-hunter, severed-limb-regrowth, hardy'
 negative_keywords: 'arid-desert, delicate, fragile'
 species_traits: *ref_0
+cp: 27
+bp: 27
+cp_cost: 27
 ---
 
 # Jorni (Reptilian Regenerator)

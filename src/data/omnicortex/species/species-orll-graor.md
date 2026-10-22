@@ -44,8 +44,8 @@ tech_level: 2 (Solar Bio-Crafting)
 meta_level: 1 (Solar Resonance)
 homeworld: Gra’or Sun Canopies
 costs:
-  cp: 22
-  bp: 22
+  cp: 26
+  bp: 26
 modifiers:
   - target: Strength
     value: 2
@@ -71,9 +71,6 @@ modifiers:
     value: -4
     type: skill
     mode: size_modifier
-cp_cost: 22
-cp: 22
-bp: 22
 description: >-
   A green-skinned, photosynthetic sub-species of Orll who generate nourishment
   and cellular healing directly from sunlight.
@@ -96,6 +93,9 @@ keywords: >-
   natural-resilience
 negative_keywords: 'subterranean, dark-space, void'
 species_traits: *ref_0
+cp: 26
+bp: 26
+cp_cost: 26
 ---
 
 # Gra'or (Photosynthetic Orll Subspecies)

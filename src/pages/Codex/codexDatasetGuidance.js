@@ -265,20 +265,11 @@ export const DATASET_GUIDANCE = {
     sections: [
       {
         id: 'chassis_type',
-        name: 'Chassis Type & Biology',
-        description: 'Humanoid, Synthetic, Aberration, Beast, Elemental, or Plantigrade morphology.',
+        name: 'Species Package Summary — Chassis, Biology, Traits, Pools & Flaws',
+        description: 'Unified overview of the species chassis type, physical scale, locomotion modes, inherent attribute modifiers, attribute/skill/feature pools, biological traits (1, 2 & 4 CP), granted features, and flaw/stigma refunds.',
         tips: [
-          'Size: Standard playable species are Medium. Small grants defense bonuses; Large grants Might bonuses.',
-          'Movement: Standard terrestrial walking (30 ft/rnd), Aquatic, Burrowing, or Flight.'
-        ]
-      },
-      {
-        id: 'traits',
-        name: 'Inherent Biological Traits & Flaws',
-        description: 'Sensory advantages (Darkvision, Thermal), natural armor, elemental resistances, and physiological vulnerabilities.',
-        tips: [
-          'Traits add points to the species CP total.',
-          'Disadvantages grant CP rebates to offset expensive traits.'
+          'Chassis, Size, Movement, Attributes (+5 CP/pt), Skill Pools (+5 CP per +5 SP), Feature Pools (+3 CP/feat), and Traits (1, 2 & 4 CP) sum to the Species Package Cost.',
+          'Disadvantages (Flaws) and Social Stigmas grant CP rebates that reduce the total Package Cost.'
         ]
       }
     ]

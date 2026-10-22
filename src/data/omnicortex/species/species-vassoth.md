@@ -41,8 +41,8 @@ tech_level: 3 (Heavy Tail-Mount Harnesses & Plasma Blasters)
 meta_level: 3 (Serpentine Sorcery)
 homeworld: Vass-Tor Dunes & Ruins
 costs:
-  cp: 12
-  bp: 12
+  cp: 14
+  bp: 14
 modifiers:
   - target: Strength
     value: 1
@@ -64,9 +64,6 @@ modifiers:
     value: -4
     type: skill
     mode: size_modifier
-cp_cost: 12
-cp: 12
-bp: 12
 description: >-
   Colossal 12-to-18 foot serpentine beings with humanoid upper torsos, wielding
   crushing constriction power, heat-sensing pits, and venomous strikes.
@@ -89,6 +86,9 @@ recommended_occupations:
 keywords: 'serpentine-colossus, crushing-constriction, heat-sensing-pits, venom, massive'
 negative_keywords: 'stealth-in-crowds, pilot-small-cockpit, tiny'
 species_traits: *ref_0
+cp: 14
+bp: 14
+cp_cost: 14
 ---
 
 # Vassoth (Serpentine Colossus)
@@ -107,7 +107,7 @@ Colossal 12-to-18 foot serpentine beings with humanoid upper torsos, wielding cr
 - **Stigma**: Severe Xeno (-4)
 
 ## Mechanics & Statblock
-- **CP Cost**: 10 CP
+- **CP Cost**: 14 CP
 - **Inherent Modifiers**: +1 Strength, +1 Agility
 - **Bonus Skills**: +0 Skill Points
 - **Inherent Features**: Large Size (12-18ft serpentine body, Reach 10ft), Awakened (Serpentine Metaphysics), Constriction (Deals double damage on successful grapple hold), Venomous Fangs (Paralytic Poison DC 15)

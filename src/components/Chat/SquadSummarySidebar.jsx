@@ -17,6 +17,7 @@ import {
 import { useGroup } from '../../context/GroupContext';
 import { useChat } from '../../context/ChatContext';
 import { useAuth } from '../../context/AuthContext';
+import { getEffectiveUserHandle } from '../../utils/personaValidationUtils';
 import { AudioService } from '../../services/audioService';
 
 /**
@@ -244,7 +245,7 @@ export const SquadSummarySidebar = ({
                     ? rawMember
                     : (activeGroup.memberDetails?.[memberId] || {});
 
-                  const handle = details.handle || details.displayName || details.userHandle || (memberId === currentUser?.uid ? (currentUser?.displayName || currentUser?.email?.split('@')[0]) : null) || 'Operator';
+                  const handle = details.handle || details.displayName || details.userHandle || (memberId === currentUser?.uid ? getEffectiveUserHandle(currentUser) : getEffectiveUserHandle(details));
                   const isOnline = onlineOperators.some(op => op.uid === memberId || op.userHandle === handle);
                   const isSelf = memberId === currentUser?.uid;
                   const personaName = details.persona?.name || details.personaName;

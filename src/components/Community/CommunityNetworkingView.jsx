@@ -24,6 +24,7 @@ import { useFolio } from '../../context/FolioContext';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import { AudioService } from '../../services/audioService';
+import { getEffectiveUserHandle } from '../../utils/personaValidationUtils';
 import { QuickSquadInviteModal } from '../Chat/QuickSquadInviteModal';
 import { SquadInviteConfirmationModal } from '../Squads/SquadInviteConfirmationModal';
 import { SquadDirectoryTab } from '../Squads/tabs/SquadDirectoryTab';
@@ -830,7 +831,7 @@ const FlagPersonaLftModal = ({ isOpen, onClose, personas = [], currentUser, exis
         personaId: selectedPersonaId,
         personaData: persona,
         operatorUid: currentUser?.uid,
-        operatorHandle: currentUser?.displayName || currentUser?.email?.split('@')[0] || 'Operator',
+        operatorHandle: getEffectiveUserHandle(currentUser),
         preferredRoles: selectedRoles,
         pitch,
         active: true

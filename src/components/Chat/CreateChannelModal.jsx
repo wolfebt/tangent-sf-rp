@@ -16,6 +16,7 @@ import { useChat } from '../../context/ChatContext';
 import { useAuth } from '../../context/AuthContext';
 import { useFolio } from '../../context/FolioContext';
 import { AudioService } from '../../services/audioService';
+import { getEffectiveUserHandle } from '../../utils/personaValidationUtils';
 
 export const CreateChannelModal = ({ isOpen, onClose }) => {
   const { 
@@ -56,7 +57,7 @@ export const CreateChannelModal = ({ isOpen, onClose }) => {
 
   const filteredUsers = userDirectory.filter(u => {
     const q = userSearchQuery.toLowerCase();
-    const handle = (u.userHandle || u.displayName || u.email || '').toLowerCase();
+    const handle = getEffectiveUserHandle(u).toLowerCase();
     return handle.includes(q);
   });
 
@@ -446,7 +447,7 @@ export const CreateChannelModal = ({ isOpen, onClose }) => {
                     ) : (
                       userDirectory.map(u => {
                         const isSelected = selectedUserIds.includes(u.uid);
-                        const handle = u.userHandle || u.displayName || u.email || 'Operator';
+                        const handle = getEffectiveUserHandle(u);
                         return (
                           <div
                             key={u.uid}
@@ -486,7 +487,7 @@ export const CreateChannelModal = ({ isOpen, onClose }) => {
             // Collect all characters from all users
             const allCharacters = [];
             filteredUsers.forEach(u => {
-              const uHandle = u.userHandle || u.displayName || u.email || 'Operator';
+              const uHandle = getEffectiveUserHandle(u);
               if (Array.isArray(u.characters)) {
                 u.characters.forEach(c => {
                   allCharacters.push({
@@ -597,7 +598,7 @@ export const CreateChannelModal = ({ isOpen, onClose }) => {
                       </div>
                     ) : (
                       filteredUsers.map(targetUser => {
-                        const handle = targetUser.userHandle || targetUser.displayName || targetUser.email || 'Operator';
+                        const handle = getEffectiveUserHandle(targetUser);
                         const userChars = targetUser.characters || [];
 
                         return (

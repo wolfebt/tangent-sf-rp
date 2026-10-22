@@ -40,12 +40,9 @@ tech_level: 3 (Dracon Dynasty Imperial Tech)
 meta_level: 2 (Elemental Fire)
 homeworld: Dracon Dynasty Capitals
 costs:
-  cp: 7
-  bp: 7
+  cp: 12
+  bp: 12
 modifiers: []
-cp_cost: 7
-cp: 7
-bp: 7
 description: >-
   Humans bearing the nobility mark and genetic legacy of the Dracon Dynasty.
   They possess patchworks of iridescent scales, heat tolerance, and commanding
@@ -67,6 +64,9 @@ recommended_occupations:
 keywords: 'dragon-blood, feudal-knight, iridescent-scales, heat-hardened, commanding'
 negative_keywords: 'cowardly, dishonorable, treacherous'
 species_traits: *ref_0
+cp: 12
+bp: 12
+cp_cost: 12
 ---
 
 # Draconic Human (Dragonkin Bloodline)

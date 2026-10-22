@@ -42,12 +42,9 @@ tech_level: 3 (Aerodynamic Laminates & Long-Rifle Snipers)
 meta_level: 2 (Aero-Kinetic Wind Weaving)
 homeworld: Avis Spire Worlds
 costs:
-  cp: 19
-  bp: 19
+  cp: 31
+  bp: 31
 modifiers: []
-cp_cost: 19
-cp: 19
-bp: 19
 description: >-
   Magnificent winged humanoids possessing feathered plumage, eagle-like
   telescopic eyesight, and aerial supremacy.
@@ -71,6 +68,9 @@ recommended_occupations:
 keywords: 'avian-winged, eagle-eyes, marksman-sniper, aerial-supremacy, plumage, vantage'
 negative_keywords: 'subterranean, water-logging, cramped'
 species_traits: *ref_0
+cp: 31
+bp: 31
+cp_cost: 31
 ---
 
 # Praeti (Winged Avian Humanoid)

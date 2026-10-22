@@ -40,12 +40,9 @@ tech_level: 3 (Magi-Tech Synthesis)
 meta_level: 2 (Harmonic Weave)
 homeworld: Border Worlds & Conclave Embassies
 costs:
-  cp: 10
-  bp: 10
+  cp: 21
+  bp: 21
 modifiers: []
-cp_cost: 10
-cp: 10
-bp: 10
 description: >-
   The Kheen represent stable human-aeld lineages who inherited elven aesthetic
   grace and longevity while maintaining human versatility and adaptability.
@@ -68,6 +65,9 @@ recommended_occupations:
 keywords: 'half-aeld, cultural-bridge, diplomatic-emissary, refined, longevity, harmony'
 negative_keywords: 'feral, brute-force, primitive-tribal'
 species_traits: *ref_0
+cp: 21
+bp: 21
+cp_cost: 21
 ---
 
 # Kheen Human (Aeld Hybrid)

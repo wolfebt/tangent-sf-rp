@@ -46,8 +46,8 @@ tech_level: 2 (Primal Tools)
 meta_level: 3 (Metamorphic Nature)
 homeworld: Sylvanna Enclaves
 costs:
-  cp: 18
-  bp: 18
+  cp: 24
+  bp: 24
 modifiers:
   - target: Strength
     value: -2
@@ -61,9 +61,6 @@ modifiers:
     value: 4
     type: skill
     mode: size_modifier
-cp_cost: 18
-cp: 18
-bp: 18
 description: >-
   Koban are small, versatile shifter fey who can blend into humanoid crowds or
   vanish into wilderness thickets by adopting localized animal and humanoid
@@ -91,6 +88,9 @@ species_traits:
   - trait-climber
   - trait-alter-form-basic
   - trait-awakened-nature
+cp: 24
+bp: 24
+cp_cost: 24
 ---
 
 # Koban (Shifter Fey)

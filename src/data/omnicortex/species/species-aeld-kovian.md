@@ -50,8 +50,8 @@ tech_level: 4 (Void-Tech & Stealth Sub-systems)
 meta_level: 4 (Shadow Metaphysics & Telepathy)
 homeworld: Kovia (The Umbral Fortress)
 costs:
-  cp: 13
-  bp: 13
+  cp: 21
+  bp: 21
 modifiers:
   - target: Intellect
     value: 1
@@ -61,9 +61,6 @@ modifiers:
     value: -1
     type: attribute
     mode: inherent
-cp_cost: 13
-cp: 13
-bp: 13
 description: >-
   The Kovians are a fiercely disciplined, subterranean and void-dwelling elven
   faction. Prioritizing cold logic, genetic preservation, and shadow-craft, they
@@ -89,6 +86,9 @@ keywords: >-
 negative_keywords: 'gregarious, daylight-dependent, naive, diplomatic-mediator, reckless'
 species_traits:
   - trait-aeld-lineage-traits
+cp: 21
+bp: 21
+cp_cost: 21
 ---
 
 # Nocturne (Kovian Aeld)

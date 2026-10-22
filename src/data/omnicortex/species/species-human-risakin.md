@@ -43,8 +43,8 @@ tech_level: 3 (Heavy Industrial Hydraulic Rigging)
 meta_level: 0 (Physical Dominance)
 homeworld: Risak (Super-Earth)
 costs:
-  cp: 25
-  bp: 25
+  cp: 31
+  bp: 31
 modifiers:
   - target: Strength
     value: 2
@@ -66,9 +66,6 @@ modifiers:
     value: -4
     type: skill
     mode: size_modifier
-cp_cost: 25
-cp: 25
-bp: 25
 description: >-
   Towering 8-to-10 foot humans from super-heavy gravity worlds whose massive
   musculature and skeletal density render them natural juggernauts.
@@ -88,6 +85,9 @@ recommended_occupations:
 keywords: 'heavy-gravity, giant-human, hydraulic-power, massive-reach, crusher'
 negative_keywords: 'tight-ducts, stealth, tiny, agile-aerial'
 species_traits: *ref_0
+cp: 31
+bp: 31
+cp_cost: 31
 ---
 
 # Risakin (Heavy-World Giant)

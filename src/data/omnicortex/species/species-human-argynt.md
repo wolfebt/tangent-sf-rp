@@ -43,16 +43,13 @@ tech_level: 3 (Industrial Heavy Tech)
 meta_level: 2 (Electrochemical Psionics)
 homeworld: Argynt-9 (High Radiation World)
 costs:
-  cp: 13
-  bp: 13
+  cp: 15
+  bp: 15
 modifiers:
   - target: Intellect
     value: 1
     type: attribute
     mode: inherent
-cp_cost: 13
-cp: 13
-bp: 13
 description: >-
   Distinguished by their distinctive silvery-blue skin resulting from colloidal
   mineral assimilation, Argynts are resilient human colonists adapted to harsh,
@@ -76,6 +73,9 @@ recommended_occupations:
 keywords: 'radiation-immune, colloidal-silver, heavy-worlder, resilient, miner'
 negative_keywords: 'fragile, luxury, delicate, light-gravity'
 species_traits: *ref_0
+cp: 15
+bp: 15
+cp_cost: 15
 ---
 
 # Argynt Human (Heavy Gravity Variant)

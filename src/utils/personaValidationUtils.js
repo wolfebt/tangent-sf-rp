@@ -165,39 +165,78 @@ export const isPersonaEmptyTemplate = (char) => {
 };
 
 /**
+ * Generates a random 8-character uppercase alphanumeric string (e.g. "K9B2M4X7")
+ * used as a temporary handle for operators without an assigned handle.
+ * If a seed string (like a UID) is provided, generates a deterministic 8-character string.
+ */
+export const generateTempHandle = (seed = null) => {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // 32 unambiguous uppercase alphanumeric characters
+  let result = '';
+  if (seed && typeof seed === 'string') {
+    let hash = 0;
+    for (let i = 0; i < seed.length; i++) {
+      hash = ((hash << 5) - hash) + seed.charCodeAt(i);
+      hash |= 0;
+    }
+    let absHash = Math.abs(hash);
+    for (let i = 0; i < 8; i++) {
+      const idx = (absHash + i * 37 + seed.charCodeAt(i % seed.length)) % chars.length;
+      result += chars.charAt(idx);
+    }
+    return result;
+  }
+  for (let i = 0; i < 8; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+};
+
+/**
+ * Checks whether a given string is a temporary 8-digit alphanumeric handle.
+ */
+export const isTemporaryHandle = (handle) => {
+  if (!handle || typeof handle !== 'string') return false;
+  const clean = handle.trim().replace(/^@/, '');
+  return /^[A-Za-z0-9]{8}$/.test(clean);
+};
+
+/**
  * Resolves the cleanest user handle according to network standards:
- * 1. user.userHandle
- * 2. user.handle
- * 3. user.displayName (if not a raw email)
- * 4. user.email prefix
- * 5. fallback: 'Operator'
+ * 1. user.userHandle (if not raw email)
+ * 2. user.handle (if not raw email)
+ * 3. user.displayName (if not raw email)
+ * 4. Fallback: random 8-digit alphanumeric string (NEVER exposes user email)
  */
 export const getEffectiveUserHandle = (user) => {
-  if (!user) return 'Operator';
+  if (!user) return generateTempHandle();
   if (typeof user === 'string') {
     const trimmed = user.trim().replace(/^@/, '');
-    return trimmed || 'Operator';
+    // Under no circumstances should an email be returned as a handle
+    if (trimmed.includes('@')) {
+      return generateTempHandle(trimmed);
+    }
+    return trimmed || generateTempHandle();
   }
 
+  // 1. Explicit userHandle or handle
   const rawHandle = user.userHandle || user.handle;
-  if (rawHandle && typeof rawHandle === 'string' && rawHandle.trim()) {
-    return rawHandle.trim().replace(/^@/, '');
+  if (rawHandle && typeof rawHandle === 'string') {
+    const trimmed = rawHandle.trim().replace(/^@/, '');
+    if (trimmed && !trimmed.includes('@')) {
+      return trimmed;
+    }
   }
 
+  // 2. Display Name (only if it is not an email)
   const displayName = user.displayName;
-  if (displayName && typeof displayName === 'string' && displayName.trim() && !displayName.includes('@')) {
-    return displayName.trim().replace(/^@/, '');
+  if (displayName && typeof displayName === 'string') {
+    const trimmed = displayName.trim().replace(/^@/, '');
+    if (trimmed && !trimmed.includes('@')) {
+      return trimmed;
+    }
   }
 
-  const email = user.email;
-  if (email && typeof email === 'string' && email.includes('@')) {
-    const prefix = email.split('@')[0].trim().replace(/^@/, '');
-    if (prefix) return prefix;
-  }
-
-  if (displayName && typeof displayName === 'string' && displayName.trim()) {
-    return displayName.trim().replace(/^@/, '');
-  }
-
-  return 'Operator';
+  // 3. Fallback: Assigned 8-character alphanumeric temporary handle
+  const seed = user.uid || user.id || null;
+  return generateTempHandle(seed);
 };

@@ -49,16 +49,13 @@ tech_level: 4 (Adaptive Nanite Reconfiguration)
 meta_level: 3 (Technomancy)
 homeworld: Mekan Forge Worlds
 costs:
-  cp: 50
-  bp: 50
+  cp: 54
+  bp: 54
 modifiers:
   - target: Intellect
     value: 2
     type: attribute
     mode: inherent
-cp_cost: 50
-cp: 50
-bp: 50
 description: >-
   Mekan are self-evolving nanite and modular machines capable of assimilating,
   repurposing, and technokinetically manipulating electronic systems.
@@ -84,6 +81,9 @@ keywords: >-
   hyper-structure
 negative_keywords: 'organic-healing, nature-communion, biological-purism'
 species_traits: *ref_0
+cp: 54
+bp: 54
+cp_cost: 54
 ---
 
 # Mekan (Technopathic Assimilator)

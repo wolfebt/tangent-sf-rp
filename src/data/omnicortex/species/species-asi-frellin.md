@@ -45,8 +45,8 @@ tech_level: 3 (Crystal Transceivers)
 meta_level: 4 (Aero-Psionics & Telepathy)
 homeworld: Aethel-Crest (The Floating Archipelago)
 costs:
-  cp: 37
-  bp: 37
+  cp: 41
+  bp: 41
 modifiers:
   - target: Intellect
     value: 1
@@ -68,9 +68,6 @@ modifiers:
     value: 8
     type: skill
     mode: size_modifier
-cp_cost: 37
-cp: 37
-bp: 37
 description: >-
   Frellin are feathered, telepathic avian fey of tiny stature. Renowned scouts,
   messengers, and navigators, they read wind currents and psychic frequencies
@@ -99,6 +96,9 @@ species_traits:
   - trait-awakened-arcane
   - trait-dark-sight
   - trait-mind-speech
+cp: 41
+bp: 41
+cp_cost: 41
 ---
 
 # Frellin (Avian Fey)

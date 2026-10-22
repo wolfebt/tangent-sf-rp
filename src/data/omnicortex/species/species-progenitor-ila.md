@@ -49,8 +49,8 @@ tech_level: 5 (Precursor Singularity Manipulation)
 meta_level: 6 (Deific / Reality Reshaping)
 homeworld: The Ring Architect Capitals
 costs:
-  cp: 118
-  bp: 118
+  cp: 134
+  bp: 134
 modifiers:
   - target: Intellect
     value: 4
@@ -76,9 +76,6 @@ modifiers:
     value: -4
     type: skill
     mode: size_modifier
-cp_cost: 118
-cp: 118
-bp: 118
 description: >-
   The Ila are god-like precursor architects of transcendent intelligence and
   luminous presence, founders of ancient megastructures and stargates.
@@ -103,6 +100,9 @@ keywords: >-
   luminous-singularity, ancient
 negative_keywords: 'primitive, mundane-labor, disposable, short-lived'
 species_traits: *ref_0
+cp: 134
+bp: 134
+cp_cost: 134
 ---
 
 # Ila (Precursor Entity)

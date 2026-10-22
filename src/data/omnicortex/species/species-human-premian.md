@@ -43,12 +43,9 @@ tech_level: 3 (Financial Holo-Nets & Comms)
 meta_level: 1 (Subconscious Suggestion)
 homeworld: Premia (Syndicate Financial Hub)
 costs:
-  cp: 13
-  bp: 13
+  cp: 20
+  bp: 20
 modifiers: []
-cp_cost: 13
-cp: 13
-bp: 13
 description: >-
   Urban, corporate-bred humans renowned for financial acumen, mercantile trade
   empires, and silver-tongued contract negotiations.
@@ -70,6 +67,9 @@ recommended_occupations:
 keywords: 'high-finance, silver-tongue, corporate-mogul, patron-patronage, boardroom'
 negative_keywords: 'wilderness-scavenger, destitute, hermit'
 species_traits: *ref_0
+cp: 20
+bp: 20
+cp_cost: 20
 ---
 
 # Premian Human (Merchant Folk)

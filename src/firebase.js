@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
-import { getFirestore, initializeFirestore } from "firebase/firestore";
+import { getFirestore, initializeFirestore, setLogLevel, disableNetwork } from "firebase/firestore";
 import { getAnalytics, isSupported } from "firebase/analytics";
 
 // Validate that all required Firebase env vars are present at startup.
@@ -40,9 +40,61 @@ export const db = initializeFirestore(app, {
   experimentalForceLongPolling: true,
 });
 
-// Analytics — only initializes safely if supported and not blocked by client extensions
+// Silence internal @firebase/firestore transport backoff spam in the browser console
+try {
+  setLogLevel('silent');
+} catch {}
+
+const QUOTA_EXHAUSTED_SESSION_KEY = 'tangent_firestore_quota_exhausted_until';
+const QUOTA_COOLDOWN_MS = 15 * 60 * 1000; // 15 minutes
+let quotaExhaustedInMemory = false;
+
+export const isFirestoreQuotaExhausted = () => {
+  if (quotaExhaustedInMemory) return true;
+  try {
+    if (typeof sessionStorage !== 'undefined') {
+      const until = Number(sessionStorage.getItem(QUOTA_EXHAUSTED_SESSION_KEY) || 0);
+      if (until > Date.now()) {
+        quotaExhaustedInMemory = true;
+        return true;
+      }
+    }
+  } catch {}
+  return false;
+};
+
+export const handleFirestoreQuotaError = (err) => {
+  const msg = String(err?.message || err?.code || '').toLowerCase();
+  if (err?.code === 'resource-exhausted' || msg.includes('resource-exhausted') || msg.includes('quota exceeded')) {
+    if (!quotaExhaustedInMemory) {
+      quotaExhaustedInMemory = true;
+      try {
+        if (typeof sessionStorage !== 'undefined') {
+          sessionStorage.setItem(QUOTA_EXHAUSTED_SESSION_KEY, String(Date.now() + QUOTA_COOLDOWN_MS));
+        }
+      } catch {}
+      try {
+        disableNetwork(db).catch(() => {});
+      } catch {}
+    }
+    return true;
+  }
+  return false;
+};
+
+if (typeof window !== 'undefined' && isFirestoreQuotaExhausted()) {
+  try {
+    disableNetwork(db).catch(() => {});
+  } catch {}
+}
+
+// Analytics — only initializes in production (not localhost) if supported and not blocked by client extensions
 export let analytics = null;
-if (typeof window !== 'undefined' && firebaseConfig.measurementId) {
+const isLocalhost = typeof window !== 'undefined' && (
+  window.location?.hostname === 'localhost' ||
+  window.location?.hostname === '127.0.0.1'
+);
+if (typeof window !== 'undefined' && !isLocalhost && firebaseConfig.measurementId) {
   isSupported().then((supported) => {
     if (supported) {
       try {

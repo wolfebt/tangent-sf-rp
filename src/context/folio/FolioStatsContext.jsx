@@ -115,7 +115,7 @@ export const DEFAULT_STATS_FALLBACK = {
   activeSkillModifiers: [],
   getSkillBreakdown: () => ({ total: 0 }),
   getAttrMod: () => 0,
-  getAttrTotal: () => 2,
+  getAttrTotal: (attrId) => (SUB_TO_PRIMARY_ATTR[attrId] ? 2 : 0),
   getSubAttrBase: () => 2,
   enabledMovementModes: ['walk'],
   calculateFullSpeciesCost: () => 0,
@@ -133,7 +133,7 @@ export const DEFAULT_STATS_FALLBACK = {
   handleDeleteSpecialization: () => {}
 };
 
-export const FolioStatsContext = createContext(DEFAULT_STATS_FALLBACK);
+export const FolioStatsContext = globalThis.__TANGENT_FOLIO_STATS_CONTEXT__ || (globalThis.__TANGENT_FOLIO_STATS_CONTEXT__ = createContext(DEFAULT_STATS_FALLBACK));
 
 export const useFolioStats = () => {
   const context = useContext(FolioStatsContext);
@@ -184,6 +184,37 @@ export const FolioStatsSliceProvider = ({ children }) => {
       Concentration: 0
     };
 
+    const attributeModSources = {
+      'attr-strength': [],
+      'attr-might': [],
+      'attr-agility': [],
+      'attr-reflex': [],
+      'attr-stamina': [],
+      'attr-fortitude': [],
+      'attr-intellect': [],
+      'attr-logic': [],
+      'attr-wisdom': [],
+      'attr-will': [],
+      'attr-charisma': [],
+      'attr-etiquette': []
+    };
+
+    const mapSaveToAttrId = (saveTarget) => {
+      const s = String(saveTarget || '').toLowerCase().trim();
+      if (s.includes('fortitude') || s === 'fort') return 'attr-fortitude';
+      if (s.includes('reflex') || s === 'ref') return 'attr-reflex';
+      if (s.includes('will')) return 'attr-will';
+      return null;
+    };
+
+    const addAttrModSource = (attrKey, entry) => {
+      if (!attrKey || !entry || !entry.val) return;
+      const canonicalKey = attrKey === 'attr-reason' ? 'attr-logic' : attrKey === 'attr-willpower' ? 'attr-will' : attrKey;
+      if (attributeModSources[canonicalKey]) {
+        attributeModSources[canonicalKey].push(entry);
+      }
+    };
+
     const activeFeatureModifiers = [];
     const activeTraitModifiers = [];
     const activeHindranceModifiers = [];
@@ -198,6 +229,8 @@ export const FolioStatsSliceProvider = ({ children }) => {
       return resolveCatalogItem(colName, val, dbData);
     };
 
+    const isSituationalMod = (m) => Boolean(m?.isSituational || m?.mode === 'situational' || m?.mode === 'conditional' || m?.condition);
+
     const processIdentity = (identityItem, identityKey, identityTitle) => {
       const pools = [];
       const activeModifiers = [];
@@ -207,8 +240,14 @@ export const FolioStatsSliceProvider = ({ children }) => {
 
       if (typeof identityItem === 'object') {
         // 1. Inherent Attribute Modifiers (Set values per attribute or sub-attribute)
-        const inherentAttrMods = identityItem.inherent_attribute_modifiers || identityItem.specific_attribute_bonuses;
-        if (Array.isArray(inherentAttrMods) && inherentAttrMods.length > 0) {
+        const inherentAttrMods = (Array.isArray(identityItem.attribute_modifiers) && identityItem.attribute_modifiers.length > 0)
+          ? identityItem.attribute_modifiers
+          : (identityItem.inherent_attribute_modifiers || identityItem.specific_attribute_bonuses);
+        const hasInherentAttrMods = Array.isArray(inherentAttrMods) && inherentAttrMods.length > 0;
+        const inherentSkills = identityItem.inherent_skill_bonuses || identityItem.specific_skill_bonuses || identityItem.granted_skills;
+        const hasInherentSkillMods = Array.isArray(inherentSkills) && inherentSkills.length > 0;
+
+        if (hasInherentAttrMods) {
           inherentAttrMods.forEach(b => {
             const aName = typeof b === 'object' ? (b.attribute || b.name || '') : String(b).split(/[:+(]/)[0].trim();
             const aVal = typeof b === 'object' ? (b.bonus ?? b.value ?? 1) : (parseInt(String(b).replace(/[^0-9-]/g, ''), 10) || 1);
@@ -232,6 +271,12 @@ export const FolioStatsSliceProvider = ({ children }) => {
               const targetKey = attrKeyMap[cleanName] || (cleanName.startsWith('attr-') ? cleanName : `attr-${cleanName}`);
               if (attributeMods[targetKey] !== undefined) {
                 attributeMods[targetKey] = (attributeMods[targetKey] || 0) + aVal;
+                addAttrModSource(targetKey, {
+                  val: aVal,
+                  source: `${identityTitle}: ${name}`,
+                  name: `${identityTitle}: ${name}`,
+                  isSituational: false
+                });
               }
               activeModifiers.push({ name: `[${identityTitle}: ${name}] ${aName} ${aVal >= 0 ? '+' : ''}${aVal}`, target: aName.toUpperCase(), value: aVal, type: 'Attribute' });
               pools.push({ name: `Inherent Attr: ${aName} (${aVal >= 0 ? '+' : ''}${aVal})`, awarded: aVal, type: 'Inherent Attr' });
@@ -262,7 +307,7 @@ export const FolioStatsSliceProvider = ({ children }) => {
         }
 
         // 2. Modifiers Array Resolution
-        const applyModifier = (modRef, sourceLabel) => {
+        const applyModifier = (modRef, sourceLabel, skipDuplicateInherent = false) => {
           let mod = null;
           if (typeof modRef === 'object' && modRef !== null) {
             mod = modRef;
@@ -279,27 +324,62 @@ export const FolioStatsSliceProvider = ({ children }) => {
           const val = parseInt(mod.value, 10) || 0;
           const target = (mod.target || '').toLowerCase().trim();
           const modType = (mod.type || '').toLowerCase().trim();
+          const isSit = isSituationalMod(mod);
 
           if (modType === 'attribute' || target.startsWith('attr-') || ATTR_NAME_TO_ID[target]) {
+            if (mod.mode === 'bonus_pool' || mod.mode === 'choice_pool') return;
+            if (skipDuplicateInherent && hasInherentAttrMods && mod.mode !== 'size_modifier') return;
+            if (mod.mode === 'size_modifier' && identityKey === 'species') {
+              const rawSpSize = Array.isArray(identityItem.size) ? identityItem.size[0] : (identityItem.size || identityItem.species_size || 'Medium');
+              if (String(rawSpSize || 'Medium').toLowerCase().includes('medium')) return;
+            }
             const mapped = ATTR_NAME_TO_ID[target] || (target.startsWith('attr-') ? target : `attr-${target}`);
+            const cleanSrc = sourceLabel.replace(/^\[|\]$/g, '').trim();
             if (attributeMods[mapped] !== undefined) {
-              attributeMods[mapped] += val;
+              if (!isSit) {
+                attributeMods[mapped] += val;
+              }
+              addAttrModSource(mapped, {
+                val,
+                source: cleanSrc,
+                name: cleanSrc,
+                isSituational: isSit,
+                condition: mod.condition || null
+              });
             }
             activeModifiers.push({ name: `${sourceLabel} ${mName}`, target: mapped.replace('attr-', '').toUpperCase(), value: val, type: 'Attribute' });
           } else if (modType === 'save') {
             const saveKey = mod.target || 'Fortitude';
-            if (saveMods[saveKey] !== undefined) saveMods[saveKey] += val;
-            else saveMods[saveKey] = val;
+            const cleanSrc = sourceLabel.replace(/^\[|\]$/g, '').trim();
+            if (!isSit) {
+              if (saveMods[saveKey] !== undefined) saveMods[saveKey] += val;
+              else saveMods[saveKey] = val;
+            }
+            const saveAttrId = mapSaveToAttrId(saveKey);
+            if (saveAttrId) {
+              addAttrModSource(saveAttrId, {
+                val,
+                source: cleanSrc,
+                name: cleanSrc,
+                isSituational: isSit,
+                condition: mod.condition || null
+              });
+            }
             activeModifiers.push({ name: `${sourceLabel} ${mName}`, target: `${saveKey} Check`, value: val, type: 'Save' });
           } else if (modType === 'combat') {
             const cKey = mod.target || 'initiative-mod';
-            if (combatMods[cKey] !== undefined) combatMods[cKey] += val;
-            else combatMods[cKey] = val;
+            if (!isSit) {
+              if (combatMods[cKey] !== undefined) combatMods[cKey] += val;
+              else combatMods[cKey] = val;
+            }
             activeModifiers.push({ name: `${sourceLabel} ${mName}`, target: cKey.toUpperCase(), value: val, type: 'Combat' });
           } else if (modType === 'skill') {
+            if (skipDuplicateInherent && hasInherentSkillMods && mod.mode === 'inherent') return;
             const sKey = target;
             if (sKey) {
-              skillMods[sKey] = (skillMods[sKey] || 0) + val;
+              if (!isSit) {
+                skillMods[sKey] = (skillMods[sKey] || 0) + val;
+              }
               activeModifiers.push({ name: `${sourceLabel} ${mName}`, target: mod.target, value: val, type: 'Skill' });
             }
           }
@@ -307,9 +387,9 @@ export const FolioStatsSliceProvider = ({ children }) => {
 
         const rawMods = identityItem.modifiers || identityItem.modifier;
         const modList = Array.isArray(rawMods) ? rawMods : (rawMods ? [rawMods] : []);
-        modList.forEach(m => applyModifier(m, `[${identityTitle}: ${name}]`));
+        modList.forEach(m => applyModifier(m, `[${identityTitle}: ${name}]`, true));
 
-        // 3. Inherent Traits & Features of Species / Archetype / Faction
+        // 3. Inherent Traits & Features of Species / Archetype / Faction (Display only in identityPools; actual stat application happens once in uniqueFeatures / uniqueTraits)
         const resolveSubTraits = (traitList, label) => {
           if (!Array.isArray(traitList)) return;
           traitList.forEach(tRef => {
@@ -334,24 +414,18 @@ export const FolioStatsSliceProvider = ({ children }) => {
                   const aKey = (em.target || '').toLowerCase().trim();
                   const mapped = ATTR_NAME_TO_ID[aKey] || (aKey.startsWith('attr-') ? aKey : `attr-${aKey}`);
                   if (attributeMods[mapped] !== undefined) {
-                    attributeMods[mapped] += val;
                     activeModifiers.push({ name: `[${label}: ${tName}]`, target: mapped.replace('attr-', '').toUpperCase(), value: val, type: 'Attribute' });
                   }
                 } else if (em.type === 'skill') {
                   const sKey = (em.target || '').toLowerCase().trim();
                   if (sKey) {
-                    skillMods[sKey] = (skillMods[sKey] || 0) + val;
                     activeModifiers.push({ name: `[${label}: ${tName}]`, target: em.target, value: val, type: 'Skill' });
                   }
                 } else if (em.type === 'save') {
                   const saveKey = em.target || 'Fortitude';
-                  if (saveMods[saveKey] !== undefined) saveMods[saveKey] += val;
-                  else saveMods[saveKey] = val;
                   activeModifiers.push({ name: `[${label}: ${tName}]`, target: `${saveKey} Check`, value: val, type: 'Save' });
                 } else if (em.type === 'combat') {
                   const cKey = em.target || 'initiative-mod';
-                  if (combatMods[cKey] !== undefined) combatMods[cKey] += val;
-                  else combatMods[cKey] = val;
                   activeModifiers.push({ name: `[${label}: ${tName}]`, target: cKey.toUpperCase(), value: val, type: 'Combat' });
                 }
               });
@@ -366,8 +440,7 @@ export const FolioStatsSliceProvider = ({ children }) => {
         resolveSubTraits(identityItem.benefits, `${identityTitle} Benefit`);
 
         // 4. Inherent Skill Bonuses & Point Pools
-        const inherentSkills = identityItem.inherent_skill_bonuses || identityItem.skills || identityItem.granted_skills;
-        if (Array.isArray(inherentSkills) && inherentSkills.length > 0) {
+        if (hasInherentSkillMods) {
           inherentSkills.forEach(s => {
             const sName = typeof s === 'object' ? (s.skill || s.name || '') : String(s).split(/[:+(]/)[0].trim();
             const sVal = typeof s === 'object' ? (s.rank ?? s.value ?? s.bonus ?? 1) : (parseInt(String(s).replace(/[^0-9-]/g, ''), 10) || 1);
@@ -468,6 +541,29 @@ export const FolioStatsSliceProvider = ({ children }) => {
       archetype: processIdentity(archetypeObj, 'archetype', 'Archetype')
     };
 
+    // Include allocated bonus attribute points from identity pools (Species, Occupation, Origin, Faction) under Modifiers
+    const poolAttrSources = [
+      { alloc: characterData.speciesAllocations?.attributes, label: `Species Bonus (${identityPools.species?.name || 'Species'})` },
+      { alloc: characterData.occuAllocations?.attributes, label: `Occupation Bonus (${identityPools.occupation?.name || 'Occupation'})` },
+      { alloc: characterData.originAllocations?.attributes, label: `Origin Bonus (${identityPools.origin?.name || 'Origin'})` },
+      { alloc: characterData.factionAllocations?.attributes, label: `Faction Bonus (${identityPools.faction?.name || 'Faction'})` }
+    ];
+    poolAttrSources.forEach(({ alloc, label }) => {
+      if (!alloc || typeof alloc !== 'object') return;
+      Object.entries(alloc).forEach(([attrKey, pts]) => {
+        const val = parseInt(pts, 10) || 0;
+        if (val !== 0 && attributeMods[attrKey] !== undefined) {
+          attributeMods[attrKey] += val;
+          addAttrModSource(attrKey, {
+            val,
+            source: label,
+            name: label,
+            isSituational: false
+          });
+        }
+      });
+    });
+
     // 1. Process Features for all active modifiers (including inherent species/archetype/faction features)
     const rawFeats = Array.isArray(characterData.features) ? [...characterData.features] : [];
     const addedFeatNames = new Set(rawFeats.map(f => (typeof f === 'object' ? (f.name || f.title || f.id) : String(f)).toLowerCase()));
@@ -537,15 +633,30 @@ export const FolioStatsSliceProvider = ({ children }) => {
         enriched.modifiers.forEach(mod => {
           if (!mod || typeof mod !== 'object') return;
           const val = parseInt(mod.value, 10) || 0;
+          const isSit = isSituationalMod(mod);
           if (mod.type === 'save') {
             const targetSave = mod.target;
-            if (saveMods[targetSave] !== undefined) saveMods[targetSave] += val;
-            else saveMods[targetSave] = val;
+            if (!isSit) {
+              if (saveMods[targetSave] !== undefined) saveMods[targetSave] += val;
+              else saveMods[targetSave] = val;
+            }
+            const saveAttrId = mapSaveToAttrId(targetSave);
+            if (saveAttrId) {
+              addAttrModSource(saveAttrId, {
+                val,
+                source: `Feature: ${fName}`,
+                name: `Feature: ${fName}`,
+                isSituational: isSit,
+                condition: mod.condition || null
+              });
+            }
             activeFeatureModifiers.push({ source: fName, target: `${targetSave} Check`, value: val, description: mod.description });
           } else if (mod.type === 'skill' && mod.mode !== 'group_choice') {
             const sKey = (mod.target || '').toLowerCase().trim();
             if (sKey) {
-              skillMods[sKey] = (skillMods[sKey] || 0) + val;
+              if (!isSit) {
+                skillMods[sKey] = (skillMods[sKey] || 0) + val;
+              }
               activeFeatureModifiers.push({ source: fName, target: mod.target, value: val, description: mod.description });
               activeSkillModifiers.push({ source: fName, sourceType: 'feature', target: mod.target, value: val, description: mod.description || `${val >= 0 ? '+' : ''}${val} to ${mod.target}` });
             }
@@ -553,13 +664,24 @@ export const FolioStatsSliceProvider = ({ children }) => {
             const aKey = (mod.target || '').toLowerCase().trim();
             const mapped = ATTR_NAME_TO_ID[aKey] || (aKey.startsWith('attr-') ? aKey : `attr-${aKey}`);
             if (attributeMods[mapped] !== undefined) {
-              attributeMods[mapped] += val;
+              if (!isSit) {
+                attributeMods[mapped] += val;
+              }
+              addAttrModSource(mapped, {
+                val,
+                source: `Feature: ${fName}`,
+                name: `Feature: ${fName}`,
+                isSituational: isSit,
+                condition: mod.condition || null
+              });
               activeFeatureModifiers.push({ source: fName, target: mod.target, value: val, description: mod.description });
             }
           } else if (mod.type === 'combat') {
             const cKey = mod.target;
-            if (combatMods[cKey] !== undefined) combatMods[cKey] += val;
-            else combatMods[cKey] = val;
+            if (!isSit) {
+              if (combatMods[cKey] !== undefined) combatMods[cKey] += val;
+              else combatMods[cKey] = val;
+            }
             activeFeatureModifiers.push({ source: fName, target: cKey, value: val, description: mod.description });
           }
         });
@@ -630,7 +752,9 @@ export const FolioStatsSliceProvider = ({ children }) => {
 
     // 2. Process Traits for active modifiers
     const rawTraits = Array.isArray(characterData.traits) ? [...characterData.traits] : [];
+    const speciesInherentTraits = speciesObj ? (speciesObj.inherent_traits || speciesObj.species_traits || speciesObj.traits || []) : [];
     const poolTraits = [
+      ...(Array.isArray(speciesInherentTraits) ? speciesInherentTraits : []),
       ...(characterData.speciesAllocations?.traits || []),
       ...(characterData.occuAllocations?.traits || []),
       ...(characterData.originAllocations?.traits || []),
@@ -647,7 +771,7 @@ export const FolioStatsSliceProvider = ({ children }) => {
     const uniqueTraits = rawTraits.filter(t => {
       if (!t) return false;
       const n = (typeof t === 'object' ? (t.name || t.title || t.id) : String(t)).toLowerCase();
-      if (seenTraitNames.has(n)) return false;
+      if (seenTraitNames.has(n) || seenFeatNames.has(n)) return false;
       seenTraitNames.add(n);
       return true;
     });
@@ -660,15 +784,30 @@ export const FolioStatsSliceProvider = ({ children }) => {
         enriched.modifiers.forEach(mod => {
           if (!mod || typeof mod !== 'object') return;
           const val = parseInt(mod.value, 10) || 0;
+          const isSit = isSituationalMod(mod);
           if (mod.type === 'save') {
             const targetSave = mod.target;
-            if (saveMods[targetSave] !== undefined) saveMods[targetSave] += val;
-            else saveMods[targetSave] = val;
+            if (!isSit) {
+              if (saveMods[targetSave] !== undefined) saveMods[targetSave] += val;
+              else saveMods[targetSave] = val;
+            }
+            const saveAttrId = mapSaveToAttrId(targetSave);
+            if (saveAttrId) {
+              addAttrModSource(saveAttrId, {
+                val,
+                source: `Trait: ${tName}`,
+                name: `Trait: ${tName}`,
+                isSituational: isSit,
+                condition: mod.condition || null
+              });
+            }
             activeTraitModifiers.push({ source: tName, target: `${targetSave} Check`, value: val, description: mod.description });
           } else if (mod.type === 'skill') {
             const sKey = (mod.target || '').toLowerCase().trim();
             if (sKey) {
-              skillMods[sKey] = (skillMods[sKey] || 0) + val;
+              if (!isSit) {
+                skillMods[sKey] = (skillMods[sKey] || 0) + val;
+              }
               activeTraitModifiers.push({ source: tName, target: mod.target, value: val, description: mod.description });
               activeSkillModifiers.push({ source: tName, sourceType: 'trait', target: mod.target, value: val, description: mod.description || `${val >= 0 ? '+' : ''}${val} to ${mod.target}` });
             }
@@ -676,13 +815,24 @@ export const FolioStatsSliceProvider = ({ children }) => {
             const aKey = (mod.target || '').toLowerCase().trim();
             const mapped = ATTR_NAME_TO_ID[aKey] || (aKey.startsWith('attr-') ? aKey : `attr-${aKey}`);
             if (attributeMods[mapped] !== undefined) {
-              attributeMods[mapped] += val;
+              if (!isSit) {
+                attributeMods[mapped] += val;
+              }
+              addAttrModSource(mapped, {
+                val,
+                source: `Trait: ${tName}`,
+                name: `Trait: ${tName}`,
+                isSituational: isSit,
+                condition: mod.condition || null
+              });
               activeTraitModifiers.push({ source: tName, target: mod.target, value: val, description: mod.description });
             }
           } else if (mod.type === 'combat') {
             const cKey = mod.target;
-            if (combatMods[cKey] !== undefined) combatMods[cKey] += val;
-            else combatMods[cKey] = val;
+            if (!isSit) {
+              if (combatMods[cKey] !== undefined) combatMods[cKey] += val;
+              else combatMods[cKey] = val;
+            }
             activeTraitModifiers.push({ source: tName, target: cKey, value: val, description: mod.description });
           }
         });
@@ -711,15 +861,30 @@ export const FolioStatsSliceProvider = ({ children }) => {
         enriched.modifiers.forEach(mod => {
           if (!mod || typeof mod !== 'object') return;
           const val = parseInt(mod.value, 10) || 0;
+          const isSit = isSituationalMod(mod);
           if (mod.type === 'save') {
             const targetSave = mod.target;
-            if (saveMods[targetSave] !== undefined) saveMods[targetSave] += val;
-            else saveMods[targetSave] = val;
+            if (!isSit) {
+              if (saveMods[targetSave] !== undefined) saveMods[targetSave] += val;
+              else saveMods[targetSave] = val;
+            }
+            const saveAttrId = mapSaveToAttrId(targetSave);
+            if (saveAttrId) {
+              addAttrModSource(saveAttrId, {
+                val,
+                source: `Hindrance: ${hName}`,
+                name: `Hindrance: ${hName}`,
+                isSituational: isSit,
+                condition: mod.condition || null
+              });
+            }
             activeHindranceModifiers.push({ source: hName, target: `${targetSave} Check`, value: val, description: mod.description });
           } else if (mod.type === 'skill') {
             const sKey = (mod.target || '').toLowerCase().trim();
             if (sKey) {
-              skillMods[sKey] = (skillMods[sKey] || 0) + val;
+              if (!isSit) {
+                skillMods[sKey] = (skillMods[sKey] || 0) + val;
+              }
               activeHindranceModifiers.push({ source: hName, target: mod.target, value: val, description: mod.description });
               activeSkillModifiers.push({ source: hName, sourceType: 'hindrance', target: mod.target, value: val, description: mod.description || `${val >= 0 ? '+' : ''}${val} to ${mod.target}` });
             }
@@ -727,13 +892,24 @@ export const FolioStatsSliceProvider = ({ children }) => {
             const aKey = (mod.target || '').toLowerCase().trim();
             const mapped = ATTR_NAME_TO_ID[aKey] || (aKey.startsWith('attr-') ? aKey : `attr-${aKey}`);
             if (attributeMods[mapped] !== undefined) {
-              attributeMods[mapped] += val;
+              if (!isSit) {
+                attributeMods[mapped] += val;
+              }
+              addAttrModSource(mapped, {
+                val,
+                source: `Hindrance: ${hName}`,
+                name: `Hindrance: ${hName}`,
+                isSituational: isSit,
+                condition: mod.condition || null
+              });
               activeHindranceModifiers.push({ source: hName, target: mod.target, value: val, description: mod.description });
             }
           } else if (mod.type === 'combat') {
             const cKey = mod.target;
-            if (combatMods[cKey] !== undefined) combatMods[cKey] += val;
-            else combatMods[cKey] = val;
+            if (!isSit) {
+              if (combatMods[cKey] !== undefined) combatMods[cKey] += val;
+              else combatMods[cKey] = val;
+            }
             activeHindranceModifiers.push({ source: hName, target: cKey, value: val, description: mod.description });
           } else if (mod.type === 'condition' || mod.type === 'disadvantage') {
             activeHindranceModifiers.push({ source: hName, target: mod.target, value: val, description: mod.description });
@@ -752,16 +928,52 @@ export const FolioStatsSliceProvider = ({ children }) => {
         enriched.modifiers.forEach(mod => {
           if (!mod || typeof mod !== 'object') return;
           const val = parseInt(mod.value, 10) || 0;
+          const isSit = isSituationalMod(mod);
           if (mod.type === 'skill') {
             const sKey = (mod.target || '').toLowerCase().trim();
             if (sKey) {
-              skillMods[sKey] = (skillMods[sKey] || 0) + val;
+              if (!isSit) {
+                skillMods[sKey] = (skillMods[sKey] || 0) + val;
+              }
               activeSkillModifiers.push({ source: aName, sourceType: 'augmentation', target: mod.target, value: val, description: mod.description || `${val >= 0 ? '+' : ''}${val} to ${mod.target}` });
+            }
+          } else if (mod.type === 'attribute') {
+            const aKey = (mod.target || '').toLowerCase().trim();
+            const mapped = ATTR_NAME_TO_ID[aKey] || (aKey.startsWith('attr-') ? aKey : `attr-${aKey}`);
+            if (attributeMods[mapped] !== undefined) {
+              if (!isSit) {
+                attributeMods[mapped] += val;
+              }
+              addAttrModSource(mapped, {
+                val,
+                source: `Augmentation: ${aName}`,
+                name: `Augmentation: ${aName}`,
+                isSituational: isSit,
+                condition: mod.condition || null
+              });
+            }
+          } else if (mod.type === 'save') {
+            const targetSave = mod.target;
+            if (!isSit && targetSave) {
+              if (saveMods[targetSave] !== undefined) saveMods[targetSave] += val;
+              else saveMods[targetSave] = val;
+            }
+            const saveAttrId = mapSaveToAttrId(targetSave);
+            if (saveAttrId) {
+              addAttrModSource(saveAttrId, {
+                val,
+                source: `Augmentation: ${aName}`,
+                name: `Augmentation: ${aName}`,
+                isSituational: isSit,
+                condition: mod.condition || null
+              });
             }
           } else if (mod.type === 'combat') {
             const cKey = mod.target;
-            if (combatMods[cKey] !== undefined) combatMods[cKey] += val;
-            else combatMods[cKey] = val;
+            if (!isSit) {
+              if (combatMods[cKey] !== undefined) combatMods[cKey] += val;
+              else combatMods[cKey] = val;
+            }
           }
         });
       }
@@ -792,6 +1004,46 @@ export const FolioStatsSliceProvider = ({ children }) => {
         if (itemKey) seenEqItemKeys.add(itemKey);
 
         const parsedEq = typeof eqItem === 'object' ? eqItem : { name: String(eqItem) };
+        const enrichedEq = enrichItemWithModifiers(parsedEq);
+        const eqTitle = enrichedEq?.name || parsedEq.name || 'Equipment';
+        if (enrichedEq && Array.isArray(enrichedEq.modifiers)) {
+          enrichedEq.modifiers.forEach(mod => {
+            if (!mod || typeof mod !== 'object') return;
+            const val = parseInt(mod.value, 10) || 0;
+            if (!val) return;
+            const isSit = isSituationalMod(mod);
+            if (mod.type === 'attribute') {
+              const aKey = (mod.target || '').toLowerCase().trim();
+              const mapped = ATTR_NAME_TO_ID[aKey] || (aKey.startsWith('attr-') ? aKey : `attr-${aKey}`);
+              if (attributeMods[mapped] !== undefined) {
+                if (!isSit) attributeMods[mapped] += val;
+                addAttrModSource(mapped, {
+                  val,
+                  source: `Equipment: ${eqTitle}`,
+                  name: `Equipment: ${eqTitle}`,
+                  isSituational: isSit,
+                  condition: mod.condition || null
+                });
+              }
+            } else if (mod.type === 'save') {
+              const targetSave = mod.target;
+              if (!isSit && targetSave) {
+                if (saveMods[targetSave] !== undefined) saveMods[targetSave] += val;
+                else saveMods[targetSave] = val;
+              }
+              const saveAttrId = mapSaveToAttrId(targetSave);
+              if (saveAttrId) {
+                addAttrModSource(saveAttrId, {
+                  val,
+                  source: `Equipment: ${eqTitle}`,
+                  name: `Equipment: ${eqTitle}`,
+                  isSituational: isSit,
+                  condition: mod.condition || null
+                });
+              }
+            }
+          });
+        }
         const eqMods = extractEquipmentSkillModifiers(parsedEq);
         eqMods.forEach(em => {
           const sKey = (em.target || '').toLowerCase().trim();
@@ -806,6 +1058,7 @@ export const FolioStatsSliceProvider = ({ children }) => {
 
     return {
       attributeMods,
+      attributeModSources,
       combatMods,
       skillMods,
       saveMods,
@@ -846,8 +1099,29 @@ export const FolioStatsSliceProvider = ({ children }) => {
 
   // Skill Check Breakdown Helper (Score, Attribute Used, Rank, Modifiers, Equipment)
   const getSkillBreakdown = useCallback((skill, extraOptions = {}) => {
-    return getSkillCheckBreakdown(skill, characterData, dbData, extraOptions);
-  }, [characterData, dbData]);
+    return getSkillCheckBreakdown(skill, characterData, dbData, {
+      attributeMods: computedModifiers.attributeMods,
+      ...extraOptions
+    });
+  }, [characterData, dbData, computedModifiers.attributeMods]);
+
+  // Helper to get allocated identity pool attribute points (stored in characterData[attrId] alongside CP/AP purchases)
+  const getGrantedPoolAttrPts = useCallback((attrId, data = characterData) => {
+    if (!data || !attrId) return 0;
+    return (
+      (parseInt(data.speciesAllocations?.attributes?.[attrId] || 0, 10) || 0) +
+      (parseInt(data.occuAllocations?.attributes?.[attrId] || 0, 10) || 0) +
+      (parseInt(data.originAllocations?.attributes?.[attrId] || 0, 10) || 0) +
+      (parseInt(data.factionAllocations?.attributes?.[attrId] || 0, 10) || 0)
+    );
+  }, [characterData]);
+
+  // Helper to get strictly CP/AP purchased primary attribute base (excluding species/identity pool bonuses)
+  const getPrimaryPurchasedBase = useCallback((attrId, data = characterData) => {
+    if (!data || !attrId) return 0;
+    const rawVal = parseInt(data[attrId] || 0, 10) || 0;
+    return Math.max(0, rawVal - getGrantedPoolAttrPts(attrId, data));
+  }, [characterData, getGrantedPoolAttrPts]);
 
   // Attribute Mod & Total Calculation Helpers
   const getAttrMod = useCallback((attrId) => {
@@ -857,26 +1131,32 @@ export const FolioStatsSliceProvider = ({ children }) => {
     if (attrId === 'attr-fortitude') saveMod = computedModifiers.saveMods?.Fortitude || 0;
     else if (attrId === 'attr-reflex') saveMod = computedModifiers.saveMods?.Reflex || 0;
     else if (attrId === 'attr-will' || attrId === 'attr-willpower') saveMod = computedModifiers.saveMods?.Will || 0;
-    return userMod + identityMod + saveMod;
+    let primaryModEffect = 0;
+    if (SUB_TO_PRIMARY_ATTR[attrId]) {
+      const primaryKey = SUB_TO_PRIMARY_ATTR[attrId];
+      const pUserMod = parseInt(characterData[`${primaryKey}-mod`] || 0, 10) || 0;
+      const pIdentityMod = computedModifiers.attributeMods[primaryKey] || 0;
+      primaryModEffect = (pUserMod + pIdentityMod) * 2;
+    }
+    return primaryModEffect + userMod + identityMod + saveMod;
   }, [characterData, computedModifiers.attributeMods, computedModifiers.saveMods]);
 
-  // Helper to get dynamic sub-attribute base: (Current Primary Attribute * 2) + 2
+  // Helper to get dynamic sub-attribute base strictly from CP/AP purchased Primary Attribute: (Purchased Primary * 2) + 2
   const getSubAttrBase = useCallback((subKey, data = characterData) => {
     const primaryKey = SUB_TO_PRIMARY_ATTR[subKey];
     if (!primaryKey) return 2;
-    const pVal = parseInt(data[primaryKey] || 0, 10);
-    const pMod = data === characterData ? getAttrMod(primaryKey) : 0;
-    return ((pVal + pMod) * 2) + 2;
-  }, [characterData, getAttrMod]);
+    const pVal = getPrimaryPurchasedBase(primaryKey, data);
+    return (pVal * 2) + 2;
+  }, [characterData, getPrimaryPurchasedBase]);
 
   const getAttrTotal = useCallback((attrId) => {
     let val;
     if (SUB_TO_PRIMARY_ATTR[attrId]) {
       const primaryKey = SUB_TO_PRIMARY_ATTR[attrId];
-      const pVal = parseInt(characterData[primaryKey] || 0, 10);
-      const pMod = getAttrMod(primaryKey);
-      const effectivePrimary = pVal + pMod;
-      const base = (effectivePrimary * 2) + 2;
+      const pVal = getPrimaryPurchasedBase(primaryKey, characterData);
+      const base = (pVal * 2) + 2;
+      const rawPVal = parseInt(characterData[primaryKey] || 0, 10) || 0;
+      const rawUnmodifiedBase = (rawPVal * 2) + 2;
       const explicitRaw = characterData[attrId] ?? (
         attrId === 'attr-logic' ? characterData['attr-reason'] :
         attrId === 'attr-reason' ? characterData['attr-logic'] :
@@ -885,43 +1165,30 @@ export const FolioStatsSliceProvider = ({ children }) => {
         undefined
       );
       const parsedExplicit = parseInt(explicitRaw, 10);
-      if (!isNaN(parsedExplicit) && parsedExplicit > base) {
-        val = parsedExplicit;
-      } else {
-        val = base;
-      }
+      const purchasedBonus = (!isNaN(parsedExplicit) && parsedExplicit > 0)
+        ? Math.max(0, parsedExplicit - rawUnmodifiedBase)
+        : 0;
+      val = base + purchasedBonus;
     } else {
-      val = parseInt(characterData[attrId] || 0, 10) || 0;
+      val = getPrimaryPurchasedBase(attrId, characterData);
     }
     return val + getAttrMod(attrId);
-  }, [characterData, getAttrMod]);
+  }, [characterData, getAttrMod, getPrimaryPurchasedBase]);
 
   // Derived Stats Auto-Calculation
   const derivedStats = useMemo(() => {
-    const staminaBase = parseInt(characterData['attr-stamina'] || 0, 10);
-    const staminaMod = getAttrMod('attr-stamina');
-    const stamina = staminaBase + staminaMod;
+    const stamina = getAttrTotal('attr-stamina');
 
     // In Tangent, Stamina directly determines base Toughness to reduce wound damage point-for-point
     const toughness = stamina;
 
-    const rawFort = parseInt(characterData['attr-fortitude'], 10);
-    const fortitudeBase = (!isNaN(rawFort) && rawFort > 0) ? rawFort : (staminaBase * 2 + 2);
-    const fortitudeMod = getAttrMod('attr-fortitude');
-    const fortitude = fortitudeBase + fortitudeMod;
+    const fortitude = getAttrTotal('attr-fortitude');
 
-    const wisdomBase = parseInt(characterData['attr-wisdom'] || 0, 10);
-    const wisdomMod = getAttrMod('attr-wisdom');
-    const wisdom = wisdomBase + wisdomMod;
+    const wisdom = getAttrTotal('attr-wisdom');
 
-    const rawWill = parseInt(characterData['attr-will'] ?? characterData['attr-willpower'], 10);
-    const willBase = (!isNaN(rawWill) && rawWill > 0) ? rawWill : (wisdomBase * 2 + 2);
-    const willMod = getAttrMod('attr-will');
-    const will = willBase + willMod;
+    const will = getAttrTotal('attr-will');
 
-    const chaBase = parseInt(characterData['attr-charisma'] || 0, 10);
-    const chaMod = getAttrMod('attr-charisma');
-    const charisma = chaBase + chaMod;
+    const charisma = getAttrTotal('attr-charisma');
     // Debt limit in Tangent RPG is Charisma score + 1
     const maxKarmaDebt = Math.max(1, charisma + 1);
 
@@ -929,7 +1196,7 @@ export const FolioStatsSliceProvider = ({ children }) => {
     const baseHealth = 30;
     const baseVitality = 30;
     const baseStructure = 60;
-    const maxStatIncrease = Math.max(0, staminaBase * 5);
+    const maxStatIncrease = Math.max(0, stamina * 5);
     
     // Canonical Tangent starting Karma: 3 points by default
     const baseKarma = 3;
@@ -1010,8 +1277,8 @@ export const FolioStatsSliceProvider = ({ children }) => {
     return {
       health: isSynthetic ? 0 : baseHealth,
       vitality: isSynthetic ? 0 : baseVitality,
-      stamina: staminaBase,
-      staminaDR: staminaBase,
+      stamina: Math.max(0, stamina),
+      staminaDR: Math.max(0, stamina),
       maxStatIncrease,
       fortitude,
       will,
@@ -1079,7 +1346,8 @@ export const FolioStatsSliceProvider = ({ children }) => {
     characterData?.['pool-origin-traits'],
     characterData?.['pool-species-traits'],
     characterData?.skills,
-    getAttrMod
+    getAttrMod,
+    getAttrTotal
   ]);
 
   // Automatically keep health/vitality/structure/karma synchronized if unmodified (or below base)
