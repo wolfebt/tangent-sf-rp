@@ -296,7 +296,7 @@ export function extractHeroStats(hero = {}) {
     return {
       heroId: hero['character-doc-id'] || hero.id,
       name: hero['char-name'] || hero.name || 'Unnamed Hero',
-      avatarUrl: hero.avatarUrl || hero.imageUrl || null,
+      avatarUrl: hero.tokenUrl || hero.media?.token?.url || hero.avatarUrl || hero.imageUrl || hero.avatar || hero.media?.portrait?.url || null,
       maxHealth: null,
       currentHealth: null,
       maxVitality: null,
@@ -331,7 +331,7 @@ export function extractHeroStats(hero = {}) {
     return {
       heroId: hero['character-doc-id'] || hero.id,
       name: hero['char-name'] || hero.name || 'Unnamed Hero',
-      avatarUrl: hero.avatarUrl || hero.imageUrl || null,
+      avatarUrl: hero.tokenUrl || hero.media?.token?.url || hero.avatarUrl || hero.imageUrl || hero.avatar || hero.media?.portrait?.url || null,
       maxHealth,
       currentHealth,
       maxVitality,

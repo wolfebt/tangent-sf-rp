@@ -12,6 +12,7 @@ const SECTIONS = [
   { id: 'abilities', label: '⚡ Abilities, Powers & Flaws', icon: '⚡' },
   { id: 'combat-gear', label: '⚔️ Combat & Loadout', icon: '⚔️' },
   { id: 'narrative', label: '📝 31-Field Narrative & AI', icon: '📝' },
+  { id: 'media', label: '📷 Visuals & Token Studio', icon: '📷' },
   { id: 'other', label: '🗂️ Property & Logistics', icon: '🗂️' },
   { id: 'roster', label: '📇 Roster, Cloud & Sharing', icon: '📇' },
   { id: 'print', label: '🖨️ Printable Folio Export', icon: '🖨️' },
@@ -350,6 +351,32 @@ const CONTENT = {
       <div className="bg-purple-950/40 border border-purple-500/30 rounded-xl p-3 text-xs text-slate-300 flex items-center gap-2">
         <Sparkles size={16} className="text-purple-400 shrink-0" />
         <span>Click the <strong className="text-purple-300 font-mono">🤖 BASTION</strong> button in the narrative tab to auto-generate or refine text snippets for any of the 31 fields using AI.</span>
+      </div>
+    </div>
+  ),
+
+  media: (
+    <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
+      <p>
+        The <strong className="text-cyan-300 font-mono">Visuals & Token Studio</strong> page provides a dedicated asset manager for character portraits, tactical VTT tokens, full-body standees, and reference artwork.
+      </p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
+        <div className="p-3 bg-slate-900 border border-cyan-500/40 rounded-xl space-y-1">
+          <div className="text-cyan-300 font-bold">👤 3:4 Primary Portrait</div>
+          <div className="text-slate-400">Headshot and bust portrait automatically rendered in party HUDs and roster cards.</div>
+        </div>
+        <div className="p-3 bg-slate-900 border border-cyan-500/40 rounded-xl space-y-1">
+          <div className="text-cyan-300 font-bold">🛡️ 1:1 Tactical Token</div>
+          <div className="text-slate-400">Circular pog with transparent alpha for VTT maps, stage placement, and combat tracking.</div>
+        </div>
+        <div className="p-3 bg-slate-900 border border-cyan-500/40 rounded-xl space-y-1">
+          <div className="text-cyan-300 font-bold">🧍 1:2 Full Standee</div>
+          <div className="text-slate-400">Full-body outfit and armor loadout visual for scale and equipment inspection.</div>
+        </div>
+        <div className="p-3 bg-slate-900 border border-cyan-500/40 rounded-xl space-y-1">
+          <div className="text-cyan-300 font-bold">🖼️ Reference Gallery</div>
+          <div className="text-slate-400">Concept art for vehicles, cyberware schematics, companions, or faction insignia.</div>
+        </div>
       </div>
     </div>
   ),

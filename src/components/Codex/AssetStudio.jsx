@@ -148,6 +148,7 @@ import {
 } from '../../pages/Codex/codexConfig';
 import { CodexAiSynthesizerModal } from '../../pages/Codex/CodexAiSynthesizerModal';
 import { CodexIngestionModal } from '../../pages/Codex/CodexIngestionModal';
+import { CodexMechanicsModal } from './CodexMechanicsModal';
 import {
   normalizeOmnicortexItem,
   exportOmnicortexItem,
@@ -752,7 +753,7 @@ export const AssetStudio = ({
   const [activeGeneticsTab, setActiveGeneticsTab] = useState('chassis');
   const [isGeneticsBranchOpen, setIsGeneticsBranchOpen] = useState(true);
   const [loreViewMode, setLoreViewMode] = useState('preview');
-  const [isGuidanceOpen, setIsGuidanceOpen] = useState(true);
+  const [isMechanicsModalOpen, setIsMechanicsModalOpen] = useState(false);
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
   const [isIngestionModalOpen, setIsIngestionModalOpen] = useState(false);
   const [copiedBracketLink, setCopiedBracketLink] = useState(false);
@@ -1436,10 +1437,6 @@ export const AssetStudio = ({
     setTimeout(() => setCopiedBracketLink(false), 2000);
   }, [formData.name, formData.title, activeItem?.name, activeItem?.title, matrix.name]);
 
-  const visibleGuidanceSections = useMemo(() => {
-    return (guidance?.sections || []).filter(sec => sec.id !== 'budget_balance');
-  }, [guidance]);
-
   const content = (
     <div className={`bg-[#070a13] flex flex-col overflow-hidden text-slate-100 w-full h-full min-w-0 min-h-0 ${
       isModal 
@@ -1500,23 +1497,23 @@ export const AssetStudio = ({
             <span>{copiedBracketLink ? 'Copied [[Link]]' : '[[Link]]'}</span>
           </button>
 
-          {/* Canonical Guidance Drawer Toggle */}
+          {/* Canonical Mechanics Modal Trigger */}
           {guidance && (
             <button
               type="button"
               onClick={() => {
                 AudioService.playTerminalBeep(900, 0.02);
-                setIsGuidanceOpen(prev => !prev);
+                setIsMechanicsModalOpen(true);
               }}
               className={`px-3 py-1.5 rounded-xl border text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer ${
-                isGuidanceOpen
+                isMechanicsModalOpen
                   ? 'bg-cyan-950 border-cyan-400 text-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.3)]'
-                  : 'bg-slate-900 border-slate-700 text-slate-300 hover:bg-slate-800'
+                  : 'bg-slate-900 border-slate-700 text-slate-300 hover:bg-slate-800 hover:border-cyan-500/50 hover:text-cyan-200'
               }`}
-              title="Toggle canonical section rulebook guidance & live summary"
+              title="Open canonical rulebook mechanics modal"
             >
               <BookOpen size={13} className="text-cyan-400" />
-              <span className="hidden md:inline">Rules & Guidance</span>
+              <span className="hidden sm:inline">Mechanics</span>
             </button>
           )}
 
@@ -1548,186 +1545,7 @@ export const AssetStudio = ({
         </div>
       </header>
 
-      {/* ── Guidance & Live Summary Drawer ── */}
-      {isGuidanceOpen && guidance && (
-        <div className="bg-slate-950 border-b border-cyan-500/30 p-4 animate-fade-in shrink-0">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2">
-              <BookOpen size={15} className="text-cyan-400" />
-              <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-cyan-300">
-                {guidance.title} — Canonical Rulebook Guidance
-              </h4>
-            </div>
-            <span className="text-[10px] font-mono text-slate-500">BASTION v2.4</span>
-          </div>
-          <p className="text-xs text-slate-300 leading-relaxed mb-3">
-            {guidance.overview}
-          </p>
-          <div className={`grid grid-cols-1 ${visibleGuidanceSections.length === 1 ? '' : visibleGuidanceSections.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-2 lg:grid-cols-3'} gap-2.5 text-[11px] font-mono`}>
-            {visibleGuidanceSections.map((sec, idx) => {
-              const isSpeciesChassisBlock = isSpeciesStudio && speciesSummary && sec.id === 'chassis_type';
 
-              const attrEntries = isSpeciesChassisBlock
-                ? Object.entries(speciesSummary.attributes || {}).filter(([_, val]) => Number(val) !== 0)
-                : [];
-              const extraMovements = isSpeciesChassisBlock
-                ? (speciesSummary.bpData?.itemized?.movement || []).filter(m => m && m.id !== 'normal' && m.id !== 'bipedal')
-                : [];
-              const specificSkills = isSpeciesChassisBlock
-                ? (Array.isArray(formData.specific_skill_bonuses) ? formData.specific_skill_bonuses : [])
-                : [];
-              const traitsList = isSpeciesChassisBlock
-                ? (speciesSummary.bpData?.itemized?.traits?.length > 0
-                  ? speciesSummary.bpData.itemized.traits
-                  : (speciesSummary.selectedTraits || []).map(tr => ({ name: formatSummaryChip(tr), bp: 1 })))
-                : [];
-              const featuresList = isSpeciesChassisBlock
-                ? (speciesSummary.bpData?.itemized?.features?.length > 0
-                  ? speciesSummary.bpData.itemized.features
-                  : (speciesSummary.cleanedInherentFeatures || []).map(feat => ({ name: formatSummaryChip(feat), bp: 3 })))
-                : [];
-              const recFeaturesList = isSpeciesChassisBlock
-                ? (Array.isArray(formData.recommended_features) && formData.recommended_features.length > 0
-                  ? formData.recommended_features
-                  : (speciesSummary.cleanedRecommendedFeatures || []))
-                : [];
-              const flawsList = isSpeciesChassisBlock
-                ? (speciesSummary.bpData?.itemized?.disadvantages?.length > 0
-                  ? speciesSummary.bpData.itemized.disadvantages
-                  : (speciesSummary.selectedDisadvantages || []).map(flaw => ({ name: formatSummaryChip(flaw), refundBP: 2 })))
-                : [];
-              const skillPoolPoints = isSpeciesChassisBlock
-                ? (speciesSummary.bpData?.itemized?.skills?.points ?? (speciesSummary.skillBundles * 5))
-                : 0;
-              const skillPoolCP = isSpeciesChassisBlock
-                ? (speciesSummary.bpData?.breakdown?.skillsBP ?? (speciesSummary.skillBundles * 5))
-                : 0;
-
-              return (
-                <div key={sec.id || idx} className="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
-                  <div>
-                    <div className="text-amber-400 font-bold mb-0.5">{sec.name || sec.title}</div>
-                    <div className="text-slate-400 text-[10px] leading-snug">{sec.description || sec.guidance}</div>
-                  </div>
-
-                  {isSpeciesChassisBlock && (
-                    <div className="pt-2 border-t border-slate-800/90 flex flex-wrap items-center gap-1.5 text-[10px]">
-                      {/* Chassis Type */}
-                      <span className="px-2 py-0.5 rounded bg-sky-950/70 border border-sky-500/40 text-sky-300 font-bold">
-                        Chassis: {speciesSummary.selectedType} ({speciesSummary.bpData?.breakdown?.typeBP ?? 0} CP)
-                      </span>
-
-                      {/* Size */}
-                      <span className="px-2 py-0.5 rounded bg-cyan-950/70 border border-cyan-500/40 text-cyan-300 font-bold">
-                        Size: {speciesSummary.selectedSize} ({(speciesSummary.bpData?.breakdown?.sizeBP ?? 0) >= 0 ? `+${speciesSummary.bpData?.breakdown?.sizeBP ?? 0}` : speciesSummary.bpData?.breakdown?.sizeBP} CP)
-                      </span>
-
-                      {/* Base Speed & Locomotion Modes */}
-                      <span className="px-2 py-0.5 rounded bg-amber-950/70 border border-amber-500/40 text-amber-300 font-bold">
-                        Speed: {speciesSummary.bpData?.speedsFormatted || 'Ground 30 ft'} ({(speciesSummary.bpData?.breakdown?.movementBP ?? 0) >= 0 ? `+${speciesSummary.bpData?.breakdown?.movementBP ?? 0}` : speciesSummary.bpData?.breakdown?.movementBP} CP)
-                      </span>
-                      {extraMovements.map((m, mIdx) => (
-                        <span
-                          key={`mov-${mIdx}`}
-                          className="px-2 py-0.5 rounded bg-amber-950/60 border border-amber-500/30 text-amber-200"
-                        >
-                          Move: {m.name} <span className="text-amber-400 font-bold">({m.bp >= 0 ? `+${m.bp}` : m.bp} CP)</span>
-                        </span>
-                      ))}
-
-                      {/* Inherent Attribute Modifiers */}
-                      {attrEntries.length > 0 && (
-                        <span className="px-2 py-0.5 rounded bg-emerald-950/70 border border-emerald-500/40 text-emerald-300 font-bold">
-                          Attrs: {attrEntries.map(([k, v]) => `${k.toUpperCase()} ${Number(v) >= 0 ? `+${v}` : v}`).join(', ')} ({(speciesSummary.bpData?.breakdown?.fixedAttributeBP ?? 0) >= 0 ? `+${speciesSummary.bpData?.breakdown?.fixedAttributeBP ?? 0}` : speciesSummary.bpData?.breakdown?.fixedAttributeBP} CP)
-                        </span>
-                      )}
-
-                      {/* Flexible Attribute Pool */}
-                      {speciesSummary.bonusAttributePoints > 0 && (
-                        <span className="px-2 py-0.5 rounded bg-emerald-950/70 border border-emerald-500/40 text-emerald-300 font-bold">
-                          Attr Pool: +{speciesSummary.bonusAttributePoints} AP (+{speciesSummary.bonusAttributePoints * 5} CP)
-                        </span>
-                      )}
-
-                      {/* Skill Pool & Specific Skill Bonuses */}
-                      {skillPoolPoints > 0 && (
-                        <span className="px-2 py-0.5 rounded bg-emerald-950/70 border border-emerald-500/40 text-emerald-300 font-bold">
-                          Skill Pool: +{skillPoolPoints} SP (+{skillPoolCP} CP)
-                        </span>
-                      )}
-                      {specificSkills.map((sk, sIdx) => {
-                        const skName = formatSummaryChip(sk.skill_id || sk.skill || sk.name || sk);
-                        const skBonus = Number(sk.bonus ?? sk.value ?? 2);
-                        return (
-                          <span
-                            key={`sk-${sIdx}`}
-                            className="px-2 py-0.5 rounded bg-teal-950/70 border border-teal-500/40 text-teal-200"
-                          >
-                            Skill: {skName} {skBonus >= 0 ? `+${skBonus}` : skBonus}
-                          </span>
-                        );
-                      })}
-
-                      {/* Species Traits (1, 2, or 4 CP) */}
-                      {traitsList.map((tr, tIdx) => (
-                        <span
-                          key={`tr-${tIdx}`}
-                          className="px-2 py-0.5 rounded bg-purple-950/70 border border-purple-500/40 text-purple-200"
-                        >
-                          Trait: {tr.name} <span className="text-purple-400 font-bold">({tr.bp >= 0 ? `+${tr.bp}` : tr.bp} CP)</span>
-                        </span>
-                      ))}
-
-                      {/* Inherent Features, Feature Pool & Recommended Features */}
-                      {featuresList.map((feat, fIdx) => (
-                        <span
-                          key={`ft-${fIdx}`}
-                          className="px-2 py-0.5 rounded bg-indigo-950/70 border border-indigo-500/40 text-indigo-200"
-                        >
-                          Feature: {feat.name} <span className="text-indigo-400 font-bold">(+{feat.bp ?? 3} CP)</span>
-                        </span>
-                      ))}
-                      {speciesSummary.bonusFeatures > 0 && (
-                        <span className="px-2 py-0.5 rounded bg-indigo-950/70 border border-indigo-500/40 text-indigo-200 font-bold">
-                          Feature Pool: +{speciesSummary.bonusFeatures} Feat{speciesSummary.bonusFeatures > 1 ? 's' : ''} (+{speciesSummary.bonusFeatures * 3} CP)
-                        </span>
-                      )}
-                      {recFeaturesList.map((rf, rfIdx) => (
-                        <span
-                          key={`rf-${rfIdx}`}
-                          className="px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700 text-slate-300"
-                        >
-                          Rec. Feat: {formatSummaryChip(rf)} <span className="text-slate-400">(0 CP)</span>
-                        </span>
-                      ))}
-
-                      {/* Disadvantages / Flaws & Social Stigma (Refunds) */}
-                      {flawsList.map((flaw, dIdx) => (
-                        <span
-                          key={`flaw-${dIdx}`}
-                          className="px-2 py-0.5 rounded bg-red-950/70 border border-red-500/40 text-red-200"
-                        >
-                          Flaw: {flaw.name} <span className="text-red-400 font-bold">(-{flaw.refundBP ?? 2} CP)</span>
-                        </span>
-                      ))}
-                      {speciesSummary.selectedStigma && speciesSummary.selectedStigma !== 'None' && (
-                        <span className="px-2 py-0.5 rounded bg-rose-950/70 border border-rose-500/40 text-rose-200">
-                          Stigma: {speciesSummary.selectedStigma} <span className="text-rose-400 font-bold">(-{speciesSummary.bpData?.breakdown?.stigmaRefund ?? 0} CP)</span>
-                        </span>
-                      )}
-
-                      {/* Total Species Package Cost at the End */}
-                      <span className="px-2.5 py-0.5 rounded bg-purple-950/90 border border-purple-400/60 text-purple-200 font-bold ml-auto shadow-sm">
-                        Package Cost: {speciesSummary.bpData?.totalBPUsed ?? 0} CP
-                      </span>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
 
       {/* ── Studio Body with Left Navigation Rail + Workbench Viewport ── */}
       <div className="flex-1 flex overflow-hidden min-h-0">
@@ -3118,6 +2936,17 @@ export const AssetStudio = ({
       </div>
 
       {/* Embedded Sub-Modals */}
+      <CodexMechanicsModal
+        isOpen={isMechanicsModalOpen}
+        onClose={() => setIsMechanicsModalOpen(false)}
+        guidance={guidance}
+        matrix={matrix}
+        isSpeciesStudio={isSpeciesStudio}
+        speciesSummary={speciesSummary}
+        formData={formData}
+        formatSummaryChip={formatSummaryChip}
+      />
+
       <CodexAiSynthesizerModal
         isOpen={isAiModalOpen}
         onClose={() => setIsAiModalOpen(false)}

@@ -17,6 +17,7 @@ import CombatTab from './tabs/CombatTab';
 import CompanionsTab from './tabs/CompanionsTab';
 import PropertyTab from './tabs/PropertyTab';
 import NarrativeTab from './tabs/NarrativeTab';
+import MediaTab from './tabs/MediaTab';
 import OtherTab from './tabs/OtherTab';
 import AddSkillModal from './modals/AddSkillModal';
 import ConfirmationModal from './modals/ConfirmationModal';
@@ -187,7 +188,7 @@ const FolioContainer = () => {
         'features', 'features-traits', 'features-hindrances', 'features-augmentations', 'features-metaphysics', 'features-awakened',
         'abilities', 'combat', 'companions',
         'property', 'property-gear', 'property-vehicles', 'property-wealth', 'combat-gear',
-        'narrative', 'other'
+        'narrative', 'media', 'visuals', 'other'
       ];
       if (validTabs.includes(tabParam)) {
         const resolvedTab = tabParam === 'stats' ? 'core-stats' : tabParam;
@@ -341,6 +342,8 @@ const FolioContainer = () => {
       'property-vehicles': { parent: 'property', parentLabel: 'Property', label: 'Vehicles & Starships' },
       'property-wealth': { parent: 'property', parentLabel: 'Property', label: 'Finances & Wealth' },
       'narrative': { parent: null, label: 'Narrative & Background' },
+      'media': { parent: null, label: 'Visual Dossier & Media' },
+      'visuals': { parent: null, label: 'Visual Dossier & Media' },
       'other': { parent: null, label: 'Notes & Log' }
     };
 
@@ -1171,6 +1174,9 @@ const FolioContainer = () => {
               )}
               {activeTab === 'narrative' && (
                 <NarrativeTab />
+              )}
+              {(activeTab === 'media' || activeTab === 'visuals') && (
+                <MediaTab />
               )}
               {activeTab === 'other' && (
                 <OtherTab />

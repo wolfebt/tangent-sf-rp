@@ -19,6 +19,7 @@ import {
   Layers, 
   BookOpen, 
   FileText,
+  Camera,
   ChevronDown, 
   ChevronRight,
   Lock,
@@ -68,6 +69,7 @@ const NAVIGATION_ITEMS = [
     ]
   },
   { id: 'narrative', label: 'Narrative', sublabel: 'Background & Logs', railLabel: 'NARRATIVE', icon: BookOpen },
+  { id: 'media', label: 'Visuals', sublabel: 'Portraits, Tokens & Imagery', railLabel: 'VISUALS', icon: Camera },
   { id: 'other', label: 'Notes', sublabel: 'Dossier Scratchpad', railLabel: 'NOTES', icon: FileText }
 ];
 

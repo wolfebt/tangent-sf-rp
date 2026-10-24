@@ -270,6 +270,35 @@ export const characterSchema = z.object({
   player_override: z.boolean().optional().default(false),
   override_at: z.string().nullable().optional().default(null),
   active_conditions: z.array(z.string()).optional().default([]),
-  tracked_modifications: z.array(trackedModificationSchema).optional().default([])
+  tracked_modifications: z.array(trackedModificationSchema).optional().default([]),
+  avatar: z.string().nullable().optional().default(null),
+  tokenUrl: z.string().nullable().optional().default(null),
+  media: z.object({
+    portrait: z.object({
+      url: z.string().optional(),
+      storagePath: z.string().optional(),
+      width: z.number().optional(),
+      height: z.number().optional(),
+      byteSize: z.number().optional(),
+      updatedAt: z.string().optional()
+    }).passthrough().nullable().optional(),
+    token: z.object({
+      url: z.string().optional(),
+      storagePath: z.string().optional(),
+      width: z.number().optional(),
+      height: z.number().optional(),
+      byteSize: z.number().optional(),
+      updatedAt: z.string().optional()
+    }).passthrough().nullable().optional(),
+    standee: z.object({
+      url: z.string().optional(),
+      storagePath: z.string().optional(),
+      width: z.number().optional(),
+      height: z.number().optional(),
+      byteSize: z.number().optional(),
+      updatedAt: z.string().optional()
+    }).passthrough().nullable().optional(),
+    gallery: z.array(z.any()).optional().default([])
+  }).passthrough().optional().default({})
 }).catchall(z.any()); // Pass through any dynamically added keys (like skill-*-rank)
 

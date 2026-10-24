@@ -1,0 +1,32 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // Character folio image slot files: users/{userId}/personas/{personaId}/{slotFile}
+    // Enforces user ownership, 350 KB client-compression quota, and allowed slot patterns
+    match /users/{userId}/personas/{personaId}/{slotFile} {
+      
+      // Allow read for authenticated users (required for party rosters, VTT sessions, and campaigns)
+      allow read: if request.auth != null;
+
+      // Allow write ONLY if:
+      // 1. The user owns this directory
+      // 2. File size does not exceed 350 KB (enforces client-side WebP compression)
+      // 3. Content type is an image
+      // 4. File name matches canonical slot names: portrait, token, standee, or gallery index
+      allow write: if request.auth != null
+        && request.auth.uid == userId
+        && request.resource.size <= 350 * 1024
+        && request.resource.contentType.matches('image/(webp|png|jpeg)')
+        && slotFile.matches('^(portrait|token|standee|gallery_[0-9]+)[.](webp|png|jpg)$');
+
+      // Allow deletion only by the owner
+      allow delete: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Default deny all other paths
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

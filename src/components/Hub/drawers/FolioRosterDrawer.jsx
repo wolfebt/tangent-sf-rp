@@ -276,6 +276,7 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
               const creatorInfo = extractCreatorInfo(char);
               const shareUrl = `${window.location.origin}/folio?user=${char.ownerUid || ''}&id=${docId}`;
               const initial = (name.charAt(0) || 'O').toUpperCase();
+              const avatarUrl = char.avatar || char.tokenUrl || char.media?.portrait?.url || char.media?.token?.url;
               const isLocked = Boolean(char.is_locked || char.folio_phase === 'locked');
 
               return (
@@ -301,8 +302,12 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
                   {/* Left: Gem Avatar & Details */}
                   <div className="flex items-center gap-2.5 min-w-0 flex-1 w-full">
                     {/* Gem Avatar Pill */}
-                    <div className="w-8 h-8 rounded-lg bg-cyan-950/90 border border-cyan-500/50 flex items-center justify-center font-mono font-bold text-xs text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.2)] shrink-0">
-                      {initial}
+                    <div className="w-8 h-8 rounded-lg bg-cyan-950/90 border border-cyan-500/50 flex items-center justify-center font-mono font-bold text-xs text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.2)] shrink-0 overflow-hidden">
+                      {avatarUrl ? (
+                        <img src={avatarUrl} alt={name} className="w-full h-full object-cover" />
+                      ) : (
+                        initial
+                      )}
                     </div>
 
                     <div className="min-w-0 flex-1">

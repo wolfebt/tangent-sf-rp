@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { getFirestore, initializeFirestore, setLogLevel, disableNetwork } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 import { getAnalytics, isSupported } from "firebase/analytics";
 
 // Validate that all required Firebase env vars are present at startup.
@@ -39,6 +40,7 @@ export const auth = getAuth(app);
 export const db = initializeFirestore(app, {
   experimentalForceLongPolling: true,
 });
+export const storage = getStorage(app);
 
 // Silence internal @firebase/firestore transport backoff spam in the browser console
 try {

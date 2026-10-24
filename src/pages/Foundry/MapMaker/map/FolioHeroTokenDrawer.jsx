@@ -203,7 +203,7 @@ export const FolioHeroTokenDrawer = ({
                 filteredHeroes.map((hero) => {
                   const stats = extractHeroStats(hero);
                   const concept = hero['char-concept'] || hero.concept || hero['char-species'] || '';
-                  const avatar = hero.avatarUrl || hero.imageUrl;
+                  const avatar = hero.tokenUrl || hero.media?.token?.url || hero.avatarUrl || hero.imageUrl || hero.avatar || hero.media?.portrait?.url;
                   const isReady = Boolean(hero.is_locked || hero.is_ready_for_vtt || hero.folio_phase === 'locked');
 
                   return (
