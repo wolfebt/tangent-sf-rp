@@ -1,0 +1,50 @@
+[
+  {
+    "id": "society_synthetics_lvl_0",
+    "category": "society_synthetics",
+    "name": "Synthetics & AI Rights (Level 0: Non-Existent)",
+    "level": 0,
+    "sphere_key": "society_synthetics",
+    "description": "Level 0 (Non-Existent) in Synthetics & AI Rights: No mechanical computation or artificial intelligence."
+  },
+  {
+    "id": "society_synthetics_lvl_1",
+    "category": "society_synthetics",
+    "name": "Synthetics & AI Rights (Level 1: Clockwork Automata)",
+    "level": 1,
+    "sphere_key": "society_synthetics",
+    "description": "Level 1 (Clockwork Automata) in Synthetics & AI Rights: Purely mechanical gear-driven automata and punch-card looms without cognition."
+  },
+  {
+    "id": "society_synthetics_lvl_2",
+    "category": "society_synthetics",
+    "name": "Synthetics & AI Rights (Level 2: Reactive & Limited Memory)",
+    "level": 2,
+    "sphere_key": "society_synthetics",
+    "description": "Level 2 (Reactive & Limited Memory) in Synthetics & AI Rights: Smart devices, virtual assistants, and simple programmed industrial robots."
+  },
+  {
+    "id": "society_synthetics_lvl_3",
+    "category": "society_synthetics",
+    "name": "Synthetics & AI Rights (Level 3: Self-Aware Algorithm (Theory of Mind))",
+    "level": 3,
+    "sphere_key": "society_synthetics",
+    "description": "Level 3 (Self-Aware Algorithm (Theory of Mind)) in Synthetics & AI Rights: Conscious self-aware AI and advanced automata capable of understanding emotions."
+  },
+  {
+    "id": "society_synthetics_lvl_4",
+    "category": "society_synthetics",
+    "name": "Synthetics & AI Rights (Level 4: Artificial General Intelligence (AGI))",
+    "level": 4,
+    "sphere_key": "society_synthetics",
+    "description": "Level 4 (Artificial General Intelligence (AGI)) in Synthetics & AI Rights: Androids, Sentient Machines, and Intellect Constructs indistinguishable from organic sapience."
+  },
+  {
+    "id": "society_synthetics_lvl_5",
+    "category": "society_synthetics",
+    "name": "Synthetics & AI Rights (Level 5: Hyper Intellect (ASI))",
+    "level": 5,
+    "sphere_key": "society_synthetics",
+    "description": "Level 5 (Hyper Intellect (ASI)) in Synthetics & AI Rights: Gestalted superintelligences surpassing organic wisdom (such as Mekan Prime and Bastion)."
+  }
+]

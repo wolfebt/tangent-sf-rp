@@ -29,7 +29,7 @@ traits:
   - trait-resourcefulness
   - trait-smooth-talking
 recommended_species:
-  - Celestine (Alterian)
+  - Alterian
   - Fey (Base)
   - Argynt Human
   - Brae Human

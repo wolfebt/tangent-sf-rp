@@ -4,21 +4,23 @@ category: mecha
 name: Bipedal Recon Walker
 domain: Ground
 size: Large
-frame: Walker
-cost: 10240
-craft_dc: 25
-sp: 200
-dr: 20
+frame: Reverse-Joint Light Walker
+cost: 4457
+craft_dc: 22
+sp: 140
+dr: 18
 mounts: 4
-propulsion: Reverse-Joint Bipedal Legs
+propulsion: Bipedal (Reverse-Joint)
 description: >-
-  Fast, agile scout walker with reverse chicken-leg joints and high-gain sensory
-  mast.
-mechanic: 'High-speed scouting, jump-jets, chin-mounted twin light lasers (2d6).'
+  A light, fast chicken-legged scout walker carrying long-range sensor arrays
+  and chin-mounted blasters to spot enemy formations and outrun heavy armor.
+mechanic: >-
+  High-speed reverse-joint scout walker with advanced sensor suite and
+  chin-mounted blasters. | SP: 140, DR: 18 | Craft DC: 22 (4,457 Cr)
 costs:
   cp: 0
   bp: 0
-  credits: 10240
+  credits: 4457
   nodes: 0
   sockets: 0
   strain: 0
@@ -37,11 +39,18 @@ sockets:
   tier: Socket
   allocated: []
 tech_level: 3
-keywords: 'bipedal recon walker, mecha, vehicle, large, walker, tl-3'
-negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
+keywords: >-
+  bipedal recon walker, mecha, vehicle, mecha / walker, reverse-joint light
+  walker, tl-3
+negative_keywords: 'infantry-only, unmounted'
 meta_level: 0
-design_dc: 25
+design_dc: 22
+classification: Mecha / Walker
+crew: 1-2
+durability: 140
 ---
-Fast, agile scout walker with reverse chicken-leg joints and high-gain sensory mast.
+A light, fast chicken-legged scout walker carrying long-range sensor arrays and chin-mounted blasters to spot enemy formations and outrun heavy armor.
 
-**Mechanics:** High-speed scouting, jump-jets, chin-mounted twin light lasers (2d6).
+**Class:** Mecha / Walker (Reverse-Joint Light Walker)
+**Propulsion:** Bipedal (Reverse-Joint) | **Crew:** 1-2
+**Mechanics:** High-speed reverse-joint scout walker with advanced sensor suite and chin-mounted blasters. | SP: 140, DR: 18 | Craft DC: 22 (4,457 Cr)

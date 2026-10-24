@@ -12,7 +12,7 @@ recommended_species:
   - Draconian (Scaled Aeld)
   - Cyberform Human
   - Intellect Construct (Pure AI)
-  - Celestine (Alterian)
+  - Alterian
 recommended_factions:
   - The Alterian Enclave
   - Technological Faction Template

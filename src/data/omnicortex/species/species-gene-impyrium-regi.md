@@ -10,7 +10,7 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-speeds: Ground 30 ft
+speeds: 30 ft Groundspeed
 reach: 5 ft
 senses: Standard visual and auditory range.
 immunities: None
@@ -18,11 +18,7 @@ inherent_attribute_modifiers:
   - attribute: Intellect
     bonus: 2
 bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Diplomacy
-    bonus: 2
-  - skill: Leadership
-    bonus: 2
+specific_skill_bonuses: []
 bonus_skills: 20
 bonus_skill_choices:
   - Diplomacy
@@ -31,31 +27,95 @@ bonus_skill_choices:
   - Law
   - History
   - Attune
-inherent_features: []
-bonus_features: []
+inherent_features:
+  - general-benefit-status
+bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Leadership
+  - Awakened
+  - Discipline Features
+  - Fast Heal
+  - Regeneration
+disadvantages: []
 stigma: None
-tech_level: 4 (Imperial Regalia & Grav-Chairs)
-meta_level: 4 (Command Metaphysics)
+tech_level: '4'
+meta_level: '4'
 homeworld: Imperia Core
 costs:
-  cp: 35
-  bp: 35
+  cp: 37
+  bp: 37
 modifiers:
   - target: Intellect
     value: 2
     type: attribute
     mode: inherent
+    description: +2 Intellect
+  - target: Any
+    value: 20
+    type: skill
+    mode: bonus_pool
+    description: +20 Skill Points
+  - target: general-benefit-status
+    value: 1
+    type: feature
+    mode: inherent
+  - target: 'Adapted (one additional environ, enhanced physiology)'
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Adaptive Aspects
+    value: 1
+    type: feature
+    mode: recommended
+  - target: 'Alter Self (Minor, enhanced physiology)'
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Awakened
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Discipline Features
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Fast Heal
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Immortality (via Nugenics)
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Longevity  (enhanced physiology)
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Reduced Sustenance (enhanced physiology)
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Regeneration
+    value: 1
+    type: feature
+    mode: recommended
+  - target: +2 Features of choice
+    value: 1
+    type: feature
+    mode: recommended
 description: >-
-  The apex of imperial bio-engineering: peerless aristocrats endowed with
-  heightened intellect, natural psionic dominance, and undisputed political
-  authority.
+  The Regi are not a naturally occurring human variant but a sophisticated human
+  subspecies, the product of deliberate, centuries-long bio-engineering by the
+  technologically and psychically advanced Mondi civilization. Millennia ago,
+  the Mondi intervened directly in the evolutionary path of a subset of
+  humanity, meticulously engineering their development to achieve a state of
+  exceptionalism. This profound genetic and psychic manipulation resulted in a
+  population characterized by extraordinary intellectual capacity, potent
+  inherent psychic abilities, and a suite of unique adaptive features.
 traits: &ref_0
   - trait-adaptive-features
-  - trait-sociable
   - trait-awakened-psychic
+species_traits: *ref_0
 recommended_factions:
   - Impyrium Dominion
   - Radiant Impyrium
@@ -71,33 +131,123 @@ keywords: >-
   high-blood, aristocracy, imperial-regalia, command-aura, intellect,
   gene-perfection
 negative_keywords: 'manual-labor, dirty-wastelands, subservient, scavenger'
-species_traits: *ref_0
-cp: 35
-bp: 35
-cp_cost: 35
+cp: 37
+bp: 37
+cp_cost: 37
 ---
 
-# Impyrium Regi (Imperial High Blood)
+# **IMPYRIUM REGI \* \*\* \*\*\***
 
-## Description
-The apex of imperial bio-engineering: peerless aristocrats endowed with heightened intellect, natural psionic dominance, and undisputed political authority.
+# **IMPYRIUM REGI \* \*\* \*\*\***
 
-## Core Identity
-- **Lineage**: Engineered Humans (Gen-E)
-- **Type**: species_type-humanoid
-- **Size**: species_size-medium
-- **Movement**: Ground 30 ft
-- **Homeworld**: Imperia Core
-- **Tech Level**: 4 (Imperial Regalia & Grav-Chairs)
-- **Meta Level**: 4 (Command Metaphysics)
-- **Stigma**: None
+**CP Cost:** 29 CP  
 
-## Mechanics & Statblock
-- **CP Cost**: 35 CP
-- **Inherent Modifiers**: +2 Intellect
-- **Bonus Skills**: +20 Skill Points
-- **Inherent Features**: Adaptive Aspects, Awakened (Psionic), Status (Imperial Nobility), Aristocratic Immunity
-- **Recommended Features**: feature-royal-command
+**Description:** The Regi are not a naturally occurring human variant but a sophisticated human subspecies, the product of deliberate, centuries-long bio-engineering by the technologically and psychically advanced Mondi civilization. Millennia ago, the Mondi intervened directly in the evolutionary path of a subset of humanity, meticulously engineering their development to achieve a state of exceptionalism. This profound genetic and psychic manipulation resulted in a population characterized by extraordinary intellectual capacity, potent inherent psychic abilities, and a suite of unique adaptive features.&nbsp;
 
-## Roleplay & Society
-The apex of imperial bio-engineering: peerless aristocrats endowed with heightened intellect, natural psionic dominance, and undisputed political authority.
+Physiologically, the Regi are distinct, most notably characterized by a high prevalence of left-handedness and striking, iridescent eyes and emotionally triggered bioluminescent patterns (seen as fine lines and fine dots and often an individual show various hues of a particular color) — hallmarks of their engineered lineage.
+
+&nbsp;
+
+Under the direct tutelage and guidance of their creators, the Regi rapidly ascended, culminating in the foundation of the powerful interstellar state known as the Impyrium. The indelible, deep-seated influence of the Mondi on every aspect of the Impyrium's political, philosophical, and military establishment is not merely a historical footnote; it is the fundamental, underlying cause of the protracted and bloody Impyrium-Dynasty Wars.
+
+&nbsp;
+
+The sentient Dragon Dynasties perceived the Mondi's systematic, covert influence and the subsequent rise of the Regi-led Impyrium not as a benevolent act of creation, but as a classic, dangerous form of colonial expansionism—a foreign, manipulative ideology taking root in their cosmic sphere. To the Dragons, the Impyrium was merely a proxy for the pervasive Mondi agenda. Driven by this perception and an absolute resolve to preserve their own civilization's autonomy, the Dragons initiated the conflict with a singular, violent objective: the complete eradication of the Mondi's ideological influence and the absolute elimination of any civilization, particularly the Regi of the Impyrium, who championed or were a product of the Mondi's philosophy. This ideological clash rapidly escalated into a full-scale interstellar war against the nascent Impyrium, a devastating conflict that raged across star systems for centuries. The war only reached its dramatic conclusion 800 years ago with the mysterious and catastrophic disappearance of the Impyrium’s vaunted Grand Fleet, securing the final, undeniable victory for the Dracon Dynasty and ushering in a new galactic order.
+
+The lost Bloodline of Impyrium founders recently resurfaced following a Jump mishap that displaced them 800 years from their past. They are currently homeless, with the remaining Regi located on the recently returned Impyrium Grand Armada, which centers around the Crimson Star.
+
+&nbsp;
+
+This resurgence is led by the Red Prince, Sepet Tytain the First, who holds multiple titles, is also known as The Last Duke of Qarri (razed and rebuilt into the Syndicate world of Brakken), Blood Heir of the Impyrium (and planning its reunification), Grand Master Tactician, Ordained Oracle (of a native Mystic Order on Premius), The Digon’s Lord of War (psychically imprinted on all GeNe Digon at their birthing), High Commander of The Crimson Star (psychically linked), Grand Admiral of the Impyrium Armada. Sepet is still an Impyrium Regi and of the highest level nobility as heir of the Impyrium, so even being fair or just or kind he can be a tyrant, not so much as iron fisted but he will get his way when it is for the best of the Impyrium.
+
+&nbsp;
+
+Under Sepet, the Imperium's Grand Fleet is vast: At the center is the movable super-station called the “Crimson Star”. An incredible feat of macro-engineering being the size of a small moon and containing factories, habitats, docking, and everything else needed to support the fleet \- including a jumpgate projector. In support of the “Crimson Star” are over 2,000 warships (including battleships, carriers, and destroyers, plus various smaller craft), 2+ million military personnel, 200,000 Digon GeNe Warriors, and millions of Automata. These Automata (including mecha workers, troopers, unmanned flyers, and transport vehicles) are all manufactured by the superfactories within the Crimson Star. Currently, the Imperium under Sepet does not promote AIs or Awakened systems, nor are they legally recognized as sentient beings.&nbsp;
+
+&nbsp;
+
+**Sepet's View**&nbsp;
+
+**on integration of other species:** Sepet is generally more tolerant of non-humans than many of the Impyrium and was working to change leadership of various internal factions and expand on humanitarian efforts within the Impyrium, seeing issues and repairing major faults in the infrastructure.&nbsp;
+
+This was going well until attacks increased by the dragon's allies as they rallied forces and became a threat. When the issue had escalated beyond harassment and war ensued, Sepet changed his focus to military action and soon the largest fleet ever known was soon assembled under his command.
+
+Overall he is still fairly positive, open minded and looking for reasons to bring in others, though unlikely any dragonkin \- but that will be seen.
+
+&nbsp;
+
+**on dragons:** Sepet harbors an incredible dislike for any dragon he is aware of, viewing them as "overbearing lizards with god complexes who should have minded their own business." While he would happily welcome the Dynasty's downfall, his priority remains the consolidation and revival of his own Empire. He finds the current scattered, dwindling, and internally troubled state of the remaining dragons and their kin quite amusing “their legacy lost to lies is very fitting, my truth is outliving theirs”.
+
+&nbsp;
+
+**Classification:** Humanoid
+
+**Size:** Medium
+
+**Movement:** 30ft Groundspeed
+
+&nbsp;
+
+**Tech Level:** 4
+
+**Meta Level:** 4
+
+&nbsp;
+
+**Homeworld:**&nbsp;
+
+**Stigma:**&nbsp;
+
+&nbsp;
+
+**Ability Modifiers:**&nbsp;
+
+\+2 Int
+
+&nbsp;
+
+**Skills:**&nbsp;
+
+\+10 Discipline Skills
+
+\+10 Skills
+
+&nbsp;
+
+**Species Features:**&nbsp;
+
+Adaptive Aspects
+
+Awakened (Psychic, Intellect \- may trigger eye or bioluminescent flares)
+
+Status (Impyrium Nobility)
+
+&nbsp;
+
+**Recommended Features:**&nbsp;
+
+Adapted (one additional environ, enhanced physiology)
+
+Adaptive Aspects
+
+Alter Self (Minor, enhanced physiology)
+
+Awakened (Psychic)
+
+Discipline Features
+
+Fast Heal (enhanced physiology)
+
+Immortality (via Nugenics)
+
+Longevity  (enhanced physiology)
+
+Reduced Sustenance (enhanced physiology)
+
+Regeneration (enhanced physiology)
+
+\+2 Features of choice
+
+&nbsp;
+
+&nbsp;

@@ -31,11 +31,11 @@ traits:
   - trait-studious
 recommended_species:
   - Sigal
-  - Celestine (Alterian)
+  - Alterian
   - Nian Human
   - Intellect Construct (Pure AI)
   - Android
-  - Manelli (Kitin Diplomat)
+  - Manelli (Cerebral Expression)
   - Prokos (Auluran Biform)
   - Impyrium Psion (Gen-E)
   - Gen-E (Base Engineered Human)

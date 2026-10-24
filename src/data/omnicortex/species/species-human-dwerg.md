@@ -10,7 +10,7 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-speeds: Ground 30 ft
+speeds: 30 ft Groundspeed
 reach: 5 ft
 senses: Standard visual and auditory range.
 immunities: None
@@ -20,9 +20,7 @@ inherent_attribute_modifiers:
   - attribute: Stamina
     bonus: 1
 bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Craft (Metallurgy)
-    bonus: 2
+specific_skill_bonuses: []
 bonus_skills: 10
 bonus_skill_choices:
   - Craft
@@ -31,39 +29,81 @@ bonus_skill_choices:
   - Science (Geology)
   - Combat (Heavy)
 inherent_features: []
-bonus_features: []
+bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Armor (Chitinous Shell)
-  - Camouflage
-  - Iron Will
+  - Gearhead
+  - Headstrong
   - Low Light Vision
-  - Master Craftsman
   - Skill Focus
-  - Tough
+disadvantages: []
 stigma: Minor Xeno (-1)
-tech_level: 3 (Heavy Metallurgy & Kinetic Forges)
-meta_level: 1 (Earth / Mineral Resonance)
+tech_level: '2'
+meta_level: '2'
 homeworld: Nidavellir Asteroid Belt
 costs:
-  cp: 23
-  bp: 23
+  cp: 21
+  bp: 21
 modifiers:
   - target: Strength
     value: 1
     type: attribute
     mode: inherent
+    description: +1 Strength
   - target: Stamina
     value: 1
     type: attribute
     mode: inherent
+    description: +1 Stamina
+  - target: Any
+    value: 10
+    type: skill
+    mode: bonus_pool
+    description: +10 Skill Points
+  - target: Adaptive
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Chameleon
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Exoskeleton (Partial)
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Gearhead
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Headstrong
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Low Light Vision
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Methodical
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Rugged
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Skill Focus
+    value: 1
+    type: feature
+    mode: recommended
 description: >-
-  Stocky, broad-shouldered heavy-world humans renowned for foundry work,
-  starship armor plating, and asteroid mining.
+  Dwerg, a prominent human variant frequently referred to as Dwarves, possess a
+  distinctive physiological profile rooted in their evolution on a high-gravity
+  world. This intense gravitational environment has acted as a potent selective
+  pressure, fundamentally shaping their physical characteristics.
 traits: &ref_0
-  - trait-natural-armor
   - trait-mighty-surge
-  - trait-hardy
+species_traits: *ref_0
 recommended_factions:
   - The Entari Combine
   - The Outworlds
@@ -77,48 +117,83 @@ recommended_occupations:
   - Merchant
 keywords: 'asteroid-miner, forge-craft, dense-bone, foundry-armor, tenacious, blacksmith'
 negative_keywords: 'graceful-aerial, swimming, frail'
-species_traits: *ref_0
-cp: 23
-bp: 23
-cp_cost: 23
+cp: 21
+bp: 21
+cp_cost: 21
 ---
 
-# Dwerg Human (Forge Folk)
+# **DWERG \***
 
-*
+# **DWERG \***
 
-**CP Cost:** 19 CP  
+**CP Cost:**&nbsp;
+
 **Description:** Dwerg, a prominent human variant frequently referred to as Dwarves, possess a distinctive physiological profile rooted in their evolution on a high-gravity world. This intense gravitational environment has acted as a potent selective pressure, fundamentally shaping their physical characteristics.
+
+&nbsp;
 
 The most noticeable result of this evolution is their dense, compact physique and markedly shorter-than-average stature. While classified as Medium size in general terms, their typical height is around 5 feet, giving them a "Stocky" build. Despite this reduced height, their bone density and muscular mass are significantly increased, leading to a body weight comparable to, or sometimes exceeding, that of a baseline human of average height. This combination of short stature and high mass contributes to an exceptionally low center of gravity, granting them superior stability, balance, and physical resilience. Their circulatory and skeletal systems are also uniquely adapted to withstand high-stress environments.
 
-**Classification:** Humanoid  
-**Size:** Medium (5 ft, Stocky)  
+&nbsp;
+
+**Classification:** Humanoid
+
+**Size:** Medium (5 ft, Stocky)
+
 **Movement:** 30ft Groundspeed
 
-**Tech Level:** 2  
+&nbsp;
+
+**Tech Level:** 2
+
 **Meta Level:** 2
 
-**Homeworld:**   
+&nbsp;
+
+**Homeworld:**&nbsp;
+
 **Stigma:** Minor Xeno
 
-**Ability Modifiers:**   
-\+1 Str  
+&nbsp;
+
+**Ability Modifiers:**&nbsp;
+
+\+1 Str
+
 \+1 Sta
 
-**Skills:**   
+&nbsp;
+
+**Skills:**&nbsp;
+
 \+10 Vocation Skills
 
-**Species Features:**   
+&nbsp;
+
+**Species Features:**&nbsp;
+
 Mighty Surge (Feature)
 
-**Recommended Features:**   
-Adaptive  
-Chameleon  
-Exoskeleton (Partial)  
-Gearhead  
-Headstrong  
-Low Light Vision line  
-Methodical  
-Rugged  
+&nbsp;
+
+**Recommended Features:**&nbsp;
+
+Adaptive
+
+Chameleon
+
+Exoskeleton (Partial)
+
+Gearhead
+
+Headstrong
+
+Low Light Vision line
+
+Methodical
+
+Rugged
+
 Skill Focus line
+
+&nbsp;

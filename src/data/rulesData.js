@@ -617,99 +617,171 @@ export const DEFAULT_RULES = [
   },
   {
     "id": "rule-scale-colossal",
-    "name": "Scale: Colossal (x20-x64)",
+    "name": "Scale: Colossal (x20)",
     "category": "rules",
-    "description": "Star cruisers; x20 to x64 damage, +16 defense modifier.",
+    "description": "Titan mecha / corvettes (< 128ft, < 1K tons, 25ft reach); x20 scale, +16 Str, -16 Combat, -32 Stealth.",
     "costs": {
       "cp": 0,
       "bp": 0
     },
     "modifiers": [],
-    "body": "# Scale: Colossal (x20-x64)\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\nStar cruisers; x20 to x64 damage, +16 defense modifier."
+    "body": "# Scale: Colossal (x20)\n\n**Category**: Core Scaling & Size Matrix (1.10 SCALING)\n\n## Canonical Modifiers\n- **Scaling Modifier**: x20\n- **Strength Modifier**: +16\n- **Combat Modifier**: -16 (Unopposed Target Size CR Mod: +16)\n- **Stealth Modifier**: -32\n- **Dimensions**: < 128 ft | < 1,000 tons | Reach: 25 ft"
+  },
+  {
+    "id": "rule-scale-diminutive",
+    "name": "Scale: Diminutive (-3ds / 1/3)",
+    "category": "rules",
+    "description": "Diminutive scale (< 1ft, < 1 lb, 1ft reach); -3ds (1/3) scale, -8 Str, +8 Combat, +12 Stealth.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Scale: Diminutive (-3ds / 1/3)\n\n**Category**: Core Scaling & Size Matrix (1.10 SCALING)\n\n## Canonical Modifiers\n- **Scaling Modifier**: -3ds (1/3)\n- **Strength Modifier**: -8\n- **Combat Modifier**: +8 (Unopposed Target Size CR Mod: -8)\n- **Stealth Modifier**: +12\n- **Dimensions**: < 1 ft | < 1 lb | Reach: 1 ft"
+  },
+  {
+    "id": "rule-scale-enormous",
+    "name": "Scale: Enormous (x40)",
+    "category": "rules",
+    "description": "Starship scale: Frigates / fortresses (< 512ft, < 16K tons); x40 scale, +32 Str, -32 Combat, Proximity Damage (16ft).",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Scale: Enormous (x40)\n\n**Category**: Starship Scale Matrix (1.10 SCALING)\n\n## Canonical Modifiers\n- **Scaling Modifier**: x40\n- **Strength Modifier**: +32\n- **Combat Modifier**: -32\n- **Stealth Modifier**: NO\n- **Dimensions**: < 512 ft | < 16,000 tons\n- **Starship Proximity Damage**: 1/10 indirect splash damage within 16 ft radius (half Strength Modifier)."
+  },
+  {
+    "id": "rule-scale-fine",
+    "name": "Scale: Fine (-4ds / 1/6)",
+    "category": "rules",
+    "description": "Fine scale (< 6in, < 1/8 lb, 6in reach); -4ds (1/6) scale, -16 Str, +16 Combat, +16 Stealth.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Scale: Fine (-4ds / 1/6)\n\n**Category**: Core Scaling & Size Matrix (1.10 SCALING)\n\n## Canonical Modifiers\n- **Scaling Modifier**: -4ds (1/6)\n- **Strength Modifier**: -16\n- **Combat Modifier**: +16 (Unopposed Target Size CR Mod: -16)\n- **Stealth Modifier**: +16\n- **Dimensions**: < 6 in | < 1/8 lb | Reach: 6 in"
   },
   {
     "id": "rule-scale-gargantuan",
     "name": "Scale: Gargantuan (x10)",
     "category": "rules",
-    "description": "Dropships / gunships; x10 damage, +8 defense modifier.",
+    "description": "Dropships / gunships (< 64ft, < 125 tons, 20ft reach); x10 scale, +8 Str, -8 Combat, -16 Stealth.",
     "costs": {
       "cp": 0,
       "bp": 0
     },
     "modifiers": [],
-    "body": "# Scale: Gargantuan (x10)\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\nDropships / gunships; x10 damage, +8 defense modifier."
+    "body": "# Scale: Gargantuan (x10)\n\n**Category**: Core Scaling & Size Matrix (1.10 SCALING)\n\n## Canonical Modifiers\n- **Scaling Modifier**: x10\n- **Strength Modifier**: +8\n- **Combat Modifier**: -8 (Unopposed Target Size CR Mod: +8)\n- **Stealth Modifier**: -16\n- **Dimensions**: < 64 ft | < 125 tons | Reach: 20 ft"
   },
   {
     "id": "rule-scale-huge",
     "name": "Scale: Huge (x5)",
     "category": "rules",
-    "description": "Walker mecha / tanks; x5 damage, +4 defense modifier.",
+    "description": "Walker mecha / tanks (< 32ft, < 16 tons, 15ft reach); x5 scale, +4 Str, -4 Combat, -8 Stealth.",
     "costs": {
       "cp": 0,
       "bp": 0
     },
     "modifiers": [],
-    "body": "# Scale: Huge (x5)\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\nWalker mecha / tanks; x5 damage, +4 defense modifier."
+    "body": "# Scale: Huge (x5)\n\n**Category**: Core Scaling & Size Matrix (1.10 SCALING)\n\n## Canonical Modifiers\n- **Scaling Modifier**: x5\n- **Strength Modifier**: +4\n- **Combat Modifier**: -4 (Unopposed Target Size CR Mod: +4)\n- **Stealth Modifier**: -8\n- **Dimensions**: < 32 ft | < 16 tons | Reach: 15 ft"
   },
   {
     "id": "rule-scale-large",
     "name": "Scale: Large (x2)",
     "category": "rules",
-    "description": "Power armor / bikes; x2 damage, +2 defense modifier.",
+    "description": "Power armor / heavy quadruped (< 16ft, < 2 tons, 10ft reach); x2 scale, +2 Str, -2 Combat, -4 Stealth.",
     "costs": {
       "cp": 0,
       "bp": 0
     },
     "modifiers": [],
-    "body": "# Scale: Large (x2)\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\nPower armor / bikes; x2 damage, +2 defense modifier."
+    "body": "# Scale: Large (x2)\n\n**Category**: Core Scaling & Size Matrix (1.10 SCALING)\n\n## Canonical Modifiers\n- **Scaling Modifier**: x2\n- **Strength Modifier**: +2\n- **Combat Modifier**: -2 (Unopposed Target Size CR Mod: +2)\n- **Stealth Modifier**: -4\n- **Dimensions**: < 16 ft | < 2 tons | Reach: 10 ft"
   },
   {
     "id": "rule-scale-medium",
-    "name": "Scale: Medium (x1)",
+    "name": "Scale: Medium (Base x1)",
     "category": "rules",
-    "description": "Human baseline; x1 damage, 0 defense modifier.",
+    "description": "Human baseline (< 8ft, < 500 lbs, 5ft reach); x1 scale, 0 Str, 0 Combat, 0 Stealth.",
     "costs": {
       "cp": 0,
       "bp": 0
     },
     "modifiers": [],
-    "body": "# Scale: Medium (x1)\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\nHuman baseline; x1 damage, 0 defense modifier."
+    "body": "# Scale: Medium (Base x1)\n\n**Category**: Core Scaling & Size Matrix (1.10 SCALING)\n\n## Canonical Modifiers\n- **Scaling Modifier**: Base (x1)\n- **Strength Modifier**: +/-0\n- **Combat Modifier**: +/-0\n- **Stealth Modifier**: +/-0\n- **Dimensions**: < 8 ft | < 500 lbs | Reach: 5 ft"
+  },
+  {
+    "id": "rule-scale-mega-colossal",
+    "name": "Scale: Mega Colossal (x320)",
+    "category": "rules",
+    "description": "Starship scale: World-ships / orbital rings (1 Mile+, 50M+ tons); x320 scale, +256 Str, -256 Combat, Proximity Damage (128ft).",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Scale: Mega Colossal (x320)\n\n**Category**: Starship Scale Matrix (1.10 SCALING)\n\n## Canonical Modifiers\n- **Scaling Modifier**: x320\n- **Strength Modifier**: +256\n- **Combat Modifier**: -256\n- **Stealth Modifier**: NO\n- **Dimensions**: 1 Mile+ | 50M tons+\n- **Starship Proximity Damage**: 1/10 indirect splash damage within 128 ft radius (half Strength Modifier)."
   },
   {
     "id": "rule-scale-miniscule",
-    "name": "Scale: Miniscule (x1/8)",
+    "name": "Scale: Miniscule (-5ds / 1/12)",
     "category": "rules",
-    "description": "Micro-drones; x1/8 damage, -32 defense modifier.",
+    "description": "Microscopic / insect scale (< 1in, < 1 oz, 1in reach); -5ds (1/12) scale, -32 Str, +32 Combat, +20 Stealth.",
     "costs": {
       "cp": 0,
       "bp": 0
     },
     "modifiers": [],
-    "body": "# Scale: Miniscule (x1/8)\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\nMicro-drones; x1/8 damage, -32 defense modifier."
+    "body": "# Scale: Miniscule (-5ds / 1/12)\n\n**Category**: Core Scaling & Size Matrix (1.10 SCALING)\n\n## Canonical Modifiers\n- **Scaling Modifier**: -5ds (1/12)\n- **Strength Modifier**: -32\n- **Combat Modifier**: +32 (Unopposed Target Size CR Mod: -32)\n- **Stealth Modifier**: +20\n- **Dimensions**: < 1 in | < 1 oz | Reach: 1 in"
   },
   {
     "id": "rule-scale-small",
-    "name": "Scale: Small (x1/2)",
+    "name": "Scale: Small (-1ds / 2/3)",
     "category": "rules",
-    "description": "Halflings / turrets; x1/2 damage, -2 defense modifier.",
+    "description": "Small scale (< 4ft, < 60 lbs, 3ft reach); -1ds (2/3) scale, -2 Str, +2 Combat, +4 Stealth.",
     "costs": {
       "cp": 0,
       "bp": 0
     },
     "modifiers": [],
-    "body": "# Scale: Small (x1/2)\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\nHalflings / turrets; x1/2 damage, -2 defense modifier."
+    "body": "# Scale: Small (-1ds / 2/3)\n\n**Category**: Core Scaling & Size Matrix (1.10 SCALING)\n\n## Canonical Modifiers\n- **Scaling Modifier**: -1ds (2/3)\n- **Strength Modifier**: -2\n- **Combat Modifier**: +2 (Unopposed Target Size CR Mod: -2)\n- **Stealth Modifier**: +4\n- **Dimensions**: < 4 ft | < 60 lbs | Reach: 3 ft"
+  },
+  {
+    "id": "rule-scale-super-gargantuan",
+    "name": "Scale: Super Gargantuan (x160)",
+    "category": "rules",
+    "description": "Starship scale: Dreadnoughts / colony spires (< 5,280ft, < 50M tons); x160 scale, +128 Str, -128 Combat, Proximity Damage (64ft).",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Scale: Super Gargantuan (x160)\n\n**Category**: Starship Scale Matrix (1.10 SCALING)\n\n## Canonical Modifiers\n- **Scaling Modifier**: x160\n- **Strength Modifier**: +128\n- **Combat Modifier**: -128\n- **Stealth Modifier**: NO\n- **Dimensions**: < 5,280 ft (1 Mile) | < 50M tons\n- **Starship Proximity Damage**: 1/10 indirect splash damage within 64 ft radius (half Strength Modifier)."
   },
   {
     "id": "rule-scale-tiny",
-    "name": "Scale: Tiny (x1/4)",
+    "name": "Scale: Tiny (-2ds / 1/2)",
     "category": "rules",
-    "description": "Cat / small drones; x1/4 damage, -4 defense modifier.",
+    "description": "Tiny scale (< 2ft, < 8 lbs, 2ft reach); -2ds (1/2) scale, -4 Str, +4 Combat, +8 Stealth.",
     "costs": {
       "cp": 0,
       "bp": 0
     },
     "modifiers": [],
-    "body": "# Scale: Tiny (x1/4)\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\nCat / small drones; x1/4 damage, -4 defense modifier."
+    "body": "# Scale: Tiny (-2ds / 1/2)\n\n**Category**: Core Scaling & Size Matrix (1.10 SCALING)\n\n## Canonical Modifiers\n- **Scaling Modifier**: -2ds (1/2)\n- **Strength Modifier**: -4\n- **Combat Modifier**: +4 (Unopposed Target Size CR Mod: -4)\n- **Stealth Modifier**: +8\n- **Dimensions**: < 2 ft | < 8 lbs | Reach: 2 ft"
+  },
+  {
+    "id": "rule-scale-titanic",
+    "name": "Scale: Titanic (x80)",
+    "category": "rules",
+    "description": "Starship scale: Cruisers / stations (< 1,024ft, < 144K tons); x80 scale, +64 Str, -64 Combat, Proximity Damage (32ft).",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Scale: Titanic (x80)\n\n**Category**: Starship Scale Matrix (1.10 SCALING)\n\n## Canonical Modifiers\n- **Scaling Modifier**: x80\n- **Strength Modifier**: +64\n- **Combat Modifier**: -64\n- **Stealth Modifier**: NO\n- **Dimensions**: < 1,024 ft | < 144,000 tons\n- **Starship Proximity Damage**: 1/10 indirect splash damage within 32 ft radius (half Strength Modifier)."
   },
   {
     "id": "rule-scaling-combat",

@@ -13,7 +13,7 @@ recommended_species:
   - Sha'nor
   - Whisper
   - Rautha Human
-  - Nocturne (Kovian)
+  - Kovian
 recommended_factions:
   - The Outworlds
   - Incorporated Planetary Syndication (The Syndicate)

@@ -39,7 +39,7 @@ recommended_species:
   - Kannid
   - Kizin
   - Danai (Davae Hybrid)
-  - Nocturne (Kovian)
+  - Kovian
 recommended_factions:
   - Incorporated Planetary Syndication (The Syndicate)
   - Coalition of Independent Worlds

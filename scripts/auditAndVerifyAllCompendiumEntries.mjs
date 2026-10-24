@@ -1,11 +1,15 @@
-﻿import fs from 'fs';
+import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const seedPath = path.resolve(__dirname, '../src/data/compendiumSeed.json');
+const projectRoot = path.resolve(__dirname, '..');
+const rulesDir = path.join(projectRoot, 'docs', 'game rules');
+const seedPath = path.join(projectRoot, 'src', 'data', 'compendiumSeed.json');
+const compendiumMdDir = path.join(projectRoot, 'src', 'data', 'omnicortex', 'compendium');
+
 const articles = JSON.parse(fs.readFileSync(seedPath, 'utf-8'));
 
 console.log("=================================================================");
@@ -26,41 +30,92 @@ function assert(condition, testName, details = '') {
   }
 }
 
-// 1. Check Scaling Rule 0.06 & 1.10
-const scaling006 = articles.find(a => a.id === '0-06-system-scaling-matrix');
-assert(scaling006, '0.06 Scaling article exists');
-assert(scaling006 && scaling006.description.includes('Miniscule') && scaling006.description.includes('Mega Colossal'), 
-  '0.06 contains 14-Tier Size Matrix', 
-  'Expected 14 size tiers from Miniscule to Mega Colossal');
-assert(scaling006 && !scaling006.description.includes('Armor Hardness Multiplier'), 
-  '0.06 has zero synthetic Armor Hardness Multiplier stubs');
-assert(scaling006 && scaling006.description.includes('Proximity Damage'), 
-  '0.06 includes Starship Proximity Damage rules');
-
+// 1. Check Scaling Rule 1.10
 const docScaling = articles.find(a => a.id === 'doc-operator-1-10-scaling');
-assert(docScaling, 'Canonical 1.10 SCALING source doc exists in compendium');
-assert(docScaling && docScaling.description.length === 7264, '1.10 SCALING has 100% full text fidelity (7,264 chars)');
+assert(Boolean(docScaling), 'Canonical 1.10 SCALING source doc exists in compendium');
+assert(
+  Boolean(docScaling && docScaling.description.includes('Miniscule') && docScaling.description.includes('Mega Colossal')),
+  '1.10 SCALING contains 14-Tier Size Matrix',
+  'Expected 14 size tiers from Miniscule to Mega Colossal'
+);
+assert(
+  Boolean(docScaling && docScaling.description.includes('Proximity Damage')),
+  '1.10 SCALING includes Starship Proximity Damage rules'
+);
 
-// 2. Check Combat Attack Engine
-const combatOverview = articles.find(a => a.id === '3-00-00-tactical-combat-overview');
-assert(combatOverview && combatOverview.mechanic.includes('2d10'), '3.00 Combat overview uses 2d10 core engine');
-const operatorManual = articles.find(a => a.id === '0-01-operator-reference-manual');
-assert(operatorManual && operatorManual.mechanic.includes('2d10'), '0.01 Operator Manual uses 2d10 for combat attack checks');
+// 2. Check Combat Attack Engine (3.00 COMBAT)
+const combatDoc = articles.find(a => a.id === 'doc-operator-3-00-combat');
+assert(Boolean(combatDoc && combatDoc.description.includes('2d10')), '3.00 COMBAT uses 2d10 core engine');
+assert(Boolean(combatDoc && combatDoc.description.includes('DEFENDER WINS ALL TIES')), '3.00 COMBAT enforces DEFENDER WINS ALL TIES');
 
-// 3. Check Economatrix Golden Rule
-const econ00 = articles.find(a => a.id === '2-00-economatrix-system-overview');
-assert(econ00 && !econ00.mechanic.includes('d20 + Wealth Score'), '2.00 Economatrix does not use synthetic d20 Wealth roll');
-assert(econ00 && econ00.mechanic.includes('Static check') || econ00.description.includes('DC/5'), '2.00 Economatrix adheres to Tangent Standard Curve');
+// 3. Check Economatrix & EUFT (2.00 ECONOMATRIX & 02 ECONOMY AND WEALTH)
+const econDoc = articles.find(a => a.id === 'doc-operator-2-00-economatrix');
+const archEconDoc = articles.find(a => a.id === 'doc-architect-02-economy-and-wealth');
+assert(Boolean(econDoc && archEconDoc), '2.00 ECONOMATRIX and 02 ECONOMY AND WEALTH exist in compendium');
+assert(Boolean(archEconDoc && archEconDoc.description.includes('Tangent Standard Curve')), '02 ECONOMY AND WEALTH adheres to Tangent Standard Curve');
 
-// 4. Check All 30 Canonical Source Files
-const all30Docs = articles.filter(a => a.id.startsWith('doc-'));
-assert(all30Docs.length === 30, `All 30 source-of-truth documents registered (got ${all30Docs.length}/30)`);
+// 4. Check All 270 Canonical Source Files (224 Operator + 46 Architect)
+function scanRuleFiles(dir) {
+  const discovered = [];
+  function traverse(currentDir, relBranch = '') {
+    for (const entry of fs.readdirSync(currentDir, { withFileTypes: true })) {
+      const fullPath = path.join(currentDir, entry.name);
+      if (entry.isDirectory()) {
+        traverse(fullPath, relBranch ? `${relBranch}/${entry.name}` : entry.name);
+      } else if (entry.isFile() && entry.name.toLowerCase().endsWith('.md') && !entry.name.startsWith('.')) {
+        const normalizedRelBranch = relBranch.replace(/\\/g, '/');
+        discovered.push({
+          fullPath,
+          fileName: entry.name,
+          relPath: `${normalizedRelBranch}/${entry.name}`
+        });
+      }
+    }
+  }
+  traverse(dir);
+  return discovered;
+}
 
-// 5. Total Compendium Volume
-assert(articles.length >= 149, `Total compendium articles count (got ${articles.length})`);
+const diskRuleFiles = scanRuleFiles(rulesDir);
+assert(articles.length === diskRuleFiles.length, `1-to-1 file parity between docs/game rules and compendiumSeed.json (${articles.length}/${diskRuleFiles.length})`);
+
+const opArticles = articles.filter(a => a.id.startsWith('doc-operator-'));
+const archArticles = articles.filter(a => a.id.startsWith('doc-architect-'));
+assert(opArticles.length === 224, `All 224 Operator rulebook & modular articles registered (got ${opArticles.length}/224)`);
+assert(archArticles.length === 46, `All 46 Architect matrix & modular articles registered (got ${archArticles.length}/46)`);
+
+// 5. Verify 100% Exact Content Fidelity against docs/game rules/*.md
+const byRelPath = new Map(articles.map(a => [a.relPath.toLowerCase(), a]));
+let contentMismatches = 0;
+for (const rf of diskRuleFiles) {
+  const art = byRelPath.get(rf.relPath.toLowerCase());
+  if (!art || art.description !== fs.readFileSync(rf.fullPath, 'utf8')) {
+    contentMismatches++;
+  }
+}
+assert(contentMismatches === 0, `100% byte-for-byte text fidelity across all ${diskRuleFiles.length} rulebook .md files (mismatches: ${contentMismatches})`);
+
+// 6. Verify OmniCortex Compendium Markdown Directory Parity
+const compendiumMdFiles = fs.readdirSync(compendiumMdDir).filter(f => f.endsWith('.md'));
+assert(compendiumMdFiles.length === articles.length, `OmniCortex compendium/*.md count matches compendiumSeed.json (${compendiumMdFiles.length}/${articles.length})`);
+
+// 7. Verify Parent-Child Hierarchy & Clean Titles
+const validRoots = new Set([
+  '1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)',
+  '5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)'
+]);
+const byId = new Map(articles.map(a => [a.id, a]));
+const brokenParents = articles.filter(a => !validRoots.has(a.parent) && !byId.has(a.parent));
+assert(brokenParents.length === 0, `Zero broken parent links in Compendium hierarchy (broken: ${brokenParents.length})`);
+
+const criminalOcc = articles.find(a => a.id === 'doc-operator-1-06-criminal');
+assert(criminalOcc && criminalOcc.name === '1.06 Criminal', `Occupation Criminal title is clean ("${criminalOcc?.name}")`);
+
+const planetaryAstro = articles.find(a => a.id === 'doc-architect-99-planetary-astrophysicsandgeophysics');
+assert(planetaryAstro && planetaryAstro.name === '99. Planetary: Astrophysics, Geophysics & Biosphere', `Planetary Matrix title is clean ("${planetaryAstro?.name}")`);
 
 console.log("\n=================================================================");
-console.log(`AUDIT RESULTS: ${passedTests}/${totalTests} tests passed (${((passedTests/totalTests)*100).toFixed(1)}%)`);
+console.log(`AUDIT RESULTS: ${passedTests}/${totalTests} tests passed (${((passedTests / totalTests) * 100).toFixed(1)}%)`);
 console.log("=================================================================");
 
 if (passedTests < totalTests) process.exit(1);

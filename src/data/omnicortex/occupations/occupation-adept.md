@@ -45,7 +45,7 @@ costs:
   bp: 0
 modifiers: []
 recommended_species:
-  - Celestine (Alterian)
+  - Alterian
   - Whisper
   - Fey (Base)
   - Sigal
@@ -58,7 +58,7 @@ recommended_species:
 recommended_factions:
   - The Alterian Enclave
   - The Ascendancy
-  - Elven Providence
+  - Aeld Providence
   - Dracon Dynasty
   - Supernatural Faction Template
   - Space Religion Faction Template

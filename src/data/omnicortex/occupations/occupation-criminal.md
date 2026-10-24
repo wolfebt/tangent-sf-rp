@@ -50,7 +50,7 @@ recommended_species:
   - Doppelganger (Shifter)
   - Changeling (Doppelganger Hybrid)
   - Scrap (Junkframe Synthetic)
-  - Nocturne (Kovian)
+  - Kovian
   - Cyberform Human
   - Danai (Davae Hybrid)
   - Kizin

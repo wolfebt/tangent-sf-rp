@@ -2271,10 +2271,10 @@ export const SPECIES_TRAITS_ADVANCED = [
       "bp": 5
     },
     "is_ranked": false,
-    "desc": "The foundational biological and metaphysical chassis of the elven race.",
-    "description": "The foundational biological and metaphysical chassis of the elven race.",
-    "mechanics": "The foundational biological and metaphysical chassis of the elven race.",
-    "mechanic": "The foundational biological and metaphysical chassis of the elven race.",
+    "desc": "The foundational biological and metaphysical chassis of the Aeld lineage.",
+    "description": "The foundational biological and metaphysical chassis of the Aeld lineage.",
+    "mechanics": "The foundational biological and metaphysical chassis of the Aeld lineage.",
+    "mechanic": "The foundational biological and metaphysical chassis of the Aeld lineage.",
     "rules": "Advanced Species Trait (5 CP).",
     "special_rules": "Advanced Species Trait (5 CP).",
     "modifiers": [
@@ -2319,7 +2319,7 @@ export const SPECIES_TRAITS_ADVANCED = [
         "cp": 2
       }
     ],
-    "body": "# Aeld Lineage Traits\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 5\n\n## Description\nThe foundational biological and metaphysical chassis of the elven race.\n\n## Mechanics & Benefit\nThe foundational biological and metaphysical chassis of the elven race.",
+    "body": "# Aeld Lineage Traits\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 5\n\n## Description\nThe foundational biological and metaphysical chassis of the Aeld lineage.\n\n## Mechanics & Benefit\nThe foundational biological and metaphysical chassis of the Aeld lineage.",
     "notes": "[Modifier] Awakened (Arcane) [2 CP]\n[Modifier] Immune to Sleep\n[Rule] Advanced Species Trait (5 CP).",
     "notesList": [
       "[Modifier] Awakened (Arcane) [2 CP]",
@@ -13466,10 +13466,10 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 5
     },
     "is_ranked": false,
-    "desc": "The foundational biological and metaphysical chassis of the elven race.",
-    "description": "The foundational biological and metaphysical chassis of the elven race.",
-    "mechanics": "The foundational biological and metaphysical chassis of the elven race.",
-    "mechanic": "The foundational biological and metaphysical chassis of the elven race.",
+    "desc": "The foundational biological and metaphysical chassis of the Aeld lineage.",
+    "description": "The foundational biological and metaphysical chassis of the Aeld lineage.",
+    "mechanics": "The foundational biological and metaphysical chassis of the Aeld lineage.",
+    "mechanic": "The foundational biological and metaphysical chassis of the Aeld lineage.",
     "rules": "Advanced Species Trait (5 CP).",
     "special_rules": "Advanced Species Trait (5 CP).",
     "modifiers": [
@@ -13514,7 +13514,7 @@ export const ALL_CANONICAL_TRAITS = [
         "cp": 2
       }
     ],
-    "body": "# Aeld Lineage Traits\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 5\n\n## Description\nThe foundational biological and metaphysical chassis of the elven race.\n\n## Mechanics & Benefit\nThe foundational biological and metaphysical chassis of the elven race.",
+    "body": "# Aeld Lineage Traits\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 5\n\n## Description\nThe foundational biological and metaphysical chassis of the Aeld lineage.\n\n## Mechanics & Benefit\nThe foundational biological and metaphysical chassis of the Aeld lineage.",
     "notes": "[Modifier] Awakened (Arcane) [2 CP]\n[Modifier] Immune to Sleep\n[Rule] Advanced Species Trait (5 CP).",
     "notesList": [
       "[Modifier] Awakened (Arcane) [2 CP]",

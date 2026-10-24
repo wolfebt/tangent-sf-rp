@@ -9,8 +9,8 @@ type:
 size:
   - species_size-tiny
 movement:
-  - species_movement-flight
-speeds: Flight 60 ft
+  - species_movement-bipedal
+speeds: '30 ft Flyspeed, 10 ft Groundspeed'
 reach: 2 ft
 senses: 'Low-light vision. [1]'
 immunities: None
@@ -20,11 +20,7 @@ inherent_attribute_modifiers:
   - attribute: Charisma
     bonus: 1
 bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Alertness
-    bonus: 2
-  - skill: Communication
-    bonus: 1
+specific_skill_bonuses: []
 bonus_skills: 10
 bonus_skill_choices:
   - Alertness
@@ -33,17 +29,18 @@ bonus_skill_choices:
   - Navigation
   - Attune
 inherent_features: []
-bonus_features: []
+bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Discipline Features
+  - Awakened
   - Fast Heal
   - Karma Features
-  - Stealthy
-stigma: 'Animal (-2), Xeno (-2)'
-tech_level: 3 (Crystal Transceivers)
-meta_level: 4 (Aero-Psionics & Telepathy)
-homeworld: Aethel-Crest (The Floating Archipelago)
+  - Regeneration
+disadvantages: []
+stigma: 'Xeno (-2), Animal (-2)'
+tech_level: '1'
+meta_level: '5'
+homeworld: Twilight Aerie Grottos
 costs:
   cp: 41
   bp: 41
@@ -52,35 +49,79 @@ modifiers:
     value: 1
     type: attribute
     mode: inherent
+    description: +1 Intellect
   - target: Charisma
     value: 1
     type: attribute
     mode: inherent
-  - target: Strength
-    value: -4
-    type: attribute
-    mode: size_modifier
-  - target: Combat / Defense
-    value: 4
-    type: combat
-    mode: size_modifier
-  - target: Stealth
-    value: 8
+    description: +1 Charisma
+  - target: Any
+    value: 10
     type: skill
-    mode: size_modifier
+    mode: bonus_pool
+    description: +10 Skill Points
+  - target: Ageless
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Awakened
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Discipline Features (all Features and Invocations)
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Fast Heal
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Immortal
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Karma Features
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Obfuscate
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Regeneration
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Main deity is Shal’Vir the Scripted Fate
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Hatched from fruit rich in magic
+    value: 1
+    type: feature
+    mode: recommended
 description: >-
-  Frellin are feathered, telepathic avian fey of tiny stature. Renowned scouts,
-  messengers, and navigators, they read wind currents and psychic frequencies
-  with equal precision.
-traits:
+  The Frellin are a remarkable and distinct species classified as tiny, yet
+  highly intelligent, Avian Fey. These creatures are instantly recognizable by
+  their extraordinary avian appearance, characterized by a vibrant, multicolored
+  plumage that shimmers with an inherent magical light, making them a truly
+  magnificent sight. Their bright, golden eyes are intensely perceptive, hinting
+  at the deep arcane knowledge they possess. Renowned throughout the realms for
+  their sharp intellect and natural affinity for the mystical arts, the Frellin
+  are considered exceptionally skilled in the arcane, often acting as observers
+  or subtle influencers in events beyond the ken of larger, less sensitive
+  beings.
+traits: &ref_0
   - trait-asi-base-traits
   - trait-awakened-arcane
-  - trait-dark-sight
   - trait-mind-speech
+  - trait-flight
+  - trait-dark-sight
+species_traits: *ref_0
 recommended_factions:
   - The Entari Combine
   - Coalition of Independent Worlds
-  - Elven Providence
+  - Aeld Providence
 recommended_origins:
   - Colony
   - Spacer
@@ -91,55 +132,99 @@ recommended_occupations:
   - Adept
 keywords: 'avian, feathered, telepathic, flight, messenger, wind-currents, sensory, tiny'
 negative_keywords: 'subterranean, heavy-armor, claustrophile, brute-force, slow'
-species_traits:
-  - trait-asi-base-traits
-  - trait-awakened-arcane
-  - trait-dark-sight
-  - trait-mind-speech
 cp: 41
 bp: 41
 cp_cost: 41
 ---
 
-# Frellin (Avian Fey)
+# **FRELLIN \***
 
-*
+# **FRELLIN \***
 
-**CP Cost:** 37 CP  
-**Description:** The Frellin are a remarkable and distinct species classified as tiny, yet highly intelligent, Avian Fey. These creatures are instantly recognizable by their extraordinary appearance, characterized by a vibrant, multicolored plumage that shimmers with an inherent magical light, making them a truly magnificent sight. Their bright, golden eyes are intensely perceptive, hinting at the deep arcane knowledge they possess. Renowned throughout the realms for their sharp intellect and natural affinity for the mystical arts, the Frellin are considered exceptionally skilled in the arcane, often acting as observers or subtle influencers in events beyond the ken of larger, less sensitive beings.
+&nbsp;
 
-**Classification:** Avian Fey  
-**Size:** Tiny  
+**CP Cost:**&nbsp;
+
+**Description:** The Frellin are a remarkable and distinct species classified as tiny, yet highly intelligent, Avian Fey. These creatures are instantly recognizable by their extraordinary avian appearance, characterized by a vibrant, multicolored plumage that shimmers with an inherent magical light, making them a truly magnificent sight. Their bright, golden eyes are intensely perceptive, hinting at the deep arcane knowledge they possess. Renowned throughout the realms for their sharp intellect and natural affinity for the mystical arts, the Frellin are considered exceptionally skilled in the arcane, often acting as observers or subtle influencers in events beyond the ken of larger, less sensitive beings.
+
+&nbsp;
+
+&nbsp;
+
+**Classification:** Avian Fey
+
+**Size:** Tiny
+
 **Movement:** 30ft Flyspeed, 10ft Groundspeed
 
-**Tech Level:** 1  
+&nbsp;
+
+**Tech Level:** 1
+
 **Meta Level:** 5
 
-**Homeworld:** Frodleikr, an unknown world they claim as home.  
+&nbsp;
+
+**Homeworld:** Frodleikr, an unknown world they claim as home.
+
 **Stigma:** Xeno, Animal
 
-**Ability Modifiers:**   
-\+1 Int  
+&nbsp;
+
+**Ability Modifiers:**&nbsp;
+
+\+1 Int
+
 \+1 Cha
 
-**Skills:**   
+&nbsp;
+
+**Skills:**&nbsp;
+
 \+10 Skills
 
-**Species Features:**   
-Awakened (Arcane)  
-Telepathy (Special)  
-Flight (Wings)  
+&nbsp;
+
+**Species Features:**&nbsp;
+
+Awakened (Arcane)
+
+Telepathy (Special)
+
+Flight (Wings)
+
 Darksight (Special)
 
-**Recommended Features:**   
-Ageless  
-Awakened (Arcane, any Discipline)  
-Discipline Features (all Features and Invocations)  
-Fast Heal  
-Immortal  
-Karma Features  
-Obfuscate  
+&nbsp;
+
+**Recommended Features:**&nbsp;
+
+Ageless
+
+Awakened (Arcane, any Discipline)
+
+Discipline Features (all Features and Invocations)
+
+Fast Heal
+
+Immortal
+
+Karma Features
+
+Obfuscate
+
 Regeneration
 
-Main deity is Shal’Vir the Scripted Fate  
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+Main deity is Shal’Vir the Scripted Fate
+
 Hatched from fruit rich in magic
+
+&nbsp;
+
+&nbsp;

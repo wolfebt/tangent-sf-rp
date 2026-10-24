@@ -23,7 +23,7 @@ skill_package:
   - Combat (Guerrilla) (+4)
   - Bluff (+4)
   - Streetwise (+3)
-recommended_features:
+recommended_features: &ref_0
   - Sneak Attack
   - Evasiveness
   - Weapon Improvisation
@@ -32,19 +32,8 @@ recommended_features:
   - Danger Sense
   - Runner
   - Nimble Fingers
-  - Street-Smart
   - Blind-Fight
-features:
-  - Sneak Attack
-  - Evasiveness
-  - Weapon Improvisation
-  - Deceitful
-  - Inspiring Personality
-  - Danger Sense
-  - Runner
-  - Nimble Fingers
-  - Street-Smart
-  - Blind-Fight
+features: *ref_0
 bonus_features:
   - Sneak Attack
 description: >-

@@ -10,7 +10,7 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-speeds: Ground 30 ft
+speeds: 30 ft Groundspeed
 reach: 5 ft
 senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
 immunities: >-
@@ -20,9 +20,7 @@ inherent_attribute_modifiers:
   - attribute: Charisma
     bonus: -2
 bonus_attribute_points: 4
-specific_skill_bonuses:
-  - skill: Vocation (Administration/Service)
-    bonus: 2
+specific_skill_bonuses: []
 bonus_skills: 10
 bonus_skill_choices:
   - Vocation
@@ -31,33 +29,74 @@ bonus_skill_choices:
   - Medicine
   - Law
 inherent_features: []
-bonus_features: []
+bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Connected
-  - Educated
-  - Lightning Calculator
-  - Silver Tongue
+  - Bodyform Features
+disadvantages: []
 stigma: 'Severe Synthetic (-4), Anti-Organic (-2)'
-tech_level: 4 (High-Density Directive Processing)
-meta_level: 0 (Null)
-homeworld: Megacorp Headquarters
+tech_level: '5'
+meta_level: '0'
+homeworld: Mekan Prime
 costs:
-  cp: 50
-  bp: 50
+  cp: 49
+  bp: 49
 modifiers:
   - target: Charisma
     value: -2
     type: attribute
     mode: inherent
+    description: '-2 Charisma'
+  - target: Any
+    value: 4
+    type: attribute
+    mode: bonus_pool
+    description: +4 Flexible Attribute Points
+  - target: Any
+    value: 10
+    type: skill
+    mode: bonus_pool
+    description: +10 Skill Points
+  - target: Adapted
+    value: 1
+    type: feature
+    mode: recommended
+  - target: 'Alter Form (Advanced, remains mechanical but changes form/function)'
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Bodyform Features
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Exoskeleton (Heavy)
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Flight (Grav)
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Size (Large)
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Size (Small)
+    value: 1
+    type: feature
+    mode: recommended
+  - target: '---'
+    value: 1
+    type: feature
+    mode: recommended
 description: >-
-  Protocol units are dedicated administrative, medical, or security automatons
-  built with rigid programming directives and extensive skill libraries.
+  Robotic Race originally created to be the Mekan War Machine, eventually
+  becoming self-aware and independent.
 traits: &ref_0
-  - trait-adaptive-features
-  - trait-emissary
   - trait-synthetic-base-traits
+  - trait-adaptive-features
   - trait-synthetic-tech-assim
+species_traits: *ref_0
 recommended_factions:
   - Corporate Faction Template
   - The Syndicate
@@ -73,75 +112,85 @@ keywords: >-
   directive-processing, medical-protocol, administrative-bot, precision-servant,
   etiquette
 negative_keywords: 'rogue-anarchy, combat-frenzy, wilderness'
-species_traits: *ref_0
-cp: 50
-bp: 50
-cp_cost: 50
+cp: 49
+bp: 49
+cp_cost: 49
 ---
 
 # Protocol (Specialized Directive Unit)
 
-*
+## PROTOCOL
 
-### ***SKINS \****
+&nbsp;
 
-# 
+**CP Cost:**&nbsp;
 
-**CP Cost:** 30 CP  
-**Description:** Experimental design to be more Human like in form and function, for various reasons including infiltration. No obvious distinguishable traits showing mechanical nature. Casual observation will not show any sign of being a Synthetic, a cursory exam will require DC 30, Technical Scanner with a DC 25 and Biomed Scanners with a DC 20 \- medical treatment will also reveal nature to the physician (although wounds would outwardly be ‘normal’ with loss of fluids included \[limited blood simulation\]).
+**Description:** Robotic Race originally created to be the Mekan War Machine, eventually becoming self-aware and independent.&nbsp;
 
-*Heals as a typical human, with repair using nanotechnology.*   
-*May take any Features as if organic and Synthetic Features as well, may incorporate Biotech Augmentations as if organic.*
+Most will self redesigned with possible non-humanoid/hybrid forms and features
 
-**Classification:** Synthetic Humanoid  
-**Size:** Medium  
+&nbsp;
+
+**Classification:** Synthetic
+
+**Size:** Medium
+
 **Movement:** 30 ft Groundspeed
 
-**Tech Level:** 4  
-**Meta Level:** 1
+&nbsp;
 
-**Homeworld:**   
-**Stigma:** Special \- Stigma (Infiltrator) IF Discovered and obvious other implications of an infiltrator
+**Tech Level:** 5
 
-**Ability Modifiers:**   
-\+2 Intellect
-
-**Skills:** 
-
-**Species Features:**   
-Alter Form (Basic only, Humanoid Disguise \+10)  
-Adaptive Aspects
-
-**Recommended Features:** 
-
-# **INTELLECT CONSTRUCT \* \*\*\*\***
-
-## **INTELLECT CONSTRUCT \* \*\*\*\***
-
-# 
-
-**CP Cost:**   
-**Description:** Conscious Algorithm housed within a structure or a mech. (the ‘Shell’). 
-
-**Classification:** Synthetic  
-**Size:** Actual core is Small in size but connected to and controlling huge complexes or vessels.  
-**Movement:** N/A
-
-**Tech Level:** 4  
 **Meta Level:** 0
 
-**Homeworld:**   
-**Stigma:** Severe Synthetic
+&nbsp;
 
-**Ability Modifiers:**   
-NO Physical Abilities \[75pt flaw \- effectively no physical form without the ‘Shell’\].  
-\+2 Int and additional \+8 to divide among any Mental Abilities (usually Int is primary if not the only increased score)
+**Homeworld:** Mekan Prime
 
-**Skills:**   
-\+40 Skills (including operation skills of their ‘Shell’, like Piloting, Navigation, Manufacture, Administration, etc)
+**Stigma:** Severe Synthetic and Anti-Organic Sentiments \[Original Enemies by design, specifically Mondi and humanoids in general\] \- Hatred (Minor)
 
-**Species Features:**   
-Communications (and Remote Links)  
-Companion \- Remotes/Drones
+&nbsp;
 
-**Recommended Features:**
+**Ability Modifiers:**&nbsp;
+
+\+4 Abilities
+
+\-2 Cha
+
+&nbsp;
+
+**Skills:**&nbsp;
+
+\+10 Skills
+
+&nbsp;
+
+**Species Features:**&nbsp;
+
+Mekan Traits
+
+Adaptive Aspects (allowing access to Skill, General and Species)
+
+Tech Assimilation&nbsp;
+
+&nbsp;
+
+**Recommended Features:**&nbsp;
+
+Adapted
+
+Alter Form (Advanced, remains mechanical but changes form/function)
+
+Bodyform Features
+
+Exoskeleton (Heavy)
+
+Flight (Grav)
+
+Size (Large)
+
+Size (Small)
+
+&nbsp;
+
+---

@@ -9,7 +9,7 @@ costs:
   bp: 0
 modifiers: []
 recommended_species:
-  - Celestine (Alterian)
+  - Alterian
   - Eidolon (Aetherion Specialist)
   - Whisper
   - Janissary (Gen-E)

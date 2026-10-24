@@ -15,7 +15,7 @@ discipline: Entropy + Dimension
 recommended_species:
   - Ila (Progenitor Archon)
   - Whisper
-  - Celestine (Alterian)
+  - Alterian
   - Varen (Gatekeeper)
 recommended_factions:
   - The Ascendancy

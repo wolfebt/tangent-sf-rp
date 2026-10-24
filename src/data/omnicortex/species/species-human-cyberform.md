@@ -10,7 +10,7 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-speeds: Ground 30 ft
+speeds: 30 ft Groundspeed
 reach: 5 ft
 senses: Standard visual and auditory range.
 immunities: None
@@ -18,11 +18,7 @@ inherent_attribute_modifiers:
   - attribute: Intellect
     bonus: 2
 bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Technology
-    bonus: 2
-  - skill: Hacking
-    bonus: 1
+specific_skill_bonuses: []
 bonus_skills: 10
 bonus_skill_choices:
   - Technology
@@ -30,35 +26,90 @@ bonus_skill_choices:
   - Science
   - Piloting
   - Engineering
-inherent_features: []
-bonus_features: []
+inherent_features:
+  - special-augmented
+  - special-companion
+bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Adaptive Aspects (Hive Memories)
-  - Jack of all trades
+  - Bodyform Features
   - Regeneration
   - Technologist
+disadvantages: []
 stigma: 'Xeno (-2), Augmented (-4)'
-tech_level: 4 (Advanced Cybernetics & Neural Sockets)
-meta_level: 0 (Null / Technological Optimization)
-homeworld: Cygnus Arcologies & Orbital Rings
+tech_level: '4'
+meta_level: '3'
+homeworld: Cygnus Arcologies & Orbital Rings (secluded research solar system)
 costs:
-  cp: 21
-  bp: 21
+  cp: 22
+  bp: 22
 modifiers:
   - target: Intellect
     value: 2
     type: attribute
     mode: inherent
+    description: +2 Intellect
+  - target: Any
+    value: 10
+    type: skill
+    mode: bonus_pool
+    description: +10 Skill Points
+  - target: special-augmented
+    value: 1
+    type: feature
+    mode: inherent
+  - target: special-companion
+    value: 1
+    type: feature
+    mode: inherent
+  - target: Adaptive Aspects (AI Network)
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Adaptive Skill Set (AI Network)
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Ageless
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Bodyform Features
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Heavy and Severe Augmentations
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Immortality
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Regeneration
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Synthetic Options
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Technologist
+    value: 1
+    type: feature
+    mode: recommended
 description: >-
-  Cyberforms are transhumans who have replaced upwards of 60% of their organic
-  bodies with cybernetic augmentations, internal processors, and sub-dermal
-  nano-repair hives.
+  Reclusive and highly advanced culture with adaptive picotech augmentations
+  integrated on a genetic level. Personal AIs bond with each infant for its
+  facilitation and also to voice any needs and opinions in the AI managed
+  society. Combines Cybernetic and Eudaimonic Societies, becoming an efficient
+  and benevolent democratic AI social focused government that promotes
+  fulfillment of an individual’s potential. A tolerant and understanding
+  culture, allowing individuals to pursue their own paths and wholly backed by
+  their system.
 traits: &ref_0
-  - trait-ageless
-  - trait-synthetic-armor-opts
   - trait-bodyform-adaptation
-  - trait-bonus-feature
+species_traits: *ref_0
 recommended_factions:
   - The Syndicate
   - Technological Faction Template
@@ -74,51 +125,93 @@ keywords: >-
   cyborg, neural-socket, optic-hub, titanium-replacement, high-tech,
   nanite-repair
 negative_keywords: 'nature-magic, emp-vulnerable, biological-purist, low-tech'
-species_traits: *ref_0
-cp: 21
-bp: 21
-cp_cost: 21
+cp: 22
+bp: 22
+cp_cost: 22
 ---
 
-# Cyberform Human (Transhuman Cyborg)
+# **CYBERFORM**
 
-**CP Cost:** 17 CP  
-**Description:** Reclusive and highly advanced culture with adaptive picotech augmentations integrated on a genetic level. Personal AIs bond with each infant for its facilitation and also to voice any needs and opinions in the AI managed society. Combines Cybernetic and Eudaimonic Societies, becoming an efficient and benevolent democratic AI social focused government that promotes fulfillment of an individual’s potential. A tolerant and understanding culture, allowing individuals to pursue their own paths and wholly backed by their system. 
+# **CYBERFORM**
 
-Have strong belief in governmental transparency and communal information while having personal privacy between individuals. The Network’s management council is composed of actual Synthetic Intellects and digitally converted Cyberforms, with constant communication from personal Body Computers. This allows the system to be highly efficient in maintaining the world’s infrastructure, transportation, logistics, communications, education, archives, etc. with the priority of ALL of its people’s needs, wants, and well being. 
+**CP Cost:**&nbsp;
 
-Originally was an Impyrium colony detached from politics and following the Code as shown by the Mekan.  Without the contact of other factions the society has become unique. Strong Transhumanistic beliefs throughout the entire culture with prominent augmentations, body replacements and some even becoming digital entities capable of changing bodies as needed or residing in the network. 
+**Description:** Reclusive and highly advanced culture with adaptive picotech augmentations integrated on a genetic level. Personal AIs bond with each infant for its facilitation and also to voice any needs and opinions in the AI managed society. Combines Cybernetic and Eudaimonic Societies, becoming an efficient and benevolent democratic AI social focused government that promotes fulfillment of an individual’s potential. A tolerant and understanding culture, allowing individuals to pursue their own paths and wholly backed by their system.&nbsp;
+
+&nbsp;
+
+Have strong belief in governmental transparency and communal information while having personal privacy between individuals. The Network’s management council is composed of actual Synthetic Intellects and digitally converted Cyberforms, with constant communication from personal Body Computers. This allows the system to be highly efficient in maintaining the world’s infrastructure, transportation, logistics, communications, education, archives, etc. with the priority of ALL of its people’s needs, wants, and well being.&nbsp;
+
+&nbsp;
+
+Originally was an Impyrium colony detached from politics and following the Code as shown by the Mekan.  Without the contact of other factions the society has become unique. Strong Transhumanistic beliefs throughout the entire culture with prominent augmentations, body replacements and some even becoming digital entities capable of changing bodies as needed or residing in the network.&nbsp;
+
+&nbsp;
 
 Androids are not manufactured by these people as they are pre Syndicate and any Synthetics they currently work with are Sentient Intellects and Machines, who do not suffer any stigma with Cyberform Humans.
 
-**Classification:** Humanoid  
-**Size:** Medium  
+&nbsp;
+
+**Classification:** Humanoid
+
+**Size:** Medium
+
 **Movement:** 30ft Groundspeed
 
-**Tech Level:** 4  
+&nbsp;
+
+**Tech Level:** 4
+
 **Meta Level:** 3
 
-**Homeworld:** (secluded outworld with a leisure/research culture \- collectively within their solar system)  
+&nbsp;
+
+**Homeworld:** (secluded outworld with a leisure/research culture \- collectively within their solar system)
+
 **Stigma:** Xeno and Augmented
 
-**Ability Modifiers:**   
+&nbsp;
+
+**Ability Modifiers:**&nbsp;
+
 \+2 Int
 
-**Skills:**   
+&nbsp;
+
+**Skills:**&nbsp;
+
 \+10 Skills
 
-**Species Features:**   
-Augmented (Body Computer, PicoSurgeons and Smart Link standard)  
-Bodyform Adaptation  
+&nbsp;
+
+**Species Features:**&nbsp;
+
+Augmented (Body Computer, PicoSurgeons and Smart Link standard)
+
+Bodyform Adaptation
+
 Companion (AI)
 
-**Recommended Features:**   
-Adaptive Aspects (AI Network)  
-Adaptive Skill Set (AI Network)  
-Ageless  
-Bodyform Features  
-Heavy and Severe Augmentations  
-Immortality  
-Regeneration (Fast Heal gained from PicoSurgeons)  
-Synthetic Options  
+&nbsp;
+
+**Recommended Features:**&nbsp;
+
+Adaptive Aspects (AI Network)
+
+Adaptive Skill Set (AI Network)
+
+Ageless
+
+Bodyform Features
+
+Heavy and Severe Augmentations
+
+Immortality
+
+Regeneration (Fast Heal gained from PicoSurgeons)
+
+Synthetic Options
+
 Technologist
+
+&nbsp;

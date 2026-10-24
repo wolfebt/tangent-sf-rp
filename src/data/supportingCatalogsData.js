@@ -1016,64 +1016,81 @@ export const DEFAULT_CLASSIFICATIONS = [
 ];
 export const DEFAULT_CREATORS = [
   {
-    "id": "creator-terran-dynamics",
-    "name": "Terran Dynamics",
-    "faction": "Coalition of Earth",
-    "description": "Industrial megacorp specializing in reliable, rugged ballistic firearms and combat gear."
-  },
-  {
-    "id": "creator-nova-forge",
-    "name": "Nova Forge Armaments",
+    "id": "creator-syndicate",
+    "name": "The Syndicate (Corporate Futurism)",
     "faction": "The Syndicate",
-    "description": "Cutting-edge corporate manufacturer of laser systems, smart-link tech, and sleek armor."
+    "trait": "Integrated System",
+    "description": "Apple Store Cathedral aesthetic using matte white composites, brushed aluminum, and cyan holographic data-streams. Tethered to the Mesh (+2 Knowledge checks on local networks; subject to subscription Penance Mode)."
   },
   {
-    "id": "creator-apex-synthetic",
-    "name": "Apex Synthetic Labs",
-    "faction": "Synthetics",
-    "description": "Pioneers in high-density cybernetics, android chassis, and neural processor cores."
+    "id": "creator-impyrium",
+    "name": "The Impyrium (Heirloom Industrial)",
+    "faction": "The Impyrium",
+    "trait": "Archeotech",
+    "description": "Celestial Neo-Sumerian aesthetic clad in gold filigree, white marble, and purity seals. Grants +2 DR and +2 Hardness, but uses Relic Sockets that reject modern or alien modifications."
   },
   {
-    "id": "creator-aeld-ascendancy",
-    "name": "Aeld Ascendancy Fabricators",
-    "faction": "Aeld Ascendancy",
-    "description": "Artisans of living wood-ceramic composites, elegant sun-glaives, and solar-charged tech."
+    "id": "creator-dracon-dynasty",
+    "name": "The Dracon Dynasty (Feudal Protection)",
+    "faction": "Dracon Dynasty",
+    "trait": "Bulwark",
+    "description": "High-Fantasy Industrial aesthetic with dragon-scale motifs, heraldic crests, and warm gold lighting. Prioritizes structural integrity (+20% SP and +1 DR) over speed."
   },
   {
-    "id": "creator-asi-bio-weavers",
-    "name": "Asi Bio-Weavers",
-    "faction": "Asi Enclaves",
-    "description": "Masters of organic bioware, living chitin weaves, and metaphysical growth conduits."
+    "id": "creator-ascendancy",
+    "name": "The Ascendancy (Enlightened Innovation)",
+    "faction": "The Ascendancy",
+    "trait": "Adaptive Progress",
+    "description": "Smart City Solarpunk aesthetic with clean curves, glass canopies, and blue energy accents. Heavily shielded, agile, and integrates non-lethal options alongside lethal armaments."
   },
   {
-    "id": "creator-kitin-forges",
-    "name": "Kitin Chitin Forges",
+    "id": "creator-coalition",
+    "name": "The Coalition & Outworlds (Scrappy Industrial)",
+    "faction": "Coalition / Outworlds",
+    "trait": "Jury-Rigged",
+    "description": "Space Western Noir aesthetic of scavenged parts, exposed wiring, and hazard stripes. Reduces acquisition/crafting CR by -5, but glitches or disables a Socket on a Natural 1."
+  },
+  {
+    "id": "creator-alterian-enclave",
+    "name": "The Alterian Enclave (Botanical Engineering)",
+    "faction": "Alterian Enclave",
+    "trait": "Photosynthesis & Naturalist",
+    "description": "Interstellar Art Nouveau aesthetic fusing white ceramic with living wood and solar sails. Recharges energy cells in direct sunlight and grants +2 to Nature and Survival checks."
+  },
+  {
+    "id": "creator-auluran",
+    "name": "The Auluran (Symbiotic Growth)",
+    "faction": "Auluran Clans",
+    "trait": "Regeneration & Symbiosis",
+    "description": "Bioluminescent Jungle aesthetic of vat-grown chitinous hulls and vascular corridors. Passively regenerates 2 SP/round and can spend 1 Karma to adapt to environmental hazards."
+  },
+  {
+    "id": "creator-mekan",
+    "name": "The Mekan (Mechanical Perfection)",
+    "faction": "Mekan",
+    "trait": "Integrated Tools",
+    "description": "Fractal Perfection aesthetic of geometric spheres, magnetic suspension, and TL 5 Polymatter. Autonomously shifts physical form to grant +2 to Vocation checks."
+  },
+  {
+    "id": "creator-entari-combine",
+    "name": "The Entari Combine (Cosmopolitan Trade)",
+    "faction": "Entari Combine",
+    "trait": "Ethical Efficiency",
+    "description": "Galactic Senate eco-luxury aesthetic using silent nanoweaves, universal docking rings, advanced translation suites, and concealed defensive weaponry."
+  },
+  {
+    "id": "creator-thorn",
+    "name": "The Thorn (Primal Growth)",
+    "faction": "Thorn",
+    "trait": "Rooted & Camouflage",
+    "description": "Primal bark-plate, vine-wrapped tech, and glowing chlorophyll veins. Grants +2 to resist Trip/Bull Rush attempts and +2 Stealth in wilderness environments."
+  },
+  {
+    "id": "creator-kitin",
+    "name": "The Kitin (Hive-Resin)",
     "faction": "Kitin Collective",
-    "description": "Producers of layered bio-metallic chitin plates and biological acid projectile weaponry."
-  },
-  {
-    "id": "creator-shanor-voidsmiths",
-    "name": "Sha’nor Voidsmiths",
-    "faction": "Sha’nor Dominion",
-    "description": "Esoteric blacksmiths forging weapons infused with void-entropy and dark energy."
-  },
-  {
-    "id": "creator-varen-gatekeeper",
-    "name": "Varen Gatekeeper Works",
-    "faction": "Varen Enclaves",
-    "description": "Ancient guardians crafting dimensional displacement fields and heavy barrier systems."
-  },
-  {
-    "id": "creator-risakin-heavy",
-    "name": "Risakin Heavy Industrial",
-    "faction": "Risakin",
-    "description": "Producers of massive titan-scale hydraulic weapons and heavy structural frames."
-  },
-  {
-    "id": "creator-free-droid",
-    "name": "Free Droid Union",
-    "faction": "Sentient Machines",
-    "description": "Open-source modular electronics, custom jury-rigged scrap chassis, and repair kits."
+    "trait": "Hive-Link & Lightweight",
+    "description": "Secreted hive-resin composites with green vein-piping. Integrates with telepathic hive-mind communications and counts as one category lighter for movement penalties."
   }
 ];
 export const DEFAULT_DESIGNS = [
@@ -1338,674 +1355,674 @@ export const DEFAULT_SOCIETAL_ENTRIES = [
   {
     "id": "society_agriculture_lvl_0",
     "category": "society_agriculture",
-    "name": "Agriculture & Biosphere (Level 0: Primitive / Subsistence)",
+    "name": "Agriculture & Biosphere (Level 0: Hunting and Gathering)",
     "level": 0,
     "sphere_key": "society_agriculture",
-    "description": "Level 0 development in Agriculture & Biosphere: Food production, farming technologies, hydroponics, and ecosystem synthesis. (Primitive / Subsistence)."
+    "description": "Level 0 (Hunting and Gathering) in Agriculture & Biosphere: Early societies rely on hunting animals and gathering wild plants for sustenance."
   },
   {
     "id": "society_agriculture_lvl_1",
     "category": "society_agriculture",
-    "name": "Agriculture & Biosphere (Level 1: Emerging / Industrial)",
+    "name": "Agriculture & Biosphere (Level 1: Farming)",
     "level": 1,
     "sphere_key": "society_agriculture",
-    "description": "Level 1 development in Agriculture & Biosphere: Food production, farming technologies, hydroponics, and ecosystem synthesis. (Emerging / Industrial)."
+    "description": "Level 1 (Farming) in Agriculture & Biosphere: Domestication of plants and animals, leading to settled agriculture."
   },
   {
     "id": "society_agriculture_lvl_2",
     "category": "society_agriculture",
-    "name": "Agriculture & Biosphere (Level 2: Modern / Planetary)",
+    "name": "Agriculture & Biosphere (Level 2: Advanced Farming)",
     "level": 2,
     "sphere_key": "society_agriculture",
-    "description": "Level 2 development in Agriculture & Biosphere: Food production, farming technologies, hydroponics, and ecosystem synthesis. (Modern / Planetary)."
+    "description": "Level 2 (Advanced Farming) in Agriculture & Biosphere: Modern farming techniques, including mechanization, irrigation, and fertilization."
   },
   {
     "id": "society_agriculture_lvl_3",
     "category": "society_agriculture",
-    "name": "Agriculture & Biosphere (Level 3: Advanced / Stellar)",
+    "name": "Agriculture & Biosphere (Level 3: Terraforming)",
     "level": 3,
     "sphere_key": "society_agriculture",
-    "description": "Level 3 development in Agriculture & Biosphere: Food production, farming technologies, hydroponics, and ecosystem synthesis. (Advanced / Stellar)."
+    "description": "Level 3 (Terraforming) in Agriculture & Biosphere: Manipulation of planetary environments to create suitable conditions for agriculture."
   },
   {
     "id": "society_agriculture_lvl_4",
     "category": "society_agriculture",
-    "name": "Agriculture & Biosphere (Level 4: Mastered / Interstellar)",
+    "name": "Agriculture & Biosphere (Level 4: Planetary Engineering)",
     "level": 4,
     "sphere_key": "society_agriculture",
-    "description": "Level 4 development in Agriculture & Biosphere: Food production, farming technologies, hydroponics, and ecosystem synthesis. (Mastered / Interstellar)."
+    "description": "Level 4 (Planetary Engineering) in Agriculture & Biosphere: Large-scale manipulation of entire planetary biospheres for agricultural output."
   },
   {
     "id": "society_agriculture_lvl_5",
     "category": "society_agriculture",
-    "name": "Agriculture & Biosphere (Level 5: Transcendent / Deific)",
+    "name": "Agriculture & Biosphere (Level 5: Matter Synthesis)",
     "level": 5,
     "sphere_key": "society_agriculture",
-    "description": "Level 5 development in Agriculture & Biosphere: Food production, farming technologies, hydroponics, and ecosystem synthesis. (Transcendent / Deific)."
+    "description": "Level 5 (Matter Synthesis) in Agriculture & Biosphere: Direct conversion of energy into food and organic matter (Post-Scarcity Replicators)."
   },
   {
     "id": "society_architecture_lvl_0",
     "category": "society_architecture",
-    "name": "Architecture & Habitats (Level 0: Primitive / Subsistence)",
+    "name": "Architecture & Habitats (Level 0: Simple Structures)",
     "level": 0,
     "sphere_key": "society_architecture",
-    "description": "Level 0 development in Architecture & Habitats: Urban engineering, habitat construction, dome architecture, and megastructures. (Primitive / Subsistence)."
+    "description": "Level 0 (Simple Structures) in Architecture & Habitats: Huts, tents, and basic masonry structures."
   },
   {
     "id": "society_architecture_lvl_1",
     "category": "society_architecture",
-    "name": "Architecture & Habitats (Level 1: Emerging / Industrial)",
+    "name": "Architecture & Habitats (Level 1: Advanced Masonry)",
     "level": 1,
     "sphere_key": "society_architecture",
-    "description": "Level 1 development in Architecture & Habitats: Urban engineering, habitat construction, dome architecture, and megastructures. (Emerging / Industrial)."
+    "description": "Level 1 (Advanced Masonry) in Architecture & Habitats: Early steel structures, foundries, and basic urban planning."
   },
   {
     "id": "society_architecture_lvl_2",
     "category": "society_architecture",
-    "name": "Architecture & Habitats (Level 2: Modern / Planetary)",
+    "name": "Architecture & Habitats (Level 2: Skyscrapers)",
     "level": 2,
     "sphere_key": "society_architecture",
-    "description": "Level 2 development in Architecture & Habitats: Urban engineering, habitat construction, dome architecture, and megastructures. (Modern / Planetary)."
+    "description": "Level 2 (Skyscrapers) in Architecture & Habitats: Advanced urban planning, reinforced high-rises, and sustainable architecture."
   },
   {
     "id": "society_architecture_lvl_3",
     "category": "society_architecture",
-    "name": "Architecture & Habitats (Level 3: Advanced / Stellar)",
+    "name": "Architecture & Habitats (Level 3: Smart Cities)",
     "level": 3,
     "sphere_key": "society_architecture",
-    "description": "Level 3 development in Architecture & Habitats: Urban engineering, habitat construction, dome architecture, and megastructures. (Advanced / Stellar)."
+    "description": "Level 3 (Smart Cities) in Architecture & Habitats: Advanced building materials, arcologies, and energy-efficient pressurized designs."
   },
   {
     "id": "society_architecture_lvl_4",
     "category": "society_architecture",
-    "name": "Architecture & Habitats (Level 4: Mastered / Interstellar)",
+    "name": "Architecture & Habitats (Level 4: Advanced Space Habitats)",
     "level": 4,
     "sphere_key": "society_architecture",
-    "description": "Level 4 development in Architecture & Habitats: Urban engineering, habitat construction, dome architecture, and megastructures. (Mastered / Interstellar)."
+    "description": "Level 4 (Advanced Space Habitats) in Architecture & Habitats: Self-assembling orbital structures, grav-plated stations, and terraforming domes."
   },
   {
     "id": "society_architecture_lvl_5",
     "category": "society_architecture",
-    "name": "Architecture & Habitats (Level 5: Transcendent / Deific)",
+    "name": "Architecture & Habitats (Level 5: Megastructures)",
     "level": 5,
     "sphere_key": "society_architecture",
-    "description": "Level 5 development in Architecture & Habitats: Urban engineering, habitat construction, dome architecture, and megastructures. (Transcendent / Deific)."
+    "description": "Level 5 (Megastructures) in Architecture & Habitats: Dyson Spheres, Ring Worlds (such as Mekan Prime), and Stellar Engineering."
   },
   {
     "id": "society_biotechnology_lvl_0",
     "category": "society_biotechnology",
-    "name": "Biotechnology & Genetics (Level 0: Primitive / Subsistence)",
+    "name": "Biotechnology & Genetics (Level 0: Herbalism)",
     "level": 0,
     "sphere_key": "society_biotechnology",
-    "description": "Level 0 development in Biotechnology & Genetics: Genetics, cloning, bio-engineering, neural crafting, and organism design. (Primitive / Subsistence)."
+    "description": "Level 0 (Herbalism) in Biotechnology & Genetics: Use of simple medicine, wild herbs, and natural remedies."
   },
   {
     "id": "society_biotechnology_lvl_1",
     "category": "society_biotechnology",
-    "name": "Biotechnology & Genetics (Level 1: Emerging / Industrial)",
+    "name": "Biotechnology & Genetics (Level 1: Pharmacology)",
     "level": 1,
     "sphere_key": "society_biotechnology",
-    "description": "Level 1 development in Biotechnology & Genetics: Genetics, cloning, bio-engineering, neural crafting, and organism design. (Emerging / Industrial)."
+    "description": "Level 1 (Pharmacology) in Biotechnology & Genetics: Improvements in medical knowledge, effective chemical treatments, and early pharmacology."
   },
   {
     "id": "society_biotechnology_lvl_2",
     "category": "society_biotechnology",
-    "name": "Biotechnology & Genetics (Level 2: Modern / Planetary)",
+    "name": "Biotechnology & Genetics (Level 2: Early Biotech)",
     "level": 2,
     "sphere_key": "society_biotechnology",
-    "description": "Level 2 development in Biotechnology & Genetics: Genetics, cloning, bio-engineering, neural crafting, and organism design. (Modern / Planetary)."
+    "description": "Level 2 (Early Biotech) in Biotechnology & Genetics: 3D printable biological materials, genetic sequencing, and early nanotechnology."
   },
   {
     "id": "society_biotechnology_lvl_3",
     "category": "society_biotechnology",
-    "name": "Biotechnology & Genetics (Level 3: Advanced / Stellar)",
+    "name": "Biotechnology & Genetics (Level 3: Genetic Engineering)",
     "level": 3,
     "sphere_key": "society_biotechnology",
-    "description": "Level 3 development in Biotechnology & Genetics: Genetics, cloning, bio-engineering, neural crafting, and organism design. (Advanced / Stellar)."
+    "description": "Level 3 (Genetic Engineering) in Biotechnology & Genetics: Living machinery, self-healing grafts, cloning, and morphic functionality."
   },
   {
     "id": "society_biotechnology_lvl_4",
     "category": "society_biotechnology",
-    "name": "Biotechnology & Genetics (Level 4: Mastered / Interstellar)",
+    "name": "Biotechnology & Genetics (Level 4: Gene Editing)",
     "level": 4,
     "sphere_key": "society_biotechnology",
-    "description": "Level 4 development in Biotechnology & Genetics: Genetics, cloning, bio-engineering, neural crafting, and organism design. (Mastered / Interstellar)."
+    "description": "Level 4 (Gene Editing) in Biotechnology & Genetics: Programmable biological materials, advanced living machinery, and seamless bio-integration."
   },
   {
     "id": "society_biotechnology_lvl_5",
     "category": "society_biotechnology",
-    "name": "Biotechnology & Genetics (Level 5: Transcendent / Deific)",
+    "name": "Biotechnology & Genetics (Level 5: Advanced Nanobiotechnology)",
     "level": 5,
     "sphere_key": "society_biotechnology",
-    "description": "Level 5 development in Biotechnology & Genetics: Genetics, cloning, bio-engineering, neural crafting, and organism design. (Transcendent / Deific)."
+    "description": "Level 5 (Advanced Nanobiotechnology) in Biotechnology & Genetics: Advanced morphic equipment, enhanced genetic tailoring, digital consciousness, and retro-genetic reengineering."
   },
   {
     "id": "society_commerce_lvl_0",
     "category": "society_commerce",
-    "name": "Commerce & Economy (Level 0: Primitive / Subsistence)",
+    "name": "Commerce & Economy (Level 0: Barter Systems)",
     "level": 0,
     "sphere_key": "society_commerce",
-    "description": "Level 0 development in Commerce & Economy: Economic models, banking networks, trade routes, currency, and resource exchange. (Primitive / Subsistence)."
+    "description": "Level 0 (Barter Systems) in Commerce & Economy: Simple trade networks and direct commodity barter."
   },
   {
     "id": "society_commerce_lvl_1",
     "category": "society_commerce",
-    "name": "Commerce & Economy (Level 1: Emerging / Industrial)",
+    "name": "Commerce & Economy (Level 1: Currency Systems)",
     "level": 1,
     "sphere_key": "society_commerce",
-    "description": "Level 1 development in Commerce & Economy: Economic models, banking networks, trade routes, currency, and resource exchange. (Emerging / Industrial)."
+    "description": "Level 1 (Currency Systems) in Commerce & Economy: Precious metal coinage, early financial institutions, and basic market economies."
   },
   {
     "id": "society_commerce_lvl_2",
     "category": "society_commerce",
-    "name": "Commerce & Economy (Level 2: Modern / Planetary)",
+    "name": "Commerce & Economy (Level 2: Modern Financial Systems)",
     "level": 2,
     "sphere_key": "society_commerce",
-    "description": "Level 2 development in Commerce & Economy: Economic models, banking networks, trade routes, currency, and resource exchange. (Modern / Planetary)."
+    "description": "Level 2 (Modern Financial Systems) in Commerce & Economy: Global trade networks, fiat banking, and advanced planetary market economies."
   },
   {
     "id": "society_commerce_lvl_3",
     "category": "society_commerce",
-    "name": "Commerce & Economy (Level 3: Advanced / Stellar)",
+    "name": "Commerce & Economy (Level 3: Digital Currencies)",
     "level": 3,
     "sphere_key": "society_commerce",
-    "description": "Level 3 development in Commerce & Economy: Economic models, banking networks, trade routes, currency, and resource exchange. (Advanced / Stellar)."
+    "description": "Level 3 (Digital Currencies) in Commerce & Economy: Interstellar credit networks, Cold Credit bearer chits, and system-wide economic integration."
   },
   {
     "id": "society_commerce_lvl_4",
     "category": "society_commerce",
-    "name": "Commerce & Economy (Level 4: Mastered / Interstellar)",
+    "name": "Commerce & Economy (Level 4: Advanced Economies)",
     "level": 4,
     "sphere_key": "society_commerce",
-    "description": "Level 4 development in Commerce & Economy: Economic models, banking networks, trade routes, currency, and resource exchange. (Mastered / Interstellar)."
+    "description": "Level 4 (Advanced Economies) in Commerce & Economy: Decentralized Mesh financial systems, Wealth Score leverage, and high-liquidity stellar markets."
   },
   {
     "id": "society_commerce_lvl_5",
     "category": "society_commerce",
-    "name": "Commerce & Economy (Level 5: Transcendent / Deific)",
+    "name": "Commerce & Economy (Level 5: Post-Scarcity)",
     "level": 5,
     "sphere_key": "society_commerce",
-    "description": "Level 5 development in Commerce & Economy: Economic models, banking networks, trade routes, currency, and resource exchange. (Transcendent / Deific)."
+    "description": "Level 5 (Post-Scarcity) in Commerce & Economy: Base Substance Interchange renders traditional currency obsolete; economy is based on energy allocation and prestige."
   },
   {
     "id": "society_communication_lvl_0",
     "category": "society_communication",
-    "name": "Communication & Data (Level 0: Primitive / Subsistence)",
+    "name": "Communication & Data (Level 0: Verbal & Pictograms)",
     "level": 0,
     "sphere_key": "society_communication",
-    "description": "Level 0 development in Communication & Data: Sub-space relays, ansible networks, holonet infrastructure, and telemetry. (Primitive / Subsistence)."
+    "description": "Level 0 (Verbal & Pictograms) in Communication & Data: Spoken language and simple pictographic drawings."
   },
   {
     "id": "society_communication_lvl_1",
     "category": "society_communication",
-    "name": "Communication & Data (Level 1: Emerging / Industrial)",
+    "name": "Communication & Data (Level 1: Published Text & Signaling)",
     "level": 1,
     "sphere_key": "society_communication",
-    "description": "Level 1 development in Communication & Data: Sub-space relays, ansible networks, holonet infrastructure, and telemetry. (Emerging / Industrial)."
+    "description": "Level 1 (Published Text & Signaling) in Communication & Data: Written language, printing presses, and optical/telegraphic signaling."
   },
   {
     "id": "society_communication_lvl_2",
     "category": "society_communication",
-    "name": "Communication & Data (Level 2: Modern / Planetary)",
+    "name": "Communication & Data (Level 2: Digital Networks)",
     "level": 2,
     "sphere_key": "society_communication",
-    "description": "Level 2 development in Communication & Data: Sub-space relays, ansible networks, holonet infrastructure, and telemetry. (Modern / Planetary)."
+    "description": "Level 2 (Digital Networks) in Communication & Data: Audio/video broadcast, radio, flatvid television, and planetary internet."
   },
   {
     "id": "society_communication_lvl_3",
     "category": "society_communication",
-    "name": "Communication & Data (Level 3: Advanced / Stellar)",
+    "name": "Communication & Data (Level 3: Holographic & FTL)",
     "level": 3,
     "sphere_key": "society_communication",
-    "description": "Level 3 development in Communication & Data: Sub-space relays, ansible networks, holonet infrastructure, and telemetry. (Advanced / Stellar)."
+    "description": "Level 3 (Holographic & FTL) in Communication & Data: Volumetric holographic transceivers and faster-than-light relay communication."
   },
   {
     "id": "society_communication_lvl_4",
     "category": "society_communication",
-    "name": "Communication & Data (Level 4: Mastered / Interstellar)",
+    "name": "Communication & Data (Level 4: Mnemonic Transceivers)",
     "level": 4,
     "sphere_key": "society_communication",
-    "description": "Level 4 development in Communication & Data: Sub-space relays, ansible networks, holonet infrastructure, and telemetry. (Mastered / Interstellar)."
+    "description": "Level 4 (Mnemonic Transceivers) in Communication & Data: Direct thought-based trans-neural communication across stellar networks."
   },
   {
     "id": "society_communication_lvl_5",
     "category": "society_communication",
-    "name": "Communication & Data (Level 5: Transcendent / Deific)",
+    "name": "Communication & Data (Level 5: Quantum Signaler)",
     "level": 5,
     "sphere_key": "society_communication",
-    "description": "Level 5 development in Communication & Data: Sub-space relays, ansible networks, holonet infrastructure, and telemetry. (Transcendent / Deific)."
+    "description": "Level 5 (Quantum Signaler) in Communication & Data: Real-time instantaneous FTL communication using quantum entanglement with zero latency."
   },
   {
     "id": "society_devices_lvl_0",
     "category": "society_devices",
-    "name": "Devices & Apparatus (Level 0: Primitive / Subsistence)",
+    "name": "Devices & Apparatus (Level 0: Simple Mechanical)",
     "level": 0,
     "sphere_key": "society_devices",
-    "description": "Level 0 development in Devices & Apparatus: Consumer electronics, personal computing, sensors, tools, and apparatus. (Primitive / Subsistence)."
+    "description": "Level 0 (Simple Mechanical) in Devices & Apparatus: Levers, pulleys, wedges, and wheels."
   },
   {
     "id": "society_devices_lvl_1",
     "category": "society_devices",
-    "name": "Devices & Apparatus (Level 1: Emerging / Industrial)",
+    "name": "Devices & Apparatus (Level 1: Steam & Electric)",
     "level": 1,
     "sphere_key": "society_devices",
-    "description": "Level 1 development in Devices & Apparatus: Consumer electronics, personal computing, sensors, tools, and apparatus. (Emerging / Industrial)."
+    "description": "Level 1 (Steam & Electric) in Devices & Apparatus: Steam-powered machines, early DC electrical devices, and clockwork mechanisms."
   },
   {
     "id": "society_devices_lvl_2",
     "category": "society_devices",
-    "name": "Devices & Apparatus (Level 2: Modern / Planetary)",
+    "name": "Devices & Apparatus (Level 2: Integrated Circuits)",
     "level": 2,
     "sphere_key": "society_devices",
-    "description": "Level 2 development in Devices & Apparatus: Consumer electronics, personal computing, sensors, tools, and apparatus. (Modern / Planetary)."
+    "description": "Level 2 (Integrated Circuits) in Devices & Apparatus: Personal computers, smartphones, passive sensors, and modern silicon electronics."
   },
   {
     "id": "society_devices_lvl_3",
     "category": "society_devices",
-    "name": "Devices & Apparatus (Level 3: Advanced / Stellar)",
+    "name": "Devices & Apparatus (Level 3: Robotics & AI)",
     "level": 3,
     "sphere_key": "society_devices",
-    "description": "Level 3 development in Devices & Apparatus: Consumer electronics, personal computing, sensors, tools, and apparatus. (Advanced / Stellar)."
+    "description": "Level 3 (Robotics & AI) in Devices & Apparatus: Modular digital devices, advanced robotics, self-aware automata, and quantum computing."
   },
   {
     "id": "society_devices_lvl_4",
     "category": "society_devices",
-    "name": "Devices & Apparatus (Level 4: Mastered / Interstellar)",
+    "name": "Devices & Apparatus (Level 4: Brain-Computer Interfaces)",
     "level": 4,
     "sphere_key": "society_devices",
-    "description": "Level 4 development in Devices & Apparatus: Consumer electronics, personal computing, sensors, tools, and apparatus. (Mastered / Interstellar)."
+    "description": "Level 4 (Brain-Computer Interfaces) in Devices & Apparatus: Trans-neural interfaces, nanocarbon smart-devices, and molecular machines."
   },
   {
     "id": "society_devices_lvl_5",
     "category": "society_devices",
-    "name": "Devices & Apparatus (Level 5: Transcendent / Deific)",
+    "name": "Devices & Apparatus (Level 5: Holophotonic Projected)",
     "level": 5,
     "sphere_key": "society_devices",
-    "description": "Level 5 development in Devices & Apparatus: Consumer electronics, personal computing, sensors, tools, and apparatus. (Transcendent / Deific)."
+    "description": "Level 5 (Holophotonic Projected) in Devices & Apparatus: Weightless solid-light devices projected on demand from a Fine-sized emitter library."
   },
   {
     "id": "society_education_lvl_0",
     "category": "society_education",
-    "name": "Education & Archives (Level 0: Primitive / Subsistence)",
+    "name": "Education & Archives (Level 0: Oral Tradition)",
     "level": 0,
     "sphere_key": "society_education",
-    "description": "Level 0 development in Education & Archives: Knowledge institutions, neural archives, apprenticeships, and academies. (Primitive / Subsistence)."
+    "description": "Level 0 (Oral Tradition) in Education & Archives: Apprenticeships, elders, and oral transmission of survival and tribal lore (+2 Alertness, +2 Survival, 1 Skill +2)."
   },
   {
     "id": "society_education_lvl_1",
     "category": "society_education",
-    "name": "Education & Archives (Level 1: Emerging / Industrial)",
+    "name": "Education & Archives (Level 1: Guilds & Print)",
     "level": 1,
     "sphere_key": "society_education",
-    "description": "Level 1 development in Education & Archives: Knowledge institutions, neural archives, apprenticeships, and academies. (Emerging / Industrial)."
+    "description": "Level 1 (Guilds & Print) in Education & Archives: Written archives, universities, and vocational guild apprenticeships (2 Vocation skills +2, 4 Skills +2)."
   },
   {
     "id": "society_education_lvl_2",
     "category": "society_education",
-    "name": "Education & Archives (Level 2: Modern / Planetary)",
+    "name": "Education & Archives (Level 2: Modern Education)",
     "level": 2,
     "sphere_key": "society_education",
-    "description": "Level 2 development in Education & Archives: Knowledge institutions, neural archives, apprenticeships, and academies. (Modern / Planetary)."
+    "description": "Level 2 (Modern Education) in Education & Archives: Standardized public and higher education supported by digital databases (+20 Skill Points)."
   },
   {
     "id": "society_education_lvl_3",
     "category": "society_education",
-    "name": "Education & Archives (Level 3: Advanced / Stellar)",
+    "name": "Education & Archives (Level 3: Advanced Stellar Education)",
     "level": 3,
     "sphere_key": "society_education",
-    "description": "Level 3 development in Education & Archives: Knowledge institutions, neural archives, apprenticeships, and academies. (Advanced / Stellar)."
+    "description": "Level 3 (Advanced Stellar Education) in Education & Archives: Immersive AR/VR training academies and system-wide knowledge archives (+30 Skill Points)."
   },
   {
     "id": "society_education_lvl_4",
     "category": "society_education",
-    "name": "Education & Archives (Level 4: Mastered / Interstellar)",
+    "name": "Education & Archives (Level 4: Trans-Neural Education)",
     "level": 4,
     "sphere_key": "society_education",
-    "description": "Level 4 development in Education & Archives: Knowledge institutions, neural archives, apprenticeships, and academies. (Mastered / Interstellar)."
+    "description": "Level 4 (Trans-Neural Education) in Education & Archives: Direct neural skill-circuitry conditioning and AI-guided instruction (+40 Skill Points)."
   },
   {
     "id": "society_education_lvl_5",
     "category": "society_education",
-    "name": "Education & Archives (Level 5: Transcendent / Deific)",
+    "name": "Education & Archives (Level 5: Cutting-Edge Bastion Archives)",
     "level": 5,
     "sphere_key": "society_education",
-    "description": "Level 5 development in Education & Archives: Knowledge institutions, neural archives, apprenticeships, and academies. (Transcendent / Deific)."
+    "description": "Level 5 (Cutting-Edge Bastion Archives) in Education & Archives: Instantaneous cognitive synthesis and gestational super-intellect complexes (+50 Skill Points)."
   },
   {
     "id": "society_energy_lvl_0",
     "category": "society_energy",
-    "name": "Energy & Power Generation (Level 0: Primitive / Subsistence)",
+    "name": "Energy & Power Generation (Level 0: Biomass)",
     "level": 0,
     "sphere_key": "society_energy",
-    "description": "Level 0 development in Energy & Power Generation: Power generation, fusion reactors, antimatter taps, and solar arrays. (Primitive / Subsistence)."
+    "description": "Level 0 (Biomass) in Energy & Power Generation: Muscle power, fire, wind, water wheels, and organic fuels."
   },
   {
     "id": "society_energy_lvl_1",
     "category": "society_energy",
-    "name": "Energy & Power Generation (Level 1: Emerging / Industrial)",
+    "name": "Energy & Power Generation (Level 1: Fossil Fuels)",
     "level": 1,
     "sphere_key": "society_energy",
-    "description": "Level 1 development in Energy & Power Generation: Power generation, fusion reactors, antimatter taps, and solar arrays. (Emerging / Industrial)."
+    "description": "Level 1 (Fossil Fuels) in Energy & Power Generation: Coal, steam boilers, oil, and early internal combustion."
   },
   {
     "id": "society_energy_lvl_2",
     "category": "society_energy",
-    "name": "Energy & Power Generation (Level 2: Modern / Planetary)",
+    "name": "Energy & Power Generation (Level 2: Nuclear & Renewables)",
     "level": 2,
     "sphere_key": "society_energy",
-    "description": "Level 2 development in Energy & Power Generation: Power generation, fusion reactors, antimatter taps, and solar arrays. (Modern / Planetary)."
+    "description": "Level 2 (Nuclear & Renewables) in Energy & Power Generation: Advanced hydrocarbons, atomic fission reactors, solar arrays, and wind turbines."
   },
   {
     "id": "society_energy_lvl_3",
     "category": "society_energy",
-    "name": "Energy & Power Generation (Level 3: Advanced / Stellar)",
+    "name": "Energy & Power Generation (Level 3: Fusion Power)",
     "level": 3,
     "sphere_key": "society_energy",
-    "description": "Level 3 development in Energy & Power Generation: Power generation, fusion reactors, antimatter taps, and solar arrays. (Advanced / Stellar)."
+    "description": "Level 3 (Fusion Power) in Energy & Power Generation: Compact thorium reactors, hydrogen fuel cells, and helium-3 fusion cores."
   },
   {
     "id": "society_energy_lvl_4",
     "category": "society_energy",
-    "name": "Energy & Power Generation (Level 4: Mastered / Interstellar)",
+    "name": "Energy & Power Generation (Level 4: Antimatter)",
     "level": 4,
     "sphere_key": "society_energy",
-    "description": "Level 4 development in Energy & Power Generation: Power generation, fusion reactors, antimatter taps, and solar arrays. (Mastered / Interstellar)."
+    "description": "Level 4 (Antimatter) in Energy & Power Generation: Antimatter containment pods, cold fusion, kinetic reactors, and Aetherium integration."
   },
   {
     "id": "society_energy_lvl_5",
     "category": "society_energy",
-    "name": "Energy & Power Generation (Level 5: Transcendent / Deific)",
+    "name": "Energy & Power Generation (Level 5: Zero-Point & Quantum)",
     "level": 5,
     "sphere_key": "society_energy",
-    "description": "Level 5 development in Energy & Power Generation: Power generation, fusion reactors, antimatter taps, and solar arrays. (Transcendent / Deific)."
+    "description": "Level 5 (Zero-Point & Quantum) in Energy & Power Generation: Dimensional siphons, dark energy conduits, and matter-energy conversion harvesting reality itself."
   },
   {
     "id": "society_manufacturing_lvl_0",
     "category": "society_manufacturing",
-    "name": "Manufacturing & Industry (Level 0: Primitive / Subsistence)",
+    "name": "Manufacturing & Industry (Level 0: Handmade (Tier 0: x1))",
     "level": 0,
     "sphere_key": "society_manufacturing",
-    "description": "Level 0 development in Manufacturing & Industry: Industrial automated fabrication, nano-forges, mass production, and orbital yards. (Primitive / Subsistence)."
+    "description": "Level 0 (Handmade (Tier 0: x1)) in Manufacturing & Industry: Basic goods produced by hand using stone, bone, or wood tools."
   },
   {
     "id": "society_manufacturing_lvl_1",
     "category": "society_manufacturing",
-    "name": "Manufacturing & Industry (Level 1: Emerging / Industrial)",
+    "name": "Manufacturing & Industry (Level 1: Crafted & Foundry (Tier 1: x10))",
     "level": 1,
     "sphere_key": "society_manufacturing",
-    "description": "Level 1 development in Manufacturing & Industry: Industrial automated fabrication, nano-forges, mass production, and orbital yards. (Emerging / Industrial)."
+    "description": "Level 1 (Crafted & Foundry (Tier 1: x10)) in Manufacturing & Industry: Fire harnessed for metalworking, foundries, and early mechanized assembly."
   },
   {
     "id": "society_manufacturing_lvl_2",
     "category": "society_manufacturing",
-    "name": "Manufacturing & Industry (Level 2: Modern / Planetary)",
+    "name": "Manufacturing & Industry (Level 2: Mass Industrialization (Tier 2: x50))",
     "level": 2,
     "sphere_key": "society_manufacturing",
-    "description": "Level 2 development in Manufacturing & Industry: Industrial automated fabrication, nano-forges, mass production, and orbital yards. (Modern / Planetary)."
+    "description": "Level 2 (Mass Industrialization (Tier 2: x50)) in Manufacturing & Industry: Large-scale factory lines, precision machining, and additive 3D printing."
   },
   {
     "id": "society_manufacturing_lvl_3",
     "category": "society_manufacturing",
-    "name": "Manufacturing & Industry (Level 3: Advanced / Stellar)",
+    "name": "Manufacturing & Industry (Level 3: Memory Materials (Tier 3: x200))",
     "level": 3,
     "sphere_key": "society_manufacturing",
-    "description": "Level 3 development in Manufacturing & Industry: Industrial automated fabrication, nano-forges, mass production, and orbital yards. (Advanced / Stellar)."
+    "description": "Level 3 (Memory Materials (Tier 3: x200)) in Manufacturing & Industry: Automated orbital yards, molecular nanotechnology, and shape-memory fabrication."
   },
   {
     "id": "society_manufacturing_lvl_4",
     "category": "society_manufacturing",
-    "name": "Manufacturing & Industry (Level 4: Mastered / Interstellar)",
+    "name": "Manufacturing & Industry (Level 4: Nanoforge & Bio-Vats (Tier 4: x1,000))",
     "level": 4,
     "sphere_key": "society_manufacturing",
-    "description": "Level 4 development in Manufacturing & Industry: Industrial automated fabrication, nano-forges, mass production, and orbital yards. (Mastered / Interstellar)."
+    "description": "Level 4 (Nanoforge & Bio-Vats (Tier 4: x1,000)) in Manufacturing & Industry: Molecular assembly swarms and Auluran/Kitin hyper-growth cultivation vats."
   },
   {
     "id": "society_manufacturing_lvl_5",
     "category": "society_manufacturing",
-    "name": "Manufacturing & Industry (Level 5: Transcendent / Deific)",
+    "name": "Manufacturing & Industry (Level 5: Polymatter Genesis (Tier 5: x5,000))",
     "level": 5,
     "sphere_key": "society_manufacturing",
-    "description": "Level 5 development in Manufacturing & Industry: Industrial automated fabrication, nano-forges, mass production, and orbital yards. (Transcendent / Deific)."
+    "description": "Level 5 (Polymatter Genesis (Tier 5: x5,000)) in Manufacturing & Industry: Thought-responsive Polymatter looms and Base Substance Interchange replicators."
   },
   {
     "id": "society_materials_lvl_0",
     "category": "society_materials",
-    "name": "Materials & Metallurgy (Level 0: Primitive / Subsistence)",
+    "name": "Materials & Metallurgy (Level 0: Natural Materials)",
     "level": 0,
     "sphere_key": "society_materials",
-    "description": "Level 0 development in Materials & Metallurgy: Material science, meta-materials, molecular metallurgy, and high-density plating. (Primitive / Subsistence)."
+    "description": "Level 0 (Natural Materials) in Materials & Metallurgy: Unworked stone, bone, wood, animal hides, and early bronze/iron (25% DR, x0.25 SP)."
   },
   {
     "id": "society_materials_lvl_1",
     "category": "society_materials",
-    "name": "Materials & Metallurgy (Level 1: Emerging / Industrial)",
+    "name": "Materials & Metallurgy (Level 1: Synthetic & Steel Alloys)",
     "level": 1,
     "sphere_key": "society_materials",
-    "description": "Level 1 development in Materials & Metallurgy: Material science, meta-materials, molecular metallurgy, and high-density plating. (Emerging / Industrial)."
+    "description": "Level 1 (Synthetic & Steel Alloys) in Materials & Metallurgy: High-carbon steel, wrought iron, and early industrial plastics (50% DR, x0.5 SP)."
   },
   {
     "id": "society_materials_lvl_2",
     "category": "society_materials",
-    "name": "Materials & Metallurgy (Level 2: Modern / Planetary)",
+    "name": "Materials & Metallurgy (Level 2: Advanced Composites)",
     "level": 2,
     "sphere_key": "society_materials",
-    "description": "Level 2 development in Materials & Metallurgy: Material science, meta-materials, molecular metallurgy, and high-density plating. (Modern / Planetary)."
+    "description": "Level 2 (Advanced Composites) in Materials & Metallurgy: Ballistic kevlar weaves, strike-face ceramics, and titanium alloys (75% DR, x1.0 SP)."
   },
   {
     "id": "society_materials_lvl_3",
     "category": "society_materials",
-    "name": "Materials & Metallurgy (Level 3: Advanced / Stellar)",
+    "name": "Materials & Metallurgy (Level 3: Metamaterials & Plasteel)",
     "level": 3,
     "sphere_key": "society_materials",
-    "description": "Level 3 development in Materials & Metallurgy: Material science, meta-materials, molecular metallurgy, and high-density plating. (Advanced / Stellar)."
+    "description": "Level 3 (Metamaterials & Plasteel) in Materials & Metallurgy: Space-age plasteel, impact gel, Kitin hive-resin, and biomaterials (100% DR, x1.5 SP)."
   },
   {
     "id": "society_materials_lvl_4",
     "category": "society_materials",
-    "name": "Materials & Metallurgy (Level 4: Mastered / Interstellar)",
+    "name": "Materials & Metallurgy (Level 4: Nanotechnology)",
     "level": 4,
     "sphere_key": "society_materials",
-    "description": "Level 4 development in Materials & Metallurgy: Material science, meta-materials, molecular metallurgy, and high-density plating. (Mastered / Interstellar)."
+    "description": "Level 4 (Nanotechnology) in Materials & Metallurgy: Self-repairing nanocarbon, phase-shift alloys, and Alterian sunglass laminates (125% DR, x2.0 SP)."
   },
   {
     "id": "society_materials_lvl_5",
     "category": "society_materials",
-    "name": "Materials & Metallurgy (Level 5: Transcendent / Deific)",
+    "name": "Materials & Metallurgy (Level 5: Polymatter & Hard-Light)",
     "level": 5,
     "sphere_key": "society_materials",
-    "description": "Level 5 development in Materials & Metallurgy: Material science, meta-materials, molecular metallurgy, and high-density plating. (Transcendent / Deific)."
+    "description": "Level 5 (Polymatter & Hard-Light) in Materials & Metallurgy: Morphic liquid-metal Polymatter and weightless Holophotonic lattices (150% DR, x2.5 SP)."
   },
   {
     "id": "society_medicine_lvl_0",
     "category": "society_medicine",
-    "name": "Medicine & Healthcare (Level 0: Primitive / Subsistence)",
+    "name": "Medicine & Healthcare (Level 0: Simple Medicine)",
     "level": 0,
     "sphere_key": "society_medicine",
-    "description": "Level 0 development in Medicine & Healthcare: Healthcare infrastructure, cellular regeneration, trauma care, and panaceas. (Primitive / Subsistence)."
+    "description": "Level 0 (Simple Medicine) in Medicine & Healthcare: Natural remedies, poultices, and herbalism; high mortality for surgery."
   },
   {
     "id": "society_medicine_lvl_1",
     "category": "society_medicine",
-    "name": "Medicine & Healthcare (Level 1: Emerging / Industrial)",
+    "name": "Medicine & Healthcare (Level 1: Basic Medicine)",
     "level": 1,
     "sphere_key": "society_medicine",
-    "description": "Level 1 development in Medicine & Healthcare: Healthcare infrastructure, cellular regeneration, trauma care, and panaceas. (Emerging / Industrial)."
+    "description": "Level 1 (Basic Medicine) in Medicine & Healthcare: Germ theory, vaccines, early pharmacology, and X-ray diagnostics."
   },
   {
     "id": "society_medicine_lvl_2",
     "category": "society_medicine",
-    "name": "Medicine & Healthcare (Level 2: Modern / Planetary)",
+    "name": "Medicine & Healthcare (Level 2: Focused Medical Sciences)",
     "level": 2,
     "sphere_key": "society_medicine",
-    "description": "Level 2 development in Medicine & Healthcare: Healthcare infrastructure, cellular regeneration, trauma care, and panaceas. (Modern / Planetary)."
+    "description": "Level 2 (Focused Medical Sciences) in Medicine & Healthcare: Antibiotics, MRI imaging, precision surgery, and early genetic diagnostics."
   },
   {
     "id": "society_medicine_lvl_3",
     "category": "society_medicine",
-    "name": "Medicine & Healthcare (Level 3: Advanced / Stellar)",
+    "name": "Medicine & Healthcare (Level 3: Augmentations & Cloning)",
     "level": 3,
     "sphere_key": "society_medicine",
-    "description": "Level 3 development in Medicine & Healthcare: Healthcare infrastructure, cellular regeneration, trauma care, and panaceas. (Advanced / Stellar)."
+    "description": "Level 3 (Augmentations & Cloning) in Medicine & Healthcare: Cybernetic prosthetics, cloned replacement organs, med-gel, and century-plus longevity."
   },
   {
     "id": "society_medicine_lvl_4",
     "category": "society_medicine",
-    "name": "Medicine & Healthcare (Level 4: Mastered / Interstellar)",
+    "name": "Medicine & Healthcare (Level 4: Clinical Immortality)",
     "level": 4,
     "sphere_key": "society_medicine",
-    "description": "Level 4 development in Medicine & Healthcare: Healthcare infrastructure, cellular regeneration, trauma care, and panaceas. (Mastered / Interstellar)."
+    "description": "Level 4 (Clinical Immortality) in Medicine & Healthcare: Cellular reversal, regen-tanks, bioware grafts, and cortical stack re-sleeving."
   },
   {
     "id": "society_medicine_lvl_5",
     "category": "society_medicine",
-    "name": "Medicine & Healthcare (Level 5: Transcendent / Deific)",
+    "name": "Medicine & Healthcare (Level 5: Retro-Genetic Engineering)",
     "level": 5,
     "sphere_key": "society_medicine",
-    "description": "Level 5 development in Medicine & Healthcare: Healthcare infrastructure, cellular regeneration, trauma care, and panaceas. (Transcendent / Deific)."
+    "description": "Level 5 (Retro-Genetic Engineering) in Medicine & Healthcare: Instantaneous genetic rewriting, Matter Reconstruction Forges, and full digital immortality."
   },
   {
     "id": "society_society_lvl_0",
     "category": "society_society",
-    "name": "Structure & Governance (Level 0: Primitive / Subsistence)",
+    "name": "Structure & Governance (Level 0: Tribal)",
     "level": 0,
     "sphere_key": "society_society",
-    "description": "Level 0 development in Structure & Governance: Government models, legal systems, social stratification, and caste frameworks. (Primitive / Subsistence)."
+    "description": "Level 0 (Tribal) in Structure & Governance: Small nomadic families, clans, and animistic social structures."
   },
   {
     "id": "society_society_lvl_1",
     "category": "society_society",
-    "name": "Structure & Governance (Level 1: Emerging / Industrial)",
+    "name": "Structure & Governance (Level 1: Early Civilizations)",
     "level": 1,
     "sphere_key": "society_society",
-    "description": "Level 1 development in Structure & Governance: Government models, legal systems, social stratification, and caste frameworks. (Emerging / Industrial)."
+    "description": "Level 1 (Early Civilizations) in Structure & Governance: Urbanized nation-states, feudal dynasties, and codified legal hierarchies."
   },
   {
     "id": "society_society_lvl_2",
     "category": "society_society",
-    "name": "Structure & Governance (Level 2: Modern / Planetary)",
+    "name": "Structure & Governance (Level 2: Modern Societies)",
     "level": 2,
     "sphere_key": "society_society",
-    "description": "Level 2 development in Structure & Governance: Government models, legal systems, social stratification, and caste frameworks. (Modern / Planetary)."
+    "description": "Level 2 (Modern Societies) in Structure & Governance: Globalized planetary governments, international treaties, and connected media."
   },
   {
     "id": "society_society_lvl_3",
     "category": "society_society",
-    "name": "Structure & Governance (Level 3: Advanced / Stellar)",
+    "name": "Structure & Governance (Level 3: Advanced Societies)",
     "level": 3,
     "sphere_key": "society_society",
-    "description": "Level 3 development in Structure & Governance: Government models, legal systems, social stratification, and caste frameworks. (Advanced / Stellar)."
+    "description": "Level 3 (Advanced Societies) in Structure & Governance: System-wide governance, corporate syndicates, and interstellar jump-gate coalitions."
   },
   {
     "id": "society_society_lvl_4",
     "category": "society_society",
-    "name": "Structure & Governance (Level 4: Mastered / Interstellar)",
+    "name": "Structure & Governance (Level 4: Highly Interconnected)",
     "level": 4,
     "sphere_key": "society_society",
-    "description": "Level 4 development in Structure & Governance: Government models, legal systems, social stratification, and caste frameworks. (Mastered / Interstellar)."
+    "description": "Level 4 (Highly Interconnected) in Structure & Governance: Multi-sector empires, Mesh-integrated meritocracies, and cosmopolitan trade combines."
   },
   {
     "id": "society_society_lvl_5",
     "category": "society_society",
-    "name": "Structure & Governance (Level 5: Transcendent / Deific)",
+    "name": "Structure & Governance (Level 5: Post-Scarcity)",
     "level": 5,
     "sphere_key": "society_society",
-    "description": "Level 5 development in Structure & Governance: Government models, legal systems, social stratification, and caste frameworks. (Transcendent / Deific)."
+    "description": "Level 5 (Post-Scarcity) in Structure & Governance: Gestalted super-intellect governance and post-scarcity societal harmony without resource need."
   },
   {
     "id": "society_synthetics_lvl_0",
     "category": "society_synthetics",
-    "name": "Synthetics & AI Rights (Level 0: Primitive / Subsistence)",
+    "name": "Synthetics & AI Rights (Level 0: Non-Existent)",
     "level": 0,
     "sphere_key": "society_synthetics",
-    "description": "Level 0 development in Synthetics & AI Rights: Artificial intelligence, android rights, synthetic biology, and cybernetics. (Primitive / Subsistence)."
+    "description": "Level 0 (Non-Existent) in Synthetics & AI Rights: No mechanical computation or artificial intelligence."
   },
   {
     "id": "society_synthetics_lvl_1",
     "category": "society_synthetics",
-    "name": "Synthetics & AI Rights (Level 1: Emerging / Industrial)",
+    "name": "Synthetics & AI Rights (Level 1: Clockwork Automata)",
     "level": 1,
     "sphere_key": "society_synthetics",
-    "description": "Level 1 development in Synthetics & AI Rights: Artificial intelligence, android rights, synthetic biology, and cybernetics. (Emerging / Industrial)."
+    "description": "Level 1 (Clockwork Automata) in Synthetics & AI Rights: Purely mechanical gear-driven automata and punch-card looms without cognition."
   },
   {
     "id": "society_synthetics_lvl_2",
     "category": "society_synthetics",
-    "name": "Synthetics & AI Rights (Level 2: Modern / Planetary)",
+    "name": "Synthetics & AI Rights (Level 2: Reactive & Limited Memory)",
     "level": 2,
     "sphere_key": "society_synthetics",
-    "description": "Level 2 development in Synthetics & AI Rights: Artificial intelligence, android rights, synthetic biology, and cybernetics. (Modern / Planetary)."
+    "description": "Level 2 (Reactive & Limited Memory) in Synthetics & AI Rights: Smart devices, virtual assistants, and simple programmed industrial robots."
   },
   {
     "id": "society_synthetics_lvl_3",
     "category": "society_synthetics",
-    "name": "Synthetics & AI Rights (Level 3: Advanced / Stellar)",
+    "name": "Synthetics & AI Rights (Level 3: Self-Aware Algorithm (Theory of Mind))",
     "level": 3,
     "sphere_key": "society_synthetics",
-    "description": "Level 3 development in Synthetics & AI Rights: Artificial intelligence, android rights, synthetic biology, and cybernetics. (Advanced / Stellar)."
+    "description": "Level 3 (Self-Aware Algorithm (Theory of Mind)) in Synthetics & AI Rights: Conscious self-aware AI and advanced automata capable of understanding emotions."
   },
   {
     "id": "society_synthetics_lvl_4",
     "category": "society_synthetics",
-    "name": "Synthetics & AI Rights (Level 4: Mastered / Interstellar)",
+    "name": "Synthetics & AI Rights (Level 4: Artificial General Intelligence (AGI))",
     "level": 4,
     "sphere_key": "society_synthetics",
-    "description": "Level 4 development in Synthetics & AI Rights: Artificial intelligence, android rights, synthetic biology, and cybernetics. (Mastered / Interstellar)."
+    "description": "Level 4 (Artificial General Intelligence (AGI)) in Synthetics & AI Rights: Androids, Sentient Machines, and Intellect Constructs indistinguishable from organic sapience."
   },
   {
     "id": "society_synthetics_lvl_5",
     "category": "society_synthetics",
-    "name": "Synthetics & AI Rights (Level 5: Transcendent / Deific)",
+    "name": "Synthetics & AI Rights (Level 5: Hyper Intellect (ASI))",
     "level": 5,
     "sphere_key": "society_synthetics",
-    "description": "Level 5 development in Synthetics & AI Rights: Artificial intelligence, android rights, synthetic biology, and cybernetics. (Transcendent / Deific)."
+    "description": "Level 5 (Hyper Intellect (ASI)) in Synthetics & AI Rights: Gestalted superintelligences surpassing organic wisdom (such as Mekan Prime and Bastion)."
   },
   {
     "id": "society_weaponry_lvl_0",
     "category": "society_weaponry",
-    "name": "Weaponry & Defense Grids (Level 0: Primitive / Subsistence)",
+    "name": "Weaponry & Defense Grids (Level 0: Melee & Archaic)",
     "level": 0,
     "sphere_key": "society_weaponry",
-    "description": "Level 0 development in Weaponry & Defense Grids: Military doctrines, planetary defense grids, ordinance, and arms advancement. (Primitive / Subsistence)."
+    "description": "Level 0 (Melee & Archaic) in Weaponry & Defense Grids: Unarmed strikes, stone/metal blades, bows, crossbows, and slings."
   },
   {
     "id": "society_weaponry_lvl_1",
     "category": "society_weaponry",
-    "name": "Weaponry & Defense Grids (Level 1: Emerging / Industrial)",
+    "name": "Weaponry & Defense Grids (Level 1: Gunpowder & Industrial)",
     "level": 1,
     "sphere_key": "society_weaponry",
-    "description": "Level 1 development in Weaponry & Defense Grids: Military doctrines, planetary defense grids, ordinance, and arms advancement. (Emerging / Industrial)."
+    "description": "Level 1 (Gunpowder & Industrial) in Weaponry & Defense Grids: Black-powder muskets, rifled firearms, steam cannons, and early chemical explosives."
   },
   {
     "id": "society_weaponry_lvl_2",
     "category": "society_weaponry",
-    "name": "Weaponry & Defense Grids (Level 2: Modern / Planetary)",
+    "name": "Weaponry & Defense Grids (Level 2: Modern Firearms)",
     "level": 2,
     "sphere_key": "society_weaponry",
-    "description": "Level 2 development in Weaponry & Defense Grids: Military doctrines, planetary defense grids, ordinance, and arms advancement. (Modern / Planetary)."
+    "description": "Level 2 (Modern Firearms) in Weaponry & Defense Grids: Caseless automatic ballistics, guided missiles, anti-materiel rifles, and early railgun prototypes."
   },
   {
     "id": "society_weaponry_lvl_3",
     "category": "society_weaponry",
-    "name": "Weaponry & Defense Grids (Level 3: Advanced / Stellar)",
+    "name": "Weaponry & Defense Grids (Level 3: Directed-Energy & Mag-Rail)",
     "level": 3,
     "sphere_key": "society_weaponry",
-    "description": "Level 3 development in Weaponry & Defense Grids: Military doctrines, planetary defense grids, ordinance, and arms advancement. (Advanced / Stellar)."
+    "description": "Level 3 (Directed-Energy & Mag-Rail) in Weaponry & Defense Grids: Laser, ion, plasma, and magnetic coilgun weaponry alongside high-drain energy shields."
   },
   {
     "id": "society_weaponry_lvl_4",
     "category": "society_weaponry",
-    "name": "Weaponry & Defense Grids (Level 4: Mastered / Interstellar)",
+    "name": "Weaponry & Defense Grids (Level 4: Nanotech & Force Weaponry)",
     "level": 4,
     "sphere_key": "society_weaponry",
-    "description": "Level 4 development in Weaponry & Defense Grids: Military doctrines, planetary defense grids, ordinance, and arms advancement. (Mastered / Interstellar)."
+    "description": "Level 4 (Nanotech & Force Weaponry) in Weaponry & Defense Grids: Particle projection cannons, phase-weapons, personal force fields, and tactical singularity warheads."
   },
   {
     "id": "society_weaponry_lvl_5",
     "category": "society_weaponry",
-    "name": "Weaponry & Defense Grids (Level 5: Transcendent / Deific)",
+    "name": "Weaponry & Defense Grids (Level 5: Gravitonic & Disintegration)",
     "level": 5,
     "sphere_key": "society_weaponry",
-    "description": "Level 5 development in Weaponry & Defense Grids: Military doctrines, planetary defense grids, ordinance, and arms advancement. (Transcendent / Deific)."
+    "description": "Level 5 (Gravitonic & Disintegration) in Weaponry & Defense Grids: Weaponized gravity, disintegration beams, Polymatter morph-weapons, and planetary shield grids."
   }
 ];
 
@@ -2020,96 +2037,160 @@ export {
 
 export const DEFAULT_TECHNOLOGY = [
   {
-    id: 'technology_tl_0',
-    name: 'TL 0: Stone Age (Primitive / Pre-Industrial)',
-    tech_level: 0,
-    meta_level: 0,
-    craft_dc: 0,
-    era: 'Stone Age',
-    subtitle: 'Primitive / Pre-Industrial',
-    wealth_mod: -4,
-    power_sources: ['Muscle', 'Fire', 'Wind', 'Water'],
-    species: ['Fae', 'Koban', 'Thorns'],
-    restricted_skills: ['Piloting', 'Engineering', 'Computer'],
-    description: 'TL 0 encompasses the Stone Age and primitive survival societies. Characterized by muscle power, fire, wind, and basic water wheels. Highly restricted in high-complexity engineering.',
-    mechanic: 'Wealth Modifier: -4. Education Bonus: +2 Alertness, +2 Survival, 1 Skill +2. Restricted Skills: Piloting, Engineering, Computer.',
-    note: 'Primitive technologies; cannot craft electronic, robotic, or sub-space equipment.'
+    "id": "technology_tl_0",
+    "name": "TL 0: Stone Age (Primitive / Pre-Industrial)",
+    "tech_level": 0,
+    "meta_level": 0,
+    "craft_dc": 0,
+    "era": "The Stone, Bronze, and Iron Ages",
+    "subtitle": "Primitive / Pre-Industrial",
+    "wealth_mod": -4,
+    "power_sources": [
+      "Muscle",
+      "Fire",
+      "Wind",
+      "Water"
+    ],
+    "species": [
+      "Fae",
+      "Koban",
+      "Thorns"
+    ],
+    "restricted_skills": [
+      "Piloting",
+      "Engineering",
+      "Computer"
+    ],
+    "description": "TL 0 describes cultures operating outside complex mechanical technology, relying on organic strength, survival strategies, or inherent metaphysics. Spans Nascent (stone/bone), Standard (bronze/iron/wheel), and Advanced (steel/clockwork/alchemy).",
+    "mechanic": "Education Bonus: Alertness +2, Survival +2, 1 Skill +2 (Limited Selection). Cannot select Piloting, Engineering, or Computer skills at character creation. Equipment has the Degrading trait.",
+    "note": "Associated Species: Fae, Koban, Thorns."
   },
   {
-    id: 'technology_tl_1',
-    name: 'TL 1: Metal Age (Industrial / Mechanical)',
-    tech_level: 1,
-    meta_level: 0,
-    craft_dc: 10,
-    era: 'Metal Age',
-    subtitle: 'Industrial / Mechanical',
-    wealth_mod: -2,
-    power_sources: ['Coal', 'Steam', 'Early Fossil Fuel'],
-    species: ['Caprians', 'Orlls', 'Truldan', 'Vassoth', 'Weti'],
-    restricted_skills: ['Piloting', 'Computer'],
-    description: 'TL 1 spans the Bronze, Iron, and industrial steam revolutions. Mechanical combustion, steam engines, early metallurgy, and mass rifled firearms.',
-    mechanic: 'Wealth Modifier: -2. Education Bonus: 2 Vocation Skills +2, 4 Skills +2. Restricted Skills: Piloting, Computer.',
-    note: 'Mechanical steam/combustion age. Internal combustion engines, telegraphs, and factories.'
+    "id": "technology_tl_1",
+    "name": "TL 1: Metal Age (Industrial / Mechanical)",
+    "tech_level": 1,
+    "meta_level": 0,
+    "craft_dc": 10,
+    "era": "The Age of Steam and Combustion",
+    "subtitle": "Industrial / Mechanical",
+    "wealth_mod": -2,
+    "power_sources": [
+      "Coal",
+      "Steam",
+      "Early Fossil Fuels"
+    ],
+    "species": [
+      "Caprians",
+      "Orlls",
+      "Truldan",
+      "Vassoth",
+      "Weti"
+    ],
+    "restricted_skills": [
+      "Piloting",
+      "Computer"
+    ],
+    "description": "TL 1 marks the transition from the Iron Age to the Industrial Revolution. Foundries enable mass metallurgy, steam engines, locomotives, rifled firearms, and early DC electricity and biplanes.",
+    "mechanic": "Education Bonus: 2 Vocation skills +2, 4 Skills +2 (Limited Selection). Base Cost Modifier: -5 CR. No advanced electronics or energy shielding.",
+    "note": "Associated Species: Caprians, Orlls, Truldan, Vassoth, Weti."
   },
   {
-    id: 'technology_tl_2',
-    name: 'TL 2: Data Age (Digital / Information)',
-    tech_level: 2,
-    meta_level: 0,
-    craft_dc: 20,
-    era: 'Data Age',
-    subtitle: 'Digital / Information',
-    wealth_mod: 0,
-    power_sources: ['Hydrocarbons', 'Fission', 'Renewables'],
-    species: ['Brei', 'Dwergs', 'Prokoss', 'Qerics', 'Terran Humans'],
-    description: 'TL 2 is the digital, telecommunication, and early space age. Global computer networks, silicon computing, atomic fission, and orbital exploration.',
-    mechanic: 'Wealth Modifier: 0. Education Bonus: +20 Skill Points. Baseline galactic technological standard.',
-    note: 'Information Age standard. Digital encryption, rocketry, ballistic defense systems.'
+    "id": "technology_tl_2",
+    "name": "TL 2: Data Age (Digital / Information)",
+    "tech_level": 2,
+    "meta_level": 0,
+    "craft_dc": 20,
+    "era": "The Silicon and Plastic Age",
+    "subtitle": "Digital / Information",
+    "wealth_mod": 0,
+    "power_sources": [
+      "Advanced Hydrocarbons",
+      "Fission",
+      "Renewables"
+    ],
+    "species": [
+      "Brei",
+      "Dwergs",
+      "Prokoss",
+      "Qerics",
+      "Terran Humans"
+    ],
+    "description": "TL 2 is comparable to Modern Earth through early solar system colonization. Defined by global digital networks, silicon micro-processing, roller vehicles, orbital rocketry, genetic sequencing, and ballistic kevlar/ceramic armor.",
+    "mechanic": "Education Bonus: +20 Skill Points (Modern Education System). Base Cost Modifier: -5 CR. Protective gear features the Ballistic Weave trait.",
+    "note": "Associated Species: Brei, Dwergs, Prokoss, Qerics, Terran Humans."
   },
   {
-    id: 'technology_tl_3',
-    name: 'TL 3: Stellar Age (Interplanetary / Fusion)',
-    tech_level: 3,
-    meta_level: 0,
-    craft_dc: 30,
-    era: 'Stellar Age',
-    subtitle: 'Interplanetary / Fusion',
-    wealth_mod: 2,
-    power_sources: ['Fusion', 'Antimatter Traps', 'Orbital Solar'],
-    species: ['Celestines', 'Khorani', 'Vajar', 'Sylveth'],
-    description: 'TL 3 represents interplanetary colonization, controlled compact fusion, laser/plasma weaponry, artificial gravity, and early sub-space communication.',
-    mechanic: 'Wealth Modifier: +2. Education Bonus: +30 Skill Points. Interplanetary standard.',
-    note: 'Fusion power grids, energy shields, interplanetary travel, sub-light drives.'
+    "id": "technology_tl_3",
+    "name": "TL 3: Space Age (Stellar / The Gate Era)",
+    "tech_level": 3,
+    "meta_level": 0,
+    "craft_dc": 30,
+    "era": "The Age of Fusion and Expansion",
+    "subtitle": "Stellar / The Gate Era",
+    "wealth_mod": 2,
+    "power_sources": [
+      "Thorium",
+      "Hydrogen Fuel Cells",
+      "Fusion"
+    ],
+    "species": [
+      "Alterians",
+      "Dracon Dynasty",
+      "Coalition",
+      "Outworlds"
+    ],
+    "description": "TL 3 is the galactic baseline for interstellar expansion via stationary Precursor Jump Gates and early Tangent Space discovery. Features fusion torch ships, GEV hovercraft, myomer walkers, industrial cybernetics, and holographic transceivers. Gravity is spin or thrust only.",
+    "mechanic": "Education Bonus: +30 Skill Points (Advanced Education System). Base Cost Modifier: +0 CR. Equipment features the Modular trait (universal ports and batteries).",
+    "note": "Associated Species & Factions: Alterians, Dynasty, most Independent factions, Outworlds."
   },
   {
-    id: 'technology_tl_4',
-    name: 'TL 4: Cosmic Age (Interstellar / Warp)',
-    tech_level: 4,
-    meta_level: 0,
-    craft_dc: 40,
-    era: 'Cosmic Age',
-    subtitle: 'Interstellar / Warp',
-    wealth_mod: 4,
-    power_sources: ['Zero-Point Nodes', 'Dark Energy Conduits', 'Singularity Drives'],
-    species: ['Ascendants', 'Archons', 'Entari High Nobles'],
-    description: 'TL 4 achieves reliable faster-than-light (FTL) warp navigation, matter replication, nanite swarms, advanced cybernetics, and antimatter beam weaponry.',
-    mechanic: 'Wealth Modifier: +4. Education Bonus: +40 Skill Points. FTL interstellar travel standard.',
-    note: 'Warp navigation, quantum entanglement comms, molecular fabrication.'
+    "id": "technology_tl_4",
+    "name": "TL 4: Stellar Age (Galactic / The Warp Era)",
+    "tech_level": 4,
+    "meta_level": 0,
+    "craft_dc": 40,
+    "era": "The Age of Antimatter and Field Manipulation",
+    "subtitle": "Galactic / The Warp Era",
+    "wealth_mod": 4,
+    "power_sources": [
+      "Antimatter",
+      "Cold Fusion",
+      "Aetherium Integration"
+    ],
+    "species": [
+      "Impyrium",
+      "Aulurans",
+      "Manelli",
+      "Davae",
+      "Sefalin",
+      "Syndicate"
+    ],
+    "description": "TL 4 masters matter and force: artificial grav-plating, inertial dampeners, independent Tangent Drives (Warp), clinical immortality, trans-neural interfaces, nanocarbon smart-matter, and directed-energy/plasma dominance.",
+    "mechanic": "Education Bonus: +40 Skill Points (Highly Advanced Education System). Base Cost Modifier: +5 CR. Equipment inherently possesses the Self-Repairing trait (regenerates 1 SP/hour).",
+    "note": "Associated Species & Factions: Impyrium, Aulurans, Manelli, Davae, Sefalin, Syndicate."
   },
   {
-    id: 'technology_tl_5',
-    name: 'TL 5: Ascendant Age (Post-Physical / Transcendent)',
-    tech_level: 5,
-    meta_level: 0,
-    craft_dc: 50,
-    era: 'Ascendant Age',
-    subtitle: 'Post-Physical / Transcendent',
-    wealth_mod: 6,
-    power_sources: ['Planar Taps', 'Dimensional Core Siphons', 'Chronal Flux'],
-    species: ['Progenitors', 'Elders', 'Transcendents'],
-    description: 'TL 5 transcends physical manufacturing limitations. Matter synthesis from raw energy, Dyson megastructures, temporal stabilization, and pocket dimensions.',
-    mechanic: 'Wealth Modifier: +6. Education Bonus: +50 Skill Points. Transcendent post-scarcity tier.',
-    note: 'Post-scarcity, reality warping, chronal shielding, planar engineering.'
+    "id": "technology_tl_5",
+    "name": "TL 5: Galactic Age (Cosmic / The Singularity)",
+    "tech_level": 5,
+    "meta_level": 0,
+    "craft_dc": 50,
+    "era": "The Age of Reality Manipulation",
+    "subtitle": "Cosmic / The Singularity",
+    "wealth_mod": 6,
+    "power_sources": [
+      "Dimensional Siphons",
+      "Matter-Energy Conversion",
+      "Zero-Point Energy"
+    ],
+    "species": [
+      "Mekan",
+      "Mondi",
+      "Sha’Nor"
+    ],
+    "description": "TL 5 is the apex of material science where hardware and software merge. Defined by thought-responsive Polymatter, solid-light Holophotonics, Dyson megastructures (Mekan Prime, Bastion), dimensional compression, and digital immortality.",
+    "mechanic": "Education Bonus: +50 Skill Points (Cutting-Edge Education System). Base Cost Modifier: +10 CR. Equipment features the Morphic (Polymatter) or Weightless (Holophotonic) traits.",
+    "note": "Associated Species: Mekan, Mondi, Sha’Nor. (Above TL 5 lies TL X: Transgalactic, the non-player domain of the Progenitors / The Makers)."
   }
 ];
 
@@ -2124,4 +2205,3 @@ export const DEFAULT_ECONOMATRIX = COMMODITIES_CATALOG.map(c => ({
   mechanic: `Base Cost: ${c.baseCostPerTon} Cr per ton. Source worlds produce with high supply; demand worlds purchase at premium.`,
   note: `Trade codes: Sources [${(c.sources || []).join(', ')}], Demands [${(c.demands || []).join(', ')}]`
 }));
-

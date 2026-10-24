@@ -4,23 +4,23 @@ category: mecha
 name: Advanced Grav-Tank
 domain: Hover / Ground
 size: Huge
-frame: Industrial
-cost: 163840
-craft_dc: 35
-sp: 600
-dr: 45
+frame: Anti-Gravity Combat Tank
+cost: 40960
+craft_dc: 30
+sp: 280
+dr: 35
 mounts: 12
-propulsion: Anti-Gravity Repulsor Repulsion
+propulsion: Anti-Gravity
 description: >-
-  Floating armored fortress moving effortlessly across water, mud, and
-  minefields armed with particle beams.
+  A floating fortress that moves effortlessly over water, mud, and mines, armed
+  with particle beam or plasma weaponry and capable of pop-up maneuver warfare.
 mechanic: >-
-  Particle Beam Cannon (5d10), High Mobility Strafing, Active Energy Shields (DR
-  45).
+  Anti-gravity tank immune to terrain/mines. Mounts Particle Beam Cannon and
+  heavy heatsinks. | SP: 280, DR: 35 | Craft DC: 30 (40,960 Cr)
 costs:
   cp: 0
   bp: 0
-  credits: 163840
+  credits: 40960
   nodes: 0
   sockets: 0
   strain: 0
@@ -39,11 +39,18 @@ sockets:
   tier: Socket
   allocated: []
 tech_level: 4
-keywords: 'advanced grav-tank, mecha, vehicle, huge, industrial, tl-4'
-negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
+keywords: >-
+  advanced grav-tank, mecha, vehicle, military ground vehicle, anti-gravity
+  combat tank, tl-4
+negative_keywords: 'infantry-only, unmounted'
 meta_level: 0
-design_dc: 35
+design_dc: 30
+classification: Military Ground Vehicle
+crew: '3'
+durability: 280
 ---
-Floating armored fortress moving effortlessly across water, mud, and minefields armed with particle beams.
+A floating fortress that moves effortlessly over water, mud, and mines, armed with particle beam or plasma weaponry and capable of pop-up maneuver warfare.
 
-**Mechanics:** Particle Beam Cannon (5d10), High Mobility Strafing, Active Energy Shields (DR 45).
+**Class:** Military Ground Vehicle (Anti-Gravity Combat Tank)
+**Propulsion:** Anti-Gravity | **Crew:** 3
+**Mechanics:** Anti-gravity tank immune to terrain/mines. Mounts Particle Beam Cannon and heavy heatsinks. | SP: 280, DR: 35 | Craft DC: 30 (40,960 Cr)

@@ -1,13 +1,13 @@
 ---
 id: chitinous-carapace
-category: Mediumweight
+category: Heavyweight
 name: Chitinous Carapace (Warrior Strain)
-cost: 2560
-craft_dc: 20
-design_dc: 20
-dr: 18
-sp: 45
-durability: 45
+cost: 10240
+craft_dc: 25
+design_dc: 25
+dr: 20
+sp: 60
+durability: 60
 body_locations:
   - Head
   - Torso
@@ -21,13 +21,15 @@ sockets:
   tier: Socket
   allocated: []
 description: >-
-  Dense, multilayered insectoid carapace grown by Kitin warriors, offering high
-  deflection against kinetic and acid attacks.
-mechanic: 'Acid & Kinetic Resistance (Ignore 5 Acid/Corrosive damage). DR 18, SP 45.'
+  Heavy, interlocking plates of bio-ceramic bone and insectoid chitin grown over
+  a muscular underlay. Offers superior environmental adaptation.
+mechanic: >-
+  DR 20 (Hardened Bone), SP 60 (Dense Chitin). Penalty: -1 Mobility. Sealed (4hr
+  Water/Vacuum breathing); Camouflage (+2 Stealth). Base Sockets: 6.
 costs:
   cp: 0
   bp: 0
-  credits: 2560
+  credits: 10240
   nodes: 0
   sockets: 0
   strain: 0
@@ -40,15 +42,15 @@ critical_details:
   effect: []
   success_effect: []
   failure_effect: []
-tech_level: 3
+tech_level: 4
 meta_level: 0
 keywords: 'chitinous carapace (warrior strain), armor, defense, dr-18, medium-armor, tl-3'
 negative_keywords: 'unarmored, fragile, naked'
 collection: armoring
-armor_class: Mediumweight
-armor_type: Mediumweight
-mobility_penalty: 0
+armor_class: Heavyweight
+armor_type: Full Body Armor (Biotech)
+mobility_penalty: -1
 ---
-Dense, multilayered insectoid carapace grown by Kitin warriors, offering high deflection against kinetic and acid attacks.
+Heavy, interlocking plates of bio-ceramic bone and insectoid chitin grown over a muscular underlay. Offers superior environmental adaptation.
 
-**Mechanics:** Acid & Kinetic Resistance (Ignore 5 Acid/Corrosive damage). DR 18, SP 45.
+**Mechanics:** DR 20 (Hardened Bone), SP 60 (Dense Chitin). Penalty: -1 Mobility. Sealed (4hr Water/Vacuum breathing); Camouflage (+2 Stealth). Base Sockets: 6.

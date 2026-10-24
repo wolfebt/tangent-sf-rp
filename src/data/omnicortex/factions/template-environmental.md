@@ -28,7 +28,7 @@ skill_package:
   - Stealth (+4)
   - Mechanics (Sabotage) (+3)
   - Athletics (+3)
-recommended_features:
+recommended_features: &ref_0
   - Naturalist
   - Animal Affinity
   - Wild Speech
@@ -37,19 +37,8 @@ recommended_features:
   - Camouflage
   - Tolerance
   - Danger Sense
-  - Environmental Resistance
   - Climber
-features:
-  - Naturalist
-  - Animal Affinity
-  - Wild Speech
-  - Tracker
-  - Self Sufficient
-  - Camouflage
-  - Tolerance
-  - Danger Sense
-  - Environmental Resistance
-  - Climber
+features: *ref_0
 bonus_features:
   - Naturalist
 description: >-

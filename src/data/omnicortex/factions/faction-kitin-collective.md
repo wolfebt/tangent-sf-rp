@@ -29,32 +29,14 @@ skill_package:
   - Athletics (+3)
   - Metaphysics (+3)
   - Combat (+3)
-recommended_features:
-  - Radiation Advantage
-  - Torpor (Universal)
-  - Biological Continuity
-  - Psionic Gating
+recommended_features: &ref_0
   - Biotechnology
   - Mind Link
   - Telepathy
   - Fast Heal
-  - Wall-Crawler
   - Scent
   - Endurance
-  - Swarm Tactics (Coordinated Assist)
-features:
-  - Radiation Advantage
-  - Torpor (Universal)
-  - Biological Continuity
-  - Psionic Gating
-  - Biotechnology
-  - Mind Link
-  - Telepathy
-  - Fast Heal
-  - Wall-Crawler
-  - Scent
-  - Endurance
-  - Swarm Tactics (Coordinated Assist)
+features: *ref_0
 bonus_features:
   - Psionic Gating
   - Biological Continuity
@@ -71,8 +53,8 @@ faction_classification: Major Galactic Power
 recommended_species:
   - Manelli (Cerebral Expression)
   - Murex (Foundation Expression)
-  - Rakne (Kitin Stalker)
-  - Maantene (Kitin Leaper)
+  - Rakne (Infiltration Expression)
+  - Maantene (Recon Expression)
   - Syndess (Pilot Expression)
 recommended_origins:
   - Colony

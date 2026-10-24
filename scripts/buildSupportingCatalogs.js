@@ -254,18 +254,19 @@ const CLASSIFICATIONS = [
   { id: 'class-armor-hazard', name: 'Hazard Suit', description: 'Specialized chemical, radiation, and biological isolation suit for industrial disaster zones.' }
 ];
 
-// 17. Creators & Manufacturers (10 entries)
+// 17. Creators & Manufacturer Paradigms (11 canonical entries from 99.Tech.Equipment.Framework.md)
 const CREATORS = [
-  { id: 'creator-terran-dynamics', name: 'Terran Dynamics', faction: 'Coalition of Earth', description: 'Industrial megacorp specializing in reliable, rugged ballistic firearms and combat gear.' },
-  { id: 'creator-nova-forge', name: 'Nova Forge Armaments', faction: 'The Syndicate', description: 'Cutting-edge corporate manufacturer of laser systems, smart-link tech, and sleek armor.' },
-  { id: 'creator-apex-synthetic', name: 'Apex Synthetic Labs', faction: 'Synthetics', description: 'Pioneers in high-density cybernetics, android chassis, and neural processor cores.' },
-  { id: 'creator-aeld-ascendancy', name: 'Aeld Ascendancy Fabricators', faction: 'Aeld Ascendancy', description: 'Artisans of living wood-ceramic composites, elegant sun-glaives, and solar-charged tech.' },
-  { id: 'creator-asi-bio-weavers', name: 'Asi Bio-Weavers', faction: 'Asi Enclaves', description: 'Masters of organic bioware, living chitin weaves, and metaphysical growth conduits.' },
-  { id: 'creator-kitin-forges', name: 'Kitin Chitin Forges', faction: 'Kitin Collective', description: 'Producers of layered bio-metallic chitin plates and biological acid projectile weaponry.' },
-  { id: 'creator-shanor-voidsmiths', name: 'Sha’nor Voidsmiths', faction: 'Sha’nor Dominion', description: 'Esoteric blacksmiths forging weapons infused with void-entropy and dark energy.' },
-  { id: 'creator-varen-gatekeeper', name: 'Varen Gatekeeper Works', faction: 'Varen Enclaves', description: 'Ancient guardians crafting dimensional displacement fields and heavy barrier systems.' },
-  { id: 'creator-risakin-heavy', name: 'Risakin Heavy Industrial', faction: 'Risakin', description: 'Producers of massive titan-scale hydraulic weapons and heavy structural frames.' },
-  { id: 'creator-free-droid', name: 'Free Droid Union', faction: 'Sentient Machines', description: 'Open-source modular electronics, custom jury-rigged scrap chassis, and repair kits.' }
+  { id: 'creator-syndicate', name: 'The Syndicate (Corporate Futurism)', faction: 'The Syndicate', trait: 'Integrated System', description: 'Apple Store Cathedral aesthetic using matte white composites, brushed aluminum, and cyan holographic data-streams. Tethered to the Mesh (+2 Knowledge checks on local networks; subject to subscription Penance Mode).' },
+  { id: 'creator-impyrium', name: 'The Impyrium (Heirloom Industrial)', faction: 'The Impyrium', trait: 'Archeotech', description: 'Celestial Neo-Sumerian aesthetic clad in gold filigree, white marble, and purity seals. Grants +2 DR and +2 Hardness, but uses Relic Sockets that reject modern or alien modifications.' },
+  { id: 'creator-dracon-dynasty', name: 'The Dracon Dynasty (Feudal Protection)', faction: 'Dracon Dynasty', trait: 'Bulwark', description: 'High-Fantasy Industrial aesthetic with dragon-scale motifs, heraldic crests, and warm gold lighting. Prioritizes structural integrity (+20% SP and +1 DR) over speed.' },
+  { id: 'creator-ascendancy', name: 'The Ascendancy (Enlightened Innovation)', faction: 'The Ascendancy', trait: 'Adaptive Progress', description: 'Smart City Solarpunk aesthetic with clean curves, glass canopies, and blue energy accents. Heavily shielded, agile, and integrates non-lethal options alongside lethal armaments.' },
+  { id: 'creator-coalition', name: 'The Coalition & Outworlds (Scrappy Industrial)', faction: 'Coalition / Outworlds', trait: 'Jury-Rigged', description: 'Space Western Noir aesthetic of scavenged parts, exposed wiring, and hazard stripes. Reduces acquisition/crafting CR by -5, but glitches or disables a Socket on a Natural 1.' },
+  { id: 'creator-alterian-enclave', name: 'The Alterian Enclave (Botanical Engineering)', faction: 'Alterian Enclave', trait: 'Photosynthesis & Naturalist', description: 'Interstellar Art Nouveau aesthetic fusing white ceramic with living wood and solar sails. Recharges energy cells in direct sunlight and grants +2 to Nature and Survival checks.' },
+  { id: 'creator-auluran', name: 'The Auluran (Symbiotic Growth)', faction: 'Auluran Clans', trait: 'Regeneration & Symbiosis', description: 'Bioluminescent Jungle aesthetic of vat-grown chitinous hulls and vascular corridors. Passively regenerates 2 SP/round and can spend 1 Karma to adapt to environmental hazards.' },
+  { id: 'creator-mekan', name: 'The Mekan (Mechanical Perfection)', faction: 'Mekan', trait: 'Integrated Tools', description: 'Fractal Perfection aesthetic of geometric spheres, magnetic suspension, and TL 5 Polymatter. Autonomously shifts physical form to grant +2 to Vocation checks.' },
+  { id: 'creator-entari-combine', name: 'The Entari Combine (Cosmopolitan Trade)', faction: 'Entari Combine', trait: 'Ethical Efficiency', description: 'Galactic Senate eco-luxury aesthetic using silent nanoweaves, universal docking rings, advanced translation suites, and concealed defensive weaponry.' },
+  { id: 'creator-thorn', name: 'The Thorn (Primal Growth)', faction: 'Thorn', trait: 'Rooted & Camouflage', description: 'Primal bark-plate, vine-wrapped tech, and glowing chlorophyll veins. Grants +2 to resist Trip/Bull Rush attempts and +2 Stealth in wilderness environments.' },
+  { id: 'creator-kitin', name: 'The Kitin (Hive-Resin)', faction: 'Kitin Collective', trait: 'Hive-Link & Lightweight', description: 'Secreted hive-resin composites with green vein-piping. Integrates with telepathic hive-mind communications and counts as one category lighter for movement penalties.' }
 ];
 
 // 18. Designs & Schematics (8 entries)
@@ -322,39 +323,275 @@ const MODIFIERS = [
   { id: 'mod-ap-minus-1', name: '-1 Action Point (AP) Cost', target: 'Action Cost', value: -1, type: 'action', description: 'Reduces action point cost of specialized actions by 1.' }
 ];
 
-// 22. 14 Societal Spheres (70 entries across levels 0 to 5)
+// 22. 14 Societal Spheres (84 entries across levels 0 to 5, grounded in 99.Tech.CivilizationDomains.md)
 const SPHERE_DEFS = [
-  { key: 'society_agriculture', label: 'Agriculture & Biosphere', desc: 'Food production, farming technologies, hydroponics, and ecosystem synthesis.' },
-  { key: 'society_architecture', label: 'Architecture & Habitats', desc: 'Urban engineering, habitat construction, dome architecture, and megastructures.' },
-  { key: 'society_biotechnology', label: 'Biotechnology & Genetics', desc: 'Genetics, cloning, bio-engineering, neural crafting, and organism design.' },
-  { key: 'society_commerce', label: 'Commerce & Economy', desc: 'Economic models, banking networks, trade routes, currency, and resource exchange.' },
-  { key: 'society_communication', label: 'Communication & Data', desc: 'Sub-space relays, ansible networks, holonet infrastructure, and telemetry.' },
-  { key: 'society_devices', label: 'Devices & Apparatus', desc: 'Consumer electronics, personal computing, sensors, tools, and apparatus.' },
-  { key: 'society_education', label: 'Education & Archives', desc: 'Knowledge institutions, neural archives, apprenticeships, and academies.' },
-  { key: 'society_energy', label: 'Energy & Power Generation', desc: 'Power generation, fusion reactors, antimatter taps, and solar arrays.' },
-  { key: 'society_manufacturing', label: 'Manufacturing & Industry', desc: 'Industrial automated fabrication, nano-forges, mass production, and orbital yards.' },
-  { key: 'society_materials', label: 'Materials & Metallurgy', desc: 'Material science, meta-materials, molecular metallurgy, and high-density plating.' },
-  { key: 'society_medicine', label: 'Medicine & Healthcare', desc: 'Healthcare infrastructure, cellular regeneration, trauma care, and panaceas.' },
-  { key: 'society_society', label: 'Structure & Governance', desc: 'Government models, legal systems, social stratification, and caste frameworks.' },
-  { key: 'society_synthetics', label: 'Synthetics & AI Rights', desc: 'Artificial intelligence, android rights, synthetic biology, and cybernetics.' },
-  { key: 'society_weaponry', label: 'Weaponry & Defense Grids', desc: 'Military doctrines, planetary defense grids, ordinance, and arms advancement.' }
+  {
+    key: 'society_agriculture', label: 'Agriculture & Biosphere',
+    levels: [
+      { title: 'Hunting and Gathering', desc: 'Early societies rely on hunting animals and gathering wild plants for sustenance.' },
+      { title: 'Farming', desc: 'Domestication of plants and animals, leading to settled agriculture.' },
+      { title: 'Advanced Farming', desc: 'Modern farming techniques, including mechanization, irrigation, and fertilization.' },
+      { title: 'Terraforming', desc: 'Manipulation of planetary environments to create suitable conditions for agriculture.' },
+      { title: 'Planetary Engineering', desc: 'Large-scale manipulation of entire planetary biospheres for agricultural output.' },
+      { title: 'Matter Synthesis', desc: 'Direct conversion of energy into food and organic matter (Post-Scarcity Replicators).' }
+    ]
+  },
+  {
+    key: 'society_architecture', label: 'Architecture & Habitats',
+    levels: [
+      { title: 'Simple Structures', desc: 'Huts, tents, and basic masonry structures.' },
+      { title: 'Advanced Masonry', desc: 'Early steel structures, foundries, and basic urban planning.' },
+      { title: 'Skyscrapers', desc: 'Advanced urban planning, reinforced high-rises, and sustainable architecture.' },
+      { title: 'Smart Cities', desc: 'Advanced building materials, arcologies, and energy-efficient pressurized designs.' },
+      { title: 'Advanced Space Habitats', desc: 'Self-assembling orbital structures, grav-plated stations, and terraforming domes.' },
+      { title: 'Megastructures', desc: 'Dyson Spheres, Ring Worlds (such as Mekan Prime), and Stellar Engineering.' }
+    ]
+  },
+  {
+    key: 'society_biotechnology', label: 'Biotechnology & Genetics',
+    levels: [
+      { title: 'Herbalism', desc: 'Use of simple medicine, wild herbs, and natural remedies.' },
+      { title: 'Pharmacology', desc: 'Improvements in medical knowledge, effective chemical treatments, and early pharmacology.' },
+      { title: 'Early Biotech', desc: '3D printable biological materials, genetic sequencing, and early nanotechnology.' },
+      { title: 'Genetic Engineering', desc: 'Living machinery, self-healing grafts, cloning, and morphic functionality.' },
+      { title: 'Gene Editing', desc: 'Programmable biological materials, advanced living machinery, and seamless bio-integration.' },
+      { title: 'Advanced Nanobiotechnology', desc: 'Advanced morphic equipment, enhanced genetic tailoring, digital consciousness, and retro-genetic reengineering.' }
+    ]
+  },
+  {
+    key: 'society_commerce', label: 'Commerce & Economy',
+    levels: [
+      { title: 'Barter Systems', desc: 'Simple trade networks and direct commodity barter.' },
+      { title: 'Currency Systems', desc: 'Precious metal coinage, early financial institutions, and basic market economies.' },
+      { title: 'Modern Financial Systems', desc: 'Global trade networks, fiat banking, and advanced planetary market economies.' },
+      { title: 'Digital Currencies', desc: 'Interstellar credit networks, Cold Credit bearer chits, and system-wide economic integration.' },
+      { title: 'Advanced Economies', desc: 'Decentralized Mesh financial systems, Wealth Score leverage, and high-liquidity stellar markets.' },
+      { title: 'Post-Scarcity', desc: 'Base Substance Interchange renders traditional currency obsolete; economy is based on energy allocation and prestige.' }
+    ]
+  },
+  {
+    key: 'society_communication', label: 'Communication & Data',
+    levels: [
+      { title: 'Verbal & Pictograms', desc: 'Spoken language and simple pictographic drawings.' },
+      { title: 'Published Text & Signaling', desc: 'Written language, printing presses, and optical/telegraphic signaling.' },
+      { title: 'Digital Networks', desc: 'Audio/video broadcast, radio, flatvid television, and planetary internet.' },
+      { title: 'Holographic & FTL', desc: 'Volumetric holographic transceivers and faster-than-light relay communication.' },
+      { title: 'Mnemonic Transceivers', desc: 'Direct thought-based trans-neural communication across stellar networks.' },
+      { title: 'Quantum Signaler', desc: 'Real-time instantaneous FTL communication using quantum entanglement with zero latency.' }
+    ]
+  },
+  {
+    key: 'society_devices', label: 'Devices & Apparatus',
+    levels: [
+      { title: 'Simple Mechanical', desc: 'Levers, pulleys, wedges, and wheels.' },
+      { title: 'Steam & Electric', desc: 'Steam-powered machines, early DC electrical devices, and clockwork mechanisms.' },
+      { title: 'Integrated Circuits', desc: 'Personal computers, smartphones, passive sensors, and modern silicon electronics.' },
+      { title: 'Robotics & AI', desc: 'Modular digital devices, advanced robotics, self-aware automata, and quantum computing.' },
+      { title: 'Brain-Computer Interfaces', desc: 'Trans-neural interfaces, nanocarbon smart-devices, and molecular machines.' },
+      { title: 'Holophotonic Projected', desc: 'Weightless solid-light devices projected on demand from a Fine-sized emitter library.' }
+    ]
+  },
+  {
+    key: 'society_education', label: 'Education & Archives',
+    levels: [
+      { title: 'Oral Tradition', desc: 'Apprenticeships, elders, and oral transmission of survival and tribal lore (+2 Alertness, +2 Survival, 1 Skill +2).' },
+      { title: 'Guilds & Print', desc: 'Written archives, universities, and vocational guild apprenticeships (2 Vocation skills +2, 4 Skills +2).' },
+      { title: 'Modern Education', desc: 'Standardized public and higher education supported by digital databases (+20 Skill Points).' },
+      { title: 'Advanced Stellar Education', desc: 'Immersive AR/VR training academies and system-wide knowledge archives (+30 Skill Points).' },
+      { title: 'Trans-Neural Education', desc: 'Direct neural skill-circuitry conditioning and AI-guided instruction (+40 Skill Points).' },
+      { title: 'Cutting-Edge Bastion Archives', desc: 'Instantaneous cognitive synthesis and gestational super-intellect complexes (+50 Skill Points).' }
+    ]
+  },
+  {
+    key: 'society_energy', label: 'Energy & Power Generation',
+    levels: [
+      { title: 'Biomass', desc: 'Muscle power, fire, wind, water wheels, and organic fuels.' },
+      { title: 'Fossil Fuels', desc: 'Coal, steam boilers, oil, and early internal combustion.' },
+      { title: 'Nuclear & Renewables', desc: 'Advanced hydrocarbons, atomic fission reactors, solar arrays, and wind turbines.' },
+      { title: 'Fusion Power', desc: 'Compact thorium reactors, hydrogen fuel cells, and helium-3 fusion cores.' },
+      { title: 'Antimatter', desc: 'Antimatter containment pods, cold fusion, kinetic reactors, and Aetherium integration.' },
+      { title: 'Zero-Point & Quantum', desc: 'Dimensional siphons, dark energy conduits, and matter-energy conversion harvesting reality itself.' }
+    ]
+  },
+  {
+    key: 'society_manufacturing', label: 'Manufacturing & Industry',
+    levels: [
+      { title: 'Handmade (Tier 0: x1)', desc: 'Basic goods produced by hand using stone, bone, or wood tools.' },
+      { title: 'Crafted & Foundry (Tier 1: x10)', desc: 'Fire harnessed for metalworking, foundries, and early mechanized assembly.' },
+      { title: 'Mass Industrialization (Tier 2: x50)', desc: 'Large-scale factory lines, precision machining, and additive 3D printing.' },
+      { title: 'Memory Materials (Tier 3: x200)', desc: 'Automated orbital yards, molecular nanotechnology, and shape-memory fabrication.' },
+      { title: 'Nanoforge & Bio-Vats (Tier 4: x1,000)', desc: 'Molecular assembly swarms and Auluran/Kitin hyper-growth cultivation vats.' },
+      { title: 'Polymatter Genesis (Tier 5: x5,000)', desc: 'Thought-responsive Polymatter looms and Base Substance Interchange replicators.' }
+    ]
+  },
+  {
+    key: 'society_materials', label: 'Materials & Metallurgy',
+    levels: [
+      { title: 'Natural Materials', desc: 'Unworked stone, bone, wood, animal hides, and early bronze/iron (25% DR, x0.25 SP).' },
+      { title: 'Synthetic & Steel Alloys', desc: 'High-carbon steel, wrought iron, and early industrial plastics (50% DR, x0.5 SP).' },
+      { title: 'Advanced Composites', desc: 'Ballistic kevlar weaves, strike-face ceramics, and titanium alloys (75% DR, x1.0 SP).' },
+      { title: 'Metamaterials & Plasteel', desc: 'Space-age plasteel, impact gel, Kitin hive-resin, and biomaterials (100% DR, x1.5 SP).' },
+      { title: 'Nanotechnology', desc: 'Self-repairing nanocarbon, phase-shift alloys, and Alterian sunglass laminates (125% DR, x2.0 SP).' },
+      { title: 'Polymatter & Hard-Light', desc: 'Morphic liquid-metal Polymatter and weightless Holophotonic lattices (150% DR, x2.5 SP).' }
+    ]
+  },
+  {
+    key: 'society_medicine', label: 'Medicine & Healthcare',
+    levels: [
+      { title: 'Simple Medicine', desc: 'Natural remedies, poultices, and herbalism; high mortality for surgery.' },
+      { title: 'Basic Medicine', desc: 'Germ theory, vaccines, early pharmacology, and X-ray diagnostics.' },
+      { title: 'Focused Medical Sciences', desc: 'Antibiotics, MRI imaging, precision surgery, and early genetic diagnostics.' },
+      { title: 'Augmentations & Cloning', desc: 'Cybernetic prosthetics, cloned replacement organs, med-gel, and century-plus longevity.' },
+      { title: 'Clinical Immortality', desc: 'Cellular reversal, regen-tanks, bioware grafts, and cortical stack re-sleeving.' },
+      { title: 'Retro-Genetic Engineering', desc: 'Instantaneous genetic rewriting, Matter Reconstruction Forges, and full digital immortality.' }
+    ]
+  },
+  {
+    key: 'society_society', label: 'Structure & Governance',
+    levels: [
+      { title: 'Tribal', desc: 'Small nomadic families, clans, and animistic social structures.' },
+      { title: 'Early Civilizations', desc: 'Urbanized nation-states, feudal dynasties, and codified legal hierarchies.' },
+      { title: 'Modern Societies', desc: 'Globalized planetary governments, international treaties, and connected media.' },
+      { title: 'Advanced Societies', desc: 'System-wide governance, corporate syndicates, and interstellar jump-gate coalitions.' },
+      { title: 'Highly Interconnected', desc: 'Multi-sector empires, Mesh-integrated meritocracies, and cosmopolitan trade combines.' },
+      { title: 'Post-Scarcity', desc: 'Gestalted super-intellect governance and post-scarcity societal harmony without resource need.' }
+    ]
+  },
+  {
+    key: 'society_synthetics', label: 'Synthetics & AI Rights',
+    levels: [
+      { title: 'Non-Existent', desc: 'No mechanical computation or artificial intelligence.' },
+      { title: 'Clockwork Automata', desc: 'Purely mechanical gear-driven automata and punch-card looms without cognition.' },
+      { title: 'Reactive & Limited Memory', desc: 'Smart devices, virtual assistants, and simple programmed industrial robots.' },
+      { title: 'Self-Aware Algorithm (Theory of Mind)', desc: 'Conscious self-aware AI and advanced automata capable of understanding emotions.' },
+      { title: 'Artificial General Intelligence (AGI)', desc: 'Androids, Sentient Machines, and Intellect Constructs indistinguishable from organic sapience.' },
+      { title: 'Hyper Intellect (ASI)', desc: 'Gestalted superintelligences surpassing organic wisdom (such as Mekan Prime and Bastion).' }
+    ]
+  },
+  {
+    key: 'society_weaponry', label: 'Weaponry & Defense Grids',
+    levels: [
+      { title: 'Melee & Archaic', desc: 'Unarmed strikes, stone/metal blades, bows, crossbows, and slings.' },
+      { title: 'Gunpowder & Industrial', desc: 'Black-powder muskets, rifled firearms, steam cannons, and early chemical explosives.' },
+      { title: 'Modern Firearms', desc: 'Caseless automatic ballistics, guided missiles, anti-materiel rifles, and early railgun prototypes.' },
+      { title: 'Directed-Energy & Mag-Rail', desc: 'Laser, ion, plasma, and magnetic coilgun weaponry alongside high-drain energy shields.' },
+      { title: 'Nanotech & Force Weaponry', desc: 'Particle projection cannons, phase-weapons, personal force fields, and tactical singularity warheads.' },
+      { title: 'Gravitonic & Disintegration', desc: 'Weaponized gravity, disintegration beams, Polymatter morph-weapons, and planetary shield grids.' }
+    ]
+  }
 ];
 
 const SOCIETAL_ENTRIES = [];
 SPHERE_DEFS.forEach(sphere => {
   for (let level = 0; level <= 5; level++) {
     const id = `${sphere.key}_lvl_${level}`;
-    const titles = ['Primitive / Subsistence', 'Emerging / Industrial', 'Modern / Planetary', 'Advanced / Stellar', 'Mastered / Interstellar', 'Transcendent / Deific'];
+    const lvlInfo = sphere.levels[level];
     SOCIETAL_ENTRIES.push({
       id,
       category: sphere.key,
-      name: `${sphere.label} (Level ${level}: ${titles[level]})`,
+      name: `${sphere.label} (Level ${level}: ${lvlInfo.title})`,
       level,
       sphere_key: sphere.key,
-      description: `Level ${level} development in ${sphere.label}: ${sphere.desc} (${titles[level]}).`
+      description: `Level ${level} (${lvlInfo.title}) in ${sphere.label}: ${lvlInfo.desc}`
     });
   }
 });
+
+// 23. Canonical Technology Levels (TL 0 - TL 5, grounded in 99.Tech.Levels.md)
+const TECHNOLOGY_LEVELS = [
+  {
+    id: 'technology_tl_0',
+    name: 'TL 0: Stone Age (Primitive / Pre-Industrial)',
+    tech_level: 0,
+    meta_level: 0,
+    craft_dc: 0,
+    era: 'The Stone, Bronze, and Iron Ages',
+    subtitle: 'Primitive / Pre-Industrial',
+    wealth_mod: -4,
+    power_sources: ['Muscle', 'Fire', 'Wind', 'Water'],
+    species: ['Fae', 'Koban', 'Thorns'],
+    restricted_skills: ['Piloting', 'Engineering', 'Computer'],
+    description: 'TL 0 describes cultures operating outside complex mechanical technology, relying on organic strength, survival strategies, or inherent metaphysics. Spans Nascent (stone/bone), Standard (bronze/iron/wheel), and Advanced (steel/clockwork/alchemy).',
+    mechanic: 'Education Bonus: Alertness +2, Survival +2, 1 Skill +2 (Limited Selection). Cannot select Piloting, Engineering, or Computer skills at character creation. Equipment has the Degrading trait.',
+    note: 'Associated Species: Fae, Koban, Thorns.'
+  },
+  {
+    id: 'technology_tl_1',
+    name: 'TL 1: Metal Age (Industrial / Mechanical)',
+    tech_level: 1,
+    meta_level: 0,
+    craft_dc: 10,
+    era: 'The Age of Steam and Combustion',
+    subtitle: 'Industrial / Mechanical',
+    wealth_mod: -2,
+    power_sources: ['Coal', 'Steam', 'Early Fossil Fuels'],
+    species: ['Caprians', 'Orlls', 'Truldan', 'Vassoth', 'Weti'],
+    restricted_skills: ['Piloting', 'Computer'],
+    description: 'TL 1 marks the transition from the Iron Age to the Industrial Revolution. Foundries enable mass metallurgy, steam engines, locomotives, rifled firearms, and early DC electricity and biplanes.',
+    mechanic: 'Education Bonus: 2 Vocation skills +2, 4 Skills +2 (Limited Selection). Base Cost Modifier: -5 CR. No advanced electronics or energy shielding.',
+    note: 'Associated Species: Caprians, Orlls, Truldan, Vassoth, Weti.'
+  },
+  {
+    id: 'technology_tl_2',
+    name: 'TL 2: Data Age (Digital / Information)',
+    tech_level: 2,
+    meta_level: 0,
+    craft_dc: 20,
+    era: 'The Silicon and Plastic Age',
+    subtitle: 'Digital / Information',
+    wealth_mod: 0,
+    power_sources: ['Advanced Hydrocarbons', 'Fission', 'Renewables'],
+    species: ['Brei', 'Dwergs', 'Prokoss', 'Qerics', 'Terran Humans'],
+    description: 'TL 2 is comparable to Modern Earth through early solar system colonization. Defined by global digital networks, silicon micro-processing, roller vehicles, orbital rocketry, genetic sequencing, and ballistic kevlar/ceramic armor.',
+    mechanic: 'Education Bonus: +20 Skill Points (Modern Education System). Base Cost Modifier: -5 CR. Protective gear features the Ballistic Weave trait.',
+    note: 'Associated Species: Brei, Dwergs, Prokoss, Qerics, Terran Humans.'
+  },
+  {
+    id: 'technology_tl_3',
+    name: 'TL 3: Space Age (Stellar / The Gate Era)',
+    tech_level: 3,
+    meta_level: 0,
+    craft_dc: 30,
+    era: 'The Age of Fusion and Expansion',
+    subtitle: 'Stellar / The Gate Era',
+    wealth_mod: 2,
+    power_sources: ['Thorium', 'Hydrogen Fuel Cells', 'Fusion'],
+    species: ['Alterians', 'Dracon Dynasty', 'Coalition', 'Outworlds'],
+    description: 'TL 3 is the galactic baseline for interstellar expansion via stationary Precursor Jump Gates and early Tangent Space discovery. Features fusion torch ships, GEV hovercraft, myomer walkers, industrial cybernetics, and holographic transceivers. Gravity is spin or thrust only.',
+    mechanic: 'Education Bonus: +30 Skill Points (Advanced Education System). Base Cost Modifier: +0 CR. Equipment features the Modular trait (universal ports and batteries).',
+    note: 'Associated Species & Factions: Alterians, Dynasty, most Independent factions, Outworlds.'
+  },
+  {
+    id: 'technology_tl_4',
+    name: 'TL 4: Stellar Age (Galactic / The Warp Era)',
+    tech_level: 4,
+    meta_level: 0,
+    craft_dc: 40,
+    era: 'The Age of Antimatter and Field Manipulation',
+    subtitle: 'Galactic / The Warp Era',
+    wealth_mod: 4,
+    power_sources: ['Antimatter', 'Cold Fusion', 'Aetherium Integration'],
+    species: ['Impyrium', 'Aulurans', 'Manelli', 'Davae', 'Sefalin', 'Syndicate'],
+    description: 'TL 4 masters matter and force: artificial grav-plating, inertial dampeners, independent Tangent Drives (Warp), clinical immortality, trans-neural interfaces, nanocarbon smart-matter, and directed-energy/plasma dominance.',
+    mechanic: 'Education Bonus: +40 Skill Points (Highly Advanced Education System). Base Cost Modifier: +5 CR. Equipment inherently possesses the Self-Repairing trait (regenerates 1 SP/hour).',
+    note: 'Associated Species & Factions: Impyrium, Aulurans, Manelli, Davae, Sefalin, Syndicate.'
+  },
+  {
+    id: 'technology_tl_5',
+    name: 'TL 5: Galactic Age (Cosmic / The Singularity)',
+    tech_level: 5,
+    meta_level: 0,
+    craft_dc: 50,
+    era: 'The Age of Reality Manipulation',
+    subtitle: 'Cosmic / The Singularity',
+    wealth_mod: 6,
+    power_sources: ['Dimensional Siphons', 'Matter-Energy Conversion', 'Zero-Point Energy'],
+    species: ['Mekan', 'Mondi', 'Sha’Nor'],
+    description: 'TL 5 is the apex of material science where hardware and software merge. Defined by thought-responsive Polymatter, solid-light Holophotonics, Dyson megastructures (Mekan Prime, Bastion), dimensional compression, and digital immortality.',
+    mechanic: 'Education Bonus: +50 Skill Points (Cutting-Edge Education System). Base Cost Modifier: +10 CR. Equipment features the Morphic (Polymatter) or Weightless (Holophotonic) traits.',
+    note: 'Associated Species: Mekan, Mondi, Sha’Nor. (Above TL 5 lies TL X: Transgalactic, the non-player domain of the Progenitors / The Makers).'
+  }
+];
 
 // Master Map of all Collections to Ingest
 const ALL_COLLECTIONS = {
@@ -393,7 +630,13 @@ let totalGeneratedFiles = 0;
 
 Object.entries(ALL_COLLECTIONS).forEach(([catKey, items]) => {
   const dirPath = path.join(omnicortexRoot, catKey);
-  if (!fs.existsSync(dirPath)) fs.mkdirSync(dirPath, { recursive: true });
+  if (fs.existsSync(dirPath)) {
+    for (const f of fs.readdirSync(dirPath)) {
+      if (f.endsWith('.md')) fs.unlinkSync(path.join(dirPath, f));
+    }
+  } else {
+    fs.mkdirSync(dirPath, { recursive: true });
+  }
 
   items.forEach(item => {
     const filePath = path.join(dirPath, `${item.id}.md`);
@@ -421,6 +664,14 @@ const jsExportContent = `/**
  * Auto-generated by scripts/buildSupportingCatalogs.js
  */
 
+import { COMMODITIES_CATALOG } from '../constants/worldbuilding.js';
+import { DEFAULT_CONDITIONS } from './conditionsData.js';
+import { DEFAULT_DAMAGE_TYPES } from './damageTypesData.js';
+import { DEFAULT_DISCIPLINES } from './disciplinesData.js';
+import { DEFAULT_MANEUVERS } from './maneuversData.js';
+import { DEFAULT_RULES } from './rulesData.js';
+import { DEFAULT_MASTER_SOCIETIES } from './societiesMasterData.js';
+
 export const DEFAULT_AUGMENTATION_TYPES = ${JSON.stringify(AUGMENTATION_TYPES, null, 2)};
 export const DEFAULT_BODY_LOCATIONS = ${JSON.stringify(BODY_LOCATIONS, null, 2)};
 export const DEFAULT_AREA_PATTERNS = ${JSON.stringify(AREA_PATTERNS, null, 2)};
@@ -443,6 +694,29 @@ export const DEFAULT_COMPONENTS = ${JSON.stringify(COMPONENTS, null, 2)};
 export const DEFAULT_PREREQUISITES = ${JSON.stringify(PREREQUISITES, null, 2)};
 export const DEFAULT_MODIFIERS = ${JSON.stringify(MODIFIERS, null, 2)};
 export const DEFAULT_SOCIETAL_ENTRIES = ${JSON.stringify(SOCIETAL_ENTRIES, null, 2)};
+
+export {
+  DEFAULT_CONDITIONS,
+  DEFAULT_DAMAGE_TYPES,
+  DEFAULT_DISCIPLINES,
+  DEFAULT_MANEUVERS,
+  DEFAULT_RULES,
+  DEFAULT_MASTER_SOCIETIES
+};
+
+export const DEFAULT_TECHNOLOGY = ${JSON.stringify(TECHNOLOGY_LEVELS, null, 2)};
+
+export const DEFAULT_ECONOMATRIX = COMMODITIES_CATALOG.map(c => ({
+  id: \`commodity_\${c.id}\`,
+  name: c.name,
+  category: 'economatrix',
+  economic_type: 'Commodity',
+  base_cost: c.baseCostPerTon,
+  trade_code_modifiers: \`Sources: \${(c.sources || []).join(', ')}; Demands: \${(c.demands || []).join(', ')}\`,
+  description: \`Commodity standard lot: \${c.name}. \${c.notes || 'Standard planetary cargo commodity.'}\`,
+  mechanic: \`Base Cost: \${c.baseCostPerTon} Cr per ton. Source worlds produce with high supply; demand worlds purchase at premium.\`,
+  note: \`Trade codes: Sources [\${(c.sources || []).join(', ')}], Demands [\${(c.demands || []).join(', ')}]\`
+}));
 `;
 
 fs.writeFileSync(supportingJsPath, jsExportContent, 'utf8');

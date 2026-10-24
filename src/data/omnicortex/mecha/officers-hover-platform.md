@@ -4,15 +4,20 @@ category: mecha
 name: Officer's Hover Platform
 domain: Hover
 size: Small
-frame: Platform
+frame: Anti-Gravity Platform
 cost: 640
 craft_dc: 15
-sp: 50
-dr: 12
+sp: 45
+dr: 10
 mounts: 2
 propulsion: Grav-Plate (Silent)
-description: Floating armored command disk keeping overseers elevated above the fray.
-mechanic: Silent anti-gravity platform with tactical shield and comms array.
+description: >-
+  A floating disk used by commanders or overseers to remain above the fray.
+  Features Grav-Plate (Silent) propulsion, a Tactical Shield, and a Comms/Sensor
+  Suite.
+mechanic: >-
+  Silent Grav-Plate hover disk with integrated Tactical Shield and Command
+  Comms/Sensor Suite. | SP: 45, DR: 10 | Craft DC: 15 (640 Cr)
 costs:
   cp: 0
   bp: 0
@@ -35,11 +40,18 @@ sockets:
   tier: Socket
   allocated: []
 tech_level: 4
-keywords: 'officer''s hover platform, mecha, vehicle, small, platform, tl-4'
-negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
+keywords: >-
+  officer's hover platform, mecha, vehicle, personal mobility, anti-gravity
+  platform, tl-4
+negative_keywords: 'infantry-only, unmounted'
 meta_level: 0
 design_dc: 15
+classification: Personal Mobility
+crew: '1'
+durability: 45
 ---
-Floating armored command disk keeping overseers elevated above the fray.
+A floating disk used by commanders or overseers to remain above the fray. Features Grav-Plate (Silent) propulsion, a Tactical Shield, and a Comms/Sensor Suite.
 
-**Mechanics:** Silent anti-gravity platform with tactical shield and comms array.
+**Class:** Personal Mobility (Anti-Gravity Platform)
+**Propulsion:** Grav-Plate (Silent) | **Crew:** 1
+**Mechanics:** Silent Grav-Plate hover disk with integrated Tactical Shield and Command Comms/Sensor Suite. | SP: 45, DR: 10 | Craft DC: 15 (640 Cr)

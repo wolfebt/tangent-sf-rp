@@ -1,0 +1,50 @@
+[
+  {
+    "id": "society_commerce_lvl_0",
+    "category": "society_commerce",
+    "name": "Commerce & Economy (Level 0: Barter Systems)",
+    "level": 0,
+    "sphere_key": "society_commerce",
+    "description": "Level 0 (Barter Systems) in Commerce & Economy: Simple trade networks and direct commodity barter."
+  },
+  {
+    "id": "society_commerce_lvl_1",
+    "category": "society_commerce",
+    "name": "Commerce & Economy (Level 1: Currency Systems)",
+    "level": 1,
+    "sphere_key": "society_commerce",
+    "description": "Level 1 (Currency Systems) in Commerce & Economy: Precious metal coinage, early financial institutions, and basic market economies."
+  },
+  {
+    "id": "society_commerce_lvl_2",
+    "category": "society_commerce",
+    "name": "Commerce & Economy (Level 2: Modern Financial Systems)",
+    "level": 2,
+    "sphere_key": "society_commerce",
+    "description": "Level 2 (Modern Financial Systems) in Commerce & Economy: Global trade networks, fiat banking, and advanced planetary market economies."
+  },
+  {
+    "id": "society_commerce_lvl_3",
+    "category": "society_commerce",
+    "name": "Commerce & Economy (Level 3: Digital Currencies)",
+    "level": 3,
+    "sphere_key": "society_commerce",
+    "description": "Level 3 (Digital Currencies) in Commerce & Economy: Interstellar credit networks, Cold Credit bearer chits, and system-wide economic integration."
+  },
+  {
+    "id": "society_commerce_lvl_4",
+    "category": "society_commerce",
+    "name": "Commerce & Economy (Level 4: Advanced Economies)",
+    "level": 4,
+    "sphere_key": "society_commerce",
+    "description": "Level 4 (Advanced Economies) in Commerce & Economy: Decentralized Mesh financial systems, Wealth Score leverage, and high-liquidity stellar markets."
+  },
+  {
+    "id": "society_commerce_lvl_5",
+    "category": "society_commerce",
+    "name": "Commerce & Economy (Level 5: Post-Scarcity)",
+    "level": 5,
+    "sphere_key": "society_commerce",
+    "description": "Level 5 (Post-Scarcity) in Commerce & Economy: Base Substance Interchange renders traditional currency obsolete; economy is based on energy allocation and prestige."
+  }
+]

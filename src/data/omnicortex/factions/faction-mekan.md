@@ -25,9 +25,7 @@ skill_package:
   - 'Combat (+3): Eradicating chaotic variables'
   - 'Investigation (+2): Gathering new data'
   - 'History (+2): Archiving universal events'
-recommended_features:
-  - Benefit (Tech Assimilation)
-  - Logic-Mind
+recommended_features: &ref_0
   - Self-Sustaining
   - Sleepless
   - Logical
@@ -38,19 +36,7 @@ recommended_features:
   - Eidetic Memory
   - Fearless
   - Mind Link
-features:
-  - Benefit (Tech Assimilation)
-  - Logic-Mind
-  - Self-Sustaining
-  - Sleepless
-  - Logical
-  - Lightning Calculator
-  - Computer Specialist
-  - Coding Master
-  - Tech Interface
-  - Eidetic Memory
-  - Fearless
-  - Mind Link
+features: *ref_0
 bonus_features:
   - Machine Logic
   - Reinforced Chassis

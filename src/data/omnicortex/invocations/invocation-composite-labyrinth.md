@@ -16,11 +16,11 @@ recommended_species:
   - Whisper
   - Varen (Gatekeeper)
   - Ila (Progenitor Archon)
-  - Celestine (Alterian)
+  - Alterian
 recommended_factions:
   - The Ascendancy
   - The Alterian Enclave
-  - Elven Providence
+  - Aeld Providence
 recommended_origins:
   - Enlightened
   - Research

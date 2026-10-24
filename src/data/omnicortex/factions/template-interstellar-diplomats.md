@@ -57,7 +57,7 @@ costs:
 modifiers: []
 faction_classification: Faction Template
 recommended_species:
-  - Celestine (Alterian)
+  - Alterian
   - Manelli (Cerebral Expression)
   - Lin Human
   - Human (Base)

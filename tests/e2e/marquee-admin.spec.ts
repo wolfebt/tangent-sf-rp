@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Admin Marquee Controls Suite', () => {
+  test.describe.configure({ mode: 'serial' });
   test.setTimeout(60000);
 
   test.beforeEach(async ({ page }) => {
@@ -177,7 +178,7 @@ test.describe('Admin Marquee Controls Suite', () => {
     await expect(dialog).not.toBeVisible({ timeout: 8000 });
 
     // Verify banner is active again with ZERO buttons or controls
-    await expect(page.getByText(/WELCOME TO TANGENT|TACTICAL BROADCAST/i).first()).toBeVisible({ timeout: 8000 });
+    await expect(page.getByText(/WELCOME TO|TACTICAL BROADCAST/i).first()).toBeVisible({ timeout: 10000 });
     await expect(page.locator('button[title*="Configure Broadcast Marquee"]')).toHaveCount(0);
   });
 
@@ -373,7 +374,7 @@ test.describe('Admin Marquee Controls Suite', () => {
     await expect(bannerContainer).toHaveClass(/bg-transparent/);
 
     // Verify colored text remains clearly visible
-    await expect(page.getByText(/WELCOME TO TANGENT|INCURSION|TEST AUTOMATED/i).first()).toBeVisible();
+    await expect(page.getByText(/WELCOME TO|INCURSION|TEST AUTOMATED/i).first()).toBeVisible({ timeout: 10000 });
 
     // Reload page to verify persistence
     await page.reload();

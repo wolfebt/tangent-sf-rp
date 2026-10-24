@@ -535,9 +535,9 @@ export const DEFAULT_ARMORING = [
     "cost": 40960,
     "craft_dc": 30,
     "design_dc": 30,
-    "dr": 30,
-    "sp": 80,
-    "durability": 80,
+    "dr": 40,
+    "sp": 120,
+    "durability": 120,
     "body_locations": [
       "Head",
       "Torso",
@@ -545,15 +545,15 @@ export const DEFAULT_ARMORING = [
       "Legs"
     ],
     "coverage": "Bulwark",
-    "component_slots": 12,
+    "component_slots": 15,
     "sockets": {
-      "max": 12,
+      "max": 15,
       "used": 0,
       "tier": "Socket",
       "allocated": []
     },
-    "description": "Full military powered armor chassis with fusion micro-pack, sealed life support, and +4 Strength.",
-    "mechanic": "DR 30, SP 80. Powered (+4 Strength), Sealed. Locations: Head, Torso, Arms, Legs. Base Sockets: 12.",
+    "description": "A sealed, armored suit with myomer-muscle underlay. The apex of personal protection.",
+    "mechanic": "DR 40, SP 120. Powered (+4 Strength), Full Life Support, HUD Link. Locations: All. Base Sockets: 15.",
     "costs": {
       "cp": 0,
       "bp": 0,
@@ -580,7 +580,7 @@ export const DEFAULT_ARMORING = [
     "armor_class": "Heavyweight",
     "armor_type": "Powered Armor",
     "mobility_penalty": 0,
-    "body": "Full military powered armor chassis with fusion micro-pack, sealed life support, and +4 Strength.\n\n**Mechanics:** DR 30, SP 80. Powered (+4 Strength), Sealed. Locations: Head, Torso, Arms, Legs. Base Sockets: 12."
+    "body": "A sealed, armored suit with myomer-muscle underlay. The apex of personal protection.\n\n**Mechanics:** DR 40, SP 120. Powered (+4 Strength), Full Life Support, HUD Link. Locations: All. Base Sockets: 15."
   },
   {
     "id": "buckler-shield",
@@ -636,14 +636,14 @@ export const DEFAULT_ARMORING = [
   },
   {
     "id": "chitinous-carapace",
-    "category": "Mediumweight",
+    "category": "Heavyweight",
     "name": "Chitinous Carapace (Warrior Strain)",
-    "cost": 2560,
-    "craft_dc": 20,
-    "design_dc": 20,
-    "dr": 18,
-    "sp": 45,
-    "durability": 45,
+    "cost": 10240,
+    "craft_dc": 25,
+    "design_dc": 25,
+    "dr": 20,
+    "sp": 60,
+    "durability": 60,
     "body_locations": [
       "Head",
       "Torso",
@@ -658,12 +658,12 @@ export const DEFAULT_ARMORING = [
       "tier": "Socket",
       "allocated": []
     },
-    "description": "Dense, multilayered insectoid carapace grown by Kitin warriors, offering high deflection against kinetic and acid attacks.",
-    "mechanic": "Acid & Kinetic Resistance (Ignore 5 Acid/Corrosive damage). DR 18, SP 45.",
+    "description": "Heavy, interlocking plates of bio-ceramic bone and insectoid chitin grown over a muscular underlay. Offers superior environmental adaptation.",
+    "mechanic": "DR 20 (Hardened Bone), SP 60 (Dense Chitin). Penalty: -1 Mobility. Sealed (4hr Water/Vacuum breathing); Camouflage (+2 Stealth). Base Sockets: 6.",
     "costs": {
       "cp": 0,
       "bp": 0,
-      "credits": 2560,
+      "credits": 10240,
       "nodes": 0,
       "sockets": 0,
       "strain": 0,
@@ -678,15 +678,15 @@ export const DEFAULT_ARMORING = [
       "success_effect": [],
       "failure_effect": []
     },
-    "tech_level": 3,
+    "tech_level": 4,
     "meta_level": 0,
     "keywords": "chitinous carapace (warrior strain), armor, defense, dr-18, medium-armor, tl-3",
     "negative_keywords": "unarmored, fragile, naked",
     "collection": "armoring",
-    "armor_class": "Mediumweight",
-    "armor_type": "Mediumweight",
-    "mobility_penalty": 0,
-    "body": "Dense, multilayered insectoid carapace grown by Kitin warriors, offering high deflection against kinetic and acid attacks.\n\n**Mechanics:** Acid & Kinetic Resistance (Ignore 5 Acid/Corrosive damage). DR 18, SP 45."
+    "armor_class": "Heavyweight",
+    "armor_type": "Full Body Armor (Biotech)",
+    "mobility_penalty": -1,
+    "body": "Heavy, interlocking plates of bio-ceramic bone and insectoid chitin grown over a muscular underlay. Offers superior environmental adaptation.\n\n**Mechanics:** DR 20 (Hardened Bone), SP 60 (Dense Chitin). Penalty: -1 Mobility. Sealed (4hr Water/Vacuum breathing); Camouflage (+2 Stealth). Base Sockets: 6."
   },
   {
     "id": "clothing-diminutive",
@@ -796,7 +796,7 @@ export const DEFAULT_ARMORING = [
   {
     "id": "composite-combat-shell",
     "category": "Heavyweight",
-    "name": "Composite Combat Shell",
+    "name": "Composite Combat Shell (Entari/Syndicate)",
     "cost": 4457,
     "craft_dc": 22,
     "design_dc": 22,
@@ -810,7 +810,7 @@ export const DEFAULT_ARMORING = [
       "Legs"
     ],
     "coverage": "Sealed",
-    "mobility_penalty": 1,
+    "mobility_penalty": -1,
     "component_slots": 8,
     "sockets": {
       "max": 8,
@@ -818,8 +818,8 @@ export const DEFAULT_ARMORING = [
       "tier": "Socket",
       "allocated": []
     },
-    "description": "Advanced molded ceramics that offer superior deflection. Sleek, sealed, and favored by Entari and Syndicate shock troops.",
-    "mechanic": "Refractive Coating (+2 Defense vs Lasers/Beams). -1 Mobility, -5 Movement. DR 20, SP 50.",
+    "description": "Advanced molded ceramics that offer superior deflection. Sleek, sealed, and expensive.",
+    "mechanic": "DR 20, SP 50. Penalty: -1 Mobility, -5ft Movement. Refractive Coating (+2 Defense vs Lasers/Beams). Locations: All. Base Sockets: 8.",
     "costs": {
       "cp": 0,
       "bp": 0,
@@ -844,26 +844,26 @@ export const DEFAULT_ARMORING = [
     "negative_keywords": "unarmored, fragile, naked, high-acrobatics",
     "collection": "armoring",
     "armor_class": "Heavyweight",
-    "armor_type": "Heavyweight",
-    "body": "Advanced molded ceramics that offer superior deflection. Sleek, sealed, and favored by Entari and Syndicate shock troops.\n\n**Mechanics:** Refractive Coating (+2 Defense vs Lasers/Beams). -1 Mobility, -5 Movement. DR 20, SP 50."
+    "armor_type": "Heavy Armor",
+    "body": "Advanced molded ceramics that offer superior deflection. Sleek, sealed, and expensive.\n\n**Mechanics:** DR 20, SP 50. Penalty: -1 Mobility, -5ft Movement. Refractive Coating (+2 Defense vs Lasers/Beams). Locations: All. Base Sockets: 8."
   },
   {
     "id": "crystalline-body-glove",
     "category": "Lightweight",
     "name": "Crystalline Body-Glove",
-    "cost": 4457,
-    "craft_dc": 22,
-    "design_dc": 22,
-    "dr": 14,
-    "sp": 35,
-    "durability": 35,
+    "cost": 10240,
+    "craft_dc": 25,
+    "design_dc": 25,
+    "dr": 10,
+    "sp": 30,
+    "durability": 30,
     "body_locations": [
       "Head",
       "Torso",
       "Arms",
       "Legs"
     ],
-    "coverage": "Sealed",
+    "coverage": "Full Body",
     "component_slots": 4,
     "sockets": {
       "max": 4,
@@ -871,12 +871,12 @@ export const DEFAULT_ARMORING = [
       "tier": "Socket",
       "allocated": []
     },
-    "description": "Alterian flexible crystal suit that hardens instantaneously upon kinetic or thermal impact, dispersing shockwaves.",
-    "mechanic": "Impact Hardening (Gain DR 20 against single highest damage attack per round). DR 14, SP 35.",
+    "description": "A tight, shimmering suit made of flexible psycho-reactive crystals. Nearly weightless, turning rigid instantly upon impact.",
+    "mechanic": "DR 10 (Reactive Crystal), SP 30 (Shatter-Resistant). Mental Hardening (+2 Willpower saves); Psi-Link (Hands-free operation via thought). Base Sockets: 4.",
     "costs": {
       "cp": 0,
       "bp": 0,
-      "credits": 4457,
+      "credits": 10240,
       "nodes": 0,
       "sockets": 0,
       "strain": 0,
@@ -892,14 +892,14 @@ export const DEFAULT_ARMORING = [
       "failure_effect": []
     },
     "tech_level": 4,
-    "meta_level": 1,
+    "meta_level": 2,
     "keywords": "crystalline body-glove, armor, defense, dr-14, medium-armor, tl-4",
     "negative_keywords": "unarmored, fragile, naked",
     "collection": "armoring",
     "armor_class": "Lightweight",
-    "armor_type": "Lightweight",
+    "armor_type": "Light Armor (Psionic)",
     "mobility_penalty": 0,
-    "body": "Alterian flexible crystal suit that hardens instantaneously upon kinetic or thermal impact, dispersing shockwaves.\n\n**Mechanics:** Impact Hardening (Gain DR 20 against single highest damage attack per round). DR 14, SP 35."
+    "body": "A tight, shimmering suit made of flexible psycho-reactive crystals. Nearly weightless, turning rigid instantly upon impact.\n\n**Mechanics:** DR 10 (Reactive Crystal), SP 30 (Shatter-Resistant). Mental Hardening (+2 Willpower saves); Psi-Link (Hands-free operation via thought). Base Sockets: 4."
   },
   {
     "id": "distortion-field",
@@ -1025,8 +1025,8 @@ export const DEFAULT_ARMORING = [
       "Arms",
       "Legs"
     ],
-    "coverage": "Reinforced",
-    "mobility_penalty": 2,
+    "coverage": "Bulwark",
+    "mobility_penalty": -2,
     "component_slots": 10,
     "sockets": {
       "max": 10,
@@ -1034,8 +1034,8 @@ export const DEFAULT_ARMORING = [
       "tier": "Socket",
       "allocated": []
     },
-    "description": "Bulky specialized armor designed for bomb disposal, plasma containment, and extreme radiation environments.",
-    "mechanic": "Blast Shielding (Explosive/Area damage reduced by 50%). -2 Mobility, -10 Movement. DR 30, SP 80.",
+    "description": "Extremely bulky armor designed for bomb disposal or plasma leaks.",
+    "mechanic": "DR 30, SP 80. Penalty: -2 Mobility, -10ft Movement. Blast Shielding (Explosive/Area damage reduced by 50%). Locations: All. Base Sockets: 10.",
     "costs": {
       "cp": 0,
       "bp": 0,
@@ -1060,8 +1060,8 @@ export const DEFAULT_ARMORING = [
     "negative_keywords": "unarmored, fragile, naked, high-acrobatics",
     "collection": "armoring",
     "armor_class": "Heavyweight",
-    "armor_type": "Heavyweight",
-    "body": "Bulky specialized armor designed for bomb disposal, plasma containment, and extreme radiation environments.\n\n**Mechanics:** Blast Shielding (Explosive/Area damage reduced by 50%). -2 Mobility, -10 Movement. DR 30, SP 80."
+    "armor_type": "Heavy Armor",
+    "body": "Extremely bulky armor designed for bomb disposal or plasma leaks.\n\n**Mechanics:** DR 30, SP 80. Penalty: -2 Mobility, -10ft Movement. Blast Shielding (Explosive/Area damage reduced by 50%). Locations: All. Base Sockets: 10."
   },
   {
     "id": "exoskeleton-battlesuit",
@@ -1241,8 +1241,8 @@ export const DEFAULT_ARMORING = [
       "Arms",
       "Legs"
     ],
-    "coverage": "Reinforced",
-    "mobility_penalty": 2,
+    "coverage": "Bulwark",
+    "mobility_penalty": -2,
     "component_slots": 10,
     "sockets": {
       "max": 10,
@@ -1250,8 +1250,8 @@ export const DEFAULT_ARMORING = [
       "tier": "Socket",
       "allocated": []
     },
-    "description": "Thick slabs of ablative armor and plasteel turning the wearer into a walking fortress.",
-    "mechanic": "Anchor (Advantage on checks to resist being knocked down). -2 Mobility, -10 Movement. DR 30, SP 80.",
+    "description": "Thick slabs of ablative armor and plasteel. Turns the wearer into a walking tank.",
+    "mechanic": "DR 30, SP 80. Penalty: -2 Mobility, -10ft Movement. Anchor (Advantage on checks to resist knockdown). Locations: All. Base Sockets: 10.",
     "costs": {
       "cp": 0,
       "bp": 0,
@@ -1276,8 +1276,8 @@ export const DEFAULT_ARMORING = [
     "negative_keywords": "unarmored, fragile, naked, high-acrobatics",
     "collection": "armoring",
     "armor_class": "Heavyweight",
-    "armor_type": "Heavyweight",
-    "body": "Thick slabs of ablative armor and plasteel turning the wearer into a walking fortress.\n\n**Mechanics:** Anchor (Advantage on checks to resist being knocked down). -2 Mobility, -10 Movement. DR 30, SP 80."
+    "armor_type": "Heavy Armor",
+    "body": "Thick slabs of ablative armor and plasteel. Turns the wearer into a walking tank.\n\n**Mechanics:** DR 30, SP 80. Penalty: -2 Mobility, -10ft Movement. Anchor (Advantage on checks to resist knockdown). Locations: All. Base Sockets: 10."
   },
   {
     "id": "heavy-force-field",
@@ -1542,34 +1542,34 @@ export const DEFAULT_ARMORING = [
   },
   {
     "id": "holophotonic-emitter-harness",
-    "category": "Mediumweight",
+    "category": "Device",
     "name": "Holophotonic Emitter Harness",
-    "cost": 163840,
-    "craft_dc": 35,
-    "design_dc": 35,
-    "dr": 30,
-    "sp": 60,
-    "durability": 60,
+    "cost": 40960,
+    "craft_dc": 30,
+    "design_dc": 30,
+    "dr": 20,
+    "sp": 50,
+    "durability": 50,
     "body_locations": [
       "Head",
       "Torso",
       "Arms",
       "Legs"
     ],
-    "coverage": "Sealed",
-    "component_slots": 10,
+    "coverage": "Projected",
+    "component_slots": 2,
     "sockets": {
-      "max": 10,
+      "max": 2,
       "used": 0,
       "tier": "Socket",
       "allocated": []
     },
-    "description": "Lightweight wearable harness projecting a rigid barrier of solid hard-light around the user, absorbing high-caliber projectiles and energy beams.",
-    "mechanic": "Hard-Light Barrier (Regenerates 10 SP per minute when powered). DR 30, SP 60.",
+    "description": "A lightweight harness that projects a suit of \"Hard Light\" armor only when combat begins. When inactive, the wearer appears unarmored.",
+    "mechanic": "DR 20 (Force Field), SP 50 (Battery Life). Weightless (0 Penalty). Instant Don/Doff; Glow (Stealth impossible while active unless Dark Light upgrade installed). Base Sockets: 2.",
     "costs": {
       "cp": 0,
       "bp": 0,
-      "credits": 163840,
+      "credits": 40960,
       "nodes": 0,
       "sockets": 0,
       "strain": 0,
@@ -1589,10 +1589,10 @@ export const DEFAULT_ARMORING = [
     "keywords": "holophotonic emitter harness, armor, defense, dr-30, heavy-armor, tl-5",
     "negative_keywords": "unarmored, fragile, naked, high-acrobatics",
     "collection": "armoring",
-    "armor_class": "Mediumweight",
-    "armor_type": "Mediumweight",
+    "armor_class": "Device",
+    "armor_type": "Light Armor (Projected)",
     "mobility_penalty": 0,
-    "body": "Lightweight wearable harness projecting a rigid barrier of solid hard-light around the user, absorbing high-caliber projectiles and energy beams.\n\n**Mechanics:** Hard-Light Barrier (Regenerates 10 SP per minute when powered). DR 30, SP 60."
+    "body": "A lightweight harness that projects a suit of \"Hard Light\" armor only when combat begins. When inactive, the wearer appears unarmored.\n\n**Mechanics:** DR 20 (Force Field), SP 50 (Battery Life). Weightless (0 Penalty). Instant Don/Doff; Glow (Stealth impossible while active unless Dark Light upgrade installed). Base Sockets: 2."
   },
   {
     "id": "infantry-plate-trooper-armor",
@@ -1655,9 +1655,9 @@ export const DEFAULT_ARMORING = [
     "cost": 23525,
     "craft_dc": 28,
     "design_dc": 28,
-    "dr": 25,
-    "sp": 70,
-    "durability": 70,
+    "dr": 22,
+    "sp": 55,
+    "durability": 55,
     "body_locations": [
       "Head",
       "Torso",
@@ -1665,15 +1665,15 @@ export const DEFAULT_ARMORING = [
       "Legs"
     ],
     "coverage": "Sealed",
-    "component_slots": 10,
+    "component_slots": 6,
     "sockets": {
-      "max": 10,
+      "max": 6,
       "used": 0,
       "tier": "Socket",
       "allocated": []
     },
-    "description": "Heavy armor worn by Ascendancy Inquisitors with built-in psi-amplifiers and anti-telepathic dampeners.",
-    "mechanic": "Telepathic Immunity (Wearer is immune to telepathic detection and mind-reading). DR 25, SP 70.",
+    "description": "Heavy composite armor laced with psychic dampeners and sensory boosters. Designed to hunt rogue psychics and entities.",
+    "mechanic": "DR 22 (Psycho-Conductive Alloy), SP 55. Penalty: -1 Mobility. Null-Field (DR 10 vs Psionic Damage); Terror (+2 Intimidate). Base Sockets: 6.",
     "costs": {
       "cp": 0,
       "bp": 0,
@@ -1698,9 +1698,9 @@ export const DEFAULT_ARMORING = [
     "negative_keywords": "unarmored, fragile, naked, high-acrobatics",
     "collection": "armoring",
     "armor_class": "Heavyweight",
-    "armor_type": "Heavyweight",
-    "mobility_penalty": 0,
-    "body": "Heavy armor worn by Ascendancy Inquisitors with built-in psi-amplifiers and anti-telepathic dampeners.\n\n**Mechanics:** Telepathic Immunity (Wearer is immune to telepathic detection and mind-reading). DR 25, SP 70."
+    "armor_type": "Full Body Armor (Heavy)",
+    "mobility_penalty": -1,
+    "body": "Heavy composite armor laced with psychic dampeners and sensory boosters. Designed to hunt rogue psychics and entities.\n\n**Mechanics:** DR 22 (Psycho-Conductive Alloy), SP 55. Penalty: -1 Mobility. Null-Field (DR 10 vs Psionic Damage); Terror (+2 Intimidate). Base Sockets: 6."
   },
   {
     "id": "jewelry-fine",
@@ -2024,34 +2024,34 @@ export const DEFAULT_ARMORING = [
   },
   {
     "id": "polymatter-liquid-suit",
-    "category": "Lightweight",
+    "category": "Mediumweight",
     "name": "Polymatter \"Liquid\" Suit",
-    "cost": 40960,
-    "craft_dc": 30,
-    "design_dc": 30,
-    "dr": 20,
-    "sp": 50,
-    "durability": 50,
+    "cost": 163840,
+    "craft_dc": 35,
+    "design_dc": 35,
+    "dr": 15,
+    "sp": 40,
+    "durability": 40,
     "body_locations": [
       "Head",
       "Torso",
       "Arms",
       "Legs"
     ],
-    "coverage": "Sealed",
-    "component_slots": 8,
+    "coverage": "Variable",
+    "component_slots": 4,
     "sockets": {
-      "max": 8,
+      "max": 4,
       "used": 0,
       "tier": "Socket",
       "allocated": []
     },
-    "description": "Nanofabricated morphic fluid suit that flows over the user's body in seconds, adapting to any environmental or combat threat.",
-    "mechanic": "Adaptive Resistance (Switch damage type resistance as a Free Action). DR 20, SP 50.",
+    "description": "A suit composed of millions of nanites suspended in a silver fluid. It flows over the wearer like water and can reshape itself on command.",
+    "mechanic": "DR 15 (Fluid Impact Absorption), SP 40 (Self-Repairing Cloud). Morph (Change appearance/color as Standard Action); Concealment (+4 to Hide items inside). Base Sockets: 4.",
     "costs": {
       "cp": 0,
       "bp": 0,
-      "credits": 40960,
+      "credits": 163840,
       "nodes": 0,
       "sockets": 0,
       "strain": 0,
@@ -2071,10 +2071,10 @@ export const DEFAULT_ARMORING = [
     "keywords": "polymatter \"liquid\" suit, armor, defense, dr-20, heavy-armor, tl-5",
     "negative_keywords": "unarmored, fragile, naked, high-acrobatics",
     "collection": "armoring",
-    "armor_class": "Lightweight",
-    "armor_type": "Lightweight",
+    "armor_class": "Mediumweight",
+    "armor_type": "Variable (Light to Medium)",
     "mobility_penalty": 0,
-    "body": "Nanofabricated morphic fluid suit that flows over the user's body in seconds, adapting to any environmental or combat threat.\n\n**Mechanics:** Adaptive Resistance (Switch damage type resistance as a Free Action). DR 20, SP 50."
+    "body": "A suit composed of millions of nanites suspended in a silver fluid. It flows over the wearer like water and can reshape itself on command.\n\n**Mechanics:** DR 15 (Fluid Impact Absorption), SP 40 (Self-Repairing Cloud). Morph (Change appearance/color as Standard Action); Concealment (+4 to Hide items inside). Base Sockets: 4."
   },
   {
     "id": "projected-energy-shield",
@@ -2185,32 +2185,32 @@ export const DEFAULT_ARMORING = [
     "id": "runeguard-plate",
     "category": "Heavyweight",
     "name": "Runeguard Plate",
-    "cost": 10240,
-    "craft_dc": 25,
-    "design_dc": 25,
-    "dr": 22,
-    "sp": 60,
-    "durability": 60,
+    "cost": 40960,
+    "craft_dc": 30,
+    "design_dc": 30,
+    "dr": 25,
+    "sp": 70,
+    "durability": 70,
     "body_locations": [
       "Head",
       "Torso",
       "Arms",
       "Legs"
     ],
-    "coverage": "Sealed",
-    "component_slots": 8,
+    "coverage": "Reinforced",
+    "component_slots": 6,
     "sockets": {
-      "max": 8,
+      "max": 6,
       "used": 0,
       "tier": "Socket",
       "allocated": []
     },
-    "description": "Forged arcanosteel plate suit etched with warding glyphs that deflect both physical ordinance and psionic assaults.",
-    "mechanic": "Psionic Warding (+3 Will Defense against Mental Disciplines). DR 22, SP 60.",
+    "description": "Ancient ceramic or stone-composite armor etched with glowing defensive sigils. It is heavy but resonates with the wearer's aura.",
+    "mechanic": "DR 25 (Runed Stone), SP 70 (Reinforced). Penalty: -2 Mobility, -5ft Movement. Aegis (Spend 1 Karma to double DR against a single attack). Base Sockets: 6.",
     "costs": {
       "cp": 0,
       "bp": 0,
-      "credits": 10240,
+      "credits": 40960,
       "nodes": 0,
       "sockets": 0,
       "strain": 0,
@@ -2225,26 +2225,26 @@ export const DEFAULT_ARMORING = [
       "success_effect": [],
       "failure_effect": []
     },
-    "tech_level": 4,
-    "meta_level": 2,
+    "tech_level": 3,
+    "meta_level": 4,
     "keywords": "runeguard plate, armor, defense, dr-22, heavy-armor, tl-4",
     "negative_keywords": "unarmored, fragile, naked, high-acrobatics",
     "collection": "armoring",
     "armor_class": "Heavyweight",
-    "armor_type": "Heavyweight",
-    "mobility_penalty": 0,
-    "body": "Forged arcanosteel plate suit etched with warding glyphs that deflect both physical ordinance and psionic assaults.\n\n**Mechanics:** Psionic Warding (+3 Will Defense against Mental Disciplines). DR 22, SP 60."
+    "armor_type": "Battle Suit (Heavy)",
+    "mobility_penalty": -2,
+    "body": "Ancient ceramic or stone-composite armor etched with glowing defensive sigils. It is heavy but resonates with the wearer's aura.\n\n**Mechanics:** DR 25 (Runed Stone), SP 70 (Reinforced). Penalty: -2 Mobility, -5ft Movement. Aegis (Spend 1 Karma to double DR against a single attack). Base Sockets: 6."
   },
   {
     "id": "sabatons",
-    "name": "Sabatons",
-    "category": "Mediumweight",
+    "name": "Sabatons (Armored Boots)",
+    "category": "Lightweight",
     "cost": 160,
     "design_dc": 10,
     "craft_dc": 10,
-    "description": "Reinforced Boots. 2d6 Blunt. DR 10\\. Paired.",
+    "description": "Reinforced combat boots and lower-leg greaves providing kick protection and foot armor.",
     "dr": 10,
-    "coverage": "Reinforced",
+    "coverage": "Partial",
     "costs": {
       "cp": 0,
       "bp": 0,
@@ -2269,22 +2269,22 @@ export const DEFAULT_ARMORING = [
       "tier": "Socket",
       "allocated": []
     },
-    "tech_level": 3,
+    "tech_level": 2,
     "meta_level": 0,
     "keywords": "sabatons, armor, defense, dr-10, medium-armor, tl-3",
     "negative_keywords": "unarmored, fragile, naked",
     "collection": "armoring",
-    "armor_class": "Mediumweight",
-    "armor_type": "Mediumweight",
-    "sp": 15,
-    "durability": 15,
+    "armor_class": "Lightweight",
+    "armor_type": "Light Armor",
+    "sp": 10,
+    "durability": 10,
     "mobility_penalty": 0,
     "body_locations": [
-      "Torso"
+      "Legs"
     ],
     "component_slots": 2,
-    "mechanic": "DR 10, SP 15. Locations: Torso. Base Sockets: 2. Craft DC: 10 (160 Cr).",
-    "body": "Category: **12.1 Mechanics of the Wearable**\r\n\r\n**Location:** Legs\r\n**Nodes:** 10 (Each)\r\n**Description:** Reinforced Boots. 2d6 Blunt. DR 10\\. Paired."
+    "mechanic": "DR 10, SP 10. Locations: Legs. Unarmed Kick deals 2d4 Blunt damage. Base Sockets: 2.",
+    "body": "Reinforced combat boots and lower-leg greaves providing kick protection and foot armor.\n\n**Mechanics:** DR 10, SP 10. Locations: Legs. Unarmed Kick deals 2d4 Blunt damage. Base Sockets: 2."
   },
   {
     "id": "scout-suit-infiltration-coat",
@@ -2559,25 +2559,25 @@ export const DEFAULT_ARMORING = [
     "cost": 2560,
     "craft_dc": 20,
     "design_dc": 20,
-    "dr": 12,
-    "sp": 30,
-    "durability": 30,
+    "dr": 8,
+    "sp": 25,
+    "durability": 25,
     "body_locations": [
       "Head",
       "Torso",
       "Arms",
       "Legs"
     ],
-    "coverage": "Sealed",
-    "component_slots": 4,
+    "coverage": "Full Body",
+    "component_slots": 2,
     "sockets": {
-      "max": 4,
+      "max": 2,
       "used": 0,
       "tier": "Socket",
       "allocated": []
     },
-    "description": "Living Auluran bioweave suit that bonds to the wearer's epidermis, flexing naturally and regenerating cellular tears.",
-    "mechanic": "Regenerating Bio-Armor (Regains 5 SP per hour), Zero Mobility Penalty. DR 12, SP 30.",
+    "description": "A semi-translucent, living membrane that bonds to the wearer's epidermis. It regulates temperature, filters toxins, and seals wounds instantly.",
+    "mechanic": "DR 8 (Adaptive Flesh), SP 25 (Living Tissue). Regeneration (Restores 1 SP/min); Diagnosis (+2 to Fortitude saves vs Disease/Poison). Base Sockets: 2.",
     "costs": {
       "cp": 0,
       "bp": 0,
@@ -2602,9 +2602,9 @@ export const DEFAULT_ARMORING = [
     "negative_keywords": "unarmored, fragile, naked",
     "collection": "armoring",
     "armor_class": "Lightweight",
-    "armor_type": "Lightweight",
+    "armor_type": "Light Armor (Biotech)",
     "mobility_penalty": 0,
-    "body": "Living Auluran bioweave suit that bonds to the wearer's epidermis, flexing naturally and regenerating cellular tears.\n\n**Mechanics:** Regenerating Bio-Armor (Regains 5 SP per hour), Zero Mobility Penalty. DR 12, SP 30."
+    "body": "A semi-translucent, living membrane that bonds to the wearer's epidermis. It regulates temperature, filters toxins, and seals wounds instantly.\n\n**Mechanics:** DR 8 (Adaptive Flesh), SP 25 (Living Tissue). Regeneration (Restores 1 SP/min); Diagnosis (+2 to Fortitude saves vs Disease/Poison). Base Sockets: 2."
   },
   {
     "id": "synth-leather-jack",
@@ -2716,12 +2716,12 @@ export const DEFAULT_ARMORING = [
     "id": "warded-weave-robes",
     "category": "Lightweight",
     "name": "Warded Weave Robes",
-    "cost": 640,
-    "craft_dc": 15,
-    "design_dc": 15,
-    "dr": 8,
-    "sp": 20,
-    "durability": 20,
+    "cost": 4457,
+    "craft_dc": 22,
+    "design_dc": 22,
+    "dr": 10,
+    "sp": 15,
+    "durability": 15,
     "body_locations": [
       "Torso",
       "Arms",
@@ -2735,12 +2735,12 @@ export const DEFAULT_ARMORING = [
       "tier": "Socket",
       "allocated": []
     },
-    "description": "Silken robes embroidered with conductive resonant sigils designed to disperse metaphysical and thermal energy.",
-    "mechanic": "Resonance Dispersion (+2 to saves vs Metaphysical and Energy attacks). DR 8, SP 20.",
+    "description": "High-quality ballistic cloth embroidered with threads of conductive gold and Aetherium. The runes flare with light when struck, dispersing energy.",
+    "mechanic": "DR 5 (Physical) / 10 (Energy/Magic), SP 15. Spell Resistance (+2 Defense vs Metaphysic Attacks); Focus (Masterwork Tool for Spellcasting). Base Sockets: 3.",
     "costs": {
       "cp": 0,
       "bp": 0,
-      "credits": 640,
+      "credits": 4457,
       "nodes": 0,
       "sockets": 0,
       "strain": 0,
@@ -2756,14 +2756,14 @@ export const DEFAULT_ARMORING = [
       "failure_effect": []
     },
     "tech_level": 3,
-    "meta_level": 2,
+    "meta_level": 3,
     "keywords": "warded weave robes, armor, defense, dr-8, light-armor, tl-3",
     "negative_keywords": "unarmored, fragile, naked",
     "collection": "armoring",
     "armor_class": "Lightweight",
-    "armor_type": "Lightweight",
+    "armor_type": "Reinforced Clothing (Arcane)",
     "mobility_penalty": 0,
-    "body": "Silken robes embroidered with conductive resonant sigils designed to disperse metaphysical and thermal energy.\n\n**Mechanics:** Resonance Dispersion (+2 to saves vs Metaphysical and Energy attacks). DR 8, SP 20."
+    "body": "High-quality ballistic cloth embroidered with threads of conductive gold and Aetherium. The runes flare with light when struck, dispersing energy.\n\n**Mechanics:** DR 5 (Physical) / 10 (Energy/Magic), SP 15. Spell Resistance (+2 Defense vs Metaphysic Attacks); Focus (Masterwork Tool for Spellcasting). Base Sockets: 3."
   }
 ];
 export const getArmorById = (id) => DEFAULT_ARMORING.find(a => a.id === id);

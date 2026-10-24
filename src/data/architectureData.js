@@ -1,7 +1,7 @@
 /**
  * Canonical Architecture & Facilities Database for Tangent SF RP
  * Auto-generated from src/data/omnicortex/architecture/
- * Total Architecture Items: 20
+ * Total Architecture Items: 19
  */
 
 export const DEFAULT_ARCHITECTURE = [
@@ -649,7 +649,7 @@ export const DEFAULT_ARCHITECTURE = [
       "tier": "Socket",
       "allocated": []
     },
-    "tech_level": 3,
+    "tech_level": 0,
     "meta_level": 0,
     "keywords": "native longhouse / communal shelter, architecture, structure, native / survivalist, tl-3, elongated",
     "negative_keywords": "mobile-infantry, personal-weapon, portable-trinket",
@@ -854,53 +854,6 @@ export const DEFAULT_ARCHITECTURE = [
     "keywords": "planetary shield generator, architecture, structure, defensive, tl-4, geodesic",
     "negative_keywords": "mobile-infantry, personal-weapon, portable-trinket",
     "body": "Geodesic emitter spire supported by heavy pylons projecting an energy barrier capable of deflecting planetary bombardment.\n\n**Mechanics:** SP: 19,200. DR: 50 (Active Shielding). Modules: 250. Emitter Array (150), Reactor Core (80), Cryo Cooling (20)."
-  },
-  {
-    "id": "polymatter-struct",
-    "name": "Polymatter Struct",
-    "category": "architecture",
-    "cost": 10240,
-    "design_dc": 25,
-    "craft_dc": 25,
-    "description": "Programmable polymatter structural matrix capable of dynamic self-reconfiguration (+25% Base Cost).",
-    "footprint": "Medium",
-    "height_class": "Single",
-    "frame": "Standard",
-    "environment": "Standard",
-    "security_level": "Open",
-    "costs": {
-      "cp": 0,
-      "bp": 0,
-      "credits": 10240,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "modifiers": [],
-    "modifications": [],
-    "critical_details": {
-      "score": "",
-      "effect": [],
-      "success_effect": [],
-      "failure_effect": []
-    },
-    "sockets": {
-      "max": 0,
-      "used": 0,
-      "tier": "Socket",
-      "allocated": []
-    },
-    "tech_level": 5,
-    "meta_level": 0,
-    "keywords": "polymatter struct, architecture, structure, standard, tl-3, morphic",
-    "negative_keywords": "mobile-infantry, personal-weapon, portable-trinket",
-    "sp": 500,
-    "dr": 30,
-    "mechanic": "TL5 Polymatter architecture. Allows structural reconfiguration as a 1-minute action. Craft DC 25 (10,240 Cr base).",
-    "style": "Standard",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Morphic Implant or Replacement (limited).\r\n**CP:** 0"
   },
   {
     "id": "transit-hub-spaceport-terminal",

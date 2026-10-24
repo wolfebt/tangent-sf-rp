@@ -10,42 +10,58 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-speeds: Ground 30 ft
+speeds: 30 ft Groundspeed
 reach: 5 ft
 senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
 immunities: >-
   Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
   sleep [9]
 inherent_attribute_modifiers: []
-bonus_attribute_points: 2
+bonus_attribute_points: 0
 specific_skill_bonuses: []
-bonus_skills: 10
+bonus_skills: 0
 bonus_skill_choices:
   - All Categories (Retains Previous Organic Training)
 inherent_features: []
-bonus_features: []
+bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Armor (Chitinous Shell)
-  - Brutal
   - Mighty Surge
   - Tough
+disadvantages: []
 stigma: Synthetic (-2)
-tech_level: 4 (Cortical Stacks & Sleeves)
-meta_level: 1 (Residual Soul)
+tech_level: '4'
+meta_level: '0'
 homeworld: Resleeve Clinics & Transhuman Stations
 costs:
-  cp: 55
-  bp: 55
-modifiers: []
+  cp: 27
+  bp: 27
+modifiers:
+  - target: Armor (Chitinous Shell)
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Brutal
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Mighty Surge
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Tough
+    value: 1
+    type: feature
+    mode: recommended
 description: >-
-  Shells are synthetic sleeve bodies inhabited by digitized organic
-  consciousnesses (transferred via cortical neural stacks upon biological
-  death).
+  A synthetic body housing a previously organic consciousness - body is a
+  variant of another type of Synthetic, such as an Android, a Sentient Machine
+  or an Intellect Construct. Tech 4 bodies are viable for housing of remote
+  operations but the consciousness transfer technology is Tech 5 (or
+  experimental at TL4).
 traits: &ref_0
-  - trait-self-revivifying
-  - trait-synthetic-aux-core
   - trait-synthetic-base-traits
+species_traits: *ref_0
 recommended_factions:
   - The Syndicate
   - The Ascendancy
@@ -61,35 +77,57 @@ keywords: >-
   cortical-stack, resleeve, transhuman-mind, digitized-consciousness,
   sleeve-swap
 negative_keywords: 'permanent-death-fear, natural-aging, bio-purist'
-species_traits: *ref_0
-cp: 55
-bp: 55
-cp_cost: 55
+cp: 27
+bp: 27
+cp_cost: 27
 ---
 
-# Shell (Sleeve for Organic Mind)
+# **SHELL**
 
 ## **SHELL**
 
 # 
 
 **CP Cost:** 43 CP  
+
 **Description:** A synthetic body housing a previously organic consciousness \- body is a variant of another type of Synthetic, such as an Android, a Sentient Machine or an Intellect Construct. Tech 4 bodies are viable for housing of remote operations but the consciousness transfer technology is Tech 5 (or experimental at TL4).
 
-**Classification:** Synthetic Humanoid  
-**Size:** Medium  
+&nbsp;
+
+**Classification:** Synthetic Humanoid
+
+**Size:** Medium
+
 **Movement:** 30 ft Groundspeed
 
-**Tech Level:** 4  
+&nbsp;
+
+**Tech Level:** 4
+
 **Meta Level:** \-
 
-**Homeworld:**   
+&nbsp;
+
+**Homeworld:**&nbsp;
+
 **Stigma:** Synthetic
 
-**Ability Modifiers:** 
+&nbsp;
 
-**Skills:** 
+**Ability Modifiers:**&nbsp;
 
-**Species Features:** 
+&nbsp;
 
-**Recommended Features:**
+**Skills:**&nbsp;
+
+&nbsp;
+
+**Species Features:**&nbsp;
+
+&nbsp;
+
+**Recommended Features:**&nbsp;
+
+&nbsp;
+
+&nbsp;

@@ -25,28 +25,16 @@ skill_package:
   - Discipline (+4)
   - Athletics (+3)
   - Intimidate (+3)
-recommended_features:
+recommended_features: &ref_0
   - Combat Expertise
   - Coordinated Assist
   - Iron Will
   - Defensive Combat Training
   - Weapon Specialization
-  - Enduring
   - Tough
   - Benefit (Status)
   - Master Plan
-  - Skill Focus (Tactics)
-features:
-  - Combat Expertise
-  - Coordinated Assist
-  - Iron Will
-  - Defensive Combat Training
-  - Weapon Specialization
-  - Enduring
-  - Tough
-  - Benefit (Status)
-  - Master Plan
-  - Skill Focus (Tactics)
+features: *ref_0
 bonus_features:
   - Combat Expertise
 description: >-

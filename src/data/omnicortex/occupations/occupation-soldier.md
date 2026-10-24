@@ -56,7 +56,7 @@ recommended_species:
   - Rautha Human
   - Graa (Auluran Heavy)
   - Dar (Auluran Hunter)
-  - Maantene (Kitin Leaper)
+  - Maantene (Recon Expression)
   - Qeric
   - Weti
   - Sentient Machine (Free Droid)

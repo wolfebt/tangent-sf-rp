@@ -10,17 +10,13 @@ size:
   - species_size-medium
 movement:
   - species_movement-quadruped
-speeds: Ground 40 ft
+speeds: Varies by base animal form (typically 30-40 ft Groundspeed)
 reach: 5 ft
 senses: 'Low-light vision. [1]'
 immunities: None
 inherent_attribute_modifiers: []
-bonus_attribute_points: 2
-specific_skill_bonuses:
-  - skill: Perception
-    bonus: 2
-  - skill: Survival
-    bonus: 2
+bonus_attribute_points: 0
+specific_skill_bonuses: []
 bonus_skills: 0
 bonus_skill_choices:
   - Perception
@@ -28,31 +24,56 @@ bonus_skill_choices:
   - Athletics
   - Stealth
 inherent_features: []
-bonus_features: []
+bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Acute Senses
+  - Acute Sense
   - Danger Sense
   - Natural Weapons
   - Runner
   - Tough
   - Wild Speech
-stigma: Beast (-4)
-tech_level: 2 (Adapted Gear)
-meta_level: 2 (Primal Sentience)
-homeworld: Uplift Habitats & Nature Sanctuaries
+disadvantages: []
+stigma: Beast (-2)
+tech_level: 1 (Uplifted / Foundational)
+meta_level: 1 (Instinctual Resonance)
+homeworld: Various (Any wild biome or bio-foundry)
 costs:
-  cp: 12
-  bp: 12
-modifiers: []
+  cp: 3
+  bp: 3
+modifiers:
+  - target: Acute Senses
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Danger Sense
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Natural Weapons
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Runner
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Tough
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Wild Speech
+    value: 1
+    type: feature
+    mode: recommended
 description: >-
   Uplifted canines, felines, ursines, and avians granted full sapience and
   tactical communication through cybernetic collars or bio-genetic uplift
   programs.
 traits: &ref_0
+  - trait-bodyform-adaptation
   - trait-natural-weapons
-  - trait-focused-study
-  - trait-mind-speech
+species_traits: *ref_0
 recommended_factions:
   - Coalition of Independent Worlds
   - Environmental Faction Template
@@ -68,40 +89,66 @@ keywords: >-
   uplifted-beast, quadruped-speed, acute-senses, pack-instinct,
   companion-fighter
 negative_keywords: 'fine-tools, speech-inhibited, corporate-executive'
-species_traits: *ref_0
-cp: 12
-bp: 12
-cp_cost: 12
+cp: 3
+bp: 3
+cp_cost: 3
 ---
 
-# Awakened Animal (Uplifted Beast)
+# **AWAKENED ANIMAL**
+
+# **AWAKENED ANIMAL**
 
 An Awakened Animal is a creature that has undergone a profound transformation, gaining not only sentience—the capacity to feel, perceive, and be conscious—but also sapience, meaning it is self-aware, capable of complex intelligent thought, abstract reasoning, and communication. This process elevates the creature far beyond its natural state, granting it an intellect comparable to or exceeding that of a human or other traditional sentient species.
 
+&nbsp;
+
 This radical awakening is not a common biological occurrence but typically results from powerful external influences. These triggers are varied and often steeped in the supernatural or the cutting edge of science. Exposure to potent magical energies, such as residual power from an ancient ritual, a direct and targeted spell, or prolonged proximity to a potent magical nexus, is a frequent cause. Divine intervention, whether a direct blessing, a reward from a deity, or an incidental effect of a celestial event, can also grant this gift. Finally, advanced technological enhancements, including neurological implants, experimental genetic therapies, or exposure to highly specialized artificial intelligences, serve as a modern avenue for this transformation.
+
+&nbsp;
 
 Awakened animals characteristically retain their foundational physical form, instincts, and inherent traits of their original species. A bear, for example, remains physically powerful and may still feel the urge to hibernate, but it now processes these urges through a sapient mind. The most significant changes are cognitive and behavioral. They gain the ability to understand and interact with other sentient beings on a sophisticated level, moving past simple conditioning or instinctual responses. Crucially, they may develop comprehensive language skills—often gaining the ability to speak the common tongue, or communicate through advanced telepathy or sign language—allowing them to participate in dialogue, debate, and diplomacy. They begin to form their own unique philosophies, moral codes, and religious or spiritual beliefs. Furthermore, they develop long-term goals, personal ambitions, and vocational pursuits that extend far beyond the basic survival needs of their animal lineage, such as seeking knowledge, establishing a business, becoming an artist, or even engaging in political action.
 
+&nbsp;
+
 The process of awakening is a deeply transformative psychological experience. The animal's newfound intelligence fundamentally reshapes its personality and worldview. This transition is often tumultuous. Many awakened animals face a complex internal struggle as they attempt to reconcile their primal, instinctual heritage—the deep, ancient programming of their species—with their highly developed, rational minds. This internal conflict can lead to unique psychological profiles; some may become highly philosophical or melancholic, while others may be driven to reject their animal past entirely.
 
+&nbsp;
+
 Conversely, some awakened animals embrace their unique dual nature. They find ways to synergize their animal strengths, senses, and instincts with their human-level intelligence, allowing them to thrive in ways that neither their base species nor standard sentient beings can. They often carve out unique niches in society, acting as mediators between the wild and civilization, or using their natural camouflage, speed, or strength in highly strategic ways. Their existence often presents a challenge to the societal structures of traditional sentient races, forcing communities to confront questions of citizenship, rights, and the very definition of sentience.
+
+&nbsp;
 
 ## **General Species Features & Mechanics**
 
 **CP Cost:** 2 CP  
-**Classification:** Beast  
-**Size:** varies  
+
+**Classification:** Beast
+
+**Size:** varies
+
 **Movement:** varies
+
+&nbsp;
 
 **Stigma:** Beast
 
+&nbsp;
+
 #### **Species Features:**
 
-Animal Body (Features and Disadvantages)  
-Typical PC Ability Scores  
+Animal Body (Features and Disadvantages)
+
+Typical PC Ability Scores
+
 Stigma (Animal)
 
+&nbsp;
+
 ***Species and Recommended features will depend on base Animal statistics***
+
+&nbsp;
+
+&nbsp;
 
 ---
 
@@ -130,3 +177,7 @@ Stigma (Animal)
 * **Composition:** Cinematic composition, rule of thirds, anamorphic bokeh, \--ar 16:9 \--v 6.0.
 
 **NEGATIVE PROMPT TOKENS:** outlines, black lines, borders, ink strokes, contour lines, hatching, cross-hatching, line art, line weight, illustration, cartoon, sketch, 3d render, gradient mesh, fuzzy, blurry, messy, watermark, text, anime, cel shaded, toon shading, hard edges, capes, banners, extra fabric, excess cables, distorted hands, plastic skin, waxy texture, airbrushed, smooth, doll-like.
+
+&nbsp;
+
+&nbsp;

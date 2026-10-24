@@ -2,12 +2,12 @@
 id: warded-weave-robes
 category: Lightweight
 name: Warded Weave Robes
-cost: 640
-craft_dc: 15
-design_dc: 15
-dr: 8
-sp: 20
-durability: 20
+cost: 4457
+craft_dc: 22
+design_dc: 22
+dr: 10
+sp: 15
+durability: 15
 body_locations:
   - Torso
   - Arms
@@ -20,15 +20,16 @@ sockets:
   tier: Socket
   allocated: []
 description: >-
-  Silken robes embroidered with conductive resonant sigils designed to disperse
-  metaphysical and thermal energy.
+  High-quality ballistic cloth embroidered with threads of conductive gold and
+  Aetherium. The runes flare with light when struck, dispersing energy.
 mechanic: >-
-  Resonance Dispersion (+2 to saves vs Metaphysical and Energy attacks). DR 8,
-  SP 20.
+  DR 5 (Physical) / 10 (Energy/Magic), SP 15. Spell Resistance (+2 Defense vs
+  Metaphysic Attacks); Focus (Masterwork Tool for Spellcasting). Base Sockets:
+  3.
 costs:
   cp: 0
   bp: 0
-  credits: 640
+  credits: 4457
   nodes: 0
   sockets: 0
   strain: 0
@@ -42,14 +43,14 @@ critical_details:
   success_effect: []
   failure_effect: []
 tech_level: 3
-meta_level: 2
+meta_level: 3
 keywords: 'warded weave robes, armor, defense, dr-8, light-armor, tl-3'
 negative_keywords: 'unarmored, fragile, naked'
 collection: armoring
 armor_class: Lightweight
-armor_type: Lightweight
+armor_type: Reinforced Clothing (Arcane)
 mobility_penalty: 0
 ---
-Silken robes embroidered with conductive resonant sigils designed to disperse metaphysical and thermal energy.
+High-quality ballistic cloth embroidered with threads of conductive gold and Aetherium. The runes flare with light when struck, dispersing energy.
 
-**Mechanics:** Resonance Dispersion (+2 to saves vs Metaphysical and Energy attacks). DR 8, SP 20.
+**Mechanics:** DR 5 (Physical) / 10 (Energy/Magic), SP 15. Spell Resistance (+2 Defense vs Metaphysic Attacks); Focus (Masterwork Tool for Spellcasting). Base Sockets: 3.

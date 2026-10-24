@@ -25,7 +25,7 @@ skill_package:
   - Survival (+4)
   - Athletics (+3)
   - Combat (Any) (+3)
-recommended_features:
+recommended_features: &ref_0
   - Biotechnology
   - Fast Heal
   - Tolerance
@@ -34,19 +34,8 @@ recommended_features:
   - Scent
   - Self Sufficient
   - Animal Affinity
-  - Night Vision
   - Natural Weapons
-features:
-  - Biotechnology
-  - Fast Heal
-  - Tolerance
-  - Augmented
-  - Tough
-  - Scent
-  - Self Sufficient
-  - Animal Affinity
-  - Night Vision
-  - Natural Weapons
+features: *ref_0
 bonus_features:
   - Biotechnology
 description: >-

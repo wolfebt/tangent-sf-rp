@@ -10,7 +10,7 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-speeds: Ground 30 ft
+speeds: 30 ft Groundspeed
 reach: 5 ft
 senses: 'Blind Sense (Scent/EM 30 ft radius), Standard visual and auditory range.'
 immunities: Sleep effects and involuntary unconsciousness
@@ -35,68 +35,120 @@ bonus_skill_choices:
   - Perception
   - Science
   - Stealth
-inherent_features:
-  - special-mimetic-form
-  - discipline-awakened
-  - special-genetic-memory
-  - special-hive-link
-  - special-torpor-universal
-  - sensory-blind-sense-scent-em
-  - general-enhanced-biotechnology
+inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Acute Senses
-  - Adaptive Aspects (Hive Memories)
+  - Acute Sense
   - Assessment
-  - Jack of all trades
+  - Bodyform Features
   - Low Light Vision
-  - Sense (Psychic)
   - Silver Tongue
-  - Tolerance
-  - Toxic Resistance
-  - Venom Spit
-  - Venomous Saliva
-stigma: Minor Xeno (hidden) / Severe Xeno (revealed)
+disadvantages: []
+stigma: Minor Xeno (hidden) / Severe Xeno (revealed) (-2)
 tech_level: 4 (Advanced Psionic/Biomorphic)
 meta_level: 4 (Psionic)
 homeworld: Kitin Hive Worlds / Diplomatic Hubs
 costs:
-  cp: 46
-  bp: 46
+  cp: 47
+  bp: 47
 modifiers:
   - target: Intellect
     value: 2
     type: attribute
     mode: inherent
+    description: +2 Intellect
   - target: Wisdom
     value: 2
     type: attribute
     mode: inherent
+    description: +2 Wisdom
   - target: Charisma
     value: 1
     type: attribute
     mode: inherent
-  - target: Disguise
-    value: 2
+    description: +1 Charisma
+  - target: Any
+    value: 10
     type: skill
-    mode: conditional
-  - target: Deception
-    value: 2
-    type: skill
-    mode: conditional
+    mode: bonus_pool
+    description: +10 Skill Points
+  - target: Acute Senses
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Adaptive Aspects (Hive Memories)
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Adaptive Skill Set (Hive Memories)
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Alter Form
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Assessment
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Bodyform Features
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Bonded or Companion
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Jack of all trades
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Low Light Vision
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Mutation
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Poison Immunity
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Sense (Psychic)
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Silver Tongue
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Reduced Sustenance
+    value: 1
+    type: feature
+    mode: recommended
+  - target: >-
+      Venom Spit - Contact, DC 11+ 2xSta, Blind for 10+ minutes: Toxic Blood,
+      Sta 2
+    value: 1
+    type: feature
+    mode: recommended
 description: >-
-  The Manelli are the striking and enigmatic "Face of the Collective" and
-  primary Brood-Masters. Psionically steered into a mimetic humanoid form with
-  internal endoskeletons and emerald copper-based blood, they conduct the Chorus
-  and bridge the hive mind with galactic civilizations.
+  The Manelli are a striking and enigmatic humanoid species, distinguished by
+  several unique biological and sensory characteristics. Their appearance is
+  notably human-like, yet their physiology speaks to an ancient, divergent
+  evolutionary path.
 traits: &ref_0
-  - trait-blind-sense-scent-em
-  - trait-enhanced-biotechnology
+  - trait-mimetic-form
+  - trait-awakened-psychic
   - trait-genetic-memory
   - trait-hive-link
-  - trait-mimetic-form
   - trait-torpor-universal
+  - trait-blind-sense-scent-em
+  - trait-enhanced-biotechnology
+species_traits: *ref_0
 recommended_factions:
   - Kitin Collective (The Star Hive)
   - Hive Mind Faction Template
@@ -115,24 +167,19 @@ keywords: >-
   hive-chorus, genetic-memory, telepathic-link, torpor, green-blooded,
   insectivore-omnivore
 negative_keywords: 'berserker-rage, isolation, xenophobic, individualist'
-species_traits: *ref_0
-cp: 46
-bp: 46
-cp_cost: 46
+cp: 47
+bp: 47
+cp_cost: 47
 ---
 
 # Manelli (Kitin Cerebral Expression / Mimetic Humanoid)
 
-**CP Cost:** 36 CP  
+### **MANELLI**
+**Cerebral Expression**  
 **Classification:** Humanoid (Mimetic Mimicry)  
-**Size:** Medium  
-**Movement:** 30ft Groundspeed  
+**CP Cost:** 36 CP  
 
-**Tech Level:** 4 (Advanced Psionic/Biomorphic) (5 CP)  
-**Meta Level:** 4 (Psionic)  
-**Stigma:** Minor Xeno (hidden) / Severe Xeno (revealed)  
-
-## Description
+**Description:**
 The Manelli are a striking and enigmatic humanoid species, distinguished by several unique biological and sensory characteristics. Their appearance is notably human-like, yet their physiology speaks to an ancient, divergent evolutionary path.
 
 They possess a fundamentally humanoid structure but carry evidence of deep Insectoid Ancestry, which manifests subtly in their physical resilience and certain biological functions. A most defining characteristic is their green-blooded circulatory system, indicative of a copper-based hemocyanin instead of the iron-based hemoglobin found in humans.
@@ -147,51 +194,53 @@ The Manelli are the "Face of the Collective" and the primary Brood-Masters. Unli
 
 As the "Cerebral Expression," they maintain the Chorus and steer the development of all other Strains. They do not sleep, instead entering a 4-hour state of conscious Torpor. They view the dreaming minds of other species with profound distrust.
 
-## Technical Profile
+**Technical Profile:**
 * **Size:** Medium
 * **Movement:** 30ft Groundspeed
 * **Tech Level:** 4 (Advanced Psionic/Biomorphic) (5 CP)
 * **Meta Level:** 4 (Psionic)
 * **Stigma:** Minor Xeno (hidden) / Severe Xeno (revealed)
 
-## Ability Modifiers
-* **+2 Intellect** (8 CP)
-* **+2 Wisdom** (8 CP)
-* **+1 Charisma** (4 CP)
+**Ability Modifiers:**
+* +2 Intellect (8 CP)
+* +2 Wisdom (8 CP)
+* +1 Charisma (4 CP)
 
-## Skills
-* **+10 Skill Ranks to ANY skills** (8 CP)
+**Skills:**
+* +10 Skill Ranks to ANY skills (8 CP)
 
-## Species Features
+**Species Features:**
 * **Mimetic Form:** Gain a +2 Bonus to Disguise or Deception checks to pass as human (antennae must be concealed). (2 CP)
 * **Awakened (Psionic - Intellect or Wisdom):** Conductors of the Hive’s psionic Chorus. (2 CP)
 * **Genetic Memory:** Inheritance of ancestral knowledge and Genomatrix blueprints. (2 CP)
 * **Hive-Link:** Constant telepathic connection to all Kitin Strains. (2 CP)
 * **Torpor (Universal):** Requires only 4 hours of conscious inactivity; immune to sleep effects. (2 CP)
 * **Blind Sense (Scent/EM):** Delicate antennae perceive bio-energetic and EM fields. (2 CP)
-* **Enhanced Biotechnology:** Instinctive attunement and manipulation of living technology.
+* **Enhanced Biotechnology:** Advanced living technology affinity and manipulation.
 
-## Recommended Features
-* **Acute Senses:** (any, especially Scent)
-* **Adaptive Aspects:** (Hive Memories)
-* **Adaptive Skill Set:** (Hive Memories)
-* **Alter Form:** Advanced shape manipulation
-* **Assessment:** Rapid tactical evaluation
-* **Blind Sense:** using Scent, Hearing and feeling Air Motion 30 ft Radius: Wis 2, Insight 6
-* **Bodyform Features:** Biological adaptations
-* **Bonded or Companion:** Bio, tech, or tele-empathic partner
-* **Jack of all trades:** Practical competence across untrained fields
-* **Low Light Vision:** Visual acuity in low illumination
-* **Mutation:** Bodyform mutation
-* **Poison Immunity:** Automatically Save versus any Poisonous Substances
-* **Sense (Psychic):** Detect psionic fields and conscious minds
-* **Silver Tongue Line:** Social diplomacy and negotiation
-* **Reduced Sustenance:** Metabolic conservation
-* **Toxic Blood:** Ingested, DC 11 + 2xSta, Pain Incapacitation 1hr (Severe Nausea on Success): Sta 1, Poison Immunity
-* **Venomous Saliva:** Injected (Bite), DC 11 + 2xSta, Paralytic 1hr (Drugged on Success): Toxic Blood, Sta 2
-* **Venom Spit:** Contact, DC 11+ 2xSta, Blind for 10+ minutes: Toxic Blood, Sta 2
+**Recommended Features:**
+* Acute Senses (any, especially Scent)
+* Adaptive Aspects (Hive Memories)
+* Adaptive Skill Set (Hive Memories)
+* Alter Form
+* Assessment
+* Blind Sense - using Scent, Hearing and feeling Air Motion 30 ft Radius: Wis 2, Insight 6
+* Bodyform Features
+* Bonded or Companion
+* Jack of all trades
+* Low Light Vision
+* Mutation
+* Poison Immunity (Automatically Save versus any Poisonous Substances)
+* Sense (Psychic)
+* Silver Tongue Line
+* Reduced Sustenance
+* Toxic Blood - Ingested, DC 11 + 2xSta, Pain Incapacitation 1hr (Severe Nausea on Success): Sta 1, Poison Immunity
+* Venomous Saliva - Injected (Bite), DC 11 + 2xSta, Paralytic 1hr (Drugged on Success): Toxic Blood, Sta 2
+* Venom Spit - Contact, DC 11+ 2xSta, Blind for 10+ minutes: Toxic Blood, Sta 2
 
-## Aesthetics (CRISP)
+**Aesthetics (CRISP):**
 * **Style:** Neo-Biomorphic, Mimetic Noir, Psionic Sci-Fi.
 * **Palette:** Dominant: Humanoid Skin Tones. Accent: Emerald Green, Pulsating Cyan.
 * **Visuals:** Humanoid silhouette with unnaturally smooth, damp skin. Twitching, delicate antennae.
+
+---

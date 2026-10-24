@@ -1,6 +1,6 @@
 ---
 id: "doc-architect-99-planetary-hazardsandencounters"
-name: "99. 14. Planetary: Hazards, Hooks & Encounter Tables"
+name: "99. Planetary: Hazards, Hooks & Encounter Tables"
 fileName: "99.Planetary.HazardsAndEncounters.md"
 relPath: "architect/planetary/99.Planetary.HazardsAndEncounters.md"
 isMasterDoc: false

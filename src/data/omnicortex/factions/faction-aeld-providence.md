@@ -1,6 +1,6 @@
 ---
-id: faction-elven-providence
-name: Elven Providence
+id: faction-aeld-providence
+name: Aeld Providence
 category: factions
 faction_type: Major Polity
 archetype: Galactic Diplomats / Magi-Tech Architects
@@ -10,7 +10,7 @@ capital_world: Altheria (The Gilded World)
 tech_level: '4'
 meta_level: '4'
 wealth_modifier: '+3'
-prominent_species: 'Celestine, High Elves, Doppelgangers'
+prominent_species: 'Alterian, Doppelganger, Draconian, Kovian, Vajar'
 typical_archetypes:
   - The Diplomat
   - The High Architect
@@ -61,9 +61,10 @@ costs:
 modifiers: []
 faction_classification: Major Galactic Power
 recommended_species:
-  - Celestine (Alterian)
+  - Alterian
   - Doppelganger (Shifter)
   - Draconian (Scaled Aeld)
+  - Kovian
   - Vajar (Wilder)
 recommended_origins:
   - Enlightened
@@ -81,8 +82,7 @@ negative_keywords: >-
   crude-machinery, reckless-expansion, heavy-cybernetics,
   short-lived-impulsiveness, unrefined
 ---
-
-## **ELVEN PROVIDENCE (THE FACTIONAL SCHISMS)**
+## **AELD PROVIDENCE (THE FACTIONAL SCHISMS)**
 
 *Note: The Elven species is fractured by profound, millennia-old ideological schisms. Below are the primary political entities.*
 

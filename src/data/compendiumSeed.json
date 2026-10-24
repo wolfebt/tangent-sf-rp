@@ -5064,7 +5064,7 @@
   },
   {
     "id": "doc-operator-1-06-criminal",
-    "name": "1.06 04. Criminal",
+    "name": "1.06 Criminal",
     "fileName": "1.06.Criminal.md",
     "relPath": "operator/occupations/1.06.Criminal.md",
     "subfolder": "operator/occupations",
@@ -6974,7 +6974,7 @@
   },
   {
     "id": "doc-architect-99-character-modulea-tierchassis",
-    "name": "99. Character: Module A: The Tier Chassis",
+    "name": "99. Character (Module A): The Tier Chassis",
     "fileName": "99.Character.ModuleA.TierChassis.md",
     "relPath": "architect/characters/99.Character.ModuleA.TierChassis.md",
     "subfolder": "architect/characters",
@@ -7004,7 +7004,7 @@
   },
   {
     "id": "doc-architect-99-character-moduleb-competencyroles",
-    "name": "99. Character: Module B: Competency Roles & Matrices",
+    "name": "99. Character (Module B): Competency Roles & Matrices",
     "fileName": "99.Character.ModuleB.CompetencyRoles.md",
     "relPath": "architect/characters/99.Character.ModuleB.CompetencyRoles.md",
     "subfolder": "architect/characters",
@@ -7034,7 +7034,7 @@
   },
   {
     "id": "doc-architect-99-character-modulec-e-biologysoullifepath",
-    "name": "99. Character: Modules C–E: Biology, Soul & Lifepath",
+    "name": "99. Character (Modules C–E): Biology, Soul & Lifepath",
     "fileName": "99.Character.ModuleC_E.BiologySoulLifepath.md",
     "relPath": "architect/characters/99.Character.ModuleC_E.BiologySoulLifepath.md",
     "subfolder": "architect/characters",
@@ -7064,7 +7064,7 @@
   },
   {
     "id": "doc-architect-99-character-modulef-g-genreandvisuals",
-    "name": "99. Character: Modules F–G: Genre & Visual Semiotics",
+    "name": "99. Character (Modules F–G): Genre & Visual Semiotics",
     "fileName": "99.Character.ModuleF_G.GenreAndVisuals.md",
     "relPath": "architect/characters/99.Character.ModuleF_G.GenreAndVisuals.md",
     "subfolder": "architect/characters",
@@ -7330,7 +7330,7 @@
   },
   {
     "id": "doc-architect-99-planetary-astrophysicsandgeophysics",
-    "name": "99. 14. Planetary: Astrophysics, Geophysics & Biosphere",
+    "name": "99. Planetary: Astrophysics, Geophysics & Biosphere",
     "fileName": "99.Planetary.AstrophysicsAndGeophysics.md",
     "relPath": "architect/planetary/99.Planetary.AstrophysicsAndGeophysics.md",
     "subfolder": "architect/planetary",
@@ -7360,7 +7360,7 @@
   },
   {
     "id": "doc-architect-99-planetary-civilizationandeconomy",
-    "name": "99. 14. Planetary: Civilization, Economy & Infrastructure",
+    "name": "99. Planetary: Civilization, Economy & Infrastructure",
     "fileName": "99.Planetary.CivilizationAndEconomy.md",
     "relPath": "architect/planetary/99.Planetary.CivilizationAndEconomy.md",
     "subfolder": "architect/planetary",
@@ -7390,7 +7390,7 @@
   },
   {
     "id": "doc-architect-99-planetary-hazardsandencounters",
-    "name": "99. 14. Planetary: Hazards, Hooks & Encounter Tables",
+    "name": "99. Planetary: Hazards, Hooks & Encounter Tables",
     "fileName": "99.Planetary.HazardsAndEncounters.md",
     "relPath": "architect/planetary/99.Planetary.HazardsAndEncounters.md",
     "subfolder": "architect/planetary",

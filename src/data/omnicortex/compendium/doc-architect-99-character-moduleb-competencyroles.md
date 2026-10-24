@@ -1,6 +1,6 @@
 ---
 id: "doc-architect-99-character-moduleb-competencyroles"
-name: "99. Character: Module B: Competency Roles & Matrices"
+name: "99. Character (Module B): Competency Roles & Matrices"
 fileName: "99.Character.ModuleB.CompetencyRoles.md"
 relPath: "architect/characters/99.Character.ModuleB.CompetencyRoles.md"
 isMasterDoc: false

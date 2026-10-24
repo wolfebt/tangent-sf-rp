@@ -12,7 +12,7 @@ recommended_species:
   - Tenen (Sha’nor Spectral)
   - Whisper
   - Sha'nor
-  - Nocturne (Kovian)
+  - Kovian
 recommended_factions:
   - The Outworlds
   - The Ascendancy

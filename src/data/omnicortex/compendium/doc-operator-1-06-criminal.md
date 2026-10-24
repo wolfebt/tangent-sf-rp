@@ -1,6 +1,6 @@
 ---
 id: "doc-operator-1-06-criminal"
-name: "1.06 04. Criminal"
+name: "1.06 Criminal"
 fileName: "1.06.Criminal.md"
 relPath: "operator/occupations/1.06.Criminal.md"
 isMasterDoc: false

@@ -1,33 +1,36 @@
 ---
 id: holophotonic-emitter-harness
-category: Mediumweight
+category: Device
 name: Holophotonic Emitter Harness
-cost: 163840
-craft_dc: 35
-design_dc: 35
-dr: 30
-sp: 60
-durability: 60
+cost: 40960
+craft_dc: 30
+design_dc: 30
+dr: 20
+sp: 50
+durability: 50
 body_locations:
   - Head
   - Torso
   - Arms
   - Legs
-coverage: Sealed
-component_slots: 10
+coverage: Projected
+component_slots: 2
 sockets:
-  max: 10
+  max: 2
   used: 0
   tier: Socket
   allocated: []
 description: >-
-  Lightweight wearable harness projecting a rigid barrier of solid hard-light
-  around the user, absorbing high-caliber projectiles and energy beams.
-mechanic: 'Hard-Light Barrier (Regenerates 10 SP per minute when powered). DR 30, SP 60.'
+  A lightweight harness that projects a suit of "Hard Light" armor only when
+  combat begins. When inactive, the wearer appears unarmored.
+mechanic: >-
+  DR 20 (Force Field), SP 50 (Battery Life). Weightless (0 Penalty). Instant
+  Don/Doff; Glow (Stealth impossible while active unless Dark Light upgrade
+  installed). Base Sockets: 2.
 costs:
   cp: 0
   bp: 0
-  credits: 163840
+  credits: 40960
   nodes: 0
   sockets: 0
   strain: 0
@@ -45,10 +48,10 @@ meta_level: 0
 keywords: 'holophotonic emitter harness, armor, defense, dr-30, heavy-armor, tl-5'
 negative_keywords: 'unarmored, fragile, naked, high-acrobatics'
 collection: armoring
-armor_class: Mediumweight
-armor_type: Mediumweight
+armor_class: Device
+armor_type: Light Armor (Projected)
 mobility_penalty: 0
 ---
-Lightweight wearable harness projecting a rigid barrier of solid hard-light around the user, absorbing high-caliber projectiles and energy beams.
+A lightweight harness that projects a suit of "Hard Light" armor only when combat begins. When inactive, the wearer appears unarmored.
 
-**Mechanics:** Hard-Light Barrier (Regenerates 10 SP per minute when powered). DR 30, SP 60.
+**Mechanics:** DR 20 (Force Field), SP 50 (Battery Life). Weightless (0 Penalty). Instant Don/Doff; Glow (Stealth impossible while active unless Dark Light upgrade installed). Base Sockets: 2.

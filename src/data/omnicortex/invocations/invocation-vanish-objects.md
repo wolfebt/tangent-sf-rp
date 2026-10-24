@@ -12,7 +12,7 @@ recommended_species:
   - Varen (Gatekeeper)
   - Whisper
   - Eidolon (Aetherion Specialist)
-  - Celestine (Alterian)
+  - Alterian
   - Mobula
 recommended_factions:
   - The Ascendancy

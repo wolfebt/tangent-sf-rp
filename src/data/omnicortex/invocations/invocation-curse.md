@@ -11,7 +11,7 @@ modifiers: []
 recommended_species:
   - Whisper
   - Tenen (Sha’nor Spectral)
-  - Nocturne (Kovian)
+  - Kovian
   - Rautha Human
 recommended_factions:
   - The Outworlds

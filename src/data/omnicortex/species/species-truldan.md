@@ -10,8 +10,7 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-  - species_movement-swimming
-speeds: 'Ground 30 ft, Swim 30 ft'
+speeds: '30 ft Groundspeed, 30 ft Swimspeed'
 reach: 5 ft
 senses: Standard visual and auditory range.
 immunities: None
@@ -23,9 +22,7 @@ inherent_attribute_modifiers:
   - attribute: Strength
     bonus: 1
 bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Stealth
-    bonus: 2
+specific_skill_bonuses: []
 bonus_skills: 0
 bonus_skill_choices:
   - Stealth
@@ -33,33 +30,45 @@ bonus_skill_choices:
   - Combat
   - Athletics
 inherent_features: []
-bonus_features: []
+bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
   - Natural Weapons
+disadvantages: []
 stigma: Severe Xeno (-4)
-tech_level: 3 (Swamp Camouflage Suits & Harpoon Launchers)
-meta_level: 1 (Cellular Adaptation)
-homeworld: Trulda Mangrove Archipelago
+tech_level: '1'
+meta_level: '3'
+homeworld: Truld (Tidal Swamp World)
 costs:
-  cp: 25
-  bp: 25
+  cp: 23
+  bp: 23
 modifiers:
   - target: Stamina
     value: 1
     type: attribute
     mode: inherent
+    description: +1 Stamina
   - target: Agility
     value: 1
     type: attribute
     mode: inherent
+    description: +1 Agility
   - target: Strength
     value: 1
     type: attribute
     mode: inherent
+    description: +1 Strength
+  - target: Natural Weapons
+    value: 1
+    type: feature
+    mode: recommended
 description: >-
-  Robust amphibian humanoids possessing color-shifting skin, long prehensile
-  tongue strikes, and rapid aquatic regeneration.
+  Truldan will stand fully upright at 7 to 71/2 ft tall with a regal,
+  aristocratic bearing. They possess a wiry, acrobatic build with minimal body
+  fat and dense, corded muscle. Their limbs are disproportionately long compared
+  to humans, giving them extended reach in combat. Due to their evolution from
+  swamp-dwelling ancestors, Truldan also retain amphibious features, making them
+  equally adept in water as on land.
 traits: &ref_0
   - trait-amphibious
   - trait-chameleon
@@ -67,6 +76,7 @@ traits: &ref_0
   - trait-fast-heal
   - trait-reach
   - trait-regeneration
+species_traits: *ref_0
 recommended_factions:
   - Coalition of Independent Worlds
   - The Outworlds
@@ -82,33 +92,95 @@ keywords: >-
   amphibious, chameleon-camouflage, prehensile-tongue, mangrove-stalker,
   regeneration
 negative_keywords: 'dry-desert, heavy-metal, fire'
-species_traits: *ref_0
-cp: 25
-bp: 25
-cp_cost: 25
+cp: 23
+bp: 23
+cp_cost: 23
 ---
 
-# Truldan (Amphibious Chameleonfolk)
+# **TRULDAN \* \*\***
 
-## Description
-Robust amphibian humanoids possessing color-shifting skin, long prehensile tongue strikes, and rapid aquatic regeneration.
+# **TRULDAN \* \*\***
 
-## Core Identity
-- **Lineage**: Independent Xenotypes
-- **Type**: species_type-humanoid
-- **Size**: species_size-medium
-- **Movement**: Ground 30 ft, Swim 30 ft
-- **Homeworld**: Trulda Mangrove Archipelago
-- **Tech Level**: 3 (Swamp Camouflage Suits & Harpoon Launchers)
-- **Meta Level**: 1 (Cellular Adaptation)
-- **Stigma**: Severe Xeno (-4)
+# 
 
-## Mechanics & Statblock
-- **CP Cost**: 25 CP
-- **Inherent Modifiers**: +1 Stamina, +1 Agility, +1 Strength
-- **Bonus Skills**: +0 Skill Points
-- **Inherent Features**: Amphibious, Chameleon (+3 Stealth in natural environments), Exoskeleton (Light Scales DR 2/-), Fast Heal, Reach (+5ft Melee Reach with Tongue/Limbs), Regeneration (2 HP/rnd)
-- **Recommended Features**: feature-adhesive-tongue-strike
+**CP Cost:** 22 CP  
 
-## Roleplay & Society
-Robust amphibian humanoids possessing color-shifting skin, long prehensile tongue strikes, and rapid aquatic regeneration.
+**Description:** Truldan will stand fully upright at 7 to 71/2 ft tall with a regal, aristocratic bearing. They possess a wiry, acrobatic build with minimal body fat and dense, corded muscle. Their limbs are disproportionately long compared to humans, giving them extended reach in combat. Due to their evolution from swamp-dwelling ancestors, Truldan also retain amphibious features, making them equally adept in water as on land.
+
+&nbsp;
+
+Trolls have only four fingers on each hand (three fingers and a thumb). Despite this, they possess excellent manual dexterity. They have three large toes on each foot. A spur-like heel claw is present on the back of the foot, which aids in climbing and balance. They almost exclusively walk barefoot to utilize their gripping toes.
+
+&nbsp;
+
+Long, pointed ears that extend backward or downward, often adorned with tribal piercings. Short and pointed noses. Their eyes often glow (luminescent) in various colors (red, purple, blue, green), though this can fade in death or poor health.
+
+&nbsp;
+
+Trolls have a legendary metabolic rate. They can regenerate lost digits (fingers/toes) and heal grievous wounds rapidly. This rapid cell turnover makes their bodies incredibly resilient but requires a high caloric intake.
+
+&nbsp;
+
+Their skin often features hardened, scale-like plates (scutes) on their shoulders, arms, and legs. Colors range from grey, teal, and slate-blue.
+
+&nbsp;
+
+&nbsp;
+
+**Classification:**&nbsp;
+
+**Size:**&nbsp;
+
+**Movement:**&nbsp;
+
+&nbsp;
+
+**Tech Level:** 1
+
+**Meta Level:** 3
+
+&nbsp;
+
+**Homeworld:**&nbsp;
+
+**Stigma:** Xeno&nbsp;
+
+&nbsp;
+
+**Ability Modifiers:**&nbsp;
+
+\+1 Sta
+
+\+1 Agi
+
+\+1 Str
+
+&nbsp;
+
+**Skills:**&nbsp;
+
+&nbsp;
+
+**Species Features:**&nbsp;
+
+Amphibious
+
+Chameleon
+
+Exoskeleton (Light)
+
+Fast Heal
+
+Reach
+
+Regeneration
+
+&nbsp;
+
+**Recommended Features:**&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;

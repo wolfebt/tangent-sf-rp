@@ -23,7 +23,7 @@ skill_package:
   - Intimidate (+4)
   - Athletics (+4)
   - Awareness (+3)
-recommended_features:
+recommended_features: &ref_0
   - Augmented
   - Fast Heal
   - Tough
@@ -32,19 +32,7 @@ recommended_features:
   - Tolerance
   - Danger Sense
   - Natural Weapons
-  - Wall-Crawler
-  - Unsettling Aura
-features:
-  - Augmented
-  - Fast Heal
-  - Tough
-  - Darksight
-  - Energy Resistance
-  - Tolerance
-  - Danger Sense
-  - Natural Weapons
-  - Wall-Crawler
-  - Unsettling Aura
+features: *ref_0
 bonus_features:
   - Augmented
 description: >-

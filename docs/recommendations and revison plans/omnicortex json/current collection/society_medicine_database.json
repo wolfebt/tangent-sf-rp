@@ -1,0 +1,50 @@
+[
+  {
+    "id": "society_medicine_lvl_0",
+    "category": "society_medicine",
+    "name": "Medicine & Healthcare (Level 0: Simple Medicine)",
+    "level": 0,
+    "sphere_key": "society_medicine",
+    "description": "Level 0 (Simple Medicine) in Medicine & Healthcare: Natural remedies, poultices, and herbalism; high mortality for surgery."
+  },
+  {
+    "id": "society_medicine_lvl_1",
+    "category": "society_medicine",
+    "name": "Medicine & Healthcare (Level 1: Basic Medicine)",
+    "level": 1,
+    "sphere_key": "society_medicine",
+    "description": "Level 1 (Basic Medicine) in Medicine & Healthcare: Germ theory, vaccines, early pharmacology, and X-ray diagnostics."
+  },
+  {
+    "id": "society_medicine_lvl_2",
+    "category": "society_medicine",
+    "name": "Medicine & Healthcare (Level 2: Focused Medical Sciences)",
+    "level": 2,
+    "sphere_key": "society_medicine",
+    "description": "Level 2 (Focused Medical Sciences) in Medicine & Healthcare: Antibiotics, MRI imaging, precision surgery, and early genetic diagnostics."
+  },
+  {
+    "id": "society_medicine_lvl_3",
+    "category": "society_medicine",
+    "name": "Medicine & Healthcare (Level 3: Augmentations & Cloning)",
+    "level": 3,
+    "sphere_key": "society_medicine",
+    "description": "Level 3 (Augmentations & Cloning) in Medicine & Healthcare: Cybernetic prosthetics, cloned replacement organs, med-gel, and century-plus longevity."
+  },
+  {
+    "id": "society_medicine_lvl_4",
+    "category": "society_medicine",
+    "name": "Medicine & Healthcare (Level 4: Clinical Immortality)",
+    "level": 4,
+    "sphere_key": "society_medicine",
+    "description": "Level 4 (Clinical Immortality) in Medicine & Healthcare: Cellular reversal, regen-tanks, bioware grafts, and cortical stack re-sleeving."
+  },
+  {
+    "id": "society_medicine_lvl_5",
+    "category": "society_medicine",
+    "name": "Medicine & Healthcare (Level 5: Retro-Genetic Engineering)",
+    "level": 5,
+    "sphere_key": "society_medicine",
+    "description": "Level 5 (Retro-Genetic Engineering) in Medicine & Healthcare: Instantaneous genetic rewriting, Matter Reconstruction Forges, and full digital immortality."
+  }
+]

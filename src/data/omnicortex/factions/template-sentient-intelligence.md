@@ -22,10 +22,9 @@ skill_package:
   - Technology (+4)
   - Science (+3)
   - Investigation (+3)
-recommended_features:
+recommended_features: &ref_0
   - Mind Link
   - Tech Interface
-  - Logic-Mind
   - Lightning Calculator
   - Eidetic Memory
   - Computer Specialist
@@ -33,17 +32,7 @@ recommended_features:
   - Self-Sustaining
   - Sleepless
   - Logical
-features:
-  - Mind Link
-  - Tech Interface
-  - Logic-Mind
-  - Lightning Calculator
-  - Eidetic Memory
-  - Computer Specialist
-  - Coding Master
-  - Self-Sustaining
-  - Sleepless
-  - Logical
+features: *ref_0
 bonus_features:
   - Mind Link
 description: >-

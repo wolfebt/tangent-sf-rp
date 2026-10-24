@@ -13,20 +13,18 @@ body_locations:
   - Torso
   - Arms
   - Legs
-coverage: Reinforced
-mobility_penalty: 2
+coverage: Bulwark
+mobility_penalty: -2
 component_slots: 10
 sockets:
   max: 10
   used: 0
   tier: Socket
   allocated: []
-description: >-
-  Bulky specialized armor designed for bomb disposal, plasma containment, and
-  extreme radiation environments.
+description: Extremely bulky armor designed for bomb disposal or plasma leaks.
 mechanic: >-
-  Blast Shielding (Explosive/Area damage reduced by 50%). -2 Mobility, -10
-  Movement. DR 30, SP 80.
+  DR 30, SP 80. Penalty: -2 Mobility, -10ft Movement. Blast Shielding
+  (Explosive/Area damage reduced by 50%). Locations: All. Base Sockets: 10.
 costs:
   cp: 0
   bp: 0
@@ -49,8 +47,8 @@ keywords: 'eod / hazard shell, armor, defense, dr-30, heavy-armor, tl-3'
 negative_keywords: 'unarmored, fragile, naked, high-acrobatics'
 collection: armoring
 armor_class: Heavyweight
-armor_type: Heavyweight
+armor_type: Heavy Armor
 ---
-Bulky specialized armor designed for bomb disposal, plasma containment, and extreme radiation environments.
+Extremely bulky armor designed for bomb disposal or plasma leaks.
 
-**Mechanics:** Blast Shielding (Explosive/Area damage reduced by 50%). -2 Mobility, -10 Movement. DR 30, SP 80.
+**Mechanics:** DR 30, SP 80. Penalty: -2 Mobility, -10ft Movement. Blast Shielding (Explosive/Area damage reduced by 50%). Locations: All. Base Sockets: 10.

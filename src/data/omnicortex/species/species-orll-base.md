@@ -7,10 +7,10 @@ parent_species: Independent Xenotypes
 type:
   - species_type-humanoid
 size:
-  - species_size-large
+  - species_size-medium
 movement:
   - species_movement-bipedal
-speeds: Ground 30 ft
+speeds: 30 ft Groundspeed
 reach: 10 ft
 senses: Standard visual and auditory range.
 immunities: None
@@ -24,9 +24,7 @@ inherent_attribute_modifiers:
   - attribute: Charisma
     bonus: -1
 bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Combat (Melee)
-    bonus: 2
+specific_skill_bonuses: []
 bonus_skills: 5
 bonus_skill_choices:
   - Combat
@@ -34,56 +32,76 @@ bonus_skill_choices:
   - Athletics
   - Survival
 inherent_features: []
-bonus_features: []
+bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
   - Darksight
   - Natural Weapons
   - Tough
-  - Wall-Crawler
+disadvantages: []
 stigma: 'Savage (-4), Xeno (-2)'
-tech_level: 2 (Heavy Ballistic Scrap Guns & Cleavers)
-meta_level: 0 (Null)
+tech_level: '1'
+meta_level: '2'
 homeworld: Orll Prime Badlands
 costs:
-  cp: 16
-  bp: 16
+  cp: 12
+  bp: 12
 modifiers:
   - target: Strength
     value: 2
     type: attribute
     mode: inherent
+    description: +2 Strength
   - target: Stamina
     value: 2
     type: attribute
     mode: inherent
+    description: +2 Stamina
   - target: Intellect
     value: -1
     type: attribute
     mode: inherent
+    description: '-1 Intellect'
   - target: Charisma
     value: -1
     type: attribute
     mode: inherent
-  - target: Strength
-    value: 2
-    type: attribute
-    mode: size_modifier
-  - target: Combat / Defense
-    value: -2
-    type: combat
-    mode: size_modifier
-  - target: Stealth
-    value: -4
+    description: '-1 Charisma'
+  - target: Any
+    value: 5
     type: skill
-    mode: size_modifier
+    mode: bonus_pool
+    description: +5 Skill Points
+  - target: Darksight
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Natural Weapons
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Tough
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Wall-Crawler
+    value: 1
+    type: feature
+    mode: recommended
 description: >-
-  Fierce, armored insectoid-humanoid berserkers revered for their devastating
-  physical power and terrifying combat rages.
+  The Orll are a powerful and incredibly stocky humanoid species, immediately
+  recognizable across the known territories by their imposing, often
+  barrel-chested build, which belies a surprising agility. Their most distinct
+  physical features include a pair of prominent, upward-curving tusks that jut
+  from their lower jaw, and a thick, dense coat of coarse body fur, typically in
+  shades of earthy brown, gray, or black. This formidable coat is not merely an
+  aesthetic trait; it provides exceptional natural insulation, allowing the Orll
+  to thrive and maintain their hardiness against the constant, biting cold of
+  their wooded mountain homelands.
 traits: &ref_0
   - trait-exoskeleton-light
-  - trait-brutal
   - trait-frenzy
+species_traits: *ref_0
 recommended_factions:
   - Coalition of Independent Worlds
   - The Outworlds
@@ -97,118 +115,77 @@ recommended_occupations:
   - Scout
 keywords: 'insectoid-berserker, brutal-strength, chitin-hide, combat-rage, scrap-weapons'
 negative_keywords: 'diplomacy, delicate-tech, scholar, peaceful'
-species_traits: *ref_0
-cp: 16
-bp: 16
-cp_cost: 16
+cp: 12
+bp: 12
+cp_cost: 12
 ---
 
-# Orll (Brute Insectoid Humanoid)
+# **ORLL**
+
+# **ORLL**
 
 # 
 
 **CP Cost:** 13 CP  
+
 **Description:** The Orll are a powerful and incredibly stocky humanoid species, immediately recognizable across the known territories by their imposing, often barrel-chested build, which belies a surprising agility. Their most distinct physical features include a pair of prominent, upward-curving tusks that jut from their lower jaw, and a thick, dense coat of coarse body fur, typically in shades of earthy brown, gray, or black. This formidable coat is not merely an aesthetic trait; it provides exceptional natural insulation, allowing the Orll to thrive and maintain their hardiness against the constant, biting cold of their wooded mountain homelands.
+
+&nbsp;
 
 Every aspect of their physical form—from their heavily muscled limbs to their broad, flattened noses and deeply set eyes—is a testament to an ancestral life of hardship and survival in the harshest environments. Their formidable strength, coupled with their sheer physical resilience, embodies a savage, enduring nature and a primal ferocity that commands respect, often fear, from other races. The Orll are a race forged by the unforgiving high peaks, where only the strongest and most resilient can endure.
 
-**Classification:** Humanoid  
-**Size:** Medium  
-**Movement:** 30ft Groundspeed 
+&nbsp;
 
-**Tech Level:** 1  
+**Classification:** Humanoid
+
+**Size:** Medium
+
+**Movement:** 30ft Groundspeed&nbsp;
+
+&nbsp;
+
+**Tech Level:** 1
+
 **Meta Level:** 2
 
-**Homeworld:**   
-**Stigma:** 
+&nbsp;
 
-**Ability Modifiers:**   
-\+2 Str  
-\+2 Sta  
-\-1 Int  
+**Homeworld:**&nbsp;
+
+**Stigma:**&nbsp;
+
+&nbsp;
+
+**Ability Modifiers:**&nbsp;
+
+\+2 Str
+
+\+2 Sta
+
+\-1 Int
+
 \-1 Cha
 
-**Skills:**   
+&nbsp;
+
+**Skills:**&nbsp;
+
 \+5 Skills
 
-**Species Features:**   
-Exoskeleton (light)  
-Rage  
+&nbsp;
+
+**Species Features:**&nbsp;
+
+Exoskeleton (light)
+
+Rage
+
 Stigma (Xeno & Savage)
 
-**Recommended Features:** 
+&nbsp;
+
+**Recommended Features:**&nbsp;
+
+&nbsp;
 
 \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-
-## **Gra’Or**
-
-**CP Cost:**   
-**Description:** The grey-skinned Orll represent a distinct and notable variance within the broader Orll species. Unlike their more commonly encountered cousins, who are often characterized by volatile temperaments and a propensity for unrestrained aggression, the grey variety is generally considered to possess a significantly higher degree of intelligence and a markedly reduced inclination towards violent, unthinking rage.
-
-This cognitive divergence is the most defining trait of the grey-skinned Orll. They exhibit complex problem-solving skills, a greater capacity for long-term planning, and a more sophisticated social structure. While their cousins might charge headlong into conflict, the grey Orll prefer to assess threats, formulate strategies, and utilize diplomacy or tactical maneuvering before resorting to outright violence. This inherent restraint and intellectual capacity have often led them to occupy roles of leadership, scholarship, or specialized trade within their own society, or even in interaction with other races. Their calmer demeanor does not equate to weakness; rather, it allows their considerable strength and innate resilience to be deployed with precision and lethal efficiency when necessary.
-
-**Classification:** Humanoid  
-**Size:** Medium  
-**Movement:** 30ft Groundspeed 
-
-**Tech Level:** 1  
-**Meta Level:** 2
-
-**Homeworld:**   
-**Stigma:** 
-
-**Ability Modifiers:**   
-\+2 Str  
-\+2 Sta  
-\-1 Cha
-
-**Skills:**   
-\+5 Skills
-
-**Species Features:**   
-Exoskeleton (light)  
-Stigma (Xeno & Savage)
-
-**Recommended Features:** 
-
-# **PLASM \* \*\*\***
-
-# **PLASM \* \*\*\***
-
-# 
-
-**CP Cost:**   
-**Description:** The Plasm are a truly unique and enigmatic species, classified as a medium humanoid ooze. Their origins trace back to a massive, singular body from which individual Plasm "bud" off to explore the greater universe, driven by an almost insatiable curiosity. Incredibly inquisitive and fast learners, they adapt quickly to new environments and social situations. They are known for being surprisingly amiable and friendly with other species, a stark contrast to the common fear their ooze classification might inspire.
-
-Physiologically, their form is mutable and defined by their inherent abilities. They possess Adaptive Aspects and Bodyform Adaptation, allowing them to constantly change their shape, supplemented by Alter Form (Advanced). Coupled with Fast Heal and Regeneration, they are resilient and difficult to permanently destroy. Furthermore, their consciousness is highly developed, making them Awakened  with an understanding of Cosmic attuned manipulations and all are capable of Telepathic communication, which likely aids in their rapid learning and peaceful inter-species relations.
-
-**Classification:** Ooze  
-**Size:** Medium  
-**Movement:** 30ft Groundspeed 
-
-**Tech Level:** 3  
-**Meta Level:** 4
-
-**Homeworld:**   
-**Stigma:** Severe Xeno
-
-**Ability Modifiers:** 
-
-**Skills:**   
-\+10 Skills
-
-**Species Features:**   
-Adaptive Aspects  
-Alter Form (Advanced)  
-Awakened (Cosmic \- Matter or Energy, Cha)  
-Bodyform Adaptation  
-Fast Heal  
-Regeneration  
-Telepathic
-
-**Recommended Features:**   
-Chameleon  
-Energy Resist  
-Flight  
-Sense (Biological)  
-Sense (Energy)

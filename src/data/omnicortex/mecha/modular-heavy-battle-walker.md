@@ -1,24 +1,27 @@
 ---
 id: modular-heavy-battle-walker
 category: mecha
-name: Modular Heavy Battle Walker (Mech)
+name: Modular Heavy Battle Walker (75-Ton)
 domain: Ground
 size: Huge
-frame: Walker
-cost: 40960
-craft_dc: 30
-sp: 450
-dr: 35
+frame: 75-Ton Bipedal Battle Mech
+cost: 71316
+craft_dc: 32
+sp: 400
+dr: 40
 mounts: 8
-propulsion: Bipedal Hydraulic Actuators
+propulsion: Bipedal Fusion Actuator
 description: >-
-  10-meter tall bipedal war machine with modular weapon hardpoints for missiles,
-  autocannons, and lasers.
-mechanic: 'Hydraulic stride, modular weapon pods, cockpit jump-jets.'
+  A 10-meter tall 75-ton bipedal war machine featuring omni-modular hardpoints
+  on its arms and torso to swap between LR missiles, heavy lasers, and
+  autocannons.
+mechanic: >-
+  75-Ton Omni-Mech with 6 modular weapon hardpoints, fusion core, and neural
+  helm integration. | SP: 400, DR: 40 | Craft DC: 32 (71,316 Cr)
 costs:
   cp: 0
   bp: 0
-  credits: 40960
+  credits: 71316
   nodes: 0
   sockets: 0
   strain: 0
@@ -36,12 +39,19 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
-tech_level: 3
-keywords: 'modular heavy battle walker (mech), mecha, vehicle, huge, walker, tl-3'
-negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
+tech_level: 4
+keywords: >-
+  modular heavy battle walker (75-ton), mecha, vehicle, mecha / walker, 75-ton
+  bipedal battle mech, tl-4
+negative_keywords: 'infantry-only, unmounted'
 meta_level: 0
-design_dc: 30
+design_dc: 32
+classification: Mecha / Walker
+crew: '1'
+durability: 400
 ---
-10-meter tall bipedal war machine with modular weapon hardpoints for missiles, autocannons, and lasers.
+A 10-meter tall 75-ton bipedal war machine featuring omni-modular hardpoints on its arms and torso to swap between LR missiles, heavy lasers, and autocannons.
 
-**Mechanics:** Hydraulic stride, modular weapon pods, cockpit jump-jets.
+**Class:** Mecha / Walker (75-Ton Bipedal Battle Mech)
+**Propulsion:** Bipedal Fusion Actuator | **Crew:** 1
+**Mechanics:** 75-Ton Omni-Mech with 6 modular weapon hardpoints, fusion core, and neural helm integration. | SP: 400, DR: 40 | Craft DC: 32 (71,316 Cr)

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "society_devices_lvl_0",
+    "category": "society_devices",
+    "name": "Devices & Apparatus (Level 0: Simple Mechanical)",
+    "level": 0,
+    "sphere_key": "society_devices",
+    "description": "Level 0 (Simple Mechanical) in Devices & Apparatus: Levers, pulleys, wedges, and wheels."
+  },
+  {
+    "id": "society_devices_lvl_1",
+    "category": "society_devices",
+    "name": "Devices & Apparatus (Level 1: Steam & Electric)",
+    "level": 1,
+    "sphere_key": "society_devices",
+    "description": "Level 1 (Steam & Electric) in Devices & Apparatus: Steam-powered machines, early DC electrical devices, and clockwork mechanisms."
+  },
+  {
+    "id": "society_devices_lvl_2",
+    "category": "society_devices",
+    "name": "Devices & Apparatus (Level 2: Integrated Circuits)",
+    "level": 2,
+    "sphere_key": "society_devices",
+    "description": "Level 2 (Integrated Circuits) in Devices & Apparatus: Personal computers, smartphones, passive sensors, and modern silicon electronics."
+  },
+  {
+    "id": "society_devices_lvl_3",
+    "category": "society_devices",
+    "name": "Devices & Apparatus (Level 3: Robotics & AI)",
+    "level": 3,
+    "sphere_key": "society_devices",
+    "description": "Level 3 (Robotics & AI) in Devices & Apparatus: Modular digital devices, advanced robotics, self-aware automata, and quantum computing."
+  },
+  {
+    "id": "society_devices_lvl_4",
+    "category": "society_devices",
+    "name": "Devices & Apparatus (Level 4: Brain-Computer Interfaces)",
+    "level": 4,
+    "sphere_key": "society_devices",
+    "description": "Level 4 (Brain-Computer Interfaces) in Devices & Apparatus: Trans-neural interfaces, nanocarbon smart-devices, and molecular machines."
+  },
+  {
+    "id": "society_devices_lvl_5",
+    "category": "society_devices",
+    "name": "Devices & Apparatus (Level 5: Holophotonic Projected)",
+    "level": 5,
+    "sphere_key": "society_devices",
+    "description": "Level 5 (Holophotonic Projected) in Devices & Apparatus: Weightless solid-light devices projected on demand from a Fine-sized emitter library."
+  }
+]

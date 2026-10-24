@@ -1,16 +1,3 @@
-/**
- * ═══════════════════════════════════════════════════════════════════
- * TANGENT SF RP — CANONICAL ORIGINS MASTER DATA (1.05 ORIGINS.MD)
- * Authoritative dataset defining the 11 canonical planetary, orbital,
- * and void environments shaping characters' backgrounds and worldviews.
- * 
- * Rules Parity:
- * - 20 Society Skill Points granted for Persona Folio allocation
- * - 2 Origin Traits selected for free (Additional traits cost 1 CP each)
- * - Decoupled from adversary chassis, combat roles, TL, and ML
- * ═══════════════════════════════════════════════════════════════════
- */
-
 export const DEFAULT_ORIGINS = [
   {
     "id": "origin-agricultural",
@@ -588,7 +575,7 @@ export const DEFAULT_ORIGINS = [
     "description": "Certain worlds have particularly strong ley lines, special crystal formations, atmospheric anomalies, or other features that make them metaphysically active. Adept Occupations and Metafocus Disciplines flourish here.",
     "full_text": "### Origin Overview\nCertain worlds have particularly strong ley lines, special crystal formations, atmospheric anomalies, or other features that make them more metaphysically active. This could be in the form of a variety of metaphysical energies or patterns, but it is still a common occurrence. Structures on these worlds may have a wide range of designs based on creativity, ability, and wants or needs. Adept Occupations (and Metafocus Disciplines) are more common in these worlds.\n\n### Society Skills (20 SP Pool)\nAlertness, Academics, Knowledge (Culture, History, Language, Physics, Religion), Vocation (any)\n\n### Typical Archetypes\nArcanist, Psionic, Seer, Scholar, Spiritual Guide, Envoy\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Empathy**: Deep compassion and insight into others. (+2 Insight and +2 Handle Animal Checks while being Friendly)\n- **Curiosity**: Natural drive toward discovery. (Regain a Karma Point on the first encounter when dealing with something new)\n- **Mentorship**: Nurturing student development. (Those under tutelage make Study Checks at Advantage)\n- **Open-Mindedness**: Dissolving cultural prejudice. (Reduce all Stigma Penalties by Wisdom score)\n- **Peaceful Nature**: Calming presence and mediation. (+2 to Diplomacy for peaceful meditations)\n- **Problem-Solving Skills**: Contemplative mental acuity. (Once per Day may reroll a Mental Skill Check)\n- **Shared Wisdom**: Guidance and tactical counsel. (Aid and Instruct checks made at Advantage)\n- **Spiritual Awareness**: Psychic and arcane resonance. (+1 to Attune and one Metafocus Skill)",
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Fey (Base)",
       "Sigal",
@@ -602,7 +589,7 @@ export const DEFAULT_ORIGINS = [
     "recommended_factions": [
       "The Alterian Enclave",
       "The Ascendancy",
-      "Elven Providence",
+      "Aeld Providence",
       "Dracon Dynasty",
       "Supernatural Faction Template",
       "Religious Cult Faction Template",
@@ -740,11 +727,11 @@ export const DEFAULT_ORIGINS = [
       "Rautha Human",
       "B’Dren Human",
       "Vajar (Wilder)",
-      "Nocturne (Kovian)",
+      "Kovian",
       "Graa (Auluran Heavy)",
       "Gra'or",
       "Vassoth",
-      "Rakne (Kitin Stalker)",
+      "Rakne (Infiltration Expression)",
       "Eakren (Corrupted Aberration)",
       "Risakin (Giant Folk)",
       "Scrap (Junkframe Synthetic)"
@@ -1055,7 +1042,7 @@ export const DEFAULT_ORIGINS = [
     "description": "These worlds can best be described as paradise or utopian, focusing on aesthetics over functionality. High-end resort cities, private gambling spires, pristine beaches, and artistic sanctuaries cater to elites and tourists.",
     "full_text": "### Origin Overview\nThese worlds can best be described as paradise or utopian, focusing on aesthetics over functionality. They often cater to tourists, with notable resort or vacation spots where guest services are a priority. The wealthy/upper class will enjoy the leisurely side of the resorts, while those of lower station will likely be working - both are considered for this origin.\n\n### Society Skills (20 SP Pool)\nVocation (any), Social (any)\n\n### Typical Archetypes\nAesthete, Socialite, Concierge, Entertainer, Artisan, Security Officer\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Adaptability**: Effortless social adjustment. (+2 to a specific Skill Check, may change assigned Skill daily)\n- **Diplomacy**: Tact and dispute mediation. (+2 Diplomacy)\n- **Entertainment Skill**: Artistic, performance, or culinary talent. (+2 to a Non-Combat Skill of choice)\n- **Lifestyle Preferences**: Understanding luxury culture. (+1 Wealth and +1 Diplomacy)\n- **Non-Combat Focus**: Vocational and artistic excellence. (+2 to a Vocation Skill of choice)\n- **Optimistic**: Cheerful resilience under social tension. (+1 to Karma Pool)\n- **Management**: Asset and luxury facility coordination. (+1 Wealth and +1 Leadership)\n- **Resourcefulness**: Creative service problem-solving. (Once per Day make a Skill Check of choice at Advantage)\n- **Smooth talking**: High-society charm and silver-tongued poise. (+2 Etiquette Checks)",
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Fey (Base)",
       "Argynt Human",
       "Brae Human",
@@ -1220,7 +1207,7 @@ export const DEFAULT_ORIGINS = [
       "Rautha Human",
       "Dar (Auluran Hunter)",
       "Graa (Auluran Heavy)",
-      "Maantene (Kitin Leaper)",
+      "Maantene (Recon Expression)",
       "Qeric",
       "Weti",
       "Sentient Machine (Free Droid)"
@@ -1374,11 +1361,11 @@ export const DEFAULT_ORIGINS = [
     "full_text": "### Origin Overview\nA complex or habitat dedicated to the pursuit of knowledge. These worlds are focused on the systematic scientific investigation of a particular subject. Structures can range from prefabricated or mobile to large laboratory complexes, depending on need and resources.\n\n### Society Skills (20 SP Pool)\nMental (any)\n\n### Typical Archetypes\nScientist, Analyst, Theorist, Archivist, Technician, Security Officer\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Adaptability**: Modifying hypotheses to anomalous conditions. (+2 to a specific Skill Check, may change assigned Skill daily)\n- **Analytical thinking**: Rigorous empirical and logical analysis. (+2 Logic Checks)\n- **Attention to detail**: Catching micro-variations and anomalies. (+2 Alertness)\n- **Collaboration**: Academic synergy in research teams. (additional +1 to Aid bonuses received and granted)\n- **Curiosity**: Investigative passion for the unknown. (Regain a Karma Point on the first encounter when dealing with something new)\n- **Intellectualism**: Deep scientific and academic training. (+2 Academics and +2 to a Mental Skill Specialization)\n- **Persistence**: Relentless pursuit of scientific truth. (+1 Karma Point)\n- **Problem-solving**: Creative theoretical breakthroughs. (Once per Day may reroll a Mental Skill Check)\n- **Studious**: Encyclopedic archival mastery. (+2 to a Knowledge of choice)",
     "recommended_species": [
       "Sigal",
-      "Celestine (Alterian)",
+      "Alterian",
       "Nian Human",
       "Intellect Construct (Pure AI)",
       "Android",
-      "Manelli (Kitin Diplomat)",
+      "Manelli (Cerebral Expression)",
       "Prokos (Auluran Biform)",
       "Impyrium Psion (Gen-E)",
       "Gen-E (Base Engineered Human)",
@@ -1679,7 +1666,7 @@ export const DEFAULT_ORIGINS = [
       "Kannid",
       "Kizin",
       "Danai (Davae Hybrid)",
-      "Nocturne (Kovian)"
+      "Kovian"
     ],
     "recommended_factions": [
       "Incorporated Planetary Syndication (The Syndicate)",
@@ -1702,5 +1689,3 @@ export const DEFAULT_ORIGINS = [
     "negative_keywords": "untamed-wilderness, pristine-glacial-tundra, desert-sand-dunes, lonely-deep-space-station, pastoral-farming-valley, quiet-ancient-hermitage, submerged-oceanic-trench, feral-jungle-canopy"
   }
 ];
-
-export default DEFAULT_ORIGINS;

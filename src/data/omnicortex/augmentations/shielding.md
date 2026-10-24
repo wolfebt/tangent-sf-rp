@@ -6,8 +6,8 @@ cost: 640
 design_dc: 15
 craft_dc: 15
 description: >-
-  EMP and radiation hardening for cybernetic systems (+25% Base Cost, +4 vs
-  Ion/EMP, 1 Node, 1 CP).
+  Full EMP and radiation hardening for a synthetic limb (+25% Base Cost, 1 Node,
+  1 CP).
 bp_cost: 1
 stigma: None
 type: Prosthetic

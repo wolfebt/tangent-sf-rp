@@ -10,7 +10,7 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-speeds: Ground 30 ft
+speeds: 30 ft Groundspeed
 reach: 5 ft
 senses: Standard visual and auditory range.
 immunities: None
@@ -18,9 +18,7 @@ inherent_attribute_modifiers:
   - attribute: Charisma
     bonus: 1
 bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Deception
-    bonus: 2
+specific_skill_bonuses: []
 bonus_skills: 5
 bonus_skill_choices:
   - Deception
@@ -28,35 +26,78 @@ bonus_skill_choices:
   - Persuasion
   - Stealth
 inherent_features: []
-bonus_features: []
+bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
   - Attractive
+  - Bodyform Features
   - Deceitful
   - Entertaining
-  - Silver Tongue
+  - Persuasive
   - Social
-  - Stealthy
   - Trustworthy
+disadvantages: []
 stigma: Shifter (-2)
-tech_level: 3 (Cosmetic Synthesis)
-meta_level: 2 (Empathic Resonance)
+tech_level: '3'
+meta_level: '3'
 homeworld: Various Cosmopolitan Stations
 costs:
-  cp: 10
-  bp: 10
+  cp: 9
+  bp: 9
 modifiers:
   - target: Charisma
     value: 1
     type: attribute
     mode: inherent
+    description: +1 Charisma
+  - target: Any
+    value: 5
+    type: skill
+    mode: bonus_pool
+    description: +5 Skill Points
+  - target: Attractive
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Bodyform Features
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Deceitful
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Detect and Sensory Abilities
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Entertaining
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Obfuscate
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Persuasive
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Social
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Trustworthy
+    value: 1
+    type: feature
+    mode: recommended
 description: >-
   Changelings are human-aeld hybrids carrying dormant shifter alleles. They can
   subtly alter their facial structure, voice, and eye pigments to adopt distinct
   personas.
 traits: &ref_0
   - trait-alter-form-basic
-  - trait-emissary
+species_traits: *ref_0
 recommended_factions:
   - The Syndicate
   - The Alterian Enclave
@@ -70,45 +111,81 @@ recommended_occupations:
   - Criminal
 keywords: 'hybrid-shifter, persona-mimic, social-chameleon, subtle, disguise'
 negative_keywords: 'obvious, honest, rigid, static-features'
-species_traits: *ref_0
-cp: 10
-bp: 10
-cp_cost: 10
+cp: 9
+bp: 9
+cp_cost: 9
 ---
 
-# Changeling (Human-Aeld Hybrid)
+# **CHANGELING (Doppleganger Hybrid)**
+
+# **CHANGELING (Doppleganger Hybrid)**
 
 **CP Cost:** 8 CP  
-**Description:**   
-The Changeling is the result of a cross between a baseline Human and a Doppelganger, inheriting the Doppelganger's unique shape-shifting lineage. They are a distinct subspecies often characterized by an innate adaptability and a subtle, unsettling air of 'otherness' that hints at their dual nature.  
+
+**Description:**&nbsp;
+
+The Changeling is the result of a cross between a baseline Human and a Doppelganger, inheriting the Doppelganger's unique shape-shifting lineage. They are a distinct subspecies often characterized by an innate adaptability and a subtle, unsettling air of 'otherness' that hints at their dual nature.
+
 While their Doppelganger ancestors were magically engineered to flawlessly mimic any sentient creature for the purpose of hunting evil, the Changeling's ability is a more limited, *Minor Alter Form* power, allowing for subtle but significant shifts in their physical appearance. They are often predisposed toward becoming proficient social operators, adept at blending in and manipulating social situations.
 
-**Classification:** Humanoid  
-**Size:** Medium  
+&nbsp;
+
+**Classification:** Humanoid
+
+**Size:** Medium
+
 **Movement:** 30ft Groundspeed
 
-**Tech Level:** 3  
+&nbsp;
+
+**Tech Level:** 3
+
 **Meta Level:** 3
 
-**Homeworld:**   
+&nbsp;
+
+**Homeworld:**&nbsp;
+
 **Stigma:** Shifter
 
-**Ability Modifiers:**   
+&nbsp;
+
+**Ability Modifiers:**&nbsp;
+
 \+1 Cha
 
-**Skills:**   
+&nbsp;
+
+**Skills:**&nbsp;
+
 \+5 Skills
 
-**Species Features:**   
+&nbsp;
+
+**Species Features:**&nbsp;
+
 Alter Form (Minor)
 
-**Recommended Features:**   
-Attractive  
-Bodyform Features  
-Deceitful  
-Detect and Sensory Abilities  
-Entertaining  
-Obfuscate  
-Persuasive  
-Social  
+&nbsp;
+
+**Recommended Features:**&nbsp;
+
+Attractive
+
+Bodyform Features
+
+Deceitful
+
+Detect and Sensory Abilities
+
+Entertaining
+
+Obfuscate
+
+Persuasive
+
+Social
+
 Trustworthy
+
+&nbsp;

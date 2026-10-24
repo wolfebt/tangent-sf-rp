@@ -58,7 +58,7 @@ modifiers: []
 faction_classification: Faction Template
 recommended_species:
   - Human (Base)
-  - Celestine (Alterian)
+  - Alterian
   - Ila (Progenitor Archon)
   - Fey (Base)
 recommended_origins:

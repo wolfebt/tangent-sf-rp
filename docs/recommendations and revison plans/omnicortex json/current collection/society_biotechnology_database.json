@@ -1,0 +1,50 @@
+[
+  {
+    "id": "society_biotechnology_lvl_0",
+    "category": "society_biotechnology",
+    "name": "Biotechnology & Genetics (Level 0: Herbalism)",
+    "level": 0,
+    "sphere_key": "society_biotechnology",
+    "description": "Level 0 (Herbalism) in Biotechnology & Genetics: Use of simple medicine, wild herbs, and natural remedies."
+  },
+  {
+    "id": "society_biotechnology_lvl_1",
+    "category": "society_biotechnology",
+    "name": "Biotechnology & Genetics (Level 1: Pharmacology)",
+    "level": 1,
+    "sphere_key": "society_biotechnology",
+    "description": "Level 1 (Pharmacology) in Biotechnology & Genetics: Improvements in medical knowledge, effective chemical treatments, and early pharmacology."
+  },
+  {
+    "id": "society_biotechnology_lvl_2",
+    "category": "society_biotechnology",
+    "name": "Biotechnology & Genetics (Level 2: Early Biotech)",
+    "level": 2,
+    "sphere_key": "society_biotechnology",
+    "description": "Level 2 (Early Biotech) in Biotechnology & Genetics: 3D printable biological materials, genetic sequencing, and early nanotechnology."
+  },
+  {
+    "id": "society_biotechnology_lvl_3",
+    "category": "society_biotechnology",
+    "name": "Biotechnology & Genetics (Level 3: Genetic Engineering)",
+    "level": 3,
+    "sphere_key": "society_biotechnology",
+    "description": "Level 3 (Genetic Engineering) in Biotechnology & Genetics: Living machinery, self-healing grafts, cloning, and morphic functionality."
+  },
+  {
+    "id": "society_biotechnology_lvl_4",
+    "category": "society_biotechnology",
+    "name": "Biotechnology & Genetics (Level 4: Gene Editing)",
+    "level": 4,
+    "sphere_key": "society_biotechnology",
+    "description": "Level 4 (Gene Editing) in Biotechnology & Genetics: Programmable biological materials, advanced living machinery, and seamless bio-integration."
+  },
+  {
+    "id": "society_biotechnology_lvl_5",
+    "category": "society_biotechnology",
+    "name": "Biotechnology & Genetics (Level 5: Advanced Nanobiotechnology)",
+    "level": 5,
+    "sphere_key": "society_biotechnology",
+    "description": "Level 5 (Advanced Nanobiotechnology) in Biotechnology & Genetics: Advanced morphic equipment, enhanced genetic tailoring, digital consciousness, and retro-genetic reengineering."
+  }
+]

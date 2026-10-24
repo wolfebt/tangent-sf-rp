@@ -23,28 +23,16 @@ skill_package:
   - Tactics (Defensive) (+4)
   - Combat (Rifle/Artillery) (+3)
   - Mechanics (+3)
-recommended_features:
+recommended_features: &ref_0
   - Defensive Combat Training
   - Coordinated Assist
   - Iron Will
   - Tracker
-  - Enduring
   - Tough
   - Camouflage
   - Master Plan
   - Benefit (Status)
-  - Environmental Resistance
-features:
-  - Defensive Combat Training
-  - Coordinated Assist
-  - Iron Will
-  - Tracker
-  - Enduring
-  - Tough
-  - Camouflage
-  - Master Plan
-  - Benefit (Status)
-  - Environmental Resistance
+features: *ref_0
 bonus_features:
   - Defensive Combat Training
 description: >-

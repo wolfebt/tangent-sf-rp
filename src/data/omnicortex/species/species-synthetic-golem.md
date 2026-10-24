@@ -7,85 +7,76 @@ parent_species: Synthetics
 type:
   - species_type-synthetic
 size:
-  - species_size-large
+  - species_size-medium
 movement:
   - species_movement-bipedal
-speeds: Ground 30 ft
+speeds: 30 ft Groundspeed
 reach: 10 ft
 senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
 immunities: >-
   Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
   sleep [9]
 inherent_attribute_modifiers:
-  - attribute: Strength
-    bonus: 3
-  - attribute: Stamina
-    bonus: 3
   - attribute: Intellect
     bonus: -2
   - attribute: Charisma
     bonus: -2
-bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Combat (Melee)
-    bonus: 2
+bonus_attribute_points: 6
+specific_skill_bonuses: []
 bonus_skills: 10
 bonus_skill_choices:
   - Combat
   - Intimidation
   - Athletics
 inherent_features: []
-bonus_features: []
+bonus_features: 0
 bonus_feature_choices: []
-recommended_features:
-  - Armor (Chitinous Shell)
-  - Brutal
-  - Mighty Surge
-  - Tough
+recommended_features: []
+disadvantages: []
 stigma: Severe Synthetic (-4)
-tech_level: 2 (Arcane Masonry & Runic Seals)
-meta_level: 4 (Runic Core Animation)
+tech_level: '1'
+meta_level: '4'
 homeworld: Sanctum Vaults & Ancient Spire Ruins
 costs:
-  cp: 57
-  bp: 57
+  cp: 45
+  bp: 45
 modifiers:
-  - target: Strength
-    value: 3
-    type: attribute
-    mode: inherent
-  - target: Stamina
-    value: 3
-    type: attribute
-    mode: inherent
   - target: Intellect
     value: -2
     type: attribute
     mode: inherent
+    description: '-2 Intellect'
   - target: Charisma
     value: -2
     type: attribute
     mode: inherent
-  - target: Strength
-    value: 2
+    description: '-2 Charisma'
+  - target: Any
+    value: 6
     type: attribute
-    mode: size_modifier
-  - target: Combat / Defense
-    value: -2
-    type: combat
-    mode: size_modifier
-  - target: Stealth
-    value: -4
+    mode: bonus_pool
+    description: +6 Flexible Attribute Points
+  - target: Any
+    value: 10
     type: skill
-    mode: size_modifier
-description: >-
-  Constructed from enchanted alloys, granite, or obsidian and animated by arcane
-  runic cores, Golems are unstoppable heavy sentinels.
+    mode: bonus_pool
+    description: +10 Skill Points
+  - target: Metafocus Special Abilities
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Size (Large)
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Size (Small)
+    value: 1
+    type: feature
+    mode: recommended
+description: Construct of Metaphysical origin
 traits: &ref_0
-  - trait-energy-absorption
-  - trait-resistant
-  - trait-exoskeleton-heavy
   - trait-synthetic-base-traits
+species_traits: *ref_0
 recommended_factions:
   - The Alterian Enclave
   - The Silvermoon Vanguard
@@ -99,42 +90,69 @@ keywords: >-
   runic-stone, arcane-matrix, obsidian-sentinel, heavy-fortification,
   unstoppable
 negative_keywords: 'agile-acrobatics, hacking, subtle-espionage'
-species_traits: *ref_0
-cp: 57
-bp: 57
-cp_cost: 57
+cp: 45
+bp: 45
+cp_cost: 45
 ---
 
-# Golem (Arcane / Heavy Magitech Construct)
+# **GOLEM**
 
 ## **GOLEM**
 
 # 
 
 **CP Cost:** 53 CP  
+
 **Description:** Construct of Metaphysical origin
 
-**Classification:** Synthetic Humanoid  
-**Size:** Medium  
+&nbsp;
+
+**Classification:** Synthetic Humanoid
+
+**Size:** Medium
+
 **Movement:** 30 ft Groundspeed
 
-**Tech Level:** 1  
+&nbsp;
+
+**Tech Level:** 1
+
 **Meta Level:** 4
 
-**Homeworld:**   
+&nbsp;
+
+**Homeworld:**&nbsp;
+
 **Stigma:** Severe Synthetic
 
-**Ability Modifiers:**   
-\+6 to divide among Physical Abilities (Str, Agi or Sta)  
-\-2 Int  
+&nbsp;
+
+**Ability Modifiers:**&nbsp;
+
+\+6 to divide among Physical Abilities (Str, Agi or Sta)
+
+\-2 Int
+
 \-2 Cha
 
-**Skills:**   
+&nbsp;
+
+**Skills:**&nbsp;
+
 \+10 Skills
 
-**Species Features:** 
+&nbsp;
 
-**Recommended Features:**   
-Metafocus Special Abilities  
-Size (Large)  
+**Species Features:**&nbsp;
+
+&nbsp;
+
+**Recommended Features:**&nbsp;
+
+Metafocus Special Abilities
+
+Size (Large)
+
 Size (Small)
+
+&nbsp;

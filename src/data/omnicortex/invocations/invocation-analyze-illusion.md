@@ -15,7 +15,7 @@ recommended_species:
   - Fey (Base)
   - Doppelganger (Shifter)
 recommended_factions:
-  - Elven Providence
+  - Aeld Providence
   - Incorporated Planetary Syndication (The Syndicate)
   - The Alterian Enclave
   - Criminal Faction Template

@@ -28,28 +28,14 @@ skill_package:
   - Academics (Physics/Math) (+4)
   - Mechanics (+3)
   - Combat (+3)
-recommended_features:
+recommended_features: &ref_0
   - Self-Sustaining
   - Sleepless
-  - Logic-Mind
   - Lightning Calculator
   - Tech Interface
   - Eidetic Memory
   - Fearless
-  - Networked
-  - Modular Chassis
-  - Integrated Weaponry
-features:
-  - Self-Sustaining
-  - Sleepless
-  - Logic-Mind
-  - Lightning Calculator
-  - Tech Interface
-  - Eidetic Memory
-  - Fearless
-  - Networked
-  - Modular Chassis
-  - Integrated Weaponry
+features: *ref_0
 bonus_features:
   - Self-Sustaining
 description: >-

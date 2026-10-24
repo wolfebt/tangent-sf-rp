@@ -1,7 +1,7 @@
 ---
 id: composite-combat-shell
 category: Heavyweight
-name: Composite Combat Shell
+name: Composite Combat Shell (Entari/Syndicate)
 cost: 4457
 craft_dc: 22
 design_dc: 22
@@ -14,7 +14,7 @@ body_locations:
   - Arms
   - Legs
 coverage: Sealed
-mobility_penalty: 1
+mobility_penalty: -1
 component_slots: 8
 sockets:
   max: 8
@@ -23,10 +23,10 @@ sockets:
   allocated: []
 description: >-
   Advanced molded ceramics that offer superior deflection. Sleek, sealed, and
-  favored by Entari and Syndicate shock troops.
+  expensive.
 mechanic: >-
-  Refractive Coating (+2 Defense vs Lasers/Beams). -1 Mobility, -5 Movement. DR
-  20, SP 50.
+  DR 20, SP 50. Penalty: -1 Mobility, -5ft Movement. Refractive Coating (+2
+  Defense vs Lasers/Beams). Locations: All. Base Sockets: 8.
 costs:
   cp: 0
   bp: 0
@@ -49,8 +49,8 @@ keywords: 'composite combat shell, armor, defense, dr-20, heavy-armor, tl-4'
 negative_keywords: 'unarmored, fragile, naked, high-acrobatics'
 collection: armoring
 armor_class: Heavyweight
-armor_type: Heavyweight
+armor_type: Heavy Armor
 ---
-Advanced molded ceramics that offer superior deflection. Sleek, sealed, and favored by Entari and Syndicate shock troops.
+Advanced molded ceramics that offer superior deflection. Sleek, sealed, and expensive.
 
-**Mechanics:** Refractive Coating (+2 Defense vs Lasers/Beams). -1 Mobility, -5 Movement. DR 20, SP 50.
+**Mechanics:** DR 20, SP 50. Penalty: -1 Mobility, -5ft Movement. Refractive Coating (+2 Defense vs Lasers/Beams). Locations: All. Base Sockets: 8.

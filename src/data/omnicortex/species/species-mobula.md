@@ -5,14 +5,12 @@ title: Mobula (Manta Biform)
 category: species
 parent_species: Independent Xenotypes
 type:
-  - species_type-humanoid
+  - species_type-beast
 size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-  - species_movement-swimming
-  - species_movement-flight
-speeds: 'Ground 30 ft, Swim 30 ft, Flight 60 ft'
+speeds: '30 ft Groundspeed, 30 ft Swimspeed (60 ft Swimspeed in Ray form)'
 reach: 5 ft
 senses: Standard visual and auditory range.
 immunities: None
@@ -22,46 +20,67 @@ inherent_attribute_modifiers:
   - attribute: Stamina
     bonus: 1
 bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Perception
-    bonus: 2
+specific_skill_bonuses: []
 bonus_skills: 0
 bonus_skill_choices:
   - Perception
   - Navigation
   - Athletics
   - Stealth
-inherent_features: []
-bonus_features: []
+inherent_features:
+  - special-uncanny-sense
+bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Acute Senses
+  - Acute Sense
+disadvantages: []
 stigma: Severe Xeno (-4)
-tech_level: 3 (Hydro-Resonance Equipment)
-meta_level: 2 (Sonic Metaphysics)
-homeworld: The Oceanic Gas Giant of Pelagia
+tech_level: '2'
+meta_level: '3'
+homeworld: Pelagia (Ocean World)
 costs:
-  cp: 21
-  bp: 21
+  cp: 18
+  bp: 18
 modifiers:
   - target: Agility
     value: 1
     type: attribute
     mode: inherent
+    description: +1 Agility
   - target: Stamina
     value: 1
     type: attribute
     mode: inherent
+    description: +1 Stamina
+  - target: special-uncanny-sense
+    value: 1
+    type: feature
+    mode: inherent
+  - target: Acute Senses
+    value: 1
+    type: feature
+    mode: recommended
 description: >-
-  Aquatic-aerial biforms with winged patagia, sonar echolocation, and the
-  ability to glide through atmospheric currents or dive into oceanic depths.
+  The Mobula are a remarkable lineage of Aquatic Shifters, a people uniquely
+  adapted to thrive both on land and within the vast ocean depths. Their
+  defining characteristic is the ability to assume two distinct forms. The first
+  is an aquatic-adapted humanoid shape, which allows them to interact with
+  land-dwelling societies while retaining physical traits beneficial for the
+  water, such as subtle webbing between digits, enhanced lung capacity, and
+  smooth, pressure-resistant skin. The second form, which they shift into for
+  rapid or prolonged immersion, is that of a magnificent 'manta ray.' This ray
+  form is not merely a common sea creature but a larger, highly intelligent
+  manifestation that grants them unparalleled maneuverability, speed, and
+  silence beneath the waves, making them formidable inhabitants of the marine
+  world. The Mobula have learned to be xenophobic from Impyrium incursions for
+  their world’s resources.
 traits: &ref_0
   - trait-adapted
-  - trait-alternate-form
   - trait-amphibious
-  - trait-blind-sense
   - trait-aquatic
-  - trait-low-light-vision
+  - trait-alternate-form
+  - trait-blind-sense
+species_traits: *ref_0
 recommended_factions:
   - Coalition of Independent Worlds
   - Alien Faction Template
@@ -77,33 +96,75 @@ keywords: >-
   manta-biform, aerial-glide, sonar-echolocation, pelagic-dive, winged,
   gas-giant
 negative_keywords: 'confined-corridors, arid-desert, subterranean'
-species_traits: *ref_0
-cp: 21
-bp: 21
-cp_cost: 21
+cp: 18
+bp: 18
+cp_cost: 18
 ---
 
-# Mobula (Manta Biform)
+# **MOBULA \* \*\***
 
-## Description
-Aquatic-aerial biforms with winged patagia, sonar echolocation, and the ability to glide through atmospheric currents or dive into oceanic depths.
+# **MOBULA \* \*\***
 
-## Core Identity
-- **Lineage**: Independent Xenotypes
-- **Type**: species_type-humanoid
-- **Size**: species_size-medium
-- **Movement**: Ground 30 ft, Swim 30 ft, Flight 60 ft
-- **Homeworld**: The Oceanic Gas Giant of Pelagia
-- **Tech Level**: 3 (Hydro-Resonance Equipment)
-- **Meta Level**: 2 (Sonic Metaphysics)
-- **Stigma**: Severe Xeno (-4)
+# 
 
-## Mechanics & Statblock
-- **CP Cost**: 21 CP
-- **Inherent Modifiers**: +1 Agility, +1 Stamina
-- **Bonus Skills**: +0 Skill Points
-- **Inherent Features**: Adapted (Aquatic), Amphibious, Alternate Form (Manta Ray Flight Form), Echolocation (60ft Sonar), Uncanny Sense (Underwater Vision), Swim / Glide Speed (40ft)
-- **Recommended Features**: feature-echolocation
+**CP Cost:** 19 CP  
 
-## Roleplay & Society
-Aquatic-aerial biforms with winged patagia, sonar echolocation, and the ability to glide through atmospheric currents or dive into oceanic depths.
+**Description:** The Mobula are a remarkable lineage of Aquatic Shifters, a people uniquely adapted to thrive both on land and within the vast ocean depths. Their defining characteristic is the ability to assume two distinct forms. The first is an aquatic-adapted humanoid shape, which allows them to interact with land-dwelling societies while retaining physical traits beneficial for the water, such as subtle webbing between digits, enhanced lung capacity, and smooth, pressure-resistant skin. The second form, which they shift into for rapid or prolonged immersion, is that of a magnificent 'manta ray.' This ray form is not merely a common sea creature but a larger, highly intelligent manifestation that grants them unparalleled maneuverability, speed, and silence beneath the waves, making them formidable inhabitants of the marine world. The Mobula have learned to be xenophobic from Impyrium incursions for their world’s resources.
+
+&nbsp;
+
+**Classification:** Beast-Humanoid Biform
+
+**Size:** Medium
+
+**Movement:** 30ft Groundspeed, 30 ft Swimspeed (60 ft Swimspeed in Ray form)
+
+&nbsp;
+
+**Tech Level:** 2
+
+**Meta Level:** 3
+
+&nbsp;
+
+**Homeworld:**&nbsp;
+
+**Stigma:** Severe Xeno
+
+&nbsp;
+
+**Ability Modifiers:**&nbsp;
+
+\+1 Agi
+
+\+1 Sta
+
+&nbsp;
+
+**Skills:**&nbsp;
+
+&nbsp;
+
+**Species Features:**&nbsp;
+
+Adapted (Aquatic)
+
+Amphibious
+
+Bi-Form (Humanoid and Ray Forms)
+
+Echolocation (Sound Blindsense)
+
+Uncanny Sense (Vision)
+
+&nbsp;
+
+**Recommended Features:**&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;

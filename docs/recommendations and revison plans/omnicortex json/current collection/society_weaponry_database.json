@@ -1,0 +1,50 @@
+[
+  {
+    "id": "society_weaponry_lvl_0",
+    "category": "society_weaponry",
+    "name": "Weaponry & Defense Grids (Level 0: Melee & Archaic)",
+    "level": 0,
+    "sphere_key": "society_weaponry",
+    "description": "Level 0 (Melee & Archaic) in Weaponry & Defense Grids: Unarmed strikes, stone/metal blades, bows, crossbows, and slings."
+  },
+  {
+    "id": "society_weaponry_lvl_1",
+    "category": "society_weaponry",
+    "name": "Weaponry & Defense Grids (Level 1: Gunpowder & Industrial)",
+    "level": 1,
+    "sphere_key": "society_weaponry",
+    "description": "Level 1 (Gunpowder & Industrial) in Weaponry & Defense Grids: Black-powder muskets, rifled firearms, steam cannons, and early chemical explosives."
+  },
+  {
+    "id": "society_weaponry_lvl_2",
+    "category": "society_weaponry",
+    "name": "Weaponry & Defense Grids (Level 2: Modern Firearms)",
+    "level": 2,
+    "sphere_key": "society_weaponry",
+    "description": "Level 2 (Modern Firearms) in Weaponry & Defense Grids: Caseless automatic ballistics, guided missiles, anti-materiel rifles, and early railgun prototypes."
+  },
+  {
+    "id": "society_weaponry_lvl_3",
+    "category": "society_weaponry",
+    "name": "Weaponry & Defense Grids (Level 3: Directed-Energy & Mag-Rail)",
+    "level": 3,
+    "sphere_key": "society_weaponry",
+    "description": "Level 3 (Directed-Energy & Mag-Rail) in Weaponry & Defense Grids: Laser, ion, plasma, and magnetic coilgun weaponry alongside high-drain energy shields."
+  },
+  {
+    "id": "society_weaponry_lvl_4",
+    "category": "society_weaponry",
+    "name": "Weaponry & Defense Grids (Level 4: Nanotech & Force Weaponry)",
+    "level": 4,
+    "sphere_key": "society_weaponry",
+    "description": "Level 4 (Nanotech & Force Weaponry) in Weaponry & Defense Grids: Particle projection cannons, phase-weapons, personal force fields, and tactical singularity warheads."
+  },
+  {
+    "id": "society_weaponry_lvl_5",
+    "category": "society_weaponry",
+    "name": "Weaponry & Defense Grids (Level 5: Gravitonic & Disintegration)",
+    "level": 5,
+    "sphere_key": "society_weaponry",
+    "description": "Level 5 (Gravitonic & Disintegration) in Weaponry & Defense Grids: Weaponized gravity, disintegration beams, Polymatter morph-weapons, and planetary shield grids."
+  }
+]

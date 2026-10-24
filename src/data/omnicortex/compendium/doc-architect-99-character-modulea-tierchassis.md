@@ -1,6 +1,6 @@
 ---
 id: "doc-architect-99-character-modulea-tierchassis"
-name: "99. Character: Module A: The Tier Chassis"
+name: "99. Character (Module A): The Tier Chassis"
 fileName: "99.Character.ModuleA.TierChassis.md"
 relPath: "architect/characters/99.Character.ModuleA.TierChassis.md"
 isMasterDoc: false

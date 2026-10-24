@@ -23,9 +23,8 @@ skill_package:
   - Survival (Void) (+4)
   - Awareness (+3)
   - Technology (+3)
-recommended_features:
+recommended_features: &ref_0
   - Spacer
-  - Zero-G Training
   - Gifted Pilot
   - Educated
   - Scholar
@@ -34,17 +33,7 @@ recommended_features:
   - Endurance
   - Linguist
   - Insightful Reason
-features:
-  - Spacer
-  - Zero-G Training
-  - Gifted Pilot
-  - Educated
-  - Scholar
-  - Tech Interface
-  - Self Sufficient
-  - Endurance
-  - Linguist
-  - Insightful Reason
+features: *ref_0
 bonus_features:
   - Spacer
 description: >-
@@ -60,7 +49,7 @@ faction_classification: Faction Template
 recommended_species:
   - Human (Base)
   - Lin Human
-  - Celestine (Alterian)
+  - Alterian
   - Ila (Progenitor Archon)
 recommended_origins:
   - Research

@@ -10,7 +10,7 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-speeds: Ground 30 ft
+speeds: 30 ft Groundspeed
 reach: 5 ft
 senses: Standard visual and auditory range.
 immunities: None
@@ -26,25 +26,35 @@ bonus_skill_choices:
   - Technology
   - Athletics
 inherent_features: []
-bonus_features: []
+bonus_features: 1
 bonus_feature_choices: []
-recommended_features:
-  - Karma Features
-stigma: None (Galactic Baseline)
-tech_level: 3 (Standard Interstellar Fusion & Ballistics)
-meta_level: 1 (Variable / Latent Potential)
+recommended_features: []
+disadvantages: []
+stigma: None
+tech_level: '3, varies'
+meta_level: '1, varies'
 homeworld: 'Earth / Sol System (and 1,000+ colony worlds)'
 costs:
-  cp: 12
-  bp: 12
-modifiers: []
-description: >-
-  Humans are the adaptable, ubiquitous baseline of the known galaxy. Driven by
-  restless ambition and resilience, their versatility allows them to thrive in
-  any environment and master any discipline.
-traits: &ref_0
-  - trait-adaptability
-  - trait-bonus-feature
+  cp: 13
+  bp: 13
+modifiers:
+  - target: Any
+    value: 10
+    type: skill
+    mode: bonus_pool
+    description: +10 Skill Points
+  - target: Any
+    value: 1
+    type: feature
+    mode: bonus_pool
+    description: +1 Bonus Feature
+  - target: any Karma Feature
+    value: 1
+    type: feature
+    mode: recommended
+description: 'People found in Dynasty, Syndicate, Imperium, etc.'
+traits: &ref_0 []
+species_traits: *ref_0
 recommended_factions:
   - The Ascendancy
   - The Entari Combine
@@ -64,31 +74,59 @@ recommended_occupations:
   - Scout
 keywords: 'adaptable, ubiquitous, ambitious, versatile, tenacious, core-lineage'
 negative_keywords: 'environmental-extremophile, biologically-inflexible'
-species_traits: *ref_0
-cp: 12
-bp: 12
-cp_cost: 12
+cp: 13
+bp: 13
+cp_cost: 13
 ---
 
-# Human (Standard Baseline)
+# **HUMANS**
+
+# **HUMANS**
+
+# 
+
+# **BASE HUMANS**&nbsp;
 
 **CP Cost:** 10 CP  
-**Description:** People found in Dynasty, Syndicate, Imperium, etc.   
+
+**Description:** People found in Dynasty, Syndicate, Imperium, etc.&nbsp;
+
 Humans are known to be trouble (at best) and a Stigma is common in most other species encountered, from minor to severe, mainly due to history with the Impyrium’s aggressive colonizing efforts.
 
-**Classification:** Humanoid  
-**Size:** Medium  
-**Movement:** 30ft Groundspeed 
+&nbsp;
 
-**Tech Level:** 3, varies  
+**Classification:** Humanoid
+
+**Size:** Medium
+
+**Movement:** 30ft Groundspeed&nbsp;
+
+&nbsp;
+
+**Tech Level:** 3, varies
+
 **Meta Level:** 1, varies
 
-**Skills:**   
+&nbsp;
+
+**Skills:**&nbsp;
+
 \+10 Skills
 
-**Species Features:**   
-\+1 Feat of choice  
+&nbsp;
+
+**Species Features:**&nbsp;
+
+\+1 Feat of choice
+
 Typical Humans do not have any Species Features
 
-**Recommended Features:**   
+&nbsp;
+
+**Recommended Features:**&nbsp;
+
 any Karma Feature
+
+&nbsp;
+
+&nbsp;

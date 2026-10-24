@@ -10,7 +10,7 @@ size:
   - species_size-large
 movement:
   - species_movement-slithering
-speeds: Slither 25 ft
+speeds: 30 ft Groundspeed
 reach: 10 ft
 senses: Standard visual and auditory range.
 immunities: None
@@ -20,11 +20,7 @@ inherent_attribute_modifiers:
   - attribute: Agility
     bonus: 1
 bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Athletics (Grapple)
-    bonus: 2
-  - skill: Intimidation
-    bonus: 1
+specific_skill_bonuses: []
 bonus_skills: 0
 bonus_skill_choices:
   - Athletics
@@ -32,14 +28,15 @@ bonus_skill_choices:
   - Combat
   - Attune
 inherent_features: []
-bonus_features: []
+bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Agile Wrestling
+  - Low Light Vision
+disadvantages: []
 stigma: Severe Xeno (-4)
-tech_level: 3 (Heavy Tail-Mount Harnesses & Plasma Blasters)
-meta_level: 3 (Serpentine Sorcery)
-homeworld: Vass-Tor Dunes & Ruins
+tech_level: '1'
+meta_level: '4'
+homeworld: Vass (Jungle Ruin World)
 costs:
   cp: 14
   bp: 14
@@ -48,29 +45,57 @@ modifiers:
     value: 1
     type: attribute
     mode: inherent
+    description: +1 Strength
   - target: Agility
     value: 1
     type: attribute
     mode: inherent
-  - target: Strength
-    value: 2
-    type: attribute
-    mode: size_modifier
-  - target: Combat / Defense
-    value: -2
-    type: combat
-    mode: size_modifier
-  - target: Stealth
-    value: -4
-    type: skill
-    mode: size_modifier
+    description: +1 Agility
+  - target: 'Alternate Form (Simple, to one Humanoid form)'
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Chameleon
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Dragonkin (Sa-Sa-Si*)
+    value: 1
+    type: feature
+    mode: recommended
+  - target: 'Energy Resist line (1 type): Dragonkin'
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Exoskeleton
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Low Light Vision
+    value: 1
+    type: feature
+    mode: recommended
+  - target: '*Protected colony on Entari of Dragon ancestry known as the Sa-Sa-Si.*'
+    value: 1
+    type: feature
+    mode: recommended
 description: >-
-  Colossal 12-to-18 foot serpentine beings with humanoid upper torsos, wielding
-  crushing constriction power, heat-sensing pits, and venomous strikes.
+  The Vassoth are a serpentauric race, characterized by a powerful, scaled
+  serpentine lower body and tail that can reach between 12 and 18 feet in
+  length, supporting a medium-sized humanoid torso and arms. Their heads often
+  blend human and serpent features, possessing sharp, keen eyes and fine scales.
+  As a very old race, the Vassoth possess a long and intertwined history,
+  notably with dragons—a lineage confirmed by their protected Sa-Sa-Si colony on
+  Entari—as well as with the Mondi and various other progenitors. Universally,
+  all Vassoth possess some type of innate attunement to the supernatural,
+  manifesting in diverse ways across their society. This inherent connection to
+  the arcane, coupled with their formidable physical nature, has cemented their
+  historical role as fierce and vigilant guardians.
 traits: &ref_0
-  - trait-awakened-nature
+  - trait-awakened-arcane
   - trait-constriction
   - trait-venom
+species_traits: *ref_0
 recommended_factions:
   - Coalition of Independent Worlds
   - Alien Faction Template
@@ -85,33 +110,83 @@ recommended_occupations:
   - Adept
 keywords: 'serpentine-colossus, crushing-constriction, heat-sensing-pits, venom, massive'
 negative_keywords: 'stealth-in-crowds, pilot-small-cockpit, tiny'
-species_traits: *ref_0
 cp: 14
 bp: 14
 cp_cost: 14
 ---
 
-# Vassoth (Serpentine Colossus)
+# **VASSOTH \* \*\***
 
-## Description
-Colossal 12-to-18 foot serpentine beings with humanoid upper torsos, wielding crushing constriction power, heat-sensing pits, and venomous strikes.
+# **VASSOTH \* \*\***
 
-## Core Identity
-- **Lineage**: Independent Xenotypes
-- **Type**: species_type-humanoid
-- **Size**: species_size-large
-- **Movement**: Slither 25 ft
-- **Homeworld**: Vass-Tor Dunes & Ruins
-- **Tech Level**: 3 (Heavy Tail-Mount Harnesses & Plasma Blasters)
-- **Meta Level**: 3 (Serpentine Sorcery)
-- **Stigma**: Severe Xeno (-4)
+# 
 
-## Mechanics & Statblock
-- **CP Cost**: 14 CP
-- **Inherent Modifiers**: +1 Strength, +1 Agility
-- **Bonus Skills**: +0 Skill Points
-- **Inherent Features**: Large Size (12-18ft serpentine body, Reach 10ft), Awakened (Serpentine Metaphysics), Constriction (Deals double damage on successful grapple hold), Venomous Fangs (Paralytic Poison DC 15)
-- **Recommended Features**: feature-constriction
+**CP Cost:** 12 CP  
 
-## Roleplay & Society
-Colossal 12-to-18 foot serpentine beings with humanoid upper torsos, wielding crushing constriction power, heat-sensing pits, and venomous strikes.
+**Description:** The Vassoth are a serpentauric race, characterized by a powerful, scaled serpentine lower body and tail that can reach between 12 and 18 feet in length, supporting a medium-sized humanoid torso and arms. Their heads often blend human and serpent features, possessing sharp, keen eyes and fine scales. As a very old race, the Vassoth possess a long and intertwined history, notably with dragons—a lineage confirmed by their protected Sa-Sa-Si colony on Entari—as well as with the Mondi and various other progenitors. Universally, all Vassoth possess some type of innate attunement to the supernatural, manifesting in diverse ways across their society. This inherent connection to the arcane, coupled with their formidable physical nature, has cemented their historical role as fierce and vigilant guardians.
+
+&nbsp;
+
+**Classification:**&nbsp;
+
+**Size:**&nbsp;
+
+**Movement:**&nbsp;
+
+&nbsp;
+
+**Tech Level:** 1
+
+**Meta Level:** 4
+
+&nbsp;
+
+**Homeworld:**&nbsp;
+
+**Stigma:** Severe Xeno
+
+&nbsp;
+
+**Ability Modifiers:**&nbsp;
+
+\+1 Str
+
+\+1 Agi
+
+&nbsp;
+
+**Skills:**&nbsp;
+
+&nbsp;
+
+**Species Features:**&nbsp;
+
+Awakened
+
+Constriction {Long body (12-18ft with a medium size humanoid upper body)}
+
+Venom
+
+&nbsp;
+
+**Recommended Features:**&nbsp;
+
+Alternate Form (Simple, to one Humanoid form)
+
+Chameleon
+
+Dragonkin (Sa-Sa-Si\*)
+
+Energy Resist line (1 type): Dragonkin
+
+Exoskeleton
+
+Low Light Vision
+
+&nbsp;
+
+&nbsp;
+
+*\*Protected colony on Entari of Dragon ancestry known as the Sa-Sa-Si.*
+
+&nbsp;

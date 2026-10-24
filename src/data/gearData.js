@@ -1,7 +1,7 @@
 /**
  * Canonical Gear Database for Tangent SF RP
  * Auto-generated from src/data/omnicortex/gear/
- * Total Gear Items: 42
+ * Total Gear Items: 56
  */
 
 export const DEFAULT_GEAR = [
@@ -266,6 +266,78 @@ export const DEFAULT_GEAR = [
     "body": "Grown rather than manufactured device with organic neural pathways.\n\n**Mechanics:** Regeneration trait (Regenerates 1 HP/hour). Feeding organic matter repairs 1d4 HP instantly (requires Trained Xenobiology)."
   },
   {
+    "id": "climbing-gear-advanced-grav",
+    "name": "Climbing Gear (Advanced / Grav-Attenuator)",
+    "category": "gear",
+    "gear_type": "Survival & Field",
+    "size": "Tiny",
+    "tech_level": 5,
+    "meta_level": 0,
+    "craft_dc": 25,
+    "base_dc": 25,
+    "cost": 10240,
+    "description": "Apex TL5 grav-attenuator climbing harness and gecko-molecular grip gloves.",
+    "mechanic": "Grants Advantage on all Athletics checks made to climb or traverse vertical and inverted surfaces.",
+    "keywords": "climbing gear (advanced / grav-attenuator), gear, survival & field, tl-5",
+    "negative_keywords": "weapon, armor, vehicle",
+    "design_dc": 25,
+    "costs": {
+      "cp": 0,
+      "bp": 0,
+      "credits": 10240,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "sockets": {
+      "max": 2,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "modifiers": [],
+    "modifications": [],
+    "body": "Apex TL5 grav-attenuator climbing harness and gecko-molecular grip gloves.\n\n**Mechanics:** Grants Advantage on all Athletics checks made to climb or traverse vertical and inverted surfaces."
+  },
+  {
+    "id": "climbing-gear-standard",
+    "name": "Climbing Gear (Standard)",
+    "category": "gear",
+    "gear_type": "Survival & Field",
+    "size": "Small",
+    "tech_level": 2,
+    "meta_level": 0,
+    "craft_dc": 5,
+    "base_dc": 5,
+    "cost": 40,
+    "description": "High-tensile synthetic rope, harness, carabiners, and powered pitons.",
+    "mechanic": "Negates standard equipment penalties on Athletics (Climbing) checks.",
+    "keywords": "climbing gear (standard), gear, survival & field, tl-2",
+    "negative_keywords": "weapon, armor, vehicle",
+    "design_dc": 5,
+    "costs": {
+      "cp": 0,
+      "bp": 0,
+      "credits": 40,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "sockets": {
+      "max": 4,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "modifiers": [],
+    "modifications": [],
+    "body": "High-tensile synthetic rope, harness, carabiners, and powered pitons.\n\n**Mechanics:** Negates standard equipment penalties on Athletics (Climbing) checks."
+  },
+  {
     "id": "clothing-high-fashion",
     "category": "gear",
     "name": "Clothing (High Fashion)",
@@ -307,6 +379,78 @@ export const DEFAULT_GEAR = [
     "base_dc": 15,
     "design_dc": 15,
     "body": "Designer social attire woven from luminescent and tailored prestige fabrics.\n\n**Mechanics:** Prestige status symbol. Grants +1 to Social & Etiquette checks in elite society."
+  },
+  {
+    "id": "clothing-standard",
+    "name": "Clothing (Standard)",
+    "category": "gear",
+    "gear_type": "Mundane & Personal",
+    "size": "Small",
+    "tech_level": 2,
+    "meta_level": 0,
+    "craft_dc": 2,
+    "base_dc": 2,
+    "cost": 13,
+    "description": "Durable synthetic street clothes suitable for everyday frontier or urban wear.",
+    "mechanic": "Standard everyday attire. Provides no armor DR; legal in all jurisdictions.",
+    "keywords": "clothing (standard), gear, mundane & personal, tl-2",
+    "negative_keywords": "weapon, armor, vehicle",
+    "design_dc": 2,
+    "costs": {
+      "cp": 0,
+      "bp": 0,
+      "credits": 13,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "sockets": {
+      "max": 4,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "modifiers": [],
+    "modifications": [],
+    "body": "Durable synthetic street clothes suitable for everyday frontier or urban wear.\n\n**Mechanics:** Standard everyday attire. Provides no armor DR; legal in all jurisdictions."
+  },
+  {
+    "id": "comm-unit-holographic",
+    "name": "Comm Unit (Holographic)",
+    "category": "gear",
+    "gear_type": "Surveillance & Comms",
+    "size": "Diminutive",
+    "tech_level": 3,
+    "meta_level": 0,
+    "craft_dc": 10,
+    "base_dc": 10,
+    "cost": 160,
+    "description": "Personal wrist or palm communicator with integrated micro-holoprojector.",
+    "mechanic": "Provides planetary-mesh audio/visual communication and projects the caller's 3D holographic avatar.",
+    "keywords": "comm unit (holographic), gear, surveillance & comms, tl-3",
+    "negative_keywords": "weapon, armor, vehicle",
+    "design_dc": 10,
+    "costs": {
+      "cp": 0,
+      "bp": 0,
+      "credits": 160,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "sockets": {
+      "max": 1,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "modifiers": [],
+    "modifications": [],
+    "body": "Personal wrist or palm communicator with integrated micro-holoprojector.\n\n**Mechanics:** Provides planetary-mesh audio/visual communication and projects the caller's 3D holographic avatar."
   },
   {
     "id": "comm-unit-telepathic",
@@ -393,6 +537,42 @@ export const DEFAULT_GEAR = [
     "base_dc": 5,
     "design_dc": 5,
     "body": "Short-range encrypted audio transceiver.\n\n**Mechanics:** 1-mile tactical line-of-sight range; global when linked to satellite or planetary grid."
+  },
+  {
+    "id": "diagnostic-system-stationary",
+    "name": "Diagnostic System (Stationary Array)",
+    "category": "gear",
+    "gear_type": "Vocation Tools",
+    "size": "Medium",
+    "tech_level": 4,
+    "meta_level": 0,
+    "craft_dc": 20,
+    "base_dc": 20,
+    "cost": 2560,
+    "description": "Stationary workshop diagnostic computer and deep-scan molecular analyzer.",
+    "mechanic": "Grants a +4 Bonus to Repair and Engineering checks. Requires Trained proficiency (Rank 6+).",
+    "keywords": "diagnostic system (stationary array), gear, vocation tools, tl-4",
+    "negative_keywords": "weapon, armor, vehicle",
+    "design_dc": 20,
+    "costs": {
+      "cp": 0,
+      "bp": 0,
+      "credits": 2560,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "sockets": {
+      "max": 8,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "modifiers": [],
+    "modifications": [],
+    "body": "Stationary workshop diagnostic computer and deep-scan molecular analyzer.\n\n**Mechanics:** Grants a +4 Bonus to Repair and Engineering checks. Requires Trained proficiency (Rank 6+)."
   },
   {
     "id": "enviro-field-generator",
@@ -522,6 +702,78 @@ export const DEFAULT_GEAR = [
     "base_dc": 15,
     "design_dc": 15,
     "body": "Inflatable hermetically sealed shelter with air scrubbers sheltering 4 operatives.\n\n**Mechanics:** Provides full life support and atmospheric seal against hostile biospheres for 4 occupants."
+  },
+  {
+    "id": "expert-software",
+    "name": "Expert Software Suite",
+    "category": "gear",
+    "gear_type": "Computers & Software",
+    "size": "Fine",
+    "tech_level": 4,
+    "meta_level": 0,
+    "craft_dc": 15,
+    "base_dc": 15,
+    "cost": 640,
+    "description": "Specialized heuristic software package requiring a Processor Rating (PR) of 2 or higher.",
+    "mechanic": "Requires PR 2+. Grants an Aid Bonus (+1 at CR 10 / 160 Cr, +2 at CR 15 / 640 Cr, +3 at CR 20 / 2,560 Cr) to a specific Skill Check.",
+    "keywords": "expert software suite, gear, computers & software, tl-4",
+    "negative_keywords": "weapon, armor, vehicle",
+    "design_dc": 15,
+    "costs": {
+      "cp": 0,
+      "bp": 0,
+      "credits": 640,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "modifiers": [],
+    "modifications": [],
+    "body": "Specialized heuristic software package requiring a Processor Rating (PR) of 2 or higher.\n\n**Mechanics:** Requires PR 2+. Grants an Aid Bonus (+1 at CR 10 / 160 Cr, +2 at CR 15 / 640 Cr, +3 at CR 20 / 2,560 Cr) to a specific Skill Check."
+  },
+  {
+    "id": "field-surgery-clinic",
+    "name": "Field Surgery / Portable Clinic",
+    "category": "gear",
+    "gear_type": "Medical Systems",
+    "size": "Medium",
+    "tech_level": 3,
+    "meta_level": 0,
+    "craft_dc": 15,
+    "base_dc": 15,
+    "cost": 640,
+    "description": "Semi-portable sterile surgical suite and diagnostic trauma bay for field operations.",
+    "mechanic": "Grants a +2 Bonus to Medicine checks. Requires Trained proficiency (Rank 6+) in Medicine.",
+    "keywords": "field surgery / portable clinic, gear, medical systems, tl-3",
+    "negative_keywords": "weapon, armor, vehicle",
+    "design_dc": 15,
+    "costs": {
+      "cp": 0,
+      "bp": 0,
+      "credits": 640,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "sockets": {
+      "max": 8,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "modifiers": [],
+    "modifications": [],
+    "body": "Semi-portable sterile surgical suite and diagnostic trauma bay for field operations.\n\n**Mechanics:** Grants a +2 Bonus to Medicine checks. Requires Trained proficiency (Rank 6+) in Medicine."
   },
   {
     "id": "first-aid-kit",
@@ -780,6 +1032,42 @@ export const DEFAULT_GEAR = [
     "base_dc": 10,
     "design_dc": 10,
     "body": "Projects high-fidelity 3D holographic illusions and binaural directional audio.\n\n**Mechanics:** Projects volumetric image within Close (10m) range. Grants +2 to Deception checks for distractions."
+  },
+  {
+    "id": "holo-cam",
+    "name": "Holo-Cam (Volumetric Recorder)",
+    "category": "gear",
+    "gear_type": "Surveillance & Comms",
+    "size": "Tiny",
+    "tech_level": 3,
+    "meta_level": 0,
+    "craft_dc": 10,
+    "base_dc": 10,
+    "cost": 160,
+    "description": "Multi-angleレーザー/photonic volumetric camera for recording 3D holographic scenes.",
+    "mechanic": "Captures 3D volumetric spatial data for full Augmented Reality (AR) or Holo-Emitter reconstruction.",
+    "keywords": "holo-cam (volumetric recorder), gear, surveillance & comms, tl-3",
+    "negative_keywords": "weapon, armor, vehicle",
+    "design_dc": 10,
+    "costs": {
+      "cp": 0,
+      "bp": 0,
+      "credits": 160,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "sockets": {
+      "max": 2,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "modifiers": [],
+    "modifications": [],
+    "body": "Multi-angleレーザー/photonic volumetric camera for recording 3D holographic scenes.\n\n**Mechanics:** Captures 3D volumetric spatial data for full Augmented Reality (AR) or Holo-Emitter reconstruction."
   },
   {
     "id": "holophotonic-projector",
@@ -1169,6 +1457,114 @@ export const DEFAULT_GEAR = [
     "body": "Forearm-mounted holographic and micro-fabrication apparatus replicating power tools.\n\n**Mechanics:** Replicates powered hand tools. Grants +2 Bonus to Engineering checks."
   },
   {
+    "id": "operating-theater-hospital",
+    "name": "Operating Theater / Hospital Bay",
+    "category": "gear",
+    "gear_type": "Medical Systems",
+    "size": "Large",
+    "tech_level": 4,
+    "meta_level": 0,
+    "craft_dc": 20,
+    "base_dc": 20,
+    "cost": 2560,
+    "description": "Full-scale surgical theater equipped with automated life support, laser scalpels, and sterile containment.",
+    "mechanic": "Grants a +4 Bonus to Medicine checks. Requires Expert proficiency (Rank 11+) in Medicine.",
+    "keywords": "operating theater / hospital bay, gear, medical systems, tl-4",
+    "negative_keywords": "weapon, armor, vehicle",
+    "design_dc": 20,
+    "costs": {
+      "cp": 0,
+      "bp": 0,
+      "credits": 2560,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "sockets": {
+      "max": 2,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "modifiers": [],
+    "modifications": [],
+    "body": "Full-scale surgical theater equipped with automated life support, laser scalpels, and sterile containment.\n\n**Mechanics:** Grants a +4 Bonus to Medicine checks. Requires Expert proficiency (Rank 11+) in Medicine."
+  },
+  {
+    "id": "operation-software",
+    "name": "Operation Software Suite",
+    "category": "gear",
+    "gear_type": "Computers & Software",
+    "size": "Fine",
+    "tech_level": 3,
+    "meta_level": 0,
+    "craft_dc": 15,
+    "base_dc": 15,
+    "cost": 640,
+    "description": "Automated task-execution software capable of operating hardware or performing routine checks autonomously.",
+    "mechanic": "Requires PR 0+. Automates skill execution by Taking 10: Basic (Rank 5, CR 10 / 160 Cr), Intermediate (Rank 10, CR 15 / 640 Cr), Advanced (Rank 15, CR 20 / 2,560 Cr).",
+    "keywords": "operation software suite, gear, computers & software, tl-3",
+    "negative_keywords": "weapon, armor, vehicle",
+    "design_dc": 15,
+    "costs": {
+      "cp": 0,
+      "bp": 0,
+      "credits": 640,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "modifiers": [],
+    "modifications": [],
+    "body": "Automated task-execution software capable of operating hardware or performing routine checks autonomously.\n\n**Mechanics:** Requires PR 0+. Automates skill execution by Taking 10: Basic (Rank 5, CR 10 / 160 Cr), Intermediate (Rank 10, CR 15 / 640 Cr), Advanced (Rank 15, CR 20 / 2,560 Cr)."
+  },
+  {
+    "id": "passive-sensors",
+    "name": "Passive Sensors (Camera/Mic/Rangefinder)",
+    "category": "gear",
+    "gear_type": "Surveillance & Comms",
+    "size": "Diminutive",
+    "tech_level": 2,
+    "meta_level": 0,
+    "craft_dc": 5,
+    "base_dc": 5,
+    "cost": 40,
+    "description": "Compact optical camera, directional microphone, and laser rangefinder array.",
+    "mechanic": "Captures high-definition audio/visual data and rangefinding telemetry without emitting active signals.",
+    "keywords": "passive sensors (camera/mic/rangefinder), gear, surveillance & comms, tl-2",
+    "negative_keywords": "weapon, armor, vehicle",
+    "design_dc": 5,
+    "costs": {
+      "cp": 0,
+      "bp": 0,
+      "credits": 40,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "sockets": {
+      "max": 1,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "modifiers": [],
+    "modifications": [],
+    "body": "Compact optical camera, directional microphone, and laser rangefinder array.\n\n**Mechanics:** Captures high-definition audio/visual data and rangefinding telemetry without emitting active signals."
+  },
+  {
     "id": "polymorphic-liquid-metal-tool",
     "category": "gear",
     "name": "Polymorphic Liquid Metal Tool",
@@ -1427,6 +1823,42 @@ export const DEFAULT_GEAR = [
     "body": "Medical submersion vat filled with accelerated nutrient fluid for deep cellular regeneration.\n\n**Mechanics:** Heals 1 HP per hour; fully regrows lost limbs or synthetic tissues during extended rest."
   },
   {
+    "id": "satellite-uplink",
+    "name": "Satellite Uplink Transceiver",
+    "category": "gear",
+    "gear_type": "Surveillance & Comms",
+    "size": "Small",
+    "tech_level": 2,
+    "meta_level": 0,
+    "craft_dc": 10,
+    "base_dc": 10,
+    "cost": 160,
+    "description": "Portable high-gain folding dish and orbital relay transceiver.",
+    "mechanic": "Removes terrestrial range limits on linked Comm Units by bouncing signals through orbital satellites.",
+    "keywords": "satellite uplink transceiver, gear, surveillance & comms, tl-2",
+    "negative_keywords": "weapon, armor, vehicle",
+    "design_dc": 10,
+    "costs": {
+      "cp": 0,
+      "bp": 0,
+      "credits": 160,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "sockets": {
+      "max": 4,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "modifiers": [],
+    "modifications": [],
+    "body": "Portable high-gain folding dish and orbital relay transceiver.\n\n**Mechanics:** Removes terrestrial range limits on linked Comm Units by bouncing signals through orbital satellites."
+  },
+  {
     "id": "smart-suit",
     "category": "gear",
     "name": "Smart Suit (Adaptive Nanotech)",
@@ -1468,6 +1900,42 @@ export const DEFAULT_GEAR = [
     "base_dc": 20,
     "design_dc": 20,
     "body": "Nanotech weave that dynamically identifies and adapts to environmental hazards.\n\n**Mechanics:** As a Reaction, adapts resistance to provide EPR 4 against specific environmental threats (Heat, Cold, Acid)."
+  },
+  {
+    "id": "standard-database-tl3",
+    "name": "Standard Database Archive (TL 3)",
+    "category": "gear",
+    "gear_type": "Computers & Software",
+    "size": "Tiny",
+    "tech_level": 3,
+    "meta_level": 0,
+    "craft_dc": 15,
+    "base_dc": 15,
+    "cost": 640,
+    "description": "Comprehensive digital reference library and indexed planetary encyclopedia.",
+    "mechanic": "Grants a +2 Bonus to Knowledge and Research checks when consulted.",
+    "keywords": "standard database archive (tl 3), gear, computers & software, tl-3",
+    "negative_keywords": "weapon, armor, vehicle",
+    "design_dc": 15,
+    "costs": {
+      "cp": 0,
+      "bp": 0,
+      "credits": 640,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "sockets": {
+      "max": 2,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "modifiers": [],
+    "modifications": [],
+    "body": "Comprehensive digital reference library and indexed planetary encyclopedia.\n\n**Mechanics:** Grants a +2 Bonus to Knowledge and Research checks when consulted."
   },
   {
     "id": "datapad",
@@ -1685,6 +2153,42 @@ export const DEFAULT_GEAR = [
     "base_dc": 15,
     "design_dc": 15,
     "body": "High-speed quantum co-processing unit capable of executing expert software programs.\n\n**Mechanics:** PR 2. Capable of hosting and running Expert Software algorithms."
+  },
+  {
+    "id": "upgraded-database-tl4",
+    "name": "Upgraded Database Archive (TL 4)",
+    "category": "gear",
+    "gear_type": "Computers & Software",
+    "size": "Tiny",
+    "tech_level": 4,
+    "meta_level": 0,
+    "craft_dc": 20,
+    "base_dc": 20,
+    "cost": 2560,
+    "description": "High-density quantum-indexed reference archive with heuristic cross-referencing.",
+    "mechanic": "Grants a +4 Bonus to Knowledge checks. Requires Trained proficiency in the relevant Knowledge skill.",
+    "keywords": "upgraded database archive (tl 4), gear, computers & software, tl-4",
+    "negative_keywords": "weapon, armor, vehicle",
+    "design_dc": 20,
+    "costs": {
+      "cp": 0,
+      "bp": 0,
+      "credits": 2560,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "sockets": {
+      "max": 2,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "modifiers": [],
+    "modifications": [],
+    "body": "High-density quantum-indexed reference archive with heuristic cross-referencing.\n\n**Mechanics:** Grants a +4 Bonus to Knowledge checks. Requires Trained proficiency in the relevant Knowledge skill."
   },
   {
     "id": "utility-harness",

@@ -32,11 +32,11 @@ recommended_species:
   - Rautha Human
   - B’Dren Human
   - Vajar (Wilder)
-  - Nocturne (Kovian)
+  - Kovian
   - Graa (Auluran Heavy)
   - Gra'or
   - Vassoth
-  - Rakne (Kitin Stalker)
+  - Rakne (Infiltration Expression)
   - Eakren (Corrupted Aberration)
   - Risakin (Giant Folk)
   - Scrap (Junkframe Synthetic)

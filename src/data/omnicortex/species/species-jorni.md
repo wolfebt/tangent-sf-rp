@@ -5,13 +5,12 @@ title: Jorni (Reptilian Regenerator)
 category: species
 parent_species: Independent Xenotypes
 type:
-  - species_type-beast
+  - species_type-humanoid
 size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-  - species_movement-swimming
-speeds: 'Ground 30 ft, Swim 30 ft'
+speeds: '40 ft Groundspeed, 40 ft Swimspeed, 40 ft Climbspeed'
 reach: 5 ft
 senses: 'Low-light vision. [1]'
 immunities: None
@@ -21,11 +20,7 @@ inherent_attribute_modifiers:
   - attribute: Stamina
     bonus: 1
 bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Athletics
-    bonus: 1
-  - skill: Survival
-    bonus: 1
+specific_skill_bonuses: []
 bonus_skills: 0
 bonus_skill_choices:
   - Athletics
@@ -33,47 +28,117 @@ bonus_skill_choices:
   - Combat
   - Stealth
 inherent_features: []
-bonus_features: []
+bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Acute Senses
-  - Armor (Chitinous Shell)
   - Darksight
-  - Dragonkin Features
-  - Iron Will
-  - Lightning Reflexes
   - Low Light Vision
+  - Headstrong
   - Runner
-  - Self-Sufficient
-  - Tough
+  - Self Sufficient
+  - Quick
+disadvantages: []
 stigma: Xeno (-2)
-tech_level: 3 (Bio-Thermal Tech & Slugthrowers)
-meta_level: 1 (Regenerative Vitality)
-homeworld: Jorn-Tor Swamps
+tech_level: '1'
+meta_level: '2'
+homeworld: Jorn (Bog & Marsh World)
 costs:
-  cp: 27
-  bp: 27
+  cp: 21
+  bp: 21
 modifiers:
   - target: Strength
     value: 1
     type: attribute
     mode: inherent
+    description: +1 Strength
   - target: Stamina
     value: 1
     type: attribute
     mode: inherent
+    description: +1 Stamina
+  - target: Adaptation
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Alertness
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Amphibious
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Blindsense (Thermal Receptors)
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Darksight
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Dragonkin
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Energy Resist line (one type)
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Exoskeleton (Dragonkin)
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Favored Environment
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Low Light Vision
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Headstrong
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Intimidating Prowess
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Rugged
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Runner
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Self Sufficient
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Quick
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Venom
+    value: 1
+    type: feature
+    mode: recommended
 description: >-
-  Reptilian swamp hunters possessing extraordinary regenerative biology, capable
-  of re-growing severed limbs and enduring lethal trauma.
+  The Jorni are a formidable and imposing reptilian species, standing at an
+  average height of seven feet. These powerful beings, commonly referred to as
+  Lizardfolk, possess a distinctive physical makeup characterized by their
+  thick, scaly skin, which serves as a natural defense. Their powerful,
+  semi-aquatic builds allow them to navigate and thrive in challenging,
+  waterlogged environments, such as vast swamps and dense, humid jungles.
 traits: &ref_0
-  - trait-amphibious
   - trait-climber
   - trait-digitigrade-ungulated
   - trait-fast-heal
   - trait-prehensile-tail
   - trait-regeneration
   - trait-aquatic
-  - trait-venom
+species_traits: *ref_0
 recommended_factions:
   - Coalition of Independent Worlds
   - Mercenary Faction Template
@@ -86,60 +151,115 @@ recommended_occupations:
   - Drifter
 keywords: 'reptilian, rapid-regeneration, swamp-hunter, severed-limb-regrowth, hardy'
 negative_keywords: 'arid-desert, delicate, fragile'
-species_traits: *ref_0
-cp: 27
-bp: 27
-cp_cost: 27
+cp: 21
+bp: 21
+cp_cost: 21
 ---
 
-# Jorni (Reptilian Regenerator)
+# **JORNI \***
 
-*
+# **JORNI \***
+
+&nbsp;
 
 **CP Cost:** 25 CP  
+
 **Description:** The Jorni are a formidable and imposing reptilian species, standing at an average height of seven feet. These powerful beings, commonly referred to as Lizardfolk, possess a distinctive physical makeup characterized by their thick, scaly skin, which serves as a natural defense. Their powerful, semi-aquatic builds allow them to navigate and thrive in challenging, waterlogged environments, such as vast swamps and dense, humid jungles.
+
+&nbsp;
 
 The core of the Jorni existence is a deep, instinctual survivalist mindset. Their lives are a relentless pursuit of sustenance and security, driven by a need to overcome the harshness of their chosen habitats. This single-minded focus often leads to them being perceived by other races as cold, stoic, or even emotionless. However, this perception is a misunderstanding of their nature. Jorni are, in fact, highly intelligent creatures who operate with an extreme degree of pragmatism and efficiency. Every action is calculated, serving a direct purpose related to the clan's well-being or the individual's survival; there is little room for frivolous or expressive emotion in their daily calculus.
 
+&nbsp;
+
 Physically, they are built for resilience and combat. Their scales typically range in color from deep greens and earthy browns to muted grays, providing effective camouflage within their native territories. Beyond their natural armor, they possess powerful musculature and a heavy, muscular tail that is crucial for balance, especially when moving swiftly through murky waters or traversing uneven terrain. This combination of powerful build, natural defenses, and a pragmatic, intelligent nature makes the Jorni a truly imposing figure, both when encountered in the wilds and as a relentless opponent in any conflict.
 
-**Classification:** Reptile Humanoid  
-**Size:** Medium  
+&nbsp;
+
+**Classification:** Reptile Humanoid
+
+**Size:** Medium
+
 **Movement:** 40ft Groundspeed, 40ft Swimspeed, 40ft Climbspeed
 
-**Tech Level:** 1  
+&nbsp;
+
+**Tech Level:** 1
+
 **Meta Level:** 2
 
-**Homeworld:**   
+&nbsp;
+
+**Homeworld:**&nbsp;
+
 **Stigma:** Xeno
 
-**Ability Modifiers:**   
-\+1 Str  
+&nbsp;
+
+**Ability Modifiers:**&nbsp;
+
+\+1 Str
+
 \+1 Sta
 
-**Species Features:**   
-Climber  
-Digitigrade Legs  
-Fast Heal  
-Long Tail  
-Regeneration  
+&nbsp;
+
+**Species Features:**&nbsp;
+
+Climber
+
+Digitigrade Legs
+
+Fast Heal
+
+Long Tail
+
+Regeneration
+
 Swimmer
 
-**Recommended Features:**   
-Adaptation   
-Alertness  
-Amphibious  
-Blindsense (Thermal Receptors)  
-Darksight  
-Dragonkin  
-Energy Resist line (one type)  
-Exoskeleton (Dragonkin)  
-Favored Environment  
-Low Light Vision  
-Headstrong  
-Intimidating Prowess  
-Rugged  
-Runner  
-Self Sufficient  
-Quick line  
+&nbsp;
+
+**Recommended Features:**&nbsp;
+
+Adaptation&nbsp;
+
+Alertness
+
+Amphibious
+
+Blindsense (Thermal Receptors)
+
+Darksight
+
+Dragonkin
+
+Energy Resist line (one type)
+
+Exoskeleton (Dragonkin)
+
+Favored Environment
+
+Low Light Vision
+
+Headstrong
+
+Intimidating Prowess
+
+Rugged
+
+Runner
+
+Self Sufficient
+
+Quick line
+
 Venom
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;

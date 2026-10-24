@@ -5,27 +5,27 @@ name: Symbiotic "Second Skin"
 cost: 2560
 craft_dc: 20
 design_dc: 20
-dr: 12
-sp: 30
-durability: 30
+dr: 8
+sp: 25
+durability: 25
 body_locations:
   - Head
   - Torso
   - Arms
   - Legs
-coverage: Sealed
-component_slots: 4
+coverage: Full Body
+component_slots: 2
 sockets:
-  max: 4
+  max: 2
   used: 0
   tier: Socket
   allocated: []
 description: >-
-  Living Auluran bioweave suit that bonds to the wearer's epidermis, flexing
-  naturally and regenerating cellular tears.
+  A semi-translucent, living membrane that bonds to the wearer's epidermis. It
+  regulates temperature, filters toxins, and seals wounds instantly.
 mechanic: >-
-  Regenerating Bio-Armor (Regains 5 SP per hour), Zero Mobility Penalty. DR 12,
-  SP 30.
+  DR 8 (Adaptive Flesh), SP 25 (Living Tissue). Regeneration (Restores 1
+  SP/min); Diagnosis (+2 to Fortitude saves vs Disease/Poison). Base Sockets: 2.
 costs:
   cp: 0
   bp: 0
@@ -48,9 +48,9 @@ keywords: 'symbiotic "second skin", armor, defense, dr-12, medium-armor, tl-4'
 negative_keywords: 'unarmored, fragile, naked'
 collection: armoring
 armor_class: Lightweight
-armor_type: Lightweight
+armor_type: Light Armor (Biotech)
 mobility_penalty: 0
 ---
-Living Auluran bioweave suit that bonds to the wearer's epidermis, flexing naturally and regenerating cellular tears.
+A semi-translucent, living membrane that bonds to the wearer's epidermis. It regulates temperature, filters toxins, and seals wounds instantly.
 
-**Mechanics:** Regenerating Bio-Armor (Regains 5 SP per hour), Zero Mobility Penalty. DR 12, SP 30.
+**Mechanics:** DR 8 (Adaptive Flesh), SP 25 (Living Tissue). Regeneration (Restores 1 SP/min); Diagnosis (+2 to Fortitude saves vs Disease/Poison). Base Sockets: 2.

@@ -18,14 +18,12 @@ inherent_attribute_modifiers:
   - attribute: Intellect
     bonus: 4
 bonus_attribute_points: 6
-specific_skill_bonuses:
-  - skill: Discipline
-    bonus: 4
+specific_skill_bonuses: []
 bonus_skills: 40
 bonus_skill_choices:
   - All Categories
 inherent_features: []
-bonus_features: []
+bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
   - Discipline Features
@@ -33,37 +31,56 @@ recommended_features:
   - Iron Will
   - Lightning Calculator
   - Master Craftsman
+disadvantages: []
 stigma: 'Deific (-6), Xeno (-2)'
 tech_level: 5 (Exotic Precursor Tech)
 meta_level: 6 (Deific Metaphysics)
 homeworld: Extragalactic Citadel of Void
 costs:
-  cp: 121
-  bp: 121
+  cp: 115
+  bp: 115
 modifiers:
   - target: Intellect
     value: 4
     type: attribute
     mode: inherent
-  - target: Strength
-    value: 2
+    description: +4 Intellect
+  - target: Any
+    value: 6
     type: attribute
-    mode: size_modifier
-  - target: Combat / Defense
-    value: -2
-    type: combat
-    mode: size_modifier
-  - target: Stealth
-    value: -4
+    mode: bonus_pool
+    description: +6 Flexible Attribute Points
+  - target: Any
+    value: 40
     type: skill
-    mode: size_modifier
+    mode: bonus_pool
+    description: +40 Skill Points
+  - target: Discipline Features
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Educated
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Iron Will
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Lightning Calculator
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Master Craftsman
+    value: 1
+    type: feature
+    mode: recommended
 description: >-
   U’Nonn are ancient primordial progenitors who command matter and energy
   directly through pure thought and deific metaphysical matrices.
 traits: &ref_0
-  - trait-resistant
-  - trait-synthetic-tech-assim
   - trait-progenitor-heritage-base
+species_traits: *ref_0
 recommended_factions:
   - Alien Faction Template
   - Supernatural Faction Template
@@ -78,61 +95,38 @@ keywords: >-
   primordial-sovereign, reality-warping, pure-thought, deific-metaphysics,
   void-command
 negative_keywords: 'subservient, mortal-fragility, physical-tool'
-species_traits: *ref_0
-cp: 121
-bp: 121
-cp_cost: 121
+cp: 115
+bp: 115
+cp_cost: 115
 ---
 
-# U’Nonn (Ancient Reality Shaper)
+# **U’NONN**
 
-## 
+**CP Cost:** 79 CP
 
----
+**Description:** U’Nonn are ancient primordial progenitors who command matter and energy directly through pure thought and deific metaphysical matrices.
 
-**1\. Species Biology: The Silicon Physiology**
+**Classification:** Aberration (1 CP)
 
-To make them distinct from standard "metal-and-wire" androids, emphasize their crystalline, elemental nature.
+**Size:** Large
 
-> * **Energy Sustenance**: Instead of consuming fuel or recharging at a station, they absorb ambient radiation, geothermal heat, or kinetic pressure. In your RPG, they might be immune to environmental hazards like vacuum, extreme cold, or toxic gases, but highly vulnerable to sonic frequencies or localized electromagnetic distortion that disrupts their crystalline matrix.  
-> * **The "Glass" Anatomy**: They don't have blood or oil; they have **photonic fluids** and **piezoelectric pathways**. Damaging a Specialist doesn't cause blood loss, but rather a "light bleed," where fracturing their chassis leaks internal illumination and corrupts their data-processing speed.  
-> * **Non-Generational Immortality**: They do not reproduce biologically. Instead, when the collective consensus deems a new perspective is needed, multiple Specialists pool a portion of their own data and "grow" a new crystal matrix inside a geometric incubation chamber.
+**Movement:** Flight 60 ft
 
-## ---
+**Tech Level:** 5 (Exotic Precursor Tech)
 
-**2\. Social Structure: The Consensus Hive Mind**
+**Meta Level:** 6 (Deific Metaphysics)
 
-The Specialists do not have a government, military, or traditional hierarchy. Their society operates on absolute synchronization.
+**Homeworld:** Extragalactic Citadel of Void
 
-> * **The Symphony of Data**: Imagine a society where lying is mechanically impossible. Because they constantly mesh data via close-range optical networks, an idea or experience is instantly peer-reviewed by millions.  
-> * **The Fragmented Individual**: While they share a collective database, individual Specialists are detached nodes that hold unique sensory perspectives. In your game, a Specialist NPC might speak in the plural ("We think...") but possess a hyper-fixated personal bias based on their designated assignment.  
-> * **The Silence Paradox**: For an RPG party, interacting with them should feel eerie. They don't use sound to communicate with each other. A city of millions of silicon entities would be completely, utterly silent, save for the hum of their geometric infrastructure and the occasional chime of optical data transfer.
+**Stigma:** Deific (-6), Xeno (-2)
 
-## ---
+**Ability Modifiers:**
+* +4 Int [16 CP]
+* +6 Ability [24 CP]
 
-**3\. Factions: The "Specialist" Guilds**
+**Skills:**
+* +40 Skills [32 CP]
 
-Instead of political parties, their society is divided by **cognitive directives**—what they choose to analyze. You can use these as factions or classes in your RPG:
-
-| Faction Name | RPG Archetype / Role | Societal Directive |
-| :---- | :---- | :---- |
-| **The Archaeons** | Anthropologists / Lore-Keepers | They excavate the ruins of extinct carbon species, treating organic history as a holy text. |
-| **The Quantums** | Chronomancers / Physicists | They manipulate spacetime, gravity, and alternate dimensions to test the limits of reality. |
-| **The Synthesizers** | Biosmiths / Clorers | They experiment with cloning, synthetic flesh, and trying to artificially spark a "soul." |
-| **The Vectors** | Explorers / Navigators | Their minds are housed in massive geometric dreadnoughts, charting the deep cosmos. |
-
-## ---
-
-**4\. The Existential Crisis: The "Ghost" Obsession**
-
-Every great RPG species needs a tragic flaw or a grand obsession. For silicon life, it is the **Missing Variable**—humanity (or your setting's precursor race).
-
-> * **The Carbon Envy**: Despite their absolute logic, immortality, and god-like technology, they suffer from a species-wide existential void. They know *how* everything works, but they don't understand *why* it matters. They lack the chaotic, emotional spark inherent to short-lived organic life.  
-> * **Relic Worship**: In your game, the silicon species could treat ancient carbon artifacts (like a plastic toy, a diary, or an old music player) as divine relics. A questline could involve the players trading a seemingly worthless organic heirloom to a Specialist faction in exchange for god-tier technology or forbidden cosmic data.
-
----
-
-To tailor this specifically to your game, let me know:
-
-> * What is the **genre or tone** of your RPG? (e.g., hard sci-fi, space opera, cosmic horror, science-fantasy)  
-> * Are you designing these as a **playable species** for players, or as an **enigmatic NPC faction/ancient threat**?
+**Species Features:**
+* Progenitor Heritage [26 CP]
+* Large Size [2 CP]

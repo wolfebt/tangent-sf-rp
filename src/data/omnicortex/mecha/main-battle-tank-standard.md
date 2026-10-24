@@ -4,23 +4,24 @@ category: mecha
 name: Main Battle Tank (Standard)
 domain: Ground
 size: Huge
-frame: Industrial
-cost: 40960
-craft_dc: 30
-sp: 500
-dr: 40
+frame: Tracked Combat Tank
+cost: 10240
+craft_dc: 25
+sp: 300
+dr: 35
 mounts: 10
-propulsion: Heavy Treads / Multi-Fuel Turbine
+propulsion: Tracked
 description: >-
-  Tracked armored combat vehicle mounting a massive kinetic cannon and heavy
-  frontal composite plating.
+  A low-profile tracked vehicle mounting a massive kinetic cannon. Prioritizes
+  frontal armor and hull-down positioning as a reliable frontline assault
+  platform.
 mechanic: >-
-  Heavy Kinetic Cannon (4d10), Coaxial Autocannon (2d8), Heavy Frontal Armor (DR
-  40).
+  Heavy tracked MBT mounting a Heavy Kinetic Cannon and coaxial machinegun.
+  Frontal DR 35. | SP: 300, DR: 35 | Craft DC: 25 (10,240 Cr)
 costs:
   cp: 0
   bp: 0
-  credits: 40960
+  credits: 10240
   nodes: 0
   sockets: 0
   strain: 0
@@ -38,12 +39,19 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
-tech_level: 3
-keywords: 'main battle tank (standard), mecha, vehicle, huge, industrial, tl-3'
-negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
+tech_level: 2
+keywords: >-
+  main battle tank (standard), mecha, vehicle, military ground vehicle, tracked
+  combat tank, tl-2
+negative_keywords: 'infantry-only, unmounted'
 meta_level: 0
-design_dc: 30
+design_dc: 25
+classification: Military Ground Vehicle
+crew: '3'
+durability: 300
 ---
-Tracked armored combat vehicle mounting a massive kinetic cannon and heavy frontal composite plating.
+A low-profile tracked vehicle mounting a massive kinetic cannon. Prioritizes frontal armor and hull-down positioning as a reliable frontline assault platform.
 
-**Mechanics:** Heavy Kinetic Cannon (4d10), Coaxial Autocannon (2d8), Heavy Frontal Armor (DR 40).
+**Class:** Military Ground Vehicle (Tracked Combat Tank)
+**Propulsion:** Tracked | **Crew:** 3
+**Mechanics:** Heavy tracked MBT mounting a Heavy Kinetic Cannon and coaxial machinegun. Frontal DR 35. | SP: 300, DR: 35 | Craft DC: 25 (10,240 Cr)

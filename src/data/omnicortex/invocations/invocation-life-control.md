@@ -9,13 +9,13 @@ costs:
   bp: 0
 modifiers: []
 recommended_species:
-  - Celestine (Alterian)
+  - Alterian
   - Fey (Base)
   - Prokos (Auluran Biform)
   - Ila (Progenitor Archon)
 recommended_factions:
   - The Alterian Enclave
-  - Elven Providence
+  - Aeld Providence
   - Supernatural Faction Template
 recommended_origins:
   - Enlightened

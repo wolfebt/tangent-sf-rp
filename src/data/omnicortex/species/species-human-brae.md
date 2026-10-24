@@ -10,7 +10,7 @@ size:
   - species_size-small
 movement:
   - species_movement-bipedal
-speeds: Ground 30 ft
+speeds: 30 ft Groundspeed
 reach: 3 ft
 senses: Standard visual and auditory range.
 immunities: None
@@ -18,11 +18,7 @@ inherent_attribute_modifiers:
   - attribute: Agility
     bonus: 1
 bonus_attribute_points: 1
-specific_skill_bonuses:
-  - skill: Acrobatics
-    bonus: 1
-  - skill: Stealth
-    bonus: 1
+specific_skill_bonuses: []
 bonus_skills: 10
 bonus_skill_choices:
   - Acrobatics
@@ -31,43 +27,62 @@ bonus_skill_choices:
   - Piloting
   - Sleight of Hand
 inherent_features: []
-bonus_features: []
+bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Educated
   - Low Light Vision
-  - Stealthy
+  - Well Informed
+disadvantages: []
 stigma: None
-tech_level: 3 (Miniaturized Mechanics)
-meta_level: 1 (Agile Flow)
+tech_level: '1'
+meta_level: '2'
 homeworld: Brae Warren Habitats
 costs:
-  cp: 28
-  bp: 28
+  cp: 24
+  bp: 24
 modifiers:
   - target: Agility
     value: 1
     type: attribute
     mode: inherent
-  - target: Strength
-    value: -2
+    description: +1 Agility
+  - target: Any
+    value: 1
     type: attribute
-    mode: size_modifier
-  - target: Combat / Defense
-    value: 2
-    type: combat
-    mode: size_modifier
-  - target: Stealth
-    value: 4
+    mode: bonus_pool
+    description: +1 Flexible Attribute Point
+  - target: Any
+    value: 10
     type: skill
-    mode: size_modifier
+    mode: bonus_pool
+    description: +10 Skill Points
+  - target: Longevity
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Low Light Vision
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Obfuscate
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Well Informed
+    value: 1
+    type: feature
+    mode: recommended
 description: >-
-  Brae are compact, diminutive humans (standing 3 to 4 feet tall) who evolved
-  aboard generational colony ships and tight subterranean refinery tubes.
+  The Half-Folk are a distinct and fascinating subspecies of humans, instantly
+  recognizable by their diminutive stature, typically averaging around three
+  feet in height. Despite their small size, they possess a wiry strength and a
+  remarkable level of adaptability that has allowed them to thrive in virtually
+  every corner of the known world. This adaptability is the cornerstone of their
+  culture and survival, marking them as one of the most highly survivable human
+  groups.
 traits: &ref_0
   - trait-climber
-  - trait-quick
-  - trait-longevity
+species_traits: *ref_0
 recommended_factions:
   - The Entari Combine
   - The Outworlds
@@ -81,53 +96,93 @@ recommended_occupations:
   - Criminal
 keywords: 'diminutive, generational-ship, conduit-crawler, compact-tinkerer, nimble'
 negative_keywords: 'heavy-combat, towering, brute-force'
-species_traits: *ref_0
-cp: 28
-bp: 28
-cp_cost: 28
+cp: 24
+bp: 24
+cp_cost: 24
 ---
 
-# Brae Human (Small Stature Variant)
+# **BRAE \***
 
-*
+# **BRAE \***
 
-**CP Cost:** 20 CP  
+**CP Cost:**&nbsp;
+
 **Description:** The Half-Folk are a distinct and fascinating subspecies of humans, instantly recognizable by their diminutive stature, typically averaging around three feet in height. Despite their small size, they possess a wiry strength and a remarkable level of adaptability that has allowed them to thrive in virtually every corner of the known world. This adaptability is the cornerstone of their culture and survival, marking them as one of the most highly survivable human groups.
+
+&nbsp;
 
 Their keen intellect and innate agility contribute significantly to their success. The Half-Folk are clever problem-solvers, often utilizing their understanding of natural surroundings and simple mechanics to overcome obstacles that would baffle larger human societies. Their agility is not just a trait for movement; it is a fundamental aspect of their interaction with the environment, allowing them to traverse difficult terrain with ease.
 
+&nbsp;
+
 This unique combination of traits has led to the development of equally unique living arrangements. The Half-Folk are masters of dual habitation, having successfully adapted to be both arboreal and burrowers. This flexibility means they are not confined to a single type of landscape. They live comfortably in a vast variety of habitats, including:
+
+&nbsp;
 
 Arboreal Structures: Intricate, well-camouflaged homes built within the canopies of large trees, offering protection from ground-level threats and excellent vantage points.
 
+&nbsp;
+
 Natural Caves: They are experts at recognizing and utilizing existing geological features, modifying natural caves to suit their needs while maintaining the integrity of the environment.
+
+&nbsp;
 
 Constructed Burrows: Sophisticated underground dwellings, often dug with impressive skill and ingenuity. These burrows provide stable temperatures, security, and shelter from the most severe weather.
 
+&nbsp;
+
 Their ability to switch between these modes of life—and often integrate them within a single settlement—is a testament to their resourcefulness, allowing Half-Folk communities to flourish where other peoples would struggle to merely subsist.
 
-**Classification:** Humanoid  
-**Size:** Small  
+&nbsp;
+
+**Classification:** Humanoid
+
+**Size:** Small
+
 **Movement:** 30ft Groundspeed
 
-**Tech Level:** 1  
+&nbsp;
+
+**Tech Level:** 1
+
 **Meta Level:** 2
 
-**Homeworld:**   
-**Stigma:** 
+&nbsp;
 
-**Ability Modifiers:**   
-\+1 Agi  
+**Homeworld:**&nbsp;
+
+**Stigma:**&nbsp;
+
+&nbsp;
+
+**Ability Modifiers:**&nbsp;
+
+\+1 Agi
+
 \+1 Ability
 
-**Skills:**   
+&nbsp;
+
+**Skills:**&nbsp;
+
 \+10 Skills
 
-**Species Features:**   
+&nbsp;
+
+**Species Features:**&nbsp;
+
 Climber
 
-**Recommended Features:**   
-Longevity  
-Low Light Vision  
-Obfuscate  
+&nbsp;
+
+**Recommended Features:**&nbsp;
+
+Longevity
+
+Low Light Vision
+
+Obfuscate
+
 Well Informed
+
+&nbsp;

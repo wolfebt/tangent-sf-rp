@@ -1,0 +1,50 @@
+[
+  {
+    "id": "society_energy_lvl_0",
+    "category": "society_energy",
+    "name": "Energy & Power Generation (Level 0: Biomass)",
+    "level": 0,
+    "sphere_key": "society_energy",
+    "description": "Level 0 (Biomass) in Energy & Power Generation: Muscle power, fire, wind, water wheels, and organic fuels."
+  },
+  {
+    "id": "society_energy_lvl_1",
+    "category": "society_energy",
+    "name": "Energy & Power Generation (Level 1: Fossil Fuels)",
+    "level": 1,
+    "sphere_key": "society_energy",
+    "description": "Level 1 (Fossil Fuels) in Energy & Power Generation: Coal, steam boilers, oil, and early internal combustion."
+  },
+  {
+    "id": "society_energy_lvl_2",
+    "category": "society_energy",
+    "name": "Energy & Power Generation (Level 2: Nuclear & Renewables)",
+    "level": 2,
+    "sphere_key": "society_energy",
+    "description": "Level 2 (Nuclear & Renewables) in Energy & Power Generation: Advanced hydrocarbons, atomic fission reactors, solar arrays, and wind turbines."
+  },
+  {
+    "id": "society_energy_lvl_3",
+    "category": "society_energy",
+    "name": "Energy & Power Generation (Level 3: Fusion Power)",
+    "level": 3,
+    "sphere_key": "society_energy",
+    "description": "Level 3 (Fusion Power) in Energy & Power Generation: Compact thorium reactors, hydrogen fuel cells, and helium-3 fusion cores."
+  },
+  {
+    "id": "society_energy_lvl_4",
+    "category": "society_energy",
+    "name": "Energy & Power Generation (Level 4: Antimatter)",
+    "level": 4,
+    "sphere_key": "society_energy",
+    "description": "Level 4 (Antimatter) in Energy & Power Generation: Antimatter containment pods, cold fusion, kinetic reactors, and Aetherium integration."
+  },
+  {
+    "id": "society_energy_lvl_5",
+    "category": "society_energy",
+    "name": "Energy & Power Generation (Level 5: Zero-Point & Quantum)",
+    "level": 5,
+    "sphere_key": "society_energy",
+    "description": "Level 5 (Zero-Point & Quantum) in Energy & Power Generation: Dimensional siphons, dark energy conduits, and matter-energy conversion harvesting reality itself."
+  }
+]

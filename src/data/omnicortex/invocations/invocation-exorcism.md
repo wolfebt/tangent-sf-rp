@@ -9,9 +9,9 @@ costs:
   bp: 0
 modifiers: []
 recommended_species:
-  - Celestine (Alterian)
+  - Alterian
   - Whisper
-  - Nocturne (Kovian)
+  - Kovian
   - Ila (Progenitor Archon)
 recommended_factions:
   - The Alterian Enclave

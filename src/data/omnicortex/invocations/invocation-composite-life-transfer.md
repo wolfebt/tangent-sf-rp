@@ -15,7 +15,7 @@ discipline: Matter + Entropy
 recommended_species:
   - Tenen (Sha’nor Spectral)
   - Sha'nor
-  - Celestine (Alterian)
+  - Alterian
   - Rautha Human
 recommended_factions:
   - The Outworlds

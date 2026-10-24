@@ -1,6 +1,6 @@
 ---
 id: "doc-architect-99-planetary-civilizationandeconomy"
-name: "99. 14. Planetary: Civilization, Economy & Infrastructure"
+name: "99. Planetary: Civilization, Economy & Infrastructure"
 fileName: "99.Planetary.CivilizationAndEconomy.md"
 relPath: "architect/planetary/99.Planetary.CivilizationAndEconomy.md"
 isMasterDoc: false

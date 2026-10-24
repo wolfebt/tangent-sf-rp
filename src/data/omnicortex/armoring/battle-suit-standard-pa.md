@@ -5,27 +5,27 @@ name: Battle Suit (Standard Power Armor)
 cost: 40960
 craft_dc: 30
 design_dc: 30
-dr: 30
-sp: 80
-durability: 80
+dr: 40
+sp: 120
+durability: 120
 body_locations:
   - Head
   - Torso
   - Arms
   - Legs
 coverage: Bulwark
-component_slots: 12
+component_slots: 15
 sockets:
-  max: 12
+  max: 15
   used: 0
   tier: Socket
   allocated: []
 description: >-
-  Full military powered armor chassis with fusion micro-pack, sealed life
-  support, and +4 Strength.
+  A sealed, armored suit with myomer-muscle underlay. The apex of personal
+  protection.
 mechanic: >-
-  DR 30, SP 80. Powered (+4 Strength), Sealed. Locations: Head, Torso, Arms,
-  Legs. Base Sockets: 12.
+  DR 40, SP 120. Powered (+4 Strength), Full Life Support, HUD Link. Locations:
+  All. Base Sockets: 15.
 costs:
   cp: 0
   bp: 0
@@ -51,6 +51,6 @@ armor_class: Heavyweight
 armor_type: Powered Armor
 mobility_penalty: 0
 ---
-Full military powered armor chassis with fusion micro-pack, sealed life support, and +4 Strength.
+A sealed, armored suit with myomer-muscle underlay. The apex of personal protection.
 
-**Mechanics:** DR 30, SP 80. Powered (+4 Strength), Sealed. Locations: Head, Torso, Arms, Legs. Base Sockets: 12.
+**Mechanics:** DR 40, SP 120. Powered (+4 Strength), Full Life Support, HUD Link. Locations: All. Base Sockets: 15.

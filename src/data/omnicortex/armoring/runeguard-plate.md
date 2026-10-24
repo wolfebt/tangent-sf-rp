@@ -2,32 +2,34 @@
 id: runeguard-plate
 category: Heavyweight
 name: Runeguard Plate
-cost: 10240
-craft_dc: 25
-design_dc: 25
-dr: 22
-sp: 60
-durability: 60
+cost: 40960
+craft_dc: 30
+design_dc: 30
+dr: 25
+sp: 70
+durability: 70
 body_locations:
   - Head
   - Torso
   - Arms
   - Legs
-coverage: Sealed
-component_slots: 8
+coverage: Reinforced
+component_slots: 6
 sockets:
-  max: 8
+  max: 6
   used: 0
   tier: Socket
   allocated: []
 description: >-
-  Forged arcanosteel plate suit etched with warding glyphs that deflect both
-  physical ordinance and psionic assaults.
-mechanic: 'Psionic Warding (+3 Will Defense against Mental Disciplines). DR 22, SP 60.'
+  Ancient ceramic or stone-composite armor etched with glowing defensive sigils.
+  It is heavy but resonates with the wearer's aura.
+mechanic: >-
+  DR 25 (Runed Stone), SP 70 (Reinforced). Penalty: -2 Mobility, -5ft Movement.
+  Aegis (Spend 1 Karma to double DR against a single attack). Base Sockets: 6.
 costs:
   cp: 0
   bp: 0
-  credits: 10240
+  credits: 40960
   nodes: 0
   sockets: 0
   strain: 0
@@ -40,15 +42,15 @@ critical_details:
   effect: []
   success_effect: []
   failure_effect: []
-tech_level: 4
-meta_level: 2
+tech_level: 3
+meta_level: 4
 keywords: 'runeguard plate, armor, defense, dr-22, heavy-armor, tl-4'
 negative_keywords: 'unarmored, fragile, naked, high-acrobatics'
 collection: armoring
 armor_class: Heavyweight
-armor_type: Heavyweight
-mobility_penalty: 0
+armor_type: Battle Suit (Heavy)
+mobility_penalty: -2
 ---
-Forged arcanosteel plate suit etched with warding glyphs that deflect both physical ordinance and psionic assaults.
+Ancient ceramic or stone-composite armor etched with glowing defensive sigils. It is heavy but resonates with the wearer's aura.
 
-**Mechanics:** Psionic Warding (+3 Will Defense against Mental Disciplines). DR 22, SP 60.
+**Mechanics:** DR 25 (Runed Stone), SP 70 (Reinforced). Penalty: -2 Mobility, -5ft Movement. Aegis (Spend 1 Karma to double DR against a single attack). Base Sockets: 6.

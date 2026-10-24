@@ -48,8 +48,8 @@ recommended_species:
   - Dar (Auluran Hunter)
   - Tozen
   - Frellin
-  - Rakne (Kitin Stalker)
-  - Maantene (Kitin Leaper)
+  - Rakne (Infiltration Expression)
+  - Maantene (Recon Expression)
   - Wildling
   - Human (Base)
 recommended_factions:
@@ -57,7 +57,7 @@ recommended_factions:
   - Space Exploration Faction Template
   - Coalition of Independent Worlds
   - Auluran Clans
-  - Elven Providence
+  - Aeld Providence
   - Vajar Tribes
 recommended_origins:
   - Hostile

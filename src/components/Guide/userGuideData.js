@@ -24,9 +24,9 @@ export const USER_GUIDE_SECTIONS = [
     lead: 'Welcome to the official Tangent Science Fantasy Roleplaying System Manual. Designed for high-velocity science fantasy adventures, Tangent unites cosmic space opera, grounded cybernetics, psionic disciplines, and megacorporate intrigue within an integrated digital operating system.',
     architectureHighlights: [
       {
-        title: '31 Canonical Compendium Master Articles',
+        title: '270 Canonical Compendium Articles',
         badge: 'Source of Truth',
-        desc: 'Split cleanly into 1.00 Operator Core Rules (14 articles) and 5.00 Architect Modular Matrices (17 articles), synchronized build-time with OPFS local storage.'
+        desc: 'Split cleanly into 1.00 Operator Core Rules (224 articles across 14 master volumes) and 5.00 Architect Modular Matrices (46 articles across 9 master matrices), synchronized build-time with OPFS local storage.'
       },
       {
         title: 'Cyan Ringed Planet Brand & Identity',
@@ -60,7 +60,7 @@ export const USER_GUIDE_SECTIONS = [
         content: `Tangent SF RP is built on the principle of **Zero-Friction Immersion**. Traditional tabletop roleplaying games suffer from cognitive overload: tracking hit points across scrap paper, disputing rulebook interpretations, and managing disconnected map software. 
 
 Tangent integrates every aspect of the tabletop lifecycle into a cohesive digital workspace:
-- **Instantaneous Rules Adjudication**: Single source of truth with 31 master articles and Bastion AI query citations.
+- **Instantaneous Rules Adjudication**: Single source of truth with 270 canonical rulebook & modular articles and Bastion AI query citations.
 - **Local-First & Cloud-Synced**: Operates offline via indexed browser storage while seamlessly syncing party state and map tokens when online.
 - **Modular Studio Architecture**: Jump between the Character Folio, Tactical VTT, Story Weaver, and Planetary Codex in a single click.`
       },
@@ -137,18 +137,21 @@ Tangent integrates every aspect of the tabletop lifecycle into a cohesive digita
     sections: [
       {
         heading: 'Core Attributes & Derived Statistics',
-        content: `Characters are defined by 5 Core Attributes scaled from 1 to 10 (human baseline 3-4):
-- **Physical (PHY)**: Muscle density, cardiovascular endurance, and physical resilience. Powers Melee damage and Wound Thresholds.
-- **Agility (AGI)**: Reflexes, manual dexterity, balance, and spatial coordination. Governs Ranged combat and Defense.
-- **Intellect (INT)**: Analytical cognition, technical aptitude, memory, and tactical deduction. Governs Tech and Medicine skills.
-- **Willpower (WIL)**: Mental discipline, psychic channel stability, and courage under fire. Determines Stress Threshold and Psionic potency.
-- **Presence (PRE)**: Force of personality, command authority, negotiation poise, and social camouflage.
+        content: `Characters are defined by **6 Core Attributes** (human baseline \`0\`), each coupled with a specialized **Sub-Attribute / Saving Throw**:
+- **Strength (STR) / Might**: Physical power, carrying capacity, melee force, and grapple checks.
+- **Agility (AGI) / Reflex**: Dexterity, fine motor control, balance, initiative, and dodge evasion.
+- **Stamina (STA) / Fortitude**: Physical endurance, cellular resilience, base Toughness, and resistance to shock, poison, and disease.
+- **Intellect (INT) / Reason (Logic)**: Deductive logic, technical aptitude, memory, hacking, and arcane/psychic computation.
+- **Wisdom (WIS) / Willpower**: Intuition, spatial awareness, mental defense, fear resistance, and divine/cosmic grit.
+- **Presence (PRE) / Influence (Etiquette)**: Social magnetism, leadership, command authority, diplomacy, and negotiation poise.
 
 **Automated Derived Metrics**:
-- **Wound Threshold (WT)**: Calculated as \`PHY * 3 + 10\`. Crossing WT inflicts wound penalties on all subsequent checks.
-- **Strain Capacity**: Measures psychic and cybernetic system burden. Excessive strain triggers systemic burnout.
-- **Static Defense**: Base Target Number for enemies attacking you: \`10 + AGI modifier + Armor evasion index\`.
-- **Initiative Rating**: Computed as \`AGI + INT + Combat Reflex bonuses\`. Determines turn order in tactical encounters.`
+- **Vitality Points**: Base \`30\` (non-lethal stamina & luck buffer; \`+2\` per \`1 CP\`, max purchased increase \`5 x STA\`).
+- **Health Points**: Base \`30\` (physical trauma & structural integrity; \`+2\` per \`1 CP\`, max purchased increase \`5 x STA\`).
+- **Structure Points**: Base \`60\` for Synthetics (replaces biological Vitality/Health split).
+- **Toughness**: Determined directly from **Stamina (STA)** score, reducing incoming wound damage point-for-point.
+- **Perception**: Derived from \`Intellect + Wisdom\`, combined with \`Alertness\` (Default \`+10\`).
+- **Initiative Rating**: Rolled as \`2d10 + Reflex Save + Agility Mod\`.`
       },
       {
         heading: '6-Step Bastion Guided Creator',
@@ -180,25 +183,25 @@ Tangent integrates every aspect of the tabletop lifecycle into a cohesive digita
     id: 'dbm',
     num: 3,
     title: 'Omnicortex DBM & Compendium',
-    fullTitle: 'Master Rules Compendium, 31 Canonical Articles & Relational DBM',
+    fullTitle: 'Master Rules Compendium, 270 Canonical Articles & Relational DBM',
     badge: 'Rules Compendium',
     color: '#10b981',
     iconName: 'Database',
     sixW: [
       'Operatives referencing rules, Architects adjudicating disputes, and creators researching setting lore.',
-      'The definitive relational database and 31-article master rules compendium for the Tangent universe.',
+      'The definitive relational database and 270-article master rules compendium for the Tangent universe.',
       'Located in the Compendium view (/compendium) within the Omnicortex DBM module.',
       'Consulted whenever rules questions emerge, during session preparation, and while studying alien species and faction profiles.',
       'To provide an unambiguous, immutable single source of truth across all 1.00 Operator rules and 5.00 Architect matrices.',
       'Explored using dual-rail category tabs, fuzzy full-text search, bracket hyperlinks ([[Topic]]), and Bastion AI natural-language querying.'
     ],
-    lead: 'The Omnicortex DBM is the living encyclopedia and computational heart of Tangent. It organizes all 31 canonical rulebooks into two distinct perspectives—1.00 Operator Core Rules for players, and 5.00 Architect Modular Matrices for game masters.',
+    lead: 'The Omnicortex DBM is the living encyclopedia and computational heart of Tangent. It organizes all 270 canonical rulebook documents into two distinct perspectives—1.00 Operator Core Rules for players, and 5.00 Architect Modular Matrices for game masters.',
     sections: [
       {
-        heading: 'The 31 Canonical Master Articles',
+        heading: 'The 270 Canonical Compendium Articles',
         content: `All game rules are synchronized build-time into immutable, high-speed markdown documents cached in the browser:
-- **1.00 Operator Core Rules (14 Articles)**: Covers foundational player mechanics, including 2d10 core resolution, attribute checks, combat arbitration, movement & positioning, perception & sensory systems, environmental hazards, recovery & medical surgery, and psionic channeling.
-- **5.00 Architect Modular Matrices (17 Articles)**: In-depth worldbuilding and GM adjudication matrices, including vehicle chase combat, orbital mechanics, planetary gravity scales, electronic warfare / hacking grids, economy curves, faction warfare, and modular encounter design.`
+- **1.00 Operator Core Rules (224 Articles across 14 Master Volumes)**: Covers foundational player mechanics, 2d10 core resolution, 6 core attributes, 48 archetypes, 84 species across 10 lineages, 41 factions, 11 origins, 13 occupations, 101 skills, 284 features, hindrances, 14-tier scaling, Economatrix, tactical combat, and 6 metaphysics disciplines.
+- **5.00 Architect Modular Matrices (46 Articles across 9 Master Matrices)**: In-depth worldbuilding and GM adjudication matrices, including Economic Unified Field Theory, Modular Character/Species/Faction/Companion/Planetary Matrices, Technology Forge Protocols (Weaponry, Armor, Equipment, Augmentations, Mecha, Architecture), and Invocation/Meta-Tech Matrices.`
       },
       {
         heading: 'Dual-Rail Drawer & Sequential Reading',

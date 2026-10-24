@@ -7,11 +7,10 @@ parent_species: Independent Xenotypes
 type:
   - species_type-humanoid
 size:
-  - species_size-large
+  - species_size-medium
 movement:
   - species_movement-bipedal
-  - species_movement-climbing
-speeds: 'Ground 30 ft, Climb 30 ft'
+speeds: '30 ft Groundspeed, 30 ft Climbspeed'
 reach: 10 ft
 senses: Standard visual and auditory range.
 immunities: None
@@ -21,9 +20,7 @@ inherent_attribute_modifiers:
   - attribute: Agility
     bonus: 1
 bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Athletics
-    bonus: 2
+specific_skill_bonuses: []
 bonus_skills: 0
 bonus_skill_choices:
   - Athletics
@@ -31,56 +28,90 @@ bonus_skill_choices:
   - Combat
   - Engineering (Heavy)
 inherent_features: []
-bonus_features: []
+bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Acrobatic Steps
-  - Acute Senses
-  - Armor (Chitinous Shell)
-  - Athletics Training
   - Darksight
+  - Fearless
   - Graceful
-  - Iron Will
-  - Skill Focus
+  - Nimble Moves
   - Steady
+  - Skill Focus
+disadvantages: []
 stigma: Minor Xeno (-1)
-tech_level: 3 (Heavy Rigging & Mining Plasma Tools)
-meta_level: 1 (Primal Strength)
-homeworld: Kongo- Prime Mega-Jungle
+tech_level: '1'
+meta_level: '2'
+homeworld: Kongi Prime (Jungle Canopy World)
 costs:
-  cp: 27
-  bp: 27
+  cp: 24
+  bp: 24
 modifiers:
   - target: Strength
     value: 2
     type: attribute
     mode: inherent
+    description: +2 Strength
   - target: Agility
     value: 1
     type: attribute
     mode: inherent
-  - target: Strength
-    value: 2
-    type: attribute
-    mode: size_modifier
-  - target: Combat / Defense
-    value: -2
-    type: combat
-    mode: size_modifier
-  - target: Stealth
-    value: -4
-    type: skill
-    mode: size_modifier
+    description: +1 Agility
+  - target: Acrobatic
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Alertness
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Athletic
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Darksight
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Exoskeleton (Partial)
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Fearless
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Graceful
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Patagia
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Nimble Moves
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Steady
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Skill Focus
+    value: 1
+    type: feature
+    mode: recommended
 description: >-
-  Powerful simian beings combining immense upper-body strength with prehensile
-  four-limb dexterity and climbing speed.
+  The Kongi are a fascinating species of simian-like humanoids, medium in size,
+  originating from a high-gravity, cavernous homeworld. This environment has
+  profoundly shaped their biology and culture.
 traits: &ref_0
-  - trait-scent
   - trait-climber
   - trait-low-light-vision
   - trait-mighty-surge
-  - trait-patagia
+  - trait-prehensile-tail
   - trait-prehensile-limbs
+  - trait-scent
+species_traits: *ref_0
 recommended_factions:
   - Coalition of Independent Worlds
   - Environmental Faction Template
@@ -96,53 +127,99 @@ keywords: >-
   simian-colossus, canopy-climber, prehensile-limbs, crushing-biceps,
   mega-jungle
 negative_keywords: 'tiny-spaces, aerial-glide, frail'
-species_traits: *ref_0
-cp: 27
-bp: 27
-cp_cost: 27
+cp: 24
+bp: 24
+cp_cost: 24
 ---
 
-# Kongi (Simian Juggernaut)
+# **KONGI**
+
+# **KONGI**
 
 # 
 
 **CP Cost:** 24 CP  
-**Description:** The Kongi are a fascinating species of simian-like humanoids, medium in size, originating from a high-gravity, cavernous homeworld. This environment has profoundly shaped their biology and culture.  
+
+**Description:** The Kongi are a fascinating species of simian-like humanoids, medium in size, originating from a high-gravity, cavernous homeworld. This environment has profoundly shaped their biology and culture.
+
 Their evolution in a high-gravity environment has resulted in exceptional physical strength and agility and they possess several key features that allow them to thrive in their native habitat.
 
-**Classification:** Humanoid  
-**Size:** Medium  
+&nbsp;
+
+**Classification:** Humanoid
+
+**Size:** Medium
+
 **Movement:** 30 ft Groundspeed, 30 ft Climbspeed
 
-**Tech Level:** 1  
+&nbsp;
+
+**Tech Level:** 1
+
 **Meta Level:** 2
 
-**Homeworld:**   
+&nbsp;
+
+**Homeworld:**&nbsp;
+
 **Stigma:** Minor Xeno
 
-**Ability Modifiers:**   
-\+2 Str  
+&nbsp;
+
+**Ability Modifiers:**&nbsp;
+
+\+2 Str
+
 \+1 Agi
 
-**Skills:** 
+&nbsp;
 
-**Species Features:**   
-Climber  
-Low Light Vision  
-Mighty Surge  
-Prehensile Tail  
-Prehensile Feet  
+**Skills:**&nbsp;
+
+&nbsp;
+
+**Species Features:**&nbsp;
+
+Climber
+
+Low Light Vision
+
+Mighty Surge
+
+Prehensile Tail
+
+Prehensile Feet
+
 Scent
 
-**Recommended Features:**   
-Acrobatic  
-Alertness  
-Athletic  
-Darksight  
-Exoskeleton (Partial)  
-Fearless  
-Graceful  
-Patagia  
-Nimble Moves line  
-Steady  
+&nbsp;
+
+**Recommended Features:**&nbsp;
+
+Acrobatic
+
+Alertness
+
+Athletic
+
+Darksight
+
+Exoskeleton (Partial)
+
+Fearless
+
+Graceful
+
+Patagia
+
+Nimble Moves line
+
+Steady
+
 Skill Focus (any Physical)
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;

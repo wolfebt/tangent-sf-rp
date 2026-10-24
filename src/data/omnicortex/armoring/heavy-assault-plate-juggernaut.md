@@ -13,8 +13,8 @@ body_locations:
   - Torso
   - Arms
   - Legs
-coverage: Reinforced
-mobility_penalty: 2
+coverage: Bulwark
+mobility_penalty: -2
 component_slots: 10
 sockets:
   max: 10
@@ -22,11 +22,11 @@ sockets:
   tier: Socket
   allocated: []
 description: >-
-  Thick slabs of ablative armor and plasteel turning the wearer into a walking
-  fortress.
+  Thick slabs of ablative armor and plasteel. Turns the wearer into a walking
+  tank.
 mechanic: >-
-  Anchor (Advantage on checks to resist being knocked down). -2 Mobility, -10
-  Movement. DR 30, SP 80.
+  DR 30, SP 80. Penalty: -2 Mobility, -10ft Movement. Anchor (Advantage on
+  checks to resist knockdown). Locations: All. Base Sockets: 10.
 costs:
   cp: 0
   bp: 0
@@ -49,8 +49,8 @@ keywords: 'heavy assault plate (juggernaut), armor, defense, dr-30, heavy-armor,
 negative_keywords: 'unarmored, fragile, naked, high-acrobatics'
 collection: armoring
 armor_class: Heavyweight
-armor_type: Heavyweight
+armor_type: Heavy Armor
 ---
-Thick slabs of ablative armor and plasteel turning the wearer into a walking fortress.
+Thick slabs of ablative armor and plasteel. Turns the wearer into a walking tank.
 
-**Mechanics:** Anchor (Advantage on checks to resist being knocked down). -2 Mobility, -10 Movement. DR 30, SP 80.
+**Mechanics:** DR 30, SP 80. Penalty: -2 Mobility, -10ft Movement. Anchor (Advantage on checks to resist knockdown). Locations: All. Base Sockets: 10.

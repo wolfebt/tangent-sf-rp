@@ -14,7 +14,7 @@ modifiers: []
 discipline: Matter + Energy
 recommended_species:
   - Golem (Arcane Construct)
-  - Celestine (Alterian)
+  - Alterian
   - Draconian (Scaled Aeld)
   - Biomechanical Synthetic
 recommended_factions:

@@ -656,6 +656,10 @@ export const applySpeciesTransition = (characterData, newSpeciesInput, dbData = 
       });
     }
 
+    if (newFeaturesToAdd.length === 0 && Number(newSpeciesObj.bonus_features) > 0) {
+      addInherentFeat(`Adaptability (+${newSpeciesObj.bonus_features} Bonus Feature)`, 'Grants bonus feature choice from species.');
+    }
+
     updated.features = [...filteredFeatures, ...newFeaturesToAdd];
     updated.disadvantages = filteredDisadvantages;
 

@@ -9,13 +9,13 @@ costs:
   bp: 0
 modifiers: []
 recommended_species:
-  - Celestine (Alterian)
+  - Alterian
   - Whisper
   - Ila (Progenitor Archon)
-  - Nocturne (Kovian)
+  - Kovian
 recommended_factions:
   - The Alterian Enclave
-  - Elven Providence
+  - Aeld Providence
   - The Ascendancy
   - Kovian Tribunal
 recommended_origins:

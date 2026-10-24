@@ -9,23 +9,23 @@ type:
 size:
   - species_size-medium
 movement:
-  - species_movement-flight
-speeds: Flight 60 ft
+  - species_movement-bipedal
+speeds: '30 ft Groundspeed, 30 ft Flightspeed'
 reach: 5 ft
 senses: 'Darkvision 60 feet, Ether Sight 60 feet.'
 immunities: 'Non-magical physical weapons, disease, poison.'
-inherent_attribute_modifiers: []
+inherent_attribute_modifiers:
+  - attribute: Wisdom
+    bonus: 1
 bonus_attribute_points: 1
-specific_skill_bonuses:
-  - skill: Stealth
-    bonus: 2
+specific_skill_bonuses: []
 bonus_skills: 10
 bonus_skill_choices:
   - Stealth
   - Attune
   - Insight
 inherent_features: []
-bonus_features: []
+bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
   - Darksight
@@ -33,28 +33,69 @@ recommended_features:
   - Discipline Features
   - Iron Will
   - Stealthy
+disadvantages: []
 stigma: Xeno (-2)
-tech_level: 4 (Ethereal Lattice Tech)
-meta_level: 5 (High Spectral Metaphysics)
+tech_level: '5'
+meta_level: '5'
 homeworld: The Twilight Rifts
 costs:
-  cp: 45
-  bp: 45
-modifiers: []
+  cp: 50
+  bp: 50
+modifiers:
+  - target: Wisdom
+    value: 1
+    type: attribute
+    mode: inherent
+    description: +1 Wisdom
+  - target: Any
+    value: 1
+    type: attribute
+    mode: bonus_pool
+    description: +1 Flexible Attribute Point
+  - target: Any
+    value: 10
+    type: skill
+    mode: bonus_pool
+    description: +10 Skill Points
+  - target: Darksight
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Deceitful
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Discipline Features
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Iron Will
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Stealthy
+    value: 1
+    type: feature
+    mode: recommended
 description: >-
-  Tenen are benign spectral Sha’nor who lack the predatory vampiric urge,
-  drifting between realities as quiet chroniclers and spatial navigators.
+  The Tenen are an extremely rare offshoot of Sha’Nor which have evolved from
+  their predatory nature and Vampiric needs. Theory of this is primarily due to
+  a transition to a demi-dimension they have been dwelling in. This seems to
+  have accompanied their use of different energies more amiable to creation than
+  destruction.
 traits: &ref_0
   - trait-ageless
   - trait-alter-form-adv
-  - trait-awakened-void
+  - trait-awakened-cosmic
+  - trait-bodyform-adaptation
   - trait-fast-heal
   - trait-flight
   - trait-immortal
-  - trait-adaptive-features
+  - trait-non-living
   - trait-regeneration
   - trait-semi-corporeal
   - trait-telepathic
+species_traits: *ref_0
 recommended_factions:
   - The Alterian Enclave
   - The Outworlds
@@ -67,135 +108,95 @@ recommended_occupations:
   - Scout
 keywords: 'benign-spectral, chronicler, twilight-rift, spatial-observer, intangible-glide'
 negative_keywords: 'predatory-vampire, physical-brawler, loud'
-species_traits: *ref_0
-cp: 45
-bp: 45
-cp_cost: 45
+cp: 50
+bp: 50
+cp_cost: 50
 ---
 
 # Tenen (Spectral Void Entity)
-
-# 
-
-**CP Cost:** 38 CP  
-**Description:** Known as Harbingers of Entropy, Dark Hungers and Smoke Demons, the Sha’Nor are an extremely ancient species and are physically unlike any other species ever encountered. Being composed of what seems to be both some type of shifting organic material and dark matter simultaneously would indicate an other dimensional origin.  
-Sha’Nor require energy from living beings on a semi-regular basis or have a risk of discorporation (feeding is not necessarily lethal but will weaken the source for a day, \-1 Sta), will feed once a month or Cha check of DC10 (-1 per each month past due) failure resulting in \-1 Sta (discorporating after total Sta of \-5).   
-Many quite enjoy feeding and have learned to gain additional energy from it.  
-Sha’Nor have Advanced Spiritual based Magi-Tech, coupling Void Magic with TL5 Advancements, and is considered Extremely Alien by all other Species \- as no others have learned to tap the Void as they have nor possess their pseudo-solid state (double all Familiarity and Technological penalties, and some telepathic and telekinetic ability is needed to link to the devices essence and attempt operation). Sha’Nor suffers ALL Unfamiliarity Penalties for other technologies.
-
-**Classification:** Spectral Aberration  
-**Size:** Medium  
-**Movement:** 30 ft Groundspeed, 30 ft Flightspeed
-
-**Tech Level:** 5  
-**Meta Level:** 5
-
-**Homeworld:**   
-**Stigma:** Severe Xeno and Monstrous
-
-**Ability Modifiers:**   
-\+1 Wis  
-\+1 Ability
-
-**Skills:**   
-\+10 Skills
-
-**Species Features:**   
-Ageless  
-Alter Form, Advanced (assumes corporeal form, no flight)  
-Awakened (Void \- Wisdom \- (Matter or Entropy \- Chaos))  
-Bodyform Adaptation  
-Fast Heal  
-Flight (while Semi-Corporeal)  
-Immortality  
-Non-Typical Anatomy  
-Regeneration  
-Semi-Corporeal (“humanoid specter of solid black smoke”)  
-Telepathic  
-Vampiric (Flaw)
-
-**Recommended Features:** 
-
-# Discipline Features
-
-Special Abilities
-
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
 ## Tenen
 
 # 
 
-**CP Cost:**   
-**Description:** The Tenen are an extremely rare offshoot of Sha’Nor which have evolved from their predatory nature and Vampiric needs. Theory of this is primarily due to a transition to a demi-dimension they have been dwelling in. This seems to have accompanied their use of different energies more amiable to creation than destruction.   
+**CP Cost:** 38 CP
+
+**Description:** The Tenen are an extremely rare offshoot of Sha’Nor which have evolved from their predatory nature and Vampiric needs. Theory of this is primarily due to a transition to a demi-dimension they have been dwelling in. This seems to have accompanied their use of different energies more amiable to creation than destruction.&nbsp;
+
 Origins are actually unknown and completely theorized at this point as only brief encounters have occurred, some speculate a grand connection to the Ila progenitors who have been rumored to have returned \- but again speculations.
 
-**Classification:** Spectral Aberration  
-**Size:** Medium  
+&nbsp;
+
+**Classification:** Spectral Aberration
+
+**Size:** Medium
+
 **Movement:** 30 ft Groundspeed, 30 ft Flightspeed
 
-**Tech Level:** 5  
+&nbsp;
+
+**Tech Level:** 5
+
 **Meta Level:** 5
 
-**Homeworld:**   
-**Stigma:** 
+&nbsp;
 
-**Ability Modifiers:**   
-\+1 Wis  
+**Homeworld:**&nbsp;
+
+**Stigma:**&nbsp;
+
+&nbsp;
+
+**Ability Modifiers:**&nbsp;
+
+\+1 Wis
+
 \+1 Ability
 
-**Skills:**   
+&nbsp;
+
+**Skills:**&nbsp;
+
 \+10 Skills
 
-**Species Features:**   
-Ageless  
-Alter Form, Advanced (assumes corporeal form, no flight)  
-Awakened (Cosmic \- Wisdom (Dimension or Entropy \- Order))  
-Bodyform Adaptation  
-Fast Heal  
-Flight (while Semi-Corporeal)  
-Immortality  
-Non-Typical Anatomy  
-Regeneration  
-Semi-Corporeal (“humanoid specter of solid black smoke”)  
+&nbsp;
+
+**Species Features:**&nbsp;
+
+Ageless
+
+Alter Form, Advanced (assumes corporeal form, no flight)
+
+Awakened (Cosmic \- Wisdom (Dimension or Entropy \- Order))
+
+Bodyform Adaptation
+
+Fast Heal
+
+Flight (while Semi-Corporeal)
+
+Immortality
+
+Non-Typical Anatomy
+
+Regeneration
+
+Semi-Corporeal (“humanoid specter of solid black smoke”)
+
 Telepathic
 
-**Recommended Features:** 
+&nbsp;
+
+**Recommended Features:**&nbsp;
 
 # Discipline Features
 
 Special Abilities
 
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
 \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-
-## EAKREN
-
-# 
-
-**CP Cost:**   
-**Description:** Various creatures (including humanoid, animal and plant based) which are infused and mutated by the Shar’Nor (aka the Corrupted)  
-\[akin to Awakened Animals, Adjusted PC Build and Equivalent Abilities\]
-
-**Classification:** Aberration  
-**Size:** varies  
-**Movement:** varies
-
-**Tech Level:** 1  
-**Meta Level:** 1
-
-**Homeworld:** –  
-**Stigma:** Beast
-
-**Species Features:**  
-Animal Body (Features and Disadvantages of base form)  
-Bodyform Adaptation  
-Typical PC Ability Scores  
-Mutation
-
-**Recommended Features:**   
-Alter Form  
-Ageless  
-Bodyform  
-Fast Heal  
-Immortality  
-Regeneration

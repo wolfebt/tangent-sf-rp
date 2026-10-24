@@ -16,7 +16,7 @@ recommended_species:
   - Cyberform Human
   - Mekan (Assimilation Unit)
   - Intellect Construct (Pure AI)
-  - Celestine (Alterian)
+  - Alterian
 recommended_factions:
   - The Mekan Collective
   - Incorporated Planetary Syndication (The Syndicate)

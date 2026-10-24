@@ -53,7 +53,7 @@ recommended_species:
   - Doppelganger (Shifter)
   - Changeling (Doppelganger Hybrid)
   - Skin (Infiltrator Synthetic)
-  - Nocturne (Kovian)
+  - Kovian
   - Android
   - Cyberform Human
   - Danai (Davae Hybrid)

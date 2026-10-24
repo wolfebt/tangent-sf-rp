@@ -9,13 +9,13 @@ costs:
   bp: 0
 modifiers: []
 recommended_species:
-  - Celestine (Alterian)
+  - Alterian
   - Prokos (Auluran Biform)
   - Fey (Base)
   - Human (Base)
 recommended_factions:
   - The Alterian Enclave
-  - Elven Providence
+  - Aeld Providence
   - Interstellar Diplomats Faction Template
 recommended_origins:
   - Enlightened

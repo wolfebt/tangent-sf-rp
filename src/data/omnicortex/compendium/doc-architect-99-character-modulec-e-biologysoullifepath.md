@@ -1,6 +1,6 @@
 ---
 id: "doc-architect-99-character-modulec-e-biologysoullifepath"
-name: "99. Character: Modules C–E: Biology, Soul & Lifepath"
+name: "99. Character (Modules C–E): Biology, Soul & Lifepath"
 fileName: "99.Character.ModuleC_E.BiologySoulLifepath.md"
 relPath: "architect/characters/99.Character.ModuleC_E.BiologySoulLifepath.md"
 isMasterDoc: false

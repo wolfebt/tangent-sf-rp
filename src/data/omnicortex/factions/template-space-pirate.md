@@ -23,28 +23,14 @@ skill_package:
   - Combat (Melee/Pistol) (+4)
   - Mechanics (+4)
   - Bluff (+3)
-recommended_features:
+recommended_features: &ref_0
   - Sneak Attack
   - Spacer
-  - Weapon Focus (Cutlass/Pistol)
-  - Zero-G Training
   - Gifted Pilot
   - Runner
   - Danger Sense
   - Combat Reflexes
-  - Intimidating Presence
-  - Black Market Access
-features:
-  - Sneak Attack
-  - Spacer
-  - Weapon Focus (Cutlass/Pistol)
-  - Zero-G Training
-  - Gifted Pilot
-  - Runner
-  - Danger Sense
-  - Combat Reflexes
-  - Intimidating Presence
-  - Black Market Access
+features: *ref_0
 bonus_features:
   - Sneak Attack
 description: >-

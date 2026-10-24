@@ -10,7 +10,7 @@ size:
   - species_size-large
 movement:
   - species_movement-bipedal
-speeds: Ground 30 ft
+speeds: 60 ft Groundspeed
 reach: 10 ft
 senses: Standard visual and auditory range.
 immunities: None
@@ -20,9 +20,7 @@ inherent_attribute_modifiers:
   - attribute: Stamina
     bonus: 2
 bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Athletics
-    bonus: 2
+specific_skill_bonuses: []
 bonus_skills: 10
 bonus_skill_choices:
   - Athletics
@@ -30,48 +28,72 @@ bonus_skill_choices:
   - Combat (Heavy Weapons)
   - Survival
 inherent_features: []
-bonus_features: []
+bonus_features: 2
 bonus_feature_choices: []
 recommended_features:
-  - Brutal
+  - Tough
+  - Potent Might
   - Great Fortitude
   - Mighty Surge
-  - Tough
-  - Weapon Focus
+disadvantages: []
 stigma: 'Xeno (-2), Giant (-2)'
-tech_level: 3 (Heavy Industrial Hydraulic Rigging)
-meta_level: 0 (Physical Dominance)
+tech_level: '1'
+meta_level: '2'
 homeworld: Risak (Super-Earth)
 costs:
-  cp: 31
-  bp: 31
+  cp: 34
+  bp: 34
 modifiers:
   - target: Strength
     value: 2
     type: attribute
     mode: inherent
+    description: +2 Strength
   - target: Stamina
     value: 2
     type: attribute
     mode: inherent
-  - target: Strength
-    value: 2
-    type: attribute
-    mode: size_modifier
-  - target: Combat / Defense
-    value: -2
-    type: combat
-    mode: size_modifier
-  - target: Stealth
-    value: -4
+    description: +2 Stamina
+  - target: Any
+    value: 10
     type: skill
-    mode: size_modifier
+    mode: bonus_pool
+    description: +10 Skill Points
+  - target: Any
+    value: 2
+    type: feature
+    mode: bonus_pool
+    description: +2 Bonus Features
+  - target: Tough
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Potent Might
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Great Fortitude
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Mighty Surge
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Throwing
+    value: 1
+    type: feature
+    mode: recommended
 description: >-
-  Towering 8-to-10 foot humans from super-heavy gravity worlds whose massive
-  musculature and skeletal density render them natural juggernauts.
-traits: &ref_0
-  - trait-powerful-charge
-  - trait-natural-armor
+  The Risakin, represents a branch of humanity that underwent natural evolution
+  on high-gravity worlds. Standing approximately 10 feet tall, these humans
+  evolved to be immensely strong and resilient to survive environments where
+  their smaller cousins would struggle. Originally indigenous to low-tech (TL1
+  to TL2) clan-based societies, some Risakin have become spacefaring after being
+  recruited or integrated by the Impyrium as heavy shock troopers and industrial
+  laborers (limited numbers as most disdain the Impyriums fronted superiority).
+traits: &ref_0 []
+species_traits: *ref_0
 recommended_factions:
   - The Outworlds
   - Industrial Faction Template
@@ -84,43 +106,77 @@ recommended_occupations:
   - Drifter
 keywords: 'heavy-gravity, giant-human, hydraulic-power, massive-reach, crusher'
 negative_keywords: 'tight-ducts, stealth, tiny, agile-aerial'
-species_traits: *ref_0
-cp: 31
-bp: 31
-cp_cost: 31
+cp: 34
+bp: 34
+cp_cost: 34
 ---
 
-# Risakin (Heavy-World Giant)
+# **RISAKIN (Giant Folk)**
+
+# **RISAKIN (Giant Folk)**
 
 **CP Cost:** 25 CP  
+
 **Description:** The Risakin, represents a branch of humanity that underwent natural evolution on high-gravity worlds. Standing approximately 10 feet tall, these humans evolved to be immensely strong and resilient to survive environments where their smaller cousins would struggle. Originally indigenous to low-tech (TL1 to TL2) clan-based societies, some Risakin have become spacefaring after being recruited or integrated by the Impyrium as heavy shock troopers and industrial laborers (limited numbers as most disdain the Impyriums fronted superiority).
+
+&nbsp;
 
 Despite their massive size, they retain the core human traits of adaptability and resourcefulness, though they often face social stigmas due to their intimidating stature and the Impyrium's history of aggressive colonization if so aligned.
 
-**Classification:** Humanoid  
-**Size:** Large (10 to 12 ft)  
+&nbsp;
+
+**Classification:** Humanoid
+
+**Size:** Large (10 to 12 ft)
+
 **Movement:** 60ft Groundspeed
 
-**Tech Level:** 1  
+&nbsp;
+
+**Tech Level:** 1
+
 **Meta Level:** 2
 
-**Homeworld:**   
+&nbsp;
+
+**Homeworld:**&nbsp;
+
 **Stigma:** Xeno, Giant
 
-**Ability Modifiers:**   
-\+2 Strength 8  
-\+2 Stamina 8  
+&nbsp;
+
+**Ability Modifiers:**&nbsp;
+
+\+2 Strength 8
+
+\+2 Stamina 8
+
 \[Large: \+2 Strength, \-2 Agility\]
 
-**Skills:**   
+&nbsp;
+
+**Skills:**&nbsp;
+
 \+10 Skill Points 8
 
-**Species Features:**   
+&nbsp;
+
+**Species Features:**&nbsp;
+
 \+2 Features 4
 
-**Recommended Features:**   
-Tough  
-Potent Might  
-Great Fortitude  
-Mighty Surge  
+&nbsp;
+
+**Recommended Features:**&nbsp;
+
+Tough
+
+Potent Might
+
+Great Fortitude
+
+Mighty Surge
+
 Throwing
+
+&nbsp;

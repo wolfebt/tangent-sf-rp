@@ -1,0 +1,50 @@
+[
+  {
+    "id": "society_communication_lvl_0",
+    "category": "society_communication",
+    "name": "Communication & Data (Level 0: Verbal & Pictograms)",
+    "level": 0,
+    "sphere_key": "society_communication",
+    "description": "Level 0 (Verbal & Pictograms) in Communication & Data: Spoken language and simple pictographic drawings."
+  },
+  {
+    "id": "society_communication_lvl_1",
+    "category": "society_communication",
+    "name": "Communication & Data (Level 1: Published Text & Signaling)",
+    "level": 1,
+    "sphere_key": "society_communication",
+    "description": "Level 1 (Published Text & Signaling) in Communication & Data: Written language, printing presses, and optical/telegraphic signaling."
+  },
+  {
+    "id": "society_communication_lvl_2",
+    "category": "society_communication",
+    "name": "Communication & Data (Level 2: Digital Networks)",
+    "level": 2,
+    "sphere_key": "society_communication",
+    "description": "Level 2 (Digital Networks) in Communication & Data: Audio/video broadcast, radio, flatvid television, and planetary internet."
+  },
+  {
+    "id": "society_communication_lvl_3",
+    "category": "society_communication",
+    "name": "Communication & Data (Level 3: Holographic & FTL)",
+    "level": 3,
+    "sphere_key": "society_communication",
+    "description": "Level 3 (Holographic & FTL) in Communication & Data: Volumetric holographic transceivers and faster-than-light relay communication."
+  },
+  {
+    "id": "society_communication_lvl_4",
+    "category": "society_communication",
+    "name": "Communication & Data (Level 4: Mnemonic Transceivers)",
+    "level": 4,
+    "sphere_key": "society_communication",
+    "description": "Level 4 (Mnemonic Transceivers) in Communication & Data: Direct thought-based trans-neural communication across stellar networks."
+  },
+  {
+    "id": "society_communication_lvl_5",
+    "category": "society_communication",
+    "name": "Communication & Data (Level 5: Quantum Signaler)",
+    "level": 5,
+    "sphere_key": "society_communication",
+    "description": "Level 5 (Quantum Signaler) in Communication & Data: Real-time instantaneous FTL communication using quantum entanglement with zero latency."
+  }
+]

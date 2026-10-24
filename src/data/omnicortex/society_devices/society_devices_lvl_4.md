@@ -1,20 +1,36 @@
 ---
 id: society_devices_lvl_4
 category: society_devices
-name: 'Devices & Apparatus (Level 4: Mastered / Interstellar)'
+name: 'Devices & Apparatus (Level 4: Brain-Computer Interfaces)'
 level: 4
 sphere_key: society_devices
 description: >-
-  Level 4 development in Devices & Apparatus: Consumer electronics, personal
-  computing, sensors, tools, and apparatus. (Mastered / Interstellar).
+  Level 4 (Brain-Computer Interfaces) in Devices & Apparatus: Trans-neural
+  interfaces, nanocarbon smart-devices, and molecular machines.
 costs:
-  cp: 0
   bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
 modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
-# Devices & Apparatus (Level 4: Mastered / Interstellar)
+# Devices & Apparatus (Level 4: Brain-Computer Interfaces)
 
 **Category**: SOCIETY DEVICES
 
 ## Description
-Level 4 development in Devices & Apparatus: Consumer electronics, personal computing, sensors, tools, and apparatus. (Mastered / Interstellar).
+Level 4 (Brain-Computer Interfaces) in Devices & Apparatus: Trans-neural interfaces, nanocarbon smart-devices, and molecular machines.

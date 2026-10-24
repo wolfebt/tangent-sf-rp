@@ -9,9 +9,9 @@ costs:
   bp: 2
 modifiers: []
 recommended_species:
-  - Celestine (Alterian)
+  - Alterian
   - Whisper
-  - Nocturne (Kovian)
+  - Kovian
   - Tenen (Sha’nor Spectral)
 recommended_factions:
   - The Alterian Enclave

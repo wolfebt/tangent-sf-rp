@@ -4,19 +4,24 @@ category: mecha
 name: Personal Hover Pod (The "Bubble")
 domain: Hover / Flight
 size: Medium
-frame: Personal
-cost: 2560
-craft_dc: 20
+frame: Enclosed Grav-Vehicle
+cost: 1470
+craft_dc: 18
 sp: 60
 dr: 10
 mounts: 3
 propulsion: Grav-Drive
-description: Enclosed glass-sphere transport for comfortable city or atmospheric flight.
-mechanic: 'Full Grav-Drive flight, life support seal, autopilot, holds 50kg stowage.'
+description: >-
+  An enclosed glass-sphere transport for comfortable city travel with a
+  Grav-Drive for full flight capability, Life Support/EC, Comm Node, Autopilot,
+  and 50kg stowage.
+mechanic: >-
+  Full flight Grav-Drive pod with Life Support, Autopilot, Integrated Comm Node,
+  and 50kg stowage. | SP: 60, DR: 10 | Craft DC: 18 (1,470 Cr)
 costs:
   cp: 0
   bp: 0
-  credits: 2560
+  credits: 1470
   nodes: 0
   sockets: 0
   strain: 0
@@ -35,11 +40,18 @@ sockets:
   tier: Socket
   allocated: []
 tech_level: 4
-keywords: 'personal hover pod (the "bubble"), mecha, vehicle, medium, personal, tl-4'
-negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
+keywords: >-
+  personal hover pod (the "bubble"), mecha, vehicle, personal mobility, enclosed
+  grav-vehicle, tl-4
+negative_keywords: 'infantry-only, unmounted'
 meta_level: 0
-design_dc: 20
+design_dc: 18
+classification: Personal Mobility
+crew: 1+1
+durability: 60
 ---
-Enclosed glass-sphere transport for comfortable city or atmospheric flight.
+An enclosed glass-sphere transport for comfortable city travel with a Grav-Drive for full flight capability, Life Support/EC, Comm Node, Autopilot, and 50kg stowage.
 
-**Mechanics:** Full Grav-Drive flight, life support seal, autopilot, holds 50kg stowage.
+**Class:** Personal Mobility (Enclosed Grav-Vehicle)
+**Propulsion:** Grav-Drive | **Crew:** 1+1
+**Mechanics:** Full flight Grav-Drive pod with Life Support, Autopilot, Integrated Comm Node, and 50kg stowage. | SP: 60, DR: 10 | Craft DC: 18 (1,470 Cr)

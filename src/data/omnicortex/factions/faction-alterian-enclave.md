@@ -10,7 +10,7 @@ capital_world: Altheria (The Gilded World)
 tech_level: '4'
 meta_level: '4'
 wealth_modifier: '+3'
-prominent_species: Celestine (High Elves)
+prominent_species: Alterian (High Aeld)
 typical_archetypes:
   - The Diplomat
   - The High Architect
@@ -60,7 +60,7 @@ costs:
 modifiers: []
 faction_classification: Major Galactic Power
 recommended_species:
-  - Celestine (Alterian)
+  - Alterian
   - Fey (Base)
   - Changeling (Doppelganger Hybrid)
 recommended_origins:

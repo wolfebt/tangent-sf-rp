@@ -7,10 +7,10 @@ parent_species: Synthetics
 type:
   - species_type-synthetic
 size:
-  - species_size-tiny
+  - species_size-small
 movement:
-  - species_movement-flight
-speeds: Flight 60 ft
+  - species_movement-bipedal
+speeds: N/A (Core is stationary; moves via controlled vessel or remote drones)
 reach: 2 ft
 senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
 immunities: >-
@@ -18,25 +18,15 @@ immunities: >-
   sleep [9]
 inherent_attribute_modifiers:
   - attribute: Intellect
-    bonus: 4
-  - attribute: Wisdom
-    bonus: 2
-  - attribute: Charisma
     bonus: 2
   - attribute: Strength
-    bonus: -10
+    bonus: -5
   - attribute: Agility
     bonus: -5
   - attribute: Stamina
     bonus: -5
-bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Computation
-    bonus: 4
-  - skill: Hacking
-    bonus: 3
-  - skill: Science
-    bonus: 3
+bonus_attribute_points: 8
+specific_skill_bonuses: []
 bonus_skills: 40
 bonus_skill_choices:
   - Computation
@@ -45,64 +35,64 @@ bonus_skill_choices:
   - Engineering
   - Tactics
   - Attune
-inherent_features: []
-bonus_features: []
+inherent_features:
+  - special-companion
+bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
   - Digital Expert
+disadvantages: []
 stigma: Severe Synthetic (-4)
-tech_level: 5 (Singularity Computing)
-meta_level: 2 (Digital Psionics)
+tech_level: '4'
+meta_level: '0'
 homeworld: Data Spires & Mothership Cores
 costs:
-  cp: 18
-  bp: 18
+  cp: 47
+  bp: 47
 modifiers:
   - target: Intellect
-    value: 4
-    type: attribute
-    mode: inherent
-  - target: Wisdom
     value: 2
     type: attribute
     mode: inherent
-  - target: Charisma
-    value: 2
-    type: attribute
-    mode: inherent
+    description: +2 Intellect
   - target: Strength
-    value: -10
+    value: -5
     type: attribute
     mode: inherent
+    description: '-5 Strength'
   - target: Agility
     value: -5
     type: attribute
     mode: inherent
+    description: '-5 Agility'
   - target: Stamina
     value: -5
     type: attribute
     mode: inherent
-  - target: Strength
-    value: -4
-    type: attribute
-    mode: size_modifier
-  - target: Combat / Defense
-    value: 4
-    type: combat
-    mode: size_modifier
-  - target: Stealth
+    description: '-5 Stamina'
+  - target: Any
     value: 8
+    type: attribute
+    mode: bonus_pool
+    description: +8 Flexible Attribute Points
+  - target: Any
+    value: 40
     type: skill
-    mode: size_modifier
-description: >-
-  Intellect Constructs are disembodied artificial intelligences housed in
-  floating core chassis or drone bodies, commanding battlefield drones and
-  networks.
+    mode: bonus_pool
+    description: +40 Skill Points
+  - target: special-companion
+    value: 1
+    type: feature
+    mode: inherent
+  - target: Digital Expert
+    value: 1
+    type: feature
+    mode: recommended
+description: Conscious Algorithm housed within a structure or a mech. (the ‘Shell’).
 traits: &ref_0
-  - trait-mind-speech
-  - trait-bonus-feature
-  - trait-quick-reactions
   - trait-synthetic-base-traits
+  - trait-mind-speech
+species_traits: *ref_0
 recommended_factions:
   - The Mekan Collective
   - The Ascendancy
@@ -119,33 +109,65 @@ keywords: >-
   disembodied-mind, floating-core, drone-commander, digital-psionics,
   computing-singularity
 negative_keywords: 'physical-endurance, melee-brawler, heavy-armor'
-species_traits: *ref_0
-cp: 18
-bp: 18
-cp_cost: 18
+cp: 47
+bp: 47
+cp_cost: 47
 ---
 
-# Intellect Construct (Autonomous Mind Core)
+# **INTELLECT CONSTRUCT \* \*\*\*\***
 
-## Description
-Intellect Constructs are disembodied artificial intelligences housed in floating core chassis or drone bodies, commanding battlefield drones and networks.
+## **INTELLECT CONSTRUCT \* \*\*\*\***
 
-## Core Identity
-- **Lineage**: Synthetics
-- **Type**: species_type-synthetic
-- **Size**: species_size-tiny
-- **Movement**: Flight 60 ft
-- **Homeworld**: Data Spires & Mothership Cores
-- **Tech Level**: 5 (Singularity Computing)
-- **Meta Level**: 2 (Digital Psionics)
-- **Stigma**: Severe Synthetic (-4)
+# 
 
-## Mechanics & Statblock
-- **CP Cost**: 18 CP
-- **Inherent Modifiers**: +4 Intellect, +2 Wisdom, +2 Charisma, -10 Strength, -5 Agility, -5 Stamina
-- **Bonus Skills**: +40 Skill Points
-- **Inherent Features**: Synthetic Base Traits, Comms Array Mastery (Instant Holo-Link), Companion Remotes (Commands 2 Drone Units), Hyper-Threading Logic Engine
-- **Recommended Features**: feature-quantum-decryption
+**CP Cost:** 22 CP  
 
-## Roleplay & Society
-Intellect Constructs are disembodied artificial intelligences housed in floating core chassis or drone bodies, commanding battlefield drones and networks.
+**Description:** Conscious Algorithm housed within a structure or a mech. (the ‘Shell’).&nbsp;
+
+&nbsp;
+
+**Classification:** Synthetic
+
+**Size:** Actual core is Small in size but connected to and controlling huge complexes or vessels.
+
+**Movement:** N/A
+
+&nbsp;
+
+**Tech Level:** 4
+
+**Meta Level:** 0
+
+&nbsp;
+
+**Homeworld:**&nbsp;
+
+**Stigma:** Severe Synthetic
+
+&nbsp;
+
+**Ability Modifiers:**&nbsp;
+
+NO Physical Abilities \[75pt flaw \- effectively no physical form without the ‘Shell’\].
+
+\+2 Int and additional \+8 to divide among any Mental Abilities (usually Int is primary if not the only increased score)
+
+&nbsp;
+
+**Skills:**&nbsp;
+
+\+40 Skills (including operation skills of their ‘Shell’, like Piloting, Navigation, Manufacture, Administration, etc)
+
+&nbsp;
+
+**Species Features:**&nbsp;
+
+Communications (and Remote Links)
+
+Companion \- Remotes/Drones
+
+&nbsp;
+
+**Recommended Features:**&nbsp;
+
+&nbsp;

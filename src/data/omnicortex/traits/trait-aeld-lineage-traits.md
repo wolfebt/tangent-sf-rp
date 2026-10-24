@@ -7,7 +7,7 @@ category: traits
 costs:
   cp: 5
   bp: 5
-description: The foundational biological and metaphysical chassis of the elven race.
+description: The foundational biological and metaphysical chassis of the Aeld lineage.
 modifiers:
   - target: 'Meta: Arcane'
     value: 1
@@ -47,7 +47,7 @@ package_traits:
 **CP Cost**: 5
 
 ## Description
-The foundational biological and metaphysical chassis of the elven race.
+The foundational biological and metaphysical chassis of the Aeld lineage.
 
 ## Mechanics & Benefit
-The foundational biological and metaphysical chassis of the elven race.
+The foundational biological and metaphysical chassis of the Aeld lineage.

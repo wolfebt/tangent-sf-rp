@@ -1,6 +1,6 @@
 ---
 id: "doc-architect-99-planetary-astrophysicsandgeophysics"
-name: "99. 14. Planetary: Astrophysics, Geophysics & Biosphere"
+name: "99. Planetary: Astrophysics, Geophysics & Biosphere"
 fileName: "99.Planetary.AstrophysicsAndGeophysics.md"
 relPath: "architect/planetary/99.Planetary.AstrophysicsAndGeophysics.md"
 isMasterDoc: false

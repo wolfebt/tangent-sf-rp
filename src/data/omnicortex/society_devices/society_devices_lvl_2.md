@@ -1,20 +1,36 @@
 ---
 id: society_devices_lvl_2
 category: society_devices
-name: 'Devices & Apparatus (Level 2: Modern / Planetary)'
+name: 'Devices & Apparatus (Level 2: Integrated Circuits)'
 level: 2
 sphere_key: society_devices
 description: >-
-  Level 2 development in Devices & Apparatus: Consumer electronics, personal
-  computing, sensors, tools, and apparatus. (Modern / Planetary).
+  Level 2 (Integrated Circuits) in Devices & Apparatus: Personal computers,
+  smartphones, passive sensors, and modern silicon electronics.
 costs:
-  cp: 0
   bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
 modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
-# Devices & Apparatus (Level 2: Modern / Planetary)
+# Devices & Apparatus (Level 2: Integrated Circuits)
 
 **Category**: SOCIETY DEVICES
 
 ## Description
-Level 2 development in Devices & Apparatus: Consumer electronics, personal computing, sensors, tools, and apparatus. (Modern / Planetary).
+Level 2 (Integrated Circuits) in Devices & Apparatus: Personal computers, smartphones, passive sensors, and modern silicon electronics.

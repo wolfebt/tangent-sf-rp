@@ -5,27 +5,27 @@ name: Inquisitor's Mind-Plate
 cost: 23525
 craft_dc: 28
 design_dc: 28
-dr: 25
-sp: 70
-durability: 70
+dr: 22
+sp: 55
+durability: 55
 body_locations:
   - Head
   - Torso
   - Arms
   - Legs
 coverage: Sealed
-component_slots: 10
+component_slots: 6
 sockets:
-  max: 10
+  max: 6
   used: 0
   tier: Socket
   allocated: []
 description: >-
-  Heavy armor worn by Ascendancy Inquisitors with built-in psi-amplifiers and
-  anti-telepathic dampeners.
+  Heavy composite armor laced with psychic dampeners and sensory boosters.
+  Designed to hunt rogue psychics and entities.
 mechanic: >-
-  Telepathic Immunity (Wearer is immune to telepathic detection and
-  mind-reading). DR 25, SP 70.
+  DR 22 (Psycho-Conductive Alloy), SP 55. Penalty: -1 Mobility. Null-Field (DR
+  10 vs Psionic Damage); Terror (+2 Intimidate). Base Sockets: 6.
 costs:
   cp: 0
   bp: 0
@@ -48,9 +48,9 @@ keywords: 'inquisitor''s mind-plate, armor, defense, dr-25, heavy-armor, tl-4'
 negative_keywords: 'unarmored, fragile, naked, high-acrobatics'
 collection: armoring
 armor_class: Heavyweight
-armor_type: Heavyweight
-mobility_penalty: 0
+armor_type: Full Body Armor (Heavy)
+mobility_penalty: -1
 ---
-Heavy armor worn by Ascendancy Inquisitors with built-in psi-amplifiers and anti-telepathic dampeners.
+Heavy composite armor laced with psychic dampeners and sensory boosters. Designed to hunt rogue psychics and entities.
 
-**Mechanics:** Telepathic Immunity (Wearer is immune to telepathic detection and mind-reading). DR 25, SP 70.
+**Mechanics:** DR 22 (Psycho-Conductive Alloy), SP 55. Penalty: -1 Mobility. Null-Field (DR 10 vs Psionic Damage); Terror (+2 Intimidate). Base Sockets: 6.

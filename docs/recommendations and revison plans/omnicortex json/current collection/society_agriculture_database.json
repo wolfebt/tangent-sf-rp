@@ -1,0 +1,50 @@
+[
+  {
+    "id": "society_agriculture_lvl_0",
+    "category": "society_agriculture",
+    "name": "Agriculture & Biosphere (Level 0: Hunting and Gathering)",
+    "level": 0,
+    "sphere_key": "society_agriculture",
+    "description": "Level 0 (Hunting and Gathering) in Agriculture & Biosphere: Early societies rely on hunting animals and gathering wild plants for sustenance."
+  },
+  {
+    "id": "society_agriculture_lvl_1",
+    "category": "society_agriculture",
+    "name": "Agriculture & Biosphere (Level 1: Farming)",
+    "level": 1,
+    "sphere_key": "society_agriculture",
+    "description": "Level 1 (Farming) in Agriculture & Biosphere: Domestication of plants and animals, leading to settled agriculture."
+  },
+  {
+    "id": "society_agriculture_lvl_2",
+    "category": "society_agriculture",
+    "name": "Agriculture & Biosphere (Level 2: Advanced Farming)",
+    "level": 2,
+    "sphere_key": "society_agriculture",
+    "description": "Level 2 (Advanced Farming) in Agriculture & Biosphere: Modern farming techniques, including mechanization, irrigation, and fertilization."
+  },
+  {
+    "id": "society_agriculture_lvl_3",
+    "category": "society_agriculture",
+    "name": "Agriculture & Biosphere (Level 3: Terraforming)",
+    "level": 3,
+    "sphere_key": "society_agriculture",
+    "description": "Level 3 (Terraforming) in Agriculture & Biosphere: Manipulation of planetary environments to create suitable conditions for agriculture."
+  },
+  {
+    "id": "society_agriculture_lvl_4",
+    "category": "society_agriculture",
+    "name": "Agriculture & Biosphere (Level 4: Planetary Engineering)",
+    "level": 4,
+    "sphere_key": "society_agriculture",
+    "description": "Level 4 (Planetary Engineering) in Agriculture & Biosphere: Large-scale manipulation of entire planetary biospheres for agricultural output."
+  },
+  {
+    "id": "society_agriculture_lvl_5",
+    "category": "society_agriculture",
+    "name": "Agriculture & Biosphere (Level 5: Matter Synthesis)",
+    "level": 5,
+    "sphere_key": "society_agriculture",
+    "description": "Level 5 (Matter Synthesis) in Agriculture & Biosphere: Direct conversion of energy into food and organic matter (Post-Scarcity Replicators)."
+  }
+]

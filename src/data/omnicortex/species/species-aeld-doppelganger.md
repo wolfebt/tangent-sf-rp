@@ -10,7 +10,7 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-speeds: Ground 30 ft
+speeds: 30 ft Groundspeed
 reach: 5 ft
 senses: Standard visual and auditory range.
 immunities: None
@@ -18,11 +18,7 @@ inherent_attribute_modifiers:
   - attribute: Charisma
     bonus: 1
 bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Deception
-    bonus: 2
-  - skill: Insight
-    bonus: 1
+specific_skill_bonuses: []
 bonus_skills: 5
 bonus_skill_choices:
   - Deception
@@ -30,40 +26,90 @@ bonus_skill_choices:
   - Stealth
   - Streetwise
   - Persuasion
-inherent_features: []
-bonus_features: []
+inherent_features:
+  - special-sense-uncontrolled
+bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Adaptive Aspects (Hive Memories)
   - Awakened
   - Darksight
   - Deceitful
   - Fast Heal
-  - Jack of all trades
   - Regeneration
   - Silver Tongue
   - Stealthy
   - Trustworthy
+disadvantages: []
 stigma: 'Shifter (-2), Xeno (-2)'
-tech_level: 3 (Adaptive Technology)
-meta_level: 3 (Metamorphic Psionics)
-homeworld: Nomadic / Diaspora
+tech_level: '3'
+meta_level: '4'
+homeworld: Scattered across Conclave and Syndicate Worlds
 costs:
-  cp: 16
-  bp: 16
+  cp: 15
+  bp: 15
 modifiers:
   - target: Charisma
     value: 1
     type: attribute
     mode: inherent
+    description: +1 Charisma
+  - target: Any
+    value: 5
+    type: skill
+    mode: bonus_pool
+    description: +5 Skill Points
+  - target: special-sense-uncontrolled
+    value: 1
+    type: feature
+    mode: inherent
+  - target: Adaptive Aspects (Hive Memories)
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Awakened
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Darksight
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Deceitful
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Fast Heal
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Jack of all trades
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Regeneration
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Silver Tongue
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Stealthy
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Trustworthy
+    value: 1
+    type: feature
+    mode: recommended
 description: >-
   Doppelgangers are an enigmatic elven offshoot possessing mutable cellular
   matrices. They can alter their physical form to mimic other humanoids
   perfectly, operating as intelligence operatives, infiltrators, and observers.
-traits:
+traits: &ref_0
   - trait-aeld-lineage-traits
   - trait-alter-form-basic
-  - trait-wyrm-senses
+species_traits: *ref_0
 recommended_factions:
   - The Alterian Enclave
   - The Syndicate
@@ -81,68 +127,107 @@ keywords: >-
   shapechanger, mimicry, espionage, stealth, deceptive, adaptive, infiltrator,
   elusive
 negative_keywords: 'inflexible, heavy-armor, conspicuous, loud, static-form'
-species_traits:
-  - trait-aeld-lineage-traits
-  - trait-alter-form-basic
-  - trait-wyrm-senses
-cp: 16
-bp: 16
-cp_cost: 16
+cp: 15
+bp: 15
+cp_cost: 15
 ---
 
-# Doppelganger (Shifter Aeld)
+# **DOPPELGANGER (Shifters)**
 
-The Doppelgangers are a unique and ancient shape-changing species, originating from the Alterian homeworld. Their lineage traces back to a specific, powerful family within the venerable Clan Silvermoon. This family was not originally composed of shape-shifters, but was magically and intentionally evolved through powerful, ancient Alterian sorcery.  
+# **DOPPELGANGER (Shifters)**
+
+The Doppelgangers are a unique and ancient shape-changing species, originating from the Alterian homeworld. Their lineage traces back to a specific, powerful family within the venerable Clan Silvermoon. This family was not originally composed of shape-shifters, but was magically and intentionally evolved through powerful, ancient Alterian sorcery.
+
 This profound magical alteration was performed with a singular and critical purpose: to better equip them for the demanding and often perilous task of hunting out and eradicating evil. The transformation granted them the ability to flawlessly mimic the form, voice, and even mannerisms of any sentient creature, making them peerless agents of infiltration, surveillance, and justice. This evolution fundamentally changed them from noble Alterian warriors into the specialized, highly effective beings now known as Doppelgangers, cementing their place as a vital, though often shadowy, force against the darkness that plagues the multiverse.
+
+&nbsp;
 
 ### **General Species Features & Mechanics**
 
 **CP Cost:** 14 CP  
-**Classification:** Humanoid (Shifter)  
-**Size:** Medium  
-**Movement:** 30ft  
-**Tech Level:** 3  
-**Meta Level:** 4  
-**Homeworld:** \[TBD\]  
+
+**Classification:** Humanoid (Shifter)
+
+**Size:** Medium
+
+**Movement:** 30ft
+
+**Tech Level:** 3
+
+**Meta Level:** 4
+
+**Homeworld:** \[TBD\]
+
 **Stigma:** Shifter & Xeno
 
-**Ability Modifiers:**  
+&nbsp;
+
+**Ability Modifiers:**
+
 \+1 Cha
 
-**Skills:**  
+&nbsp;
+
+**Skills:**
+
 \+5 Skills
 
-**Species Features:**  
-Alter Form (Humanoid)  
+&nbsp;
+
+**Species Features:**
+
+Alter Form (Humanoid)
+
 Sense Evil *(60 ft radius, Uncontrolled. Intrusive in other senses but not overwhelming \- something about them doesn’t look right, their scent will smell wrong, their voice will sound ‘off’, etc. Primarily works on targets with Evil descriptor such as from the Extreme Morality disadvantage. The GM may allow detection of minor presentations of evil or vile planning.)*
 
-**Recommended Features:**  
+&nbsp;
+
+**Recommended Features:**
+
 Adaptive Aspect, Adaptive Skill Set, Ageless, Alter Form (Advanced), Awakened, Bodyform Features, Darksight, Deceitful, Fast Heal, Immortality, Obfuscate, Persuasive, Regeneration, Trustworthy.
 
 ### 
 
 ### **Aesthetic Profile: The Fluid Noir**
 
-**Core Design Philosophy:**  
-**The Structure:** Highly adaptable, fluid, humanoid silhouette. Clean, flowing, dark, hyper-concealable.  
-**The Motif:** The Mirror and the Mask. Espionage and the "Hunter of Evil."  
-**Setting Style Description (Crisp):**  
-**Context:** Covert Operations, Psionic Espionage, High-Tech Assassins. A Doppelganger in "Liquid" armor mid-shift.  
-**Intent:** To portray a perfect infiltrator; forgettable one moment, terrifying the next.  
-**Style:** Liquid Sci-Fi meets Espionage Noir. Fluid, shape-shifting, reflective.  
+**Core Design Philosophy:**
+
+**The Structure:** Highly adaptable, fluid, humanoid silhouette. Clean, flowing, dark, hyper-concealable.
+
+**The Motif:** The Mirror and the Mask. Espionage and the "Hunter of Evil."
+
+**Setting Style Description (Crisp):**
+
+**Context:** Covert Operations, Psionic Espionage, High-Tech Assassins. A Doppelganger in "Liquid" armor mid-shift.
+
+**Intent:** To portray a perfect infiltrator; forgettable one moment, terrifying the next.
+
+**Style:** Liquid Sci-Fi meets Espionage Noir. Fluid, shape-shifting, reflective.
+
 **Palette:** Matte Greys, Midnight Blues, Chromatic Silvers, and deep Purples.
 
-**Guidance & Atmosphere Tokens:**  
-**Atmosphere:** Covert, Shadowy, Intrusive Surveillance, Psionic Haze, Sterile yet Lethal.  
-**Lighting:** Low-key lighting, Hard shadows, Reflection from wet/metallic surfaces, Single point-light source, Deep Purples and Chromatic Silver rim-lighting.  
-**Architecture/Tech:** Obfuscation tech. Devices are small, concealable, and multi-purpose. Psionic Amplifiers worn as jewelry (circlets, rings).  
+&nbsp;
+
+**Guidance & Atmosphere Tokens:**
+
+**Atmosphere:** Covert, Shadowy, Intrusive Surveillance, Psionic Haze, Sterile yet Lethal.
+
+**Lighting:** Low-key lighting, Hard shadows, Reflection from wet/metallic surfaces, Single point-light source, Deep Purples and Chromatic Silver rim-lighting.
+
+**Architecture/Tech:** Obfuscation tech. Devices are small, concealable, and multi-purpose. Psionic Amplifiers worn as jewelry (circlets, rings).
+
 **Fashion:** "Liquid" armor—form-fitting suits like flowing mercury/oil, shifting texture/color instantly. Featureless mirror masks until activated.
 
 ### 
 
 ### **Common Personas**
 
-**The Faceless Inquisitor:** An investigator rooting out deep corruption and hunting true evil. Wears "Liquid" armor locked into a sharp, featureless grey suit and an imposing mirror mask.  
-**The Mirror-Blade:** An assassin who eliminates targets by flawlessly replacing their closest allies. Their armor shifts seamlessly between unassuming civilian clothing and midnight-blue combat mesh.  
-**The Identity Broker:** Gathers vital intelligence by maintaining dozens of simultaneous lives. Visually unremarkable until they shift form, occasionally revealing an unsettling, chromatic silver gaze.  
+**The Faceless Inquisitor:** An investigator rooting out deep corruption and hunting true evil. Wears "Liquid" armor locked into a sharp, featureless grey suit and an imposing mirror mask.
+
+**The Mirror-Blade:** An assassin who eliminates targets by flawlessly replacing their closest allies. Their armor shifts seamlessly between unassuming civilian clothing and midnight-blue combat mesh.
+
+**The Identity Broker:** Gathers vital intelligence by maintaining dozens of simultaneous lives. Visually unremarkable until they shift form, occasionally revealing an unsettling, chromatic silver gaze.
+
 **The Fluid-Striker:** A tactical combat specialist who morphs their physical form for an advantage in battle. Wears minimal, highly reflective armor that stretches and flows dynamically with their biological shifting.
+
+&nbsp;

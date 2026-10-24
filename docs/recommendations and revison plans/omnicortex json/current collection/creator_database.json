@@ -1,0 +1,79 @@
+[
+  {
+    "id": "creator-syndicate",
+    "name": "The Syndicate (Corporate Futurism)",
+    "faction": "The Syndicate",
+    "trait": "Integrated System",
+    "description": "Apple Store Cathedral aesthetic using matte white composites, brushed aluminum, and cyan holographic data-streams. Tethered to the Mesh (+2 Knowledge checks on local networks; subject to subscription Penance Mode)."
+  },
+  {
+    "id": "creator-impyrium",
+    "name": "The Impyrium (Heirloom Industrial)",
+    "faction": "The Impyrium",
+    "trait": "Archeotech",
+    "description": "Celestial Neo-Sumerian aesthetic clad in gold filigree, white marble, and purity seals. Grants +2 DR and +2 Hardness, but uses Relic Sockets that reject modern or alien modifications."
+  },
+  {
+    "id": "creator-dracon-dynasty",
+    "name": "The Dracon Dynasty (Feudal Protection)",
+    "faction": "Dracon Dynasty",
+    "trait": "Bulwark",
+    "description": "High-Fantasy Industrial aesthetic with dragon-scale motifs, heraldic crests, and warm gold lighting. Prioritizes structural integrity (+20% SP and +1 DR) over speed."
+  },
+  {
+    "id": "creator-ascendancy",
+    "name": "The Ascendancy (Enlightened Innovation)",
+    "faction": "The Ascendancy",
+    "trait": "Adaptive Progress",
+    "description": "Smart City Solarpunk aesthetic with clean curves, glass canopies, and blue energy accents. Heavily shielded, agile, and integrates non-lethal options alongside lethal armaments."
+  },
+  {
+    "id": "creator-coalition",
+    "name": "The Coalition & Outworlds (Scrappy Industrial)",
+    "faction": "Coalition / Outworlds",
+    "trait": "Jury-Rigged",
+    "description": "Space Western Noir aesthetic of scavenged parts, exposed wiring, and hazard stripes. Reduces acquisition/crafting CR by -5, but glitches or disables a Socket on a Natural 1."
+  },
+  {
+    "id": "creator-alterian-enclave",
+    "name": "The Alterian Enclave (Botanical Engineering)",
+    "faction": "Alterian Enclave",
+    "trait": "Photosynthesis & Naturalist",
+    "description": "Interstellar Art Nouveau aesthetic fusing white ceramic with living wood and solar sails. Recharges energy cells in direct sunlight and grants +2 to Nature and Survival checks."
+  },
+  {
+    "id": "creator-auluran",
+    "name": "The Auluran (Symbiotic Growth)",
+    "faction": "Auluran Clans",
+    "trait": "Regeneration & Symbiosis",
+    "description": "Bioluminescent Jungle aesthetic of vat-grown chitinous hulls and vascular corridors. Passively regenerates 2 SP/round and can spend 1 Karma to adapt to environmental hazards."
+  },
+  {
+    "id": "creator-mekan",
+    "name": "The Mekan (Mechanical Perfection)",
+    "faction": "Mekan",
+    "trait": "Integrated Tools",
+    "description": "Fractal Perfection aesthetic of geometric spheres, magnetic suspension, and TL 5 Polymatter. Autonomously shifts physical form to grant +2 to Vocation checks."
+  },
+  {
+    "id": "creator-entari-combine",
+    "name": "The Entari Combine (Cosmopolitan Trade)",
+    "faction": "Entari Combine",
+    "trait": "Ethical Efficiency",
+    "description": "Galactic Senate eco-luxury aesthetic using silent nanoweaves, universal docking rings, advanced translation suites, and concealed defensive weaponry."
+  },
+  {
+    "id": "creator-thorn",
+    "name": "The Thorn (Primal Growth)",
+    "faction": "Thorn",
+    "trait": "Rooted & Camouflage",
+    "description": "Primal bark-plate, vine-wrapped tech, and glowing chlorophyll veins. Grants +2 to resist Trip/Bull Rush attempts and +2 Stealth in wilderness environments."
+  },
+  {
+    "id": "creator-kitin",
+    "name": "The Kitin (Hive-Resin)",
+    "faction": "Kitin Collective",
+    "trait": "Hive-Link & Lightweight",
+    "description": "Secreted hive-resin composites with green vein-piping. Integrates with telepathic hive-mind communications and counts as one category lighter for movement penalties."
+  }
+]

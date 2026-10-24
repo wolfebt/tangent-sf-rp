@@ -23,28 +23,16 @@ skill_package:
   - Combat (Melee) (+4)
   - Survival (+4)
   - Stealth (+3)
-recommended_features:
+recommended_features: &ref_0
   - Mind Link
   - Fearless
   - Uncanny Dodge
-  - Wall-Crawler
-  - Swarm Tactics (Coordinated Assist)
   - Echolocation
   - Endurance
   - Diehard
   - Natural Weapons
   - Scent
-features:
-  - Mind Link
-  - Fearless
-  - Uncanny Dodge
-  - Wall-Crawler
-  - Swarm Tactics (Coordinated Assist)
-  - Echolocation
-  - Endurance
-  - Diehard
-  - Natural Weapons
-  - Scent
+features: *ref_0
 bonus_features:
   - Mind Link
 description: >-
@@ -58,10 +46,10 @@ costs:
 modifiers: []
 faction_classification: Faction Template
 recommended_species:
-  - Maantene (Kitin Leaper)
+  - Maantene (Recon Expression)
   - Manelli (Cerebral Expression)
-  - Rakne (Kitin Stalker)
-  - Riezen (Kitin Swarm Entity)
+  - Rakne (Infiltration Expression)
+  - Riezen (Divergent Swarm)
   - Syndess (Pilot Expression)
   - Murex (Foundation Expression)
 recommended_origins:

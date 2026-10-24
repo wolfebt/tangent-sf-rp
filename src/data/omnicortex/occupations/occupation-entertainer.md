@@ -42,7 +42,7 @@ costs:
   bp: 0
 modifiers: []
 recommended_species:
-  - Celestine (Alterian)
+  - Alterian
   - Fey (Base)
   - Ferren
   - Argynt Human
@@ -56,7 +56,7 @@ recommended_factions:
   - Space Tourism Faction Template
   - The Entari Combine
   - Incorporated Planetary Syndication (The Syndicate)
-  - Elven Providence
+  - Aeld Providence
   - The Alterian Enclave
   - Corporate Faction Template
 recommended_origins:

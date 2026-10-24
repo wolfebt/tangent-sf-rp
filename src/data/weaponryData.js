@@ -1,7 +1,7 @@
 /**
  * Canonical Weaponry Database for Tangent SF RP
  * Auto-generated from src/data/omnicortex/weaponry/
- * Total Weapons: 102
+ * Total Weapons: 106
  */
 
 export const DEFAULT_WEAPONRY = [
@@ -54,6 +54,56 @@ export const DEFAULT_WEAPONRY = [
     "description": "Broad-bladed martial axe delivering concentrated cleaving momentum.",
     "mechanic": "Damage: 2d6 (Kinetic) | Range: - | Ammo: - | Special: Slashing | Craft DC: 10 (160 Cr)",
     "body": "Broad-bladed martial axe delivering concentrated cleaving momentum.\n\n**Special:** Slashing\n\nCategory: MELEE"
+  },
+  {
+    "id": "bite",
+    "name": "Bite",
+    "category": "weaponry",
+    "weapon_type": "Melee",
+    "classification": "Melee (Piercing)",
+    "wielding": "Unarmed",
+    "size": "Fine",
+    "damage": "1d6",
+    "damage_type": "Kinetic",
+    "range": "-",
+    "ammo": "-",
+    "ammunition": "-",
+    "rate_of_fire": "Single",
+    "tech_level": 0,
+    "meta_level": 0,
+    "craft_dc": 0,
+    "design_dc": 0,
+    "cost": 10,
+    "costs": {
+      "cp": 0,
+      "bp": 0,
+      "credits": 10,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 1
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "modifiers": [],
+    "modifications": [],
+    "critical_details": {
+      "score": "20",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "special": "Piercing, Unarmed",
+    "description": "Natural or augmented jaws and teeth delivering a puncturing close-combat bite attack.",
+    "mechanic": "Damage: 1d6 (Kinetic) | Range: - | Ammo: - | Special: Piercing, Unarmed | Craft DC: 0 (10 Cr)",
+    "keywords": "bite, weapon, melee, kinetic, tl-0",
+    "negative_keywords": "extreme-range, sniper, orbital",
+    "body": "Natural or augmented jaws and teeth delivering a puncturing close-combat bite attack.\n\n**Special:** Piercing, Unarmed\n\nCategory: MELEE"
   },
   {
     "id": "bladed-gauntlet",
@@ -204,6 +254,56 @@ export const DEFAULT_WEAPONRY = [
     "special": "Reach, Entangle",
     "mechanic": "Damage: 1d8 (Kinetic) | Range: 10ft Reach | Ammo: - | Special: Reach, Entangle | Craft DC: 8 (92 Cr)",
     "body": "Weighted steel fighting chain with 10ft reach capable of entangling limbs and weapons.\n\n**Special:** Reach, Entangle\n\nCategory: MELEE"
+  },
+  {
+    "id": "claws",
+    "name": "Claws",
+    "category": "weaponry",
+    "weapon_type": "Melee",
+    "classification": "Melee (Slashing)",
+    "wielding": "Unarmed",
+    "size": "Fine",
+    "damage": "1d6",
+    "damage_type": "Kinetic",
+    "range": "-",
+    "ammo": "-",
+    "ammunition": "-",
+    "rate_of_fire": "Single",
+    "tech_level": 0,
+    "meta_level": 0,
+    "craft_dc": 0,
+    "design_dc": 0,
+    "cost": 10,
+    "costs": {
+      "cp": 0,
+      "bp": 0,
+      "credits": 10,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 1
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "modifiers": [],
+    "modifications": [],
+    "critical_details": {
+      "score": "20",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "special": "Slashing, Unarmed",
+    "description": "Sharp natural or retractable talons capable of raking targets in unarmed close combat.",
+    "mechanic": "Damage: 1d6 (Kinetic) | Range: - | Ammo: - | Special: Slashing, Unarmed | Craft DC: 0 (10 Cr)",
+    "keywords": "claws, weapon, melee, kinetic, tl-0",
+    "negative_keywords": "extreme-range, sniper, orbital",
+    "body": "Sharp natural or retractable talons capable of raking targets in unarmed close combat.\n\n**Special:** Slashing, Unarmed\n\nCategory: MELEE"
   },
   {
     "id": "club",
@@ -704,6 +804,106 @@ export const DEFAULT_WEAPONRY = [
     "special": "Lethal/Non-Lethal, Stun",
     "mechanic": "Damage: 1d10 Voltic (Voltic (Electrical)) | Range: 25ft | Ammo: 20 | Special: Lethal/Non-Lethal, Stun | Craft DC: 15 (640 Cr)",
     "body": "Directed electrical sidearm discharging high-voltage arcs with selectable stun mode.\n\n**Special:** Lethal/Non-Lethal, Stun\n\nCategory: ENERGY PISTOL"
+  },
+  {
+    "id": "feet",
+    "name": "Feet (Kick)",
+    "category": "weaponry",
+    "weapon_type": "Melee",
+    "classification": "Melee (Blunt)",
+    "wielding": "Unarmed",
+    "size": "Fine",
+    "damage": "1d8",
+    "damage_type": "Kinetic",
+    "range": "-",
+    "ammo": "-",
+    "ammunition": "-",
+    "rate_of_fire": "Single",
+    "tech_level": 0,
+    "meta_level": 0,
+    "craft_dc": 0,
+    "design_dc": 0,
+    "cost": 10,
+    "costs": {
+      "cp": 0,
+      "bp": 0,
+      "credits": 10,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 1
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "modifiers": [],
+    "modifications": [],
+    "critical_details": {
+      "score": "20",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "special": "Blunt, Non-Lethal, Unarmed",
+    "description": "Heavy unarmed kick attack delivering concussive non-lethal blunt trauma.",
+    "mechanic": "Damage: 1d8 (Kinetic) | Range: - | Ammo: - | Special: Blunt, Non-Lethal, Unarmed | Craft DC: 0 (10 Cr)",
+    "keywords": "feet (kick), weapon, melee, kinetic, tl-0",
+    "negative_keywords": "extreme-range, sniper, orbital",
+    "body": "Heavy unarmed kick attack delivering concussive non-lethal blunt trauma.\n\n**Special:** Blunt, Non-Lethal, Unarmed\n\nCategory: MELEE"
+  },
+  {
+    "id": "fists",
+    "name": "Fists (Punch)",
+    "category": "weaponry",
+    "weapon_type": "Melee",
+    "classification": "Melee (Blunt)",
+    "wielding": "Unarmed",
+    "size": "Fine",
+    "damage": "1d6",
+    "damage_type": "Kinetic",
+    "range": "-",
+    "ammo": "-",
+    "ammunition": "-",
+    "rate_of_fire": "Single",
+    "tech_level": 0,
+    "meta_level": 0,
+    "craft_dc": 0,
+    "design_dc": 0,
+    "cost": 10,
+    "costs": {
+      "cp": 0,
+      "bp": 0,
+      "credits": 10,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 1
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "modifiers": [],
+    "modifications": [],
+    "critical_details": {
+      "score": "20",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "special": "Blunt, Non-Lethal, Unarmed",
+    "description": "Standard unarmed punch strike dealing non-lethal blunt impact damage.",
+    "mechanic": "Damage: 1d6 (Kinetic) | Range: - | Ammo: - | Special: Blunt, Non-Lethal, Unarmed | Craft DC: 0 (10 Cr)",
+    "keywords": "fists (punch), weapon, melee, kinetic, tl-0",
+    "negative_keywords": "extreme-range, sniper, orbital",
+    "body": "Standard unarmed punch strike dealing non-lethal blunt impact damage.\n\n**Special:** Blunt, Non-Lethal, Unarmed\n\nCategory: MELEE"
   },
   {
     "id": "flamer",

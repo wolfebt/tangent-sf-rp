@@ -23,28 +23,16 @@ skill_package:
   - Computers (+4)
   - Mechanics (+3)
   - Medicine (+3)
-recommended_features:
+recommended_features: &ref_0
   - Gearhead
   - Tech Interface
-  - Inventor
   - Master Craftsman
   - Computer Specialist
   - Coding Master
   - Lightning Calculator
-  - Logic-Mind
   - Augmented
   - Benefit (Equipment)
-features:
-  - Gearhead
-  - Tech Interface
-  - Inventor
-  - Master Craftsman
-  - Computer Specialist
-  - Coding Master
-  - Lightning Calculator
-  - Logic-Mind
-  - Augmented
-  - Benefit (Equipment)
+features: *ref_0
 bonus_features:
   - Gearhead
 description: >-

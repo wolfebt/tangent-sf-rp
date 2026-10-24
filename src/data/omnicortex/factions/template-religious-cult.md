@@ -23,28 +23,16 @@ skill_package:
   - Insight (+4)
   - Melee Combat (+4)
   - Academics (Theology) (+3)
-recommended_features:
+recommended_features: &ref_0
   - Iron Will
   - Fearless
   - Indomitable Will
-  - Resolute
   - Pain Tolerance
   - Diehard
-  - Unsettling Aura
   - Power Attack
   - Channel Smite
   - Awakened
-features:
-  - Iron Will
-  - Fearless
-  - Indomitable Will
-  - Resolute
-  - Pain Tolerance
-  - Diehard
-  - Unsettling Aura
-  - Power Attack
-  - Channel Smite
-  - Awakened
+features: *ref_0
 bonus_features:
   - Iron Will
 description: >-

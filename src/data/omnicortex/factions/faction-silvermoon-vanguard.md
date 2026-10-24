@@ -63,7 +63,7 @@ modifiers: []
 faction_classification: Major Galactic Power
 recommended_species:
   - Doppelganger (Shifter)
-  - Celestine (Alterian)
+  - Alterian
   - Changeling (Doppelganger Hybrid)
   - Skin (Infiltrator Synthetic)
 recommended_origins:

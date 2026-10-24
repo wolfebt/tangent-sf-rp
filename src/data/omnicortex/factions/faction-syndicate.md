@@ -31,8 +31,7 @@ skill_package:
   - 'Technology (+4): Using/maintaining high-tech gear'
   - 'Insight (+2): Reading people in negotiations'
   - 'Diplomacy (+2): Closing the deal'
-recommended_features:
-  - Underworld Connections
+recommended_features: &ref_0
   - Augmented
   - Computer Specialist
   - Digital Expert
@@ -45,20 +44,8 @@ recommended_features:
   - Tech Interface
   - Nimble Fingers
   - Well Informed
-features:
   - Underworld Connections
-  - Augmented
-  - Computer Specialist
-  - Digital Expert
-  - Benefit (Wealth)
-  - Benefit (Clearance)
-  - Silver Tongue
-  - Connected
-  - Coding Master
-  - Gearhead
-  - Tech Interface
-  - Nimble Fingers
-  - Well Informed
+features: *ref_0
 bonus_features:
   - Underworld Connections
   - Neural Interface

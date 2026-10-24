@@ -28,28 +28,13 @@ skill_package:
   - Stealth (+4)
   - Mechanics (Security) (+4)
   - Combat (+3)
-recommended_features:
-  - Connected (Underworld)
+recommended_features: &ref_0
   - Sneak Attack
   - Deceitful
-  - Intimidating Presence
-  - Black Market Access
   - Nimble Fingers
-  - Street-Smart
   - Uncanny Dodge
-  - Hidden Pockets
   - Danger Sense
-features:
-  - Connected (Underworld)
-  - Sneak Attack
-  - Deceitful
-  - Intimidating Presence
-  - Black Market Access
-  - Nimble Fingers
-  - Street-Smart
-  - Uncanny Dodge
-  - Hidden Pockets
-  - Danger Sense
+features: *ref_0
 bonus_features:
   - Connected (Underworld)
 description: >-

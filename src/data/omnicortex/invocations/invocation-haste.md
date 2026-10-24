@@ -13,9 +13,9 @@ recommended_species:
   - Fey (Base)
   - Ila (Progenitor Archon)
   - Sigal
-  - Celestine (Alterian)
+  - Alterian
 recommended_factions:
-  - Elven Providence
+  - Aeld Providence
   - Supernatural Faction Template
   - The Alterian Enclave
   - Alien Faction Template

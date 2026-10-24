@@ -10,7 +10,7 @@ capital_world: Umbra Sector Rogue Planets
 tech_level: '4'
 meta_level: '3'
 wealth_modifier: +2 (Hoarded ancient relics/stolen resources)
-prominent_species: Nocturne Elves
+prominent_species: Kovian (Shadow Aeld)
 typical_archetypes:
   - The Silent Blade
   - The Ghost
@@ -25,32 +25,19 @@ typical_archetypes:
   - The Cryptographer
   - The Astromancer
 skill_package: []
-recommended_features:
+recommended_features: &ref_0
   - Darksight
   - Sneak Attack
   - Bleed
   - Blind-Fight
   - Stealthy
   - Evasiveness
-  - Discipline Focus (Entropy)
   - Veiled Threat
   - Iron Will
   - Uncanny Dodge
   - Sense
   - Quick
-features:
-  - Darksight
-  - Sneak Attack
-  - Bleed
-  - Blind-Fight
-  - Stealthy
-  - Evasiveness
-  - Discipline Focus (Entropy)
-  - Veiled Threat
-  - Iron Will
-  - Uncanny Dodge
-  - Sense
-  - Quick
+features: *ref_0
 bonus_features:
   - Shadowmeld
   - Incorruptible Will
@@ -67,7 +54,7 @@ costs:
 modifiers: []
 faction_classification: Major Galactic Power
 recommended_species:
-  - Nocturne (Kovian)
+  - Kovian
   - Doppelganger (Shifter)
   - Tenen (Sha’nor Spectral)
 recommended_origins:

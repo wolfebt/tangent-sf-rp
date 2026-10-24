@@ -47,7 +47,7 @@ costs:
 modifiers: []
 recommended_species:
   - Sigal
-  - Celestine (Alterian)
+  - Alterian
   - Nian Human
   - Intellect Construct (Pure AI)
   - Android
@@ -59,7 +59,7 @@ recommended_factions:
   - The Ascendancy
   - Technological Faction Template
   - The Alterian Enclave
-  - Elven Providence
+  - Aeld Providence
   - Sentient Intelligence Faction Template
   - The Mekan Collective
 recommended_origins:

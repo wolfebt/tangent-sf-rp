@@ -9,7 +9,7 @@ costs:
   bp: 0
 modifiers: []
 recommended_species:
-  - Celestine (Alterian)
+  - Alterian
   - Whisper
   - Sigal
   - Human (Base)

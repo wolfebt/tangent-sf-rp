@@ -1,21 +1,36 @@
 ---
 id: society_manufacturing_lvl_4
 category: society_manufacturing
-name: 'Manufacturing & Industry (Level 4: Mastered / Interstellar)'
+name: 'Manufacturing & Industry (Level 4: Nanoforge & Bio-Vats (Tier 4: x1,000))'
 level: 4
 sphere_key: society_manufacturing
 description: >-
-  Level 4 development in Manufacturing & Industry: Industrial automated
-  fabrication, nano-forges, mass production, and orbital yards. (Mastered /
-  Interstellar).
+  Level 4 (Nanoforge & Bio-Vats (Tier 4: x1,000)) in Manufacturing & Industry:
+  Molecular assembly swarms and Auluran/Kitin hyper-growth cultivation vats.
 costs:
-  cp: 0
   bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
 modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
-# Manufacturing & Industry (Level 4: Mastered / Interstellar)
+# Manufacturing & Industry (Level 4: Nanoforge & Bio-Vats (Tier 4: x1,000))
 
 **Category**: SOCIETY MANUFACTURING
 
 ## Description
-Level 4 development in Manufacturing & Industry: Industrial automated fabrication, nano-forges, mass production, and orbital yards. (Mastered / Interstellar).
+Level 4 (Nanoforge & Bio-Vats (Tier 4: x1,000)) in Manufacturing & Industry: Molecular assembly swarms and Auluran/Kitin hyper-growth cultivation vats.

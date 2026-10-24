@@ -4,19 +4,24 @@ category: mecha
 name: Segway / Gyro-Pod
 domain: Ground
 size: Small
-frame: Personal
-cost: 40
-craft_dc: 3
-sp: 25
+frame: Light Powered Transport
+cost: 92
+craft_dc: 8
+sp: 20
 dr: 5
 mounts: 0
 propulsion: Micro-Motor (Electric)
-description: Self-balancing personal mover for arcology station or city concourse transit.
-mechanic: Micro-motor with gyro-stabilizer. 8 hours continuous electric range.
+description: >-
+  A self-balancing personal mover for station or city use. Light powered
+  transport with a Micro-Motor (Electric) and Gyro-Stabilizer, offering hours of
+  continuous use.
+mechanic: >-
+  Micro-Motor (Electric) with Gyro-Stabilizer. Self-balancing urban/station
+  transit. | SP: 20, DR: 5 | Craft DC: 8 (92 Cr)
 costs:
   cp: 0
   bp: 0
-  credits: 40
+  credits: 92
   nodes: 0
   sockets: 0
   strain: 0
@@ -34,12 +39,19 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
-tech_level: 3
-keywords: 'segway / gyro-pod, mecha, vehicle, small, personal, tl-3'
-negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
+tech_level: 2
+keywords: >-
+  segway / gyro-pod, mecha, vehicle, personal mobility, light powered transport,
+  tl-2
+negative_keywords: 'infantry-only, unmounted'
 meta_level: 0
-design_dc: 3
+design_dc: 8
+classification: Personal Mobility
+crew: '1'
+durability: 20
 ---
-Self-balancing personal mover for arcology station or city concourse transit.
+A self-balancing personal mover for station or city use. Light powered transport with a Micro-Motor (Electric) and Gyro-Stabilizer, offering hours of continuous use.
 
-**Mechanics:** Micro-motor with gyro-stabilizer. 8 hours continuous electric range.
+**Class:** Personal Mobility (Light Powered Transport)
+**Propulsion:** Micro-Motor (Electric) | **Crew:** 1
+**Mechanics:** Micro-Motor (Electric) with Gyro-Stabilizer. Self-balancing urban/station transit. | SP: 20, DR: 5 | Craft DC: 8 (92 Cr)

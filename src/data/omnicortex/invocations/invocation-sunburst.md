@@ -10,13 +10,13 @@ costs:
 modifiers: []
 recommended_species:
   - Impyrium Regi (Gen-E)
-  - Celestine (Alterian)
+  - Alterian
   - Draconian (Scaled Aeld)
   - Ila (Progenitor Archon)
 recommended_factions:
   - Radiant Impyrium
   - The Alterian Enclave
-  - Elven Providence
+  - Aeld Providence
 recommended_origins:
   - Enlightened
   - Militaristic

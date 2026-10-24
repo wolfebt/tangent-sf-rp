@@ -28,28 +28,14 @@ skill_package:
   - Computers (+4)
   - Insight (+3)
   - Streetwise (+3)
-recommended_features:
+recommended_features: &ref_0
   - Benefit (Wealth)
   - Benefit (Clearance)
   - Silver Tongue
   - Connected
-  - Well-Informed
   - Golden Smile
-  - Legal Immunity
   - Platinum Personality
-  - Corporate Sponsorship
-  - Ruthless Negotiation
-features:
-  - Benefit (Wealth)
-  - Benefit (Clearance)
-  - Silver Tongue
-  - Connected
-  - Well-Informed
-  - Golden Smile
-  - Legal Immunity
-  - Platinum Personality
-  - Corporate Sponsorship
-  - Ruthless Negotiation
+features: *ref_0
 bonus_features:
   - Benefit (Wealth)
 description: >-

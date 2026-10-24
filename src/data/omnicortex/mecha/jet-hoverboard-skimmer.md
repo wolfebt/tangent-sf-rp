@@ -4,21 +4,23 @@ category: mecha
 name: Jet-Powered Hoverboard (Skimmer)
 domain: Ground / Hover
 size: Small
-frame: Personal
-cost: 160
-craft_dc: 10
-sp: 30
-dr: 6
+frame: Powered Hovercraft
+cost: 279
+craft_dc: 12
+sp: 25
+dr: 5
 mounts: 1
 propulsion: Vectored Thrust (Micro-Turbine)
 description: >-
-  Repulsor hover-board skimming 1 foot above terrain using directed
-  micro-turbines.
-mechanic: Skims over water/ground at high speed. Pilot Agility +2.
+  A hover-style board using directed air thrust. Skims 1ft off the ground,
+  featuring a Micro-Turbine and Mag-Clamps.
+mechanic: >-
+  Vectored Thrust hoverboard skimming 1ft above terrain. Includes boot
+  Mag-Clamps. | SP: 25, DR: 5 | Craft DC: 12 (279 Cr)
 costs:
   cp: 0
   bp: 0
-  credits: 160
+  credits: 279
   nodes: 0
   sockets: 0
   strain: 0
@@ -37,11 +39,18 @@ sockets:
   tier: Socket
   allocated: []
 tech_level: 3
-keywords: 'jet-powered hoverboard (skimmer), mecha, vehicle, small, personal, tl-3'
-negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
+keywords: >-
+  jet-powered hoverboard (skimmer), mecha, vehicle, personal mobility, powered
+  hovercraft, tl-3
+negative_keywords: 'infantry-only, unmounted'
 meta_level: 0
-design_dc: 10
+design_dc: 12
+classification: Personal Mobility
+crew: '1'
+durability: 25
 ---
-Repulsor hover-board skimming 1 foot above terrain using directed micro-turbines.
+A hover-style board using directed air thrust. Skims 1ft off the ground, featuring a Micro-Turbine and Mag-Clamps.
 
-**Mechanics:** Skims over water/ground at high speed. Pilot Agility +2.
+**Class:** Personal Mobility (Powered Hovercraft)
+**Propulsion:** Vectored Thrust (Micro-Turbine) | **Crew:** 1
+**Mechanics:** Vectored Thrust hoverboard skimming 1ft above terrain. Includes boot Mag-Clamps. | SP: 25, DR: 5 | Craft DC: 12 (279 Cr)

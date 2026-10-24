@@ -6,8 +6,8 @@ cost: 640
 design_dc: 15
 craft_dc: 15
 description: >-
-  Integrated external armor plating (+15% Base Chassis Cost, +5 DR, 5 Nodes, 1
-  CP).
+  Integrated external armor plating (+15% Base Chassis Cost, Tiered DR 10/20/40,
+  5 Nodes, 1 CP).
 bp_cost: 1
 dr: 10
 stigma: None

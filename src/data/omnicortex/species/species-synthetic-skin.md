@@ -10,19 +10,17 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-speeds: Ground 30 ft
+speeds: 30 ft Groundspeed
 reach: 5 ft
 senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
 immunities: >-
   Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
   sleep [9]
-inherent_attribute_modifiers: []
-bonus_attribute_points: 2
-specific_skill_bonuses:
-  - skill: Deception
+inherent_attribute_modifiers:
+  - attribute: Intellect
     bonus: 2
-  - skill: Insight
-    bonus: 1
+bonus_attribute_points: 0
+specific_skill_bonuses: []
 bonus_skills: 10
 bonus_skill_choices:
   - Deception
@@ -31,29 +29,60 @@ bonus_skill_choices:
   - Stealth
   - Technology
 inherent_features: []
-bonus_features: []
+bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
   - Camouflage
   - Deceitful
-  - Jack of all trades
   - Stealthy
+disadvantages: []
 stigma: Secret (-6) / Severe if Exposed
-tech_level: 4 (Bio-Synthetic Weave & Organic Cloaking)
-meta_level: 1 (Neural Empathy)
+tech_level: '4'
+meta_level: '1'
 homeworld: Covert Black Labs
 costs:
   cp: 46
   bp: 46
-modifiers: []
+modifiers:
+  - target: Intellect
+    value: 2
+    type: attribute
+    mode: inherent
+    description: +2 Intellect
+  - target: Any
+    value: 10
+    type: skill
+    mode: bonus_pool
+    description: +10 Skill Points
+  - target: Camouflage
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Deceitful
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Jack of all trades
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Stealthy
+    value: 1
+    type: feature
+    mode: recommended
 description: >-
-  Skins are advanced bio-synthetic androids covered in warm, synthetic flesh,
-  simulated vascular systems, and emotional emulators designed to pass as
-  natural organics.
+  Experimental design to be more Human like in form and function, for various
+  reasons including infiltration. No obvious distinguishable traits showing
+  mechanical nature. Casual observation will not show any sign of being a
+  Synthetic, a cursory exam will require CR 30, Technical Scanner with a CR 25
+  and Biomed Scanners with a CR 20 - medical treatment will also reveal nature
+  to the physician (although wounds would outwardly be ‘normal’ with loss of
+  fluids included [limited blood simulation]).
 traits: &ref_0
-  - trait-alter-form-adv
   - trait-synthetic-base-traits
   - trait-alter-form-basic
+  - trait-adaptive-features
+species_traits: *ref_0
 recommended_factions:
   - The Syndicate
   - Corporate Faction Template
@@ -68,75 +97,71 @@ keywords: >-
   synthetic-flesh, emotional-emulator, infiltrator-android, social-mimic,
   sleeper-unit
 negative_keywords: 'clunky-metal, obvious-robot, conspicuous'
-species_traits: *ref_0
 cp: 46
 bp: 46
 cp_cost: 46
 ---
 
-# Skin (Synthetic Replicant / Infiltrator)
-
-*
+# **SKINS \***
 
 ### ***SKINS \****
 
 # 
 
 **CP Cost:** 34 CP  
-**Description:** Experimental design to be more Human like in form and function, for various reasons including infiltration. No obvious distinguishable traits showing mechanical nature. Casual observation will not show any sign of being a Synthetic, a cursory exam will require DC 30, Technical Scanner with a DC 25 and Biomed Scanners with a DC 20 \- medical treatment will also reveal nature to the physician (although wounds would outwardly be ‘normal’ with loss of fluids included \[limited blood simulation\]).
 
-*Heals as a typical human, with repair using nanotechnology.*   
+**Description:** Experimental design to be more Human like in form and function, for various reasons including infiltration. No obvious distinguishable traits showing mechanical nature. Casual observation will not show any sign of being a Synthetic, a cursory exam will require CR 30, Technical Scanner with a CR 25 and Biomed Scanners with a CR 20 \- medical treatment will also reveal nature to the physician (although wounds would outwardly be ‘normal’ with loss of fluids included \[limited blood simulation\]).
+
+&nbsp;
+
+*Heals as a typical human, with repair using nanotechnology.*&nbsp;
+
 *May take any Features as if organic and Synthetic Features as well, may incorporate Biotech Augmentations as if organic.*
 
-**Classification:** Synthetic Humanoid  
-**Size:** Medium  
+&nbsp;
+
+&nbsp;
+
+**Classification:** Synthetic Humanoid
+
+**Size:** Medium
+
 **Movement:** 30 ft Groundspeed
 
-**Tech Level:** 4  
+&nbsp;
+
+**Tech Level:** 4
+
 **Meta Level:** 1
 
-**Homeworld:**   
+&nbsp;
+
+**Homeworld:**&nbsp;
+
 **Stigma:** Special \- Stigma (Infiltrator) IF Discovered and obvious other implications of an infiltrator
 
-**Ability Modifiers:**   
+&nbsp;
+
+**Ability Modifiers:**&nbsp;
+
 \+2 Intellect
 
-**Skills:** 
+&nbsp;
 
-**Species Features:**   
-Alter Form (Basic only, Humanoid Disguise \+10)  
+**Skills:**&nbsp;
+
+&nbsp;
+
+**Species Features:**&nbsp;
+
+Alter Form (Basic only, Humanoid Disguise \+10)
+
 Adaptive Aspects
 
-**Recommended Features:** 
+&nbsp;
 
-# **INTELLECT CONSTRUCT \* \*\*\*\***
+**Recommended Features:**&nbsp;
 
-## **INTELLECT CONSTRUCT \* \*\*\*\***
+&nbsp;
 
-# 
-
-**CP Cost:**   
-**Description:** Conscious Algorithm housed within a structure or a mech. (the ‘Shell’). 
-
-**Classification:** Synthetic  
-**Size:** Actual core is Small in size but connected to and controlling huge complexes or vessels.  
-**Movement:** N/A
-
-**Tech Level:** 4  
-**Meta Level:** 0
-
-**Homeworld:**   
-**Stigma:** Severe Synthetic
-
-**Ability Modifiers:**   
-NO Physical Abilities \[75pt flaw \- effectively no physical form without the ‘Shell’\].  
-\+2 Int and additional \+8 to divide among any Mental Abilities (usually Int is primary if not the only increased score)
-
-**Skills:**   
-\+40 Skills (including operation skills of their ‘Shell’, like Piloting, Navigation, Manufacture, Administration, etc)
-
-**Species Features:**   
-Communications (and Remote Links)  
-Companion \- Remotes/Drones
-
-**Recommended Features:**
+&nbsp;

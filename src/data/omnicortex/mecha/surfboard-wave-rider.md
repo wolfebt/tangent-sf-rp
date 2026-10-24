@@ -4,19 +4,23 @@ category: mecha
 name: Surfboard / Wave-Rider
 domain: Aquatic
 size: Medium
-frame: Personal
-cost: 17
-craft_dc: 2
-sp: 15
-dr: 2
+frame: Environmental Watercraft
+cost: 53
+craft_dc: 6
+sp: 12
+dr: 3
 mounts: 0
 propulsion: Environmental (Wave/Current)
-description: Composite hydrodynamic board for riding wave energy and coastal currents.
-mechanic: Speed equal to current speed. Requires Athletics (Swim) to maneuver.
+description: >-
+  A composite board for riding hydro-energy. Speed is equal to the wave/current
+  speed and requires Athletics (Swim) or Profession (Surfer) to operate.
+mechanic: >-
+  Environmental (Wave/Current) propulsion. Requires Athletics (Swim) to maneuver
+  in surf. | SP: 12, DR: 3 | Craft DC: 6 (53 Cr)
 costs:
   cp: 0
   bp: 0
-  credits: 17
+  credits: 53
   nodes: 0
   sockets: 0
   strain: 0
@@ -35,11 +39,18 @@ sockets:
   tier: Socket
   allocated: []
 tech_level: 1
-keywords: 'surfboard / wave-rider, mecha, vehicle, medium, personal, tl-1'
-negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
+keywords: >-
+  surfboard / wave-rider, mecha, vehicle, personal mobility, environmental
+  watercraft, tl-1
+negative_keywords: 'infantry-only, unmounted'
 meta_level: 0
-design_dc: 2
+design_dc: 6
+classification: Personal Mobility
+crew: '1'
+durability: 12
 ---
-Composite hydrodynamic board for riding wave energy and coastal currents.
+A composite board for riding hydro-energy. Speed is equal to the wave/current speed and requires Athletics (Swim) or Profession (Surfer) to operate.
 
-**Mechanics:** Speed equal to current speed. Requires Athletics (Swim) to maneuver.
+**Class:** Personal Mobility (Environmental Watercraft)
+**Propulsion:** Environmental (Wave/Current) | **Crew:** 1
+**Mechanics:** Environmental (Wave/Current) propulsion. Requires Athletics (Swim) to maneuver in surf. | SP: 12, DR: 3 | Craft DC: 6 (53 Cr)

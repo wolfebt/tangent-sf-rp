@@ -10,45 +10,64 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-speeds: Ground 30 ft
+speeds: Varies by base form (typically 30 ft Groundspeed)
 reach: 5 ft
 senses: 'Darkvision out to 60 feet. [1]'
 immunities: None
 inherent_attribute_modifiers: []
-bonus_attribute_points: 2
-specific_skill_bonuses:
-  - skill: Survival
-    bonus: 1
-  - skill: Combat
-    bonus: 1
+bonus_attribute_points: 0
+specific_skill_bonuses: []
 bonus_skills: 0
 bonus_skill_choices:
   - Combat
   - Survival
   - Intimidation
 inherent_features: []
-bonus_features: []
+bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Darksight
-  - Deceitful
-  - Discipline Features
-  - Iron Will
-  - Stealthy
+  - Fast Heal
+  - Regeneration
+disadvantages: []
 stigma: Monstrous (-4)
-tech_level: 2 (Scavenged Warp Relics)
-meta_level: 3 (Chaotic Void Warping)
+tech_level: '1'
+meta_level: '1'
 homeworld: Corrupted Fringe Outposts
 costs:
-  cp: 11
-  bp: 11
-modifiers: []
+  cp: 1
+  bp: 1
+modifiers:
+  - target: Alter Form
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Ageless
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Bodyform
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Fast Heal
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Immortality
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Regeneration
+    value: 1
+    type: feature
+    mode: recommended
 description: >-
-  Eakren are mortals who were caught in catastrophic void collapses and mutated
-  into chimeric aberrational humanoids.
+  Various creatures (including humanoid, animal and plant based) which are
+  infused and mutated by the Shar’Nor (aka the Corrupted)
 traits: &ref_0
+  - trait-bodyform-adaptation
   - trait-bodyform-mutation
-  - trait-awakened-void
+species_traits: *ref_0
 recommended_factions:
   - The Outworlds
   - Mutant Faction Template
@@ -63,135 +82,71 @@ keywords: >-
   void-mutant, warp-touched, chaotic-physiology, resilient-aberration,
   fringe-dweller
 negative_keywords: 'pureblood-society, stable-form, pristine'
-species_traits: *ref_0
-cp: 11
-bp: 11
-cp_cost: 11
+cp: 1
+bp: 1
+cp_cost: 1
 ---
 
 # Eakren (Void-Warped Mutant)
-
-# 
-
-**CP Cost:** 1 CP  
-**Description:** Known as Harbingers of Entropy, Dark Hungers and Smoke Demons, the Sha’Nor are an extremely ancient species and are physically unlike any other species ever encountered. Being composed of what seems to be both some type of shifting organic material and dark matter simultaneously would indicate an other dimensional origin.  
-Sha’Nor require energy from living beings on a semi-regular basis or have a risk of discorporation (feeding is not necessarily lethal but will weaken the source for a day, \-1 Sta), will feed once a month or Cha check of DC10 (-1 per each month past due) failure resulting in \-1 Sta (discorporating after total Sta of \-5).   
-Many quite enjoy feeding and have learned to gain additional energy from it.  
-Sha’Nor have Advanced Spiritual based Magi-Tech, coupling Void Magic with TL5 Advancements, and is considered Extremely Alien by all other Species \- as no others have learned to tap the Void as they have nor possess their pseudo-solid state (double all Familiarity and Technological penalties, and some telepathic and telekinetic ability is needed to link to the devices essence and attempt operation). Sha’Nor suffers ALL Unfamiliarity Penalties for other technologies.
-
-**Classification:** Spectral Aberration  
-**Size:** Medium  
-**Movement:** 30 ft Groundspeed, 30 ft Flightspeed
-
-**Tech Level:** 5  
-**Meta Level:** 5
-
-**Homeworld:**   
-**Stigma:** Severe Xeno and Monstrous
-
-**Ability Modifiers:**   
-\+1 Wis  
-\+1 Ability
-
-**Skills:**   
-\+10 Skills
-
-**Species Features:**   
-Ageless  
-Alter Form, Advanced (assumes corporeal form, no flight)  
-Awakened (Void \- Wisdom \- (Matter or Entropy \- Chaos))  
-Bodyform Adaptation  
-Fast Heal  
-Flight (while Semi-Corporeal)  
-Immortality  
-Non-Typical Anatomy  
-Regeneration  
-Semi-Corporeal (“humanoid specter of solid black smoke”)  
-Telepathic  
-Vampiric (Flaw)
-
-**Recommended Features:** 
-
-# Discipline Features
-
-Special Abilities
-
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-
-## Tenen
-
-# 
-
-**CP Cost:**   
-**Description:** The Tenen are an extremely rare offshoot of Sha’Nor which have evolved from their predatory nature and Vampiric needs. Theory of this is primarily due to a transition to a demi-dimension they have been dwelling in. This seems to have accompanied their use of different energies more amiable to creation than destruction.   
-Origins are actually unknown and completely theorized at this point as only brief encounters have occurred, some speculate a grand connection to the Ila progenitors who have been rumored to have returned \- but again speculations.
-
-**Classification:** Spectral Aberration  
-**Size:** Medium  
-**Movement:** 30 ft Groundspeed, 30 ft Flightspeed
-
-**Tech Level:** 5  
-**Meta Level:** 5
-
-**Homeworld:**   
-**Stigma:** 
-
-**Ability Modifiers:**   
-\+1 Wis  
-\+1 Ability
-
-**Skills:**   
-\+10 Skills
-
-**Species Features:**   
-Ageless  
-Alter Form, Advanced (assumes corporeal form, no flight)  
-Awakened (Cosmic \- Wisdom (Dimension or Entropy \- Order))  
-Bodyform Adaptation  
-Fast Heal  
-Flight (while Semi-Corporeal)  
-Immortality  
-Non-Typical Anatomy  
-Regeneration  
-Semi-Corporeal (“humanoid specter of solid black smoke”)  
-Telepathic
-
-**Recommended Features:** 
-
-# Discipline Features
-
-Special Abilities
-
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
 ## EAKREN
 
 # 
 
-**CP Cost:**   
-**Description:** Various creatures (including humanoid, animal and plant based) which are infused and mutated by the Shar’Nor (aka the Corrupted)  
+**CP Cost:** 1 CP
+
+**Description:** Various creatures (including humanoid, animal and plant based) which are infused and mutated by the Shar’Nor (aka the Corrupted)
+
 \[akin to Awakened Animals, Adjusted PC Build and Equivalent Abilities\]
 
-**Classification:** Aberration  
-**Size:** varies  
+&nbsp;
+
+**Classification:** Aberration
+
+**Size:** varies
+
 **Movement:** varies
 
-**Tech Level:** 1  
+&nbsp;
+
+**Tech Level:** 1
+
 **Meta Level:** 1
 
-**Homeworld:** –  
+&nbsp;
+
+**Homeworld:** –
+
 **Stigma:** Beast
 
-**Species Features:**  
-Animal Body (Features and Disadvantages of base form)  
-Bodyform Adaptation  
-Typical PC Ability Scores  
+&nbsp;
+
+**Species Features:**
+
+Animal Body (Features and Disadvantages of base form)
+
+Bodyform Adaptation
+
+Typical PC Ability Scores
+
 Mutation
 
-**Recommended Features:**   
-Alter Form  
-Ageless  
-Bodyform  
-Fast Heal  
-Immortality  
+&nbsp;
+
+**Recommended Features:**&nbsp;
+
+Alter Form
+
+Ageless
+
+Bodyform
+
+Fast Heal
+
+Immortality
+
 Regeneration
+
+&nbsp;
+
+&nbsp;

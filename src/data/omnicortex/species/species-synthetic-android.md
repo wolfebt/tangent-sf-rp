@@ -10,7 +10,7 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-speeds: Ground 30 ft
+speeds: 30 ft Groundspeed
 reach: 5 ft
 senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
 immunities: >-
@@ -22,11 +22,7 @@ inherent_attribute_modifiers:
   - attribute: Charisma
     bonus: -1
 bonus_attribute_points: 2
-specific_skill_bonuses:
-  - skill: Computation
-    bonus: 2
-  - skill: Engineering
-    bonus: 1
+specific_skill_bonuses: []
 bonus_skills: 10
 bonus_skill_choices:
   - Computation
@@ -34,39 +30,68 @@ bonus_skill_choices:
   - Science
   - Technology
   - Discipline
-traits: &ref_0
-  - trait-resistant
-  - trait-natural-armor
-  - trait-powerful-charge
-  - trait-synthetic-base-traits
 inherent_features: []
-bonus_features: []
+bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
   - Educated
   - Lightning Calculator
   - Master Craftsman
   - Tough
-stigma: None to Minor Synthetic (-1)
-tech_level: 4 (Optronic Cores & Piezoelectric Myomer)
-meta_level: 0 (Null)
-homeworld: Autonomous Foundry Stations
+disadvantages: []
+stigma: Synthetic (-2)
+tech_level: '4'
+meta_level: '0'
+homeworld: Vulcan (Syndicate Synthetic World)
 costs:
-  cp: 54
-  bp: 54
+  cp: 47
+  bp: 47
 modifiers:
   - target: Intellect
     value: 1
     type: attribute
     mode: inherent
+    description: +1 Intellect
   - target: Charisma
     value: -1
     type: attribute
     mode: inherent
+    description: '-1 Charisma'
+  - target: Any
+    value: 2
+    type: attribute
+    mode: bonus_pool
+    description: +2 Flexible Attribute Points
+  - target: Any
+    value: 10
+    type: skill
+    mode: bonus_pool
+    description: +10 Skill Points
+  - target: Educated
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Lightning Calculator
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Master Craftsman
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Tough
+    value: 1
+    type: feature
+    mode: recommended
 description: >-
-  Androids are synthetic humanoids constructed with optronic neural networks,
-  myomer musculature, and modular sub-systems. Immune to fatigue and disease,
-  they represent tireless efficiency.
+  Humanlike in general form and function, and often looking synthetic with
+  bright or metallic skin and hair colors as well as adjustable illuminations
+  and circuitry patterns. Began in the Syndicate as a labor caste, originally
+  designed by unknowingly using the Impyrium’s knowledge of the Mekan neural
+  network and advanced technology.
+traits: &ref_0
+  - trait-synthetic-base-traits
+species_traits: *ref_0
 recommended_factions:
   - The Syndicate
   - Artificial Life Faction Template
@@ -82,41 +107,63 @@ recommended_occupations:
   - Agent
 keywords: 'optronic-chassis, myomer-muscle, modular-hardware, tireless, emotion-neutral'
 negative_keywords: 'biological-disease, starvation, nature-magic'
-species_traits: *ref_0
-cp: 54
-bp: 54
-cp_cost: 54
+cp: 47
+bp: 47
+cp_cost: 47
 ---
 
-# Android (Synthetic Humanoid)
-
-*
+# **ANDROID \***
 
 ## **ANDROID \***
 
 # 
 
 **CP Cost:** 42 CP  
+
 **Description:** Humanlike in general form and function, and often looking synthetic with bright or metallic skin and hair colors as well as adjustable illuminations and circuitry patterns. Began in the Syndicate as a labor caste, originally designed by unknowingly using the Impyrium’s knowledge of the Mekan neural network and advanced technology.
 
-**Classification:** Synthetic Humanoid  
-**Size:** Medium  
+&nbsp;
+
+**Classification:** Synthetic Humanoid
+
+**Size:** Medium
+
 **Movement:** 30 ft Groundspeed
 
-**Tech Level:** 4  
+&nbsp;
+
+**Tech Level:** 4
+
 **Meta Level:** 0
 
-**Homeworld:** Vulcan. Most Androids were assembled on and will call this Syndicate world home, which is now completely populated with various synthetics after a catastrophic environmental collapse.  
+&nbsp;
+
+**Homeworld:** Vulcan. Most Androids were assembled on and will call this Syndicate world home, which is now completely populated with various synthetics after a catastrophic environmental collapse.
+
 **Stigma:** Synthetic
 
-**Ability Modifiers:**   
-\+1 Int  
-\+2 Abilities  
+&nbsp;
+
+**Ability Modifiers:**&nbsp;
+
+\+1 Int
+
+\+2 Abilities
+
 \-1 Cha
 
-**Skills:**   
+&nbsp;
+
+**Skills:**&nbsp;
+
 \+10 Skills
 
-**Species Features:** 
+&nbsp;
 
-**Recommended Features:**
+**Species Features:**&nbsp;
+
+&nbsp;
+
+**Recommended Features:**&nbsp;
+
+&nbsp;

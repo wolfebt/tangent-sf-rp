@@ -1,24 +1,27 @@
 ---
 id: cycle-rugged-frame
 category: mecha
-name: Cycle (Rugged Wilderness)
+name: Cycle (Rugged Frame)
 domain: Ground
 size: Medium
-frame: Personal
-cost: 17
-craft_dc: 2
-sp: 20
-dr: 4
+frame: Manual Geared Transport
+cost: 53
+craft_dc: 6
+sp: 15
+dr: 5
 mounts: 1
 propulsion: Manual (Pedal/Gear)
 description: >-
-  Ruggedized bicycle frame with suspension and cargo rack for wilderness
-  traversal.
-mechanic: Movement x2 on roads/trails. Includes cargo rack (holds 2 Slots).
+  A ruggedized frame with suspension for wilderness traversal. Uses Manual
+  (Pedal/Gear) propulsion and includes a Gear System for mechanical advantage
+  and a Cargo Rack.
+mechanic: >-
+  Manual (Pedal/Gear) propulsion. Includes mechanical advantage gearing and a
+  light Cargo Rack. | SP: 15, DR: 5 | Craft DC: 6 (53 Cr)
 costs:
   cp: 0
   bp: 0
-  credits: 17
+  credits: 53
   nodes: 0
   sockets: 0
   strain: 0
@@ -37,11 +40,18 @@ sockets:
   tier: Socket
   allocated: []
 tech_level: 1
-keywords: 'cycle (rugged wilderness), mecha, vehicle, medium, personal, tl-1'
-negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
+keywords: >-
+  cycle (rugged frame), mecha, vehicle, personal mobility, manual geared
+  transport, tl-1
+negative_keywords: 'infantry-only, unmounted'
 meta_level: 0
-design_dc: 2
+design_dc: 6
+classification: Personal Mobility
+crew: '1'
+durability: 15
 ---
-Ruggedized bicycle frame with suspension and cargo rack for wilderness traversal.
+A ruggedized frame with suspension for wilderness traversal. Uses Manual (Pedal/Gear) propulsion and includes a Gear System for mechanical advantage and a Cargo Rack.
 
-**Mechanics:** Movement x2 on roads/trails. Includes cargo rack (holds 2 Slots).
+**Class:** Personal Mobility (Manual Geared Transport)
+**Propulsion:** Manual (Pedal/Gear) | **Crew:** 1
+**Mechanics:** Manual (Pedal/Gear) propulsion. Includes mechanical advantage gearing and a light Cargo Rack. | SP: 15, DR: 5 | Craft DC: 6 (53 Cr)

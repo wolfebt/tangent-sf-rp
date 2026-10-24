@@ -1,0 +1,50 @@
+[
+  {
+    "id": "society_materials_lvl_0",
+    "category": "society_materials",
+    "name": "Materials & Metallurgy (Level 0: Natural Materials)",
+    "level": 0,
+    "sphere_key": "society_materials",
+    "description": "Level 0 (Natural Materials) in Materials & Metallurgy: Unworked stone, bone, wood, animal hides, and early bronze/iron (25% DR, x0.25 SP)."
+  },
+  {
+    "id": "society_materials_lvl_1",
+    "category": "society_materials",
+    "name": "Materials & Metallurgy (Level 1: Synthetic & Steel Alloys)",
+    "level": 1,
+    "sphere_key": "society_materials",
+    "description": "Level 1 (Synthetic & Steel Alloys) in Materials & Metallurgy: High-carbon steel, wrought iron, and early industrial plastics (50% DR, x0.5 SP)."
+  },
+  {
+    "id": "society_materials_lvl_2",
+    "category": "society_materials",
+    "name": "Materials & Metallurgy (Level 2: Advanced Composites)",
+    "level": 2,
+    "sphere_key": "society_materials",
+    "description": "Level 2 (Advanced Composites) in Materials & Metallurgy: Ballistic kevlar weaves, strike-face ceramics, and titanium alloys (75% DR, x1.0 SP)."
+  },
+  {
+    "id": "society_materials_lvl_3",
+    "category": "society_materials",
+    "name": "Materials & Metallurgy (Level 3: Metamaterials & Plasteel)",
+    "level": 3,
+    "sphere_key": "society_materials",
+    "description": "Level 3 (Metamaterials & Plasteel) in Materials & Metallurgy: Space-age plasteel, impact gel, Kitin hive-resin, and biomaterials (100% DR, x1.5 SP)."
+  },
+  {
+    "id": "society_materials_lvl_4",
+    "category": "society_materials",
+    "name": "Materials & Metallurgy (Level 4: Nanotechnology)",
+    "level": 4,
+    "sphere_key": "society_materials",
+    "description": "Level 4 (Nanotechnology) in Materials & Metallurgy: Self-repairing nanocarbon, phase-shift alloys, and Alterian sunglass laminates (125% DR, x2.0 SP)."
+  },
+  {
+    "id": "society_materials_lvl_5",
+    "category": "society_materials",
+    "name": "Materials & Metallurgy (Level 5: Polymatter & Hard-Light)",
+    "level": 5,
+    "sphere_key": "society_materials",
+    "description": "Level 5 (Polymatter & Hard-Light) in Materials & Metallurgy: Morphic liquid-metal Polymatter and weightless Holophotonic lattices (150% DR, x2.5 SP)."
+  }
+]

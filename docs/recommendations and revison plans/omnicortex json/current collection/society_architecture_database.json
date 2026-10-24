@@ -1,0 +1,50 @@
+[
+  {
+    "id": "society_architecture_lvl_0",
+    "category": "society_architecture",
+    "name": "Architecture & Habitats (Level 0: Simple Structures)",
+    "level": 0,
+    "sphere_key": "society_architecture",
+    "description": "Level 0 (Simple Structures) in Architecture & Habitats: Huts, tents, and basic masonry structures."
+  },
+  {
+    "id": "society_architecture_lvl_1",
+    "category": "society_architecture",
+    "name": "Architecture & Habitats (Level 1: Advanced Masonry)",
+    "level": 1,
+    "sphere_key": "society_architecture",
+    "description": "Level 1 (Advanced Masonry) in Architecture & Habitats: Early steel structures, foundries, and basic urban planning."
+  },
+  {
+    "id": "society_architecture_lvl_2",
+    "category": "society_architecture",
+    "name": "Architecture & Habitats (Level 2: Skyscrapers)",
+    "level": 2,
+    "sphere_key": "society_architecture",
+    "description": "Level 2 (Skyscrapers) in Architecture & Habitats: Advanced urban planning, reinforced high-rises, and sustainable architecture."
+  },
+  {
+    "id": "society_architecture_lvl_3",
+    "category": "society_architecture",
+    "name": "Architecture & Habitats (Level 3: Smart Cities)",
+    "level": 3,
+    "sphere_key": "society_architecture",
+    "description": "Level 3 (Smart Cities) in Architecture & Habitats: Advanced building materials, arcologies, and energy-efficient pressurized designs."
+  },
+  {
+    "id": "society_architecture_lvl_4",
+    "category": "society_architecture",
+    "name": "Architecture & Habitats (Level 4: Advanced Space Habitats)",
+    "level": 4,
+    "sphere_key": "society_architecture",
+    "description": "Level 4 (Advanced Space Habitats) in Architecture & Habitats: Self-assembling orbital structures, grav-plated stations, and terraforming domes."
+  },
+  {
+    "id": "society_architecture_lvl_5",
+    "category": "society_architecture",
+    "name": "Architecture & Habitats (Level 5: Megastructures)",
+    "level": 5,
+    "sphere_key": "society_architecture",
+    "description": "Level 5 (Megastructures) in Architecture & Habitats: Dyson Spheres, Ring Worlds (such as Mekan Prime), and Stellar Engineering."
+  }
+]

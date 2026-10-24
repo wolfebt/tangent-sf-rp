@@ -10,9 +10,7 @@ size:
   - species_size-small
 movement:
   - species_movement-bipedal
-  - species_movement-climbing
-  - species_movement-gliding
-speeds: 'Ground 30 ft, Climb 30 ft, Glide 30 ft'
+speeds: '30 ft Groundspeed, 30 ft Climbspeed'
 reach: 3 ft
 senses: 'Low-light vision. [1]'
 immunities: None
@@ -22,56 +20,55 @@ inherent_attribute_modifiers:
   - attribute: Charisma
     bonus: 1
 bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Acrobatics
-    bonus: 2
+specific_skill_bonuses: []
 bonus_skills: 0
 bonus_skill_choices:
   - Acrobatics
   - Stealth
   - Perception
   - Sleight of Hand
-inherent_features: []
-bonus_features: []
+inherent_features:
+  - special-uncanny-sense
+bonus_features: 0
 bonus_feature_choices: []
-recommended_features:
-  - Wall-Crawler
+recommended_features: []
+disadvantages: []
 stigma: Severe Xeno (-4)
-tech_level: 2 (Lightweight Harnesses)
-meta_level: 1 (Animalistic Empathy)
-homeworld: Qerica Jungle Spires
+tech_level: '1'
+meta_level: '2'
+homeworld: Qer (Canopy World)
 costs:
-  cp: 18
-  bp: 18
+  cp: 17
+  bp: 17
 modifiers:
   - target: Agility
     value: 1
     type: attribute
     mode: inherent
+    description: +1 Agility
   - target: Charisma
     value: 1
     type: attribute
     mode: inherent
-  - target: Strength
-    value: -2
-    type: attribute
-    mode: size_modifier
-  - target: Combat / Defense
-    value: 2
-    type: combat
-    mode: size_modifier
-  - target: Stealth
-    value: 4
-    type: skill
-    mode: size_modifier
+    description: +1 Charisma
+  - target: special-uncanny-sense
+    value: 1
+    type: feature
+    mode: inherent
+  - target: Wall-Crawler
+    value: 1
+    type: feature
+    mode: recommended
 description: >-
-  Small, charismatic mammalian quadrupeds with patagial gliding membranes who
-  navigate high-canopy habitats and urban catwalks.
+  The Qeric (Pronounced Ker-Ik) are a species of small, six-limbed arboreal
+  humanoids that bear a superficial resemblance to Rodentia, characterized by
+  their friendly, inherently cute, and exceptionally quick nature. Qeric are
+  generally diminutive, perfectly sized for navigating their arboreal homes.
 traits: &ref_0
   - trait-climber
-  - trait-additional-limbs
   - trait-patagia
-  - trait-scent
+  - trait-additional-limbs
+species_traits: *ref_0
 recommended_factions:
   - The Entari Combine
   - Coalition of Independent Worlds
@@ -87,33 +84,87 @@ keywords: >-
   patagial-glider, tiny-charmer, canopy-scamper, charismatic, acrobatic,
   friendly
 negative_keywords: 'heavy-infantry, slugthrower, terrifying'
-species_traits: *ref_0
-cp: 18
-bp: 18
-cp_cost: 18
+cp: 17
+bp: 17
+cp_cost: 17
 ---
 
-# Qeric (Gliding Beastfolk)
+# **QERIC \* \*\***
 
-## Description
-Small, charismatic mammalian quadrupeds with patagial gliding membranes who navigate high-canopy habitats and urban catwalks.
+# **QERIC \* \*\***
 
-## Core Identity
-- **Lineage**: Independent Xenotypes
-- **Type**: species_type-beast
-- **Size**: species_size-small
-- **Movement**: Ground 30 ft, Climb 30 ft, Glide 30 ft
-- **Homeworld**: Qerica Jungle Spires
-- **Tech Level**: 2 (Lightweight Harnesses)
-- **Meta Level**: 1 (Animalistic Empathy)
-- **Stigma**: Severe Xeno (-4)
+# 
 
-## Mechanics & Statblock
-- **CP Cost**: 18 CP
-- **Inherent Modifiers**: +1 Agility, +1 Charisma
-- **Bonus Skills**: +0 Skill Points
-- **Inherent Features**: Small Size, Climbing, Patagia (Glide 30ft), Multidextrous, Uncanny Senses (Acute Scent), Climb Speed (30ft)
-- **Recommended Features**: feature-tree-glider
+**CP Cost:** 16 CP  
 
-## Roleplay & Society
-Small, charismatic mammalian quadrupeds with patagial gliding membranes who navigate high-canopy habitats and urban catwalks.
+**Description:** The Qeric (Pronounced Ker-Ik) are a species of small, six-limbed arboreal humanoids that bear a superficial resemblance to Rodentia, characterized by their friendly, inherently cute, and exceptionally quick nature. Qeric are generally diminutive, perfectly sized for navigating their arboreal homes.&nbsp;
+
+&nbsp;
+
+Their most distinguishing feature is the presence of six articulated limbs, which provide them with unparalleled agility and grip when moving through the canopy. They are almost exclusively tree-dwellers, building intricate, often communal nests high in the branches of the largest trees. Their agility allows them to leap great distances and move with a blur of motion, making them notoriously difficult to track or catch.&nbsp;
+
+&nbsp;
+
+Qeric society is defined by extremely strong family and clan bonds. They live in large, cooperative groups, where the well-being of the collective is prioritized over individual concerns. Clan elders hold significant respect and guide the community's major decisions. They possess a deep, almost instinctual fascination with "shinies"—a broad term encompassing anything reflective, glittering, or aesthetically pleasing, such as polished stones, metals, crystals, or even discarded metallic refuse. Collecting and displaying these shinies is a central cultural activity, though the items are often considered community treasures rather than personal possessions.&nbsp;
+
+&nbsp;
+
+Qeric culture lacks a strong concept of personal property. Resources, food, and even collections of shinies are often shared freely among the clan. Similarly, personal privacy is not highly valued; their close living arrangements and communal nature mean that open communication and easy access to one another are the norm. This openness, while perhaps jarring to outsiders, contributes to their low levels of internal conflict and high level of trust. Their disposition is overwhelmingly friendly and curious. They are rarely aggressive, preferring to flee or observe from a distance when confronted with danger. Their quickness is their primary defense mechanism.
+
+&nbsp;
+
+**Classification:** Beast
+
+**Size:** Small
+
+**Movement:** 30 ft Groundspeed, 30 ft Climbspeed
+
+&nbsp;
+
+**Tech Level:** 1
+
+**Meta Level:** 2
+
+&nbsp;
+
+**Homeworld:**&nbsp;
+
+**Stigma:**&nbsp;
+
+&nbsp;
+
+**Ability Modifiers:**&nbsp;
+
+\+1 Agi
+
+\+1 Cha
+
+&nbsp;
+
+**Skills:**&nbsp;
+
+&nbsp;
+
+**Species Features:**&nbsp;
+
+Climbing
+
+Patagia (Glide up to 2x Ground Speed)
+
+Multidextrous (6 Prehensile Hands/Feet)
+
+Uncanny Senses (Scent)
+
+Xeno Stigma (Severe)
+
+&nbsp;
+
+**Recommended Features:**&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;

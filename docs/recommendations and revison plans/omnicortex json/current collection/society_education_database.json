@@ -1,0 +1,50 @@
+[
+  {
+    "id": "society_education_lvl_0",
+    "category": "society_education",
+    "name": "Education & Archives (Level 0: Oral Tradition)",
+    "level": 0,
+    "sphere_key": "society_education",
+    "description": "Level 0 (Oral Tradition) in Education & Archives: Apprenticeships, elders, and oral transmission of survival and tribal lore (+2 Alertness, +2 Survival, 1 Skill +2)."
+  },
+  {
+    "id": "society_education_lvl_1",
+    "category": "society_education",
+    "name": "Education & Archives (Level 1: Guilds & Print)",
+    "level": 1,
+    "sphere_key": "society_education",
+    "description": "Level 1 (Guilds & Print) in Education & Archives: Written archives, universities, and vocational guild apprenticeships (2 Vocation skills +2, 4 Skills +2)."
+  },
+  {
+    "id": "society_education_lvl_2",
+    "category": "society_education",
+    "name": "Education & Archives (Level 2: Modern Education)",
+    "level": 2,
+    "sphere_key": "society_education",
+    "description": "Level 2 (Modern Education) in Education & Archives: Standardized public and higher education supported by digital databases (+20 Skill Points)."
+  },
+  {
+    "id": "society_education_lvl_3",
+    "category": "society_education",
+    "name": "Education & Archives (Level 3: Advanced Stellar Education)",
+    "level": 3,
+    "sphere_key": "society_education",
+    "description": "Level 3 (Advanced Stellar Education) in Education & Archives: Immersive AR/VR training academies and system-wide knowledge archives (+30 Skill Points)."
+  },
+  {
+    "id": "society_education_lvl_4",
+    "category": "society_education",
+    "name": "Education & Archives (Level 4: Trans-Neural Education)",
+    "level": 4,
+    "sphere_key": "society_education",
+    "description": "Level 4 (Trans-Neural Education) in Education & Archives: Direct neural skill-circuitry conditioning and AI-guided instruction (+40 Skill Points)."
+  },
+  {
+    "id": "society_education_lvl_5",
+    "category": "society_education",
+    "name": "Education & Archives (Level 5: Cutting-Edge Bastion Archives)",
+    "level": 5,
+    "sphere_key": "society_education",
+    "description": "Level 5 (Cutting-Edge Bastion Archives) in Education & Archives: Instantaneous cognitive synthesis and gestational super-intellect complexes (+50 Skill Points)."
+  }
+]

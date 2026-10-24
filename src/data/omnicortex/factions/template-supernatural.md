@@ -23,7 +23,7 @@ skill_package:
   - Discipline (+4)
   - Insight (+3)
   - Bluff (+3)
-recommended_features:
+recommended_features: &ref_0
   - Magical Aptitude
   - Awakened
   - Darksight
@@ -31,20 +31,9 @@ recommended_features:
   - Deceitful
   - Benefit (Wealth)
   - Fast Heal
-  - Unsettling Aura
   - Veiled Threat
   - Sense
-features:
-  - Magical Aptitude
-  - Awakened
-  - Darksight
-  - Sneak Attack
-  - Deceitful
-  - Benefit (Wealth)
-  - Fast Heal
-  - Unsettling Aura
-  - Veiled Threat
-  - Sense
+features: *ref_0
 bonus_features:
   - Magical Aptitude
 description: >-

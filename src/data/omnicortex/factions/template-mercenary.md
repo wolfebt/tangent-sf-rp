@@ -25,10 +25,9 @@ skill_package:
   - Survival (+4)
   - Mechanics (+4)
   - Athletics (+3)
-recommended_features:
+recommended_features: &ref_0
   - Weapon Focus
   - Tough
-  - Armor Proficiency
   - Combat Reflexes
   - Danger Sense
   - Burst Attack
@@ -36,17 +35,7 @@ recommended_features:
   - Diehard
   - Endurance
   - Weapon Improvisation
-features:
-  - Weapon Focus
-  - Tough
-  - Armor Proficiency
-  - Combat Reflexes
-  - Danger Sense
-  - Burst Attack
-  - Gearhead
-  - Diehard
-  - Endurance
-  - Weapon Improvisation
+features: *ref_0
 bonus_features:
   - Weapon Focus
 description: >-

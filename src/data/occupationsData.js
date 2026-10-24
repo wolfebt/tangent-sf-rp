@@ -47,7 +47,7 @@ export const DEFAULT_OCCUPATIONS = [
       "Low Light Vision"
     ],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Fey (Base)",
       "Sigal",
@@ -61,7 +61,7 @@ export const DEFAULT_OCCUPATIONS = [
     "recommended_factions": [
       "The Alterian Enclave",
       "The Ascendancy",
-      "Elven Providence",
+      "Aeld Providence",
       "Dracon Dynasty",
       "Supernatural Faction Template",
       "Space Religion Faction Template",
@@ -251,7 +251,7 @@ export const DEFAULT_OCCUPATIONS = [
       "Doppelganger (Shifter)",
       "Changeling (Doppelganger Hybrid)",
       "Skin (Infiltrator Synthetic)",
-      "Nocturne (Kovian)",
+      "Kovian",
       "Android",
       "Cyberform Human",
       "Danai (Davae Hybrid)",
@@ -941,19 +941,17 @@ export const DEFAULT_OCCUPATIONS = [
     "description": "A Criminal is a character who engages in illegal activities for personal gain or as part of an organized group. This can include roles such as thieves, con artists, burglars, assassins, and members of criminal organizations. Criminal characters often possess skills in stealth, deception, and combat, allowing them to navigate the dangerous underworld and accomplish their objectives. Many Criminals can be quite brutish but some will be quite professional and honorable. Though others commit a myriad assortment of crimes on a regular basis, no one is as good at crime-for-profit as an actual Criminal.",
     "recommended_features": [
       "Skill Features",
-      "Underworld Connections",
       "Connected"
     ],
     "features": [
       "Skill Features",
-      "Underworld Connections",
       "Connected"
     ],
     "recommended_species": [
       "Doppelganger (Shifter)",
       "Changeling (Doppelganger Hybrid)",
       "Scrap (Junkframe Synthetic)",
-      "Nocturne (Kovian)",
+      "Kovian",
       "Cyberform Human",
       "Danai (Davae Hybrid)",
       "Kizin",
@@ -1434,7 +1432,7 @@ export const DEFAULT_OCCUPATIONS = [
       "Social Features"
     ],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Fey (Base)",
       "Ferren",
       "Argynt Human",
@@ -1449,7 +1447,7 @@ export const DEFAULT_OCCUPATIONS = [
       "Space Tourism Faction Template",
       "The Entari Combine",
       "Incorporated Planetary Syndication (The Syndicate)",
-      "Elven Providence",
+      "Aeld Providence",
       "The Alterian Enclave",
       "Corporate Faction Template"
     ],
@@ -1847,7 +1845,7 @@ export const DEFAULT_OCCUPATIONS = [
       "Social Features"
     ],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Manelli (Cerebral Expression)",
       "Human (Base)",
       "Argynt Human",
@@ -2048,7 +2046,7 @@ export const DEFAULT_OCCUPATIONS = [
     ],
     "recommended_species": [
       "Sigal",
-      "Celestine (Alterian)",
+      "Alterian",
       "Nian Human",
       "Intellect Construct (Pure AI)",
       "Android",
@@ -2061,7 +2059,7 @@ export const DEFAULT_OCCUPATIONS = [
       "The Ascendancy",
       "Technological Faction Template",
       "The Alterian Enclave",
-      "Elven Providence",
+      "Aeld Providence",
       "Sentient Intelligence Faction Template",
       "The Mekan Collective"
     ],
@@ -2250,8 +2248,8 @@ export const DEFAULT_OCCUPATIONS = [
       "Dar (Auluran Hunter)",
       "Tozen",
       "Frellin",
-      "Rakne (Kitin Stalker)",
-      "Maantene (Kitin Leaper)",
+      "Rakne (Infiltration Expression)",
+      "Maantene (Recon Expression)",
       "Wildling",
       "Human (Base)"
     ],
@@ -2260,7 +2258,7 @@ export const DEFAULT_OCCUPATIONS = [
       "Space Exploration Faction Template",
       "Coalition of Independent Worlds",
       "Auluran Clans",
-      "Elven Providence",
+      "Aeld Providence",
       "Vajar Tribes"
     ],
     "recommended_origins": [
@@ -2481,7 +2479,7 @@ export const DEFAULT_OCCUPATIONS = [
       "Rautha Human",
       "Graa (Auluran Heavy)",
       "Dar (Auluran Hunter)",
-      "Maantene (Kitin Leaper)",
+      "Maantene (Recon Expression)",
       "Qeric",
       "Weti",
       "Sentient Machine (Free Droid)"
@@ -2887,55 +2885,111 @@ export const DEFAULT_OCCUPATIONS = [
  */
 export const COMMON_OCCUPATIONAL_TRAITS = [
   {
-    id: "trait-background",
-    name: "Background",
-    category: "traits",
-    trait_type: "Occupational Trait",
-    trait_tier: "Basic",
-    classification: "Mental",
-    cp: 1,
-    bp: 1,
-    description: "The character may select additional training from another Occupation fitting the character's backstory. This does not grant any additional Professional Skill points or Recommended Features from the other Profession. May be taken multiple times granting a different Trait in the chosen Background Occupation, traits may now be chosen from the primary and background Occupation. Gain one Trait from a SECONDARY Chosen Occupation.",
-    costs: { cp: 1, bp: 1, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0 }
+    "id": "trait-background",
+    "name": "Background",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "description": "The character may select additional training from another Occupation fitting the character's backstory. This does not grant any additional Professional Skill points or Recommended Features from the other Profession. May be taken multiple times granting a different Trait in the chosen Background Occupation, traits may now be chosen from the primary and background Occupation. Gain one Trait from a SECONDARY Chosen Occupation.",
+    "costs": {
+      "cp": 1,
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    }
   },
   {
-    id: "trait-trade-tools",
-    name: "Trade Tools",
-    category: "traits",
-    trait_type: "Occupational Trait",
-    trait_tier: "Basic",
-    classification: "Physical",
-    cp: 1,
-    bp: 1,
-    description: "Helps cover general gear the character would have for their Occupation. The character's additional equipment will depend on their specific job within their profession. +2 Equipment",
-    modifiers: [{ target: "equipment", value: 2, type: "other", mode: "inherent" }],
-    costs: { cp: 1, bp: 1, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0 }
+    "id": "trait-trade-tools",
+    "name": "Trade Tools",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "cp": 1,
+    "bp": 1,
+    "description": "Helps cover general gear the character would have for their Occupation. The character's additional equipment will depend on their specific job within their profession. +2 Equipment",
+    "modifiers": [
+      {
+        "target": "equipment",
+        "value": 2,
+        "type": "other",
+        "mode": "inherent"
+      }
+    ],
+    "costs": {
+      "cp": 1,
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    }
   },
   {
-    id: "trait-high-pay",
-    name: "High Pay",
-    category: "traits",
-    trait_type: "Occupational Trait",
-    trait_tier: "Basic",
-    classification: "Social",
-    cp: 1,
-    bp: 1,
-    description: "Benefit for doing their job well. +2 Wealth",
-    modifiers: [{ target: "wealth", value: 2, type: "other", mode: "inherent" }],
-    costs: { cp: 1, bp: 1, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0 }
+    "id": "trait-high-pay",
+    "name": "High Pay",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Social",
+    "cp": 1,
+    "bp": 1,
+    "description": "Benefit for doing their job well. +2 Wealth",
+    "modifiers": [
+      {
+        "target": "wealth",
+        "value": 2,
+        "type": "other",
+        "mode": "inherent"
+      }
+    ],
+    "costs": {
+      "cp": 1,
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    }
   },
   {
-    id: "trait-professionalism",
-    name: "Professionalism",
-    category: "traits",
-    trait_type: "Occupational Trait",
-    trait_tier: "Basic",
-    classification: "Social",
-    cp: 1,
-    bp: 1,
-    description: "Benefit of being known to do their job well. +2 Reputation",
-    modifiers: [{ target: "reputation", value: 2, type: "other", mode: "inherent" }],
-    costs: { cp: 1, bp: 1, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0 }
+    "id": "trait-professionalism",
+    "name": "Professionalism",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Social",
+    "cp": 1,
+    "bp": 1,
+    "description": "Benefit of being known to do their job well. +2 Reputation",
+    "modifiers": [
+      {
+        "target": "reputation",
+        "value": 2,
+        "type": "other",
+        "mode": "inherent"
+      }
+    ],
+    "costs": {
+      "cp": 1,
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    }
   }
 ];
-

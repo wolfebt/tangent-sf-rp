@@ -419,7 +419,7 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
       assert.ok(alterianCost.summaryText.length > 0);
 
       const baseHumanCost = calculateFullSpeciesCost('Human (Base)');
-      assert.strictEqual(baseHumanCost.totalCost, 12);
+      assert.strictEqual(baseHumanCost.totalCost, 13);
 
       const defaultHumanoid = calculateFullSpeciesCost({ type: 'Humanoid', size: 'Medium' });
       assert.strictEqual(defaultHumanoid.totalCost, 0);

@@ -29,7 +29,7 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
-tech_level: 3
+tech_level: 5
 meta_level: 0
 stage: Standard
 keywords: 'quantum storage, augmentation, esoteric, standard, tl-3, general'

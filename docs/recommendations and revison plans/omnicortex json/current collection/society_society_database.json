@@ -1,0 +1,50 @@
+[
+  {
+    "id": "society_society_lvl_0",
+    "category": "society_society",
+    "name": "Structure & Governance (Level 0: Tribal)",
+    "level": 0,
+    "sphere_key": "society_society",
+    "description": "Level 0 (Tribal) in Structure & Governance: Small nomadic families, clans, and animistic social structures."
+  },
+  {
+    "id": "society_society_lvl_1",
+    "category": "society_society",
+    "name": "Structure & Governance (Level 1: Early Civilizations)",
+    "level": 1,
+    "sphere_key": "society_society",
+    "description": "Level 1 (Early Civilizations) in Structure & Governance: Urbanized nation-states, feudal dynasties, and codified legal hierarchies."
+  },
+  {
+    "id": "society_society_lvl_2",
+    "category": "society_society",
+    "name": "Structure & Governance (Level 2: Modern Societies)",
+    "level": 2,
+    "sphere_key": "society_society",
+    "description": "Level 2 (Modern Societies) in Structure & Governance: Globalized planetary governments, international treaties, and connected media."
+  },
+  {
+    "id": "society_society_lvl_3",
+    "category": "society_society",
+    "name": "Structure & Governance (Level 3: Advanced Societies)",
+    "level": 3,
+    "sphere_key": "society_society",
+    "description": "Level 3 (Advanced Societies) in Structure & Governance: System-wide governance, corporate syndicates, and interstellar jump-gate coalitions."
+  },
+  {
+    "id": "society_society_lvl_4",
+    "category": "society_society",
+    "name": "Structure & Governance (Level 4: Highly Interconnected)",
+    "level": 4,
+    "sphere_key": "society_society",
+    "description": "Level 4 (Highly Interconnected) in Structure & Governance: Multi-sector empires, Mesh-integrated meritocracies, and cosmopolitan trade combines."
+  },
+  {
+    "id": "society_society_lvl_5",
+    "category": "society_society",
+    "name": "Structure & Governance (Level 5: Post-Scarcity)",
+    "level": 5,
+    "sphere_key": "society_society",
+    "description": "Level 5 (Post-Scarcity) in Structure & Governance: Gestalted super-intellect governance and post-scarcity societal harmony without resource need."
+  }
+]

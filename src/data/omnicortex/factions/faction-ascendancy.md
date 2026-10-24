@@ -77,7 +77,7 @@ recommended_species:
   - Impyrium Psion (Gen-E)
   - Human (Base)
   - Lin Human
-  - Celestine (Alterian)
+  - Alterian
   - Eidolon (Aetherion Specialist)
 recommended_origins:
   - Enlightened

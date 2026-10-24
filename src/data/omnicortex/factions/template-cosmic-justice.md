@@ -28,28 +28,16 @@ skill_package:
   - Diplomacy (+4)
   - Insight (+3)
   - Law (+3)
-recommended_features:
+recommended_features: &ref_0
   - Iron Will
   - Fearless
   - Inspiring Personality
-  - Lie Detector
   - Benefit (Authority)
   - Weapon Focus
   - Defensive Combat Training
   - Indomitable Will
-  - Resolute
   - Trustworthy
-features:
-  - Iron Will
-  - Fearless
-  - Inspiring Personality
-  - Lie Detector
-  - Benefit (Authority)
-  - Weapon Focus
-  - Defensive Combat Training
-  - Indomitable Will
-  - Resolute
-  - Trustworthy
+features: *ref_0
 bonus_features:
   - Iron Will
 description: >-
@@ -66,7 +54,7 @@ recommended_species:
   - Human (Base)
   - Janissary (Gen-E)
   - Draconic Human
-  - Celestine (Alterian)
+  - Alterian
 recommended_origins:
   - Enlightened
   - Militaristic

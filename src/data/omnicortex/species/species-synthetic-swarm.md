@@ -6,11 +6,12 @@ category: species
 parent_species: Synthetics
 type:
   - species_type-synthetic
+  - species_type-ooze
 size:
-  - species_size-diminutive
+  - species_size-medium
 movement:
   - species_movement-flight
-speeds: Flight 60 ft
+speeds: '30 ft Groundspeed, 30 ft Flightspeed'
 reach: 1 ft
 senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
 immunities: >-
@@ -20,11 +21,9 @@ inherent_attribute_modifiers:
   - attribute: Intellect
     bonus: 1
   - attribute: Strength
-    bonus: -8
+    bonus: -4
 bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Discipline
-    bonus: 2
+specific_skill_bonuses: []
 bonus_skills: 10
 bonus_skill_choices:
   - Discipline
@@ -32,50 +31,61 @@ bonus_skill_choices:
   - Stealth
   - Science
 inherent_features: []
-bonus_features: []
+bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
   - Coordinated Assist
   - Darksight
   - Lightning Calculator
-  - Wall-Crawler
-stigma: Severe Synthetic (-4)
-tech_level: 4 (Micro-Drone & Nanite Lattices)
-meta_level: 1 (Swarm Resonance)
+disadvantages: []
+stigma: 'Severe Synthetic (-4), Xeno (-2)'
+tech_level: '4'
+meta_level: '0'
 homeworld: Nano-Fabrication Cloud Platforms
 costs:
-  cp: 20
-  bp: 20
+  cp: 28
+  bp: 28
 modifiers:
   - target: Intellect
     value: 1
     type: attribute
     mode: inherent
+    description: +1 Intellect
   - target: Strength
-    value: -8
+    value: -4
     type: attribute
     mode: inherent
-  - target: Strength
-    value: -8
-    type: attribute
-    mode: size_modifier
-  - target: Combat / Defense
-    value: 8
-    type: combat
-    mode: size_modifier
-  - target: Stealth
-    value: 12
+    description: '-4 Strength'
+  - target: Any
+    value: 10
     type: skill
-    mode: size_modifier
+    mode: bonus_pool
+    description: +10 Skill Points
+  - target: Coordinated Assist
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Darksight
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Lightning Calculator
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Wall-Crawler
+    value: 1
+    type: feature
+    mode: recommended
 description: >-
-  A cloud of billions of microscopic robotic drones functioning as a singular
-  distributed intelligence, able to seep through vents and infiltrate secure
-  systems.
+  An Ooze composed of a nano-machine hyper colony - slithers on surfaces or with
+  flight ability and highly morphic. Tech 5 for a conscious hive mind, at Tech 4
+  it is likely just an advanced automata.
 traits: &ref_0
-  - trait-semi-corporeal
-  - trait-hive-connection
-  - trait-flight
   - trait-synthetic-base-traits
+  - trait-hive-mind-swarm
+  - trait-semi-corporeal
+species_traits: *ref_0
 recommended_factions:
   - The Mekan Collective
   - Sentient Intelligence Faction Template
@@ -91,35 +101,57 @@ keywords: >-
   micro-drone-cloud, distributed-intelligence, vent-seepage, nanite-fabrication,
   dispersed
 negative_keywords: 'single-bullet-target, solid-frame, skeletal'
-species_traits: *ref_0
-cp: 20
-bp: 20
-cp_cost: 20
+cp: 28
+bp: 28
+cp_cost: 28
 ---
 
-# Swarm (Nanite / Micro-Drone Collective)
+# **SWARM**
 
 ## **SWARM**
 
 # 
 
 **CP Cost:** 25 CP  
+
 **Description:** An Ooze composed of a nano-machine hyper colony \- slithers on surfaces or with flight ability and highly morphic. Tech 5 for a conscious hive mind, at Tech 4 it is likely just an advanced automata.
 
-**Classification:** Synthetic Ooze  
-**Size:** Medium  
+&nbsp;
+
+**Classification:** Synthetic Ooze
+
+**Size:** Medium
+
 **Movement:** 30 ft Groundspeed / 30 ft Flightspeed
 
-**Tech Level:** 4  
+&nbsp;
+
+**Tech Level:** 4
+
 **Meta Level:** 0
 
-**Homeworld:**   
+&nbsp;
+
+**Homeworld:**&nbsp;
+
 **Stigma:** Severe Synthetic, Xeno
 
-**Ability Modifiers:** 
+&nbsp;
 
-**Skills:** 
+**Ability Modifiers:**&nbsp;
 
-**Species Features:** 
+&nbsp;
 
-**Recommended Features:**
+**Skills:**&nbsp;
+
+&nbsp;
+
+**Species Features:**&nbsp;
+
+&nbsp;
+
+**Recommended Features:**&nbsp;
+
+&nbsp;
+
+&nbsp;

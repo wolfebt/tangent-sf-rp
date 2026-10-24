@@ -10,7 +10,7 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-speeds: Ground 30 ft
+speeds: 30 ft Groundspeed
 reach: 5 ft
 senses: Standard visual and auditory range.
 immunities: None
@@ -18,11 +18,7 @@ inherent_attribute_modifiers:
   - attribute: Intellect
     bonus: 1
 bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Attune
-    bonus: 1
-  - skill: Biology
-    bonus: 1
+specific_skill_bonuses: []
 bonus_skills: 0
 bonus_skill_choices:
   - Attune
@@ -30,40 +26,88 @@ bonus_skill_choices:
   - Medicine
   - Insight
 inherent_features: []
-bonus_features: []
+bonus_features: 1
 bonus_feature_choices: []
 recommended_features:
-  - Acute Senses
-  - Adaptive Aspects (Hive Memories)
   - Aptitude
   - Awakened
   - Educated
+  - Eidetic Memory
   - Fast Heal
-  - Jack of all trades
-  - Lightning Calculator
   - Regeneration
-  - Two-Weapon Fighting
+disadvantages: []
 stigma: Minor Xeno (-1)
-tech_level: 3 (Bio-Hybrid Devices)
-meta_level: 3 (Telepathic Linkage)
+tech_level: '4'
+meta_level: '4'
 homeworld: Danai Enclaves
 costs:
-  cp: 12
-  bp: 12
+  cp: 13
+  bp: 13
 modifiers:
   - target: Intellect
     value: 1
     type: attribute
     mode: inherent
+    description: +1 Intellect
+  - target: Any
+    value: 1
+    type: feature
+    mode: bonus_pool
+    description: +1 Bonus Feature
+  - target: Adaptive Aspects (Davae Collective)
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Adaptive Skill Set (Davae Collective)
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Ageless
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Alertness
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Ambidexterity
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Aptitude
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Awakened
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Educated
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Eidetic Memory
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Fast Heal
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Regeneration
+    value: 1
+    type: feature
+    mode: recommended
 description: >-
-  Danai are genetic chimeras born from human and Davae transhumans. They display
-  gentle bioluminescent patterns and natural mental connections to bio-synthetic
-  equipment.
+  The Danai are a distinct and potent hybrid subspecies resulting from the
+  genetic blending of baseline humans with the highly-engineered Davae. They
+  represent a more human-centered branch of this lineage, balancing the raw,
+  separatist power of the Davae with traditional human adaptability.
 traits: &ref_0
-  - trait-ageless
   - trait-awakened-mental
-  - trait-master-tinker
+  - trait-enhanced-biotechnology
   - trait-hive-connection
+species_traits: *ref_0
 recommended_factions:
   - The Ascendancy
   - The Syndicate
@@ -77,49 +121,89 @@ recommended_occupations:
   - Scholar
 keywords: 'empathic-diplomat, bio-resonance, gentle-glow, mediator, hybrid-psion'
 negative_keywords: 'brutality, isolation, violent-outburst'
-species_traits: *ref_0
-cp: 12
-bp: 12
-cp_cost: 12
+cp: 13
+bp: 13
+cp_cost: 13
 ---
 
-# Danai (Human-Davae Hybrid)
+# **DANAI (Davae Hybrid)**
+
+# **DANAI (Davae Hybrid)**
 
 **CP Cost:** 11 CP  
-**Description:** The Danai are a distinct and potent hybrid subspecies resulting from the genetic blending of baseline humans with the highly-engineered Davae. They represent a more human-centered branch of this lineage, balancing the raw, separatist power of the Davae with traditional human adaptability.  
-As a hybrid, the Danai are profoundly influenced by their Davae ancestry, a psychic species born from the Syndicate's “Proto-Chimera GeNes” project and based on Imperium Regi genetics. This heritage grants them two primary and powerful traits:  
-Highly Sensitive Psychics: Danai have an inherent and intense psychic affinity, often manifesting as Awakened (Mental) abilities. This makes them natural conduits for mental energies and highly sensitive to the thoughts and emotions of others. While the full-blooded Davae often use this for collective consciousness, the Danai possess a more individualistic, yet powerful, psychic focus.  
-Innate Biotech Understanding: They possess an intuitive, Biotechnology based link to the Davae’s advanced biotech. They do not merely use the technology; they understand its biological and psychic programming at a fundamental level, often able to troubleshoot, modify, or integrate with it more easily than most human variants.  
+
+**Description:** The Danai are a distinct and potent hybrid subspecies resulting from the genetic blending of baseline humans with the highly-engineered Davae. They represent a more human-centered branch of this lineage, balancing the raw, separatist power of the Davae with traditional human adaptability.
+
+As a hybrid, the Danai are profoundly influenced by their Davae ancestry, a psychic species born from the Syndicate's “Proto-Chimera GeNes” project and based on Imperium Regi genetics. This heritage grants them two primary and powerful traits:
+
+Highly Sensitive Psychics: Danai have an inherent and intense psychic affinity, often manifesting as Awakened (Mental) abilities. This makes them natural conduits for mental energies and highly sensitive to the thoughts and emotions of others. While the full-blooded Davae often use this for collective consciousness, the Danai possess a more individualistic, yet powerful, psychic focus.
+
+Innate Biotech Understanding: They possess an intuitive, Biotechnology based link to the Davae’s advanced biotech. They do not merely use the technology; they understand its biological and psychic programming at a fundamental level, often able to troubleshoot, modify, or integrate with it more easily than most human variants.
+
 Physiologically, Danai often retain a more human appearance than their Davae kin, yet subtle traits from the Regi-Davae line—such as a strong preference for left-handedness and a striking presence of iridescent eyes—may be common. They maintain a Hive Connection (Davae Collective), though this link often feels more like a potent, shared ancestry and knowledge base rather than a constant, overriding mental presence, giving them greater individual autonomy.
 
-**Classification:** Humanoid  
-**Size:** Medium  
+&nbsp;
+
+**Classification:** Humanoid
+
+**Size:** Medium
+
 **Movement:** 30ft Groundspeed
 
-**Tech Level:** 4  
+&nbsp;
+
+**Tech Level:** 4
+
 **Meta Level:** 4
 
-**Homeworld:**   
+&nbsp;
+
+**Homeworld:**&nbsp;
+
 **Stigma:** Minor Xeno
 
-**Ability Modifiers:**   
+&nbsp;
+
+**Ability Modifiers:**&nbsp;
+
 \+1 Int
 
-**Species Features:**   
-Awakened (Mental)  
-Biotechnology  
-Hive Connection (Davae Collective)  
+&nbsp;
+
+**Species Features:**&nbsp;
+
+Awakened (Mental)
+
+Biotechnology
+
+Hive Connection (Davae Collective)
+
 \+1 Feature
 
-**Recommended Features:**   
-Adaptive Aspects (Davae Collective)  
-Adaptive Skill Set (Davae Collective)  
-Ageless  
-Alertness  
-Ambidexterity  
-Aptitude  
-Awakened (Psychic)  
-Educated  
-Eidetic Memory  
-Fast Heal  
+&nbsp;
+
+**Recommended Features:**&nbsp;
+
+Adaptive Aspects (Davae Collective)
+
+Adaptive Skill Set (Davae Collective)
+
+Ageless
+
+Alertness
+
+Ambidexterity
+
+Aptitude
+
+Awakened (Psychic)
+
+Educated
+
+Eidetic Memory
+
+Fast Heal
+
 Regeneration
+
+&nbsp;

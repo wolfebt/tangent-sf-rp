@@ -23,28 +23,16 @@ skill_package:
   - Bluff (+4)
   - History (+3)
   - Computers (Data-Mining) (+3)
-recommended_features:
+recommended_features: &ref_0
   - Silver Tongue
   - Connected
   - Inspiring Personality
   - Trustworthy
   - Golden Smile
-  - Well-Informed
   - Benefit (Wealth)
   - Deceitful
-  - Lie Detector
   - Benefit (Immunity)
-features:
-  - Silver Tongue
-  - Connected
-  - Inspiring Personality
-  - Trustworthy
-  - Golden Smile
-  - Well-Informed
-  - Benefit (Wealth)
-  - Deceitful
-  - Lie Detector
-  - Benefit (Immunity)
+features: *ref_0
 bonus_features:
   - Silver Tongue
 description: >-
@@ -61,7 +49,7 @@ recommended_species:
   - Human (Base)
   - Premian Human
   - Lin Human
-  - Celestine (Alterian)
+  - Alterian
 recommended_origins:
   - Urban
   - Colony

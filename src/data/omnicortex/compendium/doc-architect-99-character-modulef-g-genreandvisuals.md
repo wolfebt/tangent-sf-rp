@@ -1,6 +1,6 @@
 ---
 id: "doc-architect-99-character-modulef-g-genreandvisuals"
-name: "99. Character: Modules F–G: Genre & Visual Semiotics"
+name: "99. Character (Modules F–G): Genre & Visual Semiotics"
 fileName: "99.Character.ModuleF_G.GenreAndVisuals.md"
 relPath: "architect/characters/99.Character.ModuleF_G.GenreAndVisuals.md"
 isMasterDoc: false

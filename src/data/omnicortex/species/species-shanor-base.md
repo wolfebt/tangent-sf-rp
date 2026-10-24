@@ -9,8 +9,8 @@ type:
 size:
   - species_size-medium
 movement:
-  - species_movement-flight
-speeds: Flight 60 ft
+  - species_movement-bipedal
+speeds: '30 ft Groundspeed, 30 ft Flightspeed'
 reach: 5 ft
 senses: 'Darkvision out to 60 feet. [1]'
 immunities: None
@@ -18,9 +18,7 @@ inherent_attribute_modifiers:
   - attribute: Wisdom
     bonus: 1
 bonus_attribute_points: 1
-specific_skill_bonuses:
-  - skill: Attune (Void)
-    bonus: 2
+specific_skill_bonuses: []
 bonus_skills: 10
 bonus_skill_choices:
   - Attune
@@ -28,7 +26,7 @@ bonus_skill_choices:
   - Intimidation
   - Discipline
 inherent_features: []
-bonus_features: []
+bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
   - Darksight
@@ -36,34 +34,70 @@ recommended_features:
   - Discipline Features
   - Iron Will
   - Stealthy
+disadvantages:
+  - disadvantage-species-negative-energy-affinity
 stigma: 'Monstrous (-6), Xeno (-2)'
-tech_level: 4 (Void Siphons & Dark Matter Taps)
-meta_level: 5 (Void Reality-Warping)
+tech_level: '5'
+meta_level: '5'
 homeworld: The Abyssal Rift of Null-Space
 costs:
-  cp: 49
-  bp: 49
+  cp: 41
+  bp: 41
 modifiers:
   - target: Wisdom
     value: 1
     type: attribute
     mode: inherent
+    description: +1 Wisdom
+  - target: Any
+    value: 1
+    type: attribute
+    mode: bonus_pool
+    description: +1 Flexible Attribute Point
+  - target: Any
+    value: 10
+    type: skill
+    mode: bonus_pool
+    description: +10 Skill Points
+  - target: Darksight
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Deceitful
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Discipline Features
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Iron Will
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Stealthy
+    value: 1
+    type: feature
+    mode: recommended
 description: >-
-  Sha'nor are semi-corporeal shadow and void beings dwelling in cosmic rifts.
-  Immortal and telepathic, they sustain themselves on ambient essence and deep
-  void energy.
+  Known as Harbingers of Entropy, Dark Hungers and Smoke Demons, the Sha’Nor are
+  an extremely ancient species and are physically unlike any other species ever
+  encountered. Being composed of what seems to be both some type of shifting
+  organic material and dark matter simultaneously would indicate an other
+  dimensional origin.
 traits: &ref_0
   - trait-ageless
   - trait-alter-form-adv
   - trait-awakened-void
+  - trait-bodyform-adaptation
   - trait-fast-heal
   - trait-flight
   - trait-immortal
-  - trait-adaptive-features
+  - trait-non-living
   - trait-regeneration
   - trait-semi-corporeal
   - trait-mind-speech
-  - trait-vampiric-power
+species_traits: *ref_0
 recommended_factions:
   - Cosmic Horror Faction Template
   - Supernatural Faction Template
@@ -76,135 +110,97 @@ recommended_occupations:
   - Drifter
 keywords: 'void-aberration, dark-matter, semi-corporeal, entropy-harbinger, phase-shift'
 negative_keywords: 'solar-radiance, biological-healing, clumsy'
-species_traits: *ref_0
-cp: 49
-bp: 49
-cp_cost: 49
+cp: 41
+bp: 41
+cp_cost: 41
 ---
 
-# Sha'nor (Void Aberration)
+# **SHA’NOR**
+
+# **SHA’NOR (BASE)**
 
 # 
 
-**CP Cost:** 41 CP  
-**Description:** Known as Harbingers of Entropy, Dark Hungers and Smoke Demons, the Sha’Nor are an extremely ancient species and are physically unlike any other species ever encountered. Being composed of what seems to be both some type of shifting organic material and dark matter simultaneously would indicate an other dimensional origin.  
-Sha’Nor require energy from living beings on a semi-regular basis or have a risk of discorporation (feeding is not necessarily lethal but will weaken the source for a day, \-1 Sta), will feed once a month or Cha check of DC10 (-1 per each month past due) failure resulting in \-1 Sta (discorporating after total Sta of \-5).   
-Many quite enjoy feeding and have learned to gain additional energy from it.  
+**CP Cost:** 41 CP
+
+**Description:** Known as Harbingers of Entropy, Dark Hungers and Smoke Demons, the Sha’Nor are an extremely ancient species and are physically unlike any other species ever encountered. Being composed of what seems to be both some type of shifting organic material and dark matter simultaneously would indicate an other dimensional origin.
+
+Sha’Nor require energy from living beings on a semi-regular basis or have a risk of discorporation (feeding is not necessarily lethal but will weaken the source for a day, \-1 Sta), will feed once a month or Cha check of CR 10 (-1 per each month past due) failure resulting in \-1 Sta (discorporating after total Sta of \-5).&nbsp;
+
+Many quite enjoy feeding and have learned to gain additional energy from it.
+
 Sha’Nor have Advanced Spiritual based Magi-Tech, coupling Void Magic with TL5 Advancements, and is considered Extremely Alien by all other Species \- as no others have learned to tap the Void as they have nor possess their pseudo-solid state (double all Familiarity and Technological penalties, and some telepathic and telekinetic ability is needed to link to the devices essence and attempt operation). Sha’Nor suffers ALL Unfamiliarity Penalties for other technologies.
 
-**Classification:** Spectral Aberration  
-**Size:** Medium  
+&nbsp;
+
+**Classification:** Spectral Aberration
+
+**Size:** Medium
+
 **Movement:** 30 ft Groundspeed, 30 ft Flightspeed
 
-**Tech Level:** 5  
+&nbsp;
+
+**Tech Level:** 5
+
 **Meta Level:** 5
 
-**Homeworld:**   
+&nbsp;
+
+**Homeworld:**&nbsp;
+
 **Stigma:** Severe Xeno and Monstrous
 
-**Ability Modifiers:**   
-\+1 Wis  
+&nbsp;
+
+**Ability Modifiers:**&nbsp;
+
+\+1 Wis
+
 \+1 Ability
 
-**Skills:**   
+&nbsp;
+
+**Skills:**&nbsp;
+
 \+10 Skills
 
-**Species Features:**   
-Ageless  
-Alter Form, Advanced (assumes corporeal form, no flight)  
-Awakened (Void \- Wisdom \- (Matter or Entropy \- Chaos))  
-Bodyform Adaptation  
-Fast Heal  
-Flight (while Semi-Corporeal)  
-Immortality  
-Non-Typical Anatomy  
-Regeneration  
-Semi-Corporeal (“humanoid specter of solid black smoke”)  
-Telepathic  
-Vampiric (Flaw)
+&nbsp;
 
-**Recommended Features:** 
+**Species Features:**&nbsp;
 
-# Discipline Features
+Ageless
 
-Special Abilities
+Alter Form, Advanced (assumes corporeal form, no flight)
 
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+Awakened (Void \- Wisdom \- (Matter or Entropy \- Chaos))
 
-## Tenen
+Bodyform Adaptation
 
-# 
+Fast Heal
 
-**CP Cost:**   
-**Description:** The Tenen are an extremely rare offshoot of Sha’Nor which have evolved from their predatory nature and Vampiric needs. Theory of this is primarily due to a transition to a demi-dimension they have been dwelling in. This seems to have accompanied their use of different energies more amiable to creation than destruction.   
-Origins are actually unknown and completely theorized at this point as only brief encounters have occurred, some speculate a grand connection to the Ila progenitors who have been rumored to have returned \- but again speculations.
+Flight (while Semi-Corporeal)
 
-**Classification:** Spectral Aberration  
-**Size:** Medium  
-**Movement:** 30 ft Groundspeed, 30 ft Flightspeed
+Immortality
 
-**Tech Level:** 5  
-**Meta Level:** 5
+Non-Typical Anatomy
 
-**Homeworld:**   
-**Stigma:** 
+Regeneration
 
-**Ability Modifiers:**   
-\+1 Wis  
-\+1 Ability
+Semi-Corporeal (“humanoid specter of solid black smoke”)
 
-**Skills:**   
-\+10 Skills
-
-**Species Features:**   
-Ageless  
-Alter Form, Advanced (assumes corporeal form, no flight)  
-Awakened (Cosmic \- Wisdom (Dimension or Entropy \- Order))  
-Bodyform Adaptation  
-Fast Heal  
-Flight (while Semi-Corporeal)  
-Immortality  
-Non-Typical Anatomy  
-Regeneration  
-Semi-Corporeal (“humanoid specter of solid black smoke”)  
 Telepathic
 
-**Recommended Features:** 
+Vampiric (Flaw)
+
+&nbsp;
+
+**Recommended Features:**&nbsp;
 
 # Discipline Features
 
 Special Abilities
 
+&nbsp;
+
 \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-
-## EAKREN
-
-# 
-
-**CP Cost:**   
-**Description:** Various creatures (including humanoid, animal and plant based) which are infused and mutated by the Shar’Nor (aka the Corrupted)  
-\[akin to Awakened Animals, Adjusted PC Build and Equivalent Abilities\]
-
-**Classification:** Aberration  
-**Size:** varies  
-**Movement:** varies
-
-**Tech Level:** 1  
-**Meta Level:** 1
-
-**Homeworld:** –  
-**Stigma:** Beast
-
-**Species Features:**  
-Animal Body (Features and Disadvantages of base form)  
-Bodyform Adaptation  
-Typical PC Ability Scores  
-Mutation
-
-**Recommended Features:**   
-Alter Form  
-Ageless  
-Bodyform  
-Fast Heal  
-Immortality  
-Regeneration

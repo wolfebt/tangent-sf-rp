@@ -215,6 +215,32 @@ const CUSTOM_SUBARTICLE_ORDER = [
   '1.04.Archetypal.SpaceTourism.md',
   '1.04.Archetypal.Supernatural.md',
   '1.04.Archetypal.Technological.md',
+  // 1.05 Origins
+  '1.05.Agricultural.md',
+  '1.05.Aquatic.md',
+  '1.05.Colony.md',
+  '1.05.Enlightened.md',
+  '1.05.Hostile.md',
+  '1.05.Industrial.md',
+  '1.05.Leisure.md',
+  '1.05.Militaristic.md',
+  '1.05.Research.md',
+  '1.05.Spacer.md',
+  '1.05.Urban.md',
+  // 1.06 Occupations
+  '1.06.Adept.md',
+  '1.06.Agent.md',
+  '1.06.Builder.md',
+  '1.06.Citizen.md',
+  '1.06.Criminal.md',
+  '1.06.Drifter.md',
+  '1.06.Entertainer.md',
+  '1.06.Merchant.md',
+  '1.06.Representative.md',
+  '1.06.Scholar.md',
+  '1.06.Scout.md',
+  '1.06.Soldier.md',
+  '1.06.Specialist.md',
   // 1.07 Skills
   '1.07.Physical.md',
   '1.07.Mental.Core.md',
@@ -262,6 +288,26 @@ const CUSTOM_SUBARTICLE_ORDER = [
   // 02 Economy
   '02.Economy.UnifiedFieldTheory.md',
   '02.Economy.InterstellarTrade.md',
+  // 99 Archetypes
+  '99.Archetypes.A_D.md',
+  '99.Archetypes.E_L.md',
+  '99.Archetypes.M_R.md',
+  '99.Archetypes.S_Z.md',
+  // 99 Modular Character Matrix
+  '99.Character.ModuleA.TierChassis.md',
+  '99.Character.ModuleB.CompetencyRoles.md',
+  '99.Character.ModuleC_E.BiologySoulLifepath.md',
+  '99.Character.ModuleF_G.GenreAndVisuals.md',
+  // 99 Modular Species Matrix
+  '99.Species.ChassisAndMovement.md',
+  '99.Species.TraitsAndDisadvantages.md',
+  // 99 Modular Companion Matrix
+  '99.Companion.FormPackages.md',
+  '99.Companion.FunctionAndExamples.md',
+  // 99 Modular Planetary Matrix
+  '99.Planetary.AstrophysicsAndGeophysics.md',
+  '99.Planetary.CivilizationAndEconomy.md',
+  '99.Planetary.HazardsAndEncounters.md',
   // 99 Technology
   '99.Tech.Levels.md',
   '99.Tech.CivilizationDomains.md',
@@ -280,8 +326,39 @@ const CUSTOM_SUBARTICLE_ORDER = [
   '99.Tech.Architecture.ForgeProtocol.md',
   '99.Tech.Architecture.ComponentCatalog.md',
   '99.Tech.Architecture.MobileAndVFT.md',
-  '99.Tech.Architecture.ExamplesAndSkins.md'
+  '99.Tech.Architecture.ExamplesAndSkins.md',
+  // 99 Metaphysics
+  '99.Metaphysics.InvocationMatrix.md',
+  '99.Metaphysics.MetaTechMatrix.md'
 ];
+
+const ARCHETYPAL_FACTION_LABELS = {
+  'Alien': '01. Alien',
+  'ArtificialLife': '02. Artificial Life',
+  'Corporate': '03. Corporate',
+  'Criminal': '04. Criminal',
+  'CosmicJustice': '05. Cosmic Justice',
+  'CosmicHorror': '06. Cosmic Horror',
+  'Environmental': '07. Environmental',
+  'GeneticEngineering': '08. Genetic Engineering',
+  'HiveMind': '09. Hive Mind',
+  'InterstellarDiplomats': '10. Interstellar Diplomats',
+  'Mercenary': '11. Mercenary',
+  'Military': '12. Military',
+  'Mutant': '13. Mutant',
+  'Planetary': '14. Planetary',
+  'Political': '15. Political',
+  'PostApocalyptic': '16. Post-Apocalyptic',
+  'Rebel': '17. Rebel',
+  'ReligiousCult': '18. Religious Cult',
+  'SentientIntelligence': '19. Sentient Intelligence',
+  'SpaceExploration': '20. Space Exploration',
+  'SpacePirate': '21. Space Pirate',
+  'SpaceReligion': '22. Space Religion',
+  'SpaceTourism': '23. Space Tourism',
+  'Supernatural': '24. Supernatural',
+  'Technological': '25. Technological'
+};
 
 const SPECIAL_TOKEN_LABELS = {
   'VitalityHealthStructure': 'Vitality, Health & Structure',
@@ -322,31 +399,6 @@ const SPECIAL_TOKEN_LABELS = {
   'KitinCollective': 'Kitin Collective (The Star Hive)',
   'Dominion': 'Impyrium Dominion (The Shadow of the Sun)',
   'Radiant': 'Radiant Impyrium (The Enlightened Age)',
-  'Alien': '01. Alien',
-  'ArtificialLife': '02. Artificial Life',
-  'Corporate': '03. Corporate',
-  'Criminal': '04. Criminal',
-  'CosmicJustice': '05. Cosmic Justice',
-  'CosmicHorror': '06. Cosmic Horror',
-  'Environmental': '07. Environmental',
-  'GeneticEngineering': '08. Genetic Engineering',
-  'HiveMind': '09. Hive Mind',
-  'InterstellarDiplomats': '10. Interstellar Diplomats',
-  'Mercenary': '11. Mercenary',
-  'Military': '12. Military',
-  'Mutant': '13. Mutant',
-  'Planetary': '14. Planetary',
-  'Political': '15. Political',
-  'PostApocalyptic': '16. Post-Apocalyptic',
-  'Rebel': '17. Rebel',
-  'ReligiousCult': '18. Religious Cult',
-  'SentientIntelligence': '19. Sentient Intelligence',
-  'SpaceExploration': '20. Space Exploration',
-  'SpacePirate': '21. Space Pirate',
-  'SpaceReligion': '22. Space Religion',
-  'SpaceTourism': '23. Space Tourism',
-  'Supernatural': '24. Supernatural',
-  'Technological': '25. Technological',
   'SkillChecks': 'Skill Checks',
   'SkillGroups': 'Skill Groups & Titles',
   'SkillUse': 'Skill Use',
@@ -430,6 +482,10 @@ function formatArticleDisplayName(fileObj) {
   const parts = cleanFileName.split('.');
   if (parts.length >= 3 && /^\d+$/.test(parts[0]) && /^\d+$/.test(parts[1])) {
     const numPrefix = `${parts[0]}.${parts[1]}`;
+    if (numPrefix === '1.04' && parts[2] === 'Archetypal' && parts[3]) {
+      const archLabel = ARCHETYPAL_FACTION_LABELS[parts[3]] || humanizeToken(parts[3]);
+      return `1.04 Archetypal: ${archLabel}`;
+    }
     const rest = parts.slice(2).map(humanizeToken);
     if (rest.length === 1) {
       if (fileObj.relBranch.startsWith('operator/species/')) {
@@ -446,8 +502,8 @@ function formatArticleDisplayName(fileObj) {
   if (parts.length >= 2 && (parts[0] === '02' || parts[0] === '99')) {
     const numPrefix = parts[0] === '99' ? '99.' : '02';
     const rest = parts.slice(1).map(humanizeToken);
-    if (rest[0] === 'Tech' && rest.length >= 3) {
-      return `${numPrefix} Tech (${rest[1]}): ${rest.slice(2).join(' — ')}`;
+    if (rest.length >= 3) {
+      return `${numPrefix} ${rest[0]} (${rest[1]}): ${rest.slice(2).join(' — ')}`;
     }
     if (rest.length === 2) {
       return `${numPrefix} ${rest[0]}: ${rest[1]}`;

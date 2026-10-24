@@ -10,7 +10,7 @@ capital_world: Vea'Sura (The Living Heart)
 tech_level: '3'
 meta_level: '3'
 wealth_modifier: +0 (Barter System)
-prominent_species: Vajar (Wild Elves)
+prominent_species: Vajar (Wild Aeld)
 typical_archetypes:
   - The Warden
   - The Veteran

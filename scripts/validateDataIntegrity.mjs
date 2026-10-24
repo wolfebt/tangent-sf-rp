@@ -41,17 +41,21 @@ function assert(condition, testName, details = '') {
 
 // 1. Bundle Counts Verification
 console.log('[1/5] Checking Runtime Data Bundle Counts...');
-assert(DEFAULT_SPECIES.length === 83, 'Species count parity', `Expected 83, got ${DEFAULT_SPECIES.length}`);
+assert(DEFAULT_SPECIES.length === 84, 'Species count parity', `Expected 84, got ${DEFAULT_SPECIES.length}`);
 assert(DEFAULT_ARCHETYPES.length >= 48, 'Archetypes count parity', `Expected >= 48, got ${DEFAULT_ARCHETYPES.length}`);
 assert(DEFAULT_FEATURES.length >= 234, 'Features count parity', `Expected >= 234, got ${DEFAULT_FEATURES.length}`);
 assert(DEFAULT_SPECIES_TRAITS.length >= 286, 'Traits count parity', `Expected >= 286, got ${DEFAULT_SPECIES_TRAITS.length}`);
 assert(DEFAULT_SPECIES_DISADVANTAGES.length >= 32, 'Disadvantages count parity', `Expected >= 32, got ${DEFAULT_SPECIES_DISADVANTAGES.length}`);
-assert(DEFAULT_FACTIONS.length === 41, 'Factions count parity', `Expected 41, got ${DEFAULT_FACTIONS.length}`);
+assert(DEFAULT_FACTIONS.length === 42, 'Factions count parity', `Expected 42, got ${DEFAULT_FACTIONS.length}`);
 assert(DEFAULT_SPECIES_SIZES.length === 14, 'Species Sizes count parity', `Expected 14, got ${DEFAULT_SPECIES_SIZES.length}`);
 assert(DEFAULT_SPECIES_MOVEMENT.length >= 50, 'Species Movement modes count', `Expected >= 50, got ${DEFAULT_SPECIES_MOVEMENT.length}`);
-assert(DEFAULT_WEAPONRY.length === 102, 'Weaponry count parity', `Expected 102, got ${DEFAULT_WEAPONRY.length}`);
+assert(DEFAULT_WEAPONRY.length === 106, 'Weaponry count parity', `Expected 106, got ${DEFAULT_WEAPONRY.length}`);
 assert(DEFAULT_ARMORING.length === 52, 'Armoring count parity', `Expected 52, got ${DEFAULT_ARMORING.length}`);
-assert(DEFAULT_AUGMENTATIONS.length === 172, 'Augmentations count parity', `Expected 172, got ${DEFAULT_AUGMENTATIONS.length}`);
+assert(DEFAULT_GEAR.length === 56, 'Gear count parity', `Expected 56, got ${DEFAULT_GEAR.length}`);
+assert(DEFAULT_MECHA.length === 90, 'Mecha count parity', `Expected 90, got ${DEFAULT_MECHA.length}`);
+assert(DEFAULT_ARCHITECTURE.length === 19, 'Architecture count parity', `Expected 19, got ${DEFAULT_ARCHITECTURE.length}`);
+assert(DEFAULT_OTHER_PROPERTY.length === 16, 'Other Property count parity', `Expected 16, got ${DEFAULT_OTHER_PROPERTY.length}`);
+assert(DEFAULT_AUGMENTATIONS.length === 208, 'Augmentations count parity', `Expected 208, got ${DEFAULT_AUGMENTATIONS.length}`);
 assert(DEFAULT_INVOCATIONS.length === 137, 'Invocations count parity', `Expected 137, got ${DEFAULT_INVOCATIONS.length}`);
 assert(compendiumSeedData.length >= 30, 'Compendium articles count', `Expected >= 30, got ${compendiumSeedData.length}`);
 
@@ -128,25 +132,6 @@ DEFAULT_SPECIES.forEach(sp => {
   if (sp.name) knownSpeciesNames.add(sp.name.toLowerCase().trim());
   if (sp.title) knownSpeciesNames.add(sp.title.toLowerCase().trim());
 });
-// Canonical lineage aliases (historical compendium names)
-knownSpeciesNames.add("celestine (alterian)");
-knownSpeciesNames.add("celestine");
-knownSpeciesNames.add("nocturne (kovian)");
-knownSpeciesNames.add("nocturne");
-knownSpeciesNames.add("manelli (kitin diplomat)");
-knownSpeciesNames.add("manelli");
-knownSpeciesNames.add("rakne (kitin stalker)");
-knownSpeciesNames.add("rakne");
-knownSpeciesNames.add("maantene (kitin leaper)");
-knownSpeciesNames.add("maantene");
-knownSpeciesNames.add("riezen (kitin swarm entity)");
-knownSpeciesNames.add("riezen");
-knownSpeciesNames.add("syndess (kitin pilot)");
-knownSpeciesNames.add("syndess (pilot expression)");
-knownSpeciesNames.add("syndess");
-knownSpeciesNames.add("murex (kitin worker)");
-knownSpeciesNames.add("murex (foundation expression)");
-knownSpeciesNames.add("murex");
 let facSpTotal = 0, facSpMatched = 0;
 DEFAULT_FACTIONS.forEach(f => {
   (f.recommended_species || []).forEach(sp => {

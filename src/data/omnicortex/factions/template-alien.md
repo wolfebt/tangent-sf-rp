@@ -28,28 +28,13 @@ skill_package:
   - Awareness (+4)
   - Stealth (+4)
   - Combat (Any) (+3)
-recommended_features:
-  - Alien Physiology
+recommended_features: &ref_0
   - Natural Weapons
-  - Environmental Adaptation
   - Scent
   - Fast Heal
   - Telepathy
-  - Wall-Crawler
-  - Toxic Resistance
-  - Pheromone Control
   - Echolocation
-features:
-  - Alien Physiology
-  - Natural Weapons
-  - Environmental Adaptation
-  - Scent
-  - Fast Heal
-  - Telepathy
-  - Wall-Crawler
-  - Toxic Resistance
-  - Pheromone Control
-  - Echolocation
+features: *ref_0
 bonus_features:
   - Alien Physiology
 description: >-

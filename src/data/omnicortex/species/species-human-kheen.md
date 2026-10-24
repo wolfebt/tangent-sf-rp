@@ -10,15 +10,13 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-speeds: Ground 30 ft
+speeds: 30 ft Groundspeed
 reach: 5 ft
 senses: Standard visual and auditory range.
 immunities: None
 inherent_attribute_modifiers: []
 bonus_attribute_points: 2
-specific_skill_bonuses:
-  - skill: Diplomacy
-    bonus: 1
+specific_skill_bonuses: []
 bonus_skills: 5
 bonus_skill_choices:
   - Diplomacy
@@ -26,31 +24,79 @@ bonus_skill_choices:
   - Perception
   - Culture
 inherent_features: []
-bonus_features: []
+bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
   - Awakened
   - Combat Expertise
-  - Lightning Calculator
-  - Magical Aptitude
+  - Eidetic Memory
   - Silver Tongue
   - Social
+disadvantages: []
 stigma: None
-tech_level: 3 (Magi-Tech Synthesis)
-meta_level: 2 (Harmonic Weave)
+tech_level: '3'
+meta_level: '3'
 homeworld: Border Worlds & Conclave Embassies
 costs:
-  cp: 21
-  bp: 21
-modifiers: []
+  cp: 16
+  bp: 16
+modifiers:
+  - target: Any
+    value: 2
+    type: attribute
+    mode: bonus_pool
+    description: +2 Flexible Attribute Points
+  - target: Any
+    value: 5
+    type: skill
+    mode: bonus_pool
+    description: +5 Skill Points
+  - target: Awakened
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Combat Expertise
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Eidetic Memory
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Longevity
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Mystical Ability
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Reduced Sustenance
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Sense Magic (30ft Radius)
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Silver Tongue
+    value: 1
+    type: feature
+    mode: recommended
+  - target: Social
+    value: 1
+    type: feature
+    mode: recommended
 description: >-
-  The Kheen represent stable human-aeld lineages who inherited elven aesthetic
-  grace and longevity while maintaining human versatility and adaptability.
+  The Kheen, often colloquially known as Half-Aeld, are a distinct human
+  subspecies resulting from the intermingling between baseline Human and
+  Alterian Aeld lineages. They embody a unique synthesis of the two parent
+  races, inheriting the core adaptability and wide-ranging aptitude of humanity
+  while also possessing the intellectual, magical, and graceful predisposition
+  of their elven ancestors.
 traits: &ref_0
-  - trait-awakened-arcane
-  - trait-longevity
   - trait-low-light-vision
-  - trait-reduced-sustenance
+species_traits: *ref_0
 recommended_factions:
   - The Entari Combine
   - The Alterian Enclave
@@ -64,45 +110,81 @@ recommended_occupations:
   - Scholar
 keywords: 'half-aeld, cultural-bridge, diplomatic-emissary, refined, longevity, harmony'
 negative_keywords: 'feral, brute-force, primitive-tribal'
-species_traits: *ref_0
-cp: 21
-bp: 21
-cp_cost: 21
+cp: 16
+bp: 16
+cp_cost: 16
 ---
 
-# Kheen Human (Aeld Hybrid)
+# **KHEEN (Aeld Hybrid)**
 
-**CP Cost:** 10 CP  
+# **KHEEN (Aeld Hybrid)**
+
+**CP Cost:**&nbsp;
+
 **Description:** The Kheen, often colloquially known as Half-Aeld, are a distinct human subspecies resulting from the intermingling between baseline Human and Alterian Aeld lineages. They embody a unique synthesis of the two parent races, inheriting the core adaptability and wide-ranging aptitude of humanity while also possessing the intellectual, magical, and graceful predisposition of their elven ancestors.
+
+&nbsp;
 
 As a bridge species, Kheen often thrive in societies where Human and Alterian cultures intersect. From their Alterian heritage, they gain a natural affinity for arcane talent, a commitment to knowledge, and a physical grace. They generally possess the taller, more slender build of the Alterians, though with the full spectrum of human variation in features. While they do not share the Alterian's 600+ year lifespan or immunity to sleep, they typically live longer than baseline humans and possess the **Low Light Vision** common to many elven variants. Their combination of the Alterian's intellectual rigor and the human's robust pragmatism makes them exceptionally versatile and capable of excelling in both martial and academic pursuits.
 
-**Classification:** Humanoid  
-**Size:** Medium  
+&nbsp;
+
+**Classification:** Humanoid
+
+**Size:** Medium
+
 **Movement:** 30ft Groundspeed
 
-**Tech Level:** 3  
+&nbsp;
+
+**Tech Level:** 3
+
 **Meta Level:** 3
 
-**Homeworld:**   
-**Stigma:** 
+&nbsp;
 
-**Ability Modifiers:**   
+**Homeworld:**&nbsp;
+
+**Stigma:**&nbsp;
+
+&nbsp;
+
+**Ability Modifiers:**&nbsp;
+
 \+2 Abilities
 
-**Skills:**   
+&nbsp;
+
+**Skills:**&nbsp;
+
 \+5 Skills
 
-**Species Features:**   
+&nbsp;
+
+**Species Features:**&nbsp;
+
 Low Light Vision
 
-**Recommended Features:**   
-Awakened (Arcane)  
-Combat Expertise  
-Eidetic Memory  
-Longevity  
-Mystical Ability  
-Reduced Sustenance  
-Sense Magic (30ft Radius)  
-Silver Tongue  
+&nbsp;
+
+**Recommended Features:**&nbsp;
+
+Awakened (Arcane)
+
+Combat Expertise
+
+Eidetic Memory
+
+Longevity
+
+Mystical Ability
+
+Reduced Sustenance
+
+Sense Magic (30ft Radius)
+
+Silver Tongue
+
 Social
+
+&nbsp;

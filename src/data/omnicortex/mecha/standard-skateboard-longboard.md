@@ -4,21 +4,23 @@ category: mecha
 name: Standard Skateboard / Longboard
 domain: Ground
 size: Tiny
-frame: Personal
-cost: 13
-craft_dc: 1
+frame: Manual Ground Transport
+cost: 40
+craft_dc: 5
 sp: 10
 dr: 2
 mounts: 0
 propulsion: Manual (Push)
 description: >-
-  Urban deck for quick transit on paved surfaces. Grants increased movement on
-  smooth, flat terrain.
-mechanic: Movement x1.5 on paved streets. Manual propulsion.
+  An urban deck for quick transit on paved surfaces. Grants increased movement
+  on smooth, flat terrain using Manual (Push) propulsion.
+mechanic: >-
+  Manual (Push) propulsion. Grants +10ft Ground Move on smooth paved surfaces. |
+  SP: 10, DR: 2 | Craft DC: 5 (40 Cr)
 costs:
   cp: 0
   bp: 0
-  credits: 13
+  credits: 40
   nodes: 0
   sockets: 0
   strain: 0
@@ -37,11 +39,18 @@ sockets:
   tier: Socket
   allocated: []
 tech_level: 1
-keywords: 'standard skateboard / longboard, mecha, vehicle, tiny, personal, tl-1'
-negative_keywords: 'infantry-on-foot, unarmored-civilian, sub-microscopic'
+keywords: >-
+  standard skateboard / longboard, mecha, vehicle, personal mobility, manual
+  ground transport, tl-1
+negative_keywords: 'infantry-only, unmounted'
 meta_level: 0
-design_dc: 1
+design_dc: 5
+classification: Personal Mobility
+crew: '1'
+durability: 10
 ---
-Urban deck for quick transit on paved surfaces. Grants increased movement on smooth, flat terrain.
+An urban deck for quick transit on paved surfaces. Grants increased movement on smooth, flat terrain using Manual (Push) propulsion.
 
-**Mechanics:** Movement x1.5 on paved streets. Manual propulsion.
+**Class:** Personal Mobility (Manual Ground Transport)
+**Propulsion:** Manual (Push) | **Crew:** 1
+**Mechanics:** Manual (Push) propulsion. Grants +10ft Ground Move on smooth paved surfaces. | SP: 10, DR: 2 | Craft DC: 5 (40 Cr)

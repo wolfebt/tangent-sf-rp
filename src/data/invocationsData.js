@@ -70,7 +70,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Sigal",
       "Intellect Construct (Pure AI)",
@@ -119,14 +119,14 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Fey (Base)",
       "Human (Base)",
       "Prokos (Auluran Biform)"
     ],
     "recommended_factions": [
       "The Alterian Enclave",
-      "Elven Providence",
+      "Aeld Providence",
       "Supernatural Faction Template"
     ],
     "recommended_origins": [
@@ -165,7 +165,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Sigal",
       "Intellect Construct (Pure AI)",
@@ -217,7 +217,7 @@ export const DEFAULT_INVOCATIONS = [
       "Draconian (Scaled Aeld)",
       "Cyberform Human",
       "Intellect Construct (Pure AI)",
-      "Celestine (Alterian)"
+      "Alterian"
     ],
     "recommended_factions": [
       "The Alterian Enclave",
@@ -266,7 +266,7 @@ export const DEFAULT_INVOCATIONS = [
       "Doppelganger (Shifter)"
     ],
     "recommended_factions": [
-      "Elven Providence",
+      "Aeld Providence",
       "Incorporated Planetary Syndication (The Syndicate)",
       "The Alterian Enclave",
       "Criminal Faction Template"
@@ -308,7 +308,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Intellect Construct (Pure AI)",
       "Eidolon (Aetherion Specialist)"
@@ -353,7 +353,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Sigal",
       "Intellect Construct (Pure AI)",
@@ -553,10 +553,10 @@ export const DEFAULT_INVOCATIONS = [
       "Fey (Base)",
       "Ila (Progenitor Archon)",
       "Sigal",
-      "Celestine (Alterian)"
+      "Alterian"
     ],
     "recommended_factions": [
-      "Elven Providence",
+      "Aeld Providence",
       "Supernatural Faction Template",
       "The Alterian Enclave",
       "Alien Faction Template"
@@ -737,14 +737,14 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Fey (Base)",
       "Ila (Progenitor Archon)",
       "Human (Base)"
     ],
     "recommended_factions": [
       "The Alterian Enclave",
-      "Elven Providence",
+      "Aeld Providence",
       "Interstellar Diplomats Faction Template"
     ],
     "recommended_origins": [
@@ -835,7 +835,7 @@ export const DEFAULT_INVOCATIONS = [
       "Doppelganger (Shifter)"
     ],
     "recommended_factions": [
-      "Elven Providence",
+      "Aeld Providence",
       "Incorporated Planetary Syndication (The Syndicate)",
       "The Alterian Enclave",
       "Criminal Faction Template"
@@ -1012,7 +1012,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Sha'nor",
       "Tenen (Sha’nor Spectral)",
@@ -1113,7 +1113,7 @@ export const DEFAULT_INVOCATIONS = [
       "Doppelganger (Shifter)"
     ],
     "recommended_factions": [
-      "Elven Providence",
+      "Aeld Providence",
       "Incorporated Planetary Syndication (The Syndicate)",
       "The Alterian Enclave",
       "Criminal Faction Template"
@@ -1155,7 +1155,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Sha'nor",
       "Tenen (Sha’nor Spectral)",
@@ -1204,7 +1204,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Sigal",
       "Intellect Construct (Pure AI)",
@@ -1298,7 +1298,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Sha'nor",
       "Tenen (Sha’nor Spectral)",
@@ -1351,10 +1351,10 @@ export const DEFAULT_INVOCATIONS = [
       "Fey (Base)",
       "Ila (Progenitor Archon)",
       "Sigal",
-      "Celestine (Alterian)"
+      "Alterian"
     ],
     "recommended_factions": [
-      "Elven Providence",
+      "Aeld Providence",
       "Supernatural Faction Template",
       "The Alterian Enclave",
       "Alien Faction Template"
@@ -1441,7 +1441,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Sigal",
       "Intellect Construct (Pure AI)",
@@ -1539,10 +1539,10 @@ export const DEFAULT_INVOCATIONS = [
       "Fey (Base)",
       "Ila (Progenitor Archon)",
       "Sigal",
-      "Celestine (Alterian)"
+      "Alterian"
     ],
     "recommended_factions": [
-      "Elven Providence",
+      "Aeld Providence",
       "Supernatural Faction Template",
       "The Alterian Enclave",
       "Alien Faction Template"
@@ -1587,7 +1587,7 @@ export const DEFAULT_INVOCATIONS = [
       "Tenen (Sha’nor Spectral)",
       "Sha'nor",
       "Rautha Human",
-      "Nocturne (Kovian)"
+      "Kovian"
     ],
     "recommended_factions": [
       "The Outworlds",
@@ -1629,7 +1629,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Fey (Base)",
       "Prokos (Auluran Biform)",
       "Human (Base)",
@@ -1637,7 +1637,7 @@ export const DEFAULT_INVOCATIONS = [
     ],
     "recommended_factions": [
       "The Alterian Enclave",
-      "Elven Providence",
+      "Aeld Providence",
       "Interstellar Diplomats Faction Template",
       "Supernatural Faction Template"
     ],
@@ -1680,7 +1680,7 @@ export const DEFAULT_INVOCATIONS = [
     "recommended_species": [
       "Whisper",
       "Tenen (Sha’nor Spectral)",
-      "Nocturne (Kovian)",
+      "Kovian",
       "Rautha Human"
     ],
     "recommended_factions": [
@@ -1728,7 +1728,7 @@ export const DEFAULT_INVOCATIONS = [
       "Sha'nor",
       "Whisper",
       "Rautha Human",
-      "Nocturne (Kovian)"
+      "Kovian"
     ],
     "recommended_factions": [
       "The Outworlds",
@@ -1776,7 +1776,7 @@ export const DEFAULT_INVOCATIONS = [
       "Varen (Gatekeeper)",
       "Whisper",
       "Eidolon (Aetherion Specialist)",
-      "Celestine (Alterian)",
+      "Alterian",
       "Mobula"
     ],
     "recommended_factions": [
@@ -1871,7 +1871,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Sigal",
       "Intellect Construct (Pure AI)",
@@ -1920,7 +1920,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Sigal",
       "Intellect Construct (Pure AI)",
@@ -1976,7 +1976,7 @@ export const DEFAULT_INVOCATIONS = [
       "Doppelganger (Shifter)"
     ],
     "recommended_factions": [
-      "Elven Providence",
+      "Aeld Providence",
       "Incorporated Planetary Syndication (The Syndicate)",
       "The Alterian Enclave",
       "Criminal Faction Template"
@@ -2018,10 +2018,10 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Ila (Progenitor Archon)",
-      "Nocturne (Kovian)"
+      "Kovian"
     ],
     "recommended_factions": [
       "The Alterian Enclave",
@@ -2066,7 +2066,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Sha'nor",
       "Tenen (Sha’nor Spectral)",
@@ -2115,7 +2115,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Sha'nor",
       "Tenen (Sha’nor Spectral)",
@@ -2213,7 +2213,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Sha'nor",
       "Tenen (Sha’nor Spectral)",
@@ -2412,7 +2412,7 @@ export const DEFAULT_INVOCATIONS = [
       "Varen (Gatekeeper)",
       "Whisper",
       "Eidolon (Aetherion Specialist)",
-      "Celestine (Alterian)",
+      "Alterian",
       "Mobula"
     ],
     "recommended_factions": [
@@ -2458,9 +2458,9 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
-      "Nocturne (Kovian)",
+      "Kovian",
       "Ila (Progenitor Archon)"
     ],
     "recommended_factions": [
@@ -2512,7 +2512,7 @@ export const DEFAULT_INVOCATIONS = [
       "Doppelganger (Shifter)"
     ],
     "recommended_factions": [
-      "Elven Providence",
+      "Aeld Providence",
       "Incorporated Planetary Syndication (The Syndicate)",
       "The Alterian Enclave",
       "Criminal Faction Template"
@@ -2557,7 +2557,7 @@ export const DEFAULT_INVOCATIONS = [
       "Tenen (Sha’nor Spectral)",
       "Whisper",
       "Sha'nor",
-      "Nocturne (Kovian)"
+      "Kovian"
     ],
     "recommended_factions": [
       "The Outworlds",
@@ -2604,10 +2604,10 @@ export const DEFAULT_INVOCATIONS = [
       "Fey (Base)",
       "Ila (Progenitor Archon)",
       "Sigal",
-      "Celestine (Alterian)"
+      "Alterian"
     ],
     "recommended_factions": [
-      "Elven Providence",
+      "Aeld Providence",
       "Supernatural Faction Template",
       "The Alterian Enclave",
       "Alien Faction Template"
@@ -2743,7 +2743,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Eidolon (Aetherion Specialist)",
       "Biomechanical Synthetic",
       "Janissary (Gen-E)"
@@ -2788,7 +2788,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Eidolon (Aetherion Specialist)",
       "Golem (Arcane Construct)",
       "Biomechanical Synthetic"
@@ -2834,7 +2834,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Eidolon (Aetherion Specialist)",
       "Biomechanical Synthetic",
       "Golem (Arcane Construct)"
@@ -2879,7 +2879,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Eidolon (Aetherion Specialist)",
       "Whisper",
       "Janissary (Gen-E)"
@@ -2924,7 +2924,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Eidolon (Aetherion Specialist)",
       "Whisper",
       "Impyrium Psion (Gen-E)"
@@ -2969,7 +2969,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Eidolon (Aetherion Specialist)",
       "Janissary (Gen-E)",
       "Whisper"
@@ -3014,7 +3014,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Eidolon (Aetherion Specialist)",
       "Risakin (Giant Folk)",
       "Janissary (Gen-E)"
@@ -3059,7 +3059,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Eidolon (Aetherion Specialist)",
       "Janissary (Gen-E)",
       "Draconian (Scaled Aeld)"
@@ -3108,7 +3108,7 @@ export const DEFAULT_INVOCATIONS = [
       "Varen (Gatekeeper)",
       "Whisper",
       "Eidolon (Aetherion Specialist)",
-      "Celestine (Alterian)",
+      "Alterian",
       "Mobula"
     ],
     "recommended_factions": [
@@ -3161,7 +3161,7 @@ export const DEFAULT_INVOCATIONS = [
       "Doppelganger (Shifter)"
     ],
     "recommended_factions": [
-      "Elven Providence",
+      "Aeld Providence",
       "Incorporated Planetary Syndication (The Syndicate)",
       "The Alterian Enclave",
       "Criminal Faction Template"
@@ -3210,7 +3210,7 @@ export const DEFAULT_INVOCATIONS = [
       "Doppelganger (Shifter)"
     ],
     "recommended_factions": [
-      "Elven Providence",
+      "Aeld Providence",
       "Incorporated Planetary Syndication (The Syndicate)",
       "The Alterian Enclave",
       "Criminal Faction Template"
@@ -3305,10 +3305,10 @@ export const DEFAULT_INVOCATIONS = [
       "Fey (Base)",
       "Ila (Progenitor Archon)",
       "Sigal",
-      "Celestine (Alterian)"
+      "Alterian"
     ],
     "recommended_factions": [
-      "Elven Providence",
+      "Aeld Providence",
       "Supernatural Faction Template",
       "The Alterian Enclave",
       "Alien Faction Template"
@@ -3406,7 +3406,7 @@ export const DEFAULT_INVOCATIONS = [
       "Doppelganger (Shifter)"
     ],
     "recommended_factions": [
-      "Elven Providence",
+      "Aeld Providence",
       "Incorporated Planetary Syndication (The Syndicate)",
       "The Alterian Enclave",
       "Criminal Faction Template"
@@ -3448,7 +3448,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Sha'nor",
       "Tenen (Sha’nor Spectral)",
@@ -3497,14 +3497,14 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Fey (Base)",
       "Prokos (Auluran Biform)",
       "Ila (Progenitor Archon)"
     ],
     "recommended_factions": [
       "The Alterian Enclave",
-      "Elven Providence",
+      "Aeld Providence",
       "Supernatural Faction Template"
     ],
     "recommended_origins": [
@@ -3544,7 +3544,7 @@ export const DEFAULT_INVOCATIONS = [
     "recommended_species": [
       "Tenen (Sha’nor Spectral)",
       "Sha'nor",
-      "Celestine (Alterian)",
+      "Alterian",
       "Rautha Human"
     ],
     "recommended_factions": [
@@ -3591,7 +3591,7 @@ export const DEFAULT_INVOCATIONS = [
       "Sha'nor",
       "Whisper",
       "Rautha Human",
-      "Nocturne (Kovian)"
+      "Kovian"
     ],
     "recommended_factions": [
       "The Outworlds",
@@ -3636,14 +3636,14 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Fey (Base)",
       "Ila (Progenitor Archon)",
       "Whisper"
     ],
     "recommended_factions": [
       "The Alterian Enclave",
-      "Elven Providence",
+      "Aeld Providence",
       "Interstellar Diplomats Faction Template"
     ],
     "recommended_origins": [
@@ -3683,7 +3683,7 @@ export const DEFAULT_INVOCATIONS = [
     "modifiers": [],
     "recommended_species": [
       "Golem (Arcane Construct)",
-      "Celestine (Alterian)",
+      "Alterian",
       "Draconian (Scaled Aeld)",
       "Biomechanical Synthetic"
     ],
@@ -3730,7 +3730,7 @@ export const DEFAULT_INVOCATIONS = [
       "Varen (Gatekeeper)",
       "Whisper",
       "Eidolon (Aetherion Specialist)",
-      "Celestine (Alterian)",
+      "Alterian",
       "Mobula"
     ],
     "recommended_factions": [
@@ -3779,7 +3779,7 @@ export const DEFAULT_INVOCATIONS = [
       "Cyberform Human",
       "Mekan (Assimilation Unit)",
       "Intellect Construct (Pure AI)",
-      "Celestine (Alterian)"
+      "Alterian"
     ],
     "recommended_factions": [
       "The Mekan Collective",
@@ -3824,7 +3824,7 @@ export const DEFAULT_INVOCATIONS = [
       "Varen (Gatekeeper)",
       "Whisper",
       "Eidolon (Aetherion Specialist)",
-      "Celestine (Alterian)",
+      "Alterian",
       "Mobula"
     ],
     "recommended_factions": [
@@ -3870,7 +3870,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Sha'nor",
       "Tenen (Sha’nor Spectral)",
@@ -3919,7 +3919,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Sigal",
       "Intellect Construct (Pure AI)",
@@ -3975,7 +3975,7 @@ export const DEFAULT_INVOCATIONS = [
       "Doppelganger (Shifter)"
     ],
     "recommended_factions": [
-      "Elven Providence",
+      "Aeld Providence",
       "Incorporated Planetary Syndication (The Syndicate)",
       "The Alterian Enclave",
       "Criminal Faction Template"
@@ -4159,7 +4159,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Sigal",
       "Human (Base)"
@@ -4208,7 +4208,7 @@ export const DEFAULT_INVOCATIONS = [
       "Tenen (Sha’nor Spectral)",
       "Whisper",
       "Varen (Gatekeeper)",
-      "Nocturne (Kovian)"
+      "Kovian"
     ],
     "recommended_factions": [
       "The Outworlds",
@@ -4257,7 +4257,7 @@ export const DEFAULT_INVOCATIONS = [
       "Doppelganger (Shifter)"
     ],
     "recommended_factions": [
-      "Elven Providence",
+      "Aeld Providence",
       "Incorporated Planetary Syndication (The Syndicate)",
       "The Alterian Enclave",
       "Criminal Faction Template"
@@ -4299,7 +4299,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Sha'nor",
       "Tenen (Sha’nor Spectral)",
@@ -4348,7 +4348,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Sha'nor",
       "Tenen (Sha’nor Spectral)",
@@ -4449,7 +4449,7 @@ export const DEFAULT_INVOCATIONS = [
       "Varen (Gatekeeper)",
       "Whisper",
       "Eidolon (Aetherion Specialist)",
-      "Celestine (Alterian)",
+      "Alterian",
       "Mobula"
     ],
     "recommended_factions": [
@@ -4540,7 +4540,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Sha'nor",
       "Tenen (Sha’nor Spectral)",
@@ -4596,7 +4596,7 @@ export const DEFAULT_INVOCATIONS = [
       "Doppelganger (Shifter)"
     ],
     "recommended_factions": [
-      "Elven Providence",
+      "Aeld Providence",
       "Incorporated Planetary Syndication (The Syndicate)",
       "The Alterian Enclave",
       "Criminal Faction Template"
@@ -4638,9 +4638,9 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
-      "Nocturne (Kovian)",
+      "Kovian",
       "Tenen (Sha’nor Spectral)"
     ],
     "recommended_factions": [
@@ -4783,14 +4783,14 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Prokos (Auluran Biform)",
       "Fey (Base)",
       "Ila (Progenitor Archon)"
     ],
     "recommended_factions": [
       "The Alterian Enclave",
-      "Elven Providence",
+      "Aeld Providence",
       "Supernatural Faction Template",
       "Genetic Engineering Faction Template"
     ],
@@ -4878,14 +4878,14 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Ila (Progenitor Archon)",
-      "Nocturne (Kovian)"
+      "Kovian"
     ],
     "recommended_factions": [
       "The Alterian Enclave",
-      "Elven Providence",
+      "Aeld Providence",
       "The Ascendancy",
       "Kovian Tribunal"
     ],
@@ -4974,14 +4974,14 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Prokos (Auluran Biform)",
       "Fey (Base)",
       "Human (Base)"
     ],
     "recommended_factions": [
       "The Alterian Enclave",
-      "Elven Providence",
+      "Aeld Providence",
       "Interstellar Diplomats Faction Template"
     ],
     "recommended_origins": [
@@ -5020,14 +5020,14 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Ila (Progenitor Archon)",
       "Prokos (Auluran Biform)",
       "Fey (Base)"
     ],
     "recommended_factions": [
       "The Alterian Enclave",
-      "Elven Providence",
+      "Aeld Providence",
       "Supernatural Faction Template"
     ],
     "recommended_origins": [
@@ -5065,7 +5065,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Sigal",
       "Intellect Construct (Pure AI)",
@@ -5118,7 +5118,7 @@ export const DEFAULT_INVOCATIONS = [
       "Sha'nor",
       "Whisper",
       "Rautha Human",
-      "Nocturne (Kovian)"
+      "Kovian"
     ],
     "recommended_factions": [
       "The Outworlds",
@@ -5167,7 +5167,7 @@ export const DEFAULT_INVOCATIONS = [
       "Sha'nor",
       "Whisper",
       "Rautha Human",
-      "Nocturne (Kovian)"
+      "Kovian"
     ],
     "recommended_factions": [
       "The Outworlds",
@@ -5261,7 +5261,7 @@ export const DEFAULT_INVOCATIONS = [
       "Sha'nor",
       "Whisper",
       "Rautha Human",
-      "Nocturne (Kovian)"
+      "Kovian"
     ],
     "recommended_factions": [
       "The Outworlds",
@@ -5306,7 +5306,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Sha'nor",
       "Tenen (Sha’nor Spectral)",
@@ -5405,10 +5405,10 @@ export const DEFAULT_INVOCATIONS = [
       "Fey (Base)",
       "Ila (Progenitor Archon)",
       "Sigal",
-      "Celestine (Alterian)"
+      "Alterian"
     ],
     "recommended_factions": [
-      "Elven Providence",
+      "Aeld Providence",
       "Supernatural Faction Template",
       "The Alterian Enclave",
       "Alien Faction Template"
@@ -5453,12 +5453,12 @@ export const DEFAULT_INVOCATIONS = [
       "Whisper",
       "Varen (Gatekeeper)",
       "Ila (Progenitor Archon)",
-      "Celestine (Alterian)"
+      "Alterian"
     ],
     "recommended_factions": [
       "The Ascendancy",
       "The Alterian Enclave",
-      "Elven Providence"
+      "Aeld Providence"
     ],
     "recommended_origins": [
       "Enlightened",
@@ -5589,14 +5589,14 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Prokos (Auluran Biform)",
       "Human (Base)",
       "Dar (Auluran Hunter)"
     ],
     "recommended_factions": [
       "The Alterian Enclave",
-      "Elven Providence",
+      "Aeld Providence",
       "Interstellar Diplomats Faction Template",
       "Military Faction Template"
     ],
@@ -5731,7 +5731,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Sha'nor",
       "Tenen (Sha’nor Spectral)",
@@ -5825,7 +5825,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Sha'nor",
       "Tenen (Sha’nor Spectral)",
@@ -5878,10 +5878,10 @@ export const DEFAULT_INVOCATIONS = [
       "Fey (Base)",
       "Ila (Progenitor Archon)",
       "Sigal",
-      "Celestine (Alterian)"
+      "Alterian"
     ],
     "recommended_factions": [
-      "Elven Providence",
+      "Aeld Providence",
       "Supernatural Faction Template",
       "The Alterian Enclave",
       "Alien Faction Template"
@@ -5924,14 +5924,14 @@ export const DEFAULT_INVOCATIONS = [
     "modifiers": [],
     "recommended_species": [
       "Impyrium Regi (Gen-E)",
-      "Celestine (Alterian)",
+      "Alterian",
       "Draconian (Scaled Aeld)",
       "Ila (Progenitor Archon)"
     ],
     "recommended_factions": [
       "Radiant Impyrium",
       "The Alterian Enclave",
-      "Elven Providence"
+      "Aeld Providence"
     ],
     "recommended_origins": [
       "Enlightened",
@@ -5968,7 +5968,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Sigal",
       "Intellect Construct (Pure AI)",
@@ -6017,7 +6017,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Eidolon (Aetherion Specialist)",
       "Whisper",
       "Impyrium Psion (Gen-E)"
@@ -6063,7 +6063,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Sha'nor",
       "Tenen (Sha’nor Spectral)",
@@ -6115,7 +6115,7 @@ export const DEFAULT_INVOCATIONS = [
       "Varen (Gatekeeper)",
       "Whisper",
       "Eidolon (Aetherion Specialist)",
-      "Celestine (Alterian)",
+      "Alterian",
       "Mobula"
     ],
     "recommended_factions": [
@@ -6163,7 +6163,7 @@ export const DEFAULT_INVOCATIONS = [
     "recommended_species": [
       "Ila (Progenitor Archon)",
       "Whisper",
-      "Celestine (Alterian)",
+      "Alterian",
       "Varen (Gatekeeper)"
     ],
     "recommended_factions": [
@@ -6254,7 +6254,7 @@ export const DEFAULT_INVOCATIONS = [
       "Varen (Gatekeeper)",
       "Whisper",
       "Eidolon (Aetherion Specialist)",
-      "Celestine (Alterian)",
+      "Alterian",
       "Mobula"
     ],
     "recommended_factions": [
@@ -6349,7 +6349,7 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Sigal",
       "Intellect Construct (Pure AI)",
@@ -6398,14 +6398,14 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "recommended_species": [
-      "Celestine (Alterian)",
+      "Alterian",
       "Whisper",
       "Prokos (Auluran Biform)",
       "Ila (Progenitor Archon)"
     ],
     "recommended_factions": [
       "The Alterian Enclave",
-      "Elven Providence",
+      "Aeld Providence",
       "The Ascendancy"
     ],
     "recommended_origins": [
@@ -6448,10 +6448,10 @@ export const DEFAULT_INVOCATIONS = [
       "Fey (Base)",
       "Ila (Progenitor Archon)",
       "Sigal",
-      "Celestine (Alterian)"
+      "Alterian"
     ],
     "recommended_factions": [
-      "Elven Providence",
+      "Aeld Providence",
       "Supernatural Faction Template",
       "The Alterian Enclave",
       "Alien Faction Template"

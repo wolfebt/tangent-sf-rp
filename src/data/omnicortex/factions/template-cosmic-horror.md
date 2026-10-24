@@ -28,28 +28,14 @@ skill_package:
   - Intimidate (+4)
   - Survival (+3)
   - Stealth (+3)
-recommended_features:
-  - Fearless (Madness)
-  - Discipline Focus (Entropy)
+recommended_features: &ref_0
   - Darksight
   - Iron Will
-  - Unsettling Aura
   - Pain Tolerance
-  - Eldritch Resistance
   - Veiled Threat
   - Wild Speech
   - Awakened
-features:
-  - Fearless (Madness)
-  - Discipline Focus (Entropy)
-  - Darksight
-  - Iron Will
-  - Unsettling Aura
-  - Pain Tolerance
-  - Eldritch Resistance
-  - Veiled Threat
-  - Wild Speech
-  - Awakened
+features: *ref_0
 bonus_features:
   - Fearless (Madness)
 description: >-

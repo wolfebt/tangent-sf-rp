@@ -9,13 +9,13 @@ costs:
   bp: 0
 modifiers: []
 recommended_species:
-  - Celestine (Alterian)
+  - Alterian
   - Whisper
   - Prokos (Auluran Biform)
   - Ila (Progenitor Archon)
 recommended_factions:
   - The Alterian Enclave
-  - Elven Providence
+  - Aeld Providence
   - The Ascendancy
 recommended_origins:
   - Enlightened

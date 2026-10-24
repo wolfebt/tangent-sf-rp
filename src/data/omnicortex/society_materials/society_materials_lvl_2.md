@@ -1,21 +1,36 @@
 ---
 id: society_materials_lvl_2
 category: society_materials
-name: 'Materials & Metallurgy (Level 2: Modern / Planetary)'
+name: 'Materials & Metallurgy (Level 2: Advanced Composites)'
 level: 2
 sphere_key: society_materials
 description: >-
-  Level 2 development in Materials & Metallurgy: Material science,
-  meta-materials, molecular metallurgy, and high-density plating. (Modern /
-  Planetary).
+  Level 2 (Advanced Composites) in Materials & Metallurgy: Ballistic kevlar
+  weaves, strike-face ceramics, and titanium alloys (75% DR, x1.0 SP).
 costs:
-  cp: 0
   bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
 modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
-# Materials & Metallurgy (Level 2: Modern / Planetary)
+# Materials & Metallurgy (Level 2: Advanced Composites)
 
 **Category**: SOCIETY MATERIALS
 
 ## Description
-Level 2 development in Materials & Metallurgy: Material science, meta-materials, molecular metallurgy, and high-density plating. (Modern / Planetary).
+Level 2 (Advanced Composites) in Materials & Metallurgy: Ballistic kevlar weaves, strike-face ceramics, and titanium alloys (75% DR, x1.0 SP).

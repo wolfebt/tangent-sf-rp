@@ -12,7 +12,7 @@ recommended_species:
   - Tenen (Sha’nor Spectral)
   - Sha'nor
   - Rautha Human
-  - Nocturne (Kovian)
+  - Kovian
 recommended_factions:
   - The Outworlds
   - Religious Cult Faction Template
