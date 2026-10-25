@@ -12,7 +12,10 @@ import {
   isNaturalAttackTrait,
   createAttackFromNaturalTrait,
   isOffensiveMetaphysics,
-  createAttackFromInvocation
+  createAttackFromInvocation,
+  calculateDefaultAttackScore,
+  getEffectiveSkillBonus,
+  isConventionalWeaponItem
 } from '../../../utils/combatUtils';
 
 export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTactical }) => {
@@ -21,6 +24,7 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
     updateField,
     derivedStats,
     getAttrTotal,
+    computedModifiers,
     isLocked,
     isPlayerOverride
   } = useFolio();
@@ -139,7 +143,7 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
   // Auto-sync weapons into attacks on initial load if attacks list is completely empty but weapons exist
   useEffect(() => {
     if (attacks.length === 0 && weapons.length > 0) {
-      const initialAttacks = weapons.map(w => createAttackFromWeapon(w, characterData, getAttrTotal));
+      const initialAttacks = weapons.map(w => createAttackFromWeapon(w, characterData, getAttrTotal, computedModifiers));
       updateField('attacks', initialAttacks);
     }
   }, []); // Run once on initial mount
@@ -156,7 +160,7 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
     if (unreadiedWeapons.length === 0) return;
     const newAttacks = [
       ...attacks,
-      ...unreadiedWeapons.map(w => createAttackFromWeapon(w, characterData, getAttrTotal))
+      ...unreadiedWeapons.map(w => createAttackFromWeapon(w, characterData, getAttrTotal, computedModifiers))
     ];
     updateField('attacks', newAttacks);
   };
@@ -165,7 +169,7 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
     if (unreadiedNaturalAttacks.length === 0) return;
     const newAttacks = [
       ...attacks,
-      ...unreadiedNaturalAttacks.map(n => createAttackFromNaturalTrait(n, characterData, getAttrTotal))
+      ...unreadiedNaturalAttacks.map(n => createAttackFromNaturalTrait(n, characterData, getAttrTotal, computedModifiers))
     ];
     updateField('attacks', newAttacks);
   };
@@ -174,7 +178,7 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
     if (unreadiedInvocations.length === 0) return;
     const newAttacks = [
       ...attacks,
-      ...unreadiedInvocations.map(inv => createAttackFromInvocation(inv, characterData, getAttrTotal))
+      ...unreadiedInvocations.map(inv => createAttackFromInvocation(inv, characterData, getAttrTotal, computedModifiers))
     ];
     updateField('attacks', newAttacks);
   };
@@ -195,7 +199,11 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
 
   const updateAttack = (index, field, value) => {
     const updated = [...attacks];
-    updated[index] = { ...updated[index], [field]: value };
+    const nextRow = { ...updated[index], [field]: value };
+    if (field === 'score') {
+      nextRow.isManualScore = Boolean(String(value).trim() !== '');
+    }
+    updated[index] = nextRow;
     updateField('attacks', updated);
   };
 
@@ -223,19 +231,30 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
   };
 
   const reflexTotal = getAttrTotal ? getAttrTotal('attr-reflex') : parseInt(characterData['attr-reflex'] || 2, 10);
-  const initiativeMod = parseInt(characterData['initiative-mod'] || 0, 10);
+  const agilityTotal = getAttrTotal ? getAttrTotal('attr-agility') : parseInt(characterData['attr-agility'] || 0, 10);
+  const strengthTotal = getAttrTotal ? getAttrTotal('attr-strength') : parseInt(characterData['attr-strength'] || 0, 10);
+
+  const initiativeMod = parseInt(characterData['initiative-mod'] || 0, 10) +
+    (computedModifiers?.combatMods?.['initiative-mod'] || 0);
   const initiativeTotal = reflexTotal + initiativeMod;
 
-  const acroRank = parseInt(characterData['skill-physical-acrobatics-rank'] || characterData['skill-acrobatics-rank'] || 0, 10);
-  const evasionTotal = 10 + reflexTotal + acroRank;
-
-  const meleeSkillRank = Math.max(
-    parseInt(characterData['skill-combat-melee-rank'] || characterData['skill-melee-rank'] || 0, 10),
-    parseInt(characterData['skill-combat-brawling-rank'] || characterData['skill-brawling-rank'] || 0, 10)
+  const defenseSkillBonus = getEffectiveSkillBonus('combat-defense', characterData, computedModifiers);
+  const acroSkillBonus = getEffectiveSkillBonus('physical-acrobatics', characterData, computedModifiers);
+  const meleeSkillBonus = Math.max(
+    getEffectiveSkillBonus('combat-melee', characterData, computedModifiers),
+    getEffectiveSkillBonus('combat-unarmed', characterData, computedModifiers),
+    defenseSkillBonus
   );
-  const meleeDefenseTotal = 10 + reflexTotal + meleeSkillRank;
 
-  const toughnessTotal = derivedStats?.toughness ?? 0;
+  const combatDefenseMod = (computedModifiers?.combatMods?.['defense-mod'] || 0) +
+    parseInt(characterData['defense-mod'] || 0, 10);
+  const combatEvasionMod = (computedModifiers?.combatMods?.['evasion-mod'] || 0) +
+    parseInt(characterData['evasion-mod'] || 0, 10);
+
+  const evasionTotal = 10 + agilityTotal + Math.max(defenseSkillBonus, acroSkillBonus) + combatDefenseMod + combatEvasionMod;
+  const meleeDefenseTotal = 10 + Math.max(agilityTotal, strengthTotal) + meleeSkillBonus + combatDefenseMod;
+
+  const toughnessTotal = (derivedStats?.toughness ?? 0) + (computedModifiers?.combatMods?.['armor-dr'] || 0);
 
   return (
     <div className="tab-panel active p-4 space-y-6 pb-20 w-full">
@@ -412,7 +431,7 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
               <span className="text-xl font-bold font-mono text-cyan-300">{meleeDefenseTotal}</span>
               <span className="text-[10px] font-mono text-slate-500">Parry / CQC</span>
             </div>
-            <span className="text-[10px] text-slate-500 mt-1 truncate">10 + REF + Melee skill</span>
+            <span className="text-[10px] text-slate-500 mt-1 truncate">10 + AGI/STR + Melee/Defense</span>
           </div>
 
           {/* 3. Ranged Defense (Evasion) */}
@@ -425,7 +444,7 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
               <span className="text-xl font-bold font-mono text-emerald-300">{evasionTotal}</span>
               <span className="text-[10px] font-mono text-slate-500">Evasion</span>
             </div>
-            <span className="text-[10px] text-slate-500 mt-1 truncate">10 + REF + Acrobatics</span>
+            <span className="text-[10px] text-slate-500 mt-1 truncate">10 + AGI + Defense/Acrobatics</span>
           </div>
 
           {/* 4. Toughness / Soak DR */}
@@ -603,7 +622,12 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
                 )}
               </div>
             ) : (
-              attacks.map((att, idx) => (
+              attacks.map((att, idx) => {
+                const isWeaponAtk = Boolean(att.weaponId || att.category === 'weapon' || isConventionalWeaponItem(att));
+                const effectiveScoreStr = (!att.isManualScore && isWeaponAtk && att.name)
+                  ? calculateDefaultAttackScore({ ...att, isManualScore: false }, characterData, getAttrTotal, computedModifiers)
+                  : (att.score || '+0');
+                return (
               <div key={idx} className="grid grid-cols-12 gap-2 items-center bg-slate-950/80 p-2.5 rounded-lg border border-slate-800 text-xs hover:border-amber-900/60 transition-colors">
                 {isSheetLocked ? (
                   <span className="col-span-3 text-slate-100 font-medium truncate py-1">
@@ -621,13 +645,13 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
                 <div className="col-span-2 flex items-center gap-1">
                   {isSheetLocked ? (
                     <span className="w-full text-center text-cyan-300 font-mono font-bold text-xs">
-                      {att.score || 0}
+                      {effectiveScoreStr}
                     </span>
                   ) : (
                     <input
                       type="text"
                       placeholder="Check Score"
-                      value={att.score || ''}
+                      value={effectiveScoreStr}
                       onChange={(e) => updateAttack(idx, 'score', e.target.value)}
                       className="w-full text-center bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded px-1 py-1.5 text-cyan-300 font-mono font-bold outline-none text-xs"
                     />
@@ -635,7 +659,7 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
                   <button
                     type="button"
                     onClick={(e) => {
-                      const scoreVal = parseInt(att.score || 0, 10);
+                      const scoreVal = parseInt(effectiveScoreStr || 0, 10) || 0;
                       openDiceRoller({
                         label: `${att.name || 'Weapon'} Strike ${scoreVal >= 0 ? `+${scoreVal}` : scoreVal}`,
                         baseModifier: scoreVal,
@@ -647,7 +671,7 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
                       });
                     }}
                     className="p-1 bg-rose-950/90 hover:bg-rose-900 border border-rose-500/50 hover:border-rose-400 text-rose-300 rounded transition-all shrink-0 cursor-pointer"
-                    title={`Check Attack (2d10 + ${att.score || 0}). Shift-click to quick-roll.`}
+                    title={`Check Attack (2d10 + ${effectiveScoreStr || 0}). Shift-click to quick-roll.`}
                   >
                     <Dices size={13} />
                   </button>
@@ -719,7 +743,7 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
                   <button
                     type="button"
                     onClick={(e) => {
-                      const scoreVal = parseInt(att.score || 0, 10);
+                      const scoreVal = parseInt(effectiveScoreStr || 0, 10) || 0;
                       openDiceRoller({
                         label: `${att.name || 'Weapon'} Strike ${scoreVal >= 0 ? `+${scoreVal}` : scoreVal}`,
                         baseModifier: scoreVal,
@@ -731,7 +755,7 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
                       });
                     }}
                     className="px-1.5 py-1 bg-rose-950/80 hover:bg-rose-900 border border-rose-500/50 text-rose-300 rounded text-[10px] font-bold font-mono transition-colors shadow-sm active:scale-95 cursor-pointer flex items-center gap-0.5"
-                    title={`Check Attack (2d10 + ${att.score || 0}). Shift-click to quick-roll.`}
+                    title={`Check Attack (2d10 + ${effectiveScoreStr || 0}). Shift-click to quick-roll.`}
                   >
                     <Dices size={10} className="text-rose-400" />
                     <span>Check</span>
@@ -778,7 +802,8 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
                   )}
                 </div>
               </div>
-            )))}
+                );
+              }))}
           </div>
         </div>
       )}

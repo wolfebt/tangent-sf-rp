@@ -6,6 +6,7 @@ import { useConfirm } from '../../../context/ConfirmContext';
 import { useDice } from '../../../context/DiceContext';
 import { showToast } from '../../../context/ToastContext';
 import { resolveWealthCycleRollover } from '../../../engines/tangentEconEngine';
+import { getEffectiveSkillBonus } from '../../../utils/combatUtils';
 import { Dices, ChevronDown, ChevronRight, Plus, Trash2, Coins, Receipt, Pencil, Check } from 'lucide-react';
 
 // Lazy Loaded Rules & Codex Modals
@@ -231,22 +232,19 @@ const CoreStatsTab = () => {
   // Perception calculations
   const intellectTotal = getAttrTotal('attr-intellect');
   const wisdomTotal = getAttrTotal('attr-wisdom');
-  const alertnessMod = getNum('skill-mental-alertness-mod') + (computedModifiers?.skillMods?.['alertness'] || 0);
-  const alertnessRank = getNum('skill-mental-alertness-rank');
-  const attuneMod = getNum('skill-meta-attune-mod') + (computedModifiers?.skillMods?.['attune'] || 0);
-  const attuneRank = getNum('skill-meta-attune-rank');
-  const insightMod = getNum('skill-social-insight-mod') + (computedModifiers?.skillMods?.['insight'] || 0);
-  const insightRank = getNum('skill-social-insight-rank');
-  const techMod = getNum('skill-mental-technology-mod') + (computedModifiers?.skillMods?.['technology'] || 0);
-  const techRank = getNum('skill-mental-technology-rank');
+  const alertnessBonus = getEffectiveSkillBonus('mental-alertness', characterData, computedModifiers);
+  const attuneBonus = getEffectiveSkillBonus('meta-attune', characterData, computedModifiers);
+  const awarenessBonus = getEffectiveSkillBonus('social-awareness', characterData, computedModifiers) ||
+    getEffectiveSkillBonus('social-insight', characterData, computedModifiers);
+  const techBonus = getEffectiveSkillBonus('mental-technology', characterData, computedModifiers);
 
   const basePerception = intellectTotal + wisdomTotal;
-  const alertPerception = basePerception + alertnessRank + alertnessMod;
-  const metaPerception = basePerception + attuneRank + attuneMod;
-  const socialPerception = basePerception + insightRank + insightMod;
-  const techPerception = basePerception + techRank + techMod;
+  const alertPerception = basePerception + alertnessBonus;
+  const metaPerception = basePerception + attuneBonus;
+  const socialPerception = basePerception + awarenessBonus;
+  const techPerception = basePerception + techBonus;
 
-  // Essence calculation: Primary Attributes total + Attune & Discipline skills
+  // Essence calculation: Primary Attributes total + Attune & Discipline Focus skills
   const primaryAttrsTotal = 
     getAttrTotal('attr-strength') +
     getAttrTotal('attr-agility') +
@@ -257,12 +255,18 @@ const CoreStatsTab = () => {
 
   const defaultMetaSkills = [
     'meta-attune',
-    'meta-dimension',
-    'meta-energy',
-    'meta-entropy',
-    'meta-illusion',
-    'meta-matter',
-    'meta-mental'
+    'meta-summoning',
+    'meta-teleport',
+    'meta-elemental',
+    'meta-force',
+    'meta-chaos',
+    'meta-order',
+    'meta-phantasm',
+    'meta-shadow',
+    'meta-enhancement',
+    'meta-transmutation',
+    'meta-projection',
+    'meta-sense'
   ];
 
   const customMetaKeys = Object.keys(characterData).filter(
@@ -276,9 +280,7 @@ const CoreStatsTab = () => {
 
   let metaSkillsTotal = 0;
   allMetaSkillIds.forEach(id => {
-    const rank = getNum(`skill-${id}-rank`);
-    const mod = getNum(`skill-${id}-mod`);
-    metaSkillsTotal += (rank + mod);
+    metaSkillsTotal += getEffectiveSkillBonus(id, characterData, computedModifiers);
   });
 
   const essenceTotal = primaryAttrsTotal + metaSkillsTotal;
@@ -740,7 +742,7 @@ const CoreStatsTab = () => {
                   <div>
                     <span className="text-[9.5px] uppercase font-bold text-cyan-300 block leading-tight">Default</span>
                     <span className="text-sm font-bold font-mono text-cyan-200 block leading-tight">{alertPerception}</span>
-                    <span className="text-[8px] text-cyan-400/80 font-mono block leading-tight">+{alertnessRank + alertnessMod} Alert</span>
+                    <span className="text-[8px] text-cyan-400/80 font-mono block leading-tight">+{alertnessBonus} Alert</span>
                   </div>
                   <button
                     type="button"
@@ -775,7 +777,7 @@ const CoreStatsTab = () => {
                   <div>
                     <span className="text-[9.5px] uppercase font-bold text-amber-400 block leading-tight">Meta</span>
                     <span className="text-sm font-bold font-mono text-amber-300 block leading-tight">{metaPerception}</span>
-                    <span className="text-[8px] text-amber-400/80 font-mono block leading-tight">+{attuneRank + attuneMod} Attune</span>
+                    <span className="text-[8px] text-amber-400/80 font-mono block leading-tight">+{attuneBonus} Attune</span>
                   </div>
                   <button
                     type="button"
@@ -810,7 +812,7 @@ const CoreStatsTab = () => {
                   <div>
                     <span className="text-[9.5px] uppercase font-bold text-emerald-400 block leading-tight">Social</span>
                     <span className="text-sm font-bold font-mono text-emerald-300 block leading-tight">{socialPerception}</span>
-                    <span className="text-[8px] text-emerald-400/80 font-mono block leading-tight">+{insightRank + insightMod} Insight</span>
+                    <span className="text-[8px] text-emerald-400/80 font-mono block leading-tight">+{awarenessBonus} Insight</span>
                   </div>
                   <button
                     type="button"
@@ -845,7 +847,7 @@ const CoreStatsTab = () => {
                   <div>
                     <span className="text-[9.5px] uppercase font-bold text-blue-400 block leading-tight">Tech</span>
                     <span className="text-sm font-bold font-mono text-blue-300 block leading-tight">{techPerception}</span>
-                    <span className="text-[8px] text-blue-400/80 font-mono block leading-tight">+{techRank + techMod} Tech</span>
+                    <span className="text-[8px] text-blue-400/80 font-mono block leading-tight">+{techBonus} Tech</span>
                   </div>
                   <button
                     type="button"
@@ -1088,7 +1090,7 @@ const CoreStatsTab = () => {
               >
                 <div className="flex flex-col bg-slate-800/50 p-1.5 py-1 rounded border border-amber-700/60 text-center w-full hover:border-amber-400 transition-colors">
                   <span className="text-[9.5px] uppercase font-bold text-amber-400 leading-tight">Conduit</span>
-                  <span className="text-sm font-bold font-mono text-amber-300 leading-tight my-0.5">+{attuneRank + attuneMod}</span>
+                  <span className="text-sm font-bold font-mono text-amber-300 leading-tight my-0.5">+{attuneBonus}</span>
                   <span className="text-[8px] text-amber-400/80 font-mono leading-tight">Attune Skill</span>
                 </div>
               </FolioTooltip>
@@ -1102,7 +1104,7 @@ const CoreStatsTab = () => {
               >
                 <div className="flex flex-col bg-slate-800/50 p-1.5 py-1 rounded border border-slate-700 text-center w-full hover:border-purple-400 transition-colors">
                   <span className="text-[9.5px] uppercase font-bold text-slate-400 leading-tight">Disciplines</span>
-                  <span className="text-sm font-bold font-mono text-cyan-300 leading-tight my-0.5">+{Math.max(0, metaSkillsTotal - (attuneRank + attuneMod))}</span>
+                  <span className="text-sm font-bold font-mono text-cyan-300 leading-tight my-0.5">+{Math.max(0, metaSkillsTotal - attuneBonus)}</span>
                   <span className="text-[8px] text-slate-500 font-mono leading-tight">Meta Skills</span>
                 </div>
               </FolioTooltip>

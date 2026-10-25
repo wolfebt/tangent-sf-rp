@@ -11,8 +11,10 @@ import {
   resolveAllTacticalAttacks, 
   sanitizeDiceExpression, 
   createAttackFromWeapon, 
-  buildWeaponNotes 
+  buildWeaponNotes,
+  getEffectiveSkillBonus
 } from '../../../utils/combatUtils';
+import { resolveMetaSkillForInvocation } from '../../../utils/metaphysicsUtils';
 import { enrichItemWithModifiers } from '../../../engines/tangentModifierEngine';
 import FolioTooltip from '../shared/FolioTooltip';
 import { getSpeciesRestProfile } from '../../../engines/tangentRestEngine';
@@ -152,6 +154,8 @@ export const TacticalPlayView = ({
 
   const derivedStats = folio.derivedStats || {};
   const getAttrTotal = folio.getAttrTotal;
+  const computedModifiers = folio.computedModifiers || null;
+  const getSkillBreakdown = folio.getSkillBreakdown || null;
   const applyCharacterDamage = folio.applyCharacterDamage;
   const updateCharacterHealth = folio.updateCharacterHealth;
   const updateCharacterVitality = folio.updateCharacterVitality;
@@ -480,10 +484,12 @@ export const TacticalPlayView = ({
     }
   ], [attrStr, attrAgi, attrSta, attrInt, attrWis, attrCha, characterData, getAttrTotal, isSynthetic]);
 
-  // Defense Skill & Combat Defense Rank
-  const defRank = parseInt(characterData['skill-combat-defense-rank'] || characterData['skill-defense-rank'] || 0, 10);
-  const acroRank = parseInt(characterData['skill-physical-acrobatics-rank'] || characterData['skill-acrobatics-rank'] || 0, 10);
-  const meleeRank = parseInt(characterData['skill-combat-melee-rank'] || characterData['skill-melee-rank'] || 0, 10);
+  // Defense Skill & Combat Defense Rank + Modifiers
+  const defRank = getEffectiveSkillBonus('combat-defense', characterData, computedModifiers);
+  const acroRank = getEffectiveSkillBonus('physical-acrobatics', characterData, computedModifiers);
+  const meleeRank = getEffectiveSkillBonus('combat-melee', characterData, computedModifiers);
+  const combatDefMod = (computedModifiers?.combatMods?.['defense-mod'] || 0) + parseInt(characterData['defense-mod'] || 0, 10);
+  const combatEvasionMod = (computedModifiers?.combatMods?.['evasion-mod'] || 0) + parseInt(characterData['evasion-mod'] || 0, 10);
 
   // Size Category Defense Modifier
   const sizeKey = characterData['char-size'] || derivedStats?.size || 'Medium';
@@ -498,12 +504,19 @@ export const TacticalPlayView = ({
   else if (sizeLower.includes('gargantuan')) sizeDefenseMod = -4;
   else if (sizeLower.includes('colossal')) sizeDefenseMod = -8;
 
-  // Canonical Base Defense Score: 10 + Agility + Defense Rank + Size/Armor Modifiers
-  const baseDefenseScore = 10 + attrAgi + defRank + sizeDefenseMod;
-  const baseDefenseCheckMod = attrAgi + defRank;
+  // Canonical Base Defense Score: 10 + Agility + Defense Bonus + Size/Armor/Combat Modifiers
+  const baseDefenseScore = 10 + attrAgi + defRank + sizeDefenseMod + combatDefMod;
+  const baseDefenseCheckMod = attrAgi + defRank + combatDefMod;
 
-  // Physical Armor & Energy Shield
-  const physicalArmor = parseInt(characterData.physical_armor || derivedStats?.toughness || characterData.armor || 0, 10);
+  // Physical Armor & Energy Shield (Equipped Armor DR + Natural/Cybernetic Armor DR + Toughness)
+  const equippedArmorDR = (Array.isArray(characterData.armor) ? characterData.armor : []).reduce((acc, arm) => {
+    const val = parseInt(typeof arm === 'object' ? (arm.resistance ?? arm.dr ?? arm.armor ?? 0) : 0, 10);
+    return acc + (isNaN(val) ? 0 : val);
+  }, 0);
+  const naturalArmorDR = computedModifiers?.combatMods?.['armor-dr'] || 0;
+  const physicalArmor = characterData.physical_armor !== undefined
+    ? parseInt(characterData.physical_armor, 10) || 0
+    : (equippedArmorDR + naturalArmorDR + (derivedStats?.toughness ?? 0));
   const energyShield = parseInt(characterData.energy_shield || characterData.shield || 0, 10);
 
   // Shield Item Bonus (from armoring, shield property, or characterData.shield_bonus)
@@ -511,16 +524,16 @@ export const TacticalPlayView = ({
 
   // Dedicated Reaction Slots (Specialties): Dodge (Evasion), Parry (Weapon Block), Block (Shield)
   // 1. Dodge Slot (Evasion Specialization / Acrobatics Synergy)
-  const dodgeBonus = attrAgi + defRank + acroRank + parseInt(characterData.dodge_mod || 0, 10);
+  const dodgeBonus = attrAgi + defRank + acroRank + parseInt(characterData.dodge_mod || 0, 10) + combatDefMod + combatEvasionMod;
   const dodgeScore = 10 + dodgeBonus + sizeDefenseMod;
 
   // 2. Parry Slot (Weapon Block Specialization / Melee Synergy)
   const meleeAttr = Math.max(attrAgi, attrStr);
-  const parryBonus = meleeAttr + defRank + meleeRank + parseInt(characterData.parry_mod || 0, 10);
+  const parryBonus = meleeAttr + defRank + meleeRank + parseInt(characterData.parry_mod || 0, 10) + combatDefMod;
   const parryScore = 10 + parryBonus + sizeDefenseMod;
 
   // 3. Block Slot (Shield Specialization / Equipped Shield)
-  const blockBonus = attrAgi + defRank + shieldBonus + parseInt(characterData.block_mod || 0, 10);
+  const blockBonus = attrAgi + defRank + shieldBonus + parseInt(characterData.block_mod || 0, 10) + combatDefMod;
   const blockScore = 10 + blockBonus + sizeDefenseMod;
 
   // Species Rest Profile (Minimal Rest: Synthetics, Fae, Insects; Meditative: Alterians, Mondi)
@@ -552,8 +565,8 @@ export const TacticalPlayView = ({
 
   // Tactical Attacks & Offensive Capabilities List (Weapons, Natural Attacks & Offensive Metaphysics)
   const weaponsList = useMemo(() => {
-    return resolveAllTacticalAttacks(characterData, getAttrTotal, isSynthetic);
-  }, [characterData, getAttrTotal, isSynthetic]);
+    return resolveAllTacticalAttacks(characterData, getAttrTotal, isSynthetic, computedModifiers);
+  }, [characterData, getAttrTotal, isSynthetic, computedModifiers]);
 
   const attackCounts = useMemo(() => ({
     all: weaponsList.length,
@@ -574,6 +587,7 @@ export const TacticalPlayView = ({
       physical: '🏃 Physical Skills',
       mental: '🧠 Mental Skills',
       social: '💬 Social Skills',
+      meta: '🔮 Metafocus Skills',
       metafocus: '🔮 Metafocus Skills'
     };
 
@@ -586,34 +600,61 @@ export const TacticalPlayView = ({
 
     const trainedSkills = new Map();
 
+    // Also include skills from pillar allocations if not yet written to skill-*-rank
+    const rawSkillRanks = new Map();
     Object.entries(characterData).forEach(([key, val]) => {
       if (key.startsWith('skill-') && key.endsWith('-rank')) {
-        const rank = parseInt(val, 10);
+        const rank = parseInt(val, 10) || 0;
         if (rank > 0) {
           const rawId = key.replace('skill-', '').replace('-rank', '').toLowerCase();
-          const cleanId = rawId.replace(/^[a-z]+-/, '');
-          const canon = canonicalMap.get(rawId) || canonicalMap.get(cleanId);
-          const name = canon?.name || characterData[`skill-${rawId}-name`] || characterData[`skill-${cleanId}-name`] || cleanId.replace(/-/g, ' ');
-          const group = canon?.group || 'combat';
-          const baseAttr = canon?.baseAttr || 'attr-agility';
-          const attrKey = baseAttr.replace('attr-', '');
-          const attrScore = getAttrTotal ? getAttrTotal(baseAttr) : parseInt(characterData[baseAttr] || 0, 10);
-          const total = attrScore + rank;
-
-          if (!trainedSkills.has(cleanId) || rank > trainedSkills.get(cleanId).rank) {
-            trainedSkills.set(cleanId, {
-              id: cleanId,
-              name,
-              group,
-              rank,
-              baseAttr,
-              attrKey: attrKey.toUpperCase().slice(0, 3),
-              attrScore,
-              total,
-              description: canon?.description || ''
-            });
-          }
+          rawSkillRanks.set(rawId, rank);
         }
+      }
+    });
+    ['speciesAllocations', 'occuAllocations', 'originAllocations', 'factionAllocations'].forEach(pk => {
+      const allocSkills = characterData[pk]?.skills;
+      if (allocSkills && typeof allocSkills === 'object') {
+        Object.entries(allocSkills).forEach(([sId, rVal]) => {
+          const rNum = parseInt(rVal, 10) || 0;
+          const lowerId = sId.toLowerCase();
+          if (rNum > 0 && !rawSkillRanks.has(lowerId)) {
+            rawSkillRanks.set(lowerId, rNum);
+          }
+        });
+      }
+    });
+
+    rawSkillRanks.forEach((rank, rawId) => {
+      const cleanId = rawId.replace(/^[a-z]+-/, '');
+      const canon = canonicalMap.get(rawId) || canonicalMap.get(cleanId);
+      const fullSkillId = canon?.id || rawId;
+      const name = canon?.name || characterData[`skill-${rawId}-name`] || characterData[`skill-${cleanId}-name`] || cleanId.replace(/-/g, ' ');
+      const group = canon?.group === 'meta' ? 'metafocus' : (canon?.group || 'combat');
+      const baseAttr = canon?.baseAttr || 'attr-agility';
+      const attrKey = baseAttr.replace('attr-', '');
+      const attrScore = getAttrTotal ? getAttrTotal(baseAttr) : parseInt(characterData[baseAttr] || 0, 10);
+
+      let total = attrScore + getEffectiveSkillBonus(fullSkillId, characterData, computedModifiers);
+      if (typeof getSkillBreakdown === 'function') {
+        const bd = getSkillBreakdown(fullSkillId, attrKey);
+        if (bd && typeof bd.total === 'number') {
+          total = bd.total;
+        }
+      }
+
+      if (!trainedSkills.has(cleanId) || rank > trainedSkills.get(cleanId).rank) {
+        trainedSkills.set(cleanId, {
+          id: cleanId,
+          fullId: fullSkillId,
+          name,
+          group,
+          rank,
+          baseAttr,
+          attrKey: attrKey.toUpperCase().slice(0, 3),
+          attrScore,
+          total,
+          description: canon?.description || ''
+        });
       }
     });
 
@@ -644,14 +685,14 @@ export const TacticalPlayView = ({
       if (!order.includes(gKey) && groups[gKey].length > 0) {
         result.push({
           key: gKey,
-          label: `${gKey.toUpperCase()} Skills`,
+          label: groupLabels[gKey] || `${gKey.toUpperCase()} Skills`,
           skills: groups[gKey]
         });
       }
     });
 
     return result;
-  }, [characterData, getAttrTotal]);
+  }, [characterData, getAttrTotal, computedModifiers, getSkillBreakdown]);
 
   // Identity Pillars extraction
   const speciesName = characterData['char-species'] || characterData.species || '';
@@ -838,20 +879,24 @@ export const TacticalPlayView = ({
     if (!Array.isArray(characterData.invocations)) return [];
     return characterData.invocations.filter(Boolean).map((inv, idx) => {
       const obj = typeof inv === 'object' ? inv : { name: String(inv) };
-      const rank = parseInt(obj.rank || 1, 10);
-      const mod = parseInt(obj.mod || 0, 10);
-      const total = attrWis + rank + mod;
+      const metaInfo = resolveMetaSkillForInvocation(obj);
+      const baseSkillId = obj.baseSkillId || metaInfo?.baseSkillId || 'meta-attune';
+      const metaSkillBonus = getEffectiveSkillBonus(baseSkillId, characterData, computedModifiers);
+      const rank = parseInt(obj.rank || obj.level || 1, 10) || 1;
+      const mod = parseInt(obj.mod || 0, 10) || 0;
+      const total = attrWis + metaSkillBonus + rank + mod;
       return {
         id: obj.id || `inv_${idx}`,
         name: obj.name || obj.title || 'Invocation',
-        discipline: obj.discipline || 'Metaphysics',
+        discipline: obj.discipline || metaInfo?.discipline || 'Metaphysics',
+        subSkill: obj.subSkill || metaInfo?.subSkill || '',
         baseDC: obj.baseDC || 15,
         total,
         rank,
         desc: obj.description || obj.desc || ''
       };
     });
-  }, [characterData.invocations, attrWis]);
+  }, [characterData, computedModifiers, attrWis]);
 
   // Augmentations & Cyberware
   const augmentationsList = useMemo(() => {

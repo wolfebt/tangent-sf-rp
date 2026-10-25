@@ -47,7 +47,7 @@ export const FolioInventorySliceProvider = ({ children }) => {
   } = useFolioIdentity();
   const characterData = (rawCharacterData && typeof rawCharacterData === 'object') ? rawCharacterData : DEFAULT_CHARACTER;
   
-  const { getAttrTotal } = useFolioStats();
+  const { getAttrTotal, computedModifiers } = useFolioStats();
 
   const [publicCatalog, setPublicCatalog] = useState([]);
 
@@ -112,7 +112,7 @@ export const FolioInventorySliceProvider = ({ children }) => {
         });
 
         if (!alreadyInAttacks) {
-          const newAttack = createAttackFromWeapon(cleanItem, prev, getAttrTotal || (() => 0));
+          const newAttack = createAttackFromWeapon(cleanItem, prev, getAttrTotal || (() => 0), computedModifiers);
           updates.attacks = [...currentAttacks, newAttack];
         }
       }
@@ -180,7 +180,7 @@ export const FolioInventorySliceProvider = ({ children }) => {
         });
       }
     }
-  }, [getAttrTotal, setCharacterData, triggerSave]);
+  }, [getAttrTotal, computedModifiers, setCharacterData, triggerSave]);
 
   // Omnicortex DBM Cross-Module Item Importer: Add Item to Inventory
   const addItemToInventory = useCallback((item) => {
@@ -266,13 +266,10 @@ export const FolioInventorySliceProvider = ({ children }) => {
         const currentAttacks = Array.isArray(prev.attacks) ? [...prev.attacks] : [];
         const alreadyInAttacks = currentAttacks.some(a => (a.name || '').toLowerCase() === normalizedItem.name.toLowerCase());
         if (!alreadyInAttacks) {
+          const newAtk = createAttackFromWeapon(normalizedItem, prev, getAttrTotal || (() => 0), computedModifiers);
           currentAttacks.push({
-            id: `atk_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
-            name: normalizedItem.name,
-            score: normalizedItem.score || '+0',
-            damage: normalizedItem.damage || '1d10',
-            type: normalizedItem.type || 'Physical',
-            notes: `TL ${normalizedItem.techLevel || 1}${normalizedItem.notes ? ` • ${normalizedItem.notes}` : ''}`
+            ...newAtk,
+            notes: newAtk.notes || `TL ${normalizedItem.techLevel || 1}${normalizedItem.notes ? ` • ${normalizedItem.notes}` : ''}`
           });
           updates.attacks = currentAttacks;
         }
@@ -318,7 +315,7 @@ export const FolioInventorySliceProvider = ({ children }) => {
         });
       }
     }
-  }, [setCharacterData, triggerSave]);
+  }, [getAttrTotal, computedModifiers, setCharacterData, triggerSave]);
 
   // Omnicortex DBM Cross-Module Power Importer: Add Ability / Power
   const addAbility = useCallback((ability) => {

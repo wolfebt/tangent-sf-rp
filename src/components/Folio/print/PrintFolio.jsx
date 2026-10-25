@@ -7,6 +7,7 @@ import {
   formatWeightWithConversion
 } from '../../../engines/tangentMeasurementEngine';
 import { enrichItemWithModifiers } from '../../../engines/tangentModifierEngine';
+import { getEffectiveSkillBonus, calculateDefaultAttackScore, isConventionalWeaponItem } from '../../../utils/combatUtils';
 
 const DEFAULT_PHYSICAL_SKILLS = ['Acrobatics', 'Athletics', 'Piloting', 'Stealth'];
 const DEFAULT_MENTAL_SKILLS = ['Alertness', 'Academics'];
@@ -92,20 +93,18 @@ const PrintFolio = ({ characterData, isScreenPreview = false }) => {
   const isSynthetic = speciesStr.includes('synthetic') || speciesStr.includes('mekan') || speciesStr.includes('construct') || speciesStr.includes('golem') || speciesStr.includes('ooze') || speciesStr.includes('undead');
   const structure = characterData['structure'] ?? (Number(health) + Number(vitality));
 
-  const alertnessMod = getNum('skill-mental-alertness-mod');
-  const alertnessRank = getNum('skill-mental-alertness-rank');
-  const attuneMod = getNum('skill-meta-attune-mod');
-  const attuneRank = getNum('skill-meta-attune-rank');
-  const insightMod = getNum('skill-social-insight-mod');
-  const insightRank = getNum('skill-social-insight-rank');
-  const techMod = getNum('skill-mental-technology-mod');
-  const techRank = getNum('skill-mental-technology-rank');
+  const computedMods = folioCtx?.computedModifiers || null;
+  const alertnessBonus = getEffectiveSkillBonus('mental-alertness', characterData, computedMods);
+  const attuneBonus = getEffectiveSkillBonus('meta-attune', characterData, computedMods);
+  const awarenessBonus = getEffectiveSkillBonus('social-awareness', characterData, computedMods) ||
+    getEffectiveSkillBonus('social-insight', characterData, computedMods);
+  const techBonus = getEffectiveSkillBonus('mental-technology', characterData, computedMods);
 
   const basePerception = intTotal + wisTotal;
-  const alertPerception = basePerception + alertnessMod + alertnessRank;
-  const metaPerception = basePerception + attuneMod + attuneRank;
-  const socialPerception = basePerception + insightMod + insightRank;
-  const techPerception = basePerception + techMod + techRank;
+  const alertPerception = basePerception + alertnessBonus;
+  const metaPerception = basePerception + attuneBonus;
+  const socialPerception = basePerception + awarenessBonus;
+  const techPerception = basePerception + techBonus;
 
   // Attacks
   const attacks = getArray('attacks');
@@ -129,9 +128,12 @@ const PrintFolio = ({ characterData, isScreenPreview = false }) => {
   // Helper to render skill row
   const renderSkillRow = (skillName, prefix) => {
     const slug = skillName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-    const fullId = `skill-${prefix}-${slug}`;
+    const shortSkillId = `${prefix}-${slug}`;
+    const fullId = `skill-${shortSkillId}`;
     const rank = getNum(`${fullId}-rank`, 0);
-    const mod = getNum(`${fullId}-mod`, 0);
+    const computedSkillMod = (computedMods?.skillMods?.[slug] || 0) +
+      (slug !== shortSkillId ? (computedMods?.skillMods?.[shortSkillId] || 0) : 0);
+    const mod = getNum(`${fullId}-mod`, 0) + computedSkillMod;
     const att = getStr(`${fullId}-att`, '');
     const ttl = rank + mod;
 
@@ -141,7 +143,7 @@ const PrintFolio = ({ characterData, isScreenPreview = false }) => {
         <td className="text-center font-mono text-[8px]">{rank > 0 ? rank : ''}</td>
         <td className="text-center font-mono text-[8px] uppercase">{att}</td>
         <td className="text-center font-mono text-[8px]">{mod !== 0 ? mod : ''}</td>
-        <td className="text-center font-bold font-mono text-[8px]">{ttl > 0 ? ttl : ''}</td>
+        <td className="text-center font-bold font-mono text-[8px]">{ttl !== 0 || rank > 0 ? ttl : ''}</td>
       </tr>
     );
   };
@@ -361,10 +363,14 @@ const PrintFolio = ({ characterData, isScreenPreview = false }) => {
                 <tbody>
                   {Array.from({ length: Math.max(5, attacks.length) }).map((_, idx) => {
                     const att = attacks[idx] || {};
+                    const isWeaponAtk = Boolean(att.weaponId || att.category === 'weapon' || isConventionalWeaponItem(att));
+                    const displayScore = (!att.isManualScore && isWeaponAtk && att.name)
+                      ? calculateDefaultAttackScore({ ...att, isManualScore: false }, characterData, getAttrTotal, computedMods)
+                      : (att.score || '');
                     return (
                       <tr key={idx} className="h-4">
                         <td className="font-semibold text-[7.5px] truncate">{att.name || ''}</td>
-                        <td className="text-center font-mono text-[7.5px]">{att.score || ''}</td>
+                        <td className="text-center font-mono text-[7.5px]">{displayScore}</td>
                         <td className="text-center font-mono text-[7.5px]">{att.damage || ''}</td>
                         <td className="text-[7px] truncate">{att.notes || ''}</td>
                       </tr>
@@ -694,7 +700,7 @@ const PrintFolio = ({ characterData, isScreenPreview = false }) => {
                   {renderSkillRow('Order', 'meta')}
 
                   <tr className="bg-gray-200 font-bold text-[7.5px]"><td colSpan={5} className="pl-1">ILLUSION</td></tr>
-                  {renderSkillRow('Phantasmal', 'meta')}
+                  {renderSkillRow('Phantasm', 'meta')}
                   {renderSkillRow('Shadow', 'meta')}
 
                   <tr className="bg-gray-200 font-bold text-[7.5px]"><td colSpan={5} className="pl-1">MATTER</td></tr>

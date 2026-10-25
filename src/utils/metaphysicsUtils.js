@@ -208,7 +208,7 @@ export function isSpecialAbility(power) {
  * @param {function|null} getAttrTotal
  * @returns {object} Foundation descriptor
  */
-export function resolvePowerFoundation(power, characterData = {}, getAttrTotal = null) {
+export function resolvePowerFoundation(power, characterData = {}, getAttrTotal = null, computedModifiers = null) {
   const isSpecial = isSpecialAbility(power);
 
   if (isSpecial) {
@@ -220,7 +220,9 @@ export function resolvePowerFoundation(power, characterData = {}, getAttrTotal =
     if (typeof getAttrTotal === 'function') {
       attrScore = getAttrTotal(attrKey);
     } else if (characterData) {
-      attrScore = parseInt(characterData[attrKey] || 0, 10);
+      attrScore = (parseInt(characterData[attrKey] || 0, 10) || 0) +
+        (parseInt(characterData[`${attrKey}-mod`] || 0, 10) || 0) +
+        (computedModifiers?.attrMods?.[attrKey] || 0);
     }
 
     const rank = Math.min(10, Math.max(1, parseInt(power.rank || power.level || 1, 10)));
@@ -246,10 +248,35 @@ export function resolvePowerFoundation(power, characterData = {}, getAttrTotal =
   // Standard Invocation Specialization
   const metaInfo = resolveMetaSkillForInvocation(power);
   const baseSkillId = power.baseSkillId || metaInfo.baseSkillId;
-  const skillRank = parseInt(characterData?.[`skill-${baseSkillId}-rank`] || 0, 10);
-  const skillMod = parseInt(characterData?.[`skill-${baseSkillId}-mod`] || 0, 10);
+  const shortSkillKey = baseSkillId.replace(/^meta-/, '');
+  const skillRank = parseInt(characterData?.[`skill-${baseSkillId}-rank`] || 0, 10) || 0;
+  const skillMod = (parseInt(characterData?.[`skill-${baseSkillId}-mod`] || 0, 10) || 0) +
+    (computedModifiers?.skillMods?.[shortSkillKey] || 0) +
+    (shortSkillKey !== baseSkillId ? (computedModifiers?.skillMods?.[baseSkillId] || 0) : 0);
+
+  const rawAttr = power.baseAttr || characterData?.[`skill-${baseSkillId}-att`] || 'attr-wisdom';
+  const attrMap = {
+    str: 'attr-strength', strength: 'attr-strength',
+    agi: 'attr-agility', agility: 'attr-agility',
+    sta: 'attr-stamina', stamina: 'attr-stamina', con: 'attr-stamina', constitution: 'attr-stamina',
+    int: 'attr-intellect', intellect: 'attr-intellect',
+    wis: 'attr-wisdom', wisdom: 'attr-wisdom',
+    cha: 'attr-charisma', charisma: 'attr-charisma'
+  };
+  const cleanAttr = String(rawAttr).toLowerCase().replace(/^attr-/, '').trim();
+  const attrKey = attrMap[cleanAttr] || 'attr-wisdom';
+  let attrScore = 0;
+  if (typeof getAttrTotal === 'function') {
+    attrScore = getAttrTotal(attrKey);
+  } else if (characterData) {
+    attrScore = (parseInt(characterData[attrKey] || 0, 10) || 0) +
+      (parseInt(characterData[`${attrKey}-mod`] || 0, 10) || 0) +
+      (computedModifiers?.attrMods?.[attrKey] || 0);
+  }
+
   const rank = Math.min(10, Math.max(1, parseInt(power.rank || power.level || 1, 10)));
   const mod = parseInt(power.mod || 0, 10);
+  const totalScore = attrScore + skillRank + skillMod + rank + mod;
 
   return {
     isSpecialAbility: false,
@@ -258,9 +285,12 @@ export function resolvePowerFoundation(power, characterData = {}, getAttrTotal =
     skillName: metaInfo.skillName,
     discipline: metaInfo.discipline,
     subSkill: metaInfo.subSkill,
+    attributeScore: attrScore,
     skillRank: skillRank + skillMod,
     rank,
     mod,
+    totalScore,
+    take10Score: totalScore + 10,
     requiresAwakenedDiscipline: true,
     requiresMetaFocusSkill: true,
     label: `Invocation Specialization (${metaInfo.discipline} / ${metaInfo.skillName})`

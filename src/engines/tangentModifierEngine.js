@@ -838,7 +838,9 @@ export function getSkillCheckBreakdown(skill, characterData = {}, dbData = {}, e
   const baseAttrScore = parseInt(characterData[baseAttrKey] || 0, 10);
   const baseAttrUserMod = parseInt(characterData[`${baseAttrKey}-mod`] || 0, 10);
   const baseAttrIdentityMod = parseInt(extraOptions?.attributeMods?.[baseAttrKey] || 0, 10);
-  const attrTotal = baseAttrScore + baseAttrUserMod + baseAttrIdentityMod;
+  const attrTotal = typeof extraOptions?.getAttrTotal === 'function'
+    ? Number(extraOptions.getAttrTotal(baseAttrKey)) || 0
+    : (baseAttrScore + baseAttrUserMod + baseAttrIdentityMod);
 
   // 3. Collect Modifiers from Features, Traits, Hindrances, Identity Packages, Equipment, and Direct
   const activeModifiers = [];
@@ -1070,6 +1072,7 @@ export function getSkillCheckBreakdown(skill, characterData = {}, dbData = {}, e
     attrTotal,
     totalModifier,
     score: finalScore,
+    total: finalScore,
     modifiers: activeModifiers,
     permanentModifiers,
     situationalModifiers,

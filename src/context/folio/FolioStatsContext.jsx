@@ -1051,6 +1051,7 @@ export const FolioStatsSliceProvider = ({ children }) => {
 
     return {
       attributeMods,
+      attrMods: attributeMods,
       attributeModSources,
       combatMods,
       skillMods,
@@ -1089,14 +1090,6 @@ export const FolioStatsSliceProvider = ({ children }) => {
     characterData?.factionAllocations,
     dbData
   ]);
-
-  // Skill Check Breakdown Helper (Score, Attribute Used, Rank, Modifiers, Equipment)
-  const getSkillBreakdown = useCallback((skill, extraOptions = {}) => {
-    return getSkillCheckBreakdown(skill, characterData, dbData, {
-      attributeMods: computedModifiers.attributeMods,
-      ...extraOptions
-    });
-  }, [characterData, dbData, computedModifiers.attributeMods]);
 
   // Helper to get allocated identity pool attribute points (stored in characterData[attrId] alongside CP/AP purchases)
   const getGrantedPoolAttrPts = useCallback((attrId, data = characterData) => {
@@ -1167,6 +1160,15 @@ export const FolioStatsSliceProvider = ({ children }) => {
     }
     return val + getAttrMod(attrId);
   }, [characterData, getAttrMod, getPrimaryPurchasedBase]);
+
+  // Skill Check Breakdown Helper (Score, Attribute Used, Rank, Modifiers, Equipment)
+  const getSkillBreakdown = useCallback((skill, extraOptions = {}) => {
+    return getSkillCheckBreakdown(skill, characterData, dbData, {
+      attributeMods: computedModifiers.attributeMods,
+      getAttrTotal,
+      ...extraOptions
+    });
+  }, [characterData, dbData, computedModifiers.attributeMods, getAttrTotal]);
 
   // Derived Stats Auto-Calculation
   const derivedStats = useMemo(() => {

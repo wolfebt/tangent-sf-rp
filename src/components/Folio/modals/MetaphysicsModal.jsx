@@ -267,7 +267,8 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
     characterData, 
     updateField, 
     handleAddItem, 
-    getAttrTotal
+    getAttrTotal,
+    computedModifiers
   } = useFolio();
   const { openDiceRoller } = useDice();
 
@@ -362,16 +363,23 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
   ].reduce((sum, attrId) => sum + getAttrTotal(attrId), 0);
 
   const attuneRank = getNum('skill-meta-attune-rank', 0);
-  const attuneMod = getNum('skill-meta-attune-mod', 0);
+  const attuneMod = getNum('skill-meta-attune-mod', 0) +
+    (computedModifiers?.skillMods?.['attune'] || 0) +
+    (computedModifiers?.skillMods?.['meta-attune'] || 0);
   const totalAttune = attuneRank + attuneMod;
 
   const totalDisciplineRanks = METAPHYSICAL_DISCIPLINES.reduce((sum, disc) => {
     return sum + disc.skills.reduce((sSum, skill) => {
-      return sSum + getNum(`skill-${skill.id}-rank`, 0);
+      const shortId = skill.id.replace(/^meta-/, '');
+      const sRank = getNum(`skill-${skill.id}-rank`, 0);
+      const sMod = getNum(`skill-${skill.id}-mod`, 0) +
+        (computedModifiers?.skillMods?.[shortId] || 0) +
+        (computedModifiers?.skillMods?.[skill.id] || 0);
+      return sSum + sRank + sMod;
     }, 0);
   }, 0);
 
-  const maxEssencePool = abilitySubstrate + attuneRank + totalDisciplineRanks;
+  const maxEssencePool = abilitySubstrate + totalAttune + totalDisciplineRanks;
   const currentEssence = characterData.essence_current !== undefined 
     ? Number(characterData.essence_current) 
     : maxEssencePool;
@@ -444,11 +452,16 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
       s.name.toLowerCase() === (inv.subSkill || '').toLowerCase()
     ) || disciplineObj?.skills[0];
 
-    const skillId = subSkillObj ? subSkillObj.id : `meta-${(inv.discipline || 'energy').toLowerCase()}`;
+    const resolvedMeta = resolveMetaSkillForInvocation(inv);
+    const skillId = subSkillObj ? subSkillObj.id : (resolvedMeta?.baseSkillId || 'meta-attune');
+    const shortId = skillId.replace(/^meta-/, '');
     const skillRank = Math.min(20, Math.max(0, getNum(`skill-${skillId}-rank`, 0)));
-    const skillMod = getNum(`skill-${skillId}-mod`, 0);
+    const skillMod = getNum(`skill-${skillId}-mod`, 0) +
+      (computedModifiers?.skillMods?.[shortId] || 0) +
+      (computedModifiers?.skillMods?.[skillId] || 0);
     const invLevel = Math.min(10, Math.max(1, parseInt(inv.rank || inv.level || 1, 10)));
-    const totalScore = governingAttrTotal + skillRank + skillMod + invLevel;
+    const invMod = parseInt(inv.mod || 0, 10);
+    const totalScore = governingAttrTotal + skillRank + skillMod + invLevel + invMod;
     const take10Score = totalScore + 10;
     const targetSaveDC = 10 + totalAttune + invLevel;
 
