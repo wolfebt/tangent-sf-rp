@@ -22,6 +22,12 @@ essential_skills:
   - Knowledge (Technology)
   - Investigation
   - Knowledge (Computers)
+signature_traits:
+  - Cyber Warfare
+  - Digital Ghost
+traits:
+  - Cyber Warfare
+  - Digital Ghost
 signature_features:
   - Cyber Warfare
   - Digital Ghost

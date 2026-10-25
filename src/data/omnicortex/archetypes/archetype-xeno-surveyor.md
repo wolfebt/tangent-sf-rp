@@ -23,6 +23,12 @@ essential_skills:
   - Navigation
   - Knowledge (Geology)
   - Alertness
+signature_traits:
+  - Cartographer
+  - Planetary Savant
+traits:
+  - Cartographer
+  - Planetary Savant
 signature_features:
   - Cartographer
   - Planetary Savant

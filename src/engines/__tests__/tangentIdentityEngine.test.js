@@ -89,29 +89,29 @@ describe('Tangent SF RP — Identity Transition & Trait Synchronization Engine',
     assert.strictEqual(afterClear['move-swim'], 0);
   });
 
-  it('correctly transitions Archetype: removes old signature features and applies new chassis & signature features', () => {
+  it('correctly transitions Archetype: removes old signature traits and applies new chassis & signature traits (1 CP)', () => {
     // 1. Apply Armorer with 80 CP Pre-build
     const withArmorer = applyArchetypeTransition(sampleBaseCharacter, 'The Armorer', {}, { applyPreBuild: true });
     assert.strictEqual(withArmorer['char-archetype'], 'The Armorer');
     assert.strictEqual(withArmorer['attr-intellect'], 3, 'Armorer Primary Attribute (Intellect) should be 3');
     assert.strictEqual(withArmorer['attr-strength'], 2, 'Armorer Secondary Attribute (Strength) should be 2');
-    assert.ok(withArmorer.features.some(f => f.category === 'Archetype Signature'));
+    assert.ok(withArmorer.traits.some(t => t.trait_type === 'Archetype Trait' && t.cp === 1));
 
     // 2. Switch Archetype to The Ace with 80 CP Pre-build
     const withAce = applyArchetypeTransition(withArmorer, 'The Ace', {}, { applyPreBuild: true });
     assert.strictEqual(withAce['char-archetype'], 'The Ace');
     assert.strictEqual(withAce['attr-agility'], 3, 'Ace Primary Attribute (Agility) should be 3');
-    // Armorer signature features should be removed
-    const armorerFeats = withAce.features.filter(f => f.sourceName === 'The Armorer' || (f.source === 'archetype' && f.name.includes('Armorer')));
-    assert.strictEqual(armorerFeats.length, 0, 'Old archetype signature features must be removed');
-    assert.ok(withAce.features.some(f => f.category === 'Archetype Signature' && f.sourceName === 'The Ace'));
+    // Armorer signature traits should be removed
+    const armorerTraits = withAce.traits.filter(t => t.sourceName === 'The Armorer' || (t.source === 'archetype' && t.name.includes('Armorer')));
+    assert.strictEqual(armorerTraits.length, 0, 'Old archetype signature traits must be removed');
+    assert.ok(withAce.traits.some(t => t.trait_type === 'Archetype Trait' && t.sourceName === 'The Ace' && t.cp === 1));
     assert.ok(withAce.features.some(f => f.name === 'Custom Luck'), 'Custom features preserved');
 
     // 3. Clear Archetype
     const cleared = applyArchetypeTransition(withAce, '');
     assert.strictEqual(cleared['char-archetype'], '');
-    const archFeats = cleared.features.filter(f => f.category === 'Archetype Signature' || f.source === 'archetype');
-    assert.strictEqual(archFeats.length, 0, 'All archetype features removed upon clearing');
+    const archTraits = cleared.traits.filter(t => t.trait_type === 'Archetype Trait' || t.trait_type === 'Signature Trait' || t.source === 'archetype');
+    assert.strictEqual(archTraits.length, 0, 'All archetype signature traits removed upon clearing');
   });
 
   it('correctly transitions Occupation: cleans old traits and updates allocations', () => {
@@ -180,7 +180,7 @@ describe('Tangent SF RP — Identity Transition & Trait Synchronization Engine',
     assert.strictEqual(char['char-faction'], 'Alien Enclave');
 
     assert.ok(char.features.some(f => f.source === 'species'));
-    assert.ok(char.features.some(f => f.source === 'archetype'));
+    assert.ok(char.traits.some(t => t.source === 'archetype'));
   });
 
   it('reverts essential skills, primary/secondary attributes, and sub-attributes when Archetype is switched or removed without lingering residual keys', () => {
@@ -195,7 +195,7 @@ describe('Tangent SF RP — Identity Transition & Trait Synchronization Engine',
       'attr-will': 2,
       'attr-willpower': 2,
       'attr-etiquette': 2,
-      archetypeAllocations: { attributes: {}, skills: {}, features: [] }
+      archetypeAllocations: { attributes: {}, skills: {}, traits: [], features: [] }
     };
 
     // 2. Apply The Armorer (+3 Intellect, +2 Strength, 4 essential skills at rank 6)
@@ -210,7 +210,7 @@ describe('Tangent SF RP — Identity Transition & Trait Synchronization Engine',
     // Verify Armorer essential skills were assigned
     const armorerSkills = Object.keys(withArmorer).filter(k => k.startsWith('skill-') && k.endsWith('-rank'));
     assert.ok(armorerSkills.length > 0, 'Essential skills should be assigned for Armorer');
-    assert.ok(withArmorer.features.some(f => f.category === 'Archetype Signature'));
+    assert.ok(withArmorer.traits.some(t => t.trait_type === 'Archetype Trait' && t.cp === 1));
 
     // 3. Switch to The Bailiff (+3 Strength, +2 Wisdom, Bailiff essential skills)
     const withBailiff = applyArchetypeTransition(withArmorer, 'The Bailiff', {}, { applyPreBuild: true });
@@ -230,9 +230,9 @@ describe('Tangent SF RP — Identity Transition & Trait Synchronization Engine',
     assert.strictEqual(withBailiff['skill-armorer-rank'], undefined);
     assert.strictEqual(withBailiff['skill-vocation-armorer-rank'], undefined);
 
-    // Bailiff signature features should replace Armorer signature features
-    assert.ok(withBailiff.features.some(f => f.sourceName === 'The Bailiff' || f.name === 'Law Enforcement Training' || f.name === 'Authority Figure'));
-    assert.ok(!withBailiff.features.some(f => f.sourceName === 'The Armorer'));
+    // Bailiff signature traits should replace Armorer signature traits
+    assert.ok(withBailiff.traits.some(t => t.sourceName === 'The Bailiff' || t.name === 'Law Enforcement Training' || t.name === 'Authority Figure'));
+    assert.ok(!withBailiff.traits.some(t => t.sourceName === 'The Armorer'));
 
     // 4. Remove Archetype completely ('')
     const cleared = applyArchetypeTransition(withBailiff, '', {}, {});
@@ -250,10 +250,10 @@ describe('Tangent SF RP — Identity Transition & Trait Synchronization Engine',
     const lingeringSkills = Object.keys(cleared).filter(k => k.startsWith('skill-') && k.endsWith('-rank'));
     assert.strictEqual(lingeringSkills.length, 0, `No lingering residual skills allowed, found: ${lingeringSkills.join(', ')}`);
 
-    // No lingering archetype features
-    const lingeringArchFeats = cleared.features.filter(f => f.source === 'archetype' || f.category === 'Archetype Signature');
-    assert.strictEqual(lingeringArchFeats.length, 0, 'No lingering archetype features');
-    assert.deepStrictEqual(cleared.archetypeAllocations, { attributes: {}, skills: {}, features: [] });
+    // No lingering archetype signature traits
+    const lingeringArchTraits = cleared.traits.filter(t => t.source === 'archetype' || t.trait_type === 'Archetype Trait' || t.trait_type === 'Signature Trait');
+    assert.strictEqual(lingeringArchTraits.length, 0, 'No lingering archetype signature traits');
+    assert.deepStrictEqual(cleared.archetypeAllocations, { attributes: {}, skills: {}, traits: [], features: [] });
   });
 
   it('reverts species pool allocations, inherent attributes, movement modes, and inherent traits when Species is cleared or changed', () => {

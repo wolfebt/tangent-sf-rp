@@ -23,6 +23,12 @@ essential_skills:
   - Insight
   - Knowledge (History)
   - Leadership
+signature_traits:
+  - Voice of the People
+  - Community Organizer
+traits:
+  - Voice of the People
+  - Community Organizer
 signature_features:
   - Voice of the People
   - Community Organizer

@@ -22,6 +22,12 @@ essential_skills:
   - Athletics
   - Combat (Melee/Ranged)
   - Knowledge (Survival)
+signature_traits:
+  - Wasteland Warrior
+  - Ruthless
+traits:
+  - Wasteland Warrior
+  - Ruthless
 signature_features:
   - Wasteland Warrior
   - Ruthless

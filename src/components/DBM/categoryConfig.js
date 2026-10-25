@@ -150,18 +150,22 @@ export const categoryConfig = {
     },
     trait: {
         label: 'SPECIES TRAITS',
+        parent: 'species',
         viewType: 'table',
-        hideFromMenu: true,
-        directory_columns: ['name', 'cp', 'tier', 'type', 'isPurchasable', 'description'],
+        directory_columns: ['name', 'cp', 'trait_tier', 'classification', 'description'],
         fields: {
             name: { type: 'text', required: true, label: 'Trait Name' },
+            trait_type: { type: 'select', label: 'Trait Type', options: ['Species Trait'], default: 'Species Trait' },
+            trait_tier: { type: 'select', label: 'Trait Tier', options: ['Basic', 'Advanced', 'Elite'], default: 'Basic' },
+            tier: { type: 'select', label: 'Legacy Tier', options: ['Basic', 'Advanced', 'Elite'], default: 'Basic' },
+            classification: { type: 'select', label: 'Classification / Domain', options: ['Physical', 'Defensive', 'Trained', 'Sensory', 'Mental', 'Combat', 'Movement', 'Metaphysical', 'General'] },
+            type: { type: 'select', label: 'Category / Domain', options: ['Physical', 'Defensive', 'Trained', 'Sensory', 'Mental', 'Combat', 'Movement', 'Meta', 'General'] },
             isPurchasable: { type: 'radio', label: 'Purchasable by Character', options: ['No', 'Yes'], default: 'No' },
             cpCost: { type: 'select', label: 'CP Cost (if Purchasable)', options: [1, 2, 4], default: 1 },
             cp: { type: 'number', label: 'Character Points (CP)', default: 1 },
             bp: { type: 'number', label: 'Legacy BP', default: 1 },
-            tier: { type: 'select', label: 'Trait Tier', options: ['Basic', 'Advanced', 'Elite'], default: 'Basic' },
-            type: { type: 'select', label: 'Category / Domain', options: ['Physical', 'Defensive', 'Trained', 'Sensory', 'Mental', 'Movement', 'Meta', 'General'] },
             prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
+            modifiers: { type: 'modifiers_list', label: 'Universal Modifiers' },
             description: { type: 'textarea', aiEnabled: true, label: 'Description' },
             mechanic: { type: 'textarea', label: 'Game Mechanics' },
             note: { type: 'textarea', label: 'Architect Notes' }
@@ -194,6 +198,7 @@ export const categoryConfig = {
             recommended_occupations: { type: 'multiselect', source: 'occupations', label: 'Recommended Occupations', manageable: true },
             recommended_skills: { type: 'multiselect', source: 'skills', label: 'Recommended Skills', manageable: true },
             recommended_features: { type: 'multiselect', source: 'features', label: 'Recommended Features (-1 CP Discount)', manageable: true },
+            traits: { type: 'multiselect', source: 'traits', label: 'Faction Traits', manageable: true },
             bonus_features: { type: 'multiselect', label: 'Bonus Features' },
             keywords: { type: 'text', label: 'Guidance Keywords' },
             negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' },
@@ -331,7 +336,9 @@ export const categoryConfig = {
                 options: ['Strength', 'Agility', 'Constitution', 'Intellect', 'Perception', 'Charisma', 'Willpower', 'Wisdom']
             },
             essential_skills: { type: 'multiselect', source: 'skills', label: 'Essential Skills (Priority 4 Trained + 6 Novice)', manageable: true },
-            signature_features: { type: 'multiselect', source: 'features', label: 'Signature Features (13 CP Package)', manageable: true },
+            signature_traits: { type: 'multiselect', source: 'traits', label: 'Signature Traits (1 CP)', manageable: true },
+            traits: { type: 'multiselect', source: 'traits', label: 'Signature Traits (1 CP)', manageable: true },
+            signature_features: { type: 'multiselect', source: 'traits', label: 'Signature Traits (Legacy Alias)', manageable: true },
             tactical_role: { type: 'textarea', label: 'Tactical Role & Field Operations' },
             recommended_occupations: { type: 'multiselect', source: 'occupations', label: 'Recommended Occupations', manageable: true },
             recommended_origins: { type: 'multiselect', source: 'origins', label: 'Recommended Origins', manageable: true },
@@ -373,7 +380,7 @@ export const categoryConfig = {
         directory_columns: ['name', 'type', 'prerequisites', 'description', 'cp'],
         fields: {
             name: { type:'text', required: true},
-            type: { type: 'select', options: ['ability', 'combat', 'discipline', 'general', 'karma', 'skill', 'special', 'meta', 'physical', 'defensive', 'sensory', 'augmentation', 'exotic', 'Special Ability'] },
+            type: { type: 'select', options: ['ability', 'combat', 'discipline', 'general', 'karma', 'skill', 'special'] },
             cp: { type: 'number', label: 'Character Point (CP) Cost', default: 3 },
             prerequisites: { type: 'text', label: 'Prerequisites (1.08 Features)' },
             description: { type:'textarea', aiEnabled: true, label: 'Canonical Feature Description' },
@@ -391,6 +398,43 @@ export const categoryConfig = {
             note: { type: 'textarea' },
             multi: { type: 'boolean', label: 'Multi' },
             staged: { type: 'boolean', label: 'Staged' }
+        }
+    },
+    traits: {
+        label: 'TRAITS',
+        viewType: 'table',
+        directory_columns: ['name', 'trait_type', 'classification', 'cp', 'description'],
+        fields: {
+            name: { type: 'text', required: true, label: 'Trait Name' },
+            trait_type: {
+                type: 'select',
+                label: 'Trait Pillar / Source',
+                options: ['Origin Trait', 'Occupational Trait', 'Archetype Trait', 'Faction Trait'],
+                default: 'Origin Trait',
+                required: true
+            },
+            classification: {
+                type: 'select',
+                label: 'Classification / Domain',
+                options: ['General', 'Social', 'Mental', 'Physical', 'Combat', 'Technical', 'Metaphysical'],
+                default: 'General'
+            },
+            trait_tier: {
+                type: 'select',
+                label: 'Trait Tier',
+                options: ['Basic', 'Advanced', 'Elite'],
+                default: 'Basic'
+            },
+            cp: { type: 'number', label: 'Character Point (CP) Cost', default: 1 },
+            bp: { type: 'number', label: 'Legacy BP', default: 1 },
+            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
+            modifiers: { type: 'modifiers_list', label: 'Universal Modifiers' },
+            description: { type: 'textarea', aiEnabled: true, label: 'Canonical Trait Description' },
+            mechanic: { type: 'textarea', label: 'Mechanics & Benefit' },
+            rules: { type: 'textarea', label: 'Special Rules & Notes' },
+            keywords: { type: 'text', label: 'Guidance Keywords (+Weight in AI)' },
+            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards (-Weight / Exclusions)' },
+            note: { type: 'textarea', label: 'Architect Notes' }
         }
     },
     augmentation_type: {
@@ -1532,9 +1576,9 @@ export const DEVELOPMENT_FIELDS_GROUPS = [
   },
   {
     id: 'species_anatomy',
-    label: 'Species, Anatomy & Traits',
+    label: 'Species, Anatomy & Locomotion',
     icon: '🧬',
-    description: 'Biological taxonomy, movement profiles, scaling factors, traits, and cybernetic locations.'
+    description: 'Biological taxonomy, movement profiles, scaling factors, and cybernetic locations.'
   },
   {
     id: 'metaphysics_combat',
@@ -1564,11 +1608,10 @@ export const DEVELOPMENT_FIELDS_REGISTRY = [
   { key: 'economatrix', group: 'system', label: 'Economatrix Commodities', icon: '💎', desc: 'Commodities, trade routes, lifestyles, resource units, and economic valuation formulas.' },
   { key: 'rules', group: 'system', label: 'Core Game Rules & Mechanics', icon: '📜', desc: 'Authoritative rules compendium, situational rulings, and core mechanical subsystems.' },
 
-  // Species, Anatomy & Traits
+  // Species, Anatomy & Locomotion
   { key: 'species_type', group: 'species_anatomy', label: 'Species Types', icon: '🧬', desc: 'Biological and synthetic classifications (Humanoid, Cybernetic, Xenobiological, etc.).' },
   { key: 'species_size', group: 'species_anatomy', label: 'Species Sizes & Scaling', icon: '📐', desc: 'Size categories, scaling multipliers, height/weight boundaries, and reach modifiers.' },
   { key: 'species_movement', group: 'species_anatomy', label: 'Species Movements', icon: '🏃', desc: 'Locomotion methods (Bipedal, Flight, Burrowing, Aquatic, Zero-G, etc.).' },
-  { key: 'trait', group: 'species_anatomy', label: 'Traits', icon: '✨', desc: 'Inherent species, origin, and occupational characteristics and biological traits.' },
   { key: 'augmentation_type', group: 'species_anatomy', label: 'Augmentation Types', icon: '🦾', desc: 'Cybernetic, bioware, nanotech, and esoteric augmentation classifications.' },
   { key: 'body_location', group: 'species_anatomy', label: 'Body Locations', icon: '🫀', desc: 'Anatomical installation slots for cybernetics, armor plates, and modules.' },
 

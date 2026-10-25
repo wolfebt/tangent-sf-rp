@@ -23,6 +23,12 @@ essential_skills:
   - Insight
   - Bluff
   - Knowledge (Business)
+signature_traits:
+  - Corporate Backing
+  - Business Acumen
+traits:
+  - Corporate Backing
+  - Business Acumen
 signature_features:
   - Corporate Backing
   - Business Acumen

@@ -22,6 +22,12 @@ essential_skills:
   - Knowledge (Navigation)
   - Pilot
   - Knowledge (Technology)
+signature_traits:
+  - Cartographer
+  - Ace Pilot
+traits:
+  - Cartographer
+  - Ace Pilot
 signature_features:
   - Cartographer
   - Ace Pilot

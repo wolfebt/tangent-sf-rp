@@ -1,7 +1,7 @@
 import { DEFAULT_SPECIES } from '../src/data/speciesData.js';
 import { DEFAULT_ARCHETYPES } from '../src/data/archetypesData.js';
 import { DEFAULT_FEATURES } from '../src/data/featuresData.js';
-import { DEFAULT_SPECIES_TRAITS } from '../src/data/speciesTraitsData.js';
+import { DEFAULT_SPECIES_TRAITS, ALL_CANONICAL_TRAITS } from '../src/data/speciesTraitsData.js';
 import { DEFAULT_SPECIES_DISADVANTAGES } from '../src/data/speciesDisadvantagesData.js';
 import { DEFAULT_FACTIONS } from '../src/data/factionsData.js';
 import { DEFAULT_SPECIES_SIZES } from '../src/data/speciesSizeData.js';
@@ -44,7 +44,8 @@ console.log('[1/5] Checking Runtime Data Bundle Counts...');
 assert(DEFAULT_SPECIES.length === 84, 'Species count parity', `Expected 84, got ${DEFAULT_SPECIES.length}`);
 assert(DEFAULT_ARCHETYPES.length >= 48, 'Archetypes count parity', `Expected >= 48, got ${DEFAULT_ARCHETYPES.length}`);
 assert(DEFAULT_FEATURES.length >= 234, 'Features count parity', `Expected >= 234, got ${DEFAULT_FEATURES.length}`);
-assert(DEFAULT_SPECIES_TRAITS.length >= 286, 'Traits count parity', `Expected >= 286, got ${DEFAULT_SPECIES_TRAITS.length}`);
+assert(DEFAULT_SPECIES_TRAITS.length >= 200, 'Species Traits count parity', `Expected >= 200, got ${DEFAULT_SPECIES_TRAITS.length}`);
+assert(ALL_CANONICAL_TRAITS.length >= 286, 'Canonical Traits count parity', `Expected >= 286, got ${ALL_CANONICAL_TRAITS.length}`);
 assert(DEFAULT_SPECIES_DISADVANTAGES.length >= 32, 'Disadvantages count parity', `Expected >= 32, got ${DEFAULT_SPECIES_DISADVANTAGES.length}`);
 assert(DEFAULT_FACTIONS.length === 42, 'Factions count parity', `Expected 42, got ${DEFAULT_FACTIONS.length}`);
 assert(DEFAULT_SPECIES_SIZES.length === 14, 'Species Sizes count parity', `Expected 14, got ${DEFAULT_SPECIES_SIZES.length}`);

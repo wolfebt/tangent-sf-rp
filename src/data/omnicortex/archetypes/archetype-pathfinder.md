@@ -23,6 +23,12 @@ essential_skills:
   - Acrobatics
   - Alertness
   - Knowledge (Geography)
+signature_traits:
+  - Pathfinder
+  - Keen Observer
+traits:
+  - Pathfinder
+  - Keen Observer
 signature_features:
   - Pathfinder
   - Keen Observer

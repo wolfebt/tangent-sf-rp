@@ -23,6 +23,12 @@ essential_skills:
   - Knowledge (Technology)
   - Acrobatics
   - Combat
+signature_traits:
+  - Technological Prowess
+  - Adaptive Camouflage
+traits:
+  - Technological Prowess
+  - Adaptive Camouflage
 signature_features:
   - Technological Prowess
   - Adaptive Camouflage

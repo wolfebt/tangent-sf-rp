@@ -24,6 +24,12 @@ essential_skills:
   - Insight
   - Knowledge (Technology)
   - Alertness
+signature_traits:
+  - Enhanced Processing
+  - Logical Deduction
+traits:
+  - Enhanced Processing
+  - Logical Deduction
 signature_features:
   - Enhanced Processing
   - Logical Deduction

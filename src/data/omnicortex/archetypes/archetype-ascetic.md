@@ -23,6 +23,12 @@ essential_skills:
   - Alertness
   - Knowledge (Religion)
   - Knowledge (Metaphysics)
+signature_traits:
+  - Inner Peace
+  - Spiritual Attunement
+traits:
+  - Inner Peace
+  - Spiritual Attunement
 signature_features:
   - Inner Peace
   - Spiritual Attunement

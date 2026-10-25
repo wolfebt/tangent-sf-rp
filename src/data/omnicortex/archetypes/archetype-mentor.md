@@ -23,6 +23,12 @@ essential_skills:
   - Knowledge (Academics)
   - Insight
   - Leadership
+signature_traits:
+  - Shared Wisdom
+  - Mentorship
+traits:
+  - Shared Wisdom
+  - Mentorship
 signature_features:
   - Shared Wisdom
   - Mentorship

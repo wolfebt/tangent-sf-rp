@@ -23,6 +23,12 @@ essential_skills:
   - Knowledge (Tactics)
   - Acrobatics
   - Combat (any)
+signature_traits:
+  - Practiced Pilot
+  - Evasive Maneuvers
+traits:
+  - Practiced Pilot
+  - Evasive Maneuvers
 signature_features:
   - Practiced Pilot
   - Evasive Maneuvers

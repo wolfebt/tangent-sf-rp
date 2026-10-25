@@ -23,6 +23,12 @@ essential_skills:
   - Knowledge (History)
   - Diplomacy
   - Bluff
+signature_traits:
+  - Masterful Narrator
+  - World Builder
+traits:
+  - Masterful Narrator
+  - World Builder
 signature_features:
   - Masterful Narrator
   - World Builder

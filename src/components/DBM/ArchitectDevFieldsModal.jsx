@@ -304,7 +304,7 @@ export const ArchitectDevFieldsModal = ({
                     type="text"
                     value={searchFieldTerm}
                     onChange={(e) => setSearchFieldTerm(e.target.value)}
-                    placeholder="Search development fields (e.g. traits, materials, modifiers)..."
+                    placeholder="Search development fields (e.g. sizes, materials, modifiers)..."
                     className="w-full pl-8 pr-8 py-2 bg-slate-900 border border-slate-700 rounded-lg text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-colors"
                   />
                   {searchFieldTerm && (

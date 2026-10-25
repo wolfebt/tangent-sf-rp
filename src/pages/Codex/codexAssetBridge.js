@@ -105,8 +105,8 @@ export const ASSET_COLLECTION_TO_MATRIX_MAP = {
 
   // Biological Traits & Character Talents
   traits: 'traits',
-  trait: 'traits',
-  species_traits: 'traits',
+  trait: 'trait',
+  species_traits: 'trait',
   features: 'features',
   feature: 'features',
   skills: 'skills',
@@ -430,6 +430,9 @@ export const adaptItemToCodexFormData = (item, matrix) => {
     const itemRecFeatures = parseListField(item.recommended_features);
     base.recommended_features = itemRecFeatures.length > 0 ? itemRecFeatures : parseListField(seed?.recommended_features || base.recommended_features);
 
+    const itemTraits = parseListField(item.traits);
+    base.traits = itemTraits.length > 0 ? itemTraits : parseListField(seed?.traits || base.traits);
+
     base.keywords = (typeof item.keywords === 'string' && item.keywords.trim())
       ? item.keywords
       : (seed?.keywords || base.keywords || '');
@@ -455,6 +458,9 @@ export const adaptItemToCodexFormData = (item, matrix) => {
 
     const itemRecFeatures = parseListField(item.recommended_features);
     base.recommended_features = itemRecFeatures.length > 0 ? itemRecFeatures : parseListField(seed?.recommended_features || base.recommended_features);
+
+    const itemTraits = parseListField(item.traits);
+    base.traits = itemTraits.length > 0 ? itemTraits : parseListField(seed?.traits || base.traits);
 
     base.keywords = (typeof item.keywords === 'string' && item.keywords.trim())
       ? item.keywords
@@ -518,6 +524,9 @@ export const adaptItemToCodexFormData = (item, matrix) => {
     const itemRecFeatures = parseListField(item.recommended_features);
     base.recommended_features = itemRecFeatures.length > 0 ? itemRecFeatures : parseListField(seed?.recommended_features || base.recommended_features);
 
+    const itemTraits = parseListField(item.traits);
+    base.traits = itemTraits.length > 0 ? itemTraits : parseListField(seed?.traits || base.traits);
+
     base.keywords = (typeof item.keywords === 'string' && item.keywords.trim())
       ? item.keywords
       : (seed?.keywords || base.keywords || '');
@@ -562,11 +571,15 @@ export const adaptItemToCodexFormData = (item, matrix) => {
     base.staged = Boolean(item.staged ?? base.staged);
   }
 
-  // Harmonize Traits Fields
-  if (resolvedMatrix.id === 'traits') {
-    base.trait_type = item.trait_type || item.type || base.trait_type || 'Species Trait';
-    base.trait_tier = item.trait_tier || base.trait_tier || 'Basic';
-    base.classification = item.classification || item.type || base.classification || 'Physical';
+  // Harmonize Traits Fields (Species Traits 'trait' & Pillar Traits 'traits')
+  if (resolvedMatrix.id === 'trait' || resolvedMatrix.id === 'traits') {
+    const defaultType = resolvedMatrix.id === 'trait' ? 'Species Trait' : 'Origin Trait';
+    const defaultTier = resolvedMatrix.id === 'trait' ? 'Basic (1 CP)' : 'Origin (1 CP)';
+    const defaultClass = resolvedMatrix.id === 'trait' ? 'Physical' : 'General';
+    const rawTraitType = item.trait_type || item.type || base.trait_type || defaultType;
+    base.trait_type = rawTraitType === 'Signature Trait' ? 'Archetype Trait' : rawTraitType;
+    base.trait_tier = item.trait_tier || base.trait_tier || defaultTier;
+    base.classification = item.classification || item.type || base.classification || defaultClass;
     base.cp = Number(item.cp !== undefined ? item.cp : (base.cp !== undefined ? base.cp : 1));
     base.bp = Number(item.bp !== undefined ? item.bp : base.cp);
     base.description = item.description || item.desc || base.description || '';
@@ -664,7 +677,10 @@ export const adaptItemToCodexFormData = (item, matrix) => {
     base.primary_attribute = item.primary_attribute || base.primary_attribute || 'Intellect';
     base.secondary_attribute = item.secondary_attribute || base.secondary_attribute || 'Charisma';
     base.essential_skills = item.essential_skills || base.essential_skills || [];
-    base.signature_features = item.signature_features || base.signature_features || [];
+    const sigTraits = item.signature_traits || item.traits || item.signature_features || base.signature_traits || base.traits || base.signature_features || [];
+    base.signature_traits = sigTraits;
+    base.traits = sigTraits;
+    base.signature_features = sigTraits;
     base.recommended_occupations = item.recommended_occupations || base.recommended_occupations || [];
     base.recommended_origins = item.recommended_origins || base.recommended_origins || [];
     base.recommended_factions = item.recommended_factions || base.recommended_factions || [];
@@ -762,7 +778,14 @@ export const adaptCodexToOmnicortexItem = (formData, computedValues, matrix) => 
     payload.recommended_origins = Array.isArray(formData.recommended_origins) ? formData.recommended_origins : [];
     payload.recommended_occupations = Array.isArray(formData.recommended_occupations) ? formData.recommended_occupations : [];
     payload.essential_skills = Array.isArray(formData.essential_skills) ? formData.essential_skills : [];
-    payload.signature_features = Array.isArray(formData.signature_features) ? formData.signature_features : [];
+    const sigTraits = Array.isArray(formData.signature_traits) && formData.signature_traits.length > 0
+      ? formData.signature_traits
+      : (Array.isArray(formData.traits) && formData.traits.length > 0
+          ? formData.traits
+          : (Array.isArray(formData.signature_features) ? formData.signature_features : []));
+    payload.signature_traits = sigTraits;
+    payload.traits = sigTraits;
+    payload.signature_features = sigTraits;
   }
 
   // Ensure species chassis type and size are synchronized
@@ -836,6 +859,7 @@ export const adaptCodexToOmnicortexItem = (formData, computedValues, matrix) => 
     payload.recommended_occupations = Array.isArray(formData.recommended_occupations) ? formData.recommended_occupations : [];
     payload.recommended_skills = Array.isArray(formData.recommended_skills) ? formData.recommended_skills : [];
     payload.recommended_features = Array.isArray(formData.recommended_features) ? formData.recommended_features : [];
+    payload.traits = Array.isArray(formData.traits) ? formData.traits : [];
     payload.keywords = typeof formData.keywords === 'string' ? formData.keywords.trim() : (formData.keywords || '');
     payload.negative_keywords = typeof formData.negative_keywords === 'string' ? formData.negative_keywords.trim() : (formData.negative_keywords || '');
 
@@ -862,6 +886,7 @@ export const adaptCodexToOmnicortexItem = (formData, computedValues, matrix) => 
     payload.recommended_occupations = Array.isArray(formData.recommended_occupations) ? formData.recommended_occupations : [];
     payload.recommended_skills = Array.isArray(formData.recommended_skills) ? formData.recommended_skills : [];
     payload.recommended_features = Array.isArray(formData.recommended_features) ? formData.recommended_features : [];
+    payload.traits = Array.isArray(formData.traits) ? formData.traits : [];
     payload.keywords = typeof formData.keywords === 'string' ? formData.keywords.trim() : (formData.keywords || '');
     payload.negative_keywords = typeof formData.negative_keywords === 'string' ? formData.negative_keywords.trim() : (formData.negative_keywords || '');
   }
@@ -873,6 +898,7 @@ export const adaptCodexToOmnicortexItem = (formData, computedValues, matrix) => 
     payload.recommended_occupations = Array.isArray(formData.recommended_occupations) ? formData.recommended_occupations : [];
     payload.recommended_skills = Array.isArray(formData.recommended_skills) ? formData.recommended_skills : [];
     payload.recommended_features = Array.isArray(formData.recommended_features) ? formData.recommended_features : [];
+    payload.traits = Array.isArray(formData.traits) ? formData.traits : [];
     payload.keywords = typeof formData.keywords === 'string' ? formData.keywords.trim() : (formData.keywords || '');
     payload.negative_keywords = typeof formData.negative_keywords === 'string' ? formData.negative_keywords.trim() : (formData.negative_keywords || '');
   }
@@ -884,6 +910,7 @@ export const adaptCodexToOmnicortexItem = (formData, computedValues, matrix) => 
     payload.recommended_origins = Array.isArray(formData.recommended_origins) ? formData.recommended_origins : [];
     payload.recommended_skills = Array.isArray(formData.recommended_skills) ? formData.recommended_skills : [];
     payload.recommended_features = Array.isArray(formData.recommended_features) ? formData.recommended_features : [];
+    payload.traits = Array.isArray(formData.traits) ? formData.traits : [];
     payload.keywords = typeof formData.keywords === 'string' ? formData.keywords.trim() : (formData.keywords || '');
     payload.negative_keywords = typeof formData.negative_keywords === 'string' ? formData.negative_keywords.trim() : (formData.negative_keywords || '');
   }
@@ -896,6 +923,7 @@ export const adaptCodexToOmnicortexItem = (formData, computedValues, matrix) => 
     payload.recommended_occupations = Array.isArray(formData.recommended_occupations) ? formData.recommended_occupations : [];
     payload.recommended_skills = Array.isArray(formData.recommended_skills) ? formData.recommended_skills : [];
     payload.recommended_features = Array.isArray(formData.recommended_features) ? formData.recommended_features : [];
+    payload.traits = Array.isArray(formData.traits) ? formData.traits : [];
     payload.keywords = typeof formData.keywords === 'string' ? formData.keywords.trim() : (formData.keywords || '');
     payload.negative_keywords = typeof formData.negative_keywords === 'string' ? formData.negative_keywords.trim() : (formData.negative_keywords || '');
     payload.discipline = formData.discipline || 'Universal';
@@ -955,10 +983,14 @@ export const adaptCodexToOmnicortexItem = (formData, computedValues, matrix) => 
   }
 
   // Ensure traits directives and values are synchronized
-  if (resolvedMatrix.id === 'traits') {
-    payload.trait_type = formData.trait_type || 'Species Trait';
-    payload.trait_tier = formData.trait_tier || 'Basic';
-    payload.classification = formData.classification || 'Physical';
+  if (resolvedMatrix.id === 'trait' || resolvedMatrix.id === 'traits') {
+    const defaultType = resolvedMatrix.id === 'trait' ? 'Species Trait' : 'Origin Trait';
+    const defaultTier = resolvedMatrix.id === 'trait' ? 'Basic (1 CP)' : 'Origin (1 CP)';
+    const defaultClass = resolvedMatrix.id === 'trait' ? 'Physical' : 'General';
+    const rawTraitType = formData.trait_type || defaultType;
+    payload.trait_type = rawTraitType === 'Signature Trait' ? 'Archetype Trait' : rawTraitType;
+    payload.trait_tier = formData.trait_tier || defaultTier;
+    payload.classification = formData.classification || defaultClass;
     payload.cp = Number(formData.cp !== undefined ? formData.cp : 1);
     payload.bp = Number(formData.bp !== undefined ? formData.bp : payload.cp);
     payload.description = formData.description || '';

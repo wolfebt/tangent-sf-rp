@@ -5,6 +5,7 @@ import { categoryConfig } from './categoryConfig';
 import { VirtualizedList } from './VirtualizedList';
 import { useDBM } from '../../context/DBMContext';
 import { ALL_CANONICAL_SKILLS } from '../../data/skillsData';
+import { ALL_SPECIES_TRAITS, ALL_PILLAR_TRAITS } from '../../data/speciesTraitsData';
 import { getSizeTierIndex } from '../../data/speciesSizeData';
 import { getMovementClassification, getMovementClassificationOrderIndex } from '../../data/speciesMovementData';
 
@@ -163,7 +164,7 @@ export const UnifiedRelationalSelectorModal = ({
   let sourceCollection = rawSourceCollection || fieldDef?.source || fieldDef?.collection || fieldKey;
   if (sourceCollection === 'size') sourceCollection = 'species_size';
   if (sourceCollection === 'movement') sourceCollection = 'species_movement';
-  if (sourceCollection === 'traits') sourceCollection = 'species_traits';
+  if (sourceCollection === 'species_traits') sourceCollection = 'trait';
   if (sourceCollection === 'disadvantages') sourceCollection = 'species_disadvantages';
 
   const selectedValues = rawSelectedValues !== undefined ? rawSelectedValues : (currentValue !== undefined ? currentValue : []);
@@ -172,7 +173,7 @@ export const UnifiedRelationalSelectorModal = ({
     : (fieldDef?.label || (typeof fieldKey === 'string' ? fieldKey.toUpperCase() : 'Items'));
 
   const dbContext = useDBM() || {};
-  const activeDbData = (dbData && Object.keys(dbData).length > 0) ? dbData : (dbContext.activeDbData || {});
+  const activeDbData = (dbData && Object.keys(dbData).length > 0) ? dbData : (dbContext.dbData || dbContext.activeDbData || {});
   const activeSaveEntry = saveEntry || dbContext.activeSaveEntry;
 
   const [items, setItems] = useState([]);
@@ -205,7 +206,16 @@ export const UnifiedRelationalSelectorModal = ({
     }
     setCurrentSelected(Array.isArray(selectedValues) ? selectedValues : (selectedValues ? [selectedValues] : []));
     setSearchTerm('');
-    setCategoryFilter('all');
+    if (sourceCollection === 'traits') {
+      const lbl = String(fieldLabel || '').toLowerCase();
+      if (lbl.includes('origin')) setCategoryFilter('Origin Trait');
+      else if (lbl.includes('occupation') || lbl.includes('career') || lbl.includes('profession')) setCategoryFilter('Occupational Trait');
+      else if (lbl.includes('archetype') || lbl.includes('signature')) setCategoryFilter('Archetype Trait');
+      else if (lbl.includes('faction')) setCategoryFilter('Faction Trait');
+      else setCategoryFilter('all');
+    } else {
+      setCategoryFilter('all');
+    }
     setIsManageModalOpen(false);
     setManageSelectedItem(null);
     setManageFormData({});
@@ -266,8 +276,20 @@ export const UnifiedRelationalSelectorModal = ({
   if (!isOpen) return null;
 
   // Use local fallback if cloud snapshot is empty
-  const localFallback = activeDbData[sourceCollection] || [];
-  const rawItems = items.length > 0 ? items : localFallback;
+  const localFallback = activeDbData[sourceCollection] || (
+    sourceCollection === 'trait' ? ALL_SPECIES_TRAITS :
+    sourceCollection === 'traits' ? ALL_PILLAR_TRAITS :
+    sourceCollection === 'species_disadvantages' ? (activeDbData['disadvantages'] || []) : []
+  );
+  const rawItems = (items.length > 0 ? items : localFallback).filter(i => {
+    if (sourceCollection === 'trait') {
+      return !['Origin Trait', 'Occupational Trait', 'Signature Trait', 'Archetype Trait', 'Faction Trait'].includes(i.trait_type);
+    }
+    if (sourceCollection === 'traits') {
+      return i.trait_type !== 'Species Trait';
+    }
+    return true;
+  });
 
   // Prepend Category / Group Options if source is features, skills, technology, or meta_level
   let categoryOptions = [];
@@ -330,6 +352,15 @@ export const UnifiedRelationalSelectorModal = ({
         if (!hasNegKw) return false;
       } else if (sourceCollection === 'species_movement') {
         if (getMovementClassification(item) !== categoryFilter) return false;
+      } else if (sourceCollection === 'traits' && ['Origin Trait', 'Occupational Trait', 'Signature Trait', 'Archetype Trait', 'Faction Trait'].includes(categoryFilter)) {
+        const itemType = item.trait_type || item.type;
+        if (categoryFilter === 'Signature Trait' || categoryFilter === 'Archetype Trait') {
+          if (itemType !== 'Signature Trait' && itemType !== 'Archetype Trait') return false;
+        } else if (itemType !== categoryFilter) {
+          return false;
+        }
+      } else if (sourceCollection === 'trait' && ['Basic (1 CP)', 'Advanced (2 CP)', 'Elite (4 CP)'].includes(categoryFilter)) {
+        if (item.trait_tier !== categoryFilter) return false;
       } else if (categoryFilter === 'groups') {
         if (item.type !== 'Category Group' && item.type !== 'Skill Group') return false;
       } else if (item.group !== categoryFilter) {
@@ -714,8 +745,74 @@ export const UnifiedRelationalSelectorModal = ({
               </div>
             )}
 
+            {/* Category Sub-Filter Header Bar for Pillar Traits ('traits') */}
+            {sourceCollection === 'traits' && (
+              <div className="px-4 py-2 bg-slate-950/80 border-b border-slate-800 flex items-center gap-1.5 overflow-x-auto shrink-0">
+                {[
+                  { key: 'all', label: 'All Traits', icon: '✨' },
+                  { key: 'Origin Trait', label: 'Origins', icon: '🌍' },
+                  { key: 'Occupational Trait', label: 'Careers / Occupations', icon: '💼' },
+                  { key: 'Archetype Trait', label: 'Archetypes', icon: '🎭' },
+                  { key: 'Faction Trait', label: 'Factions', icon: '🏛️' }
+                ].map(tab => {
+                  const count = tab.key === 'all'
+                    ? allAvailableItems.length
+                    : allAvailableItems.filter(i => {
+                        const it = i.trait_type || i.type;
+                        return tab.key === 'Archetype Trait'
+                          ? (it === 'Archetype Trait' || it === 'Signature Trait')
+                          : it === tab.key;
+                      }).length;
+                  return (
+                    <button
+                      key={tab.key}
+                      type="button"
+                      onClick={() => setCategoryFilter(tab.key)}
+                      className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer ${
+                        categoryFilter === tab.key
+                          ? 'bg-cyan-950 text-cyan-300 border border-cyan-500 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
+                          : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                      }`}
+                    >
+                      {tab.icon} {tab.label} ({count})
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Category Sub-Filter Header Bar for Species Traits ('trait') */}
+            {sourceCollection === 'trait' && (
+              <div className="px-4 py-2 bg-slate-950/80 border-b border-slate-800 flex items-center gap-1.5 overflow-x-auto shrink-0">
+                {[
+                  { key: 'all', label: 'All Species Traits', icon: '🧬' },
+                  { key: 'Basic (1 CP)', label: 'Basic (1 CP)', icon: '🔹' },
+                  { key: 'Advanced (2 CP)', label: 'Advanced (2 CP)', icon: '🔷' },
+                  { key: 'Elite (4 CP)', label: 'Elite (4 CP)', icon: '💠' }
+                ].map(tab => {
+                  const count = tab.key === 'all'
+                    ? allAvailableItems.length
+                    : allAvailableItems.filter(i => i.trait_tier === tab.key).length;
+                  return (
+                    <button
+                      key={tab.key}
+                      type="button"
+                      onClick={() => setCategoryFilter(tab.key)}
+                      className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer ${
+                        categoryFilter === tab.key
+                          ? 'bg-cyan-950 text-cyan-300 border border-cyan-500 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
+                          : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                      }`}
+                    >
+                      {tab.icon} {tab.label} ({count})
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+
             {/* Category Sub-Filter Header Bar for Directives & Railguards (All Other Collections) */}
-            {sourceCollection !== 'skills' && sourceCollection !== 'species_movement' && (hasAnyDirectives || hasAnyRailguards) && (
+            {sourceCollection !== 'skills' && sourceCollection !== 'species_movement' && sourceCollection !== 'traits' && sourceCollection !== 'trait' && (hasAnyDirectives || hasAnyRailguards) && (
               <div className="px-4 py-2 bg-slate-950/80 border-b border-slate-800 flex items-center gap-1.5 overflow-x-auto shrink-0">
                 <button
                   type="button"

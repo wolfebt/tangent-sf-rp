@@ -22,6 +22,12 @@ essential_skills:
   - Diplomacy
   - Athletics
   - Combat (Pistol)
+signature_traits:
+  - Frontier Justice
+  - Wildstalker
+traits:
+  - Frontier Justice
+  - Wildstalker
 signature_features:
   - Frontier Justice
   - Wildstalker

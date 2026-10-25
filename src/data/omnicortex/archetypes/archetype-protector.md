@@ -23,6 +23,12 @@ essential_skills:
   - Alertness
   - Intimidation
   - Combat (Melee/Pistol)
+signature_traits:
+  - Protective Stance
+  - Situational Awareness
+traits:
+  - Protective Stance
+  - Situational Awareness
 signature_features:
   - Protective Stance
   - Situational Awareness

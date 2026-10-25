@@ -143,8 +143,11 @@ const getFeatureAcquiredStatus = (featRef, characterData) => {
   const targetNorm = normalizeTraitName(featRef).toLowerCase();
   const targetRaw = (typeof featRef === 'object' ? (featRef.name || featRef.id || '') : String(featRef)).toLowerCase();
 
-  const feats = Array.isArray(characterData.features) ? characterData.features : [];
-  return feats.some(f => {
+  const items = [
+    ...(Array.isArray(characterData.features) ? characterData.features : []),
+    ...(Array.isArray(characterData.traits) ? characterData.traits : [])
+  ];
+  return items.some(f => {
     const fName = typeof f === 'object' ? (f.name || f.title || f.id || '') : String(f);
     const norm = normalizeTraitName(fName).toLowerCase();
     const raw = fName.toLowerCase();
@@ -503,7 +506,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
       if (idKey) map.set(idKey, t);
       if (normKey) map.set(normKey, t);
     });
-    const dbmTraits = (dbm?.dbData?.trait || dbm?.dbData?.traits || []);
+    const dbmTraits = [...(dbm?.dbData?.trait || []), ...(dbm?.dbData?.traits || [])];
     if (Array.isArray(dbmTraits)) {
       dbmTraits.forEach(t => {
         if (!t) return;
@@ -836,7 +839,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
       if (!name) return;
       const ok = await showConfirm({
         title: 'Remove Archetype',
-        message: `Are you sure you want to remove Archetype "${name}"? This will reset archetype attribute bonuses, signature features, and allocated skills.`,
+        message: `Are you sure you want to remove Archetype "${name}"? This will reset archetype attribute bonuses, signature traits, and allocated skills.`,
         danger: true,
         confirmLabel: 'Remove'
       });
@@ -1350,7 +1353,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
     const val = characterData[fieldId] || '';
     const activeSubTab = getActiveSubTab('archetype');
     const essentialSkills = extractNameList(selectedArchetype?.essential_skills);
-    const signatureFeatures = extractNameList(selectedArchetype?.signature_features);
+    const signatureTraits = extractNameList(selectedArchetype?.signature_traits || selectedArchetype?.traits || selectedArchetype?.signature_features);
     const recOccs = extractNameList(selectedArchetype?.recommended_occupations);
     const recOrigins = extractNameList(selectedArchetype?.recommended_origins);
     const recFactions = extractNameList(selectedArchetype?.recommended_factions);
@@ -1502,7 +1505,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
                       type="button"
                       onClick={() => applyArchetypeChassis(selectedArchetype)}
                       className="px-3 py-1.5 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-white font-bold rounded-lg text-xs uppercase tracking-wider transition-all shadow cursor-pointer active:scale-95 flex items-center gap-1.5 shrink-0"
-                      title="Apply 80 CP Archetype Pre-build: +3 Primary Attr, +2 Secondary Attr, Essential Skills & Signature Features"
+                      title="Apply 80 CP Archetype Pre-build: +3 Primary Attr, +2 Secondary Attr, Essential Skills & Signature Traits (1 CP)"
                     >
                       <Sparkles className="w-3.5 h-3.5" />
                       <span>Apply 80 CP Pre-build</span>
@@ -1548,25 +1551,25 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
                   </div>
                 )}
 
-                {/* Signature Features */}
-                {signatureFeatures.length > 0 && (
+                {/* Signature Traits (1 CP) */}
+                {signatureTraits.length > 0 && (
                   <div className="p-3 bg-slate-900/60 rounded-xl border border-amber-500/30 space-y-2">
                     <span className="text-[10px] font-mono font-bold uppercase text-amber-400 block">
-                      Signature Features (Options & Selections):
+                      Signature Traits (1 CP Each • Options & Selections):
                     </span>
                     <div className="flex flex-wrap gap-1.5">
-                      {signatureFeatures.map(fName => {
-                        const acquired = getFeatureAcquiredStatus(fName, characterData);
+                      {signatureTraits.map(tName => {
+                        const acquired = getFeatureAcquiredStatus(tName, characterData);
                         return (
                           <span
-                            key={fName}
+                            key={tName}
                             className={`px-2.5 py-1 rounded text-xs font-mono border ${
                               acquired
                                 ? 'bg-amber-950/80 border-amber-500/70 text-amber-200 font-bold'
                                 : 'bg-slate-900/80 border-slate-800 text-slate-400'
                             }`}
                           >
-                            {fName} {acquired ? '✓' : ''}
+                            {tName} [1 CP] {acquired ? '✓' : ''}
                           </span>
                         );
                       })}
@@ -1579,7 +1582,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
                 <span className="text-3xl block">🛡️</span>
                 <h4 className="text-sm font-mono font-bold uppercase text-amber-300">No Archetype Selected</h4>
                 <p className="text-xs text-slate-400 max-w-md mx-auto font-sans">
-                  Archetypes provide an optional 80 CP core chassis blueprint, primary and secondary attribute allocations, essential skills, and signature features.
+                  Archetypes provide an optional 80 CP core chassis blueprint, primary and secondary attribute allocations, essential skills, and 1 CP signature traits.
                 </p>
                 <button
                   type="button"
@@ -4802,6 +4805,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
               {(() => {
                 const allTraits = extractNameList(
                   inspectItem.item.inherent_features || 
+                  inspectItem.item.signature_traits || 
                   inspectItem.item.signature_features || 
                   inspectItem.item.bonus_feature_choices || 
                   inspectItem.item.traits || 

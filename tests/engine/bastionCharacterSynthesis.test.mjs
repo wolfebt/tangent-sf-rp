@@ -132,7 +132,7 @@ test('BASTION Character Synthesis: Traits & Features Grounded in Database', () =
   // Verify traits have required schema fields and sources
   for (const trait of char.traits) {
     assert(trait.name && trait.name.trim().length > 0);
-    assert(['species', 'origin', 'occupation', 'general'].includes(trait.source));
+    assert(['archetype', 'species', 'faction', 'origin', 'occupation', 'general'].includes(trait.source));
   }
 
   // Verify features have required schema fields and sources

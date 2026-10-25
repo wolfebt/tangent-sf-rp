@@ -23,6 +23,12 @@ essential_skills:
   - Nature
   - Medicine
   - Insight
+signature_traits:
+  - Self-Sufficiency
+  - Resourceful
+traits:
+  - Self-Sufficiency
+  - Resourceful
 signature_features:
   - Self-Sufficiency
   - Resourceful

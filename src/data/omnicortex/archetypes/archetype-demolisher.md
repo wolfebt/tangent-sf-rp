@@ -22,6 +22,12 @@ essential_skills:
   - Knowledge (Technology)
   - Athletics
   - Combat (Heavy)
+signature_traits:
+  - Heavy Weapon Mastery
+  - Explosive Expertise
+traits:
+  - Heavy Weapon Mastery
+  - Explosive Expertise
 signature_features:
   - Heavy Weapon Mastery
   - Explosive Expertise

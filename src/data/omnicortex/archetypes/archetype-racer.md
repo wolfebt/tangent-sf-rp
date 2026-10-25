@@ -22,6 +22,12 @@ essential_skills:
   - Acrobatics
   - Knowledge (Technology)
   - Alertness
+signature_traits:
+  - Speed Demon
+  - Adrenaline Rush
+traits:
+  - Speed Demon
+  - Adrenaline Rush
 signature_features:
   - Speed Demon
   - Adrenaline Rush

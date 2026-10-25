@@ -22,6 +22,12 @@ essential_skills:
   - Knowledge (Computers)
   - Vocation (Engineer)
   - Knowledge (Technology)
+signature_traits:
+  - Automation Expert
+  - Master Builder
+traits:
+  - Automation Expert
+  - Master Builder
 signature_features:
   - Automation Expert
   - Master Builder

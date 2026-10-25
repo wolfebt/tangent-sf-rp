@@ -22,6 +22,12 @@ essential_skills:
   - Knowledge (Technology)
   - Vocation (Engineer)
   - Knowledge (Computers)
+signature_traits:
+  - Robotic Affinity
+  - Automation Expert
+traits:
+  - Robotic Affinity
+  - Automation Expert
 signature_features:
   - Robotic Affinity
   - Automation Expert

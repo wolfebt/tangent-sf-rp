@@ -23,6 +23,12 @@ essential_skills:
   - Insight
   - Stealth
   - Knowledge (Law/Streetwise)
+signature_traits:
+  - Keen Observer
+  - Unwavering Determination
+traits:
+  - Keen Observer
+  - Unwavering Determination
 signature_features:
   - Keen Observer
   - Unwavering Determination

@@ -24,6 +24,12 @@ essential_skills:
   - Leadership
   - Diplomacy
   - Etiquette
+signature_traits:
+  - Social Butterfly
+  - Connections
+traits:
+  - Social Butterfly
+  - Connections
 signature_features:
   - Social Butterfly
   - Connections

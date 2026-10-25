@@ -370,7 +370,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             </NavLink>
           </div>
 
-          {/* Center Section: Primary Navigation Suite (Persona, Network, Cortex, ADE, Rules, Dice) */}
+          {/* Center Section: Primary Navigation Suite (Persona, Rules, Network, ADE, Cortex) */}
           <div className="hidden sm:flex flex-1 flex-col items-center justify-start min-w-0">
             <nav className="flex items-center justify-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar w-full py-0.5" aria-label="Primary Navigation">
               {/* PERSONA */}
@@ -402,6 +402,27 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 </span>
               </button>
 
+              {/* RULES */}
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1150, 0.02);
+                  navigate('/compendium');
+                }}
+                onMouseEnter={() => {
+                  loadCompendiumCatalog();
+                }}
+                className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 ${
+                  isCompendium
+                    ? 'bg-sky-500/20 text-sky-300 border-sky-400/70 shadow-[0_0_12px_rgba(56,189,248,0.35)]'
+                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-sky-300 border-slate-700/80 hover:border-sky-500/50'
+                }`}
+                title="Open Compendium & BASTION Rules Wiki (/compendium)"
+              >
+                <BookOpen size={14} className={isCompendium ? 'text-sky-300' : 'text-sky-400'} />
+                <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">RULES</span>
+              </button>
+
               {/* NETWORK */}
               <button
                 type="button"
@@ -428,24 +449,6 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 )}
               </button>
 
-              {/* CORTEX */}
-              <button
-                type="button"
-                onClick={() => {
-                  AudioService.playTerminalBeep(1150, 0.02);
-                  navigate('/dbm');
-                }}
-                className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 ${
-                  isCortex
-                    ? 'bg-amber-500/20 text-amber-300 border-amber-400/70 shadow-[0_0_12px_rgba(245,158,11,0.35)]'
-                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-amber-300 border-slate-700/80 hover:border-amber-500/50'
-                }`}
-                title="Omnicortex Master Database (/dbm)"
-              >
-                <Database size={14} className={isCortex ? 'text-amber-300' : 'text-amber-400'} />
-                <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">CORTEX</span>
-              </button>
-
               {/* ADE */}
               <button
                 type="button"
@@ -464,40 +467,22 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">ADE</span>
               </button>
 
-              {/* RULES */}
+              {/* CORTEX */}
               <button
                 type="button"
                 onClick={() => {
                   AudioService.playTerminalBeep(1150, 0.02);
-                  navigate('/compendium');
-                }}
-                onMouseEnter={() => {
-                  loadCompendiumCatalog();
+                  navigate('/dbm');
                 }}
                 className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 ${
-                  isCompendium
-                    ? 'bg-sky-500/20 text-sky-300 border-sky-400/70 shadow-[0_0_12px_rgba(56,189,248,0.35)]'
-                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-sky-300 border-slate-700/80 hover:border-sky-500/50'
+                  isCortex
+                    ? 'bg-amber-500/20 text-amber-300 border-amber-400/70 shadow-[0_0_12px_rgba(245,158,11,0.35)]'
+                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-amber-300 border-slate-700/80 hover:border-amber-500/50'
                 }`}
-                title="Open Compendium & BASTION Rules Wiki (/compendium)"
+                title="Omnicortex Master Database (/dbm)"
               >
-                <BookOpen size={14} className={isCompendium ? 'text-sky-300' : 'text-sky-400'} />
-                <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">RULES</span>
-              </button>
-
-              {/* DICE */}
-              <button
-                type="button"
-                onClick={handleToggleDice}
-                className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 ${
-                  isDiceActive
-                    ? 'bg-rose-500/25 text-rose-300 border-rose-400/80 shadow-[0_0_14px_rgba(244,63,94,0.4)]'
-                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-rose-300 border-slate-700/80 hover:border-rose-500/50'
-                }`}
-                title="Toggle Holographic Dice Tray"
-              >
-                <TwoD10Icon className={`w-3.5 h-3.5 ${isDiceActive ? 'text-rose-300' : 'text-rose-400'}`} />
-                <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">DICE</span>
+                <Database size={14} className={isCortex ? 'text-amber-300' : 'text-amber-400'} />
+                <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">CORTEX</span>
               </button>
             </nav>
 
@@ -509,8 +494,23 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             )}
           </div>
 
-          {/* Right Section: Settings Button with User ID (Vertically centered to match TANGENT text height) */}
+          {/* Right Section: Round Dice Button & Settings Button with User ID (Vertically centered to match TANGENT text height) */}
           <div className="flex items-center justify-end gap-1.5 sm:gap-2 shrink-0 self-start h-[42px] sm:h-[51.2px]">
+            {/* Separate Round DICE Button */}
+            <button
+              type="button"
+              onClick={handleToggleDice}
+              className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full border text-xs font-mono font-bold transition-all flex items-center justify-center cursor-pointer shrink-0 group ${
+                isDiceActive
+                  ? 'bg-rose-500/25 text-rose-300 border-rose-400/80 shadow-[0_0_14px_rgba(244,63,94,0.45)]'
+                  : 'bg-[#12161f] hover:bg-slate-800 text-rose-400 hover:text-rose-300 border-slate-700/80 hover:border-rose-500/60 shadow-[0_0_10px_rgba(244,63,94,0.15)]'
+              }`}
+              title="Toggle Holographic Dice Tray (Alt+D)"
+              aria-label="Toggle Holographic Dice Tray"
+            >
+              <TwoD10Icon size={16} className={`transition-transform group-hover:scale-110 ${isDiceActive ? 'text-rose-300' : 'text-rose-400'}`} />
+            </button>
+
             <button
               type="button"
               onClick={() => {

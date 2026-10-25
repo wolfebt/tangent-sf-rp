@@ -23,6 +23,12 @@ essential_skills:
   - Leadership
   - Diplomacy
   - Vocation (Administrator)
+signature_traits:
+  - Commanding Presence
+  - Efficient Manager
+traits:
+  - Commanding Presence
+  - Efficient Manager
 signature_features:
   - Commanding Presence
   - Efficient Manager

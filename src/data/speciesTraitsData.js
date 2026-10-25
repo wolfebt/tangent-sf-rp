@@ -1,12 +1,7 @@
 /**
- * Canonical Traits Database for Tangent SF RP (Species, Occupational, and Origin Traits)
- * Auto-generated from src/data/omnicortex/traits/
- * Total Traits: 352
- *  - Species Basic: 58
- *  - Species Advanced: 109
- *  - Species Elite: 32
- *  - Occupational Traits: 88
- *  - Origin Traits: 65
+ * Canonical Species Traits & Pillar Traits Database for Tangent SF RP
+ * - Species Traits (Basic 1 CP, Advanced 2 CP, Elite 4 CP): 202
+ * - Consolidated Pillar Traits (Origins, Occupations/Careers, Archetypes, Factions): 185
  */
 
 export const SPECIES_TRAITS_BASIC = [
@@ -2168,6 +2163,7 @@ export const SPECIES_TRAITS_BASIC = [
     ]
   }
 ];
+
 export const SPECIES_TRAITS_ADVANCED = [
   {
     "id": "trait-adaptive-features",
@@ -5874,8 +5870,109 @@ export const SPECIES_TRAITS_ADVANCED = [
       "[Rule] Advanced Species Trait (2 CP).",
       "[Prerequisite] Resin Secretion"
     ]
+  },
+  {
+    "id": "trait-adaptive-aspects",
+    "name": "Adaptive Aspects (Hive Memories)",
+    "category": "trait",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Metaphysical",
+    "type": "Metaphysical",
+    "cp": 2,
+    "bp": 2,
+    "costs": {
+      "cp": 2,
+      "bp": 2
+    },
+    "is_ranked": true,
+    "desc": "Attune to inherited ancestral hive memories during rest to temporarily swap or adapt personal cognitive proficiencies and specialized aspects.",
+    "description": "Attune to inherited ancestral hive memories during rest to temporarily swap or adapt personal cognitive proficiencies and specialized aspects.",
+    "mechanics": "* During a Light Rest (or Torpor cycle), the character may reconfigure one designated adaptive aspect—selecting a situational bonus (+2 to a specific knowledge, engineering, or piloting specialization) drawn from ancestral experiences.\n* This adapted specialization remains active until the next rest cycle.",
+    "mechanic": "* During a Light Rest (or Torpor cycle), the character may reconfigure one designated adaptive aspect—selecting a situational bonus (+2 to a specific knowledge, engineering, or piloting specialization) drawn from ancestral experiences.\n* This adapted specialization remains active until the next rest cycle.",
+    "rules": "Ranked selection. Prerequisite: Hive-Link or Genetic Memory.",
+    "special_rules": "Ranked selection. Prerequisite: Hive-Link or Genetic Memory.",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Adaptive Aspects (Hive Memories)\n\n**Category**: Meta Features  \n**Cost**: 2 CP  \n**Prerequisite**: Hive-Link or Genetic Memory  \n\n## Description\nBy entering a quiet trance during Torpor or a Light Rest, the character communes with the ancestral genomatrix and deep hive memories, adjusting their mental focus to mirror specialized forebears.\n\n## Mechanics & Benefit\n* During a Light Rest (or Torpor cycle), the character may reconfigure one designated adaptive aspect—selecting a situational bonus (+2 to a specific knowledge, engineering, or piloting specialization) drawn from ancestral experiences.\n* This adapted specialization remains active until the next rest cycle.",
+    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Ranked selection. Prerequisite: Hive-Link or Genetic Memory.\n[Prerequisite] Hive-Link or Genetic Memory",
+    "notesList": [
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] Ranked selection. Prerequisite: Hive-Link or Genetic Memory.",
+      "[Prerequisite] Hive-Link or Genetic Memory"
+    ]
+  },
+  {
+    "id": "trait-sense-psychic",
+    "name": "Sense (Psychic)",
+    "category": "trait",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Metaphysical",
+    "type": "Metaphysical",
+    "cp": 2,
+    "bp": 2,
+    "costs": {
+      "cp": 2,
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Innate sensory attunement to psionic fields, bio-energetic frequencies, and supernatural thought patterns within 60 feet.",
+    "description": "Innate sensory attunement to psionic fields, bio-energetic frequencies, and supernatural thought patterns within 60 feet.",
+    "mechanics": "* **Psionic Perception Range:** Detect the presence and approximate direction of conscious minds, psionic channeling, or metaphysical manifestations within a **60-foot radius**.\n* **Aura Reading:** By spending 1 action in focused concentration, determine whether a detected mind is calm, panicked, hostile, or under mental coercion.\n* **Cover Penetration:** This sense bypasses physical barriers up to 3 feet of wood/dirt or 1 foot of stone/metal, though dense lead or dedicated psionic dampeners block detection.",
+    "mechanic": "* **Psionic Perception Range:** Detect the presence and approximate direction of conscious minds, psionic channeling, or metaphysical manifestations within a **60-foot radius**.\n* **Aura Reading:** By spending 1 action in focused concentration, determine whether a detected mind is calm, panicked, hostile, or under mental coercion.\n* **Cover Penetration:** This sense bypasses physical barriers up to 3 feet of wood/dirt or 1 foot of stone/metal, though dense lead or dedicated psionic dampeners block detection.",
+    "rules": "Prerequisite: Awakened, Intellect 2, or Wisdom 2.",
+    "special_rules": "Prerequisite: Awakened, Intellect 2, or Wisdom 2.",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Sense (Psychic)\n\n**Category**: Meta / Sensory Features  \n**Cost**: 2 CP  \n**Prerequisite**: Awakened, Intellect 2, or Wisdom 2  \n\n## Description\nThe character can directly perceive the resonance of psionic minds, metaphysical activity, and bio-energetic auras without requiring technological sensors or overt physical signs.\n\n## Mechanics & Benefit\n* **Psionic Perception Range:** Detect the presence and approximate direction of conscious minds, psionic channeling, or metaphysical manifestations within a **60-foot radius**.\n* **Aura Reading:** By spending 1 action in focused concentration, determine whether a detected mind is calm, panicked, hostile, or under mental coercion.\n* **Cover Penetration:** This sense bypasses physical barriers up to 3 feet of wood/dirt or 1 foot of stone/metal, though dense lead or dedicated psionic dampeners block detection.",
+    "notes": "[Rule] Prerequisite: Awakened, Intellect 2, or Wisdom 2.\n[Prerequisite] Awakened, Intellect 2, or Wisdom 2",
+    "notesList": [
+      "[Rule] Prerequisite: Awakened, Intellect 2, or Wisdom 2.",
+      "[Prerequisite] Awakened, Intellect 2, or Wisdom 2"
+    ]
+  },
+  {
+    "id": "trait-acute-senses",
+    "name": "Acute Senses",
+    "category": "trait",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Sensory",
+    "type": "Sensory",
+    "cp": 2,
+    "bp": 2,
+    "costs": {
+      "cp": 2,
+      "bp": 2
+    },
+    "is_ranked": false,
+    "desc": "Extraordinarily sharp sensory faculties granting a +4 bonus to Perception and Alertness checks using a chosen sensory modality (Vision, Hearing, Scent, Touch, or Taste).",
+    "description": "Extraordinarily sharp sensory faculties granting a +4 bonus to Perception and Alertness checks using a chosen sensory modality (Vision, Hearing, Scent, Touch, or Taste).",
+    "mechanics": "Choose one sensory modality when taking this feature (e.g., **Scent**, **Hearing**, or **Vision**):\n* Gain a **+4 Bonus** on all **Perception**, **Alertness**, and **Tracking** checks that utilize the chosen sense.\n* Characters with *Acute Senses (Scent)* can distinguish specific individuals, detect decaying organic matter, and diagnose biochemical changes through smell alone.",
+    "mechanic": "Choose one sensory modality when taking this feature (e.g., **Scent**, **Hearing**, or **Vision**):\n* Gain a **+4 Bonus** on all **Perception**, **Alertness**, and **Tracking** checks that utilize the chosen sense.\n* Characters with *Acute Senses (Scent)* can distinguish specific individuals, detect decaying organic matter, and diagnose biochemical changes through smell alone.",
+    "rules": "This feature may be selected multiple times, choosing a different sensory modality each time.",
+    "special_rules": "This feature may be selected multiple times, choosing a different sensory modality each time.",
+    "modifiers": [
+      {
+        "target": "Perception",
+        "value": 4,
+        "type": "skill",
+        "mode": "conditional"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Acute Senses\n\n**Category**: Sensory Features  \n**Cost**: 2 CP  \n**Prerequisite**: Awareness 1 or Wisdom 1  \n\n## Description\nThe character possesses finely tuned sensory receptors, allowing them to detect subtle audio frequencies, pinpoint distant scent plumes, or resolve fine visual details well beyond normal mortal baselines.\n\n## Mechanics & Benefit\nChoose one sensory modality when taking this feature (e.g., **Scent**, **Hearing**, or **Vision**):\n* Gain a **+4 Bonus** on all **Perception**, **Alertness**, and **Tracking** checks that utilize the chosen sense.\n* Characters with *Acute Senses (Scent)* can distinguish specific individuals, detect decaying organic matter, and diagnose biochemical changes through smell alone.\n\n## Special Rules\nThis feature may be selected multiple times, choosing a different sensory modality each time.",
+    "notes": "[Modifier] Perception: +4\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature may be selected multiple times, choosing a different sensory modality each time.\n[Prerequisite] Awareness 1 or Wisdom 1",
+    "notesList": [
+      "[Modifier] Perception: +4",
+      "[Rule] Multiple: May be purchased separately for different categories/types",
+      "[Rule] This feature may be selected multiple times, choosing a different sensory modality each time.",
+      "[Prerequisite] Awareness 1 or Wisdom 1"
+    ]
   }
 ];
+
 export const SPECIES_TRAITS_ELITE = [
   {
     "id": "trait-active-camouflage",
@@ -7271,6 +7368,7 @@ export const SPECIES_TRAITS_ELITE = [
     ]
   }
 ];
+
 export const OCCUPATIONAL_TRAITS = [
   {
     "id": "trait-analytical",
@@ -10709,6 +10807,7 @@ export const OCCUPATIONAL_TRAITS = [
     ]
   }
 ];
+
 export const ORIGIN_TRAITS = [
   {
     "id": "trait-adaptability",
@@ -13257,12 +13356,2677 @@ export const ORIGIN_TRAITS = [
   }
 ];
 
-export const ALL_CANONICAL_TRAITS = [
+export const ARCHETYPE_TRAITS = [
   {
-    "id": "trait-adaptability",
+    "id": "trait-master-vocation-skillsman",
+    "name": "Master Vocation skillsman",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Technical",
+    "type": "Technical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Armorer (Sentinel). You gain a +2 bonus to Vocation skill checks to create or repair objects.",
+    "description": "Signature trait of The Armorer (Sentinel). You gain a +2 bonus to Vocation skill checks to create or repair objects.",
+    "mechanics": "You gain a +2 bonus to Vocation skill checks to create or repair objects.",
+    "mechanic": "You gain a +2 bonus to Vocation skill checks to create or repair objects.",
+    "rules": "Archetype Trait (1 CP) — The Armorer (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Armorer (Sentinel).",
+    "modifiers": [
+      {
+        "target": "Vocation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Vocation"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Master Vocation skillsman\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Armorer (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Armorer (Sentinel). You gain a +2 bonus to Vocation skill checks to create or repair objects.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Vocation skill checks to create or repair objects.",
+    "notes": "[Modifier] +2 to Vocation\n[Rule] Archetype Trait (1 CP) — The Armorer (Sentinel).",
+    "notesList": [
+      "[Modifier] +2 to Vocation",
+      "[Rule] Archetype Trait (1 CP) — The Armorer (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-crafters-insight",
+    "name": "Crafters Insight",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Technical",
+    "type": "Technical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Armorer (Sentinel). Make any check at +2 bonus related to using, repairing, building or selling a crafted item.",
+    "description": "Signature trait of The Armorer (Sentinel). Make any check at +2 bonus related to using, repairing, building or selling a crafted item.",
+    "mechanics": "Make any check at +2 bonus related to using, repairing, building or selling a crafted item.",
+    "mechanic": "Make any check at +2 bonus related to using, repairing, building or selling a crafted item.",
+    "rules": "Archetype Trait (1 CP) — The Armorer (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Armorer (Sentinel).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Crafters Insight\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Armorer (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Armorer (Sentinel). Make any check at +2 bonus related to using, repairing, building or selling a crafted item.\n\n## Mechanics & Benefit\nMake any check at +2 bonus related to using, repairing, building or selling a crafted item.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Armorer (Sentinel).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Armorer (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-law-enforcement-training",
+    "name": "Law Enforcement Training",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Bailiff (Sentinel). You gain a +2 bonus to Athletics and Investigation checks when pursuing suspects, subduing criminals, or gathering evidence.",
+    "description": "Signature trait of The Bailiff (Sentinel). You gain a +2 bonus to Athletics and Investigation checks when pursuing suspects, subduing criminals, or gathering evidence.",
+    "mechanics": "You gain a +2 bonus to Athletics and Investigation checks when pursuing suspects, subduing criminals, or gathering evidence.",
+    "mechanic": "You gain a +2 bonus to Athletics and Investigation checks when pursuing suspects, subduing criminals, or gathering evidence.",
+    "rules": "Archetype Trait (1 CP) — The Bailiff (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Bailiff (Sentinel).",
+    "modifiers": [
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Athletics"
+      },
+      {
+        "target": "Investigation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Investigation"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Law Enforcement Training\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Bailiff (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Bailiff (Sentinel). You gain a +2 bonus to Athletics and Investigation checks when pursuing suspects, subduing criminals, or gathering evidence.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Athletics and Investigation checks when pursuing suspects, subduing criminals, or gathering evidence.",
+    "notes": "[Modifier] +2 to Athletics\n[Modifier] +2 to Investigation\n[Rule] Archetype Trait (1 CP) — The Bailiff (Sentinel).",
+    "notesList": [
+      "[Modifier] +2 to Athletics",
+      "[Modifier] +2 to Investigation",
+      "[Rule] Archetype Trait (1 CP) — The Bailiff (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-authority-figure",
+    "name": "Authority Figure",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Social",
+    "type": "Social",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Bailiff (Sentinel). Gain +2 bonus on Diplomacy checks when interacting with civilians or enforcing the law.",
+    "description": "Signature trait of The Bailiff (Sentinel). Gain +2 bonus on Diplomacy checks when interacting with civilians or enforcing the law.",
+    "mechanics": "Gain +2 bonus on Diplomacy checks when interacting with civilians or enforcing the law.",
+    "mechanic": "Gain +2 bonus on Diplomacy checks when interacting with civilians or enforcing the law.",
+    "rules": "Archetype Trait (1 CP) — The Bailiff (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Bailiff (Sentinel).",
+    "modifiers": [
+      {
+        "target": "Diplomacy",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Diplomacy"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Authority Figure\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Bailiff (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Bailiff (Sentinel). Gain +2 bonus on Diplomacy checks when interacting with civilians or enforcing the law.\n\n## Mechanics & Benefit\nGain +2 bonus on Diplomacy checks when interacting with civilians or enforcing the law.",
+    "notes": "[Modifier] +2 to Diplomacy\n[Rule] Archetype Trait (1 CP) — The Bailiff (Sentinel).",
+    "notesList": [
+      "[Modifier] +2 to Diplomacy",
+      "[Rule] Archetype Trait (1 CP) — The Bailiff (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-animal-affinity",
+    "name": "Animal Affinity",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Social",
+    "type": "Social",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Instinctive empathic rapport with beasts, mounts, and xeno-fauna.",
+    "description": "Instinctive empathic rapport with beasts, mounts, and xeno-fauna.",
+    "mechanics": "You gain a +2 bonus to Animal Handling and Survival checks when calming, training, or directing beasts and xeno-fauna.",
+    "mechanic": "You gain a +2 bonus to Animal Handling and Survival checks when calming, training, or directing beasts and xeno-fauna.",
+    "rules": "Archetype Trait (1 CP) — The Beast-handler (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Beast-handler (Sentinel).",
+    "modifiers": [
+      {
+        "target": "Animal Handling",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Animal Handling"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Survival"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Animal Affinity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Beast-handler (Sentinel))\n**CP Cost**: 1\n\n## Description\nInstinctive empathic rapport with beasts, mounts, and xeno-fauna.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Animal Handling and Survival checks when calming, training, or directing beasts and xeno-fauna.",
+    "notes": "[Modifier] +2 to Animal Handling\n[Modifier] +2 to Survival\n[Rule] Archetype Trait (1 CP) — The Beast-handler (Sentinel).",
+    "notesList": [
+      "[Modifier] +2 to Animal Handling",
+      "[Modifier] +2 to Survival",
+      "[Rule] Archetype Trait (1 CP) — The Beast-handler (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-spirit-walker",
+    "name": "Spirit Walker",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Metaphysical",
+    "type": "Metaphysical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Beast-handler (Sentinel) / The Spirit-walker (Visionarie). You gain a +2 bonus to all checks related to nature and the spirit world, such as communing with spirits, casting nature spells, and understanding animal behavior.",
+    "description": "Signature trait of The Beast-handler (Sentinel) / The Spirit-walker (Visionarie). You gain a +2 bonus to all checks related to nature and the spirit world, such as communing with spirits, casting nature spells, and understanding animal behavior.",
+    "mechanics": "You gain a +2 bonus to all checks related to nature and the spirit world, such as communing with spirits, casting nature spells, and understanding animal behavior.",
+    "mechanic": "You gain a +2 bonus to all checks related to nature and the spirit world, such as communing with spirits, casting nature spells, and understanding animal behavior.",
+    "rules": "Archetype Trait (1 CP) — The Beast-handler (Sentinel) / The Spirit-walker (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Beast-handler (Sentinel) / The Spirit-walker (Visionarie).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Spirit Walker\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Beast-handler (Sentinel) / The Spirit-walker (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Beast-handler (Sentinel) / The Spirit-walker (Visionarie). You gain a +2 bonus to all checks related to nature and the spirit world, such as communing with spirits, casting nature spells, and understanding animal behavior.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to all checks related to nature and the spirit world, such as communing with spirits, casting nature spells, and understanding animal behavior.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Beast-handler (Sentinel) / The Spirit-walker (Visionarie).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Beast-handler (Sentinel) / The Spirit-walker (Visionarie)."
+    ]
+  },
+  {
+    "id": "trait-market-savvy",
+    "name": "Market Savvy",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Social",
+    "type": "Social",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Broker (Sentinel). You gain a +2 bonus to Diplomacy checks when negotiating prices or securing trade agreements.",
+    "description": "Signature trait of The Broker (Sentinel). You gain a +2 bonus to Diplomacy checks when negotiating prices or securing trade agreements.",
+    "mechanics": "You gain a +2 bonus to Diplomacy checks when negotiating prices or securing trade agreements.",
+    "mechanic": "You gain a +2 bonus to Diplomacy checks when negotiating prices or securing trade agreements.",
+    "rules": "Archetype Trait (1 CP) — The Broker (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Broker (Sentinel).",
+    "modifiers": [
+      {
+        "target": "Diplomacy",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Diplomacy"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Market Savvy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Broker (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Broker (Sentinel). You gain a +2 bonus to Diplomacy checks when negotiating prices or securing trade agreements.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Diplomacy checks when negotiating prices or securing trade agreements.",
+    "notes": "[Modifier] +2 to Diplomacy\n[Rule] Archetype Trait (1 CP) — The Broker (Sentinel).",
+    "notesList": [
+      "[Modifier] +2 to Diplomacy",
+      "[Rule] Archetype Trait (1 CP) — The Broker (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-sig-resourceful",
+    "name": "Resourceful",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Broker (Sentinel) / The Culinarian (Sentinel) / The Homesteader (Sentinel) / The Quartermaster (Sentinel). You are adept at improvising solutions and overcoming obstacles, gain +2 bonus on any checks related to repairing equipment, optimizing processes, or completing tasks with limited resources.",
+    "description": "Signature trait of The Broker (Sentinel) / The Culinarian (Sentinel) / The Homesteader (Sentinel) / The Quartermaster (Sentinel). You are adept at improvising solutions and overcoming obstacles, gain +2 bonus on any checks related to repairing equipment, optimizing processes, or completing tasks with limited resources.",
+    "mechanics": "You are adept at improvising solutions and overcoming obstacles, gain +2 bonus on any checks related to repairing equipment, optimizing processes, or completing tasks with limited resources.",
+    "mechanic": "You are adept at improvising solutions and overcoming obstacles, gain +2 bonus on any checks related to repairing equipment, optimizing processes, or completing tasks with limited resources.",
+    "rules": "Archetype Trait (1 CP) — The Broker (Sentinel) / The Culinarian (Sentinel) / The Homesteader (Sentinel) / The Quartermaster (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Broker (Sentinel) / The Culinarian (Sentinel) / The Homesteader (Sentinel) / The Quartermaster (Sentinel).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Resourceful\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Broker (Sentinel) / The Culinarian (Sentinel) / The Homesteader (Sentinel) / The Quartermaster (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Broker (Sentinel) / The Culinarian (Sentinel) / The Homesteader (Sentinel) / The Quartermaster (Sentinel). You are adept at improvising solutions and overcoming obstacles, gain +2 bonus on any checks related to repairing equipment, optimizing processes, or completing tasks with limited resources.\n\n## Mechanics & Benefit\nYou are adept at improvising solutions and overcoming obstacles, gain +2 bonus on any checks related to repairing equipment, optimizing processes, or completing tasks with limited resources.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Broker (Sentinel) / The Culinarian (Sentinel) / The Homesteader (Sentinel) / The Quartermaster (Sentinel).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Broker (Sentinel) / The Culinarian (Sentinel) / The Homesteader (Sentinel) / The Quartermaster (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-bureaucratic-efficiency",
+    "name": "Bureaucratic Efficiency",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Social",
+    "type": "Social",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "A flurry of authorized permits, regulatory mastery, and supply-chain re-routing.",
+    "description": "A flurry of authorized permits, regulatory mastery, and supply-chain re-routing.",
+    "mechanics": "Whenever the party attempts to purchase gear, secure legal transit permits, or acquire faction assets, the Complexity (CR) of the task is reduced by 5. Write-offs and financial loopholes allow the team to recover 15% of credits spent on gear or repairs at the end of a mission.",
+    "mechanic": "Whenever the party attempts to purchase gear, secure legal transit permits, or acquire faction assets, the Complexity (CR) of the task is reduced by 5. Write-offs and financial loopholes allow the team to recover 15% of credits spent on gear or repairs at the end of a mission.",
+    "rules": "Archetype Trait (1 CP) — The Bureaucrat (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Bureaucrat (Sentinel).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Bureaucratic Efficiency\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Bureaucrat (Sentinel))\n**CP Cost**: 1\n\n## Description\nA flurry of authorized permits, regulatory mastery, and supply-chain re-routing.\n\n## Mechanics & Benefit\nWhenever the party attempts to purchase gear, secure legal transit permits, or acquire faction assets, the Complexity (CR) of the task is reduced by 5. Write-offs and financial loopholes allow the team to recover 15% of credits spent on gear or repairs at the end of a mission.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Bureaucrat (Sentinel).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Bureaucrat (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-master-negotiator",
+    "name": "Master Negotiator",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Social",
+    "type": "Social",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Bureaucrat (Sentinel) / The Arbitrator (Visionarie) / The Envoy (Visionarie). Gain +2 bonus on Diplomacy checks to negotiate deals or contracts.",
+    "description": "Signature trait of The Bureaucrat (Sentinel) / The Arbitrator (Visionarie) / The Envoy (Visionarie). Gain +2 bonus on Diplomacy checks to negotiate deals or contracts.",
+    "mechanics": "Gain +2 bonus on Diplomacy checks to negotiate deals or contracts.",
+    "mechanic": "Gain +2 bonus on Diplomacy checks to negotiate deals or contracts.",
+    "rules": "Archetype Trait (1 CP) — The Bureaucrat (Sentinel) / The Arbitrator (Visionarie) / The Envoy (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Bureaucrat (Sentinel) / The Arbitrator (Visionarie) / The Envoy (Visionarie).",
+    "modifiers": [
+      {
+        "target": "Diplomacy",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Diplomacy"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Master Negotiator\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Bureaucrat (Sentinel) / The Arbitrator (Visionarie) / The Envoy (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Bureaucrat (Sentinel) / The Arbitrator (Visionarie) / The Envoy (Visionarie). Gain +2 bonus on Diplomacy checks to negotiate deals or contracts.\n\n## Mechanics & Benefit\nGain +2 bonus on Diplomacy checks to negotiate deals or contracts.",
+    "notes": "[Modifier] +2 to Diplomacy\n[Rule] Archetype Trait (1 CP) — The Bureaucrat (Sentinel) / The Arbitrator (Visionarie) / The Envoy (Visionarie).",
+    "notesList": [
+      "[Modifier] +2 to Diplomacy",
+      "[Rule] Archetype Trait (1 CP) — The Bureaucrat (Sentinel) / The Arbitrator (Visionarie) / The Envoy (Visionarie)."
+    ]
+  },
+  {
+    "id": "trait-corporate-backing",
+    "name": "Corporate Backing",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Company Man (Sentinel). You have the full support and resources of your corporation, gain +2 bonus on any checks related to acquiring information, securing permits, or influencing local authorities.",
+    "description": "Signature trait of The Company Man (Sentinel). You have the full support and resources of your corporation, gain +2 bonus on any checks related to acquiring information, securing permits, or influencing local authorities.",
+    "mechanics": "You have the full support and resources of your corporation, gain +2 bonus on any checks related to acquiring information, securing permits, or influencing local authorities.",
+    "mechanic": "You have the full support and resources of your corporation, gain +2 bonus on any checks related to acquiring information, securing permits, or influencing local authorities.",
+    "rules": "Archetype Trait (1 CP) — The Company Man (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Company Man (Sentinel).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Corporate Backing\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Company Man (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Company Man (Sentinel). You have the full support and resources of your corporation, gain +2 bonus on any checks related to acquiring information, securing permits, or influencing local authorities.\n\n## Mechanics & Benefit\nYou have the full support and resources of your corporation, gain +2 bonus on any checks related to acquiring information, securing permits, or influencing local authorities.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Company Man (Sentinel).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Company Man (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-sig-business-acumen",
+    "name": "Business Acumen",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Company Man (Sentinel). You gain a +2 bonus to all checks related to negotiation, finance, and business management.",
+    "description": "Signature trait of The Company Man (Sentinel). You gain a +2 bonus to all checks related to negotiation, finance, and business management.",
+    "mechanics": "You gain a +2 bonus to all checks related to negotiation, finance, and business management.",
+    "mechanic": "You gain a +2 bonus to all checks related to negotiation, finance, and business management.",
+    "rules": "Archetype Trait (1 CP) — The Company Man (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Company Man (Sentinel).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Business Acumen\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Company Man (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Company Man (Sentinel). You gain a +2 bonus to all checks related to negotiation, finance, and business management.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to all checks related to negotiation, finance, and business management.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Company Man (Sentinel).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Company Man (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-sig-self-sufficiency",
+    "name": "Self-Sufficiency",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Technical",
+    "type": "Technical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Culinarian (Sentinel) / The Homesteader (Sentinel). You gain a +2 bonus to all checks related to homesteading, such as farming, building structures, and Vocation skilling tools.",
+    "description": "Signature trait of The Culinarian (Sentinel) / The Homesteader (Sentinel). You gain a +2 bonus to all checks related to homesteading, such as farming, building structures, and Vocation skilling tools.",
+    "mechanics": "You gain a +2 bonus to all checks related to homesteading, such as farming, building structures, and Vocation skilling tools.",
+    "mechanic": "You gain a +2 bonus to all checks related to homesteading, such as farming, building structures, and Vocation skilling tools.",
+    "rules": "Archetype Trait (1 CP) — The Culinarian (Sentinel) / The Homesteader (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Culinarian (Sentinel) / The Homesteader (Sentinel).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Self-Sufficiency\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Culinarian (Sentinel) / The Homesteader (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Culinarian (Sentinel) / The Homesteader (Sentinel). You gain a +2 bonus to all checks related to homesteading, such as farming, building structures, and Vocation skilling tools.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to all checks related to homesteading, such as farming, building structures, and Vocation skilling tools.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Culinarian (Sentinel) / The Homesteader (Sentinel).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Culinarian (Sentinel) / The Homesteader (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-heavy-weapon-mastery",
+    "name": "Heavy Weapon Mastery",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Combat",
+    "type": "Combat",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Demolisher (Sentinel) / The Combat-saboteur (Operative). You gain a +2 bonus to attack rolls with heavy weapons.",
+    "description": "Signature trait of The Demolisher (Sentinel) / The Combat-saboteur (Operative). You gain a +2 bonus to attack rolls with heavy weapons.",
+    "mechanics": "You gain a +2 bonus to attack rolls with heavy weapons.",
+    "mechanic": "You gain a +2 bonus to attack rolls with heavy weapons.",
+    "rules": "Archetype Trait (1 CP) — The Demolisher (Sentinel) / The Combat-saboteur (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Demolisher (Sentinel) / The Combat-saboteur (Operative).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Heavy Weapon Mastery\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Demolisher (Sentinel) / The Combat-saboteur (Operative))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Demolisher (Sentinel) / The Combat-saboteur (Operative). You gain a +2 bonus to attack rolls with heavy weapons.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to attack rolls with heavy weapons.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Demolisher (Sentinel) / The Combat-saboteur (Operative).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Demolisher (Sentinel) / The Combat-saboteur (Operative)."
+    ]
+  },
+  {
+    "id": "trait-explosive-expertise",
+    "name": "Explosive Expertise",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Demolisher (Sentinel). You gain +2 bonus on any checks related to using or disarming explosives.",
+    "description": "Signature trait of The Demolisher (Sentinel). You gain +2 bonus on any checks related to using or disarming explosives.",
+    "mechanics": "You gain +2 bonus on any checks related to using or disarming explosives.",
+    "mechanic": "You gain +2 bonus on any checks related to using or disarming explosives.",
+    "rules": "Archetype Trait (1 CP) — The Demolisher (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Demolisher (Sentinel).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Explosive Expertise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Demolisher (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Demolisher (Sentinel). You gain +2 bonus on any checks related to using or disarming explosives.\n\n## Mechanics & Benefit\nYou gain +2 bonus on any checks related to using or disarming explosives.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Demolisher (Sentinel).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Demolisher (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-field-triage",
+    "name": "Field Triage",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Rapid application of derm-sealers, combat stimulants, and trauma clamps under fire.",
+    "description": "Rapid application of derm-sealers, combat stimulants, and trauma clamps under fire.",
+    "mechanics": "Major Action: Make a Medicine check (CR 15) on a downed or critically wounded ally. On a success, restore Vitality equal to Wisdom x 5 and immediately restore consciousness without provoking attacks of opportunity.",
+    "mechanic": "Major Action: Make a Medicine check (CR 15) on a downed or critically wounded ally. On a success, restore Vitality equal to Wisdom x 5 and immediately restore consciousness without provoking attacks of opportunity.",
+    "rules": "Archetype Trait (1 CP) — The Field Medic (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Field Medic (Sentinel).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Field Triage\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Field Medic (Sentinel))\n**CP Cost**: 1\n\n## Description\nRapid application of derm-sealers, combat stimulants, and trauma clamps under fire.\n\n## Mechanics & Benefit\nMajor Action: Make a Medicine check (CR 15) on a downed or critically wounded ally. On a success, restore Vitality equal to Wisdom x 5 and immediately restore consciousness without provoking attacks of opportunity.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Field Medic (Sentinel).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Field Medic (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-combat-medic",
+    "name": "Combat Medic",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Combat",
+    "type": "Combat",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Field Medic (Sentinel). Gain +2 bonus on a Medicine check to heal allies while in combat.",
+    "description": "Signature trait of The Field Medic (Sentinel). Gain +2 bonus on a Medicine check to heal allies while in combat.",
+    "mechanics": "Gain +2 bonus on a Medicine check to heal allies while in combat.",
+    "mechanic": "Gain +2 bonus on a Medicine check to heal allies while in combat.",
+    "rules": "Archetype Trait (1 CP) — The Field Medic (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Field Medic (Sentinel).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Combat Medic\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Field Medic (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Field Medic (Sentinel). Gain +2 bonus on a Medicine check to heal allies while in combat.\n\n## Mechanics & Benefit\nGain +2 bonus on a Medicine check to heal allies while in combat.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Field Medic (Sentinel).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Field Medic (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-commanding-presence",
+    "name": "Commanding Presence",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Social",
+    "type": "Social",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Foreman (Sentinel) / The Shipmaster (Sentinel) / The Commander (Visionarie) / The Kingpin (Visionarie). You gain a +2 bonus to Leadership and Diplomacy checks when addressing your crew, negotiating deals, or intimidating rivals.",
+    "description": "Signature trait of The Foreman (Sentinel) / The Shipmaster (Sentinel) / The Commander (Visionarie) / The Kingpin (Visionarie). You gain a +2 bonus to Leadership and Diplomacy checks when addressing your crew, negotiating deals, or intimidating rivals.",
+    "mechanics": "You gain a +2 bonus to Leadership and Diplomacy checks when addressing your crew, negotiating deals, or intimidating rivals.",
+    "mechanic": "You gain a +2 bonus to Leadership and Diplomacy checks when addressing your crew, negotiating deals, or intimidating rivals.",
+    "rules": "Archetype Trait (1 CP) — The Foreman (Sentinel) / The Shipmaster (Sentinel) / The Commander (Visionarie) / The Kingpin (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Foreman (Sentinel) / The Shipmaster (Sentinel) / The Commander (Visionarie) / The Kingpin (Visionarie).",
+    "modifiers": [
+      {
+        "target": "Leadership",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Leadership"
+      },
+      {
+        "target": "Diplomacy",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Diplomacy"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Commanding Presence\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Foreman (Sentinel) / The Shipmaster (Sentinel) / The Commander (Visionarie) / The Kingpin (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Foreman (Sentinel) / The Shipmaster (Sentinel) / The Commander (Visionarie) / The Kingpin (Visionarie). You gain a +2 bonus to Leadership and Diplomacy checks when addressing your crew, negotiating deals, or intimidating rivals.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Leadership and Diplomacy checks when addressing your crew, negotiating deals, or intimidating rivals.",
+    "notes": "[Modifier] +2 to Leadership\n[Modifier] +2 to Diplomacy\n[Rule] Archetype Trait (1 CP) — The Foreman (Sentinel) / The Shipmaster (Sentinel) / The Commander (Visionarie) / The Kingpin (Visionarie).",
+    "notesList": [
+      "[Modifier] +2 to Leadership",
+      "[Modifier] +2 to Diplomacy",
+      "[Rule] Archetype Trait (1 CP) — The Foreman (Sentinel) / The Shipmaster (Sentinel) / The Commander (Visionarie) / The Kingpin (Visionarie)."
+    ]
+  },
+  {
+    "id": "trait-efficient-manager",
+    "name": "Efficient Manager",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Foreman (Sentinel) / The Maintenance Chief (Sentinel). You gain +2 bonus on any checks related to managing resources, optimizing workflows, and meeting production deadlines.",
+    "description": "Signature trait of The Foreman (Sentinel) / The Maintenance Chief (Sentinel). You gain +2 bonus on any checks related to managing resources, optimizing workflows, and meeting production deadlines.",
+    "mechanics": "You gain +2 bonus on any checks related to managing resources, optimizing workflows, and meeting production deadlines.",
+    "mechanic": "You gain +2 bonus on any checks related to managing resources, optimizing workflows, and meeting production deadlines.",
+    "rules": "Archetype Trait (1 CP) — The Foreman (Sentinel) / The Maintenance Chief (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Foreman (Sentinel) / The Maintenance Chief (Sentinel).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Efficient Manager\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Foreman (Sentinel) / The Maintenance Chief (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Foreman (Sentinel) / The Maintenance Chief (Sentinel). You gain +2 bonus on any checks related to managing resources, optimizing workflows, and meeting production deadlines.\n\n## Mechanics & Benefit\nYou gain +2 bonus on any checks related to managing resources, optimizing workflows, and meeting production deadlines.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Foreman (Sentinel) / The Maintenance Chief (Sentinel).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Foreman (Sentinel) / The Maintenance Chief (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-tactical-mastery",
+    "name": "Tactical Mastery",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Combat",
+    "type": "Combat",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Battlefield orchestration that turns squad positioning into decisive superiority.",
+    "description": "Battlefield orchestration that turns squad positioning into decisive superiority.",
+    "mechanics": "Allies within communication range who follow your tactical directive gain +1 to Initiative and +1 to coordinated attack rolls.",
+    "mechanic": "Allies within communication range who follow your tactical directive gain +1 to Initiative and +1 to coordinated attack rolls.",
+    "rules": "Archetype Trait (1 CP) — The High Commander (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The High Commander (Sentinel).",
+    "modifiers": [
+      {
+        "target": "initiative-mod",
+        "type": "combat",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to initiative-mod"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Tactical Mastery\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The High Commander (Sentinel))\n**CP Cost**: 1\n\n## Description\nBattlefield orchestration that turns squad positioning into decisive superiority.\n\n## Mechanics & Benefit\nAllies within communication range who follow your tactical directive gain +1 to Initiative and +1 to coordinated attack rolls.",
+    "notes": "[Modifier] +1 to initiative-mod\n[Rule] Archetype Trait (1 CP) — The High Commander (Sentinel).",
+    "notesList": [
+      "[Modifier] +1 to initiative-mod",
+      "[Rule] Archetype Trait (1 CP) — The High Commander (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-inspiring-strategist",
+    "name": "Inspiring Strategist",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The High Commander (Sentinel). Your presence bolsters your troops. grant them +2 bonus on morale checks and saving throws against fear.",
+    "description": "Signature trait of The High Commander (Sentinel). Your presence bolsters your troops. grant them +2 bonus on morale checks and saving throws against fear.",
+    "mechanics": "Your presence bolsters your troops. grant them +2 bonus on morale checks and saving throws against fear.",
+    "mechanic": "Your presence bolsters your troops. grant them +2 bonus on morale checks and saving throws against fear.",
+    "rules": "Archetype Trait (1 CP) — The High Commander (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The High Commander (Sentinel).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Inspiring Strategist\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The High Commander (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The High Commander (Sentinel). Your presence bolsters your troops. grant them +2 bonus on morale checks and saving throws against fear.\n\n## Mechanics & Benefit\nYour presence bolsters your troops. grant them +2 bonus on morale checks and saving throws against fear.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The High Commander (Sentinel).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The High Commander (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-iron-will",
+    "name": "Iron Will",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Legionnaire (Sentinel). You gain +2 bonus on saving throws against fear and intimidation.",
+    "description": "Signature trait of The Legionnaire (Sentinel). You gain +2 bonus on saving throws against fear and intimidation.",
+    "mechanics": "You gain +2 bonus on saving throws against fear and intimidation.",
+    "mechanic": "You gain +2 bonus on saving throws against fear and intimidation.",
+    "rules": "Archetype Trait (1 CP) — The Legionnaire (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Legionnaire (Sentinel).",
+    "modifiers": [
+      {
+        "target": "Intimidation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Intimidation"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Iron Will\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Legionnaire (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Legionnaire (Sentinel). You gain +2 bonus on saving throws against fear and intimidation.\n\n## Mechanics & Benefit\nYou gain +2 bonus on saving throws against fear and intimidation.",
+    "notes": "[Modifier] +2 to Intimidation\n[Rule] Archetype Trait (1 CP) — The Legionnaire (Sentinel).",
+    "notesList": [
+      "[Modifier] +2 to Intimidation",
+      "[Rule] Archetype Trait (1 CP) — The Legionnaire (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-legionary-training",
+    "name": "Legionary Training",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Legionnaire (Sentinel). You gain a +2 bonus to Athletics checks.",
+    "description": "Signature trait of The Legionnaire (Sentinel). You gain a +2 bonus to Athletics checks.",
+    "mechanics": "You gain a +2 bonus to Athletics checks.",
+    "mechanic": "You gain a +2 bonus to Athletics checks.",
+    "rules": "Archetype Trait (1 CP) — The Legionnaire (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Legionnaire (Sentinel).",
+    "modifiers": [
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Athletics"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Legionary Training\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Legionnaire (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Legionnaire (Sentinel). You gain a +2 bonus to Athletics checks.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Athletics checks.",
+    "notes": "[Modifier] +2 to Athletics\n[Rule] Archetype Trait (1 CP) — The Legionnaire (Sentinel).",
+    "notesList": [
+      "[Modifier] +2 to Athletics",
+      "[Rule] Archetype Trait (1 CP) — The Legionnaire (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-technical-aptitude",
+    "name": "Technical Aptitude",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Technical",
+    "type": "Technical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Maintenance Chief (Sentinel) / The Maker (Savant). Gain +2 bonus on checks to repair or improve technology.",
+    "description": "Signature trait of The Maintenance Chief (Sentinel) / The Maker (Savant). Gain +2 bonus on checks to repair or improve technology.",
+    "mechanics": "Gain +2 bonus on checks to repair or improve technology.",
+    "mechanic": "Gain +2 bonus on checks to repair or improve technology.",
+    "rules": "Archetype Trait (1 CP) — The Maintenance Chief (Sentinel) / The Maker (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Maintenance Chief (Sentinel) / The Maker (Savant).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Technical Aptitude\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Maintenance Chief (Sentinel) / The Maker (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Maintenance Chief (Sentinel) / The Maker (Savant). Gain +2 bonus on checks to repair or improve technology.\n\n## Mechanics & Benefit\nGain +2 bonus on checks to repair or improve technology.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Maintenance Chief (Sentinel) / The Maker (Savant).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Maintenance Chief (Sentinel) / The Maker (Savant)."
+    ]
+  },
+  {
+    "id": "trait-frontier-justice",
+    "name": "Frontier Justice",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Marshal (Sentinel). You gain a +2 bonus to Intimidation checks and +2 bonus on any checks related to enforcing law and order in the Outworlds.",
+    "description": "Signature trait of The Marshal (Sentinel). You gain a +2 bonus to Intimidation checks and +2 bonus on any checks related to enforcing law and order in the Outworlds.",
+    "mechanics": "You gain a +2 bonus to Intimidation checks and +2 bonus on any checks related to enforcing law and order in the Outworlds.",
+    "mechanic": "You gain a +2 bonus to Intimidation checks and +2 bonus on any checks related to enforcing law and order in the Outworlds.",
+    "rules": "Archetype Trait (1 CP) — The Marshal (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Marshal (Sentinel).",
+    "modifiers": [
+      {
+        "target": "Intimidation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Intimidation"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Frontier Justice\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Marshal (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Marshal (Sentinel). You gain a +2 bonus to Intimidation checks and +2 bonus on any checks related to enforcing law and order in the Outworlds.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Intimidation checks and +2 bonus on any checks related to enforcing law and order in the Outworlds.",
+    "notes": "[Modifier] +2 to Intimidation\n[Rule] Archetype Trait (1 CP) — The Marshal (Sentinel).",
+    "notesList": [
+      "[Modifier] +2 to Intimidation",
+      "[Rule] Archetype Trait (1 CP) — The Marshal (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-wildstalker",
+    "name": "Wildstalker",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Marshal (Sentinel). You gain +2 on Survival checks to endure harsh conditions and track criminals in the wilderness.",
+    "description": "Signature trait of The Marshal (Sentinel). You gain +2 on Survival checks to endure harsh conditions and track criminals in the wilderness.",
+    "mechanics": "You gain +2 on Survival checks to endure harsh conditions and track criminals in the wilderness.",
+    "mechanic": "You gain +2 on Survival checks to endure harsh conditions and track criminals in the wilderness.",
+    "rules": "Archetype Trait (1 CP) — The Marshal (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Marshal (Sentinel).",
+    "modifiers": [
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Survival"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Wildstalker\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Marshal (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Marshal (Sentinel). You gain +2 on Survival checks to endure harsh conditions and track criminals in the wilderness.\n\n## Mechanics & Benefit\nYou gain +2 on Survival checks to endure harsh conditions and track criminals in the wilderness.",
+    "notes": "[Modifier] +2 to Survival\n[Rule] Archetype Trait (1 CP) — The Marshal (Sentinel).",
+    "notesList": [
+      "[Modifier] +2 to Survival",
+      "[Rule] Archetype Trait (1 CP) — The Marshal (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-weapons-expert",
+    "name": "Weapons Expert",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Combat",
+    "type": "Combat",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Munitions Magnate (Sentinel). You gain a +2 bonus to Technology checks related to the operation and maintenance of weapons and military equipment.",
+    "description": "Signature trait of The Munitions Magnate (Sentinel). You gain a +2 bonus to Technology checks related to the operation and maintenance of weapons and military equipment.",
+    "mechanics": "You gain a +2 bonus to Technology checks related to the operation and maintenance of weapons and military equipment.",
+    "mechanic": "You gain a +2 bonus to Technology checks related to the operation and maintenance of weapons and military equipment.",
+    "rules": "Archetype Trait (1 CP) — The Munitions Magnate (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Munitions Magnate (Sentinel).",
+    "modifiers": [
+      {
+        "target": "Technology",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Technology"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Weapons Expert\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Munitions Magnate (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Munitions Magnate (Sentinel). You gain a +2 bonus to Technology checks related to the operation and maintenance of weapons and military equipment.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Technology checks related to the operation and maintenance of weapons and military equipment.",
+    "notes": "[Modifier] +2 to Technology\n[Rule] Archetype Trait (1 CP) — The Munitions Magnate (Sentinel).",
+    "notesList": [
+      "[Modifier] +2 to Technology",
+      "[Rule] Archetype Trait (1 CP) — The Munitions Magnate (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-black-market-connections",
+    "name": "Black Market Connections",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Social",
+    "type": "Social",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Cryptic handshakes, back-alley syndicates, and covert contraband channels.",
+    "description": "Cryptic handshakes, back-alley syndicates, and covert contraband channels.",
+    "mechanics": "Bypass local legal restrictions when acquiring weapons, armor, and cybernetics up to TL4, and receive a permanent 10% discount when purchasing from non-aligned syndicates or criminal networks.",
+    "mechanic": "Bypass local legal restrictions when acquiring weapons, armor, and cybernetics up to TL4, and receive a permanent 10% discount when purchasing from non-aligned syndicates or criminal networks.",
+    "rules": "Archetype Trait (1 CP) — The Munitions Magnate (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Munitions Magnate (Sentinel).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Black Market Connections\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Munitions Magnate (Sentinel))\n**CP Cost**: 1\n\n## Description\nCryptic handshakes, back-alley syndicates, and covert contraband channels.\n\n## Mechanics & Benefit\nBypass local legal restrictions when acquiring weapons, armor, and cybernetics up to TL4, and receive a permanent 10% discount when purchasing from non-aligned syndicates or criminal networks.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Munitions Magnate (Sentinel).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Munitions Magnate (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-strong-back",
+    "name": "Strong Back",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Muscle (Sentinel). You gain a +2 bonus to Athletics checks related to physical labor and carrying heavy loads.",
+    "description": "Signature trait of The Muscle (Sentinel). You gain a +2 bonus to Athletics checks related to physical labor and carrying heavy loads.",
+    "mechanics": "You gain a +2 bonus to Athletics checks related to physical labor and carrying heavy loads.",
+    "mechanic": "You gain a +2 bonus to Athletics checks related to physical labor and carrying heavy loads.",
+    "rules": "Archetype Trait (1 CP) — The Muscle (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Muscle (Sentinel).",
+    "modifiers": [
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Athletics"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Strong Back\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Muscle (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Muscle (Sentinel). You gain a +2 bonus to Athletics checks related to physical labor and carrying heavy loads.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Athletics checks related to physical labor and carrying heavy loads.",
+    "notes": "[Modifier] +2 to Athletics\n[Rule] Archetype Trait (1 CP) — The Muscle (Sentinel).",
+    "notesList": [
+      "[Modifier] +2 to Athletics",
+      "[Rule] Archetype Trait (1 CP) — The Muscle (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-skilled-worker",
+    "name": "Skilled Worker",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Muscle (Sentinel). You are proficient in a particular trade, gaining +2 bonus on any checks related to your chosen profession.",
+    "description": "Signature trait of The Muscle (Sentinel). You are proficient in a particular trade, gaining +2 bonus on any checks related to your chosen profession.",
+    "mechanics": "You are proficient in a particular trade, gaining +2 bonus on any checks related to your chosen profession.",
+    "mechanic": "You are proficient in a particular trade, gaining +2 bonus on any checks related to your chosen profession.",
+    "rules": "Archetype Trait (1 CP) — The Muscle (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Muscle (Sentinel).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Skilled Worker\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Muscle (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Muscle (Sentinel). You are proficient in a particular trade, gaining +2 bonus on any checks related to your chosen profession.\n\n## Mechanics & Benefit\nYou are proficient in a particular trade, gaining +2 bonus on any checks related to your chosen profession.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Muscle (Sentinel).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Muscle (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-protective-stance",
+    "name": "Protective Stance",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Combat",
+    "type": "Combat",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Digging in heels, raising a shield, and projecting an impenetrable interdiction zone.",
+    "description": "Digging in heels, raising a shield, and projecting an impenetrable interdiction zone.",
+    "mechanics": "Minor Action: Movement speed is halved, but you project a 2-meter Interdiction Zone. Enemies attempting to move through must succeed on an Athletics check opposed by your Intimidation or Melee skill or have their movement end and provoke a free melee strike.",
+    "mechanic": "Minor Action: Movement speed is halved, but you project a 2-meter Interdiction Zone. Enemies attempting to move through must succeed on an Athletics check opposed by your Intimidation or Melee skill or have their movement end and provoke a free melee strike.",
+    "rules": "Archetype Trait (1 CP) — The Protector (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Protector (Sentinel).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Protective Stance\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Protector (Sentinel))\n**CP Cost**: 1\n\n## Description\nDigging in heels, raising a shield, and projecting an impenetrable interdiction zone.\n\n## Mechanics & Benefit\nMinor Action: Movement speed is halved, but you project a 2-meter Interdiction Zone. Enemies attempting to move through must succeed on an Athletics check opposed by your Intimidation or Melee skill or have their movement end and provoke a free melee strike.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Protector (Sentinel).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Protector (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-situational-awareness",
+    "name": "Situational Awareness",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Protector (Sentinel). You are always alert and aware of your surroundings, gaining +2 bonus on any checks related to noticing potential threats or reacting to sudden danger.",
+    "description": "Signature trait of The Protector (Sentinel). You are always alert and aware of your surroundings, gaining +2 bonus on any checks related to noticing potential threats or reacting to sudden danger.",
+    "mechanics": "You are always alert and aware of your surroundings, gaining +2 bonus on any checks related to noticing potential threats or reacting to sudden danger.",
+    "mechanic": "You are always alert and aware of your surroundings, gaining +2 bonus on any checks related to noticing potential threats or reacting to sudden danger.",
+    "rules": "Archetype Trait (1 CP) — The Protector (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Protector (Sentinel).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Situational Awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Protector (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Protector (Sentinel). You are always alert and aware of your surroundings, gaining +2 bonus on any checks related to noticing potential threats or reacting to sudden danger.\n\n## Mechanics & Benefit\nYou are always alert and aware of your surroundings, gaining +2 bonus on any checks related to noticing potential threats or reacting to sudden danger.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Protector (Sentinel).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Protector (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-master-of-logistics",
+    "name": "Master of Logistics",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Quartermaster (Sentinel). You gain +2 bonus on any checks related to managing the crew's inventory, securing supplies, or distributing loot among the crew.",
+    "description": "Signature trait of The Quartermaster (Sentinel). You gain +2 bonus on any checks related to managing the crew's inventory, securing supplies, or distributing loot among the crew.",
+    "mechanics": "You gain +2 bonus on any checks related to managing the crew's inventory, securing supplies, or distributing loot among the crew.",
+    "mechanic": "You gain +2 bonus on any checks related to managing the crew's inventory, securing supplies, or distributing loot among the crew.",
+    "rules": "Archetype Trait (1 CP) — The Quartermaster (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Quartermaster (Sentinel).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Master of Logistics\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Quartermaster (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Quartermaster (Sentinel). You gain +2 bonus on any checks related to managing the crew's inventory, securing supplies, or distributing loot among the crew.\n\n## Mechanics & Benefit\nYou gain +2 bonus on any checks related to managing the crew's inventory, securing supplies, or distributing loot among the crew.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Quartermaster (Sentinel).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Quartermaster (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-keen-eye",
+    "name": "Keen Eye",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Security Officer (Sentinel). You gain a +2 bonus to Alertness checks to spot valuable underwater treasures.",
+    "description": "Signature trait of The Security Officer (Sentinel). You gain a +2 bonus to Alertness checks to spot valuable underwater treasures.",
+    "mechanics": "You gain a +2 bonus to Alertness checks to spot valuable underwater treasures.",
+    "mechanic": "You gain a +2 bonus to Alertness checks to spot valuable underwater treasures.",
+    "rules": "Archetype Trait (1 CP) — The Security Officer (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Security Officer (Sentinel).",
+    "modifiers": [
+      {
+        "target": "Alertness",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Alertness"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Keen Eye\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Security Officer (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Security Officer (Sentinel). You gain a +2 bonus to Alertness checks to spot valuable underwater treasures.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Alertness checks to spot valuable underwater treasures.",
+    "notes": "[Modifier] +2 to Alertness\n[Rule] Archetype Trait (1 CP) — The Security Officer (Sentinel).",
+    "notesList": [
+      "[Modifier] +2 to Alertness",
+      "[Rule] Archetype Trait (1 CP) — The Security Officer (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-guardian",
+    "name": "Guardian",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Security Officer (Sentinel). You gain a +2 bonus on any checks related to defending sacred sites, protecting artifacts, or battling supernatural threats.",
+    "description": "Signature trait of The Security Officer (Sentinel). You gain a +2 bonus on any checks related to defending sacred sites, protecting artifacts, or battling supernatural threats.",
+    "mechanics": "You gain a +2 bonus on any checks related to defending sacred sites, protecting artifacts, or battling supernatural threats.",
+    "mechanic": "You gain a +2 bonus on any checks related to defending sacred sites, protecting artifacts, or battling supernatural threats.",
+    "rules": "Archetype Trait (1 CP) — The Security Officer (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Security Officer (Sentinel).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Guardian\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Security Officer (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Security Officer (Sentinel). You gain a +2 bonus on any checks related to defending sacred sites, protecting artifacts, or battling supernatural threats.\n\n## Mechanics & Benefit\nYou gain a +2 bonus on any checks related to defending sacred sites, protecting artifacts, or battling supernatural threats.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Security Officer (Sentinel).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Security Officer (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-construction",
+    "name": "Construction",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Settler (Sentinel). You gain a +2 bonus to checks to build or repair structures.",
+    "description": "Signature trait of The Settler (Sentinel). You gain a +2 bonus to checks to build or repair structures.",
+    "mechanics": "You gain a +2 bonus to checks to build or repair structures.",
+    "mechanic": "You gain a +2 bonus to checks to build or repair structures.",
+    "rules": "Archetype Trait (1 CP) — The Settler (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Settler (Sentinel).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Construction\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Settler (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Settler (Sentinel). You gain a +2 bonus to checks to build or repair structures.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to checks to build or repair structures.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Settler (Sentinel).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Settler (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-frontier-resilience",
+    "name": "Frontier Resilience",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Settler (Sentinel). You gain +2 on saving throws against environmental hazards.",
+    "description": "Signature trait of The Settler (Sentinel). You gain +2 on saving throws against environmental hazards.",
+    "mechanics": "You gain +2 on saving throws against environmental hazards.",
+    "mechanic": "You gain +2 on saving throws against environmental hazards.",
+    "rules": "Archetype Trait (1 CP) — The Settler (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Settler (Sentinel).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Frontier Resilience\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Settler (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Settler (Sentinel). You gain +2 on saving throws against environmental hazards.\n\n## Mechanics & Benefit\nYou gain +2 on saving throws against environmental hazards.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Settler (Sentinel).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Settler (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-naval-expertise",
+    "name": "Naval Expertise",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Technical",
+    "type": "Technical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Shipmaster (Sentinel). You gain a +2 bonus to checks related to starship operation and navigation.",
+    "description": "Signature trait of The Shipmaster (Sentinel). You gain a +2 bonus to checks related to starship operation and navigation.",
+    "mechanics": "You gain a +2 bonus to checks related to starship operation and navigation.",
+    "mechanic": "You gain a +2 bonus to checks related to starship operation and navigation.",
+    "rules": "Archetype Trait (1 CP) — The Shipmaster (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Shipmaster (Sentinel).",
+    "modifiers": [
+      {
+        "target": "Navigation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Navigation"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Naval Expertise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Shipmaster (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Shipmaster (Sentinel). You gain a +2 bonus to checks related to starship operation and navigation.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to checks related to starship operation and navigation.",
+    "notes": "[Modifier] +2 to Navigation\n[Rule] Archetype Trait (1 CP) — The Shipmaster (Sentinel).",
+    "notesList": [
+      "[Modifier] +2 to Navigation",
+      "[Rule] Archetype Trait (1 CP) — The Shipmaster (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-zero-g-combat",
+    "name": "Zero-G Combat",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Combat",
+    "type": "Combat",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Shock Trooper (Sentinel). You gain a +2 bonus to Athletics and Acrobatics checks in zero-gravity environments.",
+    "description": "Signature trait of The Shock Trooper (Sentinel). You gain a +2 bonus to Athletics and Acrobatics checks in zero-gravity environments.",
+    "mechanics": "You gain a +2 bonus to Athletics and Acrobatics checks in zero-gravity environments.",
+    "mechanic": "You gain a +2 bonus to Athletics and Acrobatics checks in zero-gravity environments.",
+    "rules": "Archetype Trait (1 CP) — The Shock Trooper (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Shock Trooper (Sentinel).",
+    "modifiers": [
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Athletics"
+      },
+      {
+        "target": "Acrobatics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Acrobatics"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Zero-G Combat\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Shock Trooper (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Shock Trooper (Sentinel). You gain a +2 bonus to Athletics and Acrobatics checks in zero-gravity environments.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Athletics and Acrobatics checks in zero-gravity environments.",
+    "notes": "[Modifier] +2 to Athletics\n[Modifier] +2 to Acrobatics\n[Rule] Archetype Trait (1 CP) — The Shock Trooper (Sentinel).",
+    "notesList": [
+      "[Modifier] +2 to Athletics",
+      "[Modifier] +2 to Acrobatics",
+      "[Rule] Archetype Trait (1 CP) — The Shock Trooper (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-boarding-party",
+    "name": "Boarding Party",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Combat",
+    "type": "Combat",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Shock Trooper (Sentinel) / The Swashbuckler (Operative). Bonus of +2 to attacks during ship boarding actions, whether attacking or defending.",
+    "description": "Signature trait of The Shock Trooper (Sentinel) / The Swashbuckler (Operative). Bonus of +2 to attacks during ship boarding actions, whether attacking or defending.",
+    "mechanics": "Bonus of +2 to attacks during ship boarding actions, whether attacking or defending.",
+    "mechanic": "Bonus of +2 to attacks during ship boarding actions, whether attacking or defending.",
+    "rules": "Archetype Trait (1 CP) — The Shock Trooper (Sentinel) / The Swashbuckler (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Shock Trooper (Sentinel) / The Swashbuckler (Operative).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Boarding Party\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Shock Trooper (Sentinel) / The Swashbuckler (Operative))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Shock Trooper (Sentinel) / The Swashbuckler (Operative). Bonus of +2 to attacks during ship boarding actions, whether attacking or defending.\n\n## Mechanics & Benefit\nBonus of +2 to attacks during ship boarding actions, whether attacking or defending.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Shock Trooper (Sentinel) / The Swashbuckler (Operative).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Shock Trooper (Sentinel) / The Swashbuckler (Operative)."
+    ]
+  },
+  {
+    "id": "trait-combat-expertise",
+    "name": "Combat Expertise",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Combat",
+    "type": "Combat",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Veteran (Sentinel). You gain a +2 bonus to all checks related to combat, such as attacking, defending, and using weapons.",
+    "description": "Signature trait of The Veteran (Sentinel). You gain a +2 bonus to all checks related to combat, such as attacking, defending, and using weapons.",
+    "mechanics": "You gain a +2 bonus to all checks related to combat, such as attacking, defending, and using weapons.",
+    "mechanic": "You gain a +2 bonus to all checks related to combat, such as attacking, defending, and using weapons.",
+    "rules": "Archetype Trait (1 CP) — The Veteran (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Veteran (Sentinel).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Combat Expertise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Veteran (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Veteran (Sentinel). You gain a +2 bonus to all checks related to combat, such as attacking, defending, and using weapons.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to all checks related to combat, such as attacking, defending, and using weapons.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Veteran (Sentinel).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Veteran (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-unflinching",
+    "name": "Unflinching",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Veteran (Sentinel). You have a strong resolve and you are not easily intimidated. You gain +2 bonus on saving throws against fear.",
+    "description": "Signature trait of The Veteran (Sentinel). You have a strong resolve and you are not easily intimidated. You gain +2 bonus on saving throws against fear.",
+    "mechanics": "You have a strong resolve and you are not easily intimidated. You gain +2 bonus on saving throws against fear.",
+    "mechanic": "You have a strong resolve and you are not easily intimidated. You gain +2 bonus on saving throws against fear.",
+    "rules": "Archetype Trait (1 CP) — The Veteran (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Veteran (Sentinel).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Unflinching\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Veteran (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Veteran (Sentinel). You have a strong resolve and you are not easily intimidated. You gain +2 bonus on saving throws against fear.\n\n## Mechanics & Benefit\nYou have a strong resolve and you are not easily intimidated. You gain +2 bonus on saving throws against fear.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Veteran (Sentinel).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Veteran (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-guardian-s-ward",
+    "name": "Guardian's Ward",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Metaphysical",
+    "type": "Metaphysical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Protective life-force and warded energy weave into an immediate defensive barrier for allies.",
+    "description": "Protective life-force and warded energy weave into an immediate defensive barrier for allies.",
+    "mechanics": "Reaction (when an ally within 10m is targeted): The targeted ally gains +3 Defense against the triggering attack. If the attack still hits, damage is halved and the remaining half is transferred to the Warden.",
+    "mechanic": "Reaction (when an ally within 10m is targeted): The targeted ally gains +3 Defense against the triggering attack. If the attack still hits, damage is halved and the remaining half is transferred to the Warden.",
+    "rules": "Archetype Trait (1 CP) — The Warden (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Warden (Sentinel).",
+    "modifiers": [
+      {
+        "target": "defense-mod",
+        "type": "combat",
+        "value": 3,
+        "mode": "inherent",
+        "description": "+3 to defense-mod"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Guardian's Ward\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Warden (Sentinel))\n**CP Cost**: 1\n\n## Description\nProtective life-force and warded energy weave into an immediate defensive barrier for allies.\n\n## Mechanics & Benefit\nReaction (when an ally within 10m is targeted): The targeted ally gains +3 Defense against the triggering attack. If the attack still hits, damage is halved and the remaining half is transferred to the Warden.",
+    "notes": "[Modifier] +3 to defense-mod\n[Rule] Archetype Trait (1 CP) — The Warden (Sentinel).",
+    "notesList": [
+      "[Modifier] +3 to defense-mod",
+      "[Rule] Archetype Trait (1 CP) — The Warden (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-nature-s-wrath",
+    "name": "Nature's Wrath",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Combat",
+    "type": "Combat",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Warden (Sentinel). You can channel the power of nature to enhance your attacks, add +1 to your attack roll and damage roll when in a natural environment.",
+    "description": "Signature trait of The Warden (Sentinel). You can channel the power of nature to enhance your attacks, add +1 to your attack roll and damage roll when in a natural environment.",
+    "mechanics": "You can channel the power of nature to enhance your attacks, add +1 to your attack roll and damage roll when in a natural environment.",
+    "mechanic": "You can channel the power of nature to enhance your attacks, add +1 to your attack roll and damage roll when in a natural environment.",
+    "rules": "Archetype Trait (1 CP) — The Warden (Sentinel).",
+    "special_rules": "Archetype Trait (1 CP) — The Warden (Sentinel).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Nature's Wrath\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Warden (Sentinel))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Warden (Sentinel). You can channel the power of nature to enhance your attacks, add +1 to your attack roll and damage roll when in a natural environment.\n\n## Mechanics & Benefit\nYou can channel the power of nature to enhance your attacks, add +1 to your attack roll and damage roll when in a natural environment.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Warden (Sentinel).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Warden (Sentinel)."
+    ]
+  },
+  {
+    "id": "trait-evasive-maneuvers",
+    "name": "Evasive Maneuvers",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Combat",
+    "type": "Combat",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Split-second jinking and vector thrusters that slip incoming lock-ons and opportunity fire.",
+    "description": "Split-second jinking and vector thrusters that slip incoming lock-ons and opportunity fire.",
+    "mechanics": "Gain +2 Dodge Defense when moving at least half your speed or piloting a vehicle at cruising speed.",
+    "mechanic": "Gain +2 Dodge Defense when moving at least half your speed or piloting a vehicle at cruising speed.",
+    "rules": "Archetype Trait (1 CP) — The Ace (Operative) / The Escapologist (Operative) / The Privateer (Operative) / The Smuggler (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Ace (Operative) / The Escapologist (Operative) / The Privateer (Operative) / The Smuggler (Operative).",
+    "modifiers": [
+      {
+        "target": "defense-mod",
+        "type": "combat",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to defense-mod"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Evasive Maneuvers\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Ace (Operative) / The Escapologist (Operative) / The Privateer (Operative) / The Smuggler (Operative))\n**CP Cost**: 1\n\n## Description\nSplit-second jinking and vector thrusters that slip incoming lock-ons and opportunity fire.\n\n## Mechanics & Benefit\nGain +2 Dodge Defense when moving at least half your speed or piloting a vehicle at cruising speed.",
+    "notes": "[Modifier] +2 to defense-mod\n[Rule] Archetype Trait (1 CP) — The Ace (Operative) / The Escapologist (Operative) / The Privateer (Operative) / The Smuggler (Operative).",
+    "notesList": [
+      "[Modifier] +2 to defense-mod",
+      "[Rule] Archetype Trait (1 CP) — The Ace (Operative) / The Escapologist (Operative) / The Privateer (Operative) / The Smuggler (Operative)."
+    ]
+  },
+  {
+    "id": "trait-quick-reflexes",
+    "name": "Quick Reflexes",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Combat",
+    "type": "Combat",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Ace (Operative) / The Quick-draw (Operative). Gain +2 on initiative rolls.",
+    "description": "Signature trait of The Ace (Operative) / The Quick-draw (Operative). Gain +2 on initiative rolls.",
+    "mechanics": "Gain +2 on initiative rolls.",
+    "mechanic": "Gain +2 on initiative rolls.",
+    "rules": "Archetype Trait (1 CP) — The Ace (Operative) / The Quick-draw (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Ace (Operative) / The Quick-draw (Operative).",
+    "modifiers": [
+      {
+        "target": "initiative-mod",
+        "type": "combat",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to initiative-mod"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Quick Reflexes\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Ace (Operative) / The Quick-draw (Operative))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Ace (Operative) / The Quick-draw (Operative). Gain +2 on initiative rolls.\n\n## Mechanics & Benefit\nGain +2 on initiative rolls.",
+    "notes": "[Modifier] +2 to initiative-mod\n[Rule] Archetype Trait (1 CP) — The Ace (Operative) / The Quick-draw (Operative).",
+    "notesList": [
+      "[Modifier] +2 to initiative-mod",
+      "[Rule] Archetype Trait (1 CP) — The Ace (Operative) / The Quick-draw (Operative)."
+    ]
+  },
+  {
+    "id": "trait-daredevil",
+    "name": "Daredevil",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Acrobat (Operative) / The Escapologist (Operative). You gain a +2 bonus to Acrobatics and Athletics checks to perform death-defying stunts and impressive feats of agility.",
+    "description": "Signature trait of The Acrobat (Operative) / The Escapologist (Operative). You gain a +2 bonus to Acrobatics and Athletics checks to perform death-defying stunts and impressive feats of agility.",
+    "mechanics": "You gain a +2 bonus to Acrobatics and Athletics checks to perform death-defying stunts and impressive feats of agility.",
+    "mechanic": "You gain a +2 bonus to Acrobatics and Athletics checks to perform death-defying stunts and impressive feats of agility.",
+    "rules": "Archetype Trait (1 CP) — The Acrobat (Operative) / The Escapologist (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Acrobat (Operative) / The Escapologist (Operative).",
+    "modifiers": [
+      {
+        "target": "Acrobatics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Acrobatics"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Athletics"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Daredevil\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Acrobat (Operative) / The Escapologist (Operative))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Acrobat (Operative) / The Escapologist (Operative). You gain a +2 bonus to Acrobatics and Athletics checks to perform death-defying stunts and impressive feats of agility.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Acrobatics and Athletics checks to perform death-defying stunts and impressive feats of agility.",
+    "notes": "[Modifier] +2 to Acrobatics\n[Modifier] +2 to Athletics\n[Rule] Archetype Trait (1 CP) — The Acrobat (Operative) / The Escapologist (Operative).",
+    "notesList": [
+      "[Modifier] +2 to Acrobatics",
+      "[Modifier] +2 to Athletics",
+      "[Rule] Archetype Trait (1 CP) — The Acrobat (Operative) / The Escapologist (Operative)."
+    ]
+  },
+  {
+    "id": "trait-showmanship",
+    "name": "Showmanship",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Social",
+    "type": "Social",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Acrobat (Operative) / The Virtuoso (Operative). You have a natural talent for captivating audiences, gain +2 bonus on any checks related to entertaining crowds or coordinating complex circus acts.",
+    "description": "Signature trait of The Acrobat (Operative) / The Virtuoso (Operative). You have a natural talent for captivating audiences, gain +2 bonus on any checks related to entertaining crowds or coordinating complex circus acts.",
+    "mechanics": "You have a natural talent for captivating audiences, gain +2 bonus on any checks related to entertaining crowds or coordinating complex circus acts.",
+    "mechanic": "You have a natural talent for captivating audiences, gain +2 bonus on any checks related to entertaining crowds or coordinating complex circus acts.",
+    "rules": "Archetype Trait (1 CP) — The Acrobat (Operative) / The Virtuoso (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Acrobat (Operative) / The Virtuoso (Operative).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Showmanship\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Acrobat (Operative) / The Virtuoso (Operative))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Acrobat (Operative) / The Virtuoso (Operative). You have a natural talent for captivating audiences, gain +2 bonus on any checks related to entertaining crowds or coordinating complex circus acts.\n\n## Mechanics & Benefit\nYou have a natural talent for captivating audiences, gain +2 bonus on any checks related to entertaining crowds or coordinating complex circus acts.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Acrobat (Operative) / The Virtuoso (Operative).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Acrobat (Operative) / The Virtuoso (Operative)."
+    ]
+  },
+  {
+    "id": "trait-demolitionist",
+    "name": "Demolitionist",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Technical",
+    "type": "Technical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Combat-saboteur (Operative) / The Saboteur (Operative). You gain a +2 bonus to Technology checks when using explosives or sabotaging machinery.",
+    "description": "Signature trait of The Combat-saboteur (Operative) / The Saboteur (Operative). You gain a +2 bonus to Technology checks when using explosives or sabotaging machinery.",
+    "mechanics": "You gain a +2 bonus to Technology checks when using explosives or sabotaging machinery.",
+    "mechanic": "You gain a +2 bonus to Technology checks when using explosives or sabotaging machinery.",
+    "rules": "Archetype Trait (1 CP) — The Combat-saboteur (Operative) / The Saboteur (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Combat-saboteur (Operative) / The Saboteur (Operative).",
+    "modifiers": [
+      {
+        "target": "Technology",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Technology"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Demolitionist\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Combat-saboteur (Operative) / The Saboteur (Operative))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Combat-saboteur (Operative) / The Saboteur (Operative). You gain a +2 bonus to Technology checks when using explosives or sabotaging machinery.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Technology checks when using explosives or sabotaging machinery.",
+    "notes": "[Modifier] +2 to Technology\n[Rule] Archetype Trait (1 CP) — The Combat-saboteur (Operative) / The Saboteur (Operative).",
+    "notesList": [
+      "[Modifier] +2 to Technology",
+      "[Rule] Archetype Trait (1 CP) — The Combat-saboteur (Operative) / The Saboteur (Operative)."
+    ]
+  },
+  {
+    "id": "trait-peak-physical-condition",
+    "name": "Peak Physical Condition",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Daredevil (Operative). You gain a +2 bonus to Athletics and Acrobatics checks to perform feats of strength, agility, and endurance.",
+    "description": "Signature trait of The Daredevil (Operative). You gain a +2 bonus to Athletics and Acrobatics checks to perform feats of strength, agility, and endurance.",
+    "mechanics": "You gain a +2 bonus to Athletics and Acrobatics checks to perform feats of strength, agility, and endurance.",
+    "mechanic": "You gain a +2 bonus to Athletics and Acrobatics checks to perform feats of strength, agility, and endurance.",
+    "rules": "Archetype Trait (1 CP) — The Daredevil (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Daredevil (Operative).",
+    "modifiers": [
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Athletics"
+      },
+      {
+        "target": "Acrobatics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Acrobatics"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Peak Physical Condition\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Daredevil (Operative))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Daredevil (Operative). You gain a +2 bonus to Athletics and Acrobatics checks to perform feats of strength, agility, and endurance.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Athletics and Acrobatics checks to perform feats of strength, agility, and endurance.",
+    "notes": "[Modifier] +2 to Athletics\n[Modifier] +2 to Acrobatics\n[Rule] Archetype Trait (1 CP) — The Daredevil (Operative).",
+    "notesList": [
+      "[Modifier] +2 to Athletics",
+      "[Modifier] +2 to Acrobatics",
+      "[Rule] Archetype Trait (1 CP) — The Daredevil (Operative)."
+    ]
+  },
+  {
+    "id": "trait-fearless",
+    "name": "Fearless",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Daredevil (Operative). You have a remarkable ability to remain calm under pressure, gaining +2 bonus on any checks to resist fear.",
+    "description": "Signature trait of The Daredevil (Operative). You have a remarkable ability to remain calm under pressure, gaining +2 bonus on any checks to resist fear.",
+    "mechanics": "You have a remarkable ability to remain calm under pressure, gaining +2 bonus on any checks to resist fear.",
+    "mechanic": "You have a remarkable ability to remain calm under pressure, gaining +2 bonus on any checks to resist fear.",
+    "rules": "Archetype Trait (1 CP) — The Daredevil (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Daredevil (Operative).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Fearless\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Daredevil (Operative))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Daredevil (Operative). You have a remarkable ability to remain calm under pressure, gaining +2 bonus on any checks to resist fear.\n\n## Mechanics & Benefit\nYou have a remarkable ability to remain calm under pressure, gaining +2 bonus on any checks to resist fear.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Daredevil (Operative).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Daredevil (Operative)."
+    ]
+  },
+  {
+    "id": "trait-technological-prowess",
+    "name": "Technological Prowess",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Technical",
+    "type": "Technical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Ghost (Operative). You gain a +2 bonus to Technology checks related to hacking, disabling security systems, or utilizing cybernetic enhancements.",
+    "description": "Signature trait of The Ghost (Operative). You gain a +2 bonus to Technology checks related to hacking, disabling security systems, or utilizing cybernetic enhancements.",
+    "mechanics": "You gain a +2 bonus to Technology checks related to hacking, disabling security systems, or utilizing cybernetic enhancements.",
+    "mechanic": "You gain a +2 bonus to Technology checks related to hacking, disabling security systems, or utilizing cybernetic enhancements.",
+    "rules": "Archetype Trait (1 CP) — The Ghost (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Ghost (Operative).",
+    "modifiers": [
+      {
+        "target": "Technology",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Technology"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Technological Prowess\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Ghost (Operative))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Ghost (Operative). You gain a +2 bonus to Technology checks related to hacking, disabling security systems, or utilizing cybernetic enhancements.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Technology checks related to hacking, disabling security systems, or utilizing cybernetic enhancements.",
+    "notes": "[Modifier] +2 to Technology\n[Rule] Archetype Trait (1 CP) — The Ghost (Operative).",
+    "notesList": [
+      "[Modifier] +2 to Technology",
+      "[Rule] Archetype Trait (1 CP) — The Ghost (Operative)."
+    ]
+  },
+  {
+    "id": "trait-adaptive-camouflage",
+    "name": "Adaptive Camouflage",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Technical",
+    "type": "Technical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Ghost (Operative). Your cybernetic implants allow you to blend seamlessly into your surroundings, granting Obfuscate Feature.",
+    "description": "Signature trait of The Ghost (Operative). Your cybernetic implants allow you to blend seamlessly into your surroundings, granting Obfuscate Feature.",
+    "mechanics": "Your cybernetic implants allow you to blend seamlessly into your surroundings, granting Obfuscate Feature.",
+    "mechanic": "Your cybernetic implants allow you to blend seamlessly into your surroundings, granting Obfuscate Feature.",
+    "rules": "Archetype Trait (1 CP) — The Ghost (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Ghost (Operative).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Adaptive Camouflage\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Ghost (Operative))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Ghost (Operative). Your cybernetic implants allow you to blend seamlessly into your surroundings, granting Obfuscate Feature.\n\n## Mechanics & Benefit\nYour cybernetic implants allow you to blend seamlessly into your surroundings, granting Obfuscate Feature.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Ghost (Operative).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Ghost (Operative)."
+    ]
+  },
+  {
+    "id": "trait-silver-tongue",
+    "name": "Silver Tongue",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Social",
+    "type": "Social",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Smooth, persuasive cadence and effortless verbal misdirection.",
+    "description": "Smooth, persuasive cadence and effortless verbal misdirection.",
+    "mechanics": "You gain a +2 bonus to Manipulation, Bluff, and Diplomacy checks to convince or mislead others.",
+    "mechanic": "You gain a +2 bonus to Manipulation, Bluff, and Diplomacy checks to convince or mislead others.",
+    "rules": "Archetype Trait (1 CP) — The Grifter (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Grifter (Operative).",
+    "modifiers": [
+      {
+        "target": "Manipulation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Manipulation"
+      },
+      {
+        "target": "Bluff",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Bluff"
+      },
+      {
+        "target": "Diplomacy",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Diplomacy"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Silver Tongue\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Grifter (Operative))\n**CP Cost**: 1\n\n## Description\nSmooth, persuasive cadence and effortless verbal misdirection.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Manipulation, Bluff, and Diplomacy checks to convince or mislead others.",
+    "notes": "[Modifier] +2 to Manipulation\n[Modifier] +2 to Bluff\n[Modifier] +2 to Diplomacy\n[Rule] Archetype Trait (1 CP) — The Grifter (Operative).",
+    "notesList": [
+      "[Modifier] +2 to Manipulation",
+      "[Modifier] +2 to Bluff",
+      "[Modifier] +2 to Diplomacy",
+      "[Rule] Archetype Trait (1 CP) — The Grifter (Operative)."
+    ]
+  },
+  {
+    "id": "trait-master-of-disguise",
+    "name": "Master of Disguise",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Social",
+    "type": "Social",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Grifter (Operative) / The Shadow-stepper (Operative) / The Silent Blade (Operative). You can expertly alter your appearance and blend into crowds, gaining +2 bonus on any checks related to disguise or infiltration.",
+    "description": "Signature trait of The Grifter (Operative) / The Shadow-stepper (Operative) / The Silent Blade (Operative). You can expertly alter your appearance and blend into crowds, gaining +2 bonus on any checks related to disguise or infiltration.",
+    "mechanics": "You can expertly alter your appearance and blend into crowds, gaining +2 bonus on any checks related to disguise or infiltration.",
+    "mechanic": "You can expertly alter your appearance and blend into crowds, gaining +2 bonus on any checks related to disguise or infiltration.",
+    "rules": "Archetype Trait (1 CP) — The Grifter (Operative) / The Shadow-stepper (Operative) / The Silent Blade (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Grifter (Operative) / The Shadow-stepper (Operative) / The Silent Blade (Operative).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Master of Disguise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Grifter (Operative) / The Shadow-stepper (Operative) / The Silent Blade (Operative))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Grifter (Operative) / The Shadow-stepper (Operative) / The Silent Blade (Operative). You can expertly alter your appearance and blend into crowds, gaining +2 bonus on any checks related to disguise or infiltration.\n\n## Mechanics & Benefit\nYou can expertly alter your appearance and blend into crowds, gaining +2 bonus on any checks related to disguise or infiltration.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Grifter (Operative) / The Shadow-stepper (Operative) / The Silent Blade (Operative).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Grifter (Operative) / The Shadow-stepper (Operative) / The Silent Blade (Operative)."
+    ]
+  },
+  {
+    "id": "trait-hunter-s-intuition",
+    "name": "Hunter's Intuition",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Manhunter (Operative). You gain a +2 bonus to Survival checks to track targets and Alertness checks to spot clues or anticipate ambushes.",
+    "description": "Signature trait of The Manhunter (Operative). You gain a +2 bonus to Survival checks to track targets and Alertness checks to spot clues or anticipate ambushes.",
+    "mechanics": "You gain a +2 bonus to Survival checks to track targets and Alertness checks to spot clues or anticipate ambushes.",
+    "mechanic": "You gain a +2 bonus to Survival checks to track targets and Alertness checks to spot clues or anticipate ambushes.",
+    "rules": "Archetype Trait (1 CP) — The Manhunter (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Manhunter (Operative).",
+    "modifiers": [
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Survival"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Hunter's Intuition\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Manhunter (Operative))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Manhunter (Operative). You gain a +2 bonus to Survival checks to track targets and Alertness checks to spot clues or anticipate ambushes.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Survival checks to track targets and Alertness checks to spot clues or anticipate ambushes.",
+    "notes": "[Modifier] +2 to Survival\n[Rule] Archetype Trait (1 CP) — The Manhunter (Operative).",
+    "notesList": [
+      "[Modifier] +2 to Survival",
+      "[Rule] Archetype Trait (1 CP) — The Manhunter (Operative)."
+    ]
+  },
+  {
+    "id": "trait-relentless-pursuit",
+    "name": "Relentless Pursuit",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Combat",
+    "type": "Combat",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Manhunter (Operative). You gain +2 bonus on any checks related to pursuing a target, including chases, interrogations, and combat encounters.",
+    "description": "Signature trait of The Manhunter (Operative). You gain +2 bonus on any checks related to pursuing a target, including chases, interrogations, and combat encounters.",
+    "mechanics": "You gain +2 bonus on any checks related to pursuing a target, including chases, interrogations, and combat encounters.",
+    "mechanic": "You gain +2 bonus on any checks related to pursuing a target, including chases, interrogations, and combat encounters.",
+    "rules": "Archetype Trait (1 CP) — The Manhunter (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Manhunter (Operative).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Relentless Pursuit\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Manhunter (Operative))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Manhunter (Operative). You gain +2 bonus on any checks related to pursuing a target, including chases, interrogations, and combat encounters.\n\n## Mechanics & Benefit\nYou gain +2 bonus on any checks related to pursuing a target, including chases, interrogations, and combat encounters.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Manhunter (Operative).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Manhunter (Operative)."
+    ]
+  },
+  {
+    "id": "trait-undercover-operations",
+    "name": "Undercover Operations",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Social",
+    "type": "Social",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Operative (Operative). You gain a +2 bonus to Stealth and Bluff checks when operating undercover.",
+    "description": "Signature trait of The Operative (Operative). You gain a +2 bonus to Stealth and Bluff checks when operating undercover.",
+    "mechanics": "You gain a +2 bonus to Stealth and Bluff checks when operating undercover.",
+    "mechanic": "You gain a +2 bonus to Stealth and Bluff checks when operating undercover.",
+    "rules": "Archetype Trait (1 CP) — The Operative (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Operative (Operative).",
+    "modifiers": [
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Stealth"
+      },
+      {
+        "target": "Bluff",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Bluff"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Undercover Operations\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Operative (Operative))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Operative (Operative). You gain a +2 bonus to Stealth and Bluff checks when operating undercover.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Stealth and Bluff checks when operating undercover.",
+    "notes": "[Modifier] +2 to Stealth\n[Modifier] +2 to Bluff\n[Rule] Archetype Trait (1 CP) — The Operative (Operative).",
+    "notesList": [
+      "[Modifier] +2 to Stealth",
+      "[Modifier] +2 to Bluff",
+      "[Rule] Archetype Trait (1 CP) — The Operative (Operative)."
+    ]
+  },
+  {
+    "id": "trait-security-expertise",
+    "name": "Security Expertise",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Technical",
+    "type": "Technical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Operative (Operative). Gain +2 bonus on Technology checks to use or disable security systems.",
+    "description": "Signature trait of The Operative (Operative). Gain +2 bonus on Technology checks to use or disable security systems.",
+    "mechanics": "Gain +2 bonus on Technology checks to use or disable security systems.",
+    "mechanic": "Gain +2 bonus on Technology checks to use or disable security systems.",
+    "rules": "Archetype Trait (1 CP) — The Operative (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Operative (Operative).",
+    "modifiers": [
+      {
+        "target": "Technology",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Technology"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Security Expertise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Operative (Operative))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Operative (Operative). Gain +2 bonus on Technology checks to use or disable security systems.\n\n## Mechanics & Benefit\nGain +2 bonus on Technology checks to use or disable security systems.",
+    "notes": "[Modifier] +2 to Technology\n[Rule] Archetype Trait (1 CP) — The Operative (Operative).",
+    "notesList": [
+      "[Modifier] +2 to Technology",
+      "[Rule] Archetype Trait (1 CP) — The Operative (Operative)."
+    ]
+  },
+  {
+    "id": "trait-pathfinder",
+    "name": "Pathfinder",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Pathfinder (Operative) / The Pioneer (Operative). You gain a +2 bonus to Survival checks to navigate through wilderness and uncharted territories.",
+    "description": "Signature trait of The Pathfinder (Operative) / The Pioneer (Operative). You gain a +2 bonus to Survival checks to navigate through wilderness and uncharted territories.",
+    "mechanics": "You gain a +2 bonus to Survival checks to navigate through wilderness and uncharted territories.",
+    "mechanic": "You gain a +2 bonus to Survival checks to navigate through wilderness and uncharted territories.",
+    "rules": "Archetype Trait (1 CP) — The Pathfinder (Operative) / The Pioneer (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Pathfinder (Operative) / The Pioneer (Operative).",
+    "modifiers": [
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Survival"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Pathfinder\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Pathfinder (Operative) / The Pioneer (Operative))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Pathfinder (Operative) / The Pioneer (Operative). You gain a +2 bonus to Survival checks to navigate through wilderness and uncharted territories.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Survival checks to navigate through wilderness and uncharted territories.",
+    "notes": "[Modifier] +2 to Survival\n[Rule] Archetype Trait (1 CP) — The Pathfinder (Operative) / The Pioneer (Operative).",
+    "notesList": [
+      "[Modifier] +2 to Survival",
+      "[Rule] Archetype Trait (1 CP) — The Pathfinder (Operative) / The Pioneer (Operative)."
+    ]
+  },
+  {
+    "id": "trait-keen-observer",
+    "name": "Keen Observer",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Pathfinder (Operative) / The Detective (Savant). You gain a +2 bonus to Investigation and Alertness checks to find clues, gather evidence, and notice subtle details.",
+    "description": "Signature trait of The Pathfinder (Operative) / The Detective (Savant). You gain a +2 bonus to Investigation and Alertness checks to find clues, gather evidence, and notice subtle details.",
+    "mechanics": "You gain a +2 bonus to Investigation and Alertness checks to find clues, gather evidence, and notice subtle details.",
+    "mechanic": "You gain a +2 bonus to Investigation and Alertness checks to find clues, gather evidence, and notice subtle details.",
+    "rules": "Archetype Trait (1 CP) — The Pathfinder (Operative) / The Detective (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Pathfinder (Operative) / The Detective (Savant).",
+    "modifiers": [
+      {
+        "target": "Investigation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Investigation"
+      },
+      {
+        "target": "Alertness",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Alertness"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Keen Observer\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Pathfinder (Operative) / The Detective (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Pathfinder (Operative) / The Detective (Savant). You gain a +2 bonus to Investigation and Alertness checks to find clues, gather evidence, and notice subtle details.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Investigation and Alertness checks to find clues, gather evidence, and notice subtle details.",
+    "notes": "[Modifier] +2 to Investigation\n[Modifier] +2 to Alertness\n[Rule] Archetype Trait (1 CP) — The Pathfinder (Operative) / The Detective (Savant).",
+    "notesList": [
+      "[Modifier] +2 to Investigation",
+      "[Modifier] +2 to Alertness",
+      "[Rule] Archetype Trait (1 CP) — The Pathfinder (Operative) / The Detective (Savant)."
+    ]
+  },
+  {
+    "id": "trait-cartographer",
+    "name": "Cartographer",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Pioneer (Operative) / The Navigator (Savant) / The Xeno-surveyor (Savant). You can create detailed maps and charts, gaining +2 bonus on any checks related to recalling geographical information or navigating unfamiliar terrain.",
+    "description": "Signature trait of The Pioneer (Operative) / The Navigator (Savant) / The Xeno-surveyor (Savant). You can create detailed maps and charts, gaining +2 bonus on any checks related to recalling geographical information or navigating unfamiliar terrain.",
+    "mechanics": "You can create detailed maps and charts, gaining +2 bonus on any checks related to recalling geographical information or navigating unfamiliar terrain.",
+    "mechanic": "You can create detailed maps and charts, gaining +2 bonus on any checks related to recalling geographical information or navigating unfamiliar terrain.",
+    "rules": "Archetype Trait (1 CP) — The Pioneer (Operative) / The Navigator (Savant) / The Xeno-surveyor (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Pioneer (Operative) / The Navigator (Savant) / The Xeno-surveyor (Savant).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Cartographer\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Pioneer (Operative) / The Navigator (Savant) / The Xeno-surveyor (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Pioneer (Operative) / The Navigator (Savant) / The Xeno-surveyor (Savant). You can create detailed maps and charts, gaining +2 bonus on any checks related to recalling geographical information or navigating unfamiliar terrain.\n\n## Mechanics & Benefit\nYou can create detailed maps and charts, gaining +2 bonus on any checks related to recalling geographical information or navigating unfamiliar terrain.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Pioneer (Operative) / The Navigator (Savant) / The Xeno-surveyor (Savant).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Pioneer (Operative) / The Navigator (Savant) / The Xeno-surveyor (Savant)."
+    ]
+  },
+  {
+    "id": "trait-practiced-pilot",
+    "name": "Practiced Pilot",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Technical",
+    "type": "Technical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Privateer (Operative). You gain a +2 bonus to all checks to pilot starships.",
+    "description": "Signature trait of The Privateer (Operative). You gain a +2 bonus to all checks to pilot starships.",
+    "mechanics": "You gain a +2 bonus to all checks to pilot starships.",
+    "mechanic": "You gain a +2 bonus to all checks to pilot starships.",
+    "rules": "Archetype Trait (1 CP) — The Privateer (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Privateer (Operative).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Practiced Pilot\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Privateer (Operative))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Privateer (Operative). You gain a +2 bonus to all checks to pilot starships.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to all checks to pilot starships.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Privateer (Operative).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Privateer (Operative)."
+    ]
+  },
+  {
+    "id": "trait-seize-initiative",
+    "name": "Seize Initiative",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Combat",
+    "type": "Combat",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Hair-trigger combat reflexes and lightning draw speed on the opening beat of an engagement.",
+    "description": "Hair-trigger combat reflexes and lightning draw speed on the opening beat of an engagement.",
+    "mechanics": "You gain a +2 bonus to Initiative checks and may draw or ready a weapon as a free action at the start of combat.",
+    "mechanic": "You gain a +2 bonus to Initiative checks and may draw or ready a weapon as a free action at the start of combat.",
+    "rules": "Archetype Trait (1 CP) — The Quick-draw (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Quick-draw (Operative).",
+    "modifiers": [
+      {
+        "target": "initiative-mod",
+        "type": "combat",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to initiative-mod"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Seize Initiative\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Quick-draw (Operative))\n**CP Cost**: 1\n\n## Description\nHair-trigger combat reflexes and lightning draw speed on the opening beat of an engagement.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Initiative checks and may draw or ready a weapon as a free action at the start of combat.",
+    "notes": "[Modifier] +2 to initiative-mod\n[Rule] Archetype Trait (1 CP) — The Quick-draw (Operative).",
+    "notesList": [
+      "[Modifier] +2 to initiative-mod",
+      "[Rule] Archetype Trait (1 CP) — The Quick-draw (Operative)."
+    ]
+  },
+  {
+    "id": "trait-speed-demon",
+    "name": "Speed Demon",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Technical",
+    "type": "Technical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Racer (Operative). You gain a +2 bonus to Pilot checks to maneuver your vehicle at high speeds and perform daring stunts.",
+    "description": "Signature trait of The Racer (Operative). You gain a +2 bonus to Pilot checks to maneuver your vehicle at high speeds and perform daring stunts.",
+    "mechanics": "You gain a +2 bonus to Pilot checks to maneuver your vehicle at high speeds and perform daring stunts.",
+    "mechanic": "You gain a +2 bonus to Pilot checks to maneuver your vehicle at high speeds and perform daring stunts.",
+    "rules": "Archetype Trait (1 CP) — The Racer (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Racer (Operative).",
+    "modifiers": [
+      {
+        "target": "Pilot",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Pilot"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Speed Demon\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Racer (Operative))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Racer (Operative). You gain a +2 bonus to Pilot checks to maneuver your vehicle at high speeds and perform daring stunts.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Pilot checks to maneuver your vehicle at high speeds and perform daring stunts.",
+    "notes": "[Modifier] +2 to Pilot\n[Rule] Archetype Trait (1 CP) — The Racer (Operative).",
+    "notesList": [
+      "[Modifier] +2 to Pilot",
+      "[Rule] Archetype Trait (1 CP) — The Racer (Operative)."
+    ]
+  },
+  {
+    "id": "trait-adrenaline-rush",
+    "name": "Adrenaline Rush",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Technical",
+    "type": "Technical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Racer (Operative). You gain +2 bonus on any checks related to piloting under pressure or in high-stakes situations.",
+    "description": "Signature trait of The Racer (Operative). You gain +2 bonus on any checks related to piloting under pressure or in high-stakes situations.",
+    "mechanics": "You gain +2 bonus on any checks related to piloting under pressure or in high-stakes situations.",
+    "mechanic": "You gain +2 bonus on any checks related to piloting under pressure or in high-stakes situations.",
+    "rules": "Archetype Trait (1 CP) — The Racer (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Racer (Operative).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Adrenaline Rush\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Racer (Operative))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Racer (Operative). You gain +2 bonus on any checks related to piloting under pressure or in high-stakes situations.\n\n## Mechanics & Benefit\nYou gain +2 bonus on any checks related to piloting under pressure or in high-stakes situations.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Racer (Operative).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Racer (Operative)."
+    ]
+  },
+  {
+    "id": "trait-wasteland-warrior",
+    "name": "Wasteland Warrior",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Combat",
+    "type": "Combat",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Raider (Operative). You gain a +2 bonus to any two Combat skills and +2 bonus on any checks related to combat or survival in harsh environments.",
+    "description": "Signature trait of The Raider (Operative). You gain a +2 bonus to any two Combat skills and +2 bonus on any checks related to combat or survival in harsh environments.",
+    "mechanics": "You gain a +2 bonus to any two Combat skills and +2 bonus on any checks related to combat or survival in harsh environments.",
+    "mechanic": "You gain a +2 bonus to any two Combat skills and +2 bonus on any checks related to combat or survival in harsh environments.",
+    "rules": "Archetype Trait (1 CP) — The Raider (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Raider (Operative).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Wasteland Warrior\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Raider (Operative))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Raider (Operative). You gain a +2 bonus to any two Combat skills and +2 bonus on any checks related to combat or survival in harsh environments.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to any two Combat skills and +2 bonus on any checks related to combat or survival in harsh environments.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Raider (Operative).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Raider (Operative)."
+    ]
+  },
+  {
+    "id": "trait-ruthless",
+    "name": "Ruthless",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Raider (Operative). You gain +2 bonus on any checks related to intimidation, interrogation, or extracting information through force.",
+    "description": "Signature trait of The Raider (Operative). You gain +2 bonus on any checks related to intimidation, interrogation, or extracting information through force.",
+    "mechanics": "You gain +2 bonus on any checks related to intimidation, interrogation, or extracting information through force.",
+    "mechanic": "You gain +2 bonus on any checks related to intimidation, interrogation, or extracting information through force.",
+    "rules": "Archetype Trait (1 CP) — The Raider (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Raider (Operative).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Ruthless\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Raider (Operative))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Raider (Operative). You gain +2 bonus on any checks related to intimidation, interrogation, or extracting information through force.\n\n## Mechanics & Benefit\nYou gain +2 bonus on any checks related to intimidation, interrogation, or extracting information through force.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Raider (Operative).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Raider (Operative)."
+    ]
+  },
+  {
+    "id": "trait-infiltrator",
+    "name": "Infiltrator",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Saboteur (Operative). You gain a +2 bonus to Stealth checks to move silently and remain undetected.",
+    "description": "Signature trait of The Saboteur (Operative). You gain a +2 bonus to Stealth checks to move silently and remain undetected.",
+    "mechanics": "You gain a +2 bonus to Stealth checks to move silently and remain undetected.",
+    "mechanic": "You gain a +2 bonus to Stealth checks to move silently and remain undetected.",
+    "rules": "Archetype Trait (1 CP) — The Saboteur (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Saboteur (Operative).",
+    "modifiers": [
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Stealth"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Infiltrator\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Saboteur (Operative))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Saboteur (Operative). You gain a +2 bonus to Stealth checks to move silently and remain undetected.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Stealth checks to move silently and remain undetected.",
+    "notes": "[Modifier] +2 to Stealth\n[Rule] Archetype Trait (1 CP) — The Saboteur (Operative).",
+    "notesList": [
+      "[Modifier] +2 to Stealth",
+      "[Rule] Archetype Trait (1 CP) — The Saboteur (Operative)."
+    ]
+  },
+  {
+    "id": "trait-junk-whisperer",
+    "name": "Junk Whisperer",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Technical",
+    "type": "Technical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Salvage-specialist (Operative). You have a knack for finding valuable items in the most unlikely places.",
+    "description": "Signature trait of The Salvage-specialist (Operative). You have a knack for finding valuable items in the most unlikely places.",
+    "mechanics": "You have a knack for finding valuable items in the most unlikely places.",
+    "mechanic": "You have a knack for finding valuable items in the most unlikely places.",
+    "rules": "Archetype Trait (1 CP) — The Salvage-specialist (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Salvage-specialist (Operative).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Junk Whisperer\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Salvage-specialist (Operative))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Salvage-specialist (Operative). You have a knack for finding valuable items in the most unlikely places.\n\n## Mechanics & Benefit\nYou have a knack for finding valuable items in the most unlikely places.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Salvage-specialist (Operative).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Salvage-specialist (Operative)."
+    ]
+  },
+  {
+    "id": "trait-technical-expertise",
+    "name": "Technical Expertise",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Technical",
+    "type": "Technical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Salvage-specialist (Operative) / The Technician (Savant). You gain a +2 bonus to Technology checks to repair or modify spaceVocation skill systems and components.",
+    "description": "Signature trait of The Salvage-specialist (Operative) / The Technician (Savant). You gain a +2 bonus to Technology checks to repair or modify spaceVocation skill systems and components.",
+    "mechanics": "You gain a +2 bonus to Technology checks to repair or modify spaceVocation skill systems and components.",
+    "mechanic": "You gain a +2 bonus to Technology checks to repair or modify spaceVocation skill systems and components.",
+    "rules": "Archetype Trait (1 CP) — The Salvage-specialist (Operative) / The Technician (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Salvage-specialist (Operative) / The Technician (Savant).",
+    "modifiers": [
+      {
+        "target": "Technology",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Technology"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Technical Expertise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Salvage-specialist (Operative) / The Technician (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Salvage-specialist (Operative) / The Technician (Savant). You gain a +2 bonus to Technology checks to repair or modify spaceVocation skill systems and components.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Technology checks to repair or modify spaceVocation skill systems and components.",
+    "notes": "[Modifier] +2 to Technology\n[Rule] Archetype Trait (1 CP) — The Salvage-specialist (Operative) / The Technician (Savant).",
+    "notesList": [
+      "[Modifier] +2 to Technology",
+      "[Rule] Archetype Trait (1 CP) — The Salvage-specialist (Operative) / The Technician (Savant)."
+    ]
+  },
+  {
+    "id": "trait-digital-ghost",
+    "name": "Digital Ghost",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Technical",
+    "type": "Technical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Shadow-stepper (Operative) / The Slicer (Operative) / The Decker (Savant). You can move through cyberspace undetected, gaining +2 bonus on any checks related to stealth or infiltration in the digital realm.",
+    "description": "Signature trait of The Shadow-stepper (Operative) / The Slicer (Operative) / The Decker (Savant). You can move through cyberspace undetected, gaining +2 bonus on any checks related to stealth or infiltration in the digital realm.",
+    "mechanics": "You can move through cyberspace undetected, gaining +2 bonus on any checks related to stealth or infiltration in the digital realm.",
+    "mechanic": "You can move through cyberspace undetected, gaining +2 bonus on any checks related to stealth or infiltration in the digital realm.",
+    "rules": "Archetype Trait (1 CP) — The Shadow-stepper (Operative) / The Slicer (Operative) / The Decker (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Shadow-stepper (Operative) / The Slicer (Operative) / The Decker (Savant).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Digital Ghost\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Shadow-stepper (Operative) / The Slicer (Operative) / The Decker (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Shadow-stepper (Operative) / The Slicer (Operative) / The Decker (Savant). You can move through cyberspace undetected, gaining +2 bonus on any checks related to stealth or infiltration in the digital realm.\n\n## Mechanics & Benefit\nYou can move through cyberspace undetected, gaining +2 bonus on any checks related to stealth or infiltration in the digital realm.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Shadow-stepper (Operative) / The Slicer (Operative) / The Decker (Savant).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Shadow-stepper (Operative) / The Slicer (Operative) / The Decker (Savant)."
+    ]
+  },
+  {
+    "id": "trait-silent-killer",
+    "name": "Silent Killer",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Combat",
+    "type": "Combat",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Slipping behind an unaware target unseen and striking with lethal precision.",
+    "description": "Slipping behind an unaware target unseen and striking with lethal precision.",
+    "mechanics": "Passive: When attacking a target while completely hidden or undetected, your attack automatically deals critical damage and physical weapons bypass target Damage Reduction (DR).",
+    "mechanic": "Passive: When attacking a target while completely hidden or undetected, your attack automatically deals critical damage and physical weapons bypass target Damage Reduction (DR).",
+    "rules": "Archetype Trait (1 CP) — The Silent Blade (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Silent Blade (Operative).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Silent Killer\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Silent Blade (Operative))\n**CP Cost**: 1\n\n## Description\nSlipping behind an unaware target unseen and striking with lethal precision.\n\n## Mechanics & Benefit\nPassive: When attacking a target while completely hidden or undetected, your attack automatically deals critical damage and physical weapons bypass target Damage Reduction (DR).",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Silent Blade (Operative).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Silent Blade (Operative)."
+    ]
+  },
+  {
+    "id": "trait-cyber-intrusion",
+    "name": "Cyber Intrusion",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Technical",
+    "type": "Technical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Slicer (Operative). You gain a +2 bonus to Software and Investigation checks related to accessing and manipulating computer systems.",
+    "description": "Signature trait of The Slicer (Operative). You gain a +2 bonus to Software and Investigation checks related to accessing and manipulating computer systems.",
+    "mechanics": "You gain a +2 bonus to Software and Investigation checks related to accessing and manipulating computer systems.",
+    "mechanic": "You gain a +2 bonus to Software and Investigation checks related to accessing and manipulating computer systems.",
+    "rules": "Archetype Trait (1 CP) — The Slicer (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Slicer (Operative).",
+    "modifiers": [
+      {
+        "target": "Software",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Software"
+      },
+      {
+        "target": "Investigation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Investigation"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Cyber Intrusion\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Slicer (Operative))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Slicer (Operative). You gain a +2 bonus to Software and Investigation checks related to accessing and manipulating computer systems.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Software and Investigation checks related to accessing and manipulating computer systems.",
+    "notes": "[Modifier] +2 to Software\n[Modifier] +2 to Investigation\n[Rule] Archetype Trait (1 CP) — The Slicer (Operative).",
+    "notesList": [
+      "[Modifier] +2 to Software",
+      "[Modifier] +2 to Investigation",
+      "[Rule] Archetype Trait (1 CP) — The Slicer (Operative)."
+    ]
+  },
+  {
+    "id": "trait-hidden-compartments",
+    "name": "Hidden Compartments",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Smuggler (Operative). Your ship or vehicle has expertly concealed compartments for smuggling contraband, granting +2 bonus on any checks related to hiding or retrieving smuggled goods.",
+    "description": "Signature trait of The Smuggler (Operative). Your ship or vehicle has expertly concealed compartments for smuggling contraband, granting +2 bonus on any checks related to hiding or retrieving smuggled goods.",
+    "mechanics": "Your ship or vehicle has expertly concealed compartments for smuggling contraband, granting +2 bonus on any checks related to hiding or retrieving smuggled goods.",
+    "mechanic": "Your ship or vehicle has expertly concealed compartments for smuggling contraband, granting +2 bonus on any checks related to hiding or retrieving smuggled goods.",
+    "rules": "Archetype Trait (1 CP) — The Smuggler (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Smuggler (Operative).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Hidden Compartments\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Smuggler (Operative))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Smuggler (Operative). Your ship or vehicle has expertly concealed compartments for smuggling contraband, granting +2 bonus on any checks related to hiding or retrieving smuggled goods.\n\n## Mechanics & Benefit\nYour ship or vehicle has expertly concealed compartments for smuggling contraband, granting +2 bonus on any checks related to hiding or retrieving smuggled goods.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Smuggler (Operative).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Smuggler (Operative)."
+    ]
+  },
+  {
+    "id": "trait-weapon-master",
+    "name": "Weapon Master",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Combat",
+    "type": "Combat",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Swashbuckler (Operative). You gain +2 bonus on any checks related to using a variety of weapons, including firearms, blades, and improvised weapons.",
+    "description": "Signature trait of The Swashbuckler (Operative). You gain +2 bonus on any checks related to using a variety of weapons, including firearms, blades, and improvised weapons.",
+    "mechanics": "You gain +2 bonus on any checks related to using a variety of weapons, including firearms, blades, and improvised weapons.",
+    "mechanic": "You gain +2 bonus on any checks related to using a variety of weapons, including firearms, blades, and improvised weapons.",
+    "rules": "Archetype Trait (1 CP) — The Swashbuckler (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Swashbuckler (Operative).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Weapon Master\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Swashbuckler (Operative))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Swashbuckler (Operative). You gain +2 bonus on any checks related to using a variety of weapons, including firearms, blades, and improvised weapons.\n\n## Mechanics & Benefit\nYou gain +2 bonus on any checks related to using a variety of weapons, including firearms, blades, and improvised weapons.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Swashbuckler (Operative).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Swashbuckler (Operative)."
+    ]
+  },
+  {
+    "id": "trait-stage-presence",
+    "name": "Stage Presence",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Social",
+    "type": "Social",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Commanding the room with unmistakable poise, resonance, and dramatic authority.",
+    "description": "Commanding the room with unmistakable poise, resonance, and dramatic authority.",
+    "mechanics": "Major Action: Hostile targets within 15 meters who can see or hear you must make an Insight check opposed by your Performance or Bluff roll or suffer a -2 penalty to Attack rolls and Perception checks for 3 rounds.",
+    "mechanic": "Major Action: Hostile targets within 15 meters who can see or hear you must make an Insight check opposed by your Performance or Bluff roll or suffer a -2 penalty to Attack rolls and Perception checks for 3 rounds.",
+    "rules": "Archetype Trait (1 CP) — The Thespian (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Thespian (Operative).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Stage Presence\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Thespian (Operative))\n**CP Cost**: 1\n\n## Description\nCommanding the room with unmistakable poise, resonance, and dramatic authority.\n\n## Mechanics & Benefit\nMajor Action: Hostile targets within 15 meters who can see or hear you must make an Insight check opposed by your Performance or Bluff roll or suffer a -2 penalty to Attack rolls and Perception checks for 3 rounds.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Thespian (Operative).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Thespian (Operative)."
+    ]
+  },
+  {
+    "id": "trait-emotional-range",
+    "name": "Emotional Range",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Thespian (Operative). You can convincingly portray a wide range of emotions and characters, gaining +2 bonus on any checks related to acting or impersonation.",
+    "description": "Signature trait of The Thespian (Operative). You can convincingly portray a wide range of emotions and characters, gaining +2 bonus on any checks related to acting or impersonation.",
+    "mechanics": "You can convincingly portray a wide range of emotions and characters, gaining +2 bonus on any checks related to acting or impersonation.",
+    "mechanic": "You can convincingly portray a wide range of emotions and characters, gaining +2 bonus on any checks related to acting or impersonation.",
+    "rules": "Archetype Trait (1 CP) — The Thespian (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Thespian (Operative).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Emotional Range\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Thespian (Operative))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Thespian (Operative). You can convincingly portray a wide range of emotions and characters, gaining +2 bonus on any checks related to acting or impersonation.\n\n## Mechanics & Benefit\nYou can convincingly portray a wide range of emotions and characters, gaining +2 bonus on any checks related to acting or impersonation.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Thespian (Operative).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Thespian (Operative)."
+    ]
+  },
+  {
+    "id": "trait-sig-adaptability",
     "name": "Adaptability",
     "category": "traits",
-    "trait_type": "Origin Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
     "classification": "Physical",
     "type": "Physical",
@@ -13277,7608 +16041,21 @@ export const ALL_CANONICAL_TRAITS = [
     "description": "The character is able to adapt to new environments and situations quickly, making them well-suited to life in an ever-changing aquatic world.",
     "mechanics": "+2 to a specific Skill Check, may change assigned Skill daily",
     "mechanic": "+2 to a specific Skill Check, may change assigned Skill daily",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "A specific",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to A specific"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Adaptability\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nThe character is able to adapt to new environments and situations quickly, making them well-suited to life in an ever-changing aquatic world.\n\n## Mechanics & Benefit\n+2 to a specific Skill Check, may change assigned Skill daily",
-    "notes": "[Modifier] +2 to A specific\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to A specific",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-adapted",
-    "name": "Adapted",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "No penalties or Damage from one set environment type. Multiple.",
-    "description": "No penalties or Damage from one set environment type. Multiple.",
-    "mechanics": "No penalties or Damage from one set environment type. Multiple.",
-    "mechanic": "No penalties or Damage from one set environment type. Multiple.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Adapted\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nNo penalties or Damage from one set environment type. Multiple.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-adaptive-features",
-    "name": "Adaptive Features",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "May change between specific features during a Light Rest. Ranked.",
-    "description": "May change between specific features during a Light Rest. Ranked.",
-    "mechanics": "May change between specific features during a Light Rest. Ranked.",
-    "mechanic": "May change between specific features during a Light Rest. Ranked.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Adaptive Features\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nMay change between specific features during a Light Rest. Ranked.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-adaptive-skill-set",
-    "name": "Adaptive Skill Set",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "4 point bonus allotted in a pool. Ranked.",
-    "description": "4 point bonus allotted in a pool. Ranked.",
-    "mechanics": "4 point bonus allotted in a pool. Ranked.",
-    "mechanic": "4 point bonus allotted in a pool. Ranked.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Adaptive Skill Set\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n4 point bonus allotted in a pool. Ranked.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-additional-limbs",
-    "name": "Additional Limbs",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Another pair of prehensile limbs; Arms, Tentacles or other.",
-    "description": "Another pair of prehensile limbs; Arms, Tentacles or other.",
-    "mechanics": "Another pair of prehensile limbs; Arms, Tentacles or other.",
-    "mechanic": "Another pair of prehensile limbs; Arms, Tentacles or other.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Additional Limbs\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nAnother pair of prehensile limbs; Arms, Tentacles or other.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-adventurous-spirit",
-    "name": "Adventurous Spirit",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Fearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds.",
-    "description": "Fearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds.",
-    "mechanics": "One Skill Check at Advantage per day",
-    "mechanic": "One Skill Check at Advantage per day",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Skill Choice",
-        "type": "check_advantage",
-        "value": 1,
-        "mode": "situational",
-        "condition": "1/Day",
-        "description": "One Skill Check of choice at Advantage per day"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Adventurous Spirit\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nFearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds.\n\n## Mechanics & Benefit\nOne Skill Check at Advantage per day",
-    "notes": "[Modifier] One Skill Check of choice at Advantage per day\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] One Skill Check of choice at Advantage per day",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-aeld-lineage-traits",
-    "name": "Aeld Lineage Traits",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 5,
-    "bp": 5,
-    "costs": {
-      "cp": 5,
-      "bp": 5
-    },
-    "is_ranked": false,
-    "desc": "The foundational biological and metaphysical chassis of the Aeld lineage.",
-    "description": "The foundational biological and metaphysical chassis of the Aeld lineage.",
-    "mechanics": "The foundational biological and metaphysical chassis of the Aeld lineage.",
-    "mechanic": "The foundational biological and metaphysical chassis of the Aeld lineage.",
-    "rules": "Advanced Species Trait (5 CP).",
-    "special_rules": "Advanced Species Trait (5 CP).",
-    "modifiers": [
-      {
-        "target": "Meta: Arcane",
-        "value": 1,
-        "type": "discipline",
-        "mode": "inherent",
-        "description": "Awakened (Arcane) [2 CP]"
-      },
-      {
-        "target": "Condition: Sleep",
-        "value": 0,
-        "type": "immunity",
-        "mode": "inherent",
-        "description": "Immune to Sleep"
-      }
-    ],
-    "package_traits": [
-      {
-        "id": "trait-awakened-arcane",
-        "name": "Awakened (Arcane)",
-        "tier": "Advanced",
-        "bp": 2,
-        "mechanic": "Innate connection to arcane currents and spellcasting aptitude.",
-        "cp": 2
-      },
-      {
-        "id": "trait-longevity",
-        "name": "Longevity (Lifespan 600+)",
-        "tier": "Basic",
-        "bp": 1,
-        "mechanic": "Biological lifespan exceeding six centuries; enhanced cellular stability.",
-        "cp": 1
-      },
-      {
-        "id": "trait-sleepless",
-        "name": "Sleepless",
-        "tier": "Advanced",
-        "bp": 2,
-        "mechanic": "Requires no physical sleep; immune to magical sleep effects.",
-        "cp": 2
-      }
-    ],
-    "body": "# Aeld Lineage Traits\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 5\n\n## Description\nThe foundational biological and metaphysical chassis of the Aeld lineage.\n\n## Mechanics & Benefit\nThe foundational biological and metaphysical chassis of the Aeld lineage.",
-    "notes": "[Modifier] Awakened (Arcane) [2 CP]\n[Modifier] Immune to Sleep\n[Rule] Advanced Species Trait (5 CP).",
-    "notesList": [
-      "[Modifier] Awakened (Arcane) [2 CP]",
-      "[Modifier] Immune to Sleep",
-      "[Rule] Advanced Species Trait (5 CP)."
-    ]
-  },
-  {
-    "id": "trait-ageless",
-    "name": "Ageless",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Does not suffer penalties nor show any signs of aging.",
-    "description": "Does not suffer penalties nor show any signs of aging.",
-    "mechanics": "Does not suffer penalties nor show any signs of aging.",
-    "mechanic": "Does not suffer penalties nor show any signs of aging.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Ageless\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nDoes not suffer penalties nor show any signs of aging.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-aggressiveness",
-    "name": "Aggressiveness",
-    "category": "traits",
-    "trait_type": "Combat",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Decisive tactical aggression in combat, granting +1 bonus to intimidation and breach actions.",
-    "description": "Decisive tactical aggression in combat, granting +1 bonus to intimidation and breach actions.",
-    "mechanics": "Decisive tactical aggression in combat, granting +1 bonus to intimidation and breach actions.",
-    "mechanic": "Decisive tactical aggression in combat, granting +1 bonus to intimidation and breach actions.",
-    "rules": "Basic Combat (1 CP).",
-    "special_rules": "Basic Combat (1 CP).",
-    "modifiers": [
-      {
-        "target": "Intimidation",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Intimidation"
-      },
-      {
-        "target": "Breach",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Breach"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Aggressiveness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Combat\n**CP Cost**: 1\n\n## Description\nDecisive tactical aggression in combat, granting +1 bonus to intimidation and breach actions.\n\n## Mechanics & Benefit\nDecisive tactical aggression in combat, granting +1 bonus to intimidation and breach actions.",
-    "notes": "[Modifier] +1 to Intimidation\n[Modifier] +1 to Breach\n[Rule] Basic Combat (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Intimidation",
-      "[Modifier] +1 to Breach",
-      "[Rule] Basic Combat (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-all-around-vision",
-    "name": "All-Around Vision",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "+4 racial bonus on Perception checks and immune to flanking.",
-    "description": "+4 racial bonus on Perception checks and immune to flanking.",
-    "mechanics": "+4 racial bonus on Perception checks and immune to flanking.",
-    "mechanic": "+4 racial bonus on Perception checks and immune to flanking.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Alertness",
-        "type": "skill",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 to Alertness"
-      }
-    ],
-    "package_traits": [],
-    "body": "# All-Around Vision\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+4 racial bonus on Perception checks and immune to flanking.\n\n## Mechanics & Benefit\n+4 racial bonus on Perception checks and immune to flanking.",
-    "notes": "[Modifier] +4 to Alertness\n[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Modifier] +4 to Alertness",
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-alter-form-adv",
-    "name": "Alter Form (Adv)",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Base Category, Change Appearance (+5 Disguise)/gender/adjust minor traits.",
-    "description": "Base Category, Change Appearance (+5 Disguise)/gender/adjust minor traits.",
-    "mechanics": "Base Category, Change Appearance (+5 Disguise)/gender/adjust minor traits.",
-    "mechanic": "Base Category, Change Appearance (+5 Disguise)/gender/adjust minor traits.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Disguise",
-        "type": "skill",
-        "value": 5,
-        "mode": "inherent",
-        "description": "+5 to Disguise"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Alter Form (Adv)\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nBase Category, Change Appearance (+5 Disguise)/gender/adjust minor traits.\n\n## Mechanics & Benefit\nBase Category, Change Appearance (+5 Disguise)/gender/adjust minor traits.",
-    "notes": "[Modifier] +5 to Disguise\n[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Modifier] +5 to Disguise",
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-alter-form-basic",
-    "name": "Alter Form (Basic)",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Base Category, Change Appearance only (+5 to Disguise).",
-    "description": "Base Category, Change Appearance only (+5 to Disguise).",
-    "mechanics": "Base Category, Change Appearance only (+5 to Disguise).",
-    "mechanic": "Base Category, Change Appearance only (+5 to Disguise).",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Disguise",
-        "type": "skill",
-        "value": 5,
-        "mode": "inherent",
-        "description": "+5 to Disguise"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Alter Form (Basic)\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nBase Category, Change Appearance only (+5 to Disguise).\n\n## Mechanics & Benefit\nBase Category, Change Appearance only (+5 to Disguise).",
-    "notes": "[Modifier] +5 to Disguise\n[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +5 to Disguise",
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-alter-form-elite",
-    "name": "Alter Form (Elite)",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 4,
-    "bp": 4,
-    "costs": {
-      "cp": 4,
-      "bp": 4
-    },
-    "is_ranked": false,
-    "desc": "Base Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.",
-    "description": "Base Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.",
-    "mechanics": "Base Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.",
-    "mechanic": "Base Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.",
-    "rules": "Elite Species Trait (4 CP).",
-    "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [
-      {
-        "target": "Disguise",
-        "type": "skill",
-        "value": 10,
-        "mode": "inherent",
-        "description": "+10 to Disguise"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Alter Form (Elite)\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nBase Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.\n\n## Mechanics & Benefit\nBase Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.",
-    "notes": "[Modifier] +10 to Disguise\n[Rule] Elite Species Trait (4 CP).",
-    "notesList": [
-      "[Modifier] +10 to Disguise",
-      "[Rule] Elite Species Trait (4 CP)."
-    ]
-  },
-  {
-    "id": "trait-alternate-form",
-    "name": "Alternate Form",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "An additional ‘Natural’ Form.",
-    "description": "An additional ‘Natural’ Form.",
-    "mechanics": "An additional ‘Natural’ Form.",
-    "mechanic": "An additional ‘Natural’ Form.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Alternate Form\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nAn additional ‘Natural’ Form.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-amphibious",
-    "name": "Amphibious",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Breathe Air and Water equally well, +10 to Swim Speed.",
-    "description": "Breathe Air and Water equally well, +10 to Swim Speed.",
-    "mechanics": "Breathe Air and Water equally well, +10 to Swim Speed.",
-    "mechanic": "Breathe Air and Water equally well, +10 to Swim Speed.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "move-swim",
-        "type": "combat",
-        "value": 10,
-        "mode": "inherent",
-        "description": "+10 Swim Speed"
-      },
-      {
-        "target": "Swim Speed",
-        "type": "skill",
-        "value": 10,
-        "mode": "inherent",
-        "description": "+10 to Swim Speed"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Amphibious\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nBreathe Air and Water equally well, +10 to Swim Speed.\n\n## Mechanics & Benefit\nBreathe Air and Water equally well, +10 to Swim Speed.",
-    "notes": "[Modifier] +10 Swim Speed\n[Modifier] +10 to Swim Speed\n[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +10 Swim Speed",
-      "[Modifier] +10 to Swim Speed",
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-analytical",
-    "name": "Analytical",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Ability to analyze data and information to make informed decisions",
-    "description": "Ability to analyze data and information to make informed decisions",
-    "mechanics": "+2 Alertness",
-    "mechanic": "+2 Alertness",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Alertness Ability to analyze data",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Alertness Ability to analyze data"
-      },
-      {
-        "target": "Information to make informed decisions",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Information to make informed decisions"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Analytical\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to analyze data and information to make informed decisions\n\n## Mechanics & Benefit\n+2 Alertness",
-    "notes": "[Modifier] +2 to Alertness Ability to analyze data\n[Modifier] +2 to Information to make informed decisions\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Alertness Ability to analyze data",
-      "[Modifier] +2 to Information to make informed decisions",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-analytical-thinking",
-    "name": "Analytical Thinking",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Analyzing complex telemetry, identifying cryptographic patterns, and drawing rigorous empirical conclusions.",
-    "description": "Analyzing complex telemetry, identifying cryptographic patterns, and drawing rigorous empirical conclusions.",
-    "mechanics": "+2 Logic Checks",
-    "mechanic": "+2 Logic Checks",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Logic",
-        "type": "save",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 on Logic Checks"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Analytical Thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nAnalyzing complex telemetry, identifying cryptographic patterns, and drawing rigorous empirical conclusions.\n\n## Mechanics & Benefit\n+2 Logic Checks",
-    "notes": "[Modifier] +2 on Logic Checks\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 on Logic Checks",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-animal-husbandry",
-    "name": "Animal Husbandry",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Expertise in raising and caring for livestock. Understands animal behavior, breeding, and nutrition. Can manage a farm with a diverse range of animals.",
-    "description": "Expertise in raising and caring for livestock. Understands animal behavior, breeding, and nutrition. Can manage a farm with a diverse range of animals.",
-    "mechanics": "+2 to Animal Handling",
-    "mechanic": "+2 to Animal Handling",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Animal Handling Expertise in raising",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Animal Handling Expertise in raising"
-      },
-      {
-        "target": "Caring for livestock",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Caring for livestock"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Animal Husbandry\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nExpertise in raising and caring for livestock. Understands animal behavior, breeding, and nutrition. Can manage a farm with a diverse range of animals.\n\n## Mechanics & Benefit\n+2 to Animal Handling",
-    "notes": "[Modifier] +2 to Animal Handling Expertise in raising\n[Modifier] +2 to Caring for livestock\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Animal Handling Expertise in raising",
-      "[Modifier] +2 to Caring for livestock",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-appraisal",
-    "name": "Appraisal",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Merchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.",
-    "description": "Merchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.",
-    "mechanics": "+2 to any Appraisal check",
-    "mechanic": "+2 to any Appraisal check",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Any Appraisal",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Any Appraisal"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Appraisal\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.\n\n## Mechanics & Benefit\n+2 to any Appraisal check",
-    "notes": "[Modifier] +2 to Any Appraisal\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Any Appraisal",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-aquatic",
-    "name": "Aquatic",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "+4 racial bonus on Swim checks and may take 10 on swimming checks.",
-    "description": "+4 racial bonus on Swim checks and may take 10 on swimming checks.",
-    "mechanics": "+4 racial bonus on Swim checks and may take 10 on swimming checks.",
-    "mechanic": "+4 racial bonus on Swim checks and may take 10 on swimming checks.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Athletics",
-        "type": "take_10",
-        "value": 10,
-        "mode": "inherent",
-        "description": "May take 10 on Athletics Checks"
-      },
-      {
-        "target": "Athletics",
-        "type": "skill",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 to Athletics"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Aquatic\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+4 racial bonus on Swim checks and may take 10 on swimming checks.\n\n## Mechanics & Benefit\n+4 racial bonus on Swim checks and may take 10 on swimming checks.",
-    "notes": "[Modifier] May take 10 on Athletics Checks\n[Modifier] +4 to Athletics\n[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Modifier] May take 10 on Athletics Checks",
-      "[Modifier] +4 to Athletics",
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-aquatic-construction",
-    "name": "Aquatic Construction",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Skilled in manufacturing buildings, flotillas, submerged domes, and other water-based habitats and structures.",
-    "description": "Skilled in manufacturing buildings, flotillas, submerged domes, and other water-based habitats and structures.",
-    "mechanics": "+2 to all Construction Checks",
-    "mechanic": "+2 to all Construction Checks",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Construction",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Construction"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Aquatic Construction\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nSkilled in manufacturing buildings, flotillas, submerged domes, and other water-based habitats and structures.\n\n## Mechanics & Benefit\n+2 to all Construction Checks",
-    "notes": "[Modifier] +2 to Construction\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Construction",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-aquatic-strength",
-    "name": "Aquatic Strength",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "+1 size category for Combat, Strength or other checks while in water.",
-    "description": "+1 size category for Combat, Strength or other checks while in water.",
-    "mechanics": "+1 size category for Combat, Strength or other checks while in water.",
-    "mechanic": "+1 size category for Combat, Strength or other checks while in water.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "attr-strength",
-        "value": 2,
-        "type": "attribute",
-        "mode": "situational",
-        "condition": "In Water",
-        "description": "+1 Size Category for Strength/Combat checks in water"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Aquatic Strength\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+1 size category for Combat, Strength or other checks while in water.\n\n## Mechanics & Benefit\n+1 size category for Combat, Strength or other checks while in water.",
-    "notes": "[Modifier] +1 Size Category for Strength/Combat checks in water\n[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Modifier] +1 Size Category for Strength/Combat checks in water",
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-chitinous-shell-armor",
-    "name": "Armor (Chitinous Shell)",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10].",
-    "description": "Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10].",
-    "mechanics": "Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10].",
-    "mechanic": "Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10].",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "armor-dr",
-        "type": "combat",
-        "value": 10,
-        "mode": "inherent",
-        "description": "+10 DR"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Armor (Chitinous Shell)\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nChitinous shell resistant to physical trauma, energy and chemicals [base DR 10].\n\n## Mechanics & Benefit\nChitinous shell resistant to physical trauma, energy and chemicals [base DR 10].",
-    "notes": "[Modifier] +10 DR\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Exoskeletal Physiology",
-    "notesList": [
-      "[Modifier] +10 DR",
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Exoskeletal Physiology"
-    ]
-  },
-  {
-    "id": "trait-asi-base-traits",
-    "name": "Asi Base Traits",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 8,
-    "bp": 8,
-    "costs": {
-      "cp": 8,
-      "bp": 8
-    },
-    "is_ranked": false,
-    "desc": "The supernatural chassis of ancient fey lineages connected to primal nature and illusion.",
-    "description": "The supernatural chassis of ancient fey lineages connected to primal nature and illusion.",
-    "mechanics": "The supernatural chassis of ancient fey lineages connected to primal nature and illusion.",
-    "mechanic": "The supernatural chassis of ancient fey lineages connected to primal nature and illusion.",
-    "rules": "Elite Species Trait (8 CP).",
-    "special_rules": "Elite Species Trait (8 CP).",
-    "modifiers": [
-      {
-        "target": "Condition: Sleep",
-        "value": 0,
-        "type": "immunity",
-        "mode": "inherent",
-        "description": "Sleepless [2 CP]"
-      }
-    ],
-    "package_traits": [
-      {
-        "id": "trait-ageless",
-        "name": "Ageless",
-        "tier": "Advanced",
-        "bp": 2,
-        "mechanic": "Does not suffer penalties or show signs of physical aging.",
-        "cp": 2
-      },
-      {
-        "id": "trait-obfuscate",
-        "name": "Obfuscate",
-        "tier": "Advanced",
-        "bp": 2,
-        "mechanic": "Primal visual camouflage; blends into natural ambient light and sylvan environments.",
-        "cp": 2
-      },
-      {
-        "id": "trait-sleepless",
-        "name": "Sleepless",
-        "tier": "Advanced",
-        "bp": 2,
-        "mechanic": "Requires no sleep; enters meditative rest solely to regain metaphysical energies.",
-        "cp": 2
-      },
-      {
-        "id": "trait-fey-affinity",
-        "name": "Fey Affinity",
-        "tier": "Advanced",
-        "bp": 2,
-        "mechanic": "Primal nature resonance; wild animals and natural flora treat the character as friendly.",
-        "cp": 2
-      }
-    ],
-    "body": "# Asi Base Traits\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 8\n\n## Description\nThe supernatural chassis of ancient fey lineages connected to primal nature and illusion.\n\n## Mechanics & Benefit\nThe supernatural chassis of ancient fey lineages connected to primal nature and illusion.",
-    "notes": "[Modifier] Sleepless [2 CP]\n[Rule] Elite Species Trait (8 CP).",
-    "notesList": [
-      "[Modifier] Sleepless [2 CP]",
-      "[Rule] Elite Species Trait (8 CP)."
-    ]
-  },
-  {
-    "id": "trait-attention-to-detail",
-    "name": "Attention to Detail",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Meticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies.",
-    "description": "Meticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies.",
-    "mechanics": "+2 Alertness",
-    "mechanic": "+2 Alertness",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Alertness",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Alertness"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Attention to Detail\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nMeticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies.\n\n## Mechanics & Benefit\n+2 Alertness",
-    "notes": "[Modifier] +2 to Alertness\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Alertness",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-attention-to-safety",
-    "name": "Attention to Safety",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Awareness of safety protocols and ensuring that their creations are safe to use",
-    "description": "Awareness of safety protocols and ensuring that their creations are safe to use",
-    "mechanics": "Prototyping Checks gain a +4 bonus",
-    "mechanic": "Prototyping Checks gain a +4 bonus",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Awareness of safety protocols",
-        "type": "skill",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 to Awareness of safety protocols"
-      },
-      {
-        "target": "Ensuring that their creations are safe to use",
-        "type": "skill",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 to Ensuring that their creations are safe to use"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Attention to Safety\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAwareness of safety protocols and ensuring that their creations are safe to use\n\n## Mechanics & Benefit\nPrototyping Checks gain a +4 bonus",
-    "notes": "[Modifier] +4 to Awareness of safety protocols\n[Modifier] +4 to Ensuring that their creations are safe to use\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +4 to Awareness of safety protocols",
-      "[Modifier] +4 to Ensuring that their creations are safe to use",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-auluran-base-traits",
-    "name": "Auluran Base Traits",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 9,
-    "bp": 9,
-    "costs": {
-      "cp": 9,
-      "bp": 9
-    },
-    "is_ranked": false,
-    "desc": "The predatory biomechanical chassis of the Auluran felinoid species.",
-    "description": "The predatory biomechanical chassis of the Auluran felinoid species.",
-    "mechanics": "Includes Biotechnology Affinity [2 CP], Low Light Vision [1 CP], Prehensile Limbs / Tail [3 CP], Scent [1 CP], and Natural Weapons (1d6 claws/fangs) [2 CP]. Total package value: 9 CP.",
-    "mechanic": "Includes Biotechnology Affinity [2 CP], Low Light Vision [1 CP], Prehensile Limbs / Tail [3 CP], Scent [1 CP], and Natural Weapons (1d6 claws/fangs) [2 CP]. Total package value: 9 CP.",
-    "rules": "Elite Species Trait (9 CP).",
-    "special_rules": "Elite Species Trait (9 CP).",
-    "modifiers": [
-      {
-        "target": "Climbing",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Climbing"
-      },
-      {
-        "target": "Balance",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Balance"
-      },
-      {
-        "target": "Tracking",
-        "type": "skill",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 to Tracking"
-      },
-      {
-        "target": "Medical Diagnosis",
-        "type": "skill",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 to Medical Diagnosis"
-      }
-    ],
-    "package_traits": [
-      {
-        "id": "trait-enhanced-biotechnology",
-        "name": "Biotechnology Affinity",
-        "tier": "Advanced",
-        "bp": 2,
-        "mechanic": "Innate capacity to interface with, cultivate, and manipulate living symbiotic biotechnology.",
-        "cp": 2
-      },
-      {
-        "id": "trait-low-light-vision",
-        "name": "Low Light Vision",
-        "tier": "Basic",
-        "bp": 1,
-        "mechanic": "Feline night sight; see twice as well in dim light with expanded IR/UV spectrum.",
-        "cp": 1
-      },
-      {
-        "id": "trait-prehensile-limbs",
-        "name": "Prehensile Limbs & Tail",
-        "tier": "Advanced",
-        "bp": 3,
-        "mechanic": "Fully prehensile feet and tail providing +2 to Climbing and Balance checks and off-hand dexterity.",
-        "cp": 3
-      },
-      {
-        "id": "trait-scent",
-        "name": "Scent",
-        "tier": "Basic",
-        "bp": 1,
-        "mechanic": "Acute olfactory sensory cluster granting +4 to Tracking and Medical Diagnosis.",
-        "cp": 1
-      },
-      {
-        "id": "trait-natural-weapons",
-        "name": "Natural Weapons (Claws & Teeth)",
-        "tier": "Advanced",
-        "bp": 2,
-        "mechanic": "Retractable predatory claws and prominent sharp teeth dealing 1d6 lethal damage.",
-        "cp": 2
-      }
-    ],
-    "body": "# Auluran Base Traits\n\n**Category**: TRAITS  \n**Tier**: Elite  \n**Type**: Species Trait  \n**CP Cost**: 9  \n\n## Description\nThe predatory biomechanical chassis of the Auluran felinoid species.\n\n## Mechanics\nIncludes Biotechnology Affinity [2 CP], Low Light Vision [1 CP], Prehensile Limbs / Tail [3 CP], Scent [1 CP], and Natural Weapons (1d6 claws/fangs) [2 CP]. Total package value: 9 CP.\n\n## Packaged Traits Sublist\n* **Biotechnology Affinity** [2 CP / Advanced]: Innate capacity to interface with, cultivate, and manipulate living symbiotic biotechnology.\n* **Low Light Vision** [1 CP / Basic]: Feline night sight; see twice as well in dim light with expanded IR/UV spectrum.\n* **Prehensile Limbs & Tail** [3 CP / Physical]: Fully prehensile feet and tail providing +2 to Climbing and Balance checks and off-hand dexterity.\n* **Scent** [1 CP / Basic]: Acute olfactory sensory cluster granting +4 to Tracking and Medical Diagnosis.\n* **Natural Weapons (Claws & Teeth)** [2 CP / Advanced]: Retractable predatory claws and prominent sharp teeth dealing 1d6 lethal damage.",
-    "notes": "[Modifier] +2 to Climbing\n[Modifier] +2 to Balance\n[Modifier] +4 to Tracking\n[Modifier] +4 to Medical Diagnosis\n[Rule] Elite Species Trait (9 CP).",
-    "notesList": [
-      "[Modifier] +2 to Climbing",
-      "[Modifier] +2 to Balance",
-      "[Modifier] +4 to Tracking",
-      "[Modifier] +4 to Medical Diagnosis",
-      "[Rule] Elite Species Trait (9 CP)."
-    ]
-  },
-  {
-    "id": "trait-autotroph",
-    "name": "Autotroph",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Does not require food/drink, may eat/digest elixirs for effects.",
-    "description": "Does not require food/drink, may eat/digest elixirs for effects.",
-    "mechanics": "Does not require food/drink, may eat/digest elixirs for effects.",
-    "mechanic": "Does not require food/drink, may eat/digest elixirs for effects.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Autotroph\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nDoes not require food/drink, may eat/digest elixirs for effects.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-awakened-arcane",
-    "name": "Awakened (Arcane)",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Innate metaphysical spark channeled through arcane geometry, runic formulations, and harmonic cosmological currents.",
-    "description": "Innate metaphysical spark channeled through arcane geometry, runic formulations, and harmonic cosmological currents.",
-    "mechanics": "Grants innate access to the Attune skill, Arcane discipline metaphysical abilities, and allows wielding magi-tech and arcane focuses with Intellect as the primary governing attribute.",
-    "mechanic": "Grants innate access to the Attune skill, Arcane discipline metaphysical abilities, and allows wielding magi-tech and arcane focuses with Intellect as the primary governing attribute.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Awakened (Arcane)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nInnate metaphysical spark channeled through arcane geometry, runic formulations, and harmonic cosmological currents.\n\n## Mechanics\nGrants innate access to the Attune skill, Arcane discipline metaphysical abilities, and allows wielding magi-tech and arcane focuses with Intellect as the primary governing attribute.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-awakened-cosmic",
-    "name": "Awakened (Cosmic)",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Attunement to astral radiation, stellar currents, and primordial cosmic energies.",
-    "description": "Attunement to astral radiation, stellar currents, and primordial cosmic energies.",
-    "mechanics": "Grants innate access to the Attune skill and Cosmic metaphysical disciplines, manipulating plasma, gravitational fluxes, and stellar radiation.",
-    "mechanic": "Grants innate access to the Attune skill and Cosmic metaphysical disciplines, manipulating plasma, gravitational fluxes, and stellar radiation.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Awakened (Cosmic)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nAttunement to astral radiation, stellar currents, and primordial cosmic energies.\n\n## Mechanics\nGrants innate access to the Attune skill and Cosmic metaphysical disciplines, manipulating plasma, gravitational fluxes, and stellar radiation.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-awakened-dimension",
-    "name": "Awakened (Dimension)",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Instinctive understanding of spatial folds, micro-wormholes, teleportation vectors, and dimensional gateways.",
-    "description": "Instinctive understanding of spatial folds, micro-wormholes, teleportation vectors, and dimensional gateways.",
-    "mechanics": "Grants innate access to the Attune skill and Dimensional/Spatial metaphysics, enabling short-range spatial shifting, blink maneuvers, and spatial anchor attunement.",
-    "mechanic": "Grants innate access to the Attune skill and Dimensional/Spatial metaphysics, enabling short-range spatial shifting, blink maneuvers, and spatial anchor attunement.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Awakened (Dimension)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nInstinctive understanding of spatial folds, micro-wormholes, teleportation vectors, and dimensional gateways.\n\n## Mechanics\nGrants innate access to the Attune skill and Dimensional/Spatial metaphysics, enabling short-range spatial shifting, blink maneuvers, and spatial anchor attunement.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-awakened-energy-illusion",
-    "name": "Awakened (Energy/Illusion)",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Innate power over electromagnetic photons, prismatic light refractions, and sensory phantasms.",
-    "description": "Innate power over electromagnetic photons, prismatic light refractions, and sensory phantasms.",
-    "mechanics": "Grants innate access to the Attune skill and Illusion/Energy manipulation, creating photorealistic sensory holographic illusions and manipulating light wavelengths.",
-    "mechanic": "Grants innate access to the Attune skill and Illusion/Energy manipulation, creating photorealistic sensory holographic illusions and manipulating light wavelengths.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Awakened (Energy/Illusion)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nInnate power over electromagnetic photons, prismatic light refractions, and sensory phantasms.\n\n## Mechanics\nGrants innate access to the Attune skill and Illusion/Energy manipulation, creating photorealistic sensory holographic illusions and manipulating light wavelengths.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-awakened-mental",
-    "name": "Awakened (Mental)",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Direct neural attunement, accelerated mental calculation, and telepathic network interfacing.",
-    "description": "Direct neural attunement, accelerated mental calculation, and telepathic network interfacing.",
-    "mechanics": "Grants innate access to the Attune skill and Mental psionics, allowing telepathic synchronization and cognitive defense bonuses.",
-    "mechanic": "Grants innate access to the Attune skill and Mental psionics, allowing telepathic synchronization and cognitive defense bonuses.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Awakened (Mental)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nDirect neural attunement, accelerated mental calculation, and telepathic network interfacing.\n\n## Mechanics\nGrants innate access to the Attune skill and Mental psionics, allowing telepathic synchronization and cognitive defense bonuses.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-awakened-nature",
-    "name": "Awakened (Nature)",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Primal ecological resonance with living planetary biomes, fauna, flora, and natural leylines.",
-    "description": "Primal ecological resonance with living planetary biomes, fauna, flora, and natural leylines.",
-    "mechanics": "Grants innate access to the Attune skill, Nature discipline metaphysical abilities, and communion with ecological and primal planetary currents using Wisdom as the primary governing attribute.",
-    "mechanic": "Grants innate access to the Attune skill, Nature discipline metaphysical abilities, and communion with ecological and primal planetary currents using Wisdom as the primary governing attribute.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Awakened (Nature)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nPrimal ecological resonance with living planetary biomes, fauna, flora, and natural leylines.\n\n## Mechanics\nGrants innate access to the Attune skill, Nature discipline metaphysical abilities, and communion with ecological and primal planetary currents using Wisdom as the primary governing attribute.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-awakened-psychic",
-    "name": "Awakened (Psychic)",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Awakened conductor of the Hive’s psionic Chorus; grants access to Attune and mental psionic metaphysics.",
-    "description": "Awakened conductor of the Hive’s psionic Chorus; grants access to Attune and mental psionic metaphysics.",
-    "mechanics": "Awakened conductor of the Hive’s psionic Chorus; grants access to Attune and mental psionic metaphysics.",
-    "mechanic": "Awakened conductor of the Hive’s psionic Chorus; grants access to Attune and mental psionic metaphysics.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Awakened (Psychic)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nConductors of the Hive’s psionic Chorus. Possesses the innate metaphysical spark granting access to the Attune skill and mental focus disciplines (Intellect or Wisdom).",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-awakened-void",
-    "name": "Awakened (Void)",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Resonance with the deep void between the stars, entropic rifts, and spatial shadows.",
-    "description": "Resonance with the deep void between the stars, entropic rifts, and spatial shadows.",
-    "mechanics": "Grants innate access to the Attune skill, Void/Entropy metaphysical disciplines, and manipulation of dimensional shadows using Wisdom or Intellect as the primary governing attribute.",
-    "mechanic": "Grants innate access to the Attune skill, Void/Entropy metaphysical disciplines, and manipulation of dimensional shadows using Wisdom or Intellect as the primary governing attribute.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Awakened (Void)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nResonance with the deep void between the stars, entropic rifts, and spatial shadows.\n\n## Mechanics\nGrants innate access to the Attune skill, Void/Entropy metaphysical disciplines, and manipulation of dimensional shadows using Wisdom or Intellect as the primary governing attribute.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-b-e",
-    "name": "B&E",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Experience with breaking and entering into secure locations",
-    "description": "Experience with breaking and entering into secure locations",
-    "mechanics": "+2 all checks to the Infiltration of a physical location",
-    "mechanic": "+2 all checks to the Infiltration of a physical location",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# B&E\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nExperience with breaking and entering into secure locations\n\n## Mechanics & Benefit\n+2 all checks to the Infiltration of a physical location",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-background",
-    "name": "Background",
-    "category": "traits",
-    "trait_type": "Common Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Select additional training from another secondary Occupation fitting backstory.",
-    "description": "Select additional training from another secondary Occupation fitting backstory.",
-    "mechanics": "Select additional training from another secondary Occupation fitting backstory.",
-    "mechanic": "Select additional training from another secondary Occupation fitting backstory.",
-    "rules": "Basic Common Occupational Trait (1 CP).",
-    "special_rules": "Basic Common Occupational Trait (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Background\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Common Occupational Trait\n**CP Cost**: 1\n\n## Description\nSelect additional training from another secondary Occupation fitting backstory.",
-    "notes": "[Rule] Basic Common Occupational Trait (1 CP).",
-    "notesList": [
-      "[Rule] Basic Common Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-biological-continuity",
-    "name": "Biological Continuity",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Monogenetic stabilization grants immunity to clone decay and allows effortless interface with biomorphic wetware.",
-    "description": "Monogenetic stabilization grants immunity to clone decay and allows effortless interface with biomorphic wetware.",
-    "mechanics": "Monogenetic stabilization grants immunity to clone decay and allows effortless interface with biomorphic wetware.",
-    "mechanic": "Monogenetic stabilization grants immunity to clone decay and allows effortless interface with biomorphic wetware.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Biological Continuity\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nInherited generational genetic stability grants immunity to cellular senescence and DNA decay, while bypassing cellular rejection checks when grafting organic wetware or piloting biomorphic vessels.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-blind-sense",
-    "name": "Blind Sense",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Sense unseen objects in a 30 ft Radius or Cone of 60 ft.",
-    "description": "Sense unseen objects in a 30 ft Radius or Cone of 60 ft.",
-    "mechanics": "Sense unseen objects in a 30 ft Radius or Cone of 60 ft.",
-    "mechanic": "Sense unseen objects in a 30 ft Radius or Cone of 60 ft.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Blind Sense\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nSense unseen objects in a 30 ft Radius or Cone of 60 ft.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-blind-sense-em-vibration",
-    "name": "Blind Sense (EM/Vibration)",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Perceive surroundings via mecha sensors and external bio-arrays, feeling the environment as personal skin via EM and vibration resonance.",
-    "description": "Perceive surroundings via mecha sensors and external bio-arrays, feeling the environment as personal skin via EM and vibration resonance.",
-    "mechanics": "Perceive surroundings via mecha sensors and external bio-arrays, feeling the environment as personal skin via EM and vibration resonance.",
-    "mechanic": "Perceive surroundings via mecha sensors and external bio-arrays, feeling the environment as personal skin via EM and vibration resonance.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Blind Sense (EM/Vibration)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nPerceives surroundings via mecha sensors and external bio-arrays within a 30 ft radius (or 60 ft cone), feeling electromagnetic waveforms and surface vibrations as tactile skin sensations.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Electro-Receptive Array or Synaptic Vehicle Link",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Electro-Receptive Array or Synaptic Vehicle Link"
-    ]
-  },
-  {
-    "id": "trait-blind-sense-scent-em",
-    "name": "Blind Sense (Scent/EM)",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Delicate antennae perceive bio-energetic and EM fields.",
-    "description": "Delicate antennae perceive bio-energetic and EM fields.",
-    "mechanics": "Delicate antennae perceive bio-energetic and EM fields.",
-    "mechanic": "Delicate antennae perceive bio-energetic and EM fields.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Blind Sense (Scent/EM)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nDelicate antennae perceive bio-energetic, electromagnetic, and olfactory fields in a 30 ft radius.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Sensory Antennae or Electro-Receptive Physiology",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Sensory Antennae or Electro-Receptive Physiology"
-    ]
-  },
-  {
-    "id": "trait-blind-sight",
-    "name": "Blind Sight",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 4,
-    "bp": 4,
-    "costs": {
-      "cp": 4,
-      "bp": 4
-    },
-    "is_ranked": false,
-    "desc": "Accurately target unseen objects in a 30 ft Radius or 60 ft Cone.",
-    "description": "Accurately target unseen objects in a 30 ft Radius or 60 ft Cone.",
-    "mechanics": "Accurately target unseen objects in a 30 ft Radius or 60 ft Cone.",
-    "mechanic": "Accurately target unseen objects in a 30 ft Radius or 60 ft Cone.",
-    "rules": "Elite Species Trait (4 CP).",
-    "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Blind Sight\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nAccurately target unseen objects in a 30 ft Radius or 60 ft Cone.",
-    "notes": "[Rule] Elite Species Trait (4 CP).\n[Prerequisite] Non-Visual Sensory Organs",
-    "notesList": [
-      "[Rule] Elite Species Trait (4 CP).",
-      "[Prerequisite] Non-Visual Sensory Organs"
-    ]
-  },
-  {
-    "id": "trait-blind-sight-swarm",
-    "name": "Blind Sight (Swarm)",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Accurately sense and target unseen objects and creatures in a 30 ft radius or 60 ft cone without optical sight.",
-    "description": "Accurately sense and target unseen objects and creatures in a 30 ft radius or 60 ft cone without optical sight.",
-    "mechanics": "Accurately sense and target unseen objects and creatures in a 30 ft radius or 60 ft cone without optical sight.",
-    "mechanic": "Accurately sense and target unseen objects and creatures in a 30 ft radius or 60 ft cone without optical sight.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Blind Sight (Swarm)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nDistributed micro-acoustic, chemical, and electromagnetic resonance allows the swarm to accurately perceive and target unseen objects and creatures in a 30 ft radius (or 60 ft cone) without optical vision.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-bodyform-adaptation",
-    "name": "Bodyform Adaptation",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Physiology shifts to be compatible with the new environment.",
-    "description": "Physiology shifts to be compatible with the new environment.",
-    "mechanics": "Physiology shifts to be compatible with the new environment.",
-    "mechanic": "Physiology shifts to be compatible with the new environment.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Bodyform Adaptation\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nPhysiology shifts to be compatible with the new environment.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-bodyform-appendages",
-    "name": "Bodyform Appendages",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Shapechange to gain additional limbs (2 arms, legs, tentacles, wings, or fins).",
-    "description": "Shapechange to gain additional limbs (2 arms, legs, tentacles, wings, or fins).",
-    "mechanics": "Shapechange to gain additional limbs (2 arms, legs, tentacles, wings, or fins).",
-    "mechanic": "Shapechange to gain additional limbs (2 arms, legs, tentacles, wings, or fins).",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Bodyform Appendages\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nShapechange to gain additional limbs (2 arms, legs, tentacles, wings, or fins).",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-bodyform-armor",
-    "name": "Bodyform Armor",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Shapechange to gain a protective layer.",
-    "description": "Shapechange to gain a protective layer.",
-    "mechanics": "Shapechange to gain a protective layer.",
-    "mechanic": "Shapechange to gain a protective layer.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Bodyform Armor\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nShapechange to gain a protective layer.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-bodyform-armor-options",
-    "name": "Bodyform Armor Options",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Upgraded Bodyform Armor, +1 option slot. Ranked.",
-    "description": "Upgraded Bodyform Armor, +1 option slot. Ranked.",
-    "mechanics": "Upgraded Bodyform Armor, +1 option slot. Ranked.",
-    "mechanic": "Upgraded Bodyform Armor, +1 option slot. Ranked.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Option slot",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Option slot"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Bodyform Armor Options\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nUpgraded Bodyform Armor, +1 option slot. Ranked.\n\n## Mechanics & Benefit\nUpgraded Bodyform Armor, +1 option slot. Ranked.",
-    "notes": "[Modifier] +1 to Option slot\n[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Modifier] +1 to Option slot",
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-bodyform-armor-opts",
-    "name": "Bodyform Armor Opts",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Upgraded Bodyform Armor, +1 option slot. Ranked.",
-    "description": "Upgraded Bodyform Armor, +1 option slot. Ranked.",
-    "mechanics": "Upgraded Bodyform Armor, +1 option slot. Ranked.",
-    "mechanic": "Upgraded Bodyform Armor, +1 option slot. Ranked.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Option slot",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Option slot"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Bodyform Armor Opts\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nUpgraded Bodyform Armor, +1 option slot. Ranked.\n\n## Mechanics & Benefit\nUpgraded Bodyform Armor, +1 option slot. Ranked.",
-    "notes": "[Modifier] +1 to Option slot\n[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Modifier] +1 to Option slot",
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-bodyform-heavy-armor",
-    "name": "Bodyform Heavy Armor",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 4,
-    "bp": 4,
-    "costs": {
-      "cp": 4,
-      "bp": 4
-    },
-    "is_ranked": false,
-    "desc": "Shapechange to gain a heavy protective layer (Doubles Bodyform Armor bonus to DR).",
-    "description": "Shapechange to gain a heavy protective layer (Doubles Bodyform Armor bonus to DR).",
-    "mechanics": "Shapechange to gain a heavy protective layer (Doubles Bodyform Armor bonus to DR).",
-    "mechanic": "Shapechange to gain a heavy protective layer (Doubles Bodyform Armor bonus to DR).",
-    "rules": "Elite Species Trait (4 CP).",
-    "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [
-      {
-        "target": "armor-dr",
-        "value": 8,
-        "type": "combat",
-        "mode": "situational",
-        "condition": "While Transformed",
-        "description": "Doubles Bodyform Armor DR (+8 DR)"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Bodyform Heavy Armor\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nShapechange to gain a heavy protective layer (Doubles Bodyform Armor bonus to DR).\n\n## Mechanics & Benefit\nShapechange to gain a heavy protective layer (Doubles Bodyform Armor bonus to DR).",
-    "notes": "[Modifier] Doubles Bodyform Armor DR (+8 DR)\n[Rule] Elite Species Trait (4 CP).",
-    "notesList": [
-      "[Modifier] Doubles Bodyform Armor DR (+8 DR)",
-      "[Rule] Elite Species Trait (4 CP)."
-    ]
-  },
-  {
-    "id": "trait-bodyform-mutation",
-    "name": "Bodyform Mutation",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Adjust to a Racial Trait of which prerequisites are possessed. Ranked.",
-    "description": "Adjust to a Racial Trait of which prerequisites are possessed. Ranked.",
-    "mechanics": "Adjust to a Racial Trait of which prerequisites are possessed. Ranked.",
-    "mechanic": "Adjust to a Racial Trait of which prerequisites are possessed. Ranked.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Bodyform Mutation\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nAdjust to a Racial Trait of which prerequisites are possessed. Ranked.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-bodyform-sizing",
-    "name": "Bodyform Sizing",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Shapechange to alter size category 1 step up or down.",
-    "description": "Shapechange to alter size category 1 step up or down.",
-    "mechanics": "Shapechange to alter size category 1 step up or down.",
-    "mechanic": "Shapechange to alter size category 1 step up or down.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Bodyform Sizing\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nShapechange to alter size category 1 step up or down.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-bodyform-structure",
-    "name": "Bodyform Structure",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Adjust Physical Abilities in equal trade. Once per day for the entire day. Ranked.",
-    "description": "Adjust Physical Abilities in equal trade. Once per day for the entire day. Ranked.",
-    "mechanics": "Adjust Physical Abilities in equal trade. Once per day for the entire day. Ranked.",
-    "mechanic": "Adjust Physical Abilities in equal trade. Once per day for the entire day. Ranked.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Bodyform Structure\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nAdjust Physical Abilities in equal trade. Once per day for the entire day. Ranked.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-bodyform-weapon-options",
-    "name": "Bodyform Weapon Options",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Upgraded Bodyform Weapons, +1 option slot. Ranked.",
-    "description": "Upgraded Bodyform Weapons, +1 option slot. Ranked.",
-    "mechanics": "Upgraded Bodyform Weapons, +1 option slot. Ranked.",
-    "mechanic": "Upgraded Bodyform Weapons, +1 option slot. Ranked.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Option slot",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Option slot"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Bodyform Weapon Options\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nUpgraded Bodyform Weapons, +1 option slot. Ranked.\n\n## Mechanics & Benefit\nUpgraded Bodyform Weapons, +1 option slot. Ranked.",
-    "notes": "[Modifier] +1 to Option slot\n[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Modifier] +1 to Option slot",
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-bodyform-weapon-opts",
-    "name": "Bodyform Weapon Opts",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Upgraded Bodyform Weapons, +1 option slot. Ranked.",
-    "description": "Upgraded Bodyform Weapons, +1 option slot. Ranked.",
-    "mechanics": "Upgraded Bodyform Weapons, +1 option slot. Ranked.",
-    "mechanic": "Upgraded Bodyform Weapons, +1 option slot. Ranked.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Option slot",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Option slot"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Bodyform Weapon Opts\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nUpgraded Bodyform Weapons, +1 option slot. Ranked.\n\n## Mechanics & Benefit\nUpgraded Bodyform Weapons, +1 option slot. Ranked.",
-    "notes": "[Modifier] +1 to Option slot\n[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Modifier] +1 to Option slot",
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-bodyform-weapons",
-    "name": "Bodyform Weapons",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Shapechange to gain ‘Natural Weaponry’ based on Size",
-    "description": "Shapechange to gain ‘Natural Weaponry’ based on Size",
-    "mechanics": "Shapechange to gain ‘Natural Weaponry’ based on Size",
-    "mechanic": "Shapechange to gain ‘Natural Weaponry’ based on Size",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Bodyform Weapons\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nShapechange to gain ‘Natural Weaponry’ based on Size",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-bonded-terrain",
-    "name": "Bonded Terrain",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "+2 dodge bonus to AC when in a specific terrain type.",
-    "description": "+2 dodge bonus to AC when in a specific terrain type.",
-    "mechanics": "+2 dodge bonus to AC when in a specific terrain type.",
-    "mechanic": "+2 dodge bonus to AC when in a specific terrain type.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "AC when in a specific terrain type",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to AC when in a specific terrain type"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Bonded Terrain\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 dodge bonus to AC when in a specific terrain type.\n\n## Mechanics & Benefit\n+2 dodge bonus to AC when in a specific terrain type.",
-    "notes": "[Modifier] +2 to AC when in a specific terrain type\n[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to AC when in a specific terrain type",
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-bonus-feature",
-    "name": "Bonus Feature",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Members of this race select one extra feature of their choice.",
-    "description": "Members of this race select one extra feature of their choice.",
-    "mechanics": "Members of this race select one extra feature of their choice.",
-    "mechanic": "Members of this race select one extra feature of their choice.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Bonus Feature\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nMembers of this race select one extra feature of their choice.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-botanical-knowledge",
-    "name": "Botanical Knowledge",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Extensive knowledge of plants, crops, and agricultural techniques. Understands the science behind growing and cultivating various types of vegetation.",
-    "description": "Extensive knowledge of plants, crops, and agricultural techniques. Understands the science behind growing and cultivating various types of vegetation.",
-    "mechanics": "+2 to Botany Checks",
-    "mechanic": "+2 to Botany Checks",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Botany",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Botany"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Botanical Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nExtensive knowledge of plants, crops, and agricultural techniques. Understands the science behind growing and cultivating various types of vegetation.\n\n## Mechanics & Benefit\n+2 to Botany Checks",
-    "notes": "[Modifier] +2 to Botany\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Botany",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-brutal",
-    "name": "Brutal",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Growths/Spurs doubling Str damage bonus to natural damage (Lethal).",
-    "description": "Growths/Spurs doubling Str damage bonus to natural damage (Lethal).",
-    "mechanics": "Growths/Spurs doubling Str damage bonus to natural damage (Lethal).",
-    "mechanic": "Growths/Spurs doubling Str damage bonus to natural damage (Lethal).",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Brutal\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nGrowths/Spurs doubling Str damage bonus to natural damage (Lethal).",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-business-acumen",
-    "name": "Business Acumen",
-    "category": "traits",
-    "trait_type": "Mental",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Keen understanding of market dynamics, trade valuation, credit arbitration, and contract law.",
-    "description": "Keen understanding of market dynamics, trade valuation, credit arbitration, and contract law.",
-    "mechanics": "Keen understanding of market dynamics, trade valuation, credit arbitration, and contract law.",
-    "mechanic": "Keen understanding of market dynamics, trade valuation, credit arbitration, and contract law.",
-    "rules": "Basic Mental (1 CP).",
-    "special_rules": "Basic Mental (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Business Acumen\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Mental\n**CP Cost**: 1\n\n## Description\nKeen understanding of market dynamics, trade valuation, credit arbitration, and contract law.",
-    "notes": "[Rule] Basic Mental (1 CP).",
-    "notesList": [
-      "[Rule] Basic Mental (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-camouflage",
-    "name": "Camouflage",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Choose a favored terrain type. +4 bonus on Stealth checks within that terrain.",
-    "description": "Choose a favored terrain type. +4 bonus on Stealth checks within that terrain.",
-    "mechanics": "Choose a favored terrain type. +4 bonus on Stealth checks within that terrain.",
-    "mechanic": "Choose a favored terrain type. +4 bonus on Stealth checks within that terrain.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Stealth",
-        "type": "skill",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 to Stealth"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Camouflage\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nChoose a favored terrain type. +4 bonus on Stealth checks within that terrain.\n\n## Mechanics & Benefit\nChoose a favored terrain type. +4 bonus on Stealth checks within that terrain.",
-    "notes": "[Modifier] +4 to Stealth\n[Rule] Basic Species Trait (1 CP).\n[Prerequisite] Stealth 1",
-    "notesList": [
-      "[Modifier] +4 to Stealth",
-      "[Rule] Basic Species Trait (1 CP).",
-      "[Prerequisite] Stealth 1"
-    ]
-  },
-  {
-    "id": "trait-active-camouflage",
-    "name": "Camouflage (Active)",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 4,
-    "bp": 4,
-    "costs": {
-      "cp": 4,
-      "bp": 4
-    },
-    "is_ranked": false,
-    "desc": "Chitin can shift texture and hue to blend into environment, including light-absorbing vanta-black and visual transparency.",
-    "description": "Chitin can shift texture and hue to blend into environment, including light-absorbing vanta-black and visual transparency.",
-    "mechanics": "Chitin can shift texture and hue to blend into environment, including light-absorbing vanta-black and visual transparency.",
-    "mechanic": "Chitin can shift texture and hue to blend into environment, including light-absorbing vanta-black and visual transparency.",
-    "rules": "Elite Species Trait (4 CP).",
-    "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [
-      {
-        "target": "Stealth",
-        "type": "skill",
-        "value": 8,
-        "mode": "inherent",
-        "description": "+8 to Stealth"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Camouflage (Active)\n\n**Category**: TRAITS  \n**Tier**: Elite  \n**Type**: Species Trait  \n**CP Cost**: 4  \n\n## Description\nChitin can shift texture and hue to blend into their environment, shifting to a variety of colors as desired—including light-absorbing vanta-black and visual camouflage so effective they seem to fade into transparency (+8 to Stealth motionless, +4 moving).",
-    "notes": "[Modifier] +8 to Stealth\n[Rule] Elite Species Trait (4 CP).\n[Prerequisite] Chitinous or Biomorphic Dermis",
-    "notesList": [
-      "[Modifier] +8 to Stealth",
-      "[Rule] Elite Species Trait (4 CP).",
-      "[Prerequisite] Chitinous or Biomorphic Dermis"
-    ]
-  },
-  {
-    "id": "trait-cat-s-luck",
-    "name": "Cat's Luck",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Once per Long Rest make a Reflex Check at Advantage.",
-    "description": "Once per Long Rest make a Reflex Check at Advantage.",
-    "mechanics": "Once per Long Rest make a Reflex Check at Advantage.",
-    "mechanic": "Once per Long Rest make a Reflex Check at Advantage.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Reflex",
-        "type": "save_advantage",
-        "value": 1,
-        "mode": "inherent",
-        "description": "Advantage on Reflex Checks"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Cat's Luck\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nOnce per Long Rest make a Reflex Check at Advantage.\n\n## Mechanics & Benefit\nOnce per Long Rest make a Reflex Check at Advantage.",
-    "notes": "[Modifier] Advantage on Reflex Checks\n[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Modifier] Advantage on Reflex Checks",
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-caution",
-    "name": "Caution",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Cautious and prefer to avoid unnecessary risks, especially when dealing with others",
-    "description": "Cautious and prefer to avoid unnecessary risks, especially when dealing with others",
-    "mechanics": "+2 Insight",
-    "mechanic": "+2 Insight",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Insight",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Insight"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Caution\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nCautious and prefer to avoid unnecessary risks, especially when dealing with others\n\n## Mechanics & Benefit\n+2 Insight",
-    "notes": "[Modifier] +2 to Insight\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Insight",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-cave-dweller",
-    "name": "Cave Dweller",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "+4 bonus on Survival checks made underground.",
-    "description": "+4 bonus on Survival checks made underground.",
-    "mechanics": "+4 bonus on Survival checks made underground.",
-    "mechanic": "+4 bonus on Survival checks made underground.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Survival",
-        "type": "skill",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 to Survival"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Cave Dweller\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+4 bonus on Survival checks made underground.\n\n## Mechanics & Benefit\n+4 bonus on Survival checks made underground.",
-    "notes": "[Modifier] +4 to Survival\n[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +4 to Survival",
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-chameleon",
-    "name": "Chameleon",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Changes color, +5 Stealth or may take 10 on Stealth checks.",
-    "description": "Changes color, +5 Stealth or may take 10 on Stealth checks.",
-    "mechanics": "Changes color, +5 Stealth or may take 10 on Stealth checks.",
-    "mechanic": "Changes color, +5 Stealth or may take 10 on Stealth checks.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Stealth",
-        "type": "take_10",
-        "value": 10,
-        "mode": "inherent",
-        "description": "May take 10 on Stealth Checks"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Chameleon\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nChanges color, +5 Stealth or may take 10 on Stealth checks.\n\n## Mechanics & Benefit\nChanges color, +5 Stealth or may take 10 on Stealth checks.",
-    "notes": "[Modifier] May take 10 on Stealth Checks\n[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Modifier] May take 10 on Stealth Checks",
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-charismatic",
-    "name": "Charismatic",
-    "category": "traits",
-    "trait_type": "Social",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Natural charm and magnetism that puts strangers at ease and bolsters leadership checks.",
-    "description": "Natural charm and magnetism that puts strangers at ease and bolsters leadership checks.",
-    "mechanics": "Natural charm and magnetism that puts strangers at ease and bolsters leadership checks.",
-    "mechanic": "Natural charm and magnetism that puts strangers at ease and bolsters leadership checks.",
-    "rules": "Basic Social (1 CP).",
-    "special_rules": "Basic Social (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Charismatic\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Social\n**CP Cost**: 1\n\n## Description\nNatural charm and magnetism that puts strangers at ease and bolsters leadership checks.",
-    "notes": "[Rule] Basic Social (1 CP).",
-    "notesList": [
-      "[Rule] Basic Social (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-chloroplast",
-    "name": "Chloroplast",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Gain sustenance from and Double Healing rate while in daylight equivalent light.",
-    "description": "Gain sustenance from and Double Healing rate while in daylight equivalent light.",
-    "mechanics": "Gain sustenance from and Double Healing rate while in daylight equivalent light.",
-    "mechanic": "Gain sustenance from and Double Healing rate while in daylight equivalent light.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Chloroplast\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nGain sustenance from and Double Healing rate while in daylight equivalent light.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-climber",
-    "name": "Climber",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Traverse vertical and inverted surfaces at full speed (40 ft/rd); +2 bonus on Climbing checks.",
-    "description": "Traverse vertical and inverted surfaces at full speed (40 ft/rd); +2 bonus on Climbing checks.",
-    "mechanics": "Traverse vertical and inverted surfaces at full speed (40 ft/rd); +2 bonus on Climbing checks.",
-    "mechanic": "Traverse vertical and inverted surfaces at full speed (40 ft/rd); +2 bonus on Climbing checks.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Climbing",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Climbing"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Climber\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nTraverse vertical and inverted surfaces at full speed (40 ft/rd); +2 bonus on Climbing checks.\n\n## Mechanics & Benefit\nTraverse vertical and inverted surfaces at full speed (40 ft/rd); +2 bonus on Climbing checks.",
-    "notes": "[Modifier] +2 to Climbing\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Athletics 1",
-    "notesList": [
-      "[Modifier] +2 to Climbing",
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Athletics 1"
-    ]
-  },
-  {
-    "id": "trait-collaboration",
-    "name": "Collaboration",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Working smoothly with interdisciplinary research teams and effectively sharing breakthroughs.",
-    "description": "Working smoothly with interdisciplinary research teams and effectively sharing breakthroughs.",
-    "mechanics": "additional +1 to Aid bonuses received and granted",
-    "mechanic": "additional +1 to Aid bonuses received and granted",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Aid bonuses received",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Aid bonuses received"
-      },
-      {
-        "target": "Granted",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Granted"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Collaboration\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nWorking smoothly with interdisciplinary research teams and effectively sharing breakthroughs.\n\n## Mechanics & Benefit\nadditional +1 to Aid bonuses received and granted",
-    "notes": "[Modifier] +1 to Aid bonuses received\n[Modifier] +1 to Granted\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Aid bonuses received",
-      "[Modifier] +1 to Granted",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-combat-skills",
-    "name": "Combat Skills",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Hardened combat training honed against ravenous apex predators and hostile environmental hazards.",
-    "description": "Hardened combat training honed against ravenous apex predators and hostile environmental hazards.",
-    "mechanics": "+2 to a Combat Skill of choice",
-    "mechanic": "+2 to a Combat Skill of choice",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "A Combat",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to A Combat"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Combat Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nHardened combat training honed against ravenous apex predators and hostile environmental hazards.\n\n## Mechanics & Benefit\n+2 to a Combat Skill of choice",
-    "notes": "[Modifier] +2 to A Combat\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to A Combat",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-combat-trained",
-    "name": "Combat Trained",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Standard military drills covering marksmanship, close-quarters combat, and fireteam movement.",
-    "description": "Standard military drills covering marksmanship, close-quarters combat, and fireteam movement.",
-    "mechanics": "+2 to a Combat Skill of choice",
-    "mechanic": "+2 to a Combat Skill of choice",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "A Combat",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to A Combat"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Combat Trained\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nStandard military drills covering marksmanship, close-quarters combat, and fireteam movement.\n\n## Mechanics & Benefit\n+2 to a Combat Skill of choice",
-    "notes": "[Modifier] +2 to A Combat\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to A Combat",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-combat-training",
-    "name": "Combat Training",
-    "category": "traits",
-    "trait_type": "Combat",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Extensive formal training in tactical firearms, CQB weapon drills, and battlefield maneuvering.",
-    "description": "Extensive formal training in tactical firearms, CQB weapon drills, and battlefield maneuvering.",
-    "mechanics": "Extensive formal training in tactical firearms, CQB weapon drills, and battlefield maneuvering.",
-    "mechanic": "Extensive formal training in tactical firearms, CQB weapon drills, and battlefield maneuvering.",
-    "rules": "Basic Combat (1 CP).",
-    "special_rules": "Basic Combat (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Combat Training\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Combat\n**CP Cost**: 1\n\n## Description\nExtensive formal training in tactical firearms, CQB weapon drills, and battlefield maneuvering.",
-    "notes": "[Rule] Basic Combat (1 CP).",
-    "notesList": [
-      "[Rule] Basic Combat (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-communication",
-    "name": "Communication",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Effective communicators, able to convey complex ideas and information clearly and persuasively.",
-    "description": "Effective communicators, able to convey complex ideas and information clearly and persuasively.",
-    "mechanics": "+2 Culture and Language checks",
-    "mechanic": "+2 Culture and Language checks",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Culture",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Culture"
-      },
-      {
-        "target": "Language",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Language"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Communication\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nEffective communicators, able to convey complex ideas and information clearly and persuasively.\n\n## Mechanics & Benefit\n+2 Culture and Language checks",
-    "notes": "[Modifier] +2 to Culture\n[Modifier] +2 to Language\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Culture",
-      "[Modifier] +2 to Language",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-community-building",
-    "name": "Community Building",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Values community and may have skills in building and maintaining relationships with other farmers, suppliers, and customers. Can negotiate deals, organize cooperative efforts, and foster camaraderie.",
-    "description": "Values community and may have skills in building and maintaining relationships with other farmers, suppliers, and customers. Can negotiate deals, organize cooperative efforts, and foster camaraderie.",
-    "mechanics": "Once per Day may reroll a Social Skill Check",
-    "mechanic": "Once per Day may reroll a Social Skill Check",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Community Building\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nValues community and may have skills in building and maintaining relationships with other farmers, suppliers, and customers. Can negotiate deals, organize cooperative efforts, and foster camaraderie.\n\n## Mechanics & Benefit\nOnce per Day may reroll a Social Skill Check",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-confident",
-    "name": "Confident",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Comfortable in the spotlight",
-    "description": "Comfortable in the spotlight",
-    "mechanics": "+2 Willpower",
-    "mechanic": "+2 Willpower",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Will",
-        "type": "save",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 on Will Checks"
-      },
-      {
-        "target": "Willpower Comfortable in the spotlight",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Willpower Comfortable in the spotlight"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Confident\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nComfortable in the spotlight\n\n## Mechanics & Benefit\n+2 Willpower",
-    "notes": "[Modifier] +2 on Will Checks\n[Modifier] +2 to Willpower Comfortable in the spotlight\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 on Will Checks",
-      "[Modifier] +2 to Willpower Comfortable in the spotlight",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-conflict-resolution",
-    "name": "Conflict resolution",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Ability to resolve conflicts effectively and find solutions that satisfy all parties involved",
-    "description": "Ability to resolve conflicts effectively and find solutions that satisfy all parties involved",
-    "mechanics": "+2 Diplomacy",
-    "mechanic": "+2 Diplomacy",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Diplomacy",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Diplomacy"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Conflict resolution\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to resolve conflicts effectively and find solutions that satisfy all parties involved\n\n## Mechanics & Benefit\n+2 Diplomacy",
-    "notes": "[Modifier] +2 to Diplomacy\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Diplomacy",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-constriction",
-    "name": "Constriction",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Grants Improved and Greater Grapple, Crushing damage is 2x Unarmed.",
-    "description": "Grants Improved and Greater Grapple, Crushing damage is 2x Unarmed.",
-    "mechanics": "Grants Improved and Greater Grapple, Crushing damage is 2x Unarmed.",
-    "mechanic": "Grants Improved and Greater Grapple, Crushing damage is 2x Unarmed.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Constriction\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nGrants Improved and Greater Grapple, Crushing damage is 2x Unarmed.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-contacts",
-    "name": "Contacts",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Extensive web of street informants, back-alley chop-docs, corporate middle-managers, and black-market fences.",
-    "description": "Extensive web of street informants, back-alley chop-docs, corporate middle-managers, and black-market fences.",
-    "mechanics": "Gather Information checks at Advantage",
-    "mechanic": "Gather Information checks at Advantage",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Contacts Gather Information",
-        "type": "check_advantage",
-        "value": 1,
-        "mode": "inherent",
-        "description": "Advantage on Contacts Gather Information Checks"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Contacts\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nExtensive web of street informants, back-alley chop-docs, corporate middle-managers, and black-market fences.\n\n## Mechanics & Benefit\nGather Information checks at Advantage",
-    "notes": "[Modifier] Advantage on Contacts Gather Information Checks\n[Rule] Basic Origin Trait (1 CP).\n[Prerequisite] Charisma 1",
-    "notesList": [
-      "[Modifier] Advantage on Contacts Gather Information Checks",
-      "[Rule] Basic Origin Trait (1 CP).",
-      "[Prerequisite] Charisma 1"
-    ]
-  },
-  {
-    "id": "trait-continuous-learning",
-    "name": "Continuous Learning",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Has a thirst for knowledge and is committed to lifelong learning.",
-    "description": "Has a thirst for knowledge and is committed to lifelong learning.",
-    "mechanics": "All Learning Checks are made at Advantage",
-    "mechanic": "All Learning Checks are made at Advantage",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Continuous Learning All Learning",
-        "type": "check_advantage",
-        "value": 1,
-        "mode": "inherent",
-        "description": "Advantage on Continuous Learning All Learning Checks"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Continuous Learning\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHas a thirst for knowledge and is committed to lifelong learning.\n\n## Mechanics & Benefit\nAll Learning Checks are made at Advantage",
-    "notes": "[Modifier] Advantage on Continuous Learning All Learning Checks\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] Advantage on Continuous Learning All Learning Checks",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-cool",
-    "name": "Cool",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Able to remain calm and focused even in high-pressure situations",
-    "description": "Able to remain calm and focused even in high-pressure situations",
-    "mechanics": "+2 Willpower",
-    "mechanic": "+2 Willpower",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Will",
-        "type": "save",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 on Will Checks"
-      },
-      {
-        "target": "Willpower Able to remain calm",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Willpower Able to remain calm"
-      },
-      {
-        "target": "Focused even in high-pressure situations",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Focused even in high-pressure situations"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Cool\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to remain calm and focused even in high-pressure situations\n\n## Mechanics & Benefit\n+2 Willpower",
-    "notes": "[Modifier] +2 on Will Checks\n[Modifier] +2 to Willpower Able to remain calm\n[Modifier] +2 to Focused even in high-pressure situations\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 on Will Checks",
-      "[Modifier] +2 to Willpower Able to remain calm",
-      "[Modifier] +2 to Focused even in high-pressure situations",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-craftsman",
-    "name": "Craftsman",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "+2 to Specific Vocation.",
-    "description": "+2 to Specific Vocation.",
-    "mechanics": "+2 to Specific Vocation.",
-    "mechanic": "+2 to Specific Vocation.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Specific Vocation",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Specific Vocation"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Craftsman\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 to Specific Vocation.\n\n## Mechanics & Benefit\n+2 to Specific Vocation.",
-    "notes": "[Modifier] +2 to Specific Vocation\n[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Specific Vocation",
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-creative",
-    "name": "Creative",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Skilled at coming up with new ideas",
-    "description": "Skilled at coming up with new ideas",
-    "mechanics": "+1 Karma Point",
-    "mechanic": "+1 Karma Point",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Karma",
-        "type": "karma",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Karma Pool"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Creative\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nSkilled at coming up with new ideas\n\n## Mechanics & Benefit\n+1 Karma Point",
-    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Karma Pool",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-creativity",
-    "name": "Creativity",
-    "category": "traits",
-    "trait_type": "Mental",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Ingenious problem solving and out-of-the-box thinking when crafting, engineering, or improvising solutions.",
-    "description": "Ingenious problem solving and out-of-the-box thinking when crafting, engineering, or improvising solutions.",
-    "mechanics": "Ingenious problem solving and out-of-the-box thinking when crafting, engineering, or improvising solutions.",
-    "mechanic": "Ingenious problem solving and out-of-the-box thinking when crafting, engineering, or improvising solutions.",
-    "rules": "Basic Mental (1 CP).",
-    "special_rules": "Basic Mental (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Creativity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Mental\n**CP Cost**: 1\n\n## Description\nIngenious problem solving and out-of-the-box thinking when crafting, engineering, or improvising solutions.",
-    "notes": "[Rule] Basic Mental (1 CP).",
-    "notesList": [
-      "[Rule] Basic Mental (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-critical-thinking",
-    "name": "Critical thinking",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Possess strong critical thinking skills.",
-    "description": "Possess strong critical thinking skills.",
-    "mechanics": "+1 Karma Point",
-    "mechanic": "+1 Karma Point",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Karma",
-        "type": "karma",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Karma Pool"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Critical thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nPossess strong critical thinking skills.\n\n## Mechanics & Benefit\n+1 Karma Point",
-    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Karma Pool",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-cultural-awareness",
-    "name": "Cultural Awareness",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Merchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.",
-    "description": "Merchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.",
-    "mechanics": "+2 Culture Knowledge",
-    "mechanic": "+2 Culture Knowledge",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Culture Knowledge Merchants are culturally aware",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Culture Knowledge Merchants are culturally aware"
-      },
-      {
-        "target": "Sensitive",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Sensitive"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Cultural Awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.\n\n## Mechanics & Benefit\n+2 Culture Knowledge",
-    "notes": "[Modifier] +2 to Culture Knowledge Merchants are culturally aware\n[Modifier] +2 to Sensitive\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Culture Knowledge Merchants are culturally aware",
-      "[Modifier] +2 to Sensitive",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-cunning",
-    "name": "Cunning",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Rely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies",
-    "description": "Rely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies",
-    "mechanics": "Additional +1 to appropriate maneuvers from having Edge",
-    "mechanic": "Additional +1 to appropriate maneuvers from having Edge",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Appropriate maneuvers from having Edge",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Appropriate maneuvers from having Edge"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Cunning\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nRely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies\n\n## Mechanics & Benefit\nAdditional +1 to appropriate maneuvers from having Edge",
-    "notes": "[Modifier] +1 to Appropriate maneuvers from having Edge\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Appropriate maneuvers from having Edge",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-curiosity",
-    "name": "Curiosity",
-    "category": "traits",
-    "trait_type": "General",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "An insatiable drive to explore the unknown, analyze anomalous phenomena, and investigate new discoveries.",
-    "description": "An insatiable drive to explore the unknown, analyze anomalous phenomena, and investigate new discoveries.",
-    "mechanics": "+4 bonus on Diplomacy checks to gather information, and Knowledge checks.",
-    "mechanic": "+4 bonus on Diplomacy checks to gather information, and Knowledge checks.",
-    "rules": "Basic General (1 CP).",
-    "special_rules": "Basic General (1 CP).",
-    "modifiers": [
-      {
-        "target": "Diplomacy",
-        "type": "skill",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 to Diplomacy"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Curiosity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: General\n**CP Cost**: 1\n\n## Description\nAn insatiable drive to explore the unknown, analyze anomalous phenomena, and investigate new discoveries.\n\n## Mechanics\n+4 bonus on Diplomacy checks to gather information, and Knowledge checks.",
-    "notes": "[Modifier] +4 to Diplomacy\n[Rule] Basic General (1 CP).",
-    "notesList": [
-      "[Modifier] +4 to Diplomacy",
-      "[Rule] Basic General (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-dark-sight",
-    "name": "Dark Sight",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Clear vision in all levels of Light or Darkness (UV, seeing luminescence).",
-    "description": "Clear vision in all levels of Light or Darkness (UV, seeing luminescence).",
-    "mechanics": "Clear vision in all levels of Light or Darkness (UV, seeing luminescence).",
-    "mechanic": "Clear vision in all levels of Light or Darkness (UV, seeing luminescence).",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Dark Sight\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nClear vision in all levels of Light or Darkness (UV, seeing luminescence).",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-deception",
-    "name": "Deception",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Disguise, impersonation, and deception",
-    "description": "Disguise, impersonation, and deception",
-    "mechanics": "+2 Disguise and Cover Checks",
-    "mechanic": "+2 Disguise and Cover Checks",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Disguise",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Disguise"
-      },
-      {
-        "target": "Cover",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Cover"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Deception\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nDisguise, impersonation, and deception\n\n## Mechanics & Benefit\n+2 Disguise and Cover Checks",
-    "notes": "[Modifier] +2 to Disguise\n[Modifier] +2 to Cover\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Disguise",
-      "[Modifier] +2 to Cover",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-defensive-training",
-    "name": "Defensive Training",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "+2 dodge bonus to Defense.",
-    "description": "+2 dodge bonus to Defense.",
-    "mechanics": "+2 dodge bonus to Defense.",
-    "mechanic": "+2 dodge bonus to Defense.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "defense-mod",
-        "type": "combat",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 Defense"
-      },
-      {
-        "target": "Defense",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Defense"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Defensive Training\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+2 dodge bonus to Defense.\n\n## Mechanics & Benefit\n+2 dodge bonus to Defense.",
-    "notes": "[Modifier] +2 Defense\n[Modifier] +2 to Defense\n[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Modifier] +2 Defense",
-      "[Modifier] +2 to Defense",
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-digitigrade-ungulated",
-    "name": "Digitigrade / Ungulated",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "+10 Movement Speed and +4 Stability, Special pants and Boots needed.",
-    "description": "+10 Movement Speed and +4 Stability, Special pants and Boots needed.",
-    "mechanics": "+10 Movement Speed and +4 Stability, Special pants and Boots needed.",
-    "mechanic": "+10 Movement Speed and +4 Stability, Special pants and Boots needed.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "move-walk",
-        "type": "combat",
-        "value": 10,
-        "mode": "inherent",
-        "description": "+10 Movement"
-      },
-      {
-        "target": "Stability",
-        "type": "combat",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 Stability"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Digitigrade / Ungulated\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+10 Movement Speed and +4 Stability, Special pants and Boots needed.\n\n## Mechanics & Benefit\n+10 Movement Speed and +4 Stability, Special pants and Boots needed.",
-    "notes": "[Modifier] +10 Movement\n[Modifier] +4 Stability\n[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +10 Movement",
-      "[Modifier] +4 Stability",
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-diplomacy",
-    "name": "Diplomacy",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Negotiating trade pacts and peaceful relations with rival outposts and indigenous factions.",
-    "description": "Negotiating trade pacts and peaceful relations with rival outposts and indigenous factions.",
-    "mechanics": "+2 Diplomacy",
-    "mechanic": "+2 Diplomacy",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Diplomacy",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Diplomacy"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Diplomacy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nNegotiating trade pacts and peaceful relations with rival outposts and indigenous factions.\n\n## Mechanics & Benefit\n+2 Diplomacy",
-    "notes": "[Modifier] +2 to Diplomacy\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Diplomacy",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-discipline",
-    "name": "Discipline",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Disciplined and able to follow orders without question, even in high-pressure situations",
-    "description": "Disciplined and able to follow orders without question, even in high-pressure situations",
-    "mechanics": "+2 Soldier Vocation",
-    "mechanic": "+2 Soldier Vocation",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Soldier Vocation",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Soldier Vocation"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Discipline\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nDisciplined and able to follow orders without question, even in high-pressure situations\n\n## Mechanics & Benefit\n+2 Soldier Vocation",
-    "notes": "[Modifier] +2 to Soldier Vocation\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Soldier Vocation",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-disciplined",
-    "name": "Disciplined",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Conditioned obedience to command structures and flawless execution of standard operating procedures.",
-    "description": "Conditioned obedience to command structures and flawless execution of standard operating procedures.",
-    "mechanics": "+2 Soldier Vocation",
-    "mechanic": "+2 Soldier Vocation",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Soldier Vocation",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Soldier Vocation"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Disciplined\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nConditioned obedience to command structures and flawless execution of standard operating procedures.\n\n## Mechanics & Benefit\n+2 Soldier Vocation",
-    "notes": "[Modifier] +2 to Soldier Vocation\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Soldier Vocation",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-draconic",
-    "name": "Draconic",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Access to purchase various Dragon Traits",
-    "description": "Access to purchase various Dragon Traits",
-    "mechanics": "Access to purchase various Dragon Traits",
-    "mechanic": "Access to purchase various Dragon Traits",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Draconic\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nAccess to purchase various Dragon Traits",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-dragon-apotheosis",
-    "name": "Dragon Apotheosis",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 4,
-    "bp": 4,
-    "costs": {
-      "cp": 4,
-      "bp": 4
-    },
-    "is_ranked": false,
-    "desc": "Gain Type Specific Ability and access to Advanced Dragon Abilities. Req: Dragon Form.",
-    "description": "Gain Type Specific Ability and access to Advanced Dragon Abilities. Req: Dragon Form.",
-    "mechanics": "Gain Type Specific Ability and access to Advanced Dragon Abilities. Req: Dragon Form.",
-    "mechanic": "Gain Type Specific Ability and access to Advanced Dragon Abilities. Req: Dragon Form.",
-    "rules": "Elite Species Trait (4 CP).",
-    "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Dragon Apotheosis\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nGain Type Specific Ability and access to Advanced Dragon Abilities. Req: Dragon Form.",
-    "notes": "[Rule] Elite Species Trait (4 CP).",
-    "notesList": [
-      "[Rule] Elite Species Trait (4 CP)."
-    ]
-  },
-  {
-    "id": "trait-dragon-breath",
-    "name": "Dragon Breath",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 4,
-    "bp": 4,
-    "costs": {
-      "cp": 4,
-      "bp": 4
-    },
-    "is_ranked": false,
-    "desc": "Breath Weapon - 30 ft Cone or 60 ft Line of Energy [Str x d8 in Dmg].",
-    "description": "Breath Weapon - 30 ft Cone or 60 ft Line of Energy [Str x d8 in Dmg].",
-    "mechanics": "Breath Weapon - 30 ft Cone or 60 ft Line of Energy [Str x d8 in Dmg].",
-    "mechanic": "Breath Weapon - 30 ft Cone or 60 ft Line of Energy [Str x d8 in Dmg].",
-    "rules": "Elite Species Trait (4 CP).",
-    "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Dragon Breath\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nBreath Weapon - 30 ft Cone or 60 ft Line of Energy [Str x d8 in Dmg].",
-    "notes": "[Rule] Elite Species Trait (4 CP).",
-    "notesList": [
-      "[Rule] Elite Species Trait (4 CP)."
-    ]
-  },
-  {
-    "id": "trait-dragon-eyes",
-    "name": "Dragon Eyes",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Choose from Low-Light Vision line (Dark, Ether, Thermal). Multiple.",
-    "description": "Choose from Low-Light Vision line (Dark, Ether, Thermal). Multiple.",
-    "mechanics": "Choose from Low-Light Vision line (Dark, Ether, Thermal). Multiple.",
-    "mechanic": "Choose from Low-Light Vision line (Dark, Ether, Thermal). Multiple.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Dragon Eyes\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nChoose from Low-Light Vision line (Dark, Ether, Thermal). Multiple.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-dragon-form",
-    "name": "Dragon Form",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Alternate Form of a Large size Dragon",
-    "description": "Alternate Form of a Large size Dragon",
-    "mechanics": "Alternate Form of a Large size Dragon",
-    "mechanic": "Alternate Form of a Large size Dragon",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Dragon Form\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nAlternate Form of a Large size Dragon",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-dragon-might",
-    "name": "Dragon Might",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Lift Objects and Grapple as if 1 size category larger. Req: Dragonkin, Str 4.",
-    "description": "Lift Objects and Grapple as if 1 size category larger. Req: Dragonkin, Str 4.",
-    "mechanics": "Lift Objects and Grapple as if 1 size category larger. Req: Dragonkin, Str 4.",
-    "mechanic": "Lift Objects and Grapple as if 1 size category larger. Req: Dragonkin, Str 4.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Dragon Might\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nLift Objects and Grapple as if 1 size category larger. Req: Dragonkin, Str 4.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-dragon-mind",
-    "name": "Dragon Mind",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Make any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.",
-    "description": "Make any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.",
-    "mechanics": "Make any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.",
-    "mechanic": "Make any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Ny Mental Resistance",
-        "type": "check_advantage",
-        "value": 1,
-        "mode": "inherent",
-        "description": "Advantage on Ny Mental Resistance Checks"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Dragon Mind\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nMake any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.\n\n## Mechanics & Benefit\nMake any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.",
-    "notes": "[Modifier] Advantage on Ny Mental Resistance Checks\n[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Modifier] Advantage on Ny Mental Resistance Checks",
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-dragon-senses",
-    "name": "Dragon Senses",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Make Awareness Checks with Advantage. Req: Dragonkin, Awareness 11.",
-    "description": "Make Awareness Checks with Advantage. Req: Dragonkin, Awareness 11.",
-    "mechanics": "Make Awareness Checks with Advantage. Req: Dragonkin, Awareness 11.",
-    "mechanic": "Make Awareness Checks with Advantage. Req: Dragonkin, Awareness 11.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Wareness",
-        "type": "check_advantage",
-        "value": 1,
-        "mode": "inherent",
-        "description": "Advantage on Wareness Checks"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Dragon Senses\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nMake Awareness Checks with Advantage. Req: Dragonkin, Awareness 11.\n\n## Mechanics & Benefit\nMake Awareness Checks with Advantage. Req: Dragonkin, Awareness 11.",
-    "notes": "[Modifier] Advantage on Wareness Checks\n[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Modifier] Advantage on Wareness Checks",
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-dragon-wings",
-    "name": "Dragon Wings",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 4,
-    "bp": 4,
-    "costs": {
-      "cp": 4,
-      "bp": 4
-    },
-    "is_ranked": false,
-    "desc": "Grow Leathery Wings - Fly Speed of 3x Ground Speed. Req: Dragonkin, Exoskeleton.",
-    "description": "Grow Leathery Wings - Fly Speed of 3x Ground Speed. Req: Dragonkin, Exoskeleton.",
-    "mechanics": "Grow Leathery Wings - Fly Speed of 3x Ground Speed. Req: Dragonkin, Exoskeleton.",
-    "mechanic": "Grow Leathery Wings - Fly Speed of 3x Ground Speed. Req: Dragonkin, Exoskeleton.",
-    "rules": "Elite Species Trait (4 CP).",
-    "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Dragon Wings\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nGrow Leathery Wings - Fly Speed of 3x Ground Speed. Req: Dragonkin, Exoskeleton.",
-    "notes": "[Rule] Elite Species Trait (4 CP).",
-    "notesList": [
-      "[Rule] Elite Species Trait (4 CP)."
-    ]
-  },
-  {
-    "id": "trait-dragonkin-traits",
-    "name": "Dragonkin Traits",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 6,
-    "bp": 6,
-    "costs": {
-      "cp": 6,
-      "bp": 6
-    },
-    "is_ranked": false,
-    "desc": "Innate draconic heritage passed down through ancient bloodlines.",
-    "description": "Innate draconic heritage passed down through ancient bloodlines.",
-    "mechanics": "Gain Low Light Vision [1 CP], Sharp Senses (+2 Awareness checks) [1 CP], Natural Armor / Scales (DR 2) [2 CP], and Natural Attacks (Claws, Fangs, or Horns dealing 1d6 lethal damage) [2 CP]. Total package value: 6 CP.",
-    "mechanic": "Gain Low Light Vision [1 CP], Sharp Senses (+2 Awareness checks) [1 CP], Natural Armor / Scales (DR 2) [2 CP], and Natural Attacks (Claws, Fangs, or Horns dealing 1d6 lethal damage) [2 CP]. Total package value: 6 CP.",
-    "rules": "Elite Species Trait (6 CP).",
-    "special_rules": "Elite Species Trait (6 CP).",
-    "modifiers": [
-      {
-        "target": "Awareness",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Awareness"
-      },
-      {
-        "target": "Insight",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Insight"
-      }
-    ],
-    "package_traits": [
-      {
-        "id": "trait-low-light-vision",
-        "name": "Low Light Vision",
-        "tier": "Basic",
-        "bp": 1,
-        "mechanic": "Draconic night vision; see twice as well in dim light with expanded spectrum.",
-        "cp": 1
-      },
-      {
-        "id": "trait-sharp-senses",
-        "name": "Sharp Senses (Dragon Senses)",
-        "tier": "Basic",
-        "bp": 1,
-        "mechanic": "Keen draconic perceptual awareness granting +2 bonus on Awareness and Insight checks.",
-        "cp": 1
-      },
-      {
-        "id": "trait-natural-armor",
-        "name": "Draconic Scales (DR 2)",
-        "tier": "Advanced",
-        "bp": 2,
-        "mechanic": "Thick leathery or crystalline scales providing natural armor DR 2.",
-        "cp": 2
-      },
-      {
-        "id": "trait-natural-weapons",
-        "name": "Natural Attacks (Claws, Fangs & Horns)",
-        "tier": "Advanced",
-        "bp": 2,
-        "mechanic": "Retractable predatory claws, sharp fangs, or crown horns dealing 1d6 lethal damage.",
-        "cp": 2
-      }
-    ],
-    "body": "# Dragonkin Traits\n\n**Category**: TRAITS  \n**Tier**: Elite  \n**Type**: Species Trait  \n**CP Cost**: 6  \n\n## Description\nInnate draconic heritage passed down through ancient bloodlines.\n\n## Mechanics\nGain Low Light Vision [1 CP], Sharp Senses (+2 Awareness checks) [1 CP], Natural Armor / Scales (DR 2) [2 CP], and Natural Attacks (Claws, Fangs, or Horns dealing 1d6 lethal damage) [2 CP]. Total package value: 6 CP.\n\n## Packaged Traits Sublist\n* **Low Light Vision** [1 CP / Basic]: Draconic night vision; see twice as well in dim light with expanded spectrum.\n* **Sharp Senses (Dragon Senses)** [1 CP / Basic]: Keen draconic perceptual awareness granting +2 bonus on Awareness and Insight checks.\n* **Draconic Scales (DR 2)** [2 CP / Advanced]: Thick leathery or crystalline scales providing natural armor DR 2.\n* **Natural Attacks (Claws, Fangs & Horns)** [2 CP / Advanced]: Retractable predatory claws, sharp fangs, or crown horns dealing 1d6 lethal damage.",
-    "notes": "[Modifier] +2 to Awareness\n[Modifier] +2 to Insight\n[Rule] Elite Species Trait (6 CP).",
-    "notesList": [
-      "[Modifier] +2 to Awareness",
-      "[Modifier] +2 to Insight",
-      "[Rule] Elite Species Trait (6 CP)."
-    ]
-  },
-  {
-    "id": "trait-dual-skeletal-structure",
-    "name": "Dual Skeletal Structure",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Combined endoskeleton and exoskeleton providing natural Damage Reduction (DR +5).",
-    "description": "Combined endoskeleton and exoskeleton providing natural Damage Reduction (DR +5).",
-    "mechanics": "Combined endoskeleton and exoskeleton providing natural Damage Reduction (DR +5).",
-    "mechanic": "Combined endoskeleton and exoskeleton providing natural Damage Reduction (DR +5).",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "armor-dr",
-        "type": "combat",
-        "value": 5,
-        "mode": "inherent",
-        "description": "+5 DR"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Dual Skeletal Structure\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nCombined endoskeleton and exoskeleton providing natural Damage Reduction (DR +5).\n\n## Mechanics & Benefit\nCombined endoskeleton and exoskeleton providing natural Damage Reduction (DR +5).",
-    "notes": "[Modifier] +5 DR\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Endoskeleton and Exoskeleton",
-    "notesList": [
-      "[Modifier] +5 DR",
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Endoskeleton and Exoskeleton"
-    ]
-  },
-  {
-    "id": "trait-emissary",
-    "name": "Emissary",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Once per day make a check at advantage for Bluff or Diplomacy.",
-    "description": "Once per day make a check at advantage for Bluff or Diplomacy.",
-    "mechanics": "Once per day make a check at advantage for Bluff or Diplomacy.",
-    "mechanic": "Once per day make a check at advantage for Bluff or Diplomacy.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Bluff",
-        "value": 1,
-        "type": "check_advantage",
-        "mode": "situational",
-        "condition": "1/Day",
-        "description": "Advantage on Bluff or Diplomacy check (1/Day)"
-      },
-      {
-        "target": "Diplomacy",
-        "value": 1,
-        "type": "check_advantage",
-        "mode": "situational",
-        "condition": "1/Day",
-        "description": "Advantage on Bluff or Diplomacy check (1/Day)"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Emissary\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nOnce per day make a check at advantage for Bluff or Diplomacy.\n\n## Mechanics & Benefit\nOnce per day make a check at advantage for Bluff or Diplomacy.",
-    "notes": "[Modifier] Advantage on Bluff or Diplomacy check (1/Day)\n[Modifier] Advantage on Bluff or Diplomacy check (1/Day)\n[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Modifier] Advantage on Bluff or Diplomacy check (1/Day)",
-      "[Modifier] Advantage on Bluff or Diplomacy check (1/Day)",
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-emotional-intelligence",
-    "name": "Emotional intelligence",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Ability to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states",
-    "description": "Ability to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states",
-    "mechanics": "+2 Insight",
-    "mechanic": "+2 Insight",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Insight",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Insight"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Emotional intelligence\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states\n\n## Mechanics & Benefit\n+2 Insight",
-    "notes": "[Modifier] +2 to Insight\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Insight",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-empathy",
-    "name": "Empathy",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Intuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures.",
-    "description": "Intuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures.",
-    "mechanics": "+2 Insight and +2 Handle Animal Checks while being Friendly to other creature",
-    "mechanic": "+2 Insight and +2 Handle Animal Checks while being Friendly to other creature",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Handle Animal",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Handle Animal"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Empathy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nIntuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures.\n\n## Mechanics & Benefit\n+2 Insight and +2 Handle Animal Checks while being Friendly to other creature",
-    "notes": "[Modifier] +2 to Handle Animal\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Handle Animal",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-energetic",
-    "name": "Energetic",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "High levels of energy and enthusiasm",
-    "description": "High levels of energy and enthusiasm",
-    "mechanics": "+1 Karma Point",
-    "mechanic": "+1 Karma Point",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Karma",
-        "type": "karma",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Karma Pool"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Energetic\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHigh levels of energy and enthusiasm\n\n## Mechanics & Benefit\n+1 Karma Point",
-    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Karma Pool",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-energized-breath",
-    "name": "Energized Breath",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 4,
-    "bp": 4,
-    "costs": {
-      "cp": 4,
-      "bp": 4
-    },
-    "is_ranked": false,
-    "desc": "Focus energy into breath weapon to roll damage at advantage, 1/2 damage is magic.",
-    "description": "Focus energy into breath weapon to roll damage at advantage, 1/2 damage is magic.",
-    "mechanics": "Focus energy into breath weapon to roll damage at advantage, 1/2 damage is magic.",
-    "mechanic": "Focus energy into breath weapon to roll damage at advantage, 1/2 damage is magic.",
-    "rules": "Elite Species Trait (4 CP).",
-    "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Energized Breath\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nFocus energy into breath weapon to roll damage at advantage, 1/2 damage is magic.",
-    "notes": "[Rule] Elite Species Trait (4 CP).",
-    "notesList": [
-      "[Rule] Elite Species Trait (4 CP)."
-    ]
-  },
-  {
-    "id": "trait-energy-absorption",
-    "name": "Energy Absorption",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 4,
-    "bp": 4,
-    "costs": {
-      "cp": 4,
-      "bp": 4
-    },
-    "is_ranked": false,
-    "desc": "Heals 20% of damage ignored. Ranked. Req: Energy Immunity.",
-    "description": "Heals 20% of damage ignored. Ranked. Req: Energy Immunity.",
-    "mechanics": "Heals 20% of damage ignored. Ranked. Req: Energy Immunity.",
-    "mechanic": "Heals 20% of damage ignored. Ranked. Req: Energy Immunity.",
-    "rules": "Elite Species Trait (4 CP).",
-    "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Energy Absorption\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nHeals 20% of damage ignored. Ranked. Req: Energy Immunity.",
-    "notes": "[Rule] Elite Species Trait (4 CP).",
-    "notesList": [
-      "[Rule] Elite Species Trait (4 CP)."
-    ]
-  },
-  {
-    "id": "trait-energy-immunity",
-    "name": "Energy Immunity",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 4,
-    "bp": 4,
-    "costs": {
-      "cp": 4,
-      "bp": 4
-    },
-    "is_ranked": false,
-    "desc": "Completely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy.",
-    "description": "Completely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy.",
-    "mechanics": "Completely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy.",
-    "mechanic": "Completely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy.",
-    "rules": "Elite Species Trait (4 CP).",
-    "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [
-      {
-        "target": "armor-dr",
-        "type": "combat",
-        "value": 20,
-        "mode": "inherent",
-        "description": "+20 DR"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Energy Immunity\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nCompletely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy.\n\n## Mechanics & Benefit\nCompletely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy.",
-    "notes": "[Modifier] +20 DR\n[Rule] Elite Species Trait (4 CP).",
-    "notesList": [
-      "[Modifier] +20 DR",
-      "[Rule] Elite Species Trait (4 CP)."
-    ]
-  },
-  {
-    "id": "trait-energy-resist",
-    "name": "Energy Resist",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "DR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.",
-    "description": "DR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.",
-    "mechanics": "DR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.",
-    "mechanic": "DR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "armor-dr",
-        "type": "combat",
-        "value": 10,
-        "mode": "inherent",
-        "description": "+10 DR"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Energy Resist\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nDR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.\n\n## Mechanics & Benefit\nDR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.",
-    "notes": "[Modifier] +10 DR\n[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Modifier] +10 DR",
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-enhanced-abilities",
-    "name": "Enhanced Abilities",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Adepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race.",
-    "description": "Adepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race.",
-    "mechanics": "Able to spend a Karma Point to increase any one Ability Score by 1 point for 1 Minute, multiple points spent will increase a different Ability or the same.",
-    "mechanic": "Able to spend a Karma Point to increase any one Ability Score by 1 point for 1 Minute, multiple points spent will increase a different Ability or the same.",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Enhanced Abilities\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race.\n\n## Mechanics & Benefit\nAble to spend a Karma Point to increase any one Ability Score by 1 point for 1 Minute, multiple points spent will increase a different Ability or the same.",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-enhanced-biotechnology",
-    "name": "Enhanced Biotechnology",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Advanced affinity and control over living biotechnology and symbiotic structures.",
-    "description": "Advanced affinity and control over living biotechnology and symbiotic structures.",
-    "mechanics": "Advanced affinity and control over living biotechnology and symbiotic structures.",
-    "mechanic": "Advanced affinity and control over living biotechnology and symbiotic structures.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Enhanced Biotechnology\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nAdvanced biological affinity and seamless neurological manipulation of living technology, bio-grafts, and biomorphic carapaces.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Kitin Lineage, Awakened, or Tech Level 4+",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Kitin Lineage, Awakened, or Tech Level 4+"
-    ]
-  },
-  {
-    "id": "trait-enhanced-strength",
-    "name": "Enhanced Strength",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Count as 1 size larger for lifting and carrying capacity.",
-    "description": "Count as 1 size larger for lifting and carrying capacity.",
-    "mechanics": "Count as 1 size larger for lifting and carrying capacity.",
-    "mechanic": "Count as 1 size larger for lifting and carrying capacity.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Enhanced Strength\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nBiomechanical musculature and leveraged skeletal joints treat the organism as one size category larger when calculating lifting, carrying, dragging limits, and grappling resistance.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Strength 2",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Strength 2"
-    ]
-  },
-  {
-    "id": "trait-entertainment-skill",
-    "name": "Entertainment Skill",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Excellence in musical performance, culinary arts, somatic exhibitions, or creative entertainment.",
-    "description": "Excellence in musical performance, culinary arts, somatic exhibitions, or creative entertainment.",
-    "mechanics": "+2 to a Non-Combat Skill of choice",
-    "mechanic": "+2 to a Non-Combat Skill of choice",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "A Non-Combat",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to A Non-Combat"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Entertainment Skill\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nExcellence in musical performance, culinary arts, somatic exhibitions, or creative entertainment.\n\n## Mechanics & Benefit\n+2 to a Non-Combat Skill of choice",
-    "notes": "[Modifier] +2 to A Non-Combat\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to A Non-Combat",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-environmental-awareness",
-    "name": "Environmental Awareness",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Highly attuned to ocean currents, pressure gradients, thermal vents, and atmospheric shifts affecting survival.",
-    "description": "Highly attuned to ocean currents, pressure gradients, thermal vents, and atmospheric shifts affecting survival.",
-    "mechanics": "+2 Alertness",
-    "mechanic": "+2 Alertness",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Alertness",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Alertness"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Environmental Awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nHighly attuned to ocean currents, pressure gradients, thermal vents, and atmospheric shifts affecting survival.\n\n## Mechanics & Benefit\n+2 Alertness",
-    "notes": "[Modifier] +2 to Alertness\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Alertness",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-ether-sight",
-    "name": "Ether Sight",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 4,
-    "bp": 4,
-    "costs": {
-      "cp": 4,
-      "bp": 4
-    },
-    "is_ranked": false,
-    "desc": "See the Invisible, Phased (other-dimensional energies) and Bioluminescence Auras.",
-    "description": "See the Invisible, Phased (other-dimensional energies) and Bioluminescence Auras.",
-    "mechanics": "See the Invisible, Phased (other-dimensional energies) and Bioluminescence Auras.",
-    "mechanic": "See the Invisible, Phased (other-dimensional energies) and Bioluminescence Auras.",
-    "rules": "Elite Species Trait (4 CP).",
-    "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Ether Sight\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nSee the Invisible, Phased (other-dimensional energies) and Bioluminescence Auras.",
-    "notes": "[Rule] Elite Species Trait (4 CP).",
-    "notesList": [
-      "[Rule] Elite Species Trait (4 CP)."
-    ]
-  },
-  {
-    "id": "trait-ethical-awareness",
-    "name": "Ethical awareness",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "May have a strong sense of ethics and corporate responsibility.",
-    "description": "May have a strong sense of ethics and corporate responsibility.",
-    "mechanics": "+2 Insight checks and Diplomacy when acting ethically",
-    "mechanic": "+2 Insight checks and Diplomacy when acting ethically",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Insight",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Insight"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Ethical awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMay have a strong sense of ethics and corporate responsibility.\n\n## Mechanics & Benefit\n+2 Insight checks and Diplomacy when acting ethically",
-    "notes": "[Modifier] +2 to Insight\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Insight",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-ethical-conduct",
-    "name": "Ethical conduct",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Adheres to ethical standards in research and work.",
-    "description": "Adheres to ethical standards in research and work.",
-    "mechanics": "+2 to any Manipulation checks when taking an Ethical side",
-    "mechanic": "+2 to any Manipulation checks when taking an Ethical side",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Any Manipulation",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Any Manipulation"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Ethical conduct\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdheres to ethical standards in research and work.\n\n## Mechanics & Benefit\n+2 to any Manipulation checks when taking an Ethical side",
-    "notes": "[Modifier] +2 to Any Manipulation\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Any Manipulation",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-exoskeleton-heavy",
-    "name": "Exoskeleton (Heavy)",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 4,
-    "bp": 4,
-    "costs": {
-      "cp": 4,
-      "bp": 4
-    },
-    "is_ranked": false,
-    "desc": "DR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell.",
-    "description": "DR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell.",
-    "mechanics": "DR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell.",
-    "mechanic": "DR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell.",
-    "rules": "Elite Species Trait (4 CP).",
-    "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [
-      {
-        "target": "armor-dr",
-        "value": 8,
-        "type": "combat",
-        "mode": "inherent",
-        "description": "+8 Natural DR (Heavy Exoskeleton)"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Exoskeleton (Heavy)\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nDR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell.\n\n## Mechanics & Benefit\nDR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell.",
-    "notes": "[Modifier] +8 Natural DR (Heavy Exoskeleton)\n[Rule] Elite Species Trait (4 CP).",
-    "notesList": [
-      "[Modifier] +8 Natural DR (Heavy Exoskeleton)",
-      "[Rule] Elite Species Trait (4 CP)."
-    ]
-  },
-  {
-    "id": "trait-exoskeleton-light",
-    "name": "Exoskeleton (Light)",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "DR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.",
-    "description": "DR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.",
-    "mechanics": "DR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.",
-    "mechanic": "DR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "armor-dr",
-        "value": 6,
-        "type": "combat",
-        "mode": "inherent",
-        "description": "+6 Natural DR (Light Exoskeleton)"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Exoskeleton (Light)\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nDR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.\n\n## Mechanics & Benefit\nDR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.",
-    "notes": "[Modifier] +6 Natural DR (Light Exoskeleton)\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Insectoid, Crustacean, or Synthetic Physiology",
-    "notesList": [
-      "[Modifier] +6 Natural DR (Light Exoskeleton)",
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Insectoid, Crustacean, or Synthetic Physiology"
-    ]
-  },
-  {
-    "id": "trait-exoskeleton-partial",
-    "name": "Exoskeleton (Partial)",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "DR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.",
-    "description": "DR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.",
-    "mechanics": "DR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.",
-    "mechanic": "DR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "armor-dr",
-        "value": 4,
-        "type": "combat",
-        "mode": "inherent",
-        "description": "+4 Natural DR (Partial Exoskeleton)"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Exoskeleton (Partial)\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nDR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.\n\n## Mechanics & Benefit\nDR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.",
-    "notes": "[Modifier] +4 Natural DR (Partial Exoskeleton)\n[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +4 Natural DR (Partial Exoskeleton)",
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-expertise",
-    "name": "Expertise",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "In-depth knowledge and experience in a particular area",
-    "description": "In-depth knowledge and experience in a particular area",
-    "mechanics": "+2 to a Skill Specialization of choice",
-    "mechanic": "+2 to a Skill Specialization of choice",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Expertise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nIn-depth knowledge and experience in a particular area\n\n## Mechanics & Benefit\n+2 to a Skill Specialization of choice",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-fans",
-    "name": "Fans",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Has a loyal following of fans",
-    "description": "Has a loyal following of fans",
-    "mechanics": "+2 Wealth and +1 Manipulations with Fans",
-    "mechanic": "+2 Wealth and +1 Manipulations with Fans",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Wealth",
-        "type": "wealth",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 Wealth Score"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Fans\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHas a loyal following of fans\n\n## Mechanics & Benefit\n+2 Wealth and +1 Manipulations with Fans",
-    "notes": "[Modifier] +2 Wealth Score\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 Wealth Score",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-fast-heal",
-    "name": "Fast Heal",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Daily Recovery of Health and Vitality during a Light Rest (repeatable).",
-    "description": "Daily Recovery of Health and Vitality during a Light Rest (repeatable).",
-    "mechanics": "Daily Recovery of Health and Vitality during a Light Rest (repeatable).",
-    "mechanic": "Daily Recovery of Health and Vitality during a Light Rest (repeatable).",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Fast Heal\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nDaily Recovery of Health and Vitality during a Light Rest (repeatable).",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Stamina 2",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Stamina 2"
-    ]
-  },
-  {
-    "id": "trait-swarm-fast-heal-regeneration",
-    "name": "Fast Heal & Regeneration (Swarm)",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "The swarm constantly births new members to replace those lost, allowing it to heal and regenerate rapidly.",
-    "description": "The swarm constantly births new members to replace those lost, allowing it to heal and regenerate rapidly.",
-    "mechanics": "The swarm constantly births new members to replace those lost, allowing it to heal and regenerate rapidly.",
-    "mechanic": "The swarm constantly births new members to replace those lost, allowing it to heal and regenerate rapidly.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Fast Heal & Regeneration (Swarm)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nThe swarm constantly births new members to replace those lost, regenerating 2 Health/Vitality per round in combat and fully restoring mass during a Light Rest.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Swarm Physiology",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Swarm Physiology"
-    ]
-  },
-  {
-    "id": "trait-fatigue-resistance",
-    "name": "Fatigue Resistance",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "All Fatigue checks are made at Advantage and at twice the interval time.",
-    "description": "All Fatigue checks are made at Advantage and at twice the interval time.",
-    "mechanics": "All Fatigue checks are made at Advantage and at twice the interval time.",
-    "mechanic": "All Fatigue checks are made at Advantage and at twice the interval time.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Fatigue Resistance All Fatigue",
-        "type": "check_advantage",
-        "value": 1,
-        "mode": "inherent",
-        "description": "Advantage on Fatigue Resistance All Fatigue Checks"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Fatigue Resistance\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nAll Fatigue checks are made at Advantage and at twice the interval time.\n\n## Mechanics & Benefit\nAll Fatigue checks are made at Advantage and at twice the interval time.",
-    "notes": "[Modifier] Advantage on Fatigue Resistance All Fatigue Checks\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Robust Physiology or Inexhaustible Stamina",
-    "notesList": [
-      "[Modifier] Advantage on Fatigue Resistance All Fatigue Checks",
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Robust Physiology or Inexhaustible Stamina"
-    ]
-  },
-  {
-    "id": "trait-fearlessness",
-    "name": "Fearlessness",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Seem fearless and willing to take risks in order to achieve their goals",
-    "description": "Seem fearless and willing to take risks in order to achieve their goals",
-    "mechanics": "+1 Karma Point",
-    "mechanic": "+1 Karma Point",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Karma",
-        "type": "karma",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Karma Pool"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Fearlessness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nSeem fearless and willing to take risks in order to achieve their goals\n\n## Mechanics & Benefit\n+1 Karma Point",
-    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Karma Pool",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-fellow-artists",
-    "name": "Fellow Artists",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Has close relationships with other performers",
-    "description": "Has close relationships with other performers",
-    "mechanics": "Gather Information checks made at Advantage when dealing with the entertainment scene",
-    "mechanic": "Gather Information checks made at Advantage when dealing with the entertainment scene",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Fellow Artists Gather Information",
-        "type": "check_advantage",
-        "value": 1,
-        "mode": "inherent",
-        "description": "Advantage on Fellow Artists Gather Information Checks"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Fellow Artists\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHas close relationships with other performers\n\n## Mechanics & Benefit\nGather Information checks made at Advantage when dealing with the entertainment scene",
-    "notes": "[Modifier] Advantage on Fellow Artists Gather Information Checks\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] Advantage on Fellow Artists Gather Information Checks",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-fey-affinity",
-    "name": "Fey Affinity",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Animals treat character as Trusting & Neutral, Friendly.",
-    "description": "Animals treat character as Trusting & Neutral, Friendly.",
-    "mechanics": "Animals treat character as Trusting & Neutral, Friendly.",
-    "mechanic": "Animals treat character as Trusting & Neutral, Friendly.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Fey Affinity\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nAnimals treat character as Trusting & Neutral, Friendly.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-fiend-affinity",
-    "name": "Fiend Affinity",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Animals treat character as a Predator & Dangerous, Wary.",
-    "description": "Animals treat character as a Predator & Dangerous, Wary.",
-    "mechanics": "Animals treat character as a Predator & Dangerous, Wary.",
-    "mechanic": "Animals treat character as a Predator & Dangerous, Wary.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Fiend Affinity\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nAnimals treat character as a Predator & Dangerous, Wary.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-financial-expertise",
-    "name": "Financial expertise",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Strong understanding of financial management, budgeting, and investment strategies.",
-    "description": "Strong understanding of financial management, budgeting, and investment strategies.",
-    "mechanics": "+2 Business and Appraisal checks",
-    "mechanic": "+2 Business and Appraisal checks",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Business",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Business"
-      },
-      {
-        "target": "Appraisal",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Appraisal"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Financial expertise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nStrong understanding of financial management, budgeting, and investment strategies.\n\n## Mechanics & Benefit\n+2 Business and Appraisal checks",
-    "notes": "[Modifier] +2 to Business\n[Modifier] +2 to Appraisal\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Business",
-      "[Modifier] +2 to Appraisal",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-flexibility",
-    "name": "Flexibility",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Ability to adapt to changing circumstances and adjust plans and strategies as needed",
-    "description": "Ability to adapt to changing circumstances and adjust plans and strategies as needed",
-    "mechanics": "+2 to a specific Skill Check, may change assigned Skill daily",
-    "mechanic": "+2 to a specific Skill Check, may change assigned Skill daily",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "A specific",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to A specific"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Flexibility\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to adapt to changing circumstances and adjust plans and strategies as needed\n\n## Mechanics & Benefit\n+2 to a specific Skill Check, may change assigned Skill daily",
-    "notes": "[Modifier] +2 to A specific\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to A specific",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-flight",
-    "name": "Flight",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 4,
-    "bp": 4,
-    "costs": {
-      "cp": 4,
-      "bp": 4
-    },
-    "is_ranked": false,
-    "desc": "Flight Speed of 2x Ground Speed and Average Maneuverability, uses Acrobatics skill.",
-    "description": "Flight Speed of 2x Ground Speed and Average Maneuverability, uses Acrobatics skill.",
-    "mechanics": "Flight Speed of 2x Ground Speed and Average Maneuverability, uses Acrobatics skill.",
-    "mechanic": "Flight Speed of 2x Ground Speed and Average Maneuverability, uses Acrobatics skill.",
-    "rules": "Elite Species Trait (4 CP).",
-    "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Flight\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nFlight Speed of 2x Ground Speed and Average Maneuverability, uses Acrobatics skill.",
-    "notes": "[Rule] Elite Species Trait (4 CP).",
-    "notesList": [
-      "[Rule] Elite Species Trait (4 CP)."
-    ]
-  },
-  {
-    "id": "trait-focused-study",
-    "name": "Focused Study",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Gain Skill Focus in a skill of their choice.",
-    "description": "Gain Skill Focus in a skill of their choice.",
-    "mechanics": "Gain Skill Focus in a skill of their choice.",
-    "mechanic": "Gain Skill Focus in a skill of their choice.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Focused Study\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nGain Skill Focus in a skill of their choice.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-fragile-frame",
-    "name": "Fragile Frame",
-    "category": "traits",
-    "trait_type": "Disadvantage",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": -2,
-    "bp": -2,
-    "costs": {
-      "cp": -2,
-      "bp": -2
-    },
-    "is_ranked": false,
-    "desc": "Outside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves.",
-    "description": "Outside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves.",
-    "mechanics": "Outside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves.",
-    "mechanic": "Outside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves.",
-    "rules": "Basic Disadvantage (-2 CP).",
-    "special_rules": "Basic Disadvantage (-2 CP).",
-    "modifiers": [
-      {
-        "target": "Physical",
-        "type": "skill",
-        "value": -2,
-        "mode": "penalty",
-        "description": "-2 to Physical"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Fragile Frame\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Disadvantage\n**CP Cost**: -2\n\n## Description\nOutside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves.\n\n## Mechanics & Benefit\nOutside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves.",
-    "notes": "[Penalty] -2 to Physical\n[Rule] Basic Disadvantage (-2 CP).",
-    "notesList": [
-      "[Penalty] -2 to Physical",
-      "[Rule] Basic Disadvantage (-2 CP)."
-    ]
-  },
-  {
-    "id": "trait-freedom",
-    "name": "Freedom",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Values independence and self-expression",
-    "description": "Values independence and self-expression",
-    "mechanics": "Domination and Mind-Control Resistance Checks are made at Advantage",
-    "mechanic": "Domination and Mind-Control Resistance Checks are made at Advantage",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Will",
-        "type": "save_advantage",
-        "value": 1,
-        "mode": "inherent",
-        "description": "Advantage on Will Checks"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Freedom\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nValues independence and self-expression\n\n## Mechanics & Benefit\nDomination and Mind-Control Resistance Checks are made at Advantage",
-    "notes": "[Modifier] Advantage on Will Checks\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] Advantage on Will Checks",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-frenzy",
-    "name": "Frenzy",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).",
-    "description": "1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).",
-    "mechanics": "1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).",
-    "mechanic": "1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "attr-strength",
-        "value": 2,
-        "type": "attribute",
-        "mode": "situational",
-        "condition": "During Frenzy",
-        "description": "+2 Strength during Frenzy"
-      },
-      {
-        "target": "attr-stamina",
-        "value": 2,
-        "type": "attribute",
-        "mode": "situational",
-        "condition": "During Frenzy",
-        "description": "+2 Stamina during Frenzy"
-      },
-      {
-        "target": "defense-mod",
-        "value": -2,
-        "type": "combat",
-        "mode": "situational",
-        "condition": "During Frenzy",
-        "description": "-2 Defense during Frenzy"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Frenzy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).\n\n## Mechanics & Benefit\n1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).",
-    "notes": "[Modifier] +2 Strength during Frenzy\n[Modifier] +2 Stamina during Frenzy\n[Penalty] -2 Defense during Frenzy\n[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 Strength during Frenzy",
-      "[Modifier] +2 Stamina during Frenzy",
-      "[Penalty] -2 Defense during Frenzy",
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-fun",
-    "name": "Fun",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Values having a good time and making others happy",
-    "description": "Values having a good time and making others happy",
-    "mechanics": "Regain a Karma Point when a crowd enjoys your performance",
-    "mechanic": "Regain a Karma Point when a crowd enjoys your performance",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Fun\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nValues having a good time and making others happy\n\n## Mechanics & Benefit\nRegain a Karma Point when a crowd enjoys your performance",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-g-force-immunity",
-    "name": "G-Force Immunity",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Internal fluid dampening allows survival through extreme accelerations and supersonic vector shifts that would liquefy humanoids.",
-    "description": "Internal fluid dampening allows survival through extreme accelerations and supersonic vector shifts that would liquefy humanoids.",
-    "mechanics": "Internal fluid dampening allows survival through extreme accelerations and supersonic vector shifts that would liquefy humanoids.",
-    "mechanic": "Internal fluid dampening allows survival through extreme accelerations and supersonic vector shifts that would liquefy humanoids.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# G-Force Immunity\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nInternal fluid dampening allows the organism to survive extreme maneuvers and turns that would turn a humanoid to jelly. Grants complete immunity to G-LOC, blackout, redout, and acceleration trauma.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Hydro-Cushioned Hemolymph Vascular System",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Hydro-Cushioned Hemolymph Vascular System"
-    ]
-  },
-  {
-    "id": "trait-genetic-memory",
-    "name": "Genetic Memory",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Inheritance of ancestral knowledge and Genomatrix blueprints.",
-    "description": "Inheritance of ancestral knowledge and Genomatrix blueprints.",
-    "mechanics": "Inheritance of ancestral knowledge and Genomatrix blueprints.",
-    "mechanic": "Inheritance of ancestral knowledge and Genomatrix blueprints.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Academics",
-        "value": 2,
-        "type": "skill",
-        "mode": "conditional"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Genetic Memory\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nInheritance of ancestral knowledge and Genomatrix blueprints. Cumulative, fragmented memory bank of ancestors.",
-    "notes": "[Modifier] Academics: +2\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Kitin or Lineage with Cellular Inheritance",
-    "notesList": [
-      "[Modifier] Academics: +2",
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Kitin or Lineage with Cellular Inheritance"
-    ]
-  },
-  {
-    "id": "trait-gifted-linguist",
-    "name": "Gifted Linguist",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "+4 racial bonus on Linguistics checks.",
-    "description": "+4 racial bonus on Linguistics checks.",
-    "mechanics": "+4 racial bonus on Linguistics checks.",
-    "mechanic": "+4 racial bonus on Linguistics checks.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Language",
-        "type": "skill",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 to Language"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Gifted Linguist\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+4 racial bonus on Linguistics checks.\n\n## Mechanics & Benefit\n+4 racial bonus on Linguistics checks.",
-    "notes": "[Modifier] +4 to Language\n[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Modifier] +4 to Language",
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-greedy-eye",
-    "name": "Greedy Eye",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "+4 bonus on all Appraise checks.",
-    "description": "+4 bonus on all Appraise checks.",
-    "mechanics": "+4 bonus on all Appraise checks.",
-    "mechanic": "+4 bonus on all Appraise checks.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Appraise",
-        "type": "skill",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 to Appraise"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Greedy Eye\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+4 bonus on all Appraise checks.\n\n## Mechanics & Benefit\n+4 bonus on all Appraise checks.",
-    "notes": "[Modifier] +4 to Appraise\n[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +4 to Appraise",
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-green-thumb",
-    "name": "Green Thumb",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Natural talent for nurturing plants and making them thrive even in challenging environments. Has a knack for identifying needs of different plants.",
-    "description": "Natural talent for nurturing plants and making them thrive even in challenging environments. Has a knack for identifying needs of different plants.",
-    "mechanics": "Checks involving nurturing and helping plants may be made at Advantage",
-    "mechanic": "Checks involving nurturing and helping plants may be made at Advantage",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Green Thumb\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nNatural talent for nurturing plants and making them thrive even in challenging environments. Has a knack for identifying needs of different plants.\n\n## Mechanics & Benefit\nChecks involving nurturing and helping plants may be made at Advantage",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-guile",
-    "name": "Guile",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Good at devising clever solutions",
-    "description": "Good at devising clever solutions",
-    "mechanics": "+1 Karma Point",
-    "mechanic": "+1 Karma Point",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Karma",
-        "type": "karma",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Karma Pool"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Guile\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nGood at devising clever solutions\n\n## Mechanics & Benefit\n+1 Karma Point",
-    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Karma Pool",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-hacking",
-    "name": "Hacking",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Experience with hacking into computer systems and stealing information",
-    "description": "Experience with hacking into computer systems and stealing information",
-    "mechanics": "+2 all checks to the Infiltration of a digital domain",
-    "mechanic": "+2 all checks to the Infiltration of a digital domain",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Hacking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nExperience with hacking into computer systems and stealing information\n\n## Mechanics & Benefit\n+2 all checks to the Infiltration of a digital domain",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-hardy",
-    "name": "Hardy",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "+2 racial bonus on saving throws against poison, spells, and spell-like abilities.",
-    "description": "+2 racial bonus on saving throws against poison, spells, and spell-like abilities.",
-    "mechanics": "+2 racial bonus on saving throws against poison, spells, and spell-like abilities.",
-    "mechanic": "+2 racial bonus on saving throws against poison, spells, and spell-like abilities.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Saving throws against poison",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Saving throws against poison"
-      },
-      {
-        "target": "Spells",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Spells"
-      },
-      {
-        "target": "Spell-like abilities",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Spell-like abilities"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Hardy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 racial bonus on saving throws against poison, spells, and spell-like abilities.\n\n## Mechanics & Benefit\n+2 racial bonus on saving throws against poison, spells, and spell-like abilities.",
-    "notes": "[Modifier] +2 to Saving throws against poison\n[Modifier] +2 to Spells\n[Modifier] +2 to Spell-like abilities\n[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Saving throws against poison",
-      "[Modifier] +2 to Spells",
-      "[Modifier] +2 to Spell-like abilities",
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-healthy",
-    "name": "Healthy",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "+4 bonus on Fortitude saves against disease and poison",
-    "description": "+4 bonus on Fortitude saves against disease and poison",
-    "mechanics": "+4 bonus on Fortitude saves against disease and poison",
-    "mechanic": "+4 bonus on Fortitude saves against disease and poison",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Fortitude",
-        "type": "save",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 on Fortitude Checks"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Healthy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+4 bonus on Fortitude saves against disease and poison\n\n## Mechanics & Benefit\n+4 bonus on Fortitude saves against disease and poison",
-    "notes": "[Modifier] +4 on Fortitude Checks\n[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +4 on Fortitude Checks",
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-heightened-senses",
-    "name": "Heightened Senses",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Adepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.",
-    "description": "Adepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.",
-    "mechanics": "Gains access to purchase Sensory Features - Night Vision Line, Scent, Acute Senses and Sense Features (still must be purchased but Considered Recommended)",
-    "mechanic": "Gains access to purchase Sensory Features - Night Vision Line, Scent, Acute Senses and Sense Features (still must be purchased but Considered Recommended)",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Heightened Senses\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.\n\n## Mechanics & Benefit\nGains access to purchase Sensory Features - Night Vision Line, Scent, Acute Senses and Sense Features (still must be purchased but Considered Recommended)",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-hexapedal",
-    "name": "Hexapedal",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 4,
-    "bp": 4,
-    "costs": {
-      "cp": 4,
-      "bp": 4
-    },
-    "is_ranked": false,
-    "desc": "Six legged, +8 Stability, +20 movement speed. Special Accommodations.",
-    "description": "Six legged, +8 Stability, +20 movement speed. Special Accommodations.",
-    "mechanics": "Six legged, +8 Stability, +20 movement speed. Special Accommodations.",
-    "mechanic": "Six legged, +8 Stability, +20 movement speed. Special Accommodations.",
-    "rules": "Elite Species Trait (4 CP).",
-    "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [
-      {
-        "target": "Stability",
-        "type": "combat",
-        "value": 8,
-        "mode": "inherent",
-        "description": "+8 Stability"
-      },
-      {
-        "target": "move-walk",
-        "type": "combat",
-        "value": 20,
-        "mode": "inherent",
-        "description": "+20 movement"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Hexapedal\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nSix legged, +8 Stability, +20 movement speed. Special Accommodations.\n\n## Mechanics & Benefit\nSix legged, +8 Stability, +20 movement speed. Special Accommodations.",
-    "notes": "[Modifier] +8 Stability\n[Modifier] +20 movement\n[Rule] Elite Species Trait (4 CP).",
-    "notesList": [
-      "[Modifier] +8 Stability",
-      "[Modifier] +20 movement",
-      "[Rule] Elite Species Trait (4 CP)."
-    ]
-  },
-  {
-    "id": "trait-high-pay",
-    "name": "High Pay",
-    "category": "traits",
-    "trait_type": "Common Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Higher compensation and retainer fees for elite vocational service. (+2 Wealth)",
-    "description": "Higher compensation and retainer fees for elite vocational service. (+2 Wealth)",
-    "mechanics": "+2 Wealth Score",
-    "mechanic": "+2 Wealth Score",
-    "rules": "Basic Common Occupational Trait (1 CP).",
-    "special_rules": "Basic Common Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Wealth",
-        "type": "wealth",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 Wealth Score"
-      }
-    ],
-    "package_traits": [],
-    "body": "# High Pay\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Common Occupational Trait\n**CP Cost**: 1\n\n## Description\nHigher compensation and retainer fees for elite vocational service.\n\n## Mechanics & Benefit\n+2 Wealth Score",
-    "notes": "[Modifier] +2 Wealth Score\n[Rule] Basic Common Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 Wealth Score",
-      "[Rule] Basic Common Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-high-social-standing",
-    "name": "High social standing",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Often have a high social standing, which grants them access to better resources, connections, and opportunities.",
-    "description": "Often have a high social standing, which grants them access to better resources, connections, and opportunities.",
-    "mechanics": "+2 to Wealth Score and Etiquette checks",
-    "mechanic": "+2 to Wealth Score and Etiquette checks",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Wealth Score",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Wealth Score"
-      },
-      {
-        "target": "Etiquette",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Etiquette"
-      },
-      {
-        "target": "Wealth",
-        "type": "wealth",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 Wealth Score"
-      }
-    ],
-    "package_traits": [],
-    "body": "# High social standing\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nOften have a high social standing, which grants them access to better resources, connections, and opportunities.\n\n## Mechanics & Benefit\n+2 to Wealth Score and Etiquette checks",
-    "notes": "[Modifier] +2 to Wealth Score\n[Modifier] +2 to Etiquette\n[Modifier] +2 Wealth Score\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Wealth Score",
-      "[Modifier] +2 to Etiquette",
-      "[Modifier] +2 Wealth Score",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-hive-connection",
-    "name": "Hive Connection",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Allows members to mentally share information on different levels (Special).",
-    "description": "Allows members to mentally share information on different levels (Special).",
-    "mechanics": "Allows members to mentally share information on different levels (Special).",
-    "mechanic": "Allows members to mentally share information on different levels (Special).",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Hive Connection\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nAllows members to mentally share information on different levels (Special).",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-hive-mind-swarm",
-    "name": "Hive Mind (Swarm)",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "The swarm is a single distributed consciousness. It cannot be killed unless the majority of the swarm is destroyed.",
-    "description": "The swarm is a single distributed consciousness. It cannot be killed unless the majority of the swarm is destroyed.",
-    "mechanics": "The swarm is a single distributed consciousness. It cannot be killed unless the majority of the swarm is destroyed.",
-    "mechanic": "The swarm is a single distributed consciousness. It cannot be killed unless the majority of the swarm is destroyed.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Hive Mind (Swarm)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nThe swarm is a single distributed consciousness. Immune to single-target precision attacks and critical hits; cannot be killed unless more than 75% of the swarm mass is annihilated by area-of-effect damage.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Swarm Physiology",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Swarm Physiology"
-    ]
-  },
-  {
-    "id": "trait-hive-link",
-    "name": "Hive-Link",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Constant telepathic connection to all Kitin Strains.",
-    "description": "Constant telepathic connection to all Kitin Strains.",
-    "mechanics": "Constant telepathic connection to all Kitin Strains.",
-    "mechanic": "Constant telepathic connection to all Kitin Strains.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Hive-Link\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nConstant telepathic connection to all Kitin Strains. Conductors of the Hive Chorus.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Kitin Lineage or Hive Mind Archetype",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Kitin Lineage or Hive Mind Archetype"
-    ]
-  },
-  {
-    "id": "trait-hive-link-minor",
-    "name": "Hive-Link (Minor)",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Basic telepathic receptivity to follow Collective commands and synchronize with hive leadership.",
-    "description": "Basic telepathic receptivity to follow Collective commands and synchronize with hive leadership.",
-    "mechanics": "Basic telepathic receptivity to follow Collective commands and synchronize with hive leadership.",
-    "mechanic": "Basic telepathic receptivity to follow Collective commands and synchronize with hive leadership.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Saves against external mental coercion",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Saves against external mental coercion"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Hive-Link (Minor)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nBasic telepathic receptivity to follow Collective commands. Receives mental broadcasts within 5 miles, synchronizes Initiative with commanders, and gains +2 saves against external mental coercion.",
-    "notes": "[Modifier] +2 to Saves against external mental coercion\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Kitin Genome or Swarm Attunement",
-    "notesList": [
-      "[Modifier] +2 to Saves against external mental coercion",
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Kitin Genome or Swarm Attunement"
-    ]
-  },
-  {
-    "id": "trait-honey-paper-manufacture",
-    "name": "Honey & Paper Manufacture",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Ability to produce biological adhesives, sticky amber ooze, and cellulose pulp for nest building, barricades, and restraint.",
-    "description": "Ability to produce biological adhesives, sticky amber ooze, and cellulose pulp for nest building, barricades, and restraint.",
-    "mechanics": "Ability to produce biological adhesives, sticky amber ooze, and cellulose pulp for nest building, barricades, and restraint.",
-    "mechanic": "Ability to produce biological adhesives, sticky amber ooze, and cellulose pulp for nest building, barricades, and restraint.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Honey & Paper Manufacture\n\n**Category**: TRAITS  \n**Tier**: Basic  \n**Type**: Species Trait  \n**CP Cost**: 1  \n\n## Description\nAbility to synthesize biological adhesives, pulp, and amber ooze for nest building, defensive barricades, and sticky physical restraints.",
-    "notes": "[Rule] Basic Species Trait (1 CP).\n[Prerequisite] Insectoid Secretions",
-    "notesList": [
-      "[Rule] Basic Species Trait (1 CP).",
-      "[Prerequisite] Insectoid Secretions"
-    ]
-  },
-  {
-    "id": "trait-honor-bound",
-    "name": "Honor-Bound",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Unshakable personal code of honor, willing to lay down one’s life to protect comrades.",
-    "description": "Unshakable personal code of honor, willing to lay down one’s life to protect comrades.",
-    "mechanics": "Any One check per day at Advantage, but must be for another",
-    "mechanic": "Any One check per day at Advantage, but must be for another",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Honor-Bound Any One check per day",
-        "type": "check_advantage",
-        "value": 1,
-        "mode": "inherent",
-        "description": "Advantage on Honor-Bound Any One check per day Checks"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Honor-Bound\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nUnshakable personal code of honor, willing to lay down one’s life to protect comrades.\n\n## Mechanics & Benefit\nAny One check per day at Advantage, but must be for another",
-    "notes": "[Modifier] Advantage on Honor-Bound Any One check per day Checks\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] Advantage on Honor-Bound Any One check per day Checks",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-host-zombification",
-    "name": "Host Zombification",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "The swarm can inhabit and pilot the corpses of other species or damaged biomorphic husks as armored shells.",
-    "description": "The swarm can inhabit and pilot the corpses of other species or damaged biomorphic husks as armored shells.",
-    "mechanics": "The swarm can inhabit and pilot the corpses of other species or damaged biomorphic husks as armored shells.",
-    "mechanic": "The swarm can inhabit and pilot the corpses of other species or damaged biomorphic husks as armored shells.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Host Zombification\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nThe swarm can flow into, occupy, and puppeteer the corpses of other organisms or damaged biomorphic husks, utilizing them as ablative armored shells and adopting their physical size and strength.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Swarm Physiology",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Swarm Physiology"
-    ]
-  },
-  {
-    "id": "trait-immortal",
-    "name": "Immortal",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 4,
-    "bp": 4,
-    "costs": {
-      "cp": 4,
-      "bp": 4
-    },
-    "is_ranked": false,
-    "desc": "Cannot die of Natural Causes, nor suffer damage from Poisons/Diseases. Req: Ageless.",
-    "description": "Cannot die of Natural Causes, nor suffer damage from Poisons/Diseases. Req: Ageless.",
-    "mechanics": "Cannot die of Natural Causes, nor suffer damage from Poisons/Diseases. Req: Ageless.",
-    "mechanic": "Cannot die of Natural Causes, nor suffer damage from Poisons/Diseases. Req: Ageless.",
-    "rules": "Elite Species Trait (4 CP).",
-    "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Immortal\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nCannot die of Natural Causes, nor suffer damage from Poisons/Diseases. Req: Ageless.",
-    "notes": "[Rule] Elite Species Trait (4 CP).",
-    "notesList": [
-      "[Rule] Elite Species Trait (4 CP)."
-    ]
-  },
-  {
-    "id": "trait-independence",
-    "name": "Independence",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Self-reliance and autonomy nurtured through years of solitary deep-space voyages far beyond comms reach.",
-    "description": "Self-reliance and autonomy nurtured through years of solitary deep-space voyages far beyond comms reach.",
-    "mechanics": "+1 Karma Point",
-    "mechanic": "+1 Karma Point",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Karma",
-        "type": "karma",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Karma Pool"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Independence\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nSelf-reliance and autonomy nurtured through years of solitary deep-space voyages far beyond comms reach.\n\n## Mechanics & Benefit\n+1 Karma Point",
-    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Karma Pool",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-integrated",
-    "name": "Integrated",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "+1 bonus on Bluff, Disguise, and Knowledge (local) checks.",
-    "description": "+1 bonus on Bluff, Disguise, and Knowledge (local) checks.",
-    "mechanics": "+1 bonus on Bluff, Disguise, and Knowledge (local) checks.",
-    "mechanic": "+1 bonus on Bluff, Disguise, and Knowledge (local) checks.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Bluff",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Bluff"
-      },
-      {
-        "target": "Disguise",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Disguise"
-      },
-      {
-        "target": "Knowledge local",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Knowledge local"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Integrated\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+1 bonus on Bluff, Disguise, and Knowledge (local) checks.\n\n## Mechanics & Benefit\n+1 bonus on Bluff, Disguise, and Knowledge (local) checks.",
-    "notes": "[Modifier] +1 to Bluff\n[Modifier] +1 to Disguise\n[Modifier] +1 to Knowledge local\n[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Bluff",
-      "[Modifier] +1 to Disguise",
-      "[Modifier] +1 to Knowledge local",
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-integrity",
-    "name": "Integrity",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Honest and trustworthy, able to maintain a high level of integrity in their work",
-    "description": "Honest and trustworthy, able to maintain a high level of integrity in their work",
-    "mechanics": "+1 Karma",
-    "mechanic": "+1 Karma",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Karma",
-        "type": "karma",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Karma Pool"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Integrity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHonest and trustworthy, able to maintain a high level of integrity in their work\n\n## Mechanics & Benefit\n+1 Karma",
-    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Karma Pool",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-intellectualism",
-    "name": "Intellectualism",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Formal academic pedagogy and comprehensive theoretical mastery in advanced sciences.",
-    "description": "Formal academic pedagogy and comprehensive theoretical mastery in advanced sciences.",
-    "mechanics": "+2 Academics and +2 to a Mental Skill Specialization",
-    "mechanic": "+2 Academics and +2 to a Mental Skill Specialization",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "A Mental",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to A Mental"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Intellectualism\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nFormal academic pedagogy and comprehensive theoretical mastery in advanced sciences.\n\n## Mechanics & Benefit\n+2 Academics and +2 to a Mental Skill Specialization",
-    "notes": "[Modifier] +2 to A Mental\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to A Mental",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-intuition",
-    "name": "Intuition",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Heightened sixth sense allowing the operative to anticipate predatory ambushes and sudden cave-ins.",
-    "description": "Heightened sixth sense allowing the operative to anticipate predatory ambushes and sudden cave-ins.",
-    "mechanics": "Re-Roll any one failed Perception check per day",
-    "mechanic": "Re-Roll any one failed Perception check per day",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Intuition\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nHeightened sixth sense allowing the operative to anticipate predatory ambushes and sudden cave-ins.\n\n## Mechanics & Benefit\nRe-Roll any one failed Perception check per day",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-investigation",
-    "name": "Investigation",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Gathering information, analyzing data, and conducting surveillance",
-    "description": "Gathering information, analyzing data, and conducting surveillance",
-    "mechanics": "+2 Investigation and Gather Information",
-    "mechanic": "+2 Investigation and Gather Information",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Investigation",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Investigation"
-      },
-      {
-        "target": "Gather Information",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Gather Information"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Investigation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nGathering information, analyzing data, and conducting surveillance\n\n## Mechanics & Benefit\n+2 Investigation and Gather Information",
-    "notes": "[Modifier] +2 to Investigation\n[Modifier] +2 to Gather Information\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Investigation",
-      "[Modifier] +2 to Gather Information",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-jack-of-all-trades",
-    "name": "Jack-of-All-Trades",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Possess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group",
-    "description": "Possess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group",
-    "mechanics": "May use any skill without formal training",
-    "mechanic": "May use any skill without formal training",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "All Skills",
-        "type": "untrained",
-        "value": 0,
-        "mode": "conditional",
-        "isSituational": true,
-        "condition": "Untrained skill checks",
-        "description": "May attempt any skill check untrained without suffering CR penalties"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Jack-of-All-Trades\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nPossess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group\n\n## Mechanics & Benefit\nMay use any skill without formal training",
-    "notes": "[Modifier] May attempt any skill check untrained without suffering CR penalties\n[Rule] Basic Occupational Trait (1 CP).\n[Prerequisite] Intellect 2",
-    "notesList": [
-      "[Modifier] May attempt any skill check untrained without suffering CR penalties",
-      "[Rule] Basic Occupational Trait (1 CP).",
-      "[Prerequisite] Intellect 2"
-    ]
-  },
-  {
-    "id": "trait-keen-observation",
-    "name": "Keen Observation",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Scouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.",
-    "description": "Scouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.",
-    "mechanics": "Take 10 on Alertness Checks",
-    "mechanic": "Take 10 on Alertness Checks",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Alertness",
-        "type": "take_10",
-        "value": 10,
-        "mode": "inherent",
-        "description": "May take 10 on Alertness Checks"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Keen Observation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nScouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.\n\n## Mechanics & Benefit\nTake 10 on Alertness Checks",
-    "notes": "[Modifier] May take 10 on Alertness Checks\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] May take 10 on Alertness Checks",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-kitin-base-traits",
-    "name": "Kitin Base Traits",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 8,
-    "bp": 8,
-    "costs": {
-      "cp": 8,
-      "bp": 8
-    },
-    "is_ranked": false,
-    "desc": "Awakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].",
-    "description": "Awakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].",
-    "mechanics": "Awakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].",
-    "mechanic": "Awakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].",
-    "rules": "Elite Species Trait (8 CP).",
-    "special_rules": "Elite Species Trait (8 CP).",
-    "modifiers": [
-      {
-        "target": "Meta: Psychic",
-        "value": 1,
-        "type": "discipline",
-        "mode": "inherent",
-        "description": "Awakened (Psychic) [2 CP]"
-      },
-      {
-        "target": "Condition: Sleep",
-        "value": 0,
-        "type": "immunity",
-        "mode": "inherent",
-        "description": "Torpor / Sleepless"
-      }
-    ],
-    "package_traits": [
-      {
-        "id": "trait-awakened-psychic",
-        "name": "Awakened (Psychic)",
-        "tier": "Advanced",
-        "bp": 2,
-        "mechanic": "Conductors and receptors of the Hive psionic Chorus.",
-        "cp": 2
-      },
-      {
-        "id": "trait-enhanced-biotechnology",
-        "name": "Biotechnology Affinity",
-        "tier": "Advanced",
-        "bp": 2,
-        "mechanic": "Innate affinity for manipulating living symbiotic technology and glandular synthesis.",
-        "cp": 2
-      },
-      {
-        "id": "trait-hive-connection",
-        "name": "Hive Connection / Hive-Link",
-        "tier": "Advanced",
-        "bp": 2,
-        "mechanic": "Constant telepathic connection and pheromonal telemetry to the Collective.",
-        "cp": 2
-      },
-      {
-        "id": "trait-torpor-universal",
-        "name": "Torpor / Sleepless",
-        "tier": "Advanced",
-        "bp": 2,
-        "mechanic": "Requires only 4 hours of conscious torpor; immune to sleep effects.",
-        "cp": 2
-      }
-    ],
-    "body": "# Kitin Base Traits\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 8\n\n## Description\nAwakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].\n\n## Mechanics & Benefit\nAwakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].",
-    "notes": "[Modifier] Awakened (Psychic) [2 CP]\n[Modifier] Torpor / Sleepless\n[Rule] Elite Species Trait (8 CP).",
-    "notesList": [
-      "[Modifier] Awakened (Psychic) [2 CP]",
-      "[Modifier] Torpor / Sleepless",
-      "[Rule] Elite Species Trait (8 CP)."
-    ]
-  },
-  {
-    "id": "trait-languages",
-    "name": "Languages",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Fluency in multiple languages",
-    "description": "Fluency in multiple languages",
-    "mechanics": "+2 Linguistic Knowledge",
-    "mechanic": "+2 Linguistic Knowledge",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Linguistic Knowledge Fluency in multiple languages",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Linguistic Knowledge Fluency in multiple languages"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Languages\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nFluency in multiple languages\n\n## Mechanics & Benefit\n+2 Linguistic Knowledge",
-    "notes": "[Modifier] +2 to Linguistic Knowledge Fluency in multiple languages\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Linguistic Knowledge Fluency in multiple languages",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-leadership",
-    "name": "Leadership",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Guiding fellow colonists through crises and establishing order in remote settlements.",
-    "description": "Guiding fellow colonists through crises and establishing order in remote settlements.",
-    "mechanics": "+2 Leadership",
-    "mechanic": "+2 Leadership",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Leadership",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Leadership"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Leadership\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nGuiding fellow colonists through crises and establishing order in remote settlements.\n\n## Mechanics & Benefit\n+2 Leadership",
-    "notes": "[Modifier] +2 to Leadership\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Leadership",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-leadership-skills",
-    "name": "Leadership Skills",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Maintaining crew morale, resolving hull-fever quarrels, and commanding maneuvers during asteroid transit.",
-    "description": "Maintaining crew morale, resolving hull-fever quarrels, and commanding maneuvers during asteroid transit.",
-    "mechanics": "+2 Leadership Checks",
-    "mechanic": "+2 Leadership Checks",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Leadership",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Leadership"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Leadership Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nMaintaining crew morale, resolving hull-fever quarrels, and commanding maneuvers during asteroid transit.\n\n## Mechanics & Benefit\n+2 Leadership Checks",
-    "notes": "[Modifier] +2 to Leadership\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Leadership",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-leaper",
-    "name": "Leaper",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Always counts as a running start; all checks for jumping, leaping, and controlled dropping made at advantage.",
-    "description": "Always counts as a running start; all checks for jumping, leaping, and controlled dropping made at advantage.",
-    "mechanics": "Always counts as a running start; all checks for jumping, leaping, and controlled dropping made at advantage.",
-    "mechanic": "Always counts as a running start; all checks for jumping, leaping, and controlled dropping made at advantage.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "physical-athletics",
-        "type": "skill",
-        "value": 2,
-        "mode": "conditional",
-        "isSituational": true,
-        "condition": "Jumping and leaping distance checks",
-        "description": "Always counts as having a running start for jumping and leaping distance checks"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Leaper\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nHigh-impact hydraulic leg anatomy allows the creature to always count as having a running start for jump distance, and grants Advantage on all checks for jumping, leaping, and dropping.",
-    "notes": "[Modifier] Always counts as having a running start for jumping and leaping distance checks\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Athletics 1 or Agility 2",
-    "notesList": [
-      "[Modifier] Always counts as having a running start for jumping and leaping distance checks",
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Athletics 1 or Agility 2"
-    ]
-  },
-  {
-    "id": "trait-lifestyle-preferences",
-    "name": "Lifestyle Preferences",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Refined aesthetic tastes and familiarity with high-society etiquette and luxury commerce.",
-    "description": "Refined aesthetic tastes and familiarity with high-society etiquette and luxury commerce.",
-    "mechanics": "+1 Wealth and +1 Diplomacy",
-    "mechanic": "+1 Wealth and +1 Diplomacy",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Wealth",
-        "type": "wealth",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 Wealth Score"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Lifestyle Preferences\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nRefined aesthetic tastes and familiarity with high-society etiquette and luxury commerce.\n\n## Mechanics & Benefit\n+1 Wealth and +1 Diplomacy",
-    "notes": "[Modifier] +1 Wealth Score\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 Wealth Score",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-limited-flight",
-    "name": "Limited Flight",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Flight speed of 2x Land Speed for 1 round of movement, 2x Jump distance, and Slow Fall.",
-    "description": "Flight speed of 2x Land Speed for 1 round of movement, 2x Jump distance, and Slow Fall.",
-    "mechanics": "Flight speed of 2x Land Speed for 1 round of movement, 2x Jump distance, and Slow Fall.",
-    "mechanic": "Flight speed of 2x Land Speed for 1 round of movement, 2x Jump distance, and Slow Fall.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Limited Flight\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nShort bursts of elytra-powered flight granting 2x Land Speed for 1 round of movement, 2x Jump distance, and immunity to falling damage via Slow Fall.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Athletics 1 or Agility 2",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Athletics 1 or Agility 2"
-    ]
-  },
-  {
-    "id": "trait-linguistics",
-    "name": "Linguistics",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Merchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals.",
-    "description": "Merchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals.",
-    "mechanics": "+2 Linguistic Knowledge",
-    "mechanic": "+2 Linguistic Knowledge",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Linguistic Knowledge Merchants often possess linguistic",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Linguistic Knowledge Merchants often possess linguistic"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Linguistics\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals.\n\n## Mechanics & Benefit\n+2 Linguistic Knowledge",
-    "notes": "[Modifier] +2 to Linguistic Knowledge Merchants often possess linguistic\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Linguistic Knowledge Merchants often possess linguistic",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-logistics",
-    "name": "Logistics",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Merchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs.",
-    "description": "Merchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs.",
-    "mechanics": "+2 Wealth Checks",
-    "mechanic": "+2 Wealth Checks",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Wealth",
-        "type": "wealth",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 Wealth Score"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Logistics\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs.\n\n## Mechanics & Benefit\n+2 Wealth Checks",
-    "notes": "[Modifier] +2 Wealth Score\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 Wealth Score",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-longevity",
-    "name": "Longevity",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Effectively doubles age categories.",
-    "description": "Effectively doubles age categories.",
-    "mechanics": "Effectively doubles age categories.",
-    "mechanic": "Effectively doubles age categories.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Longevity\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nEffectively doubles age categories.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-low-light-vision",
-    "name": "Low Light Vision",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "See twice as well in low light, Improved Spectrum Vision (lower IR and UV).",
-    "description": "See twice as well in low light, Improved Spectrum Vision (lower IR and UV).",
-    "mechanics": "See twice as well in low light, Improved Spectrum Vision (lower IR and UV).",
-    "mechanic": "See twice as well in low light, Improved Spectrum Vision (lower IR and UV).",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Low Light Vision\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nSee twice as well in low light, Improved Spectrum Vision (lower IR and UV).",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-loyal",
-    "name": "Loyal",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Steadfast fidelity to battalion and squadmates, rendering mind control and betrayal abhorrent.",
-    "description": "Steadfast fidelity to battalion and squadmates, rendering mind control and betrayal abhorrent.",
-    "mechanics": "Domination and Mind-Control Resistance Checks are made at Advantage",
-    "mechanic": "Domination and Mind-Control Resistance Checks are made at Advantage",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Will",
-        "type": "save_advantage",
-        "value": 1,
-        "mode": "inherent",
-        "description": "Advantage on Will Checks"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Loyal\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nSteadfast fidelity to battalion and squadmates, rendering mind control and betrayal abhorrent.\n\n## Mechanics & Benefit\nDomination and Mind-Control Resistance Checks are made at Advantage",
-    "notes": "[Modifier] Advantage on Will Checks\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] Advantage on Will Checks",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-loyalty",
-    "name": "Loyalty",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "While they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups",
-    "description": "While they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups",
-    "mechanics": "Domination and Mind-Control Resistance Checks are made at Advantage",
-    "mechanic": "Domination and Mind-Control Resistance Checks are made at Advantage",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Will",
-        "type": "save_advantage",
-        "value": 1,
-        "mode": "inherent",
-        "description": "Advantage on Will Checks"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Loyalty\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nWhile they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups\n\n## Mechanics & Benefit\nDomination and Mind-Control Resistance Checks are made at Advantage",
-    "notes": "[Modifier] Advantage on Will Checks\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] Advantage on Will Checks",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-lucky-greater",
-    "name": "Lucky, Greater",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "+2 racial bonus on all saving throws.",
-    "description": "+2 racial bonus on all saving throws.",
-    "mechanics": "+2 racial bonus on all saving throws.",
-    "mechanic": "+2 racial bonus on all saving throws.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Fortitude",
-        "type": "save",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 on all saving throws"
-      },
-      {
-        "target": "Reflex",
-        "type": "save",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 on all saving throws"
-      },
-      {
-        "target": "Will",
-        "type": "save",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 on all saving throws"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Lucky, Greater\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+2 racial bonus on all saving throws.\n\n## Mechanics & Benefit\n+2 racial bonus on all saving throws.",
-    "notes": "[Modifier] +2 on all saving throws\n[Modifier] +2 on all saving throws\n[Modifier] +2 on all saving throws\n[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Modifier] +2 on all saving throws",
-      "[Modifier] +2 on all saving throws",
-      "[Modifier] +2 on all saving throws",
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-lucky-lesser",
-    "name": "Lucky, Lesser",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "+1 racial bonus on all saving throws.",
-    "description": "+1 racial bonus on all saving throws.",
-    "mechanics": "+1 racial bonus on all saving throws.",
-    "mechanic": "+1 racial bonus on all saving throws.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Fortitude",
-        "type": "save",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 on all saving throws"
-      },
-      {
-        "target": "Reflex",
-        "type": "save",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 on all saving throws"
-      },
-      {
-        "target": "Will",
-        "type": "save",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 on all saving throws"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Lucky, Lesser\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+1 racial bonus on all saving throws.\n\n## Mechanics & Benefit\n+1 racial bonus on all saving throws.",
-    "notes": "[Modifier] +1 on all saving throws\n[Modifier] +1 on all saving throws\n[Modifier] +1 on all saving throws\n[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 on all saving throws",
-      "[Modifier] +1 on all saving throws",
-      "[Modifier] +1 on all saving throws",
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-machine-affinity",
-    "name": "Machine Affinity",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Natural aptitude for working with machinery and tools",
-    "description": "Natural aptitude for working with machinery and tools",
-    "mechanics": "Additional +1 from Equipment Bonus and +2 Technology (Knowledge)",
-    "mechanic": "Additional +1 from Equipment Bonus and +2 Technology (Knowledge)",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Technology Knowledge Natural aptitude for working with machinery",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Technology Knowledge Natural aptitude for working with machinery"
-      },
-      {
-        "target": "Tools",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Tools"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Machine Affinity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nNatural aptitude for working with machinery and tools\n\n## Mechanics & Benefit\nAdditional +1 from Equipment Bonus and +2 Technology (Knowledge)",
-    "notes": "[Modifier] +2 to Technology Knowledge Natural aptitude for working with machinery\n[Modifier] +2 to Tools\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Technology Knowledge Natural aptitude for working with machinery",
-      "[Modifier] +2 to Tools",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-management",
-    "name": "Management",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Skill in organizing resort logistics, hospitality staff, entertainment venues, and guest services.",
-    "description": "Skill in organizing resort logistics, hospitality staff, entertainment venues, and guest services.",
-    "mechanics": "+1 Wealth and +1 Leadership",
-    "mechanic": "+1 Wealth and +1 Leadership",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Wealth",
-        "type": "wealth",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 Wealth Score"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Management\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nSkill in organizing resort logistics, hospitality staff, entertainment venues, and guest services.\n\n## Mechanics & Benefit\n+1 Wealth and +1 Leadership",
-    "notes": "[Modifier] +1 Wealth Score\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 Wealth Score",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-martial-arts-mastery",
-    "name": "Martial Arts Mastery",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Many adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.",
-    "description": "Many adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.",
-    "mechanics": "+2 Unarmed Combat",
-    "mechanic": "+2 Unarmed Combat",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Unarmed Combat Many adepts are highly",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Unarmed Combat Many adepts are highly"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Martial Arts Mastery\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMany adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.\n\n## Mechanics & Benefit\n+2 Unarmed Combat",
-    "notes": "[Modifier] +2 to Unarmed Combat Many adepts are highly\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Unarmed Combat Many adepts are highly",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-master-tinker",
-    "name": "Master Tinker",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "+2 bonus on Disable Device and Engineering.",
-    "description": "+2 bonus on Disable Device and Engineering.",
-    "mechanics": "+2 bonus on Disable Device and Engineering.",
-    "mechanic": "+2 bonus on Disable Device and Engineering.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Disable Device",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Disable Device"
-      },
-      {
-        "target": "Engineering",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Engineering"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Master Tinker\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+2 bonus on Disable Device and Engineering.\n\n## Mechanics & Benefit\n+2 bonus on Disable Device and Engineering.",
-    "notes": "[Modifier] +2 to Disable Device\n[Modifier] +2 to Engineering\n[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Modifier] +2 to Disable Device",
-      "[Modifier] +2 to Engineering",
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-mastery-of-a-discipline",
-    "name": "Mastery of a Discipline",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Adepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.",
-    "description": "Adepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.",
-    "mechanics": "+2 to a Metafocus Discipline",
-    "mechanic": "+2 to a Metafocus Discipline",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "A Metafocus Discipline",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to A Metafocus Discipline"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Mastery of a Discipline\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.\n\n## Mechanics & Benefit\n+2 to a Metafocus Discipline",
-    "notes": "[Modifier] +2 to A Metafocus Discipline\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to A Metafocus Discipline",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-mecha-physics",
-    "name": "Mecha-Physics",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Comprehensive understanding of physics",
-    "description": "Comprehensive understanding of physics",
-    "mechanics": "+2 to Engineering",
-    "mechanic": "+2 to Engineering",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Engineering Comprehensive understanding of physics",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Engineering Comprehensive understanding of physics"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Mecha-Physics\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nComprehensive understanding of physics\n\n## Mechanics & Benefit\n+2 to Engineering",
-    "notes": "[Modifier] +2 to Engineering Comprehensive understanding of physics\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Engineering Comprehensive understanding of physics",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-mechanical-aptitude",
-    "name": "Mechanical Aptitude",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Natural talent for working with heavy machinery, hydraulic presses, automated assembly lines, and smelters.",
-    "description": "Natural talent for working with heavy machinery, hydraulic presses, automated assembly lines, and smelters.",
-    "mechanics": "+1 to Mechanical, Electrical and Engineering Skill Checks",
-    "mechanic": "+1 to Mechanical, Electrical and Engineering Skill Checks",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Mechanical",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Mechanical"
-      },
-      {
-        "target": "Electrical",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Electrical"
-      },
-      {
-        "target": "Engineering",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Engineering"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Mechanical Aptitude\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nNatural talent for working with heavy machinery, hydraulic presses, automated assembly lines, and smelters.\n\n## Mechanics & Benefit\n+1 to Mechanical, Electrical and Engineering Skill Checks",
-    "notes": "[Modifier] +1 to Mechanical\n[Modifier] +1 to Electrical\n[Modifier] +1 to Engineering\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Mechanical",
-      "[Modifier] +1 to Electrical",
-      "[Modifier] +1 to Engineering",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-mechanical-skills",
-    "name": "Mechanical Skills",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Mechanical skills related to farming equipment and machinery. Can repair and maintain farming tools, vehicles, pumps, conveyors and other automated systems.",
-    "description": "Mechanical skills related to farming equipment and machinery. Can repair and maintain farming tools, vehicles, pumps, conveyors and other automated systems.",
-    "mechanics": "+2 to Mechanical Skill Checks",
-    "mechanic": "+2 to Mechanical Skill Checks",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Mechanical",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Mechanical"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Mechanical Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nMechanical skills related to farming equipment and machinery. Can repair and maintain farming tools, vehicles, pumps, conveyors and other automated systems.\n\n## Mechanics & Benefit\n+2 to Mechanical Skill Checks",
-    "notes": "[Modifier] +2 to Mechanical\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Mechanical",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-mental-resilience",
-    "name": "Mental Resilience",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Withstand psychological challenges",
-    "description": "Withstand psychological challenges",
-    "mechanics": "+2 Willpower Checks",
-    "mechanic": "+2 Willpower Checks",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Will",
-        "type": "save",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 on Will Checks"
-      },
-      {
-        "target": "Willpower",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Willpower"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Mental Resilience\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nWithstand psychological challenges\n\n## Mechanics & Benefit\n+2 Willpower Checks",
-    "notes": "[Modifier] +2 on Will Checks\n[Modifier] +2 to Willpower\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 on Will Checks",
-      "[Modifier] +2 to Willpower",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-mental-toughness",
-    "name": "Mental Toughness",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Psychological resilience against isolation, sensory deprivation, fear, and pain.",
-    "description": "Psychological resilience against isolation, sensory deprivation, fear, and pain.",
-    "mechanics": "+2 Willpower Checks",
-    "mechanic": "+2 Willpower Checks",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Will",
-        "type": "save",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 on Will Checks"
-      },
-      {
-        "target": "Willpower",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Willpower"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Mental Toughness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPsychological resilience against isolation, sensory deprivation, fear, and pain.\n\n## Mechanics & Benefit\n+2 Willpower Checks",
-    "notes": "[Modifier] +2 on Will Checks\n[Modifier] +2 to Willpower\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 on Will Checks",
-      "[Modifier] +2 to Willpower",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-mentorship",
-    "name": "Mentorship",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Guiding pupils and imparting ancient wisdom to accelerate their intellectual and spiritual growth.",
-    "description": "Guiding pupils and imparting ancient wisdom to accelerate their intellectual and spiritual growth.",
-    "mechanics": "Those under the Enlightened character’s tutelage may make Study Checks at Advantage",
-    "mechanic": "Those under the Enlightened character’s tutelage may make Study Checks at Advantage",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Study",
-        "type": "check_advantage",
-        "value": 1,
-        "mode": "inherent",
-        "description": "Advantage on Study Checks"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Mentorship\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nGuiding pupils and imparting ancient wisdom to accelerate their intellectual and spiritual growth.\n\n## Mechanics & Benefit\nThose under the Enlightened character’s tutelage may make Study Checks at Advantage",
-    "notes": "[Modifier] Advantage on Study Checks\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] Advantage on Study Checks",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-metacognition",
-    "name": "Metacognition",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Aware of own cognitive abilities and strategies.",
-    "description": "Aware of own cognitive abilities and strategies.",
-    "mechanics": "+1 to Logic and Willpower Checks",
-    "mechanic": "+1 to Logic and Willpower Checks",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Logic",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Logic"
-      },
-      {
-        "target": "Willpower",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Willpower"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Metacognition\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAware of own cognitive abilities and strategies.\n\n## Mechanics & Benefit\n+1 to Logic and Willpower Checks",
-    "notes": "[Modifier] +1 to Logic\n[Modifier] +1 to Willpower\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Logic",
-      "[Modifier] +1 to Willpower",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-mighty-surge",
-    "name": "Mighty Surge",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Once per encounter or light rest, summon an explosive reserve of physical adrenaline or cellular force.",
-    "description": "Once per encounter or light rest, summon an explosive reserve of physical adrenaline or cellular force.",
-    "mechanics": "Once per encounter or light rest, summon an explosive reserve of physical adrenaline or cellular force.",
-    "mechanic": "Once per encounter or light rest, summon an explosive reserve of physical adrenaline or cellular force.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Might",
-        "value": 1,
-        "type": "check_advantage",
-        "mode": "situational",
-        "condition": "1/Encounter",
-        "description": "Advantage on Strength or Stamina check (1/Encounter)"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Mighty Surge\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nOnce per encounter or light rest, summon an explosive reserve of physical adrenaline or cellular force.\n\n## Mechanics & Benefit\nOnce per encounter or light rest, summon an explosive reserve of physical adrenaline or cellular force.",
-    "notes": "[Modifier] Advantage on Strength or Stamina check (1/Encounter)\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Potent Might, Strength 2",
-    "notesList": [
-      "[Modifier] Advantage on Strength or Stamina check (1/Encounter)",
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Potent Might, Strength 2"
-    ]
-  },
-  {
-    "id": "trait-milspec-gear",
-    "name": "Milspec Gear",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Trained to utilize and field-strip military-grade ordinance and tactical armor.",
-    "description": "Trained to utilize and field-strip military-grade ordinance and tactical armor.",
-    "mechanics": "+2 Equipment",
-    "mechanic": "+2 Equipment",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "equipment-bonus",
-        "type": "combat",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 Equipment"
-      },
-      {
-        "target": "Trained to utilize",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Trained to utilize"
-      },
-      {
-        "target": "Field-strip military-grade ordinance",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Field-strip military-grade ordinance"
-      },
-      {
-        "target": "Tactical armor",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Tactical armor"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Milspec Gear\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nTrained to utilize and field-strip military-grade ordinance and tactical armor.\n\n## Mechanics & Benefit\n+2 Equipment",
-    "notes": "[Modifier] +2 Equipment\n[Modifier] +2 to Trained to utilize\n[Modifier] +2 to Field-strip military-grade ordinance\n[Modifier] +2 to Tactical armor\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 Equipment",
-      "[Modifier] +2 to Trained to utilize",
-      "[Modifier] +2 to Field-strip military-grade ordinance",
-      "[Modifier] +2 to Tactical armor",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-mimetic-form",
-    "name": "Mimetic Form",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Gain a +2 Bonus to Disguise or Deception checks to pass as human (antennae must be concealed).",
-    "description": "Gain a +2 Bonus to Disguise or Deception checks to pass as human (antennae must be concealed).",
-    "mechanics": "Gain a +2 Bonus to Disguise or Deception checks to pass as human (antennae must be concealed).",
-    "mechanic": "Gain a +2 Bonus to Disguise or Deception checks to pass as human (antennae must be concealed).",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Disguise",
-        "value": 2,
-        "type": "skill",
-        "mode": "conditional"
-      },
-      {
-        "target": "Deception",
-        "value": 2,
-        "type": "skill",
-        "mode": "conditional"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Mimetic Form\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nGain a +2 Bonus to Disguise or Deception checks to pass as human (antennae must be concealed).",
-    "notes": "[Modifier] Disguise: +2\n[Modifier] Deception: +2\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Kitin Manelli or Morphic Species",
-    "notesList": [
-      "[Modifier] Disguise: +2",
-      "[Modifier] Deception: +2",
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Kitin Manelli or Morphic Species"
-    ]
-  },
-  {
-    "id": "trait-mind-speech",
-    "name": "Mind Speech",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Telepathic Communication to one subject within 500 ft. Ranked.",
-    "description": "Telepathic Communication to one subject within 500 ft. Ranked.",
-    "mechanics": "Telepathic Communication to one subject within 500 ft. Ranked.",
-    "mechanic": "Telepathic Communication to one subject within 500 ft. Ranked.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
+    "rules": "Archetype Trait (1 CP) — The Vagabond (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Vagabond (Operative).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Mind Speech\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nTelepathic Communication to one subject within 500 ft. Ranked.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Adaptability\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Vagabond (Operative))\n**CP Cost**: 1\n\n## Description\nThe character is able to adapt to new environments and situations quickly, making them well-suited to life in an ever-changing aquatic world.\n\n## Mechanics & Benefit\n+2 to a specific Skill Check, may change assigned Skill daily",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Vagabond (Operative).",
     "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
+      "[Rule] Archetype Trait (1 CP) — The Vagabond (Operative)."
     ]
   },
   {
-    "id": "trait-mobility",
+    "id": "trait-sig-mobility",
     "name": "Mobility",
     "category": "traits",
-    "trait_type": "Occupational Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
     "classification": "Physical",
     "type": "Physical",
@@ -20893,94 +16070,33 @@ export const ALL_CANONICAL_TRAITS = [
     "description": "Often on the move, traveling from place to place and exploring new territories",
     "mechanics": "+2 Equipment (Vehicle)",
     "mechanic": "+2 Equipment (Vehicle)",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
+    "rules": "Archetype Trait (1 CP) — The Vagabond (Operative).",
+    "special_rules": "Archetype Trait (1 CP) — The Vagabond (Operative).",
     "modifiers": [
       {
         "target": "equipment-bonus",
         "type": "combat",
         "value": 2,
         "mode": "inherent",
-        "description": "+2 Equipment"
+        "description": "+2 to equipment-bonus"
       }
     ],
     "package_traits": [],
-    "body": "# Mobility\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nOften on the move, traveling from place to place and exploring new territories\n\n## Mechanics & Benefit\n+2 Equipment (Vehicle)",
-    "notes": "[Modifier] +2 Equipment\n[Rule] Basic Occupational Trait (1 CP).\n[Prerequisite] Agility 2, Dodge",
+    "body": "# Mobility\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Vagabond (Operative))\n**CP Cost**: 1\n\n## Description\nOften on the move, traveling from place to place and exploring new territories\n\n## Mechanics & Benefit\n+2 Equipment (Vehicle)",
+    "notes": "[Modifier] +2 to equipment-bonus\n[Rule] Archetype Trait (1 CP) — The Vagabond (Operative).",
     "notesList": [
-      "[Modifier] +2 Equipment",
-      "[Rule] Basic Occupational Trait (1 CP).",
-      "[Prerequisite] Agility 2, Dodge"
+      "[Modifier] +2 to equipment-bonus",
+      "[Rule] Archetype Trait (1 CP) — The Vagabond (Operative)."
     ]
   },
   {
-    "id": "trait-multidextrous-4-arms",
-    "name": "Multidextrous (4 Arms)",
+    "id": "trait-star-power",
+    "name": "Star Power",
     "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 4,
-    "bp": 4,
-    "costs": {
-      "cp": 4,
-      "bp": 4
-    },
-    "is_ranked": false,
-    "desc": "Four articulated arms ending in sharp clawed digits with zero off-hand penalties, allowing simultaneous complex tasks, multiple attacks, and precision engineering.",
-    "description": "Four articulated arms ending in sharp clawed digits with zero off-hand penalties, allowing simultaneous complex tasks, multiple attacks, and precision engineering.",
-    "mechanics": "Four articulated arms ending in sharp clawed digits with zero off-hand penalties, allowing simultaneous complex tasks, multiple attacks, and precision engineering.",
-    "mechanic": "Four articulated arms ending in sharp clawed digits with zero off-hand penalties, allowing simultaneous complex tasks, multiple attacks, and precision engineering.",
-    "rules": "Elite Species Trait (4 CP).",
-    "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Multidextrous (4 Arms)\n\n**Category**: TRAITS  \n**Tier**: Elite  \n**Type**: Species Trait  \n**CP Cost**: 4  \n\n## Description\nFour articulated upper limbs ending in sharp, clawed digits. Operates all four hands with primary dexterity, suffering no off-hand penalties in combat or technical tasks, and dealing 1d6 + Str Lethal natural damage.",
-    "notes": "[Rule] Elite Species Trait (4 CP).\n[Prerequisite] Agility 2, 4 Arms",
-    "notesList": [
-      "[Rule] Elite Species Trait (4 CP).",
-      "[Prerequisite] Agility 2, 4 Arms"
-    ]
-  },
-  {
-    "id": "trait-multidextrous-many-limbed",
-    "name": "Multidextrous (Many-Limbed)",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Possess 30+ micro-limbs along underside for fine internal repairs, fluid management, and concurrent subsystem multitasking.",
-    "description": "Possess 30+ micro-limbs along underside for fine internal repairs, fluid management, and concurrent subsystem multitasking.",
-    "mechanics": "Possess 30+ micro-limbs along underside for fine internal repairs, fluid management, and concurrent subsystem multitasking.",
-    "mechanic": "Possess 30+ micro-limbs along underside for fine internal repairs, fluid management, and concurrent subsystem multitasking.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Multidextrous (Many-Limbed)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nPossesses 30+ micro-limbs for fine repairs, fluid management, and multitasking across the mecha’s biological subsystems. A single pilot manages duties equivalent to 4 humanoid crew members.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Multi-segmented Larval Anatomy",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Multi-segmented Larval Anatomy"
-    ]
-  },
-  {
-    "id": "trait-mystical-or-spiritual-connection",
-    "name": "Mystical or Spiritual Connection",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Social",
+    "type": "Social",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -20988,150 +16104,37 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Adepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.",
-    "description": "Adepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.",
-    "mechanics": "+1 Attune and +1 Insight",
-    "mechanic": "+1 Attune and +1 Insight",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
+    "desc": "Signature trait of The Virtuoso (Operative) / The Icon (Visionarie). Your performances draw attention and admiration, granting +2 bonus on Social skill checks to gain favor or influence.",
+    "description": "Signature trait of The Virtuoso (Operative) / The Icon (Visionarie). Your performances draw attention and admiration, granting +2 bonus on Social skill checks to gain favor or influence.",
+    "mechanics": "Your performances draw attention and admiration, granting +2 bonus on Social skill checks to gain favor or influence.",
+    "mechanic": "Your performances draw attention and admiration, granting +2 bonus on Social skill checks to gain favor or influence.",
+    "rules": "Archetype Trait (1 CP) — The Virtuoso (Operative) / The Icon (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Virtuoso (Operative) / The Icon (Visionarie).",
     "modifiers": [
       {
-        "target": "Insight Adepts may have a deep connection to mystical",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Insight Adepts may have a deep connection to mystical"
-      },
-      {
-        "target": "Spiritual forces",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Spiritual forces"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Mystical or Spiritual Connection\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.\n\n## Mechanics & Benefit\n+1 Attune and +1 Insight",
-    "notes": "[Modifier] +1 to Insight Adepts may have a deep connection to mystical\n[Modifier] +1 to Spiritual forces\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Insight Adepts may have a deep connection to mystical",
-      "[Modifier] +1 to Spiritual forces",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-natural-armor",
-    "name": "Natural Armor",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "+2 natural armor bonus.",
-    "description": "+2 natural armor bonus.",
-    "mechanics": "+2 natural armor bonus.",
-    "mechanic": "+2 natural armor bonus.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "armor-dr",
-        "type": "combat",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 armor"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Natural Armor\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 natural armor bonus.\n\n## Mechanics & Benefit\n+2 natural armor bonus.",
-    "notes": "[Modifier] +2 armor\n[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 armor",
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-natural-weapons",
-    "name": "Natural Weapons",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "A Claw, Fang, Horn or other attack form.",
-    "description": "A Claw, Fang, Horn or other attack form.",
-    "mechanics": "A Claw, Fang, Horn or other attack form.",
-    "mechanic": "A Claw, Fang, Horn or other attack form.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Natural Weapons\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nA Claw, Fang, Horn or other attack form.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-navigation",
-    "name": "Navigation",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Scouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.",
-    "description": "Scouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.",
-    "mechanics": "+2 Navigation (Knowledge)",
-    "mechanic": "+2 Navigation (Knowledge)",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Navigation Knowledge Scouts have excellent navigational",
+        "target": "Social",
         "type": "skill",
         "value": 2,
         "mode": "inherent",
-        "description": "+2 to Navigation Knowledge Scouts have excellent navigational"
+        "description": "+2 to Social"
       }
     ],
     "package_traits": [],
-    "body": "# Navigation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nScouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.\n\n## Mechanics & Benefit\n+2 Navigation (Knowledge)",
-    "notes": "[Modifier] +2 to Navigation Knowledge Scouts have excellent navigational\n[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Star Power\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Virtuoso (Operative) / The Icon (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Virtuoso (Operative) / The Icon (Visionarie). Your performances draw attention and admiration, granting +2 bonus on Social skill checks to gain favor or influence.\n\n## Mechanics & Benefit\nYour performances draw attention and admiration, granting +2 bonus on Social skill checks to gain favor or influence.",
+    "notes": "[Modifier] +2 to Social\n[Rule] Archetype Trait (1 CP) — The Virtuoso (Operative) / The Icon (Visionarie).",
     "notesList": [
-      "[Modifier] +2 to Navigation Knowledge Scouts have excellent navigational",
-      "[Rule] Basic Occupational Trait (1 CP)."
+      "[Modifier] +2 to Social",
+      "[Rule] Archetype Trait (1 CP) — The Virtuoso (Operative) / The Icon (Visionarie)."
     ]
   },
   {
-    "id": "trait-negotiation",
-    "name": "Negotiation",
+    "id": "trait-voice-of-the-people",
+    "name": "Voice of the People",
     "category": "traits",
-    "trait_type": "Social",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Social",
+    "type": "Social",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -21139,393 +16142,104 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Adept at bargaining, contract dispute resolution, diplomacy, and finding mutually agreeable compromise.",
-    "description": "Adept at bargaining, contract dispute resolution, diplomacy, and finding mutually agreeable compromise.",
-    "mechanics": "Adept at bargaining, contract dispute resolution, diplomacy, and finding mutually agreeable compromise.",
-    "mechanic": "Adept at bargaining, contract dispute resolution, diplomacy, and finding mutually agreeable compromise.",
-    "rules": "Basic Social (1 CP).",
-    "special_rules": "Basic Social (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Negotiation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Social\n**CP Cost**: 1\n\n## Description\nAdept at bargaining, contract dispute resolution, diplomacy, and finding mutually agreeable compromise.",
-    "notes": "[Rule] Basic Social (1 CP).",
-    "notesList": [
-      "[Rule] Basic Social (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-networking",
-    "name": "Networking",
-    "category": "traits",
-    "trait_type": "Social",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "A wide network of professional and informal contacts across industries, syndicates, and governments for information and resource gathering.",
-    "description": "A wide network of professional and informal contacts across industries, syndicates, and governments for information and resource gathering.",
-    "mechanics": "A wide network of professional and informal contacts across industries, syndicates, and governments for information and resource gathering.",
-    "mechanic": "A wide network of professional and informal contacts across industries, syndicates, and governments for information and resource gathering.",
-    "rules": "Basic Social (1 CP).",
-    "special_rules": "Basic Social (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Networking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Social\n**CP Cost**: 1\n\n## Description\nA wide network of professional and informal contacts across industries, syndicates, and governments for information and resource gathering.",
-    "notes": "[Rule] Basic Social (1 CP).",
-    "notesList": [
-      "[Rule] Basic Social (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-nimble-appendages",
-    "name": "Nimble Appendages",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 4,
-    "bp": 4,
-    "costs": {
-      "cp": 4,
-      "bp": 4
-    },
-    "is_ranked": false,
-    "desc": "Usable as ‘main-hand’ with no penalties. Req: Additional Limbs/Tail.",
-    "description": "Usable as ‘main-hand’ with no penalties. Req: Additional Limbs/Tail.",
-    "mechanics": "Usable as ‘main-hand’ with no penalties. Req: Additional Limbs/Tail.",
-    "mechanic": "Usable as ‘main-hand’ with no penalties. Req: Additional Limbs/Tail.",
-    "rules": "Elite Species Trait (4 CP).",
-    "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Nimble Appendages\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nUsable as ‘main-hand’ with no penalties. Req: Additional Limbs/Tail.",
-    "notes": "[Rule] Elite Species Trait (4 CP).",
-    "notesList": [
-      "[Rule] Elite Species Trait (4 CP)."
-    ]
-  },
-  {
-    "id": "trait-non-combat-focus",
-    "name": "Non-Combat Focus",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Concentrated mastery in civic vocations, gourmet culinary arts, or fine craftsmanship.",
-    "description": "Concentrated mastery in civic vocations, gourmet culinary arts, or fine craftsmanship.",
-    "mechanics": "+2 to a Vocation Skill of choice",
-    "mechanic": "+2 to a Vocation Skill of choice",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
+    "desc": "Signature trait of The Activist (Visionarie). You gain a +2 bonus to Diplomacy checks when speaking on behalf of a group or cause.",
+    "description": "Signature trait of The Activist (Visionarie). You gain a +2 bonus to Diplomacy checks when speaking on behalf of a group or cause.",
+    "mechanics": "You gain a +2 bonus to Diplomacy checks when speaking on behalf of a group or cause.",
+    "mechanic": "You gain a +2 bonus to Diplomacy checks when speaking on behalf of a group or cause.",
+    "rules": "Archetype Trait (1 CP) — The Activist (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Activist (Visionarie).",
     "modifiers": [
       {
-        "target": "A Vocation",
+        "target": "Diplomacy",
         "type": "skill",
         "value": 2,
         "mode": "inherent",
-        "description": "+2 to A Vocation"
+        "description": "+2 to Diplomacy"
       }
     ],
     "package_traits": [],
-    "body": "# Non-Combat Focus\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nConcentrated mastery in civic vocations, gourmet culinary arts, or fine craftsmanship.\n\n## Mechanics & Benefit\n+2 to a Vocation Skill of choice",
-    "notes": "[Modifier] +2 to A Vocation\n[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Voice of the People\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Activist (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Activist (Visionarie). You gain a +2 bonus to Diplomacy checks when speaking on behalf of a group or cause.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Diplomacy checks when speaking on behalf of a group or cause.",
+    "notes": "[Modifier] +2 to Diplomacy\n[Rule] Archetype Trait (1 CP) — The Activist (Visionarie).",
     "notesList": [
-      "[Modifier] +2 to A Vocation",
-      "[Rule] Basic Origin Trait (1 CP)."
+      "[Modifier] +2 to Diplomacy",
+      "[Rule] Archetype Trait (1 CP) — The Activist (Visionarie)."
     ]
   },
   {
-    "id": "trait-non-living",
-    "name": "Non-Living",
+    "id": "trait-community-organizer",
+    "name": "Community Organizer",
     "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 4,
-    "bp": 4,
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Social",
+    "type": "Social",
+    "cp": 1,
+    "bp": 1,
     "costs": {
-      "cp": 4,
-      "bp": 4
+      "cp": 1,
+      "bp": 1
     },
     "is_ranked": false,
-    "desc": "Undead, Elementals and others not classified as Living by normal standards.",
-    "description": "Undead, Elementals and others not classified as Living by normal standards.",
-    "mechanics": "Undead, Elementals and others not classified as Living by normal standards.",
-    "mechanic": "Undead, Elementals and others not classified as Living by normal standards.",
-    "rules": "Elite Species Trait (4 CP).",
-    "special_rules": "Elite Species Trait (4 CP).",
+    "desc": "Signature trait of The Activist (Visionarie). You can rally and organize people, gaining +2 bonus on any checks related to social movements or protests.",
+    "description": "Signature trait of The Activist (Visionarie). You can rally and organize people, gaining +2 bonus on any checks related to social movements or protests.",
+    "mechanics": "You can rally and organize people, gaining +2 bonus on any checks related to social movements or protests.",
+    "mechanic": "You can rally and organize people, gaining +2 bonus on any checks related to social movements or protests.",
+    "rules": "Archetype Trait (1 CP) — The Activist (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Activist (Visionarie).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Non-Living\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nUndead, Elementals and others not classified as Living by normal standards.",
-    "notes": "[Rule] Elite Species Trait (4 CP).",
+    "body": "# Community Organizer\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Activist (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Activist (Visionarie). You can rally and organize people, gaining +2 bonus on any checks related to social movements or protests.\n\n## Mechanics & Benefit\nYou can rally and organize people, gaining +2 bonus on any checks related to social movements or protests.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Activist (Visionarie).",
     "notesList": [
-      "[Rule] Elite Species Trait (4 CP)."
+      "[Rule] Archetype Trait (1 CP) — The Activist (Visionarie)."
     ]
   },
   {
-    "id": "trait-obfuscate",
-    "name": "Obfuscate",
+    "id": "trait-sig-conflict-resolution",
+    "name": "Conflict resolution",
     "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Social",
+    "type": "Social",
+    "cp": 1,
+    "bp": 1,
     "costs": {
-      "cp": 2,
-      "bp": 2
+      "cp": 1,
+      "bp": 1
     },
     "is_ranked": false,
-    "desc": "Innate metaphysical masking that dampens personal presence, scrying signatures, and casual biological detection.",
-    "description": "Innate metaphysical masking that dampens personal presence, scrying signatures, and casual biological detection.",
-    "mechanics": "Innate metaphysical masking that dampens personal presence, scrying signatures, and casual biological detection.",
-    "mechanic": "Innate metaphysical masking that dampens personal presence, scrying signatures, and casual biological detection.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
+    "desc": "Signature trait of The Arbitrator (Visionarie). You gain a +2 bonus to Diplomacy checks when mediating disputes, negotiating peace treaties, or de-escalating tensions between factions.",
+    "description": "Signature trait of The Arbitrator (Visionarie). You gain a +2 bonus to Diplomacy checks when mediating disputes, negotiating peace treaties, or de-escalating tensions between factions.",
+    "mechanics": "You gain a +2 bonus to Diplomacy checks when mediating disputes, negotiating peace treaties, or de-escalating tensions between factions.",
+    "mechanic": "You gain a +2 bonus to Diplomacy checks when mediating disputes, negotiating peace treaties, or de-escalating tensions between factions.",
+    "rules": "Archetype Trait (1 CP) — The Arbitrator (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Arbitrator (Visionarie).",
     "modifiers": [
       {
-        "target": "Alertness",
-        "value": -1,
-        "type": "disadvantage",
-        "mode": "situational",
-        "condition": "Opponents scrying/tracking",
-        "description": "Enemies suffer Disadvantage on Awareness/Investigation checks"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Obfuscate\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nInnate metaphysical masking that dampens personal presence, scrying signatures, and casual biological detection.\n\n## Mechanics & Benefit\nInnate metaphysical masking that dampens personal presence, scrying signatures, and casual biological detection.",
-    "notes": "[Penalty] Enemies suffer Disadvantage on Awareness/Investigation checks\n[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Penalty] Enemies suffer Disadvantage on Awareness/Investigation checks",
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-observant",
-    "name": "Observant",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Alert and observant, constantly scanning the area for potential threats",
-    "description": "Alert and observant, constantly scanning the area for potential threats",
-    "mechanics": "May take 10 on Alertness Checks",
-    "mechanic": "May take 10 on Alertness Checks",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Alertness",
-        "type": "take_10",
-        "value": 10,
-        "mode": "inherent",
-        "description": "May take 10 on Alertness Checks"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Observant\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAlert and observant, constantly scanning the area for potential threats\n\n## Mechanics & Benefit\nMay take 10 on Alertness Checks",
-    "notes": "[Modifier] May take 10 on Alertness Checks\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] May take 10 on Alertness Checks",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-open-mindedness",
-    "name": "Open-Mindedness",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Philosophical tolerance that bridges deep cultural, religious, and alien divides.",
-    "description": "Philosophical tolerance that bridges deep cultural, religious, and alien divides.",
-    "mechanics": "Reduce all Stigma Penalties with others by the Enlightened character’s Wisdom score for both parties",
-    "mechanic": "Reduce all Stigma Penalties with others by the Enlightened character’s Wisdom score for both parties",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Open-Mindedness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPhilosophical tolerance that bridges deep cultural, religious, and alien divides.\n\n## Mechanics & Benefit\nReduce all Stigma Penalties with others by the Enlightened character’s Wisdom score for both parties",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-optimistic",
-    "name": "Optimistic",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Irrepressible cheerfulness and positive mindset that helps weather tense diplomatic disputes.",
-    "description": "Irrepressible cheerfulness and positive mindset that helps weather tense diplomatic disputes.",
-    "mechanics": "+1 to Karma Pool",
-    "mechanic": "+1 to Karma Pool",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Karma",
-        "type": "karma",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Karma Pool"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Optimistic\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nIrrepressible cheerfulness and positive mindset that helps weather tense diplomatic disputes.\n\n## Mechanics & Benefit\n+1 to Karma Pool",
-    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Karma Pool",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-patagia",
-    "name": "Patagia",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Gliding speed of 2x Ground speed, uses Acrobatics skill. Special Top Clothing.",
-    "description": "Gliding speed of 2x Ground speed, uses Acrobatics skill. Special Top Clothing.",
-    "mechanics": "Gliding speed of 2x Ground speed, uses Acrobatics skill. Special Top Clothing.",
-    "mechanic": "Gliding speed of 2x Ground speed, uses Acrobatics skill. Special Top Clothing.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Patagia\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nGliding speed of 2x Ground speed, uses Acrobatics skill. Special Top Clothing.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-patience",
-    "name": "Patience",
-    "category": "traits",
-    "trait_type": "Mental",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Methodical and disciplined mental focus that excels during extended research, stakeouts, and precision crafting.",
-    "description": "Methodical and disciplined mental focus that excels during extended research, stakeouts, and precision crafting.",
-    "mechanics": "Methodical and disciplined mental focus that excels during extended research, stakeouts, and precision crafting.",
-    "mechanic": "Methodical and disciplined mental focus that excels during extended research, stakeouts, and precision crafting.",
-    "rules": "Basic Mental (1 CP).",
-    "special_rules": "Basic Mental (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Patience\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Mental\n**CP Cost**: 1\n\n## Description\nMethodical and disciplined mental focus that excels during extended research, stakeouts, and precision crafting.",
-    "notes": "[Rule] Basic Mental (1 CP).",
-    "notesList": [
-      "[Rule] Basic Mental (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-peaceful-nature",
-    "name": "Peaceful Nature",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Harmonious disposition that de-escalates hostility through tranquil presence and negotiation.",
-    "description": "Harmonious disposition that de-escalates hostility through tranquil presence and negotiation.",
-    "mechanics": "+2 to Diplomacy for peaceful meditations",
-    "mechanic": "+2 to Diplomacy for peaceful meditations",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Diplomacy for peaceful meditations",
+        "target": "Diplomacy",
         "type": "skill",
         "value": 2,
         "mode": "inherent",
-        "description": "+2 to Diplomacy for peaceful meditations"
+        "description": "+2 to Diplomacy"
       }
     ],
     "package_traits": [],
-    "body": "# Peaceful Nature\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nHarmonious disposition that de-escalates hostility through tranquil presence and negotiation.\n\n## Mechanics & Benefit\n+2 to Diplomacy for peaceful meditations",
-    "notes": "[Modifier] +2 to Diplomacy for peaceful meditations\n[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Conflict resolution\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Arbitrator (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Arbitrator (Visionarie). You gain a +2 bonus to Diplomacy checks when mediating disputes, negotiating peace treaties, or de-escalating tensions between factions.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Diplomacy checks when mediating disputes, negotiating peace treaties, or de-escalating tensions between factions.",
+    "notes": "[Modifier] +2 to Diplomacy\n[Rule] Archetype Trait (1 CP) — The Arbitrator (Visionarie).",
     "notesList": [
-      "[Modifier] +2 to Diplomacy for peaceful meditations",
-      "[Rule] Basic Origin Trait (1 CP)."
+      "[Modifier] +2 to Diplomacy",
+      "[Rule] Archetype Trait (1 CP) — The Arbitrator (Visionarie)."
     ]
   },
   {
-    "id": "trait-persistence",
-    "name": "Persistence",
+    "id": "trait-noble-lineage",
+    "name": "Noble Lineage",
     "category": "traits",
-    "trait_type": "Origin Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Social",
+    "type": "Social",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -21533,130 +16247,37 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Relentless dedication that refuses to abandon stalled experiments or inscrutable ciphers.",
-    "description": "Relentless dedication that refuses to abandon stalled experiments or inscrutable ciphers.",
-    "mechanics": "+1 Karma Point",
-    "mechanic": "+1 Karma Point",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
+    "desc": "Signature trait of The Aristocrat (Visionarie). You gain a +2 bonus to Diplomacy checks when interacting with other nobles or members of high society.",
+    "description": "Signature trait of The Aristocrat (Visionarie). You gain a +2 bonus to Diplomacy checks when interacting with other nobles or members of high society.",
+    "mechanics": "You gain a +2 bonus to Diplomacy checks when interacting with other nobles or members of high society.",
+    "mechanic": "You gain a +2 bonus to Diplomacy checks when interacting with other nobles or members of high society.",
+    "rules": "Archetype Trait (1 CP) — The Aristocrat (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Aristocrat (Visionarie).",
     "modifiers": [
       {
-        "target": "Karma",
-        "type": "karma",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Karma Pool"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Persistence\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nRelentless dedication that refuses to abandon stalled experiments or inscrutable ciphers.\n\n## Mechanics & Benefit\n+1 Karma Point",
-    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Karma Pool",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-persuasion",
-    "name": "Persuasion",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Convincing others to cooperate, negotiation, deception, and diplomacy",
-    "description": "Convincing others to cooperate, negotiation, deception, and diplomacy",
-    "mechanics": "+1 Manipulation Skills and Etiquette Checks",
-    "mechanic": "+1 Manipulation Skills and Etiquette Checks",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Manipulation",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Manipulation"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Persuasion\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nConvincing others to cooperate, negotiation, deception, and diplomacy\n\n## Mechanics & Benefit\n+1 Manipulation Skills and Etiquette Checks",
-    "notes": "[Modifier] +1 to Manipulation\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Manipulation",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-pheromonal-synthesis",
-    "name": "Pheromonal Synthesis",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Biological scent-marking for hive coordination, trail navigation, and silent aerosol alarm signaling.",
-    "description": "Biological scent-marking for hive coordination, trail navigation, and silent aerosol alarm signaling.",
-    "mechanics": "Biological scent-marking for hive coordination, trail navigation, and silent aerosol alarm signaling.",
-    "mechanic": "Biological scent-marking for hive coordination, trail navigation, and silent aerosol alarm signaling.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Navigation",
+        "target": "Diplomacy",
         "type": "skill",
         "value": 2,
         "mode": "inherent",
-        "description": "+2 to Navigation"
-      },
-      {
-        "target": "Survival",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Survival"
-      },
-      {
-        "target": "Initiative",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Initiative"
+        "description": "+2 to Diplomacy"
       }
     ],
     "package_traits": [],
-    "body": "# Pheromonal Synthesis\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nBiological scent-marking for hive coordination. Synthesizes persistent chemical trails lasting up to 72 hours (+2 Navigation/Survival to allies) and silent aerosol alarms out to 60 ft.",
-    "notes": "[Modifier] +2 to Navigation\n[Modifier] +2 to Survival\n[Modifier] +2 to Initiative\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Insectoid Glands or Chemoreceptive Biology",
+    "body": "# Noble Lineage\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Aristocrat (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Aristocrat (Visionarie). You gain a +2 bonus to Diplomacy checks when interacting with other nobles or members of high society.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Diplomacy checks when interacting with other nobles or members of high society.",
+    "notes": "[Modifier] +2 to Diplomacy\n[Rule] Archetype Trait (1 CP) — The Aristocrat (Visionarie).",
     "notesList": [
-      "[Modifier] +2 to Navigation",
-      "[Modifier] +2 to Survival",
-      "[Modifier] +2 to Initiative",
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Insectoid Glands or Chemoreceptive Biology"
+      "[Modifier] +2 to Diplomacy",
+      "[Rule] Archetype Trait (1 CP) — The Aristocrat (Visionarie)."
     ]
   },
   {
-    "id": "trait-physical-and-mental-resilience",
-    "name": "Physical and mental resilience",
+    "id": "trait-courtly-intrigue",
+    "name": "Courtly Intrigue",
     "category": "traits",
-    "trait_type": "Occupational Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Social",
+    "type": "Social",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -21664,37 +16285,37 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Ability to endure harsh conditions or high-stress situations",
-    "description": "Ability to endure harsh conditions or high-stress situations",
-    "mechanics": "+1 Willpower and Fortitude",
-    "mechanic": "+1 Willpower and Fortitude",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
+    "desc": "Signature trait of The Aristocrat (Visionarie). Gain +2 bonus on a Bluff or Insight check when navigating social situations or uncovering plots within the Dynasty court.",
+    "description": "Signature trait of The Aristocrat (Visionarie). Gain +2 bonus on a Bluff or Insight check when navigating social situations or uncovering plots within the Dynasty court.",
+    "mechanics": "Gain +2 bonus on a Bluff or Insight check when navigating social situations or uncovering plots within the Dynasty court.",
+    "mechanic": "Gain +2 bonus on a Bluff or Insight check when navigating social situations or uncovering plots within the Dynasty court.",
+    "rules": "Archetype Trait (1 CP) — The Aristocrat (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Aristocrat (Visionarie).",
     "modifiers": [
       {
-        "target": "Will",
-        "type": "save",
-        "value": 1,
+        "target": "Insight",
+        "type": "skill",
+        "value": 2,
         "mode": "inherent",
-        "description": "+1 on Will Checks"
+        "description": "+2 to Insight"
       }
     ],
     "package_traits": [],
-    "body": "# Physical and mental resilience\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to endure harsh conditions or high-stress situations\n\n## Mechanics & Benefit\n+1 Willpower and Fortitude",
-    "notes": "[Modifier] +1 on Will Checks\n[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Courtly Intrigue\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Aristocrat (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Aristocrat (Visionarie). Gain +2 bonus on a Bluff or Insight check when navigating social situations or uncovering plots within the Dynasty court.\n\n## Mechanics & Benefit\nGain +2 bonus on a Bluff or Insight check when navigating social situations or uncovering plots within the Dynasty court.",
+    "notes": "[Modifier] +2 to Insight\n[Rule] Archetype Trait (1 CP) — The Aristocrat (Visionarie).",
     "notesList": [
-      "[Modifier] +1 on Will Checks",
-      "[Rule] Basic Occupational Trait (1 CP)."
+      "[Modifier] +2 to Insight",
+      "[Rule] Archetype Trait (1 CP) — The Aristocrat (Visionarie)."
     ]
   },
   {
-    "id": "trait-physical-endurance",
-    "name": "Physical Endurance",
+    "id": "trait-inner-peace",
+    "name": "Inner Peace",
     "category": "traits",
-    "trait_type": "Origin Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Mental",
+    "type": "Mental",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -21702,37 +16323,45 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "High tolerance for atmospheric toxins, extreme temperatures, and caloric deprivation.",
-    "description": "High tolerance for atmospheric toxins, extreme temperatures, and caloric deprivation.",
-    "mechanics": "+2 Fortitude Checks",
-    "mechanic": "+2 Fortitude Checks",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
+    "desc": "Signature trait of The Ascetic (Visionarie). You gain a +2 bonus to Concentration checks and +2 bonus on any checks related to resisting mental manipulation, temptation, or emotional turmoil.",
+    "description": "Signature trait of The Ascetic (Visionarie). You gain a +2 bonus to Concentration checks and +2 bonus on any checks related to resisting mental manipulation, temptation, or emotional turmoil.",
+    "mechanics": "You gain a +2 bonus to Concentration checks and +2 bonus on any checks related to resisting mental manipulation, temptation, or emotional turmoil.",
+    "mechanic": "You gain a +2 bonus to Concentration checks and +2 bonus on any checks related to resisting mental manipulation, temptation, or emotional turmoil.",
+    "rules": "Archetype Trait (1 CP) — The Ascetic (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Ascetic (Visionarie).",
     "modifiers": [
       {
-        "target": "Fortitude",
+        "target": "Concentration",
         "type": "save",
         "value": 2,
         "mode": "inherent",
-        "description": "+2 on Fortitude Checks"
+        "description": "+2 to Concentration"
+      },
+      {
+        "target": "Concentration",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Concentration"
       }
     ],
     "package_traits": [],
-    "body": "# Physical Endurance\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nHigh tolerance for atmospheric toxins, extreme temperatures, and caloric deprivation.\n\n## Mechanics & Benefit\n+2 Fortitude Checks",
-    "notes": "[Modifier] +2 on Fortitude Checks\n[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Inner Peace\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Ascetic (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Ascetic (Visionarie). You gain a +2 bonus to Concentration checks and +2 bonus on any checks related to resisting mental manipulation, temptation, or emotional turmoil.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Concentration checks and +2 bonus on any checks related to resisting mental manipulation, temptation, or emotional turmoil.",
+    "notes": "[Modifier] +2 to Concentration\n[Modifier] +2 to Concentration\n[Rule] Archetype Trait (1 CP) — The Ascetic (Visionarie).",
     "notesList": [
-      "[Modifier] +2 on Fortitude Checks",
-      "[Rule] Basic Origin Trait (1 CP)."
+      "[Modifier] +2 to Concentration",
+      "[Modifier] +2 to Concentration",
+      "[Rule] Archetype Trait (1 CP) — The Ascetic (Visionarie)."
     ]
   },
   {
-    "id": "trait-physical-fitness",
-    "name": "Physical Fitness",
+    "id": "trait-spiritual-attunement",
+    "name": "Spiritual Attunement",
     "category": "traits",
-    "trait_type": "Physical",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Metaphysical",
+    "type": "Metaphysical",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -21740,28 +16369,28 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Superior cardiovascular endurance, stamina, and physical conditioning, granting bonuses on long-distance athletics checks.",
-    "description": "Superior cardiovascular endurance, stamina, and physical conditioning, granting bonuses on long-distance athletics checks.",
-    "mechanics": "Superior cardiovascular endurance, stamina, and physical conditioning, granting bonuses on long-distance athletics checks.",
-    "mechanic": "Superior cardiovascular endurance, stamina, and physical conditioning, granting bonuses on long-distance athletics checks.",
-    "rules": "Basic Physical (1 CP).",
-    "special_rules": "Basic Physical (1 CP).",
+    "desc": "Signature trait of The Ascetic (Visionarie) / The Spirit-walker (Visionarie). Gain +2 bonus on any checks related to meditation, prayer, or communicating with spiritual entities or planes of existence.",
+    "description": "Signature trait of The Ascetic (Visionarie) / The Spirit-walker (Visionarie). Gain +2 bonus on any checks related to meditation, prayer, or communicating with spiritual entities or planes of existence.",
+    "mechanics": "Gain +2 bonus on any checks related to meditation, prayer, or communicating with spiritual entities or planes of existence.",
+    "mechanic": "Gain +2 bonus on any checks related to meditation, prayer, or communicating with spiritual entities or planes of existence.",
+    "rules": "Archetype Trait (1 CP) — The Ascetic (Visionarie) / The Spirit-walker (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Ascetic (Visionarie) / The Spirit-walker (Visionarie).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Physical Fitness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Physical\n**CP Cost**: 1\n\n## Description\nSuperior cardiovascular endurance, stamina, and physical conditioning, granting bonuses on long-distance athletics checks.",
-    "notes": "[Rule] Basic Physical (1 CP).",
+    "body": "# Spiritual Attunement\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Ascetic (Visionarie) / The Spirit-walker (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Ascetic (Visionarie) / The Spirit-walker (Visionarie). Gain +2 bonus on any checks related to meditation, prayer, or communicating with spiritual entities or planes of existence.\n\n## Mechanics & Benefit\nGain +2 bonus on any checks related to meditation, prayer, or communicating with spiritual entities or planes of existence.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Ascetic (Visionarie) / The Spirit-walker (Visionarie).",
     "notesList": [
-      "[Rule] Basic Physical (1 CP)."
+      "[Rule] Archetype Trait (1 CP) — The Ascetic (Visionarie) / The Spirit-walker (Visionarie)."
     ]
   },
   {
-    "id": "trait-physical-prowess",
-    "name": "Physical Prowess",
+    "id": "trait-masterful-narrator",
+    "name": "Masterful Narrator",
     "category": "traits",
-    "trait_type": "Occupational Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Social",
+    "type": "Social",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -21769,121 +16398,37 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Physically fit and strong, can endure long periods of physical activity and combat",
-    "description": "Physically fit and strong, can endure long periods of physical activity and combat",
-    "mechanics": "+1 Might and Fortitude Checks",
-    "mechanic": "+1 Might and Fortitude Checks",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
+    "desc": "Signature trait of The Chronicler (Visionarie). You gain a +2 bonus to Performance checks to deliver captivating stories and create a sense of immersion.",
+    "description": "Signature trait of The Chronicler (Visionarie). You gain a +2 bonus to Performance checks to deliver captivating stories and create a sense of immersion.",
+    "mechanics": "You gain a +2 bonus to Performance checks to deliver captivating stories and create a sense of immersion.",
+    "mechanic": "You gain a +2 bonus to Performance checks to deliver captivating stories and create a sense of immersion.",
+    "rules": "Archetype Trait (1 CP) — The Chronicler (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Chronicler (Visionarie).",
     "modifiers": [
       {
-        "target": "Might",
-        "type": "save",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 on Might Checks"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Physical Prowess\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nPhysically fit and strong, can endure long periods of physical activity and combat\n\n## Mechanics & Benefit\n+1 Might and Fortitude Checks",
-    "notes": "[Modifier] +1 on Might Checks\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 on Might Checks",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-physical-strength",
-    "name": "Physical Strength",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Above-average muscle power developed through grueling shifts in ore refineries and foundries.",
-    "description": "Above-average muscle power developed through grueling shifts in ore refineries and foundries.",
-    "mechanics": "+2 Might Checks",
-    "mechanic": "+2 Might Checks",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Might",
-        "type": "save",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 on Might Checks"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Physical Strength\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nAbove-average muscle power developed through grueling shifts in ore refineries and foundries.\n\n## Mechanics & Benefit\n+2 Might Checks",
-    "notes": "[Modifier] +2 on Might Checks\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 on Might Checks",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-pilot",
-    "name": "Pilot",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Most field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.",
-    "description": "Most field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.",
-    "mechanics": "+2 Pilot and Navigation",
-    "mechanic": "+2 Pilot and Navigation",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Pilot",
+        "target": "Performance",
         "type": "skill",
         "value": 2,
         "mode": "inherent",
-        "description": "+2 to Pilot"
-      },
-      {
-        "target": "Navigation",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Navigation"
+        "description": "+2 to Performance"
       }
     ],
     "package_traits": [],
-    "body": "# Pilot\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMost field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.\n\n## Mechanics & Benefit\n+2 Pilot and Navigation",
-    "notes": "[Modifier] +2 to Pilot\n[Modifier] +2 to Navigation\n[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Masterful Narrator\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Chronicler (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Chronicler (Visionarie). You gain a +2 bonus to Performance checks to deliver captivating stories and create a sense of immersion.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Performance checks to deliver captivating stories and create a sense of immersion.",
+    "notes": "[Modifier] +2 to Performance\n[Rule] Archetype Trait (1 CP) — The Chronicler (Visionarie).",
     "notesList": [
-      "[Modifier] +2 to Pilot",
-      "[Modifier] +2 to Navigation",
-      "[Rule] Basic Occupational Trait (1 CP)."
+      "[Modifier] +2 to Performance",
+      "[Rule] Archetype Trait (1 CP) — The Chronicler (Visionarie)."
     ]
   },
   {
-    "id": "trait-pilot-skills",
-    "name": "Pilot Skills",
+    "id": "trait-world-builder",
+    "name": "World Builder",
     "category": "traits",
-    "trait_type": "Origin Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Technical",
+    "type": "Technical",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -21891,96 +16436,57 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Piloting atmospheric hovercraft and armored rovers through corrosive dust storms and boiling seas.",
-    "description": "Piloting atmospheric hovercraft and armored rovers through corrosive dust storms and boiling seas.",
-    "mechanics": "+2 Piloting",
-    "mechanic": "+2 Piloting",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Piloting",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Piloting"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Pilot Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPiloting atmospheric hovercraft and armored rovers through corrosive dust storms and boiling seas.\n\n## Mechanics & Benefit\n+2 Piloting",
-    "notes": "[Modifier] +2 to Piloting\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Piloting",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-poison-immunity",
-    "name": "Poison Immunity",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Automatically Save versus any Poisonous Substances.",
-    "description": "Automatically Save versus any Poisonous Substances.",
-    "mechanics": "Automatically Save versus any Poisonous Substances.",
-    "mechanic": "Automatically Save versus any Poisonous Substances.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
+    "desc": "Signature trait of The Chronicler (Visionarie). You have a talent for Vocation skilling detailed and believable worlds, gaining +2 bonus on any checks related to describing settings, characters, or plot elements.",
+    "description": "Signature trait of The Chronicler (Visionarie). You have a talent for Vocation skilling detailed and believable worlds, gaining +2 bonus on any checks related to describing settings, characters, or plot elements.",
+    "mechanics": "You have a talent for Vocation skilling detailed and believable worlds, gaining +2 bonus on any checks related to describing settings, characters, or plot elements.",
+    "mechanic": "You have a talent for Vocation skilling detailed and believable worlds, gaining +2 bonus on any checks related to describing settings, characters, or plot elements.",
+    "rules": "Archetype Trait (1 CP) — The Chronicler (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Chronicler (Visionarie).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Poison Immunity\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nAutomatically Save versus any Poisonous Substances. Complete physiological immunity to metabolic and xenobiological toxins.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Stamina 1 or Insectoid/Synthetic Physiology",
+    "body": "# World Builder\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Chronicler (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Chronicler (Visionarie). You have a talent for Vocation skilling detailed and believable worlds, gaining +2 bonus on any checks related to describing settings, characters, or plot elements.\n\n## Mechanics & Benefit\nYou have a talent for Vocation skilling detailed and believable worlds, gaining +2 bonus on any checks related to describing settings, characters, or plot elements.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Chronicler (Visionarie).",
     "notesList": [
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Stamina 1 or Insectoid/Synthetic Physiology"
+      "[Rule] Archetype Trait (1 CP) — The Chronicler (Visionarie)."
     ]
   },
   {
-    "id": "trait-powerful-charge",
-    "name": "Powerful Charge",
+    "id": "trait-pirate-captain",
+    "name": "Pirate Captain",
     "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Combat",
+    "type": "Combat",
+    "cp": 1,
+    "bp": 1,
     "costs": {
-      "cp": 2,
-      "bp": 2
+      "cp": 1,
+      "bp": 1
     },
     "is_ranked": false,
-    "desc": "Charge deals twice the number of damage dice plus 1-1/2 times Str bonus.",
-    "description": "Charge deals twice the number of damage dice plus 1-1/2 times Str bonus.",
-    "mechanics": "Charge deals twice the number of damage dice plus 1-1/2 times Str bonus.",
-    "mechanic": "Charge deals twice the number of damage dice plus 1-1/2 times Str bonus.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
+    "desc": "Signature trait of The Commander (Visionarie). Gain +2 bonus on any checks related to leading and coordinating your crew in combat, navigating through dangerous territories, or planning and executing raids.",
+    "description": "Signature trait of The Commander (Visionarie). Gain +2 bonus on any checks related to leading and coordinating your crew in combat, navigating through dangerous territories, or planning and executing raids.",
+    "mechanics": "Gain +2 bonus on any checks related to leading and coordinating your crew in combat, navigating through dangerous territories, or planning and executing raids.",
+    "mechanic": "Gain +2 bonus on any checks related to leading and coordinating your crew in combat, navigating through dangerous territories, or planning and executing raids.",
+    "rules": "Archetype Trait (1 CP) — The Commander (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Commander (Visionarie).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Powerful Charge\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nCharge deals twice the number of damage dice plus 1-1/2 times Str bonus.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Pirate Captain\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Commander (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Commander (Visionarie). Gain +2 bonus on any checks related to leading and coordinating your crew in combat, navigating through dangerous territories, or planning and executing raids.\n\n## Mechanics & Benefit\nGain +2 bonus on any checks related to leading and coordinating your crew in combat, navigating through dangerous territories, or planning and executing raids.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Commander (Visionarie).",
     "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
+      "[Rule] Archetype Trait (1 CP) — The Commander (Visionarie)."
     ]
   },
   {
-    "id": "trait-practicality",
-    "name": "Practicality",
+    "id": "trait-divine-inspiration",
+    "name": "Divine Inspiration",
     "category": "traits",
-    "trait_type": "Origin Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Metaphysical",
+    "type": "Metaphysical",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -21988,121 +16494,37 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Focuses on utilitarian efficiency, cutting through abstract theories to deliver results.",
-    "description": "Focuses on utilitarian efficiency, cutting through abstract theories to deliver results.",
-    "mechanics": "+2 Logic Checks",
-    "mechanic": "+2 Logic Checks",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
+    "desc": "Signature trait of The Cult Leader (Visionarie) / The Missionary (Visionarie). You gain a +2 bonus to Diplomacy checks when attempting to convert others to your faith or inspire religious devotion.",
+    "description": "Signature trait of The Cult Leader (Visionarie) / The Missionary (Visionarie). You gain a +2 bonus to Diplomacy checks when attempting to convert others to your faith or inspire religious devotion.",
+    "mechanics": "You gain a +2 bonus to Diplomacy checks when attempting to convert others to your faith or inspire religious devotion.",
+    "mechanic": "You gain a +2 bonus to Diplomacy checks when attempting to convert others to your faith or inspire religious devotion.",
+    "rules": "Archetype Trait (1 CP) — The Cult Leader (Visionarie) / The Missionary (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Cult Leader (Visionarie) / The Missionary (Visionarie).",
     "modifiers": [
       {
-        "target": "Logic",
-        "type": "save",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 on Logic Checks"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Practicality\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nFocuses on utilitarian efficiency, cutting through abstract theories to deliver results.\n\n## Mechanics & Benefit\n+2 Logic Checks",
-    "notes": "[Modifier] +2 on Logic Checks\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 on Logic Checks",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-prehensile-limbs",
-    "name": "Prehensile Limbs",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Fully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage.",
-    "description": "Fully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage.",
-    "mechanics": "Fully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage.",
-    "mechanic": "Fully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Certain",
-        "type": "check_advantage",
-        "value": 1,
-        "mode": "inherent",
-        "description": "Advantage on Certain Checks"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Prehensile Limbs\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nFully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage.\n\n## Mechanics & Benefit\nFully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage.",
-    "notes": "[Modifier] Advantage on Certain Checks\n[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Modifier] Advantage on Certain Checks",
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-prehensile-tail",
-    "name": "Prehensile Tail",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "+2 to Climbing and Balance checks and usable as an off-hand. Special Pants.",
-    "description": "+2 to Climbing and Balance checks and usable as an off-hand. Special Pants.",
-    "mechanics": "+2 to Climbing and Balance checks and usable as an off-hand. Special Pants.",
-    "mechanic": "+2 to Climbing and Balance checks and usable as an off-hand. Special Pants.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Climbing",
+        "target": "Diplomacy",
         "type": "skill",
         "value": 2,
         "mode": "inherent",
-        "description": "+2 to Climbing"
-      },
-      {
-        "target": "Balance",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Balance"
+        "description": "+2 to Diplomacy"
       }
     ],
     "package_traits": [],
-    "body": "# Prehensile Tail\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+2 to Climbing and Balance checks and usable as an off-hand. Special Pants.\n\n## Mechanics & Benefit\n+2 to Climbing and Balance checks and usable as an off-hand. Special Pants.",
-    "notes": "[Modifier] +2 to Climbing\n[Modifier] +2 to Balance\n[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Divine Inspiration\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Cult Leader (Visionarie) / The Missionary (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Cult Leader (Visionarie) / The Missionary (Visionarie). You gain a +2 bonus to Diplomacy checks when attempting to convert others to your faith or inspire religious devotion.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Diplomacy checks when attempting to convert others to your faith or inspire religious devotion.",
+    "notes": "[Modifier] +2 to Diplomacy\n[Rule] Archetype Trait (1 CP) — The Cult Leader (Visionarie) / The Missionary (Visionarie).",
     "notesList": [
-      "[Modifier] +2 to Climbing",
-      "[Modifier] +2 to Balance",
-      "[Rule] Advanced Species Trait (2 CP)."
+      "[Modifier] +2 to Diplomacy",
+      "[Rule] Archetype Trait (1 CP) — The Cult Leader (Visionarie) / The Missionary (Visionarie)."
     ]
   },
   {
-    "id": "trait-problem-solving",
-    "name": "Problem Solving",
+    "id": "trait-spiritual-leader",
+    "name": "Spiritual Leader",
     "category": "traits",
-    "trait_type": "Origin Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Metaphysical",
+    "type": "Metaphysical",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -22110,28 +16532,28 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Overcoming technical and environmental crises that arise during terraforming and settlement.",
-    "description": "Overcoming technical and environmental crises that arise during terraforming and settlement.",
-    "mechanics": "Once per Day may reroll a Mental Skill Check",
-    "mechanic": "Once per Day may reroll a Mental Skill Check",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
+    "desc": "Signature trait of The Cult Leader (Visionarie). Gain +2 bonus on any checks related to guiding and motivating your followers, resolving disputes within the cult, or maintaining their loyalty and devotion.",
+    "description": "Signature trait of The Cult Leader (Visionarie). Gain +2 bonus on any checks related to guiding and motivating your followers, resolving disputes within the cult, or maintaining their loyalty and devotion.",
+    "mechanics": "Gain +2 bonus on any checks related to guiding and motivating your followers, resolving disputes within the cult, or maintaining their loyalty and devotion.",
+    "mechanic": "Gain +2 bonus on any checks related to guiding and motivating your followers, resolving disputes within the cult, or maintaining their loyalty and devotion.",
+    "rules": "Archetype Trait (1 CP) — The Cult Leader (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Cult Leader (Visionarie).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Problem Solving\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nOvercoming technical and environmental crises that arise during terraforming and settlement.\n\n## Mechanics & Benefit\nOnce per Day may reroll a Mental Skill Check",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Spiritual Leader\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Cult Leader (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Cult Leader (Visionarie). Gain +2 bonus on any checks related to guiding and motivating your followers, resolving disputes within the cult, or maintaining their loyalty and devotion.\n\n## Mechanics & Benefit\nGain +2 bonus on any checks related to guiding and motivating your followers, resolving disputes within the cult, or maintaining their loyalty and devotion.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Cult Leader (Visionarie).",
     "notesList": [
-      "[Rule] Basic Origin Trait (1 CP)."
+      "[Rule] Archetype Trait (1 CP) — The Cult Leader (Visionarie)."
     ]
   },
   {
-    "id": "trait-problem-solving-skills",
-    "name": "Problem-Solving Skills",
+    "id": "trait-voice-of-dissent",
+    "name": "Voice of Dissent",
     "category": "traits",
-    "trait_type": "Occupational Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Social",
+    "type": "Social",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -22139,83 +16561,45 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Strong analytical and problem-solving skills",
-    "description": "Strong analytical and problem-solving skills",
-    "mechanics": "+2 Logic Checks",
-    "mechanic": "+2 Logic Checks",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
+    "desc": "Signature trait of The Demagogue (Visionarie). You gain a +2 bonus to Diplomacy and Performance checks when delivering speeches, creating propaganda, or inciting acts of rebellion.",
+    "description": "Signature trait of The Demagogue (Visionarie). You gain a +2 bonus to Diplomacy and Performance checks when delivering speeches, creating propaganda, or inciting acts of rebellion.",
+    "mechanics": "You gain a +2 bonus to Diplomacy and Performance checks when delivering speeches, creating propaganda, or inciting acts of rebellion.",
+    "mechanic": "You gain a +2 bonus to Diplomacy and Performance checks when delivering speeches, creating propaganda, or inciting acts of rebellion.",
+    "rules": "Archetype Trait (1 CP) — The Demagogue (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Demagogue (Visionarie).",
     "modifiers": [
       {
-        "target": "Logic",
-        "type": "save",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 on Logic Checks"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Problem-Solving Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nStrong analytical and problem-solving skills\n\n## Mechanics & Benefit\n+2 Logic Checks",
-    "notes": "[Modifier] +2 on Logic Checks\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 on Logic Checks",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-product-knowledge",
-    "name": "Product Knowledge",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Merchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods.",
-    "description": "Merchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods.",
-    "mechanics": "+2 to a Knowledge or Vocation Skill",
-    "mechanic": "+2 to a Knowledge or Vocation Skill",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "A Knowledge",
+        "target": "Diplomacy",
         "type": "skill",
         "value": 2,
         "mode": "inherent",
-        "description": "+2 to A Knowledge"
+        "description": "+2 to Diplomacy"
       },
       {
-        "target": "Vocation",
+        "target": "Performance",
         "type": "skill",
         "value": 2,
         "mode": "inherent",
-        "description": "+2 to Vocation"
+        "description": "+2 to Performance"
       }
     ],
     "package_traits": [],
-    "body": "# Product Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods.\n\n## Mechanics & Benefit\n+2 to a Knowledge or Vocation Skill",
-    "notes": "[Modifier] +2 to A Knowledge\n[Modifier] +2 to Vocation\n[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Voice of Dissent\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Demagogue (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Demagogue (Visionarie). You gain a +2 bonus to Diplomacy and Performance checks when delivering speeches, creating propaganda, or inciting acts of rebellion.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Diplomacy and Performance checks when delivering speeches, creating propaganda, or inciting acts of rebellion.",
+    "notes": "[Modifier] +2 to Diplomacy\n[Modifier] +2 to Performance\n[Rule] Archetype Trait (1 CP) — The Demagogue (Visionarie).",
     "notesList": [
-      "[Modifier] +2 to A Knowledge",
-      "[Modifier] +2 to Vocation",
-      "[Rule] Basic Occupational Trait (1 CP)."
+      "[Modifier] +2 to Diplomacy",
+      "[Modifier] +2 to Performance",
+      "[Rule] Archetype Trait (1 CP) — The Demagogue (Visionarie)."
     ]
   },
   {
-    "id": "trait-professionalism",
-    "name": "Professionalism",
+    "id": "trait-subversive-tactics",
+    "name": "Subversive Tactics",
     "category": "traits",
-    "trait_type": "Common Occupational Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Social",
+    "type": "Social",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -22223,216 +16607,28 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Recognized industry standing and professional reliability.",
-    "description": "Recognized industry standing and professional reliability.",
-    "mechanics": "Recognized industry standing and professional reliability.",
-    "mechanic": "Recognized industry standing and professional reliability.",
-    "rules": "Basic Common Occupational Trait (1 CP).",
-    "special_rules": "Basic Common Occupational Trait (1 CP).",
+    "desc": "Signature trait of The Demagogue (Visionarie). You gain +2 bonus on any checks related to spreading misinformation, undermining authority, or inspiring acts of civil disobedience.",
+    "description": "Signature trait of The Demagogue (Visionarie). You gain +2 bonus on any checks related to spreading misinformation, undermining authority, or inspiring acts of civil disobedience.",
+    "mechanics": "You gain +2 bonus on any checks related to spreading misinformation, undermining authority, or inspiring acts of civil disobedience.",
+    "mechanic": "You gain +2 bonus on any checks related to spreading misinformation, undermining authority, or inspiring acts of civil disobedience.",
+    "rules": "Archetype Trait (1 CP) — The Demagogue (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Demagogue (Visionarie).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Professionalism\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Common Occupational Trait\n**CP Cost**: 1\n\n## Description\nRecognized industry standing and professional reliability.",
-    "notes": "[Rule] Basic Common Occupational Trait (1 CP).",
+    "body": "# Subversive Tactics\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Demagogue (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Demagogue (Visionarie). You gain +2 bonus on any checks related to spreading misinformation, undermining authority, or inspiring acts of civil disobedience.\n\n## Mechanics & Benefit\nYou gain +2 bonus on any checks related to spreading misinformation, undermining authority, or inspiring acts of civil disobedience.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Demagogue (Visionarie).",
     "notesList": [
-      "[Rule] Basic Common Occupational Trait (1 CP)."
+      "[Rule] Archetype Trait (1 CP) — The Demagogue (Visionarie)."
     ]
   },
   {
-    "id": "trait-progenitor-heritage-base",
-    "name": "Progenitor Heritage Base",
+    "id": "trait-harbinger-of-doom",
+    "name": "Harbinger of Doom",
     "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 26,
-    "bp": 26,
-    "costs": {
-      "cp": 26,
-      "bp": 26
-    },
-    "is_ranked": false,
-    "desc": "The godlike chassis of the cosmic precursor architects.",
-    "description": "The godlike chassis of the cosmic precursor architects.",
-    "mechanics": "The godlike chassis of the cosmic precursor architects.",
-    "mechanic": "The godlike chassis of the cosmic precursor architects.",
-    "rules": "Elite Species Trait (26 CP).",
-    "special_rules": "Elite Species Trait (26 CP).",
-    "modifiers": [
-      {
-        "target": "All Disciplines",
-        "value": 6,
-        "type": "discipline",
-        "mode": "inherent",
-        "description": "Awakened x6 across all metaphysical disciplines"
-      },
-      {
-        "target": "Telepathy",
-        "value": 1,
-        "type": "special_ability",
-        "mode": "inherent",
-        "description": "Mind Speech / Telepathy [2 CP]"
-      },
-      {
-        "target": "Telekinesis",
-        "value": 1,
-        "type": "special_ability",
-        "mode": "inherent",
-        "description": "Telekinesis [2 CP]"
-      }
-    ],
-    "package_traits": [
-      {
-        "id": "trait-awakened-all",
-        "name": "Awakened x6 (Omni-Discipline Metaphysics)",
-        "tier": "Advanced",
-        "bp": 12,
-        "mechanic": "Total mastery across all 6 metaphysical traditions (Arcane, Cosmic, Dimension, Nature, Psychic, Void).",
-        "cp": 12
-      },
-      {
-        "id": "trait-mind-speech",
-        "name": "Mind Speech (Telepathy)",
-        "tier": "Advanced",
-        "bp": 2,
-        "mechanic": "Unbounded telepathic communication to any subject within 500 ft.",
-        "cp": 2
-      },
-      {
-        "id": "trait-telekinesis",
-        "name": "Telekinesis",
-        "tier": "Advanced",
-        "bp": 2,
-        "mechanic": "Effortless cognitive manipulation of matter and physical force at distance.",
-        "cp": 2
-      },
-      {
-        "id": "trait-fast-heal",
-        "name": "Fast Heal",
-        "tier": "Advanced",
-        "bp": 2,
-        "mechanic": "Rapid recovery of Health and Vitality during short respite.",
-        "cp": 2
-      },
-      {
-        "id": "trait-regeneration",
-        "name": "Regeneration",
-        "tier": "Advanced",
-        "bp": 2,
-        "mechanic": "Continuous cell restoration; regrows severed limbs, organs, and tissues over time.",
-        "cp": 2
-      },
-      {
-        "id": "trait-ageless",
-        "name": "Ageless",
-        "tier": "Advanced",
-        "bp": 2,
-        "mechanic": "Immortal lifespan immune to physical deterioration, aging penalties, or senility.",
-        "cp": 2
-      },
-      {
-        "id": "trait-immortal",
-        "name": "Immortal",
-        "tier": "Elite",
-        "bp": 4,
-        "mechanic": "Cannot die of natural causes; completely immune to biological toxins and pathogens.",
-        "cp": 4
-      }
-    ],
-    "body": "# Progenitor Heritage Base\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 26\n\n## Description\nThe godlike chassis of the cosmic precursor architects.\n\n## Mechanics & Benefit\nThe godlike chassis of the cosmic precursor architects.",
-    "notes": "[Modifier] Awakened x6 across all metaphysical disciplines\n[Modifier] Mind Speech / Telepathy [2 CP]\n[Modifier] Telekinesis [2 CP]\n[Rule] Elite Species Trait (26 CP).",
-    "notesList": [
-      "[Modifier] Awakened x6 across all metaphysical disciplines",
-      "[Modifier] Mind Speech / Telepathy [2 CP]",
-      "[Modifier] Telekinesis [2 CP]",
-      "[Rule] Elite Species Trait (26 CP)."
-    ]
-  },
-  {
-    "id": "trait-property-boon",
-    "name": "Property Boon",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Special equipment allocation granting personal vehicle or biomorphic docking privileges; +4 Wealth for personal property.",
-    "description": "Special equipment allocation granting personal vehicle or biomorphic docking privileges; +4 Wealth for personal property.",
-    "mechanics": "Special equipment allocation granting personal vehicle or biomorphic docking privileges; +4 Wealth for personal property.",
-    "mechanic": "Special equipment allocation granting personal vehicle or biomorphic docking privileges; +4 Wealth for personal property.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Wealth",
-        "type": "wealth",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 Wealth Score"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Property Boon\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nSpecial equipment allocation granting personal vehicle or biomorphic docking privileges; +4 Wealth for personal property.\n\n## Mechanics & Benefit\nSpecial equipment allocation granting personal vehicle or biomorphic docking privileges; +4 Wealth for personal property.",
-    "notes": "[Modifier] +4 Wealth Score\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Specialist or Operator Standing",
-    "notesList": [
-      "[Modifier] +4 Wealth Score",
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Specialist or Operator Standing"
-    ]
-  },
-  {
-    "id": "trait-psionic-gating",
-    "name": "Psionic Gating",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "The mind is harmonized with the cryptographic frequency filters of the Chorus, imposing Disadvantage on foreign psionic intrusions.",
-    "description": "The mind is harmonized with the cryptographic frequency filters of the Chorus, imposing Disadvantage on foreign psionic intrusions.",
-    "mechanics": "The mind is harmonized with the cryptographic frequency filters of the Chorus, imposing Disadvantage on foreign psionic intrusions.",
-    "mechanic": "The mind is harmonized with the cryptographic frequency filters of the Chorus, imposing Disadvantage on foreign psionic intrusions.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Foreign psionic intrusions",
-        "type": "check_advantage",
-        "value": 1,
-        "mode": "inherent",
-        "description": "Advantage on Foreign psionic intrusions Checks"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Psionic Gating\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nThe mind is harmonized with the cryptographic frequency filters of the Chorus, imposing Disadvantage on foreign psionic intrusions.\n\n## Mechanics & Benefit\nThe mind is harmonized with the cryptographic frequency filters of the Chorus, imposing Disadvantage on foreign psionic intrusions.",
-    "notes": "[Modifier] Advantage on Foreign psionic intrusions Checks\n[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Modifier] Advantage on Foreign psionic intrusions Checks",
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-psionic-interference-static",
-    "name": "Psionic Interference (The Static)",
-    "category": "traits",
-    "trait_type": "Species Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Mental",
+    "type": "Mental",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -22440,293 +16636,37 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Discordant psychic frequency imposes -2 on Manelli Psionic/Wisdom checks; Kitin Chorus communication in immediate vicinity is disrupted and rolled at Disadvantage.",
-    "description": "Discordant psychic frequency imposes -2 on Manelli Psionic/Wisdom checks; Kitin Chorus communication in immediate vicinity is disrupted and rolled at Disadvantage.",
-    "mechanics": "Discordant psychic frequency imposes -2 on Manelli Psionic/Wisdom checks; Kitin Chorus communication in immediate vicinity is disrupted and rolled at Disadvantage.",
-    "mechanic": "Discordant psychic frequency imposes -2 on Manelli Psionic/Wisdom checks; Kitin Chorus communication in immediate vicinity is disrupted and rolled at Disadvantage.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
+    "desc": "Signature trait of The Doomsayer (Visionarie). Your presence instills fear and despair in others, gaining a +2 bonus to Intimidation checks and +2 bonus on any checks related to demoralizing opponents or spreading panic.",
+    "description": "Signature trait of The Doomsayer (Visionarie). Your presence instills fear and despair in others, gaining a +2 bonus to Intimidation checks and +2 bonus on any checks related to demoralizing opponents or spreading panic.",
+    "mechanics": "Your presence instills fear and despair in others, gaining a +2 bonus to Intimidation checks and +2 bonus on any checks related to demoralizing opponents or spreading panic.",
+    "mechanic": "Your presence instills fear and despair in others, gaining a +2 bonus to Intimidation checks and +2 bonus on any checks related to demoralizing opponents or spreading panic.",
+    "rules": "Archetype Trait (1 CP) — The Doomsayer (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Doomsayer (Visionarie).",
     "modifiers": [
       {
-        "target": "Manelli Psionic",
+        "target": "Intimidation",
         "type": "skill",
-        "value": -2,
-        "mode": "penalty",
-        "description": "-2 to Manelli Psionic"
-      },
-      {
-        "target": "Wisdom",
-        "type": "skill",
-        "value": -2,
-        "mode": "penalty",
-        "description": "-2 to Wisdom"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Psionic Interference (The Static)\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nDiscordant psychic frequency imposes -2 on Manelli Psionic/Wisdom checks; Kitin Chorus communication in immediate vicinity is disrupted and rolled at Disadvantage.\n\n## Mechanics & Benefit\nDiscordant psychic frequency imposes -2 on Manelli Psionic/Wisdom checks; Kitin Chorus communication in immediate vicinity is disrupted and rolled at Disadvantage.",
-    "notes": "[Penalty] -2 to Manelli Psionic\n[Penalty] -2 to Wisdom\n[Rule] Basic Species Trait (1 CP).\n[Prerequisite] Resonant / Chaotic Psionic Aura",
-    "notesList": [
-      "[Penalty] -2 to Manelli Psionic",
-      "[Penalty] -2 to Wisdom",
-      "[Rule] Basic Species Trait (1 CP).",
-      "[Prerequisite] Resonant / Chaotic Psionic Aura"
-    ]
-  },
-  {
-    "id": "trait-quadruped",
-    "name": "Quadruped",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Four legged, +4 Stability, +10 movement speed. Special Accommodations.",
-    "description": "Four legged, +4 Stability, +10 movement speed. Special Accommodations.",
-    "mechanics": "Four legged, +4 Stability, +10 movement speed. Special Accommodations.",
-    "mechanic": "Four legged, +4 Stability, +10 movement speed. Special Accommodations.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Stability",
-        "type": "combat",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 Stability"
-      },
-      {
-        "target": "move-walk",
-        "type": "combat",
-        "value": 10,
-        "mode": "inherent",
-        "description": "+10 movement"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Quadruped\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nFour legged, +4 Stability, +10 movement speed. Special Accommodations.\n\n## Mechanics & Benefit\nFour legged, +4 Stability, +10 movement speed. Special Accommodations.",
-    "notes": "[Modifier] +4 Stability\n[Modifier] +10 movement\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Four or More Lower Limbs",
-    "notesList": [
-      "[Modifier] +4 Stability",
-      "[Modifier] +10 movement",
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Four or More Lower Limbs"
-    ]
-  },
-  {
-    "id": "trait-quadruped-leaping",
-    "name": "Quadruped (Leaping)",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Specialized quadrupedal legs for high-impact jumping, +4 Stability, and +10 ft Groundspeed.",
-    "description": "Specialized quadrupedal legs for high-impact jumping, +4 Stability, and +10 ft Groundspeed.",
-    "mechanics": "Specialized quadrupedal legs for high-impact jumping, +4 Stability, and +10 ft Groundspeed.",
-    "mechanic": "Specialized quadrupedal legs for high-impact jumping, +4 Stability, and +10 ft Groundspeed.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Stability",
-        "type": "combat",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 Stability"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Quadruped (Leaping)\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nSpecialized quadrupedal legs for high-impact jumping, +4 Stability, and +10 ft Groundspeed.\n\n## Mechanics & Benefit\nSpecialized quadrupedal legs for high-impact jumping, +4 Stability, and +10 ft Groundspeed.",
-    "notes": "[Modifier] +4 Stability\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Four Lower Limbs",
-    "notesList": [
-      "[Modifier] +4 Stability",
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Four Lower Limbs"
-    ]
-  },
-  {
-    "id": "trait-quick",
-    "name": "Quick",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "+10 feet to Base Movement Speed and +1 to Initiative.",
-    "description": "+10 feet to Base Movement Speed and +1 to Initiative.",
-    "mechanics": "+10 feet to Base Movement Speed and +1 to Initiative.",
-    "mechanic": "+10 feet to Base Movement Speed and +1 to Initiative.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "initiative-mod",
-        "type": "combat",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 Initiative"
-      },
-      {
-        "target": "Initiative",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Initiative"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Quick\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+10 feet to Base Movement Speed and +1 to Initiative.\n\n## Mechanics & Benefit\n+10 feet to Base Movement Speed and +1 to Initiative.",
-    "notes": "[Modifier] +1 Initiative\n[Modifier] +1 to Initiative\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Agility 1",
-    "notesList": [
-      "[Modifier] +1 Initiative",
-      "[Modifier] +1 to Initiative",
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Agility 1"
-    ]
-  },
-  {
-    "id": "trait-quick-reactions",
-    "name": "Quick Reactions",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Use double Agility score to calculate base Initiative. Req: Racial Agility +1.",
-    "description": "Use double Agility score to calculate base Initiative. Req: Racial Agility +1.",
-    "mechanics": "Use double Agility score to calculate base Initiative. Req: Racial Agility +1.",
-    "mechanic": "Use double Agility score to calculate base Initiative. Req: Racial Agility +1.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "initiative-mod",
-        "value": 2,
-        "type": "combat",
-        "mode": "inherent",
-        "description": "Double Agility bonus added to base Initiative"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Quick Reactions\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nUse double Agility score to calculate base Initiative. Req: Racial Agility +1.\n\n## Mechanics & Benefit\nUse double Agility score to calculate base Initiative. Req: Racial Agility +1.",
-    "notes": "[Modifier] Double Agility bonus added to base Initiative\n[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Modifier] Double Agility bonus added to base Initiative",
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-quick-thinking",
-    "name": "Quick Thinking",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Think on their feet, make split-second decisions, and adapt to rapidly changing situations",
-    "description": "Think on their feet, make split-second decisions, and adapt to rapidly changing situations",
-    "mechanics": "+2 Initiative",
-    "mechanic": "+2 Initiative",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "initiative-mod",
-        "type": "combat",
         "value": 2,
         "mode": "inherent",
-        "description": "+2 Initiative"
+        "description": "+2 to Intimidation"
       }
     ],
     "package_traits": [],
-    "body": "# Quick Thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nThink on their feet, make split-second decisions, and adapt to rapidly changing situations\n\n## Mechanics & Benefit\n+2 Initiative",
-    "notes": "[Modifier] +2 Initiative\n[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Harbinger of Doom\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Doomsayer (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Doomsayer (Visionarie). Your presence instills fear and despair in others, gaining a +2 bonus to Intimidation checks and +2 bonus on any checks related to demoralizing opponents or spreading panic.\n\n## Mechanics & Benefit\nYour presence instills fear and despair in others, gaining a +2 bonus to Intimidation checks and +2 bonus on any checks related to demoralizing opponents or spreading panic.",
+    "notes": "[Modifier] +2 to Intimidation\n[Rule] Archetype Trait (1 CP) — The Doomsayer (Visionarie).",
     "notesList": [
-      "[Modifier] +2 Initiative",
-      "[Rule] Basic Occupational Trait (1 CP)."
+      "[Modifier] +2 to Intimidation",
+      "[Rule] Archetype Trait (1 CP) — The Doomsayer (Visionarie)."
     ]
   },
   {
-    "id": "trait-radiation-advantage",
-    "name": "Radiation Advantage",
+    "id": "trait-embrace-the-void",
+    "name": "Embrace the Void",
     "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "All checks against ionizing radiation, cosmic rays, and fallout are made with Advantage, and radiation damage is halved.",
-    "description": "All checks against ionizing radiation, cosmic rays, and fallout are made with Advantage, and radiation damage is halved.",
-    "mechanics": "All checks against ionizing radiation, cosmic rays, and fallout are made with Advantage, and radiation damage is halved.",
-    "mechanic": "All checks against ionizing radiation, cosmic rays, and fallout are made with Advantage, and radiation damage is halved.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Stamina, Survival, and physical",
-        "type": "check_advantage",
-        "value": 1,
-        "mode": "inherent",
-        "description": "Advantage on Stamina, Survival, and physical Checks"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Radiation Advantage\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nHeavy-element chitin and stabilized cellular matrices grant Advantage on all Stamina, Survival, and physical checks against ionizing radiation and fallout, while halving any raw damage or strain inflicted by radiological hazards.",
-    "notes": "[Modifier] Advantage on Stamina, Survival, and physical Checks\n[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Modifier] Advantage on Stamina, Survival, and physical Checks",
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-rapid-response",
-    "name": "Rapid Response",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Metaphysical",
+    "type": "Metaphysical",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -22734,66 +16674,28 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Able to respond quickly to threats and can act decisively in high-pressure situations",
-    "description": "Able to respond quickly to threats and can act decisively in high-pressure situations",
-    "mechanics": "+2 Initiative",
-    "mechanic": "+2 Initiative",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "initiative-mod",
-        "type": "combat",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 Initiative"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Rapid Response\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to respond quickly to threats and can act decisively in high-pressure situations\n\n## Mechanics & Benefit\n+2 Initiative",
-    "notes": "[Modifier] +2 Initiative\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 Initiative",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-reach",
-    "name": "Reach",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Reach of 10 feet.",
-    "description": "Reach of 10 feet.",
-    "mechanics": "Reach of 10 feet.",
-    "mechanic": "Reach of 10 feet.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
+    "desc": "Signature trait of The Doomsayer (Visionarie). You are immune to Void based psychic damage and gain +2 bonus on any checks related to resisting mental manipulation or maintaining composure in the face of terrifying phenomena.",
+    "description": "Signature trait of The Doomsayer (Visionarie). You are immune to Void based psychic damage and gain +2 bonus on any checks related to resisting mental manipulation or maintaining composure in the face of terrifying phenomena.",
+    "mechanics": "You are immune to Void based psychic damage and gain +2 bonus on any checks related to resisting mental manipulation or maintaining composure in the face of terrifying phenomena.",
+    "mechanic": "You are immune to Void based psychic damage and gain +2 bonus on any checks related to resisting mental manipulation or maintaining composure in the face of terrifying phenomena.",
+    "rules": "Archetype Trait (1 CP) — The Doomsayer (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Doomsayer (Visionarie).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Reach\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nReach of 10 feet.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Embrace the Void\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Doomsayer (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Doomsayer (Visionarie). You are immune to Void based psychic damage and gain +2 bonus on any checks related to resisting mental manipulation or maintaining composure in the face of terrifying phenomena.\n\n## Mechanics & Benefit\nYou are immune to Void based psychic damage and gain +2 bonus on any checks related to resisting mental manipulation or maintaining composure in the face of terrifying phenomena.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Doomsayer (Visionarie).",
     "notesList": [
-      "[Rule] Basic Species Trait (1 CP)."
+      "[Rule] Archetype Trait (1 CP) — The Doomsayer (Visionarie)."
     ]
   },
   {
-    "id": "trait-reduced-sustenance",
-    "name": "Reduced Sustenance",
+    "id": "trait-diplomatic-immunity",
+    "name": "Diplomatic Immunity",
     "category": "traits",
-    "trait_type": "Species Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Mental",
+    "type": "Mental",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -22801,886 +16703,108 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Eat and drink half typical.",
-    "description": "Eat and drink half typical.",
-    "mechanics": "Eat and drink half typical.",
-    "mechanic": "Eat and drink half typical.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
+    "desc": "Signature trait of The Envoy (Visionarie). You are granted diplomatic immunity by many factions, granting you safe passage and certain privileges in their territories.",
+    "description": "Signature trait of The Envoy (Visionarie). You are granted diplomatic immunity by many factions, granting you safe passage and certain privileges in their territories.",
+    "mechanics": "You are granted diplomatic immunity by many factions, granting you safe passage and certain privileges in their territories.",
+    "mechanic": "You are granted diplomatic immunity by many factions, granting you safe passage and certain privileges in their territories.",
+    "rules": "Archetype Trait (1 CP) — The Envoy (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Envoy (Visionarie).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Reduced Sustenance\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nEat and drink half typical.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Diplomatic Immunity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Envoy (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Envoy (Visionarie). You are granted diplomatic immunity by many factions, granting you safe passage and certain privileges in their territories.\n\n## Mechanics & Benefit\nYou are granted diplomatic immunity by many factions, granting you safe passage and certain privileges in their territories.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Envoy (Visionarie).",
     "notesList": [
-      "[Rule] Basic Species Trait (1 CP)."
+      "[Rule] Archetype Trait (1 CP) — The Envoy (Visionarie)."
     ]
   },
   {
-    "id": "trait-regeneration",
-    "name": "Regeneration",
+    "id": "trait-inspiring-personality",
+    "name": "Inspiring Personality",
     "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 4,
-    "bp": 4,
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Social",
+    "type": "Social",
+    "cp": 1,
+    "bp": 1,
     "costs": {
-      "cp": 4,
-      "bp": 4
+      "cp": 1,
+      "bp": 1
     },
     "is_ranked": false,
-    "desc": "Will regrow lost Limbs and Organs with recovery of Health.",
-    "description": "Will regrow lost Limbs and Organs with recovery of Health.",
-    "mechanics": "Will regrow lost Limbs and Organs with recovery of Health.",
-    "mechanic": "Will regrow lost Limbs and Organs with recovery of Health.",
-    "rules": "Elite Species Trait (4 CP).",
-    "special_rules": "Elite Species Trait (4 CP).",
+    "desc": "Magnetic personal charisma that uplifts allies and commands public attention.",
+    "description": "Magnetic personal charisma that uplifts allies and commands public attention.",
+    "mechanics": "You gain a +2 bonus to Diplomacy, Performance, and Leadership checks when rallying crowds or inspiring allies.",
+    "mechanic": "You gain a +2 bonus to Diplomacy, Performance, and Leadership checks when rallying crowds or inspiring allies.",
+    "rules": "Archetype Trait (1 CP) — The Icon (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Icon (Visionarie).",
+    "modifiers": [
+      {
+        "target": "Diplomacy",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Diplomacy"
+      },
+      {
+        "target": "Performance",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Performance"
+      },
+      {
+        "target": "Leadership",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Leadership"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Inspiring Personality\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Icon (Visionarie))\n**CP Cost**: 1\n\n## Description\nMagnetic personal charisma that uplifts allies and commands public attention.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Diplomacy, Performance, and Leadership checks when rallying crowds or inspiring allies.",
+    "notes": "[Modifier] +2 to Diplomacy\n[Modifier] +2 to Performance\n[Modifier] +2 to Leadership\n[Rule] Archetype Trait (1 CP) — The Icon (Visionarie).",
+    "notesList": [
+      "[Modifier] +2 to Diplomacy",
+      "[Modifier] +2 to Performance",
+      "[Modifier] +2 to Leadership",
+      "[Rule] Archetype Trait (1 CP) — The Icon (Visionarie)."
+    ]
+  },
+  {
+    "id": "trait-network-of-power",
+    "name": "Network of Power",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Social",
+    "type": "Social",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Kingpin (Visionarie). You have established a network of influence within the criminal underworld, gain +2 bonus on any checks related to acquiring resources, bribing officials, or intimidating rivals.",
+    "description": "Signature trait of The Kingpin (Visionarie). You have established a network of influence within the criminal underworld, gain +2 bonus on any checks related to acquiring resources, bribing officials, or intimidating rivals.",
+    "mechanics": "You have established a network of influence within the criminal underworld, gain +2 bonus on any checks related to acquiring resources, bribing officials, or intimidating rivals.",
+    "mechanic": "You have established a network of influence within the criminal underworld, gain +2 bonus on any checks related to acquiring resources, bribing officials, or intimidating rivals.",
+    "rules": "Archetype Trait (1 CP) — The Kingpin (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Kingpin (Visionarie).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Regeneration\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nWill regrow lost Limbs and Organs with recovery of Health.",
-    "notes": "[Rule] Elite Species Trait (4 CP).\n[Prerequisite] Fast Heal, Stamina 4",
+    "body": "# Network of Power\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Kingpin (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Kingpin (Visionarie). You have established a network of influence within the criminal underworld, gain +2 bonus on any checks related to acquiring resources, bribing officials, or intimidating rivals.\n\n## Mechanics & Benefit\nYou have established a network of influence within the criminal underworld, gain +2 bonus on any checks related to acquiring resources, bribing officials, or intimidating rivals.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Kingpin (Visionarie).",
     "notesList": [
-      "[Rule] Elite Species Trait (4 CP).",
-      "[Prerequisite] Fast Heal, Stamina 4"
+      "[Rule] Archetype Trait (1 CP) — The Kingpin (Visionarie)."
     ]
   },
   {
-    "id": "trait-relentless",
-    "name": "Relentless",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "+2 bonus on combat maneuver checks made to bull rush or overrun an opponent.",
-    "description": "+2 bonus on combat maneuver checks made to bull rush or overrun an opponent.",
-    "mechanics": "+2 bonus on combat maneuver checks made to bull rush or overrun an opponent.",
-    "mechanic": "+2 bonus on combat maneuver checks made to bull rush or overrun an opponent.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Combat maneuver",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Combat maneuver"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Relentless\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 bonus on combat maneuver checks made to bull rush or overrun an opponent.\n\n## Mechanics & Benefit\n+2 bonus on combat maneuver checks made to bull rush or overrun an opponent.",
-    "notes": "[Modifier] +2 to Combat maneuver\n[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Combat maneuver",
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-resin-secretion",
-    "name": "Resin Secretion",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Creation of Hive-Resin for field-patching mecha, vehicle hulls, and hive structures.",
-    "description": "Creation of Hive-Resin for field-patching mecha, vehicle hulls, and hive structures.",
-    "mechanics": "Creation of Hive-Resin for field-patching mecha, vehicle hulls, and hive structures.",
-    "mechanic": "Creation of Hive-Resin for field-patching mecha, vehicle hulls, and hive structures.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Resin Secretion\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nExudes fast-curing Hive-Resin used to seal breaches, repair vehicle/mecha plating, and anchor defensive positions against vacuum and pressure hazards.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Biomorphic Glands",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Biomorphic Glands"
-    ]
-  },
-  {
-    "id": "trait-resistant",
-    "name": "Resistant",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "+2 racial bonus on saving throws against mind-affecting effects and poison.",
-    "description": "+2 racial bonus on saving throws against mind-affecting effects and poison.",
-    "mechanics": "+2 racial bonus on saving throws against mind-affecting effects and poison.",
-    "mechanic": "+2 racial bonus on saving throws against mind-affecting effects and poison.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Saving throws against mind-affecting effects",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Saving throws against mind-affecting effects"
-      },
-      {
-        "target": "Poison",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Poison"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Resistant\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\n+2 racial bonus on saving throws against mind-affecting effects and poison.\n\n## Mechanics & Benefit\n+2 racial bonus on saving throws against mind-affecting effects and poison.",
-    "notes": "[Modifier] +2 to Saving throws against mind-affecting effects\n[Modifier] +2 to Poison\n[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Modifier] +2 to Saving throws against mind-affecting effects",
-      "[Modifier] +2 to Poison",
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-resource-management",
-    "name": "Resource Management",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Meticulous rationing of food, water, battery cells, and structural spare parts.",
-    "description": "Meticulous rationing of food, water, battery cells, and structural spare parts.",
-    "mechanics": "Wealth Checks for Basic Resources made at Advantage",
-    "mechanic": "Wealth Checks for Basic Resources made at Advantage",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Resource Management\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nMeticulous rationing of food, water, battery cells, and structural spare parts.\n\n## Mechanics & Benefit\nWealth Checks for Basic Resources made at Advantage",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-resourceful",
-    "name": "Resourceful",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Able to make weapons out of anything and can adapt to new situations quickly",
-    "description": "Able to make weapons out of anything and can adapt to new situations quickly",
-    "mechanics": "Once per Day make a Skill Check of choice at Advantage",
-    "mechanic": "Once per Day make a Skill Check of choice at Advantage",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Skill Choice",
-        "type": "check_advantage",
-        "value": 1,
-        "mode": "situational",
-        "condition": "1/Day",
-        "description": "One Skill Check of choice at Advantage per day"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Resourceful\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to make weapons out of anything and can adapt to new situations quickly\n\n## Mechanics & Benefit\nOnce per Day make a Skill Check of choice at Advantage",
-    "notes": "[Modifier] One Skill Check of choice at Advantage per day\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] One Skill Check of choice at Advantage per day",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-resourcefulness",
-    "name": "Resourcefulness",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "The character is able to make the most of limited resources and find creative solutions to problems, especially important where resources may be scarce.",
-    "description": "The character is able to make the most of limited resources and find creative solutions to problems, especially important where resources may be scarce.",
-    "mechanics": "Once per Day make a Skill Check of choice at Advantage",
-    "mechanic": "Once per Day make a Skill Check of choice at Advantage",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Skill Choice",
-        "type": "check_advantage",
-        "value": 1,
-        "mode": "situational",
-        "condition": "1/Day",
-        "description": "One Skill Check of choice at Advantage per day"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Resourcefulness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nThe character is able to make the most of limited resources and find creative solutions to problems, especially important where resources may be scarce.\n\n## Mechanics & Benefit\nOnce per Day make a Skill Check of choice at Advantage",
-    "notes": "[Modifier] One Skill Check of choice at Advantage per day\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] One Skill Check of choice at Advantage per day",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-risk-management",
-    "name": "Risk Management",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Merchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *+1 Karma Point* #",
-    "description": "Merchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *+1 Karma Point* #",
-    "mechanics": "+1 Karma Point",
-    "mechanic": "+1 Karma Point",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Karma",
-        "type": "karma",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Karma Pool"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Risk Management\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nMerchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *+1 Karma Point* #\n\n## Mechanics & Benefit\n+1 Karma Point",
-    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Karma Pool",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-risk-taking",
-    "name": "Risk-Taking",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Willing to take calculated physical risks in hazardous high-heat, high-voltage environments.",
-    "description": "Willing to take calculated physical risks in hazardous high-heat, high-voltage environments.",
-    "mechanics": "+1 Karma Point",
-    "mechanic": "+1 Karma Point",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Karma",
-        "type": "karma",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Karma Pool"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Risk-Taking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nWilling to take calculated physical risks in hazardous high-heat, high-voltage environments.\n\n## Mechanics & Benefit\n+1 Karma Point",
-    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Karma Pool",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-rock-throwing",
-    "name": "Rock Throwing",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Range increment 60ft. Damage 2d6 + 1.5 Str. Req: Large.",
-    "description": "Range increment 60ft. Damage 2d6 + 1.5 Str. Req: Large.",
-    "mechanics": "Range increment 60ft. Damage 2d6 + 1.5 Str. Req: Large.",
-    "mechanic": "Range increment 60ft. Damage 2d6 + 1.5 Str. Req: Large.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Rock Throwing\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nRange increment 60ft. Damage 2d6 + 1.5 Str. Req: Large.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-runner",
-    "name": "Runner",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running",
-    "description": "+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running",
-    "mechanics": "+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running",
-    "mechanic": "+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Saves to avoid fatigue",
-        "type": "skill",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 to Saves to avoid fatigue"
-      },
-      {
-        "target": "Exhaustion",
-        "type": "skill",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 to Exhaustion"
-      },
-      {
-        "target": "Ill effects from running",
-        "type": "skill",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 to Ill effects from running"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Runner\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running\n\n## Mechanics & Benefit\n+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running",
-    "notes": "[Modifier] +4 to Saves to avoid fatigue\n[Modifier] +4 to Exhaustion\n[Modifier] +4 to Ill effects from running\n[Rule] Basic Species Trait (1 CP).\n[Prerequisite] Strength 1, Agility 1, Stamina 1",
-    "notesList": [
-      "[Modifier] +4 to Saves to avoid fatigue",
-      "[Modifier] +4 to Exhaustion",
-      "[Modifier] +4 to Ill effects from running",
-      "[Rule] Basic Species Trait (1 CP).",
-      "[Prerequisite] Strength 1, Agility 1, Stamina 1"
-    ]
-  },
-  {
-    "id": "trait-scavenging",
-    "name": "Scavenging",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Excel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources",
-    "description": "Excel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources",
-    "mechanics": "+2 Salvage checks",
-    "mechanic": "+2 Salvage checks",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Salvage",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Salvage"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Scavenging\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nExcel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources\n\n## Mechanics & Benefit\n+2 Salvage checks",
-    "notes": "[Modifier] +2 to Salvage\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Salvage",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-scent",
-    "name": "Scent",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Identify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).",
-    "description": "Identify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).",
-    "mechanics": "Identify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).",
-    "mechanic": "Identify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Track",
-        "type": "skill",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 to Track"
-      },
-      {
-        "target": "Medical Diagnosis as Analytical Sense of Smell",
-        "type": "skill",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 to Medical Diagnosis as Analytical Sense of Smell"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Scent\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nIdentify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).\n\n## Mechanics & Benefit\nIdentify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).",
-    "notes": "[Modifier] +4 to Track\n[Modifier] +4 to Medical Diagnosis as Analytical Sense of Smell\n[Rule] Basic Species Trait (1 CP).\n[Prerequisite] Wisdom 1",
-    "notesList": [
-      "[Modifier] +4 to Track",
-      "[Modifier] +4 to Medical Diagnosis as Analytical Sense of Smell",
-      "[Rule] Basic Species Trait (1 CP).",
-      "[Prerequisite] Wisdom 1"
-    ]
-  },
-  {
-    "id": "trait-scientific-knowledge",
-    "name": "Scientific Knowledge",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Expertise in planetary geology, atmospheric biology, or agricultural terraforming.",
-    "description": "Expertise in planetary geology, atmospheric biology, or agricultural terraforming.",
-    "mechanics": "+2 to Science Knowledge",
-    "mechanic": "+2 to Science Knowledge",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Science Knowledge",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Science Knowledge"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Scientific Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nExpertise in planetary geology, atmospheric biology, or agricultural terraforming.\n\n## Mechanics & Benefit\n+2 to Science Knowledge",
-    "notes": "[Modifier] +2 to Science Knowledge\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Science Knowledge",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-sea-piloting",
-    "name": "Sea Piloting",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Operation of submersibles, high-speed hydrofoils, personal jets, and colossal floating platforms.",
-    "description": "Operation of submersibles, high-speed hydrofoils, personal jets, and colossal floating platforms.",
-    "mechanics": "+2 to all Seacraft Operation - Submersibles, Boats, Hovercraft, and Aircraft",
-    "mechanic": "+2 to all Seacraft Operation - Submersibles, Boats, Hovercraft, and Aircraft",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Seacraft Operation - Submersibles",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Seacraft Operation - Submersibles"
-      },
-      {
-        "target": "Boats",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Boats"
-      },
-      {
-        "target": "Hovercraft",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Hovercraft"
-      },
-      {
-        "target": "Aircraft",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Aircraft"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Sea Piloting\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nOperation of submersibles, high-speed hydrofoils, personal jets, and colossal floating platforms.\n\n## Mechanics & Benefit\n+2 to all Seacraft Operation - Submersibles, Boats, Hovercraft, and Aircraft",
-    "notes": "[Modifier] +2 to Seacraft Operation - Submersibles\n[Modifier] +2 to Boats\n[Modifier] +2 to Hovercraft\n[Modifier] +2 to Aircraft\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Seacraft Operation - Submersibles",
-      "[Modifier] +2 to Boats",
-      "[Modifier] +2 to Hovercraft",
-      "[Modifier] +2 to Aircraft",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-self-revivifying",
-    "name": "Self Revivifying",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 4,
-    "bp": 4,
-    "costs": {
-      "cp": 4,
-      "bp": 4
-    },
-    "is_ranked": false,
-    "desc": "1/day attempt to resurrect. Cost: 1 Karma, Con Check Diff 20. Req: Immortal.",
-    "description": "1/day attempt to resurrect. Cost: 1 Karma, Con Check Diff 20. Req: Immortal.",
-    "mechanics": "1/day attempt to resurrect. Cost: 1 Karma, Con Check Diff 20. Req: Immortal.",
-    "mechanic": "1/day attempt to resurrect. Cost: 1 Karma, Con Check Diff 20. Req: Immortal.",
-    "rules": "Elite Species Trait (4 CP).",
-    "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [
-      {
-        "target": "Karma",
-        "type": "karma",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Karma Pool"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Self Revivifying\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\n1/day attempt to resurrect. Cost: 1 Karma, Con Check Diff 20. Req: Immortal.\n\n## Mechanics & Benefit\n1/day attempt to resurrect. Cost: 1 Karma, Con Check Diff 20. Req: Immortal.",
-    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Elite Species Trait (4 CP).",
-    "notesList": [
-      "[Modifier] +1 to Karma Pool",
-      "[Rule] Elite Species Trait (4 CP)."
-    ]
-  },
-  {
-    "id": "trait-self-preservation",
-    "name": "Self-preservation",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Criminals may be skilled at protecting themselves and avoiding capture by law enforcement",
-    "description": "Criminals may be skilled at protecting themselves and avoiding capture by law enforcement",
-    "mechanics": "+1 Karma Point",
-    "mechanic": "+1 Karma Point",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Karma",
-        "type": "karma",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Karma Pool"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Self-preservation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nCriminals may be skilled at protecting themselves and avoiding capture by law enforcement\n\n## Mechanics & Benefit\n+1 Karma Point",
-    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Karma Pool",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-self-sufficiency",
-    "name": "Self-sufficiency",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Often self-sufficient and able to take care of themselves without relying on others",
-    "description": "Often self-sufficient and able to take care of themselves without relying on others",
-    "mechanics": "+1 Karma Point",
-    "mechanic": "+1 Karma Point",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Karma",
-        "type": "karma",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Karma Pool"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Self-sufficiency\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nOften self-sufficient and able to take care of themselves without relying on others\n\n## Mechanics & Benefit\n+1 Karma Point",
-    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Karma Pool",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-semi-corporeal",
-    "name": "Semi-Corporeal",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 4,
-    "bp": 4,
-    "costs": {
-      "cp": 4,
-      "bp": 4
-    },
-    "is_ranked": false,
-    "desc": "DR30 vs physical, able to Phase through solid matter, Solidify at will.",
-    "description": "DR30 vs physical, able to Phase through solid matter, Solidify at will.",
-    "mechanics": "DR30 vs physical, able to Phase through solid matter, Solidify at will.",
-    "mechanic": "DR30 vs physical, able to Phase through solid matter, Solidify at will.",
-    "rules": "Elite Species Trait (4 CP).",
-    "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [
-      {
-        "target": "armor-dr",
-        "type": "combat",
-        "value": 30,
-        "mode": "inherent",
-        "description": "+30 DR"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Semi-Corporeal\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nDR30 vs physical, able to Phase through solid matter, Solidify at will.\n\n## Mechanics & Benefit\nDR30 vs physical, able to Phase through solid matter, Solidify at will.",
-    "notes": "[Modifier] +30 DR\n[Rule] Elite Species Trait (4 CP).",
-    "notesList": [
-      "[Modifier] +30 DR",
-      "[Rule] Elite Species Trait (4 CP)."
-    ]
-  },
-  {
-    "id": "trait-shadow-affinity",
-    "name": "Shadow Affinity",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Gain +5 to Stealth when in Shadowy or Dim area.",
-    "description": "Gain +5 to Stealth when in Shadowy or Dim area.",
-    "mechanics": "Gain +5 to Stealth when in Shadowy or Dim area.",
-    "mechanic": "Gain +5 to Stealth when in Shadowy or Dim area.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Stealth when in Shadowy",
-        "type": "skill",
-        "value": 5,
-        "mode": "inherent",
-        "description": "+5 to Stealth when in Shadowy"
-      },
-      {
-        "target": "Dim area",
-        "type": "skill",
-        "value": 5,
-        "mode": "inherent",
-        "description": "+5 to Dim area"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Shadow Affinity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nGain +5 to Stealth when in Shadowy or Dim area.\n\n## Mechanics & Benefit\nGain +5 to Stealth when in Shadowy or Dim area.",
-    "notes": "[Modifier] +5 to Stealth when in Shadowy\n[Modifier] +5 to Dim area\n[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +5 to Stealth when in Shadowy",
-      "[Modifier] +5 to Dim area",
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-shadow-blending",
-    "name": "Shadow Blending",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Attacks made against members in dim light have 30% miss chance.",
-    "description": "Attacks made against members in dim light have 30% miss chance.",
-    "mechanics": "Attacks made against members in dim light have 30% miss chance.",
-    "mechanic": "Attacks made against members in dim light have 30% miss chance.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Shadow Blending\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nAttacks made against members in dim light have 30% miss chance.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-shards-of-the-past",
-    "name": "Shards of the Past",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Pick two skills. Gain +2 racial bonus on both. Represents past lives.",
-    "description": "Pick two skills. Gain +2 racial bonus on both. Represents past lives.",
-    "mechanics": "Pick two skills. Gain +2 racial bonus on both. Represents past lives.",
-    "mechanic": "Pick two skills. Gain +2 racial bonus on both. Represents past lives.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Both",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Both"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Shards of the Past\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nPick two skills. Gain +2 racial bonus on both. Represents past lives.\n\n## Mechanics & Benefit\nPick two skills. Gain +2 racial bonus on both. Represents past lives.",
-    "notes": "[Modifier] +2 to Both\n[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Both",
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-shared-wisdom",
+    "id": "trait-sig-shared-wisdom",
     "name": "Shared Wisdom",
     "category": "traits",
-    "trait_type": "Origin Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
     "classification": "Physical",
     "type": "Physical",
@@ -23695,21 +16819,21 @@ export const ALL_CANONICAL_TRAITS = [
     "description": "Imparting profound advice and guiding allies through precarious trials.",
     "mechanics": "Any Check to Aid, Guide or Instruct another (granting them a bonus) may be made at Advantage",
     "mechanic": "Any Check to Aid, Guide or Instruct another (granting them a bonus) may be made at Advantage",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
+    "rules": "Archetype Trait (1 CP) — The Mentor (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Mentor (Visionarie).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Shared Wisdom\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nImparting profound advice and guiding allies through precarious trials.\n\n## Mechanics & Benefit\nAny Check to Aid, Guide or Instruct another (granting them a bonus) may be made at Advantage",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Shared Wisdom\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Mentor (Visionarie))\n**CP Cost**: 1\n\n## Description\nImparting profound advice and guiding allies through precarious trials.\n\n## Mechanics & Benefit\nAny Check to Aid, Guide or Instruct another (granting them a bonus) may be made at Advantage",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Mentor (Visionarie).",
     "notesList": [
-      "[Rule] Basic Origin Trait (1 CP)."
+      "[Rule] Archetype Trait (1 CP) — The Mentor (Visionarie)."
     ]
   },
   {
-    "id": "trait-silent-hunter",
-    "name": "Silent Hunter",
+    "id": "trait-sig-mentorship",
+    "name": "Mentorship",
     "category": "traits",
-    "trait_type": "Species Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
     "classification": "Physical",
     "type": "Physical",
@@ -23720,25 +16844,281 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Reduce Stealth penalty for moving by 5 / Stealth checks while running at –20",
-    "description": "Reduce Stealth penalty for moving by 5 / Stealth checks while running at –20",
-    "mechanics": "Reduce Stealth penalty for moving by 5 / Stealth checks while running at –20",
-    "mechanic": "Reduce Stealth penalty for moving by 5 / Stealth checks while running at –20",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
+    "desc": "Guiding pupils and imparting ancient wisdom to accelerate their intellectual and spiritual growth.",
+    "description": "Guiding pupils and imparting ancient wisdom to accelerate their intellectual and spiritual growth.",
+    "mechanics": "Those under the Enlightened character’s tutelage may make Study Checks at Advantage",
+    "mechanic": "Those under the Enlightened character’s tutelage may make Study Checks at Advantage",
+    "rules": "Archetype Trait (1 CP) — The Mentor (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Mentor (Visionarie).",
+    "modifiers": [
+      {
+        "target": "Tutelage may make Study",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Tutelage may make Study"
+      }
+    ],
     "package_traits": [],
-    "body": "# Silent Hunter\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nReduce Stealth penalty for moving by 5 / Stealth checks while running at –20",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Mentorship\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Mentor (Visionarie))\n**CP Cost**: 1\n\n## Description\nGuiding pupils and imparting ancient wisdom to accelerate their intellectual and spiritual growth.\n\n## Mechanics & Benefit\nThose under the Enlightened character’s tutelage may make Study Checks at Advantage",
+    "notes": "[Modifier] +1 to Tutelage may make Study\n[Rule] Archetype Trait (1 CP) — The Mentor (Visionarie).",
     "notesList": [
-      "[Rule] Basic Species Trait (1 CP)."
+      "[Modifier] +1 to Tutelage may make Study",
+      "[Rule] Archetype Trait (1 CP) — The Mentor (Visionarie)."
     ]
   },
   {
-    "id": "trait-silver-tongued",
-    "name": "Silver Tongued",
+    "id": "trait-spiritual-guide",
+    "name": "Spiritual Guide",
     "category": "traits",
-    "trait_type": "Species Trait",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Metaphysical",
+    "type": "Metaphysical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Missionary (Visionarie). You gain +2 bonus on any checks related to providing spiritual guidance, resolving religious disputes, or comforting those in need.",
+    "description": "Signature trait of The Missionary (Visionarie). You gain +2 bonus on any checks related to providing spiritual guidance, resolving religious disputes, or comforting those in need.",
+    "mechanics": "You gain +2 bonus on any checks related to providing spiritual guidance, resolving religious disputes, or comforting those in need.",
+    "mechanic": "You gain +2 bonus on any checks related to providing spiritual guidance, resolving religious disputes, or comforting those in need.",
+    "rules": "Archetype Trait (1 CP) — The Missionary (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Missionary (Visionarie).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Spiritual Guide\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Missionary (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Missionary (Visionarie). You gain +2 bonus on any checks related to providing spiritual guidance, resolving religious disputes, or comforting those in need.\n\n## Mechanics & Benefit\nYou gain +2 bonus on any checks related to providing spiritual guidance, resolving religious disputes, or comforting those in need.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Missionary (Visionarie).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Missionary (Visionarie)."
+    ]
+  },
+  {
+    "id": "trait-prophetic-visions",
+    "name": "Prophetic Visions",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Metaphysical",
+    "type": "Metaphysical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Mystic (Visionarie) / The Oracle (Visionarie). Gain divine insights into future events, granting +2 on any checks related to predicting outcomes or anticipating danger.",
+    "description": "Signature trait of The Mystic (Visionarie) / The Oracle (Visionarie). Gain divine insights into future events, granting +2 on any checks related to predicting outcomes or anticipating danger.",
+    "mechanics": "Gain divine insights into future events, granting +2 on any checks related to predicting outcomes or anticipating danger.",
+    "mechanic": "Gain divine insights into future events, granting +2 on any checks related to predicting outcomes or anticipating danger.",
+    "rules": "Archetype Trait (1 CP) — The Mystic (Visionarie) / The Oracle (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Mystic (Visionarie) / The Oracle (Visionarie).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Prophetic Visions\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Mystic (Visionarie) / The Oracle (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Mystic (Visionarie) / The Oracle (Visionarie). Gain divine insights into future events, granting +2 on any checks related to predicting outcomes or anticipating danger.\n\n## Mechanics & Benefit\nGain divine insights into future events, granting +2 on any checks related to predicting outcomes or anticipating danger.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Mystic (Visionarie) / The Oracle (Visionarie).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Mystic (Visionarie) / The Oracle (Visionarie)."
+    ]
+  },
+  {
+    "id": "trait-spiritual-advisor",
+    "name": "Spiritual Advisor",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Metaphysical",
+    "type": "Metaphysical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Mystic (Visionarie) / The Oracle (Visionarie). You gain a +2 bonus to Diplomacy checks when offering spiritual guidance or comfort.",
+    "description": "Signature trait of The Mystic (Visionarie) / The Oracle (Visionarie). You gain a +2 bonus to Diplomacy checks when offering spiritual guidance or comfort.",
+    "mechanics": "You gain a +2 bonus to Diplomacy checks when offering spiritual guidance or comfort.",
+    "mechanic": "You gain a +2 bonus to Diplomacy checks when offering spiritual guidance or comfort.",
+    "rules": "Archetype Trait (1 CP) — The Mystic (Visionarie) / The Oracle (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Mystic (Visionarie) / The Oracle (Visionarie).",
+    "modifiers": [
+      {
+        "target": "Diplomacy",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Diplomacy"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Spiritual Advisor\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Mystic (Visionarie) / The Oracle (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Mystic (Visionarie) / The Oracle (Visionarie). You gain a +2 bonus to Diplomacy checks when offering spiritual guidance or comfort.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Diplomacy checks when offering spiritual guidance or comfort.",
+    "notes": "[Modifier] +2 to Diplomacy\n[Rule] Archetype Trait (1 CP) — The Mystic (Visionarie) / The Oracle (Visionarie).",
+    "notesList": [
+      "[Modifier] +2 to Diplomacy",
+      "[Rule] Archetype Trait (1 CP) — The Mystic (Visionarie) / The Oracle (Visionarie)."
+    ]
+  },
+  {
+    "id": "trait-tactical-expertise",
+    "name": "Tactical Expertise",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Combat",
+    "type": "Combat",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Officer (Visionarie). You gain a +2 bonus to Tactics and Leadership checks, and +2 bonus on any checks related to planning and executing military operations or coordinating the efforts of multiple units.",
+    "description": "Signature trait of The Officer (Visionarie). You gain a +2 bonus to Tactics and Leadership checks, and +2 bonus on any checks related to planning and executing military operations or coordinating the efforts of multiple units.",
+    "mechanics": "You gain a +2 bonus to Tactics and Leadership checks, and +2 bonus on any checks related to planning and executing military operations or coordinating the efforts of multiple units.",
+    "mechanic": "You gain a +2 bonus to Tactics and Leadership checks, and +2 bonus on any checks related to planning and executing military operations or coordinating the efforts of multiple units.",
+    "rules": "Archetype Trait (1 CP) — The Officer (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Officer (Visionarie).",
+    "modifiers": [
+      {
+        "target": "Tactics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Tactics"
+      },
+      {
+        "target": "Leadership",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Leadership"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Tactical Expertise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Officer (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Officer (Visionarie). You gain a +2 bonus to Tactics and Leadership checks, and +2 bonus on any checks related to planning and executing military operations or coordinating the efforts of multiple units.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Tactics and Leadership checks, and +2 bonus on any checks related to planning and executing military operations or coordinating the efforts of multiple units.",
+    "notes": "[Modifier] +2 to Tactics\n[Modifier] +2 to Leadership\n[Rule] Archetype Trait (1 CP) — The Officer (Visionarie).",
+    "notesList": [
+      "[Modifier] +2 to Tactics",
+      "[Modifier] +2 to Leadership",
+      "[Rule] Archetype Trait (1 CP) — The Officer (Visionarie)."
+    ]
+  },
+  {
+    "id": "trait-inspiring-leader",
+    "name": "Inspiring Leader",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Combat",
+    "type": "Combat",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Officer (Visionarie). You gain a +2 bonus to Leadership checks to rally and inspire others, and +2 bonus on any checks related to inciting rebellion or leading a resistance movement.",
+    "description": "Signature trait of The Officer (Visionarie). You gain a +2 bonus to Leadership checks to rally and inspire others, and +2 bonus on any checks related to inciting rebellion or leading a resistance movement.",
+    "mechanics": "You gain a +2 bonus to Leadership checks to rally and inspire others, and +2 bonus on any checks related to inciting rebellion or leading a resistance movement.",
+    "mechanic": "You gain a +2 bonus to Leadership checks to rally and inspire others, and +2 bonus on any checks related to inciting rebellion or leading a resistance movement.",
+    "rules": "Archetype Trait (1 CP) — The Officer (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Officer (Visionarie).",
+    "modifiers": [
+      {
+        "target": "Leadership",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Leadership"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Inspiring Leader\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Officer (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Officer (Visionarie). You gain a +2 bonus to Leadership checks to rally and inspire others, and +2 bonus on any checks related to inciting rebellion or leading a resistance movement.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Leadership checks to rally and inspire others, and +2 bonus on any checks related to inciting rebellion or leading a resistance movement.",
+    "notes": "[Modifier] +2 to Leadership\n[Rule] Archetype Trait (1 CP) — The Officer (Visionarie).",
+    "notesList": [
+      "[Modifier] +2 to Leadership",
+      "[Rule] Archetype Trait (1 CP) — The Officer (Visionarie)."
+    ]
+  },
+  {
+    "id": "trait-pacifying-presence",
+    "name": "Pacifying Presence",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Social",
+    "type": "Social",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Peacekeeper (Visionarie). You gain a +2 bonus to Diplomacy checks to de-escalate tense situations.",
+    "description": "Signature trait of The Peacekeeper (Visionarie). You gain a +2 bonus to Diplomacy checks to de-escalate tense situations.",
+    "mechanics": "You gain a +2 bonus to Diplomacy checks to de-escalate tense situations.",
+    "mechanic": "You gain a +2 bonus to Diplomacy checks to de-escalate tense situations.",
+    "rules": "Archetype Trait (1 CP) — The Peacekeeper (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Peacekeeper (Visionarie).",
+    "modifiers": [
+      {
+        "target": "Diplomacy",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Diplomacy"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Pacifying Presence\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Peacekeeper (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Peacekeeper (Visionarie). You gain a +2 bonus to Diplomacy checks to de-escalate tense situations.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Diplomacy checks to de-escalate tense situations.",
+    "notes": "[Modifier] +2 to Diplomacy\n[Rule] Archetype Trait (1 CP) — The Peacekeeper (Visionarie).",
+    "notesList": [
+      "[Modifier] +2 to Diplomacy",
+      "[Rule] Archetype Trait (1 CP) — The Peacekeeper (Visionarie)."
+    ]
+  },
+  {
+    "id": "trait-defensive-stance",
+    "name": "Defensive Stance",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Combat",
+    "type": "Combat",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Peacekeeper (Visionarie). You gain a +2 bonus to AC while not attacking.",
+    "description": "Signature trait of The Peacekeeper (Visionarie). You gain a +2 bonus to AC while not attacking.",
+    "mechanics": "You gain a +2 bonus to AC while not attacking.",
+    "mechanic": "You gain a +2 bonus to AC while not attacking.",
+    "rules": "Archetype Trait (1 CP) — The Peacekeeper (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Peacekeeper (Visionarie).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Defensive Stance\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Peacekeeper (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Peacekeeper (Visionarie). You gain a +2 bonus to AC while not attacking.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to AC while not attacking.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Peacekeeper (Visionarie).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Peacekeeper (Visionarie)."
+    ]
+  },
+  {
+    "id": "trait-sig-metacognition",
+    "name": "Metacognition",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
     "classification": "Physical",
     "type": "Physical",
@@ -23749,12 +17129,221 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "+2 bonus on Diplomacy and Bluff. Can shift attitude up to three steps.",
-    "description": "+2 bonus on Diplomacy and Bluff. Can shift attitude up to three steps.",
-    "mechanics": "+2 bonus on Diplomacy and Bluff. Can shift attitude up to three steps.",
-    "mechanic": "+2 bonus on Diplomacy and Bluff. Can shift attitude up to three steps.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
+    "desc": "Aware of own cognitive abilities and strategies.",
+    "description": "Aware of own cognitive abilities and strategies.",
+    "mechanics": "+1 to Logic and Willpower Checks",
+    "mechanic": "+1 to Logic and Willpower Checks",
+    "rules": "Archetype Trait (1 CP) — The Philosopher (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Philosopher (Visionarie).",
+    "modifiers": [
+      {
+        "target": "Logic",
+        "type": "save",
+        "value": 1,
+        "mode": "inherent",
+        "description": "+1 to Logic"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Metacognition\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Philosopher (Visionarie))\n**CP Cost**: 1\n\n## Description\nAware of own cognitive abilities and strategies.\n\n## Mechanics & Benefit\n+1 to Logic and Willpower Checks",
+    "notes": "[Modifier] +1 to Logic\n[Rule] Archetype Trait (1 CP) — The Philosopher (Visionarie).",
+    "notesList": [
+      "[Modifier] +1 to Logic",
+      "[Rule] Archetype Trait (1 CP) — The Philosopher (Visionarie)."
+    ]
+  },
+  {
+    "id": "trait-enlightened-mind",
+    "name": "Enlightened Mind",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Philosopher (Visionarie). You gain +2 on any saving throw against mental effects.",
+    "description": "Signature trait of The Philosopher (Visionarie). You gain +2 on any saving throw against mental effects.",
+    "mechanics": "You gain +2 on any saving throw against mental effects.",
+    "mechanic": "You gain +2 on any saving throw against mental effects.",
+    "rules": "Archetype Trait (1 CP) — The Philosopher (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Philosopher (Visionarie).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Enlightened Mind\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Philosopher (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Philosopher (Visionarie). You gain +2 on any saving throw against mental effects.\n\n## Mechanics & Benefit\nYou gain +2 on any saving throw against mental effects.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Philosopher (Visionarie).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Philosopher (Visionarie)."
+    ]
+  },
+  {
+    "id": "trait-religious-authority",
+    "name": "Religious Authority",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Social",
+    "type": "Social",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Priest (Visionarie). You gain a +2 bonus to Diplomacy checks when interacting with followers of the Impyrium's state religion.",
+    "description": "Signature trait of The Priest (Visionarie). You gain a +2 bonus to Diplomacy checks when interacting with followers of the Impyrium's state religion.",
+    "mechanics": "You gain a +2 bonus to Diplomacy checks when interacting with followers of the Impyrium's state religion.",
+    "mechanic": "You gain a +2 bonus to Diplomacy checks when interacting with followers of the Impyrium's state religion.",
+    "rules": "Archetype Trait (1 CP) — The Priest (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Priest (Visionarie).",
+    "modifiers": [
+      {
+        "target": "Diplomacy",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Diplomacy"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Religious Authority\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Priest (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Priest (Visionarie). You gain a +2 bonus to Diplomacy checks when interacting with followers of the Impyrium's state religion.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Diplomacy checks when interacting with followers of the Impyrium's state religion.",
+    "notes": "[Modifier] +2 to Diplomacy\n[Rule] Archetype Trait (1 CP) — The Priest (Visionarie).",
+    "notesList": [
+      "[Modifier] +2 to Diplomacy",
+      "[Rule] Archetype Trait (1 CP) — The Priest (Visionarie)."
+    ]
+  },
+  {
+    "id": "trait-spiritual-guidance",
+    "name": "Spiritual Guidance",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Metaphysical",
+    "type": "Metaphysical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Priest (Visionarie). You can offer spiritual comfort and guidance. Grant +2 bonus on any checks related to bolstering morale or resisting fear and despair.",
+    "description": "Signature trait of The Priest (Visionarie). You can offer spiritual comfort and guidance. Grant +2 bonus on any checks related to bolstering morale or resisting fear and despair.",
+    "mechanics": "You can offer spiritual comfort and guidance. Grant +2 bonus on any checks related to bolstering morale or resisting fear and despair.",
+    "mechanic": "You can offer spiritual comfort and guidance. Grant +2 bonus on any checks related to bolstering morale or resisting fear and despair.",
+    "rules": "Archetype Trait (1 CP) — The Priest (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Priest (Visionarie).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Spiritual Guidance\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Priest (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Priest (Visionarie). You can offer spiritual comfort and guidance. Grant +2 bonus on any checks related to bolstering morale or resisting fear and despair.\n\n## Mechanics & Benefit\nYou can offer spiritual comfort and guidance. Grant +2 bonus on any checks related to bolstering morale or resisting fear and despair.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Priest (Visionarie).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Priest (Visionarie)."
+    ]
+  },
+  {
+    "id": "trait-inspiring-rhetoric",
+    "name": "Inspiring Rhetoric",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Social",
+    "type": "Social",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Revolutionary (Visionarie). You gain a +2 bonus to Diplomacy and Leadership checks when addressing crowds, rallying support, or negotiating with potential allies.",
+    "description": "Signature trait of The Revolutionary (Visionarie). You gain a +2 bonus to Diplomacy and Leadership checks when addressing crowds, rallying support, or negotiating with potential allies.",
+    "mechanics": "You gain a +2 bonus to Diplomacy and Leadership checks when addressing crowds, rallying support, or negotiating with potential allies.",
+    "mechanic": "You gain a +2 bonus to Diplomacy and Leadership checks when addressing crowds, rallying support, or negotiating with potential allies.",
+    "rules": "Archetype Trait (1 CP) — The Revolutionary (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Revolutionary (Visionarie).",
+    "modifiers": [
+      {
+        "target": "Diplomacy",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Diplomacy"
+      },
+      {
+        "target": "Leadership",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Leadership"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Inspiring Rhetoric\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Revolutionary (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Revolutionary (Visionarie). You gain a +2 bonus to Diplomacy and Leadership checks when addressing crowds, rallying support, or negotiating with potential allies.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Diplomacy and Leadership checks when addressing crowds, rallying support, or negotiating with potential allies.",
+    "notes": "[Modifier] +2 to Diplomacy\n[Modifier] +2 to Leadership\n[Rule] Archetype Trait (1 CP) — The Revolutionary (Visionarie).",
+    "notesList": [
+      "[Modifier] +2 to Diplomacy",
+      "[Modifier] +2 to Leadership",
+      "[Rule] Archetype Trait (1 CP) — The Revolutionary (Visionarie)."
+    ]
+  },
+  {
+    "id": "trait-rebel-leader",
+    "name": "Rebel Leader",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Revolutionary (Visionarie). You gain +2 bonus on any checks related to organizing and leading rebel forces, inspiring morale, or planning strategic operations.",
+    "description": "Signature trait of The Revolutionary (Visionarie). You gain +2 bonus on any checks related to organizing and leading rebel forces, inspiring morale, or planning strategic operations.",
+    "mechanics": "You gain +2 bonus on any checks related to organizing and leading rebel forces, inspiring morale, or planning strategic operations.",
+    "mechanic": "You gain +2 bonus on any checks related to organizing and leading rebel forces, inspiring morale, or planning strategic operations.",
+    "rules": "Archetype Trait (1 CP) — The Revolutionary (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Revolutionary (Visionarie).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Rebel Leader\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Revolutionary (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Revolutionary (Visionarie). You gain +2 bonus on any checks related to organizing and leading rebel forces, inspiring morale, or planning strategic operations.\n\n## Mechanics & Benefit\nYou gain +2 bonus on any checks related to organizing and leading rebel forces, inspiring morale, or planning strategic operations.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Revolutionary (Visionarie).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Revolutionary (Visionarie)."
+    ]
+  },
+  {
+    "id": "trait-political-acumen",
+    "name": "Political Acumen",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Social",
+    "type": "Social",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Senator (Visionarie). You gain a +2 bonus to Diplomacy and Bluff checks when engaging in political debates, negotiations, or public speaking.",
+    "description": "Signature trait of The Senator (Visionarie). You gain a +2 bonus to Diplomacy and Bluff checks when engaging in political debates, negotiations, or public speaking.",
+    "mechanics": "You gain a +2 bonus to Diplomacy and Bluff checks when engaging in political debates, negotiations, or public speaking.",
+    "mechanic": "You gain a +2 bonus to Diplomacy and Bluff checks when engaging in political debates, negotiations, or public speaking.",
+    "rules": "Archetype Trait (1 CP) — The Senator (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Senator (Visionarie).",
     "modifiers": [
       {
         "target": "Diplomacy",
@@ -23772,22 +17361,22 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Silver Tongued\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 bonus on Diplomacy and Bluff. Can shift attitude up to three steps.\n\n## Mechanics & Benefit\n+2 bonus on Diplomacy and Bluff. Can shift attitude up to three steps.",
-    "notes": "[Modifier] +2 to Diplomacy\n[Modifier] +2 to Bluff\n[Rule] Basic Species Trait (1 CP).",
+    "body": "# Political Acumen\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Senator (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Senator (Visionarie). You gain a +2 bonus to Diplomacy and Bluff checks when engaging in political debates, negotiations, or public speaking.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Diplomacy and Bluff checks when engaging in political debates, negotiations, or public speaking.",
+    "notes": "[Modifier] +2 to Diplomacy\n[Modifier] +2 to Bluff\n[Rule] Archetype Trait (1 CP) — The Senator (Visionarie).",
     "notesList": [
       "[Modifier] +2 to Diplomacy",
       "[Modifier] +2 to Bluff",
-      "[Rule] Basic Species Trait (1 CP)."
+      "[Rule] Archetype Trait (1 CP) — The Senator (Visionarie)."
     ]
   },
   {
-    "id": "trait-skill-bonus",
-    "name": "Skill Bonus",
+    "id": "trait-influence-network",
+    "name": "Influence Network",
     "category": "traits",
-    "trait_type": "Species Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Social",
+    "type": "Social",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -23795,67 +17384,28 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Gain +2 racial bonus to divide amongst noted skills.",
-    "description": "Gain +2 racial bonus to divide amongst noted skills.",
-    "mechanics": "Gain +2 racial bonus to divide amongst noted skills.",
-    "mechanic": "Gain +2 racial bonus to divide amongst noted skills.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Divide amongst noted",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Divide amongst noted"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Skill Bonus\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nGain +2 racial bonus to divide amongst noted skills.\n\n## Mechanics & Benefit\nGain +2 racial bonus to divide amongst noted skills.",
-    "notes": "[Modifier] +2 to Divide amongst noted\n[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Divide amongst noted",
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-sleepless",
-    "name": "Sleepless",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Does not require sleep, may rest to regain metaphysical energy.",
-    "description": "Does not require sleep, may rest to regain metaphysical energy.",
-    "mechanics": "Does not require sleep, may rest to regain metaphysical energy.",
-    "mechanic": "Does not require sleep, may rest to regain metaphysical energy.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
+    "desc": "Signature trait of The Senator (Visionarie). You have cultivated a network of contacts and allies within the political arena, gaining +2 bonus on any checks related to gathering information, brokering deals, or influencing policy decisions.",
+    "description": "Signature trait of The Senator (Visionarie). You have cultivated a network of contacts and allies within the political arena, gaining +2 bonus on any checks related to gathering information, brokering deals, or influencing policy decisions.",
+    "mechanics": "You have cultivated a network of contacts and allies within the political arena, gaining +2 bonus on any checks related to gathering information, brokering deals, or influencing policy decisions.",
+    "mechanic": "You have cultivated a network of contacts and allies within the political arena, gaining +2 bonus on any checks related to gathering information, brokering deals, or influencing policy decisions.",
+    "rules": "Archetype Trait (1 CP) — The Senator (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Senator (Visionarie).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Sleepless\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nDoes not require sleep, may rest to regain metaphysical energy.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Synthetic, Elf, or Special",
+    "body": "# Influence Network\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Senator (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Senator (Visionarie). You have cultivated a network of contacts and allies within the political arena, gaining +2 bonus on any checks related to gathering information, brokering deals, or influencing policy decisions.\n\n## Mechanics & Benefit\nYou have cultivated a network of contacts and allies within the political arena, gaining +2 bonus on any checks related to gathering information, brokering deals, or influencing policy decisions.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Senator (Visionarie).",
     "notesList": [
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Synthetic, Elf, or Special"
+      "[Rule] Archetype Trait (1 CP) — The Senator (Visionarie)."
     ]
   },
   {
-    "id": "trait-smooth",
-    "name": "Smooth",
+    "id": "trait-social-butterfly",
+    "name": "Social Butterfly",
     "category": "traits",
-    "trait_type": "Occupational Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Social",
+    "type": "Social",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -23863,142 +17413,28 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Criminals may be charming and persuasive, able to talk their way out of difficult situations",
-    "description": "Criminals may be charming and persuasive, able to talk their way out of difficult situations",
-    "mechanics": "+2 Bluff",
-    "mechanic": "+2 Bluff",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Bluff",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Bluff"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Smooth\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nCriminals may be charming and persuasive, able to talk their way out of difficult situations\n\n## Mechanics & Benefit\n+2 Bluff",
-    "notes": "[Modifier] +2 to Bluff\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Bluff",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-smooth-talking",
-    "name": "Smooth Talking",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Charismatic conversational flow that disarms suspicion and charms conversational partners.",
-    "description": "Charismatic conversational flow that disarms suspicion and charms conversational partners.",
-    "mechanics": "+2 Etiquette Checks",
-    "mechanic": "+2 Etiquette Checks",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Etiquette",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Etiquette"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Smooth Talking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nCharismatic conversational flow that disarms suspicion and charms conversational partners.\n\n## Mechanics & Benefit\n+2 Etiquette Checks",
-    "notes": "[Modifier] +2 to Etiquette\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Etiquette",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-sneaky",
-    "name": "Sneaky",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "+2 racial bonus on Stealth checks.",
-    "description": "+2 racial bonus on Stealth checks.",
-    "mechanics": "+2 racial bonus on Stealth checks.",
-    "mechanic": "+2 racial bonus on Stealth checks.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Stealth",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Stealth"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Sneaky\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 racial bonus on Stealth checks.\n\n## Mechanics & Benefit\n+2 racial bonus on Stealth checks.",
-    "notes": "[Modifier] +2 to Stealth\n[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Stealth",
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-sociable",
-    "name": "Sociable",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Diplomacy check to change attitude fails by 5 or more, try again within 24 hours.",
-    "description": "Diplomacy check to change attitude fails by 5 or more, try again within 24 hours.",
-    "mechanics": "Diplomacy check to change attitude fails by 5 or more, try again within 24 hours.",
-    "mechanic": "Diplomacy check to change attitude fails by 5 or more, try again within 24 hours.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
+    "desc": "Signature trait of The Socialite (Visionarie). You gain a +2 bonus to any checks related to social events, gatherings, or parties.",
+    "description": "Signature trait of The Socialite (Visionarie). You gain a +2 bonus to any checks related to social events, gatherings, or parties.",
+    "mechanics": "You gain a +2 bonus to any checks related to social events, gatherings, or parties.",
+    "mechanic": "You gain a +2 bonus to any checks related to social events, gatherings, or parties.",
+    "rules": "Archetype Trait (1 CP) — The Socialite (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Socialite (Visionarie).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Sociable\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nDiplomacy check to change attitude fails by 5 or more, try again within 24 hours.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Social Butterfly\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Socialite (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Socialite (Visionarie). You gain a +2 bonus to any checks related to social events, gatherings, or parties.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to any checks related to social events, gatherings, or parties.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Socialite (Visionarie).",
     "notesList": [
-      "[Rule] Basic Species Trait (1 CP)."
+      "[Rule] Archetype Trait (1 CP) — The Socialite (Visionarie)."
     ]
   },
   {
-    "id": "trait-social-skills",
-    "name": "Social Skills",
+    "id": "trait-connections",
+    "name": "Connections",
     "category": "traits",
-    "trait_type": "Origin Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Combat",
+    "type": "Combat",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -24006,68 +17442,28 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Navigates dense cultural melting pots, high-rise galas, and underground speakeasies with ease.",
-    "description": "Navigates dense cultural melting pots, high-rise galas, and underground speakeasies with ease.",
-    "mechanics": "+1 all Social Manipulation Skills and Culture Knowledge",
-    "mechanic": "+1 all Social Manipulation Skills and Culture Knowledge",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Social Manipulation",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Social Manipulation"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Social Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nNavigates dense cultural melting pots, high-rise galas, and underground speakeasies with ease.\n\n## Mechanics & Benefit\n+1 all Social Manipulation Skills and Culture Knowledge",
-    "notes": "[Modifier] +1 to Social Manipulation\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Social Manipulation",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-special-ability",
-    "name": "Special Ability",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Adepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability.",
-    "description": "Adepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability.",
-    "mechanics": "Special Ability at level 1 (which are afterwards improved as a skill)",
-    "mechanic": "Special Ability at level 1 (which are afterwards improved as a skill)",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
+    "desc": "Signature trait of The Socialite (Visionarie). You have access to a network of suppliers and buyers in the black market, granting +2 bonus on any checks related to acquiring or selling rare or restricted weapons.",
+    "description": "Signature trait of The Socialite (Visionarie). You have access to a network of suppliers and buyers in the black market, granting +2 bonus on any checks related to acquiring or selling rare or restricted weapons.",
+    "mechanics": "You have access to a network of suppliers and buyers in the black market, granting +2 bonus on any checks related to acquiring or selling rare or restricted weapons.",
+    "mechanic": "You have access to a network of suppliers and buyers in the black market, granting +2 bonus on any checks related to acquiring or selling rare or restricted weapons.",
+    "rules": "Archetype Trait (1 CP) — The Socialite (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Socialite (Visionarie).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Special Ability\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability.\n\n## Mechanics & Benefit\nSpecial Ability at level 1 (which are afterwards improved as a skill)",
-    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] Basic Occupational Trait (1 CP).\n[Prerequisite] None (though usually tied to Species or Origin).",
+    "body": "# Connections\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Socialite (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Socialite (Visionarie). You have access to a network of suppliers and buyers in the black market, granting +2 bonus on any checks related to acquiring or selling rare or restricted weapons.\n\n## Mechanics & Benefit\nYou have access to a network of suppliers and buyers in the black market, granting +2 bonus on any checks related to acquiring or selling rare or restricted weapons.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Socialite (Visionarie).",
     "notesList": [
-      "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] Basic Occupational Trait (1 CP).",
-      "[Prerequisite] None (though usually tied to Species or Origin)."
+      "[Rule] Archetype Trait (1 CP) — The Socialite (Visionarie)."
     ]
   },
   {
-    "id": "trait-special-equipment",
-    "name": "Special Equipment",
+    "id": "trait-unwavering-conviction",
+    "name": "Unwavering Conviction",
     "category": "traits",
-    "trait_type": "Occupational Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Mental",
+    "type": "Mental",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -24075,104 +17471,28 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Adepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.",
-    "description": "Adepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.",
-    "mechanics": "+2 Equipment",
-    "mechanic": "+2 Equipment",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "equipment-bonus",
-        "type": "combat",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 Equipment"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Special Equipment\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.\n\n## Mechanics & Benefit\n+2 Equipment",
-    "notes": "[Modifier] +2 Equipment\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 Equipment",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-specialized-knowledge",
-    "name": "Specialized Knowledge",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Deep technical specialization in metallurgy, chemical processing, or structural robotics.",
-    "description": "Deep technical specialization in metallurgy, chemical processing, or structural robotics.",
-    "mechanics": "+2 to a Vocation Specialization",
-    "mechanic": "+2 to a Vocation Specialization",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "A Vocation Specialization",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to A Vocation Specialization"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Specialized Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nDeep technical specialization in metallurgy, chemical processing, or structural robotics.\n\n## Mechanics & Benefit\n+2 to a Vocation Specialization",
-    "notes": "[Modifier] +2 to A Vocation Specialization\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to A Vocation Specialization",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-specialized-skills",
-    "name": "Specialized Skills",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Adepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.",
-    "description": "Adepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.",
-    "mechanics": "+2 to a Skill of Choice",
-    "mechanic": "+2 to a Skill of Choice",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
+    "desc": "Signature trait of The Zealot (Visionarie). You gain +2 bonus on saving throws against invasive mental effects.",
+    "description": "Signature trait of The Zealot (Visionarie). You gain +2 bonus on saving throws against invasive mental effects.",
+    "mechanics": "You gain +2 bonus on saving throws against invasive mental effects.",
+    "mechanic": "You gain +2 bonus on saving throws against invasive mental effects.",
+    "rules": "Archetype Trait (1 CP) — The Zealot (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Zealot (Visionarie).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Specialized Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAdepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.\n\n## Mechanics & Benefit\n+2 to a Skill of Choice",
-    "notes": "[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Unwavering Conviction\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Zealot (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Zealot (Visionarie). You gain +2 bonus on saving throws against invasive mental effects.\n\n## Mechanics & Benefit\nYou gain +2 bonus on saving throws against invasive mental effects.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Zealot (Visionarie).",
     "notesList": [
-      "[Rule] Basic Occupational Trait (1 CP)."
+      "[Rule] Archetype Trait (1 CP) — The Zealot (Visionarie)."
     ]
   },
   {
-    "id": "trait-spiritual-awareness",
-    "name": "Spiritual Awareness",
+    "id": "trait-fearsome-reputation",
+    "name": "Fearsome Reputation",
     "category": "traits",
-    "trait_type": "Origin Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Social",
+    "type": "Social",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -24180,129 +17500,37 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Strong metaphysical attunement to ley lines, astral resonance, and psychic currents.",
-    "description": "Strong metaphysical attunement to ley lines, astral resonance, and psychic currents.",
-    "mechanics": "+1 to Attune and one Metafocus Skill",
-    "mechanic": "+1 to Attune and one Metafocus Skill",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
+    "desc": "Signature trait of The Zealot (Visionarie). Gain +2 Reputation and Intimidation checks.",
+    "description": "Signature trait of The Zealot (Visionarie). Gain +2 Reputation and Intimidation checks.",
+    "mechanics": "Gain +2 Reputation and Intimidation checks.",
+    "mechanic": "Gain +2 Reputation and Intimidation checks.",
+    "rules": "Archetype Trait (1 CP) — The Zealot (Visionarie).",
+    "special_rules": "Archetype Trait (1 CP) — The Zealot (Visionarie).",
     "modifiers": [
       {
-        "target": "Attune",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Attune"
-      },
-      {
-        "target": "One Metafocus",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to One Metafocus"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Spiritual Awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nStrong metaphysical attunement to ley lines, astral resonance, and psychic currents.\n\n## Mechanics & Benefit\n+1 to Attune and one Metafocus Skill",
-    "notes": "[Modifier] +1 to Attune\n[Modifier] +1 to One Metafocus\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Attune",
-      "[Modifier] +1 to One Metafocus",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-stable-footed",
-    "name": "Stable Footed",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "+4 racial Stability bonus while standing on the ground.",
-    "description": "+4 racial Stability bonus while standing on the ground.",
-    "mechanics": "+4 racial Stability bonus while standing on the ground.",
-    "mechanic": "+4 racial Stability bonus while standing on the ground.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Stability",
-        "type": "combat",
-        "value": 4,
-        "mode": "inherent",
-        "description": "+4 Stability"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Stable Footed\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+4 racial Stability bonus while standing on the ground.\n\n## Mechanics & Benefit\n+4 racial Stability bonus while standing on the ground.",
-    "notes": "[Modifier] +4 Stability\n[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +4 Stability",
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-stalker",
-    "name": "Stalker",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Gain +2 bonus to Perception and Stealth checks versus one target.",
-    "description": "Gain +2 bonus to Perception and Stealth checks versus one target.",
-    "mechanics": "Gain +2 bonus to Perception and Stealth checks versus one target.",
-    "mechanic": "Gain +2 bonus to Perception and Stealth checks versus one target.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Alertness",
+        "target": "Intimidation",
         "type": "skill",
         "value": 2,
         "mode": "inherent",
-        "description": "+2 to Alertness"
-      },
-      {
-        "target": "Stealth",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Stealth"
+        "description": "+2 to Intimidation"
       }
     ],
     "package_traits": [],
-    "body": "# Stalker\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nGain +2 bonus to Perception and Stealth checks versus one target.\n\n## Mechanics & Benefit\nGain +2 bonus to Perception and Stealth checks versus one target.",
-    "notes": "[Modifier] +2 to Alertness\n[Modifier] +2 to Stealth\n[Rule] Basic Species Trait (1 CP).",
+    "body": "# Fearsome Reputation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Zealot (Visionarie))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Zealot (Visionarie). Gain +2 Reputation and Intimidation checks.\n\n## Mechanics & Benefit\nGain +2 Reputation and Intimidation checks.",
+    "notes": "[Modifier] +2 to Intimidation\n[Rule] Archetype Trait (1 CP) — The Zealot (Visionarie).",
     "notesList": [
-      "[Modifier] +2 to Alertness",
-      "[Modifier] +2 to Stealth",
-      "[Rule] Basic Species Trait (1 CP)."
+      "[Modifier] +2 to Intimidation",
+      "[Rule] Archetype Trait (1 CP) — The Zealot (Visionarie)."
     ]
   },
   {
-    "id": "trait-static-bonus-feat",
-    "name": "Static Bonus Feat",
+    "id": "trait-scientific-method",
+    "name": "Scientific Method",
     "category": "traits",
-    "trait_type": "Species Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Mental",
+    "type": "Mental",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -24310,28 +17538,28 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Choose one feat with no prerequisites. All members gain this feat as a bonus feat.",
-    "description": "Choose one feat with no prerequisites. All members gain this feat as a bonus feat.",
-    "mechanics": "Choose one feat with no prerequisites. All members gain this feat as a bonus feat.",
-    "mechanic": "Choose one feat with no prerequisites. All members gain this feat as a bonus feat.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
+    "desc": "Rigorous empirical analysis and hypothesis testing under field conditions.",
+    "description": "Rigorous empirical analysis and hypothesis testing under field conditions.",
+    "mechanics": "May Take 10 on Knowledge, Medicine, and Science checks even under moderate stress, and gain +2 when analyzing unknown xenobiology or anomalies.",
+    "mechanic": "May Take 10 on Knowledge, Medicine, and Science checks even under moderate stress, and gain +2 when analyzing unknown xenobiology or anomalies.",
+    "rules": "Archetype Trait (1 CP) — The Academic (Savant) / The Biologist (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Academic (Savant) / The Biologist (Savant).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Static Bonus Feat\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nChoose one feat with no prerequisites. All members gain this feat as a bonus feat.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
+    "body": "# Scientific Method\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Academic (Savant) / The Biologist (Savant))\n**CP Cost**: 1\n\n## Description\nRigorous empirical analysis and hypothesis testing under field conditions.\n\n## Mechanics & Benefit\nMay Take 10 on Knowledge, Medicine, and Science checks even under moderate stress, and gain +2 when analyzing unknown xenobiology or anomalies.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Academic (Savant) / The Biologist (Savant).",
     "notesList": [
-      "[Rule] Basic Species Trait (1 CP)."
+      "[Rule] Archetype Trait (1 CP) — The Academic (Savant) / The Biologist (Savant)."
     ]
   },
   {
-    "id": "trait-stealth",
-    "name": "Stealth",
+    "id": "trait-inquisitive-mind",
+    "name": "Inquisitive Mind",
     "category": "traits",
-    "trait_type": "Occupational Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Mental",
+    "type": "Mental",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -24339,90 +17567,28 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Operating covertly, sneaking, hiding, and remaining undetected",
-    "description": "Operating covertly, sneaking, hiding, and remaining undetected",
-    "mechanics": "+2 Stealth",
-    "mechanic": "+2 Stealth",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Stealth Operating covertly",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Stealth Operating covertly"
-      },
-      {
-        "target": "Sneaking",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Sneaking"
-      },
-      {
-        "target": "Hiding",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Hiding"
-      },
-      {
-        "target": "Remaining undetected",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Remaining undetected"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Stealth\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nOperating covertly, sneaking, hiding, and remaining undetected\n\n## Mechanics & Benefit\n+2 Stealth",
-    "notes": "[Modifier] +2 to Stealth Operating covertly\n[Modifier] +2 to Sneaking\n[Modifier] +2 to Hiding\n[Modifier] +2 to Remaining undetected\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Stealth Operating covertly",
-      "[Modifier] +2 to Sneaking",
-      "[Modifier] +2 to Hiding",
-      "[Modifier] +2 to Remaining undetected",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-strategic",
-    "name": "Strategic",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Deep understanding of tactical staging, supply lines, crossfire corridors, and coordinated assaults.",
-    "description": "Deep understanding of tactical staging, supply lines, crossfire corridors, and coordinated assaults.",
-    "mechanics": "Those following the plan will receive a bonus pool to be used during the operation equal to the characters Intellect Score + 2",
-    "mechanic": "Those following the plan will receive a bonus pool to be used during the operation equal to the characters Intellect Score + 2",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
+    "desc": "Signature trait of The Academic (Savant). You are driven by a thirst for knowledge, gaining +2 bonus on any checks related to learning new information or solving scientific puzzles.",
+    "description": "Signature trait of The Academic (Savant). You are driven by a thirst for knowledge, gaining +2 bonus on any checks related to learning new information or solving scientific puzzles.",
+    "mechanics": "You are driven by a thirst for knowledge, gaining +2 bonus on any checks related to learning new information or solving scientific puzzles.",
+    "mechanic": "You are driven by a thirst for knowledge, gaining +2 bonus on any checks related to learning new information or solving scientific puzzles.",
+    "rules": "Archetype Trait (1 CP) — The Academic (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Academic (Savant).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Strategic\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nDeep understanding of tactical staging, supply lines, crossfire corridors, and coordinated assaults.\n\n## Mechanics & Benefit\nThose following the plan will receive a bonus pool to be used during the operation equal to the characters Intellect Score + 2",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Inquisitive Mind\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Academic (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Academic (Savant). You are driven by a thirst for knowledge, gaining +2 bonus on any checks related to learning new information or solving scientific puzzles.\n\n## Mechanics & Benefit\nYou are driven by a thirst for knowledge, gaining +2 bonus on any checks related to learning new information or solving scientific puzzles.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Academic (Savant).",
     "notesList": [
-      "[Rule] Basic Origin Trait (1 CP)."
+      "[Rule] Archetype Trait (1 CP) — The Academic (Savant)."
     ]
   },
   {
-    "id": "trait-strategic-thinking",
-    "name": "Strategic thinking",
+    "id": "trait-macro-engineering",
+    "name": "Macro-Engineering",
     "category": "traits",
-    "trait_type": "Occupational Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Technical",
+    "type": "Technical",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -24430,902 +17596,12 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Skilled at developing long-term plans and strategies to achieve their goals.",
-    "description": "Skilled at developing long-term plans and strategies to achieve their goals.",
-    "mechanics": "+2 Tactics and Logic checks",
-    "mechanic": "+2 Tactics and Logic checks",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Tactics",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Tactics"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Strategic thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nSkilled at developing long-term plans and strategies to achieve their goals.\n\n## Mechanics & Benefit\n+2 Tactics and Logic checks",
-    "notes": "[Modifier] +2 to Tactics\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Tactics",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-street-fighting",
-    "name": "Street Fighting",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Vicious close-quarters brawl techniques using brass knuckles, concealed shivs, and dirty tactics in tight alleys.",
-    "description": "Vicious close-quarters brawl techniques using brass knuckles, concealed shivs, and dirty tactics in tight alleys.",
-    "mechanics": "+1 Unarmed Combat and Defense",
-    "mechanic": "+1 Unarmed Combat and Defense",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Unarmed Combat",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Unarmed Combat"
-      },
-      {
-        "target": "Defense",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Defense"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Street Fighting\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nVicious close-quarters brawl techniques using brass knuckles, concealed shivs, and dirty tactics in tight alleys.\n\n## Mechanics & Benefit\n+1 Unarmed Combat and Defense",
-    "notes": "[Modifier] +1 to Unarmed Combat\n[Modifier] +1 to Defense\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Unarmed Combat",
-      "[Modifier] +1 to Defense",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-street-smarts",
-    "name": "Street Smarts",
-    "category": "traits",
-    "trait_type": "Social",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Familiarity with underworld hierarchy, shadow markets, slang, and avoiding law enforcement radar.",
-    "description": "Familiarity with underworld hierarchy, shadow markets, slang, and avoiding law enforcement radar.",
-    "mechanics": "Familiarity with underworld hierarchy, shadow markets, slang, and avoiding law enforcement radar.",
-    "mechanic": "Familiarity with underworld hierarchy, shadow markets, slang, and avoiding law enforcement radar.",
-    "rules": "Basic Social (1 CP).",
-    "special_rules": "Basic Social (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Street Smarts\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Social\n**CP Cost**: 1\n\n## Description\nFamiliarity with underworld hierarchy, shadow markets, slang, and avoiding law enforcement radar.",
-    "notes": "[Rule] Basic Social (1 CP).",
-    "notesList": [
-      "[Rule] Basic Social (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-streetwise",
-    "name": "Streetwise",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "In-depth mastery of underworld syndicates, secret black-clinic passwords, and surveillance blindspots.",
-    "description": "In-depth mastery of underworld syndicates, secret black-clinic passwords, and surveillance blindspots.",
-    "mechanics": "+2 Streetwise (additional +1 in Home City)",
-    "mechanic": "+2 Streetwise (additional +1 in Home City)",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "In Home City",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to In Home City"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Streetwise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nIn-depth mastery of underworld syndicates, secret black-clinic passwords, and surveillance blindspots.\n\n## Mechanics & Benefit\n+2 Streetwise (additional +1 in Home City)",
-    "notes": "[Modifier] +1 to In Home City\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to In Home City",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-studious",
-    "name": "Studious",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Gained encyclopedic familiarity with specialized academic archives and historical treatises.",
-    "description": "Gained encyclopedic familiarity with specialized academic archives and historical treatises.",
-    "mechanics": "+2 to a Knowledge of choice",
-    "mechanic": "+2 to a Knowledge of choice",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "A Knowledge of choice",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to A Knowledge of choice"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Studious\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nGained encyclopedic familiarity with specialized academic archives and historical treatises.\n\n## Mechanics & Benefit\n+2 to a Knowledge of choice",
-    "notes": "[Modifier] +2 to A Knowledge of choice\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to A Knowledge of choice",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-survival",
-    "name": "Survival",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Ability to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter",
-    "description": "Ability to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter",
-    "mechanics": "+2 Survival",
-    "mechanic": "+2 Survival",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Survival",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Survival"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Survival\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter\n\n## Mechanics & Benefit\n+2 Survival",
-    "notes": "[Modifier] +2 to Survival\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Survival",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-survival-skills",
-    "name": "Survival Skills",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Survival skills honed from living and working in remote or harsh environments. Can navigate and forage for resources, making them self-sufficient.",
-    "description": "Survival skills honed from living and working in remote or harsh environments. Can navigate and forage for resources, making them self-sufficient.",
-    "mechanics": "+2 Survival Skill Checks",
-    "mechanic": "+2 Survival Skill Checks",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Survival",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Survival"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Survival Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nSurvival skills honed from living and working in remote or harsh environments. Can navigate and forage for resources, making them self-sufficient.\n\n## Mechanics & Benefit\n+2 Survival Skill Checks",
-    "notes": "[Modifier] +2 to Survival\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Survival",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-sustainable-practices",
-    "name": "Sustainable Practices",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Knowledgeable about sustainable farming practices and strives to minimize environmental impact. Prioritizes organic methods and water conservation.",
-    "description": "Knowledgeable about sustainable farming practices and strives to minimize environmental impact. Prioritizes organic methods and water conservation.",
-    "mechanics": "+2 to any Agriculture based checks in a prepared grow area and to prepare and maintain an area.",
-    "mechanic": "+2 to any Agriculture based checks in a prepared grow area and to prepare and maintain an area.",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Any Agriculture based",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Any Agriculture based"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Sustainable Practices\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nKnowledgeable about sustainable farming practices and strives to minimize environmental impact. Prioritizes organic methods and water conservation.\n\n## Mechanics & Benefit\n+2 to any Agriculture based checks in a prepared grow area and to prepare and maintain an area.",
-    "notes": "[Modifier] +2 to Any Agriculture based\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Any Agriculture based",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-swarming",
-    "name": "Swarming",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Two members can share same square. If attacking same foe, considered flanking.",
-    "description": "Two members can share same square. If attacking same foe, considered flanking.",
-    "mechanics": "Two members can share same square. If attacking same foe, considered flanking.",
-    "mechanic": "Two members can share same square. If attacking same foe, considered flanking.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Swarming\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nTwo members can share same square. If attacking same foe, considered flanking.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-synaptic-integration",
-    "name": "Synaptic Integration",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Can slot into any Kitin mecha Synaptic Node, using own Intellect and Agility for all vehicle checks and ignoring G-force penalties.",
-    "description": "Can slot into any Kitin mecha Synaptic Node, using own Intellect and Agility for all vehicle checks and ignoring G-force penalties.",
-    "mechanics": "Can slot into any Kitin mecha Synaptic Node, using own Intellect and Agility for all vehicle checks and ignoring G-force penalties.",
-    "mechanic": "Can slot into any Kitin mecha Synaptic Node, using own Intellect and Agility for all vehicle checks and ignoring G-force penalties.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Synaptic Integration\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nThe Syndess can slot directly into any Kitin mecha’s Synaptic Node. While integrated, they use their own Intellect and Agility for all vehicle checks and ignore all G-force or high-velocity penalties.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Pilot Expression Physiology",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Pilot Expression Physiology"
-    ]
-  },
-  {
-    "id": "trait-synthetic-armor-options",
-    "name": "Synthetic Armor Options",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Armor and Armor Upgrades available as Augmentations. Req: Synthetic, TL2.",
-    "description": "Armor and Armor Upgrades available as Augmentations. Req: Synthetic, TL2.",
-    "mechanics": "Armor and Armor Upgrades available as Augmentations. Req: Synthetic, TL2.",
-    "mechanic": "Armor and Armor Upgrades available as Augmentations. Req: Synthetic, TL2.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Synthetic Armor Options\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nArmor and Armor Upgrades available as Augmentations. Req: Synthetic, TL2.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-synthetic-armor-opts",
-    "name": "Synthetic Armor Opts",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Armor and Armor Upgrades available as Augmentations. Req: Synthetic, TL2.",
-    "description": "Armor and Armor Upgrades available as Augmentations. Req: Synthetic, TL2.",
-    "mechanics": "Armor and Armor Upgrades available as Augmentations. Req: Synthetic, TL2.",
-    "mechanic": "Armor and Armor Upgrades available as Augmentations. Req: Synthetic, TL2.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Synthetic Armor Opts\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nArmor and Armor Upgrades available as Augmentations. Req: Synthetic, TL2.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-synthetic-aux-core",
-    "name": "Synthetic Aux Core",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 4,
-    "bp": 4,
-    "costs": {
-      "cp": 4,
-      "bp": 4
-    },
-    "is_ranked": false,
-    "desc": "Revivification without loss of Karma/Exp. Not traumatic. Req: Synthetic, TL4.",
-    "description": "Revivification without loss of Karma/Exp. Not traumatic. Req: Synthetic, TL4.",
-    "mechanics": "Revivification without loss of Karma/Exp. Not traumatic. Req: Synthetic, TL4.",
-    "mechanic": "Revivification without loss of Karma/Exp. Not traumatic. Req: Synthetic, TL4.",
-    "rules": "Elite Species Trait (4 CP).",
-    "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Synthetic Aux Core\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nRevivification without loss of Karma/Exp. Not traumatic. Req: Synthetic, TL4.",
-    "notes": "[Rule] Elite Species Trait (4 CP).",
-    "notesList": [
-      "[Rule] Elite Species Trait (4 CP)."
-    ]
-  },
-  {
-    "id": "trait-synthetic-base-traits",
-    "name": "Synthetic Base Traits",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 14,
-    "bp": 14,
-    "costs": {
-      "cp": 14,
-      "bp": 14
-    },
-    "is_ranked": false,
-    "desc": "The fundamental mechanical and digitized chassis of artificial sentient entities.",
-    "description": "The fundamental mechanical and digitized chassis of artificial sentient entities.",
-    "mechanics": "The fundamental mechanical and digitized chassis of artificial sentient entities.",
-    "mechanic": "The fundamental mechanical and digitized chassis of artificial sentient entities.",
-    "rules": "Elite Species Trait (14 CP).",
-    "special_rules": "Elite Species Trait (14 CP).",
-    "modifiers": [
-      {
-        "target": "armor-dr",
-        "value": 5,
-        "type": "combat",
-        "mode": "inherent",
-        "description": "DR 5/- vs physical damage (Resilient Design)"
-      },
-      {
-        "target": "Condition: Asphyxiation",
-        "value": 0,
-        "type": "immunity",
-        "mode": "inherent",
-        "description": "Immune to Asphyxiation"
-      },
-      {
-        "target": "Condition: Bleeding",
-        "value": 0,
-        "type": "immunity",
-        "mode": "inherent",
-        "description": "Immune to Bleeding"
-      },
-      {
-        "target": "Condition: Sleep",
-        "value": 0,
-        "type": "immunity",
-        "mode": "inherent",
-        "description": "Immune to Sleep"
-      }
-    ],
-    "package_traits": [
-      {
-        "id": "trait-synthetic-immunities",
-        "name": "Synthetic Biological Immunities",
-        "tier": "Elite",
-        "bp": 9,
-        "mechanic": "Total immunity to asphyxiation, bleed, critical hit extra damage, starvation, sleep, disease, poisons, and biological needs.",
-        "cp": 9
-      },
-      {
-        "id": "trait-repair-required",
-        "name": "Repair Required (No Vitality)",
-        "tier": "Disadvantage",
-        "bp": -3,
-        "mechanic": "Possesses no Vitality; Health is multiplied by 1.5 for Structure Points; cannot heal naturally and requires technical repairs.",
-        "cp": -3
-      },
-      {
-        "id": "trait-digitized-mind",
-        "name": "Digitized Mind",
-        "tier": "Advanced",
-        "bp": 2,
-        "mechanic": "Silicon neural substrate grants Advantage on all resistance saves against mind-affecting and psionic influence.",
-        "cp": 2
-      },
-      {
-        "id": "trait-robotic-strength",
-        "name": "Robotic Strength",
-        "tier": "Advanced",
-        "bp": 2,
-        "mechanic": "Heavy hydraulic actuators allow lifting, carrying, and grappling as if one size category larger.",
-        "cp": 2
-      },
-      {
-        "id": "trait-resilient-design",
-        "name": "Resilient Design (DR 5/-)",
-        "tier": "Advanced",
-        "bp": 2,
-        "mechanic": "Hardened metallic alloy frame provides passive Damage Reduction 5/- against physical strikes.",
-        "cp": 2
-      },
-      {
-        "id": "trait-low-light-vision",
-        "name": "Low-Light Optical Array",
-        "tier": "Advanced",
-        "bp": 2,
-        "mechanic": "High-resolution multispectral optical sensors providing enhanced vision in low-light and infrared.",
-        "cp": 2
-      }
-    ],
-    "body": "# Synthetic Base Traits\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 14\n\n## Description\nThe fundamental mechanical and digitized chassis of artificial sentient entities.\n\n## Mechanics & Benefit\nThe fundamental mechanical and digitized chassis of artificial sentient entities.",
-    "notes": "[Modifier] DR 5/- vs physical damage (Resilient Design)\n[Modifier] Immune to Asphyxiation\n[Modifier] Immune to Bleeding\n[Modifier] Immune to Sleep\n[Rule] Elite Species Trait (14 CP).",
-    "notesList": [
-      "[Modifier] DR 5/- vs physical damage (Resilient Design)",
-      "[Modifier] Immune to Asphyxiation",
-      "[Modifier] Immune to Bleeding",
-      "[Modifier] Immune to Sleep",
-      "[Rule] Elite Species Trait (14 CP)."
-    ]
-  },
-  {
-    "id": "trait-synthetic-exotic-opt",
-    "name": "Synthetic Exotic Opt",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 4,
-    "bp": 4,
-    "costs": {
-      "cp": 4,
-      "bp": 4
-    },
-    "is_ranked": false,
-    "desc": "Synthetic version of a Racial Trait or Special Feature. Req: Synthetic, Multiple.",
-    "description": "Synthetic version of a Racial Trait or Special Feature. Req: Synthetic, Multiple.",
-    "mechanics": "Synthetic version of a Racial Trait or Special Feature. Req: Synthetic, Multiple.",
-    "mechanic": "Synthetic version of a Racial Trait or Special Feature. Req: Synthetic, Multiple.",
-    "rules": "Elite Species Trait (4 CP).",
-    "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Synthetic Exotic Opt\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nSynthetic version of a Racial Trait or Special Feature. Req: Synthetic, Multiple.",
-    "notes": "[Rule] Elite Species Trait (4 CP).",
-    "notesList": [
-      "[Rule] Elite Species Trait (4 CP)."
-    ]
-  },
-  {
-    "id": "trait-synthetic-tech-assim",
-    "name": "Synthetic Tech Assim",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 4,
-    "bp": 4,
-    "costs": {
-      "cp": 4,
-      "bp": 4
-    },
-    "is_ranked": false,
-    "desc": "Able to absorb, power and use technological devices. Req: Synthetic, TL5.",
-    "description": "Able to absorb, power and use technological devices. Req: Synthetic, TL5.",
-    "mechanics": "Able to absorb, power and use technological devices. Req: Synthetic, TL5.",
-    "mechanic": "Able to absorb, power and use technological devices. Req: Synthetic, TL5.",
-    "rules": "Elite Species Trait (4 CP).",
-    "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Synthetic Tech Assim\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nAble to absorb, power and use technological devices. Req: Synthetic, TL5.",
-    "notes": "[Rule] Elite Species Trait (4 CP).",
-    "notesList": [
-      "[Rule] Elite Species Trait (4 CP)."
-    ]
-  },
-  {
-    "id": "trait-synthetic-weapon-options",
-    "name": "Synthetic Weapon Options",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Weapons and Weapon Upgrades available as Augmentations. Req: Synthetic, TL2.",
-    "description": "Weapons and Weapon Upgrades available as Augmentations. Req: Synthetic, TL2.",
-    "mechanics": "Weapons and Weapon Upgrades available as Augmentations. Req: Synthetic, TL2.",
-    "mechanic": "Weapons and Weapon Upgrades available as Augmentations. Req: Synthetic, TL2.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Synthetic Weapon Options\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nWeapons and Weapon Upgrades available as Augmentations. Req: Synthetic, TL2.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-synthetic-weapon-opts",
-    "name": "Synthetic Weapon Opts",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Weapons and Weapon Upgrades available as Augmentations. Req: Synthetic, TL2.",
-    "description": "Weapons and Weapon Upgrades available as Augmentations. Req: Synthetic, TL2.",
-    "mechanics": "Weapons and Weapon Upgrades available as Augmentations. Req: Synthetic, TL2.",
-    "mechanic": "Weapons and Weapon Upgrades available as Augmentations. Req: Synthetic, TL2.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Synthetic Weapon Opts\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nWeapons and Weapon Upgrades available as Augmentations. Req: Synthetic, TL2.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-tail",
-    "name": "Tail",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "+2 to Trip and Balance Checks and usable as a Club.",
-    "description": "+2 to Trip and Balance Checks and usable as a Club.",
-    "mechanics": "+2 to Trip and Balance Checks and usable as a Club.",
-    "mechanic": "+2 to Trip and Balance Checks and usable as a Club.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Trip",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Trip"
-      },
-      {
-        "target": "Balance",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Balance"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Tail\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 to Trip and Balance Checks and usable as a Club.\n\n## Mechanics & Benefit\n+2 to Trip and Balance Checks and usable as a Club.",
-    "notes": "[Modifier] +2 to Trip\n[Modifier] +2 to Balance\n[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Trip",
-      "[Modifier] +2 to Balance",
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-team-player",
-    "name": "Team Player",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Ability to communicate effectively and collaborate with others",
-    "description": "Ability to communicate effectively and collaborate with others",
-    "mechanics": "additional +1 to Aid bonuses",
-    "mechanic": "additional +1 to Aid bonuses",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Aid bonuses Ability to communicate effectively",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Aid bonuses Ability to communicate effectively"
-      },
-      {
-        "target": "Collaborate with others",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Collaborate with others"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Team Player\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAbility to communicate effectively and collaborate with others\n\n## Mechanics & Benefit\nadditional +1 to Aid bonuses",
-    "notes": "[Modifier] +1 to Aid bonuses Ability to communicate effectively\n[Modifier] +1 to Collaborate with others\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Aid bonuses Ability to communicate effectively",
-      "[Modifier] +1 to Collaborate with others",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-team-oriented",
-    "name": "Team-Oriented",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Able to work in teams and coordinate their efforts to achieve their objectives",
-    "description": "Able to work in teams and coordinate their efforts to achieve their objectives",
-    "mechanics": "additional +1 to Aid bonuses",
-    "mechanic": "additional +1 to Aid bonuses",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Aid bonuses",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Aid bonuses"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Team-Oriented\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to work in teams and coordinate their efforts to achieve their objectives\n\n## Mechanics & Benefit\nadditional +1 to Aid bonuses",
-    "notes": "[Modifier] +1 to Aid bonuses\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Aid bonuses",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-teamwork",
-    "name": "Teamwork",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Practiced coordination in gang work, shift labor, and complex multi-person tasks.",
-    "description": "Practiced coordination in gang work, shift labor, and complex multi-person tasks.",
-    "mechanics": "additional +1 to Aid bonuses",
-    "mechanic": "additional +1 to Aid bonuses",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Aid bonuses",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Aid bonuses"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Teamwork\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nPracticed coordination in gang work, shift labor, and complex multi-person tasks.\n\n## Mechanics & Benefit\nadditional +1 to Aid bonuses",
-    "notes": "[Modifier] +1 to Aid bonuses\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Aid bonuses",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-tech-savvy",
-    "name": "Tech-Savvy",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Everyday expertise with neural datalinks, cybernetic interfaces, personal comm-arrays, and citywide grids.",
-    "description": "Everyday expertise with neural datalinks, cybernetic interfaces, personal comm-arrays, and citywide grids.",
-    "mechanics": "+2 to Knowledges of Computer and Technology",
-    "mechanic": "+2 to Knowledges of Computer and Technology",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Knowledges of Computer",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Knowledges of Computer"
-      },
-      {
-        "target": "Technology",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Technology"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Tech-Savvy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nEveryday expertise with neural datalinks, cybernetic interfaces, personal comm-arrays, and citywide grids.\n\n## Mechanics & Benefit\n+2 to Knowledges of Computer and Technology",
-    "notes": "[Modifier] +2 to Knowledges of Computer\n[Modifier] +2 to Technology\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Knowledges of Computer",
-      "[Modifier] +2 to Technology",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-technical-knowledge",
-    "name": "Technical Knowledge",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Deep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques",
-    "description": "Deep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques",
-    "mechanics": "+2 Vocation Skill",
-    "mechanic": "+2 Vocation Skill",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
+    "desc": "Signature trait of The Architect (Savant). You gain a +2 bonus to Vocation skill and Technology checks when constructing or repairing large structures such as roads, bridges, tunnels and arcologies.",
+    "description": "Signature trait of The Architect (Savant). You gain a +2 bonus to Vocation skill and Technology checks when constructing or repairing large structures such as roads, bridges, tunnels and arcologies.",
+    "mechanics": "You gain a +2 bonus to Vocation skill and Technology checks when constructing or repairing large structures such as roads, bridges, tunnels and arcologies.",
+    "mechanic": "You gain a +2 bonus to Vocation skill and Technology checks when constructing or repairing large structures such as roads, bridges, tunnels and arcologies.",
+    "rules": "Archetype Trait (1 CP) — The Architect (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Architect (Savant).",
     "modifiers": [
       {
         "target": "Vocation",
@@ -25336,21 +17612,21 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Technical Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nDeep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques\n\n## Mechanics & Benefit\n+2 Vocation Skill",
-    "notes": "[Modifier] +2 to Vocation\n[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Macro-Engineering\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Architect (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Architect (Savant). You gain a +2 bonus to Vocation skill and Technology checks when constructing or repairing large structures such as roads, bridges, tunnels and arcologies.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Vocation skill and Technology checks when constructing or repairing large structures such as roads, bridges, tunnels and arcologies.",
+    "notes": "[Modifier] +2 to Vocation\n[Rule] Archetype Trait (1 CP) — The Architect (Savant).",
     "notesList": [
       "[Modifier] +2 to Vocation",
-      "[Rule] Basic Occupational Trait (1 CP)."
+      "[Rule] Archetype Trait (1 CP) — The Architect (Savant)."
     ]
   },
   {
-    "id": "trait-technical-skills",
-    "name": "Technical Skills",
+    "id": "trait-coordination",
+    "name": "Coordination",
     "category": "traits",
-    "trait_type": "Origin Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Technical",
+    "type": "Technical",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -25358,234 +17634,28 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Repairing air recyclers, EVA suits, and life-support units under extreme pressure.",
-    "description": "Repairing air recyclers, EVA suits, and life-support units under extreme pressure.",
-    "mechanics": "+1 to Mechanical, Electrical and Engineering Skill Checks",
-    "mechanic": "+1 to Mechanical, Electrical and Engineering Skill Checks",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Mechanical",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Mechanical"
-      },
-      {
-        "target": "Electrical",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Electrical"
-      },
-      {
-        "target": "Engineering",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Engineering"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Technical Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nRepairing air recyclers, EVA suits, and life-support units under extreme pressure.\n\n## Mechanics & Benefit\n+1 to Mechanical, Electrical and Engineering Skill Checks",
-    "notes": "[Modifier] +1 to Mechanical\n[Modifier] +1 to Electrical\n[Modifier] +1 to Engineering\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Mechanical",
-      "[Modifier] +1 to Electrical",
-      "[Modifier] +1 to Engineering",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-technological-aptitude",
-    "name": "Technological Aptitude",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Natural aptitude for understanding and operating advanced technology",
-    "description": "Natural aptitude for understanding and operating advanced technology",
-    "mechanics": "+2 Technology Knowledge",
-    "mechanic": "+2 Technology Knowledge",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Technology Knowledge",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Technology Knowledge"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Technological Aptitude\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nNatural aptitude for understanding and operating advanced technology\n\n## Mechanics & Benefit\n+2 Technology Knowledge",
-    "notes": "[Modifier] +2 to Technology Knowledge\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Technology Knowledge",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-technological-innovation",
-    "name": "Technological innovation",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Able to create, adapt, and improve technology in novel ways.",
-    "description": "Able to create, adapt, and improve technology in novel ways.",
-    "mechanics": "Knowledge (Technology) checks made at Advantage.",
-    "mechanic": "Knowledge (Technology) checks made at Advantage.",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Technological innovation Knowledge Technology",
-        "type": "check_advantage",
-        "value": 1,
-        "mode": "inherent",
-        "description": "Advantage on Technological innovation Knowledge Technology Checks"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Technological innovation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to create, adapt, and improve technology in novel ways.\n\n## Mechanics & Benefit\nKnowledge (Technology) checks made at Advantage.",
-    "notes": "[Modifier] Advantage on Technological innovation Knowledge Technology Checks\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] Advantage on Technological innovation Knowledge Technology Checks",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-technological-proficiency",
-    "name": "Technological proficiency",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Proficiency in advanced technology",
-    "description": "Proficiency in advanced technology",
-    "mechanics": "Additional +1 from Equipment Bonus and +2 Technology (Knowledge)",
-    "mechanic": "Additional +1 from Equipment Bonus and +2 Technology (Knowledge)",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Technology Knowledge Proficiency in advanced technology",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Technology Knowledge Proficiency in advanced technology"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Technological proficiency\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nProficiency in advanced technology\n\n## Mechanics & Benefit\nAdditional +1 from Equipment Bonus and +2 Technology (Knowledge)",
-    "notes": "[Modifier] +2 to Technology Knowledge Proficiency in advanced technology\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Technology Knowledge Proficiency in advanced technology",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-technology",
-    "name": "Technology",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Familiarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons",
-    "description": "Familiarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons",
-    "mechanics": "+2 Technology Knowledge",
-    "mechanic": "+2 Technology Knowledge",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Technology Knowledge",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Technology Knowledge"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Technology\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nFamiliarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons\n\n## Mechanics & Benefit\n+2 Technology Knowledge",
-    "notes": "[Modifier] +2 to Technology Knowledge\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Technology Knowledge",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-telepathic",
-    "name": "Telepathic",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Innate psychic communication within the swarm and with external sentient minds out to 100 ft.",
-    "description": "Innate psychic communication within the swarm and with external sentient minds out to 100 ft.",
-    "mechanics": "Innate psychic communication within the swarm and with external sentient minds out to 100 ft.",
-    "mechanic": "Innate psychic communication within the swarm and with external sentient minds out to 100 ft.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
+    "desc": "Signature trait of The Architect (Savant). You can coordinate the efforts of multiple drones or units simultaneously, gaining +2 bonus on any checks related to large-scale construction projects or complex engineering tasks.",
+    "description": "Signature trait of The Architect (Savant). You can coordinate the efforts of multiple drones or units simultaneously, gaining +2 bonus on any checks related to large-scale construction projects or complex engineering tasks.",
+    "mechanics": "You can coordinate the efforts of multiple drones or units simultaneously, gaining +2 bonus on any checks related to large-scale construction projects or complex engineering tasks.",
+    "mechanic": "You can coordinate the efforts of multiple drones or units simultaneously, gaining +2 bonus on any checks related to large-scale construction projects or complex engineering tasks.",
+    "rules": "Archetype Trait (1 CP) — The Architect (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Architect (Savant).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Telepathic\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nInnate mind-to-mind psychic communication within the swarm and with external sentient lifeforms within 100 feet without physical speech organs.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Coordination\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Architect (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Architect (Savant). You can coordinate the efforts of multiple drones or units simultaneously, gaining +2 bonus on any checks related to large-scale construction projects or complex engineering tasks.\n\n## Mechanics & Benefit\nYou can coordinate the efforts of multiple drones or units simultaneously, gaining +2 bonus on any checks related to large-scale construction projects or complex engineering tasks.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Architect (Savant).",
     "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
+      "[Rule] Archetype Trait (1 CP) — The Architect (Savant)."
     ]
   },
   {
-    "id": "trait-terrain-expert",
-    "name": "Terrain Expert",
+    "id": "trait-historical-scholar",
+    "name": "Historical Scholar",
     "category": "traits",
-    "trait_type": "Occupational Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Mental",
+    "type": "Mental",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -25593,66 +17663,37 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Scouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #",
-    "description": "Scouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #",
-    "mechanics": "+2 to Stealth, Survival and Defense in chosen Terrain",
-    "mechanic": "+2 to Stealth, Survival and Defense in chosen Terrain",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
+    "desc": "Signature trait of The Archivist (Savant). You gain a +2 bonus to History checks and +2 bonus on any checks related to recalling historical events, understanding cultural trends, or identifying ancient artifacts.",
+    "description": "Signature trait of The Archivist (Savant). You gain a +2 bonus to History checks and +2 bonus on any checks related to recalling historical events, understanding cultural trends, or identifying ancient artifacts.",
+    "mechanics": "You gain a +2 bonus to History checks and +2 bonus on any checks related to recalling historical events, understanding cultural trends, or identifying ancient artifacts.",
+    "mechanic": "You gain a +2 bonus to History checks and +2 bonus on any checks related to recalling historical events, understanding cultural trends, or identifying ancient artifacts.",
+    "rules": "Archetype Trait (1 CP) — The Archivist (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Archivist (Savant).",
     "modifiers": [
       {
-        "target": "Stealth",
+        "target": "History",
         "type": "skill",
         "value": 2,
         "mode": "inherent",
-        "description": "+2 to Stealth"
+        "description": "+2 to History"
       }
     ],
     "package_traits": [],
-    "body": "# Terrain Expert\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nScouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #\n\n## Mechanics & Benefit\n+2 to Stealth, Survival and Defense in chosen Terrain",
-    "notes": "[Modifier] +2 to Stealth\n[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Historical Scholar\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Archivist (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Archivist (Savant). You gain a +2 bonus to History checks and +2 bonus on any checks related to recalling historical events, understanding cultural trends, or identifying ancient artifacts.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to History checks and +2 bonus on any checks related to recalling historical events, understanding cultural trends, or identifying ancient artifacts.",
+    "notes": "[Modifier] +2 to History\n[Rule] Archetype Trait (1 CP) — The Archivist (Savant).",
     "notesList": [
-      "[Modifier] +2 to Stealth",
-      "[Rule] Basic Occupational Trait (1 CP)."
+      "[Modifier] +2 to History",
+      "[Rule] Archetype Trait (1 CP) — The Archivist (Savant)."
     ]
   },
   {
-    "id": "trait-thermal-sight",
-    "name": "Thermal Sight",
+    "id": "trait-archivist",
+    "name": "Archivist",
     "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "See Infra-Red/heat patterns, track passage of a warm target without light.",
-    "description": "See Infra-Red/heat patterns, track passage of a warm target without light.",
-    "mechanics": "See Infra-Red/heat patterns, track passage of a warm target without light.",
-    "mechanic": "See Infra-Red/heat patterns, track passage of a warm target without light.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Thermal Sight\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nSee Infra-Red/heat patterns, track passage of a warm target without light.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-time-management",
-    "name": "Time Management",
-    "category": "traits",
-    "trait_type": "Mental",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Mental",
+    "type": "Mental",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -25660,58 +17701,28 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Mastery of operational logistics, prioritizing tasks, and maximizing productivity during downtime.",
-    "description": "Mastery of operational logistics, prioritizing tasks, and maximizing productivity during downtime.",
-    "mechanics": "Mastery of operational logistics, prioritizing tasks, and maximizing productivity during downtime.",
-    "mechanic": "Mastery of operational logistics, prioritizing tasks, and maximizing productivity during downtime.",
-    "rules": "Basic Mental (1 CP).",
-    "special_rules": "Basic Mental (1 CP).",
+    "desc": "Signature trait of The Archivist (Savant). * A meticulous organizer and curator of knowledge who maintains and manages vast collections of information.",
+    "description": "Signature trait of The Archivist (Savant). * A meticulous organizer and curator of knowledge who maintains and manages vast collections of information.",
+    "mechanics": "* A meticulous organizer and curator of knowledge who maintains and manages vast collections of information.",
+    "mechanic": "* A meticulous organizer and curator of knowledge who maintains and manages vast collections of information.",
+    "rules": "Archetype Trait (1 CP) — The Archivist (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Archivist (Savant).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Time Management\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Mental\n**CP Cost**: 1\n\n## Description\nMastery of operational logistics, prioritizing tasks, and maximizing productivity during downtime.",
-    "notes": "[Rule] Basic Mental (1 CP).",
+    "body": "# Archivist\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Archivist (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Archivist (Savant). * A meticulous organizer and curator of knowledge who maintains and manages vast collections of information.\n\n## Mechanics & Benefit\n* A meticulous organizer and curator of knowledge who maintains and manages vast collections of information.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Archivist (Savant).",
     "notesList": [
-      "[Rule] Basic Mental (1 CP)."
+      "[Rule] Archetype Trait (1 CP) — The Archivist (Savant)."
     ]
   },
   {
-    "id": "trait-torpor-universal",
-    "name": "Torpor (Universal)",
+    "id": "trait-celestial-savant",
+    "name": "Celestial Savant",
     "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Requires only 4 hours of conscious inactivity; immune to sleep effects.",
-    "description": "Requires only 4 hours of conscious inactivity; immune to sleep effects.",
-    "mechanics": "Requires only 4 hours of conscious inactivity; immune to sleep effects.",
-    "mechanic": "Requires only 4 hours of conscious inactivity; immune to sleep effects.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Torpor (Universal)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nRequires only 4 hours of conscious inactivity; immune to sleep effects. Conscious vigilance maintained.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Kitin or Non-Sleeping Species",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Kitin or Non-Sleeping Species"
-    ]
-  },
-  {
-    "id": "trait-tough",
-    "name": "Tough",
-    "category": "traits",
-    "trait_type": "Origin Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Combat",
+    "type": "Combat",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -25719,46 +17730,37 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Tough and resilient, able to withstand harsh conditions, physical punishment, and grueling military training.",
-    "description": "Tough and resilient, able to withstand harsh conditions, physical punishment, and grueling military training.",
-    "mechanics": "+1 Fortitude and Willpower Checks",
-    "mechanic": "+1 Fortitude and Willpower Checks",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
+    "desc": "Signature trait of The Astromancer (Savant). You gain a +2 bonus to Knowledge (Astrophysics) checks and +2 bonus on any checks related to understanding astronomical phenomena, identifying celestial objects, or calculating interstellar distances.",
+    "description": "Signature trait of The Astromancer (Savant). You gain a +2 bonus to Knowledge (Astrophysics) checks and +2 bonus on any checks related to understanding astronomical phenomena, identifying celestial objects, or calculating interstellar distances.",
+    "mechanics": "You gain a +2 bonus to Knowledge (Astrophysics) checks and +2 bonus on any checks related to understanding astronomical phenomena, identifying celestial objects, or calculating interstellar distances.",
+    "mechanic": "You gain a +2 bonus to Knowledge (Astrophysics) checks and +2 bonus on any checks related to understanding astronomical phenomena, identifying celestial objects, or calculating interstellar distances.",
+    "rules": "Archetype Trait (1 CP) — The Astromancer (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Astromancer (Savant).",
     "modifiers": [
       {
-        "target": "Fortitude",
-        "type": "save",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 on Fortitude Checks"
-      },
-      {
-        "target": "Willpower",
+        "target": "Knowledge Astrophysics",
         "type": "skill",
-        "value": 1,
+        "value": 2,
         "mode": "inherent",
-        "description": "+1 to Willpower"
+        "description": "+2 to Knowledge Astrophysics"
       }
     ],
     "package_traits": [],
-    "body": "# Tough\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nTough and resilient, able to withstand harsh conditions, physical punishment, and grueling military training.\n\n## Mechanics & Benefit\n+1 Fortitude and Willpower Checks",
-    "notes": "[Modifier] +1 on Fortitude Checks\n[Modifier] +1 to Willpower\n[Rule] Basic Origin Trait (1 CP).\n[Prerequisite] Stamina 1",
+    "body": "# Celestial Savant\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Astromancer (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Astromancer (Savant). You gain a +2 bonus to Knowledge (Astrophysics) checks and +2 bonus on any checks related to understanding astronomical phenomena, identifying celestial objects, or calculating interstellar distances.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Knowledge (Astrophysics) checks and +2 bonus on any checks related to understanding astronomical phenomena, identifying celestial objects, or calculating interstellar distances.",
+    "notes": "[Modifier] +2 to Knowledge Astrophysics\n[Rule] Archetype Trait (1 CP) — The Astromancer (Savant).",
     "notesList": [
-      "[Modifier] +1 on Fortitude Checks",
-      "[Modifier] +1 to Willpower",
-      "[Rule] Basic Origin Trait (1 CP).",
-      "[Prerequisite] Stamina 1"
+      "[Modifier] +2 to Knowledge Astrophysics",
+      "[Rule] Archetype Trait (1 CP) — The Astromancer (Savant)."
     ]
   },
   {
-    "id": "trait-toughness",
-    "name": "Toughness",
+    "id": "trait-observational-skills",
+    "name": "Observational Skills",
     "category": "traits",
-    "trait_type": "Origin Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Mental",
+    "type": "Mental",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -25766,75 +17768,28 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Withstanding microgravity bone loss, cosmic radiation exposure, and rapid cabin pressure fluctuations.",
-    "description": "Withstanding microgravity bone loss, cosmic radiation exposure, and rapid cabin pressure fluctuations.",
-    "mechanics": "+1 Fortitude and Willpower Checks",
-    "mechanic": "+1 Fortitude and Willpower Checks",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Fortitude",
-        "type": "save",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 on Fortitude Checks"
-      },
-      {
-        "target": "Willpower",
-        "type": "skill",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Willpower"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Toughness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nWithstanding microgravity bone loss, cosmic radiation exposure, and rapid cabin pressure fluctuations.\n\n## Mechanics & Benefit\n+1 Fortitude and Willpower Checks",
-    "notes": "[Modifier] +1 on Fortitude Checks\n[Modifier] +1 to Willpower\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 on Fortitude Checks",
-      "[Modifier] +1 to Willpower",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-toxic-blood",
-    "name": "Toxic Blood",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Ingested, DC 11 + 2xSta, Pain Incapacitation 1hr (Severe Nausea on Success).",
-    "description": "Ingested, DC 11 + 2xSta, Pain Incapacitation 1hr (Severe Nausea on Success).",
-    "mechanics": "Ingested, DC 11 + 2xSta, Pain Incapacitation 1hr (Severe Nausea on Success).",
-    "mechanic": "Ingested, DC 11 + 2xSta, Pain Incapacitation 1hr (Severe Nausea on Success).",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
+    "desc": "Signature trait of The Astromancer (Savant). You have a keen eye for detail and a talent for interpreting astronomical data, gaining +2 bonus on any checks related to using telescopes, analyzing star charts, or predicting celestial events.",
+    "description": "Signature trait of The Astromancer (Savant). You have a keen eye for detail and a talent for interpreting astronomical data, gaining +2 bonus on any checks related to using telescopes, analyzing star charts, or predicting celestial events.",
+    "mechanics": "You have a keen eye for detail and a talent for interpreting astronomical data, gaining +2 bonus on any checks related to using telescopes, analyzing star charts, or predicting celestial events.",
+    "mechanic": "You have a keen eye for detail and a talent for interpreting astronomical data, gaining +2 bonus on any checks related to using telescopes, analyzing star charts, or predicting celestial events.",
+    "rules": "Archetype Trait (1 CP) — The Astromancer (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Astromancer (Savant).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Toxic Blood\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nIngested, DC 11 + 2xSta, Pain Incapacitation 1hr (Severe Nausea on Success). Prereq: Sta 1, Poison Immunity.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Stamina 1, Poison Immunity",
+    "body": "# Observational Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Astromancer (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Astromancer (Savant). You have a keen eye for detail and a talent for interpreting astronomical data, gaining +2 bonus on any checks related to using telescopes, analyzing star charts, or predicting celestial events.\n\n## Mechanics & Benefit\nYou have a keen eye for detail and a talent for interpreting astronomical data, gaining +2 bonus on any checks related to using telescopes, analyzing star charts, or predicting celestial events.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Astromancer (Savant).",
     "notesList": [
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Stamina 1, Poison Immunity"
+      "[Rule] Archetype Trait (1 CP) — The Astromancer (Savant)."
     ]
   },
   {
-    "id": "trait-trade-tools",
-    "name": "Trade Tools",
+    "id": "trait-ecological-expertise",
+    "name": "Ecological Expertise",
     "category": "traits",
-    "trait_type": "Common Occupational Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Mental",
+    "type": "Mental",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -25842,28 +17797,28 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Standard occupational gear, specialized toolkits, and field equipment.",
-    "description": "Standard occupational gear, specialized toolkits, and field equipment.",
-    "mechanics": "Standard occupational gear, specialized toolkits, and field equipment.",
-    "mechanic": "Standard occupational gear, specialized toolkits, and field equipment.",
-    "rules": "Basic Common Occupational Trait (1 CP).",
-    "special_rules": "Basic Common Occupational Trait (1 CP).",
+    "desc": "Signature trait of The Biologist (Savant). You gain a +2 bonus to any two Knowledge skills related to biology, ecology, or environmental science.",
+    "description": "Signature trait of The Biologist (Savant). You gain a +2 bonus to any two Knowledge skills related to biology, ecology, or environmental science.",
+    "mechanics": "You gain a +2 bonus to any two Knowledge skills related to biology, ecology, or environmental science.",
+    "mechanic": "You gain a +2 bonus to any two Knowledge skills related to biology, ecology, or environmental science.",
+    "rules": "Archetype Trait (1 CP) — The Biologist (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Biologist (Savant).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Trade Tools\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Common Occupational Trait\n**CP Cost**: 1\n\n## Description\nStandard occupational gear, specialized toolkits, and field equipment.",
-    "notes": "[Rule] Basic Common Occupational Trait (1 CP).",
+    "body": "# Ecological Expertise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Biologist (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Biologist (Savant). You gain a +2 bonus to any two Knowledge skills related to biology, ecology, or environmental science.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to any two Knowledge skills related to biology, ecology, or environmental science.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Biologist (Savant).",
     "notesList": [
-      "[Rule] Basic Common Occupational Trait (1 CP)."
+      "[Rule] Archetype Trait (1 CP) — The Biologist (Savant)."
     ]
   },
   {
-    "id": "trait-travel",
-    "name": "Travel",
+    "id": "trait-codebreaker",
+    "name": "Codebreaker",
     "category": "traits",
-    "trait_type": "Occupational Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Mental",
+    "type": "Mental",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -25871,104 +17826,28 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *+2 Piloting and Navigation*  #",
-    "description": "Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *+2 Piloting and Navigation*  #",
-    "mechanics": "+2 Piloting and Navigation",
-    "mechanic": "+2 Piloting and Navigation",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Piloting",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Piloting"
-      },
-      {
-        "target": "Navigation",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Navigation"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Travel\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nPiloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *+2 Piloting and Navigation*  #\n\n## Mechanics & Benefit\n+2 Piloting and Navigation",
-    "notes": "[Modifier] +2 to Piloting\n[Modifier] +2 to Navigation\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Piloting",
-      "[Modifier] +2 to Navigation",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-treespeech",
-    "name": "Treespeech",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Ability to converse with plants.",
-    "description": "Ability to converse with plants.",
-    "mechanics": "Ability to converse with plants.",
-    "mechanic": "Ability to converse with plants.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
+    "desc": "Signature trait of The Cryptographer (Savant). You are proficient in cryptography and code breaking techniques, gain +2 bonus in checks to decipher encrypted messages and uncover hidden information.",
+    "description": "Signature trait of The Cryptographer (Savant). You are proficient in cryptography and code breaking techniques, gain +2 bonus in checks to decipher encrypted messages and uncover hidden information.",
+    "mechanics": "You are proficient in cryptography and code breaking techniques, gain +2 bonus in checks to decipher encrypted messages and uncover hidden information.",
+    "mechanic": "You are proficient in cryptography and code breaking techniques, gain +2 bonus in checks to decipher encrypted messages and uncover hidden information.",
+    "rules": "Archetype Trait (1 CP) — The Cryptographer (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Cryptographer (Savant).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Treespeech\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nAbility to converse with plants.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
+    "body": "# Codebreaker\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Cryptographer (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Cryptographer (Savant). You are proficient in cryptography and code breaking techniques, gain +2 bonus in checks to decipher encrypted messages and uncover hidden information.\n\n## Mechanics & Benefit\nYou are proficient in cryptography and code breaking techniques, gain +2 bonus in checks to decipher encrypted messages and uncover hidden information.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Cryptographer (Savant).",
     "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
+      "[Rule] Archetype Trait (1 CP) — The Cryptographer (Savant)."
     ]
   },
   {
-    "id": "trait-uncanny-senses-vibration",
-    "name": "Uncanny Senses (Vibration)",
+    "id": "trait-analytical-mind",
+    "name": "Analytical Mind",
     "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Detection of motion, vibrations, and tremors through surfaces and the hive-mesh out to 60 ft.",
-    "description": "Detection of motion, vibrations, and tremors through surfaces and the hive-mesh out to 60 ft.",
-    "mechanics": "Detection of motion, vibrations, and tremors through surfaces and the hive-mesh out to 60 ft.",
-    "mechanic": "Detection of motion, vibrations, and tremors through surfaces and the hive-mesh out to 60 ft.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Uncanny Senses (Vibration)\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nSurface trichobothria hairs detect mechanical oscillations and subtle acoustic waves across floors, walls, and connecting hive-mesh webs, defeating surprises and pinpointing movement within 60 ft.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Insectoid or Arachnoid Physiology",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Insectoid or Arachnoid Physiology"
-    ]
-  },
-  {
-    "id": "trait-unpredictability",
-    "name": "Unpredictability",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Mental",
+    "type": "Mental",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -25976,103 +17855,19 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Unpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *+2 Initiative* #",
-    "description": "Unpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *+2 Initiative* #",
-    "mechanics": "+2 Initiative",
-    "mechanic": "+2 Initiative",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
+    "desc": "Signature trait of The Cryptographer (Savant). You gain a +2 bonus to Investigation and Insight checks when analyzing data, identifying patterns, or interrogating subjects.",
+    "description": "Signature trait of The Cryptographer (Savant). You gain a +2 bonus to Investigation and Insight checks when analyzing data, identifying patterns, or interrogating subjects.",
+    "mechanics": "You gain a +2 bonus to Investigation and Insight checks when analyzing data, identifying patterns, or interrogating subjects.",
+    "mechanic": "You gain a +2 bonus to Investigation and Insight checks when analyzing data, identifying patterns, or interrogating subjects.",
+    "rules": "Archetype Trait (1 CP) — The Cryptographer (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Cryptographer (Savant).",
     "modifiers": [
       {
-        "target": "initiative-mod",
-        "type": "combat",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 Initiative"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Unpredictability\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nUnpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *+2 Initiative* #\n\n## Mechanics & Benefit\n+2 Initiative",
-    "notes": "[Modifier] +2 Initiative\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 Initiative",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-urban-survival",
-    "name": "Urban Survival",
-    "category": "traits",
-    "trait_type": "Origin Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Acrobatic freerunning across neon rooftops, blending invisibly into crowds, and evasion of police drones.",
-    "description": "Acrobatic freerunning across neon rooftops, blending invisibly into crowds, and evasion of police drones.",
-    "mechanics": "+2 Athletics and Stealth Skills (in Urban and developed areas)",
-    "mechanic": "+2 Athletics and Stealth Skills (in Urban and developed areas)",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Athletics",
+        "target": "Investigation",
         "type": "skill",
         "value": 2,
         "mode": "inherent",
-        "description": "+2 to Athletics"
-      },
-      {
-        "target": "Stealth",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Stealth"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Urban Survival\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nAcrobatic freerunning across neon rooftops, blending invisibly into crowds, and evasion of police drones.\n\n## Mechanics & Benefit\n+2 Athletics and Stealth Skills (in Urban and developed areas)",
-    "notes": "[Modifier] +2 to Athletics\n[Modifier] +2 to Stealth\n[Rule] Basic Origin Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +2 to Athletics",
-      "[Modifier] +2 to Stealth",
-      "[Rule] Basic Origin Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-urbanite",
-    "name": "Urbanite",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "+2 racial bonus on Diplomacy and Sense Motive checks.",
-    "description": "+2 racial bonus on Diplomacy and Sense Motive checks.",
-    "mechanics": "+2 racial bonus on Diplomacy and Sense Motive checks.",
-    "mechanic": "+2 racial bonus on Diplomacy and Sense Motive checks.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Diplomacy",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Diplomacy"
+        "description": "+2 to Investigation"
       },
       {
         "target": "Insight",
@@ -26083,397 +17878,68 @@ export const ALL_CANONICAL_TRAITS = [
       }
     ],
     "package_traits": [],
-    "body": "# Urbanite\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\n+2 racial bonus on Diplomacy and Sense Motive checks.\n\n## Mechanics & Benefit\n+2 racial bonus on Diplomacy and Sense Motive checks.",
-    "notes": "[Modifier] +2 to Diplomacy\n[Modifier] +2 to Insight\n[Rule] Basic Species Trait (1 CP).",
+    "body": "# Analytical Mind\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Cryptographer (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Cryptographer (Savant). You gain a +2 bonus to Investigation and Insight checks when analyzing data, identifying patterns, or interrogating subjects.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Investigation and Insight checks when analyzing data, identifying patterns, or interrogating subjects.",
+    "notes": "[Modifier] +2 to Investigation\n[Modifier] +2 to Insight\n[Rule] Archetype Trait (1 CP) — The Cryptographer (Savant).",
     "notesList": [
-      "[Modifier] +2 to Diplomacy",
+      "[Modifier] +2 to Investigation",
       "[Modifier] +2 to Insight",
-      "[Rule] Basic Species Trait (1 CP)."
+      "[Rule] Archetype Trait (1 CP) — The Cryptographer (Savant)."
     ]
   },
   {
-    "id": "trait-vampiric-power",
-    "name": "Vampiric Power",
+    "id": "trait-cybernetic-enhancement",
+    "name": "Cybernetic Enhancement",
     "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 4,
-    "bp": 4,
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Technical",
+    "type": "Technical",
+    "cp": 1,
+    "bp": 1,
     "costs": {
-      "cp": 4,
-      "bp": 4
+      "cp": 1,
+      "bp": 1
     },
     "is_ranked": false,
-    "desc": "Gain point in Physical Ability per 2 points of Sta drained (Lethal at 3+Sta).",
-    "description": "Gain point in Physical Ability per 2 points of Sta drained (Lethal at 3+Sta).",
-    "mechanics": "Gain point in Physical Ability per 2 points of Sta drained (Lethal at 3+Sta).",
-    "mechanic": "Gain point in Physical Ability per 2 points of Sta drained (Lethal at 3+Sta).",
-    "rules": "Elite Species Trait (4 CP).",
-    "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Vampiric Power\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nGain point in Physical Ability per 2 points of Sta drained (Lethal at 3+Sta).",
-    "notes": "[Rule] Elite Species Trait (4 CP).",
-    "notesList": [
-      "[Rule] Elite Species Trait (4 CP)."
-    ]
-  },
-  {
-    "id": "trait-venom",
-    "name": "Venom",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Hemotoxic (Str/Sta) / Neurotoxic (Agility/Sensory) / Cytotoxic (Tissue Corrosive)",
-    "description": "Hemotoxic (Str/Sta) / Neurotoxic (Agility/Sensory) / Cytotoxic (Tissue Corrosive)",
-    "mechanics": "Hemotoxic (Str/Sta) / Neurotoxic (Agility/Sensory) / Cytotoxic (Tissue Corrosive)",
-    "mechanic": "Hemotoxic (Str/Sta) / Neurotoxic (Agility/Sensory) / Cytotoxic (Tissue Corrosive)",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Venom\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**CP Cost**: 2\n\n## Description\nHemotoxic (Str/Sta) / Neurotoxic (Agility/Sensory) / Cytotoxic (Tissue Corrosive)",
-    "notes": "[Rule] Advanced Species Trait (2 CP).",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP)."
-    ]
-  },
-  {
-    "id": "trait-venom-spit",
-    "name": "Venom Spit",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Contact, DC 11 + 2xSta, Blind for 10+ minutes.",
-    "description": "Contact, DC 11 + 2xSta, Blind for 10+ minutes.",
-    "mechanics": "Contact, DC 11 + 2xSta, Blind for 10+ minutes.",
-    "mechanic": "Contact, DC 11 + 2xSta, Blind for 10+ minutes.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
+    "desc": "Signature trait of The Cyberneticist (Savant). You gain a +2 bonus to Medicine and Technology checks related to cybernetics, including installation, repair, and modification of cybernetic implants.",
+    "description": "Signature trait of The Cyberneticist (Savant). You gain a +2 bonus to Medicine and Technology checks related to cybernetics, including installation, repair, and modification of cybernetic implants.",
+    "mechanics": "You gain a +2 bonus to Medicine and Technology checks related to cybernetics, including installation, repair, and modification of cybernetic implants.",
+    "mechanic": "You gain a +2 bonus to Medicine and Technology checks related to cybernetics, including installation, repair, and modification of cybernetic implants.",
+    "rules": "Archetype Trait (1 CP) — The Cyberneticist (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Cyberneticist (Savant).",
     "modifiers": [
       {
-        "target": "Attack",
+        "target": "Medicine",
         "type": "skill",
-        "value": -1,
-        "mode": "penalty",
-        "description": "-1 to Attack"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Venom Spit\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nContact, DC 11 + 2xSta, Blind for 10+ minutes. Prereq: Toxic Blood, Sta 2.",
-    "notes": "[Penalty] -1 to Attack\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Toxic Blood, Stamina 2",
-    "notesList": [
-      "[Penalty] -1 to Attack",
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Toxic Blood, Stamina 2"
-    ]
-  },
-  {
-    "id": "trait-venomous-saliva",
-    "name": "Venomous Saliva",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Injected (Bite), DC 11 + 2xSta, Paralytic 1hr (Drugged on Success).",
-    "description": "Injected (Bite), DC 11 + 2xSta, Paralytic 1hr (Drugged on Success).",
-    "mechanics": "Injected (Bite), DC 11 + 2xSta, Paralytic 1hr (Drugged on Success).",
-    "mechanic": "Injected (Bite), DC 11 + 2xSta, Paralytic 1hr (Drugged on Success).",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [
-      {
-        "target": "Agility",
-        "type": "skill",
-        "value": -2,
-        "mode": "penalty",
-        "description": "-2 to Agility"
-      },
-      {
-        "target": "Sensory",
-        "type": "skill",
-        "value": -2,
-        "mode": "penalty",
-        "description": "-2 to Sensory"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Venomous Saliva\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nInjected (Bite), DC 11 + 2xSta, Paralytic 1hr (Drugged on Success). Prereq: Toxic Blood, Sta 2.",
-    "notes": "[Penalty] -2 to Agility\n[Penalty] -2 to Sensory\n[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Toxic Blood, Stamina 2",
-    "notesList": [
-      "[Penalty] -2 to Agility",
-      "[Penalty] -2 to Sensory",
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Toxic Blood, Stamina 2"
-    ]
-  },
-  {
-    "id": "trait-venues",
-    "name": "Venues",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Has strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #",
-    "description": "Has strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #",
-    "mechanics": "+2 Equipment (Hideout) and +1 Wealth",
-    "mechanic": "+2 Equipment (Hideout) and +1 Wealth",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Wealth",
-        "type": "wealth",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 Wealth Score"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Venues\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nHas strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #\n\n## Mechanics & Benefit\n+2 Equipment (Hideout) and +1 Wealth",
-    "notes": "[Modifier] +1 Wealth Score\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 Wealth Score",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-versatile",
-    "name": "Versatile",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Able to operate in a variety of environments, including underwater and in zero-gravity",
-    "description": "Able to operate in a variety of environments, including underwater and in zero-gravity",
-    "mechanics": "+1 Karma Point",
-    "mechanic": "+1 Karma Point",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "Karma",
-        "type": "karma",
-        "value": 1,
-        "mode": "inherent",
-        "description": "+1 to Karma Pool"
-      }
-    ],
-    "package_traits": [],
-    "body": "# Versatile\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nAble to operate in a variety of environments, including underwater and in zero-gravity\n\n## Mechanics & Benefit\n+1 Karma Point",
-    "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
-    "notesList": [
-      "[Modifier] +1 to Karma Pool",
-      "[Rule] Basic Occupational Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-versatility",
-    "name": "Versatility",
-    "category": "traits",
-    "trait_type": "General",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Adaptable skill set allowing the character to perform a wide variety of tasks without specialized tools or preparation.",
-    "description": "Adaptable skill set allowing the character to perform a wide variety of tasks without specialized tools or preparation.",
-    "mechanics": "Adaptable skill set allowing the character to perform a wide variety of tasks without specialized tools or preparation.",
-    "mechanic": "Adaptable skill set allowing the character to perform a wide variety of tasks without specialized tools or preparation.",
-    "rules": "Basic General (1 CP).",
-    "special_rules": "Basic General (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Versatility\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: General\n**CP Cost**: 1\n\n## Description\nAdaptable skill set allowing the character to perform a wide variety of tasks without specialized tools or preparation.",
-    "notes": "[Rule] Basic General (1 CP).",
-    "notesList": [
-      "[Rule] Basic General (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-water-sense",
-    "name": "Water-Sense",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Blindsense 30 feet against creatures touching the same body of water.",
-    "description": "Blindsense 30 feet against creatures touching the same body of water.",
-    "mechanics": "Blindsense 30 feet against creatures touching the same body of water.",
-    "mechanic": "Blindsense 30 feet against creatures touching the same body of water.",
-    "rules": "Basic Species Trait (1 CP).",
-    "special_rules": "Basic Species Trait (1 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Water-Sense\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**CP Cost**: 1\n\n## Description\nBlindsense 30 feet against creatures touching the same body of water.",
-    "notes": "[Rule] Basic Species Trait (1 CP).",
-    "notesList": [
-      "[Rule] Basic Species Trait (1 CP)."
-    ]
-  },
-  {
-    "id": "trait-weaver",
-    "name": "Weaver",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 2,
-    "bp": 2,
-    "costs": {
-      "cp": 2,
-      "bp": 2
-    },
-    "is_ranked": false,
-    "desc": "Can produce and manipulate natural webbing made from high-tensile Hive-Resin.",
-    "description": "Can produce and manipulate natural webbing made from high-tensile Hive-Resin.",
-    "mechanics": "Can produce and manipulate natural webbing made from high-tensile Hive-Resin.",
-    "mechanic": "Can produce and manipulate natural webbing made from high-tensile Hive-Resin.",
-    "rules": "Advanced Species Trait (2 CP).",
-    "special_rules": "Advanced Species Trait (2 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Weaver\n\n**Category**: TRAITS  \n**Tier**: Advanced  \n**Type**: Species Trait  \n**CP Cost**: 2  \n\n## Description\nAbdominal spinnerets weave high-tensile silk filaments of Hive-Resin, creating adhesive snares to entangle enemies or constructing structural safety nets, hanging bivouacs, and anchor lines.",
-    "notes": "[Rule] Advanced Species Trait (2 CP).\n[Prerequisite] Resin Secretion",
-    "notesList": [
-      "[Rule] Advanced Species Trait (2 CP).",
-      "[Prerequisite] Resin Secretion"
-    ]
-  },
-  {
-    "id": "trait-well-equipped",
-    "name": "Well-Equipped",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 1,
-    "bp": 1,
-    "costs": {
-      "cp": 1,
-      "bp": 1
-    },
-    "is_ranked": false,
-    "desc": "Equipped with the latest technology and weaponry   *+2 Equipment* #",
-    "description": "Equipped with the latest technology and weaponry   *+2 Equipment* #",
-    "mechanics": "+2 Equipment",
-    "mechanic": "+2 Equipment",
-    "rules": "Basic Occupational Trait (1 CP).",
-    "special_rules": "Basic Occupational Trait (1 CP).",
-    "modifiers": [
-      {
-        "target": "equipment-bonus",
-        "type": "combat",
         "value": 2,
         "mode": "inherent",
-        "description": "+2 Equipment"
+        "description": "+2 to Medicine"
+      },
+      {
+        "target": "Technology",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Technology"
       }
     ],
     "package_traits": [],
-    "body": "# Well-Equipped\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**CP Cost**: 1\n\n## Description\nEquipped with the latest technology and weaponry   *+2 Equipment* #\n\n## Mechanics & Benefit\n+2 Equipment",
-    "notes": "[Modifier] +2 Equipment\n[Rule] Basic Occupational Trait (1 CP).",
+    "body": "# Cybernetic Enhancement\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Cyberneticist (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Cyberneticist (Savant). You gain a +2 bonus to Medicine and Technology checks related to cybernetics, including installation, repair, and modification of cybernetic implants.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Medicine and Technology checks related to cybernetics, including installation, repair, and modification of cybernetic implants.",
+    "notes": "[Modifier] +2 to Medicine\n[Modifier] +2 to Technology\n[Rule] Archetype Trait (1 CP) — The Cyberneticist (Savant).",
     "notesList": [
-      "[Modifier] +2 Equipment",
-      "[Rule] Basic Occupational Trait (1 CP)."
+      "[Modifier] +2 to Medicine",
+      "[Modifier] +2 to Technology",
+      "[Rule] Archetype Trait (1 CP) — The Cyberneticist (Savant)."
     ]
   },
   {
-    "id": "trait-wyrm-senses",
-    "name": "Wyrm Senses",
+    "id": "trait-biomechanical-integration",
+    "name": "Biomechanical Integration",
     "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Elite",
-    "classification": "Physical",
-    "type": "Physical",
-    "cp": 4,
-    "bp": 4,
-    "costs": {
-      "cp": 4,
-      "bp": 4
-    },
-    "is_ranked": false,
-    "desc": "Take Features from any Acute Sense Line. Req: Dragon Apotheosis.",
-    "description": "Take Features from any Acute Sense Line. Req: Dragon Apotheosis.",
-    "mechanics": "Take Features from any Acute Sense Line. Req: Dragon Apotheosis.",
-    "mechanic": "Take Features from any Acute Sense Line. Req: Dragon Apotheosis.",
-    "rules": "Elite Species Trait (4 CP).",
-    "special_rules": "Elite Species Trait (4 CP).",
-    "modifiers": [],
-    "package_traits": [],
-    "body": "# Wyrm Senses\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**CP Cost**: 4\n\n## Description\nTake Features from any Acute Sense Line. Req: Dragon Apotheosis.",
-    "notes": "[Rule] Elite Species Trait (4 CP).",
-    "notesList": [
-      "[Rule] Elite Species Trait (4 CP)."
-    ]
-  },
-  {
-    "id": "trait-zero-g-acclimation",
-    "name": "Zero-G Acclimation",
-    "category": "traits",
-    "trait_type": "Origin Trait",
+    "trait_type": "Archetype Trait",
     "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
+    "classification": "Technical",
+    "type": "Technical",
     "cp": 1,
     "bp": 1,
     "costs": {
@@ -26481,24 +17947,1553 @@ export const ALL_CANONICAL_TRAITS = [
       "bp": 1
     },
     "is_ranked": false,
-    "desc": "Total bodily familiarity with microgravity, spin gravity, and vacuum suits.",
-    "description": "Total bodily familiarity with microgravity, spin gravity, and vacuum suits.",
-    "mechanics": "Total bodily familiarity with microgravity, spin gravity, and vacuum suits.",
-    "mechanic": "Total bodily familiarity with microgravity, spin gravity, and vacuum suits.",
-    "rules": "Basic Origin Trait (1 CP).",
-    "special_rules": "Basic Origin Trait (1 CP).",
+    "desc": "Signature trait of The Cyberneticist (Savant). You have a deep understanding of the interface between biology and technology, gain +2 bonus on any checks related to adapting cybernetics for specific individuals or purposes.",
+    "description": "Signature trait of The Cyberneticist (Savant). You have a deep understanding of the interface between biology and technology, gain +2 bonus on any checks related to adapting cybernetics for specific individuals or purposes.",
+    "mechanics": "You have a deep understanding of the interface between biology and technology, gain +2 bonus on any checks related to adapting cybernetics for specific individuals or purposes.",
+    "mechanic": "You have a deep understanding of the interface between biology and technology, gain +2 bonus on any checks related to adapting cybernetics for specific individuals or purposes.",
+    "rules": "Archetype Trait (1 CP) — The Cyberneticist (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Cyberneticist (Savant).",
     "modifiers": [],
     "package_traits": [],
-    "body": "# Zero-G Acclimation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**CP Cost**: 1\n\n## Description\nTotal bodily familiarity with microgravity, spin gravity, and vacuum suits.",
-    "notes": "[Rule] Basic Origin Trait (1 CP).",
+    "body": "# Biomechanical Integration\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Cyberneticist (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Cyberneticist (Savant). You have a deep understanding of the interface between biology and technology, gain +2 bonus on any checks related to adapting cybernetics for specific individuals or purposes.\n\n## Mechanics & Benefit\nYou have a deep understanding of the interface between biology and technology, gain +2 bonus on any checks related to adapting cybernetics for specific individuals or purposes.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Cyberneticist (Savant).",
     "notesList": [
-      "[Rule] Basic Origin Trait (1 CP)."
+      "[Rule] Archetype Trait (1 CP) — The Cyberneticist (Savant)."
+    ]
+  },
+  {
+    "id": "trait-cyber-warfare",
+    "name": "Cyber Warfare",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Rapid intrusion packets that cascade through enemy firewalls, drones, and cybernetics.",
+    "description": "Rapid intrusion packets that cascade through enemy firewalls, drones, and cybernetics.",
+    "mechanics": "Major Action: Make a Technology check (CR = 10 + target TL x 2) against an electronic system, vehicle, or cybernetic implant. On a success, control or disable the target system for 3 rounds.",
+    "mechanic": "Major Action: Make a Technology check (CR = 10 + target TL x 2) against an electronic system, vehicle, or cybernetic implant. On a success, control or disable the target system for 3 rounds.",
+    "rules": "Archetype Trait (1 CP) — The Decker (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Decker (Savant).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Cyber Warfare\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Decker (Savant))\n**CP Cost**: 1\n\n## Description\nRapid intrusion packets that cascade through enemy firewalls, drones, and cybernetics.\n\n## Mechanics & Benefit\nMajor Action: Make a Technology check (CR = 10 + target TL x 2) against an electronic system, vehicle, or cybernetic implant. On a success, control or disable the target system for 3 rounds.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Decker (Savant).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Decker (Savant)."
+    ]
+  },
+  {
+    "id": "trait-unwavering-determination",
+    "name": "Unwavering Determination",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Detective (Savant). You gain +2 bonus on any checks related to resisting intimidation or coercion when pursuing a case.",
+    "description": "Signature trait of The Detective (Savant). You gain +2 bonus on any checks related to resisting intimidation or coercion when pursuing a case.",
+    "mechanics": "You gain +2 bonus on any checks related to resisting intimidation or coercion when pursuing a case.",
+    "mechanic": "You gain +2 bonus on any checks related to resisting intimidation or coercion when pursuing a case.",
+    "rules": "Archetype Trait (1 CP) — The Detective (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Detective (Savant).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Unwavering Determination\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Detective (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Detective (Savant). You gain +2 bonus on any checks related to resisting intimidation or coercion when pursuing a case.\n\n## Mechanics & Benefit\nYou gain +2 bonus on any checks related to resisting intimidation or coercion when pursuing a case.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Detective (Savant).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Detective (Savant)."
+    ]
+  },
+  {
+    "id": "trait-forensic-analysis",
+    "name": "Forensic Analysis",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Methodical clinical and investigative deduction applied to crime scenes, autopsies, and trace evidence.",
+    "description": "Methodical clinical and investigative deduction applied to crime scenes, autopsies, and trace evidence.",
+    "mechanics": "You gain a +2 bonus to Medicine and Investigation checks when examining crime scenes, autopsies, toxins, or biological evidence.",
+    "mechanic": "You gain a +2 bonus to Medicine and Investigation checks when examining crime scenes, autopsies, toxins, or biological evidence.",
+    "rules": "Archetype Trait (1 CP) — The Forensic Pathologist (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Forensic Pathologist (Savant).",
+    "modifiers": [
+      {
+        "target": "Medicine",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Medicine"
+      },
+      {
+        "target": "Investigation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Investigation"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Forensic Analysis\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Forensic Pathologist (Savant))\n**CP Cost**: 1\n\n## Description\nMethodical clinical and investigative deduction applied to crime scenes, autopsies, and trace evidence.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Medicine and Investigation checks when examining crime scenes, autopsies, toxins, or biological evidence.",
+    "notes": "[Modifier] +2 to Medicine\n[Modifier] +2 to Investigation\n[Rule] Archetype Trait (1 CP) — The Forensic Pathologist (Savant).",
+    "notesList": [
+      "[Modifier] +2 to Medicine",
+      "[Modifier] +2 to Investigation",
+      "[Rule] Archetype Trait (1 CP) — The Forensic Pathologist (Savant)."
+    ]
+  },
+  {
+    "id": "trait-medical-expertise",
+    "name": "Medical Expertise",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Forensic Pathologist (Savant). You gain a +2 bonus to Medicine checks to diagnose and treat injuries, illnesses, and other medical conditions.",
+    "description": "Signature trait of The Forensic Pathologist (Savant). You gain a +2 bonus to Medicine checks to diagnose and treat injuries, illnesses, and other medical conditions.",
+    "mechanics": "You gain a +2 bonus to Medicine checks to diagnose and treat injuries, illnesses, and other medical conditions.",
+    "mechanic": "You gain a +2 bonus to Medicine checks to diagnose and treat injuries, illnesses, and other medical conditions.",
+    "rules": "Archetype Trait (1 CP) — The Forensic Pathologist (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Forensic Pathologist (Savant).",
+    "modifiers": [
+      {
+        "target": "Medicine",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Medicine"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Medical Expertise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Forensic Pathologist (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Forensic Pathologist (Savant). You gain a +2 bonus to Medicine checks to diagnose and treat injuries, illnesses, and other medical conditions.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Medicine checks to diagnose and treat injuries, illnesses, and other medical conditions.",
+    "notes": "[Modifier] +2 to Medicine\n[Rule] Archetype Trait (1 CP) — The Forensic Pathologist (Savant).",
+    "notesList": [
+      "[Modifier] +2 to Medicine",
+      "[Rule] Archetype Trait (1 CP) — The Forensic Pathologist (Savant)."
+    ]
+  },
+  {
+    "id": "trait-biotechnologist",
+    "name": "Biotechnologist",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Technical",
+    "type": "Technical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Geneticist (Savant). You gain a +2 bonus to Technology and Vocation skill checks when creating or utilizing bio-engineered devices or constructs.",
+    "description": "Signature trait of The Geneticist (Savant). You gain a +2 bonus to Technology and Vocation skill checks when creating or utilizing bio-engineered devices or constructs.",
+    "mechanics": "You gain a +2 bonus to Technology and Vocation skill checks when creating or utilizing bio-engineered devices or constructs.",
+    "mechanic": "You gain a +2 bonus to Technology and Vocation skill checks when creating or utilizing bio-engineered devices or constructs.",
+    "rules": "Archetype Trait (1 CP) — The Geneticist (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Geneticist (Savant).",
+    "modifiers": [
+      {
+        "target": "Technology",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Technology"
+      },
+      {
+        "target": "Vocation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Vocation"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Biotechnologist\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Geneticist (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Geneticist (Savant). You gain a +2 bonus to Technology and Vocation skill checks when creating or utilizing bio-engineered devices or constructs.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Technology and Vocation skill checks when creating or utilizing bio-engineered devices or constructs.",
+    "notes": "[Modifier] +2 to Technology\n[Modifier] +2 to Vocation\n[Rule] Archetype Trait (1 CP) — The Geneticist (Savant).",
+    "notesList": [
+      "[Modifier] +2 to Technology",
+      "[Modifier] +2 to Vocation",
+      "[Rule] Archetype Trait (1 CP) — The Geneticist (Savant)."
+    ]
+  },
+  {
+    "id": "trait-adaptive-engineering",
+    "name": "Adaptive Engineering",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Technical",
+    "type": "Technical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Geneticist (Savant). You gain +2 bonus on any checks related to adapting existing technology or biological systems for new purposes or environments.",
+    "description": "Signature trait of The Geneticist (Savant). You gain +2 bonus on any checks related to adapting existing technology or biological systems for new purposes or environments.",
+    "mechanics": "You gain +2 bonus on any checks related to adapting existing technology or biological systems for new purposes or environments.",
+    "mechanic": "You gain +2 bonus on any checks related to adapting existing technology or biological systems for new purposes or environments.",
+    "rules": "Archetype Trait (1 CP) — The Geneticist (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Geneticist (Savant).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Adaptive Engineering\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Geneticist (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Geneticist (Savant). You gain +2 bonus on any checks related to adapting existing technology or biological systems for new purposes or environments.\n\n## Mechanics & Benefit\nYou gain +2 bonus on any checks related to adapting existing technology or biological systems for new purposes or environments.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Geneticist (Savant).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Geneticist (Savant)."
+    ]
+  },
+  {
+    "id": "trait-polyglot",
+    "name": "Polyglot",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Linguist (Savant). You gain a +2 bonus to Knowledge (Linguistics) checks and +2 bonus on any checks related to understanding spoken or written languages, including alien dialects and ancient scripts.",
+    "description": "Signature trait of The Linguist (Savant). You gain a +2 bonus to Knowledge (Linguistics) checks and +2 bonus on any checks related to understanding spoken or written languages, including alien dialects and ancient scripts.",
+    "mechanics": "You gain a +2 bonus to Knowledge (Linguistics) checks and +2 bonus on any checks related to understanding spoken or written languages, including alien dialects and ancient scripts.",
+    "mechanic": "You gain a +2 bonus to Knowledge (Linguistics) checks and +2 bonus on any checks related to understanding spoken or written languages, including alien dialects and ancient scripts.",
+    "rules": "Archetype Trait (1 CP) — The Linguist (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Linguist (Savant).",
+    "modifiers": [
+      {
+        "target": "Knowledge Linguistics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Knowledge Linguistics"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Polyglot\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Linguist (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Linguist (Savant). You gain a +2 bonus to Knowledge (Linguistics) checks and +2 bonus on any checks related to understanding spoken or written languages, including alien dialects and ancient scripts.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Knowledge (Linguistics) checks and +2 bonus on any checks related to understanding spoken or written languages, including alien dialects and ancient scripts.",
+    "notes": "[Modifier] +2 to Knowledge Linguistics\n[Rule] Archetype Trait (1 CP) — The Linguist (Savant).",
+    "notesList": [
+      "[Modifier] +2 to Knowledge Linguistics",
+      "[Rule] Archetype Trait (1 CP) — The Linguist (Savant)."
+    ]
+  },
+  {
+    "id": "trait-cultural-interpreter",
+    "name": "Cultural Interpreter",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Linguist (Savant). You have a deep understanding of the nuances of language and culture, gaining +2 bonus on any checks related to interpreting cultural customs or mediating communication between different groups.",
+    "description": "Signature trait of The Linguist (Savant). You have a deep understanding of the nuances of language and culture, gaining +2 bonus on any checks related to interpreting cultural customs or mediating communication between different groups.",
+    "mechanics": "You have a deep understanding of the nuances of language and culture, gaining +2 bonus on any checks related to interpreting cultural customs or mediating communication between different groups.",
+    "mechanic": "You have a deep understanding of the nuances of language and culture, gaining +2 bonus on any checks related to interpreting cultural customs or mediating communication between different groups.",
+    "rules": "Archetype Trait (1 CP) — The Linguist (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Linguist (Savant).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Cultural Interpreter\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Linguist (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Linguist (Savant). You have a deep understanding of the nuances of language and culture, gaining +2 bonus on any checks related to interpreting cultural customs or mediating communication between different groups.\n\n## Mechanics & Benefit\nYou have a deep understanding of the nuances of language and culture, gaining +2 bonus on any checks related to interpreting cultural customs or mediating communication between different groups.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Linguist (Savant).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Linguist (Savant)."
+    ]
+  },
+  {
+    "id": "trait-arcane-mastery",
+    "name": "Arcane Mastery",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Metaphysical",
+    "type": "Metaphysical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Magus (Savant). You gain a +2 bonus to discipline checks.",
+    "description": "Signature trait of The Magus (Savant). You gain a +2 bonus to discipline checks.",
+    "mechanics": "You gain a +2 bonus to discipline checks.",
+    "mechanic": "You gain a +2 bonus to discipline checks.",
+    "rules": "Archetype Trait (1 CP) — The Magus (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Magus (Savant).",
+    "modifiers": [
+      {
+        "target": "Discipline",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Discipline"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Arcane Mastery\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Magus (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Magus (Savant). You gain a +2 bonus to discipline checks.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to discipline checks.",
+    "notes": "[Modifier] +2 to Discipline\n[Rule] Archetype Trait (1 CP) — The Magus (Savant).",
+    "notesList": [
+      "[Modifier] +2 to Discipline",
+      "[Rule] Archetype Trait (1 CP) — The Magus (Savant)."
+    ]
+  },
+  {
+    "id": "trait-spell-weaving",
+    "name": "Spell Weaving",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Metaphysical",
+    "type": "Metaphysical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Magus (Savant). +2 bonus to combine different spells to create unique and powerful effects.",
+    "description": "Signature trait of The Magus (Savant). +2 bonus to combine different spells to create unique and powerful effects.",
+    "mechanics": "+2 bonus to combine different spells to create unique and powerful effects.",
+    "mechanic": "+2 bonus to combine different spells to create unique and powerful effects.",
+    "rules": "Archetype Trait (1 CP) — The Magus (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Magus (Savant).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Spell Weaving\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Magus (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Magus (Savant). +2 bonus to combine different spells to create unique and powerful effects.\n\n## Mechanics & Benefit\n+2 bonus to combine different spells to create unique and powerful effects.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Magus (Savant).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Magus (Savant)."
+    ]
+  },
+  {
+    "id": "trait-master-builder",
+    "name": "Master Builder",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Technical",
+    "type": "Technical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Maker (Savant) / The Net-architect (Savant). You gain a +2 bonus to all checks related to engineering and construction, such as designing buildings, erecting structures, and repairing machinery.",
+    "description": "Signature trait of The Maker (Savant) / The Net-architect (Savant). You gain a +2 bonus to all checks related to engineering and construction, such as designing buildings, erecting structures, and repairing machinery.",
+    "mechanics": "You gain a +2 bonus to all checks related to engineering and construction, such as designing buildings, erecting structures, and repairing machinery.",
+    "mechanic": "You gain a +2 bonus to all checks related to engineering and construction, such as designing buildings, erecting structures, and repairing machinery.",
+    "rules": "Archetype Trait (1 CP) — The Maker (Savant) / The Net-architect (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Maker (Savant) / The Net-architect (Savant).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Master Builder\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Maker (Savant) / The Net-architect (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Maker (Savant) / The Net-architect (Savant). You gain a +2 bonus to all checks related to engineering and construction, such as designing buildings, erecting structures, and repairing machinery.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to all checks related to engineering and construction, such as designing buildings, erecting structures, and repairing machinery.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Maker (Savant) / The Net-architect (Savant).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Maker (Savant) / The Net-architect (Savant)."
+    ]
+  },
+  {
+    "id": "trait-ace-pilot",
+    "name": "Ace Pilot",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Combat",
+    "type": "Combat",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Navigator (Savant). You gain a +2 bonus to Pilot checks and +2 bonus on any checks related to maneuvering the ship at high speeds, performing evasive maneuvers, or navigating through hazardous conditions.",
+    "description": "Signature trait of The Navigator (Savant). You gain a +2 bonus to Pilot checks and +2 bonus on any checks related to maneuvering the ship at high speeds, performing evasive maneuvers, or navigating through hazardous conditions.",
+    "mechanics": "You gain a +2 bonus to Pilot checks and +2 bonus on any checks related to maneuvering the ship at high speeds, performing evasive maneuvers, or navigating through hazardous conditions.",
+    "mechanic": "You gain a +2 bonus to Pilot checks and +2 bonus on any checks related to maneuvering the ship at high speeds, performing evasive maneuvers, or navigating through hazardous conditions.",
+    "rules": "Archetype Trait (1 CP) — The Navigator (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Navigator (Savant).",
+    "modifiers": [
+      {
+        "target": "Pilot",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Pilot"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Ace Pilot\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Navigator (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Navigator (Savant). You gain a +2 bonus to Pilot checks and +2 bonus on any checks related to maneuvering the ship at high speeds, performing evasive maneuvers, or navigating through hazardous conditions.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Pilot checks and +2 bonus on any checks related to maneuvering the ship at high speeds, performing evasive maneuvers, or navigating through hazardous conditions.",
+    "notes": "[Modifier] +2 to Pilot\n[Rule] Archetype Trait (1 CP) — The Navigator (Savant).",
+    "notesList": [
+      "[Modifier] +2 to Pilot",
+      "[Rule] Archetype Trait (1 CP) — The Navigator (Savant)."
+    ]
+  },
+  {
+    "id": "trait-automation-expert",
+    "name": "Automation Expert",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Technical",
+    "type": "Technical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Net-architect (Savant) / The Roboticist (Savant). You can program robots to perform complex tasks, gaining +2 bonus on any checks related to automating processes or controlling robotic systems.",
+    "description": "Signature trait of The Net-architect (Savant) / The Roboticist (Savant). You can program robots to perform complex tasks, gaining +2 bonus on any checks related to automating processes or controlling robotic systems.",
+    "mechanics": "You can program robots to perform complex tasks, gaining +2 bonus on any checks related to automating processes or controlling robotic systems.",
+    "mechanic": "You can program robots to perform complex tasks, gaining +2 bonus on any checks related to automating processes or controlling robotic systems.",
+    "rules": "Archetype Trait (1 CP) — The Net-architect (Savant) / The Roboticist (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Net-architect (Savant) / The Roboticist (Savant).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Automation Expert\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Net-architect (Savant) / The Roboticist (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Net-architect (Savant) / The Roboticist (Savant). You can program robots to perform complex tasks, gaining +2 bonus on any checks related to automating processes or controlling robotic systems.\n\n## Mechanics & Benefit\nYou can program robots to perform complex tasks, gaining +2 bonus on any checks related to automating processes or controlling robotic systems.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Net-architect (Savant) / The Roboticist (Savant).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Net-architect (Savant) / The Roboticist (Savant)."
+    ]
+  },
+  {
+    "id": "trait-planetary-savant",
+    "name": "Planetary Savant",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Planetologist (Savant) / The Xeno-surveyor (Savant). You gain a +2 bonus to Geology (Knowledge) checks related to planetary formations and any checks related to analyzing geological samples, identifying mineral deposits, or assessing the habitability of different environments.",
+    "description": "Signature trait of The Planetologist (Savant) / The Xeno-surveyor (Savant). You gain a +2 bonus to Geology (Knowledge) checks related to planetary formations and any checks related to analyzing geological samples, identifying mineral deposits, or assessing the habitability of different environments.",
+    "mechanics": "You gain a +2 bonus to Geology (Knowledge) checks related to planetary formations and any checks related to analyzing geological samples, identifying mineral deposits, or assessing the habitability of different environments.",
+    "mechanic": "You gain a +2 bonus to Geology (Knowledge) checks related to planetary formations and any checks related to analyzing geological samples, identifying mineral deposits, or assessing the habitability of different environments.",
+    "rules": "Archetype Trait (1 CP) — The Planetologist (Savant) / The Xeno-surveyor (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Planetologist (Savant) / The Xeno-surveyor (Savant).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Planetary Savant\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Planetologist (Savant) / The Xeno-surveyor (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Planetologist (Savant) / The Xeno-surveyor (Savant). You gain a +2 bonus to Geology (Knowledge) checks related to planetary formations and any checks related to analyzing geological samples, identifying mineral deposits, or assessing the habitability of different environments.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Geology (Knowledge) checks related to planetary formations and any checks related to analyzing geological samples, identifying mineral deposits, or assessing the habitability of different environments.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Planetologist (Savant) / The Xeno-surveyor (Savant).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Planetologist (Savant) / The Xeno-surveyor (Savant)."
+    ]
+  },
+  {
+    "id": "trait-field-researcher",
+    "name": "Field Researcher",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Planetologist (Savant). You have experience conducting field research in diverse planetary environments, gaining +2 bonus on any checks related to navigating treacherous terrain, identifying potential hazards, or adapting to extreme conditions.",
+    "description": "Signature trait of The Planetologist (Savant). You have experience conducting field research in diverse planetary environments, gaining +2 bonus on any checks related to navigating treacherous terrain, identifying potential hazards, or adapting to extreme conditions.",
+    "mechanics": "You have experience conducting field research in diverse planetary environments, gaining +2 bonus on any checks related to navigating treacherous terrain, identifying potential hazards, or adapting to extreme conditions.",
+    "mechanic": "You have experience conducting field research in diverse planetary environments, gaining +2 bonus on any checks related to navigating treacherous terrain, identifying potential hazards, or adapting to extreme conditions.",
+    "rules": "Archetype Trait (1 CP) — The Planetologist (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Planetologist (Savant).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Field Researcher\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Planetologist (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Planetologist (Savant). You have experience conducting field research in diverse planetary environments, gaining +2 bonus on any checks related to navigating treacherous terrain, identifying potential hazards, or adapting to extreme conditions.\n\n## Mechanics & Benefit\nYou have experience conducting field research in diverse planetary environments, gaining +2 bonus on any checks related to navigating treacherous terrain, identifying potential hazards, or adapting to extreme conditions.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Planetologist (Savant).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Planetologist (Savant)."
+    ]
+  },
+  {
+    "id": "trait-excavation-expert",
+    "name": "Excavation Expert",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Relic Hunter (Savant). You gain a +2 bonus to Investigation checks to locate and excavate ancient sites.",
+    "description": "Signature trait of The Relic Hunter (Savant). You gain a +2 bonus to Investigation checks to locate and excavate ancient sites.",
+    "mechanics": "You gain a +2 bonus to Investigation checks to locate and excavate ancient sites.",
+    "mechanic": "You gain a +2 bonus to Investigation checks to locate and excavate ancient sites.",
+    "rules": "Archetype Trait (1 CP) — The Relic Hunter (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Relic Hunter (Savant).",
+    "modifiers": [
+      {
+        "target": "Investigation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Investigation"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Excavation Expert\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Relic Hunter (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Relic Hunter (Savant). You gain a +2 bonus to Investigation checks to locate and excavate ancient sites.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Investigation checks to locate and excavate ancient sites.",
+    "notes": "[Modifier] +2 to Investigation\n[Rule] Archetype Trait (1 CP) — The Relic Hunter (Savant).",
+    "notesList": [
+      "[Modifier] +2 to Investigation",
+      "[Rule] Archetype Trait (1 CP) — The Relic Hunter (Savant)."
+    ]
+  },
+  {
+    "id": "trait-artifact-analyst",
+    "name": "Artifact Analyst",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Relic Hunter (Savant). You have a talent for identifying and interpreting ancient artifacts, gaining +2 bonus on any checks related to determining their age, origin, or cultural significance.",
+    "description": "Signature trait of The Relic Hunter (Savant). You have a talent for identifying and interpreting ancient artifacts, gaining +2 bonus on any checks related to determining their age, origin, or cultural significance.",
+    "mechanics": "You have a talent for identifying and interpreting ancient artifacts, gaining +2 bonus on any checks related to determining their age, origin, or cultural significance.",
+    "mechanic": "You have a talent for identifying and interpreting ancient artifacts, gaining +2 bonus on any checks related to determining their age, origin, or cultural significance.",
+    "rules": "Archetype Trait (1 CP) — The Relic Hunter (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Relic Hunter (Savant).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Artifact Analyst\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Relic Hunter (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Relic Hunter (Savant). You have a talent for identifying and interpreting ancient artifacts, gaining +2 bonus on any checks related to determining their age, origin, or cultural significance.\n\n## Mechanics & Benefit\nYou have a talent for identifying and interpreting ancient artifacts, gaining +2 bonus on any checks related to determining their age, origin, or cultural significance.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Relic Hunter (Savant).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Relic Hunter (Savant)."
+    ]
+  },
+  {
+    "id": "trait-robotic-affinity",
+    "name": "Robotic Affinity",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Technical",
+    "type": "Technical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Roboticist (Savant). You gain a +2 bonus to Technology checks when creating, repairing, or modifying robots and drones.",
+    "description": "Signature trait of The Roboticist (Savant). You gain a +2 bonus to Technology checks when creating, repairing, or modifying robots and drones.",
+    "mechanics": "You gain a +2 bonus to Technology checks when creating, repairing, or modifying robots and drones.",
+    "mechanic": "You gain a +2 bonus to Technology checks when creating, repairing, or modifying robots and drones.",
+    "rules": "Archetype Trait (1 CP) — The Roboticist (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Roboticist (Savant).",
+    "modifiers": [
+      {
+        "target": "Technology",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Technology"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Robotic Affinity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Roboticist (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Roboticist (Savant). You gain a +2 bonus to Technology checks when creating, repairing, or modifying robots and drones.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Technology checks when creating, repairing, or modifying robots and drones.",
+    "notes": "[Modifier] +2 to Technology\n[Rule] Archetype Trait (1 CP) — The Roboticist (Savant).",
+    "notesList": [
+      "[Modifier] +2 to Technology",
+      "[Rule] Archetype Trait (1 CP) — The Roboticist (Savant)."
+    ]
+  },
+  {
+    "id": "trait-enhanced-processing",
+    "name": "Enhanced Processing",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Strategist (Savant). You gain a +2 bonus to Investigation and Insight checks to analyze data or situations.",
+    "description": "Signature trait of The Strategist (Savant). You gain a +2 bonus to Investigation and Insight checks to analyze data or situations.",
+    "mechanics": "You gain a +2 bonus to Investigation and Insight checks to analyze data or situations.",
+    "mechanic": "You gain a +2 bonus to Investigation and Insight checks to analyze data or situations.",
+    "rules": "Archetype Trait (1 CP) — The Strategist (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Strategist (Savant).",
+    "modifiers": [
+      {
+        "target": "Investigation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Investigation"
+      },
+      {
+        "target": "Insight",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Insight"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Enhanced Processing\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Strategist (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Strategist (Savant). You gain a +2 bonus to Investigation and Insight checks to analyze data or situations.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Investigation and Insight checks to analyze data or situations.",
+    "notes": "[Modifier] +2 to Investigation\n[Modifier] +2 to Insight\n[Rule] Archetype Trait (1 CP) — The Strategist (Savant).",
+    "notesList": [
+      "[Modifier] +2 to Investigation",
+      "[Modifier] +2 to Insight",
+      "[Rule] Archetype Trait (1 CP) — The Strategist (Savant)."
+    ]
+  },
+  {
+    "id": "trait-logical-deduction",
+    "name": "Logical Deduction",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Strategist (Savant) / The Theoretician (Savant). Gain +2 bonus on any Knowledge checks.",
+    "description": "Signature trait of The Strategist (Savant) / The Theoretician (Savant). Gain +2 bonus on any Knowledge checks.",
+    "mechanics": "Gain +2 bonus on any Knowledge checks.",
+    "mechanic": "Gain +2 bonus on any Knowledge checks.",
+    "rules": "Archetype Trait (1 CP) — The Strategist (Savant) / The Theoretician (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Strategist (Savant) / The Theoretician (Savant).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Logical Deduction\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Strategist (Savant) / The Theoretician (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Strategist (Savant) / The Theoretician (Savant). Gain +2 bonus on any Knowledge checks.\n\n## Mechanics & Benefit\nGain +2 bonus on any Knowledge checks.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Strategist (Savant) / The Theoretician (Savant).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Strategist (Savant) / The Theoretician (Savant)."
+    ]
+  },
+  {
+    "id": "trait-battlefield-awareness",
+    "name": "Battlefield Awareness",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Combat",
+    "type": "Combat",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Tactician (Savant). You gain a +2 bonus to Tactics checks and +2 bonus on any checks related to assessing the battlefield, predicting enemy movements, or coordinating attacks.",
+    "description": "Signature trait of The Tactician (Savant). You gain a +2 bonus to Tactics checks and +2 bonus on any checks related to assessing the battlefield, predicting enemy movements, or coordinating attacks.",
+    "mechanics": "You gain a +2 bonus to Tactics checks and +2 bonus on any checks related to assessing the battlefield, predicting enemy movements, or coordinating attacks.",
+    "mechanic": "You gain a +2 bonus to Tactics checks and +2 bonus on any checks related to assessing the battlefield, predicting enemy movements, or coordinating attacks.",
+    "rules": "Archetype Trait (1 CP) — The Tactician (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Tactician (Savant).",
+    "modifiers": [
+      {
+        "target": "Tactics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Tactics"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Battlefield Awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Tactician (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Tactician (Savant). You gain a +2 bonus to Tactics checks and +2 bonus on any checks related to assessing the battlefield, predicting enemy movements, or coordinating attacks.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Tactics checks and +2 bonus on any checks related to assessing the battlefield, predicting enemy movements, or coordinating attacks.",
+    "notes": "[Modifier] +2 to Tactics\n[Rule] Archetype Trait (1 CP) — The Tactician (Savant).",
+    "notesList": [
+      "[Modifier] +2 to Tactics",
+      "[Rule] Archetype Trait (1 CP) — The Tactician (Savant)."
+    ]
+  },
+  {
+    "id": "trait-tactical-genius",
+    "name": "Tactical Genius",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Combat",
+    "type": "Combat",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Tactician (Savant). You gain a +2 bonus to Tactics checks to analyze situations, predict enemy actions, and formulate strategies.",
+    "description": "Signature trait of The Tactician (Savant). You gain a +2 bonus to Tactics checks to analyze situations, predict enemy actions, and formulate strategies.",
+    "mechanics": "You gain a +2 bonus to Tactics checks to analyze situations, predict enemy actions, and formulate strategies.",
+    "mechanic": "You gain a +2 bonus to Tactics checks to analyze situations, predict enemy actions, and formulate strategies.",
+    "rules": "Archetype Trait (1 CP) — The Tactician (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Tactician (Savant).",
+    "modifiers": [
+      {
+        "target": "Tactics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Tactics"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Tactical Genius\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Tactician (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Tactician (Savant). You gain a +2 bonus to Tactics checks to analyze situations, predict enemy actions, and formulate strategies.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Tactics checks to analyze situations, predict enemy actions, and formulate strategies.",
+    "notes": "[Modifier] +2 to Tactics\n[Rule] Archetype Trait (1 CP) — The Tactician (Savant).",
+    "notesList": [
+      "[Modifier] +2 to Tactics",
+      "[Rule] Archetype Trait (1 CP) — The Tactician (Savant)."
+    ]
+  },
+  {
+    "id": "trait-problem-solver",
+    "name": "Problem Solver",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Technician (Savant). You have a knack for diagnosing and fixing technical issues, gaining +2 bonus on any checks related to troubleshooting or identifying malfunctions.",
+    "description": "Signature trait of The Technician (Savant). You have a knack for diagnosing and fixing technical issues, gaining +2 bonus on any checks related to troubleshooting or identifying malfunctions.",
+    "mechanics": "You have a knack for diagnosing and fixing technical issues, gaining +2 bonus on any checks related to troubleshooting or identifying malfunctions.",
+    "mechanic": "You have a knack for diagnosing and fixing technical issues, gaining +2 bonus on any checks related to troubleshooting or identifying malfunctions.",
+    "rules": "Archetype Trait (1 CP) — The Technician (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Technician (Savant).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Problem Solver\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Technician (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Technician (Savant). You have a knack for diagnosing and fixing technical issues, gaining +2 bonus on any checks related to troubleshooting or identifying malfunctions.\n\n## Mechanics & Benefit\nYou have a knack for diagnosing and fixing technical issues, gaining +2 bonus on any checks related to troubleshooting or identifying malfunctions.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Technician (Savant).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Technician (Savant)."
+    ]
+  },
+  {
+    "id": "trait-innovative-thinking",
+    "name": "Innovative Thinking",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Theoretician (Savant). You gain a +2 bonus to Academics checks when developing new theories or hypotheses.",
+    "description": "Signature trait of The Theoretician (Savant). You gain a +2 bonus to Academics checks when developing new theories or hypotheses.",
+    "mechanics": "You gain a +2 bonus to Academics checks when developing new theories or hypotheses.",
+    "mechanic": "You gain a +2 bonus to Academics checks when developing new theories or hypotheses.",
+    "rules": "Archetype Trait (1 CP) — The Theoretician (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Theoretician (Savant).",
+    "modifiers": [
+      {
+        "target": "Academics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Academics"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Innovative Thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Theoretician (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Theoretician (Savant). You gain a +2 bonus to Academics checks when developing new theories or hypotheses.\n\n## Mechanics & Benefit\nYou gain a +2 bonus to Academics checks when developing new theories or hypotheses.",
+    "notes": "[Modifier] +2 to Academics\n[Rule] Archetype Trait (1 CP) — The Theoretician (Savant).",
+    "notesList": [
+      "[Modifier] +2 to Academics",
+      "[Rule] Archetype Trait (1 CP) — The Theoretician (Savant)."
+    ]
+  },
+  {
+    "id": "trait-cultural-sensitivity",
+    "name": "Cultural Sensitivity",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Social",
+    "type": "Social",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Xenologist (Savant). You have a deep understanding of different cultures and customs, gaining a +2 bonus to Diplomacy checks when interacting with foreign dignitaries or negotiating trade agreements.",
+    "description": "Signature trait of The Xenologist (Savant). You have a deep understanding of different cultures and customs, gaining a +2 bonus to Diplomacy checks when interacting with foreign dignitaries or negotiating trade agreements.",
+    "mechanics": "You have a deep understanding of different cultures and customs, gaining a +2 bonus to Diplomacy checks when interacting with foreign dignitaries or negotiating trade agreements.",
+    "mechanic": "You have a deep understanding of different cultures and customs, gaining a +2 bonus to Diplomacy checks when interacting with foreign dignitaries or negotiating trade agreements.",
+    "rules": "Archetype Trait (1 CP) — The Xenologist (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Xenologist (Savant).",
+    "modifiers": [
+      {
+        "target": "Diplomacy",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Diplomacy"
+      }
+    ],
+    "package_traits": [],
+    "body": "# Cultural Sensitivity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Xenologist (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Xenologist (Savant). You have a deep understanding of different cultures and customs, gaining a +2 bonus to Diplomacy checks when interacting with foreign dignitaries or negotiating trade agreements.\n\n## Mechanics & Benefit\nYou have a deep understanding of different cultures and customs, gaining a +2 bonus to Diplomacy checks when interacting with foreign dignitaries or negotiating trade agreements.",
+    "notes": "[Modifier] +2 to Diplomacy\n[Rule] Archetype Trait (1 CP) — The Xenologist (Savant).",
+    "notesList": [
+      "[Modifier] +2 to Diplomacy",
+      "[Rule] Archetype Trait (1 CP) — The Xenologist (Savant)."
+    ]
+  },
+  {
+    "id": "trait-xeno-linguist",
+    "name": "Xeno-Linguist",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Signature trait of The Xenologist (Savant). You gain +2 bonus on any checks related to deciphering alien languages, interpreting their communication signals, or establishing diplomatic relations.",
+    "description": "Signature trait of The Xenologist (Savant). You gain +2 bonus on any checks related to deciphering alien languages, interpreting their communication signals, or establishing diplomatic relations.",
+    "mechanics": "You gain +2 bonus on any checks related to deciphering alien languages, interpreting their communication signals, or establishing diplomatic relations.",
+    "mechanic": "You gain +2 bonus on any checks related to deciphering alien languages, interpreting their communication signals, or establishing diplomatic relations.",
+    "rules": "Archetype Trait (1 CP) — The Xenologist (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Xenologist (Savant).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Xeno-Linguist\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Xenologist (Savant))\n**CP Cost**: 1\n\n## Description\nSignature trait of The Xenologist (Savant). You gain +2 bonus on any checks related to deciphering alien languages, interpreting their communication signals, or establishing diplomatic relations.\n\n## Mechanics & Benefit\nYou gain +2 bonus on any checks related to deciphering alien languages, interpreting their communication signals, or establishing diplomatic relations.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Xenologist (Savant).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Xenologist (Savant)."
+    ]
+  },
+  {
+    "id": "trait-arcane-weaving",
+    "name": "Arcane Weaving",
+    "category": "traits",
+    "trait_type": "Archetype Trait",
+    "trait_tier": "Basic",
+    "classification": "Metaphysical",
+    "type": "Metaphysical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Tracing geometric runes to warp the range, area, or elemental nature of an invocation.",
+    "description": "Tracing geometric runes to warp the range, area, or elemental nature of an invocation.",
+    "mechanics": "Passive (Requires Awakened): When casting a metaphysical Invocation, you may take a -2 penalty to your Attune roll to double its range, expand its area of effect by 5 meters, or alter its energy damage type.",
+    "mechanic": "Passive (Requires Awakened): When casting a metaphysical Invocation, you may take a -2 penalty to your Attune roll to double its range, expand its area of effect by 5 meters, or alter its energy damage type.",
+    "rules": "Archetype Trait (1 CP) — The Magus (Savant).",
+    "special_rules": "Archetype Trait (1 CP) — The Magus (Savant).",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Arcane Weaving\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Archetype Trait (The Magus (Savant))\n**CP Cost**: 1\n\n## Description\nTracing geometric runes to warp the range, area, or elemental nature of an invocation.\n\n## Mechanics & Benefit\nPassive (Requires Awakened): When casting a metaphysical Invocation, you may take a -2 penalty to your Attune roll to double its range, expand its area of effect by 5 meters, or alter its energy damage type.",
+    "notes": "[Rule] Archetype Trait (1 CP) — The Magus (Savant).",
+    "notesList": [
+      "[Rule] Archetype Trait (1 CP) — The Magus (Savant)."
     ]
   }
 ];
 
-// DEFAULT_SPECIES_TRAITS contains all traits to ensure 100% resolution across species, origins, and occupations
-export const DEFAULT_SPECIES_TRAITS = ALL_CANONICAL_TRAITS;
+export const SIGNATURE_TRAITS = ARCHETYPE_TRAITS;
+
+export const FACTION_TRAITS = [
+  {
+    "id": "trait-penal-recruit-ranger",
+    "name": "Penal Recruit (Ranger)",
+    "category": "traits",
+    "trait_type": "Faction Trait",
+    "trait_tier": "Basic",
+    "classification": "Social",
+    "type": "Social",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Hardened service in the Coalition Colonial Rangers penal legions under neural compliance shunts.",
+    "description": "Hardened service in the Coalition Colonial Rangers penal legions under neural compliance shunts.",
+    "mechanics": "Gain Advantage on Willpower saves against Fear effects; suffer Disadvantage on Social checks against Coalition Authority.",
+    "mechanic": "Gain Advantage on Willpower saves against Fear effects; suffer Disadvantage on Social checks against Coalition Authority.",
+    "rules": "Faction Trait (1 CP) — Coalition of Independent Worlds.",
+    "special_rules": "Faction Trait (1 CP) — Coalition of Independent Worlds.",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Penal Recruit (Ranger)\n\n**Category**: TRAITS\n**Type**: Faction Trait (Coalition of Independent Worlds)\n**CP Cost**: 1\n\n## Description\nHardened service in the Coalition Colonial Rangers penal legions under neural compliance shunts.\n\n## Mechanics & Benefit\nGain Advantage on Willpower saves against Fear effects; suffer Disadvantage on Social checks against Coalition Authority.",
+    "notes": "[Rule] Faction Trait (1 CP).",
+    "notesList": [
+      "[Rule] Faction Trait (1 CP)."
+    ]
+  },
+  {
+    "id": "trait-federal-authority-marshal",
+    "name": "Federal Authority (Marshal)",
+    "category": "traits",
+    "trait_type": "Faction Trait",
+    "trait_tier": "Basic",
+    "classification": "Social",
+    "type": "Social",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Sworn jurisdiction as a wandering Coalition Federal Marshal upholding the Code of Harm.",
+    "description": "Sworn jurisdiction as a wandering Coalition Federal Marshal upholding the Code of Harm.",
+    "mechanics": "Grants Supreme Jurisdiction in frontier territories to commandeer civilian vehicles, access restricted crime scenes, and invoke federal law using Status or Intimidate.",
+    "mechanic": "Grants Supreme Jurisdiction in frontier territories to commandeer civilian vehicles, access restricted crime scenes, and invoke federal law using Status or Intimidate.",
+    "rules": "Faction Trait (1 CP) — Coalition of Independent Worlds.",
+    "special_rules": "Faction Trait (1 CP) — Coalition of Independent Worlds.",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Federal Authority (Marshal)\n\n**Category**: TRAITS\n**Type**: Faction Trait (Coalition of Independent Worlds)\n**CP Cost**: 1\n\n## Description\nSworn jurisdiction as a wandering Coalition Federal Marshal upholding the Code of Harm.\n\n## Mechanics & Benefit\nGrants Supreme Jurisdiction in frontier territories to commandeer civilian vehicles, access restricted crime scenes, and invoke federal law using Status or Intimidate.",
+    "notes": "[Rule] Faction Trait (1 CP).",
+    "notesList": [
+      "[Rule] Faction Trait (1 CP)."
+    ]
+  },
+  {
+    "id": "trait-independent-grit",
+    "name": "Independent Grit",
+    "category": "traits",
+    "trait_type": "Faction Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Stubborn frontier resilience forged across hostile colony worlds.",
+    "description": "Stubborn frontier resilience forged across hostile colony worlds.",
+    "mechanics": "+2 bonus on Survival and Fortitude checks made to endure harsh planetary environments or supply deprivation.",
+    "mechanic": "+2 bonus on Survival and Fortitude checks made to endure harsh planetary environments or supply deprivation.",
+    "rules": "Faction Trait (1 CP) — Coalition of Independent Worlds.",
+    "special_rules": "Faction Trait (1 CP) — Coalition of Independent Worlds.",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Independent Grit\n\n**Category**: TRAITS\n**Type**: Faction Trait (Coalition of Independent Worlds)\n**CP Cost**: 1\n\n## Description\nStubborn frontier resilience forged across hostile colony worlds.\n\n## Mechanics & Benefit\n+2 bonus on Survival and Fortitude checks made to endure harsh planetary environments or supply deprivation.",
+    "notes": "[Rule] Faction Trait (1 CP).",
+    "notesList": [
+      "[Rule] Faction Trait (1 CP)."
+    ]
+  },
+  {
+    "id": "trait-zero-g-veteran",
+    "name": "Zero-G Veteran",
+    "category": "traits",
+    "trait_type": "Faction Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Lifelong adaptation to orbital habitats, bioships, and microgravity maneuvers.",
+    "description": "Lifelong adaptation to orbital habitats, bioships, and microgravity maneuvers.",
+    "mechanics": "Ignore movement and combat penalties in zero-gravity environments and gain +2 on Acrobatics checks in microgravity.",
+    "mechanic": "Ignore movement and combat penalties in zero-gravity environments and gain +2 on Acrobatics checks in microgravity.",
+    "rules": "Faction Trait (1 CP) — Auluran Clans.",
+    "special_rules": "Faction Trait (1 CP) — Auluran Clans.",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Zero-G Veteran\n\n**Category**: TRAITS\n**Type**: Faction Trait (Auluran Clans)\n**CP Cost**: 1\n\n## Description\nLifelong adaptation to orbital habitats, bioships, and microgravity maneuvers.\n\n## Mechanics & Benefit\nIgnore movement and combat penalties in zero-gravity environments and gain +2 on Acrobatics checks in microgravity.",
+    "notes": "[Rule] Faction Trait (1 CP).",
+    "notesList": [
+      "[Rule] Faction Trait (1 CP)."
+    ]
+  },
+  {
+    "id": "trait-bio-crafting-intuition",
+    "name": "Bio-Crafting Intuition",
+    "category": "traits",
+    "trait_type": "Faction Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Innate familiarity with Auluran organic technology, genetic looms, and living vessels.",
+    "description": "Innate familiarity with Auluran organic technology, genetic looms, and living vessels.",
+    "mechanics": "+2 bonus on Biotechnology, Medicine, and Crafting checks involving organic or bio-engineered equipment.",
+    "mechanic": "+2 bonus on Biotechnology, Medicine, and Crafting checks involving organic or bio-engineered equipment.",
+    "rules": "Faction Trait (1 CP) — Auluran Clans.",
+    "special_rules": "Faction Trait (1 CP) — Auluran Clans.",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Bio-Crafting Intuition\n\n**Category**: TRAITS\n**Type**: Faction Trait (Auluran Clans)\n**CP Cost**: 1\n\n## Description\nInnate familiarity with Auluran organic technology, genetic looms, and living vessels.\n\n## Mechanics & Benefit\n+2 bonus on Biotechnology, Medicine, and Crafting checks involving organic or bio-engineered equipment.",
+    "notes": "[Rule] Faction Trait (1 CP).",
+    "notesList": [
+      "[Rule] Faction Trait (1 CP)."
+    ]
+  },
+  {
+    "id": "trait-imperial-discipline",
+    "name": "Imperial Discipline",
+    "category": "traits",
+    "trait_type": "Faction Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Doctrinal conditioning in the rigid hierarchy and martial order of the Impyrium.",
+    "description": "Doctrinal conditioning in the rigid hierarchy and martial order of the Impyrium.",
+    "mechanics": "+2 bonus on Willpower saves against coercion, morale break, and battlefield panic.",
+    "mechanic": "+2 bonus on Willpower saves against coercion, morale break, and battlefield panic.",
+    "rules": "Faction Trait (1 CP) — Impyrium Dominion.",
+    "special_rules": "Faction Trait (1 CP) — Impyrium Dominion.",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Imperial Discipline\n\n**Category**: TRAITS\n**Type**: Faction Trait (Impyrium Dominion)\n**CP Cost**: 1\n\n## Description\nDoctrinal conditioning in the rigid hierarchy and martial order of the Impyrium.\n\n## Mechanics & Benefit\n+2 bonus on Willpower saves against coercion, morale break, and battlefield panic.",
+    "notes": "[Rule] Faction Trait (1 CP).",
+    "notesList": [
+      "[Rule] Faction Trait (1 CP)."
+    ]
+  },
+  {
+    "id": "trait-shadowmeld",
+    "name": "Shadowmeld",
+    "category": "traits",
+    "trait_type": "Faction Trait",
+    "trait_tier": "Basic",
+    "classification": "Combat",
+    "type": "Combat",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Nocturne operative training in umbral stealth and covert tribunal reconnaissance.",
+    "description": "Nocturne operative training in umbral stealth and covert tribunal reconnaissance.",
+    "mechanics": "+2 bonus on Stealth checks in dim light or darkness; may attempt to hide while observed in shadowy terrain.",
+    "mechanic": "+2 bonus on Stealth checks in dim light or darkness; may attempt to hide while observed in shadowy terrain.",
+    "rules": "Faction Trait (1 CP) — Kovian Tribunal.",
+    "special_rules": "Faction Trait (1 CP) — Kovian Tribunal.",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Shadowmeld\n\n**Category**: TRAITS\n**Type**: Faction Trait (Kovian Tribunal)\n**CP Cost**: 1\n\n## Description\nNocturne operative training in umbral stealth and covert tribunal reconnaissance.\n\n## Mechanics & Benefit\n+2 bonus on Stealth checks in dim light or darkness; may attempt to hide while observed in shadowy terrain.",
+    "notes": "[Rule] Faction Trait (1 CP).",
+    "notesList": [
+      "[Rule] Faction Trait (1 CP)."
+    ]
+  },
+  {
+    "id": "trait-incorruptible-will",
+    "name": "Incorruptible Will",
+    "category": "traits",
+    "trait_type": "Faction Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Mental fortification against bribery, psychic subversion, and ideological corruption.",
+    "description": "Mental fortification against bribery, psychic subversion, and ideological corruption.",
+    "mechanics": "+2 bonus on Willpower and Insight checks to detect deception or resist mental compulsion.",
+    "mechanic": "+2 bonus on Willpower and Insight checks to detect deception or resist mental compulsion.",
+    "rules": "Faction Trait (1 CP) — Kovian Tribunal.",
+    "special_rules": "Faction Trait (1 CP) — Kovian Tribunal.",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Incorruptible Will\n\n**Category**: TRAITS\n**Type**: Faction Trait (Kovian Tribunal)\n**CP Cost**: 1\n\n## Description\nMental fortification against bribery, psychic subversion, and ideological corruption.\n\n## Mechanics & Benefit\n+2 bonus on Willpower and Insight checks to detect deception or resist mental compulsion.",
+    "notes": "[Rule] Faction Trait (1 CP).",
+    "notesList": [
+      "[Rule] Faction Trait (1 CP)."
+    ]
+  },
+  {
+    "id": "trait-solar-aura",
+    "name": "Solar Aura",
+    "category": "traits",
+    "trait_type": "Faction Trait",
+    "trait_tier": "Basic",
+    "classification": "Metaphysical",
+    "type": "Metaphysical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Luminous civic and metaphysical presence associated with the Enlightened Age of the Radiant Impyrium.",
+    "description": "Luminous civic and metaphysical presence associated with the Enlightened Age of the Radiant Impyrium.",
+    "mechanics": "+2 bonus on Diplomacy and Leadership checks among Imperial citizens and +2 resistance against shadow or fear effects.",
+    "mechanic": "+2 bonus on Diplomacy and Leadership checks among Imperial citizens and +2 resistance against shadow or fear effects.",
+    "rules": "Faction Trait (1 CP) — Radiant Impyrium.",
+    "special_rules": "Faction Trait (1 CP) — Radiant Impyrium.",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Solar Aura\n\n**Category**: TRAITS\n**Type**: Faction Trait (Radiant Impyrium)\n**CP Cost**: 1\n\n## Description\nLuminous civic and metaphysical presence associated with the Enlightened Age of the Radiant Impyrium.\n\n## Mechanics & Benefit\n+2 bonus on Diplomacy and Leadership checks among Imperial citizens and +2 resistance against shadow or fear effects.",
+    "notes": "[Rule] Faction Trait (1 CP).",
+    "notesList": [
+      "[Rule] Faction Trait (1 CP)."
+    ]
+  },
+  {
+    "id": "trait-high-imperial-status",
+    "name": "High Imperial Status",
+    "category": "traits",
+    "trait_type": "Faction Trait",
+    "trait_tier": "Basic",
+    "classification": "Social",
+    "type": "Social",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Recognized noble or administrative standing within the Radiant Impyrium.",
+    "description": "Recognized noble or administrative standing within the Radiant Impyrium.",
+    "mechanics": "+2 bonus on Etiquette and Status checks within Imperial territories and diplomatic courts.",
+    "mechanic": "+2 bonus on Etiquette and Status checks within Imperial territories and diplomatic courts.",
+    "rules": "Faction Trait (1 CP) — Radiant Impyrium.",
+    "special_rules": "Faction Trait (1 CP) — Radiant Impyrium.",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# High Imperial Status\n\n**Category**: TRAITS\n**Type**: Faction Trait (Radiant Impyrium)\n**CP Cost**: 1\n\n## Description\nRecognized noble or administrative standing within the Radiant Impyrium.\n\n## Mechanics & Benefit\n+2 bonus on Etiquette and Status checks within Imperial territories and diplomatic courts.",
+    "notes": "[Rule] Faction Trait (1 CP).",
+    "notesList": [
+      "[Rule] Faction Trait (1 CP)."
+    ]
+  },
+  {
+    "id": "trait-awakened-mind",
+    "name": "Awakened Mind",
+    "category": "traits",
+    "trait_type": "Faction Trait",
+    "trait_tier": "Basic",
+    "classification": "Metaphysical",
+    "type": "Metaphysical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Psionic technocratic conditioning common among Ascendancy citizens.",
+    "description": "Psionic technocratic conditioning common among Ascendancy citizens.",
+    "mechanics": "+2 bonus on Attune and Metaphysics Knowledge checks when interfacing with psionic resonators.",
+    "mechanic": "+2 bonus on Attune and Metaphysics Knowledge checks when interfacing with psionic resonators.",
+    "rules": "Faction Trait (1 CP) — The Ascendancy.",
+    "special_rules": "Faction Trait (1 CP) — The Ascendancy.",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Awakened Mind\n\n**Category**: TRAITS\n**Type**: Faction Trait (The Ascendancy)\n**CP Cost**: 1\n\n## Description\nPsionic technocratic conditioning common among Ascendancy citizens.\n\n## Mechanics & Benefit\n+2 bonus on Attune and Metaphysics Knowledge checks when interfacing with psionic resonators.",
+    "notes": "[Rule] Faction Trait (1 CP).",
+    "notesList": [
+      "[Rule] Faction Trait (1 CP)."
+    ]
+  },
+  {
+    "id": "trait-deep-attunement",
+    "name": "Deep Attunement",
+    "category": "traits",
+    "trait_type": "Faction Trait",
+    "trait_tier": "Basic",
+    "classification": "Metaphysical",
+    "type": "Metaphysical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Harmonized meditative focus developed in Ascendancy spires.",
+    "description": "Harmonized meditative focus developed in Ascendancy spires.",
+    "mechanics": "Recover +1 additional Focus during a Light Rest and gain +1 on Concentration checks.",
+    "mechanic": "Recover +1 additional Focus during a Light Rest and gain +1 on Concentration checks.",
+    "rules": "Faction Trait (1 CP) — The Ascendancy.",
+    "special_rules": "Faction Trait (1 CP) — The Ascendancy.",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Deep Attunement\n\n**Category**: TRAITS\n**Type**: Faction Trait (The Ascendancy)\n**CP Cost**: 1\n\n## Description\nHarmonized meditative focus developed in Ascendancy spires.\n\n## Mechanics & Benefit\nRecover +1 additional Focus during a Light Rest and gain +1 on Concentration checks.",
+    "notes": "[Rule] Faction Trait (1 CP).",
+    "notesList": [
+      "[Rule] Faction Trait (1 CP)."
+    ]
+  },
+  {
+    "id": "trait-industrial-connections",
+    "name": "Industrial Connections",
+    "category": "traits",
+    "trait_type": "Faction Trait",
+    "trait_tier": "Basic",
+    "classification": "Social",
+    "type": "Social",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Direct guild ties to Entari deep-core mining reserves and heavy forge houses.",
+    "description": "Direct guild ties to Entari deep-core mining reserves and heavy forge houses.",
+    "mechanics": "+2 bonus on Procurement and Vocation checks when acquiring raw materials, heavy armor, or industrial machinery.",
+    "mechanic": "+2 bonus on Procurement and Vocation checks when acquiring raw materials, heavy armor, or industrial machinery.",
+    "rules": "Faction Trait (1 CP) — The Entari Combine.",
+    "special_rules": "Faction Trait (1 CP) — The Entari Combine.",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Industrial Connections\n\n**Category**: TRAITS\n**Type**: Faction Trait (The Entari Combine)\n**CP Cost**: 1\n\n## Description\nDirect guild ties to Entari deep-core mining reserves and heavy forge houses.\n\n## Mechanics & Benefit\n+2 bonus on Procurement and Vocation checks when acquiring raw materials, heavy armor, or industrial machinery.",
+    "notes": "[Rule] Faction Trait (1 CP).",
+    "notesList": [
+      "[Rule] Faction Trait (1 CP)."
+    ]
+  },
+  {
+    "id": "trait-deep-diver",
+    "name": "Deep Diver",
+    "category": "traits",
+    "trait_type": "Faction Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Acclimation to high-pressure subterranean depths, gravity wells, and deep-core operations.",
+    "description": "Acclimation to high-pressure subterranean depths, gravity wells, and deep-core operations.",
+    "mechanics": "+2 bonus on Athletics and Fortitude checks in high-gravity or high-pressure subterranean environments.",
+    "mechanic": "+2 bonus on Athletics and Fortitude checks in high-gravity or high-pressure subterranean environments.",
+    "rules": "Faction Trait (1 CP) — The Entari Combine.",
+    "special_rules": "Faction Trait (1 CP) — The Entari Combine.",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Deep Diver\n\n**Category**: TRAITS\n**Type**: Faction Trait (The Entari Combine)\n**CP Cost**: 1\n\n## Description\nAcclimation to high-pressure subterranean depths, gravity wells, and deep-core operations.\n\n## Mechanics & Benefit\n+2 bonus on Athletics and Fortitude checks in high-gravity or high-pressure subterranean environments.",
+    "notes": "[Rule] Faction Trait (1 CP).",
+    "notesList": [
+      "[Rule] Faction Trait (1 CP)."
+    ]
+  },
+  {
+    "id": "trait-machine-logic",
+    "name": "Machine Logic",
+    "category": "traits",
+    "trait_type": "Faction Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Algorithmic decision-making aligned with the Mekan Assembly consensus.",
+    "description": "Algorithmic decision-making aligned with the Mekan Assembly consensus.",
+    "mechanics": "+2 bonus on Logic and Computer checks; -1 penalty on emotional Empathy checks.",
+    "mechanic": "+2 bonus on Logic and Computer checks; -1 penalty on emotional Empathy checks.",
+    "rules": "Faction Trait (1 CP) — The Mekan Collective.",
+    "special_rules": "Faction Trait (1 CP) — The Mekan Collective.",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Machine Logic\n\n**Category**: TRAITS\n**Type**: Faction Trait (The Mekan Collective)\n**CP Cost**: 1\n\n## Description\nAlgorithmic decision-making aligned with the Mekan Assembly consensus.\n\n## Mechanics & Benefit\n+2 bonus on Logic and Computer checks; -1 penalty on emotional Empathy checks.",
+    "notes": "[Rule] Faction Trait (1 CP).",
+    "notesList": [
+      "[Rule] Faction Trait (1 CP)."
+    ]
+  },
+  {
+    "id": "trait-reinforced-chassis",
+    "name": "Reinforced Chassis",
+    "category": "traits",
+    "trait_type": "Faction Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Industrial-grade structural reinforcement granted by Mekan fabrication yards.",
+    "description": "Industrial-grade structural reinforcement granted by Mekan fabrication yards.",
+    "mechanics": "+1 inherent Armor DR against kinetic impacts and +2 on checks to resist forced movement.",
+    "mechanic": "+1 inherent Armor DR against kinetic impacts and +2 on checks to resist forced movement.",
+    "rules": "Faction Trait (1 CP) — The Mekan Collective.",
+    "special_rules": "Faction Trait (1 CP) — The Mekan Collective.",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Reinforced Chassis\n\n**Category**: TRAITS\n**Type**: Faction Trait (The Mekan Collective)\n**CP Cost**: 1\n\n## Description\nIndustrial-grade structural reinforcement granted by Mekan fabrication yards.\n\n## Mechanics & Benefit\n+1 inherent Armor DR against kinetic impacts and +2 on checks to resist forced movement.",
+    "notes": "[Rule] Faction Trait (1 CP).",
+    "notesList": [
+      "[Rule] Faction Trait (1 CP)."
+    ]
+  },
+  {
+    "id": "trait-scavenger-instinct",
+    "name": "Scavenger Instinct",
+    "category": "traits",
+    "trait_type": "Faction Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Uncanny eye for salvaging functional components from derelicts and frontier ruins.",
+    "description": "Uncanny eye for salvaging functional components from derelicts and frontier ruins.",
+    "mechanics": "+2 bonus on Investigation and Mechanics checks when salvaging, jury-rigging, or appraising scrap tech.",
+    "mechanic": "+2 bonus on Investigation and Mechanics checks when salvaging, jury-rigging, or appraising scrap tech.",
+    "rules": "Faction Trait (1 CP) — The Outworlds.",
+    "special_rules": "Faction Trait (1 CP) — The Outworlds.",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Scavenger Instinct\n\n**Category**: TRAITS\n**Type**: Faction Trait (The Outworlds)\n**CP Cost**: 1\n\n## Description\nUncanny eye for salvaging functional components from derelicts and frontier ruins.\n\n## Mechanics & Benefit\n+2 bonus on Investigation and Mechanics checks when salvaging, jury-rigging, or appraising scrap tech.",
+    "notes": "[Rule] Faction Trait (1 CP).",
+    "notesList": [
+      "[Rule] Faction Trait (1 CP)."
+    ]
+  },
+  {
+    "id": "trait-rugged-survival",
+    "name": "Rugged Survival",
+    "category": "traits",
+    "trait_type": "Faction Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Self-reliant bushcraft honed beyond the reach of core-world supply lines.",
+    "description": "Self-reliant bushcraft honed beyond the reach of core-world supply lines.",
+    "mechanics": "+2 bonus on Survival checks to forage, track, and maintain shelter in untamed sectors.",
+    "mechanic": "+2 bonus on Survival checks to forage, track, and maintain shelter in untamed sectors.",
+    "rules": "Faction Trait (1 CP) — The Outworlds.",
+    "special_rules": "Faction Trait (1 CP) — The Outworlds.",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Rugged Survival\n\n**Category**: TRAITS\n**Type**: Faction Trait (The Outworlds)\n**CP Cost**: 1\n\n## Description\nSelf-reliant bushcraft honed beyond the reach of core-world supply lines.\n\n## Mechanics & Benefit\n+2 bonus on Survival checks to forage, track, and maintain shelter in untamed sectors.",
+    "notes": "[Rule] Faction Trait (1 CP).",
+    "notesList": [
+      "[Rule] Faction Trait (1 CP)."
+    ]
+  },
+  {
+    "id": "trait-primal-resilience",
+    "name": "Primal Resilience",
+    "category": "traits",
+    "trait_type": "Faction Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Wilder vitality attuned to untamed ecosystems and ancestral hunting grounds.",
+    "description": "Wilder vitality attuned to untamed ecosystems and ancestral hunting grounds.",
+    "mechanics": "+2 bonus on Fortitude saves against natural toxins, venoms, and environmental exposure.",
+    "mechanic": "+2 bonus on Fortitude saves against natural toxins, venoms, and environmental exposure.",
+    "rules": "Faction Trait (1 CP) — Vajar Tribes.",
+    "special_rules": "Faction Trait (1 CP) — Vajar Tribes.",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Primal Resilience\n\n**Category**: TRAITS\n**Type**: Faction Trait (Vajar Tribes)\n**CP Cost**: 1\n\n## Description\nWilder vitality attuned to untamed ecosystems and ancestral hunting grounds.\n\n## Mechanics & Benefit\n+2 bonus on Fortitude saves against natural toxins, venoms, and environmental exposure.",
+    "notes": "[Rule] Faction Trait (1 CP).",
+    "notesList": [
+      "[Rule] Faction Trait (1 CP)."
+    ]
+  },
+  {
+    "id": "trait-beast-hunter",
+    "name": "Beast Hunter",
+    "category": "traits",
+    "trait_type": "Faction Trait",
+    "trait_tier": "Basic",
+    "classification": "Combat",
+    "type": "Combat",
+    "cp": 1,
+    "bp": 1,
+    "costs": {
+      "cp": 1,
+      "bp": 1
+    },
+    "is_ranked": false,
+    "desc": "Traditional Vajar stalking tactics against megafauna and apex predators.",
+    "description": "Traditional Vajar stalking tactics against megafauna and apex predators.",
+    "mechanics": "+2 bonus on Tracking and Knowledge (Nature) checks; +1 damage against Beast-type creatures.",
+    "mechanic": "+2 bonus on Tracking and Knowledge (Nature) checks; +1 damage against Beast-type creatures.",
+    "rules": "Faction Trait (1 CP) — Vajar Tribes.",
+    "special_rules": "Faction Trait (1 CP) — Vajar Tribes.",
+    "modifiers": [],
+    "package_traits": [],
+    "body": "# Beast Hunter\n\n**Category**: TRAITS\n**Type**: Faction Trait (Vajar Tribes)\n**CP Cost**: 1\n\n## Description\nTraditional Vajar stalking tactics against megafauna and apex predators.\n\n## Mechanics & Benefit\n+2 bonus on Tracking and Knowledge (Nature) checks; +1 damage against Beast-type creatures.",
+    "notes": "[Rule] Faction Trait (1 CP).",
+    "notesList": [
+      "[Rule] Faction Trait (1 CP)."
+    ]
+  }
+];
+
+// Species Traits branch dataset (under Species in Cortex)
+export const ALL_SPECIES_TRAITS = [
+  ...SPECIES_TRAITS_BASIC,
+  ...SPECIES_TRAITS_ADVANCED,
+  ...SPECIES_TRAITS_ELITE
+];
+
+// Consolidated Traits tab dataset (Origins, Careers/Occupations, Archetypes, Factions)
+export const ALL_PILLAR_TRAITS = [
+  ...ORIGIN_TRAITS,
+  ...OCCUPATIONAL_TRAITS,
+  ...ARCHETYPE_TRAITS,
+  ...FACTION_TRAITS
+];
+
+// Complete combined traits lookup for Folio and cross-pillar resolution
+export const ALL_CANONICAL_TRAITS = [
+  ...ALL_SPECIES_TRAITS,
+  ...ALL_PILLAR_TRAITS
+];
+
+export const DEFAULT_SPECIES_TRAITS = ALL_SPECIES_TRAITS;
 
 export const getTraitById = (id) => ALL_CANONICAL_TRAITS.find(t => t.id === id);
 
@@ -26510,12 +19505,12 @@ export const getTraitById = (id) => ALL_CANONICAL_TRAITS.find(t => t.id === id);
 export const getEnrichedTraitData = (trait) => {
   if (!trait) return null;
   const rawId = (trait.id || '').toString().trim();
-  const cleanId = rawId.replace(/^trait-/i, '').toLowerCase();
+  const cleanId = rawId.replace(/^trait-(?:sig-)?/i, '').toLowerCase();
   const rawName = (trait.name || trait.title || '').toString().trim().toLowerCase();
 
   const canonical = ALL_CANONICAL_TRAITS.find(t => {
     const tId = (t.id || '').toString().trim().toLowerCase();
-    const tCleanId = tId.replace(/^trait-/i, '');
+    const tCleanId = tId.replace(/^trait-(?:sig-)?/i, '');
     const tName = (t.name || t.title || '').toString().trim().toLowerCase();
     return (rawId && tId === rawId.toLowerCase()) ||
            (cleanId && tCleanId === cleanId) ||
@@ -26524,7 +19519,8 @@ export const getEnrichedTraitData = (trait) => {
 
   const name = trait.name || trait.title || canonical?.name || canonical?.title || 'Trait';
   const id = trait.id || canonical?.id || `trait-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
-  const trait_type = trait.trait_type || canonical?.trait_type || trait.sourceDetail || 'Species Trait';
+  const rawTraitType = trait.trait_type || canonical?.trait_type || trait.sourceDetail || 'Species Trait';
+  const trait_type = rawTraitType === 'Signature Trait' ? 'Archetype Trait' : rawTraitType;
   const trait_tier = trait.trait_tier || canonical?.trait_tier || 'Basic';
   const classification = trait.classification || canonical?.classification || trait.type || canonical?.type || 'Physical';
   const cp = trait.cp !== undefined ? Number(trait.cp) : (canonical?.cp !== undefined ? Number(canonical.cp) : 1);

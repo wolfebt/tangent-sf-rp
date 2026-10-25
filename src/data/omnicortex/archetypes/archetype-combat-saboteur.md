@@ -23,6 +23,12 @@ essential_skills:
   - Knowledge (Tactics)
   - Athletics
   - Heavy Weapons
+signature_traits:
+  - Demolitionist
+  - Heavy Weapon Mastery
+traits:
+  - Demolitionist
+  - Heavy Weapon Mastery
 signature_features:
   - Demolitionist
   - Heavy Weapon Mastery

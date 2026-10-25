@@ -23,6 +23,12 @@ essential_skills:
   - Knowledge (History)
   - Insight
   - Knowledge (Nobility)
+signature_traits:
+  - Noble Lineage
+  - Courtly Intrigue
+traits:
+  - Noble Lineage
+  - Courtly Intrigue
 signature_features:
   - Noble Lineage
   - Courtly Intrigue

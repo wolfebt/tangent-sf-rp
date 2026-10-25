@@ -23,6 +23,12 @@ essential_skills:
   - Knowledge (History)
   - Knowledge (Survival)
   - Knowledge (Culture)
+signature_traits:
+  - Excavation Expert
+  - Artifact Analyst
+traits:
+  - Excavation Expert
+  - Artifact Analyst
 signature_features:
   - Excavation Expert
   - Artifact Analyst

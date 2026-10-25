@@ -22,6 +22,12 @@ essential_skills:
   - Insight
   - Diplomacy
   - Two Disciplines (Mental/Divination)
+signature_traits:
+  - Prophetic Visions
+  - Spiritual Advisor
+traits:
+  - Prophetic Visions
+  - Spiritual Advisor
 signature_features:
   - Prophetic Visions
   - Spiritual Advisor

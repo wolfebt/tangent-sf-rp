@@ -925,16 +925,17 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
         currentSkills[clean] = idx < 4 ? 6 : 3;
       });
 
-      // Pre-allocate Signature Features into general allocations
-      const currentFeats = [...(next.generalAllocations?.features || [])];
-      (arch.signature_features || []).forEach(fName => {
-        if (!currentFeats.includes(fName)) currentFeats.push(fName);
+      // Pre-allocate Signature Traits (1 CP) into general allocations traits
+      const currentTraits = [...(next.generalAllocations?.traits || [])];
+      const sigTraits = arch.signature_traits || arch.traits || arch.signature_features || [];
+      sigTraits.forEach(tName => {
+        if (!currentTraits.includes(tName)) currentTraits.push(tName);
       });
 
       next.generalAllocations = {
         ...next.generalAllocations,
         skills: currentSkills,
-        features: currentFeats
+        traits: currentTraits
       };
 
       return next;
@@ -1850,10 +1851,10 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                   </div>
                 )}
 
-                {selectedArchetypeObj.signature_features?.length > 0 && (
+                {(selectedArchetypeObj.signature_traits || selectedArchetypeObj.signature_features)?.length > 0 && (
                   <div className="text-[11px]">
-                    <span className="text-slate-500 font-semibold block">Signature Features:</span>
-                    <span className="text-slate-300">{selectedArchetypeObj.signature_features.join(', ')}</span>
+                    <span className="text-slate-500 font-semibold block">Signature Traits (1 CP):</span>
+                    <span className="text-slate-300">{(selectedArchetypeObj.signature_traits || selectedArchetypeObj.signature_features).join(', ')}</span>
                   </div>
                 )}
 
@@ -1865,13 +1866,13 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                       className="w-full py-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-lg shadow-lg flex items-center justify-center gap-2 text-xs transition-all cursor-pointer"
                     >
                       <Sparkles size={14} />
-                      Apply 80-CP Archetype Chassis (+3 Prim, +2 Sec, Skills & Features)
+                      Apply 80-CP Archetype Chassis (+3 Prim, +2 Sec, Skills & Signature Traits)
                     </button>
                   ) : (
                     <div className="p-2 bg-emerald-950/60 border border-emerald-500/40 rounded-lg text-xs text-emerald-300 flex items-center justify-between">
                       <span className="flex items-center gap-2">
                         <Check size={14} className="text-emerald-400"/>
-                        80-CP Chassis Applied (+3 {selectedArchetypeObj.primary_attribute}, +2 {selectedArchetypeObj.secondary_attribute}, Skills & Features).
+                        80-CP Chassis Applied (+3 {selectedArchetypeObj.primary_attribute}, +2 {selectedArchetypeObj.secondary_attribute}, Skills & Signature Traits).
                       </span>
                       <button 
                         type="button"

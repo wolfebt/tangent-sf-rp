@@ -23,6 +23,12 @@ essential_skills:
   - Vocation (Laborer)
   - Endurance
   - Knowledge (Trade)
+signature_traits:
+  - Strong Back
+  - Skilled Worker
+traits:
+  - Strong Back
+  - Skilled Worker
 signature_features:
   - Strong Back
   - Skilled Worker

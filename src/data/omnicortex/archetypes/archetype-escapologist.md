@@ -23,6 +23,12 @@ essential_skills:
   - Legerdemain
   - Stealth
   - Investigation
+signature_traits:
+  - Daredevil
+  - Evasive Maneuvers
+traits:
+  - Daredevil
+  - Evasive Maneuvers
 signature_features:
   - Daredevil
   - Evasive Maneuvers

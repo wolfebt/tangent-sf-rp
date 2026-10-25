@@ -23,6 +23,12 @@ essential_skills:
   - Knowledge (Medicine)
   - Knowledge (Science \- Genetics)
   - Knowledge (Science \- Biology)
+signature_traits:
+  - Biotechnologist
+  - Adaptive Engineering
+traits:
+  - Biotechnologist
+  - Adaptive Engineering
 signature_features:
   - Biotechnologist
   - Adaptive Engineering

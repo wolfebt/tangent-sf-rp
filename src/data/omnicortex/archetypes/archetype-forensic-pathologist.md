@@ -22,6 +22,12 @@ essential_skills:
   - Knowledge (Medicine)
   - Knowledge (Investigation)
   - Knowledge (Science \- Biology)
+signature_traits:
+  - Forensic Analysis
+  - Medical Expertise
+traits:
+  - Forensic Analysis
+  - Medical Expertise
 signature_features:
   - Forensic Analysis
   - Medical Expertise

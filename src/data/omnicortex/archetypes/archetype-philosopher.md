@@ -23,6 +23,12 @@ essential_skills:
   - Insight
   - Diplomacy
   - Knowledge (History)
+signature_traits:
+  - Metacognition
+  - Enlightened Mind
+traits:
+  - Metacognition
+  - Enlightened Mind
 signature_features:
   - Metacognition
   - Enlightened Mind

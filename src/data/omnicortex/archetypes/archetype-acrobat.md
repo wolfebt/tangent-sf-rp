@@ -22,6 +22,12 @@ essential_skills:
   - Athletics
   - Expression (any)
   - Animal Handling
+signature_traits:
+  - Daredevil
+  - Showmanship
+traits:
+  - Daredevil
+  - Showmanship
 signature_features:
   - Daredevil
   - Showmanship

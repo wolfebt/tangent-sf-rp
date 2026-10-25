@@ -3077,10 +3077,11 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
     } else {
       const cost = (typeof trait === 'object' && trait.cp !== undefined && trait.cp !== 0) ? getItemCP(trait, canonicalTierCost) : canonicalTierCost;
       traitsCost += cost;
+      const isArchSig = tSource === 'archetype' || tCat === 'Archetype Trait' || tCat === 'Signature Trait' || tCat === 'Archetype Signature' || (typeof trait === 'object' && (trait.trait_type === 'Archetype Trait' || trait.trait_type === 'Signature Trait'));
       itemizedList.push({
-        category: 'Trait',
+        category: isArchSig ? 'Archetype Trait' : 'Trait',
         item: name,
-        val: (typeof trait === 'object' && trait.type) ? trait.type : `Trait Purchase (${cost} CP)`,
+        val: isArchSig ? `Archetype Trait (${cost} CP)` : ((typeof trait === 'object' && trait.type) ? trait.type : `Trait Purchase (${cost} CP)`),
         costVal: cost,
         cost: `${cost} CP`
       });

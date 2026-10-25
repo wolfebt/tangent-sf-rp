@@ -2,7 +2,7 @@
  * Tangent SF RP — Identity Transition & Trait Synchronization Engine
  * 
  * Manages full lifecycle transitions when a persona's core identity pillars change:
- * - Archetype (80 CP chassis, essential skills, signature features)
+ * - Archetype (80 CP chassis, essential skills, signature traits)
  * - Species (inherent traits, size/type, attribute adjustments, movement speeds, skill bonuses)
  * - Occupation (career traits, professional skill packages, tech levels, SP allocations)
  * - Origin (homeworld traits, society skill packages, SP allocations)
@@ -20,7 +20,8 @@ import {
   ALL_CANONICAL_TRAITS,
   SPECIES_TRAITS_BASIC,
   SPECIES_TRAITS_ADVANCED,
-  SPECIES_TRAITS_ELITE
+  SPECIES_TRAITS_ELITE,
+  getEnrichedTraitData
 } from '../data/speciesTraitsData.js';
 import { enrichItemWithModifiers } from './tangentModifierEngine.js';
 
@@ -764,19 +765,26 @@ export const applyArchetypeTransition = (characterData, newArchetypeInput, dbDat
     if (prevSecKey) updated = removeOrDecrementAttribute(updated, prevSecKey, 2);
   }
 
-  // 3. Identify old archetype signature feature names
+  // 3. Identify old archetype signature trait / feature names
   const oldSigNames = new Set();
-  if (prevArchAlloc?.features && Array.isArray(prevArchAlloc.features)) {
-    prevArchAlloc.features.forEach(f => {
-      const name = typeof f === 'object' ? (f.name || f.title || f.id) : String(f);
-      if (name) {
-        oldSigNames.add(normalizeTraitString(name).toLowerCase());
-        oldSigNames.add(name.toLowerCase());
-      }
-    });
-  }
-  if (prevArchetypeObj && Array.isArray(prevArchetypeObj.signature_features)) {
-    prevArchetypeObj.signature_features.forEach(f => {
+  const prevAllocItems = [
+    ...(Array.isArray(prevArchAlloc?.traits) ? prevArchAlloc.traits : []),
+    ...(Array.isArray(prevArchAlloc?.features) ? prevArchAlloc.features : [])
+  ];
+  prevAllocItems.forEach(f => {
+    const name = typeof f === 'object' ? (f.name || f.title || f.id) : String(f);
+    if (name) {
+      oldSigNames.add(normalizeTraitString(name).toLowerCase());
+      oldSigNames.add(name.toLowerCase());
+    }
+  });
+  if (prevArchetypeObj) {
+    const prevSigList = [
+      ...(Array.isArray(prevArchetypeObj.signature_traits) ? prevArchetypeObj.signature_traits : []),
+      ...(Array.isArray(prevArchetypeObj.traits) ? prevArchetypeObj.traits : []),
+      ...(Array.isArray(prevArchetypeObj.signature_features) ? prevArchetypeObj.signature_features : [])
+    ];
+    prevSigList.forEach(f => {
       const name = typeof f === 'object' ? (f.name || f.title || f.id) : String(f);
       if (name) {
         oldSigNames.add(normalizeTraitString(name).toLowerCase());
@@ -791,11 +799,12 @@ export const applyArchetypeTransition = (characterData, newArchetypeInput, dbDat
     if (!f) return false;
     const fCat = typeof f === 'object' ? (f.category || f.source || '') : '';
     const fSource = typeof f === 'object' ? (f.source || '') : '';
+    const fType = typeof f === 'object' ? (f.trait_type || '') : '';
     const fName = typeof f === 'object' ? (f.name || f.title || f.id || '') : String(f);
     const normName = normalizeTraitString(fName).toLowerCase();
     const rawName = fName.toLowerCase();
 
-    if (fSource === 'archetype' || fCat === 'Archetype Signature' || fCat === 'Archetype' || fCat === 'Archetype Feature') {
+    if (fSource === 'archetype' || fCat === 'Archetype Signature' || fCat === 'Signature Trait' || fCat === 'Archetype' || fCat === 'Archetype Feature' || fType === 'Signature Trait' || fType === 'Archetype Trait') {
       return false;
     }
     if (oldSigNames.has(normName) || oldSigNames.has(rawName)) {
@@ -809,11 +818,12 @@ export const applyArchetypeTransition = (characterData, newArchetypeInput, dbDat
     if (!t) return false;
     const tCat = typeof t === 'object' ? (t.category || t.source || '') : '';
     const tSource = typeof t === 'object' ? (t.source || '') : '';
+    const tType = typeof t === 'object' ? (t.trait_type || '') : '';
     const tName = typeof t === 'object' ? (t.name || t.title || t.id || '') : String(t);
     const normName = normalizeTraitString(tName).toLowerCase();
     const rawName = tName.toLowerCase();
 
-    if (tSource === 'archetype' || tCat === 'Archetype Signature' || tCat === 'Archetype' || tCat === 'Archetype Feature') {
+    if (tSource === 'archetype' || tCat === 'Archetype Signature' || tCat === 'Signature Trait' || tCat === 'Archetype' || tCat === 'Archetype Feature' || tType === 'Signature Trait' || tType === 'Archetype Trait') {
       return false;
     }
     if (oldSigNames.has(normName) || oldSigNames.has(rawName)) {
@@ -824,14 +834,15 @@ export const applyArchetypeTransition = (characterData, newArchetypeInput, dbDat
 
   updated.features = filteredFeatures;
   updated.traits = filteredTraits;
-  updated.archetypeAllocations = { skills: {}, attributes: {}, features: [] };
+  updated.archetypeAllocations = { skills: {}, attributes: {}, traits: [], features: [] };
 
-  // 5. If new archetype selected, apply traits and optional pre-build chassis
+  // 5. If new archetype selected, apply signature traits (1 CP) and optional pre-build chassis
   if (newArchetypeObj && newArchetypeName) {
     const shouldApplyPreBuild = Boolean(options.applyPreBuild);
     const newArchAlloc = {
       attributes: {},
       skills: {},
+      traits: [],
       features: []
     };
 
@@ -903,31 +914,42 @@ export const applyArchetypeTransition = (characterData, newArchetypeInput, dbDat
       });
     }
 
-    // Attach signature features
-    const sigFeatures = Array.isArray(newArchetypeObj.signature_features) ? newArchetypeObj.signature_features : [];
-    const newFeaturesToAdd = [];
-    const seenFeats = new Set(filteredFeatures.map(f => (typeof f === 'object' ? (f.name || f.title) : String(f)).toLowerCase()));
+    // Attach signature traits (1 CP each) to character.traits
+    const sigTraits = Array.isArray(newArchetypeObj.signature_traits) && newArchetypeObj.signature_traits.length > 0
+      ? newArchetypeObj.signature_traits
+      : (Array.isArray(newArchetypeObj.traits) && newArchetypeObj.traits.length > 0
+        ? newArchetypeObj.traits
+        : (Array.isArray(newArchetypeObj.signature_features) ? newArchetypeObj.signature_features : []));
+    const newTraitsToAdd = [];
+    const seenTraits = new Set(filteredTraits.map(t => (typeof t === 'object' ? (t.name || t.title) : String(t)).toLowerCase()));
 
-    sigFeatures.forEach(feat => {
-      const featName = typeof feat === 'object' ? (feat.name || feat.title || feat.id) : String(feat);
-      const cleanTitle = normalizeTraitString(featName);
-      if (!seenFeats.has(cleanTitle.toLowerCase()) && !seenFeats.has(featName.toLowerCase())) {
-        seenFeats.add(cleanTitle.toLowerCase());
-        const rawFeatObj = {
-          id: `feat_arch_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
-          name: cleanTitle,
-          category: 'Archetype Signature',
+    sigTraits.forEach(tr => {
+      const trName = typeof tr === 'object' ? (tr.name || tr.title || tr.id) : String(tr);
+      const cleanTitle = normalizeTraitString(trName);
+      if (!seenTraits.has(cleanTitle.toLowerCase()) && !seenTraits.has(trName.toLowerCase())) {
+        seenTraits.add(cleanTitle.toLowerCase());
+        const canonicalTrait = getEnrichedTraitData(cleanTitle);
+        const rawTraitObj = {
+          ...(canonicalTrait || {}),
+          id: canonicalTrait?.id || `trait_arch_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+          name: canonicalTrait?.name || cleanTitle,
+          category: 'Archetype Trait',
+          trait_type: 'Archetype Trait',
+          trait_tier: 'Basic',
           source: 'archetype',
+          columnSource: 'Archetype',
           sourceName: newArchetypeName,
-          cp: 2,
-          description: typeof feat === 'object' ? (feat.description || `Signature feature granted by ${newArchetypeName} archetype.`) : `Signature feature granted by ${newArchetypeName} archetype.`
+          cp: 1,
+          bp: 1,
+          description: typeof tr === 'object' && tr.description ? tr.description : (canonicalTrait?.description || `Signature trait granted by ${newArchetypeName} archetype.`),
+          mechanic: typeof tr === 'object' && tr.mechanic ? tr.mechanic : (canonicalTrait?.mechanic || '')
         };
-        newFeaturesToAdd.push(enrichItemWithModifiers(rawFeatObj));
-        newArchAlloc.features.push(cleanTitle);
+        newTraitsToAdd.push(enrichItemWithModifiers(rawTraitObj));
+        newArchAlloc.traits.push(cleanTitle);
       }
     });
 
-    updated.features = [...filteredFeatures, ...newFeaturesToAdd];
+    updated.traits = [...filteredTraits, ...newTraitsToAdd];
     updated.archetypeAllocations = newArchAlloc;
   }
 

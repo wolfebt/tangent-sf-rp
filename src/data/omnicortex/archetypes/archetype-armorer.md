@@ -23,6 +23,12 @@ essential_skills:
   - Vocation (Engineer)
   - Knowledge (Technology)
   - Knowledge (Appraisal)
+signature_traits:
+  - Master Vocation skillsman
+  - Crafters Insight
+traits:
+  - Master Vocation skillsman
+  - Crafters Insight
 signature_features:
   - Master Vocation skillsman
   - Crafters Insight

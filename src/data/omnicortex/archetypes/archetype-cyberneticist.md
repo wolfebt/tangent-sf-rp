@@ -23,6 +23,12 @@ essential_skills:
   - Knowledge (Technology)
   - Knowledge (Biology)
   - Vocation (Engineer)
+signature_traits:
+  - Cybernetic Enhancement
+  - Biomechanical Integration
+traits:
+  - Cybernetic Enhancement
+  - Biomechanical Integration
 signature_features:
   - Cybernetic Enhancement
   - Biomechanical Integration

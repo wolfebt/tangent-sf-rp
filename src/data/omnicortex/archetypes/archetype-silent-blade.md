@@ -23,6 +23,12 @@ essential_skills:
   - Acrobatics
   - Athletics
   - Combat (Sniper or Blades)
+signature_traits:
+  - Silent Killer
+  - Master of Disguise
+traits:
+  - Silent Killer
+  - Master of Disguise
 signature_features:
   - Silent Killer
   - Master of Disguise

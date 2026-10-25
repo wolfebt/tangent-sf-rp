@@ -22,6 +22,12 @@ essential_skills:
   - Knowledge (Architecture)
   - Knowledge (Technology)
   - Vocation (Engineer)
+signature_traits:
+  - Macro-Engineering
+  - Coordination
+traits:
+  - Macro-Engineering
+  - Coordination
 signature_features:
   - Macro-Engineering
   - Coordination

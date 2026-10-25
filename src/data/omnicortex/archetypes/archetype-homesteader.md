@@ -23,6 +23,12 @@ essential_skills:
   - Vocation (Farming/Laborer)
   - Vocation (Handler)
   - Knowledge (Nature)
+signature_traits:
+  - Self-Sufficiency
+  - Resourceful
+traits:
+  - Self-Sufficiency
+  - Resourceful
 signature_features:
   - Self-Sufficiency
   - Resourceful

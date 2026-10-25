@@ -23,6 +23,12 @@ essential_skills:
   - Acrobatics
   - Knowledge (Survival)
   - Alertness
+signature_traits:
+  - Peak Physical Condition
+  - Fearless
+traits:
+  - Peak Physical Condition
+  - Fearless
 signature_features:
   - Peak Physical Condition
   - Fearless

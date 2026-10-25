@@ -23,6 +23,12 @@ essential_skills:
   - Knowledge (Computers)
   - Knowledge (Investigation)
   - Social
+signature_traits:
+  - Digital Ghost
+  - Cyber Intrusion
+traits:
+  - Digital Ghost
+  - Cyber Intrusion
 signature_features:
   - Digital Ghost
   - Cyber Intrusion

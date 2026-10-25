@@ -23,6 +23,12 @@ essential_skills:
   - Vocation (Mechanic)
   - Vocation (Electrician)
   - Investigation
+signature_traits:
+  - Technical Expertise
+  - Problem Solver
+traits:
+  - Technical Expertise
+  - Problem Solver
 signature_features:
   - Technical Expertise
   - Problem Solver

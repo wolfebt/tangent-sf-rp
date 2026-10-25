@@ -23,6 +23,12 @@ essential_skills:
   - Bluff
   - Insight
   - Streetwise
+signature_traits:
+  - Silver Tongue
+  - Master of Disguise
+traits:
+  - Silver Tongue
+  - Master of Disguise
 signature_features:
   - Silver Tongue
   - Master of Disguise

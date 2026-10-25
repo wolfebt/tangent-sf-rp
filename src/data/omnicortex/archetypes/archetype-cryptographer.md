@@ -22,6 +22,12 @@ essential_skills:
   - Knowledge (Investigation)
   - Knowledge (Language)
   - Knowledge (Technology)
+signature_traits:
+  - Codebreaker
+  - Analytical Mind
+traits:
+  - Codebreaker
+  - Analytical Mind
 signature_features:
   - Codebreaker
   - Analytical Mind

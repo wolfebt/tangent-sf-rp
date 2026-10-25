@@ -48,6 +48,9 @@ const formatRelationalString = (str) => {
   if (str.startsWith('trait-species-')) {
     return str.replace('trait-species-', '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
   }
+  if (str.startsWith('trait-sig-')) {
+    return str.replace('trait-sig-', '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  }
   if (str.startsWith('trait-')) {
     return str.replace('trait-', '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
   }
@@ -147,7 +150,7 @@ const CatalogVirtualRow = ({ item, visibleColumns, handleOpenItem, isAdmin, hand
         )}
       </div>
       {otherCols.map(col => {
-        const cellVal = item[col] ?? (col === 'type' ? item.species_type : (col === 'cp' ? (item.cp ?? item.bp ?? item.costs?.cp ?? item.costs?.bp) : undefined));
+        const cellVal = item[col] ?? (col === 'type' ? (item.species_type || item.trait_type) : (col === 'cp' ? (item.cp ?? item.bp ?? item.costs?.cp ?? item.costs?.bp) : undefined));
         return (
           <div
             key={col}
@@ -193,7 +196,7 @@ const CatalogTableRow = ({ item, visibleColumns, handleOpenItem, isAdmin, handle
         </div>
       </td>
       {otherCols.map(col => {
-        const cellVal = item[col] ?? (col === 'type' ? item.species_type : (col === 'cp' ? (item.cp ?? item.bp ?? item.costs?.cp ?? item.costs?.bp) : undefined));
+        const cellVal = item[col] ?? (col === 'type' ? (item.species_type || item.trait_type) : (col === 'cp' ? (item.cp ?? item.bp ?? item.costs?.cp ?? item.costs?.bp) : undefined));
         return (
           <td
             key={col}
@@ -425,6 +428,9 @@ export const DBMTableView = ({
       if (item.category) {
         types.add(String(item.category).trim());
       }
+      if (item.trait_type) {
+        types.add(String(item.trait_type).trim());
+      }
     });
     return Array.from(types).sort();
   }, [currentItems]);
@@ -432,7 +438,7 @@ export const DBMTableView = ({
   const availableSubtypes = useMemo(() => {
     const subs = new Set();
     currentItems.forEach(item => {
-      ['subtype', 'discipline', 'society', 'aspect', 'aspect_subtype'].forEach(k => {
+      ['subtype', 'discipline', 'society', 'aspect', 'aspect_subtype', 'trait_tier', 'classification'].forEach(k => {
         const val = item[k];
         if (Array.isArray(val)) {
           val.forEach(v => v && subs.add(String(v).trim()));

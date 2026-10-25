@@ -23,6 +23,12 @@ essential_skills:
   - Knowledge (Law)
   - Diplomacy
   - Investigation
+signature_traits:
+  - Conflict resolution
+  - Master Negotiator
+traits:
+  - Conflict resolution
+  - Master Negotiator
 signature_features:
   - Conflict resolution
   - Master Negotiator

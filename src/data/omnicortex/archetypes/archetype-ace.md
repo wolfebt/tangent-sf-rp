@@ -23,6 +23,12 @@ essential_skills:
   - Pilot
   - Alertness
   - Combat (Gunnery)
+signature_traits:
+  - Evasive Maneuvers
+  - Quick Reflexes
+traits:
+  - Evasive Maneuvers
+  - Quick Reflexes
 signature_features:
   - Evasive Maneuvers
   - Quick Reflexes

@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","1.02 archetypes","mechanics"]
-updatedAt: "2026-10-14T05:53:41.209Z"
+updatedAt: "2026-10-25T07:10:31.051Z"
 costs:
   bp: 0
   credits: 0
@@ -59,7 +59,7 @@ When a player selects an Archetype, they immediately apply this pre-calculated 8
 
 * ### *4 Skills at Trained Tier (at level 6 for 24 CP) & 6 Skills at Novice Tier (at level 3 for 18 CP) \- Essential Skills first \- (42 CP)*
 
-* ### *Two recommended Signature Features (discounted to 2 CP each) plus three other relative Features (9 CP) \- (13 CP)*
+* ### *Two recommended Signature Traits (1 CP each in the Traits category) plus three other relative Features (9 CP) \- (13 CP)*
 
 # 
 

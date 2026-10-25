@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","archetypes","1.02.savants","mechanics"]
-updatedAt: "2026-10-14T05:53:41.208Z"
+updatedAt: "2026-10-25T07:10:31.063Z"
 costs:
   bp: 0
   credits: 0
@@ -59,7 +59,7 @@ A proficient analytical thinker adept at processing data and solving problems. T
 * **Recommended Factions:** Mekan (Logic Engines), Impyrium (Tacticians), Ascendancy.  
 * **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
 * **Essential Skills:** Knowledge (Investigation), Insight, Knowledge (Technology), Alertness.  
-* **Signature Features:** Enhanced Processing, Logical Deduction.  
+* **Signature Traits (1 CP):** Enhanced Processing, Logical Deduction.  
 * **Tactical Role:** Identify enemy weaknesses, crack codes, reconstruct crime scenes.
 
 ### 
@@ -78,7 +78,7 @@ Unveils the secrets of ancient ruins and artifacts, reconstructing chronicles of
 * **Recommended Factions:** Alterian Enclave (Lore), Syndicate (Profit), Ascendancy (Research).  
 * **Key Attributes:** Intellect (Primary), Constitution (Secondary).  
 * **Essential Skills:** Knowledge (Investigation), Knowledge (History), Knowledge (Survival), Knowledge (Culture).  
-* **Signature Features:** Excavation Expert, Artifact Analyst.  
+* **Signature Traits (1 CP):** Excavation Expert, Artifact Analyst.  
 * **Tactical Role:** Navigate dungeons, identify magical/tech loot, bypass ancient defenses.
 
 ### 
@@ -97,7 +97,7 @@ A master of arcane magic, manipulating subtle energies to cast powerful spells t
 * **Recommended Factions:** Alterian Enclave (Arcanists), Dracon Dynasty (Sorcerers), Auluran (Shamans).  
 * **Key Attributes:** Intellect (Primary), Constitution (Secondary).  
 * **Essential Skills:** Alertness, Two Disciplines (e.g., Energy, Dimension), Attune.  
-* **Signature Features:** Arcane Mastery, Spell Weaving.  
+* **Signature Traits (1 CP):** Arcane Mastery, Spell Weaving.  
 * **Tactical Role:** Area damage, battlefield control, utility casting.
 
 ### 
@@ -116,7 +116,7 @@ Specializes in the study of celestial objects and phenomena. They provide naviga
 * **Recommended Factions:** Alterian Enclave, Ascendancy, Void-dwelling species.  
 * **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
 * **Essential Skills:** Academics, Knowledge (Technology), Knowledge (Astrophysics), Alertness.  
-* **Signature Features:** Celestial Savant, Observational Skills.  
+* **Signature Traits (1 CP):** Celestial Savant, Observational Skills.  
 * **Tactical Role:** Navigation through anomalies, identifying cosmic threats, operating ship sensors.
 
 ### 
@@ -135,7 +135,7 @@ Applies genetic engineering and biotechnology to create innovative tools, medici
 * **Recommended Factions:** Auluran (Bio-Shapers), Syndicate (Augmenters), Ascendancy.  
 * **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
 * **Essential Skills:** Knowledge (Technology), Knowledge (Medicine), Knowledge (Science \- Genetics), Knowledge (Science \- Biology).  
-* **Signature Features:** Biotechnologist, Adaptive Engineering.  
+* **Signature Traits (1 CP):** Biotechnologist, Adaptive Engineering.  
 * **Tactical Role:** Healing, creating buffs/mutations, identifying xeno-threats.
 
 ### 
@@ -154,7 +154,7 @@ A brilliant inventor and technician who develops and maintains advanced technolo
 * **Recommended Factions:** Mekan (Constructors), Syndicate (Engineers), Ascendancy.  
 * **Key Attributes:** Intellect (Primary), Agility (Secondary).  
 * **Essential Skills:** Knowledge (Technology), Vocation (Engineer), Vocation (Mechanic), Vocation (Electrician).  
-* **Signature Features:** Master Builder, Technical Aptitude.  
+* **Signature Traits (1 CP):** Master Builder, Technical Aptitude.  
 * **Tactical Role:** Fixing the ship/vehicle, building defenses, analyzing enemy tech.
 
 ### 
@@ -173,7 +173,7 @@ A master of cyberspace who infiltrates networks, manipulates data, and exploits 
 * **Recommended Factions:** Syndicate (The Grid), Mekan (The Code), Ascendancy.  
 * **Key Attributes:** Intellect (Primary), Agility (Secondary).  
 * **Essential Skills:** Knowledge (Technology), Investigation, Knowledge (Computers).  
-* **Signature Features:** Cyber Warfare, Digital Ghost.  
+* **Signature Traits (1 CP):** Cyber Warfare, Digital Ghost.  
 * **Tactical Role:** Disabling alarms, stealing data, controlling enemy drones/turrets.
 
 ### 
@@ -192,7 +192,7 @@ Studies history and culture. Provides context and insight into societies and anc
 * **Recommended Factions:** Mekan (Memory Banks), Impyrium (Vaults), Alterian Enclave.  
 * **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
 * **Essential Skills:** Academics, Insight, Knowledge (History), Knowledge (Culture).  
-* **Signature Features:** Historical Scholar, Archivist.  
+* **Signature Traits (1 CP):** Historical Scholar, Archivist.  
 * **Tactical Role:** Solving puzzles, identifying enemy origins, diplomatic context.
 
 ### 
@@ -211,7 +211,7 @@ Relentless detective who uncovers conspiracies and brings criminals to justice.
 * **Recommended Factions:** Coalition (Marshals), Syndicate (PIs), Entari Combine.  
 * **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
 * **Essential Skills:** Knowledge (Investigation), Insight, Stealth, Knowledge (Law/Streetwise).  
-* **Signature Features:** Keen Observer, Unwavering Determination.  
+* **Signature Traits (1 CP):** Keen Observer, Unwavering Determination.  
 * **Tactical Role:** Finding plot hooks, solving mysteries, tracking targets in cities.
 
 ### 
@@ -230,7 +230,7 @@ Conducts research to further knowledge. Systematically gathers evidence and test
 * **Recommended Factions:** Ascendancy (Universities), Entari Combine (Colleges), Alterian Enclave.  
 * **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
 * **Essential Skills:** Academics, Knowledge (Investigation), Knowledge (Technology), Knowledge (Science).  
-* **Signature Features:** Scientific Method, Inquisitive Mind.  
+* **Signature Traits (1 CP):** Scientific Method, Inquisitive Mind.  
 * **Tactical Role:** Analyzing anomalies, solving environmental puzzles, crafting items.
 
 ### 
@@ -249,7 +249,7 @@ Skilled in the design and upkeep of infrastructure.
 * **Recommended Factions:** Syndicate (Arcologies), Dynasty (Fortresses), Mekan (Megastructures).  
 * **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
 * **Essential Skills:** Knowledge (Architecture), Knowledge (Technology), Vocation (Engineer).  
-* **Signature Features:** Macro-Engineering, Coordination.  
+* **Signature Traits (1 CP):** Macro-Engineering, Coordination.  
 * **Tactical Role:** Designing bases, identifying structural weaknesses, overseeing construction.
 
 ### 
@@ -268,7 +268,7 @@ An expert in deciphering codes, languages, and hidden messages.
 * **Recommended Factions:** Syndicate (Encryption), Mekan (Logic), Ascendancy.  
 * **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
 * **Essential Skills:** Knowledge (Investigation), Knowledge (Language), Knowledge (Technology).  
-* **Signature Features:** Codebreaker, Analytical Mind.  
+* **Signature Traits (1 CP):** Codebreaker, Analytical Mind.  
 * **Tactical Role:** Decrypting comms, translating alien languages, solving logic puzzles.
 
 ### 
@@ -287,7 +287,7 @@ Specialist in creating, repairing, and modifying cybernetic enhancements.
 * **Recommended Factions:** Syndicate (Augmentation Clinics), Mekan (Integration), Ascendancy.  
 * **Key Attributes:** Intellect (Primary), Technology (Secondary).  
 * **Essential Skills:** Knowledge (Medicine), Knowledge (Technology), Knowledge (Biology), Vocation (Engineer).  
-* **Signature Features:** Cybernetic Enhancement, Biomechanical Integration.  
+* **Signature Traits (1 CP):** Cybernetic Enhancement, Biomechanical Integration.  
 * **Tactical Role:** Installing/repairing cybernetics, hacking enemy augments, buffing allies.
 
 ### 
@@ -306,7 +306,7 @@ An expert in determining cause of death and analyzing biological evidence.
 * **Recommended Factions:** Entari Combine (Justice), Syndicate (Internal Affairs), Coalition.  
 * **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
 * **Essential Skills:** Knowledge (Medicine), Knowledge (Investigation), Knowledge (Science \- Biology).  
-* **Signature Features:** Forensic Analysis, Medical Expertise.  
+* **Signature Traits (1 CP):** Forensic Analysis, Medical Expertise.  
 * **Tactical Role:** Solving murders, identifying toxins/diseases, analyzing biological threats.
 
 ### 
@@ -325,7 +325,7 @@ A skilled pilot and navigator who charts the course for ships.
 * **Recommended Factions:** Ascendancy (Reach Explorers), Impyrium (Navigators Guild), Outworlds.  
 * **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
 * **Essential Skills:** Knowledge (Navigation), Pilot, Knowledge (Technology).  
-* **Signature Features:** Cartographer, Ace Pilot.  
+* **Signature Traits (1 CP):** Cartographer, Ace Pilot.  
 * **Tactical Role:** Plotting FTL jumps, navigating hazards, mapping sectors.
 
 ### 
@@ -344,7 +344,7 @@ A scholar who studies the geology, climate, and ecosystems of planets.
 * **Recommended Factions:** Auluran (Terraformers), Ascendancy, Entari Combine.  
 * **Key Attributes:** Intellect (Primary), Constitution (Secondary).  
 * **Essential Skills:** Academics, Knowledge (Survival), Knowledge (Science \- Geology), Knowledge (Science \- Biology).  
-* **Signature Features:** Planetary Savant, Field Researcher.  
+* **Signature Traits (1 CP):** Planetary Savant, Field Researcher.  
 * **Tactical Role:** Identifying environmental hazards, finding resources, surviving planetary conditions.
 
 ### 
@@ -363,7 +363,7 @@ A scholar who specializes in the study, design, and development of robots.
 * **Recommended Factions:** Mekan (Self-Study), Syndicate (Drone Works), Ascendancy.  
 * **Key Attributes:** Intellect (Primary), Technology (Secondary).  
 * **Essential Skills:** Knowledge (Technology), Vocation (Engineer), Knowledge (Computers).  
-* **Signature Features:** Robotic Affinity, Automation Expert.  
+* **Signature Traits (1 CP):** Robotic Affinity, Automation Expert.  
 * **Tactical Role:** Building/repairing drones, commanding robot minions, hacking enemy bots.
 
 ### 
@@ -382,7 +382,7 @@ A strategic mastermind who analyzes the battlefield and coordinates actions.
 * **Recommended Factions:** Impyrium (High Command), Dracon Dynasty, Mekan (War Minds).  
 * **Key Attributes:** Intellect (Primary), Charisma (Secondary).  
 * **Essential Skills:** Knowledge (Tactics), Leadership, Combat (Any), Insight.  
-* **Signature Features:** Battlefield Awareness, Tactical Genius.  
+* **Signature Traits (1 CP):** Battlefield Awareness, Tactical Genius.  
 * **Tactical Role:** Boosting ally initiative/attacks, countering enemy tactics, controlling the battlefield.
 
 ### 
@@ -401,7 +401,7 @@ A skilled worker who maintains and repairs complex machinery.
 * **Recommended Factions:** Outworlds (Mechanics), Coalition (Techs), Syndicate.  
 * **Key Attributes:** Intellect (Primary), Agility (Secondary).  
 * **Essential Skills:** Knowledge (Technology), Vocation (Mechanic), Vocation (Electrician), Investigation.  
-* **Signature Features:** Technical Expertise, Problem Solver.  
+* **Signature Traits (1 CP):** Technical Expertise, Problem Solver.  
 * **Tactical Role:** Rapid repair of gear/vehicles, bypassing locks/panels, technical support.
 
 ### 
@@ -420,7 +420,7 @@ An expert in alien cultures, biology, and languages.
 * **Recommended Factions:** Entari Combine (First Contact), Alterian Enclave, Ascendancy.  
 * **Key Attributes:** Intellect (Primary), Charisma (Secondary).  
 * **Essential Skills:** Knowledge (Xenology), Diplomacy, Insight, Linguistics.  
-* **Signature Features:** Cultural Sensitivity, Xeno-Linguist.  
+* **Signature Traits (1 CP):** Cultural Sensitivity, Xeno-Linguist.  
 * **Tactical Role:** Communicating with aliens, identifying xeno-threats, cultural navigation.
 
 ### 
@@ -439,7 +439,7 @@ THE visionary scientist who pushes the boundaries of standard physics to unlock 
 * **Recommended Factions:** Mekan (Code Researchers), Ascendancy (Theorists), Alterian Enclave.  
 * **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
 * **Essential Skills:** Academics, Knowledge (Science \- Physics), Knowledge (Technology), Knowledge (Science \- Mathematics).  
-* **Signature Features:** Logical Deduction, Innovative Thinking.  
+* **Signature Traits (1 CP):** Logical Deduction, Innovative Thinking.  
 * **Tactical Role:** Solving complex puzzles, predicting dimensional anomalies, theoretical tech analysis.
 
 ### 
@@ -458,7 +458,7 @@ The expert on living systems who studies the interaction between species and the
 * **Recommended Factions:** Auluran (Life-Shapers), Entari Combine (Botanists), Ascendancy.  
 * **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
 * **Essential Skills:** Medicine, Knowledge (Science \- Biology),  Knowledge (Nature), Investigation.  
-* **Signature Features:** Scientific Method, Ecological Expertise.  
+* **Signature Traits (1 CP):** Scientific Method, Ecological Expertise.  
 * **Tactical Role:** Identifying alien fauna/flora, treating organic toxins, analyzing biological samples.
 
 ### 
@@ -477,7 +477,7 @@ The high-level systems engineer who designs and manages the data infrastructures
 * **Recommended Factions:** Syndicate (Mesh Architects), Mekan (Grid Weavers), Ascendancy.  
 * **Key Attributes:** Intellect (Primary), Agility (Secondary).  
 * **Essential Skills:** Knowledge (Computers), Vocation (Engineer), Knowledge (Technology).  
-* **Signature Features:** Automation Expert, Master Builder.  
+* **Signature Traits (1 CP):** Automation Expert, Master Builder.  
 * **Tactical Role:** Hardening party networks, creating tactical data-links, identifying digital infrastructure weaknesses.
 
 ### 
@@ -496,7 +496,7 @@ The master of communication who deciphers the languages of the galaxy to enable 
 * **Recommended Factions:** Entari Combine (Translators), Alterian Enclave, Ascendancy.  
 * **Key Attributes:** Intellect (Primary), Charisma (Secondary).  
 * **Essential Skills:** Knowledge (Languages), Diplomacy, Insight, Knowledge (History).  
-* **Signature Features:** Polyglot, Cultural Interpreter.  
+* **Signature Traits (1 CP):** Polyglot, Cultural Interpreter.  
 * **Tactical Role:** Translating alien documents/comms, mediating first contact, deciphering codes.
 
 ### 
@@ -515,7 +515,7 @@ The meticulous researcher who maps the biological and geological variables of al
 * **Recommended Factions:** Ascendancy (Reach Surveyors), Outworlds, Auluran.  
 * **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
 * **Essential Skills:** Knowledge (Survival), Navigation, Knowledge (Geology), Alertness.  
-* **Signature Features:** Cartographer, Planetary Savant.  
+* **Signature Traits (1 CP):** Cartographer, Planetary Savant.  
 * **Tactical Role:** Identifying environmental resources, plotting safe paths, planetary analysis.
 
 &nbsp;

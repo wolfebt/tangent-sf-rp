@@ -111,7 +111,7 @@ export const DEFAULT_CHARACTER = {
   override_at: null,
   active_conditions: [],
   tracked_modifications: [],
-  archetypeAllocations: { skills: {}, attributes: {}, features: [] },
+  archetypeAllocations: { skills: {}, attributes: {}, traits: [], features: [] },
   speciesAllocations: { skills: {}, attributes: {}, traits: [], features: [] },
   occuAllocations: { skills: {}, traits: [], features: [] },
   originAllocations: { skills: {}, traits: [], features: [] },

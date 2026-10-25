@@ -852,7 +852,9 @@ export const CODEX_MATRICES = [
       primary_attribute: 'Intellect',
       secondary_attribute: 'Charisma',
       essential_skills: [],
+      signature_traits: [],
       signature_features: [],
+      traits: [],
       tactical_role: '',
       recommended_occupations: [],
       recommended_origins: [],
@@ -893,7 +895,8 @@ export const CODEX_MATRICES = [
         options: ['Strength', 'Agility', 'Constitution', 'Intellect', 'Perception', 'Charisma', 'Willpower', 'Wisdom'] 
       },
       { name: 'essential_skills', label: 'Essential Skills (Priority 4 Trained + 6 Novice)', type: 'array', placeholder: 'Key proficiencies prioritized by this archetype' },
-      { name: 'signature_features', label: 'Signature Features (13 CP Allocation)', type: 'array', placeholder: 'Two 2-CP signature features plus three relative features' },
+      { name: 'signature_traits', label: 'Signature Traits (1 CP Each)', type: 'array', placeholder: 'Two 1-CP signature traits defining this archetype' },
+      { name: 'traits', label: 'Archetype Signature Traits List', type: 'array', placeholder: 'Signature traits selectable for this archetype' },
       { name: 'tactical_role', label: 'Tactical Role & Field Operations', type: 'textarea', placeholder: 'E.g., Secure resources, bypass legal hurdles, manage team logistics.' },
       { name: 'recommended_occupations', label: 'Recommended Occupations', type: 'array', placeholder: 'Recommended career backgrounds' },
       { name: 'recommended_origins', label: 'Recommended Origins', type: 'array', placeholder: 'Recommended environmental origins' },
@@ -1214,14 +1217,14 @@ export const CODEX_MATRICES = [
   {
     id: 'features',
     name: 'FEATURES',
-    label: 'Features & Talents Matrix',
+    label: 'Character Features Matrix',
     icon: Award,
     color: '#38bdf8', // Sky Blue
     theme: 'sky',
     targetCollection: 'features',
     ingestionKey: 'features',
-    description: 'Design character features, special combat abilities, biological traits, karma perks, and exotic talents.',
-    category: 'Character Traits & Talents',
+    description: 'Design character features, special combat abilities, discipline techniques, karma perks, and special talents.',
+    category: 'Character Features & Talents',
     badge: 'Features Matrix',
     isProperty: false,
     hasSocketsAndUDU: false,
@@ -1230,7 +1233,7 @@ export const CODEX_MATRICES = [
     defaultValues: {
       name: '',
       type: 'ability',
-      cp: 2,
+      cp: 3,
       tech_level: 0,
       tl: 0,
       meta_level: 0,
@@ -1257,8 +1260,8 @@ export const CODEX_MATRICES = [
       note: ''
     },
     fields: [
-      { name: 'name', label: 'Feature / Talent Name', type: 'text', required: true, placeholder: 'E.g., Void Acclimation' },
-      { name: 'type', label: 'Feature Category / Classification', type: 'select', options: ['ability', 'combat', 'meta', 'general', 'karma', 'skill', 'exotic', 'Special Ability'] },
+      { name: 'name', label: 'Feature Name', type: 'text', required: true, placeholder: 'E.g., Void Acclimation' },
+      { name: 'type', label: 'Feature Category / Classification', type: 'select', options: ['ability', 'combat', 'discipline', 'general', 'karma', 'skill', 'special'] },
       { name: 'acquisition_type', label: 'Acquisition / Scaling Model', type: 'select', options: ['Basic', 'Multiple', 'Staged', 'Multi/Staged'], helpText: 'Basic (single purchase), Multiple (effect to different asset per purchase), Staged (increases effect per purchase), or Multi/Staged (both)' },
       { name: 'cp', label: 'Character Point (CP) Cost', type: 'number', min: -50, max: 100, helpText: 'Character point investment or flaw point rebate' },
       { name: 'tech_level', label: 'Tech Level (TL 0-5)', type: 'number', min: 0, max: 5 },
@@ -1600,17 +1603,17 @@ export const CODEX_MATRICES = [
     })
   },
   {
-    id: 'traits',
-    name: 'TRAITS',
-    label: 'Traits & Biological Adaptations',
+    id: 'trait',
+    name: 'SPECIES TRAITS',
+    label: 'Species Traits & Biological Adaptations',
     icon: Sparkles,
     color: '#10b981',
     theme: 'emerald',
-    targetCollection: 'traits',
-    ingestionKey: 'traits',
-    description: 'Species, Origin, and Occupational biological traits and adaptations.',
+    targetCollection: 'trait',
+    ingestionKey: 'trait',
+    description: 'Biological, synthetic, and evolutionary Species Traits (Basic 1 CP, Advanced 2 CP, Elite 4 CP).',
     category: 'Biological & Synthetic Lineages',
-    badge: 'Trait',
+    badge: 'Species Trait',
     isProperty: false,
     hasSocketsAndUDU: false,
     hasModifications: false,
@@ -1619,7 +1622,7 @@ export const CODEX_MATRICES = [
     defaultValues: {
       name: '',
       trait_type: 'Species Trait',
-      trait_tier: 'Basic',
+      trait_tier: 'Basic (1 CP)',
       classification: 'Physical',
       cp: 1,
       bp: 1,
@@ -1628,10 +1631,55 @@ export const CODEX_MATRICES = [
       note: ''
     },
     fields: [
-      { name: 'name', label: 'Trait Name', type: 'text', required: true, placeholder: 'E.g., Adaptability' },
-      { name: 'trait_type', label: 'Trait Type', type: 'select', options: ['Species Trait', 'Origin Trait', 'Occupational Trait', 'Common Occupational Trait'] },
-      { name: 'trait_tier', label: 'Trait Tier', type: 'select', options: ['Basic', 'Advanced', 'Elite'] },
+      { name: 'name', label: 'Species Trait Name', type: 'text', required: true, placeholder: 'E.g., Active Camouflage' },
+      { name: 'trait_type', label: 'Trait Type', type: 'select', options: ['Species Trait'] },
+      { name: 'trait_tier', label: 'Trait Tier', type: 'select', options: ['Basic (1 CP)', 'Advanced (2 CP)', 'Elite (4 CP)'] },
       { name: 'classification', label: 'Classification', type: 'select', options: ['Physical', 'Mental', 'Sensory', 'Combat', 'Metaphysical'] },
+      { name: 'cp', label: 'CP Cost', type: 'number' },
+      { name: 'description', label: 'Trait Overview', type: 'textarea' },
+      { name: 'mechanic', label: 'Rules & Mechanical Effects', type: 'textarea' },
+      { name: 'note', label: 'Architect Notes', type: 'textarea' }
+    ],
+    computedOutputs: [],
+    computeOnSave: (formData) => ({
+      cp: Number(formData.cp !== undefined ? formData.cp : (formData.bp || 1)),
+      bp: Number(formData.cp !== undefined ? formData.cp : (formData.bp || 1)),
+      computed_at: new Date().toISOString()
+    })
+  },
+  {
+    id: 'traits',
+    name: 'TRAITS',
+    label: 'Pillar Traits Matrix (Origins, Careers, Archetypes & Factions)',
+    icon: Sparkles,
+    color: '#a855f7',
+    theme: 'purple',
+    targetCollection: 'traits',
+    ingestionKey: 'traits',
+    description: 'Consolidated traits for Origins, Occupations (Careers), Archetypes, and Factions.',
+    category: 'Character Features & Talents',
+    badge: 'Pillar Trait',
+    isProperty: false,
+    hasSocketsAndUDU: false,
+    hasModifications: false,
+    hasDamageOrEffect: false,
+    customComponent: null,
+    defaultValues: {
+      name: '',
+      trait_type: 'Origin Trait',
+      trait_tier: 'Origin (1 CP)',
+      classification: 'General',
+      cp: 1,
+      bp: 1,
+      description: '',
+      mechanic: '',
+      note: ''
+    },
+    fields: [
+      { name: 'name', label: 'Trait Name', type: 'text', required: true, placeholder: 'E.g., Adaptability' },
+      { name: 'trait_type', label: 'Trait Pillar / Type', type: 'select', options: ['Origin Trait', 'Occupational Trait', 'Archetype Trait', 'Faction Trait'] },
+      { name: 'trait_tier', label: 'Trait Tier', type: 'select', options: ['Origin (1 CP)', 'Occupational (1 CP)', 'Archetype (1 CP)', 'Faction (1 CP)', 'Basic'] },
+      { name: 'classification', label: 'Classification', type: 'select', options: ['General', 'Social', 'Mental', 'Physical', 'Combat', 'Technical', 'Metaphysical'] },
       { name: 'cp', label: 'CP Cost', type: 'number' },
       { name: 'description', label: 'Trait Overview', type: 'textarea' },
       { name: 'mechanic', label: 'Rules & Mechanical Effects', type: 'textarea' },
@@ -1865,6 +1913,7 @@ export const CODEX_MATRICES = [
       recommended_occupations: [],
       recommended_skills: [],
       recommended_features: [],
+      traits: [],
       bonus_features: '',
       keywords: '',
       negative_keywords: '',
@@ -1935,6 +1984,7 @@ export const CODEX_MATRICES = [
       { name: 'recommended_occupations', label: 'Recommended Occupations', type: 'array', placeholder: 'Recommended professions / careers' },
       { name: 'recommended_skills', label: 'Recommended Skills', type: 'array', placeholder: 'Recommended inherent / cultural skills' },
       { name: 'recommended_features', label: 'Recommended Features (-1 CP Discount)', type: 'array', placeholder: 'Discounted features for faction members' },
+      { name: 'traits', label: 'Faction Traits List', type: 'array', placeholder: 'Traits selectable for members of this faction' },
       { name: 'bonus_features', label: 'Bonus Features & Origin Traits', type: 'textarea', placeholder: 'E.g., Independent Grit, Jack of All Trades, Penal Recruit, Federal Authority' },
       { name: 'keywords', label: 'Guidance Keywords', type: 'text', placeholder: 'E.g., militaristic, corporate, void-faring' },
       { name: 'negative_keywords', label: 'Negative Keywords & Railguards', type: 'text', placeholder: 'E.g., pacifist, primitive, psionic-taboo' },
@@ -2097,9 +2147,9 @@ export const CODEX_MATRICES = [
 ];
 
 export const HARDWARE_MATRIX_IDS = ['architecture', 'armor', 'augmentations', 'equipment', 'mecha', 'weaponry', 'other'];
-export const CHARACTER_MATRIX_IDS = ['archetypes', 'occupations', 'origins', 'skills', 'modular-characters', 'features', 'disadvantages'];
-export const BIOLOGICAL_SPECIES_MATRIX_IDS = ['species', 'species_type', 'species_size', 'species_movement', 'traits'];
-export const PLANETARY_SPECIES_MATRIX_IDS = ['planetary-design', 'species', 'factions', 'species_type', 'species_size', 'species_movement', 'traits'];
+export const CHARACTER_MATRIX_IDS = ['archetypes', 'occupations', 'origins', 'skills', 'modular-characters', 'features', 'traits', 'disadvantages'];
+export const BIOLOGICAL_SPECIES_MATRIX_IDS = ['species', 'species_type', 'species_size', 'species_movement', 'trait'];
+export const PLANETARY_SPECIES_MATRIX_IDS = ['planetary-design', 'species', 'factions', 'species_type', 'species_size', 'species_movement', 'trait'];
 export const META_MATRIX_IDS = ['invocation', 'meta-tech'];
 export const SYSTEM_MATRIX_IDS = ['scaling', 'economatrix', 'technology'];
 

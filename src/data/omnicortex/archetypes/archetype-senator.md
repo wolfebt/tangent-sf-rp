@@ -23,6 +23,12 @@ essential_skills:
   - Bluff
   - Insight
   - Leadership
+signature_traits:
+  - Political Acumen
+  - Influence Network
+traits:
+  - Political Acumen
+  - Influence Network
 signature_features:
   - Political Acumen
   - Influence Network

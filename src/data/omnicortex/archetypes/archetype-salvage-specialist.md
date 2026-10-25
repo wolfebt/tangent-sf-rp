@@ -23,6 +23,12 @@ essential_skills:
   - Knowledge (Technology)
   - Vocation (Engineer)
   - Investigation
+signature_traits:
+  - Junk Whisperer
+  - Technical Expertise
+traits:
+  - Junk Whisperer
+  - Technical Expertise
 signature_features:
   - Junk Whisperer
   - Technical Expertise

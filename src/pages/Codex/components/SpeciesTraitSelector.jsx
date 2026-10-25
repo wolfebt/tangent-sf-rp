@@ -43,7 +43,7 @@ import {
   SPECIES_DISADVANTAGES,
   resolveMovementId
 } from '../../../engines/tangentConstants';
-import { ALL_CANONICAL_TRAITS } from '../../../data/speciesTraitsData';
+import { ALL_SPECIES_TRAITS, ALL_CANONICAL_TRAITS } from '../../../data/speciesTraitsData';
 import { DEFAULT_FEATURES } from '../../../data/featuresData';
 import { DEFAULT_SPECIES_MOVEMENT, getMovementById, SPECIES_MOVEMENT_PACES } from '../../../data/speciesMovementData';
 import { getTraitChoiceConfig } from '../../../data/speciesTraitChoices';
@@ -799,11 +799,13 @@ export const SpeciesTraitSelector = ({
     SPECIES_TRAITS_ADVANCED.forEach(t => addTrait({ ...t, tier: 'advanced', bp: 2 }));
     SPECIES_TRAITS_ELITE.forEach(t => addTrait({ ...t, tier: 'elite', bp: 4 }));
 
-    // 2. Canonical traits dataset
-    ALL_CANONICAL_TRAITS.forEach(addTrait);
+    // 2. Canonical species traits dataset
+    ALL_SPECIES_TRAITS.forEach(addTrait);
 
-    // 3. Omnicortex DBM traits
-    const dbTraits = dbData?.traits || dbData?.species_traits || [];
+    // 3. Omnicortex DBM species traits
+    const dbTraits = (dbData?.trait || dbData?.species_traits || []).filter(
+      t => !['Origin Trait', 'Occupational Trait', 'Archetype Trait', 'Faction Trait'].includes(t?.trait_type)
+    );
     dbTraits.forEach(addTrait);
 
     return Array.from(map.values());

@@ -23,6 +23,12 @@ essential_skills:
   - Diplomacy
   - Insight
   - Linguistics
+signature_traits:
+  - Cultural Sensitivity
+  - Xeno-Linguist
+traits:
+  - Cultural Sensitivity
+  - Xeno-Linguist
 signature_features:
   - Cultural Sensitivity
   - Xeno-Linguist

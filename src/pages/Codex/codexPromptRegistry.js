@@ -1952,8 +1952,8 @@ export const OMNICORTEX_DATASETS = [
     "primary_attributes": ["String (Favored attributes, e.g., 'strength', 'agility')"],
     "suggested_skills": ["String (Recommended primary skill IDs or names)"],
     "essential_skills": ["String (Core operational competencies)"],
-    "suggested_traits": ["String (Recommended trait IDs or names)"],
-    "suggested_features": ["String (Signature features)"],
+    "suggested_traits": ["String (Signature traits @ 1 CP each)"],
+    "signature_traits": ["String (Signature traits @ 1 CP each)"],
     "starting_gear": ["String (Recommended equipment IDs)"],
     "modifiers": [
       { "target": "Primary Attribute", "type": "attribute", "value": 3, "mode": "inherent" }
@@ -2038,8 +2038,8 @@ export const OMNICORTEX_DATASETS = [
 [
   {
     "name": "String (Name of the trait)",
-    "trait_type": "String (Exact enum: 'Species Trait', 'Origin Trait', 'Occupational Trait', 'General Trait')",
-    "cost_cp": 5,
+    "trait_type": "String (Exact enum: 'Species Trait', 'Origin Trait', 'Occupational Trait', 'Archetype Trait', 'Faction Trait', 'General Trait')",
+    "cost_cp": 1,
     "origin_association": "String or null (Associated origin or 'General')",
     "occupation_association": "String or null (Associated occupation or 'General')",
     "species_association": "String or null (Associated species lineage or 'General')",

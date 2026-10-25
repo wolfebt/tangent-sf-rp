@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","archetypes","1.02.signaturefeatures","mechanics"]
-updatedAt: "2026-10-14T05:53:41.208Z"
+updatedAt: "2026-10-25T07:10:31.053Z"
 costs:
   bp: 0
   credits: 0
@@ -37,7 +37,7 @@ sockets:
   allocated: []
 ---
 
-# **ARCHETYPE SIGNATURE FEATURES**
+# **ARCHETYPE SIGNATURE TRAITS (1 CP)**
 
 Here is the list of Signature Features for all archetypes, categorized by their respective sections:
 

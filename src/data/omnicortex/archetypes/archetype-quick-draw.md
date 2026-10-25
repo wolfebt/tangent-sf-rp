@@ -23,6 +23,12 @@ essential_skills:
   - Alertness
   - Acrobatics
   - Stealth
+signature_traits:
+  - Quick Reflexes
+  - Seize Initiative
+traits:
+  - Quick Reflexes
+  - Seize Initiative
 signature_features:
   - Quick Reflexes
   - Seize Initiative

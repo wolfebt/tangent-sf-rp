@@ -23,6 +23,12 @@ essential_skills:
   - Insight
   - Knowledge (Technology)
   - Streetwise
+signature_traits:
+  - Weapons Expert
+  - Black Market Connections
+traits:
+  - Weapons Expert
+  - Black Market Connections
 signature_features:
   - Weapons Expert
   - Black Market Connections

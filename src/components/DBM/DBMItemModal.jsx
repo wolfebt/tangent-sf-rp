@@ -8,7 +8,9 @@ export const getDatasetKeyForCollection = (colKey) => {
   if (!colKey) return 'species';
   const k = colKey.toLowerCase();
   if (k === 'species' || k === 'species_type' || k === 'species_size' || k === 'species_movement') return 'species';
-  if (k === 'features' || k === 'trait' || k === 'traits') return 'features';
+  if (k === 'features') return 'features';
+  if (k === 'trait' || k === 'species_traits') return 'trait';
+  if (k === 'traits') return 'traits';
   if (k === 'skills' || k === 'skill') return 'skills';
   if (k === 'disadvantages' || k === 'disadvantage') return 'disadvantages';
   if (k === 'factions' || k === 'faction' || k === 'societies') return 'factions';

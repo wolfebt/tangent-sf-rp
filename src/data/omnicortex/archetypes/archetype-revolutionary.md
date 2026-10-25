@@ -24,6 +24,12 @@ essential_skills:
   - Insight
   - Knowledge (Tactics)
   - Combat (any)
+signature_traits:
+  - Inspiring Rhetoric
+  - Rebel Leader
+traits:
+  - Inspiring Rhetoric
+  - Rebel Leader
 signature_features:
   - Inspiring Rhetoric
   - Rebel Leader

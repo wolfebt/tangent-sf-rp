@@ -22,6 +22,12 @@ essential_skills:
   - Diplomacy
   - Insight
   - Vocation (Broker)
+signature_traits:
+  - Market Savvy
+  - Resourceful
+traits:
+  - Market Savvy
+  - Resourceful
 signature_features:
   - Market Savvy
   - Resourceful

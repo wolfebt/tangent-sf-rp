@@ -23,6 +23,12 @@ essential_skills:
   - Stealth
   - Acrobatics
   - Diplomacy
+signature_traits:
+  - Evasive Maneuvers
+  - Hidden Compartments
+traits:
+  - Evasive Maneuvers
+  - Hidden Compartments
 signature_features:
   - Evasive Maneuvers
   - Hidden Compartments

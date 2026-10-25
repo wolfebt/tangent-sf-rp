@@ -23,6 +23,12 @@ essential_skills:
   - Insight
   - Alertness
   - Knowledge (Nature)
+signature_traits:
+  - Spirit Walker
+  - Spiritual Attunement
+traits:
+  - Spirit Walker
+  - Spiritual Attunement
 signature_features:
   - Spirit Walker
   - Spiritual Attunement

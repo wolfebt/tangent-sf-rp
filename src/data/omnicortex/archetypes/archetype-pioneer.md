@@ -23,6 +23,12 @@ essential_skills:
   - Knowledge (Navigation)
   - Knowledge (History)
   - Alertness
+signature_traits:
+  - Pathfinder
+  - Cartographer
+traits:
+  - Pathfinder
+  - Cartographer
 signature_features:
   - Pathfinder
   - Cartographer

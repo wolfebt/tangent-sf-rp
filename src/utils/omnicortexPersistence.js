@@ -12,7 +12,7 @@ import { DEFAULT_OCCUPATIONS } from '../data/occupationsData.js';
 import { DEFAULT_ORIGINS } from '../data/originsData.js';
 import { DEFAULT_FACTIONS } from '../data/factionsData.js';
 import { DEFAULT_FEATURES } from '../data/featuresData.js';
-import { ALL_CANONICAL_TRAITS } from '../data/speciesTraitsData.js';
+import { ALL_SPECIES_TRAITS, ALL_PILLAR_TRAITS, ALL_CANONICAL_TRAITS } from '../data/speciesTraitsData.js';
 import { ALL_CANONICAL_SKILLS } from '../data/skillsData.js';
 import { DEFAULT_SPECIES_DISADVANTAGES } from '../data/speciesDisadvantagesData.js';
 import { DEFAULT_WEAPONRY } from '../data/weaponryData.js';
@@ -228,7 +228,22 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
   }
 
   const currentTombstones = tombstones || getOmnicortexTombstones();
-  let items = (docsList || []).filter(i => !isOmnicortexDeleted(i, currentTombstones));
+  let items = (docsList || []).filter(i => {
+    if (isOmnicortexDeleted(i, currentTombstones)) return false;
+    if (catKey === 'features') {
+      if (i.trait_type === 'Species Trait' || i.category === 'Species Trait' || i.type === 'species_trait') return false;
+      const cpVal = Number(i.cp ?? i.bp ?? 3);
+      if ([1, 2, 4].includes(cpVal) && i.category !== 'Suggested Feature') return false;
+    }
+    if (catKey === 'trait' || catKey === 'species_traits') {
+      if (['Origin Trait', 'Occupational Trait', 'Signature Trait', 'Archetype Trait', 'Faction Trait'].includes(i.trait_type)) return false;
+    }
+    if (catKey === 'traits') {
+      if (i.trait_type === 'Species Trait') return false;
+      if (String(i.id || '').startsWith('trait-') && !['Origin Trait', 'Occupational Trait', 'Signature Trait', 'Archetype Trait', 'Faction Trait'].includes(i.trait_type)) return false;
+    }
+    return true;
+  });
 
   // Retrieve locally saved custom entries / modifications for this category
   const customEntries = catKey ? (getOmnicortexCustomEntries()[catKey] || {}) : {};
@@ -247,21 +262,26 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
   // If a document was modified locally, prioritize the local custom entry
   items = items.map(doc => {
     if (!doc || typeof doc !== 'object') return doc;
+    let resolvedDoc = doc;
     const docId = (doc.id || '').toString().toLowerCase().trim();
     if (docId && customEntryMap.has(docId)) {
       const customDoc = customEntryMap.get(docId);
       const docTime = doc.updatedAt ? new Date(doc.updatedAt).getTime() : 0;
       const customTime = customDoc.updatedAt ? new Date(customDoc.updatedAt).getTime() : 0;
-      return (customTime >= docTime) ? customDoc : doc;
+      resolvedDoc = (customTime >= docTime) ? customDoc : doc;
+    } else {
+      const docName = (doc.name || '').toString().toLowerCase().trim();
+      if (docName && customEntryMap.has(docName)) {
+        const customDoc = customEntryMap.get(docName);
+        const docTime = doc.updatedAt ? new Date(doc.updatedAt).getTime() : 0;
+        const customTime = customDoc.updatedAt ? new Date(customDoc.updatedAt).getTime() : 0;
+        resolvedDoc = (customTime >= docTime) ? customDoc : doc;
+      }
     }
-    const docName = (doc.name || '').toString().toLowerCase().trim();
-    if (docName && customEntryMap.has(docName)) {
-      const customDoc = customEntryMap.get(docName);
-      const docTime = doc.updatedAt ? new Date(doc.updatedAt).getTime() : 0;
-      const customTime = customDoc.updatedAt ? new Date(customDoc.updatedAt).getTime() : 0;
-      return (customTime >= docTime) ? customDoc : doc;
+    if (catKey === 'traits' && resolvedDoc.trait_type === 'Signature Trait') {
+      resolvedDoc = { ...resolvedDoc, trait_type: 'Archetype Trait' };
     }
-    return doc;
+    return resolvedDoc;
   });
 
   const fallbackSeeds = getFallbackSeedForCategory(catKey);
@@ -330,6 +350,7 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
         'bonus_skill_choices',
         'inherent_features',
         'bonus_feature_choices',
+        'signature_traits',
         'traits',
         'species_traits',
         'movement_modes',
@@ -582,7 +603,8 @@ export const getFallbackSeedForCategory = (catK) => {
   if (catK === 'origins' || catK === 'char-origin') return DEFAULT_ORIGINS;
   if (catK === 'factions' || catK === 'char-faction') return DEFAULT_FACTIONS;
   if (catK === 'features') return DEFAULT_FEATURES;
-  if (catK === 'traits' || catK === 'trait') return ALL_CANONICAL_TRAITS;
+  if (catK === 'trait' || catK === 'species_traits') return ALL_SPECIES_TRAITS;
+  if (catK === 'traits') return ALL_PILLAR_TRAITS;
   if (catK === 'skills') return ALL_CANONICAL_SKILLS;
   if (catK === 'disadvantages') return DEFAULT_SPECIES_DISADVANTAGES;
   if (catK === 'weaponry' || catK === 'weapons') return DEFAULT_WEAPONRY;

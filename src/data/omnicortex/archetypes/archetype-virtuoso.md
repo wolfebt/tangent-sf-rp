@@ -23,6 +23,12 @@ essential_skills:
   - Expression (any)
   - Diplomacy
   - Social
+signature_traits:
+  - Showmanship
+  - Star Power
+traits:
+  - Showmanship
+  - Star Power
 signature_features:
   - Showmanship
   - Star Power

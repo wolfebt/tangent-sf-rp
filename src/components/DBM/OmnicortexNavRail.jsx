@@ -123,8 +123,25 @@ const SECTION_THEMES = {
   }
 };
 
+export const SUB_SECTION_META = {
+  trait: { label: 'Species Traits', shortLabel: 'SPECIES TRAITS', icon: Sparkles, color: '#c084fc' },
+  gear: { label: 'Gear & Supplies', shortLabel: 'GEAR', icon: Package, color: '#fb923c' },
+  weaponry: { label: 'Weaponry', shortLabel: 'WEAPONRY', icon: Crosshair, color: '#f87171' },
+  armoring: { label: 'Armoring', shortLabel: 'ARMORING', icon: Shield, color: '#60a5fa' },
+  augmentations: { label: 'Augmentations', shortLabel: 'AUGMENTS', icon: Zap, color: '#f472b6' },
+  mecha: { label: 'Mecha & Vehicles', shortLabel: 'MECHA', icon: Bot, color: '#fbbf24' },
+  architecture: { label: 'Architecture', shortLabel: 'ARCHITECT', icon: Landmark, color: '#34d399' },
+  other: { label: 'Other Property', shortLabel: 'OTHER', icon: Boxes, color: '#94a3b8' },
+  planetary_design: { label: 'Planetary Design', shortLabel: 'PLANETS', icon: Globe, color: '#818cf8' },
+  world: { label: 'World Profiles', shortLabel: 'WORLDS', icon: Globe, color: '#818cf8' },
+  universe: { label: 'Universe Rules', shortLabel: 'UNIVERSE', icon: Sparkles, color: '#818cf8' },
+  setting: { label: 'Settings', shortLabel: 'SETTINGS', icon: Compass, color: '#818cf8' },
+  philosophy: { label: 'Philosophy', shortLabel: 'PHILOSOPHY', icon: Flame, color: '#818cf8' },
+  scene: { label: 'Scenes', shortLabel: 'SCENES', icon: Landmark, color: '#818cf8' }
+};
+
 /**
- * 16 Canonical Omnicortex Sections
+ * Canonical Omnicortex Sections
  */
 export const OMNICORTEX_SECTIONS = [
   {
@@ -133,7 +150,8 @@ export const OMNICORTEX_SECTIONS = [
     shortLabel: 'SPECIES',
     icon: Dna,
     colorTheme: 'purple',
-    sublabel: 'Lineages, Sizes, Movement & Traits'
+    subItems: ['trait'],
+    sublabel: 'Lineages, Sizes, Movement & Species Traits'
   },
   {
     id: 'factions',
@@ -177,11 +195,19 @@ export const OMNICORTEX_SECTIONS = [
   },
   {
     id: 'features',
-    label: 'Features & Talents',
+    label: 'Character Features',
     shortLabel: 'FEATURES',
     icon: Shield,
     colorTheme: 'emerald',
-    sublabel: 'Combat, General, Meta & Exotic'
+    sublabel: '3 CP Ability, Combat, Discipline, General, Karma, Skill & Special'
+  },
+  {
+    id: 'traits',
+    label: 'Pillar Traits',
+    shortLabel: 'TRAITS',
+    icon: Sparkles,
+    colorTheme: 'cyan',
+    sublabel: 'Origins, Careers, Archetypes & Factions'
   },
   {
     id: 'invocations',
@@ -317,6 +343,33 @@ export const OmnicortexNavRail = ({
     }, 0);
   }, [dbData]);
 
+  // Expandable Branch State for Parent Sections (Species -> Species Traits, Property -> Subcategories, World Design -> Subcategories)
+  const [expandedBranches, setExpandedBranches] = useState({
+    species: true,
+    personal_property: true,
+    world_design: false
+  });
+
+  // Auto-expand branch when activeSectionKey is the parent or one of its subItems
+  useEffect(() => {
+    OMNICORTEX_SECTIONS.forEach(sec => {
+      if (Array.isArray(sec.subItems) && sec.subItems.length > 0) {
+        if (activeSectionKey === sec.id || sec.subItems.includes(activeSectionKey)) {
+          setExpandedBranches(prev => (prev[sec.id] ? prev : { ...prev, [sec.id]: true }));
+        }
+      }
+    });
+  }, [activeSectionKey]);
+
+  const toggleBranch = (sectionId, e) => {
+    if (e) e.stopPropagation();
+    AudioService.playTerminalBeep(950, 0.02);
+    setExpandedBranches(prev => ({
+      ...prev,
+      [sectionId]: !prev[sectionId]
+    }));
+  };
+
   // Compute count for each section
   const getSectionCount = (section) => {
     if (section.isParent && Array.isArray(section.subItems)) {
@@ -331,7 +384,25 @@ export const OmnicortexNavRail = ({
 
   const handleItemClick = (section) => {
     AudioService.playTerminalBeep(1150, 0.02);
+    const hasSubItems = Array.isArray(section.subItems) && section.subItems.length > 0;
+    if (hasSubItems) {
+      if (activeSectionKey === section.id && section.isParent) {
+        setExpandedBranches(prev => ({ ...prev, [section.id]: !prev[section.id] }));
+      } else {
+        setExpandedBranches(prev => ({ ...prev, [section.id]: true }));
+      }
+    }
     onSelectSection(section.id, section);
+    if (!isPinned && !hasSubItems) {
+      setIsHovered(false);
+      setHoveredItem(null);
+    }
+    if (onCloseMobile && !hasSubItems) onCloseMobile();
+  };
+
+  const handleSubItemClick = (subKey, parentSection) => {
+    AudioService.playTerminalBeep(1150, 0.02);
+    onSelectSection(subKey, parentSection);
     if (!isPinned) {
       setIsHovered(false);
       setHoveredItem(null);
@@ -416,79 +487,159 @@ export const OmnicortexNavRail = ({
           </div>
         </div>
 
-        {/* Main 13 Omnicortex Sections Scroll Area */}
+        {/* Main Omnicortex Sections Scroll Area */}
         <div className="flex-1 min-h-0 w-full flex flex-col items-stretch gap-0.5 sm:gap-1 overflow-y-auto no-scrollbar py-0.5">
           {OMNICORTEX_SECTIONS.map((section) => {
-            const isItemActive = activeSectionKey === section.id || 
-              (section.isParent && Array.isArray(section.subItems) && section.subItems.includes(activeSectionKey));
-            
+            const hasSubItems = Array.isArray(section.subItems) && section.subItems.length > 0;
+            const isDirectActive = activeSectionKey === section.id;
+            const isChildActive = hasSubItems && section.subItems.includes(activeSectionKey);
+            const isItemActive = isDirectActive || isChildActive;
+            const isBranchOpen = hasSubItems && Boolean(expandedBranches[section.id]);
+
             const themeKey = section.colorTheme || 'cyan';
             const theme = SECTION_THEMES[themeKey] || SECTION_THEMES.cyan;
             const Icon = section.icon;
             const count = getSectionCount(section);
 
             return (
-              <button
-                key={section.id}
-                type="button"
-                onClick={() => handleItemClick(section)}
-                onMouseEnter={(e) => {
-                  const rect = e.currentTarget.getBoundingClientRect();
-                  setHoveredItem({
-                    label: section.label,
-                    sublabel: section.sublabel,
-                    count,
-                    subItems: section.subItems,
-                    theme,
-                    rect
-                  });
-                }}
-                onMouseLeave={() => setHoveredItem(null)}
-                className={`group relative w-full h-8.5 sm:h-9 rounded-xl flex items-center transition-all cursor-pointer select-none border shrink-0 ${
-                  isExpanded ? 'px-2 justify-start' : 'px-1 justify-center'
-                } ${
-                  isItemActive
-                    ? theme.activeBtn
-                    : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/70 border-transparent hover:border-slate-800/80'
-                }`}
-                title={isExpanded ? undefined : `${section.label} (${count} records)`}
-              >
-                {/* Active Left Glowing Indicator Bar */}
-                {isItemActive && (
-                  <span className={`absolute left-0 top-1.5 bottom-1.5 w-1 rounded-r-full ${theme.bar}`} />
-                )}
-
-                {/* Icon Container */}
-                <div
-                  className={`relative w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center shrink-0 border transition-all ${
-                    isItemActive ? theme.activeBox : theme.iconBox
+              <div key={section.id} className="flex flex-col gap-0.5 w-full shrink-0">
+                <button
+                  type="button"
+                  onClick={() => handleItemClick(section)}
+                  onMouseEnter={(e) => {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    setHoveredItem({
+                      label: section.label,
+                      sublabel: section.sublabel,
+                      count,
+                      subItems: section.subItems,
+                      theme,
+                      rect
+                    });
+                  }}
+                  onMouseLeave={() => setHoveredItem(null)}
+                  className={`group relative w-full h-8.5 sm:h-9 rounded-xl flex items-center transition-all cursor-pointer select-none border shrink-0 ${
+                    isExpanded ? 'px-2 justify-start' : 'px-1 justify-center'
+                  } ${
+                    isItemActive
+                      ? theme.activeBtn
+                      : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/70 border-transparent hover:border-slate-800/80'
                   }`}
+                  title={isExpanded ? undefined : `${section.label} (${count} records)`}
                 >
-                  <Icon size={16} />
-                </div>
+                  {/* Active Left Glowing Indicator Bar */}
+                  {isItemActive && (
+                    <span className={`absolute left-0 top-1.5 bottom-1.5 w-1 rounded-r-full ${theme.bar}`} />
+                  )}
 
-                {/* Label & Descriptive Text to the Right of Icon (Collapsed in mini drawer, expanded on hover) */}
-                <div
-                  className={`flex flex-col min-w-0 flex-1 text-left transition-all duration-200 overflow-hidden ${
-                    isExpanded 
-                      ? 'opacity-100 ml-2.5 max-w-[170px]' 
-                      : 'opacity-0 max-w-0 pointer-events-none'
-                  }`}
-                >
-                  <div className="flex items-center justify-between gap-1">
-                    <span
-                      className={`font-mono text-[11px] font-bold uppercase tracking-wider truncate leading-tight ${
-                        isItemActive ? theme.activeLabel : 'text-slate-200 group-hover:text-white'
-                      }`}
-                    >
-                      {section.shortLabel === 'DISADV' ? 'DISADVANTAGES' : section.shortLabel}
+                  {/* Icon Container */}
+                  <div
+                    className={`relative w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center shrink-0 border transition-all ${
+                      isItemActive ? theme.activeBox : theme.iconBox
+                    }`}
+                  >
+                    <Icon size={16} />
+                  </div>
+
+                  {/* Label & Descriptive Text to the Right of Icon */}
+                  <div
+                    className={`flex flex-col min-w-0 flex-1 text-left transition-all duration-200 overflow-hidden ${
+                      isExpanded 
+                        ? 'opacity-100 ml-2.5 max-w-[170px]' 
+                        : 'opacity-0 max-w-0 pointer-events-none'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-1">
+                      <span
+                        className={`font-mono text-[11px] font-bold uppercase tracking-wider truncate leading-tight ${
+                          isItemActive ? theme.activeLabel : 'text-slate-200 group-hover:text-white'
+                        }`}
+                      >
+                        {section.shortLabel === 'DISADV' ? 'DISADVANTAGES' : section.shortLabel}
+                      </span>
+                      {hasSubItems && (
+                        <span
+                          role="button"
+                          tabIndex={-1}
+                          onClick={(e) => toggleBranch(section.id, e)}
+                          title={isBranchOpen ? 'Collapse branch' : 'Expand branch'}
+                          className="p-0.5 rounded hover:bg-slate-800/80 text-slate-400 hover:text-white transition-colors"
+                        >
+                          <ChevronDown
+                            size={12}
+                            className={`transition-transform duration-200 ${isBranchOpen ? 'rotate-180 text-cyan-300' : ''}`}
+                          />
+                        </span>
+                      )}
+                    </div>
+                    <span className="text-[9px] text-slate-400/80 truncate font-mono leading-tight mt-0.5">
+                      {section.label}
                     </span>
                   </div>
-                  <span className="text-[9px] text-slate-400/80 truncate font-mono leading-tight mt-0.5">
-                    {section.label}
-                  </span>
-                </div>
-              </button>
+                </button>
+
+                {/* Expanding Subcategory Tree Branch (Species -> Species Traits, Property -> Subcategories, World -> Subcategories) */}
+                {hasSubItems && isBranchOpen && isExpanded && (
+                  <div className="relative pl-2.5 ml-4 my-0.5 flex flex-col gap-1 border-l-2 border-slate-700/80">
+                    {section.subItems.map((subKey) => {
+                      const subMeta = SUB_SECTION_META[subKey] || {
+                        label: subKey.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
+                        shortLabel: subKey.replace(/_/g, ' ').toUpperCase(),
+                        icon: Sparkles,
+                        color: '#22d3ee'
+                      };
+                      const SubIcon = subMeta.icon || Sparkles;
+                      const isSubActive = activeSectionKey === subKey;
+                      const subCount = Array.isArray(dbData[subKey]) ? dbData[subKey].length : 0;
+
+                      return (
+                        <button
+                          key={subKey}
+                          type="button"
+                          onClick={() => handleSubItemClick(subKey, section)}
+                          title={`${subMeta.label} (${subCount} records)`}
+                          className={`group/sub relative w-full px-2 py-1.5 rounded-lg text-left font-mono text-[9.5px] font-bold uppercase tracking-wider transition-all flex items-center justify-between gap-1.5 cursor-pointer border ${
+                            isSubActive
+                              ? `${theme.activeBtn} shadow-sm`
+                              : 'bg-slate-900/40 text-slate-400 border-slate-800/60 hover:text-slate-100 hover:bg-slate-800/70 hover:border-slate-700'
+                          }`}
+                        >
+                          {/* Horizontal Branch Connector Tick */}
+                          <span
+                            className="absolute -left-2.5 top-1/2 -translate-y-1/2 w-2 h-0.5"
+                            style={{ backgroundColor: isSubActive ? subMeta.color : 'rgba(148, 163, 184, 0.35)' }}
+                          />
+                          <div className="flex items-center gap-1.5 min-w-0">
+                            <div
+                              className={`w-5 h-5 rounded-md flex items-center justify-center shrink-0 border transition-colors ${
+                                isSubActive ? 'border-cyan-400/70' : 'border-slate-800 bg-slate-950/60 group-hover/sub:border-slate-700'
+                              }`}
+                              style={isSubActive ? { background: `${subMeta.color}25`, borderColor: `${subMeta.color}80` } : {}}
+                            >
+                              <SubIcon
+                                size={11}
+                                style={{ color: isSubActive ? subMeta.color : undefined }}
+                                className={isSubActive ? '' : 'text-slate-400 group-hover/sub:text-slate-200'}
+                              />
+                            </div>
+                            <span
+                              className="truncate"
+                              style={isSubActive ? { color: subMeta.color } : {}}
+                            >
+                              {subMeta.shortLabel || subMeta.label}
+                            </span>
+                          </div>
+                          {subCount > 0 && (
+                            <span className="px-1.5 py-0.2 rounded-full bg-slate-800/90 border border-slate-700/80 text-slate-300 font-mono text-[8.5px] font-bold shrink-0">
+                              {subCount}
+                            </span>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             );
           })}
         </div>

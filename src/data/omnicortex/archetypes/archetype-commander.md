@@ -23,6 +23,12 @@ essential_skills:
   - Diplomacy
   - Knowledge (Tactics)
   - Combat (any)
+signature_traits:
+  - Commanding Presence
+  - Pirate Captain
+traits:
+  - Commanding Presence
+  - Pirate Captain
 signature_features:
   - Commanding Presence
   - Pirate Captain

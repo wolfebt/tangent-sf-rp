@@ -23,6 +23,12 @@ essential_skills:
   - Knowledge (Science \- Physics)
   - Knowledge (Technology)
   - Knowledge (Science \- Mathematics)
+signature_traits:
+  - Logical Deduction
+  - Innovative Thinking
+traits:
+  - Logical Deduction
+  - Innovative Thinking
 signature_features:
   - Logical Deduction
   - Innovative Thinking

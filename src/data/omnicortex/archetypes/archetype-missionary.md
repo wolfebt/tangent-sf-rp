@@ -23,6 +23,12 @@ essential_skills:
   - Insight
   - Knowledge (Survival)
   - Knowledge (Religion)
+signature_traits:
+  - Divine Inspiration
+  - Spiritual Guide
+traits:
+  - Divine Inspiration
+  - Spiritual Guide
 signature_features:
   - Divine Inspiration
   - Spiritual Guide

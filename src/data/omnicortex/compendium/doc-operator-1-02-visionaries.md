@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","archetypes","1.02.visionaries","mechanics"]
-updatedAt: "2026-10-14T05:53:41.206Z"
+updatedAt: "2026-10-25T07:10:31.060Z"
 costs:
   bp: 0
   credits: 0
@@ -59,7 +59,7 @@ A passionate individual who fights for social justice and equality. They utilize
 * **Recommended Factions:** Coalition (Freedom Movement), Entari Combine (Ethicists), Outworlds.  
 * **Key Attributes:** Charisma (Primary), Wisdom (Secondary).  
 * **Essential Skills:** Diplomacy, Insight, Knowledge (History), Leadership.  
-* **Signature Features:** Voice of the People, Community Organizer.  
+* **Signature Traits (1 CP):** Voice of the People, Community Organizer.  
 * **Tactical Role:** Rally NPCs to the party's cause, de-escalate riots, negotiate with locals.
 
 ### 
@@ -78,7 +78,7 @@ A skilled propagandist who spreads dissent and undermines authority through pers
 * **Recommended Factions:** Coalition (Rebels), Outworlds (Cults), Syndicate (Hostile Takeover).  
 * **Key Attributes:** Charisma (Primary), Intellect (Secondary).  
 * **Essential Skills:** Diplomacy, Expression (any), Bluff, Knowledge (Computers).  
-* **Signature Features:** Voice of Dissent, Subversive Tactics.  
+* **Signature Traits (1 CP):** Voice of Dissent, Subversive Tactics.  
 * **Tactical Role:** Incite distractions, turn enemy minions against leaders, sow confusion.
 
 ### 
@@ -97,7 +97,7 @@ An adept negotiator entrusted with representing their faction. They navigate dip
 * **Recommended Factions:** Entari Combine (Diplomats), Alterian Enclave (Ambassadors), Ascendancy.  
 * **Key Attributes:** Charisma (Primary), Wisdom (Secondary).  
 * **Essential Skills:** Diplomacy, Insight, Knowledge (History), Knowledge (Culture).  
-* **Signature Features:** Diplomatic Immunity, Master Negotiator.  
+* **Signature Traits (1 CP):** Diplomatic Immunity, Master Negotiator.  
 * **Tactical Role:** Prevent combat before it starts, call in faction favors, secure safe houses.
 
 ### 
@@ -116,7 +116,7 @@ A charismatic and cunning leader who commands a starship, charting courses and l
 * **Recommended Factions:** Impyrium (Admiralty), Dynasty (Fleet Lords), Ascendancy.  
 * **Key Attributes:** Charisma (Primary), Intellect (Secondary).  
 * **Essential Skills:** Leadership, Diplomacy, Knowledge (Tactics), Combat (any).  
-* **Signature Features:** Commanding Presence, Pirate Captain.  
+* **Signature Traits (1 CP):** Commanding Presence, Pirate Captain.  
 * **Tactical Role:** Buffing the party (Orders), piloting/commanding vehicles, face of the group.
 
 ### 
@@ -135,7 +135,7 @@ Leader of a criminal organization, overseeing illegal activities and managing a 
 * **Recommended Factions:** Syndicate (Shadow Boards), Coalition (Crime Lords), Outworlds.  
 * **Key Attributes:** Charisma (Primary), Strength (Secondary).  
 * **Essential Skills:** Intimidation, Leadership, Diplomacy, Streetwise.  
-* **Signature Features:** Commanding Presence, Network of Power.  
+* **Signature Traits (1 CP):** Commanding Presence, Network of Power.  
 * **Tactical Role:** Controlling NPC minions, sourcing illegal gear, intimidation.
 
 ### 
@@ -154,7 +154,7 @@ Roots out heresy and dissent. Skilled in interrogation and intimidation to enfor
 * **Recommended Factions:** Impyrium (Inquisitors), Auluran (Purists), Dracon Dynasty.  
 * **Key Attributes:** Wisdom (Primary), Charisma (Secondary).  
 * **Essential Skills:** Intimidation, Investigation, Insight, Bluff.  
-* **Signature Features:** Unwavering Conviction, Fearsome Reputation.  
+* **Signature Traits (1 CP):** Unwavering Conviction, Fearsome Reputation.  
 * **Tactical Role:** Breaking enemy morale, uncovering spies, resisting psychic attacks.
 
 ### 
@@ -173,7 +173,7 @@ A member of the aristocracy, born into a position of privilege and power. They w
 * **Recommended Factions:** Dracon Dynasty (Nobility), Impyrium (Patricians), Alterian Enclave (Elders).  
 * **Key Attributes:** Charisma (Primary), History (Secondary).  
 * **Essential Skills:** Diplomacy, Knowledge (History), Insight, Knowledge (Nobility).  
-* **Signature Features:** Noble Lineage, Courtly Intrigue.  
+* **Signature Traits (1 CP):** Noble Lineage, Courtly Intrigue.  
 * **Tactical Role:** Gaining access to high-security areas via status, funding, legal immunity.
 
 ### 
@@ -192,7 +192,7 @@ Charismatic figure who navigates the political landscape, builds alliances, and 
 * **Recommended Factions:** Impyrium (Senate), Coalition (Council), Entari Combine.  
 * **Key Attributes:** Charisma (Primary), Wisdom (Secondary).  
 * **Essential Skills:** Diplomacy, Bluff, Insight, Leadership.  
-* **Signature Features:** Political Acumen, Influence Network.  
+* **Signature Traits (1 CP):** Political Acumen, Influence Network.  
 * **Tactical Role:** Dealing with authorities, securing funding, changing laws.
 
 ### 
@@ -211,7 +211,7 @@ Possesses innate mental powers or spiritual connection. Seers, telepaths, and pr
 * **Recommended Factions:** Auluran (Mystics), Alterian Enclave (Seers), Impyrium (Sanctioned Psykers).  
 * **Key Attributes:** Wisdom (Primary), Constitution (Secondary).  
 * **Essential Skills:** Insight, Diplomacy, Two Disciplines (Mental/Divination).  
-* **Signature Features:** Prophetic Visions, Spiritual Advisor.  
+* **Signature Traits (1 CP):** Prophetic Visions, Spiritual Advisor.  
 * **Tactical Role:** Scouting (Clairvoyance), Crowd Control (Telepathy), Buffing.
 
 ### 
@@ -230,7 +230,7 @@ Weaver of words and tales, captivating audiences with immersive narratives and t
 * **Recommended Factions:** Alterian Enclave (Historians), Impyrium (Archivists), Entari Combine.  
 * **Key Attributes:** Charisma (Primary), Intellect (Secondary).  
 * **Essential Skills:** Expression (Oratory), Knowledge (History), Diplomacy, Bluff.  
-* **Signature Features:** Masterful Narrator, World Builder.  
+* **Signature Traits (1 CP):** Masterful Narrator, World Builder.  
 * **Tactical Role:** Buffing allies with inspiration, gathering local lore, engaging social encounters.
 
 ### 
@@ -249,7 +249,7 @@ A devout individual dedicated to prayer and meditation, seeking enlightenment.
 * **Recommended Factions:** Auluran (Dar Mystics), Mekan (Code Monks), Outworlds.  
 * **Key Attributes:** Wisdom (Primary), Constitution (Secondary).  
 * **Essential Skills:** Insight, Alertness, Knowledge (Religion), Knowledge (Metaphysics).  
-* **Signature Features:** Inner Peace, Spiritual Attunement.  
+* **Signature Traits (1 CP):** Inner Peace, Spiritual Attunement.  
 * **Tactical Role:** Resisting mental attacks, calming emotions, spiritual guidance.
 
 ### 
@@ -268,7 +268,7 @@ A charismatic leader who inspires and guides followers, delivering divine pronou
 * **Recommended Factions:** Outworlds, Impyrium (Heretics), Syndicate (Corporate Cults).  
 * **Key Attributes:** Charisma (Primary), Wisdom (Secondary).  
 * **Essential Skills:** Leadership, Diplomacy, Insight, Knowledge (Religion).  
-* **Signature Features:** Divine Inspiration, Spiritual Leader.  
+* **Signature Traits (1 CP):** Divine Inspiration, Spiritual Leader.  
 * **Tactical Role:** Controlling minions, inspiring allies, social manipulation.
 
 ### 
@@ -287,7 +287,7 @@ A nihilistic prophet who believes the end is inevitable and seeks to hasten or w
 * **Recommended Factions:** Outworlds (Entropy Cults), Sha'Nor, Coalition.  
 * **Key Attributes:** Charisma (Primary), Wisdom (Secondary).  
 * **Essential Skills:** Intimidation, Diplomacy, Discipline (Entropy \- Chaos).  
-* **Signature Features:** Harbinger of Doom, Embrace the Void.  
+* **Signature Traits (1 CP):** Harbinger of Doom, Embrace the Void.  
 * **Tactical Role:** Demoralizing enemies, inflicting fear, wielding entropic magic.
 
 ### 
@@ -306,7 +306,7 @@ A zealous preacher who travels the galaxy to spread their faith.
 * **Recommended Factions:** Impyrium (State Religion), Entari Combine (Ethical), Ascendancy.  
 * **Key Attributes:** Charisma (Primary), Constitution (Secondary).  
 * **Essential Skills:** Diplomacy, Insight, Knowledge (Survival), Knowledge (Religion).  
-* **Signature Features:** Divine Inspiration, Spiritual Guide.  
+* **Signature Traits (1 CP):** Divine Inspiration, Spiritual Guide.  
 * **Tactical Role:** Converting NPCs, providing healing/support, navigating cultural/religious encounters.
 
 ### 
@@ -325,7 +325,7 @@ A wise and insightful individual who perceives glimpses of the future and offers
 * **Recommended Factions:** Auluran, Alterian Enclave, Ascendancy.  
 * **Key Attributes:** Wisdom (Primary), Insight (Secondary).  
 * **Essential Skills:** Insight, Diplomacy, Discipline (Divination).  
-* **Signature Features:** Prophetic Visions, Spiritual Advisor.  
+* **Signature Traits (1 CP):** Prophetic Visions, Spiritual Advisor.  
 * **Tactical Role:** Gaining initiative bonuses, avoiding traps, gathering info via divination.
 
 ### 
@@ -344,7 +344,7 @@ A strategic leader who commands troops and coordinates military operations.
 * **Recommended Factions:** Impyrium (Legions), Dracon Dynasty, Coalition (Militia).  
 * **Key Attributes:** Charisma (Primary), Intellect (Secondary).  
 * **Essential Skills:** Leadership, Knowledge (Tactics), Diplomacy, Combat (Any).  
-* **Signature Features:** Tactical Expertise, Inspiring Leader.  
+* **Signature Traits (1 CP):** Tactical Expertise, Inspiring Leader.  
 * **Tactical Role:** Granting bonuses to allies, organizing attacks, managing NPC troops.
 
 ### 
@@ -363,7 +363,7 @@ A protector of the innocent and champion of peace, using force and words.
 * **Recommended Factions:** Entari Combine (Constables), Ascendancy (Judges), Coalition.  
 * **Key Attributes:** Charisma (Primary), Constitution (Secondary).  
 * **Essential Skills:** Athletics, Diplomacy, Insight, Combat (any).  
-* **Signature Features:** Pacifying Presence, Defensive Stance.  
+* **Signature Traits (1 CP):** Pacifying Presence, Defensive Stance.  
 * **Tactical Role:** De-escalating combat, protecting allies, subduing enemies non-lethally.
 
 ### 
@@ -382,7 +382,7 @@ A devout servant of a state religion, maintaining morale and conducting ceremoni
 * **Recommended Factions:** Impyrium (Orthodoxy), Dracon Dynasty (Dragon Cults).  
 * **Key Attributes:** Wisdom (Primary), Charisma (Secondary).  
 * **Essential Skills:** Diplomacy, Insight, Knowledge (History), Knowledge (Religion).  
-* **Signature Features:** Religious Authority, Spiritual Guidance.  
+* **Signature Traits (1 CP):** Religious Authority, Spiritual Guidance.  
 * **Tactical Role:** Social influence via religious rank, buffing morale, healing.
 
 ### 
@@ -401,7 +401,7 @@ A charismatic leader who inspires and unites the rebellion.
 * **Recommended Factions:** Coalition (Independence), Outworlds, Syndicate (Unionizers).  
 * **Key Attributes:** Charisma (Primary), Spirit (Secondary).  
 * **Essential Skills:** Leadership, Diplomacy, Insight, Knowledge (Tactics), Combat (any).  
-* **Signature Features:** Inspiring Rhetoric, Rebel Leader.  
+* **Signature Traits (1 CP):** Inspiring Rhetoric, Rebel Leader.  
 * **Tactical Role:** Inspiring NPCs to fight, leading riots/raids, boosting ally morale.
 
 ### 
@@ -420,7 +420,7 @@ A charismatic individual who thrives in social settings and networking.
 * **Recommended Factions:** Syndicate (Elites), Entari Combine, Dracon Dynasty.  
 * **Key Attributes:** Charisma (Primary), Wisdom (Secondary).  
 * **Essential Skills:** Bluff, Insight, Leadership, Diplomacy, Etiquette.  
-* **Signature Features:** Social Butterfly, Connections.  
+* **Signature Traits (1 CP):** Social Butterfly, Connections.  
 * **Tactical Role:** Gathering rumors, gaining access to restricted social areas, manipulating NPCs.
 
 ### 
@@ -439,7 +439,7 @@ The experienced instructor who guides the growth of others, identifying potentia
 * **Recommended Factions:** Ascendancy (Academics), Impyrium (Masters), Entari Combine.  
 * **Key Attributes:** Wisdom (Primary), Intellect (Secondary).  
 * **Essential Skills:** Diplomacy, Knowledge (Academics), Insight, Leadership.  
-* **Signature Features:** Shared Wisdom, Mentorship.  
+* **Signature Traits (1 CP):** Shared Wisdom, Mentorship.  
 * **Tactical Role:** Granting bonuses to allies' learning and skill checks, tactical instruction.
 
 ### 
@@ -458,7 +458,7 @@ The conduit between the material plane and the spiritual realms, interpreting th
 * **Recommended Factions:** Auluran (Mystics), Sha'Nor, Outworlds (Shamans).  
 * **Key Attributes:** Wisdom (Primary), Constitution (Secondary).  
 * **Essential Skills:** Discipline (Entropy \- Order (Nature/Life)), Insight, Alertness, Knowledge (Nature).  
-* **Signature Features:** Spirit Walker, Spiritual Attunement.  
+* **Signature Traits (1 CP):** Spirit Walker, Spiritual Attunement.  
 * **Tactical Role:** Detecting other-dimensional threats, communing with local spirits, planar navigation.
 
 ### 
@@ -477,7 +477,7 @@ The public figure who embodies a concept or cause, wielding their fame as a sour
 * **Recommended Factions:** Syndicate (Brand Identity), Coalition (Rebel Face), Entari.  
 * **Key Attributes:** Charisma (Primary), Wisdom (Secondary).  
 * **Essential Skills:** Expression (any), Diplomacy, Bluff, Leadership.  
-* **Signature Features:** Star Power, Inspiring Personality.  
+* **Signature Traits (1 CP):** Star Power, Inspiring Personality.  
 * **Tactical Role:** Rallying public support, demoralizing opposition through reputation, high-stakes negotiation.
 
 ### 
@@ -496,7 +496,7 @@ The neutral mediator who resolves disputes with absolute impartiality and a deep
 * **Recommended Factions:** Ascendancy (Judges), Entari Combine (Ethicists), Syndicate.  
 * **Key Attributes:** Wisdom (Primary), Charisma (Secondary).  
 * **Essential Skills:** Insight, Knowledge (Law), Diplomacy, Investigation.  
-* **Signature Features:** Conflict resolution, Master Negotiator.  
+* **Signature Traits (1 CP):** Conflict resolution, Master Negotiator.  
 * **Tactical Role:** Preventing conflict escalation, identifying lies, securing diplomatic safety.
 
 ### 
@@ -515,7 +515,7 @@ The seeker of deeper meaning who challenges the assumptions of society and explo
 * **Recommended Factions:** Alterian Enclave (Sages), Mekan (Code Adherents), Ascendancy.  
 * **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
 * **Essential Skills:** Academics, Insight, Diplomacy, Knowledge (History).  
-* **Signature Features:** Metacognition, Enlightened Mind.  
+* **Signature Traits (1 CP):** Metacognition, Enlightened Mind.  
 * **Tactical Role:** Resisting mental intrusion, providing ethical guidance, identifying historical/philosophical context.
 
 ## 

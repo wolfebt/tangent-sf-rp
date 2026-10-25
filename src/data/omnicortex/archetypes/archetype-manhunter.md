@@ -23,6 +23,12 @@ essential_skills:
   - Alertness
   - Knowledge (Investigation)
   - Combat (Any)
+signature_traits:
+  - Hunter's Intuition
+  - Relentless Pursuit
+traits:
+  - Hunter's Intuition
+  - Relentless Pursuit
 signature_features:
   - Hunter's Intuition
   - Relentless Pursuit

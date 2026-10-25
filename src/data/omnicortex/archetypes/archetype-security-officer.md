@@ -22,6 +22,12 @@ essential_skills:
   - Insight
   - Intimidation
   - Combat (Any)
+signature_traits:
+  - Keen Eye
+  - Guardian
+traits:
+  - Keen Eye
+  - Guardian
 signature_features:
   - Keen Eye
   - Guardian

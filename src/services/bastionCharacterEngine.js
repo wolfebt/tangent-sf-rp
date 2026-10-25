@@ -1677,10 +1677,15 @@ export const derivePillarTraitsAndFeatures = ({
     });
   }
 
-  // 4. Archetype Signature Features
-  if (archetype && Array.isArray(archetype.signature_features)) {
-    archetype.signature_features.forEach(feat => {
-      addFeature(typeof feat === 'object' ? (feat.name || feat.id) : feat, 'archetype', 'Archetype Signature', 2, true);
+  // 4. Archetype Signature Traits (1 CP each)
+  if (archetype) {
+    const sigTraits = Array.isArray(archetype.signature_traits) && archetype.signature_traits.length > 0
+      ? archetype.signature_traits
+      : (Array.isArray(archetype.traits) && archetype.traits.length > 0
+        ? archetype.traits
+        : (Array.isArray(archetype.signature_features) ? archetype.signature_features : []));
+    sigTraits.forEach(tr => {
+      addTrait(typeof tr === 'object' ? (tr.name || tr.id) : tr, 'archetype', 'Archetype Trait', 1, false);
     });
   }
 

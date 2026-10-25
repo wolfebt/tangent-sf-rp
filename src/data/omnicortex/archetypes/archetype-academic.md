@@ -23,6 +23,12 @@ essential_skills:
   - Knowledge (Investigation)
   - Knowledge (Technology)
   - Knowledge (Science)
+signature_traits:
+  - Scientific Method
+  - Inquisitive Mind
+traits:
+  - Scientific Method
+  - Inquisitive Mind
 signature_features:
   - Scientific Method
   - Inquisitive Mind

@@ -24,6 +24,12 @@ essential_skills:
   - Energy
   - Dimension)
   - Attune
+signature_traits:
+  - Arcane Mastery
+  - Spell Weaving
+traits:
+  - Arcane Mastery
+  - Spell Weaving
 signature_features:
   - Arcane Mastery
   - Spell Weaving

@@ -23,6 +23,12 @@ essential_skills:
   - Vocation (Engineer)
   - Vocation (Mechanic)
   - Vocation (Electrician)
+signature_traits:
+  - Master Builder
+  - Technical Aptitude
+traits:
+  - Master Builder
+  - Technical Aptitude
 signature_features:
   - Master Builder
   - Technical Aptitude

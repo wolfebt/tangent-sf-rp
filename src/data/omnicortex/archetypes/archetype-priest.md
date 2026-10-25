@@ -22,6 +22,12 @@ essential_skills:
   - Insight
   - Knowledge (History)
   - Knowledge (Religion)
+signature_traits:
+  - Religious Authority
+  - Spiritual Guidance
+traits:
+  - Religious Authority
+  - Spiritual Guidance
 signature_features:
   - Religious Authority
   - Spiritual Guidance

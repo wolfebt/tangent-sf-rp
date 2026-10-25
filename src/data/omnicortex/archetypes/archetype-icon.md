@@ -23,6 +23,12 @@ essential_skills:
   - Diplomacy
   - Bluff
   - Leadership
+signature_traits:
+  - Star Power
+  - Inspiring Personality
+traits:
+  - Star Power
+  - Inspiring Personality
 signature_features:
   - Star Power
   - Inspiring Personality

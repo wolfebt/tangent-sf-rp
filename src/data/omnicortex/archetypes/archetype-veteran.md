@@ -23,6 +23,12 @@ essential_skills:
   - Alertness
   - Athletics
   - Combat (Any)
+signature_traits:
+  - Combat Expertise
+  - Unflinching
+traits:
+  - Combat Expertise
+  - Unflinching
 signature_features:
   - Combat Expertise
   - Unflinching

@@ -94,7 +94,8 @@ export const OMNICORTEX_DOMAINS = [
     color: 'blue',
     categories: [
       { key: 'skills', label: 'Skills & Disciplines', icon: '📊' },
-      { key: 'features', label: 'Features & Talents', icon: '🛡️' }
+      { key: 'features', label: 'Character Features', icon: '🛡️' },
+      { key: 'traits', label: 'Pillar Traits', icon: '✨' }
     ]
   },
   {

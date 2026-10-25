@@ -22,6 +22,12 @@ essential_skills:
   - Knowledge (Survival)
   - Athletics
   - Combat (Rifle)
+signature_traits:
+  - Construction
+  - Frontier Resilience
+traits:
+  - Construction
+  - Frontier Resilience
 signature_features:
   - Construction
   - Frontier Resilience

@@ -23,6 +23,12 @@ essential_skills:
   - Stealth
   - Knowledge (Survival)
   - Discipline (Entropy \- Nature/Life focus)
+signature_traits:
+  - Guardian's Ward
+  - Nature's Wrath
+traits:
+  - Guardian's Ward
+  - Nature's Wrath
 signature_features:
   - Guardian's Ward
   - Nature's Wrath

@@ -23,6 +23,12 @@ essential_skills:
   - Knowledge (Appraisal)
   - Knowledge (Logistics)
   - Barter
+signature_traits:
+  - Resourceful
+  - Master of Logistics
+traits:
+  - Resourceful
+  - Master of Logistics
 signature_features:
   - Resourceful
   - Master of Logistics

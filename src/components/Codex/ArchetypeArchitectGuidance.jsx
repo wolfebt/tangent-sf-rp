@@ -100,10 +100,10 @@ export const ArchetypeArchitectGuidance = ({
     return normalizeList(canonicalSeed?.essential_skills || canonicalSeed?.recommended_skills);
   }, [rawRecSkills, canonicalSeed]);
 
-  const rawRecFeatures = normalizeList(formData.signature_features || formData.recommended_features);
+  const rawRecFeatures = normalizeList(formData.signature_traits || formData.traits || formData.signature_features || formData.recommended_features);
   const recommendedFeatures = useMemo(() => {
     if (rawRecFeatures.length > 0) return rawRecFeatures;
-    return normalizeList(canonicalSeed?.signature_features || canonicalSeed?.recommended_features);
+    return normalizeList(canonicalSeed?.signature_traits || canonicalSeed?.traits || canonicalSeed?.signature_features || canonicalSeed?.recommended_features);
   }, [rawRecFeatures, canonicalSeed]);
 
   const keywordsList = useMemo(() => {
@@ -208,7 +208,7 @@ export const ArchetypeArchitectGuidance = ({
     handleFieldChange('recommended_skills', updated);
   };
 
-  // Handlers for Features
+  // Handlers for Signature Traits
   const handleAddFeature = (e) => {
     e.preventDefault();
     const parts = newFeatureInput.split(/[,;\n]+/).map(s => s.trim()).filter(Boolean);
@@ -217,6 +217,8 @@ export const ArchetypeArchitectGuidance = ({
     for (const p of parts) {
       if (!current.includes(p)) current.push(p);
     }
+    handleFieldChange('signature_traits', current);
+    handleFieldChange('traits', current);
     handleFieldChange('signature_features', current);
     handleFieldChange('recommended_features', current);
     setNewFeatureInput('');
@@ -224,6 +226,8 @@ export const ArchetypeArchitectGuidance = ({
 
   const handleRemoveFeature = (itemToRemove) => {
     const updated = recommendedFeatures.filter(f => f !== itemToRemove);
+    handleFieldChange('signature_traits', updated);
+    handleFieldChange('traits', updated);
     handleFieldChange('signature_features', updated);
     handleFieldChange('recommended_features', updated);
   };
@@ -633,18 +637,18 @@ export const ArchetypeArchitectGuidance = ({
             )}
           </div>
 
-          {/* SIGNATURE FEATURES */}
+          {/* SIGNATURE TRAITS */}
           <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4 flex flex-col justify-between space-y-3 shadow-inner">
             <div className="space-y-1">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-purple-400 uppercase">
                   <Sparkles size={13} />
-                  <span>Signature Features (13 CP Allocation)</span>
+                  <span>Signature Traits (1 CP Each)</span>
                 </div>
                 {isEditMode && onOpenPicker && (
                   <button
                     type="button"
-                    onClick={() => onOpenPicker({ source: 'features', target: 'signature_features', label: 'Signature Features' })}
+                    onClick={() => onOpenPicker({ source: 'traits', target: 'signature_traits', label: 'Signature Traits (Archetypes)' })}
                     className="px-2 py-0.5 bg-purple-950/80 hover:bg-purple-900 border border-purple-500/40 text-purple-300 rounded text-[10px] font-mono font-bold uppercase transition-colors flex items-center gap-1"
                   >
                     <Compass size={10} />
@@ -653,7 +657,7 @@ export const ArchetypeArchitectGuidance = ({
                 )}
               </div>
               <p className="text-[11px] text-slate-400 leading-normal">
-                Two 2-CP signature features plus three relative features forming the mechanical core of this archetype.
+                Two 1-CP Signature Traits forming the mechanical core of this archetype.
               </p>
             </div>
 
@@ -668,6 +672,7 @@ export const ArchetypeArchitectGuidance = ({
                     className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-purple-950/70 border border-purple-500/30 text-purple-200 text-xs font-mono"
                   >
                     <span>{ft}</span>
+                    <span className="text-[9.5px] px-1 rounded bg-purple-500/20 text-purple-300">1 CP</span>
                     {isEditMode && (
                       <button
                         type="button"
@@ -689,7 +694,7 @@ export const ArchetypeArchitectGuidance = ({
                   type="text"
                   value={newFeatureInput}
                   onChange={(e) => setNewFeatureInput(e.target.value)}
-                  placeholder="Add features (comma-separated)..."
+                  placeholder="Add signature traits (comma-separated)..."
                   className="flex-1 bg-slate-900 border border-slate-700/80 rounded px-2.5 py-1 text-xs text-slate-200 placeholder-slate-500 font-mono focus:border-purple-500 focus:outline-none"
                 />
                 <button

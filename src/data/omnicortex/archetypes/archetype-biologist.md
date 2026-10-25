@@ -23,6 +23,12 @@ essential_skills:
   - Knowledge (Science \- Biology)
   - Knowledge (Nature)
   - Investigation
+signature_traits:
+  - Scientific Method
+  - Ecological Expertise
+traits:
+  - Scientific Method
+  - Ecological Expertise
 signature_features:
   - Scientific Method
   - Ecological Expertise

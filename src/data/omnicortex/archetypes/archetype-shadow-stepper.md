@@ -23,6 +23,12 @@ essential_skills:
   - Disguise
   - Knowledge (Computers)
   - Acrobatics
+signature_traits:
+  - Master of Disguise
+  - Digital Ghost
+traits:
+  - Master of Disguise
+  - Digital Ghost
 signature_features:
   - Master of Disguise
   - Digital Ghost

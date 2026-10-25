@@ -23,6 +23,12 @@ essential_skills:
   - Diplomacy
   - Insight
   - Combat (any)
+signature_traits:
+  - Pacifying Presence
+  - Defensive Stance
+traits:
+  - Pacifying Presence
+  - Defensive Stance
 signature_features:
   - Pacifying Presence
   - Defensive Stance

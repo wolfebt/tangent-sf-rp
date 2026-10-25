@@ -414,7 +414,7 @@ const FolioContainer = () => {
         (async () => {
           const autoApply = await confirm({
             title: 'Apply Archetype Chassis',
-            message: `Selected Archetype "${name}". Would you like to apply the 80 CP Archetype Pre-Build (+3 Primary Attr, +2 Secondary Attr, Essential Skills & Signature Features)?`,
+            message: `Selected Archetype "${name}". Would you like to apply the 80 CP Archetype Pre-Build (+3 Primary Attr, +2 Secondary Attr, Essential Skills & Signature Traits)?`,
             confirmLabel: 'Apply 80 CP Pre-Build',
             danger: false
           });
@@ -726,7 +726,7 @@ const FolioContainer = () => {
         (async () => {
           const autoApply = await confirm({
             title: 'Apply Archetype Chassis',
-            message: `Selected Archetype "${name}". Would you like to apply the 80 CP Archetype Pre-Build (+3 Primary Attr, +2 Secondary Attr, Essential Skills & Signature Features)?`,
+            message: `Selected Archetype "${name}". Would you like to apply the 80 CP Archetype Pre-Build (+3 Primary Attr, +2 Secondary Attr, Essential Skills & Signature Traits)?`,
             confirmLabel: 'Apply 80 CP Pre-Build',
             danger: false
           });

@@ -23,6 +23,12 @@ essential_skills:
   - Investigation
   - Insight
   - Bluff
+signature_traits:
+  - Unwavering Conviction
+  - Fearsome Reputation
+traits:
+  - Unwavering Conviction
+  - Fearsome Reputation
 signature_features:
   - Unwavering Conviction
   - Fearsome Reputation

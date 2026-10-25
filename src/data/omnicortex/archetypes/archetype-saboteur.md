@@ -22,6 +22,12 @@ essential_skills:
   - Acrobatics
   - Knowledge (Technology)
   - Vocation (Demolitionist)
+signature_traits:
+  - Demolitionist
+  - Infiltrator
+traits:
+  - Demolitionist
+  - Infiltrator
 signature_features:
   - Demolitionist
   - Infiltrator

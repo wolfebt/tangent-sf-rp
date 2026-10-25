@@ -23,6 +23,12 @@ essential_skills:
   - Knowledge (Technology)
   - Knowledge (Astrophysics)
   - Alertness
+signature_traits:
+  - Celestial Savant
+  - Observational Skills
+traits:
+  - Celestial Savant
+  - Observational Skills
 signature_features:
   - Celestial Savant
   - Observational Skills

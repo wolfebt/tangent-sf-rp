@@ -21,6 +21,12 @@ essential_skills:
   - Intimidation
   - Knowledge (Tactics)
   - Combat (Melee/Heavy)
+signature_traits:
+  - Iron Will
+  - Legionary Training
+traits:
+  - Iron Will
+  - Legionary Training
 signature_features:
   - Iron Will
   - Legionary Training

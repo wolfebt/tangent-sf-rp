@@ -23,6 +23,12 @@ essential_skills:
   - Acrobatics
   - Knowledge (Tactics)
   - Combat
+signature_traits:
+  - Zero-G Combat
+  - Boarding Party
+traits:
+  - Zero-G Combat
+  - Boarding Party
 signature_features:
   - Zero-G Combat
   - Boarding Party

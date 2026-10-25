@@ -21,6 +21,12 @@ essential_skills:
   - Knowledge (Tactics)
   - Athletics
   - Combat (Any)
+signature_traits:
+  - Tactical Mastery
+  - Inspiring Strategist
+traits:
+  - Tactical Mastery
+  - Inspiring Strategist
 signature_features:
   - Tactical Mastery
   - Inspiring Strategist

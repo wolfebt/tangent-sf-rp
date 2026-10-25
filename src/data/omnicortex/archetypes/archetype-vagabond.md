@@ -23,6 +23,12 @@ essential_skills:
   - Knowledge (Survival)
   - Streetwise
   - Vocation (General)
+signature_traits:
+  - Adaptability
+  - Mobility
+traits:
+  - Adaptability
+  - Mobility
 signature_features:
   - Adaptability
   - Mobility

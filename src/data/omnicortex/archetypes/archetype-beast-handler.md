@@ -23,6 +23,12 @@ essential_skills:
   - Knowledge (Survival)
   - Athletics
   - Insight
+signature_traits:
+  - Animal Affinity
+  - Spirit Walker
+traits:
+  - Animal Affinity
+  - Spirit Walker
 signature_features:
   - Animal Affinity
   - Spirit Walker

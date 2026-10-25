@@ -22,6 +22,12 @@ essential_skills:
   - Medicine
   - Athletics
   - Combat (Rifle/Pistol)
+signature_traits:
+  - Field Triage
+  - Combat Medic
+traits:
+  - Field Triage
+  - Combat Medic
 signature_features:
   - Field Triage
   - Combat Medic

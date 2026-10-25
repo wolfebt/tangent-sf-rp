@@ -22,6 +22,12 @@ essential_skills:
   - Intimidation
   - Diplomacy
   - Discipline (Entropy \- Chaos)
+signature_traits:
+  - Harbinger of Doom
+  - Embrace the Void
+traits:
+  - Harbinger of Doom
+  - Embrace the Void
 signature_features:
   - Harbinger of Doom
   - Embrace the Void

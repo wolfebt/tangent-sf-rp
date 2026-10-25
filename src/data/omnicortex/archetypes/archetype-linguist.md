@@ -23,6 +23,12 @@ essential_skills:
   - Diplomacy
   - Insight
   - Knowledge (History)
+signature_traits:
+  - Polyglot
+  - Cultural Interpreter
+traits:
+  - Polyglot
+  - Cultural Interpreter
 signature_features:
   - Polyglot
   - Cultural Interpreter

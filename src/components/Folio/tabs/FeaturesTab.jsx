@@ -811,11 +811,16 @@ export const FeaturesTab = ({
     const secFacName = characterData['char-secondary-faction'] || characterData['char-faction-secondary'];
     const secFacObj = secFacName ? (resolveCatalogItem('factions', secFacName) || DEFAULT_FACTIONS.find(f => (f.name || f.id || '').toLowerCase() === String(secFacName).toLowerCase())) : null;
 
+    // E. Archetype Column (Signature Traits — 1 CP)
+    const archName = characterData['char-archetype'];
+    const archObj = archName ? (resolveCatalogItem('archetypes', archName) || DEFAULT_ARCHETYPES.find(a => (a.name || a.id || '').toLowerCase() === String(archName).toLowerCase())) : null;
+
     return {
       species: { name: specName, obj: specObj, subName: subSpecName, subObj: subSpecObj },
       origin: { name: origName, obj: origObj, secName: secOrigName, secObj: secOrigObj },
       occupation: { name: occuName, obj: occuObj, secName: secOccuName, secObj: secOccuObj },
-      faction: { name: facName, obj: facObj, secName: secFacName, secObj: secFacObj }
+      faction: { name: facName, obj: facObj, secName: secFacName, secObj: secFacObj },
+      archetype: { name: archName, obj: archObj }
     };
   }, [
     characterData['char-species'],
@@ -829,7 +834,8 @@ export const FeaturesTab = ({
     characterData['char-occu-secondary'],
     characterData['char-faction'],
     characterData['char-secondary-faction'],
-    characterData['char-faction-secondary']
+    characterData['char-faction-secondary'],
+    characterData['char-archetype']
   ]);
 
   // Acquired Traits on Character
@@ -852,6 +858,7 @@ export const FeaturesTab = ({
     }).filter(Boolean);
 
     const fromAllocations = [
+      ...(characterData.archetypeAllocations?.traits || []).map((t, i) => ({ ...(typeof t === 'object' ? t : { name: t }), source: 'archetype', allocationIndex: i })),
       ...(characterData.speciesAllocations?.traits || []).map((t, i) => ({ ...(typeof t === 'object' ? t : { name: t }), source: 'species', allocationIndex: i })),
       ...(characterData.occuAllocations?.traits || []).map((t, i) => ({ ...(typeof t === 'object' ? t : { name: t }), source: 'occupation', allocationIndex: i })),
       ...(characterData.originAllocations?.traits || []).map((t, i) => ({ ...(typeof t === 'object' ? t : { name: t }), source: 'origin', allocationIndex: i })),
@@ -867,8 +874,11 @@ export const FeaturesTab = ({
         
         // Resolve source column
         const src = (typeof item === 'object' ? (item.source || item.columnSource || '') : '').toLowerCase();
+        const tType = (typeof item === 'object' ? (item.trait_type || item.category || '') : '').toLowerCase();
         let columnCategory = 'Species';
-        if (src.includes('origin') || (characterData.originAllocations?.traits || []).some(t => normalizeLookupName(t) === cleanName)) {
+        if (src.includes('archetype') || tType.includes('archetype trait') || tType.includes('signature trait') || (characterData.archetypeAllocations?.traits || []).some(t => normalizeLookupName(t) === cleanName)) {
+          columnCategory = 'Archetype';
+        } else if (src.includes('origin') || (characterData.originAllocations?.traits || []).some(t => normalizeLookupName(t) === cleanName)) {
           columnCategory = 'Origin';
         } else if (src.includes('occu') || (characterData.occuAllocations?.traits || []).some(t => normalizeLookupName(t) === cleanName)) {
           columnCategory = 'Occupation';
@@ -923,7 +933,8 @@ export const FeaturesTab = ({
       species: [],
       origin: [],
       occupation: [],
-      faction: []
+      faction: [],
+      archetype: []
     };
 
     // 1. Species Column Available Traits (Primary + Subspecies)
@@ -1022,6 +1033,30 @@ export const FeaturesTab = ({
     };
     if (columnsData.faction.obj) collectFactionTraits(columnsData.faction.obj, 'Primary Faction');
     if (columnsData.faction.secObj) collectFactionTraits(columnsData.faction.secObj, 'Secondary Faction');
+
+    // 5. Archetype Column Signature Traits (1 CP each)
+    if (columnsData.archetype?.obj) {
+      const arch = columnsData.archetype.obj;
+      const sigList = Array.isArray(arch.signature_traits) && arch.signature_traits.length > 0
+        ? arch.signature_traits
+        : (Array.isArray(arch.traits) && arch.traits.length > 0
+          ? arch.traits
+          : (Array.isArray(arch.signature_features) ? arch.signature_features : []));
+      sigList.forEach(tId => {
+        const canonical = findCanonicalTrait(tId);
+        if (canonical) {
+          result.archetype.push({
+            ...canonical,
+            trait_type: 'Archetype Trait',
+            cp: 1,
+            bp: 1,
+            sourceColumn: 'Archetype',
+            sourceDetail: `Primary Archetype: ${arch.name}`,
+            isInherent: false
+          });
+        }
+      });
+    }
 
     return result;
   }, [columnsData]);
@@ -3665,7 +3700,7 @@ export const FeaturesTab = ({
                   const tierCost = getCanonicalTraitCost(t);
                   const tCost = (t.isInherent || t.cp === 0) ? formatGrantedCost(0, tierCost, 'CP') : `${t.cp || tierCost} CP`;
                   const tCol = t.columnCategory || t.columnSource || 'Heritage';
-                  const tColor = tCol === 'Species' ? 'cyan' : tCol === 'Origin' ? 'emerald' : tCol === 'Occupation' ? 'sky' : 'purple';
+                  const tColor = tCol === 'Species' ? 'cyan' : tCol === 'Origin' ? 'emerald' : tCol === 'Occupation' ? 'sky' : tCol === 'Archetype' ? 'amber' : 'purple';
                   return (
                     <div
                       key={`acq_t_${tIdx}`}
@@ -3749,6 +3784,7 @@ export const FeaturesTab = ({
           <div className="flex flex-wrap items-center gap-1.5">
             {[
               { id: 'species', label: `Species: ${columnsData.species.name || 'Not Chosen'}` },
+              { id: 'archetype', label: `Archetype: ${columnsData.archetype?.name || 'Not Chosen'}` },
               { id: 'origin', label: `Origin: ${columnsData.origin.name || 'Not Chosen'}` },
               { id: 'occupation', label: `Occupation: ${columnsData.occupation.name || 'Not Chosen'}` },
               { id: 'faction', label: `Faction: ${columnsData.faction.name || 'Not Chosen'}` },
@@ -4456,6 +4492,169 @@ export const FeaturesTab = ({
                         );
                       })
                     )}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* 5. ARCHETYPE COLUMN (1 CP) */}
+            {(traitsColumnTab === 'ALL' || traitsColumnTab === 'archetype') && (
+              <div className="bg-slate-900/70 border border-amber-900/60 rounded-xl p-4 space-y-3.5">
+                <div className="flex items-center justify-between border-b border-amber-950 pb-2">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-amber-300">
+                      Archetype Column: {columnsData.archetype?.name || 'No Archetype Selected'}
+                    </h4>
+                  </div>
+                  <span className="text-[10px] font-mono text-slate-400">
+                    {columnAvailableTraits.archetype?.length || 0} Available Choices
+                  </span>
+                </div>
+
+                {!columnsData.archetype?.name ? (
+                  <div className="p-4 text-center text-xs text-slate-500 border border-dashed border-slate-800 rounded-lg flex items-center justify-between gap-2">
+                    <span>No Archetype selected in Identity. Choose an Archetype to unlock its specific traits.</span>
+                    {onNavigate && (
+                      <button type="button" onClick={() => onNavigate('identity')} className="px-2 py-1 rounded bg-amber-950 border border-amber-600 text-amber-300 font-bold hover:text-white cursor-pointer">
+                        Go to Identity
+                      </button>
+                    )}
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {columnAvailableTraits.archetype.map((trait, idx) => {
+                      const acquired = isTraitAcquired(trait.name || trait.id);
+                      const traitCp = 1;
+                      const costDisplay = `1 CP`;
+                      const prereqResult = checkPrerequisite(trait, characterData, 'features');
+                      const isPrereqUnmet = prereqResult.hasPrerequisite && !prereqResult.isPossessed;
+
+                      return (
+                        <div
+                          key={`${trait.id || trait.name}_arch_${idx}`}
+                          data-context-zone="folio"
+                          data-context-category="traits"
+                          data-context-subcategory="traits"
+                          data-context-entity-id={trait.id || trait.name}
+                          data-context-entity-type="trait"
+                          data-context-entity-title={trait.name}
+                          data-context-entity-data={JSON.stringify(getEnrichedTraitData(trait))}
+                          className={`p-2.5 rounded-lg border text-xs flex flex-col justify-between gap-1.5 transition-all group ${
+                            acquired
+                              ? 'bg-amber-950/20 border-amber-500/50 shadow-sm'
+                              : isPrereqUnmet
+                              ? 'bg-slate-950/40 border-slate-800/80 opacity-50 grayscale contrast-75 cursor-not-allowed'
+                              : 'bg-slate-950/80 border-slate-800 hover:border-amber-700/60'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between gap-2 min-w-0">
+                            <FolioTooltip
+                              title={trait.name}
+                              badge="Archetype Trait"
+                              badgeColor="amber"
+                              description={trait.description || 'Archetype trait.'}
+                              formula={trait.mechanic || undefined}
+                              modifiers={Array.isArray(trait.modifiers) ? trait.modifiers : []}
+                              prerequisites={prereqResult.prerequisiteText}
+                              prerequisiteMet={!isPrereqUnmet}
+                              prerequisiteUnmetReasons={prereqResult.unmetReasons}
+                              cost={costDisplay}
+                              tags={[trait.trait_tier || 'Basic', trait.sourceDetail || 'Archetype Trait'].filter(Boolean)}
+                              adminAction={isAdmin ? { label: 'View / Edit Dataset', onClick: () => handleOpenTraitDataset(trait) } : null}
+                              showInfoIcon={true}
+                            >
+                              <h5 className="font-bold text-slate-100 text-xs group-hover:text-amber-300 transition-colors">
+                                {trait.name}
+                              </h5>
+                            </FolioTooltip>
+                          </div>
+
+                          <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-900 text-xs">
+                            <div className="flex items-center gap-1.5 min-w-0 flex-1 overflow-hidden">
+                              <span className="text-[9px] font-mono text-slate-400 uppercase shrink-0">
+                                {trait.trait_tier || 'Basic'}
+                              </span>
+                              {trait.sourceDetail && (
+                                <span className="text-[10px] font-sans text-slate-500 italic truncate" title={trait.sourceDetail}>
+                                  {trait.sourceDetail}
+                                </span>
+                              )}
+                            </div>
+
+                            <div className="flex items-center gap-2 shrink-0">
+                              <span className="px-1.5 py-0.5 rounded text-[9.5px] font-mono bg-amber-950 text-amber-300 border border-amber-800 font-bold shrink-0">
+                                {costDisplay}
+                              </span>
+                              {isAdmin && (
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleOpenTraitDataset(trait);
+                                  }}
+                                  className="p-1 rounded text-slate-400 hover:text-amber-300 hover:bg-slate-900 border border-transparent hover:border-amber-500/50 transition-colors cursor-pointer"
+                                  title={`View / Edit ${trait.name} Dataset (Matrix Studio)`}
+                                >
+                                  <Edit3 className="w-3.5 h-3.5" />
+                                </button>
+                              )}
+                              {!acquired ? (
+                                isPrereqUnmet ? (
+                                  <button
+                                    type="button"
+                                    disabled
+                                    className="px-2 py-0.5 rounded text-[10px] font-mono text-slate-500 bg-slate-900/60 border border-slate-800 flex items-center gap-1 cursor-not-allowed"
+                                    title={`Prerequisite unmet: ${prereqResult.unmetReasons?.join(', ')}`}
+                                  >
+                                    <Lock className="w-3 h-3 text-rose-400" />
+                                    <span>Locked</span>
+                                  </button>
+                                ) : (
+                                  <button
+                                    type="button"
+                                    onClick={() => handleAddItem('traits', {
+                                      id: trait.id || `trait_${Date.now()}`,
+                                      name: trait.name,
+                                      category: 'traits',
+                                      trait_type: 'Archetype Trait',
+                                      trait_tier: trait.trait_tier || 'Basic',
+                                      source: 'archetype',
+                                      columnSource: 'Archetype',
+                                      sourceDetail: trait.sourceDetail || 'Archetype Trait',
+                                      cp: traitCp,
+                                      bp: traitCp,
+                                      description: trait.description,
+                                      mechanic: trait.mechanic,
+                                      modifiers: Array.isArray(trait.modifiers) ? trait.modifiers : []
+                                    })}
+                                    className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-amber-950 hover:bg-amber-900 border border-amber-600 text-amber-200 transition-all cursor-pointer flex items-center gap-1"
+                                  >
+                                    <Plus className="w-3 h-3" />
+                                    <span>+ Add (1 CP)</span>
+                                  </button>
+                                )
+                              ) : (
+                                <div className="flex items-center gap-1">
+                                  <span className="text-[10px] font-mono text-amber-400 font-bold flex items-center gap-1 px-1.5 py-0.5 rounded bg-amber-950/60 border border-amber-800/60">
+                                    <Check className="w-3 h-3" />
+                                    <span>In Folio</span>
+                                  </span>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleRemoveTrait(trait)}
+                                    className="p-1 rounded text-slate-400 hover:text-red-400 hover:bg-slate-900 transition-colors cursor-pointer"
+                                    title="Remove trait"
+                                  >
+                                    <Trash2 className="w-3.5 h-3.5" />
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
               </div>

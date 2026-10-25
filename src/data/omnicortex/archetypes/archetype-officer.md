@@ -23,6 +23,12 @@ essential_skills:
   - Knowledge (Tactics)
   - Diplomacy
   - Combat (Any)
+signature_traits:
+  - Tactical Expertise
+  - Inspiring Leader
+traits:
+  - Tactical Expertise
+  - Inspiring Leader
 signature_features:
   - Tactical Expertise
   - Inspiring Leader

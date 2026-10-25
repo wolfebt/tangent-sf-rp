@@ -23,6 +23,12 @@ essential_skills:
   - Knowledge (Survival)
   - Knowledge (Science \- Geology)
   - Knowledge (Science \- Biology)
+signature_traits:
+  - Planetary Savant
+  - Field Researcher
+traits:
+  - Planetary Savant
+  - Field Researcher
 signature_features:
   - Planetary Savant
   - Field Researcher

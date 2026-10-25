@@ -13,7 +13,7 @@ import { DEFAULT_OCCUPATIONS } from '../data/occupationsData';
 import { DEFAULT_ORIGINS } from '../data/originsData';
 import { DEFAULT_FACTIONS } from '../data/factionsData';
 import { DEFAULT_FEATURES } from '../data/featuresData';
-import { ALL_CANONICAL_TRAITS } from '../data/speciesTraitsData';
+import { ALL_SPECIES_TRAITS, ALL_PILLAR_TRAITS, ALL_CANONICAL_TRAITS } from '../data/speciesTraitsData';
 import { ALL_CANONICAL_SKILLS } from '../data/skillsData';
 import { DEFAULT_SPECIES_DISADVANTAGES } from '../data/speciesDisadvantagesData';
 import { DEFAULT_WEAPONRY } from '../data/weaponryData';
@@ -112,8 +112,8 @@ export const DBMProvider = ({ children }) => {
       origins: filterInitialData(DEFAULT_ORIGINS, 'origins'),
       factions: filterInitialData(DEFAULT_FACTIONS, 'factions'),
       features: filterInitialData(DEFAULT_FEATURES, 'features'),
-      trait: filterInitialData(ALL_CANONICAL_TRAITS, 'trait'),
-      traits: filterInitialData(ALL_CANONICAL_TRAITS, 'traits'),
+      trait: filterInitialData(ALL_SPECIES_TRAITS, 'trait'),
+      traits: filterInitialData(ALL_PILLAR_TRAITS, 'traits'),
       skills: filterInitialData(ALL_CANONICAL_SKILLS, 'skills'),
       disadvantages: filterInitialData(DEFAULT_SPECIES_DISADVANTAGES, 'disadvantages'),
       weaponry: filterInitialData(DEFAULT_WEAPONRY, 'weaponry'),
@@ -227,6 +227,7 @@ export const DBMProvider = ({ children }) => {
       'origins',
       'factions',
       'features',
+      'trait',
       'traits',
       'skills',
       'disadvantages',
@@ -267,8 +268,7 @@ export const DBMProvider = ({ children }) => {
 
             setDbData(prev => ({
               ...prev,
-              [catK]: items,
-              ...(catK === 'traits' ? { trait: items } : {})
+              [catK]: items
             }));
             pendingCount--;
             if (pendingCount <= 0) {
@@ -609,13 +609,15 @@ export const DBMProvider = ({ children }) => {
         });
       });
 
-      // 4. Species Traits (sync to both 'trait' and 'traits' collections)
-      ALL_CANONICAL_TRAITS.forEach(item => {
+      // 4. Species Traits ('trait') and Pillar Traits ('traits')
+      ALL_SPECIES_TRAITS.forEach(item => {
         operations.push({
           ref: doc(db, 'trait', item.id),
           data: { ...item, updatedAt: new Date().toISOString() },
           merge: true
         });
+      });
+      ALL_PILLAR_TRAITS.forEach(item => {
         operations.push({
           ref: doc(db, 'traits', item.id),
           data: { ...item, updatedAt: new Date().toISOString() },

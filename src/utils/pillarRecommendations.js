@@ -252,6 +252,9 @@ export const extractPillarFeatureSets = (characterData) => {
   if (archName) {
     const arch = resolveCatalogItem('archetypes', archName) || DEFAULT_ARCHETYPES.find(a => (a.name || a.id || '').toLowerCase() === String(archName).toLowerCase());
     if (arch) {
+      if (Array.isArray(arch.signature_traits)) {
+        arch.signature_traits.forEach(f => addEntryToPillarSet(archFeatures, archCategories, f));
+      }
       if (Array.isArray(arch.signature_features)) {
         arch.signature_features.forEach(f => addEntryToPillarSet(archFeatures, archCategories, f));
       }

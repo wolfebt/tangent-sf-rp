@@ -70,12 +70,13 @@ export const ArchetypeConfigurator = ({
   }, [formData.essential_skills]);
 
   const signatureFeatures = useMemo(() => {
-    if (Array.isArray(formData.signature_features)) return formData.signature_features;
-    if (typeof formData.signature_features === 'string') {
-      return formData.signature_features.split(',').map(f => f.trim()).filter(Boolean);
+    const raw = formData.signature_traits || formData.traits || formData.signature_features;
+    if (Array.isArray(raw)) return raw;
+    if (typeof raw === 'string') {
+      return raw.split(',').map(f => f.trim()).filter(Boolean);
     }
     return [];
-  }, [formData.signature_features]);
+  }, [formData.signature_traits, formData.traits, formData.signature_features]);
 
   const recommendedOccupations = useMemo(() => {
     if (Array.isArray(formData.recommended_occupations)) return formData.recommended_occupations;
@@ -119,12 +120,16 @@ export const ArchetypeConfigurator = ({
     const val = newFeatureInput.trim();
     if (!val || signatureFeatures.includes(val)) return;
     const updated = [...signatureFeatures, val];
+    onChange('signature_traits', updated);
+    onChange('traits', updated);
     onChange('signature_features', updated);
     setNewFeatureInput('');
   };
 
   const handleRemoveFeature = (featToRemove) => {
     const updated = signatureFeatures.filter(f => f !== featToRemove);
+    onChange('signature_traits', updated);
+    onChange('traits', updated);
     onChange('signature_features', updated);
   };
 
@@ -202,8 +207,8 @@ export const ArchetypeConfigurator = ({
             <span className="text-slate-400 text-[10px]">4 Trained (24) + 6 Novice (18)</span>
           </div>
           <div className="p-2 rounded bg-slate-900/80 border border-slate-800 flex flex-col">
-            <span className="text-emerald-400 font-bold">Features (13 CP)</span>
-            <span className="text-slate-400 text-[10px]">2 Signature (4) + 3 Relative (9)</span>
+            <span className="text-emerald-400 font-bold">Signature Traits (1 CP)</span>
+            <span className="text-slate-400 text-[10px]">2 Signature Traits (2 CP) + 3 Relative Features (9 CP)</span>
           </div>
         </div>
       </div>
@@ -440,33 +445,33 @@ export const ArchetypeConfigurator = ({
         )}
       </div>
 
-      {/* ── Section 4: Signature Features (13 CP Total) ── */}
+      {/* ── Section 4: Signature Traits (1 CP Each) ── */}
       <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-2.5">
           <div className="flex items-center gap-2">
             <Award className="w-4 h-4 text-purple-400" />
             <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-slate-200">
-              Signature Features (2 Recommended @ 2 CP + 3 Relative @ 3 CP)
+              Signature Traits (2 Signature Traits @ 1 CP Each)
             </h4>
             <CodexTooltip
-              title="Signature Features (13 CP)"
-              description="Two recommended Signature Features (discounted to 2 CP each) plus three other relative Features (9 CP)."
+              title="Signature Traits (1 CP Each)"
+              description="Two recommended Signature Traits (1 CP each in the Traits category) plus three other relative Features (9 CP)."
               rule="1.02 ARCHETYPES.md"
               color="#8b5cf6"
             />
           </div>
           <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-purple-950 border border-purple-500/40 text-purple-300">
-            13 CP Allocated
+            1 CP Each
           </span>
         </div>
 
         <p className="text-xs text-slate-400 leading-relaxed font-sans">
-          Iconic abilities defining this archetype's narrative momentum and tactical flair:
+          Iconic 1 CP Signature Traits defining this archetype's narrative momentum and tactical flair:
         </p>
 
         <div className="flex flex-wrap gap-2 pt-1">
           {signatureFeatures.length === 0 ? (
-            <span className="text-xs text-slate-500 italic font-mono">No signature features listed.</span>
+            <span className="text-xs text-slate-500 italic font-mono">No signature traits listed.</span>
           ) : (
             signatureFeatures.map(feat => (
               <span
@@ -475,12 +480,13 @@ export const ArchetypeConfigurator = ({
               >
                 <Sparkles size={11} className="text-purple-400" />
                 <span>{feat}</span>
+                <span className="px-1 rounded text-[10px] bg-purple-500/20 text-purple-300">1 CP</span>
                 {isEditMode && (
                   <button
                     type="button"
                     onClick={() => handleRemoveFeature(feat)}
                     className="text-slate-400 hover:text-red-400 transition-colors ml-0.5 cursor-pointer"
-                    title="Remove feature"
+                    title="Remove trait"
                   >
                     <X size={12} />
                   </button>
@@ -497,7 +503,7 @@ export const ArchetypeConfigurator = ({
               value={newFeatureInput}
               onChange={(e) => setNewFeatureInput(e.target.value)}
               onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleAddFeature(); } }}
-              placeholder="Add signature feature name..."
+              placeholder="Add signature trait name..."
               className="flex-1 p-2 bg-slate-950 border border-slate-700 rounded-lg text-xs font-mono text-white focus:outline-none focus:border-purple-400"
             />
             <button
@@ -506,7 +512,7 @@ export const ArchetypeConfigurator = ({
               className="px-3 py-2 bg-purple-950 hover:bg-purple-900 border border-purple-500/50 text-purple-300 rounded-lg text-xs font-mono font-bold flex items-center gap-1 cursor-pointer"
             >
               <Plus size={13} />
-              <span>Add Feature</span>
+              <span>Add Trait</span>
             </button>
           </div>
         )}

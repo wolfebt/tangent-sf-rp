@@ -23,6 +23,12 @@ essential_skills:
   - Insight
   - Knowledge (History)
   - Knowledge (Culture)
+signature_traits:
+  - Diplomatic Immunity
+  - Master Negotiator
+traits:
+  - Diplomatic Immunity
+  - Master Negotiator
 signature_features:
   - Diplomatic Immunity
   - Master Negotiator

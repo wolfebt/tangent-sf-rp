@@ -23,6 +23,12 @@ essential_skills:
   - Diplomacy
   - Insight
   - Knowledge (Religion)
+signature_traits:
+  - Divine Inspiration
+  - Spiritual Leader
+traits:
+  - Divine Inspiration
+  - Spiritual Leader
 signature_features:
   - Divine Inspiration
   - Spiritual Leader

@@ -435,7 +435,7 @@ export const FolioStatsSliceProvider = ({ children }) => {
 
         resolveSubTraits(identityItem.inherent_traits, `${identityTitle} Trait`);
         resolveSubTraits(identityItem.inherent_features, `${identityTitle} Feature`);
-        resolveSubTraits(identityItem.signature_features, `${identityTitle} Feature`);
+        resolveSubTraits(identityItem.signature_traits || identityItem.signature_features, `${identityTitle} Signature Trait`);
         resolveSubTraits(identityItem.bonus_features, `${identityTitle} Feature`);
         resolveSubTraits(identityItem.benefits, `${identityTitle} Benefit`);
 
@@ -574,16 +574,6 @@ export const FolioStatsSliceProvider = ({ children }) => {
         const n = typeof inf === 'object' ? (inf.name || inf.title || inf.id) : String(inf);
         if (n && !addedFeatNames.has(n.toLowerCase())) {
           rawFeats.push(inf);
-          addedFeatNames.add(n.toLowerCase());
-        }
-      });
-    }
-    // Ensure archetype signature features are evaluated
-    if (archetypeObj && Array.isArray(archetypeObj.signature_features)) {
-      archetypeObj.signature_features.forEach(sig => {
-        const n = typeof sig === 'object' ? (sig.name || sig.title || sig.id) : String(sig);
-        if (n && !addedFeatNames.has(n.toLowerCase())) {
-          rawFeats.push(sig);
           addedFeatNames.add(n.toLowerCase());
         }
       });
@@ -750,11 +740,14 @@ export const FolioStatsSliceProvider = ({ children }) => {
       }
     });
 
-    // 2. Process Traits for active modifiers
+    // 2. Process Traits for active modifiers (including archetype signature traits)
     const rawTraits = Array.isArray(characterData.traits) ? [...characterData.traits] : [];
     const speciesInherentTraits = speciesObj ? (speciesObj.inherent_traits || speciesObj.species_traits || speciesObj.traits || []) : [];
+    const archetypeSigTraits = archetypeObj ? (archetypeObj.signature_traits || archetypeObj.traits || archetypeObj.signature_features || []) : [];
     const poolTraits = [
       ...(Array.isArray(speciesInherentTraits) ? speciesInherentTraits : []),
+      ...(Array.isArray(archetypeSigTraits) ? archetypeSigTraits : []),
+      ...(characterData.archetypeAllocations?.traits || []),
       ...(characterData.speciesAllocations?.traits || []),
       ...(characterData.occuAllocations?.traits || []),
       ...(characterData.originAllocations?.traits || []),

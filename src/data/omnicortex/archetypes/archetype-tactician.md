@@ -23,6 +23,12 @@ essential_skills:
   - Leadership
   - Combat (Any)
   - Insight
+signature_traits:
+  - Battlefield Awareness
+  - Tactical Genius
+traits:
+  - Battlefield Awareness
+  - Tactical Genius
 signature_features:
   - Battlefield Awareness
   - Tactical Genius

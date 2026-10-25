@@ -23,6 +23,12 @@ essential_skills:
   - Knowledge (History)
   - Insight
   - Vocation (Administration)
+signature_traits:
+  - Bureaucratic Efficiency
+  - Master Negotiator
+traits:
+  - Bureaucratic Efficiency
+  - Master Negotiator
 signature_features:
   - Bureaucratic Efficiency
   - Master Negotiator

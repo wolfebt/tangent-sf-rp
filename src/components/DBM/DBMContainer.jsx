@@ -186,16 +186,28 @@ export const DBMContainer = () => {
       if (filterTypes.length > 0) {
         const itemType = item.type;
         const itemCat = item.category;
-        const types = Array.isArray(itemType) ? itemType : (itemType ? [itemType] : []);
+        const itemTraitType = item.trait_type;
+        const types = Array.isArray(itemType) ? [...itemType] : (itemType ? [itemType] : []);
         if (itemCat && !types.includes(itemCat)) types.push(itemCat);
+        if (itemTraitType && !types.includes(itemTraitType)) types.push(itemTraitType);
         const matchesType = filterTypes.some(t => types.includes(t));
         if (!matchesType) return false;
       }
 
-      // 2. Filter by Subtypes / Disciplines / Society / Aspect / Lineage (Species)
+      // 2. Filter by Subtypes / Disciplines / Society / Aspect / Lineage (Species) / Trait Tier & Classification
       if (filterSubtypes.length > 0) {
-        const sub = item.subtype || item.discipline || item.society || item.aspect || item.aspect_subtype || item.parent_species || item.lineage;
-        const subs = Array.isArray(sub) ? sub : (sub ? [sub] : []);
+        const subCandidates = [
+          item.subtype,
+          item.discipline,
+          item.society,
+          item.aspect,
+          item.aspect_subtype,
+          item.parent_species,
+          item.lineage,
+          item.trait_tier,
+          item.classification
+        ].filter(Boolean);
+        const subs = subCandidates.flatMap(s => Array.isArray(s) ? s : [s]);
         const matchesSub = filterSubtypes.some(s => subs.some(subItem => String(subItem).toLowerCase().includes(String(s).toLowerCase().split(' ')[0])));
         if (!matchesSub) return false;
       }
@@ -790,16 +802,14 @@ export const DBMContainer = () => {
               return null;
             }
 
-            // Species studio does not show subcategory pills (types, sizes, movements, traits, disadvantages are managed in entry and dev fields)
-            if (activeKey === 'species' || activeCategory === 'species') {
-              return null;
-            }
-
             // Find parent key if currently on a child item
             let parentKey = null;
             let pConfig = null;
 
-            if (categoryConfig[activeCategory]?.isParent || categoryConfig[activeCategory]?.subItems || categoryConfig[activeCategory]?.subcategories) {
+            if (activeKey === 'species' || activeCategory === 'species' || activeKey === 'trait' || activeCategory === 'trait') {
+              parentKey = 'species';
+              pConfig = categoryConfig['species'];
+            } else if (categoryConfig[activeCategory]?.isParent || categoryConfig[activeCategory]?.subItems || categoryConfig[activeCategory]?.subcategories) {
               parentKey = activeCategory;
               pConfig = categoryConfig[activeCategory];
             } else if (categoryConfig[activeCategory]?.parent) {
@@ -810,11 +820,13 @@ export const DBMContainer = () => {
               pConfig = categoryConfig[parentKey];
             }
 
-            if (!pConfig || parentKey === 'species') return null;
+            if (!pConfig) return null;
 
             // Determine child keys list
             let pillKeys = [];
-            if (pConfig.subItems && Array.isArray(pConfig.subItems)) {
+            if (parentKey === 'species') {
+              pillKeys = ['species', 'trait'];
+            } else if (pConfig.subItems && Array.isArray(pConfig.subItems)) {
               pillKeys = pConfig.subItems;
             } else if (pConfig.subcategories) {
               pillKeys = Object.keys(pConfig.subcategories);

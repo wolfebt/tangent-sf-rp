@@ -23,6 +23,12 @@ essential_skills:
   - Diplomacy
   - Bluff
   - Insight
+signature_traits:
+  - Stage Presence
+  - Emotional Range
+traits:
+  - Stage Presence
+  - Emotional Range
 signature_features:
   - Stage Presence
   - Emotional Range

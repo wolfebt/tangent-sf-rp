@@ -23,6 +23,12 @@ essential_skills:
   - Expression (any)
   - Bluff
   - Knowledge (Computers)
+signature_traits:
+  - Voice of Dissent
+  - Subversive Tactics
+traits:
+  - Voice of Dissent
+  - Subversive Tactics
 signature_features:
   - Voice of Dissent
   - Subversive Tactics

@@ -23,6 +23,12 @@ essential_skills:
   - Bluff
   - Knowledge (Technology)
   - Combat (Pistol)
+signature_traits:
+  - Undercover Operations
+  - Security Expertise
+traits:
+  - Undercover Operations
+  - Security Expertise
 signature_features:
   - Undercover Operations
   - Security Expertise

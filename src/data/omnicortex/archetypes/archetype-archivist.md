@@ -23,6 +23,12 @@ essential_skills:
   - Insight
   - Knowledge (History)
   - Knowledge (Culture)
+signature_traits:
+  - Historical Scholar
+  - Archivist
+traits:
+  - Historical Scholar
+  - Archivist
 signature_features:
   - Historical Scholar
   - Archivist

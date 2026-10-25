@@ -23,6 +23,12 @@ essential_skills:
   - Athletics
   - Combat (Melee)
   - Bluff
+signature_traits:
+  - Boarding Party
+  - Weapon Master
+traits:
+  - Boarding Party
+  - Weapon Master
 signature_features:
   - Boarding Party
   - Weapon Master

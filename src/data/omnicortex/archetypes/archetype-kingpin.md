@@ -23,6 +23,12 @@ essential_skills:
   - Leadership
   - Diplomacy
   - Streetwise
+signature_traits:
+  - Commanding Presence
+  - Network of Power
+traits:
+  - Commanding Presence
+  - Network of Power
 signature_features:
   - Commanding Presence
   - Network of Power

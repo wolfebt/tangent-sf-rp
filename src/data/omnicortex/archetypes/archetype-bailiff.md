@@ -23,6 +23,12 @@ essential_skills:
   - Knowledge (Law)
   - Intimidation
   - Melee
+signature_traits:
+  - Law Enforcement Training
+  - Authority Figure
+traits:
+  - Law Enforcement Training
+  - Authority Figure
 signature_features:
   - Law Enforcement Training
   - Authority Figure

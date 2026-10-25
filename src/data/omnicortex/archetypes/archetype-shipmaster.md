@@ -23,6 +23,12 @@ essential_skills:
   - Leadership
   - Diplomacy
   - Knowledge (Trade)
+signature_traits:
+  - Naval Expertise
+  - Commanding Presence
+traits:
+  - Naval Expertise
+  - Commanding Presence
 signature_features:
   - Naval Expertise
   - Commanding Presence

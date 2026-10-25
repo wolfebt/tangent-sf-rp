@@ -23,6 +23,12 @@ essential_skills:
   - Vocation (Engineer)
   - Alertness
   - Vocation (Management)
+signature_traits:
+  - Efficient Manager
+  - Technical Aptitude
+traits:
+  - Efficient Manager
+  - Technical Aptitude
 signature_features:
   - Efficient Manager
   - Technical Aptitude
